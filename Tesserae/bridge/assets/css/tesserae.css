@@ -1,0 +1,162 @@
+﻿/* Variables */
+:root {
+    /* Weights */
+    --mss-font-weight-regular: 400;
+    --mss-font-weight-semibold: 600;
+    --mss-font-weight-bold: 700;
+    /* Sizes */
+    --mss-font-size-mega: 42px;
+    --mss-font-size-xxlarge: 32px;
+    --mss-font-size-xlarge: 28px;
+    --mss-font-size-large: 24px;
+    --mss-font-size-mediumplus: 20px;
+    --mss-font-size-medium: 18px;
+    --mss-font-size-smallplus: 16px;
+    --mss-font-size-small: 14px;
+    --mss-font-size-xsmall: 12px;
+    --mss-font-size-tiny: 10px;
+    /* Colors */
+    --mss-default-background-color: rgb(255, 255, 255);
+    --mss-default-foreground-color: rgb(50, 49, 48);
+    --mss-default-border-color: rgb(138, 136, 134);
+    --mss-default-background-hover-color: rgb(243, 242, 241);
+    --mss-default-foreground-hover-color: rgb(32, 31, 30);
+    --mss-default-background-active-color: rgb(237, 235, 233);
+    --mss-default-foreground-active-color: rgb(32, 31, 30);
+    --mss-primary-background-color: rgb(0, 120, 212);
+    --mss-primary-foreground-color: rgb(255, 255, 255);
+    --mss-primary-border-color: rgb(16, 110, 190);
+    --mss-primary-background-hover-color: rgb(16, 110, 190);
+    --mss-primary-foreground-hover-color: rgb(255, 255, 255);
+    --mss-primary-background-active-color: rgb(0, 90, 158);
+    --mss-primary-foreground-active-color: rgb(255, 255, 255);
+}
+
+/* Fonts */
+/* Sizes */
+.mss-fontSize-mega {
+    font-size: var(--mss-font-size-mega);
+}
+
+.mss-fontSize-xxlarge {
+    font-size: var(--mss-font-size-xxlarge);
+}
+
+.mss-fontSize-xlarge {
+    font-size: var(--mss-font-size-xlarge);
+}
+
+.mss-fontSize-large {
+    font-size: var(--mss-font-size-large);
+}
+
+.mss-fontSize-mediumplus {
+    font-size: var(--mss-font-size-mediumplus);
+}
+
+.mss-fontSize-medium {
+    font-size: var(--mss-font-size-medium);
+}
+
+.mss-fontSize-smallplus {
+    font-size: var(--mss-font-size-smallplus);
+}
+
+.mss-fontSize-small {
+    font-size: var(--mss-font-size-small);
+}
+
+.mss-fontSize-xsmall {
+    font-size: var(--mss-font-size-xsmall);
+}
+
+.mss-fontSize-tiny {
+    font-size: var(--mss-font-size-tiny);
+}
+
+/* Weights */
+.mss-fontWeight-regular {
+    font-weight: var(--mss-font-weight-regular);
+}
+
+.mss-fontWeight-semibold {
+    font-weight: var(--mss-font-weight-semibold);
+}
+
+.mss-fontWeight-bold {
+    font-weight: var(--mss-font-weight-bold);
+}
+
+
+/* BUTTONS */
+.mss-btn {
+    border: 1px solid;
+    border-radius: 2px;
+    font-size: var(--mss-font-size-small);
+    font-weight: var(--mss-font-weight-regular);
+    outline: transparent none medium;
+    min-width: 80px;
+    user-select: none;
+    cursor: pointer;
+    padding: 0px 16px;
+    min-height: 32px;
+}
+
+    .mss-btn.disabled, .mss-btn:disabled {
+        opacity: 0.65;
+    }
+
+.mss-btn-default {
+    color: var(--mss-default-foreground-color);
+    background-color: var(--mss-default-background-color);
+    border-color: var(--mss-default-border-color);
+}
+
+    .mss-btn-default:hover {
+        color: var(--mss-default-foreground-hover-color);
+        background-color: var(--mss-default-background-hover-color);
+    }
+
+    .mss-btn-default:active {
+        color: var(--mss-default-foreground-active-color);
+        background-color: var(--mss-default-background-active-color);
+    }
+
+.mss-btn-primary {
+    color: var(--mss-primary-foreground-color);
+    background-color: var(--mss-primary-background-color);
+    border-color: var(--mss-primary-border-color);
+}
+
+    .mss-btn-primary:hover {
+        color: var(--mss-primary-foreground-hover-color);
+        background-color: var(--mss-primary-background-hover-color);
+    }
+
+    .mss-btn-primary:active {
+        color: var(--mss-primary-foreground-active-color);
+        background-color: var(--mss-primary-background-active-color);
+    }
+
+
+/* TextBox */
+.mss-textBox {
+    box-shadow: none;
+    margin: 0px;
+    padding: 0px;
+    border: 1px solid var(--mss-default-border-color);
+    border-radius: 2px;
+    background: var(--mss-default-background-color) none repeat scroll 0% 0%;
+    color: var(--mss-default-foreground-color);
+    cursor: text;
+    height: 32px;
+    align-items: stretch;
+    font-size: var(--mss-font-size-small);
+    font-weight: var(--mss-font-weight-regular);
+    display: block;
+    width: 100%;
+    outline: transparent none medium;
+    user-select: none;
+    padding: 0px 5px;
+}
+.mss-textBox:hover { }
