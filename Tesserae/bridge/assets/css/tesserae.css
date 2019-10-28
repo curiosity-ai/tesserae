@@ -168,6 +168,7 @@
         left: 0;
         height: 20px;
         width: 20px;
+        border-radius: 2px;
         background-color: var(--mss-default-background-color);
         border: 1px solid var(--mss-default-foreground-color);
     }
