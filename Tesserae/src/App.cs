@@ -10,8 +10,8 @@ namespace Tesserae
     {
         public static void Main()
         {
-            Require.LoadStyleAsync("css/curiosity-bootstrap.css", "css/fontawesome-all.min.css", "css/prototype-ui.css");
-            Require.LoadScriptAsync(OnStartUp, null, "css/curiosity-bootstrap.css");
+            //Require.LoadStyleAsync("css/curiosity-bootstrap.css", "css/fontawesome-all.min.css", "css/prototype-ui.css");
+            //Require.LoadScriptAsync(OnStartUp, null, "css/curiosity-bootstrap.css");
         }
 
         private static void OnStartUp()

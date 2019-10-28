@@ -74,7 +74,11 @@ namespace Tesserae.Tests
                 TextBlock("CheckBox Sample").SemiBold(),
                 Stack(StackOrientation.Horizontal).Children(CheckBox("Check it").Checked().OnChanged((e, s) => alert(s.IsChecked ? "Check" : "Uncheck")), CheckBox("And it"), CheckBox("And it too"), CheckBox("Disabled").Disabled(), CheckBox("Disabled and Checked").Checked().Disabled()),
                 TextBlock("Toggle Sample").SemiBold(),
-                Stack(StackOrientation.Horizontal).Children(Toggle("Check it").Checked().OnChanged((e, s) => alert(s.IsChecked ? "Check" : "Uncheck")), Toggle("And it"), Toggle("And it too"), Toggle("Disabled").Disabled(), Toggle("Disabled and Checked").Checked().Disabled(), Toggle(), Toggle(), Toggle())
+                Stack(StackOrientation.Horizontal).Children(Toggle("Check it").Checked().OnChanged((e, s) => alert(s.IsChecked ? "Check" : "Uncheck")), Toggle("And it"), Toggle("And it too"), Toggle("Disabled").Disabled(), Toggle("Disabled and Checked").Checked().Disabled(), Toggle(), Toggle(), Toggle()),
+                TextBlock("Slider Sample").SemiBold(),
+                Stack(StackOrientation.Horizontal).Children(Slider(), Slider(), Slider(50).Disabled()),
+                TextBlock("Vertical Slider Sample").SemiBold(),
+                Stack(StackOrientation.Horizontal).Children(Slider().Vertical(), Slider().Vertical(), Slider(50).Vertical().Disabled())
             );
             document.body.appendChild(stack.Render());
         }

@@ -30,5 +30,10 @@
         {
             return new TextBox(text);
         }
+
+        public static Slider Slider(int val=0,int min = 0, int max = 100, int step = 10)
+        {
+            return new Slider(val,min,max,step);
+        }
     }
 }
