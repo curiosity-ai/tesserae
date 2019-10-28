@@ -104,8 +104,10 @@
     min-height: 32px;
 }
 
-    .mss-btn.disabled, .mss-btn:disabled {
-        opacity: 0.65;
+    .mss-btn.disabled {
+        color: var(--mss-disabled-foreground-color);
+        background-color: var(--mss-disabled-background-color);
+        border-color: var(--mss-disabled-background-color);
     }
 
 .mss-btn-default {
