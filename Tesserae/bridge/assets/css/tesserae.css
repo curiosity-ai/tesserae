@@ -90,7 +90,7 @@
 }
 
 
-/* BUTTONS */
+/* Button */
 .mss-btn {
     border: 1px solid;
     border-radius: 2px;
@@ -217,6 +217,87 @@
         }
 
         .mss-checkbox-container.disabled input:checked ~ .mss-checkbox-mark {
+            background-color: var(--mss-disabled-foreground-color);
+            border-color: var(--mss-disabled-foreground-color);
+        }
+
+/* Toggle */
+.mss-toggle-container {
+    position: relative;
+    cursor: pointer;
+    color: var(--mss-default-foreground-color);
+    font-size: var(--mss-font-size-small);
+    font-weight: var(--mss-font-weight-regular);
+    user-select: none;
+    padding-left: 45px;
+}
+
+    .mss-toggle-container .mss-checkbox {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+    }
+
+    .mss-toggle-container .mss-toggle-mark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: inline-block;
+        height: 20px;
+        width: 40px;
+        background-color: var(--mss-default-background-color);
+        border: 1px solid var(--mss-default-foreground-color);
+        border-radius: 10px;
+    }
+
+    .mss-toggle-container:hover .mss-toggle-mark {
+        background-color: var(--mss-default-background-hover-color);
+        border-color: var(--mss-default-foreground-hover-color);
+    }
+
+    .mss-toggle-container:hover .mss-toggle-mark:after {
+        background-color: var(--mss-default-foreground-hover-color);
+    }
+
+    .mss-toggle-container input:checked ~ .mss-toggle-mark {
+        background-color: var(--mss-primary-background-color);
+        border-color: var(--mss-primary-background-color);
+    }
+
+    .mss-toggle-container:hover input:checked ~ .mss-toggle-mark {
+        background-color: var(--mss-primary-background-hover-color);
+    }
+
+    .mss-toggle-container input:checked ~ .mss-toggle-mark:after {
+        background-color: var(--mss-primary-foreground-color);
+        left: unset;
+        right: 3px;
+    }
+
+    .mss-toggle-container .mss-toggle-mark:after {
+        content: "";
+        position: absolute;
+        display: inline-block;
+        top: 3px;
+        left: 3px;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background-color: var(--mss-default-foreground-color);
+    }
+
+    .mss-toggle-container.disabled {
+        color: var(--mss-disabled-foreground-color);
+    }
+
+        .mss-toggle-container.disabled .mss-toggle-mark {
+            background-color: var(--mss-disabled-background-color);
+            border-color: var(--mss-disabled-foreground-color);
+        }
+
+        .mss-toggle-container.disabled input:checked ~ .mss-toggle-mark {
             background-color: var(--mss-disabled-foreground-color);
             border-color: var(--mss-disabled-foreground-color);
         }

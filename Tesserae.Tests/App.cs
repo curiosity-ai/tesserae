@@ -72,7 +72,9 @@ namespace Tesserae.Tests
                     Button("Clear buttons").OnClicked((e, b) => btnStack2.Clear())
                 ),
                 TextBlock("CheckBox Sample").SemiBold(),
-                Stack(StackOrientation.Horizontal).Children(CheckBox("Check it").Checked().OnChanged((e, s) => alert(s.IsChecked ? "Check" : "Uncheck")), CheckBox("And it"), CheckBox("And it too"), CheckBox("Disabled").Disabled(), CheckBox("Disabled and Checked").Checked().Disabled())
+                Stack(StackOrientation.Horizontal).Children(CheckBox("Check it").Checked().OnChanged((e, s) => alert(s.IsChecked ? "Check" : "Uncheck")), CheckBox("And it"), CheckBox("And it too"), CheckBox("Disabled").Disabled(), CheckBox("Disabled and Checked").Checked().Disabled()),
+                TextBlock("Toggle Sample").SemiBold(),
+                Stack(StackOrientation.Horizontal).Children(Toggle("Check it").Checked().OnChanged((e, s) => alert(s.IsChecked ? "Check" : "Uncheck")), Toggle("And it"), Toggle("And it too"), Toggle("Disabled").Disabled(), Toggle("Disabled and Checked").Checked().Disabled(), Toggle(), Toggle(), Toggle())
             );
             document.body.appendChild(stack.Render());
         }
