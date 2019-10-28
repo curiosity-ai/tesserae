@@ -4,7 +4,7 @@ using Tesserae.Components;
 using static Retyped.dom;
 using static Tesserae.Components.UI;
 
-namespace Tesserae
+namespace Tesserae.Tests
 {
     public class App
     {
@@ -70,7 +70,9 @@ namespace Tesserae
                             Button(addNameTextBox.Text).Icon(addIconTextBox.Text).OnClicked((e, b) => alert($"\"{b.Text}\" clicked!")))
                         ),
                     Button("Clear buttons").OnClicked((e, b) => btnStack2.Clear())
-                )
+                ),
+                TextBlock("CheckBox Sample").SemiBold(),
+                Stack(StackOrientation.Horizontal).Children(CheckBox("Check it").Checked().OnChanged((e, s) => alert(s.IsChecked ? "Check" : "Uncheck")), CheckBox("And it"), CheckBox("And it too"), CheckBox("Disabled").Disabled(), CheckBox("Disabled and Checked").Checked().Disabled())
             );
             document.body.appendChild(stack.Render());
         }

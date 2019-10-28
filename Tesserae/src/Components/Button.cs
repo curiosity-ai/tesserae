@@ -156,18 +156,6 @@ namespace Tesserae.Components
             return button;
         }
 
-        //public static Button Toggle(this Button button)
-        //{
-        //    button.IsToggle = true;
-        //    return button;
-        //}
-
-        //public static Button Checked(this Button button)
-        //{
-        //    button.IsChecked = true;
-        //    return button;
-        //}
-
         public static Button Disabled(this Button button)
         {
             button.IsEnabled = false;

@@ -11,6 +11,11 @@
             return new Button(text);
         }
 
+        public static CheckBox CheckBox(string text = string.Empty)
+        {
+            return new CheckBox(text);
+        }
+
         public static TextBlock TextBlock(string text = string.Empty)
         {
             return new TextBlock(text);

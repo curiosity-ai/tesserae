@@ -65,7 +65,7 @@ namespace Tesserae.Components
             return (T)this;
         }
 
-        public T OnChangeed(EventHandler<T> onChange)
+        public T OnChanged(EventHandler<T> onChange)
         {
             OnChange += onChange;
             return (T)this;
