@@ -185,19 +185,15 @@
         background-color: var(--mss-primary-background-hover-color);
     }
 
-    .mss-checkbox-container .mss-checkbox-mark:after {
-        content: "";
-        position: absolute;
-        display: none;
-    }
-
     .mss-checkbox-container input:checked ~ .mss-checkbox-mark:after {
         display: block;
         border-color: var(--mss-primary-foreground-color);
     }
 
-
     .mss-checkbox-container .mss-checkbox-mark:after {
+        content: "";
+        position: absolute;
+        display: none;
         left: 6px;
         top: 1px;
         width: 7px;
