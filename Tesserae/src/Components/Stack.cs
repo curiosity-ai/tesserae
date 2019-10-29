@@ -22,7 +22,7 @@ namespace Tesserae.Components
 
         public Stack(StackOrientation orientation = StackOrientation.Vertical)
         {
-            InnerElement = Div(_("container"));
+            InnerElement = Div(_(/*"container"*/"m-1"));
             InnerElement.style.display = "flex";
             if (orientation == StackOrientation.Horizontal) InnerElement.style.flexDirection = "row";
             else InnerElement.style.flexDirection = "column";
