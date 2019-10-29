@@ -35,5 +35,10 @@
         {
             return new Slider(val,min,max,step);
         }
+
+        public static Layer Layer()
+        {
+            return new Layer();
+        }
     }
 }

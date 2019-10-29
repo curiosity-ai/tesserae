@@ -1,6 +1,6 @@
 ﻿using Tesserae;
 using Tesserae.Components;
-
+using Tesserae.HTML;
 using static Retyped.dom;
 using static Tesserae.Components.UI;
 
@@ -24,6 +24,16 @@ namespace Tesserae.Tests
             var txt = TextBlock();
             var addNameTextBox = TextBox();
             var addIconTextBox = TextBox();
+
+            var layer1 = Layer();
+            var layer2 = Layer();
+            var htmlTest = HtmlUtil.Div(HtmlAttributes._("", text: "HTML Test", styles: (s) =>
+             {
+                 s.backgroundColor = "blue";
+                 s.color = "white";
+                 s.position = "fixed";
+                 s.width = "100%";
+             }));
 
             var stack = Stack().Children(
                 TextBlock("Buttons in Stack").SemiBold(),
@@ -78,7 +88,12 @@ namespace Tesserae.Tests
                 TextBlock("Slider Sample").SemiBold(),
                 Stack(StackOrientation.Horizontal).Children(Slider(), Slider(), Slider(50).Disabled()),
                 TextBlock("Vertical Slider Sample").SemiBold(),
-                Stack(StackOrientation.Horizontal).Children(Slider().Vertical(), Slider().Vertical(), Slider(50).Vertical().Disabled())
+                Stack(StackOrientation.Horizontal).Children(Slider().Vertical(), Slider().Vertical(), Slider(50).Vertical().Disabled()),
+                TextBlock("Layer Sample").SemiBold(),
+                layer1.Content(Stack(StackOrientation.Horizontal).Children(Toggle(), Toggle(), Toggle())),
+                Toggle("Toggle Component Layer").OnChanged((e, t) => layer1.IsVisible = t.IsChecked),
+                layer2.Content(htmlTest),
+                Toggle("Toggle HTML Layer").OnChanged((e, t) => layer2.IsVisible = t.IsChecked)
             );
             document.body.appendChild(stack.Render());
         }
