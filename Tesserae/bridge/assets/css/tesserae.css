@@ -98,6 +98,10 @@ body {
 }
 
 /* Button */
+button:focus {
+    outline: 0;
+}
+
 .mss-btn {
     border: 1px solid;
     border-radius: 2px;
