@@ -134,5 +134,17 @@ namespace Tesserae.Components
             layer.Content = content;
             return layer;
         }
+
+        public static Layer Visible(this Layer layer)
+        {
+            layer.IsVisible = true;
+            return layer;
+        }
+
+        public static Layer Host(this Layer layer, LayerHost host)
+        {
+            layer.Host = host;
+            return layer;
+        }
     }
 }
