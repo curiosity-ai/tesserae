@@ -503,3 +503,7 @@ body {
     border: 1px solid var(--mss-default-border-color);
     visibility: visible;
 }
+
+.mss-layer-host {
+    position: relative;
+}

@@ -31,10 +31,10 @@ namespace Tesserae.Tests
              {
                  s.backgroundColor = "blue";
                  s.color = "white";
-                 s.position = "fixed";
                  s.width = "100%";
+                 s.visibility = "visible";
              }));
-
+            var layerHost = LayerHost();
             var stack = Stack().Children(
                 TextBlock("Buttons in Stack").SemiBold(),
                 btnStack.Horizontal().Children(
@@ -93,7 +93,9 @@ namespace Tesserae.Tests
                 layer1.Content(Stack(StackOrientation.Horizontal).Children(Toggle(), Toggle(), Toggle())),
                 Toggle("Toggle Component Layer").OnChanged((e, t) => layer1.IsVisible = t.IsChecked),
                 layer2.Content(htmlTest),
-                Toggle("Toggle HTML Layer").OnChanged((e, t) => layer2.IsVisible = t.IsChecked)
+                Toggle("Toggle HTML Layer").OnChanged((e, t) => layer2.IsVisible = t.IsChecked),
+                Toggle("Show on Host").OnChanged((e, t) => layer1.Host = layer2.Host = t.IsChecked ? layerHost : null),
+                layerHost
             );
             document.body.appendChild(stack.Render());
         }

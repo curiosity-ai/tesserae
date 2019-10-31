@@ -40,5 +40,10 @@
         {
             return new Layer();
         }
+
+        public static LayerHost LayerHost()
+        {
+            return new LayerHost();
+        }
     }
 }

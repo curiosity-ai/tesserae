@@ -11,6 +11,23 @@ namespace Tesserae.Components
         private IComponent content;
         private HTMLElement contentHtml;
         private HTMLElement renderedContent;
+
+        private LayerHost host;
+
+        public LayerHost Host
+        {
+            get { return host; }
+            set
+            {
+                if (value != host)
+                {
+                    if (IsVisible) Hide();
+                    host = value;
+                    if (IsVisible) Show();
+                }
+            }
+        }
+
         public HTMLElement ContentHtml
         {
             get { return contentHtml; }
@@ -18,17 +35,16 @@ namespace Tesserae.Components
             {
                 if (value != contentHtml)
                 {
+                    contentHtml = value;
                     if (IsVisible)
                     {
-                        if (renderedContent == null) document.body.removeChild(renderedContent);
-                        renderedContent = Div(_("mss-layer"), BuildRenderedContent());
-                        document.body.appendChild(renderedContent);
+                        Hide();
+                        Show();
                     }
-
-                    contentHtml = value;
                 }
             }
         }
+
         public IComponent Content
         {
             get { return content; }
@@ -36,14 +52,12 @@ namespace Tesserae.Components
             {
                 if (value != content)
                 {
+                    content = value;
                     if (IsVisible)
                     {
-                        if (renderedContent == null) document.body.removeChild(renderedContent);
-                        renderedContent = Div(_("mss-layer"), BuildRenderedContent());
-                        document.body.appendChild(renderedContent);
+                        Hide();
+                        Show();
                     }
-
-                    content = value;
                 }
             }
         }
@@ -54,18 +68,10 @@ namespace Tesserae.Components
             get { return isVisible; }
             set
             {
-                if (value != IsVisible && (content != null || contentHtml != null))
+                if (value != IsVisible)
                 {
-                    if (value)
-                    {
-                        renderedContent = Div(_("mss-layer"), Div(_("mss-layer-content"), BuildRenderedContent()));
-                        document.body.appendChild(renderedContent);
-                    }
-                    else
-                    {
-                        document.body.removeChild(renderedContent);
-                        renderedContent = null;
-                    }
+                    if (value) Show();
+                    else Hide();
                 }
 
                 isVisible = value;
@@ -85,7 +91,34 @@ namespace Tesserae.Components
         private HTMLElement BuildRenderedContent()
         {
             if (contentHtml != null) return contentHtml;
-            return content.Render();
+            return Div(_("mss-layer-content"), content.Render());
+        }
+
+        private void Show()
+        {
+            if (content != null || contentHtml != null)
+            {
+                if (host == null)
+                {
+                    renderedContent = Div(_("mss-layer"), BuildRenderedContent());
+                    document.body.appendChild(renderedContent);
+                }
+                else
+                {
+                    renderedContent = BuildRenderedContent();
+                    host.InnerElement.appendChild(renderedContent);
+                }
+            }
+        }
+
+        private void Hide()
+        {
+            if (renderedContent != null)
+            {
+                if (host == null) document.body.removeChild(renderedContent);
+                else host.InnerElement.removeChild(renderedContent);
+                renderedContent = null;
+            }
         }
     }
 
