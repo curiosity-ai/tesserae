@@ -507,3 +507,74 @@ body {
 .mss-layer-host {
     position: relative;
 }
+
+/* Nav */
+.mss-nav {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.mss-nav-link {
+    list-style: none;
+}
+
+.mss-nav-link-button {
+    background: transparent;
+    display: none;
+    position: relative;
+    height: 20px;
+    width: 20px;
+    border: none;
+    outline: transparent none medium;
+    user-select: none;
+    margin: 0;
+    cursor: pointer;
+}
+
+    .mss-nav-link-button:after {
+        content: "";
+        position: absolute;
+        left: 6px;
+        top: 0px;
+        width: 10px;
+        height: 10px;
+        border: solid var(--mss-default-border-color);
+        border-width: 0 1px 1px 0;
+        transform: rotate(45deg);
+    }
+
+.expandable > .mss-nav-link-button {
+    display: inline-block;
+}
+
+.mss-nav-link.expanded .mss-nav-link-button:after {
+    border-width: 1px 0 0 1px;
+    top: 5px;
+}
+
+.mss-nav-link .mss-nav-link-header {
+    background: var(--mss-default-background-color);
+    border-left: 4px solid var(--mss-default-background-color);
+    cursor: pointer;
+    user-select: none;
+    padding: 0.25em;
+}
+
+    .mss-nav-link .mss-nav-link-header:hover {
+        background: var(--mss-default-background-active-color);
+    }
+
+    .mss-nav-link .mss-nav-link-header.selected {
+        background: var(--mss-default-background-active-color);
+        border-left-color: var(--mss-primary-background-color);
+    }
+
+.mss-nav-link .mss-nav-link-container {
+    display: none;
+    padding: 0;
+}
+
+.mss-nav-link.expanded .mss-nav-link-container {
+    display: block;
+}

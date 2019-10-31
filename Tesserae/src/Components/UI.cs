@@ -31,9 +31,9 @@
             return new TextBox(text);
         }
 
-        public static Slider Slider(int val=0,int min = 0, int max = 100, int step = 10)
+        public static Slider Slider(int val = 0, int min = 0, int max = 100, int step = 10)
         {
-            return new Slider(val,min,max,step);
+            return new Slider(val, min, max, step);
         }
 
         public static Layer Layer()
@@ -44,6 +44,16 @@
         public static LayerHost LayerHost()
         {
             return new LayerHost();
+        }
+
+        public static Nav Nav()
+        {
+            return new Nav();
+        }
+
+        public static NavLink NavLink(string text = null, string icon = null)
+        {
+            return new NavLink(text, icon);
         }
     }
 }

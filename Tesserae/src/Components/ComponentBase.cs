@@ -32,7 +32,12 @@ namespace Tesserae.Components
 
         protected void AttachChange()
         {
-            InnerElement.addEventListener("change", (s) => OnChange?.Invoke(s, (T)this));
+            InnerElement.addEventListener("change", (s) => RaiseOnChange(s));
+        }
+
+        protected void RaiseOnChange(object s)
+        {
+            OnChange?.Invoke(s, (T)this);
         }
 
         protected void AttachInput()
