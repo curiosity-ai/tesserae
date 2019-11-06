@@ -93,6 +93,10 @@
     font-weight: var(--mss-font-weight-bold);
 }
 
+.mss-fontColor-invalid {
+    color: var(--mss-invalid-border-color);
+}
+
 /* Body */
 body {
     overflow-y: scroll;
@@ -340,7 +344,7 @@ button:focus {
     }
 
     .mss-textBox.invalid {
-        boder-color: var(--mss-invalid-border-color);
+        border-color: var(--mss-invalid-border-color);
     }
 
 /* Slider */
@@ -418,8 +422,6 @@ button:focus {
     background-color: var(--mss-slider-color);
     outline: none;
 }
-
-
 
     .mss-slider.fake {
         background-color: transparent;

@@ -85,6 +85,7 @@ namespace Tesserae.Tests
         {
             var txf = TextBox();
             var txt = TextBlock();
+            var errorText = TextBlock();
 
             return Stack().Children(
                     TextBlock("Text Box Sample").SemiBold(),
@@ -111,6 +112,15 @@ namespace Tesserae.Tests
                     Stack(StackOrientation.Horizontal).Children(
                         TextBlock("Entered text:").Small(),
                         txt.Text("Some Text").SmallPlus()
+                    ),
+                    Stack(StackOrientation.Horizontal).Children(
+                        TextBlock("Enter \"Hello\":").Small(),
+                        TextBox().OnInputed((e, s) =>
+                        {
+                            s.IsInvalid = s.Text != "Hello";
+                            errorText.Text = s.IsInvalid ? "Please enter \"Hello\"" : "";
+                        }),
+                        errorText.Small().Invalid()
                     )
             );
         }

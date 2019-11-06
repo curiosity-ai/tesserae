@@ -26,9 +26,6 @@ namespace Tesserae.Components
                 }
             }
         }
-
-        #endregion
-
         public string Text
         {
             get { return InnerElement.value; }
@@ -41,6 +38,27 @@ namespace Tesserae.Components
                 }
             }
         }
+
+        public bool IsInvalid
+        {
+            get { return InnerElement.classList.contains("invalid"); }
+            set
+            {
+                if (value != IsInvalid)
+                {
+                    if (value)
+                    {
+                        InnerElement.classList.add("invalid");
+                    }
+                    else
+                    {
+                        InnerElement.classList.remove("invalid");
+                    }
+                }
+            }
+        }
+
+        #endregion
 
         public TextBox(string text = string.Empty)
         {
@@ -68,6 +86,12 @@ namespace Tesserae.Components
         public static TextBox Disabled(this TextBox textBox)
         {
             textBox.IsEnabled = false;
+            return textBox;
+        }
+
+        public static TextBox Invalid(this TextBox textBox)
+        {
+            textBox.IsInvalid = true;
             return textBox;
         }
     }

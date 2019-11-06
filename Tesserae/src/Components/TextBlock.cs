@@ -53,6 +53,24 @@ namespace Tesserae.Components
                 InnerElement.classList.replace(InnerElement.classList.item(2), $"mss-fontWeight-{value.ToString().ToLower()}");
             }
         }
+        public bool IsInvalid
+        {
+            get { return InnerElement.classList.contains("mss-fontColor-invalid"); }
+            set
+            {
+                if (value != IsInvalid)
+                {
+                    if (value)
+                    {
+                        InnerElement.classList.add("mss-fontColor-invalid");
+                    }
+                    else
+                    {
+                        InnerElement.classList.remove("mss-fontColor-invalid");
+                    }
+                }
+            }
+        }
 
         #endregion
 
@@ -147,6 +165,12 @@ namespace Tesserae.Components
         public static TextBlock Bold(this TextBlock textBlock)
         {
             textBlock.Weight = TextWeight.Bold;
+            return textBlock;
+        }
+
+        public static TextBlock Invalid(this TextBlock textBlock)
+        {
+            textBlock.IsInvalid = true;
             return textBlock;
         }
     }
