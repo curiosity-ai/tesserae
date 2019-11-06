@@ -21,6 +21,7 @@
     --mss-disabled-background-color: rgb(243, 242, 241);
     --mss-disabled-foreground-color: rgb(161, 159, 157);
     --mss-default-border-color: rgb(138, 136, 134);
+    --mss-invalid-border-color: rgb(164, 38, 44);
     --mss-default-background-hover-color: rgb(243, 242, 241);
     --mss-default-foreground-hover-color: rgb(32, 31, 30);
     --mss-default-background-active-color: rgb(237, 235, 233);
@@ -331,6 +332,15 @@ button:focus {
 }
 
     .mss-textBox:hover {
+        border-color: var(--mss-default-foreground-color);
+    }
+
+    .mss-textBox:focus {
+        border-color: var(--mss-primary-border-color);
+    }
+
+    .mss-textBox.invalid {
+        boder-color: var(--mss-invalid-border-color);
     }
 
 /* Slider */
