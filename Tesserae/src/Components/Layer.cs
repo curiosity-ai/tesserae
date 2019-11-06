@@ -8,21 +8,28 @@ namespace Tesserae.Components
 {
     public class Layer : ComponentBase<Layer, HTMLDivElement>
     {
-        private IComponent content;
-        private HTMLElement contentHtml;
-        private HTMLElement renderedContent;
+        #region Fields
 
-        private LayerHost host;
+        private IComponent _Content;
+        private HTMLElement _ContentHtml;
+        private HTMLElement _RenderedContent;
 
+        private LayerHost _Host;
+
+        private bool _IsVisible;
+
+        #endregion
+
+        #region Properties
         public LayerHost Host
         {
-            get { return host; }
+            get { return _Host; }
             set
             {
-                if (value != host)
+                if (value != _Host)
                 {
                     if (IsVisible) Hide();
-                    host = value;
+                    _Host = value;
                     if (IsVisible) Show();
                 }
             }
@@ -30,12 +37,12 @@ namespace Tesserae.Components
 
         public HTMLElement ContentHtml
         {
-            get { return contentHtml; }
+            get { return _ContentHtml; }
             set
             {
-                if (value != contentHtml)
+                if (value != _ContentHtml)
                 {
-                    contentHtml = value;
+                    _ContentHtml = value;
                     if (IsVisible)
                     {
                         Hide();
@@ -47,12 +54,12 @@ namespace Tesserae.Components
 
         public IComponent Content
         {
-            get { return content; }
+            get { return _Content; }
             set
             {
-                if (value != content)
+                if (value != _Content)
                 {
-                    content = value;
+                    _Content = value;
                     if (IsVisible)
                     {
                         Hide();
@@ -62,10 +69,10 @@ namespace Tesserae.Components
             }
         }
 
-        private bool isVisible;
+        
         public bool IsVisible
         {
-            get { return isVisible; }
+            get { return _IsVisible; }
             set
             {
                 if (value != IsVisible)
@@ -74,9 +81,11 @@ namespace Tesserae.Components
                     else Hide();
                 }
 
-                isVisible = value;
+                _IsVisible = value;
             }
         }
+        
+        #endregion
 
         public Layer()
         {
@@ -90,34 +99,34 @@ namespace Tesserae.Components
 
         private HTMLElement BuildRenderedContent()
         {
-            if (contentHtml != null) return contentHtml;
-            return Div(_("mss-layer-content"), content.Render());
+            if (_ContentHtml != null) return _ContentHtml;
+            return Div(_("mss-layer-content"), _Content.Render());
         }
 
         private void Show()
         {
-            if (content != null || contentHtml != null)
+            if (_Content != null || _ContentHtml != null)
             {
-                if (host == null)
+                if (_Host == null)
                 {
-                    renderedContent = Div(_("mss-layer"), BuildRenderedContent());
-                    document.body.appendChild(renderedContent);
+                    _RenderedContent = Div(_("mss-layer"), BuildRenderedContent());
+                    document.body.appendChild(_RenderedContent);
                 }
                 else
                 {
-                    renderedContent = BuildRenderedContent();
-                    host.InnerElement.appendChild(renderedContent);
+                    _RenderedContent = BuildRenderedContent();
+                    _Host.InnerElement.appendChild(_RenderedContent);
                 }
             }
         }
 
         private void Hide()
         {
-            if (renderedContent != null)
+            if (_RenderedContent != null)
             {
-                if (host == null) document.body.removeChild(renderedContent);
-                else host.InnerElement.removeChild(renderedContent);
-                renderedContent = null;
+                if (_Host == null) document.body.removeChild(_RenderedContent);
+                else _Host.InnerElement.removeChild(_RenderedContent);
+                _RenderedContent = null;
             }
         }
     }

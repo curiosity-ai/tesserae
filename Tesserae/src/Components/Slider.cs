@@ -13,28 +13,29 @@ namespace Tesserae.Components
     {
         #region Fields
 
-        private HTMLLabelElement outerLabel;
-        private HTMLDivElement outerDiv;
-        private HTMLDivElement fakeDiv;
-        private HTMLSpanElement valueSpan;
+        private HTMLLabelElement _OuterLabel;
+        private HTMLDivElement _OuterDiv;
+        private HTMLDivElement _FakeDiv;
+        private HTMLSpanElement _ValueSpan;
+
         #endregion
 
         #region Properties
 
         public SliderOrientation Orientation
         {
-            get { return outerLabel.classList.contains("vertical") ? SliderOrientation.Vertical : SliderOrientation.Horizontal; }
+            get { return _OuterLabel.classList.contains("vertical") ? SliderOrientation.Vertical : SliderOrientation.Horizontal; }
             set
             {
                 if (value != Orientation)
                 {
                     if (value == SliderOrientation.Vertical)
                     {
-                        outerLabel.classList.add("vertical");
+                        _OuterLabel.classList.add("vertical");
                     }
                     else
                     {
-                        outerLabel.classList.remove("vertical");
+                        _OuterLabel.classList.remove("vertical");
                     }
                 }
             }
@@ -94,7 +95,7 @@ namespace Tesserae.Components
             InnerElement.step = step.ToString();
             InnerElement.type = "range";
 
-            valueSpan = Span(_("m-1", text: val.ToString()));
+            _ValueSpan = Span(_("m-1", text: val.ToString()));
 
             AttachClick();
             AttachChange();
@@ -104,28 +105,28 @@ namespace Tesserae.Components
 
             if (navigator.userAgent.IndexOf("AppleWebKit") != -1)
             {
-                fakeDiv = Div(_("mss-slider-fake-progress"));
+                _FakeDiv = Div(_("mss-slider-fake-progress"));
                 double percent = ((double)(val - min) / (double)(max - min)) * 100.0;
-                fakeDiv.style.width = $"{percent.ToString("0.##")}%";
+                _FakeDiv.style.width = $"{percent.ToString("0.##")}%";
                 OnInput += (e, s) =>
                 {
                     percent = ((double)(Value - Min) / (double)(Max - Min)) * 100.0;
-                    fakeDiv.style.width = $"{percent.ToString("0.##")}%";
+                    _FakeDiv.style.width = $"{percent.ToString("0.##")}%";
                 };
-                outerLabel = Label(_("mss-slider-container"), InnerElement, Div(_("mss-slider-fake-background")), fakeDiv);
+                _OuterLabel = Label(_("mss-slider-container"), InnerElement, Div(_("mss-slider-fake-background")), _FakeDiv);
                 InnerElement.classList.add("fake");
             }
             else
             {
-                outerLabel = Label(_("mss-slider-container"), InnerElement);
+                _OuterLabel = Label(_("mss-slider-container"), InnerElement);
             }
 
-            outerDiv = Div(_("m-1 w-100"), outerLabel);
+            _OuterDiv = Div(_("m-1 w-100"), _OuterLabel);
         }
 
         public override HTMLElement Render()
         {
-            return outerDiv;
+            return _OuterDiv;
         }
     }
 

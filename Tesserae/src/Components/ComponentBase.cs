@@ -6,7 +6,7 @@ namespace Tesserae.Components
     public abstract class ComponentBase<T, THTML> : IComponent where T : ComponentBase<T, THTML> where THTML : HTMLElement
     {
         #region Properties
-
+        
         public THTML InnerElement { get; protected set; }
 
         #endregion

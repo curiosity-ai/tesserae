@@ -8,9 +8,9 @@ namespace Tesserae.Components
     {
         #region Fields
 
-        private HTMLSpanElement checkSpan;
-        private HTMLSpanElement onOffSpan;
-        private HTMLLabelElement label;
+        private HTMLSpanElement _CheckSpan;
+        private HTMLSpanElement _OnOffSpan;
+        private HTMLLabelElement _Label;
 
         #endregion
 
@@ -21,12 +21,12 @@ namespace Tesserae.Components
         /// </summary>
         public string Text
         {
-            get { return label.innerText; }
+            get { return _Label.innerText; }
             set
             {
-                label.innerText = value;
-                if (string.IsNullOrEmpty(value)) onOffSpan.style.display = "";
-                else onOffSpan.style.display = "none";
+                _Label.innerText = value;
+                if (string.IsNullOrEmpty(value)) _OnOffSpan.style.display = "";
+                else _OnOffSpan.style.display = "none";
             }
         }
 
@@ -35,18 +35,18 @@ namespace Tesserae.Components
         /// </summary>
         public bool IsEnabled
         {
-            get { return !label.classList.contains("disabled"); }
+            get { return !_Label.classList.contains("disabled"); }
             set
             {
                 if (value != IsEnabled)
                 {
                     if (value)
                     {
-                        label.classList.remove("disabled");
+                        _Label.classList.remove("disabled");
                     }
                     else
                     {
-                        label.classList.add("disabled");
+                        _Label.classList.add("disabled");
                     }
                 }
             }
@@ -72,10 +72,10 @@ namespace Tesserae.Components
         public Toggle(string text = string.Empty)
         {
             InnerElement = CheckBox(_("mss-checkbox"));
-            checkSpan = Span(_("mss-toggle-mark"));
-            onOffSpan = Span(_(text: "Off"));
-            if (!string.IsNullOrEmpty(text)) onOffSpan.style.display = "none";
-            label = Label(_("m-1 mss-toggle-container", text: text), InnerElement, checkSpan, onOffSpan);
+            _CheckSpan = Span(_("mss-toggle-mark"));
+            _OnOffSpan = Span(_(text: "Off"));
+            if (!string.IsNullOrEmpty(text)) _OnOffSpan.style.display = "none";
+            _Label = Label(_("m-1 mss-toggle-container", text: text), InnerElement, _CheckSpan, _OnOffSpan);
             OnChange += OnChanged;
             AttachClick();
             AttachChange();
@@ -85,13 +85,13 @@ namespace Tesserae.Components
 
         private void OnChanged(object sender, Toggle e)
         {
-            if (e.IsChecked) onOffSpan.innerText = "On";
-            else onOffSpan.innerText = "Off";
+            if (e.IsChecked) _OnOffSpan.innerText = "On";
+            else _OnOffSpan.innerText = "Off";
         }
 
         public override HTMLElement Render()
         {
-            return label;
+            return _Label;
         }
     }
 

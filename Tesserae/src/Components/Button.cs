@@ -8,8 +8,8 @@ namespace Tesserae.Components
     {
         #region Fields
 
-        private HTMLSpanElement textSpan;
-        private HTMLElement iconSpan;
+        private HTMLSpanElement _TextSpan;
+        private HTMLElement _IconSpan;
 
         #endregion
 
@@ -20,8 +20,8 @@ namespace Tesserae.Components
         /// </summary>
         public string Text
         {
-            get { return textSpan.innerText; }
-            set { textSpan.innerText = value; }
+            get { return _TextSpan.innerText; }
+            set { _TextSpan.innerText = value; }
         }
 
         /// <summary>
@@ -29,29 +29,29 @@ namespace Tesserae.Components
         /// </summary>
         public string Icon
         {
-            get { return iconSpan?.className; }
+            get { return _IconSpan?.className; }
             set
             {
                 if (string.IsNullOrEmpty(value))
                 {
-                    if (iconSpan != null)
+                    if (_IconSpan != null)
                     {
-                        InnerElement.removeChild(iconSpan);
-                        iconSpan = null;
-                        textSpan.classList.remove("ml-2");
+                        InnerElement.removeChild(_IconSpan);
+                        _IconSpan = null;
+                        _TextSpan.classList.remove("ml-2");
                     }
 
                     return;
                 }
 
-                if (iconSpan == null)
+                if (_IconSpan == null)
                 {
-                    iconSpan = I(_());
-                    InnerElement.insertBefore(iconSpan, textSpan);
-                    textSpan.classList.add("ml-2");
+                    _IconSpan = I(_());
+                    InnerElement.insertBefore(_IconSpan, _TextSpan);
+                    _TextSpan.classList.add("ml-2");
                 }
 
-                iconSpan.className = value;
+                _IconSpan.className = value;
             }
         }
 
@@ -101,31 +101,12 @@ namespace Tesserae.Components
             }
         }
 
-        //public bool IsToggle
-        //{
-        //    get { return (string)InnerElement.dataset["toggle"] == "button"; }
-        //    set { InnerElement.dataset["toggle"] = value ? "button" : ""; }
-        //}
-
-        //public bool IsChecked
-        //{
-        //    get { return InnerElement.classList.contains("active"); }
-        //    set
-        //    {
-        //        if (value != IsChecked)
-        //        {
-        //            if (value) InnerElement.classList.add("active");
-        //            else InnerElement.classList.remove("active");
-        //        }
-        //    }
-        //}
-
         #endregion
 
         public Button(string text = string.Empty)
         {
-            textSpan = Span(_(text: text));
-            InnerElement = Button(_("m-1 mss-btn mss-btn-default"), textSpan);
+            _TextSpan = Span(_(text: text));
+            InnerElement = Button(_("m-1 mss-btn mss-btn-default"), _TextSpan);
             AttachClick();
             AttachFocus();
             AttachBlur();

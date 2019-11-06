@@ -7,21 +7,33 @@ namespace Tesserae.Components
 {
     public class NavLink : ComponentBase<NavLink, HTMLLIElement>, IContainer<NavLink>
     {
-        private HTMLSpanElement textSpan;
-        private HTMLElement iconSpan;
-        private HTMLDivElement headerDiv;
-        private HTMLUListElement childContainer;
-        private HTMLButtonElement expandButton;
+        #region Fields
+
+        private HTMLSpanElement _TextSpan;
+        private HTMLElement _IconSpan;
+        private HTMLDivElement _HeaderDiv;
+        private HTMLUListElement _ChildContainer;
+        private HTMLButtonElement _ExpandButton;
+
+        private int _Level;
+
+        #endregion
+
+        #region Events
 
         public event EventHandler<NavLink> OnSelect;
+
+        #endregion
+
+        #region Properties
 
         /// <summary>
         /// Gets or sets NavLink text
         /// </summary>
         public string Text
         {
-            get { return textSpan.innerText; }
-            set { textSpan.innerText = value; }
+            get { return _TextSpan.innerText; }
+            set { _TextSpan.innerText = value; }
         }
 
         /// <summary>
@@ -29,29 +41,29 @@ namespace Tesserae.Components
         /// </summary>
         public string Icon
         {
-            get { return iconSpan?.className; }
+            get { return _IconSpan?.className; }
             set
             {
                 if (string.IsNullOrEmpty(value))
                 {
-                    if (iconSpan != null)
+                    if (_IconSpan != null)
                     {
-                        headerDiv.removeChild(iconSpan);
-                        iconSpan = null;
-                        textSpan.classList.remove("ml-2");
+                        _HeaderDiv.removeChild(_IconSpan);
+                        _IconSpan = null;
+                        _TextSpan.classList.remove("ml-2");
                     }
 
                     return;
                 }
 
-                if (iconSpan == null)
+                if (_IconSpan == null)
                 {
-                    iconSpan = I(_());
-                    headerDiv.insertBefore(iconSpan, textSpan);
-                    textSpan.classList.add("ml-2");
+                    _IconSpan = I(_());
+                    _HeaderDiv.insertBefore(_IconSpan, _TextSpan);
+                    _TextSpan.classList.add("ml-2");
                 }
 
-                iconSpan.className = value;
+                _IconSpan.className = value;
             }
         }
 
@@ -70,7 +82,7 @@ namespace Tesserae.Components
 
         public bool IsSelected
         {
-            get { return headerDiv.classList.contains("selected"); }
+            get { return _HeaderDiv.classList.contains("selected"); }
             set
             {
                 if (value != IsSelected)
@@ -78,41 +90,42 @@ namespace Tesserae.Components
                     if (value)
                     {
                         OnSelect?.Invoke(this, this);
-                        headerDiv.classList.add("selected");
+                        _HeaderDiv.classList.add("selected");
                     }
-                    else headerDiv.classList.remove("selected");
+                    else _HeaderDiv.classList.remove("selected");
                 }
             }
         }
 
         public bool HasChildren
         {
-            get { return childContainer.hasChildNodes(); }
+            get { return _ChildContainer.hasChildNodes(); }
         }
 
-        private int level;
         internal int Level
         {
-            get { return level; }
+            get { return _Level; }
             set
             {
-                level = value;
-                headerDiv.style.paddingLeft = $"{level * 25}px";
+                _Level = value;
+                _HeaderDiv.style.paddingLeft = $"{_Level * 25}px";
             }
         }
-
+        
+        #endregion
+        
         public NavLink(string text = null, string icon = null)
         {
-            textSpan = Span(_(text: text));
-            childContainer = Ul(_("mss-nav-link-container"));
-            expandButton = Button(_("mss-nav-link-button"));
-            headerDiv = Div(_("mss-nav-link-header"), expandButton, textSpan);
-            headerDiv.addEventListener("click", (s) =>
+            _TextSpan = Span(_(text: text));
+            _ChildContainer = Ul(_("mss-nav-link-container"));
+            _ExpandButton = Button(_("mss-nav-link-button"));
+            _HeaderDiv = Div(_("mss-nav-link-header"), _ExpandButton, _TextSpan);
+            _HeaderDiv.addEventListener("click", (s) =>
             {
                 if (HasChildren) IsExpanded = !IsExpanded;
                 else IsSelected = true;
             });
-            InnerElement = Li(_("mss-nav-link"), headerDiv, childContainer);
+            InnerElement = Li(_("mss-nav-link"), _HeaderDiv, _ChildContainer);
         }
 
         public override HTMLElement Render()
@@ -122,8 +135,8 @@ namespace Tesserae.Components
 
         public void Add(IComponent component)
         {
-            childContainer.appendChild(component.Render());
-            headerDiv.classList.add("expandable");
+            _ChildContainer.appendChild(component.Render());
+            _HeaderDiv.classList.add("expandable");
             var navLink = component as NavLink;
             navLink.Level = Level + 1;
             navLink.OnSelect += OnChildSelected;
@@ -137,14 +150,14 @@ namespace Tesserae.Components
 
         public void Clear()
         {
-            ClearChildren(childContainer);
-            headerDiv.classList.remove("expandable");
+            ClearChildren(_ChildContainer);
+            _HeaderDiv.classList.remove("expandable");
 
         }
 
         public void Replace(IComponent newComponent, IComponent oldComponent)
         {
-            childContainer.replaceChild(newComponent.Render(), oldComponent.Render());
+            _ChildContainer.replaceChild(newComponent.Render(), oldComponent.Render());
             var navLink = oldComponent as NavLink;
             navLink.OnSelect += OnChildSelected;
             if (navLink.IsSelected) OnSelect?.Invoke(this, navLink);

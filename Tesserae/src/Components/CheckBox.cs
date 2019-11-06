@@ -8,8 +8,8 @@ namespace Tesserae.Components
     {
         #region Fields
 
-        private HTMLSpanElement checkSpan;
-        private HTMLLabelElement label;
+        private HTMLSpanElement _CheckSpan;
+        private HTMLLabelElement _Label;
 
         #endregion
 
@@ -20,8 +20,8 @@ namespace Tesserae.Components
         /// </summary>
         public string Text
         {
-            get { return label.innerText; }
-            set { label.innerText = value; }
+            get { return _Label.innerText; }
+            set { _Label.innerText = value; }
         }
 
         /// <summary>
@@ -29,18 +29,18 @@ namespace Tesserae.Components
         /// </summary>
         public bool IsEnabled
         {
-            get { return !label.classList.contains("disabled"); }
+            get { return !_Label.classList.contains("disabled"); }
             set
             {
                 if (value != IsEnabled)
                 {
                     if (value)
                     {
-                        label.classList.remove("disabled");
+                        _Label.classList.remove("disabled");
                     }
                     else
                     {
-                        label.classList.add("disabled");
+                        _Label.classList.add("disabled");
                     }
                 }
             }
@@ -66,8 +66,8 @@ namespace Tesserae.Components
         public CheckBox(string text = string.Empty)
         {
             InnerElement = CheckBox(_("mss-checkbox"));
-            checkSpan = Span(_("mss-checkbox-mark"));
-            label = Label(_("m-1 mss-checkbox-container", text: text), InnerElement, checkSpan);
+            _CheckSpan = Span(_("mss-checkbox-mark"));
+            _Label = Label(_("m-1 mss-checkbox-container", text: text), InnerElement, _CheckSpan);
             AttachClick();
             AttachChange();
             AttachFocus();
@@ -76,7 +76,7 @@ namespace Tesserae.Components
 
         public override HTMLElement Render()
         {
-            return label;
+            return _Label;
         }
     }
 
