@@ -6,6 +6,13 @@ namespace Tesserae.Components
 {
     public class TextBox : ComponentBase<TextBox, HTMLInputElement>
     {
+        #region Feilds
+
+        private HTMLDivElement container;
+        private HTMLSpanElement errorSpan;
+
+        #endregion
+
         #region Properties
 
         public bool IsEnabled
@@ -39,30 +46,61 @@ namespace Tesserae.Components
             }
         }
 
+        public string ErrorText
+        {
+            get { return errorSpan.innerText; }
+            set
+            {
+                if (errorSpan.innerText != value)
+                {
+                    errorSpan.innerText = value;
+                }
+            }
+        }
+
         public bool IsInvalid
         {
-            get { return InnerElement.classList.contains("invalid"); }
+            get { return container.classList.contains("invalid"); }
             set
             {
                 if (value != IsInvalid)
                 {
                     if (value)
                     {
-                        InnerElement.classList.add("invalid");
+                        container.classList.add("invalid");
                     }
                     else
                     {
-                        InnerElement.classList.remove("invalid");
+                        container.classList.remove("invalid");
                     }
                 }
             }
         }
-
+        public bool IsRequired
+        {
+            get { return container.classList.contains("required"); }
+            set
+            {
+                if (value != IsInvalid)
+                {
+                    if (value)
+                    {
+                        container.classList.add("required");
+                    }
+                    else
+                    {
+                        container.classList.remove("required");
+                    }
+                }
+            }
+        }
         #endregion
 
         public TextBox(string text = string.Empty)
         {
             InnerElement = TextBox(_("mss-textBox", type: "text", value: text));
+            errorSpan = Span(_("mss-textBox-error"));
+            container = Div(_("mss-textBox-container"), InnerElement, errorSpan);
             AttachChange();
             AttachInput();
             AttachFocus();
@@ -71,7 +109,7 @@ namespace Tesserae.Components
 
         public override HTMLElement Render()
         {
-            return InnerElement;
+            return container;
         }
     }
 
@@ -92,6 +130,11 @@ namespace Tesserae.Components
         public static TextBox Invalid(this TextBox textBox)
         {
             textBox.IsInvalid = true;
+            return textBox;
+        }
+        public static TextBox Required(this TextBox textBox)
+        {
+            textBox.IsRequired = true;
             return textBox;
         }
     }

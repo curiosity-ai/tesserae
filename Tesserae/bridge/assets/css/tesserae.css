@@ -343,9 +343,33 @@ button:focus {
         border-color: var(--mss-primary-border-color);
     }
 
-    .mss-textBox.invalid {
+.mss-textBox-container {
+    position: relative;
+}
+
+    .mss-textBox-container.invalid .mss-textBox {
         border-color: var(--mss-invalid-border-color);
     }
+
+    .mss-textBox-container.required:after {
+        content: "*";
+        color: var(--mss-invalid-border-color);
+        position: absolute;
+        top: -5px;
+        right: -10px;
+        display: inline-block;
+        font-size: var(--mss-font-size-large);
+    }
+
+.mss-textBox-error {
+    color: var(--mss-invalid-border-color);
+    display: none;
+    font-size: var(--mss-font-size-tiny);
+}
+
+.mss-textBox-container.invalid .mss-textBox-error {
+    display: block;
+}
 
 /* Slider */
 .mss-slider-container {

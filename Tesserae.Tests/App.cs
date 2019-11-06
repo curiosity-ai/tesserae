@@ -113,6 +113,16 @@ namespace Tesserae.Tests
                         TextBlock("Entered text:").Small(),
                         txt.Text("Some Text").SmallPlus()
                     ),
+                    TextBlock("Standard validation error sample").SemiBold(),
+                    Stack(StackOrientation.Horizontal).Children(
+                        TextBlock("Enter \"Hello\":").Small(),
+                        TextBox().OnInputed((e, s) =>
+                        {
+                            s.IsInvalid = s.Text != "Hello";
+                            s.ErrorText = s.IsInvalid ? "Please enter \"Hello\"" : "";
+                        })
+                    ),
+                    TextBlock("Custom validation error sample").SemiBold(),
                     Stack(StackOrientation.Horizontal).Children(
                         TextBlock("Enter \"Hello\":").Small(),
                         TextBox().OnInputed((e, s) =>
@@ -121,7 +131,9 @@ namespace Tesserae.Tests
                             errorText.Text = s.IsInvalid ? "Please enter \"Hello\"" : "";
                         }),
                         errorText.Small().Invalid()
-                    )
+                    ),
+                    TextBlock("Required TextBox Sample").SemiBold(),
+                    TextBox().Required()
             );
         }
 
