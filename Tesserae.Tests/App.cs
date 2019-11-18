@@ -19,7 +19,7 @@ namespace Tesserae.Tests
         private static void OnStartUp()
         {
             _MainStack = Stack();
-            var samples = Stack(StackOrientation.Horizontal).Children(MainNav(), _MainStack.WidthStretch());
+            var samples = Stack(StackOrientation.Horizontal).Children(MainNav().WidthPixels(300), _MainStack.WidthStretch());
             document.body.appendChild(samples.Render());
         }
 

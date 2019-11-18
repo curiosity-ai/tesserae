@@ -24,19 +24,18 @@ namespace Tesserae.Components
         End
     }
 
-    public enum StackItemSize/*StackItemSizeType*/
+    public enum StackItemSizeType
     {
         Auto,
-        Stretch
-        // Percents,
-        // Pixels
+        Percents,
+        Pixels
     }
 
-    //public struct StackItemSize
-    //{
-    //    public StackItemSizeType Type { get; set; }
-    //    public double Value { get; set; }
-    //}
+    public struct StackItemSize
+    {
+        public StackItemSizeType Type { get; set; }
+        public double Value { get; set; }
+    }
 
     public class Stack : IContainer<Stack>
     {
@@ -101,6 +100,7 @@ namespace Tesserae.Components
                     s.alignSelf = "auto";
                     s.width = "auto";
                     s.height = "auto";
+                    s.flexShrink = "1";
                 }), component.Render());
                 _ItemsDictionary.Add(component, item);
                 return item;
@@ -127,33 +127,63 @@ namespace Tesserae.Components
         public static StackItemSize GetWidth(IComponent component)
         {
             var item = GetItem(component);
-            switch (item.style.width)
-            {
-                case "auto": return StackItemSize.Auto;
-                case "100%": return StackItemSize.Stretch;
-            }
+            if (item.style.width == "auto") return new StackItemSize() { Type = StackItemSizeType.Auto };
+            if (item.style.width.EndsWith("px")) return new StackItemSize() { Type = StackItemSizeType.Pixels, Value = double.Parse(item.style.width.Substring(item.style.width.Length - 2)) };
+            if (item.style.width.EndsWith("%")) return new StackItemSize() { Type = StackItemSizeType.Percents, Value = double.Parse(item.style.width.Substring(item.style.width.Length - 1)) };
+
             throw new Exception("Incorrect Stack item width.");
         }
-        public static void SetWidth(IComponent component, StackItemSize size)
+        public static void SetWidth(IComponent component, StackItemSizeType sizeType, double size = 0)
         {
             var item = GetItem(component);
-            item.style.width = size == StackItemSize.Auto ? "auto" : "100%";
+            switch (sizeType)
+            {
+                case StackItemSizeType.Auto: item.style.width = "auto"; break;
+                case StackItemSizeType.Pixels: item.style.width = $"{size:0.####}px"; break;
+                case StackItemSizeType.Percents: item.style.width = $"{size:0.####}%"; break;
+            }
         }
 
         public static StackItemSize GetHeight(IComponent component)
         {
             var item = GetItem(component);
-            switch (item.style.height)
-            {
-                case "auto": return StackItemSize.Auto;
-                case "100%": return StackItemSize.Stretch;
-            }
+            if (item.style.height == "auto") return new StackItemSize() { Type = StackItemSizeType.Auto };
+            if (item.style.height.EndsWith("px")) return new StackItemSize() { Type = StackItemSizeType.Pixels, Value = double.Parse(item.style.height.Substring(item.style.height.Length - 2)) };
+            if (item.style.height.EndsWith("%")) return new StackItemSize() { Type = StackItemSizeType.Percents, Value = double.Parse(item.style.height.Substring(item.style.height.Length - 1)) };
+
             throw new Exception("Incorrect Stack item height.");
         }
-        public static void SetHeight(IComponent component, StackItemSize size)
+        public static void SetHeight(IComponent component, StackItemSizeType sizeType, double size = 0)
         {
             var item = GetItem(component);
-            item.style.height = size == StackItemSize.Auto ? "auto" : "100%";
+            switch (sizeType)
+            {
+                case StackItemSizeType.Auto: item.style.height = "auto"; break;
+                case StackItemSizeType.Pixels: item.style.height = $"{size:0.####}px"; break;
+                case StackItemSizeType.Percents: item.style.height = $"{size:0.####}%"; break;
+            }
+        }
+
+        public static int GetGrow(IComponent component)
+        {
+            var item = GetItem(component);
+            return int.Parse(item.style.flexGrow);
+        }
+        public static void SetGrow(IComponent component, int grow)
+        {
+            var item = GetItem(component);
+            item.style.flexGrow = grow.ToString();
+        }
+
+        public static bool GetShrink(IComponent component)
+        {
+            var item = GetItem(component);
+            return item.style.flexShrink == "1";
+        }
+        public static void SetShrink(IComponent component, bool shrink)
+        {
+            var item = GetItem(component);
+            item.style.flexShrink = shrink ? "1" : "0";
         }
 
         #endregion
@@ -201,6 +231,18 @@ namespace Tesserae.Components
             return stack;
         }
 
+        public static Stack Wrap(this Stack stack)
+        {
+            stack.CanWrap = true;
+            return stack;
+        }
+
+        public static Stack NoWrap(this Stack stack)
+        {
+            stack.CanWrap = false;
+            return stack;
+        }
+
         #region Item Properties
 
         public static IComponent AlignAuto(this IComponent component)
@@ -237,25 +279,63 @@ namespace Tesserae.Components
 
         public static IComponent WidthAuto(this IComponent component)
         {
-            Stack.SetWidth(component, StackItemSize.Auto);
+            Stack.SetWidth(component, StackItemSizeType.Auto);
+            return component;
+        }
+
+        public static IComponent WidthPixels(this IComponent component, double size)
+        {
+            Stack.SetWidth(component, StackItemSizeType.Pixels, size);
+            return component;
+        }
+        public static IComponent WidthPercents(this IComponent component, double size)
+        {
+            Stack.SetWidth(component, StackItemSizeType.Percents, size);
             return component;
         }
 
         public static IComponent WidthStretch(this IComponent component)
         {
-            Stack.SetWidth(component, StackItemSize.Stretch);
+            Stack.SetWidth(component, StackItemSizeType.Percents, 100);
             return component;
         }
 
         public static IComponent HeightAuto(this IComponent component)
         {
-            Stack.SetHeight(component, StackItemSize.Auto);
+            Stack.SetHeight(component, StackItemSizeType.Auto);
+            return component;
+        }
+        public static IComponent HeightPixels(this IComponent component, double size)
+        {
+            Stack.SetHeight(component, StackItemSizeType.Pixels, size);
+            return component;
+        }
+        public static IComponent HeightPercents(this IComponent component, double size)
+        {
+            Stack.SetHeight(component, StackItemSizeType.Percents, size);
+            return component;
+        }
+        public static IComponent HeightStretch(this IComponent component)
+        {
+            Stack.SetHeight(component, StackItemSizeType.Percents, 100);
             return component;
         }
 
-        public static IComponent HeightStretch(this IComponent component)
+        public static IComponent Grow(this IComponent component, int grow)
         {
-            Stack.SetHeight(component, StackItemSize.Stretch);
+            Stack.SetGrow(component, grow);
+            return component;
+        }
+
+        public static IComponent Shrink(this IComponent component)
+        {
+            Stack.SetShrink(component, true);
+            return component;
+        }
+
+        public static IComponent NoShrink(this IComponent component)
+        {
+            Stack.SetShrink(component, false);
             return component;
         }
 
