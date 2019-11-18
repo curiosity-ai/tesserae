@@ -102,6 +102,16 @@ body {
     overflow-y: scroll;
 }
 
+/* Stack */
+.mss-stack {
+    display: flex;
+    flex-direction: column;
+}
+
+.mss-stack-item {
+    height: auto;
+}
+
 /* Button */
 button:focus {
     outline: 0;

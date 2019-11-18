@@ -19,7 +19,7 @@ namespace Tesserae.Tests
         private static void OnStartUp()
         {
             _MainStack = Stack();
-            var samples = Stack(StackOrientation.Horizontal).Children(MainNav(), _MainStack);
+            var samples = Stack(StackOrientation.Horizontal).Children(MainNav(), _MainStack.WidthStretch());
             document.body.appendChild(samples.Render());
         }
 
@@ -29,7 +29,8 @@ namespace Tesserae.Tests
                 {
                     var link = e as NavLink;
                     _MainStack.Clear();
-                    if (link.Text.StartsWith("Buttons")) _MainStack.Add(ButtonSample());
+                    if (link.Text.StartsWith("Stack")) _MainStack.Add(StackSample());
+                    else if (link.Text.StartsWith("Buttons")) _MainStack.Add(ButtonSample());
                     else if (link.Text.StartsWith("TextBox")) _MainStack.Add(TextBoxSample());
                     else if (link.Text.StartsWith("CheckBox")) _MainStack.Add(CheckBoxSample());
                     else if (link.Text.StartsWith("Toggle")) _MainStack.Add(ToggleSample());
@@ -38,6 +39,7 @@ namespace Tesserae.Tests
                 })
             .Links(
                 NavLink("Sample 1").Expanded().Links(
+                    NavLink("Stack Sample"),
                     NavLink("Buttons Sample"),
                     NavLink("TextBox Sample"),
                     NavLink("CheckBox Sample"),
@@ -46,6 +48,21 @@ namespace Tesserae.Tests
                     NavLink("Layer Sample")
                     ),
                 NavLink("Sample 2").Selected()
+            );
+        }
+
+        public static IComponent StackSample()
+        {
+            return Stack().Children(
+                TextBlock("Item Alignment").SemiBold(),
+                Stack().Children(
+                    TextBlock("Auto-aligned Item").AlignAuto(),
+                    TextBlock("Stretch-aligned Item").AlignStretch(),
+                    TextBlock("Baseline-aligned Item").AlignBaseline(),
+                    TextBlock("Start-aligned Item").AlignStart(),
+                    TextBlock("Center-aligned Item").AlignCenter(),
+                    TextBlock("End-aligned Item").AlignEnd()
+                )
             );
         }
 
