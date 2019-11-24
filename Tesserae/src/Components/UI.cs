@@ -21,9 +21,9 @@
             return new Toggle(text);
         }
 
-        public static Choice Choice(string label = string.Empty)
+        public static Option Option(string label = string.Empty)
         {
-            return new Choice(label);
+            return new Option(label);
         }
 
         public static ChoiceGroup ChoiceGroup(string label = string.Empty)

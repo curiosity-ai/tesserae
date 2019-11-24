@@ -166,16 +166,16 @@ namespace Tesserae.Tests
 
         public static IComponent ChoiceGroupSample()
         {
-            return Stack().Children(ChoiceGroup("Choises Sample Vertical (Required):").Vertical().Required().Choices(
-                Choice("Option 1"),
-                Choice("Option 2").Selected(),
-                Choice("Option 3").Disabled(),
-                Choice("Option 4")
-            ).AlignStart(), ChoiceGroup("Choises Sample Horizontal:").Horizontal().Choices(
-                Choice("Option 1"),
-                Choice("Option 2"),
-                Choice("Option 3").Disabled(),
-                Choice("Option 4").Selected()
+            return Stack().Children(ChoiceGroup("Choises Sample Vertical (Required):").Vertical().Required().Options(
+                Option("Option 1"),
+                Option("Option 2").Selected(),
+                Option("Option 3").Disabled(),
+                Option("Option 4")
+            ).AlignStart(), ChoiceGroup("Choises Sample Horizontal:").Horizontal().Options(
+                Option("Option 1"),
+                Option("Option 2"),
+                Option("Option 3").Disabled(),
+                Option("Option 4").Selected()
             ));
         }
 

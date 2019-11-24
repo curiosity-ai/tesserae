@@ -330,7 +330,7 @@ button:focus {
     display: flex;
 }
 
-.mss-choice-container {
+.mss-option-container {
     position: relative;
     cursor: pointer;
     color: var(--mss-default-foreground-color);
@@ -340,7 +340,7 @@ button:focus {
     padding-left: 25px;
 }
 
-    .mss-choice-container .mss-choice {
+    .mss-option-container .mss-option {
         position: absolute;
         opacity: 0;
         cursor: pointer;
@@ -348,7 +348,7 @@ button:focus {
         width: 0;
     }
 
-    .mss-choice-container .mss-choice-mark {
+    .mss-option-container .mss-option-mark {
         position: absolute;
         top: 0;
         left: 0;
@@ -358,29 +358,29 @@ button:focus {
         border: 1px solid var(--mss-default-foreground-color);
     }
 
-    .mss-choice-container:hover input ~ .mss-choice-mark:after {
+    .mss-option-container:hover input ~ .mss-option-mark:after {
         display: block;
     }
 
-    .mss-choice-container input:checked ~ .mss-choice-mark {
+    .mss-option-container input:checked ~ .mss-option-mark {
         border-color: var(--mss-primary-background-color);
     }
 
-    .mss-choice-container:hover input:checked ~ .mss-choice-mark {
+    .mss-option-container:hover input:checked ~ .mss-option-mark {
         border-color: var(--mss-primary-background-hover-color);
     }
 
-    .mss-choice-container input:checked ~ .mss-choice-mark:after {
+    .mss-option-container input:checked ~ .mss-option-mark:after {
         display: block;
         border-color: var(--mss-primary-background-color);
     }
 
-    .mss-choice-container:hover input:checked ~ .mss-choice-mark:after {
+    .mss-option-container:hover input:checked ~ .mss-option-mark:after {
         border-color: var(--mss-primary-background-hover-color);
     }
 
 
-    .mss-choice-container .mss-choice-mark:after {
+    .mss-option-container .mss-option-mark:after {
         content: "";
         position: absolute;
         display: none;
@@ -393,15 +393,15 @@ button:focus {
         border-radius: 50%;
     }
 
-    .mss-choice-container.disabled {
+    .mss-option-container.disabled {
         color: var(--mss-disabled-foreground-color);
     }
 
-        .mss-choice-container.disabled .mss-choice-mark {
+        .mss-option-container.disabled .mss-option-mark {
             border-color: var(--mss-disabled-foreground-color);
         }
 
-        .mss-choice-container.disabled input:checked ~ .mss-choice-mark {
+        .mss-option-container.disabled input:checked ~ .mss-option-mark {
             border-color: var(--mss-disabled-foreground-color);
         }
 

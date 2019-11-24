@@ -7,7 +7,7 @@ using static Retyped.dom;
 
 namespace Tesserae.Components
 {
-    public class Choice : ComponentBase<Choice, HTMLInputElement>
+    public class Option : ComponentBase<Option, HTMLInputElement>
     {
         #region Fields
 
@@ -18,7 +18,7 @@ namespace Tesserae.Components
 
         #region Events
 
-        public event EventHandler<Choice> OnSelect;
+        public event EventHandler<Option> OnSelect;
 
         #endregion
 
@@ -64,11 +64,11 @@ namespace Tesserae.Components
 
         #endregion
 
-        public Choice(string text)
+        public Option(string text)
         {
-            InnerElement = CheckBox(_("mss-choice"));
-            _RadioSpan = Span(_("mss-choice-mark"));
-            _Label = Label(_("m-1 mss-choice-container", text: text), InnerElement, _RadioSpan);
+            InnerElement = CheckBox(_("mss-option"));
+            _RadioSpan = Span(_("mss-option-mark"));
+            _Label = Label(_("m-1 mss-option-container", text: text), InnerElement, _RadioSpan);
             AttachClick();
             AttachChange();
             AttachFocus();
@@ -100,7 +100,7 @@ namespace Tesserae.Components
 
         #region Properties
 
-        public Choice SelectedChoice { get; private set; }
+        public Option SelectedOption { get; private set; }
 
         public string Label
         {
@@ -145,17 +145,17 @@ namespace Tesserae.Components
         public void Add(IComponent component)
         {
             InnerElement.appendChild(component.Render());
-            var choice = component as Choice;
+            var choice = component as Option;
             choice.OnSelect += OnChoiceSelected;
 
             if (choice.IsSelected) OnChoiceSelected(null, choice);
         }
 
-        private void OnChoiceSelected(object sender, Choice e)
+        private void OnChoiceSelected(object sender, Option e)
         {
-            if (SelectedChoice != null) SelectedChoice.IsSelected = false;
+            if (SelectedOption != null) SelectedOption.IsSelected = false;
             RaiseOnChange(e);
-            SelectedChoice = e;
+            SelectedOption = e;
         }
 
         public void Clear()
@@ -167,14 +167,14 @@ namespace Tesserae.Components
         public void Replace(IComponent newComponent, IComponent oldComponent)
         {
             InnerElement.replaceChild(newComponent.Render(), oldComponent.Render());
-            var choice = oldComponent as Choice;
+            var choice = oldComponent as Option;
             choice.OnSelect += OnChoiceSelected;
         }
     }
 
     public static class ChoiceExtensions
     {
-        public static ChoiceGroup Choices(this ChoiceGroup container, params Choice[] children)
+        public static ChoiceGroup Options(this ChoiceGroup container, params Option[] children)
         {
             children.ForEach(x => container.Add(x));
             return container;
@@ -196,16 +196,16 @@ namespace Tesserae.Components
             container.IsRequired = true;
             return container;
         }
-        public static Choice Disabled(this Choice choice)
+        public static Option Disabled(this Option option)
         {
-            choice.IsEnabled = false;
-            return choice;
+            option.IsEnabled = false;
+            return option;
         }
 
-        public static Choice Selected(this Choice choice)
+        public static Option Selected(this Option option)
         {
-            choice.IsSelected = true;
-            return choice;
+            option.IsSelected = true;
+            return option;
         }
     }
 }
