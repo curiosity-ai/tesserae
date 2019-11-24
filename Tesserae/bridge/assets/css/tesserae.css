@@ -652,7 +652,9 @@ button:focus {
 .mss-nav-link-button {
     background: transparent;
     display: none;
-    position: relative;
+    position: absolute;
+    left: 5px;
+    top: 5px;
     height: 20px;
     width: 20px;
     border: none;
@@ -666,7 +668,7 @@ button:focus {
         content: "";
         position: absolute;
         left: 6px;
-        top: 0px;
+        top: 2px;
         width: 10px;
         height: 10px;
         border: solid var(--mss-default-border-color);
@@ -680,7 +682,7 @@ button:focus {
 
 .mss-nav-link.expanded .mss-nav-link-button:after {
     border-width: 1px 0 0 1px;
-    top: 5px;
+    top: 7px;
 }
 
 .mss-nav-link .mss-nav-link-header {
@@ -689,6 +691,7 @@ button:focus {
     cursor: pointer;
     user-select: none;
     padding: 0.25em;
+    position: relative;
 }
 
     .mss-nav-link .mss-nav-link-header:hover {
@@ -698,6 +701,10 @@ button:focus {
     .mss-nav-link .mss-nav-link-header.selected {
         background: var(--mss-default-background-active-color);
         border-left-color: var(--mss-primary-background-color);
+    }
+
+    .mss-nav-link .mss-nav-link-header span {
+        margin-left:25px;
     }
 
 .mss-nav-link .mss-nav-link-container {
