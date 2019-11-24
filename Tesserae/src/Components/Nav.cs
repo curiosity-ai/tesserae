@@ -264,5 +264,17 @@ namespace Tesserae.Components
             link.IsExpanded = true;
             return link;
         }
+
+        public static NavLink Text(this NavLink link, string text)
+        {
+            link.Text = text;
+            return link;
+        }
+
+        public static NavLink Icon(this NavLink link, string icon)
+        {
+            link.Icon = icon;
+            return link;
+        }
     }
 }
