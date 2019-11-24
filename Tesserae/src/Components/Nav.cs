@@ -21,6 +21,8 @@ namespace Tesserae.Components
 
         #region Events
 
+        internal NavLink SelectedChild { get; private set; }
+
         public event EventHandler<NavLink> OnSelect;
 
         #endregion
@@ -111,9 +113,9 @@ namespace Tesserae.Components
                 _HeaderDiv.style.paddingLeft = $"{_Level * 25}px";
             }
         }
-        
+
         #endregion
-        
+
         public NavLink(string text = null, string icon = null)
         {
             _TextSpan = Span(_(text: text));
@@ -140,7 +142,21 @@ namespace Tesserae.Components
             var navLink = component as NavLink;
             navLink.Level = Level + 1;
             navLink.OnSelect += OnChildSelected;
-            if (navLink.IsSelected) OnSelect?.Invoke(this, navLink);
+            if (navLink.IsSelected)
+            {
+                OnSelect?.Invoke(this, navLink);
+
+                if (SelectedChild != null) SelectedChild.IsSelected = false;
+                SelectedChild = navLink;
+            }
+
+            if (navLink.SelectedChild != null)
+            {
+                OnSelect?.Invoke(navLink, navLink.SelectedChild);
+
+                if (SelectedChild != null) SelectedChild.IsSelected = false;
+                SelectedChild = navLink.SelectedChild;
+            }
         }
 
         private void OnChildSelected(object sender, NavLink e)
@@ -188,6 +204,13 @@ namespace Tesserae.Components
                 if (SelectedLink != null) SelectedLink.IsSelected = false;
                 RaiseOnChange(navLink);
                 SelectedLink = navLink;
+            }
+
+            if (navLink.SelectedChild != null)
+            {
+                if (SelectedLink != null) SelectedLink.IsSelected = false;
+                RaiseOnChange(navLink.SelectedChild);
+                SelectedLink = navLink.SelectedChild;
             }
         }
 

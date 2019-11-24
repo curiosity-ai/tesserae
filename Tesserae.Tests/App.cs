@@ -45,11 +45,11 @@ namespace Tesserae.Tests
                     NavLink("TextBox Sample"),
                     NavLink("CheckBox Sample"),
                     NavLink("Toggle Sample"),
-                    NavLink("ChoiceGroup Sample"),
+                    NavLink("ChoiceGroup Sample").Selected(),
                     NavLink("Slider Sample"),
                     NavLink("Layer Sample")
                     ),
-                NavLink("Sample 2").Selected()
+                NavLink("Sample 2")
             );
         }
 
