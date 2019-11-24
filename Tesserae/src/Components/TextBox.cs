@@ -78,18 +78,18 @@ namespace Tesserae.Components
         }
         public bool IsRequired
         {
-            get { return container.classList.contains("required"); }
+            get { return container.classList.contains("mss-required"); }
             set
             {
                 if (value != IsInvalid)
                 {
                     if (value)
                     {
-                        container.classList.add("required");
+                        container.classList.add("mss-required");
                     }
                     else
                     {
-                        container.classList.remove("required");
+                        container.classList.remove("mss-required");
                     }
                 }
             }

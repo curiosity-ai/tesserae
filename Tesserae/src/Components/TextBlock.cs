@@ -72,11 +72,33 @@ namespace Tesserae.Components
             }
         }
 
+        public bool IsRequired
+        {
+            get { return InnerElement.classList.contains("mss-required"); }
+            set
+            {
+                if (value != IsInvalid)
+                {
+                    if (value)
+                    {
+                        InnerElement.classList.add("mss-required");
+                    }
+                    else
+                    {
+                        InnerElement.classList.remove("mss-required");
+                    }
+                }
+            }
+        }
+
         #endregion
 
         public TextBlock(string text = string.Empty)
         {
-            InnerElement = Div(_("m-1 mss-fontSize-small mss-fontWeight-regular", text: text));
+            InnerElement = Div(_("m-1 mss-fontSize-small mss-fontWeight-regular", text: text, styles: s =>
+                 {
+                     s.position = "relative";
+                 }));
         }
 
         public override HTMLElement Render()
