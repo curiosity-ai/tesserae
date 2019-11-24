@@ -87,7 +87,7 @@ namespace Tesserae.Components
         #endregion
 
         #region Static
-
+        
         private static Dictionary<IComponent, HTMLDivElement> _ItemsDictionary = new Dictionary<IComponent, HTMLDivElement>();
 
         private static HTMLDivElement GetItem(IComponent component)

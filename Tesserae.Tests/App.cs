@@ -34,6 +34,7 @@ namespace Tesserae.Tests
                     else if (link.Text.StartsWith("TextBox")) _MainStack.Add(TextBoxSample());
                     else if (link.Text.StartsWith("CheckBox")) _MainStack.Add(CheckBoxSample());
                     else if (link.Text.StartsWith("Toggle")) _MainStack.Add(ToggleSample());
+                    else if (link.Text.StartsWith("ChoiceGroup")) _MainStack.Add(ChoiceGroupSample());
                     else if (link.Text.StartsWith("Slider")) _MainStack.Add(SliderSample());
                     else if (link.Text.StartsWith("Layer")) _MainStack.Add(LayerSample());
                 })
@@ -44,6 +45,7 @@ namespace Tesserae.Tests
                     NavLink("TextBox Sample"),
                     NavLink("CheckBox Sample"),
                     NavLink("Toggle Sample"),
+                    NavLink("ChoiceGroup Sample"),
                     NavLink("Slider Sample"),
                     NavLink("Layer Sample")
                     ),
@@ -150,7 +152,7 @@ namespace Tesserae.Tests
                         errorText.Small().Invalid()
                     ),
                     TextBlock("Required TextBox Sample").SemiBold(),
-                    TextBox().Required()
+                    TextBox().Required().AlignStart()
             );
         }
 
@@ -160,6 +162,21 @@ namespace Tesserae.Tests
                 TextBlock("CheckBox Sample").SemiBold(),
                 Stack(StackOrientation.Horizontal).Children(CheckBox("Check it").Checked().OnChanged((e, s) => alert(s.IsChecked ? "Check" : "Uncheck")), CheckBox("And it"), CheckBox("And it too"), CheckBox("Disabled").Disabled(), CheckBox("Disabled and Checked").Checked().Disabled())
              );
+        }
+
+        public static IComponent ChoiceGroupSample()
+        {
+            return Stack().Children(ChoiceGroup("Choises Sample Vertical (Required):").Vertical().Required().Choices(
+                Choice("Option 1"),
+                Choice("Option 2").Selected(),
+                Choice("Option 3").Disabled(),
+                Choice("Option 4")
+            ).AlignStart(), ChoiceGroup("Choises Sample Horizontal:").Horizontal().Choices(
+                Choice("Option 1"),
+                Choice("Option 2"),
+                Choice("Option 3").Disabled(),
+                Choice("Option 4").Selected()
+            ));
         }
 
         public static IComponent ToggleSample()

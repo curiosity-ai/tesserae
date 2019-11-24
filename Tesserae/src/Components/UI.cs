@@ -21,6 +21,16 @@
             return new Toggle(text);
         }
 
+        public static Choice Choice(string label = string.Empty)
+        {
+            return new Choice(label);
+        }
+
+        public static ChoiceGroup ChoiceGroup(string label = string.Empty)
+        {
+            return new ChoiceGroup(label);
+        }
+
         public static TextBlock TextBlock(string text = string.Empty)
         {
             return new TextBlock(text);

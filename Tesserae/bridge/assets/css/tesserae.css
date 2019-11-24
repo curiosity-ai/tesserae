@@ -325,6 +325,86 @@ button:focus {
             border-color: var(--mss-disabled-foreground-color);
         }
 
+/* Choice */
+.mss-choice-group {
+    display: flex;
+}
+
+.mss-choice-container {
+    position: relative;
+    cursor: pointer;
+    color: var(--mss-default-foreground-color);
+    font-size: var(--mss-font-size-small);
+    font-weight: var(--mss-font-weight-regular);
+    user-select: none;
+    padding-left: 25px;
+}
+
+    .mss-choice-container .mss-choice {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+    }
+
+    .mss-choice-container .mss-choice-mark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 20px;
+        width: 20px;
+        border-radius: 50%;
+        border: 1px solid var(--mss-default-foreground-color);
+    }
+
+    .mss-choice-container:hover input ~ .mss-choice-mark:after {
+        display: block;
+    }
+
+    .mss-choice-container input:checked ~ .mss-choice-mark {
+        border-color: var(--mss-primary-background-color);
+    }
+
+    .mss-choice-container:hover input:checked ~ .mss-choice-mark {
+        border-color: var(--mss-primary-background-hover-color);
+    }
+
+    .mss-choice-container input:checked ~ .mss-choice-mark:after {
+        display: block;
+        border-color: var(--mss-primary-background-color);
+    }
+
+    .mss-choice-container:hover input:checked ~ .mss-choice-mark:after {
+        border-color: var(--mss-primary-background-hover-color);
+    }
+
+
+    .mss-choice-container .mss-choice-mark:after {
+        content: "";
+        position: absolute;
+        display: none;
+        left: 4px;
+        top: 4px;
+        width: 10px;
+        height: 10px;
+        border: solid var(--mss-default-foreground-color);
+        border-width: 5px;
+        border-radius: 50%;
+    }
+
+    .mss-choice-container.disabled {
+        color: var(--mss-disabled-foreground-color);
+    }
+
+        .mss-choice-container.disabled .mss-choice-mark {
+            border-color: var(--mss-disabled-foreground-color);
+        }
+
+        .mss-choice-container.disabled input:checked ~ .mss-choice-mark {
+            border-color: var(--mss-disabled-foreground-color);
+        }
+
 /* TextBox */
 .mss-textBox {
     box-shadow: none;
@@ -361,15 +441,15 @@ button:focus {
         border-color: var(--mss-invalid-border-color);
     }
 
-    .mss-textBox-container.required:after {
-        content: "*";
-        color: var(--mss-invalid-border-color);
-        position: absolute;
-        top: -5px;
-        right: -10px;
-        display: inline-block;
-        font-size: var(--mss-font-size-large);
-    }
+.mss-required:after {
+    content: "*";
+    color: var(--mss-invalid-border-color);
+    position: absolute;
+    top: -5px;
+    right: -10px;
+    display: inline-block;
+    font-size: var(--mss-font-size-large);
+}
 
 .mss-textBox-error {
     color: var(--mss-invalid-border-color);
