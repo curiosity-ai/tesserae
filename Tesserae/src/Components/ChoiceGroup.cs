@@ -50,7 +50,6 @@ namespace Tesserae.Components
             {
                 if (value != IsSelected)
                 {
-                    //if (value) OnSelect?.Invoke(this, this);
                     InnerElement.@checked = value;
                 }
             }
@@ -73,8 +72,10 @@ namespace Tesserae.Components
             AttachChange();
             AttachFocus();
             AttachBlur();
-
-            OnChange += (s, e) => OnSelect?.Invoke(this, this);
+            OnChange += (s, e) =>
+            {
+                if (IsSelected) OnSelect?.Invoke(this, this);
+            };
         }
 
         public override HTMLElement Render()
@@ -131,7 +132,7 @@ namespace Tesserae.Components
 
         #endregion
 
-        public ChoiceGroup(string label="Pick one")
+        public ChoiceGroup(string label = "Pick one")
         {
             _Header = (new TextBlock(label)).SemiBold();
             var h = _Header.Render();
@@ -155,9 +156,10 @@ namespace Tesserae.Components
 
         private void OnChoiceSelected(object sender, Option e)
         {
+            if (SelectedOption == e) return;
             if (SelectedOption != null) SelectedOption.IsSelected = false;
-            RaiseOnChange(e);
             SelectedOption = e;
+            RaiseOnChange(e);
         }
 
         public void Clear()
