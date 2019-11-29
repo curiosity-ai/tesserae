@@ -97,7 +97,7 @@
     color: var(--mss-invalid-border-color);
 }
 
-*,:before,:after {
+*, :before, :after {
     box-sizing: border-box;
 }
 
@@ -111,6 +111,7 @@ body {
     height: 100%;
     min-width: 320px;
     line-height: 1.4;
+    overflow-x: hidden;
     overflow-y: scroll;
     color: var(--mss-default-foreground-color);
     background-color: var(--mss-default-background-color);
@@ -162,9 +163,10 @@ button:focus {
         background-color: var(--mss-disabled-background-color);
         border-color: var(--mss-disabled-background-color);
     }
-.mss-btn i {
-    margin-right: 4px;
-}
+
+    .mss-btn i {
+        margin-right: 4px;
+    }
 
 .mss-btn-default {
     color: var(--mss-default-foreground-color);
@@ -365,6 +367,10 @@ button:focus {
     margin: 4px;
 }
 
+    .mss-choice-group div {
+        margin-right: 12px;
+    }
+
 .mss-option-container {
     position: relative;
     cursor: pointer;
@@ -482,10 +488,10 @@ button:focus {
     content: "*";
     color: var(--mss-invalid-border-color);
     position: absolute;
-    top: -5px;
+    top: -3px;
     right: -10px;
     display: inline-block;
-    font-size: var(--mss-font-size-large);
+    font-size: var(--mss-font-size-medium);
 }
 
 .mss-textBox-error {
@@ -503,6 +509,7 @@ button:focus {
     width: 100%;
     margin: 4px;
 }
+
 .mss-slider-container {
     position: relative;
     user-select: none;
@@ -747,7 +754,7 @@ button:focus {
     }
 
     .mss-nav-link .mss-nav-link-header span {
-        margin-left:25px;
+        margin-left: 25px;
     }
 
 .mss-nav-link .mss-nav-link-container {

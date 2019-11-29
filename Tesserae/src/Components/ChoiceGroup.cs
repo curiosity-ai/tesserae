@@ -131,10 +131,12 @@ namespace Tesserae.Components
 
         #endregion
 
-        public ChoiceGroup(string label)
+        public ChoiceGroup(string label="Pick one")
         {
             _Header = (new TextBlock(label)).SemiBold();
-            InnerElement = Div(_("mss-choice-group", styles: s => { s.flexDirection = "row"; }), _Header.Render());
+            var h = _Header.Render();
+            h.style.alignSelf = "baseline";
+            InnerElement = Div(_("mss-choice-group", styles: s => { s.flexDirection = "column"; }), h);
         }
 
         public override HTMLElement Render()
