@@ -20,7 +20,7 @@ namespace Tesserae.Tests
         private static void OnStartUp()
         {
             _MainStack = Stack();
-            var samples = Stack(StackOrientation.Horizontal).Children(MainNav().WidthPixels(300), _MainStack.WidthStretch());
+            var samples = Stack(StackOrientation.Horizontal).Children(MainNav().NoShrink().WidthPixels(300), _MainStack.WidthStretch());
             document.body.appendChild(samples.Render());
         }
 
@@ -47,6 +47,7 @@ namespace Tesserae.Tests
                     else if (link.Text.StartsWith("TextBlock")) _MainStack.Add(new Samples.TextBlockSample());
                     else if (link.Text.StartsWith("Layer")) _MainStack.Add(new Samples.LayerSample());
                     else if (link.Text.StartsWith("Label")) _MainStack.Add(new Samples.LabelSample());
+                    else if (link.Text.StartsWith("Stack")) _MainStack.Add(new Samples.StackSample());
                 })
             .Links(
                 NavLink("Basic Inputs").Expanded().Links(
@@ -188,7 +189,7 @@ namespace Tesserae.Tests
 
         public static IComponent ChoiceGroupSample()
         {
-            return Stack().Children(ChoiceGroup("Choises Sample Vertical (Required):").Vertical().Required().Options(
+            return Stack().Children(ChoiceGroup("Choises Sample Vertical (Required):").OnChanged((s,e)=>alert(e.SelectedOption?.Text)).Vertical().Required().Options(
                 Option("Option 1"),
                 Option("Option 2").Selected(),
                 Option("Option 3").Disabled(),
