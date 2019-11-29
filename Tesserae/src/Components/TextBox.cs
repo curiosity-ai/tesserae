@@ -33,6 +33,20 @@ namespace Tesserae.Components
                 }
             }
         }
+
+        public bool IsReadOnly
+        {
+            get { return InnerElement.hasAttribute("readonly"); }
+            set
+            {
+                if (IsReadOnly != value)
+                {
+                    if (value) InnerElement.removeAttribute("readonly");
+                    else InnerElement.setAttribute("readonly", "");
+                }
+            }
+        }
+
         public string Text
         {
             get { return InnerElement.value; }
@@ -46,7 +60,13 @@ namespace Tesserae.Components
             }
         }
 
-        public string ErrorText
+        public string Placeholder
+        {
+            get { return InnerElement.placeholder; }
+            set { InnerElement.placeholder = value; }
+        }
+
+        public string Error
         {
             get { return errorSpan.innerText; }
             set
@@ -121,9 +141,27 @@ namespace Tesserae.Components
             return textBox;
         }
 
+        public static TextBox Error(this TextBox textBox, string error)
+        {
+            textBox.Error = error;
+            return textBox;
+        }
+
+        public static TextBox Placeholder(this TextBox textBox, string error)
+        {
+            textBox.Placeholder = error;
+            return textBox;
+        }
+
         public static TextBox Disabled(this TextBox textBox)
         {
             textBox.IsEnabled = false;
+            return textBox;
+        }
+
+        public static TextBox ReadOnly(this TextBox textBox)
+        {
+            textBox.IsReadOnly = true;
             return textBox;
         }
 
