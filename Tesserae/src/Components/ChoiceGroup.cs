@@ -68,7 +68,7 @@ namespace Tesserae.Components
         {
             InnerElement = CheckBox(_("mss-option"));
             _RadioSpan = Span(_("mss-option-mark"));
-            _Label = Label(_("m-1 mss-option-container", text: text), InnerElement, _RadioSpan);
+            _Label = Label(_("mss-option-container", text: text), InnerElement, _RadioSpan);
             AttachClick();
             AttachChange();
             AttachFocus();
@@ -134,7 +134,7 @@ namespace Tesserae.Components
         public ChoiceGroup(string label)
         {
             _Header = (new TextBlock(label)).SemiBold();
-            InnerElement = Div(_("m-1 mss-choice-group", styles: s => { s.flexDirection = "row"; }), _Header.Render());
+            InnerElement = Div(_("mss-choice-group", styles: s => { s.flexDirection = "row"; }), _Header.Render());
         }
 
         public override HTMLElement Render()

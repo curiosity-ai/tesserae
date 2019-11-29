@@ -12,8 +12,9 @@ namespace Tesserae.Tests
 
         public static void Main()
         {
-            Require.LoadStyleAsync("css/curiosity-bootstrap.css", "css/fontawesome-all.min.css", "css/prototype-ui.css");
-            Require.LoadScriptAsync(OnStartUp, null, "css/curiosity-bootstrap.css");
+            //Require.LoadStyleAsync(/*"css/curiosity-bootstrap.css", */"css/fontawesome-all.min.css", "css/prototype-ui.css");
+            //Require.LoadScriptAsync(OnStartUp, null, "css/curiosity-bootstrap.css");
+            OnStartUp();
         }
 
         private static void OnStartUp()
@@ -92,10 +93,10 @@ namespace Tesserae.Tests
                         Stack(StackOrientation.Horizontal).Children(
                             Stack().Children(TextBlock("Name:").XSmall(), addNameTextBox.Text("Button Name")),
                             Stack().Children(TextBlock("Icon:").XSmall(), addIconTextBox.Text("far fa-plus")),
-                            Button("Add Button").Primary().OnClicked((s, r) => btnStack2.Add(
+                            Button("Add Button").HeightStretch().Primary().OnClicked((s, r) => btnStack2.Add(
                                     Button(addNameTextBox.Text).Icon(addIconTextBox.Text).OnClicked((e, b) => alert($"\"{b.Text}\" clicked!")))
                                 ),
-                            Button("Clear buttons").OnClicked((e, b) => btnStack2.Clear())
+                            Button("Clear buttons").HeightStretch().OnClicked((e, b) => btnStack2.Clear())
                         )
                     );
         }

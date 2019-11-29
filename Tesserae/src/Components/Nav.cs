@@ -52,7 +52,6 @@ namespace Tesserae.Components
                     {
                         _HeaderDiv.removeChild(_IconSpan);
                         _IconSpan = null;
-                        _TextSpan.classList.remove("ml-2");
                     }
 
                     return;
@@ -62,7 +61,6 @@ namespace Tesserae.Components
                 {
                     _IconSpan = I(_());
                     _HeaderDiv.insertBefore(_IconSpan, _TextSpan);
-                    _TextSpan.classList.add("ml-2");
                 }
 
                 _IconSpan.className = value;
@@ -186,7 +184,7 @@ namespace Tesserae.Components
 
         public Nav()
         {
-            InnerElement = Ul(_("mr-4 mss-nav"));
+            InnerElement = Ul(_("mss-nav"));
         }
 
         public override HTMLElement Render()

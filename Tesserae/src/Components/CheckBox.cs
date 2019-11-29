@@ -67,7 +67,7 @@ namespace Tesserae.Components
         {
             InnerElement = CheckBox(_("mss-checkbox"));
             _CheckSpan = Span(_("mss-checkbox-mark"));
-            _Label = Label(_("m-1 mss-checkbox-container", text: text), InnerElement, _CheckSpan);
+            _Label = Label(_("mss-checkbox-container", text: text), InnerElement, _CheckSpan);
             AttachClick();
             AttachChange();
             AttachFocus();

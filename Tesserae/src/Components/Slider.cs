@@ -121,7 +121,7 @@ namespace Tesserae.Components
                 _OuterLabel = Label(_("mss-slider-container"), InnerElement);
             }
 
-            _OuterDiv = Div(_("m-1 w-100"), _OuterLabel);
+            _OuterDiv = Div(_("mss-slider-div"), _OuterLabel);
         }
 
         public override HTMLElement Render()

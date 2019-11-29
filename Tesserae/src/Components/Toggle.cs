@@ -75,7 +75,7 @@ namespace Tesserae.Components
             _CheckSpan = Span(_("mss-toggle-mark"));
             _OnOffSpan = Span(_(text: "Off"));
             if (!string.IsNullOrEmpty(text)) _OnOffSpan.style.display = "none";
-            _Label = Label(_("m-1 mss-toggle-container", text: text), InnerElement, _CheckSpan, _OnOffSpan);
+            _Label = Label(_("mss-toggle-container", text: text), InnerElement, _CheckSpan, _OnOffSpan);
             OnChange += OnChanged;
             AttachClick();
             AttachChange();

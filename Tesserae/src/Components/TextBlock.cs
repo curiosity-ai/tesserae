@@ -95,7 +95,7 @@ namespace Tesserae.Components
 
         public TextBlock(string text = string.Empty)
         {
-            InnerElement = Div(_("m-1 mss-fontSize-small mss-fontWeight-regular", text: text, styles: s =>
+            InnerElement = Div(_("mss-textBlock mss-fontSize-small mss-fontWeight-regular", text: text, styles: s =>
                  {
                      s.position = "relative";
                  }));

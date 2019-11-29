@@ -38,7 +38,6 @@ namespace Tesserae.Components
                     {
                         InnerElement.removeChild(_IconSpan);
                         _IconSpan = null;
-                        _TextSpan.classList.remove("ml-2");
                     }
 
                     return;
@@ -48,7 +47,6 @@ namespace Tesserae.Components
                 {
                     _IconSpan = I(_());
                     InnerElement.insertBefore(_IconSpan, _TextSpan);
-                    _TextSpan.classList.add("ml-2");
                 }
 
                 _IconSpan.className = value;
@@ -106,7 +104,7 @@ namespace Tesserae.Components
         public Button(string text = string.Empty)
         {
             _TextSpan = Span(_(text: text));
-            InnerElement = Button(_("m-1 mss-btn mss-btn-default"), _TextSpan);
+            InnerElement = Button(_("mss-btn mss-btn-default"), _TextSpan);
             AttachClick();
             AttachFocus();
             AttachBlur();

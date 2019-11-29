@@ -97,9 +97,29 @@
     color: var(--mss-invalid-border-color);
 }
 
+*,:before,:after {
+    box-sizing: border-box;
+}
+
 /* Body */
 body {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    width: 100%;
+    height: 100%;
+    min-width: 320px;
+    line-height: 1.4;
     overflow-y: scroll;
+    color: var(--mss-default-foreground-color);
+    background-color: var(--mss-default-background-color);
+    font-size: var(--mss-font-size-small);
+    font-family: Segoe UI, SegoeUI, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+/* TextBlock*/
+
+.mss-textBlock {
+    margin: 4px;
 }
 
 /* Stack */
@@ -128,6 +148,7 @@ button:focus {
     cursor: pointer;
     padding: 0px 16px;
     min-height: 32px;
+    margin: 4px;
 }
 
     .mss-btn.disabled {
@@ -135,6 +156,9 @@ button:focus {
         background-color: var(--mss-disabled-background-color);
         border-color: var(--mss-disabled-background-color);
     }
+.mss-btn i {
+    margin-right: 4px;
+}
 
 .mss-btn-default {
     color: var(--mss-default-foreground-color);
@@ -178,6 +202,7 @@ button:focus {
     font-weight: var(--mss-font-weight-regular);
     user-select: none;
     padding-left: 25px;
+    margin: 4px;
 }
 
     .mss-checkbox-container .mss-checkbox {
@@ -253,6 +278,8 @@ button:focus {
     font-weight: var(--mss-font-weight-regular);
     user-select: none;
     padding-left: 45px;
+    margin: 4px;
+    display: block;
 }
 
     .mss-toggle-container .mss-checkbox {
@@ -328,6 +355,7 @@ button:focus {
 /* Choice */
 .mss-choice-group {
     display: flex;
+    margin: 4px;
 }
 
 .mss-option-container {
@@ -338,6 +366,7 @@ button:focus {
     font-weight: var(--mss-font-weight-regular);
     user-select: none;
     padding-left: 25px;
+    margin: 4px;
 }
 
     .mss-option-container .mss-option {
@@ -462,10 +491,15 @@ button:focus {
 }
 
 /* Slider */
+.mss-slider-div {
+    width: 100%;
+    margin: 4px;
+}
 .mss-slider-container {
     position: relative;
     user-select: none;
     width: 100%;
+    display: block;
 }
 
     .mss-slider-container.vertical {
@@ -643,6 +677,7 @@ button:focus {
     list-style: none;
     margin: 0;
     padding: 0;
+    margin-right: 24px;
 }
 
 .mss-nav-link {
