@@ -478,6 +478,7 @@ button:focus {
 
 .mss-textBox-container {
     position: relative;
+    margin-bottom: 4px;
 }
 
     .mss-textBox-container.invalid .mss-textBox {
