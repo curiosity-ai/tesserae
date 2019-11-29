@@ -245,95 +245,95 @@ namespace Tesserae.Components
 
         #region Item Properties
 
-        public static IComponent AlignAuto(this IComponent component)
+        public static T AlignAuto<T>(this T component) where T : IComponent
         {
             Stack.SetAlign(component, StackItemAlign.Auto);
             return component;
         }
 
-        public static IComponent AlignStretch(this IComponent component)
+        public static T AlignStretch<T>(this T component) where T : IComponent
         {
             Stack.SetAlign(component, StackItemAlign.Stretch);
             return component;
         }
-        public static IComponent AlignBaseline(this IComponent component)
+        public static T AlignBaseline<T>(this T component) where T : IComponent
         {
             Stack.SetAlign(component, StackItemAlign.Baseline);
             return component;
         }
-        public static IComponent AlignStart(this IComponent component)
+        public static T AlignStart<T>(this T component) where T : IComponent
         {
             Stack.SetAlign(component, StackItemAlign.Start);
             return component;
         }
-        public static IComponent AlignCenter(this IComponent component)
+        public static T AlignCenter<T>(this T component) where T : IComponent
         {
             Stack.SetAlign(component, StackItemAlign.Center);
             return component;
         }
-        public static IComponent AlignEnd(this IComponent component)
+        public static T AlignEnd<T>(this T component) where T : IComponent
         {
             Stack.SetAlign(component, StackItemAlign.End);
             return component;
         }
 
-        public static IComponent WidthAuto(this IComponent component)
+        public static T WidthAuto<T>(this T component) where T : IComponent
         {
             Stack.SetWidth(component, StackItemSizeType.Auto);
             return component;
         }
 
-        public static IComponent WidthPixels(this IComponent component, double size)
+        public static T WidthPixels<T>(this T component, double size) where T : IComponent
         {
             Stack.SetWidth(component, StackItemSizeType.Pixels, size);
             return component;
         }
-        public static IComponent WidthPercents(this IComponent component, double size)
+        public static T WidthPercents<T>(this T component, double size) where T : IComponent
         {
             Stack.SetWidth(component, StackItemSizeType.Percents, size);
             return component;
         }
 
-        public static IComponent WidthStretch(this IComponent component)
+        public static T WidthStretch<T>(this T component) where T : IComponent
         {
             Stack.SetWidth(component, StackItemSizeType.Percents, 100);
             return component;
         }
 
-        public static IComponent HeightAuto(this IComponent component)
+        public static T HeightAuto<T>(this T component) where T : IComponent
         {
             Stack.SetHeight(component, StackItemSizeType.Auto);
             return component;
         }
-        public static IComponent HeightPixels(this IComponent component, double size)
+        public static T HeightPixels<T>(this T component, double size) where T : IComponent
         {
             Stack.SetHeight(component, StackItemSizeType.Pixels, size);
             return component;
         }
-        public static IComponent HeightPercents(this IComponent component, double size)
+        public static T HeightPercents<T>(this T component, double size) where T : IComponent
         {
             Stack.SetHeight(component, StackItemSizeType.Percents, size);
             return component;
         }
-        public static IComponent HeightStretch(this IComponent component)
+        public static T HeightStretch<T>(this T component) where T : IComponent
         {
             Stack.SetHeight(component, StackItemSizeType.Percents, 100);
             return component;
         }
 
-        public static IComponent Grow(this IComponent component, int grow)
+        public static T Grow<T>(this T component, int grow) where T : IComponent
         {
             Stack.SetGrow(component, grow);
             return component;
         }
 
-        public static IComponent Shrink(this IComponent component)
+        public static T Shrink<T>(this T component) where T : IComponent
         {
             Stack.SetShrink(component, true);
             return component;
         }
 
-        public static IComponent NoShrink(this IComponent component)
+        public static T NoShrink<T>(this T component) where T : IComponent
         {
             Stack.SetShrink(component, false);
             return component;

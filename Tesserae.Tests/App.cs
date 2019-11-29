@@ -77,7 +77,7 @@ namespace Tesserae.Tests
             var addNameTextBox = TextBox();
             var addIconTextBox = TextBox();
 
-            return Stack().Children(
+            return Stack().AlignCenter().Children(
                         TextBlock("Buttons in Stack").SemiBold(),
                         btnStack.Horizontal().Children(
                             Button().Text("Horizontal").OnClicked((b, e) => btnStack.Horizontal()),
