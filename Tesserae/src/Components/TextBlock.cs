@@ -115,6 +115,13 @@ namespace Tesserae.Components
             return textBlock;
         }
 
+        public static TextBlock Required(this TextBlock textBlock)
+        {
+            textBlock.IsRequired = true;
+            return textBlock;
+        }
+
+
         public static TextBlock Tiny(this TextBlock textBlock)
         {
             textBlock.Size = TextSize.Tiny;
