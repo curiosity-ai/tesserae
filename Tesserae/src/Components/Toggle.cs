@@ -63,6 +63,8 @@ namespace Tesserae.Components
                 if (value != IsChecked)
                 {
                     InnerElement.@checked = value;
+                    if (value) _OnOffSpan.innerText = "On";
+                    else _OnOffSpan.innerText = "Off";
                 }
             }
         }

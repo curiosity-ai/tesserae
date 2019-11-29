@@ -148,7 +148,7 @@ button:focus {
     border: 1px solid;
     border-radius: 2px;
     font-size: var(--mss-font-size-small);
-    font-weight: var(--mss-font-weight-regular);
+    font-weight: var(--mss-font-weight-semibold);
     outline: transparent none medium;
     min-width: 80px;
     user-select: none;
@@ -284,12 +284,16 @@ button:focus {
     cursor: pointer;
     color: var(--mss-default-foreground-color);
     font-size: var(--mss-font-size-small);
-    font-weight: var(--mss-font-weight-regular);
+    font-weight: var(--mss-font-weight-semibold);
     user-select: none;
     padding-left: 45px;
     margin: 4px;
     display: block;
 }
+
+    .mss-toggle-container span {
+        font-weight: var(--mss-font-weight-regular);
+    }
 
     .mss-toggle-container .mss-checkbox {
         position: absolute;
