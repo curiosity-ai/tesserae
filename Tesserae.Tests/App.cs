@@ -43,15 +43,17 @@ namespace Tesserae.Tests
                     else if (link.Text.StartsWith("Checkbox")) _MainStack.Add(new Samples.CheckBoxSample());
                     else if (link.Text.StartsWith("ChoiceGroup")) _MainStack.Add(new Samples.ChoiceGroupSample());
                     else if (link.Text.StartsWith("TextBox")) _MainStack.Add(new Samples.TextBoxSample());
+                    else if (link.Text.StartsWith("Toggle")) _MainStack.Add(new Samples.ToggleSample());
                 })
             .Links(
                 NavLink("Basic Inputs").Expanded().Links(
                     NavLink("Button").Selected(),
                     NavLink("CheckBox"),
                     NavLink("ChoiceGroup"),
-                    NavLink("TextBox")
+                    NavLink("TextBox"),
+                    NavLink("Toggle")
                 ),
-                NavLink("Sample 1").Expanded().Links(
+                NavLink("Samples").Links(
                     NavLink("Stack Sample"),
                     NavLink("Buttons Sample"),
                     NavLink("TextBox Sample"),
@@ -60,8 +62,7 @@ namespace Tesserae.Tests
                     NavLink("ChoiceGroup Sample"),
                     NavLink("Slider Sample"),
                     NavLink("Layer Sample")
-                ),
-                NavLink("Sample 2")
+                )
             );
         }
 

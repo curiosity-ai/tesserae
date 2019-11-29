@@ -11,10 +11,6 @@ namespace Tesserae.Tests.Samples
 
         public ChoiceGroupSample()
         {
-            var btn1 = Button();
-            var btn2 = Button();
-            var iconBtn1 = Button();
-            var iconBtn2 = Button();
             content = Stack().Children(
                 TextBlock("ChoiceGroup").XLarge(),
                 TextBlock("Overview").MediumPlus(),
