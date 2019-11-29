@@ -102,6 +102,7 @@
 }
 
 /* Body */
+
 body {
     margin: 0;
     padding: 0;
@@ -116,6 +117,11 @@ body {
     font-size: var(--mss-font-size-small);
     font-family: Segoe UI, SegoeUI, "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
+
+.disabled {
+    pointer-events: none;
+}
+
 /* TextBlock*/
 
 .mss-textBlock {
@@ -203,6 +209,7 @@ button:focus {
     user-select: none;
     padding-left: 25px;
     margin: 4px;
+    display: block;
 }
 
     .mss-checkbox-container .mss-checkbox {
@@ -367,6 +374,7 @@ button:focus {
     user-select: none;
     padding-left: 25px;
     margin: 4px;
+    display: block;
 }
 
     .mss-option-container .mss-option {
