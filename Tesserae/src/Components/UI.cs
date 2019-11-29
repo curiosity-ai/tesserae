@@ -36,6 +36,11 @@
             return new TextBlock(text);
         }
 
+        public static Label Label(string text = string.Empty)
+        {
+            return new Label(text);
+        }
+
         public static TextBox TextBox(string text = string.Empty)
         {
             return new TextBox(text);

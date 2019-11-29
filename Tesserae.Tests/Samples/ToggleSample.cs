@@ -34,15 +34,14 @@ namespace Tesserae.Tests.Samples
                 ),
                 TextBlock("Usage").MediumPlus(),
                 TextBlock("Basic Toggles").Medium(),
-                TextBlock("Enabled and checked").SemiBold(),
-                Toggle().Checked(),
-                TextBlock("Enabled and unchecked").SemiBold(),
-                Toggle(),
-                TextBlock("Disabled and checked").SemiBold(),
-                Toggle().Checked().Disabled(),
-                TextBlock("Disabled and unchecked").SemiBold(),
-                Toggle().Disabled(),
-                Toggle("With inline label")
+                Label("Enabled and checked").Content(Toggle().Checked()),
+                Label("Enabled and unchecked").Content(Toggle()),
+                Label("Disabled and checked").Content(Toggle().Checked().Disabled()),
+                Label("Disabled and unchecked").Content(Toggle().Disabled()),
+                Label("With inline label").Inline().Content(Toggle()),
+                Label("Disabled with inline label").Inline().Content(Toggle().Disabled()).Disabled(),
+                Toggle("With inline label and without onText and offText"),
+                Toggle("Disabled with inline label and without onText and offText").Disabled()
             );
         }
 

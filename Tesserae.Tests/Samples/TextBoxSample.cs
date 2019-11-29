@@ -38,23 +38,16 @@ namespace Tesserae.Tests.Samples
                     )
                 ),
                 TextBlock("Usage").MediumPlus(),
-                TextBlock("Default Button").Medium(),
-                Stack().Children(
-                    TextBlock("Standard").SemiBold(),
-                    TextBox().WidthPercents(40),
-                    TextBlock("Disabled").SemiBold(),
-                    TextBox("I am disabled").WidthPercents(40).Disabled(),
-                    TextBlock("Read-only").SemiBold(),
-                    TextBox("I am read-only").WidthPercents(40).ReadOnly(),
-                    TextBlock("Required").AlignBaseline().Required().SemiBold(),
-                    TextBox("").WidthPercents(40),
-                    TextBox("").WidthPercents(40).Required(),
-                    TextBlock("With error message").SemiBold(),
-                    TextBox().Error("Error message").WidthPercents(40).Invalid(),
-                    TextBlock("With placeholder").SemiBold(),
-                    TextBox().WidthPercents(40).Placeholder("Please enter text here"),
-                    TextBlock("Disabled with placeholder").SemiBold(),
-                    TextBox().WidthPercents(40).Placeholder("I am disabled").Disabled()
+                TextBlock("Basic TextBox").Medium(),
+                Stack().WidthPercents(40).Children(
+                    Label("Standard").Content(TextBox()),
+                    Label("Disabled").Disabled().Content(TextBox("I am disabled").Disabled()),
+                    Label("Read-only").Content(TextBox("I am read-only").ReadOnly()),
+                    Label("Required").Required().Content(TextBox("")),
+                    TextBox("").Required(),
+                    Label("With error message").Content(TextBox().Error("Error message").Invalid()),
+                    Label("With placeholder").Content(TextBox().Placeholder("Please enter text here")),
+                    Label("Disabled with placeholder").Disabled().Content(TextBox().Placeholder("I am disabled").Disabled())
                 )
             );
         }

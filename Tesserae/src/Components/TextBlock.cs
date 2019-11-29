@@ -26,11 +26,30 @@ namespace Tesserae.Components
         Bold
     }
 
-    public class TextBlock : ComponentBase<TextBlock, HTMLDivElement>
+    public class TextBlock : ComponentBase<TextBlock, HTMLElement>
     {
         #region Properties
 
-        public string Text
+        public bool IsEnabled
+        {
+            get { return !InnerElement.classList.contains("disabled"); }
+            set
+            {
+                if (value != IsEnabled)
+                {
+                    if (value)
+                    {
+                        InnerElement.classList.remove("disabled");
+                    }
+                    else
+                    {
+                        InnerElement.classList.add("disabled");
+                    }
+                }
+            }
+        }
+
+        public virtual string Text
         {
             get { return InnerElement.innerText; }
             set { InnerElement.innerText = value; }
@@ -72,7 +91,7 @@ namespace Tesserae.Components
             }
         }
 
-        public bool IsRequired
+        public virtual bool IsRequired
         {
             get { return InnerElement.classList.contains("mss-required"); }
             set
@@ -95,10 +114,7 @@ namespace Tesserae.Components
 
         public TextBlock(string text = string.Empty)
         {
-            InnerElement = Div(_("mss-textBlock mss-fontSize-small mss-fontWeight-regular", text: text, styles: s =>
-                 {
-                     s.position = "relative";
-                 }));
+            InnerElement = Div(_("mss-textBlock mss-fontSize-small mss-fontWeight-regular", text: text));
         }
 
         public override HTMLElement Render()
@@ -109,98 +125,104 @@ namespace Tesserae.Components
 
     public static class TextBlockExtensions
     {
-        public static TextBlock Text(this TextBlock textBlock, string text)
+        public static T Text<T>(this T textBlock, string text) where T : TextBlock
         {
             textBlock.Text = text;
             return textBlock;
         }
 
-        public static TextBlock Required(this TextBlock textBlock)
+        public static T Required<T>(this T textBlock) where T : TextBlock
         {
             textBlock.IsRequired = true;
             return textBlock;
         }
 
 
-        public static TextBlock Tiny(this TextBlock textBlock)
+        public static T Tiny<T>(this T textBlock) where T : TextBlock
         {
             textBlock.Size = TextSize.Tiny;
             return textBlock;
         }
 
-        public static TextBlock XSmall(this TextBlock textBlock)
+        public static T XSmall<T>(this T textBlock) where T : TextBlock
         {
             textBlock.Size = TextSize.XSmall;
             return textBlock;
         }
-        public static TextBlock Small(this TextBlock textBlock)
+        public static T Small<T>(this T textBlock) where T : TextBlock
         {
             textBlock.Size = TextSize.Small;
             return textBlock;
         }
 
-        public static TextBlock SmallPlus(this TextBlock textBlock)
+        public static T SmallPlus<T>(this T textBlock) where T : TextBlock
         {
             textBlock.Size = TextSize.SmallPlus;
             return textBlock;
         }
 
-        public static TextBlock Medium(this TextBlock textBlock)
+        public static T Medium<T>(this T textBlock) where T : TextBlock
         {
             textBlock.Size = TextSize.Medium;
             return textBlock;
         }
-        public static TextBlock MediumPlus(this TextBlock textBlock)
+        public static T MediumPlus<T>(this T textBlock) where T : TextBlock
         {
             textBlock.Size = TextSize.MediumPlus;
             return textBlock;
         }
 
-        public static TextBlock Large(this TextBlock textBlock)
+        public static T Large<T>(this T textBlock) where T : TextBlock
         {
             textBlock.Size = TextSize.Large;
             return textBlock;
         }
-        public static TextBlock XLarge(this TextBlock textBlock)
+        public static T XLarge<T>(this T textBlock) where T : TextBlock
         {
             textBlock.Size = TextSize.XLarge;
             return textBlock;
         }
 
-        public static TextBlock XXLarge(this TextBlock textBlock)
+        public static T XXLarge<T>(this T textBlock) where T : TextBlock
         {
             textBlock.Size = TextSize.XXLarge;
             return textBlock;
         }
 
-        public static TextBlock Mega(this TextBlock textBlock)
+        public static T Mega<T>(this T textBlock) where T : TextBlock
         {
             textBlock.Size = TextSize.Mega;
             return textBlock;
         }
 
-        public static TextBlock Regular(this TextBlock textBlock)
+        public static T Regular<T>(this T textBlock) where T : TextBlock
         {
             textBlock.Weight = TextWeight.Regular;
             return textBlock;
         }
 
-        public static TextBlock SemiBold(this TextBlock textBlock)
+        public static T SemiBold<T>(this T textBlock) where T : TextBlock
         {
             textBlock.Weight = TextWeight.SemiBold;
             return textBlock;
         }
 
-        public static TextBlock Bold(this TextBlock textBlock)
+        public static T Bold<T>(this T textBlock) where T : TextBlock
         {
             textBlock.Weight = TextWeight.Bold;
             return textBlock;
         }
 
-        public static TextBlock Invalid(this TextBlock textBlock)
+        public static T Invalid<T>(this T textBlock) where T : TextBlock
         {
             textBlock.IsInvalid = true;
             return textBlock;
+        }
+
+        public static T Disabled<T>(this T button) where T : TextBlock
+        {
+            button.IsEnabled = false;
+            return button;
         }
     }
 }
