@@ -110,6 +110,32 @@ namespace Tesserae.Components
             }
         }
 
+        public bool CanWrap
+        {
+            get
+            {
+                return InnerElement.style.whiteSpace != "nowrap";
+            }
+            set
+            {
+                if (value != CanWrap)
+                {
+                    if (value)
+                    {
+                        InnerElement.style.whiteSpace = "unset";
+                        InnerElement.style.overflow = "unset";
+                        InnerElement.style.textOverflow = "unset";
+                    }
+                    else
+                    {
+                        InnerElement.style.whiteSpace = "nowrap";
+                        InnerElement.style.overflow = "hidden";
+                        InnerElement.style.textOverflow = "ellipsis";
+                    }
+                }
+            }
+        }
+
         #endregion
 
         public TextBlock(string text = string.Empty)
@@ -134,6 +160,18 @@ namespace Tesserae.Components
         public static T Required<T>(this T textBlock) where T : TextBlock
         {
             textBlock.IsRequired = true;
+            return textBlock;
+        }
+
+        public static T Wrap<T>(this T textBlock) where T : TextBlock
+        {
+            textBlock.CanWrap = true;
+            return textBlock;
+        }
+
+        public static T NoWrap<T>(this T textBlock) where T : TextBlock
+        {
+            textBlock.CanWrap = false;
             return textBlock;
         }
 
