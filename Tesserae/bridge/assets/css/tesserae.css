@@ -132,6 +132,7 @@ body {
 /* Label */
 .mss-label {
     margin: 0;
+    margin-top: 4px;
     position: relative;
 }
 
