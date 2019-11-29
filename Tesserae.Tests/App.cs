@@ -45,6 +45,7 @@ namespace Tesserae.Tests
                     else if (link.Text.StartsWith("TextBox")) _MainStack.Add(new Samples.TextBoxSample());
                     else if (link.Text.StartsWith("Toggle")) _MainStack.Add(new Samples.ToggleSample());
                     else if (link.Text.StartsWith("TextBlock")) _MainStack.Add(new Samples.TextBlockSample());
+                    else if (link.Text.StartsWith("Layer")) _MainStack.Add(new Samples.LayerSample());
                 })
             .Links(
                 NavLink("Basic Inputs").Expanded().Links(
@@ -55,6 +56,7 @@ namespace Tesserae.Tests
                     NavLink("Toggle")
                 ),
                 NavLink("Utilites").Expanded().Links(
+                    NavLink("Layer"),
                     NavLink("Stack"),
                     NavLink("TextBlock")
                 ),
