@@ -30,26 +30,37 @@ namespace Tesserae.Tests
                 {
                     var link = e as NavLink;
                     _MainStack.Clear();
-                    if (link.Text.StartsWith("Stack")) _MainStack.Add(StackSample());
-                    else if (link.Text.StartsWith("Buttons")) _MainStack.Add(ButtonSample());
-                    else if (link.Text.StartsWith("TextBox")) _MainStack.Add(TextBoxSample());
-                    else if (link.Text.StartsWith("CheckBox")) _MainStack.Add(CheckBoxSample());
-                    else if (link.Text.StartsWith("Toggle")) _MainStack.Add(ToggleSample());
-                    else if (link.Text.StartsWith("ChoiceGroup")) _MainStack.Add(ChoiceGroupSample());
-                    else if (link.Text.StartsWith("Slider")) _MainStack.Add(SliderSample());
-                    else if (link.Text.StartsWith("Layer")) _MainStack.Add(LayerSample());
+                    if (link.Text.StartsWith("Stack Sample")) _MainStack.Add(StackSample());
+                    else if (link.Text.StartsWith("Buttons Sample")) _MainStack.Add(ButtonSample());
+                    else if (link.Text.StartsWith("TextBox Sample")) _MainStack.Add(TextBoxSample());
+                    else if (link.Text.StartsWith("CheckBox Sample")) _MainStack.Add(CheckBoxSample());
+                    else if (link.Text.StartsWith("Toggle Sample")) _MainStack.Add(ToggleSample());
+                    else if (link.Text.StartsWith("ChoiceGroup Sample")) _MainStack.Add(ChoiceGroupSample());
+                    else if (link.Text.StartsWith("Slider Sample")) _MainStack.Add(SliderSample());
+                    else if (link.Text.StartsWith("Layer Sample")) _MainStack.Add(LayerSample());
+
+                    else if (link.Text.StartsWith("Button")) _MainStack.Add(new Samples.ButtonSample());
+                    else if (link.Text.StartsWith("Checkbox")) _MainStack.Add(new Samples.CheckBoxSample());
+                    else if (link.Text.StartsWith("ChoiceGroup")) _MainStack.Add(new Samples.ChoiceGroupSample());
+                    else if (link.Text.StartsWith("TextBox")) _MainStack.Add(new Samples.TextBoxSample());
                 })
             .Links(
+                NavLink("Basic Inputs").Expanded().Links(
+                    NavLink("Button").Selected(),
+                    NavLink("CheckBox"),
+                    NavLink("ChoiceGroup"),
+                    NavLink("TextBox")
+                ),
                 NavLink("Sample 1").Expanded().Links(
                     NavLink("Stack Sample"),
                     NavLink("Buttons Sample"),
                     NavLink("TextBox Sample"),
                     NavLink("CheckBox Sample"),
                     NavLink("Toggle Sample"),
-                    NavLink("ChoiceGroup Sample").Selected(),
+                    NavLink("ChoiceGroup Sample"),
                     NavLink("Slider Sample"),
                     NavLink("Layer Sample")
-                    ),
+                ),
                 NavLink("Sample 2")
             );
         }
@@ -139,7 +150,7 @@ namespace Tesserae.Tests
                         TextBox().OnInputed((e, s) =>
                         {
                             s.IsInvalid = s.Text != "Hello";
-                            s.ErrorText = s.IsInvalid ? "Please enter \"Hello\"" : "";
+                            s.Error = s.IsInvalid ? "Please enter \"Hello\"" : "";
                         })
                     ),
                     TextBlock("Custom validation error sample").SemiBold(),
