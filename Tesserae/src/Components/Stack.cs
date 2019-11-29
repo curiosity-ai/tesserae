@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Retyped;
 using static Tesserae.HTML.HtmlUtil;
 using static Tesserae.HTML.HtmlAttributes;
 using static Retyped.dom;
@@ -35,6 +36,33 @@ namespace Tesserae.Components
     {
         public StackItemSizeType Type { get; set; }
         public double Value { get; set; }
+    }
+
+    public struct StackItemMargin
+    {
+        public double Left { get; set; }
+        public double Top { get; set; }
+        public double Right { get; set; }
+        public double Bottom { get; set; }
+
+        public StackItemMargin(double margin = 0)
+        {
+            Left = Top = Right = Bottom = margin;
+        }
+
+        public StackItemMargin(double leftRight, double topBottom)
+        {
+            Left = Right = leftRight;
+            Top = Bottom = topBottom;
+        }
+
+        public StackItemMargin(double left, double top, double right, double bottom)
+        {
+            Left = left;
+            Top = top;
+            Right = right;
+            Bottom = bottom;
+        }
     }
 
     public class Stack : IContainer<Stack>
@@ -99,6 +127,7 @@ namespace Tesserae.Components
                     s.width = "auto";
                     s.height = "auto";
                     s.flexShrink = "1";
+                    s.overflow = "hidden";
                 }), component.Render());
                 (component as dynamic).StackItem = item;
             }
@@ -161,6 +190,28 @@ namespace Tesserae.Components
                 case StackItemSizeType.Percents: item.style.height = $"{size:0.####}%"; break;
             }
         }
+
+        public static StackItemMargin GetMargin(IComponent component)
+        {
+            var item = GetItem(component);
+            StackItemMargin result = new StackItemMargin();
+            if (item.style.marginLeft.EndsWith("px")) result.Left = double.Parse(item.style.marginLeft.Substring(0, item.style.marginLeft.Length - 2));
+            if (item.style.marginTop.EndsWith("px")) result.Top = double.Parse(item.style.marginTop.Substring(0, item.style.marginTop.Length - 2));
+            if (item.style.marginRight.EndsWith("px")) result.Right = double.Parse(item.style.marginRight.Substring(0, item.style.marginRight.Length - 2));
+            if (item.style.marginBottom.EndsWith("px")) result.Bottom = double.Parse(item.style.marginBottom.Substring(0, item.style.marginBottom.Length - 2));
+
+            return result;
+        }
+
+        public static void SetMargin(IComponent component, StackItemMargin margin)
+        {
+            var item = GetItem(component);
+            item.style.marginLeft = $"{margin.Left}px";
+            item.style.marginTop = $"{margin.Top}px";
+            item.style.marginRight = $"{margin.Right}px";
+            item.style.marginBottom = $"{margin.Bottom}px";
+        }
+
 
         public static int GetGrow(IComponent component)
         {
@@ -272,6 +323,30 @@ namespace Tesserae.Components
         public static T AlignEnd<T>(this T component) where T : IComponent
         {
             Stack.SetAlign(component, StackItemAlign.End);
+            return component;
+        }
+
+        public static T Margin<T>(this T component, StackItemMargin margin) where T : IComponent
+        {
+            Stack.SetMargin(component, margin);
+            return component;
+        }
+
+        public static T Margin<T>(this T component, double margin) where T : IComponent
+        {
+            Stack.SetMargin(component, new StackItemMargin(margin));
+            return component;
+        }
+
+        public static T Margin<T>(this T component, double leftRight, double topBottom) where T : IComponent
+        {
+            Stack.SetMargin(component, new StackItemMargin(leftRight, topBottom));
+            return component;
+        }
+
+        public static T Margin<T>(this T component, double left, double top, double right, double bottom) where T : IComponent
+        {
+            Stack.SetMargin(component, new StackItemMargin(left, top, right, bottom));
             return component;
         }
 
