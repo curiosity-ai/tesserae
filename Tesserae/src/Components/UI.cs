@@ -26,7 +26,7 @@
             return new Option(label);
         }
 
-        public static ChoiceGroup ChoiceGroup(string label = string.Empty)
+        public static ChoiceGroup ChoiceGroup(string label = "Pick one")
         {
             return new ChoiceGroup(label);
         }
