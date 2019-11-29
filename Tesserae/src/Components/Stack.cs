@@ -87,24 +87,22 @@ namespace Tesserae.Components
         #endregion
 
         #region Static
-        
-        private static Dictionary<IComponent, HTMLDivElement> _ItemsDictionary = new Dictionary<IComponent, HTMLDivElement>();
 
         private static HTMLDivElement GetItem(IComponent component)
         {
-            if (_ItemsDictionary.ContainsKey(component)) return _ItemsDictionary[component];
-            else
+            var item = (component as dynamic).StackItem as HTMLDivElement;
+            if (item == null)
             {
-                var item = Div(_("mss-stack-item", styles: s =>
+                item = Div(_("mss-stack-item", styles: s =>
                 {
                     s.alignSelf = "auto";
                     s.width = "auto";
                     s.height = "auto";
                     s.flexShrink = "1";
                 }), component.Render());
-                _ItemsDictionary.Add(component, item);
-                return item;
+                (component as dynamic).StackItem = item;
             }
+            return item;
         }
 
         #region Items Properties
