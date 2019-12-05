@@ -1,0 +1,76 @@
+﻿/* CheckBox */
+.mss-checkbox-container {
+    position: relative;
+    cursor: pointer;
+    color: var(--mss-default-foreground-color);
+    font-size: var(--mss-font-size-small);
+    font-weight: var(--mss-font-weight-regular);
+    user-select: none;
+    padding-left: 25px;
+    margin: 4px;
+    display: block;
+}
+
+    .mss-checkbox-container .mss-checkbox {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+    }
+
+    .mss-checkbox-container .mss-checkbox-mark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 20px;
+        width: 20px;
+        border-radius: 2px;
+        background-color: var(--mss-default-background-color);
+        border: 1px solid var(--mss-default-foreground-color);
+    }
+
+    .mss-checkbox-container:hover input ~ .mss-checkbox-mark:after {
+        display: block;
+    }
+
+    .mss-checkbox-container input:checked ~ .mss-checkbox-mark {
+        background-color: var(--mss-primary-background-color);
+        border-color: var(--mss-primary-background-color);
+    }
+
+    .mss-checkbox-container:hover input:checked ~ .mss-checkbox-mark {
+        background-color: var(--mss-primary-background-hover-color);
+    }
+
+    .mss-checkbox-container input:checked ~ .mss-checkbox-mark:after {
+        display: block;
+        border-color: var(--mss-primary-foreground-color);
+    }
+
+    .mss-checkbox-container .mss-checkbox-mark:after {
+        content: "";
+        position: absolute;
+        display: none;
+        left: 6px;
+        top: 1px;
+        width: 7px;
+        height: 12px;
+        border: solid var(--mss-default-border-color);
+        border-width: 0 1px 1px 0;
+        transform: rotate(45deg);
+    }
+
+    .mss-checkbox-container.disabled {
+        color: var(--mss-disabled-foreground-color);
+    }
+
+        .mss-checkbox-container.disabled .mss-checkbox-mark {
+            background-color: var(--mss-disabled-background-color);
+            border-color: var(--mss-disabled-foreground-color);
+        }
+
+        .mss-checkbox-container.disabled input:checked ~ .mss-checkbox-mark {
+            background-color: var(--mss-disabled-foreground-color);
+            border-color: var(--mss-disabled-foreground-color);
+        }

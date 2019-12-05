@@ -53,8 +53,20 @@
       "name": "Tesserae.Dependencies.css",
       "files": [
         "bridge/assets/css/fontawesome-all.min.css",
-       // "bridge/assets/css/curiosity-bootstrap.css",
-        "bridge/assets/css/tesserae.css"
+        // "bridge/assets/css/curiosity-bootstrap.css",
+        "bridge/assets/css/tesserae.common.css",
+        "bridge/assets/css/tesserae.body.css",
+        "bridge/assets/css/tesserae.button.css",
+        "bridge/assets/css/tesserae.checkbox.css",
+        "bridge/assets/css/tesserae.choice.css",
+        "bridge/assets/css/tesserae.label.css",
+        "bridge/assets/css/tesserae.layer.css",
+        "bridge/assets/css/tesserae.nav.css",
+        "bridge/assets/css/tesserae.slider.css",
+        "bridge/assets/css/tesserae.stack.css",
+        "bridge/assets/css/tesserae.textblock.css",
+        "bridge/assets/css/tesserae.textbox.css",
+        "bridge/assets/css/tesserae.toggle.css"
       ],
       "output": "assets/css"
     },

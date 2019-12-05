@@ -1,0 +1,15 @@
+﻿/* Label */
+.mss-label {
+    margin: 0;
+    margin-top: 4px;
+    position: relative;
+}
+
+    .mss-label > label {
+        margin: 4px;
+        position: relative;
+    }
+
+    .mss-label > div {
+        margin: 0;
+    }

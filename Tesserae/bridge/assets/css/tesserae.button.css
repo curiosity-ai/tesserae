@@ -1,0 +1,60 @@
+﻿/* Button */
+button:focus {
+    outline: 0;
+}
+
+.mss-btn {
+    border: 1px solid;
+    border-radius: 2px;
+    font-size: var(--mss-font-size-small);
+    font-weight: var(--mss-font-weight-semibold);
+    outline: transparent none medium;
+    min-width: 80px;
+    user-select: none;
+    cursor: pointer;
+    padding: 0px 16px;
+    min-height: 32px;
+    margin: 4px;
+}
+
+    .mss-btn.disabled {
+        color: var(--mss-disabled-foreground-color);
+        background-color: var(--mss-disabled-background-color);
+        border-color: var(--mss-disabled-background-color);
+    }
+
+    .mss-btn i {
+        margin-right: 4px;
+    }
+
+.mss-btn-default {
+    color: var(--mss-default-foreground-color);
+    background-color: var(--mss-default-background-color);
+    border-color: var(--mss-default-border-color);
+}
+
+    .mss-btn-default:hover {
+        color: var(--mss-default-foreground-hover-color);
+        background-color: var(--mss-default-background-hover-color);
+    }
+
+    .mss-btn-default:active {
+        color: var(--mss-default-foreground-active-color);
+        background-color: var(--mss-default-background-active-color);
+    }
+
+.mss-btn-primary {
+    color: var(--mss-primary-foreground-color);
+    background-color: var(--mss-primary-background-color);
+    border-color: var(--mss-primary-border-color);
+}
+
+    .mss-btn-primary:hover {
+        color: var(--mss-primary-foreground-hover-color);
+        background-color: var(--mss-primary-background-hover-color);
+    }
+
+    .mss-btn-primary:active {
+        color: var(--mss-primary-foreground-active-color);
+        background-color: var(--mss-primary-background-active-color);
+    }
