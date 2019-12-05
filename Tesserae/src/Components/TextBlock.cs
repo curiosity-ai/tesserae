@@ -1,4 +1,5 @@
 ﻿using System;
+using Retyped;
 using static Tesserae.HTML.HtmlUtil;
 using static Tesserae.HTML.HtmlAttributes;
 using static Retyped.dom;
@@ -57,7 +58,7 @@ namespace Tesserae.Components
 
         public TextSize Size
         {
-            get { return (TextSize)Enum.Parse(typeof(TextSize), InnerElement.classList.item(1).Substring(InnerElement.classList[1].LastIndexOf('-') + 1), true); }
+            get { if (Enum.TryParse<TextSize>(InnerElement.classList.item(1).Substring(InnerElement.classList[1].LastIndexOf('-') + 1), true, out var result)) return result; return TextSize.Small; }
             set
             {
                 InnerElement.classList.replace(InnerElement.classList.item(1), $"mss-fontSize-{value.ToString().ToLower()}");
@@ -66,7 +67,7 @@ namespace Tesserae.Components
 
         public TextWeight Weight
         {
-            get { return (TextWeight)Enum.Parse(typeof(TextWeight), InnerElement.classList.item(2).Substring(InnerElement.classList[1].LastIndexOf('-') + 1), true); }
+            get { if (Enum.TryParse<TextWeight>(InnerElement.classList.item(2).Substring(InnerElement.classList[1].LastIndexOf('-') + 1), true, out var result)) return result; return TextWeight.Regular; }
             set
             {
                 InnerElement.classList.replace(InnerElement.classList.item(2), $"mss-fontWeight-{value.ToString().ToLower()}");
