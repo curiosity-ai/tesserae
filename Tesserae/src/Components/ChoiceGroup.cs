@@ -65,7 +65,7 @@ namespace Tesserae.Components
 
         public Option(string text)
         {
-            InnerElement = CheckBox(_("mss-option"));
+            InnerElement = RadioButton(_("mss-option"));
             _RadioSpan = Span(_("mss-option-mark"));
             _Label = Label(_("mss-option-container", text: text), InnerElement, _RadioSpan);
             AttachClick();
