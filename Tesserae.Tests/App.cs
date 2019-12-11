@@ -38,6 +38,7 @@ namespace Tesserae.Tests
                     else if (link.Text.StartsWith("ChoiceGroup Sample")) _MainStack.Add(ChoiceGroupSample());
                     else if (link.Text.StartsWith("Slider Sample")) _MainStack.Add(SliderSample());
                     else if (link.Text.StartsWith("Layer Sample")) _MainStack.Add(LayerSample());
+                    else if (link.Text.StartsWith("Panel Sample")) _MainStack.Add(PanelSample());
 
                     else if (link.Text.StartsWith("Button")) _MainStack.Add(new Samples.ButtonSample());
                     else if (link.Text.StartsWith("CheckBox")) _MainStack.Add(new Samples.CheckBoxSample());
@@ -71,7 +72,8 @@ namespace Tesserae.Tests
                     NavLink("Toggle Sample"),
                     NavLink("ChoiceGroup Sample"),
                     NavLink("Slider Sample"),
-                    NavLink("Layer Sample")
+                    NavLink("Layer Sample"),
+                    NavLink("Panel Sample")
                 )
             );
         }
@@ -189,7 +191,7 @@ namespace Tesserae.Tests
 
         public static IComponent ChoiceGroupSample()
         {
-            return Stack().Children(ChoiceGroup("Choises Sample Vertical (Required):").OnChanged((s,e)=>alert(e.SelectedOption?.Text)).Vertical().Required().Options(
+            return Stack().Children(ChoiceGroup("Choises Sample Vertical (Required):").OnChanged((s, e) => alert(e.SelectedOption?.Text)).Vertical().Required().Options(
                 Option("Option 1"),
                 Option("Option 2").Selected(),
                 Option("Option 3").Disabled(),
@@ -223,25 +225,36 @@ namespace Tesserae.Tests
         public static IComponent LayerSample()
         {
             var layer1 = Layer();
-            var layer2 = Layer();
-            var htmlTest = HtmlUtil.Div(HtmlAttributes._("", text: "HTML Test", styles: (s) =>
-             {
-                 s.backgroundColor = "blue";
-                 s.color = "white";
-                 s.width = "100%";
-                 s.visibility = "visible";
-             }));
+            //var layer2 = Layer();
+            //var htmlTest = HtmlUtil.Div(HtmlAttributes._("", text: "HTML Test", styles: (s) =>
+            // {
+            //     s.backgroundColor = "blue";
+            //     s.color = "white";
+            //     s.width = "100%";
+            //     s.visibility = "visible";
+            // }));
             var layerHost = LayerHost();
 
             return Stack().Children(
                 TextBlock("Layer Sample").SemiBold(),
                 layer1.Content(Stack(StackOrientation.Horizontal).Children(Toggle(), Toggle(), Toggle())),
                 Toggle("Toggle Component Layer").OnChanged((e, t) => layer1.IsVisible = t.IsChecked),
-                layer2.Content(htmlTest),
-                Toggle("Toggle HTML Layer").OnChanged((e, t) => layer2.IsVisible = t.IsChecked),
-                Toggle("Show on Host").OnChanged((e, t) => layer1.Host = layer2.Host = t.IsChecked ? layerHost : null),
+                //layer2.Content(htmlTest),
+                //Toggle("Toggle HTML Layer").OnChanged((e, t) => layer2.IsVisible = t.IsChecked),
+                Toggle("Show on Host").OnChanged((e, t) => layer1.Host =/* layer2.Host = */t.IsChecked ? layerHost : null),
                 layerHost
             );
+        }
+
+        public static IComponent PanelSample()
+        {
+            var panel = Panel();
+
+            return Stack().Children(
+                TextBlock("Panel Sample").SemiBold(),
+                panel.LightDismiss().Content(Stack(StackOrientation.Horizontal).Children(Toggle(), Toggle(), Toggle()))
+                    .Footer(Stack().Horizontal().Children(Button("Button 1").Primary(), Button("Button 2"))),
+                Button("Toggle Panel").OnClicked((e, t) =>panel.IsVisible = true));
         }
     }
 }

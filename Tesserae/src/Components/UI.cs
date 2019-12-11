@@ -70,5 +70,10 @@
         {
             return new NavLink(text, icon);
         }
+
+        public static Panel Panel()
+        {
+            return new Panel();
+        }
     }
 }

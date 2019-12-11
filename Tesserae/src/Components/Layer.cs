@@ -10,8 +10,8 @@ namespace Tesserae.Components
     {
         #region Fields
 
-        private IComponent _Content;
-        private HTMLElement _ContentHtml;
+        protected IComponent _Content;
+        protected HTMLElement _ContentHtml;
         private HTMLElement _RenderedContent;
 
         private LayerHost _Host;
@@ -35,24 +35,24 @@ namespace Tesserae.Components
             }
         }
 
-        public HTMLElement ContentHtml
-        {
-            get { return _ContentHtml; }
-            set
-            {
-                if (value != _ContentHtml)
-                {
-                    _ContentHtml = value;
-                    if (IsVisible)
-                    {
-                        Hide();
-                        Show();
-                    }
-                }
-            }
-        }
+        //protected HTMLElement ContentHtml
+        //{
+        //    get { return _ContentHtml; }
+        //    set
+        //    {
+        //        if (value != _ContentHtml)
+        //        {
+        //            _ContentHtml = value;
+        //            if (IsVisible)
+        //            {
+        //                Hide();
+        //                Show();
+        //            }
+        //        }
+        //    }
+        //}
 
-        public IComponent Content
+        public virtual IComponent Content
         {
             get { return _Content; }
             set
@@ -69,7 +69,7 @@ namespace Tesserae.Components
             }
         }
 
-        
+
         public bool IsVisible
         {
             get { return _IsVisible; }
@@ -80,11 +80,9 @@ namespace Tesserae.Components
                     if (value) Show();
                     else Hide();
                 }
-
-                _IsVisible = value;
             }
         }
-        
+
         #endregion
 
         public Layer()
@@ -97,13 +95,13 @@ namespace Tesserae.Components
             return InnerElement;
         }
 
-        private HTMLElement BuildRenderedContent()
+        protected virtual HTMLElement BuildRenderedContent()
         {
             if (_ContentHtml != null) return _ContentHtml;
             return Div(_("mss-layer-content"), _Content.Render());
         }
 
-        private void Show()
+        protected virtual void Show()
         {
             if (_Content != null || _ContentHtml != null)
             {
@@ -117,40 +115,43 @@ namespace Tesserae.Components
                     _RenderedContent = BuildRenderedContent();
                     _Host.InnerElement.appendChild(_RenderedContent);
                 }
+
+                _IsVisible = true;
             }
         }
 
-        private void Hide()
+        protected virtual void Hide()
         {
             if (_RenderedContent != null)
             {
                 if (_Host == null) document.body.removeChild(_RenderedContent);
                 else _Host.InnerElement.removeChild(_RenderedContent);
                 _RenderedContent = null;
+                _IsVisible = false;
             }
         }
     }
 
     public static class LayerExtensions
     {
-        public static Layer Content(this Layer layer, HTMLElement content)
-        {
-            layer.ContentHtml = content;
-            return layer;
-        }
-        public static Layer Content(this Layer layer, IComponent content)
+        //public static Layer Content(this Layer layer, HTMLElement content)
+        //{
+        //    layer.ContentHtml = content;
+        //    return layer;
+        //}
+        public static T Content<T>(this T layer, IComponent content) where T : Layer
         {
             layer.Content = content;
             return layer;
         }
 
-        public static Layer Visible(this Layer layer)
+        public static T Visible<T>(this T layer) where T : Layer
         {
             layer.IsVisible = true;
             return layer;
         }
 
-        public static Layer Host(this Layer layer, LayerHost host)
+        public static T Host<T>(this T layer, LayerHost host) where T : Layer
         {
             layer.Host = host;
             return layer;

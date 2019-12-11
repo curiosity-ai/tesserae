@@ -1,0 +1,122 @@
+﻿/* Layer */
+.mss-panel-container {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    right: 0px;
+    margin: 0;
+    padding: 0;
+    background-color: rgba(255, 255, 255, 0.4);
+    visibility: visible;
+}
+
+
+.mss-panel {
+    margin: 0;
+    padding: 0;
+    background-color: var(--mss-default-background-color);
+    box-shadow: rgba(0, 0, 0, 0.22) 0px 25.6px 57.6px 0px, rgba(0, 0, 0, 0.18) 0px 4.8px 14.4px 0px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    left: auto;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden auto;
+    width: auto;
+}
+
+.mss-panel-command {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    height: 44px;
+    position: relative;
+}
+
+    .mss-panel-command button {
+        position: absolute;
+        right: 5px;
+        top: 0;
+        bottom: 0;
+        background-color: transparent;
+        color: var(--mss-secondary-foreground-color);
+        border: medium none;
+        cursor: pointer;
+        width: 44px;
+        user-select: none;
+        border-radius: 2px;
+        padding: 0 4px;
+        text-align: center;
+        display: inline-block;
+        font-size: var(--mss-font-size-mediumplus);
+        font-weight: lighter;
+    }
+
+        .mss-panel-command button:hover {
+            background-color: var(--mss-default-background-hover-color);
+            color: var(--mss-default-foreground-color);
+        }
+
+        .mss-panel-command button:active {
+            background-color: var(--mss-default-background-active-color);
+            color: var(--mss-primary-background-active-color);
+        }
+
+.mss-panel-inner {
+    overflow-y: hidden;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    padding: 16px;
+}
+
+.mss-panel-content {
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+.mss-panel-footer {
+    flex-shrink: 0;
+}
+
+
+.mss-panelSize-small {
+    width: 340px;
+}
+
+.mss-panelSize-medium {
+    width: 644px;
+}
+
+.mss-panelSize-large {
+    left: 428px;
+}
+
+.mss-panelSize-largeFixed {
+    width: 940px;
+}
+
+.mss-panelSize-extralarge {
+    left: 176px;
+}
+
+.mss-panelSize-fullwidth {
+    /* left: 0;*/
+    width: 100%;
+}
+
+.mss-panel-overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: transparent;
+}
+
+.mss-panel-lightDismiss {
+    cursor: pointer;
+}
