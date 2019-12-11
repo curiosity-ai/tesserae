@@ -1,4 +1,7 @@
 ﻿/* Button */
+button{
+    font-family: inherit;
+}
 button:focus {
     outline: 0;
 }
