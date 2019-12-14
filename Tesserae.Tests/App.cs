@@ -49,6 +49,7 @@ namespace Tesserae.Tests
                     else if (link.Text.StartsWith("Layer")) _MainStack.Add(new Samples.LayerSample());
                     else if (link.Text.StartsWith("Label")) _MainStack.Add(new Samples.LabelSample());
                     else if (link.Text.StartsWith("Stack")) _MainStack.Add(new Samples.StackSample());
+                    else if (link.Text.StartsWith("Panel")) _MainStack.Add(new Samples.PanelSample());
                 })
             .Links(
                 NavLink("Basic Inputs").Expanded().Links(
@@ -58,6 +59,9 @@ namespace Tesserae.Tests
                     NavLink("Label"),
                     NavLink("TextBox"),
                     NavLink("Toggle")
+                ),
+                NavLink("Surfaces").Expanded().Links(
+                    NavLink("Panel")
                 ),
                 NavLink("Utilities").Expanded().Links(
                     NavLink("Layer"),
@@ -254,7 +258,7 @@ namespace Tesserae.Tests
                 TextBlock("Panel Sample").SemiBold(),
                 panel.LightDismiss().Content(Stack(StackOrientation.Horizontal).Children(Toggle(), Toggle(), Toggle()))
                     .Footer(Stack().Horizontal().Children(Button("Button 1").Primary(), Button("Button 2"))),
-                Button("Toggle Panel").OnClicked((e, t) =>panel.IsVisible = true));
+                Button("Toggle Panel").OnClicked((e, t) => panel.IsVisible = true));
         }
     }
 }
