@@ -18,7 +18,7 @@
     background-color: var(--mss-default-background-color);
     box-shadow: rgba(0, 0, 0, 0.22) 0px 25.6px 57.6px 0px, rgba(0, 0, 0, 0.18) 0px 4.8px 14.4px 0px;
     position: absolute;
-    right: 0;
+    right: auto;
     top: 0;
     left: auto;
     bottom: 0;
@@ -95,7 +95,12 @@
     left: 428px;
 }
 
-.mss-panelSize-largeFixed {
+.mss-panelSize-large.mss-panelSide-near {
+    right: 428px;
+    left: 0;
+}
+
+.mss-panelSize-largefixed {
     width: 940px;
 }
 
@@ -103,8 +108,12 @@
     left: 176px;
 }
 
+.mss-panelSize-extralarge.mss-panelSide-near {
+    right: 176px;
+    left: 0;
+}
+
 .mss-panelSize-fullwidth {
-    /* left: 0;*/
     width: 100%;
 }
 
@@ -119,4 +128,11 @@
 
 .mss-panel-lightDismiss {
     cursor: pointer;
+}
+
+.mss-panelSide-far {
+    right: 0;
+}
+.mss-panelSide-near {
+    left: 0;
 }

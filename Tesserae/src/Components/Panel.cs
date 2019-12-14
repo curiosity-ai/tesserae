@@ -17,6 +17,12 @@ namespace Tesserae.Components
         FullWidth
     }
 
+    public enum PanelSide
+    {
+        Far,
+        Near
+    }
+
     public class Panel : Layer
     {
         private IComponent _Footer;
@@ -64,10 +70,19 @@ namespace Tesserae.Components
 
         public PanelSize Size
         {
-            get { if (Enum.TryParse<PanelSize>(_Panel.classList.item(1).Substring(_Panel.classList[1].LastIndexOf('-') + 1), true, out var result)) return result; return PanelSize.Small; }
+            get { if (Enum.TryParse<PanelSize>(_Panel.classList[1].Substring(_Panel.classList[1].LastIndexOf('-') + 1), true, out var result)) return result; return PanelSize.Small; }
             set
             {
-                _Panel.classList.replace(_Panel.classList.item(1), $"mss-panelSize-{value.ToString().ToLower()}");
+                _Panel.classList.replace(_Panel.classList[1], $"mss-panelSize-{value.ToString().ToLower()}");
+            }
+        }
+
+        public PanelSide Side
+        {
+            get { if (Enum.TryParse<PanelSide>(_Panel.classList[2].Substring(_Panel.classList[2].LastIndexOf('-') + 1), true, out var result)) return result; return PanelSide.Far; }
+            set
+            {
+                _Panel.classList.replace(_Panel.classList[2], $"mss-panelSide-{value.ToString().ToLower()}");
             }
         }
 
@@ -104,7 +119,7 @@ namespace Tesserae.Components
             _PanelCommand = Div(_("mss-panel-command"), Button(_("fal fa-times", el: el => el.onclick = (e) => Hide())));
             _PanelContent = Div(_("mss-panel-content"));
             _PanelFooter = Div(_("mss-panel-footer"));
-            _Panel = Div(_("mss-panel mss-panelSize-small"), _PanelCommand, Div(_("mss-panel-inner"), _PanelContent, _PanelFooter));
+            _Panel = Div(_("mss-panel mss-panelSize-small mss-panelSide-far"), _PanelCommand, Div(_("mss-panel-inner"), _PanelContent, _PanelFooter));
             _PanelOverlay = Div(_("mss-panel-overlay"));
             _ContentHtml = Div(_("mss-panel-container"), _PanelOverlay, _Panel);
         }
@@ -114,13 +129,13 @@ namespace Tesserae.Components
             return _ContentHtml;
         }
 
-        protected override void Show()
+        public override void Show()
         {
             document.body.style.overflowY = "hidden";
             console.log("showed");
             base.Show();
         }
-        protected override void Hide()
+        public override void Hide()
         {
             base.Hide();
             console.log("hidden");
@@ -164,6 +179,18 @@ namespace Tesserae.Components
         public static Panel FullWidth(this Panel panel)
         {
             panel.Size = PanelSize.FullWidth;
+            return panel;
+        }
+
+        public static Panel Far(this Panel panel)
+        {
+            panel.Side = PanelSide.Far;
+            return panel;
+        }
+
+        public static Panel Near(this Panel panel)
+        {
+            panel.Side = PanelSide.Near;
             return panel;
         }
 
