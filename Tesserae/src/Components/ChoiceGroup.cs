@@ -217,5 +217,11 @@ namespace Tesserae.Components
             option.Text = text;
             return option;
         }
+
+        public static Option OnSelected(this Option option, EventHandler<Option> onSelected)
+        {
+            option.OnSelect += onSelected;
+            return option;
+        }
     }
 }
