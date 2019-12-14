@@ -101,7 +101,7 @@ namespace Tesserae.Components
             return Div(_("mss-layer-content"), _Content.Render());
         }
 
-        protected virtual void Show()
+        public virtual void Show()
         {
             if (_Content != null || _ContentHtml != null)
             {
@@ -120,7 +120,7 @@ namespace Tesserae.Components
             }
         }
 
-        protected virtual void Hide()
+        public virtual void Hide()
         {
             if (_RenderedContent != null)
             {
