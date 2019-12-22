@@ -50,6 +50,7 @@ namespace Tesserae.Tests
                     else if (link.Text.StartsWith("Label")) _MainStack.Add(new Samples.LabelSample());
                     else if (link.Text.StartsWith("Stack")) _MainStack.Add(new Samples.StackSample());
                     else if (link.Text.StartsWith("Panel")) _MainStack.Add(new Samples.PanelSample());
+                    else if (link.Text.StartsWith("Modal")) _MainStack.Add(new Samples.ModalSample());
                 })
             .Links(
                 NavLink("Basic Inputs").Expanded().Links(
@@ -61,6 +62,7 @@ namespace Tesserae.Tests
                     NavLink("Toggle")
                 ),
                 NavLink("Surfaces").Expanded().Links(
+                    NavLink("Modal"),
                     NavLink("Panel")
                 ),
                 NavLink("Utilities").Expanded().Links(
