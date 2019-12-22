@@ -26,6 +26,7 @@
     flex-direction: column;
     overflow: hidden auto;
     width: auto;
+    visibility: visible;
 }
 
 .mss-panel-command {
@@ -95,10 +96,10 @@
     left: 428px;
 }
 
-.mss-panelSize-large.mss-panelSide-near {
-    right: 428px;
-    left: 0;
-}
+    .mss-panelSize-large.mss-panelSide-near {
+        right: 428px;
+        left: 0;
+    }
 
 .mss-panelSize-largefixed {
     width: 940px;
@@ -108,10 +109,10 @@
     left: 176px;
 }
 
-.mss-panelSize-extralarge.mss-panelSide-near {
-    right: 176px;
-    left: 0;
-}
+    .mss-panelSize-extralarge.mss-panelSide-near {
+        right: 176px;
+        left: 0;
+    }
 
 .mss-panelSize-fullwidth {
     width: 100%;
@@ -133,6 +134,11 @@
 .mss-panelSide-far {
     right: 0;
 }
+
 .mss-panelSide-near {
     left: 0;
+}
+
+.mss-panel-modeless {
+    visibility: hidden
 }

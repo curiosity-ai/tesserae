@@ -107,6 +107,27 @@ namespace Tesserae.Components
             }
         }
 
+        public bool IsNonBlocking
+        {
+            get { return _ContentHtml.classList.contains("mss-panel-modeless"); }
+            set
+            {
+                if (value != IsNonBlocking)
+                {
+                    if (value)
+                    {
+                        _ContentHtml.classList.add("mss-panel-modeless");
+                        if (IsVisible) document.body.style.overflowY = "";
+                    }
+                    else
+                    {
+                        _ContentHtml.classList.remove("mss-panel-modeless");
+                        if (IsVisible) document.body.style.overflowY = "hidden";
+                    }
+                }
+            }
+        }
+
         #endregion
 
         public Panel() : base()
@@ -126,13 +147,13 @@ namespace Tesserae.Components
 
         public override void Show()
         {
-            document.body.style.overflowY = "hidden";
+            if(!IsNonBlocking) document.body.style.overflowY = "hidden";
             base.Show();
         }
         public override void Hide()
         {
             base.Hide();
-            document.body.style.overflowY = "";
+            if (!IsNonBlocking) document.body.style.overflowY = "";
         }
         private void OnCloseClick(object ev)
         {
@@ -194,6 +215,12 @@ namespace Tesserae.Components
         public static Panel LightDismiss(this Panel panel)
         {
             panel.CanLightDismiss = true;
+            return panel;
+        }
+
+        public static Panel NonBlocking(this Panel panel)
+        {
+            panel.IsNonBlocking = true;
             return panel;
         }
     }
