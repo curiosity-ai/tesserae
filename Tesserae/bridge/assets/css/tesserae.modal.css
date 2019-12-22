@@ -1,5 +1,5 @@
-﻿/* Panel */
-.mss-panel-container {
+﻿/* Modal */
+.mss-modal-container {
     position: absolute;
     top: 0px;
     left: 0px;
@@ -7,45 +7,61 @@
     right: 0px;
     margin: 0;
     padding: 0;
-    background-color: rgba(255, 255, 255, 0.4);
+    background-color: rgba(0, 0, 0, 0.4);
     visibility: visible;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 
-.mss-panel {
+.mss-modal {
     margin: 0;
     padding: 0;
     background-color: var(--mss-default-background-color);
     box-shadow: rgba(0, 0, 0, 0.22) 0px 25.6px 57.6px 0px, rgba(0, 0, 0, 0.18) 0px 4.8px 14.4px 0px;
-    position: absolute;
+    border-radius: 2px;
+    position: relative;
+    text-align: left;
     right: auto;
     top: 0;
     left: auto;
     bottom: 0;
     display: flex;
     flex-direction: column;
-    overflow: hidden auto;
-    width: auto;
+    outline: transparent solid 3px;
+    max-height: calc(100% - 32px);
+    max-width: calc(100% - 32px);
+    min-height: 176px;
+    min-width: 288px;
+    overflow-y: auto;
+    align-items: stretch;
 }
 
-.mss-panel-command {
+.mss-modal-header {
+    font-size: var(--mss-font-size-mediumplus);
+    font-weight: var(--mss-font-weight-semibold);
+}
+
+.mss-modal-command {
     margin: 0;
-    padding: 0;
     border: 0;
-    height: 44px;
+    padding: 12px 24px;
     position: relative;
+    border-top: 4px solid rgb(0, 120, 212);
 }
 
-    .mss-panel-command button {
+    .mss-modal-command button {
         position: absolute;
-        right: 5px;
-        top: 0;
+        right: 18px;
+        top: 12px;
         bottom: 0;
         background-color: transparent;
         color: var(--mss-secondary-foreground-color);
         border: medium none;
         cursor: pointer;
-        width: 44px;
+        width: 32px;
+        height: 32px;
         user-select: none;
         border-radius: 2px;
         padding: 0 4px;
@@ -55,69 +71,24 @@
         font-weight: lighter;
     }
 
-        .mss-panel-command button:hover {
+        .mss-modal-command button:hover {
             background-color: var(--mss-default-background-hover-color);
             color: var(--mss-default-foreground-color);
         }
 
-        .mss-panel-command button:active {
+        .mss-modal-command button:active {
             background-color: var(--mss-default-background-active-color);
             color: var(--mss-primary-background-active-color);
         }
 
-.mss-panel-inner {
+.mss-modal-content {
     overflow-y: hidden;
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    padding: 16px;
-}
-
-.mss-panel-content {
     flex-grow: 1;
     overflow-y: auto;
+    padding: 0px 20px 20px 20px;
 }
 
-.mss-panel-footer {
-    flex-shrink: 0;
-}
-
-
-.mss-panelSize-small {
-    width: 340px;
-}
-
-.mss-panelSize-medium {
-    width: 644px;
-}
-
-.mss-panelSize-large {
-    left: 428px;
-}
-
-.mss-panelSize-large.mss-panelSide-near {
-    right: 428px;
-    left: 0;
-}
-
-.mss-panelSize-largefixed {
-    width: 940px;
-}
-
-.mss-panelSize-extralarge {
-    left: 176px;
-}
-
-.mss-panelSize-extralarge.mss-panelSide-near {
-    right: 176px;
-    left: 0;
-}
-
-.mss-panelSize-fullwidth {
-    width: 100%;
-}
-
-.mss-panel-overlay {
+.mss-modal-overlay {
     position: absolute;
     left: 0;
     top: 0;
@@ -126,13 +97,6 @@
     background-color: transparent;
 }
 
-.mss-panel-lightDismiss {
+.mss-modal-lightDismiss {
     cursor: pointer;
-}
-
-.mss-panelSide-far {
-    right: 0;
-}
-.mss-panelSide-near {
-    left: 0;
 }

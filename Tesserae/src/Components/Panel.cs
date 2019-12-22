@@ -107,11 +107,6 @@ namespace Tesserae.Components
             }
         }
 
-        private void OnCloseClick(object ev)
-        {
-            Hide();
-        }
-
         #endregion
 
         public Panel() : base()
@@ -132,14 +127,16 @@ namespace Tesserae.Components
         public override void Show()
         {
             document.body.style.overflowY = "hidden";
-            console.log("showed");
             base.Show();
         }
         public override void Hide()
         {
             base.Hide();
-            console.log("hidden");
             document.body.style.overflowY = "";
+        }
+        private void OnCloseClick(object ev)
+        {
+            Hide();
         }
     }
 

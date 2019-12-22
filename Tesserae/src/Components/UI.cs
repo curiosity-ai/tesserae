@@ -75,5 +75,10 @@
         {
             return new Panel();
         }
+
+        public static Modal Modal(string header = string.Empty)
+        {
+            return new Modal(header);
+        }
     }
 }
