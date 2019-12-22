@@ -36,6 +36,7 @@
     min-width: 288px;
     overflow-y: auto;
     align-items: stretch;
+    visibility: visible;
 }
 
 .mss-modal-header {
@@ -99,4 +100,12 @@
 
 .mss-modal-lightDismiss {
     cursor: pointer;
+}
+
+.mss-modal-draggable {
+    cursor: move;
+}
+
+.mss-modal-modeless {
+    visibility: hidden
 }
