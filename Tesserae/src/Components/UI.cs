@@ -80,5 +80,10 @@
         {
             return new Modal(header);
         }
+
+        public static Dialog Dialog(string header = string.Empty)
+        {
+            return new Dialog(header);
+        }
     }
 }

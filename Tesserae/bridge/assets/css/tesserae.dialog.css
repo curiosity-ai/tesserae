@@ -1,0 +1,28 @@
+﻿/* Modal */
+.mss-dialog-container {
+    background-color: rgba(255, 255, 255, 0.4);
+}
+
+
+.mss-dialog {
+    position: relative;
+    text-align: left;
+    /*outline: transparent solid 3px;*/
+    max-height: calc(100% - 32px);
+    max-width: 450px;
+    min-height: 176px;
+    min-width: 288px;
+    overflow-y: auto;
+    width: 288px;
+    display: flex;
+}
+
+    .mss-dialog .mss-modal-command {
+        border-top: 4px solid transparent;
+    }
+
+
+.mss-modal-footer {
+    flex-shrink: 0;
+    margin:  0 24px 24px 24px;
+}

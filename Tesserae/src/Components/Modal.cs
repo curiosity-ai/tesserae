@@ -42,7 +42,7 @@ namespace Tesserae.Components
 
     public class Modal : Layer
     {
-        private HTMLElement _Modal;
+        protected HTMLElement _Modal;
         private HTMLElement _ModalHeader;
         private HTMLElement _ModalOverlay;
         private HTMLElement _ModalContent;
@@ -214,25 +214,25 @@ namespace Tesserae.Components
 
     public static class ModalExtensions
     {
-        public static Modal Header(this Modal modal, string header)
+        public static T Header<T>(this T modal, string header) where T : Modal
         {
             modal.Header = header;
             return modal;
         }
 
-        public static Modal LightDismiss(this Modal modal)
+        public static T LightDismissr<T>(this T modal) where T : Modal
         {
             modal.CanLightDismiss = true;
             return modal;
         }
 
-        public static Modal Draggable(this Modal modal)
+        public static T Draggabler<T>(this T modal) where T : Modal
         {
             modal.IsDraggable = true;
             return modal;
         }
 
-        public static Modal NonBlocking(this Modal modal)
+        public static T NonBlockingr<T>(this T modal) where T : Modal
         {
             modal.IsNonBlocking = true;
             return modal;
