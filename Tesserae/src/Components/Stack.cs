@@ -280,6 +280,18 @@ namespace Tesserae.Components
             return stack;
         }
 
+        public static Stack HorizontalReverse(this Stack stack)
+        {
+            stack.Orientation = StackOrientation.HorizontalReverse;
+            return stack;
+        }
+
+        public static Stack VerticalReverse(this Stack stack)
+        {
+            stack.Orientation = StackOrientation.VerticalReverse;
+            return stack;
+        }
+
         public static Stack Wrap(this Stack stack)
         {
             stack.CanWrap = true;
