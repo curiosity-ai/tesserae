@@ -274,5 +274,11 @@ namespace Tesserae.Components
             link.Icon = icon;
             return link;
         }
+
+        public static NavLink OnSelected(this NavLink link, EventHandler<NavLink> onSelected)
+        {
+            link.OnSelect += onSelected;
+            return link;
+        }
     }
 }

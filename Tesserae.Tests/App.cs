@@ -1,6 +1,7 @@
 ﻿using Tesserae;
 using Tesserae.Components;
 using Tesserae.HTML;
+using Tesserae.Tests.Samples;
 using static Retyped.dom;
 using static Tesserae.Components.UI;
 
@@ -26,7 +27,7 @@ namespace Tesserae.Tests
 
         public static Nav MainNav()
         {
-            return Nav().OnChanged((e, s) =>
+            return Nav()/*.OnChanged((e, s) =>
                 {
                     var link = e as NavLink;
                     _MainStack.Clear();
@@ -52,38 +53,44 @@ namespace Tesserae.Tests
                     else if (link.Text.StartsWith("Panel")) _MainStack.Add(new Samples.PanelSample());
                     else if (link.Text.StartsWith("Modal")) _MainStack.Add(new Samples.ModalSample());
                     else if (link.Text.StartsWith("Dialog")) _MainStack.Add(new Samples.DialogSample());
-                })
+                })*/
             .Links(
                 NavLink("Basic Inputs").Expanded().Links(
-                    NavLink("Button").Selected(),
-                    NavLink("CheckBox"),
-                    NavLink("ChoiceGroup"),
-                    NavLink("Label"),
-                    NavLink("TextBox"),
-                    NavLink("Toggle")
+                    NavLink("Button").OnSelected((s, e) => Show(new Samples.ButtonSample())).Selected(),
+                    NavLink("CheckBox").OnSelected((s, e) => Show(new Samples.CheckBoxSample())),
+                    NavLink("ChoiceGroup").OnSelected((s, e) => Show(new Samples.ChoiceGroupSample())),
+                    NavLink("Label").OnSelected((s, e) => Show(new Samples.LabelSample())),
+                    NavLink("TextBox").OnSelected((s, e) => Show(new Samples.TextBoxSample())),
+                    NavLink("Toggle").OnSelected((s, e) => Show(new Samples.ToggleSample()))
                 ),
                 NavLink("Surfaces").Expanded().Links(
-                    NavLink("Dialog"),
-                    NavLink("Modal"),
-                    NavLink("Panel")
+                    NavLink("Dialog").OnSelected((s, e) => Show(new Samples.DialogSample())),
+                    NavLink("Modal").OnSelected((s, e) => Show(new Samples.ModalSample())),
+                    NavLink("Panel").OnSelected((s, e) => Show(new Samples.PanelSample()))
                 ),
                 NavLink("Utilities").Expanded().Links(
-                    NavLink("Layer"),
-                    NavLink("Stack"),
-                    NavLink("TextBlock")
+                    NavLink("Layer").OnSelected((s, e) => Show(new Samples.LayerSample())),
+                    NavLink("Stack").OnSelected((s, e) => Show(new Samples.StackSample())),
+                    NavLink("TextBlock").OnSelected((s, e) => Show(new Samples.TextBlockSample()))
                 ),
                 NavLink("Deprecated Samples").Links(
-                    NavLink("Stack Sample"),
-                    NavLink("Buttons Sample"),
-                    NavLink("TextBox Sample"),
-                    NavLink("CheckBox Sample"),
-                    NavLink("Toggle Sample"),
-                    NavLink("ChoiceGroup Sample"),
-                    NavLink("Slider Sample"),
-                    NavLink("Layer Sample"),
-                    NavLink("Panel Sample")
+                    NavLink("Stack Sample").OnSelected((s, e) => Show(StackSample())),
+                    NavLink("Buttons Sample").OnSelected((s, e) => Show(ButtonSample())),
+                    NavLink("TextBox Sample").OnSelected((s, e) => Show(TextBoxSample())),
+                    NavLink("CheckBox Sample").OnSelected((s, e) => Show(CheckBoxSample())),
+                    NavLink("Toggle Sample").OnSelected((s, e) => Show(ToggleSample())),
+                    NavLink("ChoiceGroup Sample").OnSelected((s, e) => Show(ChoiceGroupSample())),
+                    NavLink("Slider Sample").OnSelected((s, e) => Show(SliderSample())),
+                    NavLink("Layer Sample").OnSelected((s, e) => Show(LayerSample())),
+                    NavLink("Panel Sample").OnSelected((s, e) => Show(PanelSample()))
                 )
             );
+        }
+
+        private static void Show(IComponent component)
+        {
+            _MainStack.Clear();
+            _MainStack.Add(component);
         }
 
         public static IComponent StackSample()
