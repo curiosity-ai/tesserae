@@ -189,10 +189,10 @@ namespace Tesserae.Components
             var e = ev as MouseEvent;
             if (isDragged && e.button == 0)
             {
-                _Modal.removeEventListener("mouseup", OnDragMouseUp);
-                _Modal.removeEventListener("mousemove", OnDragMouseMove);
-                _Modal.removeEventListener("mouseleave", OnDragMouseUp);
-                _Modal.style.userSelect = "";
+                document.body.removeEventListener("mouseup", OnDragMouseUp);
+                document.body.removeEventListener("mousemove", OnDragMouseMove);
+                document.body.removeEventListener("mouseleave", OnDragMouseUp);
+                document.body.style.userSelect = "";
                 isDragged = false;
             }
         }
@@ -202,9 +202,9 @@ namespace Tesserae.Components
             var e = ev as MouseEvent;
             if (e.button == 0)
             {
-                _Modal.addEventListener("mouseup", OnDragMouseUp);
-                _Modal.addEventListener("mousemove", OnDragMouseMove);
-                _Modal.addEventListener("mouseleave", OnDragMouseUp);
+                document.body.addEventListener("mouseup", OnDragMouseUp);
+                document.body.addEventListener("mousemove", OnDragMouseMove);
+                document.body.addEventListener("mouseleave", OnDragMouseUp);
                 _Modal.style.userSelect = "none";
                 isDragged = true;
                 startPoint = TranslationPoint.From(_Modal.style.transform);
