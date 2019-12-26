@@ -37,6 +37,8 @@
     --mss-slider-color: rgb(200, 198, 196);
     --mss-slider-active-color: rgb(222, 236, 249);
     --mss-slider-disabled-color: rgb(243, 242, 241);
+    --mss-overlay-light: rgba(255, 255, 255, 0.4);
+    --mss-overlay-dark: rgba(0, 0, 0, 0.4);
 }
 
 /* Fonts */
