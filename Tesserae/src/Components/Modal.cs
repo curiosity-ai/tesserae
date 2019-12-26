@@ -43,6 +43,7 @@ namespace Tesserae.Components
     public class Modal : Layer
     {
         protected HTMLElement _Modal;
+        private HTMLElement _CloseButton;
         private HTMLElement _ModalHeader;
         private HTMLElement _ModalOverlay;
         private HTMLElement _ModalContent;
@@ -141,12 +142,24 @@ namespace Tesserae.Components
             }
         }
 
+        public bool ShowCloseButton
+        {
+            get { return _CloseButton.style.display != "none"; }
+            set
+            {
+                if (value) _CloseButton.style.display = "";
+                else _CloseButton.style.display = "none";
+            }
+
+        }
+
         #endregion
 
         public Modal(string header = string.Empty)
         {
             _ModalHeader = Div(_("mss-modal-header", text: header));
-            _ModalCommand = Div(_("mss-modal-command"), _ModalHeader, Button(_("fal fa-times", el: el => el.onclick = (e) => Hide())));
+            _CloseButton = Button(_("fal fa-times", el: el => el.onclick = (e) => Hide()));
+            _ModalCommand = Div(_("mss-modal-command"), _ModalHeader, _CloseButton);
             _ModalContent = Div(_("mss-modal-content"));
             _Modal = Div(_("mss-modal", styles: s => s.transform = "translate(0px,0px)"), _ModalCommand, _ModalContent);
             _ModalOverlay = Div(_("mss-modal-overlay"));
@@ -214,6 +227,18 @@ namespace Tesserae.Components
 
     public static class ModalExtensions
     {
+        public static T ShowCloseButton<T>(this T modal) where T : Modal
+        {
+            modal.ShowCloseButton = true;
+            return modal;
+        }
+
+        public static T HideCloseButton<T>(this T modal) where T : Modal
+        {
+            modal.ShowCloseButton = false;
+            return modal;
+        }
+
         public static T Header<T>(this T modal, string header) where T : Modal
         {
             modal.Header = header;

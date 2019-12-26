@@ -41,7 +41,8 @@ namespace Tesserae.Tests.Samples
                         TextBlock("Nam id mi justo. Nam vehicula vulputate augue, ac pretium enim rutrum ultricies. Sed aliquet accumsan varius. Quisque ac auctor ligula. Fusce fringilla, odio et dignissim iaculis, est lacus ultrices risus, vitae condimentum enim urna eu nunc. In risus est, mattis non suscipit at, mattis ut ante. Maecenas consectetur urna vel erat maximus, non molestie massa consequat. Duis a feugiat nibh. Sed a hendrerit diam, a mattis est. In augue dolor, faucibus vel metus at, convallis rhoncus dui."),
                         Toggle("Light Dismiss").OnChanged((s, e) => modal.CanLightDismiss = e.IsChecked),
                         Toggle("Is draggable").OnChanged((s, e) => modal.IsDraggable = e.IsChecked),
-                        Toggle("Is non-blocking").OnChanged((s, e) => modal.IsNonBlocking = e.IsChecked)
+                        Toggle("Is non-blocking").OnChanged((s, e) => modal.IsNonBlocking = e.IsChecked),
+                        Toggle("Hide close button").OnChanged((s, e) => modal.ShowCloseButton = !e.IsChecked)
                     )
                 )
             );

@@ -44,7 +44,8 @@ namespace Tesserae.Tests.Samples
                         TextBlock("Lorem ipsum dolor sit amet, consectetur adipiscing elit."),
                         Toggle("Light Dismiss").Checked().OnChanged((s, e) => dialog.CanLightDismiss = e.IsChecked),
                         Toggle("Is draggable").OnChanged((s, e) => dialog.IsDraggable = e.IsChecked),
-                        Toggle("Is non-blocking").OnChanged((s, e) => dialog.IsNonBlocking = e.IsChecked)
+                        Toggle("Is non-blocking").OnChanged((s, e) => dialog.IsNonBlocking = e.IsChecked),
+                        Toggle("Hide close button").OnChanged((s, e) => dialog.ShowCloseButton = !e.IsChecked)
                     )
                 ).Footer(
                     Stack().HorizontalReverse().Children(Button("Don`t send").AlignEnd().OnClicked((s, e) => dialog.Hide()), Button("Send").Primary().AlignEnd().OnClicked((s, e) => dialog.Hide()))
