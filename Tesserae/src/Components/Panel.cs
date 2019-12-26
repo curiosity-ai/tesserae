@@ -31,6 +31,7 @@ namespace Tesserae.Components
         private HTMLElement _PanelContent;
         private HTMLElement _PanelFooter;
         private HTMLElement _PanelCommand;
+        private HTMLElement _CloseButton;
 
         #region Properties
 
@@ -128,11 +129,23 @@ namespace Tesserae.Components
             }
         }
 
+        public bool ShowCloseButton
+        {
+            get { return _CloseButton.style.display != "none"; }
+            set
+            {
+                if (value) _CloseButton.style.display = "";
+                else _CloseButton.style.display = "none";
+            }
+
+        }
+
         #endregion
 
         public Panel() : base()
         {
-            _PanelCommand = Div(_("mss-panel-command"), Button(_("fal fa-times", el: el => el.onclick = (e) => Hide())));
+            _CloseButton = Button(_("fal fa-times", el: el => el.onclick = (e) => Hide()));
+            _PanelCommand = Div(_("mss-panel-command"), _CloseButton);
             _PanelContent = Div(_("mss-panel-content"));
             _PanelFooter = Div(_("mss-panel-footer"));
             _Panel = Div(_("mss-panel mss-panelSize-small mss-panelSide-far"), _PanelCommand, Div(_("mss-panel-inner"), _PanelContent, _PanelFooter));
@@ -147,7 +160,7 @@ namespace Tesserae.Components
 
         public override void Show()
         {
-            if(!IsNonBlocking) document.body.style.overflowY = "hidden";
+            if (!IsNonBlocking) document.body.style.overflowY = "hidden";
             base.Show();
         }
         public override void Hide()
@@ -163,6 +176,18 @@ namespace Tesserae.Components
 
     public static class PanelExtensions
     {
+        public static Panel ShowCloseButton(this Panel panel)
+        {
+            panel.ShowCloseButton = true;
+            return panel;
+        }
+
+        public static Panel HideCloseButton(this Panel panel)
+        {
+            panel.ShowCloseButton = false;
+            return panel;
+        }
+
         public static Panel Footer(this Panel panel, IComponent footer)
         {
             panel.Footer = footer;
