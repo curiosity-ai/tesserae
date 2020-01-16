@@ -19,60 +19,72 @@ namespace Tesserae.Components
 
     public class Validator
     {
-        private HashSet<ICanValidate> RegisteredComponents = new HashSet<ICanValidate>();
-        
+        private Dictionary<ICanValidate, ValidationHandler> RegisteredComponents = new Dictionary<ICanValidate, ValidationHandler>();
+
         public event EventHandler<bool> OnValidation;
 
-        internal void Register(ICanValidate component)
+        internal delegate void ValidationHandler(object e);
+
+        private int CallsDepth = 0;
+
+        internal void Register(ICanValidate component, ValidationHandler handler)
         {
-            RegisteredComponents.Add(component);
+            RegisteredComponents.Add(component, handler);
         }
 
         internal void RaiseOnValidation()
         {
             OnValidation?.Invoke(this, IsValid);
+            Revalidate();
         }
 
-        public bool IsValid => !RegisteredComponents.Any(c => c.IsInvalid);
+        public bool IsValid
+        {
+            get
+            {
+                Revalidate();
+                return !RegisteredComponents.Keys.Any(c => c.IsInvalid);
+            }
+        }
+        public void Revalidate()
+        {
+            if(CallsDepth > 2) { return; }
+            CallsDepth++;
+            foreach (var kv in RegisteredComponents)
+            {
+                kv.Value(this); //Force revalidation
+            }
+            CallsDepth--;
+        }
     }
 
-    public static class TextBoxValidationExtensions
+    public static class ValidationExtensions
     {
-        public static TextBox Validation(this TextBox textBox, Func<TextBox, string> validate, Validator validator = null, Validation.Mode mode = Components.Validation.Mode.OnInput)
+        public static T Validation<T>(this T textBox, Func<T, string> validate, Validator validator = null, Validation.Mode mode = Components.Validation.Mode.OnInput) where T : ICanValidate<T>
         {
             if (validate is null)
             {
                 throw new ArgumentNullException(nameof(validate));
             }
 
-            void handler(object sender, TextBox e)
+            void handler(object sender, T e)
             {
-                var msg = validate(e);
-                if (string.IsNullOrWhiteSpace(msg))
+                var msg = validate(e) ?? "";
+                var isInvalid = !string.IsNullOrWhiteSpace(msg);
+                bool shouldRaise = isInvalid != e.IsInvalid || e.Error != msg;
+                e.Error = msg;
+                e.IsInvalid = isInvalid;
+                if (shouldRaise)
                 {
-                    e.Error = "";
-                    e.IsInvalid = false;
+                    validator?.RaiseOnValidation();
                 }
-                else
-                {
-                    e.Error = msg;
-                    e.IsInvalid = true;
-                }
-                validator?.RaiseOnValidation();
             }
 
-            if (mode == Components.Validation.Mode.OnBlur)
-            {
-                textBox.OnChange += handler;
-            }
-            else
-            {
-                textBox.OnInput += handler;
-            }
+            textBox.Attach(handler, mode);
 
             handler(null, textBox);
 
-            validator?.Register(textBox);
+            validator?.Register(textBox, (s) => handler(s,textBox));
             validator?.RaiseOnValidation();
 
             return textBox;

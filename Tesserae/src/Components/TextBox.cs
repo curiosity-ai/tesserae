@@ -1,10 +1,11 @@
 ﻿using static Tesserae.HTML.HtmlUtil;
 using static Tesserae.HTML.HtmlAttributes;
 using static Retyped.dom;
+using System;
 
 namespace Tesserae.Components
 {
-    public class TextBox : ComponentBase<TextBox, HTMLInputElement>, ICanValidate
+    public class TextBox : ComponentBase<TextBox, HTMLInputElement>, ICanValidate<TextBox>
     {
         #region Fields
 
@@ -130,6 +131,18 @@ namespace Tesserae.Components
         public override HTMLElement Render()
         {
             return container;
+        }
+
+        public void Attach(EventHandler<TextBox> handler, Validation.Mode mode)
+        {
+            if (mode == Validation.Mode.OnBlur)
+            {
+                OnChange += handler;
+            }
+            else
+            {
+                OnInput += handler;
+            }
         }
     }
 

@@ -13,6 +13,10 @@ namespace Tesserae.Tests.Samples
             var validator = new Validator();
             var isAllValid = TextBlock("?");
             validator.OnValidation += (_, valid) => isAllValid.Text = valid ? "Valid ✔" : "Invalid ❌";
+            var tb1 = TextBox();
+            var tb2 = TextBox();
+            tb1.Validation((tb) => tb.Text.Length == 0 ? "Empty" : ((tb1.Text == tb2.Text) ? "Duplicated  values" : null), validator);
+            tb2.Validation((tb) => Validation.NonZeroPositiveInteger(tb) ?? ((tb1.Text == tb2.Text) ? "Duplicated values" : null), validator);
 
             content = Stack().Children(
                 TextBlock("Validator").XLarge(),
@@ -30,9 +34,10 @@ namespace Tesserae.Tests.Samples
                 TextBlock("Usage").MediumPlus(),
                 TextBlock("Basic TextBox").Medium(),
                 Stack().WidthPercents(40).Children(
-                    Label("Non-empty").Content(TextBox().Validation((tb) => tb.Text.Length == 0 ? "Empty" : null, validator)),
-                    Label("Integer > 0").Content(TextBox().Validation(Validation.NonZeroPositiveInteger, validator)),
-                    Label("Is all valid").Content(isAllValid)
+                    Label("Non-empty").Content(tb1),
+                    Label("Integer > 0").Content(tb2),
+                    Label("Is all valid").Content(isAllValid),
+                    Label("Test revalidation (will fail if repeated)").Content(Button("Revalidate").OnClicked((s,b) => validator.Revalidate()))
                 )
             );
         }
