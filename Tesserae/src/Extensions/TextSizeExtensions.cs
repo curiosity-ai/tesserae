@@ -6,79 +6,79 @@ namespace Tesserae.Components
 {
     public static class TextSizeExtensions
     {
-        public static T Tiny<T>(this T textBlock) where T : IHasTextSize
+        public static T Tiny<T>(this T hasTextSize) where T : IHasTextSize
         {
-            textBlock.Size = TextSize.Tiny;
-            return textBlock;
+            hasTextSize.Size = TextSize.Tiny;
+            return hasTextSize;
         }
 
-        public static T XSmall<T>(this T textBlock) where T : IHasTextSize
+        public static T XSmall<T>(this T hasTextSize) where T : IHasTextSize
         {
-            textBlock.Size = TextSize.XSmall;
-            return textBlock;
+            hasTextSize.Size = TextSize.XSmall;
+            return hasTextSize;
         }
-        public static T Small<T>(this T textBlock) where T : IHasTextSize
+        public static T Small<T>(this T hasTextSize) where T : IHasTextSize
         {
-            textBlock.Size = TextSize.Small;
-            return textBlock;
-        }
-
-        public static T SmallPlus<T>(this T textBlock) where T : IHasTextSize
-        {
-            textBlock.Size = TextSize.SmallPlus;
-            return textBlock;
+            hasTextSize.Size = TextSize.Small;
+            return hasTextSize;
         }
 
-        public static T Medium<T>(this T textBlock) where T : IHasTextSize
+        public static T SmallPlus<T>(this T hasTextSize) where T : IHasTextSize
         {
-            textBlock.Size = TextSize.Medium;
-            return textBlock;
-        }
-        public static T MediumPlus<T>(this T textBlock) where T : IHasTextSize
-        {
-            textBlock.Size = TextSize.MediumPlus;
-            return textBlock;
+            hasTextSize.Size = TextSize.SmallPlus;
+            return hasTextSize;
         }
 
-        public static T Large<T>(this T textBlock) where T : IHasTextSize
+        public static T Medium<T>(this T hasTextSize) where T : IHasTextSize
         {
-            textBlock.Size = TextSize.Large;
-            return textBlock;
+            hasTextSize.Size = TextSize.Medium;
+            return hasTextSize;
         }
-        public static T XLarge<T>(this T textBlock) where T : IHasTextSize
+        public static T MediumPlus<T>(this T hasTextSize) where T : IHasTextSize
         {
-            textBlock.Size = TextSize.XLarge;
-            return textBlock;
-        }
-
-        public static T XXLarge<T>(this T textBlock) where T : IHasTextSize
-        {
-            textBlock.Size = TextSize.XXLarge;
-            return textBlock;
+            hasTextSize.Size = TextSize.MediumPlus;
+            return hasTextSize;
         }
 
-        public static T Mega<T>(this T textBlock) where T : IHasTextSize
+        public static T Large<T>(this T hasTextSize) where T : IHasTextSize
         {
-            textBlock.Size = TextSize.Mega;
-            return textBlock;
+            hasTextSize.Size = TextSize.Large;
+            return hasTextSize;
+        }
+        public static T XLarge<T>(this T hasTextSize) where T : IHasTextSize
+        {
+            hasTextSize.Size = TextSize.XLarge;
+            return hasTextSize;
         }
 
-        public static T Regular<T>(this T textBlock) where T : IHasTextSize
+        public static T XXLarge<T>(this T hasTextSize) where T : IHasTextSize
         {
-            textBlock.Weight = TextWeight.Regular;
-            return textBlock;
+            hasTextSize.Size = TextSize.XXLarge;
+            return hasTextSize;
         }
 
-        public static T SemiBold<T>(this T textBlock) where T : IHasTextSize
+        public static T Mega<T>(this T hasTextSize) where T : IHasTextSize
         {
-            textBlock.Weight = TextWeight.SemiBold;
-            return textBlock;
+            hasTextSize.Size = TextSize.Mega;
+            return hasTextSize;
         }
 
-        public static T Bold<T>(this T textBlock) where T : IHasTextSize
+        public static T Regular<T>(this T hasTextSize) where T : IHasTextSize
         {
-            textBlock.Weight = TextWeight.Bold;
-            return textBlock;
+            hasTextSize.Weight = TextWeight.Regular;
+            return hasTextSize;
+        }
+
+        public static T SemiBold<T>(this T hasTextSize) where T : IHasTextSize
+        {
+            hasTextSize.Weight = TextWeight.SemiBold;
+            return hasTextSize;
+        }
+
+        public static T Bold<T>(this T hasTextSize) where T : IHasTextSize
+        {
+            hasTextSize.Weight = TextWeight.Bold;
+            return hasTextSize;
         }
 
         internal static TextSize FromClassList(HTMLElement element, TextSize defaultValue)

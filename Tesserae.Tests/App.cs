@@ -55,7 +55,7 @@ namespace Tesserae.Tests
                     else if (link.Text.StartsWith("Dialog")) _MainStack.Add(new Samples.DialogSample());
                 })*/
             .Links(
-                NavLink("Basic Inputs").Expanded().Links(
+                NavLink("Basic Inputs").Expanded().SmallPlus().SemiBold().Links(
                     NavLink("Button").OnSelected((s, e)             => Show(new Samples.ButtonSample())).Selected(),
                     NavLink("CheckBox").OnSelected((s, e)           => Show(new Samples.CheckBoxSample())),
                     NavLink("ChoiceGroup").OnSelected((s, e)        => Show(new Samples.ChoiceGroupSample())),
@@ -63,24 +63,24 @@ namespace Tesserae.Tests
                     NavLink("TextBox").OnSelected((s, e)            => Show(new Samples.TextBoxSample())),
                     NavLink("Toggle").OnSelected((s, e)             => Show(new Samples.ToggleSample()))
                 ),
-                NavLink("Surfaces").Expanded().Links(
+                NavLink("Surfaces").Expanded().SmallPlus().SemiBold().Links(
                     NavLink("Dialog").OnSelected((s, e)             => Show(new Samples.DialogSample())),
                     NavLink("Modal").OnSelected((s, e)              => Show(new Samples.ModalSample())),
                     NavLink("Panel").OnSelected((s, e)              => Show(new Samples.PanelSample()))
                 ),
-                NavLink("Utilities").Expanded().Links(
+                NavLink("Utilities").Expanded().SmallPlus().SemiBold().Links(
                     NavLink("Layer").OnSelected((s, e)              => Show(new Samples.LayerSample())),
                     NavLink("Stack").OnSelected((s, e)              => Show(new Samples.StackSample())),
                     NavLink("TextBlock").OnSelected((s, e)          => Show(new Samples.TextBlockSample())),
                     NavLink("Validator").OnSelected((s, e)          => Show(new Samples.ValidatorSample())),
                     NavLink("Pivot").OnSelected((s, e)              => Show(new Samples.PivotSample()))
                 ),
-                NavLink("Nav Links").Expanded().Links(
+                NavLink("Nav Links").Expanded().SmallPlus().SemiBold().Links(
                     NavLink("Level 1").Links(NavLink("Level 2").Links(NavLink("Level 3").Links(NavLink("Level 4")))),
                     NavLink("Level 1").Links(NavLink("Level 2").Links(NavLink("Level 3").Links(NavLink("Level 4")))),
                     NavLink("Level 1").Links(NavLink("Level 2").Links(NavLink("Level 3").Links(NavLink("Level 4"))))
                 ),
-                NavLink("Deprecated Samples").Links(
+                NavLink("Deprecated Samples").SmallPlus().SemiBold().Links(
                     NavLink("Stack Sample").OnSelected((s, e)       => Show(StackSample())),
                     NavLink("Buttons Sample").OnSelected((s, e)     => Show(ButtonSample())),
                     NavLink("TextBox Sample").OnSelected((s, e)     => Show(TextBoxSample())),

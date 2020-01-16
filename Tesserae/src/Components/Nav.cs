@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Tesserae.Components
 {
-    public class NavLink : ComponentBase<NavLink, HTMLLIElement>, IContainer<NavLink, NavLink>
+    public class NavLink : ComponentBase<NavLink, HTMLLIElement>, IContainer<NavLink, NavLink>, IHasTextSize
     {
         #region Fields
 
@@ -109,7 +109,7 @@ namespace Tesserae.Components
             set
             {
                 _Level = value;
-                _HeaderDiv.style.paddingLeft = $"{_Level * 12}px";
+                //_HeaderDiv.style.paddingLeft = $"{_Level * 12}px";
                 foreach(var c in Children)
                 {
                     c.Level = Level + 1;
@@ -117,6 +117,31 @@ namespace Tesserae.Components
             }
         }
 
+        public TextSize Size
+        {
+            get
+            {
+                return TextSizeExtensions.FromClassList(InnerElement, TextSize.Small);
+            }
+            set
+            {
+                InnerElement.classList.remove(Size.ToClassName());
+                InnerElement.classList.add(value.ToClassName());
+            }
+        }
+
+        public TextWeight Weight
+        {
+            get
+            {
+                return TextSizeExtensions.FromClassList(InnerElement, TextWeight.Regular);
+            }
+            set
+            {
+                InnerElement.classList.remove(Weight.ToClassName());
+                InnerElement.classList.add(value.ToClassName());
+            }
+        }
         #endregion
 
         public NavLink(string text = null, string icon = null)
@@ -131,6 +156,8 @@ namespace Tesserae.Components
                 else IsSelected = true;
             });
             InnerElement = Li(_("tss-nav-link"), _HeaderDiv, _ChildContainer);
+            Size = TextSize.Small;
+            Weight = TextWeight.Regular;
         }
 
         public override HTMLElement Render()
