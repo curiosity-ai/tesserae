@@ -80,19 +80,19 @@ namespace Tesserae.Components
 
         public bool CanLightDismiss
         {
-            get { return _ModalOverlay.classList.contains("mss-modal-lightDismiss"); }
+            get { return _ModalOverlay.classList.contains("tss-modal-lightDismiss"); }
             set
             {
                 if (value != CanLightDismiss)
                 {
                     if (value)
                     {
-                        _ModalOverlay.classList.add("mss-modal-lightDismiss");
+                        _ModalOverlay.classList.add("tss-modal-lightDismiss");
                         _ModalOverlay.addEventListener("click", OnCloseClick);
                     }
                     else
                     {
-                        _ModalOverlay.classList.remove("mss-modal-lightDismiss");
+                        _ModalOverlay.classList.remove("tss-modal-lightDismiss");
                         _ModalOverlay.removeEventListener("click", OnCloseClick);
                     }
                 }
@@ -101,20 +101,20 @@ namespace Tesserae.Components
 
         public bool IsDraggable
         {
-            get { return _Modal.classList.contains("mss-modal-draggable"); }
+            get { return _Modal.classList.contains("tss-modal-draggable"); }
             set
             {
                 if (value != IsDraggable)
                 {
                     if (value)
                     {
-                        _Modal.classList.add("mss-modal-draggable");
+                        _Modal.classList.add("tss-modal-draggable");
                         _Modal.addEventListener("mousedown", OnDragMouseDown);
 
                     }
                     else
                     {
-                        _Modal.classList.remove("mss-modal-draggable");
+                        _Modal.classList.remove("tss-modal-draggable");
                         _Modal.removeEventListener("mousedown", OnDragMouseDown);
                     }
                 }
@@ -123,19 +123,19 @@ namespace Tesserae.Components
 
         public bool IsNonBlocking
         {
-            get { return _ContentHtml.classList.contains("mss-modal-modeless"); }
+            get { return _ContentHtml.classList.contains("tss-modal-modeless"); }
             set
             {
                 if (value != IsNonBlocking)
                 {
                     if (value)
                     {
-                        _ContentHtml.classList.add("mss-modal-modeless");
+                        _ContentHtml.classList.add("tss-modal-modeless");
                         if (IsVisible) document.body.style.overflowY = "";
                     }
                     else
                     {
-                        _ContentHtml.classList.remove("mss-modal-modeless");
+                        _ContentHtml.classList.remove("tss-modal-modeless");
                         if (IsVisible) document.body.style.overflowY = "hidden";
                     }
                 }
@@ -157,13 +157,13 @@ namespace Tesserae.Components
 
         public Modal(string header = string.Empty)
         {
-            _ModalHeader = Div(_("mss-modal-header", text: header));
+            _ModalHeader = Div(_("tss-modal-header", text: header));
             _CloseButton = Button(_("fal fa-times", el: el => el.onclick = (e) => Hide()));
-            _ModalCommand = Div(_("mss-modal-command"), _ModalHeader, _CloseButton);
-            _ModalContent = Div(_("mss-modal-content"));
-            _Modal = Div(_("mss-modal", styles: s => s.transform = "translate(0px,0px)"), _ModalCommand, _ModalContent);
-            _ModalOverlay = Div(_("mss-modal-overlay"));
-            _ContentHtml = Div(_("mss-modal-container"), _ModalOverlay, _Modal);
+            _ModalCommand = Div(_("tss-modal-command"), _ModalHeader, _CloseButton);
+            _ModalContent = Div(_("tss-modal-content"));
+            _Modal = Div(_("tss-modal", styles: s => s.transform = "translate(0px,0px)"), _ModalCommand, _ModalContent);
+            _ModalOverlay = Div(_("tss-modal-overlay"));
+            _ContentHtml = Div(_("tss-modal-container"), _ModalOverlay, _Modal);
         }
         protected override HTMLElement BuildRenderedContent()
         {

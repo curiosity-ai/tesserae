@@ -20,18 +20,18 @@ namespace Tesserae.Components
 
         public override bool IsRequired
         {
-            get { return _Label.classList.contains("mss-required"); }
+            get { return _Label.classList.contains("tss-required"); }
             set
             {
                 if (value != IsInvalid)
                 {
                     if (value)
                     {
-                        _Label.classList.add("mss-required");
+                        _Label.classList.add("tss-required");
                     }
                     else
                     {
-                        _Label.classList.remove("mss-required");
+                        _Label.classList.remove("tss-required");
                     }
                 }
             }
@@ -85,7 +85,7 @@ namespace Tesserae.Components
         {
             _Label = Label(_(text: text));
             _Content = Div(_());
-            InnerElement = Div(_("mss-label mss-fontSize-small mss-fontWeight-semibold"), _Label, _Content);
+            InnerElement = Div(_("tss-label tss-fontSize-small tss-fontWeight-semibold"), _Label, _Content);
         }
     }
 

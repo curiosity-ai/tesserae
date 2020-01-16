@@ -1,26 +1,26 @@
 ﻿/* Choice */
-.mss-choice-group {
+.tss-choice-group {
     display: flex;
     margin: 4px;
 }
 
-    .mss-choice-group div {
+    .tss-choice-group div {
         margin-right: 12px;
     }
 
-.mss-option-container {
+.tss-option-container {
     position: relative;
     cursor: pointer;
-    color: var(--mss-default-foreground-color);
-    font-size: var(--mss-font-size-small);
-    font-weight: var(--mss-font-weight-regular);
+    color: var(--tss-default-foreground-color);
+    font-size: var(--tss-font-size-small);
+    font-weight: var(--tss-font-weight-regular);
     user-select: none;
     padding-left: 25px;
     margin: 4px;
     display: block;
 }
 
-    .mss-option-container .mss-option {
+    .tss-option-container .tss-option {
         position: absolute;
         opacity: 0;
         cursor: pointer;
@@ -28,39 +28,39 @@
         width: 0;
     }
 
-    .mss-option-container .mss-option-mark {
+    .tss-option-container .tss-option-mark {
         position: absolute;
         top: 0;
         left: 0;
         height: 20px;
         width: 20px;
         border-radius: 50%;
-        border: 1px solid var(--mss-default-foreground-color);
+        border: 1px solid var(--tss-default-foreground-color);
     }
 
-    .mss-option-container:hover input ~ .mss-option-mark:after {
+    .tss-option-container:hover input ~ .tss-option-mark:after {
         display: block;
     }
 
-    .mss-option-container input:checked ~ .mss-option-mark {
-        border-color: var(--mss-primary-background-color);
+    .tss-option-container input:checked ~ .tss-option-mark {
+        border-color: var(--tss-primary-background-color);
     }
 
-    .mss-option-container:hover input:checked ~ .mss-option-mark {
-        border-color: var(--mss-primary-background-hover-color);
+    .tss-option-container:hover input:checked ~ .tss-option-mark {
+        border-color: var(--tss-primary-background-hover-color);
     }
 
-    .mss-option-container input:checked ~ .mss-option-mark:after {
+    .tss-option-container input:checked ~ .tss-option-mark:after {
         display: block;
-        border-color: var(--mss-primary-background-color);
+        border-color: var(--tss-primary-background-color);
     }
 
-    .mss-option-container:hover input:checked ~ .mss-option-mark:after {
-        border-color: var(--mss-primary-background-hover-color);
+    .tss-option-container:hover input:checked ~ .tss-option-mark:after {
+        border-color: var(--tss-primary-background-hover-color);
     }
 
 
-    .mss-option-container .mss-option-mark:after {
+    .tss-option-container .tss-option-mark:after {
         content: "";
         position: absolute;
         display: none;
@@ -68,19 +68,19 @@
         top: 4px;
         width: 10px;
         height: 10px;
-        border: solid var(--mss-default-foreground-color);
+        border: solid var(--tss-default-foreground-color);
         border-width: 5px;
         border-radius: 50%;
     }
 
-    .mss-option-container.disabled {
-        color: var(--mss-disabled-foreground-color);
+    .tss-option-container.disabled {
+        color: var(--tss-disabled-foreground-color);
     }
 
-        .mss-option-container.disabled .mss-option-mark {
-            border-color: var(--mss-disabled-foreground-color);
+        .tss-option-container.disabled .tss-option-mark {
+            border-color: var(--tss-disabled-foreground-color);
         }
 
-        .mss-option-container.disabled input:checked ~ .mss-option-mark {
-            border-color: var(--mss-disabled-foreground-color);
+        .tss-option-container.disabled input:checked ~ .tss-option-mark {
+            border-color: var(--tss-disabled-foreground-color);
         }

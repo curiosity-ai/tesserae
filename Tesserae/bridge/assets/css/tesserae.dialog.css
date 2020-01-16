@@ -1,10 +1,10 @@
 ﻿/* Modal */
-.mss-dialog-container {
-    background-color: var(--mss-overlay-light);
+.tss-dialog-container {
+    background-color: var(--tss-overlay-light);
 }
 
 
-.mss-dialog {
+.tss-dialog {
     position: relative;
     text-align: left;
     /*outline: transparent solid 3px;*/
@@ -17,12 +17,12 @@
     display: flex;
 }
 
-    .mss-dialog .mss-modal-command {
+    .tss-dialog .tss-modal-command {
         border-top: 4px solid transparent;
     }
 
 
-.mss-modal-footer {
+.tss-modal-footer {
     flex-shrink: 0;
     margin:  0 24px 24px 24px;
 }

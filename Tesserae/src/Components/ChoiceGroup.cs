@@ -65,9 +65,9 @@ namespace Tesserae.Components
 
         public Option(string text)
         {
-            InnerElement = RadioButton(_("mss-option"));
-            _RadioSpan = Span(_("mss-option-mark"));
-            _Label = Label(_("mss-option-container", text: text), InnerElement, _RadioSpan);
+            InnerElement = RadioButton(_("tss-option"));
+            _RadioSpan = Span(_("tss-option-mark"));
+            _Label = Label(_("tss-option-container", text: text), InnerElement, _RadioSpan);
             AttachClick();
             AttachChange();
             AttachFocus();
@@ -137,7 +137,7 @@ namespace Tesserae.Components
             _Header = (new TextBlock(label)).SemiBold();
             var h = _Header.Render();
             h.style.alignSelf = "baseline";
-            InnerElement = Div(_("mss-choice-group", styles: s => { s.flexDirection = "column"; }), h);
+            InnerElement = Div(_("tss-choice-group", styles: s => { s.flexDirection = "column"; }), h);
         }
 
         public override HTMLElement Render()

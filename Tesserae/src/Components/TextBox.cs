@@ -98,18 +98,18 @@ namespace Tesserae.Components
         }
         public bool IsRequired
         {
-            get { return container.classList.contains("mss-required"); }
+            get { return container.classList.contains("tss-required"); }
             set
             {
                 if (value != IsInvalid)
                 {
                     if (value)
                     {
-                        container.classList.add("mss-required");
+                        container.classList.add("tss-required");
                     }
                     else
                     {
-                        container.classList.remove("mss-required");
+                        container.classList.remove("tss-required");
                     }
                 }
             }
@@ -118,9 +118,9 @@ namespace Tesserae.Components
 
         public TextBox(string text = string.Empty)
         {
-            InnerElement = TextBox(_("mss-textBox", type: "text", value: text));
-            errorSpan = Span(_("mss-textBox-error"));
-            container = Div(_("mss-textBox-container"), InnerElement, errorSpan);
+            InnerElement = TextBox(_("tss-textBox", type: "text", value: text));
+            errorSpan = Span(_("tss-textBox-error"));
+            container = Div(_("tss-textBox-container"), InnerElement, errorSpan);
             AttachChange();
             AttachInput();
             AttachFocus();

@@ -1,17 +1,17 @@
 ﻿/* CheckBox */
-.mss-checkbox-container {
+.tss-checkbox-container {
     position: relative;
     cursor: pointer;
-    color: var(--mss-default-foreground-color);
-    font-size: var(--mss-font-size-small);
-    font-weight: var(--mss-font-weight-regular);
+    color: var(--tss-default-foreground-color);
+    font-size: var(--tss-font-size-small);
+    font-weight: var(--tss-font-weight-regular);
     user-select: none;
     padding-left: 25px;
     margin: 4px;
     display: block;
 }
 
-    .mss-checkbox-container .mss-checkbox {
+    .tss-checkbox-container .tss-checkbox {
         position: absolute;
         opacity: 0;
         cursor: pointer;
@@ -19,36 +19,36 @@
         width: 0;
     }
 
-    .mss-checkbox-container .mss-checkbox-mark {
+    .tss-checkbox-container .tss-checkbox-mark {
         position: absolute;
         top: 0;
         left: 0;
         height: 20px;
         width: 20px;
         border-radius: 2px;
-        background-color: var(--mss-default-background-color);
-        border: 1px solid var(--mss-default-foreground-color);
+        background-color: var(--tss-default-background-color);
+        border: 1px solid var(--tss-default-foreground-color);
     }
 
-    .mss-checkbox-container:hover input ~ .mss-checkbox-mark:after {
+    .tss-checkbox-container:hover input ~ .tss-checkbox-mark:after {
         display: block;
     }
 
-    .mss-checkbox-container input:checked ~ .mss-checkbox-mark {
-        background-color: var(--mss-primary-background-color);
-        border-color: var(--mss-primary-background-color);
+    .tss-checkbox-container input:checked ~ .tss-checkbox-mark {
+        background-color: var(--tss-primary-background-color);
+        border-color: var(--tss-primary-background-color);
     }
 
-    .mss-checkbox-container:hover input:checked ~ .mss-checkbox-mark {
-        background-color: var(--mss-primary-background-hover-color);
+    .tss-checkbox-container:hover input:checked ~ .tss-checkbox-mark {
+        background-color: var(--tss-primary-background-hover-color);
     }
 
-    .mss-checkbox-container input:checked ~ .mss-checkbox-mark:after {
+    .tss-checkbox-container input:checked ~ .tss-checkbox-mark:after {
         display: block;
-        border-color: var(--mss-primary-foreground-color);
+        border-color: var(--tss-primary-foreground-color);
     }
 
-    .mss-checkbox-container .mss-checkbox-mark:after {
+    .tss-checkbox-container .tss-checkbox-mark:after {
         content: "";
         position: absolute;
         display: none;
@@ -56,21 +56,21 @@
         top: 1px;
         width: 7px;
         height: 12px;
-        border: solid var(--mss-default-border-color);
+        border: solid var(--tss-default-border-color);
         border-width: 0 1px 1px 0;
         transform: rotate(45deg);
     }
 
-    .mss-checkbox-container.disabled {
-        color: var(--mss-disabled-foreground-color);
+    .tss-checkbox-container.disabled {
+        color: var(--tss-disabled-foreground-color);
     }
 
-        .mss-checkbox-container.disabled .mss-checkbox-mark {
-            background-color: var(--mss-disabled-background-color);
-            border-color: var(--mss-disabled-foreground-color);
+        .tss-checkbox-container.disabled .tss-checkbox-mark {
+            background-color: var(--tss-disabled-background-color);
+            border-color: var(--tss-disabled-foreground-color);
         }
 
-        .mss-checkbox-container.disabled input:checked ~ .mss-checkbox-mark {
-            background-color: var(--mss-disabled-foreground-color);
-            border-color: var(--mss-disabled-foreground-color);
+        .tss-checkbox-container.disabled input:checked ~ .tss-checkbox-mark {
+            background-color: var(--tss-disabled-foreground-color);
+            border-color: var(--tss-disabled-foreground-color);
         }

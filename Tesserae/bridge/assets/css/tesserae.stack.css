@@ -1,9 +1,9 @@
 ﻿/* Stack */
-.mss-stack {
+.tss-stack {
     display: flex;
     flex-direction: column;
 }
 
-.mss-stack-item {
+.tss-stack-item {
     height: auto;
 }

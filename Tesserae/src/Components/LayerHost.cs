@@ -10,7 +10,7 @@ namespace Tesserae.Components
     {
         public LayerHost()
         {
-            InnerElement = Div(_("mss-layer-host"));
+            InnerElement = Div(_("tss-layer-host"));
         }
 
         public override HTMLElement Render()

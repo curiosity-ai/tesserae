@@ -125,7 +125,7 @@ namespace Tesserae.Components
 
         public Layer()
         {
-            InnerElement = Div(_("mss-layer-base"));
+            InnerElement = Div(_("tss-layer-base"));
         }
 
         public override HTMLElement Render()
@@ -136,7 +136,7 @@ namespace Tesserae.Components
         protected virtual HTMLElement BuildRenderedContent()
         {
             if (_ContentHtml is object) return _ContentHtml;
-            return Div(_("mss-layer-content"), _Content.Render());
+            return Div(_("tss-layer-content"), _Content.Render());
         }
 
         public virtual void Show()
@@ -145,7 +145,7 @@ namespace Tesserae.Components
             {
                 if (_Host == null)
                 {
-                    _RenderedContent = Div(_("mss-layer"), BuildRenderedContent());
+                    _RenderedContent = Div(_("tss-layer"), BuildRenderedContent());
                     _RenderedContent.style.zIndex = Layers.PushLayer(_RenderedContent);
                     document.body.appendChild(_RenderedContent);
                 }

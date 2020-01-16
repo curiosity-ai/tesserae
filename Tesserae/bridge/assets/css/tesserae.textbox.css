@@ -1,48 +1,48 @@
 ﻿/* TextBox */
-.mss-textBox {
+.tss-textBox {
     box-shadow: none;
     margin: 0px;
     padding: 0px;
-    border: 1px solid var(--mss-default-border-color);
+    border: 1px solid var(--tss-default-border-color);
     border-radius: 2px;
-    background: var(--mss-default-background-color) none repeat scroll 0% 0%;
-    color: var(--mss-default-foreground-color);
+    background: var(--tss-default-background-color) none repeat scroll 0% 0%;
+    color: var(--tss-default-foreground-color);
     cursor: text;
     height: 32px;
     align-items: stretch;
-    font-size: var(--mss-font-size-small);
-    font-weight: var(--mss-font-weight-regular);
+    font-size: var(--tss-font-size-small);
+    font-weight: var(--tss-font-weight-regular);
     display: block;
     width: 100%;
     outline: transparent none medium;
     padding: 0px 5px;
 }
 
-    .mss-textBox:hover {
-        border-color: var(--mss-default-foreground-color);
+    .tss-textBox:hover {
+        border-color: var(--tss-default-foreground-color);
     }
 
-    .mss-textBox:focus {
-        border-color: var(--mss-primary-border-color);
+    .tss-textBox:focus {
+        border-color: var(--tss-primary-border-color);
     }
 
-.mss-textBox-container {
+.tss-textBox-container {
     position: relative;
     margin-bottom: 4px;
 }
 
-    .mss-textBox-container.invalid .mss-textBox {
-        border-color: var(--mss-invalid-border-color);
+    .tss-textBox-container.invalid .tss-textBox {
+        border-color: var(--tss-invalid-border-color);
     }
 
 
 
-.mss-textBox-error {
-    color: var(--mss-invalid-border-color);
+.tss-textBox-error {
+    color: var(--tss-invalid-border-color);
     display: none;
-    font-size: var(--mss-font-size-tiny);
+    font-size: var(--tss-font-size-tiny);
 }
 
-.mss-textBox-container.invalid .mss-textBox-error {
+.tss-textBox-container.invalid .tss-textBox-error {
     display: block;
 }

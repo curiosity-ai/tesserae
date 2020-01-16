@@ -1,37 +1,37 @@
 ﻿/* Slider */
-.mss-slider-div {
+.tss-slider-div {
     width: 100%;
     margin: 4px;
     margin-bottom: 8px;
     padding-right: 8px;
 }
 
-.mss-slider-container {
+.tss-slider-container {
     position: relative;
     user-select: none;
     width: 100%;
     display: block;
 }
 
-    .mss-slider-container.vertical {
+    .tss-slider-container.vertical {
         transform: rotate(270deg);
     }
 
-        .mss-slider-container.vertical .mss-slider {
+        .tss-slider-container.vertical .tss-slider {
             margin-left: -50%;
         }
 
-        .mss-slider-container.vertical .mss-slider-fake-progress {
+        .tss-slider-container.vertical .tss-slider-fake-progress {
             margin-left: -50%;
         }
 
-        .mss-slider-container.vertical .mss-slider-fake-background {
+        .tss-slider-container.vertical .tss-slider-fake-background {
             margin-left: -50%;
         }
 
-.mss-slider-fake-progress {
+.tss-slider-fake-progress {
     border-radius: 4px 0px 0px 4px;
-    background-color: var(--mss-default-border-color);
+    background-color: var(--tss-default-border-color);
     position: absolute;
     left: 0px;
     top: 0px;
@@ -40,21 +40,21 @@
     user-select: none;
 }
 
-.mss-slider-container input:hover ~ .mss-slider-fake-progress {
-    background-color: var(--mss-primary-background-color);
+.tss-slider-container input:hover ~ .tss-slider-fake-progress {
+    background-color: var(--tss-primary-background-color);
 }
 
-.mss-slider-container input.disabled ~ .mss-slider-fake-progress {
-    background-color: var(--mss-disabled-foreground-color);
+.tss-slider-container input.disabled ~ .tss-slider-fake-progress {
+    background-color: var(--tss-disabled-foreground-color);
 }
 
-.mss-slider-container input.disabled:hover ~ .mss-slider-fake-progress {
-    background-color: var(--mss-disabled-foreground-color);
+.tss-slider-container input.disabled:hover ~ .tss-slider-fake-progress {
+    background-color: var(--tss-disabled-foreground-color);
 }
 
-.mss-slider-fake-background {
+.tss-slider-fake-background {
     border-radius: 4px;
-    background-color: var(--mss-slider-color);
+    background-color: var(--tss-slider-color);
     position: relative;
     left: 0px;
     top: 0px;
@@ -64,25 +64,25 @@
     user-select: none;
 }
 
-.mss-slider-container input:hover ~ .mss-slider-fake-background {
-    background-color: var(--mss-slider-active-color);
+.tss-slider-container input:hover ~ .tss-slider-fake-background {
+    background-color: var(--tss-slider-active-color);
 }
 
-.mss-slider-container input.disabled ~ .mss-slider-fake-background {
-    background-color: var(--mss-slider-disabled-color);
+.tss-slider-container input.disabled ~ .tss-slider-fake-background {
+    background-color: var(--tss-slider-disabled-color);
 }
 
 
-.mss-slider {
+.tss-slider {
     -webkit-appearance: none;
     width: 100%;
     height: 0px;
     border-radius: 4px;
-    background-color: var(--mss-slider-color);
+    background-color: var(--tss-slider-color);
     outline: none;
 }
 
-    .mss-slider.fake {
+    .tss-slider.fake {
         background-color: transparent;
         position: absolute;
         left: 0;
@@ -90,65 +90,65 @@
         z-index: 1;
     }
 
-        .mss-slider.fake:hover {
+        .tss-slider.fake:hover {
             background-color: transparent;
         }
 
-        .mss-slider.fake:disabled {
+        .tss-slider.fake:disabled {
             background-color: transparent;
         }
 
-    .mss-slider::-webkit-slider-thumb {
+    .tss-slider::-webkit-slider-thumb {
         -webkit-appearance: none;
         width: 16px;
         height: 16px;
         border-radius: 10px;
-        background-color: var(--mss-default-background-color);
-        border: 2px solid var(--mss-default-border-color);
+        background-color: var(--tss-default-background-color);
+        border: 2px solid var(--tss-default-border-color);
     }
 
-    .mss-slider::-moz-range-thumb {
+    .tss-slider::-moz-range-thumb {
         width: 16px;
         height: 16px;
         border-radius: 10px;
-        background-color: var(--mss-default-background-color);
-        border: 2px solid var(--mss-default-border-color);
+        background-color: var(--tss-default-background-color);
+        border: 2px solid var(--tss-default-border-color);
     }
 
-    .mss-slider::-moz-range-progress {
+    .tss-slider::-moz-range-progress {
         height: 4px;
         border-radius: 4px;
-        background-color: var(--mss-default-border-color);
+        background-color: var(--tss-default-border-color);
     }
 
-    .mss-slider:hover {
-        background-color: var(--mss-slider-active-color);
+    .tss-slider:hover {
+        background-color: var(--tss-slider-active-color);
     }
 
-        .mss-slider:hover::-webkit-slider-thumb {
-            border-color: var(--mss-primary-background-color);
+        .tss-slider:hover::-webkit-slider-thumb {
+            border-color: var(--tss-primary-background-color);
         }
 
-        .mss-slider:hover::-moz-range-thumb {
-            border-color: var(--mss-primary-background-color);
+        .tss-slider:hover::-moz-range-thumb {
+            border-color: var(--tss-primary-background-color);
         }
 
-        .mss-slider:hover::-moz-range-progress {
-            background-color: var(--mss-primary-background-color);
+        .tss-slider:hover::-moz-range-progress {
+            background-color: var(--tss-primary-background-color);
         }
 
-    .mss-slider.disabled {
-        background-color: var(--mss-slider-disabled-color);
+    .tss-slider.disabled {
+        background-color: var(--tss-slider-disabled-color);
     }
 
-        .mss-slider.disabled::-webkit-slider-thumb {
-            border-color: var(--mss-disabled-foreground-color);
+        .tss-slider.disabled::-webkit-slider-thumb {
+            border-color: var(--tss-disabled-foreground-color);
         }
 
-        .mss-slider.disabled::-moz-range-thumb {
-            border-color: var(--mss-disabled-foreground-color);
+        .tss-slider.disabled::-moz-range-thumb {
+            border-color: var(--tss-disabled-foreground-color);
         }
 
-        .mss-slider.disabled::-moz-range-progress {
-            background-color: var(--mss-disabled-foreground-color);
+        .tss-slider.disabled::-moz-range-progress {
+            background-color: var(--tss-disabled-foreground-color);
         }

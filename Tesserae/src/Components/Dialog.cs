@@ -30,9 +30,9 @@ namespace Tesserae.Components
 
         public Dialog(string header = string.Empty) : base(header)
         {
-            _Modal.classList.add("mss-dialog");
-            _ContentHtml.classList.add("mss-dialog-container");
-            _ModalFooter = Div(_("mss-modal-footer"));
+            _Modal.classList.add("tss-dialog");
+            _ContentHtml.classList.add("tss-dialog-container");
+            _ModalFooter = Div(_("tss-modal-footer"));
             _Modal.appendChild(_ModalFooter);
 
             // As recommended

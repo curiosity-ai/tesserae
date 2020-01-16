@@ -117,15 +117,15 @@ namespace Tesserae.Components
         public NavLink(string text = null, string icon = null)
         {
             _TextSpan = Span(_(text: text));
-            _ChildContainer = Ul(_("mss-nav-link-container"));
-            _ExpandButton = Button(_("mss-nav-link-button"));
-            _HeaderDiv = Div(_("mss-nav-link-header"), _ExpandButton, _TextSpan);
+            _ChildContainer = Ul(_("tss-nav-link-container"));
+            _ExpandButton = Button(_("tss-nav-link-button"));
+            _HeaderDiv = Div(_("tss-nav-link-header"), _ExpandButton, _TextSpan);
             _HeaderDiv.addEventListener("click", (s) =>
             {
                 if (HasChildren) IsExpanded = !IsExpanded;
                 else IsSelected = true;
             });
-            InnerElement = Li(_("mss-nav-link"), _HeaderDiv, _ChildContainer);
+            InnerElement = Li(_("tss-nav-link"), _HeaderDiv, _ChildContainer);
         }
 
         public override HTMLElement Render()
@@ -184,7 +184,7 @@ namespace Tesserae.Components
 
         public Nav()
         {
-            InnerElement = Ul(_("mss-nav"));
+            InnerElement = Ul(_("tss-nav"));
         }
 
         public override HTMLElement Render()

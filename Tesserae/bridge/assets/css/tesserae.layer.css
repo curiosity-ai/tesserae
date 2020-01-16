@@ -1,9 +1,9 @@
 ﻿/* Layer */
-.mss-layer-base {
+.tss-layer-base {
     display: none;
 }
 
-.mss-layer {
+.tss-layer {
     position: fixed;
     top: 0px;
     left: 0px;
@@ -14,14 +14,14 @@
     padding: 0;
 }
 
-.mss-layer-content {
+.tss-layer-content {
     margin: 0;
     padding: 0;
-    background-color: var(--mss-default-background-color);
-    border: 1px solid var(--mss-default-border-color);
+    background-color: var(--tss-default-background-color);
+    border: 1px solid var(--tss-default-border-color);
     visibility: visible;
 }
 
-.mss-layer-host {
+.tss-layer-host {
     position: relative;
 }

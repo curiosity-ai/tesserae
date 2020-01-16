@@ -121,7 +121,7 @@ namespace Tesserae.Components
             var item = (component as dynamic).StackItem as HTMLDivElement;
             if (item == null)
             {
-                item = Div(_("mss-stack-item", styles: s =>
+                item = Div(_("tss-stack-item", styles: s =>
                 {
                     s.alignSelf = "auto";
                     s.width = "auto";
@@ -241,7 +241,7 @@ namespace Tesserae.Components
 
         public Stack(StackOrientation orientation = StackOrientation.Vertical)
         {
-            InnerElement = Div(_("mss-stack"));
+            InnerElement = Div(_("tss-stack"));
             Orientation = orientation;
         }
 

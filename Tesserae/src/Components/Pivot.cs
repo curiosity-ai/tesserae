@@ -23,10 +23,10 @@ namespace Tesserae.Components
 
         public Pivot()
         {
-            Line = Div(_("mss-pivot-line"));
-            RenderedTabs = Div(_("mss-pivot-titlebar"));
-            RenderedContent = Div(_("mss-pivot-content"));
-            InnerElement = Div(_("mss-pivot"), RenderedTabs, Line, RenderedContent);
+            Line = Div(_("tss-pivot-line"));
+            RenderedTabs = Div(_("tss-pivot-titlebar"));
+            RenderedContent = Div(_("tss-pivot-content"));
+            InnerElement = Div(_("tss-pivot"), RenderedTabs, Line, RenderedContent);
         }
 
         internal Pivot Add(Tab tab)
@@ -101,11 +101,11 @@ namespace Tesserae.Components
             {
                 if (v == title)
                 {
-                    v.classList.add("mss-pivot-selected-title");
+                    v.classList.add("tss-pivot-selected-title");
                 }
                 else
                 {
-                    v.classList.remove("mss-pivot-selected-title");
+                    v.classList.remove("tss-pivot-selected-title");
                 }
             }
             SelectedNav = title;

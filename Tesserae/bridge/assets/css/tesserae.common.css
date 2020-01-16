@@ -1,103 +1,103 @@
 ﻿/* Variables */
 :root {
     /* Weights */
-    --mss-font-weight-regular: 400;
-    --mss-font-weight-semibold: 600;
-    --mss-font-weight-bold: 700;
+    --tss-font-weight-regular: 400;
+    --tss-font-weight-semibold: 600;
+    --tss-font-weight-bold: 700;
     /* Sizes */
-    --mss-font-size-mega: 42px;
-    --mss-font-size-xxlarge: 32px;
-    --mss-font-size-xlarge: 28px;
-    --mss-font-size-large: 24px;
-    --mss-font-size-mediumplus: 20px;
-    --mss-font-size-medium: 18px;
-    --mss-font-size-smallplus: 16px;
-    --mss-font-size-small: 14px;
-    --mss-font-size-xsmall: 12px;
-    --mss-font-size-tiny: 10px;
+    --tss-font-size-mega: 42px;
+    --tss-font-size-xxlarge: 32px;
+    --tss-font-size-xlarge: 28px;
+    --tss-font-size-large: 24px;
+    --tss-font-size-mediumplus: 20px;
+    --tss-font-size-medium: 18px;
+    --tss-font-size-smallplus: 16px;
+    --tss-font-size-small: 14px;
+    --tss-font-size-xsmall: 12px;
+    --tss-font-size-tiny: 10px;
     /* Colors */
-    --mss-default-background-color: rgb(255, 255, 255);
-    --mss-default-foreground-color: rgb(50, 49, 48);
-    --mss-secondary-foreground-color: rgb(96, 94, 92);
-    --mss-disabled-background-color: rgb(243, 242, 241);
-    --mss-disabled-foreground-color: rgb(161, 159, 157);
-    --mss-default-border-color: rgb(138, 136, 134);
-    --mss-invalid-border-color: rgb(164, 38, 44);
-    --mss-default-background-hover-color: rgb(243, 242, 241);
-    --mss-default-foreground-hover-color: rgb(32, 31, 30);
-    --mss-default-background-active-color: rgb(237, 235, 233);
-    --mss-default-foreground-active-color: rgb(32, 31, 30);
-    --mss-primary-background-color: rgb(0, 120, 212);
-    --mss-primary-foreground-color: rgb(255, 255, 255);
-    --mss-primary-border-color: rgb(16, 110, 190);
-    --mss-primary-background-hover-color: rgb(16, 110, 190);
-    --mss-primary-foreground-hover-color: rgb(255, 255, 255);
-    --mss-primary-background-active-color: rgb(0, 90, 158);
-    --mss-primary-foreground-active-color: rgb(255, 255, 255);
-    --mss-slider-color: rgb(200, 198, 196);
-    --mss-slider-active-color: rgb(222, 236, 249);
-    --mss-slider-disabled-color: rgb(243, 242, 241);
-    --mss-overlay-light: rgba(255, 255, 255, 0.4);
-    --mss-overlay-dark: rgba(0, 0, 0, 0.4);
+    --tss-default-background-color: rgb(255, 255, 255);
+    --tss-default-foreground-color: rgb(50, 49, 48);
+    --tss-secondary-foreground-color: rgb(96, 94, 92);
+    --tss-disabled-background-color: rgb(243, 242, 241);
+    --tss-disabled-foreground-color: rgb(161, 159, 157);
+    --tss-default-border-color: rgb(138, 136, 134);
+    --tss-invalid-border-color: rgb(164, 38, 44);
+    --tss-default-background-hover-color: rgb(243, 242, 241);
+    --tss-default-foreground-hover-color: rgb(32, 31, 30);
+    --tss-default-background-active-color: rgb(237, 235, 233);
+    --tss-default-foreground-active-color: rgb(32, 31, 30);
+    --tss-primary-background-color: rgb(0, 120, 212);
+    --tss-primary-foreground-color: rgb(255, 255, 255);
+    --tss-primary-border-color: rgb(16, 110, 190);
+    --tss-primary-background-hover-color: rgb(16, 110, 190);
+    --tss-primary-foreground-hover-color: rgb(255, 255, 255);
+    --tss-primary-background-active-color: rgb(0, 90, 158);
+    --tss-primary-foreground-active-color: rgb(255, 255, 255);
+    --tss-slider-color: rgb(200, 198, 196);
+    --tss-slider-active-color: rgb(222, 236, 249);
+    --tss-slider-disabled-color: rgb(243, 242, 241);
+    --tss-overlay-light: rgba(255, 255, 255, 0.4);
+    --tss-overlay-dark: rgba(0, 0, 0, 0.4);
 }
 
 /* Fonts */
 /* Sizes */
-.mss-fontSize-mega {
-    font-size: var(--mss-font-size-mega);
+.tss-fontSize-mega {
+    font-size: var(--tss-font-size-mega);
 }
 
-.mss-fontSize-xxlarge {
-    font-size: var(--mss-font-size-xxlarge);
+.tss-fontSize-xxlarge {
+    font-size: var(--tss-font-size-xxlarge);
 }
 
-.mss-fontSize-xlarge {
-    font-size: var(--mss-font-size-xlarge);
+.tss-fontSize-xlarge {
+    font-size: var(--tss-font-size-xlarge);
 }
 
-.mss-fontSize-large {
-    font-size: var(--mss-font-size-large);
+.tss-fontSize-large {
+    font-size: var(--tss-font-size-large);
 }
 
-.mss-fontSize-mediumplus {
-    font-size: var(--mss-font-size-mediumplus);
+.tss-fontSize-mediumplus {
+    font-size: var(--tss-font-size-mediumplus);
 }
 
-.mss-fontSize-medium {
-    font-size: var(--mss-font-size-medium);
+.tss-fontSize-medium {
+    font-size: var(--tss-font-size-medium);
 }
 
-.mss-fontSize-smallplus {
-    font-size: var(--mss-font-size-smallplus);
+.tss-fontSize-smallplus {
+    font-size: var(--tss-font-size-smallplus);
 }
 
-.mss-fontSize-small {
-    font-size: var(--mss-font-size-small);
+.tss-fontSize-small {
+    font-size: var(--tss-font-size-small);
 }
 
-.mss-fontSize-xsmall {
-    font-size: var(--mss-font-size-xsmall);
+.tss-fontSize-xsmall {
+    font-size: var(--tss-font-size-xsmall);
 }
 
-.mss-fontSize-tiny {
-    font-size: var(--mss-font-size-tiny);
+.tss-fontSize-tiny {
+    font-size: var(--tss-font-size-tiny);
 }
 
 /* Weights */
-.mss-fontWeight-regular {
-    font-weight: var(--mss-font-weight-regular);
+.tss-fontWeight-regular {
+    font-weight: var(--tss-font-weight-regular);
 }
 
-.mss-fontWeight-semibold {
-    font-weight: var(--mss-font-weight-semibold);
+.tss-fontWeight-semibold {
+    font-weight: var(--tss-font-weight-semibold);
 }
 
-.mss-fontWeight-bold {
-    font-weight: var(--mss-font-weight-bold);
+.tss-fontWeight-bold {
+    font-weight: var(--tss-font-weight-bold);
 }
 
-.mss-fontColor-invalid {
-    color: var(--mss-invalid-border-color);
+.tss-fontColor-invalid {
+    color: var(--tss-invalid-border-color);
 }
 
 *, :before, :after {
@@ -106,16 +106,16 @@
 
 .disabled {
     pointer-events: none;
-    color: var(--mss-disabled-foreground-color);
+    color: var(--tss-disabled-foreground-color);
 }
 
-.mss-required:after {
+.tss-required:after {
     content: "*";
-    color: var(--mss-invalid-border-color);
+    color: var(--tss-invalid-border-color);
     position: absolute;
     top: -3px;
     right: -10px;
     display: inline-block;
-    font-size: var(--mss-font-size-medium);
-    font-weight: var(--mss-font-weight-regular);
+    font-size: var(--tss-font-size-medium);
+    font-weight: var(--tss-font-weight-regular);
 }

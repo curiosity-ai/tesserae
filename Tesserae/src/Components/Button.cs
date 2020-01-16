@@ -60,20 +60,20 @@ namespace Tesserae.Components
         /// </summary>
         public bool IsPrimary
         {
-            get { return InnerElement.classList.contains("mss-btn-primary"); }
+            get { return InnerElement.classList.contains("tss-btn-primary"); }
             set
             {
                 if (value != IsPrimary)
                 {
                     if (value)
                     {
-                        InnerElement.classList.add("mss-btn-primary");
-                        InnerElement.classList.remove("mss-btn-default");
+                        InnerElement.classList.add("tss-btn-primary");
+                        InnerElement.classList.remove("tss-btn-default");
                     }
                     else
                     {
-                        InnerElement.classList.remove("mss-btn-primary");
-                        InnerElement.classList.add("mss-btn-default");
+                        InnerElement.classList.remove("tss-btn-primary");
+                        InnerElement.classList.add("tss-btn-default");
                     }
                 }
             }
@@ -105,8 +105,8 @@ namespace Tesserae.Components
         {
             get
             {
-                var curFontSize = InnerElement.classList.FirstOrDefault(t => t.StartsWith("mss-fontSize-"));
-                if (curFontSize is object && Enum.TryParse<TextSize>(curFontSize.Substring("mss-fontSize-".Length), true, out var result))
+                var curFontSize = InnerElement.classList.FirstOrDefault(t => t.StartsWith("tss-fontSize-"));
+                if (curFontSize is object && Enum.TryParse<TextSize>(curFontSize.Substring("tss-fontSize-".Length), true, out var result))
                 {
                     return result;
                 }
@@ -117,12 +117,12 @@ namespace Tesserae.Components
             }
             set
             {
-                var curFontSize = InnerElement.classList.FirstOrDefault(t => t.StartsWith("mss-fontSize-"));
+                var curFontSize = InnerElement.classList.FirstOrDefault(t => t.StartsWith("tss-fontSize-"));
                 if (curFontSize is object)
                 {
                     InnerElement.classList.remove(curFontSize);
                 }
-                InnerElement.classList.add($"mss-fontSize-{value.ToString().ToLower()}");
+                InnerElement.classList.add($"tss-fontSize-{value.ToString().ToLower()}");
             }
         }
 
@@ -130,8 +130,8 @@ namespace Tesserae.Components
         {
             get
             {
-                var curFontSize = InnerElement.classList.FirstOrDefault(t => t.StartsWith("mss-fontWeight-"));
-                if (curFontSize is object && Enum.TryParse<TextWeight>(curFontSize.Substring("mss-fontWeight-".Length), true, out var result))
+                var curFontSize = InnerElement.classList.FirstOrDefault(t => t.StartsWith("tss-fontWeight-"));
+                if (curFontSize is object && Enum.TryParse<TextWeight>(curFontSize.Substring("tss-fontWeight-".Length), true, out var result))
                 {
                     return result;
                 }
@@ -142,12 +142,12 @@ namespace Tesserae.Components
             }
             set
             {
-                var curFontSize = InnerElement.classList.FirstOrDefault(t => t.StartsWith("mss-fontWeight-"));
+                var curFontSize = InnerElement.classList.FirstOrDefault(t => t.StartsWith("tss-fontWeight-"));
                 if (curFontSize is object)
                 {
                     InnerElement.classList.remove(curFontSize);
                 }
-                InnerElement.classList.add($"mss-fontWeight-{value.ToString().ToLower()}");
+                InnerElement.classList.add($"tss-fontWeight-{value.ToString().ToLower()}");
             }
         }
 
@@ -157,7 +157,7 @@ namespace Tesserae.Components
         public Button(string text = string.Empty)
         {
             _TextSpan = Span(_(text: text));
-            InnerElement = Button(_("mss-btn mss-btn-default"), _TextSpan);
+            InnerElement = Button(_("tss-btn tss-btn-default"), _TextSpan);
             Weight = TextWeight.SemiBold;
             Size = TextSize.Small;
             AttachClick();
@@ -198,7 +198,7 @@ namespace Tesserae.Components
 
         public static Button NoBorder(this Button button)
         {
-            button.InnerElement.classList.add("mss-btn-noborder");
+            button.InnerElement.classList.add("tss-btn-noborder");
             return button;
         }
     }

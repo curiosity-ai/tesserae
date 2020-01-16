@@ -1,5 +1,5 @@
 ﻿/* Panel */
-.mss-panel-container {
+.tss-panel-container {
     position: absolute;
     top: 0px;
     left: 0px;
@@ -7,15 +7,15 @@
     right: 0px;
     margin: 0;
     padding: 0;
-    background-color: var(--mss-overlay-light);
+    background-color: var(--tss-overlay-light);
     visibility: visible;
 }
 
 
-.mss-panel {
+.tss-panel {
     margin: 0;
     padding: 0;
-    background-color: var(--mss-default-background-color);
+    background-color: var(--tss-default-background-color);
     box-shadow: rgba(0, 0, 0, 0.22) 0px 25.6px 57.6px 0px, rgba(0, 0, 0, 0.18) 0px 4.8px 14.4px 0px;
     position: absolute;
     right: auto;
@@ -29,7 +29,7 @@
     visibility: visible;
 }
 
-.mss-panel-command {
+.tss-panel-command {
     margin: 0;
     padding: 0;
     border: 0;
@@ -37,13 +37,13 @@
     position: relative;
 }
 
-    .mss-panel-command button {
+    .tss-panel-command button {
         position: absolute;
         right: 5px;
         top: 0;
         bottom: 0;
         background-color: transparent;
-        color: var(--mss-secondary-foreground-color);
+        color: var(--tss-secondary-foreground-color);
         border: medium none;
         cursor: pointer;
         width: 44px;
@@ -52,21 +52,21 @@
         padding: 0 4px;
         text-align: center;
         display: inline-block;
-        font-size: var(--mss-font-size-mediumplus);
+        font-size: var(--tss-font-size-mediumplus);
         font-weight: lighter;
     }
 
-        .mss-panel-command button:hover {
-            background-color: var(--mss-default-background-hover-color);
-            color: var(--mss-default-foreground-color);
+        .tss-panel-command button:hover {
+            background-color: var(--tss-default-background-hover-color);
+            color: var(--tss-default-foreground-color);
         }
 
-        .mss-panel-command button:active {
-            background-color: var(--mss-default-background-active-color);
-            color: var(--mss-primary-background-active-color);
+        .tss-panel-command button:active {
+            background-color: var(--tss-default-background-active-color);
+            color: var(--tss-primary-background-active-color);
         }
 
-.mss-panel-inner {
+.tss-panel-inner {
     overflow-y: hidden;
     display: flex;
     flex-direction: column;
@@ -74,51 +74,51 @@
     padding: 16px;
 }
 
-.mss-panel-content {
+.tss-panel-content {
     flex-grow: 1;
     overflow-y: auto;
 }
 
-.mss-panel-footer {
+.tss-panel-footer {
     flex-shrink: 0;
 }
 
 
-.mss-panelSize-small {
+.tss-panelSize-small {
     width: 340px;
 }
 
-.mss-panelSize-medium {
+.tss-panelSize-medium {
     width: 644px;
 }
 
-.mss-panelSize-large {
+.tss-panelSize-large {
     left: 428px;
 }
 
-    .mss-panelSize-large.mss-panelSide-near {
+    .tss-panelSize-large.tss-panelSide-near {
         right: 428px;
         left: 0;
     }
 
-.mss-panelSize-largefixed {
+.tss-panelSize-largefixed {
     width: 940px;
 }
 
-.mss-panelSize-extralarge {
+.tss-panelSize-extralarge {
     left: 176px;
 }
 
-    .mss-panelSize-extralarge.mss-panelSide-near {
+    .tss-panelSize-extralarge.tss-panelSide-near {
         right: 176px;
         left: 0;
     }
 
-.mss-panelSize-fullwidth {
+.tss-panelSize-fullwidth {
     width: 100%;
 }
 
-.mss-panel-overlay {
+.tss-panel-overlay {
     position: absolute;
     left: 0;
     top: 0;
@@ -127,18 +127,18 @@
     background-color: transparent;
 }
 
-.mss-panel-lightDismiss {
+.tss-panel-lightDismiss {
     cursor: pointer;
 }
 
-.mss-panelSide-far {
+.tss-panelSide-far {
     right: 0;
 }
 
-.mss-panelSide-near {
+.tss-panelSide-near {
     left: 0;
 }
 
-.mss-panel-modeless {
+.tss-panel-modeless {
     visibility: hidden
 }

@@ -40,8 +40,8 @@ namespace Tesserae.Components
         {
             get
             {
-                var curFontSize = InnerElement.classList.FirstOrDefault(t => t.StartsWith("mss-fontSize-"));
-                if (curFontSize is object && Enum.TryParse<TextSize>(curFontSize.Substring("mss-fontSize-".Length), true, out var result))
+                var curFontSize = InnerElement.classList.FirstOrDefault(t => t.StartsWith("tss-fontSize-"));
+                if (curFontSize is object && Enum.TryParse<TextSize>(curFontSize.Substring("tss-fontSize-".Length), true, out var result))
                 {
                     return result;
                 }
@@ -52,12 +52,12 @@ namespace Tesserae.Components
             }
             set
             {
-                var curFontSize = InnerElement.classList.FirstOrDefault(t => t.StartsWith("mss-fontSize-"));
+                var curFontSize = InnerElement.classList.FirstOrDefault(t => t.StartsWith("tss-fontSize-"));
                 if(curFontSize is object)
                 {
                     InnerElement.classList.remove(curFontSize);
                 }
-                InnerElement.classList.add($"mss-fontSize-{value.ToString().ToLower()}");
+                InnerElement.classList.add($"tss-fontSize-{value.ToString().ToLower()}");
             }
         }
 
@@ -65,8 +65,8 @@ namespace Tesserae.Components
         {
             get
             {
-                var curFontSize = InnerElement.classList.FirstOrDefault(t => t.StartsWith("mss-fontWeight-"));
-                if (curFontSize is object && Enum.TryParse<TextWeight>(curFontSize.Substring("mss-fontWeight-".Length), true, out var result))
+                var curFontSize = InnerElement.classList.FirstOrDefault(t => t.StartsWith("tss-fontWeight-"));
+                if (curFontSize is object && Enum.TryParse<TextWeight>(curFontSize.Substring("tss-fontWeight-".Length), true, out var result))
                 {
                     return result;
                 }
@@ -77,29 +77,29 @@ namespace Tesserae.Components
             }
             set
             {
-                var curFontSize = InnerElement.classList.FirstOrDefault(t => t.StartsWith("mss-fontWeight-"));
+                var curFontSize = InnerElement.classList.FirstOrDefault(t => t.StartsWith("tss-fontWeight-"));
                 if (curFontSize is object)
                 {
                     InnerElement.classList.remove(curFontSize);
                 }
-                InnerElement.classList.add($"mss-fontWeight-{value.ToString().ToLower()}");
+                InnerElement.classList.add($"tss-fontWeight-{value.ToString().ToLower()}");
             }
         }
 
         public bool IsInvalid
         {
-            get { return InnerElement.classList.contains("mss-fontColor-invalid"); }
+            get { return InnerElement.classList.contains("tss-fontColor-invalid"); }
             set
             {
                 if (value != IsInvalid)
                 {
                     if (value)
                     {
-                        InnerElement.classList.add("mss-fontColor-invalid");
+                        InnerElement.classList.add("tss-fontColor-invalid");
                     }
                     else
                     {
-                        InnerElement.classList.remove("mss-fontColor-invalid");
+                        InnerElement.classList.remove("tss-fontColor-invalid");
                     }
                 }
             }
@@ -107,18 +107,18 @@ namespace Tesserae.Components
 
         public virtual bool IsRequired
         {
-            get { return InnerElement.classList.contains("mss-required"); }
+            get { return InnerElement.classList.contains("tss-required"); }
             set
             {
                 if (value != IsInvalid)
                 {
                     if (value)
                     {
-                        InnerElement.classList.add("mss-required");
+                        InnerElement.classList.add("tss-required");
                     }
                     else
                     {
-                        InnerElement.classList.remove("mss-required");
+                        InnerElement.classList.remove("tss-required");
                     }
                 }
             }
@@ -154,7 +154,7 @@ namespace Tesserae.Components
 
         public TextBlock(string text = string.Empty)
         {
-            InnerElement = Div(_("mss-textBlock mss-fontSize-small mss-fontWeight-regular", text: text));
+            InnerElement = Div(_("tss-textBlock tss-fontSize-small tss-fontWeight-regular", text: text));
         }
 
         public override HTMLElement Render()

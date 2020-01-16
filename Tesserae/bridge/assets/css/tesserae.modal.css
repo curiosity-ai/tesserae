@@ -1,5 +1,5 @@
 ﻿/* Modal */
-.mss-modal-container {
+.tss-modal-container {
     position: absolute;
     top: 0px;
     left: 0px;
@@ -7,7 +7,7 @@
     right: 0px;
     margin: 0;
     padding: 0;
-    background-color: var(--mss-overlay-dark);
+    background-color: var(--tss-overlay-dark);
     visibility: visible;
     display: flex;
     align-items: center;
@@ -15,10 +15,10 @@
 }
 
 
-.mss-modal {
+.tss-modal {
     margin: 0;
     padding: 0;
-    background-color: var(--mss-default-background-color);
+    background-color: var(--tss-default-background-color);
     box-shadow: rgba(0, 0, 0, 0.22) 0px 25.6px 57.6px 0px, rgba(0, 0, 0, 0.18) 0px 4.8px 14.4px 0px;
     border-radius: 2px;
     position: relative;
@@ -39,12 +39,12 @@
     visibility: visible;
 }
 
-.mss-modal-header {
-    font-size: var(--mss-font-size-mediumplus);
-    font-weight: var(--mss-font-weight-semibold);
+.tss-modal-header {
+    font-size: var(--tss-font-size-mediumplus);
+    font-weight: var(--tss-font-weight-semibold);
 }
 
-.mss-modal-command {
+.tss-modal-command {
     margin: 0;
     border: 0;
     padding: 12px 24px;
@@ -52,13 +52,13 @@
     border-top: 4px solid rgb(0, 120, 212);
 }
 
-    .mss-modal-command button {
+    .tss-modal-command button {
         position: absolute;
         right: 18px;
         top: 12px;
         bottom: 0;
         background-color: transparent;
-        color: var(--mss-secondary-foreground-color);
+        color: var(--tss-secondary-foreground-color);
         border: medium none;
         cursor: pointer;
         width: 32px;
@@ -68,28 +68,28 @@
         padding: 0 4px;
         text-align: center;
         display: inline-block;
-        font-size: var(--mss-font-size-mediumplus);
+        font-size: var(--tss-font-size-mediumplus);
         font-weight: lighter;
     }
 
-        .mss-modal-command button:hover {
-            background-color: var(--mss-default-background-hover-color);
-            color: var(--mss-default-foreground-color);
+        .tss-modal-command button:hover {
+            background-color: var(--tss-default-background-hover-color);
+            color: var(--tss-default-foreground-color);
         }
 
-        .mss-modal-command button:active {
-            background-color: var(--mss-default-background-active-color);
-            color: var(--mss-primary-background-active-color);
+        .tss-modal-command button:active {
+            background-color: var(--tss-default-background-active-color);
+            color: var(--tss-primary-background-active-color);
         }
 
-.mss-modal-content {
+.tss-modal-content {
     overflow-y: hidden;
     flex-grow: 1;
     overflow-y: auto;
     padding: 0px 20px 20px 20px;
 }
 
-.mss-modal-overlay {
+.tss-modal-overlay {
     position: absolute;
     left: 0;
     top: 0;
@@ -98,14 +98,14 @@
     background-color: transparent;
 }
 
-.mss-modal-lightDismiss {
+.tss-modal-lightDismiss {
     cursor: pointer;
 }
 
-.mss-modal-draggable {
+.tss-modal-draggable {
     cursor: move;
 }
 
-.mss-modal-modeless {
+.tss-modal-modeless {
     visibility: hidden
 }

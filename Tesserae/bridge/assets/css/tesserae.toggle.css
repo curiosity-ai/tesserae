@@ -1,21 +1,21 @@
 ﻿/* Toggle */
-.mss-toggle-container {
+.tss-toggle-container {
     position: relative;
     cursor: pointer;
-    color: var(--mss-default-foreground-color);
-    font-size: var(--mss-font-size-small);
-    font-weight: var(--mss-font-weight-semibold);
+    color: var(--tss-default-foreground-color);
+    font-size: var(--tss-font-size-small);
+    font-weight: var(--tss-font-weight-semibold);
     user-select: none;
     padding-left: 45px;
     margin: 4px;
     display: block;
 }
 
-    .mss-toggle-container span {
-        font-weight: var(--mss-font-weight-regular);
+    .tss-toggle-container span {
+        font-weight: var(--tss-font-weight-regular);
     }
 
-    .mss-toggle-container .mss-checkbox {
+    .tss-toggle-container .tss-checkbox {
         position: absolute;
         opacity: 0;
         cursor: pointer;
@@ -23,43 +23,43 @@
         width: 0;
     }
 
-    .mss-toggle-container .mss-toggle-mark {
+    .tss-toggle-container .tss-toggle-mark {
         position: absolute;
         top: 0;
         left: 0;
         display: inline-block;
         height: 20px;
         width: 40px;
-        background-color: var(--mss-default-background-color);
-        border: 1px solid var(--mss-default-foreground-color);
+        background-color: var(--tss-default-background-color);
+        border: 1px solid var(--tss-default-foreground-color);
         border-radius: 10px;
     }
 
-    .mss-toggle-container:hover .mss-toggle-mark {
-        background-color: var(--mss-default-background-hover-color);
-        border-color: var(--mss-default-foreground-hover-color);
+    .tss-toggle-container:hover .tss-toggle-mark {
+        background-color: var(--tss-default-background-hover-color);
+        border-color: var(--tss-default-foreground-hover-color);
     }
 
-        .mss-toggle-container:hover .mss-toggle-mark:after {
-            background-color: var(--mss-default-foreground-hover-color);
+        .tss-toggle-container:hover .tss-toggle-mark:after {
+            background-color: var(--tss-default-foreground-hover-color);
         }
 
-    .mss-toggle-container input:checked ~ .mss-toggle-mark {
-        background-color: var(--mss-primary-background-color);
-        border-color: var(--mss-primary-background-color);
+    .tss-toggle-container input:checked ~ .tss-toggle-mark {
+        background-color: var(--tss-primary-background-color);
+        border-color: var(--tss-primary-background-color);
     }
 
-    .mss-toggle-container:hover input:checked ~ .mss-toggle-mark {
-        background-color: var(--mss-primary-background-hover-color);
+    .tss-toggle-container:hover input:checked ~ .tss-toggle-mark {
+        background-color: var(--tss-primary-background-hover-color);
     }
 
-    .mss-toggle-container input:checked ~ .mss-toggle-mark:after {
-        background-color: var(--mss-primary-foreground-color);
+    .tss-toggle-container input:checked ~ .tss-toggle-mark:after {
+        background-color: var(--tss-primary-foreground-color);
         left: unset;
         right: 3px;
     }
 
-    .mss-toggle-container .mss-toggle-mark:after {
+    .tss-toggle-container .tss-toggle-mark:after {
         content: "";
         position: absolute;
         display: inline-block;
@@ -68,19 +68,19 @@
         width: 12px;
         height: 12px;
         border-radius: 50%;
-        background-color: var(--mss-default-foreground-color);
+        background-color: var(--tss-default-foreground-color);
     }
 
-    .mss-toggle-container.disabled {
-        color: var(--mss-disabled-foreground-color);
+    .tss-toggle-container.disabled {
+        color: var(--tss-disabled-foreground-color);
     }
 
-        .mss-toggle-container.disabled .mss-toggle-mark {
-            background-color: var(--mss-disabled-background-color);
-            border-color: var(--mss-disabled-foreground-color);
+        .tss-toggle-container.disabled .tss-toggle-mark {
+            background-color: var(--tss-disabled-background-color);
+            border-color: var(--tss-disabled-foreground-color);
         }
 
-        .mss-toggle-container.disabled input:checked ~ .mss-toggle-mark {
-            background-color: var(--mss-disabled-foreground-color);
-            border-color: var(--mss-disabled-foreground-color);
+        .tss-toggle-container.disabled input:checked ~ .tss-toggle-mark {
+            background-color: var(--tss-disabled-foreground-color);
+            border-color: var(--tss-disabled-foreground-color);
         }

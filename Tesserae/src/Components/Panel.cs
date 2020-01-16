@@ -74,7 +74,7 @@ namespace Tesserae.Components
             get { if (Enum.TryParse<PanelSize>(_Panel.classList[1].Substring(_Panel.classList[1].LastIndexOf('-') + 1), true, out var result)) return result; return PanelSize.Small; }
             set
             {
-                _Panel.classList.replace(_Panel.classList[1], $"mss-panelSize-{value.ToString().ToLower()}");
+                _Panel.classList.replace(_Panel.classList[1], $"tss-panelSize-{value.ToString().ToLower()}");
             }
         }
 
@@ -83,25 +83,25 @@ namespace Tesserae.Components
             get { if (Enum.TryParse<PanelSide>(_Panel.classList[2].Substring(_Panel.classList[2].LastIndexOf('-') + 1), true, out var result)) return result; return PanelSide.Far; }
             set
             {
-                _Panel.classList.replace(_Panel.classList[2], $"mss-panelSide-{value.ToString().ToLower()}");
+                _Panel.classList.replace(_Panel.classList[2], $"tss-panelSide-{value.ToString().ToLower()}");
             }
         }
 
         public bool CanLightDismiss
         {
-            get { return _PanelOverlay.classList.contains("mss-panel-lightDismiss"); }
+            get { return _PanelOverlay.classList.contains("tss-panel-lightDismiss"); }
             set
             {
                 if (value != CanLightDismiss)
                 {
                     if (value)
                     {
-                        _PanelOverlay.classList.add("mss-panel-lightDismiss");
+                        _PanelOverlay.classList.add("tss-panel-lightDismiss");
                         _PanelOverlay.addEventListener("click", OnCloseClick);
                     }
                     else
                     {
-                        _PanelOverlay.classList.remove("mss-panel-lightDismiss");
+                        _PanelOverlay.classList.remove("tss-panel-lightDismiss");
                         _PanelOverlay.removeEventListener("click", OnCloseClick);
                     }
                 }
@@ -110,19 +110,19 @@ namespace Tesserae.Components
 
         public bool IsNonBlocking
         {
-            get { return _ContentHtml.classList.contains("mss-panel-modeless"); }
+            get { return _ContentHtml.classList.contains("tss-panel-modeless"); }
             set
             {
                 if (value != IsNonBlocking)
                 {
                     if (value)
                     {
-                        _ContentHtml.classList.add("mss-panel-modeless");
+                        _ContentHtml.classList.add("tss-panel-modeless");
                         if (IsVisible) document.body.style.overflowY = "";
                     }
                     else
                     {
-                        _ContentHtml.classList.remove("mss-panel-modeless");
+                        _ContentHtml.classList.remove("tss-panel-modeless");
                         if (IsVisible) document.body.style.overflowY = "hidden";
                     }
                 }
@@ -145,12 +145,12 @@ namespace Tesserae.Components
         public Panel() : base()
         {
             _CloseButton = Button(_("fal fa-times", el: el => el.onclick = (e) => Hide()));
-            _PanelCommand = Div(_("mss-panel-command"), _CloseButton);
-            _PanelContent = Div(_("mss-panel-content"));
-            _PanelFooter = Div(_("mss-panel-footer"));
-            _Panel = Div(_("mss-panel mss-panelSize-small mss-panelSide-far"), _PanelCommand, Div(_("mss-panel-inner"), _PanelContent, _PanelFooter));
-            _PanelOverlay = Div(_("mss-panel-overlay"));
-            _ContentHtml = Div(_("mss-panel-container"), _PanelOverlay, _Panel);
+            _PanelCommand = Div(_("tss-panel-command"), _CloseButton);
+            _PanelContent = Div(_("tss-panel-content"));
+            _PanelFooter = Div(_("tss-panel-footer"));
+            _Panel = Div(_("tss-panel tss-panelSize-small tss-panelSide-far"), _PanelCommand, Div(_("tss-panel-inner"), _PanelContent, _PanelFooter));
+            _PanelOverlay = Div(_("tss-panel-overlay"));
+            _ContentHtml = Div(_("tss-panel-container"), _PanelOverlay, _Panel);
         }
 
         protected override HTMLElement BuildRenderedContent()

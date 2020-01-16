@@ -88,7 +88,7 @@ namespace Tesserae.Components
         public Slider(int val = 0, int min = 0, int max = 100, int step = 10)
         {
             InnerElement = document.createElement("input") as HTMLInputElement;
-            InnerElement.className = "mss-slider";
+            InnerElement.className = "tss-slider";
             InnerElement.value = val.ToString();
             InnerElement.min = min.ToString();
             InnerElement.max = max.ToString();
@@ -105,7 +105,7 @@ namespace Tesserae.Components
 
             if (navigator.userAgent.IndexOf("AppleWebKit") != -1)
             {
-                _FakeDiv = Div(_("mss-slider-fake-progress"));
+                _FakeDiv = Div(_("tss-slider-fake-progress"));
                 double percent = ((double)(val - min) / (double)(max - min)) * 100.0;
                 _FakeDiv.style.width = $"{percent.ToString("0.##")}%";
                 OnInput += (e, s) =>
@@ -113,15 +113,15 @@ namespace Tesserae.Components
                     percent = ((double)(Value - Min) / (double)(Max - Min)) * 100.0;
                     _FakeDiv.style.width = $"{percent.ToString("0.##")}%";
                 };
-                _OuterLabel = Label(_("mss-slider-container"), InnerElement, Div(_("mss-slider-fake-background")), _FakeDiv);
+                _OuterLabel = Label(_("tss-slider-container"), InnerElement, Div(_("tss-slider-fake-background")), _FakeDiv);
                 InnerElement.classList.add("fake");
             }
             else
             {
-                _OuterLabel = Label(_("mss-slider-container"), InnerElement);
+                _OuterLabel = Label(_("tss-slider-container"), InnerElement);
             }
 
-            _OuterDiv = Div(_("mss-slider-div"), _OuterLabel);
+            _OuterDiv = Div(_("tss-slider-div"), _OuterLabel);
         }
 
         public override HTMLElement Render()

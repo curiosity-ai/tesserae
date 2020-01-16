@@ -1,14 +1,14 @@
 ﻿/* Tabs */
-.mss-pivot {
+.tss-pivot {
     margin: 0;
     padding: 0;
 }
 
-.mss-pivot-selected-title {
-    font-weight: var(--mss-font-weight-semibold);
+.tss-pivot-selected-title {
+    font-weight: var(--tss-font-weight-semibold);
 }
 
-.mss-pivot-titlebar {
+.tss-pivot-titlebar {
     display: inline-flex;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -29,12 +29,12 @@
     white-space: nowrap;
 }
 
-.mss-pivot-content {
+.tss-pivot-content {
     margin: 0;
     padding: 0;
 }
-.mss-pivot-line {
+.tss-pivot-line {
     height: 3px;
     width: 0px;
-    background: var(--mss-primary-background-color)
+    background: var(--tss-primary-background-color)
 }

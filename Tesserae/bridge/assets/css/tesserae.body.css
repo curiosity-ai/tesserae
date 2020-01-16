@@ -9,8 +9,8 @@ body {
     line-height: 1.4;
     overflow-x: hidden;
     overflow-y: scroll;
-    color: var(--mss-default-foreground-color);
-    background-color: var(--mss-default-background-color);
-    font-size: var(--mss-font-size-small);
+    color: var(--tss-default-foreground-color);
+    background-color: var(--tss-default-background-color);
+    font-size: var(--tss-font-size-small);
     font-family: Segoe UI, SegoeUI, "Helvetica Neue", Helvetica, Arial, sans-serif;
 }

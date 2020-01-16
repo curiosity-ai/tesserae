@@ -6,7 +6,7 @@ button:focus {
     outline: 0;
 }
 
-.mss-btn {
+.tss-btn {
     border: 1px solid;
     border-radius: 2px;
     outline: transparent none medium;
@@ -18,48 +18,48 @@ button:focus {
     margin: 4px;
 }
 
-    .mss-btn.disabled {
-        color: var(--mss-disabled-foreground-color);
-        background-color: var(--mss-disabled-background-color);
-        border-color: var(--mss-disabled-background-color);
+    .tss-btn.disabled {
+        color: var(--tss-disabled-foreground-color);
+        background-color: var(--tss-disabled-background-color);
+        border-color: var(--tss-disabled-background-color);
     }
 
-    .mss-btn i {
+    .tss-btn i {
         margin-right: 4px;
     }
 
-.mss-btn-default {
-    color: var(--mss-default-foreground-color);
-    background-color: var(--mss-default-background-color);
-    border-color: var(--mss-default-border-color);
+.tss-btn-default {
+    color: var(--tss-default-foreground-color);
+    background-color: var(--tss-default-background-color);
+    border-color: var(--tss-default-border-color);
 }
 
-    .mss-btn-default:hover {
-        color: var(--mss-default-foreground-hover-color);
-        background-color: var(--mss-default-background-hover-color);
+    .tss-btn-default:hover {
+        color: var(--tss-default-foreground-hover-color);
+        background-color: var(--tss-default-background-hover-color);
     }
 
-    .mss-btn-default:active {
-        color: var(--mss-default-foreground-active-color);
-        background-color: var(--mss-default-background-active-color);
+    .tss-btn-default:active {
+        color: var(--tss-default-foreground-active-color);
+        background-color: var(--tss-default-background-active-color);
     }
 
-.mss-btn-noborder {
+.tss-btn-noborder {
     border-color: transparent;
 }
 
-.mss-btn-primary {
-    color: var(--mss-primary-foreground-color);
-    background-color: var(--mss-primary-background-color);
-    border-color: var(--mss-primary-border-color);
+.tss-btn-primary {
+    color: var(--tss-primary-foreground-color);
+    background-color: var(--tss-primary-background-color);
+    border-color: var(--tss-primary-border-color);
 }
 
-    .mss-btn-primary:hover {
-        color: var(--mss-primary-foreground-hover-color);
-        background-color: var(--mss-primary-background-hover-color);
+    .tss-btn-primary:hover {
+        color: var(--tss-primary-foreground-hover-color);
+        background-color: var(--tss-primary-background-hover-color);
     }
 
-    .mss-btn-primary:active {
-        color: var(--mss-primary-foreground-active-color);
-        background-color: var(--mss-primary-background-active-color);
+    .tss-btn-primary:active {
+        color: var(--tss-primary-foreground-active-color);
+        background-color: var(--tss-primary-background-active-color);
     }
