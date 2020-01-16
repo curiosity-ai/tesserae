@@ -30,11 +30,11 @@ namespace Tesserae.Tests.Samples
                     ),
                     Stack().WidthPercents(40).Children(
                         TextBlock("Don't").Medium(),
-                        TextBlock("Don’t use a TextBox to render basic copy as part of a body element of a page."),
-                        TextBlock("Don’t provide an unlabeled TextBox and expect that users will know what to do with it."),
-                        TextBlock("Don’t place a TextBox inline with body copy."),
-                        TextBlock("Don’t be overly verbose with helper text."),
-                        TextBlock("Don’t occlude the entry or allow entry when the active content is not visible.")
+                        TextBlock("Don't use a TextBox to render basic copy as part of a body element of a page."),
+                        TextBlock("Don't provide an unlabeled TextBox and expect that users will know what to do with it."),
+                        TextBlock("Don't place a TextBox inline with body copy."),
+                        TextBlock("Don't be overly verbose with helper text."),
+                        TextBlock("Don't occlude the entry or allow entry when the active content is not visible.")
                     )
                 ),
                 TextBlock("Usage").MediumPlus(),
@@ -47,6 +47,8 @@ namespace Tesserae.Tests.Samples
                     TextBox("").Required(),
                     Label("With error message").Content(TextBox().Error("Error message").Invalid()),
                     Label("With placeholder").Content(TextBox().Placeholder("Please enter text here")),
+                    Label("With validation").Content(TextBox().Validation((tb) => tb.Text.Length == 0 ? "Empty" : null)),
+                    Label("With validation on type").Content(TextBox().Validation(Validation.NonZeroPositiveInteger)),
                     Label("Disabled with placeholder").Disabled().Content(TextBox().Placeholder("I am disabled").Disabled())
                 )
             );

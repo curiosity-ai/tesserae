@@ -85,5 +85,10 @@
         {
             return new Dialog(header);
         }
+
+        public static Pivot Pivot()
+        {
+            return new Pivot();
+        }
     }
 }

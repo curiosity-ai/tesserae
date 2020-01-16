@@ -2,6 +2,8 @@
 .mss-slider-div {
     width: 100%;
     margin: 4px;
+    margin-bottom: 8px;
+    padding-right: 8px;
 }
 
 .mss-slider-container {
@@ -74,7 +76,7 @@
 .mss-slider {
     -webkit-appearance: none;
     width: 100%;
-    height: 4px;
+    height: 0px;
     border-radius: 4px;
     background-color: var(--mss-slider-color);
     outline: none;

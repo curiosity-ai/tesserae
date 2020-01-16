@@ -4,9 +4,9 @@ using static Retyped.dom;
 
 namespace Tesserae.Components
 {
-    public class TextBox : ComponentBase<TextBox, HTMLInputElement>
+    public class TextBox : ComponentBase<TextBox, HTMLInputElement>, ICanValidate
     {
-        #region Feilds
+        #region Fields
 
         private HTMLDivElement container;
         private HTMLSpanElement errorSpan;

@@ -56,33 +56,35 @@ namespace Tesserae.Tests
                 })*/
             .Links(
                 NavLink("Basic Inputs").Expanded().Links(
-                    NavLink("Button").OnSelected((s, e) => Show(new Samples.ButtonSample())).Selected(),
-                    NavLink("CheckBox").OnSelected((s, e) => Show(new Samples.CheckBoxSample())),
-                    NavLink("ChoiceGroup").OnSelected((s, e) => Show(new Samples.ChoiceGroupSample())),
-                    NavLink("Label").OnSelected((s, e) => Show(new Samples.LabelSample())),
-                    NavLink("TextBox").OnSelected((s, e) => Show(new Samples.TextBoxSample())),
-                    NavLink("Toggle").OnSelected((s, e) => Show(new Samples.ToggleSample()))
+                    NavLink("Button").OnSelected((s, e)             => Show(new Samples.ButtonSample())).Selected(),
+                    NavLink("CheckBox").OnSelected((s, e)           => Show(new Samples.CheckBoxSample())),
+                    NavLink("ChoiceGroup").OnSelected((s, e)        => Show(new Samples.ChoiceGroupSample())),
+                    NavLink("Label").OnSelected((s, e)              => Show(new Samples.LabelSample())),
+                    NavLink("TextBox").OnSelected((s, e)            => Show(new Samples.TextBoxSample())),
+                    NavLink("Toggle").OnSelected((s, e)             => Show(new Samples.ToggleSample()))
                 ),
                 NavLink("Surfaces").Expanded().Links(
-                    NavLink("Dialog").OnSelected((s, e) => Show(new Samples.DialogSample())),
-                    NavLink("Modal").OnSelected((s, e) => Show(new Samples.ModalSample())),
-                    NavLink("Panel").OnSelected((s, e) => Show(new Samples.PanelSample()))
+                    NavLink("Dialog").OnSelected((s, e)             => Show(new Samples.DialogSample())),
+                    NavLink("Modal").OnSelected((s, e)              => Show(new Samples.ModalSample())),
+                    NavLink("Panel").OnSelected((s, e)              => Show(new Samples.PanelSample()))
                 ),
                 NavLink("Utilities").Expanded().Links(
-                    NavLink("Layer").OnSelected((s, e) => Show(new Samples.LayerSample())),
-                    NavLink("Stack").OnSelected((s, e) => Show(new Samples.StackSample())),
-                    NavLink("TextBlock").OnSelected((s, e) => Show(new Samples.TextBlockSample()))
+                    NavLink("Layer").OnSelected((s, e)              => Show(new Samples.LayerSample())),
+                    NavLink("Stack").OnSelected((s, e)              => Show(new Samples.StackSample())),
+                    NavLink("TextBlock").OnSelected((s, e)          => Show(new Samples.TextBlockSample())),
+                    NavLink("Validator").OnSelected((s, e)          => Show(new Samples.ValidatorSample())),
+                    NavLink("Pivot").OnSelected((s, e)               => Show(new Samples.PivotSample()))
                 ),
                 NavLink("Deprecated Samples").Links(
-                    NavLink("Stack Sample").OnSelected((s, e) => Show(StackSample())),
-                    NavLink("Buttons Sample").OnSelected((s, e) => Show(ButtonSample())),
-                    NavLink("TextBox Sample").OnSelected((s, e) => Show(TextBoxSample())),
-                    NavLink("CheckBox Sample").OnSelected((s, e) => Show(CheckBoxSample())),
-                    NavLink("Toggle Sample").OnSelected((s, e) => Show(ToggleSample())),
+                    NavLink("Stack Sample").OnSelected((s, e)       => Show(StackSample())),
+                    NavLink("Buttons Sample").OnSelected((s, e)     => Show(ButtonSample())),
+                    NavLink("TextBox Sample").OnSelected((s, e)     => Show(TextBoxSample())),
+                    NavLink("CheckBox Sample").OnSelected((s, e)    => Show(CheckBoxSample())),
+                    NavLink("Toggle Sample").OnSelected((s, e)      => Show(ToggleSample())),
                     NavLink("ChoiceGroup Sample").OnSelected((s, e) => Show(ChoiceGroupSample())),
-                    NavLink("Slider Sample").OnSelected((s, e) => Show(SliderSample())),
-                    NavLink("Layer Sample").OnSelected((s, e) => Show(LayerSample())),
-                    NavLink("Panel Sample").OnSelected((s, e) => Show(PanelSample()))
+                    NavLink("Slider Sample").OnSelected((s, e)      => Show(SliderSample())),
+                    NavLink("Layer Sample").OnSelected((s, e)       => Show(LayerSample())),
+                    NavLink("Panel Sample").OnSelected((s, e)       => Show(PanelSample()))
                 )
             );
         }

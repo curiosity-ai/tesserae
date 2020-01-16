@@ -1,0 +1,40 @@
+﻿/* Tabs */
+.mss-pivot {
+    margin: 0;
+    padding: 0;
+}
+
+.mss-pivot-selected-title {
+    font-weight: var(--mss-font-weight-semibold);
+}
+
+.mss-pivot-titlebar {
+    display: inline-flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    font-size: 14px;
+    font-weight: 400;
+    box-shadow: none;
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    padding-top: 0px;
+    padding-right: 0px;
+    padding-bottom: 0px;
+    padding-left: 0px;
+    box-sizing: border-box;
+    position: relative;
+    color: rgb(0, 120, 212);
+    white-space: nowrap;
+}
+
+.mss-pivot-content {
+    margin: 0;
+    padding: 0;
+}
+.mss-pivot-line {
+    height: 3px;
+    width: 0px;
+    background: var(--mss-primary-background-color)
+}

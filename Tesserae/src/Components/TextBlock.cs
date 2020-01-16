@@ -3,31 +3,11 @@ using Retyped;
 using static Tesserae.HTML.HtmlUtil;
 using static Tesserae.HTML.HtmlAttributes;
 using static Retyped.dom;
+using System.Linq;
 
 namespace Tesserae.Components
 {
-    public enum TextSize
-    {
-        Tiny,
-        XSmall,
-        Small,
-        SmallPlus,
-        Medium,
-        MediumPlus,
-        Large,
-        XLarge,
-        XXLarge,
-        Mega
-    }
-
-    public enum TextWeight
-    {
-        Regular,
-        SemiBold,
-        Bold
-    }
-
-    public class TextBlock : ComponentBase<TextBlock, HTMLElement>
+    public class TextBlock : ComponentBase<TextBlock, HTMLElement>, IHasTextSize
     {
         #region Properties
 
@@ -58,21 +38,54 @@ namespace Tesserae.Components
 
         public TextSize Size
         {
-            get { if (Enum.TryParse<TextSize>(InnerElement.classList.item(1).Substring(InnerElement.classList[1].LastIndexOf('-') + 1), true, out var result)) return result; return TextSize.Small; }
+            get
+            {
+                var curFontSize = InnerElement.classList.FirstOrDefault(t => t.StartsWith("mss-fontSize-"));
+                if (curFontSize is object && Enum.TryParse<TextSize>(curFontSize.Substring("mss-fontSize-".Length), true, out var result))
+                {
+                    return result;
+                }
+                else
+                {
+                    return TextSize.Small;
+                }
+            }
             set
             {
-                InnerElement.classList.replace(InnerElement.classList.item(1), $"mss-fontSize-{value.ToString().ToLower()}");
+                var curFontSize = InnerElement.classList.FirstOrDefault(t => t.StartsWith("mss-fontSize-"));
+                if(curFontSize is object)
+                {
+                    InnerElement.classList.remove(curFontSize);
+                }
+                InnerElement.classList.add($"mss-fontSize-{value.ToString().ToLower()}");
             }
         }
 
         public TextWeight Weight
         {
-            get { if (Enum.TryParse<TextWeight>(InnerElement.classList.item(2).Substring(InnerElement.classList[1].LastIndexOf('-') + 1), true, out var result)) return result; return TextWeight.Regular; }
+            get
+            {
+                var curFontSize = InnerElement.classList.FirstOrDefault(t => t.StartsWith("mss-fontWeight-"));
+                if (curFontSize is object && Enum.TryParse<TextWeight>(curFontSize.Substring("mss-fontWeight-".Length), true, out var result))
+                {
+                    return result;
+                }
+                else
+                {
+                    return TextWeight.Regular;
+                }
+            }
             set
             {
-                InnerElement.classList.replace(InnerElement.classList.item(2), $"mss-fontWeight-{value.ToString().ToLower()}");
+                var curFontSize = InnerElement.classList.FirstOrDefault(t => t.StartsWith("mss-fontWeight-"));
+                if (curFontSize is object)
+                {
+                    InnerElement.classList.remove(curFontSize);
+                }
+                InnerElement.classList.add($"mss-fontWeight-{value.ToString().ToLower()}");
             }
         }
+
         public bool IsInvalid
         {
             get { return InnerElement.classList.contains("mss-fontColor-invalid"); }
@@ -173,82 +186,6 @@ namespace Tesserae.Components
         public static T NoWrap<T>(this T textBlock) where T : TextBlock
         {
             textBlock.CanWrap = false;
-            return textBlock;
-        }
-
-
-        public static T Tiny<T>(this T textBlock) where T : TextBlock
-        {
-            textBlock.Size = TextSize.Tiny;
-            return textBlock;
-        }
-
-        public static T XSmall<T>(this T textBlock) where T : TextBlock
-        {
-            textBlock.Size = TextSize.XSmall;
-            return textBlock;
-        }
-        public static T Small<T>(this T textBlock) where T : TextBlock
-        {
-            textBlock.Size = TextSize.Small;
-            return textBlock;
-        }
-
-        public static T SmallPlus<T>(this T textBlock) where T : TextBlock
-        {
-            textBlock.Size = TextSize.SmallPlus;
-            return textBlock;
-        }
-
-        public static T Medium<T>(this T textBlock) where T : TextBlock
-        {
-            textBlock.Size = TextSize.Medium;
-            return textBlock;
-        }
-        public static T MediumPlus<T>(this T textBlock) where T : TextBlock
-        {
-            textBlock.Size = TextSize.MediumPlus;
-            return textBlock;
-        }
-
-        public static T Large<T>(this T textBlock) where T : TextBlock
-        {
-            textBlock.Size = TextSize.Large;
-            return textBlock;
-        }
-        public static T XLarge<T>(this T textBlock) where T : TextBlock
-        {
-            textBlock.Size = TextSize.XLarge;
-            return textBlock;
-        }
-
-        public static T XXLarge<T>(this T textBlock) where T : TextBlock
-        {
-            textBlock.Size = TextSize.XXLarge;
-            return textBlock;
-        }
-
-        public static T Mega<T>(this T textBlock) where T : TextBlock
-        {
-            textBlock.Size = TextSize.Mega;
-            return textBlock;
-        }
-
-        public static T Regular<T>(this T textBlock) where T : TextBlock
-        {
-            textBlock.Weight = TextWeight.Regular;
-            return textBlock;
-        }
-
-        public static T SemiBold<T>(this T textBlock) where T : TextBlock
-        {
-            textBlock.Weight = TextWeight.SemiBold;
-            return textBlock;
-        }
-
-        public static T Bold<T>(this T textBlock) where T : TextBlock
-        {
-            textBlock.Weight = TextWeight.Bold;
             return textBlock;
         }
 

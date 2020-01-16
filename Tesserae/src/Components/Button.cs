@@ -1,10 +1,12 @@
 ﻿using static Tesserae.HTML.HtmlUtil;
 using static Tesserae.HTML.HtmlAttributes;
 using static Retyped.dom;
+using System.Linq;
+using System;
 
 namespace Tesserae.Components
 {
-    public class Button : ComponentBase<Button, HTMLButtonElement>
+    public class Button : ComponentBase<Button, HTMLButtonElement>, IHasTextSize
     {
         #region Fields
 
@@ -99,12 +101,65 @@ namespace Tesserae.Components
             }
         }
 
+        public TextSize Size
+        {
+            get
+            {
+                var curFontSize = InnerElement.classList.FirstOrDefault(t => t.StartsWith("mss-fontSize-"));
+                if (curFontSize is object && Enum.TryParse<TextSize>(curFontSize.Substring("mss-fontSize-".Length), true, out var result))
+                {
+                    return result;
+                }
+                else
+                {
+                    return TextSize.Small;
+                }
+            }
+            set
+            {
+                var curFontSize = InnerElement.classList.FirstOrDefault(t => t.StartsWith("mss-fontSize-"));
+                if (curFontSize is object)
+                {
+                    InnerElement.classList.remove(curFontSize);
+                }
+                InnerElement.classList.add($"mss-fontSize-{value.ToString().ToLower()}");
+            }
+        }
+
+        public TextWeight Weight
+        {
+            get
+            {
+                var curFontSize = InnerElement.classList.FirstOrDefault(t => t.StartsWith("mss-fontWeight-"));
+                if (curFontSize is object && Enum.TryParse<TextWeight>(curFontSize.Substring("mss-fontWeight-".Length), true, out var result))
+                {
+                    return result;
+                }
+                else
+                {
+                    return TextWeight.Regular;
+                }
+            }
+            set
+            {
+                var curFontSize = InnerElement.classList.FirstOrDefault(t => t.StartsWith("mss-fontWeight-"));
+                if (curFontSize is object)
+                {
+                    InnerElement.classList.remove(curFontSize);
+                }
+                InnerElement.classList.add($"mss-fontWeight-{value.ToString().ToLower()}");
+            }
+        }
+
+
         #endregion
 
         public Button(string text = string.Empty)
         {
             _TextSpan = Span(_(text: text));
             InnerElement = Button(_("mss-btn mss-btn-default"), _TextSpan);
+            Weight = TextWeight.SemiBold;
+            Size = TextSize.Small;
             AttachClick();
             AttachFocus();
             AttachBlur();
@@ -138,6 +193,12 @@ namespace Tesserae.Components
         public static Button Disabled(this Button button)
         {
             button.IsEnabled = false;
+            return button;
+        }
+
+        public static Button NoBorder(this Button button)
+        {
+            button.InnerElement.classList.add("mss-btn-noborder");
             return button;
         }
     }

@@ -9,8 +9,6 @@ button:focus {
 .mss-btn {
     border: 1px solid;
     border-radius: 2px;
-    font-size: var(--mss-font-size-small);
-    font-weight: var(--mss-font-weight-semibold);
     outline: transparent none medium;
     min-width: 80px;
     user-select: none;
@@ -45,6 +43,10 @@ button:focus {
         color: var(--mss-default-foreground-active-color);
         background-color: var(--mss-default-background-active-color);
     }
+
+.mss-btn-noborder {
+    border-color: transparent;
+}
 
 .mss-btn-primary {
     color: var(--mss-primary-foreground-color);
