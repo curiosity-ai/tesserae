@@ -1,4 +1,8 @@
-﻿namespace Tesserae.Components
+﻿using System;
+using System.Linq;
+using static Retyped.dom;
+
+namespace Tesserae.Components
 {
     public interface IHasTextSize
     {

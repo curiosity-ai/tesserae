@@ -1,4 +1,8 @@
-﻿namespace Tesserae.Components
+﻿using System;
+using System.Linq;
+using static Retyped.dom;
+
+namespace Tesserae.Components
 {
     public static class TextSizeExtensions
     {
@@ -75,6 +79,42 @@
         {
             textBlock.Weight = TextWeight.Bold;
             return textBlock;
+        }
+
+        internal static TextSize FromClassList(HTMLElement element, TextSize defaultValue)
+        {
+            var curFontSize = element.classList.FirstOrDefault(t => t.StartsWith("tss-fontSize-"));
+            if (curFontSize is object && Enum.TryParse<TextSize>(curFontSize.Substring("tss-fontSize-".Length), true, out var result))
+            {
+                return result;
+            }
+            else
+            {
+                return defaultValue;
+            }
+        }
+
+        internal static string ToClassName(this TextSize textSize)
+        {
+            return $"tss-fontSize-{textSize.ToString().ToLower()}";
+        }
+
+        internal static TextWeight FromClassList(HTMLElement element, TextWeight defaultValue)
+        {
+            var curFontSize = element.classList.FirstOrDefault(t => t.StartsWith("tss-fontWeight-"));
+            if (curFontSize is object && Enum.TryParse<TextWeight>(curFontSize.Substring("tss-fontWeight-".Length), true, out var result))
+            {
+                return result;
+            }
+            else
+            {
+                return defaultValue;
+            }
+        }
+
+        internal static string ToClassName(this TextWeight textWeight)
+        {
+            return $"tss-fontWeight-{textWeight.ToString().ToLower()}";
         }
     }
 }

@@ -40,24 +40,12 @@ namespace Tesserae.Components
         {
             get
             {
-                var curFontSize = InnerElement.classList.FirstOrDefault(t => t.StartsWith("tss-fontSize-"));
-                if (curFontSize is object && Enum.TryParse<TextSize>(curFontSize.Substring("tss-fontSize-".Length), true, out var result))
-                {
-                    return result;
-                }
-                else
-                {
-                    return TextSize.Small;
-                }
+                return TextSizeExtensions.FromClassList(InnerElement, TextSize.Small);
             }
             set
             {
-                var curFontSize = InnerElement.classList.FirstOrDefault(t => t.StartsWith("tss-fontSize-"));
-                if(curFontSize is object)
-                {
-                    InnerElement.classList.remove(curFontSize);
-                }
-                InnerElement.classList.add($"tss-fontSize-{value.ToString().ToLower()}");
+                InnerElement.classList.remove(Size.ToClassName());
+                InnerElement.classList.add(value.ToClassName());
             }
         }
 
@@ -65,24 +53,12 @@ namespace Tesserae.Components
         {
             get
             {
-                var curFontSize = InnerElement.classList.FirstOrDefault(t => t.StartsWith("tss-fontWeight-"));
-                if (curFontSize is object && Enum.TryParse<TextWeight>(curFontSize.Substring("tss-fontWeight-".Length), true, out var result))
-                {
-                    return result;
-                }
-                else
-                {
-                    return TextWeight.Regular;
-                }
+                return TextSizeExtensions.FromClassList(InnerElement, TextWeight.Regular);
             }
             set
             {
-                var curFontSize = InnerElement.classList.FirstOrDefault(t => t.StartsWith("tss-fontWeight-"));
-                if (curFontSize is object)
-                {
-                    InnerElement.classList.remove(curFontSize);
-                }
-                InnerElement.classList.add($"tss-fontWeight-{value.ToString().ToLower()}");
+                InnerElement.classList.remove(Weight.ToClassName());
+                InnerElement.classList.add(value.ToClassName());
             }
         }
 
