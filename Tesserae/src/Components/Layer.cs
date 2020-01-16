@@ -3,9 +3,47 @@ using Bridge;
 using static Tesserae.HTML.HtmlUtil;
 using static Tesserae.HTML.HtmlAttributes;
 using static Retyped.dom;
+using System.Collections.Generic;
 
 namespace Tesserae.Components
 {
+    public static class Layers
+    {
+        private static int CurretZIndex = 1000;
+        private static HashSet<HTMLElement> CurrentLayers = new HashSet<HTMLElement>();
+        public static string PushLayer(HTMLElement element)
+        {
+            if (CurrentLayers.Add(element))
+            {
+
+                CurretZIndex += 10;
+                return CurretZIndex.ToString();
+            }
+            else
+            {
+                throw new InvalidOperationException();
+            }
+        }
+
+        public static string AboveCurrent()
+        {
+            return (CurretZIndex + 5).ToString();
+        }
+
+        public static void PopLayer(HTMLElement element)
+        {
+            if (CurrentLayers.Remove(element))
+            {
+                CurretZIndex -= 10;
+            }
+            else
+            {
+                throw new InvalidOperationException();
+            }
+        }
+    }
+
+
     public class Layer : ComponentBase<Layer, HTMLDivElement>
     {
         #region Fields
@@ -97,17 +135,18 @@ namespace Tesserae.Components
 
         protected virtual HTMLElement BuildRenderedContent()
         {
-            if (_ContentHtml != null) return _ContentHtml;
+            if (_ContentHtml is object) return _ContentHtml;
             return Div(_("mss-layer-content"), _Content.Render());
         }
 
         public virtual void Show()
         {
-            if (_Content != null || _ContentHtml != null)
+            if (_Content is object || _ContentHtml is object)
             {
                 if (_Host == null)
                 {
                     _RenderedContent = Div(_("mss-layer"), BuildRenderedContent());
+                    _RenderedContent.style.zIndex = Layers.PushLayer(_RenderedContent);
                     document.body.appendChild(_RenderedContent);
                 }
                 else
@@ -122,10 +161,17 @@ namespace Tesserae.Components
 
         public virtual void Hide()
         {
-            if (_RenderedContent != null)
+            if (_RenderedContent is object)
             {
-                if (_Host == null) document.body.removeChild(_RenderedContent);
-                else _Host.InnerElement.removeChild(_RenderedContent);
+                if (_Host == null)
+                {
+                    Layers.PopLayer(_RenderedContent);
+                    document.body.removeChild(_RenderedContent);
+                }
+                else
+                {
+                    _Host.InnerElement.removeChild(_RenderedContent);
+                }
                 _RenderedContent = null;
                 _IsVisible = false;
             }
