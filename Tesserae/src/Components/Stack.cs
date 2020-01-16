@@ -38,7 +38,7 @@ namespace Tesserae.Components
         public double Value { get; set; }
     }
 
-    public struct StackItemMargin
+    public struct StackItemMargin 
     {
         public double Left { get; set; }
         public double Top { get; set; }
@@ -65,7 +65,7 @@ namespace Tesserae.Components
         }
     }
 
-    public class Stack : IContainer<Stack, IComponent>
+    public class Stack : IContainer<Stack, IComponent>, IHasBackgroundColor, IHasMarginPadding
     {
         #region Properties
 
@@ -111,6 +111,9 @@ namespace Tesserae.Components
         }
 
         public HTMLElement InnerElement { get; private set; }
+        public string Background { get => InnerElement.style.background; set => InnerElement.style.background = value; }
+        public string Margin { get => InnerElement.style.margin; set => InnerElement.style.margin = value; }
+        public string Padding { get => InnerElement.style.padding; set => InnerElement.style.padding = value; }
 
         #endregion
 
@@ -265,12 +268,6 @@ namespace Tesserae.Components
         public virtual HTMLElement Render()
         {
             return InnerElement;
-        }
-
-        public Stack Background(string color)
-        {
-            InnerElement.style.background = color;
-            return this;
         }
     }
 

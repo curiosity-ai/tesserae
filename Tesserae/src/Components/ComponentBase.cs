@@ -3,11 +3,13 @@ using static Retyped.dom;
 
 namespace Tesserae.Components
 {
-    public abstract class ComponentBase<T, THTML> : IComponent where T : ComponentBase<T, THTML> where THTML : HTMLElement
+    public abstract class ComponentBase<T, THTML> : IComponent, IHasMarginPadding where T : ComponentBase<T, THTML> where THTML : HTMLElement
     {
         #region Properties
         
         public THTML InnerElement { get; protected set; }
+        public string Margin { get => InnerElement.style.margin; set => InnerElement.style.margin = value; }
+        public string Padding { get => InnerElement.style.padding; set => InnerElement.style.padding = value; }
 
         #endregion
 
