@@ -6,6 +6,11 @@
         {
             return new Stack(orientation);
         }
+
+        public static SectionStack SectionStack()
+        {
+            return new SectionStack();
+        }
         public static Button Button(string text = string.Empty)
         {
             return new Button(text);

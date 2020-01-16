@@ -71,6 +71,7 @@ namespace Tesserae.Tests
                 NavLink("Utilities").Expanded().SmallPlus().SemiBold().Links(
                     NavLink("Layer").OnSelected((s, e)              => Show(new Samples.LayerSample())),
                     NavLink("Stack").OnSelected((s, e)              => Show(new Samples.StackSample())),
+                    NavLink("Section Stack").OnSelected((s, e)      => Show(new Samples.SectionStackSample())),
                     NavLink("TextBlock").OnSelected((s, e)          => Show(new Samples.TextBlockSample())),
                     NavLink("Validator").OnSelected((s, e)          => Show(new Samples.ValidatorSample())),
                     NavLink("Pivot").OnSelected((s, e)              => Show(new Samples.PivotSample()))

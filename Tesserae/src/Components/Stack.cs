@@ -250,7 +250,7 @@ namespace Tesserae.Components
             InnerElement.appendChild(GetItem(component));
         }
 
-        public void Clear()
+        public virtual void Clear()
         {
             ClearChildren(InnerElement);
         }
@@ -260,9 +260,17 @@ namespace Tesserae.Components
             InnerElement.replaceChild(GetItem(newComponent), GetItem(oldComponent));
         }
 
-        public HTMLElement Render()
+
+
+        public virtual HTMLElement Render()
         {
             return InnerElement;
+        }
+
+        public Stack Background(string color)
+        {
+            InnerElement.style.background = color;
+            return this;
         }
     }
 

@@ -1,0 +1,31 @@
+﻿/* Stack */
+.tss-session-stack {
+    display: flex;
+    flex-direction: column;
+    padding:16px;
+}
+
+.tss-session-stack > .tss-stack-item {
+    background: #fff;
+    padding: 28px;
+    margin-bottom: 28px;
+    border-radius: 2px;
+    background-clip: padding-box;
+    -webkit-box-shadow: 0 1.6px 3.6px 0 rgba(0,0,0,0.132), 0 0.3px 0.9px 0 rgba(0,0,0,0.108);
+    box-shadow: 0 1.6px 3.6px 0 rgba(0,0,0,0.132), 0 0.3px 0.9px 0 rgba(0,0,0,0.108);
+    position: relative;
+    opacity: 0;
+    -webkit-transform: translate3d(0, 48px, 0);
+    transform: translate3d(0, 48px, 0);
+    -webkit-transition: opacity 300ms cubic-bezier(0.1, 0.9, 0.2, 1) 0.05s,-webkit-transform 300ms cubic-bezier(0.1, 0.9, 0.2, 1);
+    transition: opacity 300ms cubic-bezier(0.1, 0.9, 0.2, 1) 0.05s,-webkit-transform 300ms cubic-bezier(0.1, 0.9, 0.2, 1);
+    transition: transform 300ms cubic-bezier(0.1, 0.9, 0.2, 1),opacity 300ms cubic-bezier(0.1, 0.9, 0.2, 1) 0.05s;
+    transition: transform 300ms cubic-bezier(0.1, 0.9, 0.2, 1),opacity 300ms cubic-bezier(0.1, 0.9, 0.2, 1) 0.05s,-webkit-transform 300ms cubic-bezier(0.1, 0.9, 0.2, 1);
+}
+
+
+    .tss-session-stack.ismounted > .tss-stack-item {
+        opacity: 1;
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+    }

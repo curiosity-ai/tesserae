@@ -11,3 +11,36 @@
 .fade:not(.show) {
     opacity: 0;
 }
+
+@-webkit-keyframes slideInUp {
+    from {
+        -webkit-transform: translate3d(0, 20px, 0);
+        transform: translate3d(0, 20px, 0);
+        visibility: visible;
+    }
+
+    to {
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes slideInUp {
+    from {
+        -webkit-transform: translate3d(0, 20px, 0);
+        transform: translate3d(0, 20px, 0);
+        visibility: visible;
+    }
+
+    to {
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+.slideInUp {
+    -webkit-animation-name: slideInUp;
+    animation-name: slideInUp;
+    animation-duration: 0.3s;
+    animation-iteration-count: 1;
+}
