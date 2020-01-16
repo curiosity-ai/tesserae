@@ -41,12 +41,12 @@
     display: inline-block;
 }
 
-.tss-nav-link.expanded .tss-nav-link-button:after {
+.tss-nav-link.expanded > .tss-nav-link-header > .tss-nav-link-button:after {
     border-width: 1px 0 0 1px;
     top: 7px;
 }
 
-.tss-nav-link .tss-nav-link-header {
+.tss-nav-link > .tss-nav-link-header {
     background: var(--tss-default-background-color);
     border-left: 4px solid var(--tss-default-background-color);
     cursor: pointer;
@@ -55,24 +55,28 @@
     position: relative;
 }
 
-    .tss-nav-link .tss-nav-link-header:hover {
+    .tss-nav-link > .tss-nav-link-header:hover {
         background: var(--tss-default-background-active-color);
     }
 
-    .tss-nav-link .tss-nav-link-header.selected {
+    .tss-nav-link > .tss-nav-link-header.selected {
         background: var(--tss-default-background-active-color);
         border-left-color: var(--tss-primary-background-color);
     }
 
-    .tss-nav-link .tss-nav-link-header span {
+    .tss-nav-link > .tss-nav-link-header span {
         margin-left: 25px;
     }
 
-.tss-nav-link .tss-nav-link-container {
+.tss-nav-link > .tss-nav-link-container {
     display: none;
     padding: 0;
 }
 
-.tss-nav-link.expanded .tss-nav-link-container {
+.tss-nav-link.expanded > .tss-nav-link-container {
     display: block;
 }
+
+/*.tss-nav-link > .tss-nav-link-container {
+    margin-left:8px;
+}*/

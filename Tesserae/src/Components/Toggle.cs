@@ -111,9 +111,9 @@ namespace Tesserae.Components
             return toggle;
         }
 
-        public static Toggle Checked(this Toggle toggle)
+        public static Toggle Checked(this Toggle toggle, bool value = true)
         {
-            toggle.IsChecked = true;
+            toggle.IsChecked = value;
             return toggle;
         }
     }

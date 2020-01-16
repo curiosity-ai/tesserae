@@ -73,7 +73,12 @@ namespace Tesserae.Tests
                     NavLink("Stack").OnSelected((s, e)              => Show(new Samples.StackSample())),
                     NavLink("TextBlock").OnSelected((s, e)          => Show(new Samples.TextBlockSample())),
                     NavLink("Validator").OnSelected((s, e)          => Show(new Samples.ValidatorSample())),
-                    NavLink("Pivot").OnSelected((s, e)               => Show(new Samples.PivotSample()))
+                    NavLink("Pivot").OnSelected((s, e)              => Show(new Samples.PivotSample()))
+                ),
+                NavLink("Nav Links").Expanded().Links(
+                    NavLink("Level 1").Links(NavLink("Level 2").Links(NavLink("Level 3").Links(NavLink("Level 4")))),
+                    NavLink("Level 1").Links(NavLink("Level 2").Links(NavLink("Level 3").Links(NavLink("Level 4")))),
+                    NavLink("Level 1").Links(NavLink("Level 2").Links(NavLink("Level 3").Links(NavLink("Level 4"))))
                 ),
                 NavLink("Deprecated Samples").Links(
                     NavLink("Stack Sample").OnSelected((s, e)       => Show(StackSample())),

@@ -91,7 +91,7 @@ namespace Tesserae.Components
         Horizontal
     }
 
-    public class ChoiceGroup : ComponentBase<ChoiceGroup, HTMLDivElement>, IContainer<Stack>
+    public class ChoiceGroup : ComponentBase<ChoiceGroup, HTMLDivElement>, IContainer<ChoiceGroup, Option>
     {
         #region Fields
 
@@ -145,13 +145,12 @@ namespace Tesserae.Components
             return InnerElement;
         }
 
-        public void Add(IComponent component)
+        public void Add(Option component)
         {
             InnerElement.appendChild(component.Render());
-            var choice = component as Option;
-            choice.OnSelect += OnChoiceSelected;
+            component.OnSelect += OnChoiceSelected;
 
-            if (choice.IsSelected) OnChoiceSelected(null, choice);
+            if (component.IsSelected) OnChoiceSelected(null, component);
         }
 
         private void OnChoiceSelected(object sender, Option e)
@@ -168,11 +167,10 @@ namespace Tesserae.Components
             InnerElement.appendChild(_Header.Render());
         }
 
-        public void Replace(IComponent newComponent, IComponent oldComponent)
+        public void Replace(Option newComponent, Option oldComponent)
         {
             InnerElement.replaceChild(newComponent.Render(), oldComponent.Render());
-            var choice = oldComponent as Option;
-            choice.OnSelect += OnChoiceSelected;
+            newComponent.OnSelect += OnChoiceSelected;
         }
     }
 

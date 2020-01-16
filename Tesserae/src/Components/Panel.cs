@@ -118,12 +118,12 @@ namespace Tesserae.Components
                     if (value)
                     {
                         _ContentHtml.classList.add("tss-panel-modeless");
-                        if (IsVisible) document.body.style.overflowY = "";
+                        //if (IsVisible) document.body.style.overflowY = "";
                     }
                     else
                     {
                         _ContentHtml.classList.remove("tss-panel-modeless");
-                        if (IsVisible) document.body.style.overflowY = "hidden";
+                        //if (IsVisible) document.body.style.overflowY = "hidden";
                     }
                 }
             }

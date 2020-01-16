@@ -145,9 +145,10 @@ namespace Tesserae.Components
             {
                 if (_Host == null)
                 {
-                    _RenderedContent = Div(_("tss-layer"), BuildRenderedContent());
+                    _RenderedContent = Div(_("tss-layer fade"), BuildRenderedContent());
                     _RenderedContent.style.zIndex = Layers.PushLayer(_RenderedContent);
                     document.body.appendChild(_RenderedContent);
+                    window.requestAnimationFrame((_) => _RenderedContent?.classList.add("show"));
                 }
                 else
                 {
@@ -166,7 +167,10 @@ namespace Tesserae.Components
                 if (_Host == null)
                 {
                     Layers.PopLayer(_RenderedContent);
-                    document.body.removeChild(_RenderedContent);
+                    _RenderedContent.classList.remove("show");
+                    var tr = _RenderedContent;
+                    window.setTimeout((_) => document.body.removeChild(tr), 150);
+                    
                 }
                 else
                 {

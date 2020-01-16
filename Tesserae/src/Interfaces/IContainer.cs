@@ -2,16 +2,28 @@
 
 namespace Tesserae.Components
 {
-    public interface IContainer<T> : IComponent where T : IContainer<T>
+    public interface IContainer<T, TChild> : IComponent where T : IContainer<T, TChild> where TChild : IComponent
     {
-        void Add(IComponent component);
+        void Add(TChild component);
         void Clear();
-        void Replace(IComponent newComponent, IComponent oldComponent);
+        void Replace(TChild newComponent, TChild oldComponent);
     }
 
     public static class IContainerExtensions
     {
-        public static T Children<T>(this T container, params IComponent[] children) where T : IContainer<T>
+        public static T Children<T>(this T container, params IComponent[] children) where T : IContainer<T, IComponent>
+        {
+            children.ForEach(x => container.Add(x));
+            return container;
+        }
+
+        public static T Children<T>(this T container, params NavLink[] children) where T : IContainer<T, NavLink>
+        {
+            children.ForEach(x => container.Add(x));
+            return container;
+        }
+
+        public static T Children<T>(this T container, params Option[] children) where T : IContainer<T, Option>
         {
             children.ForEach(x => container.Add(x));
             return container;

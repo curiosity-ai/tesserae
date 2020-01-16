@@ -55,6 +55,7 @@
         "bridge/assets/css/fontawesome-all.min.css",
         // "bridge/assets/css/curiosity-bootstrap.css",
         "bridge/assets/css/tesserae.common.css",
+        "bridge/assets/css/tesserae.animations.css",
         "bridge/assets/css/tesserae.body.css",
         "bridge/assets/css/tesserae.button.css",
         "bridge/assets/css/tesserae.checkbox.css",

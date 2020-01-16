@@ -12,6 +12,8 @@ namespace Tesserae.Tests.Samples
         public ModalSample()
         {
             var modal = Modal("Lorem Ipsum");
+            modal.CanLightDismiss = true;
+
             content = Stack().Children(
                 TextBlock("Modal").XLarge(),
                 TextBlock("Overview").MediumPlus(),
@@ -39,10 +41,10 @@ namespace Tesserae.Tests.Samples
                         TextBlock("Sed condimentum ultricies turpis convallis pharetra. Sed sagittis quam pharetra luctus porttitor. Cras vel consequat lectus. Sed nec fringilla urna, a aliquet libero. Aenean sed nisl purus. Vivamus vulputate felis et odio efficitur suscipit. Ut volutpat dictum lectus, ac rutrum massa accumsan at. Sed pharetra auctor finibus. In augue libero, commodo vitae nisi non, sagittis convallis ante. Phasellus malesuada eleifend mollis. Curabitur ultricies leo ac metus venenatis elementum."),
                         TextBlock("Aenean egestas quam ut erat commodo blandit. Mauris ante nisl, pellentesque sed venenatis nec, aliquet sit amet enim. Praesent vitae diam non diam aliquet tristique non ut arcu. Pellentesque et ultrices eros. Fusce diam metus, mattis eu luctus nec, facilisis vel erat. Nam a lacus quis tellus gravida euismod. Nulla sed sem eget tortor cursus interdum. Sed vehicula tristique ultricies. Aenean libero purus, mollis quis massa quis, eleifend dictum massa. Fusce eu sapien sit amet odio lacinia placerat. Mauris varius risus sed aliquet cursus. Aenean lectus magna, tincidunt sit amet sodales a, volutpat ac leo. Morbi nisl sapien, tincidunt sit amet mauris quis, sollicitudin auctor est."),
                         TextBlock("Nam id mi justo. Nam vehicula vulputate augue, ac pretium enim rutrum ultricies. Sed aliquet accumsan varius. Quisque ac auctor ligula. Fusce fringilla, odio et dignissim iaculis, est lacus ultrices risus, vitae condimentum enim urna eu nunc. In risus est, mattis non suscipit at, mattis ut ante. Maecenas consectetur urna vel erat maximus, non molestie massa consequat. Duis a feugiat nibh. Sed a hendrerit diam, a mattis est. In augue dolor, faucibus vel metus at, convallis rhoncus dui."),
-                        Toggle("Light Dismiss").OnChanged((s, e) => modal.CanLightDismiss = e.IsChecked),
-                        Toggle("Is draggable").OnChanged((s, e) => modal.IsDraggable = e.IsChecked),
-                        Toggle("Is non-blocking").OnChanged((s, e) => modal.IsNonBlocking = e.IsChecked),
-                        Toggle("Hide close button").OnChanged((s, e) => modal.ShowCloseButton = !e.IsChecked)
+                        Toggle("Light Dismiss").OnChanged((s, e) => modal.CanLightDismiss = e.IsChecked).Checked(modal.CanLightDismiss),
+                        Toggle("Is draggable").OnChanged((s, e) => modal.IsDraggable = e.IsChecked).Checked(modal.IsDraggable),
+                        Toggle("Is non-blocking").OnChanged((s, e) => modal.IsNonBlocking = e.IsChecked).Checked(modal.IsNonBlocking),
+                        Toggle("Hide close button").OnChanged((s, e) => modal.ShowCloseButton = !e.IsChecked).Checked(!modal.ShowCloseButton)
                     )
                 )
             );

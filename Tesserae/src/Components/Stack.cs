@@ -65,7 +65,7 @@ namespace Tesserae.Components
         }
     }
 
-    public class Stack : IContainer<Stack>
+    public class Stack : IContainer<Stack, IComponent>
     {
         #region Properties
 

@@ -2,10 +2,11 @@
 using static Tesserae.HTML.HtmlUtil;
 using static Tesserae.HTML.HtmlAttributes;
 using static Retyped.dom;
+using System.Collections.Generic;
 
 namespace Tesserae.Components
 {
-    public class NavLink : ComponentBase<NavLink, HTMLLIElement>, IContainer<NavLink>
+    public class NavLink : ComponentBase<NavLink, HTMLLIElement>, IContainer<NavLink, NavLink>
     {
         #region Fields
 
@@ -16,7 +17,7 @@ namespace Tesserae.Components
         private HTMLButtonElement _ExpandButton;
 
         private int _Level;
-
+        private List<NavLink> Children = new List<NavLink>();
         #endregion
 
         #region Events
@@ -108,7 +109,11 @@ namespace Tesserae.Components
             set
             {
                 _Level = value;
-                _HeaderDiv.style.paddingLeft = $"{_Level * 25}px";
+                _HeaderDiv.style.paddingLeft = $"{_Level * 12}px";
+                foreach(var c in Children)
+                {
+                    c.Level = Level + 1;
+                }
             }
         }
 
@@ -133,27 +138,27 @@ namespace Tesserae.Components
             return InnerElement;
         }
 
-        public void Add(IComponent component)
+        public void Add(NavLink component)
         {
+            Children.Add(component);
             _ChildContainer.appendChild(component.Render());
             _HeaderDiv.classList.add("expandable");
-            var navLink = component as NavLink;
-            navLink.Level = Level + 1;
-            navLink.OnSelect += OnChildSelected;
-            if (navLink.IsSelected)
+            component.Level = Level + 1;
+            component.OnSelect += OnChildSelected;
+            if (component.IsSelected)
             {
-                OnSelect?.Invoke(this, navLink);
+                OnSelect?.Invoke(this, component);
 
                 if (SelectedChild != null) SelectedChild.IsSelected = false;
-                SelectedChild = navLink;
+                SelectedChild = component;
             }
 
-            if (navLink.SelectedChild != null)
+            if (component.SelectedChild != null)
             {
-                OnSelect?.Invoke(navLink, navLink.SelectedChild);
+                OnSelect?.Invoke(component, component.SelectedChild);
 
                 if (SelectedChild != null) SelectedChild.IsSelected = false;
-                SelectedChild = navLink.SelectedChild;
+                SelectedChild = component.SelectedChild;
             }
         }
 
@@ -165,20 +170,20 @@ namespace Tesserae.Components
         public void Clear()
         {
             ClearChildren(_ChildContainer);
+            Children.Clear();
             _HeaderDiv.classList.remove("expandable");
 
         }
 
-        public void Replace(IComponent newComponent, IComponent oldComponent)
+        public void Replace(NavLink newComponent, NavLink oldComponent)
         {
             _ChildContainer.replaceChild(newComponent.Render(), oldComponent.Render());
-            var navLink = oldComponent as NavLink;
-            navLink.OnSelect += OnChildSelected;
-            if (navLink.IsSelected) OnSelect?.Invoke(this, navLink);
+            newComponent.OnSelect += OnChildSelected;
+            if (newComponent.IsSelected) OnSelect?.Invoke(this, newComponent);
         }
     }
 
-    public class Nav : ComponentBase<Nav, HTMLUListElement>, IContainer<NavLink>
+    public class Nav : ComponentBase<Nav, HTMLUListElement>, IContainer<NavLink, NavLink>
     {
         public NavLink SelectedLink { get; private set; }
 
@@ -192,23 +197,22 @@ namespace Tesserae.Components
             return InnerElement;
         }
 
-        public void Add(IComponent component)
+        public void Add(NavLink component)
         {
             InnerElement.appendChild(component.Render());
-            var navLink = component as NavLink;
-            if (navLink != null) navLink.OnSelect += OnNavLinkSelected;
-            if (navLink.IsSelected)
+            component.OnSelect += OnNavLinkSelected;
+            if (component.IsSelected)
             {
                 if (SelectedLink != null) SelectedLink.IsSelected = false;
-                RaiseOnChange(navLink);
-                SelectedLink = navLink;
+                RaiseOnChange(component);
+                SelectedLink = component;
             }
 
-            if (navLink.SelectedChild != null)
+            if (component.SelectedChild != null)
             {
                 if (SelectedLink != null) SelectedLink.IsSelected = false;
-                RaiseOnChange(navLink.SelectedChild);
-                SelectedLink = navLink.SelectedChild;
+                RaiseOnChange(component.SelectedChild);
+                SelectedLink = component.SelectedChild;
             }
         }
 
@@ -217,17 +221,16 @@ namespace Tesserae.Components
             ClearChildren(InnerElement);
         }
 
-        public void Replace(IComponent newComponent, IComponent oldComponent)
+        public void Replace(NavLink newComponent, NavLink oldComponent)
         {
             InnerElement.replaceChild(newComponent.Render(), oldComponent.Render());
 
-            var navLink = newComponent as NavLink;
-            if (navLink != null) navLink.OnSelect += OnNavLinkSelected;
-            if (navLink.IsSelected)
+            newComponent.OnSelect += OnNavLinkSelected;
+            if (newComponent.IsSelected)
             {
                 if (SelectedLink != null) SelectedLink.IsSelected = false;
-                RaiseOnChange(navLink);
-                SelectedLink = navLink;
+                RaiseOnChange(newComponent);
+                SelectedLink = newComponent;
             }
         }
 
