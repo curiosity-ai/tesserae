@@ -7,12 +7,16 @@
     right: 0px;
     margin: 0;
     padding: 0;
-    background-color: var(--tss-overlay-dark);
+    background-color: var(--tss-overlay-light);
     visibility: visible;
     display: flex;
     align-items: center;
     justify-content: center;
 }
+
+    .tss-modal-container.dark {
+        background-color: var(--tss-overlay-dark);
+    }
 
 
 .tss-modal {

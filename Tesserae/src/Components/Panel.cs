@@ -108,6 +108,25 @@ namespace Tesserae.Components
             }
         }
 
+        public bool Dark
+        {
+            get { return _ContentHtml.classList.contains("dark"); }
+            set
+            {
+                if (value != Dark)
+                {
+                    if (value)
+                    {
+                        _ContentHtml.classList.add("dark");
+                    }
+                    else
+                    {
+                        _ContentHtml.classList.remove("dark");
+                    }
+                }
+            }
+        }
+
         public bool IsNonBlocking
         {
             get { return _ContentHtml.classList.contains("tss-panel-modeless"); }

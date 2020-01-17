@@ -38,6 +38,8 @@ namespace Tesserae.Components
             Count++;
             item.style.transitionDelay = $"{0.05f * Count:n2}s";
 
+            window.setTimeout((_) => item.classList.add("ismounted"), 50); //TODO use DOMObserver
+
             return item;
         }
 
@@ -49,7 +51,7 @@ namespace Tesserae.Components
 
         public override HTMLElement Render()
         {
-            window.setTimeout((_) => InnerElement.classList.add("ismounted"), 50); //TODO use DOMObserver
+            
             return InnerElement;
         }
 

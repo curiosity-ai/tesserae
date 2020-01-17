@@ -44,6 +44,7 @@ namespace Tesserae.Tests.Samples
                         TextBlock("Lorem ipsum dolor sit amet, consectetur adipiscing elit."),
                         Toggle("Light Dismiss").Checked().OnChanged((s, e) => dialog.CanLightDismiss = e.IsChecked),
                         Toggle("Is draggable").OnChanged((s, e) => dialog.IsDraggable = e.IsChecked),
+                        Toggle("Is dark overlay").OnChanged((s, e) => dialog.Dark = e.IsChecked).Checked(dialog.Dark),
                         Toggle("Is non-blocking").OnChanged((s, e) => dialog.IsNonBlocking = e.IsChecked),
                         Toggle("Hide close button").OnChanged((s, e) => dialog.ShowCloseButton = !e.IsChecked)
                     )
