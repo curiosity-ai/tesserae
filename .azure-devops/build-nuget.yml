@@ -51,8 +51,8 @@ steps:
       git add .
       git commit -m $(msg)
       git remote add origin $(repo)
-    errorActionPreference: 'continue'
       git push --set-upstream origin docs --force
+    errorActionPreference: 'continue'
     ignoreLASTEXITCODE: true
 
 - task: CmdLine@2
