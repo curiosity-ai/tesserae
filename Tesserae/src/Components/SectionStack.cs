@@ -22,8 +22,7 @@ namespace Tesserae.Components
 
         private HTMLDivElement GetAnimatedItem(IComponent component)
         {
-            var item = (component as dynamic).StackItem as HTMLDivElement;
-            if (item == null)
+            if (!((component as dynamic).StackItem is HTMLDivElement item))
             {
                 item = Div(_("tss-stack-item", styles: s =>
                 {

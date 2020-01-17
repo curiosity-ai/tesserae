@@ -121,8 +121,7 @@ namespace Tesserae.Components
 
         private static HTMLDivElement GetItem(IComponent component)
         {
-            var item = (component as dynamic).StackItem as HTMLDivElement;
-            if (item == null)
+            if (!((component as dynamic).StackItem is HTMLDivElement item))
             {
                 item = Div(_("tss-stack-item", styles: s =>
                 {
@@ -194,6 +193,25 @@ namespace Tesserae.Components
             }
         }
 
+        public static void SetMinHeight(IComponent component, StackItemSizeType sizeType, double size = 0)
+        {
+            HTMLElement item;
+            if (component is Stack stack)
+            {
+                item = stack.InnerElement;
+            }
+            else
+            {
+                item = GetItem(component);
+            }
+            switch (sizeType)
+            {
+                case StackItemSizeType.Auto: item.style.minHeight = "auto"; break;
+                case StackItemSizeType.Pixels: item.style.minHeight = $"{size:0.####}px"; break;
+                case StackItemSizeType.Percents: item.style.minHeight = $"{size:0.####}%"; break;
+            }
+        }
+
         public static StackItemMargin GetMargin(IComponent component)
         {
             var item = GetItem(component);
@@ -213,6 +231,15 @@ namespace Tesserae.Components
             item.style.marginTop = $"{margin.Top}px";
             item.style.marginRight = $"{margin.Right}px";
             item.style.marginBottom = $"{margin.Bottom}px";
+        }
+
+        public static void SetPadding(IComponent component, StackItemMargin padding)
+        {
+            var item = GetItem(component);
+            item.style.paddingLeft = $"{padding.Left}px";
+            item.style.paddingTop = $"{padding.Top}px";
+            item.style.paddingRight = $"{padding.Right}px";
+            item.style.paddingBottom = $"{padding.Bottom}px";
         }
 
 
@@ -367,6 +394,31 @@ namespace Tesserae.Components
             return component;
         }
 
+
+        public static T Padding<T>(this T component, StackItemMargin margin) where T : IComponent
+        {
+            Stack.SetPadding(component, margin);
+            return component;
+        }
+
+        public static T Padding<T>(this T component, double margin) where T : IComponent
+        {
+            Stack.SetPadding(component, new StackItemMargin(margin));
+            return component;
+        }
+
+        public static T Padding<T>(this T component, double leftRight, double topBottom) where T : IComponent
+        {
+            Stack.SetPadding(component, new StackItemMargin(leftRight, topBottom));
+            return component;
+        }
+
+        public static T Padding<T>(this T component, double left, double top, double right, double bottom) where T : IComponent
+        {
+            Stack.SetPadding(component, new StackItemMargin(left, top, right, bottom));
+            return component;
+        }
+
         public static T WidthAuto<T>(this T component) where T : IComponent
         {
             Stack.SetWidth(component, StackItemSizeType.Auto);
@@ -395,19 +447,28 @@ namespace Tesserae.Components
             Stack.SetHeight(component, StackItemSizeType.Auto);
             return component;
         }
+
         public static T HeightPixels<T>(this T component, double size) where T : IComponent
         {
             Stack.SetHeight(component, StackItemSizeType.Pixels, size);
             return component;
         }
+
         public static T HeightPercents<T>(this T component, double size) where T : IComponent
         {
             Stack.SetHeight(component, StackItemSizeType.Percents, size);
             return component;
         }
+
         public static T HeightStretch<T>(this T component) where T : IComponent
         {
             Stack.SetHeight(component, StackItemSizeType.Percents, 100);
+            return component;
+        }
+
+        public static T MinHeightStretch<T>(this T component) where T : IComponent
+        {
+            Stack.SetMinHeight(component, StackItemSizeType.Percents, 100);
             return component;
         }
 

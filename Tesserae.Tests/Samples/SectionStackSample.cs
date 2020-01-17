@@ -13,7 +13,7 @@ namespace Tesserae.Tests.Samples
         {
             var stack = SectionStack();
             var countSlider = Slider(5, 0, 10, 1);
-            content = Stack().Background("#faf9f8").Padding("16px").Children(
+            content = Stack().Children(
                 TextBlock("Section Stack").XLarge(),
                 TextBlock("Overview").MediumPlus(),
                 TextBlock("A Session Stack is a container-type component that abstracts the implementation of a flexbox in order to define the layout of its children components."),

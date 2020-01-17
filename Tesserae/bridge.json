@@ -27,22 +27,22 @@
       "files": [ "$(OutDir)bridge/Tesserae.meta.min.js" ]
     },
 
-    // Because Bridge will monkey about with JS file names depending upon build configuration (only ".min.js" for Release builds and NO ".min.js" for Debug builds), we need to be a bit
-    // careful with how external JS files are referenced. We COULD maintain minified and regular versions of all libraries in this project and then individually reference all of them
-    // twice (once min'd and once not) in this section but that seems like a lot of work. An alternative is to bundle them together - once as a ".min.js" file and again as a non-".min.js"
-    // file. This is still a bit of a faff because the file lists appear twice and we need to be careful to keep them in sync. Maybe Bridge will change the behaviour one day regarding the
-    // file name changes - if there is no "jquery.js" file then it shouldn't rename "jquery.min.js" when in Debug configuration! (See https://github.com/bridgedotnet/Bridge/issues/3992).
-    //{
-    //  "name": "Tesserae.Dependencies.js",
-    //  "files": [
-    //    "bridge/assets/js/bootstrap.min.js"
-    //  ],
-    //  "output": "assets/js"
-    //},
+     //Because Bridge will monkey about with JS file names depending upon build configuration (only ".min.js" for Release builds and NO ".min.js" for Debug builds), we need to be a bit
+     //careful with how external JS files are referenced. We COULD maintain minified and regular versions of all libraries in this project and then individually reference all of them
+     //twice (once min'd and once not) in this section but that seems like a lot of work. An alternative is to bundle them together - once as a ".min.js" file and again as a non-".min.js"
+     //file. This is still a bit of a faff because the file lists appear twice and we need to be careful to keep them in sync. Maybe Bridge will change the behaviour one day regarding the
+     //file name changes - if there is no "jquery.js" file then it shouldn't rename "jquery.min.js" when in Debug configuration! (See https://github.com/bridgedotnet/Bridge/issues/3992).
     {
-      "name": "Mosaik.UI.ExternalBundle.min.js",
+      "name": "Tesserae.Dependencies.js",
       "files": [
-        "bridge/assets/js/bootstrap.min.js"
+        "bridge/assets/js/simplebar.min.js"
+      ],
+      "output": "assets/js"
+    },
+    {
+      "name": "Tesserae.Dependencies.min.js",
+      "files": [
+        "bridge/assets/js/simplebar.min.js"
       ],
       "output": "assets/js"
     },
@@ -53,7 +53,7 @@
       "name": "Tesserae.Dependencies.css",
       "files": [
         "bridge/assets/css/fontawesome-all.min.css",
-        // "bridge/assets/css/curiosity-bootstrap.css",
+        "bridge/assets/css/simplebar.css",
         "bridge/assets/css/tesserae.common.css",
         "bridge/assets/css/tesserae.animations.css",
         "bridge/assets/css/tesserae.body.css",
@@ -75,16 +75,6 @@
         "bridge/assets/css/tesserae.toggle.css"
       ],
       "output": "assets/css"
-    },
-    {
-      "name": "1Ptug8zYS_SKggPNyC0ITw.woff2",
-      "files": [ "bridge/assets/webfonts/1Ptug8zYS_SKggPNyC0ITw.woff2" ],
-      "output": "assets/webfonts"
-    },
-    {
-      "name": "1Ptug8zYS_SKggPNyCMIT5lu.woff2",
-      "files": [ "bridge/assets/webfonts/1Ptug8zYS_SKggPNyCMIT5lu.woff2" ],
-      "output": "assets/webfonts"
     },
     {
       "name": "fa-brands-400.eot",

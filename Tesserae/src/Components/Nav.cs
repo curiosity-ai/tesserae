@@ -3,6 +3,7 @@ using static Tesserae.HTML.HtmlUtil;
 using static Tesserae.HTML.HtmlAttributes;
 using static Retyped.dom;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Tesserae.Components
 {
@@ -18,6 +19,9 @@ namespace Tesserae.Components
 
         private int _Level;
         private List<NavLink> Children = new List<NavLink>();
+
+        internal event EventHandler<NavLink> OnExpanded;
+
         #endregion
 
         #region Events
@@ -75,7 +79,11 @@ namespace Tesserae.Components
             {
                 if (value != IsExpanded)
                 {
-                    if (value) InnerElement.classList.add("expanded");
+                    if (value)
+                    {
+                        InnerElement.classList.add("expanded");
+                        OnExpanded?.Invoke(this, this);
+                    }
                     else InnerElement.classList.remove("expanded");
                 }
             }
@@ -208,6 +216,11 @@ namespace Tesserae.Components
             newComponent.OnSelect += OnChildSelected;
             if (newComponent.IsSelected) OnSelect?.Invoke(this, newComponent);
         }
+
+        public void Remove(NavLink oldComponent)
+        {
+            _ChildContainer.removeChild(oldComponent.Render());
+        }
     }
 
     public class Nav : ComponentBase<Nav, HTMLUListElement>, IContainer<NavLink, NavLink>
@@ -279,6 +292,27 @@ namespace Tesserae.Components
         public static NavLink Links(this NavLink container, params NavLink[] children)
         {
             children.ForEach(x => container.Add(x));
+            return container;
+        }
+
+        public static NavLink LinksAsync(this NavLink container, Func<Task<NavLink[]>> childrenAsync)
+        {
+            bool alreadyRun = false;
+            var dummy = new NavLink("loading...");
+            container.Add(dummy);
+            container.OnExpanded += (s, e) =>
+            {
+                if (!alreadyRun)
+                {
+                    alreadyRun = true;
+                    Task.Run(async () =>
+                    {
+                        var children = await childrenAsync();
+                        container.Remove(dummy);
+                        children.ForEach(x => container.Add(x));
+                    }).FireAndForget();
+                }
+            };
             return container;
         }
 

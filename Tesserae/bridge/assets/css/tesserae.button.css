@@ -48,6 +48,10 @@ button:focus {
     border-color: transparent;
 }
 
+.tss-btn-nobg {
+    background: transparent;
+}
+
 .tss-btn-primary {
     color: var(--tss-primary-foreground-color);
     background-color: var(--tss-primary-background-color);

@@ -201,5 +201,11 @@ namespace Tesserae.Components
             button.InnerElement.classList.add("tss-btn-noborder");
             return button;
         }
+
+        public static Button NoBackground(this Button button)
+        {
+            button.InnerElement.classList.add("tss-btn-nobg");
+            return button;
+        }
     }
 }

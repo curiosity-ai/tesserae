@@ -68,8 +68,7 @@ namespace Tesserae.Components
                 {
                     _Content.appendChild(value.Render());
 
-                    var el = (value as dynamic).InnerElement as HTMLInputElement;
-                    if (el != null)
+                    if ((value as dynamic).InnerElement is HTMLInputElement el)
                     {
                         id = $"elementForLabelN{_LabelForId}";
                         _LabelForId++;
