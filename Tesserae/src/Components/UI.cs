@@ -4,11 +4,6 @@ namespace Tesserae.Components
 {
     public static class UI
     {
-        public static HTMLElement InvisibleScroll(this HTMLElement element)
-        {
-            ScrollBar.EnableInvisibleScroll(element);
-            return element;
-        }
         public static Stack Stack(StackOrientation orientation = StackOrientation.Vertical)
         {
             return new Stack(orientation);
