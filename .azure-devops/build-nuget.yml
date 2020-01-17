@@ -1,0 +1,87 @@
+variables:
+  solution: '**/Tesserae.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+  msg: 'update_demo_$(build.buildId)'
+
+trigger:
+- master
+
+pool:
+  vmImage: 'VS2017-Win2016'
+
+steps:
+- checkout: self
+  submodules: true
+
+- task: NuGetToolInstaller@0
+
+- task: NuGetCommand@2
+  displayName: 'restore nuget'
+  inputs:
+    restoreSolution: '$(solution)'
+
+- task: VSBuild@1
+  displayName: 'build tesserae project'
+  inputs:
+    solution: '**/Tesserae.csproj'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
+    
+- task: VSBuild@1
+  displayName: 'build tesserae tests project'
+  inputs:
+    solution: '**/Tesserae.Tests.csproj'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
+
+- task: PowerShell@2
+  displayName: 'push tests to gh-pages'
+  inputs:
+    targetType: 'inline'
+    script: |
+      cd $(Build.SourcesDirectory)/Tesserae.Tests/bin/Release/net461/bridge/
+      git init
+      git config core.autocrlf true
+      git config core.safecrlf false
+      git config user.email "rafael@rafael.aero"
+      git config user.name $(username)
+      git checkout gh-pages      
+      git add .
+      git commit -m $(msg)
+      git remote add origin $(repo)
+      git push --set-upstream origin gh-pages --force
+    errorActionPreference: 'continue'
+    ignoreLASTEXITCODE: true
+
+- task: CmdLine@2
+  inputs:
+    script: 'dir $(Build.SourcesDirectory)\Tesserae\bin\ /S'
+    
+- task: VSBuild@1
+  displayName: 'build solution'
+  inputs:
+    solution: '$(solution)'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
+    msbuildArgs: '/t:pack /p:Version=0.0.$(build.buildId)'
+
+- task: CmdLine@2
+  inputs:
+    script: 'dir $(Build.SourcesDirectory)\*.nupkg /S'
+
+- task: NuGetCommand@2
+  displayName: 'push  Tesserae to nuget'
+  inputs:
+    command: 'push'
+    packagesToPush: '**/Tesserae.0.0.$(build.buildId).nupkg'
+    nuGetFeedType: 'external'
+    publishFeedCredentials: 'nuget-curiosity'
+
+# - task: NuGetCommand@2
+#   displayName: 'push Tesserae to github'
+#   inputs:
+#     command: 'push'
+#     packagesToPush: '**/Tesserae.0.0.$(build.buildId).nupkg'
+#     nuGetFeedType: 'external'
+#     publishFeedCredentials: 'nuget-github-packages'
