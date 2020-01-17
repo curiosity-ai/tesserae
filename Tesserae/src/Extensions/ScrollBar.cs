@@ -53,6 +53,11 @@ namespace Tesserae.Components
             EnableInvisibleScroll(element);
             return element;
         }
+        public static HTMLDivElement InvisibleScroll(this HTMLDivElement element)
+        {
+            EnableInvisibleScroll(element);
+            return element;
+        }
 
         public static void ForceRecalculateAll()
         {
