@@ -47,7 +47,7 @@ steps:
       git config core.safecrlf false
       git config user.email "rafael@rafael.aero"
       git config user.name $(username)
-      git checkout docs
+      git checkout -b docs
       git add .
       git commit -m $(msg)
       git remote add origin $(repo)
