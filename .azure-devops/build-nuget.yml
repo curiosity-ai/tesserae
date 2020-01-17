@@ -41,7 +41,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      cd $(Build.SourcesDirectory)/Tesserae.Tests/bin/Release/net461/bridge/
+      cd "$(Build.SourcesDirectory)/Tesserae.Tests/bin/Any CPU/Release/net461/bridge/"
       git init
       git config core.autocrlf true
       git config core.safecrlf false
