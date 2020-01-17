@@ -60,7 +60,7 @@ namespace Tesserae.Components
 
     public static class ValidationExtensions
     {
-        public static T Validation<T>(this T textBox, Func<T, string> validate, Validator validator = null, Validation.Mode mode = Components.Validation.Mode.OnInput) where T : ICanValidate<T>
+        public static T Validation<T>(this T component, Func<T, string> validate, Validator validator = null, Validation.Mode mode = Components.Validation.Mode.OnInput) where T : ICanValidate<T>
         {
             if (validate is null)
             {
@@ -80,14 +80,14 @@ namespace Tesserae.Components
                 }
             }
 
-            textBox.Attach(handler, mode);
+            component.Attach(handler, mode);
 
-            handler(null, textBox);
+            handler(null, component);
 
-            validator?.Register(textBox, (s) => handler(s,textBox));
+            validator?.Register(component, (s) => handler(s,component));
             validator?.RaiseOnValidation();
 
-            return textBox;
+            return component;
         }
     }
 }
