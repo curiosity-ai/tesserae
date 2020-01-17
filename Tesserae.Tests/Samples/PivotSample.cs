@@ -26,9 +26,9 @@ namespace Tesserae.Tests.Samples
                                        ),
                                        TextBlock("Usage").MediumPlus(),
                                            Pivot().Pivot("tab1", () => Button().Text("Cached").NoBorder().NoBackground().MediumPlus().Regular(),
-                                                              () => TextBlock(DateTimeOffset.UtcNow.ToString()).MediumPlus(), cached: true)
-                                                 .Pivot("tab2", () => Button().Text("Not Cached").Icon("fal fa-sync").NoBorder().NoBackground().MediumPlus().Regular(),
-                                                              () => TextBlock(DateTimeOffset.UtcNow.ToString()).MediumPlus(), cached: false)
+                                                                 () => TextBlock(DateTimeOffset.UtcNow.ToString()).MediumPlus(), cached: true)
+                                                  .Pivot("tab2", () => Button().Text("Not Cached").Icon("fal fa-sync").NoBorder().NoBackground().MediumPlus().Regular(),
+                                                                 () => TextBlock(DateTimeOffset.UtcNow.ToString()).MediumPlus(), cached: false)
                                        );
         }
 

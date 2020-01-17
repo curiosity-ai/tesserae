@@ -1,7 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net461</TargetFramework>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <Copyright>(c) Copyright 2020 Curiosity GmbH - all right reserved</Copyright>
+    <Company>Curiosity GmbH</Company>
+    <Authors>Curiosity GmbH</Authors>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <LangVersion>7</LangVersion>
+    <PackageProjectUrl>https://github.com/curiosity-ai/tesserae</PackageProjectUrl>
+    <DefineConstants>BRIDGE</DefineConstants>
+    <PackageId>Tesserae</PackageId>
+    <Description>Tesserae is a UI toolkit for building web applications using Bridge.NET</Description>
+    <PackageTags>Bridge.NET, HTML, UI</PackageTags>
+    <PackageIcon>tesserae-logo.png</PackageIcon>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Bridge" Version="17.9.0" />
