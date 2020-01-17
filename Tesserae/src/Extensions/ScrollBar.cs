@@ -47,7 +47,13 @@ namespace Tesserae.Components
             EnableInvisibleScroll(element);
             return component;
         }
-        
+
+        public static HTMLElement InvisibleScroll(this HTMLElement element)
+        {
+            EnableInvisibleScroll(element);
+            return element;
+        }
+
         public static void ForceRecalculateAll()
         {
             LiveHandles.RemoveAll(h => !h.IsAlive());
