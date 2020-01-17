@@ -1,7 +1,7 @@
-﻿using static Tesserae.HTML.HtmlUtil;
-using static Tesserae.HTML.HtmlAttributes;
+﻿using System;
 using static Retyped.dom;
-using System;
+using static Tesserae.HTML.HtmlAttributes;
+using static Tesserae.HTML.HtmlUtil;
 
 namespace Tesserae.Components
 {
@@ -154,12 +154,6 @@ namespace Tesserae.Components
             return textBox;
         }
 
-        public static TextBox Error(this TextBox textBox, string error)
-        {
-            textBox.Error = error;
-            return textBox;
-        }
-
         public static TextBox Placeholder(this TextBox textBox, string error)
         {
             textBox.Placeholder = error;
@@ -178,11 +172,6 @@ namespace Tesserae.Components
             return textBox;
         }
 
-        public static TextBox Invalid(this TextBox textBox)
-        {
-            textBox.IsInvalid = true;
-            return textBox;
-        }
         public static TextBox Required(this TextBox textBox)
         {
             textBox.IsRequired = true;

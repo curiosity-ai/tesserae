@@ -45,7 +45,7 @@ namespace Tesserae.Tests.Samples
                     Label("Read-only").Content(TextBox("I am read-only").ReadOnly()),
                     Label("Required").Required().Content(TextBox("")),
                     TextBox("").Required(),
-                    Label("With error message").Content(TextBox().Error("Error message").Invalid()),
+                    Label("With error message").Content(TextBox().Error("Error message").IsInvalid()),
                     Label("With placeholder").Content(TextBox().Placeholder("Please enter text here")),
                     Label("With validation").Content(TextBox().Validation((tb) => tb.Text.Length == 0 ? "Empty" : null)),
                     Label("With validation on type").Content(TextBox().Validation(Validation.NonZeroPositiveInteger)),

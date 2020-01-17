@@ -1,9 +1,6 @@
-﻿using System;
-using Retyped;
-using static Tesserae.HTML.HtmlUtil;
+﻿using static Retyped.dom;
 using static Tesserae.HTML.HtmlAttributes;
-using static Retyped.dom;
-using System.Linq;
+using static Tesserae.HTML.HtmlUtil;
 
 namespace Tesserae.Components
 {
@@ -162,12 +159,6 @@ namespace Tesserae.Components
         public static T NoWrap<T>(this T textBlock) where T : TextBlock
         {
             textBlock.CanWrap = false;
-            return textBlock;
-        }
-
-        public static T Invalid<T>(this T textBlock) where T : TextBlock
-        {
-            textBlock.IsInvalid = true;
             return textBlock;
         }
 
