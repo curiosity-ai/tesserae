@@ -2,6 +2,7 @@ variables:
   solution: '**/Tesserae.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
+  repo: 'https://$(username):$(pat)@github.com/curiosity-ai/tesserae.git'
   msg: 'update_demo_$(build.buildId)'
 
 trigger:
@@ -36,7 +37,7 @@ steps:
     configuration: '$(buildConfiguration)'
 
 - task: PowerShell@2
-  displayName: 'push tests to gh-pages'
+  displayName: 'push tests to docs'
   inputs:
     targetType: 'inline'
     script: |
@@ -46,12 +47,12 @@ steps:
       git config core.safecrlf false
       git config user.email "rafael@rafael.aero"
       git config user.name $(username)
-      git checkout gh-pages      
+      git checkout docs
       git add .
       git commit -m $(msg)
       git remote add origin $(repo)
-      git push --set-upstream origin gh-pages --force
     errorActionPreference: 'continue'
+      git push --set-upstream origin docs --force
     ignoreLASTEXITCODE: true
 
 - task: CmdLine@2
