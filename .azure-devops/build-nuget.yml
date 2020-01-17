@@ -37,7 +37,7 @@ steps:
     configuration: '$(buildConfiguration)'
 
 - task: PowerShell@2
-  displayName: 'push tests to docs'
+  displayName: 'push tests to gh-pages'
   inputs:
     targetType: 'inline'
     script: |
@@ -47,11 +47,13 @@ steps:
       git config core.safecrlf false
       git config user.email "rafael@rafael.aero"
       git config user.name $(username)
-      git checkout -b docs
+      git checkout -b gh-pages
+      del index.html
+      mv index.min.html index.html
       git add .
       git commit -m $(msg)
       git remote add origin $(repo)
-      git push --set-upstream origin docs --force
+      git push --set-upstream origin gh-pages --force
     errorActionPreference: 'continue'
     ignoreLASTEXITCODE: true
 
