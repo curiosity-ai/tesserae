@@ -45,7 +45,8 @@ namespace Tesserae.Tests.Samples
                         Toggle("Is draggable").OnChanged((s, e) => modal.IsDraggable = e.IsChecked).Checked(modal.IsDraggable),
                         Toggle("Is dark overlay").OnChanged((s, e) => modal.Dark = e.IsChecked).Checked(modal.Dark),
                         Toggle("Is non-blocking").OnChanged((s, e) => modal.IsNonBlocking = e.IsChecked).Checked(modal.IsNonBlocking),
-                        Toggle("Hide close button").OnChanged((s, e) => modal.ShowCloseButton = !e.IsChecked).Checked(!modal.ShowCloseButton)
+                        Toggle("Hide close button").OnChanged((s, e) => modal.ShowCloseButton = !e.IsChecked).Checked(!modal.ShowCloseButton),
+                        Label("Open a dialog from here").Content(Button("Open").OnClicked((s,e) => Dialog().Content(TextBlock("Hello World!")).Show()))
                     )
                 )
             );

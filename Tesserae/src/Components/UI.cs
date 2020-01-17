@@ -9,6 +9,11 @@ namespace Tesserae.Components
             return new Stack(orientation);
         }
 
+        public static Raw Raw(HTMLElement element)
+        {
+            return new Raw(element);
+        }
+
         public static SectionStack SectionStack()
         {
             return new SectionStack();
