@@ -18,103 +18,49 @@ namespace Tesserae
             return component;
         }
 
-        public static Stack Stack(StackOrientation orientation = StackOrientation.Vertical)
-        {
-            return new Stack(orientation);
-        }
+        /// <summary>
+        /// Creates a wrapper IComponent from an HTML element
+        /// </summary>
+        /// <param name="element">HTML element to be wrapped</param>
+        /// <returns></returns>
+        public static Raw Raw(HTMLElement element) => new Raw(element);
 
-        public static Raw Raw(HTMLElement element)
-        {
-            return new Raw(element);
-        }
+        public static Stack Stack(StackOrientation orientation = StackOrientation.Vertical) => new Stack(orientation);
 
-        public static SectionStack SectionStack()
-        {
-            return new SectionStack();
-        }
-        public static Button Button(string text = string.Empty)
-        {
-            return new Button(text);
-        }
+        public static SectionStack SectionStack() => new SectionStack();
 
-        public static CheckBox CheckBox(string text = string.Empty)
-        {
-            return new CheckBox(text);
-        }
+        public static Button Button(string text = string.Empty) => new Button(text);
 
-        public static Toggle Toggle(string text = string.Empty)
-        {
-            return new Toggle(text);
-        }
+        public static CheckBox CheckBox(string text = string.Empty) => new CheckBox(text);
 
-        public static Option Option(string label = string.Empty)
-        {
-            return new Option(label);
-        }
+        public static Toggle Toggle(string text = string.Empty) => new Toggle(text);
 
-        public static ChoiceGroup ChoiceGroup(string label = "Pick one")
-        {
-            return new ChoiceGroup(label);
-        }
+        public static Option Option(string label = string.Empty) => new Option(label);
 
-        public static TextBlock TextBlock(string text = string.Empty)
-        {
-            return new TextBlock(text);
-        }
+        public static ChoiceGroup ChoiceGroup(string label = "Pick one") => new ChoiceGroup(label);
 
-        public static Label Label(string text = string.Empty)
-        {
-            return new Label(text);
-        }
+        public static TextBlock TextBlock(string text = string.Empty) => new TextBlock(text);
 
-        public static TextBox TextBox(string text = string.Empty)
-        {
-            return new TextBox(text);
-        }
+        public static Label Label(string text = string.Empty) => new Label(text);
 
-        public static Slider Slider(int val = 0, int min = 0, int max = 100, int step = 10)
-        {
-            return new Slider(val, min, max, step);
-        }
+        public static TextBox TextBox(string text = string.Empty) => new TextBox(text);
 
-        public static Layer Layer()
-        {
-            return new Layer();
-        }
+        public static Slider Slider(int val = 0, int min = 0, int max = 100, int step = 10) => new Slider(val, min, max, step);
 
-        public static LayerHost LayerHost()
-        {
-            return new LayerHost();
-        }
+        public static Layer Layer() => new Layer();
 
-        public static Nav Nav()
-        {
-            return new Nav();
-        }
+        public static LayerHost LayerHost() => new LayerHost();
 
-        public static NavLink NavLink(string text = null, string icon = null)
-        {
-            return new NavLink(text, icon);
-        }
+        public static Nav Nav() => new Nav();
 
-        public static Panel Panel()
-        {
-            return new Panel();
-        }
+        public static NavLink NavLink(string text = null, string icon = null) => new NavLink(text, icon);
 
-        public static Modal Modal(string header = string.Empty)
-        {
-            return new Modal(header);
-        }
+        public static Panel Panel() => new Panel();
 
-        public static Dialog Dialog(string header = string.Empty)
-        {
-            return new Dialog(header);
-        }
+        public static Modal Modal(string header = string.Empty) => new Modal(header);
 
-        public static Pivot Pivot()
-        {
-            return new Pivot();
-        }
+        public static Dialog Dialog(string header = string.Empty) => new Dialog(header);
+
+        public static Pivot Pivot() => new Pivot();
     }
 }
