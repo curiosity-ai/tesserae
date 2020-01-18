@@ -105,9 +105,9 @@ namespace Tesserae.Components
         public static Stack.ItemSize GetWidth(IComponent component)
         {
             var item = GetItem(component);
-            if (item.style.width == "auto") return new Stack.ItemSize() { Type = Stack.ItemSizeType.Auto };
-            if (item.style.width.EndsWith("px")) return new Stack.ItemSize() { Type = Stack.ItemSizeType.Pixels, Value = double.Parse(item.style.width.Substring(item.style.width.Length - 2)) };
-            if (item.style.width.EndsWith("%")) return new Stack.ItemSize() { Type = Stack.ItemSizeType.Percents, Value = double.Parse(item.style.width.Substring(item.style.width.Length - 1)) };
+            if (item.style.width == "auto") return new Stack.ItemSize() { Type = ItemSizeType.Auto };
+            if (item.style.width.EndsWith("px")) return new Stack.ItemSize() { Type = ItemSizeType.Pixels, Value = double.Parse(item.style.width.Substring(item.style.width.Length - 2)) };
+            if (item.style.width.EndsWith("%")) return new Stack.ItemSize() { Type = ItemSizeType.Percents, Value = double.Parse(item.style.width.Substring(item.style.width.Length - 1)) };
 
             throw new Exception("Incorrect Stack item width.");
         }
@@ -117,18 +117,18 @@ namespace Tesserae.Components
             var item = GetItem(component);
             switch (sizeType)
             {
-                case Stack.ItemSizeType.Auto: item.style.width = "auto"; break;
-                case Stack.ItemSizeType.Pixels: item.style.width = $"{size:0.####}px"; break;
-                case Stack.ItemSizeType.Percents: item.style.width = $"{size:0.####}%"; break;
+                case ItemSizeType.Auto: item.style.width = "auto"; break;
+                case ItemSizeType.Pixels: item.style.width = $"{size:0.####}px"; break;
+                case ItemSizeType.Percents: item.style.width = $"{size:0.####}%"; break;
             }
         }
 
         public static Stack.ItemSize GetHeight(IComponent component)
         {
             var item = GetItem(component);
-            if (item.style.height == "auto") return new Stack.ItemSize() { Type = Stack.ItemSizeType.Auto };
-            if (item.style.height.EndsWith("px")) return new Stack.ItemSize() { Type = Stack.ItemSizeType.Pixels, Value = double.Parse(item.style.height.Substring(item.style.height.Length - 2)) };
-            if (item.style.height.EndsWith("%")) return new Stack.ItemSize() { Type = Stack.ItemSizeType.Percents, Value = double.Parse(item.style.height.Substring(item.style.height.Length - 1)) };
+            if (item.style.height == "auto") return new Stack.ItemSize() { Type = ItemSizeType.Auto };
+            if (item.style.height.EndsWith("px")) return new Stack.ItemSize() { Type = ItemSizeType.Pixels, Value = double.Parse(item.style.height.Substring(item.style.height.Length - 2)) };
+            if (item.style.height.EndsWith("%")) return new Stack.ItemSize() { Type = ItemSizeType.Percents, Value = double.Parse(item.style.height.Substring(item.style.height.Length - 1)) };
 
             throw new Exception("Incorrect Stack item height.");
         }
@@ -137,13 +137,13 @@ namespace Tesserae.Components
             var item = GetItem(component);
             switch (sizeType)
             {
-                case Stack.ItemSizeType.Auto: item.style.height = "auto"; break;
-                case Stack.ItemSizeType.Pixels: item.style.height = $"{size:0.####}px"; break;
-                case Stack.ItemSizeType.Percents: item.style.height = $"{size:0.####}%"; break;
+                case ItemSizeType.Auto: item.style.height = "auto"; break;
+                case ItemSizeType.Pixels: item.style.height = $"{size:0.####}px"; break;
+                case ItemSizeType.Percents: item.style.height = $"{size:0.####}%"; break;
             }
         }
 
-        public static void SetMinHeight(IComponent component, Stack.ItemSizeType sizeType, double size = 0)
+        public static void SetMinHeight(IComponent component, ItemSizeType sizeType, double size = 0)
         {
             HTMLElement item;
             if (component is Stack stack)
@@ -156,9 +156,9 @@ namespace Tesserae.Components
             }
             switch (sizeType)
             {
-                case Stack.ItemSizeType.Auto: item.style.minHeight = "auto"; break;
-                case Stack.ItemSizeType.Pixels: item.style.minHeight = $"{size:0.####}px"; break;
-                case Stack.ItemSizeType.Percents: item.style.minHeight = $"{size:0.####}%"; break;
+                case ItemSizeType.Auto: item.style.minHeight = "auto"; break;
+                case ItemSizeType.Pixels: item.style.minHeight = $"{size:0.####}px"; break;
+                case ItemSizeType.Percents: item.style.minHeight = $"{size:0.####}%"; break;
             }
         }
 
