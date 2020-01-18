@@ -27,13 +27,13 @@ namespace Tesserae.Tests.Samples
                                 (s, e) =>
                                 {
                                     if (e.SelectedOption.Text == "Horizontal")
-                                        stack.Orientation = StackOrientation.Horizontal;
+                                        stack.Horizontal();
                                     else if (e.SelectedOption.Text == "Vertical")
-                                        stack.Orientation = StackOrientation.Vertical;
+                                        stack.Vertical();
                                     else if (e.SelectedOption.Text == "Horizontal Reverse")
-                                        stack.Orientation = StackOrientation.HorizontalReverse;
+                                        stack.HorizontalReverse();
                                     else if (e.SelectedOption.Text == "Vertical Reverse")
-                                        stack.Orientation = StackOrientation.VerticalReverse;
+                                        stack.VerticalReverse();
                                 })
                             )
                         )

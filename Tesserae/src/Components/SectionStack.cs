@@ -9,7 +9,7 @@ namespace Tesserae.Components
     public class SectionStack : Stack
     {
         private int Count = 1;
-        public SectionStack() : base(StackOrientation.Vertical)
+        public SectionStack() : base(Stack.Orientation.Vertical)
         {
             InnerElement.classList.add("tss-session-stack");
         }

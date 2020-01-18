@@ -20,7 +20,7 @@ namespace Tesserae.Tests.Samples
                 TextBlock("Layers are used to render content outside of a DOM tree, at the end of the document. This allows content to escape traditional boundaries caused by \"overflow: hidden\" css rules and keeps it on the top without using z-index rules. This is useful for example in ContextualMenu and Tooltip scenarios, where the content should always overlay everything else."),
                 TextBlock("Usage").MediumPlus(),
                 TextBlock("Basic layered content").Medium(),
-                layer.Content(Stack(StackOrientation.Horizontal).Children(TextBlock("This is example layer content."),Toggle(), Toggle(), Toggle())),
+                layer.Content(Stack().Horizontal().Children(TextBlock("This is example layer content."),Toggle(), Toggle(), Toggle())),
                 Toggle("Toggle Component Layer").OnChanged((e, t) => layer.IsVisible = t.IsChecked),
                 TextBlock("Using LayerHost to control projection").Medium(),
                 Toggle("Show on Host").OnChanged((e, t) => layer.Host = t.IsChecked ? layerHost : null),

@@ -25,7 +25,7 @@ namespace Tesserae
         /// <returns></returns>
         public static Raw Raw(HTMLElement element) => new Raw(element);
 
-        public static Stack Stack(StackOrientation orientation = StackOrientation.Vertical) => new Stack(orientation);
+        public static Stack Stack(Stack.Orientation orientation = Components.Stack.Orientation.Vertical) => new Stack(orientation);
 
         public static SectionStack SectionStack() => new SectionStack();
 

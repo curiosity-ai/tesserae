@@ -41,7 +41,7 @@ namespace Tesserae.Tests.Samples
                 ),
                 TextBlock("Usage").MediumPlus(),
                 Button("Open Dialog").OnClicked((s, e) => dialog.Show()),
-                Stack(StackOrientation.Horizontal).Children(
+                Stack().Horizontal().Children(
                     Button("Open YesNo").OnClicked((s, e)             => Dialog("Sample Dialog").YesNo(() => response.Text("Clicked Yes"), () => response.Text("Clicked No"))),
                     Button("Open YesNoCancel").OnClicked((s, e)       => Dialog("Sample Dialog").YesNoCancel(() => response.Text("Clicked Yes"), () => response.Text("Clicked No"), () => response.Text("Clicked Cancel"))),
                     Button("Open Ok").OnClicked((s, e)                => Dialog("Sample Dialog").Ok(() => response.Text("Clicked Ok"))),
