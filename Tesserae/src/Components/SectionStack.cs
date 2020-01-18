@@ -17,14 +17,19 @@ namespace Tesserae.Components
 
         public void AddAnimated(IComponent component)
         {
-            InnerElement.appendChild(GetAnimatedItem(component));
+            InnerElement.appendChild(GetAnimatedItem(component, false));
         }
 
-        private HTMLDivElement GetAnimatedItem(IComponent component)
+        public void AddAnimatedTitle(IComponent component)
+        {
+            InnerElement.appendChild(GetAnimatedItem(component, true));
+        }
+
+        private HTMLDivElement GetAnimatedItem(IComponent component, bool isTitle)
         {
             if (!((component as dynamic).StackItem is HTMLDivElement item))
             {
-                item = Div(_("tss-stack-item", styles: s =>
+                item = Div(_(isTitle ? "tss-stack-title tss-stack-item" : "tss-session-stack-card tss-stack-item", styles: s =>
                 {
                     s.alignSelf = "auto";
                     s.width = "auto";
@@ -61,6 +66,12 @@ namespace Tesserae.Components
         public static SectionStack Section(this SectionStack stack, IComponent component)
         {
             stack.AddAnimated(component);
+            return stack;
+        }
+
+        public static SectionStack Title(this SectionStack stack, IComponent component)
+        {
+            stack.AddAnimatedTitle(component);
             return stack;
         }
 
