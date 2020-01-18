@@ -119,19 +119,27 @@ namespace Tesserae.Components
 
         #region Static
 
-        private static HTMLDivElement GetItem(IComponent component)
+        private static HTMLElement GetItem(IComponent component, bool forceAdd = false)
         {
-            if (!((component as dynamic).StackItem is HTMLDivElement item))
+            if (!((component as dynamic).StackItem is HTMLElement item))
             {
-                item = Div(_("tss-stack-item", styles: s =>
+                var rendered = component.Render();
+                if (forceAdd  || (rendered.parentElement is object && rendered.parentElement.classList.contains("tss-stack")))
                 {
-                    s.alignSelf = "auto";
-                    s.width = "auto";
-                    s.height = "auto";
-                    s.flexShrink = "1";
-                    s.overflow = "hidden";
-                }), component.Render());
-                (component as dynamic).StackItem = item;
+                    item = Div(_("tss-stack-item", styles: s =>
+                    {
+                        s.alignSelf = "auto";
+                        s.width = "auto";
+                        s.height = "auto";
+                        s.flexShrink = "1";
+                        s.overflow = "hidden";
+                    }), component.Render());
+                    (component as dynamic).StackItem = item;
+                }
+                else
+                {
+                    item = rendered;
+                }
             }
             return item;
         }
@@ -162,6 +170,7 @@ namespace Tesserae.Components
 
             throw new Exception("Incorrect Stack item width.");
         }
+
         public static void SetWidth(IComponent component, StackItemSizeType sizeType, double size = 0)
         {
             var item = GetItem(component);
@@ -277,7 +286,7 @@ namespace Tesserae.Components
 
         public void Add(IComponent component)
         {
-            InnerElement.appendChild(GetItem(component));
+            InnerElement.appendChild(GetItem(component, true));
         }
 
         public virtual void Clear()
@@ -430,6 +439,7 @@ namespace Tesserae.Components
             Stack.SetWidth(component, StackItemSizeType.Pixels, size);
             return component;
         }
+
         public static T WidthPercents<T>(this T component, double size) where T : IComponent
         {
             Stack.SetWidth(component, StackItemSizeType.Percents, size);

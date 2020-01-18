@@ -24,13 +24,13 @@ namespace Tesserae.Tests
                                 .WidthStretch()
                                 .MinHeightStretch();
 
-            var samples = Stack(StackOrientation.Horizontal).MinHeightStretch()
-                                                            .Children(MainNav().NoShrink()
-                                                                               .WidthPixels(300)
-                                                                               .MinHeightStretch(),
-                                                                     _MainStack);
-            document.body.appendChild(samples.Render());
-            document.body.InvisibleScroll();
+            var page = new SplitView().Left(MainNav().Padding(16).NoShrink().MinHeightStretch())
+                                      .Right(_MainStack)
+                                      .LeftIsSmaller(SplitView.SizeMode.Pixels, 300)
+                                      .MinHeightStretch();
+
+            document.body.appendChild(page.Render());
+            document.body.style.overflow = "hidden";
         }
 
         public static Nav MainNav()
@@ -43,7 +43,7 @@ namespace Tesserae.Tests
                                                              NavLink("ChoiceGroup").OnSelected((s, e) => Show(new ChoiceGroupSample())),
                                                              NavLink("Label").OnSelected((s, e)       => Show(new LabelSample())),
                                                              NavLink("TextBox").OnSelected((s, e)     => Show(new TextBoxSample())),
-                                                             NavLink("Toggle").OnSelected((s, e)      => Show(new ToggleSample()))
+                                                             NavLink("Toggle").OnSelected((s, e)      => Show(new ToggleSample()))  
                                ),
                                NavLink("Surfaces").Expanded()
                                                   .SmallPlus()
@@ -76,6 +76,7 @@ namespace Tesserae.Tests
         {
             _MainStack.Clear();
             _MainStack.Add(component);
+            _MainStack.MinHeightStretch();
         }
     }
 }

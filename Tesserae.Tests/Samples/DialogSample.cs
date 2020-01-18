@@ -12,6 +12,8 @@ namespace Tesserae.Tests.Samples
         public DialogSample()
         {
             var dialog = Dialog("Lorem Ipsum");
+            var response = TextBlock();
+
             content = Stack().Children(
                 TextBlock("Dialog").XLarge(),
                 TextBlock("Overview").MediumPlus(),
@@ -39,19 +41,25 @@ namespace Tesserae.Tests.Samples
                 ),
                 TextBlock("Usage").MediumPlus(),
                 Button("Open Dialog").OnClicked((s, e) => dialog.Show()),
-                dialog.Content(
-                    Stack().Children(
-                        TextBlock("Lorem ipsum dolor sit amet, consectetur adipiscing elit."),
-                        Toggle("Light Dismiss").Checked().OnChanged((s, e) => dialog.CanLightDismiss = e.IsChecked),
-                        Toggle("Is draggable").OnChanged((s, e) => dialog.IsDraggable = e.IsChecked),
-                        Toggle("Is dark overlay").OnChanged((s, e) => dialog.Dark = e.IsChecked).Checked(dialog.Dark),
-                        Toggle("Is non-blocking").OnChanged((s, e) => dialog.IsNonBlocking = e.IsChecked),
-                        Toggle("Hide close button").OnChanged((s, e) => dialog.ShowCloseButton = !e.IsChecked)
-                    )
-                ).Footer(
-                    Stack().HorizontalReverse().Children(Button("Don`t send").AlignEnd().OnClicked((s, e) => dialog.Hide()), Button("Send").Primary().AlignEnd().OnClicked((s, e) => dialog.Hide()))
-                )
-            );
+                Stack(StackOrientation.Horizontal).Children(
+                    Button("Open YesNo").OnClicked((s, e)             => Dialog("Sample Dialog").YesNo(() => response.Text("Clicked Yes"), () => response.Text("Clicked No"))),
+                    Button("Open YesNoCancel").OnClicked((s, e)       => Dialog("Sample Dialog").YesNoCancel(() => response.Text("Clicked Yes"), () => response.Text("Clicked No"), () => response.Text("Clicked Cancel"))),
+                    Button("Open Ok").OnClicked((s, e)                => Dialog("Sample Dialog").Ok(() => response.Text("Clicked Ok"))),
+                    Button("Open RetryCancel").OnClicked((s, e)       => Dialog("Sample Dialog").RetryCancel(() => response.Text("Clicked Retry"), () => response.Text("Clicked Cancel")))),
+                    Button("Open Modal YesNo").OnClicked((s, e)       => Dialog("Sample Dialog").NoLightDismiss().Dark().YesNo(() => response.Text("Clicked Yes"), () => response.Text("Clicked No"))),
+                    Button("Open Modal YesNoCancel").OnClicked((s, e) => Dialog("Sample Dialog").NoLightDismiss().Dark().YesNoCancel(() => response.Text("Clicked Yes"), () => response.Text("Clicked No"), () => response.Text("Clicked Cancel"))),
+                    Button("Open Modal Ok").OnClicked((s, e)          => Dialog("Sample Dialog").NoLightDismiss().Dark().Ok(() => response.Text("Clicked Ok"))),
+                    Button("Open Modal RetryCancel").OnClicked((s, e) => Dialog("Sample Dialog").NoLightDismiss().Dark().RetryCancel(() => response.Text("Clicked Retry"), () => response.Text("Clicked Cancel"))),
+                    response);
+
+                dialog.Content(Stack().Children(TextBlock("Lorem ipsum dolor sit amet, consectetur adipiscing elit."),
+                                                Toggle("Light Dismiss").Checked().OnChanged((s, e) => dialog.CanLightDismiss = e.IsChecked),
+                                                Toggle("Is draggable").OnChanged((s, e) => dialog.IsDraggable = e.IsChecked),
+                                                Toggle("Is dark overlay").OnChanged((s, e) => dialog.Dark = e.IsChecked).Checked(dialog.Dark),
+                                                Toggle("Is non-blocking").OnChanged((s, e) => dialog.IsNonBlocking = e.IsChecked),
+                                                Toggle("Hide close button").OnChanged((s, e) => dialog.ShowCloseButton = !e.IsChecked)))
+                      .Footer(Stack().HorizontalReverse()
+                                     .Children(Button("Don`t send").AlignEnd().OnClicked((s, e) => dialog.Hide()), Button("Send").Primary().AlignEnd().OnClicked((s, e) => dialog.Hide())));
         }
 
         public HTMLElement Render()

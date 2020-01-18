@@ -264,9 +264,21 @@ namespace Tesserae.Components
             return modal;
         }
 
-        public static T LightDismissr<T>(this T modal) where T : Modal
+        public static T LightDismiss<T>(this T modal) where T : Modal
         {
             modal.CanLightDismiss = true;
+            return modal;
+        }
+
+        public static T NoLightDismiss<T>(this T modal) where T : Modal
+        {
+            modal.CanLightDismiss = false;
+            return modal;
+        }
+
+        public static T Dark<T>(this T modal) where T : Modal
+        {
+            modal.Dark = true;
             return modal;
         }
 
@@ -276,10 +288,17 @@ namespace Tesserae.Components
             return modal;
         }
 
-        public static T NonBlockingr<T>(this T modal) where T : Modal
+        public static T NonBlocking<T>(this T modal) where T : Modal
         {
             modal.IsNonBlocking = true;
             return modal;
         }
+
+        public static T Blocking<T>(this T modal) where T : Modal
+        {
+            modal.IsNonBlocking = false;
+            return modal;
+        }
+
     }
 }
