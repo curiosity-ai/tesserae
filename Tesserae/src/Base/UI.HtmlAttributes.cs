@@ -1,9 +1,10 @@
 ﻿using System;
+using Tesserae.HTML;
 using static Retyped.dom;
 
-namespace Tesserae.HTML
+namespace Tesserae
 {
-    public static class HtmlAttributes
+    public static partial class UI
     {
         //Overloads for most used cases:
         public static Attributes _() => new Attributes();

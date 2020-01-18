@@ -1,5 +1,4 @@
-﻿using static Tesserae.HTML.HtmlUtil;
-using static Tesserae.HTML.HtmlAttributes;
+﻿using static Tesserae.UI;
 using static Retyped.dom;
 using System.Linq;
 using System;

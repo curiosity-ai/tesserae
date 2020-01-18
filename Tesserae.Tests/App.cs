@@ -4,7 +4,7 @@ using Tesserae.Components;
 using Tesserae.HTML;
 using Tesserae.Tests.Samples;
 using static Retyped.dom;
-using static Tesserae.Components.UI;
+using static Tesserae.UI;
 
 namespace Tesserae.Tests
 {

@@ -27,11 +27,11 @@
       "files": [ "$(OutDir)bridge/Tesserae.meta.min.js" ]
     },
 
-     //Because Bridge will monkey about with JS file names depending upon build configuration (only ".min.js" for Release builds and NO ".min.js" for Debug builds), we need to be a bit
-     //careful with how external JS files are referenced. We COULD maintain minified and regular versions of all libraries in this project and then individually reference all of them
-     //twice (once min'd and once not) in this section but that seems like a lot of work. An alternative is to bundle them together - once as a ".min.js" file and again as a non-".min.js"
-     //file. This is still a bit of a faff because the file lists appear twice and we need to be careful to keep them in sync. Maybe Bridge will change the behaviour one day regarding the
-     //file name changes - if there is no "jquery.js" file then it shouldn't rename "jquery.min.js" when in Debug configuration! (See https://github.com/bridgedotnet/Bridge/issues/3992).
+    //Because Bridge will monkey about with JS file names depending upon build configuration (only ".min.js" for Release builds and NO ".min.js" for Debug builds), we need to be a bit
+    //careful with how external JS files are referenced. We COULD maintain minified and regular versions of all libraries in this project and then individually reference all of them
+    //twice (once min'd and once not) in this section but that seems like a lot of work. An alternative is to bundle them together - once as a ".min.js" file and again as a non-".min.js"
+    //file. This is still a bit of a faff because the file lists appear twice and we need to be careful to keep them in sync. Maybe Bridge will change the behaviour one day regarding the
+    //file name changes - if there is no "jquery.js" file then it shouldn't rename "jquery.min.js" when in Debug configuration! (See https://github.com/bridgedotnet/Bridge/issues/3992).
     {
       "name": "Tesserae.Dependencies.js",
       "files": [
@@ -44,6 +44,14 @@
       "files": [
         "bridge/assets/js/simplebar.min.js"
       ],
+      "output": "assets/js"
+    },
+
+    {
+      //polyfill for ResizeObserver, only loaded if needed - mosaik will automatically remove the .dontload extension
+      //if using Tesserae elsewhere need to remove it as well
+      "name": "resizeobserver.js.dontload",
+      "files": [ "bridge/assets/js/resizeobserver.js" ],
       "output": "assets/js"
     },
 
@@ -156,7 +164,7 @@
       "name": "fa-solid-900.woff2",
       "files": [ "bridge/assets/webfonts/fa-solid-900.woff2" ],
       "output": "assets/webfonts"
-    },
+    }
   ],
   "cleanOutputFolderBeforeBuildPattern": "*.*",
   "loader": { "type": "Global" },

@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using Bridge;
+using Tesserae.HTML;
 using static Retyped.dom;
 
-namespace Tesserae.HTML
+namespace Tesserae
 {
-    public static class HtmlUtil
+    public static partial class UI
     {
         public static HTMLElement TryToFindAncestor(this HTMLElement source, string tagNameToFind)
         {
@@ -18,7 +19,28 @@ namespace Tesserae.HTML
             return null;
         }
 
-        public static void StopEvent(Event e)
+        public static bool IsMounted(this HTMLElement source)
+        {
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
+
+            var top = document.querySelector("html");
+            while (source != null)
+            {
+                if (source == top)
+                    return true;
+                source = source.parentElement;
+            }
+            return false;
+        }
+
+        public static void AppendChildren(this HTMLElement source, params HTMLElement[] children)
+        {
+            foreach (var child in children)
+                source.appendChild(child);
+        }
+
+        public static void StopEvent(this Event e)
         {
             e.preventDefault();
             e.stopImmediatePropagation();
@@ -33,27 +55,8 @@ namespace Tesserae.HTML
             }
             return l;
         }
-
-        public static List<dynamic> DynamicToList(dynamic flat)
-        {
-            var list = new List<dynamic>();
-            int i = 0;
-            while (true)
-            {
-                if (flat[i])
-                {
-                    list.Add(flat[i]);
-                    i++;
-                }
-                else
-                {
-                    break;
-                }
-            }
-            return list;
-        }
-
-        public static void RemoveChildElements(HTMLElement source)
+        
+        public static void RemoveChildElements(this HTMLElement source)
         {
             while (source.firstElementChild != null)
                 source.firstElementChild.remove();
@@ -95,14 +98,6 @@ namespace Tesserae.HTML
             }
         }
 
-        public static void Clear(HTMLElement element)
-        {
-            while (element.lastChild != null)
-            {
-                element.removeChild(element.lastChild);
-            }
-        }
-
         public static void ClearChildren(HTMLElement element)
         {
             while (element.lastChild != null)
@@ -118,6 +113,12 @@ namespace Tesserae.HTML
         }
 
         public static HTMLElement SetStyle(HTMLElement element, Action<CSSStyleDeclaration> style)
+        {
+            style(element.style);
+            return element;
+        }
+
+        public static T SetStyle<T>(this T element, Action<CSSStyleDeclaration> style) where T : HTMLElement
         {
             style(element.style);
             return element;
@@ -141,32 +142,24 @@ namespace Tesserae.HTML
             return element;
         }
 
-        public static HTMLElement[] Raw(string html)
+        public static HTMLElement Raw(string html)
         {
             if (string.IsNullOrWhiteSpace(html))
-                return new HTMLElement[0];
+                return SPAN();
 
             if (!html.Contains("<"))
             {
                 var text = new HTMLSpanElement();
                 text.textContent = html;
-                return new[] { text };
+                return text;
             }
 
-            var wrapper = new HTMLDivElement();
+            var wrapper = new HTMLSpanElement();
             wrapper.innerHTML = html;
 
-            // If the content doesn't start with an opening brace then presume that it's a partial html content (eg. "This is an <b>important</b> message") and
-            // return an array containing only the wrapper element (trying to return HTML nodes from within the content will result in text content being lost)
-            if (!html.Trim().StartsWith("<"))
-                return new[] { wrapper };
-
-            // Note: The "children" property consists only of HTML elements (as opposed to "childNodes" which may contain text or comments)
-            var childElements = new HTMLElement[wrapper.children.length];
-            for (var i = 0; i < wrapper.children.length; i++)
-                childElements[i] = (HTMLElement)wrapper.children[(uint)i];
-            return childElements;
+            return wrapper;
         }
+
 
         public static Text Text(string text)
         {
@@ -461,20 +454,14 @@ namespace Tesserae.HTML
             return a;
         }
 
-        public static bool IsChecked(this Event e)
+        public static HTMLDivElement DIV(params HTMLElement[] child)
         {
-
-            return ((HTMLInputElement)e.target).@checked;
+            return InitElement(new HTMLDivElement(), null, child);
         }
 
-        public static string Value(this Event e)
+        public static HTMLSpanElement SPAN(params HTMLElement[] child)
         {
-            return ((HTMLInputElement)e.target).value;
-        }
-
-        public static void SetValue(this HTMLElement e, string value)
-        {
-            ((HTMLInputElement)e).value = value;
+            return InitElement(new HTMLSpanElement(), null, child);
         }
 
         public static void MakeScrollableOnHover(HTMLElement element, int initialDelay = 1000, double pixelsPerSecond = 100)

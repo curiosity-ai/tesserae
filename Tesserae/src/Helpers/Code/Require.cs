@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Retyped;
 using static Retyped.dom;
 
@@ -20,6 +21,13 @@ namespace Tesserae
                     document.head.appendChild(l);
                 }
             }
+        }
+
+        public static Task LoadScriptAsync(params string[] libraries)
+        {
+            var tcs = new TaskCompletionSource<bool>();
+            LoadScriptAsync(() => tcs.SetResult(true), (err) => tcs.SetException(new Exception(err)), libraries);
+            return tcs.Task;
         }
 
         public static void LoadScriptAsync(Action onComplete, Action<string> onFail, params string[] libraries)

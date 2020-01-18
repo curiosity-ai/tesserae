@@ -1,8 +1,6 @@
 ﻿using System;
-using static Tesserae.HTML.HtmlUtil;
-using static Tesserae.HTML.HtmlAttributes;
+using static Tesserae.UI;
 using static Retyped.dom;
-using static Tesserae.Components.UI;
 using System.Threading.Tasks;
 
 namespace Tesserae.Components

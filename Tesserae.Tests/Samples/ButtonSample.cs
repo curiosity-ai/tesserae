@@ -1,7 +1,7 @@
 ﻿using System;
 using Tesserae.Components;
 using static Retyped.dom;
-using static Tesserae.Components.UI;
+using static Tesserae.UI;
 
 namespace Tesserae.Tests.Samples
 {
@@ -11,10 +11,6 @@ namespace Tesserae.Tests.Samples
 
         public ButtonSample()
         {
-            var btn1 = Button();
-            var btn2 = Button();
-            var iconBtn1 = Button();
-            var iconBtn2 = Button();
             content = SectionStack()
                 .Title(TextBlock("Button").XLarge().Bold())
                 .Section(Stack().Children(
@@ -49,22 +45,23 @@ namespace Tesserae.Tests.Samples
                         TextBlock("Don't put anything other than text in a button.")
                     ))
                 ))
-                .Section(Stack().Children(
-                TextBlock("Usage").MediumPlus(),
-                Toggle("Disable buttons").Checked().OnChanged((s, e) =>
-                    {
-                        btn1.IsEnabled = btn2.IsEnabled = iconBtn1.IsEnabled = iconBtn2.IsEnabled = e.IsChecked;
-                    }),
-                TextBlock("Default Button").Medium(),
-                Stack().Horizontal().Children(
-                    btn1.Text("Standard").OnClicked((s, e) => alert("Clicked!")),
-                    btn2.Text("Primary").Primary().OnClicked((s, e) => alert("Clicked!"))
-                ),
-                TextBlock("Icon Button").Medium(),
-                Stack().Horizontal().Children(
-                    iconBtn1.Text("Standard").Icon("far fa-plus").OnClicked((s, e) => alert("Clicked!")),
-                    iconBtn2.Text("Primary").Icon("far fa-minus").Primary().OnClicked((s, e) => alert("Clicked!"))
-                )));
+                .Section(
+                    Stack().Children(
+                        TextBlock("Usage").MediumPlus(),
+                        TextBlock("Default Button").Medium(),
+                        Stack().Horizontal().Children(
+                            Button().Var(out var btn1).Text("Standard").OnClicked((s, e) => alert("Clicked!")),
+                            Button().Var(out var btn2).Text("Primary").Primary().OnClicked((s, e) => alert("Clicked!"))
+                        ),
+                        TextBlock("Icon Button").Medium(),
+                        Stack().Horizontal().Children(
+                            Button().Var(out var iconBtn1).Text("Standard").Icon("far fa-plus").OnClicked((s, e) => alert("Clicked!")),
+                            Button().Var(out var iconBtn2).Text("Primary").Icon("far fa-minus").Primary().OnClicked((s, e) => alert("Clicked!"))
+                        ),
+                        Toggle("Disable buttons").Checked().OnChanged((s, e) =>
+                        {
+                            btn1.IsEnabled = btn2.IsEnabled = iconBtn1.IsEnabled = iconBtn2.IsEnabled = e.IsChecked;
+                        })));
         }
 
         public HTMLElement Render()

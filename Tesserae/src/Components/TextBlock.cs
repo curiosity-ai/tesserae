@@ -1,6 +1,5 @@
 ﻿using static Retyped.dom;
-using static Tesserae.HTML.HtmlAttributes;
-using static Tesserae.HTML.HtmlUtil;
+using static Tesserae.UI;
 
 namespace Tesserae.Components
 {

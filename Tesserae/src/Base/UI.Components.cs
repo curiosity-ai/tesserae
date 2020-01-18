@@ -1,9 +1,23 @@
-﻿using static Retyped.dom;
+﻿using Tesserae.Components;
+using static Retyped.dom;
 
-namespace Tesserae.Components
+namespace Tesserae
 {
-    public static class UI
+    public static partial class UI
     {
+        /// <summary>
+        /// Helper method to capture the current component inline on it's definition, as an out variable
+        /// </summary>
+        /// <typeparam name="T">Any component implementing <see cref="IComponent"/></typeparam>
+        /// <param name="component"></param>
+        /// <param name="var">Capture variable</param>
+        /// <returns>itself</returns>
+        public static T Var<T>(this T component, out T var) where T : IComponent
+        {
+            var = component;
+            return component;
+        }
+
         public static Stack Stack(StackOrientation orientation = StackOrientation.Vertical)
         {
             return new Stack(orientation);

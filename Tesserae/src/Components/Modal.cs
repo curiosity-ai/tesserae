@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Text.RegularExpressions;
-using static Tesserae.HTML.HtmlUtil;
-using static Tesserae.HTML.HtmlAttributes;
+using static Tesserae.UI;
 using static Retyped.dom;
 
 namespace Tesserae.Components

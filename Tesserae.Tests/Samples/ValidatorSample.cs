@@ -1,6 +1,6 @@
 ﻿using Tesserae.Components;
 using static Retyped.dom;
-using static Tesserae.Components.UI;
+using static Tesserae.UI;
 
 namespace Tesserae.Tests.Samples
 {

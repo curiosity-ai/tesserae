@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Retyped;
-using static Tesserae.HTML.HtmlUtil;
-using static Tesserae.HTML.HtmlAttributes;
+using static Tesserae.UI;
 using static Retyped.dom;
 
 namespace Tesserae.Components

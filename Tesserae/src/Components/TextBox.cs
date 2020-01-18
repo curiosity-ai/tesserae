@@ -1,8 +1,6 @@
 ﻿using System;
 using static Retyped.dom;
-using static Tesserae.HTML.HtmlAttributes;
-using static Tesserae.HTML.HtmlUtil;
-
+using static Tesserae.UI;
 namespace Tesserae.Components
 {
     public class TextBox : ComponentBase<TextBox, HTMLInputElement>, ICanValidate<TextBox>
