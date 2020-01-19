@@ -35,14 +35,16 @@
     {
       "name": "Tesserae.Dependencies.js",
       "files": [
-        "bridge/assets/js/simplebar.min.js"
+        "bridge/assets/js/simplebar.min.js",
+        "bridge/assets/js/hotkeys.min.js"
       ],
       "output": "assets/js"
     },
     {
       "name": "Tesserae.Dependencies.min.js",
       "files": [
-        "bridge/assets/js/simplebar.min.js"
+        "bridge/assets/js/simplebar.min.js",
+        "bridge/assets/js/hotkeys.min.js"
       ],
       "output": "assets/js"
     },

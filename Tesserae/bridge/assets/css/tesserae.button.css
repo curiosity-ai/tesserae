@@ -67,3 +67,37 @@ button:focus {
         color: var(--tss-primary-foreground-active-color);
         background-color: var(--tss-primary-background-active-color);
     }
+
+
+.tss-btn-danger {
+    color: var(--tss-danger-foreground-color);
+    background-color: var(--tss-danger-background-color);
+    border-color: var(--tss-danger-border-color);
+}
+
+    .tss-btn-danger:hover {
+        color: var(--tss-danger-foreground-hover-color);
+        background-color: var(--tss-danger-background-hover-color);
+    }
+
+    .tss-btn-danger:active {
+        color: var(--tss-danger-foreground-active-color);
+        background-color: var(--tss-danger-background-active-color);
+    }
+
+
+.tss-btn-success {
+    color: var(--tss-success-foreground-color);
+    background-color: var(--tss-success-background-color);
+    border-color: var(--tss-success-border-color);
+}
+
+    .tss-btn-success:hover {
+        color: var(--tss-success-foreground-hover-color);
+        background-color: var(--tss-success-background-hover-color);
+    }
+
+    .tss-btn-success:active {
+        color: var(--tss-success-foreground-active-color);
+        background-color: var(--tss-success-background-active-color);
+    }

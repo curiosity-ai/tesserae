@@ -46,7 +46,7 @@ namespace Tesserae.Tests.Samples
                     Button("Open YesNoCancel").OnClicked((s, e)       => Dialog("Sample Dialog").YesNoCancel(() => response.Text("Clicked Yes"), () => response.Text("Clicked No"), () => response.Text("Clicked Cancel"))),
                     Button("Open Ok").OnClicked((s, e)                => Dialog("Sample Dialog").Ok(() => response.Text("Clicked Ok"))),
                     Button("Open RetryCancel").OnClicked((s, e)       => Dialog("Sample Dialog").RetryCancel(() => response.Text("Clicked Retry"), () => response.Text("Clicked Cancel")))),
-                    Button("Open Modal YesNo").OnClicked((s, e)       => Dialog("Sample Dialog").NoLightDismiss().Dark().YesNo(() => response.Text("Clicked Yes"), () => response.Text("Clicked No"))),
+                    Button("Open Modal YesNo").OnClicked((s, e)       => Dialog("Sample Dialog").NoLightDismiss().Dark().YesNo(() => response.Text("Clicked Yes"), () => response.Text("Clicked No"), y => y.Success().Text("Yes!"), n => n.Danger().Text("Nope"))),
                     Button("Open Modal YesNoCancel").OnClicked((s, e) => Dialog("Sample Dialog").NoLightDismiss().Dark().YesNoCancel(() => response.Text("Clicked Yes"), () => response.Text("Clicked No"), () => response.Text("Clicked Cancel"))),
                     Button("Open Modal Ok").OnClicked((s, e)          => Dialog("Sample Dialog").NoLightDismiss().Dark().Ok(() => response.Text("Clicked Ok"))),
                     Button("Open Modal RetryCancel").OnClicked((s, e) => Dialog("Sample Dialog").NoLightDismiss().Dark().RetryCancel(() => response.Text("Clicked Retry"), () => response.Text("Clicked Cancel"))),

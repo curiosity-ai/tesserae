@@ -68,9 +68,72 @@ namespace Tesserae.Components
                     {
                         InnerElement.classList.add("tss-btn-primary");
                         InnerElement.classList.remove("tss-btn-default");
+                        InnerElement.classList.remove("tss-btn-success");
+                        InnerElement.classList.remove("tss-btn-danger");
                     }
                     else
                     {
+                        InnerElement.classList.remove("tss-btn-default");
+                        InnerElement.classList.remove("tss-btn-success");
+                        InnerElement.classList.remove("tss-btn-danger");
+                        InnerElement.classList.remove("tss-btn-primary");
+                        InnerElement.classList.add("tss-btn-default");
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or set whenever button is primary 
+        /// </summary>
+        public bool IsSuccess
+        {
+            get { return InnerElement.classList.contains("tss-btn-success"); }
+            set
+            {
+                if (value != IsSuccess)
+                {
+                    if (value)
+                    {
+                        InnerElement.classList.add("tss-btn-success");
+                        InnerElement.classList.remove("tss-btn-default");
+                        InnerElement.classList.remove("tss-btn-primary");
+                        InnerElement.classList.remove("tss-btn-danger");
+                    }
+                    else
+                    {
+                        InnerElement.classList.remove("tss-btn-default");
+                        InnerElement.classList.remove("tss-btn-success");
+                        InnerElement.classList.remove("tss-btn-danger");
+                        InnerElement.classList.remove("tss-btn-primary");
+                        InnerElement.classList.add("tss-btn-default");
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or set whenever button is primary 
+        /// </summary>
+        public bool IsDanger
+        {
+            get { return InnerElement.classList.contains("tss-btn-danger"); }
+            set
+            {
+                if (value != IsDanger)
+                {
+                    if (value)
+                    {
+                        InnerElement.classList.add("tss-btn-danger");
+                        InnerElement.classList.remove("tss-btn-default");
+                        InnerElement.classList.remove("tss-btn-primary");
+                        InnerElement.classList.remove("tss-btn-success");
+                    }
+                    else
+                    {
+                        InnerElement.classList.remove("tss-btn-default");
+                        InnerElement.classList.remove("tss-btn-success");
+                        InnerElement.classList.remove("tss-btn-danger");
                         InnerElement.classList.remove("tss-btn-primary");
                         InnerElement.classList.add("tss-btn-default");
                     }
@@ -189,6 +252,18 @@ namespace Tesserae.Components
             return button;
         }
 
+        public static Button Success(this Button button)
+        {
+            button.IsSuccess = true;
+            return button;
+        }
+
+        public static Button Danger(this Button button)
+        {
+            button.IsDanger = true;
+            return button;
+        }
+
         public static Button Disabled(this Button button)
         {
             button.IsEnabled = false;
@@ -204,6 +279,15 @@ namespace Tesserae.Components
         public static Button NoBackground(this Button button)
         {
             button.InnerElement.classList.add("tss-btn-nobg");
+            return button;
+        }
+
+        public static Button Color(this Button button, string background, string textColor = "white", string borderColor = "white")
+        {
+            button.InnerElement.classList.add("tss-btn-nobg");
+            button.InnerElement.style.background = background;
+            button.InnerElement.style.color = textColor;
+            button.InnerElement.style.borderColor = borderColor;
             return button;
         }
     }

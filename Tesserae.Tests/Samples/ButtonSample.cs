@@ -55,12 +55,13 @@ namespace Tesserae.Tests.Samples
                         ),
                         TextBlock("Icon Button").Medium(),
                         Stack().Horizontal().Children(
-                            Button().Var(out var iconBtn1).Text("Standard").Icon("far fa-plus").OnClicked((s, e) => alert("Clicked!")),
-                            Button().Var(out var iconBtn2).Text("Primary").Icon("far fa-minus").Primary().OnClicked((s, e) => alert("Clicked!"))
+                            Button().Var(out var iconBtn1).Text("Confirm").Icon("far fa-check").Success().OnClicked((s, e) => alert("Clicked!")),
+                            Button().Var(out var iconBtn2).Text("Delete").Icon("far fa-trash-alt").Danger().OnClicked((s, e) => alert("Clicked!")),
+                            Button().Var(out var iconBtn3).Text("Primary").Icon("far fa-minus").Primary().OnClicked((s, e) => alert("Clicked!"))
                         ),
                         Toggle("Disable buttons").Checked().OnChanged((s, e) =>
                         {
-                            btn1.IsEnabled = btn2.IsEnabled = iconBtn1.IsEnabled = iconBtn2.IsEnabled = e.IsChecked;
+                            btn1.IsEnabled = btn2.IsEnabled = iconBtn1.IsEnabled = iconBtn2.IsEnabled  = iconBtn3.IsEnabled = e.IsChecked;
                         })));
         }
 
