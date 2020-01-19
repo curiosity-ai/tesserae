@@ -40,7 +40,7 @@ namespace Tesserae
                 source.appendChild(child);
         }
 
-        public static void StopEvent(this Event e)
+        public static void StopEvent(Event e)
         {
             e.preventDefault();
             e.stopImmediatePropagation();
