@@ -44,7 +44,7 @@ namespace Tesserae.Components
         {
             title.onclick = (e) =>
             {
-                e.StopEvent();
+                StopEvent(e);
                 Select(id);
             };
 
