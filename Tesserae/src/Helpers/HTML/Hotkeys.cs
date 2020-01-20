@@ -9,7 +9,7 @@ namespace Tesserae
         public static bool Shift { get { return Script.Write<bool>("hotkeys.shift == true"); } }
         public static bool Ctrl { get { return Script.Write<bool>("hotkeys.ctrl == true"); } }
         public static bool Alt { get { return Script.Write<bool>("hotkeys.alt == true"); } }
-        public static bool Option { get { return Script.Write<bool>("hotkeys.option == true"); } }
+        public static bool OptionKey { get { return Script.Write<bool>("hotkeys.option == true"); } }
         public static bool Control { get { return Script.Write<bool>("hotkeys.control == true"); } }
         public static bool Cmd { get { return Script.Write<bool>("hotkeys.cmd == true"); } }
         public static bool Command { get { return Script.Write<bool>("hotkeys.command == true"); } }

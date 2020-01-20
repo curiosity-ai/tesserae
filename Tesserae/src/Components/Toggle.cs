@@ -10,6 +10,8 @@ namespace Tesserae.Components
         private HTMLSpanElement _CheckSpan;
         private HTMLSpanElement _OnOffSpan;
         private HTMLLabelElement _Label;
+        private string OffText;
+        private string OnText;
 
         #endregion
 
@@ -62,19 +64,21 @@ namespace Tesserae.Components
                 if (value != IsChecked)
                 {
                     InnerElement.@checked = value;
-                    if (value) _OnOffSpan.innerText = "On";
-                    else _OnOffSpan.innerText = "Off";
+                    if (value) _OnOffSpan.innerText = OnText;
+                    else _OnOffSpan.innerText = OffText;
                 }
             }
         }
 
         #endregion
 
-        public Toggle(string text = string.Empty)
+        public Toggle(string text = null, string onText = null, string offText = null)
         {
+            OnText = onText ?? "On";
+            OffText = offText ?? "Off";
             InnerElement = CheckBox(_("tss-checkbox"));
             _CheckSpan = Span(_("tss-toggle-mark"));
-            _OnOffSpan = Span(_(text: "Off"));
+            _OnOffSpan = Span(_(text: OffText));
             if (!string.IsNullOrEmpty(text)) _OnOffSpan.style.display = "none";
             _Label = Label(_("tss-toggle-container", text: text), InnerElement, _CheckSpan, _OnOffSpan);
             OnChange += OnChanged;
@@ -86,8 +90,8 @@ namespace Tesserae.Components
 
         private void OnChanged(object sender, Toggle e)
         {
-            if (e.IsChecked) _OnOffSpan.innerText = "On";
-            else _OnOffSpan.innerText = "Off";
+            if (e.IsChecked) _OnOffSpan.innerText = OnText;
+            else _OnOffSpan.innerText = OffText;
         }
 
         public override HTMLElement Render()

@@ -34,6 +34,8 @@ namespace Tesserae
         public static CheckBox CheckBox(string text = string.Empty) => new CheckBox(text);
 
         public static Toggle Toggle(string text = string.Empty) => new Toggle(text);
+        
+        public static Toggle Toggle(string onText, string offText) => new Toggle(onText: onText, offText: offText);
 
         public static Option Option(string label = string.Empty) => new Option(label);
 

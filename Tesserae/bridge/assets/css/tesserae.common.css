@@ -1,4 +1,4 @@
-﻿/* Variables */
+﻿/* Variables - Colors should reflect in the Theme.cs file*/
 :root {
     /* Weights */
     --tss-font-weight-regular: 400;
@@ -15,9 +15,10 @@
     --tss-font-size-small: 14px;
     --tss-font-size-xsmall: 12px;
     --tss-font-size-tiny: 10px;
-    /* Colors */
+    /* Colors - Colors should reflect in the Theme.cs file*/
     --tss-default-background-color: rgb(255, 255, 255);
     --tss-default-foreground-color: rgb(50, 49, 48);
+    --tss-secondary-background-color: rgb(250, 249, 248);
     --tss-secondary-foreground-color: rgb(96, 94, 92);
     --tss-disabled-background-color: rgb(243, 242, 241);
     --tss-disabled-foreground-color: rgb(161, 159, 157);
@@ -27,7 +28,7 @@
     --tss-default-foreground-hover-color: rgb(32, 31, 30);
     --tss-default-background-active-color: rgb(243, 242, 241);
     --tss-default-foreground-active-color: rgb(32, 31, 30);
-
+    /*Primary color*/
     --tss-primary-background-color: rgb(0, 120, 212);
     --tss-primary-foreground-color: rgb(255, 255, 255);
     --tss-primary-border-color: rgb(16, 110, 190);
@@ -35,7 +36,7 @@
     --tss-primary-foreground-hover-color: rgb(255, 255, 255);
     --tss-primary-background-active-color: rgb(0, 90, 158);
     --tss-primary-foreground-active-color: rgb(255, 255, 255);
-
+    /*Danger color*/
     --tss-danger-background-color: rgb(220,53,69);
     --tss-danger-foreground-color: rgb(255, 255, 255);
     --tss-danger-border-color: rgb(220,53,69);
@@ -43,7 +44,7 @@
     --tss-danger-foreground-hover-color: rgb(255,255,255);
     --tss-danger-background-active-color: rgb(189, 33, 48);
     --tss-danger-foreground-active-color: rgb(255, 255, 255);
-
+    /*Success color*/
     --tss-success-background-color: rgb(40, 167, 69);
     --tss-success-foreground-color: rgb(255, 255, 255);
     --tss-success-border-color: rgb(40, 167, 69);
@@ -51,12 +52,60 @@
     --tss-success-foreground-hover-color: rgb(255,255,255);
     --tss-success-background-active-color: rgb(30, 126, 52);
     --tss-success-foreground-active-color: rgb(255, 255, 255);
-
+    /*Other color*/
     --tss-slider-color: rgb(200, 198, 196);
     --tss-slider-active-color: rgb(222, 236, 249);
     --tss-slider-disabled-color: rgb(243, 242, 241);
     --tss-overlay-light: rgba(255, 255, 255, 0.4);
     --tss-overlay-dark: rgba(0, 0, 0, 0.4);
+    --tss-card-shadow: 0 1.6px 3.6px 0 rgba(0,0,0,0.132), 0 0.3px 0.9px 0 rgba(0,0,0,0.108);
+}
+
+.tss-dark {
+    /* Colors */
+    --tss-default-background-color: rgb(34, 34, 34);
+    --tss-default-foreground-color: rgb(255, 255, 255);
+    --tss-secondary-background-color: rgb(68, 68, 68);
+    --tss-secondary-foreground-color: rgb(255, 255, 255);
+    --tss-disabled-background-color: rgb(0, 0, 0);
+    --tss-disabled-foreground-color: rgb(173, 181, 189);
+    --tss-default-border-color: rgb(68, 68, 68);
+    --tss-invalid-border-color: rgb(231, 76, 60);
+    --tss-default-background-hover-color: rgb(49, 49, 49);
+    --tss-default-foreground-hover-color: rgb(255, 255, 255);
+    --tss-default-background-active-color: rgb(68, 68, 68);
+    --tss-default-foreground-active-color: rgb(255, 255, 255);
+    /*Primary color*/
+    --tss-primary-background-color: rgb(0, 120, 212);
+    --tss-primary-foreground-color: rgb(255, 255, 255);
+    --tss-primary-border-color: rgb(16, 110, 190);
+    --tss-primary-background-hover-color: rgb(16, 110, 190);
+    --tss-primary-foreground-hover-color: rgb(255, 255, 255);
+    --tss-primary-background-active-color: rgb(0, 90, 158);
+    --tss-primary-foreground-active-color: rgb(255, 255, 255);
+    /*Danger color*/
+    --tss-danger-background-color: rgb(220,53,69);
+    --tss-danger-foreground-color: rgb(255, 255, 255);
+    --tss-danger-border-color: rgb(220,53,69);
+    --tss-danger-background-hover-color: rgb(200, 35, 51);
+    --tss-danger-foreground-hover-color: rgb(255,255,255);
+    --tss-danger-background-active-color: rgb(189, 33, 48);
+    --tss-danger-foreground-active-color: rgb(255, 255, 255);
+    /*Success color*/
+    --tss-success-background-color: rgb(40, 167, 69);
+    --tss-success-foreground-color: rgb(255, 255, 255);
+    --tss-success-border-color: rgb(40, 167, 69);
+    --tss-success-background-hover-color: rgb(33, 136, 56);
+    --tss-success-foreground-hover-color: rgb(255,255,255);
+    --tss-success-background-active-color: rgb(30, 126, 52);
+    --tss-success-foreground-active-color: rgb(255, 255, 255);
+    /*Other color*/
+    --tss-slider-color: rgb(200, 198, 196);
+    --tss-slider-active-color: rgb(222, 236, 249);
+    --tss-slider-disabled-color: rgb(243, 242, 241);
+    --tss-overlay-light: rgba(255, 255, 255, 0.1);
+    --tss-overlay-dark: rgba(255, 255, 255, 0.4);
+    --tss-card-shadow: 0 3.6px 5.6px 0 rgba(0,0,0,0.132), 2px 2.3px 5.9px 0 rgba(0,0,0,0.108);
 }
 
 /* Fonts */
