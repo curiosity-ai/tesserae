@@ -10,7 +10,7 @@ namespace Tesserae.Components
         public IComponent LoadMessage { get; }
         public Func<Task<IComponent>> AsyncGenerator { get; }
 
-        private dom.HTMLElement InnerElement;
+        internal dom.HTMLElement InnerElement;
         private bool FirstRender;
 
         public Defer(Func<Task<IComponent>> asyncGenerator, IComponent loadMessage = null)

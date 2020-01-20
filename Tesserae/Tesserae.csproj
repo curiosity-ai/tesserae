@@ -6,7 +6,7 @@
     <Company>Curiosity GmbH</Company>
     <Authors>Curiosity GmbH</Authors>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <LangVersion>7</LangVersion>
+    <LangVersion>7.1</LangVersion>
     <PackageProjectUrl>https://github.com/curiosity-ai/tesserae</PackageProjectUrl>
     <DefineConstants>BRIDGE</DefineConstants>
     <PackageId>Tesserae</PackageId>

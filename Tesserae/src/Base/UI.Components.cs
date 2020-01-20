@@ -20,6 +20,26 @@ namespace Tesserae
             return component;
         }
 
+
+        /// <summary>
+        /// Adds an ID to the element representing the component.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="component"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public static T Id<T>(this T component, string id) where T : IComponent
+        {
+            if(component is Defer deferedComponent)
+            {
+                deferedComponent.InnerElement.id = id;
+                return component;
+            }
+            var el = component.Render();
+            el.id = id;
+            return component;
+        }
+
         /// <summary>
         /// Creates a wrapper IComponent from an HTML element
         /// </summary>
