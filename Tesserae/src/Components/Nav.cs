@@ -6,15 +6,48 @@ using System.Threading.Tasks;
 
 namespace Tesserae.Components
 {
+
+    public class ComponentInNavLink : NavLink
+    {
+        private IComponent Content;
+        
+        private bool AlreadyRendered = false;
+
+        public ComponentInNavLink(IComponent content) : base()
+        {
+            Content = content;
+        }
+
+        public override HTMLElement Render()
+        {
+            if(!AlreadyRendered)
+            {
+                AlreadyRendered = true;
+                ClearChildren(_HeaderDiv);
+                _HeaderDiv.removeEventListener("click");
+                _HeaderDiv.appendChild(Content.Render());
+                //if (_TextSpan is object) _TextSpan.style.displahh ok :Day = "none";
+                //if (_IconSpan is object) _IconSpan.style.display = "none";
+                //if (_HeaderDiv is object) _HeaderDiv.style.display = "none";
+                //if (_ExpandButton is object) _ExpandButton.style.display = "none";
+                //_ExpandButton.style.display = "none";
+                //InnerElement.classList.add("expanded");
+                //_ChildContainer.appendChild(Content.Render());
+            }
+
+            return InnerElement;
+        }
+    }
+
     public class NavLink : ComponentBase<NavLink, HTMLLIElement>, IContainer<NavLink, NavLink>, IHasTextSize
     {
         #region Fields
 
-        private HTMLSpanElement _TextSpan;
-        private HTMLElement _IconSpan;
-        private HTMLDivElement _HeaderDiv;
-        private HTMLUListElement _ChildContainer;
-        private HTMLButtonElement _ExpandButton;
+        protected HTMLSpanElement _TextSpan;
+        protected HTMLElement _IconSpan;
+        protected HTMLDivElement _HeaderDiv;
+        protected HTMLUListElement _ChildContainer;
+        protected HTMLButtonElement _ExpandButton;
 
         private int _Level;
         private List<NavLink> Children = new List<NavLink>();
@@ -288,6 +321,7 @@ namespace Tesserae.Components
             children.ForEach(x => container.Add(x));
             return container;
         }
+
         public static NavLink Links(this NavLink container, params NavLink[] children)
         {
             children.ForEach(x => container.Add(x));
@@ -312,6 +346,18 @@ namespace Tesserae.Components
                     }).FireAndForget();
                 }
             };
+            return container;
+        }
+
+        public static Nav InlineContent(this Nav container, IComponent content)
+        {
+            container.Add(new ComponentInNavLink(content));
+            return container;
+        }
+
+        public static NavLink InlineContent(this NavLink container, IComponent content)
+        {
+            container.Add(new ComponentInNavLink(content));
             return container;
         }
 

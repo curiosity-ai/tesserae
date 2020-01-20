@@ -36,9 +36,8 @@ namespace Tesserae.Tests
         {
             return Stack().Padding(16).NoShrink().MinHeightStretch()
                           .Children(TextBlock("Tesserae Samples").MediumPlus().SemiBold().AlignCenter(),
-                                    Label("Theme").Inline().Content(Toggle("Light", "Dark").Checked()
-                                    .OnChanged((s,t) => { if (t.IsChecked) { Theme.Light(); } else { Theme.Dark(); } })),
-                                    Nav().Links(NavLink("Basic Inputs").Expanded()
+                                    Nav().InlineContent(Label("Theme").Inline().Content(Toggle("Light", "Dark").Checked().OnChanged((s, t) => { if (t.IsChecked) { Theme.Light(); } else { Theme.Dark(); } })))
+                                         .Links(NavLink("Basic Inputs").Expanded()
                                                                        .SmallPlus()
                                                                        .SemiBold()
                                                                        .Links(NavLink("Button").OnSelected((s, e)      => Show(new ButtonSample())).Selected(),
