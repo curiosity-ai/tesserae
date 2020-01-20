@@ -88,5 +88,11 @@ namespace Tesserae
         public static Dialog Dialog(string header = string.Empty) => new Dialog(header);
 
         public static Pivot Pivot() => new Pivot();
+
+        public static Link Link(string url, IComponent content) => new Link(url, content);
+        
+        public static Link Link(string url, string text) => new Link(url, TextBlock(text));
+        
+        public static Link Link(string url, string text, string icon) => new Link(url, Button(text).Icon(icon).NoBorder().NoBackground().Padding(0));
     }
 }

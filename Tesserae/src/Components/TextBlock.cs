@@ -1,4 +1,5 @@
-﻿using static Retyped.dom;
+﻿using Retyped;
+using static Retyped.dom;
 using static Tesserae.UI;
 
 namespace Tesserae.Components
