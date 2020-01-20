@@ -1,6 +1,7 @@
 ﻿using Retyped;
 using System;
 using System.Threading.Tasks;
+using Tesserae.HTML;
 using static Tesserae.UI;
 
 namespace Tesserae.Components
@@ -11,34 +12,32 @@ namespace Tesserae.Components
         public Func<Task<IComponent>> AsyncGenerator { get; }
 
         internal dom.HTMLElement InnerElement;
-        private bool FirstRender;
+        private bool NeedsRefresh;
 
         public Defer(Func<Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
         {
             LoadMessage = loadMessage ?? TextBlock("loading...").XSmall();
             AsyncGenerator = asyncGenerator;
-            FirstRender = true;
+            NeedsRefresh = true;
             InnerElement = DIV(LoadMessage.Render());
         }
 
         public void Refresh()
         {
-            FirstRender = false;
+            NeedsRefresh = true;
             TriggerRefresh();
         }
 
         public dom.HTMLElement Render()
         {
-            if (FirstRender)
-            {
-                FirstRender = false;
-                TriggerRefresh();
-            }
+            DomMountedObserver.NotifyWhenMounted(InnerElement, () => TriggerRefresh());
             return InnerElement;
         }
 
         private void TriggerRefresh()
         {
+            if (!NeedsRefresh) return;
+            NeedsRefresh = false;
             ClearChildren(InnerElement);
             InnerElement.appendChild(LoadMessage.Render());
             var task = AsyncGenerator();
