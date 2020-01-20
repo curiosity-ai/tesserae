@@ -58,20 +58,113 @@ namespace Tesserae.Components
             }
         }
 
+        /// <summary>
+        /// Gets or set whenever text block color is primary 
+        /// </summary>
+        public bool IsPrimary
+        {
+            get { return InnerElement.classList.contains("tss-fontcolor-primary"); }
+            set
+            {
+                if (value != IsPrimary)
+                {
+                    if (value)
+                    {
+                        InnerElement.classList.add("tss-fontcolor-primary");
+                        InnerElement.classList.remove("tss-fontcolor-invalid");
+                        InnerElement.classList.remove("tss-fontcolor-success");
+                        InnerElement.classList.remove("tss-fontcolor-danger");
+                    }
+                    else
+                    {
+                        InnerElement.classList.remove("tss-fontcolor-invalid");
+                        InnerElement.classList.remove("tss-fontcolor-success");
+                        InnerElement.classList.remove("tss-fontcolor-danger");
+                        InnerElement.classList.remove("tss-fontcolor-primary");
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or set whenever text block color is success 
+        /// </summary>
+        public bool IsSuccess
+        {
+            get { return InnerElement.classList.contains("tss-fontcolor-success"); }
+            set
+            {
+                if (value != IsSuccess)
+                {
+                    if (value)
+                    {
+                        InnerElement.classList.add("tss-fontcolor-success");
+                        InnerElement.classList.remove("tss-fontcolor-invalid");
+                        InnerElement.classList.remove("tss-fontcolor-primary");
+                        InnerElement.classList.remove("tss-fontcolor-danger");
+                    }
+                    else
+                    {
+                        InnerElement.classList.remove("tss-fontcolor-invalid");
+                        InnerElement.classList.remove("tss-fontcolor-success");
+                        InnerElement.classList.remove("tss-fontcolor-danger");
+                        InnerElement.classList.remove("tss-fontcolor-primary");
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or set whenever text block color is danger
+        /// </summary>
+        public bool IsDanger
+        {
+            get { return InnerElement.classList.contains("tss-fontcolor-danger"); }
+            set
+            {
+                if (value != IsDanger)
+                {
+                    if (value)
+                    {
+                        InnerElement.classList.add("tss-fontcolor-danger");
+                        InnerElement.classList.remove("tss-fontcolor-invalid");
+                        InnerElement.classList.remove("tss-fontcolor-primary");
+                        InnerElement.classList.remove("tss-fontcolor-success");
+                    }
+                    else
+                    {
+                        InnerElement.classList.remove("tss-fontcolor-invalid");
+                        InnerElement.classList.remove("tss-fontcolor-success");
+                        InnerElement.classList.remove("tss-fontcolor-danger");
+                        InnerElement.classList.remove("tss-fontcolor-primary");
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or set whenever text block color is invalid
+        /// </summary>
         public bool IsInvalid
         {
-            get { return InnerElement.classList.contains("tss-fontColor-invalid"); }
+            get { return InnerElement.classList.contains("tss-fontcolor-invalid"); }
             set
             {
                 if (value != IsInvalid)
                 {
                     if (value)
                     {
-                        InnerElement.classList.add("tss-fontColor-invalid");
+                        InnerElement.classList.add("tss-fontcolor-invalid");
+                        InnerElement.classList.remove("tss-fontcolor-danger");
+                        InnerElement.classList.remove("tss-fontcolor-primary");
+                        InnerElement.classList.remove("tss-fontcolor-success");
                     }
                     else
                     {
-                        InnerElement.classList.remove("tss-fontColor-invalid");
+                        InnerElement.classList.remove("tss-fontcolor-invalid");
+                        InnerElement.classList.remove("tss-fontcolor-success");
+                        InnerElement.classList.remove("tss-fontcolor-danger");
+                        InnerElement.classList.remove("tss-fontcolor-primary");
                     }
                 }
             }
@@ -126,7 +219,7 @@ namespace Tesserae.Components
 
         public TextBlock(string text = string.Empty)
         {
-            InnerElement = Div(_("tss-textBlock tss-fontSize-small tss-fontWeight-regular", text: text));
+            InnerElement = Div(_("tss-textBlock tss-fontsize-small tss-fontweight-regular", text: text));
         }
 
         public override HTMLElement Render()
@@ -161,10 +254,29 @@ namespace Tesserae.Components
             return textBlock;
         }
 
-        public static T Disabled<T>(this T button) where T : TextBlock
+        public static T Disabled<T>(this T textBlock) where T : TextBlock
         {
-            button.IsEnabled = false;
-            return button;
+            textBlock.IsEnabled = false;
+            return textBlock;
         }
+
+        public static T Primary<T>(this T textBlock) where T : TextBlock
+        {
+            textBlock.IsPrimary = true;
+            return textBlock;
+        }
+
+        public static T Success<T>(this T textBlock) where T : TextBlock
+        {
+            textBlock.IsSuccess = true;
+            return textBlock;
+        }
+
+        public static T Danger<T>(this T textBlock) where T : TextBlock
+        {
+            textBlock.IsDanger = true;
+            return textBlock;
+        }
+
     }
 }

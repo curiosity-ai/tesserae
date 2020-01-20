@@ -117,9 +117,9 @@ namespace Tesserae.Components
 
         public TextBox(string text = string.Empty)
         {
-            InnerElement = TextBox(_("tss-textBox", type: "text", value: text));
-            errorSpan = Span(_("tss-textBox-error"));
-            container = Div(_("tss-textBox-container"), InnerElement, errorSpan);
+            InnerElement = TextBox(_("tss-textbox", type: "text", value: text));
+            errorSpan = Span(_("tss-textbox-error"));
+            container = Div(_("tss-textbox-container"), InnerElement, errorSpan);
             AttachChange();
             AttachInput();
             AttachFocus();

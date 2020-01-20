@@ -1,4 +1,6 @@
-﻿using Tesserae.Components;
+﻿using System;
+using System.Threading.Tasks;
+using Tesserae.Components;
 using static Retyped.dom;
 
 namespace Tesserae
@@ -24,6 +26,8 @@ namespace Tesserae
         /// <param name="element">HTML element to be wrapped</param>
         /// <returns></returns>
         public static Raw Raw(HTMLElement element) => new Raw(element);
+
+        public static Defer Defer(Func<Task<IComponent>> asyncGenerator) => new Defer(asyncGenerator);
 
         public static Stack Stack(Stack.Orientation orientation = Components.Stack.Orientation.Vertical) => new Stack(orientation);
 
