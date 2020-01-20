@@ -24,7 +24,7 @@ namespace Tesserae.Components
             {
                 AlreadyRendered = true;
                 ClearChildren(_HeaderDiv);
-                _HeaderDiv.removeEventListener("click");
+                _HeaderDiv.removeEventListener("click", ClickHandler);
                 _HeaderDiv.appendChild(Content.Render());
                 //if (_TextSpan is object) _TextSpan.style.displahh ok :Day = "none";
                 //if (_IconSpan is object) _IconSpan.style.display = "none";
@@ -190,14 +190,16 @@ namespace Tesserae.Components
             _ChildContainer = Ul(_("tss-nav-link-container"));
             _ExpandButton = Button(_("tss-nav-link-button"));
             _HeaderDiv = Div(_("tss-nav-link-header"), _ExpandButton, _TextSpan);
-            _HeaderDiv.addEventListener("click", (s) =>
-            {
-                if (HasChildren) IsExpanded = !IsExpanded;
-                else IsSelected = true;
-            });
+            _HeaderDiv.addEventListener("click", ClickHandler);
             InnerElement = Li(_("tss-nav-link"), _HeaderDiv, _ChildContainer);
             Size = TextSize.Small;
             Weight = TextWeight.Regular;
+        }
+
+        protected void ClickHandler(object sender)
+        {
+            if (HasChildren) IsExpanded = !IsExpanded;
+            else IsSelected = true;
         }
 
         public override HTMLElement Render()
