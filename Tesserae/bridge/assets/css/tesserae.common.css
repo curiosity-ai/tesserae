@@ -168,15 +168,15 @@
 }
 
 .tss-fontcolor-primary {
-    color: var(--tss-primary-foreground-color);
+    color: var(--tss-primary-background-color);
 }
 
 .tss-fontcolor-success {
-    color: var(--tss-success-foreground-color);
+    color: var(--tss-success-background-color);
 }
 
 .tss-fontcolor-danger {
-    color: var(--tss-danger-foreground-color);
+    color: var(--tss-danger-background-color);
 }
 
 *, :before, :after {
