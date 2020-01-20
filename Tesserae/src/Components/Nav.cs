@@ -26,13 +26,6 @@ namespace Tesserae.Components
                 ClearChildren(_HeaderDiv);
                 _HeaderDiv.removeEventListener("click", ClickHandler);
                 _HeaderDiv.appendChild(Content.Render());
-                //if (_TextSpan is object) _TextSpan.style.displahh ok :Day = "none";
-                //if (_IconSpan is object) _IconSpan.style.display = "none";
-                //if (_HeaderDiv is object) _HeaderDiv.style.display = "none";
-                //if (_ExpandButton is object) _ExpandButton.style.display = "none";
-                //_ExpandButton.style.display = "none";
-                //InnerElement.classList.add("expanded");
-                //_ChildContainer.appendChild(Content.Render());
             }
 
             return InnerElement;
