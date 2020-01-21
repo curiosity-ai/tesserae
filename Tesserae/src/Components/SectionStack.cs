@@ -54,10 +54,8 @@ namespace Tesserae.Components
 
         public override HTMLElement Render()
         {
-            
             return InnerElement;
         }
-
     }
 
     public static class SectionStackExtensions
