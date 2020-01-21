@@ -37,7 +37,7 @@ namespace Tesserae.Tests.Samples
                     Label("Non-empty").Content(tb1),
                     Label("Integer > 0").Content(tb2),
                     Label("Is all valid").Content(isAllValid),
-                    Label("Test revalidation (will fail if repeated)").Content(Button("Revalidate").OnClicked((s,b) => validator.Revalidate()))
+                    Label("Test revalidation (will fail if repeated)").Content(Button("Revalidate").OnClick((s,b) => validator.Revalidate()))
                 )
             );
         }

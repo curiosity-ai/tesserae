@@ -65,6 +65,17 @@ namespace Tesserae.Components
             InnerElement.addEventListener("keyup",    (s) => RaiseOnKeyUp(s));
         }
 
+        protected void AttachFocus()
+        {
+            InnerElement.addEventListener("focus", (s) => RaiseOnFocus(s));
+        }
+
+        protected void AttachBlur()
+        {
+            InnerElement.addEventListener("blur", (s) => RaiseOnBlur(s));
+        }
+
+
         protected void RaiseOnInput(object e)
         {
             onInput?.Invoke((T)this, Script.Write<Event>("{0}", e));
@@ -90,16 +101,6 @@ namespace Tesserae.Components
             onFocus?.Invoke((T)this, Script.Write<Event>("{0}", e));
         }
 
-        protected void AttachFocus()
-        {
-            InnerElement.addEventListener("focus", (s) => RaiseOnFocus(s));
-        }
-
-        protected void AttachBlur()
-        {
-            InnerElement.addEventListener("blur", (s) => RaiseOnBlur(s));
-        }
-
         private void RaiseOnBlur(object s)
         {
             onBlur?.Invoke((T)this, Script.Write<Event>("{0}", s));
@@ -109,31 +110,31 @@ namespace Tesserae.Components
 
         #region Fluent
 
-        public T OnClicked(ComponentEventHandler<MouseEvent> onClick)
+        public T OnClick(ComponentEventHandler<MouseEvent> onClick)
         {
             this.onClick += onClick;
             return (T)this;
         }
 
-        public T OnChanged(ComponentEventHandler<Event> onChange)
+        public T OnChange(ComponentEventHandler<Event> onChange)
         {
             this.onChange += onChange;
             return (T)this;
         }
 
-        public T OnInputed(ComponentEventHandler<Event> onInput)
+        public T OnInput(ComponentEventHandler<Event> onInput)
         {
             this.onInput += onInput;
             return (T)this;
         }
 
-        public T OnFocused(ComponentEventHandler<Event> onFocus)
+        public T OnFocus(ComponentEventHandler<Event> onFocus)
         {
             this.onFocus += onFocus;
             return (T)this;
         }
 
-        public T OnBlured(ComponentEventHandler<Event> onBlur)
+        public T OnBlur(ComponentEventHandler<Event> onBlur)
         {
             this.onBlur += onBlur;
             return (T)this;

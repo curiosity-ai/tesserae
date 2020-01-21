@@ -81,7 +81,7 @@ namespace Tesserae.Components
             _OnOffSpan = Span(_(text: OffText));
             if (!string.IsNullOrEmpty(text)) _OnOffSpan.style.display = "none";
             _Label = Label(_("tss-toggle-container", text: text), InnerElement, _CheckSpan, _OnOffSpan);
-            OnChanged((s,e) => OnToggleChanged());
+            OnChange((s,e) => OnToggleChanged());
             AttachClick();
             AttachChange();
             AttachFocus();
