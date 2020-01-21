@@ -22,7 +22,7 @@ namespace Tesserae.Tests.Samples
                 Stack().Children(
                     Stack().Horizontal().Children(
                         Stack().Children(
-                            Label("Number of items:").Content(countSlider.OnInputed((s, e) => SetChildren(stack, e.Value)))
+                            Label("Number of items:").Content(countSlider.OnInputed((s, e) => SetChildren(stack, s.Value)))
                             )
                         )
                     ),

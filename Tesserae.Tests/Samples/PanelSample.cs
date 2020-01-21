@@ -45,7 +45,7 @@ namespace Tesserae.Tests.Samples
                             Option("Far").Selected().OnSelected((x, e) => panel.Side = PanelSide.Far),
                             Option("Near").OnSelected((x, e) => panel.Side = PanelSide.Near)
                         ),
-                        Toggle("Light Dismiss").OnChanged((s, e) => panel.CanLightDismiss = e.IsChecked).Checked(panel.CanLightDismiss),
+                        Toggle("Light Dismiss").OnChanged((s, e) => panel.CanLightDismiss = s.IsChecked).Checked(panel.CanLightDismiss),
                         ChoiceGroup("Size:").Options(
                             Option("Small").Selected().OnSelected((x, e) => panel.Size = PanelSize.Small),
                             Option("Medium").OnSelected((x, e) => panel.Size = PanelSize.Medium),
@@ -54,9 +54,9 @@ namespace Tesserae.Tests.Samples
                             Option("ExtraLarge").OnSelected((x, e) => panel.Size = PanelSize.ExtraLarge),
                             Option("FullWidth").OnSelected((x, e) => panel.Size = PanelSize.FullWidth)
                         ),
-                        Toggle("Is non-blocking").OnChanged((s, e) => panel.IsNonBlocking = e.IsChecked).Checked(panel.IsNonBlocking),
-                        Toggle("Is dark overlay").OnChanged((s, e) => panel.Dark = e.IsChecked).Checked(panel.Dark),
-                        Toggle("Hide close button").OnChanged((s, e) => panel.ShowCloseButton = !e.IsChecked).Checked(!panel.ShowCloseButton)
+                        Toggle("Is non-blocking").OnChanged((s, e) => panel.IsNonBlocking = s.IsChecked).Checked(panel.IsNonBlocking),
+                        Toggle("Is dark overlay").OnChanged((s, e) => panel.Dark = s.IsChecked).Checked(panel.Dark),
+                        Toggle("Hide close button").OnChanged((s, e) => panel.ShowCloseButton = !s.IsChecked).Checked(!panel.ShowCloseButton)
                     )
                 ).Footer(Stack().Horizontal().Children(Button("Footer Button 1").Primary(), Button("Footer Button 2")))
             );

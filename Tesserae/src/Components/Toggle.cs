@@ -81,17 +81,16 @@ namespace Tesserae.Components
             _OnOffSpan = Span(_(text: OffText));
             if (!string.IsNullOrEmpty(text)) _OnOffSpan.style.display = "none";
             _Label = Label(_("tss-toggle-container", text: text), InnerElement, _CheckSpan, _OnOffSpan);
-            OnChange += OnChanged;
+            OnChanged((s,e) => OnToggleChanged());
             AttachClick();
             AttachChange();
             AttachFocus();
             AttachBlur();
         }
 
-        private void OnChanged(object sender, Toggle e)
+        private void OnToggleChanged()
         {
-            if (e.IsChecked) _OnOffSpan.innerText = OnText;
-            else _OnOffSpan.innerText = OffText;
+            _OnOffSpan.innerText = IsChecked ? OnText : OffText;
         }
 
         public override HTMLElement Render()

@@ -131,15 +131,15 @@ namespace Tesserae.Components
             return container;
         }
 
-        public void Attach(EventHandler<TextBox> handler, Validation.Mode mode)
+        public void Attach(EventHandler<Event> handler, Validation.Mode mode)
         {
             if (mode == Validation.Mode.OnBlur)
             {
-                OnChange += handler;
+                onChange += (s,e) => handler(s,e);
             }
             else
             {
-                OnInput += handler;
+                onInput += (s, e) => handler(s, e);
             }
         }
     }

@@ -1,10 +1,13 @@
-﻿using System;
+﻿using Bridge;
+using System;
 using static Retyped.dom;
 
 namespace Tesserae.Components
 {
     public abstract class ComponentBase<T, THTML> : IComponent, IHasMarginPadding where T : ComponentBase<T, THTML> where THTML : HTMLElement
     {
+        public delegate void ComponentEventHandler<TEventArgs>(T sender, TEventArgs e);
+
         #region Properties
         
         public THTML InnerElement { get; protected set; }
@@ -15,11 +18,14 @@ namespace Tesserae.Components
 
         #region Events
 
-        public event EventHandler<T> OnClick;
-        public event EventHandler<T> OnChange;
-        public event EventHandler<T> OnInput;
-        public event EventHandler<T> OnFocus;
-        public event EventHandler<T> OnBlur;
+        public event ComponentEventHandler<MouseEvent>    onClick;
+        public event ComponentEventHandler<Event>         onChange;
+        public event ComponentEventHandler<Event>         onInput;
+        public event ComponentEventHandler<Event>         onFocus;
+        public event ComponentEventHandler<Event>         onBlur;
+        public event ComponentEventHandler<KeyboardEvent> onKeyUp;
+        public event ComponentEventHandler<KeyboardEvent> onKeyDown;
+        public event ComponentEventHandler<KeyboardEvent> onKeyPress;
 
         #endregion
 
@@ -29,7 +35,7 @@ namespace Tesserae.Components
 
         protected void AttachClick()
         {
-            InnerElement.addEventListener("click", (s) => OnClick?.Invoke(s, (T)this));
+            InnerElement.addEventListener("click", (s) => RaiseOnClick(s));
         }
 
         protected void AttachChange()
@@ -37,9 +43,14 @@ namespace Tesserae.Components
             InnerElement.addEventListener("change", (s) => RaiseOnChange(s));
         }
 
+        protected void RaiseOnClick(object s)
+        {
+            onClick?.Invoke((T)this, Script.Write<MouseEvent>("{0}", s));
+        }
+
         protected void RaiseOnChange(object s)
         {
-            OnChange?.Invoke(s, (T)this);
+            onChange?.Invoke((T)this, Script.Write<Event>("{0}", s));
         }
 
         protected void AttachInput()
@@ -47,52 +58,102 @@ namespace Tesserae.Components
             InnerElement.addEventListener("input", (s) => RaiseOnInput(s));
         }
 
-        protected void RaiseOnInput(object s)
+        protected void AttachKeys()
         {
-            OnInput?.Invoke(s, (T)this);
+            InnerElement.addEventListener("keypress", (s) => RaiseOnKeyPress(s));
+            InnerElement.addEventListener("keydown",  (s) => RaiseOnKeyDown(s));
+            InnerElement.addEventListener("keyup",    (s) => RaiseOnKeyUp(s));
+        }
+
+        protected void RaiseOnInput(object e)
+        {
+            onInput?.Invoke((T)this, Script.Write<Event>("{0}", e));
+        }
+
+        protected void RaiseOnKeyDown(object e)
+        {
+            onKeyDown?.Invoke((T)this, Script.Write<KeyboardEvent>("{0}", e));
+        }
+
+        protected void RaiseOnKeyUp(object e)
+        {
+            onKeyUp?.Invoke((T)this, Script.Write<KeyboardEvent>("{0}", e));
+        }
+
+        protected void RaiseOnKeyPress(object e)
+        {
+            onKeyPress?.Invoke((T)this, Script.Write<KeyboardEvent>("{0}", e));
+        }
+
+        private void RaiseOnFocus(object e)
+        {
+            onFocus?.Invoke((T)this, Script.Write<Event>("{0}", e));
         }
 
         protected void AttachFocus()
         {
-            InnerElement.addEventListener("focus", (s) => OnFocus?.Invoke(s, (T)this));
+            InnerElement.addEventListener("focus", (s) => RaiseOnFocus(s));
         }
 
         protected void AttachBlur()
         {
-            InnerElement.addEventListener("blur", (s) => OnBlur?.Invoke(s, (T)this));
+            InnerElement.addEventListener("blur", (s) => RaiseOnBlur(s));
+        }
+
+        private void RaiseOnBlur(object s)
+        {
+            onBlur?.Invoke((T)this, Script.Write<Event>("{0}", s));
         }
 
         #endregion
 
         #region Fluent
 
-        public T OnClicked(EventHandler<T> onClick)
+        public T OnClicked(ComponentEventHandler<MouseEvent> onClick)
         {
-            OnClick += onClick;
+            this.onClick += onClick;
             return (T)this;
         }
 
-        public T OnChanged(EventHandler<T> onChange)
+        public T OnChanged(ComponentEventHandler<Event> onChange)
         {
-            OnChange += onChange;
+            this.onChange += onChange;
             return (T)this;
         }
 
-        public T OnInputed(EventHandler<T> onInput)
+        public T OnInputed(ComponentEventHandler<Event> onInput)
         {
-            OnInput += onInput;
+            this.onInput += onInput;
             return (T)this;
         }
 
-        public T OnFocused(EventHandler<T> onFocus)
+        public T OnFocused(ComponentEventHandler<Event> onFocus)
         {
-            OnFocus += onFocus;
+            this.onFocus += onFocus;
             return (T)this;
         }
 
-        public T OnBlured(EventHandler<T> onBlur)
+        public T OnBlured(ComponentEventHandler<Event> onBlur)
         {
-            OnBlur += onBlur;
+            this.onBlur += onBlur;
+            return (T)this;
+        }
+
+        public T OnKeyDown(ComponentEventHandler<KeyboardEvent> onKeyDown)
+        {
+            this.onKeyDown += onKeyDown;
+            return (T)this;
+        }
+
+        public T OnKeyUp(ComponentEventHandler<KeyboardEvent> onKeyUp)
+        {
+            this.onKeyUp += onKeyUp;
+            return (T)this;
+        }
+
+        public T OnKeyPress(ComponentEventHandler<KeyboardEvent> onKeyPress)
+        {
+            this.onKeyPress += onKeyPress;
             return (T)this;
         }
 

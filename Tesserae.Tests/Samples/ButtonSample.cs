@@ -61,7 +61,7 @@ namespace Tesserae.Tests.Samples
                         ),
                         Toggle("Disable buttons").Checked().OnChanged((s, e) =>
                         {
-                            btn1.IsEnabled = btn2.IsEnabled = iconBtn1.IsEnabled = iconBtn2.IsEnabled  = iconBtn3.IsEnabled = e.IsChecked;
+                            btn1.IsEnabled = btn2.IsEnabled = iconBtn1.IsEnabled = iconBtn2.IsEnabled  = iconBtn3.IsEnabled = s.IsChecked;
                         })));
         }
 

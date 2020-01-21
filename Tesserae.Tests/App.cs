@@ -25,7 +25,7 @@ namespace Tesserae.Tests
 
             var page = new SplitView().Left(MainNav(), background: "var(--tss-default-background-color)")
                                       .Right(_MainStack, background: "var(--tss-secondary-background-color)") //#faf9f8
-                                      .LeftIsSmaller(SplitView.SizeMode.Pixels, 300)
+                                      .LeftIsSmaller(SizeMode.Pixels, 300)
                                       .MinHeightStretch();
 
             document.body.appendChild(page.Render());
@@ -36,7 +36,7 @@ namespace Tesserae.Tests
         {
             return Stack().Padding(16).NoShrink().MinHeightStretch()
                           .Children(TextBlock("Tesserae Samples").MediumPlus().SemiBold().AlignCenter(),
-                                    Nav().InlineContent(Label("Theme").Inline().Content(Toggle("Light", "Dark").Checked().OnChanged((s, t) => { if (t.IsChecked) { Theme.Light(); } else { Theme.Dark(); } })))
+                                    Nav().InlineContent(Label("Theme").Inline().Content(Toggle("Light", "Dark").Checked().OnChanged((t, e) => { if (t.IsChecked) { Theme.Light(); } else { Theme.Dark(); } })))
                                          .Links(NavLink("Basic Inputs").Expanded()
                                                                        .SmallPlus()
                                                                        .SemiBold()

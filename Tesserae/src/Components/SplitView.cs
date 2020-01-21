@@ -88,11 +88,11 @@ namespace Tesserae.Components
         {
             return InnerElement;
         }
+    }
 
-        public enum SizeMode
-        {
-            Pixels,
-            Percent
-        }
+    public enum SizeMode
+    {
+        Pixels,
+        Percent
     }
 }

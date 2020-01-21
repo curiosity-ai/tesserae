@@ -1,4 +1,5 @@
 ﻿using System;
+using static Retyped.dom;
 
 namespace Tesserae.Components
 {
@@ -11,13 +12,14 @@ namespace Tesserae.Components
                 throw new ArgumentNullException(nameof(validate));
             }
 
-            void handler(object sender, T e)
+            void handler(object sender, Event e)
             {
-                var msg = validate(e) ?? "";
+                var s = (T)sender;
+                var msg = validate(s) ?? "";
                 var isInvalid = !string.IsNullOrWhiteSpace(msg);
-                bool shouldRaise = isInvalid != e.IsInvalid || e.Error != msg;
-                e.Error = msg;
-                e.IsInvalid = isInvalid;
+                bool shouldRaise = isInvalid != s.IsInvalid || s.Error != msg;
+                s.Error = msg;
+                s.IsInvalid = isInvalid;
                 if (shouldRaise)
                 {
                     validator?.RaiseOnValidation();
@@ -26,9 +28,9 @@ namespace Tesserae.Components
 
             component.Attach(handler, mode);
 
-            handler(null, component);
+            handler(component, null);
 
-            validator?.Register(component, (s) => handler(s,component));
+            validator?.Register(component, (s) => handler(component, null));
             validator?.RaiseOnValidation();
 
             return component;

@@ -107,7 +107,7 @@ namespace Tesserae.Components
                 _FakeDiv = Div(_("tss-slider-fake-progress"));
                 double percent = ((double)(val - min) / (double)(max - min)) * 100.0;
                 _FakeDiv.style.width = $"{percent.ToString("0.##")}%";
-                OnInput += (e, s) =>
+                onInput += (e, s) =>
                 {
                     percent = ((double)(Value - Min) / (double)(Max - Min)) * 100.0;
                     _FakeDiv.style.width = $"{percent.ToString("0.##")}%";
