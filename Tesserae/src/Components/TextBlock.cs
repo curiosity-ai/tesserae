@@ -216,11 +216,24 @@ namespace Tesserae.Components
             }
         }
 
+        public string Cursor
+        {
+            get
+            {
+                return InnerElement.style.cursor;
+            }
+            set
+            {
+                InnerElement.style.cursor = value;
+            }
+        }
+
         #endregion
 
         public TextBlock(string text = string.Empty)
         {
             InnerElement = Div(_("tss-textBlock tss-fontsize-small tss-fontweight-regular", text: text));
+            AttachClick();
         }
 
         public override HTMLElement Render()

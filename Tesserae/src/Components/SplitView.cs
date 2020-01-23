@@ -21,7 +21,7 @@ namespace Tesserae.Components
             LeftComponent.Height = "100%";
             SplitterComponent.Height = "100%";
             RightComponent.Height = "100%";
-
+            SplitInMiddle();
             InnerElement      = Div(_("tss-splitview"), LeftComponent.Render(), SplitterComponent.Render(), RightComponent.Render());
         }
 

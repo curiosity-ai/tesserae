@@ -113,6 +113,12 @@ namespace Tesserae.Components
         public T OnClick(ComponentEventHandler<MouseEvent> onClick)
         {
             this.onClick += onClick;
+
+            if(this is TextBlock textBlock)
+            {
+                textBlock.Cursor = "pointer";
+            }
+
             return (T)this;
         }
 
