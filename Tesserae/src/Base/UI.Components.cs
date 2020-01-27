@@ -96,5 +96,7 @@ namespace Tesserae
         public static Link Link(string url, string text, string icon) => new Link(url, Button(text).Icon(icon).NoBorder().NoBackground().Padding(0));
 
         public static SplitView SplitView() => new SplitView();
+
+        public static List List() => new List();
     }
 }
