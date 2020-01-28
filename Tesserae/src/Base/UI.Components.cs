@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Tesserae.Components;
 using static Retyped.dom;
@@ -97,6 +98,17 @@ namespace Tesserae
 
         public static SplitView SplitView() => new SplitView();
 
-        public static List List() => new List();
+        public static BasicList BasicList(
+            IEnumerable<IComponent> components,
+            int rowsPerPage = 4,
+            int columnsPerRow = 4,
+            int height = 250)
+        {
+            return new BasicList(
+                components,
+                rowsPerPage,
+                columnsPerRow,
+                height);
+        }
     }
 }

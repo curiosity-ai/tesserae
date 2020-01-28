@@ -1,0 +1,11 @@
+.tss-basiclist {
+    display: inline-block;
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: relative;
+    width: 100%;
+}
+
+.tss-basiclist .tss-basiclist-item {
+    float: left;
+}

@@ -72,7 +72,7 @@
         "bridge/assets/css/tesserae.choice.css",
         "bridge/assets/css/tesserae.label.css",
         "bridge/assets/css/tesserae.layer.css",
-        "bridge/assets/css/tesserae.list.css",
+        "bridge/assets/css/tesserae.basiclist.css",
         "bridge/assets/css/tesserae.panel.css",
         "bridge/assets/css/tesserae.pivot.css",
         "bridge/assets/css/tesserae.modal.css",

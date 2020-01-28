@@ -63,7 +63,8 @@ namespace Tesserae.Tests
                                                                            NavLink("TextBlock").OnSelected((s, e)     => Show(new TextBlockSample())),
                                                                            NavLink("Validator").OnSelected((s, e)     => Show(new ValidatorSample())),
                                                                            NavLink("Pivot").OnSelected((s, e)         => Show(new PivotSample())),
-                                                                           NavLink("Defer").OnSelected((s, e)         => Show(new DeferSample()))
+                                                                           NavLink("Defer").OnSelected((s, e)         => Show(new DeferSample())),
+                                                                           NavLink("List").OnSelected((s, e)          => Show(new BasicListSample()))
                                                 ),
                                                 NavLink("Nav Sample").Expanded()
                                                                      .SmallPlus()
