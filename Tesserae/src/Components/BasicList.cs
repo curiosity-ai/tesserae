@@ -14,19 +14,29 @@ namespace Tesserae.Components
         private readonly List<IComponent> _components;
         private readonly int _componentsCount;
         private readonly int _pagesCount;
+        private readonly int _componentsPerPage;
+        private readonly string _componentHeight;
+        private readonly string _componentWidth;
 
         public BasicList(
             IEnumerable<IComponent> components,
-            int rowsPerPage = 4,
+            int rowsPerPage   = 4,
             int columnsPerRow = 4,
             int height = 250)
         {
-            _rowsPerPage   = rowsPerPage;
-            _columnsPerRow = columnsPerRow;
-            _components    = components.ToList();
-            _componentsCount = _components.Count;
+            _rowsPerPage       = rowsPerPage;
+            _columnsPerRow     = columnsPerRow;
+            _components        = components.ToList();
+            _componentsCount   = _components.Count;
+            _componentsPerPage = rowsPerPage * columnsPerRow;
+
+            _componentHeight = GetSize(_rowsPerPage);
+            _componentWidth  = GetSize(_columnsPerRow);
 
             _pagesCount = (int)Math.Ceiling((double)_componentsCount / _rowsPerPage);
+
+            var initialCountOfComponentsToRender =
+                _pagesCount > 2 ? _componentsPerPage * 3 : _componentsPerPage;
 
             _innerElement =
                 Div(_("tss-basiclist",
@@ -36,14 +46,15 @@ namespace Tesserae.Components
                     }));
 
             _components
+                .Take(initialCountOfComponentsToRender)
                 .ForEach(x =>
                     _innerElement.appendChild(
                         Div(
                             _("tss-basiclist-item",
                                 styles: cssStyleDeclaration =>
                                 {
-                                    cssStyleDeclaration.height = GetSize(_rowsPerPage);
-                                    cssStyleDeclaration.width  = GetSize(_columnsPerRow);
+                                    cssStyleDeclaration.height = _componentHeight;
+                                    cssStyleDeclaration.width  = _componentWidth;
                                 }),
                             x.Render())));
 
@@ -73,6 +84,11 @@ namespace Tesserae.Components
         {
             var scrollTop = _innerElement.scrollTop;
             var scrollHeight = _innerElement.scrollHeight;
+
+            console.log($"scrollTop: {scrollTop}");
+            console.log($"scrollHeight: {scrollHeight}");
+
+
         }
     }
 }
