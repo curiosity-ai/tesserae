@@ -73,7 +73,6 @@ namespace Tesserae.Components
                         s.width = "auto";
                         s.height = "auto";
                         s.flexShrink = "1";
-                        s.overflow = "hidden";
                     }), component.Render());
                     (component as dynamic).StackItem = item;
                 }
@@ -102,17 +101,44 @@ namespace Tesserae.Components
             item.style.alignSelf = cssAlign;
         }
 
-        public static Stack.ItemSize GetWidth(IComponent component)
+        /// <summary>
+        /// Sets the align-items css property for this stack
+        /// </summary>
+        /// <param name="align"></param>
+        /// <returns></returns>
+        public Stack VerticalAlígn(ItemAlign align)
+        {
+            string cssAlign = align.ToString().ToLower();
+            if (cssAlign == "end" || cssAlign == "start") cssAlign = $"flex-{cssAlign}";
+            InnerElement.style.alignItems = cssAlign;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the justify-content css property for this stack
+        /// </summary>
+        /// <param name="align"></param>
+        /// <returns></returns>
+        public Stack HorizontalAlígn(JustifyContent justify)
+        {
+            string cssJustify = justify.ToString().ToLower();
+            if (cssJustify == "end" || cssJustify == "start") cssJustify = $"flex-{cssJustify}";
+            if (cssJustify == "between" || cssJustify == "around" || cssJustify == "evenly") cssJustify = $"space-{cssJustify}";
+            InnerElement.style.justifyItems = cssJustify;
+            return this;
+        }
+
+        public static ItemSize GetWidth(IComponent component)
         {
             var item = GetItem(component);
-            if (item.style.width == "auto") return new Stack.ItemSize() { Type = ItemSizeType.Auto };
-            if (item.style.width.EndsWith("px")) return new Stack.ItemSize() { Type = ItemSizeType.Pixels, Value = double.Parse(item.style.width.Substring(item.style.width.Length - 2)) };
-            if (item.style.width.EndsWith("%")) return new Stack.ItemSize() { Type = ItemSizeType.Percents, Value = double.Parse(item.style.width.Substring(item.style.width.Length - 1)) };
+            if (item.style.width == "auto") return new ItemSize() { Type = ItemSizeType.Auto };
+            if (item.style.width.EndsWith("px")) return new ItemSize() { Type = ItemSizeType.Pixels, Value = double.Parse(item.style.width.Substring(item.style.width.Length - 2)) };
+            if (item.style.width.EndsWith("%")) return new ItemSize() { Type = ItemSizeType.Percents, Value = double.Parse(item.style.width.Substring(item.style.width.Length - 1)) };
 
             throw new Exception("Incorrect Stack item width.");
         }
 
-        public static void SetWidth(IComponent component, Stack.ItemSizeType sizeType, double size = 0)
+        public static void SetWidth(IComponent component, ItemSizeType sizeType, double size = 0)
         {
             var item = GetItem(component);
             switch (sizeType)
@@ -123,16 +149,16 @@ namespace Tesserae.Components
             }
         }
 
-        public static Stack.ItemSize GetHeight(IComponent component)
+        public static ItemSize GetHeight(IComponent component)
         {
             var item = GetItem(component);
-            if (item.style.height == "auto") return new Stack.ItemSize() { Type = ItemSizeType.Auto };
-            if (item.style.height.EndsWith("px")) return new Stack.ItemSize() { Type = ItemSizeType.Pixels, Value = double.Parse(item.style.height.Substring(item.style.height.Length - 2)) };
-            if (item.style.height.EndsWith("%")) return new Stack.ItemSize() { Type = ItemSizeType.Percents, Value = double.Parse(item.style.height.Substring(item.style.height.Length - 1)) };
+            if (item.style.height == "auto") return new ItemSize() { Type = ItemSizeType.Auto };
+            if (item.style.height.EndsWith("px")) return new ItemSize() { Type = ItemSizeType.Pixels, Value = double.Parse(item.style.height.Substring(item.style.height.Length - 2)) };
+            if (item.style.height.EndsWith("%")) return new ItemSize() { Type = ItemSizeType.Percents, Value = double.Parse(item.style.height.Substring(item.style.height.Length - 1)) };
 
             throw new Exception("Incorrect Stack item height.");
         }
-        public static void SetHeight(IComponent component, Stack.ItemSizeType sizeType, double size = 0)
+        public static void SetHeight(IComponent component, ItemSizeType sizeType, double size = 0)
         {
             var item = GetItem(component);
             switch (sizeType)
@@ -260,6 +286,16 @@ namespace Tesserae.Components
             Auto,
             Stretch,
             Baseline,
+            Start,
+            Center,
+            End
+        }
+
+        public enum JustifyContent
+        {
+            Between,
+            Around,
+            Evenly,
             Start,
             Center,
             End

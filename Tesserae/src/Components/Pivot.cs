@@ -9,6 +9,31 @@ namespace Tesserae.Components
 {
     public class Pivot : IComponent
     {
+        public class PivotNavigateEvent
+        {
+            public readonly string CurrentPivot;
+            public readonly string TargetPivot;
+
+            internal PivotNavigateEvent(string currentPivot, string targetPivot)
+            {
+                CurrentPivot = currentPivot;
+                TargetPivot = targetPivot;
+            }
+        }
+        public class PivotBeforeNavigateEvent : PivotNavigateEvent
+        {
+            internal bool Canceled;
+
+            internal PivotBeforeNavigateEvent(string currentPivot, string targetPivot) : base(currentPivot, targetPivot)
+            {
+                Canceled = false;
+            }
+
+            public void Cancel() => Canceled = true;
+        }
+
+        public delegate void PivotEventHandler<TEventArgs>(Pivot sender, TEventArgs e);
+
         public HTMLElement InnerElement { get; private set; }
 
         private List<Tab> OrderedTabs = new List<Tab>();
@@ -19,6 +44,9 @@ namespace Tesserae.Components
         private HTMLElement Line;
         private string SelectedID;
         private string CurrentSelectedID;
+
+        public event PivotEventHandler<PivotBeforeNavigateEvent> onBeforeNavigate;
+        public event PivotEventHandler<PivotNavigateEvent> onNavigate;
 
         public Pivot()
         {
@@ -64,6 +92,18 @@ namespace Tesserae.Components
             };
         }
 
+        public Pivot OnBeforeNavigate(PivotEventHandler<PivotBeforeNavigateEvent> onBeforeNavigate)
+        {
+            this.onBeforeNavigate += onBeforeNavigate;
+            return this;
+        }
+
+        public Pivot OnNavigate(PivotEventHandler<PivotNavigateEvent> onNavigate)
+        {
+            this.onNavigate += onNavigate;
+            return this;
+        }
+
         public Pivot Select(string id)
         {
             var tab = OrderedTabs.FirstOrDefault(t => t.Id == id);
@@ -72,6 +112,12 @@ namespace Tesserae.Components
 
         private Pivot Select(Tab tab)
         {
+            var pbne = new PivotBeforeNavigateEvent(CurrentSelectedID, tab.Id);
+
+            onBeforeNavigate?.Invoke(this, pbne);
+
+            if (pbne.Canceled) return this;
+
             var title = RenderedTitles[tab];
 
             HTMLElement content = Div(_());
@@ -91,6 +137,11 @@ namespace Tesserae.Components
             CurrentSelectedID = tab.Id;
             UpdateTitleStyles(title);
             TriggerAnimation();
+
+            var pne = new PivotNavigateEvent(CurrentSelectedID, tab.Id);
+
+            onNavigate?.Invoke(this, pne);
+
             return this;
         }
 
