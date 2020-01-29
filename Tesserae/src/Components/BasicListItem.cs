@@ -7,10 +7,10 @@ namespace Tesserae.Components
     {
         private readonly HTMLElement _innerElement;
 
-        public BasicListItem()
+        public BasicListItem(string text)
         {
             _innerElement =
-                Div(_(text: "Lorem Ipsum", styles: s =>
+                Div(_(text: text, styles: s =>
                 {
                     s.display   = "block";
                     s.textAlign = "center";

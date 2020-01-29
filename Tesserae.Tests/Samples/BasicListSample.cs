@@ -15,7 +15,7 @@ namespace Tesserae.Tests.Samples
                 BasicList(
                         Enumerable
                             .Range(1, 5000)
-                            .Select(x => new BasicListItem()));
+                            .Select(item => new BasicListItem($"Lorem Ipsum {item}")));
 
             _content = Stack().Children(basicList);
         }

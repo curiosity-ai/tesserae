@@ -10,7 +10,7 @@ namespace Tesserae.Components
     public class BasicList : IContainer<BasicList, IComponent>
     {
         private const int InitialPagesToRenderInAdvanceCount = 3;
-        private const int LoadBoundaryTolerance              = 100;
+        private const int LoadBoundaryTolerance              = 10;
 
         private readonly HTMLElement _innerElement;
         private readonly int _rowsPerPage;
@@ -54,50 +54,14 @@ namespace Tesserae.Components
                 _componentsPerPage * InitialPagesToRenderInAdvanceCount
                 : _componentsPerPage;
 
-            _innerElement = CreateBasicListContainer(containerHeight);
+            _innerElement     = CreateBasicListContainer(containerHeight);
+            _bottomPaddingDiv = Div(_());
 
-            _components
-                .Take(_initialComponentsToRenderCount)
-                .ForEach((component, index) =>
-                {
-                    var htmlElement = component.Render();
+            _innerElement.appendChild(_bottomPaddingDiv);
 
-                    if (index == _initialComponentsToRenderCount - 1)
-                    {
-                        DomMountedObserver.NotifyWhenMounted(htmlElement, () =>
-                        {
-                            var componentHeight =
-                                htmlElement.parentElement.clientHeight;
+            RenderComponents(_initialComponentsToRenderCount);
 
-                            var componentsNotRenderedCount =
-                                _componentsCount - _initialComponentsToRenderCount;
-
-                            var _bottomPaddingDivHeight =
-                                componentsNotRenderedCount * componentHeight;
-
-                            _renderedComponentsHeight =
-                                (_initialComponentsToRenderCount / _rowsPerPage) * componentHeight;
-
-                            _bottomPaddingDiv =
-                                Div(_(styles: cssStyleDeclaration =>
-                                {
-                                    cssStyleDeclaration.height = $"{_bottomPaddingDivHeight}px";
-                                }));
-
-                            _innerElement.appendChild(_bottomPaddingDiv);
-                        });
-                    }
-
-                    _innerElement.appendChild(
-                        Div(
-                            _("tss-basiclist-item",
-                                styles: cssStyleDeclaration =>
-                                {
-                                    cssStyleDeclaration.height = _componentHeightPercentage;
-                                    cssStyleDeclaration.width  = _componentWidthPercentage;
-                                }),
-                            htmlElement));
-                });
+            CreateBottomPaddingDivHeight();
 
             _currentPage = renderPagesInAdvance ?
                 InitialPagesToRenderInAdvanceCount
@@ -118,18 +82,19 @@ namespace Tesserae.Components
 
         public void Clear()
         {
+            _components.Clear();
         }
 
         public void Replace(IComponent newComponent, IComponent oldComponent)
         {
         }
 
-        private static HTMLDivElement CreateBasicListContainer(int height)
+        private static HTMLDivElement CreateBasicListContainer(int containerHeight)
         {
             return Div(_("tss-basiclist",
                 styles: cssStyleDeclaration =>
                 {
-                    cssStyleDeclaration.height = $"{height}px";
+                    cssStyleDeclaration.height = $"{containerHeight}px";
                 }));
         }
 
@@ -144,38 +109,54 @@ namespace Tesserae.Components
             _components
                 .Skip(componentsToSkipCount)
                 .Take(componentsToRenderCount.Value)
-                .ForEach((component, index) =>
+                .Select(component => component.Render())
+                .ForEach((htmlElement, index) =>
                 {
-                    var htmlElement = component.Render();
-
-                    if (index == componentsToRenderCount - 1)
-                    {
-
-                    }
-
-                    if (_bottomPaddingDiv != null)
-                    {
-                        _innerElement.removeChild(_bottomPaddingDiv);
-                        _bottomPaddingDiv = null;
-                    }
-
-                    _innerElement.appendChild(
+                    var x =
                         Div(
-                            _("tss-basiclist-item",
-                                styles: cssStyleDeclaration =>
-                                {
-                                    cssStyleDeclaration.height = _componentHeightPercentage;
-                                    cssStyleDeclaration.width  = _componentWidthPercentage;
-                                }),
-                            htmlElement));
+                        _("tss-basiclist-item",
+                            styles: cssStyleDeclaration =>
+                            {
+                                cssStyleDeclaration.height = _componentHeightPercentage;
+                                cssStyleDeclaration.width  = _componentWidthPercentage;
+                            }),
+                            htmlElement);
+
+                    _innerElement.insertBefore(x, _bottomPaddingDiv);
                 });
         }
+
+        private void CreateBottomPaddingDivHeight()
+        {
+            var lastHtmlElement =
+                (HTMLElement)_innerElement.lastElementChild.previousElementSibling;
+
+            DomMountedObserver.NotifyWhenMounted(lastHtmlElement, () =>
+            {
+                var componentHeight =
+                    lastHtmlElement.clientHeight;
+
+                var componentsNotRenderedCount =
+                    _componentsCount - _initialComponentsToRenderCount;
+
+                var bottomPaddingDivHeight =
+                    componentsNotRenderedCount * componentHeight;
+
+                _renderedComponentsHeight =
+                    (_initialComponentsToRenderCount / _rowsPerPage) * componentHeight;
+
+                _bottomPaddingDiv.SetStyle(cssStyleDeclaration =>
+                {
+                    cssStyleDeclaration.height = $"{bottomPaddingDivHeight}px";
+                });
+            });
+       }
 
         private void AttachOnScrollEvent()
         {
             _innerElement.addEventListener("scroll", listener =>
             {
-                var scrollTop = _innerElement.scrollTop;
+                var scrollTop= _innerElement.scrollTop;
                 var scrollDirection = GetScrollDirection(_innerElement.scrollTop);
 
                 if (scrollDirection == ScrollDirection.Down)
@@ -185,7 +166,6 @@ namespace Tesserae.Components
 
                     if (scrollTop >= loadBoundary)
                     {
-                        console.log("Start loading!");
                         RenderComponents();
                         _currentPage += 1;
                     }
