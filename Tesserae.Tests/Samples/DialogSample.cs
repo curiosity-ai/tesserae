@@ -20,7 +20,7 @@ namespace Tesserae.Tests.Samples
                 TextBlock("Dialogs are temporary, modal UI overlay that generally provide contextual app information or require user confirmation/input. In most cases, Dialogs block interactions with the web page or application until being explicitly dismissed, and often request action from the user. They are primarily used for lightweight creation or edit tasks, and simple management tasks."),
                 TextBlock("Best Practices").MediumPlus(),
                 Stack().Horizontal().Children(
-                    Stack().WidthPercents(40).Children(
+                    Stack().Width(40, Unit.Percents).Children(
                         TextBlock("Do").Medium(),
                         TextBlock("Use Dialogs for quick, actionable interactions, such as making a choice or needing the user to provide information."),
                         TextBlock("When possible, try a non-blocking Dialog before resorting to a blocking Dialog."),
@@ -28,7 +28,7 @@ namespace Tesserae.Tests.Samples
                         TextBlock("Button text should reflect the actions available to the user (e.g. save, delete)."),
                         TextBlock("Validate that the user's entries are acceptable before closing the Dialog. Show an inline validation error near the field they must correct.")
                     ),
-                    Stack().WidthPercents(40).Children(
+                    Stack().Width(40, Unit.Percents).Children(
                         TextBlock("Don't").Medium(),
                         TextBlock("Don’t overuse Modals. In some cases they can be perceived as interrupting workflow, and too many can be a bad user experience."),
                         TextBlock("Avoid \"Are you sure ?\" or confirmation Dialogs unless the user is making an irreversible or destructive choice."),

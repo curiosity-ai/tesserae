@@ -25,13 +25,13 @@ namespace Tesserae.Tests.Samples
                 TextBlock("Multi-field forms"),
                 TextBlock("Best Practices").MediumPlus(),
                 Stack().Horizontal().Children(
-                    Stack().WidthPercents(40).Children(
+                    Stack().Width(40, Unit.Percents).Children(
                         TextBlock("Do").Medium(),
                         TextBlock("Use for self-contained experiences where the user does not need to interact with the app view to complete the task."),
                         TextBlock("Use for complex creation, edit or management experiences."),
                         TextBlock("Consider how the panel and its contained contents will scale across Fabric’s responsive web breakpoints.")
                     ),
-                    Stack().WidthPercents(40).Children(
+                    Stack().Width(40, Unit.Percents).Children(
                         TextBlock("Don't").Medium(),
                         TextBlock("Don't use for experiences where the user needs to interact with the app view.")
                     )

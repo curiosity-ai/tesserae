@@ -21,11 +21,11 @@ namespace Tesserae.Tests.Samples
                 TextBlock("Use multiple CheckBoxes for multi-select scenarios in which a user chooses one or more items from a group of choices that are not mutually exclusive."),
                 TextBlock("Best Practices").MediumPlus(),
                 Stack().Horizontal().Children(
-                    Stack().WidthPercents(40).Children(
+                    Stack().Width(40, Unit.Percents).Children(
                         TextBlock("Do").Medium(),
                         TextBlock("Allow users to choose any combination of options when several CheckBoxes are grouped together.")
                     ),
-                    Stack().WidthPercents(40).Children(
+                    Stack().Width(40, Unit.Percents).Children(
                         TextBlock("Don't").Medium(),
                         TextBlock("Don't use a CheckBox as an on/off control. Instead use a toggle switch."),
                         TextBlock("Don’t use a CheckBox when the user can choose only one option from the group, use radio buttons instead."),

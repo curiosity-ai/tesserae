@@ -21,13 +21,13 @@ namespace Tesserae.Tests.Samples
                 TextBlock("For usage requiring a quick choice from the user, Dialog may be a more appropriate control."),
                 TextBlock("Best Practices").MediumPlus(),
                 Stack().Horizontal().Children(
-                    Stack().WidthPercents(40).Children(
+                    Stack().Width(40, Unit.Percents).Children(
                         TextBlock("Do").Medium(),
                         TextBlock("Use Modals for actionable interactions, such as needing the user to provide information or change settings."),
                         TextBlock("When possible, try a non-blocking Modal before resorting to a blocking Modal."),
                         TextBlock("Always have at least one focusable element inside a Modal.")
                     ),
-                    Stack().WidthPercents(40).Children(
+                    Stack().Width(40, Unit.Percents).Children(
                         TextBlock("Don't").Medium(),
                         TextBlock("Don’t overuse Modals. In some cases they can be perceived as interrupting workflow, and too many can be a bad user experience.")
                     )
