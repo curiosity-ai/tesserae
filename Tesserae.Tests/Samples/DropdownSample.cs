@@ -110,7 +110,8 @@ namespace Tesserae.Tests.Samples
                         DropdownItem("2-4"),
                         DropdownItem("2-5")
                     )),
-                    Label("Async").Content(Dropdown().Items(GetItemsAsync))
+                    Label("Async 5 seconds delay").Content(Dropdown().Items(GetItemsAsync)),
+                    Label("Async wait Google.com (need CQRS)").Content(Dropdown().Items(GetGoogleItemsAsync))
                 )
             );
             d.Attach((e, dd) =>
@@ -126,12 +127,35 @@ namespace Tesserae.Tests.Samples
 
         private async Task<Dropdown.Item[]> GetItemsAsync()
         {
-            // Sample async request
+            await Task.Delay(5000);
+
+            return new[]
+            {
+                DropdownItem("Header 1").Header(),
+                DropdownItem("1-1"),
+                DropdownItem("1-2"),
+                DropdownItem("1-3"),
+                DropdownItem("1-4").Disabled(),
+                DropdownItem("1-5"),
+                DropdownItem().Divider(),
+                DropdownItem("Header 2").Header(),
+                DropdownItem("2-1"),
+                DropdownItem("2-2"),
+                DropdownItem("2-3"),
+                DropdownItem("2-4"),
+                DropdownItem("2-5")
+            };
+        }
+        private async Task<Dropdown.Item[]> GetGoogleItemsAsync()
+        {
             try
             {
                 await GetAsync("http://google.com");
             }
-            catch { }
+            catch
+            {
+                await Task.Delay(1000);
+            }
 
             return new[]
             {
