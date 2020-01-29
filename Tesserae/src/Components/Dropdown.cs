@@ -181,7 +181,7 @@ namespace Tesserae.Components
                     _container.style.pointerEvents = "none";
                     Task.Run(async () =>
                     {
-                        // this.Items(await ItemsSource());
+                        this.Items(await ItemsSource());
                         Show();
                         _container.removeChild(_spinner);
                         _container.style.pointerEvents = "unset";
