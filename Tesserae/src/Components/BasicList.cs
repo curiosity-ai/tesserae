@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using Retyped;
 using Tesserae.HTML;
 using static System.Math;
 using static Retyped.dom;
@@ -10,6 +9,9 @@ namespace Tesserae.Components
 {
     public class BasicList : IContainer<BasicList, IComponent>
     {
+        private const int InitialPagesToRenderInAdvanceCount = 3;
+        private const int LoadBoundaryTolerance              = 100;
+
         private readonly HTMLElement _innerElement;
         private readonly int _rowsPerPage;
         private readonly int _columnsPerRow;
@@ -19,13 +21,18 @@ namespace Tesserae.Components
         private readonly int _componentsPerPage;
         private readonly string _componentHeightPercentage;
         private readonly string _componentWidthPercentage;
-        private readonly int _initialCountOfComponentsToRender;
+        private readonly int _initialComponentsToRenderCount;
+
+        private int _currentPage;
+        private int _renderedComponentsHeight;
+        private double _currentScrollPosition;
+        private HTMLDivElement _bottomPaddingDiv;
 
         public BasicList(
             IEnumerable<IComponent> components,
             int rowsPerPage   = 4,
             int columnsPerRow = 4,
-            int height = 250)
+            int containerHeight = 250)
         {
             _rowsPerPage   = rowsPerPage;
             _columnsPerRow = columnsPerRow;
@@ -41,33 +48,43 @@ namespace Tesserae.Components
 
             _pagesCount = (int)Ceiling((double)_componentsCount / _componentsPerPage);
 
-            _initialCountOfComponentsToRender =
-                _pagesCount > 2 ? _componentsPerPage * 3 : _componentsPerPage;
+            var renderPagesInAdvance = _pagesCount > (InitialPagesToRenderInAdvanceCount - 1);
 
-            _innerElement = CreateBasicListContainer(height);
+            _initialComponentsToRenderCount = renderPagesInAdvance ?
+                _componentsPerPage * InitialPagesToRenderInAdvanceCount
+                : _componentsPerPage;
+
+            _innerElement = CreateBasicListContainer(containerHeight);
 
             _components
-                .Take(_initialCountOfComponentsToRender)
+                .Take(_initialComponentsToRenderCount)
                 .ForEach((component, index) =>
                 {
                     var htmlElement = component.Render();
 
-                    if (index == _initialCountOfComponentsToRender - 1)
+                    if (index == _initialComponentsToRenderCount - 1)
                     {
                         DomMountedObserver.NotifyWhenMounted(htmlElement, () =>
                         {
-                            var componentHeight = htmlElement.clientHeight;
+                            var componentHeight =
+                                htmlElement.parentElement.clientHeight;
 
                             var componentsNotRenderedCount =
-                                _componentsCount - _initialCountOfComponentsToRender;
+                                _componentsCount - _initialComponentsToRenderCount;
 
-                            var emptyDivHeight =
+                            var _bottomPaddingDivHeight =
                                 componentsNotRenderedCount * componentHeight;
 
-                            _innerElement.appendChild(Div(_(styles: cssStyleDeclaration =>
-                            {
-                                cssStyleDeclaration.height = $"{emptyDivHeight}px";
-                            })));
+                            _renderedComponentsHeight =
+                                (_initialComponentsToRenderCount / _rowsPerPage) * componentHeight;
+
+                            _bottomPaddingDiv =
+                                Div(_(styles: cssStyleDeclaration =>
+                                {
+                                    cssStyleDeclaration.height = $"{_bottomPaddingDivHeight}px";
+                                }));
+
+                            _innerElement.appendChild(_bottomPaddingDiv);
                         });
                     }
 
@@ -81,6 +98,10 @@ namespace Tesserae.Components
                                 }),
                             htmlElement));
                 });
+
+            _currentPage = renderPagesInAdvance ?
+                InitialPagesToRenderInAdvanceCount
+                : 1;
 
             AttachOnScrollEvent();
         }
@@ -112,19 +133,80 @@ namespace Tesserae.Components
                 }));
         }
 
-        private void AttachOnScrollEvent() => _innerElement.addEventListener("scroll", OnScroll);
-
-        private void OnScroll(object sender)
+        private void RenderComponents(
+            int? componentsToRenderCount = null)
         {
-            var scrollTop = _innerElement.scrollTop;
-            var scrollHeight = _innerElement.scrollHeight;
+            componentsToRenderCount =
+                componentsToRenderCount ?? _componentsPerPage;
 
-            console.log($"scrollTop: {scrollTop}");
-            console.log($"scrollHeight: {scrollHeight}");
+            var componentsToSkipCount = _currentPage * _componentsPerPage;
 
-            var com = _components.First();
+            _components
+                .Skip(componentsToSkipCount)
+                .Take(componentsToRenderCount.Value)
+                .ForEach((component, index) =>
+                {
+                    var htmlElement = component.Render();
 
+                    if (index == componentsToRenderCount - 1)
+                    {
 
+                    }
+
+                    if (_bottomPaddingDiv != null)
+                    {
+                        _innerElement.removeChild(_bottomPaddingDiv);
+                        _bottomPaddingDiv = null;
+                    }
+
+                    _innerElement.appendChild(
+                        Div(
+                            _("tss-basiclist-item",
+                                styles: cssStyleDeclaration =>
+                                {
+                                    cssStyleDeclaration.height = _componentHeightPercentage;
+                                    cssStyleDeclaration.width  = _componentWidthPercentage;
+                                }),
+                            htmlElement));
+                });
+        }
+
+        private void AttachOnScrollEvent()
+        {
+            _innerElement.addEventListener("scroll", listener =>
+            {
+                var scrollTop = _innerElement.scrollTop;
+                var scrollDirection = GetScrollDirection(_innerElement.scrollTop);
+
+                if (scrollDirection == ScrollDirection.Down)
+                {
+                    var loadBoundary =
+                        (_renderedComponentsHeight - _innerElement.clientHeight) - LoadBoundaryTolerance;
+
+                    if (scrollTop >= loadBoundary)
+                    {
+                        console.log("Start loading!");
+                        RenderComponents();
+                        _currentPage += 1;
+                    }
+                }
+                else
+                {
+                }
+
+                _currentScrollPosition = scrollTop;
+            });
+        }
+
+        private ScrollDirection GetScrollDirection(double scrollTop)
+        {
+            return scrollTop > _currentScrollPosition ? ScrollDirection.Down : ScrollDirection.Up;
+        }
+
+        private enum ScrollDirection
+        {
+            Up   = 0,
+            Down = 1
         }
     }
 }
