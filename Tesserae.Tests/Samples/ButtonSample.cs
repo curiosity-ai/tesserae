@@ -50,18 +50,18 @@ namespace Tesserae.Tests.Samples
                         TextBlock("Usage").MediumPlus(),
                         TextBlock("Default Button").Medium(),
                         Stack().Horizontal().Children(
-                            Button().Var(out var btn1).Text("Standard").OnClicked((s, e) => alert("Clicked!")),
-                            Button().Var(out var btn2).Text("Primary").Primary().OnClicked((s, e) => alert("Clicked!"))
+                            Button().Var(out var btn1).Text("Standard").OnClick((s, e) => alert("Clicked!")),
+                            Button().Var(out var btn2).Text("Primary").Primary().OnClick((s, e) => alert("Clicked!"))
                         ),
                         TextBlock("Icon Button").Medium(),
                         Stack().Horizontal().Children(
-                            Button().Var(out var iconBtn1).Text("Confirm").Icon("far fa-check").Success().OnClicked((s, e) => alert("Clicked!")),
-                            Button().Var(out var iconBtn2).Text("Delete").Icon("far fa-trash-alt").Danger().OnClicked((s, e) => alert("Clicked!")),
-                            Button().Var(out var iconBtn3).Text("Primary").Icon("far fa-minus").Primary().OnClicked((s, e) => alert("Clicked!"))
+                            Button().Var(out var iconBtn1).Text("Confirm").Icon("far fa-check").Success().OnClick((s, e) => alert("Clicked!")),
+                            Button().Var(out var iconBtn2).Text("Delete").Icon("far fa-trash-alt").Danger().OnClick((s, e) => alert("Clicked!")),
+                            Button().Var(out var iconBtn3).Text("Primary").Icon("far fa-minus").Primary().OnClick((s, e) => alert("Clicked!"))
                         ),
-                        Toggle("Disable buttons").Checked().OnChanged((s, e) =>
+                        Toggle("Disable buttons").Checked().OnChange((s, e) =>
                         {
-                            btn1.IsEnabled = btn2.IsEnabled = iconBtn1.IsEnabled = iconBtn2.IsEnabled  = iconBtn3.IsEnabled = e.IsChecked;
+                            btn1.IsEnabled = btn2.IsEnabled = iconBtn1.IsEnabled = iconBtn2.IsEnabled  = iconBtn3.IsEnabled = s.IsChecked;
                         })));
         }
 

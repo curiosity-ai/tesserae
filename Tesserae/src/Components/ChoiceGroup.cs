@@ -71,7 +71,7 @@ namespace Tesserae.Components
             AttachChange();
             AttachFocus();
             AttachBlur();
-            OnChange += (s, e) =>
+            onChange += (s, e) =>
             {
                 if (IsSelected) OnSelect?.Invoke(this, this);
             };

@@ -19,7 +19,7 @@ namespace Tesserae.Tests.Samples
                 TextBlock("If there are only two mutually exclusive options, combine them into a single Checkbox or Toggle switch. For example, use a Checkbox for \"I agree\" instead of ChoiceGroup buttons for \"I agree\" and \"I don't agree.\""),
                 TextBlock("Best Practices").MediumPlus(),
                 Stack().Horizontal().Children(
-                    Stack().WidthPercents(40).Children(
+                    Stack().Width(40, Unit.Percents).Children(
                         TextBlock("Do").Medium(),
                         TextBlock("Use when there are 2-7 options, if you have enough screen space and the options are important enough to be a good use of that screen space. Otherwise, use a Checkbox or Dropdown list."),
                         TextBlock("Use on wizard pages to make the alternatives clear, even if a Checkbox is otherwise acceptable."),
@@ -28,7 +28,7 @@ namespace Tesserae.Tests.Samples
                         TextBlock("Select the safest (to prevent loss of data or system access) and most secure and private option as the default. If safety and security aren't factors, select the most likely or convenient option."),
                         TextBlock("Align radio buttons vertically instead of horizontally, if possible. Horizontal alignment is harder to read and localize.")
                     ),
-                    Stack().WidthPercents(40).Children(
+                    Stack().Width(40, Unit.Percents).Children(
                         TextBlock("Don't").Medium(),
                         TextBlock("Use when the options are numbers that have fixed steps, like 10, 20, 30. Use a Slider component instead."),
                         TextBlock("Use if there are more than 7 options, use a Dropdown instead."),

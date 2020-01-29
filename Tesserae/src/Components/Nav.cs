@@ -6,15 +6,41 @@ using System.Threading.Tasks;
 
 namespace Tesserae.Components
 {
+
+    public class ComponentInNavLink : NavLink
+    {
+        private IComponent Content;
+        
+        private bool AlreadyRendered = false;
+
+        public ComponentInNavLink(IComponent content) : base()
+        {
+            Content = content;
+        }
+
+        public override HTMLElement Render()
+        {
+            if(!AlreadyRendered)
+            {
+                AlreadyRendered = true;
+                ClearChildren(_HeaderDiv);
+                _HeaderDiv.removeEventListener("click", ClickHandler);
+                _HeaderDiv.appendChild(Content.Render());
+            }
+
+            return InnerElement;
+        }
+    }
+
     public class NavLink : ComponentBase<NavLink, HTMLLIElement>, IContainer<NavLink, NavLink>, IHasTextSize
     {
         #region Fields
 
-        private HTMLSpanElement _TextSpan;
-        private HTMLElement _IconSpan;
-        private HTMLDivElement _HeaderDiv;
-        private HTMLUListElement _ChildContainer;
-        private HTMLButtonElement _ExpandButton;
+        protected HTMLSpanElement _TextSpan;
+        protected HTMLElement _IconSpan;
+        protected HTMLDivElement _HeaderDiv;
+        protected HTMLUListElement _ChildContainer;
+        protected HTMLButtonElement _ExpandButton;
 
         private int _Level;
         private List<NavLink> Children = new List<NavLink>();
@@ -157,14 +183,16 @@ namespace Tesserae.Components
             _ChildContainer = Ul(_("tss-nav-link-container"));
             _ExpandButton = Button(_("tss-nav-link-button"));
             _HeaderDiv = Div(_("tss-nav-link-header"), _ExpandButton, _TextSpan);
-            _HeaderDiv.addEventListener("click", (s) =>
-            {
-                if (HasChildren) IsExpanded = !IsExpanded;
-                else IsSelected = true;
-            });
+            _HeaderDiv.addEventListener("click", ClickHandler);
             InnerElement = Li(_("tss-nav-link"), _HeaderDiv, _ChildContainer);
             Size = TextSize.Small;
             Weight = TextWeight.Regular;
+        }
+
+        protected void ClickHandler(object sender)
+        {
+            if (HasChildren) IsExpanded = !IsExpanded;
+            else IsSelected = true;
         }
 
         public override HTMLElement Render()
@@ -288,6 +316,7 @@ namespace Tesserae.Components
             children.ForEach(x => container.Add(x));
             return container;
         }
+
         public static NavLink Links(this NavLink container, params NavLink[] children)
         {
             children.ForEach(x => container.Add(x));
@@ -312,6 +341,18 @@ namespace Tesserae.Components
                     }).FireAndForget();
                 }
             };
+            return container;
+        }
+
+        public static Nav InlineContent(this Nav container, IComponent content)
+        {
+            container.Add(new ComponentInNavLink(content));
+            return container;
+        }
+
+        public static NavLink InlineContent(this NavLink container, IComponent content)
+        {
+            container.Add(new ComponentInNavLink(content));
             return container;
         }
 

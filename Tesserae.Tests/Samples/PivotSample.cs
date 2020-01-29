@@ -17,10 +17,10 @@ namespace Tesserae.Tests.Samples
                                        TextBlock("Examples of experiences that use Panels").MediumPlus(),
                                        TextBlock("Best Practices").MediumPlus(),
                                        Stack().Horizontal().Children(
-                                           Stack().WidthPercents(40).Children(
+                                           Stack().Width(40, Unit.Percents).Children(
                                                TextBlock("Do: TODO").Medium()
                                            ),
-                                           Stack().WidthPercents(40).Children(
+                                           Stack().Width(40, Unit.Percents).Children(
                                                TextBlock("Don't: TODO").Medium()
                                            )
                                        ),

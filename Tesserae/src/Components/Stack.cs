@@ -73,7 +73,6 @@ namespace Tesserae.Components
                         s.width = "auto";
                         s.height = "auto";
                         s.flexShrink = "1";
-                        s.overflow = "hidden";
                     }), component.Render());
                     (component as dynamic).StackItem = item;
                 }
@@ -102,48 +101,56 @@ namespace Tesserae.Components
             item.style.alignSelf = cssAlign;
         }
 
-        public static Stack.ItemSize GetWidth(IComponent component)
+        /// <summary>
+        /// Sets the align-items css property for this stack
+        /// </summary>
+        /// <param name="align"></param>
+        /// <returns></returns>
+        public Stack VerticalAlígn(ItemAlign align)
+        {
+            string cssAlign = align.ToString().ToLower();
+            if (cssAlign == "end" || cssAlign == "start") cssAlign = $"flex-{cssAlign}";
+            InnerElement.style.alignItems = cssAlign;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the justify-content css property for this stack
+        /// </summary>
+        /// <param name="align"></param>
+        /// <returns></returns>
+        public Stack HorizontalAlígn(JustifyContent justify)
+        {
+            string cssJustify = justify.ToString().ToLower();
+            if (cssJustify == "end" || cssJustify == "start") cssJustify = $"flex-{cssJustify}";
+            if (cssJustify == "between" || cssJustify == "around" || cssJustify == "evenly") cssJustify = $"space-{cssJustify}";
+            InnerElement.style.justifyItems = cssJustify;
+            return this;
+        }
+
+        public static ItemSize GetWidth(IComponent component)
         {
             var item = GetItem(component);
-            if (item.style.width == "auto") return new Stack.ItemSize() { Type = ItemSizeType.Auto };
-            if (item.style.width.EndsWith("px")) return new Stack.ItemSize() { Type = ItemSizeType.Pixels, Value = double.Parse(item.style.width.Substring(item.style.width.Length - 2)) };
-            if (item.style.width.EndsWith("%")) return new Stack.ItemSize() { Type = ItemSizeType.Percents, Value = double.Parse(item.style.width.Substring(item.style.width.Length - 1)) };
+            if (item.style.width == "auto") return new ItemSize() { Type = Unit.Auto };
+            if (item.style.width.EndsWith("px")) return new ItemSize() { Type = Unit.Pixels, Value = float.Parse(item.style.width.Substring(item.style.width.Length - 2)) };
+            if (item.style.width.EndsWith("%")) return new ItemSize() { Type = Unit.Percents, Value = float.Parse(item.style.width.Substring(item.style.width.Length - 1)) };
+            if (item.style.width.EndsWith("vw")) return new ItemSize() { Type = Unit.Viewport, Value = float.Parse(item.style.width.Substring(item.style.width.Length - 2)) };
 
             throw new Exception("Incorrect Stack item width.");
         }
 
-        public static void SetWidth(IComponent component, Stack.ItemSizeType sizeType, double size = 0)
+        public static void SetWidth(IComponent component, Unit sizeType, float size = 0)
         {
             var item = GetItem(component);
             switch (sizeType)
             {
-                case ItemSizeType.Auto: item.style.width = "auto"; break;
-                case ItemSizeType.Pixels: item.style.width = $"{size:0.####}px"; break;
-                case ItemSizeType.Percents: item.style.width = $"{size:0.####}%"; break;
+                case Unit.Auto: item.style.width = "auto"; break;
+                case Unit.Pixels: item.style.width = $"{size:0.####}px"; break;
+                case Unit.Percents: item.style.width = $"{size:0.####}%"; break;
+                case Unit.Viewport: item.style.width = $"{size:0.####}vw"; break;
             }
         }
-
-        public static Stack.ItemSize GetHeight(IComponent component)
-        {
-            var item = GetItem(component);
-            if (item.style.height == "auto") return new Stack.ItemSize() { Type = ItemSizeType.Auto };
-            if (item.style.height.EndsWith("px")) return new Stack.ItemSize() { Type = ItemSizeType.Pixels, Value = double.Parse(item.style.height.Substring(item.style.height.Length - 2)) };
-            if (item.style.height.EndsWith("%")) return new Stack.ItemSize() { Type = ItemSizeType.Percents, Value = double.Parse(item.style.height.Substring(item.style.height.Length - 1)) };
-
-            throw new Exception("Incorrect Stack item height.");
-        }
-        public static void SetHeight(IComponent component, Stack.ItemSizeType sizeType, double size = 0)
-        {
-            var item = GetItem(component);
-            switch (sizeType)
-            {
-                case ItemSizeType.Auto: item.style.height = "auto"; break;
-                case ItemSizeType.Pixels: item.style.height = $"{size:0.####}px"; break;
-                case ItemSizeType.Percents: item.style.height = $"{size:0.####}%"; break;
-            }
-        }
-
-        public static void SetMinHeight(IComponent component, ItemSizeType sizeType, double size = 0)
+        public static void SetMinWidth(IComponent component, Unit sizeType, float size = 0)
         {
             HTMLElement item;
             if (component is Stack stack)
@@ -156,20 +163,65 @@ namespace Tesserae.Components
             }
             switch (sizeType)
             {
-                case ItemSizeType.Auto: item.style.minHeight = "auto"; break;
-                case ItemSizeType.Pixels: item.style.minHeight = $"{size:0.####}px"; break;
-                case ItemSizeType.Percents: item.style.minHeight = $"{size:0.####}%"; break;
+                case Unit.Auto: item.style.minWidth = "auto"; break;
+                case Unit.Pixels: item.style.minWidth = $"{size:0.####}px"; break;
+                case Unit.Percents: item.style.minWidth = $"{size:0.####}%"; break;
+                case Unit.Viewport: item.style.minWidth = $"{size:0.####}vw"; break;
             }
         }
+
+        public static ItemSize GetHeight(IComponent component)
+        {
+            var item = GetItem(component);
+            if (item.style.height == "auto") return new ItemSize() { Type = Unit.Auto };
+            if (item.style.height.EndsWith("px")) return new ItemSize() { Type = Unit.Pixels, Value = float.Parse(item.style.height.Substring(item.style.height.Length - 2)) };
+            if (item.style.height.EndsWith("%")) return new ItemSize() { Type = Unit.Percents, Value = float.Parse(item.style.height.Substring(item.style.height.Length - 1)) };
+            if (item.style.height.EndsWith("vh")) return new ItemSize() { Type = Unit.Viewport, Value = float.Parse(item.style.height.Substring(item.style.height.Length - 2)) };
+
+            throw new Exception("Incorrect Stack item height.");
+        }
+
+        public static void SetHeight(IComponent component, Unit sizeType, float size = 0)
+        {
+            var item = GetItem(component);
+            switch (sizeType)
+            {
+                case Unit.Auto: item.style.height = "auto"; break;
+                case Unit.Pixels: item.style.height = $"{size:0.####}px"; break;
+                case Unit.Percents: item.style.height = $"{size:0.####}%"; break;
+                case Unit.Viewport: item.style.height = $"{size:0.####}vh"; break;
+            }
+        }
+
+        public static void SetMinHeight(IComponent component, Unit sizeType, float size = 0)
+        {
+            HTMLElement item;
+            if (component is Stack stack)
+            {
+                item = stack.InnerElement;
+            }
+            else
+            {
+                item = GetItem(component);
+            }
+            switch (sizeType)
+            {
+                case Unit.Auto: item.style.minHeight = "auto"; break;
+                case Unit.Pixels: item.style.minHeight = $"{size:0.####}px"; break;
+                case Unit.Percents: item.style.minHeight = $"{size:0.####}%"; break;
+                case Unit.Viewport: item.style.minHeight = $"{size:0.####}vh"; break;
+            }
+        }
+
 
         public static ItemMargin GetMargin(IComponent component)
         {
             var item = GetItem(component);
             ItemMargin result = new ItemMargin();
-            if (item.style.marginLeft.EndsWith("px")) result.Left = double.Parse(item.style.marginLeft.Substring(0, item.style.marginLeft.Length - 2));
-            if (item.style.marginTop.EndsWith("px")) result.Top = double.Parse(item.style.marginTop.Substring(0, item.style.marginTop.Length - 2));
-            if (item.style.marginRight.EndsWith("px")) result.Right = double.Parse(item.style.marginRight.Substring(0, item.style.marginRight.Length - 2));
-            if (item.style.marginBottom.EndsWith("px")) result.Bottom = double.Parse(item.style.marginBottom.Substring(0, item.style.marginBottom.Length - 2));
+            if (item.style.marginLeft.EndsWith("px")) result.Left = float.Parse(item.style.marginLeft.Substring(0, item.style.marginLeft.Length - 2));
+            if (item.style.marginTop.EndsWith("px")) result.Top = float.Parse(item.style.marginTop.Substring(0, item.style.marginTop.Length - 2));
+            if (item.style.marginRight.EndsWith("px")) result.Right = float.Parse(item.style.marginRight.Substring(0, item.style.marginRight.Length - 2));
+            if (item.style.marginBottom.EndsWith("px")) result.Bottom = float.Parse(item.style.marginBottom.Substring(0, item.style.marginBottom.Length - 2));
 
             return result;
         }
@@ -265,38 +317,41 @@ namespace Tesserae.Components
             End
         }
 
-        public enum ItemSizeType
+        public enum JustifyContent
         {
-            Auto,
-            Percents,
-            Pixels
+            Between,
+            Around,
+            Evenly,
+            Start,
+            Center,
+            End
         }
 
         public struct ItemSize
         {
-            public ItemSizeType Type { get; set; }
-            public double Value { get; set; }
+            public Unit Type { get; set; }
+            public float Value { get; set; }
         }
 
         public struct ItemMargin
         {
-            public double Left { get; set; }
-            public double Top { get; set; }
-            public double Right { get; set; }
-            public double Bottom { get; set; }
+            public float Left { get; set; }
+            public float Top { get; set; }
+            public float Right { get; set; }
+            public float Bottom { get; set; }
 
-            public ItemMargin(double margin = 0)
+            public ItemMargin(float margin = 0)
             {
                 Left = Top = Right = Bottom = margin;
             }
 
-            public ItemMargin(double leftRight, double topBottom)
+            public ItemMargin(float leftRight, float topBottom)
             {
                 Left = Right = leftRight;
                 Top = Bottom = topBottom;
             }
 
-            public ItemMargin(double left, double top, double right, double bottom)
+            public ItemMargin(float left, float top, float right, float bottom)
             {
                 Left = left;
                 Top = top;
@@ -384,19 +439,19 @@ namespace Tesserae.Components
             return component;
         }
 
-        public static T Margin<T>(this T component, double margin) where T : IComponent
+        public static T Margin<T>(this T component, float margin) where T : IComponent
         {
             Stack.SetMargin(component, new Stack.ItemMargin(margin));
             return component;
         }
 
-        public static T Margin<T>(this T component, double leftRight, double topBottom) where T : IComponent
+        public static T Margin<T>(this T component, float leftRight, float topBottom) where T : IComponent
         {
             Stack.SetMargin(component, new Stack.ItemMargin(leftRight, topBottom));
             return component;
         }
 
-        public static T Margin<T>(this T component, double left, double top, double right, double bottom) where T : IComponent
+        public static T Margin<T>(this T component, float left, float top, float right, float bottom) where T : IComponent
         {
             Stack.SetMargin(component, new Stack.ItemMargin(left, top, right, bottom));
             return component;
@@ -409,19 +464,19 @@ namespace Tesserae.Components
             return component;
         }
 
-        public static T Padding<T>(this T component, double margin) where T : IComponent
+        public static T Padding<T>(this T component, float margin) where T : IComponent
         {
             Stack.SetPadding(component, new Stack.ItemMargin(margin));
             return component;
         }
 
-        public static T Padding<T>(this T component, double leftRight, double topBottom) where T : IComponent
+        public static T Padding<T>(this T component, float leftRight, float topBottom) where T : IComponent
         {
             Stack.SetPadding(component, new Stack.ItemMargin(leftRight, topBottom));
             return component;
         }
 
-        public static T Padding<T>(this T component, double left, double top, double right, double bottom) where T : IComponent
+        public static T Padding<T>(this T component, float left, float top, float right, float bottom) where T : IComponent
         {
             Stack.SetPadding(component, new Stack.ItemMargin(left, top, right, bottom));
             return component;
@@ -429,57 +484,59 @@ namespace Tesserae.Components
 
         public static T WidthAuto<T>(this T component) where T : IComponent
         {
-            Stack.SetWidth(component, Stack.ItemSizeType.Auto);
+            Stack.SetWidth(component, Unit.Auto);
             return component;
         }
 
-        public static T WidthPixels<T>(this T component, double size) where T : IComponent
+        public static T Width<T>(this T component, float value, Unit unit) where T : IComponent
         {
-            Stack.SetWidth(component, Stack.ItemSizeType.Pixels, size);
+            Stack.SetWidth(component, unit, value);
             return component;
         }
 
-        public static T WidthPercents<T>(this T component, double size) where T : IComponent
+        public static T MinWidth<T>(this T component, float value, Unit unit) where T : IComponent
         {
-            Stack.SetWidth(component, Stack.ItemSizeType.Percents, size);
+            Stack.SetMinWidth(component, unit, value);
             return component;
         }
 
         public static T WidthStretch<T>(this T component) where T : IComponent
         {
-            Stack.SetWidth(component, Stack.ItemSizeType.Percents, 100);
+            Stack.SetWidth(component, Unit.Percents, 100);
             return component;
         }
 
         public static T HeightAuto<T>(this T component) where T : IComponent
         {
-            Stack.SetHeight(component, Stack.ItemSizeType.Auto);
+            Stack.SetHeight(component, Unit.Auto);
             return component;
         }
 
-        public static T HeightPixels<T>(this T component, double size) where T : IComponent
+        public static T Height<T>(this T component, float value, Unit unit) where T : IComponent
         {
-            Stack.SetHeight(component, Stack.ItemSizeType.Pixels, size);
+            Stack.SetHeight(component, unit, value);
             return component;
         }
-
-        public static T HeightPercents<T>(this T component, double size) where T : IComponent
+        public static T MinHeight<T>(this T component, float value, Unit unit) where T : IComponent
         {
-            Stack.SetHeight(component, Stack.ItemSizeType.Percents, size);
+            Stack.SetMinHeight(component, unit, value);
             return component;
         }
 
         public static T HeightStretch<T>(this T component) where T : IComponent
         {
-            Stack.SetHeight(component, Stack.ItemSizeType.Percents, 100);
+            Stack.SetHeight(component, Unit.Percents, 100);
             return component;
         }
 
         public static T MinHeightStretch<T>(this T component) where T : IComponent
         {
-            Stack.SetMinHeight(component, Stack.ItemSizeType.Percents, 100);
+            Stack.SetMinHeight(component, Unit.Percents, 100);
             return component;
         }
+
+
+
 
         public static T Grow<T>(this T component, int grow) where T : IComponent
         {
@@ -500,5 +557,13 @@ namespace Tesserae.Components
         }
 
         #endregion
+    }
+
+    public enum Unit
+    {
+        Auto,
+        Percents,
+        Viewport,
+        Pixels
     }
 }

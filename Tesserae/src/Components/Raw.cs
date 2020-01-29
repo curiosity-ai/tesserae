@@ -3,7 +3,7 @@ using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
-    public class Raw :IComponent, IHasMarginPadding, IHasBackgroundColor
+    public class Raw : IComponent, IHasMarginPadding, IHasBackgroundColor
     {
         private dom.HTMLElement InnerElement;
 

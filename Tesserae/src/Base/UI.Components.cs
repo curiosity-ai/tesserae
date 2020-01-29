@@ -1,4 +1,6 @@
-﻿using Tesserae.Components;
+﻿using System;
+using System.Threading.Tasks;
+using Tesserae.Components;
 using static Retyped.dom;
 
 namespace Tesserae
@@ -18,12 +20,34 @@ namespace Tesserae
             return component;
         }
 
+
+        /// <summary>
+        /// Adds an ID to the element representing the component.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="component"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public static T Id<T>(this T component, string id) where T : IComponent
+        {
+            if(component is Defer deferedComponent)
+            {
+                deferedComponent.InnerElement.id = id;
+                return component;
+            }
+            var el = component.Render();
+            el.id = id;
+            return component;
+        }
+
         /// <summary>
         /// Creates a wrapper IComponent from an HTML element
         /// </summary>
         /// <param name="element">HTML element to be wrapped</param>
         /// <returns></returns>
         public static Raw Raw(HTMLElement element) => new Raw(element);
+
+        public static Defer Defer(Func<Task<IComponent>> asyncGenerator) => new Defer(asyncGenerator);
 
         public static Stack Stack(Stack.Orientation orientation = Components.Stack.Orientation.Vertical) => new Stack(orientation);
 
@@ -70,5 +94,13 @@ namespace Tesserae
         public static Dropdown.Item DropdownItem(string text = string.Empty) => new Dropdown.Item(text);
 
         public static Spinner Spinner(string text = string.Empty) => new Spinner(text);
+        
+        public static Link Link(string url, IComponent content) => new Link(url, content);
+        
+        public static Link Link(string url, string text) => new Link(url, TextBlock(text));
+        
+        public static Link Link(string url, string text, string icon) => new Link(url, Button(text).Icon(icon).NoBorder().NoBackground().Padding(0));
+
+        public static SplitView SplitView() => new SplitView();
     }
 }

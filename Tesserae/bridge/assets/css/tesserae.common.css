@@ -110,61 +110,73 @@
 
 /* Fonts */
 /* Sizes */
-.tss-fontSize-mega {
+.tss-fontsize-mega {
     font-size: var(--tss-font-size-mega);
 }
 
-.tss-fontSize-xxlarge {
+.tss-fontsize-xxlarge {
     font-size: var(--tss-font-size-xxlarge);
 }
 
-.tss-fontSize-xlarge {
+.tss-fontsize-xlarge {
     font-size: var(--tss-font-size-xlarge);
 }
 
-.tss-fontSize-large {
+.tss-fontsize-large {
     font-size: var(--tss-font-size-large);
 }
 
-.tss-fontSize-mediumplus {
+.tss-fontsize-mediumplus {
     font-size: var(--tss-font-size-mediumplus);
 }
 
-.tss-fontSize-medium {
+.tss-fontsize-medium {
     font-size: var(--tss-font-size-medium);
 }
 
-.tss-fontSize-smallplus {
+.tss-fontsize-smallplus {
     font-size: var(--tss-font-size-smallplus);
 }
 
-.tss-fontSize-small {
+.tss-fontsize-small {
     font-size: var(--tss-font-size-small);
 }
 
-.tss-fontSize-xsmall {
+.tss-fontsize-xsmall {
     font-size: var(--tss-font-size-xsmall);
 }
 
-.tss-fontSize-tiny {
+.tss-fontsize-tiny {
     font-size: var(--tss-font-size-tiny);
 }
 
 /* Weights */
-.tss-fontWeight-regular {
+.tss-fontweight-regular {
     font-weight: var(--tss-font-weight-regular);
 }
 
-.tss-fontWeight-semibold {
+.tss-fontweight-semibold {
     font-weight: var(--tss-font-weight-semibold);
 }
 
-.tss-fontWeight-bold {
+.tss-fontweight-bold {
     font-weight: var(--tss-font-weight-bold);
 }
 
-.tss-fontColor-invalid {
+.tss-fontcolor-invalid {
     color: var(--tss-invalid-border-color);
+}
+
+.tss-fontcolor-primary {
+    color: var(--tss-primary-background-color);
+}
+
+.tss-fontcolor-success {
+    color: var(--tss-success-background-color);
+}
+
+.tss-fontcolor-danger {
+    color: var(--tss-danger-background-color);
 }
 
 *, :before, :after {

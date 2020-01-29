@@ -83,7 +83,7 @@ namespace Tesserae.Components
         {
             _Label = Label(_(text: text));
             _Content = Div(_());
-            InnerElement = Div(_("tss-label tss-fontSize-small tss-fontWeight-semibold"), _Label, _Content);
+            InnerElement = Div(_("tss-label tss-fontsize-small tss-fontweight-semibold"), _Label, _Content);
         }
     }
 

@@ -1,5 +1,5 @@
 ﻿/* TextBox */
-.tss-textBox {
+.tss-textbox {
     box-shadow: none;
     margin: 0px;
     padding: 0px;
@@ -23,32 +23,32 @@
     color: var(--tss-disabled-foreground-color);
 }
 
-    .tss-textBox:hover {
+    .tss-textbox:hover {
         border-color: var(--tss-default-foreground-color);
     }
 
-    .tss-textBox:focus {
+    .tss-textbox:focus {
         border-color: var(--tss-primary-border-color);
     }
 
-.tss-textBox-container {
+.tss-textbox-container {
     position: relative;
     margin-bottom: 4px;
     margin-right: 16px;
 }
 
-    .tss-textBox-container.invalid .tss-textBox {
+    .tss-textbox-container.invalid .tss-textbox {
         border-color: var(--tss-invalid-border-color);
     }
 
 
 
-.tss-textBox-error {
+.tss-textbox-error {
     color: var(--tss-invalid-border-color);
     display: none;
     font-size: var(--tss-font-size-tiny);
 }
 
-.tss-textBox-container.invalid .tss-textBox-error {
+.tss-textbox-container.invalid .tss-textbox-error {
     display: block;
 }

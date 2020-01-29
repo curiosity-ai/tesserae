@@ -83,8 +83,8 @@ namespace Tesserae.Components
 
         internal static TextSize FromClassList(HTMLElement element, TextSize defaultValue)
         {
-            var curFontSize = element.classList.FirstOrDefault(t => t.StartsWith("tss-fontSize-"));
-            if (curFontSize is object && Enum.TryParse<TextSize>(curFontSize.Substring("tss-fontSize-".Length), true, out var result))
+            var curFontSize = element.classList.FirstOrDefault(t => t.StartsWith("tss-fontsize-"));
+            if (curFontSize is object && Enum.TryParse<TextSize>(curFontSize.Substring("tss-fontsize-".Length), true, out var result))
             {
                 return result;
             }
@@ -96,13 +96,13 @@ namespace Tesserae.Components
 
         internal static string ToClassName(this TextSize textSize)
         {
-            return $"tss-fontSize-{textSize.ToString().ToLower()}";
+            return $"tss-fontsize-{textSize.ToString().ToLower()}";
         }
 
         internal static TextWeight FromClassList(HTMLElement element, TextWeight defaultValue)
         {
-            var curFontSize = element.classList.FirstOrDefault(t => t.StartsWith("tss-fontWeight-"));
-            if (curFontSize is object && Enum.TryParse<TextWeight>(curFontSize.Substring("tss-fontWeight-".Length), true, out var result))
+            var curFontSize = element.classList.FirstOrDefault(t => t.StartsWith("tss-fontweight-"));
+            if (curFontSize is object && Enum.TryParse<TextWeight>(curFontSize.Substring("tss-fontweight-".Length), true, out var result))
             {
                 return result;
             }
@@ -114,7 +114,7 @@ namespace Tesserae.Components
 
         internal static string ToClassName(this TextWeight textWeight)
         {
-            return $"tss-fontWeight-{textWeight.ToString().ToLower()}";
+            return $"tss-fontweight-{textWeight.ToString().ToLower()}";
         }
     }
 }

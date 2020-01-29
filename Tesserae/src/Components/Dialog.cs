@@ -61,7 +61,7 @@ namespace Tesserae.Components
             btnOk = btnOk ?? ((b) => b);
             dialog.HideCloseButton()
                   .Footer(Stack().HorizontalReverse()
-                                 .Children(btnOk(Button("Ok").Primary()).AlignEnd().OnClicked((s, e) => { dialog.Hide(); onOk?.Invoke(); })));
+                                 .Children(btnOk(Button("Ok").Primary()).AlignEnd().OnClick((s, e) => { dialog.Hide(); onOk?.Invoke(); })));
             dialog.Show();
         }
 
@@ -71,8 +71,8 @@ namespace Tesserae.Components
             btnNo  = btnNo  ?? ((b) => b);
             dialog.HideCloseButton()
                   .Footer(Stack().HorizontalReverse()
-                                 .Children(btnNo(Button("No")).AlignEnd().OnClicked((s, e) => { dialog.Hide(); onNo?.Invoke(); }),
-                                           btnYes(Button("Yes").Primary()).AlignEnd().OnClicked((s, e) => { dialog.Hide(); onYes?.Invoke(); })));
+                                 .Children(btnNo(Button("No")).AlignEnd().OnClick((s, e) => { dialog.Hide(); onNo?.Invoke(); }),
+                                           btnYes(Button("Yes").Primary()).AlignEnd().OnClick((s, e) => { dialog.Hide(); onYes?.Invoke(); })));
             dialog.Show();
         }
 
@@ -83,9 +83,9 @@ namespace Tesserae.Components
             btnCancel  = btnCancel ?? ((b) => b);
             dialog.HideCloseButton()
                   .Footer(Stack().HorizontalReverse()
-                                 .Children(btnCancel(Button("Cancel")).AlignEnd().OnClicked((s, e) => { dialog.Hide(); onCancel?.Invoke(); }),
-                                           btnNo(Button("No")).AlignEnd().OnClicked((s, e) => { dialog.Hide(); onNo?.Invoke(); }),
-                                           btnYes(Button("Yes").Primary()).AlignEnd().OnClicked((s, e) => { dialog.Hide(); onYes?.Invoke(); })));
+                                 .Children(btnCancel(Button("Cancel")).AlignEnd().OnClick((s, e) => { dialog.Hide(); onCancel?.Invoke(); }),
+                                           btnNo(Button("No")).AlignEnd().OnClick((s, e) => { dialog.Hide(); onNo?.Invoke(); }),
+                                           btnYes(Button("Yes").Primary()).AlignEnd().OnClick((s, e) => { dialog.Hide(); onYes?.Invoke(); })));
             dialog.Show();
         }
 
@@ -95,8 +95,8 @@ namespace Tesserae.Components
             btnCancel = btnCancel ?? ((b) => b);
             dialog.HideCloseButton()
                   .Footer(Stack().HorizontalReverse() 
-                                 .Children(btnCancel(Button("Cancel")).AlignEnd().OnClicked((s, e) => { dialog.Hide(); onCancel?.Invoke(); }),
-                                           btnRetry(Button("Retry").Primary()).AlignEnd().OnClicked((s, e) => { dialog.Hide(); onRetry?.Invoke(); })));
+                                 .Children(btnCancel(Button("Cancel")).AlignEnd().OnClick((s, e) => { dialog.Hide(); onCancel?.Invoke(); }),
+                                           btnRetry(Button("Retry").Primary()).AlignEnd().OnClick((s, e) => { dialog.Hide(); onRetry?.Invoke(); })));
             dialog.Show();
         }
 

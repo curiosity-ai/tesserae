@@ -1,10 +1,11 @@
 ﻿using System;
+using static Retyped.dom;
 
 namespace Tesserae.Components
 {
     public interface ICanValidate<T> : ICanValidate
     {
-        void Attach(EventHandler<T> handler, Validation.Mode mode);
+        void Attach(EventHandler<Event> handler, Validation.Mode mode);
     }
 
     public interface ICanValidate

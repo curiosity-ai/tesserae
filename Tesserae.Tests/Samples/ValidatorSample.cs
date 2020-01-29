@@ -24,20 +24,20 @@ namespace Tesserae.Tests.Samples
                 TextBlock("The validator helper allows you to capture the state of multiple components registered on it."),
                 TextBlock("Best Practices").MediumPlus(),
                 Stack().Horizontal().Children(
-                    Stack().WidthPercents(40).Children(
+                    Stack().Width(40, Unit.Percents).Children(
                         TextBlock("Do: TODO").Medium()
                     ),
-                    Stack().WidthPercents(40).Children(
+                    Stack().Width(40, Unit.Percents).Children(
                         TextBlock("Don't: TODO").Medium()
                     )
                 ),
                 TextBlock("Usage").MediumPlus(),
                 TextBlock("Basic TextBox").Medium(),
-                Stack().WidthPercents(40).Children(
+                Stack().Width(40, Unit.Percents).Children(
                     Label("Non-empty").Content(tb1),
                     Label("Integer > 0").Content(tb2),
                     Label("Is all valid").Content(isAllValid),
-                    Label("Test revalidation (will fail if repeated)").Content(Button("Revalidate").OnClicked((s,b) => validator.Revalidate()))
+                    Label("Test revalidation (will fail if repeated)").Content(Button("Revalidate").OnClick((s,b) => validator.Revalidate()))
                 )
             );
         }

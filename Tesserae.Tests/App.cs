@@ -25,7 +25,7 @@ namespace Tesserae.Tests
 
             var page = new SplitView().Left(MainNav(), background: "var(--tss-default-background-color)")
                                       .Right(_MainStack, background: "var(--tss-secondary-background-color)") //#faf9f8
-                                      .LeftIsSmaller(SplitView.SizeMode.Pixels, 300)
+                                      .LeftIsSmaller(SizeMode.Pixels, 300)
                                       .MinHeightStretch();
 
             document.body.appendChild(page.Render());
@@ -36,9 +36,8 @@ namespace Tesserae.Tests
         {
             return Stack().Padding(16).NoShrink().MinHeightStretch()
                           .Children(TextBlock("Tesserae Samples").MediumPlus().SemiBold().AlignCenter(),
-                                    Label("Theme").Inline().Content(Toggle("Light", "Dark").Checked()
-                                    .OnChanged((s,t) => { if (t.IsChecked) { Theme.Light(); } else { Theme.Dark(); } })),
-                                    Nav().Links(NavLink("Basic Inputs").Expanded()
+                                    Nav().InlineContent(Label("Theme").Inline().Content(Toggle("Light", "Dark").Checked().OnChange((t, e) => { if (t.IsChecked) { Theme.Light(); } else { Theme.Dark(); } })))
+                                         .Links(NavLink("Basic Inputs").Expanded()
                                                                        .SmallPlus()
                                                                        .SemiBold()
                                                                        .Links(NavLink("Button").OnSelected((s, e)      => Show(new ButtonSample())).Selected(),
@@ -68,7 +67,8 @@ namespace Tesserae.Tests
                                                                            NavLink("Section Stack").OnSelected((s, e) => Show(new SectionStackSample())),
                                                                            NavLink("TextBlock").OnSelected((s, e)     => Show(new TextBlockSample())),
                                                                            NavLink("Validator").OnSelected((s, e)     => Show(new ValidatorSample())),
-                                                                           NavLink("Pivot").OnSelected((s, e)         => Show(new PivotSample()))
+                                                                           NavLink("Pivot").OnSelected((s, e)         => Show(new PivotSample())),
+                                                                           NavLink("Defer").OnSelected((s, e)         => Show(new DeferSample()))
                                                 ),
                                                 NavLink("Nav Sample").Expanded()
                                                                      .SmallPlus()
@@ -76,7 +76,8 @@ namespace Tesserae.Tests
                                                                      .Links(NavLink("Level 1").Links(NavLink("Level 2").Links(NavLink("Level 3").Links(NavLink("Level 4")))),
                                                                             NavLink("Level 1").Links(NavLink("Level 2").Links(NavLink("Level 3").Links(NavLink("Level 4")))),
                                                                             NavLink("Level 1").LinksAsync(async () => { await Task.Delay(500); return new[] { NavLink("Level 2").Links(NavLink("Level 3").Links(NavLink("Level 4"))) }; })
-                                                )
+                                                ))
+                                         .InlineContent(Link("https://www.curiosity.ai", TextBlock("by curiosity.ai").XSmall().Primary().AlignEnd())
             ));
         }
 

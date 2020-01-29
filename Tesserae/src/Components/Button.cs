@@ -167,8 +167,8 @@ namespace Tesserae.Components
         {
             get
             {
-                var curFontSize = InnerElement.classList.FirstOrDefault(t => t.StartsWith("tss-fontSize-"));
-                if (curFontSize is object && Enum.TryParse<TextSize>(curFontSize.Substring("tss-fontSize-".Length), true, out var result))
+                var curFontSize = InnerElement.classList.FirstOrDefault(t => t.StartsWith("tss-fontsize-"));
+                if (curFontSize is object && Enum.TryParse<TextSize>(curFontSize.Substring("tss-fontsize-".Length), true, out var result))
                 {
                     return result;
                 }
@@ -179,12 +179,12 @@ namespace Tesserae.Components
             }
             set
             {
-                var curFontSize = InnerElement.classList.FirstOrDefault(t => t.StartsWith("tss-fontSize-"));
+                var curFontSize = InnerElement.classList.FirstOrDefault(t => t.StartsWith("tss-fontsize-"));
                 if (curFontSize is object)
                 {
                     InnerElement.classList.remove(curFontSize);
                 }
-                InnerElement.classList.add($"tss-fontSize-{value.ToString().ToLower()}");
+                InnerElement.classList.add($"tss-fontsize-{value.ToString().ToLower()}");
             }
         }
 
@@ -192,8 +192,8 @@ namespace Tesserae.Components
         {
             get
             {
-                var curFontSize = InnerElement.classList.FirstOrDefault(t => t.StartsWith("tss-fontWeight-"));
-                if (curFontSize is object && Enum.TryParse<TextWeight>(curFontSize.Substring("tss-fontWeight-".Length), true, out var result))
+                var curFontSize = InnerElement.classList.FirstOrDefault(t => t.StartsWith("tss-fontweight-"));
+                if (curFontSize is object && Enum.TryParse<TextWeight>(curFontSize.Substring("tss-fontweight-".Length), true, out var result))
                 {
                     return result;
                 }
@@ -204,12 +204,12 @@ namespace Tesserae.Components
             }
             set
             {
-                var curFontSize = InnerElement.classList.FirstOrDefault(t => t.StartsWith("tss-fontWeight-"));
+                var curFontSize = InnerElement.classList.FirstOrDefault(t => t.StartsWith("tss-fontweight-"));
                 if (curFontSize is object)
                 {
                     InnerElement.classList.remove(curFontSize);
                 }
-                InnerElement.classList.add($"tss-fontWeight-{value.ToString().ToLower()}");
+                InnerElement.classList.add($"tss-fontweight-{value.ToString().ToLower()}");
             }
         }
 

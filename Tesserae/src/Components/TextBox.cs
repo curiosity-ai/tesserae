@@ -117,9 +117,9 @@ namespace Tesserae.Components
 
         public TextBox(string text = string.Empty)
         {
-            InnerElement = TextBox(_("tss-textBox", type: "text", value: text));
-            errorSpan = Span(_("tss-textBox-error"));
-            container = Div(_("tss-textBox-container"), InnerElement, errorSpan);
+            InnerElement = TextBox(_("tss-textbox", type: "text", value: text));
+            errorSpan = Span(_("tss-textbox-error"));
+            container = Div(_("tss-textbox-container"), InnerElement, errorSpan);
             AttachChange();
             AttachInput();
             AttachFocus();
@@ -131,15 +131,15 @@ namespace Tesserae.Components
             return container;
         }
 
-        public void Attach(EventHandler<TextBox> handler, Validation.Mode mode)
+        public void Attach(EventHandler<Event> handler, Validation.Mode mode)
         {
             if (mode == Validation.Mode.OnBlur)
             {
-                OnChange += handler;
+                onChange += (s,e) => handler(s,e);
             }
             else
             {
-                OnInput += handler;
+                onInput += (s, e) => handler(s, e);
             }
         }
     }
