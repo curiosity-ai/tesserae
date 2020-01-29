@@ -181,7 +181,7 @@ namespace Tesserae.Components
                     _container.style.pointerEvents = "none";
                     Task.Run(async () =>
                     {
-                        this.Items(await ItemsSource());
+                        // this.Items(await ItemsSource());
                         Show();
                         _container.removeChild(_spinner);
                         _container.style.pointerEvents = "unset";
@@ -249,15 +249,15 @@ namespace Tesserae.Components
             if (_isChanged) RaiseOnChange(this);
         }
 
-        public void Attach(EventHandler<Dropdown> handler, Validation.Mode mode)
+        public void Attach(EventHandler<Event> handler, Validation.Mode mode)
         {
             if (mode == Validation.Mode.OnBlur)
             {
-                OnChange += (s, e) => handler(s, this);
+                onChange += (s, e) => handler(this, e);
             }
             else
             {
-                OnInput += (s, e) => handler(s, this);
+                onInput += (s, e) => handler(this, e);
             }
         }
 

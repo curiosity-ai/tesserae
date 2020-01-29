@@ -21,20 +21,20 @@ namespace Tesserae.Tests.Samples
                 TextBlock("A Dropdown is a list in which the selected item is always visible, and the others are visible on demand by clicking a drop-down button. They are used to simplify the design and make a choice within the UI. When closed, only the selected item is visible. When users click the drop-down button, all the options become visible. To change the value, users open the list and click another value or use the arrow keys (up and down) to select a new value."),
                 TextBlock("Best Practices").MediumPlus(),
                 Stack().Horizontal().Children(
-                    Stack().WidthPercents(40).Children(
+                    Stack().Width(40, Unit.Percents).Children(
                         TextBlock("Do").Medium(),
                         TextBlock("Use a Dropdown when there are multiple choices that can be collapsed under one title. Or if the list of items is long or when space is constrained."),
                         TextBlock("Use shortened statements or single words as options."),
                         TextBlock("Use a Dropdown when the selected option is more important than the alternatives (in contrast to radio buttons where all the choices are visible putting more emphasis on the other options).")
                     ),
-                    Stack().WidthPercents(40).Children(
+                    Stack().Width(40, Unit.Percents).Children(
                         TextBlock("Don't").Medium(),
                         TextBlock("Use if there are less than 7 options, use a ChoiceGroup instead.")
                     )
                 ),
                 TextBlock("Usage").MediumPlus(),
                 TextBlock("Basic Dropdowns").Medium(),
-                Stack().WidthPercents(40).Children(
+                Stack().Width(40, Unit.Percents).Children(
                     Label("Standard").Content(Dropdown().Items(
                             DropdownItem("Header 1").Header(),
                             DropdownItem("1-1"),
@@ -114,8 +114,9 @@ namespace Tesserae.Tests.Samples
                     Label("Async wait Google.com (need CORS)").Content(Dropdown().Items(GetGoogleItemsAsync))
                 )
             );
-            d.Attach((e, dd) =>
+            d.Attach((e, _) =>
             {
+                var dd = (Dropdown) e;
                 if (dd.SelectedItems.Length != 1 || dd.SelectedItems[0].Text != "1-1")
                 {
                     dd.IsInvalid = true;
