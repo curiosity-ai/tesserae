@@ -15,7 +15,7 @@ namespace Tesserae.Components
         private readonly HTMLDivElement _container;
         private readonly HTMLSpanElement _errorSpan;
 
-        private readonly HTMLDivElement _spinner;
+        private HTMLDivElement _spinner;
 
         private bool _isChanged;
 
@@ -25,8 +25,8 @@ namespace Tesserae.Components
         {
             InnerElement = Div(_("tss-dropdown"));
             _errorSpan = Span(_("tss-dropdown-error"));
-            _spinner = Div(_("tss-spinner"));
-            _container = Div(_("tss-dropdown-container"), InnerElement, _errorSpan, _spinner);
+
+            _container = Div(_("tss-dropdown-container"), InnerElement, _errorSpan);
 
             _childContainer = Div(_());
 
@@ -176,13 +176,14 @@ namespace Tesserae.Components
                 _ContentHtml = Div(_("tss-dropdown-popup"), _childContainer);
                 if (ItemsSource != null)
                 {
-                    _spinner.style.display = "block";
+                    _spinner = Div(_("tss-spinner"));
+                    _container.appendChild(_spinner);
                     _container.style.pointerEvents = "none";
                     Task.Run(async () =>
                     {
                         this.Items(await ItemsSource());
-                        _spinner.style.display = "none";
                         Show();
+                        _container.removeChild(_spinner);
                         _container.style.pointerEvents = "unset";
                     });
                     return;
