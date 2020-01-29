@@ -1,0 +1,226 @@
+﻿/* Dropdown */
+.tss-dropdown {
+    box-shadow: none;
+    margin: 0px;
+    margin-right: 16px;
+    padding: 0px;
+    border: 1px solid var(--tss-default-border-color);
+    background: var(--tss-default-background-color) none repeat scroll 0% 0%;
+    color: var(--tss-default-foreground-color);
+    cursor: pointer;
+    height: 32px;
+    align-items: stretch;
+    font-size: var(--tss-font-size-small);
+    font-weight: var(--tss-font-weight-regular);
+    display: block;
+    width: 100%;
+    outline: transparent none medium;
+    padding: 5px 5px;
+    user-select: none;
+}
+
+    .tss-dropdown.disabled {
+        border-color: var(--tss-disabled-background-color);
+        background-color: var(--tss-disabled-background-color);
+        color: var(--tss-disabled-foreground-color);
+    }
+
+    .tss-dropdown:after {
+        content: " ";
+        display: block;
+        position: absolute;
+        right: 8px;
+        top: 10px;
+        width: 8px;
+        height: 8px;
+        border-left: 1px solid var(--tss-default-border-color);
+        border-top: 1px solid var(--tss-default-border-color);
+        transform: rotate(225deg);
+    }
+
+.tss-dropdown-container {
+    position: relative;
+    margin-bottom: 4px;
+    margin-right: 16px;
+}
+
+    .tss-dropdown-container.invalid .tss-dropdown {
+        border-color: var(--tss-invalid-border-color);
+    }
+
+.tss-dropdown-error {
+    color: var(--tss-invalid-border-color);
+    display: none;
+    font-size: var(--tss-font-size-tiny);
+}
+
+.tss-dropdown-container.invalid .tss-dropdown-error {
+    display: block;
+}
+
+.tss-dropdown-popup {
+    position: absolute;
+    border-radius: 0px 0px 2px 2px;
+    background: var(--tss-default-background-color) none repeat scroll 0% 0%;
+    min-height: 50px;
+    visibility: visible;
+    box-shadow: rgba(0, 0, 0, 0.133) 0px 3.2px 7.2px 0px, rgba(0, 0, 0, 0.11) 0px 0.6px 1.8px 0px;
+    overflow-y: auto;
+    user-select: none;
+}
+
+.tss-dropdown-item {
+    font-size: var(--tss-font-size-small);
+    font-weight: var(--tss-font-weight-regular);
+    background: var(--tss-default-background-color) none repeat scroll 0% 0%;
+    border: 1px solid transparent;
+    color: var(--tss-default-foreground-color);
+    outline: transparent none medium;
+    cursor: pointer;
+    text-align: left;
+    display: block;
+    padding: 0 8px;
+    min-height: 36px;
+    line-height: 20px;
+    width: 100%;
+    position: relative;
+}
+
+    .tss-dropdown-item:hover {
+        background-color: var(--tss-secondary-background-color);
+        outline: transparent none medium;
+    }
+
+    .tss-dropdown-item:focus {
+        border: 1px solid var(--tss-secondary-foreground-color);
+        outline: transparent none medium;
+    }
+
+    .tss-dropdown-item.selected {
+        background-color: var(--tss-default-background-hover-color);
+    }
+
+.tss-dropdown-popup.no-focus .tss-dropdown-item:focus {
+    border: 1px solid transparent;
+    outline: transparent none medium;
+}
+
+.tss-dropdown-header {
+    background: var(--tss-default-background-color) none repeat scroll 0% 0%;
+    border: 1px solid transparent;
+    outline: transparent none medium;
+    text-align: left;
+    display: block;
+    padding: 0 8px;
+    min-height: 36px;
+    line-height: 20px;
+    width: 100%;
+    position: relative;
+    color: var(--tss-primary-background-color);
+    font-size: var(--tss-font-size-small);
+    cursor: default;
+    font-weight: var(--tss-font-weight-semibold);
+}
+
+    /*.tss-dropdown-header:hover {
+        background-color: var(--tss-default-background-color);
+    }
+
+    .tss-dropdown-header:focus {
+        border: 1px solid transparent;
+    }*/
+
+.tss-dropdown-divider {
+    content: "";
+    height: 1px;
+    line-height: 20px;
+    width: 100%;
+    border: 1px solid transparent;
+    outline: transparent none medium;
+    text-align: left;
+    display: block;
+    padding: 0 8px;
+    position: relative;
+    background-color: var(--tss-default-background-hover-color);
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.tss-dropdown-multi .tss-dropdown-item {
+    padding-left: 32px;
+}
+
+    .tss-dropdown-multi .tss-dropdown-item:before {
+        content: " ";
+        display: block;
+        position: absolute;
+        left: 8px;
+        top: 8px;
+        width: 20px;
+        height: 20px;
+        border-radius: 2px;
+        background-color: var(--tss-default-background-color);
+        border: 1px solid var(--tss-default-foreground-color);
+    }
+
+    .tss-dropdown-multi .tss-dropdown-item.selected:hover:before {
+        background-color: var(--tss-primary-background-hover-color);
+    }
+
+    .tss-dropdown-multi .tss-dropdown-item.selected:before {
+        background-color: var(--tss-primary-background-color);
+        border-color: var(--tss-primary-background-color);
+    }
+
+    .tss-dropdown-multi .tss-dropdown-item:after {
+        content: "";
+        position: absolute;
+        display: none;
+        left: 15px;
+        top: 10px;
+        width: 6px;
+        height: 11px;
+        border: solid var(--tss-default-border-color);
+        border-width: 0 1px 1px 0;
+        transform: rotate(45deg);
+    }
+
+    .tss-dropdown-multi .tss-dropdown-item:hover:after {
+        display: block;
+    }
+
+    .tss-dropdown-multi .tss-dropdown-item.selected:after {
+        display: block;
+        border-color: var(--tss-primary-foreground-color);
+    }
+
+.tss-dropdown-item.disabled {
+    color: var(--tss-disabled-foreground-color);
+}
+
+.tss-dropdown-multi .tss-dropdown-item.disabled:before {
+    background-color: var(--tss-disabled-background-color);
+    border-color: var(--tss-disabled-foreground-color);
+}
+
+.tss-dropdown-multi .tss-dropdown-item.disabled.selected:before {
+    background-color: var(--tss-disabled-foreground-color);
+    border-color: var(--tss-disabled-foreground-color);
+}
+
+/*.tss-dropdown-multi .tss-dropdown-header {
+    padding-left: 8px;
+}
+
+    .tss-dropdown-multi .tss-dropdown-header:before {
+        display: none;
+    }
+
+    .tss-dropdown-multi .tss-dropdown-header:after {
+        display: none;
+    }
+
+    .tss-dropdown-multi .tss-dropdown-header:hover:after {
+        display: none;
+    }*/

@@ -70,6 +70,7 @@
         "bridge/assets/css/tesserae.button.css",
         "bridge/assets/css/tesserae.checkbox.css",
         "bridge/assets/css/tesserae.choice.css",
+        "bridge/assets/css/tesserae.dropdown.css",
         "bridge/assets/css/tesserae.label.css",
         "bridge/assets/css/tesserae.layer.css",
         "bridge/assets/css/tesserae.panel.css",
