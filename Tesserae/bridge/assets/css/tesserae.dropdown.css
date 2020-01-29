@@ -48,11 +48,20 @@
         border-color: var(--tss-invalid-border-color);
     }
 
-.tss-dropdown-error {
-    color: var(--tss-invalid-border-color);
+.tss-dropdown-container .tss-spinner {
+    position: absolute;
+    right: 2px;
+    top: 6px;
+    width: 20px;
+    height: 20px;
     display: none;
-    font-size: var(--tss-font-size-tiny);
 }
+
+    .tss-dropdown-error {
+        color: var(--tss-invalid-border-color);
+        display: none;
+        font-size: var(--tss-font-size-tiny);
+    }
 
 .tss-dropdown-container.invalid .tss-dropdown-error {
     display: block;

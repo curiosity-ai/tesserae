@@ -15,6 +15,8 @@ namespace Tesserae.Components
         private readonly HTMLDivElement _container;
         private readonly HTMLSpanElement _errorSpan;
 
+        private readonly HTMLDivElement _spinner;
+
         private bool _isChanged;
 
         private List<Item> _selectedChildren;
@@ -23,11 +25,15 @@ namespace Tesserae.Components
         {
             InnerElement = Div(_("tss-dropdown"));
             _errorSpan = Span(_("tss-dropdown-error"));
-            _container = Div(_("tss-dropdown-container"), InnerElement, _errorSpan);
+            _spinner = Div(_("tss-spinner"));
+            _container = Div(_("tss-dropdown-container"), InnerElement, _errorSpan, _spinner);
 
             _childContainer = Div(_());
 
-            InnerElement.onclick = (e) => { if (!IsVisible) Show(); };
+            InnerElement.onclick = (e) =>
+            {
+                if (!IsVisible) Show();
+            };
             _selectedChildren = new List<Item>();
         }
 
@@ -163,20 +169,30 @@ namespace Tesserae.Components
             return _container;
         }
 
-        public override async void Show()
+        public override void Show()
         {
             if (_ContentHtml == null)
             {
                 _ContentHtml = Div(_("tss-dropdown-popup"), _childContainer);
                 if (ItemsSource != null)
                 {
-                    this.Items(await ItemsSource());
+                    _spinner.style.display = "block";
+                    _container.style.pointerEvents = "none";
+                    Task.Run(async () =>
+                    {
+                        this.Items(await ItemsSource());
+                        _spinner.style.display = "none";
+                        Show();
+                        _container.style.pointerEvents = "unset";
+                    });
+                    return;
                 }
             }
 
             _ContentHtml.style.height = "unset";
             _ContentHtml.style.left = "-1000px";
             _ContentHtml.style.top = "-1000px";
+
             base.Show();
 
             _isChanged = false;
