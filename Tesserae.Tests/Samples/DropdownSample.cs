@@ -111,7 +111,7 @@ namespace Tesserae.Tests.Samples
                         DropdownItem("2-5")
                     )),
                     Label("Async 5 seconds delay").Content(Dropdown().Items(GetItemsAsync)),
-                    Label("Async wait Google.com (need CQRS)").Content(Dropdown().Items(GetGoogleItemsAsync))
+                    Label("Async wait Google.com (need CORS)").Content(Dropdown().Items(GetGoogleItemsAsync))
                 )
             );
             d.Attach((e, dd) =>
