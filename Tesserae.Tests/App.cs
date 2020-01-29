@@ -49,6 +49,10 @@ namespace Tesserae.Tests
                                                                               NavLink("TextBox").OnSelected((s, e)     => Show(new TextBoxSample())),
                                                                               NavLink("Toggle").OnSelected((s, e)      => Show(new ToggleSample()))  
                                                 ),
+                                                NavLink("Progress").Expanded()
+                                                                   .SmallPlus()
+                                                                   .SemiBold()
+                                                                   .Links(NavLink("Spinner").OnSelected((s, e) => Show(new SpinnerSample()))),
                                                 NavLink("Surfaces").Expanded()
                                                                    .SmallPlus()
                                                                    .SemiBold()
