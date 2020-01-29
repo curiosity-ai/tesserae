@@ -17,6 +17,11 @@
     outline: transparent none medium;
     padding: 0px 5px;
 }
+.tss-textBox.disabled {
+    border-color: var(--tss-disabled-background-color);
+    background-color: var(--tss-disabled-background-color);
+    color: var(--tss-disabled-foreground-color);
+}
 
     .tss-textBox:hover {
         border-color: var(--tss-default-foreground-color);
@@ -29,6 +34,7 @@
 .tss-textBox-container {
     position: relative;
     margin-bottom: 4px;
+    margin-right: 16px;
 }
 
     .tss-textBox-container.invalid .tss-textBox {
