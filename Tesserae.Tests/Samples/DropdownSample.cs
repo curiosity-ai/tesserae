@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
+using Retyped;
 using Tesserae.Components;
 using static Retyped.dom;
 using static Tesserae.UI;
@@ -122,9 +124,15 @@ namespace Tesserae.Tests.Samples
             }, Validation.Mode.OnInput);
         }
 
-        public async Task<Dropdown.Item[]> GetItemsAsync()
+        private async Task<Dropdown.Item[]> GetItemsAsync()
         {
-            // Some await here...
+            // Sample async request
+            try
+            {
+                await GetAsync("http://google.com");
+            }
+            catch { }
+
             return new[]
             {
                 DropdownItem("Header 1").Header(),
@@ -146,6 +154,53 @@ namespace Tesserae.Tests.Samples
         public HTMLElement Render()
         {
             return _content.Render();
+        }
+
+        private async Task<string> GetAsync(string url)
+        {
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.open("GET", url, true);
+
+            xmlHttp.setRequestHeader("Access-Control-Allow-Origin", "*");
+
+            var tcs = new TaskCompletionSource<string>();
+
+            xmlHttp.onreadystatechange = (e) =>
+            {
+                if (xmlHttp.readyState == 0)
+                {
+                    tcs.SetException(new Exception("Request aborted"));
+                }
+                else if (xmlHttp.readyState == 4)
+                {
+                    if (xmlHttp.status == 200 || xmlHttp.status == 201 || xmlHttp.status == 304)
+                    {
+                        tcs.SetResult(xmlHttp.responseText);
+                    }
+                    else tcs.SetException(new Exception("Request failed"));
+                }
+            };
+
+            xmlHttp.send();
+
+            var tcsTask = tcs.Task;
+
+            while (true)
+            {
+                await Task.WhenAny(tcsTask, Task.Delay(150));
+
+                if (tcsTask.IsCompleted)
+                {
+                    if (tcsTask.IsFaulted)
+                    {
+                        throw tcsTask.Exception;
+                    }
+                    else
+                    {
+                        return tcsTask.Result;
+                    }
+                }
+            }
         }
     }
 }
