@@ -66,6 +66,9 @@ namespace Tesserae
         public static Pivot Pivot() => new Pivot();
 
         public static Dropdown Dropdown() => new Dropdown();
+
         public static Dropdown.Item DropdownItem(string text = string.Empty) => new Dropdown.Item(text);
+
+        public static Spinner Spinner(string text = string.Empty) => new Spinner(text);
     }
 }
