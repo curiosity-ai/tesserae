@@ -1,6 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using Retyped;
+using Tesserae.HTML;
+using static System.Math;
 using static Retyped.dom;
 using static Tesserae.UI;
 
@@ -15,8 +17,9 @@ namespace Tesserae.Components
         private readonly int _componentsCount;
         private readonly int _pagesCount;
         private readonly int _componentsPerPage;
-        private readonly string _componentHeight;
-        private readonly string _componentWidth;
+        private readonly string _componentHeightPercentage;
+        private readonly string _componentWidthPercentage;
+        private readonly int _initialCountOfComponentsToRender;
 
         public BasicList(
             IEnumerable<IComponent> components,
@@ -24,44 +27,68 @@ namespace Tesserae.Components
             int columnsPerRow = 4,
             int height = 250)
         {
-            _rowsPerPage       = rowsPerPage;
-            _columnsPerRow     = columnsPerRow;
-            _components        = components.ToList();
+            _rowsPerPage   = rowsPerPage;
+            _columnsPerRow = columnsPerRow;
+            _components    = components.ToList();
+
             _componentsCount   = _components.Count;
-            _componentsPerPage = rowsPerPage * columnsPerRow;
+            _componentsPerPage = _rowsPerPage * _columnsPerRow;
 
-            _componentHeight = GetSize(_rowsPerPage);
-            _componentWidth  = GetSize(_columnsPerRow);
+            string GetComponentSize(int numberOfItems) => $"{100 / numberOfItems}%";
 
-            _pagesCount = (int)Math.Ceiling((double)_componentsCount / _rowsPerPage);
+            _componentHeightPercentage = GetComponentSize(_rowsPerPage);
+            _componentWidthPercentage  = GetComponentSize(_columnsPerRow);
 
-            var initialCountOfComponentsToRender =
+            _pagesCount = (int)Ceiling((double)_componentsCount / _componentsPerPage);
+
+            _initialCountOfComponentsToRender =
                 _pagesCount > 2 ? _componentsPerPage * 3 : _componentsPerPage;
 
-            _innerElement =
-                Div(_("tss-basiclist",
-                    styles: cssStyleDeclaration =>
-                    {
-                        cssStyleDeclaration.height = $"{height}px";
-                    }));
+            _innerElement = CreateBasicListContainer(height);
 
             _components
-                .Take(initialCountOfComponentsToRender)
-                .ForEach(x =>
+                .Take(_initialCountOfComponentsToRender)
+                .ForEach((component, index) =>
+                {
+                    var htmlElement = component.Render();
+
+                    if (index == _initialCountOfComponentsToRender - 1)
+                    {
+                        DomMountedObserver.NotifyWhenMounted(htmlElement, () =>
+                        {
+                            var componentHeight = htmlElement.clientHeight;
+
+                            var componentsNotRenderedCount =
+                                _componentsCount - _initialCountOfComponentsToRender;
+
+                            var emptyDivHeight =
+                                componentsNotRenderedCount * componentHeight;
+
+                            _innerElement.appendChild(Div(_(styles: cssStyleDeclaration =>
+                            {
+                                cssStyleDeclaration.height = $"{emptyDivHeight}px";
+                            })));
+                        });
+                    }
+
                     _innerElement.appendChild(
                         Div(
                             _("tss-basiclist-item",
                                 styles: cssStyleDeclaration =>
                                 {
-                                    cssStyleDeclaration.height = _componentHeight;
-                                    cssStyleDeclaration.width  = _componentWidth;
+                                    cssStyleDeclaration.height = _componentHeightPercentage;
+                                    cssStyleDeclaration.width  = _componentWidthPercentage;
                                 }),
-                            x.Render())));
+                            htmlElement));
+                });
 
             AttachOnScrollEvent();
         }
 
-        public HTMLElement Render() => _innerElement;
+        public HTMLElement Render()
+        {
+            return _innerElement;
+        }
 
         public void Add(IComponent component)
         {
@@ -76,7 +103,14 @@ namespace Tesserae.Components
         {
         }
 
-        private string GetSize(int numberOfItems) => $"{100 / numberOfItems}%";
+        private static HTMLDivElement CreateBasicListContainer(int height)
+        {
+            return Div(_("tss-basiclist",
+                styles: cssStyleDeclaration =>
+                {
+                    cssStyleDeclaration.height = $"{height}px";
+                }));
+        }
 
         private void AttachOnScrollEvent() => _innerElement.addEventListener("scroll", OnScroll);
 
@@ -87,6 +121,8 @@ namespace Tesserae.Components
 
             console.log($"scrollTop: {scrollTop}");
             console.log($"scrollHeight: {scrollHeight}");
+
+            var com = _components.First();
 
 
         }

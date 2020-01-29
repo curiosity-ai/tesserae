@@ -14,7 +14,7 @@ namespace Tesserae.Tests.Samples
             var basicList =
                 BasicList(
                         Enumerable
-                            .Range(1, 500)
+                            .Range(1, 5000)
                             .Select(x => new BasicListItem()));
 
             _content = Stack().Children(basicList);
