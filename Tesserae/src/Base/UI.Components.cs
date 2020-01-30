@@ -46,6 +46,7 @@ namespace Tesserae
         /// <param name="element">HTML element to be wrapped</param>
         /// <returns></returns>
         public static Raw Raw(HTMLElement element) => new Raw(element);
+        public static Raw Raw() => new Raw(DIV());
 
         public static Defer Defer(Func<Task<IComponent>> asyncGenerator) => new Defer(asyncGenerator);
 
@@ -84,10 +85,12 @@ namespace Tesserae
         public static Panel Panel() => new Panel();
 
         public static Modal Modal(string header = string.Empty) => new Modal(header);
+        public static ProgressModal ProgressModal() => new ProgressModal();
 
         public static Dialog Dialog(string header = string.Empty) => new Dialog(header);
 
         public static Pivot Pivot() => new Pivot();
+        public static ProgressIndicator ProgressIndicator() => new ProgressIndicator();
 
         public static Dropdown Dropdown() => new Dropdown();
 

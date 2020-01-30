@@ -41,10 +41,10 @@ namespace Tesserae.Tests.Samples
                     Stack().Width(400, Unit.Pixels).Children(
                         TextBlock("Usage").MediumPlus(),
                         TextBlock("Spinner sizes").Medium(),
-                        Label("Extra small spinner").Content(Spinner().XSmall()),
-                        Label("Small spinner").Content(Spinner().Small()),
-                        Label("Medium spinner").Content(Spinner().Medium()),
-                        Label("Large spinner").Content(Spinner().Large())
+                        Label("Extra small spinner").Content(Spinner().XSmall()).AlignCenter(),
+                        Label("Small spinner").Content(Spinner().Small()).AlignCenter(),
+                        Label("Medium spinner").Content(Spinner().Medium()).AlignCenter(),
+                        Label("Large spinner").Content(Spinner().Large()).AlignCenter()
                     ))
                 .Section(
                     Stack().Width(400, Unit.Pixels).Children(
