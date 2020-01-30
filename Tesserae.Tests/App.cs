@@ -52,7 +52,7 @@ namespace Tesserae.Tests
                                                                    .SmallPlus()
                                                                    .SemiBold()
                                                                    .Links(NavLink("Spinner").OnSelected((s, e) => Show(new SpinnerSample())))
-                                                                   .Links(NavLink("Progress Indicator").OnSelected((s, e) => Show(new ProgressIndicator()))),
+                                                                   .Links(NavLink("Progress Indicator").OnSelected((s, e) => Show(new ProgressIndicatorSample()))),
                                                 NavLink("Surfaces").Expanded()
                                                                    .SmallPlus()
                                                                    .SemiBold()
