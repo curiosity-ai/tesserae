@@ -7,11 +7,11 @@ namespace Tesserae.Tests.Samples
 {
     public class ChoiceGroupSample : IComponent
     {
-        private IComponent content;
+        private IComponent _content;
 
         public ChoiceGroupSample()
         {
-            content = Stack().Children(
+            _content = Stack().Children(
                 TextBlock("ChoiceGroup").XLarge(),
                 TextBlock("Overview").MediumPlus(),
                 TextBlock("The ChoiceGroup component, also known as radio buttons, let users select one option from two or more choices. Each option is represented by one ChoiceGroup button; a user can select only one ChoiceGroup in a button group."),
@@ -62,7 +62,7 @@ namespace Tesserae.Tests.Samples
 
         public HTMLElement Render()
         {
-            return content.Render();
+            return _content.Render();
         }
     }
 }

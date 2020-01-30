@@ -7,13 +7,13 @@ namespace Tesserae.Tests.Samples
 {
     public class LayerSample : IComponent
     {
-        private IComponent content;
+        private IComponent _content;
 
         public LayerSample()
         {
             var layer = Layer();
             var layerHost = LayerHost();
-            content = Stack().Children(
+            _content = Stack().Children(
                 TextBlock("Layer").XLarge(),
                 TextBlock("Overview").MediumPlus(),
                 TextBlock("A Layer is a technical component that does not have specific Design guidance."),
@@ -30,7 +30,7 @@ namespace Tesserae.Tests.Samples
 
         public HTMLElement Render()
         {
-            return content.Render();
+            return _content.Render();
         }
     }
 }

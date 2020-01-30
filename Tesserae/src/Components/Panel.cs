@@ -6,46 +6,39 @@ using static Retyped.dom;
 
 namespace Tesserae.Components
 {
-    public enum PanelSize
-    {
-        Small,
-        Medium,
-        Large,
-        LargeFixed,
-        ExtraLarge,
-        FullWidth
-    }
-
-    public enum PanelSide
-    {
-        Far,
-        Near
-    }
-
     public class Panel : Layer
     {
-        private IComponent _Footer;
-        private HTMLElement _Panel;
-        private HTMLElement _PanelOverlay;
-        private HTMLElement _PanelContent;
-        private HTMLElement _PanelFooter;
-        private HTMLElement _PanelCommand;
-        private HTMLElement _CloseButton;
+        private IComponent _footer;
+        private readonly HTMLElement _panel;
+        private readonly HTMLElement _panelOverlay;
+        private readonly HTMLElement _panelContent;
+        private readonly HTMLElement _panelFooter;
+        private readonly HTMLElement _panelCommand;
+        private readonly HTMLElement _closeButton;
 
-        #region Properties
+        public Panel() : base()
+        {
+            _closeButton = Button(_("fal fa-times", el: el => el.onclick = (e) => Hide()));
+            _panelCommand = Div(_("tss-panel-command"), _closeButton);
+            _panelContent = Div(_("tss-panel-content"));
+            _panelFooter = Div(_("tss-panel-footer"));
+            _panel = Div(_("tss-panel tss-panelSize-small tss-panelSide-far"), _panelCommand, Div(_("tss-panel-inner"), _panelContent, _panelFooter));
+            _panelOverlay = Div(_("tss-panel-overlay"));
+            _contentHtml = Div(_("tss-panel-container"), _panelOverlay, _panel);
+        }
 
         public override IComponent Content
         {
-            get { return _Content; }
+            get { return _content; }
             set
             {
-                if (value != _Content)
+                if (value != _content)
                 {
-                    ClearChildren(_PanelContent); ;
-                    _Content = value;
-                    if (_Content != null)
+                    ClearChildren(_panelContent); ;
+                    _content = value;
+                    if (_content != null)
                     {
-                        _PanelContent.appendChild(_Content.Render());
+                        _panelContent.appendChild(_content.Render());
                     }
                 }
             }
@@ -53,16 +46,16 @@ namespace Tesserae.Components
 
         public IComponent Footer
         {
-            get { return _Footer; }
+            get { return _footer; }
             set
             {
-                if (value != _Footer)
+                if (value != _footer)
                 {
-                    ClearChildren(_PanelFooter); ;
-                    _Footer = value;
-                    if (_Footer != null)
+                    ClearChildren(_panelFooter); ;
+                    _footer = value;
+                    if (_footer != null)
                     {
-                        _PanelFooter.appendChild(_Footer.Render());
+                        _panelFooter.appendChild(_footer.Render());
                     }
                 }
             }
@@ -70,38 +63,38 @@ namespace Tesserae.Components
 
         public PanelSize Size
         {
-            get { if (Enum.TryParse<PanelSize>(_Panel.classList[1].Substring(_Panel.classList[1].LastIndexOf('-') + 1), true, out var result)) return result; return PanelSize.Small; }
+            get { if (Enum.TryParse<PanelSize>(_panel.classList[1].Substring(_panel.classList[1].LastIndexOf('-') + 1), true, out var result)) return result; return PanelSize.Small; }
             set
             {
-                _Panel.classList.replace(_Panel.classList[1], $"tss-panelSize-{value.ToString().ToLower()}");
+                _panel.classList.replace(_panel.classList[1], $"tss-panelSize-{value.ToString().ToLower()}");
             }
         }
 
         public PanelSide Side
         {
-            get { if (Enum.TryParse<PanelSide>(_Panel.classList[2].Substring(_Panel.classList[2].LastIndexOf('-') + 1), true, out var result)) return result; return PanelSide.Far; }
+            get { if (Enum.TryParse<PanelSide>(_panel.classList[2].Substring(_panel.classList[2].LastIndexOf('-') + 1), true, out var result)) return result; return PanelSide.Far; }
             set
             {
-                _Panel.classList.replace(_Panel.classList[2], $"tss-panelSide-{value.ToString().ToLower()}");
+                _panel.classList.replace(_panel.classList[2], $"tss-panelSide-{value.ToString().ToLower()}");
             }
         }
 
         public bool CanLightDismiss
         {
-            get { return _PanelOverlay.classList.contains("tss-panel-lightDismiss"); }
+            get { return _panelOverlay.classList.contains("tss-panel-lightDismiss"); }
             set
             {
                 if (value != CanLightDismiss)
                 {
                     if (value)
                     {
-                        _PanelOverlay.classList.add("tss-panel-lightDismiss");
-                        _PanelOverlay.addEventListener("click", OnCloseClick);
+                        _panelOverlay.classList.add("tss-panel-lightDismiss");
+                        _panelOverlay.addEventListener("click", OnCloseClick);
                     }
                     else
                     {
-                        _PanelOverlay.classList.remove("tss-panel-lightDismiss");
-                        _PanelOverlay.removeEventListener("click", OnCloseClick);
+                        _panelOverlay.classList.remove("tss-panel-lightDismiss");
+                        _panelOverlay.removeEventListener("click", OnCloseClick);
                     }
                 }
             }
@@ -109,18 +102,18 @@ namespace Tesserae.Components
 
         public bool Dark
         {
-            get { return _ContentHtml.classList.contains("dark"); }
+            get { return _contentHtml.classList.contains("dark"); }
             set
             {
                 if (value != Dark)
                 {
                     if (value)
                     {
-                        _ContentHtml.classList.add("dark");
+                        _contentHtml.classList.add("dark");
                     }
                     else
                     {
-                        _ContentHtml.classList.remove("dark");
+                        _contentHtml.classList.remove("dark");
                     }
                 }
             }
@@ -128,19 +121,19 @@ namespace Tesserae.Components
 
         public bool IsNonBlocking
         {
-            get { return _ContentHtml.classList.contains("tss-panel-modeless"); }
+            get { return _contentHtml.classList.contains("tss-panel-modeless"); }
             set
             {
                 if (value != IsNonBlocking)
                 {
                     if (value)
                     {
-                        _ContentHtml.classList.add("tss-panel-modeless");
+                        _contentHtml.classList.add("tss-panel-modeless");
                         //if (IsVisible) document.body.style.overflowY = "";
                     }
                     else
                     {
-                        _ContentHtml.classList.remove("tss-panel-modeless");
+                        _contentHtml.classList.remove("tss-panel-modeless");
                         //if (IsVisible) document.body.style.overflowY = "hidden";
                     }
                 }
@@ -149,31 +142,18 @@ namespace Tesserae.Components
 
         public bool ShowCloseButton
         {
-            get { return _CloseButton.style.display != "none"; }
+            get { return _closeButton.style.display != "none"; }
             set
             {
-                if (value) _CloseButton.style.display = "";
-                else _CloseButton.style.display = "none";
+                if (value) _closeButton.style.display = "";
+                else _closeButton.style.display = "none";
             }
 
         }
 
-        #endregion
-
-        public Panel() : base()
-        {
-            _CloseButton = Button(_("fal fa-times", el: el => el.onclick = (e) => Hide()));
-            _PanelCommand = Div(_("tss-panel-command"), _CloseButton);
-            _PanelContent = Div(_("tss-panel-content"));
-            _PanelFooter = Div(_("tss-panel-footer"));
-            _Panel = Div(_("tss-panel tss-panelSize-small tss-panelSide-far"), _PanelCommand, Div(_("tss-panel-inner"), _PanelContent, _PanelFooter));
-            _PanelOverlay = Div(_("tss-panel-overlay"));
-            _ContentHtml = Div(_("tss-panel-container"), _PanelOverlay, _Panel);
-        }
-
         protected override HTMLElement BuildRenderedContent()
         {
-            return _ContentHtml;
+            return _contentHtml;
         }
 
         public override void Show()
@@ -189,6 +169,22 @@ namespace Tesserae.Components
         private void OnCloseClick(object ev)
         {
             Hide();
+        }
+
+        public enum PanelSize
+        {
+            Small,
+            Medium,
+            Large,
+            LargeFixed,
+            ExtraLarge,
+            FullWidth
+        }
+
+        public enum PanelSide
+        {
+            Far,
+            Near
         }
     }
 
@@ -214,44 +210,44 @@ namespace Tesserae.Components
 
         public static Panel Small(this Panel panel)
         {
-            panel.Size = PanelSize.Small;
+            panel.Size = Panel.PanelSize.Small;
             return panel;
         }
         public static Panel Medium(this Panel panel)
         {
-            panel.Size = PanelSize.Medium;
+            panel.Size = Panel.PanelSize.Medium;
             return panel;
         }
         public static Panel Large(this Panel panel)
         {
-            panel.Size = PanelSize.Large;
+            panel.Size = Panel.PanelSize.Large;
             return panel;
         }
         public static Panel LargeFixed(this Panel panel)
         {
-            panel.Size = PanelSize.LargeFixed;
+            panel.Size = Panel.PanelSize.LargeFixed;
             return panel;
         }
         public static Panel ExtraLarge(this Panel panel)
         {
-            panel.Size = PanelSize.ExtraLarge;
+            panel.Size = Panel.PanelSize.ExtraLarge;
             return panel;
         }
         public static Panel FullWidth(this Panel panel)
         {
-            panel.Size = PanelSize.FullWidth;
+            panel.Size = Panel.PanelSize.FullWidth;
             return panel;
         }
 
         public static Panel Far(this Panel panel)
         {
-            panel.Side = PanelSide.Far;
+            panel.Side = Panel.PanelSide.Far;
             return panel;
         }
 
         public static Panel Near(this Panel panel)
         {
-            panel.Side = PanelSide.Near;
+            panel.Side = Panel.PanelSide.Near;
             return panel;
         }
 

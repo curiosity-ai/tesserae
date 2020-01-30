@@ -8,8 +8,6 @@ namespace Tesserae.Components
 {
     public class Stack : IContainer<Stack, IComponent>, IHasBackgroundColor, IHasMarginPadding
     {
-        #region Properties
-
         public Orientation StackOrientation
         {
             get
@@ -55,36 +53,6 @@ namespace Tesserae.Components
         public string Background { get => InnerElement.style.background; set => InnerElement.style.background = value; }
         public string Margin { get => InnerElement.style.margin; set => InnerElement.style.margin = value; }
         public string Padding { get => InnerElement.style.padding; set => InnerElement.style.padding = value; }
-
-        #endregion
-
-        #region Static
-
-        private static HTMLElement GetItem(IComponent component, bool forceAdd = false)
-        {
-            if (!((component as dynamic).StackItem is HTMLElement item))
-            {
-                var rendered = component.Render();
-                if (forceAdd  || (rendered.parentElement is object && rendered.parentElement.classList.contains("tss-stack")))
-                {
-                    item = Div(_("tss-stack-item", styles: s =>
-                    {
-                        s.alignSelf = "auto";
-                        s.width = "auto";
-                        s.height = "auto";
-                        s.flexShrink = "1";
-                    }), component.Render());
-                    (component as dynamic).StackItem = item;
-                }
-                else
-                {
-                    item = rendered;
-                }
-            }
-            return item;
-        }
-
-        #region Items Properties
 
         public static ItemAlign GetAlign(IComponent component)
         {
@@ -267,10 +235,6 @@ namespace Tesserae.Components
             item.style.flexShrink = shrink ? "1" : "0";
         }
 
-        #endregion
-
-        #endregion
-
         public Stack(Orientation orientation = Orientation.Vertical)
         {
             InnerElement = Div(_("tss-stack"));
@@ -291,12 +255,70 @@ namespace Tesserae.Components
         {
             InnerElement.replaceChild(GetItem(newComponent), GetItem(oldComponent));
         }
-
-
-
+        
         public virtual HTMLElement Render()
         {
             return InnerElement;
+        }
+
+        public Stack Horizontal()
+        {
+            StackOrientation = Stack.Orientation.Horizontal;
+            return this;
+        }
+
+        public Stack Vertical()
+        {
+            StackOrientation = Stack.Orientation.Vertical;
+            return this;
+        }
+
+        public Stack HorizontalReverse()
+        {
+            StackOrientation = Stack.Orientation.HorizontalReverse;
+            return this;
+        }
+
+        public Stack VerticalReverse()
+        {
+            StackOrientation = Stack.Orientation.VerticalReverse;
+            return this;
+        }
+
+        public Stack Wrap()
+        {
+            CanWrap = true;
+            return this;
+        }
+
+        public Stack NoWrap()
+        {
+            CanWrap = false;
+            return this;
+        }
+
+        private static HTMLElement GetItem(IComponent component, bool forceAdd = false)
+        {
+            if (!((component as dynamic).StackItem is HTMLElement item))
+            {
+                var rendered = component.Render();
+                if (forceAdd || (rendered.parentElement is object && rendered.parentElement.classList.contains("tss-stack")))
+                {
+                    item = Div(_("tss-stack-item", styles: s =>
+                    {
+                        s.alignSelf = "auto";
+                        s.width = "auto";
+                        s.height = "auto";
+                        s.flexShrink = "1";
+                    }), component.Render());
+                    (component as dynamic).StackItem = item;
+                }
+                else
+                {
+                    item = rendered;
+                }
+            }
+            return item;
         }
 
         public enum Orientation
@@ -363,44 +385,6 @@ namespace Tesserae.Components
 
     public static class StackExtensions
     {
-        public static Stack Horizontal(this Stack stack)
-        {
-            stack.StackOrientation = Stack.Orientation.Horizontal;
-            return stack;
-        }
-
-        public static Stack Vertical(this Stack stack)
-        {
-            stack.StackOrientation = Stack.Orientation.Vertical;
-            return stack;
-        }
-
-        public static Stack HorizontalReverse(this Stack stack)
-        {
-            stack.StackOrientation = Stack.Orientation.HorizontalReverse;
-            return stack;
-        }
-
-        public static Stack VerticalReverse(this Stack stack)
-        {
-            stack.StackOrientation = Stack.Orientation.VerticalReverse;
-            return stack;
-        }
-
-        public static Stack Wrap(this Stack stack)
-        {
-            stack.CanWrap = true;
-            return stack;
-        }
-
-        public static Stack NoWrap(this Stack stack)
-        {
-            stack.CanWrap = false;
-            return stack;
-        }
-
-        #region Item Properties
-
         public static T AlignAuto<T>(this T component) where T : IComponent
         {
             Stack.SetAlign(component, Stack.ItemAlign.Auto);
@@ -534,10 +518,7 @@ namespace Tesserae.Components
             Stack.SetMinHeight(component, Unit.Percents, 100);
             return component;
         }
-
-
-
-
+        
         public static T Grow<T>(this T component, int grow) where T : IComponent
         {
             Stack.SetGrow(component, grow);
@@ -555,8 +536,6 @@ namespace Tesserae.Components
             Stack.SetShrink(component, false);
             return component;
         }
-
-        #endregion
     }
 
     public enum Unit

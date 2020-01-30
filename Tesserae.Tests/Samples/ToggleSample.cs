@@ -7,11 +7,11 @@ namespace Tesserae.Tests.Samples
 {
     public class ToggleSample : IComponent
     {
-        private IComponent content;
+        private IComponent _content;
 
         public ToggleSample()
         {
-            content = Stack().Children(
+            _content = Stack().Children(
                 TextBlock("Toggle").XLarge(),
                 TextBlock("Overview").MediumPlus(),
                 TextBlock("Toggles represent a physical switch that allows users to turn things on or off. Use Toggles to present users with two mutually exclusive options (like on/off), where choosing an option results in an immediate action. Use a Toggle for binary operations that take effect right after the user flips the Toggle. For example, use a Toggle to turn services or hardware components on or off. In other words, if a physical switch would work for the action, a Toggle is probably the best control to use."),
@@ -34,12 +34,12 @@ namespace Tesserae.Tests.Samples
                 ),
                 TextBlock("Usage").MediumPlus(),
                 TextBlock("Basic Toggles").Medium(),
-                Label("Enabled and checked").Content(Toggle().Checked()),
-                Label("Enabled and unchecked").Content(Toggle()),
-                Label("Disabled and checked").Content(Toggle().Checked().Disabled()),
-                Label("Disabled and unchecked").Content(Toggle().Disabled()),
-                Label("With inline label").Inline().Content(Toggle()),
-                Label("Disabled with inline label").Inline().Content(Toggle().Disabled()).Disabled(),
+                Label("Enabled and checked").SetContent(Toggle().Checked()),
+                Label("Enabled and unchecked").SetContent(Toggle()),
+                Label("Disabled and checked").SetContent(Toggle().Checked().Disabled()),
+                Label("Disabled and unchecked").SetContent(Toggle().Disabled()),
+                Label("With inline label").Inline().SetContent(Toggle()),
+                Label("Disabled with inline label").Inline().SetContent(Toggle().Disabled()).Disabled(),
                 Toggle("With inline label and without onText and offText"),
                 Toggle("Disabled with inline label and without onText and offText").Disabled()
             );
@@ -47,7 +47,7 @@ namespace Tesserae.Tests.Samples
 
         public HTMLElement Render()
         {
-            return content.Render();
+            return _content.Render();
         }
     }
 }

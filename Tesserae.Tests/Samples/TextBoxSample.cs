@@ -7,11 +7,11 @@ namespace Tesserae.Tests.Samples
 {
     public class TextBoxSample : IComponent
     {
-        private IComponent content;
+        private IComponent _content;
 
         public TextBoxSample()
         {
-            content = Stack().Children(
+            _content = Stack().Children(
                 TextBlock("TextBox").XLarge(),
                 TextBlock("Overview").MediumPlus(),
                 TextBlock("The TextBox component enables a user to type text into an app. The text displays on the screen in a simple, uniform format."),
@@ -40,23 +40,23 @@ namespace Tesserae.Tests.Samples
                 TextBlock("Usage").MediumPlus(),
                 TextBlock("Basic TextBox").Medium(),
                 Stack().Width(40, Unit.Percents).Children(
-                    Label("Standard").Content(TextBox()),
-                    Label("Disabled").Disabled().Content(TextBox("I am disabled").Disabled()),
-                    Label("Read-only").Content(TextBox("I am read-only").ReadOnly()),
-                    Label("Required").Required().Content(TextBox("")),
+                    Label("Standard").SetContent(TextBox()),
+                    Label("Disabled").Disabled().SetContent(TextBox("I am disabled").Disabled()),
+                    Label("Read-only").SetContent(TextBox("I am read-only").ReadOnly()),
+                    Label("Required").Required().SetContent(TextBox("")),
                     TextBox("").Required(),
-                    Label("With error message").Content(TextBox().Error("Error message").IsInvalid()),
-                    Label("With placeholder").Content(TextBox().Placeholder("Please enter text here")),
-                    Label("With validation").Content(TextBox().Validation((tb) => tb.Text.Length == 0 ? "Empty" : null)),
-                    Label("With validation on type").Content(TextBox().Validation(Validation.NonZeroPositiveInteger)),
-                    Label("Disabled with placeholder").Disabled().Content(TextBox().Placeholder("I am disabled").Disabled())
+                    Label("With error message").SetContent(TextBox().Error("Error message").IsInvalid()),
+                    Label("With placeholder").SetContent(TextBox().SetPlaceholder("Please enter text here")),
+                    Label("With validation").SetContent(TextBox().Validation((tb) => tb.Text.Length == 0 ? "Empty" : null)),
+                    Label("With validation on type").SetContent(TextBox().Validation(Validation.NonZeroPositiveInteger)),
+                    Label("Disabled with placeholder").Disabled().SetContent(TextBox().SetPlaceholder("I am disabled").Disabled())
                 )
             );
         }
 
         public HTMLElement Render()
         {
-            return content.Render();
+            return _content.Render();
         }
     }
 }

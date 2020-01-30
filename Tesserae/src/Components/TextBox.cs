@@ -5,14 +5,19 @@ namespace Tesserae.Components
 {
     public class TextBox : ComponentBase<TextBox, HTMLInputElement>, ICanValidate<TextBox>
     {
-        #region Fields
+        private HTMLDivElement _container;
+        private HTMLSpanElement _errorSpan;
 
-        private HTMLDivElement container;
-        private HTMLSpanElement errorSpan;
-
-        #endregion
-
-        #region Properties
+        public TextBox(string text = string.Empty)
+        {
+            InnerElement = TextBox(_("tss-textbox", type: "text", value: text));
+            _errorSpan = Span(_("tss-textbox-error"));
+            _container = Div(_("tss-textbox-container"), InnerElement, _errorSpan);
+            AttachChange();
+            AttachInput();
+            AttachFocus();
+            AttachBlur();
+        }
 
         public bool IsEnabled
         {
@@ -67,68 +72,56 @@ namespace Tesserae.Components
 
         public string Error
         {
-            get { return errorSpan.innerText; }
+            get { return _errorSpan.innerText; }
             set
             {
-                if (errorSpan.innerText != value)
+                if (_errorSpan.innerText != value)
                 {
-                    errorSpan.innerText = value;
+                    _errorSpan.innerText = value;
                 }
             }
         }
 
         public bool IsInvalid
         {
-            get { return container.classList.contains("invalid"); }
+            get { return _container.classList.contains("invalid"); }
             set
             {
                 if (value != IsInvalid)
                 {
                     if (value)
                     {
-                        container.classList.add("invalid");
+                        _container.classList.add("invalid");
                     }
                     else
                     {
-                        container.classList.remove("invalid");
+                        _container.classList.remove("invalid");
                     }
                 }
             }
         }
         public bool IsRequired
         {
-            get { return container.classList.contains("tss-required"); }
+            get { return _container.classList.contains("tss-required"); }
             set
             {
                 if (value != IsInvalid)
                 {
                     if (value)
                     {
-                        container.classList.add("tss-required");
+                        _container.classList.add("tss-required");
                     }
                     else
                     {
-                        container.classList.remove("tss-required");
+                        _container.classList.remove("tss-required");
                     }
                 }
             }
         }
-        #endregion
-
-        public TextBox(string text = string.Empty)
-        {
-            InnerElement = TextBox(_("tss-textbox", type: "text", value: text));
-            errorSpan = Span(_("tss-textbox-error"));
-            container = Div(_("tss-textbox-container"), InnerElement, errorSpan);
-            AttachChange();
-            AttachInput();
-            AttachFocus();
-            AttachBlur();
-        }
 
         public override HTMLElement Render()
         {
-            return container;
+            return _container;
         }
 
         public void Attach(EventHandler<Event> handler, Validation.Mode mode)
@@ -142,38 +135,35 @@ namespace Tesserae.Components
                 onInput += (s, e) => handler(s, e);
             }
         }
-    }
 
-    public static class TextBoxExtensions
-    {
-        public static TextBox Text(this TextBox textBox, string text)
+        public TextBox SetText(string text)
         {
-            textBox.Text = text;
-            return textBox;
+            Text = text;
+            return this;
         }
 
-        public static TextBox Placeholder(this TextBox textBox, string error)
+        public TextBox SetPlaceholder(string error)
         {
-            textBox.Placeholder = error;
-            return textBox;
+            Placeholder = error;
+            return this;
         }
 
-        public static TextBox Disabled(this TextBox textBox)
+        public TextBox Disabled()
         {
-            textBox.IsEnabled = false;
-            return textBox;
+            IsEnabled = false;
+            return this;
         }
 
-        public static TextBox ReadOnly(this TextBox textBox)
+        public TextBox ReadOnly()
         {
-            textBox.IsReadOnly = true;
-            return textBox;
+            IsReadOnly = true;
+            return this;
         }
 
-        public static TextBox Required(this TextBox textBox)
+        public TextBox Required()
         {
-            textBox.IsRequired = true;
-            return textBox;
+            IsRequired = true;
+            return this;
         }
     }
 }

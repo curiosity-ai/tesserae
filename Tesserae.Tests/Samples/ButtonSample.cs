@@ -7,11 +7,11 @@ namespace Tesserae.Tests.Samples
 {
     public class ButtonSample : IComponent
     {
-        private IComponent content;
+        private IComponent _content;
 
         public ButtonSample()
         {
-            content = SectionStack()
+            _content = SectionStack()
                 .Title(TextBlock("Button").XLarge().Bold())
                 .Section(Stack().Children(
                 TextBlock("Overview").MediumPlus(),
@@ -50,14 +50,14 @@ namespace Tesserae.Tests.Samples
                         TextBlock("Usage").MediumPlus(),
                         TextBlock("Default Button").Medium(),
                         Stack().Horizontal().Children(
-                            Button().Var(out var btn1).Text("Standard").OnClick((s, e) => alert("Clicked!")),
-                            Button().Var(out var btn2).Text("Primary").Primary().OnClick((s, e) => alert("Clicked!"))
+                            Button().Var(out var btn1).SetText("Standard").OnClick((s, e) => alert("Clicked!")),
+                            Button().Var(out var btn2).SetText("Primary").Primary().OnClick((s, e) => alert("Clicked!"))
                         ),
                         TextBlock("Icon Button").Medium(),
                         Stack().Horizontal().Children(
-                            Button().Var(out var iconBtn1).Text("Confirm").Icon("far fa-check").Success().OnClick((s, e) => alert("Clicked!")),
-                            Button().Var(out var iconBtn2).Text("Delete").Icon("far fa-trash-alt").Danger().OnClick((s, e) => alert("Clicked!")),
-                            Button().Var(out var iconBtn3).Text("Primary").Icon("far fa-minus").Primary().OnClick((s, e) => alert("Clicked!"))
+                            Button().Var(out var iconBtn1).SetText("Confirm").SetIcon("far fa-check").Success().OnClick((s, e) => alert("Clicked!")),
+                            Button().Var(out var iconBtn2).SetText("Delete").SetIcon("far fa-trash-alt").Danger().OnClick((s, e) => alert("Clicked!")),
+                            Button().Var(out var iconBtn3).SetText("Primary").SetIcon("far fa-minus").Primary().OnClick((s, e) => alert("Clicked!"))
                         ),
                         Toggle("Disable buttons").Checked().OnChange((s, e) =>
                         {
@@ -67,7 +67,7 @@ namespace Tesserae.Tests.Samples
 
         public HTMLElement Render()
         {
-            return content.Render();
+            return _content.Render();
         }
     }
 }

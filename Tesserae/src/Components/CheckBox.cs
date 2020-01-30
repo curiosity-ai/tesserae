@@ -69,26 +69,23 @@ namespace Tesserae.Components
         {
             return _label;
         }
-    }
 
-    public static class CheckBoxExtensions
-    {
-        public static CheckBox Text(this CheckBox checkBox, string text)
+        public CheckBox Disabled()
         {
-            checkBox.Text = text;
-            return checkBox;
+            IsEnabled = false;
+            return this;
         }
 
-        public static CheckBox Disabled(this CheckBox checkBox)
+        public CheckBox Checked()
         {
-            checkBox.IsEnabled = false;
-            return checkBox;
+            IsChecked = true;
+            return this;
         }
 
-        public static CheckBox Checked(this CheckBox checkBox)
+        public CheckBox SetText(string text)
         {
-            checkBox.IsChecked = true;
-            return checkBox;
+            Text = text;
+            return this;
         }
     }
 }

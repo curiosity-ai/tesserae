@@ -34,10 +34,10 @@ namespace Tesserae.Tests.Samples
                 TextBlock("Usage").MediumPlus(),
                 TextBlock("Basic TextBox").Medium(),
                 Stack().Width(40, Unit.Percents).Children(
-                    Label("Non-empty").Content(tb1),
-                    Label("Integer > 0").Content(tb2),
-                    Label("Is all valid").Content(isAllValid),
-                    Label("Test revalidation (will fail if repeated)").Content(Button("Revalidate").OnClick((s,b) => validator.Revalidate()))
+                    Label("Non-empty").SetContent(tb1),
+                    Label("Integer > 0").SetContent(tb2),
+                    Label("Is all valid").SetContent(isAllValid),
+                    Label("Test revalidation (will fail if repeated)").SetContent(Button("Revalidate").OnClick((s,b) => validator.Revalidate()))
                 )
             );
         }

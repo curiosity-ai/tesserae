@@ -56,6 +56,17 @@ namespace Tesserae.Components
                 SelectedLink = newComponent;
             }
         }
+        public Nav Links(params Nav.NavLink[] children)
+        {
+            children.ForEach(x => Add(x));
+            return this;
+        }
+        
+        public Nav InlineContent(IComponent content)
+        {
+            Add(new Nav.ComponentInNavLink(content));
+            return this;
+        }
 
         private void OnNavLinkSelected(object sender, NavLink e)
         {
@@ -233,12 +244,6 @@ namespace Tesserae.Components
                 }
             }
             
-            protected void ClickHandler(object sender)
-            {
-                if (HasChildren) IsExpanded = !IsExpanded;
-                else IsSelected = true;
-            }
-
             public override HTMLElement Render()
             {
                 return InnerElement;
@@ -292,83 +297,73 @@ namespace Tesserae.Components
             {
                 _childContainer.removeChild(oldComponent.Render());
             }
-        }
-    }
-
-    public static class NavExtensions
-    {
-        public static Nav Links(this Nav container, params Nav.NavLink[] children)
-        {
-            children.ForEach(x => container.Add(x));
-            return container;
-        }
-
-        public static Nav.NavLink Links(this Nav.NavLink container, params Nav.NavLink[] children)
-        {
-            children.ForEach(x => container.Add(x));
-            return container;
-        }
-
-        public static Nav.NavLink LinksAsync(this Nav.NavLink container, Func<Task<Nav.NavLink[]>> childrenAsync)
-        {
-            bool alreadyRun = false;
-            var dummy = new Nav.NavLink("loading...");
-            container.Add(dummy);
-            container.OnExpanded += (s, e) =>
+            public NavLink InlineContent(IComponent content)
             {
-                if (!alreadyRun)
+                Add(new Nav.ComponentInNavLink(content));
+                return this;
+            }
+
+            public NavLink Selected()
+            {
+                IsSelected = true;
+                return this;
+            }
+            public NavLink Expanded()
+            {
+                IsExpanded = true;
+                return this;
+            }
+
+            public NavLink SetText(string text)
+            {
+                Text = text;
+                return this;
+            }
+
+            public NavLink SetIcon(string icon)
+            {
+                Icon = icon;
+                return this;
+            }
+
+            public NavLink OnSelected(EventHandler<Nav.NavLink> onSelected)
+            {
+                OnSelect += onSelected;
+                return this;
+            }
+
+            public NavLink Links(params Nav.NavLink[] children)
+            {
+                children.ForEach(x => Add(x));
+                return this;
+            }
+
+            public NavLink LinksAsync(Func<Task<Nav.NavLink[]>> childrenAsync)
+            {
+                bool alreadyRun = false;
+                var dummy = new Nav.NavLink("loading...");
+                Add(dummy);
+                OnExpanded += (s, e) =>
                 {
-                    alreadyRun = true;
-                    Task.Run(async () =>
+                    if (!alreadyRun)
                     {
-                        var children = await childrenAsync();
-                        container.Remove(dummy);
-                        children.ForEach(x => container.Add(x));
-                    }).FireAndForget();
-                }
-            };
-            return container;
-        }
+                        alreadyRun = true;
+                        Task.Run(async () =>
+                        {
+                            var children = await childrenAsync();
+                            Remove(dummy);
+                            children.ForEach(x => Add(x));
+                        }).FireAndForget();
+                    }
+                };
+                return this;
+            }
 
-        public static Nav InlineContent(this Nav container, IComponent content)
-        {
-            container.Add(new Nav.ComponentInNavLink(content));
-            return container;
-        }
-
-        public static Nav.NavLink InlineContent(this Nav.NavLink container, IComponent content)
-        {
-            container.Add(new Nav.ComponentInNavLink(content));
-            return container;
-        }
-
-        public static Nav.NavLink Selected(this Nav.NavLink link)
-        {
-            link.IsSelected = true;
-            return link;
-        }
-        public static Nav.NavLink Expanded(this Nav.NavLink link)
-        {
-            link.IsExpanded = true;
-            return link;
-        }
-
-        public static Nav.NavLink Text(this Nav.NavLink link, string text)
-        {
-            link.Text = text;
-            return link;
-        }
-
-        public static Nav.NavLink Icon(this Nav.NavLink link, string icon)
-        {
-            link.Icon = icon;
-            return link;
-        }
-
-        public static Nav.NavLink OnSelected(this Nav.NavLink link, EventHandler<Nav.NavLink> onSelected)
-        {
-            link.OnSelect += onSelected;
-            return link;
+            protected void ClickHandler(object sender)
+            {
+                if (HasChildren) IsExpanded = !IsExpanded;
+                else IsSelected = true;
+            }
         }
     }
 }

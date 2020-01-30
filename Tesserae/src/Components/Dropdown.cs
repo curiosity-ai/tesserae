@@ -256,6 +256,41 @@ namespace Tesserae.Components
             }
         }
 
+        public Dropdown Single()
+        {
+            Mode = Dropdown.SelectMode.Single;
+            return this;
+        }
+
+        public Dropdown Multi()
+        {
+            Mode = Dropdown.SelectMode.Multi;
+            return this;
+        }
+
+        public Dropdown Items(params Dropdown.Item[] children)
+        {
+            children.ForEach(x => Add(x));
+            return this;
+        }
+        public Dropdown Items(Func<Task<Dropdown.Item[]>> itemsSource)
+        {
+            ItemsSource = itemsSource;
+            return this;
+        }
+
+        public Dropdown Disabled()
+        {
+            IsEnabled = false;
+            return this;
+        }
+
+        public Dropdown Required()
+        {
+            IsRequired = true;
+            return this;
+        }
+
         private void OnWindowClick(Event e)
         {
             if (e.srcElement != _childContainer && !_childContainer.contains(e.srcElement)) Hide();
@@ -424,6 +459,28 @@ namespace Tesserae.Components
                 return InnerElement;
             }
 
+            public Dropdown.Item Header()
+            {
+                Type = Dropdown.ItemType.Header;
+                return this;
+            }
+            public Dropdown.Item Divider()
+            {
+                Type = Dropdown.ItemType.Divider;
+                return this;
+            }
+            public Dropdown.Item Disabled()
+            {
+                IsEnabled = false;
+                return this;
+            }
+
+            public Dropdown.Item Selected()
+            {
+                IsSelected = true;
+                return this;
+            }
+
             private void OnItemClick(Event e)
             {
                 if (Type == ItemType.Item)
@@ -437,66 +494,6 @@ namespace Tesserae.Components
             {
                 if (Type == ItemType.Item) InnerElement.focus();
             }
-        }
-    }
-
-    public static class DropdownExtensions
-    {
-        public static Dropdown Single(this Dropdown dropdown)
-        {
-            dropdown.Mode = Dropdown.SelectMode.Single;
-            return dropdown;
-        }
-
-        public static Dropdown Multi(this Dropdown dropdown)
-        {
-            dropdown.Mode = Dropdown.SelectMode.Multi;
-            return dropdown;
-        }
-
-        public static Dropdown Items(this Dropdown container, params Dropdown.Item[] children)
-        {
-            children.ForEach(x => container.Add(x));
-            return container;
-        }
-        public static Dropdown Items(this Dropdown container, Func<Task<Dropdown.Item[]>> itemsSource)
-        {
-            container.ItemsSource = itemsSource;
-            return container;
-        }
-
-        public static Dropdown Disabled(this Dropdown dropdown)
-        {
-            dropdown.IsEnabled = false;
-            return dropdown;
-        }
-
-        public static Dropdown Required(this Dropdown dropdown)
-        {
-            dropdown.IsRequired = true;
-            return dropdown;
-        }
-
-        public static Dropdown.Item Header(this Dropdown.Item item)
-        {
-            item.Type = Dropdown.ItemType.Header;
-            return item;
-        }
-        public static Dropdown.Item Divider(this Dropdown.Item item)
-        {
-            item.Type = Dropdown.ItemType.Divider;
-            return item;
-        }
-        public static Dropdown.Item Disabled(this Dropdown.Item item)
-        {
-            item.IsEnabled = false;
-            return item;
-        }
-
-        public static Dropdown.Item Selected(this Dropdown.Item item)
-        {
-            item.IsSelected = true;
-            return item;
         }
     }
 }

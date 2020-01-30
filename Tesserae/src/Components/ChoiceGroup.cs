@@ -71,6 +71,28 @@ namespace Tesserae.Components
             InnerElement.replaceChild(newComponent.Render(), oldComponent.Render());
             newComponent.OnSelect += OnChoiceSelected;
         }
+        public ChoiceGroup Options(params ChoiceGroup.Option[] children)
+        {
+            children.ForEach(x => Add(x));
+            return this;
+        }
+
+        public ChoiceGroup Horizontal()
+        {
+            Orientation = ChoiceGroup.ChoiceGroupOrientation.Horizontal;
+            return this;
+        }
+        public ChoiceGroup Vertical()
+        {
+            Orientation = ChoiceGroup.ChoiceGroupOrientation.Vertical;
+            return this;
+        }
+
+        public ChoiceGroup Required()
+        {
+            IsRequired = true;
+            return this;
+        }
 
         private void OnChoiceSelected(object sender, Option e)
         {
@@ -149,55 +171,29 @@ namespace Tesserae.Components
             {
                 return _label;
             }
-        }
-    }
+            public Option Disabled()
+            {
+                IsEnabled = false;
+                return this;
+            }
 
-    public static class ChoiceExtensions
-    {
-        public static ChoiceGroup Options(this ChoiceGroup container, params ChoiceGroup.Option[] children)
-        {
-            children.ForEach(x => container.Add(x));
-            return container;
-        }
+            public Option Selected()
+            {
+                IsSelected = true;
+                return this;
+            }
 
-        public static ChoiceGroup Horizontal(this ChoiceGroup container)
-        {
-            container.Orientation = ChoiceGroup.ChoiceGroupOrientation.Horizontal;
-            return container;
-        }
-        public static ChoiceGroup Vertical(this ChoiceGroup container)
-        {
-            container.Orientation = ChoiceGroup.ChoiceGroupOrientation.Vertical;
-            return container;
-        }
+            public Option OnSelected(EventHandler<ChoiceGroup.Option> onSelected)
+            {
+                OnSelect += onSelected;
+                return this;
+            }
 
-        public static ChoiceGroup Required(this ChoiceGroup container)
-        {
-            container.IsRequired = true;
-            return container;
-        }
-        public static ChoiceGroup.Option Disabled(this ChoiceGroup.Option option)
-        {
-            option.IsEnabled = false;
-            return option;
-        }
-
-        public static ChoiceGroup.Option Selected(this ChoiceGroup.Option option)
-        {
-            option.IsSelected = true;
-            return option;
-        }
-
-        public static ChoiceGroup.Option Text(this ChoiceGroup.Option option, string text)
-        {
-            option.Text = text;
-            return option;
-        }
-
-        public static ChoiceGroup.Option OnSelected(this ChoiceGroup.Option option, EventHandler<ChoiceGroup.Option> onSelected)
-        {
-            option.OnSelect += onSelected;
-            return option;
+            public Option SetText(string text)
+            {
+                Text = text;
+                return this;
+            }
         }
     }
 }

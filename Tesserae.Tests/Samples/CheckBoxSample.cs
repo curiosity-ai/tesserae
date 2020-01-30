@@ -7,11 +7,11 @@ namespace Tesserae.Tests.Samples
 {
     public class CheckBoxSample : IComponent
     {
-        private IComponent content;
+        private IComponent _content;
 
         public CheckBoxSample()
         {
-            content = Stack().Children(
+            _content = Stack().Children(
                 TextBlock("CheckBox").XLarge(),
                 TextBlock("Overview").MediumPlus(),
                 TextBlock("A CheckBox is a UI element that allows users to switch between two mutually exclusive options (checked or unchecked, on or off) through a single click or tap. It can also be used to indicate a subordinate setting or preference when paired with another control."),
@@ -43,7 +43,7 @@ namespace Tesserae.Tests.Samples
 
         public HTMLElement Render()
         {
-            return content.Render();
+            return _content.Render();
         }
     }
 }

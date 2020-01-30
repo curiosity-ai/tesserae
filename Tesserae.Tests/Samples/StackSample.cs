@@ -7,13 +7,13 @@ namespace Tesserae.Tests.Samples
 {
     public class StackSample : IComponent
     {
-        private IComponent content;
+        private IComponent _content;
 
         public StackSample()
         {
             var stack = Stack();
             var countSlider = Slider(5, 0, 10, 1);
-            content = Stack().Children(
+            _content = Stack().Children(
                 TextBlock("Stack").XLarge(),
                 TextBlock("Overview").MediumPlus(),
                 TextBlock("A Stack is a container-type component that abstracts the implementation of a flexbox in order to define the layout of its children components."),
@@ -21,7 +21,7 @@ namespace Tesserae.Tests.Samples
                 Stack().Children(
                     Stack().Horizontal().Children(
                         Stack().Children(
-                            Label("Number of items:").Content(countSlider.OnInput((s, e) => SetChildren(stack, s.Value))),
+                            Label("Number of items:").SetContent(countSlider.OnInput((s, e) => SetChildren(stack, s.Value))),
                             Stack().Horizontal().Children(
                                 ChoiceGroup("Orientation:").Horizontal().Options(Option("Vertical").Selected(), Option("Horizontal"), Option("Vertical Reverse"), Option("Horizontal Reverse")).OnChange(
                                 (s, e) =>
@@ -55,7 +55,7 @@ namespace Tesserae.Tests.Samples
 
         public HTMLElement Render()
         {
-            return content.Render();
+            return _content.Render();
         }
     }
 }
