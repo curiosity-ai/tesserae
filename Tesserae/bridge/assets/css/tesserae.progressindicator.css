@@ -26,13 +26,13 @@
         min-width: 25%;
         transition: width 0.3s ease 0s;
         background: linear-gradient(to right, var(--tss-progress-background-color) 0%, var(--tss-primary-background-color) 50%, var(--tss-progress-background-color) 100%);
-        animation: 2s ease 0s infinite normal none running progressLeftToRight;
+        animation: 2.5s ease 0s infinite normal none running progressLeftToRight;
     }
 
 
 @keyframes progressLeftToRight {
     from {
-        left: -30%;
+        left: -100%;
     }
 
     to {
