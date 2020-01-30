@@ -7,8 +7,8 @@ namespace Tesserae.Components
 {
     public class Spinner : ComponentBase<Spinner, HTMLDivElement>
     {
-        private HTMLElement _container;
-        private HTMLElement _label;
+        private readonly HTMLElement _container;
+        private readonly HTMLElement _label;
 
         public Spinner(string text = string.Empty)
         {
@@ -60,6 +60,54 @@ namespace Tesserae.Components
             return _container;
         }
 
+        public Spinner Left()
+        {
+            Position = LabelPosition.Left;
+            return this;
+        }
+        public Spinner Right()
+        {
+            Position = LabelPosition.Right;
+            return this;
+        }
+        public Spinner Above()
+        {
+            Position = LabelPosition.Above;
+            return this;
+        }
+        public Spinner Below()
+        {
+            Position = LabelPosition.Below;
+            return this;
+        }
+
+        public Spinner XSmall()
+        {
+            Size = CircleSize.XSmall;
+            return this;
+        }
+        public Spinner Small()
+        {
+            Size = CircleSize.Small;
+            return this;
+        }
+        public Spinner Medium()
+        {
+            Size = CircleSize.Medium;
+            return this;
+        }
+        public Spinner Large()
+        {
+            Size = CircleSize.Large;
+            return this;
+        }
+
+        public Spinner SetText(string text)
+        {
+            Text = text;
+            return this;
+        }
+
         public enum LabelPosition
         {
             Above,
@@ -74,57 +122,6 @@ namespace Tesserae.Components
             Small,
             Medium,
             Large
-        }
-    }
-
-    public static class SpinnerExtensions
-    {
-        public static Spinner Left(this Spinner spinner)
-        {
-            spinner.Position = Spinner.LabelPosition.Left;
-            return spinner;
-        }
-        public static Spinner Right(this Spinner spinner)
-        {
-            spinner.Position = Spinner.LabelPosition.Right;
-            return spinner;
-        }
-        public static Spinner Above(this Spinner spinner)
-        {
-            spinner.Position = Spinner.LabelPosition.Above;
-            return spinner;
-        }
-        public static Spinner Below(this Spinner spinner)
-        {
-            spinner.Position = Spinner.LabelPosition.Below;
-            return spinner;
-        }
-
-        public static Spinner XSmall(this Spinner spinner)
-        {
-            spinner.Size = Spinner.CircleSize.XSmall;
-            return spinner;
-        }
-        public static Spinner Small(this Spinner spinner)
-        {
-            spinner.Size = Spinner.CircleSize.Small;
-            return spinner;
-        }
-        public static Spinner Medium(this Spinner spinner)
-        {
-            spinner.Size = Spinner.CircleSize.Medium;
-            return spinner;
-        }
-        public static Spinner Large(this Spinner spinner)
-        {
-            spinner.Size = Spinner.CircleSize.Large;
-            return spinner;
-        }
-
-        public static Spinner Text(this Spinner spinner, string text)
-        {
-            spinner.Text = text;
-            return spinner;
         }
     }
 }

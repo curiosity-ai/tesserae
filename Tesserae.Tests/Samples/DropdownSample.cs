@@ -35,7 +35,7 @@ namespace Tesserae.Tests.Samples
                 TextBlock("Usage").MediumPlus(),
                 TextBlock("Basic Dropdowns").Medium(),
                 Stack().Width(40, Unit.Percents).Children(
-                    Label("Standard").Content(Dropdown().Items(
+                    Label("Standard").SetContent(Dropdown().Items(
                             DropdownItem("Header 1").Header(),
                             DropdownItem("1-1"),
                             DropdownItem("1-2"),
@@ -50,7 +50,7 @@ namespace Tesserae.Tests.Samples
                             DropdownItem("2-4"),
                             DropdownItem("2-5")
                         )),
-                    Label("Multi-select").Content(Dropdown().Multi().Items(
+                    Label("Multi-select").SetContent(Dropdown().Multi().Items(
                         DropdownItem("Header 1").Header(),
                         DropdownItem("1-1"),
                         DropdownItem("1-2").Selected(),
@@ -65,7 +65,7 @@ namespace Tesserae.Tests.Samples
                         DropdownItem("2-4").Selected(),
                         DropdownItem("2-5")
                     )),
-                    Label("Validation").Content(d.Items(
+                    Label("Validation").SetContent(d.Items(
                         DropdownItem("Header 1").Header(),
                         DropdownItem("1-1").Selected(),
                         DropdownItem("1-2"),
@@ -80,7 +80,7 @@ namespace Tesserae.Tests.Samples
                         DropdownItem("2-4"),
                         DropdownItem("2-5")
                     )),
-                    Label("Disabled").Content(Dropdown().Disabled().Items(
+                    Label("Disabled").SetContent(Dropdown().Disabled().Items(
                         DropdownItem("Header 1").Header(),
                         DropdownItem("1-1").Selected(),
                         DropdownItem("1-2"),
@@ -95,7 +95,7 @@ namespace Tesserae.Tests.Samples
                         DropdownItem("2-4"),
                         DropdownItem("2-5")
                     )),
-                    Label("Required").Content(Dropdown().Required().Items(
+                    Label("Required").SetContent(Dropdown().Required().Items(
                         DropdownItem("Header 1").Header(),
                         DropdownItem("1-1").Selected(),
                         DropdownItem("1-2"),
@@ -110,8 +110,8 @@ namespace Tesserae.Tests.Samples
                         DropdownItem("2-4"),
                         DropdownItem("2-5")
                     )),
-                    Label("Async 5 seconds delay").Content(Dropdown().Items(GetItemsAsync)),
-                    Label("Async wait Google.com (need CORS)").Content(Dropdown().Items(GetGoogleItemsAsync))
+                    Label("Async 5 seconds delay").SetContent(Dropdown().Items(GetItemsAsync)),
+                    Label("Async wait Google.com (need CORS)").SetContent(Dropdown().Items(GetGoogleItemsAsync))
                 )
             );
             d.Attach((e, _) =>

@@ -62,7 +62,7 @@ namespace Tesserae
 
         public static Toggle Toggle(string onText, string offText) => new Toggle(onText: onText, offText: offText);
 
-        public static Option Option(string label = string.Empty) => new Option(label);
+        public static ChoiceGroup.Option Option(string label = string.Empty) => new ChoiceGroup.Option(label);
 
         public static ChoiceGroup ChoiceGroup(string label = "Pick one") => new ChoiceGroup(label);
 
@@ -80,7 +80,7 @@ namespace Tesserae
 
         public static Nav Nav() => new Nav();
 
-        public static NavLink NavLink(string text = null, string icon = null) => new NavLink(text, icon);
+        public static Nav.NavLink NavLink(string text = null, string icon = null) => new Nav.NavLink(text, icon);
 
         public static Panel Panel() => new Panel();
 
@@ -102,7 +102,7 @@ namespace Tesserae
         
         public static Link Link(string url, string text) => new Link(url, TextBlock(text));
         
-        public static Link Link(string url, string text, string icon) => new Link(url, Button(text).Icon(icon).NoBorder().NoBackground().Padding(0));
+        public static Link Link(string url, string text, string icon) => new Link(url, Button(text).SetIcon(icon).NoBorder().NoBackground().Padding(0));
 
         public static SplitView SplitView() => new SplitView();
     }

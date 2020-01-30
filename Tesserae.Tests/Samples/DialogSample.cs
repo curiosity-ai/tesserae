@@ -7,14 +7,14 @@ namespace Tesserae.Tests.Samples
 {
     public class DialogSample : IComponent
     {
-        private IComponent content;
+        private IComponent _content;
 
         public DialogSample()
         {
             var dialog = Dialog("Lorem Ipsum");
             var response = TextBlock();
 
-            content = Stack().Children(
+            _content = Stack().Children(
                 TextBlock("Dialog").XLarge(),
                 TextBlock("Overview").MediumPlus(),
                 TextBlock("Dialogs are temporary, modal UI overlay that generally provide contextual app information or require user confirmation/input. In most cases, Dialogs block interactions with the web page or application until being explicitly dismissed, and often request action from the user. They are primarily used for lightweight creation or edit tasks, and simple management tasks."),
@@ -46,7 +46,7 @@ namespace Tesserae.Tests.Samples
                     Button("Open YesNoCancel").OnClick((c, ev)       => Dialog("Sample Dialog").YesNoCancel(() => response.Text("Clicked Yes"), () => response.Text("Clicked No"), () => response.Text("Clicked Cancel"))),
                     Button("Open Ok").OnClick((c, ev)                => Dialog("Sample Dialog").Ok(() => response.Text("Clicked Ok"))),
                     Button("Open RetryCancel").OnClick((c, ev)       => Dialog("Sample Dialog").RetryCancel(() => response.Text("Clicked Retry"), () => response.Text("Clicked Cancel")))),
-                    Button("Open Modal YesNo").OnClick((c, ev)       => Dialog("Sample Dialog").NoLightDismiss().Dark().YesNo(() => response.Text("Clicked Yes"), () => response.Text("Clicked No"), y => y.Success().Text("Yes!"), n => n.Danger().Text("Nope"))),
+                    Button("Open Modal YesNo").OnClick((c, ev)       => Dialog("Sample Dialog").NoLightDismiss().Dark().YesNo(() => response.Text("Clicked Yes"), () => response.Text("Clicked No"), y => y.Success().SetText("Yes!"), n => n.Danger().SetText("Nope"))),
                     Button("Open Modal YesNoCancel").OnClick((c, ev) => Dialog("Sample Dialog").NoLightDismiss().Dark().YesNoCancel(() => response.Text("Clicked Yes"), () => response.Text("Clicked No"), () => response.Text("Clicked Cancel"))),
                     Button("Open Modal Ok").OnClick((c, ev)          => Dialog("Sample Dialog").NoLightDismiss().Dark().Ok(() => response.Text("Clicked Ok"))),
                     Button("Open Modal RetryCancel").OnClick((c, ev) => Dialog("Sample Dialog").NoLightDismiss().Dark().RetryCancel(() => response.Text("Clicked Retry"), () => response.Text("Clicked Cancel"))),
@@ -58,13 +58,13 @@ namespace Tesserae.Tests.Samples
                                                 Toggle("Is dark overlay").OnChange((c, ev) => dialog.Dark = c.IsChecked).Checked(dialog.Dark),
                                                 Toggle("Is non-blocking").OnChange((c, ev) => dialog.IsNonBlocking = c.IsChecked),
                                                 Toggle("Hide close button").OnChange((c, ev) => dialog.ShowCloseButton = !c.IsChecked)))
-                      .Footer(Stack().HorizontalReverse()
+                      .SetFooter(Stack().HorizontalReverse()
                                      .Children(Button("Don`t send").AlignEnd().OnClick((c, ev) => dialog.Hide()), Button("Send").Primary().AlignEnd().OnClick((c, ev) => dialog.Hide())));
         }
 
         public HTMLElement Render()
         {
-            return content.Render();
+            return _content.Render();
         }
     }
 }

@@ -7,11 +7,11 @@ namespace Tesserae.Tests.Samples
 {
     public class LabelSample : IComponent
     {
-        private IComponent content;
+        private IComponent _content;
 
         public LabelSample()
         {
-            content = Stack().Children(
+            _content = Stack().Children(
                 TextBlock("Label").XLarge(),
                 TextBlock("Overview").MediumPlus(),
                 TextBlock("Labels give a name or title to a component or group of components. Labels should be in close proximity to the component or group they are paired with. Some components, such as TextField, Dropdown, or Toggle, already have Labels incorporated, but other components may optionally add a Label if it helps inform the user of the component’s purpose."),
@@ -34,13 +34,13 @@ namespace Tesserae.Tests.Samples
                 Label("I'm Label"),
                 Label("I'm a disabled Label").Disabled(),
                 Label("I'm a required Label").Required(),
-                Label("A Label for An Input").Content(TextBox())
+                Label("A Label for An Input").SetContent(TextBox())
             );
         }
 
         public HTMLElement Render()
         {
-            return content.Render();
+            return _content.Render();
         }
     }
 }

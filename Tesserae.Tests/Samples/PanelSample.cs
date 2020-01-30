@@ -2,18 +2,19 @@
 using Tesserae.Components;
 using static Retyped.dom;
 using static Tesserae.UI;
+using Panel = Tesserae.Components.Panel;
 
 namespace Tesserae.Tests.Samples
 {
     public class PanelSample : IComponent
     {
-        private IComponent content;
+        private IComponent _content;
 
         public PanelSample()
         {
             var panel = Panel();
             panel.CanLightDismiss = true;
-            content = Stack().Children(
+            _content = Stack().Children(
                 TextBlock("Panel").XLarge(),
                 TextBlock("Overview").MediumPlus(),
                 TextBlock("Panels are modal UI overlays that provide contextual app information. They often request some kind of creation or management action from the user. Panels are paired with the Overlay component, also known as a Light Dismiss. The Overlay blocks interactions with the app view until dismissed either through clicking or tapping on the Overlay or by selecting a close or completion action within the Panel."),
@@ -42,17 +43,17 @@ namespace Tesserae.Tests.Samples
                     Stack().Children(
                         TextBlock("Sample panel").MediumPlus().SemiBold(),
                         ChoiceGroup("Side:").Options(
-                            Option("Far").Selected().OnSelected((x, e) => panel.Side = PanelSide.Far),
-                            Option("Near").OnSelected((x, e) => panel.Side = PanelSide.Near)
+                            Option("Far").Selected().OnSelected((x, e) => panel.Side = Panel.PanelSide.Far),
+                            Option("Near").OnSelected((x, e) => panel.Side = Panel.PanelSide.Near)
                         ),
                         Toggle("Light Dismiss").OnChange((s, e) => panel.CanLightDismiss = s.IsChecked).Checked(panel.CanLightDismiss),
                         ChoiceGroup("Size:").Options(
-                            Option("Small").Selected().OnSelected((x, e) => panel.Size = PanelSize.Small),
-                            Option("Medium").OnSelected((x, e) => panel.Size = PanelSize.Medium),
-                            Option("Large").OnSelected((x, e) => panel.Size = PanelSize.Large),
-                            Option("LargeFixed").OnSelected((x, e) => panel.Size = PanelSize.LargeFixed),
-                            Option("ExtraLarge").OnSelected((x, e) => panel.Size = PanelSize.ExtraLarge),
-                            Option("FullWidth").OnSelected((x, e) => panel.Size = PanelSize.FullWidth)
+                            Option("Small").Selected().OnSelected((x, e) => panel.Size = Panel.PanelSize.Small),
+                            Option("Medium").OnSelected((x, e) => panel.Size = Panel.PanelSize.Medium),
+                            Option("Large").OnSelected((x, e) => panel.Size = Panel.PanelSize.Large),
+                            Option("LargeFixed").OnSelected((x, e) => panel.Size = Panel.PanelSize.LargeFixed),
+                            Option("ExtraLarge").OnSelected((x, e) => panel.Size = Panel.PanelSize.ExtraLarge),
+                            Option("FullWidth").OnSelected((x, e) => panel.Size = Panel.PanelSize.FullWidth)
                         ),
                         Toggle("Is non-blocking").OnChange((s, e) => panel.IsNonBlocking = s.IsChecked).Checked(panel.IsNonBlocking),
                         Toggle("Is dark overlay").OnChange((s, e) => panel.Dark = s.IsChecked).Checked(panel.Dark),
@@ -64,7 +65,7 @@ namespace Tesserae.Tests.Samples
 
         public HTMLElement Render()
         {
-            return content.Render();
+            return _content.Render();
         }
     }
 }

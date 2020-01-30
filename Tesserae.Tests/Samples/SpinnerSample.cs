@@ -41,18 +41,18 @@ namespace Tesserae.Tests.Samples
                     Stack().Width(400, Unit.Pixels).Children(
                         TextBlock("Usage").MediumPlus(),
                         TextBlock("Spinner sizes").Medium(),
-                        Label("Extra small spinner").Content(Spinner().XSmall()).AlignCenter(),
-                        Label("Small spinner").Content(Spinner().Small()).AlignCenter(),
-                        Label("Medium spinner").Content(Spinner().Medium()).AlignCenter(),
-                        Label("Large spinner").Content(Spinner().Large()).AlignCenter()
+                        Label("Extra small spinner").SetContent(Spinner().XSmall()).AlignCenter(),
+                        Label("Small spinner").SetContent(Spinner().Small()).AlignCenter(),
+                        Label("Medium spinner").SetContent(Spinner().Medium()).AlignCenter(),
+                        Label("Large spinner").SetContent(Spinner().Large()).AlignCenter()
                     ))
                 .Section(
                     Stack().Width(400, Unit.Pixels).Children(
                         TextBlock("Spinner label positioning").Medium(),
-                        Label("Spinner with label positioned below").Content(Spinner("I am definitely loading...").Below()),
-                        Label("Spinner with label positioned above").Content(Spinner("Seriously, still loading...").Above()),
-                        Label("Spinner with label positioned to right").Content(Spinner("Wait, wait...").Right()),
-                        Label("Spinner with label positioned to left").Content(Spinner("Nope, still loading...").Left())
+                        Label("Spinner with label positioned below").SetContent(Spinner("I am definitely loading...").Below()),
+                        Label("Spinner with label positioned above").SetContent(Spinner("Seriously, still loading...").Above()),
+                        Label("Spinner with label positioned to right").SetContent(Spinner("Wait, wait...").Right()),
+                        Label("Spinner with label positioned to left").SetContent(Spinner("Nope, still loading...").Left())
                     ));
         }
 

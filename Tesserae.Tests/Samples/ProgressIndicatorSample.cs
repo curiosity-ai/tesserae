@@ -39,11 +39,11 @@ namespace Tesserae.Tests.Samples
                     Stack().Width(400, Unit.Pixels).Children(
                         TextBlock("Usage").MediumPlus(),
                         TextBlock("States").Medium(),
-                        Label("Empty").Content(ProgressIndicator().Progress(0)).AlignCenter(),
-                        Label("30%").Content(ProgressIndicator().Progress(30)).AlignCenter(),
-                        Label("60%").Content(ProgressIndicator().Progress(60)).AlignCenter(),
-                        Label("Full").Content(ProgressIndicator().Progress(100)).AlignCenter(),
-                        Label("Indeterminate").Content(ProgressIndicator().Indeterminated()).AlignCenter()
+                        Label("Empty").SetContent(ProgressIndicator().Progress(0)).AlignCenter(),
+                        Label("30%").SetContent(ProgressIndicator().Progress(30)).AlignCenter(),
+                        Label("60%").SetContent(ProgressIndicator().Progress(60)).AlignCenter(),
+                        Label("Full").SetContent(ProgressIndicator().Progress(100)).AlignCenter(),
+                        Label("Indeterminate").SetContent(ProgressIndicator().Indeterminated()).AlignCenter()
                     ));
         }
 

@@ -7,11 +7,11 @@ namespace Tesserae.Tests.Samples
 {
     public class TextBlockSample : IComponent
     {
-        private IComponent content;
+        private IComponent _content;
 
         public TextBlockSample()
         {
-            content = Stack().Children(
+            _content = Stack().Children(
                 TextBlock("TextBlock").XLarge(),
                 TextBlock("Overview").MediumPlus(),
                 TextBlock("Text is a component for displaying text. You can use Text to standardize text across your web app."),
@@ -38,7 +38,7 @@ namespace Tesserae.Tests.Samples
 
         public HTMLElement Render()
         {
-            return content.Render();
+            return _content.Render();
         }
     }
 }

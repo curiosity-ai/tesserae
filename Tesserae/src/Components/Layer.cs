@@ -45,19 +45,18 @@ namespace Tesserae.Components
 
     public class Layer : ComponentBase<Layer, HTMLDivElement>
     {
-        #region Fields
-
-        protected IComponent _Content;
-        protected HTMLElement _ContentHtml;
-        private HTMLElement _RenderedContent;
+        protected IComponent _content;
+        protected HTMLElement _contentHtml;
+        private HTMLElement _renderedContent;
 
         private LayerHost _Host;
 
         private bool _IsVisible;
+        public Layer()
+        {
+            InnerElement = Div(_("tss-layer-base"));
+        }
 
-        #endregion
-
-        #region Properties
         public LayerHost Host
         {
             get { return _Host; }
@@ -72,31 +71,14 @@ namespace Tesserae.Components
             }
         }
 
-        //protected HTMLElement ContentHtml
-        //{
-        //    get { return _ContentHtml; }
-        //    set
-        //    {
-        //        if (value != _ContentHtml)
-        //        {
-        //            _ContentHtml = value;
-        //            if (IsVisible)
-        //            {
-        //                Hide();
-        //                Show();
-        //            }
-        //        }
-        //    }
-        //}
-
         public virtual IComponent Content
         {
-            get { return _Content; }
+            get { return _content; }
             set
             {
-                if (value != _Content)
+                if (value != _content)
                 {
-                    _Content = value;
+                    _content = value;
                     if (IsVisible)
                     {
                         Hide();
@@ -119,40 +101,27 @@ namespace Tesserae.Components
                 }
             }
         }
-
-        #endregion
-
-        public Layer()
-        {
-            InnerElement = Div(_("tss-layer-base"));
-        }
-
+        
         public override HTMLElement Render()
         {
             return InnerElement;
         }
 
-        protected virtual HTMLElement BuildRenderedContent()
-        {
-            if (_ContentHtml is object) return _ContentHtml;
-            return Div(_("tss-layer-content"), _Content.Render());
-        }
-
         public virtual void Show()
         {
-            if (_Content is object || _ContentHtml is object)
+            if (_content is object || _contentHtml is object)
             {
                 if (_Host == null)
                 {
-                    _RenderedContent = Div(_("tss-layer fade"), BuildRenderedContent());
-                    _RenderedContent.style.zIndex = Layers.PushLayer(_RenderedContent);
-                    document.body.appendChild(_RenderedContent);
-                    window.requestAnimationFrame((_) => _RenderedContent?.classList.add("show"));
+                    _renderedContent = Div(_("tss-layer fade"), BuildRenderedContent());
+                    _renderedContent.style.zIndex = Layers.PushLayer(_renderedContent);
+                    document.body.appendChild(_renderedContent);
+                    window.requestAnimationFrame((_) => _renderedContent?.classList.add("show"));
                 }
                 else
                 {
-                    _RenderedContent = BuildRenderedContent();
-                    _Host.InnerElement.appendChild(_RenderedContent);
+                    _renderedContent = BuildRenderedContent();
+                    _Host.InnerElement.appendChild(_renderedContent);
                 }
 
                 _IsVisible = true;
@@ -161,32 +130,33 @@ namespace Tesserae.Components
 
         public virtual void Hide(Action onHidden = null)
         {
-            if (_RenderedContent is object)
+            if (_renderedContent is object)
             {
                 if (_Host == null)
                 {
-                    Layers.PopLayer(_RenderedContent);
-                    _RenderedContent.classList.remove("show");
-                    var tr = _RenderedContent;
+                    Layers.PopLayer(_renderedContent);
+                    _renderedContent.classList.remove("show");
+                    var tr = _renderedContent;
                     window.setTimeout((_) => { document.body.removeChild(tr); onHidden?.Invoke(); }, 150);
                 }
                 else
                 {
-                    _Host.InnerElement.removeChild(_RenderedContent);
+                    _Host.InnerElement.removeChild(_renderedContent);
                 }
-                _RenderedContent = null;
+                _renderedContent = null;
                 _IsVisible = false;
             }
+        }
+
+        protected virtual HTMLElement BuildRenderedContent()
+        {
+            if (_contentHtml is object) return _contentHtml;
+            return Div(_("tss-layer-content"), _content.Render());
         }
     }
 
     public static class LayerExtensions
     {
-        //public static Layer Content(this Layer layer, HTMLElement content)
-        //{
-        //    layer.ContentHtml = content;
-        //    return layer;
-        //}
         public static T Content<T>(this T layer, IComponent content) where T : Layer
         {
             layer.Content = content;

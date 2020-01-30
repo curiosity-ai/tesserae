@@ -5,73 +5,48 @@ using static Retyped.dom;
 
 namespace Tesserae.Components
 {
-    class TranslationPoint
-    {
-        public double X { get; set; }
-        public double Y { get; set; }
-
-        static Regex regex = new Regex("translate\\(([-0-9.].*?)px,([-0-9.].*?)px\\)");
-        static Regex regexShort = new Regex("translate\\(([-0-9.].*?)px\\)");
-
-        public TranslationPoint(double x = 0, double y = 0)
-        {
-            X = x;
-            Y = y;
-        }
-
-        public static TranslationPoint From(string translation)
-        {
-            try
-            {
-                var m = regex.Match(translation);
-                return new TranslationPoint(double.Parse(m.Groups[1].Value), double.Parse(m.Groups[2].Value));
-            }
-            catch
-            {
-                var m = regexShort.Match(translation);
-                return new TranslationPoint(double.Parse(m.Groups[1].Value), double.Parse(m.Groups[1].Value));
-            }
-        }
-
-        public string To()
-        {
-            return $"translate({X}px,{Y}px)";
-        }
-    }
-
     public class Modal : Layer
     {
-        protected HTMLElement _Modal;
-        private HTMLElement _CloseButton;
-        private HTMLElement _ModalHeader;
-        private HTMLElement _ModalOverlay;
-        private HTMLElement _ModalContent;
-        private HTMLElement _ModalCommand;
+        private readonly HTMLElement _closeButton;
+        private readonly HTMLElement _modalHeader;
+        private readonly HTMLElement _modalOverlay;
+        private readonly HTMLElement _modalContent;
+        private readonly HTMLElement _modalCommand;
 
-        private bool isDragged;
-        private TranslationPoint startPoint;
+        private bool _isDragged;
+        private TranslationPoint _startPoint;
 
+        protected readonly HTMLElement _modal;
 
-        #region Properties
+        public Modal(string header = string.Empty)
+        {
+            _modalHeader = Div(_("tss-modal-header", text: header));
+            _closeButton = Button(_("fal fa-times", el: el => el.onclick = (e) => Hide()));
+            _modalCommand = Div(_("tss-modal-command"), _modalHeader, _closeButton);
+            _modalContent = Div(_("tss-modal-content"));
+            _modal = Div(_("tss-modal", styles: s => s.transform = "translate(0px,0px)"), _modalCommand, _modalContent);
+            _modalOverlay = Div(_("tss-modal-overlay"));
+            _contentHtml = Div(_("tss-modal-container"), _modalOverlay, _modal);
+        }
 
         public string Header
         {
-            get { return _ModalHeader.innerText; }
-            set { _ModalHeader.innerText = value; }
+            get { return _modalHeader.innerText; }
+            set { _modalHeader.innerText = value; }
         }
 
         public override IComponent Content
         {
-            get { return _Content; }
+            get { return _content; }
             set
             {
-                if (value != _Content)
+                if (value != _content)
                 {
-                    ClearChildren(_ModalContent); ;
-                    _Content = value;
-                    if (_Content != null)
+                    ClearChildren(_modalContent); ;
+                    _content = value;
+                    if (_content != null)
                     {
-                        _ModalContent.appendChild(_Content.Render());
+                        _modalContent.appendChild(_content.Render());
                     }
                 }
             }
@@ -79,20 +54,20 @@ namespace Tesserae.Components
 
         public bool CanLightDismiss
         {
-            get { return _ModalOverlay.classList.contains("tss-modal-lightDismiss"); }
+            get { return _modalOverlay.classList.contains("tss-modal-lightDismiss"); }
             set
             {
                 if (value != CanLightDismiss)
                 {
                     if (value)
                     {
-                        _ModalOverlay.classList.add("tss-modal-lightDismiss");
-                        _ModalOverlay.addEventListener("click", OnCloseClick);
+                        _modalOverlay.classList.add("tss-modal-lightDismiss");
+                        _modalOverlay.addEventListener("click", OnCloseClick);
                     }
                     else
                     {
-                        _ModalOverlay.classList.remove("tss-modal-lightDismiss");
-                        _ModalOverlay.removeEventListener("click", OnCloseClick);
+                        _modalOverlay.classList.remove("tss-modal-lightDismiss");
+                        _modalOverlay.removeEventListener("click", OnCloseClick);
                     }
                 }
             }
@@ -100,18 +75,18 @@ namespace Tesserae.Components
 
         public bool Dark
         {
-            get { return _ContentHtml.classList.contains("dark"); }
+            get { return _contentHtml.classList.contains("dark"); }
             set
             {
                 if (value != Dark)
                 {
                     if (value)
                     {
-                        _ContentHtml.classList.add("dark");
+                        _contentHtml.classList.add("dark");
                     }
                     else
                     {
-                        _ContentHtml.classList.remove("dark");
+                        _contentHtml.classList.remove("dark");
                     }
                 }
             }
@@ -119,21 +94,21 @@ namespace Tesserae.Components
 
         public bool IsDraggable
         {
-            get { return _Modal.classList.contains("tss-modal-draggable"); }
+            get { return _modal.classList.contains("tss-modal-draggable"); }
             set
             {
                 if (value != IsDraggable)
                 {
                     if (value)
                     {
-                        _Modal.classList.add("tss-modal-draggable");
-                        _Modal.addEventListener("mousedown", OnDragMouseDown);
+                        _modal.classList.add("tss-modal-draggable");
+                        _modal.addEventListener("mousedown", OnDragMouseDown);
 
                     }
                     else
                     {
-                        _Modal.classList.remove("tss-modal-draggable");
-                        _Modal.removeEventListener("mousedown", OnDragMouseDown);
+                        _modal.classList.remove("tss-modal-draggable");
+                        _modal.removeEventListener("mousedown", OnDragMouseDown);
                     }
                 }
             }
@@ -141,19 +116,19 @@ namespace Tesserae.Components
 
         public bool IsNonBlocking
         {
-            get { return _ContentHtml.classList.contains("tss-modal-modeless"); }
+            get { return _contentHtml.classList.contains("tss-modal-modeless"); }
             set
             {
                 if (value != IsNonBlocking)
                 {
                     if (value)
                     {
-                        _ContentHtml.classList.add("tss-modal-modeless");
+                        _contentHtml.classList.add("tss-modal-modeless");
                         if (IsVisible) document.body.style.overflowY = "";
                     }
                     else
                     {
-                        _ContentHtml.classList.remove("tss-modal-modeless");
+                        _contentHtml.classList.remove("tss-modal-modeless");
                         if (IsVisible) document.body.style.overflowY = "hidden";
                     }
                 }
@@ -162,36 +137,19 @@ namespace Tesserae.Components
 
         public bool ShowCloseButton
         {
-            get { return _CloseButton.style.display != "none"; }
+            get { return _closeButton.style.display != "none"; }
             set
             {
-                if (value) _CloseButton.style.display = "";
-                else _CloseButton.style.display = "none";
+                if (value) _closeButton.style.display = "";
+                else _closeButton.style.display = "none";
             }
 
         }
 
         public Modal CenterContent()
         {
-            _ModalContent.classList.add("tss-modal-centered-content");
+            _modalContent.classList.add("tss-modal-centered-content");
             return this;
-        }
-
-        #endregion
-
-        public Modal(string header = string.Empty)
-        {
-            _ModalHeader = Div(_("tss-modal-header", text: header));
-            _CloseButton = Button(_("fal fa-times", el: el => el.onclick = (e) => Hide()));
-            _ModalCommand = Div(_("tss-modal-command"), _ModalHeader, _CloseButton);
-            _ModalContent = Div(_("tss-modal-content"));
-            _Modal = Div(_("tss-modal", styles: s => s.transform = "translate(0px,0px)"), _ModalCommand, _ModalContent);
-            _ModalOverlay = Div(_("tss-modal-overlay"));
-            _ContentHtml = Div(_("tss-modal-container"), _ModalOverlay, _Modal);
-        }
-        protected override HTMLElement BuildRenderedContent()
-        {
-            return _ContentHtml;
         }
 
         public override void Show()
@@ -208,6 +166,11 @@ namespace Tesserae.Components
             });
         }
 
+        protected override HTMLElement BuildRenderedContent()
+        {
+            return _contentHtml;
+        }
+
         private void OnCloseClick(object ev)
         {
             Hide();
@@ -215,25 +178,25 @@ namespace Tesserae.Components
 
         private void OnDragMouseMove(object ev)
         {
-            if (isDragged)
+            if (_isDragged)
             {
                 var e = ev as MouseEvent;
-                startPoint.X += e.movementX;
-                startPoint.Y += e.movementY;
-                _Modal.style.transform = startPoint.To();
+                _startPoint.X += e.movementX;
+                _startPoint.Y += e.movementY;
+                _modal.style.transform = _startPoint.To();
             }
         }
 
         private void OnDragMouseUp(object ev)
         {
             var e = ev as MouseEvent;
-            if (isDragged && e.button == 0)
+            if (_isDragged && e.button == 0)
             {
                 document.body.removeEventListener("mouseup", OnDragMouseUp);
                 document.body.removeEventListener("mousemove", OnDragMouseMove);
                 document.body.removeEventListener("mouseleave", OnDragMouseUp);
                 document.body.style.userSelect = "";
-                isDragged = false;
+                _isDragged = false;
             }
         }
 
@@ -245,9 +208,43 @@ namespace Tesserae.Components
                 document.body.addEventListener("mouseup", OnDragMouseUp);
                 document.body.addEventListener("mousemove", OnDragMouseMove);
                 document.body.addEventListener("mouseleave", OnDragMouseUp);
-                _Modal.style.userSelect = "none";
-                isDragged = true;
-                startPoint = TranslationPoint.From(_Modal.style.transform);
+                _modal.style.userSelect = "none";
+                _isDragged = true;
+                _startPoint = TranslationPoint.From(_modal.style.transform);
+            }
+        }
+
+        class TranslationPoint
+        {
+            static Regex regex = new Regex("translate\\(([-0-9.].*?)px,([-0-9.].*?)px\\)");
+            static Regex regexShort = new Regex("translate\\(([-0-9.].*?)px\\)");
+
+            public TranslationPoint(double x = 0, double y = 0)
+            {
+                X = x;
+                Y = y;
+            }
+
+            public double X { get; set; }
+            public double Y { get; set; }
+
+            public static TranslationPoint From(string translation)
+            {
+                try
+                {
+                    var m = regex.Match(translation);
+                    return new TranslationPoint(double.Parse(m.Groups[1].Value), double.Parse(m.Groups[2].Value));
+                }
+                catch
+                {
+                    var m = regexShort.Match(translation);
+                    return new TranslationPoint(double.Parse(m.Groups[1].Value), double.Parse(m.Groups[1].Value));
+                }
+            }
+
+            public string To()
+            {
+                return $"translate({X}px,{Y}px)";
             }
         }
 

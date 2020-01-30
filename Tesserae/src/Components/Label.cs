@@ -6,31 +6,38 @@ namespace Tesserae.Components
 {
     public class Label : TextBlock
     {
-        private static int _LabelForId = 0;
+        private static int _labelForId = 0;
 
-        private HTMLLabelElement _Label;
-        private HTMLDivElement _Content;
+        private readonly HTMLLabelElement _label;
+        private readonly HTMLDivElement _content;
+        
+        public Label(string text = string.Empty)
+        {
+            _label = Label(_(text: text));
+            _content = Div(_());
+            InnerElement = Div(_("tss-label tss-fontsize-small tss-fontweight-semibold"), _label, _content);
+        }
 
         public override string Text
         {
-            get { return _Label.innerText; }
-            set { _Label.innerText = value; }
+            get { return _label.innerText; }
+            set { _label.innerText = value; }
         }
 
         public override bool IsRequired
         {
-            get { return _Label.classList.contains("tss-required"); }
+            get { return _label.classList.contains("tss-required"); }
             set
             {
                 if (value != IsInvalid)
                 {
                     if (value)
                     {
-                        _Label.classList.add("tss-required");
+                        _label.classList.add("tss-required");
                     }
                     else
                     {
-                        _Label.classList.remove("tss-required");
+                        _label.classList.remove("tss-required");
                     }
                 }
             }
@@ -38,20 +45,20 @@ namespace Tesserae.Components
 
         public bool IsInline
         {
-            get { return _Label.style.display == "inline-block"; }
+            get { return _label.style.display == "inline-block"; }
             set
             {
                 if (value != IsInline)
                 {
                     if (value)
                     {
-                        _Label.style.display = "inline-block";
-                        _Content.style.display = "inline-block";
+                        _label.style.display = "inline-block";
+                        _content.style.display = "inline-block";
                     }
                     else
                     {
-                        _Label.style.display = "block";
-                        _Content.style.display = "block";
+                        _label.style.display = "block";
+                        _content.style.display = "block";
                     }
                 }
             }
@@ -62,43 +69,32 @@ namespace Tesserae.Components
             set
             {
                 var id = string.Empty;
-                ClearChildren(_Content);
+                ClearChildren(_content);
                 if (value != null)
                 {
-                    _Content.appendChild(value.Render());
+                    _content.appendChild(value.Render());
 
                     if ((value as dynamic).InnerElement is HTMLInputElement el)
                     {
-                        id = $"elementForLabelN{_LabelForId}";
-                        _LabelForId++;
+                        id = $"elementForLabelN{_labelForId}";
+                        _labelForId++;
                         el.id = id;
                     }
                 }
 
-                _Label.htmlFor = id;
+                _label.htmlFor = id;
             }
         }
-
-        public Label(string text = string.Empty)
+        public Label SetContent( IComponent content)
         {
-            _Label = Label(_(text: text));
-            _Content = Div(_());
-            InnerElement = Div(_("tss-label tss-fontsize-small tss-fontweight-semibold"), _Label, _Content);
-        }
-    }
-
-    public static class LabelExtensions
-    {
-        public static Label Content(this Label label, IComponent content)
-        {
-            label.Content = content;
-            return label;
+            Content = content;
+            return this;
         }
 
-        public static Label Inline(this Label label)
+        public Label Inline()
         {
-            label.IsInline = true;
-            return label;
+            IsInline = true;
+            return this;
         }
     }
 }

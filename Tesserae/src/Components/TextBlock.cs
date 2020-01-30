@@ -6,7 +6,11 @@ namespace Tesserae.Components
 {
     public class TextBlock : ComponentBase<TextBlock, HTMLElement>, IHasTextSize
     {
-        #region Properties
+        public TextBlock(string text = string.Empty)
+        {
+            InnerElement = Div(_("tss-textBlock tss-fontsize-small tss-fontweight-regular", text: text));
+            AttachClick();
+        }
 
         public bool IsEnabled
         {
@@ -226,14 +230,6 @@ namespace Tesserae.Components
             {
                 InnerElement.style.cursor = value;
             }
-        }
-
-        #endregion
-
-        public TextBlock(string text = string.Empty)
-        {
-            InnerElement = Div(_("tss-textBlock tss-fontsize-small tss-fontweight-regular", text: text));
-            AttachClick();
         }
 
         public override HTMLElement Render()
