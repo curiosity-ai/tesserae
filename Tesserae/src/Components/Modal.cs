@@ -146,15 +146,24 @@ namespace Tesserae.Components
 
         }
 
+        public Modal CenterContent()
+        {
+            _ModalContent.classList.add("tss-modal-centered-content");
+            return this;
+        }
+
         public override void Show()
         {
             if (!IsNonBlocking) document.body.style.overflowY = "hidden";
             base.Show();
         }
-        public override void Hide()
+        public override void Hide(Action onHidden = null)
         {
-            base.Hide();
-            if (!IsNonBlocking) document.body.style.overflowY = "";
+            base.Hide(() =>
+            {
+                if (!IsNonBlocking) document.body.style.overflowY = "";
+                onHidden?.Invoke();
+            });
         }
 
         protected override HTMLElement BuildRenderedContent()
@@ -238,6 +247,8 @@ namespace Tesserae.Components
                 return $"translate({X}px,{Y}px)";
             }
         }
+
+
     }
 
     public static class ModalExtensions

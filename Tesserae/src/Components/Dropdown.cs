@@ -233,14 +233,14 @@ namespace Tesserae.Components
             }, 100);
         }
 
-        public override void Hide()
+        public override void Hide(Action onHidden = null)
         {
             document.removeEventListener("click", OnWindowClick);
             document.removeEventListener("dblclick", OnWindowClick);
             document.removeEventListener("contextmenu", OnWindowClick);
             document.removeEventListener("wheel", OnWindowClick);
             document.removeEventListener("keydown", OnPopupKeyDown);
-            base.Hide();
+            base.Hide(onHidden);
             if (_isChanged) RaiseOnChange(this);
         }
 
@@ -443,7 +443,7 @@ namespace Tesserae.Components
                     {
                         if (value) InnerElement.classList.add("selected");
                         else InnerElement.classList.remove("selected");
-                        if (OnSelect != null) OnSelect(this, this);
+                        OnSelect?.Invoke(this, this);
                     }
                 }
             }

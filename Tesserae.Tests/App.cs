@@ -51,13 +51,15 @@ namespace Tesserae.Tests
                                                 NavLink("Progress").Expanded()
                                                                    .SmallPlus()
                                                                    .SemiBold()
-                                                                   .Links(NavLink("Spinner").OnSelected((s, e) => Show(new SpinnerSample()))),
+                                                                   .Links(NavLink("Spinner").OnSelected((s, e) => Show(new SpinnerSample())))
+                                                                   .Links(NavLink("Progress Indicator").OnSelected((s, e) => Show(new ProgressIndicatorSample()))),
                                                 NavLink("Surfaces").Expanded()
                                                                    .SmallPlus()
                                                                    .SemiBold()
                                                                    .Links(NavLink("Dialog").OnSelected((s, e) => Show(new DialogSample())),
                                                                           NavLink("Modal").OnSelected((s, e)  => Show(new ModalSample())),
-                                                                          NavLink("Panel").OnSelected((s, e)  => Show(new PanelSample()))
+                                                                          NavLink("Panel").OnSelected((s, e)  => Show(new PanelSample())),
+                                                                          NavLink("Progress Modal").OnSelected((s, e) => Show(new ProgressModalSample())) 
                                                 ),
                                                 NavLink("Utilities").Expanded()
                                                                     .SmallPlus()

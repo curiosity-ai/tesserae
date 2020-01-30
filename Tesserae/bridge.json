@@ -75,6 +75,7 @@
         "bridge/assets/css/tesserae.layer.css",
         "bridge/assets/css/tesserae.panel.css",
         "bridge/assets/css/tesserae.pivot.css",
+        "bridge/assets/css/tesserae.progressindicator.css",
         "bridge/assets/css/tesserae.modal.css",
         "bridge/assets/css/tesserae.dialog.css",
         "bridge/assets/css/tesserae.nav.css",

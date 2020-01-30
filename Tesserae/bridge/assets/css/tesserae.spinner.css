@@ -2,7 +2,7 @@
 .tss-spinner {
     border-radius: 50%;
     border: 1.5px solid;
-    border-color: var(--tss-primary-background-color) rgb(199, 224, 244) rgb(199, 224, 244);
+    border-color: var(--tss-primary-background-color) var(--tss-progress-background-color) var(--tss-progress-background-color); /*rgb(199, 224, 244) rgb(199, 224, 244);*/
     border-image: none 100% / 1 / 0 stretch;
     animation-name: tss-spinner-animation;
     animation-duration: 1.3s;
@@ -36,19 +36,19 @@
     justify-content: center;
 }
 
-    .tss-spinner-container.tss-spinner-position-left {
+    .tss-spinner-container .tss-spinner-position-left {
         flex-direction: row-reverse;
     }
 
-    .tss-spinner-container.tss-spinner-position-right {
+    .tss-spinner-container .tss-spinner-position-right {
         flex-direction: row;
     }
 
-    .tss-spinner-container.tss-spinner-position-above {
+    .tss-spinner-container .tss-spinner-position-above {
         flex-direction: column-reverse;
     }
 
-    .tss-spinner-container.tss-spinner-position-below {
+    .tss-spinner-container .tss-spinner-position-below {
         flex-direction: column;
     }
 
