@@ -5,22 +5,27 @@ namespace Tesserae.Components
 {
     public class CheckBox : ComponentBase<CheckBox, HTMLInputElement>
     {
-        #region Fields
+        private readonly HTMLSpanElement _checkSpan;
+        private readonly HTMLLabelElement _label;
 
-        private HTMLSpanElement _CheckSpan;
-        private HTMLLabelElement _Label;
-
-        #endregion
-
-        #region Properties
+        public CheckBox(string text = string.Empty)
+        {
+            InnerElement = CheckBox(_("tss-checkbox"));
+            _checkSpan = Span(_("tss-checkbox-mark"));
+            _label = Label(_("tss-checkbox-container", text: text), InnerElement, _checkSpan);
+            AttachClick();
+            AttachChange();
+            AttachFocus();
+            AttachBlur();
+        }
 
         /// <summary>
         /// Gets or sets button text
         /// </summary>
         public string Text
         {
-            get { return _Label.innerText; }
-            set { _Label.innerText = value; }
+            get { return _label.innerText; }
+            set { _label.innerText = value; }
         }
 
         /// <summary>
@@ -28,18 +33,18 @@ namespace Tesserae.Components
         /// </summary>
         public bool IsEnabled
         {
-            get { return !_Label.classList.contains("disabled"); }
+            get { return !_label.classList.contains("disabled"); }
             set
             {
                 if (value != IsEnabled)
                 {
                     if (value)
                     {
-                        _Label.classList.remove("disabled");
+                        _label.classList.remove("disabled");
                     }
                     else
                     {
-                        _Label.classList.add("disabled");
+                        _label.classList.add("disabled");
                     }
                 }
             }
@@ -60,22 +65,9 @@ namespace Tesserae.Components
             }
         }
 
-        #endregion
-
-        public CheckBox(string text = string.Empty)
-        {
-            InnerElement = CheckBox(_("tss-checkbox"));
-            _CheckSpan = Span(_("tss-checkbox-mark"));
-            _Label = Label(_("tss-checkbox-container", text: text), InnerElement, _CheckSpan);
-            AttachClick();
-            AttachChange();
-            AttachFocus();
-            AttachBlur();
-        }
-
         public override HTMLElement Render()
         {
-            return _Label;
+            return _label;
         }
     }
 
