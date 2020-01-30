@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Tesserae.HTML;
@@ -10,23 +11,19 @@ namespace Tesserae.Components
     public class BasicList : IContainer<BasicList, IComponent>
     {
         private const int InitialPagesToRenderInAdvanceCount = 3;
-        private const int LoadBoundaryTolerance              = 10;
 
-        private readonly HTMLElement _innerElement;
         private readonly int _rowsPerPage;
-        private readonly int _columnsPerRow;
         private readonly List<IComponent> _components;
         private readonly int _componentsCount;
-        private readonly int _pagesCount;
         private readonly int _componentsPerPage;
         private readonly string _componentHeightPercentage;
         private readonly string _componentWidthPercentage;
-        private readonly int _initialComponentsToRenderCount;
 
+        private HTMLElement _innerElement;
         private int _currentPage;
-        private int _renderedComponentsHeight;
         private double _currentScrollPosition;
-        private HTMLDivElement _bottomPaddingDiv;
+        private HTMLDivElement _bottomEmptyDiv;
+        private int _componentHeightPixels;
 
         public BasicList(
             IEnumerable<IComponent> components,
@@ -34,69 +31,70 @@ namespace Tesserae.Components
             int columnsPerRow = 4,
             int containerHeight = 250)
         {
-            _rowsPerPage   = rowsPerPage;
-            _columnsPerRow = columnsPerRow;
-            _components    = components.ToList();
+            _rowsPerPage = rowsPerPage;
+            _components  = components.ToList();
 
             _componentsCount   = _components.Count;
-            _componentsPerPage = _rowsPerPage * _columnsPerRow;
+            _componentsPerPage = _rowsPerPage * columnsPerRow;
 
             string GetComponentSize(int numberOfItems) => $"{100 / numberOfItems}%";
 
             _componentHeightPercentage = GetComponentSize(_rowsPerPage);
-            _componentWidthPercentage  = GetComponentSize(_columnsPerRow);
+            _componentWidthPercentage  = GetComponentSize(columnsPerRow);
 
-            _pagesCount = (int)Ceiling((double)_componentsCount / _componentsPerPage);
+            var pagesCount = (int)Ceiling((double)_componentsCount / _componentsPerPage);
 
-            var renderPagesInAdvance = _pagesCount > (InitialPagesToRenderInAdvanceCount - 1);
+            var renderPagesInAdvance = pagesCount > (InitialPagesToRenderInAdvanceCount - 1);
 
-            _initialComponentsToRenderCount = renderPagesInAdvance ?
+            var initialComponentsToRenderCount = renderPagesInAdvance ?
                 _componentsPerPage * InitialPagesToRenderInAdvanceCount
                 : _componentsPerPage;
 
-            _innerElement     = CreateBasicListContainer(containerHeight);
-            _bottomPaddingDiv = Div(_());
+            CreateBasicListContainer(containerHeight);
+            CreateBottomEmptyDiv();
+            AddBottomEmptyDivToBasicListContainer();
+            RenderComponents(initialComponentsToRenderCount);
 
-            _innerElement.appendChild(_bottomPaddingDiv);
-
-            RenderComponents(_initialComponentsToRenderCount);
-
-            CreateBottomPaddingDivHeight();
-
-            _currentPage = renderPagesInAdvance ?
+            SetCurrentPage(renderPagesInAdvance ?
                 InitialPagesToRenderInAdvanceCount
-                : 1;
+                : 1);
 
-            AttachOnScrollEvent();
+            OnLastComponentMounted(
+                SetComponentHeightPixels,
+                SetInitialBottomEmptyDivHeight);
+
+            AttachBasicListContainerOnScrollEvent();
         }
 
-        public HTMLElement Render()
-        {
-            return _innerElement;
-        }
+        private int ComponentsRenderedCount => _currentPage * _componentsPerPage;
 
-        public void Add(IComponent component)
-        {
-            _components.Add(component);
-        }
+        private int RenderedComponentsHeight => (ComponentsRenderedCount / _rowsPerPage) * _componentHeightPixels;
 
-        public void Clear()
-        {
-            _components.Clear();
-        }
+        public HTMLElement Render() => _innerElement;
+
+        public void Add(IComponent component) => _components.Add(component);
+
+        public void Clear() => _components.Clear();
 
         public void Replace(IComponent newComponent, IComponent oldComponent)
         {
         }
 
-        private static HTMLDivElement CreateBasicListContainer(int containerHeight)
+        private static HTMLDivElement CreateEmptyDiv() => Div(_());
+
+        private void CreateBasicListContainer(int containerHeight)
         {
-            return Div(_("tss-basiclist",
-                styles: cssStyleDeclaration =>
-                {
-                    cssStyleDeclaration.height = $"{containerHeight}px";
-                }));
+            _innerElement =
+                Div(_("tss-basiclist",
+                    styles: cssStyleDeclaration =>
+                    {
+                        cssStyleDeclaration.height = $"{containerHeight}px";
+                    }));
         }
+
+        private void CreateBottomEmptyDiv() => _bottomEmptyDiv = CreateEmptyDiv();
+
+        private void AddBottomEmptyDivToBasicListContainer() => _innerElement.appendChild(_bottomEmptyDiv);
 
         private void RenderComponents(
             int? componentsToRenderCount = null)
@@ -112,7 +110,7 @@ namespace Tesserae.Components
                 .Select(component => component.Render())
                 .ForEach((htmlElement, index) =>
                 {
-                    var x =
+                    var htmlElementToAppend =
                         Div(
                         _("tss-basiclist-item",
                             styles: cssStyleDeclaration =>
@@ -122,37 +120,52 @@ namespace Tesserae.Components
                             }),
                             htmlElement);
 
-                    _innerElement.insertBefore(x, _bottomPaddingDiv);
+                    _innerElement.insertBefore(htmlElementToAppend, _bottomEmptyDiv);
                 });
         }
 
-        private void CreateBottomPaddingDivHeight()
+        private void SetCurrentPage(int currentPage) => _currentPage = currentPage;
+
+        private void IncrementCurrentPage() => SetCurrentPage(_currentPage + 1);
+
+        private void DecrementCurrentPage() => SetCurrentPage(_currentPage - 1);
+
+        private void OnLastComponentMounted(params Action<HTMLElement>[] callbacks)
         {
             var lastHtmlElement =
                 (HTMLElement)_innerElement.lastElementChild.previousElementSibling;
 
             DomMountedObserver.NotifyWhenMounted(lastHtmlElement, () =>
+                callbacks.ForEach(callback => callback.Invoke(lastHtmlElement)));
+        }
+
+        private void SetComponentHeightPixels(HTMLElement lastHtmlElement)
+        {
+            _componentHeightPixels = lastHtmlElement.clientHeight;
+        }
+
+        private void SetInitialBottomEmptyDivHeight(HTMLElement lastHtmlElement)
+        {
+            var bottomEmptyDivHeightPixels = GetBottomPaddingDivHeight();
+
+            _bottomEmptyDiv.SetStyle(cssStyleDeclaration =>
             {
-                var componentHeight =
-                    lastHtmlElement.clientHeight;
-
-                var componentsNotRenderedCount =
-                    _componentsCount - _initialComponentsToRenderCount;
-
-                var bottomPaddingDivHeight =
-                    componentsNotRenderedCount * componentHeight;
-
-                _renderedComponentsHeight =
-                    (_initialComponentsToRenderCount / _rowsPerPage) * componentHeight;
-
-                _bottomPaddingDiv.SetStyle(cssStyleDeclaration =>
-                {
-                    cssStyleDeclaration.height = $"{bottomPaddingDivHeight}px";
-                });
+                cssStyleDeclaration.height = $"{bottomEmptyDivHeightPixels}px";
             });
        }
 
-        private void AttachOnScrollEvent()
+        private int GetBottomPaddingDivHeight()
+        {
+            var componentsNotRenderedCount =
+                _componentsCount - ComponentsRenderedCount;
+
+            var bottomEmptyDivHeightPixels =
+                componentsNotRenderedCount * _componentHeightPixels;
+
+            return bottomEmptyDivHeightPixels;
+        }
+
+        private void AttachBasicListContainerOnScrollEvent()
         {
             _innerElement.addEventListener("scroll", listener =>
             {
@@ -162,12 +175,12 @@ namespace Tesserae.Components
                 if (scrollDirection == ScrollDirection.Down)
                 {
                     var loadBoundary =
-                        (_renderedComponentsHeight - _innerElement.clientHeight) - LoadBoundaryTolerance;
+                        RenderedComponentsHeight - _innerElement.clientHeight;
 
                     if (scrollTop >= loadBoundary)
                     {
                         RenderComponents();
-                        _currentPage += 1;
+                        IncrementCurrentPage();
                     }
                 }
                 else
