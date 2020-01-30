@@ -181,10 +181,13 @@ namespace Tesserae.Components
             if (!IsNonBlocking) document.body.style.overflowY = "hidden";
             base.Show();
         }
-        public override void Hide()
+        public override void Hide(Action onHidden = null)
         {
-            base.Hide();
-            if (!IsNonBlocking) document.body.style.overflowY = "";
+            base.Hide(() =>
+            {
+                if (!IsNonBlocking) document.body.style.overflowY = "";
+                onHidden?.Invoke();
+            });
         }
         private void OnCloseClick(object ev)
         {

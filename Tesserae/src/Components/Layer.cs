@@ -159,7 +159,7 @@ namespace Tesserae.Components
             }
         }
 
-        public virtual void Hide()
+        public virtual void Hide(Action onHidden = null)
         {
             if (_RenderedContent is object)
             {
@@ -168,8 +168,7 @@ namespace Tesserae.Components
                     Layers.PopLayer(_RenderedContent);
                     _RenderedContent.classList.remove("show");
                     var tr = _RenderedContent;
-                    window.setTimeout((_) => document.body.removeChild(tr), 150);
-                    
+                    window.setTimeout((_) => { document.body.removeChild(tr); onHidden?.Invoke(); }, 150);
                 }
                 else
                 {

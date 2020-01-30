@@ -57,7 +57,8 @@ namespace Tesserae.Tests
                                                                    .SemiBold()
                                                                    .Links(NavLink("Dialog").OnSelected((s, e) => Show(new DialogSample())),
                                                                           NavLink("Modal").OnSelected((s, e)  => Show(new ModalSample())),
-                                                                          NavLink("Panel").OnSelected((s, e)  => Show(new PanelSample()))
+                                                                          NavLink("Panel").OnSelected((s, e)  => Show(new PanelSample())),
+                                                                          NavLink("Progress Modal").OnSelected((s, e) => Show(new ProgressModalSample())) 
                                                 ),
                                                 NavLink("Utilities").Expanded()
                                                                     .SmallPlus()
