@@ -51,7 +51,8 @@ namespace Tesserae.Tests
                                                 NavLink("Progress").Expanded()
                                                                    .SmallPlus()
                                                                    .SemiBold()
-                                                                   .Links(NavLink("Spinner").OnSelected((s, e) => Show(new SpinnerSample()))),
+                                                                   .Links(NavLink("Spinner").OnSelected((s, e) => Show(new SpinnerSample())))
+                                                                   .Links(NavLink("Progress Indicator").OnSelected((s, e) => Show(new ProgressIndicator()))),
                                                 NavLink("Surfaces").Expanded()
                                                                    .SmallPlus()
                                                                    .SemiBold()
