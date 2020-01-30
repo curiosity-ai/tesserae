@@ -146,12 +146,7 @@ namespace Tesserae.Components
         {
             _childContainer.replaceChild(newComponent.Render(), oldComponent.Render());
         }
-
-        public void Remove(NavLink oldComponent)
-        {
-            _childContainer.removeChild(oldComponent.Render());
-        }
-
+        
         public void Add(Item component)
         {
             _childContainer.appendChild(component.Render());
@@ -171,9 +166,9 @@ namespace Tesserae.Components
 
         public override void Show()
         {
-            if (_ContentHtml == null)
+            if (_contentHtml == null)
             {
-                _ContentHtml = Div(_("tss-dropdown-popup"), _childContainer);
+                _contentHtml = Div(_("tss-dropdown-popup"), _childContainer);
                 if (ItemsSource != null)
                 {
                     _spinner = Div(_("tss-spinner"));
@@ -190,21 +185,21 @@ namespace Tesserae.Components
                 }
             }
 
-            _ContentHtml.style.height = "unset";
-            _ContentHtml.style.left = "-1000px";
-            _ContentHtml.style.top = "-1000px";
+            _contentHtml.style.height = "unset";
+            _contentHtml.style.left = "-1000px";
+            _contentHtml.style.top = "-1000px";
 
             base.Show();
 
             _isChanged = false;
 
-            if (!_ContentHtml.classList.contains("no-focus")) _ContentHtml.classList.add("no-focus");
+            if (!_contentHtml.classList.contains("no-focus")) _contentHtml.classList.add("no-focus");
 
             ClientRect rect = (ClientRect)InnerElement.getBoundingClientRect();
-            var contentRect = (ClientRect)_ContentHtml.getBoundingClientRect();
-            _ContentHtml.style.left = rect.left + "px";
-            _ContentHtml.style.top = rect.bottom - 1 + "px";
-            _ContentHtml.style.width = rect.width + "px";
+            var contentRect = (ClientRect)_contentHtml.getBoundingClientRect();
+            _contentHtml.style.left = rect.left + "px";
+            _contentHtml.style.top = rect.bottom - 1 + "px";
+            _contentHtml.style.width = rect.width + "px";
 
             if (window.innerHeight - rect.bottom - 1 < contentRect.height)
             {
@@ -213,17 +208,17 @@ namespace Tesserae.Components
                 {
                     if (rect.top > window.innerHeight - rect.bottom - 1)
                     {
-                        _ContentHtml.style.top = "1px";
-                        _ContentHtml.style.height = rect.top - 1 + "px";
+                        _contentHtml.style.top = "1px";
+                        _contentHtml.style.height = rect.top - 1 + "px";
                     }
                     else
                     {
-                        _ContentHtml.style.height = window.innerHeight - rect.bottom - 1 + "px";
+                        _contentHtml.style.height = window.innerHeight - rect.bottom - 1 + "px";
                     }
                 }
                 else
                 {
-                    _ContentHtml.style.top = top + "px";
+                    _contentHtml.style.top = top + "px";
                 }
             }
 
@@ -309,7 +304,7 @@ namespace Tesserae.Components
             var ev = e as KeyboardEvent;
             if (ev.key == "ArrowUp")
             {
-                if (_ContentHtml.classList.contains("no-focus")) _ContentHtml.classList.remove("no-focus");
+                if (_contentHtml.classList.contains("no-focus")) _contentHtml.classList.remove("no-focus");
                 if (document.activeElement != null && _childContainer.contains(document.activeElement))
                 {
                     var el = (_childContainer.children.TakeWhile(x => !x.Equals(document.activeElement)).LastOrDefault(x => (x as HTMLElement).tabIndex != -1) as HTMLElement);
@@ -323,7 +318,7 @@ namespace Tesserae.Components
             }
             else if (ev.key == "ArrowDown")
             {
-                if (_ContentHtml.classList.contains("no-focus")) _ContentHtml.classList.remove("no-focus");
+                if (_contentHtml.classList.contains("no-focus")) _contentHtml.classList.remove("no-focus");
                 if (document.activeElement != null && _childContainer.contains(document.activeElement))
                 {
                     var el = (_childContainer.children.SkipWhile(x => !x.Equals(document.activeElement)).Skip(1).FirstOrDefault(x => (x as HTMLElement).tabIndex != -1) as HTMLElement);
