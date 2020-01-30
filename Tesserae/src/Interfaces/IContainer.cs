@@ -23,7 +23,7 @@ namespace Tesserae.Components
             return container;
         }
 
-        public static T Children<T>(this T container, params Option[] children) where T : IContainer<T, Option>
+        public static T Children<T>(this T container, params ChoiceGroup.Option[] children) where T : IContainer<T, ChoiceGroup.Option>
         {
             children.ForEach(x => container.Add(x));
             return container;

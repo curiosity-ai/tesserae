@@ -61,7 +61,7 @@ namespace Tesserae
 
         public static Toggle Toggle(string onText, string offText) => new Toggle(onText: onText, offText: offText);
 
-        public static Option Option(string label = string.Empty) => new Option(label);
+        public static ChoiceGroup.Option Option(string label = string.Empty) => new ChoiceGroup.Option(label);
 
         public static ChoiceGroup ChoiceGroup(string label = "Pick one") => new ChoiceGroup(label);
 
