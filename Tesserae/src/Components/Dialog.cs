@@ -7,37 +7,37 @@ namespace Tesserae.Components
 {
     public class Dialog : Modal
     {
-        private IComponent _Footer;
-        private HTMLElement _ModalFooter;
-
-        public IComponent Footer
-        {
-            get { return _Footer; }
-            set
-            {
-                if (value != _Footer)
-                {
-                    ClearChildren(_ModalFooter); ;
-                    _Footer = value;
-                    if (_Footer != null)
-                    {
-                        _ModalFooter.appendChild(_Footer.Render());
-                    }
-                }
-            }
-        }
+        private IComponent _footer;
+        private HTMLElement _modalFooter;
 
         public Dialog(string header = string.Empty) : base(header)
         {
             _Modal.classList.add("tss-dialog");
             _ContentHtml.classList.add("tss-dialog-container");
-            _ModalFooter = Div(_("tss-modal-footer"));
-            _Modal.appendChild(_ModalFooter);
+            _modalFooter = Div(_("tss-modal-footer"));
+            _Modal.appendChild(_modalFooter);
 
             // As recommended
             CanLightDismiss = true;
         }
 
+        public IComponent Footer
+        {
+            get { return _footer; }
+            set
+            {
+                if (value != _footer)
+                {
+                    ClearChildren(_modalFooter); ;
+                    _footer = value;
+                    if (_footer != null)
+                    {
+                        _modalFooter.appendChild(_footer.Render());
+                    }
+                }
+            }
+        }
+        
         public enum Response
         {
             Yes,
