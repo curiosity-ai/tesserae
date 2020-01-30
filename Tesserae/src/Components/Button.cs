@@ -7,22 +7,27 @@ namespace Tesserae.Components
 {
     public class Button : ComponentBase<Button, HTMLButtonElement>, IHasTextSize
     {
-        #region Fields
+        private readonly HTMLSpanElement _textSpan;
+        private HTMLElement _iconSpan;
 
-        private HTMLSpanElement _TextSpan;
-        private HTMLElement _IconSpan;
-
-        #endregion
-
-        #region Properties
+        public Button(string text = string.Empty)
+        {
+            _textSpan = Span(_(text: text));
+            InnerElement = Button(_("tss-btn tss-btn-default"), _textSpan);
+            Weight = TextWeight.SemiBold;
+            Size = TextSize.Small;
+            AttachClick();
+            AttachFocus();
+            AttachBlur();
+        }
 
         /// <summary>
         /// Gets or sets button text
         /// </summary>
         public string Text
         {
-            get { return _TextSpan.innerText; }
-            set { _TextSpan.innerText = value; }
+            get { return _textSpan.innerText; }
+            set { _textSpan.innerText = value; }
         }
 
         /// <summary>
@@ -30,27 +35,27 @@ namespace Tesserae.Components
         /// </summary>
         public string Icon
         {
-            get { return _IconSpan?.className; }
+            get { return _iconSpan?.className; }
             set
             {
                 if (string.IsNullOrEmpty(value))
                 {
-                    if (_IconSpan != null)
+                    if (_iconSpan != null)
                     {
-                        InnerElement.removeChild(_IconSpan);
-                        _IconSpan = null;
+                        InnerElement.removeChild(_iconSpan);
+                        _iconSpan = null;
                     }
 
                     return;
                 }
 
-                if (_IconSpan == null)
+                if (_iconSpan == null)
                 {
-                    _IconSpan = I(_());
-                    InnerElement.insertBefore(_IconSpan, _TextSpan);
+                    _iconSpan = I(_());
+                    InnerElement.insertBefore(_iconSpan, _textSpan);
                 }
 
-                _IconSpan.className = value;
+                _iconSpan.className = value;
             }
         }
 
@@ -211,20 +216,6 @@ namespace Tesserae.Components
                 }
                 InnerElement.classList.add($"tss-fontweight-{value.ToString().ToLower()}");
             }
-        }
-
-
-        #endregion
-
-        public Button(string text = string.Empty)
-        {
-            _TextSpan = Span(_(text: text));
-            InnerElement = Button(_("tss-btn tss-btn-default"), _TextSpan);
-            Weight = TextWeight.SemiBold;
-            Size = TextSize.Small;
-            AttachClick();
-            AttachFocus();
-            AttachBlur();
         }
 
         public override HTMLElement Render()
