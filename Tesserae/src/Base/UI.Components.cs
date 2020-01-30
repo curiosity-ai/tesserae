@@ -58,7 +58,7 @@ namespace Tesserae
         public static CheckBox CheckBox(string text = string.Empty) => new CheckBox(text);
 
         public static Toggle Toggle(string text = string.Empty) => new Toggle(text);
-        
+
         public static Toggle Toggle(string onText, string offText) => new Toggle(onText: onText, offText: offText);
 
         public static Option Option(string label = string.Empty) => new Option(label);
@@ -89,6 +89,12 @@ namespace Tesserae
 
         public static Pivot Pivot() => new Pivot();
 
+        public static Dropdown Dropdown() => new Dropdown();
+
+        public static Dropdown.Item DropdownItem(string text = string.Empty) => new Dropdown.Item(text);
+
+        public static Spinner Spinner(string text = string.Empty) => new Spinner(text);
+        
         public static Link Link(string url, IComponent content) => new Link(url, content);
         
         public static Link Link(string url, string text) => new Link(url, TextBlock(text));

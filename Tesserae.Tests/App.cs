@@ -43,10 +43,15 @@ namespace Tesserae.Tests
                                                                        .Links(NavLink("Button").OnSelected((s, e)      => Show(new ButtonSample())).Selected(),
                                                                               NavLink("CheckBox").OnSelected((s, e)    => Show(new CheckBoxSample())),
                                                                               NavLink("ChoiceGroup").OnSelected((s, e) => Show(new ChoiceGroupSample())),
+                                                                              NavLink("Dropdown").OnSelected((s, e)    => Show(new DropdownSample())),
                                                                               NavLink("Label").OnSelected((s, e)       => Show(new LabelSample())),
                                                                               NavLink("TextBox").OnSelected((s, e)     => Show(new TextBoxSample())),
                                                                               NavLink("Toggle").OnSelected((s, e)      => Show(new ToggleSample()))  
                                                 ),
+                                                NavLink("Progress").Expanded()
+                                                                   .SmallPlus()
+                                                                   .SemiBold()
+                                                                   .Links(NavLink("Spinner").OnSelected((s, e) => Show(new SpinnerSample()))),
                                                 NavLink("Surfaces").Expanded()
                                                                    .SmallPlus()
                                                                    .SemiBold()
