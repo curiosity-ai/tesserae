@@ -413,7 +413,7 @@ namespace Tesserae.Components
                     {
                         if (value) InnerElement.classList.add("selected");
                         else InnerElement.classList.remove("selected");
-                        if (OnSelect != null) OnSelect(this, this);
+                        OnSelect?.Invoke(this, this);
                     }
                 }
             }
