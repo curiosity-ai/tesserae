@@ -8,14 +8,14 @@ namespace Tesserae.Components
     public class Dialog : Modal
     {
         private IComponent _footer;
-        private HTMLElement _modalFooter;
+        private readonly HTMLElement _modalFooter;
 
         public Dialog(string header = string.Empty) : base(header)
         {
-            _Modal.classList.add("tss-dialog");
-            _ContentHtml.classList.add("tss-dialog-container");
+            _modal.classList.add("tss-dialog");
+            _contentHtml.classList.add("tss-dialog-container");
             _modalFooter = Div(_("tss-modal-footer"));
-            _Modal.appendChild(_modalFooter);
+            _modal.appendChild(_modalFooter);
 
             // As recommended
             CanLightDismiss = true;
