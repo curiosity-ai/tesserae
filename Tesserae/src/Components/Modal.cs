@@ -148,7 +148,7 @@ namespace Tesserae.Components
 
         public Modal CenterContent()
         {
-            _ModalContent.classList.add("tss-modal-centered-content");
+            _modalContent.classList.add("tss-modal-centered-content");
             return this;
         }
 
