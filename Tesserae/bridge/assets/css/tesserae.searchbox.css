@@ -78,3 +78,34 @@
     transition: width 0.167s ease 0s;
     overflow:hidden;
 }
+
+.tss-searchbox-container.noicon > .tss-searchbox-icon {
+    display: none;
+}
+
+.tss-searchbox-padding {
+    transition: width 0.167s ease 0s;
+    width: 0px;
+    height: 16px;
+}
+
+.tss-searchbox-container:focus-within > .tss-searchbox-icon {
+    width: 0px;
+}
+
+.tss-searchbox-container:focus-within > .tss-searchbox-padding {
+    width: 32px;
+}
+
+.tss-searchbox-container.noicon > .tss-searchbox-icon {
+    display: none;
+    width: 0px;
+}
+
+.tss-searchbox-container.noicon:focus-within > .tss-searchbox-icon {
+    width: 0px;
+}
+.tss-searchbox-container.noicon:focus-within > .tss-searchbox-padding {
+    width: 0px;
+}
+

@@ -9,7 +9,8 @@ namespace Tesserae.Components
         private HTMLDivElement _container;
         private HTMLSpanElement _icon;
         private HTMLElement _iconContainer;
-        
+        private HTMLElement _paddingContainer;
+
         public event SearchEventHandler onSearch;
         public delegate void SearchEventHandler(SearchBox sender, string value);
 
@@ -19,23 +20,14 @@ namespace Tesserae.Components
             InnerElement = TextBox(_("tss-searchbox", type: "text", placeholder: placeholder));
             _icon = Span(_("fal fa-search"));
             _iconContainer = Div(_("tss-searchbox-icon"), _icon);
-            _container = Div(_("tss-searchbox-container"), _iconContainer, InnerElement);
+            _paddingContainer = Div(_("tss-searchbox-padding"));
+            _container = Div(_("tss-searchbox-container"), _iconContainer, InnerElement, _paddingContainer);
             
             AttachChange();
             AttachInput();
             AttachFocus();
             AttachBlur();
             AttachKeys();
-
-            OnFocus((s, e) =>
-            {
-                _iconContainer.style.width = "0px";
-            });
-
-            OnBlur((s, e) =>
-            {
-                _iconContainer.style.width = "32px";
-            });
 
             OnKeyPress((s, e) =>
             {
@@ -177,8 +169,7 @@ namespace Tesserae.Components
 
         public SearchBox NoIcon()
         {
-            _iconContainer.className = "d-none";
-            _icon.className = "d-none";
+            _container.classList.add("noicon");
             return this;
         }
 

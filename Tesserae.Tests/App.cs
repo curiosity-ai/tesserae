@@ -12,6 +12,7 @@ namespace Tesserae.Tests
     {
         private static Stack _MainStack;
         private static Sidebar _SideBar;
+        private static Navbar _NavBar;
 
         public static void Main()
         {
@@ -31,10 +32,21 @@ namespace Tesserae.Tests
                                       .LeftIsSmaller(SizeMode.Pixels, 300)
                                       .MinHeightStretch();
 
+            _NavBar = Navbar().Top(Stack().Horizontal()
+                                          .WidthStretch()
+                                          .HeightStretch()
+                                          .Children(SearchBox("Search for a template").WidthStretch().Underlined()))
+                              .Content(page);
+
+            _SideBar.IsVisible = false;
+            _NavBar.IsVisible  = false;
+
+
             document.body.appendChild(_SideBar.Add(SidebarItem("... meow", "fal fa-cat").Large().NonSelectable())
-                                              .Add(SidebarItem("Search Items", "fal fa-search").Selected())
-                                              .Add(SidebarItem("Settings", "fal fa-cog"))
-                                              .Content(page).Render());
+                                              .Add(SidebarItem("Colorful sidebar", "fal fa-tint").OnSelect((s) => _SideBar.IsLight = false).Selected())
+                                              .Add(SidebarItem("Light sidebar", "fal fa-tint-slash").OnSelect((s) => _SideBar.IsLight = true))
+                                              .Content(_NavBar)
+                                              .Render());
             document.body.style.overflow = "hidden";
         }
 
@@ -43,7 +55,8 @@ namespace Tesserae.Tests
             return Stack().Padding(16).NoShrink().MinHeightStretch()
                           .Children(TextBlock("Tesserae Samples").MediumPlus().SemiBold().AlignCenter(),
                                     Nav().InlineContent(Label("Theme").Inline().SetContent(Toggle("Light", "Dark").Checked().OnChange((t, e) => { if (t.IsChecked) { Theme.Light(); } else { Theme.Dark(); } })))
-                                         .InlineContent(Label("Sidebar").Inline().SetContent(Toggle("Color", "Light").Checked().OnChange((t, e) => { _SideBar.IsLight = !t.IsChecked;  })))
+                                         .InlineContent(Label("Navbar").Inline().SetContent(Toggle("Show", "Hidden").OnChange((t, e) => { _NavBar.IsVisible = t.IsChecked; })))
+                                         .InlineContent(Label("Sidebar").Inline().SetContent(Toggle("Show", "Hidden").OnChange((t, e) => { _SideBar.IsVisible = t.IsChecked; })))
                                          .Links(NavLink("Basic Inputs").Expanded()
                                                                        .SmallPlus()
                                                                        .SemiBold()

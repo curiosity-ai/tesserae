@@ -67,6 +67,7 @@ namespace Tesserae.Components
             string cssAlign = align.ToString().ToLower();
             if (cssAlign == "end" || cssAlign == "start") cssAlign = $"flex-{cssAlign}";
             item.style.alignSelf = cssAlign;
+            item.setAttribute("tss-stk-as", "");
         }
 
         /// <summary>
@@ -117,7 +118,9 @@ namespace Tesserae.Components
                 case Unit.Percents: item.style.width = $"{size:0.####}%"; break;
                 case Unit.Viewport: item.style.width = $"{size:0.####}vw"; break;
             }
+            item.setAttribute("tss-stk-w","");
         }
+
         public static void SetMinWidth(IComponent component, Unit sizeType, float size = 0)
         {
             HTMLElement item;
@@ -136,6 +139,7 @@ namespace Tesserae.Components
                 case Unit.Percents: item.style.minWidth = $"{size:0.####}%"; break;
                 case Unit.Viewport: item.style.minWidth = $"{size:0.####}vw"; break;
             }
+            item.setAttribute("tss-stk-mw", "");
         }
 
         public static ItemSize GetHeight(IComponent component)
@@ -159,6 +163,7 @@ namespace Tesserae.Components
                 case Unit.Percents: item.style.height = $"{size:0.####}%"; break;
                 case Unit.Viewport: item.style.height = $"{size:0.####}vh"; break;
             }
+            item.setAttribute("tss-stk-h", "");
         }
 
         public static void SetMinHeight(IComponent component, Unit sizeType, float size = 0)
@@ -179,6 +184,7 @@ namespace Tesserae.Components
                 case Unit.Percents: item.style.minHeight = $"{size:0.####}%"; break;
                 case Unit.Viewport: item.style.minHeight = $"{size:0.####}vh"; break;
             }
+            item.setAttribute("tss-stk-mh", "");
         }
 
 
@@ -201,6 +207,7 @@ namespace Tesserae.Components
             item.style.marginTop = $"{margin.Top}px";
             item.style.marginRight = $"{margin.Right}px";
             item.style.marginBottom = $"{margin.Bottom}px";
+            item.setAttribute("tss-stk-m", "");
         }
 
         public static void SetPadding(IComponent component, ItemMargin padding)
@@ -210,6 +217,7 @@ namespace Tesserae.Components
             item.style.paddingTop = $"{padding.Top}px";
             item.style.paddingRight = $"{padding.Right}px";
             item.style.paddingBottom = $"{padding.Bottom}px";
+            item.setAttribute("tss-stk-p", "");
         }
 
 
@@ -222,6 +230,7 @@ namespace Tesserae.Components
         {
             var item = GetItem(component);
             item.style.flexGrow = grow.ToString();
+            item.setAttribute("tss-stk-fg", "");
         }
 
         public static bool GetShrink(IComponent component)
@@ -233,6 +242,7 @@ namespace Tesserae.Components
         {
             var item = GetItem(component);
             item.style.flexShrink = shrink ? "1" : "0";
+            item.setAttribute("tss-stk-fs", "");
         }
 
         public Stack(Orientation orientation = Orientation.Vertical)
@@ -312,6 +322,12 @@ namespace Tesserae.Components
                         s.flexShrink = "1";
                     }), component.Render());
                     (component as dynamic).StackItem = item;
+
+                    if (forceAdd)
+                    {
+                        CopyStylesDefinedWithExtension(rendered, item);
+                    }
+
                 }
                 else
                 {
@@ -319,6 +335,42 @@ namespace Tesserae.Components
                 }
             }
             return item;
+        }
+
+        private static void CopyStylesDefinedWithExtension(HTMLElement from, HTMLElement to)
+        {
+            var fs = from.style;
+            var ts = to.style;
+
+            bool has(string att) => from.hasAttribute(att);
+
+            if (has("tss-stk-w"))  { ts.width     = fs.width;  fs.width = "100%"; }
+            if (has("tss-stk-mw")) { ts.minWidth  = fs.minWidth; fs.minWidth = "100%"; }
+            if (has("tss-stk-h"))  { ts.height    = fs.height; fs.height = "100%"; }
+            if (has("tss-stk-mh")) { ts.minHeight = fs.minHeight; fs.minHeight = "100%"; }
+            
+            if (has("tss-stk-m"))
+            {
+                ts.marginLeft = fs.marginLeft;
+                ts.marginTop = fs.marginTop;
+                ts.marginRight = fs.marginRight;
+                ts.marginBottom = fs.marginBottom;
+                fs.marginLeft = fs.marginTop = fs.marginRight = fs.marginBottom = "";
+            }
+
+            if (has("tss-stk-p"))
+            {
+                ts.paddingLeft = fs.paddingLeft;
+                ts.paddingTop = fs.paddingTop;
+                ts.paddingRight = fs.paddingRight;
+                ts.paddingBottom = fs.paddingBottom;
+                fs.paddingLeft = fs.paddingTop = fs.paddingRight = fs.paddingBottom = "";
+            }
+
+            //TODO: check if should clear this here:
+            if (has("tss-stk-fg")) { ts.flexGrow = fs.flexGrow;  /*fs.flexGrow = ""; */}
+            if (has("tss-stk-fs")) { ts.flexShrink = fs.flexShrink;  /*fs.flexShrink = ""; */}
+            if (has("tss-stk-as")) { ts.alignSelf = fs.alignSelf; /*fs.alignSelf = "";*/ }
         }
 
         public enum Orientation
