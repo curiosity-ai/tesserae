@@ -1,13 +1,14 @@
-﻿using Retyped;
+﻿using System;
+using static Retyped.dom;
 using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
     public class Raw : IComponent, IHasMarginPadding, IHasBackgroundColor
     {
-        private dom.HTMLElement InnerElement;
+        private HTMLElement InnerElement;
 
-        public Raw(dom.HTMLElement element)
+        public Raw(HTMLElement element)
         {
             InnerElement = element;
         }
@@ -25,7 +26,7 @@ namespace Tesserae.Components
         public string Width { get => InnerElement.style.width; set => InnerElement.style.width = value; }
         public string Height { get => InnerElement.style.height; set => InnerElement.style.height = value; }
 
-        public dom.HTMLElement Render()
+        public HTMLElement Render()
         {
             return InnerElement;
         }

@@ -11,6 +11,7 @@ namespace Tesserae.Tests
     public class App
     {
         private static Stack _MainStack;
+        private static Sidebar _SideBar;
 
         public static void Main()
         {
@@ -23,12 +24,17 @@ namespace Tesserae.Tests
                                 .WidthStretch()
                                 .MinHeightStretch();
 
-            var page = new SplitView().Left(MainNav(), background: "var(--tss-default-background-color)")
-                                      .Right(_MainStack, background: "var(--tss-secondary-background-color)") //#faf9f8
+            _SideBar = Sidebar();
+
+            var page = new SplitView().Left(MainNav(), background: Theme.Default.Background)
+                                      .Right(_MainStack, background: Theme.Secondary.Background)
                                       .LeftIsSmaller(SizeMode.Pixels, 300)
                                       .MinHeightStretch();
 
-            document.body.appendChild(page.Render());
+            document.body.appendChild(_SideBar.Add(SidebarItem("... meow", "fal fa-cat").Large().NonSelectable())
+                                              .Add(SidebarItem("Search Items", "fal fa-search").Selected())
+                                              .Add(SidebarItem("Settings", "fal fa-cog"))
+                                              .Content(page).Render());
             document.body.style.overflow = "hidden";
         }
 
@@ -37,6 +43,7 @@ namespace Tesserae.Tests
             return Stack().Padding(16).NoShrink().MinHeightStretch()
                           .Children(TextBlock("Tesserae Samples").MediumPlus().SemiBold().AlignCenter(),
                                     Nav().InlineContent(Label("Theme").Inline().SetContent(Toggle("Light", "Dark").Checked().OnChange((t, e) => { if (t.IsChecked) { Theme.Light(); } else { Theme.Dark(); } })))
+                                         .InlineContent(Label("Sidebar").Inline().SetContent(Toggle("Color", "Light").Checked().OnChange((t, e) => { _SideBar.IsLight = !t.IsChecked;  })))
                                          .Links(NavLink("Basic Inputs").Expanded()
                                                                        .SmallPlus()
                                                                        .SemiBold()
@@ -46,6 +53,7 @@ namespace Tesserae.Tests
                                                                               NavLink("Dropdown").OnSelected((s, e)    => Show(new DropdownSample())),
                                                                               NavLink("Label").OnSelected((s, e)       => Show(new LabelSample())),
                                                                               NavLink("TextBox").OnSelected((s, e)     => Show(new TextBoxSample())),
+                                                                              NavLink("SearchBox").OnSelected((s, e)   => Show(new SearchBoxSample())),
                                                                               NavLink("Toggle").OnSelected((s, e)      => Show(new ToggleSample()))  
                                                 ),
                                                 NavLink("Progress").Expanded()
