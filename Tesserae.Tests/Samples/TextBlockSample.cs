@@ -11,10 +11,12 @@ namespace Tesserae.Tests.Samples
 
         public TextBlockSample()
         {
-            _content = Stack().Children(
-                TextBlock("TextBlock").XLarge(),
+            _content = SectionStack()
+            .Title(TextBlock("TextBlock").XLarge().Bold())
+            .Section(Stack().Children(
                 TextBlock("Overview").MediumPlus(),
-                TextBlock("Text is a component for displaying text. You can use Text to standardize text across your web app."),
+                TextBlock("Text is a component for displaying text. You can use Text to standardize text across your web app.")))
+            .Section(Stack().Children(
                 TextBlock("Usage").MediumPlus(),
                 TextBlock("TextBox Ramp Example").Medium(),
                 Stack().Horizontal().Children(TextBlock("Variant").Width(200, Unit.Pixels).SemiBold(), TextBlock("Example").SemiBold()),
@@ -32,8 +34,7 @@ namespace Tesserae.Tests.Samples
                 TextBlock("Wrap (Default)").SmallPlus(),
                 TextBlock("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.").Width(50, Unit.Percents),
                 TextBlock("No Wrap").SmallPlus(),
-                TextBlock("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.").NoWrap().Width(50, Unit.Percents)
-            );
+                TextBlock("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.").NoWrap().Width(50, Unit.Percents)));
         }
 
         public HTMLElement Render()

@@ -18,10 +18,13 @@ namespace Tesserae.Tests.Samples
             tb1.Validation((tb) => tb.Text.Length == 0 ? "Empty" : ((tb1.Text == tb2.Text) ? "Duplicated  values" : null), validator);
             tb2.Validation((tb) => Validation.NonZeroPositiveInteger(tb) ?? ((tb1.Text == tb2.Text) ? "Duplicated values" : null), validator);
 
-            content = Stack().Children(
-                TextBlock("Validator").XLarge(),
+            content = SectionStack()
+                .Title(
+                TextBlock("Validator").XLarge().Bold())
+                .Section(Stack().Children(
                 TextBlock("Overview").MediumPlus(),
-                TextBlock("The validator helper allows you to capture the state of multiple components registered on it."),
+                TextBlock("The validator helper allows you to capture the state of multiple components registered on it.")))
+                .Section(Stack().Children(
                 TextBlock("Best Practices").MediumPlus(),
                 Stack().Horizontal().Children(
                     Stack().Width(40, Unit.Percents).Children(
@@ -30,7 +33,8 @@ namespace Tesserae.Tests.Samples
                     Stack().Width(40, Unit.Percents).Children(
                         TextBlock("Don't: TODO").Medium()
                     )
-                ),
+                )))
+                .Section(Stack().Children(
                 TextBlock("Usage").MediumPlus(),
                 TextBlock("Basic TextBox").Medium(),
                 Stack().Width(40, Unit.Percents).Children(
@@ -38,8 +42,7 @@ namespace Tesserae.Tests.Samples
                     Label("Integer > 0").SetContent(tb2),
                     Label("Is all valid").SetContent(isAllValid),
                     Label("Test revalidation (will fail if repeated)").SetContent(Button("Revalidate").OnClick((s,b) => validator.Revalidate()))
-                )
-            );
+                )));
         }
 
         public HTMLElement Render()
