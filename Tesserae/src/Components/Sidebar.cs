@@ -49,7 +49,7 @@ namespace Tesserae.Components
             _container = Div(_("tss-sidebar-host"), _sidebarContainer, _contentContainer);
         }
 
-        public Sidebar Content(IComponent content)
+        public Sidebar SetContent(IComponent content)
         {
             ClearChildren(_contentContainer);
             _contentContainer.appendChild(content.Render());

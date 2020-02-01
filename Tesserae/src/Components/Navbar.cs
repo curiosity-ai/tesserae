@@ -32,14 +32,14 @@ namespace Tesserae.Components
             }
         }
 
-        public Navbar Top(IComponent top)
+        public Navbar SetTop(IComponent top)
         {
             ClearChildren(_navbarContainer);
             _navbarContainer.appendChild(top.Render());
             return this;
         }
 
-        public Navbar Content(IComponent content)
+        public Navbar SetContent(IComponent content)
         {
             ClearChildren(_contentContainer);
             _contentContainer.appendChild(content.Render());

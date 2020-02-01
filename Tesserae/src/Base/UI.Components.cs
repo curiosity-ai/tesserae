@@ -96,6 +96,7 @@ namespace Tesserae
         public static Sidebar Sidebar() => new Sidebar();
 
         public static Sidebar.Item SidebarItem(string text, string icon) => new Sidebar.Item(text, icon);
+
         public static Sidebar.Item SidebarItem(string text, IComponent icon) => new Sidebar.Item(text, icon);
 
         public static Navbar Navbar() => new Navbar();
@@ -105,6 +106,10 @@ namespace Tesserae
         public static Dropdown Dropdown() => new Dropdown();
 
         public static Dropdown.Item DropdownItem(string text = string.Empty) => new Dropdown.Item(text);
+
+        public static ContextMenu ContextMenu() => new ContextMenu();
+
+        public static ContextMenu.Item ContextMenuItem(string text = string.Empty) => new ContextMenu.Item(text);
 
         public static Spinner Spinner(string text = string.Empty) => new Spinner(text);
         

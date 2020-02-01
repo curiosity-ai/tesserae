@@ -32,11 +32,11 @@ namespace Tesserae.Tests
                                       .LeftIsSmaller(SizeMode.Pixels, 300)
                                       .MinHeightStretch();
 
-            _NavBar = Navbar().Top(Stack().Horizontal()
+            _NavBar = Navbar().SetTop(Stack().Horizontal()
                                           .WidthStretch()
                                           .HeightStretch()
                                           .Children(SearchBox("Search for a template").WidthStretch().Underlined()))
-                              .Content(page);
+                              .SetContent(page);
 
             _SideBar.IsVisible = false;
             _NavBar.IsVisible  = false;
@@ -45,7 +45,7 @@ namespace Tesserae.Tests
             document.body.appendChild(_SideBar.Add(SidebarItem("... meow", "fal fa-cat").Large().NonSelectable())
                                               .Add(SidebarItem("Colorful sidebar", "fal fa-tint").OnSelect((s) => _SideBar.IsLight = false).Selected())
                                               .Add(SidebarItem("Light sidebar", "fal fa-tint-slash").OnSelect((s) => _SideBar.IsLight = true))
-                                              .Content(_NavBar)
+                                              .SetContent(_NavBar)
                                               .Render());
             document.body.style.overflow = "hidden";
         }
@@ -80,14 +80,15 @@ namespace Tesserae.Tests
                                                                    .Links(NavLink("Dialog").OnSelected((s, e) => Show(new DialogSample())),
                                                                           NavLink("Modal").OnSelected((s, e)  => Show(new ModalSample())),
                                                                           NavLink("Panel").OnSelected((s, e)  => Show(new PanelSample())),
-                                                                          NavLink("Progress Modal").OnSelected((s, e) => Show(new ProgressModalSample())) 
+                                                                          NavLink("ContextMenu").OnSelected((s, e) => Show(new ContextMenuSample())),
+                                                                          NavLink("ProgressModal").OnSelected((s, e) => Show(new ProgressModalSample())) 
                                                 ),
                                                 NavLink("Utilities").Expanded()
                                                                     .SmallPlus()
                                                                     .SemiBold()
                                                                     .Links(NavLink("Layer").OnSelected((s, e)         => Show(new LayerSample())),
                                                                            NavLink("Stack").OnSelected((s, e)         => Show(new StackSample())),
-                                                                           NavLink("Section Stack").OnSelected((s, e) => Show(new SectionStackSample())),
+                                                                           NavLink("SectionStack").OnSelected((s, e) => Show(new SectionStackSample())),
                                                                            NavLink("TextBlock").OnSelected((s, e)     => Show(new TextBlockSample())),
                                                                            NavLink("Validator").OnSelected((s, e)     => Show(new ValidatorSample())),
                                                                            NavLink("Pivot").OnSelected((s, e)         => Show(new PivotSample())),

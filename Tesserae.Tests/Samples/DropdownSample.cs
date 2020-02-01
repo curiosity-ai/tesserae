@@ -35,6 +35,11 @@ namespace Tesserae.Tests.Samples
                 TextBlock("Basic Dropdowns").Medium(),
             Stack().Width(40, Unit.Percents).Children(
                 Label("Standard").SetContent(Dropdown().Items(
+                DropdownItem("1-1").Selected(),
+                DropdownItem("1-2")
+                ))),
+            Stack().Width(40, Unit.Percents).Children(
+                Label("Standard with Headers").SetContent(Dropdown().Items(
                 DropdownItem("Header 1").Header(),
                 DropdownItem("1-1"),
                 DropdownItem("1-2"),
