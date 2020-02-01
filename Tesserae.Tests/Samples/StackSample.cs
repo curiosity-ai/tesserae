@@ -13,35 +13,35 @@ namespace Tesserae.Tests.Samples
         {
             var stack = Stack();
             var countSlider = Slider(5, 0, 10, 1);
-            _content = Stack().Children(
-                TextBlock("Stack").XLarge(),
+            _content = SectionStack()
+            .Title(TextBlock("Stack").XLarge().Bold())
+            .Section(Stack().Children(
                 TextBlock("Overview").MediumPlus(),
-                TextBlock("A Stack is a container-type component that abstracts the implementation of a flexbox in order to define the layout of its children components."),
+                TextBlock("A Stack is a container-type component that abstracts the implementation of a flexbox in order to define the layout of its children components.")))
+            .Section(Stack().Children(
                 TextBlock("Usage").MediumPlus(),
                 Stack().Children(
                     Stack().Horizontal().Children(
-                        Stack().Children(
-                            Label("Number of items:").SetContent(countSlider.OnInput((s, e) => SetChildren(stack, s.Value))),
-                            Stack().Horizontal().Children(
-                                ChoiceGroup("Orientation:").Horizontal().Options(Option("Vertical").Selected(), Option("Horizontal"), Option("Vertical Reverse"), Option("Horizontal Reverse")).OnChange(
-                                (s, e) =>
-                                {
-                                    if (s.SelectedOption.Text == "Horizontal")
-                                        stack.Horizontal();
-                                    else if (s.SelectedOption.Text == "Vertical")
-                                        stack.Vertical();
-                                    else if (s.SelectedOption.Text == "Horizontal Reverse")
-                                        stack.HorizontalReverse();
-                                    else if (s.SelectedOption.Text == "Vertical Reverse")
-                                        stack.VerticalReverse();
-                                })
-                            )
-                        )
-                    ),
-                    stack.HeightAuto()
-                )
-            );
-            SetChildren(stack, 5);
+                    Stack().Children(
+                    Label("Number of items:").SetContent(countSlider.OnInput((s, e) => SetChildren(stack, s.Value))),
+                    Stack().Horizontal().Children(
+                    ChoiceGroup("Orientation:").Horizontal().Options(Option("Vertical").Selected(), Option("Horizontal"), Option("Vertical Reverse"), Option("Horizontal Reverse")).OnChange(
+                        (s, e) =>
+                        {
+                            if (s.SelectedOption.Text == "Horizontal")
+                                stack.Horizontal();
+                            else if (s.SelectedOption.Text == "Vertical")
+                                stack.Vertical();
+                            else if (s.SelectedOption.Text == "Horizontal Reverse")
+                                stack.HorizontalReverse();
+                            else if (s.SelectedOption.Text == "Vertical Reverse")
+                                stack.VerticalReverse();
+                        })
+                    )
+                    )
+                ),
+                stack.HeightAuto())));
+                SetChildren(stack, 5);
         }
 
         private void SetChildren(Stack stack, int count)

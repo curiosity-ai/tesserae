@@ -14,11 +14,13 @@ namespace Tesserae.Tests.Samples
         {
             var stack = SectionStack();
             var countSlider = Slider(5, 0, 10, 1);
-            content = Stack().Children(
-                TextBlock("Defered rendering").XLarge(),
-                TextBlock("Overview").MediumPlus(),
-                TextBlock("Use Defer() to render asyncronous components. The asyncronous task is only triggered on the first render of the Defer component"),
-                TextBlock("Usage").MediumPlus(),
+            content = SectionStack()
+                .Title(TextBlock("Defered rendering").XLarge().Bold())
+                .Section(Stack().Children(
+                    TextBlock("Overview").MediumPlus(),
+                    TextBlock("Use Defer() to render asyncronous components. The asyncronous task is only triggered on the first render of the Defer component")))
+                .Section(Stack().Children(
+                    TextBlock("Usage").MediumPlus(),
                 Stack().Children(
                     Stack().Horizontal().Children(
                         Stack().Children(
@@ -27,7 +29,7 @@ namespace Tesserae.Tests.Samples
                         )
                     ),
                     stack.HeightAuto()
-            );
+            ));
             SetChildren(stack, 5);
         }
 
