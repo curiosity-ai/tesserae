@@ -44,6 +44,7 @@ namespace Tesserae.Components
         private HTMLElement Line;
         private string SelectedID;
         private string CurrentSelectedID;
+        private bool IsRendered = false;
 
         public event PivotEventHandler<PivotBeforeNavigateEvent> onBeforeNavigate;
         public event PivotEventHandler<PivotNavigateEvent> onNavigate;
@@ -112,6 +113,13 @@ namespace Tesserae.Components
 
         private Pivot Select(Tab tab)
         {
+            if(!IsRendered)
+            {
+                SelectedID = tab.Id;
+                return this;
+            }
+
+
             var pbne = new PivotBeforeNavigateEvent(CurrentSelectedID, tab.Id);
 
             onBeforeNavigate?.Invoke(this, pbne);
@@ -163,6 +171,8 @@ namespace Tesserae.Components
 
         public HTMLElement Render()
         {
+            IsRendered = true; //Sets before calling Select, so it does its thing
+
             if (SelectedID != CurrentSelectedID)
             {
                 Select(SelectedID);

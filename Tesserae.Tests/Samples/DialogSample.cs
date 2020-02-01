@@ -51,7 +51,6 @@ namespace Tesserae.Tests.Samples
                 Button("Open Modal Ok").OnClick((c, ev)          => Dialog("Sample Dialog").NoLightDismiss().Dark().Ok(() => response.Text("Clicked Ok"))),
                 Button("Open Modal RetryCancel").OnClick((c, ev) => Dialog("Sample Dialog").NoLightDismiss().Dark().RetryCancel(() => response.Text("Clicked Retry"), () => response.Text("Clicked Cancel"))),
                 response));
-
                 dialog.Content(Stack().Children(TextBlock("Lorem ipsum dolor sit amet, consectetur adipiscing elit."),
                                                 Toggle("Light Dismiss").Checked().OnChange((c, ev) => dialog.CanLightDismiss = c.IsChecked),
                                                 Toggle("Is draggable").OnChange((c, ev) => dialog.IsDraggable = c.IsChecked),
