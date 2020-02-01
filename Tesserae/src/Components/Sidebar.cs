@@ -95,7 +95,7 @@ namespace Tesserae.Components
             protected HTMLElement _container;
             private HTMLSpanElement _label;
             private HTMLElement _icon;
-            private bool _isSelectable;
+            private bool _isSelectable = true;
             internal Sidebar parent;
 
             public bool IsEnabled
