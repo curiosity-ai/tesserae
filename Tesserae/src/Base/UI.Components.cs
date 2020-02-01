@@ -71,6 +71,7 @@ namespace Tesserae
         public static Label Label(string text = string.Empty) => new Label(text);
 
         public static TextBox TextBox(string text = string.Empty) => new TextBox(text);
+        public static SearchBox SearchBox(string placeholder = string.Empty) => new SearchBox(placeholder);
 
         public static Slider Slider(int val = 0, int min = 0, int max = 100, int step = 10) => new Slider(val, min, max, step);
 
@@ -85,11 +86,20 @@ namespace Tesserae
         public static Panel Panel() => new Panel();
 
         public static Modal Modal(string header = string.Empty) => new Modal(header);
+         
         public static ProgressModal ProgressModal() => new ProgressModal();
 
         public static Dialog Dialog(string header = string.Empty) => new Dialog(header);
 
         public static Pivot Pivot() => new Pivot();
+
+        public static Sidebar Sidebar() => new Sidebar();
+
+        public static Sidebar.Item SidebarItem(string text, string icon) => new Sidebar.Item(text, icon);
+        public static Sidebar.Item SidebarItem(string text, IComponent icon) => new Sidebar.Item(text, icon);
+
+        public static Navbar Navbar() => new Navbar();
+
         public static ProgressIndicator ProgressIndicator() => new ProgressIndicator();
 
         public static Dropdown Dropdown() => new Dropdown();

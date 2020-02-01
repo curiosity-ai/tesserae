@@ -1,0 +1,19 @@
+﻿/* Navbar */
+.tss-navbar {
+    /*position: fixed;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    right: 0px;
+    visibility: hidden;
+    margin: 0;
+    padding: 0;*/
+}
+
+.tss-navbar-content {
+    /*margin: 0;
+    padding: 0;
+    background-color: var(--tss-default-background-color);
+    border: 1px solid var(--tss-default-border-color);
+    visibility: visible;*/
+}

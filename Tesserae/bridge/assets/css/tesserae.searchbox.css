@@ -1,0 +1,80 @@
+﻿/* SearchBox */
+.tss-searchbox {
+    box-shadow: none;
+    margin: 1px;
+    padding: 0px;
+    border: 0px;
+    border-radius: 0px;
+    color: var(--tss-default-foreground-color);
+    cursor: text;
+    align-items: stretch;
+    font-size: var(--tss-font-size-small);
+    font-weight: var(--tss-font-weight-regular);
+    display: block;
+    width: 100%;
+    outline: transparent none medium;
+    padding: 0px 5px;
+    background:none;
+}
+
+.tss-searchbox-container {
+    display:inline-flex;
+    position: relative;
+    margin-bottom: 4px;
+    margin-right: 16px;
+    box-shadow: none;
+    margin: 0px;
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: 2px;
+    background: var(--tss-default-background-color) none repeat scroll 0% 0%;
+    color: var(--tss-default-foreground-color);
+    cursor: text;
+    height: 32px;
+    align-items: stretch;
+    width: 100%;
+    outline: transparent none medium;
+    padding: 0px 5px;
+}
+
+    .tss-searchbox-container.disabled {
+        border-color: var(--tss-disabled-background-color);
+        background-color: var(--tss-disabled-background-color);
+        color: var(--tss-disabled-foreground-color);
+    }
+
+    .tss-searchbox-container.underlined {
+        border-radius: 0px;
+        border-style: solid;
+        border-color: var(--tss-default-border-color);
+        border-image: initial;
+        border-width: 0px 0px 1px;
+        padding-bottom: 1px;
+    }
+
+        .tss-searchbox-container.underlined:focus-within {
+            border-color: var(--tss-primary-border-color);
+            border-width: 0px 0px 2px;
+            padding-bottom: 0px;
+        }
+
+    .tss-searchbox-container:hover {
+        border-color: var(--tss-default-foreground-color);
+    }
+
+    .tss-searchbox-container:focus-within {
+        border-color: var(--tss-primary-border-color);
+    }
+
+.tss-searchbox-icon {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 16px;
+    width: 32px;
+    text-align: center;
+    color: rgb(0, 120, 212);
+    cursor: text;
+    transition: width 0.167s ease 0s;
+    overflow:hidden;
+}

@@ -274,6 +274,7 @@ namespace Tesserae.Components
             Text = text;
             return this;
         }
+
         public Button SetIcon(string icon)
         {
             Icon = icon;
