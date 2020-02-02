@@ -152,13 +152,8 @@ namespace Tesserae.Components
 
             IComponent clone(Node node)
             {
-                var el = (HTMLElement)node;
-                var c = (HTMLElement)el.cloneNode(true);
+                var c = (HTMLElement)(node.cloneNode(true));
                 c.classList.remove("tss-breadcrumb-collapse");
-                c.onclick = (e) =>
-                {
-                    el.onclick(e);
-                };
                 return Raw(c);
             }
 
@@ -169,7 +164,7 @@ namespace Tesserae.Components
                 _chevronToUseAsButton.onclick = (e) =>
                 {
                     StopEvent(e);
-                    var clones = hidden.Select(element => ContextMenuItem(clone(element))).ToArray();
+                    var clones = hidden.Select(element => ContextMenuItem(clone(element)).OnClick((s2, e2) => element.click())).ToArray();
                     ContextMenu().Items(clones).ShowFor(_chevronToUseAsButton);
                 };
             }
