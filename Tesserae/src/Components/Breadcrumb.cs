@@ -101,7 +101,6 @@ namespace Tesserae.Components
             keep[keep.Length-1] = KEEP;
 
             var debt = _cachedFullWidth - _cachedSizes.Values.Sum() - 64;
-            console.log(debt);
             while(debt < 0)
             {
                 var candidate = Array.IndexOf(keep, NOTMEASURED);
@@ -117,8 +116,6 @@ namespace Tesserae.Components
                 }
             }
 
-            console.log(keep);
-            //TODO: logic for collapsing neighbor chevrons
             var hidden = new List<HTMLElement>();
 
             for (uint i = 0; i < _childContainer.childElementCount; i++)
