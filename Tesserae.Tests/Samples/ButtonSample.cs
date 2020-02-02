@@ -58,11 +58,12 @@ namespace Tesserae.Tests.Samples
                         Stack().Horizontal().Children(
                             Button().Var(out var iconBtn1).SetText("Confirm").SetIcon("far fa-check").Success().OnClick((s, e) => alert("Clicked!")),
                             Button().Var(out var iconBtn2).SetText("Delete").SetIcon("far fa-trash-alt").Danger().OnClick((s, e) => alert("Clicked!")),
-                            Button().Var(out var iconBtn3).SetText("Primary").SetIcon("far fa-minus").Primary().OnClick((s, e) => alert("Clicked!"))
+                            Button().Var(out var iconBtn3).SetText("Primary").SetIcon("far fa-minus").Primary().OnClick((s, e) => alert("Clicked!")),
+                            Button().Var(out var iconBtn4).SetText("Copy date").SetIcon("far fa-calendar-alt").OnClick((s, e) => Clipboard.Copy(DateTime.Now.ToString()))
                         ),
                         Toggle("Disable buttons").Checked().OnChange((s, e) =>
                         {
-                            btn1.IsEnabled = btn2.IsEnabled = iconBtn1.IsEnabled = iconBtn2.IsEnabled  = iconBtn3.IsEnabled = s.IsChecked;
+                            btn1.IsEnabled = btn2.IsEnabled = iconBtn1.IsEnabled = iconBtn2.IsEnabled  = iconBtn3.IsEnabled = iconBtn4.IsEnabled = s.IsChecked;
                         })));
         }
 

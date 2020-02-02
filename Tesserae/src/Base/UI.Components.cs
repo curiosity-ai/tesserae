@@ -108,6 +108,8 @@ namespace Tesserae
         public static Sidebar.Item SidebarItem(string text, IComponent icon) => new Sidebar.Item(text, icon);
 
         public static Navbar Navbar() => new Navbar();
+        
+        public static Toast Toast() => new Toast();
 
         public static ProgressIndicator ProgressIndicator() => new ProgressIndicator();
 
