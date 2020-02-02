@@ -48,7 +48,6 @@ namespace Tesserae
 
         public static void Push(string path)
         {
-            if (!path.StartsWith("#/")) path = "#/" + path; 
             if (path == window.location.href) return; //Don't double add it
             window.history.pushState(null, "", path);
             Script.Write("{0}.setState({0}.makeState('pushedState', { }, path, { }))", _router);
@@ -56,7 +55,6 @@ namespace Tesserae
 
         public static void Replace(string path)
         {
-            if (!path.StartsWith("#/")) path = "#/" + path;
             window.history.replaceState(null, "", path);
             if (_router is object)
             {
