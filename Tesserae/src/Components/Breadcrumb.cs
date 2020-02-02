@@ -40,6 +40,17 @@ namespace Tesserae.Components
             }
         }
 
+        public bool IsSmall
+        {
+            get => _childContainer.classList.contains("small");
+            set
+            {
+                if (value) { _childContainer.classList.add("small"); }
+                else { _childContainer.classList.remove("small"); }
+            }
+        }
+
+
         public Breadcrumb()
         {
             _childContainer = Div(_("tss-breadcrumb"));
@@ -141,8 +152,13 @@ namespace Tesserae.Components
 
             IComponent clone(Node node)
             {
-                var c = (HTMLElement)node.cloneNode(true);
+                var el = (HTMLElement)node;
+                var c = (HTMLElement)el.cloneNode(true);
                 c.classList.remove("tss-breadcrumb-collapse");
+                c.onclick = (e) =>
+                {
+                    el.onclick(e);
+                };
                 return Raw(c);
             }
 
@@ -228,6 +244,12 @@ namespace Tesserae.Components
         public Breadcrumb SetChevron(string icon)
         {
             _chevronIcon = icon;
+            return this;
+        }
+
+        public Breadcrumb Small()
+        {
+            IsSmall = true;
             return this;
         }
 

@@ -12,6 +12,7 @@ namespace Tesserae.Tests.Samples
 
         public BreadcrumbSample()
         {
+            var msg = TextBlock();
             _content = SectionStack()
             .Title(
             TextBlock("Breadcrumb").XLarge().Bold())
@@ -31,42 +32,61 @@ namespace Tesserae.Tests.Samples
                 SampleDont("Don't use Breadcrumbs as a primary way to navigate an app or site.")))))
                 .Section(Stack().Children(
                     SampleTitle("Usage"),
-                    
+                    msg,
                     TextBlock("All Visible").Medium(),
-                    Breadcrumb().Items(
-                        Crumb("Folder 1"),
-                        Crumb("Folder 2").Disabled(),
-                        Crumb("Folder 3"),
-                        Crumb("Folder 4"),
-                        Crumb("Folder 5"),
-                        Crumb("Folder 6")),
+                    Breadcrumb().Padding(0, 16, 0, 16).Items(
+                        Crumb("Folder 1").OnClick((s,e) => msg.Text("Folder 1")),
+                        Crumb("Folder 2").OnClick((s, e) => msg.Text("Folder 2")).Disabled(),
+                        Crumb("Folder 3").OnClick((s, e) => msg.Text("Folder 3")),
+                        Crumb("Folder 4").OnClick((s, e) => msg.Text("Folder 4")),
+                        Crumb("Folder 5").OnClick((s, e) => msg.Text("Folder 5")),
+                        Crumb("Folder 6").OnClick((s, e) => msg.Text("Folder 6"))),
+
+                    TextBlock("All Visible, Small").Medium(),
+                    Breadcrumb().Small().Padding(0, 16, 0, 16).Items(
+                        Crumb("Folder 1").OnClick((s, e) => msg.Text("Folder 1")),
+                        Crumb("Folder 2").OnClick((s, e) => msg.Text("Folder 2")).Disabled(),
+                        Crumb("Folder 3").OnClick((s, e) => msg.Text("Folder 3")),
+                        Crumb("Folder 4").OnClick((s, e) => msg.Text("Folder 4")),
+                        Crumb("Folder 5").OnClick((s, e) => msg.Text("Folder 5")),
+                        Crumb("Folder 6").OnClick((s, e) => msg.Text("Folder 6"))),
 
                     TextBlock("Collapse 200px").Medium(),
-                    Breadcrumb().MaxWidth(200, Unit.Pixels).Items(
-                        Crumb("Folder 1"),
-                        Crumb("Folder 2"),
-                        Crumb("Folder 3"),
-                        Crumb("Folder 4"),
-                        Crumb("Folder 5"),
-                        Crumb("Folder 6"))
+                    Breadcrumb().Padding(0, 16, 0, 16).MaxWidth(200, Unit.Pixels).Items(
+                        Crumb("Folder 1").OnClick((s, e) => msg.Text("Folder 1")),
+                        Crumb("Folder 2").OnClick((s, e) => msg.Text("Folder 2")),
+                        Crumb("Folder 3").OnClick((s, e) => msg.Text("Folder 3")),
+                        Crumb("Folder 4").OnClick((s, e) => msg.Text("Folder 4")),
+                        Crumb("Folder 5").OnClick((s, e) => msg.Text("Folder 5")),
+                        Crumb("Folder 6").OnClick((s, e) => msg.Text("Folder 6")))
+                    ,
+
+                    TextBlock("Collapse 200px, Small").Medium(),
+                    Breadcrumb().Padding(0, 16, 0, 16).Small().MaxWidth(200, Unit.Pixels).Items(
+                        Crumb("Folder 1").OnClick((s, e) => msg.Text("Folder 1")),
+                        Crumb("Folder 2").OnClick((s, e) => msg.Text("Folder 2")),
+                        Crumb("Folder 3").OnClick((s, e) => msg.Text("Folder 3")),
+                        Crumb("Folder 4").OnClick((s, e) => msg.Text("Folder 4")),
+                        Crumb("Folder 5").OnClick((s, e) => msg.Text("Folder 5")),
+                        Crumb("Folder 6").OnClick((s, e) => msg.Text("Folder 6")))
                     ,
                     TextBlock("Collapse 300px").Medium(),
-                    Breadcrumb().MaxWidth(300, Unit.Pixels).Items(
-                        Crumb("Folder 1"),
-                        Crumb("Folder 2"),
-                        Crumb("Folder 3"),
-                        Crumb("Folder 4"),
-                        Crumb("Folder 5"),
-                        Crumb("Folder 6")),
+                    Breadcrumb().Padding(0, 16, 0, 16).MaxWidth(300, Unit.Pixels).Items(
+                        Crumb("Folder 1").OnClick((s, e) => msg.Text("Folder 1")),
+                        Crumb("Folder 2").OnClick((s, e) => msg.Text("Folder 2")),
+                        Crumb("Folder 3").OnClick((s, e) => msg.Text("Folder 3")),
+                        Crumb("Folder 4").OnClick((s, e) => msg.Text("Folder 4")),
+                        Crumb("Folder 5").OnClick((s, e) => msg.Text("Folder 5")),
+                        Crumb("Folder 6").OnClick((s, e) => msg.Text("Folder 6"))),
                     
                     TextBlock("Collapse 300px, from second, custom chevron").Medium(),
-                    Breadcrumb().MaxWidth(300, Unit.Pixels).SetChevron("fa-plane").SetOverflowIndex(1).Items(
-                        Crumb("Folder 1"),
-                        Crumb("Folder 2"),
-                        Crumb("Folder 3"),
-                        Crumb("Folder 4"),
-                        Crumb("Folder 5"),
-                        Crumb("Folder 6"))
+                    Breadcrumb().Padding(0, 16, 0, 16).MaxWidth(300, Unit.Pixels).SetChevron("fa-plane").SetOverflowIndex(1).Items(
+                        Crumb("Folder 1").OnClick((s, e) => msg.Text("Folder 1")),
+                        Crumb("Folder 2").OnClick((s, e) => msg.Text("Folder 2")),
+                        Crumb("Folder 3").OnClick((s, e) => msg.Text("Folder 3")),
+                        Crumb("Folder 4").OnClick((s, e) => msg.Text("Folder 4")),
+                        Crumb("Folder 5").OnClick((s, e) => msg.Text("Folder 5")),
+                        Crumb("Folder 6").OnClick((s, e) => msg.Text("Folder 6")))
 
                     ));
         }
