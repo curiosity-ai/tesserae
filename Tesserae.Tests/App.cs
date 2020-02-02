@@ -47,6 +47,7 @@ namespace Tesserae.Tests
             document.body.style.overflow = "hidden";
 
             Router.Initialize();
+            Router.Register("home", "/", (p) => _links["Button"].Selected());
             Router.Register("view", "/view/:component", (p) => _links[p["component"]].Selected());
             Router.Refresh((err, state) => Router.Navigate(window.location.hash, reload: false));
         }
