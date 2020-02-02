@@ -72,20 +72,21 @@
 }
 
 .tss-breadcrumb.small {
-    font-size: 8px;
+    font-size: 10px;
 }
 
     .tss-breadcrumb.small > .tss-breadcrumb-chevron {
-        font-size: 8px;
+        font-size: 10px;
         padding-right: 2px;
         padding-left: 2px;
     }
 
     .tss-breadcrumb.small > .tss-btn {
+        font-size: 10px;
         min-width: unset;
         padding-left: 4px;
         padding-right: 4px;
         border-width: 0px !important;
-        min-height:16px;
-        margin:0px;
+        min-height: 16px;
+        margin: 0px;
     }
