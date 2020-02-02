@@ -12,7 +12,6 @@ namespace Tesserae.Tests.Samples
 
         public BreadcrumbSample()
         {
-            var msg = TextBlock();
             _content = SectionStack()
             .Title(
             TextBlock("Breadcrumb").XLarge().Bold())
@@ -32,7 +31,7 @@ namespace Tesserae.Tests.Samples
                 SampleDont("Don't use Breadcrumbs as a primary way to navigate an app or site.")))))
                 .Section(Stack().Children(
                     SampleTitle("Usage"),
-                    msg,
+                    Label("Selected: ").SetContent(TextBlock().Var(out var msg)),
                     TextBlock("All Visible").Medium(),
                     Breadcrumb().Padding(0, 16, 0, 16).Items(
                         Crumb("Folder 1").OnClick((s,e) => msg.Text("Folder 1")),
