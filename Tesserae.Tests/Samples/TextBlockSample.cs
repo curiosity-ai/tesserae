@@ -2,6 +2,7 @@
 using Tesserae.Components;
 using static Retyped.dom;
 using static Tesserae.UI;
+using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
@@ -14,10 +15,10 @@ namespace Tesserae.Tests.Samples
             _content = SectionStack()
             .Title(TextBlock("TextBlock").XLarge().Bold())
             .Section(Stack().Children(
-                TextBlock("Overview").MediumPlus(),
+                SampleTitle("Overview"),
                 TextBlock("Text is a component for displaying text. You can use Text to standardize text across your web app.")))
             .Section(Stack().Children(
-                TextBlock("Usage").MediumPlus(),
+                SampleTitle("Usage"),
                 TextBlock("TextBox Ramp Example").Medium(),
                 Stack().Horizontal().Children(TextBlock("Variant").Width(200, Unit.Pixels).SemiBold(), TextBlock("Example").SemiBold()),
                 Stack().Horizontal().Children(TextBlock("tiny").Width(200, Unit.Pixels), TextBlock("The quick brown fox jumped over the lazy dog.").Tiny()),

@@ -2,6 +2,7 @@
 using Tesserae.Components;
 using static Retyped.dom;
 using static Tesserae.UI;
+using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
@@ -17,29 +18,29 @@ namespace Tesserae.Tests.Samples
             _content = SectionStack().Title(
             TextBlock("Dialog").XLarge().Bold())
             .Section(Stack().Children(
-                TextBlock("Overview").MediumPlus(),
+                SampleTitle("Overview"),
                 TextBlock("Dialogs are temporary, modal UI overlay that generally provide contextual app information or require user confirmation/input. In most cases, Dialogs block interactions with the web page or application until being explicitly dismissed, and often request action from the user. They are primarily used for lightweight creation or edit tasks, and simple management tasks."),
                 TextBlock("Best Practices").MediumPlus()))
             .Section(Stack().Children(
                 Stack().Horizontal().Children(
                 Stack().Width(40, Unit.Percents).Children(
-                TextBlock("Do").Medium(),
-                TextBlock("Use Dialogs for quick, actionable interactions, such as making a choice or needing the user to provide information."),
-                TextBlock("When possible, try a non-blocking Dialog before resorting to a blocking Dialog."),
-                TextBlock("Only include information needed to help users make a decision."),
-                TextBlock("Button text should reflect the actions available to the user (e.g. save, delete)."),
-                TextBlock("Validate that the user's entries are acceptable before closing the Dialog. Show an inline validation error near the field they must correct.")),
+                SampleSubTitle("Do"),
+                SampleDo("Use Dialogs for quick, actionable interactions, such as making a choice or needing the user to provide information."),
+                SampleDo("When possible, try a non-blocking Dialog before resorting to a blocking Dialog."),
+                SampleDo("Only include information needed to help users make a decision."),
+                SampleDo("Button text should reflect the actions available to the user (e.g. save, delete)."),
+                SampleDo("Validate that the user's entries are acceptable before closing the Dialog. Show an inline validation error near the field they must correct.")),
             Stack().Width(40, Unit.Percents).Children(
-                TextBlock("Don't").Medium(),
-                TextBlock("Don’t overuse Modals. In some cases they can be perceived as interrupting workflow, and too many can be a bad user experience."),
-                TextBlock("Avoid \"Are you sure ?\" or confirmation Dialogs unless the user is making an irreversible or destructive choice."),
-                TextBlock("Do not use a blocking Dialog unless absolutely necessary because they are very disruptive."),
-                TextBlock("Don’t have long sentences or complicated choices."),
-                TextBlock("Avoid generic button labels like \"Ok\" if you can be more specific about the action a user is about to complete."),
-                TextBlock("Don't dismiss the Dialog if underlying problem is not fixed. Don't put the user back into a broken/error state."),
-                TextBlock("Don't provide the user with more than 3 buttons.")))))
+                SampleSubTitle("Don't"),
+                SampleDont("Don’t overuse Modals. In some cases they can be perceived as interrupting workflow, and too many can be a bad user experience."),
+                SampleDont("Avoid \"Are you sure ?\" or confirmation Dialogs unless the user is making an irreversible or destructive choice."),
+                SampleDont("Do not use a blocking Dialog unless absolutely necessary because they are very disruptive."),
+                SampleDont("Don’t have long sentences or complicated choices."),
+                SampleDont("Avoid generic button labels like \"Ok\" if you can be more specific about the action a user is about to complete."),
+                SampleDont("Don't dismiss the Dialog if underlying problem is not fixed. Don't put the user back into a broken/error state."),
+                SampleDont("Don't provide the user with more than 3 buttons.")))))
             .Section(Stack().Children(
-                TextBlock("Usage").MediumPlus(),
+                SampleTitle("Usage"),
                 Button("Open Dialog").OnClick((c, ev) => dialog.Show()),
                 Stack().Horizontal().Children(
                 Button("Open YesNo").OnClick((c, ev)             => Dialog("Sample Dialog").YesNo(() => response.Text("Clicked Yes"), () => response.Text("Clicked No"))),

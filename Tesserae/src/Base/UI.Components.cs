@@ -46,6 +46,7 @@ namespace Tesserae
         /// <param name="element">HTML element to be wrapped</param>
         /// <returns></returns>
         public static Raw Raw(HTMLElement element) => new Raw(element);
+
         public static Raw Raw() => new Raw(DIV());
 
         public static Defer Defer(Func<Task<IComponent>> asyncGenerator) => new Defer(asyncGenerator);
@@ -70,7 +71,14 @@ namespace Tesserae
 
         public static Label Label(string text = string.Empty) => new Label(text);
 
+        public static Label Label(IComponent component) => new Label(component);
+
+        public static Breadcrumb Breadcrumb() => new Breadcrumb();
+
+        public static Button Crumb(string text = string.Empty) => new Button(text).NoBorder().NoBackground();
+
         public static TextBox TextBox(string text = string.Empty) => new TextBox(text);
+
         public static SearchBox SearchBox(string placeholder = string.Empty) => new SearchBox(placeholder);
 
         public static Slider Slider(int val = 0, int min = 0, int max = 100, int step = 10) => new Slider(val, min, max, step);
@@ -110,6 +118,8 @@ namespace Tesserae
         public static ContextMenu ContextMenu() => new ContextMenu();
 
         public static ContextMenu.Item ContextMenuItem(string text = string.Empty) => new ContextMenu.Item(text);
+
+        public static ContextMenu.Item ContextMenuItem(IComponent component) => new ContextMenu.Item(component);
 
         public static Spinner Spinner(string text = string.Empty) => new Spinner(text);
         

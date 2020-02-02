@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Tesserae.Components;
 using static Retyped.dom;
 using static Tesserae.UI;
+using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
@@ -17,10 +18,10 @@ namespace Tesserae.Tests.Samples
             content = SectionStack()
                 .Title(TextBlock("Defered rendering").XLarge().Bold())
                 .Section(Stack().Children(
-                    TextBlock("Overview").MediumPlus(),
+                    SampleTitle("Overview"),
                     TextBlock("Use Defer() to render asyncronous components. The asyncronous task is only triggered on the first render of the Defer component")))
                 .Section(Stack().Children(
-                    TextBlock("Usage").MediumPlus(),
+                    SampleTitle("Usage"),
                 Stack().Children(
                     Stack().Horizontal().Children(
                         Stack().Children(

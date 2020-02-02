@@ -2,6 +2,7 @@
 using Tesserae.Components;
 using static Retyped.dom;
 using static Tesserae.UI;
+using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
@@ -14,7 +15,7 @@ namespace Tesserae.Tests.Samples
             _content = SectionStack()
             .Title(TextBlock("Toggle").XLarge().Bold())
             .Section(Stack().Children(
-                TextBlock("Overview").MediumPlus(),
+                SampleTitle("Overview"),
                 TextBlock("Toggles represent a physical switch that allows users to turn things on or off. Use Toggles to present users with two mutually exclusive options (like on/off), where choosing an option results in an immediate action. Use a Toggle for binary operations that take effect right after the user flips the Toggle. For example, use a Toggle to turn services or hardware components on or off. In other words, if a physical switch would work for the action, a Toggle is probably the best control to use."),
                 TextBlock("Choosing between Toggle and Checkbox").Medium(),
                 TextBlock("For some actions, either a Toggle or a Checkbox might work. To decide which control would work better, follow these tips:"),
@@ -22,19 +23,19 @@ namespace Tesserae.Tests.Samples
                 TextBlock("In the above example, it's clear with the Toggle that the wireless is set to \"On.\" But with the Checkbox, the user needs to think about whether the wireless is on now or whether they need to check the box to turn wireless on."),
                 TextBlock("Use a Checkbox when the user has to perform extra steps for changes to be effective. For example, if the user must click a \"Submit\", \"Next\", \"Ok\" button to apply changes, use a Checkbox.")))
             .Section(Stack().Children(
-                TextBlock("Best Practices").MediumPlus(),
+                SampleTitle("Best Practices"),
                 Stack().Horizontal().Children(
                 Stack().Width(40, Unit.Percents).Children(
-                TextBlock("Do").Medium(),
-                TextBlock("Only replace the On and Off labels if there are more specific labels for the setting. If there are short (3-4 characters) labels that represent binary opposites that are more appropriate for a particular setting, use them. For example, you might use \"Show / Hide\" if the setting is \"Show images.\""), TextBlock("Let the label serve as the aria-label for the Toggle if possible. If necessary, set an aria-label that describes the ON action of the Toggle (e.g., Show images) and let the metadata (i.e., aria-checked) tell the screen reader the state.")
+                SampleSubTitle("Do"),
+                SampleDo("Only replace the On and Off labels if there are more specific labels for the setting. If there are short (3-4 characters) labels that represent binary opposites that are more appropriate for a particular setting, use them. For example, you might use \"Show / Hide\" if the setting is \"Show images.\""), TextBlock("Let the label serve as the aria-label for the Toggle if possible. If necessary, set an aria-label that describes the ON action of the Toggle (e.g., Show images) and let the metadata (i.e., aria-checked) tell the screen reader the state.")
             ),
             Stack().Width(40, Unit.Percents).Children(
-                TextBlock("Don't").Medium(),
-                TextBlock("Don’t use a Toggle if the user will have to do something else or go somewhere else in order to experience its effect. If any extra step is required for changes to be effective, you should use a checkbox and corresponding \"Apply\" button instead of a Toggle.")
+                SampleSubTitle("Don't"),
+                SampleDont("Don’t use a Toggle if the user will have to do something else or go somewhere else in order to experience its effect. If any extra step is required for changes to be effective, you should use a checkbox and corresponding \"Apply\" button instead of a Toggle.")
             )
             )))
             .Section(Stack().Children(
-                TextBlock("Usage").MediumPlus(),
+                SampleTitle("Usage"),
                 TextBlock("Basic Toggles").Medium(),
                 Label("Enabled and checked").SetContent(Toggle().Checked()),
                 Label("Enabled and unchecked").SetContent(Toggle()),

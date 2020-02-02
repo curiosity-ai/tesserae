@@ -5,6 +5,7 @@ using Retyped;
 using Tesserae.Components;
 using static Retyped.dom;
 using static Tesserae.UI;
+using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
@@ -17,22 +18,22 @@ namespace Tesserae.Tests.Samples
             var d = ContextMenu();
             var msg = TextBlock();
             _content = SectionStack().Title(TextBlock("ContextMenu").XLarge().Bold())
-                        .Section(Stack().Children(TextBlock("Overview").MediumPlus(),
+                        .Section(Stack().Children(SampleTitle("Overview"),
                                                  TextBlock("ContextualMenus are lists of commands that are based on the context of selection, mouse hover or keyboard focus. They are one of the most effective and highly used command surfaces, and can be used in a variety of places.")))
-                        .Section(Stack().Children(TextBlock("Best Practices").MediumPlus(),
+                        .Section(Stack().Children(SampleTitle("Best Practices"),
                                                   Stack().Horizontal().Children(Stack().Width(40, Unit.Percents).Children(
-                                                    TextBlock("Do").Medium(),
-                                                    TextBlock("Use to display commands."),
-                                                    TextBlock("Divide groups of commands with rules."),
-                                                    TextBlock("Use selection checks without icons."),
-                                                    TextBlock("Provide submenus for sets of related commands that aren’t as critical as others.")),
+                                                    SampleSubTitle("Do"),
+                                                    SampleDo("Use to display commands."),
+                                                    SampleDo("Divide groups of commands with rules."),
+                                                    SampleDo("Use selection checks without icons."),
+                                                    SampleDo("Provide submenus for sets of related commands that aren’t as critical as others.")),
                                                   Stack().Width(40, Unit.Percents).Children(
-                                                    TextBlock("Don't").Medium(),
-                                                    TextBlock("Use them to display content."),
-                                                    TextBlock("Show commands as one large group."),
-                                                    TextBlock("Mix checks and icons."),
-                                                    TextBlock("Create submenus of submenus.")))))
-                        .Section(Stack().Children(TextBlock("Usage").MediumPlus(),
+                                                    SampleSubTitle("Don't"),
+                                                    SampleDont("Use them to display content."),
+                                                    SampleDont("Show commands as one large group."),
+                                                    SampleDont("Mix checks and icons."),
+                                                    SampleDont("Create submenus of submenus.")))))
+                        .Section(Stack().Children(SampleTitle("Usage"),
                                                   TextBlock("Basic ContextMenus").Medium(),
                                                   Stack().Width(40, Unit.Percents).Children(
                                                     Label("Standard with Headers").SetContent(

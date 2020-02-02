@@ -2,6 +2,7 @@
 using Tesserae.Components;
 using static Retyped.dom;
 using static Tesserae.UI;
+using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
@@ -16,10 +17,10 @@ namespace Tesserae.Tests.Samples
             _content = SectionStack()
             .Title(TextBlock("Stack").XLarge().Bold())
             .Section(Stack().Children(
-                TextBlock("Overview").MediumPlus(),
+                SampleTitle("Overview"),
                 TextBlock("A Stack is a container-type component that abstracts the implementation of a flexbox in order to define the layout of its children components.")))
             .Section(Stack().Children(
-                TextBlock("Usage").MediumPlus(),
+                SampleTitle("Usage"),
                 Stack().Children(
                     Stack().Horizontal().Children(
                     Stack().Children(

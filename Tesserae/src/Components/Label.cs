@@ -10,13 +10,21 @@ namespace Tesserae.Components
 
         private readonly HTMLLabelElement _label;
         private readonly HTMLDivElement _content;
-        
+
         public Label(string text = string.Empty)
         {
             _label = Label(_(text: text));
             _content = Div(_());
             InnerElement = Div(_("tss-label tss-fontsize-small tss-fontweight-semibold"), _label, _content);
         }
+
+        public Label(IComponent component)
+        {
+            _label = Label(_(), component.Render());
+            _content = Div(_());
+            InnerElement = Div(_("tss-label tss-fontsize-small tss-fontweight-semibold"), _label, _content);
+        }
+
 
         public override string Text
         {
@@ -54,11 +62,15 @@ namespace Tesserae.Components
                     {
                         _label.style.display = "inline-block";
                         _content.style.display = "inline-block";
+                        InnerElement.style.display = "inline-flex";
+                        InnerElement.style.flexWrap = "nowrap";
                     }
                     else
                     {
                         _label.style.display = "block";
                         _content.style.display = "block";
+                        InnerElement.style.display = "";
+                        InnerElement.style.flexWrap = "";
                     }
                 }
             }

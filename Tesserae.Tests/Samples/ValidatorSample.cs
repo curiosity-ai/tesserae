@@ -1,6 +1,7 @@
 ﻿using Tesserae.Components;
 using static Retyped.dom;
 using static Tesserae.UI;
+using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
@@ -22,20 +23,22 @@ namespace Tesserae.Tests.Samples
                 .Title(
                 TextBlock("Validator").XLarge().Bold())
                 .Section(Stack().Children(
-                TextBlock("Overview").MediumPlus(),
+                SampleTitle("Overview"),
                 TextBlock("The validator helper allows you to capture the state of multiple components registered on it.")))
                 .Section(Stack().Children(
-                TextBlock("Best Practices").MediumPlus(),
+                SampleTitle("Best Practices"),
                 Stack().Horizontal().Children(
                     Stack().Width(40, Unit.Percents).Children(
-                        TextBlock("Do: TODO").Medium()
+                        SampleSubTitle("Do"),
+                        SampleDo("TODO")
                     ),
                     Stack().Width(40, Unit.Percents).Children(
-                        TextBlock("Don't: TODO").Medium()
+                        SampleSubTitle("Don't"),
+                        SampleDont("TODO")
                     )
                 )))
                 .Section(Stack().Children(
-                TextBlock("Usage").MediumPlus(),
+                SampleTitle("Usage"),
                 TextBlock("Basic TextBox").Medium(),
                 Stack().Width(40, Unit.Percents).Children(
                     Label("Non-empty").SetContent(tb1),

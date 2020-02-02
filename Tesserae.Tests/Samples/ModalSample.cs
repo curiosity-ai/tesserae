@@ -2,6 +2,7 @@
 using Tesserae.Components;
 using static Retyped.dom;
 using static Tesserae.UI;
+using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
@@ -17,22 +18,22 @@ namespace Tesserae.Tests.Samples
             _content = SectionStack()
             .Title(TextBlock("Modal").XLarge().Bold())
             .Section(Stack().Children(
-                TextBlock("Overview").MediumPlus(),
+                SampleTitle("Overview"),
                 TextBlock("Modals are temporary, modal UI overlay that generally provide contextual app information or require user confirmation/input, or can be used to advertise new app features. In some cases, Modals block interactions with the web page or application until being explicitly dismissed. They can be used for lightweight creation or edit tasks and simple management tasks, or for hosting heavier temporary content."),
                 TextBlock("For usage requiring a quick choice from the user, Dialog may be a more appropriate control.")))
             .Section(Stack().Children(
-                TextBlock("Best Practices").MediumPlus(),
+                SampleTitle("Best Practices"),
                 Stack().Horizontal().Children(
                     Stack().Width(40, Unit.Percents).Children(
-                        TextBlock("Do").Medium(),
-                        TextBlock("Use Modals for actionable interactions, such as needing the user to provide information or change settings."),
-                        TextBlock("When possible, try a non-blocking Modal before resorting to a blocking Modal."),
-                        TextBlock("Always have at least one focusable element inside a Modal.")),
+                        SampleSubTitle("Do"),
+                        SampleDo("Use Modals for actionable interactions, such as needing the user to provide information or change settings."),
+                        SampleDo("When possible, try a non-blocking Modal before resorting to a blocking Modal."),
+                        SampleDo("Always have at least one focusable element inside a Modal.")),
                 Stack().Width(40, Unit.Percents).Children(
-                    TextBlock("Don't").Medium(),
-                    TextBlock("Don’t overuse Modals. In some cases they can be perceived as interrupting workflow, and too many can be a bad user experience.")))))
+                    SampleSubTitle("Don't"),
+                    SampleDont("Don’t overuse Modals. In some cases they can be perceived as interrupting workflow, and too many can be a bad user experience.")))))
             .Section(Stack().Children(
-                TextBlock("Usage").MediumPlus(),
+                SampleTitle("Usage"),
                 Button("Open Modal").OnClick((s, e) => modal.Show()),
                 modal.Content(
                     Stack().Children(

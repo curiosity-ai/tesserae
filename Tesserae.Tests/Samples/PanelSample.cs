@@ -3,6 +3,7 @@ using Tesserae.Components;
 using static Retyped.dom;
 using static Tesserae.UI;
 using Panel = Tesserae.Components.Panel;
+using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
@@ -17,7 +18,7 @@ namespace Tesserae.Tests.Samples
             _content = SectionStack()
             .Title(TextBlock("Panel").XLarge().Bold())
             .Section(Stack().Children(
-                TextBlock("Overview").MediumPlus(),
+                SampleTitle("Overview"),
                 TextBlock("Panels are modal UI overlays that provide contextual app information. They often request some kind of creation or management action from the user. Panels are paired with the Overlay component, also known as a Light Dismiss. The Overlay blocks interactions with the app view until dismissed either through clicking or tapping on the Overlay or by selecting a close or completion action within the Panel."),
                 TextBlock("Examples of experiences that use Panels").MediumPlus(),
                 TextBlock("Member or group list creation or management"),
@@ -26,19 +27,19 @@ namespace Tesserae.Tests.Samples
                 TextBlock("Settings creation or management"),
                 TextBlock("Multi-field forms")))
             .Section(Stack().Children(
-                TextBlock("Best Practices").MediumPlus(),
+                SampleTitle("Best Practices"),
                 Stack().Horizontal().Children(
                 Stack().Width(40, Unit.Percents).Children(
-                    TextBlock("Do").Medium(),
-                    TextBlock("Use for self-contained experiences where the user does not need to interact with the app view to complete the task."),
-                    TextBlock("Use for complex creation, edit or management experiences."),
-                    TextBlock("Consider how the panel and its contained contents will scale across Fabric’s responsive web breakpoints.")
+                    SampleSubTitle("Do"),
+                    SampleDo("Use for self-contained experiences where the user does not need to interact with the app view to complete the task."),
+                    SampleDo("Use for complex creation, edit or management experiences."),
+                    SampleDo("Consider how the panel and its contained contents will scale across Fabric’s responsive web breakpoints.")
             ),
             Stack().Width(40, Unit.Percents).Children(
-                TextBlock("Don't").Medium(),
-                TextBlock("Don't use for experiences where the user needs to interact with the app view.")))))
+                SampleSubTitle("Don't"),
+                SampleDont("Don't use for experiences where the user needs to interact with the app view.")))))
             .Section(Stack().Children(
-                TextBlock("Usage").MediumPlus(),
+                SampleTitle("Usage"),
                 Button("Open panel").OnClick((s, e) => panel.Show()),
                 panel.Content(
                 Stack().Children(

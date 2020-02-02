@@ -2,6 +2,7 @@
 using Tesserae.Components;
 using static Retyped.dom;
 using static Tesserae.UI;
+using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
@@ -14,32 +15,30 @@ namespace Tesserae.Tests.Samples
             _content = SectionStack()
                 .Title(TextBlock("Spinner").XLarge().Bold())
                 .Section(Stack().Children(
-                    TextBlock("Overview").MediumPlus(),
+                    SampleTitle("Overview"),
                     TextBlock(
                         "A Spinner is an outline of a circle which animates around itself indicating to the user that things are processing. A Spinner is shown when it's unsure how long a task will take making it the indeterminate version of a ProgressIndicator. They can be various sizes, located inline with content or centered. They generally appear after an action is being processed or committed. They are subtle and generally do not take up much space, but are transitions from the completed task."))
                 )
                 .Section(Stack().Children(
-                    TextBlock("Best Practices").MediumPlus(),
+                    SampleTitle("Best Practices"),
                     Stack().Horizontal().Children(
                         Stack().Children(
-                            TextBlock("Do").Medium(),
-                            TextBlock("Use a Spinner when a task is not immediate."),
-                            TextBlock("Use one Spinner at a time."),
-                            TextBlock(
-                                "Descriptive verbs are appropriate under a Spinner to help the user understand what's happening. Ie: Saving, processing, updating."),
-                            TextBlock(
-                                "Use a Spinner when confirming a change has been made or a task is being processed.")
+                            SampleSubTitle("Do"),
+                            SampleDo("Use a Spinner when a task is not immediate."),
+                            SampleDo("Use one Spinner at a time."),
+                            SampleDo("Descriptive verbs are appropriate under a Spinner to help the user understand what's happening. Ie: Saving, processing, updating."),
+                            SampleDo("Use a Spinner when confirming a change has been made or a task is being processed.")
                         ),
                         Stack().Children(
-                            TextBlock("Don't").Medium(),
-                            TextBlock("Don’t use a Spinner when performing immediate tasks."),
-                            TextBlock("Don't show multiple Spinners at the same time."),
-                            TextBlock("Don't include more than a few words when paired with a Spinner.")
+                            SampleSubTitle("Don't"),
+                            SampleDont("Don’t use a Spinner when performing immediate tasks."),
+                            SampleDont("Don't show multiple Spinners at the same time."),
+                            SampleDont("Don't include more than a few words when paired with a Spinner.")
                         ))
                 ))
                 .Section(
                     Stack().Width(400, Unit.Pixels).Children(
-                        TextBlock("Usage").MediumPlus(),
+                        SampleTitle("Usage"),
                         TextBlock("Spinner sizes").Medium(),
                         Label("Extra small spinner").SetContent(Spinner().XSmall()).AlignCenter(),
                         Label("Small spinner").SetContent(Spinner().Small()).AlignCenter(),

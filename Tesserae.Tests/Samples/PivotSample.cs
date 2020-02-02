@@ -2,6 +2,7 @@
 using Tesserae.Components;
 using static Retyped.dom;
 using static Tesserae.UI;
+using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
@@ -14,21 +15,23 @@ namespace Tesserae.Tests.Samples
             content = SectionStack()
                 .Title(TextBlock("Pivot").XLarge().Bold())
                 .Section(Stack().Children(
-                                       TextBlock("Overview").MediumPlus(),
+                                       SampleTitle("Overview"),
                                        TextBlock("TODO"),
                                        TextBlock("Examples of experiences that use Panels").MediumPlus()))
                 .Section(Stack().Children(
-                                       TextBlock("Best Practices").MediumPlus(),
+                                       SampleTitle("Best Practices"),
                                        Stack().Horizontal().Children(
                                            Stack().Width(40, Unit.Percents).Children(
-                                               TextBlock("Do: TODO").Medium()
+                                               SampleSubTitle("Do"),
+                                               SampleDo("TODO")
                                            ),
                                            Stack().Width(40, Unit.Percents).Children(
-                                               TextBlock("Don't: TODO").Medium()
+                                               SampleSubTitle("Don't"),
+                                               SampleDont("TODO")
                                            )
                                        )))
                 .Section(Stack().Children(
-                                       TextBlock("Usage").MediumPlus(),
+                                       SampleTitle("Usage"),
                                            Pivot().Pivot("tab1", () => Button().SetText("Cached").NoBorder().NoBackground().MediumPlus().Regular(),
                                                                  () => TextBlock(DateTimeOffset.UtcNow.ToString()).MediumPlus(), cached: true)
                                                   .Pivot("tab2", () => Button().SetText("Not Cached").SetIcon("fal fa-sync").NoBorder().NoBackground().MediumPlus().Regular(),

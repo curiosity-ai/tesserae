@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Tesserae.Components;
 using static Retyped.dom;
 using static Tesserae.UI;
+using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
@@ -43,25 +44,25 @@ namespace Tesserae.Tests.Samples
             _content = SectionStack()
                 .Title(TextBlock("Progress Modal").XLarge().Bold())
                 .Section(Stack().Children(
-                    TextBlock("Overview").MediumPlus(),
+                    SampleTitle("Overview"),
                     TextBlock(
                         "TODO"))
                 )
                 .Section(Stack().Children(
-                    TextBlock("Best Practices").MediumPlus(),
+                    SampleTitle("Best Practices"),
                     Stack().Horizontal().Children(
                         Stack().Children(
-                            TextBlock("Do").Medium(),
-                            TextBlock("TODO")
+                            SampleSubTitle("Do"),
+                            SampleDo("TODO")
                         ),
                         Stack().Children(
-                            TextBlock("Don't").Medium(),
-                            TextBlock("TODO")
+                            SampleSubTitle("Don't"),
+                            SampleDont("TODO")
                         ))
                 ))
                 .Section(
                     Stack().Width(400, Unit.Pixels).Children(
-                        TextBlock("Usage").MediumPlus(),
+                        SampleTitle("Usage"),
                         Button("Open Modal").OnClick((s, e) => PlayModal().FireAndForget())
                     ));
         }

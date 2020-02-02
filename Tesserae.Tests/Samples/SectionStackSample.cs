@@ -2,6 +2,7 @@
 using Tesserae.Components;
 using static Retyped.dom;
 using static Tesserae.UI;
+using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
@@ -15,9 +16,9 @@ namespace Tesserae.Tests.Samples
             var countSlider = Slider(5, 0, 10, 1);
             content = Stack().Children(
                 TextBlock("Section Stack").XLarge(),
-                TextBlock("Overview").MediumPlus(),
+                SampleTitle("Overview"),
                 TextBlock("A Session Stack is a container-type component that abstracts the implementation of a flexbox in order to define the layout of its children components."),
-                TextBlock("Usage").MediumPlus(),
+                SampleTitle("Usage"),
                 Stack().Children(
                     Stack().Horizontal().Children(
                         Stack().Children(

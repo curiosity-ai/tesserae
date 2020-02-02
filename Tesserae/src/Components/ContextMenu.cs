@@ -73,7 +73,7 @@ namespace Tesserae.Components
             var contentRect = (ClientRect)_contentHtml.getBoundingClientRect();
             _contentHtml.style.left = rect.left + "px";
             _contentHtml.style.top = rect.bottom - 1 + "px";
-            _contentHtml.style.width = rect.width + "px";
+            _contentHtml.style.minWidth = rect.width + "px";
 
             if (window.innerHeight - rect.bottom - 1 < contentRect.height)
             {
@@ -187,6 +187,15 @@ namespace Tesserae.Components
                 AttachClick();
                 InnerElement.addEventListener("mouseover", OnItemMouseOver);
             }
+
+            public Item(IComponent component)
+            {
+                InnerElement = Button(_("tss-contextmenu-item"));
+                InnerElement.appendChild(component.Render());
+                AttachClick();
+                InnerElement.addEventListener("mouseover", OnItemMouseOver);
+            }
+
 
             public ItemType Type
             {

@@ -100,10 +100,11 @@ namespace Tesserae.Components
         public static ItemSize GetWidth(IComponent component)
         {
             var item = GetItem(component);
+
             if (item.style.width == "auto") return new ItemSize() { Type = Unit.Auto };
-            if (item.style.width.EndsWith("px")) return new ItemSize() { Type = Unit.Pixels, Value = float.Parse(item.style.width.Substring(item.style.width.Length - 2)) };
-            if (item.style.width.EndsWith("%")) return new ItemSize() { Type = Unit.Percents, Value = float.Parse(item.style.width.Substring(item.style.width.Length - 1)) };
-            if (item.style.width.EndsWith("vw")) return new ItemSize() { Type = Unit.Viewport, Value = float.Parse(item.style.width.Substring(item.style.width.Length - 2)) };
+            if (item.style.width.EndsWith("px")) return new ItemSize() { Type = Unit.Pixels, Value = float.Parse(item.style.width.Substring(0,item.style.width.Length - 2)) };
+            if (item.style.width.EndsWith("%")) return new ItemSize() { Type = Unit.Percents, Value = float.Parse(item.style.width.Substring(0, item.style.width.Length - 1)) };
+            if (item.style.width.EndsWith("vw")) return new ItemSize() { Type = Unit.Viewport, Value = float.Parse(item.style.width.Substring(0, item.style.width.Length - 2)) };
 
             throw new Exception("Incorrect Stack item width.");
         }
@@ -142,13 +143,34 @@ namespace Tesserae.Components
             item.setAttribute("tss-stk-mw", "");
         }
 
+        public static void SetMaxWidth(IComponent component, Unit sizeType, float size = 0)
+        {
+            HTMLElement item;
+            if (component is Stack stack)
+            {
+                item = stack.InnerElement;
+            }
+            else
+            {
+                item = GetItem(component);
+            }
+            switch (sizeType)
+            {
+                case Unit.Auto: item.style.maxWidth = "auto"; break;
+                case Unit.Pixels: item.style.maxWidth = $"{size:0.####}px"; break;
+                case Unit.Percents: item.style.maxWidth = $"{size:0.####}%"; break;
+                case Unit.Viewport: item.style.maxWidth = $"{size:0.####}vw"; break;
+            }
+            item.setAttribute("tss-stk-mxw", "");
+        }
+
         public static ItemSize GetHeight(IComponent component)
         {
             var item = GetItem(component);
             if (item.style.height == "auto") return new ItemSize() { Type = Unit.Auto };
-            if (item.style.height.EndsWith("px")) return new ItemSize() { Type = Unit.Pixels, Value = float.Parse(item.style.height.Substring(item.style.height.Length - 2)) };
-            if (item.style.height.EndsWith("%")) return new ItemSize() { Type = Unit.Percents, Value = float.Parse(item.style.height.Substring(item.style.height.Length - 1)) };
-            if (item.style.height.EndsWith("vh")) return new ItemSize() { Type = Unit.Viewport, Value = float.Parse(item.style.height.Substring(item.style.height.Length - 2)) };
+            if (item.style.height.EndsWith("px")) return new ItemSize() { Type = Unit.Pixels, Value = float.Parse(item.style.height.Substring(0, item.style.height.Length - 2)) };
+            if (item.style.height.EndsWith("%")) return new ItemSize() { Type = Unit.Percents, Value = float.Parse(item.style.height.Substring(0, item.style.height.Length - 1)) };
+            if (item.style.height.EndsWith("vh")) return new ItemSize() { Type = Unit.Viewport, Value = float.Parse(item.style.height.Substring(0, item.style.height.Length - 2)) };
 
             throw new Exception("Incorrect Stack item height.");
         }
@@ -185,6 +207,27 @@ namespace Tesserae.Components
                 case Unit.Viewport: item.style.minHeight = $"{size:0.####}vh"; break;
             }
             item.setAttribute("tss-stk-mh", "");
+        }
+
+        public static void SetMaxHeight(IComponent component, Unit sizeType, float size = 0)
+        {
+            HTMLElement item;
+            if (component is Stack stack)
+            {
+                item = stack.InnerElement;
+            }
+            else
+            {
+                item = GetItem(component);
+            }
+            switch (sizeType)
+            {
+                case Unit.Auto: item.style.maxHeight = "auto"; break;
+                case Unit.Pixels: item.style.maxHeight = $"{size:0.####}px"; break;
+                case Unit.Percents: item.style.maxHeight = $"{size:0.####}%"; break;
+                case Unit.Viewport: item.style.maxHeight = $"{size:0.####}vh"; break;
+            }
+            item.setAttribute("tss-stk-mxh", "");
         }
 
 
@@ -345,10 +388,12 @@ namespace Tesserae.Components
             bool has(string att) => from.hasAttribute(att);
 
             if (has("tss-stk-w"))  { ts.width     = fs.width;  fs.width = "100%"; }
-            if (has("tss-stk-mw")) { ts.minWidth  = fs.minWidth; fs.minWidth = "100%"; }
+            if (has("tss-stk-mw")) { ts.minWidth = fs.minWidth; fs.minWidth = "100%"; }
+            if (has("tss-stk-mxw")) { ts.maxWidth = fs.maxWidth; fs.maxWidth = "100%"; }
             if (has("tss-stk-h"))  { ts.height    = fs.height; fs.height = "100%"; }
             if (has("tss-stk-mh")) { ts.minHeight = fs.minHeight; fs.minHeight = "100%"; }
-            
+            if (has("tss-stk-mxh")) { ts.maxHeight = fs.maxHeight; fs.maxHeight = "100%"; }
+
             if (has("tss-stk-m"))
             {
                 ts.marginLeft = fs.marginLeft;
@@ -536,6 +581,12 @@ namespace Tesserae.Components
             return component;
         }
 
+        public static T MaxWidth<T>(this T component, float value, Unit unit) where T : IComponent
+        {
+            Stack.SetMaxWidth(component, unit, value);
+            return component;
+        }
+
         public static T WidthStretch<T>(this T component) where T : IComponent
         {
             Stack.SetWidth(component, Unit.Percents, 100);
@@ -553,9 +604,16 @@ namespace Tesserae.Components
             Stack.SetHeight(component, unit, value);
             return component;
         }
+        
         public static T MinHeight<T>(this T component, float value, Unit unit) where T : IComponent
         {
             Stack.SetMinHeight(component, unit, value);
+            return component;
+        }
+
+        public static T MaxHeight<T>(this T component, float value, Unit unit) where T : IComponent
+        {
+            Stack.SetMaxHeight(component, unit, value);
             return component;
         }
 
