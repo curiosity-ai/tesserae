@@ -60,7 +60,7 @@ namespace Tesserae.Tests
                                          .Links(NavLink("Basic Inputs").Expanded()
                                                                        .SmallPlus()
                                                                        .SemiBold()
-                                                                       .Links(NavLink("Button").OnSelected((s, e)      => Show(new ButtonSample())),
+                                                                       .Links(NavLink("Button").OnSelected((s, e)      => Show(new ButtonSample())).Selected(),
                                                                               NavLink("CheckBox").OnSelected((s, e)    => Show(new CheckBoxSample())),
                                                                               NavLink("ChoiceGroup").OnSelected((s, e) => Show(new ChoiceGroupSample())),
                                                                               NavLink("Dropdown").OnSelected((s, e)    => Show(new DropdownSample())),
@@ -91,7 +91,7 @@ namespace Tesserae.Tests
                                                                            NavLink("SectionStack").OnSelected((s, e) => Show(new SectionStackSample())),
                                                                            NavLink("TextBlock").OnSelected((s, e)     => Show(new TextBlockSample())),
                                                                            NavLink("Validator").OnSelected((s, e)     => Show(new ValidatorSample())),
-                                                                           NavLink("Breadcrumb").OnSelected((s, e)    => Show(new BreadcrumbSample())).Selected(),
+                                                                           NavLink("Breadcrumb").OnSelected((s, e)    => Show(new BreadcrumbSample())),
                                                                            NavLink("Pivot").OnSelected((s, e)         => Show(new PivotSample())),
                                                                            NavLink("Defer").OnSelected((s, e)         => Show(new DeferSample()))
                                                 ),

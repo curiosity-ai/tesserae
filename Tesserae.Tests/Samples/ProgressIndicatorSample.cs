@@ -37,14 +37,14 @@ namespace Tesserae.Tests.Samples
                         ))
                 ))
                 .Section(
-                    Stack().Width(400, Unit.Pixels).Children(
+                    Stack().Children(
                         SampleTitle("Usage"),
                         TextBlock("States").Medium(),
-                        Label("Empty").SetContent(ProgressIndicator().Progress(0)).AlignCenter(),
-                        Label("30%").SetContent(ProgressIndicator().Progress(30)).AlignCenter(),
-                        Label("60%").SetContent(ProgressIndicator().Progress(60)).AlignCenter(),
-                        Label("Full").SetContent(ProgressIndicator().Progress(100)).AlignCenter(),
-                        Label("Indeterminate").SetContent(ProgressIndicator().Indeterminated()).AlignCenter()
+                        Label("Empty").SetContent(ProgressIndicator().Progress(0).Width(400, Unit.Pixels)).AlignCenter(),
+                        Label("30%").SetContent(ProgressIndicator().Progress(30).Width(400, Unit.Pixels)).AlignCenter(),
+                        Label("60%").SetContent(ProgressIndicator().Progress(60).Width(400, Unit.Pixels)).AlignCenter(),
+                        Label("Full").SetContent(ProgressIndicator().Progress(100).Width(400, Unit.Pixels)).AlignCenter(),
+                        Label("Indeterminate").SetContent(ProgressIndicator().Indeterminated().Width(400, Unit.Pixels)).AlignCenter()
                     ));
         }
 
