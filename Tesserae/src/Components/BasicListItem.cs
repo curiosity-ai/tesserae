@@ -14,6 +14,7 @@ namespace Tesserae.Components
                 {
                     s.display   = "block";
                     s.textAlign = "center";
+                    s.height    = "63px";
                 }));
         }
 

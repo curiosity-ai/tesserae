@@ -59,7 +59,7 @@ namespace Tesserae
         public static CheckBox CheckBox(string text = string.Empty) => new CheckBox(text);
 
         public static Toggle Toggle(string text = string.Empty) => new Toggle(text);
-        
+
         public static Toggle Toggle(string onText, string offText) => new Toggle(onText: onText, offText: offText);
 
         public static Option Option(string label = string.Empty) => new Option(label);
@@ -91,9 +91,9 @@ namespace Tesserae
         public static Pivot Pivot() => new Pivot();
 
         public static Link Link(string url, IComponent content) => new Link(url, content);
-        
+
         public static Link Link(string url, string text) => new Link(url, TextBlock(text));
-        
+
         public static Link Link(string url, string text, string icon) => new Link(url, Button(text).Icon(icon).NoBorder().NoBackground().Padding(0));
 
         public static SplitView SplitView() => new SplitView();
@@ -101,14 +101,12 @@ namespace Tesserae
         public static BasicList BasicList(
             IEnumerable<IComponent> components,
             int rowsPerPage = 4,
-            int columnsPerRow = 4,
-            int height = 250)
+            int columnsPerRow = 4)
         {
             return new BasicList(
                 components,
                 rowsPerPage,
-                columnsPerRow,
-                height);
+                columnsPerRow);
         }
     }
 }
