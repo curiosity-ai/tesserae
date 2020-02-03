@@ -15,7 +15,7 @@ namespace Tesserae.Tests
         private static Sidebar _sideBar;
         private static Navbar _navBar;
         private static Dictionary<string, Nav.NavLink> _links = new Dictionary<string, Nav.NavLink>(new LowerCaseComparer());
-        
+
         public static void Main()
         {
             _mainStack = Stack().Padding("16px")
@@ -80,7 +80,7 @@ namespace Tesserae.Tests
             _links["Toast"            ] = NavLink("Toast")            .OnSelected((s, e) => Show("Toast"            ,     new ToastSample()));
             _links["BasicList"        ] = NavLink("BasicList")        .OnSelected((s, e) => Show("BasicList"        ,     new BasicListSample()));
 
-            
+
 
             return Stack().Padding(16).NoShrink().MinHeightStretch()
                           .Children(TextBlock("Tesserae Samples").MediumPlus().SemiBold().AlignCenter(),
@@ -101,7 +101,7 @@ namespace Tesserae.Tests
                                                 NavLink("Progress").Expanded()
                                                                    .SmallPlus()
                                                                    .SemiBold()
-                                                                   .Links(_links["Spinner"], 
+                                                                   .Links(_links["Spinner"],
                                                                           _links["ProgressIndicator"]),
                                                 NavLink("Surfaces").Expanded()
                                                                    .SmallPlus()
@@ -122,7 +122,8 @@ namespace Tesserae.Tests
                                                                            _links["Breadcrumb"]  ,
                                                                            _links["Pivot"]       ,
                                                                            _links["Defer"],
-                                                                           _links["Toast"]),
+                                                                           _links["Toast"],
+                                                                           _links["BasicList"]),
                                                 NavLink("Nav Sample").Expanded()
                                                                      .SmallPlus()
                                                                      .SemiBold()
