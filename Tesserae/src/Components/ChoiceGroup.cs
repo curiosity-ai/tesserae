@@ -6,106 +6,24 @@ using static Retyped.dom;
 
 namespace Tesserae.Components
 {
-    public class Option : ComponentBase<Option, HTMLInputElement>
+    public class ChoiceGroup : ComponentBase<ChoiceGroup, HTMLDivElement>, IContainer<ChoiceGroup, ChoiceGroup.Option>
     {
-        #region Fields
+        private readonly TextBlock _header;
 
-        private HTMLSpanElement _RadioSpan;
-        private HTMLLabelElement _Label;
-
-        #endregion
-
-        #region Events
-
-        public event EventHandler<Option> OnSelect;
-
-        #endregion
-
-        #region Properties
-
-        public bool IsEnabled
+        public ChoiceGroup(string label = "Pick one")
         {
-            get { return !_Label.classList.contains("disabled"); }
-            set
-            {
-                if (value != IsEnabled)
-                {
-                    if (value)
-                    {
-                        _Label.classList.remove("disabled");
-                    }
-                    else
-                    {
-                        _Label.classList.add("disabled");
-                    }
-                }
-            }
+            _header = (new TextBlock(label)).SemiBold();
+            var h = _header.Render();
+            h.style.alignSelf = "baseline";
+            InnerElement = Div(_("tss-choice-group", styles: s => { s.flexDirection = "column"; }), h);
         }
-
-        public bool IsSelected
-        {
-            get { return InnerElement.@checked; }
-            set
-            {
-                if (value != IsSelected)
-                {
-                    InnerElement.@checked = value;
-                }
-            }
-        }
-
-        public string Text
-        {
-            get { return _Label.innerText; }
-            set { _Label.innerText = value; }
-        }
-
-        #endregion
-
-        public Option(string text)
-        {
-            InnerElement = RadioButton(_("tss-option"));
-            _RadioSpan = Span(_("tss-option-mark"));
-            _Label = Label(_("tss-option-container", text: text), InnerElement, _RadioSpan);
-            AttachClick();
-            AttachChange();
-            AttachFocus();
-            AttachBlur();
-            onChange += (s, e) =>
-            {
-                if (IsSelected) OnSelect?.Invoke(this, this);
-            };
-        }
-
-        public override HTMLElement Render()
-        {
-            return _Label;
-        }
-    }
-
-
-    public enum ChoiceGroupOrientation
-    {
-        Vertical,
-        Horizontal
-    }
-
-    public class ChoiceGroup : ComponentBase<ChoiceGroup, HTMLDivElement>, IContainer<ChoiceGroup, Option>
-    {
-        #region Fields
-
-        private TextBlock _Header;
-
-        #endregion
-
-        #region Properties
 
         public Option SelectedOption { get; private set; }
 
         public string Label
         {
-            get { return _Header.Text; }
-            set { _Header.Text = value; }
+            get { return _header.Text; }
+            set { _header.Text = value; }
         }
 
         public ChoiceGroupOrientation Orientation
@@ -125,18 +43,8 @@ namespace Tesserae.Components
 
         public bool IsRequired
         {
-            get { return _Header.IsRequired; }
-            set { _Header.IsRequired = value; }
-        }
-
-        #endregion
-
-        public ChoiceGroup(string label = "Pick one")
-        {
-            _Header = (new TextBlock(label)).SemiBold();
-            var h = _Header.Render();
-            h.style.alignSelf = "baseline";
-            InnerElement = Div(_("tss-choice-group", styles: s => { s.flexDirection = "column"; }), h);
+            get { return _header.IsRequired; }
+            set { _header.IsRequired = value; }
         }
 
         public override HTMLElement Render()
@@ -152,6 +60,40 @@ namespace Tesserae.Components
             if (component.IsSelected) OnChoiceSelected(null, component);
         }
 
+        public void Clear()
+        {
+            ClearChildren(InnerElement);
+            InnerElement.appendChild(_header.Render());
+        }
+
+        public void Replace(Option newComponent, Option oldComponent)
+        {
+            InnerElement.replaceChild(newComponent.Render(), oldComponent.Render());
+            newComponent.OnSelect += OnChoiceSelected;
+        }
+        public ChoiceGroup Options(params ChoiceGroup.Option[] children)
+        {
+            children.ForEach(x => Add(x));
+            return this;
+        }
+
+        public ChoiceGroup Horizontal()
+        {
+            Orientation = ChoiceGroup.ChoiceGroupOrientation.Horizontal;
+            return this;
+        }
+        public ChoiceGroup Vertical()
+        {
+            Orientation = ChoiceGroup.ChoiceGroupOrientation.Vertical;
+            return this;
+        }
+
+        public ChoiceGroup Required()
+        {
+            IsRequired = true;
+            return this;
+        }
+
         private void OnChoiceSelected(object sender, Option e)
         {
             if (SelectedOption == e) return;
@@ -160,65 +102,98 @@ namespace Tesserae.Components
             RaiseOnChange(e);
         }
 
-        public void Clear()
+        public enum ChoiceGroupOrientation
         {
-            ClearChildren(InnerElement);
-            InnerElement.appendChild(_Header.Render());
+            Vertical,
+            Horizontal
         }
 
-        public void Replace(Option newComponent, Option oldComponent)
+        public class Option : ComponentBase<Option, HTMLInputElement>
         {
-            InnerElement.replaceChild(newComponent.Render(), oldComponent.Render());
-            newComponent.OnSelect += OnChoiceSelected;
-        }
-    }
+            private readonly HTMLSpanElement _radioSpan;
+            private readonly HTMLLabelElement _label;
 
-    public static class ChoiceExtensions
-    {
-        public static ChoiceGroup Options(this ChoiceGroup container, params Option[] children)
-        {
-            children.ForEach(x => container.Add(x));
-            return container;
-        }
+            public event EventHandler<Option> OnSelect;
 
-        public static ChoiceGroup Horizontal(this ChoiceGroup container)
-        {
-            container.Orientation = ChoiceGroupOrientation.Horizontal;
-            return container;
-        }
-        public static ChoiceGroup Vertical(this ChoiceGroup container)
-        {
-            container.Orientation = ChoiceGroupOrientation.Vertical;
-            return container;
-        }
+            public Option(string text)
+            {
+                InnerElement = RadioButton(_("tss-option"));
+                _radioSpan = Span(_("tss-option-mark"));
+                _label = Label(_("tss-option-container", text: text), InnerElement, _radioSpan);
+                AttachClick();
+                AttachChange();
+                AttachFocus();
+                AttachBlur();
+                onChange += (s, e) =>
+                {
+                    if (IsSelected) OnSelect?.Invoke(this, this);
+                };
+            }
 
-        public static ChoiceGroup Required(this ChoiceGroup container)
-        {
-            container.IsRequired = true;
-            return container;
-        }
-        public static Option Disabled(this Option option)
-        {
-            option.IsEnabled = false;
-            return option;
-        }
+            public bool IsEnabled
+            {
+                get { return !_label.classList.contains("disabled"); }
+                set
+                {
+                    if (value != IsEnabled)
+                    {
+                        if (value)
+                        {
+                            _label.classList.remove("disabled");
+                        }
+                        else
+                        {
+                            _label.classList.add("disabled");
+                        }
+                    }
+                }
+            }
 
-        public static Option Selected(this Option option)
-        {
-            option.IsSelected = true;
-            return option;
-        }
+            public bool IsSelected
+            {
+                get { return InnerElement.@checked; }
+                set
+                {
+                    if (value != IsSelected)
+                    {
+                        InnerElement.@checked = value;
+                    }
+                }
+            }
 
-        public static Option Text(this Option option, string text)
-        {
-            option.Text = text;
-            return option;
-        }
+            public string Text
+            {
+                get { return _label.innerText; }
+                set { _label.innerText = value; }
+            }
 
-        public static Option OnSelected(this Option option, EventHandler<Option> onSelected)
-        {
-            option.OnSelect += onSelected;
-            return option;
+            public override HTMLElement Render()
+            {
+                return _label;
+            }
+            public Option Disabled()
+            {
+                IsEnabled = false;
+                return this;
+            }
+
+            public Option Selected()
+            {
+                IsSelected = true;
+                return this;
+            }
+
+            public Option OnSelected(EventHandler<ChoiceGroup.Option> onSelected)
+            {
+                OnSelect += onSelected;
+                return this;
+            }
+
+            public Option SetText(string text)
+            {
+                Text = text;
+                return this;
+            }
         }
     }
 }

@@ -8,6 +8,8 @@ namespace Tesserae
 {
     public static partial class UI
     {
+        public delegate bool BeforeSelectEventHandler<TSender>(TSender sender);
+
         /// <summary>
         /// Helper method to capture the current component inline on it's definition, as an out variable
         /// </summary>
@@ -48,6 +50,8 @@ namespace Tesserae
         /// <returns></returns>
         public static Raw Raw(HTMLElement element) => new Raw(element);
 
+        public static Raw Raw() => new Raw(DIV());
+
         public static Defer Defer(Func<Task<IComponent>> asyncGenerator) => new Defer(asyncGenerator);
 
         public static Stack Stack(Stack.Orientation orientation = Components.Stack.Orientation.Vertical) => new Stack(orientation);
@@ -62,7 +66,7 @@ namespace Tesserae
 
         public static Toggle Toggle(string onText, string offText) => new Toggle(onText: onText, offText: offText);
 
-        public static Option Option(string label = string.Empty) => new Option(label);
+        public static ChoiceGroup.Option Option(string label = string.Empty) => new ChoiceGroup.Option(label);
 
         public static ChoiceGroup ChoiceGroup(string label = "Pick one") => new ChoiceGroup(label);
 
@@ -70,7 +74,15 @@ namespace Tesserae
 
         public static Label Label(string text = string.Empty) => new Label(text);
 
+        public static Label Label(IComponent component) => new Label(component);
+
+        public static Breadcrumb Breadcrumb() => new Breadcrumb();
+
+        public static Button Crumb(string text = string.Empty) => new Button(text).NoBorder().NoBackground();
+
         public static TextBox TextBox(string text = string.Empty) => new TextBox(text);
+
+        public static SearchBox SearchBox(string placeholder = string.Empty) => new SearchBox(placeholder);
 
         public static Slider Slider(int val = 0, int min = 0, int max = 100, int step = 10) => new Slider(val, min, max, step);
 
@@ -80,21 +92,47 @@ namespace Tesserae
 
         public static Nav Nav() => new Nav();
 
-        public static NavLink NavLink(string text = null, string icon = null) => new NavLink(text, icon);
+        public static Nav.NavLink NavLink(string text = null, string icon = null) => new Nav.NavLink(text, icon);
 
         public static Panel Panel() => new Panel();
 
         public static Modal Modal(string header = string.Empty) => new Modal(header);
+         
+        public static ProgressModal ProgressModal() => new ProgressModal();
 
         public static Dialog Dialog(string header = string.Empty) => new Dialog(header);
 
         public static Pivot Pivot() => new Pivot();
 
+        public static Sidebar Sidebar() => new Sidebar();
+
+        public static Sidebar.Item SidebarItem(string text, string icon) => new Sidebar.Item(text, icon);
+
+        public static Sidebar.Item SidebarItem(string text, IComponent icon) => new Sidebar.Item(text, icon);
+
+        public static Navbar Navbar() => new Navbar();
+        
+        public static Toast Toast() => new Toast();
+
+        public static ProgressIndicator ProgressIndicator() => new ProgressIndicator();
+
+        public static Dropdown Dropdown() => new Dropdown();
+
+        public static Dropdown.Item DropdownItem(string text = string.Empty) => new Dropdown.Item(text);
+
+        public static ContextMenu ContextMenu() => new ContextMenu();
+
+        public static ContextMenu.Item ContextMenuItem(string text = string.Empty) => new ContextMenu.Item(text);
+
+        public static ContextMenu.Item ContextMenuItem(IComponent component) => new ContextMenu.Item(component);
+
+        public static Spinner Spinner(string text = string.Empty) => new Spinner(text);
+        
         public static Link Link(string url, IComponent content) => new Link(url, content);
 
         public static Link Link(string url, string text) => new Link(url, TextBlock(text));
-
-        public static Link Link(string url, string text, string icon) => new Link(url, Button(text).Icon(icon).NoBorder().NoBackground().Padding(0));
+        
+        public static Link Link(string url, string text, string icon) => new Link(url, Button(text).SetIcon(icon).NoBorder().NoBackground().Padding(0));
 
         public static SplitView SplitView() => new SplitView();
 

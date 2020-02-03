@@ -1,0 +1,37 @@
+﻿/* Navbar */
+.tss-navbar {
+    z-index: 80;
+    position: relative;
+    top: 0px;
+    left: 0px;
+    overflow: hidden;
+    width: 100vw;
+    min-height: 48px;
+    transform: translateZ(0px);
+    background: var(--tss-navbar-background-color);
+    color: var(--tss-navbar-foreground-color);
+    align-items:center;
+    display:inline-flex;
+}
+
+    .tss-navbar.hidden{
+        display:none;
+        height:0px;
+    }
+
+
+.tss-navbar-content {
+    margin: 0;
+    padding: 0;
+    background-color: var(--tss-default-background-color);
+    height: 100%;
+    overflow: auto;
+}
+
+.tss-navbar-host {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+}

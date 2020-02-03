@@ -3,38 +3,66 @@ using static Retyped.dom;
 
 namespace Tesserae.Components
 {
-    public enum SliderOrientation
-    {
-        Vertical,
-        Horizontal
-    }
     public class Slider : ComponentBase<Slider, HTMLInputElement>
     {
-        #region Fields
+        private readonly HTMLLabelElement _outerLabel;
+        private readonly HTMLDivElement _outerDiv;
+        private readonly HTMLDivElement _fakeDiv;
+        private readonly HTMLSpanElement _valueSpan;
 
-        private HTMLLabelElement _OuterLabel;
-        private HTMLDivElement _OuterDiv;
-        private HTMLDivElement _FakeDiv;
-        private HTMLSpanElement _ValueSpan;
+        public Slider(int val = 0, int min = 0, int max = 100, int step = 10)
+        {
+            InnerElement = document.createElement("input") as HTMLInputElement;
+            InnerElement.className = "tss-slider";
+            InnerElement.value = val.ToString();
+            InnerElement.min = min.ToString();
+            InnerElement.max = max.ToString();
+            InnerElement.step = step.ToString();
+            InnerElement.type = "range";
 
-        #endregion
+            _valueSpan = Span(_("m-1", text: val.ToString()));
 
-        #region Properties
+            AttachClick();
+            AttachChange();
+            AttachInput();
+            AttachFocus();
+            AttachBlur();
+
+            if (navigator.userAgent.IndexOf("AppleWebKit") != -1)
+            {
+                _fakeDiv = Div(_("tss-slider-fake-progress"));
+                double percent = ((double)(val - min) / (double)(max - min)) * 100.0;
+                _fakeDiv.style.width = $"{percent.ToString("0.##")}%";
+                onInput += (e, s) =>
+                {
+                    percent = ((double)(Value - Min) / (double)(Max - Min)) * 100.0;
+                    _fakeDiv.style.width = $"{percent.ToString("0.##")}%";
+                };
+                _outerLabel = Label(_("tss-slider-container"), InnerElement, Div(_("tss-slider-fake-background")), _fakeDiv);
+                InnerElement.classList.add("fake");
+            }
+            else
+            {
+                _outerLabel = Label(_("tss-slider-container"), InnerElement);
+            }
+
+            _outerDiv = Div(_("tss-slider-div"), _outerLabel);
+        }
 
         public SliderOrientation Orientation
         {
-            get { return _OuterLabel.classList.contains("vertical") ? SliderOrientation.Vertical : SliderOrientation.Horizontal; }
+            get { return _outerLabel.classList.contains("vertical") ? SliderOrientation.Vertical : SliderOrientation.Horizontal; }
             set
             {
                 if (value != Orientation)
                 {
                     if (value == SliderOrientation.Vertical)
                     {
-                        _OuterLabel.classList.add("vertical");
+                        _outerLabel.classList.add("vertical");
                     }
                     else
                     {
-                        _OuterLabel.classList.remove("vertical");
+                        _outerLabel.classList.remove("vertical");
                     }
                 }
             }
@@ -81,93 +109,55 @@ namespace Tesserae.Components
                 }
             }
         }
-
-        #endregion
-
-        public Slider(int val = 0, int min = 0, int max = 100, int step = 10)
-        {
-            InnerElement = document.createElement("input") as HTMLInputElement;
-            InnerElement.className = "tss-slider";
-            InnerElement.value = val.ToString();
-            InnerElement.min = min.ToString();
-            InnerElement.max = max.ToString();
-            InnerElement.step = step.ToString();
-            InnerElement.type = "range";
-
-            _ValueSpan = Span(_("m-1", text: val.ToString()));
-
-            AttachClick();
-            AttachChange();
-            AttachInput();
-            AttachFocus();
-            AttachBlur();
-
-            if (navigator.userAgent.IndexOf("AppleWebKit") != -1)
-            {
-                _FakeDiv = Div(_("tss-slider-fake-progress"));
-                double percent = ((double)(val - min) / (double)(max - min)) * 100.0;
-                _FakeDiv.style.width = $"{percent.ToString("0.##")}%";
-                onInput += (e, s) =>
-                {
-                    percent = ((double)(Value - Min) / (double)(Max - Min)) * 100.0;
-                    _FakeDiv.style.width = $"{percent.ToString("0.##")}%";
-                };
-                _OuterLabel = Label(_("tss-slider-container"), InnerElement, Div(_("tss-slider-fake-background")), _FakeDiv);
-                InnerElement.classList.add("fake");
-            }
-            else
-            {
-                _OuterLabel = Label(_("tss-slider-container"), InnerElement);
-            }
-
-            _OuterDiv = Div(_("tss-slider-div"), _OuterLabel);
-        }
-
+        
         public override HTMLElement Render()
         {
-            return _OuterDiv;
-        }
-    }
-
-    public static class SliderExtensions
-    {
-        public static Slider Value(this Slider slider, int val)
-        {
-            slider.Value = val;
-            return slider;
-        }
-        public static Slider Min(this Slider slider, int min)
-        {
-            slider.Min = min;
-            return slider;
-        }
-        public static Slider Max(this Slider slider, int max)
-        {
-            slider.Max = max;
-            return slider;
-        }
-        public static Slider Step(this Slider slider, int step)
-        {
-            slider.Step = step;
-            return slider;
+            return _outerDiv;
         }
 
-        public static Slider Disabled(this Slider slider)
+        public Slider SetValue(int val)
         {
-            slider.IsEnabled = false;
-            return slider;
+            Value = val;
+            return this;
+        }
+        public Slider SetMin(int min)
+        {
+            Min = min;
+            return this;
+        }
+        public Slider SetMax(int max)
+        {
+            Max = max;
+            return this;
+        }
+        public Slider SetStep(int step)
+        {
+            Step = step;
+            return this;
         }
 
-        public static Slider Horizontal(this Slider slider)
+        public Slider Disabled()
         {
-            slider.Orientation= SliderOrientation.Horizontal;
-            return slider;
+            IsEnabled = false;
+            return this;
         }
 
-        public static Slider Vertical(this Slider slider)
+        public Slider Horizontal()
         {
-            slider.Orientation = SliderOrientation.Vertical;
-            return slider;
+            Orientation = Slider.SliderOrientation.Horizontal;
+            return this;
+        }
+
+        public Slider Vertical()
+        {
+            Orientation = Slider.SliderOrientation.Vertical;
+            return this;
+        }
+
+        public enum SliderOrientation
+        {
+            Vertical,
+            Horizontal
         }
     }
 }

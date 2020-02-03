@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Tesserae.Components;
 using static Retyped.dom;
 using static Tesserae.UI;
+using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
@@ -14,20 +15,22 @@ namespace Tesserae.Tests.Samples
         {
             var stack = SectionStack();
             var countSlider = Slider(5, 0, 10, 1);
-            content = Stack().Children(
-                TextBlock("Defered rendering").XLarge(),
-                TextBlock("Overview").MediumPlus(),
-                TextBlock("Use Defer() to render asyncronous components. The asyncronous task is only triggered on the first render of the Defer component"),
-                TextBlock("Usage").MediumPlus(),
+            content = SectionStack()
+                .Title(TextBlock("Defered rendering").XLarge().Bold())
+                .Section(Stack().Children(
+                    SampleTitle("Overview"),
+                    TextBlock("Use Defer() to render asyncronous components. The asyncronous task is only triggered on the first render of the Defer component")))
+                .Section(Stack().Children(
+                    SampleTitle("Usage"),
                 Stack().Children(
                     Stack().Horizontal().Children(
                         Stack().Children(
-                            Label("Number of items:").Content(countSlider.OnInput((s, e) => SetChildren(stack, s.Value)))
+                            Label("Number of items:").SetContent(countSlider.OnInput((s, e) => SetChildren(stack, s.Value)))
                             )
                         )
                     ),
                     stack.HeightAuto()
-            );
+            ));
             SetChildren(stack, 5);
         }
 
@@ -45,9 +48,9 @@ namespace Tesserae.Tests.Samples
                     await Task.Delay(delay);
                     return Stack().Children(
                         TextBlock("Wrap (Default)").SmallPlus(),
-                        TextBlock("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.").WidthPercents(50),
+                        TextBlock("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.").Width(50, Unit.Percents),
                         TextBlock("No Wrap").SmallPlus(),
-                        TextBlock("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.").NoWrap().WidthPercents(50)
+                        TextBlock("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.").NoWrap().Width(50, Unit.Percents)
                     );
                 }
                 )));

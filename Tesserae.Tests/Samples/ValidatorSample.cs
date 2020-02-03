@@ -1,6 +1,7 @@
 ﻿using Tesserae.Components;
 using static Retyped.dom;
 using static Tesserae.UI;
+using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
@@ -18,28 +19,33 @@ namespace Tesserae.Tests.Samples
             tb1.Validation((tb) => tb.Text.Length == 0 ? "Empty" : ((tb1.Text == tb2.Text) ? "Duplicated  values" : null), validator);
             tb2.Validation((tb) => Validation.NonZeroPositiveInteger(tb) ?? ((tb1.Text == tb2.Text) ? "Duplicated values" : null), validator);
 
-            content = Stack().Children(
-                TextBlock("Validator").XLarge(),
-                TextBlock("Overview").MediumPlus(),
-                TextBlock("The validator helper allows you to capture the state of multiple components registered on it."),
-                TextBlock("Best Practices").MediumPlus(),
+            content = SectionStack()
+                .Title(
+                TextBlock("Validator").XLarge().Bold())
+                .Section(Stack().Children(
+                SampleTitle("Overview"),
+                TextBlock("The validator helper allows you to capture the state of multiple components registered on it.")))
+                .Section(Stack().Children(
+                SampleTitle("Best Practices"),
                 Stack().Horizontal().Children(
-                    Stack().WidthPercents(40).Children(
-                        TextBlock("Do: TODO").Medium()
+                    Stack().Width(40, Unit.Percents).Children(
+                        SampleSubTitle("Do"),
+                        SampleDo("TODO")
                     ),
-                    Stack().WidthPercents(40).Children(
-                        TextBlock("Don't: TODO").Medium()
+                    Stack().Width(40, Unit.Percents).Children(
+                        SampleSubTitle("Don't"),
+                        SampleDont("TODO")
                     )
-                ),
-                TextBlock("Usage").MediumPlus(),
+                )))
+                .Section(Stack().Children(
+                SampleTitle("Usage"),
                 TextBlock("Basic TextBox").Medium(),
-                Stack().WidthPercents(40).Children(
-                    Label("Non-empty").Content(tb1),
-                    Label("Integer > 0").Content(tb2),
-                    Label("Is all valid").Content(isAllValid),
-                    Label("Test revalidation (will fail if repeated)").Content(Button("Revalidate").OnClick((s,b) => validator.Revalidate()))
-                )
-            );
+                Stack().Width(40, Unit.Percents).Children(
+                    Label("Non-empty").SetContent(tb1),
+                    Label("Integer > 0").SetContent(tb2),
+                    Label("Is all valid").SetContent(isAllValid),
+                    Label("Test revalidation (will fail if repeated)").SetContent(Button("Revalidate").OnClick((s,b) => validator.Revalidate()))
+                )));
         }
 
         public HTMLElement Render()

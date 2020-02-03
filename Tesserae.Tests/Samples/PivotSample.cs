@@ -2,6 +2,7 @@
 using Tesserae.Components;
 using static Retyped.dom;
 using static Tesserae.UI;
+using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
@@ -11,25 +12,31 @@ namespace Tesserae.Tests.Samples
 
         public PivotSample()
         {
-            content = Stack().Children(TextBlock("Pivot").XLarge(),
-                                       TextBlock("Overview").MediumPlus(),
+            content = SectionStack()
+                .Title(TextBlock("Pivot").XLarge().Bold())
+                .Section(Stack().Children(
+                                       SampleTitle("Overview"),
                                        TextBlock("TODO"),
-                                       TextBlock("Examples of experiences that use Panels").MediumPlus(),
-                                       TextBlock("Best Practices").MediumPlus(),
+                                       TextBlock("Examples of experiences that use Panels").MediumPlus()))
+                .Section(Stack().Children(
+                                       SampleTitle("Best Practices"),
                                        Stack().Horizontal().Children(
-                                           Stack().WidthPercents(40).Children(
-                                               TextBlock("Do: TODO").Medium()
+                                           Stack().Width(40, Unit.Percents).Children(
+                                               SampleSubTitle("Do"),
+                                               SampleDo("TODO")
                                            ),
-                                           Stack().WidthPercents(40).Children(
-                                               TextBlock("Don't: TODO").Medium()
+                                           Stack().Width(40, Unit.Percents).Children(
+                                               SampleSubTitle("Don't"),
+                                               SampleDont("TODO")
                                            )
-                                       ),
-                                       TextBlock("Usage").MediumPlus(),
-                                           Pivot().Pivot("tab1", () => Button().Text("Cached").NoBorder().NoBackground().MediumPlus().Regular(),
+                                       )))
+                .Section(Stack().Children(
+                                       SampleTitle("Usage"),
+                                           Pivot().Pivot("tab1", () => Button().SetText("Cached").NoBorder().NoBackground().MediumPlus().Regular(),
                                                                  () => TextBlock(DateTimeOffset.UtcNow.ToString()).MediumPlus(), cached: true)
-                                                  .Pivot("tab2", () => Button().Text("Not Cached").Icon("fal fa-sync").NoBorder().NoBackground().MediumPlus().Regular(),
+                                                  .Pivot("tab2", () => Button().SetText("Not Cached").SetIcon("fal fa-sync").NoBorder().NoBackground().MediumPlus().Regular(),
                                                                  () => TextBlock(DateTimeOffset.UtcNow.ToString()).MediumPlus(), cached: false)
-                                       );
+                                       ));
         }
 
         public HTMLElement Render()

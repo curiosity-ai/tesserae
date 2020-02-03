@@ -2,37 +2,38 @@
 using Tesserae.Components;
 using static Retyped.dom;
 using static Tesserae.UI;
+using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
     public class ModalSample : IComponent
     {
-        private IComponent content;
+        private IComponent _content;
 
         public ModalSample()
         {
             var modal = Modal("Lorem Ipsum");
             modal.CanLightDismiss = true;
 
-            content = Stack().Children(
-                TextBlock("Modal").XLarge(),
-                TextBlock("Overview").MediumPlus(),
+            _content = SectionStack()
+            .Title(TextBlock("Modal").XLarge().Bold())
+            .Section(Stack().Children(
+                SampleTitle("Overview"),
                 TextBlock("Modals are temporary, modal UI overlay that generally provide contextual app information or require user confirmation/input, or can be used to advertise new app features. In some cases, Modals block interactions with the web page or application until being explicitly dismissed. They can be used for lightweight creation or edit tasks and simple management tasks, or for hosting heavier temporary content."),
-                TextBlock("For usage requiring a quick choice from the user, Dialog may be a more appropriate control."),
-                TextBlock("Best Practices").MediumPlus(),
+                TextBlock("For usage requiring a quick choice from the user, Dialog may be a more appropriate control.")))
+            .Section(Stack().Children(
+                SampleTitle("Best Practices"),
                 Stack().Horizontal().Children(
-                    Stack().WidthPercents(40).Children(
-                        TextBlock("Do").Medium(),
-                        TextBlock("Use Modals for actionable interactions, such as needing the user to provide information or change settings."),
-                        TextBlock("When possible, try a non-blocking Modal before resorting to a blocking Modal."),
-                        TextBlock("Always have at least one focusable element inside a Modal.")
-                    ),
-                    Stack().WidthPercents(40).Children(
-                        TextBlock("Don't").Medium(),
-                        TextBlock("Don’t overuse Modals. In some cases they can be perceived as interrupting workflow, and too many can be a bad user experience.")
-                    )
-                ),
-                TextBlock("Usage").MediumPlus(),
+                    Stack().Width(40, Unit.Percents).Children(
+                        SampleSubTitle("Do"),
+                        SampleDo("Use Modals for actionable interactions, such as needing the user to provide information or change settings."),
+                        SampleDo("When possible, try a non-blocking Modal before resorting to a blocking Modal."),
+                        SampleDo("Always have at least one focusable element inside a Modal.")),
+                Stack().Width(40, Unit.Percents).Children(
+                    SampleSubTitle("Don't"),
+                    SampleDont("Don’t overuse Modals. In some cases they can be perceived as interrupting workflow, and too many can be a bad user experience.")))))
+            .Section(Stack().Children(
+                SampleTitle("Usage"),
                 Button("Open Modal").OnClick((s, e) => modal.Show()),
                 modal.Content(
                     Stack().Children(
@@ -46,15 +47,12 @@ namespace Tesserae.Tests.Samples
                         Toggle("Is dark overlay").OnChange((s, e) => modal.Dark = s.IsChecked).Checked(modal.Dark),
                         Toggle("Is non-blocking").OnChange((s, e) => modal.IsNonBlocking = s.IsChecked).Checked(modal.IsNonBlocking),
                         Toggle("Hide close button").OnChange((s, e) => modal.ShowCloseButton = !s.IsChecked).Checked(!modal.ShowCloseButton),
-                        Label("Open a dialog from here").Content(Button("Open").OnClick((s,e) => Dialog("Dialog over Modal").Content(TextBlock("Hello World!")).YesNo(() => modal.Header = "Yes", () => modal.Header = "No")))
-                    )
-                )
-            );
+                        Label("Open a dialog from here").SetContent(Button("Open").OnClick((s,e) => Dialog("Dialog over Modal").Content(TextBlock("Hello World!")).YesNo(() => modal.Header = "Yes", () => modal.Header = "No")))))));
         }
 
         public HTMLElement Render()
         {
-            return content.Render();
+            return _content.Render();
         }
     }
 }

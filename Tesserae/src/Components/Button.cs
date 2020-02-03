@@ -7,22 +7,27 @@ namespace Tesserae.Components
 {
     public class Button : ComponentBase<Button, HTMLButtonElement>, IHasTextSize
     {
-        #region Fields
+        private readonly HTMLSpanElement _textSpan;
+        private HTMLElement _iconSpan;
 
-        private HTMLSpanElement _TextSpan;
-        private HTMLElement _IconSpan;
-
-        #endregion
-
-        #region Properties
+        public Button(string text = string.Empty)
+        {
+            _textSpan = Span(_(text: text));
+            InnerElement = Button(_("tss-btn tss-btn-default"), _textSpan);
+            Weight = TextWeight.SemiBold;
+            Size = TextSize.Small;
+            AttachClick();
+            AttachFocus();
+            AttachBlur();
+        }
 
         /// <summary>
         /// Gets or sets button text
         /// </summary>
         public string Text
         {
-            get { return _TextSpan.innerText; }
-            set { _TextSpan.innerText = value; }
+            get { return _textSpan.innerText; }
+            set { _textSpan.innerText = value; }
         }
 
         /// <summary>
@@ -30,27 +35,27 @@ namespace Tesserae.Components
         /// </summary>
         public string Icon
         {
-            get { return _IconSpan?.className; }
+            get { return _iconSpan?.className; }
             set
             {
                 if (string.IsNullOrEmpty(value))
                 {
-                    if (_IconSpan != null)
+                    if (_iconSpan != null)
                     {
-                        InnerElement.removeChild(_IconSpan);
-                        _IconSpan = null;
+                        InnerElement.removeChild(_iconSpan);
+                        _iconSpan = null;
                     }
 
                     return;
                 }
 
-                if (_IconSpan == null)
+                if (_iconSpan == null)
                 {
-                    _IconSpan = I(_());
-                    InnerElement.insertBefore(_IconSpan, _TextSpan);
+                    _iconSpan = I(_());
+                    InnerElement.insertBefore(_iconSpan, _textSpan);
                 }
 
-                _IconSpan.className = value;
+                _iconSpan.className = value;
             }
         }
 
@@ -213,82 +218,67 @@ namespace Tesserae.Components
             }
         }
 
-
-        #endregion
-
-        public Button(string text = string.Empty)
-        {
-            _TextSpan = Span(_(text: text));
-            InnerElement = Button(_("tss-btn tss-btn-default"), _TextSpan);
-            Weight = TextWeight.SemiBold;
-            Size = TextSize.Small;
-            AttachClick();
-            AttachFocus();
-            AttachBlur();
-        }
-
         public override HTMLElement Render()
         {
             return InnerElement;
         }
-    }
 
-    public static class ButtonExtensions
-    {
-        public static Button Text(this Button button, string text)
+
+        public Button Primary()
         {
-            button.Text = text;
-            return button;
-        }
-        public static Button Icon(this Button button, string icon)
-        {
-            button.Icon = icon;
-            return button;
+            IsPrimary = true;
+            return this;
         }
 
-        public static Button Primary(this Button button)
+        public Button Success()
         {
-            button.IsPrimary = true;
-            return button;
+            IsSuccess = true;
+            return this;
         }
 
-        public static Button Success(this Button button)
+        public Button Danger()
         {
-            button.IsSuccess = true;
-            return button;
+            IsDanger = true;
+            return this;
         }
 
-        public static Button Danger(this Button button)
+        public Button Disabled()
         {
-            button.IsDanger = true;
-            return button;
+            IsEnabled = false;
+            return this;
         }
 
-        public static Button Disabled(this Button button)
+        public Button NoBorder()
         {
-            button.IsEnabled = false;
-            return button;
+            InnerElement.classList.add("tss-btn-noborder");
+            return this;
         }
 
-        public static Button NoBorder(this Button button)
+        public Button NoBackground()
         {
-            button.InnerElement.classList.add("tss-btn-noborder");
-            return button;
+            InnerElement.classList.add("tss-btn-nobg");
+            return this;
         }
 
-        public static Button NoBackground(this Button button)
+        public Button Color(string background, string textColor = "white", string borderColor = "white")
         {
-            button.InnerElement.classList.add("tss-btn-nobg");
-            return button;
+            InnerElement.classList.add("tss-btn-nobg");
+            InnerElement.style.background = background;
+            InnerElement.style.color = textColor;
+            InnerElement.style.borderColor = borderColor;
+            return this;
         }
 
-        public static Button Color(this Button button, string background, string textColor = "white", string borderColor = "white")
+        public Button SetText(string text)
         {
-            button.InnerElement.classList.add("tss-btn-nobg");
-            button.InnerElement.style.background = background;
-            button.InnerElement.style.color = textColor;
-            button.InnerElement.style.borderColor = borderColor;
-            return button;
+            Text = text;
+            return this;
+        }
+
+        public Button SetIcon(string icon)
+        {
+            Icon = icon;
+            return this;
         }
     }
 }

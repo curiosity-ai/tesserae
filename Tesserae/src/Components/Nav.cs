@@ -6,258 +6,14 @@ using System.Threading.Tasks;
 
 namespace Tesserae.Components
 {
-
-    public class ComponentInNavLink : NavLink
+    public class Nav : ComponentBase<Nav, HTMLUListElement>, IContainer<Nav.NavLink, Nav.NavLink>
     {
-        private IComponent Content;
-        
-        private bool AlreadyRendered = false;
-
-        public ComponentInNavLink(IComponent content) : base()
-        {
-            Content = content;
-        }
-
-        public override HTMLElement Render()
-        {
-            if(!AlreadyRendered)
-            {
-                AlreadyRendered = true;
-                ClearChildren(_HeaderDiv);
-                _HeaderDiv.removeEventListener("click", ClickHandler);
-                _HeaderDiv.appendChild(Content.Render());
-            }
-
-            return InnerElement;
-        }
-    }
-
-    public class NavLink : ComponentBase<NavLink, HTMLLIElement>, IContainer<NavLink, NavLink>, IHasTextSize
-    {
-        #region Fields
-
-        protected HTMLSpanElement _TextSpan;
-        protected HTMLElement _IconSpan;
-        protected HTMLDivElement _HeaderDiv;
-        protected HTMLUListElement _ChildContainer;
-        protected HTMLButtonElement _ExpandButton;
-
-        private int _Level;
-        private List<NavLink> Children = new List<NavLink>();
-
-        internal event EventHandler<NavLink> OnExpanded;
-
-        #endregion
-
-        #region Events
-
-        internal NavLink SelectedChild { get; private set; }
-
-        public event EventHandler<NavLink> OnSelect;
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets or sets NavLink text
-        /// </summary>
-        public string Text
-        {
-            get { return _TextSpan.innerText; }
-            set { _TextSpan.innerText = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets NavLink icon (icon class)
-        /// </summary>
-        public string Icon
-        {
-            get { return _IconSpan?.className; }
-            set
-            {
-                if (string.IsNullOrEmpty(value))
-                {
-                    if (_IconSpan != null)
-                    {
-                        _HeaderDiv.removeChild(_IconSpan);
-                        _IconSpan = null;
-                    }
-
-                    return;
-                }
-
-                if (_IconSpan == null)
-                {
-                    _IconSpan = I(_());
-                    _HeaderDiv.insertBefore(_IconSpan, _TextSpan);
-                }
-
-                _IconSpan.className = value;
-            }
-        }
-
-        public bool IsExpanded
-        {
-            get { return InnerElement.classList.contains("expanded"); }
-            set
-            {
-                if (value != IsExpanded)
-                {
-                    if (value)
-                    {
-                        InnerElement.classList.add("expanded");
-                        OnExpanded?.Invoke(this, this);
-                    }
-                    else InnerElement.classList.remove("expanded");
-                }
-            }
-        }
-
-        public bool IsSelected
-        {
-            get { return _HeaderDiv.classList.contains("selected"); }
-            set
-            {
-                if (value != IsSelected)
-                {
-                    if (value)
-                    {
-                        OnSelect?.Invoke(this, this);
-                        _HeaderDiv.classList.add("selected");
-                    }
-                    else _HeaderDiv.classList.remove("selected");
-                }
-            }
-        }
-
-        public bool HasChildren
-        {
-            get { return _ChildContainer.hasChildNodes(); }
-        }
-
-        internal int Level
-        {
-            get { return _Level; }
-            set
-            {
-                _Level = value;
-                //_HeaderDiv.style.paddingLeft = $"{_Level * 12}px";
-                foreach(var c in Children)
-                {
-                    c.Level = Level + 1;
-                }
-            }
-        }
-
-        public TextSize Size
-        {
-            get
-            {
-                return TextSizeExtensions.FromClassList(InnerElement, TextSize.Small);
-            }
-            set
-            {
-                InnerElement.classList.remove(Size.ToClassName());
-                InnerElement.classList.add(value.ToClassName());
-            }
-        }
-
-        public TextWeight Weight
-        {
-            get
-            {
-                return TextSizeExtensions.FromClassList(InnerElement, TextWeight.Regular);
-            }
-            set
-            {
-                InnerElement.classList.remove(Weight.ToClassName());
-                InnerElement.classList.add(value.ToClassName());
-            }
-        }
-        #endregion
-
-        public NavLink(string text = null, string icon = null)
-        {
-            _TextSpan = Span(_(text: text));
-            _ChildContainer = Ul(_("tss-nav-link-container"));
-            _ExpandButton = Button(_("tss-nav-link-button"));
-            _HeaderDiv = Div(_("tss-nav-link-header"), _ExpandButton, _TextSpan);
-            _HeaderDiv.addEventListener("click", ClickHandler);
-            InnerElement = Li(_("tss-nav-link"), _HeaderDiv, _ChildContainer);
-            Size = TextSize.Small;
-            Weight = TextWeight.Regular;
-        }
-
-        protected void ClickHandler(object sender)
-        {
-            if (HasChildren) IsExpanded = !IsExpanded;
-            else IsSelected = true;
-        }
-
-        public override HTMLElement Render()
-        {
-            return InnerElement;
-        }
-
-        public void Add(NavLink component)
-        {
-            Children.Add(component);
-            _ChildContainer.appendChild(component.Render());
-            _HeaderDiv.classList.add("expandable");
-            component.Level = Level + 1;
-            component.OnSelect += OnChildSelected;
-            if (component.IsSelected)
-            {
-                OnSelect?.Invoke(this, component);
-
-                if (SelectedChild != null) SelectedChild.IsSelected = false;
-                SelectedChild = component;
-            }
-
-            if (component.SelectedChild != null)
-            {
-                OnSelect?.Invoke(component, component.SelectedChild);
-
-                if (SelectedChild != null) SelectedChild.IsSelected = false;
-                SelectedChild = component.SelectedChild;
-            }
-        }
-
-        private void OnChildSelected(object sender, NavLink e)
-        {
-            OnSelect?.Invoke(this, e);
-        }
-
-        public void Clear()
-        {
-            ClearChildren(_ChildContainer);
-            Children.Clear();
-            _HeaderDiv.classList.remove("expandable");
-
-        }
-
-        public void Replace(NavLink newComponent, NavLink oldComponent)
-        {
-            _ChildContainer.replaceChild(newComponent.Render(), oldComponent.Render());
-            newComponent.OnSelect += OnChildSelected;
-            if (newComponent.IsSelected) OnSelect?.Invoke(this, newComponent);
-        }
-
-        public void Remove(NavLink oldComponent)
-        {
-            _ChildContainer.removeChild(oldComponent.Render());
-        }
-    }
-
-    public class Nav : ComponentBase<Nav, HTMLUListElement>, IContainer<NavLink, NavLink>
-    {
-        public NavLink SelectedLink { get; private set; }
-
         public Nav()
         {
             InnerElement = Ul(_("tss-nav"));
         }
+
+        public NavLink SelectedLink { get; private set; }
 
         public override HTMLElement Render()
         {
@@ -300,6 +56,17 @@ namespace Tesserae.Components
                 SelectedLink = newComponent;
             }
         }
+        public Nav Links(params Nav.NavLink[] children)
+        {
+            children.ForEach(x => Add(x));
+            return this;
+        }
+        
+        public Nav InlineContent(IComponent content)
+        {
+            Add(new Nav.ComponentInNavLink(content));
+            return this;
+        }
 
         private void OnNavLinkSelected(object sender, NavLink e)
         {
@@ -307,82 +74,296 @@ namespace Tesserae.Components
             RaiseOnChange(e);
             SelectedLink = e;
         }
-    }
 
-    public static class NavExtensions
-    {
-        public static Nav Links(this Nav container, params NavLink[] children)
+        public class ComponentInNavLink : NavLink
         {
-            children.ForEach(x => container.Add(x));
-            return container;
-        }
+            private IComponent Content;
 
-        public static NavLink Links(this NavLink container, params NavLink[] children)
-        {
-            children.ForEach(x => container.Add(x));
-            return container;
-        }
+            private bool AlreadyRendered = false;
 
-        public static NavLink LinksAsync(this NavLink container, Func<Task<NavLink[]>> childrenAsync)
-        {
-            bool alreadyRun = false;
-            var dummy = new NavLink("loading...");
-            container.Add(dummy);
-            container.OnExpanded += (s, e) =>
+            public ComponentInNavLink(IComponent content) : base()
             {
-                if (!alreadyRun)
+                Content = content;
+            }
+
+            public override HTMLElement Render()
+            {
+                if (!AlreadyRendered)
                 {
-                    alreadyRun = true;
-                    Task.Run(async () =>
-                    {
-                        var children = await childrenAsync();
-                        container.Remove(dummy);
-                        children.ForEach(x => container.Add(x));
-                    }).FireAndForget();
+                    AlreadyRendered = true;
+                    ClearChildren(_headerDiv);
+                    _headerDiv.removeEventListener("click", ClickHandler);
+                    _headerDiv.appendChild(Content.Render());
                 }
-            };
-            return container;
+
+                return InnerElement;
+            }
         }
 
-        public static Nav InlineContent(this Nav container, IComponent content)
+        public class NavLink : ComponentBase<NavLink, HTMLLIElement>, IContainer<NavLink, NavLink>, IHasTextSize
         {
-            container.Add(new ComponentInNavLink(content));
-            return container;
-        }
+            protected readonly HTMLSpanElement _textSpan;
+            protected HTMLElement _iconSpan;
+            protected readonly HTMLDivElement _headerDiv;
+            protected readonly HTMLUListElement _childContainer;
+            protected readonly HTMLButtonElement _expandButton;
 
-        public static NavLink InlineContent(this NavLink container, IComponent content)
-        {
-            container.Add(new ComponentInNavLink(content));
-            return container;
-        }
+            private int _Level;
+            private readonly List<NavLink> Children = new List<NavLink>();
+            public NavLink(string text = null, string icon = null)
+            {
+                _textSpan = Span(_(text: text));
+                _childContainer = Ul(_("tss-nav-link-container"));
+                _expandButton = Button(_("tss-nav-link-button"));
+                _headerDiv = Div(_("tss-nav-link-header"), _expandButton, _textSpan);
+                _headerDiv.addEventListener("click", ClickHandler);
+                InnerElement = Li(_("tss-nav-link"), _headerDiv, _childContainer);
+                Size = TextSize.Small;
+                Weight = TextWeight.Regular;
+            }
 
-        public static NavLink Selected(this NavLink link)
-        {
-            link.IsSelected = true;
-            return link;
-        }
-        public static NavLink Expanded(this NavLink link)
-        {
-            link.IsExpanded = true;
-            return link;
-        }
+            internal event EventHandler<NavLink> OnExpanded;
 
-        public static NavLink Text(this NavLink link, string text)
-        {
-            link.Text = text;
-            return link;
-        }
+            internal NavLink SelectedChild { get; private set; }
 
-        public static NavLink Icon(this NavLink link, string icon)
-        {
-            link.Icon = icon;
-            return link;
-        }
+            public event EventHandler<NavLink> OnSelect;
 
-        public static NavLink OnSelected(this NavLink link, EventHandler<NavLink> onSelected)
-        {
-            link.OnSelect += onSelected;
-            return link;
+            /// <summary>
+            /// Gets or sets NavLink text
+            /// </summary>
+            public string Text
+            {
+                get { return _textSpan.innerText; }
+                set { _textSpan.innerText = value; }
+            }
+
+            /// <summary>
+            /// Gets or sets NavLink icon (icon class)
+            /// </summary>
+            public string Icon
+            {
+                get { return _iconSpan?.className; }
+                set
+                {
+                    if (string.IsNullOrEmpty(value))
+                    {
+                        if (_iconSpan != null)
+                        {
+                            _headerDiv.removeChild(_iconSpan);
+                            _iconSpan = null;
+                        }
+
+                        return;
+                    }
+
+                    if (_iconSpan == null)
+                    {
+                        _iconSpan = I(_());
+                        _headerDiv.insertBefore(_iconSpan, _textSpan);
+                    }
+
+                    _iconSpan.className = value;
+                }
+            }
+
+            public bool IsExpanded
+            {
+                get { return InnerElement.classList.contains("expanded"); }
+                set
+                {
+                    if (value != IsExpanded)
+                    {
+                        if (value)
+                        {
+                            InnerElement.classList.add("expanded");
+                            OnExpanded?.Invoke(this, this);
+                        }
+                        else InnerElement.classList.remove("expanded");
+                    }
+                }
+            }
+
+            public bool IsSelected
+            {
+                get { return _headerDiv.classList.contains("selected"); }
+                set
+                {
+                    if (value != IsSelected)
+                    {
+                        if (value)
+                        {
+                            OnSelect?.Invoke(this, this);
+                            _headerDiv.classList.add("selected");
+                        }
+                        else _headerDiv.classList.remove("selected");
+                    }
+                }
+            }
+
+            public bool HasChildren
+            {
+                get { return _childContainer.hasChildNodes(); }
+            }
+
+            internal int Level
+            {
+                get { return _Level; }
+                set
+                {
+                    _Level = value;
+                    foreach (var c in Children)
+                    {
+                        c.Level = Level + 1;
+                    }
+                }
+            }
+
+            public TextSize Size
+            {
+                get
+                {
+                    return TextSizeExtensions.FromClassList(InnerElement, TextSize.Small);
+                }
+                set
+                {
+                    InnerElement.classList.remove(Size.ToClassName());
+                    InnerElement.classList.add(value.ToClassName());
+                }
+            }
+
+            public TextWeight Weight
+            {
+                get
+                {
+                    return TextSizeExtensions.FromClassList(InnerElement, TextWeight.Regular);
+                }
+                set
+                {
+                    InnerElement.classList.remove(Weight.ToClassName());
+                    InnerElement.classList.add(value.ToClassName());
+                }
+            }
+            
+            public override HTMLElement Render()
+            {
+                return InnerElement;
+            }
+
+            public void Add(NavLink component)
+            {
+                Children.Add(component);
+                _childContainer.appendChild(component.Render());
+                _headerDiv.classList.add("expandable");
+                component.Level = Level + 1;
+                component.OnSelect += OnChildSelected;
+                if (component.IsSelected)
+                {
+                    OnSelect?.Invoke(this, component);
+
+                    if (SelectedChild != null) SelectedChild.IsSelected = false;
+                    SelectedChild = component;
+                }
+
+                if (component.SelectedChild != null)
+                {
+                    OnSelect?.Invoke(component, component.SelectedChild);
+
+                    if (SelectedChild != null) SelectedChild.IsSelected = false;
+                    SelectedChild = component.SelectedChild;
+                }
+            }
+
+            private void OnChildSelected(object sender, NavLink e)
+            {
+                OnSelect?.Invoke(this, e);
+            }
+
+            public void Clear()
+            {
+                ClearChildren(_childContainer);
+                Children.Clear();
+                _headerDiv.classList.remove("expandable");
+
+            }
+
+            public void Replace(NavLink newComponent, NavLink oldComponent)
+            {
+                _childContainer.replaceChild(newComponent.Render(), oldComponent.Render());
+                newComponent.OnSelect += OnChildSelected;
+                if (newComponent.IsSelected) OnSelect?.Invoke(this, newComponent);
+            }
+
+            public void Remove(NavLink oldComponent)
+            {
+                _childContainer.removeChild(oldComponent.Render());
+            }
+            public NavLink InlineContent(IComponent content)
+            {
+                Add(new Nav.ComponentInNavLink(content));
+                return this;
+            }
+
+            public NavLink Selected()
+            {
+                IsSelected = true;
+                return this;
+            }
+            public NavLink Expanded()
+            {
+                IsExpanded = true;
+                return this;
+            }
+
+            public NavLink SetText(string text)
+            {
+                Text = text;
+                return this;
+            }
+
+            public NavLink SetIcon(string icon)
+            {
+                Icon = icon;
+                return this;
+            }
+
+            public NavLink OnSelected(EventHandler<Nav.NavLink> onSelected)
+            {
+                OnSelect += onSelected;
+                return this;
+            }
+
+            public NavLink Links(params Nav.NavLink[] children)
+            {
+                children.ForEach(x => Add(x));
+                return this;
+            }
+
+            public NavLink LinksAsync(Func<Task<Nav.NavLink[]>> childrenAsync)
+            {
+                bool alreadyRun = false;
+                var dummy = new Nav.NavLink("loading...");
+                Add(dummy);
+                OnExpanded += (s, e) =>
+                {
+                    if (!alreadyRun)
+                    {
+                        alreadyRun = true;
+                        Task.Run(async () =>
+                        {
+                            var children = await childrenAsync();
+                            Remove(dummy);
+                            children.ForEach(x => Add(x));
+                        }).FireAndForget();
+                    }
+                };
+                return this;
+            }
+
+            protected void ClickHandler(object sender)
+            {
+                if (HasChildren) IsExpanded = !IsExpanded;
+                else IsSelected = true;
+            }
         }
     }
 }

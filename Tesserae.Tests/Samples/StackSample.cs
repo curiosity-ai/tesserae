@@ -2,46 +2,47 @@
 using Tesserae.Components;
 using static Retyped.dom;
 using static Tesserae.UI;
+using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
     public class StackSample : IComponent
     {
-        private IComponent content;
+        private IComponent _content;
 
         public StackSample()
         {
             var stack = Stack();
             var countSlider = Slider(5, 0, 10, 1);
-            content = Stack().Children(
-                TextBlock("Stack").XLarge(),
-                TextBlock("Overview").MediumPlus(),
-                TextBlock("A Stack is a container-type component that abstracts the implementation of a flexbox in order to define the layout of its children components."),
-                TextBlock("Usage").MediumPlus(),
+            _content = SectionStack()
+            .Title(TextBlock("Stack").XLarge().Bold())
+            .Section(Stack().Children(
+                SampleTitle("Overview"),
+                TextBlock("A Stack is a container-type component that abstracts the implementation of a flexbox in order to define the layout of its children components.")))
+            .Section(Stack().Children(
+                SampleTitle("Usage"),
                 Stack().Children(
                     Stack().Horizontal().Children(
-                        Stack().Children(
-                            Label("Number of items:").Content(countSlider.OnInput((s, e) => SetChildren(stack, s.Value))),
-                            Stack().Horizontal().Children(
-                                ChoiceGroup("Orientation:").Horizontal().Options(Option("Vertical").Selected(), Option("Horizontal"), Option("Vertical Reverse"), Option("Horizontal Reverse")).OnChange(
-                                (s, e) =>
-                                {
-                                    if (s.SelectedOption.Text == "Horizontal")
-                                        stack.Horizontal();
-                                    else if (s.SelectedOption.Text == "Vertical")
-                                        stack.Vertical();
-                                    else if (s.SelectedOption.Text == "Horizontal Reverse")
-                                        stack.HorizontalReverse();
-                                    else if (s.SelectedOption.Text == "Vertical Reverse")
-                                        stack.VerticalReverse();
-                                })
-                            )
-                        )
-                    ),
-                    stack.HeightAuto()
-                )
-            );
-            SetChildren(stack, 5);
+                    Stack().Children(
+                    Label("Number of items:").SetContent(countSlider.OnInput((s, e) => SetChildren(stack, s.Value))),
+                    Stack().Horizontal().Children(
+                    ChoiceGroup("Orientation:").Horizontal().Options(Option("Vertical").Selected(), Option("Horizontal"), Option("Vertical Reverse"), Option("Horizontal Reverse")).OnChange(
+                        (s, e) =>
+                        {
+                            if (s.SelectedOption.Text == "Horizontal")
+                                stack.Horizontal();
+                            else if (s.SelectedOption.Text == "Vertical")
+                                stack.Vertical();
+                            else if (s.SelectedOption.Text == "Horizontal Reverse")
+                                stack.HorizontalReverse();
+                            else if (s.SelectedOption.Text == "Vertical Reverse")
+                                stack.VerticalReverse();
+                        })
+                    )
+                    )
+                ),
+                stack.HeightAuto())));
+                SetChildren(stack, 5);
         }
 
         private void SetChildren(Stack stack, int count)
@@ -55,7 +56,7 @@ namespace Tesserae.Tests.Samples
 
         public HTMLElement Render()
         {
-            return content.Render();
+            return _content.Render();
         }
     }
 }

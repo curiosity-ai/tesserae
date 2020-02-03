@@ -480,10 +480,10 @@ namespace Tesserae
                 if(t0 < 0)
                 {
                     t0 = t;
-                    ratio = (pixelsPerSecond / maxDelta)/1000;
+                    ratio = (pixelsPerSecond)/1000;
                 }
                 progress = (t-t0) * ratio;
-                if (progress > 1 || stop)
+                if (progress > maxDelta || stop)
                 {
                     if (stop)
                     {
@@ -496,7 +496,7 @@ namespace Tesserae
                 }
                 else
                 {
-                    target.style.marginLeft = "-" + (progress * maxDelta) + "px";
+                    target.style.marginLeft = "-" + (progress) + "px";
                     window.requestAnimationFrame(animateElement);
                 }
             };
