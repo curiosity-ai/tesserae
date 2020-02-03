@@ -150,7 +150,7 @@ namespace Tesserae.Components
         public void Add(Item component)
         {
             _childContainer.appendChild(component.Render());
-            component.OnSelect += OnItemSelected;
+            component.onSelected += OnItemSelected;
 
             if (component.IsSelected)
             {
@@ -258,22 +258,22 @@ namespace Tesserae.Components
 
         public Dropdown Single()
         {
-            Mode = Dropdown.SelectMode.Single;
+            Mode = SelectMode.Single;
             return this;
         }
 
         public Dropdown Multi()
         {
-            Mode = Dropdown.SelectMode.Multi;
+            Mode = SelectMode.Multi;
             return this;
         }
 
-        public Dropdown Items(params Dropdown.Item[] children)
+        public Dropdown Items(params Item[] children)
         {
             children.ForEach(x => Add(x));
             return this;
         }
-        public Dropdown Items(Func<Task<Dropdown.Item[]>> itemsSource)
+        public Dropdown Items(Func<Task<Item[]>> itemsSource)
         {
             ItemsSource = itemsSource;
             return this;
@@ -389,7 +389,8 @@ namespace Tesserae.Components
                 InnerElement.addEventListener("mouseover", OnItemMouseOver);
             }
 
-            public event EventHandler<Item> OnSelect;
+            public event BeforeSelectEventHandler<Item> onBeforeSelected;
+            public event EventHandler<Item> onSelected;
 
             public ItemType Type
             {
@@ -441,9 +442,16 @@ namespace Tesserae.Components
                 {
                     if (value != IsSelected)
                     {
+                        if(value && onBeforeSelected is object)
+                        {
+                            var shouldSelect = onBeforeSelected(this);
+                            if (!shouldSelect) return;
+                        }
+
                         if (value) InnerElement.classList.add("selected");
                         else InnerElement.classList.remove("selected");
-                        OnSelect?.Invoke(this, this);
+
+                        onSelected?.Invoke(this, this);
                     }
                 }
             }
@@ -459,25 +467,37 @@ namespace Tesserae.Components
                 return InnerElement;
             }
 
-            public Dropdown.Item Header()
+            public Item Header()
             {
-                Type = Dropdown.ItemType.Header;
+                Type = ItemType.Header;
                 return this;
             }
-            public Dropdown.Item Divider()
+            public Item Divider()
             {
-                Type = Dropdown.ItemType.Divider;
+                Type = ItemType.Divider;
                 return this;
             }
-            public Dropdown.Item Disabled()
+            public Item Disabled()
             {
                 IsEnabled = false;
                 return this;
             }
 
-            public Dropdown.Item Selected()
+            public Item Selected()
             {
                 IsSelected = true;
+                return this;
+            }
+
+            public Item OnSelected(EventHandler<Item> onSelected)
+            {
+                this.onSelected += onSelected;
+                return this;
+            }
+
+            public Item OnBeforeSelected(BeforeSelectEventHandler<Item> onBeforeSelect)
+            {
+                onBeforeSelected += onBeforeSelect;
                 return this;
             }
 
