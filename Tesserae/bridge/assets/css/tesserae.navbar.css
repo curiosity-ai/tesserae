@@ -5,7 +5,7 @@
     top: 0px;
     left: 0px;
     overflow: hidden;
-    width: 100vw;
+    width: 100%;
     min-height: 48px;
     transform: translateZ(0px);
     background: var(--tss-navbar-background-color);
