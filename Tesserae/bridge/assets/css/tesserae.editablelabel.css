@@ -1,0 +1,57 @@
+﻿/* EditableLabel */
+.tss-editablelabel {
+}
+
+.tss-editablelabel:hover {
+    background-color: whitesmoke;
+}
+
+.tss-editablelabel-editbox {
+    display: none;
+}
+
+.tss-editablelabel-textspan {
+    width: calc(100% - 20px);
+    display: inline-block;
+
+}
+
+.tss-editablelabel-textbox {
+    width: calc(100% - 20px);
+}
+
+.tss-editablelabel-edit-indicator-icon {
+    visibility: hidden;
+}
+
+.tss-editablelabel-edit-close-icon {
+    visibility: hidden;
+    color: lightgray;
+    visibility: hidden;
+}
+
+.tss-editablelabel-displaybox:hover > .tss-editablelabel-edit-indicator-icon {
+    visibility: visible;
+}
+
+.tss-editablelabel.editing > .tss-editablelabel-edit-indicator-icon {
+    visibility: hidden;
+}
+
+.tss-editablelabel.editing {
+    background-color: unset;
+}
+
+.tss-editablelabel.editing > .tss-editablelabel-displaybox {
+    display: none;
+}
+
+.tss-editablelabel.editing > .tss-editablelabel-editbox {
+    display: unset;
+}
+
+
+.tss-editablelabel.editing > .tss-editablelabel-editbox:hover > .tss-editablelabel-edit-close-icon {
+    visibility: unset;
+}
+

@@ -61,6 +61,7 @@ namespace Tesserae.Tests
             _links["ChoiceGroup"         ] = NavLink("ChoiceGroup")         .OnSelected((s, e) => Show("ChoiceGroup"      ,     new ChoiceGroupSample()));
             _links["Dropdown"            ] = NavLink("Dropdown")            .OnSelected((s, e) => Show("Dropdown"         ,     new DropdownSample()));
             _links["Label"               ] = NavLink("Label")               .OnSelected((s, e) => Show("Label"            ,     new LabelSample()));
+            _links["EditableLabel"       ] = NavLink("EditableLabel")       .OnSelected((s, e) => Show("EditableLabel"    ,     new EditableLabelSample()));
             _links["HorizontalSeparator" ] = NavLink("HorizontalSeparator") .OnSelected((s, e) => Show("HorizontalSeparator",   new HorizontalSeparatorSample()));
             _links["TextBox"             ] = NavLink("TextBox")             .OnSelected((s, e) => Show("TextBox"          ,     new TextBoxSample()));
             _links["SearchBox"           ] = NavLink("SearchBox")           .OnSelected((s, e) => Show("SearchBox"        ,     new SearchBoxSample()));
@@ -96,6 +97,7 @@ namespace Tesserae.Tests
                                                                               _links["ChoiceGroup"],
                                                                               _links["Dropdown"] ,
                                                                               _links["Label"],
+                                                                              _links["EditableLabel"],
                                                                               _links["TextBox"] ,
                                                                               _links["SearchBox"] ,
                                                                               _links["Toggle"]),
