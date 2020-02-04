@@ -196,15 +196,19 @@ namespace Tesserae.Components
 
             public Item(string text, IComponent icon) : this(text, "")
             {
-                var newIcon = icon.Render();
-                _container.replaceChild(newIcon, _icon);
-                _icon = newIcon;
+                _icon = icon.Render();
+                CreateSelf(text);
             }
 
             public Item(string text, string icon)
             {
-                _label = Span(_("tss-sidebar-label", text: text));
                 _icon = I(_(icon));
+                CreateSelf(text);
+            }
+
+            private void CreateSelf(string text)
+            {
+                _label = Span(_("tss-sidebar-label", text: text));
                 _container = Div(_("tss-sidebar-item"), Div(_("tss-sidebar-icon"), _icon), _label);
 
                 _container.onclick = (e) =>
