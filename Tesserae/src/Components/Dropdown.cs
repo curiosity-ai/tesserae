@@ -135,6 +135,7 @@ namespace Tesserae.Components
                 }
             }
         }
+
         public Func<Task<Item[]>> ItemsSource { get; set; }
 
         public void Clear()
@@ -154,7 +155,6 @@ namespace Tesserae.Components
 
             if (component.IsSelected)
             {
-
                 OnItemSelected(null, component);
             }
         }
@@ -199,7 +199,7 @@ namespace Tesserae.Components
             var contentRect = (ClientRect)_contentHtml.getBoundingClientRect();
             _contentHtml.style.left = rect.left + "px";
             _contentHtml.style.top = rect.bottom - 1 + "px";
-            _contentHtml.style.width = rect.width + "px";
+            _contentHtml.style.minWidth = rect.width + "px";
 
             if (window.innerHeight - rect.bottom - 1 < contentRect.height)
             {
@@ -268,6 +268,12 @@ namespace Tesserae.Components
             return this;
         }
 
+        public Dropdown NoBorder()
+        {
+            InnerElement.style.border = "none";
+            return this;
+        }
+
         public Dropdown Items(params Item[] children)
         {
             children.ForEach(x => Add(x));
@@ -306,7 +312,10 @@ namespace Tesserae.Components
                 {
                     foreach (var selectedChild in _selectedChildren)
                     {
-                        selectedChild.IsSelected = false;
+                        if(selectedChild != e)
+                        {
+                            selectedChild.IsSelected = false;
+                        }
                     }
 
                     _selectedChildren.Clear();
