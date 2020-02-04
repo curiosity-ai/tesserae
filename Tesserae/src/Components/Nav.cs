@@ -122,19 +122,36 @@ namespace Tesserae.Components
                 Weight = TextWeight.Regular;
             }
 
+            public NavLink(IComponent content)
+            {
+                _childContainer = Ul(_("tss-nav-link-container"));
+                _expandButton = Button(_("tss-nav-link-button"));
+                _headerDiv = Div(_("tss-nav-link-header"), _expandButton, content.Render());
+                _headerDiv.addEventListener("click", ClickHandler);
+                InnerElement = Li(_("tss-nav-link"), _headerDiv, _childContainer);
+                Size = TextSize.Small;
+                Weight = TextWeight.Regular;
+            }
+
+
             internal event EventHandler<NavLink> OnExpanded;
 
             internal NavLink SelectedChild { get; private set; }
 
             public event EventHandler<NavLink> OnSelect;
 
+            private void ThrowIfUsingComponent(string method)
+            {
+                if (_textSpan is null) throw new Exception($"Not allowed to call {method} when using a custom component for rendering the Navlink");
+            }
+
             /// <summary>
             /// Gets or sets NavLink text
             /// </summary>
             public string Text
             {
-                get { return _textSpan.innerText; }
-                set { _textSpan.innerText = value; }
+                get { ThrowIfUsingComponent(nameof(Text));  return _textSpan?.innerText ; }
+                set { ThrowIfUsingComponent(nameof(Text)); _textSpan.innerText = value; }
             }
 
             /// <summary>
@@ -142,9 +159,10 @@ namespace Tesserae.Components
             /// </summary>
             public string Icon
             {
-                get { return _iconSpan?.className; }
+                get { ThrowIfUsingComponent(nameof(Icon)); return _iconSpan?.className; }
                 set
                 {
+                    ThrowIfUsingComponent(nameof(Icon));
                     if (string.IsNullOrEmpty(value))
                     {
                         if (_iconSpan != null)

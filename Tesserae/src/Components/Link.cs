@@ -9,14 +9,14 @@ namespace Tesserae.Components
     {
         public Link(string url, IComponent component)
         {
-            InnerElement = A(_(href:url), component.Render());
+            InnerElement = A(_(href: url), component.Render());
             AttachClick();
             AttachBlur();
             AttachFocus();
         }
 
         public string Target { get { return InnerElement.target; } set { InnerElement.target = value; } }
-        public string URL    { get { return InnerElement.href; }   set { InnerElement.href   = value; } }
+        public string URL { get { return InnerElement.href; } set { InnerElement.href = value; } }
 
         public override HTMLElement Render()
         {
@@ -31,7 +31,7 @@ namespace Tesserae.Components
             link.Target = "_blank";
             return link;
         }
-        
+
         public static Link OnClicked(this Link link, Action onClick)
         {
             link.Target = "_blank";

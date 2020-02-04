@@ -557,7 +557,7 @@ namespace Tesserae.Components
             return component;
         }
 
-        public static T Padding<T>(this T component, float left, float top, float right, float bottom) where T : IComponent
+        public static T Padding<T>(this T component, float left = 0, float top = 0, float right = 0, float bottom = 0) where T : IComponent
         {
             Stack.SetPadding(component, new Stack.ItemMargin(left, top, right, bottom));
             return component;

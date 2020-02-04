@@ -54,30 +54,31 @@ namespace Tesserae.Tests
 
         public static IComponent MainNav()
         {
-            _links["Button"           ] = NavLink("Button")           .OnSelected((s, e) => Show("Button"           ,     new ButtonSample()));
-            _links["CheckBox"         ] = NavLink("CheckBox")         .OnSelected((s, e) => Show("CheckBox"         ,     new CheckBoxSample()));
-            _links["ChoiceGroup"      ] = NavLink("ChoiceGroup")      .OnSelected((s, e) => Show("ChoiceGroup"      ,     new ChoiceGroupSample()));
-            _links["Dropdown"         ] = NavLink("Dropdown")         .OnSelected((s, e) => Show("Dropdown"         ,     new DropdownSample()));
-            _links["Label"            ] = NavLink("Label")            .OnSelected((s, e) => Show("Label"            ,     new LabelSample()));
-            _links["TextBox"          ] = NavLink("TextBox")          .OnSelected((s, e) => Show("TextBox"          ,     new TextBoxSample()));
-            _links["SearchBox"        ] = NavLink("SearchBox")        .OnSelected((s, e) => Show("SearchBox"        ,     new SearchBoxSample()));
-            _links["Toggle"           ] = NavLink("Toggle")           .OnSelected((s, e) => Show("Toggle"           ,     new ToggleSample()));
-            _links["Spinner"          ] = NavLink("Spinner")          .OnSelected((s, e) => Show("Spinner"          ,     new SpinnerSample()));
-            _links["ProgressIndicator"] = NavLink("ProgressIndicator").OnSelected((s, e) => Show("ProgressIndicator",     new ProgressIndicatorSample()));
-            _links["Dialog"           ] = NavLink("Dialog")           .OnSelected((s, e) => Show("Dialog"           ,     new DialogSample()));
-            _links["Modal"            ] = NavLink("Modal")            .OnSelected((s, e) => Show("Modal"            ,     new ModalSample()));
-            _links["Panel"            ] = NavLink("Panel")            .OnSelected((s, e) => Show("Panel"            ,     new PanelSample()));
-            _links["ContextMenu"      ] = NavLink("ContextMenu")      .OnSelected((s, e) => Show("ContextMenu"      ,     new ContextMenuSample()));
-            _links["ProgressModal"    ] = NavLink("ProgressModal")    .OnSelected((s, e) => Show("ProgressModal"    ,     new ProgressModalSample()));
-            _links["Layer"            ] = NavLink("Layer")            .OnSelected((s, e) => Show("Layer"            ,     new LayerSample()));
-            _links["Stack"            ] = NavLink("Stack")            .OnSelected((s, e) => Show("Stack"            ,     new StackSample()));
-            _links["SectionStack"     ] = NavLink("SectionStack")     .OnSelected((s, e) => Show("SectionStack"     ,     new SectionStackSample()));
-            _links["TextBlock"        ] = NavLink("TextBlock")        .OnSelected((s, e) => Show("TextBlock"        ,     new TextBlockSample()));
-            _links["Validator"        ] = NavLink("Validator")        .OnSelected((s, e) => Show("Validator"        ,     new ValidatorSample()));
-            _links["Breadcrumb"       ] = NavLink("Breadcrumb")       .OnSelected((s, e) => Show("Breadcrumb"       ,     new BreadcrumbSample()));
-            _links["Pivot"            ] = NavLink("Pivot")            .OnSelected((s, e) => Show("Pivot"            ,     new PivotSample()));
-            _links["Defer"            ] = NavLink("Defer")            .OnSelected((s, e) => Show("Defer"            ,     new DeferSample()));
-            _links["Toast"            ] = NavLink("Toast")            .OnSelected((s, e) => Show("Toast"            ,     new ToastSample()));
+            _links["Button"              ] = NavLink("Button")              .OnSelected((s, e) => Show("Button"           ,     new ButtonSample()));
+            _links["CheckBox"            ] = NavLink("CheckBox")            .OnSelected((s, e) => Show("CheckBox"         ,     new CheckBoxSample()));
+            _links["ChoiceGroup"         ] = NavLink("ChoiceGroup")         .OnSelected((s, e) => Show("ChoiceGroup"      ,     new ChoiceGroupSample()));
+            _links["Dropdown"            ] = NavLink("Dropdown")            .OnSelected((s, e) => Show("Dropdown"         ,     new DropdownSample()));
+            _links["Label"               ] = NavLink("Label")               .OnSelected((s, e) => Show("Label"            ,     new LabelSample()));
+            _links["HorizontalSeparator" ] = NavLink("HorizontalSeparator") .OnSelected((s, e) => Show("HorizontalSeparator",   new HorizontalSeparatorSample()));
+            _links["TextBox"             ] = NavLink("TextBox")             .OnSelected((s, e) => Show("TextBox"          ,     new TextBoxSample()));
+            _links["SearchBox"           ] = NavLink("SearchBox")           .OnSelected((s, e) => Show("SearchBox"        ,     new SearchBoxSample()));
+            _links["Toggle"              ] = NavLink("Toggle")              .OnSelected((s, e) => Show("Toggle"           ,     new ToggleSample()));
+            _links["Spinner"             ] = NavLink("Spinner")             .OnSelected((s, e) => Show("Spinner"          ,     new SpinnerSample()));
+            _links["ProgressIndicator"   ] = NavLink("ProgressIndicator")   .OnSelected((s, e) => Show("ProgressIndicator",     new ProgressIndicatorSample()));
+            _links["Dialog"              ] = NavLink("Dialog")              .OnSelected((s, e) => Show("Dialog"           ,     new DialogSample()));
+            _links["Modal"               ] = NavLink("Modal")               .OnSelected((s, e) => Show("Modal"            ,     new ModalSample()));
+            _links["Panel"               ] = NavLink("Panel")               .OnSelected((s, e) => Show("Panel"            ,     new PanelSample()));
+            _links["ContextMenu"         ] = NavLink("ContextMenu")         .OnSelected((s, e) => Show("ContextMenu"      ,     new ContextMenuSample()));
+            _links["ProgressModal"       ] = NavLink("ProgressModal")       .OnSelected((s, e) => Show("ProgressModal"    ,     new ProgressModalSample()));
+            _links["Layer"               ] = NavLink("Layer")               .OnSelected((s, e) => Show("Layer"            ,     new LayerSample()));
+            _links["Stack"               ] = NavLink("Stack")               .OnSelected((s, e) => Show("Stack"            ,     new StackSample()));
+            _links["SectionStack"        ] = NavLink("SectionStack")        .OnSelected((s, e) => Show("SectionStack"     ,     new SectionStackSample()));
+            _links["TextBlock"           ] = NavLink("TextBlock")           .OnSelected((s, e) => Show("TextBlock"        ,     new TextBlockSample()));
+            _links["Validator"           ] = NavLink("Validator")           .OnSelected((s, e) => Show("Validator"        ,     new ValidatorSample()));
+            _links["Breadcrumb"          ] = NavLink("Breadcrumb")          .OnSelected((s, e) => Show("Breadcrumb"       ,     new BreadcrumbSample()));
+            _links["Pivot"               ] = NavLink("Pivot")               .OnSelected((s, e) => Show("Pivot"            ,     new PivotSample()));
+            _links["Defer"               ] = NavLink("Defer")               .OnSelected((s, e) => Show("Defer"            ,     new DeferSample()));
+            _links["Toast"               ] = NavLink("Toast")               .OnSelected((s, e) => Show("Toast"            ,     new ToastSample()));
             
 
             return Stack().Padding(16).NoShrink().MinHeightStretch()
@@ -114,6 +115,7 @@ namespace Tesserae.Tests
                                                                     .SemiBold()
                                                                     .Links(_links["Layer"]       ,
                                                                            _links["Stack"]       ,
+                                                                           _links["HorizontalSeparator"],
                                                                            _links["SectionStack"],
                                                                            _links["TextBlock"]   ,
                                                                            _links["Validator"]   ,

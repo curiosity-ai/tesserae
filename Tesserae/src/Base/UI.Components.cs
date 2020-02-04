@@ -71,6 +71,12 @@ namespace Tesserae
 
         public static TextBlock TextBlock(string text = string.Empty) => new TextBlock(text);
 
+        public static Icon Icon(string icon) => new Icon(icon);
+
+        public static HorizontalSeparator HorizontalSeparator(string text) => new HorizontalSeparator(text);
+        
+        public static HorizontalSeparator HorizontalSeparator(IComponent component) => new HorizontalSeparator(component);
+
         public static Label Label(string text = string.Empty) => new Label(text);
 
         public static Label Label(IComponent component) => new Label(component);
