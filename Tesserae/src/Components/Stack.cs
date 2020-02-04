@@ -633,7 +633,7 @@ namespace Tesserae.Components
             return component;
         }
 
-        public static T Margin<T>(this T component, Unit unit, float margin) where T : IComponent
+        public static T Margin<T>(this T component, Unit unit, float margin = 0) where T : IComponent
         {
             Stack.SetMarginLeft(component, unit, margin);
             Stack.SetMarginRight(component, unit, margin);
@@ -642,31 +642,31 @@ namespace Tesserae.Components
             return component;
         }
 
-        public static T MarginLeft<T>(this T component, Unit unit, float margin) where T : IComponent
+        public static T MarginLeft<T>(this T component, Unit unit, float margin = 0) where T : IComponent
         {
             Stack.SetMarginLeft(component, unit, margin);
             return component;
         }
 
-        public static T MarginRight<T>(this T component, Unit unit, float margin) where T : IComponent
+        public static T MarginRight<T>(this T component, Unit unit, float margin = 0) where T : IComponent
         {
             Stack.SetMarginRight(component, unit, margin);
             return component;
         }
 
-        public static T MarginTop<T>(this T component, Unit unit, float margin) where T : IComponent
+        public static T MarginTop<T>(this T component, Unit unit, float margin = 0) where T : IComponent
         {
             Stack.SetMarginTop(component, unit, margin);
             return component;
         }
 
-        public static T MarginBottom<T>(this T component, Unit unit, float margin) where T : IComponent
+        public static T MarginBottom<T>(this T component, Unit unit, float margin = 0) where T : IComponent
         {
             Stack.SetMarginBottom(component, unit, margin);
             return component;
         }
 
-        public static T Padding<T>(this T component, Unit unit, float padding) where T : IComponent
+        public static T Padding<T>(this T component, Unit unit, float padding = 0) where T : IComponent
         {
             Stack.SetPaddingLeft(component, unit, padding);
             Stack.SetPaddingRight(component, unit, padding);
@@ -675,25 +675,25 @@ namespace Tesserae.Components
             return component;
         }
 
-        public static T PaddingLeft<T>(this T component, Unit unit, float padding) where T : IComponent
+        public static T PaddingLeft<T>(this T component, Unit unit, float padding = 0) where T : IComponent
         {
             Stack.SetPaddingLeft(component, unit, padding);
             return component;
         }
 
-        public static T PaddingRight<T>(this T component, Unit unit, float padding) where T : IComponent
+        public static T PaddingRight<T>(this T component, Unit unit, float padding = 0) where T : IComponent
         {
             Stack.SetPaddingRight(component, unit, padding);
             return component;
         }
 
-        public static T PaddingTop<T>(this T component, Unit unit, float padding) where T : IComponent
+        public static T PaddingTop<T>(this T component, Unit unit, float padding = 0) where T : IComponent
         {
             Stack.SetPaddingTop(component, unit, padding);
             return component;
         }
 
-        public static T PaddingBottom<T>(this T component, Unit unit, float padding) where T : IComponent
+        public static T PaddingBottom<T>(this T component, Unit unit, float padding = 0) where T : IComponent
         {
             Stack.SetPaddingBottom(component, unit, padding);
             return component;
