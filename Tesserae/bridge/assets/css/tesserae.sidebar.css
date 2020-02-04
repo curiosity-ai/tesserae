@@ -18,6 +18,16 @@
         background: var(--tss-default-background-color);
     }
 
+
+    .tss-sidebar.small {
+        width: 32px;
+    }
+
+
+        .tss-sidebar.small:hover {
+            width: auto;
+        }
+
     .tss-sidebar:hover {
         width: auto;
         box-shadow: rgba(0, 0, 0, 0.4) 0px 0px 50px 0px;
@@ -129,10 +139,6 @@
     cursor: none;
     pointer-events: none;
     color: var(--tss-disabled-foreground-color);
-}
-
-.tss-sidebar.small {
-    width:32px;
 }
 
     .tss-sidebar.small > .tss-sidebar-item > .tss-sidebar-icon {
