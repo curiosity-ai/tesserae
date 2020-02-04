@@ -18,7 +18,7 @@ namespace Tesserae.Components
             _titleHost   = Raw();
             _messageHost = Raw();
             _progressHost = Raw();
-            _spinner = Spinner().Large().Margin(8);
+            _spinner = Spinner().Large().Margin(Unit.Pixels, 8);
             _progressHost.Content(_spinner);
             _progressIndicator = ProgressIndicator();
             _isSpinner = true;

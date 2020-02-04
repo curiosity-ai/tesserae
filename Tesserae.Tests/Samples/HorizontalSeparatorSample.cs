@@ -36,9 +36,9 @@ namespace Tesserae.Tests.Samples
                     HorizontalSeparator("Left").Left(),
                     HorizontalSeparator("Right").Right(),
                     SampleTitle("Custom Separators"),
-                    HorizontalSeparator(Stack().Horizontal().Children(Icon("fal fa-plane").AlignCenter().Padding(right: 8), TextBlock("Custom Center").SemiBold().MediumPlus().AlignCenter())).Primary(),
-                    HorizontalSeparator(Stack().Horizontal().Children(Icon("fal fa-plane").AlignCenter().Padding(right: 8), TextBlock("Custom Left").SemiBold().MediumPlus().AlignCenter())).Primary().Left(),
-                    HorizontalSeparator(Stack().Horizontal().Children(Icon("fal fa-plane").AlignCenter().Padding(right: 8), TextBlock("Custom Right").SemiBold().MediumPlus().AlignCenter())).Primary().Right()));
+                    HorizontalSeparator(Stack().Horizontal().Children(Icon("fal fa-plane").AlignCenter().PaddingRight(Unit.Pixels, 8), TextBlock("Custom Center").SemiBold().MediumPlus().AlignCenter())).Primary(),
+                    HorizontalSeparator(Stack().Horizontal().Children(Icon("fal fa-plane").AlignCenter().PaddingRight(Unit.Pixels, 8), TextBlock("Custom Left").SemiBold().MediumPlus().AlignCenter())).Primary().Left(),
+                    HorizontalSeparator(Stack().Horizontal().Children(Icon("fal fa-plane").AlignCenter().PaddingRight(Unit.Pixels, 8), TextBlock("Custom Right").SemiBold().MediumPlus().AlignCenter())).Primary().Right()));
         }
 
         public HTMLElement Render()

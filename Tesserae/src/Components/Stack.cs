@@ -220,6 +220,7 @@ namespace Tesserae.Components
             {
                 item = GetItem(component);
             }
+
             switch (sizeType)
             {
                 case Unit.Auto: item.style.maxHeight = "auto"; break;
@@ -230,38 +231,183 @@ namespace Tesserae.Components
             item.setAttribute("tss-stk-mxh", "");
         }
 
-
-        public static ItemMargin GetMargin(IComponent component)
+        public static void SetMarginLeft(IComponent component, Unit sizeType, float size = 0)
         {
-            var item = GetItem(component);
-            ItemMargin result = new ItemMargin();
-            if (item.style.marginLeft.EndsWith("px")) result.Left = float.Parse(item.style.marginLeft.Substring(0, item.style.marginLeft.Length - 2));
-            if (item.style.marginTop.EndsWith("px")) result.Top = float.Parse(item.style.marginTop.Substring(0, item.style.marginTop.Length - 2));
-            if (item.style.marginRight.EndsWith("px")) result.Right = float.Parse(item.style.marginRight.Substring(0, item.style.marginRight.Length - 2));
-            if (item.style.marginBottom.EndsWith("px")) result.Bottom = float.Parse(item.style.marginBottom.Substring(0, item.style.marginBottom.Length - 2));
+            HTMLElement item;
+            if (component is Stack stack)
+            {
+                item = stack.InnerElement;
+            }
+            else
+            {
+                item = GetItem(component);
+            }
+            switch (sizeType)
+            {
+                case Unit.Auto: item.style.marginLeft = "auto"; break;
+                case Unit.Pixels: item.style.marginLeft = $"{size:0.####}px"; break;
+                case Unit.Percents: item.style.marginLeft = $"{size:0.####}%"; break;
+                case Unit.Viewport: item.style.marginLeft = $"{size:0.####}vh"; break;
+            }
 
-            return result;
-        }
-
-        public static void SetMargin(IComponent component, ItemMargin margin)
-        {
-            var item = GetItem(component);
-            item.style.marginLeft = $"{margin.Left}px";
-            item.style.marginTop = $"{margin.Top}px";
-            item.style.marginRight = $"{margin.Right}px";
-            item.style.marginBottom = $"{margin.Bottom}px";
             item.setAttribute("tss-stk-m", "");
         }
 
-        public static void SetPadding(IComponent component, ItemMargin padding)
+        public static void SetMarginRight(IComponent component, Unit sizeType, float size = 0)
         {
-            var item = GetItem(component);
-            item.style.paddingLeft = $"{padding.Left}px";
-            item.style.paddingTop = $"{padding.Top}px";
-            item.style.paddingRight = $"{padding.Right}px";
-            item.style.paddingBottom = $"{padding.Bottom}px";
+            HTMLElement item;
+            if (component is Stack stack)
+            {
+                item = stack.InnerElement;
+            }
+            else
+            {
+                item = GetItem(component);
+            }
+            switch (sizeType)
+            {
+                case Unit.Auto: item.style.marginRight = "auto"; break;
+                case Unit.Pixels: item.style.marginRight = $"{size:0.####}px"; break;
+                case Unit.Percents: item.style.marginRight = $"{size:0.####}%"; break;
+                case Unit.Viewport: item.style.marginRight = $"{size:0.####}vh"; break;
+            }
+
+            item.setAttribute("tss-stk-m", "");
+        }
+
+        public static void SetMarginTop(IComponent component, Unit sizeType, float size = 0)
+        {
+            HTMLElement item;
+            if (component is Stack stack)
+            {
+                item = stack.InnerElement;
+            }
+            else
+            {
+                item = GetItem(component);
+            }
+            switch (sizeType)
+            {
+                case Unit.Auto: item.style.marginTop= "auto"; break;
+                case Unit.Pixels: item.style.marginTop = $"{size:0.####}px"; break;
+                case Unit.Percents: item.style.marginTop = $"{size:0.####}%"; break;
+                case Unit.Viewport: item.style.marginTop = $"{size:0.####}vh"; break;
+            }
+
+            item.setAttribute("tss-stk-m", "");
+        }
+
+        public static void SetMarginBottom(IComponent component, Unit sizeType, float size = 0)
+        {
+            HTMLElement item;
+            if (component is Stack stack)
+            {
+                item = stack.InnerElement;
+            }
+            else
+            {
+                item = GetItem(component);
+            }
+            switch (sizeType)
+            {
+                case Unit.Auto: item.style.marginBottom = "auto"; break;
+                case Unit.Pixels: item.style.marginBottom = $"{size:0.####}px"; break;
+                case Unit.Percents: item.style.marginBottom = $"{size:0.####}%"; break;
+                case Unit.Viewport: item.style.marginBottom = $"{size:0.####}vh"; break;
+            }
+
+            item.setAttribute("tss-stk-m", "");
+        }
+
+
+        public static void SetPaddingLeft(IComponent component, Unit sizeType, float size = 0)
+        {
+            HTMLElement item;
+            if (component is Stack stack)
+            {
+                item = stack.InnerElement;
+            }
+            else
+            {
+                item = GetItem(component);
+            }
+            switch (sizeType)
+            {
+                case Unit.Auto: item.style.paddingLeft = "auto"; break;
+                case Unit.Pixels: item.style.paddingLeft = $"{size:0.####}px"; break;
+                case Unit.Percents: item.style.paddingLeft = $"{size:0.####}%"; break;
+                case Unit.Viewport: item.style.paddingLeft = $"{size:0.####}vh"; break;
+            }
+
             item.setAttribute("tss-stk-p", "");
         }
+
+        public static void SetPaddingRight(IComponent component, Unit sizeType, float size = 0)
+        {
+            HTMLElement item;
+            if (component is Stack stack)
+            {
+                item = stack.InnerElement;
+            }
+            else
+            {
+                item = GetItem(component);
+            }
+            switch (sizeType)
+            {
+                case Unit.Auto: item.style.paddingRight = "auto"; break;
+                case Unit.Pixels: item.style.paddingRight = $"{size:0.####}px"; break;
+                case Unit.Percents: item.style.paddingRight = $"{size:0.####}%"; break;
+                case Unit.Viewport: item.style.paddingRight = $"{size:0.####}vh"; break;
+            }
+
+            item.setAttribute("tss-stk-p", "");
+        }
+
+        public static void SetPaddingTop(IComponent component, Unit sizeType, float size = 0)
+        {
+            HTMLElement item;
+            if (component is Stack stack)
+            {
+                item = stack.InnerElement;
+            }
+            else
+            {
+                item = GetItem(component);
+            }
+            switch (sizeType)
+            {
+                case Unit.Auto: item.style.paddingTop = "auto"; break;
+                case Unit.Pixels: item.style.paddingTop = $"{size:0.####}px"; break;
+                case Unit.Percents: item.style.paddingTop = $"{size:0.####}%"; break;
+                case Unit.Viewport: item.style.paddingTop = $"{size:0.####}vh"; break;
+            }
+
+            item.setAttribute("tss-stk-p", "");
+        }
+
+        public static void SetPaddingBottom(IComponent component, Unit sizeType, float size = 0)
+        {
+            HTMLElement item;
+            if (component is Stack stack)
+            {
+                item = stack.InnerElement;
+            }
+            else
+            {
+                item = GetItem(component);
+            }
+            switch (sizeType)
+            {
+                case Unit.Auto: item.style.paddingBottom = "auto"; break;
+                case Unit.Pixels: item.style.paddingBottom = $"{size:0.####}px"; break;
+                case Unit.Percents: item.style.paddingBottom = $"{size:0.####}%"; break;
+                case Unit.Viewport: item.style.paddingBottom = $"{size:0.####}vh"; break;
+            }
+
+            item.setAttribute("tss-stk-p", "");
+        }
+
 
 
         public static int GetGrow(IComponent component)
@@ -451,33 +597,6 @@ namespace Tesserae.Components
             public Unit Type { get; set; }
             public float Value { get; set; }
         }
-
-        public struct ItemMargin
-        {
-            public float Left { get; set; }
-            public float Top { get; set; }
-            public float Right { get; set; }
-            public float Bottom { get; set; }
-
-            public ItemMargin(float margin = 0)
-            {
-                Left = Top = Right = Bottom = margin;
-            }
-
-            public ItemMargin(float leftRight, float topBottom)
-            {
-                Left = Right = leftRight;
-                Top = Bottom = topBottom;
-            }
-
-            public ItemMargin(float left, float top, float right, float bottom)
-            {
-                Left = left;
-                Top = top;
-                Right = right;
-                Bottom = bottom;
-            }
-        }
     }
 
     public static class StackExtensions
@@ -514,52 +633,69 @@ namespace Tesserae.Components
             return component;
         }
 
-        public static T Margin<T>(this T component, Stack.ItemMargin margin) where T : IComponent
+        public static T Margin<T>(this T component, Unit unit, float margin) where T : IComponent
         {
-            Stack.SetMargin(component, margin);
+            Stack.SetMarginLeft(component, unit, margin);
+            Stack.SetMarginRight(component, unit, margin);
+            Stack.SetMarginTop(component, unit, margin);
+            Stack.SetMarginBottom(component, unit, margin);
             return component;
         }
 
-        public static T Margin<T>(this T component, float margin) where T : IComponent
+        public static T MarginLeft<T>(this T component, Unit unit, float margin) where T : IComponent
         {
-            Stack.SetMargin(component, new Stack.ItemMargin(margin));
+            Stack.SetMarginLeft(component, unit, margin);
             return component;
         }
 
-        public static T Margin<T>(this T component, float leftRight, float topBottom) where T : IComponent
+        public static T MarginRight<T>(this T component, Unit unit, float margin) where T : IComponent
         {
-            Stack.SetMargin(component, new Stack.ItemMargin(leftRight, topBottom));
+            Stack.SetMarginRight(component, unit, margin);
             return component;
         }
 
-        public static T Margin<T>(this T component, float left, float top, float right, float bottom) where T : IComponent
+        public static T MarginTop<T>(this T component, Unit unit, float margin) where T : IComponent
         {
-            Stack.SetMargin(component, new Stack.ItemMargin(left, top, right, bottom));
+            Stack.SetMarginTop(component, unit, margin);
             return component;
         }
 
-
-        public static T Padding<T>(this T component, Stack.ItemMargin margin) where T : IComponent
+        public static T MarginBottom<T>(this T component, Unit unit, float margin) where T : IComponent
         {
-            Stack.SetPadding(component, margin);
+            Stack.SetMarginBottom(component, unit, margin);
             return component;
         }
 
-        public static T Padding<T>(this T component, float margin) where T : IComponent
+        public static T Padding<T>(this T component, Unit unit, float padding) where T : IComponent
         {
-            Stack.SetPadding(component, new Stack.ItemMargin(margin));
+            Stack.SetPaddingLeft(component, unit, padding);
+            Stack.SetPaddingRight(component, unit, padding);
+            Stack.SetPaddingTop(component, unit, padding);
+            Stack.SetPaddingBottom(component, unit, padding);
             return component;
         }
 
-        public static T Padding<T>(this T component, float leftRight, float topBottom) where T : IComponent
+        public static T PaddingLeft<T>(this T component, Unit unit, float padding) where T : IComponent
         {
-            Stack.SetPadding(component, new Stack.ItemMargin(leftRight, topBottom));
+            Stack.SetPaddingLeft(component, unit, padding);
             return component;
         }
 
-        public static T Padding<T>(this T component, float left = 0, float top = 0, float right = 0, float bottom = 0) where T : IComponent
+        public static T PaddingRight<T>(this T component, Unit unit, float padding) where T : IComponent
         {
-            Stack.SetPadding(component, new Stack.ItemMargin(left, top, right, bottom));
+            Stack.SetPaddingRight(component, unit, padding);
+            return component;
+        }
+
+        public static T PaddingTop<T>(this T component, Unit unit, float padding) where T : IComponent
+        {
+            Stack.SetPaddingTop(component, unit, padding);
+            return component;
+        }
+
+        public static T PaddingBottom<T>(this T component, Unit unit, float padding) where T : IComponent
+        {
+            Stack.SetPaddingBottom(component, unit, padding);
             return component;
         }
 
