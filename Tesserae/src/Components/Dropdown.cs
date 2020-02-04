@@ -310,7 +310,7 @@ namespace Tesserae.Components
             {
                 if (_selectedChildren.Count > 0)
                 {
-                    foreach (var selectedChild in _selectedChildren)
+                    foreach (var selectedChild in _selectedChildren.ToArray()) //Need to copy as setting IsSelected will get back here
                     {
                         if(selectedChild != e)
                         {
