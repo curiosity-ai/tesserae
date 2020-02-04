@@ -33,7 +33,7 @@ namespace Tesserae.Tests.Samples
                     SampleTitle("Usage"),
                     Label("Selected: ").SetContent(TextBlock().Var(out var msg)),
                     TextBlock("All Visible").Medium(),
-                    Breadcrumb().Padding(0, 16, 0, 16).Items(
+                    Breadcrumb().PaddingTop(Unit.Pixels, 16).PaddingBottom(Unit.Pixels, 16).Items(
                         Crumb("Folder 1").OnClick((s,e) => msg.Text("Folder 1")),
                         Crumb("Folder 2").OnClick((s, e) => msg.Text("Folder 2")).Disabled(),
                         Crumb("Folder 3").OnClick((s, e) => msg.Text("Folder 3")),
@@ -42,7 +42,7 @@ namespace Tesserae.Tests.Samples
                         Crumb("Folder 6").OnClick((s, e) => msg.Text("Folder 6"))),
 
                     TextBlock("All Visible, Small").Medium(),
-                    Breadcrumb().Small().Padding(0, 16, 0, 16).Items(
+                    Breadcrumb().Small().PaddingTop(Unit.Pixels, 16).PaddingBottom(Unit.Pixels, 16).Items(
                         Crumb("Folder 1").OnClick((s, e) => msg.Text("Folder 1")),
                         Crumb("Folder 2").OnClick((s, e) => msg.Text("Folder 2")).Disabled(),
                         Crumb("Folder 3").OnClick((s, e) => msg.Text("Folder 3")),
@@ -51,7 +51,7 @@ namespace Tesserae.Tests.Samples
                         Crumb("Folder 6").OnClick((s, e) => msg.Text("Folder 6"))),
 
                     TextBlock("Collapse 200px").Medium(),
-                    Breadcrumb().Padding(0, 16, 0, 16).MaxWidth(200, Unit.Pixels).Items(
+                    Breadcrumb().PaddingTop(Unit.Pixels, 16).PaddingBottom(Unit.Pixels, 16).MaxWidth(200, Unit.Pixels).Items(
                         Crumb("Folder 1").OnClick((s, e) => msg.Text("Folder 1")),
                         Crumb("Folder 2").OnClick((s, e) => msg.Text("Folder 2")),
                         Crumb("Folder 3").OnClick((s, e) => msg.Text("Folder 3")),
@@ -61,7 +61,7 @@ namespace Tesserae.Tests.Samples
                     ,
 
                     TextBlock("Collapse 200px, Small").Medium(),
-                    Breadcrumb().Padding(0, 16, 0, 16).Small().MaxWidth(200, Unit.Pixels).Items(
+                    Breadcrumb().PaddingTop(Unit.Pixels, 16).PaddingBottom(Unit.Pixels, 16).Small().MaxWidth(200, Unit.Pixels).Items(
                         Crumb("Folder 1").OnClick((s, e) => msg.Text("Folder 1")),
                         Crumb("Folder 2").OnClick((s, e) => msg.Text("Folder 2")),
                         Crumb("Folder 3").OnClick((s, e) => msg.Text("Folder 3")),
@@ -70,7 +70,7 @@ namespace Tesserae.Tests.Samples
                         Crumb("Folder 6").OnClick((s, e) => msg.Text("Folder 6")))
                     ,
                     TextBlock("Collapse 300px").Medium(),
-                    Breadcrumb().Padding(0, 16, 0, 16).MaxWidth(300, Unit.Pixels).Items(
+                    Breadcrumb().PaddingTop(Unit.Pixels, 16).PaddingBottom(Unit.Pixels, 16).MaxWidth(300, Unit.Pixels).Items(
                         Crumb("Folder 1").OnClick((s, e) => msg.Text("Folder 1")),
                         Crumb("Folder 2").OnClick((s, e) => msg.Text("Folder 2")),
                         Crumb("Folder 3").OnClick((s, e) => msg.Text("Folder 3")),
@@ -79,7 +79,7 @@ namespace Tesserae.Tests.Samples
                         Crumb("Folder 6").OnClick((s, e) => msg.Text("Folder 6"))),
                     
                     TextBlock("Collapse 300px, from second, custom chevron").Medium(),
-                    Breadcrumb().Padding(0, 16, 0, 16).MaxWidth(300, Unit.Pixels).SetChevron("fa-plane").SetOverflowIndex(1).Items(
+                    Breadcrumb().PaddingTop(Unit.Pixels, 16).PaddingBottom(Unit.Pixels, 16).MaxWidth(300, Unit.Pixels).SetChevron("fa-plane").SetOverflowIndex(1).Items(
                         Crumb("Folder 1").OnClick((s, e) => msg.Text("Folder 1")),
                         Crumb("Folder 2").OnClick((s, e) => msg.Text("Folder 2")),
                         Crumb("Folder 3").OnClick((s, e) => msg.Text("Folder 3")),
