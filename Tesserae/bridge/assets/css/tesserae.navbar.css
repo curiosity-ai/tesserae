@@ -19,14 +19,17 @@
         height:0px;
     }
 
-
 .tss-navbar-content {
     margin: 0;
     padding: 0;
     background-color: var(--tss-default-background-color);
-    height: 100%;
+    height: calc(100% - 48px);
     overflow: auto;
 }
+
+    .tss-navbar.hidden + .tss-navbar-content {
+        height: 100%;
+    }
 
 .tss-navbar-host {
     margin: 0;
