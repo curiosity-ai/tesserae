@@ -16,16 +16,29 @@ namespace Tesserae.Components
         public event OnBeforeSelectHandler onBeforeSelect;
         public delegate bool OnBeforeSelectHandler(Item willBeSelected, Item currentlySelected);
 
-        public bool IsLight 
-        { 
-            get 
-            { 
-                return _sidebarContainer.classList.contains("light"); 
-            } 
-            set 
-            { 
-                if (value) _sidebarContainer.classList.add("light"); 
-                else _sidebarContainer.classList.remove("light"); 
+        public bool IsLight
+        {
+            get
+            {
+                return _sidebarContainer.classList.contains("light");
+            }
+            set
+            {
+                if (value) _sidebarContainer.classList.add("light");
+                else _sidebarContainer.classList.remove("light");
+            }
+        }
+
+        public bool IsSmall
+        {
+            get
+            {
+                return _sidebarContainer.classList.contains("small");
+            }
+            set
+            {
+                if (value) _sidebarContainer.classList.add("small");
+                else _sidebarContainer.classList.remove("small");
             }
         }
 
@@ -59,6 +72,11 @@ namespace Tesserae.Components
         public Sidebar Light()
         {
             IsLight = true;
+            return this;
+        }
+        public Sidebar Small()
+        {
+            IsSmall = true;
             return this;
         }
 

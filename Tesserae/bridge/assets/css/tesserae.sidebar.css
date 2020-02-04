@@ -6,7 +6,7 @@
     top: 0px;
     left: 0px;
     overflow-x: hidden;
-    height: 100vh;
+    height: 100%;
     width: 64px;
     transform: translateZ(0px);
     background: var(--tss-sidebar-background-color);
@@ -131,3 +131,23 @@
     color: var(--tss-disabled-foreground-color);
 }
 
+.tss-sidebar.small {
+    width:32px;
+}
+
+    .tss-sidebar.small > .tss-sidebar-item > .tss-sidebar-icon {
+        font-size: 18px;
+        left: 0px;
+        width: 32px;
+    }
+
+    .tss-sidebar.small + .tss-sidebar-content {
+        margin-left: 32px;
+    }
+
+    .tss-sidebar.small > .tss-sidebar-item {
+        height: 32px;
+        line-height: 32px;
+        padding-left: 32px;
+        padding-right: 32px;
+    }

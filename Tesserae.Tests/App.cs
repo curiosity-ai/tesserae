@@ -42,6 +42,8 @@ namespace Tesserae.Tests
             document.body.appendChild(_sideBar.Add(SidebarItem("... meow", "fal fa-cat").Large().NonSelectable())
                                               .Add(SidebarItem("Colorful sidebar", "fal fa-tint").OnSelect((s) => _sideBar.IsLight = false).Selected())
                                               .Add(SidebarItem("Light sidebar", "fal fa-tint-slash").OnSelect((s) => _sideBar.IsLight = true))
+                                              .Add(SidebarItem("Small sidebar", "fal fa-minus-square").OnSelect((s) => _sideBar.IsSmall = true))
+                                              .Add(SidebarItem("Normal sidebar", "fal fa-plus-square").OnSelect((s) => _sideBar.IsSmall = false))
                                               .SetContent(_navBar)
                                               .Render());
             document.body.style.overflow = "hidden";
