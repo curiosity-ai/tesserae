@@ -125,6 +125,8 @@ namespace Tesserae
 
         public static Dropdown.Item DropdownItem(string text = string.Empty) => new Dropdown.Item(text);
 
+        public static Dropdown.Item DropdownItem(IComponent component) => new Dropdown.Item(component);
+
         public static ContextMenu ContextMenu() => new ContextMenu();
 
         public static ContextMenu.Item ContextMenuItem(string text = string.Empty) => new ContextMenu.Item(text);

@@ -413,6 +413,15 @@ namespace Tesserae.Components
                 InnerElement.addEventListener("mouseover", OnItemMouseOver);
             }
 
+            public Item(IComponent content)
+            {
+                InnerElement = Button(_("tss-dropdown-item"));
+                InnerElement.appendChild(content.Render());
+                InnerElement.addEventListener("click", OnItemClick);
+                InnerElement.addEventListener("mouseover", OnItemMouseOver);
+            }
+
+
             public event BeforeSelectEventHandler<Item> onBeforeSelected;
             public event EventHandler<Item> onSelected;
 
