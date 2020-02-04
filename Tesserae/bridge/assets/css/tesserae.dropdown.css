@@ -12,11 +12,13 @@
     align-items: stretch;
     font-size: var(--tss-font-size-small);
     font-weight: var(--tss-font-weight-regular);
-    display: block;
     width: 100%;
     outline: transparent none medium;
     padding: 5px 5px;
     user-select: none;
+    flex-wrap: nowrap;
+    display: inline-flex;
+    overflow: hidden;
 }
 
     .tss-dropdown.disabled {
@@ -232,3 +234,33 @@
     .tss-dropdown-multi .tss-dropdown-header:hover:after {
         display: none;
     }*/
+
+.tss-dropdown-item-on-box {
+    font-size: var(--tss-font-size-small);
+    font-weight: var(--tss-font-weight-regular);
+    white-space: nowrap;
+    min-width: unset;
+    background: transparent;
+    border: none;
+    border-width: 0px !important;
+    padding: 0px;
+    margin: 0px;
+}
+
+.tss-dropdown .tss-dropdown-item-on-box:not(:first-child) {
+    margin-left: 4px;
+}
+
+.tss-dropdown .tss-dropdown-item-on-box:not(:first-child)::before {
+    content:',';
+    padding-right:6px;
+}
+
+.tss-dropdown-item-on-box > .tss-btn {
+    min-width: unset;
+    background: transparent;
+    border: none;
+    border-width: 0px !important;
+    padding: 0px;
+    margin: 0px;
+}

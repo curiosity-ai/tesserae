@@ -339,8 +339,23 @@ namespace Tesserae.Components
                 _isChanged = true;
             }
 
-            InnerElement.innerText = SelectedText;
+            RenderSelected();
             RaiseOnInput(this);
+        }
+
+        private void RenderSelected()
+        {
+            ClearChildren(InnerElement);
+
+            for (int i = 0; i < SelectedItems.Length; i++)
+            {
+                Item sel = SelectedItems[i];
+                var clone = (HTMLElement)(sel.Render().cloneNode(true));
+                clone.classList.remove("tss-dropdown-item");
+                clone.classList.remove("selected");
+                clone.classList.add("tss-dropdown-item-on-box");
+                InnerElement.appendChild(clone);
+            }
         }
 
         private void OnPopupKeyDown(Event e)
