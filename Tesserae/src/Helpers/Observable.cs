@@ -44,7 +44,7 @@ namespace Tesserae
             }
         }
 
-        public void Get(ValueChanged<T> valueGetter)
+        public void Observe(ValueChanged<T> valueGetter)
         {
             onChanged += valueGetter;
             valueGetter(_value);
