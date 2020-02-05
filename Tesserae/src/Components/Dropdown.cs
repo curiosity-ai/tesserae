@@ -204,9 +204,16 @@ namespace Tesserae.Components
 
             ClientRect rect = (ClientRect)InnerElement.getBoundingClientRect();
             var contentRect = (ClientRect)_contentHtml.getBoundingClientRect();
-            _contentHtml.style.left = rect.left + "px";
             _contentHtml.style.top = rect.bottom - 1 + "px";
             _contentHtml.style.minWidth = rect.width + "px";
+
+            var finalLeft = rect.left;
+            if(rect.left + contentRect.width + 1 > window.innerWidth)
+            {
+                finalLeft = window.innerWidth - contentRect.width - 1;
+            }
+
+            _contentHtml.style.left = finalLeft + "px";
 
             if (window.innerHeight - rect.bottom - 1 < contentRect.height)
             {
