@@ -434,7 +434,7 @@ namespace Tesserae.Components
 
 
             public event BeforeSelectEventHandler<Item> onBeforeSelected;
-            private event EventHandler<Item> onSelectedChange;
+            internal event EventHandler<Item> onSelectedChange;
 
             public ItemType Type
             {
