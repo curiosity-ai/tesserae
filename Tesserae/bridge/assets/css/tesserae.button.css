@@ -1,5 +1,5 @@
 ﻿/* Button */
-button{
+button {
     font-family: inherit;
 }
 button:focus {
@@ -16,6 +16,8 @@ button:focus {
     padding: 0px 16px;
     min-height: 32px;
     margin: 4px;
+    display: inline-flex;
+    align-items: center;
 }
 
     .tss-btn.disabled {
@@ -24,7 +26,7 @@ button:focus {
         border-color: var(--tss-disabled-background-color);
     }
 
-    .tss-btn i {
+    .tss-btn > i {
         margin-right: 4px;
     }
 
