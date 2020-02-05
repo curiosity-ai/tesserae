@@ -9,30 +9,108 @@ namespace Tesserae.Components
     {
         private readonly HTMLElement _closeButton;
         private readonly HTMLElement _modalHeader;
+        private readonly HTMLElement _modalFooter;
         private readonly HTMLElement _modalOverlay;
         private readonly HTMLElement _modalContent;
-        private readonly HTMLElement _modalCommand;
+
+        private readonly HTMLElement _modalHeaderCommands;
+        private readonly HTMLElement _modalFooterCommands;
+        private readonly HTMLElement _modalHeaderContents;
+        private readonly HTMLElement _modalFooterContents;
 
         private bool _isDragged;
         private TranslationPoint _startPoint;
 
         protected readonly HTMLElement _modal;
 
-        public Modal(string header = string.Empty)
+        public delegate void OnHideHandler(Modal sender);
+
+        public event OnHideHandler onHide;
+
+        public Modal(IComponent header = null)
         {
-            _modalHeader = Div(_("tss-modal-header", text: header));
-            _closeButton = Button(_("fal fa-times", el: el => el.onclick = (e) => Hide()));
-            _modalCommand = Div(_("tss-modal-command"), _modalHeader, _closeButton);
+            _modalHeaderContents = Div(_("tss-modal-header-content"));
+            _modalFooterContents = Div(_("tss-modal-footer-content"));
+            
+            _modalHeaderCommands = Div(_("tss-modal-header-commands"));
+            _modalFooterCommands = Div(_("tss-modal-footer-commands"));
+
+            _modalHeader = Div(_("tss-modal-header"), _modalHeaderContents, _modalHeaderCommands);
+            _modalFooter = Div(_("tss-modal-footer"), _modalFooterContents, _modalFooterCommands);
+
+            if (header != null)
+            {
+                _modalHeaderContents.appendChild(header.Render());
+            }
+            else
+            {
+                _modalHeader.style.display = "none";
+            }
+
+            _closeButton  = Button(_("tss-modal-button fal fa-times", el: el => el.onclick = (e) => Hide()));
+            _modalHeaderCommands.appendChild(_closeButton);
+
             _modalContent = Div(_("tss-modal-content"));
-            _modal = Div(_("tss-modal", styles: s => s.transform = "translate(0px,0px)"), _modalCommand, _modalContent);
+            _modal = Div(_("tss-modal", styles: s => s.transform = "translate(0px,0px)"), _modalHeader, _modalContent, _modalFooter);
             _modalOverlay = Div(_("tss-modal-overlay"));
             _contentHtml = Div(_("tss-modal-container"), _modalOverlay, _modal);
+            IsNonBlocking = false; //blocking by default
         }
 
-        public string Header
+        public Modal SetHeader(IComponent header)
         {
-            get { return _modalHeader.innerText; }
-            set { _modalHeader.innerText = value; }
+            _modalHeader.style.display = "";
+            ClearChildren(_modalHeaderContents);
+            _modalHeaderContents.appendChild(header.Render());
+            return this;
+        }
+
+        public Modal SetFooter(IComponent footer)
+        {
+            _modalFooter.style.display = "";
+            ClearChildren(_modalFooterContents);
+            _modalFooterContents.appendChild(footer.Render());
+            return this;
+        }
+
+        public Modal SetHeaderCommands(params IComponent[] commands)
+        {
+            _modalHeader.style.display = "";
+            ClearChildren(_modalHeader);
+            
+            foreach(var command in commands)
+            {
+                _modalHeaderCommands.appendChild(command.Render());
+            }
+
+            return this;
+        }
+
+        public Modal SetFooterCommands(params IComponent[] commands)
+        {
+            _modalFooter.style.display = "";
+            ClearChildren(_modalFooter);
+
+            foreach (var command in commands)
+            {
+                _modalFooterCommands.appendChild(command.Render());
+            }
+
+            return this;
+        }
+
+        public Modal NoHeader()
+        {
+            ClearChildren(_modalHeader);
+            _modalHeader.style.display = "none";
+            return this;
+        }
+
+        public Modal NoFooter()
+        {
+            ClearChildren(_modalFooter);
+            _modalFooter.style.display = "none";
+            return this;
         }
 
         public override IComponent Content
@@ -152,13 +230,44 @@ namespace Tesserae.Components
             return this;
         }
 
+        public Modal NoTopBorder()
+        {
+            _modalHeader.classList.add("noborder");
+            return this;
+        }
+
+        public void ShowAt(Unit unit, double? fromTop = null, double? fromLeft = null, double? fromRight = null, double? fromBottom = null)
+        {
+            _modal.style.marginTop    = fromTop.HasValue    ? Units.Translate(unit, fromTop.Value)    : "auto";
+            _modal.style.marginLeft   = fromLeft.HasValue   ? Units.Translate(unit, fromLeft.Value)   : "auto";
+            _modal.style.marginRight  = fromRight.HasValue  ? Units.Translate(unit, fromRight.Value)  : "auto";
+            _modal.style.marginBottom = fromBottom.HasValue ? Units.Translate(unit, fromBottom.Value) : "auto";
+            if (!IsNonBlocking) document.body.style.overflowY = "hidden";
+            _modal.style.transform = "translate(0px,0px)";
+            base.Show();
+        }
+
         public override void Show()
         {
+            _modal.style.marginTop = "";
+            _modal.style.marginLeft = "";
+            _modal.style.marginRight = "";
+            _modal.style.marginBottom = "";
+            _modal.style.transform = "translate(0px,0px)";
             if (!IsNonBlocking) document.body.style.overflowY = "hidden";
             base.Show();
         }
+
+        public Modal OnHide(OnHideHandler onHide)
+        {
+            this.onHide += onHide;
+            return this;
+        }
+
         public override void Hide(Action onHidden = null)
         {
+            onHide?.Invoke(this);
+
             base.Hide(() =>
             {
                 if (!IsNonBlocking) document.body.style.overflowY = "";
@@ -209,15 +318,15 @@ namespace Tesserae.Components
                 document.body.addEventListener("mousemove", OnDragMouseMove);
                 document.body.addEventListener("mouseleave", OnDragMouseUp);
                 _modal.style.userSelect = "none";
-                _isDragged = true;
                 _startPoint = TranslationPoint.From(_modal.style.transform);
+                _isDragged = true;
             }
         }
 
         class TranslationPoint
         {
-            static Regex regex = new Regex("translate\\(([-0-9.].*?)px,([-0-9.].*?)px\\)");
-            static Regex regexShort = new Regex("translate\\(([-0-9.].*?)px\\)");
+            static Regex regex = new Regex(@"translate\(([-0-9.].*?)px,\s?([-0-9.].*?)px\)");
+            static Regex regexShort = new Regex(@"translate\(([-0-9.].*?)px\)");
 
             public TranslationPoint(double x = 0, double y = 0)
             {
@@ -262,12 +371,6 @@ namespace Tesserae.Components
         public static T HideCloseButton<T>(this T modal) where T : Modal
         {
             modal.ShowCloseButton = false;
-            return modal;
-        }
-
-        public static T Header<T>(this T modal, string header) where T : Modal
-        {
-            modal.Header = header;
             return modal;
         }
 

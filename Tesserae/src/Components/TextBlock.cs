@@ -37,6 +37,12 @@ namespace Tesserae.Components
             set { InnerElement.innerText = value; }
         }
 
+        public string Title
+        {
+            get { return InnerElement.title; }
+            set { InnerElement.title = value; }
+        }
+
         public TextSize Size
         {
             get
@@ -198,7 +204,7 @@ namespace Tesserae.Components
         {
             get
             {
-                return InnerElement.style.whiteSpace != "nowrap";
+                return !InnerElement.classList.contains("tss-text-ellipsis");
             }
             set
             {
@@ -206,15 +212,11 @@ namespace Tesserae.Components
                 {
                     if (value)
                     {
-                        InnerElement.style.whiteSpace = "unset";
-                        InnerElement.style.overflow = "unset";
-                        InnerElement.style.textOverflow = "unset";
+                        InnerElement.classList.remove("tss-text-ellipsis");
                     }
                     else
                     {
-                        InnerElement.style.whiteSpace = "nowrap";
-                        InnerElement.style.overflow = "hidden";
-                        InnerElement.style.textOverflow = "ellipsis";
+                        InnerElement.classList.add("tss-text-ellipsis");
                     }
                 }
             }
@@ -243,6 +245,12 @@ namespace Tesserae.Components
         public static T Text<T>(this T textBlock, string text) where T : TextBlock
         {
             textBlock.Text = text;
+            return textBlock;
+        }
+
+        public static T Title<T>(this T textBlock, string title) where T : TextBlock
+        {
+            textBlock.Title = title;
             return textBlock;
         }
 

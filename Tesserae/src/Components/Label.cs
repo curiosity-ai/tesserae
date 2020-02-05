@@ -13,16 +13,16 @@ namespace Tesserae.Components
 
         public Label(string text = string.Empty)
         {
-            _label = Label(_(text: text));
+            _label = Label(_("tss-fontsize-small tss-fontweight-semibold", text: text));
             _content = Div(_());
-            InnerElement = Div(_("tss-label tss-fontsize-small tss-fontweight-semibold"), _label, _content);
+            InnerElement = Div(_("tss-label"), _label, _content);
         }
 
         public Label(IComponent component)
         {
-            _label = Label(_(), component.Render());
+            _label = Label(_("tss-fontsize-small tss-fontweight-semibold"), component.Render());
             _content = Div(_());
-            InnerElement = Div(_("tss-label tss-fontsize-small tss-fontweight-semibold"), _label, _content);
+            InnerElement = Div(_("tss-label"), _label, _content);
         }
 
 

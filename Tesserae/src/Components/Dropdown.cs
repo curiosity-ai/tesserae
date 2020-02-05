@@ -135,6 +135,7 @@ namespace Tesserae.Components
                 }
             }
         }
+
         public Func<Task<Item[]>> ItemsSource { get; set; }
 
         public void Clear()
@@ -154,7 +155,6 @@ namespace Tesserae.Components
 
             if (component.IsSelected)
             {
-
                 OnItemSelected(null, component);
             }
         }
@@ -199,7 +199,7 @@ namespace Tesserae.Components
             var contentRect = (ClientRect)_contentHtml.getBoundingClientRect();
             _contentHtml.style.left = rect.left + "px";
             _contentHtml.style.top = rect.bottom - 1 + "px";
-            _contentHtml.style.width = rect.width + "px";
+            _contentHtml.style.minWidth = rect.width + "px";
 
             if (window.innerHeight - rect.bottom - 1 < contentRect.height)
             {
@@ -268,6 +268,12 @@ namespace Tesserae.Components
             return this;
         }
 
+        public Dropdown NoBorder()
+        {
+            InnerElement.style.border = "none";
+            return this;
+        }
+
         public Dropdown Items(params Item[] children)
         {
             children.ForEach(x => Add(x));
@@ -304,9 +310,12 @@ namespace Tesserae.Components
             {
                 if (_selectedChildren.Count > 0)
                 {
-                    foreach (var selectedChild in _selectedChildren)
+                    foreach (var selectedChild in _selectedChildren.ToArray()) //Need to copy as setting IsSelected will get back here
                     {
-                        selectedChild.IsSelected = false;
+                        if(selectedChild != e)
+                        {
+                            selectedChild.IsSelected = false;
+                        }
                     }
 
                     _selectedChildren.Clear();
@@ -330,8 +339,23 @@ namespace Tesserae.Components
                 _isChanged = true;
             }
 
-            InnerElement.innerText = SelectedText;
+            RenderSelected();
             RaiseOnInput(this);
+        }
+
+        private void RenderSelected()
+        {
+            ClearChildren(InnerElement);
+
+            for (int i = 0; i < SelectedItems.Length; i++)
+            {
+                Item sel = SelectedItems[i];
+                var clone = (HTMLElement)(sel.Render().cloneNode(true));
+                clone.classList.remove("tss-dropdown-item");
+                clone.classList.remove("selected");
+                clone.classList.add("tss-dropdown-item-on-box");
+                InnerElement.appendChild(clone);
+            }
         }
 
         private void OnPopupKeyDown(Event e)
@@ -388,6 +412,15 @@ namespace Tesserae.Components
                 InnerElement.addEventListener("click", OnItemClick);
                 InnerElement.addEventListener("mouseover", OnItemMouseOver);
             }
+
+            public Item(IComponent content)
+            {
+                InnerElement = Button(_("tss-dropdown-item"));
+                InnerElement.appendChild(content.Render());
+                InnerElement.addEventListener("click", OnItemClick);
+                InnerElement.addEventListener("mouseover", OnItemMouseOver);
+            }
+
 
             public event BeforeSelectEventHandler<Item> onBeforeSelected;
             public event EventHandler<Item> onSelected;

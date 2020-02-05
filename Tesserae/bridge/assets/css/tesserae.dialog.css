@@ -20,9 +20,3 @@
     .tss-dialog .tss-modal-command {
         border-top: 4px solid transparent;
     }
-
-
-.tss-modal-footer {
-    flex-shrink: 0;
-    margin:  0 24px 24px 24px;
-}

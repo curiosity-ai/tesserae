@@ -5,8 +5,8 @@
     top: 0px;
     left: 0px;
     overflow: hidden;
-    width: 100vw;
-    min-height: 48px;
+    width: 100%;
+    height: 48px;
     transform: translateZ(0px);
     background: var(--tss-navbar-background-color);
     color: var(--tss-navbar-foreground-color);
@@ -19,14 +19,17 @@
         height:0px;
     }
 
-
 .tss-navbar-content {
     margin: 0;
     padding: 0;
     background-color: var(--tss-default-background-color);
-    height: 100%;
+    height: calc(100% - 48px);
     overflow: auto;
 }
+
+    .tss-navbar.hidden + .tss-navbar-content {
+        height: 100%;
+    }
 
 .tss-navbar-host {
     margin: 0;

@@ -80,6 +80,8 @@
         "bridge/assets/css/tesserae.dropdown.css",
         "bridge/assets/css/tesserae.contextmenu.css",
         "bridge/assets/css/tesserae.label.css",
+        "bridge/assets/css/tesserae.horizontalseparator.css",
+        "bridge/assets/css/tesserae.editablelabel.css",
         "bridge/assets/css/tesserae.layer.css",
         "bridge/assets/css/tesserae.basiclist.css",
         "bridge/assets/css/tesserae.panel.css",

@@ -10,7 +10,7 @@ namespace Tesserae.Components
         private IComponent _footer;
         private readonly HTMLElement _modalFooter;
 
-        public Dialog(string header = string.Empty) : base(header)
+        public Dialog(IComponent header = null) : base(header)
         {
             _modal.classList.add("tss-dialog");
             _contentHtml.classList.add("tss-dialog-container");

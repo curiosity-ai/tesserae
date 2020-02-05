@@ -1,5 +1,11 @@
 ﻿/* TextBlock*/
-tss-textblock {
+.tss-textblock {
     margin: 4px;
     position: relative;
+}
+
+.tss-text-ellipsis {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }

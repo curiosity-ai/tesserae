@@ -16,16 +16,29 @@ namespace Tesserae.Components
         public event OnBeforeSelectHandler onBeforeSelect;
         public delegate bool OnBeforeSelectHandler(Item willBeSelected, Item currentlySelected);
 
-        public bool IsLight 
-        { 
-            get 
-            { 
-                return _sidebarContainer.classList.contains("light"); 
-            } 
-            set 
-            { 
-                if (value) _sidebarContainer.classList.add("light"); 
-                else _sidebarContainer.classList.remove("light"); 
+        public bool IsLight
+        {
+            get
+            {
+                return _sidebarContainer.classList.contains("light");
+            }
+            set
+            {
+                if (value) _sidebarContainer.classList.add("light");
+                else _sidebarContainer.classList.remove("light");
+            }
+        }
+
+        public bool IsSmall
+        {
+            get
+            {
+                return _sidebarContainer.classList.contains("small");
+            }
+            set
+            {
+                if (value) _sidebarContainer.classList.add("small");
+                else _sidebarContainer.classList.remove("small");
             }
         }
 
@@ -59,6 +72,11 @@ namespace Tesserae.Components
         public Sidebar Light()
         {
             IsLight = true;
+            return this;
+        }
+        public Sidebar Small()
+        {
+            IsSmall = true;
             return this;
         }
 
@@ -178,15 +196,19 @@ namespace Tesserae.Components
 
             public Item(string text, IComponent icon) : this(text, "")
             {
-                var newIcon = icon.Render();
-                _container.replaceChild(newIcon, _icon);
-                _icon = newIcon;
+                _icon = icon.Render();
+                CreateSelf(text);
             }
 
             public Item(string text, string icon)
             {
-                _label = Span(_("tss-sidebar-label", text: text));
                 _icon = I(_(icon));
+                CreateSelf(text);
+            }
+
+            private void CreateSelf(string text)
+            {
+                _label = Span(_("tss-sidebar-label", text: text));
                 _container = Div(_("tss-sidebar-item"), Div(_("tss-sidebar-icon"), _icon), _label);
 
                 _container.onclick = (e) =>

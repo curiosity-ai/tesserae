@@ -72,9 +72,19 @@ namespace Tesserae
 
         public static TextBlock TextBlock(string text = string.Empty) => new TextBlock(text);
 
+        public static Icon Icon(string icon) => new Icon(icon);
+
+        public static HorizontalSeparator HorizontalSeparator(string text) => new HorizontalSeparator(text);
+        
+        public static HorizontalSeparator HorizontalSeparator(IComponent component) => new HorizontalSeparator(component);
+
         public static Label Label(string text = string.Empty) => new Label(text);
 
         public static Label Label(IComponent component) => new Label(component);
+
+        public static EditableLabel EditableLabel(string text) => new EditableLabel(text);
+        
+        public static EditableArea EditableArea(string text) => new EditableArea(text);
 
         public static Breadcrumb Breadcrumb() => new Breadcrumb();
 
@@ -96,11 +106,15 @@ namespace Tesserae
 
         public static Panel Panel() => new Panel();
 
-        public static Modal Modal(string header = string.Empty) => new Modal(header);
-         
+        public static Modal Modal(IComponent header = null) => new Modal(header);
+
+        public static Modal Modal(string header) => new Modal(string.IsNullOrWhiteSpace(header) ? null : TextBlock(header).MediumPlus().SemiBold());
+
         public static ProgressModal ProgressModal() => new ProgressModal();
 
-        public static Dialog Dialog(string header = string.Empty) => new Dialog(header);
+        public static Dialog Dialog(IComponent header = null) => new Dialog(header);
+        
+        public static Dialog Dialog(string header) => new Dialog(string.IsNullOrWhiteSpace(header) ? null : TextBlock(header).MediumPlus().SemiBold());
 
         public static Pivot Pivot() => new Pivot();
 
@@ -120,6 +134,8 @@ namespace Tesserae
 
         public static Dropdown.Item DropdownItem(string text = string.Empty) => new Dropdown.Item(text);
 
+        public static Dropdown.Item DropdownItem(IComponent component) => new Dropdown.Item(component);
+
         public static ContextMenu ContextMenu() => new ContextMenu();
 
         public static ContextMenu.Item ContextMenuItem(string text = string.Empty) => new ContextMenu.Item(text);
@@ -132,7 +148,7 @@ namespace Tesserae
 
         public static Link Link(string url, string text) => new Link(url, TextBlock(text));
         
-        public static Link Link(string url, string text, string icon) => new Link(url, Button(text).SetIcon(icon).NoBorder().NoBackground().Padding(0));
+        public static Link Link(string url, string text, string icon) => new Link(url, Button(text).SetIcon(icon).NoBorder().NoBackground().Padding(Unit.Pixels, 0));
 
         public static SplitView SplitView() => new SplitView();
 
