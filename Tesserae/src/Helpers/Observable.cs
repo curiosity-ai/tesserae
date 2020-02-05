@@ -1,4 +1,6 @@
-﻿namespace Tesserae
+﻿using System;
+
+namespace Tesserae
 {
     public class Observable<T>
     {
@@ -15,6 +17,7 @@
         }
 
         public delegate void ValueChanged<T>(T value);
+
         private event ValueChanged<T> onChanged;
 
         public T Value
@@ -26,6 +29,14 @@
                     _value = value;
                     onChanged?.Invoke(_value);
                 }
+            }
+        }
+
+        public void SetIf(Func<T, bool> condition, T value)
+        {
+            if (condition(_value))
+            {
+                Value = value;
             }
         }
 
