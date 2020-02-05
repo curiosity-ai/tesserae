@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Tesserae.HTML;
@@ -7,14 +8,17 @@ using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
-    public class BasicList : IContainer<BasicList, IComponent>
+    public class BasicList : IComponent
     {
-        private const int PagesToVirtualize = 7;
+        private const int PagesToVirtualize      = 7;
         private const int PagesToInitiallyRender = PagesToVirtualize - 1;
 
-        private readonly List<IComponent> _components;
         private readonly int _rowsPerPage;
         private readonly int _columnsPerRow;
+
+        private readonly Dictionary<int, IComponent> _components;
+        private readonly List<List<KeyValuePair<int, IComponent>>> _pages;
+        private readonly Dictionary<int, HTMLElement> _pageCache;
 
         private readonly int _componentsPerPage;
         private readonly int _initialComponentsToRender;
@@ -23,15 +27,16 @@ namespace Tesserae.Components
         private readonly string _componentHeightInPercentage;
         private readonly string _componentWidthInPercentage;
 
+        private readonly HTMLElement _innerElement;
+        private readonly HTMLDivElement _basicListContainer;
+        private readonly HTMLDivElement _topSpacingDiv;
+        private readonly HTMLDivElement _bottomSpacingDiv;
+
         private int _componentsCount;
         private int _pagesCount;
         private int _rowsCount;
         private int _currentPage;
 
-        private HTMLElement _innerElement;
-        private HTMLDivElement _basicListContainer;
-        private HTMLDivElement _topSpacingDiv;
-        private HTMLDivElement _bottomSpacingDiv;
         private int _componentHeightInPixels;
         private int _pageHeightInPixels;
         private double _currentScrollPosition;
@@ -42,219 +47,293 @@ namespace Tesserae.Components
             int rowsPerPage   = 4,
             int columnsPerRow = 4)
         {
-            _components = components.ToList();
-            _rowsPerPage = rowsPerPage;
+            _rowsPerPage   = rowsPerPage;
             _columnsPerRow = columnsPerRow;
+            _components    = CreateComponentsDictionary(components);
 
-            _componentsPerPage = _rowsPerPage * _columnsPerRow;
+            _componentsPerPage         = _rowsPerPage * _columnsPerRow;
             _initialComponentsToRender = _componentsPerPage * PagesToInitiallyRender;
+
+            _pages     = _components.InGroupsOf(_componentsPerPage);
+            _pageCache = new Dictionary<int, HTMLElement>();
+
             _pagesToVirtualizeMidpoint = (int)Ceiling((double)PagesToVirtualize / 2);
             _pagesToVirtualizeBoundary = (int)Floor((double)PagesToVirtualize / 2);
 
             _componentHeightInPercentage = GetComponentDimensionInPercent(_rowsPerPage);
-            _componentWidthInPercentage = GetComponentDimensionInPercent(_columnsPerRow);
+            _componentWidthInPercentage  = GetComponentDimensionInPercent(_columnsPerRow);
 
-            _componentsCount = _components.Count;
-            _pagesCount = (int)Ceiling((double)_componentsCount / _componentsPerPage);
-            _rowsCount = _rowsPerPage * _pagesCount;
+            CalculateCounts();
 
-            _currentScrollDirection = ScrollDirection.Down;
+            Debug("Basic list initialized");
 
-            Debug("Basic list init");
+            _innerElement       = CreateEmptyHtmlDivElement();
+            _basicListContainer = CreateBasicListContainerHtmlDivElement();
+            _topSpacingDiv      = CreateTopSpacingHtmlDivElement();
+            _bottomSpacingDiv   = CreateBottomSpacingHtmlDivElement();
 
-            _innerElement = CreateEmptyDiv();
-            CreateBasicListContainer();
-            CreateTopSpacingDiv();
-            CreateBottomSpacingDiv();
-            RenderComponents(_initialComponentsToRender);
+            _innerElement.appendChild(_basicListContainer);
+            _basicListContainer.appendChild(_topSpacingDiv);
+            _basicListContainer.appendChild(_bottomSpacingDiv);
+
+            RenderPagesDownwards(GetInitialPages());
 
             AttachOnLastComponentMountedEvent();
             AttachBasicListContainerOnScrollEvent();
         }
 
-        private string GetComponentDimensionInPercent(int itemsCount) => $"{100 / itemsCount}%";
-
         public HTMLElement Render() => _innerElement;
 
-        public void Add(IComponent component) => _components.Add(component);
-
-        public void Clear() => _components.Clear();
-
-        public void Replace(IComponent newComponent, IComponent oldComponent)
+        private static Dictionary<int, IComponent> CreateComponentsDictionary(
+            IEnumerable<IComponent> components)
         {
-        }
-
-        private static HTMLDivElement CreateEmptyDiv() => Div(_());
-
-        private void CreateBasicListContainer()
-        {
-            _basicListContainer = Div(_("tss-basiclist"));
-
-            _innerElement.appendChild(_basicListContainer);
-        }
-
-        private void CreateTopSpacingDiv()
-        {
-            _topSpacingDiv = Div(_(styles: cssStyleDeclaration =>
-            {
-                cssStyleDeclaration.cssFloat = "left";
-                cssStyleDeclaration.width = "100%";
-            }));
-
-            _basicListContainer.appendChild(_topSpacingDiv);
-        }
-
-        private void SetTopSpacingDivHeight(int heightInPixels)
-        {
-            _topSpacingDiv.SetStyle(cssStyleDeclaration =>
-            {
-                cssStyleDeclaration.height = $"{heightInPixels}px";
-            });
-        }
-
-        private void CreateBottomSpacingDiv()
-        {
-            _bottomSpacingDiv = Div(_(styles: cssStyleDeclaration =>
-            {
-                cssStyleDeclaration.cssFloat = "left";
-                cssStyleDeclaration.width = "100%";
-            }));
-
-            _basicListContainer.appendChild(_bottomSpacingDiv);
-        }
-
-         private void SetBottomSpacingDivHeight(int heightInPixels)
-        {
-            _bottomSpacingDiv.SetStyle(cssStyleDeclaration =>
-            {
-                cssStyleDeclaration.height = $"{heightInPixels}px";
-            });
-        }
-
-        private void RenderComponents(
-            int componentsToTake,
-            int componentsToSkip = 0)
-        {
-            _components
-                .Skip(componentsToSkip)
-                .Take(componentsToTake)
-                .Select(component => component.Render())
-                .ForEach((htmlElement, index) =>
+            return components
+                .Select((component, index) => new
                 {
-                    var htmlElementToAppend =
-                        Div(
-                        _($"tss-basiclist-item",
-                            styles: cssStyleDeclaration =>
-                            {
-                                cssStyleDeclaration.height = _componentHeightInPercentage;
-                                cssStyleDeclaration.width  = _componentWidthInPercentage;
-                            }),
-                            htmlElement);
+                    component,
+                    componentNumber = index + 1
+                })
+                .ToDictionary(
+                    item => item.componentNumber,
+                    item => item.component);
+        }
 
-                    _basicListContainer.insertBefore(htmlElementToAppend, _bottomSpacingDiv);
-                });
+        private static string GetComponentDimensionInPercent(int itemsCount) => $"{100 / itemsCount}%";
+
+        private static HTMLDivElement CreateEmptyHtmlDivElement() => Div(_());
+
+        private static HTMLDivElement CreateSpacingHtmlDivElement(string className)
+        {
+            return Div(_(className,
+                styles: cssStyleDeclaration =>
+                {
+                    cssStyleDeclaration.cssFloat = "left";
+                    cssStyleDeclaration.width    = "100%";
+                }));
+        }
+
+        private static void SetHtmlElementHeight(HTMLElement htmlElement, int heightInPixels)
+        {
+            htmlElement.SetStyle(cssStyleDeclaration =>
+            {
+                cssStyleDeclaration.height = $"{heightInPixels}px";
+            });
+        }
+
+        private static void RenderPage(HTMLElement page, Action<HTMLElement> renderingAction) => renderingAction(page);
+
+        private void CalculateCounts()
+        {
+            _componentsCount = _components.Count;
+            _pagesCount      = _pages.Count;
+            _rowsCount       = _rowsPerPage * _pagesCount;
+        }
+
+        private HTMLDivElement CreateBasicListContainerHtmlDivElement()
+        {
+            return Div(_("tss-basiclist", role: "list"));
+        }
+
+        private HTMLDivElement CreateTopSpacingHtmlDivElement()
+        {
+            return CreateSpacingHtmlDivElement("tss-basiclist-top-spacing");
+        }
+
+        private HTMLDivElement CreateBottomSpacingHtmlDivElement()
+        {
+            return CreateSpacingHtmlDivElement("tss-basiclist-bottom-spacing");
+        }
+
+        private void SetBasicListContainerHeight() => SetHtmlElementHeight(_basicListContainer, _pageHeightInPixels);
+
+        private void SetTopSpacingDivHeight(int heightInPixels) => SetHtmlElementHeight(_topSpacingDiv, heightInPixels);
+
+        private void SetBottomSpacingDivHeight(int heightInPixels)
+        {
+            SetHtmlElementHeight(_bottomSpacingDiv, heightInPixels);
+        }
+
+        private IEnumerable<HTMLElement> GetInitialPages() => GetPages(Enumerable.Range(1, PagesToInitiallyRender));
+
+        private IEnumerable<HTMLElement> GetPages(IEnumerable<int> rangeOfPageNumbersToGet)
+        {
+            return RetrieveFromPageCache(rangeOfPageNumbersToGet);
+        }
+
+        private HTMLElement GetPage(int pageNumber) => RetrieveFromPageCache(pageNumber);
+
+        private IEnumerable<HTMLElement> RetrieveFromPageCache(IEnumerable<int> rangeOfPageNumbersToRetrieve)
+        {
+            return rangeOfPageNumbersToRetrieve.Select(RetrieveFromPageCache);
+        }
+
+        private HTMLElement RetrieveFromPageCache(int pageNumberToRetrieve)
+        {
+            if (_pageCache.ContainsKey(pageNumberToRetrieve))
+            {
+                return _pageCache.GetValueOrDefault(pageNumberToRetrieve);
+            }
+
+            var page = CreatePageHtmlElement(pageNumberToRetrieve);
+
+            page.AppendChildren(
+                GetComponentsForPage(pageNumberToRetrieve)
+                    .Select(CreateComponentContainerHtmlElement)
+                    .ToArray());
+
+            _pageCache.Add(pageNumberToRetrieve, page);
+
+            return page;
+        }
+
+        private HTMLElement CreatePageHtmlElement(int pageNumber)
+        {
+            return Div(_( "tss-basiclist-page",
+                role: "presentation",
+                data: new[] { ("tss-basiclist-pagenumber", pageNumber.ToString()) }));
+        }
+
+        private HTMLElement CreateComponentContainerHtmlElement(KeyValuePair<int, IComponent> componentAndNumber)
+        {
+            var (componentNumber, component) = componentAndNumber;
+
+            return Div(
+                _("tss-basiclist-item",
+                    role  : "listitem",
+                    data  : new[] { ("tss-basiclist-componentnumber", componentNumber.ToString()) },
+                    styles: cssStyleDeclaration =>
+                    {
+                        cssStyleDeclaration.height = _componentHeightInPercentage;
+                        cssStyleDeclaration.width = _componentWidthInPercentage;
+                    }),
+                component.Render());
+        }
+
+        private IEnumerable<KeyValuePair<int, IComponent>> GetComponentsForPage(int pageNumber)
+        {
+            return _pages.ElementAt(pageNumber - 1);
+        }
+
+        private void RenderPageUpwards(HTMLElement page)
+        {
+            RenderPage(page, pageToRender =>
+            {
+                _topSpacingDiv.insertAdjacentElement(InsertPosition.afterend, pageToRender);
+            });
+        }
+
+        private void RenderPagesDownwards(IEnumerable<HTMLElement> pages)
+        {
+            foreach (var page in pages)
+            {
+                RenderPageDownwards(page);
+            }
+        }
+
+        private void RenderPageDownwards(HTMLElement page)
+        {
+            RenderPage(page, pageToRender =>
+            {
+                _basicListContainer.insertBefore(page, _bottomSpacingDiv);
+            });
+        }
+
+        private void RemovePageFromBasicListContainer(int index)
+        {
+            var pages = _basicListContainer.getElementsByClassName("tss-basiclist-page");
+
+            _basicListContainer.removeChild(pages[index]);
         }
 
         private void AttachOnLastComponentMountedEvent()
         {
-            var lastHtmlElement =
-                (HTMLElement)_basicListContainer.lastElementChild.previousElementSibling;
+            var lastComponentMounted =
+                (HTMLElement)_basicListContainer.lastElementChild.previousElementSibling.lastChild;
 
-            DomMountedObserver.NotifyWhenMounted(lastHtmlElement, () =>
-            {
-                _componentHeightInPixels = lastHtmlElement.clientHeight;
-                _pageHeightInPixels = _componentHeightInPixels * _rowsPerPage;
-
-                SetBasicListContainerHeight();
-                SetTopSpacingDivHeight(0);
-
-                var initialBottomSpacingDivHeight =
-                    (_pagesCount - PagesToInitiallyRender) * _pageHeightInPixels;
-
-                SetBottomSpacingDivHeight(initialBottomSpacingDivHeight);
-
-                Debug("Basic list ready");
-            });
-        }
-
-        private void SetBasicListContainerHeight()
-        {
-            _basicListContainer.SetStyle(cssStyleDeclaration =>
-            {
-                cssStyleDeclaration.height = $"{_pageHeightInPixels}px";
-            });
+            DomMountedObserver.NotifyWhenMounted(lastComponentMounted,
+                () => OnLastComponentMounted(lastComponentMounted.clientHeight));
         }
 
         private void AttachBasicListContainerOnScrollEvent()
         {
-            _basicListContainer.addEventListener("scroll", listener =>
+            _basicListContainer.addEventListener("scroll", OnBasicListContainerScroll);
+        }
+
+        private void OnLastComponentMounted(int lastComponentMountedClientHeight)
+        {
+            _componentHeightInPixels = lastComponentMountedClientHeight;
+            _pageHeightInPixels      = _componentHeightInPixels * _rowsPerPage;
+
+            SetBasicListContainerHeight();
+            SetTopSpacingDivHeight(0);
+
+            var initialBottomSpacingDivHeight = (_pagesCount - PagesToInitiallyRender) * _pageHeightInPixels;
+
+            SetBottomSpacingDivHeight(initialBottomSpacingDivHeight);
+
+            Debug("Basic list ready");
+        }
+
+        private void OnBasicListContainerScroll(object listener)
+        {
+            var scrollTop          = _basicListContainer.scrollTop;
+            var newScrollDirection = GetScrollDirection();
+
+            var newPage = newScrollDirection == ScrollDirection.Down ?
+                (int) Ceiling(scrollTop / _pageHeightInPixels)
+                : (int) Floor((scrollTop - _pageHeightInPixels) / _pageHeightInPixels);
+
+            console.log($"New page: {newPage}");
+            console.log($"Scroll top: {scrollTop}");
+
+            if ((newPage != _currentPage) && newPage >= _pagesToVirtualizeMidpoint)
             {
-                var scrollTop = _basicListContainer.scrollTop;
-                var newPage = (int)Ceiling(scrollTop / _pageHeightInPixels);
-                var newScrollDirection = GetScrollDirection();
-
-                if ((newPage != _currentPage || newScrollDirection != _currentScrollDirection) &&
-                    newPage >= _pagesToVirtualizeMidpoint)
+                if (newScrollDirection == ScrollDirection.Down)
                 {
-                    var basicListItems = _basicListContainer.getElementsByClassName("tss-basiclist-item");
+                    RemovePageFromBasicListContainer(0);
 
-                    if (newScrollDirection == ScrollDirection.Down)
-                    {
-                        var i = 1;
-                        while (basicListItems[0] != null && i <= _componentsPerPage)
-                        {
-                            basicListItems[0].parentNode.removeChild(basicListItems[0]);
-                            i += 1;
-                        }
+                    var newTopSpacingDivHeight = (newPage - _pagesToVirtualizeBoundary) * _pageHeightInPixels;
+                    SetTopSpacingDivHeight(newTopSpacingDivHeight);
 
-                        var newTopSpacingDivHeight =
-                            (newPage - _pagesToVirtualizeBoundary) * _pageHeightInPixels;
+                    var pageNumberToAdd = newPage + _pagesToVirtualizeBoundary;
+                    RenderPageDownwards(GetPage(pageNumberToAdd));
 
-                        SetTopSpacingDivHeight(newTopSpacingDivHeight);
+                    var newBottomSpacingDivHeight =
+                        (_pagesCount - (newPage + _pagesToVirtualizeBoundary)) * _pageHeightInPixels;
 
-                        var componentsToSkip =
-                            (newPage + (_pagesToVirtualizeBoundary - 1)) * _componentsPerPage;
+                    SetBottomSpacingDivHeight(newBottomSpacingDivHeight);
 
-                        RenderComponents(_componentsPerPage, componentsToSkip);
-
-                        var newBottomSpacingDivHeight =
-                            (_pagesCount - (newPage + _pagesToVirtualizeBoundary)) * _pageHeightInPixels;
-
-                        SetBottomSpacingDivHeight(newBottomSpacingDivHeight);
-                    }
-                    else
-                    {
-                        var basicListItemsLength = (int)basicListItems.length - 1;
-                        var i = 1;
-
-                        while (basicListItems[basicListItemsLength] != null && i <= _componentsPerPage)
-                        {
-                            basicListItems[basicListItemsLength].parentNode.removeChild(basicListItems[basicListItemsLength]);
-                            basicListItemsLength -= 1;
-                            i += 1;
-                        }
-
-                        var newTopSpacingDivHeight =
-                            (newPage - (_pagesToVirtualizeBoundary - 1)) * _pageHeightInPixels;
-
-                        SetTopSpacingDivHeight(newTopSpacingDivHeight);
-
-                        var componentsToSkip =
-                            (newPage - (_pagesToVirtualizeBoundary - 1)) * _componentsPerPage;
-
-                        RenderComponents(_componentsPerPage, componentsToSkip);
-
-                        var newBottomSpacingDivHeight =
-                            (_pagesCount - (newPage + _pagesToVirtualizeBoundary)) * _pageHeightInPixels;
-
-                        SetBottomSpacingDivHeight(newBottomSpacingDivHeight);
-                    }
+                    console.log("Scroll down");
+                    console.log($"Top spacing div height: {newTopSpacingDivHeight}");
+                    console.log($"Page number to add: {pageNumberToAdd}");
+                    console.log($"Bottom spacing div height: {newTopSpacingDivHeight}");
                 }
+                else
+                {
+                    var pageNumberToRemove = newPage + _pagesToVirtualizeBoundary;
+                    RemovePageFromBasicListContainer(pageNumberToRemove);
 
-                _currentPage = newPage;
-                _currentScrollPosition = scrollTop;
-                _currentScrollDirection = newScrollDirection;
-            });
+                    var newTopSpacingDivHeight = (newPage - (_pagesToVirtualizeBoundary - 1)) * _pageHeightInPixels;
+                    SetTopSpacingDivHeight(newTopSpacingDivHeight);
+
+                    var pageNumberToAdd = newPage - _pagesToVirtualizeBoundary;
+                    RenderPageUpwards(GetPage(pageNumberToAdd));
+
+                    var newBottomSpacingDivHeight =
+                        (_pagesCount - (newPage + _pagesToVirtualizeBoundary)) * _pageHeightInPixels;
+
+                    SetBottomSpacingDivHeight(newBottomSpacingDivHeight);
+
+                    console.log("Scroll up");
+                    console.log($"Top spacing div height: {newTopSpacingDivHeight}");
+                    console.log($"Page number to add: {pageNumberToAdd}");
+                    console.log($"Bottom spacing div height: {newTopSpacingDivHeight}");
+                }
+            }
+
+            _currentPage            = newPage;
+            _currentScrollPosition  = scrollTop;
+            _currentScrollDirection = newScrollDirection;
         }
 
         private void Debug(string message)
@@ -263,9 +342,14 @@ namespace Tesserae.Components
                 message,
                 new
                 {
+                    PagesToVirtualize,
+                    PagesToInitiallyRender,
                     _rowsPerPage,
                     _columnsPerRow,
                     _componentsPerPage,
+                    _initialComponentsToRender,
+                    _pagesToVirtualizeMidpoint,
+                    _pagesToVirtualizeBoundary,
                     _componentHeightInPercentage,
                     _componentWidthInPercentage,
                     _componentsCount,
@@ -273,19 +357,24 @@ namespace Tesserae.Components
                     _rowsCount,
                     _currentPage,
                     _componentHeightInPixels,
-                    _currentScrollPosition
+                    _pageHeightInPixels,
+                    _currentScrollPosition,
+                    _currentScrollDirection
                 });
         }
 
         private ScrollDirection GetScrollDirection()
         {
-            return _basicListContainer.scrollTop > _currentScrollPosition ? ScrollDirection.Down : ScrollDirection.Up;
+            return _basicListContainer.scrollTop > _currentScrollPosition ?
+                ScrollDirection.Down
+                : ScrollDirection.Up;
         }
 
         private enum ScrollDirection
         {
-            Up   = 0,
-            Down = 1
+            Neutral = 0,
+            Up,
+            Down
         }
     }
 }

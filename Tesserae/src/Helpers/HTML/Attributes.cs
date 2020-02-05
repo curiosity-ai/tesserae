@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using static Retyped.dom;
 
 namespace Tesserae.HTML
@@ -22,6 +24,9 @@ namespace Tesserae.HTML
         public string Value        { get; internal set; }
         public string DefaultValue { get; internal set; }
         public string Placeholder  { get; internal set; }
+        public string Role         { get; internal set; }
+
+        public IEnumerable<(string name, string value)> Data { get; internal set; }
 
         public void InitElement(HTMLElement element)
         {
@@ -39,6 +44,15 @@ namespace Tesserae.HTML
             if (!string.IsNullOrEmpty(Id))                     { element.id = Id; }
             if (!string.IsNullOrEmpty(ClassName))              { element.className = ClassName; }
             if (!string.IsNullOrEmpty(Title))                  { element.title = Title; }
+            if (!string.IsNullOrEmpty(Role))                   { element.setAttribute("role", Role); }
+
+            if (Data != null && Data.Any())
+            {
+                foreach (var dataAttribute in Data)
+                {
+                    element.setAttribute($"data-{dataAttribute.name}",dataAttribute.value);
+                }
+            }
 
             Styles?.Invoke(element.style);
             OnElementCreate?.Invoke(element);
