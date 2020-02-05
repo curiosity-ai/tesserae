@@ -36,14 +36,6 @@ namespace Tesserae
             }
         }
 
-        public void SetIf(Func<T, bool> condition, T value)
-        {
-            if (condition(_value))
-            {
-                Value = value;
-            }
-        }
-
         public void Observe(ValueChanged<T> valueGetter)
         {
             onChanged += valueGetter;
