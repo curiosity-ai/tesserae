@@ -198,7 +198,7 @@ namespace Tesserae.Components
         {
             get
             {
-                return InnerElement.style.whiteSpace != "nowrap";
+                return !InnerElement.classList.contains("tss-text-ellipsis");
             }
             set
             {
@@ -206,15 +206,11 @@ namespace Tesserae.Components
                 {
                     if (value)
                     {
-                        InnerElement.style.whiteSpace = "unset";
-                        InnerElement.style.overflow = "unset";
-                        InnerElement.style.textOverflow = "unset";
+                        InnerElement.classList.remove("tss-text-ellipsis");
                     }
                     else
                     {
-                        InnerElement.style.whiteSpace = "nowrap";
-                        InnerElement.style.overflow = "hidden";
-                        InnerElement.style.textOverflow = "ellipsis";
+                        InnerElement.classList.add("tss-text-ellipsis");
                     }
                 }
             }

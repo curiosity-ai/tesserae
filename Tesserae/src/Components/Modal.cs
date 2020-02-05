@@ -9,9 +9,14 @@ namespace Tesserae.Components
     {
         private readonly HTMLElement _closeButton;
         private readonly HTMLElement _modalHeader;
+        private readonly HTMLElement _modalFooter;
         private readonly HTMLElement _modalOverlay;
         private readonly HTMLElement _modalContent;
-        private readonly HTMLElement _modalCommand;
+
+        private readonly HTMLElement _modalHeaderCommands;
+        private readonly HTMLElement _modalFooterCommands;
+        private readonly HTMLElement _modalHeaderContents;
+        private readonly HTMLElement _modalFooterContents;
 
         private bool _isDragged;
         private TranslationPoint _startPoint;
@@ -24,26 +29,63 @@ namespace Tesserae.Components
 
         public Modal(IComponent header = null)
         {
-            _modalHeader = Div(_("tss-modal-header"));
+            _modalHeaderContents = Div(_("tss-modal-header-content"));
+            _modalFooterContents = Div(_("tss-modal-footer-content"));
+            
+            _modalHeaderCommands = Div(_("tss-modal-header-commands"));
+            _modalFooterCommands = Div(_("tss-modal-footer-commands"));
 
-            if(header != null)
+            _modalHeader = Div(_("tss-modal-header"), _modalHeaderContents, _modalHeaderCommands);
+            _modalFooter = Div(_("tss-modal-footer"), _modalFooterContents, _modalFooterCommands);
+
+            if (header != null)
             {
-                _modalHeader.appendChild(header.Render());
+                _modalHeaderContents.appendChild(header.Render());
+            }
+            else
+            {
+                _modalHeader.style.display = "none";
             }
 
-            _closeButton = Button(_("tss-modal-closebutton fal fa-times", el: el => el.onclick = (e) => Hide()));
-            _modalCommand = Div(_("tss-modal-command"), _modalHeader, _closeButton);
+            _closeButton  = Button(_("tss-modal-button fal fa-times", el: el => el.onclick = (e) => Hide()));
+            _modalHeaderCommands.appendChild(_closeButton);
+
             _modalContent = Div(_("tss-modal-content"));
-            _modal = Div(_("tss-modal", styles: s => s.transform = "translate(0px,0px)"), _modalCommand, _modalContent);
+            _modal = Div(_("tss-modal", styles: s => s.transform = "translate(0px,0px)"), _modalHeader, _modalContent, _modalFooter);
             _modalOverlay = Div(_("tss-modal-overlay"));
             _contentHtml = Div(_("tss-modal-container"), _modalOverlay, _modal);
+            IsNonBlocking = false; //blocking by default
         }
 
         public Modal SetHeader(IComponent header)
         {
-            ClearChildren(_modalHeader);
             _modalHeader.style.display = "";
-            _modalHeader.appendChild(header.Render());
+            ClearChildren(_modalHeaderContents);
+            _modalHeaderContents.appendChild(header.Render());
+            return this;
+        }
+
+        public Modal SetFooter(IComponent footer)
+        {
+            _modalFooter.style.display = "";
+            ClearChildren(_modalFooterContents);
+            _modalFooterContents.appendChild(footer.Render());
+            return this;
+        }
+
+        public Modal SetHeaderCommands(IComponent headerCommands)
+        {
+            _modalHeader.style.display = "";
+            ClearChildren(_modalHeader);
+            _modalHeaderCommands.appendChild(headerCommands.Render());
+            return this;
+        }
+
+        public Modal SetFooterCommands(IComponent footerCommands)
+        {
+            _modalFooter.style.display = "";
+            ClearChildren(_modalFooter);
+            _modalFooterCommands.appendChild(footerCommands.Render());
             return this;
         }
 
@@ -51,6 +93,13 @@ namespace Tesserae.Components
         {
             ClearChildren(_modalHeader);
             _modalHeader.style.display = "none";
+            return this;
+        }
+
+        public Modal NoFooter()
+        {
+            ClearChildren(_modalFooter);
+            _modalFooter.style.display = "none";
             return this;
         }
 
@@ -173,7 +222,7 @@ namespace Tesserae.Components
 
         public Modal NoTopBorder()
         {
-            _modalCommand.classList.add("noborder");
+            _modalHeader.classList.add("noborder");
             return this;
         }
 
