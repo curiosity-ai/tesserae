@@ -18,6 +18,7 @@ namespace Tesserae.Components
         private HTMLDivElement _spinner;
 
         private bool _isChanged;
+        private bool _callSelectOnAdd = true;
 
         private List<Item> _selectedChildren;
 
@@ -35,6 +36,12 @@ namespace Tesserae.Components
                 if (!IsVisible) Show();
             };
             _selectedChildren = new List<Item>();
+        }
+
+        public Dropdown SuppressSelectedOnAddingItem()
+        { 
+            _callSelectOnAdd = false;
+            return this;
         }
 
         public SelectMode Mode
@@ -340,7 +347,11 @@ namespace Tesserae.Components
             }
 
             RenderSelected();
-            RaiseOnInput(this);
+
+            if (_callSelectOnAdd)
+            {
+                RaiseOnInput(this);
+            }
         }
 
         private void RenderSelected()
