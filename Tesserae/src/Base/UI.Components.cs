@@ -82,6 +82,8 @@ namespace Tesserae
         public static Label Label(IComponent component) => new Label(component);
 
         public static EditableLabel EditableLabel(string text) => new EditableLabel(text);
+        
+        public static EditableArea EditableArea(string text) => new EditableArea(text);
 
         public static Breadcrumb Breadcrumb() => new Breadcrumb();
 

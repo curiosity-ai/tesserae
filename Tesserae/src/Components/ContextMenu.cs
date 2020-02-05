@@ -267,7 +267,7 @@ namespace Tesserae.Components
                 return this;
             }
 
-            public ContextMenu.Item OnClick(ComponentEventHandler<MouseEvent>  e)
+            public new ContextMenu.Item OnClick(ComponentEventHandler<MouseEvent>  e)
             {
                 if (Type == ItemType.Item)
                 {

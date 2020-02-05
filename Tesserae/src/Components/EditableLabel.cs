@@ -4,19 +4,17 @@ using static Retyped.dom;
 
 namespace Tesserae.Components
 {
-    public class EditableLabel : ComponentBase<EditableLabel, HTMLInputElement>
+    public class EditableLabel : ComponentBase<EditableLabel, HTMLInputElement>, IHasTextSize
     {
         protected readonly HTMLDivElement _container;
 
-        protected readonly HTMLSpanElement _textSpan;
+        protected readonly HTMLSpanElement _labelText;
 
-        protected          HTMLElement    _iconSpan;
-        protected          HTMLElement    _closeEditIconSpan;
-        protected readonly HTMLDivElement _editDiv;
-        protected readonly HTMLDivElement _displayDiv;
+        protected          HTMLElement    _editIcon;
+        protected          HTMLElement    _cancelEditIcon;
+        protected readonly HTMLDivElement _editView;
+        protected readonly HTMLDivElement _labelView;
 
-<<<<<<< Updated upstream
-=======
         public delegate bool SaveEditHandler(EditableLabel sender, string newValue);
 
         public event SaveEditHandler onSave;
@@ -59,33 +57,43 @@ namespace Tesserae.Components
                 _labelText.classList.add(value.ToClassName());
             }
         }
->>>>>>> Stashed changes
 
         public EditableLabel(string text = string.Empty)
         {
-            _textSpan   = Span(_("tss-editablelabel-textspan", text: text));
-            _iconSpan   = I(_("tss-editablelabel-edit-indicator-icon" + " fas fa-edit"));
-            _displayDiv = Div(_("tss-editablelabel-displaybox"), _textSpan, _iconSpan);
+            _labelText  = Span(_("tss-editablelabel-textspan", text: text, title: "Click to edit"));
+            _editIcon   = I(_("tss-editablelabel-edit-icon far fa-edit"));
+            _labelView  = Div(_("tss-editablelabel-displaybox"), _labelText, _editIcon);
 
+            InnerElement     = TextBox(_("tss-editablelabel-textbox", type: "text", value: text));
+            _cancelEditIcon  = Div(_("tss-editablelabel-cancel-icon", title:"Cancel edit"), I(_("far fa-times")));
+            _editView        = Div(_("tss-editablelabel-editbox"), InnerElement, _cancelEditIcon);
 
-            InnerElement       = TextBox(_("tss-editablelabel-textbox", type: "text", value: text));
-            _closeEditIconSpan = I(_("tss-editablelabel-edit-close-icon" + " fas fa-times-circle"));
-            _editDiv           = Div(_("tss-editablelabel-editbox"), InnerElement, _closeEditIconSpan);
-
-            _container = Div(_("tss-editablelabel"), _displayDiv, _editDiv);
+            _container = Div(_("tss-editablelabel"), _labelView, _editView);
 
             AttachChange();
             AttachInput();
             AttachFocus();
             AttachBlur();
+            AttachKeys();
 
-            _displayDiv.addEventListener("click", ClickHandler);
-            _closeEditIconSpan.addEventListener("click", ClickHandler);
+            _labelView.addEventListener("click",      BeginEditing);
+            _cancelEditIcon.addEventListener("click", CancelEditing);
 
-
-            this.OnChange((s, e) => _textSpan.textContent = InnerElement.value);
+            OnKeyUp(KeyUp);
+            OnBlur(BeginSaveEditing);
         }
 
+        private void KeyUp(EditableLabel sender, KeyboardEvent e)
+        {
+            if(e.key == "Enter")
+            {
+                BeginSaveEditing(sender, e);
+            }
+            else if(e.key == "Escape")
+            {
+                CancelEditing(sender);
+            }
+        }
 
         public bool IsEditingMode
         {
@@ -94,6 +102,8 @@ namespace Tesserae.Components
             {
                 if (value)
                 {
+                    var labelRect = (DOMRect)_labelText.getBoundingClientRect();
+                    InnerElement.style.minWidth = (labelRect.width * 1.2) + "px";
                     _container.classList.add("editing");
                 }
                 else
@@ -105,21 +115,51 @@ namespace Tesserae.Components
 
         private HTMLDivElement ShownElement()
         {
-            return _editDiv.hidden ? _displayDiv : _editDiv;
+            return _editView.hidden ? _labelView : _editView;
         }
 
-<<<<<<< Updated upstream
-=======
         public EditableLabel OnSave(SaveEditHandler onSave)
         {
             this.onSave += onSave;
             return this;
         }
->>>>>>> Stashed changes
 
-        protected void ClickHandler(object sender)
+        protected void BeginEditing(object sender)
         {
-            IsEditingMode = !IsEditingMode;
+            IsEditingMode = true;
+            _isCanceling = false;
+            InnerElement.focus();
+        }
+
+        protected void CancelEditing(object sender)
+        {
+            _isCanceling = true;
+            IsEditingMode = false;
+            InnerElement.blur();
+        }
+
+        private void BeginSaveEditing(EditableLabel sender, Event e)
+        {
+            //We need to do this on a timeout, because clicking on the Cancel would trigger this method first, 
+            //with no opportunity to cancel
+            window.setTimeout(SaveEditing, 150);
+        }
+
+        private void SaveEditing(object e)
+        {
+            if (_isCanceling) return;
+            
+            var newValue = InnerElement.value;
+
+            if(onSave is null || onSave(this, newValue))
+            {
+                _labelText.textContent = newValue;
+                IsEditingMode = false;
+            }
+            else
+            {
+                InnerElement.focus();
+            }
         }
 
         public override HTMLElement Render()
