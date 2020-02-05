@@ -59,35 +59,35 @@
         border-top: unset;
     }
 
-    .tss-modal-command button {
-        position: absolute;
-        right: 18px;
-        top: 12px;
-        bottom: 0;
-        background-color: transparent;
-        color: var(--tss-secondary-foreground-color);
-        border: medium none;
-        cursor: pointer;
-        width: 32px;
-        height: 32px;
-        user-select: none;
-        border-radius: 2px;
-        padding: 0 4px;
-        text-align: center;
-        display: inline-block;
-        font-size: var(--tss-font-size-mediumplus);
-        font-weight: lighter;
+.tss-modal-closebutton {
+    position: absolute;
+    right: 18px;
+    top: 12px;
+    bottom: 0;
+    background-color: transparent;
+    color: var(--tss-secondary-foreground-color);
+    border: medium none;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    user-select: none;
+    border-radius: 2px;
+    padding: 0 4px;
+    text-align: center;
+    display: inline-block;
+    font-size: var(--tss-font-size-mediumplus);
+    font-weight: lighter;
+}
+
+    .tss-modal-closebutton:hover {
+        background-color: var(--tss-default-background-hover-color);
+        color: var(--tss-default-foreground-color);
     }
 
-        .tss-modal-command button:hover {
-            background-color: var(--tss-default-background-hover-color);
-            color: var(--tss-default-foreground-color);
-        }
-
-        .tss-modal-command button:active {
-            background-color: var(--tss-default-background-active-color);
-            color: var(--tss-primary-background-active-color);
-        }
+    .tss-modal-closebutton:active {
+        background-color: var(--tss-default-background-active-color);
+        color: var(--tss-primary-background-active-color);
+    }
 
 .tss-modal-content {
     display: flex;

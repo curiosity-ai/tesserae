@@ -31,7 +31,7 @@ namespace Tesserae.Components
                 _modalHeader.appendChild(header.Render());
             }
 
-            _closeButton = Button(_("fal fa-times", el: el => el.onclick = (e) => Hide()));
+            _closeButton = Button(_("tss-modal-closebutton fal fa-times", el: el => el.onclick = (e) => Hide()));
             _modalCommand = Div(_("tss-modal-command"), _modalHeader, _closeButton);
             _modalContent = Div(_("tss-modal-content"));
             _modal = Div(_("tss-modal", styles: s => s.transform = "translate(0px,0px)"), _modalCommand, _modalContent);
