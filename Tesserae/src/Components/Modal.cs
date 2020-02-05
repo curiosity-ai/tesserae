@@ -22,9 +22,15 @@ namespace Tesserae.Components
 
         public event OnHideHandler onHide;
 
-        public Modal(string header = string.Empty)
+        public Modal(IComponent header = null)
         {
-            _modalHeader = Div(_("tss-modal-header", text: header));
+            _modalHeader = Div(_("tss-modal-header"));
+
+            if(header != null)
+            {
+                _modalHeader.appendChild(header.Render());
+            }
+
             _closeButton = Button(_("fal fa-times", el: el => el.onclick = (e) => Hide()));
             _modalCommand = Div(_("tss-modal-command"), _modalHeader, _closeButton);
             _modalContent = Div(_("tss-modal-content"));
@@ -33,10 +39,19 @@ namespace Tesserae.Components
             _contentHtml = Div(_("tss-modal-container"), _modalOverlay, _modal);
         }
 
-        public string Header
+        public Modal SetHeader(IComponent header)
         {
-            get { return _modalHeader.innerText; }
-            set { _modalHeader.innerText = value; }
+            ClearChildren(_modalHeader);
+            _modalHeader.style.display = "";
+            _modalHeader.appendChild(header.Render());
+            return this;
+        }
+
+        public Modal NoHeader()
+        {
+            ClearChildren(_modalHeader);
+            _modalHeader.style.display = "none";
+            return this;
         }
 
         public override IComponent Content
@@ -297,12 +312,6 @@ namespace Tesserae.Components
         public static T HideCloseButton<T>(this T modal) where T : Modal
         {
             modal.ShowCloseButton = false;
-            return modal;
-        }
-
-        public static T Header<T>(this T modal, string header) where T : Modal
-        {
-            modal.Header = header;
             return modal;
         }
 

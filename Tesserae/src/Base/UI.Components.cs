@@ -105,11 +105,15 @@ namespace Tesserae
 
         public static Panel Panel() => new Panel();
 
-        public static Modal Modal(string header = string.Empty) => new Modal(header);
-         
+        public static Modal Modal(IComponent header = null) => new Modal(header);
+
+        public static Modal Modal(string header) => new Modal(string.IsNullOrWhiteSpace(header) ? null : TextBlock(header).MediumPlus().SemiBold());
+
         public static ProgressModal ProgressModal() => new ProgressModal();
 
-        public static Dialog Dialog(string header = string.Empty) => new Dialog(header);
+        public static Dialog Dialog(IComponent header = null) => new Dialog(header);
+        
+        public static Dialog Dialog(string header) => new Dialog(string.IsNullOrWhiteSpace(header) ? null : TextBlock(header).MediumPlus().SemiBold());
 
         public static Pivot Pivot() => new Pivot();
 

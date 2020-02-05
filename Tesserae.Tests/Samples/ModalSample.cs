@@ -48,7 +48,7 @@ namespace Tesserae.Tests.Samples
                         Toggle("Is dark overlay").OnChange((s, e) => modal.Dark = s.IsChecked).Checked(modal.Dark),
                         Toggle("Is non-blocking").OnChange((s, e) => modal.IsNonBlocking = s.IsChecked).Checked(modal.IsNonBlocking),
                         Toggle("Hide close button").OnChange((s, e) => modal.ShowCloseButton = !s.IsChecked).Checked(!modal.ShowCloseButton),
-                        Label("Open a dialog from here").SetContent(Button("Open").OnClick((s,e) => Dialog("Dialog over Modal").Content(TextBlock("Hello World!")).YesNo(() => modal.Header = "Yes", () => modal.Header = "No")))))));
+                        Label("Open a dialog from here").Var(out var lbl).SetContent(Button("Open").OnClick((s,e) => Dialog("Dialog over Modal").Content(TextBlock("Hello World!")).YesNo(() => lbl.Text = "Yes", () => lbl.Text = "No")))))));
         }
 
         public HTMLElement Render()
