@@ -50,7 +50,7 @@
     border: 0;
     width: 100%;
     flex-shrink: 0;
-    padding: 12px 24px;
+    padding: 12px;
     display: inline-flex;
 }
 
@@ -58,11 +58,11 @@
     margin: 0;
     border: 0;
     width: 100%;
-    padding: 12px 24px;
+    padding: 12px;
     position: relative;
     border-top: 4px solid rgb(0, 120, 212);
     flex-shrink: 0;
-    display:inline-flex;
+    display: inline-flex;
 }
 
 .tss-modal-header.noborder {

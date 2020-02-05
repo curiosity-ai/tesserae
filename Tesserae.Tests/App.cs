@@ -112,8 +112,7 @@ namespace Tesserae.Tests
                                                                    .Links(_links["Dialog"] ,
                                                                           _links["Modal"] ,
                                                                           _links["Panel"] ,
-                                                                          _links["ContextMenu"] ,
-                                                                          _links["ProgressModal"]),
+                                                                          _links["ContextMenu"]),
                                                 NavLink("Utilities").Expanded()
                                                                     .SmallPlus()
                                                                     .SemiBold()
@@ -126,7 +125,8 @@ namespace Tesserae.Tests
                                                                            _links["Breadcrumb"]  ,
                                                                            _links["Pivot"]       ,
                                                                            _links["Defer"],
-                                                                           _links["Toast"]),
+                                                                           _links["Toast"],
+                                                                           _links["ProgressModal"]),
                                                 NavLink("Nav Sample").Expanded()
                                                                      .SmallPlus()
                                                                      .SemiBold()
