@@ -9,3 +9,8 @@
 .tss-basiclist .tss-basiclist-item {
     float: left;
 }
+
+.tss-basiclist-top-spacing, .tss-basiclist-bottom-spacing {
+    float: left;
+    width: 100%;
+}

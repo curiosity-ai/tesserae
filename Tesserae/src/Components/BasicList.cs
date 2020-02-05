@@ -67,7 +67,7 @@ namespace Tesserae.Components
 
             Debug("Basic list initialized");
 
-            _innerElement       = CreateEmptyHtmlDivElement();
+            _innerElement       = CreateInnerElementHtmlDivElement();
             _basicListContainer = CreateBasicListContainerHtmlDivElement();
             _topSpacingDiv      = CreateTopSpacingHtmlDivElement();
             _bottomSpacingDiv   = CreateBottomSpacingHtmlDivElement();
@@ -100,17 +100,9 @@ namespace Tesserae.Components
 
         private static string GetComponentDimensionInPercent(int itemsCount) => $"{100 / itemsCount}%";
 
-        private static HTMLDivElement CreateEmptyHtmlDivElement() => Div(_());
+        private static HTMLDivElement CreateInnerElementHtmlDivElement() => Div(_());
 
-        private static HTMLDivElement CreateSpacingHtmlDivElement(string className)
-        {
-            return Div(_(className,
-                styles: cssStyleDeclaration =>
-                {
-                    cssStyleDeclaration.cssFloat = "left";
-                    cssStyleDeclaration.width    = "100%";
-                }));
-        }
+        private static HTMLDivElement CreateSpacingHtmlDivElement(string className) => Div(_(className));
 
         private static void SetHtmlElementHeight(HTMLElement htmlElement, int heightInPixels)
         {
