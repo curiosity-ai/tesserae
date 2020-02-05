@@ -76,7 +76,7 @@ namespace Tesserae.Components
         public Modal SetHeaderCommands(params IComponent[] commands)
         {
             _modalHeader.style.display = "";
-            ClearChildren(_modalHeader);
+            ClearChildren(_modalHeaderCommands);
             
             foreach(var command in commands)
             {
@@ -89,7 +89,7 @@ namespace Tesserae.Components
         public Modal SetFooterCommands(params IComponent[] commands)
         {
             _modalFooter.style.display = "";
-            ClearChildren(_modalFooter);
+            ClearChildren(_modalFooterCommands);
 
             foreach (var command in commands)
             {
