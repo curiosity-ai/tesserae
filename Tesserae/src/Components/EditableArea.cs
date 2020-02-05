@@ -64,7 +64,7 @@ namespace Tesserae.Components
             _editIcon   = I(_("tss-editablelabel-edit-icon far fa-edit"));
             _labelView  = Div(_("tss-editablelabel-displaybox"), _labelText, _editIcon);
 
-            InnerElement     = TextArea(_("tss-editablelabel-textbox", type: "text", value: text));
+            InnerElement     = TextArea(_("tss-editablelabel-textbox", type: "text"));
             _cancelEditIcon  = Div(_("tss-editablelabel-cancel-icon", title:"Cancel edit"), I(_("far fa-times")));
             _editView        = Div(_("tss-editablelabel-editbox"), InnerElement, _cancelEditIcon);
 
@@ -123,6 +123,7 @@ namespace Tesserae.Components
 
         protected void BeginEditing(object sender)
         {
+            InnerElement.value = _labelText.textContent;
             IsEditingMode = true;
             _isCanceling = false;
             InnerElement.focus();
