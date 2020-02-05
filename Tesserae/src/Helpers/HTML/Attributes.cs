@@ -7,6 +7,13 @@ namespace Tesserae.HTML
 {
     public sealed class Attributes
     {
+        private readonly List<(string attributeName, string attributeValue)> _data;
+
+        public Attributes()
+        {
+            _data = new List<(string name, string value)>();
+        }
+
         public string ClassName { get; internal set; }
         public string Id { get; internal set; }
         public string Title { get; internal set; }
@@ -26,7 +33,7 @@ namespace Tesserae.HTML
         public string Placeholder  { get; internal set; }
         public string Role         { get; internal set; }
 
-        public IEnumerable<(string name, string value)> Data { get; internal set; }
+        public IEnumerable<(string name, string value)> Data => _data.AsReadOnly();
 
         public void InitElement(HTMLElement element)
         {
@@ -41,17 +48,14 @@ namespace Tesserae.HTML
                 }
             }
 
-            if (!string.IsNullOrEmpty(Id))                     { element.id = Id; }
-            if (!string.IsNullOrEmpty(ClassName))              { element.className = ClassName; }
-            if (!string.IsNullOrEmpty(Title))                  { element.title = Title; }
-            if (!string.IsNullOrEmpty(Role))                   { element.setAttribute("role", Role); }
+            if (!string.IsNullOrEmpty(Id))        { element.id = Id; }
+            if (!string.IsNullOrEmpty(ClassName)) { element.className = ClassName; }
+            if (!string.IsNullOrEmpty(Title))     { element.title = Title; }
+            if (!string.IsNullOrEmpty(Role))      { element.setAttribute("role", Role); };
 
-            if (Data != null && Data.Any())
+            foreach (var dataAttribute in _data)
             {
-                foreach (var dataAttribute in Data)
-                {
-                    element.setAttribute($"data-{dataAttribute.name}",dataAttribute.value);
-                }
+                element.setAttribute($"data-{dataAttribute.attributeName}", dataAttribute.attributeValue);
             }
 
             Styles?.Invoke(element.style);
@@ -79,6 +83,7 @@ namespace Tesserae.HTML
             InitElement(element);
             if (!string.IsNullOrEmpty(Src)) { element.src = Src; }
         }
+
         public void InitInputElement(HTMLInputElement element)
         {
             InitElement(element);
@@ -109,6 +114,35 @@ namespace Tesserae.HTML
             if (!string.IsNullOrEmpty(DefaultValue)) { element.defaultValue = DefaultValue; }
             if (Disabled.HasValue)                   { element.disabled = Disabled.Value; }
             if (!string.IsNullOrEmpty(Value))        { element.value = Value; }
+        }
+
+        public Attributes WithRole(string role)
+        {
+            if (string.IsNullOrWhiteSpace(role))
+            {
+                throw new ArgumentException(nameof(role));
+            }
+
+            Role = role;
+
+            return this;
+        }
+
+        public Attributes WithData(string attributeName, string attributeValue)
+        {
+            if (string.IsNullOrWhiteSpace(attributeName))
+            {
+                throw new ArgumentException(nameof(attributeName));
+            }
+
+            if (string.IsNullOrWhiteSpace(attributeValue))
+            {
+                throw new ArgumentException(attributeValue);
+            }
+
+            _data.Add((attributeName, attributeValue));
+
+            return this;
         }
     }
 }

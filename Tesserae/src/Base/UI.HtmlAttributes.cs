@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Tesserae.HTML;
 using static Retyped.dom;
 
@@ -24,8 +23,6 @@ namespace Tesserae
                                     string placeholder                      = null,
                                     string defaultValue                     = null,
                                     string title                            = null,
-                                    string role                             = null,
-                                    IEnumerable<(string name, string value)> data = null,
                                     Action<HTMLElement> el                  = null,
                                     Action<CSSStyleDeclaration> styles      = null)
         {
@@ -49,9 +46,6 @@ namespace Tesserae
             a.Value        = value;
             a.DefaultValue = defaultValue;
             a.Placeholder  = placeholder;
-            a.Role         = role;
-
-            a.Data = data;
 
             return a;
         }

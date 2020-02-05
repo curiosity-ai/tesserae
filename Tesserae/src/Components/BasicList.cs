@@ -129,10 +129,7 @@ namespace Tesserae.Components
             _rowsCount       = _rowsPerPage * _pagesCount;
         }
 
-        private HTMLDivElement CreateBasicListContainerHtmlDivElement()
-        {
-            return Div(_("tss-basiclist", role: "list"));
-        }
+        private HTMLDivElement CreateBasicListContainerHtmlDivElement() => Div(_("tss-basiclist").WithRole("list"));
 
         private HTMLDivElement CreateTopSpacingHtmlDivElement()
         {
@@ -157,17 +154,17 @@ namespace Tesserae.Components
 
         private IEnumerable<HTMLElement> GetPages(IEnumerable<int> rangeOfPageNumbersToGet)
         {
-            return RetrieveFromPageCache(rangeOfPageNumbersToGet);
+            return RetrievePagesFromCache(rangeOfPageNumbersToGet);
         }
 
-        private HTMLElement GetPage(int pageNumber) => RetrieveFromPageCache(pageNumber);
+        private HTMLElement GetPage(int pageNumber) => RetrievePageFromCache(pageNumber);
 
-        private IEnumerable<HTMLElement> RetrieveFromPageCache(IEnumerable<int> rangeOfPageNumbersToRetrieve)
+        private IEnumerable<HTMLElement> RetrievePagesFromCache(IEnumerable<int> rangeOfPageNumbersToRetrieve)
         {
-            return rangeOfPageNumbersToRetrieve.Select(RetrieveFromPageCache);
+            return rangeOfPageNumbersToRetrieve.Select(RetrievePageFromCache);
         }
 
-        private HTMLElement RetrieveFromPageCache(int pageNumberToRetrieve)
+        private HTMLElement RetrievePageFromCache(int pageNumberToRetrieve)
         {
             if (_pageCache.ContainsKey(pageNumberToRetrieve))
             {
@@ -188,9 +185,10 @@ namespace Tesserae.Components
 
         private HTMLElement CreatePageHtmlElement(int pageNumber)
         {
-            return Div(_( "tss-basiclist-page",
-                role: "presentation",
-                data: new[] { ("tss-basiclist-pagenumber", pageNumber.ToString()) }));
+            return Div(
+                _( "tss-basiclist-page")
+                    .WithRole("presentation")
+                    .WithData("tss-basiclist-pagenumber", pageNumber.ToString()));
         }
 
         private HTMLElement CreateComponentContainerHtmlElement(KeyValuePair<int, IComponent> componentAndNumber)
@@ -199,13 +197,13 @@ namespace Tesserae.Components
 
             return Div(
                 _("tss-basiclist-item",
-                    role  : "listitem",
-                    data  : new[] { ("tss-basiclist-componentnumber", componentNumber.ToString()) },
                     styles: cssStyleDeclaration =>
                     {
                         cssStyleDeclaration.height = _componentHeightInPercentage;
                         cssStyleDeclaration.width = _componentWidthInPercentage;
-                    }),
+                    })
+                    .WithRole("listitems")
+                    .WithData("tss-basiclist-componentnumber", componentNumber.ToString()),
                 component.Render());
         }
 
