@@ -73,19 +73,29 @@ namespace Tesserae.Components
             return this;
         }
 
-        public Modal SetHeaderCommands(IComponent headerCommands)
+        public Modal SetHeaderCommands(params IComponent[] commands)
         {
             _modalHeader.style.display = "";
             ClearChildren(_modalHeader);
-            _modalHeaderCommands.appendChild(headerCommands.Render());
+            
+            foreach(var command in commands)
+            {
+                _modalHeaderCommands.appendChild(command.Render());
+            }
+
             return this;
         }
 
-        public Modal SetFooterCommands(IComponent footerCommands)
+        public Modal SetFooterCommands(params IComponent[] commands)
         {
             _modalFooter.style.display = "";
             ClearChildren(_modalFooter);
-            _modalFooterCommands.appendChild(footerCommands.Render());
+
+            foreach (var command in commands)
+            {
+                _modalFooterCommands.appendChild(command.Render());
+            }
+
             return this;
         }
 
