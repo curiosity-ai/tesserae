@@ -18,6 +18,10 @@ namespace Tesserae.Components
 
         protected readonly HTMLElement _modal;
 
+        public delegate void OnHideHandler(Modal sender);
+
+        public event OnHideHandler onHide;
+
         public Modal(string header = string.Empty)
         {
             _modalHeader = Div(_("tss-modal-header", text: header));
@@ -179,8 +183,17 @@ namespace Tesserae.Components
             if (!IsNonBlocking) document.body.style.overflowY = "hidden";
             base.Show();
         }
+
+        public Modal OnHide(OnHideHandler onHide)
+        {
+            this.onHide += onHide;
+            return this;
+        }
+
         public override void Hide(Action onHidden = null)
         {
+            onHide?.Invoke(this);
+
             base.Hide(() =>
             {
                 if (!IsNonBlocking) document.body.style.overflowY = "";

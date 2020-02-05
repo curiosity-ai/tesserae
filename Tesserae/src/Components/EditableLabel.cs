@@ -15,6 +15,51 @@ namespace Tesserae.Components
         protected readonly HTMLDivElement _editDiv;
         protected readonly HTMLDivElement _displayDiv;
 
+<<<<<<< Updated upstream
+=======
+        public delegate bool SaveEditHandler(EditableLabel sender, string newValue);
+
+        public event SaveEditHandler onSave;
+
+        private bool _isCanceling = false;
+
+        public TextSize Size
+        {
+            get
+            {
+                return TextSizeExtensions.FromClassList(InnerElement, TextSize.Small);
+            }
+            set
+            {
+                string current = Size.ToClassName();
+                InnerElement.classList.remove(current);
+                _labelText.classList.remove(current);
+                _editIcon.classList.remove(current);
+                _cancelEditIcon.classList.remove(current);
+                
+                string newValue = value.ToClassName();
+                InnerElement.classList.add(newValue);
+                _labelText.classList.add(newValue);
+                _editIcon.classList.add(newValue);
+                _cancelEditIcon.classList.add(newValue);
+            }
+        }
+
+        public TextWeight Weight
+        {
+            get
+            {
+                return TextSizeExtensions.FromClassList(InnerElement, TextWeight.Regular);
+            }
+            set
+            {
+                InnerElement.classList.remove(Weight.ToClassName());
+                _labelText.classList.remove(Weight.ToClassName());
+                InnerElement.classList.add(value.ToClassName());
+                _labelText.classList.add(value.ToClassName());
+            }
+        }
+>>>>>>> Stashed changes
 
         public EditableLabel(string text = string.Empty)
         {
@@ -63,6 +108,14 @@ namespace Tesserae.Components
             return _editDiv.hidden ? _displayDiv : _editDiv;
         }
 
+<<<<<<< Updated upstream
+=======
+        public EditableLabel OnSave(SaveEditHandler onSave)
+        {
+            this.onSave += onSave;
+            return this;
+        }
+>>>>>>> Stashed changes
 
         protected void ClickHandler(object sender)
         {
