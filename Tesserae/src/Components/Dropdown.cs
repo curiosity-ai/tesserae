@@ -158,7 +158,7 @@ namespace Tesserae.Components
         public void Add(Item component)
         {
             _childContainer.appendChild(component.Render());
-            component.onSelected += OnItemSelected;
+            component.onSelectedChange += OnItemSelected;
 
             if (component.IsSelected)
             {
@@ -434,7 +434,7 @@ namespace Tesserae.Components
 
 
             public event BeforeSelectEventHandler<Item> onBeforeSelected;
-            public event EventHandler<Item> onSelected;
+            private event EventHandler<Item> onSelectedChange;
 
             public ItemType Type
             {
@@ -495,7 +495,7 @@ namespace Tesserae.Components
                         if (value) InnerElement.classList.add("selected");
                         else InnerElement.classList.remove("selected");
 
-                        onSelected?.Invoke(this, this);
+                        onSelectedChange?.Invoke(this, this);
                     }
                 }
             }
@@ -533,9 +533,19 @@ namespace Tesserae.Components
                 return this;
             }
 
-            public Item OnSelected(EventHandler<Item> onSelected)
+            public Item OnSelected(EventHandler<Item> onSelected, EventHandler<Item> onDeselected = null)
             {
-                this.onSelected += onSelected;
+                this.onSelectedChange += (s,e) => 
+                {
+                    if(e.IsSelected)
+                    {
+                        onSelected?.Invoke(s, e);
+                    }
+                    else
+                    {
+                        onDeselected?.Invoke(s, e);
+                    }
+                };
                 return this;
             }
 
