@@ -16,9 +16,9 @@ namespace Tesserae
             _value = default(T);
         }
 
-        public delegate void ValueChanged<T>(T value);
+        public delegate void ValueChanged(T value);
 
-        private event ValueChanged<T> onChanged;
+        private event ValueChanged onChanged;
 
         public T Value
         {
@@ -36,7 +36,7 @@ namespace Tesserae
             }
         }
 
-        public void Observe(ValueChanged<T> valueGetter)
+        public void Observe(ValueChanged valueGetter)
         {
             onChanged += valueGetter;
             valueGetter(_value);
