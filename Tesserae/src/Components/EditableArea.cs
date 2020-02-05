@@ -4,7 +4,7 @@ using static Retyped.dom;
 
 namespace Tesserae.Components
 {
-    public class EditableLabel : ComponentBase<EditableLabel, HTMLInputElement>, IHasTextSize
+    public class EditableArea : ComponentBase<EditableArea, HTMLTextAreaElement>, IHasTextSize
     {
         protected readonly HTMLDivElement _container;
 
@@ -15,7 +15,7 @@ namespace Tesserae.Components
         protected readonly HTMLDivElement _editView;
         protected readonly HTMLDivElement _labelView;
 
-        public delegate bool SaveEdit(EditableLabel sender, string newValue);
+        public delegate bool SaveEdit(EditableArea sender, string newValue);
 
         public event SaveEdit onSave;
 
@@ -58,13 +58,13 @@ namespace Tesserae.Components
             }
         }
 
-        public EditableLabel(string text = string.Empty)
+        public EditableArea(string text = string.Empty)
         {
             _labelText  = Span(_("tss-editablelabel-textspan", text: text, title: "Click to edit"));
             _editIcon   = I(_("tss-editablelabel-edit-icon far fa-edit"));
             _labelView  = Div(_("tss-editablelabel-displaybox"), _labelText, _editIcon);
 
-            InnerElement     = TextBox(_("tss-editablelabel-textbox", type: "text", value: text));
+            InnerElement     = TextArea(_("tss-editablelabel-textbox", type: "text", value: text));
             _cancelEditIcon  = Div(_("tss-editablelabel-cancel-icon", title:"Cancel edit"), I(_("far fa-times")));
             _editView        = Div(_("tss-editablelabel-editbox"), InnerElement, _cancelEditIcon);
 
@@ -83,13 +83,9 @@ namespace Tesserae.Components
             OnBlur(BeginSaveEditing);
         }
 
-        private void KeyUp(EditableLabel sender, KeyboardEvent e)
+        private void KeyUp(EditableArea sender, KeyboardEvent e)
         {
-            if(e.key == "Enter")
-            {
-                BeginSaveEditing(sender, e);
-            }
-            else if(e.key == "Escape")
+            if(e.key == "Escape")
             {
                 CancelEditing(sender);
             }
@@ -104,6 +100,7 @@ namespace Tesserae.Components
                 {
                     var labelRect = (DOMRect)_labelText.getBoundingClientRect();
                     InnerElement.style.minWidth = (labelRect.width * 1.2) + "px";
+                    InnerElement.style.minHeight = (labelRect.height * 1.2) + "px";
                     _container.classList.add("editing");
                 }
                 else
@@ -118,7 +115,7 @@ namespace Tesserae.Components
             return _editView.hidden ? _labelView : _editView;
         }
 
-        public EditableLabel OnSave(SaveEdit onSave)
+        public EditableArea OnSave(SaveEdit onSave)
         {
             this.onSave += onSave;
             return this;
@@ -138,7 +135,7 @@ namespace Tesserae.Components
             InnerElement.blur();
         }
 
-        private void BeginSaveEditing(EditableLabel sender, Event e)
+        private void BeginSaveEditing(EditableArea sender, Event e)
         {
             //We need to do this on a timeout, because clicking on the Cancel would trigger this method first, 
             //with no opportunity to cancel

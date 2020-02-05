@@ -14,37 +14,32 @@ namespace Tesserae.Tests.Samples
         {
             _content = SectionStack()
                       .Title(
-                             TextBlock("EditableLabel")
+                             TextBlock("EditableLabel & EditableArea")
                                 .XLarge()
                                 .Bold())
                       .Section(Stack()
                                   .Children(SampleTitle("Overview"),
-                                            TextBlock("TODO")))
+                                            TextBlock("Use for showing information that can be edited by users.")))
                       .Section(Stack()
                                   .Children(SampleTitle("Best Practices"),
                                             Stack()
                                                .Horizontal()
                                                .Children(Stack()
-                                                        .Width(40, Unit.Percents)
-                                                        .Children(SampleSubTitle("Do")
-//                    SampleDo("Use sentence casing, e.g. “First name”."),
-//                    SampleDo("Be short and concise."),
-//                    SampleDo("When adding a Label to components, use the text as a noun or short noun phrase.")
-                                                                 ),
-                                                         Stack().Width(40, Unit.Percents).Children(SampleSubTitle("Don't")
-//                SampleDo("Use Labels as instructional text, e.g. “Click to get started”."),
-//                                                                                                   SampleDo("Don’t use full sentences or complex punctuation (colons, semicolons, etc.)."))
-                                                                                                  )
-                                                        )
-                                           )
-                              )
+                                                         .Width(40, Unit.Percents)
+                                                         .Children(SampleSubTitle("Do"),
+                                                                  SampleDo("Use anywhere information can be edited easily by users.")),
+                                                         Stack()
+                                                         .Width(40, Unit.Percents)
+                                                         .Children(SampleSubTitle("Don't"),
+                                                           SampleDont("Don’t forget to register a OnSave() callback")))))
                       .Section(Stack().Children(
                                                 SampleTitle("Usage"),
                                                 TextBlock("Label").Medium(),
-                                                EditableLabel("I'm Label")
-//                                                Label("I'm a disabled Label").Disabled(),
-//                                                Label("I'm a required Label").Required(),
-//                                                Label("A Label for An Input").SetContent(TextBox())
+                                                EditableLabel("You can click to edit me"),
+                                                EditableLabel("You can also change the font-size").Large(),
+                                                EditableLabel("and weight as a normal label").Large().Bold(),
+                                                TextBlock("Text Area").Medium(),
+                                                EditableArea("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\nUt enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.\nDuis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.\nExcepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.").Width(300, Unit.Pixels)
                                                ));
         }
 

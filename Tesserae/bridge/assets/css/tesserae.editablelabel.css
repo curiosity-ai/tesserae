@@ -5,13 +5,11 @@
     align-items: center;
 }
 
-    .tss-editablelabel:hover {
-        background-color: var(--tss-default-background-hover-color);
-    }
-
 .tss-editablelabel-displaybox {
     display: inline-flex;
     align-items: center;
+    width: 100%;
+    white-space: pre-wrap;
 }
 
 .tss-editablelabel-editbox {
@@ -32,15 +30,12 @@
     background: var(--tss-default-background-color) none repeat scroll 0% 0%;
     color: var(--tss-default-foreground-color);
     cursor: text;
-    height: 32px;
+    min-height: 32px;
     align-items: stretch;
-    font-size: var(--tss-font-size-small);
-    font-weight: var(--tss-font-weight-regular);
     display: block;
-    width: 100%;
+    max-width: 100%;
     outline: transparent none medium;
     padding: 0px 5px;
-    /*width: calc(100% - 20px);*/
 }
 
 .tss-editablelabel-edit-icon {
@@ -61,6 +56,10 @@
     margin-top: -4px;
     border: transparent;
     background: transparent;
+}
+
+.tss-editablelabel-displaybox:hover {
+    background-color: var(--tss-default-background-hover-color);
 }
 
 .tss-editablelabel-displaybox:hover > .tss-editablelabel-edit-icon {
