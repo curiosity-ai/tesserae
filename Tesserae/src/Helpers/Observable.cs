@@ -22,6 +22,10 @@ namespace Tesserae
 
         public T Value
         {
+            get
+            {
+                return _value;
+            }
             set
             {
                 if(!_value.Equals(value))
