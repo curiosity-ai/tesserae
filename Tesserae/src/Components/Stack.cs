@@ -791,4 +791,20 @@ namespace Tesserae.Components
         Viewport,
         Pixels
     }
+
+    public static class Units
+    {
+        public static string Translate(Unit unit, double value)
+        {
+            switch (unit)
+            {
+                case Unit.Auto: return "auto";
+                case Unit.Pixels: return $"{value:0.####}px";
+                case Unit.Percents: return $"{value:0.####}%";
+                case Unit.Viewport: return $"{value:0.####}vh";
+            }
+
+            throw new NotSupportedException();
+        }
+    }
 }

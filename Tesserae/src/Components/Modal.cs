@@ -152,8 +152,24 @@ namespace Tesserae.Components
             return this;
         }
 
+        public void ShowAt(Unit unit, double? fromTop = null, double? fromLeft = null, double? fromRight = null, double? fromBottom = null)
+        {
+            _modal.style.marginTop    = fromTop.HasValue    ? Units.Translate(unit, fromTop.Value)    : "auto";
+            _modal.style.marginLeft   = fromLeft.HasValue   ? Units.Translate(unit, fromLeft.Value)   : "auto";
+            _modal.style.marginRight  = fromRight.HasValue  ? Units.Translate(unit, fromRight.Value)  : "auto";
+            _modal.style.marginBottom = fromBottom.HasValue ? Units.Translate(unit, fromBottom.Value) : "auto";
+            if (!IsNonBlocking) document.body.style.overflowY = "hidden";
+            _modal.style.transform = "translate(0px,0px)";
+            base.Show();
+        }
+
         public override void Show()
         {
+            _modal.style.marginTop = "";
+            _modal.style.marginLeft = "";
+            _modal.style.marginRight = "";
+            _modal.style.marginBottom = "";
+            _modal.style.transform = "translate(0px,0px)";
             if (!IsNonBlocking) document.body.style.overflowY = "hidden";
             base.Show();
         }
@@ -209,15 +225,15 @@ namespace Tesserae.Components
                 document.body.addEventListener("mousemove", OnDragMouseMove);
                 document.body.addEventListener("mouseleave", OnDragMouseUp);
                 _modal.style.userSelect = "none";
-                _isDragged = true;
                 _startPoint = TranslationPoint.From(_modal.style.transform);
+                _isDragged = true;
             }
         }
 
         class TranslationPoint
         {
-            static Regex regex = new Regex("translate\\(([-0-9.].*?)px,([-0-9.].*?)px\\)");
-            static Regex regexShort = new Regex("translate\\(([-0-9.].*?)px\\)");
+            static Regex regex = new Regex(@"translate\(([-0-9.].*?)px,\s?([-0-9.].*?)px\)");
+            static Regex regexShort = new Regex(@"translate\(([-0-9.].*?)px\)");
 
             public TranslationPoint(double x = 0, double y = 0)
             {

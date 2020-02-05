@@ -24,8 +24,11 @@ namespace Tesserae
         {
             set
             {
-                _value = value;
-                onChanged?.Invoke(_value);
+                if(!_value.Equals(value))
+                {
+                    _value = value;
+                    onChanged?.Invoke(_value);
+                }
             }
         }
 
