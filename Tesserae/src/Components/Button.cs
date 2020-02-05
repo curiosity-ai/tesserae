@@ -31,6 +31,15 @@ namespace Tesserae.Components
         }
 
         /// <summary>
+        /// Gets or sets button title
+        /// </summary>
+        public string Title
+        {
+            get { return _textSpan.title; }
+            set { _textSpan.title = value; }
+        }
+
+        /// <summary>
         /// Gets or sets button icon (icon class)
         /// </summary>
         public string Icon
@@ -272,6 +281,12 @@ namespace Tesserae.Components
         public Button SetText(string text)
         {
             Text = text;
+            return this;
+        }
+
+        public Button SetTitle(string title)
+        {
+            Title = title;
             return this;
         }
 

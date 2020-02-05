@@ -37,6 +37,12 @@ namespace Tesserae.Components
             set { InnerElement.innerText = value; }
         }
 
+        public string Title
+        {
+            get { return InnerElement.title; }
+            set { InnerElement.title = value; }
+        }
+
         public TextSize Size
         {
             get
@@ -239,6 +245,12 @@ namespace Tesserae.Components
         public static T Text<T>(this T textBlock, string text) where T : TextBlock
         {
             textBlock.Text = text;
+            return textBlock;
+        }
+
+        public static T Title<T>(this T textBlock, string title) where T : TextBlock
+        {
+            textBlock.Title = title;
             return textBlock;
         }
 
