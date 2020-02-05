@@ -152,6 +152,12 @@ namespace Tesserae.Components
             return this;
         }
 
+        public Modal NoTopBorder()
+        {
+            _modalCommand.classList.add("noborder");
+            return this;
+        }
+
         public void ShowAt(Unit unit, double? fromTop = null, double? fromLeft = null, double? fromRight = null, double? fromBottom = null)
         {
             _modal.style.marginTop    = fromTop.HasValue    ? Units.Translate(unit, fromTop.Value)    : "auto";

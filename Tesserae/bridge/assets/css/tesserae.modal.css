@@ -56,6 +56,10 @@
     border-top: 4px solid rgb(0, 120, 212);
 }
 
+    .tss-modal-command.noborder{
+        border-top: unset;
+    }
+
     .tss-modal-command button {
         position: absolute;
         right: 18px;
