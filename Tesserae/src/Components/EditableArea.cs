@@ -160,6 +160,20 @@ namespace Tesserae.Components
             }
         }
 
+        public EditableArea  SetText(string text)
+        {
+            if (IsEditingMode)
+            {
+                InnerElement.value = text;
+            }
+            else
+            {
+                _labelText.textContent = text;
+            }
+
+            return this;
+        }
+        
         public override HTMLElement Render()
         {
             return _container;
