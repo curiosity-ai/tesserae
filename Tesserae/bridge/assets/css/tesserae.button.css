@@ -2,9 +2,9 @@
 button {
     font-family: inherit;
 }
-button:focus {
-    outline: 0;
-}
+    button:focus {
+        outline: none;
+    }
 
 .tss-btn {
     border: 1px solid;
@@ -18,6 +18,11 @@ button:focus {
     margin: 4px;
     display: inline-flex;
     align-items: center;
+}
+
+.tss-btn:focus {
+    outline: none;
+
 }
 
     .tss-btn.disabled {

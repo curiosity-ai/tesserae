@@ -177,6 +177,28 @@ namespace Tesserae.Components
             }
         }
 
+        public bool CanWrap
+        {
+            get
+            {
+                return !InnerElement.classList.contains("tss-text-ellipsis");
+            }
+            set
+            {
+                if (value != CanWrap)
+                {
+                    if (value)
+                    {
+                        InnerElement.classList.remove("tss-text-ellipsis");
+                    }
+                    else
+                    {
+                        InnerElement.classList.add("tss-text-ellipsis");
+                    }
+                }
+            }
+        }
+
         public TextSize Size
         {
             get
@@ -293,6 +315,18 @@ namespace Tesserae.Components
         public Button SetIcon(string icon)
         {
             Icon = icon;
+            return this;
+        }
+
+        public Button Wrap()
+        {
+            CanWrap = true;
+            return this;
+        }
+
+        public Button NoWrap()
+        {
+            CanWrap = false;
             return this;
         }
     }
