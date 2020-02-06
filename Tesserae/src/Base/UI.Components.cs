@@ -53,6 +53,8 @@ namespace Tesserae
 
         public static Defer Defer(Func<Task<IComponent>> asyncGenerator) => new Defer(asyncGenerator);
 
+        public static Defer Defer(Func<IComponent> syncGenerator)        => new Defer(syncGenerator);
+
         public static Stack Stack(Stack.Orientation orientation = Components.Stack.Orientation.Vertical) => new Stack(orientation);
 
         public static SectionStack SectionStack() => new SectionStack();
