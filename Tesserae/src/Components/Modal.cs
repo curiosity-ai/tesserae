@@ -61,7 +61,10 @@ namespace Tesserae.Components
         {
             _modalHeader.style.display = "";
             ClearChildren(_modalHeaderContents);
-            _modalHeaderContents.appendChild(header.Render());
+            if(header is object)
+            {
+                _modalHeaderContents.appendChild(header.Render());
+            }
             return this;
         }
 
@@ -69,7 +72,10 @@ namespace Tesserae.Components
         {
             _modalFooter.style.display = "";
             ClearChildren(_modalFooterContents);
-            _modalFooterContents.appendChild(footer.Render());
+            if(footer is object)
+            {
+                _modalFooterContents.appendChild(footer.Render());
+            }
             return this;
         }
 
@@ -77,10 +83,13 @@ namespace Tesserae.Components
         {
             _modalHeader.style.display = "";
             ClearChildren(_modalHeaderCommands);
-            
-            foreach(var command in commands)
+
+            if (commands is object)
             {
-                _modalHeaderCommands.appendChild(command.Render());
+                foreach (var command in commands)
+                {
+                    _modalHeaderCommands.appendChild(command.Render());
+                }
             }
 
             return this;
@@ -91,9 +100,12 @@ namespace Tesserae.Components
             _modalFooter.style.display = "";
             ClearChildren(_modalFooterCommands);
 
-            foreach (var command in commands)
+            if (commands is object)
             {
-                _modalFooterCommands.appendChild(command.Render());
+                foreach (var command in commands)
+                {
+                    _modalFooterCommands.appendChild(command.Render());
+                }
             }
 
             return this;
