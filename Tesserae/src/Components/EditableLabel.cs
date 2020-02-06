@@ -162,6 +162,20 @@ namespace Tesserae.Components
                 InnerElement.focus();
             }
         }
+        
+        public EditableLabel SetText(string text)
+        {
+            if (IsEditingMode)
+            {
+                InnerElement.value = text;
+            }
+            else
+            {
+                _labelText.textContent = text;
+            }
+
+            return this;
+        }
 
         public override HTMLElement Render()
         {

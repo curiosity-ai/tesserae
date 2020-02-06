@@ -81,9 +81,9 @@ namespace Tesserae
 
         public static Label Label(IComponent component) => new Label(component);
 
-        public static EditableLabel EditableLabel(string text) => new EditableLabel(text);
+        public static EditableLabel EditableLabel(string text = string.Empty) => new EditableLabel(text);
         
-        public static EditableArea EditableArea(string text) => new EditableArea(text);
+        public static EditableArea EditableArea(string text = string.Empty) => new EditableArea(text);
 
         public static Breadcrumb Breadcrumb() => new Breadcrumb();
 
@@ -102,6 +102,8 @@ namespace Tesserae
         public static Nav Nav() => new Nav();
 
         public static Nav.NavLink NavLink(string text = null, string icon = null) => new Nav.NavLink(text, icon);
+        
+        public static Nav.NavLink NavLink(IComponent content) => new Nav.NavLink(content);
 
         public static Panel Panel() => new Panel();
 
