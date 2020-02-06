@@ -73,8 +73,7 @@ namespace Tesserae.Components
             _bottomSpacingDiv   = CreateBottomSpacingHtmlDivElement();
 
             _innerElement.appendChild(_basicListContainer);
-            _basicListContainer.appendChild(_topSpacingDiv);
-            _basicListContainer.appendChild(_bottomSpacingDiv);
+            AppendChildrenToBasicListContainerHtmlDivElement(_topSpacingDiv, _bottomSpacingDiv);
 
             RenderPagesDownwards(GetInitialPages());
 
@@ -122,6 +121,11 @@ namespace Tesserae.Components
         }
 
         private HTMLDivElement CreateBasicListContainerHtmlDivElement() => Div(_("tss-basiclist").WithRole("list"));
+
+        private void AppendChildrenToBasicListContainerHtmlDivElement(params HTMLElement[] htmlElements)
+        {
+            _basicListContainer.AppendChildren(htmlElements);
+        }
 
         private HTMLDivElement CreateTopSpacingHtmlDivElement()
         {
@@ -178,7 +182,7 @@ namespace Tesserae.Components
         private HTMLElement CreatePageHtmlElement(int pageNumber)
         {
             return Div(
-                _( "tss-basiclist-page")
+                _("tss-basiclist-page")
                     .WithRole("presentation")
                     .WithData("tss-basiclist-pagenumber", pageNumber.ToString()));
         }
@@ -228,10 +232,25 @@ namespace Tesserae.Components
             });
         }
 
-        private void RemovePageFromBasicListContainer(int index)
+        private NodeListOf<Element> GetRenderedPages()
         {
-            var pages = _basicListContainer.getElementsByClassName("tss-basiclist-page");
+            return _basicListContainer.getElementsByClassName("tss-basiclist-page");
+        }
 
+        private void RemoveFirstPageFromBasicListContainer()
+        {
+            RemovePageFromBasicListContainer(GetRenderedPages(), 0);
+        }
+
+        private void RemoveLastPageFromBasicListContainer()
+        {
+            var pages = GetRenderedPages();
+
+            RemovePageFromBasicListContainer(pages, (int)pages.length - 1);
+        }
+
+        private void RemovePageFromBasicListContainer(NodeListOf<Element> pages, int index)
+        {
             _basicListContainer.removeChild(pages[index]);
         }
 
@@ -271,7 +290,7 @@ namespace Tesserae.Components
 
             var newPage = newScrollDirection == ScrollDirection.Down ?
                 (int) Ceiling(scrollTop / _pageHeightInPixels)
-                : (int) Floor((scrollTop - _pageHeightInPixels) / _pageHeightInPixels);
+                : (int) Floor((scrollTop + _pageHeightInPixels) / _pageHeightInPixels);
 
             console.log($"New page: {newPage}");
             console.log($"Scroll top: {scrollTop}");
@@ -280,7 +299,7 @@ namespace Tesserae.Components
             {
                 if (newScrollDirection == ScrollDirection.Down)
                 {
-                    RemovePageFromBasicListContainer(0);
+                    RemoveFirstPageFromBasicListContainer();
 
                     var newTopSpacingDivHeight = (newPage - _pagesToVirtualizeBoundary) * _pageHeightInPixels;
                     SetTopSpacingDivHeight(newTopSpacingDivHeight);
@@ -300,13 +319,12 @@ namespace Tesserae.Components
                 }
                 else
                 {
-                    var pageNumberToRemove = newPage + _pagesToVirtualizeBoundary;
-                    RemovePageFromBasicListContainer(pageNumberToRemove);
+                    RemoveLastPageFromBasicListContainer();
 
                     var newTopSpacingDivHeight = (newPage - (_pagesToVirtualizeBoundary - 1)) * _pageHeightInPixels;
                     SetTopSpacingDivHeight(newTopSpacingDivHeight);
 
-                    var pageNumberToAdd = newPage - _pagesToVirtualizeBoundary;
+                    var pageNumberToAdd = newPage - 2;
                     RenderPageUpwards(GetPage(pageNumberToAdd));
 
                     var newBottomSpacingDivHeight =
