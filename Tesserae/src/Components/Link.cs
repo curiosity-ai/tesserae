@@ -5,37 +5,42 @@ using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
-    public class Link : ComponentBase<Link, HTMLAnchorElement>
+    public class Link : IComponent
     {
+        private HTMLAnchorElement _anchor;
         public Link(string url, IComponent component)
         {
-            InnerElement = A(_(href: url), component.Render());
-            AttachClick();
-            AttachBlur();
-            AttachFocus();
+            _anchor = A(_(href: url), component.Render());
         }
 
-        public string Target { get { return InnerElement.target; } set { InnerElement.target = value; } }
-        public string URL { get { return InnerElement.href; } set { InnerElement.href = value; } }
+        public string Target { get { return _anchor.target; } set { _anchor.target = value; } }
+        public string URL { get { return _anchor.href; } set { _anchor.href = value; } }
 
-        public override HTMLElement Render()
+        public HTMLElement Render()
         {
-            return InnerElement;
-        }
-    }
-
-    public static class LinkExtensions
-    {
-        public static Link OpenInNewTab(this Link link)
-        {
-            link.Target = "_blank";
-            return link;
+            return _anchor;
         }
 
-        public static Link OnClicked(this Link link, Action onClick)
+        public Link OpenInNewTab()
         {
-            link.Target = "_blank";
-            return link;
+            Target = "_blank";
+            return this;
+        }
+
+        public Link OnClick(Action onClicked)
+        {
+            if (onClicked is null)
+            {
+                throw new ArgumentNullException(nameof(onClicked));
+            }
+
+            _anchor.onclick = (e) =>
+            {
+                StopEvent(e);
+                onClicked();
+            };
+
+            return this;
         }
     }
 }
