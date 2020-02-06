@@ -22,15 +22,6 @@ namespace Tesserae.Components
             InnerElement = DIV(LoadMessage.Render());
         }
 
-
-        public Defer(Func<IComponent> syncGenerator, IComponent loadMessage = null)
-        {
-            LoadMessage = loadMessage ?? TextBlock("loading...").XSmall();
-            _asyncGenerator = () => Task.FromResult(syncGenerator());
-            NeedsRefresh = true;
-            InnerElement = DIV(LoadMessage.Render());
-        }
-
         public void Refresh()
         {
             NeedsRefresh = true;
