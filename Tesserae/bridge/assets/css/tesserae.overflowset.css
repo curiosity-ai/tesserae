@@ -44,8 +44,6 @@
     speak: none;
     color: var(--tss-secondary-foreground-color);
     font-size: 14px;
-    padding-right: 4px;
-    padding-left: 4px;
 }
 
     .tss-overflowset-collapse {
@@ -69,6 +67,7 @@
 .tss-overflowset-opencolapsed {
     pointer-events:auto;
     cursor:pointer;
+    padding-left:8px;
 }
 
 .tss-overflowset.small {
