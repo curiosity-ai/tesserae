@@ -90,6 +90,8 @@ namespace Tesserae
         public static Breadcrumb Breadcrumb() => new Breadcrumb();
 
         public static Button Crumb(string text = string.Empty) => new Button(text).NoBorder().NoBackground();
+        
+        public static OverflowSet OverflowSet() => new OverflowSet();
 
         public static TextBox TextBox(string text = string.Empty) => new TextBox(text);
 

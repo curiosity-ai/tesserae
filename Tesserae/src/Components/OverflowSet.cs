@@ -7,8 +7,9 @@ using System.Linq;
 
 namespace Tesserae.Components
 {
-    public class Breadcrumb : IComponent, IContainer<Breadcrumb, IComponent>
+    public class OverflowSet : IComponent, IContainer<Breadcrumb, IComponent>
     {
+        private string _expandIcon = "fa-chevron-down";
         private HTMLElement _childContainer;
         private ResizeObserver _resizeObserver;
         private int _maximumItemsToDisplay = 10;
@@ -17,8 +18,6 @@ namespace Tesserae.Components
         private double _cachedFullWidth = 0;
         private HTMLElement _chevronToUseAsButton = null;
         
-        private string _chevronIcon = "fa-chevron-right";
-
         private Dictionary<HTMLElement, double> _cachedSizes = new Dictionary<HTMLElement, double>();
 
         public int MaximumItemsToDisplay
@@ -51,9 +50,9 @@ namespace Tesserae.Components
         }
 
 
-        public Breadcrumb()
+        public OverflowSet()
         {
-            _childContainer = Div(_("tss-breadcrumb"));
+            _childContainer = Div(_("tss-overflowset"));
             DomMountedObserver.NotifyWhenMounted(_childContainer, Recompute);
             _resizeObserver = new ResizeObserver();
             _resizeObserver.Observe(document.body);
@@ -65,8 +64,7 @@ namespace Tesserae.Components
             if (_chevronToUseAsButton is object)
             {
                 //Reset modified chevron if any
-                _chevronToUseAsButton.classList.add(_chevronIcon, "tss-breadcrumb-collapse");
-                _chevronToUseAsButton.classList.remove("fa-ellipsis-h", "tss-breadcrumb-opencolapsed");
+                _chevronToUseAsButton.classList.remove("fal", _expandIcon, "tss-overflowset-opencolapsed");
 
                 _chevronToUseAsButton.onclick = null;
                 _chevronToUseAsButton = null;
@@ -74,7 +72,7 @@ namespace Tesserae.Components
 
             UpdateChildrenSizes();
 
-            bool isChevron(HTMLElement e) => e.classList.contains("tss-breadcrumb-chevron");
+            bool isChevron(HTMLElement e) => e.classList.contains("tss-overflowset-separator");
 
             var keep = new int[(int)_childContainer.childElementCount];
 
@@ -98,12 +96,12 @@ namespace Tesserae.Components
                 }
             }
 
-            keep[keep.Length-1] = KEEP;
+            keep[keep.Length - 1] = NOTMEASURED;
 
             var debt = _cachedFullWidth - _cachedSizes.Values.Sum() - 64;
             while(debt < 0)
             {
-                var candidate = Array.IndexOf(keep, NOTMEASURED);
+                var candidate = Array.LastIndexOf(keep, NOTMEASURED);
                 if(candidate >= 0)
                 {
                     keep[candidate] = COLLAPSE;
@@ -138,11 +136,11 @@ namespace Tesserae.Components
                     }
 
                     if (!isChevron(child)) hidden.Add(child);
-                    child.classList.add("tss-breadcrumb-collapse");
+                    child.classList.add("tss-overflowset-collapse");
                 }
                 else
                 {
-                    child.classList.remove("tss-breadcrumb-collapse");
+                    child.classList.remove("tss-overflowset-collapse");
                 }
             }
 
@@ -150,14 +148,14 @@ namespace Tesserae.Components
             IComponent clone(Node node)
             {
                 var c = (HTMLElement)(node.cloneNode(true));
-                c.classList.remove("tss-breadcrumb-collapse");
+                c.classList.remove("tss-overflowset-collapse");
                 return Raw(c);
             }
 
             if (_chevronToUseAsButton is object)
             {
-                _chevronToUseAsButton.classList.add("fa-ellipsis-h", "tss-breadcrumb-opencolapsed");
-                _chevronToUseAsButton.classList.remove(_chevronIcon, "tss-breadcrumb-collapse");
+                _chevronToUseAsButton.classList.add("fal", _expandIcon, "tss-overflowset-opencolapsed");
+                _chevronToUseAsButton.classList.remove("tss-overflowset-collapse");
                 _chevronToUseAsButton.onclick = (e) =>
                 {
                     StopEvent(e);
@@ -177,7 +175,7 @@ namespace Tesserae.Components
                 for (uint i = 0; i < _childContainer.childElementCount; i++)
                 {
                     var child = (HTMLElement)_childContainer.children[i];
-                    child.classList.remove("tss-breadcrumb-collapse");
+                    child.classList.remove("tss-overflowset-collapse");
                 }
 
                 var rect = (DOMRect)_childContainer.getBoundingClientRect();
@@ -210,36 +208,30 @@ namespace Tesserae.Components
         {
             if(_childContainer.childElementCount > 0)
             {
-                _childContainer.appendChild(I(_("tss-breadcrumb-chevron fal " + _chevronIcon)));
+                _childContainer.appendChild(I(_("tss-overflowset-separator")));
             }
             _childContainer.appendChild(component.Render());
         }
 
-        public Breadcrumb Items(params IComponent[] children)
+        public OverflowSet Items(params IComponent[] children)
         {
             children.ForEach(x => Add(x));
             return this;
         }
 
-        public Breadcrumb DisableSizeCache()
+        public OverflowSet DisableSizeCache()
         {
             _cacheSizes = false;
             return this;
         }
 
-        public Breadcrumb SetOverflowIndex(int i)
+        public OverflowSet SetOverflowIndex(int i)
         {
             _overflowIndex = i;
             return this;
         }
 
-        public Breadcrumb SetChevron(string icon)
-        {
-            _chevronIcon = icon;
-            return this;
-        }
-
-        public Breadcrumb Small()
+        public OverflowSet Small()
         {
             IsSmall = true;
             return this;

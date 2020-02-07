@@ -11,6 +11,8 @@ namespace Tesserae.Components
     public class ContextMenu : Layer, IContainer<ContextMenu, ContextMenu.Item>
     {
         private readonly HTMLElement _childContainer;
+        private HTMLDivElement _modalOverlay;
+        private HTMLDivElement _popup;
 
         public ContextMenu()
         {
@@ -58,22 +60,25 @@ namespace Tesserae.Components
         {
             if (_contentHtml == null)
             {
-                _contentHtml = Div(_("tss-contextmenu-popup"), _childContainer);
+                _modalOverlay = Div(_("tss-contextmenu-overlay"));
+                _modalOverlay.addEventListener("click", (_) => Hide());
+                _popup = Div(_("tss-contextmenu-popup"), _childContainer);
+                _contentHtml = Div(_(), _modalOverlay, _popup);
             }
 
-            _contentHtml.style.height = "unset";
-            _contentHtml.style.left = "-1000px";
-            _contentHtml.style.top = "-1000px";
+            _popup.style.height = "unset";
+            _popup.style.left = "-1000px";
+            _popup.style.top = "-1000px";
 
             base.Show();
 
-            if (!_contentHtml.classList.contains("no-focus")) _contentHtml.classList.add("no-focus");
+            if (!_popup.classList.contains("no-focus")) _popup.classList.add("no-focus");
 
             ClientRect rect = (ClientRect)element.getBoundingClientRect();
-            var contentRect = (ClientRect)_contentHtml.getBoundingClientRect();
-            _contentHtml.style.left = rect.left + "px";
-            _contentHtml.style.top = rect.bottom - 1 + "px";
-            _contentHtml.style.minWidth = rect.width + "px";
+            var contentRect = (ClientRect)_popup.getBoundingClientRect();
+            _popup.style.left = rect.left + "px";
+            _popup.style.top = rect.bottom - 1 + "px";
+            _popup.style.minWidth = rect.width + "px";
 
             if (window.innerHeight - rect.bottom - 1 < contentRect.height)
             {
@@ -82,36 +87,36 @@ namespace Tesserae.Components
                 {
                     if (rect.top > window.innerHeight - rect.bottom - 1)
                     {
-                        _contentHtml.style.top = "1px";
-                        _contentHtml.style.height = rect.top - 1 + "px";
+                        _popup.style.top = "1px";
+                        _popup.style.height = rect.top - 1 + "px";
                     }
                     else
                     {
-                        _contentHtml.style.height = window.innerHeight - rect.bottom - 1 + "px";
+                        _popup.style.height = window.innerHeight - rect.bottom - 1 + "px";
                     }
                 }
                 else
                 {
-                    _contentHtml.style.top = top + "px";
+                    _popup.style.top = top + "px";
                 }
             }
 
             window.setTimeout((e) =>
             {
-                document.addEventListener("click", OnWindowClick);
-                document.addEventListener("dblclick", OnWindowClick);
-                document.addEventListener("contextmenu", OnWindowClick);
-                document.addEventListener("wheel", OnWindowClick);
+                //document.addEventListener("click", OnWindowClick);
+                //document.addEventListener("dblclick", OnWindowClick);
+                //document.addEventListener("contextmenu", OnWindowClick);
+                //document.addEventListener("wheel", OnWindowClick);
                 document.addEventListener("keydown", OnPopupKeyDown);
             }, 100);
         }
 
         public override void Hide(Action onHidden = null)
         {
-            document.removeEventListener("click", OnWindowClick);
-            document.removeEventListener("dblclick", OnWindowClick);
-            document.removeEventListener("contextmenu", OnWindowClick);
-            document.removeEventListener("wheel", OnWindowClick);
+            //document.removeEventListener("click", OnWindowClick);
+            //document.removeEventListener("dblclick", OnWindowClick);
+            //document.removeEventListener("contextmenu", OnWindowClick);
+            //document.removeEventListener("wheel", OnWindowClick);
             document.removeEventListener("keydown", OnPopupKeyDown);
             base.Hide(onHidden);
         }

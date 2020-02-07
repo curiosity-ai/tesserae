@@ -68,6 +68,28 @@ namespace Tesserae.Components
             }
         }
 
+          /// <summary>
+        /// Gets or set whenever button is rendered like a link 
+        /// </summary>
+        public bool IsLink
+        {
+            get { return InnerElement.classList.contains("tss-btn-link"); }
+            set
+            {
+                if (value != IsLink)
+                {
+                    if (value)
+                    {
+                        InnerElement.classList.add("tss-btn-link");
+                    }
+                    else
+                    {
+                        InnerElement.classList.remove("tss-btn-link");
+                    }
+                }
+            }
+        }
+
         /// <summary>
         /// Gets or set whenever button is primary 
         /// </summary>
@@ -254,6 +276,12 @@ namespace Tesserae.Components
             return InnerElement;
         }
 
+
+        public Button Link()
+        {
+            IsLink = true;
+            return this;
+        }
 
         public Button Primary()
         {

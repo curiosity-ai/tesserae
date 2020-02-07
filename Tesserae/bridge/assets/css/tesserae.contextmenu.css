@@ -163,3 +163,13 @@
     background-color: var(--tss-secondary-background-color);
     outline: transparent none medium;
 }
+
+.tss-contextmenu-overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: transparent;
+    visibility:visible;
+}

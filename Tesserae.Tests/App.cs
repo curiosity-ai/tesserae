@@ -78,8 +78,9 @@ namespace Tesserae.Tests
             _links["SectionStack"        ] = NavLink("SectionStack")        .OnSelected((s, e) => Show("SectionStack"     ,     new SectionStackSample()));
             _links["TextBlock"           ] = NavLink("TextBlock")           .OnSelected((s, e) => Show("TextBlock"        ,     new TextBlockSample()));
             _links["Validator"           ] = NavLink("Validator")           .OnSelected((s, e) => Show("Validator"        ,     new ValidatorSample()));
+            _links["OverflowSet"         ] = NavLink("OverflowSet")         .OnSelected((s, e) => Show("OverflowSet"      ,     new OverflowSetSample()));
             _links["Breadcrumb"          ] = NavLink("Breadcrumb")          .OnSelected((s, e) => Show("Breadcrumb"       ,     new BreadcrumbSample()));
-            _links["Pivot"               ] = NavLink("Pivot")               .OnSelected((s, e) => Show("Pivot"            ,     new PivotSample()));
+            _links["Pivot"               ] = NavLink("Pivot").OnSelected((s, e) => Show("Pivot"            ,     new PivotSample()));
             _links["Defer"               ] = NavLink("Defer")               .OnSelected((s, e) => Show("Defer"            ,     new DeferSample()));
             _links["Toast"               ] = NavLink("Toast")               .OnSelected((s, e) => Show("Toast"            ,     new ToastSample()));
             
@@ -123,7 +124,8 @@ namespace Tesserae.Tests
                                                                            _links["TextBlock"]   ,
                                                                            _links["Validator"]   ,
                                                                            _links["Breadcrumb"]  ,
-                                                                           _links["Pivot"]       ,
+                                                                           _links["OverflowSet"]  ,
+                                                                           _links["Pivot"],
                                                                            _links["Defer"],
                                                                            _links["Toast"],
                                                                            _links["ProgressModal"]),
