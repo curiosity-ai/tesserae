@@ -32,8 +32,11 @@ button {
     }
 
     .tss-btn > i {
-        margin-right: 10px;
         text-decoration: none;
+    }
+
+    .tss-btn > i + span {
+        margin-left: 10px;
     }
 
 
