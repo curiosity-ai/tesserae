@@ -35,8 +35,8 @@ namespace Tesserae.Components
         /// </summary>
         public string Title
         {
-            get { return _textSpan.title; }
-            set { _textSpan.title = value; }
+            get { return InnerElement.title; }
+            set { InnerElement.title = value; }
         }
 
         /// <summary>

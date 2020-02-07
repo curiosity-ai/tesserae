@@ -6,6 +6,16 @@ button {
         outline: none;
     }
 
+
+a {
+    color: var(--tss-link-color);
+    text-decoration: none;
+}
+
+    a:hover {
+        text-decoration: underline;
+    }
+
 .tss-btn {
     border: 1px solid;
     border-radius: 2px;
@@ -35,7 +45,7 @@ button {
         text-decoration: none;
     }
 
-    .tss-btn > i + span {
+    .tss-btn > i + span:not(:empty) {
         margin-left: 10px;
     }
 
@@ -156,7 +166,6 @@ button {
     .tss-btn-success.tss-btn-nobg:active {
         color: var(--tss-success-background-active-color);
     }
-
 
 .tss-btn-link {
     border: none;

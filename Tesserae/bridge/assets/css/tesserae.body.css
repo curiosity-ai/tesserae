@@ -14,12 +14,3 @@ body {
     font-size: var(--tss-font-size-small);
     font-family: Segoe UI, SegoeUI, "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
-
-a {
-    color: var(--tss-link-color);
-    text-decoration: none;
-}
-
-    a:hover {
-        text-decoration: underline;
-    }
