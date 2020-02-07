@@ -346,6 +346,13 @@ namespace Tesserae.Components
             return this;
         }
 
+        public Button ReplaceContent(IComponent content)
+        {
+            ClearChildren(InnerElement);
+            InnerElement.appendChild(content.Render());
+            return this;
+        }
+
         public Button Wrap()
         {
             CanWrap = true;
