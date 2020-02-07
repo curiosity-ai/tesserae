@@ -271,6 +271,31 @@ namespace Tesserae.Components
             }
         }
 
+        public TextAlign TextAlign
+        {
+            get
+            {
+                var curFontSize = InnerElement.classList.FirstOrDefault(t => t.StartsWith("tss-textalign-"));
+                if (curFontSize is object && Enum.TryParse<TextAlign>(curFontSize.Substring("tss-textalign-".Length), true, out var result))
+                {
+                    return result;
+                }
+                else
+                {
+                    return TextAlign.Center; //Button default is center
+                }
+            }
+            set
+            {
+                var curFontSize = InnerElement.classList.FirstOrDefault(t => t.StartsWith("tss-textalign-"));
+                if (curFontSize is object)
+                {
+                    InnerElement.classList.remove(curFontSize);
+                }
+                InnerElement.classList.add($"tss-textalign-{value.ToString().ToLower()}");
+            }
+        }
+
         public override HTMLElement Render()
         {
             return InnerElement;

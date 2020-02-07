@@ -195,6 +195,19 @@
     color: var(--tss-danger-background-color);
 }
 
+
+.tss-textalign-left {
+    text-align: left;
+}
+
+.tss-textalign-center {
+    text-align: center;
+}
+
+.tss-textalign-right {
+    text-align: right;
+}
+
 *, :before, :after {
     box-sizing: border-box;
 }
