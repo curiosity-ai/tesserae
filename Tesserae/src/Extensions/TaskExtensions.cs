@@ -51,11 +51,11 @@ namespace Tesserae.Components
             });
         }
 
-        private static Task BuildCompletedTask()
+        public static async Task<T> Unwrap<T>(this Task<Task<T>> task)
         {
-            var completionSource = new TaskCompletionSource<object>();
-            completionSource.SetResult(new object());
-            return completionSource.Task;
+            // 2020-02-07 DWR: Can't just "return await await task;" because Bridge will fail at runtime
+            var onceUnwrappedTask = await task;
+            return await onceUnwrappedTask;
         }
 
         /// <summary>
@@ -106,6 +106,13 @@ namespace Tesserae.Components
         {
             await Task.WhenAll(t1, t2, t3, t4, t5, t6);
             return (t1.Result, t2.Result, t3.Result, t4.Result, t5.Result, t6.Result);
+        }
+
+        private static Task BuildCompletedTask()
+        {
+            var completionSource = new TaskCompletionSource<object>();
+            completionSource.SetResult(new object());
+            return completionSource.Task;
         }
     }
 }
