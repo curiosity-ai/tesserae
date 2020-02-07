@@ -52,14 +52,14 @@
         display:none;
     }
 
-.tss-breadcrumb > .tss-btn {
+.tss-breadcrumb .tss-btn {
     min-width: unset;
     padding-left: 8px;
     padding-right: 8px;
     border-width: 0px !important;
 }
 
-.tss-breadcrumb > .tss-btn.disabled {
+.tss-breadcrumb .tss-btn.disabled {
     background: transparent !important;
     border-color: transparent !important;
     border-width: 0px !important;
@@ -81,7 +81,7 @@
         padding-left: 2px;
     }
 
-    .tss-breadcrumb.small > .tss-btn {
+    .tss-breadcrumb.small .tss-btn {
         font-size: 10px;
         min-width: unset;
         padding-left: 4px;
