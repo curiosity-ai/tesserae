@@ -52,18 +52,18 @@
         display:none;
     }
 
-.tss-overflowset > .tss-btn {
+.tss-overflowset .tss-btn {
     min-width: unset;
     padding-left: 8px;
     padding-right: 8px;
     border-width: 0px !important;
 }
 
-.tss-overflowset > .tss-btn.disabled {
-    background: transparent !important;
-    border-color: transparent !important;
-    border-width: 0px !important;
-}
+    .tss-overflowset  .tss-btn.disabled {
+        background: transparent !important;
+        border-color: transparent !important;
+        border-width: 0px !important;
+    }
 
 
 .tss-overflowset-opencolapsed {
@@ -81,7 +81,7 @@
         padding-left: 2px;
     }
 
-    .tss-overflowset.small > .tss-btn {
+    .tss-overflowset.small .tss-btn {
         font-size: 10px;
         min-width: unset;
         padding-left: 4px;
