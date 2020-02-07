@@ -61,6 +61,9 @@ namespace Tesserae.Components
 
         private void Recompute()
         {
+            int childElementCount = (int)_childContainer.childElementCount;
+            if (childElementCount == 0) return;
+
             if (_chevronToUseAsButton is object)
             {
                 //Reset modified chevron if any
@@ -74,7 +77,7 @@ namespace Tesserae.Components
 
             bool isChevron(HTMLElement e) => e.classList.contains("tss-overflowset-separator");
 
-            var keep = new int[(int)_childContainer.childElementCount];
+            var keep = new int[childElementCount];
 
             const int KEEP = 2;
             const int COLLAPSE = 1;
