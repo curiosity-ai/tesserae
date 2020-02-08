@@ -125,12 +125,6 @@ namespace Tesserae.Components
             return this;
         }
 
-        public Modal SetContent(IComponent content)
-        {
-            Content = content;
-            return this;
-        }
-
         public override IComponent Content
         {
             get { return _content; }
