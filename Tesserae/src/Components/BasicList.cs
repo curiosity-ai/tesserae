@@ -10,8 +10,8 @@ namespace Tesserae.Components
 {
     public class BasicList : IComponent
     {
-        private const int PagesToVirtualize      = 7;
-        private const int PagesToInitiallyRender = PagesToVirtualize - 1;
+        private const int PagesToVirtualize = 5;
+        private const int PagesToRender     = PagesToVirtualize;
 
         private readonly int _rowsPerPage;
         private readonly int _columnsPerRow;
@@ -22,8 +22,8 @@ namespace Tesserae.Components
 
         private readonly int _componentsPerPage;
         private readonly int _initialComponentsToRender;
-        private readonly int _pagesToVirtualizeMidpoint;
-        private readonly int _pagesToVirtualizeBoundary;
+        private readonly int _pagesToVirtualizeUpperBoundary;
+        private readonly int _pagesToVirtualizeLowerBoundary;
         private readonly string _componentHeightInPercentage;
         private readonly string _componentWidthInPercentage;
 
@@ -47,18 +47,40 @@ namespace Tesserae.Components
             int rowsPerPage   = 4,
             int columnsPerRow = 4)
         {
+            if (components == null)
+            {
+                throw new ArgumentNullException(nameof(components));
+            }
+
+            components = components.ToList();
+
+            if (!components.Any())
+            {
+                throw new ArgumentException(nameof(components));
+            }
+
+            if (rowsPerPage <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(rowsPerPage));
+            }
+
+            if (columnsPerRow <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(columnsPerRow));
+            }
+
             _rowsPerPage   = rowsPerPage;
             _columnsPerRow = columnsPerRow;
             _components    = CreateComponentsDictionary(components);
 
             _componentsPerPage         = _rowsPerPage * _columnsPerRow;
-            _initialComponentsToRender = _componentsPerPage * PagesToInitiallyRender;
+            _initialComponentsToRender = _componentsPerPage * PagesToRender;
 
             _pages     = _components.InGroupsOf(_componentsPerPage);
             _pageCache = new Dictionary<int, HTMLElement>();
 
-            _pagesToVirtualizeMidpoint = (int)Ceiling((double)PagesToVirtualize / 2);
-            _pagesToVirtualizeBoundary = (int)Floor((double)PagesToVirtualize / 2);
+            _pagesToVirtualizeUpperBoundary = (int)Floor((double)PagesToVirtualize / 2);
+            _pagesToVirtualizeLowerBoundary = (int)Ceiling((double)PagesToVirtualize / 2);
 
             _componentHeightInPercentage = GetComponentDimensionInPercent(_rowsPerPage);
             _componentWidthInPercentage  = GetComponentDimensionInPercent(_columnsPerRow);
@@ -146,7 +168,7 @@ namespace Tesserae.Components
             SetHtmlElementHeight(_bottomSpacingDiv, heightInPixels);
         }
 
-        private IEnumerable<HTMLElement> GetInitialPages() => GetPages(Enumerable.Range(1, PagesToInitiallyRender));
+        private IEnumerable<HTMLElement> GetInitialPages() => GetPages(Enumerable.Range(1, PagesToRender));
 
         private IEnumerable<HTMLElement> GetPages(IEnumerable<int> rangeOfPageNumbersToGet)
         {
@@ -164,6 +186,7 @@ namespace Tesserae.Components
         {
             if (_pageCache.ContainsKey(pageNumberToRetrieve))
             {
+                console.log($"Retrieved page number {pageNumberToRetrieve} from cache");
                 return _pageCache.GetValueOrDefault(pageNumberToRetrieve);
             }
 
@@ -174,6 +197,7 @@ namespace Tesserae.Components
                     .Select(CreateComponentContainerHtmlElement)
                     .ToArray());
 
+            console.log($"Adding page number {pageNumberToRetrieve} to cache");
             _pageCache.Add(pageNumberToRetrieve, page);
 
             return page;
@@ -270,13 +294,18 @@ namespace Tesserae.Components
 
         private void OnLastComponentMounted(int lastComponentMountedClientHeight)
         {
+            if (lastComponentMountedClientHeight <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(lastComponentMountedClientHeight));
+            }
+
             _componentHeightInPixels = lastComponentMountedClientHeight;
             _pageHeightInPixels      = _componentHeightInPixels * _rowsPerPage;
 
             SetBasicListContainerHeight();
             SetTopSpacingDivHeight(0);
 
-            var initialBottomSpacingDivHeight = (_pagesCount - PagesToInitiallyRender) * _pageHeightInPixels;
+            var initialBottomSpacingDivHeight = (_pagesCount - PagesToRender) * _pageHeightInPixels;
 
             SetBottomSpacingDivHeight(initialBottomSpacingDivHeight);
 
@@ -285,63 +314,60 @@ namespace Tesserae.Components
 
         private void OnBasicListContainerScroll(object listener)
         {
-            var scrollTop          = _basicListContainer.scrollTop;
-            var newScrollDirection = GetScrollDirection();
+            var scrollTop       = _basicListContainer.scrollTop;
+            var scrollDirection = GetScrollDirection(scrollTop);
 
-            var newPage = newScrollDirection == ScrollDirection.Down ?
-                (int) Ceiling(scrollTop / _pageHeightInPixels)
-                : (int) Floor((scrollTop + _pageHeightInPixels) / _pageHeightInPixels);
-
-            console.log($"New page: {newPage}");
-            console.log($"Scroll top: {scrollTop}");
-
-            if ((newPage != _currentPage) && newPage >= _pagesToVirtualizeMidpoint)
+            if (scrollDirection == ScrollDirection.Neutral)
             {
-                if (newScrollDirection == ScrollDirection.Down)
+                console.log("Scroll neutral");
+            }
+
+            var scrollPosition = scrollTop;
+
+            var newPage = (int)Round(scrollPosition / _pageHeightInPixels, MidpointRounding.AwayFromZero);
+
+            if ((newPage != _currentPage) && newPage > _pagesToVirtualizeLowerBoundary)
+            {
+                if (scrollDirection == ScrollDirection.Down)
                 {
+                    console.log($"Scroll down - new page: {newPage}");
+
                     RemoveFirstPageFromBasicListContainer();
 
-                    var newTopSpacingDivHeight = (newPage - _pagesToVirtualizeBoundary) * _pageHeightInPixels;
+                    var newTopSpacingDivHeight = (newPage - _pagesToVirtualizeLowerBoundary) * _pageHeightInPixels;
                     SetTopSpacingDivHeight(newTopSpacingDivHeight);
 
-                    var pageNumberToAdd = newPage + _pagesToVirtualizeBoundary;
+                    var pageNumberToAdd = newPage + _pagesToVirtualizeUpperBoundary;
                     RenderPageDownwards(GetPage(pageNumberToAdd));
 
                     var newBottomSpacingDivHeight =
-                        (_pagesCount - (newPage + _pagesToVirtualizeBoundary)) * _pageHeightInPixels;
+                        (_pagesCount - (newPage + _pagesToVirtualizeUpperBoundary)) * _pageHeightInPixels;
 
                     SetBottomSpacingDivHeight(newBottomSpacingDivHeight);
-
-                    console.log("Scroll down");
-                    console.log($"Top spacing div height: {newTopSpacingDivHeight}");
-                    console.log($"Page number to add: {pageNumberToAdd}");
-                    console.log($"Bottom spacing div height: {newTopSpacingDivHeight}");
                 }
-                else
+                else if (scrollDirection == ScrollDirection.Up)
                 {
+                    console.log($"Scroll up - new page: {newPage}");
+
                     RemoveLastPageFromBasicListContainer();
 
-                    var newTopSpacingDivHeight = (newPage - (_pagesToVirtualizeBoundary - 1)) * _pageHeightInPixels;
+                    var newTopSpacingDivHeight =
+                        (newPage - (_pagesToVirtualizeUpperBoundary - 1)) * _pageHeightInPixels;
                     SetTopSpacingDivHeight(newTopSpacingDivHeight);
 
-                    var pageNumberToAdd = newPage - 2;
+                    var pageNumberToAdd = newPage - _pagesToVirtualizeUpperBoundary;
                     RenderPageUpwards(GetPage(pageNumberToAdd));
 
                     var newBottomSpacingDivHeight =
-                        (_pagesCount - (newPage + _pagesToVirtualizeBoundary)) * _pageHeightInPixels;
+                        (_pagesCount - (newPage + _pagesToVirtualizeLowerBoundary)) * _pageHeightInPixels;
 
                     SetBottomSpacingDivHeight(newBottomSpacingDivHeight);
-
-                    console.log("Scroll up");
-                    console.log($"Top spacing div height: {newTopSpacingDivHeight}");
-                    console.log($"Page number to add: {pageNumberToAdd}");
-                    console.log($"Bottom spacing div height: {newTopSpacingDivHeight}");
                 }
             }
 
             _currentPage            = newPage;
-            _currentScrollPosition  = scrollTop;
-            _currentScrollDirection = newScrollDirection;
+            _currentScrollPosition  = scrollPosition;
+            _currentScrollDirection = scrollDirection;
         }
 
         private void Debug(string message)
@@ -351,13 +377,13 @@ namespace Tesserae.Components
                 new
                 {
                     PagesToVirtualize,
-                    PagesToInitiallyRender,
+                    PagesToRender,
                     _rowsPerPage,
                     _columnsPerRow,
                     _componentsPerPage,
                     _initialComponentsToRender,
-                    _pagesToVirtualizeMidpoint,
-                    _pagesToVirtualizeBoundary,
+                    _pagesToVirtualizeUpperBoundary,
+                    _pagesToVirtualizeLowerBoundary,
                     _componentHeightInPercentage,
                     _componentWidthInPercentage,
                     _componentsCount,
@@ -371,11 +397,19 @@ namespace Tesserae.Components
                 });
         }
 
-        private ScrollDirection GetScrollDirection()
+        private ScrollDirection GetScrollDirection(double scrollTop)
         {
-            return _basicListContainer.scrollTop > _currentScrollPosition ?
-                ScrollDirection.Down
-                : ScrollDirection.Up;
+            if (scrollTop > _currentScrollPosition)
+            {
+                return ScrollDirection.Down;
+            }
+
+            if (scrollTop < _currentScrollPosition)
+            {
+                return ScrollDirection.Up;
+            }
+
+            return  ScrollDirection.Neutral;
         }
 
         private enum ScrollDirection
