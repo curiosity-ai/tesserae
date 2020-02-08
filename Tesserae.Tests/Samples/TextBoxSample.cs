@@ -47,6 +47,7 @@ namespace Tesserae.Tests.Samples
                     Label("Standard").SetContent(TextBox()),
                     Label("Disabled").Disabled().SetContent(TextBox("I am disabled").Disabled()),
                     Label("Read-only").SetContent(TextBox("I am read-only").ReadOnly()),
+                    Label("Password").SetContent(TextBox("I am a password box").Password()),
                     Label("Required").Required().SetContent(TextBox("")),
                     TextBox("").Required(),
                     Label("With error message").SetContent(TextBox().Error("Error message").IsInvalid()),

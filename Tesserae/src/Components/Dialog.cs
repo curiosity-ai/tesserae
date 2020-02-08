@@ -10,38 +10,12 @@ namespace Tesserae.Components
         private IComponent _footer;
         private readonly HTMLElement _modalFooter;
 
-        public Dialog(IComponent header = null) : base(header)
+        public Dialog(IComponent content = null, IComponent title = null) : base()
         {
+            SetHeader(title);
+            base.Content = content;
             _modal.classList.add("tss-dialog");
-            _contentHtml.classList.add("tss-dialog-container");
-            _modalFooter = Div(_("tss-modal-footer"));
-            _modal.appendChild(_modalFooter);
-
-            // As recommended
             CanLightDismiss = true;
-        }
-
-        public IComponent Footer
-        {
-            get { return _footer; }
-            set
-            {
-                if (value != _footer)
-                {
-                    ClearChildren(_modalFooter); ;
-                    _footer = value;
-                    if (_footer != null)
-                    {
-                        _modalFooter.appendChild(_footer.Render());
-                    }
-                }
-            }
-        }
-
-        public Dialog SetFooter(IComponent footer)
-        {
-            Footer = footer;
-            return this;
         }
 
         public void Ok(Action onOk, Func<Button, Button> btnOk = null)

@@ -8,10 +8,10 @@ namespace Tesserae.Components
     public class Modal : Layer
     {
         private readonly HTMLElement _closeButton;
-        private readonly HTMLElement _modalHeader;
-        private readonly HTMLElement _modalFooter;
-        private readonly HTMLElement _modalOverlay;
-        private readonly HTMLElement _modalContent;
+        protected readonly HTMLElement _modalHeader;
+        protected readonly HTMLElement _modalFooter;
+        protected readonly HTMLElement _modalOverlay;
+        protected readonly HTMLElement _modalContent;
 
         private readonly HTMLElement _modalHeaderCommands;
         private readonly HTMLElement _modalFooterCommands;
