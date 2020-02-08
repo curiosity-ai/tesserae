@@ -19,6 +19,10 @@ namespace Tesserae.Components
             AttachClick();
             AttachFocus();
             AttachBlur();
+            if (string.IsNullOrEmpty(text))
+            {
+                InnerElement.style.minWidth = "unset";
+            }
         }
 
         /// <summary>
@@ -27,7 +31,18 @@ namespace Tesserae.Components
         public string Text
         {
             get { return _textSpan.innerText; }
-            set { _textSpan.innerText = value; }
+            set 
+            {
+                _textSpan.innerText = value;
+                if (string.IsNullOrEmpty(value))
+                {
+                    InnerElement.style.minWidth = "unset";
+                }
+                else
+                {
+                    InnerElement.style.minWidth = "";
+                }
+            }
         }
 
         /// <summary>
