@@ -4,12 +4,20 @@
     margin: 0;
     padding: 0;
     /*margin-right: 24px;*/
-    min-height:32px;
+    min-height: 32px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    flex-wrap:nowrap;
 }
 
 .tss-nav-link {
     list-style: none;
     min-height: 32px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    flex-wrap: nowrap;
 }
 
 .tss-nav-link-button {
