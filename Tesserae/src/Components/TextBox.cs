@@ -51,6 +51,20 @@ namespace Tesserae.Components
             }
         }
 
+        public bool IsPassword
+        {
+            get { return InnerElement.type == "password"; }
+            set
+            {
+                if (IsPassword != value)
+                {
+                    if (value) InnerElement.type = "password";
+                    else InnerElement.type = "";
+                }
+            }
+        }
+
+
         public string Text
         {
             get { return InnerElement.value; }
@@ -159,6 +173,13 @@ namespace Tesserae.Components
             IsReadOnly = true;
             return this;
         }
+
+        public TextBox Password()
+        {
+            IsPassword = true;
+            return this;
+        }
+
 
         public TextBox Required()
         {
