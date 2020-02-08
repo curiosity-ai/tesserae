@@ -82,7 +82,7 @@
         border-left-color: var(--tss-primary-background-color);
     }
 
-    .tss-nav-link > .tss-nav-link-header span {
+    .tss-nav-link > .tss-nav-link-header > span {
         margin-left: 25px;
     }
 
