@@ -21,8 +21,8 @@ namespace Tesserae.Components
 
         internal void RaiseOnValidation()
         {
-            OnValidation?.Invoke(this, IsValid);
             Revalidate();
+            OnValidation?.Invoke(this, IsValid);
         }
 
         public bool IsValid
