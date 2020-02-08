@@ -427,11 +427,5 @@ namespace Tesserae.Components
             modal.IsNonBlocking = false;
             return modal;
         }
-
-        public static T Content<T>(this T modal, IComponent content) where T : Modal
-        {
-            modal.Content = content;
-            return modal;
-        }
     }
 }
