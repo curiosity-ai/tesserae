@@ -61,7 +61,7 @@ namespace Tesserae.Components
         {
             _modalHeader.style.display = "";
             ClearChildren(_modalHeaderContents);
-            if(header is object)
+            if (header is object)
             {
                 _modalHeaderContents.appendChild(header.Render());
             }
@@ -122,6 +122,12 @@ namespace Tesserae.Components
         {
             ClearChildren(_modalFooter);
             _modalFooter.style.display = "none";
+            return this;
+        }
+
+        public Modal SetContent(IComponent content)
+        {
+            Content = content;
             return this;
         }
 
