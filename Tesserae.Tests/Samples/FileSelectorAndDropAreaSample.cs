@@ -29,7 +29,7 @@ namespace Tesserae.Tests.Samples
                     ),
             Stack().Width(40, Unit.Percents).Children(
                 SampleSubTitle("Don't"),
-                SampleDo("TODO")))))
+                SampleDont("TODO")))))
                 .Section(Stack().Children(
                     SampleTitle("Usage"),
                     SampleSubTitle("File Selector"),
@@ -38,8 +38,9 @@ namespace Tesserae.Tests.Samples
                     FileSelector().SetPlaceholder("You must select a zip file").Required().SetAccepts(".zip").OnFileSelected((fs,e) => size.Text = fs.SelectedFile.size.ToString() + " bytes"),
                     FileSelector().SetPlaceholder("Please select any image").SetAccepts("image/*").OnFileSelected((fs, e) => size.Text = fs.SelectedFile.size.ToString() + " bytes"),
                     SampleSubTitle("File Drop Area"),
-                    FileDropArea()
-                    ));
+                    Label("Dropped Files: ").SetContent(Stack().Var(out var droppedFiles)),
+                    FileDropArea().OnFileDropped((s, e) => droppedFiles.Add(TextBlock(e.name).Small())).Multiple()
+                    ));     
         }
 
         public HTMLElement Render()

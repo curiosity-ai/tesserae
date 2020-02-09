@@ -56,7 +56,7 @@
     transition: transform 0.3s ease-in-out;
     transform: translateY(0);
     padding-bottom: 20px;
-    -webkit-text-stroke: 1px white;
+    -webkit-text-stroke: 1px var(--tss-default-background-color);
     font-size: 48px;
 }
 
@@ -94,5 +94,6 @@
     -webkit-animation-name: bounceIcon;
     animation-duration: 0.5s;
     animation-iteration-count: 1;
+    -webkit-text-stroke: 1px var(--tss-default-background-hover-color);
 }
 

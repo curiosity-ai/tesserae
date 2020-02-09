@@ -45,7 +45,6 @@ namespace Tesserae.Components
             _container = CreateDefaultDropArea();
             
             _fileInput.onchange = (e) => triggerDroppedOnFile();
-            _fileInput.onclick = (e) => triggerDroppedOnFile();
 
             void triggerDroppedOnFile()
             {
@@ -110,7 +109,7 @@ namespace Tesserae.Components
                 else if (Script.Write<bool>("{0}.isFile", entry) == true)
                 {
                     Action<File> upload = (f) => { onFileDropped?.Invoke(this, f); };
-                    Script.Write("{0}.file({1})", upload);
+                    Script.Write("{0}.file({1})", entry, upload);
                 }
             }
 

@@ -73,7 +73,6 @@ namespace Tesserae.Components
                                       Raw(_fileInput));
 
             _fileInput.onchange = (e) => updateFile();
-            _fileInput.onclick = (e) => updateFile();
 
             _container = Div(_("tss-fileselector"), _stack.Render());
             void updateFile()
