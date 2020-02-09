@@ -171,6 +171,18 @@ namespace Tesserae.Components
             return _container;
         }
 
+        public async Task LoadItemsAsync()
+        {
+            if (ItemsSource is null) throw new InvalidOperationException("Only valid with async items");
+
+            _spinner = Div(_("tss-spinner"));
+            _container.appendChild(_spinner);
+            _container.style.pointerEvents = "none";
+            Items(await ItemsSource());
+            _container.removeChild(_spinner);
+            _container.style.pointerEvents = "unset";
+        }
+
         public override void Show()
         {
             if (_contentHtml == null)
@@ -178,16 +190,7 @@ namespace Tesserae.Components
                 _contentHtml = Div(_("tss-dropdown-popup"), _childContainer);
                 if (ItemsSource != null)
                 {
-                    _spinner = Div(_("tss-spinner"));
-                    _container.appendChild(_spinner);
-                    _container.style.pointerEvents = "none";
-                    Task.Run(async () =>
-                    {
-                        this.Items(await ItemsSource());
-                        Show();
-                        _container.removeChild(_spinner);
-                        _container.style.pointerEvents = "unset";
-                    });
+                    LoadItemsAsync().ContinueWith(t => Show()).FireAndForget();
                     return;
                 }
             }
