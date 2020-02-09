@@ -7,9 +7,6 @@ namespace Tesserae.Components
 {
     public class Dialog : Modal
     {
-        private IComponent _footer;
-        private readonly HTMLElement _modalFooter;
-
         public Dialog(IComponent content = null, IComponent title = null) : base()
         {
             SetHeader(title);

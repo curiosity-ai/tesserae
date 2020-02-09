@@ -178,7 +178,9 @@ namespace Tesserae.Components
             _spinner = Div(_("tss-spinner"));
             _container.appendChild(_spinner);
             _container.style.pointerEvents = "none";
-            Items(await ItemsSource());
+            var items = await ItemsSource();
+            Clear();
+            Items(items);
             _container.removeChild(_spinner);
             _container.style.pointerEvents = "unset";
         }
