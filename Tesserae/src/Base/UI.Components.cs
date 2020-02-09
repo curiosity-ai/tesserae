@@ -73,6 +73,9 @@ namespace Tesserae
 
         public static TextBlock TextBlock(string text = string.Empty) => new TextBlock(text);
 
+        public static FileSelector FileSelector() => new FileSelector();
+        public static FileDropArea FileDropArea() => new FileDropArea();
+
         public static Icon Icon(string icon) => new Icon(icon);
 
         public static HorizontalSeparator HorizontalSeparator(string text) => new HorizontalSeparator(text);

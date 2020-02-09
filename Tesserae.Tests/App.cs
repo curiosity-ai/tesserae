@@ -83,6 +83,7 @@ namespace Tesserae.Tests
             _links["Pivot"               ] = NavLink("Pivot").OnSelected((s, e) => Show("Pivot"            ,     new PivotSample()));
             _links["Defer"               ] = NavLink("Defer")               .OnSelected((s, e) => Show("Defer"            ,     new DeferSample()));
             _links["Toast"               ] = NavLink("Toast")               .OnSelected((s, e) => Show("Toast"            ,     new ToastSample()));
+            _links["FileSelector"        ] = NavLink("File Selector/Drop Area").OnSelected((s, e) => Show("FileSelector"            ,     new FileSelectorAndDropAreaSample()));
             
 
             return Stack().Padding(Unit.Pixels, 16).NoShrink().MinHeightStretch()
@@ -128,6 +129,7 @@ namespace Tesserae.Tests
                                                                            _links["Pivot"],
                                                                            _links["Defer"],
                                                                            _links["Toast"],
+                                                                           _links["FileSelector"],
                                                                            _links["ProgressModal"]),
                                                 NavLink("Nav Sample").Expanded()
                                                                      .SmallPlus()

@@ -45,8 +45,8 @@ namespace Tesserae.Components
             {
                 if (IsReadOnly != value)
                 {
-                    if (value) InnerElement.removeAttribute("readonly");
-                    else InnerElement.setAttribute("readonly", "");
+                    if (value) InnerElement.setAttribute("readonly", "");
+                    else InnerElement.removeAttribute("readonly");
                 }
             }
         }
@@ -114,6 +114,7 @@ namespace Tesserae.Components
                 }
             }
         }
+
         public bool IsRequired
         {
             get { return _container.classList.contains("tss-required"); }
@@ -156,9 +157,9 @@ namespace Tesserae.Components
             return this;
         }
 
-        public TextBox SetPlaceholder(string error)
+        public TextBox SetPlaceholder(string placeholder)
         {
-            Placeholder = error;
+            Placeholder = placeholder;
             return this;
         }
 
@@ -179,7 +180,6 @@ namespace Tesserae.Components
             IsPassword = true;
             return this;
         }
-
 
         public TextBox Required()
         {
