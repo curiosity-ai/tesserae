@@ -136,11 +136,6 @@ namespace Tesserae.Components
             }
         }
 
-        private HTMLDivElement ShownElement()
-        {
-            return _editView.hidden ? _labelView : _editView;
-        }
-
         public EditableArea OnSave(SaveEditHandler onSave)
         {
             this.onSave += onSave;
@@ -175,14 +170,17 @@ namespace Tesserae.Components
             
             var newValue = InnerElement.value;
 
-            if(onSave is null || onSave(this, newValue))
+            if (newValue != _labelText.textContent)
             {
-                _labelText.textContent = newValue;
-                IsEditingMode = false;
-            }
-            else
-            {
-                InnerElement.focus();
+                if (onSave is null || onSave(this, newValue))
+                {
+                    _labelText.textContent = newValue;
+                    IsEditingMode = false;
+                }
+                else
+                {
+                    InnerElement.focus();
+                }
             }
         }
 
