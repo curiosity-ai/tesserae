@@ -114,10 +114,6 @@ namespace Tesserae.Tests
                                                                           _links["Modal"],
                                                                           _links["Panel"],
                                                                           _links["ContextMenu"]),
-                                                NavLink("Collections").Expanded()
-                                                                   .SmallPlus()
-                                                                   .SemiBold()
-                                                                   .Links(_links["BasicList"]),
                                                 NavLink("Utilities").Expanded()
                                                                     .SmallPlus()
                                                                     .SemiBold()

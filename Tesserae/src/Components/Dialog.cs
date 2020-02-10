@@ -8,6 +8,19 @@ namespace Tesserae.Components
     public class Dialog
     {
         private Modal _modal;
+
+        public bool IsDraggable
+        {
+            get => _modal.IsDraggable;
+            set => _modal.IsDraggable = value;
+        }
+
+        public bool IsDark
+        {
+            get => _modal.IsDark;
+            set => _modal.IsDark = value;
+        }
+
         public Dialog(IComponent content = null, IComponent title = null)
         {
             _modal = Modal().CenterContent().HideCloseButton().NoLightDismiss();
@@ -28,9 +41,16 @@ namespace Tesserae.Components
             return this;
         }
 
+        public Dialog Commands(params IComponent[] content)
+        {
+            content.Reverse();
+            _modal.SetFooter(Stack().HorizontalReverse().Children(content));
+            return this;
+        }
+
         public Dialog Dark()
         {
-            _modal.Dark = true;
+            IsDark = true;
             return this;
         }
 
@@ -72,6 +92,22 @@ namespace Tesserae.Components
                                  .Children(btnCancel(Button("Cancel")).AlignEnd().OnClick((s, e) => { _modal.Hide(); onCancel?.Invoke(); }),
                                            btnRetry(Button("Retry").Primary()).AlignEnd().OnClick((s, e) => { _modal.Hide(); onRetry?.Invoke(); })));
             _modal.Show();
+        }
+
+        public void Show()
+        {
+            _modal.Show();
+        }
+
+        public void Hide(Action onHidden = null)
+        {
+            _modal.Hide(onHidden);
+        }
+
+        public Dialog Draggable()
+        {
+            IsDraggable = true;
+            return this;
         }
 
         public Task<Response> OkAsync(Func<Button, Button> btnOk = null)

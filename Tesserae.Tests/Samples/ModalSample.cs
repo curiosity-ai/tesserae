@@ -24,7 +24,7 @@ namespace Tesserae.Tests.Samples
                             TextBlock("Nam id mi justo. Nam vehicula vulputate augue, ac pretium enim rutrum ultricies. Sed aliquet accumsan varius. Quisque ac auctor ligula. Fusce fringilla, odio et dignissim iaculis, est lacus ultrices risus, vitae condimentum enim urna eu nunc. In risus est, mattis non suscipit at, mattis ut ante. Maecenas consectetur urna vel erat maximus, non molestie massa consequat. Duis a feugiat nibh. Sed a hendrerit diam, a mattis est. In augue dolor, faucibus vel metus at, convallis rhoncus dui."),
                             Toggle("Light Dismiss").OnChange((s, e) => modal.CanLightDismiss = s.IsChecked).Checked(modal.CanLightDismiss),
                             Toggle("Is draggable").OnChange((s, e) => modal.IsDraggable = s.IsChecked).Checked(modal.IsDraggable),
-                            Toggle("Is dark overlay").OnChange((s, e) => modal.Dark = s.IsChecked).Checked(modal.Dark),
+                            Toggle("Is dark overlay").OnChange((s, e) => modal.IsDark = s.IsChecked).Checked(modal.IsDark),
                             Toggle("Is non-blocking").OnChange((s, e) => modal.IsNonBlocking = s.IsChecked).Checked(modal.IsNonBlocking),
                             Toggle("Hide close button").OnChange((s, e) => modal.ShowCloseButton = !s.IsChecked).Checked(!modal.ShowCloseButton),
                             Label("Open a dialog from here").Var(out var lbl).SetContent(Button("Open").OnClick((s, e) => Dialog("Dialog over Modal").Content(TextBlock("Hello World!")).YesNo(() => lbl.Text = "Yes", () => lbl.Text = "No")))));

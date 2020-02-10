@@ -21,7 +21,7 @@ namespace Tesserae.Components
         private bool _isDragged;
         private TranslationPoint _startPoint;
 
-        protected readonly HTMLElement _modal;
+        internal readonly HTMLElement _modal;
 
         public delegate void OnHideHandler(Modal sender);
 
@@ -163,12 +163,12 @@ namespace Tesserae.Components
             }
         }
 
-        public bool Dark
+        public bool IsDark
         {
             get { return _contentHtml.classList.contains("dark"); }
             set
             {
-                if (value != Dark)
+                if (value != IsDark)
                 {
                     if (value)
                     {
@@ -400,11 +400,11 @@ namespace Tesserae.Components
 
         public static T Dark<T>(this T modal) where T : Modal
         {
-            modal.Dark = true;
+            modal.IsDark = true;
             return modal;
         }
 
-        public static T Draggabler<T>(this T modal) where T : Modal
+        public static T Draggable<T>(this T modal) where T : Modal
         {
             modal.IsDraggable = true;
             return modal;
