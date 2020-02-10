@@ -83,6 +83,7 @@ namespace Tesserae.Tests
             _links["Defer"               ] = NavLink("Defer")               .OnSelected((s, e) => Show("Defer"            ,     new DeferSample()));
             _links["Toast"               ] = NavLink("Toast")               .OnSelected((s, e) => Show("Toast"            ,     new ToastSample()));
             _links["BasicList"           ] = NavLink("BasicList")           .OnSelected((s, e) => Show("BasicList"        ,     new BasicListSample()));
+            _links["DetailsList"         ] = NavLink("DetailsList")         .OnSelected((s, e) => Show("DetailsList"      ,     new DetailsListSample()));
 
             return Stack().Padding(Unit.Pixels, 16).NoShrink().MinHeightStretch()
                           .Children(TextBlock("Tesserae Samples").MediumPlus().SemiBold().AlignCenter(),
@@ -127,6 +128,7 @@ namespace Tesserae.Tests
                                                                            _links["Defer"],
                                                                            _links["Toast"],
                                                                            _links["BasicList"],
+                                                                           _links["DetailsList"],
                                                                            _links["ProgressModal"]),
                                                 NavLink("Nav Sample").Expanded()
                                                                      .SmallPlus()

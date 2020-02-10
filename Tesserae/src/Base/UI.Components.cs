@@ -75,7 +75,7 @@ namespace Tesserae
         public static Icon Icon(string icon) => new Icon(icon);
 
         public static HorizontalSeparator HorizontalSeparator(string text) => new HorizontalSeparator(text);
-        
+
         public static HorizontalSeparator HorizontalSeparator(IComponent component) => new HorizontalSeparator(component);
 
         public static Label Label(string text = string.Empty) => new Label(text);
@@ -83,7 +83,7 @@ namespace Tesserae
         public static Label Label(IComponent component) => new Label(component);
 
         public static EditableLabel EditableLabel(string text) => new EditableLabel(text);
-        
+
         public static EditableArea EditableArea(string text) => new EditableArea(text);
 
         public static Breadcrumb Breadcrumb() => new Breadcrumb();
@@ -113,7 +113,7 @@ namespace Tesserae
         public static ProgressModal ProgressModal() => new ProgressModal();
 
         public static Dialog Dialog(IComponent header = null) => new Dialog(header);
-        
+
         public static Dialog Dialog(string header) => new Dialog(string.IsNullOrWhiteSpace(header) ? null : TextBlock(header).MediumPlus().SemiBold());
 
         public static Pivot Pivot() => new Pivot();
@@ -125,7 +125,7 @@ namespace Tesserae
         public static Sidebar.Item SidebarItem(string text, IComponent icon) => new Sidebar.Item(text, icon);
 
         public static Navbar Navbar() => new Navbar();
-        
+
         public static Toast Toast() => new Toast();
 
         public static ProgressIndicator ProgressIndicator() => new ProgressIndicator();
@@ -143,11 +143,11 @@ namespace Tesserae
         public static ContextMenu.Item ContextMenuItem(IComponent component) => new ContextMenu.Item(component);
 
         public static Spinner Spinner(string text = string.Empty) => new Spinner(text);
-        
+
         public static Link Link(string url, IComponent content) => new Link(url, content);
 
         public static Link Link(string url, string text) => new Link(url, TextBlock(text));
-        
+
         public static Link Link(string url, string text, string icon) => new Link(url, Button(text).SetIcon(icon).NoBorder().NoBackground().Padding(Unit.Pixels, 0));
 
         public static SplitView SplitView() => new SplitView();
@@ -162,5 +162,7 @@ namespace Tesserae
                 rowsPerPage,
                 columnsPerRow);
         }
+
+        public static DetailsList<TListItem> DetailList<TListItem>() => new DetailsList<TListItem>();
     }
 }

@@ -3,7 +3,7 @@ using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
-    public class BasicListItem : IComponent
+    public sealed class BasicListItem : IComponent
     {
         private readonly HTMLElement _innerElement;
 

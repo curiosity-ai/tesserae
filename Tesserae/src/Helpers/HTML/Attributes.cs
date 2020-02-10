@@ -31,6 +31,7 @@ namespace Tesserae.HTML
         public string Value        { get; internal set; }
         public string DefaultValue { get; internal set; }
         public string Placeholder  { get; internal set; }
+        public string Alt          { get; internal set; }
         public string Role         { get; internal set; }
 
         public IEnumerable<(string name, string value)> Data => _data.AsReadOnly();
@@ -51,7 +52,8 @@ namespace Tesserae.HTML
             if (!string.IsNullOrEmpty(Id))        { element.id = Id; }
             if (!string.IsNullOrEmpty(ClassName)) { element.className = ClassName; }
             if (!string.IsNullOrEmpty(Title))     { element.title = Title; }
-            if (!string.IsNullOrEmpty(Role))      { element.setAttribute("role", Role); };
+            if (!string.IsNullOrEmpty(Alt))       { element.setAttribute("alt", Role); }
+            if (!string.IsNullOrEmpty(Role))      { element.setAttribute("role", Role); }
 
             foreach (var dataAttribute in _data)
             {
@@ -114,6 +116,18 @@ namespace Tesserae.HTML
             if (!string.IsNullOrEmpty(DefaultValue)) { element.defaultValue = DefaultValue; }
             if (Disabled.HasValue)                   { element.disabled = Disabled.Value; }
             if (!string.IsNullOrEmpty(Value))        { element.value = Value; }
+        }
+
+        public Attributes WithAlt(string alt)
+        {
+            if (string.IsNullOrWhiteSpace(alt))
+            {
+                throw new ArgumentException(nameof(alt));
+            }
+
+            Alt = alt;
+
+            return this;
         }
 
         public Attributes WithRole(string role)
