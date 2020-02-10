@@ -49,7 +49,8 @@ namespace Tesserae.Tests.Samples
                         .Section(Stack().Children(
                             SampleTitle("Usage"),
                             Button("Open Modal").OnClick((s, e) => modal.Show()),
-                            Button("Open Modal from top right").OnClick((s, e) => modal.ShowAt(Unit.Pixels, fromRight:16, fromTop:16))));
+                            Button("Open Modal from top right").OnClick((s, e) => modal.ShowAt(Unit.Pixels, fromRight:16, fromTop:16)),
+                            Button("Open Modal with minimum size").OnClick((s, e) => Modal().CenterContent().LightDismiss().Dark().Content(TextBlock("small content").Tiny()).MinHeight(50, Unit.Viewport).MinWidth(50, Unit.Viewport).Show())));
         }
 
         public HTMLElement Render()
