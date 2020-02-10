@@ -15,7 +15,7 @@ namespace Tesserae.Tests
         private static Sidebar _sideBar;
         private static Navbar _navBar;
         private static Dictionary<string, Nav.NavLink> _links = new Dictionary<string, Nav.NavLink>(new LowerCaseComparer());
-        
+
         public static void Main()
         {
             _mainStack = Stack().Padding("16px")
@@ -83,9 +83,8 @@ namespace Tesserae.Tests
             _links["Pivot"               ] = NavLink("Pivot").OnSelected((s, e) => Show("Pivot"            ,     new PivotSample()));
             _links["Defer"               ] = NavLink("Defer")               .OnSelected((s, e) => Show("Defer"            ,     new DeferSample()));
             _links["Toast"               ] = NavLink("Toast")               .OnSelected((s, e) => Show("Toast"            ,     new ToastSample()));
-            _links["FileSelector"        ] = NavLink("File Selector/Drop Area").OnSelected((s, e) => Show("FileSelector"            ,     new FileSelectorAndDropAreaSample()));
+            _links["FileSelector"        ] = NavLink("File Selector/Drop Area").OnSelected((s, e) => Show("FileSelector"  ,     new FileSelectorAndDropAreaSample()));
             
-
             return Stack().Padding(Unit.Pixels, 16).NoShrink().MinHeightStretch()
                           .Children(TextBlock("Tesserae Samples").MediumPlus().SemiBold().AlignCenter(),
                                     Nav().InlineContent(Label("Theme").Inline().SetContent(Toggle("Light", "Dark").Checked().OnChange((t, e) => { if (t.IsChecked) { Theme.Light(); } else { Theme.Dark(); } })))
@@ -106,15 +105,19 @@ namespace Tesserae.Tests
                                                 NavLink("Progress").Expanded()
                                                                    .SmallPlus()
                                                                    .SemiBold()
-                                                                   .Links(_links["Spinner"], 
+                                                                   .Links(_links["Spinner"],
                                                                           _links["ProgressIndicator"]),
                                                 NavLink("Surfaces").Expanded()
                                                                    .SmallPlus()
                                                                    .SemiBold()
-                                                                   .Links(_links["Dialog"] ,
-                                                                          _links["Modal"] ,
-                                                                          _links["Panel"] ,
+                                                                   .Links(_links["Dialog"],
+                                                                          _links["Modal"],
+                                                                          _links["Panel"],
                                                                           _links["ContextMenu"]),
+                                                NavLink("Collections").Expanded()
+                                                                   .SmallPlus()
+                                                                   .SemiBold()
+                                                                   .Links(_links["BasicList"]),
                                                 NavLink("Utilities").Expanded()
                                                                     .SmallPlus()
                                                                     .SemiBold()
