@@ -150,6 +150,7 @@ namespace Tesserae.Tests.Samples
                 DropdownItem("2-5")
             };
         }
+
         private async Task<Dropdown.Item[]> GetGoogleItemsAsync()
         {
             try

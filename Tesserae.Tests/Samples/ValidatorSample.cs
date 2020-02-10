@@ -11,9 +11,9 @@ namespace Tesserae.Tests.Samples
 
         public ValidatorSample()
         {
-            var validator = new Validator();
             var isAllValid = TextBlock("?");
-            validator.OnValidation += (_, valid) => isAllValid.Text = valid ? "Valid ✔" : "Invalid ❌";
+            var validator = Validator().OnValidation((valid) => isAllValid.Text = valid ? "Valid ✔" : "Invalid ❌");
+
             var tb1 = TextBox();
             var tb2 = TextBox();
             tb1.Validation((tb) => tb.Text.Length == 0 ? "Empty" : ((tb1.Text == tb2.Text) ? "Duplicated  values" : null), validator);

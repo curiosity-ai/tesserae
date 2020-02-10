@@ -78,13 +78,16 @@ namespace Tesserae.Tests
             _links["SectionStack"        ] = NavLink("SectionStack")        .OnSelected((s, e) => Show("SectionStack"     ,     new SectionStackSample()));
             _links["TextBlock"           ] = NavLink("TextBlock")           .OnSelected((s, e) => Show("TextBlock"        ,     new TextBlockSample()));
             _links["Validator"           ] = NavLink("Validator")           .OnSelected((s, e) => Show("Validator"        ,     new ValidatorSample()));
+            _links["OverflowSet"         ] = NavLink("OverflowSet")         .OnSelected((s, e) => Show("OverflowSet"      ,     new OverflowSetSample()));
             _links["Breadcrumb"          ] = NavLink("Breadcrumb")          .OnSelected((s, e) => Show("Breadcrumb"       ,     new BreadcrumbSample()));
-            _links["Pivot"               ] = NavLink("Pivot")               .OnSelected((s, e) => Show("Pivot"            ,     new PivotSample()));
+            _links["Pivot"               ] = NavLink("Pivot").OnSelected((s, e) => Show("Pivot"            ,     new PivotSample()));
             _links["Defer"               ] = NavLink("Defer")               .OnSelected((s, e) => Show("Defer"            ,     new DeferSample()));
             _links["Toast"               ] = NavLink("Toast")               .OnSelected((s, e) => Show("Toast"            ,     new ToastSample()));
             _links["BasicList"           ] = NavLink("BasicList")           .OnSelected((s, e) => Show("BasicList"        ,     new BasicListSample()));
             _links["DetailsList"         ] = NavLink("DetailsList")         .OnSelected((s, e) => Show("DetailsList"      ,     new DetailsListSample()));
 
+            _links["FileSelector"        ] = NavLink("File Selector/Drop Area").OnSelected((s, e) => Show("FileSelector"  ,     new FileSelectorAndDropAreaSample()));
+            
             return Stack().Padding(Unit.Pixels, 16).NoShrink().MinHeightStretch()
                           .Children(TextBlock("Tesserae Samples").MediumPlus().SemiBold().AlignCenter(),
                                     Nav().InlineContent(Label("Theme").Inline().SetContent(Toggle("Light", "Dark").Checked().OnChange((t, e) => { if (t.IsChecked) { Theme.Light(); } else { Theme.Dark(); } })))
@@ -110,10 +113,15 @@ namespace Tesserae.Tests
                                                 NavLink("Surfaces").Expanded()
                                                                    .SmallPlus()
                                                                    .SemiBold()
-                                                                   .Links(_links["Dialog"] ,
-                                                                          _links["Modal"] ,
-                                                                          _links["Panel"] ,
+                                                                   .Links(_links["Dialog"],
+                                                                          _links["Modal"],
+                                                                          _links["Panel"],
                                                                           _links["ContextMenu"]),
+                                                NavLink("Surfaces").Expanded()
+                                                                   .SmallPlus()
+                                                                   .SemiBold()
+                                                                   .Links(_links["BasicList"],
+                                                                          _links["DetailsList"]),
                                                 NavLink("Utilities").Expanded()
                                                                     .SmallPlus()
                                                                     .SemiBold()
@@ -124,11 +132,11 @@ namespace Tesserae.Tests
                                                                            _links["TextBlock"]   ,
                                                                            _links["Validator"]   ,
                                                                            _links["Breadcrumb"]  ,
-                                                                           _links["Pivot"]       ,
+                                                                           _links["OverflowSet"]  ,
+                                                                           _links["Pivot"],
                                                                            _links["Defer"],
                                                                            _links["Toast"],
-                                                                           _links["BasicList"],
-                                                                           _links["DetailsList"],
+                                                                           _links["FileSelector"],
                                                                            _links["ProgressModal"]),
                                                 NavLink("Nav Sample").Expanded()
                                                                      .SmallPlus()

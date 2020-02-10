@@ -1,8 +1,4 @@
 ﻿/* Modal */
-.tss-dialog-container {
-    background-color: var(--tss-overlay-light);
-}
-
 
 .tss-dialog {
     position: relative;
@@ -16,7 +12,3 @@
     /*width: 288px;*/
     display: flex;
 }
-
-    .tss-dialog .tss-modal-command {
-        border-top: 4px solid transparent;
-    }

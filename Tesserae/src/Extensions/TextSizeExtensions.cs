@@ -81,6 +81,24 @@ namespace Tesserae.Components
             return hasTextSize;
         }
 
+        public static T TextLeft<T>(this T hasTextSize) where T : IHasTextSize
+        {
+            hasTextSize.TextAlign = TextAlign.Left;
+            return hasTextSize;
+        }
+
+        public static T TextCenter<T>(this T hasTextSize) where T : IHasTextSize
+        {
+            hasTextSize.TextAlign = TextAlign.Center;
+            return hasTextSize;
+        }
+
+        public static T TextRight<T>(this T hasTextSize) where T : IHasTextSize
+        {
+            hasTextSize.TextAlign = TextAlign.Right;
+            return hasTextSize;
+        }
+
         internal static TextSize FromClassList(HTMLElement element, TextSize defaultValue)
         {
             var curFontSize = element.classList.FirstOrDefault(t => t.StartsWith("tss-fontsize-"));

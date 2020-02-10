@@ -58,12 +58,14 @@ namespace Tesserae.Components
             {
                 if (value != IsInline)
                 {
+                    //TODO make this a css style
                     if (value)
                     {
                         _label.style.display = "inline-block";
                         _content.style.display = "inline-block";
                         InnerElement.style.display = "inline-flex";
                         InnerElement.style.flexWrap = "nowrap";
+                        InnerElement.style.alignItems = "center";
                     }
                     else
                     {
@@ -71,6 +73,7 @@ namespace Tesserae.Components
                         _content.style.display = "block";
                         InnerElement.style.display = "";
                         InnerElement.style.flexWrap = "";
+                        InnerElement.style.alignItems = "";
                     }
                 }
             }

@@ -20,6 +20,14 @@ namespace Tesserae.Components
             return this;
         }
 
+        public Raw Content(HTMLElement element)
+        {
+            ClearChildren(InnerElement);
+            InnerElement.appendChild(element);
+            return this;
+        }
+
+
         public string Background { get => InnerElement.style.background; set => InnerElement.style.background = value; }
         public string Margin { get => InnerElement.style.margin; set => InnerElement.style.margin = value; }
         public string Padding { get => InnerElement.style.padding; set => InnerElement.style.padding = value; }

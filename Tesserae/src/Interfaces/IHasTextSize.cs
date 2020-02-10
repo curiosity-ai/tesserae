@@ -8,6 +8,8 @@ namespace Tesserae.Components
     {
         TextSize Size { get; set; }
         TextWeight Weight { get; set; }
+
+        TextAlign TextAlign { get; set; }
     }
 
     public enum TextSize
@@ -29,5 +31,12 @@ namespace Tesserae.Components
         Regular,
         SemiBold,
         Bold
+    }
+
+    public enum TextAlign
+    {
+        Left,
+        Center,
+        Right
     }
 }

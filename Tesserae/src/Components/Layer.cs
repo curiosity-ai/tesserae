@@ -159,7 +159,15 @@ namespace Tesserae.Components
     {
         public static T Content<T>(this T layer, IComponent content) where T : Layer
         {
-            layer.Content = content;
+            //Fix for a strange bug with Bridge, where layer.Content is not the overloaded property from the Modal class
+            if(layer is Modal modal)
+            {
+                modal.Content = content;
+            }
+            else
+            {
+                layer.Content = content;
+            }
             return layer;
         }
 

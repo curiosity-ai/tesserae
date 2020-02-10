@@ -1,10 +1,20 @@
 ﻿/* Button */
-button{
+button {
     font-family: inherit;
 }
-button:focus {
-    outline: 0;
+    button:focus {
+        outline: none;
+    }
+
+
+a {
+    color: var(--tss-link-color);
+    text-decoration: none;
 }
+
+    a:hover {
+        text-decoration: underline;
+    }
 
 .tss-btn {
     border: 1px solid;
@@ -16,6 +26,14 @@ button:focus {
     padding: 0px 16px;
     min-height: 32px;
     margin: 4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tss-btn:focus {
+    outline: none;
+
 }
 
     .tss-btn.disabled {
@@ -24,9 +42,14 @@ button:focus {
         border-color: var(--tss-disabled-background-color);
     }
 
-    .tss-btn i {
-        margin-right: 4px;
+    .tss-btn > i {
+        text-decoration: none;
     }
+
+    .tss-btn > i + span:not(:empty) {
+        margin-left: 10px;
+    }
+
 
 .tss-btn-default {
     color: var(--tss-default-foreground-color);
@@ -43,14 +66,6 @@ button:focus {
         color: var(--tss-default-foreground-active-color);
         background-color: var(--tss-default-background-active-color);
     }
-
-.tss-btn-noborder {
-    border-color: transparent;
-}
-
-.tss-btn-nobg {
-    background: transparent;
-}
 
 .tss-btn-primary {
     color: var(--tss-primary-foreground-color);
@@ -100,4 +115,83 @@ button:focus {
     .tss-btn-success:active {
         color: var(--tss-success-foreground-active-color);
         background-color: var(--tss-success-background-active-color);
+    }
+
+
+.tss-btn-noborder {
+    border-color: transparent;
+}
+
+.tss-btn-nobg {
+    background: transparent;
+}
+
+
+.tss-btn-primary.tss-btn-nobg {
+    color: var(--tss-primary-background-color);
+}
+
+    .tss-btn-primary.tss-btn-nobg:hover {
+        color: var(--tss-primary-background-hover-color);
+    }
+
+    .tss-btn-primary.tss-btn-nobg:active {
+        color: var(--tss-primary-background-active-color);
+    }
+
+
+.tss-btn-danger.tss-btn-nobg {
+    color: var(--tss-danger-background-color);
+}
+
+    .tss-btn-danger.tss-btn-nobg:hover {
+        color: var(--tss-danger-background-hover-color);
+        background-color: var(--tss-danger-background-hover-color);
+    }
+
+    .tss-btn-danger.tss-btn-nobg:active {
+        color: var(--tss-danger-background-active-color);
+        background-color: var(--tss-danger-background-active-color);
+    }
+
+
+.tss-btn-success.tss-btn-nobg {
+    color: var(--tss-success-background-color);
+}
+
+    .tss-btn-success.tss-btn-nobg:hover {
+        color: var(--tss-success-background-hover-color);
+        background-color: var(--tss-success-background-hover-color);
+    }
+
+    .tss-btn-success.tss-btn-nobg:active {
+        color: var(--tss-success-background-active-color);
+    }
+
+.tss-btn-link {
+    border: none;
+    background: none;
+    color: var(--tss-link-color);
+    text-decoration: none;
+    min-width: unset;
+}
+
+    .tss-btn-link:hover {
+        border: none;
+        background: none;
+        color: var(--tss-link-color);
+    }
+
+    .tss-btn-link:hover > span {
+        text-decoration: underline;
+    }
+
+    .tss-btn-link.disabled {
+        color: var(--tss-disabled-foreground-color);
+        background-color: unset;
+        border-color: unset;
+    }
+
+    .tss-btn-link:hover > i {
+        text-decoration: none !important;
     }
