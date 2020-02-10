@@ -23,7 +23,6 @@
         width: 32px;
     }
 
-
         .tss-sidebar.small:hover {
             width: auto;
         }
@@ -35,13 +34,16 @@
         animation-delay: 0.05s, 0s;
     }
 
+
+
 .tss-sidebar-content {
     margin: 0;
     padding: 0;
     background-color: var(--tss-default-background-color);
     margin-left: 64px;
-    height:100%;
-    overflow:auto;
+    height: 100%;
+    overflow: auto;
+    transition: margin-left 0.3s ease 0s;
 }
 
 .tss-sidebar-host{
@@ -62,18 +64,19 @@
     }
 
 
-.tss-sidebar-item {
-    position: relative;
-    width: 100%;
-    height: 42px;
-    line-height: 42px;
-    padding-left: 64px;
-    padding-right: 64px;
-    color: var(--tss-sidebar-foreground-color);
-    cursor: pointer;
-    user-select: none;
-    transition: color 0.1s ease 0s;
-}
+
+    .tss-sidebar-item {
+        position: relative;
+        width: 100%;
+        height: 42px;
+        line-height: 42px;
+        padding-left: 64px;
+        padding-right: 64px;
+        color: var(--tss-sidebar-foreground-color);
+        cursor: pointer;
+        user-select: none;
+        transition: color 0.1s ease 0s;
+    }
 
     .tss-sidebar-item.extrapadding {
         padding-top: 20px;
@@ -157,3 +160,18 @@
         padding-left: 32px;
         padding-right: 32px;
     }
+
+.tss-sidebar-host.open > .tss-sidebar {
+    width: auto;
+    box-shadow: none;
+}
+
+.tss-sidebar-host.open > .tss-sidebar-content {
+    margin-left: unset;
+}
+
+.tss-sidebar-host.open > .tss-sidebar > .tss-sidebar-item > .tss-sidebar-label {
+    right: 0px;
+    visibility: visible;
+    opacity: 1;
+}

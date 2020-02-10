@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Tesserae.HTML;
 using static Retyped.dom;
 using static Tesserae.UI;
 
@@ -12,6 +13,7 @@ namespace Tesserae.Components
         private HTMLElement _contentContainer;
         private HTMLElement _container;
         private List<Item> _items = new List<Item>();
+        private ResizeObserver _resizeObserver;
 
         public event OnBeforeSelectHandler onBeforeSelect;
         public delegate bool OnBeforeSelectHandler(Item willBeSelected, Item currentlySelected);
@@ -55,6 +57,28 @@ namespace Tesserae.Components
             }
         }
 
+        public bool IsAlwaysOpen
+        {
+            get
+            {
+                return _container.classList.contains("open");
+            }
+            set
+            {
+                if (value)
+                {
+                    _container.classList.add("open");
+                    EnableResizeMonitor();
+                }
+                else
+                {
+                    _container.classList.remove("open");
+                }
+                RecomputeContainerMargin();
+            }
+        }
+
+
         public Sidebar()
         {
             _sidebarContainer = Div(_("tss-sidebar"));
@@ -77,6 +101,12 @@ namespace Tesserae.Components
         public Sidebar Small()
         {
             IsSmall = true;
+            return this;
+        }
+
+        public Sidebar AlwaysOpen()
+        {
+            IsAlwaysOpen = true;
             return this;
         }
 
@@ -114,6 +144,29 @@ namespace Tesserae.Components
                 {
                     i.IsSelected = false;
                 }
+            }
+        }
+
+        private void EnableResizeMonitor()
+        {
+            if (_resizeObserver is null)
+            {
+                _resizeObserver = new ResizeObserver();
+                _resizeObserver.Observe(_sidebarContainer);
+                _resizeObserver.OnResize = RecomputeContainerMargin;
+            }
+        }
+
+        private void RecomputeContainerMargin()
+        {
+            if(IsAlwaysOpen)
+            {
+                var rect = (DOMRect)_sidebarContainer.getBoundingClientRect();
+                _contentContainer.style.marginLeft = Units.Translate(Unit.Pixels, rect.width);
+            }
+            else
+            {
+                _contentContainer.style.marginLeft = "";
             }
         }
 
