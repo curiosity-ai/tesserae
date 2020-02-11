@@ -14,6 +14,7 @@ pool:
 steps:
 - checkout: self
   submodules: true
+  persistCredentials: true
 
 - task: NuGetToolInstaller@0
 
@@ -55,6 +56,14 @@ steps:
     solution: '**/Tesserae.Tests.csproj'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
+
+
+- script: |
+    git config --global credential.helper store
+    git config --global user.email "rafael@rafael.aero"
+    git config --global user.name "$(USER)"
+    git config --global user.password  "$(PAT)"
+    displayName: 'git config'
 
 - task: PowerShell@2
   displayName: 'push tests to gh-pages'

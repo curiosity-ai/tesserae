@@ -17,7 +17,7 @@ namespace Build.ImportLineAwesome
                            .ToArray();
 
             File.WriteAllText(@"..\Tesserae\src\Icons\LineAwesome.cs", CreateEnum(icons));
-            Console.WriteLine("Hello World!");
+            Console.WriteLine($"Parsed line-awesome.css, found {icons.Length} icons.");
         }
 
         private static string CreateEnum(string[] icons)
