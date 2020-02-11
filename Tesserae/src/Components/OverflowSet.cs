@@ -62,7 +62,7 @@ namespace Tesserae.Components
         private void Recompute()
         {
             int childElementCount = (int)_childContainer.childElementCount;
-            if (childElementCount == 0) return;
+            if (childElementCount <= 1) return;
 
             if (_chevronToUseAsButton is object)
             {
