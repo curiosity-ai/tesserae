@@ -39,11 +39,11 @@ steps:
       mkdir FromGit
       cd FromGit
       git clone --depth=1 --branch=master  https://github.com/icons8/line-awesome/
-      copy .\line-awesome\dist\line-awesome\fonts\*.eot   ..\..\Tesserae\bridge\assets\webfonts\
-      copy .\line-awesome\dist\line-awesome\fonts\*.ttf   ..\..\Tesserae\bridge\assets\webfonts\
-      copy .\line-awesome\dist\line-awesome\fonts\*.woff  ..\..\Tesserae\bridge\assets\webfonts\
-      copy .\line-awesome\dist\line-awesome\fonts\*.woff2 ..\..\Tesserae\bridge\assets\webfonts\
-      copy .\line-awesome\dist\line-awesome\css\line-awesome.min.css ..\..\Tesserae\bridge\assets\css\
+      copy .\line-awesome\dist\line-awesome\fonts\*.eot   ..\..\Tesserae\bridge\assets\fonts\
+      copy .\line-awesome\dist\line-awesome\fonts\*.ttf   ..\..\Tesserae\bridge\assets\fonts\
+      copy .\line-awesome\dist\line-awesome\fonts\*.woff  ..\..\Tesserae\bridge\assets\fonts\
+      copy .\line-awesome\dist\line-awesome\fonts\*.woff2 ..\..\Tesserae\bridge\assets\fonts\
+      copy .\line-awesome\dist\line-awesome\css\line-awesome.min.css ..\..\Tesserae\bridge\assets\css\line-awesome.css
       cd ..
       dotnet run
       rmdir /s .\FromGit\line-awesome /q

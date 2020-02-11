@@ -18,7 +18,7 @@ namespace Tesserae.Components
 
         public Panel() : base()
         {
-            _closeButton = Button(_("lal la-times", el: el => el.onclick = (e) => Hide()));
+            _closeButton = Button(_("las la-times", el: el => el.onclick = (e) => Hide()));
             _panelCommand = Div(_("tss-panel-command"), _closeButton);
             _panelContent = Div(_("tss-panel-content"));
             _panelFooter = Div(_("tss-panel-footer"));

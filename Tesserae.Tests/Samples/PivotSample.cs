@@ -34,7 +34,7 @@ namespace Tesserae.Tests.Samples
                                        SampleTitle("Usage"),
                                            Pivot().Pivot("tab1", () => Button().SetText("Cached").NoBorder().NoBackground().MediumPlus().Regular(),
                                                                  () => TextBlock(DateTimeOffset.UtcNow.ToString()).MediumPlus(), cached: true)
-                                                  .Pivot("tab2", () => Button().SetText("Not Cached").SetIcon("fal fa-sync").NoBorder().NoBackground().MediumPlus().Regular(),
+                                                  .Pivot("tab2", () => Button().SetText("Not Cached").SetIcon("las la-sync").NoBorder().NoBackground().MediumPlus().Regular(),
                                                                  () => TextBlock(DateTimeOffset.UtcNow.ToString()).MediumPlus(), cached: false)
                                        ));
         }

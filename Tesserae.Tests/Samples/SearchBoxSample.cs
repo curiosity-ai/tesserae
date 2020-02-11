@@ -32,7 +32,7 @@ namespace Tesserae.Tests.Samples
                 Stack().Width(40, Unit.Percents).Children(
                     SampleSubTitle("Don't"),
                     SampleDont("Don't leave the SearchBox blank because it's too ambiguous."),
-                    SampleDont("Don't have lengthy and unclear hint text. It should be used to clarify and set expectations."),
+                    SampleDont("Don't have lengthy and unclear hint text. It should be used to clasify and set expectations."),
                     SampleDont("Don't provide inaccurate matches or bad predictions, as it will make search seem unreliable and will result in user frustration."),
                     SampleDont("Don’t provide too much information or metadata in the suggestions list; it’s intended to be lightweight."),
                     SampleDont("Don't build a custom search control based on the default text box or any other control."),
@@ -48,7 +48,7 @@ namespace Tesserae.Tests.Samples
                     Label("Underline").SetContent(SearchBox("Search").Underlined().OnSearch((s, e) => alert($"Searched for {e}"))),
                     Label("Search as you type").SetContent(SearchBox("Search").Underlined().SearchAsYouType().OnSearch((s, e) => searchAsYouType.Text = $"Searched for {e}")),
                     searchAsYouType,
-                    Label("Custom Icon").Required().SetContent(SearchBox("Filter").SetIcon("fal fa-filter").OnSearch((s, e) => alert($"Filter for {e}"))),
+                    Label("Custom Icon").Required().SetContent(SearchBox("Filter").SetIcon("las la-filter").OnSearch((s, e) => alert($"Filter for {e}"))),
                     Label("No Icon").SetContent(SearchBox("Search").NoIcon().OnSearch((s, e) => alert($"Searched for {e}"))),
                     Label("Fixed Width").Required().SetContent(SearchBox("Small Search").Width(200, Unit.Pixels).OnSearch((s, e) => alert($"Searched for {e}"))))));
         }

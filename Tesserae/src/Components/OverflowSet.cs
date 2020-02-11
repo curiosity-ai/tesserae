@@ -67,7 +67,7 @@ namespace Tesserae.Components
             if (_chevronToUseAsButton is object)
             {
                 //Reset modified chevron if any
-                _chevronToUseAsButton.classList.remove("fal", _expandIcon, "tss-overflowset-opencolapsed");
+                _chevronToUseAsButton.classList.remove("las", _expandIcon, "tss-overflowset-opencolapsed");
 
                 _chevronToUseAsButton.onclick = null;
                 _chevronToUseAsButton = null;
@@ -85,6 +85,7 @@ namespace Tesserae.Components
 
             if (_overflowIndex >= 0)
             {
+                keep[0] = KEEP;
                 for (int i = 0; i <= ((_overflowIndex)*2); i++)
                 {
                     keep[i] = KEEP;
@@ -97,6 +98,11 @@ namespace Tesserae.Components
                         }
                     }
                 }
+            }
+
+            if(!keep.Any(k => k == KEEP))
+            {
+                keep[0] = KEEP;
             }
 
             keep[keep.Length - 1] = NOTMEASURED;
@@ -157,7 +163,7 @@ namespace Tesserae.Components
 
             if (_chevronToUseAsButton is object)
             {
-                _chevronToUseAsButton.classList.add("fal", _expandIcon, "tss-overflowset-opencolapsed");
+                _chevronToUseAsButton.classList.add("las", _expandIcon, "tss-overflowset-opencolapsed");
                 _chevronToUseAsButton.classList.remove("tss-overflowset-collapse");
                 _chevronToUseAsButton.onclick = (e) =>
                 {

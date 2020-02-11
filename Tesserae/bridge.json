@@ -68,7 +68,8 @@
     {
       "name": "Tesserae.Dependencies.css",
       "files": [
-        "bridge/assets/css/line-awesome.min.css",
+        "bridge/assets/css/line-awesome.css",
+        "bridge/assets/css/tesserae.lineawesome-fixes.css",
         "bridge/assets/css/simplebar.css",
         "bridge/assets/css/tesserae.common.css",
         "bridge/assets/css/tesserae.animations.css",
@@ -108,63 +109,63 @@
     },
     {
       "name": "la-brands-400.eot",
-      "files": [ "bridge/assets/webfonts/la-brands-400.eot" ],
-      "output": "assets/webfonts"
+      "files": [ "bridge/assets/fonts/la-brands-400.eot" ],
+      "output": "assets/fonts"
     },
     {
       "name": "la-brands-400.ttf",
-      "files": [ "bridge/assets/webfonts/la-brands-400.ttf" ],
-      "output": "assets/webfonts"
+      "files": [ "bridge/assets/fonts/la-brands-400.ttf" ],
+      "output": "assets/fonts"
     },
     {
       "name": "la-brands-400.woff",
-      "files": [ "bridge/assets/webfonts/la-brands-400.woff" ],
-      "output": "assets/webfonts"
+      "files": [ "bridge/assets/fonts/la-brands-400.woff" ],
+      "output": "assets/fonts"
     },
     {
       "name": "la-brands-400.woff2",
-      "files": [ "bridge/assets/webfonts/la-brands-400.woff2" ],
-      "output": "assets/webfonts"
+      "files": [ "bridge/assets/fonts/la-brands-400.woff2" ],
+      "output": "assets/fonts"
     },
     {
       "name": "la-regular-400.eot",
-      "files": [ "bridge/assets/webfonts/la-regular-400.eot" ],
-      "output": "assets/webfonts"
+      "files": [ "bridge/assets/fonts/la-regular-400.eot" ],
+      "output": "assets/fonts"
     },
     {
       "name": "la-regular-400.ttf",
-      "files": [ "bridge/assets/webfonts/la-regular-400.ttf" ],
-      "output": "assets/webfonts"
+      "files": [ "bridge/assets/fonts/la-regular-400.ttf" ],
+      "output": "assets/fonts"
     },
     {
       "name": "la-regular-400.woff",
-      "files": [ "bridge/assets/webfonts/la-regular-400.woff" ],
-      "output": "assets/webfonts"
+      "files": [ "bridge/assets/fonts/la-regular-400.woff" ],
+      "output": "assets/fonts"
     },
     {
       "name": "la-regular-400.woff2",
-      "files": [ "bridge/assets/webfonts/la-regular-400.woff2" ],
-      "output": "assets/webfonts"
+      "files": [ "bridge/assets/fonts/la-regular-400.woff2" ],
+      "output": "assets/fonts"
     },
     {
       "name": "la-solid-900.eot",
-      "files": [ "bridge/assets/webfonts/la-solid-900.eot" ],
-      "output": "assets/webfonts"
+      "files": [ "bridge/assets/fonts/la-solid-900.eot" ],
+      "output": "assets/fonts"
     },
     {
       "name": "la-solid-900.ttf",
-      "files": [ "bridge/assets/webfonts/la-solid-900.ttf" ],
-      "output": "assets/webfonts"
+      "files": [ "bridge/assets/fonts/la-solid-900.ttf" ],
+      "output": "assets/fonts"
     },
     {
       "name": "la-solid-900.woff",
-      "files": [ "bridge/assets/webfonts/la-solid-900.woff" ],
-      "output": "assets/webfonts"
+      "files": [ "bridge/assets/fonts/la-solid-900.woff" ],
+      "output": "assets/fonts"
     },
     {
       "name": "la-solid-900.woff2",
-      "files": [ "bridge/assets/webfonts/la-solid-900.woff2" ],
-      "output": "assets/webfonts"
+      "files": [ "bridge/assets/fonts/la-solid-900.woff2" ],
+      "output": "assets/fonts"
     }
   ],
   "cleanOutputFolderBeforeBuildPattern": "*.*",

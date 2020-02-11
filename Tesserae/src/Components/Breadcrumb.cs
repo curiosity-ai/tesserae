@@ -215,7 +215,7 @@ namespace Tesserae.Components
         {
             if(_childContainer.childElementCount > 0)
             {
-                _childContainer.appendChild(I(_("tss-breadcrumb-chevron fal " + _chevronIcon)));
+                _childContainer.appendChild(I(_("tss-breadcrumb-chevron las " + _chevronIcon)));
             }
             _childContainer.appendChild(component.Render());
         }

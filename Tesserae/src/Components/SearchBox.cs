@@ -18,7 +18,7 @@ namespace Tesserae.Components
         public SearchBox(string placeholder = string.Empty)
         {
             InnerElement = TextBox(_("tss-searchbox", type: "text", placeholder: placeholder));
-            _icon = Span(_("lal la-search"));
+            _icon = Span(_("las la-search"));
             _iconContainer = Div(_("tss-searchbox-icon"), _icon);
             _paddingContainer = Div(_("tss-searchbox-padding"));
             _container = Div(_("tss-searchbox-container"), _iconContainer, InnerElement, _paddingContainer);

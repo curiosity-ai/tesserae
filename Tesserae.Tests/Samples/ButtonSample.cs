@@ -57,10 +57,10 @@ namespace Tesserae.Tests.Samples
                         ),
                         TextBlock("Icon Button").Medium(),
                         Stack().Horizontal().Children(
-                            Button().Var(out var iconBtn1).SetText("Confirm").SetIcon("far fa-check").Success().OnClick((s, e) => alert("Clicked!")),
-                            Button().Var(out var iconBtn2).SetText("Delete").SetIcon("far fa-trash-alt").Danger().OnClick((s, e) => alert("Clicked!")),
-                            Button().Var(out var iconBtn3).SetText("Primary").SetIcon("far fa-minus").Primary().OnClick((s, e) => alert("Clicked!")),
-                            Button().Var(out var iconBtn4).SetText("Copy date").SetIcon("far fa-calendar-alt").OnClick((s, e) => Clipboard.Copy(DateTime.Now.ToString()))
+                            Button().Var(out var iconBtn1).SetText("Confirm").SetIcon("las la-check").Success().OnClick((s, e) => alert("Clicked!")),
+                            Button().Var(out var iconBtn2).SetText("Delete").SetIcon("las la-trash-alt").Danger().OnClick((s, e) => alert("Clicked!")),
+                            Button().Var(out var iconBtn3).SetText("Primary").SetIcon("las la-minus").Primary().OnClick((s, e) => alert("Clicked!")),
+                            Button().Var(out var iconBtn4).SetText("Copy date").SetIcon("las la-calendar-alt").OnClick((s, e) => Clipboard.Copy(DateTime.Now.ToString()))
                         ),
                         Toggle("Disable buttons").Checked().OnChange((s, e) =>
                         {

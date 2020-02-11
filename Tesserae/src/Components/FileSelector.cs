@@ -69,7 +69,7 @@ namespace Tesserae.Components
             _textBox = TextBox().ReadOnly().Grow(1).AlignCenter();
             _stack = Stack().Horizontal().WidthStretch().Height(32, Unit.Pixels)
                             .Children(_textBox,
-                                      Button("Browse").SetIcon("lal la-folder-open").OnClick((s,e) => _fileInput.click()).AlignCenter().Link(),
+                                      Button("Browse").SetIcon("las la-folder-open").OnClick((s,e) => _fileInput.click()).AlignCenter().Link(),
                                       Raw(_fileInput));
 
             _fileInput.onchange = (e) => updateFile();

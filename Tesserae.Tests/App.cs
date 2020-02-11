@@ -39,13 +39,13 @@ namespace Tesserae.Tests
             _navBar.IsVisible  = false;
 
 
-            document.body.appendChild(_sideBar.Add(SidebarItem("... meow", "fal fa-cat").Large().NonSelectable())
-                                              .Add(SidebarItem("Colorful sidebar", "fal fa-tint").OnSelect((s) => _sideBar.IsLight = false).Selected())
-                                              .Add(SidebarItem("Light sidebar", "fal fa-tint-slash").OnSelect((s) => _sideBar.IsLight = true))
-                                              .Add(SidebarItem("Always Open", "fal fa-arrow-to-right").OnSelect((s) => _sideBar.IsAlwaysOpen= true))
-                                              .Add(SidebarItem("Open on Hover", "fal fa-arrows-alt-h").OnSelect((s) => _sideBar.IsAlwaysOpen = false))
-                                              .Add(SidebarItem("Small sidebar", "fal fa-minus-square").OnSelect((s) => _sideBar.IsSmall = true))
-                                              .Add(SidebarItem("Normal sidebar", "fal fa-plus-square").OnSelect((s) => _sideBar.IsSmall = false))
+            document.body.appendChild(_sideBar.Add(SidebarItem("... meow", "las la-cat").Large().NonSelectable())
+                                              .Add(SidebarItem("Colorful sidebar", "las la-tint").OnSelect((s) => _sideBar.IsLight = false).Selected())
+                                              .Add(SidebarItem("Light sidebar", "las la-tint-slash").OnSelect((s) => _sideBar.IsLight = true))
+                                              .Add(SidebarItem("Always Open", "las la-arrow-to-right").OnSelect((s) => _sideBar.IsAlwaysOpen= true))
+                                              .Add(SidebarItem("Open on Hover", "las la-arrows-alt-h").OnSelect((s) => _sideBar.IsAlwaysOpen = false))
+                                              .Add(SidebarItem("Small sidebar", "las la-minus-square").OnSelect((s) => _sideBar.IsSmall = true))
+                                              .Add(SidebarItem("Normal sidebar", "las la-plus-square").OnSelect((s) => _sideBar.IsSmall = false))
                                               .SetContent(_navBar)
                                               .Render());
             document.body.style.overflow = "hidden";
