@@ -25,7 +25,9 @@ steps:
 - task: CmdLine@2
   inputs:
     script: |
-      cd ./Build.ImportLineAwesome/FromGit/
+      cd $(Build.SourcesDirectory)/Build.ImportLineAwesome/
+      mkdir FromGit
+      cd FromGit
       git clone --depth=1 --branch=master  https://github.com/icons8/line-awesome/
       copy .\line-awesome\dist\line-awesome\fonts\*.eot   ..\..\Tesserae\bridge\assets\webfonts\
       copy .\line-awesome\dist\line-awesome\fonts\*.ttf   ..\..\Tesserae\bridge\assets\webfonts\
