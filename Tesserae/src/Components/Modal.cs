@@ -47,7 +47,7 @@ namespace Tesserae.Components
                 _modalHeader.style.display = "none";
             }
 
-            _closeButton  = Button(_("tss-modal-button fal fa-times", el: el => el.onclick = (e) => Hide()));
+            _closeButton  = Button(_("tss-modal-button lal la-times", el: el => el.onclick = (e) => Hide()));
             _modalHeaderCommands.appendChild(_closeButton);
 
             _modalContent = Div(_("tss-modal-content"));

@@ -9,7 +9,7 @@ namespace Tesserae.Components
 {
     public class OverflowSet : IComponent, IContainer<Breadcrumb, IComponent>
     {
-        private string _expandIcon = "fa-chevron-down";
+        private string _expandIcon = "la-chevron-down";
         private HTMLElement _childContainer;
         private ResizeObserver _resizeObserver;
         private int _maximumItemsToDisplay = 10;

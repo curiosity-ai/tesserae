@@ -17,7 +17,7 @@ namespace Tesserae.Components
         private double _cachedFullWidth = 0;
         private HTMLElement _chevronToUseAsButton = null;
         
-        private string _chevronIcon = "fa-chevron-right";
+        private string _chevronIcon = "la-chevron-right";
 
         private Dictionary<HTMLElement, double> _cachedSizes = new Dictionary<HTMLElement, double>();
 
@@ -71,7 +71,7 @@ namespace Tesserae.Components
             {
                 //Reset modified chevron if any
                 _chevronToUseAsButton.classList.add(_chevronIcon, "tss-breadcrumb-collapse");
-                _chevronToUseAsButton.classList.remove("fa-ellipsis-h", "tss-breadcrumb-opencolapsed");
+                _chevronToUseAsButton.classList.remove("la-ellipsis-h", "tss-breadcrumb-opencolapsed");
 
                 _chevronToUseAsButton.onclick = null;
                 _chevronToUseAsButton = null;
@@ -161,7 +161,7 @@ namespace Tesserae.Components
 
             if (_chevronToUseAsButton is object)
             {
-                _chevronToUseAsButton.classList.add("fa-ellipsis-h", "tss-breadcrumb-opencolapsed");
+                _chevronToUseAsButton.classList.add("la-ellipsis-h", "tss-breadcrumb-opencolapsed");
                 _chevronToUseAsButton.classList.remove(_chevronIcon, "tss-breadcrumb-collapse");
                 _chevronToUseAsButton.onclick = (e) =>
                 {

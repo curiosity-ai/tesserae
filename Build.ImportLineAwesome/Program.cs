@@ -32,7 +32,7 @@ namespace Build.ImportLineAwesome
             var maxLen = icons.Max(l => l.Length) + "        [Name(\"\"] ".Length + 1; 
             foreach (var i in icons)
             {
-                sb.Append(("        [Name(\"" + i + "\")] ").PadRight(maxLen, ' '));
+                sb.Append(("        [Name(\"la-" + i + "\")] ").PadRight(maxLen, ' '));
                 sb.AppendLine($"{ToValidName(i)},");
             }
             sb.AppendLine("    }");
