@@ -20,7 +20,7 @@ steps:
 - task: NuGetCommand@2
   displayName: 'restore nuget'
   inputs:
-    restoreSolution: '$(solution)'
+    restoreSolution: '**/Tesserae.sln'
 
 - task: CmdLine@2
   displayName: 'git config'
