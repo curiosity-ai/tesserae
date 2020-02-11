@@ -65,16 +65,19 @@ namespace Tesserae.Components
             }
             set
             {
-                if (value)
+                if (value != IsAlwaysOpen)
                 {
-                    _container.classList.add("open");
-                    EnableResizeMonitor();
+                    if (value)
+                    {
+                        _container.classList.add("open");
+                        EnableResizeMonitor();
+                    }
+                    else
+                    {
+                        _container.classList.remove("open");
+                    }
+                    RecomputeContainerMargin();
                 }
-                else
-                {
-                    _container.classList.remove("open");
-                }
-                RecomputeContainerMargin();
             }
         }
 

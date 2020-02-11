@@ -111,5 +111,11 @@ namespace Tesserae.Components
             IsInline = true;
             return this;
         }
+
+        public Label MinLabelWidth(Unit unit, double value)
+        {
+            _label.style.minWidth = Units.Translate(unit, value);
+            return this;
+        }
     }
 }
