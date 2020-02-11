@@ -1,5 +1,4 @@
 variables:
-  solution: '**/Tesserae.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
   repo: 'https://$(username):$(pat)@github.com/curiosity-ai/tesserae.git'
@@ -28,7 +27,7 @@ steps:
   inputs:
     script: |
       git config --global credential.helper store
-      git config --global user.email "rafael@rafael.aero"
+      git config --global user.email "$(EMAIL)"
       git config --global user.name "$(USER)"
       git config --global user.password  "$(PAT)"
   
@@ -93,9 +92,9 @@ steps:
     script: 'dir $(Build.SourcesDirectory)\Tesserae\bin\ /S'
     
 - task: VSBuild@1
-  displayName: 'build solution'
+  displayName: 'pack Tesserae'
   inputs:
-    solution: '$(solution)'
+    solution: '**/Tesserae.csproj'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
     msbuildArgs: '/t:pack /p:Version=0.0.$(build.buildId)'
