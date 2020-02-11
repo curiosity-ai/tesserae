@@ -51,7 +51,7 @@ steps:
       cd ..
       git add .
       git commit -m "Updated line-awesome"
-      git push
+      git push origin HEAD:master
 
 - task: VSBuild@1
   displayName: 'build tesserae project'
