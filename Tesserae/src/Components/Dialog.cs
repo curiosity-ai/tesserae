@@ -23,7 +23,7 @@ namespace Tesserae.Components
 
         public Dialog(IComponent content = null, IComponent title = null)
         {
-            _modal = Modal().CenterContent().HideCloseButton().NoLightDismiss();
+            _modal = Modal().CenterContent().HideCloseButton().NoLightDismiss().Blocking();
             _modal.SetHeader(title);
             _modal.Content = content;
             _modal._modal.classList.add("tss-dialog");
