@@ -27,12 +27,11 @@ steps:
   displayName: 'git config'
   inputs:
     script: |
-    git config --global credential.helper store
-    git config --global user.email "rafael@rafael.aero"
-    git config --global user.name "$(USER)"
-    git config --global user.password  "$(PAT)"
+      git config --global credential.helper store
+      git config --global user.email "rafael@rafael.aero"
+      git config --global user.name "$(USER)"
+      git config --global user.password  "$(PAT)"
   
-
 - task: CmdLine@2
   displayName: 'update lineawesome'
   inputs:
