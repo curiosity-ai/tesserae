@@ -23,7 +23,7 @@ namespace Tesserae.Components
 
         public Dialog(IComponent content = null, IComponent title = null)
         {
-            _modal = Modal().CenterContent().HideCloseButton().NoLightDismiss();
+            _modal = Modal().CenterContent().HideCloseButton().NoLightDismiss().Blocking();
             _modal.SetHeader(title);
             _modal.Content = content;
             _modal._modal.classList.add("tss-dialog");
@@ -57,6 +57,7 @@ namespace Tesserae.Components
         public void Ok(Action onOk, Func<Button, Button> btnOk = null)
         {
             btnOk = btnOk ?? ((b) => b);
+            _modal.LightDismiss();
             _modal.SetFooter(Stack().HorizontalReverse()
                                  .Children(btnOk(Button("Ok").Primary()).AlignEnd().OnClick((s, e) => { _modal.Hide(); onOk?.Invoke(); })));
             _modal.Show();

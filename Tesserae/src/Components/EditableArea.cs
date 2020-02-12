@@ -87,11 +87,11 @@ namespace Tesserae.Components
         public EditableArea(string text = string.Empty)
         {
             _labelText  = Span(_("tss-editablelabel-textspan", text: text, title: "Click to edit"));
-            _editIcon   = I(_("tss-editablelabel-edit-icon far fa-edit"));
+            _editIcon   = I(_("tss-editablelabel-edit-icon las la-edit"));
             _labelView  = Div(_("tss-editablelabel-displaybox"), _labelText, _editIcon);
 
             InnerElement     = TextArea(_("tss-editablelabel-textbox", type: "text"));
-            _cancelEditIcon  = Div(_("tss-editablelabel-cancel-icon", title:"Cancel edit"), I(_("far fa-times")));
+            _cancelEditIcon  = Div(_("tss-editablelabel-cancel-icon", title:"Cancel edit"), I(_("las la-times")));
             _editView        = Div(_("tss-editablelabel-editbox"), InnerElement, _cancelEditIcon);
 
             _container = Div(_("tss-editablelabel"), _labelView, _editView);
@@ -136,11 +136,6 @@ namespace Tesserae.Components
             }
         }
 
-        private HTMLDivElement ShownElement()
-        {
-            return _editView.hidden ? _labelView : _editView;
-        }
-
         public EditableArea OnSave(SaveEditHandler onSave)
         {
             this.onSave += onSave;
@@ -175,14 +170,17 @@ namespace Tesserae.Components
             
             var newValue = InnerElement.value;
 
-            if(onSave is null || onSave(this, newValue))
+            if (newValue != _labelText.textContent)
             {
-                _labelText.textContent = newValue;
-                IsEditingMode = false;
-            }
-            else
-            {
-                InnerElement.focus();
+                if (onSave is null || onSave(this, newValue))
+                {
+                    _labelText.textContent = newValue;
+                    IsEditingMode = false;
+                }
+                else
+                {
+                    InnerElement.focus();
+                }
             }
         }
 

@@ -1,142 +1,152 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using Tesserae;
 using Tesserae.Components;
-using Tesserae.HTML;
 using Tesserae.Tests.Samples;
 using static Retyped.dom;
 using static Tesserae.UI;
 
 namespace Tesserae.Tests
 {
-    public class App
+    internal static class App
     {
-        private static Stack _mainStack;
-        private static Sidebar _sideBar;
-        private static Navbar _navBar;
-        private static Dictionary<string, Nav.NavLink> _links = new Dictionary<string, Nav.NavLink>(new LowerCaseComparer());
-
-        public static void Main()
+        private static void Main()
         {
-            _mainStack = Stack().Padding("16px")
+            var components = new (string Name, IComponent Component)[]
+            {
+                ("Button", new ButtonSample()),
+                ("CheckBox", new CheckBoxSample()),
+                ("ChoiceGroup", new ChoiceGroupSample()),
+                ("Dropdown", new DropdownSample()),
+                ("Label", new LabelSample()),
+                ("EditableLabel", new EditableLabelSample()),
+                ("HorizontalSeparator", new HorizontalSeparatorSample()),
+                ("TextBox", new TextBoxSample()),
+                ("SearchBox", new SearchBoxSample()),
+                ("Toggle", new ToggleSample()),
+                ("Spinner", new SpinnerSample()),
+                ("ProgressIndicator", new ProgressIndicatorSample()),
+                ("Dialog", new DialogSample()),
+                ("Modal", new ModalSample()),
+                ("Panel", new PanelSample()),
+                ("ContextMenu", new ContextMenuSample()),
+                ("ProgressModal", new ProgressModalSample()),
+                ("Layer", new LayerSample()),
+                ("Stack", new StackSample()),
+                ("SectionStack", new SectionStackSample()),
+                ("TextBlock", new TextBlockSample()),
+                ("Validator", new ValidatorSample()),
+                ("OverflowSet", new OverflowSetSample()),
+                ("Breadcrumb", new BreadcrumbSample()),
+                ("Pivot", new PivotSample()),
+                ("Defer", new DeferSample()),
+                ("Toast", new ToastSample()),
+                ("FileSelector", new FileSelectorAndDropAreaSample())
+            };
+
+            var links = components.ToDictionary(
+                component => component.Name,
+                component => NavLink(component.Name).OnSelected((s, e) => Router.Navigate("#" + ToRoute(component.Name)))
+            );
+
+            var mainStack = Stack().Padding("16px")
                                 .WidthStretch()
                                 .MinHeightStretch();
 
-            _sideBar = Sidebar();
+            var sideBar = Sidebar();
 
-            var page = new SplitView().Left(MainNav(), background: Theme.Default.Background)
-                                      .Right(_mainStack, background: Theme.Secondary.Background)
+            var navBar = Navbar().SetTop(Stack().Horizontal()
+                                          .WidthStretch()
+                                          .HeightStretch()
+                                          .Children(SearchBox("Search for a template").WidthStretch().Underlined()));
+
+            var page = new SplitView().Left(MainNav(links, navBar, sideBar), background: Theme.Default.Background)
+                                      .Right(mainStack, background: Theme.Secondary.Background)
                                       .LeftIsSmaller(SizeMode.Pixels, 300)
                                       .MinHeightStretch();
 
-            _navBar = Navbar().SetTop(Stack().Horizontal()
-                                          .WidthStretch()
-                                          .HeightStretch()
-                                          .Children(SearchBox("Search for a template").WidthStretch().Underlined()))
-                              .SetContent(page);
+            navBar.SetContent(page);
 
-            _sideBar.IsVisible = false;
-            _navBar.IsVisible  = false;
+            sideBar.IsVisible = false;
+            navBar.IsVisible  = false;
 
-
-            document.body.appendChild(_sideBar.Add(SidebarItem("... meow", "fal fa-cat").Large().NonSelectable())
-                                              .Add(SidebarItem("Colorful sidebar", "fal fa-tint").OnSelect((s) => _sideBar.IsLight = false).Selected())
-                                              .Add(SidebarItem("Light sidebar", "fal fa-tint-slash").OnSelect((s) => _sideBar.IsLight = true))
-                                              .Add(SidebarItem("Small sidebar", "fal fa-minus-square").OnSelect((s) => _sideBar.IsSmall = true))
-                                              .Add(SidebarItem("Normal sidebar", "fal fa-plus-square").OnSelect((s) => _sideBar.IsSmall = false))
-                                              .SetContent(_navBar)
+            document.body.appendChild(sideBar.Brand(SidebarItem("... meow", "las la-cat").Large().NonSelectable())
+                                              .Add(SidebarItem("Colorful sidebar", "las la-tint").OnSelect((s) => sideBar.IsLight = false).Selected())
+                                              .Add(SidebarItem("Light sidebar", "las la-tint-slash").OnSelect((s) => sideBar.IsLight = true))
+                                              .Add(SidebarItem("Always Open", "las la-arrow-to-right").OnSelect((s) => sideBar.IsAlwaysOpen= true))
+                                              .Add(SidebarItem("Open on Hover", "las la-arrows-alt-h").OnSelect((s) => sideBar.IsAlwaysOpen = false))
+                                              .Add(SidebarItem("Small sidebar", "las la-minus-square").OnSelect((s) => sideBar.Width = Components.Sidebar.Size.Small))
+                                              .Add(SidebarItem("Medium sidebar", "las la-square").OnSelect((s) => sideBar.Width = Components.Sidebar.Size.Medium))
+                                              .Add(SidebarItem("Large sidebar", "las la-plus-square").OnSelect((s) => sideBar.Width = Components.Sidebar.Size.Large))
+                                              .SetContent(navBar)
                                               .Render());
             document.body.style.overflow = "hidden";
 
+            Router.Register("home", "/", p => Router.Navigate("#" + ToRoute(components.First().Name)));
+            foreach (var (name, component) in components)
+                Router.Register(name, ToRoute(name), p => Show(name, component));
+
             Router.Initialize();
-            Router.Register("home", "/", (p) => _links["Button"].Selected());
-            Router.Register("view", "/view/:component", (p) => _links[p["component"]].Selected());
             Router.Refresh((err, state) => Router.Navigate(window.location.hash, reload: false));
+
+            string ToRoute(string name) => "/view/" + name;
+
+            void Show(string route, IComponent component)
+            {
+                Router.Replace($"#/view/{route}");
+                mainStack.Clear();
+                mainStack.Add(component);
+                mainStack.MinHeightStretch();
+            }
         }
 
-        public static IComponent MainNav()
+        private static IComponent MainNav(Dictionary<string, Nav.NavLink> links, Navbar navBar, Sidebar sideBar)
         {
-            _links["Button"              ] = NavLink("Button")              .OnSelected((s, e) => Show("Button"           ,     new ButtonSample()));
-            _links["CheckBox"            ] = NavLink("CheckBox")            .OnSelected((s, e) => Show("CheckBox"         ,     new CheckBoxSample()));
-            _links["ChoiceGroup"         ] = NavLink("ChoiceGroup")         .OnSelected((s, e) => Show("ChoiceGroup"      ,     new ChoiceGroupSample()));
-            _links["Dropdown"            ] = NavLink("Dropdown")            .OnSelected((s, e) => Show("Dropdown"         ,     new DropdownSample()));
-            _links["Label"               ] = NavLink("Label")               .OnSelected((s, e) => Show("Label"            ,     new LabelSample()));
-            _links["EditableLabel"       ] = NavLink("EditableLabel")       .OnSelected((s, e) => Show("EditableLabel"    ,     new EditableLabelSample()));
-            _links["HorizontalSeparator" ] = NavLink("HorizontalSeparator") .OnSelected((s, e) => Show("HorizontalSeparator",   new HorizontalSeparatorSample()));
-            _links["TextBox"             ] = NavLink("TextBox")             .OnSelected((s, e) => Show("TextBox"          ,     new TextBoxSample()));
-            _links["SearchBox"           ] = NavLink("SearchBox")           .OnSelected((s, e) => Show("SearchBox"        ,     new SearchBoxSample()));
-            _links["Toggle"              ] = NavLink("Toggle")              .OnSelected((s, e) => Show("Toggle"           ,     new ToggleSample()));
-            _links["Spinner"             ] = NavLink("Spinner")             .OnSelected((s, e) => Show("Spinner"          ,     new SpinnerSample()));
-            _links["ProgressIndicator"   ] = NavLink("ProgressIndicator")   .OnSelected((s, e) => Show("ProgressIndicator",     new ProgressIndicatorSample()));
-            _links["Dialog"              ] = NavLink("Dialog")              .OnSelected((s, e) => Show("Dialog"           ,     new DialogSample()));
-            _links["Modal"               ] = NavLink("Modal")               .OnSelected((s, e) => Show("Modal"            ,     new ModalSample()));
-            _links["Panel"               ] = NavLink("Panel")               .OnSelected((s, e) => Show("Panel"            ,     new PanelSample()));
-            _links["ContextMenu"         ] = NavLink("ContextMenu")         .OnSelected((s, e) => Show("ContextMenu"      ,     new ContextMenuSample()));
-            _links["ProgressModal"       ] = NavLink("ProgressModal")       .OnSelected((s, e) => Show("ProgressModal"    ,     new ProgressModalSample()));
-            _links["Layer"               ] = NavLink("Layer")               .OnSelected((s, e) => Show("Layer"            ,     new LayerSample()));
-            _links["Stack"               ] = NavLink("Stack")               .OnSelected((s, e) => Show("Stack"            ,     new StackSample()));
-            _links["SectionStack"        ] = NavLink("SectionStack")        .OnSelected((s, e) => Show("SectionStack"     ,     new SectionStackSample()));
-            _links["TextBlock"           ] = NavLink("TextBlock")           .OnSelected((s, e) => Show("TextBlock"        ,     new TextBlockSample()));
-            _links["Validator"           ] = NavLink("Validator")           .OnSelected((s, e) => Show("Validator"        ,     new ValidatorSample()));
-            _links["OverflowSet"         ] = NavLink("OverflowSet")         .OnSelected((s, e) => Show("OverflowSet"      ,     new OverflowSetSample()));
-            _links["Breadcrumb"          ] = NavLink("Breadcrumb")          .OnSelected((s, e) => Show("Breadcrumb"       ,     new BreadcrumbSample()));
-            _links["Pivot"               ] = NavLink("Pivot").OnSelected((s, e) => Show("Pivot"            ,     new PivotSample()));
-            _links["Defer"               ] = NavLink("Defer")               .OnSelected((s, e) => Show("Defer"            ,     new DeferSample()));
-            _links["Toast"               ] = NavLink("Toast")               .OnSelected((s, e) => Show("Toast"            ,     new ToastSample()));
-            _links["BasicList"           ] = NavLink("BasicList")           .OnSelected((s, e) => Show("BasicList"        ,     new BasicListSample()));
-            _links["DetailsList"         ] = NavLink("DetailsList")         .OnSelected((s, e) => Show("DetailsList"      ,     new DetailsListSample()));
-            _links["FileSelector"        ] = NavLink("File Selector/Drop Area").OnSelected((s, e) => Show("FileSelector"  ,     new FileSelectorAndDropAreaSample()));
-            
             return Stack().Padding(Unit.Pixels, 16).NoShrink().MinHeightStretch()
                           .Children(TextBlock("Tesserae Samples").MediumPlus().SemiBold().AlignCenter(),
                                     Nav().InlineContent(Label("Theme").Inline().SetContent(Toggle("Light", "Dark").Checked().OnChange((t, e) => { if (t.IsChecked) { Theme.Light(); } else { Theme.Dark(); } })))
-                                         .InlineContent(Label("Navbar").Inline().SetContent(Toggle("Show", "Hidden").OnChange((t, e) => { _navBar.IsVisible = t.IsChecked; })))
-                                         .InlineContent(Label("Sidebar").Inline().SetContent(Toggle("Show", "Hidden").OnChange((t, e) => { _sideBar.IsVisible = t.IsChecked; })))
+                                         .InlineContent(Label("Navbar").Inline().SetContent(Toggle("Show", "Hidden").OnChange((t, e) => { navBar.IsVisible = t.IsChecked; })))
+                                         .InlineContent(Label("Sidebar").Inline().SetContent(Toggle("Show", "Hidden").OnChange((t, e) => { sideBar.IsVisible = t.IsChecked; })))
                                          .Links(NavLink("Basic Inputs").Expanded()
                                                                        .SmallPlus()
                                                                        .SemiBold()
-                                                                       .Links(_links["Button"],
-                                                                              _links["CheckBox"],
-                                                                              _links["ChoiceGroup"],
-                                                                              _links["Dropdown"] ,
-                                                                              _links["Label"],
-                                                                              _links["EditableLabel"],
-                                                                              _links["TextBox"] ,
-                                                                              _links["SearchBox"] ,
-                                                                              _links["Toggle"]),
+                                                                       .Links(links["Button"],
+                                                                              links["CheckBox"],
+                                                                              links["ChoiceGroup"],
+                                                                              links["Dropdown"] ,
+                                                                              links["Label"],
+                                                                              links["EditableLabel"],
+                                                                              links["TextBox"] ,
+                                                                              links["SearchBox"] ,
+                                                                              links["Toggle"]),
                                                 NavLink("Progress").Expanded()
                                                                    .SmallPlus()
                                                                    .SemiBold()
-                                                                   .Links(_links["Spinner"],
-                                                                          _links["ProgressIndicator"]),
+                                                                   .Links(links["Spinner"],
+                                                                          links["ProgressIndicator"]),
                                                 NavLink("Surfaces").Expanded()
                                                                    .SmallPlus()
                                                                    .SemiBold()
-                                                                   .Links(_links["Dialog"],
-                                                                          _links["Modal"],
-                                                                          _links["Panel"],
-                                                                          _links["ContextMenu"]),
-                                                NavLink("Collections").Expanded()
-                                                                   .SmallPlus()
-                                                                   .SemiBold()
-                                                                   .Links(_links["BasicList"],
-                                                                          _links["DetailsList"]),
+                                                                   .Links(links["Dialog"],
+                                                                          links["Modal"],
+                                                                          links["Panel"],
+                                                                          links["ContextMenu"]),
                                                 NavLink("Utilities").Expanded()
                                                                     .SmallPlus()
                                                                     .SemiBold()
-                                                                    .Links(_links["Layer"]       ,
-                                                                           _links["Stack"]       ,
-                                                                           _links["HorizontalSeparator"],
-                                                                           _links["SectionStack"],
-                                                                           _links["TextBlock"]   ,
-                                                                           _links["Validator"]   ,
-                                                                           _links["Breadcrumb"]  ,
-                                                                           _links["OverflowSet"]  ,
-                                                                           _links["Pivot"],
-                                                                           _links["Defer"],
-                                                                           _links["Toast"],
-                                                                           _links["FileSelector"],
-                                                                           _links["ProgressModal"]),
+                                                                    .Links(links["Layer"]       ,
+                                                                           links["Stack"]       ,
+                                                                           links["HorizontalSeparator"],
+                                                                           links["SectionStack"],
+                                                                           links["TextBlock"]   ,
+                                                                           links["Validator"]   ,
+                                                                           links["Breadcrumb"]  ,
+                                                                           links["OverflowSet"]  ,
+                                                                           links["Pivot"],
+                                                                           links["Defer"],
+                                                                           links["Toast"],
+                                                                           links["FileSelector"],
+                                                                           links["ProgressModal"]),
                                                 NavLink("Nav Sample").Expanded()
                                                                      .SmallPlus()
                                                                      .SemiBold()
@@ -146,28 +156,6 @@ namespace Tesserae.Tests
                                                 ))
                                          .InlineContent(Link("https://www.curiosity.ai", TextBlock("by curiosity.ai").XSmall().Primary().AlignEnd())
             ));
-        }
-
-        private static void Show(string route, IComponent component)
-        {
-            Router.Replace($"#/view/{route}");
-
-            _mainStack.Clear();
-            _mainStack.Add(component);
-            _mainStack.MinHeightStretch();
-        }
-
-        private class LowerCaseComparer : IEqualityComparer<string>
-        {
-            public bool Equals(string x, string y)
-            {
-                return string.Equals(x, y, System.StringComparison.InvariantCultureIgnoreCase);
-            }
-
-            public int GetHashCode(string obj)
-            {
-                return obj.ToLower().GetHashCode();
-            }
         }
     }
 }

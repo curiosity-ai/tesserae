@@ -9,7 +9,7 @@ namespace Tesserae.Components
 {
     public class OverflowSet : IComponent, IContainer<Breadcrumb, IComponent>
     {
-        private string _expandIcon = "fa-chevron-down";
+        private string _expandIcon = "la-chevron-down";
         private HTMLElement _childContainer;
         private ResizeObserver _resizeObserver;
         private int _maximumItemsToDisplay = 10;
@@ -62,12 +62,12 @@ namespace Tesserae.Components
         private void Recompute()
         {
             int childElementCount = (int)_childContainer.childElementCount;
-            if (childElementCount == 0) return;
+            if (childElementCount <= 1) return;
 
             if (_chevronToUseAsButton is object)
             {
                 //Reset modified chevron if any
-                _chevronToUseAsButton.classList.remove("fal", _expandIcon, "tss-overflowset-opencolapsed");
+                _chevronToUseAsButton.classList.remove("las", _expandIcon, "tss-overflowset-opencolapsed");
 
                 _chevronToUseAsButton.onclick = null;
                 _chevronToUseAsButton = null;
@@ -85,7 +85,8 @@ namespace Tesserae.Components
 
             if (_overflowIndex >= 0)
             {
-                for (int i = 0; i <= ((_overflowIndex)*2); i++)
+                keep[0] = KEEP;
+                for (int i = 0; i <= Math.Min(keep.Length - 1, ((_overflowIndex)*2)); i++)
                 {
                     keep[i] = KEEP;
                     if ((i+1 < _overflowIndex-2))
@@ -97,6 +98,11 @@ namespace Tesserae.Components
                         }
                     }
                 }
+            }
+
+            if(!keep.Any(k => k == KEEP))
+            {
+                keep[0] = KEEP;
             }
 
             keep[keep.Length - 1] = NOTMEASURED;
@@ -157,7 +163,7 @@ namespace Tesserae.Components
 
             if (_chevronToUseAsButton is object)
             {
-                _chevronToUseAsButton.classList.add("fal", _expandIcon, "tss-overflowset-opencolapsed");
+                _chevronToUseAsButton.classList.add("las", _expandIcon, "tss-overflowset-opencolapsed");
                 _chevronToUseAsButton.classList.remove("tss-overflowset-collapse");
                 _chevronToUseAsButton.onclick = (e) =>
                 {
