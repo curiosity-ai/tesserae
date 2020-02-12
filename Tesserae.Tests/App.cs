@@ -82,7 +82,7 @@ namespace Tesserae.Tests
                                               .Render());
             document.body.style.overflow = "hidden";
 
-            Router.Register("home", "/", p => Router.Navigate("#" + ToRoute(components.First().Name)));
+            Router.Register("home", "/", p => Show(components.First().Name, components.First().Component));
             foreach (var (name, component) in components)
                 Router.Register(name, ToRoute(name), p => Show(name, component));
 
