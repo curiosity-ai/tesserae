@@ -89,7 +89,7 @@ namespace Tesserae.Components
 
             if (_overflowIndex >= 0)
             {
-                for (int i = 0; i <= ((_overflowIndex)*2); i++)
+                for (int i = 0; i <= Math.Min(keep.Length - 1, ((_overflowIndex) * 2)); i++)
                 {
                     keep[i] = KEEP;
                     if ((i+1 < _overflowIndex-2))
