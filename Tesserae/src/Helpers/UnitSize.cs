@@ -2,7 +2,7 @@ using System;
 
 namespace Tesserae
 {
-    public class UnitSize
+    public sealed class UnitSize
     {
         private const string AutoSuffix = "auto";
 
