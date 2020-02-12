@@ -157,18 +157,5 @@ namespace Tesserae.Tests
                                          .InlineContent(Link("https://www.curiosity.ai", TextBlock("by curiosity.ai").XSmall().Primary().AlignEnd())
             ));
         }
-
-        private class LowerCaseComparer : IEqualityComparer<string>
-        {
-            public bool Equals(string x, string y)
-            {
-                return string.Equals(x, y, System.StringComparison.InvariantCultureIgnoreCase);
-            }
-
-            public int GetHashCode(string obj)
-            {
-                return obj.ToLower().GetHashCode();
-            }
-        }
     }
 }
