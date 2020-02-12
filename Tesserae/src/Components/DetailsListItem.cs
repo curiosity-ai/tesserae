@@ -8,26 +8,29 @@ namespace Tesserae.Components
 {
     public class DetailsListItem : IDetailsListItem
     {
-        public DetailsListItem(string className, string iconName, string fileName, string modifiedBy, string fileSize)
+        public DetailsListItem(
+            string iconName,
+            string fileName,
+            DateTime dateModified,
+            string modifiedBy,
+            int fileSize)
         {
-            ClassName = className;
-            IconName   = iconName;
-            FileName   = fileName;
-            ModifiedBy = modifiedBy;
-            FileSize   = fileSize;
+            IconName     = iconName;
+            FileName     = fileName;
+            DateModified = dateModified;
+            ModifiedBy   = modifiedBy;
+            FileSize     = fileSize;
         }
 
-        public string ClassName  { get; }
+        public string IconName       { get; }
 
-        public string IconName   { get; }
+        public string FileName       { get; }
 
-        public string FileName   { get; }
+        public DateTime DateModified { get; }
 
-        public string DateModified { get; set; }
+        public string ModifiedBy     { get; }
 
-        public string ModifiedBy { get; }
-
-        public string FileSize   { get; }
+        public int FileSize          { get; }
 
         public IEnumerable<HTMLElement> Render(
             IEnumerable<IDetailsListColumn> columns,
@@ -43,9 +46,9 @@ namespace Tesserae.Components
 
             yield return createGridCellExpression(column1, () => Span(_(text: IconName)));
             yield return createGridCellExpression(column2, () => Span(_(text: FileName)));
-            yield return createGridCellExpression(column3, () => Span(_(text: DateModified)));
+            yield return createGridCellExpression(column3, () => Span(_(text: DateModified.ToShortDateString())));
             yield return createGridCellExpression(column4, () => Span(_(text: ModifiedBy)));
-            yield return createGridCellExpression(column5, () => Span(_(text: FileSize)));
+            yield return createGridCellExpression(column5, () => Span(_(text: FileSize.ToString())));
         }
     }
 }

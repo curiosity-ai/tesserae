@@ -26,6 +26,28 @@ namespace Tesserae.Components
 
         public HTMLElement Render() => _innerElement;
 
+        private static HTMLDivElement CreateGridCell(
+            IDetailsListColumn column,
+            Func<HTMLElement> gridCellInnerHtmlExpression)
+        {
+            string role = column.IsRowHeader ?
+                "rowheader"
+                : "gridcell";
+
+            var gridCellHtmlElement = Div(
+                _("",
+                    styles: cssStyleDeclaration =>
+                    {
+                        cssStyleDeclaration.minHeight = column.MinWidth.ToString();
+                        cssStyleDeclaration.maxHeight = column.MaxWidth.ToString();
+                    })
+                    .WithRole(role));
+
+            gridCellHtmlElement.appendChild(gridCellInnerHtmlExpression());
+
+            return gridCellHtmlElement;
+        }
+
         public DetailsList<TDetailListItem> WithColumn<TColumn>(TColumn column)
             where TColumn : class, IDetailsListColumn
         {
@@ -40,7 +62,7 @@ namespace Tesserae.Components
             return this;
         }
 
-        public DetailsList<TDetailListItem> WithListItems(IEnumerable<TDetailListItem> listItems)
+        public DetailsList<TDetailListItem> WithListItems(params TDetailListItem[] listItems)
         {
             if (!_columnHeadersRendered)
             {
@@ -51,8 +73,6 @@ namespace Tesserae.Components
             {
                 RenderListItemsContainer();
             }
-
-            listItems = listItems.ToList();
 
             _listItems.Add(listItems);
 
@@ -103,26 +123,10 @@ namespace Tesserae.Components
 
                 _detailsListContainer.appendChild(listItemContainer);
 
-                listItemContainer.appendChild(listItem.Render(_columns, CreateGridCell));
+                listItemContainer.AppendChildren(listItem.Render(_columns, CreateGridCell).ToArray());
             }
 
             _listItemsContainerRendered = true;
-        }
-
-        private HTMLDivElement CreateGridCell(IDetailsListColumn column, Func<HTMLElement> gridCellInnerHtmlExpression)
-        {
-            var gridCellHtmlElement = Div(
-                _("",
-                    styles: cssStyleDeclaration =>
-                    {
-                        cssStyleDeclaration.minHeight = column.MinWidth.ToString();
-                        cssStyleDeclaration.maxHeight = column.MaxWidth.ToString();
-                    })
-                    .WithRole("gridcell"));
-
-            gridCellHtmlElement.appendChild(gridCellInnerHtmlExpression());
-
-            return gridCellHtmlElement;
         }
     }
 }

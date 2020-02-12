@@ -1,4 +1,4 @@
-using System.Linq;
+using System;
 using Tesserae.Components;
 using static Tesserae.UI;
 using static Retyped.dom;
@@ -15,31 +15,50 @@ namespace Tesserae.Tests.Samples
                 DetailList<DetailsListItem>()
                     .WithColumn(
                         new DetailsListIconColumn(
-                            name: "File Type",
+                            title: "File Type",
                             minWidth: 16.ToPixelWidth(),
                             maxWidth: 16.ToPixelWidth(),
                             icon: "far fa-file"))
                     .WithColumn(
                         new DetailsListColumn(
-                            name: "File Name",
+                            title: "File Name",
                             minWidth: 210.ToPixelWidth(),
-                            maxWidth: 350.ToPixelWidth()))
+                            maxWidth: 350.ToPixelWidth(),
+                            isRowHeader: true))
                     .WithColumn(
                         new DetailsListColumn(
-                                name: "Date Modified",
+                                title: "Date Modified",
                                 minWidth: 70.ToPixelWidth(),
                                 maxWidth: 350.ToPixelWidth()))
                     .WithColumn(
                         new DetailsListColumn(
-                                name: "Modified By",
+                                title: "Modified By",
                                 minWidth: 70.ToPixelWidth(),
                                 maxWidth: 90.ToPixelWidth()))
                     .WithColumn(
                         new DetailsListColumn(
-                                name: "File Size",
+                                title: "File Size",
                                 minWidth: 70.ToPixelWidth(),
                                 maxWidth: 90.ToPixelWidth()))
-                    .WithListItems(null);
+                    .WithListItems(
+                        new DetailsListItem(
+                            "",
+                            "File Name 1",
+                            DateTime.Today.AddDays(-10),
+                            "Dale Cooper",
+                            10),
+                        new DetailsListItem(
+                            "",
+                            "File Name 2",
+                            DateTime.Today.AddDays(-20),
+                            "Rusty",
+                            10),
+                        new DetailsListItem(
+                             "",
+                             "File Name 3",
+                            DateTime.Today.AddDays(-30),
+                             "Cole",
+                             15));
 
             _content = Stack().Children(detailsList);
         }

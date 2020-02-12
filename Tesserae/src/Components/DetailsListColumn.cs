@@ -8,22 +8,26 @@ namespace Tesserae.Components
     public class DetailsListColumn : IDetailsListColumn
     {
         public DetailsListColumn(
-            string name,
+            string title,
             WidthDimension minWidth,
             WidthDimension maxWidth,
+            bool isRowHeader = false,
             Action onColumnClick = null)
         {
-            Name          = name;
+            Title         = title;
             MinWidth      = minWidth;
             MaxWidth      = maxWidth;
+            IsRowHeader   = isRowHeader;
             OnColumnClick = onColumnClick;
         }
 
-        public string Name             { get; }
+        public string Title            { get; }
 
         public WidthDimension MinWidth { get; }
 
         public WidthDimension MaxWidth { get; }
+
+        public bool IsRowHeader        { get; }
 
         public Action OnColumnClick    { get; }
 
@@ -31,7 +35,7 @@ namespace Tesserae.Components
         {
             var htmlElement = Div(_());
 
-            htmlElement.innerText = Name;
+            htmlElement.innerText = Title;
 
             return htmlElement;
         }
