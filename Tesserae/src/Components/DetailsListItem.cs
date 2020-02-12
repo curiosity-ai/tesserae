@@ -33,22 +33,14 @@ namespace Tesserae.Components
         public int FileSize          { get; }
 
         public IEnumerable<HTMLElement> Render(
-            IEnumerable<IDetailsListColumn> columns,
+            IList<IDetailsListColumn> columns,
             Func<IDetailsListColumn, Func<HTMLElement>, HTMLElement> createGridCellExpression)
         {
-            columns = columns.ToList();
-
-            var column1 = columns.ElementAt(0);
-            var column2 = columns.ElementAt(1);
-            var column3 = columns.ElementAt(2);
-            var column4 = columns.ElementAt(3);
-            var column5 = columns.ElementAt(4);
-
-            yield return createGridCellExpression(column1, () => Span(_(text: IconName)));
-            yield return createGridCellExpression(column2, () => Span(_(text: FileName)));
-            yield return createGridCellExpression(column3, () => Span(_(text: DateModified.ToShortDateString())));
-            yield return createGridCellExpression(column4, () => Span(_(text: ModifiedBy)));
-            yield return createGridCellExpression(column5, () => Span(_(text: FileSize.ToString())));
+            yield return createGridCellExpression(columns[0], () => Span(_(text: IconName)));
+            yield return createGridCellExpression(columns[1], () => Span(_(text: FileName)));
+            yield return createGridCellExpression(columns[2], () => Span(_(text: DateModified.ToShortDateString())));
+            yield return createGridCellExpression(columns[3], () => Span(_(text: ModifiedBy)));
+            yield return createGridCellExpression(columns[4], () => Span(_(text: FileSize.ToString())));
         }
     }
 }

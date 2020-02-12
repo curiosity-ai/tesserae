@@ -5,14 +5,12 @@ namespace Tesserae.Components
 {
     public interface IDetailsListColumn : IComponent
     {
-        string Title           { get; }
+        string Title         { get; }
 
-        WidthDimension MinWidth { get; }
+        WidthDimension Width { get; }
 
-        WidthDimension MaxWidth { get; }
+        bool IsRowHeader     { get; }
 
-        bool IsRowHeader        { get; }
-
-        Action OnColumnClick    { get; }
+        Action OnColumnClick { get; }
     }
 }

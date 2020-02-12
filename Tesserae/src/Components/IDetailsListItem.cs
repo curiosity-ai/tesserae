@@ -7,7 +7,7 @@ namespace Tesserae.Components
     public interface IDetailsListItem
     {
         IEnumerable<HTMLElement> Render(
-            IEnumerable<IDetailsListColumn> columns,
+            IList<IDetailsListColumn> columns,
             Func<IDetailsListColumn, Func<HTMLElement>, HTMLElement> createGridCellExpression);
     }
 }

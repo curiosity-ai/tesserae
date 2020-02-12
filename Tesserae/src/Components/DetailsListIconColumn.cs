@@ -9,29 +9,25 @@ namespace Tesserae.Components
     {
         public DetailsListIconColumn(
             string title,
-            WidthDimension minWidth,
-            WidthDimension maxWidth,
+            WidthDimension width,
             string icon,
             Action onColumnClick = null)
         {
             Title         = title;
-            MinWidth      = minWidth;
-            MaxWidth      = maxWidth;
+            Width         = width;
             Icon          = icon;
             OnColumnClick = onColumnClick;
         }
 
-        public string Title             { get; }
+        public string Title         { get; }
 
-        public WidthDimension MinWidth { get; }
+        public WidthDimension Width { get; }
 
-        public WidthDimension MaxWidth { get; }
-
-        public string Icon             { get; }
+        public string Icon          { get; }
 
         public bool IsRowHeader => false;
 
-        public Action OnColumnClick    { get; }
+        public Action OnColumnClick { get; }
 
         public HTMLElement Render()
         {

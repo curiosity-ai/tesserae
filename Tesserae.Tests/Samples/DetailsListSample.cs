@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Tesserae.Components;
 using static Tesserae.UI;
 using static Retyped.dom;
@@ -16,49 +18,26 @@ namespace Tesserae.Tests.Samples
                     .WithColumn(
                         new DetailsListIconColumn(
                             title: "File Type",
-                            minWidth: 16.ToPixelWidth(),
-                            maxWidth: 16.ToPixelWidth(),
+                            width: 16.ToPixelWidth(),
                             icon: "far fa-file"))
                     .WithColumn(
                         new DetailsListColumn(
                             title: "File Name",
-                            minWidth: 210.ToPixelWidth(),
-                            maxWidth: 350.ToPixelWidth(),
+                            width: 350.ToPixelWidth(),
                             isRowHeader: true))
                     .WithColumn(
                         new DetailsListColumn(
                                 title: "Date Modified",
-                                minWidth: 70.ToPixelWidth(),
-                                maxWidth: 350.ToPixelWidth()))
+                                width: 150.ToPixelWidth()))
                     .WithColumn(
                         new DetailsListColumn(
                                 title: "Modified By",
-                                minWidth: 70.ToPixelWidth(),
-                                maxWidth: 90.ToPixelWidth()))
+                                width: 150.ToPixelWidth()))
                     .WithColumn(
                         new DetailsListColumn(
                                 title: "File Size",
-                                minWidth: 70.ToPixelWidth(),
-                                maxWidth: 90.ToPixelWidth()))
-                    .WithListItems(
-                        new DetailsListItem(
-                            "",
-                            "File Name 1",
-                            DateTime.Today.AddDays(-10),
-                            "Dale Cooper",
-                            10),
-                        new DetailsListItem(
-                            "",
-                            "File Name 2",
-                            DateTime.Today.AddDays(-20),
-                            "Rusty",
-                            10),
-                        new DetailsListItem(
-                             "",
-                             "File Name 3",
-                            DateTime.Today.AddDays(-30),
-                             "Cole",
-                             15));
+                                width: 100.ToPixelWidth()))
+                    .WithListItems(GetDetailsListItems());
 
             _content = Stack().Children(detailsList);
         }
@@ -66,6 +45,34 @@ namespace Tesserae.Tests.Samples
         public HTMLElement Render()
         {
             return _content.Render();
+        }
+
+        private DetailsListItem[] GetDetailsListItems()
+        {
+            return Enumerable
+                .Range(1, 100)
+                .SelectMany(number => new List<DetailsListItem>
+                {
+                    new DetailsListItem(
+                        "",
+                        "Interesting File Name, quite long as you can see. In fact, let's make it longer to see " +
+                        "how the padding looks.",
+                        DateTime.Today.AddDays(-10),
+                        "Dale Cooper",
+                        10),
+                    new DetailsListItem(
+                        "",
+                        "File Name 2",
+                        DateTime.Today.AddDays(-20),
+                        "Rusty",
+                        10),
+                    new DetailsListItem(
+                        "",
+                        "File Name 3",
+                        DateTime.Today.AddDays(-30),
+                        "Cole",
+                        15)
+            }).ToArray();
         }
     }
 }

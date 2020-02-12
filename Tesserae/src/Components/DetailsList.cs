@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Tesserae.HTML;
 using static Tesserae.UI;
 using static Retyped.dom;
 
@@ -9,19 +10,23 @@ namespace Tesserae.Components
     public class DetailsList<TDetailListItem> : IComponent
         where TDetailListItem : class, IDetailsListItem
     {
-        private readonly List<IDetailsListColumn> _columns;
-        private readonly List<IEnumerable<TDetailListItem>> _listItems;
+        private readonly int _rowsPerPage;
+        private readonly List<IDetailsListColumn> _detailsListColumns;
+        private readonly List<IEnumerable<TDetailListItem>> _detailsListItems;
         private readonly HTMLElement _innerElement;
 
-        private bool _columnHeadersRendered;
-        private bool _listItemsContainerRendered;
+        private bool _detailsListColumnHeadersRendered;
+        private bool _detailsListItemsContainerRendered;
         private HTMLDivElement _detailsListContainer;
+        private HTMLDivElement _detailsListItemsContainer;
 
-        public DetailsList()
+        public DetailsList(
+            int rowsPerPage = 8)
         {
-            _columns      = new List<IDetailsListColumn>();
-            _listItems    = new List<IEnumerable<TDetailListItem>>();
-            _innerElement = Div(_());
+            _rowsPerPage        = rowsPerPage;
+            _detailsListColumns = new List<IDetailsListColumn>();
+            _detailsListItems   = new List<IEnumerable<TDetailListItem>>();
+            _innerElement       = Div(_());
         }
 
         public HTMLElement Render() => _innerElement;
@@ -35,11 +40,10 @@ namespace Tesserae.Components
                 : "gridcell";
 
             var gridCellHtmlElement = Div(
-                _("",
+                _("tss-detailslist-list-item tss-text-ellipsis",
                     styles: cssStyleDeclaration =>
                     {
-                        cssStyleDeclaration.minHeight = column.MinWidth.ToString();
-                        cssStyleDeclaration.maxHeight = column.MaxWidth.ToString();
+                        cssStyleDeclaration.width = column.Width.ToString();
                     })
                     .WithRole(role));
 
@@ -51,32 +55,32 @@ namespace Tesserae.Components
         public DetailsList<TDetailListItem> WithColumn<TColumn>(TColumn column)
             where TColumn : class, IDetailsListColumn
         {
-            _columns.Add(column);
+            _detailsListColumns.Add(column);
             return this;
         }
 
         public DetailsList<TDetailListItem> WithColumns<TColumn>(IEnumerable<TColumn> columns)
             where TColumn : class, IDetailsListColumn
         {
-            _columns.AddRange(columns);
+            _detailsListColumns.AddRange(columns);
             return this;
         }
 
         public DetailsList<TDetailListItem> WithListItems(params TDetailListItem[] listItems)
         {
-            if (!_columnHeadersRendered)
+            if (!_detailsListColumnHeadersRendered)
             {
                 RenderColumnHeaders();
             }
 
-            if (!_listItemsContainerRendered)
+            if (!_detailsListItemsContainerRendered)
             {
-                RenderListItemsContainer();
+                RenderDetailsListItemsContainer();
             }
 
-            _listItems.Add(listItems);
+            _detailsListItems.Add(listItems);
 
-            RenderListItems(listItems);
+            RenderDetailsListItems(listItems);
 
             return this;
         }
@@ -89,44 +93,85 @@ namespace Tesserae.Components
             var detailsListHeader = Div(_("tss-detailslist-header").WithRole("presentation"));
             _detailsListContainer.appendChild(detailsListHeader);
 
-            foreach (var column in _columns)
+            foreach (var column in _detailsListColumns)
             {
-                var columnHeaderDiv = Div(_("tss-detailslist-column-header").WithRole("columnheader"));
+                var columnHeader = Div(_("tss-detailslist-column-header").WithRole("columnheader"));
 
                 var columnHtmlElement = column.Render();
 
-                columnHeaderDiv.SetStyle(cssStyleDeclaration =>
+                columnHeader.SetStyle(cssStyleDeclaration =>
                 {
-                    cssStyleDeclaration.minWidth = column.MinWidth.ToString();
-                    cssStyleDeclaration.maxWidth = column.MaxWidth.ToString();
+                    cssStyleDeclaration.width = column.Width.ToString();
                 });
 
-                columnHeaderDiv.appendChild(columnHtmlElement);
-                detailsListHeader.appendChild(columnHeaderDiv);
+                columnHeader.appendChild(columnHtmlElement);
+                detailsListHeader.appendChild(columnHeader);
             }
 
-            _columnHeadersRendered = true;
-        }
+            var totalWidth = _detailsListColumns.Sum(detailsListColumn => detailsListColumn.Width.Value);
 
-        private void RenderListItemsContainer()
-        {
-            var listItemsContainer = Div(_("tss-detailslist-list-items-container").WithRole("presentation"));
-
-            _detailsListContainer.appendChild(listItemsContainer);
-        }
-
-        private void RenderListItems(IEnumerable<TDetailListItem> listItems)
-        {
-            foreach (var listItem in listItems)
+            _detailsListContainer.SetStyle(cssStyleDeclaration =>
             {
-                var listItemContainer = Div(_("tss-detailslist-list-item-container").WithRole("presentation"));
+                cssStyleDeclaration.width = (totalWidth + (totalWidth / 4)) + "px";
+            });
 
-                _detailsListContainer.appendChild(listItemContainer);
+            _detailsListColumnHeadersRendered = true;
+        }
 
-                listItemContainer.AppendChildren(listItem.Render(_columns, CreateGridCell).ToArray());
+        private void RenderDetailsListItemsContainer()
+        {
+            _detailsListItemsContainer = Div(_("tss-detailslist-list-items-container").WithRole("presentation"));
+
+            _detailsListContainer.appendChild(_detailsListItemsContainer);
+
+            _detailsListItemsContainerRendered = true;
+        }
+
+        private void RenderDetailsListItems(IEnumerable<TDetailListItem> detailsListItems)
+        {
+            detailsListItems          = detailsListItems.ToList();
+            var detailsListItemsCount = detailsListItems.Count();
+
+            /* The overload of select which projects an item belonging to a collection with its index doesn't seem to
+             * behave at runtime - MB 12/02/2020 */
+            // var detailsListItemsWithIndex =
+                // detailsListItems.Select((item, index) => new { value = item, index = index + 1 });
+
+            var index = 1;
+            foreach (var detailsListItem in detailsListItems)
+            {
+                var detailsListItemContainer = Div(_("tss-detailslist-list-item-container").WithRole("presentation"));
+
+                var gridCellHtmlElements = detailsListItem.Render(_detailsListColumns, CreateGridCell).ToArray();
+
+                if (detailsListItemsCount == index)
+                {
+                    console.log("hit");
+                    var lastGridCellHtmlElement = gridCellHtmlElements.Last();
+                    AttachOnLastGridCellMountedEvent(lastGridCellHtmlElement);
+                }
+
+                detailsListItemContainer.AppendChildren(gridCellHtmlElements);
+                _detailsListItemsContainer.appendChild(detailsListItemContainer);
+
+                index += 1;
             }
+        }
 
-            _listItemsContainerRendered = true;
+        private void AttachOnLastGridCellMountedEvent(HTMLElement gridCell)
+        {
+            DomMountedObserver.NotifyWhenMounted(gridCell,
+                () => OnLastGridCellMounted(gridCell.clientHeight));
+        }
+
+        private void OnLastGridCellMounted(int lastGridCellClientHeight)
+        {
+            var pageHeight = lastGridCellClientHeight * _rowsPerPage;
+
+            _detailsListContainer.SetStyle(cssStyleDeclaration =>
+            {
+                cssStyleDeclaration.height = $"{pageHeight}px";
+            });
         }
     }
 }

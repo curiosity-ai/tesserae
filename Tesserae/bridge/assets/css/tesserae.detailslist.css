@@ -1,9 +1,42 @@
-.tss-detailslist, .tss-detailslist-column-header {
+.tss-detailslist {
+    display: inline-block;
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: relative;
+}
+
+.tss-detailslist, .tss-detailslist-header, .tss-detailslist-column-header,
+    .tss-detailslist-list-items-container, .tss-detailslist-list-item-container {
     display: inline-block;
     position: relative;
+    float: left;
+}
+
+.tss-detailslist-column-header, .tss-detailslist-list-items-container, .tss-detailslist-list-item-container,
+    .tss-detailslist-list-item * {
     width: 100%;
 }
 
-.tss-detailslist-column-header {
+.tss-detailslist-list-item-container {
+    border-top: 1px;
+    border-top-color: var(--tss-default-border-color);
+    border-top-style: solid;
+}
+
+.tss-detailslist-list-item-container:last-of-type {
+    border-bottom: 1px;
+    border-bottom-color: var(--tss-default-border-color);
+    border-bottom-style: solid;
+}
+
+.tss-detailslist-list-item {
+    display: inline-block;
+    padding: 11px 32px 11px 12px;
+    position: relative;
     float: left;
 }
+
+.tss-detailslist-column-header {
+    padding: 4px 32px 4px 12px;
+}
+
