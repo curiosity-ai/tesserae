@@ -9,6 +9,14 @@ namespace Tesserae.Components
 {
     public class Sidebar : IComponent
     {
+
+        public enum Size
+        {
+            Small,
+            Medium,
+            Large
+        }
+
         private HTMLElement _sidebarContainer;
         private HTMLElement _contentContainer;
         private HTMLElement _container;
@@ -31,16 +39,41 @@ namespace Tesserae.Components
             }
         }
 
-        public bool IsSmall
+        public Size Width
         {
             get
             {
-                return _sidebarContainer.classList.contains("small");
+
+                if (_sidebarContainer.classList.contains("small"))
+                {
+                    return Size.Small;
+                }
+                else if (_sidebarContainer.classList.contains("medium"))
+                {
+                    return Size.Medium;
+                }
+                else
+                {
+                    return Size.Large;
+                }
             }
             set
             {
-                if (value) _sidebarContainer.classList.add("small");
-                else _sidebarContainer.classList.remove("small");
+                if (value == Size.Small)
+                {
+                    _sidebarContainer.classList.add("small");
+                    _sidebarContainer.classList.remove("medium");
+                }
+                else if (value == Size.Medium)
+                {
+                    _sidebarContainer.classList.add("medium");
+                    _sidebarContainer.classList.remove("small");
+                }
+                else 
+                {
+                    _sidebarContainer.classList.remove("small");
+                    _sidebarContainer.classList.remove("medium");
+                }
             }
         }
 
@@ -87,6 +120,7 @@ namespace Tesserae.Components
             _sidebarContainer = Div(_("tss-sidebar"));
             _contentContainer = Div(_("tss-sidebar-content"));
             _container = Div(_("tss-sidebar-host"), _sidebarContainer, _contentContainer);
+            Width = Size.Medium;
         }
 
         public Sidebar SetContent(IComponent content)
@@ -103,7 +137,13 @@ namespace Tesserae.Components
         }
         public Sidebar Small()
         {
-            IsSmall = true;
+            Width = Size.Small;
+            return this;
+        }
+
+        public Sidebar Large()
+        {
+            Width = Size.Large;
             return this;
         }
 
@@ -117,6 +157,19 @@ namespace Tesserae.Components
         {
             _items.Clear();
             ClearChildren(_sidebarContainer);
+            return this;
+        }
+
+        public Sidebar Brand(IComponent brand)
+        {
+            if(_sidebarContainer.childElementCount == 0)
+            {
+                _sidebarContainer.appendChild(brand.Render());
+            }
+            else
+            {
+                _sidebarContainer.insertBefore(brand.Render(), _sidebarContainer.firstElementChild);
+            }
             return this;
         }
 

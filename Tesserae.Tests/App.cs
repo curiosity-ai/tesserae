@@ -39,13 +39,14 @@ namespace Tesserae.Tests
             _navBar.IsVisible  = false;
 
 
-            document.body.appendChild(_sideBar.Add(SidebarItem("... meow", "las la-cat").Large().NonSelectable())
+            document.body.appendChild(_sideBar.Brand(SidebarItem("... meow", "las la-cat").Large().NonSelectable())
                                               .Add(SidebarItem("Colorful sidebar", "las la-tint").OnSelect((s) => _sideBar.IsLight = false).Selected())
                                               .Add(SidebarItem("Light sidebar", "las la-tint-slash").OnSelect((s) => _sideBar.IsLight = true))
                                               .Add(SidebarItem("Always Open", "las la-arrow-to-right").OnSelect((s) => _sideBar.IsAlwaysOpen= true))
                                               .Add(SidebarItem("Open on Hover", "las la-arrows-alt-h").OnSelect((s) => _sideBar.IsAlwaysOpen = false))
-                                              .Add(SidebarItem("Small sidebar", "las la-minus-square").OnSelect((s) => _sideBar.IsSmall = true))
-                                              .Add(SidebarItem("Normal sidebar", "las la-plus-square").OnSelect((s) => _sideBar.IsSmall = false))
+                                              .Add(SidebarItem("Small sidebar", "las la-minus-square").OnSelect((s) => _sideBar.Width = Components.Sidebar.Size.Small))
+                                              .Add(SidebarItem("Medium sidebar", "las la-square").OnSelect((s) => _sideBar.Width = Components.Sidebar.Size.Medium  ))
+                                              .Add(SidebarItem("Large sidebar", "las la-plus-square").OnSelect((s) => _sideBar.Width = Components.Sidebar.Size.Large))
                                               .SetContent(_navBar)
                                               .Render());
             document.body.style.overflow = "hidden";
@@ -82,7 +83,7 @@ namespace Tesserae.Tests
             _links["Validator"           ] = NavLink("Validator")           .OnSelected((s, e) => Show("Validator"        ,     new ValidatorSample()));
             _links["OverflowSet"         ] = NavLink("OverflowSet")         .OnSelected((s, e) => Show("OverflowSet"      ,     new OverflowSetSample()));
             _links["Breadcrumb"          ] = NavLink("Breadcrumb")          .OnSelected((s, e) => Show("Breadcrumb"       ,     new BreadcrumbSample()));
-            _links["Pivot"               ] = NavLink("Pivot").OnSelected((s, e) => Show("Pivot"            ,     new PivotSample()));
+            _links["Pivot"               ] = NavLink("Pivot")               .OnSelected((s, e) => Show("Pivot"            ,     new PivotSample()));
             _links["Defer"               ] = NavLink("Defer")               .OnSelected((s, e) => Show("Defer"            ,     new DeferSample()));
             _links["Toast"               ] = NavLink("Toast")               .OnSelected((s, e) => Show("Toast"            ,     new ToastSample()));
             _links["FileSelector"        ] = NavLink("File Selector/Drop Area").OnSelected((s, e) => Show("FileSelector"  ,     new FileSelectorAndDropAreaSample()));
