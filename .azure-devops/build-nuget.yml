@@ -1,5 +1,4 @@
 variables:
-  solution: '**/Tesserae.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
   repo: 'https://$(username):$(pat)@github.com/curiosity-ai/tesserae.git'
@@ -14,13 +13,44 @@ pool:
 steps:
 - checkout: self
   submodules: true
+  persistCredentials: true
 
 - task: NuGetToolInstaller@0
 
 - task: NuGetCommand@2
   displayName: 'restore nuget'
   inputs:
-    restoreSolution: '$(solution)'
+    restoreSolution: '**/Tesserae.sln'
+
+- task: CmdLine@2
+  displayName: 'git config'
+  inputs:
+    script: |
+      git config --global credential.helper store
+      git config --global user.email "$(EMAIL)"
+      git config --global user.name "$(USER)"
+      git config --global user.password  "$(PAT)"
+  
+- task: CmdLine@2
+  displayName: 'update lineawesome'
+  inputs:
+    script: |
+      cd $(Build.SourcesDirectory)/Build.ImportLineAwesome/
+      mkdir FromGit
+      cd FromGit
+      git clone --depth=1 --branch=master  https://github.com/icons8/line-awesome/
+      copy .\line-awesome\dist\line-awesome\fonts\*.eot   ..\..\Tesserae\bridge\assets\fonts\
+      copy .\line-awesome\dist\line-awesome\fonts\*.ttf   ..\..\Tesserae\bridge\assets\fonts\
+      copy .\line-awesome\dist\line-awesome\fonts\*.woff  ..\..\Tesserae\bridge\assets\fonts\
+      copy .\line-awesome\dist\line-awesome\fonts\*.woff2 ..\..\Tesserae\bridge\assets\fonts\
+      copy .\line-awesome\dist\line-awesome\css\line-awesome.min.css ..\..\Tesserae\bridge\assets\css\line-awesome.css
+      cd ..
+      dotnet run
+      rmdir /s .\FromGit\line-awesome /q
+      cd ..
+      git add .
+      git commit -m "Updated line-awesome"
+      git push origin HEAD:master
 
 - task: VSBuild@1
   displayName: 'build tesserae project'
@@ -62,9 +92,9 @@ steps:
     script: 'dir $(Build.SourcesDirectory)\Tesserae\bin\ /S'
     
 - task: VSBuild@1
-  displayName: 'build solution'
+  displayName: 'pack Tesserae'
   inputs:
-    solution: '$(solution)'
+    solution: '**/Tesserae.csproj'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
     msbuildArgs: '/t:pack /p:Version=0.0.$(build.buildId)'

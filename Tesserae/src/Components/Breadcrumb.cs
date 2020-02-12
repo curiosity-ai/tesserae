@@ -17,7 +17,7 @@ namespace Tesserae.Components
         private double _cachedFullWidth = 0;
         private HTMLElement _chevronToUseAsButton = null;
         
-        private string _chevronIcon = "fa-chevron-right";
+        private string _chevronIcon = "la-chevron-right";
 
         private Dictionary<HTMLElement, double> _cachedSizes = new Dictionary<HTMLElement, double>();
 
@@ -71,7 +71,7 @@ namespace Tesserae.Components
             {
                 //Reset modified chevron if any
                 _chevronToUseAsButton.classList.add(_chevronIcon, "tss-breadcrumb-collapse");
-                _chevronToUseAsButton.classList.remove("fa-ellipsis-h", "tss-breadcrumb-opencolapsed");
+                _chevronToUseAsButton.classList.remove("la-ellipsis-h", "tss-breadcrumb-opencolapsed");
 
                 _chevronToUseAsButton.onclick = null;
                 _chevronToUseAsButton = null;
@@ -89,7 +89,7 @@ namespace Tesserae.Components
 
             if (_overflowIndex >= 0)
             {
-                for (int i = 0; i <= ((_overflowIndex)*2); i++)
+                for (int i = 0; i <= Math.Min(keep.Length - 1, ((_overflowIndex) * 2)); i++)
                 {
                     keep[i] = KEEP;
                     if ((i+1 < _overflowIndex-2))
@@ -161,7 +161,7 @@ namespace Tesserae.Components
 
             if (_chevronToUseAsButton is object)
             {
-                _chevronToUseAsButton.classList.add("fa-ellipsis-h", "tss-breadcrumb-opencolapsed");
+                _chevronToUseAsButton.classList.add("la-ellipsis-h", "tss-breadcrumb-opencolapsed");
                 _chevronToUseAsButton.classList.remove(_chevronIcon, "tss-breadcrumb-collapse");
                 _chevronToUseAsButton.onclick = (e) =>
                 {
@@ -215,7 +215,7 @@ namespace Tesserae.Components
         {
             if(_childContainer.childElementCount > 0)
             {
-                _childContainer.appendChild(I(_("tss-breadcrumb-chevron fal " + _chevronIcon)));
+                _childContainer.appendChild(I(_("tss-breadcrumb-chevron las " + _chevronIcon)));
             }
             _childContainer.appendChild(component.Render());
         }
