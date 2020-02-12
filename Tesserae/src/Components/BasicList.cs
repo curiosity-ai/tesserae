@@ -17,8 +17,7 @@ namespace Tesserae.Components
         private readonly int _columnsPerRow;
 
         private readonly Dictionary<int, IComponent> _components;
-        private readonly List<List<KeyValuePair<int, IComponent>>> _pages;
-        private readonly Dictionary<int, HTMLElement> _pageCache;
+        private readonly ListPageCache _listPageCache;
 
         private readonly int _componentsPerPage;
         private readonly int _initialComponentsToRender;
@@ -37,10 +36,11 @@ namespace Tesserae.Components
         private int _rowsCount;
         private int _currentPage;
 
-        private int _componentHeightInPixels;
-        private int _pageHeightInPixels;
+        private UnitSize _componentHeight;
+        private UnitSize _pageHeight;
         private double _currentScrollPosition;
         private ScrollDirection _currentScrollDirection;
+        private ScrollDirection _previousScrollDirection;
 
         public BasicList(
             IEnumerable<IComponent> components,
@@ -71,19 +71,21 @@ namespace Tesserae.Components
 
             _rowsPerPage   = rowsPerPage;
             _columnsPerRow = columnsPerRow;
-            _components    = CreateComponentsDictionary(components);
 
             _componentsPerPage         = _rowsPerPage * _columnsPerRow;
             _initialComponentsToRender = _componentsPerPage * PagesToRender;
 
-            _pages     = _components.InGroupsOf(_componentsPerPage);
-            _pageCache = new Dictionary<int, HTMLElement>();
+            _listPageCache = new ListPageCache(
+                _componentsPerPage,
+                CreatePageHtmlElement,
+                CreateComponentContainerHtmlElement)
+                .AddComponents(components);
 
             _pagesToVirtualizeUpperBoundary = (int)Floor((double)PagesToVirtualize / 2);
             _pagesToVirtualizeLowerBoundary = (int)Ceiling((double)PagesToVirtualize / 2);
 
-            _componentHeightInPercentage = GetComponentDimensionInPercent(_rowsPerPage);
-            _componentWidthInPercentage  = GetComponentDimensionInPercent(_columnsPerRow);
+            _componentHeightInPercentage = GetComponentSize(_rowsPerPage);
+            _componentWidthInPercentage  = GetComponentSize(_columnsPerRow);
 
             CalculateCounts();
 
@@ -105,31 +107,17 @@ namespace Tesserae.Components
 
         public HTMLElement Render() => _innerElement;
 
-        private static Dictionary<int, IComponent> CreateComponentsDictionary(
-            IEnumerable<IComponent> components)
-        {
-            return components
-                .Select((component, index) => new
-                {
-                    component,
-                    componentNumber = index + 1
-                })
-                .ToDictionary(
-                    item => item.componentNumber,
-                    item => item.component);
-        }
-
-        private static string GetComponentDimensionInPercent(int itemsCount) => $"{100 / itemsCount}%";
+        private static string GetComponentSize(int itemsCount) => (100 / itemsCount).percent().ToString();
 
         private static HTMLDivElement CreateInnerElementHtmlDivElement() => Div(_());
 
         private static HTMLDivElement CreateSpacingHtmlDivElement(string className) => Div(_(className));
 
-        private static void SetHtmlElementHeight(HTMLElement htmlElement, int heightInPixels)
+        private static void SetHtmlElementHeight(HTMLElement htmlElement, UnitSize height)
         {
             htmlElement.SetStyle(cssStyleDeclaration =>
             {
-                cssStyleDeclaration.height = $"{heightInPixels}px";
+                cssStyleDeclaration.height = height.ToString();
             });
         }
 
@@ -138,7 +126,7 @@ namespace Tesserae.Components
         private void CalculateCounts()
         {
             _componentsCount = _components.Count;
-            _pagesCount      = _pages.Count;
+            _pagesCount      = _listPageCache.PagesCount;
             _rowsCount       = _rowsPerPage * _pagesCount;
         }
 
@@ -159,48 +147,28 @@ namespace Tesserae.Components
             return CreateSpacingHtmlDivElement("tss-basiclist-bottom-spacing");
         }
 
-        private void SetBasicListContainerHeight() => SetHtmlElementHeight(_basicListContainer, _pageHeightInPixels);
+        private void SetBasicListContainerHeight() => SetHtmlElementHeight(_basicListContainer, _pageHeight);
 
-        private void SetTopSpacingDivHeight(int heightInPixels) => SetHtmlElementHeight(_topSpacingDiv, heightInPixels);
+        private void SetTopSpacingDivHeight(UnitSize height) => SetHtmlElementHeight(_topSpacingDiv, height);
 
-        private void SetBottomSpacingDivHeight(int heightInPixels)
+        private void SetBottomSpacingDivHeight(UnitSize height)
         {
-            SetHtmlElementHeight(_bottomSpacingDiv, heightInPixels);
+            SetHtmlElementHeight(_bottomSpacingDiv, height);
         }
 
-        private IEnumerable<HTMLElement> GetInitialPages() => GetPages(Enumerable.Range(1, PagesToRender));
-
-        private IEnumerable<HTMLElement> GetPages(IEnumerable<int> rangeOfPageNumbersToGet)
+        private IEnumerable<HTMLElement> GetInitialPages()
         {
-            return RetrievePagesFromCache(rangeOfPageNumbersToGet);
+            return RetrievePagesFromCache(Enumerable.Range(1, PagesToRender));
         }
-
-        private HTMLElement GetPage(int pageNumber) => RetrievePageFromCache(pageNumber);
 
         private IEnumerable<HTMLElement> RetrievePagesFromCache(IEnumerable<int> rangeOfPageNumbersToRetrieve)
         {
-            return rangeOfPageNumbersToRetrieve.Select(RetrievePageFromCache);
+            return _listPageCache.RetrievePagesFromCache(rangeOfPageNumbersToRetrieve);
         }
 
         private HTMLElement RetrievePageFromCache(int pageNumberToRetrieve)
         {
-            if (_pageCache.ContainsKey(pageNumberToRetrieve))
-            {
-                console.log($"Retrieved page number {pageNumberToRetrieve} from cache");
-                return _pageCache.GetValueOrDefault(pageNumberToRetrieve);
-            }
-
-            var page = CreatePageHtmlElement(pageNumberToRetrieve);
-
-            page.AppendChildren(
-                GetComponentsForPage(pageNumberToRetrieve)
-                    .Select(CreateComponentContainerHtmlElement)
-                    .ToArray());
-
-            console.log($"Adding page number {pageNumberToRetrieve} to cache");
-            _pageCache.Add(pageNumberToRetrieve, page);
-
-            return page;
+            return _listPageCache.RetrievePageFromCache(pageNumberToRetrieve);
         }
 
         private HTMLElement CreatePageHtmlElement(int pageNumber)
@@ -225,11 +193,6 @@ namespace Tesserae.Components
                     .WithRole("listitems")
                     .WithData("tss-basiclist-componentnumber", componentNumber.ToString()),
                 component.Render());
-        }
-
-        private IEnumerable<KeyValuePair<int, IComponent>> GetComponentsForPage(int pageNumber)
-        {
-            return _pages.ElementAt(pageNumber - 1);
         }
 
         private void RenderPageUpwards(HTMLElement page)
@@ -299,13 +262,13 @@ namespace Tesserae.Components
                 throw new ArgumentOutOfRangeException(nameof(lastComponentMountedClientHeight));
             }
 
-            _componentHeightInPixels = lastComponentMountedClientHeight;
-            _pageHeightInPixels      = _componentHeightInPixels * _rowsPerPage;
+            _componentHeight = lastComponentMountedClientHeight.px();
+            _pageHeight      = (_componentHeight.Size * _rowsPerPage).px();
 
             SetBasicListContainerHeight();
-            SetTopSpacingDivHeight(0);
+            SetTopSpacingDivHeight(0.px());
 
-            var initialBottomSpacingDivHeight = (_pagesCount - PagesToRender) * _pageHeightInPixels;
+            var initialBottomSpacingDivHeight = ((_pagesCount - PagesToRender) * _pageHeight.Size).px();
 
             SetBottomSpacingDivHeight(initialBottomSpacingDivHeight);
 
@@ -324,7 +287,7 @@ namespace Tesserae.Components
 
             var scrollPosition = scrollTop;
 
-            var newPage = (int)Round(scrollPosition / _pageHeightInPixels, MidpointRounding.AwayFromZero);
+            var newPage = (int)Round(scrollPosition / _pageHeight.Size, MidpointRounding.AwayFromZero);
 
             if ((newPage != _currentPage) && newPage > _pagesToVirtualizeLowerBoundary)
             {
@@ -334,14 +297,14 @@ namespace Tesserae.Components
 
                     RemoveFirstPageFromBasicListContainer();
 
-                    var newTopSpacingDivHeight = (newPage - _pagesToVirtualizeLowerBoundary) * _pageHeightInPixels;
+                    var newTopSpacingDivHeight = ((newPage - _pagesToVirtualizeLowerBoundary) * _pageHeight.Size).px();
                     SetTopSpacingDivHeight(newTopSpacingDivHeight);
 
                     var pageNumberToAdd = newPage + _pagesToVirtualizeUpperBoundary;
-                    RenderPageDownwards(GetPage(pageNumberToAdd));
+                    RenderPageDownwards(RetrievePageFromCache(pageNumberToAdd));
 
                     var newBottomSpacingDivHeight =
-                        (_pagesCount - (newPage + _pagesToVirtualizeUpperBoundary)) * _pageHeightInPixels;
+                        ((_pagesCount - (newPage + _pagesToVirtualizeUpperBoundary)) * _pageHeight.Size).px();
 
                     SetBottomSpacingDivHeight(newBottomSpacingDivHeight);
                 }
@@ -352,14 +315,14 @@ namespace Tesserae.Components
                     RemoveLastPageFromBasicListContainer();
 
                     var newTopSpacingDivHeight =
-                        (newPage - (_pagesToVirtualizeUpperBoundary - 1)) * _pageHeightInPixels;
+                        ((newPage - (_pagesToVirtualizeUpperBoundary - 1)) * _pageHeight.Size).px();
                     SetTopSpacingDivHeight(newTopSpacingDivHeight);
 
                     var pageNumberToAdd = newPage - _pagesToVirtualizeUpperBoundary;
-                    RenderPageUpwards(GetPage(pageNumberToAdd));
+                    RenderPageUpwards(RetrievePageFromCache(pageNumberToAdd));
 
                     var newBottomSpacingDivHeight =
-                        (_pagesCount - (newPage + _pagesToVirtualizeLowerBoundary)) * _pageHeightInPixels;
+                        ((_pagesCount - (newPage + _pagesToVirtualizeLowerBoundary)) * _pageHeight.Size).px();
 
                     SetBottomSpacingDivHeight(newBottomSpacingDivHeight);
                 }
@@ -390,8 +353,8 @@ namespace Tesserae.Components
                     _pagesCount,
                     _rowsCount,
                     _currentPage,
-                    _componentHeightInPixels,
-                    _pageHeightInPixels,
+                    _componentHeightInPixels = _componentHeight,
+                    _pageHeightInPixels = _pageHeight,
                     _currentScrollPosition,
                     _currentScrollDirection
                 });
