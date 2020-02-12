@@ -1,13 +1,16 @@
 using System;
+using Tesserae.Helpers.HTML;
 
 namespace Tesserae.Components
 {
-    public interface IDetailsListColumn<T>
+    public interface IDetailsListColumn : IComponent
     {
-        string Name                      { get; }
+        string Name             { get; }
 
-        Func<T, IComponent> OnItemRender { get; }
+        WidthDimension MinWidth { get; }
 
-        Action OnColumnClick             { get; }
+        WidthDimension MaxWidth { get; }
+
+        Action OnColumnClick    { get; }
     }
 }

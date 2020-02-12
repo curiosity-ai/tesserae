@@ -14,22 +14,32 @@ namespace Tesserae.Tests.Samples
             var detailsList =
                 DetailList<DetailsListItem>()
                     .WithColumn(
-                        new DetailsListColumn(
+                        new DetailsListIconColumn(
                             name: "File Type",
                             minWidth: 16.ToPixelWidth(),
                             maxWidth: 16.ToPixelWidth(),
-                            isIconOnly: true,
-                            onItemRender: detailsListItem =>
-                                new Image(
-                                    _(
-                                            src: $"assets/img/{detailsListItem.IconName}",
-                                            className: detailsListItem.ClassName)
-                                    .WithAlt("File Icon"))))
+                            icon: "far fa-file"))
                     .WithColumn(
                         new DetailsListColumn(
                             name: "File Name",
                             minWidth: 210.ToPixelWidth(),
-                            maxWidth: 350.ToPercentageWidth()));
+                            maxWidth: 350.ToPixelWidth()))
+                    .WithColumn(
+                        new DetailsListColumn(
+                                name: "Date Modified",
+                                minWidth: 70.ToPixelWidth(),
+                                maxWidth: 350.ToPixelWidth()))
+                    .WithColumn(
+                        new DetailsListColumn(
+                                name: "Modified By",
+                                minWidth: 70.ToPixelWidth(),
+                                maxWidth: 90.ToPixelWidth()))
+                    .WithColumn(
+                        new DetailsListColumn(
+                                name: "File Size",
+                                minWidth: 70.ToPixelWidth(),
+                                maxWidth: 90.ToPixelWidth()))
+                    .WithListItems(null);
 
             _content = Stack().Children(detailsList);
         }

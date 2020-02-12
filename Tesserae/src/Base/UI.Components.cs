@@ -163,6 +163,10 @@ namespace Tesserae
                 columnsPerRow);
         }
 
-        public static DetailsList<TListItem> DetailList<TListItem>() => new DetailsList<TListItem>();
+        public static DetailsList<TDetailsListItem> DetailList<TDetailsListItem>()
+            where TDetailsListItem : class, IDetailsListItem
+        {
+            return new DetailsList<TDetailsListItem>();
+        }
     }
 }

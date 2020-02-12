@@ -1,0 +1,9 @@
+.tss-detailslist, .tss-detailslist-column-header {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+}
+
+.tss-detailslist-column-header {
+    float: left;
+}

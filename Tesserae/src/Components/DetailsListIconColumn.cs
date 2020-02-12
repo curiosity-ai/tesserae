@@ -5,17 +5,19 @@ using static Retyped.dom;
 
 namespace Tesserae.Components
 {
-    public class DetailsListColumn : IDetailsListColumn
+    public class DetailsListIconColumn : IDetailsListColumn
     {
-        public DetailsListColumn(
+        public DetailsListIconColumn(
             string name,
             WidthDimension minWidth,
             WidthDimension maxWidth,
+            string icon,
             Action onColumnClick = null)
         {
             Name          = name;
             MinWidth      = minWidth;
             MaxWidth      = maxWidth;
+            Icon          = icon;
             OnColumnClick = onColumnClick;
         }
 
@@ -25,13 +27,15 @@ namespace Tesserae.Components
 
         public WidthDimension MaxWidth { get; }
 
+        public string Icon             { get; }
+
         public Action OnColumnClick    { get; }
 
         public HTMLElement Render()
         {
             var htmlElement = Div(_());
 
-            htmlElement.innerText = Name;
+            htmlElement.appendChild(Icon(Icon).Render());
 
             return htmlElement;
         }
