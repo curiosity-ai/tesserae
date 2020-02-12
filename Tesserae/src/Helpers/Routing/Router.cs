@@ -105,6 +105,14 @@ namespace Tesserae
         public static void Register(string uniqueIdentifier, string path, Action<Parameters> action)
         {
             uniqueIdentifier = uniqueIdentifier.ToLower();
+            if (_routes.ContainsKey(uniqueIdentifier))
+            {
+                // 2020-02-12 DWR: The last thing that the Mosaik App class does is register default routes - this means that the default routes are declared after any routes custom to the current app and this means that it
+                // wouldn't be possible to have custom home pages (for example).. unless we ignore any repeat calls that specify the same uniqueIdentifier. Ignoring them allows the current app to specify a "home" route and
+                // for the "home" route in the DefaultRouting.Initialize to then be ignored.
+                return;
+            }
+
             var lowerCaseID = $"path-{uniqueIdentifier}";
             var upperCaseID = $"PATH-{uniqueIdentifier.ToUpper()}";
 
