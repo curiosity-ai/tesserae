@@ -22,12 +22,12 @@ namespace Tesserae.Tests.Samples
             .Section(Stack().Children(
                 SampleTitle("Best Practices"),
                 Stack().Horizontal().Children(
-                Stack().Width(40, Unit.Percents).Children(
+                Stack().Width(40, Unit.Percent).Children(
                     SampleSubTitle("Do"),
                     SampleDo("Explain what is the group this separator introduces"),
                     SampleDo("Be short and concise.")
                     ),
-                Stack().Width(40, Unit.Percents).Children(
+                Stack().Width(40, Unit.Percent).Children(
                     SampleSubTitle("Don't"),
                     SampleDont("Use long group names")))))
             .Section(Stack().Children(

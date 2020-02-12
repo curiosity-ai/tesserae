@@ -21,13 +21,13 @@ namespace Tesserae.Tests.Samples
             .Section(Stack().Children(
                 SampleTitle("Best Practices"),
                 Stack().Horizontal().Children(
-                Stack().Width(40, Unit.Percents).Children(
+                Stack().Width(40, Unit.Percent).Children(
                     SampleSubTitle("Do"),
                     SampleDo("Filter files by supported types"),
                     SampleDo("Provide a message for the file drop area"),
                     SampleDo("Attach the OnUpload event handler")
                     ),
-            Stack().Width(40, Unit.Percents).Children(
+            Stack().Width(40, Unit.Percent).Children(
                 SampleSubTitle("Don't"),
                 SampleDont("TODO")))))
                 .Section(Stack().Children(

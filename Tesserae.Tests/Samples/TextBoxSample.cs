@@ -20,7 +20,7 @@ namespace Tesserae.Tests.Samples
             .Section(Stack().Children(
                 SampleTitle("Best Practices"),
                 Stack().Horizontal().Children(
-                Stack().Width(40, Unit.Percents).Children(
+                Stack().Width(40, Unit.Percent).Children(
                     SampleSubTitle("Do"),
                     SampleDo("Use the TextBox to accept data input on a form or page."),
                     SampleDo("Label the TextBox with a helpful name."),
@@ -31,7 +31,7 @@ namespace Tesserae.Tests.Samples
                     SampleDo("Allow for selection, copy and paste of field data."),
                     SampleDo("Ensure that the TextBox is functional through use of mouse/keyboard or touch when available.")
                 ),
-                Stack().Width(40, Unit.Percents).Children(
+                Stack().Width(40, Unit.Percent).Children(
                     SampleSubTitle("Don't"),
                     SampleDont("Don't use a TextBox to render basic copy as part of a body element of a page."),
                     SampleDont("Don't provide an unlabeled TextBox and expect that users will know what to do with it."),
@@ -43,7 +43,7 @@ namespace Tesserae.Tests.Samples
             .Section(Stack().Children(
                 SampleTitle("Usage"),
                 TextBlock("Basic TextBox").Medium(),
-                Stack().Width(40, Unit.Percents).Children(
+                Stack().Width(40, Unit.Percent).Children(
                     Label("Standard").SetContent(TextBox()),
                     Label("Disabled").Disabled().SetContent(TextBox("I am disabled").Disabled()),
                     Label("Read-only").SetContent(TextBox("I am read-only").ReadOnly()),

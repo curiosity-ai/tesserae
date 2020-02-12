@@ -108,11 +108,11 @@ namespace Tesserae.Components
                 detailsListHeader.appendChild(columnHeader);
             }
 
-            var totalWidth = _detailsListColumns.Sum(detailsListColumn => detailsListColumn.Width.Value);
+            var totalWidth = _detailsListColumns.Sum(detailsListColumn => detailsListColumn.Width.Size);
 
             _detailsListContainer.SetStyle(cssStyleDeclaration =>
             {
-                cssStyleDeclaration.width = (totalWidth + (totalWidth / 4)) + "px";
+                cssStyleDeclaration.width = (totalWidth + (totalWidth / 4)).px().ToString();
             });
 
             _detailsListColumnHeadersRendered = true;
@@ -170,7 +170,7 @@ namespace Tesserae.Components
 
             _detailsListContainer.SetStyle(cssStyleDeclaration =>
             {
-                cssStyleDeclaration.height = $"{pageHeight}px";
+                cssStyleDeclaration.height = pageHeight.px().ToString();
             });
         }
     }

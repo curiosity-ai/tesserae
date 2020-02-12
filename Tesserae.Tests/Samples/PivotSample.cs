@@ -21,11 +21,11 @@ namespace Tesserae.Tests.Samples
                 .Section(Stack().Children(
                                        SampleTitle("Best Practices"),
                                        Stack().Horizontal().Children(
-                                           Stack().Width(40, Unit.Percents).Children(
+                                           Stack().Width(40, Unit.Percent).Children(
                                                SampleSubTitle("Do"),
                                                SampleDo("TODO")
                                            ),
-                                           Stack().Width(40, Unit.Percents).Children(
+                                           Stack().Width(40, Unit.Percent).Children(
                                                SampleSubTitle("Don't"),
                                                SampleDont("TODO")
                                            )

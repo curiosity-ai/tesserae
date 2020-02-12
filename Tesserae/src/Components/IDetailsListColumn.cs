@@ -1,5 +1,4 @@
 using System;
-using Tesserae.Helpers.HTML;
 
 namespace Tesserae.Components
 {
@@ -7,7 +6,7 @@ namespace Tesserae.Components
     {
         string Title         { get; }
 
-        WidthDimension Width { get; }
+        UnitSize Width       { get; }
 
         bool IsRowHeader     { get; }
 

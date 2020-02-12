@@ -38,12 +38,12 @@ namespace Tesserae.Tests.Samples
                         .Section(Stack().Children(
                             SampleTitle("Best Practices"),
                             Stack().Horizontal().Children(
-                                Stack().Width(40, Unit.Percents).Children(
+                                Stack().Width(40, Unit.Percent).Children(
                                     SampleSubTitle("Do"),
                                     SampleDo("Use Modals for actionable interactions, such as needing the user to provide information or change settings."),
                                     SampleDo("When possible, try a non-blocking Modal before resorting to a blocking Modal."),
                                     SampleDo("Always have at least one focusable element inside a Modal.")),
-                            Stack().Width(40, Unit.Percents).Children(
+                            Stack().Width(40, Unit.Percent).Children(
                                 SampleSubTitle("Don't"),
                                 SampleDont("Don’t overuse Modals. In some cases they can be perceived as interrupting workflow, and too many can be a bad user experience.")))))
                         .Section(Stack().Children(

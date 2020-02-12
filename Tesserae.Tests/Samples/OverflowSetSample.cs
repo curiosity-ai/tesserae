@@ -22,11 +22,11 @@ namespace Tesserae.Tests.Samples
             .Section(Stack().Children(
                 SampleTitle("Best Practices"),
                 Stack().Horizontal().Children(
-                Stack().Width(40, Unit.Percents).Children(
+                Stack().Width(40, Unit.Percent).Children(
                     SampleSubTitle("Do"),
                     SampleDo("Place Breadcrumbs at the top of a page, above a list of items, or above the main content of a page.")
                     ),
-            Stack().Width(40, Unit.Percents).Children(
+            Stack().Width(40, Unit.Percent).Children(
                 SampleSubTitle("Don't"),
                 SampleDont("Don't use Breadcrumbs as a primary way to navigate an app or site.")))))
                 .Section(Stack().Children(

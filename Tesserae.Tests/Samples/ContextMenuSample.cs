@@ -21,13 +21,13 @@ namespace Tesserae.Tests.Samples
                         .Section(Stack().Children(SampleTitle("Overview"),
                                                  TextBlock("ContextualMenus are lists of commands that are based on the context of selection, mouse hover or keyboard focus. They are one of the most effective and highly used command surfaces, and can be used in a variety of places.")))
                         .Section(Stack().Children(SampleTitle("Best Practices"),
-                                                  Stack().Horizontal().Children(Stack().Width(40, Unit.Percents).Children(
+                                                  Stack().Horizontal().Children(Stack().Width(40, Unit.Percent).Children(
                                                     SampleSubTitle("Do"),
                                                     SampleDo("Use to display commands."),
                                                     SampleDo("Divide groups of commands with rules."),
                                                     SampleDo("Use selection checks without icons."),
                                                     SampleDo("Provide submenus for sets of related commands that aren’t as critical as others.")),
-                                                  Stack().Width(40, Unit.Percents).Children(
+                                                  Stack().Width(40, Unit.Percent).Children(
                                                     SampleSubTitle("Don't"),
                                                     SampleDont("Use them to display content."),
                                                     SampleDont("Show commands as one large group."),
@@ -35,7 +35,7 @@ namespace Tesserae.Tests.Samples
                                                     SampleDont("Create submenus of submenus.")))))
                         .Section(Stack().Children(SampleTitle("Usage"),
                                                   TextBlock("Basic ContextMenus").Medium(),
-                                                  Stack().Width(40, Unit.Percents).Children(
+                                                  Stack().Width(40, Unit.Percent).Children(
                                                     Label("Standard with Headers").SetContent(
                                                         Button("Open").Var(out var btn2).OnClick((s, e) =>
                                                             ContextMenu().Items(

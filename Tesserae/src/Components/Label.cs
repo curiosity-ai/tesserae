@@ -114,7 +114,7 @@ namespace Tesserae.Components
 
         public Label SetMinLabelWidth(Unit unit, double value)
         {
-            _label.style.minWidth = Units.Translate(unit, value);
+            _label.style.minWidth = UnitSize.Translate(unit, value);
             return this;
         }
     }

@@ -103,7 +103,7 @@ namespace Tesserae.Components
 
             if (item.style.width == "auto") return new ItemSize() { Type = Unit.Auto };
             if (item.style.width.EndsWith("px")) return new ItemSize() { Type = Unit.Pixels, Value = float.Parse(item.style.width.Substring(0,item.style.width.Length - 2)) };
-            if (item.style.width.EndsWith("%")) return new ItemSize() { Type = Unit.Percents, Value = float.Parse(item.style.width.Substring(0, item.style.width.Length - 1)) };
+            if (item.style.width.EndsWith("%")) return new ItemSize() { Type = Unit.Percent, Value = float.Parse(item.style.width.Substring(0, item.style.width.Length - 1)) };
             if (item.style.width.EndsWith("vw")) return new ItemSize() { Type = Unit.Viewport, Value = float.Parse(item.style.width.Substring(0, item.style.width.Length - 2)) };
 
             throw new Exception("Incorrect Stack item width.");
@@ -116,7 +116,7 @@ namespace Tesserae.Components
             {
                 case Unit.Auto: item.style.width = "auto"; break;
                 case Unit.Pixels: item.style.width = $"{size:0.####}px"; break;
-                case Unit.Percents: item.style.width = $"{size:0.####}%"; break;
+                case Unit.Percent: item.style.width = $"{size:0.####}%"; break;
                 case Unit.Viewport: item.style.width = $"{size:0.####}vw"; break;
             }
             item.setAttribute("tss-stk-w","");
@@ -147,7 +147,7 @@ namespace Tesserae.Components
             {
                 case Unit.Auto: item.style.minWidth = "auto"; break;
                 case Unit.Pixels: item.style.minWidth = $"{size:0.####}px"; break;
-                case Unit.Percents: item.style.minWidth = $"{size:0.####}%"; break;
+                case Unit.Percent: item.style.minWidth = $"{size:0.####}%"; break;
                 case Unit.Viewport: item.style.minWidth = $"{size:0.####}vw"; break;
             }
             item.setAttribute("tss-stk-mw", "");
@@ -160,7 +160,7 @@ namespace Tesserae.Components
             {
                 case Unit.Auto: item.style.maxWidth = "auto"; break;
                 case Unit.Pixels: item.style.maxWidth = $"{size:0.####}px"; break;
-                case Unit.Percents: item.style.maxWidth = $"{size:0.####}%"; break;
+                case Unit.Percent: item.style.maxWidth = $"{size:0.####}%"; break;
                 case Unit.Viewport: item.style.maxWidth = $"{size:0.####}vw"; break;
             }
             item.setAttribute("tss-stk-mxw", "");
@@ -171,7 +171,7 @@ namespace Tesserae.Components
             var item = GetItem(component);
             if (item.style.height == "auto") return new ItemSize() { Type = Unit.Auto };
             if (item.style.height.EndsWith("px")) return new ItemSize() { Type = Unit.Pixels, Value = float.Parse(item.style.height.Substring(0, item.style.height.Length - 2)) };
-            if (item.style.height.EndsWith("%")) return new ItemSize() { Type = Unit.Percents, Value = float.Parse(item.style.height.Substring(0, item.style.height.Length - 1)) };
+            if (item.style.height.EndsWith("%")) return new ItemSize() { Type = Unit.Percent, Value = float.Parse(item.style.height.Substring(0, item.style.height.Length - 1)) };
             if (item.style.height.EndsWith("vh")) return new ItemSize() { Type = Unit.Viewport, Value = float.Parse(item.style.height.Substring(0, item.style.height.Length - 2)) };
 
             throw new Exception("Incorrect Stack item height.");
@@ -184,7 +184,7 @@ namespace Tesserae.Components
             {
                 case Unit.Auto: item.style.height = "auto"; break;
                 case Unit.Pixels: item.style.height = $"{size:0.####}px"; break;
-                case Unit.Percents: item.style.height = $"{size:0.####}%"; break;
+                case Unit.Percent: item.style.height = $"{size:0.####}%"; break;
                 case Unit.Viewport: item.style.height = $"{size:0.####}vh"; break;
             }
             item.setAttribute("tss-stk-h", "");
@@ -193,42 +193,42 @@ namespace Tesserae.Components
         public static void SetMinHeight(IComponent component, Unit sizeType, float size = 0)
         {
             var item = GetCorrectItemToApplyStyle(component);
-            item.style.minHeight = Units.Translate(sizeType, size);
+            item.style.minHeight = UnitSize.Translate(sizeType, size);
             item.setAttribute("tss-stk-mh", "");
         }
 
         public static void SetMaxHeight(IComponent component, Unit sizeType, float size = 0)
         {
             var item = GetCorrectItemToApplyStyle(component);
-            item.style.maxHeight = Units.Translate(sizeType, size);
+            item.style.maxHeight = UnitSize.Translate(sizeType, size);
             item.setAttribute("tss-stk-mxh", "");
         }
 
         public static void SetMarginLeft(IComponent component, Unit sizeType, float size = 0)
         {
             var item = GetCorrectItemToApplyStyle(component);
-            item.style.marginLeft = Units.Translate(sizeType, size);
+            item.style.marginLeft = UnitSize.Translate(sizeType, size);
             item.setAttribute("tss-stk-m", "");
         }
 
         public static void SetMarginRight(IComponent component, Unit sizeType, float size = 0)
         {
             var item = GetCorrectItemToApplyStyle(component);
-            item.style.marginRight = Units.Translate(sizeType, size);
+            item.style.marginRight = UnitSize.Translate(sizeType, size);
             item.setAttribute("tss-stk-m", "");
         }
 
         public static void SetMarginTop(IComponent component, Unit sizeType, float size = 0)
         {
             var item = GetCorrectItemToApplyStyle(component);
-            item.style.marginTop= Units.Translate(sizeType, size);
+            item.style.marginTop= UnitSize.Translate(sizeType, size);
             item.setAttribute("tss-stk-m", "");
         }
 
         public static void SetMarginBottom(IComponent component, Unit sizeType, float size = 0)
         {
             var item = GetCorrectItemToApplyStyle(component);
-            item.style.marginBottom = Units.Translate(sizeType, size);
+            item.style.marginBottom = UnitSize.Translate(sizeType, size);
             item.setAttribute("tss-stk-m", "");
         }
 
@@ -236,28 +236,28 @@ namespace Tesserae.Components
         public static void SetPaddingLeft(IComponent component, Unit sizeType, float size = 0)
         {
             var item = GetCorrectItemToApplyStyle(component);
-            item.style.paddingLeft = Units.Translate(sizeType, size);
+            item.style.paddingLeft = UnitSize.Translate(sizeType, size);
             item.setAttribute("tss-stk-p", "");
         }
 
         public static void SetPaddingRight(IComponent component, Unit sizeType, float size = 0)
         {
             var item = GetCorrectItemToApplyStyle(component);
-            item.style.paddingRight = Units.Translate(sizeType, size);
+            item.style.paddingRight = UnitSize.Translate(sizeType, size);
             item.setAttribute("tss-stk-p", "");
         }
 
         public static void SetPaddingTop(IComponent component, Unit sizeType, float size = 0)
         {
             var item = GetCorrectItemToApplyStyle(component);
-            item.style.paddingTop = Units.Translate(sizeType, size);
+            item.style.paddingTop = UnitSize.Translate(sizeType, size);
             item.setAttribute("tss-stk-p", "");
         }
 
         public static void SetPaddingBottom(IComponent component, Unit sizeType, float size = 0)
         {
             var item = GetCorrectItemToApplyStyle(component);
-            item.style.paddingBottom = Units.Translate(sizeType, size);
+            item.style.paddingBottom = UnitSize.Translate(sizeType, size);
             item.setAttribute("tss-stk-p", "");
         }
 
@@ -306,7 +306,7 @@ namespace Tesserae.Components
         {
             InnerElement.replaceChild(GetItem(newComponent), GetItem(oldComponent));
         }
-        
+
         public virtual HTMLElement Render()
         {
             return InnerElement;
@@ -577,7 +577,7 @@ namespace Tesserae.Components
 
         public static T WidthStretch<T>(this T component) where T : IComponent
         {
-            Stack.SetWidth(component, Unit.Percents, 100);
+            Stack.SetWidth(component, Unit.Percent, 100);
             return component;
         }
 
@@ -592,7 +592,7 @@ namespace Tesserae.Components
             Stack.SetHeight(component, unit, value);
             return component;
         }
-        
+
         public static T MinHeight<T>(this T component, float value, Unit unit) where T : IComponent
         {
             Stack.SetMinHeight(component, unit, value);
@@ -607,16 +607,16 @@ namespace Tesserae.Components
 
         public static T HeightStretch<T>(this T component) where T : IComponent
         {
-            Stack.SetHeight(component, Unit.Percents, 100);
+            Stack.SetHeight(component, Unit.Percent, 100);
             return component;
         }
 
         public static T MinHeightStretch<T>(this T component) where T : IComponent
         {
-            Stack.SetMinHeight(component, Unit.Percents, 100);
+            Stack.SetMinHeight(component, Unit.Percent, 100);
             return component;
         }
-        
+
         public static T Grow<T>(this T component, int grow) where T : IComponent
         {
             Stack.SetGrow(component, grow);
@@ -633,30 +633,6 @@ namespace Tesserae.Components
         {
             Stack.SetShrink(component, false);
             return component;
-        }
-    }
-
-    public enum Unit
-    {
-        Auto,
-        Percents,
-        Viewport,
-        Pixels
-    }
-
-    public static class Units
-    {
-        public static string Translate(Unit unit, double value)
-        {
-            switch (unit)
-            {
-                case Unit.Auto: return "auto";
-                case Unit.Pixels: return $"{value:0.####}px";
-                case Unit.Percents: return $"{value:0.####}%";
-                case Unit.Viewport: return $"{value:0.####}vh";
-            }
-
-            throw new NotSupportedException();
         }
     }
 }

@@ -25,11 +25,11 @@ namespace Tesserae.Tests.Samples
                                             Stack()
                                                .Horizontal()
                                                .Children(Stack()
-                                                         .Width(40, Unit.Percents)
+                                                         .Width(40, Unit.Percent)
                                                          .Children(SampleSubTitle("Do"),
                                                                   SampleDo("Use anywhere information can be edited easily by users.")),
                                                          Stack()
-                                                         .Width(40, Unit.Percents)
+                                                         .Width(40, Unit.Percent)
                                                          .Children(SampleSubTitle("Don't"),
                                                            SampleDont("Don’t forget to register a OnSave() callback")))))
                       .Section(Stack().Children(

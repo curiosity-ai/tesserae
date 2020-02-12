@@ -1,5 +1,4 @@
 using System;
-using Tesserae.Helpers.HTML;
 using static Tesserae.UI;
 using static Retyped.dom;
 
@@ -9,7 +8,7 @@ namespace Tesserae.Components
     {
         public DetailsListColumn(
             string title,
-            WidthDimension width,
+            UnitSize width,
             bool isRowHeader = false,
             Action onColumnClick = null)
         {
@@ -21,7 +20,7 @@ namespace Tesserae.Components
 
         public string Title            { get; }
 
-        public WidthDimension Width    { get; }
+        public UnitSize Width          { get; }
 
         public bool IsRowHeader        { get; }
 

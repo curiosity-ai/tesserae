@@ -18,25 +18,25 @@ namespace Tesserae.Tests.Samples
                     .WithColumn(
                         new DetailsListIconColumn(
                             title: "File Type",
-                            width: 16.ToPixelWidth(),
+                            width: 16.px(),
                             icon: "far fa-file"))
                     .WithColumn(
                         new DetailsListColumn(
                             title: "File Name",
-                            width: 350.ToPixelWidth(),
+                            width: 350.px(),
                             isRowHeader: true))
                     .WithColumn(
                         new DetailsListColumn(
                                 title: "Date Modified",
-                                width: 150.ToPixelWidth()))
+                                width: 150.px()))
                     .WithColumn(
                         new DetailsListColumn(
                                 title: "Modified By",
-                                width: 150.ToPixelWidth()))
+                                width: 150.px()))
                     .WithColumn(
                         new DetailsListColumn(
                                 title: "File Size",
-                                width: 100.ToPixelWidth()))
+                                width: 100.px()))
                     .WithListItems(GetDetailsListItems());
 
             _content = Stack().Children(detailsList);

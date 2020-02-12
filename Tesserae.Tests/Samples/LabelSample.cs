@@ -21,13 +21,13 @@ namespace Tesserae.Tests.Samples
             .Section(Stack().Children(
                 SampleTitle("Best Practices"),
                 Stack().Horizontal().Children(
-                Stack().Width(40, Unit.Percents).Children(
+                Stack().Width(40, Unit.Percent).Children(
                     SampleSubTitle("Do"),
                     SampleDo("Use sentence casing, e.g. “First name”."),
                     SampleDo("Be short and concise."),
                     SampleDo("When adding a Label to components, use the text as a noun or short noun phrase.")
                     ),
-            Stack().Width(40, Unit.Percents).Children(
+            Stack().Width(40, Unit.Percent).Children(
                 SampleSubTitle("Don't"),
                 SampleDo("Use Labels as instructional text, e.g. “Click to get started”."),
                 SampleDo("Don’t use full sentences or complex punctuation (colons, semicolons, etc.).")))))
