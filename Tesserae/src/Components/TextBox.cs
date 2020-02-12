@@ -45,11 +45,25 @@ namespace Tesserae.Components
             {
                 if (IsReadOnly != value)
                 {
-                    if (value) InnerElement.removeAttribute("readonly");
-                    else InnerElement.setAttribute("readonly", "");
+                    if (value) InnerElement.setAttribute("readonly", "");
+                    else InnerElement.removeAttribute("readonly");
                 }
             }
         }
+
+        public bool IsPassword
+        {
+            get { return InnerElement.type == "password"; }
+            set
+            {
+                if (IsPassword != value)
+                {
+                    if (value) InnerElement.type = "password";
+                    else InnerElement.type = "";
+                }
+            }
+        }
+
 
         public string Text
         {
@@ -100,6 +114,7 @@ namespace Tesserae.Components
                 }
             }
         }
+
         public bool IsRequired
         {
             get { return _container.classList.contains("tss-required"); }
@@ -142,9 +157,9 @@ namespace Tesserae.Components
             return this;
         }
 
-        public TextBox SetPlaceholder(string error)
+        public TextBox SetPlaceholder(string placeholder)
         {
-            Placeholder = error;
+            Placeholder = placeholder;
             return this;
         }
 
@@ -157,6 +172,12 @@ namespace Tesserae.Components
         public TextBox ReadOnly()
         {
             IsReadOnly = true;
+            return this;
+        }
+
+        public TextBox Password()
+        {
+            IsPassword = true;
             return this;
         }
 

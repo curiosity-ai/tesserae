@@ -17,13 +17,9 @@ namespace Tesserae.Components
                 var s = (T)sender;
                 var msg = validate(s) ?? "";
                 var isInvalid = !string.IsNullOrWhiteSpace(msg);
-                bool shouldRaise = isInvalid != s.IsInvalid || s.Error != msg;
                 s.Error = msg;
                 s.IsInvalid = isInvalid;
-                if (shouldRaise)
-                {
-                    validator?.RaiseOnValidation();
-                }
+                validator?.RaiseOnValidation();
             }
 
             component.Attach(handler, mode);

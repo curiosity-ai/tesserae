@@ -19,6 +19,10 @@ namespace Tesserae.Components
             AttachClick();
             AttachFocus();
             AttachBlur();
+            if (string.IsNullOrEmpty(text))
+            {
+                InnerElement.style.minWidth = "unset";
+            }
         }
 
         /// <summary>
@@ -27,7 +31,18 @@ namespace Tesserae.Components
         public string Text
         {
             get { return _textSpan.innerText; }
-            set { _textSpan.innerText = value; }
+            set 
+            {
+                _textSpan.innerText = value;
+                if (string.IsNullOrEmpty(value))
+                {
+                    InnerElement.style.minWidth = "unset";
+                }
+                else
+                {
+                    InnerElement.style.minWidth = "";
+                }
+            }
         }
 
         /// <summary>
@@ -35,8 +50,8 @@ namespace Tesserae.Components
         /// </summary>
         public string Title
         {
-            get { return _textSpan.title; }
-            set { _textSpan.title = value; }
+            get { return InnerElement.title; }
+            set { InnerElement.title = value; }
         }
 
         /// <summary>
@@ -65,6 +80,28 @@ namespace Tesserae.Components
                 }
 
                 _iconSpan.className = value;
+            }
+        }
+
+          /// <summary>
+        /// Gets or set whenever button is rendered like a link 
+        /// </summary>
+        public bool IsLink
+        {
+            get { return InnerElement.classList.contains("tss-btn-link"); }
+            set
+            {
+                if (value != IsLink)
+                {
+                    if (value)
+                    {
+                        InnerElement.classList.add("tss-btn-link");
+                    }
+                    else
+                    {
+                        InnerElement.classList.remove("tss-btn-link");
+                    }
+                }
             }
         }
 
@@ -177,6 +214,28 @@ namespace Tesserae.Components
             }
         }
 
+        public bool CanWrap
+        {
+            get
+            {
+                return !InnerElement.classList.contains("tss-text-ellipsis");
+            }
+            set
+            {
+                if (value != CanWrap)
+                {
+                    if (value)
+                    {
+                        InnerElement.classList.remove("tss-text-ellipsis");
+                    }
+                    else
+                    {
+                        InnerElement.classList.add("tss-text-ellipsis");
+                    }
+                }
+            }
+        }
+
         public TextSize Size
         {
             get
@@ -227,11 +286,42 @@ namespace Tesserae.Components
             }
         }
 
+        public TextAlign TextAlign
+        {
+            get
+            {
+                var curFontSize = InnerElement.classList.FirstOrDefault(t => t.StartsWith("tss-textalign-"));
+                if (curFontSize is object && Enum.TryParse<TextAlign>(curFontSize.Substring("tss-textalign-".Length), true, out var result))
+                {
+                    return result;
+                }
+                else
+                {
+                    return TextAlign.Center; //Button default is center
+                }
+            }
+            set
+            {
+                var curFontSize = InnerElement.classList.FirstOrDefault(t => t.StartsWith("tss-textalign-"));
+                if (curFontSize is object)
+                {
+                    InnerElement.classList.remove(curFontSize);
+                }
+                InnerElement.classList.add($"tss-textalign-{value.ToString().ToLower()}");
+            }
+        }
+
         public override HTMLElement Render()
         {
             return InnerElement;
         }
 
+
+        public Button Link()
+        {
+            IsLink = true;
+            return this;
+        }
 
         public Button Primary()
         {
@@ -293,6 +383,25 @@ namespace Tesserae.Components
         public Button SetIcon(string icon)
         {
             Icon = icon;
+            return this;
+        }
+
+        public Button ReplaceContent(IComponent content)
+        {
+            ClearChildren(InnerElement);
+            InnerElement.appendChild(content.Render());
+            return this;
+        }
+
+        public Button Wrap()
+        {
+            CanWrap = true;
+            return this;
+        }
+
+        public Button NoWrap()
+        {
+            CanWrap = false;
             return this;
         }
     }

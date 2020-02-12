@@ -8,10 +8,10 @@ namespace Tesserae.Components
     public class Modal : Layer
     {
         private readonly HTMLElement _closeButton;
-        private readonly HTMLElement _modalHeader;
-        private readonly HTMLElement _modalFooter;
-        private readonly HTMLElement _modalOverlay;
-        private readonly HTMLElement _modalContent;
+        protected readonly HTMLElement _modalHeader;
+        protected readonly HTMLElement _modalFooter;
+        protected readonly HTMLElement _modalOverlay;
+        protected readonly HTMLElement _modalContent;
 
         private readonly HTMLElement _modalHeaderCommands;
         private readonly HTMLElement _modalFooterCommands;
@@ -21,7 +21,7 @@ namespace Tesserae.Components
         private bool _isDragged;
         private TranslationPoint _startPoint;
 
-        protected readonly HTMLElement _modal;
+        internal readonly HTMLElement _modal;
 
         public delegate void OnHideHandler(Modal sender);
 
@@ -61,7 +61,10 @@ namespace Tesserae.Components
         {
             _modalHeader.style.display = "";
             ClearChildren(_modalHeaderContents);
-            _modalHeaderContents.appendChild(header.Render());
+            if (header is object)
+            {
+                _modalHeaderContents.appendChild(header.Render());
+            }
             return this;
         }
 
@@ -69,18 +72,24 @@ namespace Tesserae.Components
         {
             _modalFooter.style.display = "";
             ClearChildren(_modalFooterContents);
-            _modalFooterContents.appendChild(footer.Render());
+            if(footer is object)
+            {
+                _modalFooterContents.appendChild(footer.Render());
+            }
             return this;
         }
 
         public Modal SetHeaderCommands(params IComponent[] commands)
         {
             _modalHeader.style.display = "";
-            ClearChildren(_modalHeader);
-            
-            foreach(var command in commands)
+            ClearChildren(_modalHeaderCommands);
+
+            if (commands is object)
             {
-                _modalHeaderCommands.appendChild(command.Render());
+                foreach (var command in commands)
+                {
+                    _modalHeaderCommands.appendChild(command.Render());
+                }
             }
 
             return this;
@@ -89,11 +98,14 @@ namespace Tesserae.Components
         public Modal SetFooterCommands(params IComponent[] commands)
         {
             _modalFooter.style.display = "";
-            ClearChildren(_modalFooter);
+            ClearChildren(_modalFooterCommands);
 
-            foreach (var command in commands)
+            if (commands is object)
             {
-                _modalFooterCommands.appendChild(command.Render());
+                foreach (var command in commands)
+                {
+                    _modalFooterCommands.appendChild(command.Render());
+                }
             }
 
             return this;
@@ -151,12 +163,12 @@ namespace Tesserae.Components
             }
         }
 
-        public bool Dark
+        public bool IsDark
         {
             get { return _contentHtml.classList.contains("dark"); }
             set
             {
-                if (value != Dark)
+                if (value != IsDark)
                 {
                     if (value)
                     {
@@ -388,11 +400,11 @@ namespace Tesserae.Components
 
         public static T Dark<T>(this T modal) where T : Modal
         {
-            modal.Dark = true;
+            modal.IsDark = true;
             return modal;
         }
 
-        public static T Draggabler<T>(this T modal) where T : Modal
+        public static T Draggable<T>(this T modal) where T : Modal
         {
             modal.IsDraggable = true;
             return modal;
@@ -409,6 +421,5 @@ namespace Tesserae.Components
             modal.IsNonBlocking = false;
             return modal;
         }
-
     }
 }

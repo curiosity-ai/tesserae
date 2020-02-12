@@ -47,19 +47,16 @@ namespace Tesserae.Tests.Samples
                 Button("Open YesNoCancel").OnClick((c, ev)       => Dialog("Sample Dialog").YesNoCancel(() => response.Text("Clicked Yes"), () => response.Text("Clicked No"), () => response.Text("Clicked Cancel"))),
                 Button("Open Ok").OnClick((c, ev)                => Dialog("Sample Dialog").Ok(() => response.Text("Clicked Ok"))),
                 Button("Open RetryCancel").OnClick((c, ev)       => Dialog("Sample Dialog").RetryCancel(() => response.Text("Clicked Retry"), () => response.Text("Clicked Cancel")))),
-                Button("Open Modal YesNo").OnClick((c, ev)       => Dialog("Sample Dialog").NoLightDismiss().Dark().YesNo(() => response.Text("Clicked Yes"), () => response.Text("Clicked No"), y => y.Success().SetText("Yes!"), n => n.Danger().SetText("Nope"))),
-                Button("Open Modal YesNoCancel").OnClick((c, ev) => Dialog("Sample Dialog").NoLightDismiss().Dark().YesNoCancel(() => response.Text("Clicked Yes"), () => response.Text("Clicked No"), () => response.Text("Clicked Cancel"))),
-                Button("Open Modal Ok").OnClick((c, ev)          => Dialog("Sample Dialog").NoLightDismiss().Dark().Ok(() => response.Text("Clicked Ok"))),
-                Button("Open Modal RetryCancel").OnClick((c, ev) => Dialog("Sample Dialog").NoLightDismiss().Dark().RetryCancel(() => response.Text("Clicked Retry"), () => response.Text("Clicked Cancel"))),
+                Button("Open YesNo with dark overlay").OnClick((c, ev)       => Dialog("Sample Dialog").Dark().YesNo(() => response.Text("Clicked Yes"), () => response.Text("Clicked No"), y => y.Success().SetText("Yes!"), n => n.Danger().SetText("Nope"))),
+                Button("Open YesNoCancel with dark overlay").OnClick((c, ev) => Dialog("Sample Dialog").Dark().YesNoCancel(() => response.Text("Clicked Yes"), () => response.Text("Clicked No"), () => response.Text("Clicked Cancel"))),
+                Button("Open Ok with dark overlay").OnClick((c, ev)          => Dialog("Sample Dialog").Dark().Ok(() => response.Text("Clicked Ok"))),
+                Button("Open RetryCancel with dark overlay").OnClick((c, ev) => Dialog("Sample Dialog").Dark().RetryCancel(() => response.Text("Clicked Retry"), () => response.Text("Clicked Cancel"))),
                 response));
                 dialog.Content(Stack().Children(TextBlock("Lorem ipsum dolor sit amet, consectetur adipiscing elit."),
-                                                Toggle("Light Dismiss").Checked().OnChange((c, ev) => dialog.CanLightDismiss = c.IsChecked),
                                                 Toggle("Is draggable").OnChange((c, ev) => dialog.IsDraggable = c.IsChecked),
-                                                Toggle("Is dark overlay").OnChange((c, ev) => dialog.Dark = c.IsChecked).Checked(dialog.Dark),
-                                                Toggle("Is non-blocking").OnChange((c, ev) => dialog.IsNonBlocking = c.IsChecked),
-                                                Toggle("Hide close button").OnChange((c, ev) => dialog.ShowCloseButton = !c.IsChecked)))
-                      .SetFooter(Stack().HorizontalReverse()
-                                     .Children(Button("Don`t send").AlignEnd().OnClick((c, ev) => dialog.Hide()), Button("Send").Primary().AlignEnd().OnClick((c, ev) => dialog.Hide())));
+                                                Toggle("Is dark overlay").OnChange((c, ev) => dialog.IsDark = c.IsChecked).Checked(dialog.IsDark)
+                                                ))
+                      .Commands(Button("Send").Primary().AlignEnd().OnClick((c, ev) => dialog.Hide()), Button("Don`t send").AlignEnd().OnClick((c, ev) => dialog.Hide()));
         }
 
         public HTMLElement Render()

@@ -1,5 +1,5 @@
 ﻿/* Label */
-.tss-breadcrumb {
+.tss-overflowset {
     white-space: nowrap;
     padding-top: 0px;
     padding-right: 0px;
@@ -15,13 +15,13 @@
     overflow:hidden;
 }
 
-.tss-breadcrumb-overflow {
+.tss-overflowset-overflow {
     position: relative;
     display: flex;
     align-items: center;
 }
 
-/*.tss-breadcrumb-item {
+/*.tss-overflowset-item {
     list-style-type: none;
     margin-top: 0px;
     margin-right: 0px;
@@ -36,7 +36,7 @@
     align-items: center;
 }*/
 
-.tss-breadcrumb-chevron {
+.tss-overflowset-separator {
     display: inline-block;
     -webkit-font-smoothing: antialiased;
     font-style: normal;
@@ -44,44 +44,43 @@
     speak: none;
     color: var(--tss-secondary-foreground-color);
     font-size: 14px;
-    padding-right: 4px;
-    padding-left: 4px;
 }
 
-    .tss-breadcrumb-collapse {
+    .tss-overflowset-collapse {
         display:none;
     }
 
-.tss-breadcrumb .tss-btn {
+.tss-overflowset .tss-btn {
     min-width: unset;
     padding-left: 8px;
     padding-right: 8px;
     border-width: 0px !important;
 }
 
-.tss-breadcrumb .tss-btn.disabled {
-    background: transparent !important;
-    border-color: transparent !important;
-    border-width: 0px !important;
-}
+    .tss-overflowset  .tss-btn.disabled {
+        background: transparent !important;
+        border-color: transparent !important;
+        border-width: 0px !important;
+    }
 
 
-.tss-breadcrumb-opencolapsed{
+.tss-overflowset-opencolapsed {
     pointer-events:auto;
     cursor:pointer;
+    padding-left:8px;
 }
 
-.tss-breadcrumb.small {
+.tss-overflowset.small {
     font-size: 10px;
 }
 
-    .tss-breadcrumb.small > .tss-breadcrumb-chevron {
+    .tss-overflowset.small > .tss-overflowset-chevron {
         font-size: 10px;
         padding-right: 2px;
         padding-left: 2px;
     }
 
-    .tss-breadcrumb.small .tss-btn {
+    .tss-overflowset.small .tss-btn {
         font-size: 10px;
         min-width: unset;
         padding-left: 4px;

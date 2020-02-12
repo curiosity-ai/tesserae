@@ -8,9 +8,11 @@ namespace Tesserae.Components
     {
         private Dictionary<ICanValidate, ValidationHandler> RegisteredComponents = new Dictionary<ICanValidate, ValidationHandler>();
 
-        public event EventHandler<bool> OnValidation;
+        public event OnValidationHandler onValidation;
 
         internal delegate void ValidationHandler(object e);
+
+        public delegate void OnValidationHandler(bool isValid);
 
         private int CallsDepth = 0;
 
@@ -19,10 +21,16 @@ namespace Tesserae.Components
             RegisteredComponents.Add(component, handler);
         }
 
+        public Validator OnValidation(OnValidationHandler onValidation)
+        {
+            this.onValidation += onValidation;
+            return this;
+        }
+
         internal void RaiseOnValidation()
         {
-            OnValidation?.Invoke(this, IsValid);
             Revalidate();
+            onValidation?.Invoke(IsValid);
         }
 
         public bool IsValid

@@ -1,4 +1,6 @@
 ﻿using Retyped;
+using System;
+using System.Linq;
 using static Retyped.dom;
 using static Tesserae.UI;
 
@@ -66,6 +68,31 @@ namespace Tesserae.Components
             {
                 InnerElement.classList.remove(Weight.ToClassName());
                 InnerElement.classList.add(value.ToClassName());
+            }
+        }
+
+        public TextAlign TextAlign
+        {
+            get
+            {
+                var curFontSize = InnerElement.classList.FirstOrDefault(t => t.StartsWith("tss-textalign-"));
+                if (curFontSize is object && Enum.TryParse<TextAlign>(curFontSize.Substring("tss-textalign-".Length), true, out var result))
+                {
+                    return result;
+                }
+                else
+                {
+                    return TextAlign.Left;
+                }
+            }
+            set
+            {
+                var curFontSize = InnerElement.classList.FirstOrDefault(t => t.StartsWith("tss-textalign-"));
+                if (curFontSize is object)
+                {
+                    InnerElement.classList.remove(curFontSize);
+                }
+                InnerElement.classList.add($"tss-textalign-{value.ToString().ToLower()}");
             }
         }
 

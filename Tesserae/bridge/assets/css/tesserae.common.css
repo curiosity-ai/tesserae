@@ -30,6 +30,7 @@
     --tss-default-background-active-color: rgb(243, 242, 241);
     --tss-default-foreground-active-color: rgb(32, 31, 30);
     --tss-progress-background-color: rgb(237, 235, 233);
+    --tss-link-color: rgb(0, 120, 212);
     /*Primary color*/
     --tss-primary-background-color: rgb(0, 120, 212);
     --tss-primary-foreground-color: rgb(255, 255, 255);
@@ -84,6 +85,7 @@
     --tss-default-background-active-color: rgb(68, 68, 68);
     --tss-default-foreground-active-color: rgb(255, 255, 255);
     --tss-progress-background-color: rgb(68, 68, 68);
+    --tss-link-color: rgb(0, 120, 212);
     /*Primary color*/
     --tss-primary-background-color: rgb(0, 120, 212);
     --tss-primary-foreground-color: rgb(255, 255, 255);
@@ -191,6 +193,19 @@
 
 .tss-fontcolor-danger {
     color: var(--tss-danger-background-color);
+}
+
+
+.tss-textalign-left {
+    text-align: left;
+}
+
+.tss-textalign-center {
+    text-align: center;
+}
+
+.tss-textalign-right {
+    text-align: right;
 }
 
 *, :before, :after {

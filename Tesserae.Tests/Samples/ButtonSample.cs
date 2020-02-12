@@ -52,7 +52,8 @@ namespace Tesserae.Tests.Samples
                         TextBlock("Default Button").Medium(),
                         Stack().Horizontal().Children(
                             Button().Var(out var btn1).SetText("Standard").OnClick((s, e) => alert("Clicked!")),
-                            Button().Var(out var btn2).SetText("Primary").Primary().OnClick((s, e) => alert("Clicked!"))
+                            Button().Var(out var btn2).SetText("Primary").Primary().OnClick((s, e) => alert("Clicked!")),
+                            Button().Var(out var btn3).SetText("Link").Link().OnClick((s, e) => alert("Clicked!"))
                         ),
                         TextBlock("Icon Button").Medium(),
                         Stack().Horizontal().Children(
@@ -63,7 +64,7 @@ namespace Tesserae.Tests.Samples
                         ),
                         Toggle("Disable buttons").Checked().OnChange((s, e) =>
                         {
-                            btn1.IsEnabled = btn2.IsEnabled = iconBtn1.IsEnabled = iconBtn2.IsEnabled  = iconBtn3.IsEnabled = iconBtn4.IsEnabled = s.IsChecked;
+                            btn1.IsEnabled = btn2.IsEnabled  = btn3.IsEnabled = iconBtn1.IsEnabled = iconBtn2.IsEnabled  = iconBtn3.IsEnabled = iconBtn4.IsEnabled = s.IsChecked;
                         })));
         }
 

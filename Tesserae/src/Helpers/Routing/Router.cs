@@ -18,6 +18,8 @@ namespace Tesserae
         public static event NavigatedHandler onNavigated;
         public static event CanNavigateHandler onBeforeNavigate;
 
+        private static string _lastURL = "";
+
         public static void OnNavigated(NavigatedHandler onNavigated)
         {
             Router.onNavigated += onNavigated;
@@ -103,6 +105,20 @@ namespace Tesserae
 
         public static void Register(string uniqueIdentifier, string path, Action<Parameters> action)
         {
+            //This is to avoid the case of a Router Stop() & Start() on registering a new node view, that would retrigger navigation
+            Action<Parameters> actionWithoutDuplicates = (p) =>
+            {
+                if (_lastURL == window.location.href)
+                {
+                    return;
+                }
+
+                action(p);
+
+                _lastURL = window.location.href;
+            };
+
+
             uniqueIdentifier = uniqueIdentifier.ToLower();
             var lowerCaseID = $"path-{uniqueIdentifier}";
             var upperCaseID = $"PATH-{uniqueIdentifier.ToUpper()}";
@@ -118,11 +134,11 @@ namespace Tesserae
 
             if (path != lowerCasePath)
             {
-                _routes[lowerCaseID] = action;
+                _routes[lowerCaseID] = actionWithoutDuplicates;
                 _paths[lowerCaseID] = lowerCasePath;
             }
 
-            _routes[uniqueIdentifier] = action;
+            _routes[uniqueIdentifier] = actionWithoutDuplicates;
             _paths[uniqueIdentifier] = path;
 
             Refresh();

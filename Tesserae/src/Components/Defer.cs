@@ -9,7 +9,7 @@ namespace Tesserae.Components
     public class Defer : IComponent
     {
         public IComponent LoadMessage { get; }
-        public Func<Task<IComponent>> AsyncGenerator { get; }
+        private Func<Task<IComponent>> _asyncGenerator;
 
         internal dom.HTMLElement InnerElement;
         private bool NeedsRefresh;
@@ -17,7 +17,7 @@ namespace Tesserae.Components
         public Defer(Func<Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
         {
             LoadMessage = loadMessage ?? TextBlock("loading...").XSmall();
-            AsyncGenerator = asyncGenerator;
+            _asyncGenerator = asyncGenerator;
             NeedsRefresh = true;
             InnerElement = DIV(LoadMessage.Render());
         }
@@ -40,7 +40,7 @@ namespace Tesserae.Components
             NeedsRefresh = false;
             ClearChildren(InnerElement);
             InnerElement.appendChild(LoadMessage.Render());
-            var task = AsyncGenerator();
+            var task = _asyncGenerator();
             task.ContinueWith(r =>
             {
                 ClearChildren(InnerElement);

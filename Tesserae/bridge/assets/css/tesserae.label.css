@@ -5,6 +5,10 @@
     position: relative;
 }
 
+.tss-stack-item:first-child > .tss-label:first-child {
+    margin-top: 0px;
+}
+
     .tss-label > label {
         margin: 4px;
         position: relative;

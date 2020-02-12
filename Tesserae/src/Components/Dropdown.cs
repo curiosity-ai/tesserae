@@ -18,6 +18,7 @@ namespace Tesserae.Components
         private HTMLDivElement _spinner;
 
         private bool _isChanged;
+        private bool _callSelectOnAdd = true;
 
         private List<Item> _selectedChildren;
 
@@ -35,6 +36,12 @@ namespace Tesserae.Components
                 if (!IsVisible) Show();
             };
             _selectedChildren = new List<Item>();
+        }
+
+        public Dropdown SuppressSelectedOnAddingItem()
+        { 
+            _callSelectOnAdd = false;
+            return this;
         }
 
         public SelectMode Mode
@@ -151,7 +158,7 @@ namespace Tesserae.Components
         public void Add(Item component)
         {
             _childContainer.appendChild(component.Render());
-            component.onSelected += OnItemSelected;
+            component.onSelectedChange += OnItemSelected;
 
             if (component.IsSelected)
             {
@@ -164,6 +171,20 @@ namespace Tesserae.Components
             return _container;
         }
 
+        public async Task LoadItemsAsync()
+        {
+            if (ItemsSource is null) throw new InvalidOperationException("Only valid with async items");
+
+            _spinner = Div(_("tss-spinner"));
+            _container.appendChild(_spinner);
+            _container.style.pointerEvents = "none";
+            var items = await ItemsSource();
+            Clear();
+            Items(items);
+            _container.removeChild(_spinner);
+            _container.style.pointerEvents = "unset";
+        }
+
         public override void Show()
         {
             if (_contentHtml == null)
@@ -171,16 +192,7 @@ namespace Tesserae.Components
                 _contentHtml = Div(_("tss-dropdown-popup"), _childContainer);
                 if (ItemsSource != null)
                 {
-                    _spinner = Div(_("tss-spinner"));
-                    _container.appendChild(_spinner);
-                    _container.style.pointerEvents = "none";
-                    Task.Run(async () =>
-                    {
-                        this.Items(await ItemsSource());
-                        Show();
-                        _container.removeChild(_spinner);
-                        _container.style.pointerEvents = "unset";
-                    });
+                    LoadItemsAsync().ContinueWith(t => Show()).FireAndForget();
                     return;
                 }
             }
@@ -197,9 +209,16 @@ namespace Tesserae.Components
 
             ClientRect rect = (ClientRect)InnerElement.getBoundingClientRect();
             var contentRect = (ClientRect)_contentHtml.getBoundingClientRect();
-            _contentHtml.style.left = rect.left + "px";
             _contentHtml.style.top = rect.bottom - 1 + "px";
             _contentHtml.style.minWidth = rect.width + "px";
+
+            var finalLeft = rect.left;
+            if(rect.left + contentRect.width + 1 > window.innerWidth)
+            {
+                finalLeft = window.innerWidth - contentRect.width - 1;
+            }
+
+            _contentHtml.style.left = finalLeft + "px";
 
             if (window.innerHeight - rect.bottom - 1 < contentRect.height)
             {
@@ -340,7 +359,11 @@ namespace Tesserae.Components
             }
 
             RenderSelected();
-            RaiseOnInput(this);
+
+            if (_callSelectOnAdd)
+            {
+                RaiseOnInput(this);
+            }
         }
 
         private void RenderSelected()
@@ -423,7 +446,7 @@ namespace Tesserae.Components
 
 
             public event BeforeSelectEventHandler<Item> onBeforeSelected;
-            public event EventHandler<Item> onSelected;
+            internal event EventHandler<Item> onSelectedChange;
 
             public ItemType Type
             {
@@ -484,7 +507,7 @@ namespace Tesserae.Components
                         if (value) InnerElement.classList.add("selected");
                         else InnerElement.classList.remove("selected");
 
-                        onSelected?.Invoke(this, this);
+                        onSelectedChange?.Invoke(this, this);
                     }
                 }
             }
@@ -522,9 +545,19 @@ namespace Tesserae.Components
                 return this;
             }
 
-            public Item OnSelected(EventHandler<Item> onSelected)
+            public Item OnSelected(EventHandler<Item> onSelected, EventHandler<Item> onDeselected = null)
             {
-                this.onSelected += onSelected;
+                this.onSelectedChange += (s,e) => 
+                {
+                    if(e.IsSelected)
+                    {
+                        onSelected?.Invoke(s, e);
+                    }
+                    else
+                    {
+                        onDeselected?.Invoke(s, e);
+                    }
+                };
                 return this;
             }
 

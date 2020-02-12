@@ -122,17 +122,27 @@ namespace Tesserae.Components
             item.setAttribute("tss-stk-w","");
         }
 
-        public static void SetMinWidth(IComponent component, Unit sizeType, float size = 0)
+        private static HTMLElement GetCorrectItemToApplyStyle(IComponent component)
         {
             HTMLElement item;
             if (component is Stack stack)
             {
                 item = stack.InnerElement;
             }
+            else if (component is Modal modal)
+            {
+                item = modal._modal;
+            }
             else
             {
                 item = GetItem(component);
             }
+            return item;
+        }
+
+        public static void SetMinWidth(IComponent component, Unit sizeType, float size = 0)
+        {
+            var item = GetCorrectItemToApplyStyle(component);
             switch (sizeType)
             {
                 case Unit.Auto: item.style.minWidth = "auto"; break;
@@ -145,15 +155,7 @@ namespace Tesserae.Components
 
         public static void SetMaxWidth(IComponent component, Unit sizeType, float size = 0)
         {
-            HTMLElement item;
-            if (component is Stack stack)
-            {
-                item = stack.InnerElement;
-            }
-            else
-            {
-                item = GetItem(component);
-            }
+            var item = GetCorrectItemToApplyStyle(component);
             switch (sizeType)
             {
                 case Unit.Auto: item.style.maxWidth = "auto"; break;
@@ -190,231 +192,81 @@ namespace Tesserae.Components
 
         public static void SetMinHeight(IComponent component, Unit sizeType, float size = 0)
         {
-            HTMLElement item;
-            if (component is Stack stack)
-            {
-                item = stack.InnerElement;
-            }
-            else
-            {
-                item = GetItem(component);
-            }
-            switch (sizeType)
-            {
-                case Unit.Auto: item.style.minHeight = "auto"; break;
-                case Unit.Pixels: item.style.minHeight = $"{size:0.####}px"; break;
-                case Unit.Percents: item.style.minHeight = $"{size:0.####}%"; break;
-                case Unit.Viewport: item.style.minHeight = $"{size:0.####}vh"; break;
-            }
+            var item = GetCorrectItemToApplyStyle(component);
+            item.style.minHeight = Units.Translate(sizeType, size);
             item.setAttribute("tss-stk-mh", "");
         }
 
         public static void SetMaxHeight(IComponent component, Unit sizeType, float size = 0)
         {
-            HTMLElement item;
-            if (component is Stack stack)
-            {
-                item = stack.InnerElement;
-            }
-            else
-            {
-                item = GetItem(component);
-            }
-
-            switch (sizeType)
-            {
-                case Unit.Auto: item.style.maxHeight = "auto"; break;
-                case Unit.Pixels: item.style.maxHeight = $"{size:0.####}px"; break;
-                case Unit.Percents: item.style.maxHeight = $"{size:0.####}%"; break;
-                case Unit.Viewport: item.style.maxHeight = $"{size:0.####}vh"; break;
-            }
+            var item = GetCorrectItemToApplyStyle(component);
+            item.style.maxHeight = Units.Translate(sizeType, size);
             item.setAttribute("tss-stk-mxh", "");
         }
 
         public static void SetMarginLeft(IComponent component, Unit sizeType, float size = 0)
         {
-            HTMLElement item;
-            if (component is Stack stack)
-            {
-                item = stack.InnerElement;
-            }
-            else
-            {
-                item = GetItem(component);
-            }
-            switch (sizeType)
-            {
-                case Unit.Auto: item.style.marginLeft = "auto"; break;
-                case Unit.Pixels: item.style.marginLeft = $"{size:0.####}px"; break;
-                case Unit.Percents: item.style.marginLeft = $"{size:0.####}%"; break;
-                case Unit.Viewport: item.style.marginLeft = $"{size:0.####}vh"; break;
-            }
-
+            var item = GetCorrectItemToApplyStyle(component);
+            item.style.marginLeft = Units.Translate(sizeType, size);
             item.setAttribute("tss-stk-m", "");
         }
 
         public static void SetMarginRight(IComponent component, Unit sizeType, float size = 0)
         {
-            HTMLElement item;
-            if (component is Stack stack)
-            {
-                item = stack.InnerElement;
-            }
-            else
-            {
-                item = GetItem(component);
-            }
-            switch (sizeType)
-            {
-                case Unit.Auto: item.style.marginRight = "auto"; break;
-                case Unit.Pixels: item.style.marginRight = $"{size:0.####}px"; break;
-                case Unit.Percents: item.style.marginRight = $"{size:0.####}%"; break;
-                case Unit.Viewport: item.style.marginRight = $"{size:0.####}vh"; break;
-            }
-
+            var item = GetCorrectItemToApplyStyle(component);
+            item.style.marginRight = Units.Translate(sizeType, size);
             item.setAttribute("tss-stk-m", "");
         }
 
         public static void SetMarginTop(IComponent component, Unit sizeType, float size = 0)
         {
-            HTMLElement item;
-            if (component is Stack stack)
-            {
-                item = stack.InnerElement;
-            }
-            else
-            {
-                item = GetItem(component);
-            }
-            switch (sizeType)
-            {
-                case Unit.Auto: item.style.marginTop= "auto"; break;
-                case Unit.Pixels: item.style.marginTop = $"{size:0.####}px"; break;
-                case Unit.Percents: item.style.marginTop = $"{size:0.####}%"; break;
-                case Unit.Viewport: item.style.marginTop = $"{size:0.####}vh"; break;
-            }
-
+            var item = GetCorrectItemToApplyStyle(component);
+            item.style.marginTop= Units.Translate(sizeType, size);
             item.setAttribute("tss-stk-m", "");
         }
 
         public static void SetMarginBottom(IComponent component, Unit sizeType, float size = 0)
         {
-            HTMLElement item;
-            if (component is Stack stack)
-            {
-                item = stack.InnerElement;
-            }
-            else
-            {
-                item = GetItem(component);
-            }
-            switch (sizeType)
-            {
-                case Unit.Auto: item.style.marginBottom = "auto"; break;
-                case Unit.Pixels: item.style.marginBottom = $"{size:0.####}px"; break;
-                case Unit.Percents: item.style.marginBottom = $"{size:0.####}%"; break;
-                case Unit.Viewport: item.style.marginBottom = $"{size:0.####}vh"; break;
-            }
-
+            var item = GetCorrectItemToApplyStyle(component);
+            item.style.marginBottom = Units.Translate(sizeType, size);
             item.setAttribute("tss-stk-m", "");
         }
 
 
         public static void SetPaddingLeft(IComponent component, Unit sizeType, float size = 0)
         {
-            HTMLElement item;
-            if (component is Stack stack)
-            {
-                item = stack.InnerElement;
-            }
-            else
-            {
-                item = GetItem(component);
-            }
-            switch (sizeType)
-            {
-                case Unit.Auto: item.style.paddingLeft = "auto"; break;
-                case Unit.Pixels: item.style.paddingLeft = $"{size:0.####}px"; break;
-                case Unit.Percents: item.style.paddingLeft = $"{size:0.####}%"; break;
-                case Unit.Viewport: item.style.paddingLeft = $"{size:0.####}vh"; break;
-            }
-
+            var item = GetCorrectItemToApplyStyle(component);
+            item.style.paddingLeft = Units.Translate(sizeType, size);
             item.setAttribute("tss-stk-p", "");
         }
 
         public static void SetPaddingRight(IComponent component, Unit sizeType, float size = 0)
         {
-            HTMLElement item;
-            if (component is Stack stack)
-            {
-                item = stack.InnerElement;
-            }
-            else
-            {
-                item = GetItem(component);
-            }
-            switch (sizeType)
-            {
-                case Unit.Auto: item.style.paddingRight = "auto"; break;
-                case Unit.Pixels: item.style.paddingRight = $"{size:0.####}px"; break;
-                case Unit.Percents: item.style.paddingRight = $"{size:0.####}%"; break;
-                case Unit.Viewport: item.style.paddingRight = $"{size:0.####}vh"; break;
-            }
-
+            var item = GetCorrectItemToApplyStyle(component);
+            item.style.paddingRight = Units.Translate(sizeType, size);
             item.setAttribute("tss-stk-p", "");
         }
 
         public static void SetPaddingTop(IComponent component, Unit sizeType, float size = 0)
         {
-            HTMLElement item;
-            if (component is Stack stack)
-            {
-                item = stack.InnerElement;
-            }
-            else
-            {
-                item = GetItem(component);
-            }
-            switch (sizeType)
-            {
-                case Unit.Auto: item.style.paddingTop = "auto"; break;
-                case Unit.Pixels: item.style.paddingTop = $"{size:0.####}px"; break;
-                case Unit.Percents: item.style.paddingTop = $"{size:0.####}%"; break;
-                case Unit.Viewport: item.style.paddingTop = $"{size:0.####}vh"; break;
-            }
-
+            var item = GetCorrectItemToApplyStyle(component);
+            item.style.paddingTop = Units.Translate(sizeType, size);
             item.setAttribute("tss-stk-p", "");
         }
 
         public static void SetPaddingBottom(IComponent component, Unit sizeType, float size = 0)
         {
-            HTMLElement item;
-            if (component is Stack stack)
-            {
-                item = stack.InnerElement;
-            }
-            else
-            {
-                item = GetItem(component);
-            }
-            switch (sizeType)
-            {
-                case Unit.Auto: item.style.paddingBottom = "auto"; break;
-                case Unit.Pixels: item.style.paddingBottom = $"{size:0.####}px"; break;
-                case Unit.Percents: item.style.paddingBottom = $"{size:0.####}%"; break;
-                case Unit.Viewport: item.style.paddingBottom = $"{size:0.####}vh"; break;
-            }
-
+            var item = GetCorrectItemToApplyStyle(component);
+            item.style.paddingBottom = Units.Translate(sizeType, size);
             item.setAttribute("tss-stk-p", "");
         }
-
-
 
         public static int GetGrow(IComponent component)
         {
             var item = GetItem(component);
             return int.Parse(item.style.flexGrow);
         }
+
         public static void SetGrow(IComponent component, int grow)
         {
             var item = GetItem(component);
