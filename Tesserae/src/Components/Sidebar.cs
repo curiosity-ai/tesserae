@@ -9,7 +9,6 @@ namespace Tesserae.Components
 {
     public class Sidebar : IComponent
     {
-
         public enum Size
         {
             Small,
