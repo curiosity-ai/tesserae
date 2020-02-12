@@ -10,10 +10,6 @@ namespace Tesserae.Tests
 {
     public class App
     {
-        private static Stack _mainStack;
-        private static Sidebar _sideBar;
-        private static Navbar _navBar;
-
         public static void Main()
         {
             var components = new (string Name, IComponent Component)[]
@@ -53,55 +49,64 @@ namespace Tesserae.Tests
                 component => NavLink(component.Name).OnSelected((s, e) => Router.Navigate("#" + ToRoute(component.Name)))
             );
 
-            _mainStack = Stack().Padding("16px")
+            var mainStack = Stack().Padding("16px")
                                 .WidthStretch()
                                 .MinHeightStretch();
 
-            _sideBar = Sidebar();
+            var sideBar = Sidebar();
 
-            var page = new SplitView().Left(MainNav(links), background: Theme.Default.Background)
-                                      .Right(_mainStack, background: Theme.Secondary.Background)
+            var navBar = Navbar().SetTop(Stack().Horizontal()
+                                          .WidthStretch()
+                                          .HeightStretch()
+                                          .Children(SearchBox("Search for a template").WidthStretch().Underlined()));
+
+            var page = new SplitView().Left(MainNav(links, navBar, sideBar), background: Theme.Default.Background)
+                                      .Right(mainStack, background: Theme.Secondary.Background)
                                       .LeftIsSmaller(SizeMode.Pixels, 300)
                                       .MinHeightStretch();
 
-            _navBar = Navbar().SetTop(Stack().Horizontal()
-                                          .WidthStretch()
-                                          .HeightStretch()
-                                          .Children(SearchBox("Search for a template").WidthStretch().Underlined()))
-                              .SetContent(page);
+            navBar.SetContent(page);
 
-            _sideBar.IsVisible = false;
-            _navBar.IsVisible  = false;
+            sideBar.IsVisible = false;
+            navBar.IsVisible  = false;
 
-            document.body.appendChild(_sideBar.Brand(SidebarItem("... meow", "las la-cat").Large().NonSelectable())
-                                              .Add(SidebarItem("Colorful sidebar", "las la-tint").OnSelect((s) => _sideBar.IsLight = false).Selected())
-                                              .Add(SidebarItem("Light sidebar", "las la-tint-slash").OnSelect((s) => _sideBar.IsLight = true))
-                                              .Add(SidebarItem("Always Open", "las la-arrow-to-right").OnSelect((s) => _sideBar.IsAlwaysOpen= true))
-                                              .Add(SidebarItem("Open on Hover", "las la-arrows-alt-h").OnSelect((s) => _sideBar.IsAlwaysOpen = false))
-                                              .Add(SidebarItem("Small sidebar", "las la-minus-square").OnSelect((s) => _sideBar.Width = Components.Sidebar.Size.Small))
-                                              .Add(SidebarItem("Medium sidebar", "las la-square").OnSelect((s) => _sideBar.Width = Components.Sidebar.Size.Medium  ))
-                                              .Add(SidebarItem("Large sidebar", "las la-plus-square").OnSelect((s) => _sideBar.Width = Components.Sidebar.Size.Large))
-                                              .SetContent(_navBar)
+            document.body.appendChild(sideBar.Brand(SidebarItem("... meow", "las la-cat").Large().NonSelectable())
+                                              .Add(SidebarItem("Colorful sidebar", "las la-tint").OnSelect((s) => sideBar.IsLight = false).Selected())
+                                              .Add(SidebarItem("Light sidebar", "las la-tint-slash").OnSelect((s) => sideBar.IsLight = true))
+                                              .Add(SidebarItem("Always Open", "las la-arrow-to-right").OnSelect((s) => sideBar.IsAlwaysOpen= true))
+                                              .Add(SidebarItem("Open on Hover", "las la-arrows-alt-h").OnSelect((s) => sideBar.IsAlwaysOpen = false))
+                                              .Add(SidebarItem("Small sidebar", "las la-minus-square").OnSelect((s) => sideBar.Width = Components.Sidebar.Size.Small))
+                                              .Add(SidebarItem("Medium sidebar", "las la-square").OnSelect((s) => sideBar.Width = Components.Sidebar.Size.Medium))
+                                              .Add(SidebarItem("Large sidebar", "las la-plus-square").OnSelect((s) => sideBar.Width = Components.Sidebar.Size.Large))
+                                              .SetContent(navBar)
                                               .Render());
             document.body.style.overflow = "hidden";
 
             Router.Register("home", "/", p => Router.Navigate("#" + ToRoute(components.First().Name)));
             foreach (var (name, component) in components)
-                Router.Register(name, ToRoute(name), p => { console.log($"TODO: View component '{name}'"); Show(name, component); });
+                Router.Register(name, ToRoute(name), p => Show(name, component));
 
             Router.Initialize();
             Router.Refresh((err, state) => Router.Navigate(window.location.hash, reload: false));
 
             string ToRoute(string name) => "/view/" + name;
+
+            void Show(string route, IComponent component)
+            {
+                Router.Replace($"#/view/{route}");
+                mainStack.Clear();
+                mainStack.Add(component);
+                mainStack.MinHeightStretch();
+            }
         }
 
-        public static IComponent MainNav(Dictionary<string, Nav.NavLink> links)
+        public static IComponent MainNav(Dictionary<string, Nav.NavLink> links, Navbar navBar, Sidebar sideBar)
         {
             return Stack().Padding(Unit.Pixels, 16).NoShrink().MinHeightStretch()
                           .Children(TextBlock("Tesserae Samples").MediumPlus().SemiBold().AlignCenter(),
                                     Nav().InlineContent(Label("Theme").Inline().SetContent(Toggle("Light", "Dark").Checked().OnChange((t, e) => { if (t.IsChecked) { Theme.Light(); } else { Theme.Dark(); } })))
-                                         .InlineContent(Label("Navbar").Inline().SetContent(Toggle("Show", "Hidden").OnChange((t, e) => { _navBar.IsVisible = t.IsChecked; })))
-                                         .InlineContent(Label("Sidebar").Inline().SetContent(Toggle("Show", "Hidden").OnChange((t, e) => { _sideBar.IsVisible = t.IsChecked; })))
+                                         .InlineContent(Label("Navbar").Inline().SetContent(Toggle("Show", "Hidden").OnChange((t, e) => { navBar.IsVisible = t.IsChecked; })))
+                                         .InlineContent(Label("Sidebar").Inline().SetContent(Toggle("Show", "Hidden").OnChange((t, e) => { sideBar.IsVisible = t.IsChecked; })))
                                          .Links(NavLink("Basic Inputs").Expanded()
                                                                        .SmallPlus()
                                                                        .SemiBold()
@@ -151,15 +156,6 @@ namespace Tesserae.Tests
                                                 ))
                                          .InlineContent(Link("https://www.curiosity.ai", TextBlock("by curiosity.ai").XSmall().Primary().AlignEnd())
             ));
-        }
-
-        private static void Show(string route, IComponent component)
-        {
-            Router.Replace($"#/view/{route}");
-
-            _mainStack.Clear();
-            _mainStack.Add(component);
-            _mainStack.MinHeightStretch();
         }
 
         private class LowerCaseComparer : IEqualityComparer<string>
