@@ -8,9 +8,9 @@ using static Tesserae.UI;
 
 namespace Tesserae.Tests
 {
-    public class App
+    internal static class App
     {
-        public static void Main()
+        private static void Main()
         {
             var components = new (string Name, IComponent Component)[]
             {
