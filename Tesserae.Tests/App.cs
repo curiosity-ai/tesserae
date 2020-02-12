@@ -31,6 +31,8 @@ namespace Tesserae.Tests
                 ("Panel", new PanelSample()),
                 ("ContextMenu", new ContextMenuSample()),
                 ("ProgressModal", new ProgressModalSample()),
+                ("BasicList", new BasicListSample()),
+                ("DetailsList", new DetailsListSample()),
                 ("Layer", new LayerSample()),
                 ("Stack", new StackSample()),
                 ("SectionStack", new SectionStackSample()),
@@ -147,6 +149,11 @@ namespace Tesserae.Tests
                                                                            links["Toast"],
                                                                            links["FileSelector"],
                                                                            links["ProgressModal"]),
+                                                NavLink("Collections").Expanded()
+                                                                      .SmallPlus()
+                                                                      .SemiBold()
+                                                                        .Links(links["BasicList"],
+                                                                               links["DetailsList"]),
                                                 NavLink("Nav Sample").Expanded()
                                                                      .SmallPlus()
                                                                      .SemiBold()
