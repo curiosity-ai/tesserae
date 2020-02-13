@@ -102,13 +102,16 @@ namespace Tesserae
                 _components.Add(componentToAdd.componentNumber, componentToAdd.component);
             }
 
-            return componentsToAdd.FirstOrDefault()?.componentNumber;
+
+            var lastComponentToAdd = componentsToAdd.FirstOrDefault();
+
+            return lastComponentToAdd?.componentNumber;
         }
 
         private void AddToPages(int? componentNumberToPageFrom)
         {
             var pagesToAdd =
-                _components.Skip(componentNumberToPageFrom ?? 0).InGroupsOf(_componentsPerPage);
+                _components.Skip(componentNumberToPageFrom.GetValueOrDefault()).InGroupsOf(_componentsPerPage);
 
             _pages.AddRange(pagesToAdd);
         }
