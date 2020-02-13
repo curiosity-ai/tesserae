@@ -14,7 +14,7 @@ namespace Tesserae.Tests.Samples
         {
             _content = SectionStack()
             .Title(
-            TextBlock("Label").XLarge().Bold())
+            TextBlock("File Selected and Drop Area Sample").XLarge().Bold())
             .Section(Stack().Children(
                 SampleTitle("Overview"),
                 TextBlock("Use the file selector to allow users to select a single file. Use the file dropdown area to allow drag-and-drop for one or multiple files.")))
@@ -40,7 +40,7 @@ namespace Tesserae.Tests.Samples
                     SampleSubTitle("File Drop Area"),
                     Label("Dropped Files: ").SetContent(Stack().Var(out var droppedFiles)),
                     FileDropArea().OnFileDropped((s, e) => droppedFiles.Add(TextBlock(e.name).Small())).Multiple()
-                    ));     
+                    ));
         }
 
         public HTMLElement Render()
