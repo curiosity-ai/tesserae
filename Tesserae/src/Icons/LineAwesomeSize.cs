@@ -1,10 +1,20 @@
+using Bridge;
+
 namespace Tesserae
 {
+    [Enum(Emit.Value)]
     public enum LineAwesomeSize
     {
-        Default = 0,
+        [Name("la")]
+        Default,
+
+        [Name("lar")]
         Regular,
+
+        [Name("las")]
         Solid,
+
+        [Name("lab")]
         Brand
     }
 }

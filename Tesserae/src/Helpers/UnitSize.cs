@@ -28,28 +28,6 @@ namespace Tesserae
         [Obsolete("Replace call with .percent, .px or .vh extension methods available on the int and double types")]
         public static string Translate(Unit unit, double size) => new UnitSize(size, unit).ToString();
 
-        public override string ToString()
-        {
-            string suffix;
-
-            switch (Unit)
-            {
-                case Unit.Auto:
-                    return AutoSuffix;
-                case Unit.Percent:
-                    suffix = "%";
-                    break;
-                case Unit.Pixels:
-                    suffix = "px";
-                    break;
-                case Unit.Viewport:
-                    suffix = "vh";
-                    break;
-                default:
-                    throw new InvalidOperationException("Can not generate style for default Unit");
-            }
-
-            return $"{Size:0.####}{suffix}";
-        }
+        public override string ToString() => $"{Size:0.####}{Unit}";
     }
 }

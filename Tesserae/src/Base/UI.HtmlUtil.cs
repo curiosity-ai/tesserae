@@ -220,7 +220,7 @@ namespace Tesserae
                     throw new ArgumentOutOfRangeException(nameof(lineAwesomeSize), lineAwesomeSize, null);
             }
 
-            return I(_($"{lineAwesomeSizeClassName} {lineAwesomeIcon}"));
+            return I(_($"{lineAwesomeSize} {lineAwesomeIcon}"));
         }
 
         public static HTMLElement Sup(Attributes init, params HTMLElement[] children)

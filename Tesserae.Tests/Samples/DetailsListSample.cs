@@ -18,8 +18,9 @@ namespace Tesserae.Tests.Samples
                     .WithColumn(
                         new DetailsListLineAwesomeIconColumn(
                             lineAwesomeIcon: LineAwesome.File,
+                            lineAwesomeSize: LineAwesomeSize.Regular,
                             title: "File Type",
-                            width: 16.px()))
+                            width: 32.px()))
                     .WithColumn(
                         new DetailsListColumn(
                             title: "File Name",
@@ -55,6 +56,7 @@ namespace Tesserae.Tests.Samples
                 {
                     new DetailsListItem(
                         lineAwesomeIcon: LineAwesome.FileWord,
+                        lineAwesomeSize: LineAwesomeSize.Regular,
                         fileName: "Interesting File Name, quite long as you can see. In fact, let's make it " +
                                   "longer to see how the padding looks.",
                         dateModified: DateTime.Today.AddDays(-10),
@@ -62,12 +64,14 @@ namespace Tesserae.Tests.Samples
                         fileSize: 10),
                     new DetailsListItem(
                         lineAwesomeIcon: LineAwesome.FileExcel,
+                        lineAwesomeSize: LineAwesomeSize.Regular,
                         fileName: "File Name 2",
                         dateModified: DateTime.Today.AddDays(-20),
                         modifiedBy: "Rusty",
                         fileSize: 10),
                     new DetailsListItem(
                         lineAwesomeIcon: LineAwesome.FilePowerpoint,
+                        lineAwesomeSize: LineAwesomeSize.Regular,
                         fileName: "File Name 3",
                         dateModified: DateTime.Today.AddDays(-30),
                         modifiedBy: "Cole",

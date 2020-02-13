@@ -1,11 +1,22 @@
+using Bridge;
+
 namespace Tesserae
 {
+    [Enum(Emit.Value)]
     public enum Unit
     {
-        Default = 0,
+        Default,
+
+        [Name("auto")]
         Auto,
+
+        [Name("%")]
         Percent,
+
+        [Name("px")]
         Pixels,
+
+        [Name("vh")]
         Viewport
     }
 }
