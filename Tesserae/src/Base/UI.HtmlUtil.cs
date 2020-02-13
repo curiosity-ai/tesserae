@@ -200,26 +200,6 @@ namespace Tesserae
             LineAwesome lineAwesomeIcon,
             LineAwesomeSize lineAwesomeSize = LineAwesomeSize.Default)
         {
-            string lineAwesomeSizeClassName;
-
-            switch (lineAwesomeSize)
-            {
-                case LineAwesomeSize.Default:
-                    lineAwesomeSizeClassName = "la";
-                    break;
-                case LineAwesomeSize.Regular:
-                    lineAwesomeSizeClassName = "lar";
-                    break;
-                case LineAwesomeSize.Solid:
-                    lineAwesomeSizeClassName = "las";
-                    break;
-                case LineAwesomeSize.Brand:
-                    lineAwesomeSizeClassName = "lab";
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(lineAwesomeSize), lineAwesomeSize, null);
-            }
-
             return I(_($"{lineAwesomeSize} {lineAwesomeIcon}"));
         }
 
