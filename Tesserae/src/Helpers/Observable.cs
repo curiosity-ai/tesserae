@@ -41,5 +41,10 @@ namespace Tesserae
             onChanged += valueGetter;
             valueGetter(_value);
         }
+        
+        public void ObserveLazy(ValueChanged valueGetter)
+        {
+            onChanged += valueGetter;
+        }
     }
 }
