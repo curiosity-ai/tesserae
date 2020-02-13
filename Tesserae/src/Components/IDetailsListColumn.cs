@@ -2,14 +2,15 @@ using System;
 
 namespace Tesserae.Components
 {
-    public interface IDetailsListColumn : IComponent
+    public interface IDetailsListColumn<TDetailsListItem> : IComponent
+        where TDetailsListItem : class, IDetailsListItem
     {
-        string Title         { get; }
+        string Title                           { get; }
 
-        UnitSize Width       { get; }
+        UnitSize Width                         { get; }
 
-        bool IsRowHeader     { get; }
+         bool IsRowHeader                      { get; }
 
-        Action OnColumnClick { get; }
+        Action<TDetailsListItem> OnColumnClick { get; }
     }
 }

@@ -11,7 +11,7 @@ namespace Tesserae.Components
         where TDetailListItem : class, IDetailsListItem
     {
         private readonly int _rowsPerPage;
-        private readonly List<IDetailsListColumn> _detailsListColumns;
+        private readonly List<IDetailsListColumn<TDetailListItem>> _detailsListColumns;
         private readonly List<IEnumerable<TDetailListItem>> _detailsListItems;
         private readonly HTMLElement _innerElement;
 
@@ -24,7 +24,7 @@ namespace Tesserae.Components
             int rowsPerPage = 8)
         {
             _rowsPerPage        = rowsPerPage;
-            _detailsListColumns = new List<IDetailsListColumn>();
+            _detailsListColumns = new List<IDetailsListColumn<TDetailListItem>>();
             _detailsListItems   = new List<IEnumerable<TDetailListItem>>();
             _innerElement       = Div(_());
         }
@@ -32,7 +32,7 @@ namespace Tesserae.Components
         public HTMLElement Render() => _innerElement;
 
         private static HTMLDivElement CreateGridCell(
-            IDetailsListColumn column,
+            IDetailsListColumn<TDetailListItem> column,
             Func<HTMLElement> gridCellInnerHtmlExpression)
         {
             string role = column.IsRowHeader ?
@@ -53,14 +53,14 @@ namespace Tesserae.Components
         }
 
         public DetailsList<TDetailListItem> WithColumn<TColumn>(TColumn column)
-            where TColumn : class, IDetailsListColumn
+            where TColumn : class, IDetailsListColumn<TDetailListItem>
         {
             _detailsListColumns.Add(column);
             return this;
         }
 
         public DetailsList<TDetailListItem> WithColumns<TColumn>(IEnumerable<TColumn> columns)
-            where TColumn : class, IDetailsListColumn
+            where TColumn : class, IDetailsListColumn<TDetailListItem>
         {
             _detailsListColumns.AddRange(columns);
             return this;
@@ -141,8 +141,7 @@ namespace Tesserae.Components
             foreach (var detailsListItem in detailsListItems)
             {
                 var detailsListItemContainer = Div(_("tss-detailslist-list-item-container").WithRole("presentation"));
-
-                var gridCellHtmlElements = detailsListItem.Render(_detailsListColumns, CreateGridCell).ToArray();
+                var gridCellHtmlElements     = detailsListItem.Render(_detailsListColumns, CreateGridCell).ToArray();
 
                 if (detailsListItemsCount == index)
                 {

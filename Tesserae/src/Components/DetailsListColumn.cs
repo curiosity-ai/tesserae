@@ -4,13 +4,14 @@ using static Retyped.dom;
 
 namespace Tesserae.Components
 {
-    public class DetailsListColumn : IDetailsListColumn
+    public class DetailsListColumn<TDetailsListItem> : IDetailsListColumn<TDetailsListItem>
+        where TDetailsListItem : class, IDetailsListItem
     {
         public DetailsListColumn(
             string title,
             UnitSize width,
             bool isRowHeader = false,
-            Action onColumnClick = null)
+            Action<TDetailsListItem> onColumnClick = null)
         {
             Title         = title;
             Width         = width;
@@ -18,19 +19,20 @@ namespace Tesserae.Components
             OnColumnClick = onColumnClick;
         }
 
-        public string Title            { get; }
+        public string Title                           { get; }
 
-        public UnitSize Width          { get; }
+        public UnitSize Width                         { get; }
 
-        public bool IsRowHeader        { get; }
+        public bool IsRowHeader                       { get; }
 
-        public Action OnColumnClick    { get; }
+        public Action<TDetailsListItem> OnColumnClick { get; }
 
         public HTMLElement Render()
         {
-            var htmlElement = TextBlock(Title).Regular().SemiBold();
-
-            return htmlElement.Render();
+            return TextBlock(Title)
+                    .Regular()
+                    .SemiBold()
+                    .Render();
         }
     }
 }

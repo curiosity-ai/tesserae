@@ -4,14 +4,15 @@ using static Retyped.dom;
 
 namespace Tesserae.Components
 {
-    public class DetailsListLineAwesomeIconColumn : IDetailsListColumn
+    public class DetailsListLineAwesomeIconColumn<TDetailsListItem> : IDetailsListColumn<TDetailsListItem>
+        where TDetailsListItem : class, IDetailsListItem
     {
         public DetailsListLineAwesomeIconColumn(
             LineAwesome lineAwesomeIcon,
             string title,
             UnitSize width,
             LineAwesomeSize lineAwesomeSize = LineAwesomeSize.Default,
-            Action onColumnClick = null)
+            Action<TDetailsListItem> onColumnClick = null)
         {
             LineAwesomeIcon = lineAwesomeIcon;
             Title           = title;
@@ -20,25 +21,23 @@ namespace Tesserae.Components
             OnColumnClick   = onColumnClick;
         }
 
-        public LineAwesome LineAwesomeIcon     { get; }
+        public LineAwesome LineAwesomeIcon            { get; }
 
-        public string Title                    { get; }
+        public string Title                           { get; }
 
-        public UnitSize Width                  { get; }
+        public UnitSize Width                         { get; }
 
-        public LineAwesomeSize LineAwesomeSize { get; }
+        public LineAwesomeSize LineAwesomeSize        { get; }
 
-        public bool IsRowHeader                => false;
+        public bool IsRowHeader                       => false;
 
-        public Action OnColumnClick            { get; }
+        public Action<TDetailsListItem> OnColumnClick { get; }
 
         public HTMLElement Render()
         {
-            var htmlElement = Div(_());
-
-            htmlElement.appendChild(LA(LineAwesomeIcon, LineAwesomeSize));
-
-            return htmlElement;
+            return Div(_())
+                .appendChild(
+                    LA(LineAwesomeIcon, LineAwesomeSize));
         }
     }
 }

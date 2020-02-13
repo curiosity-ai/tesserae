@@ -80,26 +80,26 @@ namespace Tesserae.Tests.Samples
                                     .PaddingBottom(Unit.Pixels, 16),
                                 DetailList<DetailsListItem>()
                                     .WithColumn(
-                                        new DetailsListLineAwesomeIconColumn(
+                                        new DetailsListLineAwesomeIconColumn<DetailsListItem>(
                                             lineAwesomeIcon: LineAwesome.File,
                                             lineAwesomeSize: LineAwesomeSize.Regular,
                                             title: "File Type",
                                             width: 32.px()))
                                     .WithColumn(
-                                        new DetailsListColumn(
+                                        new DetailsListColumn<DetailsListItem>(
                                             title: "File Name",
                                             width: 350.px(),
                                             isRowHeader: true))
                                     .WithColumn(
-                                        new DetailsListColumn(
+                                        new DetailsListColumn<DetailsListItem>(
                                                 title: "Date Modified",
                                                 width: 150.px()))
                                     .WithColumn(
-                                        new DetailsListColumn(
+                                        new DetailsListColumn<DetailsListItem>(
                                                 title: "Modified By",
                                                 width: 150.px()))
                                     .WithColumn(
-                                        new DetailsListColumn(
+                                        new DetailsListColumn<DetailsListItem>(
                                                 title: "File Size",
                                                 width: 100.px()))
                                     .WithListItems(GetDetailsListItems())));
