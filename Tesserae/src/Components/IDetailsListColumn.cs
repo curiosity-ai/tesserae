@@ -2,15 +2,18 @@ using System;
 
 namespace Tesserae.Components
 {
-    public interface IDetailsListColumn<TDetailsListItem> : IComponent
-        where TDetailsListItem : class, IDetailsListItem
+    public interface IDetailsListColumn : IComponent
     {
-        string Title                           { get; }
+        string Title                             { get; }
 
-        UnitSize Width                         { get; }
+        UnitSize Width                           { get; }
 
-         bool IsRowHeader                      { get; }
+        bool IsRowHeader                         { get; }
 
-        Action<TDetailsListItem> OnColumnClick { get; }
+        bool EnableColumnSorting                 { get; }
+
+        bool EnableOnColumnClickEvent            { get; }
+
+        void OnColumnClick();
     }
 }

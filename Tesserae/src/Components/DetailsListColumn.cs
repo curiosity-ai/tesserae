@@ -4,28 +4,37 @@ using static Retyped.dom;
 
 namespace Tesserae.Components
 {
-    public class DetailsListColumn<TDetailsListItem> : IDetailsListColumn<TDetailsListItem>
-        where TDetailsListItem : class, IDetailsListItem
+    public class DetailsListColumn : IDetailsListColumn
     {
+        private readonly Action<DetailsListColumn> _onColumnClick;
+
         public DetailsListColumn(
             string title,
             UnitSize width,
             bool isRowHeader = false,
-            Action<TDetailsListItem> onColumnClick = null)
+            bool enableColumnSorting = true,
+            Action<DetailsListColumn> onColumnClick = null)
         {
-            Title         = title;
-            Width         = width;
-            IsRowHeader   = isRowHeader;
-            OnColumnClick = onColumnClick;
+            Title               = title;
+            Width               = width;
+            IsRowHeader         = isRowHeader;
+            EnableColumnSorting = enableColumnSorting;
+            _onColumnClick      = onColumnClick;
+
+            EnableOnColumnClickEvent = onColumnClick != null;
         }
 
-        public string Title                           { get; }
+        public string Title                  { get; }
 
-        public UnitSize Width                         { get; }
+        public UnitSize Width                { get; }
 
-        public bool IsRowHeader                       { get; }
+        public bool IsRowHeader              { get; }
 
-        public Action<TDetailsListItem> OnColumnClick { get; }
+        public bool EnableColumnSorting      { get; }
+
+        public bool EnableOnColumnClickEvent { get; }
+
+        public void OnColumnClick()          => _onColumnClick?.Invoke(this);
 
         public HTMLElement Render()
         {
