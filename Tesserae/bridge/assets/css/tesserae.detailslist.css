@@ -29,6 +29,10 @@
     border-bottom-style: solid;
 }
 
+.tss-detailslist-list-item-container:hover {
+    background-color: var(--tss-default-background-hover-color);
+}
+
 .tss-detailslist-list-item {
     display: inline-block;
     padding: 11px 32px 11px 12px;
