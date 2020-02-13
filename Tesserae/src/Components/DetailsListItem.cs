@@ -35,9 +35,10 @@ namespace Tesserae.Components
 
         public LineAwesomeSize LineAwesomeSize { get; }
 
-        public IEnumerable<HTMLElement> Render(
-            IList<IDetailsListColumn> columns,
-            Func<IDetailsListColumn, Func<HTMLElement>, HTMLElement> createGridCellExpression)
+        public IEnumerable<HTMLElement> Render<T>(
+            IList<IDetailsListColumn<T>> columns,
+            Func<IDetailsListColumn<T>, Func<HTMLElement>, HTMLElement> createGridCellExpression)
+                where T : class, IDetailsListItem
         {
             yield return createGridCellExpression(columns[0], () => LA(LineAwesomeIcon, LineAwesomeSize));
             yield return createGridCellExpression(columns[1], () => Span(_(text: FileName)));

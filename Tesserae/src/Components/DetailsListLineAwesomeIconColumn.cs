@@ -1,45 +1,37 @@
 using System;
-using System.Runtime.InteropServices;
 using static Tesserae.UI;
 using static Retyped.dom;
 
 namespace Tesserae.Components
 {
-    public class DetailsListLineAwesomeIconColumn : IDetailsListColumn
+    public class DetailsListLineAwesomeIconColumn<TDetailsListItem> : IDetailsListColumn<TDetailsListItem>
+        where TDetailsListItem : class, IDetailsListItem
     {
-        private readonly Action<DetailsListLineAwesomeIconColumn> _onColumnClick;
-
         public DetailsListLineAwesomeIconColumn(
             LineAwesome lineAwesomeIcon,
             string title,
             UnitSize width,
             LineAwesomeSize lineAwesomeSize = LineAwesomeSize.Default,
-            Action<DetailsListLineAwesomeIconColumn> onColumnClick = null)
+            Action<TDetailsListItem> onColumnClick = null)
         {
             LineAwesomeIcon = lineAwesomeIcon;
             Title           = title;
             Width           = width;
             LineAwesomeSize = LineAwesomeSize;
-            _onColumnClick  = onColumnClick;
-
-            EnableOnColumnClickEvent = onColumnClick != null;
+            OnColumnClick   = onColumnClick;
         }
 
-        public LineAwesome LineAwesomeIcon     { get; }
+        public LineAwesome LineAwesomeIcon            { get; }
 
-        public string Title                    { get; }
+        public string Title                           { get; }
 
-        public UnitSize Width                  { get; }
+        public UnitSize Width                         { get; }
 
-        public LineAwesomeSize LineAwesomeSize { get; }
+        public LineAwesomeSize LineAwesomeSize        { get; }
 
-        public bool IsRowHeader                 => false;
+        public bool IsRowHeader                       => false;
 
-        public bool EnableColumnSorting         => false;
-
-        public bool EnableOnColumnClickEvent    { get; }
-
-        public void OnColumnClick()             => _onColumnClick?.Invoke(this);
+        public Action<TDetailsListItem> OnColumnClick { get; }
 
         public HTMLElement Render()
         {
