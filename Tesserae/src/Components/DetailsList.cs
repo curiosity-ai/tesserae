@@ -11,7 +11,7 @@ namespace Tesserae.Components
         where TDetailListItem : class, IDetailsListItem
     {
         private readonly int _rowsPerPage;
-        private readonly List<IDetailsListColumn<TDetailListItem>> _detailsListColumns;
+        private readonly List<IDetailsListColumn> _detailsListColumns;
         private readonly List<IEnumerable<TDetailListItem>> _detailsListItems;
         private readonly HTMLElement _innerElement;
 
@@ -24,7 +24,7 @@ namespace Tesserae.Components
             int rowsPerPage = 8)
         {
             _rowsPerPage        = rowsPerPage;
-            _detailsListColumns = new List<IDetailsListColumn<TDetailListItem>>();
+            _detailsListColumns = new List<IDetailsListColumn>();
             _detailsListItems   = new List<IEnumerable<TDetailListItem>>();
             _innerElement       = Div(_());
         }
@@ -32,7 +32,7 @@ namespace Tesserae.Components
         public HTMLElement Render() => _innerElement;
 
         private static HTMLDivElement CreateGridCell(
-            IDetailsListColumn<TDetailListItem> column,
+            IDetailsListColumn column,
             Func<HTMLElement> gridCellInnerHtmlExpression)
         {
             string role = column.IsRowHeader ?
@@ -53,14 +53,14 @@ namespace Tesserae.Components
         }
 
         public DetailsList<TDetailListItem> WithColumn<TColumn>(TColumn column)
-            where TColumn : class, IDetailsListColumn<TDetailListItem>
+            where TColumn : class, IDetailsListColumn
         {
             _detailsListColumns.Add(column);
             return this;
         }
 
         public DetailsList<TDetailListItem> WithColumns<TColumn>(IEnumerable<TColumn> columns)
-            where TColumn : class, IDetailsListColumn<TDetailListItem>
+            where TColumn : class, IDetailsListColumn
         {
             _detailsListColumns.AddRange(columns);
             return this;
@@ -104,6 +104,12 @@ namespace Tesserae.Components
                     cssStyleDeclaration.width = column.Width.ToString();
                 });
 
+                if (column.EnableOnColumnClickEvent)
+                {
+                    columnHeader.addEventListener("click", column.OnColumnClick);
+                    columnHeader.className = $"{columnHeader.className} tss-cursor-pointer";
+                }
+
                 columnHeader.appendChild(columnHtmlElement);
                 detailsListHeader.appendChild(columnHeader);
             }
@@ -145,7 +151,6 @@ namespace Tesserae.Components
 
                 if (detailsListItemsCount == index)
                 {
-                    console.log("hit");
                     var lastGridCellHtmlElement = gridCellHtmlElements.Last();
                     AttachOnLastGridCellMountedEvent(lastGridCellHtmlElement);
                 }

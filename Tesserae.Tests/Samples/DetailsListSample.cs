@@ -80,26 +80,31 @@ namespace Tesserae.Tests.Samples
                                     .PaddingBottom(Unit.Pixels, 16),
                                 DetailList<DetailsListItem>()
                                     .WithColumn(
-                                        new DetailsListLineAwesomeIconColumn<DetailsListItem>(
+                                        new DetailsListLineAwesomeIconColumn(
                                             lineAwesomeIcon: LineAwesome.File,
                                             lineAwesomeSize: LineAwesomeSize.Regular,
                                             title: "File Type",
                                             width: 32.px()))
                                     .WithColumn(
-                                        new DetailsListColumn<DetailsListItem>(
+                                        new DetailsListColumn(
                                             title: "File Name",
                                             width: 350.px(),
                                             isRowHeader: true))
                                     .WithColumn(
-                                        new DetailsListColumn<DetailsListItem>(
+                                        new DetailsListColumn(
                                                 title: "Date Modified",
                                                 width: 150.px()))
                                     .WithColumn(
-                                        new DetailsListColumn<DetailsListItem>(
+                                        new DetailsListColumn(
                                                 title: "Modified By",
-                                                width: 150.px()))
+                                                width: 150.px(),
+                                                onColumnClick: column =>
+                                                {
+                                                    alert($"You clicked me! My width is: {column.Width} and my " +
+                                                          $"title is {column.Title}");
+                                                }))
                                     .WithColumn(
-                                        new DetailsListColumn<DetailsListItem>(
+                                        new DetailsListColumn(
                                                 title: "File Size",
                                                 width: 100.px()))
                                     .WithListItems(GetDetailsListItems())));

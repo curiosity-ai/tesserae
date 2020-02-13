@@ -227,3 +227,7 @@
     font-size: var(--tss-font-size-medium);
     font-weight: var(--tss-font-weight-regular);
 }
+
+.tss-cursor-pointer {
+    cursor: pointer;
+}
