@@ -16,7 +16,6 @@ namespace Tesserae.Components
         private readonly int _rowsPerPage;
         private readonly int _columnsPerRow;
 
-        private readonly Dictionary<int, IComponent> _components;
         private readonly ListPageCache _listPageCache;
 
         private readonly int _componentsPerPage;
@@ -125,7 +124,7 @@ namespace Tesserae.Components
 
         private void CalculateCounts()
         {
-            _componentsCount = _components.Count;
+            _componentsCount = _listPageCache.ComponentsCount;
             _pagesCount      = _listPageCache.PagesCount;
             _rowsCount       = _rowsPerPage * _pagesCount;
         }

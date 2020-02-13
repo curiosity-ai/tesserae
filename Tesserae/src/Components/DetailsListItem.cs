@@ -8,34 +8,38 @@ namespace Tesserae.Components
     public class DetailsListItem : IDetailsListItem
     {
         public DetailsListItem(
-            string iconName,
+            LineAwesome lineAwesomeIcon,
             string fileName,
             DateTime dateModified,
             string modifiedBy,
-            int fileSize)
+            int fileSize,
+            LineAwesomeSize lineAwesomeSize = LineAwesomeSize.Default)
         {
-            IconName     = iconName;
-            FileName     = fileName;
-            DateModified = dateModified;
-            ModifiedBy   = modifiedBy;
-            FileSize     = fileSize;
+            LineAwesomeIcon = lineAwesomeIcon;
+            FileName        = fileName;
+            DateModified    = dateModified;
+            ModifiedBy      = modifiedBy;
+            FileSize        = fileSize;
+            LineAwesomeSize = lineAwesomeSize;
         }
 
-        public string IconName       { get; }
+        public LineAwesome LineAwesomeIcon     { get; }
 
-        public string FileName       { get; }
+        public string FileName                 { get; }
 
-        public DateTime DateModified { get; }
+        public DateTime DateModified           { get; }
 
-        public string ModifiedBy     { get; }
+        public string ModifiedBy               { get; }
 
-        public int FileSize          { get; }
+        public int FileSize                    { get; }
+
+        public LineAwesomeSize LineAwesomeSize { get; }
 
         public IEnumerable<HTMLElement> Render(
             IList<IDetailsListColumn> columns,
             Func<IDetailsListColumn, Func<HTMLElement>, HTMLElement> createGridCellExpression)
         {
-            yield return createGridCellExpression(columns[0], () => Span(_(text: IconName)));
+            yield return createGridCellExpression(columns[0], () => LA(LineAwesomeIcon, LineAwesomeSize));
             yield return createGridCellExpression(columns[1], () => Span(_(text: FileName)));
             yield return createGridCellExpression(columns[2], () => Span(_(text: DateModified.ToShortDateString())));
             yield return createGridCellExpression(columns[3], () => Span(_(text: ModifiedBy)));

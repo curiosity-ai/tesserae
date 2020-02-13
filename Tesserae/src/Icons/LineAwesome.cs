@@ -4,7 +4,7 @@ namespace Tesserae
 {
 
     [Enum(Emit.Value)]
-    public enum LA
+    public enum LineAwesome
     {
         [Name("la-500px")]                            _500px,
         [Name("la-accessible-icon")]                  AccessibleIcon,

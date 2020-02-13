@@ -55,7 +55,7 @@ namespace Tesserae
             }
             return l;
         }
-        
+
         public static void RemoveChildElements(this HTMLElement source)
         {
             while (source.firstElementChild != null)
@@ -194,6 +194,33 @@ namespace Tesserae
         public static HTMLElement I(Attributes init, params HTMLElement[] children)
         {
             return InitElement(document.createElement("i"), init, children);
+        }
+
+        public static HTMLElement LA(
+            LineAwesome lineAwesomeIcon,
+            LineAwesomeSize lineAwesomeSize = LineAwesomeSize.Default)
+        {
+            string lineAwesomeSizeClassName;
+
+            switch (lineAwesomeSize)
+            {
+                case LineAwesomeSize.Default:
+                    lineAwesomeSizeClassName = "la";
+                    break;
+                case LineAwesomeSize.Regular:
+                    lineAwesomeSizeClassName = "lar";
+                    break;
+                case LineAwesomeSize.Solid:
+                    lineAwesomeSizeClassName = "las";
+                    break;
+                case LineAwesomeSize.Brand:
+                    lineAwesomeSizeClassName = "lab";
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(lineAwesomeSize), lineAwesomeSize, null);
+            }
+
+            return I(_($"{lineAwesomeSizeClassName} {lineAwesomeIcon}"));
         }
 
         public static HTMLElement Sup(Attributes init, params HTMLElement[] children)

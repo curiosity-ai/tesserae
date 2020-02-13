@@ -16,10 +16,10 @@ namespace Tesserae.Tests.Samples
             var detailsList =
                 DetailList<DetailsListItem>()
                     .WithColumn(
-                        new DetailsListIconColumn(
+                        new DetailsListLineAwesomeIconColumn(
+                            lineAwesomeIcon: LineAwesome.File,
                             title: "File Type",
-                            width: 16.px(),
-                            icon: "far fa-file"))
+                            width: 16.px()))
                     .WithColumn(
                         new DetailsListColumn(
                             title: "File Name",
@@ -54,24 +54,24 @@ namespace Tesserae.Tests.Samples
                 .SelectMany(number => new List<DetailsListItem>
                 {
                     new DetailsListItem(
-                        "",
-                        "Interesting File Name, quite long as you can see. In fact, let's make it longer to see " +
-                        "how the padding looks.",
-                        DateTime.Today.AddDays(-10),
-                        "Dale Cooper",
-                        10),
+                        lineAwesomeIcon: LineAwesome.FileWord,
+                        fileName: "Interesting File Name, quite long as you can see. In fact, let's make it " +
+                                  "longer to see how the padding looks.",
+                        dateModified: DateTime.Today.AddDays(-10),
+                        modifiedBy: "Dale Cooper",
+                        fileSize: 10),
                     new DetailsListItem(
-                        "",
-                        "File Name 2",
-                        DateTime.Today.AddDays(-20),
-                        "Rusty",
-                        10),
+                        lineAwesomeIcon: LineAwesome.FileExcel,
+                        fileName: "File Name 2",
+                        dateModified: DateTime.Today.AddDays(-20),
+                        modifiedBy: "Rusty",
+                        fileSize: 10),
                     new DetailsListItem(
-                        "",
-                        "File Name 3",
-                        DateTime.Today.AddDays(-30),
-                        "Cole",
-                        15)
+                        lineAwesomeIcon: LineAwesome.FilePowerpoint,
+                        fileName: "File Name 3",
+                        dateModified: DateTime.Today.AddDays(-30),
+                        modifiedBy: "Cole",
+                        fileSize: 15)
             }).ToArray();
         }
     }

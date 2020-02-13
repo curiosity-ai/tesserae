@@ -40,7 +40,9 @@ namespace Tesserae
             _components = new Dictionary<int, IComponent>();
         }
 
-        public int PagesCount => _pages.Count;
+        public int ComponentsCount => _components.Count;
+        
+        public int PagesCount      => _pages.Count;
 
         public ListPageCache AddComponents(IEnumerable<IComponent> components)
         {
