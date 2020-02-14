@@ -35,6 +35,13 @@ namespace Tesserae.Components
 
         public LineAwesomeSize LineAwesomeSize { get; }
 
+        public bool EnableOnListItemClickEvent => true;
+
+        public void OnListItemClick(int listItemIndex)
+        {
+            alert($"You clicked me! List item index: {listItemIndex}, my name is {FileName}");
+        }
+
         public IEnumerable<HTMLElement> Render(
             IList<IDetailsListColumn> columns,
             Func<IDetailsListColumn, Func<HTMLElement>, HTMLElement> createGridCellExpression)

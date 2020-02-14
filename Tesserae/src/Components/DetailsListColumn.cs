@@ -21,7 +21,7 @@ namespace Tesserae.Components
             EnableColumnSorting = enableColumnSorting;
             _onColumnClick      = onColumnClick;
 
-            EnableOnColumnClickEvent = onColumnClick != null;
+            EnableOnColumnClickEvent = _onColumnClick != null;
         }
 
         public string Title                  { get; }

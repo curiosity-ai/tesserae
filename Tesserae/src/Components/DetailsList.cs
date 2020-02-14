@@ -155,6 +155,16 @@ namespace Tesserae.Components
                     AttachOnLastGridCellMountedEvent(lastGridCellHtmlElement);
                 }
 
+                if (detailsListItem.EnableOnListItemClickEvent)
+                {
+                    var indexCopy = index;
+
+                    detailsListItemContainer.addEventListener("click",
+                        () => detailsListItem.OnListItemClick(indexCopy));
+
+                    detailsListItemContainer.className = $"{detailsListItemContainer.className} tss-cursor-pointer";
+                }
+
                 detailsListItemContainer.AppendChildren(gridCellHtmlElements);
                 _detailsListItemsContainer.appendChild(detailsListItemContainer);
 

@@ -22,7 +22,7 @@ namespace Tesserae.Components
             LineAwesomeSize = LineAwesomeSize;
             _onColumnClick  = onColumnClick;
 
-            EnableOnColumnClickEvent = onColumnClick != null;
+            EnableOnColumnClickEvent = _onColumnClick != null;
         }
 
         public LineAwesome LineAwesomeIcon     { get; }
