@@ -6,8 +6,6 @@ namespace Tesserae.Components
     {
         string SortingKey             { get; }
 
-        string Title                  { get; }
-
         UnitSize Width                { get; }
 
         bool IsRowHeader              { get; }

@@ -84,7 +84,6 @@ namespace Tesserae.Tests.Samples
                                             sortingKey: "FileIcon",
                                             lineAwesomeIcon: LineAwesome.File,
                                             lineAwesomeSize: LineAwesomeSize.Regular,
-                                            title: "File Type",
                                             width: 32.px()))
                                     .WithColumn(
                                         new DetailsListColumn(

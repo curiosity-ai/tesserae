@@ -13,8 +13,6 @@ namespace Tesserae.Components
         private readonly int _rowsPerPage;
         private readonly List<IDetailsListColumn> _detailsListColumns;
         private readonly List<TDetailsListItem> _detailsListItems;
-        private readonly List<(string sortingKey, HTMLElement columnHeader)> _columnHeadersWithSortingKeys;
-        private readonly List<string> _columnSortingKeys;
         private readonly HTMLElement _innerElement;
 
         private bool _detailsListColumnHeadersRendered;
@@ -32,9 +30,7 @@ namespace Tesserae.Components
             _detailsListItems   = new List<TDetailsListItem>();
             _innerElement       = Div(_());
 
-            _columnSortingKeys            = new List<string>();
-            _columnHeadersWithSortingKeys = new List<(string, HTMLElement)>();
-            _previousColumnSortingKey     = string.Empty;
+            _previousColumnSortingKey = string.Empty;
         }
 
         public HTMLElement Render() => _innerElement;
@@ -55,20 +51,6 @@ namespace Tesserae.Components
                     })
                     .WithRole(role));
 
-            if (column.EnableColumnSorting)
-            {
-                if (!_columnSortingKeys.Contains(column.SortingKey))
-                {
-                    var columnHeaderWithSortingKey =
-                        _columnHeadersWithSortingKeys
-                            .Single(columnHeader => columnHeader.sortingKey.Equals(column.SortingKey));
-
-                    columnHeaderWithSortingKey.columnHeader.addEventListener(
-                        "click", () => SortColumns(column.SortingKey));
-
-                    _columnSortingKeys.Add(column.SortingKey);
-                }
-            }
 
             gridCellHtmlElement.appendChild(gridCellInnerHtmlExpression());
 
@@ -120,6 +102,7 @@ namespace Tesserae.Components
             {
                 var columnHeader = Div(_("tss-detailslist-column-header").WithRole("columnheader"));
 
+                // TODO: Add role of "button" to this element.
                 var columnHtmlElement = column.Render();
 
                 columnHeader.SetStyle(cssStyleDeclaration =>
@@ -129,12 +112,13 @@ namespace Tesserae.Components
 
                 if (column.EnableOnColumnClickEvent || column.EnableColumnSorting)
                 {
-                    columnHeader.className = $"{columnHeader.className} tss-cursor-pointer";
+                    columnHeader.classList.add("tss-cursor-pointer");
                 }
 
                 if (column.EnableColumnSorting && !column.EnableOnColumnClickEvent)
                 {
-                    _columnHeadersWithSortingKeys.Add((column.SortingKey, columnHeader));
+                    columnHeader.addEventListener(
+                        "click", () => SortColumns(column.SortingKey));
                 }
 
                 if (!column.EnableColumnSorting && !column.EnableOnColumnClickEvent)
@@ -143,6 +127,21 @@ namespace Tesserae.Components
                 }
 
                 columnHeader.appendChild(columnHtmlElement);
+
+                if (column.IsRowHeader)
+                {
+                    // TODO: Move style definitions to classes.
+                    columnHeader.appendChild(LA(LineAwesome.ArrowUp).SetStyle(cssStyleDeclaration =>
+                    {
+                        cssStyleDeclaration.paddingLeft = 6.px().ToString();
+                    }));
+
+                    columnHtmlElement.SetStyle(cssStyleDeclaration =>
+                    {
+                        cssStyleDeclaration.cssFloat = "left";
+                    });
+                }
+
                 detailsListHeader.appendChild(columnHeader);
             }
 
@@ -194,7 +193,7 @@ namespace Tesserae.Components
                     detailsListItemContainer.addEventListener("click",
                         () => detailsListItem.OnListItemClick(indexCopy));
 
-                    detailsListItemContainer.className = $"{detailsListItemContainer.className} tss-cursor-pointer";
+                    detailsListItemContainer.classList.add("tss-cursor-pointer");
                 }
 
                 detailsListItemContainer.AppendChildren(gridCellHtmlElements);
@@ -222,7 +221,7 @@ namespace Tesserae.Components
 
         private void SortColumns(string columnSortingKey)
         {
-            _detailsListItemsContainer.classList.add("fade");
+           _detailsListItemsContainer.classList.add("fade");
 
             window.setTimeout(_ =>
             {
@@ -243,8 +242,11 @@ namespace Tesserae.Components
 
                 _detailsListItemsContainer.classList.remove("fade");
                 _previousColumnSortingKey = columnSortingKey;
-            }, 2000);
-
+            }, 0100);
+            /* The above magic number is the length of the fade out transition added to the _detailsListItemContainer
+             * minus a completely arbitrary amount. Can we access this programmatically?
+             * Could possibly do with adding a fade in transition as well to make the appearance of the newly ordered
+             * list items smoother. */
         }
     }
 }

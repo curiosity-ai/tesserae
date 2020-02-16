@@ -10,7 +10,6 @@ namespace Tesserae.Components
         public DetailsListLineAwesomeIconColumn(
             string sortingKey,
             LineAwesome lineAwesomeIcon,
-            string title,
             UnitSize width,
             LineAwesomeSize lineAwesomeSize = LineAwesomeSize.Default)
         {
@@ -19,23 +18,15 @@ namespace Tesserae.Components
                 throw new ArgumentException(nameof(sortingKey));
             }
 
-            if (string.IsNullOrWhiteSpace(title))
-            {
-                throw new ArgumentException(nameof(title));
-            }
-
             Width            = width ?? throw new ArgumentNullException(nameof(width));
             SortingKey       = sortingKey;
             LineAwesomeIcon  = lineAwesomeIcon;
-            Title            = title;
             LineAwesomeSize  = lineAwesomeSize;
         }
 
         public string SortingKey               { get; }
 
         public LineAwesome LineAwesomeIcon     { get; }
-
-        public string Title                    { get; }
 
         public UnitSize Width                  { get; }
 
