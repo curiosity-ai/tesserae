@@ -25,6 +25,7 @@ namespace Tesserae
             {
                 throw new ArgumentOutOfRangeException(nameof(componentsPerPage));
             }
+
             _componentsPerPage = componentsPerPage;
 
             _createPageHtmlElementExpression =
@@ -41,7 +42,7 @@ namespace Tesserae
         }
 
         public int ComponentsCount => _components.Count;
-        
+
         public int PagesCount      => _pages.Count;
 
         public ListPageCache AddComponents(IEnumerable<IComponent> components)

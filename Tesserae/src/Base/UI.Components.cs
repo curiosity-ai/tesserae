@@ -91,13 +91,13 @@ namespace Tesserae
         public static Label Label(IComponent component) => new Label(component);
 
         public static EditableLabel EditableLabel(string text = string.Empty) => new EditableLabel(text);
-        
+
         public static EditableArea EditableArea(string text = string.Empty) => new EditableArea(text);
 
         public static Breadcrumb Breadcrumb() => new Breadcrumb();
 
         public static Button Crumb(string text = string.Empty) => new Button(text).NoBorder().NoBackground();
-        
+
         public static OverflowSet OverflowSet() => new OverflowSet();
 
         public static TextBox TextBox(string text = string.Empty) => new TextBox(text);
@@ -113,7 +113,7 @@ namespace Tesserae
         public static Nav Nav() => new Nav();
 
         public static Nav.NavLink NavLink(string text = null, string icon = null) => new Nav.NavLink(text, icon);
-        
+
         public static Nav.NavLink NavLink(IComponent content) => new Nav.NavLink(content);
 
         public static Panel Panel() => new Panel();
@@ -176,7 +176,7 @@ namespace Tesserae
         }
 
         public static DetailsList<TDetailsListItem> DetailList<TDetailsListItem>()
-            where TDetailsListItem : class, IDetailsListItem
+            where TDetailsListItem : IDetailsListItem<TDetailsListItem>
         {
             return new DetailsList<TDetailsListItem>();
         }

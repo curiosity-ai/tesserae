@@ -7,12 +7,14 @@ using static Retyped.dom;
 
 namespace Tesserae.Components
 {
-    public class DetailsList<TDetailListItem> : IComponent
-        where TDetailListItem : class, IDetailsListItem
+    public class DetailsList<TDetailsListItem> : IComponent
+        where TDetailsListItem : IDetailsListItem<TDetailsListItem>
     {
         private readonly int _rowsPerPage;
         private readonly List<IDetailsListColumn> _detailsListColumns;
-        private readonly List<IEnumerable<TDetailListItem>> _detailsListItems;
+        private readonly List<TDetailsListItem> _detailsListItems;
+        private readonly List<(string sortingKey, HTMLElement columnHeader)> _columnHeadersWithSortingKeys;
+        private readonly List<string> _columnSortingKeys;
         private readonly HTMLElement _innerElement;
 
         private bool _detailsListColumnHeadersRendered;
@@ -20,18 +22,25 @@ namespace Tesserae.Components
         private HTMLDivElement _detailsListContainer;
         private HTMLDivElement _detailsListItemsContainer;
 
+        private string _previousColumnSortingKey;
+        private ListItemSortDirection _listItemSortDirection;
+
         public DetailsList(
             int rowsPerPage = 8)
         {
             _rowsPerPage        = rowsPerPage;
             _detailsListColumns = new List<IDetailsListColumn>();
-            _detailsListItems   = new List<IEnumerable<TDetailListItem>>();
+            _detailsListItems   = new List<TDetailsListItem>();
             _innerElement       = Div(_());
+
+            _columnSortingKeys            = new List<string>();
+            _columnHeadersWithSortingKeys = new List<(string, HTMLElement)>();
+            _listItemSortDirection        = ListItemSortDirection.Descending;
         }
 
         public HTMLElement Render() => _innerElement;
 
-        private static HTMLDivElement CreateGridCell(
+        private HTMLDivElement CreateGridCell(
             IDetailsListColumn column,
             Func<HTMLElement> gridCellInnerHtmlExpression)
         {
@@ -47,26 +56,41 @@ namespace Tesserae.Components
                     })
                     .WithRole(role));
 
+            if (column.EnableColumnSorting)
+            {
+                if (!_columnSortingKeys.Contains(column.SortingKey))
+                {
+                    var columnHeaderWithSortingKey =
+                        _columnHeadersWithSortingKeys
+                            .Single(columnHeader => columnHeader.sortingKey.Equals(column.SortingKey));
+
+                    columnHeaderWithSortingKey.columnHeader.addEventListener(
+                        "click", () => SortColumns(column.SortingKey));
+
+                    _columnSortingKeys.Add(column.SortingKey);
+                }
+            }
+
             gridCellHtmlElement.appendChild(gridCellInnerHtmlExpression());
 
             return gridCellHtmlElement;
         }
 
-        public DetailsList<TDetailListItem> WithColumn<TColumn>(TColumn column)
-            where TColumn : class, IDetailsListColumn
+        public DetailsList<TDetailsListItem> WithColumn<TDetailsListColumn>(TDetailsListColumn column)
+            where TDetailsListColumn : class, IDetailsListColumn
         {
             _detailsListColumns.Add(column);
             return this;
         }
 
-        public DetailsList<TDetailListItem> WithColumns<TColumn>(IEnumerable<TColumn> columns)
-            where TColumn : class, IDetailsListColumn
+        public DetailsList<TDetailsListItem> WithColumns<TDetailsListColumn>(IEnumerable<TDetailsListColumn> columns)
+            where TDetailsListColumn : class, IDetailsListColumn
         {
             _detailsListColumns.AddRange(columns);
             return this;
         }
 
-        public DetailsList<TDetailListItem> WithListItems(params TDetailListItem[] listItems)
+        public DetailsList<TDetailsListItem> WithListItems(params TDetailsListItem[] listItems)
         {
             if (!_detailsListColumnHeadersRendered)
             {
@@ -78,7 +102,7 @@ namespace Tesserae.Components
                 RenderDetailsListItemsContainer();
             }
 
-            _detailsListItems.Add(listItems);
+            _detailsListItems.AddRange(listItems);
 
             RenderDetailsListItems(listItems);
 
@@ -104,10 +128,19 @@ namespace Tesserae.Components
                     cssStyleDeclaration.width = column.Width.ToString();
                 });
 
-                if (column.EnableOnColumnClickEvent)
+                if (column.EnableOnColumnClickEvent || column.EnableColumnSorting)
+                {
+                    columnHeader.className = $"{columnHeader.className} tss-cursor-pointer";
+                }
+
+                if (column.EnableColumnSorting && !column.EnableOnColumnClickEvent)
+                {
+                    _columnHeadersWithSortingKeys.Add((column.SortingKey, columnHeader));
+                }
+
+                if (!column.EnableColumnSorting && !column.EnableOnColumnClickEvent)
                 {
                     columnHeader.addEventListener("click", column.OnColumnClick);
-                    columnHeader.className = $"{columnHeader.className} tss-cursor-pointer";
                 }
 
                 columnHeader.appendChild(columnHtmlElement);
@@ -133,7 +166,7 @@ namespace Tesserae.Components
             _detailsListItemsContainerRendered = true;
         }
 
-        private void RenderDetailsListItems(IEnumerable<TDetailListItem> detailsListItems)
+        private void RenderDetailsListItems(IEnumerable<TDetailsListItem> detailsListItems)
         {
             detailsListItems          = detailsListItems.ToList();
             var detailsListItemsCount = detailsListItems.Count();
@@ -186,6 +219,22 @@ namespace Tesserae.Components
             {
                 cssStyleDeclaration.height = pageHeight.px().ToString();
             });
+        }
+
+        private void SortColumns(string columnSortingKey)
+        {
+            _detailsListItems.Sort(
+                (detailsListItem, detailsListItemOther)
+                    => detailsListItem.CompareTo(detailsListItemOther, columnSortingKey));
+
+            _detailsListItemsContainer.RemoveChildElements();
+
+            if (_previousColumnSortingKey == columnSortingKey)
+            {
+
+            }
+
+            RenderDetailsListItems(_detailsListItems);
         }
     }
 }

@@ -6,23 +6,29 @@ namespace Tesserae.Components
 {
     public class DetailsListColumn : IDetailsListColumn
     {
-        private readonly Action<DetailsListColumn> _onColumnClick;
-
         public DetailsListColumn(
+            string sortingKey,
             string title,
             UnitSize width,
-            bool isRowHeader = false,
-            bool enableColumnSorting = true,
-            Action<DetailsListColumn> onColumnClick = null)
+            bool isRowHeader = false)
         {
-            Title               = title;
-            Width               = width;
-            IsRowHeader         = isRowHeader;
-            EnableColumnSorting = enableColumnSorting;
-            _onColumnClick      = onColumnClick;
+            if (string.IsNullOrWhiteSpace(sortingKey))
+            {
+                throw new ArgumentException(nameof(sortingKey));
+            }
 
-            EnableOnColumnClickEvent = _onColumnClick != null;
+            if (string.IsNullOrWhiteSpace(title))
+            {
+                throw new ArgumentException(nameof(title));
+            }
+
+            Width       = width ?? throw new ArgumentNullException(nameof(width));
+            SortingKey  = sortingKey;
+            Title       = title;
+            IsRowHeader = isRowHeader;
         }
+
+        public string SortingKey             { get; }
 
         public string Title                  { get; }
 
@@ -30,11 +36,13 @@ namespace Tesserae.Components
 
         public bool IsRowHeader              { get; }
 
-        public bool EnableColumnSorting      { get; }
+        public bool EnableColumnSorting      => true;
 
-        public bool EnableOnColumnClickEvent { get; }
+        public bool EnableOnColumnClickEvent => false;
 
-        public void OnColumnClick()          => _onColumnClick?.Invoke(this);
+        public void OnColumnClick()
+        {
+        }
 
         public HTMLElement Render()
         {

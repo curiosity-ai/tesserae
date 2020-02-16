@@ -14,4 +14,10 @@ namespace Tesserae.Components
             IList<IDetailsListColumn> columns,
             Func<IDetailsListColumn, Func<HTMLElement>, HTMLElement> createGridCellExpression);
     }
+
+    public interface IDetailsListItem<in TDetailsListItem> : IDetailsListItem
+        where TDetailsListItem : IDetailsListItem<TDetailsListItem>
+    {
+        int CompareTo(TDetailsListItem other, string columnSortingKey);
+    }
 }

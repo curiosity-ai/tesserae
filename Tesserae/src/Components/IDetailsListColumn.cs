@@ -4,15 +4,17 @@ namespace Tesserae.Components
 {
     public interface IDetailsListColumn : IComponent
     {
-        string Title                             { get; }
+        string SortingKey             { get; }
 
-        UnitSize Width                           { get; }
+        string Title                  { get; }
 
-        bool IsRowHeader                         { get; }
+        UnitSize Width                { get; }
 
-        bool EnableColumnSorting                 { get; }
+        bool IsRowHeader              { get; }
 
-        bool EnableOnColumnClickEvent            { get; }
+        bool EnableColumnSorting      { get; }
+
+        bool EnableOnColumnClickEvent { get; }
 
         void OnColumnClick();
     }
