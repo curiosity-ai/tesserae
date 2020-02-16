@@ -23,7 +23,6 @@ namespace Tesserae.Components
         private HTMLDivElement _detailsListItemsContainer;
 
         private string _previousColumnSortingKey;
-        private ListItemSortDirection _listItemSortDirection;
 
         public DetailsList(
             int rowsPerPage = 8)
@@ -35,7 +34,7 @@ namespace Tesserae.Components
 
             _columnSortingKeys            = new List<string>();
             _columnHeadersWithSortingKeys = new List<(string, HTMLElement)>();
-            _listItemSortDirection        = ListItemSortDirection.Descending;
+            _previousColumnSortingKey     = string.Empty;
         }
 
         public HTMLElement Render() => _innerElement;
@@ -223,18 +222,29 @@ namespace Tesserae.Components
 
         private void SortColumns(string columnSortingKey)
         {
-            _detailsListItems.Sort(
-                (detailsListItem, detailsListItemOther)
-                    => detailsListItem.CompareTo(detailsListItemOther, columnSortingKey));
+            _detailsListItemsContainer.classList.add("fade");
 
-            _detailsListItemsContainer.RemoveChildElements();
-
-            if (_previousColumnSortingKey == columnSortingKey)
+            window.setTimeout(_ =>
             {
+                _detailsListItemsContainer.RemoveChildElements();
 
-            }
+                if (_previousColumnSortingKey.Equals(columnSortingKey))
+                {
+                    _detailsListItems.Reverse();
+                }
+                else
+                {
+                    _detailsListItems.Sort(
+                        (detailsListItem, detailsListItemOther)
+                            => detailsListItem.CompareTo(detailsListItemOther, columnSortingKey));
+                }
 
-            RenderDetailsListItems(_detailsListItems);
+                RenderDetailsListItems(_detailsListItems);
+
+                _detailsListItemsContainer.classList.remove("fade");
+                _previousColumnSortingKey = columnSortingKey;
+            }, 2000);
+
         }
     }
 }

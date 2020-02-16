@@ -2,7 +2,7 @@ namespace Tesserae
 {
     public enum ListItemSortDirection
     {
-        Descending,
-        Ascending
+        Ascending,
+        Descending
     }
 }
