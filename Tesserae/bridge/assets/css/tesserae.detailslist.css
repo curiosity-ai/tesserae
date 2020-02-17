@@ -44,3 +44,7 @@
     padding: 4px 32px 4px 12px;
 }
 
+.tss-detailslist-column-header-sorting-icon {
+    padding-left: 5px;
+}
+

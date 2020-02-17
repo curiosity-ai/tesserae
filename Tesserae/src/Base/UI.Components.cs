@@ -175,10 +175,10 @@ namespace Tesserae
                 columnsPerRow);
         }
 
-        public static DetailsList<TDetailsListItem> DetailList<TDetailsListItem>()
+        public static DetailsList<TDetailsListItem> DetailList<TDetailsListItem>(int rowsPerPage = 8)
             where TDetailsListItem : IDetailsListItem<TDetailsListItem>
         {
-            return new DetailsList<TDetailsListItem>();
+            return new DetailsList<TDetailsListItem>(rowsPerPage);
         }
     }
 }

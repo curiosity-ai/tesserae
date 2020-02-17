@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Bridge;
+using Tesserae.Components;
 using Tesserae.HTML;
 using static Retyped.dom;
 
@@ -196,11 +197,12 @@ namespace Tesserae
             return InitElement(document.createElement("i"), init, children);
         }
 
-        public static HTMLElement LA(
+        public static HTMLElement I(
             LineAwesome lineAwesomeIcon,
-            LineAwesomeSize lineAwesomeSize = LineAwesomeSize.Default)
+            LineAwesomeSize lineAwesomeSize = LineAwesomeSize.Default,
+            string cssClass = null)
         {
-            return I(_($"{lineAwesomeSize} {lineAwesomeIcon}"));
+            return I(_($"{lineAwesomeSize} {lineAwesomeIcon} {cssClass}"));
         }
 
         public static HTMLElement Sup(Attributes init, params HTMLElement[] children)

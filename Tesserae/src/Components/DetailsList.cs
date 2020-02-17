@@ -21,6 +21,7 @@ namespace Tesserae.Components
         private HTMLDivElement _detailsListItemsContainer;
 
         private string _previousColumnSortingKey;
+        private HTMLElement _columnSortingIcon;
 
         public DetailsList(
             int rowsPerPage = 8)
@@ -50,7 +51,6 @@ namespace Tesserae.Components
                         cssStyleDeclaration.width = column.Width.ToString();
                     })
                     .WithRole(role));
-
 
             gridCellHtmlElement.appendChild(gridCellInnerHtmlExpression());
 
@@ -118,7 +118,7 @@ namespace Tesserae.Components
                 if (column.EnableColumnSorting && !column.EnableOnColumnClickEvent)
                 {
                     columnHeader.addEventListener(
-                        "click", () => SortColumns(column.SortingKey));
+                        "click", () => SortColumns(column.SortingKey, columnHtmlElement));
                 }
 
                 if (!column.EnableColumnSorting && !column.EnableOnColumnClickEvent)
@@ -130,16 +130,10 @@ namespace Tesserae.Components
 
                 if (column.IsRowHeader)
                 {
-                    // TODO: Move style definitions to classes.
-                    columnHeader.appendChild(LA(LineAwesome.ArrowUp).SetStyle(cssStyleDeclaration =>
-                    {
-                        cssStyleDeclaration.paddingLeft = 6.px().ToString();
-                    }));
+                    _columnSortingIcon =
+                        I(LineAwesome.ArrowUp, cssClass: "tss-detailslist-column-header-sorting-icon");
 
-                    columnHtmlElement.SetStyle(cssStyleDeclaration =>
-                    {
-                        cssStyleDeclaration.cssFloat = "left";
-                    });
+                    columnHtmlElement.appendChild(_columnSortingIcon);
                 }
 
                 detailsListHeader.appendChild(columnHeader);
@@ -219,7 +213,7 @@ namespace Tesserae.Components
             });
         }
 
-        private void SortColumns(string columnSortingKey)
+        private void SortColumns(string columnSortingKey, HTMLElement columnHtmlElement)
         {
            _detailsListItemsContainer.classList.add("fade");
 
@@ -236,6 +230,11 @@ namespace Tesserae.Components
                     _detailsListItems.Sort(
                         (detailsListItem, detailsListItemOther)
                             => detailsListItem.CompareTo(detailsListItemOther, columnSortingKey));
+
+                    if (!string.IsNullOrWhiteSpace(columnSortingKey))
+                    {
+                        columnHtmlElement.appendChild(_columnSortingIcon);
+                    }
                 }
 
                 RenderDetailsListItems(_detailsListItems);

@@ -46,7 +46,7 @@ namespace Tesserae.Components
         {
             return Div(_())
                 .appendChild(
-                    LA(LineAwesomeIcon, LineAwesomeSize));
+                    I(LineAwesomeIcon, LineAwesomeSize));
         }
     }
 }

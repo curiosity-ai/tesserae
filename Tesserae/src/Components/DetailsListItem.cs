@@ -80,7 +80,7 @@ namespace Tesserae.Components
             IList<IDetailsListColumn> columns,
             Func<IDetailsListColumn, Func<HTMLElement>, HTMLElement> createGridCellExpression)
         {
-            yield return createGridCellExpression(columns[0], () => LA(FileIcon, LineAwesomeSize));
+            yield return createGridCellExpression(columns[0], () => I(FileIcon, LineAwesomeSize));
             yield return createGridCellExpression(columns[1], () => Span(_(text: FileName)));
             yield return createGridCellExpression(columns[2], () => Span(_(text: DateModified.ToShortDateString())));
             yield return createGridCellExpression(columns[3], () => Span(_(text: ModifiedBy)));
