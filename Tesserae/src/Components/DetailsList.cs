@@ -98,10 +98,34 @@ namespace Tesserae.Components
             if (_listItemsCreated)
             {
                 throw new InvalidOperationException("Can not add list items to the component after the " +
-                                                    "existing list items have been rendered");
+                                                    "existing list items have been created");
             }
 
             _componentCache.AddComponents(listItems);
+
+            return this;
+        }
+
+        public DetailsList<TDetailsListItem> SortedBy(string columnSortingKey)
+        {
+            if (string.IsNullOrWhiteSpace(columnSortingKey))
+            {
+                throw new ArgumentException(nameof(columnSortingKey));
+            }
+
+            if (_columnHeadersCreated)
+            {
+                throw new InvalidOperationException("Can not pre-sort list items after column headers " +
+                                                    "have been created");
+            }
+
+            if (_listItemsCreated)
+            {
+                throw new InvalidOperationException("Can not pre-sort list items after the existing " +
+                                                    "list items have been created");
+            }
+
+            SortListItems(columnSortingKey);
 
             return this;
         }
@@ -132,7 +156,7 @@ namespace Tesserae.Components
             if (_columnHeadersCreated)
             {
                 throw new InvalidOperationException("Can not add columns to the component after the " +
-                                                    "existing columns have been rendered");
+                                                    "existing column headers have been created");
             }
 
             _columns.AddRange(columns);
@@ -144,7 +168,7 @@ namespace Tesserae.Components
         {
             if (!_columns.Any())
             {
-                throw new InvalidOperationException("Can not render component without columns");
+                throw new InvalidOperationException("Can not create component without columns");
             }
 
             _listContainer = Div(_("tss-detailslist").WithRole("grid"));

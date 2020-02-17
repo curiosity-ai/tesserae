@@ -75,7 +75,7 @@ namespace Tesserae.Tests.Samples
                         Stack()
                             .Children(
                                 SampleTitle("Usage"),
-                                TextBlock("Details List")
+                                TextBlock("Details List With Textual Rows")
                                     .Medium()
                                     .PaddingBottom(Unit.Pixels, 16),
                                 DetailList<DetailsListItem>()
@@ -106,7 +106,9 @@ namespace Tesserae.Tests.Samples
                                             sortingKey: "FileSize",
                                             title: "File Size",
                                             width: 120.px()))
-                                    .WithListItems(GetDetailsListItems())));
+                                    .WithListItems(
+                                        GetDetailsListItems())
+                                    .SortedBy("FileName")));
         }
 
         public HTMLElement Render()
