@@ -8,15 +8,17 @@ using static Retyped.dom;
 namespace Tesserae.Components
 {
     public class DetailsList<TDetailsListItem> : IComponent
-        where TDetailsListItem : IDetailsListItem<TDetailsListItem>
+        where TDetailsListItem : class, IDetailsListItem<TDetailsListItem>
     {
         private readonly int _rowsPerPage;
         private readonly List<IDetailsListColumn> _detailsListColumns;
-        private readonly List<TDetailsListItem> _detailsListItems;
+        private readonly ComponentCache<TDetailsListItem> _componentCache;
         private readonly HTMLElement _innerElement;
 
         private bool _detailsListColumnHeadersRendered;
         private bool _detailsListItemsContainerRendered;
+        private bool _detailsListItemsRendered;
+
         private HTMLDivElement _detailsListContainer;
         private HTMLDivElement _detailsListItemsContainer;
 
@@ -26,18 +28,21 @@ namespace Tesserae.Components
 
         public DetailsList(int rowsPerPage = 8)
         {
+            if (rowsPerPage <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(rowsPerPage));
+            }
+
             _rowsPerPage        = rowsPerPage;
             _detailsListColumns = new List<IDetailsListColumn>();
-            _detailsListItems   = new List<TDetailsListItem>();
+            _componentCache     = new ComponentCache<TDetailsListItem>(CreateDetailsListItem);
             _innerElement       = Div(_());
 
             _previousColumnSortingKey      = string.Empty;
             _currentLineAwesomeSortingIcon = LineAwesome.ArrowUp;
         }
 
-        public HTMLElement Render() => _innerElement;
-
-        private HTMLDivElement CreateGridCell(
+        private static HTMLDivElement CreateGridCell(
             IDetailsListColumn column,
             Func<HTMLElement> gridCellInnerHtmlExpression)
         {
@@ -61,20 +66,29 @@ namespace Tesserae.Components
         public DetailsList<TDetailsListItem> WithColumn<TDetailsListColumn>(TDetailsListColumn column)
             where TDetailsListColumn : class, IDetailsListColumn
         {
-            _detailsListColumns.Add(column);
-
-            return this;
+            return AddColumns(column);
         }
 
         public DetailsList<TDetailsListItem> WithColumns<TDetailsListColumn>(IEnumerable<TDetailsListColumn> columns)
             where TDetailsListColumn : class, IDetailsListColumn
         {
-            _detailsListColumns.AddRange(columns);
+            return AddColumns(columns.ToArray());
+        }
+
+        public DetailsList<TDetailsListItem> WithListItems(params TDetailsListItem[] listItems)
+        {
+            if (_detailsListItemsRendered)
+            {
+                throw new InvalidOperationException("Can not add list items to the component after the " +
+                                                    "existing list items have been rendered");
+            }
+
+            _componentCache.AddComponents(listItems);
 
             return this;
         }
 
-        public DetailsList<TDetailsListItem> WithListItems(params TDetailsListItem[] listItems)
+        public HTMLElement Render()
         {
             if (!_detailsListColumnHeadersRendered)
             {
@@ -86,15 +100,35 @@ namespace Tesserae.Components
                 RenderDetailsListItemsContainer();
             }
 
-            _detailsListItems.AddRange(listItems);
+            if (!_detailsListItemsRendered)
+            {
+                RenderDetailsListItems();
+            }
 
-            RenderDetailsListItems(listItems);
+            return _innerElement;
+        }
+
+        private DetailsList<TDetailsListItem> AddColumns<TDetailsListColumn>(params TDetailsListColumn[] columns)
+            where TDetailsListColumn : class, IDetailsListColumn
+        {
+            if (_detailsListColumnHeadersRendered)
+            {
+                throw new InvalidOperationException("Can not add columns to the component after the " +
+                                                    "existing columns have been rendered");
+            }
+
+            _detailsListColumns.AddRange(columns);
 
             return this;
         }
 
         private void RenderColumnHeaders()
         {
+            if (!_detailsListColumns.Any())
+            {
+                throw new InvalidOperationException("Can not render component without columns");
+            }
+
             _detailsListContainer = Div(_("tss-detailslist").WithRole("grid"));
             _innerElement.appendChild(_detailsListContainer);
 
@@ -160,50 +194,44 @@ namespace Tesserae.Components
         private void RenderDetailsListItemsContainer()
         {
             _detailsListItemsContainer = Div(_("tss-detailslist-list-items-container").WithRole("presentation"));
-
             _detailsListContainer.appendChild(_detailsListItemsContainer);
-
             _detailsListItemsContainerRendered = true;
         }
 
-        private void RenderDetailsListItems(IEnumerable<TDetailsListItem> detailsListItems)
+        private HTMLElement CreateDetailsListItem(
+            (int Key, TDetailsListItem DetailsListItem) detailsListItemAndKey)
         {
-            detailsListItems          = detailsListItems.ToList();
-            var detailsListItemsCount = detailsListItems.Count();
+            var (detailsListItemNumber, detailsListItem) = detailsListItemAndKey;
 
-            /* The overload of select which projects an item belonging to a collection with its index doesn't seem to
-             * behave at runtime. - MB 12/02/2020 */
+            var detailsListItemContainer = Div(_("tss-detailslist-list-item-container").WithRole("presentation"));
+            var gridCellHtmlElements     = detailsListItem.Render(_detailsListColumns, CreateGridCell).ToArray();
 
-            // var detailsListItemsWithIndex =
-                // detailsListItems.Select((item, index) => new { value = item, index = index + 1 });
-
-            var index = 1;
-            foreach (var detailsListItem in detailsListItems)
+            if (_componentCache.ComponentsCount == detailsListItemNumber)
             {
-                var detailsListItemContainer = Div(_("tss-detailslist-list-item-container").WithRole("presentation"));
-                var gridCellHtmlElements     = detailsListItem.Render(_detailsListColumns, CreateGridCell).ToArray();
-
-                if (detailsListItemsCount == index)
-                {
-                    var lastGridCellHtmlElement = gridCellHtmlElements.Last();
-                    AttachOnLastGridCellMountedEvent(lastGridCellHtmlElement);
-                }
-
-                if (detailsListItem.EnableOnListItemClickEvent)
-                {
-                    var indexCopy = index;
-
-                    detailsListItemContainer.addEventListener("click",
-                        () => detailsListItem.OnListItemClick(indexCopy));
-
-                    detailsListItemContainer.classList.add("tss-cursor-pointer");
-                }
-
-                detailsListItemContainer.AppendChildren(gridCellHtmlElements);
-                _detailsListItemsContainer.appendChild(detailsListItemContainer);
-
-                index += 1;
+                var lastGridCellHtmlElement = gridCellHtmlElements.Last();
+                AttachOnLastGridCellMountedEvent(lastGridCellHtmlElement);
             }
+
+            if (detailsListItem.EnableOnListItemClickEvent)
+            {
+                var detailsListItemNumberCopy = detailsListItemNumber;
+
+                detailsListItemContainer.addEventListener("click",
+                    () => detailsListItem.OnListItemClick(detailsListItemNumberCopy));
+
+                detailsListItemContainer.classList.add("tss-cursor-pointer");
+            }
+
+            detailsListItemContainer.AppendChildren(gridCellHtmlElements);
+
+            return detailsListItemContainer;
+        }
+
+        private void RenderDetailsListItems()
+        {
+            _detailsListItemsContainer.AppendChildren(_componentCache.RetrieveAllComponentsFromCache().ToArray());
+
+            _detailsListItemsRendered = true;
         }
 
         private void AttachOnLastGridCellMountedEvent(HTMLElement gridCell)
@@ -232,15 +260,15 @@ namespace Tesserae.Components
 
                 if (_previousColumnSortingKey.Equals(columnSortingKey))
                 {
-                    _detailsListItems.Reverse();
+                    // _detailsListItems.Reverse();
 
                     UpdateColumnSortingIcon(columnHtmlElement, InvertLineAwesomeColumnSortingIcon);
                 }
                 else
                 {
-                    _detailsListItems.Sort(
-                        (detailsListItem, detailsListItemOther)
-                            => detailsListItem.CompareTo(detailsListItemOther, columnSortingKey));
+                    // _detailsListItems.Sort(
+                    //     (detailsListItem, detailsListItemOther)
+                    //         => detailsListItem.CompareTo(detailsListItemOther, columnSortingKey));
 
                     if (!string.IsNullOrWhiteSpace(columnSortingKey))
                     {
@@ -251,7 +279,7 @@ namespace Tesserae.Components
                     }
                 }
 
-                RenderDetailsListItems(_detailsListItems);
+                RenderDetailsListItems();
 
                 _detailsListItemsContainer.classList.remove("fade");
                 _previousColumnSortingKey = columnSortingKey;

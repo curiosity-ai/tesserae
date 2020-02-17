@@ -6,50 +6,59 @@ using static Retyped.dom;
 
 namespace Tesserae
 {
-    public sealed class ListPageCache
+    public sealed class ListPageCache<TComponent> : ComponentCacheBase<TComponent>
+        where TComponent : class
     {
-        private readonly int _componentsPerPage;
         private readonly Func<int, HTMLElement> _createPageHtmlElementExpression;
-        private readonly Func<KeyValuePair<int, IComponent>, HTMLElement> _afterComponentCreatedExpression;
+        private readonly Func<(int Key, TComponent Component), HTMLElement> _afterComponentRetrievedExpression;
         private readonly Dictionary<int, HTMLElement> _pageCache;
-        private readonly List<List<KeyValuePair<int, IComponent>>> _pages;
-
-        private Dictionary<int, IComponent> _components;
+        private readonly List<List<(int Key, TComponent Component)>> _pages;
 
         public ListPageCache(
-            int componentsPerPage,
+            int rowsPerPage,
+            int columnsPerRow,
             Func<int, HTMLElement> createPageHtmlElementExpression,
-            Func<KeyValuePair<int, IComponent>, HTMLElement> afterComponentCreatedExpression)
+            Func<(int key, TComponent component), HTMLElement> afterComponentRetrievedExpression)
         {
-            if (componentsPerPage <= 0)
+            if (rowsPerPage <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(componentsPerPage));
+                throw new ArgumentOutOfRangeException(nameof(rowsPerPage));
             }
 
-            _componentsPerPage = componentsPerPage;
+            if (columnsPerRow <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(columnsPerRow));
+            }
+
+            RowsPerPage       = rowsPerPage;
+            ComponentsPerPage = RowsPerPage * columnsPerRow;
 
             _createPageHtmlElementExpression =
                 createPageHtmlElementExpression ??
                     throw new ArgumentNullException(nameof(createPageHtmlElementExpression));
 
-            _afterComponentCreatedExpression =
-                afterComponentCreatedExpression ??
-                    throw new ArgumentNullException(nameof(afterComponentCreatedExpression));
+            _afterComponentRetrievedExpression =
+                afterComponentRetrievedExpression ??
+                    throw new ArgumentNullException(nameof(afterComponentRetrievedExpression));
 
             _pageCache  = new Dictionary<int, HTMLElement>();
-            _pages      = new List<List<KeyValuePair<int, IComponent>>>();
-            _components = new Dictionary<int, IComponent>();
+            _pages      = new List<List<(int key, TComponent component)>>();
         }
 
-        public int ComponentsCount => _components.Count;
+        public int RowsPerPage       { get; }
 
-        public int PagesCount      => _pages.Count;
+        public int ComponentsPerPage { get; }
 
-        public ListPageCache AddComponents(IEnumerable<IComponent> components)
+        public int PagesCount        => _pages.Count;
+
+        public int RowsCount         => RowsPerPage * PagesCount;
+
+        public ListPageCache<TComponent> AddComponents(IEnumerable<TComponent> components)
         {
-            var componentNumberToPageFrom = AddToComponents(components);
+            var currentComponentsCount = ComponentsCount;
 
-            AddToPages(componentNumberToPageFrom);
+            AddToComponents(components);
+            AddPages(currentComponentsCount);
 
             return this;
         }
@@ -66,7 +75,7 @@ namespace Tesserae
 
             page.AppendChildren(
                 GetComponentsForPage(pageNumberToRetrieve)
-                    .Select(_afterComponentCreatedExpression)
+                    .Select(_afterComponentRetrievedExpression)
                     .ToArray());
 
             _pageCache.Add(pageNumberToRetrieve, page);
@@ -79,47 +88,29 @@ namespace Tesserae
             return rangeOfPageNumbersToRetrieve.Select(RetrievePageFromCache);
         }
 
-        public ListPageCache Clear()
+        public IEnumerable<HTMLElement> RetrieveAllPagesFromCache()
         {
+            return Enumerable.Range(1, PagesCount).Select(RetrievePageFromCache);
+        }
+
+        public ListPageCache<TComponent> Clear()
+        {
+            Components.Clear();
             _pages.Clear();
-            _components.Clear();
             _pageCache.Clear();
 
             return this;
         }
 
-        private int? AddToComponents(IEnumerable<IComponent> components)
-        {
-            var componentsToAdd =
-                components
-                    .Select((component, index) => new
-                    {
-                        component,
-                        componentNumber = index + 1
-                    })
-                    .Where(
-                        item => _components.All(component => item.componentNumber != component.Key));
-
-            foreach (var componentToAdd in componentsToAdd)
-            {
-                _components.Add(componentToAdd.componentNumber, componentToAdd.component);
-            }
-
-
-            var lastComponentToAdd = componentsToAdd.FirstOrDefault();
-
-            return lastComponentToAdd?.componentNumber;
-        }
-
-        private void AddToPages(int? componentNumberToPageFrom)
+        private void AddPages(int componentNumberToPageFrom)
         {
             var pagesToAdd =
-                _components.Skip(componentNumberToPageFrom.GetValueOrDefault()).InGroupsOf(_componentsPerPage);
+                Components.Skip(componentNumberToPageFrom).InGroupsOf(ComponentsPerPage);
 
             _pages.AddRange(pagesToAdd);
         }
 
-        private IEnumerable<KeyValuePair<int, IComponent>> GetComponentsForPage(int pageNumber)
+        private List<(int key, TComponent component)> GetComponentsForPage(int pageNumber)
         {
             return _pages.ElementAt(pageNumber - 1);
         }

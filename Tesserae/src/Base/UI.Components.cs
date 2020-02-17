@@ -176,7 +176,7 @@ namespace Tesserae
         }
 
         public static DetailsList<TDetailsListItem> DetailList<TDetailsListItem>(int rowsPerPage = 8)
-            where TDetailsListItem : IDetailsListItem<TDetailsListItem>
+            where TDetailsListItem : class, IDetailsListItem<TDetailsListItem>
         {
             return new DetailsList<TDetailsListItem>(rowsPerPage);
         }

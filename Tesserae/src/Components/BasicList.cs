@@ -13,13 +13,8 @@ namespace Tesserae.Components
         private const int PagesToVirtualize = 5;
         private const int PagesToRender     = PagesToVirtualize;
 
-        private readonly int _rowsPerPage;
-        private readonly int _columnsPerRow;
+        private readonly ListPageCache<IComponent> _listPageCache;
 
-        private readonly ListPageCache _listPageCache;
-
-        private readonly int _componentsPerPage;
-        private readonly int _initialComponentsToRender;
         private readonly int _pagesToVirtualizeUpperBoundary;
         private readonly int _pagesToVirtualizeLowerBoundary;
         private readonly string _componentHeightInPercentage;
@@ -30,16 +25,12 @@ namespace Tesserae.Components
         private readonly HTMLDivElement _topSpacingDiv;
         private readonly HTMLDivElement _bottomSpacingDiv;
 
-        private int _componentsCount;
-        private int _pagesCount;
-        private int _rowsCount;
         private int _currentPage;
 
         private UnitSize _componentHeight;
         private UnitSize _pageHeight;
         private double _currentScrollPosition;
         private ScrollDirection _currentScrollDirection;
-        private ScrollDirection _previousScrollDirection;
 
         public BasicList(
             IEnumerable<IComponent> components,
@@ -68,25 +59,18 @@ namespace Tesserae.Components
                 throw new ArgumentOutOfRangeException(nameof(columnsPerRow));
             }
 
-            _rowsPerPage   = rowsPerPage;
-            _columnsPerRow = columnsPerRow;
-
-            _componentsPerPage         = _rowsPerPage * _columnsPerRow;
-            _initialComponentsToRender = _componentsPerPage * PagesToRender;
-
-            _listPageCache = new ListPageCache(
-                _componentsPerPage,
+            _listPageCache = new ListPageCache<IComponent>(
+                rowsPerPage,
+                columnsPerRow,
                 CreatePageHtmlElement,
                 CreateComponentContainerHtmlElement)
-                .AddComponents(components);
+                    .AddComponents(components);
 
             _pagesToVirtualizeUpperBoundary = (int)Floor((double)PagesToVirtualize / 2);
             _pagesToVirtualizeLowerBoundary = (int)Ceiling((double)PagesToVirtualize / 2);
 
-            _componentHeightInPercentage = GetComponentSize(_rowsPerPage);
-            _componentWidthInPercentage  = GetComponentSize(_columnsPerRow);
-
-            CalculateCounts();
+            _componentHeightInPercentage = GetComponentSize(rowsPerPage);
+            _componentWidthInPercentage  = GetComponentSize(columnsPerRow);
 
             Debug("Basic list initialized");
 
@@ -121,13 +105,6 @@ namespace Tesserae.Components
         }
 
         private static void RenderPage(HTMLElement page, Action<HTMLElement> renderingAction) => renderingAction(page);
-
-        private void CalculateCounts()
-        {
-            _componentsCount = _listPageCache.ComponentsCount;
-            _pagesCount      = _listPageCache.PagesCount;
-            _rowsCount       = _rowsPerPage * _pagesCount;
-        }
 
         private HTMLDivElement CreateBasicListContainerHtmlDivElement() => Div(_("tss-basiclist").WithRole("list"));
 
@@ -178,19 +155,19 @@ namespace Tesserae.Components
                     .WithData("tss-basiclist-pagenumber", pageNumber.ToString()));
         }
 
-        private HTMLElement CreateComponentContainerHtmlElement(KeyValuePair<int, IComponent> componentAndNumber)
+        private HTMLElement CreateComponentContainerHtmlElement((int key, IComponent component) componentAndKey)
         {
-            var (componentNumber, component) = componentAndNumber;
+            var (key, component) = componentAndKey;
 
             return Div(
                 _("tss-basiclist-item",
                     styles: cssStyleDeclaration =>
                     {
                         cssStyleDeclaration.height = _componentHeightInPercentage;
-                        cssStyleDeclaration.width = _componentWidthInPercentage;
+                        cssStyleDeclaration.width  = _componentWidthInPercentage;
                     })
                     .WithRole("listitems")
-                    .WithData("tss-basiclist-componentnumber", componentNumber.ToString()),
+                    .WithData("tss-basiclist-componentnumber", key.ToString()),
                 component.Render());
         }
 
@@ -262,12 +239,13 @@ namespace Tesserae.Components
             }
 
             _componentHeight = lastComponentMountedClientHeight.px();
-            _pageHeight      = (_componentHeight.Size * _rowsPerPage).px();
+            _pageHeight      = (_componentHeight.Size * _listPageCache.RowsPerPage).px();
 
             SetBasicListContainerHeight();
             SetTopSpacingDivHeight(0.px());
 
-            var initialBottomSpacingDivHeight = ((_pagesCount - PagesToRender) * _pageHeight.Size).px();
+            var initialBottomSpacingDivHeight =
+                ((_listPageCache.PagesCount - PagesToRender) * _pageHeight.Size).px();
 
             SetBottomSpacingDivHeight(initialBottomSpacingDivHeight);
 
@@ -303,7 +281,7 @@ namespace Tesserae.Components
                     RenderPageDownwards(RetrievePageFromCache(pageNumberToAdd));
 
                     var newBottomSpacingDivHeight =
-                        ((_pagesCount - (newPage + _pagesToVirtualizeUpperBoundary)) * _pageHeight.Size).px();
+                        ((_listPageCache.PagesCount - (newPage + _pagesToVirtualizeUpperBoundary)) * _pageHeight.Size).px();
 
                     SetBottomSpacingDivHeight(newBottomSpacingDivHeight);
                 }
@@ -321,7 +299,7 @@ namespace Tesserae.Components
                     RenderPageUpwards(RetrievePageFromCache(pageNumberToAdd));
 
                     var newBottomSpacingDivHeight =
-                        ((_pagesCount - (newPage + _pagesToVirtualizeLowerBoundary)) * _pageHeight.Size).px();
+                        ((_listPageCache.PagesCount - (newPage + _pagesToVirtualizeLowerBoundary)) * _pageHeight.Size).px();
 
                     SetBottomSpacingDivHeight(newBottomSpacingDivHeight);
                 }
@@ -340,20 +318,11 @@ namespace Tesserae.Components
                 {
                     PagesToVirtualize,
                     PagesToRender,
-                    _rowsPerPage,
-                    _columnsPerRow,
-                    _componentsPerPage,
-                    _initialComponentsToRender,
                     _pagesToVirtualizeUpperBoundary,
                     _pagesToVirtualizeLowerBoundary,
                     _componentHeightInPercentage,
                     _componentWidthInPercentage,
-                    _componentsCount,
-                    _pagesCount,
-                    _rowsCount,
                     _currentPage,
-                    _componentHeightInPixels = _componentHeight,
-                    _pageHeightInPixels = _pageHeight,
                     _currentScrollPosition,
                     _currentScrollDirection
                 });
