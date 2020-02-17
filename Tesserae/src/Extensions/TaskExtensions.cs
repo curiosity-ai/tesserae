@@ -29,23 +29,22 @@ namespace Tesserae.Components
                 {
                     if (age.InnerExceptions.Count == 1)
                     {
-                        console.log("Error running FireAndForget Task:" + age.InnerExceptions.Single().Message);
+                        console.log("Error running FireAndForget Task:" + age.InnerExceptions.Single().ToString());
                         console.log(age.InnerExceptions.Single());
                     }
                     else
                     {
-
-                        console.log("Error running FireAndForget Task:" + age.Message);
+                        console.log("Multiple errors running FireAndForget Task:");
                         foreach (var inner in age.InnerExceptions)
                         {
-                            console.log("\t\tInner exception:" + inner.Message);
+                            console.log("\t\tInner exception:" + inner.ToString());
                             console.log(inner);
                         }
                     }
                 }
                 catch (Exception E)
                 {
-                    console.log("Error running FireAndForget Task:" + E.Message);
+                    console.log("Error running FireAndForget Task:" + E.ToString());
                     console.log(E);
                 }
             });
