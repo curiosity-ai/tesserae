@@ -95,7 +95,7 @@ namespace Tesserae
 
         public ListPageCache<TComponent> Clear()
         {
-            Components.Clear();
+            ComponentsAndKeys.Clear();
             _pages.Clear();
             _pageCache.Clear();
 
@@ -105,7 +105,7 @@ namespace Tesserae
         private void AddPages(int componentNumberToPageFrom)
         {
             var pagesToAdd =
-                Components.Skip(componentNumberToPageFrom).InGroupsOf(ComponentsPerPage);
+                ComponentsAndKeys.Skip(componentNumberToPageFrom).InGroupsOf(ComponentsPerPage);
 
             _pages.AddRange(pagesToAdd);
         }

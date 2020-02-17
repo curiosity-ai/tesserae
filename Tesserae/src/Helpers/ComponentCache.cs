@@ -9,7 +9,8 @@ namespace Tesserae
         where TComponent : class
     {
         private readonly Func<(int Key, TComponent Component), HTMLElement> _createComponentExpression;
-        private readonly List<(int Key, HTMLElement HtmlElement)> _componentCache;
+
+        private  List<(int Key, HTMLElement HtmlElement)> _componentCache;
 
         public ComponentCache(
             Func<(int Key, TComponent Component), HTMLElement> createComponentExpression)
@@ -27,51 +28,50 @@ namespace Tesserae
             return this;
         }
 
-        public HTMLElement RetrieveComponentFromCache(int keyOfComponentToRetrieve)
-        {
-            var cachedComponent =
-                _componentCache.SingleOrDefault(component => component.Key == keyOfComponentToRetrieve);
-
-            if (cachedComponent.HtmlElement != null)
-            {
-                console.log($"Retrieved component {keyOfComponentToRetrieve} from cache");
-                return cachedComponent.HtmlElement;
-            }
-
-            console.log($"Adding component {keyOfComponentToRetrieve} to cache");
-
-            var componentAndKey = Components.SingleOrDefault(component => component.Key == keyOfComponentToRetrieve);
-
-            if (componentAndKey.Component == null)
-            {
-                throw new
-                    InvalidOperationException($"Can not locate component with a key of {keyOfComponentToRetrieve}");
-            }
-
-            var htmlElement = _createComponentExpression(componentAndKey);
-
-            _componentCache.Add((keyOfComponentToRetrieve, htmlElement));
-
-            return htmlElement;
-        }
-
-        public IEnumerable<HTMLElement> RetrieveComponentsFromCache(IEnumerable<int> rangeOfComponentsToRetrieve)
-        {
-            return rangeOfComponentsToRetrieve.Select(RetrieveComponentFromCache);
-        }
-
         public IEnumerable<HTMLElement> RetrieveAllComponentsFromCache()
         {
-            return Enumerable.Range(1, Components.Count).Select(RetrieveComponentFromCache);
+            foreach (var componentAndKey in ComponentsAndKeys)
+            {
+                var cachedComponent =
+                    _componentCache.SingleOrDefault(component => component.Key == componentAndKey.Key);
+
+                if (cachedComponent.HtmlElement != null)
+                {
+                    console.log($"Retrieved component {componentAndKey.Key} from cache");
+                    yield return cachedComponent.HtmlElement;
+                }
+                else
+                {
+                    var htmlElement = _createComponentExpression(componentAndKey);
+
+                    _componentCache.Add((componentAndKey.Key, htmlElement));
+
+                    console.log($"Added component {componentAndKey.Key} to cache");
+                    yield return htmlElement;
+                }
+            }
         }
 
-        public void SortComponents()
+        public ComponentCache<TComponent> SortComponents(Comparison<TComponent> comparison)
         {
+            ComponentsAndKeys
+                .Sort(
+                    (componentAndKey, otherComponentAndKey)
+                        => comparison(componentAndKey.Component, otherComponentAndKey.Component));
+
+            return this;
+        }
+
+        public ComponentCache<TComponent> ReverseComponentOrder()
+        {
+            ComponentsAndKeys.Reverse();
+
+            return this;
         }
 
         public ComponentCache<TComponent> Clear()
         {
-            Components.Clear();
+            ComponentsAndKeys.Clear();
             _componentCache.Clear();
 
             return this;

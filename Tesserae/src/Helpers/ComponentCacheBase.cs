@@ -6,14 +6,14 @@ namespace Tesserae
     public abstract class ComponentCacheBase<TComponent>
         where TComponent : class
     {
-        protected readonly List<(int Key, TComponent Component)> Components;
+        protected readonly List<(int Key, TComponent Component)> ComponentsAndKeys;
 
         protected ComponentCacheBase()
         {
-            Components = new List<(int Key, TComponent Component)>();
+            ComponentsAndKeys = new List<(int Key, TComponent Component)>();
         }
 
-        public int ComponentsCount => Components.Count;
+        public int ComponentsCount => ComponentsAndKeys.Count;
 
         protected void AddToComponents(IEnumerable<TComponent> components)
         {
@@ -29,7 +29,7 @@ namespace Tesserae
 
             foreach (var componentToAdd in componentsToAdd)
             {
-                Components.Add((componentToAdd.key, componentToAdd.component));
+                ComponentsAndKeys.Add((componentToAdd.key, componentToAdd.component));
             }
         }
     }
