@@ -21,6 +21,7 @@ namespace Tesserae.Components
         private HTMLDivElement _detailsListItemsContainer;
 
         private string _previousColumnSortingKey;
+        private LineAwesome _currentLineAwesomeSortingIcon;
         private HTMLElement _columnSortingIcon;
 
         public DetailsList(int rowsPerPage = 8)
@@ -30,7 +31,8 @@ namespace Tesserae.Components
             _detailsListItems   = new List<TDetailsListItem>();
             _innerElement       = Div(_());
 
-            _previousColumnSortingKey = string.Empty;
+            _previousColumnSortingKey      = string.Empty;
+            _currentLineAwesomeSortingIcon = LineAwesome.ArrowUp;
         }
 
         public HTMLElement Render() => _innerElement;
@@ -131,8 +133,7 @@ namespace Tesserae.Components
 
                 if (column.IsRowHeader)
                 {
-                    _columnSortingIcon =
-                        I(LineAwesome.ArrowUp, cssClass: "tss-detailslist-column-header-sorting-icon");
+                    CreateColumnSortingIcon();
 
                     columnHtmlElement.appendChild(_columnSortingIcon);
                 }
@@ -148,6 +149,12 @@ namespace Tesserae.Components
             });
 
             _detailsListColumnHeadersRendered = true;
+        }
+
+        private void CreateColumnSortingIcon()
+        {
+            _columnSortingIcon =
+                I(_currentLineAwesomeSortingIcon, cssClass: "tss-detailslist-column-header-sorting-icon");
         }
 
         private void RenderDetailsListItemsContainer()
@@ -226,6 +233,8 @@ namespace Tesserae.Components
                 if (_previousColumnSortingKey.Equals(columnSortingKey))
                 {
                     _detailsListItems.Reverse();
+
+                    UpdateColumnSortingIcon(columnHtmlElement, InvertLineAwesomeColumnSortingIcon);
                 }
                 else
                 {
@@ -235,7 +244,10 @@ namespace Tesserae.Components
 
                     if (!string.IsNullOrWhiteSpace(columnSortingKey))
                     {
-                        columnHtmlElement.appendChild(_columnSortingIcon);
+                        UpdateColumnSortingIcon(columnHtmlElement, () =>
+                        {
+                            _currentLineAwesomeSortingIcon = LineAwesome.ArrowUp;
+                        });
                     }
                 }
 
@@ -249,6 +261,22 @@ namespace Tesserae.Components
              * minus a completely arbitrary amount. Can we access this programmatically? Loop over the item opacity?
              * Could possibly do with adding a fade in transition as well to make the appearance of the newly ordered
              * list items smoother. - MB 16/02/2020 */
+        }
+
+        private void InvertLineAwesomeColumnSortingIcon()
+        {
+            _currentLineAwesomeSortingIcon =
+                _currentLineAwesomeSortingIcon == LineAwesome.ArrowUp ?
+                    LineAwesome.ArrowDown
+                    : LineAwesome.ArrowUp;
+        }
+
+        private void UpdateColumnSortingIcon(HTMLElement htmlElement, Action setLineAwesomeIconExpression)
+        {
+            _columnSortingIcon.remove();
+            setLineAwesomeIconExpression();
+            CreateColumnSortingIcon();
+            htmlElement.appendChild(_columnSortingIcon);
         }
     }
 }
