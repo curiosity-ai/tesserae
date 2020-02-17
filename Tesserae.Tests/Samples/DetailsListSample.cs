@@ -66,10 +66,10 @@ namespace Tesserae.Tests.Samples
                                             .Width(40, Unit.Percent)
                                             .Children(
                                                 SampleSubTitle("Don't"),
-                                                SampleDo("Use them to display commands or settings."),
-                                                SampleDo("Overload the view with too many columns that require " +
+                                                SampleDont("Use them to display commands or settings."),
+                                                SampleDont("Overload the view with too many columns that require " +
                                                          "excessive horizontal scrolling."),
-                                                SampleDo("Make columns so narrow that it truncates the information " +
+                                                SampleDont("Make columns so narrow that it truncates the information " +
                                                          "in typical cases.")))))
                     .Section(
                         Stack()
