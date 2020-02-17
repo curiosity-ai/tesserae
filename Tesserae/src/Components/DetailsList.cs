@@ -23,8 +23,7 @@ namespace Tesserae.Components
         private string _previousColumnSortingKey;
         private HTMLElement _columnSortingIcon;
 
-        public DetailsList(
-            int rowsPerPage = 8)
+        public DetailsList(int rowsPerPage = 8)
         {
             _rowsPerPage        = rowsPerPage;
             _detailsListColumns = new List<IDetailsListColumn>();
@@ -40,7 +39,7 @@ namespace Tesserae.Components
             IDetailsListColumn column,
             Func<HTMLElement> gridCellInnerHtmlExpression)
         {
-            string role = column.IsRowHeader ?
+            var role = column.IsRowHeader ?
                 "rowheader"
                 : "gridcell";
 
@@ -61,6 +60,7 @@ namespace Tesserae.Components
             where TDetailsListColumn : class, IDetailsListColumn
         {
             _detailsListColumns.Add(column);
+
             return this;
         }
 
@@ -68,6 +68,7 @@ namespace Tesserae.Components
             where TDetailsListColumn : class, IDetailsListColumn
         {
             _detailsListColumns.AddRange(columns);
+
             return this;
         }
 
@@ -164,7 +165,8 @@ namespace Tesserae.Components
             var detailsListItemsCount = detailsListItems.Count();
 
             /* The overload of select which projects an item belonging to a collection with its index doesn't seem to
-             * behave at runtime - MB 12/02/2020 */
+             * behave at runtime. - MB 12/02/2020 */
+
             // var detailsListItemsWithIndex =
                 // detailsListItems.Select((item, index) => new { value = item, index = index + 1 });
 
@@ -242,10 +244,11 @@ namespace Tesserae.Components
                 _detailsListItemsContainer.classList.remove("fade");
                 _previousColumnSortingKey = columnSortingKey;
             }, 0100);
+
             /* The above magic number is the length of the fade out transition added to the _detailsListItemContainer
-             * minus a completely arbitrary amount. Can we access this programmatically?
+             * minus a completely arbitrary amount. Can we access this programmatically? Loop over the item opacity?
              * Could possibly do with adding a fade in transition as well to make the appearance of the newly ordered
-             * list items smoother. */
+             * list items smoother. - MB 16/02/2020 */
         }
     }
 }

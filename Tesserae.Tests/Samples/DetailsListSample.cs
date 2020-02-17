@@ -95,7 +95,7 @@ namespace Tesserae.Tests.Samples
                                         new DetailsListColumn(
                                             sortingKey: "DateModified",
                                             title: "Date Modified",
-                                            width: 150.px()))
+                                            width: 170.px()))
                                     .WithColumn(
                                         new DetailsListColumn(
                                             sortingKey: "ModifiedBy",
@@ -105,7 +105,7 @@ namespace Tesserae.Tests.Samples
                                         new DetailsListColumn(
                                             sortingKey: "FileSize",
                                             title: "File Size",
-                                            width: 100.px()))
+                                            width: 120.px()))
                                     .WithListItems(GetDetailsListItems())));
         }
 
