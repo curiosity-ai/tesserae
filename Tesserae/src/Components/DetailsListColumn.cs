@@ -6,26 +6,37 @@ namespace Tesserae.Components
 {
     public class DetailsListColumn : IDetailsListColumn
     {
+        private readonly Action _onColumnClick;
+
         public DetailsListColumn(
-            string sortingKey,
             string title,
             UnitSize width,
-            bool isRowHeader = false)
+            bool isRowHeader         = false,
+            bool enableColumnSorting = false,
+            string sortingKey        = null,
+            Action onColumnClick     = null)
         {
-            if (string.IsNullOrWhiteSpace(sortingKey))
-            {
-                throw new ArgumentException(nameof(sortingKey));
-            }
-
             if (string.IsNullOrWhiteSpace(title))
             {
                 throw new ArgumentException(nameof(title));
             }
 
-            Width       = width ?? throw new ArgumentNullException(nameof(width));
-            SortingKey  = sortingKey;
-            Title       = title;
-            IsRowHeader = isRowHeader;
+            if (enableColumnSorting && string.IsNullOrWhiteSpace(sortingKey))
+            {
+                throw new ArgumentException(nameof(sortingKey));
+            }
+
+            Width               = width      ?? throw new ArgumentNullException(nameof(width));
+            SortingKey          = sortingKey ?? string.Empty;
+            Title               = title;
+            IsRowHeader         = isRowHeader;
+            EnableColumnSorting = enableColumnSorting;
+
+            if (onColumnClick != null)
+            {
+                _onColumnClick           = onColumnClick;
+                EnableOnColumnClickEvent = true;
+            }
         }
 
         public string SortingKey             { get; }
@@ -36,13 +47,11 @@ namespace Tesserae.Components
 
         public bool IsRowHeader              { get; }
 
-        public bool EnableColumnSorting      => true;
+        public bool EnableColumnSorting      { get; }
 
-        public bool EnableOnColumnClickEvent => false;
+        public bool EnableOnColumnClickEvent { get; }
 
-        public void OnColumnClick()
-        {
-        }
+        public void OnColumnClick()          => _onColumnClick?.Invoke();
 
         public HTMLElement Render()
         {

@@ -182,21 +182,31 @@ namespace Tesserae
         }
 
         public static DetailsListLineAwesomeIconColumn DetailsListLineAwesomeIconColumn(
-            string sortingKey,
             LineAwesome lineAwesomeIcon,
             UnitSize width,
-            LineAwesomeSize lineAwesomeSize = LineAwesomeSize.Default)
+            LineAwesomeSize lineAwesomeSize = LineAwesomeSize.Default,
+            bool enableColumnSorting = false,
+            string sortingKey        = null,
+            Action onColumnClick     = null)
         {
-            return new DetailsListLineAwesomeIconColumn(sortingKey, lineAwesomeIcon, width, lineAwesomeSize);
+            return new DetailsListLineAwesomeIconColumn(
+                lineAwesomeIcon,
+                width,
+                lineAwesomeSize,
+                enableColumnSorting,
+                sortingKey,
+                onColumnClick);
         }
 
         public static DetailsListColumn DetailsListColumn(
-            string sortingKey,
             string title,
             UnitSize width,
-            bool isRowHeader = false)
+            bool isRowHeader         = false,
+            bool enableColumnSorting = false,
+            string sortingKey        = null,
+            Action onColumnClick     = null)
         {
-            return new DetailsListColumn(sortingKey, title, width, isRowHeader);
+            return new DetailsListColumn(title, width, isRowHeader, enableColumnSorting, sortingKey, onColumnClick);
         }
     }
 }

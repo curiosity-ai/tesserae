@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Tesserae.Components;
-using static Retyped.dom;
 using static Tesserae.Tests.Samples.SamplesHelper;
 using static Tesserae.UI;
+using static Retyped.dom;
 
 namespace Tesserae.Tests.Samples
 {

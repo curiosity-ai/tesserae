@@ -13,7 +13,7 @@
 }
 
 .tss-detailslist-column-header, .tss-detailslist-list-items-container, .tss-detailslist-list-item-container,
-    .tss-detailslist-list-item * {
+    .tss-detailslist-list-item {
     width: 100%;
 }
 
@@ -33,13 +33,6 @@
     background-color: var(--tss-default-background-hover-color);
 }
 
-.tss-detailslist-list-item {
-    display: inline-block;
-    padding: 11px 32px 11px 12px;
-    position: relative;
-    float: left;
-}
-
 .tss-detailslist-column-header {
     padding: 4px 32px 4px 12px;
 }
@@ -47,4 +40,9 @@
 .tss-detailslist-column-header-sorting-icon {
     padding-left: 5px;
 }
-
+.tss-detailslist-list-item {
+    display: inline-block;
+    padding: 11px 32px 11px 12px;
+    position: relative;
+    float: left;
+}

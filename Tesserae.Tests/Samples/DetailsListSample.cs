@@ -81,72 +81,76 @@ namespace Tesserae.Tests.Samples
                                 DetailsList<DetailsListItem>()
                                     .WithColumn(
                                         DetailsListLineAwesomeIconColumn(
-                                            sortingKey: "FileIcon",
                                             lineAwesomeIcon: LineAwesome.File,
+                                            width: 32.px(),
                                             lineAwesomeSize: LineAwesomeSize.Regular,
-                                            width: 32.px()))
+                                            enableColumnSorting: true,
+                                            sortingKey: "FileIcon"))
                                     .WithColumn(
                                         DetailsListColumn(
-                                            sortingKey: "FileName",
                                             title: "File Name",
                                             width: 350.px(),
-                                            isRowHeader: true))
+                                            isRowHeader: true,
+                                            enableColumnSorting: true,
+                                            sortingKey: "FileName"))
                                     .WithColumn(
                                         DetailsListColumn(
-                                            sortingKey: "DateModified",
                                             title: "Date Modified",
-                                            width: 170.px()))
+                                            width: 170.px(),
+                                            enableColumnSorting: true,
+                                            sortingKey: "DateModified"))
                                     .WithColumn(
                                         DetailsListColumn(
-                                            sortingKey: "ModifiedBy",
                                             title: "Modified By",
-                                            width: 150.px()))
+                                            width: 150.px(),
+                                            enableColumnSorting: true,
+                                            sortingKey: "ModifiedBy"))
                                     .WithColumn(
                                         DetailsListColumn(
-                                            sortingKey: "FileSize",
                                             title: "File Size",
-                                            width: 120.px()))
+                                            width: 120.px(),
+                                            enableColumnSorting: true,
+                                            sortingKey: "FileSize"))
                                     .WithListItems(
                                         GetDetailsListItems())
-                                    .SortedBy("FileName"),
+                                    .SortedBy("FileName")
+                            .PaddingBottom(Unit.Pixels, 32),
+                                TextBlock("Details List With Component Rows")
+                                    .Medium()
+                                    .PaddingBottom(Unit.Pixels, 16),
                                 DetailsList<ComponentDetailsListItem>()
                                     .WithColumn(
                                         DetailsListLineAwesomeIconColumn(
-                                            sortingKey: "Icon",
-                                            lineAwesomeIcon: LineAwesome.Microsoft,
-                                            lineAwesomeSize: LineAwesomeSize.Regular,
-                                            width: 32.px()))
+                                            lineAwesomeIcon: LineAwesome.Apple,
+                                            width: 32.px(),
+                                            lineAwesomeSize: LineAwesomeSize.Brand,
+                                            enableColumnSorting: true,
+                                            sortingKey: "Icon"))
                                     .WithColumn(
                                         DetailsListColumn(
-                                            sortingKey: "CheckBox",
                                             title: "CheckBox",
-                                            width: 350.px()))
+                                            width: 120.px()))
                                     .WithColumn(
                                         DetailsListColumn(
-                                            sortingKey: "Name",
                                             title: "Name",
-                                            width: 350.px(),
+                                            width: 250.px(),
                                             isRowHeader: true))
                                     .WithColumn(
                                         DetailsListColumn(
-                                            sortingKey: "Button",
                                             title: "Button",
-                                            width: 350.px()))
+                                            width: 150.px()))
                                     .WithColumn(
                                         DetailsListColumn(
-                                            sortingKey: "ChoiceGroup",
                                             title: "ChoiceGroup",
-                                            width: 350.px()))
+                                            width: 400.px()))
                                     .WithColumn(
                                         DetailsListColumn(
-                                            sortingKey: "Dropdown",
                                             title: "Dropdown",
-                                            width: 350.px()))
+                                            width: 250.px()))
                                     .WithColumn(
                                         DetailsListColumn(
-                                            sortingKey: "Toggle",
                                             title: "Toggle",
-                                            width: 350.px()))
+                                            width: 100.px()))
                                     .WithListItems(GetComponentDetailsListItems())
                                     .SortedBy("Name")));
         }
@@ -209,9 +213,8 @@ namespace Tesserae.Tests.Samples
                                 .Horizontal()
                                 .Options(
                                      Option("Option A"),
-                                     Option("Option B"),
-                                     Option("Option C").Disabled(),
-                                     Option("Option D")))
+                                     Option("Option B").Disabled(),
+                                     Option("Option C")))
                         .WithDropdown(
                             Dropdown()
                                 .Multi()
@@ -222,8 +225,6 @@ namespace Tesserae.Tests.Samples
                                     DropdownItem("1-3"),
                                     DropdownItem("1-4").Disabled(),
                                     DropdownItem("1-5"),
-                                    DropdownItem().Divider(),
-                                    DropdownItem("Header 2").Header(),
                                     DropdownItem("2-1"),
                                     DropdownItem("2-2"),
                                     DropdownItem("2-3"),
