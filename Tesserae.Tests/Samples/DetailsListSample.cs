@@ -78,37 +78,77 @@ namespace Tesserae.Tests.Samples
                                 TextBlock("Details List With Textual Rows")
                                     .Medium()
                                     .PaddingBottom(Unit.Pixels, 16),
-                                DetailList<DetailsListItem>()
+                                DetailsList<DetailsListItem>()
                                     .WithColumn(
-                                        new DetailsListLineAwesomeIconColumn(
+                                        DetailsListLineAwesomeIconColumn(
                                             sortingKey: "FileIcon",
                                             lineAwesomeIcon: LineAwesome.File,
                                             lineAwesomeSize: LineAwesomeSize.Regular,
                                             width: 32.px()))
                                     .WithColumn(
-                                        new DetailsListColumn(
+                                        DetailsListColumn(
                                             sortingKey: "FileName",
                                             title: "File Name",
                                             width: 350.px(),
                                             isRowHeader: true))
                                     .WithColumn(
-                                        new DetailsListColumn(
+                                        DetailsListColumn(
                                             sortingKey: "DateModified",
                                             title: "Date Modified",
                                             width: 170.px()))
                                     .WithColumn(
-                                        new DetailsListColumn(
+                                        DetailsListColumn(
                                             sortingKey: "ModifiedBy",
                                             title: "Modified By",
                                             width: 150.px()))
                                     .WithColumn(
-                                        new DetailsListColumn(
+                                        DetailsListColumn(
                                             sortingKey: "FileSize",
                                             title: "File Size",
                                             width: 120.px()))
                                     .WithListItems(
                                         GetDetailsListItems())
-                                    .SortedBy("FileName")));
+                                    .SortedBy("FileName"),
+                                DetailsList<ComponentDetailsListItem>()
+                                    .WithColumn(
+                                        DetailsListLineAwesomeIconColumn(
+                                            sortingKey: "Icon",
+                                            lineAwesomeIcon: LineAwesome.Microsoft,
+                                            lineAwesomeSize: LineAwesomeSize.Regular,
+                                            width: 32.px()))
+                                    .WithColumn(
+                                        DetailsListColumn(
+                                            sortingKey: "CheckBox",
+                                            title: "CheckBox",
+                                            width: 350.px()))
+                                    .WithColumn(
+                                        DetailsListColumn(
+                                            sortingKey: "Name",
+                                            title: "Name",
+                                            width: 350.px(),
+                                            isRowHeader: true))
+                                    .WithColumn(
+                                        DetailsListColumn(
+                                            sortingKey: "Button",
+                                            title: "Button",
+                                            width: 350.px()))
+                                    .WithColumn(
+                                        DetailsListColumn(
+                                            sortingKey: "ChoiceGroup",
+                                            title: "ChoiceGroup",
+                                            width: 350.px()))
+                                    .WithColumn(
+                                        DetailsListColumn(
+                                            sortingKey: "Dropdown",
+                                            title: "Dropdown",
+                                            width: 350.px()))
+                                    .WithColumn(
+                                        DetailsListColumn(
+                                            sortingKey: "Toggle",
+                                            title: "Toggle",
+                                            width: 350.px()))
+                                    .WithListItems(GetComponentDetailsListItems())
+                                    .SortedBy("Name")));
         }
 
         public HTMLElement Render()
@@ -136,7 +176,7 @@ namespace Tesserae.Tests.Samples
                         fileName: "File Name 2",
                         dateModified: DateTime.Today.AddDays(-20),
                         modifiedBy: "Rusty",
-                        fileSize: 10),
+                        fileSize: 12),
                     new DetailsListItem(
                         fileIcon: LineAwesome.FilePowerpoint,
                         lineAwesomeSize: LineAwesomeSize.Regular,
@@ -144,6 +184,52 @@ namespace Tesserae.Tests.Samples
                         dateModified: DateTime.Today.AddDays(-30),
                         modifiedBy: "Cole",
                         fileSize: 15)
+            }).ToArray();
+        }
+
+        private ComponentDetailsListItem[] GetComponentDetailsListItems()
+        {
+            return Enumerable
+                .Range(1, 100)
+                .SelectMany(number => new List<ComponentDetailsListItem>
+                {
+                    new ComponentDetailsListItem()
+                        .WithIcon(LineAwesome.Code)
+                        .WithCheckBox(
+                            CheckBox("CheckBox"))
+                        .WithName("Component Details List Item")
+                        .WithButton(
+                            Button()
+                                .SetText("Primary")
+                                .Primary()
+                                .OnClick(
+                                    (s, e) => alert("Clicked!")))
+                        .WithChoiceGroup(
+                            ChoiceGroup()
+                                .Horizontal()
+                                .Options(
+                                     Option("Option A"),
+                                     Option("Option B"),
+                                     Option("Option C").Disabled(),
+                                     Option("Option D")))
+                        .WithDropdown(
+                            Dropdown()
+                                .Multi()
+                                .Items(
+                                    DropdownItem("Header 1").Header(),
+                                    DropdownItem("1-1"),
+                                    DropdownItem("1-2").Selected(),
+                                    DropdownItem("1-3"),
+                                    DropdownItem("1-4").Disabled(),
+                                    DropdownItem("1-5"),
+                                    DropdownItem().Divider(),
+                                    DropdownItem("Header 2").Header(),
+                                    DropdownItem("2-1"),
+                                    DropdownItem("2-2"),
+                                    DropdownItem("2-3"),
+                                    DropdownItem("2-4").Selected(),
+                                    DropdownItem("2-5")))
+                        .WithToggle(Toggle())
             }).ToArray();
         }
     }

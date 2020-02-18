@@ -175,10 +175,28 @@ namespace Tesserae
                 columnsPerRow);
         }
 
-        public static DetailsList<TDetailsListItem> DetailList<TDetailsListItem>(int rowsPerPage = 8)
+        public static DetailsList<TDetailsListItem> DetailsList<TDetailsListItem>(int rowsPerPage = 8)
             where TDetailsListItem : class, IDetailsListItem<TDetailsListItem>
         {
             return new DetailsList<TDetailsListItem>(rowsPerPage);
+        }
+
+        public static DetailsListLineAwesomeIconColumn DetailsListLineAwesomeIconColumn(
+            string sortingKey,
+            LineAwesome lineAwesomeIcon,
+            UnitSize width,
+            LineAwesomeSize lineAwesomeSize = LineAwesomeSize.Default)
+        {
+            return new DetailsListLineAwesomeIconColumn(sortingKey, lineAwesomeIcon, width, lineAwesomeSize);
+        }
+
+        public static DetailsListColumn DetailsListColumn(
+            string sortingKey,
+            string title,
+            UnitSize width,
+            bool isRowHeader = false)
+        {
+            return new DetailsListColumn(sortingKey, title, width, isRowHeader);
         }
     }
 }

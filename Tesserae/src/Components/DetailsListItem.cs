@@ -51,6 +51,7 @@ namespace Tesserae.Components
 
             if (columnSortingKey.Equals(nameof(FileIcon)))
             {
+                return FileIcon.CompareTo(other.FileIcon);
             }
 
             if (columnSortingKey.Equals(nameof(FileName)))
