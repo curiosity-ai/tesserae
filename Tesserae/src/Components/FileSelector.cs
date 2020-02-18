@@ -67,7 +67,7 @@ namespace Tesserae.Components
         {
             _fileInput = FileInput(_("tss-file-input"));
             _textBox = TextBox().ReadOnly().Grow(1).AlignCenter();
-            _stack = Stack().Horizontal().WidthStretch().Height(32, Unit.Pixels)
+            _stack = Stack().Horizontal().WidthStretch().Height(32.px())
                             .Children(_textBox,
                                       Button("Browse").SetIcon("las la-folder-open").OnClick((s,e) => _fileInput.click()).AlignCenter().Link(),
                                       Raw(_fileInput));

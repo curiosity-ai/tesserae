@@ -217,7 +217,7 @@ namespace Tesserae.Components
             if(IsAlwaysOpen)
             {
                 var rect = (DOMRect)_sidebarContainer.getBoundingClientRect();
-                _contentContainer.style.marginLeft = UnitSize.Translate(Unit.Pixels, rect.width);
+                _contentContainer.style.marginLeft = rect.width.px().ToString();
             }
             else
             {

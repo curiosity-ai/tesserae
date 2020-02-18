@@ -248,12 +248,12 @@ namespace Tesserae.Components
             return this;
         }
 
-        public void ShowAt(Unit unit, double? fromTop = null, double? fromLeft = null, double? fromRight = null, double? fromBottom = null)
+        public void ShowAt(UnitSize fromTop = null, UnitSize fromLeft = null, UnitSize fromRight = null, UnitSize fromBottom = null)
         {
-            _modal.style.marginTop    = fromTop.HasValue    ? UnitSize.Translate(unit, fromTop.Value)    : UnitSize.Auto;
-            _modal.style.marginLeft   = fromLeft.HasValue   ? UnitSize.Translate(unit, fromLeft.Value)   : UnitSize.Auto;
-            _modal.style.marginRight  = fromRight.HasValue  ? UnitSize.Translate(unit, fromRight.Value)  : UnitSize.Auto;
-            _modal.style.marginBottom = fromBottom.HasValue ? UnitSize.Translate(unit, fromBottom.Value) : UnitSize.Auto;
+            _modal.style.marginTop    = fromTop    != null ? fromTop.ToString()    : UnitSize.Auto().ToString();
+            _modal.style.marginLeft   = fromLeft   != null ? fromLeft.ToString()   : UnitSize.Auto().ToString();
+            _modal.style.marginRight  = fromRight  != null ? fromRight.ToString()  : UnitSize.Auto().ToString();
+            _modal.style.marginBottom = fromBottom != null ? fromBottom.ToString() : UnitSize.Auto().ToString();
             if (!IsNonBlocking) document.body.style.overflowY = "hidden";
             _modal.style.transform = "translate(0px,0px)";
             base.Show();

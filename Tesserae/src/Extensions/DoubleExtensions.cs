@@ -6,6 +6,6 @@ namespace Tesserae.Components
 
         public static UnitSize px(this double value)      => new UnitSize(value, Unit.Pixels);
 
-        public static UnitSize viewport(this double value) => new UnitSize(value, Unit.Viewport);
+        public static UnitSize vh(this double value) => new UnitSize(value, Unit.Viewport);
     }
 }

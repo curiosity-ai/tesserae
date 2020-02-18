@@ -23,14 +23,14 @@ namespace Tesserae.Tests.Samples
                 TextBlock("Best Practices").MediumPlus()))
             .Section(Stack().Children(
                 Stack().Horizontal().Children(
-                Stack().Width(40, Unit.Percent).Children(
+                Stack().Width(40.percent()).Children(
                 SampleSubTitle("Do"),
                 SampleDo("Use Dialogs for quick, actionable interactions, such as making a choice or needing the user to provide information."),
                 SampleDo("When possible, try a non-blocking Dialog before resorting to a blocking Dialog."),
                 SampleDo("Only include information needed to help users make a decision."),
                 SampleDo("Button text should reflect the actions available to the user (e.g. save, delete)."),
                 SampleDo("Validate that the user's entries are acceptable before closing the Dialog. Show an inline validation error near the field they must correct.")),
-            Stack().Width(40, Unit.Percent).Children(
+            Stack().Width(40.percent()).Children(
                 SampleSubTitle("Don't"),
                 SampleDont("Don’t overuse Modals. In some cases they can be perceived as interrupting workflow, and too many can be a bad user experience."),
                 SampleDont("Avoid \"Are you sure ?\" or confirmation Dialogs unless the user is making an irreversible or destructive choice."),

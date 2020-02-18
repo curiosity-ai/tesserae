@@ -37,7 +37,7 @@ namespace Tesserae.Tests.Samples
                         ))
                 ))
                 .Section(
-                    Stack().Width(400, Unit.Pixels).Children(
+                    Stack().Width(400.px()).Children(
                         SampleTitle("Usage"),
                         TextBlock("Spinner sizes").Medium(),
                         Label("Extra small spinner").SetContent(Spinner().XSmall()).AlignCenter(),
@@ -46,7 +46,7 @@ namespace Tesserae.Tests.Samples
                         Label("Large spinner").SetContent(Spinner().Large()).AlignCenter()
                     ))
                 .Section(
-                    Stack().Width(400, Unit.Pixels).Children(
+                    Stack().Width(400.px()).Children(
                         TextBlock("Spinner label positioning").Medium(),
                         Label("Spinner with label positioned below").SetContent(Spinner("I am definitely loading...").Below()),
                         Label("Spinner with label positioned above").SetContent(Spinner("Seriously, still loading...").Above()),

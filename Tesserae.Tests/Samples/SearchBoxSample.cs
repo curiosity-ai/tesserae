@@ -21,7 +21,7 @@ namespace Tesserae.Tests.Samples
             .Section(Stack().Children(
                 SampleTitle("Best Practices"),
                 Stack().Horizontal().Children(
-                Stack().Width(40, Unit.Percent).Children(
+                Stack().Width(40.percent()).Children(
                     SampleSubTitle("Do"),
                     SampleDo("Use placeholder text in the SearchBox to describe what users can search for."),
                     SampleDo("Example: 'Search'; 'Search files'; 'Search site'"),
@@ -29,7 +29,7 @@ namespace Tesserae.Tests.Samples
                     SampleDo("Examples: 'Try searching for a PDFs'; 'Search contacts list'; 'Type to find <content type> '"),
                     SampleDo("Use the Underlined SearchBox for CommandBars.")
                 ),
-                Stack().Width(40, Unit.Percent).Children(
+                Stack().Width(40.percent()).Children(
                     SampleSubTitle("Don't"),
                     SampleDont("Don't leave the SearchBox blank because it's too ambiguous."),
                     SampleDont("Don't have lengthy and unclear hint text. It should be used to clasify and set expectations."),
@@ -42,7 +42,7 @@ namespace Tesserae.Tests.Samples
             .Section(Stack().Children(
                 SampleTitle("Usage"),
                 TextBlock("Basic TextBox").Medium(),
-                Stack().Width(40, Unit.Percent).Children(
+                Stack().Width(40.percent()).Children(
                     Label("Default").SetContent(SearchBox("Search").OnSearch((s,e) => alert($"Searched for {e}"))),
                     Label("Disabled").Disabled().SetContent(SearchBox("Search").Disabled()),
                     Label("Underline").SetContent(SearchBox("Search").Underlined().OnSearch((s, e) => alert($"Searched for {e}"))),
@@ -50,7 +50,7 @@ namespace Tesserae.Tests.Samples
                     searchAsYouType,
                     Label("Custom Icon").Required().SetContent(SearchBox("Filter").SetIcon("las la-filter").OnSearch((s, e) => alert($"Filter for {e}"))),
                     Label("No Icon").SetContent(SearchBox("Search").NoIcon().OnSearch((s, e) => alert($"Searched for {e}"))),
-                    Label("Fixed Width").Required().SetContent(SearchBox("Small Search").Width(200, Unit.Pixels).OnSearch((s, e) => alert($"Searched for {e}"))))));
+                    Label("Fixed Width").Required().SetContent(SearchBox("Small Search").Width(200.px()).OnSearch((s, e) => alert($"Searched for {e}"))))));
         }
 
         public HTMLElement Render()

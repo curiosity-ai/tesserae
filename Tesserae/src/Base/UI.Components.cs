@@ -160,7 +160,7 @@ namespace Tesserae
 
         public static Link Link(string url, string text) => new Link(url, TextBlock(text));
 
-        public static Link Link(string url, string text, string icon) => new Link(url, Button(text).SetIcon(icon).NoBorder().NoBackground().Padding(Unit.Pixels, 0));
+        public static Link Link(string url, string text, string icon) => new Link(url, Button(text).SetIcon(icon).NoBorder().NoBackground().Padding(0.px()));
 
         public static SplitView SplitView() => new SplitView();
 

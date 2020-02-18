@@ -26,7 +26,7 @@ namespace Tesserae.Tests.Samples
                                 TextBlock("List provides a base component for rendering large sets of items. " +
                                           "It is agnostic of the tile component used, and selection " +
                                           "management. These concerns can be layered separately.")
-                                    .PaddingBottom(Unit.Pixels, 16),
+                                    .PaddingBottom(16.px()),
                                 TextBlock("Performance is important, and DOM content is expensive. Therefore, " +
                                           "limit what you render. List applies this principle by using UI " +
                                           "virtualization. Unlike a simple for loop that renders all items in " +
@@ -34,7 +34,7 @@ namespace Tesserae.Tests.Samples
                                           "the subset of rendered content is shifted. This gives a much " +
                                           "better experience for large sets, especially when the " +
                                           "per-item components are complex/render-intensive/network-intensive.")
-                                    .PaddingBottom(Unit.Pixels, 16),
+                                    .PaddingBottom(16.px()),
                                 TextBlock("List breaks down the set of items passed in into pages. Only pages " +
                                           "within a 'materialized window' are actually rendered. As that window " +
                                           "changes due to scroll events, pages that fall outside that window are " +
@@ -48,7 +48,7 @@ namespace Tesserae.Tests.Samples
                                 SampleTitle("Usage"),
                                 TextBlock("Basic List with Virtualization")
                                     .Medium()
-                                    .PaddingBottom(Unit.Pixels, 16),
+                                    .PaddingBottom(16.px()),
                                 BasicList(
                                     GetBasicListItems())));
         }

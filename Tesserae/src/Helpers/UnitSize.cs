@@ -4,8 +4,6 @@ namespace Tesserae
 {
     public sealed class UnitSize
     {
-        private const string AutoSuffix = "auto";
-
         public UnitSize(double size, Unit unit)
         {
             if (unit == Unit.Default)
@@ -17,17 +15,25 @@ namespace Tesserae
             Unit = unit;
         }
 
-        public UnitSize() => Unit = Unit.Auto;
+        private UnitSize()            => Unit = Unit.Auto;
 
-        public static string Auto => AutoSuffix;
+        public static UnitSize Auto() => new UnitSize();
 
-        public double Size { get; }
+        public double Size            { get; }
 
-        public Unit Unit   { get; }
+        public Unit Unit              { get; }
 
         [Obsolete("Replace call with .percent, .px or .vh extension methods available on the int and double types")]
         public static string Translate(Unit unit, double size) => new UnitSize(size, unit).ToString();
 
-        public override string ToString() => $"{Size:0.####}{Unit}";
+        public override string ToString()
+        {
+            if (Unit == Unit.Auto)
+            {
+                return $"{Unit}";
+            }
+
+            return $"{Size:0.####}{Unit}";
+        }
     }
 }
