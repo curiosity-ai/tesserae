@@ -207,15 +207,12 @@ namespace Tesserae.Components
                 get { return _headerDiv.classList.contains("selected"); }
                 set
                 {
-                    if (value != IsSelected)
+                    if (value)
                     {
-                        if (value)
-                        {
-                            OnSelect?.Invoke(this, this);
-                            _headerDiv.classList.add("selected");
-                        }
-                        else _headerDiv.classList.remove("selected");
+                        OnSelect?.Invoke(this, this);
+                        _headerDiv.classList.add("selected");
                     }
+                    else _headerDiv.classList.remove("selected");
                 }
             }
 
