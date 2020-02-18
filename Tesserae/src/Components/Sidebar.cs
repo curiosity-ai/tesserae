@@ -228,7 +228,6 @@ namespace Tesserae.Components
         private bool OnBeforeSelect(Item willBeSelected)
         {
             var currentlySelected = _items.Where(i => i.IsSelected).FirstOrDefault();
-            if (currentlySelected == willBeSelected) return false;
 
             if (onBeforeSelect is object)
             {
@@ -287,17 +286,14 @@ namespace Tesserae.Components
                 set
                 {
                     if (!IsSelectable) return;
-                    if (IsSelected != value)
+                    if (value)
                     {
-                        if (value)
-                        {
-                            _container.classList.add("selected");
-                            parent?.SelectItem(this);
-                        }
-                        else
-                        {
-                            _container.classList.remove("selected");
-                        }
+                        _container.classList.add("selected");
+                        parent?.SelectItem(this);
+                    }
+                    else
+                    {
+                        _container.classList.remove("selected");
                     }
                 }
             }
