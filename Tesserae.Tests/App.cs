@@ -51,9 +51,7 @@ namespace Tesserae.Tests
                 component => NavLink(component.Name).OnSelected((s, e) => Router.Navigate("#" + ToRoute(component.Name)))
             );
 
-            var mainStack = Stack().Padding("16px")
-                                .WidthStretch()
-                                .MinHeightStretch();
+            var mainStack = Stack().WidthStretch().MinHeightStretch();
 
             var sideBar = Sidebar();
 
