@@ -104,12 +104,12 @@ namespace Tesserae.Components
             }
         }
 
-        public bool Dark
+        public bool IsDark
         {
             get { return _contentHtml.classList.contains("dark"); }
             set
             {
-                if (value != Dark)
+                if (value != IsDark)
                 {
                     if (value)
                     {
@@ -202,81 +202,89 @@ namespace Tesserae.Components
             Far,
             Near
         }
-    }
-
-    public static class PanelExtensions
-    {
-        public static Panel ShowCloseButton(this Panel panel)
+        
+        public Panel HideCloseButton()
         {
-            panel.ShowCloseButton = true;
-            return panel;
+            ShowCloseButton = false;
+            return this;
         }
 
-        public static Panel HideCloseButton(this Panel panel)
+        public Panel SetFooter(IComponent footer)
         {
-            panel.ShowCloseButton = false;
-            return panel;
+            Footer = footer;
+            return this;
         }
 
-        public static Panel Footer(this Panel panel, IComponent footer)
+        public Panel Small()
         {
-            panel.Footer = footer;
-            return panel;
+            Size = PanelSize.Small;
+            return this;
+        }
+        public Panel Medium()
+        {
+            Size = PanelSize.Medium;
+            return this;
+        }
+        public Panel Large()
+        {
+            Size = PanelSize.Large;
+            return this;
+        }
+        public Panel LargeFixed()
+        {
+            Size = PanelSize.LargeFixed;
+            return this;
+        }
+        public Panel ExtraLarge()
+        {
+            Size = PanelSize.ExtraLarge;
+            return this;
+        }
+        public Panel FullWidth()
+        {
+            Size = PanelSize.FullWidth;
+            return this;
         }
 
-        public static Panel Small(this Panel panel)
+        public Panel Far()
         {
-            panel.Size = Panel.PanelSize.Small;
-            return panel;
-        }
-        public static Panel Medium(this Panel panel)
-        {
-            panel.Size = Panel.PanelSize.Medium;
-            return panel;
-        }
-        public static Panel Large(this Panel panel)
-        {
-            panel.Size = Panel.PanelSize.Large;
-            return panel;
-        }
-        public static Panel LargeFixed(this Panel panel)
-        {
-            panel.Size = Panel.PanelSize.LargeFixed;
-            return panel;
-        }
-        public static Panel ExtraLarge(this Panel panel)
-        {
-            panel.Size = Panel.PanelSize.ExtraLarge;
-            return panel;
-        }
-        public static Panel FullWidth(this Panel panel)
-        {
-            panel.Size = Panel.PanelSize.FullWidth;
-            return panel;
+            Side = PanelSide.Far;
+            return this;
         }
 
-        public static Panel Far(this Panel panel)
+        public Panel Near()
         {
-            panel.Side = Panel.PanelSide.Far;
-            return panel;
+            Side = PanelSide.Near;
+            return this;
         }
 
-        public static Panel Near(this Panel panel)
+        public Panel LightDismiss()
         {
-            panel.Side = Panel.PanelSide.Near;
-            return panel;
+            CanLightDismiss = true;
+            return this;
         }
 
-        public static Panel LightDismiss(this Panel panel)
+        public Panel NoLightDismiss()
         {
-            panel.CanLightDismiss = true;
-            return panel;
+            CanLightDismiss = false;
+            return this;
         }
 
-        public static Panel NonBlocking(this Panel panel)
+        public Panel Dark()
         {
-            panel.IsNonBlocking = true;
-            return panel;
+            IsDark = true;
+            return this;
+        }
+
+        public Panel NonBlocking()
+        {
+            IsNonBlocking = true;
+            return this;
+        }
+        public Panel Blocking()
+        {
+            IsNonBlocking = false;
+            return this;
         }
     }
 }
