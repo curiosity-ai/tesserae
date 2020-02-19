@@ -37,7 +37,6 @@ namespace Tesserae
 
                 if (cachedComponent.HtmlElement != null)
                 {
-                    console.log($"Retrieved component {componentAndKey.Key} from cache");
                     yield return cachedComponent.HtmlElement;
                 }
                 else
@@ -46,7 +45,6 @@ namespace Tesserae
 
                     _componentCache.Add((componentAndKey.Key, htmlElement));
 
-                    console.log($"Added component {componentAndKey.Key} to cache");
                     yield return htmlElement;
                 }
             }
