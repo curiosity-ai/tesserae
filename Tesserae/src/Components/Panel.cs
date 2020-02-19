@@ -16,6 +16,10 @@ namespace Tesserae.Components
         private readonly HTMLElement _panelCommand;
         private readonly HTMLElement _closeButton;
 
+        public delegate void OnHideHandler(Panel sender);
+
+        public event OnHideHandler onHide;
+
         public Panel() : base()
         {
             _closeButton = Button(_("las la-times", el: el => el.onclick = (e) => Hide()));
@@ -161,8 +165,17 @@ namespace Tesserae.Components
             if (!IsNonBlocking) document.body.style.overflowY = "hidden";
             base.Show();
         }
+
+        public Panel OnHide(OnHideHandler onHide)
+        {
+            this.onHide += onHide;
+            return this;
+        }
+
         public override void Hide(Action onHidden = null)
         {
+            onHide?.Invoke(this);
+
             base.Hide(() =>
             {
                 if (!IsNonBlocking) document.body.style.overflowY = "";
