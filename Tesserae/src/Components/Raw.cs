@@ -8,9 +8,9 @@ namespace Tesserae.Components
     {
         private HTMLElement InnerElement;
 
-        public Raw(HTMLElement element)
+        public Raw(HTMLElement content = null)
         {
-            InnerElement = element;
+            InnerElement = content is null ? DIV() : DIV(content);
         }
 
         public Raw Content(IComponent component)

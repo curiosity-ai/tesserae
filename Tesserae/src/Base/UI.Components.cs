@@ -49,7 +49,7 @@ namespace Tesserae
         /// <returns></returns>
         public static Raw Raw(HTMLElement element) => new Raw(element);
 
-        public static Raw Raw() => new Raw(DIV());
+        public static Raw Raw() => new Raw(null);
 
         public static Defer Defer(Func<Task<IComponent>> asyncGenerator) => new Defer(asyncGenerator);
 
