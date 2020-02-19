@@ -6,7 +6,16 @@
     position: relative;
 }
 
-.tss-detailslist-header, .tss-detailslist-column-header, .tss-detailslist-list-items-container {
+.tss-detailslist-header {
+    display: inline-block;
+    float: left;
+    position: sticky;
+    top: 0;
+    background: var(--tss-default-background-color);
+    z-index: 2;
+}
+
+.tss-detailslist-column-header, .tss-detailslist-list-items-container {
     display: inline-block;
     position: relative;
     float: left;
