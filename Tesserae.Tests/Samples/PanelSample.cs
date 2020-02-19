@@ -31,9 +31,9 @@ namespace Tesserae.Tests.Samples
                         Option("FullWidth").OnSelected((x, e) => panel.Size = Panel.PanelSize.FullWidth)
                     ),
                     Toggle("Is non-blocking").OnChange((s, e) => panel.IsNonBlocking = s.IsChecked).Checked(panel.IsNonBlocking),
-                    Toggle("Is dark overlay").OnChange((s, e) => panel.Dark = s.IsChecked).Checked(panel.Dark),
+                    Toggle("Is dark overlay").OnChange((s, e) => panel.IsDark = s.IsChecked).Checked(panel.IsDark),
                     Toggle("Hide close button").OnChange((s, e) => panel.ShowCloseButton = !s.IsChecked).Checked(!panel.ShowCloseButton)
-                    )).Footer(Stack().Horizontal().Children(Button("Footer Button 1").Primary(), Button("Footer Button 2")));
+                    )).SetFooter(Stack().Horizontal().Children(Button("Footer Button 1").Primary(), Button("Footer Button 2")));
 
             _content = SectionStack()
                         .Title(TextBlock("Panel").XLarge().Bold())
