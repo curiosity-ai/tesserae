@@ -31,7 +31,7 @@ namespace Tesserae.Components
         {
             _modalHeaderContents = Div(_("tss-modal-header-content"));
             _modalFooterContents = Div(_("tss-modal-footer-content"));
-            
+
             _modalHeaderCommands = Div(_("tss-modal-header-commands"));
             _modalFooterCommands = Div(_("tss-modal-footer-commands"));
 
@@ -248,12 +248,12 @@ namespace Tesserae.Components
             return this;
         }
 
-        public void ShowAt(Unit unit, double? fromTop = null, double? fromLeft = null, double? fromRight = null, double? fromBottom = null)
+        public void ShowAt(UnitSize fromTop = null, UnitSize fromLeft = null, UnitSize fromRight = null, UnitSize fromBottom = null)
         {
-            _modal.style.marginTop    = fromTop.HasValue    ? Units.Translate(unit, fromTop.Value)    : "auto";
-            _modal.style.marginLeft   = fromLeft.HasValue   ? Units.Translate(unit, fromLeft.Value)   : "auto";
-            _modal.style.marginRight  = fromRight.HasValue  ? Units.Translate(unit, fromRight.Value)  : "auto";
-            _modal.style.marginBottom = fromBottom.HasValue ? Units.Translate(unit, fromBottom.Value) : "auto";
+            _modal.style.marginTop    = fromTop    != null ? fromTop.ToString()    : UnitSize.Auto().ToString();
+            _modal.style.marginLeft   = fromLeft   != null ? fromLeft.ToString()   : UnitSize.Auto().ToString();
+            _modal.style.marginRight  = fromRight  != null ? fromRight.ToString()  : UnitSize.Auto().ToString();
+            _modal.style.marginBottom = fromBottom != null ? fromBottom.ToString() : UnitSize.Auto().ToString();
             if (!IsNonBlocking) document.body.style.overflowY = "hidden";
             _modal.style.transform = "translate(0px,0px)";
             base.Show();

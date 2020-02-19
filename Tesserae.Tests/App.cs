@@ -31,6 +31,8 @@ namespace Tesserae.Tests
                 ("Panel", new PanelSample()),
                 ("ContextMenu", new ContextMenuSample()),
                 ("ProgressModal", new ProgressModalSample()),
+                ("BasicList", new BasicListSample()),
+                ("DetailsList", new DetailsListSample()),
                 ("Layer", new LayerSample()),
                 ("Stack", new StackSample()),
                 ("SectionStack", new SectionStackSample()),
@@ -102,7 +104,7 @@ namespace Tesserae.Tests
 
         private static IComponent MainNav(Dictionary<string, Nav.NavLink> links, Navbar navBar, Sidebar sideBar)
         {
-            return Stack().Padding(Unit.Pixels, 16).NoShrink().MinHeightStretch()
+            return Stack().Padding(16.px()).NoShrink().MinHeightStretch()
                           .Children(TextBlock("Tesserae Samples").MediumPlus().SemiBold().AlignCenter(),
                                     Nav().InlineContent(Label("Theme").Inline().SetContent(Toggle("Light", "Dark").Checked().OnChange((t, e) => { if (t.IsChecked) { Theme.Light(); } else { Theme.Dark(); } })))
                                          .InlineContent(Label("Navbar").Inline().SetContent(Toggle("Show", "Hidden").OnChange((t, e) => { navBar.IsVisible = t.IsChecked; })))
@@ -147,6 +149,11 @@ namespace Tesserae.Tests
                                                                            links["Toast"],
                                                                            links["FileSelector"],
                                                                            links["ProgressModal"]),
+                                                NavLink("Collections").Expanded()
+                                                                      .SmallPlus()
+                                                                      .SemiBold()
+                                                                        .Links(links["BasicList"],
+                                                                               links["DetailsList"]),
                                                 NavLink("Nav Sample").Expanded()
                                                                      .SmallPlus()
                                                                      .SemiBold()

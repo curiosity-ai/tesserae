@@ -25,11 +25,11 @@ namespace Tesserae.Tests.Samples
                 .Section(Stack().Children(
                     SampleTitle("Best Practices"),
                     Stack().Horizontal().Children(
-                        Stack().Width(40, Unit.Percents).Children(
+                        Stack().Width(40.percent()).Children(
                             SampleSubTitle("Do"),
                             SampleDo("Allow users to choose any combination of options when several CheckBoxes are grouped together.")
                         ),
-                        Stack().Width(40, Unit.Percents).Children(
+                        Stack().Width(40.percent()).Children(
                             SampleSubTitle("Don't"),
                             SampleDont("Don't use a CheckBox as an on/off control. Instead use a toggle switch."),
                             SampleDont("Don’t use a CheckBox when the user can choose only one option from the group, use radio buttons instead."),

@@ -27,9 +27,9 @@ namespace Build.ImportLineAwesome
             sb.AppendLine("namespace Tesserae");
             sb.AppendLine("{").AppendLine();
             sb.AppendLine("    [Enum(Emit.Value)]");
-            sb.AppendLine("    public enum LA");
+            sb.AppendLine("    public enum LineAwesome");
             sb.AppendLine("    {");
-            var maxLen = icons.Max(l => l.Length) + "        [Name(\"\"] ".Length + 1; 
+            var maxLen = icons.Max(l => l.Length) + "        [Name(\"\"] ".Length + 1;
             foreach (var i in icons)
             {
                 sb.Append(("        [Name(\"la-" + i + "\")] ").PadRight(maxLen, ' '));

@@ -34,7 +34,7 @@ namespace Tesserae.Tests.Samples
                     Toggle("Is dark overlay").OnChange((s, e) => panel.Dark = s.IsChecked).Checked(panel.Dark),
                     Toggle("Hide close button").OnChange((s, e) => panel.ShowCloseButton = !s.IsChecked).Checked(!panel.ShowCloseButton)
                     )).Footer(Stack().Horizontal().Children(Button("Footer Button 1").Primary(), Button("Footer Button 2")));
-            
+
             _content = SectionStack()
                         .Title(TextBlock("Panel").XLarge().Bold())
                         .Section(Stack().Children(
@@ -49,13 +49,13 @@ namespace Tesserae.Tests.Samples
                         .Section(Stack().Children(
                             SampleTitle("Best Practices"),
                             Stack().Horizontal().Children(
-                            Stack().Width(40, Unit.Percents).Children(
+                            Stack().Width(40.percent()).Children(
                                 SampleSubTitle("Do"),
                                 SampleDo("Use for self-contained experiences where the user does not need to interact with the app view to complete the task."),
                                 SampleDo("Use for complex creation, edit or management experiences."),
                                 SampleDo("Consider how the panel and its contained contents will scale across Fabric’s responsive web breakpoints.")
                         ),
-                        Stack().Width(40, Unit.Percents).Children(
+                        Stack().Width(40.percent()).Children(
                             SampleSubTitle("Don't"),
                             SampleDont("Don't use for experiences where the user needs to interact with the app view.")))))
                         .Section(Stack().Children(

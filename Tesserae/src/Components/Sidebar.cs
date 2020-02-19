@@ -68,7 +68,7 @@ namespace Tesserae.Components
                     _sidebarContainer.classList.add("medium");
                     _sidebarContainer.classList.remove("small");
                 }
-                else 
+                else
                 {
                     _sidebarContainer.classList.remove("small");
                     _sidebarContainer.classList.remove("medium");
@@ -217,7 +217,7 @@ namespace Tesserae.Components
             if(IsAlwaysOpen)
             {
                 var rect = (DOMRect)_sidebarContainer.getBoundingClientRect();
-                _contentContainer.style.marginLeft = Units.Translate(Unit.Pixels, rect.width);
+                _contentContainer.style.marginLeft = rect.width.px().ToString();
             }
             else
             {

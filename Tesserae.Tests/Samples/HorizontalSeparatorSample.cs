@@ -22,12 +22,12 @@ namespace Tesserae.Tests.Samples
             .Section(Stack().Children(
                 SampleTitle("Best Practices"),
                 Stack().Horizontal().Children(
-                Stack().Width(40, Unit.Percents).Children(
+                Stack().Width(40.percent()).Children(
                     SampleSubTitle("Do"),
                     SampleDo("Explain what is the group this separator introduces"),
                     SampleDo("Be short and concise.")
                     ),
-                Stack().Width(40, Unit.Percents).Children(
+                Stack().Width(40.percent()).Children(
                     SampleSubTitle("Don't"),
                     SampleDont("Use long group names")))))
             .Section(Stack().Children(
@@ -36,9 +36,9 @@ namespace Tesserae.Tests.Samples
                     HorizontalSeparator("Left").Left(),
                     HorizontalSeparator("Right").Right(),
                     SampleTitle("Custom Separators"),
-                    HorizontalSeparator(Stack().Horizontal().Children(Icon("las la-plane").AlignCenter().PaddingRight(Unit.Pixels, 8), TextBlock("Custom Center").SemiBold().MediumPlus().AlignCenter())).Primary(),
-                    HorizontalSeparator(Stack().Horizontal().Children(Icon("las la-plane").AlignCenter().PaddingRight(Unit.Pixels, 8), TextBlock("Custom Left").SemiBold().MediumPlus().AlignCenter())).Primary().Left(),
-                    HorizontalSeparator(Stack().Horizontal().Children(Icon("las la-plane").AlignCenter().PaddingRight(Unit.Pixels, 8), TextBlock("Custom Right").SemiBold().MediumPlus().AlignCenter())).Primary().Right()));
+                    HorizontalSeparator(Stack().Horizontal().Children(Icon("las la-plane").AlignCenter().PaddingRight(8.px()), TextBlock("Custom Center").SemiBold().MediumPlus().AlignCenter())).Primary(),
+                    HorizontalSeparator(Stack().Horizontal().Children(Icon("las la-plane").AlignCenter().PaddingRight(8.px()), TextBlock("Custom Left").SemiBold().MediumPlus().AlignCenter())).Primary().Left(),
+                    HorizontalSeparator(Stack().Horizontal().Children(Icon("las la-plane").AlignCenter().PaddingRight(8.px()), TextBlock("Custom Right").SemiBold().MediumPlus().AlignCenter())).Primary().Right()));
         }
 
         public HTMLElement Render()

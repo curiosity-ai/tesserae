@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Tesserae.Components;
 using static Retyped.dom;
@@ -82,7 +83,7 @@ namespace Tesserae
         public static Icon Icon(string icon) => new Icon(icon);
 
         public static HorizontalSeparator HorizontalSeparator(string text) => new HorizontalSeparator(text);
-        
+
         public static HorizontalSeparator HorizontalSeparator(IComponent component) => new HorizontalSeparator(component);
 
         public static Label Label(string text = string.Empty) => new Label(text);
@@ -90,13 +91,13 @@ namespace Tesserae
         public static Label Label(IComponent component) => new Label(component);
 
         public static EditableLabel EditableLabel(string text = string.Empty) => new EditableLabel(text);
-        
+
         public static EditableArea EditableArea(string text = string.Empty) => new EditableArea(text);
 
         public static Breadcrumb Breadcrumb() => new Breadcrumb();
 
         public static Button Crumb(string text = string.Empty) => new Button(text).NoBorder().NoBackground();
-        
+
         public static OverflowSet OverflowSet() => new OverflowSet();
 
         public static TextBox TextBox(string text = string.Empty) => new TextBox(text);
@@ -112,7 +113,7 @@ namespace Tesserae
         public static Nav Nav() => new Nav();
 
         public static Nav.NavLink NavLink(string text = null, string icon = null) => new Nav.NavLink(text, icon);
-        
+
         public static Nav.NavLink NavLink(IComponent content) => new Nav.NavLink(content);
 
         public static Panel Panel() => new Panel();
@@ -124,7 +125,7 @@ namespace Tesserae
         public static ProgressModal ProgressModal() => new ProgressModal();
 
         public static Dialog Dialog(IComponent header = null) => new Dialog(header);
-        
+
         public static Dialog Dialog(string header) => new Dialog(string.IsNullOrWhiteSpace(header) ? null : TextBlock(header).MediumPlus().SemiBold());
 
         public static Pivot Pivot() => new Pivot();
@@ -136,7 +137,7 @@ namespace Tesserae
         public static Sidebar.Item SidebarItem(string text, IComponent icon) => new Sidebar.Item(text, icon);
 
         public static Navbar Navbar() => new Navbar();
-        
+
         public static Toast Toast() => new Toast();
 
         public static ProgressIndicator ProgressIndicator() => new ProgressIndicator();
@@ -154,13 +155,21 @@ namespace Tesserae
         public static ContextMenu.Item ContextMenuItem(IComponent component) => new ContextMenu.Item(component);
 
         public static Spinner Spinner(string text = string.Empty) => new Spinner(text);
-        
+
         public static Link Link(string url, IComponent content) => new Link(url, content);
-        
+
         public static Link Link(string url, string text) => new Link(url, TextBlock(text));
-        
-        public static Link Link(string url, string text, string icon) => new Link(url, Button(text).SetIcon(icon).NoBorder().NoBackground().Padding(Unit.Pixels, 0));
+
+        public static Link Link(string url, string text, string icon) => new Link(url, Button(text).SetIcon(icon).NoBorder().NoBackground().Padding(0.px()));
 
         public static SplitView SplitView() => new SplitView();
+
+        public static BasicList BasicList(IEnumerable<IComponent> components, int rowsPerPage = 4, int columnsPerRow = 4) => new BasicList(components, rowsPerPage, columnsPerRow);
+
+        public static DetailsList<TDetailsListItem> DetailsList<TDetailsListItem>(int rowsPerPage = 8, bool small = false) where TDetailsListItem : class, IDetailsListItem<TDetailsListItem> => new DetailsList<TDetailsListItem>(rowsPerPage, small);
+
+        public static DetailsListIconColumn IconColumn(LineAwesome lineAwesomeIcon, UnitSize width, LineAwesomeSize lineAwesomeSize = LineAwesomeSize.Default, bool enableColumnSorting = false, string sortingKey = null, Action onColumnClick = null) => new DetailsListIconColumn(lineAwesomeIcon, width, lineAwesomeSize, enableColumnSorting, sortingKey, onColumnClick);
+
+        public static DetailsListColumn DetailsListColumn(string title, UnitSize width, bool isRowHeader = false, bool enableColumnSorting = false, string sortingKey = null, Action onColumnClick = null) => new DetailsListColumn(title, width, isRowHeader, enableColumnSorting, sortingKey, onColumnClick);
     }
 }

@@ -25,11 +25,11 @@ namespace Tesserae.Tests.Samples
             .Section(Stack().Children(
                 SampleTitle("Best Practices"),
                 Stack().Horizontal().Children(
-                Stack().Width(40, Unit.Percents).Children(
+                Stack().Width(40.percent()).Children(
                 SampleSubTitle("Do"),
                 SampleDo("Only replace the On and Off labels if there are more specific labels for the setting. If there are short (3-4 characters) labels that represent binary opposites that are more appropriate for a particular setting, use them. ")
             ),
-            Stack().Width(40, Unit.Percents).Children(
+            Stack().Width(40.percent()).Children(
                 SampleSubTitle("Don't"),
                 SampleDont("Don’t use a Toggle if the user will have to do something else or go somewhere else in order to experience its effect. If any extra step is required for changes to be effective, you should use a checkbox and corresponding \"Apply\" button instead of a Toggle.")
             )

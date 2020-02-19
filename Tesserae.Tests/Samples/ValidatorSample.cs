@@ -28,11 +28,11 @@ namespace Tesserae.Tests.Samples
                 .Section(Stack().Children(
                 SampleTitle("Best Practices"),
                 Stack().Horizontal().Children(
-                    Stack().Width(40, Unit.Percents).Children(
+                    Stack().Width(40.percent()).Children(
                         SampleSubTitle("Do"),
                         SampleDo("TODO")
                     ),
-                    Stack().Width(40, Unit.Percents).Children(
+                    Stack().Width(40.percent()).Children(
                         SampleSubTitle("Don't"),
                         SampleDont("TODO")
                     )
@@ -40,7 +40,7 @@ namespace Tesserae.Tests.Samples
                 .Section(Stack().Children(
                 SampleTitle("Usage"),
                 TextBlock("Basic TextBox").Medium(),
-                Stack().Width(40, Unit.Percents).Children(
+                Stack().Width(40.percent()).Children(
                     Label("Non-empty").SetContent(tb1),
                     Label("Integer > 0").SetContent(tb2),
                     Label("Is all valid").SetContent(isAllValid),

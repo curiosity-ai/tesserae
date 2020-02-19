@@ -61,7 +61,7 @@ namespace Tesserae.Tests.Samples
                         ))
                 ))
                 .Section(
-                    Stack().Width(400, Unit.Pixels).Children(
+                    Stack().Width(400.px()).Children(
                         SampleTitle("Usage"),
                         Button("Open Modal").OnClick((s, e) => PlayModal().FireAndForget())
                     ));

@@ -38,19 +38,19 @@ namespace Tesserae.Tests.Samples
                         .Section(Stack().Children(
                             SampleTitle("Best Practices"),
                             Stack().Horizontal().Children(
-                                Stack().Width(40, Unit.Percents).Children(
+                                Stack().Width(40.percent()).Children(
                                     SampleSubTitle("Do"),
                                     SampleDo("Use Modals for actionable interactions, such as needing the user to provide information or change settings."),
                                     SampleDo("When possible, try a non-blocking Modal before resorting to a blocking Modal."),
                                     SampleDo("Always have at least one focusable element inside a Modal.")),
-                            Stack().Width(40, Unit.Percents).Children(
+                            Stack().Width(40.percent()).Children(
                                 SampleSubTitle("Don't"),
                                 SampleDont("Don’t overuse Modals. In some cases they can be perceived as interrupting workflow, and too many can be a bad user experience.")))))
                         .Section(Stack().Children(
                             SampleTitle("Usage"),
                             Button("Open Modal").OnClick((s, e) => modal.Show()),
-                            Button("Open Modal from top right").OnClick((s, e) => modal.ShowAt(Unit.Pixels, fromRight:16, fromTop:16)),
-                            Button("Open Modal with minimum size").OnClick((s, e) => Modal().CenterContent().LightDismiss().Dark().Content(TextBlock("small content").Tiny()).MinHeight(50, Unit.Viewport).MinWidth(50, Unit.Viewport).Show())));
+                            Button("Open Modal from top right").OnClick((s, e) => modal.ShowAt(fromRight: 16.px(), fromTop: 16.px())),
+                            Button("Open Modal with minimum size").OnClick((s, e) => Modal().CenterContent().LightDismiss().Dark().Content(TextBlock("small content").Tiny()).MinHeight(50.vh()).MinWidth(50.vh()).Show())));
         }
 
         public HTMLElement Render()

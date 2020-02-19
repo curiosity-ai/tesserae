@@ -103,22 +103,16 @@ namespace Tesserae.Components
 
             if (item.style.width == "auto") return new ItemSize() { Type = Unit.Auto };
             if (item.style.width.EndsWith("px")) return new ItemSize() { Type = Unit.Pixels, Value = float.Parse(item.style.width.Substring(0,item.style.width.Length - 2)) };
-            if (item.style.width.EndsWith("%")) return new ItemSize() { Type = Unit.Percents, Value = float.Parse(item.style.width.Substring(0, item.style.width.Length - 1)) };
+            if (item.style.width.EndsWith("%")) return new ItemSize() { Type = Unit.Percent, Value = float.Parse(item.style.width.Substring(0, item.style.width.Length - 1)) };
             if (item.style.width.EndsWith("vw")) return new ItemSize() { Type = Unit.Viewport, Value = float.Parse(item.style.width.Substring(0, item.style.width.Length - 2)) };
 
             throw new Exception("Incorrect Stack item width.");
         }
 
-        public static void SetWidth(IComponent component, Unit sizeType, float size = 0)
+        public static void SetWidth(IComponent component, UnitSize unitSize)
         {
             var item = GetItem(component);
-            switch (sizeType)
-            {
-                case Unit.Auto: item.style.width = "auto"; break;
-                case Unit.Pixels: item.style.width = $"{size:0.####}px"; break;
-                case Unit.Percents: item.style.width = $"{size:0.####}%"; break;
-                case Unit.Viewport: item.style.width = $"{size:0.####}vw"; break;
-            }
+            item.style.width = unitSize.ToString();
             item.setAttribute("tss-stk-w","");
         }
 
@@ -140,29 +134,17 @@ namespace Tesserae.Components
             return item;
         }
 
-        public static void SetMinWidth(IComponent component, Unit sizeType, float size = 0)
+        public static void SetMinWidth(IComponent component, UnitSize unitSize)
         {
             var item = GetCorrectItemToApplyStyle(component);
-            switch (sizeType)
-            {
-                case Unit.Auto: item.style.minWidth = "auto"; break;
-                case Unit.Pixels: item.style.minWidth = $"{size:0.####}px"; break;
-                case Unit.Percents: item.style.minWidth = $"{size:0.####}%"; break;
-                case Unit.Viewport: item.style.minWidth = $"{size:0.####}vw"; break;
-            }
+            item.style.minWidth = unitSize.ToString();
             item.setAttribute("tss-stk-mw", "");
         }
 
-        public static void SetMaxWidth(IComponent component, Unit sizeType, float size = 0)
+        public static void SetMaxWidth(IComponent component, UnitSize unitSize)
         {
             var item = GetCorrectItemToApplyStyle(component);
-            switch (sizeType)
-            {
-                case Unit.Auto: item.style.maxWidth = "auto"; break;
-                case Unit.Pixels: item.style.maxWidth = $"{size:0.####}px"; break;
-                case Unit.Percents: item.style.maxWidth = $"{size:0.####}%"; break;
-                case Unit.Viewport: item.style.maxWidth = $"{size:0.####}vw"; break;
-            }
+            item.style.maxWidth = unitSize.ToString();
             item.setAttribute("tss-stk-mxw", "");
         }
 
@@ -171,93 +153,87 @@ namespace Tesserae.Components
             var item = GetItem(component);
             if (item.style.height == "auto") return new ItemSize() { Type = Unit.Auto };
             if (item.style.height.EndsWith("px")) return new ItemSize() { Type = Unit.Pixels, Value = float.Parse(item.style.height.Substring(0, item.style.height.Length - 2)) };
-            if (item.style.height.EndsWith("%")) return new ItemSize() { Type = Unit.Percents, Value = float.Parse(item.style.height.Substring(0, item.style.height.Length - 1)) };
+            if (item.style.height.EndsWith("%")) return new ItemSize() { Type = Unit.Percent, Value = float.Parse(item.style.height.Substring(0, item.style.height.Length - 1)) };
             if (item.style.height.EndsWith("vh")) return new ItemSize() { Type = Unit.Viewport, Value = float.Parse(item.style.height.Substring(0, item.style.height.Length - 2)) };
 
             throw new Exception("Incorrect Stack item height.");
         }
 
-        public static void SetHeight(IComponent component, Unit sizeType, float size = 0)
+        public static void SetHeight(IComponent component, UnitSize unitSize)
         {
             var item = GetItem(component);
-            switch (sizeType)
-            {
-                case Unit.Auto: item.style.height = "auto"; break;
-                case Unit.Pixels: item.style.height = $"{size:0.####}px"; break;
-                case Unit.Percents: item.style.height = $"{size:0.####}%"; break;
-                case Unit.Viewport: item.style.height = $"{size:0.####}vh"; break;
-            }
+            item.style.height = unitSize.ToString();
             item.setAttribute("tss-stk-h", "");
         }
 
-        public static void SetMinHeight(IComponent component, Unit sizeType, float size = 0)
+        public static void SetMinHeight(IComponent component, UnitSize unitSize)
         {
             var item = GetCorrectItemToApplyStyle(component);
-            item.style.minHeight = Units.Translate(sizeType, size);
+            item.style.minHeight = unitSize.ToString();
             item.setAttribute("tss-stk-mh", "");
         }
 
-        public static void SetMaxHeight(IComponent component, Unit sizeType, float size = 0)
+        public static void SetMaxHeight(IComponent component, UnitSize unitSize)
         {
             var item = GetCorrectItemToApplyStyle(component);
-            item.style.maxHeight = Units.Translate(sizeType, size);
+            item.style.maxHeight = unitSize.ToString();
             item.setAttribute("tss-stk-mxh", "");
         }
 
-        public static void SetMarginLeft(IComponent component, Unit sizeType, float size = 0)
+        public static void SetMarginLeft(IComponent component, UnitSize unitSize)
         {
             var item = GetCorrectItemToApplyStyle(component);
-            item.style.marginLeft = Units.Translate(sizeType, size);
+            item.style.marginLeft = unitSize.ToString();
             item.setAttribute("tss-stk-m", "");
         }
 
-        public static void SetMarginRight(IComponent component, Unit sizeType, float size = 0)
+        public static void SetMarginRight(IComponent component, UnitSize unitSize)
         {
             var item = GetCorrectItemToApplyStyle(component);
-            item.style.marginRight = Units.Translate(sizeType, size);
+            item.style.marginRight = unitSize.ToString();
             item.setAttribute("tss-stk-m", "");
         }
 
-        public static void SetMarginTop(IComponent component, Unit sizeType, float size = 0)
+        public static void SetMarginTop(IComponent component, UnitSize unitSize)
         {
             var item = GetCorrectItemToApplyStyle(component);
-            item.style.marginTop= Units.Translate(sizeType, size);
+            item.style.marginTop= unitSize.ToString();
             item.setAttribute("tss-stk-m", "");
         }
 
-        public static void SetMarginBottom(IComponent component, Unit sizeType, float size = 0)
+        public static void SetMarginBottom(IComponent component, UnitSize unitSize)
         {
             var item = GetCorrectItemToApplyStyle(component);
-            item.style.marginBottom = Units.Translate(sizeType, size);
+            item.style.marginBottom = unitSize.ToString();
             item.setAttribute("tss-stk-m", "");
         }
 
 
-        public static void SetPaddingLeft(IComponent component, Unit sizeType, float size = 0)
+        public static void SetPaddingLeft(IComponent component, UnitSize unitSize)
         {
             var item = GetCorrectItemToApplyStyle(component);
-            item.style.paddingLeft = Units.Translate(sizeType, size);
+            item.style.paddingLeft = unitSize.ToString();
             item.setAttribute("tss-stk-p", "");
         }
 
-        public static void SetPaddingRight(IComponent component, Unit sizeType, float size = 0)
+        public static void SetPaddingRight(IComponent component, UnitSize unitSize)
         {
             var item = GetCorrectItemToApplyStyle(component);
-            item.style.paddingRight = Units.Translate(sizeType, size);
+            item.style.paddingRight = unitSize.ToString();
             item.setAttribute("tss-stk-p", "");
         }
 
-        public static void SetPaddingTop(IComponent component, Unit sizeType, float size = 0)
+        public static void SetPaddingTop(IComponent component, UnitSize unitSize)
         {
             var item = GetCorrectItemToApplyStyle(component);
-            item.style.paddingTop = Units.Translate(sizeType, size);
+            item.style.paddingTop = unitSize.ToString();
             item.setAttribute("tss-stk-p", "");
         }
 
-        public static void SetPaddingBottom(IComponent component, Unit sizeType, float size = 0)
+        public static void SetPaddingBottom(IComponent component, UnitSize unitSize)
         {
             var item = GetCorrectItemToApplyStyle(component);
-            item.style.paddingBottom = Units.Translate(sizeType, size);
+            item.style.paddingBottom = unitSize.ToString();
             item.setAttribute("tss-stk-p", "");
         }
 
@@ -306,7 +282,7 @@ namespace Tesserae.Components
         {
             InnerElement.replaceChild(GetItem(newComponent), GetItem(oldComponent));
         }
-        
+
         public virtual HTMLElement Render()
         {
             return InnerElement;
@@ -380,10 +356,21 @@ namespace Tesserae.Components
 
         private static void CopyStylesDefinedWithExtension(HTMLElement from, HTMLElement to)
         {
+            // RFO: this class does some magic to move any styles applied to an element using the extensions methods like Width, etc... to the actual StackItem HTML element
+            // so that they're relevant on the flex-box and not only inside of each child item of the flexbox
+
             var fs = from.style;
             var ts = to.style;
 
-            bool has(string att) => from.hasAttribute(att);
+            bool has(string att)
+            {
+                bool ha = from.hasAttribute(att);
+                if (ha)
+                {
+                    from.removeAttribute(att);
+                }
+                return ha;
+            }
 
             if (has("tss-stk-w"))  { ts.width     = fs.width;  fs.width = "100%"; }
             if (has("tss-stk-mw")) { ts.minWidth = fs.minWidth; fs.minWidth = "100%"; }
@@ -485,138 +472,138 @@ namespace Tesserae.Components
             return component;
         }
 
-        public static T Margin<T>(this T component, Unit unit, float margin = 0) where T : IComponent
+        public static T Margin<T>(this T component, UnitSize unitSize) where T : IComponent
         {
-            Stack.SetMarginLeft(component, unit, margin);
-            Stack.SetMarginRight(component, unit, margin);
-            Stack.SetMarginTop(component, unit, margin);
-            Stack.SetMarginBottom(component, unit, margin);
+            Stack.SetMarginLeft(component, unitSize);
+            Stack.SetMarginRight(component, unitSize);
+            Stack.SetMarginTop(component, unitSize);
+            Stack.SetMarginBottom(component, unitSize);
             return component;
         }
 
-        public static T MarginLeft<T>(this T component, Unit unit, float margin = 0) where T : IComponent
+        public static T MarginLeft<T>(this T component, UnitSize unitSize) where T : IComponent
         {
-            Stack.SetMarginLeft(component, unit, margin);
+            Stack.SetMarginLeft(component, unitSize);
             return component;
         }
 
-        public static T MarginRight<T>(this T component, Unit unit, float margin = 0) where T : IComponent
+        public static T MarginRight<T>(this T component, UnitSize unitSize) where T : IComponent
         {
-            Stack.SetMarginRight(component, unit, margin);
+            Stack.SetMarginRight(component, unitSize);
             return component;
         }
 
-        public static T MarginTop<T>(this T component, Unit unit, float margin = 0) where T : IComponent
+        public static T MarginTop<T>(this T component, UnitSize unitSize) where T : IComponent
         {
-            Stack.SetMarginTop(component, unit, margin);
+            Stack.SetMarginTop(component, unitSize);
             return component;
         }
 
-        public static T MarginBottom<T>(this T component, Unit unit, float margin = 0) where T : IComponent
+        public static T MarginBottom<T>(this T component, UnitSize unitSize) where T : IComponent
         {
-            Stack.SetMarginBottom(component, unit, margin);
+            Stack.SetMarginBottom(component, unitSize);
             return component;
         }
 
-        public static T Padding<T>(this T component, Unit unit, float padding = 0) where T : IComponent
+        public static T Padding<T>(this T component, UnitSize unitSize) where T : IComponent
         {
-            Stack.SetPaddingLeft(component, unit, padding);
-            Stack.SetPaddingRight(component, unit, padding);
-            Stack.SetPaddingTop(component, unit, padding);
-            Stack.SetPaddingBottom(component, unit, padding);
+            Stack.SetPaddingLeft(component, unitSize);
+            Stack.SetPaddingRight(component, unitSize);
+            Stack.SetPaddingTop(component, unitSize);
+            Stack.SetPaddingBottom(component, unitSize);
             return component;
         }
 
-        public static T PaddingLeft<T>(this T component, Unit unit, float padding = 0) where T : IComponent
+        public static T PaddingLeft<T>(this T component, UnitSize unitSize) where T : IComponent
         {
-            Stack.SetPaddingLeft(component, unit, padding);
+            Stack.SetPaddingLeft(component, unitSize);
             return component;
         }
 
-        public static T PaddingRight<T>(this T component, Unit unit, float padding = 0) where T : IComponent
+        public static T PaddingRight<T>(this T component, UnitSize unitSize) where T : IComponent
         {
-            Stack.SetPaddingRight(component, unit, padding);
+            Stack.SetPaddingRight(component, unitSize);
             return component;
         }
 
-        public static T PaddingTop<T>(this T component, Unit unit, float padding = 0) where T : IComponent
+        public static T PaddingTop<T>(this T component, UnitSize unitSize) where T : IComponent
         {
-            Stack.SetPaddingTop(component, unit, padding);
+            Stack.SetPaddingTop(component, unitSize);
             return component;
         }
 
-        public static T PaddingBottom<T>(this T component, Unit unit, float padding = 0) where T : IComponent
+        public static T PaddingBottom<T>(this T component, UnitSize unitSize) where T : IComponent
         {
-            Stack.SetPaddingBottom(component, unit, padding);
+            Stack.SetPaddingBottom(component, unitSize);
             return component;
         }
 
         public static T WidthAuto<T>(this T component) where T : IComponent
         {
-            Stack.SetWidth(component, Unit.Auto);
+            Stack.SetWidth(component, UnitSize.Auto());
             return component;
         }
 
-        public static T Width<T>(this T component, float value, Unit unit) where T : IComponent
+        public static T Width<T>(this T component, UnitSize unitSize) where T : IComponent
         {
-            Stack.SetWidth(component, unit, value);
+            Stack.SetWidth(component, unitSize);
             return component;
         }
 
-        public static T MinWidth<T>(this T component, float value, Unit unit) where T : IComponent
+        public static T MinWidth<T>(this T component, UnitSize unitSize) where T : IComponent
         {
-            Stack.SetMinWidth(component, unit, value);
+            Stack.SetMinWidth(component, unitSize);
             return component;
         }
 
-        public static T MaxWidth<T>(this T component, float value, Unit unit) where T : IComponent
+        public static T MaxWidth<T>(this T component, UnitSize unitSize) where T : IComponent
         {
-            Stack.SetMaxWidth(component, unit, value);
+            Stack.SetMaxWidth(component, unitSize);
             return component;
         }
 
         public static T WidthStretch<T>(this T component) where T : IComponent
         {
-            Stack.SetWidth(component, Unit.Percents, 100);
+            Stack.SetWidth(component, 100.percent());
             return component;
         }
 
         public static T HeightAuto<T>(this T component) where T : IComponent
         {
-            Stack.SetHeight(component, Unit.Auto);
+            Stack.SetHeight(component, UnitSize.Auto());
             return component;
         }
 
-        public static T Height<T>(this T component, float value, Unit unit) where T : IComponent
+        public static T Height<T>(this T component, UnitSize unitSize) where T : IComponent
         {
-            Stack.SetHeight(component, unit, value);
-            return component;
-        }
-        
-        public static T MinHeight<T>(this T component, float value, Unit unit) where T : IComponent
-        {
-            Stack.SetMinHeight(component, unit, value);
+            Stack.SetHeight(component, unitSize);
             return component;
         }
 
-        public static T MaxHeight<T>(this T component, float value, Unit unit) where T : IComponent
+        public static T MinHeight<T>(this T component, UnitSize unitSize) where T : IComponent
         {
-            Stack.SetMaxHeight(component, unit, value);
+            Stack.SetMinHeight(component, unitSize);
+            return component;
+        }
+
+        public static T MaxHeight<T>(this T component, UnitSize unitSize) where T : IComponent
+        {
+            Stack.SetMaxHeight(component, unitSize);
             return component;
         }
 
         public static T HeightStretch<T>(this T component) where T : IComponent
         {
-            Stack.SetHeight(component, Unit.Percents, 100);
+            Stack.SetHeight(component, 100.percent());
             return component;
         }
 
         public static T MinHeightStretch<T>(this T component) where T : IComponent
         {
-            Stack.SetMinHeight(component, Unit.Percents, 100);
+            Stack.SetMinHeight(component, 100.percent());
             return component;
         }
-        
+
         public static T Grow<T>(this T component, int grow) where T : IComponent
         {
             Stack.SetGrow(component, grow);
@@ -633,30 +620,6 @@ namespace Tesserae.Components
         {
             Stack.SetShrink(component, false);
             return component;
-        }
-    }
-
-    public enum Unit
-    {
-        Auto,
-        Percents,
-        Viewport,
-        Pixels
-    }
-
-    public static class Units
-    {
-        public static string Translate(Unit unit, double value)
-        {
-            switch (unit)
-            {
-                case Unit.Auto: return "auto";
-                case Unit.Pixels: return $"{value:0.####}px";
-                case Unit.Percents: return $"{value:0.####}%";
-                case Unit.Viewport: return $"{value:0.####}vh";
-            }
-
-            throw new NotSupportedException();
         }
     }
 }
