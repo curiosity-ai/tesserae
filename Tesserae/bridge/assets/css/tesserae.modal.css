@@ -72,20 +72,30 @@
 
 .tss-modal-header-content {
     flex-grow: 1;
-    overflow:hidden;
+    overflow: hidden;
+    display: inline-flex;
+    flex-wrap: nowrap;
 }
 
 .tss-modal-footer-content {
     flex-grow: 1;
     overflow: hidden;
+    display: inline-flex;
+    flex-wrap: nowrap;
 }
 
 .tss-modal-header-commands {
     flex-shrink: 0;
+    flex-wrap: nowrap;
+    display: inline-flex;
+    align-items: center;
 }
 
 .tss-modal-footer-commands {
     flex-shrink: 0;
+    flex-wrap: nowrap;
+    display: inline-flex;
+    align-items:center;
 }
 
 
