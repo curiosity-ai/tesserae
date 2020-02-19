@@ -166,7 +166,7 @@ namespace Tesserae
 
         public static BasicList BasicList(IEnumerable<IComponent> components, int rowsPerPage = 4, int columnsPerRow = 4) => new BasicList(components, rowsPerPage, columnsPerRow);
 
-        public static DetailsList<TDetailsListItem> DetailsList<TDetailsListItem>(int rowsPerPage = 8) where TDetailsListItem : class, IDetailsListItem<TDetailsListItem> => new DetailsList<TDetailsListItem>(rowsPerPage);
+        public static DetailsList<TDetailsListItem> DetailsList<TDetailsListItem>(int rowsPerPage = 8, bool small = false) where TDetailsListItem : class, IDetailsListItem<TDetailsListItem> => new DetailsList<TDetailsListItem>(rowsPerPage, small);
 
         public static DetailsListIconColumn IconColumn(LineAwesome lineAwesomeIcon, UnitSize width, LineAwesomeSize lineAwesomeSize = LineAwesomeSize.Default, bool enableColumnSorting = false, string sortingKey = null, Action onColumnClick = null) => new DetailsListIconColumn(lineAwesomeIcon, width, lineAwesomeSize, enableColumnSorting, sortingKey, onColumnClick);
 

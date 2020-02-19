@@ -90,7 +90,7 @@ namespace Tesserae.Tests.Samples
                                 TextBlock("Details List With Component Rows")
                                     .Medium()
                                     .PaddingBottom(16.px()),
-                                DetailsList<DetailsListSampleItemWithComponents>()
+                                DetailsList<DetailsListSampleItemWithComponents>(small:true)
                                     .WithColumn(IconColumn(lineAwesomeIcon: LineAwesome.Apple, width: 32.px(), lineAwesomeSize: LineAwesomeSize.Brand, enableColumnSorting: true, sortingKey: "Icon"))
                                     .WithColumn(DetailsListColumn(title: "CheckBox",   width: 120.px()))
                                     .WithColumn(DetailsListColumn(title: "Name",       width: 250.px(), isRowHeader: true))

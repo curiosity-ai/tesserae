@@ -24,7 +24,7 @@ namespace Tesserae.Components
         private LineAwesome _currentLineAwesomeSortingIcon;
         private HTMLElement _columnSortingIcon;
 
-        public DetailsList(int rowsPerPage = 8)
+        public DetailsList(int rowsPerPage = 8, bool small = false)
         {
             if (rowsPerPage <= 0)
             {
@@ -34,7 +34,12 @@ namespace Tesserae.Components
             _rowsPerPage    = rowsPerPage;
             _columns        = new List<IDetailsListColumn>();
             _componentCache = new ComponentCache<TDetailsListItem>(CreateListItem);
-            _container      = Div(_());
+            _listContainer = Div(_("tss-detailslist").WithRole("grid"));
+            if(small)
+            {
+                _listContainer.classList.add("small");
+            }
+            _container      = DIV(_listContainer);
 
             _previousColumnSortingKey      = string.Empty;
             _currentLineAwesomeSortingIcon = LineAwesome.ArrowUp;
@@ -139,13 +144,12 @@ namespace Tesserae.Components
 
             var totalWidth = _columns.Sum(detailsListColumn => detailsListColumn.Width.Size + 4);
             
-            _listContainer = Div(_("tss-detailslist").WithRole("grid"));
-            _container.appendChild(_listContainer);
+
 
             var detailsListHeader = Div(_("tss-detailslist-header").WithRole("presentation"));
             detailsListHeader.style.width   = (totalWidth).px().ToString();
             _listContainer.appendChild(detailsListHeader);
-
+             
             foreach (var column in _columns)
             {
                 CreateColumnHeader(column, detailsListHeader);
@@ -154,7 +158,7 @@ namespace Tesserae.Components
             _listItemsContainer = Div(_("tss-detailslist-list-items-container").WithRole("presentation"));
             _listItemsContainer.style.width = (totalWidth).px().ToString();
             _listContainer.appendChild(_listItemsContainer);
-            _listContainer.style.maxWidth = (totalWidth + 16).px().ToString();
+
             RefreshListItems();
 
             _listAlreadyCreated = true;
