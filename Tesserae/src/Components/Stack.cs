@@ -104,7 +104,7 @@ namespace Tesserae.Components
             if (item.style.width == "auto") return new ItemSize() { Type = Unit.Auto };
             if (item.style.width.EndsWith("px")) return new ItemSize() { Type = Unit.Pixels, Value = float.Parse(item.style.width.Substring(0,item.style.width.Length - 2)) };
             if (item.style.width.EndsWith("%")) return new ItemSize() { Type = Unit.Percent, Value = float.Parse(item.style.width.Substring(0, item.style.width.Length - 1)) };
-            if (item.style.width.EndsWith("vw")) return new ItemSize() { Type = Unit.Viewport, Value = float.Parse(item.style.width.Substring(0, item.style.width.Length - 2)) };
+            if (item.style.width.EndsWith("vw")) return new ItemSize() { Type = Unit.ViewportWidth, Value = float.Parse(item.style.width.Substring(0, item.style.width.Length - 2)) };
 
             throw new Exception("Incorrect Stack item width.");
         }
@@ -154,7 +154,7 @@ namespace Tesserae.Components
             if (item.style.height == "auto") return new ItemSize() { Type = Unit.Auto };
             if (item.style.height.EndsWith("px")) return new ItemSize() { Type = Unit.Pixels, Value = float.Parse(item.style.height.Substring(0, item.style.height.Length - 2)) };
             if (item.style.height.EndsWith("%")) return new ItemSize() { Type = Unit.Percent, Value = float.Parse(item.style.height.Substring(0, item.style.height.Length - 1)) };
-            if (item.style.height.EndsWith("vh")) return new ItemSize() { Type = Unit.Viewport, Value = float.Parse(item.style.height.Substring(0, item.style.height.Length - 2)) };
+            if (item.style.height.EndsWith("vh")) return new ItemSize() { Type = Unit.ViewportHeight, Value = float.Parse(item.style.height.Substring(0, item.style.height.Length - 2)) };
 
             throw new Exception("Incorrect Stack item height.");
         }

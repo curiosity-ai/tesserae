@@ -17,6 +17,9 @@ namespace Tesserae
         Pixels,
 
         [Name("vh")]
-        Viewport
+        ViewportHeight,
+
+        [Name("vw")]
+        ViewportWidth
     }
 }
