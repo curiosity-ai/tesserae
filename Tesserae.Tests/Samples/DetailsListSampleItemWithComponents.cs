@@ -2,10 +2,11 @@ using System;
 using System.Collections.Generic;
 using static Tesserae.UI;
 using static Retyped.dom;
+using Tesserae.Components;
 
-namespace Tesserae.Components
+namespace Tesserae.Tests.Samples
 {
-    public class ComponentDetailsListItem : IDetailsListItem<ComponentDetailsListItem>
+    public class DetailsListSampleItemWithComponents : IDetailsListItem<DetailsListSampleItemWithComponents>
     {
         public LineAwesome Icon               { get; private set; }
 
@@ -25,66 +26,64 @@ namespace Tesserae.Components
 
         public void OnListItemClick(int listItemIndex)
         {
+
         }
 
-        public int CompareTo(ComponentDetailsListItem other, string columnSortingKey)
+        public int CompareTo(DetailsListSampleItemWithComponents other, string columnSortingKey)
         {
             return 0;
         }
 
-        public ComponentDetailsListItem WithIcon(LineAwesome icon)
+        public DetailsListSampleItemWithComponents WithIcon(LineAwesome icon)
         {
             Icon = icon;
 
             return this;
         }
 
-        public ComponentDetailsListItem WithCheckBox(CheckBox checkBox)
+        public DetailsListSampleItemWithComponents WithCheckBox(CheckBox checkBox)
         {
             CheckBox = checkBox;
 
             return this;
         }
 
-        public ComponentDetailsListItem WithName(string name)
+        public DetailsListSampleItemWithComponents WithName(string name)
         {
             Name = name;
 
             return this;
         }
 
-        public ComponentDetailsListItem WithButton(Button button)
+        public DetailsListSampleItemWithComponents WithButton(Button button)
         {
             Button = button;
 
             return this;
         }
 
-        public ComponentDetailsListItem WithChoiceGroup(ChoiceGroup choiceGroup)
+        public DetailsListSampleItemWithComponents WithChoiceGroup(ChoiceGroup choiceGroup)
         {
             ChoiceGroup = choiceGroup;
 
             return this;
         }
 
-        public ComponentDetailsListItem WithDropdown(Dropdown dropdown)
+        public DetailsListSampleItemWithComponents WithDropdown(Dropdown dropdown)
         {
             Dropdown = dropdown;
 
             return this;
         }
 
-        public ComponentDetailsListItem WithToggle(Toggle toggle)
+        public DetailsListSampleItemWithComponents WithToggle(Toggle toggle)
         {
             Toggle = toggle;
 
             return this;
         }
 
-        public IEnumerable<HTMLElement> Render(
-            IList<IDetailsListColumn> columns,
-            Func<IDetailsListColumn,
-            Func<HTMLElement>, HTMLElement> createGridCellExpression)
+        public IEnumerable<HTMLElement> Render(IList<IDetailsListColumn> columns, Func<IDetailsListColumn, Func<HTMLElement>, HTMLElement> createGridCellExpression)
         {
             yield return createGridCellExpression(columns[0], () => I(Icon));
             yield return createGridCellExpression(columns[1], () => CheckBox.Render());

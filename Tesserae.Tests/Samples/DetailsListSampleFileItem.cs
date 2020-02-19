@@ -5,15 +5,9 @@ using static Retyped.dom;
 
 namespace Tesserae.Components
 {
-    public class DetailsListItem : IDetailsListItem<DetailsListItem>
+    public class DetailsListSampleFileItem : IDetailsListItem<DetailsListSampleFileItem>
     {
-        public DetailsListItem(
-            LineAwesome fileIcon,
-            string fileName,
-            DateTime dateModified,
-            string modifiedBy,
-            int fileSize,
-            LineAwesomeSize lineAwesomeSize = LineAwesomeSize.Default)
+        public DetailsListSampleFileItem(LineAwesome fileIcon, string fileName, DateTime dateModified, string modifiedBy, int fileSize, LineAwesomeSize lineAwesomeSize = LineAwesomeSize.Default)
         {
             FileIcon        = fileIcon;
             FileName        = fileName;
@@ -42,7 +36,7 @@ namespace Tesserae.Components
             alert($"You clicked me! List item index: {listItemIndex}, my name is {FileName}");
         }
 
-        public int CompareTo(DetailsListItem other, string columnSortingKey)
+        public int CompareTo(DetailsListSampleFileItem other, string columnSortingKey)
         {
             if (other == null)
             {
@@ -77,9 +71,7 @@ namespace Tesserae.Components
             throw new InvalidOperationException($"Can not match {columnSortingKey} to current list item");
         }
 
-        public IEnumerable<HTMLElement> Render(
-            IList<IDetailsListColumn> columns,
-            Func<IDetailsListColumn, Func<HTMLElement>, HTMLElement> createGridCellExpression)
+        public IEnumerable<HTMLElement> Render(IList<IDetailsListColumn> columns, Func<IDetailsListColumn, Func<HTMLElement>, HTMLElement> createGridCellExpression)
         {
             yield return createGridCellExpression(columns[0], () => I(FileIcon, LineAwesomeSize));
             yield return createGridCellExpression(columns[1], () => Span(_(text: FileName)));

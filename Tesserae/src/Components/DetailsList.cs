@@ -8,17 +8,14 @@ using static Retyped.dom.Node;
 
 namespace Tesserae.Components
 {
-    public class DetailsList<TDetailsListItem> : IComponent
-        where TDetailsListItem : class, IDetailsListItem<TDetailsListItem>
+    public class DetailsList<TDetailsListItem> : IComponent where TDetailsListItem : class, IDetailsListItem<TDetailsListItem>
     {
         private readonly int _rowsPerPage;
         private readonly List<IDetailsListColumn> _columns;
         private readonly ComponentCache<TDetailsListItem> _componentCache;
-        private readonly HTMLElement _innerElement;
+        private readonly HTMLElement _container;
 
-        private bool _columnHeadersCreated;
-        private bool _listItemsContainerCreated;
-        private bool _listItemsCreated;
+        private bool _listAlreadyCreated;
 
         private HTMLDivElement _listContainer;
         private HTMLDivElement _listItemsContainer;
@@ -37,35 +34,24 @@ namespace Tesserae.Components
             _rowsPerPage    = rowsPerPage;
             _columns        = new List<IDetailsListColumn>();
             _componentCache = new ComponentCache<TDetailsListItem>(CreateListItem);
-            _innerElement   = Div(_());
+            _container      = Div(_());
 
             _previousColumnSortingKey      = string.Empty;
             _currentLineAwesomeSortingIcon = LineAwesome.ArrowUp;
         }
 
-        private static HTMLDivElement CreateGridCell(
-            IDetailsListColumn column,
-            Func<HTMLElement> gridCellInnerHtmlExpression)
+        private static HTMLDivElement CreateGridCell(IDetailsListColumn column, Func<HTMLElement> gridCellInnerHtmlExpression)
         {
-            var role = column.IsRowHeader ?
-                "rowheader"
-                : "gridcell";
+            var role = column.IsRowHeader ? "rowheader" : "gridcell";
 
-            var gridCellHtmlElement = Div(
-                _("tss-detailslist-list-item tss-text-ellipsis",
-                    styles: cssStyleDeclaration =>
-                    {
-                        cssStyleDeclaration.width = column.Width.ToString();
-                    })
-                    .WithRole(role));
-
+            var gridCellHtmlElement = Div(_("tss-detailslist-list-item tss-text-ellipsis").WithRole(role));
+            gridCellHtmlElement.style.width  = column.Width.ToString();
             gridCellHtmlElement.appendChild(gridCellInnerHtmlExpression());
 
             return gridCellHtmlElement;
         }
 
-        public DetailsList<TDetailsListItem> WithColumn<TDetailsListColumn>(TDetailsListColumn column)
-            where TDetailsListColumn : class, IDetailsListColumn
+        public DetailsList<TDetailsListItem> WithColumn<TDetailsListColumn>(TDetailsListColumn column) where TDetailsListColumn : class, IDetailsListColumn
         {
             if (column == null)
             {
@@ -75,8 +61,7 @@ namespace Tesserae.Components
             return AddColumns(column);
         }
 
-        public DetailsList<TDetailsListItem> WithColumns<TDetailsListColumn>(IEnumerable<TDetailsListColumn> columns)
-            where TDetailsListColumn : class, IDetailsListColumn
+        public DetailsList<TDetailsListItem> WithColumns<TDetailsListColumn>(IEnumerable<TDetailsListColumn> columns) where TDetailsListColumn : class, IDetailsListColumn
         {
             if (columns == null)
             {
@@ -95,10 +80,9 @@ namespace Tesserae.Components
 
         public DetailsList<TDetailsListItem> WithListItems(params TDetailsListItem[] listItems)
         {
-            if (_listItemsCreated)
+            if (_listAlreadyCreated)
             {
-                throw new InvalidOperationException("Can not add list items to the component after the " +
-                                                    "existing list items have been created");
+                throw new InvalidOperationException("Can not add list items to the component after the existing list items have been created");
             }
 
             _componentCache.AddComponents(listItems);
@@ -113,16 +97,9 @@ namespace Tesserae.Components
                 throw new ArgumentException(nameof(columnSortingKey));
             }
 
-            if (_columnHeadersCreated)
+            if (_listAlreadyCreated)
             {
-                throw new InvalidOperationException("Can not pre-sort list items after column headers " +
-                                                    "have been created");
-            }
-
-            if (_listItemsCreated)
-            {
-                throw new InvalidOperationException("Can not pre-sort list items after the existing " +
-                                                    "list items have been created");
+                throw new InvalidOperationException("Can not pre-sort list items after column headers have been created");
             }
 
             SortListItems(columnSortingKey);
@@ -132,28 +109,17 @@ namespace Tesserae.Components
 
         public HTMLElement Render()
         {
-            if (!_columnHeadersCreated)
+            if (!_listAlreadyCreated)
             {
-                CreateColumnHeaders();
+                CreateList();
             }
 
-            if (!_listItemsContainerCreated)
-            {
-                CreateListItemsContainer();
-            }
-
-            if (!_listItemsCreated)
-            {
-                CreateListItems();
-            }
-
-            return _innerElement;
+            return _container;
         }
 
-        private DetailsList<TDetailsListItem> AddColumns<TDetailsListColumn>(params TDetailsListColumn[] columns)
-            where TDetailsListColumn : class, IDetailsListColumn
+        private DetailsList<TDetailsListItem> AddColumns<TDetailsListColumn>(params TDetailsListColumn[] columns) where TDetailsListColumn : class, IDetailsListColumn
         {
-            if (_columnHeadersCreated)
+            if (_listAlreadyCreated)
             {
                 throw new InvalidOperationException("Can not add columns to the component after the " +
                                                     "existing column headers have been created");
@@ -164,17 +130,20 @@ namespace Tesserae.Components
             return this;
         }
 
-        private void CreateColumnHeaders()
+        private void CreateList()
         {
             if (!_columns.Any())
             {
                 throw new InvalidOperationException("Can not create component without columns");
             }
 
+            var totalWidth = _columns.Sum(detailsListColumn => detailsListColumn.Width.Size + 4);
+            
             _listContainer = Div(_("tss-detailslist").WithRole("grid"));
-            _innerElement.appendChild(_listContainer);
+            _container.appendChild(_listContainer);
 
             var detailsListHeader = Div(_("tss-detailslist-header").WithRole("presentation"));
+            detailsListHeader.style.width   = (totalWidth).px().ToString();
             _listContainer.appendChild(detailsListHeader);
 
             foreach (var column in _columns)
@@ -182,14 +151,19 @@ namespace Tesserae.Components
                 CreateColumnHeader(column, detailsListHeader);
             }
 
-            var totalWidth = _columns.Sum(detailsListColumn => detailsListColumn.Width.Size);
+            _listItemsContainer = Div(_("tss-detailslist-list-items-container").WithRole("presentation"));
+            _listItemsContainer.style.width = (totalWidth).px().ToString();
+            _listContainer.appendChild(_listItemsContainer);
+            _listContainer.style.maxWidth = (totalWidth + 16).px().ToString();
+            RefreshListItems();
 
-            _listContainer.SetStyle(cssStyleDeclaration =>
-            {
-                cssStyleDeclaration.width = (totalWidth + (totalWidth / 4)).px().ToString();
-            });
+            _listAlreadyCreated = true;
+        }
 
-            _columnHeadersCreated = true;
+        private void RefreshListItems()
+        {
+            _listItemsContainer.RemoveChildElements();
+            _listItemsContainer.AppendChildren(_componentCache.RetrieveAllComponentsFromCache().ToArray());
         }
 
         private void CreateColumnHeader(IDetailsListColumn column, Interface detailsListHeader)
@@ -199,7 +173,7 @@ namespace Tesserae.Components
             // TODO: Add role of "button" to this element.
             var columnHtmlElement = column.Render();
 
-            columnHeader.SetStyle(cssStyleDeclaration => { cssStyleDeclaration.width = column.Width.ToString(); });
+            columnHeader.style.width = column.Width.ToString();
 
             if (column.EnableOnColumnClickEvent || column.EnableColumnSorting)
             {
@@ -208,8 +182,7 @@ namespace Tesserae.Components
 
             if (column.EnableColumnSorting && !column.EnableOnColumnClickEvent)
             {
-                columnHeader.addEventListener(
-                    "click", () => SortList(column.SortingKey, columnHtmlElement));
+                columnHeader.addEventListener("click", () => SortList(column.SortingKey, columnHtmlElement));
             }
 
             if (!column.EnableColumnSorting && !column.EnableOnColumnClickEvent)
@@ -223,7 +196,7 @@ namespace Tesserae.Components
             {
                 CreateColumnSortingIcon();
 
-                columnHtmlElement.appendChild(_columnSortingIcon);
+                columnHeader.appendChild(_columnSortingIcon);
             }
 
             detailsListHeader.appendChild(columnHeader);
@@ -231,19 +204,10 @@ namespace Tesserae.Components
 
         private void CreateColumnSortingIcon()
         {
-            _columnSortingIcon =
-                I(_currentLineAwesomeSortingIcon, cssClass: "tss-detailslist-column-header-sorting-icon");
+            _columnSortingIcon = I(_currentLineAwesomeSortingIcon, cssClass: "tss-detailslist-column-header-sorting-icon");
         }
 
-        private void CreateListItemsContainer()
-        {
-            _listItemsContainer = Div(_("tss-detailslist-list-items-container").WithRole("presentation"));
-            _listContainer.appendChild(_listItemsContainer);
-            _listItemsContainerCreated = true;
-        }
-
-        private HTMLElement CreateListItem(
-            (int Key, TDetailsListItem DetailsListItem) detailsListItemAndKey)
+        private HTMLElement CreateListItem((int Key, TDetailsListItem DetailsListItem) detailsListItemAndKey)
         {
             var (detailsListItemNumber, detailsListItem) = detailsListItemAndKey;
 
@@ -260,8 +224,7 @@ namespace Tesserae.Components
             {
                 var detailsListItemNumberCopy = detailsListItemNumber;
 
-                detailsListItemContainer.addEventListener("click",
-                    () => detailsListItem.OnListItemClick(detailsListItemNumberCopy));
+                detailsListItemContainer.addEventListener("click", () => detailsListItem.OnListItemClick(detailsListItemNumberCopy));
 
                 detailsListItemContainer.classList.add("tss-cursor-pointer");
             }
@@ -269,12 +232,6 @@ namespace Tesserae.Components
             detailsListItemContainer.AppendChildren(gridCellHtmlElements);
 
             return detailsListItemContainer;
-        }
-
-        private void CreateListItems()
-        {
-            _listItemsContainer.AppendChildren(_componentCache.RetrieveAllComponentsFromCache().ToArray());
-            _listItemsCreated = true;
         }
 
         private void AttachOnLastGridCellMountedEvent(HTMLElement gridCell)
@@ -287,10 +244,7 @@ namespace Tesserae.Components
         {
             var pageHeight = lastGridCellClientHeight * _rowsPerPage;
 
-            _listContainer.SetStyle(cssStyleDeclaration =>
-            {
-                cssStyleDeclaration.height = pageHeight.px().ToString();
-            });
+            _listContainer.style.height = pageHeight.px().ToString();
         }
 
         private void SortList(string columnSortingKey, Interface columnHtmlElement)
@@ -299,8 +253,6 @@ namespace Tesserae.Components
 
             window.setTimeout(_ =>
             {
-                _listItemsContainer.RemoveChildElements();
-
                 if (_previousColumnSortingKey.Equals(columnSortingKey))
                 {
                     _componentCache.ReverseComponentOrder();
@@ -319,7 +271,7 @@ namespace Tesserae.Components
                     }
                 }
 
-                CreateListItems();
+                RefreshListItems();
 
                 _listItemsContainer.classList.remove("fade");
                 _previousColumnSortingKey = columnSortingKey;
@@ -331,19 +283,11 @@ namespace Tesserae.Components
              * list items smoother. - MB 16/02/2020 */
         }
 
-        private void SortListItems(string columnSortingKey)
-        {
-             _componentCache.SortComponents(
-                 (detailsListItem, detailsListItemOther)
-                     => detailsListItem.CompareTo(detailsListItemOther, columnSortingKey));
-        }
+        private void SortListItems(string columnSortingKey) => _componentCache.SortComponents((detailsListItem, detailsListItemOther) => detailsListItem.CompareTo(detailsListItemOther, columnSortingKey));
 
         private void InvertLineAwesomeColumnSortingIcon()
         {
-            _currentLineAwesomeSortingIcon =
-                _currentLineAwesomeSortingIcon == LineAwesome.ArrowUp ?
-                    LineAwesome.ArrowDown
-                    : LineAwesome.ArrowUp;
+            _currentLineAwesomeSortingIcon = _currentLineAwesomeSortingIcon == LineAwesome.ArrowUp ? LineAwesome.ArrowDown : LineAwesome.ArrowUp;
         }
 
         private void UpdateColumnSortingIcon(Interface htmlElement, Action setLineAwesomeIconExpression)
@@ -351,7 +295,7 @@ namespace Tesserae.Components
             _columnSortingIcon.remove();
             setLineAwesomeIconExpression();
             CreateColumnSortingIcon();
-            htmlElement.appendChild(_columnSortingIcon);
+            htmlElement.parentElement.appendChild(_columnSortingIcon);
         }
     }
 }

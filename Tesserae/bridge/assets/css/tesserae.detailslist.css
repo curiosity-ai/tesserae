@@ -1,7 +1,7 @@
 .tss-detailslist {
     display: inline-block;
     overflow-y: auto;
-    overflow-x: hidden;
+    overflow-x: auto;
     position: relative;
 }
 
@@ -35,6 +35,7 @@
 
 .tss-detailslist-column-header {
     padding: 4px 32px 4px 12px;
+    display: inline-flex;
 }
 
 .tss-detailslist-column-header-sorting-icon {

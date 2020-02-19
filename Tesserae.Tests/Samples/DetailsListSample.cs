@@ -78,79 +78,26 @@ namespace Tesserae.Tests.Samples
                                 TextBlock("Details List With Textual Rows")
                                     .Medium()
                                     .PaddingBottom(16.px()),
-                                DetailsList<DetailsListItem>()
-                                    .WithColumn(
-                                        DetailsListLineAwesomeIconColumn(
-                                            lineAwesomeIcon: LineAwesome.File,
-                                            width: 32.px(),
-                                            lineAwesomeSize: LineAwesomeSize.Regular,
-                                            enableColumnSorting: true,
-                                            sortingKey: "FileIcon"))
-                                    .WithColumn(
-                                        DetailsListColumn(
-                                            title: "File Name",
-                                            width: 350.px(),
-                                            isRowHeader: true,
-                                            enableColumnSorting: true,
-                                            sortingKey: "FileName"))
-                                    .WithColumn(
-                                        DetailsListColumn(
-                                            title: "Date Modified",
-                                            width: 170.px(),
-                                            enableColumnSorting: true,
-                                            sortingKey: "DateModified"))
-                                    .WithColumn(
-                                        DetailsListColumn(
-                                            title: "Modified By",
-                                            width: 150.px(),
-                                            enableColumnSorting: true,
-                                            sortingKey: "ModifiedBy"))
-                                    .WithColumn(
-                                        DetailsListColumn(
-                                            title: "File Size",
-                                            width: 120.px(),
-                                            enableColumnSorting: true,
-                                            sortingKey: "FileSize"))
-                                    .WithListItems(
-                                        GetDetailsListItems())
+                                DetailsList<DetailsListSampleFileItem>()
+                                    .WithColumn(IconColumn(lineAwesomeIcon: LineAwesome.File, width: 32.px(),  enableColumnSorting: true, sortingKey: "FileIcon", lineAwesomeSize: LineAwesomeSize.Regular))
+                                    .WithColumn(DetailsListColumn(title: "File Name",         width: 350.px(), enableColumnSorting: true, sortingKey: "FileName", isRowHeader: true))
+                                    .WithColumn(DetailsListColumn(title: "Date Modified",     width: 170.px(), enableColumnSorting: true, sortingKey: "DateModified"))
+                                    .WithColumn(DetailsListColumn(title: "Modified By",       width: 150.px(), enableColumnSorting: true, sortingKey: "ModifiedBy"))
+                                    .WithColumn(DetailsListColumn(title: "File Size",         width: 120.px(), enableColumnSorting: true, sortingKey: "FileSize"))
+                                    .WithListItems(GetDetailsListItems())
                                     .SortedBy("FileName")
                             .PaddingBottom(32.px()),
                                 TextBlock("Details List With Component Rows")
                                     .Medium()
                                     .PaddingBottom(16.px()),
-                                DetailsList<ComponentDetailsListItem>()
-                                    .WithColumn(
-                                        DetailsListLineAwesomeIconColumn(
-                                            lineAwesomeIcon: LineAwesome.Apple,
-                                            width: 32.px(),
-                                            lineAwesomeSize: LineAwesomeSize.Brand,
-                                            enableColumnSorting: true,
-                                            sortingKey: "Icon"))
-                                    .WithColumn(
-                                        DetailsListColumn(
-                                            title: "CheckBox",
-                                            width: 120.px()))
-                                    .WithColumn(
-                                        DetailsListColumn(
-                                            title: "Name",
-                                            width: 250.px(),
-                                            isRowHeader: true))
-                                    .WithColumn(
-                                        DetailsListColumn(
-                                            title: "Button",
-                                            width: 150.px()))
-                                    .WithColumn(
-                                        DetailsListColumn(
-                                            title: "ChoiceGroup",
-                                            width: 400.px()))
-                                    .WithColumn(
-                                        DetailsListColumn(
-                                            title: "Dropdown",
-                                            width: 250.px()))
-                                    .WithColumn(
-                                        DetailsListColumn(
-                                            title: "Toggle",
-                                            width: 100.px()))
+                                DetailsList<DetailsListSampleItemWithComponents>()
+                                    .WithColumn(IconColumn(lineAwesomeIcon: LineAwesome.Apple, width: 32.px(), lineAwesomeSize: LineAwesomeSize.Brand, enableColumnSorting: true, sortingKey: "Icon"))
+                                    .WithColumn(DetailsListColumn(title: "CheckBox",   width: 120.px()))
+                                    .WithColumn(DetailsListColumn(title: "Name",       width: 250.px(), isRowHeader: true))
+                                    .WithColumn(DetailsListColumn(title: "Button",     width: 150.px()))
+                                    .WithColumn(DetailsListColumn(title: "ChoiceGroup",width: 400.px()))
+                                    .WithColumn(DetailsListColumn(title: "Dropdown",   width: 250.px()))
+                                    .WithColumn(DetailsListColumn(title: "Toggle",     width: 100.px()))
                                     .WithListItems(GetComponentDetailsListItems())
                                     .SortedBy("Name")));
         }
@@ -160,13 +107,13 @@ namespace Tesserae.Tests.Samples
             return _content.Render();
         }
 
-        private DetailsListItem[] GetDetailsListItems()
+        private DetailsListSampleFileItem[] GetDetailsListItems()
         {
             return Enumerable
                 .Range(1, 100)
-                .SelectMany(number => new List<DetailsListItem>
+                .SelectMany(number => new List<DetailsListSampleFileItem>
                 {
-                    new DetailsListItem(
+                    new DetailsListSampleFileItem(
                         fileIcon: LineAwesome.FileWord,
                         lineAwesomeSize: LineAwesomeSize.Regular,
                         fileName: "Interesting File Name, quite long as you can see. In fact, let's make it " +
@@ -174,14 +121,14 @@ namespace Tesserae.Tests.Samples
                         dateModified: DateTime.Today.AddDays(-10),
                         modifiedBy: "Dale Cooper",
                         fileSize: 10),
-                    new DetailsListItem(
+                    new DetailsListSampleFileItem(
                         fileIcon: LineAwesome.FileExcel,
                         lineAwesomeSize: LineAwesomeSize.Regular,
                         fileName: "File Name 2",
                         dateModified: DateTime.Today.AddDays(-20),
                         modifiedBy: "Rusty",
                         fileSize: 12),
-                    new DetailsListItem(
+                    new DetailsListSampleFileItem(
                         fileIcon: LineAwesome.FilePowerpoint,
                         lineAwesomeSize: LineAwesomeSize.Regular,
                         fileName: "File Name 3",
@@ -191,13 +138,13 @@ namespace Tesserae.Tests.Samples
             }).ToArray();
         }
 
-        private ComponentDetailsListItem[] GetComponentDetailsListItems()
+        private DetailsListSampleItemWithComponents[] GetComponentDetailsListItems()
         {
             return Enumerable
                 .Range(1, 100)
-                .SelectMany(number => new List<ComponentDetailsListItem>
+                .SelectMany(number => new List<DetailsListSampleItemWithComponents>
                 {
-                    new ComponentDetailsListItem()
+                    new DetailsListSampleItemWithComponents()
                         .WithIcon(LineAwesome.Code)
                         .WithCheckBox(
                             CheckBox("CheckBox"))
@@ -233,5 +180,6 @@ namespace Tesserae.Tests.Samples
                         .WithToggle(Toggle())
             }).ToArray();
         }
+
     }
 }

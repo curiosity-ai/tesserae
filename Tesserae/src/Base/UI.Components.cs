@@ -164,49 +164,12 @@ namespace Tesserae
 
         public static SplitView SplitView() => new SplitView();
 
-        public static BasicList BasicList(
-            IEnumerable<IComponent> components,
-            int rowsPerPage = 4,
-            int columnsPerRow = 4)
-        {
-            return new BasicList(
-                components,
-                rowsPerPage,
-                columnsPerRow);
-        }
+        public static BasicList BasicList(IEnumerable<IComponent> components, int rowsPerPage = 4, int columnsPerRow = 4) => new BasicList(components, rowsPerPage, columnsPerRow);
 
-        public static DetailsList<TDetailsListItem> DetailsList<TDetailsListItem>(int rowsPerPage = 8)
-            where TDetailsListItem : class, IDetailsListItem<TDetailsListItem>
-        {
-            return new DetailsList<TDetailsListItem>(rowsPerPage);
-        }
+        public static DetailsList<TDetailsListItem> DetailsList<TDetailsListItem>(int rowsPerPage = 8) where TDetailsListItem : class, IDetailsListItem<TDetailsListItem> => new DetailsList<TDetailsListItem>(rowsPerPage);
 
-        public static DetailsListLineAwesomeIconColumn DetailsListLineAwesomeIconColumn(
-            LineAwesome lineAwesomeIcon,
-            UnitSize width,
-            LineAwesomeSize lineAwesomeSize = LineAwesomeSize.Default,
-            bool enableColumnSorting = false,
-            string sortingKey        = null,
-            Action onColumnClick     = null)
-        {
-            return new DetailsListLineAwesomeIconColumn(
-                lineAwesomeIcon,
-                width,
-                lineAwesomeSize,
-                enableColumnSorting,
-                sortingKey,
-                onColumnClick);
-        }
+        public static DetailsListIconColumn IconColumn(LineAwesome lineAwesomeIcon, UnitSize width, LineAwesomeSize lineAwesomeSize = LineAwesomeSize.Default, bool enableColumnSorting = false, string sortingKey = null, Action onColumnClick = null) => new DetailsListIconColumn(lineAwesomeIcon, width, lineAwesomeSize, enableColumnSorting, sortingKey, onColumnClick);
 
-        public static DetailsListColumn DetailsListColumn(
-            string title,
-            UnitSize width,
-            bool isRowHeader         = false,
-            bool enableColumnSorting = false,
-            string sortingKey        = null,
-            Action onColumnClick     = null)
-        {
-            return new DetailsListColumn(title, width, isRowHeader, enableColumnSorting, sortingKey, onColumnClick);
-        }
+        public static DetailsListColumn DetailsListColumn(string title, UnitSize width, bool isRowHeader = false, bool enableColumnSorting = false, string sortingKey = null, Action onColumnClick = null) => new DetailsListColumn(title, width, isRowHeader, enableColumnSorting, sortingKey, onColumnClick);
     }
 }

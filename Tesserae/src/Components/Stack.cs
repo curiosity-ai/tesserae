@@ -356,10 +356,21 @@ namespace Tesserae.Components
 
         private static void CopyStylesDefinedWithExtension(HTMLElement from, HTMLElement to)
         {
+            // RFO: this class does some magic to move any styles applied to an element using the extensions methods like Width, etc... to the actual StackItem HTML element
+            // so that they're relevant on the flex-box and not only inside of each child item of the flexbox
+
             var fs = from.style;
             var ts = to.style;
 
-            bool has(string att) => from.hasAttribute(att);
+            bool has(string att)
+            {
+                bool ha = from.hasAttribute(att);
+                if (ha)
+                {
+                    from.removeAttribute(att);
+                }
+                return ha;
+            }
 
             if (has("tss-stk-w"))  { ts.width     = fs.width;  fs.width = "100%"; }
             if (has("tss-stk-mw")) { ts.minWidth = fs.minWidth; fs.minWidth = "100%"; }

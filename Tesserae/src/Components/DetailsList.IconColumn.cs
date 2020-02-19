@@ -1,21 +1,15 @@
 using System;
-using System.Runtime.InteropServices;
 using static Tesserae.UI;
 using static Retyped.dom;
 
 namespace Tesserae.Components
 {
-    public class DetailsListLineAwesomeIconColumn : IDetailsListColumn
+    public class DetailsListIconColumn : IDetailsListColumn
     {
         private readonly Action _onColumnClick;
+        private HTMLElement InnerElement;
 
-        public DetailsListLineAwesomeIconColumn(
-            LineAwesome lineAwesomeIcon,
-            UnitSize width,
-            LineAwesomeSize lineAwesomeSize = LineAwesomeSize.Default,
-            bool enableColumnSorting = false,
-            string sortingKey        = null,
-            Action onColumnClick     = null)
+        public DetailsListIconColumn(LineAwesome lineAwesomeIcon, UnitSize width, LineAwesomeSize lineAwesomeSize = LineAwesomeSize.Default, bool enableColumnSorting = false, string sortingKey = null, Action onColumnClick = null)
         {
             if (enableColumnSorting && string.IsNullOrWhiteSpace(sortingKey))
             {
@@ -33,6 +27,8 @@ namespace Tesserae.Components
                 _onColumnClick           = onColumnClick;
                 EnableOnColumnClickEvent = true;
             }
+
+            InnerElement = Div(_()).appendChild(I(LineAwesomeIcon, LineAwesomeSize));
         }
 
         public string SortingKey               { get; }
@@ -51,11 +47,6 @@ namespace Tesserae.Components
 
         public void OnColumnClick()            => _onColumnClick?.Invoke();
 
-        public HTMLElement Render()
-        {
-            return Div(_())
-                .appendChild(
-                    I(LineAwesomeIcon, LineAwesomeSize));
-        }
+        public HTMLElement Render() => InnerElement;
     }
 }

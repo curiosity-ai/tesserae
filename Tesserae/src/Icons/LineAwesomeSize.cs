@@ -8,6 +8,9 @@ namespace Tesserae
         [Name("la")]
         Default,
 
+        [Name("lal")]
+        Light,
+
         [Name("lar")]
         Regular,
 
