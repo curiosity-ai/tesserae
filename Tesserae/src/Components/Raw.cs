@@ -10,20 +10,24 @@ namespace Tesserae.Components
 
         public Raw(HTMLElement content = null)
         {
-            InnerElement = content is null ? DIV() : DIV(content);
+            InnerElement = content ?? DIV();
         }
 
-        public Raw Content(IComponent component)
-        {
-            ClearChildren(InnerElement);
-            InnerElement.appendChild(component.Render());
-            return this;
-        }
+        public Raw Content(IComponent component) => Content(component.Render());
 
         public Raw Content(HTMLElement element)
         {
-            ClearChildren(InnerElement);
-            InnerElement.appendChild(element);
+            if (InnerElement != element)
+            {
+                if (InnerElement.parentElement is object)
+                {
+                    InnerElement.parentElement.replaceChild(element, InnerElement);
+                }
+                else
+                {
+                    InnerElement = element;
+                }
+            }
             return this;
         }
 
