@@ -2,7 +2,12 @@
 
 namespace Tesserae
 {
-    public class Observable<T>
+
+    /// <summary>
+    /// Encapsulates a variable of type T, and enables monitoring for changes
+    /// </summary>
+    /// <typeparam name="T">An immutable type to be observed. Be careful with non-imutable types, as you can change them in ways that will not be visible here</typeparam>
+    public class Observable<T> : IObservable<T>
     {
         private T _value;
 
@@ -28,7 +33,7 @@ namespace Tesserae
             }
             set
             {
-                if(!_value.Equals(value))
+                if (!_value.Equals(value))
                 {
                     _value = value;
                     onChanged?.Invoke(_value);
@@ -41,7 +46,7 @@ namespace Tesserae
             onChanged += valueGetter;
             valueGetter(_value);
         }
-        
+
         public void ObserveLazy(ValueChanged valueGetter)
         {
             onChanged += valueGetter;
