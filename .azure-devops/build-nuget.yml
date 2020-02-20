@@ -75,8 +75,8 @@ steps:
       git init
       git config core.autocrlf true
       git config core.safecrlf false
-      git config user.email "rafael@rafael.aero"
-      git config user.name $(username)
+      git config user.email "$(EMAIL)"
+      git config user.name "$(USER)"
       git checkout -b gh-pages
       del index.html
       mv index.min.html index.html
