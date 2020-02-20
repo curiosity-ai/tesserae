@@ -95,7 +95,7 @@ namespace Tesserae.Tests
             {
                 Router.Replace($"#/view/{route}");
                 mainStack.Clear();
-                mainStack.Add(component);
+                mainStack.Add(component.WidthStretch().MinHeightStretch());
                 mainStack.MinHeightStretch();
             }
         }

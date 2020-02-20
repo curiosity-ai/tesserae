@@ -8,26 +8,20 @@ namespace Tesserae.Tests.Samples
 {
     public class SectionStackSample : IComponent
     {
-        private IComponent content;
+        private IComponent _content;
 
         public SectionStackSample()
         {
             var stack = SectionStack();
-            var countSlider = Slider(5, 0, 10, 1);
-            content = Stack().Children(
-                TextBlock("Section Stack").XLarge(),
-                SampleTitle("Overview"),
-                TextBlock("A Session Stack is a container-type component that abstracts the implementation of a flexbox in order to define the layout of its children components."),
-                SampleTitle("Usage"),
-                Stack().Children(
-                    Stack().Horizontal().Children(
-                        Stack().Children(
-                            Label("Number of items:").SetContent(countSlider.OnInput((s, e) => SetChildren(stack, s.Value)))
-                            )
-                        )
-                    ),
-                    stack.HeightAuto()
-            );
+
+            _content = Stack().Children(SectionStack().Title(TextBlock("Search Box").XLarge().Bold())
+                                            .Section(Stack().Children(
+                                                    SampleTitle("Overview"),
+                                                    TextBlock("A Session Stack is a container-type component that abstracts the implementation of a flexbox in order to define the layout of its children components.")))
+                                            .Section(Stack().Children(
+                                                    SampleTitle("Usage"),
+                                                    Label("Number of items:").SetContent(Slider(5, 0, 10, 1).OnInput((s, e) => SetChildren(stack, s.Value))))),
+                                        stack);
             SetChildren(stack, 5);
         }
 
@@ -48,7 +42,7 @@ namespace Tesserae.Tests.Samples
 
         public HTMLElement Render()
         {
-            return content.Render();
+            return _content.Render();
         }
     }
 }
