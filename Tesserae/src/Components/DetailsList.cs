@@ -35,6 +35,7 @@ namespace Tesserae.Components
             _columns        = new List<IDetailsListColumn>();
             _componentCache = new ComponentCache<TDetailsListItem>(CreateListItem);
             _listContainer = Div(_("tss-detailslist").WithRole("grid"));
+
             if(small)
             {
                 _listContainer.classList.add("small");
@@ -85,12 +86,13 @@ namespace Tesserae.Components
 
         public DetailsList<TDetailsListItem> WithListItems(params TDetailsListItem[] listItems)
         {
+            _componentCache.Clear();
+            _componentCache.AddComponents(listItems);
+
             if (_listAlreadyCreated)
             {
-                throw new InvalidOperationException("Can not add list items to the component after the existing list items have been created");
+                RefreshListItems();
             }
-
-            _componentCache.AddComponents(listItems);
 
             return this;
         }
@@ -144,8 +146,6 @@ namespace Tesserae.Components
 
             var totalWidth = _columns.Sum(detailsListColumn => detailsListColumn.Width.Size + 4);
             
-
-
             var detailsListHeader = Div(_("tss-detailslist-header").WithRole("presentation"));
             detailsListHeader.style.width   = (totalWidth).px().ToString();
             _listContainer.appendChild(detailsListHeader);
