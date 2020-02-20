@@ -14,7 +14,7 @@ namespace Tesserae.Tests.Samples
         {
             var stack = SectionStack();
 
-            _content = Stack().Children(SectionStack().Title(TextBlock("Search Box").XLarge().Bold())
+            _content = Stack().Children(SectionStack().Title(TextBlock("Section Stack").XLarge().Bold())
                                             .Section(Stack().Children(
                                                     SampleTitle("Overview"),
                                                     TextBlock("A Session Stack is a container-type component that abstracts the implementation of a flexbox in order to define the layout of its children components.")))
