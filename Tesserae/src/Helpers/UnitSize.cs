@@ -18,10 +18,11 @@ namespace Tesserae
         private UnitSize()            => Unit = Unit.Auto;
 
         public static UnitSize Auto() => new UnitSize();
+        public static UnitSize Inherit() => new UnitSize() { Unit = Unit.Inherit };
 
-        public double Size            { get; }
+        public double Size            { get; private set; }
 
-        public Unit Unit              { get; }
+        public Unit Unit              { get; private set; }
 
         [Obsolete("Replace call with .percent, .px or .vh extension methods available on the int and double types")]
         public static string Translate(Unit unit, double size) => new UnitSize(size, unit).ToString();

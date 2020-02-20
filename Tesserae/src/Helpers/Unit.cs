@@ -20,6 +20,9 @@ namespace Tesserae
         ViewportHeight,
 
         [Name("vw")]
-        ViewportWidth
+        ViewportWidth,
+
+        [Name("inherit")]
+        Inherit,
     }
 }
