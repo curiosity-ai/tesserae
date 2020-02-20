@@ -1,5 +1,5 @@
 .tss-detailslist {
-    display: inline-grid;
+    display: block;
     overflow-y: auto;
     overflow-x: auto;
     max-width: 100%;

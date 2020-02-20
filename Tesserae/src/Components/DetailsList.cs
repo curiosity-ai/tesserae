@@ -149,7 +149,9 @@ namespace Tesserae.Components
             var detailsListHeader = Div(_("tss-detailslist-header").WithRole("presentation"));
             detailsListHeader.style.width   = (totalWidth).px().ToString();
             _listContainer.appendChild(detailsListHeader);
-             
+            _listContainer.style.width = $"min(100%, {(totalWidth + 32).px().ToString()})";
+
+
             foreach (var column in _columns)
             {
                 CreateColumnHeader(column, detailsListHeader);
