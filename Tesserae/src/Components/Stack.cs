@@ -54,16 +54,9 @@ namespace Tesserae.Components
         public string Margin { get => InnerElement.style.margin; set => InnerElement.style.margin = value; }
         public string Padding { get => InnerElement.style.padding; set => InnerElement.style.padding = value; }
 
-        public static ItemAlign GetAlign(IComponent component)
-        {
-            var item = GetItem(component);
-            if (Enum.TryParse<ItemAlign>(item.style.alignSelf.Replace("flex-", ""), true, out var result)) return result;
-            throw new Exception("Incorrect Stack item align.");
-        }
-
         public static void SetAlign(IComponent component, ItemAlign align)
         {
-            var item = GetItem(component);
+            var item = GetCorrectItemToApplyStyle(component);
             string cssAlign = align.ToString().ToLower();
             if (cssAlign == "end" || cssAlign == "start") cssAlign = $"flex-{cssAlign}";
             item.style.alignSelf = cssAlign;
@@ -97,21 +90,9 @@ namespace Tesserae.Components
             return this;
         }
 
-        public static ItemSize GetWidth(IComponent component)
-        {
-            var item = GetItem(component);
-
-            if (item.style.width == "auto") return new ItemSize() { Type = Unit.Auto };
-            if (item.style.width.EndsWith("px")) return new ItemSize() { Type = Unit.Pixels, Value = float.Parse(item.style.width.Substring(0,item.style.width.Length - 2)) };
-            if (item.style.width.EndsWith("%")) return new ItemSize() { Type = Unit.Percent, Value = float.Parse(item.style.width.Substring(0, item.style.width.Length - 1)) };
-            if (item.style.width.EndsWith("vw")) return new ItemSize() { Type = Unit.ViewportWidth, Value = float.Parse(item.style.width.Substring(0, item.style.width.Length - 2)) };
-
-            throw new Exception("Incorrect Stack item width.");
-        }
-
         public static void SetWidth(IComponent component, UnitSize unitSize)
         {
-            var item = GetItem(component);
+            var item = GetCorrectItemToApplyStyle(component);
             item.style.width = unitSize.ToString();
             item.setAttribute("tss-stk-w","");
         }
@@ -148,20 +129,9 @@ namespace Tesserae.Components
             item.setAttribute("tss-stk-mxw", "");
         }
 
-        public static ItemSize GetHeight(IComponent component)
-        {
-            var item = GetItem(component);
-            if (item.style.height == "auto") return new ItemSize() { Type = Unit.Auto };
-            if (item.style.height.EndsWith("px")) return new ItemSize() { Type = Unit.Pixels, Value = float.Parse(item.style.height.Substring(0, item.style.height.Length - 2)) };
-            if (item.style.height.EndsWith("%")) return new ItemSize() { Type = Unit.Percent, Value = float.Parse(item.style.height.Substring(0, item.style.height.Length - 1)) };
-            if (item.style.height.EndsWith("vh")) return new ItemSize() { Type = Unit.ViewportHeight, Value = float.Parse(item.style.height.Substring(0, item.style.height.Length - 2)) };
-
-            throw new Exception("Incorrect Stack item height.");
-        }
-
         public static void SetHeight(IComponent component, UnitSize unitSize)
         {
-            var item = GetItem(component);
+            var item = GetCorrectItemToApplyStyle(component);
             item.style.height = unitSize.ToString();
             item.setAttribute("tss-stk-h", "");
         }
@@ -237,27 +207,17 @@ namespace Tesserae.Components
             item.setAttribute("tss-stk-p", "");
         }
 
-        public static int GetGrow(IComponent component)
-        {
-            var item = GetItem(component);
-            return int.Parse(item.style.flexGrow);
-        }
 
         public static void SetGrow(IComponent component, int grow)
         {
-            var item = GetItem(component);
+            var item = GetCorrectItemToApplyStyle(component);
             item.style.flexGrow = grow.ToString();
             item.setAttribute("tss-stk-fg", "");
         }
 
-        public static bool GetShrink(IComponent component)
-        {
-            var item = GetItem(component);
-            return item.style.flexShrink == "1";
-        }
         public static void SetShrink(IComponent component, bool shrink)
         {
-            var item = GetItem(component);
+            var item = GetCorrectItemToApplyStyle(component);
             item.style.flexShrink = shrink ? "1" : "0";
             item.setAttribute("tss-stk-fs", "");
         }
