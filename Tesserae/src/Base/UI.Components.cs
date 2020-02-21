@@ -171,5 +171,7 @@ namespace Tesserae
         public static DetailsListIconColumn IconColumn(LineAwesome lineAwesomeIcon, UnitSize width, LineAwesomeSize lineAwesomeSize = LineAwesomeSize.Default, bool enableColumnSorting = false, string sortingKey = null, Action onColumnClick = null) => new DetailsListIconColumn(lineAwesomeIcon, width, lineAwesomeSize, enableColumnSorting, sortingKey, onColumnClick);
 
         public static DetailsListColumn DetailsListColumn(string title, UnitSize width, bool isRowHeader = false, bool enableColumnSorting = false, string sortingKey = null, Action onColumnClick = null) => new DetailsListColumn(title, width, isRowHeader, enableColumnSorting, sortingKey, onColumnClick);
+
+        public static Picker<TPickerItem> Picker<TPickerItem>() where TPickerItem : class, IPickerItem => new Picker<TPickerItem>();
     }
 }
