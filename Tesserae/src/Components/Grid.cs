@@ -13,11 +13,11 @@ namespace Tesserae.Components
         public string Margin { get => InnerElement.style.margin; set => InnerElement.style.margin = value; }
         public string Padding { get => InnerElement.style.padding; set => InnerElement.style.padding = value; }
 
-
         public Grid(params UnitSize[] columns)
         {
             InnerElement = Div(_("tss-grid").WithRole("grid"));
-            if(columns is object && columns.Any(c => c is object))
+            HorizontalAlígn(JustifyContent.Start);
+            if (columns is object && columns.Any(c => c is object))
             {
                 InnerElement.style.gridTemplateColumns = string.Join(" ", columns.Where(c => c is object).Select(c => c.ToString()));
             }
@@ -26,6 +26,33 @@ namespace Tesserae.Components
         public void Add(IComponent component)
         {
             InnerElement.appendChild(Stack.GetItem(component, true));
+        }
+
+        /// <summary>
+        /// Sets the align-items css property for this stack
+        /// </summary>
+        /// <param name="align"></param>
+        /// <returns></returns>
+        public Grid VerticalAlígn(ItemAlign align)
+        {
+            string cssAlign = align.ToString().ToLower();
+            if (cssAlign == "end" || cssAlign == "start") cssAlign = $"flex-{cssAlign}";
+            InnerElement.style.alignItems = cssAlign;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the justify-content css property for this stack
+        /// </summary>
+        /// <param name="align"></param>
+        /// <returns></returns>
+        public Grid HorizontalAlígn(JustifyContent justify)
+        {
+            string cssJustify = justify.ToString().ToLower();
+            if (cssJustify == "end" || cssJustify == "start") cssJustify = $"flex-{cssJustify}";
+            if (cssJustify == "between" || cssJustify == "around" || cssJustify == "evenly") cssJustify = $"space-{cssJustify}";
+            InnerElement.style.justifyItems = cssJustify;
+            return this;
         }
 
         public virtual void Clear()

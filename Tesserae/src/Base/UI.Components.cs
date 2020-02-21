@@ -52,6 +52,7 @@ namespace Tesserae
         public static Raw Raw(HTMLElement element) => new Raw(element);
 
         public static Raw Raw() => new Raw(null);
+        public static Card Card(IComponent content) => new Card(content);
 
         public static Defer Defer(Func<Task<IComponent>> asyncGenerator) => new Defer(asyncGenerator);
 

@@ -74,6 +74,7 @@
         "bridge/assets/css/tesserae.common.css",
         "bridge/assets/css/tesserae.animations.css",
         "bridge/assets/css/tesserae.body.css",
+        "bridge/assets/css/tesserae.card.css",
         "bridge/assets/css/tesserae.button.css",
         "bridge/assets/css/tesserae.breadcrumb.css",
         "bridge/assets/css/tesserae.overflowset.css",

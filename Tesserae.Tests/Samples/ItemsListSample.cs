@@ -48,29 +48,11 @@ namespace Tesserae.Tests.Samples
             return _content.Render();
         }
 
-        private IEnumerable<SampleVirtualizedItem> GetSomeItems(int count)
+        private IEnumerable<IComponent> GetSomeItems(int count)
         {
             return Enumerable
                 .Range(1, count)
-                .Select(number => new SampleVirtualizedItem($"Lorem Ipsum {number}"));
-        }
-
-        public sealed class SampleVirtualizedItem : IComponent
-        {
-            private readonly HTMLElement _innerElement;
-
-            public SampleVirtualizedItem(string text)
-            {
-                _innerElement =
-                    Div(_(text: text, styles: s =>
-                    {
-                        s.display = "block";
-                        s.textAlign = "center";
-                        s.height = "63px";
-                    }));
-            }
-
-            public HTMLElement Render() => _innerElement;
+                .Select(number => Card(TextBlock($"Lorem Ipsum {number}").NonSelectable()).MinWidth(200.px()));
         }
     }
 }

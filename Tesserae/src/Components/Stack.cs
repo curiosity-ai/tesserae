@@ -371,25 +371,7 @@ namespace Tesserae.Components
             HorizontalReverse,
         }
 
-        public enum ItemAlign
-        {
-            Auto,
-            Stretch,
-            Baseline,
-            Start,
-            Center,
-            End
-        }
 
-        public enum JustifyContent
-        {
-            Between,
-            Around,
-            Evenly,
-            Start,
-            Center,
-            End
-        }
 
         public struct ItemSize
         {
@@ -397,38 +379,57 @@ namespace Tesserae.Components
             public float Value { get; set; }
         }
     }
+    public enum ItemAlign
+    {
+        Auto,
+        Stretch,
+        Baseline,
+        Start,
+        Center,
+        End
+    }
+
+    public enum JustifyContent
+    {
+        Between,
+        Around,
+        Evenly,
+        Start,
+        Center,
+        End
+    }
 
     public static class StackExtensions
     {
         public static T AlignAuto<T>(this T component) where T : IComponent
         {
-            Stack.SetAlign(component, Stack.ItemAlign.Auto);
+            Stack.SetAlign(component, ItemAlign.Auto);
             return component;
         }
 
         public static T AlignStretch<T>(this T component) where T : IComponent
         {
-            Stack.SetAlign(component, Stack.ItemAlign.Stretch);
+            Stack.SetAlign(component, ItemAlign.Stretch);
             return component;
         }
         public static T AlignBaseline<T>(this T component) where T : IComponent
         {
-            Stack.SetAlign(component, Stack.ItemAlign.Baseline);
+            Stack.SetAlign(component, ItemAlign.Baseline);
             return component;
         }
         public static T AlignStart<T>(this T component) where T : IComponent
         {
-            Stack.SetAlign(component, Stack.ItemAlign.Start);
+            Stack.SetAlign(component, ItemAlign.Start);
             return component;
         }
         public static T AlignCenter<T>(this T component) where T : IComponent
         {
-            Stack.SetAlign(component, Stack.ItemAlign.Center);
+            Stack.SetAlign(component, ItemAlign.Center);
             return component;
         }
         public static T AlignEnd<T>(this T component) where T : IComponent
         {
-            Stack.SetAlign(component, Stack.ItemAlign.End);
+            Stack.SetAlign(component, ItemAlign.End);
             return component;
         }
 
