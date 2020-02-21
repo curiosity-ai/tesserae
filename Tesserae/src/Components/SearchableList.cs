@@ -14,9 +14,13 @@ namespace Tesserae.Components
 
         public ObservableList<T> Items { get; }
 
-        public SearchableList(T[] items, UnitSize[] columns)
+        public SearchableList(T[] items, UnitSize[] columns) : this(new ObservableList<T>(items ?? new T[0]), columns)
         {
-            Items = new ObservableList<T>(items ?? new T[0]);
+        }
+
+        public SearchableList(ObservableList<T> items, UnitSize[] columns)
+        {
+            Items = items;
             _searchBox = new SearchBox().Underlined().SetPlaceholder("Type to search").SearchAsYouType();
             _defered = Defer.Observe(Items, item =>
             {

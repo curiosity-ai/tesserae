@@ -31,7 +31,8 @@ namespace Tesserae.Tests
                 ("Panel", new PanelSample()),
                 ("ContextMenu", new ContextMenuSample()),
                 ("ProgressModal", new ProgressModalSample()),
-                ("BasicList", new BasicListSample()),
+                ("ItemsList", new ItemsListSample()),
+                ("VirtualizedList", new VirtualizedListSample()),
                 ("SearchableList", new SearchableListSample()),
                 ("DetailsList", new DetailsListSample()),
                 ("Layer", new LayerSample()),
@@ -151,7 +152,8 @@ namespace Tesserae.Tests
                                                 NavLink("Collections").Expanded()
                                                                       .SmallPlus()
                                                                       .SemiBold()
-                                                                        .Links(links["BasicList"],
+                                                                        .Links(links["ItemsList"],
+                                                                               links["VirtualizedList"],
                                                                                links["SearchableList"],
                                                                                links["DetailsList"]),
                                                 NavLink("Nav Sample").Expanded()
