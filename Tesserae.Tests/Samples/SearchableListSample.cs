@@ -61,7 +61,7 @@ namespace Tesserae.Tests.Samples
             public SearchableListItem(string value)
             {
                 Value = value;
-                component = TextBlock(value);
+                component = Card(TextBlock(value).NonSelectable());
             }
 
             public bool IsMatch(string searchTerm) => Value.Contains(searchTerm);
