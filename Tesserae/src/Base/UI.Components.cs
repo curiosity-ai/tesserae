@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Tesserae.Components;
 using static Retyped.dom;
@@ -57,6 +58,8 @@ namespace Tesserae
         public static Defer DeferSync(Func<IComponent> syncGenerator) => new Defer(() => Task.FromResult<IComponent>(syncGenerator()));
 
         public static Stack Stack(Stack.Orientation orientation = Components.Stack.Orientation.Vertical) => new Stack(orientation);
+
+        public static Grid Grid(params UnitSize[] columns) => new Grid(columns);
 
         public static SectionStack SectionStack() => new SectionStack();
 
@@ -165,6 +168,8 @@ namespace Tesserae
         public static SplitView SplitView() => new SplitView();
 
         public static BasicList BasicList(IEnumerable<IComponent> components, int rowsPerPage = 4, int columnsPerRow = 4) => new BasicList(components, rowsPerPage, columnsPerRow);
+
+        public static SearchableList<T> SearchableList<T>(IEnumerable<T> components, params UnitSize[] columns) where T : ISearchableItem => new SearchableList<T>(components.ToArray(), columns);
 
         public static DetailsList<TDetailsListItem> DetailsList<TDetailsListItem>(int rowsPerPage = 8, bool small = false) where TDetailsListItem : class, IDetailsListItem<TDetailsListItem> => new DetailsList<TDetailsListItem>(rowsPerPage, small);
 

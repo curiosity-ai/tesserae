@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Tesserae
 {
@@ -26,6 +27,11 @@ namespace Tesserae
 
         [Obsolete("Replace call with .percent, .px or .vh extension methods available on the int and double types")]
         public static string Translate(Unit unit, double size) => new UnitSize(size, unit).ToString();
+
+        internal IEnumerable<string> Select(Func<object, object> p)
+        {
+            throw new NotImplementedException();
+        }
 
         public override string ToString()
         {

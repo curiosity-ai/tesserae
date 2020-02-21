@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Retyped;
 using static Tesserae.UI;
 using static Retyped.dom;
 
 namespace Tesserae.Components
 {
+
     public class Stack : IContainer<Stack, IComponent>, IHasBackgroundColor, IHasMarginPadding
     {
         public Orientation StackOrientation
@@ -284,7 +284,7 @@ namespace Tesserae.Components
             return this;
         }
 
-        private static HTMLElement GetItem(IComponent component, bool forceAdd = false)
+        internal static HTMLElement GetItem(IComponent component, bool forceAdd = false)
         {
             if (!((component as dynamic).StackItem is HTMLElement item))
             {
