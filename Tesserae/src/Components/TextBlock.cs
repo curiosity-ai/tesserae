@@ -240,20 +240,17 @@ namespace Tesserae.Components
         {
             get
             {
-                return !InnerElement.classList.contains("tss-text-ellipsis");
+                return InnerElement.classList.contains("tss-text-ellipsis");
             }
             set
             {
-                if (value != CanWrap)
+                if (value)
                 {
-                    if (value)
-                    {
-                        InnerElement.classList.remove("tss-text-ellipsis");
-                    }
-                    else
-                    {
-                        InnerElement.classList.add("tss-text-ellipsis");
-                    }
+                    InnerElement.classList.add("tss-text-ellipsis");
+                }
+                else
+                {
+                    InnerElement.classList.remove("tss-text-ellipsis");
                 }
             }
         }
