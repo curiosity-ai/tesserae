@@ -222,16 +222,13 @@ namespace Tesserae.Components
             }
             set
             {
-                if (value != CanWrap)
+                if (value)
                 {
-                    if (value)
-                    {
-                        _textSpan.classList.remove("tss-text-ellipsis");
-                    }
-                    else
-                    {
-                        _textSpan.classList.add("tss-text-ellipsis");
-                    }
+                    _textSpan.classList.add("tss-text-ellipsis");
+                }
+                else
+                {
+                    _textSpan.classList.remove("tss-text-ellipsis");
                 }
             }
         }
