@@ -104,7 +104,7 @@
     color: var(--tss-secondary-foreground-color);
     border: none;
     cursor: pointer;
-    width: 32px;
+    min-width: 32px;
     height: 32px;
     user-select: none;
     border-radius: 2px;
@@ -134,7 +134,7 @@
     color: var(--tss-secondary-foreground-color);
     border: none;
     cursor: pointer;
-    width: 32px;
+    min-width: 32px;
     height: 32px;
     user-select: none;
     border-radius: 2px;
