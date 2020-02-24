@@ -218,7 +218,7 @@ namespace Tesserae.Components
         {
             get
             {
-                return !InnerElement.classList.contains("tss-text-ellipsis");
+                return _textSpan.classList.contains("tss-text-ellipsis");
             }
             set
             {
@@ -226,11 +226,11 @@ namespace Tesserae.Components
                 {
                     if (value)
                     {
-                        InnerElement.classList.remove("tss-text-ellipsis");
+                        _textSpan.classList.remove("tss-text-ellipsis");
                     }
                     else
                     {
-                        InnerElement.classList.add("tss-text-ellipsis");
+                        _textSpan.classList.add("tss-text-ellipsis");
                     }
                 }
             }
