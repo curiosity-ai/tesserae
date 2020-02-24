@@ -41,12 +41,16 @@ namespace Tesserae.Components
         private void HookCheck()
         {
             document.addEventListener("scroll", OnScroll, true);
+            window.addEventListener("resize", OnScroll, true);
             DomRemovalObserver.NotifyWhenRemoved(InnerElement, UnHookCheck);
+            //Trigger one time on first render, to force check if visible
+            OnScroll(null);
         }
 
         private void UnHookCheck()
         {
             document.removeEventListener("scroll", OnScroll);
+            window.removeEventListener("resize", OnScroll);
         }
 
         private void OnScroll(Event ev)
