@@ -107,7 +107,7 @@ namespace Tesserae.Components
 
             keep[keep.Length - 1] = NOTMEASURED;
 
-            var debt = _cachedFullWidth - _cachedSizes.Values.Sum() - 64;
+            var debt = _cachedFullWidth - _cachedSizes.Values.Sum() - 32;
             while(debt < 0)
             {
                 var candidate = Array.LastIndexOf(keep, NOTMEASURED);
