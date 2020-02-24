@@ -4,15 +4,17 @@ using static Retyped.dom;
 
 namespace Tesserae.Tests.Samples
 {
-    public class PickerSampleItem : IPickerItem
+    public class PickerSampleItemWithComponents : IPickerItem
     {
+        public LineAwesome _icon;
         private HTMLElement _suggestionElement;
         private HTMLElement _selectionElement;
         private HTMLElement _removeSelectionElement;
 
-        public PickerSampleItem(string name)
+        public PickerSampleItemWithComponents(string name, LineAwesome icon)
         {
-            Name = name;
+            Name  = name;
+            _icon = icon;
         }
 
         public string Name     { get; }
@@ -21,14 +23,17 @@ namespace Tesserae.Tests.Samples
 
         public HTMLElement RenderSuggestion()
         {
-            return _suggestionElement ?? (_suggestionElement = Span(_(text: Name)));
+            return _suggestionElement ?? (_suggestionElement = Div(_(), I(_icon), Span(_(text: Name))));
         }
 
         public (HTMLElement selectionElement, HTMLElement removeSelectionElement) RenderSelection()
         {
             if (_selectionElement == null)
             {
-                _selectionElement       = Span(_(text: Name));
+                _selectionElement       = DIV();
+                _selectionElement.appendChild(I(_icon));
+                _selectionElement.appendChild(Span(_(text: Name)));
+
                 _removeSelectionElement = I(LineAwesome.WindowClose);
 
                 _selectionElement.appendChild(_removeSelectionElement);

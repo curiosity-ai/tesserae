@@ -36,12 +36,12 @@ namespace Tesserae.Components
             _componentCache = new ComponentCache<TDetailsListItem>(CreateListItem);
             _listContainer = Div(_("tss-detailslist").WithRole("grid"));
 
-            if(small)
+            if (small)
             {
                 _listContainer.classList.add("small");
             }
-            _container      = DIV(_listContainer);
 
+            _container                     = DIV(_listContainer);
             _previousColumnSortingKey      = string.Empty;
             _currentLineAwesomeSortingIcon = LineAwesome.ArrowUp;
         }
@@ -50,7 +50,7 @@ namespace Tesserae.Components
         {
             var role = column.IsRowHeader ? "rowheader" : "gridcell";
 
-            var gridCellHtmlElement = Div(_("tss-detailslist-list-item tss-text-ellipsis").WithRole(role));
+            var gridCellHtmlElement          = Div(_("tss-detailslist-list-item tss-text-ellipsis").WithRole(role));
             gridCellHtmlElement.style.width  = column.Width.ToString();
             gridCellHtmlElement.appendChild(gridCellInnerHtmlExpression());
 
@@ -145,12 +145,12 @@ namespace Tesserae.Components
             }
 
             var totalWidth = _columns.Sum(detailsListColumn => detailsListColumn.Width.Size + 4);
-            
-            var detailsListHeader = Div(_("tss-detailslist-header").WithRole("presentation"));
-            detailsListHeader.style.width   = (totalWidth).px().ToString();
-            _listContainer.appendChild(detailsListHeader);
-            _listContainer.style.width = $"min(100%, {(totalWidth + 32).px().ToString()})";
 
+            var detailsListHeader          = Div(_("tss-detailslist-header").WithRole("presentation"));
+            detailsListHeader.style.width  = (totalWidth).px().ToString();
+
+            _listContainer.appendChild(detailsListHeader);
+            _listContainer.style.width = $"min(100%, {(totalWidth + 32).px()})";
 
             foreach (var column in _columns)
             {

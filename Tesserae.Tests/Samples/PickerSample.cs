@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Retyped;
 using Tesserae.Components;
+using static Retyped.dom;
 
 namespace Tesserae.Tests.Samples
 {
@@ -73,90 +73,52 @@ namespace Tesserae.Tests.Samples
                         UI.Stack()
                             .Children(
                                 SamplesHelper.SampleTitle("Usage"),
-                                UI.TextBlock("Picker")
+                                UI.TextBlock("Picker with text suggestions and tag-like selections")
                                     .Medium()
                                     .PaddingBottom(16.px()),
-                                UI.Picker<PickerSampleItem>().WithItems(new PickerSampleItem("Donuts"), new PickerSampleItem("Coffee"), new PickerSampleItem("Chicken Coop"), new PickerSampleItem("Cherry Pie"), new PickerSampleItem("Chess"), new PickerSampleItem("Cooper"))));
+                                UI.Picker<PickerSampleItem>().WithItems(GetPickerItems())
+                                    .PaddingBottom(32.px()),
+                                UI.TextBlock("Picker with icon and text suggestions and component based selections")
+                                    .Medium()
+                                    .PaddingBottom(16.px()),
+                                UI.Picker<PickerSampleItemWithComponents>().WithItems(GetComponentPickerItems()).Var(out var picker), UI.Stack().Do(stack => picker.WithSelectionsComponent(stack))));
         }
 
-        public dom.HTMLElement Render()
+        public HTMLElement Render()
         {
             return _content.Render();
         }
 
-        private DetailsListSampleFileItem[] GetDetailsListItems()
+        private PickerSampleItem[] GetPickerItems()
         {
-            return Enumerable
-                .Range(1, 100)
-                .SelectMany(number => new List<DetailsListSampleFileItem>
-                {
-                    new DetailsListSampleFileItem(
-                        fileIcon: LineAwesome.FileWord,
-                        lineAwesomeSize: LineAwesomeSize.Regular,
-                        fileName: "Interesting File Name, quite long as you can see. In fact, let's make it " +
-                                  "longer to see how the padding looks.",
-                        dateModified: DateTime.Today.AddDays(-10),
-                        modifiedBy: "Dale Cooper",
-                        fileSize: 10),
-                    new DetailsListSampleFileItem(
-                        fileIcon: LineAwesome.FileExcel,
-                        lineAwesomeSize: LineAwesomeSize.Regular,
-                        fileName: "File Name 2",
-                        dateModified: DateTime.Today.AddDays(-20),
-                        modifiedBy: "Rusty",
-                        fileSize: 12),
-                    new DetailsListSampleFileItem(
-                        fileIcon: LineAwesome.FilePowerpoint,
-                        lineAwesomeSize: LineAwesomeSize.Regular,
-                        fileName: "File Name 3",
-                        dateModified: DateTime.Today.AddDays(-30),
-                        modifiedBy: "Cole",
-                        fileSize: 15)
-                }).ToArray();
+            return new []
+            {
+                new PickerSampleItem("Bob"),
+                new PickerSampleItem("BOB"),
+                new PickerSampleItem("Donuts by J Dilla"),
+                new PickerSampleItem("Donuts"),
+                new PickerSampleItem("Coffee"),
+                new PickerSampleItem("Chicken Coop"),
+                new PickerSampleItem("Cherry Pie"),
+                new PickerSampleItem("Chess"),
+                new PickerSampleItem("Cooper")
+            };
         }
 
-        private DetailsListSampleItemWithComponents[] GetComponentDetailsListItems()
+        private PickerSampleItemWithComponents[] GetComponentPickerItems()
         {
-            return Enumerable
-                .Range(1, 100)
-                .SelectMany(number => new List<DetailsListSampleItemWithComponents>
-                {
-                    new DetailsListSampleItemWithComponents()
-                        .WithIcon(LineAwesome.Code)
-                        .WithCheckBox(
-                            UI.CheckBox("CheckBox"))
-                        .WithName("Component Details List Item")
-                        .WithButton(
-                            UI.Button()
-                                .SetText("Primary")
-                                .Primary()
-                                .OnClick(
-                                    (s, e) => dom.alert("Clicked!")))
-                        .WithChoiceGroup(
-                            UI.ChoiceGroup()
-                                .Horizontal()
-                                .Options(
-                                    UI.Option("Option A"),
-                                    UI.Option("Option B").Disabled(),
-                                    UI.Option("Option C")))
-                        .WithDropdown(
-                            UI.Dropdown()
-                                .Multi()
-                                .Items(
-                                    UI.DropdownItem("Header 1").Header(),
-                                    UI.DropdownItem("1-1"),
-                                    UI.DropdownItem("1-2").Selected(),
-                                    UI.DropdownItem("1-3"),
-                                    UI.DropdownItem("1-4").Disabled(),
-                                    UI.DropdownItem("1-5"),
-                                    UI.DropdownItem("2-1"),
-                                    UI.DropdownItem("2-2"),
-                                    UI.DropdownItem("2-3"),
-                                    UI.DropdownItem("2-4").Selected(),
-                                    UI.DropdownItem("2-5")))
-                        .WithToggle(UI.Toggle())
-                }).ToArray();
+            return new []
+            {
+                new PickerSampleItemWithComponents("Bob", LineAwesome.Bomb),
+                new PickerSampleItemWithComponents("BOB", LineAwesome.Blender),
+                new PickerSampleItemWithComponents("Donuts by J Dilla", LineAwesome.Carrot),
+                new PickerSampleItemWithComponents("Donuts", LineAwesome.CarBattery),
+                new PickerSampleItemWithComponents("Coffee", LineAwesome.Coffee),
+                new PickerSampleItemWithComponents("Chicken Coop", LineAwesome.Hamburger),
+                new PickerSampleItemWithComponents("Cherry Pie", LineAwesome.ChartPie),
+                new PickerSampleItemWithComponents("Chess", LineAwesome.Chess),
+                new PickerSampleItemWithComponents("Cooper", LineAwesome.QuestionCircle)
+            };
         }
-
     }
 }

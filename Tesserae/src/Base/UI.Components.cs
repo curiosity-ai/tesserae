@@ -23,6 +23,11 @@ namespace Tesserae
             return component;
         }
 
+        public static T Do<T>(this T component, Action<T> action) where T : IComponent
+        {
+            action(component);
+            return component;
+        }
 
         /// <summary>
         /// Adds an ID to the element representing the component.
