@@ -9,7 +9,7 @@
     color: var(--tss-default-foreground-color);
     cursor: pointer;
     height: 32px;
-    align-items: stretch;
+    align-items: center;
     font-size: var(--tss-font-size-small);
     font-weight: var(--tss-font-weight-regular);
     width: 100%;
