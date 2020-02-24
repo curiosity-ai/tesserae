@@ -13,6 +13,18 @@ namespace Tesserae.Tests.Samples
 
         public ItemsListSample()
         {
+            var obsList = new ObservableList<IComponent>();
+            
+            var vs = VisibilitySensor((v) =>
+            {
+                obsList.Remove(v);
+                obsList.AddRange(GetSomeItems(20));
+                v.Reset();
+                obsList.Add(v);
+            });
+
+            obsList.AddRange(GetSomeItems(10));
+            obsList.Add(vs);
             _content =
                 SectionStack()
                     .Title(
@@ -40,7 +52,11 @@ namespace Tesserae.Tests.Samples
                                 TextBlock("Basic List with columns")
                                     .Medium()
                                     .PaddingBottom(16.px()),
-                                ItemsList(GetSomeItems(100), 25.percent(), 25.percent(), 25.percent(), 25.percent())));
+                                ItemsList(GetSomeItems(100), 25.percent(), 25.percent(), 25.percent(), 25.percent()),
+                                TextBlock("Basic List + VisibilitySensor")
+                                    .Medium()
+                                    .PaddingBottom(16.px()),
+                                ItemsList(obsList, 25.percent(), 25.percent(), 25.percent(), 25.percent())));
         }
 
         public HTMLElement Render()

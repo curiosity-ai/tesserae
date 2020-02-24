@@ -53,8 +53,6 @@ namespace Tesserae.Tests
                 component => NavLink(component.Name).OnSelected((s, e) => Router.Navigate("#" + ToRoute(component.Name)))
             );
 
-            var mainStack = Stack().WidthStretch().MinHeightStretch();
-
             var sideBar = Sidebar();
 
             var navBar = Navbar().SetTop(Stack().Horizontal()
@@ -63,7 +61,6 @@ namespace Tesserae.Tests
                                           .Children(SearchBox("Search for a template").WidthStretch().Underlined()));
 
             var page = new SplitView().Left(MainNav(links, navBar, sideBar), background: Theme.Default.Background)
-                                      .Right(mainStack, background: Theme.Secondary.Background)
                                       .LeftIsSmaller(SizeMode.Pixels, 300)
                                       .MinHeightStretch();
 
@@ -96,9 +93,7 @@ namespace Tesserae.Tests
             void Show(string route, IComponent component)
             {
                 Router.Replace($"#/view/{route}");
-                mainStack.Clear();
-                mainStack.Add(component.WidthStretch().MinHeightStretch());
-                mainStack.MinHeightStretch();
+                page.Right(component.WidthStretch().MinHeightStretch(), background: Theme.Secondary.Background);
             }
         }
 

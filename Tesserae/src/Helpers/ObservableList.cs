@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Tesserae.Components;
 
 namespace Tesserae
 {
@@ -90,6 +92,16 @@ namespace Tesserae
         {
             _list.Add(item);
             HookValue(item);
+            RaiseOnValueChanged();
+        }
+
+        public void AddRange(IEnumerable<T> enumerable)
+        {
+            foreach(var item in enumerable)
+            {
+                _list.Add(item);
+                HookValue(item);
+            }
             RaiseOnValueChanged();
         }
 

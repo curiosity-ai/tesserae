@@ -178,10 +178,12 @@ namespace Tesserae
         
         public static ItemsList ItemsList(ObservableList<IComponent> components, params UnitSize[] columns)  => new ItemsList(components, columns);
 
-        public static DetailsList<TDetailsListItem> DetailsList<TDetailsListItem>(int rowsPerPage = 8, bool small = false) where TDetailsListItem : class, IDetailsListItem<TDetailsListItem> => new DetailsList<TDetailsListItem>(rowsPerPage, small);
+        public static DetailsList<TDetailsListItem> DetailsList<TDetailsListItem>(bool small = false) where TDetailsListItem : class, IDetailsListItem<TDetailsListItem> => new DetailsList<TDetailsListItem>(small);
 
         public static DetailsListIconColumn IconColumn(LineAwesome lineAwesomeIcon, UnitSize width, LineAwesomeSize lineAwesomeSize = LineAwesomeSize.Default, bool enableColumnSorting = false, string sortingKey = null, Action onColumnClick = null) => new DetailsListIconColumn(lineAwesomeIcon, width, lineAwesomeSize, enableColumnSorting, sortingKey, onColumnClick);
 
         public static DetailsListColumn DetailsListColumn(string title, UnitSize width, bool isRowHeader = false, bool enableColumnSorting = false, string sortingKey = null, Action onColumnClick = null) => new DetailsListColumn(title, width, isRowHeader, enableColumnSorting, sortingKey, onColumnClick);
+
+        public static VisibilitySensor VisibilitySensor(Action<VisibilitySensor> onVisible, bool singleCall = true, IComponent message = null) => new VisibilitySensor(onVisible, singleCall, message);
     }
 }

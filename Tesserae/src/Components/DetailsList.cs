@@ -10,7 +10,6 @@ namespace Tesserae.Components
 {
     public class DetailsList<TDetailsListItem> : IComponent where TDetailsListItem : class, IDetailsListItem<TDetailsListItem>
     {
-        private readonly int _rowsPerPage;
         private readonly List<IDetailsListColumn> _columns;
         private readonly ComponentCache<TDetailsListItem> _componentCache;
         private readonly HTMLElement _container;
@@ -24,14 +23,8 @@ namespace Tesserae.Components
         private LineAwesome _currentLineAwesomeSortingIcon;
         private HTMLElement _columnSortingIcon;
 
-        public DetailsList(int rowsPerPage = 8, bool small = false)
+        public DetailsList(bool small = false)
         {
-            if (rowsPerPage <= 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(rowsPerPage));
-            }
-
-            _rowsPerPage    = rowsPerPage;
             _columns        = new List<IDetailsListColumn>();
             _componentCache = new ComponentCache<TDetailsListItem>(CreateListItem);
             _listContainer = Div(_("tss-detailslist").WithRole("grid"));
@@ -223,7 +216,6 @@ namespace Tesserae.Components
             if (_componentCache.ComponentsCount == detailsListItemNumber)
             {
                 var lastGridCellHtmlElement = gridCellHtmlElements.Last();
-                AttachOnLastGridCellMountedEvent(lastGridCellHtmlElement);
             }
 
             if (detailsListItem.EnableOnListItemClickEvent)
@@ -238,19 +230,6 @@ namespace Tesserae.Components
             detailsListItemContainer.AppendChildren(gridCellHtmlElements);
 
             return detailsListItemContainer;
-        }
-
-        private void AttachOnLastGridCellMountedEvent(HTMLElement gridCell)
-        {
-            DomMountedObserver.NotifyWhenMounted(gridCell,
-                () => OnLastGridCellMounted(gridCell.clientHeight));
-        }
-
-        private void OnLastGridCellMounted(int lastGridCellClientHeight)
-        {
-            var pageHeight = lastGridCellClientHeight * _rowsPerPage;
-
-            _listContainer.style.height = pageHeight.px().ToString();
         }
 
         private void SortList(string columnSortingKey, Interface columnHtmlElement)
