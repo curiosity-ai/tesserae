@@ -3,6 +3,7 @@
     margin: 0;
     margin-top: 4px;
     position: relative;
+    width:100%;
 }
 
 .tss-stack-item:first-child > .tss-label:first-child {
@@ -16,4 +17,22 @@
 
     .tss-label > div {
         margin: 0;
+    }
+
+
+.tss-label.inline {
+    display: inline-flex;
+    flex-wrap:nowrap;
+    align-items:center;
+}
+
+    .tss-label.inline > * {
+        display: inline-block;
+        flex-grow:1;
+        flex-shrink:1;
+    }
+
+    .tss-label.inline > label {
+        flex-shrink:0;
+        flex-grow:0;
     }

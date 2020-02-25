@@ -26,16 +26,16 @@ namespace Tesserae.Components
             InnerElement      = Div(_("tss-splitview"), LeftComponent.Render(), SplitterComponent.Render(), RightComponent.Render());
         }
 
-        public SplitView Left(IComponent component, string background = "", bool enableInvisibleScrol = true)
+        public SplitView Left(IComponent component, string background = "", bool enableInvisibleScroll = true)
         {
-            if (enableInvisibleScrol)
+            if (enableInvisibleScroll)
             {
                 LeftComponent.RemoveInvisibleScroll();
             }
             
             LeftComponent.Content(component);
 
-            if (enableInvisibleScrol)
+            if (enableInvisibleScroll)
             {
                 LeftComponent.InvisibleScroll();
             }
@@ -44,16 +44,16 @@ namespace Tesserae.Components
             return this;
         }
 
-        public SplitView Right(IComponent component, string background = "", bool enableInvisibleScrol = true)
+        public SplitView Right(IComponent component, string background = "", bool enableInvisibleScroll = true)
         {
-            if (enableInvisibleScrol)
+            if (enableInvisibleScroll)
             {
                 RightComponent.RemoveInvisibleScroll();
             }
 
             RightComponent.Content(component);
-
-            if (enableInvisibleScrol)
+            
+            if (enableInvisibleScroll)
             {
                 RightComponent.InvisibleScroll();
             }
