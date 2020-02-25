@@ -88,6 +88,7 @@
         "bridge/assets/css/tesserae.layer.css",
         "bridge/assets/css/tesserae.basiclist.css",
         "bridge/assets/css/tesserae.detailslist.css",
+        "bridge/assets/css/tesserae.picker.css",
         "bridge/assets/css/tesserae.panel.css",
         "bridge/assets/css/tesserae.pivot.css",
         "bridge/assets/css/tesserae.progressindicator.css",

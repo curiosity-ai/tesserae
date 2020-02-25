@@ -4,7 +4,6 @@ using System.Linq;
 using Tesserae.HTML;
 using static Tesserae.UI;
 using static Retyped.dom;
-using static Retyped.dom.Node;
 
 namespace Tesserae.Components
 {
@@ -20,6 +19,7 @@ namespace Tesserae.Components
         private HTMLElement _textBoxElement;
         private IComponent _selectionsComponent;
         private HTMLElement _selectionsElement;
+        private string _suggestionsTitleText;
 
         public Picker()
         {
@@ -106,6 +106,13 @@ namespace Tesserae.Components
             return this;
         }
 
+        public Picker<TPickerItem> WithSuggestionsTitleText(string suggestionsTitleText)
+        {
+            _suggestionsTitleText = suggestionsTitleText;
+
+            return this;
+        }
+
         public Picker<TPickerItem> WithSelectionsComponent(IComponent selectionsComponent)
         {
             _selectionsComponent = selectionsComponent;
@@ -132,7 +139,6 @@ namespace Tesserae.Components
             _textBoxElement = _textBox.Render();
 
             _pickerContainer.appendChild(_textBoxElement);
-            _pickerContainer.appendChild(_suggestionsElement);
 
             if (_selectionsComponent == null)
             {
@@ -144,6 +150,31 @@ namespace Tesserae.Components
                 _selectionsElement = _selectionsComponent.Render();
             }
 
+            if (!string.IsNullOrWhiteSpace(_suggestionsTitleText))
+            {
+                var suggestionsLabel = Label(_(text: _suggestionsTitleText));
+
+                _suggestionsElement.appendChild(suggestionsLabel);
+            }
+
+            var suggestionsContainer = document.body.getElementsByClassName("tss-picker-suggestions-container")[0];
+
+            if (suggestionsContainer == null)
+            {
+                suggestionsContainer = Div(_("tss-picker-suggestions-container"));
+                document.body.appendChild(suggestionsContainer);
+            }
+            else
+            {
+                console.log("exists");
+            }
+
+            DomMountedObserver.NotifyWhenMounted(_suggestionsElement, AttachOnDocumentScrollEvent);
+
+            suggestionsContainer.appendChild(_suggestionsElement);
+
+            AttachOnTextBoxMountedEvent();
+
             _pickerAlreadyCreated = true;
         }
 
@@ -153,7 +184,7 @@ namespace Tesserae.Components
         {
             ClearSuggestions();
 
-            if (SuggestionsTolerance.HasValue && textBox.Text.Length < SuggestionsTolerance)
+            if (string.IsNullOrWhiteSpace(textBox.Text) || (SuggestionsTolerance.HasValue && textBox.Text.Length < SuggestionsTolerance))
             {
                 return;
             }
@@ -196,7 +227,15 @@ namespace Tesserae.Components
             }
         }
 
-        private void ClearSuggestions() => _suggestionsElement.RemoveChildElements();
+        private void ClearSuggestions()
+        {
+            var suggestions = _suggestionsElement.getElementsByClassName("tss-picker-suggestion");
+
+            while (suggestions.length > 0)
+            {
+                suggestions[0].parentNode.removeChild(suggestions[0]);
+            }
+        }
 
         private void AttachSuggestionOnClickEvent(HTMLElement suggestionElement, TPickerItem suggestion)
         {
@@ -238,6 +277,33 @@ namespace Tesserae.Components
             selectedItem.IsSelected = isSelected;
             _textBox.ClearText();
             ClearSuggestions();
+        }
+
+        private void AttachOnTextBoxMountedEvent() => DomMountedObserver.NotifyWhenMounted(_textBoxElement, PositionSuggestions);
+
+        private void AttachOnDocumentScrollEvent()
+        {
+            var parentElement = _container.parentElement;
+
+            while (parentElement != null)
+            {
+                if (parentElement.style.overflowY.Contains("scroll"))
+                {
+                    parentElement.onscroll += _ => PositionSuggestions();
+
+                    break;
+                }
+
+                parentElement = parentElement.parentElement;
+            }
+        }
+
+        private void PositionSuggestions()
+        {
+            var clientRect = (ClientRect)_textBoxElement.getBoundingClientRect();
+
+            _suggestionsElement.style.top  = clientRect.bottom.px().ToString();
+            _suggestionsElement.style.left = clientRect.left.px().ToString();
         }
     }
 }

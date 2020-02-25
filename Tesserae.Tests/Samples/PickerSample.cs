@@ -71,17 +71,18 @@ namespace Tesserae.Tests.Samples
                                                                          "in typical cases.")))))
                     .Section(
                         UI.Stack()
+                            .Width(40.percent())
                             .Children(
                                 SamplesHelper.SampleTitle("Usage"),
                                 UI.TextBlock("Picker with text suggestions and tag-like selections")
                                     .Medium()
                                     .PaddingBottom(16.px()),
-                                UI.Picker<PickerSampleItem>().WithItems(GetPickerItems())
+                                UI.Picker<PickerSampleItem>().WithItems(GetPickerItems()).WithSuggestionsTitleText("Suggested Tags")
                                     .PaddingBottom(32.px()),
                                 UI.TextBlock("Picker with icon and text suggestions and component based selections")
                                     .Medium()
                                     .PaddingBottom(16.px()),
-                                UI.Picker<PickerSampleItemWithComponents>().WithItems(GetComponentPickerItems()).Var(out var picker), UI.Stack().Do(stack => picker.WithSelectionsComponent(stack))));
+                                UI.Picker<PickerSampleItemWithComponents>().WithItems(GetComponentPickerItems()).Var(out var picker).WithSuggestionsTitleText("Suggested Items"), UI.Stack().Do(stack => picker.WithSelectionsComponent(stack))));
         }
 
         public HTMLElement Render()
