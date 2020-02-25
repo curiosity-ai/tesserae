@@ -89,9 +89,11 @@ namespace Tesserae.Components
                 for (int i = 0; i <= Math.Min(keep.Length - 1, ((_overflowIndex)*2)); i++)
                 {
                     keep[i] = KEEP;
-                    if ((i+1 < _overflowIndex-2))
+                    int nextIndex = i + 1;
+
+                    if ((nextIndex < _overflowIndex-2) && nextIndex < childElementCount)
                     {
-                        var child = (HTMLElement)_childContainer.children[(uint)i+1];
+                        var child = (HTMLElement)_childContainer.children[(uint)nextIndex];
                         if (isChevron(child))
                         {
                             keep[i + 1] = KEEP;
@@ -107,7 +109,7 @@ namespace Tesserae.Components
 
             keep[keep.Length - 1] = NOTMEASURED;
 
-            var debt = _cachedFullWidth - _cachedSizes.Values.Sum() - 64;
+            var debt = _cachedFullWidth - _cachedSizes.Values.Sum() - 32;
             while(debt < 0)
             {
                 var candidate = Array.LastIndexOf(keep, NOTMEASURED);

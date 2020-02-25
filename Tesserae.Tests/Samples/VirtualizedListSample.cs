@@ -7,16 +7,16 @@ using static Retyped.dom;
 
 namespace Tesserae.Tests.Samples
 {
-    public class BasicListSample : IComponent
+    public class VirtualizedListSample : IComponent
     {
         private readonly IComponent _content;
 
-        public BasicListSample()
+        public VirtualizedListSample()
         {
             _content =
                 SectionStack()
                     .Title(
-                        TextBlock("BasicList")
+                        TextBlock("VirtualizedList")
                             .XLarge()
                             .Bold())
                     .Section(
@@ -49,8 +49,8 @@ namespace Tesserae.Tests.Samples
                                 TextBlock("Basic List with Virtualization")
                                     .Medium()
                                     .PaddingBottom(16.px()),
-                                BasicList(
-                                    GetBasicListItems())));
+                                VirtualizedList(
+                                    GetALotOfItems())));
         }
 
         public HTMLElement Render()
@@ -58,11 +58,29 @@ namespace Tesserae.Tests.Samples
             return _content.Render();
         }
 
-        private IEnumerable<BasicListItem> GetBasicListItems()
+        private IEnumerable<SampleVirtualizedItem> GetALotOfItems()
         {
             return Enumerable
                 .Range(1, 5000)
-                .Select(number => new BasicListItem($"Lorem Ipsum {number}"));
+                .Select(number => new SampleVirtualizedItem($"Lorem Ipsum {number}"));
+        }
+
+        public sealed class SampleVirtualizedItem : IComponent
+        {
+            private readonly HTMLElement _innerElement;
+
+            public SampleVirtualizedItem(string text)
+            {
+                _innerElement =
+                    Div(_(text: text, styles: s =>
+                    {
+                        s.display = "block";
+                        s.textAlign = "center";
+                        s.height = "63px";
+                    }));
+            }
+
+            public HTMLElement Render() => _innerElement;
         }
     }
 }

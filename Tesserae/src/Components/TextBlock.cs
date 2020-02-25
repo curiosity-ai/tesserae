@@ -33,6 +33,15 @@ namespace Tesserae.Components
             }
         }
 
+        public bool IsSelectable
+        {
+            get { return InnerElement.style.userSelect != "none"; }
+            set
+            {
+                InnerElement.style.userSelect = value ? "" : "none";
+            }
+        }
+
         public virtual string Text
         {
             get { return InnerElement.innerText; }
@@ -231,20 +240,17 @@ namespace Tesserae.Components
         {
             get
             {
-                return !InnerElement.classList.contains("tss-text-ellipsis");
+                return InnerElement.classList.contains("tss-text-ellipsis");
             }
             set
             {
-                if (value != CanWrap)
+                if (value)
                 {
-                    if (value)
-                    {
-                        InnerElement.classList.remove("tss-text-ellipsis");
-                    }
-                    else
-                    {
-                        InnerElement.classList.add("tss-text-ellipsis");
-                    }
+                    InnerElement.classList.add("tss-text-ellipsis");
+                }
+                else
+                {
+                    InnerElement.classList.remove("tss-text-ellipsis");
                 }
             }
         }
@@ -302,6 +308,12 @@ namespace Tesserae.Components
         public static T Disabled<T>(this T textBlock) where T : TextBlock
         {
             textBlock.IsEnabled = false;
+            return textBlock;
+        }
+
+        public static T NonSelectable<T>(this T textBlock) where T : TextBlock
+        {
+            textBlock.IsSelectable = false;
             return textBlock;
         }
 

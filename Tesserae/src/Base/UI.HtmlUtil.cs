@@ -143,24 +143,42 @@ namespace Tesserae
             return element;
         }
 
-        public static HTMLElement Raw(string html)
+        public static HTMLElement Raw(string html, bool forceParseAsHTML = false)
         {
             if (string.IsNullOrWhiteSpace(html))
                 return SPAN();
 
-            if (!html.Contains("<"))
+            if (IsProbablyHtml(html) || forceParseAsHTML)
+            {
+                var wrapper = new HTMLSpanElement();
+                wrapper.innerHTML = html;
+                return wrapper;
+            }
+            else
             {
                 var text = new HTMLSpanElement();
                 text.textContent = html;
                 return text;
             }
-
-            var wrapper = new HTMLSpanElement();
-            wrapper.innerHTML = html;
-
-            return wrapper;
         }
 
+        private static bool IsProbablyHtml(string html)
+        {
+            //Super simple heuristic to detect if text contains any <> html tags
+            var open = html.IndexOf('<');
+            if (open >= 0)
+            {
+                var close = html.IndexOf('>', open);
+                if (close >= 1) return true;
+            }
+
+            if (html.IndexOf("&nbsp;") >= 0)
+            {
+                return true;
+            }
+
+            return false;
+        }
 
         public static Text Text(string text)
         {

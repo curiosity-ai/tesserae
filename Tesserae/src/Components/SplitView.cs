@@ -12,12 +12,13 @@ namespace Tesserae.Components
         private Raw SplitterComponent;
         private Raw RightComponent;
 
-        public SplitView()
+        public SplitView(UnitSize splitterSize = null)
         {
             LeftComponent     = Raw(Div(_()));
             SplitterComponent = Raw(Div(_("tss-splitter")));
             RightComponent    = Raw(Div(_()));
-            SplitterComponent.Width = "8px";
+            SplitterComponent.Width = (splitterSize is object && splitterSize.Unit != Unit.Auto && splitterSize.Unit != Unit.Inherit) 
+                                      ? splitterSize.ToString() : "8px";
             LeftComponent.Height = "100%";
             SplitterComponent.Height = "100%";
             RightComponent.Height = "100%";
@@ -25,24 +26,38 @@ namespace Tesserae.Components
             InnerElement      = Div(_("tss-splitview"), LeftComponent.Render(), SplitterComponent.Render(), RightComponent.Render());
         }
 
-        public SplitView Left(IComponent component, string background = "", bool disableScroll = false)
+        public SplitView Left(IComponent component, string background = "", bool enableInvisibleScrol = true)
         {
+            if (enableInvisibleScrol)
+            {
+                LeftComponent.RemoveInvisibleScroll();
+            }
+            
             LeftComponent.Content(component);
-            if (!disableScroll)
+
+            if (enableInvisibleScrol)
             {
                 LeftComponent.InvisibleScroll();
             }
+
             LeftComponent.Background = background;
             return this;
         }
 
-        public SplitView Right(IComponent component, string background = "", bool disableScroll = false)
+        public SplitView Right(IComponent component, string background = "", bool enableInvisibleScrol = true)
         {
+            if (enableInvisibleScrol)
+            {
+                RightComponent.RemoveInvisibleScroll();
+            }
+
             RightComponent.Content(component);
-            if (!disableScroll)
+
+            if (enableInvisibleScrol)
             {
                 RightComponent.InvisibleScroll();
             }
+
             RightComponent.Background = background;
             return this;
         }

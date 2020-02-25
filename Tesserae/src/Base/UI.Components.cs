@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Tesserae.Components;
 using static Retyped.dom;
@@ -56,12 +57,15 @@ namespace Tesserae
         public static Raw Raw(HTMLElement element) => new Raw(element);
 
         public static Raw Raw() => new Raw(null);
+        public static Card Card(IComponent content) => new Card(content);
 
         public static Defer Defer(Func<Task<IComponent>> asyncGenerator) => new Defer(asyncGenerator);
 
         public static Defer DeferSync(Func<IComponent> syncGenerator) => new Defer(() => Task.FromResult<IComponent>(syncGenerator()));
 
         public static Stack Stack(Stack.Orientation orientation = Components.Stack.Orientation.Vertical) => new Stack(orientation);
+
+        public static Grid Grid(params UnitSize[] columns) => new Grid(columns);
 
         public static SectionStack SectionStack() => new SectionStack();
 
@@ -169,14 +173,24 @@ namespace Tesserae
 
         public static SplitView SplitView() => new SplitView();
 
-        public static BasicList BasicList(IEnumerable<IComponent> components, int rowsPerPage = 4, int columnsPerRow = 4) => new BasicList(components, rowsPerPage, columnsPerRow);
+        public static VirtualizedList VirtualizedList(IEnumerable<IComponent> components, int rowsPerPage = 4, int columnsPerRow = 4) => new VirtualizedList(components, rowsPerPage, columnsPerRow);
 
-        public static DetailsList<TDetailsListItem> DetailsList<TDetailsListItem>(int rowsPerPage = 8, bool small = false) where TDetailsListItem : class, IDetailsListItem<TDetailsListItem> => new DetailsList<TDetailsListItem>(rowsPerPage, small);
+        public static SearchableList<T> SearchableList<T>(IEnumerable<T> components, params UnitSize[] columns) where T : ISearchableItem => new SearchableList<T>(components.ToArray(), columns);
+        
+        public static SearchableList<T> SearchableList<T>(ObservableList<T> components, params UnitSize[] columns) where T : ISearchableItem => new SearchableList<T>(components, columns);
+
+        public static ItemsList ItemsList(IEnumerable<IComponent> components, params UnitSize[] columns)=> new ItemsList(components.ToArray(), columns);
+        
+        public static ItemsList ItemsList(ObservableList<IComponent> components, params UnitSize[] columns)  => new ItemsList(components, columns);
+
+        public static DetailsList<TDetailsListItem> DetailsList<TDetailsListItem>(bool small = false) where TDetailsListItem : class, IDetailsListItem<TDetailsListItem> => new DetailsList<TDetailsListItem>(small);
 
         public static DetailsListIconColumn IconColumn(LineAwesome lineAwesomeIcon, UnitSize width, LineAwesomeSize lineAwesomeSize = LineAwesomeSize.Default, bool enableColumnSorting = false, string sortingKey = null, Action onColumnClick = null) => new DetailsListIconColumn(lineAwesomeIcon, width, lineAwesomeSize, enableColumnSorting, sortingKey, onColumnClick);
 
         public static DetailsListColumn DetailsListColumn(string title, UnitSize width, bool isRowHeader = false, bool enableColumnSorting = false, string sortingKey = null, Action onColumnClick = null) => new DetailsListColumn(title, width, isRowHeader, enableColumnSorting, sortingKey, onColumnClick);
 
         public static Picker<TPickerItem> Picker<TPickerItem>() where TPickerItem : class, IPickerItem => new Picker<TPickerItem>();
+        
+        public static VisibilitySensor VisibilitySensor(Action<VisibilitySensor> onVisible, bool singleCall = true, IComponent message = null) => new VisibilitySensor(onVisible, singleCall, message);
     }
 }

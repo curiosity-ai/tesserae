@@ -4,12 +4,12 @@ using System.Linq;
 
 namespace Tesserae
 {
-    public class ObservableList<T>: Observable, IList<T>, ICollection<T>, IObservable<IReadOnlyList<T>>
+    public class ObservableList<T> : Observable, IList<T>, ICollection<T>, IObservable<IReadOnlyList<T>>
     {
-        private readonly List<T> _list;
-        private event Observable<IReadOnlyList<T>>.ValueChanged _onValueChanged;
-        private bool _valueIsObservable;
+        private event Observable<IReadOnlyList<T>>.ValueChanged OnValueChanged;
 
+        private readonly List<T> _list;
+        private readonly bool _valueIsObservable;
         public ObservableList()
         {
             _list = new List<T>();
@@ -20,9 +20,9 @@ namespace Tesserae
         {
             _list = initialValues.ToList();
             _valueIsObservable = typeof(IObservable).IsAssignableFrom(typeof(T));
-            if(_valueIsObservable)
+            if (_valueIsObservable)
             {
-                foreach(var i in _list)
+                foreach (var i in _list)
                 {
                     HookValue(i);
                 }
@@ -31,41 +31,42 @@ namespace Tesserae
 
         private void HookValue(T v)
         {
-            if (_valueIsObservable && v is object)
+            if (_valueIsObservable && (v is IObservable observableV))
             {
-                ((IObservable)v).OnChange(RaiseOnValueChanged);
+                observableV.OnChange(RaiseOnValueChanged);
             }
         }
+
         private void UnhookValue(T v)
         {
-            if (_valueIsObservable && v is object)
+            if (_valueIsObservable && (v is IObservable observableV))
             {
-                ((IObservable)v).Unobserve(RaiseOnValueChanged);
+                observableV.Unobserve(RaiseOnValueChanged);
             }
         }
 
         public void Observe(Observable<IReadOnlyList<T>>.ValueChanged valueGetter)
         {
-            _onValueChanged += valueGetter;
+            OnValueChanged += valueGetter;
             valueGetter(_list);
         }
 
         public void ObserveLazy(Observable<IReadOnlyList<T>>.ValueChanged valueGetter)
         {
-            _onValueChanged += valueGetter;
+            OnValueChanged += valueGetter;
         }
 
         public void Unobserve(Observable<IReadOnlyList<T>>.ValueChanged onChange)
         {
-            _onValueChanged -= onChange;
+            OnValueChanged -= onChange;
         }
 
-        public T this[int index] 
+        public T this[int index]
         {
-            get => _list[index]; 
-            set 
-            { 
-                if(_list.Count > index)
+            get => _list[index];
+            set
+            {
+                if (_list.Count > index)
                 {
                     UnhookValue(_list[index]);
                 }
@@ -76,7 +77,7 @@ namespace Tesserae
 
         private void RaiseOnValueChanged()
         {
-            _onValueChanged?.Invoke(_list);
+            OnValueChanged?.Invoke(_list);
             RaiseOnChanged();
         }
 
@@ -85,11 +86,21 @@ namespace Tesserae
         public bool IsReadOnly => false;
 
         public IReadOnlyList<T> Value => _list;
-        
+
         public void Add(T item)
         {
             _list.Add(item);
             HookValue(item);
+            RaiseOnValueChanged();
+        }
+
+        public void AddRange(IEnumerable<T> enumerable)
+        {
+            foreach (var item in enumerable)
+            {
+                _list.Add(item);
+                HookValue(item);
+            }
             RaiseOnValueChanged();
         }
 
@@ -107,29 +118,19 @@ namespace Tesserae
             RaiseOnValueChanged();
         }
 
-        public bool Contains(T item)
-        {
-            return _list.Contains(item);
-        }
+        public bool Contains(T item) => _list.Contains(item);
 
-        public void CopyTo(T[] array, int arrayIndex)
-        {
-            _list.CopyTo(array, arrayIndex);
-        }
+        public void CopyTo(T[] array, int arrayIndex) => _list.CopyTo(array, arrayIndex);
 
-        public IEnumerator<T> GetEnumerator()
-        {
-            return _list.GetEnumerator();
-        }
+        public IEnumerator<T> GetEnumerator() => _list.GetEnumerator();
 
-        public int IndexOf(T item)
-        {
-            return _list.IndexOf(item);
-        }
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+        public int IndexOf(T item) => _list.IndexOf(item);
 
         public void Insert(int index, T item)
         {
-            if(_list.Count > index)
+            if (_list.Count > index)
             {
                 UnhookValue(_list[index]);
             }
@@ -159,11 +160,6 @@ namespace Tesserae
 
             _list.RemoveAt(index);
             RaiseOnValueChanged();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return _list.GetEnumerator();
         }
     }
 }

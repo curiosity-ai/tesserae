@@ -8,7 +8,7 @@ using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
-    public class BasicList : IComponent
+    public class VirtualizedList : IComponent
     {
         private const int PagesToVirtualize = 5;
         private const int PagesToRender     = PagesToVirtualize;
@@ -32,7 +32,7 @@ namespace Tesserae.Components
         private double _currentScrollPosition;
         private ScrollDirection _currentScrollDirection;
 
-        public BasicList(
+        public VirtualizedList(
             IEnumerable<IComponent> components,
             int rowsPerPage   = 4,
             int columnsPerRow = 4)
