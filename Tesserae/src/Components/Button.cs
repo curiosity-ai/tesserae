@@ -393,6 +393,10 @@ namespace Tesserae.Components
         public Button Wrap()
         {
             CanWrap = true;
+            if(string.IsNullOrEmpty(Title))
+            {
+                Title = Text;
+            }
             return this;
         }
 

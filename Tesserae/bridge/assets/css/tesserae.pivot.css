@@ -2,16 +2,17 @@
 .tss-pivot {
     margin: 0;
     padding: 0;
-}
-
-.tss-pivot-selected-title {
-    font-weight: var(--tss-font-weight-semibold);
+    display: flex;
+    flex-direction:column;
+    height:100%;
 }
 
 .tss-pivot-titlebar {
     display: inline-flex;
     flex-direction: row;
     flex-wrap: nowrap;
+    flex-shrink: 0;
+    flex-grow: 0;
     font-size: 14px;
     font-weight: 400;
     box-shadow: none;
@@ -27,14 +28,39 @@
     position: relative;
     color: rgb(0, 120, 212);
     white-space: nowrap;
+    background: var(--tss-secondary-background-color);
+    width: 100%;
+    overflow:hidden;
 }
+
+    .tss-pivot-titlebar > * {
+        background: var(--tss-secondary-background-color);
+        border: 0px;
+        margin: 0px;
+        flex-shrink:1;
+    }
+
+
+    .tss-pivot-titlebar > .tss-pivot-selected-title {
+        font-weight: var(--tss-font-weight-semibold);
+        background: var(--tss-default-background-color);
+        flex-shrink: 0;
+    }
+
 
 .tss-pivot-content {
     margin: 0;
     padding: 0;
+    flex-grow:1;
+    flex-shrink:1;
+    overflow-y: auto;
+    overflow-x: auto;
 }
 .tss-pivot-line {
     height: 3px;
     width: 0px;
-    background: var(--tss-primary-background-color)
+    flex-shrink: 0;
+    flex-grow: 0;
+    background: var(--tss-primary-background-color);
+    overflow: hidden;
 }
