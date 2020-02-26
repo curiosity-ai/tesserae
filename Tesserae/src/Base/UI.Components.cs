@@ -138,10 +138,8 @@ namespace Tesserae
         public static Modal Modal(string header) => new Modal(string.IsNullOrWhiteSpace(header) ? null : TextBlock(header).MediumPlus().SemiBold());
 
         public static ProgressModal ProgressModal() => new ProgressModal();
-
-        public static Dialog Dialog(IComponent header = null) => new Dialog(header);
-
-        public static Dialog Dialog(string header) => new Dialog(string.IsNullOrWhiteSpace(header) ? null : TextBlock(header).MediumPlus().SemiBold());
+        public static Dialog Dialog(IComponent content = null, IComponent title = null) => new Dialog(content, title);
+        public static Dialog Dialog(string title) => new Dialog(title: string.IsNullOrWhiteSpace(header) ? null : TextBlock(header).MediumPlus().SemiBold());
 
         public static Pivot Pivot() => new Pivot();
 

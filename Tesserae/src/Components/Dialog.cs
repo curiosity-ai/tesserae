@@ -62,6 +62,15 @@ namespace Tesserae.Components
                                  .Children(btnOk(Button("Ok").Primary()).AlignEnd().OnClick((s, e) => { _modal.Hide(); onOk?.Invoke(); })));
             _modal.Show();
         }
+        public void OkCancel(Action onOk = null, Action OnCancel = null, Func<Button, Button> btnOk = null, Func<Button, Button> btnCancel = null)
+        {
+            btnOk = btnOk ?? ((b) => b);
+            btnCancel = btnCancel ?? ((b) => b);
+            _modal.SetFooter(Stack().HorizontalReverse()
+                                 .Children(btnCancel(Button("Cancel")).AlignEnd().OnClick((s, e) => { _modal.Hide(); OnCancel?.Invoke(); }),
+                                           btnOk(Button("Ok").Primary()).AlignEnd().OnClick((s, e) => { _modal.Hide(); onOk?.Invoke(); })));
+            _modal.Show();
+        }
 
         public void YesNo(Action onYes = null, Action onNo = null, Func<Button, Button> btnYes = null, Func<Button, Button> btnNo = null)
         {
@@ -115,6 +124,13 @@ namespace Tesserae.Components
         {
             var tcs = new TaskCompletionSource<Response>();
             Ok(() => tcs.SetResult(Response.Ok), btnOk);
+            return tcs.Task;
+        }
+
+        public Task<Response> OkCancelAsync(Func<Button, Button> btnOk = null, Func<Button, Button> btnCancel = null)
+        {
+            var tcs = new TaskCompletionSource<Response>();
+            YesNo(() => tcs.SetResult(Response.Ok), () => tcs.SetResult(Response.Cancel), btnOk, btnCancel);
             return tcs.Task;
         }
 
