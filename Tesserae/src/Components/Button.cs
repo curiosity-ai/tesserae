@@ -89,7 +89,7 @@ namespace Tesserae.Components
         /// <summary>
         /// Gets or set whenever button is rendered in a compact form
         /// </summary>
-        public bool IsSmall
+        public bool IsCompact
         {
             get { return InnerElement.classList.contains("small"); }
             set
@@ -333,9 +333,9 @@ namespace Tesserae.Components
         }
 
 
-        public Button Small()
+        public Button Compact()
         {
-            IsSmall = true;
+            IsCompact = true;
             return this;
         }
 
