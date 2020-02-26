@@ -86,7 +86,26 @@ namespace Tesserae.Components
             }
         }
 
-          /// <summary>
+        /// <summary>
+        /// Gets or set whenever button is rendered in a compact form
+        /// </summary>
+        public bool IsSmall
+        {
+            get { return InnerElement.classList.contains("small"); }
+            set
+            {
+                if (value)
+                {
+                    InnerElement.classList.add("small");
+                }
+                else
+                {
+                    InnerElement.classList.remove("small");
+                }
+            }
+        }
+
+        /// <summary>
         /// Gets or set whenever button is rendered like a link 
         /// </summary>
         public bool IsLink
@@ -94,16 +113,13 @@ namespace Tesserae.Components
             get { return InnerElement.classList.contains("tss-btn-link"); }
             set
             {
-                if (value != IsLink)
+                if (value)
                 {
-                    if (value)
-                    {
-                        InnerElement.classList.add("tss-btn-link");
-                    }
-                    else
-                    {
-                        InnerElement.classList.remove("tss-btn-link");
-                    }
+                    InnerElement.classList.add("tss-btn-link");
+                }
+                else
+                {
+                    InnerElement.classList.remove("tss-btn-link");
                 }
             }
         }
@@ -316,6 +332,12 @@ namespace Tesserae.Components
             return InnerElement;
         }
 
+
+        public Button Small()
+        {
+            IsSmall = true;
+            return this;
+        }
 
         public Button Link()
         {
