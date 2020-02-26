@@ -178,12 +178,15 @@ namespace Tesserae.Components
 
     //Generator code:
 
-    //var sb = new StringBuilder();
+    //var sb = new StringBuilder(); // For Defer.cs
+    //var sb2 = new StringBuilder(); //For UI.Components.cs
     //for(int i = 1; i <= 10; i++)
     //{
     //	var t = string.Join(", ", Enumerable.Range(1, i).Select(a => $"T{a}"));
     //	var ot = string.Join(", ", Enumerable.Range(1, i).Select(a => $"IObservable<T{a}> o{a}"));
+    //  var ot2 = string.Join(", ", Enumerable.Range(1, i).Select(a => $"o{a}"));
     //	var vt = string.Join(", ", Enumerable.Range(1, i).Select(a => $"o{a}.Value"));
+    //  sb2.AppendLine($"public static Defer Defer<{t}>({ot}, Func<{t}, Task<IComponent>> asyncGenerator, IComponent loadMessage = null) => Components.Defer.Observe({ot2}, asyncGenerator, loadMessage);");
     //	sb.AppendLine($"public static Defer Observe<{t}>({ot}, Func<{t}, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)");
     //	sb.AppendLine("{");
     //	sb.AppendLine($"    var d = new Defer(() => asyncGenerator({vt}), loadMessage);");
@@ -195,4 +198,5 @@ namespace Tesserae.Components
     //	sb.AppendLine("}").AppendLine();
     //}
     //Console.WriteLine(sb.ToString());
+    //Console.WriteLine(sb2.ToString());
 }
