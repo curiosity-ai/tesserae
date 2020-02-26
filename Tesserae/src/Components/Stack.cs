@@ -68,7 +68,7 @@ namespace Tesserae.Components
         /// </summary>
         /// <param name="align"></param>
         /// <returns></returns>
-        public Stack VerticalAlígn(ItemAlign align)
+        public Stack AlignItems(ItemAlign align)
         {
             string cssAlign = align.ToString().ToLower();
             if (cssAlign == "end" || cssAlign == "start") cssAlign = $"flex-{cssAlign}";
@@ -77,11 +77,38 @@ namespace Tesserae.Components
         }
 
         /// <summary>
+        /// Sets the align-items css property for this stack
+        /// </summary>
+        /// <param name="align"></param>
+        /// <returns></returns>
+        public Stack AlignContent(ItemAlign align)
+        {
+            string cssAlign = align.ToString().ToLower();
+            if (cssAlign == "end" || cssAlign == "start") cssAlign = $"flex-{cssAlign}";
+            InnerElement.style.alignContent = cssAlign;
+            return this;
+        }
+
+        /// <summary>
         /// Sets the justify-content css property for this stack
         /// </summary>
         /// <param name="align"></param>
         /// <returns></returns>
-        public Stack HorizontalAlígn(JustifyContent justify)
+        public Stack JustifyContent(JustifyContent justify)
+        {
+            string cssJustify = justify.ToString().ToLower();
+            if (cssJustify == "end" || cssJustify == "start") cssJustify = $"flex-{cssJustify}";
+            if (cssJustify == "between" || cssJustify == "around" || cssJustify == "evenly") cssJustify = $"space-{cssJustify}";
+            InnerElement.style.justifyContent = cssJustify;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the justify-content css property for this stack
+        /// </summary>
+        /// <param name="align"></param>
+        /// <returns></returns>
+        public Stack JustifyItems(JustifyContent justify)
         {
             string cssJustify = justify.ToString().ToLower();
             if (cssJustify == "end" || cssJustify == "start") cssJustify = $"flex-{cssJustify}";
