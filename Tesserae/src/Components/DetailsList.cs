@@ -8,7 +8,7 @@ using static Retyped.dom.Node;
 
 namespace Tesserae.Components
 {
-    public class DetailsList<TDetailsListItem> : IComponent where TDetailsListItem : class, IDetailsListItem<TDetailsListItem>
+    public class DetailsList<TDetailsListItem> : IComponent, ISpecialCaseStyling where TDetailsListItem : class, IDetailsListItem<TDetailsListItem>
     {
         private readonly List<IDetailsListColumn> _columns;
         private readonly ComponentCache<TDetailsListItem> _componentCache;
@@ -22,6 +22,10 @@ namespace Tesserae.Components
         private string _previousColumnSortingKey;
         private LineAwesome _currentLineAwesomeSortingIcon;
         private HTMLElement _columnSortingIcon;
+
+        public HTMLElement StylingContainer => _listContainer;
+
+        public bool PropagateToStackItemParent => false;
 
         public DetailsList(bool small = false)
         {

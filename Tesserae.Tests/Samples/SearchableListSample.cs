@@ -35,11 +35,11 @@ namespace Tesserae.Tests.Samples
                                 TextBlock("Searchable List")
                                     .Medium()
                                     .PaddingBottom(16.px()),
-                                SearchableList(GetItems(10)).PaddingBottom(32.px()),
+                                SearchableList(GetItems(10)).PaddingBottom(32.px()).MaxHeight(300.px()),
                                 TextBlock("Searchable List with Columns")
                                     .Medium()
                                     .PaddingBottom(16.px()),
-                                SearchableList(GetItems(40), 25.percent(), 25.percent(), 25.percent(), 25.percent()))).PaddingBottom(32.px());
+                                SearchableList(GetItems(40), 25.percent(), 25.percent(), 25.percent(), 25.percent()))).PaddingBottom(32.px()).MaxHeight(300.px());
         }
 
         public HTMLElement Render()

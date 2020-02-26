@@ -37,6 +37,11 @@ namespace Tesserae.Components
             return InnerElement;
         }
 
+        internal dom.HTMLElement Container()
+        {
+            return InnerElement;
+        }
+
         private void TriggerRefresh()
         {
             if (!NeedsRefresh) return;

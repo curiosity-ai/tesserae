@@ -5,7 +5,7 @@ using static Retyped.dom;
 
 namespace Tesserae.Components
 {
-    public class Modal : Layer
+    public class Modal : Layer, ISpecialCaseStyling
     {
         private readonly HTMLElement _closeButton;
         protected readonly HTMLElement _modalHeader;
@@ -22,6 +22,10 @@ namespace Tesserae.Components
         private TranslationPoint _startPoint;
 
         internal readonly HTMLElement _modal;
+
+        public HTMLElement StylingContainer => _modal;
+
+        public bool PropagateToStackItemParent => false;
 
         public delegate void OnHideHandler(Modal sender);
 

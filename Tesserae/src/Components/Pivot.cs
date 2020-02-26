@@ -7,8 +7,12 @@ using System.Linq;
 
 namespace Tesserae.Components
 {
-    public class Pivot : IComponent
+    public class Pivot : IComponent, ISpecialCaseStyling
     {
+        public HTMLElement StylingContainer => InnerElement;
+
+        public bool PropagateToStackItemParent => false;
+
         public class PivotNavigateEvent
         {
             public readonly string CurrentPivot;
@@ -34,7 +38,7 @@ namespace Tesserae.Components
 
         public delegate void PivotEventHandler<TEventArgs>(Pivot sender, TEventArgs e);
 
-        public HTMLElement InnerElement { get; private set; }
+        private HTMLElement InnerElement;
 
         private List<Tab> OrderedTabs = new List<Tab>();
         private Dictionary<Tab, HTMLElement> RenderedTitles = new Dictionary<Tab, HTMLElement>();

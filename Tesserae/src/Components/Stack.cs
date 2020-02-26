@@ -6,7 +6,7 @@ using static Retyped.dom;
 namespace Tesserae.Components
 {
 
-    public class Stack : IContainer<Stack, IComponent>, IHasBackgroundColor, IHasMarginPadding
+    public class Stack : IContainer<Stack, IComponent>, IHasBackgroundColor, IHasMarginPadding, ISpecialCaseStyling
     {
         public Orientation StackOrientation
         {
@@ -54,6 +54,10 @@ namespace Tesserae.Components
         public string Margin { get => InnerElement.style.margin; set => InnerElement.style.margin = value; }
         public string Padding { get => InnerElement.style.padding; set => InnerElement.style.padding = value; }
 
+        public HTMLElement StylingContainer => InnerElement;
+
+        public bool PropagateToStackItemParent => true;
+
         public static void SetAlign(IComponent component, ItemAlign align)
         {
             var correct = GetCorrectItemToApplyStyle(component);
@@ -94,7 +98,7 @@ namespace Tesserae.Components
         /// </summary>
         /// <param name="align"></param>
         /// <returns></returns>
-        public Stack JustifyContent(JustifyContent justify)
+        public Stack JustifyContent(ItemJustify justify)
         {
             string cssJustify = justify.ToString().ToLower();
             if (cssJustify == "end" || cssJustify == "start") cssJustify = $"flex-{cssJustify}";
@@ -108,7 +112,7 @@ namespace Tesserae.Components
         /// </summary>
         /// <param name="align"></param>
         /// <returns></returns>
-        public Stack JustifyItems(JustifyContent justify)
+        public Stack JustifyItems(ItemJustify justify)
         {
             string cssJustify = justify.ToString().ToLower();
             if (cssJustify == "end" || cssJustify == "start") cssJustify = $"flex-{cssJustify}";
@@ -126,17 +130,9 @@ namespace Tesserae.Components
 
         private static (HTMLElement item, bool remember) GetCorrectItemToApplyStyle(IComponent component)
         {
-            if (component is Stack stack)
+            if (component is ISpecialCaseStyling specialCase)
             {
-                return (stack.InnerElement, true);
-            }
-            else if (component is Modal modal)
-            {
-                return (modal._modal, false);
-            }
-            else if (component is Pivot pivot)
-            {
-                return (pivot.InnerElement, false);
+                return (specialCase.StylingContainer, specialCase.PropagateToStackItemParent);
             }
             else
             {
@@ -418,7 +414,7 @@ namespace Tesserae.Components
         End
     }
 
-    public enum JustifyContent
+    public enum ItemJustify
     {
         Between,
         Around,
