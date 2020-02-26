@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Tesserae.HTML;
 using static Tesserae.UI;
 using static Retyped.dom;
 
@@ -44,7 +43,7 @@ namespace Tesserae.Components
 
         public bool DuplicateSelectionsAllowed                { get; }
 
-        public int SuggestionsTolerance                      { get; }
+        public int SuggestionsTolerance                       { get; }
 
         public Picker<TPickerItem> WithItems(params TPickerItem[] items)
         {
@@ -58,7 +57,7 @@ namespace Tesserae.Components
                 throw new ArgumentNullException(nameof(items));
             }
 
-            items = items.ToArray();
+            items = items.ToList();
 
             if (!items.Any())
             {
@@ -97,12 +96,6 @@ namespace Tesserae.Components
             {
                 pickerContainer.appendChild(_selectionsElement);
             }
-
-            _suggestionsLayer.Show();
-
-            DomMountedObserver.NotifyWhenMounted(_suggestionsLayer.SuggestionsContainer, AttachOnContainerParentScrollEvent);
-
-            AttachOnTextBoxMountedEvent();
         }
 
         private void AttachTextBoxOnInputEvent() => _textBox.OnInput(OnTextBoxInput);
@@ -113,6 +106,7 @@ namespace Tesserae.Components
 
             if (string.IsNullOrWhiteSpace(textBox.Text) || (textBox.Text.Length < SuggestionsTolerance))
             {
+                _suggestionsLayer.Hide();
                 return;
             }
 
@@ -140,6 +134,14 @@ namespace Tesserae.Components
 
         private void CreateSuggestions(IEnumerable<TPickerItem> suggestions)
         {
+            suggestions = suggestions.ToList();
+
+            if (!suggestions.Any())
+            {
+                _suggestionsLayer.Hide();
+                return;
+            }
+
             foreach (var suggestion in suggestions)
             {
                 // TODO: Add to a component cache.
@@ -151,6 +153,12 @@ namespace Tesserae.Components
                 AttachSuggestionOnClickEvent(suggestionElement, suggestion);
 
                 _suggestionsLayer.SuggestionsContent.appendChild(suggestionContainerElement);
+            }
+
+            if (!_suggestionsLayer.IsVisible)
+            {
+                _suggestionsLayer.Show();
+                PositionSuggestions();
             }
         }
 
@@ -206,33 +214,18 @@ namespace Tesserae.Components
             selectedItem.IsSelected = isSelected;
             _textBox.ClearText();
             ClearSuggestions();
-        }
-
-        private void AttachOnTextBoxMountedEvent() => DomMountedObserver.NotifyWhenMounted(_textBoxElement, PositionSuggestions);
-
-        private void AttachOnContainerParentScrollEvent()
-        {
-            var parentElement = _container.parentElement;
-
-            while (parentElement != null)
-            {
-                if (parentElement.style.overflowY.Contains("scroll"))
-                {
-                    parentElement.onscroll += _ => PositionSuggestions();
-
-                    break;
-                }
-
-                parentElement = parentElement.parentElement;
-            }
+            _suggestionsLayer.Hide();
         }
 
         private void PositionSuggestions()
         {
             var clientRect = (ClientRect)_textBoxElement.getBoundingClientRect();
 
-            _suggestionsLayer.SuggestionsContainer.style.top  = $"{(clientRect.bottom + 10).px()}";
-            _suggestionsLayer.SuggestionsContainer.style.left = clientRect.left.px().ToString();
+            _suggestionsLayer.SuggestionsContainer.style.top   = $"{(clientRect.bottom + 10).px()}";
+            _suggestionsLayer.SuggestionsContainer.style.left  = clientRect.left.px().ToString();
+            _suggestionsLayer.SuggestionsContainer.style.width = $"{(_textBoxElement.clientWidth / 2).px()}";
+
+            _suggestionsLayer.SuggestionsContainer.classList.add("tss-layer-picker-suggestions");
         }
 
         private class SuggestionsLayer : Layer
