@@ -244,17 +244,17 @@ namespace Tesserae.Components
         {
             get
             {
-                return InnerElement.classList.contains("tss-text-ellipsis");
+                return !InnerElement.classList.contains("tss-text-ellipsis");
             }
             set
             {
                 if (value)
                 {
-                    InnerElement.classList.add("tss-text-ellipsis");
+                    InnerElement.classList.remove("tss-text-ellipsis");
                 }
                 else
                 {
-                    InnerElement.classList.remove("tss-text-ellipsis");
+                    InnerElement.classList.add("tss-text-ellipsis");
                 }
             }
         }
