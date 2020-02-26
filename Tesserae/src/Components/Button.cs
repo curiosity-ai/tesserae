@@ -381,12 +381,16 @@ namespace Tesserae.Components
             return this;
         }
 
-        public Button Color(string background, string textColor = "white", string borderColor = "white")
+        public Button Color(string background, string textColor = "white", string borderColor = "white", string iconColor = "")
         {
             InnerElement.classList.add("tss-btn-nobg");
             InnerElement.style.background = background;
             InnerElement.style.color = textColor;
             InnerElement.style.borderColor = borderColor;
+            if(_iconSpan is object)
+            {
+                _iconSpan.style.color = iconColor;
+            }
             return this;
         }
 
@@ -402,9 +406,13 @@ namespace Tesserae.Components
             return this;
         }
 
-        public Button SetIcon(string icon)
+        public Button SetIcon(string icon, string color = "")
         {
             Icon = icon;
+            if(_iconSpan is object)
+            {
+                _iconSpan.style.color = color;
+            }
             return this;
         }
 
