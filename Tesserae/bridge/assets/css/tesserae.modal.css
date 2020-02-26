@@ -52,6 +52,7 @@
     flex-shrink: 0;
     padding: 12px;
     display: inline-flex;
+    background: var(--tss-default-background-color);
 }
 
 .tss-modal-header {
@@ -63,6 +64,7 @@
     border-top: 4px solid rgb(0, 120, 212);
     flex-shrink: 0;
     display: inline-flex;
+    background: var(--tss-default-background-color);
 }
 
 .tss-modal-header.noborder {
