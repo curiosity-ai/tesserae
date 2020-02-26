@@ -259,17 +259,17 @@ namespace Tesserae.Components
 
         public void Add(IComponent component)
         {
-            InnerElement.appendChild(GetItem(component, true));
+            ScrollBar.GetCorrectContainer(InnerElement).appendChild(GetItem(component, true));
         }
 
         public virtual void Clear()
         {
-            ClearChildren(InnerElement);
+            ClearChildren(ScrollBar.GetCorrectContainer(InnerElement));
         }
 
         public void Replace(IComponent newComponent, IComponent oldComponent)
         {
-            InnerElement.replaceChild(GetItem(newComponent), GetItem(oldComponent));
+            ScrollBar.GetCorrectContainer(InnerElement).replaceChild(GetItem(newComponent), GetItem(oldComponent));
         }
 
         public virtual HTMLElement Render()

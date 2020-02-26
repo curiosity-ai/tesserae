@@ -41,20 +41,21 @@ namespace Tesserae.Components
         {
             if (!NeedsRefresh) return;
             NeedsRefresh = false;
-            ClearChildren(InnerElement);
-            InnerElement.appendChild(LoadMessage.Render());
+            var container = ScrollBar.GetCorrectContainer(InnerElement);
+            ClearChildren(container);
+            container.appendChild(LoadMessage.Render());
             var task = _asyncGenerator();
             task.ContinueWith(r =>
             {
-                ClearChildren(InnerElement);
+                ClearChildren(container);
                 if (r.IsCompleted)
                 {
-                    InnerElement.appendChild(r.Result.Render());
+                    container.appendChild(r.Result.Render());
                 }
                 else
                 {
-                    InnerElement.appendChild(TextBlock("Error rendering async element").Danger());
-                    InnerElement.appendChild(TextBlock(r.Exception.ToString()).XSmall());
+                    container.appendChild(TextBlock("Error rendering async element").Danger());
+                    container.appendChild(TextBlock(r.Exception.ToString()).XSmall());
                 }
             }).FireAndForget();
         }

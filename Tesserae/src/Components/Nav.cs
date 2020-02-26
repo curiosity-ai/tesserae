@@ -23,7 +23,7 @@ namespace Tesserae.Components
 
         public void Add(NavLink component)
         {
-            InnerElement.appendChild(component.Render());
+            ScrollBar.GetCorrectContainer(InnerElement).appendChild(component.Render());
             component.OnSelect += OnNavLinkSelected;
             if (component.IsSelected)
             {
@@ -42,12 +42,12 @@ namespace Tesserae.Components
 
         public void Clear()
         {
-            ClearChildren(InnerElement);
+            ClearChildren(ScrollBar.GetCorrectContainer(InnerElement));
         }
 
         public void Replace(NavLink newComponent, NavLink oldComponent)
         {
-            InnerElement.replaceChild(newComponent.Render(), oldComponent.Render());
+            ScrollBar.GetCorrectContainer(InnerElement).replaceChild(newComponent.Render(), oldComponent.Render());
 
             newComponent.OnSelect += OnNavLinkSelected;
             if (newComponent.IsSelected)
@@ -293,7 +293,7 @@ namespace Tesserae.Components
             public void Add(NavLink component)
             {
                 Children.Add(component);
-                _childContainer.appendChild(component.Render());
+                ScrollBar.GetCorrectContainer(_childContainer).appendChild(component.Render());
                 _headerDiv.classList.add("expandable");
                 component.Level = Level + 1;
                 component.OnSelect += OnChildSelected;
@@ -321,7 +321,7 @@ namespace Tesserae.Components
 
             public void Clear()
             {
-                ClearChildren(_childContainer);
+                ClearChildren(ScrollBar.GetCorrectContainer(_childContainer));
                 Children.Clear();
                 _headerDiv.classList.remove("expandable");
 
@@ -329,7 +329,7 @@ namespace Tesserae.Components
 
             public void Replace(NavLink newComponent, NavLink oldComponent)
             {
-                _childContainer.replaceChild(newComponent.Render(), oldComponent.Render());
+                ScrollBar.GetCorrectContainer(_childContainer).replaceChild(newComponent.Render(), oldComponent.Render());
                 newComponent.OnSelect += OnChildSelected;
                 if (newComponent.IsSelected) OnSelect?.Invoke(this, newComponent);
             }

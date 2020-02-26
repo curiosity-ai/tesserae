@@ -24,7 +24,14 @@ namespace Tesserae.Components
 
             if(InnerElement is object && InnerElement.parentElement is object)
             {
-                InnerElement.parentElement.replaceChild(element, InnerElement);
+                var correct = ScrollBar.GetCorrectContainer(InnerElement);
+                
+                if(correct.classList.contains("simplebar-content"))
+                {
+                    element.classList.add("simplebar-content");
+                }
+
+                correct.parentElement.replaceChild(element, correct);
             }
 
             InnerElement = element;

@@ -50,6 +50,28 @@ namespace Tesserae.Components
                 }
             }
         }
+
+        public static HTMLElement GetCorrectContainer(HTMLElement element)
+        {
+            if(element.classList.contains("hide-scrollbar"))
+            {
+                //try finding the new container created by the scrollbar class
+                var sbc = element.getElementsByClassName("simplebar-content");
+                if(sbc.length > 0)
+                {
+                    return (HTMLElement)sbc[0];
+                }
+                else
+                {
+                    return element;
+                }
+            }
+            else
+            {
+                return element;
+            }
+        }
+
         public static Handle EnableInvisibleScroll(HTMLElement element)
         {
             var h = new Handle(element);

@@ -27,17 +27,17 @@ namespace Tesserae.Components
 
         public void Clear()
         {
-            ClearChildren(_childContainer);
+            ClearChildren(ScrollBar.GetCorrectContainer(_childContainer));
         }
 
         public void Replace(Item newComponent, Item oldComponent)
         {
-            _childContainer.replaceChild(newComponent.Render(), oldComponent.Render());
+            ScrollBar.GetCorrectContainer(_childContainer).replaceChild(newComponent.Render(), oldComponent.Render());
         }
         
         public void Add(Item component)
         {
-            _childContainer.appendChild(component.Render());
+            ScrollBar.GetCorrectContainer(_childContainer).appendChild(component.Render());
             component.OnClick((s,e) => Hide());
         }
 

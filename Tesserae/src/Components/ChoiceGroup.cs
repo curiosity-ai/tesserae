@@ -54,7 +54,7 @@ namespace Tesserae.Components
 
         public void Add(Option component)
         {
-            InnerElement.appendChild(component.Render());
+            ScrollBar.GetCorrectContainer(InnerElement).appendChild(component.Render());
             component.OnSelect += OnChoiceSelected;
 
             if (component.IsSelected) OnChoiceSelected(null, component);
@@ -62,13 +62,14 @@ namespace Tesserae.Components
 
         public void Clear()
         {
-            ClearChildren(InnerElement);
-            InnerElement.appendChild(_header.Render());
+            var container = ScrollBar.GetCorrectContainer(InnerElement);
+            ClearChildren(container);
+            ScrollBar.GetCorrectContainer(InnerElement).appendChild(_header.Render());
         }
 
         public void Replace(Option newComponent, Option oldComponent)
         {
-            InnerElement.replaceChild(newComponent.Render(), oldComponent.Render());
+            ScrollBar.GetCorrectContainer(InnerElement).replaceChild(newComponent.Render(), oldComponent.Render());
             newComponent.OnSelect += OnChoiceSelected;
         }
         public ChoiceGroup Options(params ChoiceGroup.Option[] children)
