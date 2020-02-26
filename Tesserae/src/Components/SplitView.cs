@@ -68,6 +68,12 @@ namespace Tesserae.Components
             return this;
         }
 
+        public SplitView NoSplitter()
+        {
+            SplitterComponent.Width = "0px";
+            return this;
+        }
+
         public SplitView SplitInMiddle()
         {
             LeftComponent.Width = $"calc(50% - {SplitterComponent.Width})";
