@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Tesserae.Components;
 using static Retyped.dom;
+using static Tesserae.UI;
 
 namespace Tesserae.Tests.Samples
 {
@@ -13,22 +14,22 @@ namespace Tesserae.Tests.Samples
         public PickerSample()
         {
             _content =
-                UI.SectionStack()
+                SectionStack()
                     .Title(
-                        UI.TextBlock("Picker")
+                        TextBlock("Picker")
                             .XLarge()
                             .Bold())
                     .Section(
-                        UI.Stack()
+                        Stack()
                             .Children(
                                 SamplesHelper.SampleTitle("Overview"),
-                                UI.TextBlock("DetailsList is a derivative of the List component. It is a robust way to " +
+                                TextBlock("DetailsList is a derivative of the List component. It is a robust way to " +
                                              "display an information rich collection of items. It can support powerful " +
                                              "ways to aid a user in finding content with sorting, grouping and " +
                                              "filtering.  Lists are a great way to handle large amounts of content, " +
                                              "but poorly designed Lists can be difficult to parse.")
                                     .PaddingBottom(16.px()),
-                                UI.TextBlock("Use a DetailsList when density of information is critical. Lists can " +
+                                TextBlock("Use a DetailsList when density of information is critical. Lists can " +
                                              "support single and multiple selection, as well as drag and drop and " +
                                              "marquee selection. They are composed of a column header, which " +
                                              "contains the metadata fields which are attached to the list items, " +
@@ -38,20 +39,20 @@ namespace Tesserae.Tests.Samples
                                              "any other metadata field associated with the collection. Place the most " +
                                              "important columns from left to right for ease of recall and comparison.")
                                     .PaddingBottom(16.px()),
-                                UI.TextBlock("DetailsList is classically used to display files, but is also used to " +
+                                TextBlock("DetailsList is classically used to display files, but is also used to " +
                                              "render custom lists that can be purely metadata. Avoid using file type " +
                                              "icon overlays to denote status of a file as it can make the entire icon " +
                                              "unclear. Be sure to leave ample width for each column’s data. " +
                                              "If there are multiple lines of text in a column, " +
                                              "consider the variable row height variant.")))
                     .Section(
-                        UI.Stack()
+                        Stack()
                             .Children(
                                 SamplesHelper.SampleTitle("Best Practices"),
-                                UI.Stack()
+                                Stack()
                                     .Horizontal()
                                     .Children(
-                                        UI.Stack()
+                                        Stack()
                                             .Width(40.percent())
                                             .Children(
                                                 SamplesHelper.SampleSubTitle("Do"),
@@ -60,7 +61,7 @@ namespace Tesserae.Tests.Samples
                                                 SamplesHelper.SampleDo("Display columns in order of importance left to right or " +
                                                                        "right to left depending on the standards of the culture."),
                                                 SamplesHelper.SampleDo("Give columns ample default width to display information.")),
-                                        UI.Stack()
+                                        Stack()
                                             .Width(40.percent())
                                             .Children(
                                                 SamplesHelper.SampleSubTitle("Don't"),
@@ -70,19 +71,19 @@ namespace Tesserae.Tests.Samples
                                                 SamplesHelper.SampleDont("Make columns so narrow that it truncates the information " +
                                                                          "in typical cases.")))))
                     .Section(
-                        UI.Stack()
+                        Stack()
                             .Width(40.percent())
                             .Children(
                                 SamplesHelper.SampleTitle("Usage"),
-                                UI.TextBlock("Picker with text suggestions and tag-like selections")
+                                TextBlock("Picker with text suggestions and tag-like selections")
                                     .Medium()
                                     .PaddingBottom(16.px()),
-                                UI.Picker<PickerSampleItem>().WithItems(GetPickerItems()).WithSuggestionsTitleText("Suggested Tags")
+                                Picker<PickerSampleItem>(suggestionsTitleText: "Suggested Tags").WithItems(GetPickerItems())
                                     .PaddingBottom(32.px()),
-                                UI.TextBlock("Picker with icon and text suggestions and component based selections")
+                                TextBlock("Picker with icon and text suggestions and component based selections")
                                     .Medium()
                                     .PaddingBottom(16.px()),
-                                UI.Picker<PickerSampleItemWithComponents>().WithItems(GetComponentPickerItems()).Var(out var picker).WithSuggestionsTitleText("Suggested Items"), UI.Stack().Do(stack => picker.WithSelectionsComponent(stack))));
+                                Picker<PickerSampleItemWithComponents>(suggestionsTitleText: "Suggested Items", renderSuggestionsInline: false).WithItems(GetComponentPickerItems())));
         }
 
         public HTMLElement Render()

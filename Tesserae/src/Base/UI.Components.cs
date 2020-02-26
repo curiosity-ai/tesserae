@@ -176,11 +176,11 @@ namespace Tesserae
         public static VirtualizedList VirtualizedList(IEnumerable<IComponent> components, int rowsPerPage = 4, int columnsPerRow = 4) => new VirtualizedList(components, rowsPerPage, columnsPerRow);
 
         public static SearchableList<T> SearchableList<T>(IEnumerable<T> components, params UnitSize[] columns) where T : ISearchableItem => new SearchableList<T>(components.ToArray(), columns);
-        
+
         public static SearchableList<T> SearchableList<T>(ObservableList<T> components, params UnitSize[] columns) where T : ISearchableItem => new SearchableList<T>(components, columns);
 
         public static ItemsList ItemsList(IEnumerable<IComponent> components, params UnitSize[] columns)=> new ItemsList(components.ToArray(), columns);
-        
+
         public static ItemsList ItemsList(ObservableList<IComponent> components, params UnitSize[] columns)  => new ItemsList(components, columns);
 
         public static DetailsList<TDetailsListItem> DetailsList<TDetailsListItem>(bool small = false) where TDetailsListItem : class, IDetailsListItem<TDetailsListItem> => new DetailsList<TDetailsListItem>(small);
@@ -189,8 +189,12 @@ namespace Tesserae
 
         public static DetailsListColumn DetailsListColumn(string title, UnitSize width, bool isRowHeader = false, bool enableColumnSorting = false, string sortingKey = null, Action onColumnClick = null) => new DetailsListColumn(title, width, isRowHeader, enableColumnSorting, sortingKey, onColumnClick);
 
-        public static Picker<TPickerItem> Picker<TPickerItem>() where TPickerItem : class, IPickerItem => new Picker<TPickerItem>();
-        
+        public static Picker<TPickerItem> Picker<TPickerItem>(int maximumAllowedSelections = 5, bool
+        duplicateSelectionsAllowed = false, int suggestionsTolerance = 2,  bool renderSuggestionsInline = true,
+        string suggestionsTitleText = null) where TPickerItem : class,
+        IPickerItem => new Picker<TPickerItem>(maximumAllowedSelections, duplicateSelectionsAllowed,
+        suggestionsTolerance, renderSuggestionsInline, suggestionsTitleText);
+
         public static VisibilitySensor VisibilitySensor(Action<VisibilitySensor> onVisible, bool singleCall = true, IComponent message = null) => new VisibilitySensor(onVisible, singleCall, message);
     }
 }

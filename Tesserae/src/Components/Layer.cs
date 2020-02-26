@@ -47,7 +47,7 @@ namespace Tesserae.Components
     {
         protected IComponent _content;
         protected HTMLElement _contentHtml;
-        private HTMLElement _renderedContent;
+        protected HTMLElement _renderedContent;
 
         private LayerHost _Host;
 
@@ -101,7 +101,7 @@ namespace Tesserae.Components
                 }
             }
         }
-        
+
         public override HTMLElement Render()
         {
             return InnerElement;

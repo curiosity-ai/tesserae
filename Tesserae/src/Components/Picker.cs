@@ -11,23 +11,27 @@ namespace Tesserae.Components
     {
         private readonly List<TPickerItem> _pickerItems;
         private readonly HTMLElement _container;
-        private readonly HTMLElement _pickerContainer;
         private readonly TextBox _textBox;
-        private readonly HTMLElement _suggestionsElement;
+        private readonly SuggestionsLayer _suggestionsLayer;
+        private readonly bool _renderSuggestionsInline;
+        private readonly HTMLElement _selectionsElement;
 
-        private bool _pickerAlreadyCreated;
         private HTMLElement _textBoxElement;
-        private IComponent _selectionsComponent;
-        private HTMLElement _selectionsElement;
-        private string _suggestionsTitleText;
 
-        public Picker()
+        public Picker(int maximumAllowedSelections = 5, bool duplicateSelectionsAllowed = false, int suggestionsTolerance = 2,  bool renderSuggestionsInline = true, string suggestionsTitleText = null)
         {
+            MaximumAllowedSelections   = maximumAllowedSelections;
+            DuplicateSelectionsAllowed = duplicateSelectionsAllowed;
+            SuggestionsTolerance       = suggestionsTolerance;
+            _renderSuggestionsInline   = renderSuggestionsInline;
+            _selectionsElement         = Div(_("tss-picker-selections"));
+
             _pickerItems          = new List<TPickerItem>();
             _container            = DIV();
-            _pickerContainer      = Div(_("tss-picker-container"));
             _textBox              = TextBox();
-            _suggestionsElement   = Div(_("tss-picker-suggestions"));
+            _suggestionsLayer     = new SuggestionsLayer(new Suggestions(suggestionsTitleText));
+
+            CreatePicker(Div(_("tss-picker-container")));
         }
 
         public IEnumerable<TPickerItem> PickerItems           => _pickerItems;
@@ -36,11 +40,11 @@ namespace Tesserae.Components
 
         public IEnumerable<TPickerItem> UnselectedPickerItems => _pickerItems.Where(pickerItem => !pickerItem.IsSelected);
 
-        public int? MaximumAllowedSelections                  { get; private set; }
+        public int? MaximumAllowedSelections                  { get; }
 
-        public bool DuplicateSelectionsAllowed                { get; private set; }
+        public bool DuplicateSelectionsAllowed                { get; }
 
-        public int? SuggestionsTolerance                      { get; private set; }
+        public int SuggestionsTolerance                      { get; }
 
         public Picker<TPickerItem> WithItems(params TPickerItem[] items)
         {
@@ -71,111 +75,34 @@ namespace Tesserae.Components
             return this;
         }
 
-        public Picker<TPickerItem> AllowDuplicatedSelections()
+        public event EventHandler<TPickerItem> OnItemSelected;
+
+        public HTMLElement Render() => _container;
+
+        private void CreatePicker(HTMLElement pickerContainer)
         {
-            DuplicateSelectionsAllowed = true;
-
-            return this;
-        }
-
-        public Picker<TPickerItem> WithMaximumAllowedSelections(int maximumAllowedSelections)
-        {
-            MaximumAllowedSelections = maximumAllowedSelections;
-
-            return this;
-        }
-
-        public Picker<TPickerItem> WithoutMaximumAllowedSelections()
-        {
-            MaximumAllowedSelections = null;
-
-            return this;
-        }
-
-        public Picker<TPickerItem> WithSuggestionsTolerance(int suggestionsTolerance)
-        {
-            SuggestionsTolerance = suggestionsTolerance;
-
-            return this;
-        }
-
-        public Picker<TPickerItem> WithoutSuggestionsTolerance()
-        {
-            SuggestionsTolerance = null;
-
-            return this;
-        }
-
-        public Picker<TPickerItem> WithSuggestionsTitleText(string suggestionsTitleText)
-        {
-            _suggestionsTitleText = suggestionsTitleText;
-
-            return this;
-        }
-
-        public Picker<TPickerItem> WithSelectionsComponent(IComponent selectionsComponent)
-        {
-            _selectionsComponent = selectionsComponent;
-
-            return this;
-        }
-
-        public HTMLElement Render()
-        {
-            if (!_pickerAlreadyCreated)
-            {
-                CreatePicker();
-            }
-
-            return _container;
-        }
-
-        private void CreatePicker()
-        {
-            _container.appendChild(_pickerContainer);
+            _container.appendChild(pickerContainer);
 
             AttachTextBoxOnInputEvent();
 
             _textBoxElement = _textBox.Render();
 
-            _pickerContainer.appendChild(_textBoxElement);
+            pickerContainer.appendChild(_textBoxElement);
 
-            if (_selectionsComponent == null)
+            if (_renderSuggestionsInline)
             {
-                _selectionsElement = Div(_("tss-picker-selections"));
-                _pickerContainer.insertBefore(_selectionsElement, _textBoxElement);
+                pickerContainer.insertBefore(_selectionsElement, _textBoxElement);
             }
             else
             {
-                _selectionsElement = _selectionsComponent.Render();
+                pickerContainer.appendChild(_selectionsElement);
             }
 
-            if (!string.IsNullOrWhiteSpace(_suggestionsTitleText))
-            {
-                var suggestionsLabel = Label(_(text: _suggestionsTitleText));
+            _suggestionsLayer.Show();
 
-                _suggestionsElement.appendChild(suggestionsLabel);
-            }
-
-            var suggestionsContainer = document.body.getElementsByClassName("tss-picker-suggestions-container")[0];
-
-            if (suggestionsContainer == null)
-            {
-                suggestionsContainer = Div(_("tss-picker-suggestions-container"));
-                document.body.appendChild(suggestionsContainer);
-            }
-            else
-            {
-                console.log("exists");
-            }
-
-            DomMountedObserver.NotifyWhenMounted(_suggestionsElement, AttachOnDocumentScrollEvent);
-
-            suggestionsContainer.appendChild(_suggestionsElement);
+            DomMountedObserver.NotifyWhenMounted(_suggestionsLayer.SuggestionsContainer, AttachOnContainerParentScrollEvent);
 
             AttachOnTextBoxMountedEvent();
-
-            _pickerAlreadyCreated = true;
         }
 
         private void AttachTextBoxOnInputEvent() => _textBox.OnInput(OnTextBoxInput);
@@ -184,7 +111,7 @@ namespace Tesserae.Components
         {
             ClearSuggestions();
 
-            if (string.IsNullOrWhiteSpace(textBox.Text) || (SuggestionsTolerance.HasValue && textBox.Text.Length < SuggestionsTolerance))
+            if (string.IsNullOrWhiteSpace(textBox.Text) || (textBox.Text.Length < SuggestionsTolerance))
             {
                 return;
             }
@@ -223,13 +150,13 @@ namespace Tesserae.Components
 
                 AttachSuggestionOnClickEvent(suggestionElement, suggestion);
 
-                _suggestionsElement.appendChild(suggestionContainerElement);
+                _suggestionsLayer.SuggestionsContent.appendChild(suggestionContainerElement);
             }
         }
 
         private void ClearSuggestions()
         {
-            var suggestions = _suggestionsElement.getElementsByClassName("tss-picker-suggestion");
+            var suggestions = _suggestionsLayer.SuggestionsContent.getElementsByClassName("tss-picker-suggestion");
 
             while (suggestions.length > 0)
             {
@@ -259,6 +186,8 @@ namespace Tesserae.Components
             selectionContainerElement.appendChild(selectionElement);
 
             _selectionsElement.appendChild(selectionContainerElement);
+
+            OnItemSelected?.Invoke(this, selectedItem);
         }
 
         private void AttachRemoveSelectionElementOnClickEvent(HTMLElement removeSelectionElement, HTMLElement selectionContainerElement, TPickerItem selectedItem)
@@ -281,7 +210,7 @@ namespace Tesserae.Components
 
         private void AttachOnTextBoxMountedEvent() => DomMountedObserver.NotifyWhenMounted(_textBoxElement, PositionSuggestions);
 
-        private void AttachOnDocumentScrollEvent()
+        private void AttachOnContainerParentScrollEvent()
         {
             var parentElement = _container.parentElement;
 
@@ -302,8 +231,42 @@ namespace Tesserae.Components
         {
             var clientRect = (ClientRect)_textBoxElement.getBoundingClientRect();
 
-            _suggestionsElement.style.top  = clientRect.bottom.px().ToString();
-            _suggestionsElement.style.left = clientRect.left.px().ToString();
+            _suggestionsLayer.SuggestionsContainer.style.top  = $"{(clientRect.bottom + 10).px()}";
+            _suggestionsLayer.SuggestionsContainer.style.left = clientRect.left.px().ToString();
+        }
+
+        private class SuggestionsLayer : Layer
+        {
+            private readonly HTMLElement _suggestions;
+
+            public SuggestionsLayer(IComponent suggestions)
+            {
+                _suggestions = suggestions.Render();
+                _contentHtml = Div(_("tss-layer-content"), suggestions.Render());
+            }
+
+            public Element SuggestionsContent       => _suggestions;
+
+            public HTMLElement SuggestionsContainer => _renderedContent;
+        }
+
+        private class Suggestions : IComponent
+        {
+            private readonly HTMLElement _suggestions;
+
+            public Suggestions(string suggestionsTitleText)
+            {
+                _suggestions = Div(_("tss-picker-suggestions"));
+
+                if (!string.IsNullOrWhiteSpace(suggestionsTitleText))
+                {
+                    var suggestionsLabel = Label(_(text: suggestionsTitleText));
+
+                    _suggestions.appendChild(suggestionsLabel);
+                }
+            }
+
+            public HTMLElement Render() => _suggestions;
         }
     }
 }

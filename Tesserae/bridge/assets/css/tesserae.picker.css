@@ -1,4 +1,15 @@
+.tss-picker-container {
+    display: inline-flex;
+    width: 100%;
+}
 
+.tss-picker-container .tss-textbox-container {
+    flex-grow: 1;
+    flex-shrink: 1;
+}
+.tss-picker-suggestions-container {
+    z-index: 9999;
+}
 .tss-picker-suggestions {
     box-shadow: rgba(0, 0, 0, 0.133) 0px 6.4px 14.4px 0px, rgba(0, 0, 0, 0.11) 0px 1.2px 3.6px 0px;
     border-radius: 2px;
@@ -13,5 +24,12 @@
 }
 
 .tss-picker-suggestions * {
+    padding: 5px 10px;
     position: relative;
+    text-align: center;
+}
+
+.tss-picker-selections {
+    align-items: center;
+    display: inline-flex;
 }
