@@ -130,7 +130,7 @@ namespace Tesserae.Components
         public Task<Response> OkCancelAsync(Func<Button, Button> btnOk = null, Func<Button, Button> btnCancel = null)
         {
             var tcs = new TaskCompletionSource<Response>();
-            YesNo(() => tcs.SetResult(Response.Ok), () => tcs.SetResult(Response.Cancel), btnOk, btnCancel);
+            OkCancel(() => tcs.SetResult(Response.Ok), () => tcs.SetResult(Response.Cancel), btnOk, btnCancel);
             return tcs.Task;
         }
 
