@@ -5,7 +5,7 @@ using System;
 
 namespace Tesserae.Components
 {
-    public class Button : ComponentBase<Button, HTMLButtonElement>, IHasTextSize
+    public class Button : ComponentBase<Button, HTMLButtonElement>, IHasTextSize, IHasBackgroundColor, IHasForegroundColor
     {
         private readonly HTMLSpanElement _textSpan;
         private HTMLElement _iconSpan;
@@ -24,6 +24,9 @@ namespace Tesserae.Components
                 InnerElement.style.minWidth = "unset";
             }
         }
+
+        public string Background { get => InnerElement.style.background; set => InnerElement.style.background = value; }
+        public string Foreground { get => InnerElement.style.color; set => InnerElement.style.color = value; }
 
         /// <summary>
         /// Gets or sets button text
