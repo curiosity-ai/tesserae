@@ -117,7 +117,8 @@ namespace Tesserae.Tests
                                                                               links["EditableLabel"],
                                                                               links["TextBox"] ,
                                                                               links["SearchBox"] ,
-                                                                              links["Toggle"]),
+                                                                              links["Toggle"],
+                                                                              links["Picker"]),
                                                 NavLink("Progress").Expanded()
                                                                    .SmallPlus()
                                                                    .SemiBold()
@@ -153,8 +154,7 @@ namespace Tesserae.Tests
                                                                         .Links(links["ItemsList"],
                                                                                links["VirtualizedList"],
                                                                                links["SearchableList"],
-                                                                               links["DetailsList"],
-                                                                               links["Picker"]),
+                                                                               links["DetailsList"]),
                                                 NavLink("Nav Sample").Expanded()
                                                                      .SmallPlus()
                                                                      .SemiBold()

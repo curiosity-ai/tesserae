@@ -51,7 +51,7 @@ namespace Tesserae.Components
 
         private LayerHost _Host;
 
-        private bool _IsVisible;
+        private bool _isVisible;
         public Layer()
         {
             InnerElement = Div(_("tss-layer-base"));
@@ -91,7 +91,7 @@ namespace Tesserae.Components
 
         public bool IsVisible
         {
-            get { return _IsVisible; }
+            get { return _isVisible; }
             set
             {
                 if (value != IsVisible)
@@ -124,7 +124,7 @@ namespace Tesserae.Components
                     _Host.InnerElement.appendChild(_renderedContent);
                 }
 
-                _IsVisible = true;
+                _isVisible = true;
             }
         }
 
@@ -144,7 +144,7 @@ namespace Tesserae.Components
                     _Host.InnerElement.removeChild(_renderedContent);
                 }
                 _renderedContent = null;
-                _IsVisible = false;
+                _isVisible = false;
             }
         }
 

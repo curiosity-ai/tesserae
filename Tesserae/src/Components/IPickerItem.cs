@@ -9,8 +9,6 @@ namespace Tesserae.Components
 
         bool IsSelected { get; set; }
 
-        HTMLElement RenderSuggestion();
-
-        (HTMLElement selectionElement, HTMLElement removeSelectionElement) RenderSelection();
+        IComponent Render();
     }
 }

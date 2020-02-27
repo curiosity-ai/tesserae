@@ -111,6 +111,7 @@ namespace Tesserae
         public static Validator Validator() => new Validator();
 
         public static Icon Icon(string icon) => new Icon(icon);
+
         public static Icon Icon(LineAwesome icon, LineAwesomeWeight weight = LineAwesomeWeight.Light, LineAwesomeSize size = LineAwesomeSize.x1) => new Icon($"{weight} {icon} {size}");
 
         public static HorizontalSeparator HorizontalSeparator(string text) => new HorizontalSeparator(text);
@@ -155,7 +156,7 @@ namespace Tesserae
 
         public static ProgressModal ProgressModal() => new ProgressModal();
 
-        public static Dialog Dialog(IComponent content = null, IComponent title = null) => new Dialog(content, title);#
+        public static Dialog Dialog(IComponent content = null, IComponent title = null) => new Dialog(content, title);
 
         public static Dialog Dialog(string title) => new Dialog(title: string.IsNullOrWhiteSpace(title) ? null : TextBlock(title).MediumPlus().Primary().SemiBold());
 
@@ -211,11 +212,7 @@ namespace Tesserae
 
         public static DetailsListColumn DetailsListColumn(string title, UnitSize width, bool isRowHeader = false, bool enableColumnSorting = false, string sortingKey = null, Action onColumnClick = null) => new DetailsListColumn(title, width, isRowHeader, enableColumnSorting, sortingKey, onColumnClick);
 
-        public static Picker<TPickerItem> Picker<TPickerItem>(int maximumAllowedSelections = 5, bool
-        duplicateSelectionsAllowed = false, int suggestionsTolerance = 2,  bool renderSelectionsInline = true,
-        string suggestionsTitleText = null) where TPickerItem : class,
-        IPickerItem => new Picker<TPickerItem>(maximumAllowedSelections, duplicateSelectionsAllowed,
-        suggestionsTolerance, renderSelectionsInline, suggestionsTitleText);
+        public static Picker<TPickerItem> Picker<TPickerItem>(int maximumAllowedSelections = int.MaxValue, bool duplicateSelectionsAllowed = false, int suggestionsTolerance = 0, bool renderSelectionsInline = true, string suggestionsTitleText = null) where TPickerItem : class, IPickerItem => new Picker<TPickerItem>(maximumAllowedSelections, duplicateSelectionsAllowed, suggestionsTolerance, renderSelectionsInline, suggestionsTitleText);
 
         public static VisibilitySensor VisibilitySensor(Action<VisibilitySensor> onVisible, bool singleCall = true, IComponent message = null) => new VisibilitySensor(onVisible, singleCall, message);
     }
