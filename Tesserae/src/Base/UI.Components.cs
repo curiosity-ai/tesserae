@@ -41,7 +41,7 @@ namespace Tesserae
         {
             if(component is Defer deferedComponent)
             {
-                deferedComponent.InnerElement.id = id;
+                deferedComponent._container.id = id;
                 return component;
             }
             var el = component.Render();
@@ -62,9 +62,9 @@ namespace Tesserae
 
         public static BackgroundArea BackgroundArea(IComponent content) => new BackgroundArea(content);
 
-        public static Defer Defer(Func<Task<IComponent>> asyncGenerator) => new Defer(asyncGenerator);
+        public static Defer Defer(Func<Task<IComponent>> asyncGenerator, IComponent loadMessage = null) => new Defer(asyncGenerator, loadMessage);
 
-        public static Defer DeferSync(Func<IComponent> syncGenerator) => new Defer(() => Task.FromResult<IComponent>(syncGenerator()));
+        public static Defer DeferSync(Func<IComponent> syncGenerator, IComponent loadMessage = null) => new Defer(() => Task.FromResult<IComponent>(syncGenerator()), loadMessage);
 
         public static Defer Defer<T1>(IObservable<T1> o1, Func<T1, Task<IComponent>> asyncGenerator, IComponent loadMessage = null) => Components.Defer.Observe(o1, asyncGenerator, loadMessage);
         
