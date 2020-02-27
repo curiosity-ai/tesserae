@@ -17,6 +17,7 @@ namespace Tesserae.Components
         public BackgroundArea Content(IComponent content)
         {
             _raw.Content(content);
+            return this;
         }
         public string Background { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
