@@ -102,7 +102,7 @@ namespace Tesserae
 
         public static ChoiceGroup.Option Option(string label = string.Empty) => new ChoiceGroup.Option(label);
 
-        public static ChoiceGroup ChoiceGroup(string label = "Pick one") => new ChoiceGroup(label);
+        public static ChoiceGroup ChoiceGroup(string label = string.Empty) => new ChoiceGroup(label);
 
         public static TextBlock TextBlock(string text = string.Empty) => new TextBlock(text);
 
