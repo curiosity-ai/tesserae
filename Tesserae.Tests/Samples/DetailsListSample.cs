@@ -80,7 +80,7 @@ namespace Tesserae.Tests.Samples
                                     .PaddingBottom(16.px()),
                                 DetailsList<DetailsListSampleFileItem>()
                                     .Height(500.px())
-                                    .WithColumn(IconColumn(lineAwesomeIcon: LineAwesome.File, width: 32.px(),  enableColumnSorting: true, sortingKey: "FileIcon", lineAwesomeSize: LineAwesomeSize.Regular))
+                                    .WithColumn(IconColumn(Icon(LineAwesome.File), width: 32.px(),  enableColumnSorting: true, sortingKey: "FileIcon"))
                                     .WithColumn(DetailsListColumn(title: "File Name",         width: 350.px(), enableColumnSorting: true, sortingKey: "FileName", isRowHeader: true))
                                     .WithColumn(DetailsListColumn(title: "Date Modified",     width: 170.px(), enableColumnSorting: true, sortingKey: "DateModified"))
                                     .WithColumn(DetailsListColumn(title: "Modified By",       width: 150.px(), enableColumnSorting: true, sortingKey: "ModifiedBy"))
@@ -93,7 +93,7 @@ namespace Tesserae.Tests.Samples
                                     .PaddingBottom(16.px()),
                                 DetailsList<DetailsListSampleItemWithComponents>(small:true)
                                     .Height(500.px())
-                                    .WithColumn(IconColumn(lineAwesomeIcon: LineAwesome.Apple, width: 32.px(), lineAwesomeSize: LineAwesomeSize.Brand, enableColumnSorting: true, sortingKey: "Icon"))
+                                    .WithColumn(IconColumn(Icon(LineAwesome.Apple), width: 32.px(), enableColumnSorting: true, sortingKey: "Icon"))
                                     .WithColumn(DetailsListColumn(title: "CheckBox",   width: 120.px()))
                                     .WithColumn(DetailsListColumn(title: "Name",       width: 250.px(), isRowHeader: true))
                                     .WithColumn(DetailsListColumn(title: "Button",     width: 150.px()))
@@ -117,7 +117,7 @@ namespace Tesserae.Tests.Samples
                 {
                     new DetailsListSampleFileItem(
                         fileIcon: LineAwesome.FileWord,
-                        lineAwesomeSize: LineAwesomeSize.Regular,
+                        lineAwesomeSize: LineAwesomeWeight.Regular,
                         fileName: "Interesting File Name, quite long as you can see. In fact, let's make it " +
                                   "longer to see how the padding looks.",
                         dateModified: DateTime.Today.AddDays(-10),
@@ -125,14 +125,14 @@ namespace Tesserae.Tests.Samples
                         fileSize: 10),
                     new DetailsListSampleFileItem(
                         fileIcon: LineAwesome.FileExcel,
-                        lineAwesomeSize: LineAwesomeSize.Regular,
+                        lineAwesomeSize: LineAwesomeWeight.Regular,
                         fileName: "File Name 2",
                         dateModified: DateTime.Today.AddDays(-20),
                         modifiedBy: "Rusty",
                         fileSize: 12),
                     new DetailsListSampleFileItem(
                         fileIcon: LineAwesome.FilePowerpoint,
-                        lineAwesomeSize: LineAwesomeSize.Regular,
+                        lineAwesomeSize: LineAwesomeWeight.Regular,
                         fileName: "File Name 3",
                         dateModified: DateTime.Today.AddDays(-30),
                         modifiedBy: "Cole",

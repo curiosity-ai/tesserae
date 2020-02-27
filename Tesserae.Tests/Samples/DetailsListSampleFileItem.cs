@@ -7,7 +7,7 @@ namespace Tesserae.Components
 {
     public class DetailsListSampleFileItem : IDetailsListItem<DetailsListSampleFileItem>
     {
-        public DetailsListSampleFileItem(LineAwesome fileIcon, string fileName, DateTime dateModified, string modifiedBy, int fileSize, LineAwesomeSize lineAwesomeSize = LineAwesomeSize.Default)
+        public DetailsListSampleFileItem(LineAwesome fileIcon, string fileName, DateTime dateModified, string modifiedBy, int fileSize, LineAwesomeWeight lineAwesomeSize = LineAwesomeWeight.Default)
         {
             FileIcon        = fileIcon;
             FileName        = fileName;
@@ -27,7 +27,7 @@ namespace Tesserae.Components
 
         public int FileSize                    { get; }
 
-        public LineAwesomeSize LineAwesomeSize { get; }
+        public LineAwesomeWeight LineAwesomeSize { get; }
 
         public bool EnableOnListItemClickEvent => true;
 

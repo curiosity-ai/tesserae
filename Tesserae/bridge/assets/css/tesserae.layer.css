@@ -20,6 +20,7 @@
     background-color: var(--tss-default-background-color);
     border: 1px solid var(--tss-default-border-color);
     visibility: visible;
+    isolation:isolate;
 }
 
 .tss-layer-host {
