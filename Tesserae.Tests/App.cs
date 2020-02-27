@@ -35,6 +35,7 @@ namespace Tesserae.Tests
                 ("VirtualizedList", new VirtualizedListSample()),
                 ("SearchableList", new SearchableListSample()),
                 ("DetailsList", new DetailsListSample()),
+                ("Picker", new PickerSample()),
                 ("Layer", new LayerSample()),
                 ("Stack", new StackSample()),
                 ("SectionStack", new SectionStackSample()),
@@ -116,7 +117,8 @@ namespace Tesserae.Tests
                                                                               links["EditableLabel"],
                                                                               links["TextBox"] ,
                                                                               links["SearchBox"] ,
-                                                                              links["Toggle"]),
+                                                                              links["Toggle"],
+                                                                              links["Picker"]),
                                                 NavLink("Progress").Expanded()
                                                                    .SmallPlus()
                                                                    .SemiBold()

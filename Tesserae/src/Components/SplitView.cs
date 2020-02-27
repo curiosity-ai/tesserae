@@ -28,11 +28,6 @@ namespace Tesserae.Components
 
         public SplitView Left(IComponent component, string background = "", bool enableInvisibleScroll = true)
         {
-            if (enableInvisibleScroll)
-            {
-                LeftComponent.RemoveInvisibleScroll();
-            }
-            
             LeftComponent.Content(component);
 
             if (enableInvisibleScroll)
@@ -46,11 +41,6 @@ namespace Tesserae.Components
 
         public SplitView Right(IComponent component, string background = "", bool enableInvisibleScroll = true)
         {
-            if (enableInvisibleScroll)
-            {
-                RightComponent.RemoveInvisibleScroll();
-            }
-
             RightComponent.Content(component);
             
             if (enableInvisibleScroll)

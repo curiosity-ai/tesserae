@@ -24,6 +24,11 @@ namespace Tesserae
             return component;
         }
 
+        public static T Do<T>(this T component, Action<T> action) where T : IComponent
+        {
+            action(component);
+            return component;
+        }
 
         /// <summary>
         /// Adds an ID to the element representing the component.
@@ -106,6 +111,7 @@ namespace Tesserae
         public static Validator Validator() => new Validator();
 
         public static Icon Icon(string icon) => new Icon(icon);
+
         public static Icon Icon(LineAwesome icon, LineAwesomeWeight weight = LineAwesomeWeight.Light, LineAwesomeSize size = LineAwesomeSize.x1) => new Icon($"{weight} {icon} {size}");
 
         public static HorizontalSeparator HorizontalSeparator(string text) => new HorizontalSeparator(text);
@@ -150,7 +156,7 @@ namespace Tesserae
 
         public static ProgressModal ProgressModal() => new ProgressModal();
 
-        public static Dialog Dialog(IComponent content = null, IComponent title = null) => new Dialog(content, title);#
+        public static Dialog Dialog(IComponent content = null, IComponent title = null) => new Dialog(content, title);
 
         public static Dialog Dialog(string title) => new Dialog(title: string.IsNullOrWhiteSpace(title) ? null : TextBlock(title).MediumPlus().Primary().SemiBold());
 
@@ -193,11 +199,11 @@ namespace Tesserae
         public static VirtualizedList VirtualizedList(IEnumerable<IComponent> components, int rowsPerPage = 4, int columnsPerRow = 4) => new VirtualizedList(components, rowsPerPage, columnsPerRow);
 
         public static SearchableList<T> SearchableList<T>(IEnumerable<T> components, params UnitSize[] columns) where T : ISearchableItem => new SearchableList<T>(components.ToArray(), columns);
-        
+
         public static SearchableList<T> SearchableList<T>(ObservableList<T> components, params UnitSize[] columns) where T : ISearchableItem => new SearchableList<T>(components, columns);
 
         public static ItemsList ItemsList(IEnumerable<IComponent> components, params UnitSize[] columns)=> new ItemsList(components.ToArray(), columns);
-        
+
         public static ItemsList ItemsList(ObservableList<IComponent> components, params UnitSize[] columns)  => new ItemsList(components, columns);
 
         public static DetailsList<TDetailsListItem> DetailsList<TDetailsListItem>(bool small = false) where TDetailsListItem : class, IDetailsListItem<TDetailsListItem> => new DetailsList<TDetailsListItem>(small);
@@ -205,6 +211,8 @@ namespace Tesserae
         public static DetailsListIconColumn IconColumn(Icon icon, UnitSize width, bool enableColumnSorting = false, string sortingKey = null, Action onColumnClick = null) => new DetailsListIconColumn(icon, width, enableColumnSorting, sortingKey, onColumnClick);
 
         public static DetailsListColumn DetailsListColumn(string title, UnitSize width, bool isRowHeader = false, bool enableColumnSorting = false, string sortingKey = null, Action onColumnClick = null) => new DetailsListColumn(title, width, isRowHeader, enableColumnSorting, sortingKey, onColumnClick);
+
+        public static Picker<TPickerItem> Picker<TPickerItem>(int maximumAllowedSelections = int.MaxValue, bool duplicateSelectionsAllowed = false, int suggestionsTolerance = 0, bool renderSelectionsInline = true, string suggestionsTitleText = null) where TPickerItem : class, IPickerItem => new Picker<TPickerItem>(maximumAllowedSelections, duplicateSelectionsAllowed, suggestionsTolerance, renderSelectionsInline, suggestionsTitleText);
 
         public static VisibilitySensor VisibilitySensor(Action<VisibilitySensor> onVisible, bool singleCall = true, IComponent message = null) => new VisibilitySensor(onVisible, singleCall, message);
     }
