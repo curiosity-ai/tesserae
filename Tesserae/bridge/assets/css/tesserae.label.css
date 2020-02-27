@@ -1,9 +1,12 @@
 ﻿/* Label */
 .tss-label {
     margin: 0;
-    margin-top: 4px;
     position: relative;
     width:100%;
+}
+
+.tss-label + .tss-label {
+    margin-top:4px;
 }
 
 .tss-stack-item:first-child > .tss-label:first-child {

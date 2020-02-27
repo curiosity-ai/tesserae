@@ -42,8 +42,6 @@
 
 .tss-dropdown-container {
     position: relative;
-    margin-bottom: 4px;
-    margin-right: 16px;
 }
 
     .tss-dropdown-container.invalid .tss-dropdown {
