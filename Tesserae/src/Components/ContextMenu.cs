@@ -27,17 +27,17 @@ namespace Tesserae.Components
 
         public void Clear()
         {
-            ClearChildren(_childContainer);
+            ClearChildren(ScrollBar.GetCorrectContainer(_childContainer));
         }
 
         public void Replace(Item newComponent, Item oldComponent)
         {
-            _childContainer.replaceChild(newComponent.Render(), oldComponent.Render());
+            ScrollBar.GetCorrectContainer(_childContainer).replaceChild(newComponent.Render(), oldComponent.Render());
         }
         
         public void Add(Item component)
         {
-            _childContainer.appendChild(component.Render());
+            ScrollBar.GetCorrectContainer(_childContainer).appendChild(component.Render());
             component.OnClick((s,e) => Hide());
         }
 
@@ -56,6 +56,61 @@ namespace Tesserae.Components
             ShowFor(component.Render());
         }
 
+        public void ShowAt(int x, int y, int minWidth)
+        {
+            if (_contentHtml == null)
+            {
+                _modalOverlay = Div(_("tss-contextmenu-overlay"));
+                _modalOverlay.addEventListener("click", (_) => Hide());
+                _popup = Div(_("tss-contextmenu-popup"), _childContainer);
+                _contentHtml = Div(_(), _modalOverlay, _popup);
+            }
+
+            _popup.style.height = "unset";
+            _popup.style.left = "-1000px";
+            _popup.style.top = "-1000px";
+
+            base.Show();
+
+            if (!_popup.classList.contains("no-focus")) _popup.classList.add("no-focus");
+
+            var contentRect = (ClientRect)_popup.getBoundingClientRect();
+            _popup.style.left = x + "px";
+            _popup.style.top = y  + "px";
+            _popup.style.minWidth = minWidth + "px";
+
+            //TODO: CHECK THIS LOGIC
+
+            if (window.innerHeight - y - 1 < contentRect.height)
+            {
+                var top = y - contentRect.height;
+                if (top < 0)
+                {
+                    if (y > window.innerHeight - y - 1)
+                    {
+                        _popup.style.top = "1px";
+                        _popup.style.height = y - 1 + "px";
+                    }
+                    else
+                    {
+                        _popup.style.height = window.innerHeight - y - 1 + "px";
+                    }
+                }
+                else
+                {
+                    _popup.style.top = top + "px";
+                }
+            }
+
+            window.setTimeout((e) =>
+            {
+                //document.addEventListener("click", OnWindowClick);
+                //document.addEventListener("dblclick", OnWindowClick);
+                //document.addEventListener("contextmenu", OnWindowClick);
+                //document.addEventListener("wheel", OnWindowClick);
+                document.addEventListener("keydown", OnPopupKeyDown);
+            }, 100);
+        }
         public void ShowFor(HTMLElement element)
         {
             if (_contentHtml == null)
@@ -79,6 +134,9 @@ namespace Tesserae.Components
             _popup.style.left = rect.left + "px";
             _popup.style.top = rect.bottom - 1 + "px";
             _popup.style.minWidth = rect.width + "px";
+
+
+            //TODO: CHECK THIS LOGIC
 
             if (window.innerHeight - rect.bottom - 1 < contentRect.height)
             {

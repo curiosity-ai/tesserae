@@ -5,7 +5,7 @@ using System;
 
 namespace Tesserae.Components
 {
-    public class Button : ComponentBase<Button, HTMLButtonElement>, IHasTextSize
+    public class Button : ComponentBase<Button, HTMLButtonElement>, IHasTextSize, IHasBackgroundColor, IHasForegroundColor
     {
         private readonly HTMLSpanElement _textSpan;
         private HTMLElement _iconSpan;
@@ -24,6 +24,9 @@ namespace Tesserae.Components
                 InnerElement.style.minWidth = "unset";
             }
         }
+
+        public string Background { get => InnerElement.style.background; set => InnerElement.style.background = value; }
+        public string Foreground { get => InnerElement.style.color; set => InnerElement.style.color = value; }
 
         /// <summary>
         /// Gets or sets button text
@@ -83,7 +86,26 @@ namespace Tesserae.Components
             }
         }
 
-          /// <summary>
+        /// <summary>
+        /// Gets or set whenever button is rendered in a compact form
+        /// </summary>
+        public bool IsCompact
+        {
+            get { return InnerElement.classList.contains("small"); }
+            set
+            {
+                if (value)
+                {
+                    InnerElement.classList.add("small");
+                }
+                else
+                {
+                    InnerElement.classList.remove("small");
+                }
+            }
+        }
+
+        /// <summary>
         /// Gets or set whenever button is rendered like a link 
         /// </summary>
         public bool IsLink
@@ -91,16 +113,13 @@ namespace Tesserae.Components
             get { return InnerElement.classList.contains("tss-btn-link"); }
             set
             {
-                if (value != IsLink)
+                if (value)
                 {
-                    if (value)
-                    {
-                        InnerElement.classList.add("tss-btn-link");
-                    }
-                    else
-                    {
-                        InnerElement.classList.remove("tss-btn-link");
-                    }
+                    InnerElement.classList.add("tss-btn-link");
+                }
+                else
+                {
+                    InnerElement.classList.remove("tss-btn-link");
                 }
             }
         }
@@ -218,17 +237,17 @@ namespace Tesserae.Components
         {
             get
             {
-                return _textSpan.classList.contains("tss-text-ellipsis");
+                return !_textSpan.classList.contains("tss-text-ellipsis");
             }
             set
             {
                 if (value)
                 {
-                    _textSpan.classList.add("tss-text-ellipsis");
+                    _textSpan.classList.remove("tss-text-ellipsis");
                 }
                 else
                 {
-                    _textSpan.classList.remove("tss-text-ellipsis");
+                    _textSpan.classList.add("tss-text-ellipsis");
                 }
             }
         }
@@ -314,6 +333,12 @@ namespace Tesserae.Components
         }
 
 
+        public Button Compact()
+        {
+            IsCompact = true;
+            return this;
+        }
+
         public Button Link()
         {
             IsLink = true;
@@ -356,12 +381,16 @@ namespace Tesserae.Components
             return this;
         }
 
-        public Button Color(string background, string textColor = "white", string borderColor = "white")
+        public Button Color(string background, string textColor = "white", string borderColor = "white", string iconColor = "")
         {
             InnerElement.classList.add("tss-btn-nobg");
             InnerElement.style.background = background;
             InnerElement.style.color = textColor;
             InnerElement.style.borderColor = borderColor;
+            if(_iconSpan is object)
+            {
+                _iconSpan.style.color = iconColor;
+            }
             return this;
         }
 
@@ -377,9 +406,13 @@ namespace Tesserae.Components
             return this;
         }
 
-        public Button SetIcon(string icon)
+        public Button SetIcon(string icon, string color = "")
         {
             Icon = icon;
+            if(_iconSpan is object)
+            {
+                _iconSpan.style.color = color;
+            }
             return this;
         }
 

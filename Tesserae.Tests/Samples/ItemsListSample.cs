@@ -48,15 +48,15 @@ namespace Tesserae.Tests.Samples
                                 TextBlock("Basic List")
                                     .Medium()
                                     .PaddingBottom(16.px()),
-                                ItemsList(GetSomeItems(10)).PaddingBottom(16.px()),
+                                ItemsList(GetSomeItems(10)).PaddingBottom(16.px()).MaxHeight(500.px()),
                                 TextBlock("Basic List with columns")
                                     .Medium()
                                     .PaddingBottom(16.px()),
-                                ItemsList(GetSomeItems(100), 25.percent(), 25.percent(), 25.percent(), 25.percent()),
+                                ItemsList(GetSomeItems(100), 25.percent(), 25.percent(), 25.percent(), 25.percent()).MaxHeight(500.px()),
                                 TextBlock("Basic List + VisibilitySensor")
                                     .Medium()
                                     .PaddingBottom(16.px()),
-                                ItemsList(obsList, 25.percent(), 25.percent(), 25.percent(), 25.percent())));
+                                ItemsList(obsList, 25.percent(), 25.percent(), 25.percent(), 25.percent()))).MaxHeight(500.px());
         }
 
         public HTMLElement Render()

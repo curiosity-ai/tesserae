@@ -6,13 +6,17 @@ using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
-    public class TextBlock : ComponentBase<TextBlock, HTMLElement>, IHasTextSize
+    public class TextBlock : ComponentBase<TextBlock, HTMLElement>, IHasTextSize, IHasBackgroundColor, IHasForegroundColor
     {
         public TextBlock(string text = string.Empty)
         {
             InnerElement = Div(_("tss-textBlock tss-fontsize-small tss-fontweight-regular", text: text));
             AttachClick();
         }
+
+        public string Background { get => InnerElement.style.background; set => InnerElement.style.background = value; }
+        
+        public string Foreground { get => InnerElement.style.color; set => InnerElement.style.color = value; }
 
         public bool IsEnabled
         {
@@ -240,17 +244,17 @@ namespace Tesserae.Components
         {
             get
             {
-                return InnerElement.classList.contains("tss-text-ellipsis");
+                return !InnerElement.classList.contains("tss-text-ellipsis");
             }
             set
             {
                 if (value)
                 {
-                    InnerElement.classList.add("tss-text-ellipsis");
+                    InnerElement.classList.remove("tss-text-ellipsis");
                 }
                 else
                 {
-                    InnerElement.classList.remove("tss-text-ellipsis");
+                    InnerElement.classList.add("tss-text-ellipsis");
                 }
             }
         }

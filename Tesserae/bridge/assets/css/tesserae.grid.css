@@ -1,8 +1,6 @@
 ﻿/* Stack */
 .tss-grid {
     display: grid;
-}
-
-.tss-stack-item {
-    height: auto;
+    overflow:auto;
+    padding:4px;
 }

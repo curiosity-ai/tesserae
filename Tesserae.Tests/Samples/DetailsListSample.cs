@@ -79,6 +79,7 @@ namespace Tesserae.Tests.Samples
                                     .Medium()
                                     .PaddingBottom(16.px()),
                                 DetailsList<DetailsListSampleFileItem>()
+                                    .Height(500.px())
                                     .WithColumn(IconColumn(lineAwesomeIcon: LineAwesome.File, width: 32.px(),  enableColumnSorting: true, sortingKey: "FileIcon", lineAwesomeSize: LineAwesomeSize.Regular))
                                     .WithColumn(DetailsListColumn(title: "File Name",         width: 350.px(), enableColumnSorting: true, sortingKey: "FileName", isRowHeader: true))
                                     .WithColumn(DetailsListColumn(title: "Date Modified",     width: 170.px(), enableColumnSorting: true, sortingKey: "DateModified"))
@@ -91,6 +92,7 @@ namespace Tesserae.Tests.Samples
                                     .Medium()
                                     .PaddingBottom(16.px()),
                                 DetailsList<DetailsListSampleItemWithComponents>(small:true)
+                                    .Height(500.px())
                                     .WithColumn(IconColumn(lineAwesomeIcon: LineAwesome.Apple, width: 32.px(), lineAwesomeSize: LineAwesomeSize.Brand, enableColumnSorting: true, sortingKey: "Icon"))
                                     .WithColumn(DetailsListColumn(title: "CheckBox",   width: 120.px()))
                                     .WithColumn(DetailsListColumn(title: "Name",       width: 250.px(), isRowHeader: true))

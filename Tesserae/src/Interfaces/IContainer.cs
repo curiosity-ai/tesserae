@@ -13,18 +13,21 @@ namespace Tesserae.Components
     {
         public static T Children<T>(this T container, params IComponent[] children) where T : IContainer<T, IComponent>
         {
+            container.Clear();
             children.ForEach(x => container.Add(x));
             return container;
         }
 
         public static T Children<T>(this T container, params Nav.NavLink[] children) where T : IContainer<T, Nav.NavLink>
         {
+            container.Clear();
             children.ForEach(x => container.Add(x));
             return container;
         }
 
         public static T Children<T>(this T container, params ChoiceGroup.Option[] children) where T : IContainer<T, ChoiceGroup.Option>
         {
+            container.Clear();
             children.ForEach(x => container.Add(x));
             return container;
         }

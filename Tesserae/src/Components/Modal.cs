@@ -5,7 +5,7 @@ using static Retyped.dom;
 
 namespace Tesserae.Components
 {
-    public class Modal : Layer
+    public class Modal : Layer, ISpecialCaseStyling, IHasBackgroundColor
     {
         private readonly HTMLElement _closeButton;
         protected readonly HTMLElement _modalHeader;
@@ -23,9 +23,16 @@ namespace Tesserae.Components
 
         internal readonly HTMLElement _modal;
 
+        public HTMLElement StylingContainer => _modal;
+
+        public bool PropagateToStackItemParent => false;
+
         public delegate void OnHideHandler(Modal sender);
 
         public event OnHideHandler onHide;
+
+        public string Background { get => _modal.style.background; set => _modal.style.background = value; }
+
 
         public Modal(IComponent header = null)
         {

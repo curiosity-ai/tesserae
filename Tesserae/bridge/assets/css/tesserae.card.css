@@ -2,7 +2,6 @@
 .tss-card {
     display: flex;
     padding: 16px;
-    background: var(--tss-secondary-background-color);
     margin-bottom: 12px;
     position: relative;
     opacity: 0;

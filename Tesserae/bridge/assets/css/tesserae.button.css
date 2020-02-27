@@ -31,6 +31,12 @@ a {
     justify-content: center;
 }
 
+    .tss-btn.small {
+        min-height: 16px;
+        margin:4px;
+        padding:0px 8px;
+    }
+
 .tss-btn:focus {
     outline: none;
 

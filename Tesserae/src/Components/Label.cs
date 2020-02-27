@@ -53,28 +53,16 @@ namespace Tesserae.Components
 
         public bool IsInline
         {
-            get { return _label.style.display == "inline-block"; }
+            get { return InnerElement.classList.contains("inline"); }
             set
             {
-                if (value != IsInline)
+                if (value)
                 {
-                    //TODO make this a css style
-                    if (value)
-                    {
-                        _label.style.display = "inline-block";
-                        _content.style.display = "inline-block";
-                        InnerElement.style.display = "inline-flex";
-                        InnerElement.style.flexWrap = "nowrap";
-                        InnerElement.style.alignItems = "center";
-                    }
-                    else
-                    {
-                        _label.style.display = "block";
-                        _content.style.display = "block";
-                        InnerElement.style.display = "";
-                        InnerElement.style.flexWrap = "";
-                        InnerElement.style.alignItems = "";
-                    }
+                    InnerElement.classList.add("inline");
+                }
+                else
+                {
+                    InnerElement.classList.add("remove");
                 }
             }
         }

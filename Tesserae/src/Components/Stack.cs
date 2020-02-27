@@ -6,7 +6,7 @@ using static Retyped.dom;
 namespace Tesserae.Components
 {
 
-    public class Stack : IContainer<Stack, IComponent>, IHasBackgroundColor, IHasMarginPadding
+    public class Stack : IContainer<Stack, IComponent>, IHasBackgroundColor, IHasMarginPadding, ISpecialCaseStyling
     {
         public Orientation StackOrientation
         {
@@ -54,6 +54,10 @@ namespace Tesserae.Components
         public string Margin { get => InnerElement.style.margin; set => InnerElement.style.margin = value; }
         public string Padding { get => InnerElement.style.padding; set => InnerElement.style.padding = value; }
 
+        public HTMLElement StylingContainer => InnerElement;
+
+        public bool PropagateToStackItemParent => true;
+
         public static void SetAlign(IComponent component, ItemAlign align)
         {
             var correct = GetCorrectItemToApplyStyle(component);
@@ -68,7 +72,7 @@ namespace Tesserae.Components
         /// </summary>
         /// <param name="align"></param>
         /// <returns></returns>
-        public Stack VerticalAlígn(ItemAlign align)
+        public Stack AlignItems(ItemAlign align)
         {
             string cssAlign = align.ToString().ToLower();
             if (cssAlign == "end" || cssAlign == "start") cssAlign = $"flex-{cssAlign}";
@@ -77,11 +81,38 @@ namespace Tesserae.Components
         }
 
         /// <summary>
+        /// Sets the align-items css property for this stack
+        /// </summary>
+        /// <param name="align"></param>
+        /// <returns></returns>
+        public Stack AlignContent(ItemAlign align)
+        {
+            string cssAlign = align.ToString().ToLower();
+            if (cssAlign == "end" || cssAlign == "start") cssAlign = $"flex-{cssAlign}";
+            InnerElement.style.alignContent = cssAlign;
+            return this;
+        }
+
+        /// <summary>
         /// Sets the justify-content css property for this stack
         /// </summary>
         /// <param name="align"></param>
         /// <returns></returns>
-        public Stack HorizontalAlígn(JustifyContent justify)
+        public Stack JustifyContent(ItemJustify justify)
+        {
+            string cssJustify = justify.ToString().ToLower();
+            if (cssJustify == "end" || cssJustify == "start") cssJustify = $"flex-{cssJustify}";
+            if (cssJustify == "between" || cssJustify == "around" || cssJustify == "evenly") cssJustify = $"space-{cssJustify}";
+            InnerElement.style.justifyContent = cssJustify;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the justify-content css property for this stack
+        /// </summary>
+        /// <param name="align"></param>
+        /// <returns></returns>
+        public Stack JustifyItems(ItemJustify justify)
         {
             string cssJustify = justify.ToString().ToLower();
             if (cssJustify == "end" || cssJustify == "start") cssJustify = $"flex-{cssJustify}";
@@ -99,17 +130,9 @@ namespace Tesserae.Components
 
         private static (HTMLElement item, bool remember) GetCorrectItemToApplyStyle(IComponent component)
         {
-            if (component is Stack stack)
+            if (component is ISpecialCaseStyling specialCase)
             {
-                return (stack.InnerElement, true);
-            }
-            else if (component is Modal modal)
-            {
-                return (modal._modal, false);
-            }
-            else if (component is Pivot pivot)
-            {
-                return (pivot.InnerElement, false);
+                return (specialCase.StylingContainer, specialCase.PropagateToStackItemParent);
             }
             else
             {
@@ -232,17 +255,17 @@ namespace Tesserae.Components
 
         public void Add(IComponent component)
         {
-            InnerElement.appendChild(GetItem(component, true));
+            ScrollBar.GetCorrectContainer(InnerElement).appendChild(GetItem(component, true));
         }
 
         public virtual void Clear()
         {
-            ClearChildren(InnerElement);
+            ClearChildren(ScrollBar.GetCorrectContainer(InnerElement));
         }
 
         public void Replace(IComponent newComponent, IComponent oldComponent)
         {
-            InnerElement.replaceChild(GetItem(newComponent), GetItem(oldComponent));
+            ScrollBar.GetCorrectContainer(InnerElement).replaceChild(GetItem(newComponent), GetItem(oldComponent));
         }
 
         public virtual HTMLElement Render()
@@ -391,7 +414,7 @@ namespace Tesserae.Components
         End
     }
 
-    public enum JustifyContent
+    public enum ItemJustify
     {
         Between,
         Around,
