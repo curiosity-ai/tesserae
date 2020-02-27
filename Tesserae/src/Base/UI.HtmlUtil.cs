@@ -215,9 +215,9 @@ namespace Tesserae
             return InitElement(document.createElement("i"), init, children);
         }
 
-        public static HTMLElement I(LineAwesome lineAwesomeIcon, LineAwesomeSize lineAwesomeSize = LineAwesomeSize.Default, string cssClass = null)
+        public static HTMLElement I(LineAwesome icon, LineAwesomeWeight size = LineAwesomeWeight.Default, string cssClass = null)
         {
-            return I(_($"{lineAwesomeSize} {lineAwesomeIcon} {cssClass}"));
+            return I(_($"{size} {icon} {cssClass}"));
         }
 
         public static HTMLElement Sup(Attributes init, params HTMLElement[] children)

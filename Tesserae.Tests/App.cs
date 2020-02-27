@@ -46,6 +46,7 @@ namespace Tesserae.Tests
                 ("Pivot", new PivotSample()),
                 ("Defer", new DeferSample()),
                 ("Toast", new ToastSample()),
+                ("LineAwesomeIcons", new LineAwesomeSample()),
                 ("FileSelector", new FileSelectorAndDropAreaSample())
             };
 
@@ -144,6 +145,7 @@ namespace Tesserae.Tests
                                                                            links["Defer"],
                                                                            links["Toast"],
                                                                            links["FileSelector"],
+                                                                           links["LineAwesomeIcons"],
                                                                            links["ProgressModal"]),
                                                 NavLink("Collections").Expanded()
                                                                       .SmallPlus()

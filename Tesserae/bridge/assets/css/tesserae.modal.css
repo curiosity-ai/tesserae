@@ -42,6 +42,7 @@
     overflow-x: hidden;
     align-items: stretch;
     visibility: visible;
+    isolation: isolate;
 }
 
 .tss-modal-footer {

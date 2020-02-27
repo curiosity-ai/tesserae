@@ -9,15 +9,14 @@ namespace Tesserae.Components
         private readonly Action _onColumnClick;
         private HTMLElement InnerElement;
 
-        public DetailsListIconColumn(LineAwesome lineAwesomeIcon, UnitSize width, LineAwesomeSize lineAwesomeSize = LineAwesomeSize.Default, bool enableColumnSorting = false, string sortingKey = null, Action onColumnClick = null)
+        public DetailsListIconColumn(Icon icon, UnitSize width, bool enableColumnSorting = false, string sortingKey = null, Action onColumnClick = null)
         {
             if (enableColumnSorting && string.IsNullOrWhiteSpace(sortingKey))
             {
                 throw new ArgumentException(nameof(sortingKey));
             }
 
-            LineAwesomeIcon     = lineAwesomeIcon;
-            LineAwesomeSize     = lineAwesomeSize;
+            Icon     = icon;
             Width               = width      ?? throw new ArgumentNullException(nameof(width));
             SortingKey          = sortingKey ?? string.Empty;
             EnableColumnSorting = enableColumnSorting;
@@ -28,16 +27,16 @@ namespace Tesserae.Components
                 EnableOnColumnClickEvent = true;
             }
 
-            InnerElement = Div(_()).appendChild(I(LineAwesomeIcon, LineAwesomeSize));
+            InnerElement = Div(_()).appendChild(Icon.Render());
         }
 
         public string SortingKey               { get; }
 
-        public LineAwesome LineAwesomeIcon     { get; }
+        public Icon Icon                      { get; }
 
         public UnitSize Width                  { get; }
 
-        public LineAwesomeSize LineAwesomeSize { get; }
+        public LineAwesomeWeight IconWeight    { get; }
 
         public bool IsRowHeader                => false;
 
