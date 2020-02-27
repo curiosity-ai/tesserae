@@ -12,25 +12,33 @@ namespace Tesserae.Components
         private readonly HTMLElement _container;
         private readonly TextBox _textBox;
         private readonly SuggestionsLayer _suggestionsLayer;
-        private readonly bool _renderSuggestionsInline;
+        private readonly bool _renderSelectionsInline;
         private readonly HTMLElement _selectionsElement;
 
         private HTMLElement _textBoxElement;
 
-        public Picker(int maximumAllowedSelections = 5, bool duplicateSelectionsAllowed = false, int suggestionsTolerance = 2,  bool renderSuggestionsInline = true, string suggestionsTitleText = null)
+        public Picker(int maximumAllowedSelections = 5, bool duplicateSelectionsAllowed = false, int suggestionsTolerance = 2,  bool renderSelectionsInline = true, string suggestionsTitleText = null)
         {
             MaximumAllowedSelections   = maximumAllowedSelections;
             DuplicateSelectionsAllowed = duplicateSelectionsAllowed;
             SuggestionsTolerance       = suggestionsTolerance;
-            _renderSuggestionsInline   = renderSuggestionsInline;
+            _renderSelectionsInline   = renderSelectionsInline;
             _selectionsElement         = Div(_("tss-picker-selections"));
+
+            var pickerContainer = Div(_("tss-picker-container"));
+
+            if (_renderSelectionsInline)
+            {
+                pickerContainer.classList.add("tss-picker-container-inline-selections");
+                _selectionsElement.classList.add("tss-picker-selections-inline");
+            }
 
             _pickerItems          = new List<TPickerItem>();
             _container            = DIV();
             _textBox              = TextBox();
             _suggestionsLayer     = new SuggestionsLayer(new Suggestions(suggestionsTitleText));
 
-            CreatePicker(Div(_("tss-picker-container")));
+            CreatePicker(pickerContainer);
         }
 
         public IEnumerable<TPickerItem> PickerItems           => _pickerItems;
@@ -74,7 +82,14 @@ namespace Tesserae.Components
             return this;
         }
 
-        public event EventHandler<TPickerItem> OnItemSelected;
+        public event EventHandler<TPickerItem> onItemSelected;
+
+        public Picker<TPickerItem> OnItemSelected(EventHandler<TPickerItem> eventHandler)
+        {
+            onItemSelected += eventHandler;
+
+            return this;
+        }
 
         public HTMLElement Render() => _container;
 
@@ -83,12 +98,14 @@ namespace Tesserae.Components
             _container.appendChild(pickerContainer);
 
             AttachTextBoxOnInputEvent();
+            AttachTextBoxOnFocusEvent();
+            AttachTextBoxOnBlurEvent();
 
             _textBoxElement = _textBox.Render();
 
             pickerContainer.appendChild(_textBoxElement);
 
-            if (_renderSuggestionsInline)
+            if (_renderSelectionsInline)
             {
                 pickerContainer.insertBefore(_selectionsElement, _textBoxElement);
             }
@@ -99,6 +116,10 @@ namespace Tesserae.Components
         }
 
         private void AttachTextBoxOnInputEvent() => _textBox.OnInput(OnTextBoxInput);
+
+        private void AttachTextBoxOnFocusEvent() => _textBox.OnFocus(OnTextBoxInput);
+
+        private void AttachTextBoxOnBlurEvent()  => _textBox.OnBlur(OnTextBoxBlur);
 
         private void OnTextBoxInput(TextBox textBox, Event @event)
         {
@@ -113,6 +134,15 @@ namespace Tesserae.Components
             var suggestions = GetSuggestions(textBox.Text);
 
             CreateSuggestions(suggestions);
+        }
+
+        private void OnTextBoxBlur(TextBox textBox, Event @event)
+        {
+            window.setTimeout(_ =>
+            {
+                ClearSuggestions();
+                _suggestionsLayer.Hide();
+            }, 1000);
         }
 
         private IEnumerable<TPickerItem> GetPickerItems()
@@ -158,8 +188,9 @@ namespace Tesserae.Components
             if (!_suggestionsLayer.IsVisible)
             {
                 _suggestionsLayer.Show();
-                PositionSuggestions();
             }
+
+            PositionSuggestions();
         }
 
         private void ClearSuggestions()
@@ -195,7 +226,7 @@ namespace Tesserae.Components
 
             _selectionsElement.appendChild(selectionContainerElement);
 
-            OnItemSelected?.Invoke(this, selectedItem);
+            onItemSelected?.Invoke(this, selectedItem);
         }
 
         private void AttachRemoveSelectionElementOnClickEvent(HTMLElement removeSelectionElement, HTMLElement selectionContainerElement, TPickerItem selectedItem)
@@ -219,13 +250,23 @@ namespace Tesserae.Components
 
         private void PositionSuggestions()
         {
-            var clientRect = (ClientRect)_textBoxElement.getBoundingClientRect();
-
-            _suggestionsLayer.SuggestionsContainer.style.top   = $"{(clientRect.bottom + 10).px()}";
-            _suggestionsLayer.SuggestionsContainer.style.left  = clientRect.left.px().ToString();
-            _suggestionsLayer.SuggestionsContainer.style.width = $"{(_textBoxElement.clientWidth / 2).px()}";
-
             _suggestionsLayer.SuggestionsContainer.classList.add("tss-layer-picker-suggestions");
+
+            var suggestionsContentClientHeight = _suggestionsLayer.SuggestionsContent.clientHeight;
+            var textBoxClientRect              = (ClientRect)_textBoxElement.getBoundingClientRect();
+            var bodyClientRect                 = (ClientRect)document.body.getBoundingClientRect();
+
+            if (suggestionsContentClientHeight + textBoxClientRect.bottom + 10 >= bodyClientRect.height)
+            {
+                _suggestionsLayer.SuggestionsContainer.style.top = $"{(textBoxClientRect.bottom - suggestionsContentClientHeight - textBoxClientRect.height - 10).px()}";
+            }
+            else
+            {
+                _suggestionsLayer.SuggestionsContainer.style.top = $"{(textBoxClientRect.bottom + 10).px()}";
+            }
+
+            _suggestionsLayer.SuggestionsContainer.style.left  = textBoxClientRect.left.px().ToString();
+            _suggestionsLayer.SuggestionsContainer.style.width = $"{(textBoxClientRect.width / 2).px()}";
         }
 
         private class SuggestionsLayer : Layer

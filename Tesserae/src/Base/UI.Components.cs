@@ -190,10 +190,10 @@ namespace Tesserae
         public static DetailsListColumn DetailsListColumn(string title, UnitSize width, bool isRowHeader = false, bool enableColumnSorting = false, string sortingKey = null, Action onColumnClick = null) => new DetailsListColumn(title, width, isRowHeader, enableColumnSorting, sortingKey, onColumnClick);
 
         public static Picker<TPickerItem> Picker<TPickerItem>(int maximumAllowedSelections = 5, bool
-        duplicateSelectionsAllowed = false, int suggestionsTolerance = 2,  bool renderSuggestionsInline = true,
+        duplicateSelectionsAllowed = false, int suggestionsTolerance = 2,  bool renderSelectionsInline = true,
         string suggestionsTitleText = null) where TPickerItem : class,
         IPickerItem => new Picker<TPickerItem>(maximumAllowedSelections, duplicateSelectionsAllowed,
-        suggestionsTolerance, renderSuggestionsInline, suggestionsTitleText);
+        suggestionsTolerance, renderSelectionsInline, suggestionsTitleText);
 
         public static VisibilitySensor VisibilitySensor(Action<VisibilitySensor> onVisible, bool singleCall = true, IComponent message = null) => new VisibilitySensor(onVisible, singleCall, message);
     }

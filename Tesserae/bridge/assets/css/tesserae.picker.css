@@ -1,9 +1,12 @@
 .tss-picker-container {
-    display: inline-flex;
     width: 100%;
 }
 
-.tss-picker-container .tss-textbox-container {
+.tss-picker-container-inline-selections {
+    display: inline-flex;
+}
+
+.tss-picker-container-inline-selections .tss-textbox-container {
     flex-grow: 1;
     flex-shrink: 1;
 }
@@ -20,13 +23,27 @@
     -webkit-font-smoothing: antialiased;
 }
 
-.tss-picker-suggestions * {
+.tss-picker-suggestions .tss-picker-suggestion {
     padding: 5px 10px;
     position: relative;
     text-align: center;
 }
 
-.tss-picker-selections {
+.tss-picker-selections-inline {
     align-items: center;
     display: inline-flex;
+}
+
+.tss-picker-selections-inline .tss-picker-selection {
+    padding-right: 5px;
+}
+
+.tss-picker-selections-inline .tss-picker-selection i {
+    padding-left: 5px;
+}
+
+.tss-picker-selections .tss-picker-selection i {
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 5px;
 }
