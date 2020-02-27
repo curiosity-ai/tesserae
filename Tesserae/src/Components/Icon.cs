@@ -7,7 +7,7 @@ namespace Tesserae.Components
     {
         private readonly HTMLElement _icon;
 
-        public Icon(string icon)    => _icon = I(_(icon));
+        public Icon(string icon) => _icon = I(_(icon));
 
         public string Foreground { get => _icon.style.color; set => _icon.style.color = value; }
 

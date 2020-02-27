@@ -60,6 +60,8 @@ namespace Tesserae
 
         public static Card Card(IComponent content) => new Card(content);
 
+        public static BackgroundArea BackgroundArea(IComponent content) => new BackgroundArea(content);
+
         public static Defer Defer(Func<Task<IComponent>> asyncGenerator) => new Defer(asyncGenerator);
 
         public static Defer DeferSync(Func<IComponent> syncGenerator) => new Defer(() => Task.FromResult<IComponent>(syncGenerator()));
