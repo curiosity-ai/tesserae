@@ -64,7 +64,7 @@ namespace Tesserae.Tests.Samples
             {
                 name = ToValidName(name.Substring(3));
                 Value = name + " " + icon.ToString();
-                component = Stack().Horizontal().Children(Icon(icon, size: LineAwesomeSize.x2).MinWidth(34.px()).AlignCenter(), TextBlock($"{name}").Title(icon.ToString()).Wrap().AlignCenter()).PaddingBottom(4.px());
+                component = Stack().Horizontal().Children(Icon(icon, size: TextSize.Medium).MinWidth(34.px()).AlignCenter(), TextBlock($"{name}").Title(icon.ToString()).Wrap().AlignCenter()).PaddingBottom(4.px());
             }
 
             public bool IsMatch(string searchTerm) => Value.Contains(searchTerm);
