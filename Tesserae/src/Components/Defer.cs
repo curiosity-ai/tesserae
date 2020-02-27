@@ -14,6 +14,7 @@ namespace Tesserae.Components
         private Func<Task<IComponent>> _asyncGenerator;
         private IComponent _loadMessage;
         internal HTMLElement _container;
+        private int _delay = 1;
 
         public Defer(Func<Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
         {
@@ -27,7 +28,13 @@ namespace Tesserae.Components
         {
             _needsRefresh = true;
             window.clearTimeout(_refreshTimeout);
-            _refreshTimeout = window.setTimeout((t) => TriggerRefresh(), 1);
+            _refreshTimeout = window.setTimeout((t) => TriggerRefresh(), _delay > 0 ? _delay : 1);
+        }
+
+        public Defer Debounce(int milliseconds)
+        {
+            _delay = milliseconds;
+            return this;
         }
 
         public dom.HTMLElement Render()
