@@ -157,6 +157,12 @@ namespace Tesserae.Components
             return this;
         }
 
+        public TextBox ClearText()
+        {
+            SetText(string.Empty);
+            return this;
+        }
+
         public TextBox SetPlaceholder(string placeholder)
         {
             Placeholder = placeholder;

@@ -409,7 +409,17 @@ namespace Tesserae.Components
         public Button SetIcon(string icon, string color = "")
         {
             Icon = icon;
-            if(_iconSpan is object)
+            if (_iconSpan is object)
+            {
+                _iconSpan.style.color = color;
+            }
+            return this;
+        }
+
+        public Button SetIcon(LineAwesome icon, LineAwesomeSize size = LineAwesomeSize.x1, LineAwesomeWeight weight = LineAwesomeWeight.Light , string color = "")
+        {
+            Icon = $"{weight} {icon} {size}";
+            if (_iconSpan is object)
             {
                 _iconSpan.style.color = color;
             }

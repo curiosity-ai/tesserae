@@ -98,15 +98,6 @@ namespace Tesserae.Components
             return component;
         }
 
-        public static T RemoveInvisibleScroll<T>(this T component) where T : IComponent
-        {
-            var element = component.Render();
-            RemoveInvisibleScroll(element);
-            element.style.setProperty("overflow-y", "auto");
-            element.classList.remove("hide-scrollbar");
-            return component;
-        }
-
         public static HTMLElement InvisibleScroll(this HTMLElement element)
         {
             EnableInvisibleScroll(element);
