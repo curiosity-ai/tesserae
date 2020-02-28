@@ -32,15 +32,15 @@
 
 .tss-detailslist-list-item-container {
     border-top: 1px;
-    border-top-color: var(--tss-default-border-color);
+    border-top-color: var(--tss-default-separator-color);
     border-top-style: solid;
 }
 
-.tss-detailslist-list-item-container:last-of-type {
-    border-bottom: 1px;
-    border-bottom-color: var(--tss-default-border-color);
-    border-bottom-style: solid;
-}
+    .tss-detailslist-list-item-container:last-of-type {
+        border-bottom: 1px;
+        border-bottom-color: var(--tss-default-separator-color);
+        border-bottom-style: solid;
+    }
 
 .tss-detailslist-list-item-container:hover {
     background-color: var(--tss-default-background-hover-color);
