@@ -6,9 +6,9 @@ using static Retyped.dom;
 
 namespace Tesserae.Components
 {
-    public sealed class Picker<TPickerItem> : IComponent where TPickerItem : class, IPickerItem
+    public sealed class Picker<TPickerItem> : IComponent, IObservableListComponent<TPickerItem>  where TPickerItem : class, IPickerItem
     {
-        private readonly List<TPickerItem> _pickerItems;
+        private readonly ObservableList<TPickerItem> _pickerItems = new ObservableList<TPickerItem>();
         private readonly HTMLElement _container;
         private readonly TextBox _textBox;
         private readonly SuggestionsLayer _suggestionsLayer;
@@ -37,12 +37,16 @@ namespace Tesserae.Components
                 _selectionsElement.classList.add("tss-picker-selections-inline");
             }
 
-            _pickerItems          = new List<TPickerItem>();
             _container            = DIV();
             _textBox              = TextBox();
             _suggestionsLayer     = new SuggestionsLayer(new Suggestions(suggestionsTitleText));
 
             CreatePicker(pickerContainer);
+        }
+
+        public IObservable<IReadOnlyList<TPickerItem>> AsObservable()
+        {
+            return _pickerItems;
         }
 
         public IEnumerable<TPickerItem> PickerItems           => _pickerItems;
