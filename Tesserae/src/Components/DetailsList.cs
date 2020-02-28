@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Tesserae.HTML;
 using static Tesserae.UI;
 using static Retyped.dom;
 using static Retyped.dom.Node;
@@ -22,14 +21,25 @@ namespace Tesserae.Components
         private string _previousColumnSortingKey;
         private LineAwesome _currentLineAwesomeSortingIcon;
         private HTMLElement _columnSortingIcon;
+        private Func<IComponent> _emptyListMessageGenerator;
 
         public HTMLElement StylingContainer => _listContainer;
 
         public bool PropagateToStackItemParent => false;
 
-        public DetailsList(bool small = false)
+        public DetailsList(bool small = false, params IDetailsListColumn[] columns)
         {
-            _columns        = new List<IDetailsListColumn>();
+            if (columns == null)
+            {
+                throw new ArgumentNullException(nameof(columns));
+            }
+
+            if (!columns.Any())
+            {
+                throw new ArgumentException(nameof(columns));
+            }
+
+            _columns        = columns.ToList();
             _componentCache = new ComponentCache<TDetailsListItem>(CreateListItem);
             _listContainer = Div(_("tss-detailslist").WithRole("grid"));
 
@@ -54,39 +64,22 @@ namespace Tesserae.Components
             return gridCellHtmlElement;
         }
 
-        public DetailsList<TDetailsListItem> WithColumn<TDetailsListColumn>(TDetailsListColumn column) where TDetailsListColumn : class, IDetailsListColumn
+        public DetailsList<TDetailsListItem> WithEmptyMessage(Func<IComponent> emptyListMessageGenerator)
         {
-            if (column == null)
-            {
-                throw new ArgumentNullException(nameof(column));
-            }
+            _emptyListMessageGenerator = emptyListMessageGenerator ?? throw new ArgumentNullException(nameof(emptyListMessageGenerator));
 
-            return AddColumns(column);
-        }
-
-        public DetailsList<TDetailsListItem> WithColumns<TDetailsListColumn>(IEnumerable<TDetailsListColumn> columns) where TDetailsListColumn : class, IDetailsListColumn
-        {
-            if (columns == null)
-            {
-                throw new ArgumentNullException(nameof(columns));
-            }
-
-            var columnsArray = columns.ToArray();
-
-            if (columnsArray.Any())
-            {
-                throw new ArgumentException(nameof(columns));
-            }
-
-            return AddColumns(columnsArray);
+            return this;
         }
 
         public DetailsList<TDetailsListItem> WithListItems(params TDetailsListItem[] listItems)
         {
-            _componentCache.Clear();
             _componentCache.AddComponents(listItems);
 
-            if (_listAlreadyCreated)
+            if (!_componentCache.HasComponents && _emptyListMessageGenerator != null)
+            {
+                _listItemsContainer.appendChild(_emptyListMessageGenerator());
+            }
+            else if (_listAlreadyCreated)
             {
                 RefreshListItems();
             }
@@ -121,26 +114,8 @@ namespace Tesserae.Components
             return _container;
         }
 
-        private DetailsList<TDetailsListItem> AddColumns<TDetailsListColumn>(params TDetailsListColumn[] columns) where TDetailsListColumn : class, IDetailsListColumn
-        {
-            if (_listAlreadyCreated)
-            {
-                throw new InvalidOperationException("Can not add columns to the component after the " +
-                                                    "existing column headers have been created");
-            }
-
-            _columns.AddRange(columns);
-
-            return this;
-        }
-
         private void CreateList()
         {
-            if (!_columns.Any())
-            {
-                throw new InvalidOperationException("Can not create component without columns");
-            }
-
             var totalWidth = _columns.Sum(detailsListColumn => detailsListColumn.Width.Size + 4);
 
             var detailsListHeader          = Div(_("tss-detailslist-header").WithRole("presentation"));
@@ -165,8 +140,11 @@ namespace Tesserae.Components
 
         private void RefreshListItems()
         {
-            _listItemsContainer.RemoveChildElements();
-            _listItemsContainer.AppendChildren(_componentCache.RetrieveAllComponentsFromCache().ToArray());
+            if (_componentCache.HasComponents)
+            {
+                _listItemsContainer.RemoveChildElements();
+                _listItemsContainer.AppendChildren(_componentCache.RetrieveAllComponentsFromCache().ToArray());
+            }
         }
 
         private void CreateColumnHeader(IDetailsListColumn column, Interface detailsListHeader)
@@ -216,11 +194,6 @@ namespace Tesserae.Components
 
             var detailsListItemContainer = Div(_("tss-detailslist-list-item-container").WithRole("presentation"));
             var gridCellHtmlElements     = detailsListItem.Render(_columns, CreateGridCell).ToArray();
-
-            if (_componentCache.ComponentsCount == detailsListItemNumber)
-            {
-                var lastGridCellHtmlElement = gridCellHtmlElements.Last();
-            }
 
             if (detailsListItem.EnableOnListItemClickEvent)
             {

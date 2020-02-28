@@ -52,10 +52,13 @@ namespace Tesserae
 
         public ComponentCache<TComponent> SortComponents(Comparison<TComponent> comparison)
         {
-            ComponentsAndKeys
-                .Sort(
-                    (componentAndKey, otherComponentAndKey)
-                        => comparison(componentAndKey.Component, otherComponentAndKey.Component));
+            if (HasComponents)
+            {
+                ComponentsAndKeys
+                    .Sort(
+                        (componentAndKey, otherComponentAndKey)
+                            => comparison(componentAndKey.Component, otherComponentAndKey.Component));
+            }
 
             return this;
         }
