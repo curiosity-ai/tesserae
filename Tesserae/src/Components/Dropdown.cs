@@ -340,7 +340,10 @@ namespace Tesserae.Components
                     _selectedChildren.Clear();
                 }
 
-                _selectedChildren.Add(e);
+                if (!_selectedChildren.Contains(e))
+                {
+                    _selectedChildren.Add(e);
+                }
 
                 Hide();
             }
