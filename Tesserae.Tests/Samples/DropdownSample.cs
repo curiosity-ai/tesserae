@@ -55,20 +55,20 @@ namespace Tesserae.Tests.Samples
                 DropdownItem("2-4"),
                 DropdownItem("2-5")
                 )),
-            Label("Multi-select").SetContent(Dropdown().Multi().Items(
+            Label("Multi-select with custom on-selected text").SetContent(Dropdown().Multi().Items(
                 DropdownItem("Header 1").Header(),
-                DropdownItem("1-1"),
-                DropdownItem("1-2").Selected(),
-                DropdownItem("1-3"),
-                DropdownItem("1-4").Disabled(),
-                DropdownItem("1-5"),
+                DropdownItem("1-1", "H1-1-1"),
+                DropdownItem("1-2", "H1-1-2").Selected(),
+                DropdownItem("1-3", "H1-1-3"),
+                DropdownItem("1-4", "H1-1-4").Disabled(),
+                DropdownItem("1-5", "H1-1-5"),
                 DropdownItem().Divider(),
                 DropdownItem("Header 2").Header(),
-                DropdownItem("2-1"),
-                DropdownItem("2-2"),
-                DropdownItem("2-3"),
-                DropdownItem("2-4").Selected(),
-                DropdownItem("2-5")
+                DropdownItem("2-1", "H2-2-1"),
+                DropdownItem("2-2", "H2-2-2"),
+                DropdownItem("2-3", "H2-2-3"),
+                DropdownItem("2-4", "H2-2-4").Selected(),
+                DropdownItem("2-5", "H2-2-5")
                 )),
             Label("Validation").SetContent(d.Items(
                 DropdownItem("Header 1").Header(),

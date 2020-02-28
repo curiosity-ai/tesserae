@@ -373,7 +373,7 @@ namespace Tesserae.Components
             for (int i = 0; i < SelectedItems.Length; i++)
             {
                 Item sel = SelectedItems[i];
-                var clone = (HTMLElement)(sel.Render().cloneNode(true));
+                var clone = (HTMLElement)(sel.RenderSelected());
                 clone.classList.remove("tss-dropdown-item");
                 clone.classList.remove("selected");
                 clone.classList.add("tss-dropdown-item-on-box");
@@ -432,19 +432,30 @@ namespace Tesserae.Components
             Divider
         }
 
-        public class Item : ComponentBase<Item, HTMLButtonElement>
+        public class Item : IComponent
         {
-            public Item(string text = string.Empty)
+
+            private readonly HTMLElement InnerElement;
+            private readonly HTMLElement SelectedElement;
+            public Item(string text, string selectedText = null) : this(TextBlock(text), TextBlock(string.IsNullOrEmpty(selectedText) ? text : selectedText) )
             {
-                InnerElement = Button(_("tss-dropdown-item", text: text));
-                InnerElement.addEventListener("click", OnItemClick);
-                InnerElement.addEventListener("mouseover", OnItemMouseOver);
             }
 
-            public Item(IComponent content)
+            public Item(IComponent content, IComponent selectedContent)
             {
                 InnerElement = Button(_("tss-dropdown-item"));
                 InnerElement.appendChild(content.Render());
+                
+                if(selectedContent is null || selectedContent == content)
+                {
+                    SelectedElement = (HTMLElement)InnerElement.cloneNode(true);
+                }
+                else
+                {
+                    SelectedElement = Button(_("tss-dropdown-item"));
+                    SelectedElement.appendChild(selectedContent.Render());
+                }
+
                 InnerElement.addEventListener("click", OnItemClick);
                 InnerElement.addEventListener("mouseover", OnItemMouseOver);
             }
@@ -523,9 +534,14 @@ namespace Tesserae.Components
                 set { InnerElement.innerText = value; }
             }
 
-            public override HTMLElement Render()
+            public HTMLElement Render()
             {
                 return InnerElement;
+            }
+
+            public HTMLElement RenderSelected()
+            {
+                return SelectedElement;
             }
 
             public Item Header()
@@ -552,7 +568,7 @@ namespace Tesserae.Components
 
             public Item OnSelected(EventHandler<Item> onSelected, EventHandler<Item> onDeselected = null)
             {
-                this.onSelectedChange += (s,e) => 
+                onSelectedChange += (s,e) => 
                 {
                     if(e.IsSelected)
                     {

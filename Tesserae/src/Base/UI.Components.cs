@@ -178,9 +178,11 @@ namespace Tesserae
 
         public static Dropdown Dropdown() => new Dropdown();
 
-        public static Dropdown.Item DropdownItem(string text = string.Empty) => new Dropdown.Item(text);
+        public static Dropdown.Item DropdownItem() => new Dropdown.Item("");
 
-        public static Dropdown.Item DropdownItem(IComponent component) => new Dropdown.Item(component);
+        public static Dropdown.Item DropdownItem(string text, string selectedText = string.Empty) => new Dropdown.Item(text, selectedText);
+
+        public static Dropdown.Item DropdownItem(IComponent content, IComponent selectedContent = null) => new Dropdown.Item(content, selectedContent);
 
         public static ContextMenu ContextMenu() => new ContextMenu();
 

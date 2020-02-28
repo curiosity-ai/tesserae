@@ -246,7 +246,7 @@
 }
 
 .tss-dropdown .tss-dropdown-item-on-box:not(:first-child) {
-    margin-left: 4px;
+    margin-left: 2px;
 }
 
 .tss-dropdown .tss-dropdown-item-on-box:not(:first-child)::before {
@@ -254,11 +254,14 @@
     padding-right:6px;
 }
 
-.tss-dropdown-item-on-box > .tss-btn {
+.tss-dropdown-item-on-box {
     min-width: unset;
     background: transparent;
     border: none;
     border-width: 0px !important;
     padding: 0px;
     margin: 0px;
+    display: inline-flex;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
