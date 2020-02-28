@@ -8,7 +8,7 @@ using Retyped;
 
 namespace Tesserae.Components
 {
-    public class Dropdown : Layer, IContainer<Dropdown, Dropdown.Item>, ICanValidate<Dropdown>
+    public class Dropdown : Layer, IContainer<Dropdown, Dropdown.Item>, ICanValidate<Dropdown>, IObservableListComponent<Dropdown.Item>
     {
         private readonly HTMLElement _childContainer;
 
@@ -20,7 +20,7 @@ namespace Tesserae.Components
         private bool _isChanged;
         private bool _callSelectOnAdd = true;
 
-        private List<Item> _selectedChildren;
+        private ObservableList<Item> _selectedChildren;
 
         public Dropdown()
         {
@@ -35,7 +35,7 @@ namespace Tesserae.Components
             {
                 if (!IsVisible) Show();
             };
-            _selectedChildren = new List<Item>();
+            _selectedChildren = new ObservableList<Item>();
         }
 
         public Dropdown SuppressSelectedOnAddingItem()
@@ -412,6 +412,11 @@ namespace Tesserae.Components
                     (_childContainer.children.First(x => (x as HTMLElement).tabIndex != -1) as HTMLElement).focus();
                 }
             }
+        }
+
+        public IObservable<IReadOnlyList<Item>> AsObservable()
+        {
+            return _selectedChildren;
         }
 
         public enum SelectMode

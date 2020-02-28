@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Tesserae.Components
 {
-    public class EditableArea : ComponentBase<EditableArea, HTMLTextAreaElement>, IHasTextSize
+    public class EditableArea : ComponentBase<EditableArea, HTMLTextAreaElement>, IHasTextSize, IObservableComponent<string>
     {
         protected readonly HTMLDivElement _container;
 
@@ -15,6 +15,8 @@ namespace Tesserae.Components
         protected          HTMLElement    _cancelEditIcon;
         protected readonly HTMLDivElement _editView;
         protected readonly HTMLDivElement _labelView;
+
+        private readonly Observable<string> _observable = new Observable<string>();
 
         public delegate bool SaveEditHandler(EditableArea sender, string newValue);
 
@@ -175,6 +177,7 @@ namespace Tesserae.Components
                 if (onSave is null || onSave(this, newValue))
                 {
                     _labelText.textContent = newValue;
+                    _observable.Value = newValue;
                     IsEditingMode = false;
                 }
                 else
@@ -195,12 +198,19 @@ namespace Tesserae.Components
                 _labelText.textContent = text;
             }
 
+            _observable.Value = text;
+
             return this;
         }
         
         public override HTMLElement Render()
         {
             return _container;
+        }
+
+        public IObservable<string> AsObservable()
+        {
+            return _observable;
         }
     }
 }
