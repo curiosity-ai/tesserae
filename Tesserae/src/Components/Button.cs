@@ -416,7 +416,7 @@ namespace Tesserae.Components
             return this;
         }
 
-        public Button SetIcon(LineAwesome icon, TextSize size = TextSize.Small, LineAwesomeWeight weight = LineAwesomeWeight.Light , string color = "")
+        public Button SetIcon(LineAwesome icon, TextSize size = TextSize.Medium, LineAwesomeWeight weight = LineAwesomeWeight.Light , string color = "")
         {
             Icon = $"{weight} {icon} {size}";
             if (_iconSpan is object)

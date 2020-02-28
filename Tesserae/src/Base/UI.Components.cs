@@ -114,7 +114,7 @@ namespace Tesserae
 
         public static Icon Icon(string icon, string color = null) => new Icon(icon).Foreground(color ?? "");
 
-        public static Icon Icon(LineAwesome icon, LineAwesomeWeight weight = LineAwesomeWeight.Light, TextSize size = TextSize.Small, string color = null) => new Icon($"{weight} {icon} tss-fontsize-{size.ToString().ToLower()}").Foreground(color ?? "");
+        public static Icon Icon(LineAwesome icon, LineAwesomeWeight weight = LineAwesomeWeight.Light, TextSize size = TextSize.Medium, string color = null) => new Icon($"{weight} {icon} tss-fontsize-{size.ToString().ToLower()}").Foreground(color ?? "");
 
         public static HorizontalSeparator HorizontalSeparator(string text) => new HorizontalSeparator(text);
 
