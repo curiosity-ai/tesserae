@@ -9,7 +9,7 @@ namespace Tesserae.Components
     public class ChoiceGroup : ComponentBase<ChoiceGroup, HTMLDivElement>, IContainer<ChoiceGroup, ChoiceGroup.Option>, IObservableComponent<ChoiceGroup.Option>
     {
         private readonly TextBlock _header;
-        private Observable<Option> _selectedOption;
+        private readonly Observable<Option> _selectedOption = new Observable<Option>();;
 
         public ChoiceGroup(string label = "Pick one")
         {
