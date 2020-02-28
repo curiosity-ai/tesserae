@@ -46,11 +46,14 @@ namespace Tesserae.Tests.Samples
                         Stack()
                             .Children(
                                 SampleTitle("Usage"),
-                                TextBlock("Basic List with Virtualization")
+                                TextBlock("Virtualized List")
                                     .Medium()
                                     .PaddingBottom(16.px()),
-                                VirtualizedList(
-                                    GetALotOfItems())));
+                                VirtualizedList().WithListItems(GetALotOfItems()).PaddingBottom(32.px()),
+                                TextBlock("Virtualized List with Empty List Message")
+                                    .Medium()
+                                    .PaddingBottom(16.px()),
+                                VirtualizedList().WithEmptyMessage(() => TextBlock("No List Items")).WithListItems(Enumerable.Empty<IComponent>())));
         }
 
         public HTMLElement Render()

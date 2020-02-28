@@ -65,23 +65,23 @@ namespace Tesserae
         public static Defer DeferSync(Func<IComponent> syncGenerator) => new Defer(() => Task.FromResult<IComponent>(syncGenerator()));
 
         public static Defer Defer<T1>(IObservable<T1> o1, Func<T1, Task<IComponent>> asyncGenerator, IComponent loadMessage = null) => Components.Defer.Observe(o1, asyncGenerator, loadMessage);
-        
+
         public static Defer Defer<T1, T2>(IObservable<T1> o1, IObservable<T2> o2, Func<T1, T2, Task<IComponent>> asyncGenerator, IComponent loadMessage = null) => Components.Defer.Observe(o1, o2, asyncGenerator, loadMessage);
-        
+
         public static Defer Defer<T1, T2, T3>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, Func<T1, T2, T3, Task<IComponent>> asyncGenerator, IComponent loadMessage = null) => Components.Defer.Observe(o1, o2, o3, asyncGenerator, loadMessage);
-        
+
         public static Defer Defer<T1, T2, T3, T4>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, Func<T1, T2, T3, T4, Task<IComponent>> asyncGenerator, IComponent loadMessage = null) => Components.Defer.Observe(o1, o2, o3, o4, asyncGenerator, loadMessage);
-        
+
         public static Defer Defer<T1, T2, T3, T4, T5>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, Func<T1, T2, T3, T4, T5, Task<IComponent>> asyncGenerator, IComponent loadMessage = null) => Components.Defer.Observe(o1, o2, o3, o4, o5, asyncGenerator, loadMessage);
-        
+
         public static Defer Defer<T1, T2, T3, T4, T5, T6>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, IObservable<T6> o6, Func<T1, T2, T3, T4, T5, T6, Task<IComponent>> asyncGenerator, IComponent loadMessage = null) => Components.Defer.Observe(o1, o2, o3, o4, o5, o6, asyncGenerator, loadMessage);
-        
+
         public static Defer Defer<T1, T2, T3, T4, T5, T6, T7>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, IObservable<T6> o6, IObservable<T7> o7, Func<T1, T2, T3, T4, T5, T6, T7, Task<IComponent>> asyncGenerator, IComponent loadMessage = null) => Components.Defer.Observe(o1, o2, o3, o4, o5, o6, o7, asyncGenerator, loadMessage);
-        
+
         public static Defer Defer<T1, T2, T3, T4, T5, T6, T7, T8>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, IObservable<T6> o6, IObservable<T7> o7, IObservable<T8> o8, Func<T1, T2, T3, T4, T5, T6, T7, T8, Task<IComponent>> asyncGenerator, IComponent loadMessage = null) => Components.Defer.Observe(o1, o2, o3, o4, o5, o6, o7, o8, asyncGenerator, loadMessage);
-        
+
         public static Defer Defer<T1, T2, T3, T4, T5, T6, T7, T8, T9>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, IObservable<T6> o6, IObservable<T7> o7, IObservable<T8> o8, IObservable<T9> o9, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, Task<IComponent>> asyncGenerator, IComponent loadMessage = null) => Components.Defer.Observe(o1, o2, o3, o4, o5, o6, o7, o8, o9, asyncGenerator, loadMessage);
-        
+
         public static Defer Defer<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, IObservable<T6> o6, IObservable<T7> o7, IObservable<T8> o8, IObservable<T9> o9, IObservable<T10> o10, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, Task<IComponent>> asyncGenerator, IComponent loadMessage = null) => Components.Defer.Observe(o1, o2, o3, o4, o5, o6, o7, o8, o9, o10, asyncGenerator, loadMessage);
 
         public static Stack Stack(Stack.Orientation orientation = Components.Stack.Orientation.Vertical) => new Stack(orientation);
@@ -196,7 +196,7 @@ namespace Tesserae
 
         public static SplitView SplitView() => new SplitView();
 
-        public static VirtualizedList VirtualizedList(IEnumerable<IComponent> components, int rowsPerPage = 4, int columnsPerRow = 4) => new VirtualizedList(components, rowsPerPage, columnsPerRow);
+        public static VirtualizedList VirtualizedList(int rowsPerPage = 4, int columnsPerRow = 4) => new VirtualizedList(rowsPerPage, columnsPerRow);
 
         public static SearchableList<T> SearchableList<T>(IEnumerable<T> components, params UnitSize[] columns) where T : ISearchableItem => new SearchableList<T>(components.ToArray(), columns);
 
