@@ -2,12 +2,12 @@
 
 namespace Tesserae
 {
-    internal interface IObservableComponent<T>
+    public interface IObservableComponent<T>
     {
         IObservable<T> AsObservable();
     }
 
-    internal interface IObservableListComponent<T>
+    public interface IObservableListComponent<T>
     {
         IObservable<IReadOnlyList<T>> AsObservable();
     }
