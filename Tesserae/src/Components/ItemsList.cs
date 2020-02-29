@@ -9,12 +9,14 @@ namespace Tesserae.Components
     public class ItemsList: IComponent, ISpecialCaseStyling
     {
         private readonly Grid _grid;
+        private readonly Stack _stack;
+        private readonly UnitSize _maxStackItemSize;
         private readonly Defer _defered;
         private Func<IComponent> _emptyListMessageGenerator;
 
         public ObservableList<IComponent> Items { get; }
 
-        public HTMLElement StylingContainer    => _grid.StylingContainer;
+        public HTMLElement StylingContainer    => _grid?.StylingContainer ?? _stack.StylingContainer;
 
         public bool PropagateToStackItemParent => false;
 
@@ -25,7 +27,16 @@ namespace Tesserae.Components
         public ItemsList(ObservableList<IComponent> items, params UnitSize[] columns)
         {
             Items                      = items ?? throw new ArgumentNullException(nameof(items));
-            _grid                      = Grid(columns);
+            
+            if(columns.Length < 2)
+            {
+                _stack = Stack().Horizontal().Wrap();
+                _maxStackItemSize = columns.FirstOrDefault() ?? 100.percent();
+            }
+            else
+            {
+                _grid = Grid(columns);
+            }
             _emptyListMessageGenerator = null;
 
             _defered = Defer.Observe(Items, observedItems =>
@@ -34,16 +45,40 @@ namespace Tesserae.Components
                 {
                     if (_emptyListMessageGenerator is object)
                     {
-                        return _grid.Children(_emptyListMessageGenerator().GridColumnStrech()).AsTask();
+                        if(_grid is object)
+                        {
+                            return _grid.Children(_emptyListMessageGenerator().GridColumnStrech()).AsTask();
+                        }
+                        else
+                        {
+                            return _stack.Children(_emptyListMessageGenerator().WidthStretch().HeightStretch()).AsTask();
+                        }
                     }
                     else
                     {
-                        _grid.Clear();
-                        return _grid.AsTask();
+                        if(_grid is object)
+                        {
+                            _grid.Clear();
+                            return _grid.AsTask();
+                        }
+                        else
+                        {
+                            _stack.Clear();
+                            return _stack.AsTask();
+                        }
                     }
                 }
-
-                return _grid.Children(Items.ToArray()).AsTask();
+                else
+                {
+                    if(_grid is object)
+                    {
+                        return _grid.Children(Items.ToArray()).AsTask();
+                    }
+                    else
+                    {
+                        return _stack.Children(Items.Select(i => i.Width(_maxStackItemSize)).ToArray()).AsTask();
+                    }
+                }
             });
         }
 
