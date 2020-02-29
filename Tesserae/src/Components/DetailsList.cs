@@ -27,7 +27,26 @@ namespace Tesserae.Components
 
         public bool PropagateToStackItemParent => false;
 
-        public DetailsList(bool small = false, params IDetailsListColumn[] columns)
+        public bool IsSmall
+        {
+            get
+            {
+                return _listContainer.classList.contains("small");
+            }
+            set
+            {
+                if (value)
+                {
+                    _listContainer.classList.add("small");
+                }
+                else
+                {
+                    _listContainer.classList.remove("small");
+                }
+            }
+        }
+
+        public DetailsList(params IDetailsListColumn[] columns)
         {
             if (columns == null)
             {
@@ -43,14 +62,16 @@ namespace Tesserae.Components
             _componentCache = new ComponentCache<TDetailsListItem>(CreateListItem);
             _listContainer = Div(_("tss-detailslist").WithRole("grid"));
 
-            if (small)
-            {
-                _listContainer.classList.add("small");
-            }
 
             _container                     = DIV(_listContainer);
             _previousColumnSortingKey      = string.Empty;
             _currentLineAwesomeSortingIcon = LineAwesome.ArrowUp;
+        }
+
+        public DetailsList<TDetailsListItem> Small()
+        {
+            IsSmall = true;
+            return this;
         }
 
         private static HTMLDivElement CreateGridCell(IDetailsListColumn column, Func<HTMLElement> gridCellInnerHtmlExpression)
