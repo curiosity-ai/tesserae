@@ -23,7 +23,7 @@ namespace Tesserae.Components
 
         public SearchableList(ObservableList<T> items, UnitSize[] columns)
         {
-            Items = items;
+            Items = items ?? new ObservableList<T>();
             _searchBox = new SearchBox().Underlined().SetPlaceholder("Type to search").SearchAsYouType();
             _list = ItemsList(null, columns);
             _defered = Defer.Observe(Items, item =>

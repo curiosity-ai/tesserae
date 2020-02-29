@@ -26,9 +26,9 @@ namespace Tesserae.Components
 
         public ItemsList(ObservableList<IComponent> items, params UnitSize[] columns)
         {
-            Items                      = items ?? throw new ArgumentNullException(nameof(items));
-            
-            if(columns.Length < 2)
+            Items = items ?? new ObservableList<IComponent>();
+
+            if (columns.Length < 2)
             {
                 _stack = Stack().Horizontal().Wrap();
                 _maxStackItemSize = columns.FirstOrDefault() ?? 100.percent();
