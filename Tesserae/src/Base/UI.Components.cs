@@ -210,7 +210,7 @@ namespace Tesserae
 
         public static ItemsList ItemsList(ObservableList<IComponent> components, Func<IComponent> emptyListMessageGenerator = null, params UnitSize[] columns) => new ItemsList(components, emptyListMessageGenerator, columns);
 
-        public static DetailsList<TDetailsListItem> DetailsList<TDetailsListItem>(bool small = false, params IDetailsListColumn[] columns) where TDetailsListItem : class, IDetailsListItem<TDetailsListItem> => new DetailsList<TDetailsListItem>(small, columns);
+        public static DetailsList<TDetailsListItem> DetailsList<TDetailsListItem>(params IDetailsListColumn[] columns) where TDetailsListItem : class, IDetailsListItem<TDetailsListItem> => new DetailsList<TDetailsListItem>(columns);
 
         public static DetailsListIconColumn IconColumn(Icon icon, UnitSize width, bool enableColumnSorting = false, string sortingKey = null, Action onColumnClick = null) => new DetailsListIconColumn(icon, width, enableColumnSorting, sortingKey, onColumnClick);
 

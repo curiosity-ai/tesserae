@@ -79,11 +79,11 @@ namespace Tesserae.Tests.Samples
                                     .Medium()
                                     .PaddingBottom(16.px()),
                                 DetailsList<DetailsListSampleFileItem>(
-                                        columns: new IDetailsListColumn[] { IconColumn(Icon(LineAwesome.File), width: 32.px(),  enableColumnSorting: true, sortingKey: "FileIcon"),
+                                        IconColumn(Icon(LineAwesome.File), width: 32.px(),  enableColumnSorting: true, sortingKey: "FileIcon"),
                                         DetailsListColumn(title: "File Name",         width: 350.px(), enableColumnSorting: true, sortingKey: "FileName", isRowHeader: true),
                                         DetailsListColumn(title: "Date Modified",     width: 170.px(), enableColumnSorting: true, sortingKey: "DateModified"),
                                         DetailsListColumn(title: "Modified By",       width: 150.px(), enableColumnSorting: true, sortingKey: "ModifiedBy"),
-                                        DetailsListColumn(title: "File Size",         width: 120.px(), enableColumnSorting: true, sortingKey: "FileSize") })
+                                        DetailsListColumn(title: "File Size",         width: 120.px(), enableColumnSorting: true, sortingKey: "FileSize"))
                                     .Height(500.px())
                                     .WithListItems(GetDetailsListItems())
                                     .SortedBy("FileName")
@@ -92,12 +92,14 @@ namespace Tesserae.Tests.Samples
                                     .Medium()
                                     .PaddingBottom(16.px()),
                                 DetailsList<DetailsListSampleItemWithComponents>(
-                                        small: true,
-                                        columns: new IDetailsListColumn[] { IconColumn(Icon(LineAwesome.File), width: 32.px(),  enableColumnSorting: true, sortingKey: "FileIcon"),
-                                        DetailsListColumn(title: "File Name",         width: 350.px(), enableColumnSorting: true, sortingKey: "FileName", isRowHeader: true),
-                                        DetailsListColumn(title: "Date Modified",     width: 170.px(), enableColumnSorting: true, sortingKey: "DateModified"),
-                                        DetailsListColumn(title: "Modified By",       width: 150.px(), enableColumnSorting: true, sortingKey: "ModifiedBy"),
-                                        DetailsListColumn(title: "File Size",         width: 120.px(), enableColumnSorting: true, sortingKey: "FileSize") })
+                                    IconColumn(Icon(LineAwesome.Apple), width: 32.px(), enableColumnSorting: true, sortingKey: "Icon"),
+                                    DetailsListColumn(title: "CheckBox", width: 120.px()),
+                                    DetailsListColumn(title: "Name", width: 250.px(), isRowHeader: true),
+                                    DetailsListColumn(title: "Button", width: 150.px()),
+                                    DetailsListColumn(title: "ChoiceGroup", width: 400.px()),
+                                    DetailsListColumn(title: "Dropdown", width: 250.px()),
+                                    DetailsListColumn(title: "Toggle", width: 100.px()))
+                                    .Compact()
                                     .Height(500.px())
                                     .WithListItems(GetComponentDetailsListItems())
                                     .SortedBy("Name")
@@ -105,15 +107,16 @@ namespace Tesserae.Tests.Samples
                                 TextBlock("Details List With Empty List Message")
                                     .Medium()
                                     .PaddingBottom(16.px()),
-                                DetailsList<DetailsListSampleItemWithComponents>(
-                                        small: true,
-                                        columns: new IDetailsListColumn[] { IconColumn(Icon(LineAwesome.File), width: 32.px(),  enableColumnSorting: true, sortingKey: "FileIcon"),
+                                DetailsList<DetailsListSampleFileItem>(
+                                        IconColumn(Icon(LineAwesome.File), width: 32.px(),  enableColumnSorting: true, sortingKey: "FileIcon"),
                                         DetailsListColumn(title: "File Name",         width: 350.px(), enableColumnSorting: true, sortingKey: "FileName", isRowHeader: true),
                                         DetailsListColumn(title: "Date Modified",     width: 170.px(), enableColumnSorting: true, sortingKey: "DateModified"),
                                         DetailsListColumn(title: "Modified By",       width: 150.px(), enableColumnSorting: true, sortingKey: "ModifiedBy"),
-                                        DetailsListColumn(title: "File Size",         width: 120.px(), enableColumnSorting: true, sortingKey: "FileSize") })
+                                        DetailsListColumn(title: "File Size",         width: 120.px(), enableColumnSorting: true, sortingKey: "FileSize"))
+                                    .Compact()
+                                    .WithEmptyMessage(() => BackgroundArea(Card(TextBlock("Empty list").Padding(16.px()))).WidthStretch().HeightStretch() )
                                     .Height(500.px())
-                                    .WithListItems(Enumerable.Empty<DetailsListSampleItemWithComponents>().ToArray())
+                                    .WithListItems(new DetailsListSampleFileItem[0])
                                     .SortedBy("Name")));
         }
 
@@ -130,7 +133,6 @@ namespace Tesserae.Tests.Samples
                 {
                     new DetailsListSampleFileItem(
                         fileIcon: LineAwesome.FileWord,
-                        lineAwesomeSize: LineAwesomeWeight.Regular,
                         fileName: "Interesting File Name, quite long as you can see. In fact, let's make it " +
                                   "longer to see how the padding looks.",
                         dateModified: DateTime.Today.AddDays(-10),
@@ -138,14 +140,12 @@ namespace Tesserae.Tests.Samples
                         fileSize: 10),
                     new DetailsListSampleFileItem(
                         fileIcon: LineAwesome.FileExcel,
-                        lineAwesomeSize: LineAwesomeWeight.Regular,
                         fileName: "File Name 2",
                         dateModified: DateTime.Today.AddDays(-20),
                         modifiedBy: "Rusty",
                         fileSize: 12),
                     new DetailsListSampleFileItem(
                         fileIcon: LineAwesome.FilePowerpoint,
-                        lineAwesomeSize: LineAwesomeWeight.Regular,
                         fileName: "File Name 3",
                         dateModified: DateTime.Today.AddDays(-30),
                         modifiedBy: "Cole",
@@ -200,14 +200,13 @@ namespace Tesserae.Tests.Samples
 
     public class DetailsListSampleFileItem : IDetailsListItem<DetailsListSampleFileItem>
     {
-        public DetailsListSampleFileItem(LineAwesome fileIcon, string fileName, DateTime dateModified, string modifiedBy, int fileSize, LineAwesomeWeight lineAwesomeSize = LineAwesomeWeight.Default)
+        public DetailsListSampleFileItem(LineAwesome fileIcon, string fileName, DateTime dateModified, string modifiedBy, int fileSize)
         {
             FileIcon = fileIcon;
             FileName = fileName;
             DateModified = dateModified;
             ModifiedBy = modifiedBy;
             FileSize = fileSize;
-            LineAwesomeSize = lineAwesomeSize;
         }
 
         public LineAwesome FileIcon { get; }
@@ -219,8 +218,6 @@ namespace Tesserae.Tests.Samples
         public string ModifiedBy { get; }
 
         public int FileSize { get; }
-
-        public LineAwesomeWeight LineAwesomeSize { get; }
 
         public bool EnableOnListItemClickEvent => true;
 
@@ -264,13 +261,13 @@ namespace Tesserae.Tests.Samples
             throw new InvalidOperationException($"Can not match {columnSortingKey} to current list item");
         }
 
-        public IEnumerable<HTMLElement> Render(IList<IDetailsListColumn> columns, Func<IDetailsListColumn, Func<HTMLElement>, HTMLElement> createGridCellExpression)
+        public IEnumerable<IComponent> Render(IList<IDetailsListColumn> columns, Func<IDetailsListColumn, Func<IComponent>, IComponent> createGridCellExpression)
         {
-            yield return createGridCellExpression(columns[0], () => I(FileIcon, LineAwesomeSize));
-            yield return createGridCellExpression(columns[1], () => Span(_(text: FileName)));
-            yield return createGridCellExpression(columns[2], () => Span(_(text: DateModified.ToShortDateString())));
-            yield return createGridCellExpression(columns[3], () => Span(_(text: ModifiedBy)));
-            yield return createGridCellExpression(columns[4], () => Span(_(text: FileSize.ToString())));
+            yield return createGridCellExpression(columns[0], () => Icon(FileIcon));
+            yield return createGridCellExpression(columns[1], () => TextBlock(FileName));
+            yield return createGridCellExpression(columns[2], () => TextBlock(DateModified.ToShortDateString()));
+            yield return createGridCellExpression(columns[3], () => TextBlock(ModifiedBy));
+            yield return createGridCellExpression(columns[4], () => TextBlock(FileSize.ToString()));
         }
     }
 
@@ -344,15 +341,15 @@ namespace Tesserae.Tests.Samples
             return this;
         }
 
-        public IEnumerable<HTMLElement> Render(IList<IDetailsListColumn> columns, Func<IDetailsListColumn, Func<HTMLElement>, HTMLElement> createGridCellExpression)
+        public IEnumerable<IComponent> Render(IList<IDetailsListColumn> columns, Func<IDetailsListColumn, Func<IComponent>, IComponent> createGridCellExpression)
         {
-            yield return createGridCellExpression(columns[0], () => I(Icon));
-            yield return createGridCellExpression(columns[1], () => CheckBox.Render());
-            yield return createGridCellExpression(columns[2], () => Span(_(text: Name)));
-            yield return createGridCellExpression(columns[3], () => Button.Render());
-            yield return createGridCellExpression(columns[4], () => ChoiceGroup.Render());
-            yield return createGridCellExpression(columns[5], () => Dropdown.Render());
-            yield return createGridCellExpression(columns[6], () => Toggle.Render());
+            yield return createGridCellExpression(columns[0], () => Icon(Icon));
+            yield return createGridCellExpression(columns[1], () => CheckBox);
+            yield return createGridCellExpression(columns[2], () => TextBlock(Name));
+            yield return createGridCellExpression(columns[3], () => Button);
+            yield return createGridCellExpression(columns[4], () => ChoiceGroup);
+            yield return createGridCellExpression(columns[5], () => Dropdown);
+            yield return createGridCellExpression(columns[6], () => Toggle);
         }
     }
 }

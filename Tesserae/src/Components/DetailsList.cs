@@ -4,6 +4,7 @@ using System.Linq;
 using static Tesserae.UI;
 using static Retyped.dom;
 using static Retyped.dom.Node;
+using Tesserae.HTML;
 
 namespace Tesserae.Components
 {
@@ -27,7 +28,7 @@ namespace Tesserae.Components
 
         public bool PropagateToStackItemParent => false;
 
-        public bool IsSmall
+        public bool IsCompact
         {
             get
             {
@@ -68,21 +69,21 @@ namespace Tesserae.Components
             _currentLineAwesomeSortingIcon = LineAwesome.ArrowUp;
         }
 
-        public DetailsList<TDetailsListItem> Small()
+        public DetailsList<TDetailsListItem> Compact()
         {
-            IsSmall = true;
+            IsCompact = true;
             return this;
         }
 
-        private static HTMLDivElement CreateGridCell(IDetailsListColumn column, Func<HTMLElement> gridCellInnerHtmlExpression)
+        private static IComponent CreateGridCell(IDetailsListColumn column, Func<IComponent> gridCellInnerHtmlExpression)
         {
             var role = column.IsRowHeader ? "rowheader" : "gridcell";
 
             var gridCellHtmlElement          = Div(_("tss-detailslist-list-item tss-text-ellipsis").WithRole(role));
             gridCellHtmlElement.style.width  = column.Width.ToString();
-            gridCellHtmlElement.appendChild(gridCellInnerHtmlExpression());
+            gridCellHtmlElement.appendChild(gridCellInnerHtmlExpression().Render());
 
-            return gridCellHtmlElement;
+            return Raw(gridCellHtmlElement);
         }
 
         public DetailsList<TDetailsListItem> WithEmptyMessage(Func<IComponent> emptyListMessageGenerator)
@@ -94,13 +95,12 @@ namespace Tesserae.Components
 
         public DetailsList<TDetailsListItem> WithListItems(params TDetailsListItem[] listItems)
         {
-            _componentCache.AddComponents(listItems);
-
-            if (!_componentCache.HasComponents && _emptyListMessageGenerator != null)
+            if(listItems is object && listItems.Any())
             {
-                _listItemsContainer.appendChild(_emptyListMessageGenerator());
+                _componentCache.AddComponents(listItems);
             }
-            else if (_listAlreadyCreated)
+
+            if (_listAlreadyCreated)
             {
                 RefreshListItems();
             }
@@ -154,6 +154,12 @@ namespace Tesserae.Components
             _listItemsContainer.style.width = (totalWidth).px().ToString();
             _listContainer.appendChild(_listItemsContainer);
 
+            DomMountedObserver.NotifyWhenMounted(detailsListHeader, () =>
+            {
+                var rect = (DOMRect)detailsListHeader.getBoundingClientRect();
+                _listItemsContainer.style.minHeight = "calc(100% - "  + rect.height + "px)";
+            });
+
             RefreshListItems();
 
             _listAlreadyCreated = true;
@@ -161,10 +167,22 @@ namespace Tesserae.Components
 
         private void RefreshListItems()
         {
+            _listItemsContainer.RemoveChildElements();
             if (_componentCache.HasComponents)
             {
-                _listItemsContainer.RemoveChildElements();
-                _listItemsContainer.AppendChildren(_componentCache.RetrieveAllComponentsFromCache().ToArray());
+                _listItemsContainer.AppendChildren(_componentCache.GetAllRenderedComponentsFromCache().ToArray());
+            }
+            else if (_emptyListMessageGenerator is object)
+            {
+                //We render the message so that it fits the whole area from the _listItemsContainer, if it has a pre-defined height, otherwise, we set a min height of 64 px
+                var emptyMessage = _emptyListMessageGenerator().Render();
+                DomMountedObserver.NotifyWhenMounted(emptyMessage, () =>
+                {
+                    var rect = (DOMRect)_listItemsContainer.getBoundingClientRect();
+                    emptyMessage.style.height = Math.Max(64, rect.height) + "px";
+                    emptyMessage.style.width = "100%";
+                });
+                _listItemsContainer.appendChild(emptyMessage);
             }
         }
 
@@ -225,7 +243,7 @@ namespace Tesserae.Components
                 detailsListItemContainer.classList.add("tss-cursor-pointer");
             }
 
-            detailsListItemContainer.AppendChildren(gridCellHtmlElements);
+            detailsListItemContainer.AppendChildren(gridCellHtmlElements.Select(c => c.Render()).ToArray());
 
             return detailsListItemContainer;
         }
