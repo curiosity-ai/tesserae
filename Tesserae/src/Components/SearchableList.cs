@@ -12,11 +12,10 @@ namespace Tesserae.Components
         private readonly Defer _defered;
         private readonly Stack _stack;
         private readonly SearchBox _searchBox;
-        private readonly Grid _grid;
-        public HTMLElement StylingContainer => _grid.StylingContainer;
+        private readonly ItemsList _list;
+        public HTMLElement StylingContainer => _list.StylingContainer;
         public bool PropagateToStackItemParent => false;
         public ObservableList<T> Items { get; }
-        private Func<IComponent> _emptyListMessageGenerator;
 
         public SearchableList(T[] items, UnitSize[] columns) : this(new ObservableList<T>(items ?? new T[0]), columns)
         {
@@ -26,28 +25,20 @@ namespace Tesserae.Components
         {
             Items = items;
             _searchBox = new SearchBox().Underlined().SetPlaceholder("Type to search").SearchAsYouType();
-            _grid = Grid(columns);
+            _list = ItemsList(null, columns);
             _defered = Defer.Observe(Items, item =>
             {
                 var searchTerm = _searchBox.Text;
                 var filteredItems = Items.Where(i => string.IsNullOrWhiteSpace(searchTerm) || i.IsMatch(searchTerm)).Select(i => (IComponent)i).ToArray();
 
+                _list.Items.Clear();
+
                 if (filteredItems.Any())
                 {
-                    return _grid.Children(filteredItems).AsTask();
+                    _list.Items.AddRange(filteredItems);
                 }
-                else
-                {
-                    if (_emptyListMessageGenerator is object)
-                    {
-                        return _grid.Children(_emptyListMessageGenerator().GridColumnStrech()).AsTask();
-                    }
-                    else
-                    {
-                        _grid.Clear();
-                        return _grid.AsTask();
-                    }
-                }
+
+                return _list.AsTask();
             });
 
             _searchBox.OnSearch((_, __) => _defered.Refresh());
@@ -57,7 +48,7 @@ namespace Tesserae.Components
 
         public SearchableList<T> WithNoResultsMessage(Func<IComponent> emptyListMessageGenerator)
         {
-            _emptyListMessageGenerator = emptyListMessageGenerator ?? throw new ArgumentNullException(nameof(emptyListMessageGenerator));
+            _list.WithEmptyMessage(emptyListMessageGenerator ?? throw new ArgumentNullException(nameof(emptyListMessageGenerator)));
             _defered.Refresh();
             return this;
         }
