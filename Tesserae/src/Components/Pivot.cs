@@ -61,6 +61,12 @@ namespace Tesserae.Components
             InnerElement = Div(_("tss-pivot"), RenderedTabs, Line, RenderedContent);
         }
 
+        public Pivot Justified()
+        {
+            RenderedTabs.style.justifyContent = "space-between";
+            return this;
+        }
+
         internal Pivot Add(Tab tab)
         {
             if (SelectedID is null) SelectedID = tab.Id;
