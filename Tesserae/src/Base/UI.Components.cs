@@ -206,9 +206,9 @@ namespace Tesserae
 
         public static SearchableList<T> SearchableList<T>(ObservableList<T> components, params UnitSize[] columns) where T : ISearchableItem => new SearchableList<T>(components, columns);
 
-        public static ItemsList ItemsList(IEnumerable<IComponent> components,  Func<IComponent> emptyListMessageGenerator = null, params UnitSize[] columns)=> new ItemsList(components.ToArray(), emptyListMessageGenerator, columns);
+        public static ItemsList ItemsList(IEnumerable<IComponent> components, params UnitSize[] columns)=> new ItemsList(components.ToArray(), columns);
 
-        public static ItemsList ItemsList(ObservableList<IComponent> components, Func<IComponent> emptyListMessageGenerator = null, params UnitSize[] columns) => new ItemsList(components, emptyListMessageGenerator, columns);
+        public static ItemsList ItemsList(ObservableList<IComponent> components, params UnitSize[] columns) => new ItemsList(components, columns);
 
         public static DetailsList<TDetailsListItem> DetailsList<TDetailsListItem>(params IDetailsListColumn[] columns) where TDetailsListItem : class, IDetailsListItem<TDetailsListItem> => new DetailsList<TDetailsListItem>(columns);
 

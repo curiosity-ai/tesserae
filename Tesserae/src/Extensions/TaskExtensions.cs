@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using static Retyped.dom;
 using System.Linq;
+using Bridge;
 
 namespace Tesserae.Components
 {
@@ -132,6 +133,9 @@ namespace Tesserae.Components
             await Task.WhenAll(t1, t2, t3, t4, t5, t6, t7, t8);
             return (t1.Result, t2.Result, t3.Result, t4.Result, t5.Result, t6.Result, t7.Result, t8.Result);
         }
+
+        public static Task<IComponent> AsTask(this IComponent component) => Task.FromResult<IComponent>(component);
+
 
         private static Task BuildCompletedTask()
         {

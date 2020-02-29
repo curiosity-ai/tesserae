@@ -18,21 +18,29 @@ namespace Tesserae.Components
 
         public bool PropagateToStackItemParent => false;
 
-        public ItemsList(IComponent[] items, Func<IComponent> emptyListMessageGenerator = null, params UnitSize[] columns) : this(new ObservableList<IComponent>(items ?? new IComponent[0]), emptyListMessageGenerator, columns)
+        public ItemsList(IComponent[] items, params UnitSize[] columns) : this(new ObservableList<IComponent>(items ?? new IComponent[0]), columns)
         {
         }
 
-        public ItemsList(ObservableList<IComponent> items, Func<IComponent> emptyListMessageGenerator, params UnitSize[] columns)
+        public ItemsList(ObservableList<IComponent> items, params UnitSize[] columns)
         {
             Items                      = items ?? throw new ArgumentNullException(nameof(items));
             _grid                      = Grid(columns);
-            _emptyListMessageGenerator = emptyListMessageGenerator;
+            _emptyListMessageGenerator = null;
 
-            _defered = Defer.Observe(Items, item =>
+            _defered = Defer.Observe(Items, observedItems =>
             {
-                if (!Items.Any() && _emptyListMessageGenerator != null)
+                if (!observedItems.Any())
                 {
-                     return Task.FromResult<IComponent>(_grid.Children(_emptyListMessageGenerator()));
+                    if (_emptyListMessageGenerator is object)
+                    {
+                        return Task.FromResult<IComponent>(_grid.Children(_emptyListMessageGenerator()));
+                    }
+                    else
+                    {
+                        _grid.Clear();
+                        return Task.FromResult<IComponent>(_grid);
+                    }
                 }
 
                 return Task.FromResult<IComponent>(_grid.Children(Items.ToArray()));
@@ -42,7 +50,7 @@ namespace Tesserae.Components
         public ItemsList WithEmptyMessage(Func<IComponent> emptyListMessageGenerator)
         {
             _emptyListMessageGenerator = emptyListMessageGenerator ?? throw new ArgumentNullException(nameof(emptyListMessageGenerator));
-
+            _defered.Refresh();
             return this;
         }
 

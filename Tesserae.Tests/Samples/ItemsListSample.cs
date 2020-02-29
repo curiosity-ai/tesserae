@@ -52,15 +52,17 @@ namespace Tesserae.Tests.Samples
                                 TextBlock("Basic List with columns")
                                     .Medium()
                                     .PaddingBottom(16.px()),
-                                ItemsList(GetSomeItems(100), null, 25.percent(), 25.percent(), 25.percent(), 25 .percent()).MaxHeight(500.px()).PaddingBottom(32.px()),
+                                ItemsList(GetSomeItems(100), 25.percent(), 25.percent(), 25.percent(), 25 .percent()).MaxHeight(500.px()).PaddingBottom(32.px()),
                                 TextBlock("Basic List with VisibilitySensor")
                                     .Medium()
                                     .PaddingBottom(16.px()),
-                                ItemsList(obsList, null, 25.percent(), 25.percent(), 25.percent(), 25.percent()).MaxHeight(500.px()).PaddingBottom(32.px()),
+                                ItemsList(obsList, 25.percent(), 25.percent(), 25.percent(), 25.percent()).MaxHeight(500.px()).PaddingBottom(32.px()),
                                 TextBlock("Basic List with Empty List Message ")
                                     .Medium()
                                     .PaddingBottom(16.px()),
-                                ItemsList(Enumerable.Empty<IComponent>(), () => TextBlock("No List Items"), 25.percent(), 25.percent(), 25.percent(), 25.percent()).MaxHeight(500.px())));
+                                ItemsList(Enumerable.Empty<IComponent>(), 25.percent(), 25.percent(), 25.percent(), 25.percent())
+                                    .WithEmptyMessage(() => BackgroundArea(Card(TextBlock("Empty list").Padding(16.px()))).WidthStretch().HeightStretch())
+                                    .MaxHeight(500.px())));
         }
 
         public HTMLElement Render()
