@@ -25,8 +25,8 @@ namespace Tesserae.Tests.Samples
 
             obsList.AddRange(GetSomeItems(10));
             obsList.Add(vs);
-            _content =
-                SectionStack()
+            _content = SectionStack()
+                    .WidthStretch()
                     .Title(
                         TextBlock("ItemsList")
                             .XLarge()
@@ -61,7 +61,7 @@ namespace Tesserae.Tests.Samples
                                     .Medium()
                                     .PaddingBottom(16.px()),
                                 ItemsList(Enumerable.Empty<IComponent>(), 25.percent(), 25.percent(), 25.percent(), 25.percent())
-                                    .WithEmptyMessage(() => BackgroundArea(Card(TextBlock("Empty list").Padding(16.px()))).WidthStretch().HeightStretch())
+                                    .WithEmptyMessage(() => BackgroundArea(Card(TextBlock("Empty list").Padding(16.px()))).WidthStretch().HeightStretch().MinHeight(100.px()))
                                     .MaxHeight(500.px())));
         }
 

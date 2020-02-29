@@ -34,16 +34,16 @@ namespace Tesserae.Components
                 {
                     if (_emptyListMessageGenerator is object)
                     {
-                        return Task.FromResult<IComponent>(_grid.Children(_emptyListMessageGenerator()));
+                        return _grid.Children(_emptyListMessageGenerator().GridColumnStrech()).AsTask();
                     }
                     else
                     {
                         _grid.Clear();
-                        return Task.FromResult<IComponent>(_grid);
+                        return _grid.AsTask();
                     }
                 }
 
-                return Task.FromResult<IComponent>(_grid.Children(Items.ToArray()));
+                return _grid.Children(Items.ToArray()).AsTask();
             });
         }
 
