@@ -211,5 +211,17 @@
             Grid.SetGridRow(component, 1, -1);
             return component;
         }
+
+        public static T Fade<T>(this T component) where T : IComponent
+        {
+            component.Render().classList.add("fade");
+            return component;
+        }
+
+        public static T Show<T>(this T component) where T : IComponent
+        {
+            component.Render().classList.add("fade", "show");
+            return component;
+        }
     }
 }
