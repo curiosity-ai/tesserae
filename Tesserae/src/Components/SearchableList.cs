@@ -29,7 +29,7 @@ namespace Tesserae.Components
             _defered = Defer.Observe(Items, item =>
             {
                 var searchTerm = _searchBox.Text;
-                var filteredItems = Items.Where(i => string.IsNullOrWhiteSpace(searchTerm) || i.IsMatch(searchTerm)).Select(i => (IComponent)i).ToArray();
+                var filteredItems = Items.Where(i => string.IsNullOrWhiteSpace(searchTerm) || i.IsMatch(searchTerm)).Select(i => i.Render()).ToArray();
 
                 _list.Items.Clear();
 
@@ -62,8 +62,9 @@ namespace Tesserae.Components
         public dom.HTMLElement Render() => _stack.Render();
     }
 
-    public interface ISearchableItem : IComponent
+    public interface ISearchableItem
     {
         bool IsMatch(string searchTerm);
+        IComponent Render();
     }
 }
