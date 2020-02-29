@@ -9,46 +9,52 @@ namespace Tesserae.Components
 {
     public class Defer : IComponent
     {
-        public IComponent LoadMessage { get; }
+        private bool _needsRefresh;
+        private double _refreshTimeout;
         private Func<Task<IComponent>> _asyncGenerator;
-
-        internal dom.HTMLElement InnerElement;
-        private bool NeedsRefresh;
+        private IComponent _loadMessage;
+        internal HTMLElement _container;
+        private int _delay = 1;
 
         public Defer(Func<Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
         {
-            LoadMessage = loadMessage ?? TextBlock("loading...").XSmall();
+            _loadMessage = loadMessage ?? TextBlock("loading...").XSmall();
             _asyncGenerator = asyncGenerator;
-            NeedsRefresh = true;
-            InnerElement = DIV(LoadMessage.Render());
+            _needsRefresh = true;
+            _container = DIV(_loadMessage.Render());
         }
 
-        private double _refreshTimeout;
         public void Refresh()
         {
-            NeedsRefresh = true;
+            _needsRefresh = true;
             window.clearTimeout(_refreshTimeout);
-            _refreshTimeout = window.setTimeout((t) => TriggerRefresh(), 1);
+            _refreshTimeout = window.setTimeout((t) => TriggerRefresh(), _delay > 0 ? _delay : 1);
+        }
+
+        public Defer Debounce(int milliseconds)
+        {
+            _delay = milliseconds;
+            return this;
         }
 
         public dom.HTMLElement Render()
         {
-            DomMountedObserver.NotifyWhenMounted(InnerElement, () => TriggerRefresh());
-            return InnerElement;
+            DomMountedObserver.NotifyWhenMounted(_container, () => TriggerRefresh());
+            return _container;
         }
 
         internal dom.HTMLElement Container()
         {
-            return InnerElement;
+            return _container;
         }
 
         private void TriggerRefresh()
         {
-            if (!NeedsRefresh) return;
-            NeedsRefresh = false;
-            var container = ScrollBar.GetCorrectContainer(InnerElement);
+            if (!_needsRefresh) return;
+            _needsRefresh = false;
+            var container = ScrollBar.GetCorrectContainer(_container);
             ClearChildren(container);
-            container.appendChild(LoadMessage.Render());
+            container.appendChild(_loadMessage.Render());
             var task = _asyncGenerator();
             task.ContinueWith(r =>
             {

@@ -3,13 +3,14 @@ using static Retyped.dom;
 
 namespace Tesserae.Components
 {
-    public class Toggle : ComponentBase<Toggle, HTMLInputElement>
+    public class Toggle : ComponentBase<Toggle, HTMLInputElement>, IObservableComponent<bool>
     {
         private HTMLSpanElement _checkSpan;
         private HTMLSpanElement _onOffSpan;
         private HTMLLabelElement _label;
         private string _offText;
         private string _onText;
+        private readonly Observable<bool> _observable = new Observable<bool>();
 
         public Toggle(string text = null, string onText = null, string offText = null)
         {
@@ -74,6 +75,7 @@ namespace Tesserae.Components
                 if (value != IsChecked)
                 {
                     InnerElement.@checked = value;
+                    _observable.Value = value;
                     if (value) _onOffSpan.innerText = _onText;
                     else _onOffSpan.innerText = _offText;
                 }
@@ -88,6 +90,7 @@ namespace Tesserae.Components
         private void OnToggleChanged()
         {
             _onOffSpan.innerText = IsChecked ? _onText : _offText;
+            _observable.Value = IsChecked;
         }
         public Toggle SetText(string text)
         {
@@ -105,6 +108,11 @@ namespace Tesserae.Components
         {
             IsChecked = value;
             return this;
+        }
+
+        public IObservable<bool> AsObservable()
+        {
+            return _observable;
         }
     }
 }

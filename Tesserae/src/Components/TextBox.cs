@@ -3,10 +3,11 @@ using static Retyped.dom;
 using static Tesserae.UI;
 namespace Tesserae.Components
 {
-    public class TextBox : ComponentBase<TextBox, HTMLInputElement>, ICanValidate<TextBox>
+    public class TextBox : ComponentBase<TextBox, HTMLInputElement>, ICanValidate<TextBox>, IObservableComponent<string>
     {
         private HTMLDivElement _container;
         private HTMLSpanElement _errorSpan;
+        private readonly Observable<string> _observable = new Observable<string>();
 
         public TextBox(string text = string.Empty)
         {
@@ -17,6 +18,16 @@ namespace Tesserae.Components
             AttachInput();
             AttachFocus();
             AttachBlur();
+
+            OnChange((_, __) =>
+            {
+                _observable.Value = Text;
+            });
+
+            OnInput((_, __) =>
+            {
+                _observable.Value = Text;
+            });
         }
 
         public bool IsEnabled
@@ -73,6 +84,7 @@ namespace Tesserae.Components
                 if (InnerElement.value != value)
                 {
                     InnerElement.value = value;
+                    _observable.Value = value;
                     RaiseOnInput(null);
                 }
             }
@@ -191,6 +203,11 @@ namespace Tesserae.Components
         {
             IsRequired = true;
             return this;
+        }
+
+        public IObservable<string> AsObservable()
+        {
+            return _observable;
         }
     }
 }

@@ -3,10 +3,11 @@ using static Retyped.dom;
 
 namespace Tesserae.Components
 {
-    public class CheckBox : ComponentBase<CheckBox, HTMLInputElement>
+    public class CheckBox : ComponentBase<CheckBox, HTMLInputElement>, IObservableComponent<bool>
     {
         private readonly HTMLSpanElement _checkSpan;
         private readonly HTMLLabelElement _label;
+        private readonly Observable<bool> _observable = new Observable<bool>();
 
         public CheckBox(string text = string.Empty)
         {
@@ -61,6 +62,7 @@ namespace Tesserae.Components
                 if (value != IsChecked)
                 {
                     InnerElement.@checked = value;
+                    _observable.Value = value;
                 }
             }
         }
@@ -86,6 +88,11 @@ namespace Tesserae.Components
         {
             Text = text;
             return this;
+        }
+
+        public IObservable<bool> AsObservable()
+        {
+            return _observable;
         }
     }
 }

@@ -6,9 +6,10 @@ using static Retyped.dom;
 
 namespace Tesserae.Components
 {
-    public class ChoiceGroup : ComponentBase<ChoiceGroup, HTMLDivElement>, IContainer<ChoiceGroup, ChoiceGroup.Option>
+    public class ChoiceGroup : ComponentBase<ChoiceGroup, HTMLDivElement>, IContainer<ChoiceGroup, ChoiceGroup.Option>, IObservableComponent<ChoiceGroup.Option>
     {
         private readonly TextBlock _header;
+        private readonly Observable<Option> _selectedOption = new Observable<Option>();
 
         public ChoiceGroup(string label = "Pick one")
         {
@@ -18,7 +19,7 @@ namespace Tesserae.Components
             InnerElement = Div(_("tss-choice-group", styles: s => { s.flexDirection = "column"; }), h);
         }
 
-        public Option SelectedOption { get; private set; }
+        public Option SelectedOption { get => _selectedOption.Value; private set => _selectedOption.Value = value; }
 
         public string Label
         {
@@ -101,6 +102,11 @@ namespace Tesserae.Components
             if (SelectedOption != null) SelectedOption.IsSelected = false;
             SelectedOption = e;
             RaiseOnChange(e);
+        }
+
+        public IObservable<Option> AsObservable()
+        {
+            return _selectedOption;
         }
 
         public enum ChoiceGroupOrientation

@@ -41,7 +41,7 @@ namespace Tesserae
         {
             if(component is Defer deferedComponent)
             {
-                deferedComponent.InnerElement.id = id;
+                deferedComponent._container.id = id;
                 return component;
             }
             var el = component.Render();
@@ -60,9 +60,11 @@ namespace Tesserae
 
         public static Card Card(IComponent content) => new Card(content);
 
-        public static Defer Defer(Func<Task<IComponent>> asyncGenerator) => new Defer(asyncGenerator);
+        public static BackgroundArea BackgroundArea(IComponent content) => new BackgroundArea(content);
 
-        public static Defer DeferSync(Func<IComponent> syncGenerator) => new Defer(() => Task.FromResult<IComponent>(syncGenerator()));
+        public static Defer Defer(Func<Task<IComponent>> asyncGenerator, IComponent loadMessage = null) => new Defer(asyncGenerator, loadMessage);
+
+        public static Defer DeferSync(Func<IComponent> syncGenerator, IComponent loadMessage = null) => new Defer(() => Task.FromResult<IComponent>(syncGenerator()), loadMessage);
 
         public static Defer Defer<T1>(IObservable<T1> o1, Func<T1, Task<IComponent>> asyncGenerator, IComponent loadMessage = null) => Components.Defer.Observe(o1, asyncGenerator, loadMessage);
 
@@ -100,7 +102,7 @@ namespace Tesserae
 
         public static ChoiceGroup.Option Option(string label = string.Empty) => new ChoiceGroup.Option(label);
 
-        public static ChoiceGroup ChoiceGroup(string label = "Pick one") => new ChoiceGroup(label);
+        public static ChoiceGroup ChoiceGroup(string label = string.Empty) => new ChoiceGroup(label);
 
         public static TextBlock TextBlock(string text = string.Empty) => new TextBlock(text);
 
@@ -110,9 +112,9 @@ namespace Tesserae
 
         public static Validator Validator() => new Validator();
 
-        public static Icon Icon(string icon) => new Icon(icon);
+        public static Icon Icon(string icon, string color = null) => new Icon(icon).Foreground(color ?? "");
 
-        public static Icon Icon(LineAwesome icon, LineAwesomeWeight weight = LineAwesomeWeight.Light, LineAwesomeSize size = LineAwesomeSize.x1) => new Icon($"{weight} {icon} {size}");
+        public static Icon Icon(LineAwesome icon, LineAwesomeWeight weight = LineAwesomeWeight.Light, TextSize size = TextSize.Medium, string color = null) => new Icon($"{weight} {icon} tss-fontsize-{size.ToString().ToLower()}").Foreground(color ?? "");
 
         public static HorizontalSeparator HorizontalSeparator(string text) => new HorizontalSeparator(text);
 
@@ -176,9 +178,11 @@ namespace Tesserae
 
         public static Dropdown Dropdown() => new Dropdown();
 
-        public static Dropdown.Item DropdownItem(string text = string.Empty) => new Dropdown.Item(text);
+        public static Dropdown.Item DropdownItem() => new Dropdown.Item("");
 
-        public static Dropdown.Item DropdownItem(IComponent component) => new Dropdown.Item(component);
+        public static Dropdown.Item DropdownItem(string text, string selectedText = string.Empty) => new Dropdown.Item(text, selectedText);
+
+        public static Dropdown.Item DropdownItem(IComponent content, IComponent selectedContent = null) => new Dropdown.Item(content, selectedContent);
 
         public static ContextMenu ContextMenu() => new ContextMenu();
 
