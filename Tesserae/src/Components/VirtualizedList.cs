@@ -10,45 +10,28 @@ namespace Tesserae.Components
 {
     public class VirtualizedList : IComponent
     {
-        private const int PagesToVirtualize = 5;
-        private const int PagesToRender     = PagesToVirtualize;
+        private const int PagesToVirtualize    = 5;
+        private const int InitialPagesToCreate = PagesToVirtualize;
 
         private readonly ListPageCache<IComponent> _listPageCache;
-
         private readonly int _pagesToVirtualizeUpperBoundary;
         private readonly int _pagesToVirtualizeLowerBoundary;
         private readonly string _componentHeightInPercentage;
         private readonly string _componentWidthInPercentage;
-
         private readonly HTMLElement _innerElement;
         private readonly HTMLDivElement _basicListContainer;
         private readonly HTMLDivElement _topSpacingDiv;
         private readonly HTMLDivElement _bottomSpacingDiv;
 
+        private bool _initialPagesCreated;
+        private Func<IComponent> _emptyListMessageGenerator;
         private int _currentPage;
-
         private UnitSize _componentHeight;
         private UnitSize _pageHeight;
         private double _currentScrollPosition;
-        private ScrollDirection _currentScrollDirection;
 
-        public VirtualizedList(
-            IEnumerable<IComponent> components,
-            int rowsPerPage   = 4,
-            int columnsPerRow = 4)
+        public VirtualizedList(int rowsPerPage = 4, int columnsPerRow = 4)
         {
-            if (components == null)
-            {
-                throw new ArgumentNullException(nameof(components));
-            }
-
-            components = components.ToList();
-
-            if (!components.Any())
-            {
-                throw new ArgumentException(nameof(components));
-            }
-
             if (rowsPerPage <= 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(rowsPerPage));
@@ -59,20 +42,13 @@ namespace Tesserae.Components
                 throw new ArgumentOutOfRangeException(nameof(columnsPerRow));
             }
 
-            _listPageCache = new ListPageCache<IComponent>(
-                rowsPerPage,
-                columnsPerRow,
-                CreatePageHtmlElement,
-                CreateComponentContainerHtmlElement)
-                    .AddComponents(components);
+            _listPageCache = new ListPageCache<IComponent>(rowsPerPage, columnsPerRow, CreatePageHtmlElement, CreateComponentContainerHtmlElement);
 
             _pagesToVirtualizeUpperBoundary = (int)Floor((double)PagesToVirtualize / 2);
             _pagesToVirtualizeLowerBoundary = (int)Ceiling((double)PagesToVirtualize / 2);
 
             _componentHeightInPercentage = GetComponentSize(rowsPerPage);
             _componentWidthInPercentage  = GetComponentSize(columnsPerRow);
-
-            Debug("Basic list initialized");
 
             _innerElement       = CreateInnerElementHtmlDivElement();
             _basicListContainer = CreateBasicListContainerHtmlDivElement();
@@ -81,11 +57,39 @@ namespace Tesserae.Components
 
             _innerElement.appendChild(_basicListContainer);
             AppendChildrenToBasicListContainerHtmlDivElement(_topSpacingDiv, _bottomSpacingDiv);
+        }
 
-            RenderPagesDownwards(GetInitialPages());
+        public VirtualizedList WithEmptyMessage(Func<IComponent> emptyListMessageGenerator)
+        {
+            _emptyListMessageGenerator = emptyListMessageGenerator ?? throw new ArgumentNullException(nameof(emptyListMessageGenerator));
 
-            AttachOnLastComponentMountedEvent();
-            AttachBasicListContainerOnScrollEvent();
+            return this;
+        }
+
+        public VirtualizedList WithListItems(IEnumerable<IComponent> listItems)
+        {
+            if (listItems == null)
+            {
+                throw new ArgumentNullException(nameof(listItems));
+            }
+
+            _listPageCache.AddComponents(listItems);
+
+            if (_listPageCache.HasComponents && !_initialPagesCreated)
+            {
+                CreatePagesDownwards(GetInitialPages());
+
+                AttachOnLastComponentMountedEvent();
+                AttachBasicListContainerOnScrollEvent();
+
+                _initialPagesCreated = true;
+            }
+            else if (_emptyListMessageGenerator != null)
+            {
+                _basicListContainer.appendChild(_emptyListMessageGenerator().Render());
+            }
+
+            return this;
         }
 
         public HTMLElement Render() => _innerElement;
@@ -104,7 +108,7 @@ namespace Tesserae.Components
             });
         }
 
-        private static void RenderPage(HTMLElement page, Action<HTMLElement> renderingAction) => renderingAction(page);
+        private static void CreatePage(HTMLElement page, Action<HTMLElement> renderingAction) => renderingAction(page);
 
         private HTMLDivElement CreateBasicListContainerHtmlDivElement() => Div(_("tss-basiclist").WithRole("list"));
 
@@ -134,7 +138,7 @@ namespace Tesserae.Components
 
         private IEnumerable<HTMLElement> GetInitialPages()
         {
-            return RetrievePagesFromCache(Enumerable.Range(1, PagesToRender));
+            return RetrievePagesFromCache(Enumerable.Range(1, InitialPagesToCreate));
         }
 
         private IEnumerable<HTMLElement> RetrievePagesFromCache(IEnumerable<int> rangeOfPageNumbersToRetrieve)
@@ -171,25 +175,25 @@ namespace Tesserae.Components
                 component.Render());
         }
 
-        private void RenderPageUpwards(HTMLElement page)
+        private void CreatePageUpwards(HTMLElement page)
         {
-            RenderPage(page, pageToRender =>
+            CreatePage(page, pageToCreate =>
             {
-                _topSpacingDiv.insertAdjacentElement(InsertPosition.afterend, pageToRender);
+                _topSpacingDiv.insertAdjacentElement(InsertPosition.afterend, pageToCreate);
             });
         }
 
-        private void RenderPagesDownwards(IEnumerable<HTMLElement> pages)
+        private void CreatePagesDownwards(IEnumerable<HTMLElement> pages)
         {
             foreach (var page in pages)
             {
-                RenderPageDownwards(page);
+                CreatePageDownwards(page);
             }
         }
 
-        private void RenderPageDownwards(HTMLElement page)
+        private void CreatePageDownwards(HTMLElement page)
         {
-            RenderPage(page, pageToRender =>
+            CreatePage(page, pageToCreate =>
             {
                 _basicListContainer.insertBefore(page, _bottomSpacingDiv);
             });
@@ -245,11 +249,9 @@ namespace Tesserae.Components
             SetTopSpacingDivHeight(0.px());
 
             var initialBottomSpacingDivHeight =
-                ((_listPageCache.PagesCount - PagesToRender) * _pageHeight.Size).px();
+                ((_listPageCache.PagesCount - InitialPagesToCreate) * _pageHeight.Size).px();
 
             SetBottomSpacingDivHeight(initialBottomSpacingDivHeight);
-
-            Debug("Basic list ready");
         }
 
         private void OnBasicListContainerScroll(object listener)
@@ -278,7 +280,7 @@ namespace Tesserae.Components
                     SetTopSpacingDivHeight(newTopSpacingDivHeight);
 
                     var pageNumberToAdd = newPage + _pagesToVirtualizeUpperBoundary;
-                    RenderPageDownwards(RetrievePageFromCache(pageNumberToAdd));
+                    CreatePageDownwards(RetrievePageFromCache(pageNumberToAdd));
 
                     var newBottomSpacingDivHeight =
                         ((_listPageCache.PagesCount - (newPage + _pagesToVirtualizeUpperBoundary)) * _pageHeight.Size).px();
@@ -296,7 +298,7 @@ namespace Tesserae.Components
                     SetTopSpacingDivHeight(newTopSpacingDivHeight);
 
                     var pageNumberToAdd = newPage - _pagesToVirtualizeUpperBoundary;
-                    RenderPageUpwards(RetrievePageFromCache(pageNumberToAdd));
+                    CreatePageUpwards(RetrievePageFromCache(pageNumberToAdd));
 
                     var newBottomSpacingDivHeight =
                         ((_listPageCache.PagesCount - (newPage + _pagesToVirtualizeLowerBoundary)) * _pageHeight.Size).px();
@@ -307,25 +309,6 @@ namespace Tesserae.Components
 
             _currentPage            = newPage;
             _currentScrollPosition  = scrollPosition;
-            _currentScrollDirection = scrollDirection;
-        }
-
-        private void Debug(string message)
-        {
-            console.log(
-                message,
-                new
-                {
-                    PagesToVirtualize,
-                    PagesToRender,
-                    _pagesToVirtualizeUpperBoundary,
-                    _pagesToVirtualizeLowerBoundary,
-                    _componentHeightInPercentage,
-                    _componentWidthInPercentage,
-                    _currentPage,
-                    _currentScrollPosition,
-                    _currentScrollDirection
-                });
         }
 
         private ScrollDirection GetScrollDirection(double scrollTop)

@@ -15,6 +15,7 @@ namespace Tesserae.Tests.Samples
         {
             _content =
                 SectionStack()
+                    .WidthStretch()
                     .Title(
                         TextBlock("SearchableList")
                             .XLarge()
@@ -32,13 +33,10 @@ namespace Tesserae.Tests.Samples
                         Stack()
                             .Children(
                                 SampleTitle("Usage"),
-                                TextBlock("Searchable List")
-                                    .Medium()
-                                    .PaddingBottom(16.px()),
-                                SearchableList(GetItems(10)).PaddingBottom(32.px()).MaxHeight(300.px()),
-                                TextBlock("Searchable List with Columns")
-                                    .Medium()
-                                    .PaddingBottom(16.px()),
+                                TextBlock("Searchable List with No Results Message").Medium().PaddingBottom(16.px()).PaddingTop(16.px()),
+                                SearchableList(GetItems(10)).PaddingBottom(32.px()).MaxHeight(300.px())
+                                    .WithNoResultsMessage(() => BackgroundArea(Card(TextBlock("No Results").Padding(16.px()))).WidthStretch().HeightStretch().MinHeight(100.px())),
+                                TextBlock("Searchable List with Columns").Medium().PaddingBottom(16.px()).PaddingTop(16.px()),
                                 SearchableList(GetItems(40), 25.percent(), 25.percent(), 25.percent(), 25.percent()))).PaddingBottom(32.px()).MaxHeight(300.px());
         }
 
