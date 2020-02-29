@@ -16,6 +16,12 @@ namespace Tesserae.Components
             AttachClick();
         }
 
+        public override Card OnClick(ComponentEventHandler<MouseEvent> onClick)
+        {
+            InnerElement.style.cursor = "pointer";
+            return base.OnClick(onClick);
+        }
+
         public Card SetContent(IComponent content)
         {
             ClearChildren(InnerElement);
