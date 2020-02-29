@@ -215,6 +215,7 @@
         public static T Fade<T>(this T component) where T : IComponent
         {
             component.Render().classList.add("fade");
+            component.Render().classList.remove("show");
             return component;
         }
 
