@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Tesserae.HTML;
 using static Retyped.dom;
 
 namespace Tesserae.Components
@@ -94,7 +95,13 @@ namespace Tesserae.Components
         public static T InvisibleScroll<T>(this T component) where T : IComponent
         {
             var element = component.Render();
-            EnableInvisibleScroll(element);
+
+            DomMountedObserver.NotifyWhenMounted(element, () =>
+            {
+                var targetElement = Stack.GetItem(component);
+                EnableInvisibleScroll(targetElement);
+            });
+
             return component;
         }
 
