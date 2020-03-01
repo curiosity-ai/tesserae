@@ -22,6 +22,7 @@ namespace Tesserae.Components
             _asyncGenerator = asyncGenerator;
             _needsRefresh = true;
             _container = DIV(_loadMessage.Render());
+            _container.id = "tss-defered";
         }
 
         public void Refresh()
