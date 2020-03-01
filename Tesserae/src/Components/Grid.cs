@@ -34,6 +34,7 @@ namespace Tesserae.Components
                 _grid.style.gridTemplateColumns = "100%";
             }
         }
+
         public Grid EnableInvisibleScroll()
         {
             ScrollBar.EnableInvisibleScroll(InnerElement);
