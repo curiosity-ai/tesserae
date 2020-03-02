@@ -1,4 +1,8 @@
 ﻿/* Stack */
+.tss-card-container{
+    padding:2px;
+}
+
 .tss-card {
     display: flex;
     padding: 16px;

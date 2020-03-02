@@ -24,14 +24,14 @@ namespace Tesserae.Components
 
             if(InnerElement is object && InnerElement.parentElement is object)
             {
-                var correct = ScrollBar.GetCorrectContainer(InnerElement);
+                //var correct = ScrollBar.GetCorrectContainer(InnerElement);
                 
-                if(correct.classList.contains("simplebar-content"))
-                {
-                    element.classList.add("simplebar-content");
-                }
+                //if(correct.classList.contains("simplebar-content"))
+                //{
+                //    element.classList.add("simplebar-content");
+                //}
 
-                correct.parentElement.replaceChild(element, correct);
+                InnerElement.parentElement.replaceChild(element, InnerElement);
             }
 
             InnerElement = element;

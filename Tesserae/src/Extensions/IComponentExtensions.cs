@@ -201,7 +201,7 @@
             return component;
         }
 
-        public static T GridColumnStrech<T>(this T component) where T : IComponent
+        public static T GridColumnStretch<T>(this T component) where T : IComponent
         {
             Grid.SetGridColumn(component, 1, -1);
             return component;
@@ -213,7 +213,7 @@
             return component;
         }
 
-        public static T GridRowStrech<T>(this T component) where T : IComponent
+        public static T GridRowStretch<T>(this T component) where T : IComponent
         {
             Grid.SetGridRow(component, 1, -1);
             return component;

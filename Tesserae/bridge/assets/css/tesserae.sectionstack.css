@@ -7,7 +7,7 @@
 }
 
 .tss-session-stack > .tss-stack-item {
-    margin-bottom: 28px;
+    margin-bottom: 28px !important;
     position: relative;
     opacity: 0;
     -webkit-transform: translate3d(0, 48px, 0);

@@ -9,9 +9,11 @@ namespace Tesserae.Components
 {
     public class Card : ComponentBase<Card, HTMLElement>
     {
+        private HTMLElement _cardContainer;
         public Card(IComponent content)
         {
             InnerElement = Div(_("tss-card"), content.Render());
+            _cardContainer = Div(_("tss-card-container"), InnerElement);
             DomMountedObserver.NotifyWhenMounted(InnerElement, () => InnerElement.classList.add("ismounted"));
             AttachClick();
         }
@@ -31,7 +33,7 @@ namespace Tesserae.Components
 
         public override HTMLElement Render()
         {
-            return InnerElement;
+            return _cardContainer;
         }
     }
 }
