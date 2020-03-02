@@ -170,6 +170,13 @@
             return component;
         }
 
+        public static T Stretch<T>(this T component) where T : IComponent
+        {
+            Stack.SetWidth(component, 100.percent());
+            Stack.SetHeight(component, 100.percent());
+            return component;
+        }
+
         public static T Grow<T>(this T component, int grow) where T : IComponent
         {
             Stack.SetGrow(component, grow);
