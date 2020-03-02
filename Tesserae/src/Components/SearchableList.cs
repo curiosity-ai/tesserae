@@ -43,7 +43,7 @@ namespace Tesserae.Components
 
             _searchBox.OnSearch((_, __) => _defered.Refresh());
 
-            _stack = Stack().Vertical().Children(_searchBox, _defered).HeightStretch().WidthStretch();
+            _stack = Stack().Vertical().Children(_searchBox, _defered.Scroll()).HeightStretch().WidthStretch();
         }
 
         public SearchableList<T> WithNoResultsMessage(Func<IComponent> emptyListMessageGenerator)
