@@ -58,18 +58,18 @@ namespace Tesserae.Tests.Samples
 
         private class IconItem : ISearchableItem
         {
-            private string Value;
+            private string _value;
             private IComponent component;
             public IconItem(LineAwesome icon, string name)
             {
                 name = ToValidName(name.Substring(3));
-                Value = name + " " + icon.ToString();
+                _value = name + " " + icon.ToString();
                 component = Stack().Horizontal().Children(Icon(icon, size: TextSize.Medium).MinWidth(34.px()).AlignCenter(), TextBlock($"{name}").Title(icon.ToString()).Wrap().AlignCenter()).PaddingBottom(4.px());
             }
 
-            public bool IsMatch(string searchTerm) => Value.Contains(searchTerm);
+            public bool IsMatch(string searchTerm) => _value.Contains(searchTerm);
 
-            public HTMLElement Render() => component.Render();
+            public IComponent Render() => component;
         }
 
 

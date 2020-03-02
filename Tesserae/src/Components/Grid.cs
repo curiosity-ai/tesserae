@@ -29,7 +29,12 @@ namespace Tesserae.Components
             {
                 _grid.style.gridTemplateColumns = string.Join(" ", columns.Where(c => c is object).Select(c => c.ToString()));
             }
+            else
+            {
+                _grid.style.gridTemplateColumns = "100%";
+            }
         }
+
         public Grid EnableInvisibleScroll()
         {
             ScrollBar.EnableInvisibleScroll(InnerElement);
@@ -38,7 +43,73 @@ namespace Tesserae.Components
 
         public void Add(IComponent component)
         {
-            _grid.appendChild(Stack.GetItem(component, true));
+            _grid.appendChild(GetItem(component, true));
+        }
+
+        internal static HTMLElement GetItem(IComponent component, bool forceAdd = false)
+        {
+            if (!((component as dynamic).StackItem is HTMLElement item))
+            {
+                var rendered = component.Render();
+                if (forceAdd || (rendered.parentElement is object && rendered.parentElement.classList.contains("tss-stack")))
+                {
+                    item = Div(_("tss-stack-item", styles: s =>
+                    {
+                        s.alignSelf = "auto";
+                        s.width = "auto";
+                        s.height = "auto";
+                        s.flexShrink = "1";
+                    }), component.Render());
+                    (component as dynamic).StackItem = item;
+
+                    if (forceAdd)
+                    {
+                        CopyStylesDefinedWithExtension(rendered, item);
+                    }
+
+                }
+                else
+                {
+                    item = rendered;
+                }
+            }
+            return item;
+        }
+
+        internal static void CopyStylesDefinedWithExtension(HTMLElement from, HTMLElement to)
+        {
+            //Copy base-styles using same method from Stack
+            Stack.CopyStylesDefinedWithExtension(from, to);
+
+            var fs = from.style;
+            var ts = to.style;
+
+            bool has(string att)
+            {
+                bool ha = from.hasAttribute(att);
+                if (ha)
+                {
+                    from.removeAttribute(att);
+                }
+                return ha;
+            }
+
+            if (has("tss-grd-c")) { ts.gridColumn = fs.gridColumn; fs.gridColumn = ""; }
+            if (has("tss-grd-r")) { ts.gridRow    = fs.gridRow;    fs.gridRow    = ""; }
+        }
+
+        public static void SetGridColumn(IComponent component, int start, int end)
+        {
+            var correct = Stack.GetCorrectItemToApplyStyle(component);
+            correct.item.style.gridColumn = $"{start} / {end}";
+            if (correct.remember) correct.item.setAttribute("tss-grd-c", "");
+        }
+        
+        public static void SetGridRow(IComponent component, int start, int end)
+        {
+            var correct = Stack.GetCorrectItemToApplyStyle(component);
+            correct.item.style.gridRow = $"{start} / {end}";
+            if (correct.remember) correct.item.setAttribute("tss-grd-r", "");
         }
 
         /// <summary>
@@ -101,7 +172,7 @@ namespace Tesserae.Components
         }
         public void Replace(IComponent newComponent, IComponent oldComponent)
         {
-            _grid.replaceChild(Stack.GetItem(newComponent), Stack.GetItem(oldComponent));
+            _grid.replaceChild(GetItem(newComponent), GetItem(oldComponent));
         }
 
         public virtual HTMLElement Render()

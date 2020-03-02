@@ -128,7 +128,7 @@ namespace Tesserae.Components
             if(correct.remember) correct.item.setAttribute("tss-stk-w","");
         }
 
-        private static (HTMLElement item, bool remember) GetCorrectItemToApplyStyle(IComponent component)
+        internal static (HTMLElement item, bool remember) GetCorrectItemToApplyStyle(IComponent component)
         {
             if (component is ISpecialCaseStyling specialCase)
             {
@@ -339,7 +339,7 @@ namespace Tesserae.Components
             return item;
         }
 
-        private static void CopyStylesDefinedWithExtension(HTMLElement from, HTMLElement to)
+        internal static void CopyStylesDefinedWithExtension(HTMLElement from, HTMLElement to)
         {
             // RFO: this class does some magic to move any styles applied to an element using the extensions methods like Width, etc... to the actual StackItem HTML element
             // so that they're relevant on the flex-box and not only inside of each child item of the flexbox
@@ -357,35 +357,35 @@ namespace Tesserae.Components
                 return ha;
             }
 
-            if (has("tss-stk-w"))  { ts.width     = fs.width;  fs.width = "100%"; }
-            if (has("tss-stk-mw")) { ts.minWidth = fs.minWidth; fs.minWidth = "100%"; }
-            if (has("tss-stk-mxw")) { ts.maxWidth = fs.maxWidth; fs.maxWidth = "100%"; }
-            if (has("tss-stk-h"))  { ts.height    = fs.height; fs.height = "100%"; }
-            if (has("tss-stk-mh")) { ts.minHeight = fs.minHeight; fs.minHeight = "100%"; }
+            if (has("tss-stk-w"))   { ts.width     = fs.width;  fs.width = "100%"; }
+            if (has("tss-stk-mw"))  { ts.minWidth  = fs.minWidth; fs.minWidth = "100%"; }
+            if (has("tss-stk-mxw")) { ts.maxWidth  = fs.maxWidth; fs.maxWidth = "100%"; }
+            if (has("tss-stk-h"))   { ts.height    = fs.height; fs.height = "100%"; }
+            if (has("tss-stk-mh"))  { ts.minHeight = fs.minHeight; fs.minHeight = "100%"; }
             if (has("tss-stk-mxh")) { ts.maxHeight = fs.maxHeight; fs.maxHeight = "100%"; }
 
             if (has("tss-stk-m"))
             {
-                ts.marginLeft = fs.marginLeft;
-                ts.marginTop = fs.marginTop;
-                ts.marginRight = fs.marginRight;
+                ts.marginLeft   = fs.marginLeft;
+                ts.marginTop    = fs.marginTop;
+                ts.marginRight  = fs.marginRight;
                 ts.marginBottom = fs.marginBottom;
-                fs.marginLeft = fs.marginTop = fs.marginRight = fs.marginBottom = "";
+                fs.marginLeft   = fs.marginTop = fs.marginRight = fs.marginBottom = "";
             }
 
             if (has("tss-stk-p"))
             {
-                ts.paddingLeft = fs.paddingLeft;
-                ts.paddingTop = fs.paddingTop;
-                ts.paddingRight = fs.paddingRight;
+                ts.paddingLeft   = fs.paddingLeft;
+                ts.paddingTop    = fs.paddingTop;
+                ts.paddingRight  = fs.paddingRight;
                 ts.paddingBottom = fs.paddingBottom;
-                fs.paddingLeft = fs.paddingTop = fs.paddingRight = fs.paddingBottom = "";
+                fs.paddingLeft   = fs.paddingTop = fs.paddingRight = fs.paddingBottom = "";
             }
 
             //TODO: check if should clear this here:
-            if (has("tss-stk-fg")) { ts.flexGrow = fs.flexGrow;  /*fs.flexGrow = ""; */}
+            if (has("tss-stk-fg")) { ts.flexGrow   = fs.flexGrow;  /*fs.flexGrow = ""; */}
             if (has("tss-stk-fs")) { ts.flexShrink = fs.flexShrink;  /*fs.flexShrink = ""; */}
-            if (has("tss-stk-as")) { ts.alignSelf = fs.alignSelf; /*fs.alignSelf = "";*/ }
+            if (has("tss-stk-as")) { ts.alignSelf  = fs.alignSelf; /*fs.alignSelf = "";*/ }
         }
 
         public enum Orientation
@@ -422,190 +422,5 @@ namespace Tesserae.Components
         Start,
         Center,
         End
-    }
-
-    public static class StackExtensions
-    {
-        public static T AlignAuto<T>(this T component) where T : IComponent
-        {
-            Stack.SetAlign(component, ItemAlign.Auto);
-            return component;
-        }
-
-        public static T AlignStretch<T>(this T component) where T : IComponent
-        {
-            Stack.SetAlign(component, ItemAlign.Stretch);
-            return component;
-        }
-        public static T AlignBaseline<T>(this T component) where T : IComponent
-        {
-            Stack.SetAlign(component, ItemAlign.Baseline);
-            return component;
-        }
-        public static T AlignStart<T>(this T component) where T : IComponent
-        {
-            Stack.SetAlign(component, ItemAlign.Start);
-            return component;
-        }
-        public static T AlignCenter<T>(this T component) where T : IComponent
-        {
-            Stack.SetAlign(component, ItemAlign.Center);
-            return component;
-        }
-        public static T AlignEnd<T>(this T component) where T : IComponent
-        {
-            Stack.SetAlign(component, ItemAlign.End);
-            return component;
-        }
-
-        public static T Margin<T>(this T component, UnitSize unitSize) where T : IComponent
-        {
-            Stack.SetMarginLeft(component, unitSize);
-            Stack.SetMarginRight(component, unitSize);
-            Stack.SetMarginTop(component, unitSize);
-            Stack.SetMarginBottom(component, unitSize);
-            return component;
-        }
-
-        public static T MarginLeft<T>(this T component, UnitSize unitSize) where T : IComponent
-        {
-            Stack.SetMarginLeft(component, unitSize);
-            return component;
-        }
-
-        public static T MarginRight<T>(this T component, UnitSize unitSize) where T : IComponent
-        {
-            Stack.SetMarginRight(component, unitSize);
-            return component;
-        }
-
-        public static T MarginTop<T>(this T component, UnitSize unitSize) where T : IComponent
-        {
-            Stack.SetMarginTop(component, unitSize);
-            return component;
-        }
-
-        public static T MarginBottom<T>(this T component, UnitSize unitSize) where T : IComponent
-        {
-            Stack.SetMarginBottom(component, unitSize);
-            return component;
-        }
-
-        public static T Padding<T>(this T component, UnitSize unitSize) where T : IComponent
-        {
-            Stack.SetPaddingLeft(component, unitSize);
-            Stack.SetPaddingRight(component, unitSize);
-            Stack.SetPaddingTop(component, unitSize);
-            Stack.SetPaddingBottom(component, unitSize);
-            return component;
-        }
-
-        public static T PaddingLeft<T>(this T component, UnitSize unitSize) where T : IComponent
-        {
-            Stack.SetPaddingLeft(component, unitSize);
-            return component;
-        }
-
-        public static T PaddingRight<T>(this T component, UnitSize unitSize) where T : IComponent
-        {
-            Stack.SetPaddingRight(component, unitSize);
-            return component;
-        }
-
-        public static T PaddingTop<T>(this T component, UnitSize unitSize) where T : IComponent
-        {
-            Stack.SetPaddingTop(component, unitSize);
-            return component;
-        }
-
-        public static T PaddingBottom<T>(this T component, UnitSize unitSize) where T : IComponent
-        {
-            Stack.SetPaddingBottom(component, unitSize);
-            return component;
-        }
-
-        public static T WidthAuto<T>(this T component) where T : IComponent
-        {
-            Stack.SetWidth(component, UnitSize.Auto());
-            return component;
-        }
-
-        public static T Width<T>(this T component, UnitSize unitSize) where T : IComponent
-        {
-            Stack.SetWidth(component, unitSize);
-            return component;
-        }
-
-        public static T MinWidth<T>(this T component, UnitSize unitSize) where T : IComponent
-        {
-            Stack.SetMinWidth(component, unitSize);
-            return component;
-        }
-
-        public static T MaxWidth<T>(this T component, UnitSize unitSize) where T : IComponent
-        {
-            Stack.SetMaxWidth(component, unitSize);
-            return component;
-        }
-
-        public static T WidthStretch<T>(this T component) where T : IComponent
-        {
-            Stack.SetWidth(component, 100.percent());
-            return component;
-        }
-
-        public static T HeightAuto<T>(this T component) where T : IComponent
-        {
-            Stack.SetHeight(component, UnitSize.Auto());
-            return component;
-        }
-
-        public static T Height<T>(this T component, UnitSize unitSize) where T : IComponent
-        {
-            Stack.SetHeight(component, unitSize);
-            return component;
-        }
-
-        public static T MinHeight<T>(this T component, UnitSize unitSize) where T : IComponent
-        {
-            Stack.SetMinHeight(component, unitSize);
-            return component;
-        }
-
-        public static T MaxHeight<T>(this T component, UnitSize unitSize) where T : IComponent
-        {
-            Stack.SetMaxHeight(component, unitSize);
-            return component;
-        }
-
-        public static T HeightStretch<T>(this T component) where T : IComponent
-        {
-            Stack.SetHeight(component, 100.percent());
-            return component;
-        }
-
-        public static T MinHeightStretch<T>(this T component) where T : IComponent
-        {
-            Stack.SetMinHeight(component, 100.percent());
-            return component;
-        }
-
-        public static T Grow<T>(this T component, int grow) where T : IComponent
-        {
-            Stack.SetGrow(component, grow);
-            return component;
-        }
-
-        public static T Shrink<T>(this T component) where T : IComponent
-        {
-            Stack.SetShrink(component, true);
-            return component;
-        }
-
-        public static T NoShrink<T>(this T component) where T : IComponent
-        {
-            Stack.SetShrink(component, false);
-            return component;
-        }
     }
 }

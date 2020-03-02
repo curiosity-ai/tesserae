@@ -10,13 +10,10 @@ namespace Tesserae.Components
 
         void OnListItemClick(int listItemIndex);
 
-        IEnumerable<HTMLElement> Render(
-            IList<IDetailsListColumn> columns,
-            Func<IDetailsListColumn, Func<HTMLElement>, HTMLElement> createGridCellExpression);
+        IEnumerable<IComponent> Render(IList<IDetailsListColumn> columns, Func<IDetailsListColumn, Func<IComponent>, IComponent> createGridCellExpression);
     }
 
-    public interface IDetailsListItem<in TDetailsListItem> : IDetailsListItem
-        where TDetailsListItem : IDetailsListItem<TDetailsListItem>
+    public interface IDetailsListItem<in TDetailsListItem> : IDetailsListItem where TDetailsListItem : IDetailsListItem<TDetailsListItem>
     {
         int CompareTo(TDetailsListItem other, string columnSortingKey);
     }

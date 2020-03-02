@@ -5,18 +5,15 @@ using static Retyped.dom;
 
 namespace Tesserae
 {
-    public class ComponentCache<TComponent> : ComponentCacheBase<TComponent>
-        where TComponent : class
+    public class ComponentCache<TComponent> : ComponentCacheBase<TComponent> where TComponent : class
     {
         private readonly Func<(int Key, TComponent Component), HTMLElement> _createComponentExpression;
 
         private  List<(int Key, HTMLElement HtmlElement)> _componentCache;
 
-        public ComponentCache(
-            Func<(int Key, TComponent Component), HTMLElement> createComponentExpression)
+        public ComponentCache(Func<(int Key, TComponent Component), HTMLElement> createComponentExpression)
         {
-            _createComponentExpression =
-                createComponentExpression ?? throw new ArgumentNullException(nameof(createComponentExpression));
+            _createComponentExpression = createComponentExpression ?? throw new ArgumentNullException(nameof(createComponentExpression));
 
             _componentCache = new List<(int Key, HTMLElement HtmlElement)>();
         }
@@ -28,12 +25,11 @@ namespace Tesserae
             return this;
         }
 
-        public IEnumerable<HTMLElement> RetrieveAllComponentsFromCache()
+        public IEnumerable<HTMLElement> GetAllRenderedComponentsFromCache()
         {
-            foreach (var componentAndKey in ComponentsAndKeys)
+            foreach (var componentAndKey in _componentsAndKeys)
             {
-                var cachedComponent =
-                    _componentCache.SingleOrDefault(component => component.Key == componentAndKey.Key);
+                var cachedComponent = _componentCache.SingleOrDefault(component => component.Key == componentAndKey.Key);
 
                 if (cachedComponent.HtmlElement != null)
                 {
@@ -52,24 +48,24 @@ namespace Tesserae
 
         public ComponentCache<TComponent> SortComponents(Comparison<TComponent> comparison)
         {
-            ComponentsAndKeys
-                .Sort(
-                    (componentAndKey, otherComponentAndKey)
-                        => comparison(componentAndKey.Component, otherComponentAndKey.Component));
+            if (HasComponents)
+            {
+                _componentsAndKeys.Sort((componentAndKey, otherComponentAndKey) => comparison(componentAndKey.Component, otherComponentAndKey.Component));
+            }
 
             return this;
         }
 
         public ComponentCache<TComponent> ReverseComponentOrder()
         {
-            ComponentsAndKeys.Reverse();
+            _componentsAndKeys.Reverse();
 
             return this;
         }
 
         public ComponentCache<TComponent> Clear()
         {
-            ComponentsAndKeys.Clear();
+            _componentsAndKeys.Clear();
             _componentCache.Clear();
 
             return this;

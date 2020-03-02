@@ -12,8 +12,8 @@ namespace Tesserae.Components
         private readonly Defer _defered;
         private readonly Stack _stack;
         private readonly SearchBox _searchBox;
-        private readonly Grid _grid;
-        public HTMLElement StylingContainer => _grid.StylingContainer;
+        private readonly ItemsList _list;
+        public HTMLElement StylingContainer => _list.StylingContainer;
         public bool PropagateToStackItemParent => false;
         public ObservableList<T> Items { get; }
 
@@ -23,13 +23,22 @@ namespace Tesserae.Components
 
         public SearchableList(ObservableList<T> items, UnitSize[] columns)
         {
-            Items = items;
+            Items = items ?? new ObservableList<T>();
             _searchBox = new SearchBox().Underlined().SetPlaceholder("Type to search").SearchAsYouType();
-            _grid = Grid(columns);
+            _list = ItemsList(null, columns);
             _defered = Defer.Observe(Items, item =>
             {
                 var searchTerm = _searchBox.Text;
-                return Task.FromResult<IComponent>(_grid.Children(Items.Where(i => string.IsNullOrWhiteSpace(searchTerm) || i.IsMatch(searchTerm)).Select(i => (IComponent)i).ToArray()));
+                var filteredItems = Items.Where(i => string.IsNullOrWhiteSpace(searchTerm) || i.IsMatch(searchTerm)).Select(i => i.Render()).ToArray();
+
+                _list.Items.Clear();
+
+                if (filteredItems.Any())
+                {
+                    _list.Items.AddRange(filteredItems);
+                }
+
+                return _list.AsTask();
             });
 
             _searchBox.OnSearch((_, __) => _defered.Refresh());
@@ -37,7 +46,12 @@ namespace Tesserae.Components
             _stack = Stack().Vertical().Children(_searchBox, _defered.Grow(1)).HeightStretch().WidthStretch();
         }
 
-
+        public SearchableList<T> WithNoResultsMessage(Func<IComponent> emptyListMessageGenerator)
+        {
+            _list.WithEmptyMessage(emptyListMessageGenerator ?? throw new ArgumentNullException(nameof(emptyListMessageGenerator)));
+            _defered.Refresh();
+            return this;
+        }
 
         public SearchableList<T> SearchBox(Action<SearchBox> sb)
         {
@@ -48,8 +62,9 @@ namespace Tesserae.Components
         public dom.HTMLElement Render() => _stack.Render();
     }
 
-    public interface ISearchableItem : IComponent
+    public interface ISearchableItem
     {
         bool IsMatch(string searchTerm);
+        IComponent Render();
     }
 }

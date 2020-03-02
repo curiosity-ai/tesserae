@@ -1,4 +1,4 @@
-﻿using Retyped;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
 using static Retyped.dom;
@@ -8,30 +8,87 @@ namespace Tesserae.Components
 {
     public class ItemsList: IComponent, ISpecialCaseStyling
     {
-        public HTMLElement StylingContainer => _grid.StylingContainer;
-
-        public bool PropagateToStackItemParent => false;
-
-        internal readonly Defer _defered;
+        private readonly Grid _grid;
+        private readonly Stack _stack;
+        private readonly UnitSize _maxStackItemSize;
+        private readonly Defer _defered;
+        private Func<IComponent> _emptyListMessageGenerator;
 
         public ObservableList<IComponent> Items { get; }
 
-        private readonly Grid _grid;
+        public HTMLElement StylingContainer    => _grid?.StylingContainer ?? _stack.StylingContainer;
 
-        public ItemsList(IComponent[] items, UnitSize[] columns) : this(new ObservableList<IComponent>(items ?? new IComponent[0]), columns)
+        public bool PropagateToStackItemParent => false;
+
+        public ItemsList(IComponent[] items, params UnitSize[] columns) : this(new ObservableList<IComponent>(items ?? new IComponent[0]), columns)
         {
         }
 
-        public ItemsList(ObservableList<IComponent> items, UnitSize[] columns)
+        public ItemsList(ObservableList<IComponent> items, params UnitSize[] columns)
         {
-            Items = items;
-            _grid = Grid(columns);
-            _defered = Defer.Observe(Items, item =>
+            Items = items ?? new ObservableList<IComponent>();
+
+            if (columns.Length < 2)
             {
-                return Task.FromResult<IComponent>(_grid.Children(Items.ToArray()));
+                _stack = Stack().Horizontal().Wrap().HeightStretch().WidthStretch();
+                _maxStackItemSize = columns.FirstOrDefault() ?? 100.percent();
+            }
+            else
+            {
+                _grid = Grid(columns).HeightStretch().WidthStretch();
+            }
+            _emptyListMessageGenerator = null;
+
+            _defered = Defer.Observe(Items, observedItems =>
+            {
+                if (!observedItems.Any())
+                {
+                    if (_emptyListMessageGenerator is object)
+                    {
+                        if(_grid is object)
+                        {
+                            return _grid.Children(_emptyListMessageGenerator().GridColumnStrech()).AsTask();
+                        }
+                        else
+                        {
+                            return _stack.Children(_emptyListMessageGenerator().WidthStretch().HeightStretch()).AsTask();
+                        }
+                    }
+                    else
+                    {
+                        if(_grid is object)
+                        {
+                            _grid.Clear();
+                            return _grid.AsTask();
+                        }
+                        else
+                        {
+                            _stack.Clear();
+                            return _stack.AsTask();
+                        }
+                    }
+                }
+                else
+                {
+                    if(_grid is object)
+                    {
+                        return _grid.Children(Items.ToArray()).AsTask();
+                    }
+                    else
+                    {
+                        return _stack.Children(Items.Select(i => i.Width(_maxStackItemSize)).ToArray()).AsTask();
+                    }
+                }
             });
         }
 
-        public dom.HTMLElement Render() => _defered.Render();
+        public ItemsList WithEmptyMessage(Func<IComponent> emptyListMessageGenerator)
+        {
+            _emptyListMessageGenerator = emptyListMessageGenerator ?? throw new ArgumentNullException(nameof(emptyListMessageGenerator));
+            _defered.Refresh();
+            return this;
+        }
+
+        public HTMLElement Render() => _defered.Render();
     }
 }
