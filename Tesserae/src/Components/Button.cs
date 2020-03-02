@@ -219,16 +219,13 @@ namespace Tesserae.Components
             get { return !InnerElement.classList.contains("disabled"); }
             set
             {
-                if (value != IsEnabled)
+                if (value)
                 {
-                    if (value)
-                    {
-                        InnerElement.classList.remove("disabled");
-                    }
-                    else
-                    {
-                        InnerElement.classList.add("disabled");
-                    }
+                    InnerElement.classList.remove("disabled");
+                }
+                else
+                {
+                    InnerElement.classList.add("disabled");
                 }
             }
         }

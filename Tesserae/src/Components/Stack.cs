@@ -24,15 +24,12 @@ namespace Tesserae.Components
             }
             set
             {
-                if (value != StackOrientation)
+                switch (value)
                 {
-                    switch (value)
-                    {
-                        case Orientation.Horizontal: InnerElement.style.flexDirection = "row"; break;
-                        case Orientation.Vertical: InnerElement.style.flexDirection = "column"; break;
-                        case Orientation.HorizontalReverse: InnerElement.style.flexDirection = "row-reverse"; break;
-                        case Orientation.VerticalReverse: InnerElement.style.flexDirection = "column-reverse"; break;
-                    }
+                    case Orientation.Horizontal: InnerElement.style.flexDirection = "row"; break;
+                    case Orientation.Vertical: InnerElement.style.flexDirection = "column"; break;
+                    case Orientation.HorizontalReverse: InnerElement.style.flexDirection = "row-reverse"; break;
+                    case Orientation.VerticalReverse: InnerElement.style.flexDirection = "column-reverse"; break;
                 }
             }
         }
@@ -42,10 +39,7 @@ namespace Tesserae.Components
             get { return InnerElement.style.flexWrap != "nowrap"; }
             set
             {
-                if (value != CanWrap)
-                {
-                    InnerElement.style.flexWrap = value ? "wrap" : "nowrap";
-                }
+                InnerElement.style.flexWrap = value ? "wrap" : "nowrap";
             }
         }
 

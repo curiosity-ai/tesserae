@@ -23,16 +23,13 @@ namespace Tesserae.Components
             get { return !InnerElement.classList.contains("disabled"); }
             set
             {
-                if (value != IsEnabled)
+                if (value)
                 {
-                    if (value)
-                    {
-                        InnerElement.classList.remove("disabled");
-                    }
-                    else
-                    {
-                        InnerElement.classList.add("disabled");
-                    }
+                    InnerElement.classList.remove("disabled");
+                }
+                else
+                {
+                    InnerElement.classList.add("disabled");
                 }
             }
         }
@@ -117,22 +114,19 @@ namespace Tesserae.Components
             get { return InnerElement.classList.contains("tss-fontcolor-primary"); }
             set
             {
-                if (value != IsPrimary)
+                if (value)
                 {
-                    if (value)
-                    {
-                        InnerElement.classList.add("tss-fontcolor-primary");
-                        InnerElement.classList.remove("tss-fontcolor-invalid");
-                        InnerElement.classList.remove("tss-fontcolor-success");
-                        InnerElement.classList.remove("tss-fontcolor-danger");
-                    }
-                    else
-                    {
-                        InnerElement.classList.remove("tss-fontcolor-invalid");
-                        InnerElement.classList.remove("tss-fontcolor-success");
-                        InnerElement.classList.remove("tss-fontcolor-danger");
-                        InnerElement.classList.remove("tss-fontcolor-primary");
-                    }
+                    InnerElement.classList.add("tss-fontcolor-primary");
+                    InnerElement.classList.remove("tss-fontcolor-invalid");
+                    InnerElement.classList.remove("tss-fontcolor-success");
+                    InnerElement.classList.remove("tss-fontcolor-danger");
+                }
+                else
+                {
+                    InnerElement.classList.remove("tss-fontcolor-invalid");
+                    InnerElement.classList.remove("tss-fontcolor-success");
+                    InnerElement.classList.remove("tss-fontcolor-danger");
+                    InnerElement.classList.remove("tss-fontcolor-primary");
                 }
             }
         }
@@ -145,22 +139,19 @@ namespace Tesserae.Components
             get { return InnerElement.classList.contains("tss-fontcolor-success"); }
             set
             {
-                if (value != IsSuccess)
+                if (value)
                 {
-                    if (value)
-                    {
-                        InnerElement.classList.add("tss-fontcolor-success");
-                        InnerElement.classList.remove("tss-fontcolor-invalid");
-                        InnerElement.classList.remove("tss-fontcolor-primary");
-                        InnerElement.classList.remove("tss-fontcolor-danger");
-                    }
-                    else
-                    {
-                        InnerElement.classList.remove("tss-fontcolor-invalid");
-                        InnerElement.classList.remove("tss-fontcolor-success");
-                        InnerElement.classList.remove("tss-fontcolor-danger");
-                        InnerElement.classList.remove("tss-fontcolor-primary");
-                    }
+                    InnerElement.classList.add("tss-fontcolor-success");
+                    InnerElement.classList.remove("tss-fontcolor-invalid");
+                    InnerElement.classList.remove("tss-fontcolor-primary");
+                    InnerElement.classList.remove("tss-fontcolor-danger");
+                }
+                else
+                {
+                    InnerElement.classList.remove("tss-fontcolor-invalid");
+                    InnerElement.classList.remove("tss-fontcolor-success");
+                    InnerElement.classList.remove("tss-fontcolor-danger");
+                    InnerElement.classList.remove("tss-fontcolor-primary");
                 }
             }
         }
@@ -173,22 +164,19 @@ namespace Tesserae.Components
             get { return InnerElement.classList.contains("tss-fontcolor-danger"); }
             set
             {
-                if (value != IsDanger)
+                if (value)
                 {
-                    if (value)
-                    {
-                        InnerElement.classList.add("tss-fontcolor-danger");
-                        InnerElement.classList.remove("tss-fontcolor-invalid");
-                        InnerElement.classList.remove("tss-fontcolor-primary");
-                        InnerElement.classList.remove("tss-fontcolor-success");
-                    }
-                    else
-                    {
-                        InnerElement.classList.remove("tss-fontcolor-invalid");
-                        InnerElement.classList.remove("tss-fontcolor-success");
-                        InnerElement.classList.remove("tss-fontcolor-danger");
-                        InnerElement.classList.remove("tss-fontcolor-primary");
-                    }
+                    InnerElement.classList.add("tss-fontcolor-danger");
+                    InnerElement.classList.remove("tss-fontcolor-invalid");
+                    InnerElement.classList.remove("tss-fontcolor-primary");
+                    InnerElement.classList.remove("tss-fontcolor-success");
+                }
+                else
+                {
+                    InnerElement.classList.remove("tss-fontcolor-invalid");
+                    InnerElement.classList.remove("tss-fontcolor-success");
+                    InnerElement.classList.remove("tss-fontcolor-danger");
+                    InnerElement.classList.remove("tss-fontcolor-primary");
                 }
             }
         }
@@ -201,22 +189,19 @@ namespace Tesserae.Components
             get { return InnerElement.classList.contains("tss-fontcolor-invalid"); }
             set
             {
-                if (value != IsInvalid)
+                if (value)
                 {
-                    if (value)
-                    {
-                        InnerElement.classList.add("tss-fontcolor-invalid");
-                        InnerElement.classList.remove("tss-fontcolor-danger");
-                        InnerElement.classList.remove("tss-fontcolor-primary");
-                        InnerElement.classList.remove("tss-fontcolor-success");
-                    }
-                    else
-                    {
-                        InnerElement.classList.remove("tss-fontcolor-invalid");
-                        InnerElement.classList.remove("tss-fontcolor-success");
-                        InnerElement.classList.remove("tss-fontcolor-danger");
-                        InnerElement.classList.remove("tss-fontcolor-primary");
-                    }
+                    InnerElement.classList.add("tss-fontcolor-invalid");
+                    InnerElement.classList.remove("tss-fontcolor-danger");
+                    InnerElement.classList.remove("tss-fontcolor-primary");
+                    InnerElement.classList.remove("tss-fontcolor-success");
+                }
+                else
+                {
+                    InnerElement.classList.remove("tss-fontcolor-invalid");
+                    InnerElement.classList.remove("tss-fontcolor-success");
+                    InnerElement.classList.remove("tss-fontcolor-danger");
+                    InnerElement.classList.remove("tss-fontcolor-primary");
                 }
             }
         }
@@ -226,16 +211,13 @@ namespace Tesserae.Components
             get { return InnerElement.classList.contains("tss-required"); }
             set
             {
-                if (value != IsInvalid)
+                if (value)
                 {
-                    if (value)
-                    {
-                        InnerElement.classList.add("tss-required");
-                    }
-                    else
-                    {
-                        InnerElement.classList.remove("tss-required");
-                    }
+                    InnerElement.classList.add("tss-required");
+                }
+                else
+                {
+                    InnerElement.classList.remove("tss-required");
                 }
             }
         }
