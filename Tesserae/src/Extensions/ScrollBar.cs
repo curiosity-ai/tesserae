@@ -17,7 +17,7 @@ namespace Tesserae.Components
             internal HTMLElement _element;
             public Handle(HTMLElement element)
             {
-                //element.style.setProperty("overflow-y", "none", "important");
+                element.style.setProperty("overflow-y", "none", "important");
                 element.classList.add("invisible-scrollbar");
                 _element = element;
                 scrollbar = Script.Write<object>("new SimpleBar({0})", element);
