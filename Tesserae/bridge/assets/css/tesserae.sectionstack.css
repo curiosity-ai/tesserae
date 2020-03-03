@@ -1,12 +1,12 @@
 ﻿/* Stack */
-.tss-session-stack {
+.tss-sectionstack {
     display: flex;
     flex-direction: column;
     padding: 16px;
     background: var(--tss-secondary-background-color);
 }
 
-.tss-session-stack > .tss-stack-item {
+.tss-sectionstack-item {
     margin-bottom: 28px !important;
     position: relative;
     opacity: 0;
@@ -19,13 +19,13 @@
 }
 
 
-    .tss-stack-item.ismounted {
-        opacity: 1;
-        -webkit-transform: translate3d(0, 0, 0);
-        transform: translate3d(0, 0, 0);
-    }
+.tss-sectionstack-item.ismounted {
+    opacity: 1;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+}
 
-.tss-session-stack-card {
+.tss-sectionstack-card {
     padding: 28px;
     background: var(--tss-default-background-color);
     border-radius: 2px;
