@@ -155,7 +155,7 @@ namespace Tesserae.Components
         public async Task LoadItemsAsync()
         {
             if (ItemsSource is null) throw new InvalidOperationException("Only valid with async items");
-
+            ItemsSource = null;
             _spinner = Div(_("tss-spinner"));
             _container.appendChild(_spinner);
             _container.style.pointerEvents = "none";
