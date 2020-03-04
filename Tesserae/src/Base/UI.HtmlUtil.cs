@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Bridge;
 using Tesserae.Components;
 using Tesserae.HTML;
@@ -61,6 +62,73 @@ namespace Tesserae
         {
             while (source.firstElementChild != null)
                 source.firstElementChild.remove();
+        }
+
+        public static HTMLElement UpdateClassIf(this HTMLElement htmlElement, bool value, string cssClass)
+        {
+            if (value)
+            {
+                htmlElement.classList.add(cssClass);
+            }
+            else
+            {
+                htmlElement.classList.remove(cssClass);
+            }
+
+            return htmlElement;
+        }
+
+        public static HTMLElement UpdateClassIfNot(this HTMLElement htmlElement, bool value, string cssClass)
+        {
+            if (!value)
+            {
+                htmlElement.classList.add(cssClass);
+            }
+            else
+            {
+                htmlElement.classList.remove(cssClass);
+            }
+
+            return htmlElement;
+        }
+
+        public static HTMLElement RemoveClassIf(this HTMLElement htmlElement, bool value, string cssClass)
+        {
+            if (value)
+            {
+                htmlElement.classList.remove(cssClass);
+            }
+
+            return htmlElement;
+        }
+
+        public static (TextSize? textSize, string currentTextSizeCssClass) GetTextSize(this HTMLElement htmlElement)
+        {
+            return GetCssClassValue<TextSize>(htmlElement, "fontsize");
+        }
+
+        public static (TextWeight? textWeight, string currentTextWeightCssClass) GetTextWeight(this HTMLElement htmlElement)
+        {
+            return GetCssClassValue<TextWeight>(htmlElement, "fontweight");
+        }
+
+        public static (TextAlign? textAlign, string currentTextAlignCssClass) GetTextAlign(this HTMLElement htmlElement)
+        {
+            return GetCssClassValue<TextAlign>(htmlElement, "textalign");
+        }
+
+        private static (T? value, string currentCssClass) GetCssClassValue<T>(HTMLElement htmlElement, string cssClass) where T : struct
+        {
+            cssClass = $"tss-{cssClass}-";
+
+            var currentCssClass = htmlElement.classList.FirstOrDefault(t => t.StartsWith(cssClass));
+
+            if (currentCssClass != null && Enum.TryParse<T>(currentCssClass.Substring(cssClass.Length), true, out var value))
+            {
+                return (value, currentCssClass);
+            }
+
+            return (null, string.Empty);
         }
 
         public static void ReplaceElement(HTMLElement source, HTMLElement replaceWith)
