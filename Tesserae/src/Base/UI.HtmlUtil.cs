@@ -104,23 +104,21 @@ namespace Tesserae
 
         public static (TextSize? textSize, string currentTextSizeCssClass) GetTextSize(this HTMLElement htmlElement)
         {
-            return GetCssClassValue<TextSize>(htmlElement, "fontsize");
+            return GetCssClassValue<TextSize>(htmlElement, "tss-fontsize-");
         }
 
         public static (TextWeight? textWeight, string currentTextWeightCssClass) GetTextWeight(this HTMLElement htmlElement)
         {
-            return GetCssClassValue<TextWeight>(htmlElement, "fontweight");
+            return GetCssClassValue<TextWeight>(htmlElement, "tss-fontweight-");
         }
 
         public static (TextAlign? textAlign, string currentTextAlignCssClass) GetTextAlign(this HTMLElement htmlElement)
         {
-            return GetCssClassValue<TextAlign>(htmlElement, "textalign");
+            return GetCssClassValue<TextAlign>(htmlElement, "tss-textalign-");
         }
 
         private static (T? value, string currentCssClass) GetCssClassValue<T>(HTMLElement htmlElement, string cssClass) where T : struct
         {
-            cssClass = $"tss-{cssClass}-";
-
             var currentCssClass = htmlElement.classList.FirstOrDefault(t => t.StartsWith(cssClass));
 
             if (currentCssClass != null && Enum.TryParse<T>(currentCssClass.Substring(cssClass.Length), true, out var value))
