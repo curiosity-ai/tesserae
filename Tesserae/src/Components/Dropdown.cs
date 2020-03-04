@@ -336,7 +336,10 @@ namespace Tesserae.Components
                 }
                 else
                 {
-                    _selectedChildren.Add(e);
+                    if (!_selectedChildren.Contains(e))
+                    {
+                        _selectedChildren.Add(e);
+                    }
                 }
 
                 _isChanged = true;
