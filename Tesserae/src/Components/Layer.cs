@@ -59,46 +59,36 @@ namespace Tesserae.Components
 
         public LayerHost Host
         {
-            get { return _Host; }
+            get => _Host;
             set
             {
-                if (value != _Host)
-                {
-                    if (IsVisible) Hide();
-                    _Host = value;
-                    if (IsVisible) Show();
-                }
+                if (IsVisible) Hide();
+                _Host = value;
+                if (IsVisible) Show();
             }
         }
 
         public virtual IComponent Content
         {
-            get { return _content; }
+            get => _content;
             set
             {
-                if (value != _content)
+                _content = value;
+                if (IsVisible)
                 {
-                    _content = value;
-                    if (IsVisible)
-                    {
-                        Hide();
-                        Show();
-                    }
+                    Hide();
+                    Show();
                 }
             }
         }
 
-
         public bool IsVisible
         {
-            get { return _isVisible; }
+            get => _isVisible;
             set
             {
-                if (value != IsVisible)
-                {
-                    if (value) Show();
-                    else Hide();
-                }
+                if (value) Show();
+                else Hide();
             }
         }
 

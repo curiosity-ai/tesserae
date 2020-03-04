@@ -16,14 +16,14 @@ namespace Tesserae.Components
         private bool _cacheSizes;
         private double _cachedFullWidth = 0;
         private HTMLElement _chevronToUseAsButton = null;
-        
+
         private string _chevronIcon = "la-chevron-right";
 
         private Dictionary<HTMLElement, double> _cachedSizes = new Dictionary<HTMLElement, double>();
 
         public int MaximumItemsToDisplay
         {
-            get => _maximumItemsToDisplay; 
+            get => _maximumItemsToDisplay;
             set
             {
                 _maximumItemsToDisplay = value;
@@ -33,7 +33,8 @@ namespace Tesserae.Components
 
         public int OverflowIndex
         {
-            get => _overflowIndex; set
+            get => _overflowIndex;
+            set
             {
                 _overflowIndex = value;
                 Recompute();
@@ -132,7 +133,7 @@ namespace Tesserae.Components
                     {
                         if (isChevron(child))
                         {
-                            _chevronToUseAsButton = child; 
+                            _chevronToUseAsButton = child;
                             continue; //Don't collapse this, instead keep for menu button
                         }
                         else if (i > 0)

@@ -28,32 +28,29 @@ namespace Tesserae.Components
 
         public override string Text
         {
-            get { return _label.innerText; }
-            set { _label.innerText = value; }
+            get => _label.innerText;
+            set => _label.innerText = value;
         }
 
         public override bool IsRequired
         {
-            get { return _label.classList.contains("tss-required"); }
+            get => _label.classList.contains("tss-required");
             set
             {
-                if (value != IsInvalid)
+                if (value)
                 {
-                    if (value)
-                    {
-                        _label.classList.add("tss-required");
-                    }
-                    else
-                    {
-                        _label.classList.remove("tss-required");
-                    }
+                    _label.classList.add("tss-required");
+                }
+                else
+                {
+                    _label.classList.remove("tss-required");
                 }
             }
         }
 
         public bool IsInline
         {
-            get { return InnerElement.classList.contains("inline"); }
+            get => InnerElement.classList.contains("inline");
             set
             {
                 if (value)

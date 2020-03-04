@@ -31,8 +31,11 @@ namespace Tesserae.Components
 
         public event OnHideHandler onHide;
 
-        public string Background { get => _modal.style.background; set => _modal.style.background = value; }
-
+        public string Background
+        {
+            get => _modal.style.background;
+            set => _modal.style.background = value;
+        }
 
         public Modal(IComponent header = null)
         {
@@ -134,107 +137,92 @@ namespace Tesserae.Components
 
         public override IComponent Content
         {
-            get { return _content; }
+            get => _content;
             set
             {
-                if (value != _content)
+                ClearChildren(_modalContent); ;
+                _content = value;
+                if (_content != null)
                 {
-                    ClearChildren(_modalContent); ;
-                    _content = value;
-                    if (_content != null)
-                    {
-                        _modalContent.appendChild(_content.Render());
-                    }
+                    _modalContent.appendChild(_content.Render());
                 }
             }
         }
 
         public bool CanLightDismiss
         {
-            get { return _modalOverlay.classList.contains("tss-modal-lightDismiss"); }
+            get => _modalOverlay.classList.contains("tss-modal-lightDismiss");
             set
             {
-                if (value != CanLightDismiss)
+                if (value)
                 {
-                    if (value)
-                    {
-                        _modalOverlay.classList.add("tss-modal-lightDismiss");
-                        _modalOverlay.addEventListener("click", OnCloseClick);
-                    }
-                    else
-                    {
-                        _modalOverlay.classList.remove("tss-modal-lightDismiss");
-                        _modalOverlay.removeEventListener("click", OnCloseClick);
-                    }
+                    _modalOverlay.classList.add("tss-modal-lightDismiss");
+                    _modalOverlay.addEventListener("click", OnCloseClick);
+                }
+                else
+                {
+                    _modalOverlay.classList.remove("tss-modal-lightDismiss");
+                    _modalOverlay.removeEventListener("click", OnCloseClick);
                 }
             }
         }
 
         public bool IsDark
         {
-            get { return _contentHtml.classList.contains("dark"); }
+            get => _contentHtml.classList.contains("dark");
             set
             {
-                if (value != IsDark)
+                if (value)
                 {
-                    if (value)
-                    {
-                        _contentHtml.classList.add("dark");
-                    }
-                    else
-                    {
-                        _contentHtml.classList.remove("dark");
-                    }
+                    _contentHtml.classList.add("dark");
+                }
+                else
+                {
+                    _contentHtml.classList.remove("dark");
                 }
             }
         }
 
         public bool IsDraggable
         {
-            get { return _modal.classList.contains("tss-modal-draggable"); }
+            get => _modal.classList.contains("tss-modal-draggable");
             set
             {
-                if (value != IsDraggable)
+                if (value)
                 {
-                    if (value)
-                    {
-                        _modal.classList.add("tss-modal-draggable");
-                        _modal.addEventListener("mousedown", OnDragMouseDown);
+                    _modal.classList.add("tss-modal-draggable");
+                    _modal.addEventListener("mousedown", OnDragMouseDown);
 
-                    }
-                    else
-                    {
-                        _modal.classList.remove("tss-modal-draggable");
-                        _modal.removeEventListener("mousedown", OnDragMouseDown);
-                    }
+                }
+                else
+                {
+                    _modal.classList.remove("tss-modal-draggable");
+                    _modal.removeEventListener("mousedown", OnDragMouseDown);
                 }
             }
         }
 
         public bool IsNonBlocking
         {
-            get { return _contentHtml.classList.contains("tss-modal-modeless"); }
+            get => _contentHtml.classList.contains("tss-modal-modeless");
             set
             {
-                if (value != IsNonBlocking)
+                if (value)
                 {
-                    if (value)
-                    {
-                        _contentHtml.classList.add("tss-modal-modeless");
-                        if (IsVisible) document.body.style.overflowY = "";
-                    }
-                    else
-                    {
-                        _contentHtml.classList.remove("tss-modal-modeless");
-                        if (IsVisible) document.body.style.overflowY = "hidden";
-                    }
+                    _contentHtml.classList.add("tss-modal-modeless");
+                    if (IsVisible) document.body.style.overflowY = "";
+                }
+                else
+                {
+                    _contentHtml.classList.remove("tss-modal-modeless");
+                    if (IsVisible) document.body.style.overflowY = "hidden";
                 }
             }
         }
 
         public bool ShowCloseButton
         {
-            get { return _closeButton.style.display != "none"; }
+            get => _closeButton.style.display != "none";
             set
             {
                 if (value) _closeButton.style.display = "";

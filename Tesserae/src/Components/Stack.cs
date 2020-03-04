@@ -36,11 +36,8 @@ namespace Tesserae.Components
 
         public bool CanWrap
         {
-            get { return InnerElement.style.flexWrap != "nowrap"; }
-            set
-            {
-                InnerElement.style.flexWrap = value ? "wrap" : "nowrap";
-            }
+            get => InnerElement.style.flexWrap != "nowrap";
+            set => InnerElement.style.flexWrap = value ? "wrap" : "nowrap";
         }
 
         public HTMLElement InnerElement { get; private set; }

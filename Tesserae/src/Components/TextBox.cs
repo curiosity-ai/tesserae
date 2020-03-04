@@ -32,116 +32,92 @@ namespace Tesserae.Components
 
         public bool IsEnabled
         {
-            get { return !InnerElement.classList.contains("disabled"); }
+            get => !InnerElement.classList.contains("disabled");
             set
             {
-                if (value != IsEnabled)
+                if (value)
                 {
-                    if (value)
-                    {
-                        InnerElement.classList.remove("disabled");
-                    }
-                    else
-                    {
-                        InnerElement.classList.add("disabled");
-                    }
+                    InnerElement.classList.remove("disabled");
+                }
+                else
+                {
+                    InnerElement.classList.add("disabled");
                 }
             }
         }
 
         public bool IsReadOnly
         {
-            get { return InnerElement.hasAttribute("readonly"); }
+            get => InnerElement.hasAttribute("readonly");
             set
             {
-                if (IsReadOnly != value)
-                {
-                    if (value) InnerElement.setAttribute("readonly", "");
-                    else InnerElement.removeAttribute("readonly");
-                }
+                if (value) InnerElement.setAttribute("readonly", "");
+                else InnerElement.removeAttribute("readonly");
             }
         }
 
         public bool IsPassword
         {
-            get { return InnerElement.type == "password"; }
+            get => InnerElement.type == "password";
             set
             {
-                if (IsPassword != value)
-                {
-                    if (value) InnerElement.type = "password";
-                    else InnerElement.type = "";
-                }
+                if (value) InnerElement.type = "password";
+                else InnerElement.type = "";
             }
         }
 
 
         public string Text
         {
-            get { return InnerElement.value; }
+            get => InnerElement.value;
             set
             {
-                if (InnerElement.value != value)
-                {
-                    InnerElement.value = value;
-                    _observable.Value = value;
-                    RaiseOnInput(null);
-                }
+                InnerElement.value = value;
+                _observable.Value = value;
+                RaiseOnInput(null);
             }
         }
 
         public string Placeholder
         {
-            get { return InnerElement.placeholder; }
-            set { InnerElement.placeholder = value; }
+            get => InnerElement.placeholder;
+            set => InnerElement.placeholder = value;
         }
 
         public string Error
         {
-            get { return _errorSpan.innerText; }
-            set
-            {
-                if (_errorSpan.innerText != value)
-                {
-                    _errorSpan.innerText = value;
-                }
-            }
+            get => _errorSpan.innerText;
+            set => _errorSpan.innerText = value;
         }
 
         public bool IsInvalid
         {
-            get { return _container.classList.contains("invalid"); }
+            get => _container.classList.contains("invalid");
             set
             {
-                if (value != IsInvalid)
+                if (value)
                 {
-                    if (value)
-                    {
-                        _container.classList.add("invalid");
-                    }
-                    else
-                    {
-                        _container.classList.remove("invalid");
-                    }
+                    _container.classList.add("invalid");
+                }
+                else
+                {
+                    _container.classList.remove("invalid");
                 }
             }
         }
 
         public bool IsRequired
         {
-            get { return _container.classList.contains("tss-required"); }
+            get => _container.classList.contains("tss-required");
             set
             {
-                if (value != IsInvalid)
+                if (value)
                 {
-                    if (value)
-                    {
-                        _container.classList.add("tss-required");
-                    }
-                    else
-                    {
-                        _container.classList.remove("tss-required");
-                    }
+                    _container.classList.add("tss-required");
+                }
+                else
+                {
+                    _container.classList.remove("tss-required");
                 }
             }
         }

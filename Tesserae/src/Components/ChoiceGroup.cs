@@ -23,18 +23,13 @@ namespace Tesserae.Components
 
         public string Label
         {
-            get { return _header.Text; }
-            set { _header.Text = value; }
+            get => _header.Text;
+            set => _header.Text = value;
         }
 
         public ChoiceGroupOrientation Orientation
         {
-            get
-            {
-                return InnerElement.style.flexDirection == "row"
-                    ? ChoiceGroupOrientation.Horizontal
-                    : ChoiceGroupOrientation.Vertical;
-            }
+            get => InnerElement.style.flexDirection == "row" ? ChoiceGroupOrientation.Horizontal : ChoiceGroupOrientation.Vertical;
             set
             {
                 if (value == ChoiceGroupOrientation.Horizontal) InnerElement.style.flexDirection = "row";
@@ -44,8 +39,8 @@ namespace Tesserae.Components
 
         public bool IsRequired
         {
-            get { return _header.IsRequired; }
-            set { _header.IsRequired = value; }
+            get => _header.IsRequired;
+            set => _header.IsRequired = value;
         }
 
         public override HTMLElement Render()

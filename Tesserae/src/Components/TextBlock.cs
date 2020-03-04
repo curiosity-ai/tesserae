@@ -15,12 +15,12 @@ namespace Tesserae.Components
         }
 
         public string Background { get => InnerElement.style.background; set => InnerElement.style.background = value; }
-        
+
         public string Foreground { get => InnerElement.style.color; set => InnerElement.style.color = value; }
 
         public bool IsEnabled
         {
-            get { return !InnerElement.classList.contains("disabled"); }
+            get => !InnerElement.classList.contains("disabled");
             set
             {
                 if (value)
@@ -36,31 +36,25 @@ namespace Tesserae.Components
 
         public bool IsSelectable
         {
-            get { return InnerElement.style.userSelect != "none"; }
-            set
-            {
-                InnerElement.style.userSelect = value ? "" : "none";
-            }
+            get => InnerElement.style.userSelect != "none";
+            set => InnerElement.style.userSelect = value ? "" : "none";
         }
 
         public virtual string Text
         {
-            get { return InnerElement.innerText; }
-            set { InnerElement.innerText = value; }
+            get => InnerElement.innerText;
+            set => InnerElement.innerText = value;
         }
 
         public string Title
         {
-            get { return InnerElement.title; }
-            set { InnerElement.title = value; }
+            get => InnerElement.title;
+            set => InnerElement.title = value;
         }
 
         public TextSize Size
         {
-            get
-            {
-                return TextSizeExtensions.FromClassList(InnerElement, TextSize.Small);
-            }
+            get => TextSizeExtensions.FromClassList(InnerElement, TextSize.Small);
             set
             {
                 InnerElement.classList.remove(Size.ToClassName());
@@ -70,10 +64,7 @@ namespace Tesserae.Components
 
         public TextWeight Weight
         {
-            get
-            {
-                return TextSizeExtensions.FromClassList(InnerElement, TextWeight.Regular);
-            }
+            get => TextSizeExtensions.FromClassList(InnerElement, TextWeight.Regular);
             set
             {
                 InnerElement.classList.remove(Weight.ToClassName());
@@ -107,11 +98,11 @@ namespace Tesserae.Components
         }
 
         /// <summary>
-        /// Gets or set whenever text block color is primary 
+        /// Gets or set whenever text block color is primary
         /// </summary>
         public bool IsPrimary
         {
-            get { return InnerElement.classList.contains("tss-fontcolor-primary"); }
+            get => InnerElement.classList.contains("tss-fontcolor-primary");
             set
             {
                 if (value)
@@ -132,11 +123,11 @@ namespace Tesserae.Components
         }
 
         /// <summary>
-        /// Gets or set whenever text block color is success 
+        /// Gets or set whenever text block color is success
         /// </summary>
         public bool IsSuccess
         {
-            get { return InnerElement.classList.contains("tss-fontcolor-success"); }
+            get => InnerElement.classList.contains("tss-fontcolor-success");
             set
             {
                 if (value)
@@ -161,7 +152,7 @@ namespace Tesserae.Components
         /// </summary>
         public bool IsDanger
         {
-            get { return InnerElement.classList.contains("tss-fontcolor-danger"); }
+            get => InnerElement.classList.contains("tss-fontcolor-danger");
             set
             {
                 if (value)
@@ -186,7 +177,7 @@ namespace Tesserae.Components
         /// </summary>
         public bool IsInvalid
         {
-            get { return InnerElement.classList.contains("tss-fontcolor-invalid"); }
+            get => InnerElement.classList.contains("tss-fontcolor-invalid");
             set
             {
                 if (value)
@@ -208,7 +199,7 @@ namespace Tesserae.Components
 
         public virtual bool IsRequired
         {
-            get { return InnerElement.classList.contains("tss-required"); }
+            get => InnerElement.classList.contains("tss-required");
             set
             {
                 if (value)
@@ -224,10 +215,7 @@ namespace Tesserae.Components
 
         public bool CanWrap
         {
-            get
-            {
-                return !InnerElement.classList.contains("tss-text-ellipsis");
-            }
+            get => !InnerElement.classList.contains("tss-text-ellipsis");
             set
             {
                 if (value)
@@ -243,14 +231,8 @@ namespace Tesserae.Components
 
         public string Cursor
         {
-            get
-            {
-                return InnerElement.style.cursor;
-            }
-            set
-            {
-                InnerElement.style.cursor = value;
-            }
+            get => InnerElement.style.cursor;
+            set => InnerElement.style.cursor = value;
         }
 
         public override HTMLElement Render()

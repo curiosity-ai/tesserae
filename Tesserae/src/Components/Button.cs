@@ -12,39 +12,43 @@ namespace Tesserae.Components
 
         public Button(string text = string.Empty)
         {
-            _textSpan = Span(_(text: text));
+            _textSpan    = Span(_(text: text));
             InnerElement = Button(_("tss-btn tss-btn-default"), _textSpan);
-            Weight = TextWeight.SemiBold;
-            Size = TextSize.Small;
+            Weight       = TextWeight.SemiBold;
+            Size         = TextSize.Small;
+
             AttachClick();
             AttachFocus();
             AttachBlur();
+
             if (string.IsNullOrEmpty(text))
             {
                 InnerElement.style.minWidth = "unset";
             }
         }
 
-        public string Background { get => InnerElement.style.background; set => InnerElement.style.background = value; }
-        public string Foreground { get => InnerElement.style.color; set => InnerElement.style.color = value; }
+        public string Background
+        {
+            get => InnerElement.style.background;
+            set => InnerElement.style.background = value;
+        }
+
+        public string Foreground
+        {
+            get => InnerElement.style.color;
+            set => InnerElement.style.color = value;
+        }
 
         /// <summary>
         /// Gets or sets button text
         /// </summary>
         public string Text
         {
-            get { return _textSpan.innerText; }
-            set 
+            get => _textSpan.innerText;
+            set
             {
-                _textSpan.innerText = value;
-                if (string.IsNullOrEmpty(value))
-                {
-                    InnerElement.style.minWidth = "unset";
-                }
-                else
-                {
-                    InnerElement.style.minWidth = "";
-                }
+                _textSpan.innerText         = value;
+                InnerElement.style.minWidth = string.IsNullOrEmpty(value) ? "unset" : string.Empty;
             }
         }
 
@@ -53,8 +57,8 @@ namespace Tesserae.Components
         /// </summary>
         public string Title
         {
-            get { return InnerElement.title; }
-            set { InnerElement.title = value; }
+            get => InnerElement.title;
+            set => InnerElement.title = value;
         }
 
         /// <summary>
@@ -62,16 +66,13 @@ namespace Tesserae.Components
         /// </summary>
         public string Icon
         {
-            get { return _iconSpan?.className; }
+            get => _iconSpan?.className;
             set
             {
-                if (string.IsNullOrEmpty(value))
+                if (string.IsNullOrEmpty(value) && _iconSpan != null)
                 {
-                    if (_iconSpan != null)
-                    {
-                        InnerElement.removeChild(_iconSpan);
-                        _iconSpan = null;
-                    }
+                    InnerElement.removeChild(_iconSpan);
+                    _iconSpan = null;
 
                     return;
                 }
@@ -91,122 +92,78 @@ namespace Tesserae.Components
         /// </summary>
         public bool IsCompact
         {
-            get { return InnerElement.classList.contains("small"); }
-            set
-            {
-                if (value)
-                {
-                    InnerElement.classList.add("small");
-                }
-                else
-                {
-                    InnerElement.classList.remove("small");
-                }
-            }
+            get => InnerElement.classList.contains("small");
+            set => InnerElement.UpdateClassIf(value, "small");
         }
 
         /// <summary>
-        /// Gets or set whenever button is rendered like a link 
+        /// Gets or set whenever button is rendered like a link
         /// </summary>
         public bool IsLink
         {
-            get { return InnerElement.classList.contains("tss-btn-link"); }
+            get => InnerElement.classList.contains("tss-btn-link");
+            set => InnerElement.UpdateClassIf(value, "tss-btn-link");
+        }
+
+        /// <summary>
+        /// Gets or set whenever button is primary
+        /// </summary>
+        public bool IsPrimary
+        {
+            get => InnerElement.classList.contains("tss-btn-primary");
             set
             {
                 if (value)
                 {
-                    InnerElement.classList.add("tss-btn-link");
+                    InnerElement.classList.add("tss-btn-primary");
+                    InnerElement.classList.remove("tss-btn-default", "tss-btn-success", "tss-btn-danger");
                 }
                 else
                 {
-                    InnerElement.classList.remove("tss-btn-link");
+                    InnerElement.classList.add("tss-btn-default");
+                    InnerElement.classList.remove("tss-btn-default", "tss-btn-success", "tss-btn-danger", "tss-btn-primary");
                 }
             }
         }
 
         /// <summary>
-        /// Gets or set whenever button is primary 
-        /// </summary>
-        public bool IsPrimary
-        {
-            get { return InnerElement.classList.contains("tss-btn-primary"); }
-            set
-            {
-                if (value != IsPrimary)
-                {
-                    if (value)
-                    {
-                        InnerElement.classList.add("tss-btn-primary");
-                        InnerElement.classList.remove("tss-btn-default");
-                        InnerElement.classList.remove("tss-btn-success");
-                        InnerElement.classList.remove("tss-btn-danger");
-                    }
-                    else
-                    {
-                        InnerElement.classList.remove("tss-btn-default");
-                        InnerElement.classList.remove("tss-btn-success");
-                        InnerElement.classList.remove("tss-btn-danger");
-                        InnerElement.classList.remove("tss-btn-primary");
-                        InnerElement.classList.add("tss-btn-default");
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Gets or set whenever button is primary 
+        /// Gets or set whenever button is primary
         /// </summary>
         public bool IsSuccess
         {
-            get { return InnerElement.classList.contains("tss-btn-success"); }
+            get => InnerElement.classList.contains("tss-btn-success");
             set
             {
-                if (value != IsSuccess)
+                if (value)
                 {
-                    if (value)
-                    {
-                        InnerElement.classList.add("tss-btn-success");
-                        InnerElement.classList.remove("tss-btn-default");
-                        InnerElement.classList.remove("tss-btn-primary");
-                        InnerElement.classList.remove("tss-btn-danger");
-                    }
-                    else
-                    {
-                        InnerElement.classList.remove("tss-btn-default");
-                        InnerElement.classList.remove("tss-btn-success");
-                        InnerElement.classList.remove("tss-btn-danger");
-                        InnerElement.classList.remove("tss-btn-primary");
-                        InnerElement.classList.add("tss-btn-default");
-                    }
+                    InnerElement.classList.add("tss-btn-success");
+                    InnerElement.classList.remove("tss-btn-default", "tss-btn-primary", "tss-btn-danger");
+                }
+                else
+                {
+                    InnerElement.classList.add("tss-btn-default");
+                    InnerElement.classList.remove("tss-btn-default", "tss-btn-success", "tss-btn-danger", "tss-btn-primary");
                 }
             }
         }
 
         /// <summary>
-        /// Gets or set whenever button is primary 
+        /// Gets or set whenever button is danger
         /// </summary>
         public bool IsDanger
         {
-            get { return InnerElement.classList.contains("tss-btn-danger"); }
+            get => InnerElement.classList.contains("tss-btn-danger");
             set
             {
-                if (value != IsDanger)
+                if (value)
                 {
-                    if (value)
-                    {
-                        InnerElement.classList.add("tss-btn-danger");
-                        InnerElement.classList.remove("tss-btn-default");
-                        InnerElement.classList.remove("tss-btn-primary");
-                        InnerElement.classList.remove("tss-btn-success");
-                    }
-                    else
-                    {
-                        InnerElement.classList.remove("tss-btn-default");
-                        InnerElement.classList.remove("tss-btn-success");
-                        InnerElement.classList.remove("tss-btn-danger");
-                        InnerElement.classList.remove("tss-btn-primary");
-                        InnerElement.classList.add("tss-btn-default");
-                    }
+                    InnerElement.classList.add("tss-btn-danger");
+                    InnerElement.classList.remove("tss-btn-default", "tss-btn-primary", "tss-btn-success");
+                }
+                else
+                {
+                    InnerElement.classList.add("tss-btn-default");
+                    InnerElement.classList.remove("tss-btn-default", "tss-btn-success", "tss-btn-danger", "tss-btn-primary");
                 }
             }
         }
@@ -216,110 +173,51 @@ namespace Tesserae.Components
         /// </summary>
         public bool IsEnabled
         {
-            get { return !InnerElement.classList.contains("disabled"); }
-            set
-            {
-                if (value)
-                {
-                    InnerElement.classList.remove("disabled");
-                }
-                else
-                {
-                    InnerElement.classList.add("disabled");
-                }
-            }
+            get => !InnerElement.classList.contains("disabled");
+            set => InnerElement.UpdateClassIfNot(value, "disabled");
         }
 
         public bool CanWrap
         {
-            get
-            {
-                return !InnerElement.classList.contains("tss-text-ellipsis");
-            }
-            set
-            {
-                if (value)
-                {
-                    InnerElement.classList.remove("tss-text-ellipsis");
-                }
-                else
-                {
-                    InnerElement.classList.add("tss-text-ellipsis");
-                }
-            }
+            get => !_textSpan.classList.contains("tss-text-ellipsis");
+            set => _textSpan.UpdateClassIf(value, "tss-text-ellipsis");
         }
 
         public TextSize Size
         {
-            get
-            {
-                var curFontSize = InnerElement.classList.FirstOrDefault(t => t.StartsWith("tss-fontsize-"));
-                if (curFontSize is object && Enum.TryParse<TextSize>(curFontSize.Substring("tss-fontsize-".Length), true, out var result))
-                {
-                    return result;
-                }
-                else
-                {
-                    return TextSize.Small;
-                }
-            }
+            get => InnerElement.GetTextSize().textSize ?? TextSize.Small;
             set
             {
-                var curFontSize = InnerElement.classList.FirstOrDefault(t => t.StartsWith("tss-fontsize-"));
-                if (curFontSize is object)
-                {
-                    InnerElement.classList.remove(curFontSize);
-                }
+                var (textSize, textSizeCssClass) = InnerElement.GetTextSize();
+
+                InnerElement.RemoveClassIf(textSize.HasValue, textSizeCssClass);
+
                 InnerElement.classList.add($"tss-fontsize-{value.ToString().ToLower()}");
             }
         }
 
         public TextWeight Weight
         {
-            get
-            {
-                var curFontSize = InnerElement.classList.FirstOrDefault(t => t.StartsWith("tss-fontweight-"));
-                if (curFontSize is object && Enum.TryParse<TextWeight>(curFontSize.Substring("tss-fontweight-".Length), true, out var result))
-                {
-                    return result;
-                }
-                else
-                {
-                    return TextWeight.Regular;
-                }
-            }
+            get => InnerElement.GetTextWeight().textWeight ?? TextWeight.Regular;
             set
             {
-                var curFontSize = InnerElement.classList.FirstOrDefault(t => t.StartsWith("tss-fontweight-"));
-                if (curFontSize is object)
-                {
-                    InnerElement.classList.remove(curFontSize);
-                }
+                var (textWeight, textWeightCssClass) = InnerElement.GetTextWeight();
+
+                InnerElement.RemoveClassIf(textWeight.HasValue, textWeightCssClass);
+
                 InnerElement.classList.add($"tss-fontweight-{value.ToString().ToLower()}");
             }
         }
 
         public TextAlign TextAlign
         {
-            get
-            {
-                var curFontSize = InnerElement.classList.FirstOrDefault(t => t.StartsWith("tss-textalign-"));
-                if (curFontSize is object && Enum.TryParse<TextAlign>(curFontSize.Substring("tss-textalign-".Length), true, out var result))
-                {
-                    return result;
-                }
-                else
-                {
-                    return TextAlign.Center; //Button default is center
-                }
-            }
+            get => InnerElement.GetTextAlign().textAlign ?? TextAlign.Center;
             set
             {
-                var curFontSize = InnerElement.classList.FirstOrDefault(t => t.StartsWith("tss-textalign-"));
-                if (curFontSize is object)
-                {
-                    InnerElement.classList.remove(curFontSize);
-                }
+                var (textAlign, textAlignCssClass) = InnerElement.GetTextAlign();
+
+                InnerElement.RemoveClassIf(textAlign.HasValue, textAlignCssClass);
+
                 InnerElement.classList.add($"tss-textalign-{value.ToString().ToLower()}");
             }
         }

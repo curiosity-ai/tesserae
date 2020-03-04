@@ -33,120 +33,113 @@ namespace Tesserae.Components
 
         public override IComponent Content
         {
-            get { return _content; }
+            get => _content;
             set
             {
-                if (value != _content)
+                ClearChildren(_panelContent); ;
+                _content = value;
+                if (_content != null)
                 {
-                    ClearChildren(_panelContent); ;
-                    _content = value;
-                    if (_content != null)
-                    {
-                        _panelContent.appendChild(_content.Render());
-                    }
+                    _panelContent.appendChild(_content.Render());
                 }
             }
         }
 
         public IComponent Footer
         {
-            get { return _footer; }
+            get => _footer;
             set
             {
-                if (value != _footer)
+                ClearChildren(_panelFooter); ;
+                _footer = value;
+                if (_footer != null)
                 {
-                    ClearChildren(_panelFooter); ;
-                    _footer = value;
-                    if (_footer != null)
-                    {
-                        _panelFooter.appendChild(_footer.Render());
-                    }
+                    _panelFooter.appendChild(_footer.Render());
                 }
             }
         }
 
         public PanelSize Size
         {
-            get { if (Enum.TryParse<PanelSize>(_panel.classList[1].Substring(_panel.classList[1].LastIndexOf('-') + 1), true, out var result)) return result; return PanelSize.Small; }
-            set
+            get
             {
-                _panel.classList.replace(_panel.classList[1], $"tss-panelSize-{value.ToString().ToLower()}");
+                if (Enum.TryParse<PanelSize>(_panel.classList[1].Substring(_panel.classList[1].LastIndexOf('-') + 1), true, out var result))
+                {
+                    return result;
+                }
+
+                return PanelSize.Small;
             }
+            set => _panel.classList.replace(_panel.classList[1], $"tss-panelSize-{value.ToString().ToLower()}");
         }
 
         public PanelSide Side
         {
-            get { if (Enum.TryParse<PanelSide>(_panel.classList[2].Substring(_panel.classList[2].LastIndexOf('-') + 1), true, out var result)) return result; return PanelSide.Far; }
-            set
+            get
             {
-                _panel.classList.replace(_panel.classList[2], $"tss-panelSide-{value.ToString().ToLower()}");
+                if (Enum.TryParse<PanelSide>(_panel.classList[2].Substring(_panel.classList[2].LastIndexOf('-') + 1), true, out var result))
+                {
+                    return result;
+                }
+
+                return PanelSide.Far;
             }
+            set => _panel.classList.replace(_panel.classList[2], $"tss-panelSide-{value.ToString().ToLower()}");
         }
 
         public bool CanLightDismiss
         {
-            get { return _panelOverlay.classList.contains("tss-panel-lightDismiss"); }
+            get => _panelOverlay.classList.contains("tss-panel-lightDismiss");
             set
             {
-                if (value != CanLightDismiss)
+                if (value)
                 {
-                    if (value)
-                    {
-                        _panelOverlay.classList.add("tss-panel-lightDismiss");
-                        _panelOverlay.addEventListener("click", OnCloseClick);
-                    }
-                    else
-                    {
-                        _panelOverlay.classList.remove("tss-panel-lightDismiss");
-                        _panelOverlay.removeEventListener("click", OnCloseClick);
-                    }
+                    _panelOverlay.classList.add("tss-panel-lightDismiss");
+                    _panelOverlay.addEventListener("click", OnCloseClick);
+                }
+                else
+                {
+                    _panelOverlay.classList.remove("tss-panel-lightDismiss");
+                    _panelOverlay.removeEventListener("click", OnCloseClick);
                 }
             }
         }
 
         public bool IsDark
         {
-            get { return _contentHtml.classList.contains("dark"); }
+            get => _contentHtml.classList.contains("dark");
             set
             {
-                if (value != IsDark)
+                if (value)
                 {
-                    if (value)
-                    {
-                        _contentHtml.classList.add("dark");
-                    }
-                    else
-                    {
-                        _contentHtml.classList.remove("dark");
-                    }
+                    _contentHtml.classList.add("dark");
+                }
+                else
+                {
+                    _contentHtml.classList.remove("dark");
                 }
             }
         }
 
         public bool IsNonBlocking
         {
-            get { return _contentHtml.classList.contains("tss-panel-modeless"); }
+            get => _contentHtml.classList.contains("tss-panel-modeless");
             set
             {
-                if (value != IsNonBlocking)
+                if (value)
                 {
-                    if (value)
-                    {
-                        _contentHtml.classList.add("tss-panel-modeless");
-                        //if (IsVisible) document.body.style.overflowY = "";
-                    }
-                    else
-                    {
-                        _contentHtml.classList.remove("tss-panel-modeless");
-                        //if (IsVisible) document.body.style.overflowY = "hidden";
-                    }
+                    _contentHtml.classList.add("tss-panel-modeless");
+                }
+                else
+                {
+                    _contentHtml.classList.remove("tss-panel-modeless");
                 }
             }
         }
 
         public bool ShowCloseButton
         {
-            get { return _closeButton.style.display != "none"; }
+            get => _closeButton.style.display != "none";
             set
             {
                 if (value) _closeButton.style.display = "";
@@ -202,7 +195,7 @@ namespace Tesserae.Components
             Far,
             Near
         }
-        
+
         public Panel HideCloseButton()
         {
             ShowCloseButton = false;
