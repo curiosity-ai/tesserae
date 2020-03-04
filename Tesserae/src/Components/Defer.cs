@@ -54,8 +54,8 @@ namespace Tesserae.Components
             if (!_needsRefresh) return;
             _needsRefresh = false;
             var container = ScrollBar.GetCorrectContainer(_container);
-            ClearChildren(container);
-            container.appendChild(_loadMessage.Render());
+            //ClearChildren(container);
+            //container.appendChild(_loadMessage.Render());
             var task = _asyncGenerator();
             task.ContinueWith(r =>
             {
