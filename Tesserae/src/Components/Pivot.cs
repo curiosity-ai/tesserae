@@ -46,7 +46,7 @@ namespace Tesserae.Components
         private HTMLElement RenderedTabs;
         private HTMLElement RenderedContent;
         private HTMLElement Line;
-        private string SelectedID;
+        private string InitiallySelectedID;
         private string CurrentSelectedID;
         private bool IsRendered = false;
 
@@ -61,9 +61,15 @@ namespace Tesserae.Components
             InnerElement = Div(_("tss-pivot"), RenderedTabs, Line, RenderedContent);
         }
 
+        public Pivot Justified()
+        {
+            RenderedTabs.style.justifyContent = "space-between";
+            return this;
+        }
+
         internal Pivot Add(Tab tab)
         {
-            if (SelectedID is null) SelectedID = tab.Id;
+            if (InitiallySelectedID is null) InitiallySelectedID = tab.Id;
             OrderedTabs.Add(tab);
             var title = tab.RenderTitle();
             RenderedTitles.Add(tab, title);
@@ -109,17 +115,21 @@ namespace Tesserae.Components
             return this;
         }
 
-        public Pivot Select(string id)
+        public Pivot Select(string id, bool refresh = false)
         {
-            var tab = OrderedTabs.FirstOrDefault(t => t.Id == id);
-            return Select(tab);
+            if (CurrentSelectedID != id || refresh)
+            {
+                var tab = OrderedTabs.FirstOrDefault(t => t.Id == id);
+                Select(tab);
+            }
+            return this;
         }
 
         private Pivot Select(Tab tab)
         {
             if(!IsRendered)
             {
-                SelectedID = tab.Id;
+                InitiallySelectedID = tab.Id;
                 return this;
             }
 
@@ -175,11 +185,14 @@ namespace Tesserae.Components
 
         public HTMLElement Render()
         {
-            IsRendered = true; //Sets before calling Select, so it does its thing
-
-            if (SelectedID != CurrentSelectedID)
+            if (!IsRendered)
             {
-                Select(SelectedID);
+                IsRendered = true; //Sets before calling Select, so it does its thing
+
+                if (InitiallySelectedID != CurrentSelectedID)
+                {
+                    Select(InitiallySelectedID);
+                }
             }
 
             return InnerElement;

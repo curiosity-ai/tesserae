@@ -34,10 +34,11 @@ namespace Tesserae.Tests.Samples
                             .Children(
                                 SampleTitle("Usage"),
                                 TextBlock("Searchable List with No Results Message").Medium().PaddingBottom(16.px()).PaddingTop(16.px()),
-                                SearchableList(GetItems(10)).PaddingBottom(32.px()).MaxHeight(300.px())
+                                SearchableList(GetItems(10)).PaddingBottom(32.px()).Height(500.px())
                                     .WithNoResultsMessage(() => BackgroundArea(Card(TextBlock("No Results").Padding(16.px()))).WidthStretch().HeightStretch().MinHeight(100.px())),
                                 TextBlock("Searchable List with Columns").Medium().PaddingBottom(16.px()).PaddingTop(16.px()),
-                                SearchableList(GetItems(40), 25.percent(), 25.percent(), 25.percent(), 25.percent()))).PaddingBottom(32.px()).MaxHeight(300.px());
+                                SearchableList(GetItems(40), 25.percent(), 25.percent(), 25.percent(), 25.percent()).Height(500.px())
+                                )).PaddingBottom(32.px());
         }
 
         public HTMLElement Render()
@@ -54,17 +55,19 @@ namespace Tesserae.Tests.Samples
 
         private class SearchableListItem : ISearchableItem
         {
-            private string Value;
-            private IComponent component;
+            private string _value;
+            private IComponent _component;
             public SearchableListItem(string value)
             {
-                Value = value;
-                component = Card(TextBlock(value).NonSelectable());
+                _value = value;
+                _component = Card(TextBlock(value).NonSelectable());
             }
 
-            public bool IsMatch(string searchTerm) => Value.Contains(searchTerm);
+            public bool IsMatch(string searchTerm) => _value.Contains(searchTerm);
 
-            public HTMLElement Render() => component.Render();
+            public HTMLElement Render() => _component.Render();
+
+            IComponent ISearchableItem.Render() => _component;
         }
     }
 }

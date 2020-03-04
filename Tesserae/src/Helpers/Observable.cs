@@ -1,4 +1,5 @@
 ﻿using System;
+using static Retyped.dom;
 
 namespace Tesserae
 {
@@ -10,6 +11,7 @@ namespace Tesserae
     public class Observable<T> : Observable, IObservable<T>
     {
         private T _value;
+        private double _refreshTimeout;
 
         public Observable(T value)
         {
@@ -43,8 +45,13 @@ namespace Tesserae
 
         private void RaiseOnValueChanged()
         {
-            onValueChanged?.Invoke(_value);
-            RaiseOnChanged();
+            window.clearTimeout(_refreshTimeout);
+            _refreshTimeout = window.setTimeout(raise, 1);
+            void raise(object t)
+            {
+                onValueChanged?.Invoke(_value);
+                RaiseOnChanged();
+            }
         }
 
         public void Observe(ValueChanged onChange)

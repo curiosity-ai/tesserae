@@ -62,9 +62,9 @@ namespace Tesserae.Tests
                                           .HeightStretch()
                                           .Children(SearchBox("Search for a template").WidthStretch().Underlined()));
 
-            var page = new SplitView().Left(MainNav(links, navBar, sideBar), background: Theme.Default.Background)
+            var page = new SplitView().Left(Stack().Stretch().Children(MainNav(links, navBar, sideBar)).InvisibleScroll(), background: Theme.Default.Background)
                                       .LeftIsSmaller(SizeMode.Pixels, 300)
-                                      .MinHeightStretch();
+                                      .HeightStretch();
 
             navBar.SetContent(page);
 
@@ -81,6 +81,7 @@ namespace Tesserae.Tests
                                               .Add(SidebarItem("Large sidebar", "las la-plus-square").OnSelect((s) => sideBar.Width = Components.Sidebar.Size.Large))
                                               .SetContent(navBar)
                                               .Render());
+
             document.body.style.overflow = "hidden";
 
             Router.Register("home", "/", p => Show(components.First().Name, components.First().Component));
@@ -95,7 +96,7 @@ namespace Tesserae.Tests
             void Show(string route, IComponent component)
             {
                 Router.Replace($"#/view/{route}");
-                page.Right(component.WidthStretch().MinHeightStretch(), background: Theme.Secondary.Background);
+                page.Right(Stack().Stretch().Children(component.WidthStretch()).InvisibleScroll(), background: Theme.Secondary.Background);
             }
         }
 

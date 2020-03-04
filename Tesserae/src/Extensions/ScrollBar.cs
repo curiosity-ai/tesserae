@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Tesserae.HTML;
 using static Retyped.dom;
 
 namespace Tesserae.Components
@@ -16,8 +17,8 @@ namespace Tesserae.Components
             internal HTMLElement _element;
             public Handle(HTMLElement element)
             {
-                element.style.setProperty("overflow-y", "scroll", "important");
-                element.classList.add("hide-scrollbar");
+                element.style.setProperty("overflow-y", "none", "important");
+                element.classList.add("invisible-scrollbar");
                 _element = element;
                 scrollbar = Script.Write<object>("new SimpleBar({0})", element);
             }
@@ -53,7 +54,7 @@ namespace Tesserae.Components
 
         public static HTMLElement GetCorrectContainer(HTMLElement element)
         {
-            if(element.classList.contains("hide-scrollbar"))
+            if(element.classList.contains("invisible-scrollbar"))
             {
                 //try finding the new container created by the scrollbar class
                 var sbc = element.getElementsByClassName("simplebar-content");
@@ -94,7 +95,26 @@ namespace Tesserae.Components
         public static T InvisibleScroll<T>(this T component) where T : IComponent
         {
             var element = component.Render();
-            EnableInvisibleScroll(element);
+
+            DomMountedObserver.NotifyWhenMounted(element, () =>
+            {
+                var targetElement = Stack.GetItem(component);
+                EnableInvisibleScroll(targetElement);
+            });
+
+            return component;
+        }
+
+        public static T Scroll<T>(this T component) where T : IComponent
+        {
+            var element = component.Render();
+
+            DomMountedObserver.NotifyWhenMounted(element, () =>
+            {
+                var targetElement = Stack.GetItem(component);
+                targetElement.style.overflowY = "auto";
+            });
+
             return component;
         }
 

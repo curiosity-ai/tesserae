@@ -23,7 +23,7 @@ namespace Tesserae.Components
         
         public abstract HTMLElement Render();
         
-        public T OnClick(ComponentEventHandler<MouseEvent> onClick)
+        public virtual T OnClick(ComponentEventHandler<MouseEvent> onClick)
         {
             this.onClick += onClick;
 
@@ -35,43 +35,43 @@ namespace Tesserae.Components
             return (T)this;
         }
 
-        public T OnChange(ComponentEventHandler<Event> onChange)
+        public virtual T OnChange(ComponentEventHandler<Event> onChange)
         {
             this.onChange += onChange;
             return (T)this;
         }
 
-        public T OnInput(ComponentEventHandler<Event> onInput)
+        public virtual T OnInput(ComponentEventHandler<Event> onInput)
         {
             this.onInput += onInput;
             return (T)this;
         }
 
-        public T OnFocus(ComponentEventHandler<Event> onFocus)
+        public virtual T OnFocus(ComponentEventHandler<Event> onFocus)
         {
             this.onFocus += onFocus;
             return (T)this;
         }
 
-        public T OnBlur(ComponentEventHandler<Event> onBlur)
+        public virtual T OnBlur(ComponentEventHandler<Event> onBlur)
         {
             this.onBlur += onBlur;
             return (T)this;
         }
 
-        public T OnKeyDown(ComponentEventHandler<KeyboardEvent> onKeyDown)
+        public virtual T OnKeyDown(ComponentEventHandler<KeyboardEvent> onKeyDown)
         {
             this.onKeyDown += onKeyDown;
             return (T)this;
         }
 
-        public T OnKeyUp(ComponentEventHandler<KeyboardEvent> onKeyUp)
+        public virtual T OnKeyUp(ComponentEventHandler<KeyboardEvent> onKeyUp)
         {
             this.onKeyUp += onKeyUp;
             return (T)this;
         }
 
-        public T OnKeyPress(ComponentEventHandler<KeyboardEvent> onKeyPress)
+        public virtual T OnKeyPress(ComponentEventHandler<KeyboardEvent> onKeyPress)
         {
             this.onKeyPress += onKeyPress;
             return (T)this;

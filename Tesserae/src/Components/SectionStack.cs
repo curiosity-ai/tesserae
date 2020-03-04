@@ -11,7 +11,7 @@ namespace Tesserae.Components
         private int Count = 1;
         public SectionStack() : base(Stack.Orientation.Vertical)
         {
-            InnerElement.classList.add("tss-session-stack");
+            InnerElement.classList.add("tss-sectionstack");
         }
 
         public void AddAnimated(IComponent component)
@@ -28,7 +28,7 @@ namespace Tesserae.Components
         {
             if (!((component as dynamic).StackItem is HTMLDivElement item))
             {
-                item = Div(_(isTitle ? "tss-stack-title tss-stack-item" : "tss-session-stack-card tss-stack-item", styles: s =>
+                item = Div(_(isTitle ? "tss-sectionstack-title tss-stack-item tss-sectionstack-item" : "tss-sectionstack-card tss-stack-item tss-sectionstack-item", styles: s =>
                 {
                     s.alignSelf = "auto";
                     s.width = "auto";

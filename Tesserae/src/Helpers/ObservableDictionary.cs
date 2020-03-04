@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using static Retyped.dom;
 
 namespace Tesserae
 {
@@ -7,6 +8,7 @@ namespace Tesserae
     {
         private readonly Dictionary<TKey, TValue> _dictionary;
         private bool _valueIsObservable;
+        private double _refreshTimeout;
 
         public ObservableDictionary()
         {
@@ -65,8 +67,13 @@ namespace Tesserae
 
         private void RaiseOnValueChanged()
         {
-            _onValueChanged?.Invoke(_dictionary);
-            RaiseOnChanged();
+            window.clearTimeout(_refreshTimeout);
+            _refreshTimeout = window.setTimeout(raise, 1);
+            void raise(object t)
+            {
+                _onValueChanged?.Invoke(_dictionary);
+                RaiseOnChanged();
+            }
         }
 
         public TValue this[TKey key] 

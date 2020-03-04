@@ -422,6 +422,8 @@ namespace Tesserae.Components
 
             private readonly HTMLElement InnerElement;
             private readonly HTMLElement SelectedElement;
+            private dynamic _data;
+            public dynamic Data => _data;
             public Item(string text, string selectedText = null) : this(TextBlock(text), TextBlock(string.IsNullOrEmpty(selectedText) ? text : selectedText) )
             {
             }
@@ -539,6 +541,12 @@ namespace Tesserae.Components
             public Item Selected()
             {
                 IsSelected = true;
+                return this;
+            }
+
+            public Item SetData(dynamic data)
+            {
+                _data = data;
                 return this;
             }
 
