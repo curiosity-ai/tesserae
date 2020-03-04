@@ -14,6 +14,11 @@ namespace Tesserae.Components
             InnerElement = TextArea(_("tss-textbox", type: "text", value: text));
             _errorSpan = Span(_("tss-textbox-error"));
             _container = Div(_("tss-textbox-container"), InnerElement, _errorSpan);
+            
+            //TODO: Need to make container display:flex, and use flex-grow to have correct sizing with _errorSpan
+            InnerElement.style.width = "100%"; 
+            InnerElement.style.height = "100%";
+
             AttachChange();
             AttachInput();
             AttachFocus();

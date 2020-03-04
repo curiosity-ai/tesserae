@@ -135,6 +135,7 @@ namespace Tesserae
         public static OverflowSet OverflowSet() => new OverflowSet();
 
         public static TextBox TextBox(string text = string.Empty) => new TextBox(text);
+
         public static TextArea TextArea(string text = string.Empty) => new TextArea(text);
 
         public static SearchBox SearchBox(string placeholder = string.Empty) => new SearchBox(placeholder);
