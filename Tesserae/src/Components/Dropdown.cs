@@ -52,7 +52,6 @@ namespace Tesserae.Components
                 if (value == SelectMode.Single)
                 {
                     _childContainer.classList.remove("tss-dropdown-multi");
-
                 }
                 else
                 {
