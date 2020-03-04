@@ -7,12 +7,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tesserae", "Tesserae\Tesser
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tesserae.Tests", "Tesserae.Tests\Tesserae.Tests.csproj", "{35F1071A-7B2A-4FAF-B433-19BEFD8BA11E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Build.ImportLineAwesome", "Build.ImportLineAwesome\Build.ImportLineAwesome.csproj", "{1817F8C6-E437-476C-A193-D1C36794412E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Build.ImportLineAwesome", "Build.ImportLineAwesome\Build.ImportLineAwesome.csproj", "{1817F8C6-E437-476C-A193-D1C36794412E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DevOps", "DevOps", "{15502E5E-34AB-4EDD-AAC2-84DBBC05DEBB}"
 	ProjectSection(SolutionItems) = preProject
 		.azure-devops\build-nuget.yml = .azure-devops\build-nuget.yml
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Build.InjectSamplesCode", "Build.InjectSamplesCode\Build.InjectSamplesCode.csproj", "{BA7E4838-8FF6-470D-8E2E-A9917F57D8EC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,6 +34,10 @@ Global
 		{1817F8C6-E437-476C-A193-D1C36794412E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1817F8C6-E437-476C-A193-D1C36794412E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1817F8C6-E437-476C-A193-D1C36794412E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA7E4838-8FF6-470D-8E2E-A9917F57D8EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA7E4838-8FF6-470D-8E2E-A9917F57D8EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA7E4838-8FF6-470D-8E2E-A9917F57D8EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA7E4838-8FF6-470D-8E2E-A9917F57D8EC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

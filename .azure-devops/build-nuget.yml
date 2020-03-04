@@ -32,6 +32,13 @@ steps:
       git config --global user.password  "$(PAT)"
   
 - task: CmdLine@2
+  displayName: 'update samples'
+  inputs:
+    script: |
+      cd $(Build.SourcesDirectory)/Build.InjectSamplesCode/
+      dotnet run
+
+- task: CmdLine@2
   displayName: 'update lineawesome'
   inputs:
     script: |
