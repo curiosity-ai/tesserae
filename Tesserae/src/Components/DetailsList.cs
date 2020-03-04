@@ -52,17 +52,7 @@ namespace Tesserae.Components
         public bool IsCompact
         {
             get => _listContainer.classList.contains("small");
-            set
-            {
-                if (value)
-                {
-                    _listContainer.classList.add("small");
-                }
-                else
-                {
-                    _listContainer.classList.remove("small");
-                }
-            }
+            set => _listContainer.UpdateClassIf(value, "small");
         }
 
         public DetailsList<TDetailsListItem> Compact()
