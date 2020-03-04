@@ -18,7 +18,7 @@ namespace Tesserae.Tests.Samples
                             Modal(text + " sample code")
                                 .LightDismiss()
                                 .Width(80.vh())
-                                .Content(Stack().Children(TextArea(SamplesSourceCode.GetCodeForSample(sampleName)).Height(80.vh()).WidthStretch()).Stretch())
+                                .Content(Stack().Children(TextArea(SamplesSourceCode.GetCodeForSample(sampleName)).Height(80.vh()).Width(80.vw())).Stretch())
                                 .ShowCloseButton()
                                 .Show()));
         }
