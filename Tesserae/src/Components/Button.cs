@@ -47,12 +47,8 @@ namespace Tesserae.Components
             get => _textSpan.innerText;
             set
             {
-                _textSpan.innerText = value;
-
-                if (string.IsNullOrWhiteSpace(value))
-                {
-                    InnerElement.style.minWidth = string.Empty;
-                }
+                _textSpan.innerText         = value;
+                InnerElement.style.minWidth = string.IsNullOrEmpty(value) ? "unset" : string.Empty;
             }
         }
 
