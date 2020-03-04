@@ -330,15 +330,18 @@ namespace Tesserae.Components
             }
             else
             {
-                if (_selectedChildren.Contains(e))
-                {
-                    _selectedChildren.Remove(e);
-                }
-                else
+                if(e.IsSelected)
                 {
                     if (!_selectedChildren.Contains(e))
                     {
                         _selectedChildren.Add(e);
+                    }
+                }
+                else
+                {
+                    if (_selectedChildren.Contains(e))
+                    {
+                        _selectedChildren.Remove(e);
                     }
                 }
 
