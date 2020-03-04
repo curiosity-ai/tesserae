@@ -49,17 +49,14 @@ namespace Tesserae.Components
             get { return _childContainer.classList.contains("tss-dropdown-multi") ? SelectMode.Multi : SelectMode.Single; }
             set
             {
-                if (value != Mode)
+                if (value == SelectMode.Single)
                 {
-                    if (value == SelectMode.Single)
-                    {
-                        _childContainer.classList.remove("tss-dropdown-multi");
+                    _childContainer.classList.remove("tss-dropdown-multi");
 
-                    }
-                    else
-                    {
-                        _childContainer.classList.add("tss-dropdown-multi");
-                    }
+                }
+                else
+                {
+                    _childContainer.classList.add("tss-dropdown-multi");
                 }
             }
         }
