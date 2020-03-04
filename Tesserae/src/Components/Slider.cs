@@ -51,65 +51,59 @@ namespace Tesserae.Components
 
         public SliderOrientation Orientation
         {
-            get { return _outerLabel.classList.contains("vertical") ? SliderOrientation.Vertical : SliderOrientation.Horizontal; }
+            get => _outerLabel.classList.contains("vertical") ? SliderOrientation.Vertical : SliderOrientation.Horizontal;
             set
             {
-                if (value != Orientation)
+                if (value == SliderOrientation.Vertical)
                 {
-                    if (value == SliderOrientation.Vertical)
-                    {
-                        _outerLabel.classList.add("vertical");
-                    }
-                    else
-                    {
-                        _outerLabel.classList.remove("vertical");
-                    }
+                    _outerLabel.classList.add("vertical");
+                }
+                else
+                {
+                    _outerLabel.classList.remove("vertical");
                 }
             }
         }
 
         public int Value
         {
-            get { return int.Parse(InnerElement.value); }
-            set { InnerElement.value = value.ToString(); }
+            get => int.Parse(InnerElement.value);
+            set => InnerElement.value = value.ToString();
         }
 
         public int Min
         {
-            get { return int.Parse(InnerElement.min); }
-            set { InnerElement.min = value.ToString(); }
+            get => int.Parse(InnerElement.min);
+            set => InnerElement.min = value.ToString();
         }
         public int Max
         {
-            get { return int.Parse(InnerElement.max); }
-            set { InnerElement.max = value.ToString(); }
+            get => int.Parse(InnerElement.max);
+            set => InnerElement.max = value.ToString();
         }
 
         public int Step
         {
-            get { return int.Parse(InnerElement.step); }
-            set { InnerElement.step = value.ToString(); }
+            get => int.Parse(InnerElement.step);
+            set => InnerElement.step = value.ToString();
         }
 
         public bool IsEnabled
         {
-            get { return !InnerElement.classList.contains("disabled"); }
+            get => !InnerElement.classList.contains("disabled");
             set
             {
-                if (value != IsEnabled)
+                if (value)
                 {
-                    if (value)
-                    {
-                        InnerElement.classList.remove("disabled");
-                    }
-                    else
-                    {
-                        InnerElement.classList.add("disabled");
-                    }
+                    InnerElement.classList.remove("disabled");
+                }
+                else
+                {
+                    InnerElement.classList.add("disabled");
                 }
             }
         }
-        
+
         public override HTMLElement Render()
         {
             return _outerDiv;

@@ -33,7 +33,7 @@ namespace Tesserae.Components
         /// </summary>
         public string Text
         {
-            get { return _label.innerText; }
+            get => _label.innerText;
             set
             {
                 _label.innerText = value;
@@ -47,19 +47,16 @@ namespace Tesserae.Components
         /// </summary>
         public bool IsEnabled
         {
-            get { return !_label.classList.contains("disabled"); }
+            get => !_label.classList.contains("disabled");
             set
             {
-                if (value != IsEnabled)
+                if (value)
                 {
-                    if (value)
-                    {
-                        _label.classList.remove("disabled");
-                    }
-                    else
-                    {
-                        _label.classList.add("disabled");
-                    }
+                    _label.classList.remove("disabled");
+                }
+                else
+                {
+                    _label.classList.add("disabled");
                 }
             }
         }
@@ -69,16 +66,13 @@ namespace Tesserae.Components
         /// </summary>
         public bool IsChecked
         {
-            get { return InnerElement.@checked; }
+            get => InnerElement.@checked;
             set
             {
-                if (value != IsChecked)
-                {
-                    InnerElement.@checked = value;
-                    _observable.Value = value;
-                    if (value) _onOffSpan.innerText = _onText;
-                    else _onOffSpan.innerText = _offText;
-                }
+                InnerElement.@checked = value;
+                _observable.Value = value;
+                if (value) _onOffSpan.innerText = _onText;
+                else _onOffSpan.innerText = _offText;
             }
         }
 

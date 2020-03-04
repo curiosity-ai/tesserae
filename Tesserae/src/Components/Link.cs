@@ -13,8 +13,17 @@ namespace Tesserae.Components
             _anchor = A(_(href: url), component.Render());
         }
 
-        public string Target { get { return _anchor.target; } set { _anchor.target = value; } }
-        public string URL { get { return _anchor.href; } set { _anchor.href = value; } }
+        public string Target
+        {
+            get => _anchor.target;
+            set => _anchor.target = value;
+        }
+
+        public string URL
+        {
+            get => _anchor.href;
+            set => _anchor.href = value;
+        }
 
         public HTMLElement Render()
         {

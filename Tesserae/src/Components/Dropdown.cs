@@ -39,32 +39,29 @@ namespace Tesserae.Components
         }
 
         public Dropdown SuppressSelectedOnAddingItem()
-        { 
+        {
             _callSelectOnAdd = false;
             return this;
         }
 
         public SelectMode Mode
         {
-            get { return _childContainer.classList.contains("tss-dropdown-multi") ? SelectMode.Multi : SelectMode.Single; }
+            get => _childContainer.classList.contains("tss-dropdown-multi") ? SelectMode.Multi : SelectMode.Single;
             set
             {
-                if (value != Mode)
+                if (value == SelectMode.Single)
                 {
-                    if (value == SelectMode.Single)
-                    {
-                        _childContainer.classList.remove("tss-dropdown-multi");
+                    _childContainer.classList.remove("tss-dropdown-multi");
 
-                    }
-                    else
-                    {
-                        _childContainer.classList.add("tss-dropdown-multi");
-                    }
+                }
+                else
+                {
+                    _childContainer.classList.add("tss-dropdown-multi");
                 }
             }
         }
 
-        public Item[] SelectedItems { get { return _selectedChildren.ToArray(); } }
+        public Item[] SelectedItems => _selectedChildren.ToArray();
 
         public string SelectedText
         {
@@ -76,69 +73,54 @@ namespace Tesserae.Components
 
         public string Error
         {
-            get { return _errorSpan.innerText; }
-            set
-            {
-                if (_errorSpan.innerText != value)
-                {
-                    _errorSpan.innerText = value;
-                }
-            }
+            get => _errorSpan.innerText;
+            set => _errorSpan.innerText = value;
         }
 
         public bool IsInvalid
         {
-            get { return _container.classList.contains("invalid"); }
+            get => _container.classList.contains("invalid");
             set
             {
-                if (value != IsInvalid)
+                if (value)
                 {
-                    if (value)
-                    {
-                        _container.classList.add("invalid");
-                    }
-                    else
-                    {
-                        _container.classList.remove("invalid");
-                    }
+                    _container.classList.add("invalid");
+                }
+                else
+                {
+                    _container.classList.remove("invalid");
                 }
             }
         }
 
         public bool IsEnabled
         {
-            get { return !InnerElement.classList.contains("disabled"); }
+            get => !InnerElement.classList.contains("disabled");
             set
             {
-                if (value != IsEnabled)
+                if (value)
                 {
-                    if (value)
-                    {
-                        InnerElement.classList.remove("disabled");
-                    }
-                    else
-                    {
-                        InnerElement.classList.add("disabled");
-                    }
+                    InnerElement.classList.remove("disabled");
+                }
+                else
+                {
+                    InnerElement.classList.add("disabled");
                 }
             }
         }
 
         public bool IsRequired
         {
-            get { return _container.classList.contains("tss-required"); }
+            get => _container.classList.contains("tss-required");
             set
             {
-                if (value != IsInvalid)
+                if (value)
                 {
-                    if (value)
-                    {
-                        _container.classList.add("tss-required");
-                    }
-                    else
-                    {
-                        _container.classList.remove("tss-required");
-                    }
+                    _container.classList.add("tss-required");
+                }
+                else
+                {
+                    _container.classList.remove("tss-required");
                 }
             }
         }
@@ -154,7 +136,7 @@ namespace Tesserae.Components
         {
             ScrollBar.GetCorrectContainer(_childContainer).replaceChild(newComponent.Render(), oldComponent.Render());
         }
-        
+
         public void Add(Item component)
         {
             ScrollBar.GetCorrectContainer(_childContainer).appendChild(component.Render());
@@ -448,7 +430,7 @@ namespace Tesserae.Components
             {
                 InnerElement = Button(_("tss-dropdown-item"));
                 InnerElement.appendChild(content.Render());
-                
+
                 if(selectedContent is null || selectedContent == content)
                 {
                     SelectedElement = (HTMLElement)InnerElement.cloneNode(true);
@@ -478,63 +460,54 @@ namespace Tesserae.Components
 
                 set
                 {
-                    if (value != Type)
-                    {
-                        InnerElement.classList.remove($"tss-dropdown-{Type.ToString().ToLower()}");
-                        InnerElement.classList.add($"tss-dropdown-{value.ToString().ToLower()}");
+                    InnerElement.classList.remove($"tss-dropdown-{Type.ToString().ToLower()}");
+                    InnerElement.classList.add($"tss-dropdown-{value.ToString().ToLower()}");
 
-                        if (value == ItemType.Item) InnerElement.tabIndex = 0;
-                        else InnerElement.tabIndex = -1;
-                    }
+                    if (value == ItemType.Item) InnerElement.tabIndex = 0;
+                    else InnerElement.tabIndex = -1;
                 }
             }
 
             public bool IsEnabled
             {
-                get { return !InnerElement.classList.contains("disabled"); }
+                get => !InnerElement.classList.contains("disabled");
                 set
                 {
-                    if (value != IsEnabled)
+                    if (value)
                     {
-                        if (value)
-                        {
-                            InnerElement.classList.remove("disabled");
-                            if (Type == ItemType.Item) InnerElement.tabIndex = 0;
-                        }
-                        else
-                        {
-                            InnerElement.classList.add("disabled");
-                            InnerElement.tabIndex = -1;
-                        }
+                        InnerElement.classList.remove("disabled");
+                        if (Type == ItemType.Item) InnerElement.tabIndex = 0;
+                    }
+                    else
+                    {
+                        InnerElement.classList.add("disabled");
+                        InnerElement.tabIndex = -1;
                     }
                 }
             }
 
             public bool IsSelected
             {
-                get { return InnerElement.classList.contains("selected"); }
+                get => InnerElement.classList.contains("selected");
                 set
                 {
-                    if (value != IsSelected)
+                    if(value && onBeforeSelected is object)
                     {
-                        if(value && onBeforeSelected is object)
-                        {
-                            var shouldSelect = onBeforeSelected(this);
-                            if (!shouldSelect) return;
-                        }
-
-                        if (value) InnerElement.classList.add("selected");
-                        else InnerElement.classList.remove("selected");
-
-                        onSelectedChange?.Invoke(this, this);
+                        var shouldSelect = onBeforeSelected(this);
+                        if (!shouldSelect) return;
                     }
+
+                    if (value) InnerElement.classList.add("selected");
+                    else InnerElement.classList.remove("selected");
+
+                    onSelectedChange?.Invoke(this, this);
                 }
             }
 
             public string Text
             {
-                get { return InnerElement.innerText; }
-                set { InnerElement.innerText = value; }
+                get => InnerElement.innerText;
+                set => InnerElement.innerText = value;
             }
 
             public HTMLElement Render()
@@ -571,7 +544,7 @@ namespace Tesserae.Components
 
             public Item OnSelected(EventHandler<Item> onSelected, EventHandler<Item> onDeselected = null)
             {
-                onSelectedChange += (s,e) => 
+                onSelectedChange += (s,e) =>
                 {
                     if(e.IsSelected)
                     {

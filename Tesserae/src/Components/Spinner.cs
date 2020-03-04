@@ -51,8 +51,8 @@ namespace Tesserae.Components
 
         public string Text
         {
-            get { return _label.innerText; }
-            set { _label.innerText = value; }
+            get => _label.innerText;
+            set => _label.innerText = value;
         }
 
         public override HTMLElement Render()

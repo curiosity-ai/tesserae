@@ -25,10 +25,7 @@ namespace Tesserae.Components
 
         public TextSize Size
         {
-            get
-            {
-                return TextSizeExtensions.FromClassList(InnerElement, TextSize.Small);
-            }
+            get => TextSizeExtensions.FromClassList(InnerElement, TextSize.Small);
             set
             {
                 string current = Size.ToClassName();
@@ -36,7 +33,7 @@ namespace Tesserae.Components
                 _labelText.classList.remove(current);
                 _editIcon.classList.remove(current);
                 _cancelEditIcon.classList.remove(current);
-                
+
                 string newValue = value.ToClassName();
                 InnerElement.classList.add(newValue);
                 _labelText.classList.add(newValue);
@@ -47,10 +44,7 @@ namespace Tesserae.Components
 
         public TextWeight Weight
         {
-            get
-            {
-                return TextSizeExtensions.FromClassList(InnerElement, TextWeight.Regular);
-            }
+            get => TextSizeExtensions.FromClassList(InnerElement, TextWeight.Regular);
             set
             {
                 InnerElement.classList.remove(Weight.ToClassName());
@@ -124,7 +118,7 @@ namespace Tesserae.Components
 
         public bool IsEditingMode
         {
-            get { return _container.classList.contains("editing"); }
+            get => _container.classList.contains("editing");
             set
             {
                 if (value)
@@ -163,7 +157,7 @@ namespace Tesserae.Components
 
         private void BeginSaveEditing(EditableLabel sender, Event e)
         {
-            //We need to do this on a timeout, because clicking on the Cancel would trigger this method first, 
+            //We need to do this on a timeout, because clicking on the Cancel would trigger this method first,
             //with no opportunity to cancel
             window.setTimeout(SaveEditing, 150);
         }
@@ -171,7 +165,7 @@ namespace Tesserae.Components
         private void SaveEditing(object e)
         {
             if (_isCanceling) return;
-            
+
             var newValue = InnerElement.value;
 
             if (newValue != _labelText.textContent)
@@ -188,7 +182,7 @@ namespace Tesserae.Components
                 }
             }
         }
-        
+
         public EditableLabel SetText(string text)
         {
             if (IsEditingMode)

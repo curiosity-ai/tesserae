@@ -34,7 +34,7 @@ namespace Tesserae.Components
         {
             ScrollBar.GetCorrectContainer(_childContainer).replaceChild(newComponent.Render(), oldComponent.Render());
         }
-        
+
         public void Add(Item component)
         {
             ScrollBar.GetCorrectContainer(_childContainer).appendChild(component.Render());
@@ -45,7 +45,7 @@ namespace Tesserae.Components
         {
             throw new NotImplementedException();
         }
-        
+
         public override void Show()
         {
             throw new NotImplementedException();
@@ -196,7 +196,7 @@ namespace Tesserae.Components
             children.ForEach(x => Add(x));
             return this;
         }
-        
+
         private void OnWindowClick(Event e)
         {
             if (e.srcElement != _childContainer && !_childContainer.contains(e.srcElement)) Hide();
@@ -268,45 +268,38 @@ namespace Tesserae.Components
                     if (InnerElement.classList.contains("tss-contextmenu-header")) return ItemType.Header;
                     return ItemType.Divider;
                 }
-
                 set
                 {
-                    if (value != Type)
-                    {
-                        InnerElement.classList.remove($"tss-contextmenu-{Type.ToString().ToLower()}");
-                        InnerElement.classList.add($"tss-contextmenu-{value.ToString().ToLower()}");
+                    InnerElement.classList.remove($"tss-contextmenu-{Type.ToString().ToLower()}");
+                    InnerElement.classList.add($"tss-contextmenu-{value.ToString().ToLower()}");
 
-                        if (value == ItemType.Item) InnerElement.tabIndex = 0;
-                        else InnerElement.tabIndex = -1;
-                    }
+                    if (value == ItemType.Item) InnerElement.tabIndex = 0;
+                    else InnerElement.tabIndex = -1;
                 }
             }
 
             public bool IsEnabled
             {
-                get { return !InnerElement.classList.contains("disabled"); }
+                get => !InnerElement.classList.contains("disabled");
                 set
                 {
-                    if (value != IsEnabled)
+                    if (value)
                     {
-                        if (value)
-                        {
-                            InnerElement.classList.remove("disabled");
-                            if (Type == ItemType.Item) InnerElement.tabIndex = 0;
-                        }
-                        else
-                        {
-                            InnerElement.classList.add("disabled");
-                            InnerElement.tabIndex = -1;
-                        }
+                        InnerElement.classList.remove("disabled");
+                        if (Type == ItemType.Item) InnerElement.tabIndex = 0;
+                    }
+                    else
+                    {
+                        InnerElement.classList.add("disabled");
+                        InnerElement.tabIndex = -1;
                     }
                 }
             }
 
             public string Text
             {
-                get { return InnerElement.innerText; }
-                set { InnerElement.innerText = value; }
+                get => InnerElement.innerText;
+                set => InnerElement.innerText = value;
             }
 
             public override HTMLElement Render()
