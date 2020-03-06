@@ -174,11 +174,14 @@ namespace Tesserae.Components
         public async Task LoadItemsAsync()
         {
             if (ItemsSource is null) throw new InvalidOperationException("Only valid with async items");
+            var itemsSourceLocal = ItemsSource;
+            
+            ItemsSource = null; //Clear so we don't call this twice
 
             _spinner = Div(_("tss-spinner"));
             _container.appendChild(_spinner);
             _container.style.pointerEvents = "none";
-            var items = await ItemsSource();
+            var items = await itemsSourceLocal();
             Clear();
             Items(items);
             _container.removeChild(_spinner);
@@ -190,7 +193,7 @@ namespace Tesserae.Components
             if (_contentHtml == null)
             {
                 _contentHtml = Div(_("tss-dropdown-popup"), _childContainer);
-                if (ItemsSource != null)
+                if (ItemsSource is object)
                 {
                     LoadItemsAsync().ContinueWith(t => Show()).FireAndForget();
                     return;
