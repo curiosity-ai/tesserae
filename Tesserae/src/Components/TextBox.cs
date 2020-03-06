@@ -5,9 +5,9 @@ namespace Tesserae.Components
 {
     public class TextBox : ComponentBase<TextBox, HTMLInputElement>, ICanValidate<TextBox>, IObservableComponent<string>
     {
-        private HTMLDivElement _container;
-        private HTMLSpanElement _errorSpan;
-        private readonly Observable<string> _observable = new Observable<string>();
+        private readonly HTMLDivElement _container;
+        private readonly HTMLSpanElement _errorSpan;
+        private readonly SettableObservable<string> _observable = new SettableObservable<string>();
 
         public TextBox(string text = string.Empty)
         {
@@ -19,15 +19,9 @@ namespace Tesserae.Components
             AttachFocus();
             AttachBlur();
 
-            OnChange((_, __) =>
-            {
-                _observable.Value = Text;
-            });
+            OnChange((_, __) => _observable.Value = Text);
 
-            OnInput((_, __) =>
-            {
-                _observable.Value = Text;
-            });
+            OnInput((_, __) => _observable.Value = Text);
         }
 
         public bool IsEnabled
@@ -122,10 +116,7 @@ namespace Tesserae.Components
             }
         }
 
-        public override HTMLElement Render()
-        {
-            return _container;
-        }
+        public override HTMLElement Render() => _container;
 
         public void Attach(EventHandler<Event> handler, Validation.Mode mode)
         {
@@ -181,9 +172,6 @@ namespace Tesserae.Components
             return this;
         }
 
-        public IObservable<string> AsObservable()
-        {
-            return _observable;
-        }
+        public IObservable<string> AsObservable() => _observable;
     }
 }

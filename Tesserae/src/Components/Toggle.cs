@@ -1,5 +1,5 @@
-﻿using static Tesserae.UI;
-using static Retyped.dom;
+﻿using static Retyped.dom;
+using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
@@ -10,7 +10,7 @@ namespace Tesserae.Components
         private HTMLLabelElement _label;
         private string _offText;
         private string _onText;
-        private readonly Observable<bool> _observable = new Observable<bool>();
+        private readonly SettableObservable<bool> _observable = new SettableObservable<bool>();
 
         public Toggle(string text = null, string onText = null, string offText = null)
         {

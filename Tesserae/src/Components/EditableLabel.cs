@@ -1,7 +1,7 @@
 ﻿using System;
-using static Tesserae.UI;
-using static Retyped.dom;
 using System.Linq;
+using static Retyped.dom;
+using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
@@ -15,7 +15,8 @@ namespace Tesserae.Components
         protected          HTMLElement    _cancelEditIcon;
         protected readonly HTMLDivElement _editView;
         protected readonly HTMLDivElement _labelView;
-        private readonly Observable<string> _observable = new Observable<string>();
+        
+        private readonly SettableObservable<string> _observable = new SettableObservable<string>();
 
         public delegate bool SaveEditHandler(EditableLabel sender, string newValue);
 

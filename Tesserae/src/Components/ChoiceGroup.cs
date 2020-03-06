@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using static Tesserae.UI;
 using static Retyped.dom;
+using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
     public class ChoiceGroup : ComponentBase<ChoiceGroup, HTMLDivElement>, IContainer<ChoiceGroup, ChoiceGroup.Option>, IObservableComponent<ChoiceGroup.Option>
     {
         private readonly TextBlock _header;
-        private readonly Observable<Option> _selectedOption = new Observable<Option>();
+        private readonly SettableObservable<Option> _selectedOption = new SettableObservable<Option>();
 
         public ChoiceGroup(string label = "Pick one")
         {

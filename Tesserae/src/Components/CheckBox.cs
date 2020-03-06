@@ -1,5 +1,5 @@
-﻿using static Tesserae.UI;
-using static Retyped.dom;
+﻿using static Retyped.dom;
+using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
@@ -7,7 +7,7 @@ namespace Tesserae.Components
     {
         private readonly HTMLSpanElement _checkSpan;
         private readonly HTMLLabelElement _label;
-        private readonly Observable<bool> _observable = new Observable<bool>();
+        private readonly SettableObservable<bool> _observable = new SettableObservable<bool>();
 
         public CheckBox(string text = string.Empty)
         {

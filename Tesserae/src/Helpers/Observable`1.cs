@@ -2,11 +2,10 @@
 
 namespace Tesserae
 {
-
     /// <summary>
-    /// Encapsulates a variable of type T, and enables monitoring for changes
+    /// Enables monitoring of changes for a variable of type T (this class is for listeners only, if updating the value is required then the SettableObserver should be used)
     /// </summary>
-    /// <typeparam name="T">An immutable type to be observed. Be careful with non-imutable types, as you can change them in ways that will not be visible here</typeparam>
+    /// <typeparam name="T">An immutable type to be observed. Be careful with non-imutable types, as they may be changed in ways that will not be repoted here</typeparam>
     public class Observable<T> : Observable, IObservable<T>
     {
         private T _value;
@@ -21,7 +20,7 @@ namespace Tesserae
         public T Value
         {
             get => _value;
-            set
+            protected set
             {
                 if (!_value.Equals(value))
                 {
@@ -48,8 +47,8 @@ namespace Tesserae
             onChange(_value);
         }
 
-        public void ObserveLazy(ValueChanged onChange) => OnValueChanged += onChange; // TODO [2020-03-05 DWR]: Why does this method exist if we already have a public event that can be listened to?
+        public void ObserveLazy(ValueChanged onChange) => OnValueChanged += onChange; // TODO [2020-03-05 DWR]: Why does this method exist if we already have an event that could be listened to (even if it is currently private, couldn't it be public)?
 
-        public void Unobserve(ValueChanged onChange) => OnValueChanged -= onChange; // TODO [2020-03-05 DWR]: Why does this method exist if we already have a public event that listeners can be removed from?
+        public void Unobserve(ValueChanged onChange) => OnValueChanged -= onChange; // TODO [2020-03-05 DWR]: Why does this method exist if we already have an event that could be listened to (even if it is currently private, couldn't it be public)?
     }
 }

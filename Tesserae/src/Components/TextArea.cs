@@ -7,7 +7,7 @@ namespace Tesserae.Components
     {
         private HTMLDivElement _container;
         private HTMLSpanElement _errorSpan;
-        private readonly Observable<string> _observable = new Observable<string>();
+        private readonly SettableObservable<string> _observable = new SettableObservable<string>();
 
         public TextArea(string text = string.Empty)
         {
@@ -24,15 +24,9 @@ namespace Tesserae.Components
             AttachFocus();
             AttachBlur();
 
-            OnChange((_, __) =>
-            {
-                _observable.Value = Text;
-            });
+            OnChange((_, __) => _observable.Value = Text);
 
-            OnInput((_, __) =>
-            {
-                _observable.Value = Text;
-            });
+            OnInput((_, __) => _observable.Value = Text);
         }
 
         public bool IsEnabled
