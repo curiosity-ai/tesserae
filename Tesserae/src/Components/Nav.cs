@@ -1,9 +1,9 @@
 ﻿using System;
-using static Tesserae.UI;
-using static Retyped.dom;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Linq;
+using System.Threading.Tasks;
+using static Retyped.dom;
+using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
@@ -108,7 +108,6 @@ namespace Tesserae.Components
             protected readonly HTMLDivElement _headerDiv;
             protected readonly HTMLUListElement _childContainer;
             protected readonly HTMLButtonElement _expandButton;
-
             private int _Level;
             private readonly List<NavLink> Children = new List<NavLink>();
             public NavLink(string text = null, string icon = null)
@@ -134,7 +133,6 @@ namespace Tesserae.Components
                 Weight = TextWeight.Regular;
             }
 
-
             internal event EventHandler<NavLink> OnExpanded;
 
             internal NavLink SelectedChild { get; private set; }
@@ -151,7 +149,7 @@ namespace Tesserae.Components
             /// </summary>
             public string Text
             {
-                get { ThrowIfUsingComponent(nameof(Text));  return _textSpan?.innerText ; }
+                get { ThrowIfUsingComponent(nameof(Text)); return _textSpan?.innerText; }
                 set { ThrowIfUsingComponent(nameof(Text)); _textSpan.innerText = value; }
             }
 
@@ -205,12 +203,17 @@ namespace Tesserae.Components
                 set
                 {
                     if (value)
-                    {
                         OnSelect?.Invoke(this, this);
-                        _headerDiv.classList.add("selected");
-                    }
-                    else _headerDiv.classList.remove("selected");
+                    UpdateSelectedClass(value);
                 }
+            }
+
+            private void UpdateSelectedClass(bool isSelected)
+            {
+                if (isSelected)
+                    _headerDiv.classList.add("selected");
+                else
+                    _headerDiv.classList.remove("selected");
             }
 
             public bool HasChildren => _childContainer.hasChildNodes();
@@ -326,6 +329,7 @@ namespace Tesserae.Components
             {
                 _childContainer.removeChild(oldComponent.Render());
             }
+
             public NavLink InlineContent(IComponent content)
             {
                 Add(new Nav.ComponentInNavLink(content));
@@ -337,6 +341,24 @@ namespace Tesserae.Components
                 IsSelected = true;
                 return this;
             }
+
+            public NavLink SelectedIf(Observable<bool> shouldBeSelected)
+            {
+                // TODO [2020-03-06 DWR]: Do we need to call Unobserve at any point to avoid a memory leak (because calling Observe will add a reference to the Observable to this component and it will never get released - which is fine
+                // if the NavLink will never be drawn and redrawn but WILL be a problem if NavLinks will be created, destroyed, replaced, etc..)
+                shouldBeSelected.Observe(isSelected =>
+                {
+                    // 2020-03-06 DWR: We expect this update to be applied to make this link consistent with current UI state, so we DON'T want it to trigger any side effects - which is why it only calls UpdateSelectedClass (to update
+                    // its own visual state) and why we don't set the IsSelected property which will fire the OnSelect event. To try to illustrate the difference with an example; in the Tesserae Samples app, when the page loads and the
+                    // URL route shows that a particular component should be displayed (eg. we're at "#/view/CheckBox") then the Router will map that URL to the appropriate view and the Checkbox information will be displayed.. however,
+                    // the Checkbox Nav Link will NOT be highlighted. We want to the Checkbox Nav Link to listen out for when the Checkbox route is matched and to ensure that its visual selected appearance correctly shows that that is
+                    // the page that we're on - we do NOT want to listen out for that event and to then set the IsSelected event and for that to fire another Router.Navigate event because it's doing unnecessary work (and could result
+                    // in an infinite loop, even).
+                    UpdateSelectedClass(isSelected);
+                });
+                return this;
+            }
+
             public NavLink Expanded()
             {
                 IsExpanded = true;

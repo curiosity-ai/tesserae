@@ -52,7 +52,9 @@ namespace Tesserae.Tests
 
             var links = components.ToDictionary(
                 component => component.Name,
-                component => NavLink(component.Name).OnSelected((s, e) => Router.Navigate("#" + ToRoute(component.Name)))
+                component => NavLink(component.Name)
+                    .OnSelected((s, e) => Router.Navigate("#" + ToRoute(component.Name)))
+                    .SelectedIf(RouterObserver.ForRouteByName(component.Name))
             );
 
             var sideBar = Sidebar();
