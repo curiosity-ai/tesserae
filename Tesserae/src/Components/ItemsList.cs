@@ -30,12 +30,12 @@ namespace Tesserae.Components
 
             if (columns.Length < 2)
             {
-                _stack = Stack().Horizontal().Wrap().HeightStretch().WidthStretch();
+                _stack = Stack().Horizontal().Wrap().HeightStretch().WidthStretch().Scroll();
                 _maxStackItemSize = columns.FirstOrDefault() ?? 100.percent();
             }
             else
             {
-                _grid = Grid(columns).HeightStretch().WidthStretch();
+                _grid = Grid(columns).HeightStretch().WidthStretch().Scroll();
             }
             _emptyListMessageGenerator = null;
 
@@ -47,7 +47,7 @@ namespace Tesserae.Components
                     {
                         if(_grid is object)
                         {
-                            return _grid.Children(_emptyListMessageGenerator().GridColumnStrech()).AsTask();
+                            return _grid.Children(_emptyListMessageGenerator().GridColumnStretch()).AsTask();
                         }
                         else
                         {

@@ -32,7 +32,7 @@ namespace Tesserae.Components
 
         public string SortingKey               { get; }
 
-        public Icon Icon                      { get; }
+        public Icon Icon                       { get; }
 
         public UnitSize Width                  { get; }
 
@@ -46,6 +46,6 @@ namespace Tesserae.Components
 
         public void OnColumnClick()            => _onColumnClick?.Invoke();
 
-        public HTMLElement Render() => InnerElement;
+        public HTMLElement Render()            => InnerElement;
     }
 }

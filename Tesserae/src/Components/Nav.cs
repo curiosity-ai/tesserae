@@ -62,7 +62,7 @@ namespace Tesserae.Components
             children.ForEach(x => Add(x));
             return this;
         }
-        
+
         public Nav InlineContent(IComponent content)
         {
             Add(new Nav.ComponentInNavLink(content));
@@ -187,24 +187,21 @@ namespace Tesserae.Components
 
             public bool IsExpanded
             {
-                get { return InnerElement.classList.contains("expanded"); }
+                get => InnerElement.classList.contains("expanded");
                 set
                 {
-                    if (value != IsExpanded)
+                    if (value)
                     {
-                        if (value)
-                        {
-                            InnerElement.classList.add("expanded");
-                            OnExpanded?.Invoke(this, this);
-                        }
-                        else InnerElement.classList.remove("expanded");
+                        InnerElement.classList.add("expanded");
+                        OnExpanded?.Invoke(this, this);
                     }
+                    else InnerElement.classList.remove("expanded");
                 }
             }
 
             public bool IsSelected
             {
-                get { return _headerDiv.classList.contains("selected"); }
+                get => _headerDiv.classList.contains("selected");
                 set
                 {
                     if (value)
@@ -216,14 +213,11 @@ namespace Tesserae.Components
                 }
             }
 
-            public bool HasChildren
-            {
-                get { return _childContainer.hasChildNodes(); }
-            }
+            public bool HasChildren => _childContainer.hasChildNodes();
 
             internal int Level
             {
-                get { return _Level; }
+                get => _Level;
                 set
                 {
                     _Level = value;
@@ -236,10 +230,7 @@ namespace Tesserae.Components
 
             public TextSize Size
             {
-                get
-                {
-                    return TextSizeExtensions.FromClassList(InnerElement, TextSize.Small);
-                }
+                get => TextSizeExtensions.FromClassList(InnerElement, TextSize.Small);
                 set
                 {
                     InnerElement.classList.remove(Size.ToClassName());
@@ -249,10 +240,7 @@ namespace Tesserae.Components
 
             public TextWeight Weight
             {
-                get
-                {
-                    return TextSizeExtensions.FromClassList(InnerElement, TextWeight.Regular);
-                }
+                get => TextSizeExtensions.FromClassList(InnerElement, TextWeight.Regular);
                 set
                 {
                     InnerElement.classList.remove(Weight.ToClassName());

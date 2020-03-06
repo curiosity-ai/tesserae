@@ -13,39 +13,16 @@ namespace Tesserae.Components
         private readonly List<IDetailsListColumn> _columns;
         private readonly ComponentCache<TDetailsListItem> _componentCache;
         private readonly HTMLElement _container;
+        private readonly HTMLDivElement _listContainer;
 
         private bool _listAlreadyCreated;
 
-        private HTMLDivElement _listContainer;
         private HTMLDivElement _listItemsContainer;
 
         private string _previousColumnSortingKey;
         private LineAwesome _currentLineAwesomeSortingIcon;
         private HTMLElement _columnSortingIcon;
         private Func<IComponent> _emptyListMessageGenerator;
-
-        public HTMLElement StylingContainer => _listContainer;
-
-        public bool PropagateToStackItemParent => false;
-
-        public bool IsCompact
-        {
-            get
-            {
-                return _listContainer.classList.contains("small");
-            }
-            set
-            {
-                if (value)
-                {
-                    _listContainer.classList.add("small");
-                }
-                else
-                {
-                    _listContainer.classList.remove("small");
-                }
-            }
-        }
 
         public DetailsList(params IDetailsListColumn[] columns)
         {
@@ -61,12 +38,21 @@ namespace Tesserae.Components
 
             _columns        = columns.ToList();
             _componentCache = new ComponentCache<TDetailsListItem>(CreateListItem);
-            _listContainer = Div(_("tss-detailslist").WithRole("grid"));
-
+            _listContainer  = Div(_("tss-detailslist").WithRole("grid"));
 
             _container                     = DIV(_listContainer);
             _previousColumnSortingKey      = string.Empty;
             _currentLineAwesomeSortingIcon = LineAwesome.ArrowUp;
+        }
+
+        public HTMLElement StylingContainer    => _listContainer;
+
+        public bool PropagateToStackItemParent => false;
+
+        public bool IsCompact
+        {
+            get => _listContainer.classList.contains("small");
+            set => _listContainer.UpdateClassIf(value, "small");
         }
 
         public DetailsList<TDetailsListItem> Compact()

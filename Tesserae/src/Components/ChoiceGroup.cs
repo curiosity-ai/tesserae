@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using static Tesserae.UI;
 using static Retyped.dom;
+using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
     public class ChoiceGroup : ComponentBase<ChoiceGroup, HTMLDivElement>, IContainer<ChoiceGroup, ChoiceGroup.Option>, IObservableComponent<ChoiceGroup.Option>
     {
         private readonly TextBlock _header;
-        private readonly Observable<Option> _selectedOption = new Observable<Option>();
+        private readonly SettableObservable<Option> _selectedOption = new SettableObservable<Option>();
 
         public ChoiceGroup(string label = "Pick one")
         {
@@ -23,18 +21,13 @@ namespace Tesserae.Components
 
         public string Label
         {
-            get { return _header.Text; }
-            set { _header.Text = value; }
+            get => _header.Text;
+            set => _header.Text = value;
         }
 
         public ChoiceGroupOrientation Orientation
         {
-            get
-            {
-                return InnerElement.style.flexDirection == "row"
-                    ? ChoiceGroupOrientation.Horizontal
-                    : ChoiceGroupOrientation.Vertical;
-            }
+            get => InnerElement.style.flexDirection == "row" ? ChoiceGroupOrientation.Horizontal : ChoiceGroupOrientation.Vertical;
             set
             {
                 if (value == ChoiceGroupOrientation.Horizontal) InnerElement.style.flexDirection = "row";
@@ -44,8 +37,8 @@ namespace Tesserae.Components
 
         public bool IsRequired
         {
-            get { return _header.IsRequired; }
-            set { _header.IsRequired = value; }
+            get => _header.IsRequired;
+            set => _header.IsRequired = value;
         }
 
         public override HTMLElement Render()

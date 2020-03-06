@@ -1,5 +1,5 @@
-﻿using static Tesserae.UI;
-using static Retyped.dom;
+﻿using static Retyped.dom;
+using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
@@ -10,7 +10,7 @@ namespace Tesserae.Components
         private HTMLLabelElement _label;
         private string _offText;
         private string _onText;
-        private readonly Observable<bool> _observable = new Observable<bool>();
+        private readonly SettableObservable<bool> _observable = new SettableObservable<bool>();
 
         public Toggle(string text = null, string onText = null, string offText = null)
         {
@@ -33,7 +33,7 @@ namespace Tesserae.Components
         /// </summary>
         public string Text
         {
-            get { return _label.innerText; }
+            get => _label.innerText;
             set
             {
                 _label.innerText = value;
@@ -47,19 +47,16 @@ namespace Tesserae.Components
         /// </summary>
         public bool IsEnabled
         {
-            get { return !_label.classList.contains("disabled"); }
+            get => !_label.classList.contains("disabled");
             set
             {
-                if (value != IsEnabled)
+                if (value)
                 {
-                    if (value)
-                    {
-                        _label.classList.remove("disabled");
-                    }
-                    else
-                    {
-                        _label.classList.add("disabled");
-                    }
+                    _label.classList.remove("disabled");
+                }
+                else
+                {
+                    _label.classList.add("disabled");
                 }
             }
         }
@@ -69,16 +66,13 @@ namespace Tesserae.Components
         /// </summary>
         public bool IsChecked
         {
-            get { return InnerElement.@checked; }
+            get => InnerElement.@checked;
             set
             {
-                if (value != IsChecked)
-                {
-                    InnerElement.@checked = value;
-                    _observable.Value = value;
-                    if (value) _onOffSpan.innerText = _onText;
-                    else _onOffSpan.innerText = _offText;
-                }
+                InnerElement.@checked = value;
+                _observable.Value = value;
+                if (value) _onOffSpan.innerText = _onText;
+                else _onOffSpan.innerText = _offText;
             }
         }
 

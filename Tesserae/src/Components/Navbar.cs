@@ -21,10 +21,7 @@ namespace Tesserae.Components
 
         public bool IsVisible
         {
-            get
-            {
-                return !_navbarContainer.classList.contains("hidden");
-            }
+            get => !_navbarContainer.classList.contains("hidden");
             set
             {
                 if(value) _navbarContainer.classList.remove("hidden");

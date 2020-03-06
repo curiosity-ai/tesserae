@@ -1,5 +1,11 @@
 ﻿/* Stack */
+.tss-card-container{
+    padding: 2px;
+}
+
 .tss-card {
+    height: calc(100% - 4px);
+    width: calc(100% - 4px);
     display: flex;
     padding: 16px;
     margin-bottom: 12px;

@@ -22,7 +22,7 @@ namespace Tesserae.Components
             _iconContainer = Div(_("tss-searchbox-icon"), _icon);
             _paddingContainer = Div(_("tss-searchbox-padding"));
             _container = Div(_("tss-searchbox-container"), _iconContainer, InnerElement, _paddingContainer);
-            
+
             AttachChange();
             AttachInput();
             AttachFocus();
@@ -40,82 +40,67 @@ namespace Tesserae.Components
 
         public bool IsEnabled
         {
-            get { return !_container.classList.contains("disabled"); }
+            get => !_container.classList.contains("disabled");
             set
             {
-                if (value != IsEnabled)
+                if (value)
                 {
-                    if (value)
-                    {
-                        _container.classList.remove("disabled");
-                    }
-                    else
-                    {
-                        _container.classList.add("disabled");
-                    }
+                    _container.classList.remove("disabled");
+                }
+                else
+                {
+                    _container.classList.add("disabled");
                 }
             }
         }
 
         public bool IsUnderlined
         {
-            get { return _container.classList.contains("underlined"); }
+            get => _container.classList.contains("underlined");
             set
             {
-                if (IsUnderlined != value)
-                {
-                    if (value) _container.classList.add("underlined");
-                    else _container.classList.remove("underlined", "");
-                }
+                if (value) _container.classList.add("underlined");
+                else _container.classList.remove("underlined", "");
             }
         }
 
         public string Text
         {
-            get { return InnerElement.value; }
+            get => InnerElement.value;
             set
             {
-                if (InnerElement.value != value)
-                {
-                    InnerElement.value = value;
-                    RaiseOnInput(null);
-                }
+                InnerElement.value = value;
+                RaiseOnInput(null);
             }
         }
 
         public string Placeholder
         {
-            get { return InnerElement.placeholder; }
-            set { InnerElement.placeholder = value; }
+            get => InnerElement.placeholder;
+            set => InnerElement.placeholder = value;
         }
 
         public string Icon
         {
-            get { return _icon.className; }
+            get => _icon.className;
             set
             {
-                if (_icon.className != value)
-                {
-                    _icon.className = value;
-                }
+                _icon.className = value;
             }
         }
 
         public bool IsInvalid
         {
-            get { return _container.classList.contains("invalid"); }
+            get => _container.classList.contains("invalid");
             set
             {
-                if (value != IsInvalid)
+                if (value)
                 {
-                    if (value)
-                    {
-                        _container.classList.add("invalid");
-                    }
-                    else
-                    {
-                        _container.classList.remove("invalid");
-                    }
+                    _container.classList.add("invalid");
+                }
+                else
+                {
+                    _container.classList.remove("invalid");
                 }
             }
         }

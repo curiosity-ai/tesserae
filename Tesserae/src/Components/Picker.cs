@@ -123,12 +123,11 @@ namespace Tesserae.Components
             }
         }
 
-        
         private void OnTextBoxInput(TextBox textBox, Event @event)
         {
             window.clearTimeout(_hideSugestionsTimeout);
             window.clearTimeout(_debounce);
-            _debounce = window.setTimeout((_) => ShowSuggestions(), _debounceTimeout);
+            _debounce = window.setTimeout(_ => ShowSuggestions(), _debounceTimeout);
         }
 
         private void ShowSuggestions()
@@ -172,12 +171,10 @@ namespace Tesserae.Components
             {
                 return GetPickerItems();
             }
-            else
-            {
-                textBoxText = textBoxText.ToUpper();
 
-                return GetPickerItems().Where(pickerItem => pickerItem.Name.ToUpper().Contains(textBoxText));
-            }
+            textBoxText = textBoxText.ToUpper();
+
+            return GetPickerItems().Where(pickerItem => pickerItem.Name.ToUpper().Contains(textBoxText));
         }
 
         private void CreateSuggestions(IEnumerable<TPickerItem> suggestions)

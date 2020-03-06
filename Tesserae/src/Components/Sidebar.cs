@@ -27,10 +27,7 @@ namespace Tesserae.Components
 
         public bool IsLight
         {
-            get
-            {
-                return _sidebarContainer.classList.contains("light");
-            }
+            get => _sidebarContainer.classList.contains("light");
             set
             {
                 if (value) _sidebarContainer.classList.add("light");
@@ -78,10 +75,7 @@ namespace Tesserae.Components
 
         public bool IsVisible
         {
-            get
-            {
-                return !_container.classList.contains("hidden");
-            }
+            get => !_container.classList.contains("hidden");
             set
             {
                 if (value) _container.classList.remove("hidden");
@@ -91,25 +85,19 @@ namespace Tesserae.Components
 
         public bool IsAlwaysOpen
         {
-            get
-            {
-                return _container.classList.contains("open");
-            }
+            get => _container.classList.contains("open");
             set
             {
-                if (value != IsAlwaysOpen)
+                if (value)
                 {
-                    if (value)
-                    {
-                        _container.classList.add("open");
-                        EnableResizeMonitor();
-                    }
-                    else
-                    {
-                        _container.classList.remove("open");
-                    }
-                    RecomputeContainerMargin();
+                    _container.classList.add("open");
+                    EnableResizeMonitor();
                 }
+                else
+                {
+                    _container.classList.remove("open");
+                }
+                RecomputeContainerMargin();
             }
         }
 
@@ -249,19 +237,19 @@ namespace Tesserae.Components
 
             public bool IsEnabled
             {
-                get { return !_container.classList.contains("disabled"); }
+                get => !_container.classList.contains("disabled");
                 set { if(value) _container.classList.add("disabled"); else _container.classList.remove("disabled"); }
             }
 
             public bool IsLarge
             {
-                get { return !_container.classList.contains("extrapadding"); }
+                get => !_container.classList.contains("extrapadding");
                 set { if(value) _container.classList.add("extrapadding"); else _container.classList.remove("extrapadding"); }
             }
 
             public bool IsSelectable
             {
-                get { return _isSelectable; }
+                get => _isSelectable;
                 set
                 {
                     _isSelectable = value;
@@ -282,7 +270,7 @@ namespace Tesserae.Components
 
             public bool IsSelected
             {
-                get { return IsSelectable ? _container.classList.contains("selected") : false; }
+                get => IsSelectable ? _container.classList.contains("selected") : false;
                 set
                 {
                     if (!IsSelectable) return;

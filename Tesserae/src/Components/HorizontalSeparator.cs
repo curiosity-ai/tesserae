@@ -30,14 +30,8 @@ namespace Tesserae.Components
 
         public string Text
         {
-            get
-            {
-                return _separator.textContent;
-            }
-            set
-            {
-                _separator.textContent = value ?? "";
-            }
+            get => _separator.textContent;
+            set => _separator.textContent = value ?? "";
         }
 
         public HorizontalSeparator(string text = string.Empty)

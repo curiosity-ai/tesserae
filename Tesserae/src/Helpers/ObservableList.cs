@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using static Retyped.dom;
 
 namespace Tesserae
 {
@@ -10,6 +11,8 @@ namespace Tesserae
 
         private readonly List<T> _list;
         private readonly bool _valueIsObservable;
+        private double _refreshTimeout;
+
         public ObservableList()
         {
             _list = new List<T>();
@@ -77,8 +80,13 @@ namespace Tesserae
 
         private void RaiseOnValueChanged()
         {
-            OnValueChanged?.Invoke(_list);
-            RaiseOnChanged();
+            window.clearTimeout(_refreshTimeout);
+            _refreshTimeout = window.setTimeout(raise, 1);
+            void raise(object t)
+            {
+                OnValueChanged?.Invoke(_list);
+                RaiseOnChanged();
+            }
         }
 
         public int Count => _list.Count;

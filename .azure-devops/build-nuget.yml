@@ -30,7 +30,7 @@ steps:
       git config --global user.email "$(EMAIL)"
       git config --global user.name "$(USER)"
       git config --global user.password  "$(PAT)"
-  
+
 - task: CmdLine@2
   displayName: 'update lineawesome'
   inputs:
@@ -51,6 +51,14 @@ steps:
       git add .
       git commit -m "Updated line-awesome"
       git push origin HEAD:master
+
+# This has to run after the git commit above, so the injected source-code stays out of the repository
+- task: CmdLine@2
+  displayName: 'update samples'
+  inputs:
+    script: |
+      cd $(Build.SourcesDirectory)/Build.InjectSamplesCode/
+      dotnet run
 
 - task: VSBuild@1
   displayName: 'build tesserae project'
