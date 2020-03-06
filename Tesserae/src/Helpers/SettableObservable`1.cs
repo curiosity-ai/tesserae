@@ -6,6 +6,8 @@
     /// <typeparam name="T">An immutable type to be observed. Be careful with non-imutable types, as you can change them in ways that will not be visible here</typeparam>
     public class SettableObservable<T> : Observable<T>
     {
+        public SettableObservable(T value = default) : base(value) { }
+
         public new T Value
         {
             get => base.Value;
