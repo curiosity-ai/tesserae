@@ -216,17 +216,7 @@ namespace Tesserae.Components
         public bool CanWrap
         {
             get => !InnerElement.classList.contains("tss-text-ellipsis");
-            set
-            {
-                if (value)
-                {
-                    InnerElement.classList.remove("tss-text-ellipsis");
-                }
-                else
-                {
-                    InnerElement.classList.add("tss-text-ellipsis");
-                }
-            }
+            set => InnerElement.UpdateClassIfNot(value, "tss-text-ellipsis");
         }
 
         public string Cursor
