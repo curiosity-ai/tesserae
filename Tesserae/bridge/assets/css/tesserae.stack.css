@@ -7,3 +7,7 @@
 .tss-stack-item {
     height: auto;
 }
+
+.tss-stack.invalid {
+    border-color: var(--tss-invalid-border-color);
+}
