@@ -5,10 +5,22 @@ namespace Tesserae.Components
 {
     public interface IPickerItem
     {
-        string Name     { get; }
+        string Name { get; }
 
         bool IsSelected { get; set; }
 
         IComponent Render();
+    }
+
+    public static class IPickerItemExtensions
+    {
+        public static T SelectedIf<T>(this T This, Func<bool> shouldSelect) where T : IPickerItem
+        {
+            if (shouldSelect())
+            {
+                This.IsSelected = true;
+            }
+            return This;
+        }
     }
 }

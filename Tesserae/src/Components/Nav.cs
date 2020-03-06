@@ -337,6 +337,16 @@ namespace Tesserae.Components
                 IsSelected = true;
                 return this;
             }
+
+            public NavLink SelectedIf(Func<bool> shouldSelect)
+            {
+                if (shouldSelect())
+                {
+                    IsSelected = true;
+                }
+                return this;
+            }
+
             public NavLink Expanded()
             {
                 IsExpanded = true;

@@ -549,6 +549,15 @@ namespace Tesserae.Components
                 IsSelected = true;
                 return this;
             }
+            
+            public Item SelectedIf(Func<bool> shouldSelect)
+            {
+                if (shouldSelect())
+                {
+                    IsSelected = true;
+                }
+                return this;
+            }
 
             public Item SetData(dynamic data)
             {
