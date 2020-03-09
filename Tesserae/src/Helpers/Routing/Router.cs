@@ -14,8 +14,8 @@ namespace Tesserae
         public delegate void NavigatedHandler(ActionContext toState, ActionContext fromState);
         public delegate bool CanNavigateHandler(ActionContext toState, ActionContext fromState);
 
-        private static event NavigatedHandler onNavigated;
-        private static event CanNavigateHandler onBeforeNavigate;
+        public static event NavigatedHandler onNavigated;
+        public static event CanNavigateHandler onBeforeNavigate;
 
         private static string _lastURL = "";
 
@@ -104,10 +104,8 @@ namespace Tesserae
 
         public static void Register(string uniqueIdentifier, string path, Action<Parameters> action, bool replace = false)
         {
-            // 2020-03-06 DWR: We historically lower-cased the uniqueIdentifier value here but that means that when a route-matched callback is made, the "name" value may not match the "uniqueIdentifier" that the route was
-            // originally registered for. I think that the only place where casing is important is in the lowerCaseID and upperCaseID values and so I've ensured that the lowerCaseID vaue is set using ToLower() now while
-            // leaving the uniqueIdentifier value untouched (as an example, if the uniqueIdentifier value may be recorded here differently to the format in which it is passed in, it would not be possible to reliably
-            // implement the RouterObserver.ForRouteByName method - any name that contained upper case letters, as happens in the Tesserae Samples application side bar, would not match correctly).
+            uniqueIdentifier = uniqueIdentifier.ToLower();
+
             if (_routes.ContainsKey(uniqueIdentifier) && !replace)
             {
                 // 2020-02-12 DWR: The last thing that the Mosaik App class does is register default routes - this means that the default routes are declared after any routes custom to the current app and this means that it
@@ -116,7 +114,7 @@ namespace Tesserae
                 return;
             }
 
-            var lowerCaseID = $"path-{uniqueIdentifier.ToLower()}";
+            var lowerCaseID = $"path-{uniqueIdentifier}";
             var upperCaseID = $"PATH-{uniqueIdentifier.ToUpper()}";
 
             _paths.Remove(uniqueIdentifier);
