@@ -1,9 +1,9 @@
 ﻿using System;
-using static Tesserae.UI;
-using static Retyped.dom;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Linq;
+using System.Threading.Tasks;
+using static Retyped.dom;
+using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
@@ -207,16 +207,20 @@ namespace Tesserae.Components
                 get => _headerDiv.classList.contains("selected");
                 set
                 {
-                    if (value)
+                    if (value && !IsSelected)
                     {
-                        if(!IsSelected)
-                        {
-                            OnSelect?.Invoke(this, this);
-                        }
-                        _headerDiv.classList.add("selected");
+                        OnSelect?.Invoke(this, this);
                     }
-                    else _headerDiv.classList.remove("selected");
+                    UpdateSelectedClass(value);
                 }
+            }
+
+            private void UpdateSelectedClass(bool isSelected)
+            {
+                if (isSelected)
+                    _headerDiv.classList.add("selected");
+                else
+                    _headerDiv.classList.remove("selected");
             }
 
             public bool HasChildren => _childContainer.hasChildNodes();
