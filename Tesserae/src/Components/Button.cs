@@ -180,7 +180,7 @@ namespace Tesserae.Components
         public bool CanWrap
         {
             get => !InnerElement.classList.contains("tss-btn-nowrap");
-            set => InnerElement.UpdateClassIfNot(value, "tss-text-nowrap");
+            set => InnerElement.UpdateClassIfNot(value, "tss-btn-nowrap");
         }
 
         public bool EnableEllipsis
