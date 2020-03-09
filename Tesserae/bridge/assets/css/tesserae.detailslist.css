@@ -6,6 +6,11 @@
     position: relative;
 }
 
+.tss-detailslist-container {
+    width: 100%;
+    height: 100%;
+}
+
 .tss-detailslist-header {
     display: inline-block;
     float: left;

@@ -40,12 +40,12 @@ namespace Tesserae.Components
             _componentCache = new ComponentCache<TDetailsListItem>(CreateListItem);
             _listContainer  = Div(_("tss-detailslist").WithRole("grid"));
 
-            _container                     = DIV(_listContainer);
+            _container                     = Div(_("tss-detailslist-container"), _listContainer);
             _previousColumnSortingKey      = string.Empty;
             _currentLineAwesomeSortingIcon = LineAwesome.ArrowUp;
         }
 
-        public HTMLElement StylingContainer    => _listContainer;
+        public HTMLElement StylingContainer    => _container;
 
         public bool PropagateToStackItemParent => false;
 

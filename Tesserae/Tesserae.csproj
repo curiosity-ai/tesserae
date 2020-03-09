@@ -34,6 +34,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="bridge\assets\img" />
+    <Compile Remove="bridge\assets\img\**" />
+    <EmbeddedResource Remove="bridge\assets\img\**" />
+    <None Remove="bridge\assets\img\**" />
   </ItemGroup>
 </Project>
