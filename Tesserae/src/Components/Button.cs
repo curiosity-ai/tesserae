@@ -179,8 +179,8 @@ namespace Tesserae.Components
 
         public bool CanWrap
         {
-            get => !_textSpan.classList.contains("tss-text-ellipsis");
-            set => _textSpan.UpdateClassIfNot(value, "tss-text-ellipsis");
+            get => !InnerElement.classList.contains("tss-text-ellipsis");
+            set => InnerElement.UpdateClassIfNot(value, "tss-text-ellipsis");
         }
 
         public TextSize Size
