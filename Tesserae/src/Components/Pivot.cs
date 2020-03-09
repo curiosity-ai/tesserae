@@ -144,9 +144,7 @@ namespace Tesserae.Components
             var title = RenderedTitles[tab];
 
             HTMLElement content = Div(_());
-            content.style.width = "100%";
-            content.style.minHeight = "100%";
-
+            
             try
             {
                 content = tab.RenderContent();
