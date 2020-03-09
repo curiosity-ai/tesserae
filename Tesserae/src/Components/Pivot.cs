@@ -4,6 +4,7 @@ using Retyped;
 using static Tesserae.UI;
 using static Retyped.dom;
 using System.Linq;
+using Tesserae.HTML;
 
 namespace Tesserae.Components
 {
@@ -193,6 +194,10 @@ namespace Tesserae.Components
                 {
                     Select(InitiallySelectedID);
                 }
+
+                var ro = new ResizeObserver();
+                ro.Observe(InnerElement);
+                ro.OnResize = () => TriggerAnimation();
             }
 
             return InnerElement;
