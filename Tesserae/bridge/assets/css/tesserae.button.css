@@ -31,6 +31,10 @@ a {
     justify-content: center;
 }
 
+.tss-btn-nowrap {
+    white-space: nowrap;
+}
+
     .tss-btn.small {
         min-height: 16px;
         margin:4px;

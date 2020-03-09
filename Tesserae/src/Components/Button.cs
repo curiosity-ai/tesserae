@@ -179,6 +179,12 @@ namespace Tesserae.Components
 
         public bool CanWrap
         {
+            get => !InnerElement.classList.contains("tss-btn-nowrap");
+            set => InnerElement.UpdateClassIfNot(value, "tss-text-nowrap");
+        }
+
+        public bool EnableEllipsis
+        {
             get => !InnerElement.classList.contains("tss-text-ellipsis");
             set => InnerElement.UpdateClassIfNot(value, "tss-text-ellipsis");
         }
@@ -331,12 +337,19 @@ namespace Tesserae.Components
         public Button Wrap()
         {
             CanWrap = true;
-            if(string.IsNullOrEmpty(Title))
+            return this;
+        }
+
+        public Button Ellipsis()
+        {
+            EnableEllipsis = true;
+            if (string.IsNullOrEmpty(Title))
             {
                 Title = Text;
             }
             return this;
         }
+
 
         public Button NoWrap()
         {
