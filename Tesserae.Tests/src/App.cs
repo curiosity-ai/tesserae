@@ -52,8 +52,6 @@ namespace Tesserae.Tests
 
             var components = orderedComponents.ToDictionary(c => c.Name, c => c.Component);
 
-            
-
             var sideBar = Sidebar();
 
             var navBar = Navbar().SetTop(Stack().Horizontal()
@@ -64,27 +62,6 @@ namespace Tesserae.Tests
             var currentPage = new SettableObservable<string>();
 
             var deferedPage = Defer(currentPage, (curPage) => ShowPage(curPage).AsTask());
-
-            IComponent ShowPage(string route)
-            {
-                if (route is null || !components.ContainsKey(route))
-                {
-                    route = components.Keys.First();
-                }
-
-                Router.Replace($"#/view/{route}");
-
-                var component = components[route];
-                
-                var links = orderedComponents.ToDictionary(c => c.Name, c => NavLink(c.Name).SelectedIf(c.Name == route).OnSelected((s, e) => Router.Navigate("#" + ToRoute(c.Name))));
-
-                var page = new SplitView().Left(Stack().Stretch().Children(MainNav(links, navBar, sideBar, route)).InvisibleScroll(), background: Theme.Default.Background)
-                                          .LeftIsSmaller(SizeMode.Pixels, 300)
-                                          .HeightStretch();
-
-                page.Right(Stack().Stretch().Children(component.WidthStretch()).InvisibleScroll(), background: Theme.Secondary.Background);
-                return page;
-            }
             
             navBar.SetContent(deferedPage);
 
@@ -106,8 +83,6 @@ namespace Tesserae.Tests
 
             Router.Register("home", "/", p => currentPage.Value = null);
             
-            string ToRoute(string name) => "/view/" + name;
-
             foreach (var (name, component) in orderedComponents)
             {
                 Router.Register(name, ToRoute(name), p => currentPage.Value = name);
@@ -115,6 +90,29 @@ namespace Tesserae.Tests
 
             Router.Initialize();
             Router.Refresh((err, state) => Router.Navigate(window.location.hash, reload: false));
+
+            string ToRoute(string name) => "/view/" + name;
+
+            IComponent ShowPage(string route)
+            {
+                if (route is null || !components.ContainsKey(route))
+                {
+                    route = components.Keys.First();
+                }
+
+                Router.Replace($"#/view/{route}");
+
+                var component = components[route];
+
+                var links = orderedComponents.ToDictionary(c => c.Name, c => NavLink(c.Name).SelectedIf(c.Name == route).OnSelected((s, e) => { console.log("Route to " + c.Name); Router.Navigate("#" + ToRoute(c.Name)); }));
+
+                var page = new SplitView().Left(Stack().Stretch().Children(MainNav(links, navBar, sideBar, route)).InvisibleScroll(), background: Theme.Default.Background)
+                                          .LeftIsSmaller(SizeMode.Pixels, 300)
+                                          .HeightStretch();
+
+                page.Right(Stack().Stretch().Children(component.WidthStretch()).InvisibleScroll(), background: Theme.Secondary.Background);
+                return page;
+            }
         }
 
         private static IComponent MainNav(Dictionary<string, Nav.NavLink> links, Navbar navBar, Sidebar sideBar, string selectedRoute)
