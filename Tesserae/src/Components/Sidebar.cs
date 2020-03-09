@@ -274,10 +274,16 @@ namespace Tesserae.Components
                 set
                 {
                     if (!IsSelectable) return;
+
+                    var changed = value != IsSelected;
+
                     if (value)
                     {
                         _container.classList.add("selected");
-                        parent?.SelectItem(this);
+                        if (changed)
+                        {
+                            parent?.SelectItem(this);
+                        }
                     }
                     else
                     {

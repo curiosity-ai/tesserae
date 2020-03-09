@@ -499,16 +499,29 @@ namespace Tesserae.Components
                 get => InnerElement.classList.contains("selected");
                 set
                 {
-                    if(value && onBeforeSelected is object)
+                    var changed = value != IsSelected;
+                    if (changed)
                     {
-                        var shouldSelect = onBeforeSelected(this);
-                        if (!shouldSelect) return;
+                        if (value && onBeforeSelected is object)
+                        {
+                            var shouldSelect = onBeforeSelected(this);
+                            if (!shouldSelect) return;
+                        }
                     }
 
-                    if (value) InnerElement.classList.add("selected");
-                    else InnerElement.classList.remove("selected");
+                    if (value)
+                    {
+                        InnerElement.classList.add("selected");
+                    }
+                    else
+                    {
+                        InnerElement.classList.remove("selected");
+                    }
 
-                    onSelectedChange?.Invoke(this, this);
+                    if (changed)
+                    {
+                        onSelectedChange?.Invoke(this, this);
+                    }
                 }
             }
 

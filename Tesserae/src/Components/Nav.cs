@@ -192,8 +192,11 @@ namespace Tesserae.Components
                 {
                     if (value)
                     {
+                        if (!IsExpanded)
+                        {
+                            OnExpanded?.Invoke(this, this);
+                        }
                         InnerElement.classList.add("expanded");
-                        OnExpanded?.Invoke(this, this);
                     }
                     else InnerElement.classList.remove("expanded");
                 }
@@ -206,7 +209,10 @@ namespace Tesserae.Components
                 {
                     if (value)
                     {
-                        OnSelect?.Invoke(this, this);
+                        if(!IsSelected)
+                        {
+                            OnSelect?.Invoke(this, this);
+                        }
                         _headerDiv.classList.add("selected");
                     }
                     else _headerDiv.classList.remove("selected");
