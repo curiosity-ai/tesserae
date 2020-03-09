@@ -41,14 +41,22 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// This will register a callback that will be executed when the value is changed and it will immediately execute that callback now (this is useful when initialising an object that relies upon an Observable, it means that
+        /// that there is less code required because calling this Observe method will immediately execute that callback and update the object according to the Observable's current state - otherwise, the initialisation code would
+        /// have to create the dependent object and then call Observe AND THEN set the initial state). If it is not desirable for the callback to be made immediately then use ObserveLazy instead of Observe.
+        /// </summary>
         public void Observe(ValueChanged onChange)
         {
             OnValueChanged += onChange;
             onChange(_value);
         }
 
-        public void ObserveLazy(ValueChanged onChange) => OnValueChanged += onChange; // TODO [2020-03-05 DWR]: Why does this method exist if we already have an event that could be listened to (even if it is currently private, couldn't it be public)?
+        /// <summary>
+        /// See the summary comments on Observe to find out the differences between Observe and ObserveLazy
+        /// </summary>
+        public void ObserveLazy(ValueChanged onChange) => OnValueChanged += onChange;
 
-        public void Unobserve(ValueChanged onChange) => OnValueChanged -= onChange; // TODO [2020-03-05 DWR]: Why does this method exist if we already have an event that could be listened to (even if it is currently private, couldn't it be public)?
+        public void Unobserve(ValueChanged onChange) => OnValueChanged -= onChange;
     }
 }
