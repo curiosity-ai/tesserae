@@ -344,9 +344,9 @@ namespace Tesserae.Components
                 return this;
             }
 
-            public Item SelectedIf(Func<bool> shouldSelect)
+            public Item SelectedIf(bool shouldSelect)
             {
-                if (shouldSelect())
+                if (shouldSelect)
                 {
                     IsSelected = true;
                 }

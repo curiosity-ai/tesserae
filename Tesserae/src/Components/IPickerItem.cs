@@ -14,9 +14,9 @@ namespace Tesserae.Components
 
     public static class IPickerItemExtensions
     {
-        public static T SelectedIf<T>(this T This, Func<bool> shouldSelect) where T : IPickerItem
+        public static T SelectedIf<T>(this T This, bool shouldSelect) where T : IPickerItem
         {
-            if (shouldSelect())
+            if (shouldSelect)
             {
                 This.IsSelected = true;
             }

@@ -344,9 +344,9 @@ namespace Tesserae.Components
                 return this;
             }
 
-            public NavLink SelectedIf(Func<bool> shouldSelect)
+            public NavLink SelectedIf(bool shouldSelect)
             {
-                if (shouldSelect())
+                if (shouldSelect)
                 {
                     IsSelected = true;
                 }
