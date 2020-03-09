@@ -194,6 +194,7 @@ namespace Tesserae.Components
 
                 if (InitiallySelectedID != CurrentSelectedID)
                 {
+                    _firstRender = true;
                     Select(InitiallySelectedID);
                 }
 
@@ -220,6 +221,7 @@ namespace Tesserae.Components
         private double TargetWidth;
         private double TargetLeft;
         private double Left0;
+        private bool _firstRender = false;
 
         private void AnimateLine(double time)
         {
@@ -235,6 +237,12 @@ namespace Tesserae.Components
             }
 
             var f = (time - T0) / 500; //500ms animation
+            if (_firstRender)
+            {
+                f = 1;
+                _firstRender = false;
+            }
+
             if (f > 1) { f = 1; }
             CurrentWidth = CurrentWidth + (TargetWidth - CurrentWidth) * f;
             CurrentLeft = CurrentLeft + (TargetLeft - CurrentLeft) * f;
