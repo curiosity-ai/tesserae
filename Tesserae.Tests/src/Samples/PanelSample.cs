@@ -17,12 +17,12 @@ namespace Tesserae.Tests.Samples
             panel.Content(
                 Stack().Children(
                     TextBlock("Sample panel").MediumPlus().SemiBold(),
-                    ChoiceGroup("Side:").Options(
+                    ChoiceGroup("Side:").Choices(
                         Choice("Far").Selected().OnSelected((x, e) => panel.Side = Panel.PanelSide.Far),
                         Choice("Near").OnSelected((x, e) => panel.Side = Panel.PanelSide.Near)
                     ),
                     Toggle("Light Dismiss").OnChange((s, e) => panel.CanLightDismiss = s.IsChecked).Checked(panel.CanLightDismiss),
-                    ChoiceGroup("Size:").Options(
+                    ChoiceGroup("Size:").Choices(
                         Choice("Small").Selected().OnSelected((x, e) => panel.Size = Panel.PanelSize.Small),
                         Choice("Medium").OnSelected((x, e) => panel.Size = Panel.PanelSize.Medium),
                         Choice("Large").OnSelected((x, e) => panel.Size = Panel.PanelSize.Large),

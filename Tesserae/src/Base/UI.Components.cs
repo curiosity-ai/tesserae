@@ -100,7 +100,7 @@ namespace Tesserae
 
         public static Toggle Toggle(string onText, string offText) => new Toggle(onText: onText, offText: offText);
 
-        public static ChoiceGroup.Item Choice(string label = string.Empty) => new ChoiceGroup.Item(label);
+        public static ChoiceGroup.Choice Choice(string label = string.Empty) => new ChoiceGroup.Choice(label);
 
         public static ChoiceGroup ChoiceGroup(string label = string.Empty) => new ChoiceGroup(label);
 

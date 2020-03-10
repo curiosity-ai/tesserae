@@ -39,19 +39,19 @@ namespace Tesserae.Tests.Samples
                 Stack().Children(
                     SampleTitle("Usage"),
                     TextBlock("Default ChoiceGroup").Medium(),
-                    ChoiceGroup().Options(
+                    ChoiceGroup().Choices(
                         Choice("Option A"),
                         Choice("Option B"),
                         Choice("Option C").Disabled(),
                         Choice("Option D")),
                     TextBlock("Required ChoiceGroup with a custom label").Medium(),
-                    ChoiceGroup("Custom label").Required().Options(
+                    ChoiceGroup("Custom label").Required().Choices(
                         Choice("Option A"),
                         Choice("Option B"),
                         Choice("Option C").Disabled(),
                         Choice("Option D")),
                     TextBlock("Horizontal ChoiceGroup").Medium(),
-                    ChoiceGroup().Horizontal().Options(
+                    ChoiceGroup().Horizontal().Choices(
                         Choice("Option A"),
                         Choice("Option B"),
                         Choice("Option C").Disabled(),

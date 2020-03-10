@@ -170,7 +170,7 @@ namespace Tesserae.Tests.Samples
                         .WithChoiceGroup(
                             ChoiceGroup()
                                 .Horizontal()
-                                .Options(
+                                .Choices(
                                      Choice("Option A"),
                                      Choice("Option B").Disabled(),
                                      Choice("Option C")))

@@ -4,10 +4,10 @@ using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
-    public class ChoiceGroup : ComponentBase<ChoiceGroup, HTMLDivElement>, IContainer<ChoiceGroup, ChoiceGroup.Item>, IObservableComponent<ChoiceGroup.Item>
+    public class ChoiceGroup : ComponentBase<ChoiceGroup, HTMLDivElement>, IContainer<ChoiceGroup, ChoiceGroup.Choice>, IObservableComponent<ChoiceGroup.Choice>
     {
         private readonly TextBlock _header;
-        private readonly SettableObservable<Item> _selectedOption = new SettableObservable<Item>();
+        private readonly SettableObservable<Choice> _selectedOption = new SettableObservable<Choice>();
 
         public ChoiceGroup(string label = "Pick one")
         {
@@ -17,7 +17,7 @@ namespace Tesserae.Components
             InnerElement = Div(_("tss-choice-group", styles: s => { s.flexDirection = "column"; }), h);
         }
 
-        public Item SelectedOption { get => _selectedOption.Value; private set => _selectedOption.Value = value; }
+        public Choice SelectedOption { get => _selectedOption.Value; private set => _selectedOption.Value = value; }
 
         public string Label
         {
@@ -46,7 +46,7 @@ namespace Tesserae.Components
             return InnerElement;
         }
 
-        public void Add(Item component)
+        public void Add(Choice component)
         {
             ScrollBar.GetCorrectContainer(InnerElement).appendChild(component.Render());
             component.OnSelect += OnChoiceSelected;
@@ -61,12 +61,12 @@ namespace Tesserae.Components
             ScrollBar.GetCorrectContainer(InnerElement).appendChild(_header.Render());
         }
 
-        public void Replace(Item newComponent, Item oldComponent)
+        public void Replace(Choice newComponent, Choice oldComponent)
         {
             ScrollBar.GetCorrectContainer(InnerElement).replaceChild(newComponent.Render(), oldComponent.Render());
             newComponent.OnSelect += OnChoiceSelected;
         }
-        public ChoiceGroup Options(params ChoiceGroup.Item[] children)
+        public ChoiceGroup Choices(params ChoiceGroup.Choice[] children)
         {
             children.ForEach(x => Add(x));
             return this;
@@ -89,7 +89,7 @@ namespace Tesserae.Components
             return this;
         }
 
-        private void OnChoiceSelected(object sender, Item e)
+        private void OnChoiceSelected(object sender, Choice e)
         {
             if (SelectedOption == e) return;
             if (SelectedOption != null) SelectedOption.IsSelected = false;
@@ -97,7 +97,7 @@ namespace Tesserae.Components
             RaiseOnChange(e);
         }
 
-        public IObservable<Item> AsObservable()
+        public IObservable<Choice> AsObservable()
         {
             return _selectedOption;
         }
@@ -108,14 +108,14 @@ namespace Tesserae.Components
             Horizontal
         }
 
-        public class Item : ComponentBase<Item, HTMLInputElement>
+        public class Choice : ComponentBase<Choice, HTMLInputElement>
         {
             private readonly HTMLSpanElement _radioSpan;
             private readonly HTMLLabelElement _label;
 
-            public event EventHandler<Item> OnSelect;
+            public event EventHandler<Choice> OnSelect;
 
-            public Item(string text)
+            public Choice(string text)
             {
                 InnerElement = RadioButton(_("tss-option"));
                 _radioSpan = Span(_("tss-option-mark"));
@@ -171,19 +171,19 @@ namespace Tesserae.Components
             {
                 return _label;
             }
-            public Item Disabled()
+            public Choice Disabled()
             {
                 IsEnabled = false;
                 return this;
             }
 
-            public Item Selected()
+            public Choice Selected()
             {
                 IsSelected = true;
                 return this;
             }
             
-            public Item SelectedIf(bool shouldSelect)
+            public Choice SelectedIf(bool shouldSelect)
             {
                 if (shouldSelect)
                 {
@@ -192,13 +192,13 @@ namespace Tesserae.Components
                 return this;
             }
 
-            public Item OnSelected(EventHandler<ChoiceGroup.Item> onSelected)
+            public Choice OnSelected(EventHandler<ChoiceGroup.Choice> onSelected)
             {
                 OnSelect += onSelected;
                 return this;
             }
 
-            public Item SetText(string text)
+            public Choice SetText(string text)
             {
                 Text = text;
                 return this;
