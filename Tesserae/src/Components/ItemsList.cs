@@ -16,7 +16,7 @@ namespace Tesserae.Components
 
         public ObservableList<IComponent> Items { get; }
 
-        public HTMLElement StylingContainer    => _grid?.StylingContainer ?? _stack.StylingContainer;
+        public HTMLElement StylingContainer    => _defered._container;
 
         public bool PropagateToStackItemParent => false;
 

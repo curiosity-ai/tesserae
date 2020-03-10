@@ -40,22 +40,22 @@ namespace Tesserae.Tests.Samples
                     SampleTitle("Usage"),
                     TextBlock("Default ChoiceGroup").Medium(),
                     ChoiceGroup().Options(
-                        Option("Option A"),
-                        Option("Option B"),
-                        Option("Option C").Disabled(),
-                        Option("Option D")),
+                        Choice("Option A"),
+                        Choice("Option B"),
+                        Choice("Option C").Disabled(),
+                        Choice("Option D")),
                     TextBlock("Required ChoiceGroup with a custom label").Medium(),
                     ChoiceGroup("Custom label").Required().Options(
-                        Option("Option A"),
-                        Option("Option B"),
-                        Option("Option C").Disabled(),
-                        Option("Option D")),
+                        Choice("Option A"),
+                        Choice("Option B"),
+                        Choice("Option C").Disabled(),
+                        Choice("Option D")),
                     TextBlock("Horizontal ChoiceGroup").Medium(),
                     ChoiceGroup().Horizontal().Options(
-                        Option("Option A"),
-                        Option("Option B"),
-                        Option("Option C").Disabled(),
-                        Option("Option D"))));
+                        Choice("Option A"),
+                        Choice("Option B"),
+                        Choice("Option C").Disabled(),
+                        Choice("Option D"))));
         }
 
         public HTMLElement Render()

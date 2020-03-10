@@ -26,7 +26,7 @@ namespace Tesserae.Tests.Samples
                     Stack().Children(
                     Label("Number of items:").SetContent(countSlider.OnInput((s, e) => SetChildren(stack, s.Value))),
                     Stack().Horizontal().Children(
-                    ChoiceGroup("Orientation:").Horizontal().Options(Option("Vertical").Selected(), Option("Horizontal"), Option("Vertical Reverse"), Option("Horizontal Reverse")).OnChange(
+                    ChoiceGroup("Orientation:").Horizontal().Options(Choice("Vertical").Selected(), Choice("Horizontal"), Choice("Vertical Reverse"), Choice("Horizontal Reverse")).OnChange(
                         (s, e) =>
                         {
                             if (s.SelectedOption.Text == "Horizontal")

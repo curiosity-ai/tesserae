@@ -171,9 +171,9 @@ namespace Tesserae.Tests.Samples
                             ChoiceGroup()
                                 .Horizontal()
                                 .Options(
-                                     Option("Option A"),
-                                     Option("Option B").Disabled(),
-                                     Option("Option C")))
+                                     Choice("Option A"),
+                                     Choice("Option B").Disabled(),
+                                     Choice("Option C")))
                         .WithDropdown(
                             Dropdown()
                                 .Multi()
