@@ -10,6 +10,9 @@
 
 .fade:not(.show) {
     opacity: 0;
+    pointer-events:none;
+    cursor:none;
+    user-select:none;
 }
 
 @-webkit-keyframes slideInUp {
