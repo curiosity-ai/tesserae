@@ -4,15 +4,11 @@
     margin: 0px;
     margin-right: 16px;
     padding: 0px;
-    border: 1px solid var(--tss-default-border-color);
-    background: var(--tss-default-background-color) none repeat scroll 0% 0%;
-    color: var(--tss-default-foreground-color);
-    cursor: pointer;
     height: 32px;
     align-items: center;
     font-size: var(--tss-font-size-small);
     font-weight: var(--tss-font-weight-regular);
-    width: 100%;
+    width: calc(100% - 16px);
     outline: transparent none medium;
     padding: 5px 5px;
     user-select: none;
@@ -21,11 +17,6 @@
     overflow: hidden;
 }
 
-    .tss-dropdown.disabled {
-        border-color: var(--tss-disabled-background-color);
-        background-color: var(--tss-disabled-background-color);
-        color: var(--tss-disabled-foreground-color);
-    }
 
     .tss-dropdown:after {
         content: " ";
@@ -42,7 +33,21 @@
 
 .tss-dropdown-container {
     position: relative;
+    border: 1px solid var(--tss-default-border-color);
+    background: var(--tss-default-background-color) none repeat scroll 0% 0%;
+    color: var(--tss-default-foreground-color);
+    cursor: pointer;
 }
+
+    .tss-dropdown-container.disabled {
+        border-color: var(--tss-disabled-background-color);
+        background-color: var(--tss-disabled-background-color);
+        color: var(--tss-disabled-foreground-color);
+        cursor: default;
+        user-select:none;
+        pointer-events:none;
+    }
+
 
     .tss-dropdown-container.invalid .tss-dropdown {
         border-color: var(--tss-invalid-border-color);

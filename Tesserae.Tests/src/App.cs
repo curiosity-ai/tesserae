@@ -52,7 +52,7 @@ namespace Tesserae.Tests
 
             var components = orderedComponents.ToDictionary(c => c.Name, c => c.Component);
 
-            var sideBar = Sidebar();
+            var sideBar = Sidebar().Stretch();
 
             var navBar = Navbar().SetTop(Stack().Horizontal()
                                           .WidthStretch()
@@ -61,7 +61,7 @@ namespace Tesserae.Tests
 
             var currentPage = new SettableObservable<string>();
 
-            var deferedPage = Defer(currentPage, (curPage) => ShowPage(curPage).AsTask());
+            var deferedPage = Defer(currentPage, (curPage) => ShowPage(curPage).AsTask()).Stretch();
             
             navBar.SetContent(deferedPage);
 
@@ -108,7 +108,7 @@ namespace Tesserae.Tests
 
                 var page = new SplitView().Left(Stack().Stretch().Children(MainNav(links, navBar, sideBar, route)).InvisibleScroll(), background: Theme.Default.Background)
                                           .LeftIsSmaller(SizeMode.Pixels, 300)
-                                          .HeightStretch();
+                                          .Stretch();
 
                 page.Right(Stack().Stretch().Children(component.WidthStretch()).InvisibleScroll(), background: Theme.Secondary.Background);
                 return page;

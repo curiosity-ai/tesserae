@@ -94,16 +94,16 @@ namespace Tesserae.Components
 
         public bool IsEnabled
         {
-            get => !InnerElement.classList.contains("disabled");
+            get => !_container.classList.contains("disabled");
             set
             {
                 if (value)
                 {
-                    InnerElement.classList.remove("disabled");
+                    _container.classList.remove("disabled");
                 }
                 else
                 {
-                    InnerElement.classList.add("disabled");
+                    _container.classList.add("disabled");
                 }
             }
         }
@@ -189,7 +189,7 @@ namespace Tesserae.Components
 
             if (!_contentHtml.classList.contains("no-focus")) _contentHtml.classList.add("no-focus");
 
-            ClientRect rect = (ClientRect)InnerElement.getBoundingClientRect();
+            ClientRect rect = (ClientRect)_container.getBoundingClientRect();
             var contentRect = (ClientRect)_contentHtml.getBoundingClientRect();
             _contentHtml.style.top = rect.bottom - 1 + "px";
             _contentHtml.style.minWidth = rect.width + "px";
