@@ -107,7 +107,7 @@ namespace Tesserae.Tests
                 var links = orderedComponents.ToDictionary(c => c.Name, c => NavLink(c.Name).SelectedOrExpandedIf(c.Name == route).OnSelected((s, e) => { console.log("Route to " + c.Name); Router.Navigate("#" + ToRoute(c.Name)); }));
 
                 var page = new SplitView().Left(Stack().Stretch().Children(MainNav(links, navBar, sideBar, route)).InvisibleScroll(), background: Theme.Default.Background)
-                                          .LeftIsSmaller(SizeMode.Pixels, 300)
+                                          .LeftIsSmaller(300.px())
                                           .Stretch();
 
                 page.Right(Stack().Stretch().Children(component.WidthStretch()).InvisibleScroll(), background: Theme.Secondary.Background);
