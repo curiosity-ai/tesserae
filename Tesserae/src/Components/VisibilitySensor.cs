@@ -25,14 +25,14 @@ namespace Tesserae.Components
             _onVisible = onVisible;
             _maxCalls = singleCall ? 1 : int.MaxValue;
 
-            DomMountedObserver.NotifyWhenMounted(InnerElement, HookCheck);
+            DomObserver.WhenMounted(InnerElement, HookCheck);
         }
 
         public HTMLElement Render() => InnerElement;
 
         public void Reset()
         {
-            DomMountedObserver.NotifyWhenMounted(InnerElement, HookCheck);
+            DomObserver.WhenMounted(InnerElement, HookCheck);
             if(_maxCalls < 1) //will only reach 0 if it was single call
             {
                 _maxCalls = 1;
@@ -42,7 +42,7 @@ namespace Tesserae.Components
         {
             document.addEventListener("scroll", OnScroll, true);
             window.addEventListener("resize", OnScroll, true);
-            DomRemovalObserver.NotifyWhenRemoved(InnerElement, UnHookCheck);
+            DomRemovalObserver.WhenRemoved(InnerElement, UnHookCheck);
             //Trigger one time on first render, to force check if visible
             OnScroll(null);
         }

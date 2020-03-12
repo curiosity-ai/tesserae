@@ -40,7 +40,7 @@ namespace Tesserae.Components
 
         public dom.HTMLElement Render()
         {
-            DomMountedObserver.NotifyWhenMounted(_container, () => TriggerRefresh());
+            DomObserver.WhenMounted(_container, () => TriggerRefresh());
             return _container;
         }
 

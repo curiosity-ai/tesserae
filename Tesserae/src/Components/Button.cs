@@ -364,7 +364,7 @@ namespace Tesserae.Components
 
         public Button WithHotKey(string keys, Hotkeys.Option options = null)
         {
-            DomMountedObserver.NotifyWhenMounted(InnerElement, () =>
+            DomObserver.WhenMounted(InnerElement, () =>
             {
                 if(options is null)
                 {
@@ -375,7 +375,7 @@ namespace Tesserae.Components
                     Hotkeys.Bind(keys, options, RaiseOnClick);
                 }
 
-                DomRemovalObserver.NotifyWhenRemoved(InnerElement, () =>
+                DomObserver.WhenRemoved(InnerElement, () =>
                 {
                     if (options is null)
                     {

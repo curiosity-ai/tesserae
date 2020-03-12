@@ -96,7 +96,7 @@ namespace Tesserae.Components
         {
             var element = component.Render();
 
-            DomMountedObserver.NotifyWhenMounted(element, () =>
+            DomObserver.WhenMounted(element, () =>
             {
                 var targetElement = Stack.GetItem(component);
                 EnableInvisibleScroll(targetElement);
@@ -109,7 +109,7 @@ namespace Tesserae.Components
         {
             var element = component.Render();
 
-            DomMountedObserver.NotifyWhenMounted(element, () =>
+            DomObserver.WhenMounted(element, () =>
             {
                 var targetElement = Stack.GetItem(component);
                 targetElement.style.overflowY = "auto";

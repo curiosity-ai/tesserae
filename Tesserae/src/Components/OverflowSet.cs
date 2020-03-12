@@ -53,7 +53,7 @@ namespace Tesserae.Components
         public OverflowSet()
         {
             _childContainer = Div(_("tss-overflowset"));
-            DomMountedObserver.NotifyWhenMounted(_childContainer, Recompute);
+            DomObserver.WhenMounted(_childContainer, Recompute);
             _resizeObserver = new ResizeObserver();
             _resizeObserver.Observe(document.body);
             _resizeObserver.OnResize = Recompute;

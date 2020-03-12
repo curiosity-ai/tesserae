@@ -140,7 +140,7 @@ namespace Tesserae.Components
             _listItemsContainer.style.width = (totalWidth).px().ToString();
             _listContainer.appendChild(_listItemsContainer);
 
-            DomMountedObserver.NotifyWhenMounted(detailsListHeader, () =>
+            DomObserver.WhenMounted(detailsListHeader, () =>
             {
                 var rect = (DOMRect)detailsListHeader.getBoundingClientRect();
                 _listItemsContainer.style.minHeight = "calc(100% - "  + rect.height + "px)";
@@ -162,7 +162,7 @@ namespace Tesserae.Components
             {
                 //We render the message so that it fits the whole area from the _listItemsContainer, if it has a pre-defined height, otherwise, we set a min height of 64 px
                 var emptyMessage = _emptyListMessageGenerator().Render();
-                DomMountedObserver.NotifyWhenMounted(emptyMessage, () =>
+                DomObserver.WhenMounted(emptyMessage, () =>
                 {
                     var rect = (DOMRect)_listItemsContainer.getBoundingClientRect();
                     emptyMessage.style.height = Math.Max(64, rect.height) + "px";

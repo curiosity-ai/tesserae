@@ -226,7 +226,7 @@ namespace Tesserae.Components
             var lastComponentMounted =
                 (HTMLElement)_basicListContainer.lastElementChild.previousElementSibling.lastChild;
 
-            DomMountedObserver.NotifyWhenMounted(lastComponentMounted,
+            DomObserver.WhenMounted(lastComponentMounted,
                 () => OnLastComponentMounted(lastComponentMounted.clientHeight));
         }
 

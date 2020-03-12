@@ -227,7 +227,7 @@ namespace Tesserae.Components
 
             private void ScrollIntoView()
             {
-                DomMountedObserver.NotifyWhenMounted(InnerElement, () => InnerElement.scrollIntoView(new ScrollIntoViewOptions() { block = ScrollLogicalPosition.nearest, inline = ScrollLogicalPosition.nearest , behavior = ScrollBehavior.smooth }));
+                DomObserver.WhenMounted(InnerElement, () => InnerElement.scrollIntoView(new ScrollIntoViewOptions() { block = ScrollLogicalPosition.nearest, inline = ScrollLogicalPosition.nearest , behavior = ScrollBehavior.smooth }));
             }
 
             private void UpdateSelectedClass(bool isSelected)

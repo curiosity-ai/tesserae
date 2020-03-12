@@ -55,7 +55,7 @@ namespace Tesserae.Components
         public Breadcrumb()
         {
             _childContainer = Div(_("tss-breadcrumb"));
-            DomMountedObserver.NotifyWhenMounted(_childContainer, Recompute);
+            DomObserver.WhenMounted(_childContainer, Recompute);
             _resizeObserver = new ResizeObserver();
             _resizeObserver.Observe(document.body);
             _resizeObserver.OnResize = Recompute;

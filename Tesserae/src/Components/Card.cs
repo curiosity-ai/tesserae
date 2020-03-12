@@ -14,7 +14,7 @@ namespace Tesserae.Components
         {
             InnerElement = Div(_("tss-card"), content.Render());
             _cardContainer = Div(_("tss-card-container"), InnerElement);
-            DomMountedObserver.NotifyWhenMounted(InnerElement, () => InnerElement.classList.add("ismounted"));
+            DomObserver.WhenMounted(InnerElement, () => InnerElement.classList.add("ismounted"));
             AttachClick();
         }
 
