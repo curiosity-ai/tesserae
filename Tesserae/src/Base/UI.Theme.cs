@@ -16,6 +16,11 @@ namespace Tesserae
                 document.body.classList.remove("tss-dark");
             }
 
+            public static bool IsDark()
+            {
+                return document.body.classList.contains("tss-dark");
+            }
+
             //Variables from tesserae.common.css
             public static class Default
             {
