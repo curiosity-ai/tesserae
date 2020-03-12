@@ -24,7 +24,7 @@ namespace Tesserae.Components
         public void Add(NavLink component)
         {
             ScrollBar.GetCorrectContainer(InnerElement).appendChild(component.Render());
-            component.OnSelect += OnNavLinkSelected;
+            component.onSelected += OnNavLinkSelected;
             if (component.IsSelected)
             {
                 if (SelectedLink != null) SelectedLink.IsSelected = false;
@@ -49,7 +49,7 @@ namespace Tesserae.Components
         {
             ScrollBar.GetCorrectContainer(InnerElement).replaceChild(newComponent.Render(), oldComponent.Render());
 
-            newComponent.OnSelect += OnNavLinkSelected;
+            newComponent.onSelected += OnNavLinkSelected;
             if (newComponent.IsSelected)
             {
                 if (SelectedLink != null) SelectedLink.IsSelected = false;
@@ -93,7 +93,7 @@ namespace Tesserae.Components
                 {
                     AlreadyRendered = true;
                     ClearChildren(_headerDiv);
-                    _headerDiv.removeEventListener("click", ClickHandler);
+                    _headerDiv.onclick -= ClickHandler;
                     _headerDiv.appendChild(Content.Render());
                 }
 
@@ -109,15 +109,21 @@ namespace Tesserae.Components
             protected readonly HTMLUListElement _childContainer;
             protected readonly HTMLButtonElement _expandButton;
 
+
+            private bool _canSelectAndExpand = false;
             private int _Level;
+            private bool _shouldExpandOnFirstAdd;
             private readonly List<NavLink> Children = new List<NavLink>();
+
+
             public NavLink(string text = null, string icon = null)
             {
                 _textSpan = Span(_(text: text));
                 _childContainer = Ul(_("tss-nav-link-container"));
                 _expandButton = Button(_("tss-nav-link-button"));
                 _headerDiv = Div(_("tss-nav-link-header"), _expandButton, _textSpan);
-                _headerDiv.addEventListener("click", ClickHandler);
+                _headerDiv.onclick += ClickHandler;
+                _expandButton.onclick += ExpandHandler;
                 InnerElement = Li(_("tss-nav-link"), _headerDiv, _childContainer);
                 Size = TextSize.Small;
                 Weight = TextWeight.Regular;
@@ -128,18 +134,19 @@ namespace Tesserae.Components
                 _childContainer = Ul(_("tss-nav-link-container"));
                 _expandButton = Button(_("tss-nav-link-button"));
                 _headerDiv = Div(_("tss-nav-link-header"), _expandButton, content.Render());
-                _headerDiv.addEventListener("click", ClickHandler);
+                _headerDiv.onclick += ClickHandler;
+                _expandButton.onclick+= ExpandHandler;
                 InnerElement = Li(_("tss-nav-link"), _headerDiv, _childContainer);
                 Size = TextSize.Small;
                 Weight = TextWeight.Regular;
             }
 
 
-            internal event EventHandler<NavLink> OnExpanded;
+            public event EventHandler<NavLink> onExpanded;
 
             internal NavLink SelectedChild { get; private set; }
 
-            public event EventHandler<NavLink> OnSelect;
+            public event EventHandler<NavLink> onSelected;
 
             private void ThrowIfUsingComponent(string method)
             {
@@ -194,7 +201,7 @@ namespace Tesserae.Components
                     {
                         if (!IsExpanded)
                         {
-                            OnExpanded?.Invoke(this, this);
+                            onExpanded?.Invoke(this, this);
                         }
                         InnerElement.classList.add("expanded");
                     }
@@ -209,7 +216,7 @@ namespace Tesserae.Components
                 {
                     if (value && !IsSelected)
                     {
-                        OnSelect?.Invoke(this, this);
+                        onSelected?.Invoke(this, this);
                     }
                     UpdateSelectedClass(value);
                 }
@@ -294,10 +301,10 @@ namespace Tesserae.Components
                 ScrollBar.GetCorrectContainer(_childContainer).appendChild(component.Render());
                 _headerDiv.classList.add("expandable");
                 component.Level = Level + 1;
-                component.OnSelect += OnChildSelected;
+                component.onSelected += OnChildSelected;
                 if (component.IsSelected)
                 {
-                    OnSelect?.Invoke(this, component);
+                    onSelected?.Invoke(this, component);
 
                     if (SelectedChild != null) SelectedChild.IsSelected = false;
                     SelectedChild = component;
@@ -305,16 +312,21 @@ namespace Tesserae.Components
 
                 if (component.SelectedChild != null)
                 {
-                    OnSelect?.Invoke(component, component.SelectedChild);
+                    onSelected?.Invoke(component, component.SelectedChild);
 
                     if (SelectedChild != null) SelectedChild.IsSelected = false;
                     SelectedChild = component.SelectedChild;
+                }
+
+                if(HasChildren && _shouldExpandOnFirstAdd)
+                {
+                    IsExpanded = true;
                 }
             }
 
             private void OnChildSelected(object sender, NavLink e)
             {
-                OnSelect?.Invoke(this, e);
+                onSelected?.Invoke(this, e);
             }
 
             public void Clear()
@@ -328,8 +340,8 @@ namespace Tesserae.Components
             public void Replace(NavLink newComponent, NavLink oldComponent)
             {
                 ScrollBar.GetCorrectContainer(_childContainer).replaceChild(newComponent.Render(), oldComponent.Render());
-                newComponent.OnSelect += OnChildSelected;
-                if (newComponent.IsSelected) OnSelect?.Invoke(this, newComponent);
+                newComponent.onSelected += OnChildSelected;
+                if (newComponent.IsSelected) onSelected?.Invoke(this, newComponent);
             }
 
             public void Remove(NavLink oldComponent)
@@ -347,12 +359,31 @@ namespace Tesserae.Components
                 IsSelected = true;
                 return this;
             }
+            public NavLink CanSelectAndExpand()
+            {
+                _canSelectAndExpand = true;
+                return this;
+            }
 
-            public NavLink SelectedIf(bool shouldSelect)
+            public NavLink SelectedOrExpandedIf(bool shouldSelect)
             {
                 if (shouldSelect)
                 {
-                    IsSelected = true;
+                    if (HasChildren)
+                    {
+                        IsExpanded = true;
+
+                        if(_canSelectAndExpand)
+                        {
+                            IsSelected = true;
+                        }
+                    }
+                    else
+                    {
+                        IsSelected = true;
+                    }
+
+                    _shouldExpandOnFirstAdd = true;
                 }
                 return this;
             }
@@ -377,7 +408,13 @@ namespace Tesserae.Components
 
             public NavLink OnSelected(EventHandler<Nav.NavLink> onSelected)
             {
-                OnSelect += onSelected;
+                this.onSelected += onSelected;
+                return this;
+            }
+
+            public NavLink OnExpanded(EventHandler<Nav.NavLink> onExpanded)
+            {
+                this.onExpanded += onExpanded;
                 return this;
             }
 
@@ -392,7 +429,7 @@ namespace Tesserae.Components
                 bool alreadyRun = false;
                 var dummy = new Nav.NavLink("loading...");
                 Add(dummy);
-                OnExpanded += (s, e) =>
+                onExpanded += (s, e) =>
                 {
                     if (!alreadyRun)
                     {
@@ -408,10 +445,33 @@ namespace Tesserae.Components
                 return this;
             }
 
-            protected void ClickHandler(object sender)
+            protected void ClickHandler(MouseEvent e)
             {
-                if (HasChildren) IsExpanded = !IsExpanded;
-                else IsSelected = true;
+                StopEvent(e);
+                if (HasChildren)
+                {
+                    if(_canSelectAndExpand && !IsSelected)
+                    {
+                        IsSelected = true;
+                    }
+                    else
+                    {
+                        IsExpanded = !IsExpanded;
+                    }
+                }
+                else
+                {
+                    IsSelected = true;
+                }
+            }
+
+            protected void ExpandHandler(MouseEvent e)
+            {
+                if(HasChildren)
+                {
+                    IsExpanded = !IsExpanded;
+                    StopEvent(e);
+                }
             }
         }
     }
