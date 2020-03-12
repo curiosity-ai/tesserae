@@ -10,7 +10,7 @@
 .simplebar-wrapper {
     overflow: hidden;
     width: inherit;
-    height: inherit;
+    height: inherit; /* We change this on our own CSS after to 100% */ 
     max-width: inherit;
     max-height: inherit;
 }
