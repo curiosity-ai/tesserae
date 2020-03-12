@@ -42,7 +42,7 @@ namespace Tesserae.Components
         {
             document.addEventListener("scroll", OnScroll, true);
             window.addEventListener("resize", OnScroll, true);
-            DomRemovalObserver.WhenRemoved(InnerElement, UnHookCheck);
+            DomObserver.WhenRemoved(InnerElement, UnHookCheck);
             //Trigger one time on first render, to force check if visible
             OnScroll(null);
         }
