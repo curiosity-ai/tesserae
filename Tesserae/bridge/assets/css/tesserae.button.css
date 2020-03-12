@@ -1,7 +1,11 @@
 ﻿/* Button */
 button {
     font-family: inherit;
+    color: var(--tss-default-foreground-color);
+    background-color: var(--tss-default-background-color);
+    border-color: var(--tss-default-border-color);
 }
+
     button:focus {
         outline: none;
     }
