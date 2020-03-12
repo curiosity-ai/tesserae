@@ -53,16 +53,26 @@ namespace Tesserae.HTML
             if (callback == null)
                 throw new ArgumentNullException(nameof(callback));
 
-            _elementsToTrackMountingOf.Add((element, callback));
+            if (IsEqualToOrIsChildOf(element, document.body))
+            {
+                //Already mounted
+                callback();
+            }
+            else
+            {
+                _elementsToTrackMountingOf.Add((element, callback));
+            }
         }
 
-        private static bool IsEqualToOrIsChildOf(HTMLElement ele, Node possibleSelfOrParentEle)
+        private static bool IsEqualToOrIsChildOf(HTMLElement element, Node possibleParentElement)
         {
-            while (ele != null)
+            while (element != null)
             {
-                if (ele == possibleSelfOrParentEle)
+                if (element == possibleParentElement)
+                {
                     return true;
-                ele = ele.parentElement;
+                }
+                element = element.parentElement;
             }
             return false;
         }

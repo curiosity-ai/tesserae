@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Tesserae.HTML;
 using static Retyped.dom;
 using static Tesserae.UI;
 
@@ -202,6 +203,7 @@ namespace Tesserae.Components
                         if (!IsExpanded)
                         {
                             onExpanded?.Invoke(this, this);
+                            ScrollIntoView();
                         }
                         InnerElement.classList.add("expanded");
                     }
@@ -217,9 +219,15 @@ namespace Tesserae.Components
                     if (value && !IsSelected)
                     {
                         onSelected?.Invoke(this, this);
+                        ScrollIntoView();
                     }
                     UpdateSelectedClass(value);
                 }
+            }
+
+            private void ScrollIntoView()
+            {
+                DomMountedObserver.NotifyWhenMounted(InnerElement, () => InnerElement.scrollIntoView(new ScrollIntoViewOptions() { block = ScrollLogicalPosition.nearest, inline = ScrollLogicalPosition.nearest , behavior = ScrollBehavior.smooth }));
             }
 
             private void UpdateSelectedClass(bool isSelected)
