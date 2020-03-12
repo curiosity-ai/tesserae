@@ -21,9 +21,15 @@ namespace Tesserae.Components
             set => _modal.IsDark = value;
         }
 
-        public Dialog(IComponent content = null, IComponent title = null)
+        public Dialog(IComponent content = null, IComponent title = null, bool centerContent = true)
         {
-            _modal = Modal().CenterContent().HideCloseButton().NoLightDismiss().Blocking();
+            _modal = Modal().HideCloseButton().NoLightDismiss().Blocking();
+            
+            if(centerContent)
+            {
+                _modal.CenterContent();
+            }
+
             _modal.SetHeader(title);
             _modal.Content = content;
             _modal._modal.classList.add("tss-dialog");
