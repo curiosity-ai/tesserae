@@ -86,9 +86,9 @@
     --tss-default-background-active-color: rgb(68, 68, 68);
     --tss-default-foreground-active-color: rgb(255, 255, 255);
     --tss-progress-background-color: rgb(68, 68, 68);
-    --tss-link-color: rgb(0, 120, 212);
+    --tss-link-color: rgb(38, 161, 255);
     /*Primary color*/
-    --tss-primary-background-color: rgb(0, 120, 212);
+    --tss-primary-background-color: rgb(38, 161, 255);
     --tss-primary-foreground-color: rgb(255, 255, 255);
     --tss-primary-border-color: rgb(16, 110, 190);
     --tss-primary-background-hover-color: rgb(16, 110, 190);
