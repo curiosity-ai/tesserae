@@ -7,6 +7,7 @@ namespace Tesserae
 {
     public static class Require
     {
+        private static SingleSemaphoreSlim singleCall = new SingleSemaphoreSlim();
         public static void LoadStyleAsync(params string[] styles)
         {
             for (int i = 0; i < styles.Length; i++)
@@ -23,14 +24,18 @@ namespace Tesserae
             }
         }
 
-        public static Task LoadScriptAsync(params string[] libraries)
+        public static async Task LoadScriptAsync(params string[] libraries)
         {
+            await singleCall.WaitAsync();
+
             var tcs = new TaskCompletionSource<bool>();
             LoadScriptAsync(() => tcs.SetResult(true), (err) => tcs.SetException(new Exception(err)), libraries);
-            return tcs.Task;
+            await tcs.Task;
+
+            singleCall.Release();
         }
 
-        public static void LoadScriptAsync(Action onComplete, Action<string> onFail, params string[] libraries)
+        private static void LoadScriptAsync(Action onComplete, Action<string> onFail, params string[] libraries)
         {
             var loadedCount = 0;
             dom.HTMLElement.onactivateFn onScriptLoaded = e =>

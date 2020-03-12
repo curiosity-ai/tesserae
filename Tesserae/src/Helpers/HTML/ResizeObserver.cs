@@ -1,6 +1,7 @@
 ﻿using Bridge;
 using System;
 using System.Collections.Generic;
+using Tesserae.Components;
 using static Retyped.dom;
 
 namespace Tesserae.HTML
@@ -21,16 +22,18 @@ namespace Tesserae.HTML
             {
                 pending = new List<Action>();
                 pending.Add(CreateRO);
-                Require.LoadScriptAsync(() =>
+                Require.LoadScriptAsync("./assets/js/resizeobserver.js").ContinueWith(t =>
                 {
-                    var p = pending;
-                    pending = null;
-                    foreach (var a in p)
+                    if (t.IsCompleted)
                     {
-                        a();
+                        var p = pending;
+                        pending = null;
+                        foreach (var a in p)
+                        {
+                            a();
+                        }
                     }
-                }, null,
-                "./assets/js/resizeobserver.js");
+                }).FireAndForget();
             }
         }
 
