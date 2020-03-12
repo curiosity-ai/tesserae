@@ -9,3 +9,7 @@
     overflow: hidden;
     white-space: nowrap;
 }
+
+.tss-text-nowrap {
+    white-space: nowrap;
+}

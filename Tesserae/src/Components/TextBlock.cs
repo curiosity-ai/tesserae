@@ -215,6 +215,12 @@ namespace Tesserae.Components
 
         public bool CanWrap
         {
+            get => !InnerElement.classList.contains("tss-text-nowrap");
+            set => InnerElement.UpdateClassIfNot(value, "tss-text-nowrap");
+        }
+
+        public bool EnableEllipsis
+        {
             get => !InnerElement.classList.contains("tss-text-ellipsis");
             set => InnerElement.UpdateClassIfNot(value, "tss-text-ellipsis");
         }
@@ -254,6 +260,12 @@ namespace Tesserae.Components
         public static T Wrap<T>(this T textBlock) where T : TextBlock
         {
             textBlock.CanWrap = true;
+            return textBlock;
+        }
+
+        public static T Ellipsis<T>(this T textBlock) where T : TextBlock
+        {
+            textBlock.EnableEllipsis= true;
             return textBlock;
         }
 
