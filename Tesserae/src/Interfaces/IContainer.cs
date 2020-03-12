@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Tesserae.Components
 {
@@ -11,6 +12,17 @@ namespace Tesserae.Components
 
     public static class IContainerExtensions
     {
+        public static T Children<T>(this T container, IEnumerable<IComponent> children) where T : IContainer<T, IComponent>
+        {
+            container.Clear();
+            foreach (var x in children)
+            {
+                container.Add(x);
+            }
+
+            return container;
+        }
+
         public static T Children<T>(this T container, params IComponent[] children) where T : IContainer<T, IComponent>
         {
             container.Clear();
@@ -18,10 +30,32 @@ namespace Tesserae.Components
             return container;
         }
 
+        public static T Children<T>(this T container, IEnumerable<Nav.NavLink> children) where T : IContainer<T, IComponent>
+        {
+            container.Clear();
+            foreach (var x in children)
+            {
+                container.Add(x);
+            }
+
+            return container;
+        }
+
         public static T Children<T>(this T container, params Nav.NavLink[] children) where T : IContainer<T, Nav.NavLink>
         {
             container.Clear();
             children.ForEach(x => container.Add(x));
+            return container;
+        }
+        
+        public static T Children<T>(this T container, IEnumerable<ChoiceGroup.Choice> children) where T : IContainer<T, IComponent>
+        {
+            container.Clear();
+            foreach (var x in children)
+            {
+                container.Add(x);
+            }
+
             return container;
         }
 
