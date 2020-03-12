@@ -62,76 +62,19 @@ namespace Tesserae.Components
             return this;
         }
 
-
-        public SplitView LeftIsSmaller(UnitSize value)
+        public SplitView LeftIsSmaller(UnitSize leftSize)
         {
-            if (value.Unit == Unit.Percent)
-            {
-                LeftComponent.Width  = $"calc({value.Size}% - {SplitterComponent.Width})";
-                RightComponent.Width = $"{100 - value.Size}%";
-            }
-            else if (value.Unit == Unit.Pixels)
-            {
-                LeftComponent.Width  = $"calc({value.Size}px - {SplitterComponent.Width})";
-                RightComponent.Width = $"calc(100% - {value.Size}px)";
-            }
-            else
-            {
-                throw new NotImplementedException($"Size for unit {value.Unit} not implemented");
-            }
+            LeftComponent.Width  = $"calc({leftSize.ToString()} - {SplitterComponent.Width})";
+            RightComponent.Width = $"calc(100% - {leftSize.ToString()})";
 
             return this;
         }
 
-        public SplitView LeftIsSmaller(SizeMode mode = SizeMode.Percent, int value = 30)
+        public SplitView RightIsSmaller(UnitSize rightSize)
         {
-            if (mode == SizeMode.Percent)
-            {
-                LeftComponent.Width  = $"calc({value}% - {SplitterComponent.Width})";
-                RightComponent.Width = $"{100 - value}%";
-            }
-            else
-            {
-                LeftComponent.Width  = $"calc({value}px - {SplitterComponent.Width})";
-                RightComponent.Width = $"calc(100% - {value}px)";
-            }
+            RightComponent.Width = $"calc({rightSize.ToString()} - {SplitterComponent.Width})";
+            LeftComponent.Width = $"calc(100% - {rightSize.ToString()})";
 
-            return this;
-        }
-
-
-        public SplitView RightIsSmaller(UnitSize value)
-        {
-            if (value.Unit == Unit.Percent)
-            {
-                RightComponent.Width = $"calc({value.Size}% - {SplitterComponent.Width})";
-                LeftComponent.Width  = $"{100 - value.Size}%";
-            }
-            else if (value.Unit == Unit.Pixels)
-            {
-                RightComponent.Width = $"calc({value.Size}px - {SplitterComponent.Width})";
-                LeftComponent.Width  = $"calc(100% - {value.Size}px)";
-            }
-            else
-            {
-                throw new NotImplementedException($"Size for unit {value.Unit} not implemented");
-            }
-
-            return this;
-        }
-
-        public SplitView RightIsSmaller(SizeMode mode = SizeMode.Percent, int value = 30)
-        {
-            if (mode == SizeMode.Percent)
-            {
-                RightComponent.Width = $"calc({value}% - {SplitterComponent.Width})";
-                LeftComponent.Width  = $"{100 - value}%";
-            }
-            else
-            {
-                RightComponent.Width = $"calc({value}px - {SplitterComponent.Width})";
-                LeftComponent.Width  = $"calc(100% - {value}px)";
-            }
             return this;
         }
 
