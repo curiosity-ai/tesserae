@@ -2,6 +2,7 @@
 using static Retyped.dom;
 using System.Linq;
 using System;
+using Tesserae.HTML;
 
 namespace Tesserae.Components
 {
@@ -350,10 +351,42 @@ namespace Tesserae.Components
             return this;
         }
 
-
         public Button NoWrap()
         {
             CanWrap = false;
+            return this;
+        }
+
+        private void RaiseOnClick(Event e , Hotkeys.Handler handler)
+        {
+            base.RaiseOnClick(this);
+        }
+
+        public Button WithHotKey(string keys, Hotkeys.Option options = null)
+        {
+            DomMountedObserver.NotifyWhenMounted(InnerElement, () =>
+            {
+                if(options is null)
+                {
+                    Hotkeys.BindGlobal(keys, RaiseOnClick);
+                }
+                else
+                {
+                    Hotkeys.Bind(keys, options, RaiseOnClick);
+                }
+
+                DomRemovalObserver.NotifyWhenRemoved(InnerElement, () =>
+                {
+                    if (options is null)
+                    {
+                        Hotkeys.UnbindGlobal(keys, RaiseOnClick);
+                    }
+                    else
+                    {
+                        Hotkeys.Unbind(keys, options, RaiseOnClick);
+                    }
+                });
+            });
             return this;
         }
     }
