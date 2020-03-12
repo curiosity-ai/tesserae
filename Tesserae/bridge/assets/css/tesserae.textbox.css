@@ -17,6 +17,7 @@
     outline: transparent none medium;
     padding: 0px 5px;
 }
+
 .tss-textBox.disabled {
     border-color: var(--tss-disabled-background-color);
     background-color: var(--tss-disabled-background-color);

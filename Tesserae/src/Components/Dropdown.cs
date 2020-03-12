@@ -76,6 +76,22 @@ namespace Tesserae.Components
             set => _errorSpan.innerText = value;
         }
 
+        public bool HasBorder
+        {
+            get => !_container.classList.contains("noborder");
+            set
+            {
+                if (value)
+                {
+                    _container.classList.remove("noborder");
+                }
+                else
+                {
+                    _container.classList.add("noborder");
+                }
+            }
+        }
+
         public bool IsInvalid
         {
             get => _container.classList.contains("invalid");
@@ -269,12 +285,6 @@ namespace Tesserae.Components
             return this;
         }
 
-        public Dropdown NoBorder()
-        {
-            InnerElement.style.border = "none";
-            return this;
-        }
-
         public Dropdown Items(params Item[] children)
         {
             children.ForEach(x => Add(x));
@@ -289,6 +299,11 @@ namespace Tesserae.Components
         public Dropdown Disabled()
         {
             IsEnabled = false;
+            return this;
+        }
+        public Dropdown NoBorder()
+        {
+            HasBorder = false;
             return this;
         }
 
