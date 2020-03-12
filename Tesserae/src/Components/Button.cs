@@ -359,7 +359,10 @@ namespace Tesserae.Components
 
         private void RaiseOnClick(Event e , Hotkeys.Handler handler)
         {
-            base.RaiseOnClick(this);
+            if (IsEnabled)
+            {
+                base.RaiseOnClick(this);
+            }
         }
 
         public Button WithHotKey(string keys, Hotkeys.Option options = null)
