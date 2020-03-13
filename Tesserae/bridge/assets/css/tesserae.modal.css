@@ -12,6 +12,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    backdrop-filter: saturate(0);
 }
 
     .tss-modal-container.dark {
@@ -196,5 +197,6 @@
 }
 
 .tss-modal-modeless {
-    visibility: hidden
+    visibility: hidden;
+    backdrop-filter: none;
 }
