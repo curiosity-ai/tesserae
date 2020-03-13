@@ -187,7 +187,7 @@ namespace Tesserae.Components
         public bool EnableEllipsis
         {
             get => !InnerElement.classList.contains("tss-text-ellipsis");
-            set => InnerElement.UpdateClassIfNot(value, "tss-text-ellipsis");
+            set => InnerElement.UpdateClassIf(value, "tss-text-ellipsis");
         }
 
         public TextSize Size
