@@ -104,9 +104,9 @@
     --tss-danger-background-active-color: rgb(189, 33, 48);
     --tss-danger-foreground-active-color: rgb(255, 255, 255);
     /*Success color*/
-    --tss-success-background-color: rgb(58, 236, 99);
+    --tss-success-background-color: rgb(30, 136, 56);
     --tss-success-foreground-color: rgb(255, 255, 255);
-    --tss-success-border-color: rgb(58, 236, 99);
+    --tss-success-border-color: rgb(30, 136, 56);
     --tss-success-background-hover-color: rgb(33, 136, 56);
     --tss-success-foreground-hover-color: rgb(255,255,255);
     --tss-success-background-active-color: rgb(30, 126, 52);

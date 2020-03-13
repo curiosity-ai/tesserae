@@ -1,4 +1,5 @@
-﻿using static Retyped.dom;
+﻿using System.Text;
+using static Retyped.dom;
 
 namespace Tesserae
 {
@@ -6,6 +7,7 @@ namespace Tesserae
     {
         public static class Theme
         {
+            private static HTMLStyleElement _primaryStyleElement;
             public static void Dark()
             {
                 document.body.classList.add("tss-dark");
@@ -19,6 +21,63 @@ namespace Tesserae
             public static bool IsDark()
             {
                 return document.body.classList.contains("tss-dark");
+            }
+
+            public static void SetPrimary(Color primaryColor) => SetPrimary(primaryColor, primaryColor);
+            public static void SetPrimary(Color primaryLightColor, Color primaryDarkColor)
+            {
+                if(_primaryStyleElement is object)
+                {
+                    _primaryStyleElement.remove();
+                    _primaryStyleElement = null;
+                }
+
+                var borderColorLight      = (HSLColor)primaryLightColor;
+                var borderColorDark       = (HSLColor)primaryDarkColor;
+                var backgroundActiveLight = (HSLColor)primaryLightColor;
+                var backgroundActiveDark  = (HSLColor)primaryDarkColor;
+
+                // rgb(0, 120, 212)  = hsl(206, 100, 41.6)
+                // rgb(16, 110, 190) = hsl(208, 85.5, 40.4)
+                // rgb(0, 90, 158)   = hsl(206, 100, 31)
+
+                borderColorLight.Luminosity      -= (100 - 85.5);  //Uses the same delta as in the current template
+                borderColorLight.Saturation      -= (41.6 - 40.4); //TODO: get real values instead using Color.EvalVar
+                borderColorLight.Hue             -= (206 - 208);   // Main problem is just how to handle the .tss-dark eval, as it will change the return value
+
+                borderColorDark.Luminosity       -= (100 - 85.5);
+                borderColorDark.Saturation       -= (41.6 - 40.4);
+                borderColorDark.Hue              -= (206 - 208);
+
+                backgroundActiveLight.Luminosity -= (100 - 100);
+                backgroundActiveLight.Saturation -= (41.6 - 31);
+                backgroundActiveLight.Hue        -= (206 - 206);
+
+                backgroundActiveDark.Luminosity  -= (100 - 100);
+                backgroundActiveDark.Saturation  -= (41.6 - 31);
+                backgroundActiveDark.Hue         -= (206 - 206);
+
+                var sb = new StringBuilder();
+                sb.AppendLine(":root {");
+                sb.Append("  --tss-primary-background-color: ").Append(primaryLightColor.ToRGB()).AppendLine(";");
+                sb.Append("  --tss-primary-border-color: ").Append(borderColorLight.ToRGB()).AppendLine(";");
+                sb.Append("  --tss-primary-background-hover-color: ").Append(borderColorLight.ToRGB()).AppendLine(";");
+                sb.Append("  --tss-primary-background-active-color: ").Append(backgroundActiveLight.ToRGB()).AppendLine(";");
+                sb.AppendLine("}");
+
+                sb.AppendLine(".tss-dark {");
+                sb.Append("  --tss-primary-background-color: ").Append(primaryDarkColor.ToRGB()).AppendLine(";");
+                sb.Append("  --tss-primary-border-color: ").Append(borderColorDark.ToRGB()).AppendLine(";");
+                sb.Append("  --tss-primary-background-hover-color: ").Append(borderColorDark.ToRGB()).AppendLine(";");
+                sb.Append("  --tss-primary-background-active-color: ").Append(backgroundActiveDark.ToRGB()).AppendLine(";");
+                sb.AppendLine("}");
+
+                _primaryStyleElement = (HTMLStyleElement)document.createElement("style");
+                _primaryStyleElement.type = "text/css";
+                _primaryStyleElement.appendChild(document.createTextNode(sb.ToString()));
+
+                var head = document.getElementsByTagName("head")[0];
+                head.appendChild(_primaryStyleElement);
             }
 
             //Variables from tesserae.common.css
