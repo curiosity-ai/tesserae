@@ -33,7 +33,13 @@ a {
     display: inline-block;
     align-items: center;
     justify-content: center;
+    box-shadow: var(--tss-box-shadow);
 }
+
+    .tss-btn:hover {
+        color: var(--tss-default-foreground-hover-color);
+        background-color: var(--tss-default-background-hover-color);
+    }
 
 .tss-btn-nowrap {
     white-space: nowrap;
@@ -134,10 +140,12 @@ a {
 
 .tss-btn-noborder {
     border-color: transparent;
+    box-shadow: none;
 }
 
 .tss-btn-nobg {
     background: transparent;
+    box-shadow: none;
 }
 
 
@@ -188,11 +196,13 @@ a {
     color: var(--tss-link-color);
     text-decoration: none;
     min-width: unset;
+    box-shadow: none;
 }
 
     .tss-btn-link:hover {
         border: none;
         background: none;
+        background-color:transparent;
         color: var(--tss-link-color);
     }
 
