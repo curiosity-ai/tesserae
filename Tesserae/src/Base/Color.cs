@@ -152,7 +152,7 @@ namespace Tesserae
 
         public string ToRGB()
         {
-            return $"rbg({R:#0.##}, {G:#0.##}, {B:#0.##})";
+            return $"rgb({R:#0.##}, {G:#0.##}, {B:#0.##})";
         }
     }
 }
