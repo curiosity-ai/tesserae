@@ -1,4 +1,6 @@
-﻿namespace Tesserae
+﻿using System;
+
+namespace Tesserae
 {
     /// <summary>
     /// Encapsulates a variable of type T, and enables monitoring for changes as well as the ability to update that value (which will trigger a ValueChanged event)
@@ -12,6 +14,11 @@
         {
             get => base.Value;
             set => base.Value = value;
+        }
+
+        public void Update(Func<T,T> action)
+        {
+            Value = action(Value);
         }
     }
 }
