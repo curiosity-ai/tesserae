@@ -1,13 +1,14 @@
 using Tesserae.HTML;
 using static Retyped.dom;
+using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
     public class Image : ComponentBase<Image, HTMLImageElement>
     {
-        public Image(Attributes attributes)
+        public Image(string source)
         {
-            InnerElement = UI.Image(attributes);
+            InnerElement = UI.Image(_(src:source));
         }
 
         public override HTMLElement Render()
