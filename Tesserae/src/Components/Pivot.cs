@@ -12,7 +12,7 @@ namespace Tesserae.Components
     {
         public HTMLElement StylingContainer => InnerElement;
 
-        public bool PropagateToStackItemParent => false;
+        public bool PropagateToStackItemParent => true;
 
         public class PivotNavigateEvent
         {
