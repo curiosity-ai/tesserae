@@ -265,8 +265,10 @@ namespace Tesserae.Components
                 }
             }
 
-            public event SidebarItemSelectedHandler onSelected;
-            public delegate void SidebarItemSelectedHandler(Item sender);
+            public event SidebarItemHandler onClick;
+            public event SidebarItemHandler onSelected;
+
+            public delegate void SidebarItemHandler(Item sender);
 
             public bool IsSelected
             {
@@ -312,6 +314,11 @@ namespace Tesserae.Components
                 _container.onclick = (e) =>
                 {
                     StopEvent(e);
+
+                    onClick?.Invoke(this);
+
+                    if (!IsSelectable) return;
+
                     if (parent is object)
                     {
                         if (!parent.OnBeforeSelect(this))
@@ -319,7 +326,9 @@ namespace Tesserae.Components
                             return;
                         }
                     }
+
                     IsSelected = true;
+
                     onSelected?.Invoke(this);
                 };
             }
@@ -373,9 +382,14 @@ namespace Tesserae.Components
             }
 
 
-            public Item OnSelect(SidebarItemSelectedHandler onSelect)
+            public Item OnSelect(SidebarItemHandler onSelect)
             {
                 onSelected += onSelect;
+                return this;
+            }
+            public Item OnClick(SidebarItemHandler onClick)
+            {
+                this.onClick += onClick;
                 return this;
             }
 
