@@ -365,6 +365,14 @@ namespace Tesserae.Components
                 return this;
             }
 
+            public Item ShowOnBottom()
+            {
+                _container.style.position = "absolute";
+                _container.style.bottom = "16px";
+                return this;
+            }
+
+
             public Item OnSelect(SidebarItemSelectedHandler onSelect)
             {
                 onSelected += onSelect;
