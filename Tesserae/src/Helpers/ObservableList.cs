@@ -7,7 +7,7 @@ namespace Tesserae
 {
     public class ObservableList<T> : Observable, IList<T>, ICollection<T>, IObservable<IReadOnlyList<T>>
     {
-        private event Observable<IReadOnlyList<T>>.ValueChanged OnValueChanged;
+        public event ObservableEvent.ValueChanged<IReadOnlyList<T>> onValueChanged;
 
         private readonly List<T> _list;
         private readonly bool _valueIsObservable;
@@ -48,20 +48,10 @@ namespace Tesserae
             }
         }
 
-        public void Observe(Observable<IReadOnlyList<T>>.ValueChanged valueGetter)
+        public void Observe(ObservableEvent.ValueChanged<IReadOnlyList<T>> valueGetter)
         {
-            OnValueChanged += valueGetter;
+            onValueChanged += valueGetter;
             valueGetter(_list);
-        }
-
-        public void ObserveLazy(Observable<IReadOnlyList<T>>.ValueChanged valueGetter)
-        {
-            OnValueChanged += valueGetter;
-        }
-
-        public void Unobserve(Observable<IReadOnlyList<T>>.ValueChanged onChange)
-        {
-            OnValueChanged -= onChange;
         }
 
         public T this[int index]
@@ -84,7 +74,7 @@ namespace Tesserae
             _refreshTimeout = window.setTimeout(raise, 1);
             void raise(object t)
             {
-                OnValueChanged?.Invoke(_list);
+                onValueChanged?.Invoke(_list);
                 RaiseOnChanged();
             }
         }

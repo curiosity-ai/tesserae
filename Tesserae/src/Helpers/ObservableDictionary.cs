@@ -6,6 +6,9 @@ namespace Tesserae
 {
     public class ObservableDictionary<TKey, TValue> : Observable, IDictionary<TKey, TValue>, IObservable<IReadOnlyDictionary<TKey, TValue>>
     {
+        public event ObservableEvent.ValueChanged<IReadOnlyDictionary<TKey, TValue>> onValueChanged;
+        public IReadOnlyDictionary<TKey, TValue> Value => _dictionary;
+        
         private readonly Dictionary<TKey, TValue> _dictionary;
         private bool _valueIsObservable;
         private double _refreshTimeout;
@@ -45,24 +48,12 @@ namespace Tesserae
             }
         }
 
-        private event Observable<IReadOnlyDictionary<TKey, TValue>>.ValueChanged _onValueChanged;
 
-        public IReadOnlyDictionary<TKey, TValue> Value => _dictionary;
 
-        public void Observe(Observable<IReadOnlyDictionary<TKey, TValue>>.ValueChanged valueGetter)
+        public void Observe(ObservableEvent.ValueChanged<IReadOnlyDictionary<TKey, TValue>> valueGetter)
         {
-            _onValueChanged += valueGetter;
+            onValueChanged += valueGetter;
             valueGetter(_dictionary);
-        }
-
-        public void ObserveLazy(Observable<IReadOnlyDictionary<TKey, TValue>>.ValueChanged valueGetter)
-        {
-            _onValueChanged += valueGetter;
-        }
-
-        public void Unobserve(Observable<IReadOnlyDictionary<TKey, TValue>>.ValueChanged onChange)
-        {
-            _onValueChanged -= onChange;
         }
 
         private void RaiseOnValueChanged()
@@ -71,7 +62,7 @@ namespace Tesserae
             _refreshTimeout = window.setTimeout(raise, 1);
             void raise(object t)
             {
-                _onValueChanged?.Invoke(_dictionary);
+                onValueChanged?.Invoke(_dictionary);
                 RaiseOnChanged();
             }
         }

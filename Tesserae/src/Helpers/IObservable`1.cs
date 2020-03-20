@@ -1,10 +1,14 @@
 ﻿namespace Tesserae
 {
+    public static class ObservableEvent
+    {
+        public delegate void ValueChanged<T>(T value);
+    }
+
     public interface IObservable<T> : IObservable
     {
+        event ObservableEvent.ValueChanged<T> onValueChanged;
         T Value { get; }
-        void Observe(Observable<T>.ValueChanged onChange);
-        void ObserveLazy(Observable<T>.ValueChanged onChange);
-        void Unobserve(Observable<T>.ValueChanged onChange);
+        void Observe(ObservableEvent.ValueChanged<T> onChange);
     }
 }

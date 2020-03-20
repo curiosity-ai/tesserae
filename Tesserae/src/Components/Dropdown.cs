@@ -19,7 +19,7 @@ namespace Tesserae.Components
 
         private bool _isChanged;
         private bool _callSelectOnAdd = true;
-
+        private Func<Task<Item[]>> _itemsSource;
         private ObservableList<Item> _selectedChildren;
 
         public Dropdown()
@@ -140,7 +140,6 @@ namespace Tesserae.Components
             }
         }
 
-        public Func<Task<Item[]>> ItemsSource { get; set; }
 
         public void Clear()
         {
@@ -170,9 +169,9 @@ namespace Tesserae.Components
 
         public async Task LoadItemsAsync()
         {
-            if (ItemsSource is null) throw new InvalidOperationException("Only valid with async items");
-            var itemsSourceLocal = ItemsSource;
-            ItemsSource = null; //Clear so we don't call this twice
+            if (_itemsSource is null) throw new InvalidOperationException("Only valid with async items");
+            var itemsSourceLocal = _itemsSource;
+            _itemsSource = null; //Clear so we don't call this twice
             _spinner = Div(_("tss-spinner"));
             _container.appendChild(_spinner);
             _container.style.pointerEvents = "none";
@@ -188,7 +187,7 @@ namespace Tesserae.Components
             if (_contentHtml == null)
             {
                 _contentHtml = Div(_("tss-dropdown-popup"), _childContainer);
-                if (ItemsSource is object)
+                if (_itemsSource is object)
                 {
                     LoadItemsAsync().ContinueWith(t => Show()).FireAndForget();
                     return;
@@ -292,7 +291,7 @@ namespace Tesserae.Components
         }
         public Dropdown Items(Func<Task<Item[]>> itemsSource)
         {
-            ItemsSource = itemsSource;
+            _itemsSource = itemsSource;
             return this;
         }
 

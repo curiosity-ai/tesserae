@@ -13,9 +13,7 @@ namespace Tesserae
 
         public Observable(T value = default) => _value = value;
 
-        public delegate void ValueChanged(T value);
-
-        private event ValueChanged OnValueChanged;
+        public event ObservableEvent.ValueChanged<T> onValueChanged;
 
         public T Value
         {
@@ -36,19 +34,16 @@ namespace Tesserae
             _refreshTimeout = window.setTimeout(raise, 1);
             void raise(object t)
             {
-                OnValueChanged?.Invoke(_value);
+                onValueChanged?.Invoke(_value);
                 RaiseOnChanged();
             }
         }
 
-        public void Observe(ValueChanged onChange)
+        
+        public void Observe(ObservableEvent.ValueChanged<T> onChange)
         {
-            OnValueChanged += onChange;
+            onValueChanged += onChange;
             onChange(_value);
         }
-
-        public void ObserveLazy(ValueChanged onChange) => OnValueChanged += onChange; // TODO [2020-03-05 DWR]: Why does this method exist if we already have an event that could be listened to (even if it is currently private, couldn't it be public)?
-
-        public void Unobserve(ValueChanged onChange) => OnValueChanged -= onChange; // TODO [2020-03-05 DWR]: Why does this method exist if we already have an event that could be listened to (even if it is currently private, couldn't it be public)?
     }
 }

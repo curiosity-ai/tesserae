@@ -75,115 +75,115 @@ namespace Tesserae.Components
         public static Defer Observe<T1>(IObservable<T1> o1, Func<T1, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
         {
             var d = new Defer(() => asyncGenerator(o1.Value), loadMessage);
-            o1.ObserveLazy((v) => d.Refresh());
+            o1.onValueChanged += (v) => d.Refresh();
             return d;
         }
 
         public static Defer Observe<T1, T2>(IObservable<T1> o1, IObservable<T2> o2, Func<T1, T2, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
         {
             var d = new Defer(() => asyncGenerator(o1.Value, o2.Value), loadMessage);
-            o1.ObserveLazy((v) => d.Refresh());
-            o2.ObserveLazy((v) => d.Refresh());
+            o1.onValueChanged += (v) => d.Refresh();
+            o2.onValueChanged += (v) => d.Refresh();
             return d;
         }
 
         public static Defer Observe<T1, T2, T3>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, Func<T1, T2, T3, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
         {
             var d = new Defer(() => asyncGenerator(o1.Value, o2.Value, o3.Value), loadMessage);
-            o1.ObserveLazy((v) => d.Refresh());
-            o2.ObserveLazy((v) => d.Refresh());
-            o3.ObserveLazy((v) => d.Refresh());
+            o1.onValueChanged += (v) => d.Refresh();
+            o2.onValueChanged += (v) => d.Refresh();
+            o3.onValueChanged += (v) => d.Refresh();
             return d;
         }
 
         public static Defer Observe<T1, T2, T3, T4>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, Func<T1, T2, T3, T4, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
         {
             var d = new Defer(() => asyncGenerator(o1.Value, o2.Value, o3.Value, o4.Value), loadMessage);
-            o1.ObserveLazy((v) => d.Refresh());
-            o2.ObserveLazy((v) => d.Refresh());
-            o3.ObserveLazy((v) => d.Refresh());
-            o4.ObserveLazy((v) => d.Refresh());
+            o1.onValueChanged += (v) => d.Refresh();
+            o2.onValueChanged += (v) => d.Refresh();
+            o3.onValueChanged += (v) => d.Refresh();
+            o4.onValueChanged += (v) => d.Refresh();
             return d;
         }
 
         public static Defer Observe<T1, T2, T3, T4, T5>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, Func<T1, T2, T3, T4, T5, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
         {
             var d = new Defer(() => asyncGenerator(o1.Value, o2.Value, o3.Value, o4.Value, o5.Value), loadMessage);
-            o1.ObserveLazy((v) => d.Refresh());
-            o2.ObserveLazy((v) => d.Refresh());
-            o3.ObserveLazy((v) => d.Refresh());
-            o4.ObserveLazy((v) => d.Refresh());
-            o5.ObserveLazy((v) => d.Refresh());
+            o1.onValueChanged += (v) => d.Refresh();
+            o2.onValueChanged += (v) => d.Refresh();
+            o3.onValueChanged += (v) => d.Refresh();
+            o4.onValueChanged += (v) => d.Refresh();
+            o5.onValueChanged += (v) => d.Refresh();
             return d;
         }
 
         public static Defer Observe<T1, T2, T3, T4, T5, T6>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, IObservable<T6> o6, Func<T1, T2, T3, T4, T5, T6, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
         {
             var d = new Defer(() => asyncGenerator(o1.Value, o2.Value, o3.Value, o4.Value, o5.Value, o6.Value), loadMessage);
-            o1.ObserveLazy((v) => d.Refresh());
-            o2.ObserveLazy((v) => d.Refresh());
-            o3.ObserveLazy((v) => d.Refresh());
-            o4.ObserveLazy((v) => d.Refresh());
-            o5.ObserveLazy((v) => d.Refresh());
-            o6.ObserveLazy((v) => d.Refresh());
+            o1.onValueChanged += (v) => d.Refresh();
+            o2.onValueChanged += (v) => d.Refresh();
+            o3.onValueChanged += (v) => d.Refresh();
+            o4.onValueChanged += (v) => d.Refresh();
+            o5.onValueChanged += (v) => d.Refresh();
+            o6.onValueChanged += (v) => d.Refresh();
             return d;
         }
 
         public static Defer Observe<T1, T2, T3, T4, T5, T6, T7>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, IObservable<T6> o6, IObservable<T7> o7, Func<T1, T2, T3, T4, T5, T6, T7, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
         {
             var d = new Defer(() => asyncGenerator(o1.Value, o2.Value, o3.Value, o4.Value, o5.Value, o6.Value, o7.Value), loadMessage);
-            o1.ObserveLazy((v) => d.Refresh());
-            o2.ObserveLazy((v) => d.Refresh());
-            o3.ObserveLazy((v) => d.Refresh());
-            o4.ObserveLazy((v) => d.Refresh());
-            o5.ObserveLazy((v) => d.Refresh());
-            o6.ObserveLazy((v) => d.Refresh());
-            o7.ObserveLazy((v) => d.Refresh());
+            o1.onValueChanged += (v) => d.Refresh();
+            o2.onValueChanged += (v) => d.Refresh();
+            o3.onValueChanged += (v) => d.Refresh();
+            o4.onValueChanged += (v) => d.Refresh();
+            o5.onValueChanged += (v) => d.Refresh();
+            o6.onValueChanged += (v) => d.Refresh();
+            o7.onValueChanged += (v) => d.Refresh();
             return d;
         }
 
         public static Defer Observe<T1, T2, T3, T4, T5, T6, T7, T8>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, IObservable<T6> o6, IObservable<T7> o7, IObservable<T8> o8, Func<T1, T2, T3, T4, T5, T6, T7, T8, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
         {
             var d = new Defer(() => asyncGenerator(o1.Value, o2.Value, o3.Value, o4.Value, o5.Value, o6.Value, o7.Value, o8.Value), loadMessage);
-            o1.ObserveLazy((v) => d.Refresh());
-            o2.ObserveLazy((v) => d.Refresh());
-            o3.ObserveLazy((v) => d.Refresh());
-            o4.ObserveLazy((v) => d.Refresh());
-            o5.ObserveLazy((v) => d.Refresh());
-            o6.ObserveLazy((v) => d.Refresh());
-            o7.ObserveLazy((v) => d.Refresh());
-            o8.ObserveLazy((v) => d.Refresh());
+            o1.onValueChanged += (v) => d.Refresh();
+            o2.onValueChanged += (v) => d.Refresh();
+            o3.onValueChanged += (v) => d.Refresh();
+            o4.onValueChanged += (v) => d.Refresh();
+            o5.onValueChanged += (v) => d.Refresh();
+            o6.onValueChanged += (v) => d.Refresh();
+            o7.onValueChanged += (v) => d.Refresh();
+            o8.onValueChanged += (v) => d.Refresh();
             return d;
         }
 
         public static Defer Observe<T1, T2, T3, T4, T5, T6, T7, T8, T9>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, IObservable<T6> o6, IObservable<T7> o7, IObservable<T8> o8, IObservable<T9> o9, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
         {
             var d = new Defer(() => asyncGenerator(o1.Value, o2.Value, o3.Value, o4.Value, o5.Value, o6.Value, o7.Value, o8.Value, o9.Value), loadMessage);
-            o1.ObserveLazy((v) => d.Refresh());
-            o2.ObserveLazy((v) => d.Refresh());
-            o3.ObserveLazy((v) => d.Refresh());
-            o4.ObserveLazy((v) => d.Refresh());
-            o5.ObserveLazy((v) => d.Refresh());
-            o6.ObserveLazy((v) => d.Refresh());
-            o7.ObserveLazy((v) => d.Refresh());
-            o8.ObserveLazy((v) => d.Refresh());
-            o9.ObserveLazy((v) => d.Refresh());
+            o1.onValueChanged += (v) => d.Refresh();
+            o2.onValueChanged += (v) => d.Refresh();
+            o3.onValueChanged += (v) => d.Refresh();
+            o4.onValueChanged += (v) => d.Refresh();
+            o5.onValueChanged += (v) => d.Refresh();
+            o6.onValueChanged += (v) => d.Refresh();
+            o7.onValueChanged += (v) => d.Refresh();
+            o8.onValueChanged += (v) => d.Refresh();
+            o9.onValueChanged += (v) => d.Refresh();
             return d;
         }
 
         public static Defer Observe<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, IObservable<T6> o6, IObservable<T7> o7, IObservable<T8> o8, IObservable<T9> o9, IObservable<T10> o10, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
         {
             var d = new Defer(() => asyncGenerator(o1.Value, o2.Value, o3.Value, o4.Value, o5.Value, o6.Value, o7.Value, o8.Value, o9.Value, o10.Value), loadMessage);
-            o1.ObserveLazy((v) => d.Refresh());
-            o2.ObserveLazy((v) => d.Refresh());
-            o3.ObserveLazy((v) => d.Refresh());
-            o4.ObserveLazy((v) => d.Refresh());
-            o5.ObserveLazy((v) => d.Refresh());
-            o6.ObserveLazy((v) => d.Refresh());
-            o7.ObserveLazy((v) => d.Refresh());
-            o8.ObserveLazy((v) => d.Refresh());
-            o9.ObserveLazy((v) => d.Refresh());
-            o10.ObserveLazy((v) => d.Refresh());
+            o1.onValueChanged += (v) => d.Refresh();
+            o2.onValueChanged += (v) => d.Refresh();
+            o3.onValueChanged += (v) => d.Refresh();
+            o4.onValueChanged += (v) => d.Refresh();
+            o5.onValueChanged += (v) => d.Refresh();
+            o6.onValueChanged += (v) => d.Refresh();
+            o7.onValueChanged += (v) => d.Refresh();
+            o8.onValueChanged += (v) => d.Refresh();
+            o9.onValueChanged += (v) => d.Refresh();
+            o10.onValueChanged += (v) => d.Refresh();
             return d;
         }
     }
@@ -205,7 +205,7 @@ namespace Tesserae.Components
     //	sb.AppendLine($"    var d = new Defer(() => asyncGenerator({vt}), loadMessage);");
     //	for(int j = 1; j <= i; j++)
     //	{
-    //		sb.AppendLine($"    o{j}.ObserveLazy((v) => d.Refresh());");
+    //		sb.AppendLine($"    o{j}.onValueChanged += ((v) => d.Refresh());");
     //	}
     //	sb.AppendLine("   return d;");
     //	sb.AppendLine("}").AppendLine();
