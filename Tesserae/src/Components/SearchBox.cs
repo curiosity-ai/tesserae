@@ -1,4 +1,5 @@
 ﻿using System;
+using Tesserae.HTML;
 using static Retyped.dom;
 using static Tesserae.UI;
 
@@ -155,6 +156,13 @@ namespace Tesserae.Components
         public SearchBox NoIcon()
         {
             _container.classList.add("noicon");
+            return this;
+        }
+
+        public SearchBox Focus()
+        {
+            //When mounted triggers immediatelly if already mounted
+            DomObserver.WhenMounted(InnerElement, InnerElement.focus);
             return this;
         }
 

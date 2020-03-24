@@ -1,4 +1,5 @@
 ﻿using System;
+using Tesserae.HTML;
 using static Retyped.dom;
 using static Tesserae.UI;
 namespace Tesserae.Components
@@ -169,6 +170,12 @@ namespace Tesserae.Components
         public TextBox Required()
         {
             IsRequired = true;
+            return this;
+        }
+        public TextBox Focus()
+        {
+            //When mounted triggers immediatelly if already mounted
+            DomObserver.WhenMounted(InnerElement, InnerElement.focus);
             return this;
         }
 
