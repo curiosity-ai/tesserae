@@ -27,8 +27,10 @@ namespace Tesserae.Components
 
         public bool PropagateToStackItemParent => false;
 
+        public delegate void OnShowHandler(Modal sender);
         public delegate void OnHideHandler(Modal sender);
 
+        public event OnShowHandler onShow;
         public event OnHideHandler onHide;
 
         public string Background
@@ -252,6 +254,7 @@ namespace Tesserae.Components
             if (!IsNonBlocking) document.body.style.overflowY = "hidden";
             _modal.style.transform = "translate(0px,0px)";
             base.Show();
+            onShow?.Invoke(this);
         }
 
         public override void Show()
@@ -263,11 +266,17 @@ namespace Tesserae.Components
             _modal.style.transform = "translate(0px,0px)";
             if (!IsNonBlocking) document.body.style.overflowY = "hidden";
             base.Show();
+            onShow?.Invoke(this);
         }
 
         public Modal OnHide(OnHideHandler onHide)
         {
             this.onHide += onHide;
+            return this;
+        }
+        public Modal OnShow(OnShowHandler onShow)
+        {
+            this.onShow += onShow;
             return this;
         }
 
