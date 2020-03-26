@@ -320,7 +320,7 @@ namespace Tesserae.Components
 
         public Button SetIcon(LineAwesome icon, TextSize size = TextSize.Medium, LineAwesomeWeight weight = LineAwesomeWeight.Light , string color = "")
         {
-            Icon = $"{weight} {icon} {size}";
+            Icon = $"{weight} {icon} tss-fontsize-{size.ToString().ToLower()}";
             if (_iconSpan is object)
             {
                 _iconSpan.style.color = color;
