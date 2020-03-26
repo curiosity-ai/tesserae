@@ -87,12 +87,12 @@ namespace Tesserae.Components
             InnerElement.addEventListener("change", (s) => RaiseOnChange(s));
         }
 
-        protected void RaiseOnClick(object s)
+        public void RaiseOnClick(object s)
         {
             onClick?.Invoke((T)this, Script.Write<MouseEvent>("{0}", s));
         }
 
-        protected void RaiseOnChange(object s)
+        public void RaiseOnChange(object s)
         {
             onChange?.Invoke((T)this, Script.Write<Event>("{0}", s));
         }

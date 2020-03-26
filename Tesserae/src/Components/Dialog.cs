@@ -8,6 +8,8 @@ namespace Tesserae.Components
     public class Dialog
     {
         private Modal _modal;
+        private static Random RNG = new Random();
+        private string _scope;
 
         public bool IsDraggable
         {
@@ -33,6 +35,11 @@ namespace Tesserae.Components
             _modal.SetHeader(title);
             _modal.Content = content;
             _modal._modal.classList.add("tss-dialog");
+
+            _scope = $"dialog-{RNG.Next()}";
+
+            _modal.OnShow(_ => Hotkeys.SetScope(_scope));
+            _modal.OnHide(_ => Hotkeys.DeleteScope(_scope));
         }
 
         public Dialog Title(IComponent title)
@@ -60,12 +67,23 @@ namespace Tesserae.Components
             return this;
         }
 
+        private Button Bind(string key, Button button)
+        {
+            Hotkeys.Bind(key, new Hotkeys.Option() { scope = _scope }, (e, h) =>
+            {
+                StopEvent(e);
+                button.RaiseOnClick(new MouseEvent(null));
+            });
+            return button;
+        }
+
         public void Ok(Action onOk, Func<Button, Button> btnOk = null)
         {
             btnOk = btnOk ?? ((b) => b);
+
             _modal.LightDismiss();
             _modal.SetFooter(Stack().HorizontalReverse()
-                                 .Children(btnOk(Button("Ok").Primary()).AlignEnd().OnClick((s, e) => { _modal.Hide(); onOk?.Invoke(); })));
+                                 .Children(Bind("Esc, Escape, Enter", btnOk(Button("Ok").Primary()).AlignEnd().OnClick((s, e) => { _modal.Hide(); onOk?.Invoke(); }))));
             _modal.Show();
         }
         public void OkCancel(Action onOk = null, Action OnCancel = null, Func<Button, Button> btnOk = null, Func<Button, Button> btnCancel = null)
@@ -73,8 +91,8 @@ namespace Tesserae.Components
             btnOk = btnOk ?? ((b) => b);
             btnCancel = btnCancel ?? ((b) => b);
             _modal.SetFooter(Stack().HorizontalReverse()
-                                 .Children(btnCancel(Button("Cancel")).AlignEnd().OnClick((s, e) => { _modal.Hide(); OnCancel?.Invoke(); }),
-                                           btnOk(Button("Ok").Primary()).AlignEnd().OnClick((s, e) => { _modal.Hide(); onOk?.Invoke(); })));
+                                 .Children(Bind("Esc, Escape,", btnCancel(Button("Cancel")).AlignEnd().OnClick((s, e) => { _modal.Hide(); OnCancel?.Invoke(); })),
+                                           Bind("Enter", btnOk(Button("Ok").Primary()).AlignEnd().OnClick((s, e) => { _modal.Hide(); onOk?.Invoke(); }))));
             _modal.Show();
         }
 
@@ -83,8 +101,8 @@ namespace Tesserae.Components
             btnYes = btnYes ?? ((b) => b);
             btnNo = btnNo ?? ((b) => b);
             _modal.SetFooter(Stack().HorizontalReverse()
-                                 .Children(btnNo(Button("No")).AlignEnd().OnClick((s, e) => { _modal.Hide(); onNo?.Invoke(); }),
-                                           btnYes(Button("Yes").Primary()).AlignEnd().OnClick((s, e) => { _modal.Hide(); onYes?.Invoke(); })));
+                                 .Children(Bind("Esc, Escape", btnNo(Button("No")).AlignEnd().OnClick((s, e) => { _modal.Hide(); onNo?.Invoke(); })),
+                                           Bind("Enter", btnYes(Button("Yes").Primary()).AlignEnd().OnClick((s, e) => { _modal.Hide(); onYes?.Invoke(); }))));
             _modal.Show();
         }
 
@@ -94,7 +112,7 @@ namespace Tesserae.Components
             btnNo = btnNo ?? ((b) => b);
             btnCancel = btnCancel ?? ((b) => b);
             _modal.SetFooter(Stack().HorizontalReverse()
-                                 .Children(btnCancel(Button("Cancel")).AlignEnd().OnClick((s, e) => { _modal.Hide(); onCancel?.Invoke(); }),
+                                 .Children(Bind("Esc, Escape", btnCancel(Button("Cancel")).AlignEnd().OnClick((s, e) => { _modal.Hide(); onCancel?.Invoke(); })),
                                            btnNo(Button("No")).AlignEnd().OnClick((s, e) => { _modal.Hide(); onNo?.Invoke(); }),
                                            btnYes(Button("Yes").Primary()).AlignEnd().OnClick((s, e) => { _modal.Hide(); onYes?.Invoke(); })));
             _modal.Show();
@@ -105,8 +123,8 @@ namespace Tesserae.Components
             btnRetry = btnRetry ?? ((b) => b);
             btnCancel = btnCancel ?? ((b) => b);
             _modal.SetFooter(Stack().HorizontalReverse()
-                                 .Children(btnCancel(Button("Cancel")).AlignEnd().OnClick((s, e) => { _modal.Hide(); onCancel?.Invoke(); }),
-                                           btnRetry(Button("Retry").Primary()).AlignEnd().OnClick((s, e) => { _modal.Hide(); onRetry?.Invoke(); })));
+                                 .Children(Bind("Esc, Escape", btnCancel(Button("Cancel")).AlignEnd().OnClick((s, e) => { _modal.Hide(); onCancel?.Invoke(); })),
+                                           Bind("Enter", btnRetry(Button("Retry").Primary()).AlignEnd().OnClick((s, e) => { _modal.Hide(); onRetry?.Invoke(); }))));
             _modal.Show();
         }
 
