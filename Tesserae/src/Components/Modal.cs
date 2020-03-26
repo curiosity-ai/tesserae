@@ -227,7 +227,11 @@ namespace Tesserae.Components
             get => _closeButton.style.display != "none";
             set
             {
-                if (value) _closeButton.style.display = "";
+                if (value)
+                {
+                    _closeButton.style.display = "";
+                    _modalHeader.style.display = "";
+                }
                 else _closeButton.style.display = "none";
             }
 
