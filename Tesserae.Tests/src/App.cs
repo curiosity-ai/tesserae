@@ -88,8 +88,10 @@ namespace Tesserae.Tests
                 Router.Register(name, ToRoute(name), p => currentPage.Value = name);
             }
 
+            Router.Register("alert", "/alert/:a/:b/:c", p => Dialog($"A:{p["a"]} B:{p["b"]} C:{p["c"]}").Ok(null, null));
+
             Router.Initialize();
-            Router.Refresh((err, state) => Router.Navigate(window.location.hash, reload: false));
+            Router.Refresh(() => Router.Navigate(window.location.hash, reload: false));
 
             string ToRoute(string name) => "/view/" + name;
 

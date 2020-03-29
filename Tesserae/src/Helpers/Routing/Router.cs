@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Bridge;
@@ -9,15 +11,104 @@ using static Retyped.dom;
 
 namespace Tesserae
 {
+ 
+
     public static class Router
     {
-        public delegate void NavigatedHandler(ActionContext toState, ActionContext fromState);
-        public delegate bool CanNavigateHandler(ActionContext toState, ActionContext fromState);
+        public class State
+        {
+            public Parameters Parameters;
+            public string RouteName;
+            public string Path;
+            public string FullPath;
+        }
+
+        internal class RoutePart
+        {
+            public string Path;
+            public bool IsVariable;
+            public string VariableName;
+
+            public RoutePart(string path)
+            {
+                Path = path;
+                IsVariable = path.StartsWith(":");
+                VariableName = IsVariable ? path.TrimStart(':') : "";
+            }
+
+            public bool IsMatch(string pathPart, out string capturedVariable)
+            {
+                if (IsVariable)
+                {
+                    capturedVariable = pathPart;
+                    return true;
+                }
+                else
+                {
+                    capturedVariable = null;
+                    return string.Equals(pathPart, Path, StringComparison.InvariantCultureIgnoreCase);
+                }
+            }
+        }
+
+        internal class Route
+        {
+            private RoutePart[] Parts;
+
+            public string Name { get; }
+            public string Path { get; }
+            private Action<Parameters> _action;
+
+            public Route(string name, string path, Action<Parameters> action)
+            {
+                Name = name;
+                Path = path;
+
+                Parts = path.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries).Select(p => new RoutePart(p)).ToArray();
+                _action = action;
+            }
+
+            public bool IsMatch(string[] parts, Dictionary<string, string> parameters)
+            {
+                if (parts.Length == Parts.Length)
+                {
+                    bool isMatch = true;
+
+                    for (int i = 0; i < Parts.Length; i++)
+                    {
+                        isMatch &= Parts[i].IsMatch(parts[i], out var variable);
+                        if (isMatch && Parts[i].IsVariable)
+                        {
+                            parameters.Add(Parts[i].VariableName, variable);
+                        }
+                        if (!isMatch)
+                        {
+                            return false;
+                        }
+                    }
+
+                    return isMatch;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            internal void Activate(Parameters parameters)
+            {
+                _action(parameters);
+            }
+        }
+
+
+        private static State _currentState;
+
+        public delegate void NavigatedHandler(State toState, State fromState);
+        public delegate bool CanNavigateHandler(State toState, State fromState);
 
         public static event NavigatedHandler onNavigated;
         public static event CanNavigateHandler onBeforeNavigate;
-
-        private static string _lastURL = "";
 
         public static void OnNavigated(NavigatedHandler onNavigated)
         {
@@ -39,10 +130,34 @@ namespace Tesserae
 
         public static void Initialize()
         {
+            if (!_initialized)
+            {
+                Script.Write(
+@"
+    history.pushState = ( f => function pushState(){
+        var ret = f.apply(this, arguments);
+        window.dispatchEvent(new Event('pushstate'));
+        window.dispatchEvent(new Event('locationchange'));
+        return ret;
+    })(history.pushState);
+
+    history.replaceState = ( f => function replaceState(){
+        var ret = f.apply(this, arguments);
+        window.dispatchEvent(new Event('replacestate'));
+        window.dispatchEvent(new Event('locationchange'));
+        return ret;
+    })(history.replaceState);
+
+    window.addEventListener('popstate',()=>{
+        window.dispatchEvent(new Event('locationchange'))
+    });
+");
+
+                window.addEventListener("locationchange", onLocationChanged);
+            }
             _initialized = true;           
         }
 
-        private static External.Router5.Router _router;
         private static bool _initialized = false;
         private static Dictionary<string, Action<Parameters>> _routes = new Dictionary<string, Action<Parameters>>();
         private static Dictionary<string, string> _paths = new Dictionary<string, string>();
@@ -51,16 +166,11 @@ namespace Tesserae
         {
             if (path == window.location.href) return; //Don't double add it
             window.history.pushState(null, "", path);
-            Script.Write("{0}.setState({0}.makeState('pushedState', { }, path, { }))", _router);
         }
 
         public static void Replace(string path)
         {
             window.history.replaceState(null, "", path);
-            if (_router is object)
-            {
-                Script.Write("{0}.setState({0}.makeState('pushedState', { }, path, { }))", _router);
-            }
         }
 
         public static void Navigate(string path, bool reload = false)
@@ -128,212 +238,126 @@ namespace Tesserae
 
             if (path != lowerCasePath)
             {
-                _routes[lowerCaseID] = ActionWithoutDuplicates;
+                _routes[lowerCaseID] = action;
                 _paths[lowerCaseID] = lowerCasePath;
             }
 
-            _routes[uniqueIdentifier] = ActionWithoutDuplicates;
+            _routes[uniqueIdentifier] = action;
             _paths[uniqueIdentifier] = path;
 
             Refresh();
-
-            // This is to avoid the case of a Router Stop() & Start() on registering a new node view, that would retrigger navigation
-            void ActionWithoutDuplicates(Parameters p)
-            {
-                if (_lastURL == window.location.href)
-                {
-                    return;
-                }
-                action(p);
-                _lastURL = window.location.href;
-            }
         }
 
-        public static void Refresh(Action<dynamic, dynamic> onDone = null)
+        private static List<Route> Routes;
+
+        public static void Refresh(Action onDone = null)
         {
             if (!_initialized) { return; }
 
-            if (_router is object)
-            {
-                _router.Stop();
-                _router = null;
-            }
-
-            var routes = new List<External.Router5.Route>();
+            Routes = new List<Route>();
             foreach (var kv in _paths)
             {
-                routes.Add(new External.Router5.Route() { name = kv.Key, path = kv.Value });
+                Routes.Add(new Route(kv.Key, kv.Value, _routes[kv.Key]));
             }
 
-            var options = new External.Router5.RouteOptions() { CaseSensitive = true, QueryParamsMode = "loose" };
+            onDone();
+        }
 
-            _router = External.Router5.Router.New(routes.ToArray(), options);
+        private static void onLocationChanged(Event ev)
+        {
+            var currenthash = window.location.hash ?? "";
 
-            _router.UsePlugin(new External.Router5.BrowserPlugin(new External.Router5.BrowserPluginOptions() { UseHash = true }))
-                   .UsePlugin(new External.Router5.ListenersPlugin());
-
-            foreach (var kv in _routes)
+            if(_currentState is object && _currentState.FullPath == currenthash)
             {
-                _router.AddRouteListener(kv.Key, (state, old) => { kv.Value(state.Parameters); });
+                return;
             }
 
-            _router.Start((err, state) =>
+            var p = currenthash.Split(new[] { '?' }, StringSplitOptions.RemoveEmptyEntries);
+
+            var hash = p[0].TrimStart('#');
+            
+            var par = new Dictionary<string, string>();
+            var parts = hash.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+
+            foreach (var r in Routes)
             {
-                if (err is object)
+                par.Clear();
+                if (r.IsMatch(parts, par))
                 {
-                    console.log(err);
+                    if (p.Length > 1)
+                    {
+                        //TODO parse query parameters
+                        var query = p[1];
+                        var queryParts = query.Split(new[] { '&' }, StringSplitOptions.RemoveEmptyEntries);
+                        foreach(var qp in queryParts)
+                        {
+                            var qpp = qp.Split(new[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
+                            if(qpp.Length == 1)
+                            {
+                                par[es5.decodeURIComponent(qpp[0])] = "";
+                            }
+                            else
+                            {
+                                par[es5.decodeURIComponent(qpp[0])] = es5.decodeURIComponent(qpp[1]);
+                            }
+                        }
+                    }
+
+                    var toState = new State()
+                    {
+                        Parameters = new Parameters(par),
+                        Path = hash,
+                        FullPath = window.location.hash,
+                        RouteName = r.Name
+                    };
+
+                    if(onBeforeNavigate is null || onBeforeNavigate(toState, _currentState))
+                    {
+                        r.Activate(toState.Parameters);
+                        onNavigated?.Invoke(toState, _currentState);
+                        _currentState = toState;
+                        return;
+                    }
+                    else
+                    {
+                        window.location.hash = _currentState?.FullPath ?? "";
+                        return;
+                    }
                 }
-                onDone?.Invoke(err, state);
-            });
-
-            _router.AddListener((toState, fromState) => onNavigated?.Invoke(toState, fromState));
-            _router.CanDeactivate((to, from) => onBeforeNavigate is null ? true : onBeforeNavigate(to, from));
-        }
-    }
-
-
-    namespace External
-    {
-        [GlobalMethods]
-        [Scope]
-        internal static class Router5
-        {
-            [External]
-            [Name("router5")]
-            public class Router
-            {
-                [Name("createRouter")]
-                public static extern Router New(Route[] routes, RouteOptions options);
-
-                [Name("createRouter")]
-                public static extern Router New(Route[] routes);
-
-                [Name("usePlugin")]
-                public extern Router UsePlugin(object plugin);
-
-                [Name("addListener")]
-                public extern Router AddListener(Action<ActionContext, ActionContext> action);
-
-                [Name("addNodeListener")]
-                public extern Router AddNodeListener(string path, Action<ActionContext, ActionContext> action);
-
-                [Name("addRouteListener")]
-                public extern Router AddRouteListener(string path, Action<ActionContext, ActionContext> action);
-
-                [Name("canDeactivate")]
-                public extern Router CanDeactivate(Func<ActionContext, ActionContext, bool> action);
-
-
-                [Name("start")]
-                public extern void Start(Action<dynamic, dynamic> onDone);
-
-                [Name("stop")]
-                public extern void Stop();
-
-                [Name("navigate")]
-                public extern void Navigate(string path);
-
-                [Name("navigate")]
-                public extern void Navigate(string path, Parameters parameters);
-            }
-
-            [External]
-            [Name("router5BrowserPlugin")]
-            public class BrowserPlugin
-            {
-                public BrowserPlugin() { }
-                [Template("router5BrowserPlugin({0})")]
-                public BrowserPlugin(BrowserPluginOptions options) { }
-            }
-
-            [FormerInterface]
-            [IgnoreCast]
-            [ObjectLiteral]
-            public class BrowserPluginOptions : IObject
-            {
-                [Name("useHash")]
-                public bool UseHash;
-            }
-
-            [External]
-            [Name("router5ListenersPlugin")]
-            public class ListenersPlugin
-            {
-            }
-
-            [FormerInterface]
-            [IgnoreCast]
-            [IgnoreGeneric(AllowInTypeScript = true)]
-            [Virtual]
-            public class RouteOptions : IObject
-            {
-                [Name("caseSensitive")]
-                public bool CaseSensitive { get; set; }
-
-                [Name("queryParamsMode")]
-                public string QueryParamsMode { get; set; }
-            }
-
-            [FormerInterface]
-            [IgnoreCast]
-            [IgnoreGeneric(AllowInTypeScript = true)]
-            [Virtual]
-            public class Route : IObject
-            {
-                public string name { get; set; }
-                public string path { get; set; }
-                public Route[] children { get; set; }
-            }
-        }
-
-        internal static class PH
-        {
-            public static string GetValue(object source, string name)
-            {
-                if (!source.HasOwnProperty(name)) throw new KeyNotFoundException();
-
-                var value = source[name];
-
-                if (value is null) return null;
-                else if (value is string s) return s;
-                return value.ToString();
             }
         }
     }
 
-    [External]
-    [ObjectLiteral]
-    public class Context : IObject
-    {
-        public string path { get; set; }
-        public string name { get; set; }
-    }
-
-    [External]
-    [ObjectLiteral]
-    public class ActionContext : Context
-    {
-        [Name("params")]
-        public Parameters Parameters;
-    }
-
-    [ObjectLiteral]
     public class Parameters
     {
-        // Made the constructor private so that instances are always created through FromObjectLiteral, rather than having to support mutability in this class
-        private Parameters() { }
-        public extern ReadOnlyArray<string> Keys { [Template("Object.getOwnPropertyNames({this})")] get; }
-        public new string this[string key]
+        private Dictionary<string, string> _parameters;
+
+        public Parameters(Dictionary<string, string> parameters)
         {
-            [Template("Tesserae.External.PH.GetValue({this}, {key})")]
-            get
-            {
-                // 2019-10-01 DWR: If make this getter extern then Bridge mistranslates part of the class definition into "methods: { getItem: function (key) null }" which is invalid JS, so give it a body
-                // that will be ignored (due to the Template attribute) to avoid this
-                return null;
-            }
+            _parameters = parameters;
         }
 
-        public static Parameters FromObjectLiteral(object source) => (source == null) ? null : Script.Write<Parameters>("{0}", source);
+        public new string this[string key] => _parameters[key];
+
+        public IEnumerable<string> Keys => _parameters.Keys;
+
+        public IEnumerable<string> Values => _parameters.Values;
+
+        public int Count => _parameters.Count;
+
+        public bool ContainsKey(string key)
+        {
+            return _parameters.ContainsKey(key);
+        }
+
+        public IEnumerator<KeyValuePair<string, string>> GetEnumerator()
+        {
+            return _parameters.GetEnumerator();
+        }
+
+        public bool TryGetValue(string key, out string value)
+        {
+            return _parameters.TryGetValue(key, out value);
+        }
     }
 }

@@ -36,10 +36,7 @@
       "name": "Tesserae.Dependencies.js",
       "files": [
         "bridge/assets/js/simplebar.min.js",
-        "bridge/assets/js/hotkeys.min.js",
-        "bridge/assets/js/router5.min.js",
-        "bridge/assets/js/router5BrowserPlugin.min.js",
-        "bridge/assets/js/router5ListenersPlugin.min.js"
+        "bridge/assets/js/hotkeys.min.js"
       ],
       "output": "assets/js"
     },
@@ -47,10 +44,7 @@
       "name": "Tesserae.Dependencies.min.js",
       "files": [
         "bridge/assets/js/simplebar.min.js",
-        "bridge/assets/js/hotkeys.min.js",
-        "bridge/assets/js/router5.min.js",
-        "bridge/assets/js/router5BrowserPlugin.min.js",
-        "bridge/assets/js/router5ListenersPlugin.min.js"
+        "bridge/assets/js/hotkeys.min.js"
       ],
       "output": "assets/js"
     },
