@@ -313,9 +313,10 @@ namespace Tesserae
 
                     if(onBeforeNavigate is null || onBeforeNavigate(toState, _currentState))
                     {
-                        r.Activate(toState.Parameters);
-                        onNavigated?.Invoke(toState, _currentState);
+                        var oldState = _currentState;
                         _currentState = toState;
+                        r.Activate(toState.Parameters);
+                        onNavigated?.Invoke(toState, oldState);
                         return;
                     }
                     else
