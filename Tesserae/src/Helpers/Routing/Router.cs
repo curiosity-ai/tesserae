@@ -165,11 +165,14 @@ namespace Tesserae
         public static void Push(string path)
         {
             if (path == window.location.href) return; //Don't double add it
+            if (_currentState is object && path == _currentState.FullPath) return; //Don't double add it
             window.history.pushState(null, "", path);
         }
 
         public static void Replace(string path)
         {
+            if (path == window.location.href) return; //Don't double add it
+            if (_currentState is object && path == _currentState.FullPath) return; //Don't double add it
             window.history.replaceState(null, "", path);
         }
 
@@ -178,6 +181,10 @@ namespace Tesserae
             if (reload)
             {
                 window.location.href = "./#/donothing";
+            }
+            else
+            {
+                if (_currentState is object && path == _currentState.FullPath) return; //Don't double add it
             }
 
             window.location.href = path;
