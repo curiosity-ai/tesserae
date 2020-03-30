@@ -290,7 +290,7 @@ namespace Tesserae
                 Routes.Add(new Route(kv.Key, kv.Value, _routes[kv.Key]));
             }
 
-            onDone();
+            onDone?.Invoke();
         }
 
         private static void onLocationChanged(Event ev)
