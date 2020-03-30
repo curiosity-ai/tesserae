@@ -209,9 +209,14 @@ namespace Tesserae
             {
                 if (_currentState is object && path == _currentState.FullPath) return; //Nothing to do
             }
+            
             if(window.location.href != path)
             {
                 window.location.href = path;
+            }
+            else if (_currentState is null)
+            {
+                onLocationChanged(null);
             }
         }
 
