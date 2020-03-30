@@ -209,8 +209,10 @@ namespace Tesserae
             {
                 if (_currentState is object && path == _currentState.FullPath) return; //Nothing to do
             }
-
-            window.location.href = path;
+            if(window.location.href != path)
+            {
+                window.location.href = path;
+            }
         }
 
         private static string LowerCasePath(string path)
