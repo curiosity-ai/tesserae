@@ -164,7 +164,19 @@ namespace Tesserae
         public static void Push(string path)
         {
             if (path == window.location.href) return; //Nothing to do
-            if (_currentState is object && path == _currentState.FullPath) return; //Nothing to do
+
+            if (_currentState is null)
+            {
+                _currentState = new State()
+                {
+                    FullPath = path
+                };
+            }
+            else
+            {
+                _currentState.FullPath = path;
+            }
+
             window.history.pushState(null, "", path);
         }
 
