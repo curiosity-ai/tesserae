@@ -134,25 +134,24 @@ namespace Tesserae
             {
                 Script.Write(
 @"
-    history.pushState = ( f => function pushState(){
+    window.history.pushState = ( f => function pushState(){
         var ret = f.apply(this, arguments);
         window.dispatchEvent(new Event('pushstate'));
         window.dispatchEvent(new Event('locationchange'));
         return ret;
-    })(history.pushState);
+    })(window.history.pushState);
 
-    history.replaceState = ( f => function replaceState(){
+    window.history.replaceState = ( f => function replaceState(){
         var ret = f.apply(this, arguments);
         window.dispatchEvent(new Event('replacestate'));
         window.dispatchEvent(new Event('locationchange'));
         return ret;
-    })(history.replaceState);
+    })(window.history.replaceState);
 
     window.addEventListener('popstate',()=>{
         window.dispatchEvent(new Event('locationchange'))
     });
 ");
-
                 window.addEventListener("locationchange", onLocationChanged);
             }
             _initialized = true;           
@@ -164,15 +163,27 @@ namespace Tesserae
 
         public static void Push(string path)
         {
-            if (path == window.location.href) return; //Don't double add it
-            if (_currentState is object && path == _currentState.FullPath) return; //Don't double add it
+            if (path == window.location.href) return; //Nothing to do
+            if (_currentState is object && path == _currentState.FullPath) return; //Nothing to do
             window.history.pushState(null, "", path);
         }
 
         public static void Replace(string path)
         {
-            if (path == window.location.href) return; //Don't double add it
-            if (_currentState is object && path == _currentState.FullPath) return; //Don't double add it
+            if (path == window.location.href) return; //Nothing to do
+
+            if (_currentState is null)
+            {
+                _currentState = new State()
+                {
+                    FullPath = path
+                };
+            }
+            else
+            {
+                _currentState.FullPath = path;
+            }
+
             window.history.replaceState(null, "", path);
         }
 
@@ -184,7 +195,7 @@ namespace Tesserae
             }
             else
             {
-                if (_currentState is object && path == _currentState.FullPath) return; //Don't double add it
+                if (_currentState is object && path == _currentState.FullPath) return; //Nothing to do
             }
 
             window.location.href = path;
