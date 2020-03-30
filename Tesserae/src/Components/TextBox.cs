@@ -175,7 +175,7 @@ namespace Tesserae.Components
         public TextBox Focus()
         {
             //When mounted triggers immediatelly if already mounted
-            DomObserver.WhenMounted(InnerElement, InnerElement.focus);
+            DomObserver.WhenMounted(InnerElement, () => InnerElement.focus());
             return this;
         }
 
