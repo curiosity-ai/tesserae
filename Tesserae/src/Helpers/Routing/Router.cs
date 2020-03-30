@@ -309,9 +309,9 @@ namespace Tesserae
                 return;
             }
 
-            var p = currenthash.Split(new[] { '?' }, StringSplitOptions.RemoveEmptyEntries);
+            var p = currenthash.Split(new[] { '?' }, 2); //Do not remove empty entries, as we need the empty entry in the array
 
-            var hash = p[0].TrimStart('#');
+            var hash = p.Length == 0 ? "" : p[0].TrimStart('#');
             
             var par = new Dictionary<string, string>();
             var parts = hash.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
