@@ -38,7 +38,7 @@ namespace Tesserae.Tests.Samples
                                 Label("I'm a required Label").Required(),
                                 Label("A Label for An Input").SetContent(TextBox()),
 
-                                TextBlock("Inline without auto-width").Medium(),
+                                TextBlock("Inline without auto-width").Medium().PaddingTop(16.px()),
                                 Stack().Children(
                                     Label("Lbl").Inline().SetContent(TextBox()),
                                     Label("Label").Inline().SetContent(TextBox()),
@@ -46,7 +46,7 @@ namespace Tesserae.Tests.Samples
                                     Label("The Biggest Label").Inline().SetContent(TextBox())
                                 ),
 
-                                TextBlock("Inline with auto-width").Medium(),
+                                TextBlock("Inline with auto-width").Medium().PaddingTop(16.px()),
                                 Stack().Children(
                                     Label("Lbl").AutoWidth().Inline().SetContent(TextBox()),
                                     Label("Label").AutoWidth().Inline().SetContent(TextBox()),
