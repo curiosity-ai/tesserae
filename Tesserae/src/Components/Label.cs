@@ -161,7 +161,7 @@ namespace Tesserae.Components
                     var el = stack.Pop();
                     foreach(HTMLElement e in el.children)
                     {
-                        if(e.classList.contains("tss-label-autowidth"))
+                        if(e.classList.contains("tss-label-autowidth") && e.classList.contains("inline"))
                         {
                             found.Add(e);
                         }
