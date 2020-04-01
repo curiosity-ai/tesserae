@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Tesserae.Components;
@@ -12,42 +13,42 @@ namespace Tesserae.Tests
     {
         private static void Main()
         {
-            var orderedComponents = new (string Name, IComponent Component)[]
+            var orderedComponents = new (string Name, Func<IComponent> Component)[]
             {
-                ("Button", new ButtonSample()),
-                ("CheckBox", new CheckBoxSample()),
-                ("ChoiceGroup", new ChoiceGroupSample()),
-                ("Dropdown", new DropdownSample()),
-                ("Label", new LabelSample()),
-                ("EditableLabel", new EditableLabelSample()),
-                ("HorizontalSeparator", new HorizontalSeparatorSample()),
-                ("TextBox", new TextBoxSample()),
-                ("SearchBox", new SearchBoxSample()),
-                ("Toggle", new ToggleSample()),
-                ("Spinner", new SpinnerSample()),
-                ("ProgressIndicator", new ProgressIndicatorSample()),
-                ("Dialog", new DialogSample()),
-                ("Modal", new ModalSample()),
-                ("Panel", new PanelSample()),
-                ("ContextMenu", new ContextMenuSample()),
-                ("ProgressModal", new ProgressModalSample()),
-                ("ItemsList", new ItemsListSample()),
-                ("VirtualizedList", new VirtualizedListSample()),
-                ("SearchableList", new SearchableListSample()),
-                ("DetailsList", new DetailsListSample()),
-                ("Picker", new PickerSample()),
-                ("Layer", new LayerSample()),
-                ("Stack", new StackSample()),
-                ("SectionStack", new SectionStackSample()),
-                ("TextBlock", new TextBlockSample()),
-                ("Validator", new ValidatorSample()),
-                ("OverflowSet", new OverflowSetSample()),
-                ("Breadcrumb", new BreadcrumbSample()),
-                ("Pivot", new PivotSample()),
-                ("Defer", new DeferSample()),
-                ("Toast", new ToastSample()),
-                ("LineAwesomeIcons", new LineAwesomeSample()),
-                ("FileSelector", new FileSelectorAndDropAreaSample())
+                ("Button",              () => new ButtonSample()),
+                ("CheckBox",            () => new CheckBoxSample()),
+                ("ChoiceGroup",         () => new ChoiceGroupSample()),
+                ("Dropdown",            () => new DropdownSample()),
+                ("Label",               () => new LabelSample()),
+                ("EditableLabel",       () => new EditableLabelSample()),
+                ("HorizontalSeparator", () => new HorizontalSeparatorSample()),
+                ("TextBox",             () => new TextBoxSample()),
+                ("SearchBox",           () => new SearchBoxSample()),
+                ("Toggle",              () => new ToggleSample()),
+                ("Spinner",             () => new SpinnerSample()),
+                ("ProgressIndicator",   () => new ProgressIndicatorSample()),
+                ("Dialog",              () => new DialogSample()),
+                ("Modal",               () => new ModalSample()),
+                ("Panel",               () => new PanelSample()),
+                ("ContextMenu",         () => new ContextMenuSample()),
+                ("ProgressModal",       () => new ProgressModalSample()),
+                ("ItemsList",           () => new ItemsListSample()),
+                ("VirtualizedList",     () => new VirtualizedListSample()),
+                ("SearchableList",      () => new SearchableListSample()),
+                ("DetailsList",         () => new DetailsListSample()),
+                ("Picker",              () => new PickerSample()),
+                ("Layer",               () => new LayerSample()),
+                ("Stack",               () => new StackSample()),
+                ("SectionStack",        () => new SectionStackSample()),
+                ("TextBlock",           () => new TextBlockSample()),
+                ("Validator",           () => new ValidatorSample()),
+                ("OverflowSet",         () => new OverflowSetSample()),
+                ("Breadcrumb",          () => new BreadcrumbSample()),
+                ("Pivot",               () => new PivotSample()),
+                ("Defer",               () => new DeferSample()),
+                ("Toast",               () => new ToastSample()),
+                ("LineAwesomeIcons",    () => new LineAwesomeSample()),
+                ("FileSelector",        () => new FileSelectorAndDropAreaSample())
             };
 
             var components = orderedComponents.ToDictionary(c => c.Name, c => c.Component);
@@ -91,7 +92,7 @@ namespace Tesserae.Tests
             Router.Register("alert", "/alert/:a/:b/:c", p => Dialog($"A:{p["a"]} B:{p["b"]} C:{p["c"]}").Ok(null, null));
 
             Router.Initialize();
-            Router.Refresh(() => Router.Navigate(window.location.hash, reload: false));
+            Router.Refresh(() => Router.Navigate(window.location.href, reload: false));
 
             string ToRoute(string name) => "/view/" + name;
 
@@ -104,7 +105,7 @@ namespace Tesserae.Tests
 
                 Router.Replace($"#/view/{route}");
 
-                var component = components[route];
+                var component = components[route]();
 
                 var links = orderedComponents.ToDictionary(c => c.Name, c => NavLink(c.Name).SelectedOrExpandedIf(c.Name == route).OnSelected((s, e) => { console.log("Route to " + c.Name); Router.Navigate("#" + ToRoute(c.Name)); }));
 
