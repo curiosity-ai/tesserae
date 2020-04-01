@@ -42,6 +42,10 @@ namespace Tesserae
         {
             return ((Color)this).ToRGB();
         }
+        public string ToRGBA(float opacity)
+        {
+            return ((Color)this).ToRGBA(opacity);
+        }
 
         public string ToHex()
         {

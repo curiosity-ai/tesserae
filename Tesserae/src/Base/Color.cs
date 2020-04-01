@@ -154,5 +154,10 @@ namespace Tesserae
         {
             return $"rgb({R:#0.##}, {G:#0.##}, {B:#0.##})";
         }
+
+        public string ToRGBA(float opacity)
+        {
+            return $"rgba({R:#0.##}, {G:#0.##}, {B:#0.##}, {opacity:#0.##})";
+        }
     }
 }
