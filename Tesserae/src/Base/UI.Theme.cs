@@ -60,16 +60,20 @@ namespace Tesserae
                 var sb = new StringBuilder();
                 sb.AppendLine(":root {");
                 sb.Append("  --tss-primary-background-color: ").Append(primaryLightColor.ToRGB()).AppendLine(";");
+                sb.Append("  --tss-link-color: ").Append(primaryLightColor.ToRGB()).AppendLine(";");
                 sb.Append("  --tss-primary-border-color: ").Append(borderColorLight.ToRGB()).AppendLine(";");
                 sb.Append("  --tss-primary-background-hover-color: ").Append(borderColorLight.ToRGB()).AppendLine(";");
                 sb.Append("  --tss-primary-background-active-color: ").Append(backgroundActiveLight.ToRGB()).AppendLine(";");
+                sb.Append("  --tss-primary-shadow: ").Append($"0 1.6px 3.6px 0 {primaryLightColor.ToRGBA(0.132f)}, 0 0.3px 0.9px 0 {primaryLightColor.ToRGBA(0.108f)}").AppendLine(";");
                 sb.AppendLine("}");
 
                 sb.AppendLine(".tss-dark {");
                 sb.Append("  --tss-primary-background-color: ").Append(primaryDarkColor.ToRGB()).AppendLine(";");
+                sb.Append("  --tss-link-color: ").Append(primaryDarkColor.ToRGB()).AppendLine(";"); 
                 sb.Append("  --tss-primary-border-color: ").Append(borderColorDark.ToRGB()).AppendLine(";");
                 sb.Append("  --tss-primary-background-hover-color: ").Append(borderColorDark.ToRGB()).AppendLine(";");
                 sb.Append("  --tss-primary-background-active-color: ").Append(backgroundActiveDark.ToRGB()).AppendLine(";");
+                sb.Append("  --tss-primary-shadow: ").Append($"0 1.6px 3.6px 0 {primaryDarkColor.ToRGBA(0.132f)}, 0 0.3px 0.9px 0 {primaryDarkColor.ToRGBA(0.108f)}").AppendLine(";");
                 sb.AppendLine("}");
 
                 _primaryStyleElement = (HTMLStyleElement)document.createElement("style");

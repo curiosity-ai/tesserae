@@ -1,6 +1,8 @@
 ﻿using System;
 using static Tesserae.UI;
 using static Retyped.dom;
+using Tesserae.HTML;
+using System.Collections.Generic;
 
 namespace Tesserae.Components
 {
@@ -10,6 +12,9 @@ namespace Tesserae.Components
 
         private readonly HTMLLabelElement _label;
         private readonly HTMLDivElement _content;
+
+        private static uint _callback;
+        private static Dictionary<HTMLElement, Action> _pendingCallbacks = new Dictionary<HTMLElement, Action>();
 
         public Label(string text = string.Empty)
         {
@@ -99,12 +104,11 @@ namespace Tesserae.Components
 
                     if ((value as dynamic).InnerElement is HTMLInputElement el)
                     {
-                        id = $"elementForLabelN{_labelForId}";
+                        id = $"tss-label-for-{_labelForId}";
                         _labelForId++;
                         el.id = id;
                     }
                 }
-
                 _label.htmlFor = id;
             }
         }
@@ -126,6 +130,86 @@ namespace Tesserae.Components
             return this;
         }
 
+        public Label AutoWidth(int nestingLevels = 2)
+        {
+            _label.classList.add("tss-label-autowidth");
+            DomObserver.WhenMounted(_label, () =>
+            {
+                HTMLElement parent = _label;
+                int levels = nestingLevels;
+                do
+                {
+                    parent = parent.parentElement;
+                    if (!parent.classList.contains("tss-stack-item"))
+                    {
+                        levels--;
+                    }
+                    else
+                    {
+                        nestingLevels++;
+                    }
+                } while (levels > 0 && parent.parentElement is object);
 
+                if(parent is object)
+                {
+                    _pendingCallbacks.TryAdd(parent, () => AutoSizeChildrenLabels(parent, nestingLevels));
+                    window.cancelAnimationFrame(_callback);
+                    _callback = window.requestAnimationFrame(_ => TriggerAll());
+                }
+            });
+
+            return this;
+        }
+
+        private static void TriggerAll()
+        {
+            foreach(var kv in _pendingCallbacks)
+            {
+                kv.Value();
+            }
+            _pendingCallbacks.Clear();
+        }
+
+        private static void AutoSizeChildrenLabels(HTMLElement parent, int nestingLevels)
+        {
+            var found = new List<HTMLElement>();
+
+            var stack = new Stack<HTMLElement>();
+            stack.Push(parent);
+            do
+            {
+                var new_stack = new Stack<HTMLElement>();
+                while (stack.Count > 0)
+                {
+                    var el = stack.Pop();
+                    foreach(HTMLElement e in el.children)
+                    {
+                        if(e.classList.contains("tss-label-autowidth") && e.classList.contains("inline"))
+                        {
+                            found.Add(e);
+                        }
+                        else
+                        {
+                            new_stack.Push(e);
+                        }
+                    }
+                }
+                stack = new_stack;
+
+                nestingLevels--;
+            } while (nestingLevels > 0);
+
+            double minWidth = 10;
+            foreach(var f in found)
+            {
+                var rect = (DOMRect)f.getBoundingClientRect();
+                minWidth = Math.Max(minWidth, rect.width);
+            }
+            var mw = (minWidth + 4).px().ToString();
+            foreach (var f in found)
+            {
+                f.style.minWidth = mw;
+            }
+        }
     }
 }

@@ -18,6 +18,20 @@
     padding: 0px 5px;
 }
 
+    .tss-textbox::placeholder {
+        color: var(--tss-default-foreground-color);
+        opacity: 0.5;
+        transition: opacity 0.3s ease;
+    }
+
+    .tss-textbox:focus::placeholder {
+        opacity: 0.7;
+    }
+
+    .tss-textbox:hover::placeholder {
+        opacity: 0.7;
+    }
+
 .tss-textBox.disabled {
     border-color: var(--tss-disabled-background-color);
     background-color: var(--tss-disabled-background-color);

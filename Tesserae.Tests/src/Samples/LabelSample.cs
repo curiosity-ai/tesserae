@@ -36,7 +36,23 @@ namespace Tesserae.Tests.Samples
                                 Label("I'm Label"),
                                 Label("I'm a disabled Label").Disabled(),
                                 Label("I'm a required Label").Required(),
-                                Label("A Label for An Input").SetContent(TextBox())));
+                                Label("A Label for An Input").SetContent(TextBox()),
+
+                                TextBlock("Inline without auto-width").Medium().PaddingTop(16.px()),
+                                Stack().Children(
+                                    Label("Lbl").Inline().SetContent(TextBox()),
+                                    Label("Label").Inline().SetContent(TextBox()),
+                                    Label("Bigger Label").Inline().SetContent(TextBox()),
+                                    Label("The Biggest Label").Inline().SetContent(TextBox())
+                                ),
+
+                                TextBlock("Inline with auto-width").Medium().PaddingTop(16.px()),
+                                Stack().Children(
+                                    Label("Lbl").AutoWidth().Inline().SetContent(TextBox()),
+                                    Label("Label").AutoWidth().Inline().SetContent(TextBox()),
+                                    Label("Bigger Label").AutoWidth().Inline().SetContent(TextBox()),
+                                    Label("The Biggest Label").AutoWidth().Inline().SetContent(TextBox())
+                                )));
         }
 
         public HTMLElement Render()
