@@ -48,12 +48,6 @@
     animation-fill-mode: forwards;
 }
 
-.tss-sidebar.open:hover {
-    animation-name: unset;
-    animation-fill-mode: unset;
-}
-
-
 .tss-sidebar-content {
     margin: 0;
     padding: 0;
@@ -195,6 +189,7 @@
 
 .tss-sidebar-host.open > .tss-sidebar-content {
     margin-left: unset;
+    transition: unset;
 }
 
 .tss-sidebar-host.open > .tss-sidebar > .tss-sidebar-item > .tss-sidebar-label {
@@ -203,6 +198,10 @@
     opacity: 1;
 }
 
+.tss-sidebar-host.open > .tss-sidebar:hover {
+    animation-name: unset;
+    animation-fill-mode: unset;
+}
 
 .tss-sidebar-host.hidden > .tss-sidebar {
     display: none;
