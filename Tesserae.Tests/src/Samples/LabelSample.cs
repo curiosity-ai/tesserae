@@ -37,6 +37,7 @@ namespace Tesserae.Tests.Samples
                                 Label("I'm a required Label").Required(),
                                 Label("I'm a primary Label").Primary(),
                                 Label("I'm a secondary Label").Secondary(),
+                                Label("I'm a tiny Label").Regular().Tiny(),
                                 Label("A Label for An Input").SetContent(TextBox()),
 
                                 TextBlock("Inline without auto-width").Medium().PaddingTop(16.px()).PaddingBottom(8.px()),
