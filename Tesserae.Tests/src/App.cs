@@ -51,6 +51,8 @@ namespace Tesserae.Tests
                 ("FileSelector",        () => new FileSelectorAndDropAreaSample())
             };
 
+            string ToRoute(string name) => "/view/" + name;
+
             var components = orderedComponents.ToDictionary(c => c.Name, c => c.Component);
 
             var sideBar = Sidebar().Stretch();
@@ -86,15 +88,15 @@ namespace Tesserae.Tests
             
             foreach (var (name, component) in orderedComponents)
             {
-                Router.Register(name, ToRoute(name), p => currentPage.Value = name);
+                var nameLocal = name;
+                Router.Register(nameLocal, ToRoute(nameLocal), p => currentPage.Value = nameLocal);
             }
 
             Router.Register("alert", "/alert/:a/:b/:c", p => Dialog($"A:{p["a"]} B:{p["b"]} C:{p["c"]}").Ok(null, null));
 
             Router.Initialize();
-            Router.Refresh(() => Router.Navigate(window.location.href, reload: false));
+            Router.Refresh(() => Router.Navigate(window.location.hash));
 
-            string ToRoute(string name) => "/view/" + name;
 
             IComponent ShowPage(string route)
             {
@@ -102,8 +104,10 @@ namespace Tesserae.Tests
                 {
                     route = components.Keys.First();
                 }
-
-                Router.Replace($"#/view/{route}");
+                else
+                {
+                    Router.Push($"#/view/{route}");
+                }
 
                 var component = components[route]();
 
