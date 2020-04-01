@@ -52,7 +52,7 @@ namespace Tesserae.Components
             set => InnerElement.title = value;
         }
 
-        public TextSize Size
+        public virtual TextSize Size
         {
             get => TextSizeExtensions.FromClassList(InnerElement, TextSize.Small);
             set
@@ -62,7 +62,7 @@ namespace Tesserae.Components
             }
         }
 
-        public TextWeight Weight
+        public virtual TextWeight Weight
         {
             get => TextSizeExtensions.FromClassList(InnerElement, TextWeight.Regular);
             set
@@ -110,6 +110,7 @@ namespace Tesserae.Components
                     InnerElement.classList.add("tss-fontcolor-primary");
                     InnerElement.classList.remove("tss-fontcolor-invalid");
                     InnerElement.classList.remove("tss-fontcolor-success");
+                    InnerElement.classList.remove("tss-fontcolor-secondary");
                     InnerElement.classList.remove("tss-fontcolor-danger");
                 }
                 else
@@ -117,6 +118,34 @@ namespace Tesserae.Components
                     InnerElement.classList.remove("tss-fontcolor-invalid");
                     InnerElement.classList.remove("tss-fontcolor-success");
                     InnerElement.classList.remove("tss-fontcolor-danger");
+                    InnerElement.classList.remove("tss-fontcolor-secondary");
+                    InnerElement.classList.remove("tss-fontcolor-primary");
+                }
+            }
+        }
+        
+        /// <summary>
+         /// Gets or set whenever text block color is primary
+         /// </summary>
+        public bool IsSecondary
+        {
+            get => InnerElement.classList.contains("tss-fontcolor-secondary");
+            set
+            {
+                if (value)
+                {
+                    InnerElement.classList.add("tss-fontcolor-secondary");
+                    InnerElement.classList.remove("tss-fontcolor-primary");
+                    InnerElement.classList.remove("tss-fontcolor-invalid");
+                    InnerElement.classList.remove("tss-fontcolor-success");
+                    InnerElement.classList.remove("tss-fontcolor-danger");
+                }
+                else
+                {
+                    InnerElement.classList.remove("tss-fontcolor-invalid");
+                    InnerElement.classList.remove("tss-fontcolor-success");
+                    InnerElement.classList.remove("tss-fontcolor-danger");
+                    InnerElement.classList.remove("tss-fontcolor-secondary");
                     InnerElement.classList.remove("tss-fontcolor-primary");
                 }
             }
@@ -135,6 +164,7 @@ namespace Tesserae.Components
                     InnerElement.classList.add("tss-fontcolor-success");
                     InnerElement.classList.remove("tss-fontcolor-invalid");
                     InnerElement.classList.remove("tss-fontcolor-primary");
+                    InnerElement.classList.remove("tss-fontcolor-secondary");
                     InnerElement.classList.remove("tss-fontcolor-danger");
                 }
                 else
@@ -142,6 +172,7 @@ namespace Tesserae.Components
                     InnerElement.classList.remove("tss-fontcolor-invalid");
                     InnerElement.classList.remove("tss-fontcolor-success");
                     InnerElement.classList.remove("tss-fontcolor-danger");
+                    InnerElement.classList.remove("tss-fontcolor-secondary");
                     InnerElement.classList.remove("tss-fontcolor-primary");
                 }
             }
@@ -160,6 +191,7 @@ namespace Tesserae.Components
                     InnerElement.classList.add("tss-fontcolor-danger");
                     InnerElement.classList.remove("tss-fontcolor-invalid");
                     InnerElement.classList.remove("tss-fontcolor-primary");
+                    InnerElement.classList.remove("tss-fontcolor-secondary");
                     InnerElement.classList.remove("tss-fontcolor-success");
                 }
                 else
@@ -167,6 +199,7 @@ namespace Tesserae.Components
                     InnerElement.classList.remove("tss-fontcolor-invalid");
                     InnerElement.classList.remove("tss-fontcolor-success");
                     InnerElement.classList.remove("tss-fontcolor-danger");
+                    InnerElement.classList.remove("tss-fontcolor-secondary");
                     InnerElement.classList.remove("tss-fontcolor-primary");
                 }
             }
@@ -183,16 +216,10 @@ namespace Tesserae.Components
                 if (value)
                 {
                     InnerElement.classList.add("tss-fontcolor-invalid");
-                    InnerElement.classList.remove("tss-fontcolor-danger");
-                    InnerElement.classList.remove("tss-fontcolor-primary");
-                    InnerElement.classList.remove("tss-fontcolor-success");
                 }
                 else
                 {
                     InnerElement.classList.remove("tss-fontcolor-invalid");
-                    InnerElement.classList.remove("tss-fontcolor-success");
-                    InnerElement.classList.remove("tss-fontcolor-danger");
-                    InnerElement.classList.remove("tss-fontcolor-primary");
                 }
             }
         }
@@ -305,5 +332,10 @@ namespace Tesserae.Components
             return textBlock;
         }
 
+        public static T Secondary<T>(this T textBlock) where T : TextBlock
+        {
+            textBlock.IsSecondary = true;
+            return textBlock;
+        }
     }
 }

@@ -181,10 +181,6 @@
     font-weight: var(--tss-font-weight-bold);
 }
 
-.tss-fontcolor-invalid {
-    color: var(--tss-invalid-border-color);
-}
-
 .tss-fontcolor-primary {
     color: var(--tss-primary-background-color);
 }
@@ -197,6 +193,13 @@
     color: var(--tss-danger-background-color);
 }
 
+.tss-fontcolor-secondary {
+    color: var(--tss-secondary-foreground-color);
+}
+
+.tss-fontcolor-invalid {
+    color: var(--tss-invalid-border-color);
+}
 
 .tss-box-shadow {
     box-shadow: var(--tss-box-shadow);
