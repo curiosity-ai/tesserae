@@ -40,6 +40,7 @@
         box-shadow: rgba(0, 0, 0, 0.4) 0px 0px 50px 0px;
         transition: box-shadow 0.2s ease 0s;
         animation-delay: 0.05s, 0s;
+        transition-delay: 0.5s;
     }
 
 
