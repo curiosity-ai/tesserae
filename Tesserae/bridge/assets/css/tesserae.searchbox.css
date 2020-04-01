@@ -77,6 +77,8 @@
     cursor: text;
     transition: width 0.167s ease 0s;
     overflow:hidden;
+    margin-top:8px;
+
 }
 
 .tss-searchbox-container.noicon > .tss-searchbox-icon {
