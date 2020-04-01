@@ -18,6 +18,11 @@
     padding: 0px 5px;
 }
 
+    .tss-textbox::placeholder {
+        color: var(--tss-default-foreground-color);
+        opacity: 0.5;
+    }
+
 .tss-textBox.disabled {
     border-color: var(--tss-disabled-background-color);
     background-color: var(--tss-disabled-background-color);
