@@ -166,6 +166,7 @@
 .tss-modal-content {
     display: flex;
     flex-grow: 1;
+    height:100px; /* need to have a height so flex-grow works */
     width: 100%;
     overflow-y: auto;
     overflow-x: hidden;
