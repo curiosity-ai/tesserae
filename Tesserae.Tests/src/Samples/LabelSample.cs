@@ -32,13 +32,15 @@ namespace Tesserae.Tests.Samples
                             SampleDo("Don’t use full sentences or complex punctuation (colons, semicolons, etc.).")))))
                             .Section(Stack().Children(
                                 SampleTitle("Usage"),
-                                TextBlock("Label").Medium(),
                                 Label("I'm Label"),
                                 Label("I'm a disabled Label").Disabled(),
                                 Label("I'm a required Label").Required(),
+                                Label("I'm a primary Label").Primary(),
+                                Label("I'm a secondary Label").Secondary(),
+                                Label("I'm a tiny Label").Regular().Tiny(),
                                 Label("A Label for An Input").SetContent(TextBox()),
 
-                                TextBlock("Inline without auto-width").Medium().PaddingTop(16.px()),
+                                TextBlock("Inline without auto-width").Medium().PaddingTop(16.px()).PaddingBottom(8.px()),
                                 Stack().Children(
                                     Label("Lbl").Inline().SetContent(TextBox()),
                                     Label("Label").Inline().SetContent(TextBox()),
@@ -46,13 +48,23 @@ namespace Tesserae.Tests.Samples
                                     Label("The Biggest Label").Inline().SetContent(TextBox())
                                 ),
 
-                                TextBlock("Inline with auto-width").Medium().PaddingTop(16.px()),
+                                TextBlock("Inline with auto-width").Medium().PaddingTop(16.px()).PaddingBottom(8.px()),
                                 Stack().Children(
-                                    Label("Lbl").AutoWidth().Inline().SetContent(TextBox()),
-                                    Label("Label").AutoWidth().Inline().SetContent(TextBox()),
-                                    Label("Bigger Label").AutoWidth().Inline().SetContent(TextBox()),
-                                    Label("The Biggest Label").AutoWidth().Inline().SetContent(TextBox())
-                                )));
+                                    Label("Lbl").Inline().AutoWidth().SetContent(TextBox()),
+                                    Label("Label").Inline().AutoWidth().SetContent(TextBox()),
+                                    Label("Bigger Label").Inline().AutoWidth().SetContent(TextBox()),
+                                    Label("The Biggest Label").Inline().AutoWidth().SetContent(TextBox())
+                                ),
+
+                                TextBlock("Inline with auto-width, aligned right").Medium().PaddingTop(16.px()).PaddingBottom(8.px()),
+                                Stack().Children(
+                                    Label("Lbl").Inline().AutoWidth(alignRight:true).SetContent(TextBox()),
+                                    Label("Label").Inline().AutoWidth(alignRight: true).SetContent(TextBox()),
+                                    Label("Bigger Label").Inline().AutoWidth(alignRight: true).SetContent(TextBox()),
+                                    Label("The Biggest Label").Inline().AutoWidth(alignRight: true).SetContent(TextBox())
+                                )
+
+                                ));
         }
 
         public HTMLElement Render()

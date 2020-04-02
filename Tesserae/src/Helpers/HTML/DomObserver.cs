@@ -45,8 +45,14 @@ namespace Tesserae.HTML
                 return;
 
             _elementsToTrackMountingOf = _elementsToTrackMountingOf.Except(elementsMountedThatWeCareAbout).ToList();
-            foreach (var callbackToMake in elementsMountedThatWeCareAbout.Select(entry => entry.callback))
-                callbackToMake();
+            
+            window.requestAnimationFrame(_ =>
+            {
+                foreach (var callbackToMake in elementsMountedThatWeCareAbout.Select(entry => entry.callback))
+                {
+                    callbackToMake();
+                }
+            });
         }
 
         private static void CheckUnmounted(MutationRecord[] mutationRecords)
@@ -79,8 +85,13 @@ namespace Tesserae.HTML
                 return;
 
             _elementsToTrackRemovalOf = _elementsToTrackRemovalOf.Except(elementsRemovedThatWeCareAbout).ToList();
-            foreach (var callbackToMake in elementsRemovedThatWeCareAbout.Select(entry => entry.callback))
-                callbackToMake();
+            window.requestAnimationFrame(_ =>
+            {
+                foreach (var callbackToMake in elementsRemovedThatWeCareAbout.Select(entry => entry.callback))
+                {
+                    callbackToMake();
+                }
+            });
         }
 
         /// <summary>

@@ -30,7 +30,6 @@ namespace Tesserae.Components
             InnerElement = Div(_("tss-label"), _label, _content);
         }
 
-
         public override string Text
         {
             get => _label.innerText;
@@ -50,6 +49,30 @@ namespace Tesserae.Components
                 {
                     _label.classList.remove("tss-required");
                 }
+            }
+        }
+
+        public override TextSize Size
+        {
+            get => TextSizeExtensions.FromClassList(InnerElement, TextSize.Small);
+            set
+            {
+                InnerElement.classList.remove(Size.ToClassName());
+                InnerElement.classList.add(value.ToClassName());
+                _label.classList.remove(Size.ToClassName());
+                _label.classList.add(value.ToClassName());
+            }
+        }
+
+        public override TextWeight Weight
+        {
+            get => TextSizeExtensions.FromClassList(InnerElement, TextWeight.Regular);
+            set
+            {
+                InnerElement.classList.remove(Weight.ToClassName());
+                InnerElement.classList.add(value.ToClassName());
+                _label.classList.remove(Size.ToClassName());
+                _label.classList.add(value.ToClassName());
             }
         }
 
@@ -107,12 +130,18 @@ namespace Tesserae.Components
             return this;
         }
 
-        public Label AutoWidth(int nestingLevels = 2)
+        public Label AutoWidth(int nestingLevels = 1, bool alignRight = false)
         {
             _label.classList.add("tss-label-autowidth");
-            DomObserver.WhenMounted(_label, () =>
+
+            if (alignRight)
             {
-                HTMLElement parent = _label;
+                _label.classList.add("tss-textalign-right");
+            }
+
+            DomObserver.WhenMounted(InnerElement, () =>
+            {
+                HTMLElement parent = InnerElement;
                 int levels = nestingLevels;
                 do
                 {
@@ -129,7 +158,7 @@ namespace Tesserae.Components
 
                 if(parent is object)
                 {
-                    _pendingCallbacks.TryAdd(parent, () => AutoSizeChildrenLabels(parent, nestingLevels));
+                    _pendingCallbacks.TryAdd(parent, () => AutoSizeChildrenLabels(parent, nestingLevels + 2));
                     window.cancelAnimationFrame(_callback);
                     _callback = window.requestAnimationFrame(_ => TriggerAll());
                 }
@@ -161,7 +190,7 @@ namespace Tesserae.Components
                     var el = stack.Pop();
                     foreach(HTMLElement e in el.children)
                     {
-                        if(e.classList.contains("tss-label-autowidth") && e.classList.contains("inline"))
+                        if(e.classList.contains("tss-label-autowidth") && e.parentElement.classList.contains("inline"))
                         {
                             found.Add(e);
                         }
