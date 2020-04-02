@@ -123,6 +123,12 @@ namespace Tesserae.Components
             return this;
         }
 
+        public Modal ContentHeight(UnitSize height)
+        {
+            _modalContent.style.height = height.ToString();
+            return this;
+        }
+
         public Modal NoHeader()
         {
             ClearChildren(_modalHeader);
