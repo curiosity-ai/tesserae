@@ -8,15 +8,15 @@ namespace Tesserae.Components
 {
     public static class Layers
     {
-        private static int CurretZIndex = 1000;
+        private static int CurrentZIndex = 1000;
         private static HashSet<HTMLElement> CurrentLayers = new HashSet<HTMLElement>();
         public static string PushLayer(HTMLElement element)
         {
             if (CurrentLayers.Add(element))
             {
 
-                CurretZIndex += 10;
-                return CurretZIndex.ToString();
+                CurrentZIndex += 10;
+                return CurrentZIndex.ToString();
             }
             else
             {
@@ -26,14 +26,14 @@ namespace Tesserae.Components
 
         public static string AboveCurrent()
         {
-            return (CurretZIndex + 5).ToString();
+            return (CurrentZIndex + 5).ToString();
         }
 
         public static void PopLayer(HTMLElement element)
         {
             if (CurrentLayers.Remove(element))
             {
-                CurretZIndex -= 10;
+                CurrentZIndex -= 10;
             }
             else
             {

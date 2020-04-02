@@ -125,7 +125,7 @@ namespace Tesserae.HTML
             _elementsToTrackRemovalOf.Add((element, callback));
         }
 
-        private static bool IsEqualToOrIsChildOf(HTMLElement element, Node possibleParentElement)
+        public static bool IsEqualToOrIsChildOf(HTMLElement element, Node possibleParentElement)
         {
             while (element != null)
             {
