@@ -3,6 +3,7 @@ using static Tesserae.UI;
 using static Retyped.dom;
 using Tesserae.HTML;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Tesserae.Components
 {
@@ -205,16 +206,24 @@ namespace Tesserae.Components
                 nestingLevels--;
             } while (nestingLevels > 0);
 
-            double minWidth = 10;
-            foreach(var f in found)
+
+            if (found.Count == 1)
             {
-                var rect = (DOMRect)f.getBoundingClientRect();
-                minWidth = Math.Max(minWidth, rect.width);
+                found.First().classList.remove("tss-textalign-right");
             }
-            var mw = (minWidth + 4).px().ToString();
-            foreach (var f in found)
+            else
             {
-                f.style.minWidth = mw;
+                double minWidth = 10;
+                foreach (var f in found)
+                {
+                    var rect = (DOMRect)f.getBoundingClientRect();
+                    minWidth = Math.Max(minWidth, rect.width);
+                }
+                var mw = (minWidth + 4).px().ToString();
+                foreach (var f in found)
+                {
+                    f.style.minWidth = mw;
+                }
             }
         }
     }
