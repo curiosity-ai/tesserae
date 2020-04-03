@@ -4,6 +4,7 @@ using Tesserae.Components;
 using static Retyped.dom;
 using static Tesserae.UI;
 using static Tesserae.Tests.Samples.SamplesHelper;
+using System.Threading;
 
 namespace Tesserae.Tests.Samples
 {
@@ -13,12 +14,20 @@ namespace Tesserae.Tests.Samples
 
         public ProgressModalSample()
         {
-            var modal = ProgressModal().Title("Lorem Ipsum");
+            ProgressModal modal;
+
+            CancellationTokenSource cts;
 
             float progress = 0;
 
             void ProgressFrame(object a)
             {
+                if (cts.IsCancellationRequested)
+                {
+                    modal.ProgressSpin().Message("Cancelling...");
+                    Task.Delay(2000).ContinueWith(_ => modal.Hide()).FireAndForget();
+                    return;
+                }
                 progress++;
 
                 if (progress < 100)
@@ -35,6 +44,9 @@ namespace Tesserae.Tests.Samples
 
             async Task PlayModal()
             {
+                modal = ProgressModal().Title("Lorem Ipsum");
+                cts = new CancellationTokenSource();
+                modal.WithCancel((b) => { b.Disabled(); cts.Cancel(); });
                 progress = 0;
                 modal.Message("Preparing to process...").ProgressSpin().Show();
                 await Task.Delay(1500);

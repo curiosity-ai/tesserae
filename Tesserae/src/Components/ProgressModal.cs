@@ -1,4 +1,5 @@
-﻿using static Tesserae.UI;
+﻿using System;
+using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
@@ -9,14 +10,16 @@ namespace Tesserae.Components
         private Raw _titleHost;
         private Raw _messageHost;
         private Raw _progressHost;
+        private Raw _footerHost;
         private ProgressIndicator _progressIndicator;
         private Spinner _spinner;
         private bool _isSpinner = true;
 
         public ProgressModal()
         {
-            _titleHost   = Raw();
-            _messageHost = Raw();
+            _titleHost   = Raw().WidthStretch();
+            _messageHost = Raw().WidthStretch();
+            _footerHost = Raw().WidthStretch();
             _progressHost = Raw();
             _spinner = Spinner().Large().Margin(8.px());
             _progressHost.Content(_spinner);
@@ -26,7 +29,7 @@ namespace Tesserae.Components
                                 .Content(Stack().Vertical()
                                                .AlignCenter()
                                                .WidthStretch()
-                                               .Children(_titleHost, _progressHost, _messageHost));
+                                               .Children(_titleHost, _progressHost, _messageHost, _footerHost));
 
         }
 
@@ -54,7 +57,7 @@ namespace Tesserae.Components
 
         public ProgressModal Title(string title)
         {
-            _titleHost.Content(TextBlock(title));
+            _titleHost.Content(TextBlock(title).SemiBold().Primary().PaddingTop(16.px()).PaddingBottom(8.px()));
             return this;
         }
 
@@ -93,6 +96,15 @@ namespace Tesserae.Components
                 _progressHost.Content(_spinner);
                 _isSpinner = true;
             }
+            return this;
+        }
+
+        public ProgressModal WithCancel(Action<Button> onCancel, Action<Button> btnCancel = null)
+        {
+            var button = Button().SetText("Cancel").SetIcon(LineAwesome.Times).Danger();
+            btnCancel?.Invoke(button);
+            button.OnClick((b, __) => onCancel(b));
+            _footerHost.PaddingTop(16.px()).Content(button.AlignCenter());
             return this;
         }
     }
