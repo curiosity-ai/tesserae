@@ -228,6 +228,13 @@ namespace Tesserae.Components
             }
         }
 
+        public IComponent ShowEmbedded()
+        {
+            ShowCloseButton = false;
+            _modal.classList.add("embedded");
+            return Raw(_modal).Stretch();
+        }
+
         public bool ShowCloseButton
         {
             get => _closeButton.style.display != "none";

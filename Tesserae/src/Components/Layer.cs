@@ -49,7 +49,7 @@ namespace Tesserae.Components
         protected HTMLElement _contentHtml;
         protected HTMLElement _renderedContent;
 
-        private LayerHost _Host;
+        private LayerHost _host;
 
         private bool _isVisible;
         public Layer()
@@ -59,11 +59,11 @@ namespace Tesserae.Components
 
         public LayerHost Host
         {
-            get => _Host;
+            get => _host;
             set
             {
                 if (IsVisible) Hide();
-                _Host = value;
+                _host = value;
                 if (IsVisible) Show();
             }
         }
@@ -101,7 +101,7 @@ namespace Tesserae.Components
         {
             if (_content is object || _contentHtml is object)
             {
-                if (_Host == null)
+                if (_host is null)
                 {
                     _renderedContent = Div(_("tss-layer fade"), BuildRenderedContent());
                     _renderedContent.style.zIndex = Layers.PushLayer(_renderedContent);
@@ -111,7 +111,7 @@ namespace Tesserae.Components
                 else
                 {
                     _renderedContent = BuildRenderedContent();
-                    _Host.InnerElement.appendChild(_renderedContent);
+                    _host.InnerElement.appendChild(_renderedContent);
                 }
 
                 _isVisible = true;
@@ -122,7 +122,7 @@ namespace Tesserae.Components
         {
             if (_renderedContent is object)
             {
-                if (_Host == null)
+                if (_host == null)
                 {
                     Layers.PopLayer(_renderedContent);
                     _renderedContent.classList.remove("show");
@@ -131,7 +131,7 @@ namespace Tesserae.Components
                 }
                 else
                 {
-                    _Host.InnerElement.removeChild(_renderedContent);
+                    _host.InnerElement.removeChild(_renderedContent);
                 }
                 _renderedContent = null;
                 _isVisible = false;

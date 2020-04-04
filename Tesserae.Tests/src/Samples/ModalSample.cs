@@ -12,6 +12,8 @@ namespace Tesserae.Tests.Samples
 
         public ModalSample()
         {
+            var container = Raw();
+
             Modal("Lorem Ipsum")
                 .Var(out var modal)
                 .LightDismiss()
@@ -52,7 +54,12 @@ namespace Tesserae.Tests.Samples
                             SampleTitle("Usage"),
                             Button("Open Modal").OnClick((s, e) => modal.Show()),
                             Button("Open Modal from top right").OnClick((s, e) => modal.ShowAt(fromRight: 16.px(), fromTop: 16.px())),
-                            Button("Open Modal with minimum size").OnClick((s, e) => Modal().CenterContent().LightDismiss().Dark().Content(TextBlock("small content").Tiny()).MinHeight(50.vh()).MinWidth(50.vw()).Show())));
+                            Button("Open Modal with minimum size").OnClick((s, e) => Modal().CenterContent().LightDismiss().Dark().Content(TextBlock("small content").Tiny()).MinHeight(50.vh()).MinWidth(50.vw()).Show()),
+                            
+                            SampleTitle("Embedded Modal"),
+                            Button("Open Modal Bellow").OnClick((s, e) => container.Content(Modal("Embedded Modal").CenterContent().LightDismiss().Dark().Content(TextBlock("hosted small content").Tiny()).MinHeight(30.vh()).MinWidth(50.vw()).ShowEmbedded())),
+                            container
+                            ));
         }
 
         public HTMLElement Render()

@@ -11,8 +11,6 @@ using static Retyped.dom;
 
 namespace Tesserae
 {
- 
-
     public static class Router
     {
         public class State
@@ -163,7 +161,7 @@ namespace Tesserae
 
         public static void Push(string path)
         {
-            if (path == window.location.href) return; //Nothing to do
+            if (AlreadyThere(path)) return; //Nothing to do
 
             if (_currentState is null)
             {
@@ -182,7 +180,7 @@ namespace Tesserae
 
         public static void Replace(string path)
         {
-            if (path == window.location.href) return; //Nothing to do
+            if (AlreadyThere(path)) return; //Nothing to do
 
             if (_currentState is null)
             {
@@ -209,8 +207,8 @@ namespace Tesserae
             {
                 if (_currentState is object && path == _currentState.FullPath) return; //Nothing to do
             }
-            
-            if(window.location.href != path)
+
+            if (!AlreadyThere(path))
             {
                 window.location.href = path;
             }
@@ -218,6 +216,11 @@ namespace Tesserae
             {
                 onLocationChanged(null);
             }
+        }
+
+        private static bool AlreadyThere(string path)
+        {
+            return window.location.href == path || window.location.hash == path;
         }
 
         private static string LowerCasePath(string path)
@@ -344,7 +347,7 @@ namespace Tesserae
                     {
                         Parameters = new Parameters(par),
                         Path = hash,
-                        FullPath = window.location.hash,
+                        FullPath = window.location.href,
                         RouteName = r.Name
                     };
 
@@ -358,7 +361,10 @@ namespace Tesserae
                     }
                     else
                     {
-                        window.location.hash = _currentState?.FullPath ?? "";
+                        if(_currentState is object && !string.IsNullOrEmpty(_currentState.FullPath))
+                        {
+                            window.location.href = _currentState.FullPath;
+                        }
                         return;
                     }
                 }

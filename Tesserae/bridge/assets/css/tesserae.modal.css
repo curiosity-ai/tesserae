@@ -200,3 +200,9 @@
     visibility: hidden;
     backdrop-filter: none;
 }
+
+.tss-modal.embedded {
+    box-shadow: var(--tss-card-shadow);
+    max-width: calc(100% - 4px);
+    max-height: calc(100% - 4px);
+}
