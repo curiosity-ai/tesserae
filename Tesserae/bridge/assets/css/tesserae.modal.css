@@ -54,6 +54,7 @@
     flex-shrink: 0;
     padding: 12px;
     display: inline-flex;
+    align-items: center;
     background: var(--tss-default-background-color);
 }
 
@@ -66,6 +67,7 @@
     border-top: 4px solid rgb(0, 120, 212);
     flex-shrink: 0;
     display: inline-flex;
+    align-items: center;
     background: var(--tss-default-background-color);
 }
 
@@ -205,4 +207,5 @@
     box-shadow: var(--tss-card-shadow);
     max-width: calc(100% - 4px);
     max-height: calc(100% - 4px);
+    margin-bottom:4px;
 }

@@ -403,5 +403,11 @@ namespace Tesserae
         {
             return _parameters.TryGetValue(key, out value);
         }
+
+        public Parameters With(string key, string value)
+        {
+            _parameters[key] = value;
+            return this;
+        }
     }
 }
