@@ -68,9 +68,9 @@ namespace Tesserae
 
         //Note: the Defer method with optional loadMessage caused a bridge compiler issue when resolving the method, so we provide here both with and without the loadMessage method
 
-        public static Defer Defer(Func<Task<IComponent>> asyncGenerator) => new Components.Defer(asyncGenerator);
+        public static Defer Defer(Func<Task<IComponent>> asyncGenerator) => Components.Defer.Create(asyncGenerator);
 
-        public static Defer DeferSync(Func<IComponent> syncGenerator) => new Components.Defer(() => syncGenerator().AsTask());
+        public static Defer DeferSync(Func<IComponent> syncGenerator) => Components.Defer.Create(() => syncGenerator().AsTask());
 
         public static Defer Defer<T1>(IObservable<T1> o1, Func<T1, Task<IComponent>> asyncGenerator) => Components.Defer.Observe(o1, asyncGenerator);
 
@@ -92,9 +92,9 @@ namespace Tesserae
 
         public static Defer Defer<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, IObservable<T6> o6, IObservable<T7> o7, IObservable<T8> o8, IObservable<T9> o9, IObservable<T10> o10, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, Task<IComponent>> asyncGenerator) => Components.Defer.Observe(o1, o2, o3, o4, o5, o6, o7, o8, o9, o10, asyncGenerator);
 
-        public static Defer Defer(Func<Task<IComponent>> asyncGenerator, IComponent loadMessage) => new Components.Defer(asyncGenerator, loadMessage);
+        public static Defer Defer(Func<Task<IComponent>> asyncGenerator, IComponent loadMessage) => Components.Defer.Create(asyncGenerator, loadMessage);
 
-        public static Defer DeferSync(Func<IComponent> syncGenerator, IComponent loadMessage) => new Components.Defer(() => syncGenerator().AsTask(), loadMessage);
+        public static Defer DeferSync(Func<IComponent> syncGenerator, IComponent loadMessage) => Components.Defer.Create(() => syncGenerator().AsTask(), loadMessage);
 
         public static Defer Defer<T1>(IObservable<T1> o1, Func<T1, Task<IComponent>> asyncGenerator, IComponent loadMessage) => Components.Defer.Observe(o1, asyncGenerator, loadMessage);
 
