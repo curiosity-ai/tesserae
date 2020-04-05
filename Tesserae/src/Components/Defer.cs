@@ -18,7 +18,12 @@ namespace Tesserae.Components
         internal HTMLElement _container;
         private int _delay = 1;
 
-        public Defer(Func<Task<IComponent>> asyncGenerator, IComponent loadMessage)
+        private Defer()
+        {
+            throw new NotSupportedException("Cannot construct Defer directly, call using the static methods on Tesserae.UI");
+        }
+
+        internal Defer(Func<Task<IComponent>> asyncGenerator, IComponent loadMessage)
         {
             _loadMessage = loadMessage ?? TextBlock("loading...").XSmall();
             _asyncGenerator = asyncGenerator;
@@ -26,7 +31,7 @@ namespace Tesserae.Components
             _container = DIV(_loadMessage.Render());
             _container.id = "tss-defered";
         }
-        public Defer(Func<Task<IComponent>> asyncGenerator)
+        internal Defer(Func<Task<IComponent>> asyncGenerator)
         {
             _loadMessage = TextBlock("loading...").XSmall();
             _asyncGenerator = asyncGenerator;
