@@ -276,6 +276,11 @@ namespace Tesserae.Components
             InnerElement.classList.add("tss-btn-noborder");
             return this;
         }
+        public Button NoMinSize()
+        {
+            InnerElement.classList.add("tss-btn-nominsize");
+            return this;
+        }
 
         public Button NoBackground()
         {

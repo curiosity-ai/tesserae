@@ -219,3 +219,9 @@ a {
     .tss-btn-link:hover > i {
         text-decoration: none !important;
     }
+
+
+.tss-btn-nominsize {
+    min-height: unset;
+    min-width: unset;
+}
