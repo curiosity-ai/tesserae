@@ -6,6 +6,24 @@ namespace Tesserae.Components
 {
     public static class TextSizeExtensions
     {
+        public static T SetTextSize<T>(this T hasTextSize, TextSize textSize) where T : IHasTextSize
+        {
+            hasTextSize.Size = textSize;
+            return hasTextSize;
+        }
+
+        public static T SetTextWeight<T>(this T hasTextSize, TextWeight textWeight) where T : IHasTextSize
+        {
+            hasTextSize.Weight = textWeight;
+            return hasTextSize;
+        }
+
+        public static T SetTextAlign<T>(this T hasTextSize, TextAlign textAlign) where T : IHasTextSize
+        {
+            hasTextSize.TextAlign = textAlign;
+            return hasTextSize;
+        }
+
         public static T Tiny<T>(this T hasTextSize) where T : IHasTextSize
         {
             hasTextSize.Size = TextSize.Tiny;
