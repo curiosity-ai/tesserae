@@ -144,7 +144,7 @@ namespace Tesserae
 
         public static Validator Validator() => new Validator();
 
-        public static Icon Icon(string icon, string color = null) => new Icon(FixIconStringIfAppearsNecessary(icon)).Foreground(color ?? "");
+        public static Icon Icon(string icon, string color = null) => new Icon(icon).Foreground(color ?? "");
 
         public static Icon Icon(LineAwesome icon, LineAwesomeWeight weight = LineAwesomeWeight.Light, TextSize size = TextSize.Medium, string color = null) => new Icon($"{weight} {icon} tss-fontsize-{size.ToString().ToLower()}").Foreground(color ?? "");
 
@@ -180,7 +180,7 @@ namespace Tesserae
 
         public static Nav Nav() => new Nav();
 
-        public static Nav.NavLink NavLink(string text = null, string icon = null) => new Nav.NavLink(text, FixIconStringIfAppearsNecessary(icon));
+        public static Nav.NavLink NavLink(string text = null, string icon = null) => new Nav.NavLink(text, icon);
 
         public static Nav.NavLink NavLink(IComponent content) => new Nav.NavLink(content);
 
@@ -200,7 +200,7 @@ namespace Tesserae
 
         public static Sidebar Sidebar() => new Sidebar();
 
-        public static Sidebar.Item SidebarItem(string text, string icon) => new Sidebar.Item(text, FixIconStringIfAppearsNecessary(icon));
+        public static Sidebar.Item SidebarItem(string text, string icon) => new Sidebar.Item(text, icon);
 
         public static Sidebar.Item SidebarItem(string text, IComponent icon) => new Sidebar.Item(text, icon);
 
@@ -230,7 +230,7 @@ namespace Tesserae
 
         public static Link Link(string url, string text) => new Link(url, TextBlock(text));
 
-        public static Link Link(string url, string text, string icon) => new Link(url, Button(text).SetIcon(FixIconStringIfAppearsNecessary(icon)).NoBorder().NoBackground().Padding(0.px()));
+        public static Link Link(string url, string text, string icon) => new Link(url, Button(text).SetIcon(icon).NoBorder().NoBackground().Padding(0.px()));
 
         public static SplitView SplitView() => new SplitView();
 
@@ -253,22 +253,5 @@ namespace Tesserae
         public static Picker<TPickerItem> Picker<TPickerItem>(int maximumAllowedSelections = int.MaxValue, bool duplicateSelectionsAllowed = false, int suggestionsTolerance = 0, bool renderSelectionsInline = true, string suggestionsTitleText = null) where TPickerItem : class, IPickerItem => new Picker<TPickerItem>(maximumAllowedSelections, duplicateSelectionsAllowed, suggestionsTolerance, renderSelectionsInline, suggestionsTitleText);
 
         public static VisibilitySensor VisibilitySensor(Action<VisibilitySensor> onVisible, bool singleCall = true, IComponent message = null) => new VisibilitySensor(onVisible, singleCall, message);
-
-        /// <summary>
-        /// 2020-04-06 DWR: It has been expected that we would pass an icon string as something like 'fas fa-city' but we're not having third parties potentially configure their own side bar items with icons and they don't have to do this elsewhere - in other places
-        /// they would only pass 'city' (to the HomeView.RenderQuickAction method in Mosaik.UI, for example) and so it would be nice if they could do the same with methods here. However, there is code already that passes the full class name list and we don't want to
-        /// break that (AND, in some cases, it will be using Line Awesome instead of Font Awesome and we have to support both). So, if it looks like a fully-specified class name (where there are at least two classes, separated by white space of form, and it looks like
-        /// there is at least one class that begins with 'fa-' or 'la-') then presume that we don't need to do anything but if it is a single work and it does not include 'fa-' or 'la-' then presume that it is JUST an icon name and that it should be transformed into
-        /// a full Font Awesome string.
-        /// </summary>
-        private static string FixIconStringIfAppearsNecessary(string icon)
-        {
-            if (string.IsNullOrWhiteSpace(icon))
-                return icon;
-
-            return (icon.Any(char.IsWhiteSpace) && (icon.Contains("fa-") || icon.Contains("la-")))
-                ? icon
-                : "fas fa-" + icon;
-        }
     }
 }
