@@ -254,8 +254,6 @@ namespace Tesserae
 
         public static VisibilitySensor VisibilitySensor(Action<VisibilitySensor> onVisible, bool singleCall = true, IComponent message = null) => new VisibilitySensor(onVisible, singleCall, message);
 
-        private static readonly char[] _whitespaceChars = Enumerable.Range(char.MinValue, char.MaxValue).Select(i => (char)i).Where(char.IsWhiteSpace).ToArray();
-
         /// <summary>
         /// 2020-04-06 DWR: It has been expected that we would pass an icon string as something like 'fas fa-city' but we're not having third parties potentially configure their own side bar items with icons and they don't have to do this elsewhere - in other places
         /// they would only pass 'city' (to the HomeView.RenderQuickAction method in Mosaik.UI, for example) and so it would be nice if they could do the same with methods here. However, there is code already that passes the full class name list and we don't want to
@@ -268,8 +266,7 @@ namespace Tesserae
             if (string.IsNullOrWhiteSpace(icon))
                 return icon;
 
-            var segments = icon.Split(_whitespaceChars, StringSplitOptions.RemoveEmptyEntries);
-            return (segments.Length > 1) && segments.Any(segment => segment.StartsWith("fa-") || segment.StartsWith("la-"))
+            return (icon.Any(char.IsWhiteSpace) && (icon.Contains("fa-") || icon.Contains("la-")))
                 ? icon
                 : "fas fa-" + icon;
         }
