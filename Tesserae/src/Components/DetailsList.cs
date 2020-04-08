@@ -51,8 +51,8 @@ namespace Tesserae.Components
 
         public bool IsCompact
         {
-            get => _listContainer.classList.contains("small");
-            set => _listContainer.UpdateClassIf(value, "small");
+            get => _listContainer.classList.contains("tss-small");
+            set => _listContainer.UpdateClassIf(value, "tss-small");
         }
 
         public DetailsList<TDetailsListItem> Compact()
@@ -236,7 +236,7 @@ namespace Tesserae.Components
 
         private void SortList(string columnSortingKey, Interface columnHtmlElement)
         {
-           _listItemsContainer.classList.add("fade");
+           _listItemsContainer.classList.add("tss-fade");
 
             window.setTimeout(_ =>
             {
@@ -260,7 +260,7 @@ namespace Tesserae.Components
 
                 RefreshListItems();
 
-                _listItemsContainer.classList.remove("fade");
+                _listItemsContainer.classList.remove("tss-fade");
                 _previousColumnSortingKey = columnSortingKey;
             }, 0100);
 

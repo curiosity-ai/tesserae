@@ -14,7 +14,7 @@
     display:inline-flex;
 }
 
-    .tss-navbar.hidden{
+    .tss-navbar.tss-hidden {
         display:none;
         height:0px;
     }
@@ -27,7 +27,7 @@
     overflow: auto;
 }
 
-    .tss-navbar.hidden + .tss-navbar-content {
+    .tss-navbar.tss-hidden + .tss-navbar-content {
         height: 100%;
     }
 

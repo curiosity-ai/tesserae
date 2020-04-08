@@ -107,16 +107,16 @@ namespace Tesserae.Components
 
         public bool IsDark
         {
-            get => _contentHtml.classList.contains("dark");
+            get => _contentHtml.classList.contains("tss-dark");
             set
             {
                 if (value)
                 {
-                    _contentHtml.classList.add("dark");
+                    _contentHtml.classList.add("tss-dark");
                 }
                 else
                 {
-                    _contentHtml.classList.remove("dark");
+                    _contentHtml.classList.remove("tss-dark");
                 }
             }
         }

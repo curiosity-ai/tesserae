@@ -78,48 +78,48 @@ namespace Tesserae.Components
 
         public bool HasBorder
         {
-            get => !_container.classList.contains("noborder");
+            get => !_container.classList.contains("tss-noborder");
             set
             {
                 if (value)
                 {
-                    _container.classList.remove("noborder");
+                    _container.classList.remove("tss-noborder");
                 }
                 else
                 {
-                    _container.classList.add("noborder");
+                    _container.classList.add("tss-noborder");
                 }
             }
         }
 
         public bool IsInvalid
         {
-            get => _container.classList.contains("invalid");
+            get => _container.classList.contains("tss-invalid");
             set
             {
                 if (value)
                 {
-                    _container.classList.add("invalid");
+                    _container.classList.add("tss-invalid");
                 }
                 else
                 {
-                    _container.classList.remove("invalid");
+                    _container.classList.remove("tss-invalid");
                 }
             }
         }
 
         public bool IsEnabled
         {
-            get => !_container.classList.contains("disabled");
+            get => !_container.classList.contains("tss-disabled");
             set
             {
                 if (value)
                 {
-                    _container.classList.remove("disabled");
+                    _container.classList.remove("tss-disabled");
                 }
                 else
                 {
-                    _container.classList.add("disabled");
+                    _container.classList.add("tss-disabled");
                 }
             }
         }
@@ -202,7 +202,7 @@ namespace Tesserae.Components
 
             _isChanged = false;
 
-            if (!_contentHtml.classList.contains("no-focus")) _contentHtml.classList.add("no-focus");
+            if (!_contentHtml.classList.contains("tss-no-focus")) _contentHtml.classList.add("tss-no-focus");
 
             ClientRect rect = (ClientRect)_container.getBoundingClientRect();
             var contentRect = (ClientRect)_contentHtml.getBoundingClientRect();
@@ -380,7 +380,7 @@ namespace Tesserae.Components
                 Item sel = SelectedItems[i];
                 var clone = (HTMLElement)(sel.RenderSelected());
                 clone.classList.remove("tss-dropdown-item");
-                clone.classList.remove("selected");
+                clone.classList.remove("tss-selected");
                 clone.classList.add("tss-dropdown-item-on-box");
                 InnerElement.appendChild(clone);
             }
@@ -391,7 +391,7 @@ namespace Tesserae.Components
             var ev = e as KeyboardEvent;
             if (ev.key == "ArrowUp")
             {
-                if (_contentHtml.classList.contains("no-focus")) _contentHtml.classList.remove("no-focus");
+                if (_contentHtml.classList.contains("tss-no-focus")) _contentHtml.classList.remove("tss-no-focus");
                 if (document.activeElement != null && _childContainer.contains(document.activeElement))
                 {
                     var el = (_childContainer.children.TakeWhile(x => !x.Equals(document.activeElement)).LastOrDefault(x => (x as HTMLElement).tabIndex != -1) as HTMLElement);
@@ -405,7 +405,7 @@ namespace Tesserae.Components
             }
             else if (ev.key == "ArrowDown")
             {
-                if (_contentHtml.classList.contains("no-focus")) _contentHtml.classList.remove("no-focus");
+                if (_contentHtml.classList.contains("tss-no-focus")) _contentHtml.classList.remove("tss-no-focus");
                 if (document.activeElement != null && _childContainer.contains(document.activeElement))
                 {
                     var el = (_childContainer.children.SkipWhile(x => !x.Equals(document.activeElement)).Skip(1).FirstOrDefault(x => (x as HTMLElement).tabIndex != -1) as HTMLElement);
@@ -492,17 +492,17 @@ namespace Tesserae.Components
 
             public bool IsEnabled
             {
-                get => !InnerElement.classList.contains("disabled");
+                get => !InnerElement.classList.contains("tss-disabled");
                 set
                 {
                     if (value)
                     {
-                        InnerElement.classList.remove("disabled");
+                        InnerElement.classList.remove("tss-disabled");
                         if (Type == ItemType.Item) InnerElement.tabIndex = 0;
                     }
                     else
                     {
-                        InnerElement.classList.add("disabled");
+                        InnerElement.classList.add("tss-disabled");
                         InnerElement.tabIndex = -1;
                     }
                 }
@@ -510,7 +510,7 @@ namespace Tesserae.Components
 
             public bool IsSelected
             {
-                get => InnerElement.classList.contains("selected");
+                get => InnerElement.classList.contains("tss-selected");
                 set
                 {
                     var changed = value != IsSelected;
@@ -525,11 +525,11 @@ namespace Tesserae.Components
 
                     if (value)
                     {
-                        InnerElement.classList.add("selected");
+                        InnerElement.classList.add("tss-selected");
                     }
                     else
                     {
-                        InnerElement.classList.remove("selected");
+                        InnerElement.classList.remove("tss-selected");
                     }
 
                     if (changed)

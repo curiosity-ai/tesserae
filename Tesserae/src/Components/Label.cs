@@ -79,16 +79,16 @@ namespace Tesserae.Components
 
         public bool IsInline
         {
-            get => InnerElement.classList.contains("inline");
+            get => InnerElement.classList.contains("tss-inline");
             set
             {
                 if (value)
                 {
-                    InnerElement.classList.add("inline");
+                    InnerElement.classList.add("tss-inline");
                 }
                 else
                 {
-                    InnerElement.classList.add("remove");
+                    InnerElement.classList.remove("tss-inline");
                 }
             }
         }
@@ -191,7 +191,7 @@ namespace Tesserae.Components
                     var el = stack.Pop();
                     foreach(HTMLElement e in el.children)
                     {
-                        if(e.classList.contains("tss-label-autowidth") && e.parentElement.classList.contains("inline"))
+                        if(e.classList.contains("tss-label-autowidth") && e.parentElement.classList.contains("tss-inline"))
                         {
                             found.Add(e);
                         }

@@ -57,7 +57,7 @@
     border-width: 0px !important;
 }
 
-    .tss-overflowset  .tss-btn.disabled {
+    .tss-overflowset  .tss-btn.tss-disabled {
         background: transparent !important;
         border-color: transparent !important;
         border-width: 0px !important;
@@ -70,17 +70,17 @@
     padding-left:8px;
 }
 
-.tss-overflowset.small {
+.tss-overflowset.tss-small {
     font-size: 10px;
 }
 
-    .tss-overflowset.small > .tss-overflowset-chevron {
+    .tss-overflowset.tss-small > .tss-overflowset-chevron {
         font-size: 10px;
         padding-right: 2px;
         padding-left: 2px;
     }
 
-    .tss-overflowset.small .tss-btn {
+    .tss-overflowset.tss-small .tss-btn {
         font-size: 10px;
         min-width: unset;
         padding-left: 4px;

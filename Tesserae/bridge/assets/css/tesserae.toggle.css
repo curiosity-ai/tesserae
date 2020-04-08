@@ -71,16 +71,16 @@
         background-color: var(--tss-default-foreground-color);
     }
 
-    .tss-toggle-container.disabled {
+    .tss-toggle-container.tss-disabled {
         color: var(--tss-disabled-foreground-color);
     }
 
-        .tss-toggle-container.disabled .tss-toggle-mark {
+        .tss-toggle-container.tss-disabled .tss-toggle-mark {
             background-color: var(--tss-disabled-background-color);
             border-color: var(--tss-disabled-foreground-color);
         }
 
-        .tss-toggle-container.disabled input:checked ~ .tss-toggle-mark {
+        .tss-toggle-container.tss-disabled input:checked ~ .tss-toggle-mark {
             background-color: var(--tss-disabled-foreground-color);
             border-color: var(--tss-disabled-foreground-color);
         }

@@ -20,16 +20,16 @@ namespace Tesserae.Components
 
         public bool IsEnabled
         {
-            get => !InnerElement.classList.contains("disabled");
+            get => !InnerElement.classList.contains("tss-disabled");
             set
             {
                 if (value)
                 {
-                    InnerElement.classList.remove("disabled");
+                    InnerElement.classList.remove("tss-disabled");
                 }
                 else
                 {
-                    InnerElement.classList.add("disabled");
+                    InnerElement.classList.add("tss-disabled");
                 }
             }
         }

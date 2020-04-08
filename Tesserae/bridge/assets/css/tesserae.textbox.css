@@ -32,7 +32,7 @@
         opacity: 0.7;
     }
 
-.tss-textBox.disabled {
+.tss-textBox.tss-disabled {
     border-color: var(--tss-disabled-background-color);
     background-color: var(--tss-disabled-background-color);
     color: var(--tss-disabled-foreground-color);
@@ -52,7 +52,7 @@
     margin-right: 16px;
 }
 
-    .tss-textbox-container.invalid .tss-textbox {
+    .tss-textbox-container.tss-invalid .tss-textbox {
         border-color: var(--tss-invalid-border-color);
     }
 
@@ -64,6 +64,6 @@
     font-size: var(--tss-font-size-tiny);
 }
 
-.tss-textbox-container.invalid .tss-textbox-error {
+.tss-textbox-container.tss-invalid .tss-textbox-error {
     display: block;
 }

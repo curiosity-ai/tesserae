@@ -67,6 +67,6 @@
 }
 
 
-.tss-detailslist.small > .tss-detailslist-list-item {
+.tss-detailslist.tss-small > .tss-detailslist-list-item {
     padding: 4px 32px 4px 12px;
 }

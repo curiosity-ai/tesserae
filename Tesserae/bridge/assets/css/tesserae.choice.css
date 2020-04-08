@@ -74,14 +74,14 @@
         border-radius: 50%;
     }
 
-    .tss-option-container.disabled {
+    .tss-option-container.tss-disabled {
         color: var(--tss-disabled-foreground-color);
     }
 
-        .tss-option-container.disabled .tss-option-mark {
+        .tss-option-container.tss-disabled .tss-option-mark {
             border-color: var(--tss-disabled-foreground-color);
         }
 
-        .tss-option-container.disabled input:checked ~ .tss-option-mark {
+        .tss-option-container.tss-disabled input:checked ~ .tss-option-mark {
             border-color: var(--tss-disabled-foreground-color);
         }

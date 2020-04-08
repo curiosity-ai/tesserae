@@ -39,12 +39,12 @@
     cursor: pointer;
 }
 
-.tss-dropdown-container.noborder {
+.tss-dropdown-container.tss-noborder {
     border: 1px solid transparent;
 }
 
 
-    .tss-dropdown-container.disabled {
+    .tss-dropdown-container.tss-disabled {
         border-color: var(--tss-disabled-background-color);
         background-color: var(--tss-disabled-background-color);
         color: var(--tss-disabled-foreground-color);
@@ -54,7 +54,7 @@
     }
 
 
-    .tss-dropdown-container.invalid .tss-dropdown {
+    .tss-dropdown-container.tss-invalid .tss-dropdown {
         border-color: var(--tss-invalid-border-color);
     }
 
@@ -72,7 +72,7 @@
         font-size: var(--tss-font-size-tiny);
     }
 
-.tss-dropdown-container.invalid .tss-dropdown-error {
+.tss-dropdown-container.tss-invalid .tss-dropdown-error {
     display: block;
 }
 
@@ -114,11 +114,11 @@
         outline: transparent none medium;
     }
 
-    .tss-dropdown-item.selected {
+    .tss-dropdown-item.tss-selected {
         background-color: var(--tss-default-background-hover-color);
     }
 
-.tss-dropdown-popup.no-focus .tss-dropdown-item:focus {
+.tss-dropdown-popup.tss-no-focus .tss-dropdown-item:focus {
     border: 1px solid transparent;
     outline: transparent none medium;
 }
@@ -182,11 +182,11 @@
         border: 1px solid var(--tss-default-foreground-color);
     }
 
-    .tss-dropdown-multi .tss-dropdown-item.selected:hover:before {
+    .tss-dropdown-multi .tss-dropdown-item.tss-selected:hover:before {
         background-color: var(--tss-primary-background-hover-color);
     }
 
-    .tss-dropdown-multi .tss-dropdown-item.selected:before {
+    .tss-dropdown-multi .tss-dropdown-item.tss-selected:before {
         background-color: var(--tss-primary-background-color);
         border-color: var(--tss-primary-background-color);
     }
@@ -208,21 +208,21 @@
         display: block;
     }
 
-    .tss-dropdown-multi .tss-dropdown-item.selected:after {
+    .tss-dropdown-multi .tss-dropdown-item.tss-selected:after {
         display: block;
         border-color: var(--tss-primary-foreground-color);
     }
 
-.tss-dropdown-item.disabled {
+.tss-dropdown-item.tss-disabled {
     color: var(--tss-disabled-foreground-color);
 }
 
-.tss-dropdown-multi .tss-dropdown-item.disabled:before {
+.tss-dropdown-multi .tss-dropdown-item.tss-disabled:before {
     background-color: var(--tss-disabled-background-color);
     border-color: var(--tss-disabled-foreground-color);
 }
 
-.tss-dropdown-multi .tss-dropdown-item.disabled.selected:before {
+.tss-dropdown-multi .tss-dropdown-item.tss-disabled.tss-selected:before {
     background-color: var(--tss-disabled-foreground-color);
     border-color: var(--tss-disabled-foreground-color);
 }

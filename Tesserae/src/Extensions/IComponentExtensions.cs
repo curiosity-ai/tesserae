@@ -221,14 +221,14 @@
 
         public static T Fade<T>(this T component) where T : IComponent
         {
-            component.Render().classList.add("fade");
-            component.Render().classList.remove("show");
+            component.Render().classList.add("tss-fade");
+            component.Render().classList.remove("tss-show");
             return component;
         }
 
         public static T Show<T>(this T component) where T : IComponent
         {
-            component.Render().classList.add("fade", "show");
+            component.Render().classList.add("tss-fade", "tss-show");
             return component;
         }
     }

@@ -37,7 +37,7 @@
     pointer-events:all;
 }
 
-    .tss-filedroparea.dropping {
+    .tss-filedroparea.tss-dropping {
         background: var(--tss-default-background-hover-color);
     }
 
@@ -89,7 +89,7 @@
     }
 }
 
-.tss-filedroparea.dropping .tss-filedroparea-icon {
+.tss-filedroparea.tss-dropping .tss-filedroparea-icon {
     animation-name: bounceIcon;
     -webkit-animation-name: bounceIcon;
     animation-duration: 0.5s;

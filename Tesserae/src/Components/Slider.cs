@@ -39,7 +39,7 @@ namespace Tesserae.Components
                     _fakeDiv.style.width = $"{percent.ToString("0.##")}%";
                 };
                 _outerLabel = Label(_("tss-slider-container"), InnerElement, Div(_("tss-slider-fake-background")), _fakeDiv);
-                InnerElement.classList.add("fake");
+                InnerElement.classList.add("tss-fake");
             }
             else
             {
@@ -51,16 +51,16 @@ namespace Tesserae.Components
 
         public SliderOrientation Orientation
         {
-            get => _outerLabel.classList.contains("vertical") ? SliderOrientation.Vertical : SliderOrientation.Horizontal;
+            get => _outerLabel.classList.contains("tss-vertical") ? SliderOrientation.Vertical : SliderOrientation.Horizontal;
             set
             {
                 if (value == SliderOrientation.Vertical)
                 {
-                    _outerLabel.classList.add("vertical");
+                    _outerLabel.classList.add("tss-vertical");
                 }
                 else
                 {
-                    _outerLabel.classList.remove("vertical");
+                    _outerLabel.classList.remove("tss-vertical");
                 }
             }
         }
@@ -90,16 +90,16 @@ namespace Tesserae.Components
 
         public bool IsEnabled
         {
-            get => !InnerElement.classList.contains("disabled");
+            get => !InnerElement.classList.contains("tss-disabled");
             set
             {
                 if (value)
                 {
-                    InnerElement.classList.remove("disabled");
+                    InnerElement.classList.remove("tss-disabled");
                 }
                 else
                 {
-                    InnerElement.classList.add("disabled");
+                    InnerElement.classList.add("tss-disabled");
                 }
             }
         }

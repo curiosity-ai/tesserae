@@ -1,14 +1,14 @@
-﻿.fade {
+﻿.tss-fade {
     transition: opacity 0.15s linear;
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .fade {
+    .tss-fade {
         transition: none;
     }
 }
 
-.fade:not(.show) {
+.tss-fade:not(.tss-show) {
     opacity: 0;
     pointer-events:none;
     cursor:none;

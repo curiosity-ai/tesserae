@@ -72,7 +72,7 @@ namespace Tesserae.Components
 
             base.Show();
 
-            if (!_popup.classList.contains("no-focus")) _popup.classList.add("no-focus");
+            if (!_popup.classList.contains("tss-no-focus")) _popup.classList.add("tss-no-focus");
 
             var contentRect = (ClientRect)_popup.getBoundingClientRect();
             _popup.style.left = x + "px";
@@ -127,7 +127,7 @@ namespace Tesserae.Components
 
             base.Show();
 
-            if (!_popup.classList.contains("no-focus")) _popup.classList.add("no-focus");
+            if (!_popup.classList.contains("tss-no-focus")) _popup.classList.add("tss-no-focus");
 
             ClientRect rect = (ClientRect)element.getBoundingClientRect();
             var contentRect = (ClientRect)_popup.getBoundingClientRect();
@@ -207,7 +207,7 @@ namespace Tesserae.Components
             var ev = e as KeyboardEvent;
             if (ev.key == "ArrowUp")
             {
-                if (_contentHtml.classList.contains("no-focus")) _contentHtml.classList.remove("no-focus");
+                if (_contentHtml.classList.contains("tss-no-focus")) _contentHtml.classList.remove("tss-no-focus");
                 if (document.activeElement != null && _childContainer.contains(document.activeElement))
                 {
                     var el = (_childContainer.children.TakeWhile(x => !x.Equals(document.activeElement)).LastOrDefault(x => (x as HTMLElement).tabIndex != -1) as HTMLElement);
@@ -221,7 +221,7 @@ namespace Tesserae.Components
             }
             else if (ev.key == "ArrowDown")
             {
-                if (_contentHtml.classList.contains("no-focus")) _contentHtml.classList.remove("no-focus");
+                if (_contentHtml.classList.contains("tss-no-focus")) _contentHtml.classList.remove("tss-no-focus");
                 if (document.activeElement != null && _childContainer.contains(document.activeElement))
                 {
                     var el = (_childContainer.children.SkipWhile(x => !x.Equals(document.activeElement)).Skip(1).FirstOrDefault(x => (x as HTMLElement).tabIndex != -1) as HTMLElement);
@@ -280,17 +280,17 @@ namespace Tesserae.Components
 
             public bool IsEnabled
             {
-                get => !InnerElement.classList.contains("disabled");
+                get => !InnerElement.classList.contains("tss-disabled");
                 set
                 {
                     if (value)
                     {
-                        InnerElement.classList.remove("disabled");
+                        InnerElement.classList.remove("tss-disabled");
                         if (Type == ItemType.Item) InnerElement.tabIndex = 0;
                     }
                     else
                     {
-                        InnerElement.classList.add("disabled");
+                        InnerElement.classList.add("tss-disabled");
                         InnerElement.tabIndex = -1;
                     }
                 }

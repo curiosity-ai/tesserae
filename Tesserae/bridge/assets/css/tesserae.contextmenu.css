@@ -19,7 +19,7 @@
     user-select: none;
 }
 
-    .tss-contextmenu.disabled {
+    .tss-contextmenu.tss-disabled {
         border-color: var(--tss-disabled-background-color);
         background-color: var(--tss-disabled-background-color);
         color: var(--tss-disabled-foreground-color);
@@ -44,7 +44,7 @@
     margin-right: 16px;
 }
 
-    .tss-contextmenu-container.invalid .tss-contextmenu {
+    .tss-contextmenu-container.tss-invalid .tss-contextmenu {
         border-color: var(--tss-invalid-border-color);
     }
 
@@ -62,7 +62,7 @@
         font-size: var(--tss-font-size-tiny);
     }
 
-.tss-contextmenu-container.invalid .tss-contextmenu-error {
+.tss-contextmenu-container.tss-invalid .tss-contextmenu-error {
     display: block;
 }
 
@@ -104,11 +104,11 @@
         outline: transparent none medium;
     }
 
-    .tss-contextmenu-item.selected {
+    .tss-contextmenu-item.tss-selected {
         background-color: var(--tss-default-background-hover-color);
     }
 
-.tss-contextmenu-popup.no-focus .tss-contextmenu-item:focus {
+.tss-contextmenu-popup.tss-no-focus .tss-contextmenu-item:focus {
     border: 1px solid transparent;
     outline: transparent none medium;
 }
@@ -155,7 +155,7 @@
     border: 0;
 }
 
-.tss-contextmenu-item.disabled {
+.tss-contextmenu-item.tss-disabled {
     color: var(--tss-disabled-foreground-color);
 }
 

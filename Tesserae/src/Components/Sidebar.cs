@@ -27,11 +27,11 @@ namespace Tesserae.Components
 
         public bool IsLight
         {
-            get => _sidebarContainer.classList.contains("light");
+            get => _sidebarContainer.classList.contains("tss-light");
             set
             {
-                if (value) _sidebarContainer.classList.add("light");
-                else _sidebarContainer.classList.remove("light");
+                if (value) _sidebarContainer.classList.add("tss-light");
+                else _sidebarContainer.classList.remove("tss-light");
             }
         }
 
@@ -40,11 +40,11 @@ namespace Tesserae.Components
             get
             {
 
-                if (_sidebarContainer.classList.contains("small"))
+                if (_sidebarContainer.classList.contains("tss-small"))
                 {
                     return Size.Small;
                 }
-                else if (_sidebarContainer.classList.contains("medium"))
+                else if (_sidebarContainer.classList.contains("tss-medium"))
                 {
                     return Size.Medium;
                 }
@@ -57,45 +57,45 @@ namespace Tesserae.Components
             {
                 if (value == Size.Small)
                 {
-                    _sidebarContainer.classList.add("small");
-                    _sidebarContainer.classList.remove("medium");
+                    _sidebarContainer.classList.add("tss-small");
+                    _sidebarContainer.classList.remove("tss-medium");
                 }
                 else if (value == Size.Medium)
                 {
-                    _sidebarContainer.classList.add("medium");
-                    _sidebarContainer.classList.remove("small");
+                    _sidebarContainer.classList.add("tss-medium");
+                    _sidebarContainer.classList.remove("tss-small");
                 }
                 else
                 {
-                    _sidebarContainer.classList.remove("small");
-                    _sidebarContainer.classList.remove("medium");
+                    _sidebarContainer.classList.remove("tss-small");
+                    _sidebarContainer.classList.remove("tss-medium");
                 }
             }
         }
 
         public bool IsVisible
         {
-            get => !_container.classList.contains("hidden");
+            get => !_container.classList.contains("tss-hidden");
             set
             {
-                if (value) _container.classList.remove("hidden");
-                else _container.classList.add("hidden");
+                if (value) _container.classList.remove("tss-hidden");
+                else _container.classList.add("tss-hidden");
             }
         }
 
         public bool IsAlwaysOpen
         {
-            get => _container.classList.contains("open");
+            get => _container.classList.contains("tss-open");
             set
             {
                 if (value)
                 {
-                    _container.classList.add("open");
+                    _container.classList.add("tss-open");
                     EnableResizeMonitor();
                 }
                 else
                 {
-                    _container.classList.remove("open");
+                    _container.classList.remove("tss-open");
                 }
                 RecomputeContainerMargin();
             }
@@ -237,14 +237,14 @@ namespace Tesserae.Components
 
             public bool IsEnabled
             {
-                get => !_container.classList.contains("disabled");
-                set { if(value) _container.classList.add("disabled"); else _container.classList.remove("disabled"); }
+                get => !_container.classList.contains("tss-disabled");
+                set { if(value) _container.classList.add("tss-disabled"); else _container.classList.remove("tss-disabled"); }
             }
 
             public bool IsLarge
             {
-                get => !_container.classList.contains("extrapadding");
-                set { if(value) _container.classList.add("extrapadding"); else _container.classList.remove("extrapadding"); }
+                get => !_container.classList.contains("tss-extrapadding");
+                set { if(value) _container.classList.add("tss-extrapadding"); else _container.classList.remove("tss-extrapadding"); }
             }
 
             public bool IsSelectable
@@ -255,12 +255,12 @@ namespace Tesserae.Components
                     _isSelectable = value;
                     if(!_isSelectable)
                     {
-                        _container.classList.remove("selected");
-                        _container.classList.add("nonselectable");
+                        _container.classList.remove("tss-selected");
+                        _container.classList.add("tss-nonselectable");
                     }
                     else
                     {
-                        _container.classList.remove("nonselectable");
+                        _container.classList.remove("tss-nonselectable");
                     }
                 }
             }
@@ -272,7 +272,7 @@ namespace Tesserae.Components
 
             public bool IsSelected
             {
-                get => IsSelectable ? _container.classList.contains("selected") : false;
+                get => IsSelectable ? _container.classList.contains("tss-selected") : false;
                 set
                 {
                     if (!IsSelectable) return;
@@ -281,7 +281,7 @@ namespace Tesserae.Components
 
                     if (value)
                     {
-                        _container.classList.add("selected");
+                        _container.classList.add("tss-selected");
                         if (changed)
                         {
                             parent?.SelectItem(this);
@@ -289,7 +289,7 @@ namespace Tesserae.Components
                     }
                     else
                     {
-                        _container.classList.remove("selected");
+                        _container.classList.remove("tss-selected");
                     }
                 }
             }

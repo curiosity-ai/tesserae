@@ -59,7 +59,7 @@
     border-width: 0px !important;
 }
 
-.tss-breadcrumb .tss-btn.disabled {
+.tss-breadcrumb .tss-btn.tss-disabled {
     background: transparent !important;
     border-color: transparent !important;
     border-width: 0px !important;
@@ -71,17 +71,17 @@
     cursor:pointer;
 }
 
-.tss-breadcrumb.small {
+.tss-breadcrumb.tss-small {
     font-size: 10px;
 }
 
-    .tss-breadcrumb.small > .tss-breadcrumb-chevron {
+    .tss-breadcrumb.tss-small > .tss-breadcrumb-chevron {
         font-size: 10px;
         padding-right: 2px;
         padding-left: 2px;
     }
 
-    .tss-breadcrumb.small .tss-btn {
+    .tss-breadcrumb.tss-small .tss-btn {
         font-size: 10px;
         min-width: unset;
         padding-left: 4px;

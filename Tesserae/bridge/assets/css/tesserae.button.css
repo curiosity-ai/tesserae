@@ -45,7 +45,7 @@ a {
     white-space: nowrap;
 }
 
-    .tss-btn.small {
+    .tss-btn.tss-small {
         min-height: 16px;
         margin:4px;
         padding:0px 8px;
@@ -56,7 +56,7 @@ a {
 
 }
 
-    .tss-btn.disabled {
+    .tss-btn.tss-disabled {
         color: var(--tss-disabled-foreground-color);
         background-color: var(--tss-disabled-background-color);
         border-color: var(--tss-disabled-background-color);
@@ -210,7 +210,7 @@ a {
         text-decoration: underline;
     }
 
-    .tss-btn-link.disabled {
+    .tss-btn-link.tss-disabled {
         color: var(--tss-disabled-foreground-color);
         background-color: unset;
         border-color: unset;

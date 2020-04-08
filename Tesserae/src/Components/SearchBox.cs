@@ -41,27 +41,27 @@ namespace Tesserae.Components
 
         public bool IsEnabled
         {
-            get => !_container.classList.contains("disabled");
+            get => !_container.classList.contains("tss-disabled");
             set
             {
                 if (value)
                 {
-                    _container.classList.remove("disabled");
+                    _container.classList.remove("tss-disabled");
                 }
                 else
                 {
-                    _container.classList.add("disabled");
+                    _container.classList.add("tss-disabled");
                 }
             }
         }
 
         public bool IsUnderlined
         {
-            get => _container.classList.contains("underlined");
+            get => _container.classList.contains("tss-underlined");
             set
             {
-                if (value) _container.classList.add("underlined");
-                else _container.classList.remove("underlined", "");
+                if (value) _container.classList.add("tss-underlined");
+                else _container.classList.remove("tss-underlined", "");
             }
         }
 
@@ -92,16 +92,16 @@ namespace Tesserae.Components
 
         public bool IsInvalid
         {
-            get => _container.classList.contains("invalid");
+            get => _container.classList.contains("tss-invalid");
             set
             {
                 if (value)
                 {
-                    _container.classList.add("invalid");
+                    _container.classList.add("tss-invalid");
                 }
                 else
                 {
-                    _container.classList.remove("invalid");
+                    _container.classList.remove("tss-invalid");
                 }
             }
         }
@@ -155,7 +155,7 @@ namespace Tesserae.Components
 
         public SearchBox NoIcon()
         {
-            _container.classList.add("noicon");
+            _container.classList.add("tss-noicon");
             return this;
         }
 

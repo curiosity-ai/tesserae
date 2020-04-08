@@ -61,16 +61,16 @@
         transform: rotate(45deg);
     }
 
-    .tss-checkbox-container.disabled {
+    .tss-checkbox-container.tss-disabled {
         color: var(--tss-disabled-foreground-color);
     }
 
-        .tss-checkbox-container.disabled .tss-checkbox-mark {
+        .tss-checkbox-container.tss-disabled .tss-checkbox-mark {
             background-color: var(--tss-disabled-background-color);
             border-color: var(--tss-disabled-foreground-color);
         }
 
-        .tss-checkbox-container.disabled input:checked ~ .tss-checkbox-mark {
+        .tss-checkbox-container.tss-disabled input:checked ~ .tss-checkbox-mark {
             background-color: var(--tss-disabled-foreground-color);
             border-color: var(--tss-disabled-foreground-color);
         }

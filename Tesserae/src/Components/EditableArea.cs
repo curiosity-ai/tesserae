@@ -115,7 +115,7 @@ namespace Tesserae.Components
 
         public bool IsEditingMode
         {
-            get => _container.classList.contains("editing");
+            get => _container.classList.contains("tss-editing");
             set
             {
                 if (value)
@@ -123,11 +123,11 @@ namespace Tesserae.Components
                     var labelRect = (DOMRect)_labelText.getBoundingClientRect();
                     InnerElement.style.minWidth = (labelRect.width * 1.2) + "px";
                     InnerElement.style.minHeight = (labelRect.height * 1.2) + "px";
-                    _container.classList.add("editing");
+                    _container.classList.add("tss-editing");
                 }
                 else
                 {
-                    _container.classList.remove("editing");
+                    _container.classList.remove("tss-editing");
                 }
             }
         }

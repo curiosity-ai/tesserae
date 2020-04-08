@@ -18,7 +18,7 @@ namespace Tesserae.Components
             public Handle(HTMLElement element)
             {
                 element.style.setProperty("overflow-y", "none", "important");
-                element.classList.add("invisible-scrollbar");
+                element.classList.add("tss-invisible-scrollbar");
                 _element = element;
                 scrollbar = Script.Write<object>("new SimpleBar({0})", element);
             }
@@ -54,7 +54,7 @@ namespace Tesserae.Components
 
         public static HTMLElement GetCorrectContainer(HTMLElement element)
         {
-            if(element.classList.contains("invisible-scrollbar"))
+            if(element.classList.contains("tss-invisible-scrollbar"))
             {
                 //try finding the new container created by the scrollbar class
                 var sbc = element.getElementsByClassName("simplebar-content");

@@ -15,7 +15,7 @@
     backdrop-filter: saturate(0);
 }
 
-    .tss-modal-container.dark {
+    .tss-modal-container.tss-dark {
         background-color: var(--tss-overlay-dark);
     }
 
@@ -71,7 +71,7 @@
     background: var(--tss-default-background-color);
 }
 
-.tss-modal-header.noborder {
+.tss-modal-header.tss-noborder {
     border-top: unset;
 }
 
@@ -203,7 +203,7 @@
     backdrop-filter: none;
 }
 
-.tss-modal.embedded {
+.tss-modal.tss-embedded {
     box-shadow: var(--tss-card-shadow);
     max-width: calc(100% - 4px);
     max-height: calc(100% - 4px);

@@ -132,18 +132,18 @@ namespace Tesserae.Components
 
             public bool IsEnabled
             {
-                get { return !_label.classList.contains("disabled"); }
+                get { return !_label.classList.contains("tss-disabled"); }
                 set
                 {
                     if (value != IsEnabled)
                     {
                         if (value)
                         {
-                            _label.classList.remove("disabled");
+                            _label.classList.remove("tss-disabled");
                         }
                         else
                         {
-                            _label.classList.add("disabled");
+                            _label.classList.add("tss-disabled");
                         }
                     }
                 }

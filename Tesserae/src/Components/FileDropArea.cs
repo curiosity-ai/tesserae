@@ -68,12 +68,12 @@ namespace Tesserae.Components
 
             dropArea.appendChild(_raw.Render());
             dropArea.onclick = (e) => { _fileInput.click(); };
-            dropArea.ondragover = (e) => { StopEvent(e); dropArea.classList.add("dropping"); };
-            dropArea.ondragleave = (e) => { StopEvent(e); dropArea.classList.remove("dropping"); };
+            dropArea.ondragover = (e) => { StopEvent(e); dropArea.classList.add("tss-dropping"); };
+            dropArea.ondragleave = (e) => { StopEvent(e); dropArea.classList.remove("tss-dropping"); };
             dropArea.ondrop = (e) =>
             {
                 StopEvent(e);
-                dropArea.classList.remove("dropping");
+                dropArea.classList.remove("tss-dropping");
                 foreach(var item in e.dataTransfer.items)
                 {
                     if (item.kind != "file") continue;

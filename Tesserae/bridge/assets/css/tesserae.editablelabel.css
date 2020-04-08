@@ -66,24 +66,24 @@
     visibility: visible;
 }
 
-.tss-editablelabel.editing > .tss-editablelabel-edit-icon {
+.tss-editablelabel.tss-editing > .tss-editablelabel-edit-icon {
     visibility: collapse;
 }
 
-.tss-editablelabel.editing {
+.tss-editablelabel.tss-editing {
     background-color: unset;
 }
 
-    .tss-editablelabel.editing > .tss-editablelabel-displaybox {
+    .tss-editablelabel.tss-editing > .tss-editablelabel-displaybox {
         display:none;
     }
 
-    .tss-editablelabel.editing > .tss-editablelabel-editbox {
+    .tss-editablelabel.tss-editing > .tss-editablelabel-editbox {
         display: inline-flex;
     }
 
 
-.tss-editablelabel.editing > .tss-editablelabel-editbox > .tss-editablelabel-cancel-icon {
+.tss-editablelabel.tss-editing > .tss-editablelabel-editbox > .tss-editablelabel-cancel-icon {
     visibility: visible;
 }
 

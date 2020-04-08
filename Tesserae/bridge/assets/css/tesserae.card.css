@@ -1,5 +1,5 @@
 ﻿/* Stack */
-.tss-card-container{
+.tss-card-container {
     padding: 2px;
 }
 
@@ -24,8 +24,14 @@
     box-shadow: var(--tss-card-shadow);
 }
 
-.tss-card.ismounted {
-    opacity: 1;
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-}
+    /*we keep the ismounted for compatibility here*/
+    .tss-card.ismounted {
+        opacity: 1;
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+    }
+    .tss-card.tss-ismounted {
+        opacity: 1;
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+    }

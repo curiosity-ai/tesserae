@@ -10,7 +10,7 @@
     background-color: var(--tss-overlay-light);
     visibility: visible;
 }
-    .tss-panel-container.dark {
+    .tss-panel-container.tss-dark {
         background-color: var(--tss-overlay-dark);
     }
 

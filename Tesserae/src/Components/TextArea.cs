@@ -32,16 +32,16 @@ namespace Tesserae.Components
 
         public bool IsEnabled
         {
-            get => !InnerElement.classList.contains("disabled");
+            get => !InnerElement.classList.contains("tss-disabled");
             set
             {
                 if (value)
                 {
-                    InnerElement.classList.remove("disabled");
+                    InnerElement.classList.remove("tss-disabled");
                 }
                 else
                 {
-                    InnerElement.classList.add("disabled");
+                    InnerElement.classList.add("tss-disabled");
                 }
             }
         }
@@ -81,16 +81,16 @@ namespace Tesserae.Components
 
         public bool IsInvalid
         {
-            get => _container.classList.contains("invalid");
+            get => _container.classList.contains("tss-invalid");
             set
             {
                 if (value)
                 {
-                    _container.classList.add("invalid");
+                    _container.classList.add("tss-invalid");
                 }
                 else
                 {
-                    _container.classList.remove("invalid");
+                    _container.classList.remove("tss-invalid");
                 }
             }
         }

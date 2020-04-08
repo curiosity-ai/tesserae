@@ -41,11 +41,11 @@ namespace Tesserae.Components
 
         public bool IsSmall
         {
-            get => _childContainer.classList.contains("small");
+            get => _childContainer.classList.contains("tss-small");
             set
             {
-                if (value) { _childContainer.classList.add("small"); }
-                else { _childContainer.classList.remove("small"); }
+                if (value) { _childContainer.classList.add("tss-small"); }
+                else { _childContainer.classList.remove("tss-small"); }
             }
         }
 

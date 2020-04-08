@@ -8,6 +8,6 @@
     height: auto;
 }
 
-.tss-stack.invalid {
+.tss-stack.tss-invalid {
     border-color: var(--tss-invalid-border-color);
 }

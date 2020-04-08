@@ -177,16 +177,16 @@ namespace Tesserae.Components
 
         public bool IsDark
         {
-            get => _contentHtml.classList.contains("dark");
+            get => _contentHtml.classList.contains("tss-dark");
             set
             {
                 if (value)
                 {
-                    _contentHtml.classList.add("dark");
+                    _contentHtml.classList.add("tss-dark");
                 }
                 else
                 {
-                    _contentHtml.classList.remove("dark");
+                    _contentHtml.classList.remove("tss-dark");
                 }
             }
         }
@@ -231,7 +231,7 @@ namespace Tesserae.Components
         public IComponent ShowEmbedded()
         {
             ShowCloseButton = false;
-            _modal.classList.add("embedded");
+            _modal.classList.add("tss-embedded");
             return Raw(_modal).Stretch();
         }
 
@@ -258,7 +258,7 @@ namespace Tesserae.Components
 
         public Modal NoTopBorder()
         {
-            _modalHeader.classList.add("noborder");
+            _modalHeader.classList.add("tss-noborder");
             return this;
         }
 

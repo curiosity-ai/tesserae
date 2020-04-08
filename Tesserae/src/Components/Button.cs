@@ -93,8 +93,8 @@ namespace Tesserae.Components
         /// </summary>
         public bool IsCompact
         {
-            get => InnerElement.classList.contains("small");
-            set => InnerElement.UpdateClassIf(value, "small");
+            get => InnerElement.classList.contains("tss-small");
+            set => InnerElement.UpdateClassIf(value, "tss-small");
         }
 
         /// <summary>
@@ -174,8 +174,8 @@ namespace Tesserae.Components
         /// </summary>
         public bool IsEnabled
         {
-            get => !InnerElement.classList.contains("disabled");
-            set => InnerElement.UpdateClassIfNot(value, "disabled");
+            get => !InnerElement.classList.contains("tss-disabled");
+            set => InnerElement.UpdateClassIfNot(value, "tss-disabled");
         }
 
         public bool CanWrap

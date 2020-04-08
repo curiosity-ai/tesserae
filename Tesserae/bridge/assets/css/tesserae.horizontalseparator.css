@@ -9,7 +9,7 @@
     color: var(--tss-default-foreground-color);
     background: var(--tss-default-background-color);
 }
-    .tss-horizontalseparator.primary {
+    .tss-horizontalseparator.tss-primary {
         color: var(--tss-primary-background-color);
     }
 
@@ -37,10 +37,10 @@
         right: 0px;
     }
 
-    .tss-horizontalseparator-container.left {
+    .tss-horizontalseparator-container.tss-left {
         text-align: start;
     }
 
-    .tss-horizontalseparator-container.right {
+    .tss-horizontalseparator-container.tss-right {
         text-align: end;
     }

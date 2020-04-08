@@ -21,11 +21,11 @@ namespace Tesserae.Components
 
         public bool IsVisible
         {
-            get => !_navbarContainer.classList.contains("hidden");
+            get => !_navbarContainer.classList.contains("tss-hidden");
             set
             {
-                if(value) _navbarContainer.classList.remove("hidden");
-                else _navbarContainer.classList.add("hidden");
+                if(value) _navbarContainer.classList.remove("tss-hidden");
+                else _navbarContainer.classList.add("tss-hidden");
             }
         }
 

@@ -50,13 +50,13 @@
         padding: 0px 5px;
     }
 
-    .tss-searchbox-container.disabled {
+    .tss-searchbox-container.tss-disabled {
         border-color: var(--tss-disabled-background-color);
         background-color: var(--tss-disabled-background-color);
         color: var(--tss-disabled-foreground-color);
     }
 
-    .tss-searchbox-container.underlined {
+    .tss-searchbox-container.tss-underlined {
         border-radius: 0px;
         border-style: solid;
         border-color: var(--tss-default-border-color);
@@ -65,7 +65,7 @@
         padding-bottom: 1px;
     }
 
-        .tss-searchbox-container.underlined:focus-within {
+        .tss-searchbox-container.tss-underlined:focus-within {
             border-color: var(--tss-primary-border-color);
             border-width: 0px 0px 2px;
             padding-bottom: 0px;
@@ -95,7 +95,7 @@
 
 }
 
-.tss-searchbox-container.noicon > .tss-searchbox-icon {
+.tss-searchbox-container.tss-noicon > .tss-searchbox-icon {
     display: none;
 }
 
@@ -113,15 +113,15 @@
     width: 32px;
 }
 
-.tss-searchbox-container.noicon > .tss-searchbox-icon {
+.tss-searchbox-container.tss-noicon > .tss-searchbox-icon {
     display: none;
     width: 0px;
 }
 
-.tss-searchbox-container.noicon:focus-within > .tss-searchbox-icon {
+.tss-searchbox-container.tss-noicon:focus-within > .tss-searchbox-icon {
     width: 0px;
 }
-.tss-searchbox-container.noicon:focus-within > .tss-searchbox-padding {
+.tss-searchbox-container.tss-noicon:focus-within > .tss-searchbox-padding {
     width: 0px;
 }
 

@@ -14,17 +14,17 @@
     color: var(--tss-sidebar-foreground-color);
 }
 
-    .tss-sidebar.light {
+    .tss-sidebar.tss-light {
         color: var(--tss-default-foreground-color);
         background: var(--tss-default-background-color);
     }
 
 
-    .tss-sidebar.small {
+    .tss-sidebar.tss-small {
         max-width: 32px;
     }
 
-    .tss-sidebar.medium {
+    .tss-sidebar.tss-medium {
         max-width: 48px;
     }
 
@@ -79,13 +79,13 @@
     transition: color 0.1s ease 0s;
 }
 
-    .tss-sidebar-item.extrapadding {
+    .tss-sidebar-item.tss-extrapadding {
         padding-top: 20px;
         padding-bottom: 20px;
         box-sizing: content-box;
     }
 
-.tss-sidebar.light > .tss-sidebar-item {
+.tss-sidebar.tss-light > .tss-sidebar-item {
     color: var(--tss-secondary-foreground-color);
 }
 
@@ -110,7 +110,7 @@
     transition: opacity 0.3s ease 0.5s, visibility 0.5s;
 }
 
-.tss-sidebar.open > .tss-sidebar-item > .tss-sidebar-label {
+.tss-sidebar.tss-open > .tss-sidebar-item > .tss-sidebar-label {
     visibility: visible;
     opacity: 1;
 }
@@ -124,90 +124,90 @@
     width:64px;
 }
 
-.tss-sidebar-item.selected {
+.tss-sidebar-item.tss-selected {
     background: rgba(255, 255, 255, 0.2);
 }
 
-.tss-sidebar.light > .tss-sidebar-item.selected {
+.tss-sidebar.tss-light > .tss-sidebar-item.tss-selected {
     background: var(--tss-default-background-active-color);
 }
 
-.tss-sidebar.light > .tss-sidebar-item:hover {
+.tss-sidebar.tss-light > .tss-sidebar-item:hover {
     background: var(--tss-default-background-hover-color);
 }
 
 
-.tss-sidebar-item.nonselectable {
+.tss-sidebar-item.tss-nonselectable {
     cursor:none;
     pointer-events:none;
 }
 
-.tss-sidebar-item.disabled {
+.tss-sidebar-item.tss-disabled {
     cursor: none;
     pointer-events: none;
     color: var(--tss-disabled-foreground-color);
 }
 
-.tss-sidebar.small > .tss-sidebar-item > .tss-sidebar-icon {
+.tss-sidebar.tss-small > .tss-sidebar-item > .tss-sidebar-icon {
     font-size: 18px;
     left: 0px;
     width: 32px;
 }
 
-.tss-sidebar.small + .tss-sidebar-content {
+.tss-sidebar.tss-small + .tss-sidebar-content {
     margin-left: 32px;
 }
 
-.tss-sidebar.small > .tss-sidebar-item {
+.tss-sidebar.tss-small > .tss-sidebar-item {
     height: 32px;
     line-height: 32px;
     padding-left: 32px;
     padding-right: 32px;
 }
 
-.tss-sidebar.medium > .tss-sidebar-item > .tss-sidebar-icon {
+.tss-sidebar.tss-medium > .tss-sidebar-item > .tss-sidebar-icon {
     font-size: 22px;
     left: 0px;
     width: 48px;
 }
 
-.tss-sidebar.medium + .tss-sidebar-content {
+.tss-sidebar.tss-medium + .tss-sidebar-content {
     margin-left: 48px;
 }
 
-.tss-sidebar.medium > .tss-sidebar-item {
+.tss-sidebar.tss-medium > .tss-sidebar-item {
     height: 36px;
     line-height: 36px;
     padding-left: 48px;
     padding-right: 48px;
 }
 
-.tss-sidebar-host.open > .tss-sidebar {
+.tss-sidebar-host.tss-open > .tss-sidebar {
     max-width: unset;
     box-shadow: none;
 }
 
-.tss-sidebar-host.open > .tss-sidebar-content {
+.tss-sidebar-host.tss-open > .tss-sidebar-content {
     margin-left: unset;
     transition: unset;
 }
 
-.tss-sidebar-host.open > .tss-sidebar > .tss-sidebar-item > .tss-sidebar-label {
+.tss-sidebar-host.tss-open > .tss-sidebar > .tss-sidebar-item > .tss-sidebar-label {
     right: 0px;
     visibility: visible;
     opacity: 1;
 }
 
-.tss-sidebar-host.open > .tss-sidebar:hover {
+.tss-sidebar-host.tss-open > .tss-sidebar:hover {
     animation-name: unset;
     animation-fill-mode: unset;
 }
 
-.tss-sidebar-host.hidden > .tss-sidebar {
+.tss-sidebar-host.tss-hidden > .tss-sidebar {
     display: none;
     width: 0px;
 }
 
-.tss-sidebar-host.hidden > .tss-sidebar-content {
+.tss-sidebar-host.tss-hidden > .tss-sidebar-content {
     margin-left: 0px;
 }

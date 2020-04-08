@@ -225,7 +225,7 @@
     box-sizing: border-box;
 }
 
-.disabled {
+.tss-disabled {
     pointer-events: none;
     color: var(--tss-disabled-foreground-color);
 }

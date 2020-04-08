@@ -14,16 +14,16 @@ namespace Tesserae.Components
         {
             get
             {
-                if (_container.classList.contains("left")) return Align.Left;
-                if (_container.classList.contains("right")) return Align.Right;
+                if (_container.classList.contains("tss-left")) return Align.Left;
+                if (_container.classList.contains("tss-right")) return Align.Right;
                 return Align.Center;
             }
             set
             {
-                _container.classList.remove("left");
-                _container.classList.remove("right");
-                if (value == Align.Left) _container.classList.add("left");
-                if (value == Align.Right) _container.classList.add("right");
+                _container.classList.remove("tss-left");
+                _container.classList.remove("tss-right");
+                if (value == Align.Left) _container.classList.add("tss-left");
+                if (value == Align.Right) _container.classList.add("tss-right");
                 //Center is the default, no need for class
             }
         }
@@ -57,7 +57,7 @@ namespace Tesserae.Components
 
         public HorizontalSeparator Primary()
         {
-            _separator.classList.add("primary");
+            _separator.classList.add("tss-primary");
             return this;
         }
 

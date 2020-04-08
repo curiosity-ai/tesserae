@@ -23,19 +23,19 @@
     }
 
 
-.tss-label.inline {
+.tss-label.tss-inline {
     display: inline-flex;
     flex-wrap:nowrap;
     align-items:center;
 }
 
-    .tss-label.inline > * {
+    .tss-label.tss-inline > * {
         display: inline-block;
         flex-grow:1;
         flex-shrink:1;
     }
 
-    .tss-label.inline > label {
+    .tss-label.tss-inline > label {
         flex-shrink:0;
         flex-grow:0;
     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Retyped;
 using static Tesserae.UI;
 using static Retyped.dom;
+using Tesserae.HTML;
 
 namespace Tesserae.Components
 {
@@ -41,7 +42,7 @@ namespace Tesserae.Components
             Count++;
             item.style.transitionDelay = $"{0.05f * Count:n2}s";
 
-            window.setTimeout((_) => item.classList.add("ismounted"), 50); //TODO use DOMObserver
+            DomObserver.WhenMounted(item, () => item.classList.add("tss-ismounted"));
 
             return item;
         }

@@ -77,6 +77,12 @@ namespace Tesserae.Components
             SelectedLink = e;
         }
 
+        public Nav Compact()
+        {
+            InnerElement.classList.add("tss-nav-small");
+            return this;
+        }
+
         public class ComponentInNavLink : NavLink
         {
             private IComponent Content;
@@ -195,7 +201,7 @@ namespace Tesserae.Components
 
             public bool IsExpanded
             {
-                get => InnerElement.classList.contains("expanded");
+                get => InnerElement.classList.contains("tss-expanded");
                 set
                 {
                     if (value)
@@ -205,15 +211,15 @@ namespace Tesserae.Components
                             onExpanded?.Invoke(this, this);
                             ScrollIntoView();
                         }
-                        InnerElement.classList.add("expanded");
+                        InnerElement.classList.add("tss-expanded");
                     }
-                    else InnerElement.classList.remove("expanded");
+                    else InnerElement.classList.remove("tss-expanded");
                 }
             }
 
             public bool IsSelected
             {
-                get => _headerDiv.classList.contains("selected");
+                get => _headerDiv.classList.contains("tss-selected");
                 set
                 {
                     if (value && !IsSelected)
@@ -234,9 +240,9 @@ namespace Tesserae.Components
             private void UpdateSelectedClass(bool isSelected)
             {
                 if (isSelected)
-                    _headerDiv.classList.add("selected");
+                    _headerDiv.classList.add("tss-selected");
                 else
-                    _headerDiv.classList.remove("selected");
+                    _headerDiv.classList.remove("tss-selected");
             }
 
             public bool HasChildren => _childContainer.hasChildNodes();
@@ -308,7 +314,7 @@ namespace Tesserae.Components
             {
                 Children.Add(component);
                 ScrollBar.GetCorrectContainer(_childContainer).appendChild(component.Render());
-                _headerDiv.classList.add("expandable");
+                _headerDiv.classList.add("tss-expandable");
                 component.Level = Level + 1;
                 component.internalOnSelected += OnChildSelected;
                 if (component.IsSelected)
@@ -342,7 +348,7 @@ namespace Tesserae.Components
             {
                 ClearChildren(ScrollBar.GetCorrectContainer(_childContainer));
                 Children.Clear();
-                _headerDiv.classList.remove("expandable");
+                _headerDiv.classList.remove("tss-expandable");
             }
 
             public void Replace(NavLink newComponent, NavLink oldComponent)
@@ -367,6 +373,7 @@ namespace Tesserae.Components
                 IsSelected = true;
                 return this;
             }
+            
             public NavLink CanSelectAndExpand()
             {
                 _canSelectAndExpand = true;
