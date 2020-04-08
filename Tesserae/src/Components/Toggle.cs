@@ -18,7 +18,7 @@ namespace Tesserae.Components
             _offText = offText ?? "Off";
             InnerElement = CheckBox(_("tss-checkbox"));
             _checkSpan = Span(_("tss-toggle-mark"));
-            _onOffSpan = Span(_(text: _offText));
+            _onOffSpan = Span(_("tss-text-ellipsis", text: _offText));
             if (!string.IsNullOrEmpty(text)) _onOffSpan.style.display = "none";
             _label = Label(_("tss-toggle-container", text: text), InnerElement, _checkSpan, _onOffSpan);
             OnChange((s, e) => OnToggleChanged());
