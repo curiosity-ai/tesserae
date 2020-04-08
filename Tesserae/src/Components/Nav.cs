@@ -83,6 +83,12 @@ namespace Tesserae.Components
             return this;
         }
 
+        public Nav SelectMarkerOnRight()
+        {
+            InnerElement.classList.add("tss-nav-right");
+            return this;
+        }
+
         public class ComponentInNavLink : NavLink
         {
             private IComponent Content;
