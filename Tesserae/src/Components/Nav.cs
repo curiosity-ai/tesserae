@@ -25,7 +25,7 @@ namespace Tesserae.Components
         public void Add(NavLink component)
         {
             ScrollBar.GetCorrectContainer(InnerElement).appendChild(component.Render());
-            component.onSelected += OnNavLinkSelected;
+            component.internalOnSelected += OnNavLinkSelected;
             if (component.IsSelected)
             {
                 if (SelectedLink != null) SelectedLink.IsSelected = false;
@@ -50,7 +50,7 @@ namespace Tesserae.Components
         {
             ScrollBar.GetCorrectContainer(InnerElement).replaceChild(newComponent.Render(), oldComponent.Render());
 
-            newComponent.onSelected += OnNavLinkSelected;
+            newComponent.internalOnSelected += OnNavLinkSelected;
             if (newComponent.IsSelected)
             {
                 if (SelectedLink != null) SelectedLink.IsSelected = false;
@@ -110,7 +110,6 @@ namespace Tesserae.Components
             protected readonly HTMLUListElement _childContainer;
             protected readonly HTMLButtonElement _expandButton;
 
-
             private bool _canSelectAndExpand = false;
             private int _Level;
             private bool _shouldExpandOnFirstAdd;
@@ -147,6 +146,7 @@ namespace Tesserae.Components
 
             internal NavLink SelectedChild { get; private set; }
 
+            internal event EventHandler<NavLink> internalOnSelected;
             public event EventHandler<NavLink> onSelected;
 
             private void ThrowIfUsingComponent(string method)
@@ -218,6 +218,7 @@ namespace Tesserae.Components
                 {
                     if (value && !IsSelected)
                     {
+                        internalOnSelected?.Invoke(this, this);
                         onSelected?.Invoke(this, this);
                         ScrollIntoView();
                     }
@@ -309,10 +310,10 @@ namespace Tesserae.Components
                 ScrollBar.GetCorrectContainer(_childContainer).appendChild(component.Render());
                 _headerDiv.classList.add("expandable");
                 component.Level = Level + 1;
-                component.onSelected += OnChildSelected;
+                component.internalOnSelected += OnChildSelected;
                 if (component.IsSelected)
                 {
-                    onSelected?.Invoke(this, component);
+                    internalOnSelected?.Invoke(this, component);
 
                     if (SelectedChild != null) SelectedChild.IsSelected = false;
                     SelectedChild = component;
@@ -320,7 +321,7 @@ namespace Tesserae.Components
 
                 if (component.SelectedChild != null)
                 {
-                    onSelected?.Invoke(component, component.SelectedChild);
+                    internalOnSelected?.Invoke(component, component.SelectedChild);
 
                     if (SelectedChild != null) SelectedChild.IsSelected = false;
                     SelectedChild = component.SelectedChild;
@@ -334,7 +335,7 @@ namespace Tesserae.Components
 
             private void OnChildSelected(object sender, NavLink e)
             {
-                onSelected?.Invoke(this, e);
+                internalOnSelected?.Invoke(this, e);
             }
 
             public void Clear()
@@ -342,14 +343,13 @@ namespace Tesserae.Components
                 ClearChildren(ScrollBar.GetCorrectContainer(_childContainer));
                 Children.Clear();
                 _headerDiv.classList.remove("expandable");
-
             }
 
             public void Replace(NavLink newComponent, NavLink oldComponent)
             {
                 ScrollBar.GetCorrectContainer(_childContainer).replaceChild(newComponent.Render(), oldComponent.Render());
-                newComponent.onSelected += OnChildSelected;
-                if (newComponent.IsSelected) onSelected?.Invoke(this, newComponent);
+                newComponent.internalOnSelected += OnChildSelected;
+                if (newComponent.IsSelected) internalOnSelected?.Invoke(this, newComponent);
             }
 
             public void Remove(NavLink oldComponent)
