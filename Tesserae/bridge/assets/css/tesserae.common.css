@@ -72,7 +72,7 @@
     --tss-navbar-foreground-color: rgb(50, 49, 48);
 }
 
-.tss-dark {
+.tss-dark-mode {
     /* Colors */
     --tss-default-background-color: rgb(34, 34, 34);
     --tss-default-foreground-color: rgb(255, 255, 255);

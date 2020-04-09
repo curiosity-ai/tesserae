@@ -10,17 +10,17 @@ namespace Tesserae
             private static HTMLStyleElement _primaryStyleElement;
             public static void Dark()
             {
-                document.body.classList.add("tss-dark");
+                document.body.classList.add("tss-dark-mode");
             }
 
             public static void Light()
             {
-                document.body.classList.remove("tss-dark");
+                document.body.classList.remove("tss-dark-mode");
             }
 
             public static bool IsDark()
             {
-                return document.body.classList.contains("tss-dark");
+                return document.body.classList.contains("tss-dark-mode");
             }
 
             public static void SetPrimary(Color primaryColor) => SetPrimary(primaryColor, primaryColor);
@@ -43,7 +43,7 @@ namespace Tesserae
 
                 borderColorLight.Luminosity      -= (100 - 85.5);  //Uses the same delta as in the current template
                 borderColorLight.Saturation      -= (41.6 - 40.4); //TODO: get real values instead using Color.EvalVar
-                borderColorLight.Hue             -= (206 - 208);   // Main problem is just how to handle the .tss-dark eval, as it will change the return value
+                borderColorLight.Hue             -= (206 - 208);   // Main problem is just how to handle the .tss-dark-mode eval, as it will change the return value
 
                 borderColorDark.Luminosity       -= (100 - 85.5);
                 borderColorDark.Saturation       -= (41.6 - 40.4);
@@ -67,7 +67,7 @@ namespace Tesserae
                 sb.Append("  --tss-primary-shadow: ").Append($"0 1.6px 3.6px 0 {primaryLightColor.ToRGBA(0.132f)}, 0 0.3px 0.9px 0 {primaryLightColor.ToRGBA(0.108f)}").AppendLine(";");
                 sb.AppendLine("}");
 
-                sb.AppendLine(".tss-dark {");
+                sb.AppendLine(".tss-dark-mode {");
                 sb.Append("  --tss-primary-background-color: ").Append(primaryDarkColor.ToRGB()).AppendLine(";");
                 sb.Append("  --tss-link-color: ").Append(primaryDarkColor.ToRGB()).AppendLine(";"); 
                 sb.Append("  --tss-primary-border-color: ").Append(borderColorDark.ToRGB()).AppendLine(";");
