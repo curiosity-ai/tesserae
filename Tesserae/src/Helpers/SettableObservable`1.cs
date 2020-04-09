@@ -16,7 +16,7 @@ namespace Tesserae
             set => base.Value = value;
         }
 
-        public void Update(Func<T,T> action)
+        public void Update(Func<T, T> action)
         {
             Value = action(Value);
         }
