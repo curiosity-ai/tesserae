@@ -8,7 +8,7 @@ using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
-    public class Nav : ComponentBase<Nav, HTMLUListElement>, IContainer<Nav.NavLink, Nav.NavLink>
+    public class Nav : ComponentBase<Nav, HTMLUListElement>, IContainer<Nav.NavLink, Nav.NavLink>, IHasBackgroundColor
     {
         public Nav()
         {
@@ -16,6 +16,8 @@ namespace Tesserae.Components
         }
 
         public NavLink SelectedLink { get; private set; }
+
+        public string Background { get => InnerElement.style.background; set => InnerElement.style.background = value; }
 
         public override HTMLElement Render()
         {
@@ -114,7 +116,7 @@ namespace Tesserae.Components
             }
         }
 
-        public class NavLink : ComponentBase<NavLink, HTMLLIElement>, IContainer<NavLink, NavLink>, IHasTextSize
+        public class NavLink : ComponentBase<NavLink, HTMLLIElement>, IContainer<NavLink, NavLink>, IHasTextSize, IHasBackgroundColor
         {
             protected readonly HTMLSpanElement _textSpan;
             protected HTMLElement _iconSpan;
@@ -310,6 +312,8 @@ namespace Tesserae.Components
                     InnerElement.classList.add($"tss-textalign-{value.ToString().ToLower()}");
                 }
             }
+
+            public string Background { get => _headerDiv.style.background; set => _headerDiv.style.background = value; }
 
             public override HTMLElement Render()
             {
