@@ -247,6 +247,13 @@ namespace Tesserae.Components
             return this;
         }
 
+        public Button DefaultLink()
+        {
+            IsLink = true;
+            InnerElement.classList.add("tss-dark");
+            return this;
+        }
+
         public Button Primary()
         {
             IsPrimary = true;

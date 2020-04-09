@@ -220,6 +220,9 @@ a {
         text-decoration: none !important;
     }
 
+    .tss-btn-link.tss-dark {
+        color: var(--tss-default-foreground-color);
+    }
 
 .tss-btn-nominsize {
     min-height: unset;
