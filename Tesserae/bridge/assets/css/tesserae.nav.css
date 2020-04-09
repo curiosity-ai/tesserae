@@ -109,8 +109,6 @@
     margin-left:8px;
 }
 
-
-
-.tss-nav.tss-nav-small > .tss-nav-link > .tss-nav-link-header {
+.tss-nav.tss-nav-small .tss-nav-link-header {
     padding: 0px 2px 0px 8px;
 }
