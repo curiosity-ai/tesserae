@@ -18,10 +18,7 @@ namespace Tesserae
                 document.body.classList.remove("tss-dark-mode");
             }
 
-            public static bool IsDark()
-            {
-                return document.body.classList.contains("tss-dark-mode");
-            }
+            public static bool IsDark => document.body.classList.contains("tss-dark-mode");
 
             public static void SetPrimary(Color primaryColor) => SetPrimary(primaryColor, primaryColor);
             public static void SetPrimary(Color primaryLightColor, Color primaryDarkColor)
