@@ -86,11 +86,11 @@
         margin-left: 25px;
     }
 
-.tss-nav.tss-nav-right > .tss-nav-link > .tss-nav-link-header {
+.tss-nav.tss-nav-right .tss-nav-link > .tss-nav-link-header {
     border-left: unset;
     border-right: 4px solid var(--tss-default-background-color);
 }
-    .tss-nav.tss-nav-right > .tss-nav-link > .tss-nav-link-header.tss-selected {
+    .tss-nav.tss-nav-right .tss-nav-link > .tss-nav-link-header.tss-selected {
         border-left-color: unset;
         border-right-color: var(--tss-primary-background-color);
     }
