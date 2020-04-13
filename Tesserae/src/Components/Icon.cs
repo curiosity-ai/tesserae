@@ -14,6 +14,7 @@ namespace Tesserae.Components
             get => InnerElement.style.color;
             set => InnerElement.style.color = value;
         }
+
         public TextSize Size
         {
             get => InnerElement.GetTextSize().textSize ?? TextSize.Small;
@@ -51,6 +52,18 @@ namespace Tesserae.Components
 
                 InnerElement.classList.add($"tss-textalign-{value.ToString().ToLower()}");
             }
+        }
+
+        public string Title
+        {
+            get => InnerElement.title;
+            set => InnerElement.title = value;
+        }
+
+        public Icon SetTitle(string title)
+        {
+            Title = title;
+            return this;
         }
 
         public HTMLElement Render() => InnerElement;
