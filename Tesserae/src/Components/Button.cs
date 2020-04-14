@@ -380,7 +380,7 @@ namespace Tesserae.Components
         public Button Focus()
         {
             //When mounted triggers immediatelly if already mounted
-            DomObserver.WhenMounted(InnerElement, () => InnerElement.focus());
+            DomObserver.WhenMounted(InnerElement, () => window.setTimeout((_) => InnerElement.focus(), 500));
             return this;
         }
 
