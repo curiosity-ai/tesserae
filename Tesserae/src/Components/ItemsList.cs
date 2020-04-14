@@ -18,7 +18,7 @@ namespace Tesserae.Components
 
         public HTMLElement StylingContainer    => _defered._container;
 
-        public bool PropagateToStackItemParent => false;
+        public bool PropagateToStackItemParent => true;
 
         public ItemsList(IComponent[] items, params UnitSize[] columns) : this(new ObservableList<IComponent>(items ?? new IComponent[0]), columns)
         {
@@ -30,12 +30,12 @@ namespace Tesserae.Components
 
             if (columns.Length < 2)
             {
-                _stack = Stack().Horizontal().Wrap().HeightStretch().WidthStretch().Scroll();
+                _stack = Stack().Horizontal().Wrap().Stretch().Scroll();
                 _maxStackItemSize = columns.FirstOrDefault() ?? 100.percent();
             }
             else
             {
-                _grid = Grid(columns).HeightStretch().WidthStretch().Scroll();
+                _grid = Grid(columns).Stretch().Scroll();
             }
             _emptyListMessageGenerator = null;
 

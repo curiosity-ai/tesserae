@@ -13,8 +13,8 @@ namespace Tesserae.Components
         private readonly Stack _stack;
         private readonly SearchBox _searchBox;
         private readonly ItemsList _list;
-        public HTMLElement StylingContainer => _list.StylingContainer;
-        public bool PropagateToStackItemParent => false;
+        public HTMLElement StylingContainer => _stack.InnerElement;
+        public bool PropagateToStackItemParent => true;
         public ObservableList<T> Items { get; }
 
         public SearchableList(T[] items, UnitSize[] columns) : this(new ObservableList<T>(items ?? new T[0]), columns)
@@ -24,7 +24,7 @@ namespace Tesserae.Components
         public SearchableList(ObservableList<T> items, UnitSize[] columns)
         {
             Items = items ?? new ObservableList<T>();
-            _searchBox = new SearchBox().Underlined().SetPlaceholder("Type to search").SearchAsYouType();
+            _searchBox = new SearchBox().Underlined().SetPlaceholder("Type to search").SearchAsYouType().WidthStretch();
             _list = ItemsList(null, columns);
             _defered = Defer.Observe(Items, item =>
             {
@@ -38,12 +38,12 @@ namespace Tesserae.Components
                     _list.Items.AddRange(filteredItems);
                 }
 
-                return _list.AsTask();
-            });
+                return _list.Stretch().AsTask();
+            }).WidthStretch().Height(100.px()).Grow(1);
 
             _searchBox.OnSearch((_, __) => _defered.Refresh());
 
-            _stack = Stack().Vertical().Children(_searchBox, _defered.Scroll()).HeightStretch().WidthStretch();
+            _stack = Stack().Children(_searchBox, _defered.Scroll()).Stretch();
         }
 
         public SearchableList<T> WithNoResultsMessage(Func<IComponent> emptyListMessageGenerator)
