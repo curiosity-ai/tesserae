@@ -9,7 +9,7 @@ namespace Tesserae.Components
 {
     public class SearchableList<T> : IComponent, ISpecialCaseStyling where T : ISearchableItem
     {
-        private readonly Defer _defered;
+        private readonly IDefer _defered;
         private readonly Stack _stack;
         private readonly SearchBox _searchBox;
         private readonly ItemsList _list;
@@ -26,7 +26,7 @@ namespace Tesserae.Components
             Items = items ?? new ObservableList<T>();
             _searchBox = new SearchBox().Underlined().SetPlaceholder("Type to search").SearchAsYouType().WidthStretch();
             _list = ItemsList(null, columns);
-            _defered = Defer.Observe(Items, item =>
+            _defered = Defer(Items, item =>
             {
                 var searchTerm = _searchBox.Text;
                 var filteredItems = Items.Where(i => string.IsNullOrWhiteSpace(searchTerm) || i.IsMatch(searchTerm)).Select(i => i.Render()).ToArray();

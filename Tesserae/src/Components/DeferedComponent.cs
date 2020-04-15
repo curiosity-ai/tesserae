@@ -7,9 +7,10 @@ using static Retyped.dom;
 
 namespace Tesserae.Components
 {
-    
+
     // This class has a different name than the static method in the UI class due to a bug in the bridge compiler that ends up calling the wrong constructor.
-    public class Defer : IComponent
+    // It is also internal to Tesserae to hide it from the compiler, which then exposes only teh IDefer interface
+    internal class DeferedComponent : IDefer
     {
         private bool _needsRefresh;
         private double _refreshTimeout;
@@ -18,13 +19,13 @@ namespace Tesserae.Components
         internal HTMLElement _container;
         private int _delay = 1;
 
-        private Defer()
+        private DeferedComponent()
         {
         }
 
-        internal static Defer Create(Func<Task<IComponent>> asyncGenerator, IComponent loadMessage)
+        internal static DeferedComponent Create(Func<Task<IComponent>> asyncGenerator, IComponent loadMessage)
         {
-            var d = new Defer();
+            var d = new DeferedComponent();
             d._loadMessage = loadMessage ?? TextBlock("loading...").XSmall();
             d._asyncGenerator = asyncGenerator;
             d._needsRefresh = true;
@@ -32,7 +33,7 @@ namespace Tesserae.Components
             d._container.id = "tss-deferred";
             return d;
         }
-        internal static Defer Create(Func<Task<IComponent>> asyncGenerator) => Create(asyncGenerator, null);
+        internal static DeferedComponent Create(Func<Task<IComponent>> asyncGenerator) => Create(asyncGenerator, null);
 
         public void Refresh()
         {
@@ -41,7 +42,7 @@ namespace Tesserae.Components
             _refreshTimeout = window.setTimeout((t) => TriggerRefresh(), _delay > 0 ? _delay : 1);
         }
 
-        public Defer Debounce(int milliseconds)
+        public IDefer Debounce(int milliseconds)
         {
             _delay = milliseconds;
             return this;
@@ -81,14 +82,14 @@ namespace Tesserae.Components
             }).FireAndForget();
         }
 
-        internal static Defer Observe<T1>(IObservable<T1> o1, Func<T1, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
+        internal static DeferedComponent Observe<T1>(IObservable<T1> o1, Func<T1, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
         {
             var d = Create(() => asyncGenerator(o1.Value), loadMessage);
             o1.onValueChanged += (v) => d.Refresh();
             return d;
         }
 
-        internal static Defer Observe<T1, T2>(IObservable<T1> o1, IObservable<T2> o2, Func<T1, T2, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
+        internal static DeferedComponent Observe<T1, T2>(IObservable<T1> o1, IObservable<T2> o2, Func<T1, T2, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
         {
             var d = Create(() => asyncGenerator(o1.Value, o2.Value), loadMessage);
             o1.onValueChanged += (v) => d.Refresh();
@@ -96,7 +97,7 @@ namespace Tesserae.Components
             return d;
         }
 
-        internal static Defer Observe<T1, T2, T3>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, Func<T1, T2, T3, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
+        internal static DeferedComponent Observe<T1, T2, T3>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, Func<T1, T2, T3, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
         {
             var d = Create(() => asyncGenerator(o1.Value, o2.Value, o3.Value), loadMessage);
             o1.onValueChanged += (v) => d.Refresh();
@@ -105,7 +106,7 @@ namespace Tesserae.Components
             return d;
         }
 
-        internal static Defer Observe<T1, T2, T3, T4>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, Func<T1, T2, T3, T4, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
+        internal static DeferedComponent Observe<T1, T2, T3, T4>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, Func<T1, T2, T3, T4, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
         {
             var d = Create(() => asyncGenerator(o1.Value, o2.Value, o3.Value, o4.Value), loadMessage);
             o1.onValueChanged += (v) => d.Refresh();
@@ -115,7 +116,7 @@ namespace Tesserae.Components
             return d;
         }
 
-        internal static Defer Observe<T1, T2, T3, T4, T5>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, Func<T1, T2, T3, T4, T5, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
+        internal static DeferedComponent Observe<T1, T2, T3, T4, T5>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, Func<T1, T2, T3, T4, T5, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
         {
             var d = Create(() => asyncGenerator(o1.Value, o2.Value, o3.Value, o4.Value, o5.Value), loadMessage);
             o1.onValueChanged += (v) => d.Refresh();
@@ -126,7 +127,7 @@ namespace Tesserae.Components
             return d;
         }
 
-        internal static Defer Observe<T1, T2, T3, T4, T5, T6>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, IObservable<T6> o6, Func<T1, T2, T3, T4, T5, T6, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
+        internal static DeferedComponent Observe<T1, T2, T3, T4, T5, T6>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, IObservable<T6> o6, Func<T1, T2, T3, T4, T5, T6, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
         {
             var d = Create(() => asyncGenerator(o1.Value, o2.Value, o3.Value, o4.Value, o5.Value, o6.Value), loadMessage);
             o1.onValueChanged += (v) => d.Refresh();
@@ -138,7 +139,7 @@ namespace Tesserae.Components
             return d;
         }
 
-        internal static Defer Observe<T1, T2, T3, T4, T5, T6, T7>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, IObservable<T6> o6, IObservable<T7> o7, Func<T1, T2, T3, T4, T5, T6, T7, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
+        internal static DeferedComponent Observe<T1, T2, T3, T4, T5, T6, T7>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, IObservable<T6> o6, IObservable<T7> o7, Func<T1, T2, T3, T4, T5, T6, T7, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
         {
             var d = Create(() => asyncGenerator(o1.Value, o2.Value, o3.Value, o4.Value, o5.Value, o6.Value, o7.Value), loadMessage);
             o1.onValueChanged += (v) => d.Refresh();
@@ -151,7 +152,7 @@ namespace Tesserae.Components
             return d;
         }
 
-        internal static Defer Observe<T1, T2, T3, T4, T5, T6, T7, T8>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, IObservable<T6> o6, IObservable<T7> o7, IObservable<T8> o8, Func<T1, T2, T3, T4, T5, T6, T7, T8, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
+        internal static DeferedComponent Observe<T1, T2, T3, T4, T5, T6, T7, T8>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, IObservable<T6> o6, IObservable<T7> o7, IObservable<T8> o8, Func<T1, T2, T3, T4, T5, T6, T7, T8, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
         {
             var d = Create(() => asyncGenerator(o1.Value, o2.Value, o3.Value, o4.Value, o5.Value, o6.Value, o7.Value, o8.Value), loadMessage);
             o1.onValueChanged += (v) => d.Refresh();
@@ -165,7 +166,7 @@ namespace Tesserae.Components
             return d;
         }
 
-        internal static Defer Observe<T1, T2, T3, T4, T5, T6, T7, T8, T9>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, IObservable<T6> o6, IObservable<T7> o7, IObservable<T8> o8, IObservable<T9> o9, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
+        internal static DeferedComponent Observe<T1, T2, T3, T4, T5, T6, T7, T8, T9>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, IObservable<T6> o6, IObservable<T7> o7, IObservable<T8> o8, IObservable<T9> o9, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
         {
             var d = Create(() => asyncGenerator(o1.Value, o2.Value, o3.Value, o4.Value, o5.Value, o6.Value, o7.Value, o8.Value, o9.Value), loadMessage);
             o1.onValueChanged += (v) => d.Refresh();
@@ -180,7 +181,7 @@ namespace Tesserae.Components
             return d;
         }
 
-        internal static Defer Observe<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, IObservable<T6> o6, IObservable<T7> o7, IObservable<T8> o8, IObservable<T9> o9, IObservable<T10> o10, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
+        internal static DeferedComponent Observe<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, IObservable<T6> o6, IObservable<T7> o7, IObservable<T8> o8, IObservable<T9> o9, IObservable<T10> o10, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
         {
             var d = Create(() => asyncGenerator(o1.Value, o2.Value, o3.Value, o4.Value, o5.Value, o6.Value, o7.Value, o8.Value, o9.Value, o10.Value), loadMessage);
             o1.onValueChanged += (v) => d.Refresh();

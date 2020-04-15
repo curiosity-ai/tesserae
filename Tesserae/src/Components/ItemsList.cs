@@ -11,12 +11,12 @@ namespace Tesserae.Components
         private readonly Grid _grid;
         private readonly Stack _stack;
         private readonly UnitSize _maxStackItemSize;
-        private readonly Defer _defered;
+        private readonly IDefer _defered;
         private Func<IComponent> _emptyListMessageGenerator;
 
         public ObservableList<IComponent> Items { get; }
 
-        public HTMLElement StylingContainer    => _defered._container;
+        public HTMLElement StylingContainer    => ((DeferedComponent)_defered)._container;
 
         public bool PropagateToStackItemParent => true;
 
@@ -39,7 +39,7 @@ namespace Tesserae.Components
             }
             _emptyListMessageGenerator = null;
 
-            _defered = Defer.Observe(Items, observedItems =>
+            _defered = Defer(Items, observedItems =>
             {
                 if (!observedItems.Any())
                 {
