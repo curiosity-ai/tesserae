@@ -35,3 +35,8 @@
         -webkit-transform: translate3d(0, 0, 0);
         transform: translate3d(0, 0, 0);
     }
+
+.tss-card-container.tss-small > .tss-card {
+    padding: 2px 8px 2px 8px;
+    margin-bottom: 2px;
+}

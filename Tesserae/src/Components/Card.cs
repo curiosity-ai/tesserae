@@ -18,6 +18,15 @@ namespace Tesserae.Components
             AttachClick();
         }
 
+        /// <summary>
+        /// Gets or set whenever the card is rendered in a compact form
+        /// </summary>
+        public bool IsCompact
+        {
+            get => _cardContainer.classList.contains("tss-small");
+            set => _cardContainer.UpdateClassIf(value, "tss-small");
+        }
+
         public override Card OnClick(ComponentEventHandler<MouseEvent> onClick)
         {
             InnerElement.style.cursor = "pointer";
@@ -28,6 +37,12 @@ namespace Tesserae.Components
         {
             ClearChildren(InnerElement);
             InnerElement.appendChild(content.Render());
+            return this;
+        }
+
+        public Card Compact()
+        {
+            IsCompact = true;
             return this;
         }
 
