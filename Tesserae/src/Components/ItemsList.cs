@@ -30,12 +30,12 @@ namespace Tesserae.Components
 
             if (columns.Length < 2)
             {
-                _stack = Stack().Horizontal().Wrap().Stretch().Scroll();
+                _stack = Stack().Horizontal().Wrap().WidthStretch().MaxHeight(100.percent()).Scroll();
                 _maxStackItemSize = columns.FirstOrDefault() ?? 100.percent();
             }
             else
             {
-                _grid = Grid(columns).Stretch().Scroll();
+                _grid = Grid(columns).WidthStretch().MaxHeight(100.percent()).Scroll();
             }
             _emptyListMessageGenerator = null;
 
