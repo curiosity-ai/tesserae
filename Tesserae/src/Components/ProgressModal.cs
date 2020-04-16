@@ -33,14 +33,16 @@ namespace Tesserae.Components
 
         }
 
-        public void Show()
+        public ProgressModal Show()
         {
             _modalHost.Show();
+            return this;
         }
 
-        public void Hide()
+        public ProgressModal Hide()
         {
             _modalHost.Hide();
+            return this;
         }
 
         public ProgressModal Message(string message)

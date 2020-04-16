@@ -231,8 +231,11 @@ namespace Tesserae.Components
         {
             protected HTMLElement _container;
             private HTMLSpanElement _label;
+            private HTMLAnchorElement _link;
             private HTMLElement _icon;
             private bool _isSelectable = true;
+            private bool _hasOnClick = false;
+            private bool _hasOnSelect = false;
             internal Sidebar parent;
 
             public bool IsEnabled
@@ -313,11 +316,17 @@ namespace Tesserae.Components
 
                 _container.onclick = (e) =>
                 {
-                    StopEvent(e);
-
+                    if (_hasOnClick || _hasOnSelect)
+                    {
+                        StopEvent(e);
+                    }
+                        
                     onClick?.Invoke(this);
 
-                    if (!IsSelectable) return;
+                    if (!IsSelectable)
+                    {
+                        return;
+                    }
 
                     if (parent is object)
                     {
@@ -343,7 +352,14 @@ namespace Tesserae.Components
             public Item SetText(string text)
             {
                 if (_label is null) return this;
-                _label.textContent = text;
+                if(_link is object)
+                {
+                    _link.textContent = text;
+                }
+                else
+                {
+                    _label.textContent = text;
+                }
                 return this;
             }
 
@@ -384,12 +400,24 @@ namespace Tesserae.Components
 
             public Item OnSelect(SidebarItemHandler onSelect)
             {
+                _hasOnSelect = true;
                 onSelected += onSelect;
                 return this;
             }
+            
             public Item OnClick(SidebarItemHandler onClick)
             {
+                _hasOnClick = true;
                 this.onClick += onClick;
+                return this;
+            }
+
+            public Item WithLink(string href)
+            {
+                _link = A(_());
+                _link.textContent = _label.textContent;
+                _label.textContent = "";
+                _label.appendChild(_link);
                 return this;
             }
 
