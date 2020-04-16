@@ -1,4 +1,6 @@
-﻿namespace Tesserae.Components
+﻿using System.Diagnostics;
+
+namespace Tesserae.Components
 {
     public static class IComponentExtensions
     {
@@ -177,7 +179,7 @@
             return component;
         }
 
-        public static T Grow<T>(this T component, int grow) where T : IComponent
+        public static T Grow<T>(this T component, int grow = 1) where T : IComponent
         {
             Stack.SetGrow(component, grow);
             return component;
@@ -231,5 +233,47 @@
             component.Render().classList.add("tss-fade", "tss-show");
             return component;
         }
+
+
+        //Shortcuts:
+
+        /// <summary>Width</summary>
+        public static T W<T>(this T component, UnitSize unitSize) where T : IComponent => Width(component, unitSize);
+
+        /// <summary>Height</summary>
+        public static T H<T>(this T component, UnitSize unitSize) where T : IComponent => Height(component, unitSize);
+
+        /// <summary>Stretch</summary>
+        public static T S<T>(this T component, UnitSize unitSize) where T : IComponent => Stretch(component);
+
+        /// <summary>WidthStretch</summary>
+        public static T WS<T>(this T component, UnitSize unitSize) where T : IComponent => WidthStretch(component);
+
+        /// <summary>HeightStretch</summary>
+        public static T HS<T>(this T component, UnitSize unitSize) where T : IComponent => HeightStretch(component);
+
+        /// <summary>MarginLeft</summary>
+        public static T ML<T>(this T component, UnitSize unitSize) where T : IComponent => MarginLeft(component, unitSize);
+
+        /// <summary>MarginRight</summary>
+        public static T MR<T>(this T component, UnitSize unitSize) where T : IComponent => MarginRight(component, unitSize);
+
+        /// <summary>MarginTop</summary>
+        public static T MT<T>(this T component, UnitSize unitSize) where T : IComponent => MarginTop(component, unitSize);
+
+        /// <summary>MarginBottom</summary>
+        public static T MB<T>(this T component, UnitSize unitSize) where T : IComponent => MarginBottom(component, unitSize);
+
+        /// <summary>PaddingLeft</summary>
+        public static T PL<T>(this T component, UnitSize unitSize) where T : IComponent => PaddingLeft(component, unitSize);
+
+        /// <summary>PaddingRight</summary>
+        public static T PR<T>(this T component, UnitSize unitSize) where T : IComponent => PaddingRight(component, unitSize);
+
+        /// <summary>PaddingTop</summary>
+        public static T PT<T>(this T component, UnitSize unitSize) where T : IComponent => PaddingTop(component, unitSize);
+
+        /// <summary>PaddingBottom</summary>
+        public static T PB<T>(this T component, UnitSize unitSize) where T : IComponent => PaddingBottom(component, unitSize);
     }
 }
