@@ -5,7 +5,7 @@ using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
-    public class ProgressModal : IComponent
+    public class ProgressIndicator : IComponent
     {
         private HTMLElement InnerElement;
         private HTMLElement BarElement;
