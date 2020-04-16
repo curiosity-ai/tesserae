@@ -98,7 +98,7 @@
     visibility: hidden;
     opacity: 0;
     text-transform: uppercase;
-    font-weight: 700;
+    font-weight: 500;
     font-size: 12px;
     transition: opacity 0.3s ease 0s, visibility 0.5s;
     white-space: nowrap;
@@ -117,7 +117,7 @@
 
 .tss-sidebar-icon {
     display: inline-block;
-    font-size: 22px;
+    font-size: 15px;
     position: absolute;
     left: 0px;
     text-align:center;
@@ -166,7 +166,7 @@
 }
 
 .tss-sidebar.tss-medium > .tss-sidebar-item > .tss-sidebar-icon {
-    font-size: 22px;
+    font-size: 15px;
     left: 0px;
     width: 48px;
 }
