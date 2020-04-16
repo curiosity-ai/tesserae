@@ -80,6 +80,8 @@ namespace Tesserae.Components
             return this;
         }
 
+        public ProgressModal Progress(int position, int total) => Progress(100f * position / total);
+
         public ProgressModal ProgressIndeterminated()
         {
             if (_isSpinner)

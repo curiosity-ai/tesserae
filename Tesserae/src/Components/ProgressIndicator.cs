@@ -5,7 +5,7 @@ using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
-    public class ProgressIndicator : IComponent
+    public class ProgressModal : IComponent
     {
         private HTMLElement InnerElement;
         private HTMLElement BarElement;
@@ -15,6 +15,8 @@ namespace Tesserae.Components
             BarElement = Div(_("tss-progressindicator-bar"));
             InnerElement = Div(_("tss-progressindicator"), BarElement);
         }
+
+        public ProgressIndicator Progress(int position, int total) => Progress(100f * position / total);
 
         public ProgressIndicator Progress(float percent)
         {
