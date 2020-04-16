@@ -7,8 +7,10 @@ namespace Tesserae.Components
 {
     public class Toast : Layer
     {
+        public static Position DefaultPosition { get; set; } = Position.TopRight;
+
         private Type _type = Type.Information;
-        private Position _position = Position.TopRight;
+        private Position _position { get; set; } = DefaultPosition;
         private Position _simplePosition
         {
             get
