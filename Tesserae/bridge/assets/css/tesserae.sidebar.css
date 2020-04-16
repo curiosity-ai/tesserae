@@ -86,7 +86,7 @@
     }
 
 .tss-sidebar.tss-light > .tss-sidebar-item {
-    color: var(--tss-secondary-foreground-color);
+    color: var(--tss-primary-background-color);
 }
 
 .tss-sidebar-item:hover {
