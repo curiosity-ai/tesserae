@@ -224,6 +224,18 @@ a {
         color: var(--tss-default-foreground-color);
     }
 
+    .tss-btn-link.tss-danger {
+        color: var(--tss-danger-background-color);
+    }
+
+        .tss-btn-link.tss-danger:hover {
+            color: var(--tss-danger-background-color);
+        }
+
+        .tss-btn-link.tss-danger.tss-disabled {
+            color: var(--tss-disabled-foreground-color);
+        }
+
 .tss-btn-nominsize {
     min-height: unset;
     min-width: unset;

@@ -254,6 +254,14 @@ namespace Tesserae.Components
             return this;
         }
 
+        public Button DangerLink()
+        {
+            IsLink = true;
+            InnerElement.classList.add("tss-danger");
+            return this;
+        }
+
+
         public Button Primary()
         {
             IsPrimary = true;
