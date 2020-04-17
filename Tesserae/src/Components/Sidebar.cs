@@ -232,6 +232,7 @@ namespace Tesserae.Components
             protected HTMLElement _container;
             private HTMLSpanElement _label;
             private HTMLAnchorElement _link;
+            private HTMLAnchorElement _linkIcon;
             private HTMLElement _icon;
             private bool _isSelectable = true;
             private bool _hasOnClick = false;
@@ -414,10 +415,15 @@ namespace Tesserae.Components
 
             public Item WithLink(string href)
             {
-                _link = A(_());
+                _link = A(_(href: href));
+                _linkIcon = A(_(href: href));
+                
                 _link.textContent = _label.textContent;
                 _label.textContent = "";
                 _label.appendChild(_link);
+                _icon.parentElement.appendChild(_linkIcon);
+                _linkIcon.appendChild(_icon);
+
                 return this;
             }
 
