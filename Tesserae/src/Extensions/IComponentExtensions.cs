@@ -244,13 +244,13 @@ namespace Tesserae.Components
         public static T H<T>(this T component, UnitSize unitSize) where T : IComponent => Height(component, unitSize);
 
         /// <summary>Stretch</summary>
-        public static T S<T>(this T component, UnitSize unitSize) where T : IComponent => Stretch(component);
+        public static T S<T>(this T component) where T : IComponent => Stretch(component);
 
         /// <summary>WidthStretch</summary>
-        public static T WS<T>(this T component, UnitSize unitSize) where T : IComponent => WidthStretch(component);
+        public static T WS<T>(this T component) where T : IComponent => WidthStretch(component);
 
         /// <summary>HeightStretch</summary>
-        public static T HS<T>(this T component, UnitSize unitSize) where T : IComponent => HeightStretch(component);
+        public static T HS<T>(this T component) where T : IComponent => HeightStretch(component);
 
         /// <summary>MarginLeft</summary>
         public static T ML<T>(this T component, UnitSize unitSize) where T : IComponent => MarginLeft(component, unitSize);
