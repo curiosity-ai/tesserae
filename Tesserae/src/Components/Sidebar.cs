@@ -321,6 +321,14 @@ namespace Tesserae.Components
                     {
                         StopEvent(e);
                     }
+                    else
+                    {
+                        if(_link is object)
+                        {
+                            StopEvent(e);
+                            Router.Navigate(_link.href);
+                        }
+                    }
                         
                     onClick?.Invoke(this);
 
@@ -397,7 +405,6 @@ namespace Tesserae.Components
                 _container.style.bottom = "16px";
                 return this;
             }
-
 
             public Item OnSelect(SidebarItemHandler onSelect)
             {
