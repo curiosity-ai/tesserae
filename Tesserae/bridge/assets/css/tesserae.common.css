@@ -70,6 +70,9 @@
     --tss-sidebar-foreground-color: rgb(222, 235, 255);
     --tss-navbar-background-color: rgb(255, 255, 255);
     --tss-navbar-foreground-color: rgb(50, 49, 48);
+    --tss-scrollbar-track-color: rgba(50, 49, 48, 0.12);
+    --tss-scrollbar-thumb-color: rgba(50, 49, 48, 0.2);
+    --tss-simplebar-thumb-color: rgba(50, 49, 48,0.32);
 }
 
 .tss-dark-mode {
@@ -128,6 +131,9 @@
     --tss-sidebar-foreground-color: rgb(222, 235, 255);
     --tss-navbar-background-color: rgb(34, 34, 34);
     --tss-navbar-foreground-color: rgb(255, 255, 255);
+    --tss-scrollbar-track-color: rgba(255,255,255,0.08);
+    --tss-scrollbar-thumb-color: rgba(255,255,255,0.15);
+    --tss-simplebar-thumb-color: rgba(255,255,255,0.23);
 }
 
 /* Fonts */
@@ -249,4 +255,36 @@
 .simplebar-wrapper {
     height: 100%; /* We change this, because the default of inherit from simple-bar doesn't play nice with our Stack*/
     width:  100%; /* We change this, because the default of inherit from simple-bar doesn't play nice with our Stack*/
+}
+
+
+
+::-webkit-scrollbar {
+    width: 9px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--tss-scrollbar-track-color);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: var(--tss-scrollbar-thumb-color);
+    opacity: 0.8;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    opacity: 1;
+}
+
+
+.simplebar-scrollbar:before {
+    background: var(--tss-simplebar-thumb-color);
+}
+
+.simplebar-track .simplebar-scrollbar.simplebar-visible:before {
+    /* When hovered, remove all transitions from drag handle */
+    opacity: 1;
+    transition: opacity 0s linear;
 }
