@@ -37,7 +37,7 @@ namespace Tesserae.Tests.Samples
             .Section(Stack().Children(
                 SampleTitle("Usage:"),
                 TextBlock($"enum {nameof(LineAwesome)}:").Medium(),
-                SearchableList(GetItems(40), 25.percent(), 25.percent(), 25.percent(), 25.percent()))).PaddingBottom(32.px()).MaxHeight(300.px());
+                SearchableList(GetItems(40), 25.percent(), 25.percent(), 25.percent(), 25.percent()))).PaddingBottom(32.px()).MaxHeight(100.vh());
         }
 
         public HTMLElement Render()
@@ -64,7 +64,7 @@ namespace Tesserae.Tests.Samples
             {
                 name = ToValidName(name.Substring(3));
                 _value = name + " " + icon.ToString();
-                component = Stack().Horizontal().Children(Icon(icon, size: TextSize.Medium).MinWidth(34.px()).AlignCenter(), TextBlock($"{name}").Title(icon.ToString()).Wrap().AlignCenter()).PaddingBottom(4.px());
+                component = Stack().Horizontal().Children(Icon(icon, size: TextSize.Large).MinWidth(36.px()).AlignCenter(), TextBlock($"{name}").Title(icon.ToString()).Wrap().AlignCenter()).PaddingBottom(4.px());
             }
 
             public bool IsMatch(string searchTerm) => _value.Contains(searchTerm);
