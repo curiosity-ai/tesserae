@@ -52,21 +52,19 @@
     border: 0;
     width: 100%;
     flex-shrink: 0;
-    padding: 0;
+    padding: 0px 12px 0px 12px;
     display: inline-flex;
     align-items: center;
     background: var(--tss-default-background-color);
 }
 
-    .tss-modal-footer:not(:empty) {
-        padding: 6px 12px 6px 12px;
-    }
+
 
 .tss-modal-header {
     margin: 0;
     border: 0;
     width: 100%;
-    padding: 0;
+    padding: 0px 12px 0px 12px;
     position: relative;
     border-top: 4px solid rgb(0, 120, 212);
     flex-shrink: 0;
@@ -74,10 +72,6 @@
     align-items: center;
     background: var(--tss-default-background-color);
 }
-
-    .tss-modal-header:not(:empty) {
-        padding: 6px 12px 6px 12px;
-    }
 
     .tss-modal-header.tss-noborder {
         border-top: unset;
@@ -91,12 +85,22 @@
     flex-wrap: nowrap;
 }
 
+    .tss-modal-header-content:not(:empty) {
+        padding: 6px 0px 6px 0px;
+    }
+
+
 .tss-modal-footer-content {
     flex-grow: 1;
     overflow: hidden;
     display: inline-flex;
     flex-wrap: nowrap;
 }
+
+    .tss-modal-footer-content:not(:empty) {
+        padding: 6px 0px 6px 0px;
+    }
+
 
 .tss-modal-header-commands {
     flex-shrink: 0;
@@ -105,12 +109,22 @@
     align-items: center;
 }
 
+    .tss-modal-header-commands:not(:empty) {
+        padding: 6px 0px 6px 0px;
+    }
+
+
 .tss-modal-footer-commands {
     flex-shrink: 0;
     flex-wrap: nowrap;
     display: inline-flex;
     align-items: center;
 }
+
+    .tss-modal-footer-commands:not(:empty) {
+        padding: 6px 0px 6px 0px;
+    }
+
 
 
 .tss-modal-header-commands > button {
