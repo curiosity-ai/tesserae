@@ -6,11 +6,11 @@ namespace Tesserae.Components
 {
     public class Validator
     {
-        private Dictionary<ICanValidate, ValidationHandler> RegisteredComponents = new Dictionary<ICanValidate, ValidationHandler>();
+        private Dictionary<ICanValidate, ValidationHandler> _registeredComponents = new Dictionary<ICanValidate, ValidationHandler>();
 
         public event OnValidationHandler onValidation;
 
-        internal delegate void ValidationHandler(object e);
+        internal delegate void ValidationHandler(Validator e);
 
         public delegate void OnValidationHandler(bool isValid);
 
@@ -18,7 +18,22 @@ namespace Tesserae.Components
 
         internal void Register(ICanValidate component, ValidationHandler handler)
         {
-            RegisteredComponents.Add(component, handler);
+            _registeredComponents.Add(component, handler);
+        }
+
+        public void RegisterFromCallback(Func<bool> isInvalid, Action<Validator> onRevalidation)
+        {
+            _registeredComponents.Add(new Dummy(isInvalid), (v) => onRevalidation(v));
+        }
+
+        private class Dummy : ICanValidate
+        {
+            private Func<bool> _isInvalid;
+
+            public Dummy(Func<bool> isInvalid) => _isInvalid = isInvalid;
+
+            public string Error { get ; set ; }
+            public bool IsInvalid { get => _isInvalid(); set => throw new NotSupportedException(); }
         }
 
         public Validator OnValidation(OnValidationHandler onValidation)
@@ -38,7 +53,7 @@ namespace Tesserae.Components
             get
             {
                 Revalidate();
-                return !RegisteredComponents.Keys.Any(c => c.IsInvalid);
+                return !_registeredComponents.Keys.Any(c => c.IsInvalid);
             }
         }
 
@@ -46,7 +61,7 @@ namespace Tesserae.Components
         {
             if (CallsDepth > 2) { return; }
             CallsDepth++;
-            foreach (var kv in RegisteredComponents)
+            foreach (var kv in _registeredComponents)
             {
                 kv.Value(this); //Force revalidation
             }
