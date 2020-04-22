@@ -52,17 +52,21 @@
     border: 0;
     width: 100%;
     flex-shrink: 0;
-    padding: 12px;
+    padding: 0;
     display: inline-flex;
     align-items: center;
     background: var(--tss-default-background-color);
 }
 
+    .tss-modal-footer:not(:empty) {
+        padding: 6px 12px 6px 12px;
+    }
+
 .tss-modal-header {
     margin: 0;
     border: 0;
     width: 100%;
-    padding: 12px;
+    padding: 0;
     position: relative;
     border-top: 4px solid rgb(0, 120, 212);
     flex-shrink: 0;
@@ -71,9 +75,13 @@
     background: var(--tss-default-background-color);
 }
 
-.tss-modal-header.tss-noborder {
-    border-top: unset;
-}
+    .tss-modal-header:not(:empty) {
+        padding: 6px 12px 6px 12px;
+    }
+
+    .tss-modal-header.tss-noborder {
+        border-top: unset;
+    }
 
 
 .tss-modal-header-content {
@@ -101,7 +109,7 @@
     flex-shrink: 0;
     flex-wrap: nowrap;
     display: inline-flex;
-    align-items:center;
+    align-items: center;
 }
 
 
@@ -175,7 +183,7 @@
 }
 
 .tss-modal-centered-content {
-    display:flex;
+    display: flex;
     align-items: center;
     text-align: center;
     justify-content: center;
@@ -207,5 +215,5 @@
     box-shadow: var(--tss-card-shadow);
     max-width: calc(100% - 4px);
     max-height: calc(100% - 4px);
-    margin-bottom:4px;
+    margin-bottom: 4px;
 }
