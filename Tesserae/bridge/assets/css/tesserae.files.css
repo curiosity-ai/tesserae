@@ -7,6 +7,12 @@
     border: 0px;
 }
 
+    .tss-file-input .tss-btn {
+        padding: 0px;
+        margin: 0px;
+        margin-right: -16px;
+    }
+
 /* Same as .tss-textbox-container*/
 .tss-fileselector {
     position: relative;
