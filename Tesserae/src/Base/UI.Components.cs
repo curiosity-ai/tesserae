@@ -58,7 +58,7 @@ namespace Tesserae
         /// <returns></returns>
         public static Raw Raw(HTMLElement element) => new Raw(element);
 
-        public static Raw Raw() => new Raw(null);
+        public static Raw Raw() => new Raw();
 
         public static Image Image(string source) => new Image(source);
 
