@@ -17,6 +17,12 @@
     overflow: hidden;
 }
 
+    .tss-dropdown.tss-dropdown-noarrow {
+        background-color: red;
+        margin-right: 0px;
+        width: 100%;
+        padding: 0px;
+    }
 
     .tss-dropdown:after {
         content: " ";
@@ -29,6 +35,10 @@
         border-left: 1px solid var(--tss-default-border-color);
         border-top: 1px solid var(--tss-default-border-color);
         transform: rotate(225deg);
+    }
+
+    .tss-dropdown.tss-dropdown-noarrow:after {
+        display: none;
     }
 
 .tss-dropdown-container {
