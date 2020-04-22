@@ -71,6 +71,7 @@
     --tss-navbar-background-color: rgb(255, 255, 255);
     --tss-navbar-foreground-color: rgb(50, 49, 48);
     --tss-scrollbar-track-color: rgba(50, 49, 48, 0.12);
+    --tss-scrollbar-track-hidden-color: rgba(50, 49, 48, 0.06);
     --tss-scrollbar-thumb-color: rgba(50, 49, 48, 0.2);
     --tss-simplebar-thumb-color: rgba(50, 49, 48,0.32);
 }
@@ -132,6 +133,7 @@
     --tss-navbar-background-color: rgb(34, 34, 34);
     --tss-navbar-foreground-color: rgb(255, 255, 255);
     --tss-scrollbar-track-color: rgba(255,255,255,0.08);
+    --tss-scrollbar-track-hidden-color: rgba(255,255,255,0.04);
     --tss-scrollbar-thumb-color: rgba(255,255,255,0.15);
     --tss-simplebar-thumb-color: rgba(255,255,255,0.23);
 }
@@ -264,18 +266,31 @@
 }
 
 ::-webkit-scrollbar-track {
+    background: var(--tss-scrollbar-track-hidden-color);
+    border-radius: 5px;
+}
+
+*:hover::-webkit-scrollbar-track {
     background: var(--tss-scrollbar-track-color);
     border-radius: 5px;
 }
 
+
 ::-webkit-scrollbar-thumb {
     border-radius: 10px;
-    background: var(--tss-scrollbar-thumb-color);
+    background: var(--tss-scrollbar-track-color);
     opacity: 0.8;
+}
+
+
+*:hover::-webkit-scrollbar-thumb {
+    background: var(--tss-scrollbar-thumb-color);
+    border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
     opacity: 1;
+    border: 1px solid var(--tss-default-border-color);
 }
 
 
