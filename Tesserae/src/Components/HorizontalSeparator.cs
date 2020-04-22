@@ -33,6 +33,7 @@ namespace Tesserae.Components
             get => _separator.textContent;
             set => _separator.textContent = value ?? "";
         }
+
         public string Background { get => _separator.style.background; set => _separator.style.background = value; }
 
         public HorizontalSeparator(string text = string.Empty)

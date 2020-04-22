@@ -8,13 +8,11 @@ namespace Tesserae.Components
 {
     public class Grid : IContainer<Grid, IComponent>, IHasBackgroundColor, IHasMarginPadding, ISpecialCaseStyling
     {
-        private HTMLElement InnerElement;
-
         private HTMLElement _grid;
 
-        public string Background { get => InnerElement.style.background; set => InnerElement.style.background = value; }
-        public string Margin { get => InnerElement.style.margin; set => InnerElement.style.margin = value; }
-        public string Padding { get => InnerElement.style.padding; set => InnerElement.style.padding = value; }
+        public string Background { get => _grid.style.background; set => _grid.style.background = value; }
+        public string Margin { get => _grid.style.margin; set => _grid.style.margin = value; }
+        public string Padding { get => _grid.style.padding; set => _grid.style.padding = value; }
 
         public HTMLElement StylingContainer => _grid;
 
@@ -23,7 +21,6 @@ namespace Tesserae.Components
         public Grid(params UnitSize[] columns)
         {
             _grid = Div(_("tss-grid").WithRole("grid"));
-            InnerElement = DIV(_grid);
             JustifyContent(ItemJustify.Start);
             if (columns is object && columns.Any(c => c is object))
             {
@@ -33,12 +30,6 @@ namespace Tesserae.Components
             {
                 _grid.style.gridTemplateColumns = "100%";
             }
-        }
-
-        public Grid EnableInvisibleScroll()
-        {
-            ScrollBar.EnableInvisibleScroll(InnerElement);
-            return this;
         }
 
         public void Add(IComponent component)
@@ -175,9 +166,6 @@ namespace Tesserae.Components
             _grid.replaceChild(GetItem(newComponent), GetItem(oldComponent));
         }
 
-        public virtual HTMLElement Render()
-        {
-            return InnerElement;
-        }
+        public virtual HTMLElement Render() => _grid;
     }
 }
