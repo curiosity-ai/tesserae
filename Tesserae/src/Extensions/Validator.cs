@@ -6,24 +6,27 @@ namespace Tesserae.Components
 {
     public class Validator
     {
-        private Dictionary<ICanValidate, ValidationHandler> _registeredComponents = new Dictionary<ICanValidate, ValidationHandler>();
+        private Dictionary<ICanValidate, Action> _registeredComponents;
 
         public event OnValidationHandler onValidation;
-
-        internal delegate void ValidationHandler(Validator e);
 
         public delegate void OnValidationHandler(bool isValid);
 
         private int CallsDepth = 0;
 
-        internal void Register(ICanValidate component, ValidationHandler handler)
+        public Validator()
         {
-            _registeredComponents.Add(component, handler);
+            _registeredComponents = new Dictionary<ICanValidate, Action>();
         }
 
-        public void RegisterFromCallback(Func<bool> isInvalid, Action<Validator> onRevalidation)
+        internal void Register(ICanValidate component, Action onRevalidation)
         {
-            _registeredComponents.Add(new Dummy(isInvalid), (v) => onRevalidation(v));
+            _registeredComponents.Add(component, onRevalidation);
+        }
+
+        public void RegisterFromCallback(Func<bool> isInvalid, Action onRevalidation)
+        {
+            _registeredComponents.Add(new Dummy(isInvalid), onRevalidation);
         }
 
         private class Dummy : ICanValidate
@@ -63,7 +66,7 @@ namespace Tesserae.Components
             CallsDepth++;
             foreach (var kv in _registeredComponents)
             {
-                kv.Value(this); //Force revalidation
+                kv.Value?.Invoke(); //Force revalidation
             }
             CallsDepth--;
         }
