@@ -5,7 +5,7 @@ using static Retyped.dom;
 
 namespace Tesserae.Components
 {
-    public class HorizontalSeparator : IComponent
+    public class HorizontalSeparator : IComponent, IHasBackgroundColor
     {
         private HTMLElement _container;
         private HTMLElement _separator;
@@ -33,6 +33,7 @@ namespace Tesserae.Components
             get => _separator.textContent;
             set => _separator.textContent = value ?? "";
         }
+        public string Background { get => _separator.style.background; set => _separator.style.background = value; }
 
         public HorizontalSeparator(string text = string.Empty)
         {
