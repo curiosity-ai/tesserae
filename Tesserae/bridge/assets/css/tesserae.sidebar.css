@@ -10,13 +10,13 @@
     max-width: 64px;
     width: auto;
     transform: translateZ(0px);
-    background: var(--tss-sidebar-background-color);
-    color: var(--tss-sidebar-foreground-color);
+    background: var(--tss-sidebar-background-color) !important;
+    color: var(--tss-sidebar-foreground-color) !important;
 }
 
     .tss-sidebar.tss-light {
-        color: var(--tss-default-foreground-color);
-        background: var(--tss-default-background-color);
+        color: var(--tss-default-foreground-color) !important;
+        background: var(--tss-default-background-color) !important;
     }
 
 
@@ -51,7 +51,7 @@
 .tss-sidebar-content {
     margin: 0;
     padding: 0;
-    background-color: var(--tss-default-background-color);
+    background-color: var(--tss-default-background-color) !important;
     margin-left: 64px;
     height: 100%;
     overflow: auto;
@@ -73,7 +73,7 @@
     line-height: 42px;
     padding-left: 64px;
     padding-right: 64px;
-    color: var(--tss-sidebar-foreground-color);
+    color: var(--tss-sidebar-foreground-color) !important;
     cursor: pointer;
     user-select: none;
     transition: color 0.1s ease 0s;
@@ -92,11 +92,12 @@
     }
 
 .tss-sidebar.tss-light > .tss-sidebar-item {
-    color: var(--tss-primary-background-color);
+    color: var(--tss-primary-background-color) !important;
 }
 
 .tss-sidebar-item:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: var(--tss-sidebar-foreground-color) !important;
 }
 
 .tss-sidebar-label {
@@ -131,15 +132,16 @@
 }
 
 .tss-sidebar-item.tss-selected {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.2) !important;
 }
 
 .tss-sidebar.tss-light > .tss-sidebar-item.tss-selected {
-    background: var(--tss-default-background-active-color);
+    background: var(--tss-default-background-active-color) !important;
 }
 
 .tss-sidebar.tss-light > .tss-sidebar-item:hover {
-    background: var(--tss-default-background-hover-color);
+    background: var(--tss-default-background-hover-color) !important;
+    color: var(--tss-sidebar-foreground-color) !important;
 }
 
 
