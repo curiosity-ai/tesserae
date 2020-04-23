@@ -140,7 +140,8 @@
     text-align: center;
     display: inline-block;
     font-size: var(--tss-font-size-mediumplus);
-    font-weight: lighter;
+    font-weight: var(--tss-font-weight-semibold);
+    box-shadow: none;
 }
 
     .tss-modal-header-commands > button:not(:first-of-type) {
@@ -169,8 +170,9 @@
     padding: 0 4px;
     text-align: center;
     display: inline-block;
-    font-size: var(--tss-font-size-smallplus);
-    font-weight: lighter;
+    font-size: var(--tss-font-size-small);
+    font-weight: var(--tss-font-weight-semibold);
+    box-shadow: none;
 }
 
     .tss-modal-footer-commands > button:not(:first-of-type) {
