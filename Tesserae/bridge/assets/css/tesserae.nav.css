@@ -42,7 +42,7 @@
         top: 6px;
         width: 8px;
         height: 8px;
-        border: solid var(--tss-default-border-color);
+        border: solid var(--tss-dark-border-color);
         border-width: 0 1px 1px 0;
         transform: rotate(-45deg);
         transition: transform 0.15s linear;
