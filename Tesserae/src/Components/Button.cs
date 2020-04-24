@@ -289,11 +289,14 @@ namespace Tesserae.Components
             }
         }
 
-        public async Task SpinWhile(Func<Task> action, string text = null)
+        public void SpinWhile(Func<Task> action, string text = null)
         {
-            ToSpinner(text);
-            await action();
-            UndoSpinner();
+            Task.Run(async () =>
+            {
+                ToSpinner(text);
+                await action();
+                UndoSpinner();
+            }).FireAndForget();
         }
 
         public Button Primary()
