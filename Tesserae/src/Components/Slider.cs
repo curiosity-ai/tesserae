@@ -130,9 +130,9 @@ namespace Tesserae.Components
             return this;
         }
 
-        public Slider Disabled()
+        public Slider Disabled(bool value = true)
         {
-            IsEnabled = false;
+            IsEnabled = !value;
             return this;
         }
 

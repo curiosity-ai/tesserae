@@ -314,9 +314,9 @@ namespace Tesserae.Components
             return this;
         }
 
-        public Button Disabled()
+        public Button Disabled(bool value = true)
         {
-            IsEnabled = false;
+            IsEnabled = !value;
             return this;
         }
 

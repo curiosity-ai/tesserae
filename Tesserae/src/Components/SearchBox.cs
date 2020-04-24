@@ -175,9 +175,9 @@ namespace Tesserae.Components
             return this;
         }
 
-        public SearchBox Disabled()
+        public SearchBox Disabled(bool value = true)
         {
-            IsEnabled = false;
+            IsEnabled = !value;
             return this;
         }
 
