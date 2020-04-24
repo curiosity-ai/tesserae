@@ -43,11 +43,13 @@ namespace Tesserae.Tests.Samples
             return _content.Render();
         }
 
-        private IEnumerable<SearchableListItem> GetItems(int count)
+        private SearchableListItem[] GetItems(int count)
         {
             return Enumerable
                 .Range(1, count)
-                .Select(number => new SearchableListItem($"Lorem Ipsum {number}"));
+                .Select(number => new SearchableListItem($"Lorem Ipsum {number}"))
+                .ToArray();
+
         }
 
         private class SearchableListItem : ISearchableItem
