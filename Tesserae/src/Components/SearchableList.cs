@@ -25,7 +25,7 @@ namespace Tesserae.Components
         {
             Items = items ?? new ObservableList<T>();
             _searchBox = new SearchBox().Underlined().SetPlaceholder("Type to search").SearchAsYouType().WidthStretch();
-            _list = ItemsList(null, columns);
+            _list = ItemsList(new IComponent[0], columns);
             _defered = Defer(Items, item =>
             {
                 var searchTerm = _searchBox.Text;
