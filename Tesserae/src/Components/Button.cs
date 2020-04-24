@@ -3,6 +3,7 @@ using static Retyped.dom;
 using System.Linq;
 using System;
 using Tesserae.HTML;
+using System.Threading.Tasks;
 
 namespace Tesserae.Components
 {
@@ -286,6 +287,13 @@ namespace Tesserae.Components
                 InnerElement.classList.remove("tss-btn-nominsize");
                 _beforeReplace = null;
             }
+        }
+
+        public async Task SpinWhile(Func<Task> action, string text = null)
+        {
+            ToSpinner(text);
+            await action();
+            UndoSpinner();
         }
 
         public Button Primary()
