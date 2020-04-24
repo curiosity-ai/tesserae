@@ -267,8 +267,10 @@ namespace Tesserae.Components
             if (_beforeReplace is null)
             {
                 _beforeReplace = (HTMLElement)InnerElement.cloneNode(true);
+                var rect = (DOMRect)InnerElement.getBoundingClientRect();
                 ClearChildren(InnerElement);
                 InnerElement.appendChild(Spinner(text).Render());
+                InnerElement.style.minHeight = rect.height.px().ToString();
                 IsEnabled = false;
                 InnerElement.classList.add("tss-btn-nominsize");
             }
