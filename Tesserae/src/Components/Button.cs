@@ -263,7 +263,7 @@ namespace Tesserae.Components
 
         public Button ToSpinner(string text)
         {
-            return  ReplaceContent(Spinner(text)).Disabled();
+            return  ReplaceContent(Spinner(text)).Disabled().NoMinSize();
         }
 
         public Button Primary()
