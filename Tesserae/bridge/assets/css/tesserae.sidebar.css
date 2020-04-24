@@ -141,7 +141,7 @@
 
 .tss-sidebar.tss-light > .tss-sidebar-item:hover {
     background: var(--tss-default-background-hover-color) !important;
-    color: var(--tss-sidebar-foreground-color) !important;
+    color: var(--tss-primary-background-color) !important;
 }
 
 
