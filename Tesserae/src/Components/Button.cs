@@ -262,7 +262,7 @@ namespace Tesserae.Components
             return this;
         }
 
-        public void ToSpinner(string text)
+        public void ToSpinner(string text = null)
         {
             if (_beforeReplace is null)
             {
