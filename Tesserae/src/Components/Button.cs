@@ -261,6 +261,10 @@ namespace Tesserae.Components
             return this;
         }
 
+        public Button ToSpinner(string text)
+        {
+            return  ReplaceContent(Spinner(text)).Disabled();
+        }
 
         public Button Primary()
         {
