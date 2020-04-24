@@ -317,11 +317,11 @@ namespace Tesserae.Components
                 Type = ContextMenu.ItemType.Divider;
                 return this;
             }
-            public ContextMenu.Item Disabled()
-            {
-                IsEnabled = false;
-                return this;
-            }
+            public ContextMenu.Item Disabled(bool value = true)
+        {
+            IsEnabled = !value;
+            return this;
+        }
 
             public new ContextMenu.Item OnClick(ComponentEventHandler<MouseEvent>  e)
             {

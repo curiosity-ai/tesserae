@@ -149,9 +149,9 @@ namespace Tesserae.Components
             return this;
         }
 
-        public TextBox Disabled()
+        public TextBox Disabled(bool value = true)
         {
-            IsEnabled = false;
+            IsEnabled = !value;
             return this;
         }
 

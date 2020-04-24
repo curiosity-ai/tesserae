@@ -301,11 +301,12 @@ namespace Tesserae.Components
             return this;
         }
 
-        public Dropdown Disabled()
+        public Dropdown Disabled(bool value = true)
         {
-            IsEnabled = false;
+            IsEnabled = !value;
             return this;
         }
+        
         public Dropdown NoBorder()
         {
             HasBorder = false;
@@ -571,9 +572,9 @@ namespace Tesserae.Components
                 Type = ItemType.Divider;
                 return this;
             }
-            public Item Disabled()
+            public Item Disabled(bool value = true)
             {
-                IsEnabled = false;
+                IsEnabled = !value;
                 return this;
             }
 
