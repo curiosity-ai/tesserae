@@ -8,6 +8,7 @@ namespace Tesserae.Components
     {
         private HTMLElement InnerElement;
         private byte _hasProperties;
+
         public Raw(HTMLElement content = null)
         {
             InnerElement = content ?? DIV();

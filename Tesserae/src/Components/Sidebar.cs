@@ -231,8 +231,6 @@ namespace Tesserae.Components
         {
             protected HTMLElement _container;
             private HTMLSpanElement _label;
-            private HTMLAnchorElement _link;
-            private HTMLAnchorElement _linkIcon;
             private HTMLElement _icon;
             private bool _isSelectable = true;
             private bool _hasOnClick = false;
@@ -298,22 +296,30 @@ namespace Tesserae.Components
                 }
             }
 
-            public Item(string text, IComponent icon) : this(text, "")
+            public Item(string text, IComponent icon, string href = null)
             {
                 _icon = icon.Render();
-                CreateSelf(text);
+                CreateSelf(text, href);
             }
 
-            public Item(string text, string icon)
+            public Item(string text, string icon, string href = null)
             {
                 _icon = I(_(icon));
-                CreateSelf(text);
+                CreateSelf(text, href);
             }
 
-            private void CreateSelf(string text)
+            private void CreateSelf(string text, string href)
             {
                 _label = Span(_("tss-sidebar-label", text: text));
-                _container = Div(_("tss-sidebar-item"), Div(_("tss-sidebar-icon"), _icon), _label);
+
+                if (string.IsNullOrEmpty(href))
+                {
+                    _container = Div(_("tss-sidebar-item"), Div(_("tss-sidebar-icon"), _icon), _label);
+                }
+                else
+                {
+                    _container = A(_("tss-sidebar-item" ,href:href), Div(_("tss-sidebar-icon"), _icon), _label);
+                }
 
                 _container.onclick = (e) =>
                 {
@@ -323,10 +329,10 @@ namespace Tesserae.Components
                     }
                     else
                     {
-                        if(_link is object)
+                        if (!string.IsNullOrEmpty(href))
                         {
                             StopEvent(e);
-                            Router.Navigate(_link.href);
+                            Router.Navigate(href);
                         }
                     }
                         
@@ -361,14 +367,7 @@ namespace Tesserae.Components
             public Item SetText(string text)
             {
                 if (_label is null) return this;
-                if(_link is object)
-                {
-                    _link.textContent = text;
-                }
-                else
-                {
-                    _label.textContent = text;
-                }
+                _label.textContent = text;
                 return this;
             }
 
@@ -417,20 +416,6 @@ namespace Tesserae.Components
             {
                 _hasOnClick = true;
                 this.onClick += onClick;
-                return this;
-            }
-
-            public Item WithLink(string href)
-            {
-                _link = A(_(href: href));
-                _linkIcon = A(_(href: href));
-                
-                _link.textContent = _label.textContent;
-                _label.textContent = "";
-                _label.appendChild(_link);
-                _icon.parentElement.appendChild(_linkIcon);
-                _linkIcon.appendChild(_icon);
-
                 return this;
             }
 

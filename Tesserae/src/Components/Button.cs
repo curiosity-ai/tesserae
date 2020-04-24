@@ -10,6 +10,7 @@ namespace Tesserae.Components
     {
         private readonly HTMLSpanElement _textSpan;
         private HTMLElement _iconSpan;
+        private HTMLElement _beforeReplace;
 
         public Button(string text = string.Empty)
         {
@@ -261,6 +262,29 @@ namespace Tesserae.Components
             return this;
         }
 
+        public void ToSpinner(string text = null)
+        {
+            if (_beforeReplace is null)
+            {
+                _beforeReplace = (HTMLElement)InnerElement.cloneNode(true);
+                ClearChildren(InnerElement);
+                InnerElement.appendChild(Spinner(text).Render());
+                IsEnabled = false;
+                InnerElement.classList.add("tss-btn-nominsize");
+            }
+        }
+
+        public void UndoSpinner()
+        {
+            if (_beforeReplace is object)
+            {
+                ClearChildren(InnerElement);
+                foreach(var el in _beforeReplace.children) { InnerElement.appendChild(el); }
+                IsEnabled = true;
+                InnerElement.classList.remove("tss-btn-nominsize");
+                _beforeReplace = null;
+            }
+        }
 
         public Button Primary()
         {

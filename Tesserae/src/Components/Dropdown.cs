@@ -284,6 +284,12 @@ namespace Tesserae.Components
             return this;
         }
 
+        public Dropdown NoArrow()
+        {
+            InnerElement.classList.add("tss-dropdown-noarrow");
+            return this;
+        }
+
         public Dropdown Items(params Item[] children)
         {
             children.ForEach(x => Add(x));

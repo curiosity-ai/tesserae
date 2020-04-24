@@ -26,7 +26,7 @@ namespace Tesserae.Components
 
             handler(component, null);
 
-            validator?.Register(component, (s) => handler(component, null));
+            validator?.Register(component, () => handler(component, null));
             validator?.RaiseOnValidation();
 
             return component;

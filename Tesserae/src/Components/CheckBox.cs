@@ -72,9 +72,9 @@ namespace Tesserae.Components
             return this;
         }
 
-        public CheckBox Checked()
+        public CheckBox Checked(bool value = true)
         {
-            IsChecked = true;
+            IsChecked = value;
             return this;
         }
 

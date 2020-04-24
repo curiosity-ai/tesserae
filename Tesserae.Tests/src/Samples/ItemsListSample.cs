@@ -56,7 +56,7 @@ namespace Tesserae.Tests.Samples
                                 TextBlock("Basic List with Empty List Message ")
                                     .Medium()
                                     .PaddingBottom(16.px()),
-                                ItemsList(Enumerable.Empty<IComponent>(), 25.percent(), 25.percent(), 25.percent(), 25.percent())
+                                ItemsList(new IComponent[0], 25.percent(), 25.percent(), 25.percent(), 25.percent())
                                     .WithEmptyMessage(() => BackgroundArea(Card(TextBlock("Empty list").Padding(16.px()))).WidthStretch().HeightStretch().MinHeight(100.px()))
                                     .Height(500.px())));
         }
@@ -66,11 +66,12 @@ namespace Tesserae.Tests.Samples
             return _content.Render();
         }
 
-        private IEnumerable<IComponent> GetSomeItems(int count)
+        private IComponent[] GetSomeItems(int count)
         {
             return Enumerable
                 .Range(1, count)
-                .Select(number => Card(TextBlock($"Lorem Ipsum {number}").NonSelectable()).MinWidth(200.px()));
+                .Select(number => Card(TextBlock($"Lorem Ipsum {number}").NonSelectable()).MinWidth(200.px()))
+                .ToArray();
         }
     }
 }

@@ -58,7 +58,7 @@ namespace Tesserae
         /// <returns></returns>
         public static Raw Raw(HTMLElement element) => new Raw(element);
 
-        public static Raw Raw() => new Raw(null);
+        public static Raw Raw() => new Raw();
 
         public static Image Image(string source) => new Image(source);
 
@@ -198,9 +198,9 @@ namespace Tesserae
 
         public static Sidebar Sidebar() => new Sidebar();
 
-        public static Sidebar.Item SidebarItem(string text, string icon) => new Sidebar.Item(text, icon);
+        public static Sidebar.Item SidebarItem(string text, string icon, string href = null) => new Sidebar.Item(text, icon, href);
 
-        public static Sidebar.Item SidebarItem(string text, IComponent icon) => new Sidebar.Item(text, icon);
+        public static Sidebar.Item SidebarItem(string text, IComponent icon, string href = null) => new Sidebar.Item(text, icon, href);
 
         public static Navbar Navbar() => new Navbar();
 
@@ -234,11 +234,11 @@ namespace Tesserae
 
         public static VirtualizedList VirtualizedList(int rowsPerPage = 4, int columnsPerRow = 4) => new VirtualizedList(rowsPerPage, columnsPerRow);
 
-        public static SearchableList<T> SearchableList<T>(IEnumerable<T> components, params UnitSize[] columns) where T : ISearchableItem => new SearchableList<T>(components.ToArray(), columns);
+        public static SearchableList<T> SearchableList<T>(T[] components, params UnitSize[] columns) where T : ISearchableItem => new SearchableList<T>(components, columns);
 
         public static SearchableList<T> SearchableList<T>(ObservableList<T> components, params UnitSize[] columns) where T : ISearchableItem => new SearchableList<T>(components, columns);
 
-        public static ItemsList ItemsList(IEnumerable<IComponent> components, params UnitSize[] columns)=> new ItemsList(components.ToArray(), columns);
+        public static ItemsList ItemsList(IComponent[] components, params UnitSize[] columns)=> new ItemsList(components, columns);
 
         public static ItemsList ItemsList(ObservableList<IComponent> components, params UnitSize[] columns) => new ItemsList(components, columns);
 

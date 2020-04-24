@@ -71,7 +71,7 @@ namespace Tesserae.Tests
             sideBar.IsVisible = false;
             navBar.IsVisible  = false;
 
-            document.body.appendChild(sideBar.Brand(SidebarItem("... meow", "las la-cat").Large().NonSelectable())
+            document.body.appendChild(sideBar.Brand(SidebarItem("... meow", "las la-cat", href: "https://curiosity.ai").Large())
                                               .Add(SidebarItem("Colorful sidebar", "las la-tint").OnSelect((s) => sideBar.IsLight = false).Selected())
                                               .Add(SidebarItem("Light sidebar", "las la-tint-slash").OnSelect((s) => sideBar.IsLight = true))
                                               .Add(SidebarItem("Always Open", "las la-arrow-to-right").OnSelect((s) => sideBar.IsAlwaysOpen= true))

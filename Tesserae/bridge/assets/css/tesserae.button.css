@@ -74,17 +74,19 @@ a {
 .tss-btn-default {
     color: var(--tss-default-foreground-color);
     background-color: var(--tss-default-background-color);
-    border-color: var(--tss-default-border-color);
+    border-color: var(--tss-secondary-background-color);
 }
 
     .tss-btn-default:hover {
         color: var(--tss-default-foreground-hover-color);
         background-color: var(--tss-default-background-hover-color);
+        border-color: var(--tss-default-background-hover-color);
     }
 
     .tss-btn-default:active {
         color: var(--tss-default-foreground-active-color);
         background-color: var(--tss-default-background-active-color);
+        border-color: var(--tss-default-background-active-color);
     }
 
 .tss-btn-primary {

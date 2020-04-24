@@ -8,13 +8,12 @@
     color: var(--tss-default-foreground-color);
     cursor: text;
     align-items: stretch;
-    font-size: var(--tss-font-size-small);
-    font-weight: var(--tss-font-weight-regular);
     display: block;
     width: 100%;
     outline: transparent none medium;
     padding: 0px 5px;
-    background:none;
+    background: none;
+    margin-bottom: 4px;
 }
 
     .tss-searchbox::placeholder {
@@ -31,24 +30,24 @@
         opacity: 0.7;
     }
 
-    .tss-searchbox-container {
-        display: inline-flex;
-        position: relative;
-        margin-bottom: 4px;
-        margin-right: 16px;
-        box-shadow: none;
-        margin: 0px;
-        border: 1px solid var(--tss-default-border-color);
-        border-radius: 2px;
-        background: var(--tss-default-background-color) none repeat scroll 0% 0%;
-        color: var(--tss-default-foreground-color);
-        cursor: text;
-        height: 32px;
-        align-items: stretch;
-        width: 100%;
-        outline: transparent none medium;
-        padding: 0px 5px;
-    }
+.tss-searchbox-container {
+    display: inline-flex;
+    position: relative;
+    margin-bottom: 4px;
+    margin-right: 16px;
+    box-shadow: none;
+    margin: 0px;
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: 2px;
+    background: var(--tss-default-background-color) none repeat scroll 0% 0%;
+    color: var(--tss-default-foreground-color);
+    cursor: text;
+    height: 32px;
+    align-items: stretch;
+    width: 100%;
+    outline: transparent none medium;
+    padding: 0px 5px;
+}
 
     .tss-searchbox-container.tss-disabled {
         border-color: var(--tss-disabled-background-color);
@@ -59,7 +58,7 @@
     .tss-searchbox-container.tss-underlined {
         border-radius: 0px;
         border-style: solid;
-        border-color: var(--tss-default-border-color);
+        border-color: var(--tss-default-background-hover-color);
         border-image: initial;
         border-width: 0px 0px 1px;
         padding-bottom: 1px;
@@ -85,14 +84,13 @@
     justify-content: center;
     flex-shrink: 0;
     font-size: 16px;
-    width: 32px;
+    width: 20px;
     text-align: center;
-    color: rgb(0, 120, 212);
+    color: var(--tss-primary-background-color);
     cursor: text;
     transition: width 0.167s ease 0s;
-    overflow:hidden;
-    margin-top:8px;
-
+    overflow: hidden;
+    margin-top: 8px;
 }
 
 .tss-searchbox-container.tss-noicon > .tss-searchbox-icon {
@@ -121,7 +119,7 @@
 .tss-searchbox-container.tss-noicon:focus-within > .tss-searchbox-icon {
     width: 0px;
 }
+
 .tss-searchbox-container.tss-noicon:focus-within > .tss-searchbox-padding {
     width: 0px;
 }
-

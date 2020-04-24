@@ -37,7 +37,7 @@ namespace Tesserae.Tests.Samples
             .Section(Stack().Children(
                 SampleTitle("Usage:"),
                 TextBlock($"enum {nameof(LineAwesome)}:").Medium(),
-                SearchableList(GetItems(40), 25.percent(), 25.percent(), 25.percent(), 25.percent()))).PaddingBottom(32.px()).MaxHeight(100.vh());
+                SearchableList(GetAllIcons().ToArray(), 25.percent(), 25.percent(), 25.percent(), 25.percent()))).PaddingBottom(32.px()).MaxHeight(100.vh());
         }
 
         public HTMLElement Render()
@@ -45,7 +45,7 @@ namespace Tesserae.Tests.Samples
             return _content.Render();
         }
 
-        private IEnumerable<IconItem> GetItems(int count)
+        private IEnumerable<IconItem> GetAllIcons()
         {
             var names = Enum.GetNames(typeof(LineAwesome));
             LineAwesome[] values = (LineAwesome[])Enum.GetValues(typeof(LineAwesome));
