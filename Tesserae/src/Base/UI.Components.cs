@@ -234,11 +234,11 @@ namespace Tesserae
 
         public static VirtualizedList VirtualizedList(int rowsPerPage = 4, int columnsPerRow = 4) => new VirtualizedList(rowsPerPage, columnsPerRow);
 
-        public static SearchableList<T> SearchableList<T>(IEnumerable<T> components, params UnitSize[] columns) where T : ISearchableItem => new SearchableList<T>(components.ToArray(), columns);
+        public static SearchableList<T> SearchableList<T>(T[] components, params UnitSize[] columns) where T : ISearchableItem => new SearchableList<T>(components, columns);
 
         public static SearchableList<T> SearchableList<T>(ObservableList<T> components, params UnitSize[] columns) where T : ISearchableItem => new SearchableList<T>(components, columns);
 
-        public static ItemsList ItemsList(IEnumerable<IComponent> components, params UnitSize[] columns)=> new ItemsList(components.ToArray(), columns);
+        public static ItemsList ItemsList(IComponent[] components, params UnitSize[] columns)=> new ItemsList(components, columns);
 
         public static ItemsList ItemsList(ObservableList<IComponent> components, params UnitSize[] columns) => new ItemsList(components, columns);
 
