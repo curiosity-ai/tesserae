@@ -92,9 +92,9 @@ namespace Tesserae.Components
             return this;
         }
 
-        public Toggle Disabled()
+        public Toggle Disabled(bool value = true)
         {
-            IsEnabled = false;
+            IsEnabled = !value;
             return this;
         }
 
