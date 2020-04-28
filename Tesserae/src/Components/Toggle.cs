@@ -73,11 +73,11 @@ namespace Tesserae.Components
                 ClearChildren(_onOffSpan);
                 if (value)
                 {
-                    _onOffSpan.appendChild(_onText);
+                    _onOffSpan.appendChild(_onText.Render());
                 }
                 else
                 {
-                    _onOffSpan.appendChild(_offText);
+                    _onOffSpan.appendChild(_offText.Render());
                 }
             }
         }
@@ -92,11 +92,11 @@ namespace Tesserae.Components
             ClearChildren(_onOffSpan);
             if (IsChecked)
             {
-                _onOffSpan.appendChild(_onText);
+                _onOffSpan.appendChild(_onText.Render());
             }
             else
             {
-                _onOffSpan.appendChild(_offText);
+                _onOffSpan.appendChild(_offText.Render());
             }
             _observable.Value = IsChecked;
         }
