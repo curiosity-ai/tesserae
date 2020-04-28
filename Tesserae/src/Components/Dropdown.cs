@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Retyped;
+using Tesserae.HTML;
 
 namespace Tesserae.Components
 {
@@ -164,6 +165,13 @@ namespace Tesserae.Components
 
         public override HTMLElement Render()
         {
+            DomObserver.WhenMounted(_container, () =>
+            {
+                DomObserver.WhenRemoved(_container, () =>
+                {
+                    Hide();
+                });
+            });
             return _container;
         }
 
