@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Tesserae.Components;
 using static Retyped.dom;
@@ -116,6 +114,9 @@ namespace Tesserae
 
         public static IDefer Defer<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, IObservable<T6> o6, IObservable<T7> o7, IObservable<T8> o8, IObservable<T9> o9, IObservable<T10> o10, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, Task<IComponent>> asyncGenerator, IComponent loadMessage) => DeferedComponent.Observe(o1, o2, o3, o4, o5, o6, o7, o8, o9, o10, asyncGenerator, loadMessage);
 
+        /// <summary>
+        /// A Stack is a container-type component that abstracts the implementation of a flexbox in order to define the layout of its children components.
+        /// </summary>
         public static Stack Stack(Stack.Orientation orientation = Components.Stack.Orientation.Vertical) => new Stack(orientation);
 
         public static Grid Grid(params UnitSize[] columns) => new Grid(columns);
@@ -174,6 +175,12 @@ namespace Tesserae
 
         public static Slider Slider(int val = 0, int min = 0, int max = 100, int step = 10) => new Slider(val, min, max, step);
 
+        /// <summary>
+        /// A Layer is a technical component that does not have specific Design guidance.
+        /// 
+        /// Layers are used to render content outside of a DOM tree, at the end of the document.This allows content to escape traditional boundaries caused by "overflow: hidden" css rules and keeps it on the top without using z-index rules.This is useful for example in
+        /// ContextualMenu and Tooltip scenarios, where the content should always overlay everything else.
+        /// </summary>
         public static Layer Layer() => new Layer();
 
         public static LayerHost LayerHost() => new LayerHost();
