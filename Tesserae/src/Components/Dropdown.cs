@@ -34,8 +34,16 @@ namespace Tesserae.Components
 
             InnerElement.onclick = (e) =>
             {
+                StopEvent(e);
                 if (!IsVisible) Show();
             };
+
+            _container.onclick = (e) =>
+            {
+                StopEvent(e);
+                if (!IsVisible) Show();
+            };
+
             _selectedChildren = new ObservableList<Item>();
         }
 

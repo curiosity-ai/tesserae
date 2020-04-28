@@ -47,6 +47,11 @@
         flex-shrink: 0;
     }
 
+        .tss-pivot-titlebar > .tss-pivot-selected-title > * {
+            font-weight: var(--tss-font-weight-semibold);
+            background: var(--tss-default-background-color);
+            flex-shrink: 0;
+        }
 
 .tss-pivot-content {
     margin: 0;
