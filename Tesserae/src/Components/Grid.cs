@@ -1,8 +1,6 @@
 ﻿using System.Linq;
-using System.Collections.Generic;
-using Retyped;
-using static Tesserae.UI;
 using static Retyped.dom;
+using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
@@ -132,7 +130,7 @@ namespace Tesserae.Components
         /// <summary>
         /// Sets the justify-content css property for this stack
         /// </summary>
-        /// <param name="align"></param>
+        /// <param name="justify"></param>
         /// <returns></returns>
         public Grid JustifyContent(ItemJustify justify)
         {
@@ -146,7 +144,7 @@ namespace Tesserae.Components
         /// <summary>
         /// Sets the justify-content css property for this stack
         /// </summary>
-        /// <param name="align"></param>
+        /// <param name="justify"></param>
         /// <returns></returns>
         public Grid JustifyItems(ItemJustify justify)
         {

@@ -88,7 +88,7 @@ namespace Tesserae.Components
         /// <summary>
         /// Sets the justify-content css property for this stack
         /// </summary>
-        /// <param name="align"></param>
+        /// <param name="justify"></param>
         /// <returns></returns>
         public Stack JustifyContent(ItemJustify justify)
         {
@@ -102,7 +102,7 @@ namespace Tesserae.Components
         /// <summary>
         /// Sets the justify-content css property for this stack
         /// </summary>
-        /// <param name="align"></param>
+        /// <param name="justify"></param>
         /// <returns></returns>
         public Stack JustifyItems(ItemJustify justify)
         {
