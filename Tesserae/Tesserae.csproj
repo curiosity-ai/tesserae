@@ -13,6 +13,8 @@
     <Description>Tesserae is a UI toolkit for building web applications using Bridge.NET</Description>
     <PackageTags>Bridge.NET, HTML, UI</PackageTags>
     <PackageIcon>tesserae-logo.png</PackageIcon>
+    <DocumentationFile>Tesserae.xml</DocumentationFile>
+    <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Bridge" Version="17.9.0" />
@@ -37,5 +39,8 @@
     <Compile Remove="bridge\assets\img\**" />
     <EmbeddedResource Remove="bridge\assets\img\**" />
     <None Remove="bridge\assets\img\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="WaitForWith.xml" Visible="false" />
   </ItemGroup>
 </Project>
