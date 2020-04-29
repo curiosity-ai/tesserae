@@ -25,6 +25,7 @@ namespace Tesserae.Components
             {
                 StopEvent(e);
                 IsChecked = !IsChecked;
+                OnToggleChanged();
             };
 
             OnChange((s, e) => OnToggleChanged());
