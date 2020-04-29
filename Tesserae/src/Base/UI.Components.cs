@@ -127,9 +127,11 @@ namespace Tesserae
 
         public static CheckBox CheckBox(string text = string.Empty) => new CheckBox(text);
 
-        public static Toggle Toggle(IComponent onText = null, IComponent offText = null) => new Toggle(onText: onText, offText: offText);
-
-        public static Toggle Toggle(string onText = null, string offText = null) => new Toggle(onText: TextBlock(onText), offText: TextBlock(offText));
+        public static Toggle Toggle(IComponent onText, IComponent offText) => new Toggle(onText: onText, offText: offText);
+        
+        public static Toggle Toggle(string onText, string offText) => new Toggle(onText: TextBlock(onText), offText: TextBlock(offText));
+        
+        public static Toggle Toggle(string text) => new Toggle(onText: TextBlock(text), offText: TextBlock(text).Secondary());
 
         public static Toggle Toggle() => new Toggle(null, null);
 
