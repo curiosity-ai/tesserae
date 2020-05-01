@@ -1,9 +1,8 @@
-﻿using System;
-using Tesserae.Components;
+﻿using Tesserae.Components;
 using static Retyped.dom;
+using static Tesserae.Tests.Samples.SamplesHelper;
 using static Tesserae.UI;
 using Panel = Tesserae.Components.Panel;
-using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
@@ -14,7 +13,7 @@ namespace Tesserae.Tests.Samples
         public PanelSample()
         {
             var panel = Panel().LightDismiss();
-            panel.Content(
+            panel.SetContent(
                 Stack().Children(
                     TextBlock("Sample panel").MediumPlus().SemiBold(),
                     ChoiceGroup("Side:").Choices(

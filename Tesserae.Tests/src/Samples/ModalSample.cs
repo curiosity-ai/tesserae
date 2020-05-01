@@ -1,8 +1,7 @@
-﻿using System;
-using Tesserae.Components;
+﻿using Tesserae.Components;
 using static Retyped.dom;
-using static Tesserae.UI;
 using static Tesserae.Tests.Samples.SamplesHelper;
+using static Tesserae.UI;
 
 namespace Tesserae.Tests.Samples
 {
@@ -20,7 +19,7 @@ namespace Tesserae.Tests.Samples
                 .Width(60.vw())
                 .Height(60.vh())
                 .SetFooter(TextBlock("This is a footer note").SemiBold().MediumPlus())
-                .Content(Stack().Children(
+                .SetContent(Stack().Children(
                             TextBlock("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas lorem nulla, malesuada ut sagittis sit amet, vulputate in leo. Maecenas vulputate congue sapien eu tincidunt. Etiam eu sem turpis. Fusce tempor sagittis nunc, ut interdum ipsum vestibulum non. Proin dolor elit, aliquam eget tincidunt non, vestibulum ut turpis. In hac habitasse platea dictumst. In a odio eget enim porttitor maximus. Aliquam nulla nibh, ullamcorper aliquam placerat eu, viverra et dui. Phasellus ex lectus, maximus in mollis ac, luctus vel eros. Vivamus ultrices, turpis sed malesuada gravida, eros ipsum venenatis elit, et volutpat eros dui et ante. Quisque ultricies mi nec leo ultricies mollis. Vivamus egestas volutpat lacinia. Quisque pharetra eleifend efficitur. "),
                             TextBlock("Mauris at nunc eget lectus lobortis facilisis et eget magna. Vestibulum venenatis augue sapien, rhoncus faucibus magna semper eget. Proin rutrum libero sagittis sapien aliquet auctor. Suspendisse tristique a magna at facilisis. Duis rhoncus feugiat magna in rutrum. Suspendisse semper, dolor et vestibulum lacinia, nunc felis malesuada ex, nec hendrerit justo ex et massa. Quisque quis mollis nulla. Nam commodo est ornare, rhoncus odio eu, pharetra tellus. Nunc sed velit mi."),
                             TextBlock("Sed condimentum ultricies turpis convallis pharetra. Sed sagittis quam pharetra luctus porttitor. Cras vel consequat lectus. Sed nec fringilla urna, a aliquet libero. Aenean sed nisl purus. Vivamus vulputate felis et odio efficitur suscipit. Ut volutpat dictum lectus, ac rutrum massa accumsan at. Sed pharetra auctor finibus. In augue libero, commodo vitae nisi non, sagittis convallis ante. Phasellus malesuada eleifend mollis. Curabitur ultricies leo ac metus venenatis elementum."),
@@ -54,10 +53,10 @@ namespace Tesserae.Tests.Samples
                             SampleTitle("Usage"),
                             Button("Open Modal").OnClick((s, e) => modal.Show()),
                             Button("Open Modal from top right").OnClick((s, e) => modal.ShowAt(fromRight: 16.px(), fromTop: 16.px())),
-                            Button("Open Modal with minimum size").OnClick((s, e) => Modal().CenterContent().LightDismiss().Dark().Content(TextBlock("small content").Tiny()).MinHeight(50.vh()).MinWidth(50.vw()).Show()),
+                            Button("Open Modal with minimum size").OnClick((s, e) => Modal().CenterContent().LightDismiss().Dark().SetContent(TextBlock("small content").Tiny()).MinHeight(50.vh()).MinWidth(50.vw()).Show()),
                             
                             SampleTitle("Embedded Modal"),
-                            Button("Open Modal Bellow").OnClick((s, e) => container.Content(Modal("Embedded Modal").CenterContent().LightDismiss().Dark().Content(TextBlock("hosted small content").Tiny()).MinHeight(30.vh()).MinWidth(50.vw()).ShowEmbedded())),
+                            Button("Open Modal Bellow").OnClick((s, e) => container.Content(Modal("Embedded Modal").CenterContent().LightDismiss().Dark().SetContent(TextBlock("hosted small content").Tiny()).MinHeight(30.vh()).MinWidth(50.vw()).ShowEmbedded())),
                             container
                             ));
         }

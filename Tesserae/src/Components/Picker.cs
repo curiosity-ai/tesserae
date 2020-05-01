@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static Tesserae.UI;
 using static Retyped.dom;
+using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
@@ -287,7 +287,7 @@ namespace Tesserae.Components
             _suggestionsLayer.SuggestionsContainer.style.width = $"{(textBoxClientRect.width / 2).px()}";
         }
 
-        private class SuggestionsLayer : Layer
+        private class SuggestionsLayer : Layer<SuggestionsLayer>
         {
             private readonly HTMLElement _suggestions;
 

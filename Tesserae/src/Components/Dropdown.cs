@@ -1,15 +1,14 @@
-﻿using static Tesserae.UI;
-using static Retyped.dom;
-using System.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using Retyped;
 using Tesserae.HTML;
+using static Retyped.dom;
+using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
-    public class Dropdown : Layer, IContainer<Dropdown, Dropdown.Item>, ICanValidate<Dropdown>, IObservableListComponent<Dropdown.Item>
+    public sealed class Dropdown : Layer<Dropdown>, IContainer<Dropdown, Dropdown.Item>, ICanValidate<Dropdown>, IObservableListComponent<Dropdown.Item>
     {
         private readonly HTMLElement _childContainer;
 

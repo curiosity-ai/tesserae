@@ -5,7 +5,7 @@ using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
-    public class Modal : Layer, ISpecialCaseStyling, IHasBackgroundColor
+    public class Modal : Layer<Modal>, ISpecialCaseStyling, IHasBackgroundColor
     {
         private readonly HTMLElement _closeButton;
         protected readonly HTMLElement _modalHeader;
@@ -67,6 +67,14 @@ namespace Tesserae.Components
             _modalOverlay = Div(_("tss-modal-overlay"));
             _contentHtml = Div(_("tss-modal-container"), _modalOverlay, _modal);
             IsNonBlocking = false; //blocking by default
+        }
+
+        public override Modal SetContent(IComponent content)
+        {
+            // 2020-05-01 DWR: Apparently there is a Bridge bug where relying upon the SetContent method in the base class "Layer<Modal>" would not result in the overridden "Content" property of this class being called
+            // ^ TODO: Confirm that this is still the case
+            Content = content;
+            return this;
         }
 
         public Modal SetHeader(IComponent header)

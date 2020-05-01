@@ -1,11 +1,10 @@
-﻿using System;
-using static Tesserae.UI;
+﻿using System.Collections.Generic;
 using static Retyped.dom;
-using System.Collections.Generic;
+using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
-    public class Toast : Layer
+    public class Toast : Layer<Toast>
     {
         public static Position DefaultPosition { get; set; } = Position.TopRight;
 

@@ -1,15 +1,13 @@
-﻿using System;
-using Tesserae.Components;
+﻿using Tesserae.Components;
 using static Retyped.dom;
-using static Tesserae.UI;
 using static Tesserae.Tests.Samples.SamplesHelper;
+using static Tesserae.UI;
 
 namespace Tesserae.Tests.Samples
 {
     public class LayerSample : IComponent
     {
-        private IComponent _content;
-
+        private readonly IComponent _content;
         public LayerSample()
         {
             var layer = Layer();
@@ -23,16 +21,13 @@ namespace Tesserae.Tests.Samples
                         .Section(Stack().Children(
                             SampleTitle("Usage"),
                             TextBlock("Basic layered content").Medium(),
-                            layer.Content(Stack().Horizontal().Children(TextBlock("This is example layer content."),Toggle(), Toggle(), Toggle())),
+                            layer.SetContent(Stack().Horizontal().Children(TextBlock("This is example layer content."),Toggle(), Toggle(), Toggle())),
                                 Toggle("Toggle Component Layer").OnChange((s, e) => layer.IsVisible = s.IsChecked),
                                 TextBlock("Using LayerHost to control projection").Medium(),
                                 Toggle("Show on Host").OnChange((s, e) => layer.Host = s.IsChecked ? layerHost : null),
                                 layerHost));
         }
 
-        public HTMLElement Render()
-        {
-            return _content.Render();
-        }
+        public HTMLElement Render() => _content.Render();
     }
 }

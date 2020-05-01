@@ -1,7 +1,7 @@
 ﻿using System;
-using static Tesserae.UI;
-using static Retyped.dom;
 using System.Threading.Tasks;
+using static Retyped.dom;
+using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
@@ -50,7 +50,7 @@ namespace Tesserae.Components
 
         public Dialog Content(IComponent content)
         {
-            _modal.Content(content);
+            _modal.SetContent(content);
             return this;
         }
 

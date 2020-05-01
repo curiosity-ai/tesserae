@@ -1,14 +1,11 @@
-﻿using static Tesserae.UI;
-using static Retyped.dom;
+﻿using System;
 using System.Linq;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Retyped;
+using static Retyped.dom;
+using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
-    public class ContextMenu : Layer, IContainer<ContextMenu, ContextMenu.Item>
+    public sealed class ContextMenu : Layer<ContextMenu>, IContainer<ContextMenu, ContextMenu.Item>
     {
         private readonly HTMLElement _childContainer;
         private HTMLDivElement _modalOverlay;
