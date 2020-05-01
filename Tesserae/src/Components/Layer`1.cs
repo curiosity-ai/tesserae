@@ -8,7 +8,7 @@ namespace Tesserae.Components
     public abstract class Layer<T> : ComponentBase<T, HTMLDivElement> where T : Layer<T>
     {
         protected IComponent _content;
-        protected HTMLElement _contentHtml;
+        protected HTMLDivElement _contentHtml;
         protected HTMLElement _renderedContent;
         private LayerHost _host;
         private bool _isVisible;

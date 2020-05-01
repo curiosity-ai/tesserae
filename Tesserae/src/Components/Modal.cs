@@ -11,17 +11,17 @@ namespace Tesserae.Components
         protected readonly HTMLElement _modalHeader;
         protected readonly HTMLElement _modalFooter;
         protected readonly HTMLElement _modalOverlay;
-        protected readonly HTMLElement _modalContent;
+        protected readonly HTMLDivElement _modalContent;
 
         private readonly HTMLElement _modalHeaderCommands;
         private readonly HTMLElement _modalFooterCommands;
         private readonly HTMLElement _modalHeaderContents;
         private readonly HTMLElement _modalFooterContents;
+        private readonly HTMLDivElement _modal;
 
         private bool _isDragged;
         private TranslationPoint _startPoint;
 
-        internal readonly HTMLElement _modal;
 
         public HTMLElement StylingContainer => _modal;
 
@@ -59,7 +59,7 @@ namespace Tesserae.Components
                 _modalHeader.style.display = "none";
             }
 
-            _closeButton = Button(_("tss-modal-button las la-times", el: el => el.onclick = (e) => Hide()));
+            _closeButton = Button(_("tss-modal-button las la-times", el: el => el.onclick = e => Hide()));
             _modalHeaderCommands.appendChild(_closeButton);
 
             _modalContent = Div(_("tss-modal-content"));
@@ -67,6 +67,11 @@ namespace Tesserae.Components
             _modalOverlay = Div(_("tss-modal-overlay"));
             _contentHtml = Div(_("tss-modal-container"), _modalOverlay, _modal);
             IsNonBlocking = false; //blocking by default
+
+            // 2020-05-01 DWR: In order to pick up key press events, we need to set the InnerElement on the base class before calling AttachKeys AND we need to give the container a tabindex value, otherwise it's not focusable and can't pick up key
+            InnerElement = _modal;
+            _modal.tabIndex = 0;
+            AttachKeys();
         }
 
         public Modal SetHeader(IComponent header)
@@ -274,10 +279,6 @@ namespace Tesserae.Components
             _modal.style.marginLeft = fromLeft != null ? fromLeft.ToString() : UnitSize.Auto().ToString();
             _modal.style.marginRight = fromRight != null ? fromRight.ToString() : UnitSize.Auto().ToString();
             _modal.style.marginBottom = fromBottom != null ? fromBottom.ToString() : UnitSize.Auto().ToString();
-            if (!IsNonBlocking) document.body.style.overflowY = "hidden";
-            _modal.style.transform = "translate(0px,0px)";
-            base.Show();
-            onShow?.Invoke(this);
         }
 
         public override void Show()
@@ -286,9 +287,15 @@ namespace Tesserae.Components
             _modal.style.marginLeft = "";
             _modal.style.marginRight = "";
             _modal.style.marginBottom = "";
+            DoShow();
+        }
+
+        private void DoShow()
+        {
             _modal.style.transform = "translate(0px,0px)";
             if (!IsNonBlocking) document.body.style.overflowY = "hidden";
             base.Show();
+            _modal.focus(); // 2020-05-01 DWR: We need to put focus into the modal container in order to pick up keypresses
             onShow?.Invoke(this);
         }
 
