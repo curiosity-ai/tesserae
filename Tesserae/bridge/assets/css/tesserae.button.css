@@ -240,3 +240,31 @@ a {
     min-height: unset;
     min-width: unset;
 }
+
+.tss-btn-linkonhover:hover {
+    color: var(--tss-link-color);
+}
+
+    .tss-btn-linkonhover:hover > span {
+        text-decoration: underline;
+    }
+
+    .tss-btn-linkonhover:hover > i {
+        text-decoration: none !important;
+    }
+
+    .tss-btn-linkonhover.tss-dark {
+        color: var(--tss-default-foreground-color);
+    }
+
+    .tss-btn-linkonhover.tss-danger {
+        color: var(--tss-danger-background-color);
+    }
+
+        .tss-btn-linkonhover.tss-danger:hover {
+            color: var(--tss-danger-background-color);
+        }
+
+        .tss-btn-linkonhover.tss-danger.tss-disabled {
+            color: var(--tss-disabled-foreground-color);
+        }
