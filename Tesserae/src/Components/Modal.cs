@@ -69,14 +69,6 @@ namespace Tesserae.Components
             IsNonBlocking = false; //blocking by default
         }
 
-        public override Modal SetContent(IComponent content)
-        {
-            // 2020-05-01 DWR: Apparently there is a Bridge bug where relying upon the SetContent method in the base class "Layer<Modal>" would not result in the overridden "Content" property of this class being called
-            // ^ TODO: Confirm that this is still the case
-            Content = content;
-            return this;
-        }
-
         public Modal SetHeader(IComponent header)
         {
             _modalHeader.style.display = "";

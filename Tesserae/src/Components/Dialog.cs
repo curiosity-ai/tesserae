@@ -50,7 +50,7 @@ namespace Tesserae.Components
 
         public Dialog Content(IComponent content)
         {
-            _modal.SetContent(content);
+            _modal.Content(content);
             return this;
         }
 

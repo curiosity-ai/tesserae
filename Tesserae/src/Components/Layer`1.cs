@@ -17,24 +17,6 @@ namespace Tesserae.Components
             InnerElement = Div(_("tss-layer-base"));
         }
 
-        public virtual T SetContent(IComponent content)
-        {
-            Content = content;
-            return (T)this;
-        }
-
-        public T SetVisible()
-        {
-            IsVisible = true;
-            return (T)this;
-        }
-
-        public T SetHost(LayerHost host)
-        {
-            Host = host;
-            return (T)this;
-        }
-
         public LayerHost Host
         {
             get => _host;

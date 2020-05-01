@@ -21,7 +21,7 @@ namespace Tesserae.Tests.Samples
                         .Section(Stack().Children(
                             SampleTitle("Usage"),
                             TextBlock("Basic layered content").Medium(),
-                            layer.SetContent(Stack().Horizontal().Children(TextBlock("This is example layer content."),Toggle(), Toggle(), Toggle())),
+                            layer.Content(Stack().Horizontal().Children(TextBlock("This is example layer content."),Toggle(), Toggle(), Toggle())),
                                 Toggle("Toggle Component Layer").OnChange((s, e) => layer.IsVisible = s.IsChecked),
                                 TextBlock("Using LayerHost to control projection").Medium(),
                                 Toggle("Show on Host").OnChange((s, e) => layer.Host = s.IsChecked ? layerHost : null),

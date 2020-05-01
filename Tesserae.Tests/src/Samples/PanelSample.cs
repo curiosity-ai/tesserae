@@ -13,7 +13,7 @@ namespace Tesserae.Tests.Samples
         public PanelSample()
         {
             var panel = Panel().LightDismiss();
-            panel.SetContent(
+            panel.Content(
                 Stack().Children(
                     TextBlock("Sample panel").MediumPlus().SemiBold(),
                     ChoiceGroup("Side:").Choices(
