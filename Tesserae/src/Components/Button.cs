@@ -340,6 +340,12 @@ namespace Tesserae.Components
             return this;
         }
 
+        public Button LinkOnHover()
+        {
+            InnerElement.classList.add("tss-btn-linkonhover");
+            return this;
+        }
+
         public Button Color(string background, string textColor = "white", string borderColor = "white", string iconColor = "")
         {
             InnerElement.classList.add("tss-btn-nobg");
