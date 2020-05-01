@@ -47,9 +47,11 @@ namespace Tesserae.Components
         private HTMLElement RenderedTabs;
         private HTMLElement RenderedContent;
         private HTMLElement Line;
-        private string InitiallySelectedID;
-        private string CurrentSelectedID;
-        private bool IsRendered = false;
+        private string _initiallySelectedID;
+        private string _currentSelectedID;
+        private bool _isRendered = false;
+
+        public string SelectedTab => _currentSelectedID ?? _initiallySelectedID;
 
         public event PivotEventHandler<PivotBeforeNavigateEvent> onBeforeNavigate;
         public event PivotEventHandler<PivotNavigateEvent> onNavigate;
@@ -70,7 +72,7 @@ namespace Tesserae.Components
 
         internal Pivot Add(Tab tab)
         {
-            if (InitiallySelectedID is null) InitiallySelectedID = tab.Id;
+            if (_initiallySelectedID is null) _initiallySelectedID = tab.Id;
             OrderedTabs.Add(tab);
             var title = tab.RenderTitle();
             RenderedTitles.Add(tab, title);
@@ -118,7 +120,7 @@ namespace Tesserae.Components
 
         public Pivot Select(string id, bool refresh = false)
         {
-            if (CurrentSelectedID != id || refresh)
+            if (_currentSelectedID != id || refresh)
             {
                 var tab = OrderedTabs.FirstOrDefault(t => t.Id == id);
                 Select(tab);
@@ -128,14 +130,14 @@ namespace Tesserae.Components
 
         private Pivot Select(Tab tab)
         {
-            if(!IsRendered)
+            if(!_isRendered)
             {
-                InitiallySelectedID = tab.Id;
+                _initiallySelectedID = tab.Id;
                 return this;
             }
 
 
-            var pbne = new PivotBeforeNavigateEvent(CurrentSelectedID, tab.Id);
+            var pbne = new PivotBeforeNavigateEvent(_currentSelectedID, tab.Id);
 
             onBeforeNavigate?.Invoke(this, pbne);
 
@@ -159,11 +161,11 @@ namespace Tesserae.Components
             ClearChildren(RenderedContent);
             RenderedContent.appendChild(content);
 
-            CurrentSelectedID = tab.Id;
+            _currentSelectedID = tab.Id;
             UpdateTitleStyles(title);
             TriggerAnimation();
 
-            var pne = new PivotNavigateEvent(CurrentSelectedID, tab.Id);
+            var pne = new PivotNavigateEvent(_currentSelectedID, tab.Id);
 
             onNavigate?.Invoke(this, pne);
 
@@ -188,14 +190,14 @@ namespace Tesserae.Components
 
         public HTMLElement Render()
         {
-            if (!IsRendered)
+            if (!_isRendered)
             {
-                IsRendered = true; //Sets before calling Select, so it does its thing
+                _isRendered = true; //Sets before calling Select, so it does its thing
 
-                if (InitiallySelectedID != CurrentSelectedID)
+                if (_initiallySelectedID != _currentSelectedID)
                 {
                     _firstRender = true;
-                    Select(InitiallySelectedID);
+                    Select(_initiallySelectedID);
                 }
 
                 var ro = new ResizeObserver();

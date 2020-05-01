@@ -10,6 +10,7 @@ namespace Tesserae.Components
     {
         public TextBlock(string text = string.Empty)
         {
+            text = text ?? string.Empty;
             InnerElement = Div(_("tss-textBlock tss-fontsize-small tss-fontweight-regular", text: text));
             AttachClick();
         }
