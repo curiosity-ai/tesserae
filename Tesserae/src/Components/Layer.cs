@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using static Retyped.dom;
 using static Tesserae.UI;
 
@@ -11,43 +10,6 @@ namespace Tesserae.Components
     /// Layers are used to render content outside of a DOM tree, at the end of the document.This allows content to escape traditional boundaries caused by "overflow: hidden" css rules and keeps it on the top without using z-index rules.This is useful for example in
     /// ContextualMenu and Tooltip scenarios, where the content should always overlay everything else.
     /// </summary>
-    public static class Layers
-    {
-        private static int CurrentZIndex = 1000;
-        private static HashSet<HTMLElement> CurrentLayers = new HashSet<HTMLElement>();
-        public static string PushLayer(HTMLElement element)
-        {
-            if (CurrentLayers.Add(element))
-            {
-
-                CurrentZIndex += 10;
-                return CurrentZIndex.ToString();
-            }
-            else
-            {
-                throw new InvalidOperationException();
-            }
-        }
-
-        public static string AboveCurrent()
-        {
-            return (CurrentZIndex + 5).ToString();
-        }
-
-        public static void PopLayer(HTMLElement element)
-        {
-            if (CurrentLayers.Remove(element))
-            {
-                CurrentZIndex -= 10;
-            }
-            else
-            {
-                throw new InvalidOperationException();
-            }
-        }
-    }
-
-
     public class Layer : ComponentBase<Layer, HTMLDivElement>
     {
         protected IComponent _content;
@@ -147,35 +109,6 @@ namespace Tesserae.Components
         {
             if (_contentHtml is object) return _contentHtml;
             return Div(_("tss-layer-content"), _content.Render());
-        }
-    }
-
-    public static class LayerExtensions
-    {
-        public static T Content<T>(this T layer, IComponent content) where T : Layer
-        {
-            //Fix for a strange bug with Bridge, where layer.Content is not the overloaded property from the Modal class
-            if(layer is Modal modal)
-            {
-                modal.Content = content;
-            }
-            else
-            {
-                layer.Content = content;
-            }
-            return layer;
-        }
-
-        public static T Visible<T>(this T layer) where T : Layer
-        {
-            layer.IsVisible = true;
-            return layer;
-        }
-
-        public static T Host<T>(this T layer, LayerHost host) where T : Layer
-        {
-            layer.Host = host;
-            return layer;
         }
     }
 }
