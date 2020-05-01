@@ -5,22 +5,30 @@ namespace Tesserae.Components
 {
     public class Toggle : ComponentBase<Toggle, HTMLInputElement>, IObservableComponent<bool>
     {
-        private HTMLSpanElement _checkSpan;
-        private HTMLSpanElement _onOffSpan;
-        private HTMLLabelElement _label;
-        private string _offText;
-        private string _onText;
+        private readonly HTMLElement _checkElement;
+        private readonly HTMLElement _onOffSpan;
+        private readonly HTMLElement _container;
+        private readonly IComponent _offText;
+        private readonly IComponent _onText;
         private readonly SettableObservable<bool> _observable = new SettableObservable<bool>();
 
-        public Toggle(string text = null, string onText = null, string offText = null)
+        public Toggle(IComponent onText = null, IComponent offText = null)
         {
-            _onText = onText ?? "On";
-            _offText = offText ?? "Off";
+            _onText  = onText ?? TextBlock("On");
+            _offText = offText ?? TextBlock("Off");
             InnerElement = CheckBox(_("tss-checkbox"));
-            _checkSpan = Span(_("tss-toggle-mark"));
-            _onOffSpan = Span(_("tss-text-ellipsis", text: _offText));
-            if (!string.IsNullOrEmpty(text)) _onOffSpan.style.display = "none";
-            _label = Label(_("tss-toggle-container", text: text), InnerElement, _checkSpan, _onOffSpan);
+            _checkElement = Div(_("tss-toggle-mark"));
+            _onOffSpan = Div(_("tss-toggle-text"), _offText.Render());
+            _container = Div(_("tss-toggle-container"), InnerElement, _checkElement, _onOffSpan);
+
+            _checkElement.onclick += (e) =>
+            {
+                StopEvent(e);
+                IsChecked = !IsChecked;
+                OnToggleChanged();
+                RaiseOnChange(this);
+            };
+
             OnChange((s, e) => OnToggleChanged());
             AttachClick();
             AttachChange();
@@ -33,10 +41,10 @@ namespace Tesserae.Components
         /// </summary>
         public string Text
         {
-            get => _label.innerText;
+            get => _container.innerText;
             set
             {
-                _label.innerText = value;
+                _container.innerText = value;
                 if (string.IsNullOrEmpty(value)) _onOffSpan.style.display = "";
                 else _onOffSpan.style.display = "none";
             }
@@ -47,16 +55,16 @@ namespace Tesserae.Components
         /// </summary>
         public bool IsEnabled
         {
-            get => !_label.classList.contains("tss-disabled");
+            get => !_container.classList.contains("tss-disabled");
             set
             {
                 if (value)
                 {
-                    _label.classList.remove("tss-disabled");
+                    _container.classList.remove("tss-disabled");
                 }
                 else
                 {
-                    _label.classList.add("tss-disabled");
+                    _container.classList.add("tss-disabled");
                 }
             }
         }
@@ -71,30 +79,46 @@ namespace Tesserae.Components
             {
                 InnerElement.@checked = value;
                 _observable.Value = value;
-                if (value) _onOffSpan.innerText = _onText;
-                else _onOffSpan.innerText = _offText;
+                ClearChildren(_onOffSpan);
+                if (value)
+                {
+                    _onOffSpan.appendChild(_onText.Render());
+                }
+                else
+                {
+                    _onOffSpan.appendChild(_offText.Render());
+                }
             }
         }
 
         public override HTMLElement Render()
         {
-            return _label;
+            return _container;
         }
 
         private void OnToggleChanged()
         {
-            _onOffSpan.innerText = IsChecked ? _onText : _offText;
+            ClearChildren(_onOffSpan);
+            if (IsChecked)
+            {
+                _onOffSpan.appendChild(_onText.Render());
+            }
+            else
+            {
+                _onOffSpan.appendChild(_offText.Render());
+            }
             _observable.Value = IsChecked;
         }
+
         public Toggle SetText(string text)
         {
             Text = text;
             return this;
         }
 
-        public Toggle Disabled()
+        public Toggle Disabled(bool value = true)
         {
-            IsEnabled = false;
+            IsEnabled = !value;
             return this;
         }
 

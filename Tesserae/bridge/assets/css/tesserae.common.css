@@ -22,7 +22,8 @@
     --tss-secondary-foreground-color: rgb(96, 94, 92);
     --tss-disabled-background-color: rgb(243, 242, 241);
     --tss-disabled-foreground-color: rgb(161, 159, 157);
-    --tss-default-border-color: rgb(138, 136, 134);
+    --tss-default-border-color: rgb(250, 249, 248);
+    --tss-dark-border-color: rgb(138, 136, 134);
     --tss-default-separator-color: rgb(243, 242, 241);
     --tss-invalid-border-color: rgb(164, 38, 44);
     --tss-default-background-hover-color: rgb(243, 242, 241);
@@ -71,6 +72,7 @@
     --tss-navbar-background-color: rgb(255, 255, 255);
     --tss-navbar-foreground-color: rgb(50, 49, 48);
     --tss-scrollbar-track-color: rgba(50, 49, 48, 0.12);
+    --tss-scrollbar-track-hidden-color: rgba(50, 49, 48, 0.06);
     --tss-scrollbar-thumb-color: rgba(50, 49, 48, 0.2);
     --tss-simplebar-thumb-color: rgba(50, 49, 48,0.32);
 }
@@ -78,12 +80,13 @@
 .tss-dark-mode {
     /* Colors */
     --tss-default-background-color: rgb(34, 34, 34);
-    --tss-default-foreground-color: rgb(255, 255, 255);
-    --tss-secondary-background-color: rgb(68, 68, 68);
-    --tss-secondary-foreground-color: rgb(255, 255, 255);
+    --tss-default-foreground-color: rgb(217, 217, 217);
+    --tss-secondary-background-color: rgb(51, 51, 51);
+    --tss-secondary-foreground-color: rgb(217, 217, 217);
     --tss-disabled-background-color: rgb(0, 0, 0);
     --tss-disabled-foreground-color: rgb(173, 181, 189);
-    --tss-default-border-color: rgb(68, 68, 68);
+    --tss-default-border-color: rgb(51, 51, 51);
+    --tss-dark-border-color: rgb(68, 68, 68);
     --tss-default-separator-color: rgb(51, 51, 51);
     --tss-invalid-border-color: rgb(231, 76, 60);
     --tss-default-background-hover-color: rgb(49, 49, 49);
@@ -132,6 +135,7 @@
     --tss-navbar-background-color: rgb(34, 34, 34);
     --tss-navbar-foreground-color: rgb(255, 255, 255);
     --tss-scrollbar-track-color: rgba(255,255,255,0.08);
+    --tss-scrollbar-track-hidden-color: rgba(255,255,255,0.04);
     --tss-scrollbar-thumb-color: rgba(255,255,255,0.15);
     --tss-simplebar-thumb-color: rgba(255,255,255,0.23);
 }
@@ -264,18 +268,31 @@
 }
 
 ::-webkit-scrollbar-track {
+    background: var(--tss-scrollbar-track-hidden-color);
+    border-radius: 5px;
+}
+
+*:hover::-webkit-scrollbar-track {
     background: var(--tss-scrollbar-track-color);
     border-radius: 5px;
 }
 
+
 ::-webkit-scrollbar-thumb {
     border-radius: 10px;
-    background: var(--tss-scrollbar-thumb-color);
+    background: var(--tss-scrollbar-track-color);
     opacity: 0.8;
+}
+
+
+*:hover::-webkit-scrollbar-thumb {
+    background: var(--tss-scrollbar-thumb-color);
+    border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
     opacity: 1;
+    border: 1px solid var(--tss-dark-border-color);
 }
 
 

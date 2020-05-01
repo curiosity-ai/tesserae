@@ -74,16 +74,16 @@ namespace Tesserae.Components
 
             if (!_popup.classList.contains("tss-no-focus")) _popup.classList.add("tss-no-focus");
 
-            var contentRect = (ClientRect)_popup.getBoundingClientRect();
+            var popupRect = (ClientRect)_popup.getBoundingClientRect();
             _popup.style.left = x + "px";
             _popup.style.top = y  + "px";
             _popup.style.minWidth = minWidth + "px";
 
             //TODO: CHECK THIS LOGIC
 
-            if (window.innerHeight - y - 1 < contentRect.height)
+            if (window.innerHeight - y - 1 < popupRect.height)
             {
-                var top = y - contentRect.height;
+                var top = y - popupRect.height;
                 if (top < 0)
                 {
                     if (y > window.innerHeight - y - 1)
@@ -99,6 +99,27 @@ namespace Tesserae.Components
                 else
                 {
                     _popup.style.top = top + "px";
+                }
+            }
+
+            if (window.innerWidth - y - 1 < popupRect.width)
+            {
+                var left = x - popupRect.width;
+                if (left < 0)
+                {
+                    if (x > window.innerWidth - x - 1)
+                    {
+                        _popup.style.left = "1px";
+                        _popup.style.width = x - 1 + "px";
+                    }
+                    else
+                    {
+                        _popup.style.width = window.innerWidth - x - 1 + "px";
+                    }
+                }
+                else
+                {
+                    _popup.style.left = left + "px";
                 }
             }
 
@@ -129,33 +150,55 @@ namespace Tesserae.Components
 
             if (!_popup.classList.contains("tss-no-focus")) _popup.classList.add("tss-no-focus");
 
-            ClientRect rect = (ClientRect)element.getBoundingClientRect();
-            var contentRect = (ClientRect)_popup.getBoundingClientRect();
-            _popup.style.left = rect.left + "px";
-            _popup.style.top = rect.bottom - 1 + "px";
-            _popup.style.minWidth = rect.width + "px";
+            ClientRect parentRect = (ClientRect)element.getBoundingClientRect();
+            var popupRect = (ClientRect)_popup.getBoundingClientRect();
+
+            _popup.style.left     = parentRect.left + "px";
+            _popup.style.top      = parentRect.bottom - 1 + "px";
+            _popup.style.minWidth = parentRect.width + "px";
 
 
             //TODO: CHECK THIS LOGIC
 
-            if (window.innerHeight - rect.bottom - 1 < contentRect.height)
+            if (window.innerHeight - parentRect.bottom - 1 < popupRect.height)
             {
-                var top = rect.top - contentRect.height;
+                var top = parentRect.top - popupRect.height;
                 if (top < 0)
                 {
-                    if (rect.top > window.innerHeight - rect.bottom - 1)
+                    if (parentRect.top > window.innerHeight - parentRect.bottom - 1)
                     {
                         _popup.style.top = "1px";
-                        _popup.style.height = rect.top - 1 + "px";
+                        _popup.style.height = parentRect.top - 1 + "px";
                     }
                     else
                     {
-                        _popup.style.height = window.innerHeight - rect.bottom - 1 + "px";
+                        _popup.style.height = window.innerHeight - parentRect.bottom - 1 + "px";
                     }
                 }
                 else
                 {
                     _popup.style.top = top + "px";
+                }
+            }
+
+            if (window.innerWidth - parentRect.right - 1 < popupRect.width)
+            {
+                var left = parentRect.left - popupRect.width;
+                if (left < 0)
+                {
+                    if (parentRect.left > window.innerWidth - parentRect.right - 1)
+                    {
+                        _popup.style.left = "1px";
+                        _popup.style.width = parentRect.left - 1 + "px";
+                    }
+                    else
+                    {
+                        _popup.style.width = window.innerWidth - parentRect.right - 1 + "px";
+                    }
+                }
+                else
+                {
+                    _popup.style.left = left + "px";
                 }
             }
 
@@ -317,11 +360,11 @@ namespace Tesserae.Components
                 Type = ContextMenu.ItemType.Divider;
                 return this;
             }
-            public ContextMenu.Item Disabled()
-            {
-                IsEnabled = false;
-                return this;
-            }
+            public ContextMenu.Item Disabled(bool value = true)
+        {
+            IsEnabled = !value;
+            return this;
+        }
 
             public new ContextMenu.Item OnClick(ComponentEventHandler<MouseEvent>  e)
             {

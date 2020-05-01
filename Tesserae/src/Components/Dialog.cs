@@ -86,12 +86,12 @@ namespace Tesserae.Components
                                  .Children(Bind("Esc, Escape, Enter", btnOk(Button("Ok").Primary()).AlignEnd().OnClick((s, e) => { _modal.Hide(); onOk?.Invoke(); }))));
             _modal.Show();
         }
-        public void OkCancel(Action onOk = null, Action OnCancel = null, Func<Button, Button> btnOk = null, Func<Button, Button> btnCancel = null)
+        public void OkCancel(Action onOk = null, Action onCancel = null, Func<Button, Button> btnOk = null, Func<Button, Button> btnCancel = null)
         {
             btnOk = btnOk ?? ((b) => b);
             btnCancel = btnCancel ?? ((b) => b);
             _modal.SetFooter(Stack().HorizontalReverse()
-                                 .Children(Bind("Esc, Escape,", btnCancel(Button("Cancel")).AlignEnd().OnClick((s, e) => { _modal.Hide(); OnCancel?.Invoke(); })),
+                                 .Children(Bind("Esc, Escape,", btnCancel(Button("Cancel")).AlignEnd().OnClick((s, e) => { _modal.Hide(); onCancel?.Invoke(); })),
                                            Bind("Enter", btnOk(Button("Ok").Primary()).AlignEnd().OnClick((s, e) => { _modal.Hide(); onOk?.Invoke(); }))));
             _modal.Show();
         }

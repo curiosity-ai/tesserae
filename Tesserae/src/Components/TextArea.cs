@@ -146,9 +146,9 @@ namespace Tesserae.Components
             return this;
         }
 
-        public TextArea Disabled()
+        public TextArea Disabled(bool value = true)
         {
-            IsEnabled = false;
+            IsEnabled = !value;
             return this;
         }
 

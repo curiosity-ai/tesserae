@@ -8,9 +8,15 @@ namespace Tesserae.Components
     {
         private HTMLElement InnerElement;
         private byte _hasProperties;
+
         public Raw(HTMLElement content = null)
         {
             InnerElement = content ?? DIV();
+        }
+
+        public Raw(IComponent component)
+        {
+            InnerElement = component.Render();
         }
 
         public Raw Content(IComponent component) => Content(component.Render());
@@ -24,13 +30,6 @@ namespace Tesserae.Components
 
             if(InnerElement is object && InnerElement.parentElement is object)
             {
-                //var correct = ScrollBar.GetCorrectContainer(InnerElement);
-                
-                //if(correct.classList.contains("simplebar-content"))
-                //{
-                //    element.classList.add("simplebar-content");
-                //}
-
                 InnerElement.parentElement.replaceChild(element, InnerElement);
             }
 

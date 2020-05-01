@@ -66,15 +66,15 @@ namespace Tesserae.Components
             return _label;
         }
 
-        public CheckBox Disabled()
+        public CheckBox Disabled(bool value = true)
         {
-            IsEnabled = false;
+            IsEnabled = !value;
             return this;
         }
 
-        public CheckBox Checked()
+        public CheckBox Checked(bool value = true)
         {
-            IsChecked = true;
+            IsChecked = value;
             return this;
         }
 

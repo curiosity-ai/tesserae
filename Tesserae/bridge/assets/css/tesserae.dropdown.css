@@ -17,6 +17,11 @@
     overflow: hidden;
 }
 
+    .tss-dropdown.tss-dropdown-noarrow {
+        margin-right: 0px;
+        width: 100%;
+        padding: 0px;
+    }
 
     .tss-dropdown:after {
         content: " ";
@@ -26,9 +31,13 @@
         top: 10px;
         width: 8px;
         height: 8px;
-        border-left: 1px solid var(--tss-default-border-color);
-        border-top: 1px solid var(--tss-default-border-color);
+        border-left: 1px solid var(--tss-dark-border-color);
+        border-top: 1px solid var(--tss-dark-border-color);
         transform: rotate(225deg);
+    }
+
+    .tss-dropdown.tss-dropdown-noarrow:after {
+        display: none;
     }
 
 .tss-dropdown-container {

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -197,6 +196,10 @@ namespace Tesserae
             window.history.replaceState(null, "", path);
         }
 
+        /// <summary>
+        /// This will navigate the User to the specified path (pushing a new entry in the navigation history stack, so the current page / URL will appear in the browser's back button history) unless the path is that which the browser is already at - this
+        /// behaviour may be overridden by setting the optional <paramref name="reload"/> to true (this does not force a reload of the page, it forces a reload of the current view by firing an OnNavigated event whether the specifeid path is 'new' or not)
+        /// </summary>
         public static void Navigate(string path, bool reload = false)
         {
             if (reload)
@@ -205,7 +208,8 @@ namespace Tesserae
             }
             else
             {
-                if (_currentState is object && path == _currentState.FullPath) return; //Nothing to do
+                if (_currentState is object && path == _currentState.FullPath)
+                    return; // Nothing to do
             }
 
             if (!AlreadyThere(path))

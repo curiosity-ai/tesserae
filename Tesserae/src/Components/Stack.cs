@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
-using Retyped;
+﻿using static Retyped.dom;
 using static Tesserae.UI;
-using static Retyped.dom;
 
 namespace Tesserae.Components
 {
 
+    /// <summary>
+    /// A Stack is a container-type component that abstracts the implementation of a flexbox in order to define the layout of its children components.
+    /// </summary>
     public class Stack : IContainer<Stack, IComponent>, IHasBackgroundColor, IHasMarginPadding, ISpecialCaseStyling
     {
         public Orientation StackOrientation
@@ -87,7 +88,7 @@ namespace Tesserae.Components
         /// <summary>
         /// Sets the justify-content css property for this stack
         /// </summary>
-        /// <param name="align"></param>
+        /// <param name="justify"></param>
         /// <returns></returns>
         public Stack JustifyContent(ItemJustify justify)
         {
@@ -101,7 +102,7 @@ namespace Tesserae.Components
         /// <summary>
         /// Sets the justify-content css property for this stack
         /// </summary>
-        /// <param name="align"></param>
+        /// <param name="justify"></param>
         /// <returns></returns>
         public Stack JustifyItems(ItemJustify justify)
         {

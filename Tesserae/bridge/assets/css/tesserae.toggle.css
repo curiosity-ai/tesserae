@@ -8,11 +8,15 @@
     user-select: none;
     padding-left: 45px;
     margin: 4px;
-    display: block;
+    display: inline-block;
 }
 
-    .tss-toggle-container span {
+    .tss-toggle-container .tss-toggle-text {
         font-weight: var(--tss-font-weight-regular);
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        min-height: 20px;
     }
 
     .tss-toggle-container .tss-checkbox {

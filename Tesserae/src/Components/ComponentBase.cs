@@ -1,5 +1,4 @@
 ﻿using Bridge;
-using System;
 using static Retyped.dom;
 
 namespace Tesserae.Components
@@ -150,4 +149,3 @@ namespace Tesserae.Components
         }
     }
 }
-

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Retyped;
+using Tesserae.HTML;
 
 namespace Tesserae.Components
 {
@@ -33,8 +34,16 @@ namespace Tesserae.Components
 
             InnerElement.onclick = (e) =>
             {
+                StopEvent(e);
                 if (!IsVisible) Show();
             };
+
+            _container.onclick = (e) =>
+            {
+                StopEvent(e);
+                if (!IsVisible) Show();
+            };
+
             _selectedChildren = new ObservableList<Item>();
         }
 
@@ -164,6 +173,13 @@ namespace Tesserae.Components
 
         public override HTMLElement Render()
         {
+            DomObserver.WhenMounted(_container, () =>
+            {
+                DomObserver.WhenRemoved(_container, () =>
+                {
+                    Hide();
+                });
+            });
             return _container;
         }
 
@@ -284,6 +300,12 @@ namespace Tesserae.Components
             return this;
         }
 
+        public Dropdown NoArrow()
+        {
+            InnerElement.classList.add("tss-dropdown-noarrow");
+            return this;
+        }
+
         public Dropdown Items(params Item[] children)
         {
             children.ForEach(x => Add(x));
@@ -295,11 +317,12 @@ namespace Tesserae.Components
             return this;
         }
 
-        public Dropdown Disabled()
+        public Dropdown Disabled(bool value = true)
         {
-            IsEnabled = false;
+            IsEnabled = !value;
             return this;
         }
+        
         public Dropdown NoBorder()
         {
             HasBorder = false;
@@ -565,9 +588,9 @@ namespace Tesserae.Components
                 Type = ItemType.Divider;
                 return this;
             }
-            public Item Disabled()
+            public Item Disabled(bool value = true)
             {
-                IsEnabled = false;
+                IsEnabled = !value;
                 return this;
             }
 

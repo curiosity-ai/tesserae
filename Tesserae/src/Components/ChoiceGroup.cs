@@ -171,11 +171,11 @@ namespace Tesserae.Components
             {
                 return _label;
             }
-            public Choice Disabled()
-            {
-                IsEnabled = false;
-                return this;
-            }
+            public Choice Disabled(bool value = true)
+        {
+            IsEnabled = !value;
+            return this;
+        }
 
             public Choice Selected()
             {

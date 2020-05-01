@@ -42,5 +42,11 @@ namespace Tesserae
 
             return $"{Size:0.####}{Unit}";
         }
+
+        public static UnitSize operator -(UnitSize a) => new UnitSize(-a.Size, a.Unit);
+        public static UnitSize operator +(UnitSize a) => new UnitSize(a.Size, a.Unit);
+
+        //TODO: add other operators so we can perform math on UnitSizes and have it convert to calc(...)
+        //     will need to remove Size and Unit properties or add a way to limit their usage for only "pure" units (without calc)
     }
 }

@@ -6,19 +6,37 @@ namespace Tesserae.Components
 {
     public class Validator
     {
-        private Dictionary<ICanValidate, ValidationHandler> RegisteredComponents = new Dictionary<ICanValidate, ValidationHandler>();
+        private Dictionary<ICanValidate, Action> _registeredComponents;
 
         public event OnValidationHandler onValidation;
-
-        internal delegate void ValidationHandler(object e);
 
         public delegate void OnValidationHandler(bool isValid);
 
         private int CallsDepth = 0;
 
-        internal void Register(ICanValidate component, ValidationHandler handler)
+        public Validator()
         {
-            RegisteredComponents.Add(component, handler);
+            _registeredComponents = new Dictionary<ICanValidate, Action>();
+        }
+
+        internal void Register(ICanValidate component, Action onRevalidation)
+        {
+            _registeredComponents.Add(component, onRevalidation);
+        }
+
+        public void RegisterFromCallback(Func<bool> isInvalid, Action onRevalidation)
+        {
+            _registeredComponents.Add(new Dummy(isInvalid), onRevalidation);
+        }
+
+        private class Dummy : ICanValidate
+        {
+            private Func<bool> _isInvalid;
+
+            public Dummy(Func<bool> isInvalid) => _isInvalid = isInvalid;
+
+            public string Error { get ; set ; }
+            public bool IsInvalid { get => _isInvalid(); set => throw new NotSupportedException(); }
         }
 
         public Validator OnValidation(OnValidationHandler onValidation)
@@ -38,7 +56,7 @@ namespace Tesserae.Components
             get
             {
                 Revalidate();
-                return !RegisteredComponents.Keys.Any(c => c.IsInvalid);
+                return !_registeredComponents.Keys.Any(c => c.IsInvalid);
             }
         }
 
@@ -46,9 +64,9 @@ namespace Tesserae.Components
         {
             if (CallsDepth > 2) { return; }
             CallsDepth++;
-            foreach (var kv in RegisteredComponents)
+            foreach (var kv in _registeredComponents)
             {
-                kv.Value(this); //Force revalidation
+                kv.Value?.Invoke(); //Force revalidation
             }
             CallsDepth--;
         }

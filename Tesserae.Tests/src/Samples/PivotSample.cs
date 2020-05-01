@@ -76,11 +76,12 @@ namespace Tesserae.Tests.Samples
             return content.Render();
         }
 
-        private IEnumerable<IComponent> GetSomeItems(int count)
+        private IComponent[] GetSomeItems(int count)
         {
             return Enumerable
                   .Range(1, count)
-                  .Select(number => Card(TextBlock($"Lorem Ipsum {number}").NonSelectable()).MinWidth(200.px()));
+                  .Select(number => Card(TextBlock($"Lorem Ipsum {number}").NonSelectable()).MinWidth(200.px()))
+                  .ToArray();
         }
     }
 }
