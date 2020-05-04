@@ -1,15 +1,13 @@
-﻿using System;
-using Tesserae.Components;
+﻿using Tesserae.Components;
 using static Retyped.dom;
-using static Tesserae.UI;
 using static Tesserae.Tests.Samples.SamplesHelper;
+using static Tesserae.UI;
 
 namespace Tesserae.Tests.Samples
 {
     public class LayerSample : IComponent
     {
-        private IComponent _content;
-
+        private readonly IComponent _content;
         public LayerSample()
         {
             var layer = Layer();
@@ -30,9 +28,6 @@ namespace Tesserae.Tests.Samples
                                 layerHost));
         }
 
-        public HTMLElement Render()
-        {
-            return _content.Render();
-        }
+        public HTMLElement Render() => _content.Render();
     }
 }

@@ -1,27 +1,26 @@
 ﻿using System;
 using System.Text.RegularExpressions;
-using static Tesserae.UI;
 using static Retyped.dom;
+using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
-    public class Modal : Layer, ISpecialCaseStyling, IHasBackgroundColor
+    public class Modal : Layer<Modal>, ISpecialCaseStyling, IHasBackgroundColor
     {
         private readonly HTMLElement _closeButton;
         protected readonly HTMLElement _modalHeader;
         protected readonly HTMLElement _modalFooter;
         protected readonly HTMLElement _modalOverlay;
-        protected readonly HTMLElement _modalContent;
+        protected readonly HTMLDivElement _modalContent;
 
         private readonly HTMLElement _modalHeaderCommands;
         private readonly HTMLElement _modalFooterCommands;
         private readonly HTMLElement _modalHeaderContents;
         private readonly HTMLElement _modalFooterContents;
+        private readonly HTMLDivElement _modal;
 
         private bool _isDragged;
         private TranslationPoint _startPoint;
-
-        internal readonly HTMLElement _modal;
 
         public HTMLElement StylingContainer => _modal;
 
@@ -59,7 +58,7 @@ namespace Tesserae.Components
                 _modalHeader.style.display = "none";
             }
 
-            _closeButton  = Button(_("tss-modal-button las la-times", el: el => el.onclick = (e) => Hide()));
+            _closeButton = Button(_("tss-modal-button las la-times", el: el => el.onclick = e => Hide()));
             _modalHeaderCommands.appendChild(_closeButton);
 
             _modalContent = Div(_("tss-modal-content"));
@@ -67,6 +66,23 @@ namespace Tesserae.Components
             _modalOverlay = Div(_("tss-modal-overlay"));
             _contentHtml = Div(_("tss-modal-container"), _modalOverlay, _modal);
             IsNonBlocking = false; //blocking by default
+
+            // 2020-05-01 DWR: In order to pick up key press events, we need to set the InnerElement on the base class before calling AttachKeys AND we need to give the container a tabindex value, otherwise it's not focusable and can't pick up key
+            InnerElement = _modal;
+            _modal.tabIndex = 0;
+            AttachKeys();
+
+            // Look for [Esc] presses and hide the modal if one occurs - note that we don't know at this point whether this modal will have a close button (or be considered "light dismiss"-applicable, which is where clicking outside the modal can close the modal
+            // it - which is logic which we use here to decide whether the User must explicitly click the close button or if they can easily discard it via clicking away or hitting [Esc] <- 2020-05-01 DWR: Checking for light dismiss was Rafa's idea, we MIGHT also
+            // want to allow [Esc] support for modals with a close button that DON'T allow light dismiss in the future). So we'll hook up the key press now and then check the component's configuration if the event occurs. Also note that there is key PRESS event
+            // for [Esc] (unlike other buttons), only key DOWN and key UP and so we'll have to settle for using onKeyUp.
+            onKeyUp += (_, e) =>
+            {
+                if ((e.keyCode == 27) && CanLightDismiss && ShowCloseButton)
+                {
+                    Hide();
+                }
+            };
         }
 
         public Modal SetHeader(IComponent header)
@@ -84,7 +100,7 @@ namespace Tesserae.Components
         {
             _modalFooter.style.display = "";
             ClearChildren(_modalFooterContents);
-            if(footer is object)
+            if (footer is object)
             {
                 _modalFooterContents.appendChild(footer.Render());
             }
@@ -258,7 +274,7 @@ namespace Tesserae.Components
 
         public Modal NoPadding()
         {
-            _modalContent.style.padding =  _modalHeader.style.padding =  _modalFooter.style.padding = "unset";
+            _modalContent.style.padding = _modalHeader.style.padding = _modalFooter.style.padding = "unset";
             return this;
         }
 
@@ -270,14 +286,10 @@ namespace Tesserae.Components
 
         public void ShowAt(UnitSize fromTop = null, UnitSize fromLeft = null, UnitSize fromRight = null, UnitSize fromBottom = null)
         {
-            _modal.style.marginTop    = fromTop    != null ? fromTop.ToString()    : UnitSize.Auto().ToString();
-            _modal.style.marginLeft   = fromLeft   != null ? fromLeft.ToString()   : UnitSize.Auto().ToString();
-            _modal.style.marginRight  = fromRight  != null ? fromRight.ToString()  : UnitSize.Auto().ToString();
+            _modal.style.marginTop = fromTop != null ? fromTop.ToString() : UnitSize.Auto().ToString();
+            _modal.style.marginLeft = fromLeft != null ? fromLeft.ToString() : UnitSize.Auto().ToString();
+            _modal.style.marginRight = fromRight != null ? fromRight.ToString() : UnitSize.Auto().ToString();
             _modal.style.marginBottom = fromBottom != null ? fromBottom.ToString() : UnitSize.Auto().ToString();
-            if (!IsNonBlocking) document.body.style.overflowY = "hidden";
-            _modal.style.transform = "translate(0px,0px)";
-            base.Show();
-            onShow?.Invoke(this);
         }
 
         public override void Show()
@@ -286,9 +298,15 @@ namespace Tesserae.Components
             _modal.style.marginLeft = "";
             _modal.style.marginRight = "";
             _modal.style.marginBottom = "";
+            DoShow();
+        }
+
+        private void DoShow()
+        {
             _modal.style.transform = "translate(0px,0px)";
             if (!IsNonBlocking) document.body.style.overflowY = "hidden";
             base.Show();
+            _modal.focus(); // 2020-05-01 DWR: We need to put focus into the modal container in order to pick up keypresses
             onShow?.Invoke(this);
         }
 
@@ -394,59 +412,6 @@ namespace Tesserae.Components
             {
                 return $"translate({X}px,{Y}px)";
             }
-        }
-
-
-    }
-
-    public static class ModalExtensions
-    {
-        public static T ShowCloseButton<T>(this T modal) where T : Modal
-        {
-            modal.ShowCloseButton = true;
-            return modal;
-        }
-
-        public static T HideCloseButton<T>(this T modal) where T : Modal
-        {
-            modal.ShowCloseButton = false;
-            return modal;
-        }
-
-        public static T LightDismiss<T>(this T modal) where T : Modal
-        {
-            modal.CanLightDismiss = true;
-            return modal;
-        }
-
-        public static T NoLightDismiss<T>(this T modal) where T : Modal
-        {
-            modal.CanLightDismiss = false;
-            return modal;
-        }
-
-        public static T Dark<T>(this T modal) where T : Modal
-        {
-            modal.IsDark = true;
-            return modal;
-        }
-
-        public static T Draggable<T>(this T modal) where T : Modal
-        {
-            modal.IsDraggable = true;
-            return modal;
-        }
-
-        public static T NonBlocking<T>(this T modal) where T : Modal
-        {
-            modal.IsNonBlocking = true;
-            return modal;
-        }
-
-        public static T Blocking<T>(this T modal) where T : Modal
-        {
-            modal.IsNonBlocking = false;
-            return modal;
         }
     }
 }

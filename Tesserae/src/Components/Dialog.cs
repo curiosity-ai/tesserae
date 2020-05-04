@@ -1,7 +1,7 @@
 ﻿using System;
-using static Tesserae.UI;
-using static Retyped.dom;
 using System.Threading.Tasks;
+using static Retyped.dom;
+using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
@@ -34,7 +34,7 @@ namespace Tesserae.Components
 
             _modal.SetHeader(title);
             _modal.Content = content;
-            _modal._modal.classList.add("tss-dialog");
+            _modal.StylingContainer.classList.add("tss-dialog");
 
             _scope = $"dialog-{RNG.Next()}";
 

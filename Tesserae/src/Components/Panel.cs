@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using static Tesserae.UI;
 using static Retyped.dom;
+using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
-    public class Panel : Layer
+    public class Panel : Layer<Panel>
     {
         private IComponent _footer;
         private readonly HTMLElement _panel;

@@ -1,8 +1,7 @@
-﻿using System;
-using Tesserae.Components;
+﻿using Tesserae.Components;
 using static Retyped.dom;
-using static Tesserae.UI;
 using static Tesserae.Tests.Samples.SamplesHelper;
+using static Tesserae.UI;
 
 namespace Tesserae.Tests.Samples
 {
@@ -57,7 +56,7 @@ namespace Tesserae.Tests.Samples
                             Button("Open Modal with minimum size").OnClick((s, e) => Modal().CenterContent().LightDismiss().Dark().Content(TextBlock("small content").Tiny()).MinHeight(50.vh()).MinWidth(50.vw()).Show()),
                             
                             SampleTitle("Embedded Modal"),
-                            Button("Open Modal Bellow").OnClick((s, e) => container.Content(Modal("Embedded Modal").CenterContent().LightDismiss().Dark().Content(TextBlock("hosted small content").Tiny()).MinHeight(30.vh()).MinWidth(50.vw()).ShowEmbedded())),
+                            Button("Open Modal Below").OnClick((s, e) => container.Content(Modal("Embedded Modal").CenterContent().LightDismiss().Dark().Content(TextBlock("hosted small content").Tiny()).MinHeight(30.vh()).MinWidth(50.vw()).ShowEmbedded())),
                             container
                             ));
         }
