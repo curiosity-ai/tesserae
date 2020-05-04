@@ -14,21 +14,21 @@ namespace Tesserae.Tests.Samples
         {
             _content = SectionStack()
                         .Title(SampleHeader(nameof(ToastSample)))
-                        .Section(Stack().Children(
+                        .Section(Stack().WidthStretch().Children(
                             SampleTitle("Overview"),
                             TextBlock("Toasts are used for short-lived notifications to users.")))
-                        .Section(Stack().Children(
+                        .Section(Stack().WidthStretch().Children(
                             SampleTitle("Best Practices"),
-                                Stack().Horizontal().Children(
-                                    Stack().Children(
+                                SplitView().Left(
+                                    Stack().WidthStretch().Children(
                                         SampleSubTitle("Do"),
                                         SampleDo("Write short and recognizable messages"),
-                                        SampleDo("Keep toasts long enough to be read, but not long enough to bother")),
-                                    Stack().Children(
-                                        SampleSubTitle("Don't"),
-                                        SampleDont("Overload users with toasts.")))))
+                                        SampleDo("Keep toasts long enough to be read, but not long enough to bother")))
+                                    .Right(Stack().WidthStretch().Children(
+                                            SampleSubTitle("Don't"),
+                                            SampleDont("Overload users with toasts.")))))
                         .Section(
-                            Stack().Children(
+                            Stack().WidthStretch().Children(
                                 SampleTitle("Usage"),
                                 SampleSubTitle("Toasts top-right (default)"),
                                 Stack().Horizontal().Children(
