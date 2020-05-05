@@ -49,7 +49,6 @@
 .tss-textbox-container {
     position: relative;
     margin-bottom: 4px;
-    margin-right: 16px;
 }
 
     .tss-textbox-container.tss-invalid .tss-textbox {
