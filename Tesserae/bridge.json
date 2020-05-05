@@ -103,7 +103,8 @@
         "bridge/assets/css/tesserae.sidebar.css",
         "bridge/assets/css/tesserae.splitview.css",
         "bridge/assets/css/tesserae.toast.css",
-        "bridge/assets/css/tesserae.toggle.css"
+        "bridge/assets/css/tesserae.toggle.css",
+        "bridge/assets/css/tesserae.timeline.css"
       ],
       "output": "assets/css"
     },

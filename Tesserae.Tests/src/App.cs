@@ -38,6 +38,7 @@ namespace Tesserae.Tests
                 ("DetailsList",         () => new DetailsListSample()),
                 ("Picker",              () => new PickerSample()),
                 ("Layer",               () => new LayerSample()),
+                ("Timeline",            () => new TimelineSample()),
                 ("Stack",               () => new StackSample()),
                 ("SectionStack",        () => new SectionStackSample()),
                 ("TextBlock",           () => new TextBlockSample()),
@@ -177,7 +178,8 @@ namespace Tesserae.Tests
                                                                         .Links(links["ItemsList"],
                                                                                links["VirtualizedList"],
                                                                                links["SearchableList"],
-                                                                               links["DetailsList"]),
+                                                                               links["DetailsList"],
+                                                                               links["Timeline"]),
                                                 NavLink("Nav Sample").Expanded()
                                                                      .SmallPlus()
                                                                      .SemiBold()

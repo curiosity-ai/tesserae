@@ -264,5 +264,7 @@ namespace Tesserae
         public static VisibilitySensor VisibilitySensor(Action<VisibilitySensor> onVisible, bool singleCall = true, IComponent message = null) => new VisibilitySensor(onVisible, singleCall, message);
 
         public static CombinedObservable<T1, T2> Combine<T1, T2>(IObservable<T1> o1, IObservable<T2> o2) => new CombinedObservable<T1,T2>(o1, o2);
+
+        public static Timeline Timeline() => new Timeline();
     }
 }
