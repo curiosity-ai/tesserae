@@ -104,7 +104,7 @@
         height: 16px;
         border-radius: 10px;
         background-color: var(--tss-default-background-color);
-        border: 2px solid var(--tss-default-border-color);
+        border: 2px solid var(--tss-slider-color);
     }
 
     .tss-slider::-moz-range-thumb {
@@ -112,7 +112,7 @@
         height: 16px;
         border-radius: 10px;
         background-color: var(--tss-default-background-color);
-        border: 2px solid var(--tss-default-border-color);
+        border: 2px solid var(--tss-slider-color);
     }
 
     .tss-slider::-moz-range-progress {
