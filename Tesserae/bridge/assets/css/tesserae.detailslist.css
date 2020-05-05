@@ -16,7 +16,6 @@
     float: left;
     position: sticky;
     top: 0;
-    background: var(--tss-default-background-color);
     z-index: 2;
 }
 
