@@ -110,6 +110,10 @@
     background: var(--tss-secondary-background-color) linear-gradient(var(--tss-default-background-color), var(--tss-default-background-color)) no-repeat 20px 0px/4px 100%;
 }
 
+    .tss-timeline-owner.tss-left .tss-timeline {
+        margin: 0 auto 0 0;
+    }
+
     .tss-timeline-owner.tss-left > .tss-timeline > .tss-timeline-container {
         width: 100%;
         padding-left: 70px;
@@ -135,10 +139,10 @@
 
         /* Make sure all circles are at the same spot */
         .tss-timeline-owner.tss-left > .tss-timeline > .tss-timeline-container.tss-left::after {
-            left: -5px;
+            left: 15px;
         }
         .tss-timeline-owner.tss-left > .tss-timeline > .tss-timeline-container.tss-right::after {
-            left: -5px;
+            left: 15px;
         }
 
         /* Make all right containers behave like the left ones */

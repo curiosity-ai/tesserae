@@ -46,7 +46,11 @@ namespace Tesserae.Tests.Samples
                                 Timeline().TimelineWidth(600.px()).Children(GetSomeItems(10)).PaddingBottom(16.px()).Height(500.px()).PaddingBottom(32.px()),
 
                                 TextBlock("Timeline Same Side").Medium().PaddingBottom(16.px()),
-                                Timeline().SameSide().Children(GetSomeItems(10)).PaddingBottom(16.px()).Height(500.px()).PaddingBottom(32.px())
+                                Timeline().SameSide().Children(GetSomeItems(10)).PaddingBottom(16.px()).Height(500.px()).PaddingBottom(32.px()),
+
+                                TextBlock("Timeline Same Side with Max Width").Medium().PaddingBottom(16.px()),
+                                Timeline().TimelineWidth(600.px()).SameSide().Children(GetSomeItems(10)).PaddingBottom(16.px()).Height(500.px()).PaddingBottom(32.px())
+
                                 ));
         }
 
