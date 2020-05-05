@@ -19,17 +19,17 @@ namespace Tesserae.Tests.Samples
                     TextBlock(
                         "A Spinner is an outline of a circle which animates around itself indicating to the user that things are processing. A Spinner is shown when it's unsure how long a task will take making it the indeterminate version of a ProgressIndicator. They can be various sizes, located inline with content or centered. They generally appear after an action is being processed or committed. They are subtle and generally do not take up much space, but are transitions from the completed task."))
                 )
-                .Section(Stack().Children(
+                .Section(Stack().WidthStretch().Children(
                     SampleTitle("Best Practices"),
-                    Stack().Horizontal().Children(
-                        Stack().Children(
+                    Stack().WidthStretch().Horizontal().Children(
+                        Stack().WidthStretch().Children(
                             SampleSubTitle("Do"),
                             SampleDo("Use a Spinner when a task is not immediate."),
                             SampleDo("Use one Spinner at a time."),
                             SampleDo("Descriptive verbs are appropriate under a Spinner to help the user understand what's happening. Ie: Saving, processing, updating."),
                             SampleDo("Use a Spinner when confirming a change has been made or a task is being processed.")
                         ),
-                        Stack().Children(
+                        Stack().WidthStretch().Children(
                             SampleSubTitle("Don't"),
                             SampleDont("Don’t use a Spinner when performing immediate tasks."),
                             SampleDont("Don't show multiple Spinners at the same time."),
