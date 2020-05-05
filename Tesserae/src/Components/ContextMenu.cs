@@ -10,7 +10,6 @@ namespace Tesserae.Components
         private readonly HTMLElement _childContainer;
         private HTMLDivElement _modalOverlay;
         private HTMLDivElement _popup;
-
         public ContextMenu()
         {
             InnerElement = Div(_("tss-contextmenu"));
@@ -35,7 +34,7 @@ namespace Tesserae.Components
         public void Add(Item component)
         {
             ScrollBar.GetCorrectContainer(_childContainer).appendChild(component.Render());
-            component.OnClick((s,e) => Hide());
+            component.OnClick((s, e) => Hide());
         }
 
         public override HTMLElement Render()
@@ -347,23 +346,25 @@ namespace Tesserae.Components
                 return InnerElement;
             }
 
-            public ContextMenu.Item Header()
+            public Item Header()
             {
-                Type = ContextMenu.ItemType.Header;
+                Type = ItemType.Header;
                 return this;
             }
-            public ContextMenu.Item Divider()
-            {
-                Type = ContextMenu.ItemType.Divider;
-                return this;
-            }
-            public ContextMenu.Item Disabled(bool value = true)
-        {
-            IsEnabled = !value;
-            return this;
-        }
 
-            public new ContextMenu.Item OnClick(ComponentEventHandler<MouseEvent>  e)
+            public Item Divider()
+            {
+                Type = ItemType.Divider;
+                return this;
+            }
+
+            public Item Disabled(bool value = true)
+            {
+                IsEnabled = !value;
+                return this;
+            }
+
+            public new Item OnClick(ComponentEventHandler<MouseEvent> e)
             {
                 if (Type == ItemType.Item)
                 {
@@ -374,7 +375,10 @@ namespace Tesserae.Components
 
             private void OnItemMouseOver(Event ev)
             {
-                if (Type == ItemType.Item) InnerElement.focus();
+                if (Type == ItemType.Item)
+                {
+                    InnerElement.focus();
+                }
             }
         }
     }
