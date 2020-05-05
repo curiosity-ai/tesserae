@@ -26,6 +26,7 @@
 .tss-label.tss-inline {
     display: inline-flex;
     flex-wrap:nowrap;
+    white-space:nowrap;
     align-items:center;
 }
 
