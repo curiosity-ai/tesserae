@@ -47,7 +47,12 @@
         flex-shrink: 0;
     }
 
-        .tss-pivot-titlebar > .tss-pivot-selected-title > * {
+        .tss-pivot-titlebar > .tss-pivot-selected-title > span {
+            font-weight: var(--tss-font-weight-semibold);
+            background: var(--tss-default-background-color);
+            flex-shrink: 0;
+        }
+        .tss-pivot-titlebar > .tss-pivot-selected-title > div {
             font-weight: var(--tss-font-weight-semibold);
             background: var(--tss-default-background-color);
             flex-shrink: 0;
