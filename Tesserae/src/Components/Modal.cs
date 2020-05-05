@@ -278,6 +278,12 @@ namespace Tesserae.Components
             return this;
         }
 
+        public Modal NoContentPadding()
+        {
+            _modalContent.style.padding = "unset";
+            return this;
+        }
+
         public Modal NoTopBorder()
         {
             _modalHeader.classList.add("tss-noborder");
