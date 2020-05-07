@@ -60,6 +60,7 @@ a {
         color: var(--tss-disabled-foreground-color);
         background-color: var(--tss-disabled-background-color);
         border-color: var(--tss-disabled-background-color);
+        pointer-events:none;
     }
 
     .tss-btn > i {

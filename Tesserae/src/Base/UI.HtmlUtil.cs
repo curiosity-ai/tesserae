@@ -89,6 +89,11 @@ namespace Tesserae
                 htmlElement.classList.remove(cssClass);
             }
 
+            if(cssClass == "tss-disabled" && !Script.Write<bool>("(typeof {0}.disabled === 'undefined')", htmlElement))
+            {
+                Script.Write("{0}.disabled = {1}", htmlElement, !value);
+            }
+
             return htmlElement;
         }
 
