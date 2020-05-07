@@ -292,10 +292,11 @@ namespace Tesserae.Components
 
         public void ShowAt(UnitSize fromTop = null, UnitSize fromLeft = null, UnitSize fromRight = null, UnitSize fromBottom = null)
         {
-            _modal.style.marginTop = fromTop != null ? fromTop.ToString() : UnitSize.Auto().ToString();
-            _modal.style.marginLeft = fromLeft != null ? fromLeft.ToString() : UnitSize.Auto().ToString();
-            _modal.style.marginRight = fromRight != null ? fromRight.ToString() : UnitSize.Auto().ToString();
-            _modal.style.marginBottom = fromBottom != null ? fromBottom.ToString() : UnitSize.Auto().ToString();
+            _modal.style.marginTop = fromTop is object ? fromTop.ToString() : UnitSize.Auto().ToString();
+            _modal.style.marginLeft = fromLeft is object ? fromLeft.ToString() : UnitSize.Auto().ToString();
+            _modal.style.marginRight = fromRight is object ? fromRight.ToString() : UnitSize.Auto().ToString();
+            _modal.style.marginBottom = fromBottom is object ? fromBottom.ToString() : UnitSize.Auto().ToString();
+            DoShow();
         }
 
         public override void Show()
