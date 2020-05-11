@@ -20,7 +20,7 @@ steps:
 - task: NuGetCommand@2
   displayName: 'restore nuget'
   inputs:
-    restoreSolution: '**/Tesserae.sln'
+    restoreSolution: '**/H5.Tesserae.csproj'
 
 # - task: CmdLine@2
   # displayName: 'git config'
@@ -63,7 +63,7 @@ steps:
 - task: VSBuild@1
   displayName: 'build tesserae project'
   inputs:
-    solution: '**/Tesserae.csproj'
+    solution: '**/H5.Tesserae.csproj'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
     
