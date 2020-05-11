@@ -40,6 +40,6 @@
     <None Remove="bridge\assets\img\**" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="WaitForWith.xml" Visible="false" />
+    <None Include="Tesserae.xml" Visible="false" />
   </ItemGroup>
 </Project>
