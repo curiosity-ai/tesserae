@@ -102,7 +102,7 @@ steps:
 - task: VSBuild@1
   displayName: 'pack Tesserae'
   inputs:
-    solution: '**/Tesserae.csproj'
+    solution: '**/H5.Tesserae.csproj'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
     msbuildArgs: '/t:pack /p:Version=0.0.$(build.buildId)'
@@ -115,7 +115,7 @@ steps:
   displayName: 'push  H5.Tesserae to nuget'
   inputs:
     command: 'push'
-    packagesToPush: '**/Tesserae.0.0.$(build.buildId).nupkg'
+    packagesToPush: '**/H5.Tesserae.0.0.$(build.buildId).nupkg'
     nuGetFeedType: 'external'
     publishFeedCredentials: 'nuget-curiosity'
 
