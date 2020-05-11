@@ -1,27 +1,22 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.Build.NoTargets/1.0.40">
   <PropertyGroup>
-    <TargetFramework>net461</TargetFramework>
-    <LangVersion>7</LangVersion>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <ExcludeMscorlibFacade>true</ExcludeMscorlibFacade>
+    <NoStdLib>true</NoStdLib>
+    <NoCompilerStandardLib>true</NoCompilerStandardLib>
+    <NoExplicitReferenceToStdLib>true</NoExplicitReferenceToStdLib>
+    <DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
+    <AddAdditionalExplicitAssemblyReferences>false</AddAdditionalExplicitAssemblyReferences>
   </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="Bridge" Version="17.9.0" />
-    <PackageReference Include="Bridge.Core" Version="17.9.0" />
-  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Tesserae\Tesserae.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <None Update="bridge.Debug.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="bridge.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="bridge.Release.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="bridge\**\*.*">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
+
+  <Target Name="RunTool" AfterTargets="Build">
+    <Message Importance="high" Text="Installing (or updating) the h5 compiler" />
+    <Exec Command="dotnet tool update --global h5-compiler" />
+    <Message Importance="high" Text="H5 compilation begins now... " />
+    <Exec Command="pushd $(ProjectDir)&#xD;&#xA;h5 --rebuild -p &quot;$(ProjectPath)&quot; -cfg &quot;$(Configuration)&quot; --platform &quot;$(Platform)&quot;&#xD;&#xA;popd" />
+    <Message Importance="high" Text="... H5 compilation finished!" />
+  </Target>
 </Project>

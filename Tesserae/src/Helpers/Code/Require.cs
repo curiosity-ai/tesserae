@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Retyped;
-using static Retyped.dom;
+using H5;
+using H5.Core;
+using static H5.Core.dom;
 
 namespace Tesserae
 {

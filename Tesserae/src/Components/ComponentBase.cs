@@ -1,5 +1,5 @@
-﻿using Bridge;
-using static Retyped.dom;
+﻿using H5;
+using static H5.Core.dom;
 
 namespace Tesserae.Components
 {

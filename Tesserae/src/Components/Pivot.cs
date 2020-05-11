@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Retyped;
+using H5;
 using static Tesserae.UI;
-using static Retyped.dom;
+using static H5.Core.dom;
 using System.Linq;
 using Tesserae.HTML;
 

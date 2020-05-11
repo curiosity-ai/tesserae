@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using static Retyped.dom;
+using static H5.Core.dom;
 using System.Linq;
-using Bridge;
+using H5;
 
 namespace Tesserae.Components
 {
