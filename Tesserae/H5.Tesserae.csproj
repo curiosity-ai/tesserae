@@ -8,6 +8,7 @@
     <DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
     <AddAdditionalExplicitAssemblyReferences>false</AddAdditionalExplicitAssemblyReferences>
   </PropertyGroup>
+  
   <ItemGroup>
     <PackageReference Include="h5" Version="0.0.7699" />
     <PackageReference Include="h5.core" Version="0.0.7701" />
@@ -26,7 +27,7 @@
     <PackageId>H5.Tesserae</PackageId>
     <Description>Tesserae is a UI toolkit for building web applications using H5</Description>
     <PackageTags>h5, HTML, UI</PackageTags>
-    <DocumentationFile>Tesserae.xml</DocumentationFile>
+    <DocumentationFile>H5.Tesserae.xml</DocumentationFile>
     <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
   
