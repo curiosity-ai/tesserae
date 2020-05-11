@@ -1,5 +1,5 @@
 variables:
-  buildPlatform: 'Any CPU'
+  buildPlatform: 'AnyCPU'
   buildConfiguration: 'Release'
   repo: 'https://$(username):$(pat)@github.com/curiosity-ai/tesserae.git'
   msg: 'update_demo_$(build.buildId)'
