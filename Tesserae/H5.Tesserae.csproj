@@ -16,18 +16,19 @@
   </ItemGroup>
 
   <PropertyGroup>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <DebugType>None</DebugType>
+    <DebugSymbols>false</DebugSymbols>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Copyright>(c) Copyright 2020 Curiosity GmbH - all right reserved</Copyright>
     <Company>Curiosity GmbH</Company>
     <Authors>Curiosity GmbH</Authors>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <LangVersion>7.1</LangVersion>
     <PackageProjectUrl>https://github.com/curiosity-ai/tesserae</PackageProjectUrl>
     <DefineConstants>H5</DefineConstants>
     <PackageId>H5.Tesserae</PackageId>
     <Description>Tesserae is a UI toolkit for building web applications using H5</Description>
     <PackageTags>h5, HTML, UI</PackageTags>
-    <DocumentationFile>H5.Tesserae.xml</DocumentationFile>
     <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
   
