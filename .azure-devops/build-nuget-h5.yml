@@ -20,7 +20,7 @@ steps:
 - task: NuGetCommand@2
   displayName: 'restore nuget'
   inputs:
-    restoreSolution: '**/Tesserae.sln'
+    restoreSolution: '**/H5.Tesserae.csproj'
 
 # - task: CmdLine@2
   # displayName: 'git config'
@@ -52,18 +52,18 @@ steps:
       # git commit -m "Updated line-awesome"
       # git push origin HEAD:h5-master
 
-# This has to run after the git commit above, so the injected source-code stays out of the repository
-- task: CmdLine@2
-  displayName: 'update samples'
-  inputs:
-    script: |
-      cd $(Build.SourcesDirectory)/Build.InjectSamplesCode/
-      dotnet run
+# # This has to run after the git commit above, so the injected source-code stays out of the repository
+# - task: CmdLine@2
+  # displayName: 'update samples'
+  # inputs:
+    # script: |
+      # cd $(Build.SourcesDirectory)/Build.InjectSamplesCode/
+      # dotnet run
 
 - task: VSBuild@1
   displayName: 'build tesserae project'
   inputs:
-    solution: '**/Tesserae.csproj'
+    solution: '$(Build.SourcesDirectory)/Tesserae/H5.Tesserae.csproj'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
     
@@ -102,7 +102,7 @@ steps:
 - task: VSBuild@1
   displayName: 'pack Tesserae'
   inputs:
-    solution: '**/Tesserae.csproj'
+    solution: '$(Build.SourcesDirectory)/Tesserae/H5.Tesserae.csproj'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
     msbuildArgs: '/t:pack /p:Version=0.0.$(build.buildId)'
