@@ -2,6 +2,8 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <DefineConstants>H5</DefineConstants>
+    <AssemblyName>Tesserae</AssemblyName>
+    <RootNamespace>Tesserae</RootNamespace>
   </PropertyGroup>
   
   <ItemGroup>
