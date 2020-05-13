@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Tesserae.Components;
-using static H5.Core.dom;
+using static HTML.dom;
 using static Tesserae.UI;
 using static Tesserae.Tests.Samples.SamplesHelper;
 

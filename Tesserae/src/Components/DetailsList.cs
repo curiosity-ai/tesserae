@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using static Tesserae.UI;
-using static H5.Core.dom;
-using static H5.Core.dom.Node;
+using static HTML.dom;
+using static HTML.dom.Node;
 using Tesserae.HTML;
 
 namespace Tesserae.Components

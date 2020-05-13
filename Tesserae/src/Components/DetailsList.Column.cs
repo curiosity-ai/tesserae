@@ -1,6 +1,6 @@
 using System;
 using static Tesserae.UI;
-using static H5.Core.dom;
+using static HTML.dom;
 
 namespace Tesserae.Components
 {

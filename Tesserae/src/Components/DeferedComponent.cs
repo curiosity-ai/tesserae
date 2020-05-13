@@ -3,8 +3,8 @@ using System;
 using System.Threading.Tasks;
 using Tesserae.HTML;
 using static Tesserae.UI;
-using static H5.Core.dom;
-using H5.Core;
+using static HTML.dom;
+using HTML;
 
 namespace Tesserae.Components
 {

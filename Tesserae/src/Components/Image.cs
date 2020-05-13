@@ -1,5 +1,5 @@
 using Tesserae.HTML;
-using static H5.Core.dom;
+using static HTML.dom;
 using static Tesserae.UI;
 
 namespace Tesserae.Components

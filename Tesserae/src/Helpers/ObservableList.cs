@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using static H5.Core.dom;
+using static HTML.dom;
 
 namespace Tesserae
 {

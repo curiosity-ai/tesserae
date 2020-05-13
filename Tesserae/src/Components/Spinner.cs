@@ -1,5 +1,5 @@
 ﻿using static Tesserae.UI;
-using static H5.Core.dom;
+using static HTML.dom;
 using System.Linq;
 using System;
 

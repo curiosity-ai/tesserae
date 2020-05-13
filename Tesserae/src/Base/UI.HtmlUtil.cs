@@ -4,7 +4,7 @@ using System.Linq;
 using H5;
 using Tesserae.Components;
 using Tesserae.HTML;
-using static H5.Core.dom;
+using static HTML.dom;
 
 namespace Tesserae
 {
