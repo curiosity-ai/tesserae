@@ -1,5 +1,5 @@
 ﻿using System;
-using Tesserae.HTML;
+using Tesserae.Html;
 using static HTML.dom;
 
 namespace Tesserae

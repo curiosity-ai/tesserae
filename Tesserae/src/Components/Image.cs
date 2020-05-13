@@ -1,4 +1,4 @@
-using Tesserae.HTML;
+using Tesserae.Html;
 using static HTML.dom;
 using static Tesserae.UI;
 

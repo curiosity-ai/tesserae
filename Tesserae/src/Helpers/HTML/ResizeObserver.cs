@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Tesserae.Components;
 using static HTML.dom;
 
-namespace Tesserae.HTML
+namespace Tesserae.Html
 {
     public class ResizeObserver
     {

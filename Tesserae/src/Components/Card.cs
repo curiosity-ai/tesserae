@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using H5;
 using static Tesserae.UI;
 using static HTML.dom;
-using Tesserae.HTML;
+using Tesserae.Html;
 
 namespace Tesserae.Components
 {

@@ -20,7 +20,6 @@
     <Authors>Curiosity GmbH</Authors>
     <LangVersion>7.1</LangVersion>
     <PackageProjectUrl>https://github.com/curiosity-ai/tesserae</PackageProjectUrl>
-    <DefineConstants>H5</DefineConstants>
     <PackageId>H5.Tesserae</PackageId>
     <Description>Tesserae is a UI toolkit for building web applications using H5</Description>
     <PackageTags>h5, HTML, UI</PackageTags>

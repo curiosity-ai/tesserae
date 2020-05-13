@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using static HTML.dom;
 
-namespace Tesserae.HTML
+namespace Tesserae.Html
 {
     public sealed class Attributes
     {

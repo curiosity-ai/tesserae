@@ -1,7 +1,7 @@
 ﻿using H5;
 using System;
 using System.Threading.Tasks;
-using Tesserae.HTML;
+using Tesserae.Html;
 using static Tesserae.UI;
 using static HTML.dom;
 using HTML;

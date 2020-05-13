@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using static HTML.dom;
 
-namespace Tesserae.HTML
+namespace Tesserae.Html
 {
     public static class DomObserver
     {
@@ -68,21 +68,33 @@ namespace Tesserae.HTML
                     // 2019-10-28 DWR: The intent behind the NotifyWhenRemoved method is to fire a callback when an element is removed from the document, so that any related tidy-up / disposal
                     // may be performed. However, this will also be fired if an element (or one of its ancestors) is RE-rendered somewhere and that's not really what we want, so if the element
                     // that has been identified as being "removed" is actually still part of a branch that reaches back up to the html element then don't consider it removed.
+                    
                     var highestAncestorElementIfAny = removedElement.parentElement;
+
                     while (highestAncestorElementIfAny?.parentElement != null)
+                    {
                         highestAncestorElementIfAny = highestAncestorElementIfAny.parentElement;
+                    }
+
                     if ((highestAncestorElementIfAny != null) && highestAncestorElementIfAny.tagName.Equals("HTML", StringComparison.OrdinalIgnoreCase))
+                    {
                         continue;
+                    }
 
                     foreach (var elementToTrackRemovalOf in _elementsToTrackRemovalOf)
                     {
                         if (IsEqualToOrIsChildOf(elementToTrackRemovalOf.element, removedElement))
+                        {
                             elementsRemovedThatWeCareAbout.Add(elementToTrackRemovalOf);
+                        }
                     }
                 }
             }
+
             if (elementsRemovedThatWeCareAbout.Count == 0)
+            {
                 return;
+            }
 
             _elementsToTrackRemovalOf = _elementsToTrackRemovalOf.Except(elementsRemovedThatWeCareAbout).ToList();
             window.requestAnimationFrame(_ =>
