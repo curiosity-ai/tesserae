@@ -3,8 +3,13 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <DefineConstants>H5</DefineConstants>
   </PropertyGroup>
-  
+
   <ItemGroup>
-    <ProjectReference Include="..\Tesserae\Tesserae.csproj" />
+    <PackageReference Include="h5" Version="0.0.7851" />
+    <PackageReference Include="h5.core" Version="0.0.7849" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Tesserae\H5.Tesserae.csproj" />
   </ItemGroup>
 </Project>
