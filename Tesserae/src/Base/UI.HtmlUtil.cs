@@ -151,7 +151,10 @@ namespace Tesserae
             {
                 foreach (var child in children)
                 {
-                    parent.appendChild(child);
+                    if (child != null)
+                    {
+                        parent.appendChild(child);
+                    }
                 }
             }
         }
