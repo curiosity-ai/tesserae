@@ -20,7 +20,7 @@ steps:
 - task: NuGetCommand@2
   displayName: 'restore nuget'
   inputs:
-    restoreSolution: '**/H5.Tesserae.csproj'
+    restoreSolution: '**/Tesserae.csproj'
 
 # - task: CmdLine@2
   # displayName: 'git config'
@@ -63,7 +63,7 @@ steps:
 - task: VSBuild@1
   displayName: 'build tesserae project'
   inputs:
-    solution: '$(Build.SourcesDirectory)/Tesserae/H5.Tesserae.csproj'
+    solution: '$(Build.SourcesDirectory)/Tesserae/Tesserae.csproj'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
     
@@ -102,7 +102,7 @@ steps:
 - task: VSBuild@1
   displayName: 'pack Tesserae'
   inputs:
-    solution: '$(Build.SourcesDirectory)/Tesserae/H5.Tesserae.csproj'
+    solution: '$(Build.SourcesDirectory)/Tesserae/Tesserae.csproj'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
     msbuildArgs: '/t:pack /p:Version=0.0.$(build.buildId)'
@@ -112,10 +112,10 @@ steps:
     script: 'dir $(Build.SourcesDirectory)\*.nupkg /S'
 
 - task: NuGetCommand@2
-  displayName: 'push  H5.Tesserae to nuget'
+  displayName: 'push  Tesserae to nuget'
   inputs:
     command: 'push'
-    packagesToPush: '**/H5.Tesserae.0.0.$(build.buildId).nupkg'
+    packagesToPush: '**/Tesserae.0.0.$(build.buildId).nupkg'
     nuGetFeedType: 'external'
     publishFeedCredentials: 'nuget-curiosity'
 
