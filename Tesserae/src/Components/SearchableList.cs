@@ -1,9 +1,9 @@
 ﻿using H5;
-using HTML;
+using H5.Core;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using static HTML.dom;
+using static H5.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae.Components

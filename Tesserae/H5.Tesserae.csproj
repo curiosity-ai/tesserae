@@ -5,9 +5,9 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="h5" Version="0.0.7851" />
-    <PackageReference Include="h5.core" Version="0.0.7849" />
-    <PackageReference Include="h5.Newtonsoft.Json" Version="0.0.7850" />
+    <PackageReference Include="h5" Version="0.0.7862" />
+    <PackageReference Include="h5.core" Version="0.0.7872" />
+    <PackageReference Include="h5.Newtonsoft.Json" Version="0.0.7861" />
   </ItemGroup>
 
   <PropertyGroup>

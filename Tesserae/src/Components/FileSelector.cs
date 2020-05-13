@@ -1,5 +1,5 @@
 ﻿using H5;
-using static HTML.dom;
+using static H5.Core.dom;
 using static Tesserae.UI;
 using Tesserae;
 using System;

@@ -3,7 +3,7 @@ using System.Linq;
 using Tesserae.Components;
 using static Tesserae.Tests.Samples.SamplesHelper;
 using static Tesserae.UI;
-using static HTML.dom;
+using static H5.Core.dom;
 
 namespace Tesserae.Tests.Samples
 {

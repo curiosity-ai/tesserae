@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using static HTML.dom;
+using static H5.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae.Components
