@@ -115,7 +115,7 @@ steps:
   displayName: 'push  Tesserae to nuget'
   inputs:
     command: 'push'
-    packagesToPush: '**/H5-Tesserae.0.0.$(build.buildId).nupkg' # The package name comes from the PackageID, not project name
+    packagesToPush: '**/H5.Tesserae.0.0.$(build.buildId).nupkg' # The package name comes from the PackageID, not project name
     nuGetFeedType: 'external'
     publishFeedCredentials: 'nuget-curiosity'
 
