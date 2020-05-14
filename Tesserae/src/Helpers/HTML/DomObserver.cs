@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using static H5.Core.dom;
 
-namespace Tesserae.Html
+namespace Tesserae.HTML
 {
     public static class DomObserver
     {

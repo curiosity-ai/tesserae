@@ -2,7 +2,7 @@
 using static H5.Core.dom;
 using System.Linq;
 using System;
-using Tesserae.Html;
+using Tesserae.HTML;
 using System.Threading.Tasks;
 
 namespace Tesserae.Components
