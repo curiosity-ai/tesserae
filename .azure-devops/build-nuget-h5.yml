@@ -1,6 +1,6 @@
 variables:
   buildPlatform: 'AnyCPU'
-  buildConfiguration: 'Debug'
+  buildConfiguration: 'Release'
   repo: 'https://$(username):$(pat)@github.com/curiosity-ai/tesserae.git'
   msg: 'update_demo_$(build.buildId)'
 
@@ -28,13 +28,6 @@ steps:
     projects: '$(Build.SourcesDirectory)/Tesserae/Tesserae.csproj'
     workingDirectory: '$(Build.SourcesDirectory)/Tesserae/'
     arguments: '-c $(buildConfiguration) /p:Version=0.0.$(build.buildId)'
-
-- task: VSBuild@1
-  displayName: 'build tesserae project'
-  inputs:
-    solution: '$(Build.SourcesDirectory)/Tesserae/Tesserae.csproj'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
     
 - task: CmdLine@2
   inputs:
