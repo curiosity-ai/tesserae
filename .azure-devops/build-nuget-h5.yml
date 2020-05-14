@@ -50,7 +50,7 @@ steps:
     buildProperties: 'Version="0.0.$(build.buildId)";AllowUnsafeBlocks="True";LangVersion="latest"'
 - task: CmdLine@2
   inputs:
-    script: 'dir $(Build.SourcesDirectory)\*.nupkg /S'
+    script: 'dir $(Build.ArtifactStagingDirectory)\*.nupkg /S'
 
 - task: NuGetCommand@2
   displayName: 'push  Tesserae to nuget'
