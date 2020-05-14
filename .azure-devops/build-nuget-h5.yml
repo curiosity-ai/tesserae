@@ -67,9 +67,9 @@ steps:
 #     buildProperties: 'Version="0.0.$(build.buildId)"'
 
 
-- task: CmdLine@2
-  inputs:
-    script: 'dir $(Build.ArtifactStagingDirectory)\*.nupkg /S'
+# - task: CmdLine@2
+#   inputs:
+#     script: 'dir $(Build.ArtifactStagingDirectory)\*.nupkg /S'
 
 - task: NuGetCommand@2
   displayName: 'push  Tesserae to nuget'
