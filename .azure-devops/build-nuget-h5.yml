@@ -46,6 +46,7 @@ steps:
     command: 'pack'
     packagesToPack: '$(Build.SourcesDirectory)/Tesserae/Tesserae.csproj'
     configuration: '$(buildConfiguration)'
+    nobuild: true
     versioningScheme: 'off'
     buildProperties: 'Version="0.0.$(build.buildId)"'
 - task: CmdLine@2
