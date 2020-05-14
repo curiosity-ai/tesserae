@@ -11,20 +11,20 @@
     // in Debug (this is the default behaviour for projects that don't have any external resources to build into the binary but when a "resources" section is present in a h5.json
     // file then that default behaviour is lost and must be opted back into - see suggestion 1 at the bottom of he opening comment on https://github.com/h5dotnet/Bridge/issues/3991).
     {
-      "name": "h5.Tesserae.js",
-      "files": [ "$(OutDir)h5/h5.Tesserae.js" ]
+      "name": "Tesserae.js",
+      "files": [ "$(OutDir)h5/Tesserae.js" ]
     },
     {
-      "name": "h5.Tesserae.meta.js",
-      "files": [ "$(OutDir)h5/h5.Tesserae.meta.js" ]
+      "name": "Tesserae.meta.js",
+      "files": [ "$(OutDir)h5/Tesserae.meta.js" ]
     },
     {
-      "name": "h5.Tesserae.min.js",
-      "files": [ "$(OutDir)h5/h5.Tesserae.min.js" ]
+      "name": "Tesserae.min.js",
+      "files": [ "$(OutDir)h5/Tesserae.min.js" ]
     },
     {
-      "name": "h5.Tesserae.meta.min.js",
-      "files": [ "$(OutDir)h5/h5.Tesserae.meta.min.js" ]
+      "name": "Tesserae.meta.min.js",
+      "files": [ "$(OutDir)h5/Tesserae.meta.min.js" ]
     },
 
     //Because Bridge will monkey about with JS file names depending upon build configuration (only ".min.js" for Release builds and NO ".min.js" for Debug builds), we need to be a bit
@@ -33,7 +33,7 @@
     //file. This is still a bit of a faff because the file lists appear twice and we need to be careful to keep them in sync. Maybe Bridge will change the behaviour one day regarding the
     //file name changes - if there is no "jquery.js" file then it shouldn't rename "jquery.min.js" when in Debug configuration! (See https://github.com/h5dotnet/Bridge/issues/3992).
     {
-      "name": "h5.Tesserae.Dependencies.js",
+      "name": "Tesserae.Dependencies.js",
       "files": [
         "h5/assets/js/simplebar.min.js",
         "h5/assets/js/hotkeys.min.js"
@@ -41,7 +41,7 @@
       "output": "assets/js"
     },
     {
-      "name": "h5.Tesserae.Dependencies.min.js",
+      "name": "Tesserae.Dependencies.min.js",
       "files": [
         "h5/assets/js/simplebar.min.js",
         "h5/assets/js/hotkeys.min.js"
@@ -60,7 +60,7 @@
     // There is no technical requirement for the CSS files to be combined but it makes it clearer that their content relates to the combined JS content (and it makes the Bridge-generated
     // index.html file cleaner)
     {
-      "name": "h5.Tesserae.Dependencies.css",
+      "name": "Tesserae.Dependencies.css",
       "files": [
         "h5/assets/css/line-awesome.css",
         "h5/assets/css/tesserae.lineawesome-fixes.css",

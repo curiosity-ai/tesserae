@@ -10,6 +10,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Tesserae\H5.Tesserae.csproj" />
+    <ProjectReference Include="..\Tesserae\Tesserae.csproj" />
   </ItemGroup>
 </Project>
