@@ -4,6 +4,10 @@
     <DefineConstants>H5</DefineConstants>
     <AssemblyName>Tesserae</AssemblyName>
     <RootNamespace>Tesserae</RootNamespace>
+    <LangVersion>7.2</LangVersion>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <DebugType>None</DebugType>
+    <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
   
   <ItemGroup>
@@ -13,14 +17,10 @@
   </ItemGroup>
 
   <PropertyGroup>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <DebugType>None</DebugType>
-    <DebugSymbols>false</DebugSymbols>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Copyright>(c) Copyright 2020 Curiosity GmbH - all right reserved</Copyright>
     <Company>Curiosity GmbH</Company>
     <Authors>Curiosity GmbH</Authors>
-    <LangVersion>7.1</LangVersion>
     <PackageProjectUrl>https://github.com/curiosity-ai/tesserae</PackageProjectUrl>
     <PackageId>H5.Tesserae</PackageId>
     <Description>Tesserae is a UI toolkit for building web applications using H5</Description>
