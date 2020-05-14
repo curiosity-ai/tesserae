@@ -27,7 +27,7 @@ steps:
     command: 'build'
     projects: '$(Build.SourcesDirectory)/Tesserae/Tesserae.csproj'
     workingDirectory: '$(Build.SourcesDirectory)/Tesserae/'
-    arguments: '-c $(buildConfiguration) /p:Version=0.0.$(build.buildId)  /p:AllowUnsafeBlocks=True /p:LangVersion=latest'
+    arguments: '-c $(buildConfiguration) /p:Version=0.0.$(build.buildId)'
 
 - task: VSBuild@1
   displayName: 'build tesserae project'
@@ -47,7 +47,7 @@ steps:
     packagesToPack: '$(Build.SourcesDirectory)/Tesserae/Tesserae.csproj'
     configuration: '$(buildConfiguration)'
     versioningScheme: 'off'
-    buildProperties: 'Version="0.0.$(build.buildId)";AllowUnsafeBlocks="True";LangVersion="latest"'
+    buildProperties: 'Version="0.0.$(build.buildId)"'
 - task: CmdLine@2
   inputs:
     script: 'dir $(Build.ArtifactStagingDirectory)\*.nupkg /S'
