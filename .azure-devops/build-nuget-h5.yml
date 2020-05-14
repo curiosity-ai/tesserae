@@ -1,6 +1,6 @@
 variables:
   buildPlatform: 'AnyCPU'
-  buildConfiguration: 'Debug'
+  buildConfiguration: 'Release'
   repo: 'https://$(username):$(pat)@github.com/curiosity-ai/tesserae.git'
   msg: 'update_demo_$(build.buildId)'
 
@@ -15,12 +15,20 @@ steps:
   submodules: true
   persistCredentials: true
 
+- task: UseDotNet@2
+  displayName: 'Use .NET Core sdk'
+  inputs:
+    packageType: sdk
+    version: 3.1.102
+    installationPath: $(Agent.ToolsDirectory)/dotnet
+
 - task: NuGetToolInstaller@0
 
-- task: NuGetCommand@2
-  displayName: 'restore nuget'
+- task: DotNetCoreCLI@2
   inputs:
-    restoreSolution: '**/Tesserae.csproj'
+    command: 'restore'
+    projects: '$(Build.SourcesDirectory)/Tesserae/Tesserae.csproj'
+    feedsToUse: 'select'
 
 - task: DotNetCoreCLI@2
   inputs:
@@ -42,6 +50,8 @@ steps:
     nobuild: true
     versioningScheme: 'off'
     buildProperties: 'Version="0.0.$(build.buildId)"'
+
+
 - task: CmdLine@2
   inputs:
     script: 'dir $(Build.ArtifactStagingDirectory)\*.nupkg /S'
@@ -53,11 +63,3 @@ steps:
     packagesToPush: '$(Build.ArtifactStagingDirectory)/H5.Tesserae.0.0.$(build.buildId).nupkg' # The package name comes from the PackageID, not project name
     nuGetFeedType: 'external'
     publishFeedCredentials: 'nuget-curiosity'
-
-# - task: NuGetCommand@2
-#   displayName: 'push Tesserae to github'
-#   inputs:
-#     command: 'push'
-#     packagesToPush: '**/Tesserae.0.0.$(build.buildId).nupkg'
-#     nuGetFeedType: 'external'
-#     publishFeedCredentials: 'nuget-github-packages'
