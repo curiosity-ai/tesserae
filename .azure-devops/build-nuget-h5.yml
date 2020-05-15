@@ -15,55 +15,66 @@ steps:
   submodules: true
   persistCredentials: true
 
+- task: UseDotNet@2
+  displayName: 'Use .NET Core sdk'
+  inputs:
+    packageType: sdk
+    version: 3.1.201
+    installationPath: $(Agent.ToolsDirectory)/dotnet
+
+
+
 - task: NuGetToolInstaller@0
 
-- task: NuGetCommand@2
-  displayName: 'restore nuget'
-  inputs:
-    restoreSolution: '**/Tesserae.csproj'
 
-- task: DotNetCoreCLI@2
+- task: CmdLine@2
   inputs:
-    command: 'build'
-    projects: '$(Build.SourcesDirectory)/Tesserae/Tesserae.csproj'
+    script: 'dotnet restore $(Build.SourcesDirectory)\Tesserae\Tesserae.csproj'
     workingDirectory: '$(Build.SourcesDirectory)/Tesserae/'
-    arguments: '-c $(buildConfiguration) /p:Version=0.0.$(build.buildId)  /p:AllowUnsafeBlocks=True /p:LangVersion=latest'
 
-- task: VSBuild@1
-  displayName: 'build tesserae project'
+- task: CmdLine@2
   inputs:
-    solution: '$(Build.SourcesDirectory)/Tesserae/Tesserae.csproj'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    script: 'dotnet build $(Build.SourcesDirectory)\Tesserae\Tesserae.csproj  -c $(buildConfiguration) /p:Version=0.0.$(build.buildId)'
+    workingDirectory: '$(Build.SourcesDirectory)/Tesserae/'
+    
+
+
+# - task: DotNetCoreCLI@2
+#   inputs:
+#     command: 'restore'
+#     projects: '$(Build.SourcesDirectory)/Tesserae/Tesserae.csproj'
+#     feedsToUse: 'select'
+
+# - task: DotNetCoreCLI@2
+#   inputs:
+#     command: 'build'
+#     projects: '$(Build.SourcesDirectory)/Tesserae/Tesserae.csproj'
+#     workingDirectory: '$(Build.SourcesDirectory)/Tesserae/'
+#     arguments: '-c $(buildConfiguration) /p:Version=0.0.$(build.buildId)'
     
 - task: CmdLine@2
   inputs:
     script: 'dir $(Build.SourcesDirectory)\Tesserae\bin\ /S'
     
-- task: DotNetCoreCLI@2
-  displayName: 'pack Tesserae'
-  inputs:
-    command: 'pack'
-    packagesToPack: '$(Build.SourcesDirectory)/Tesserae/Tesserae.csproj'
-    configuration: '$(buildConfiguration)'
-    versioningScheme: 'off'
-    buildProperties: 'Version="0.0.$(build.buildId)";AllowUnsafeBlocks="True";LangVersion="latest"'
-- task: CmdLine@2
-  inputs:
-    script: 'dir $(Build.ArtifactStagingDirectory)\*.nupkg /S'
+# - task: DotNetCoreCLI@2
+#   displayName: 'pack Tesserae'
+#   inputs:
+#     command: 'pack'
+#     packagesToPack: '$(Build.SourcesDirectory)/Tesserae/Tesserae.csproj'
+#     configuration: '$(buildConfiguration)'
+#     nobuild: true
+#     versioningScheme: 'off'
+#     buildProperties: 'Version="0.0.$(build.buildId)"'
+
+
+# - task: CmdLine@2
+#   inputs:
+#     script: 'dir $(Build.ArtifactStagingDirectory)\*.nupkg /S'
 
 - task: NuGetCommand@2
   displayName: 'push  Tesserae to nuget'
   inputs:
     command: 'push'
-    packagesToPush: '$(Build.ArtifactStagingDirectory)/H5.Tesserae.0.0.$(build.buildId).nupkg' # The package name comes from the PackageID, not project name
+    packagesToPush: '**/*/H5.Tesserae.0.0.$(build.buildId).nupkg' # The package name comes from the PackageID, not project name
     nuGetFeedType: 'external'
     publishFeedCredentials: 'nuget-curiosity'
-
-# - task: NuGetCommand@2
-#   displayName: 'push Tesserae to github'
-#   inputs:
-#     command: 'push'
-#     packagesToPush: '**/Tesserae.0.0.$(build.buildId).nupkg'
-#     nuGetFeedType: 'external'
-#     publishFeedCredentials: 'nuget-github-packages'

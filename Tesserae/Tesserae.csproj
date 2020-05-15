@@ -5,7 +5,7 @@
     <AssemblyName>Tesserae</AssemblyName>
     <RootNamespace>Tesserae</RootNamespace>
     <LangVersion>7.2</LangVersion>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <DebugType>None</DebugType>
     <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
