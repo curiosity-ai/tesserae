@@ -26,10 +26,9 @@ steps:
 
 - task: NuGetToolInstaller@0
 
-- task: DotNetCoreCLI@2
+- task: CmdLine@2
   inputs:
-    command: 'custom'
-    custom: 'tool update --global h5-compiler'
+    script: 'dotnet tool update --global h5-compiler'
 
 - task: CmdLine@2
   inputs:
