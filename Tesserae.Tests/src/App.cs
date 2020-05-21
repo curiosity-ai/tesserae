@@ -127,6 +127,7 @@ namespace Tesserae.Tests
         {
             return Stack().Padding(16.px()).NoShrink().MinHeightStretch()
                           .Children(TextBlock("Tesserae Samples").MediumPlus().SemiBold().AlignCenter(),
+                                    Stack().Horizontal().Children(TextBlock("by").XSmall().PR(4.px()), Link("https://www.curiosity.ai", TextBlock("curiosity.ai").XSmall().Primary()).PR(4.px()), TextBlock("built with").XSmall().PR(4.px()), Link("https://h5.rocks", TextBlock("h5 🚀").XSmall().Primary())),
                                     Nav().InlineContent(Label("Theme").Inline().SetContent(Toggle("Light", "Dark").Checked().OnChange((t, e) => { if (t.IsChecked) { Theme.Light(); } else { Theme.Dark(); } })))
                                          .InlineContent(Label("Navbar").Inline().SetContent(Toggle("Show", "Hidden").OnChange((t, e) => { navBar.IsVisible = t.IsChecked; })))
                                          .InlineContent(Label("Sidebar").Inline().SetContent(Toggle("Show", "Hidden").OnChange((t, e) => { sideBar.IsVisible = t.IsChecked; })))
@@ -187,8 +188,7 @@ namespace Tesserae.Tests
                                                                             NavLink("Level 1").Links(NavLink("Level 2").Links(NavLink("Level 3").Links(NavLink("Level 4")))),
                                                                             NavLink("Async 1").LinksAsync(async () => { await Task.Delay(500); return new[] { NavLink("Level 2").Links(NavLink("Level 3").Links(NavLink("Level 4"))) }; })
                                                 ))
-                                         .InlineContent(Link("https://www.curiosity.ai", TextBlock("by curiosity.ai").XSmall().Primary().AlignEnd())
-            ));
+                                         );
         }
     }
 }
