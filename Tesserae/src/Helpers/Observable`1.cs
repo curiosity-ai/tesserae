@@ -6,7 +6,7 @@ namespace Tesserae
     /// Enables monitoring of changes for a variable of type T (this class is for listeners only, if updating the value is required then the SettableObserver should be used)
     /// </summary>
     /// <typeparam name="T">An immutable type to be observed. Be careful with non-imutable types, as they may be changed in ways that will not be repoted here</typeparam>
-    public class Observable<T> : Observable, IObservable<T>
+    public class Observable<T> : IObservable<T>
     {
         private T _value;
         private double _refreshTimeout;
@@ -35,7 +35,6 @@ namespace Tesserae
             void raise(object t)
             {
                 onValueChanged?.Invoke(_value);
-                RaiseOnChanged();
             }
         }
 
@@ -47,7 +46,7 @@ namespace Tesserae
         }
     }
 
-    public class CombinedObservable<T1, T2> : Observable, IObservable<(T1 first, T2 second)>
+    public class CombinedObservable<T1, T2> : IObservable<(T1 first, T2 second)>
     {
         private readonly IObservable<T1> _first;
         private readonly IObservable<T2> _second;
@@ -82,7 +81,6 @@ namespace Tesserae
             void raise(object t)
             {
                 onValueChanged?.Invoke(Value);
-                RaiseOnChanged();
             }
         }
 

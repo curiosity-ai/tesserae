@@ -9,6 +9,5 @@
     {
         event ObservableEvent.ValueChanged<T> onValueChanged;
         T Value { get; }
-        void Observe(ObservableEvent.ValueChanged<T> onChange);
     }
 }
