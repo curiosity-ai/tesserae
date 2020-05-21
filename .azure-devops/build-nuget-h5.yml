@@ -97,8 +97,6 @@ steps:
       git config user.email "$(EMAIL)"
       git config user.name "$(USER)"
       git checkout -b gh-pages
-      del index.html
-      mv index.min.html index.html
       git add .
       git commit -m $(msg)
       git remote add origin $(repo)
