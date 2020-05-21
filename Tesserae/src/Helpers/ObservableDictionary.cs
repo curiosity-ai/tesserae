@@ -48,14 +48,6 @@ namespace Tesserae
             }
         }
 
-
-
-        public void Observe(ObservableEvent.ValueChanged<IReadOnlyDictionary<TKey, TValue>> valueGetter)
-        {
-            onValueChanged += valueGetter;
-            valueGetter(_dictionary);
-        }
-
         private void RaiseOnValueChanged(TValue value)
         {
             window.clearTimeout(_refreshTimeout);

@@ -37,13 +37,6 @@ namespace Tesserae
                 onValueChanged?.Invoke(_value);
             }
         }
-
-        
-        public void Observe(ObservableEvent.ValueChanged<T> onChange)
-        {
-            onValueChanged += onChange;
-            onChange(_value);
-        }
     }
 
     public class CombinedObservable<T1, T2> : IObservable<(T1 first, T2 second)>
@@ -82,12 +75,6 @@ namespace Tesserae
             {
                 onValueChanged?.Invoke(Value);
             }
-        }
-
-        public void Observe(ObservableEvent.ValueChanged<(T1 first, T2 second)> onChange)
-        {
-            onValueChanged += onChange;
-            onChange(Value);
         }
     }
 }

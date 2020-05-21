@@ -48,12 +48,6 @@ namespace Tesserae
             }
         }
 
-        public void Observe(ObservableEvent.ValueChanged<IReadOnlyList<T>> valueGetter)
-        {
-            onValueChanged += valueGetter;
-            valueGetter(_list);
-        }
-
         public T this[int index]
         {
             get => _list[index];

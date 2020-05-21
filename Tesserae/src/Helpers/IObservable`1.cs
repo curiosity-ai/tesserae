@@ -10,4 +10,13 @@
         event ObservableEvent.ValueChanged<T> onValueChanged;
         T Value { get; }
     }
+
+    public static class IObservableExt
+    {
+        public static void Observe<T>(this IObservable<T> observable, ObservableEvent.ValueChanged<T> valueGetter)
+        {
+            observable.onValueChanged += valueGetter;
+            valueGetter(observable.Value);
+        }
+    }
 }
