@@ -23,8 +23,8 @@
     <Company>Curiosity GmbH</Company>
     <Authors>Curiosity GmbH</Authors>
     <PackageProjectUrl>https://github.com/curiosity-ai/tesserae</PackageProjectUrl>
-    <PackageId>H5.Tesserae</PackageId>
-    <Description>Tesserae is a UI toolkit for building web applications using H5</Description>
+    <PackageId>Tesserae</PackageId>
+    <Description>Tesserae is a UI toolkit for building web applications using the H5 C# to JavaScript compiler</Description>
     <PackageTags>h5, HTML, UI</PackageTags>
     <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
