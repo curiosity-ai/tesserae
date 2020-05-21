@@ -1,45 +1,32 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="h5.Target/0.0.8062">
   <PropertyGroup>
-    <TargetFramework>net461</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <DefineConstants>H5</DefineConstants>
+    <AssemblyName>Tesserae</AssemblyName>
+    <RootNamespace>Tesserae</RootNamespace>
+    <LangVersion>7.2</LangVersion>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <DebugType>None</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+    <SkipResourcesExtraction>true</SkipResourcesExtraction>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="h5" Version="0.0.8032" />
+    <PackageReference Include="h5.core" Version="0.0.8007" />
+    <PackageReference Include="h5.Newtonsoft.Json" Version="0.0.7982" />
+  </ItemGroup>
+
+  <PropertyGroup>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Copyright>(c) Copyright 2020 Curiosity GmbH - all right reserved</Copyright>
     <Company>Curiosity GmbH</Company>
     <Authors>Curiosity GmbH</Authors>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <LangVersion>7.1</LangVersion>
     <PackageProjectUrl>https://github.com/curiosity-ai/tesserae</PackageProjectUrl>
-    <DefineConstants>BRIDGE</DefineConstants>
-    <PackageId>Tesserae</PackageId>
-    <Description>Tesserae is a UI toolkit for building web applications using Bridge.NET</Description>
-    <PackageTags>Bridge.NET, HTML, UI</PackageTags>
-    <DocumentationFile>Tesserae.xml</DocumentationFile>
+    <PackageId>H5.Tesserae</PackageId>
+    <Description>Tesserae is a UI toolkit for building web applications using H5</Description>
+    <PackageTags>h5, HTML, UI</PackageTags>
     <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="Bridge" Version="17.9.0" />
-    <PackageReference Include="Bridge.Core" Version="17.9.0" />
-    <PackageReference Include="Retyped" Version="1.6.6733" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Update="bridge.Debug.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="bridge.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="bridge.Release.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="bridge\**\*.*">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="bridge\assets\img\**" />
-    <EmbeddedResource Remove="bridge\assets\img\**" />
-    <None Remove="bridge\assets\img\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Tesserae.xml" Visible="false" />
-  </ItemGroup>
+  
 </Project>

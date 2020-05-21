@@ -1,7 +1,7 @@
-﻿using Retyped;
+﻿using H5;
 using Tesserae;
 using static Tesserae.UI;
-using static Retyped.dom;
+using static H5.Core.dom;
 
 namespace Tesserae.Components
 {

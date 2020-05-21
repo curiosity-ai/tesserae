@@ -8,121 +8,76 @@ trigger:
 - h5-master
 
 pool:
-  vmImage: 'VS2017-Win2016'
+  vmImage: 'windows-latest'
 
 steps:
 - checkout: self
   submodules: true
   persistCredentials: true
 
+- task: UseDotNet@2
+  displayName: 'Use .NET Core sdk'
+  inputs:
+    packageType: sdk
+    version: 3.1.201
+    installationPath: $(Agent.ToolsDirectory)/dotnet
+
+
+
 - task: NuGetToolInstaller@0
 
-- task: NuGetCommand@2
-  displayName: 'restore nuget'
+- task: CmdLine@2
   inputs:
-    restoreSolution: '**/H5.Tesserae.csproj'
+    script: 'dotnet tool update --global h5-compiler'
 
-# - task: CmdLine@2
-  # displayName: 'git config'
-  # inputs:
-    # script: |
-      # git config --global credential.helper store
-      # git config --global user.email "$(EMAIL)"
-      # git config --global user.name "$(USER)"
-      # git config --global user.password  "$(PAT)"
-
-# - task: CmdLine@2
-  # displayName: 'update lineawesome'
-  # inputs:
-    # script: |
-      # cd $(Build.SourcesDirectory)/Build.ImportLineAwesome/
-      # mkdir FromGit
-      # cd FromGit
-      # git clone --depth=1 --branch=master  https://github.com/icons8/line-awesome/
-      # copy .\line-awesome\dist\line-awesome\fonts\*.eot   ..\..\Tesserae\bridge\assets\fonts\
-      # copy .\line-awesome\dist\line-awesome\fonts\*.ttf   ..\..\Tesserae\bridge\assets\fonts\
-      # copy .\line-awesome\dist\line-awesome\fonts\*.woff  ..\..\Tesserae\bridge\assets\fonts\
-      # copy .\line-awesome\dist\line-awesome\fonts\*.woff2 ..\..\Tesserae\bridge\assets\fonts\
-      # copy .\line-awesome\dist\line-awesome\css\line-awesome.min.css ..\..\Tesserae\bridge\assets\css\line-awesome.css
-      # cd ..
-      # dotnet run
-      # rmdir /s .\FromGit\line-awesome /q
-      # cd ..
-      # git add .
-      # git commit -m "Updated line-awesome"
-      # git push origin HEAD:h5-master
-
-# # This has to run after the git commit above, so the injected source-code stays out of the repository
-# - task: CmdLine@2
-  # displayName: 'update samples'
-  # inputs:
-    # script: |
-      # cd $(Build.SourcesDirectory)/Build.InjectSamplesCode/
-      # dotnet run
-
-- task: VSBuild@1
-  displayName: 'build tesserae project'
+- task: CmdLine@2
   inputs:
-    solution: '$(Build.SourcesDirectory)/Tesserae/H5.Tesserae.csproj'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    script: 'dotnet restore $(Build.SourcesDirectory)\Tesserae\Tesserae.csproj'
+    workingDirectory: '$(Build.SourcesDirectory)/Tesserae/'
+
+- task: CmdLine@2
+  inputs:
+    script: 'dotnet build $(Build.SourcesDirectory)\Tesserae\Tesserae.csproj  -c $(buildConfiguration) /p:Version=0.0.$(build.buildId)'
+    workingDirectory: '$(Build.SourcesDirectory)/Tesserae/'
     
-# - task: VSBuild@1
-  # displayName: 'build tesserae tests project'
-  # inputs:
-    # solution: '**/Tesserae.Tests.csproj'
-    # platform: '$(buildPlatform)'
-    # configuration: '$(buildConfiguration)'
 
-# - task: PowerShell@2
-  # displayName: 'push tests to gh-pages'
-  # inputs:
-    # targetType: 'inline'
-    # script: |
-      # cd "$(Build.SourcesDirectory)/Tesserae.Tests/bin/Any CPU/Release/net461/bridge/"
-      # git init
-      # git config core.autocrlf true
-      # git config core.safecrlf false
-      # git config user.email "$(EMAIL)"
-      # git config user.name "$(USER)"
-      # git checkout -b gh-pages
-      # del index.html
-      # mv index.min.html index.html
-      # git add .
-      # git commit -m $(msg)
-      # git remote add origin $(repo)
-      # git push --set-upstream origin gh-pages --force
-    # errorActionPreference: 'continue'
-    # ignoreLASTEXITCODE: true
 
+# - task: DotNetCoreCLI@2
+#   inputs:
+#     command: 'restore'
+#     projects: '$(Build.SourcesDirectory)/Tesserae/Tesserae.csproj'
+#     feedsToUse: 'select'
+
+# - task: DotNetCoreCLI@2
+#   inputs:
+#     command: 'build'
+#     projects: '$(Build.SourcesDirectory)/Tesserae/Tesserae.csproj'
+#     workingDirectory: '$(Build.SourcesDirectory)/Tesserae/'
+#     arguments: '-c $(buildConfiguration) /p:Version=0.0.$(build.buildId)'
+    
 - task: CmdLine@2
   inputs:
     script: 'dir $(Build.SourcesDirectory)\Tesserae\bin\ /S'
     
-- task: VSBuild@1
-  displayName: 'pack Tesserae'
-  inputs:
-    solution: '$(Build.SourcesDirectory)/Tesserae/H5.Tesserae.csproj'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
-    msbuildArgs: '/t:pack /p:Version=0.0.$(build.buildId)'
+# - task: DotNetCoreCLI@2
+#   displayName: 'pack Tesserae'
+#   inputs:
+#     command: 'pack'
+#     packagesToPack: '$(Build.SourcesDirectory)/Tesserae/Tesserae.csproj'
+#     configuration: '$(buildConfiguration)'
+#     nobuild: true
+#     versioningScheme: 'off'
+#     buildProperties: 'Version="0.0.$(build.buildId)"'
 
-- task: CmdLine@2
-  inputs:
-    script: 'dir $(Build.SourcesDirectory)\*.nupkg /S'
+
+# - task: CmdLine@2
+#   inputs:
+#     script: 'dir $(Build.ArtifactStagingDirectory)\*.nupkg /S'
 
 - task: NuGetCommand@2
-  displayName: 'push  H5.Tesserae to nuget'
+  displayName: 'push  Tesserae to nuget'
   inputs:
     command: 'push'
-    packagesToPush: '**/H5.Tesserae.0.0.$(build.buildId).nupkg'
+    packagesToPush: '**/*/H5.Tesserae.0.0.$(build.buildId).nupkg' # The package name comes from the PackageID, not project name
     nuGetFeedType: 'external'
     publishFeedCredentials: 'nuget-curiosity'
-
-# - task: NuGetCommand@2
-#   displayName: 'push Tesserae to github'
-#   inputs:
-#     command: 'push'
-#     packagesToPush: '**/Tesserae.0.0.$(build.buildId).nupkg'
-#     nuGetFeedType: 'external'
-#     publishFeedCredentials: 'nuget-github-packages'

@@ -1,27 +1,15 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="h5.Target/0.0.8062">
   <PropertyGroup>
-    <TargetFramework>net461</TargetFramework>
-    <LangVersion>7</LangVersion>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <DefineConstants>H5</DefineConstants>
   </PropertyGroup>
+
   <ItemGroup>
-    <PackageReference Include="Bridge" Version="17.9.0" />
-    <PackageReference Include="Bridge.Core" Version="17.9.0" />
+    <PackageReference Include="h5" Version="0.0.8032" />
+    <PackageReference Include="h5.core" Version="0.0.8007" />
   </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\Tesserae\Tesserae.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Update="bridge.Debug.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="bridge.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="bridge.Release.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="bridge\**\*.*">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 </Project>

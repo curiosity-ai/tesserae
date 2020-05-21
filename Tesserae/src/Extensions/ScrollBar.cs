@@ -1,9 +1,9 @@
-﻿using Bridge;
+﻿using H5;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Tesserae.HTML;
-using static Retyped.dom;
+using static H5.Core.dom;
 
 namespace Tesserae.Components
 {

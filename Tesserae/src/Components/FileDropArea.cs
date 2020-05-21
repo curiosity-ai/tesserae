@@ -1,9 +1,9 @@
-﻿using Retyped;
-using static Retyped.dom;
+﻿using H5;
+using static H5.Core.dom;
 using static Tesserae.UI;
 using Tesserae;
 using System;
-using Bridge;
+using H5;
 
 namespace Tesserae.Components
 {
