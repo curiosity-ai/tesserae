@@ -243,6 +243,18 @@ namespace Tesserae.Components
             return this;
         }
 
+        public Button NoMargin()
+        {
+            InnerElement.style.margin = "0px";
+            return this;
+        }
+
+        public Button NoPadding()
+        {
+            InnerElement.style.padding = "0px";
+            return this;
+        }
+
         public Button Link()
         {
             IsLink = true;
