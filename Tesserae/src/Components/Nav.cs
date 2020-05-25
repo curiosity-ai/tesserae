@@ -66,9 +66,9 @@ namespace Tesserae.Components
             return this;
         }
 
-        public Nav InlineContent(IComponent content)
+        public Nav InlineContent(IComponent content, bool disableMouseEvents = false)
         {
-            Add(new Nav.ComponentInNavLink(content));
+            Add(new Nav.ComponentInNavLink(content, disableMouseEvents));
             return this;
         }
 
@@ -93,23 +93,30 @@ namespace Tesserae.Components
 
         public class ComponentInNavLink : NavLink
         {
-            private IComponent Content;
+            private IComponent _content;
+            private readonly bool _disableMouseEvents;
+            private bool _alreadyRendered = false;
 
-            private bool AlreadyRendered = false;
-
-            public ComponentInNavLink(IComponent content) : base()
+            public ComponentInNavLink(IComponent content, bool disableMouseEvents) : base()
             {
-                Content = content;
+                _content = content;
+                _disableMouseEvents = disableMouseEvents;
             }
 
             public override HTMLElement Render()
             {
-                if (!AlreadyRendered)
+                if (!_alreadyRendered)
                 {
-                    AlreadyRendered = true;
+                    _alreadyRendered = true;
                     ClearChildren(_headerDiv);
                     _headerDiv.onclick -= ClickHandler;
-                    _headerDiv.appendChild(Content.Render());
+
+                    if (_disableMouseEvents)
+                    {
+                        _headerDiv.style.pointerEvents = "none";
+                    }
+
+                    _headerDiv.appendChild(_content.Render());
                 }
 
                 return InnerElement;
@@ -372,9 +379,9 @@ namespace Tesserae.Components
             {
                 _childContainer.removeChild(oldComponent.Render());
             }
-            public NavLink InlineContent(IComponent content)
+            public NavLink InlineContent(IComponent content, bool disableMouseEvents = false)
             {
-                Add(new Nav.ComponentInNavLink(content));
+                Add(new Nav.ComponentInNavLink(content, disableMouseEvents));
                 return this;
             }
 
