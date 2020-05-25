@@ -182,11 +182,17 @@ namespace Tesserae.Components
                 {
                     _modalOverlay.classList.add("tss-modal-lightDismiss");
                     _modalOverlay.addEventListener("click", OnCloseClick);
+                    _modalOverlay.addEventListener("dblclick", OnCloseClick);
+                    _modalOverlay.addEventListener("contextmenu", OnCloseClick);
+                    _modalOverlay.addEventListener("wheel", OnCloseClick);
                 }
                 else
                 {
                     _modalOverlay.classList.remove("tss-modal-lightDismiss");
                     _modalOverlay.removeEventListener("click", OnCloseClick);
+                    _modalOverlay.removeEventListener("dblclick", OnCloseClick);
+                    _modalOverlay.removeEventListener("contextmenu", OnCloseClick);
+                    _modalOverlay.removeEventListener("wheel", OnCloseClick);
                 }
             }
         }
