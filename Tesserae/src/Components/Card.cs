@@ -46,6 +46,12 @@ namespace Tesserae.Components
             return this;
         }
 
+        public Card NoPadding()
+        {
+            InnerElement.style.padding = "0px";
+            return this;
+        }
+
         public override HTMLElement Render()
         {
             return _cardContainer;
