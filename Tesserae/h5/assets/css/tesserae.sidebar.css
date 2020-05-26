@@ -31,7 +31,7 @@
 @keyframes openSidebar {
     from {
         max-width: 64px;
-        box-shadow: none;
+        box-shadow: rgba(0, 0, 0, 0) 0px 75px 0px 0px;
     }
 
     to {
