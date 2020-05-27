@@ -15,41 +15,42 @@ namespace Tesserae.Tests
         {
             var orderedComponents = new (string Name, Func<IComponent> Component)[]
             {
-                ("Button",              () => new ButtonSample()),
-                ("CheckBox",            () => new CheckBoxSample()),
-                ("ChoiceGroup",         () => new ChoiceGroupSample()),
-                ("Dropdown",            () => new DropdownSample()),
-                ("Label",               () => new LabelSample()),
-                ("EditableLabel",       () => new EditableLabelSample()),
-                ("HorizontalSeparator", () => new HorizontalSeparatorSample()),
-                ("TextBox",             () => new TextBoxSample()),
-                ("SearchBox",           () => new SearchBoxSample()),
-                ("Toggle",              () => new ToggleSample()),
-                ("Spinner",             () => new SpinnerSample()),
-                ("ProgressIndicator",   () => new ProgressIndicatorSample()),
-                ("Dialog",              () => new DialogSample()),
-                ("Modal",               () => new ModalSample()),
-                ("Panel",               () => new PanelSample()),
-                ("ContextMenu",         () => new ContextMenuSample()),
-                ("ProgressModal",       () => new ProgressModalSample()),
-                ("ItemsList",           () => new ItemsListSample()),
-                ("VirtualizedList",     () => new VirtualizedListSample()),
-                ("SearchableList",      () => new SearchableListSample()),
-                ("DetailsList",         () => new DetailsListSample()),
-                ("Picker",              () => new PickerSample()),
-                ("Layer",               () => new LayerSample()),
-                ("Timeline",            () => new TimelineSample()),
-                ("Stack",               () => new StackSample()),
-                ("SectionStack",        () => new SectionStackSample()),
-                ("TextBlock",           () => new TextBlockSample()),
-                ("Validator",           () => new ValidatorSample()),
-                ("OverflowSet",         () => new OverflowSetSample()),
-                ("Breadcrumb",          () => new BreadcrumbSample()),
-                ("Pivot",               () => new PivotSample()),
-                ("Defer",               () => new DeferSample()),
-                ("Toast",               () => new ToastSample()),
-                ("LineAwesomeIcons",    () => new LineAwesomeSample()),
-                ("FileSelector",        () => new FileSelectorAndDropAreaSample())
+                ("Button",                () => new ButtonSample()),
+                ("CheckBox",              () => new CheckBoxSample()),
+                ("ChoiceGroup",           () => new ChoiceGroupSample()),
+                ("Dropdown",              () => new DropdownSample()),
+                ("Label",                 () => new LabelSample()),
+                ("EditableLabel",         () => new EditableLabelSample()),
+                ("HorizontalSeparator",   () => new HorizontalSeparatorSample()),
+                ("TextBox",               () => new TextBoxSample()),
+                ("SearchBox",             () => new SearchBoxSample()),
+                ("Toggle",                () => new ToggleSample()),
+                ("Spinner",               () => new SpinnerSample()),
+                ("ProgressIndicator",     () => new ProgressIndicatorSample()),
+                ("Dialog",                () => new DialogSample()),
+                ("Modal",                 () => new ModalSample()),
+                ("Panel",                 () => new PanelSample()),
+                ("ContextMenu",           () => new ContextMenuSample()),
+                ("ProgressModal",         () => new ProgressModalSample()),
+                ("ItemsList",             () => new ItemsListSample()),
+                ("VirtualizedList",       () => new VirtualizedListSample()),
+                ("SearchableList",        () => new SearchableListSample()),
+                ("SearchableGroupedList", () => new SearchableGroupedListSample()),
+                ("DetailsList",           () => new DetailsListSample()),
+                ("Picker",                () => new PickerSample()),
+                ("Layer",                 () => new LayerSample()),
+                ("Timeline",              () => new TimelineSample()),
+                ("Stack",                 () => new StackSample()),
+                ("SectionStack",          () => new SectionStackSample()),
+                ("TextBlock",             () => new TextBlockSample()),
+                ("Validator",             () => new ValidatorSample()),
+                ("OverflowSet",           () => new OverflowSetSample()),
+                ("Breadcrumb",            () => new BreadcrumbSample()),
+                ("Pivot",                 () => new PivotSample()),
+                ("Defer",                 () => new DeferSample()),
+                ("Toast",                 () => new ToastSample()),
+                ("LineAwesomeIcons",      () => new LineAwesomeSample()),
+                ("FileSelector",          () => new FileSelectorAndDropAreaSample())
             };
 
             string ToRoute(string name) => "/view/" + name;
@@ -66,7 +67,7 @@ namespace Tesserae.Tests
             var currentPage = new SettableObservable<string>();
 
             var deferedPage = Defer(currentPage, (curPage) => ShowPage(curPage).AsTask()).Stretch();
-            
+
             navBar.SetContent(deferedPage);
 
             sideBar.IsVisible = false;
@@ -86,7 +87,7 @@ namespace Tesserae.Tests
             document.body.style.overflow = "hidden";
 
             Router.Register("home", "/", p => currentPage.Value = null);
-            
+
             foreach (var (name, component) in orderedComponents)
             {
                 var nameLocal = name;
@@ -179,6 +180,7 @@ namespace Tesserae.Tests
                                                                         .Links(links["ItemsList"],
                                                                                links["VirtualizedList"],
                                                                                links["SearchableList"],
+                                                                               links["SearchableGroupedList"],
                                                                                links["DetailsList"],
                                                                                links["Timeline"]),
                                                 NavLink("Nav Sample").Expanded()
