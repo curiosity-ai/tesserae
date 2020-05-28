@@ -30,17 +30,17 @@ namespace Tesserae.Tests.Samples
                                 TextBlock("Picker with text suggestions and tag-like selections")
                                     .Medium()
                                     .PaddingBottom(16.px()),
-                                Picker<PickerSampleItem>(suggestionsTitleText: "Suggested Tags").WithItems(GetPickerItems())
+                                Picker<PickerSampleItem>(suggestionsTitleText: "Suggested Tags").Items(GetPickerItems())
                                     .PaddingBottom(32.px()),
                                 TextBlock("Picker with single selection")
                                     .Medium()
                                     .PaddingBottom(16.px()),
-                                Picker<PickerSampleItem>(suggestionsTitleText: "Suggested Tags", maximumAllowedSelections:1).WithItems(GetPickerItems())
+                                Picker<PickerSampleItem>(suggestionsTitleText: "Suggested Tags", maximumAllowedSelections:1).Items(GetPickerItems())
                                     .PaddingBottom(32.px()),
                                 TextBlock("Picker with icon and text suggestions and component based selections")
                                     .Medium()
                                     .PaddingBottom(16.px()),
-                                Picker<PickerSampleItemWithComponents>(suggestionsTitleText: "Suggested Items", renderSelectionsInline: false).WithItems(GetComponentPickerItems())));
+                                Picker<PickerSampleItemWithComponents>(suggestionsTitleText: "Suggested Items", renderSelectionsInline: false).Items(GetComponentPickerItems())));
         }
 
         public HTMLElement Render()
