@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Tesserae.Components;
 using static Tesserae.Tests.Samples.SamplesHelper;
@@ -14,8 +13,7 @@ namespace Tesserae.Tests.Samples
 
         public SearchableGroupedListSample()
         {
-            // Replace Horizontal Sep.
-            Func<string, IComponent> groupedItemHeaderGenerator = group => Card(TextBlock(group).NonSelectable());
+            Func<string, IComponent> groupedItemHeaderGenerator = HorizontalSeparator;
 
             _content =
                 SectionStack()
