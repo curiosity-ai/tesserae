@@ -6,8 +6,7 @@ using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
-    public class SearchableGroupedList<TSearchableGroupedItem> : IComponent, ISpecialCaseStyling
-        where TSearchableGroupedItem : ISearchableGroupedItem, IComponent
+    public class SearchableGroupedList<TSearchableGroupedItem> : IComponent, ISpecialCaseStyling where TSearchableGroupedItem : ISearchableGroupedItem
     {
         private readonly Func<string, IComponent> _groupedItemHeaderGenerator;
         private readonly IDefer _defered;
@@ -134,10 +133,8 @@ namespace Tesserae.Components
         }
     }
 
-    public interface ISearchableGroupedItem : IComponent
+    public interface ISearchableGroupedItem : ISearchableItem
     {
-        bool IsMatch(string searchTerm);
-
         string Group { get; }
     }
 }

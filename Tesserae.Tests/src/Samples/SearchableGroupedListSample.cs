@@ -88,7 +88,7 @@ namespace Tesserae.Tests.Samples
 
             public string Group { get; }
 
-            public HTMLElement Render() => _component.Render();
+            public IComponent Render() => _component;
         }
     }
 }
