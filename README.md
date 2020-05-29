@@ -6,7 +6,7 @@
 
 _**Tesserae**_ is a UI toolkit for building websites entirely in C#, inspired by Microsoft's [Fluent UI](https://github.com/microsoft/fluentui) toolkit.
 
-It uses the [h5](https://github.com/theolivenbaum/h5) C# to Javascript transpiler to provide an easy to use, strongly typed UI development experience.
+It uses the [h5 C# to Javascript compiler](https://github.com/theolivenbaum/h5) to provide an easy to use, strongly typed UI development experience.
 
 ### Usage
 
