@@ -249,9 +249,9 @@ namespace Tesserae
 
         public static SearchableList<T> SearchableList<T>(ObservableList<T> components, params UnitSize[] columns) where T : ISearchableItem => new SearchableList<T>(components, columns);
 
-        public static SearchableGroupedList<T> SearchableGroupedList<T>(T[] components, params UnitSize[] columns) where T : ISearchableGroupedItem => new SearchableGroupedList<T>(components, columns);
+        public static SearchableGroupedList<T> SearchableGroupedList<T>(T[] components, Func<string, IComponent> groupedItemHeaderGenerator, params UnitSize[] columns) where T : ISearchableGroupedItem => new SearchableGroupedList<T>(components, groupedItemHeaderGenerator, columns);
 
-        public static SearchableGroupedList<T> SearchableGroupedList<T>(ObservableList<T> components, params UnitSize[] columns) where T : ISearchableGroupedItem => new SearchableGroupedList<T>(components, columns);
+        public static SearchableGroupedList<T> SearchableGroupedList<T>(ObservableList<T> components, Func<string, IComponent> groupedItemHeaderGenerator, params UnitSize[] columns) where T : ISearchableGroupedItem => new SearchableGroupedList<T>(components, groupedItemHeaderGenerator, columns);
 
         public static ItemsList ItemsList(IComponent[] components, params UnitSize[] columns)=> new ItemsList(components, columns);
 
