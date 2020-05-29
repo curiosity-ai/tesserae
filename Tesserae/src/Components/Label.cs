@@ -103,7 +103,7 @@ namespace Tesserae.Components
                 {
                     _content.appendChild(value.Render());
 
-                    if ((value as dynamic).InnerElement is HTMLInputElement el)
+                    if (!(value is Toggle) && (value as dynamic).InnerElement is HTMLInputElement el)
                     {
                         id = $"tss-label-for-{_labelForId}";
                         _labelForId++;

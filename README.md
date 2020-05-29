@@ -6,7 +6,7 @@
 
 _**Tesserae**_ is a UI toolkit for building websites entirely in C#, inspired by Microsoft's [Fluent UI](https://github.com/microsoft/fluentui) toolkit.
 
-It uses the [Bridge.NET](https://github.com/bridgedotnet/Bridge/) C# to Javascript transpiler to provide an easy to use, strongly typed UI development experience.
+It uses the [h5](https://github.com/theolivenbaum/h5) C# to Javascript transpiler to provide an easy to use, strongly typed UI development experience.
 
 ### Usage
 
@@ -23,12 +23,10 @@ install-package Tesserae
 For development, we recomend installing the [dotnet serve](https://github.com/natemcmaster/dotnet-serve) global tool, so you can test your site locally:
 
 ````bash
-cd \bin\Debug\net461\bridge\
+cd \bin\Debug\netstandard2.0\h5\
 dotnet serve --port 5000
 start http://localhost:5000/
 ````
-
-Note: Building with ``dotnet build`` is not yet supported by Bridge. You can build either directly from Visual Studio, or install locally the [Bridge CLI](https://github.com/bridgedotnet/CLI).
 
 ### Samples
 
