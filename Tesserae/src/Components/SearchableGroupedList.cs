@@ -23,12 +23,12 @@ namespace Tesserae.Components
         public bool PropagateToStackItemParent => true;
         public ObservableList<IComponent> Items { get; }
 
-        public SearchableGroupedList(TSearchableGroupedItem[] items, Func<string, IComponent> groupedItemHeaderGenerator, UnitSize[] columns)
+        public SearchableGroupedList(TSearchableGroupedItem[] items, Func<string, IComponent> groupedItemHeaderGenerator, params UnitSize[] columns)
             : this(new ObservableList<TSearchableGroupedItem>(items ?? new TSearchableGroupedItem[0]), groupedItemHeaderGenerator, columns)
         {
         }
 
-        public SearchableGroupedList(ObservableList<TSearchableGroupedItem> items, Func<string, IComponent> groupedItemHeaderGenerator, UnitSize[] columns)
+        public SearchableGroupedList(ObservableList<TSearchableGroupedItem> items, Func<string, IComponent> groupedItemHeaderGenerator, params UnitSize[] columns)
         {
             _groupedItemHeaderGenerator = groupedItemHeaderGenerator;
             _searchBox                  = new SearchBox().Underlined().SetPlaceholder("Type to search").SearchAsYouType().Width(100.px()).Grow();

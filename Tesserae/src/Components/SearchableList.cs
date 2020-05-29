@@ -21,11 +21,11 @@ namespace Tesserae.Components
         public bool PropagateToStackItemParent => true;
         public ObservableList<T> Items { get; }
 
-        public SearchableList(T[] items, UnitSize[] columns) : this(new ObservableList<T>(items ?? new T[0]), columns)
+        public SearchableList(T[] items, params UnitSize[] columns) : this(new ObservableList<T>(items ?? new T[0]), columns)
         {
         }
 
-        public SearchableList(ObservableList<T> items, UnitSize[] columns)
+        public SearchableList(ObservableList<T> items, params UnitSize[] columns)
         {
             Items = items ?? new ObservableList<T>();
             _searchBox = new SearchBox().Underlined().SetPlaceholder("Type to search").SearchAsYouType().Width(100.px()).Grow();

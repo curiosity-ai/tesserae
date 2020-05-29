@@ -14,6 +14,7 @@ namespace Tesserae.Tests.Samples
 
         public SearchableGroupedListSample()
         {
+            // Replace Horizontal Sep.
             Func<string, IComponent> groupedItemHeaderGenerator = group => Card(TextBlock(group).NonSelectable());
 
             _content =
