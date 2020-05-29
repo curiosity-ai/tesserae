@@ -128,9 +128,9 @@ namespace Tesserae
         public static CheckBox CheckBox(string text = string.Empty) => new CheckBox(text);
 
         public static Toggle Toggle(IComponent onText, IComponent offText) => new Toggle(onText: onText, offText: offText);
-        
+
         public static Toggle Toggle(string onText, string offText) => new Toggle(onText: TextBlock(onText), offText: TextBlock(offText));
-        
+
         public static Toggle Toggle(string text) => new Toggle(onText: TextBlock(text), offText: TextBlock(text).Secondary());
 
         public static Toggle Toggle() => new Toggle(null, null);
@@ -179,7 +179,7 @@ namespace Tesserae
 
         /// <summary>
         /// A Layer is a technical component that does not have specific Design guidance.
-        /// 
+        ///
         /// Layers are used to render content outside of a DOM tree, at the end of the document.This allows content to escape traditional boundaries caused by "overflow: hidden" css rules and keeps it on the top without using z-index rules.This is useful for example in
         /// ContextualMenu and Tooltip scenarios, where the content should always overlay everything else.
         /// </summary>
@@ -248,6 +248,10 @@ namespace Tesserae
         public static SearchableList<T> SearchableList<T>(T[] components, params UnitSize[] columns) where T : ISearchableItem => new SearchableList<T>(components, columns);
 
         public static SearchableList<T> SearchableList<T>(ObservableList<T> components, params UnitSize[] columns) where T : ISearchableItem => new SearchableList<T>(components, columns);
+
+        public static SearchableGroupedList<T> SearchableGroupedList<T>(T[] components, Func<string, IComponent> groupedItemHeaderGenerator, params UnitSize[] columns) where T : ISearchableGroupedItem => new SearchableGroupedList<T>(components, groupedItemHeaderGenerator, columns);
+
+        public static SearchableGroupedList<T> SearchableGroupedList<T>(ObservableList<T> components, Func<string, IComponent> groupedItemHeaderGenerator, params UnitSize[] columns) where T : ISearchableGroupedItem => new SearchableGroupedList<T>(components, groupedItemHeaderGenerator, columns);
 
         public static ItemsList ItemsList(IComponent[] components, params UnitSize[] columns)=> new ItemsList(components, columns);
 
