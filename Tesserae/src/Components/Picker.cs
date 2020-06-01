@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static Retyped.dom;
+using static H5.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae.Components
@@ -61,12 +61,12 @@ namespace Tesserae.Components
 
         public int SuggestionsTolerance                       { get; }
 
-        public Picker<TPickerItem> WithItems(params TPickerItem[] items)
+        public Picker<TPickerItem> Items(params TPickerItem[] items)
         {
-            return WithItems(items.AsEnumerable());
+            return Items(items.AsEnumerable());
         }
 
-        public Picker<TPickerItem> WithItems(IEnumerable<TPickerItem> items)
+        public Picker<TPickerItem> Items(IEnumerable<TPickerItem> items)
         {
             if (items == null)
             {
@@ -86,6 +86,14 @@ namespace Tesserae.Components
             }
 
             _pickerItems.AddRange(items);
+
+            foreach(var item in items)
+            {
+                if (item.IsSelected)
+                {
+                    CreateSelection(item);
+                }
+            }
 
             return this;
         }
@@ -259,6 +267,7 @@ namespace Tesserae.Components
         {
             selectedItem.IsSelected = isSelected;
             _textBox.ClearText();
+            window.clearTimeout(_hideSugestionsTimeout);
             _hideSugestionsTimeout = window.setTimeout(_ =>
             {
                 ClearSuggestions();

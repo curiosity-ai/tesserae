@@ -31,7 +31,7 @@
 
 .tss-slider-fake-progress {
     border-radius: 4px 0px 0px 4px;
-    background-color: var(--tss-default-border-color);
+    background-color: var(--tss-slider-color);
     position: absolute;
     left: 0px;
     top: 0px;
@@ -54,7 +54,7 @@
 
 .tss-slider-fake-background {
     border-radius: 4px;
-    background-color: var(--tss-slider-color);
+    background-color: var(--tss-default-border-color);
     position: relative;
     left: 0px;
     top: 0px;

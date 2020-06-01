@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using static Retyped.dom;
+using static H5.Core.dom;
 
 namespace Tesserae
 {
-    public class ObservableList<T> : Observable, IList<T>, ICollection<T>, IObservable<IReadOnlyList<T>>
+    public class ObservableList<T> : IList<T>, ICollection<T>, IObservable<IReadOnlyList<T>>
     {
         public event ObservableEvent.ValueChanged<IReadOnlyList<T>> onValueChanged;
 
@@ -34,24 +34,18 @@ namespace Tesserae
 
         private void HookValue(T v)
         {
-            if (_valueIsObservable && (v is IObservable observableV))
+            if (_valueIsObservable && (v is IObservable<T> observableV))
             {
-                observableV.OnChange(RaiseOnValueChanged);
+                observableV.onValueChanged += RaiseOnValueChanged;
             }
         }
 
         private void UnhookValue(T v)
         {
-            if (_valueIsObservable && (v is IObservable observableV))
+            if (_valueIsObservable && (v is IObservable<T> observableV))
             {
-                observableV.Unobserve(RaiseOnValueChanged);
+                observableV.onValueChanged -= RaiseOnValueChanged;
             }
-        }
-
-        public void Observe(ObservableEvent.ValueChanged<IReadOnlyList<T>> valueGetter)
-        {
-            onValueChanged += valueGetter;
-            valueGetter(_list);
         }
 
         public T this[int index]
@@ -64,18 +58,17 @@ namespace Tesserae
                     UnhookValue(_list[index]);
                 }
                 _list[index] = value;
-                RaiseOnValueChanged();
+                RaiseOnValueChanged(value);
             }
         }
 
-        private void RaiseOnValueChanged()
+        private void RaiseOnValueChanged(T value)
         {
             window.clearTimeout(_refreshTimeout);
             _refreshTimeout = window.setTimeout(raise, 1);
             void raise(object t)
             {
                 onValueChanged?.Invoke(_list);
-                RaiseOnChanged();
             }
         }
 
@@ -89,7 +82,7 @@ namespace Tesserae
         {
             _list.Add(item);
             HookValue(item);
-            RaiseOnValueChanged();
+            RaiseOnValueChanged(item);
         }
 
         public void AddRange(IEnumerable<T> enumerable)
@@ -98,8 +91,8 @@ namespace Tesserae
             {
                 _list.Add(item);
                 HookValue(item);
+                RaiseOnValueChanged(item);
             }
-            RaiseOnValueChanged();
         }
 
         public void Clear()
@@ -111,9 +104,8 @@ namespace Tesserae
                     UnhookValue(i);
                 }
             }
-
             _list.Clear();
-            RaiseOnValueChanged();
+            RaiseOnValueChanged(default);
         }
 
         public bool Contains(T item) => _list.Contains(item);
@@ -135,7 +127,7 @@ namespace Tesserae
 
             _list.Insert(index, item);
             HookValue(item);
-            RaiseOnValueChanged();
+            RaiseOnValueChanged(item);
         }
 
         public bool Remove(T item)
@@ -144,7 +136,7 @@ namespace Tesserae
             if (removed)
             {
                 UnhookValue(item);
-                RaiseOnValueChanged();
+                RaiseOnValueChanged(item);
             }
             return removed;
         }
@@ -157,7 +149,7 @@ namespace Tesserae
             }
 
             _list.RemoveAt(index);
-            RaiseOnValueChanged();
+            RaiseOnValueChanged(default);
         }
     }
 }

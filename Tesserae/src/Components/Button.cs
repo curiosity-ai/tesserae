@@ -1,5 +1,5 @@
 ﻿using static Tesserae.UI;
-using static Retyped.dom;
+using static H5.Core.dom;
 using System.Linq;
 using System;
 using Tesserae.HTML;
@@ -240,6 +240,18 @@ namespace Tesserae.Components
         public Button Compact()
         {
             IsCompact = true;
+            return this;
+        }
+
+        public Button NoMargin()
+        {
+            InnerElement.style.margin = "0px";
+            return this;
+        }
+
+        public Button NoPadding()
+        {
+            InnerElement.style.padding = "0px";
             return this;
         }
 

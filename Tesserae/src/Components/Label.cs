@@ -1,6 +1,6 @@
 ﻿using System;
 using static Tesserae.UI;
-using static Retyped.dom;
+using static H5.Core.dom;
 using Tesserae.HTML;
 using System.Collections.Generic;
 using System.Linq;
@@ -103,7 +103,7 @@ namespace Tesserae.Components
                 {
                     _content.appendChild(value.Render());
 
-                    if ((value as dynamic).InnerElement is HTMLInputElement el)
+                    if (!(value is Toggle) && (value as dynamic).InnerElement is HTMLInputElement el)
                     {
                         id = $"tss-label-for-{_labelForId}";
                         _labelForId++;

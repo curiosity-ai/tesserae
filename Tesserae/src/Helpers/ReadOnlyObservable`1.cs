@@ -1,4 +1,4 @@
-﻿using static Retyped.dom;
+﻿using static H5.Core.dom;
 
 namespace Tesserae
 {
@@ -6,12 +6,12 @@ namespace Tesserae
     /// Enables monitoring of changes for a variable of type T (this class is for listeners only, if updating the value is required then the SettableObserver should be used)
     /// </summary>
     /// <typeparam name="T">An immutable type to be observed. Be careful with non-imutable types, as they may be changed in ways that will not be repoted here</typeparam>
-    public class Observable<T> : Observable, IObservable<T>
+    public class ReadOnlyObservable<T> : IObservable<T>
     {
         private T _value;
         private double _refreshTimeout;
 
-        public Observable(T value = default) => _value = value;
+        public ReadOnlyObservable(T value = default) => _value = value;
 
         public event ObservableEvent.ValueChanged<T> onValueChanged;
 
@@ -35,19 +35,11 @@ namespace Tesserae
             void raise(object t)
             {
                 onValueChanged?.Invoke(_value);
-                RaiseOnChanged();
             }
-        }
-
-        
-        public void Observe(ObservableEvent.ValueChanged<T> onChange)
-        {
-            onValueChanged += onChange;
-            onChange(_value);
         }
     }
 
-    public class CombinedObservable<T1, T2> : Observable, IObservable<(T1 first, T2 second)>
+    public class CombinedObservable<T1, T2> : IObservable<(T1 first, T2 second)>
     {
         private readonly IObservable<T1> _first;
         private readonly IObservable<T2> _second;
@@ -82,14 +74,7 @@ namespace Tesserae
             void raise(object t)
             {
                 onValueChanged?.Invoke(Value);
-                RaiseOnChanged();
             }
-        }
-
-        public void Observe(ObservableEvent.ValueChanged<(T1 first, T2 second)> onChange)
-        {
-            onValueChanged += onChange;
-            onChange(Value);
         }
     }
 }

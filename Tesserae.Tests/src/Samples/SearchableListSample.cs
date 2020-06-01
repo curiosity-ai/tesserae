@@ -3,7 +3,7 @@ using System.Linq;
 using Tesserae.Components;
 using static Tesserae.Tests.Samples.SamplesHelper;
 using static Tesserae.UI;
-using static Retyped.dom;
+using static H5.Core.dom;
 
 namespace Tesserae.Tests.Samples
 {
@@ -32,6 +32,9 @@ namespace Tesserae.Tests.Samples
                                 SampleTitle("Usage"),
                                 TextBlock("Searchable List with No Results Message").Medium().PaddingBottom(16.px()).PaddingTop(16.px()),
                                 SearchableList(GetItems(10)).PaddingBottom(32.px()).Height(500.px())
+                                    .WithNoResultsMessage(() => BackgroundArea(Card(TextBlock("No Results").Padding(16.px()))).WidthStretch().HeightStretch().MinHeight(100.px())),
+                                TextBlock("Searchable List with extra commands").Medium().PaddingBottom(16.px()).PaddingTop(16.px()),
+                                SearchableList(GetItems(10)).PaddingBottom(32.px()).Height(500.px()).AfterSearchBox(Button("Sample Button After").Primary()).BeforeSearchBox(Button("Sample Button Before").Link())
                                     .WithNoResultsMessage(() => BackgroundArea(Card(TextBlock("No Results").Padding(16.px()))).WidthStretch().HeightStretch().MinHeight(100.px())),
                                 TextBlock("Searchable List with Columns").Medium().PaddingBottom(16.px()).PaddingTop(16.px()),
                                 SearchableList(GetItems(40), 25.percent(), 25.percent(), 25.percent(), 25.percent()).Height(500.px())

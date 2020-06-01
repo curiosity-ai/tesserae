@@ -31,12 +31,12 @@
 @keyframes openSidebar {
     from {
         max-width: 64px;
-        box-shadow: none;
+        box-shadow: rgba(0, 0, 0, 0) 0px 75px 0px 0px;
     }
 
     to {
         max-width: 600px;
-        box-shadow: rgba(0, 0, 0, 0.4) 0px 0px 50px 0px;
+        box-shadow: rgba(0, 0, 0, 0.2) 0px 75px 50px 0px;
     }
 }
 

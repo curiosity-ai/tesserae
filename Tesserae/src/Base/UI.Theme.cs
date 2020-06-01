@@ -1,5 +1,5 @@
 ﻿using System.Text;
-using static Retyped.dom;
+using static H5.Core.dom;
 
 namespace Tesserae
 {
@@ -89,6 +89,7 @@ namespace Tesserae
                 public const string Background       = "var(--tss-default-background-color)";
                 public const string Foreground       = "var(--tss-default-foreground-color)";
                 public const string Border           = "var(--tss-default-border-color)";
+                public const string DarkBorder       = "var(--tss-dark-border-color)";
                 public const string InvalidBorder    = "var(--tss-invalid-border-color)";
                 public const string BackgroundHover  = "var(--tss-default-background-hover-color)";
                 public const string ForegroundHover  = "var(--tss-default-foreground-hover-color)";

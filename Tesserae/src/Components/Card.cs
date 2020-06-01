@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Retyped;
+using H5;
 using static Tesserae.UI;
-using static Retyped.dom;
+using static H5.Core.dom;
 using Tesserae.HTML;
 
 namespace Tesserae.Components
@@ -43,6 +43,12 @@ namespace Tesserae.Components
         public Card Compact()
         {
             IsCompact = true;
+            return this;
+        }
+
+        public Card NoPadding()
+        {
+            InnerElement.style.padding = "0px";
             return this;
         }
 

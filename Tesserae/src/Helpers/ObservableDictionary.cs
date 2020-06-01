@@ -1,10 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using static Retyped.dom;
+using static H5.Core.dom;
 
 namespace Tesserae
 {
-    public class ObservableDictionary<TKey, TValue> : Observable, IDictionary<TKey, TValue>, IObservable<IReadOnlyDictionary<TKey, TValue>>
+    public class ObservableDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IObservable<IReadOnlyDictionary<TKey, TValue>>
     {
         public event ObservableEvent.ValueChanged<IReadOnlyDictionary<TKey, TValue>> onValueChanged;
         public IReadOnlyDictionary<TKey, TValue> Value => _dictionary;
@@ -34,36 +34,27 @@ namespace Tesserae
 
         private void HookValue(TValue v)
         {
-            if (_valueIsObservable && v is object)
+            if (_valueIsObservable && v is IObservable<TValue> observable)
             {
-                ((IObservable)v).OnChange(RaiseOnValueChanged);
+                observable.onValueChanged += RaiseOnValueChanged;
             }
         }
 
         private void UnhookValue(TValue v)
         {
-            if (_valueIsObservable && v is object)
+            if (_valueIsObservable && v is IObservable<TValue> observable)
             {
-                ((IObservable)v).Unobserve(RaiseOnValueChanged);
+                observable.onValueChanged -= RaiseOnValueChanged;
             }
         }
 
-
-
-        public void Observe(ObservableEvent.ValueChanged<IReadOnlyDictionary<TKey, TValue>> valueGetter)
-        {
-            onValueChanged += valueGetter;
-            valueGetter(_dictionary);
-        }
-
-        private void RaiseOnValueChanged()
+        private void RaiseOnValueChanged(TValue value)
         {
             window.clearTimeout(_refreshTimeout);
             _refreshTimeout = window.setTimeout(raise, 1);
             void raise(object t)
             {
                 onValueChanged?.Invoke(_dictionary);
-                RaiseOnChanged();
             }
         }
 
@@ -78,7 +69,7 @@ namespace Tesserae
                 }   
                 _dictionary[key] = value; 
                 HookValue(value);
-                RaiseOnValueChanged();
+                RaiseOnValueChanged(value);
             }
         }
 
@@ -94,14 +85,14 @@ namespace Tesserae
         {
             _dictionary.Add(key, value);
             HookValue(value);
-            RaiseOnValueChanged();
+            RaiseOnValueChanged(value);
         }
 
         public void Add(KeyValuePair<TKey, TValue> item)
         {
             _dictionary.Add(item.Key, item.Value);
             HookValue(item.Value);
-            RaiseOnValueChanged();
+            RaiseOnValueChanged(item.Value);
         }
 
         public void Clear()
@@ -115,7 +106,7 @@ namespace Tesserae
             }
 
             _dictionary.Clear();
-            RaiseOnValueChanged();
+            RaiseOnValueChanged(default);
         }
 
         public bool Contains(KeyValuePair<TKey, TValue> item)
@@ -144,7 +135,7 @@ namespace Tesserae
             {
                 _dictionary.Remove(key);
                 UnhookValue(prev);
-                RaiseOnValueChanged();
+                RaiseOnValueChanged(default);
                 return true;
             }
             return false;
@@ -156,7 +147,7 @@ namespace Tesserae
             {
                 _dictionary.Remove(item.Key);
                 UnhookValue(prev);
-                RaiseOnValueChanged();
+                RaiseOnValueChanged(default);
                 return true;
             }
             return false;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Tesserae.HTML;
-using static Retyped.dom;
+using static H5.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae.Components
@@ -21,6 +21,7 @@ namespace Tesserae.Components
         private bool _callSelectOnAdd = true;
         private Func<Task<Item[]>> _itemsSource;
         private ObservableList<Item> _selectedChildren;
+        private HTMLDivElement _popupDiv;
 
         public Dropdown()
         {
@@ -201,7 +202,14 @@ namespace Tesserae.Components
         {
             if (_contentHtml == null)
             {
-                _contentHtml = Div(_("tss-dropdown-popup"), _childContainer);
+                _popupDiv = Div(_("tss-dropdown-popup"), _childContainer);
+                _contentHtml = Div(_("tss-dropdown-layer"), _popupDiv);
+
+                _contentHtml.addEventListener("click", OnWindowClick);
+                _contentHtml.addEventListener("dblclick", OnWindowClick);
+                _contentHtml.addEventListener("contextmenu", OnWindowClick);
+                _contentHtml.addEventListener("wheel", OnWindowClick);
+
                 if (_itemsSource is object)
                 {
                     LoadItemsAsync().ContinueWith(t => Show()).FireAndForget();
@@ -209,20 +217,20 @@ namespace Tesserae.Components
                 }
             }
 
-            _contentHtml.style.height = "unset";
-            _contentHtml.style.left = "-1000px";
-            _contentHtml.style.top = "-1000px";
+            _popupDiv.style.height = "unset";
+            _popupDiv.style.left = "-1000px";
+            _popupDiv.style.top = "-1000px";
 
             base.Show();
 
             _isChanged = false;
 
-            if (!_contentHtml.classList.contains("tss-no-focus")) _contentHtml.classList.add("tss-no-focus");
+            if (!_popupDiv.classList.contains("tss-no-focus")) _popupDiv.classList.add("tss-no-focus");
 
             ClientRect rect = (ClientRect)_container.getBoundingClientRect();
-            var contentRect = (ClientRect)_contentHtml.getBoundingClientRect();
-            _contentHtml.style.top = rect.bottom - 1 + "px";
-            _contentHtml.style.minWidth = rect.width + "px";
+            var contentRect = (ClientRect)_popupDiv.getBoundingClientRect();
+            _popupDiv.style.top = rect.bottom - 1 + "px";
+            _popupDiv.style.minWidth = rect.width + "px";
 
             var finalLeft = rect.left;
             if(rect.left + contentRect.width + 1 > window.innerWidth)
@@ -230,7 +238,7 @@ namespace Tesserae.Components
                 finalLeft = window.innerWidth - contentRect.width - 1;
             }
 
-            _contentHtml.style.left = finalLeft + "px";
+            _popupDiv.style.left = finalLeft + "px";
 
             if (window.innerHeight - rect.bottom - 1 < contentRect.height)
             {
@@ -239,29 +247,25 @@ namespace Tesserae.Components
                 {
                     if (rect.top > window.innerHeight - rect.bottom - 1)
                     {
-                        _contentHtml.style.top = "1px";
-                        _contentHtml.style.height = rect.top - 1 + "px";
+                        _popupDiv.style.top = "1px";
+                        _popupDiv.style.height = rect.top - 1 + "px";
                     }
                     else
                     {
-                        _contentHtml.style.height = window.innerHeight - rect.bottom - 1 + "px";
+                        _popupDiv.style.height = window.innerHeight - rect.bottom - 1 + "px";
                     }
                 }
                 else
                 {
-                    _contentHtml.style.top = top + "px";
+                    _popupDiv.style.top = top + "px";
                 }
             }
 
-            window.setTimeout((e) =>
+            DomObserver.WhenMounted(_popupDiv, () =>
             {
-                document.addEventListener("click", OnWindowClick);
-                document.addEventListener("dblclick", OnWindowClick);
-                document.addEventListener("contextmenu", OnWindowClick);
-                document.addEventListener("wheel", OnWindowClick);
                 document.addEventListener("keydown", OnPopupKeyDown);
                 if (_selectedChildren.Count > 0) _selectedChildren[_selectedChildren.Count - 1].Render().focus();
-            }, 100);
+            });
         }
 
         public override void Hide(Action onHidden = null)
