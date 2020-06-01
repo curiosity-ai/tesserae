@@ -17,6 +17,8 @@ namespace Tesserae.Components
         private double _refreshTimeout;
         private Func<Task<IComponent>> _asyncGenerator;
         private IComponent _loadMessage;
+        private TextBlock _defaultLoadingMessage;
+
         internal HTMLElement _container;
         private int _delay = 1;
 
@@ -27,7 +29,17 @@ namespace Tesserae.Components
         internal static DeferedComponent Create(Func<Task<IComponent>> asyncGenerator, IComponent loadMessage)
         {
             var d = new DeferedComponent();
-            d._loadMessage = loadMessage ?? TextBlock("loading...").XSmall();
+
+            if(loadMessage is null)
+            {
+                d._defaultLoadingMessage = TextBlock().XSmall();
+                d._loadMessage = d._defaultLoadingMessage;
+            }
+            else
+            {
+                d._loadMessage = loadMessage;
+            }
+
             d._asyncGenerator = asyncGenerator;
             d._needsRefresh = true;
             d._container = DIV(d._loadMessage.Render());
@@ -65,11 +77,19 @@ namespace Tesserae.Components
             if (!_needsRefresh) return;
             _needsRefresh = false;
             var container = ScrollBar.GetCorrectContainer(_container);
-            //ClearChildren(container);
-            //container.appendChild(_loadMessage.Render());
+
+            window.setTimeout((_) =>
+            {
+                if(_defaultLoadingMessage is object)
+                {
+                    _defaultLoadingMessage.Text = "loading...";
+                }
+            }, 1000);
+
             var task = _asyncGenerator();
             task.ContinueWith(r =>
             {
+                _defaultLoadingMessage = null;
                 ClearChildren(container);
                 if (r.IsCompleted)
                 {
