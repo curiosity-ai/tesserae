@@ -30,6 +30,8 @@ namespace Tesserae
 
         public static IComponent If(bool condition, IComponent ifTrue, IComponent ifFalse) => condition ? (ifTrue ?? Raw()) : (ifFalse ?? Raw());
 
+        public static IComponent If(bool condition, Func<IComponent> ifTrue, IComponent ifFalse) => condition ? (ifTrue?.Invoke() ?? Raw()) : (ifFalse ?? Raw());
+
         public static IComponent If(bool condition, Func<IComponent> ifTrue, Func<IComponent> ifFalse) => condition ? (ifTrue?.Invoke() ?? Raw()) : (ifFalse?.Invoke() ?? Raw());
 
         /// <summary>
