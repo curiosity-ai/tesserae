@@ -1,8 +1,7 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using static H5.Core.dom;
-using System.Linq;
-using H5;
 
 namespace Tesserae.Components
 {
@@ -50,12 +49,6 @@ namespace Tesserae.Components
                 }
             });
         }
-
-        /// <summary>
-        /// Sometimes you want to start a Task and not await its results but there is an analyzer that presumes that code that creates Tasks and doesn't await them is incorrect
-        /// (and, often, it is right) but sometimes you don't want to await and you don't want the analyzer telling you about it - in that case, use this extensions method
-        /// </summary>
-        public static void FireAndForget<T>(this Task<T> task) => FireAndForget((Task)task);
 
         public static async Task<T> Unwrap<T>(this Task<Task<T>> task)
         {
