@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using H5;
 using static H5.Core.dom;
 
 namespace Tesserae.Components
@@ -16,6 +17,7 @@ namespace Tesserae.Components
         /// Sometimes you want to start a Task and not await its results but there is an analyzer that presumes that code that creates Tasks and doesn't await them is incorrect
         /// (and, often, it is right) but sometimes you don't want to await and you don't want the analyzer telling you about it - in that case, use this extensions method
         /// </summary>
+        [Name("fireAndForget")] // 2020-06-03 DWR: Since I removed the unnecessary method overload that took a Task<T>, the consuming projects are trying to identify this as "fireAndForget" instead of "FireAndForget" - maybe this will fix it
         public static void FireAndForget(this Task task)
         {
             if (task is null) return;
