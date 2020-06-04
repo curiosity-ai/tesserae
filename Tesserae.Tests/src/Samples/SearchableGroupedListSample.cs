@@ -13,7 +13,7 @@ namespace Tesserae.Tests.Samples
 
         public SearchableGroupedListSample()
         {
-            Func<string, IComponent> groupedItemHeaderGenerator = HorizontalSeparator;
+            Func<string, IComponent> groupedItemHeaderGenerator = (s) => HorizontalSeparator(TextBlock(s).Primary().SemiBold()).Left();
 
             _content =
                 SectionStack()
@@ -84,7 +84,7 @@ namespace Tesserae.Tests.Samples
                 Group = group;
             }
 
-            public bool IsMatch(string searchTerm) => _value.Contains(searchTerm);
+            public bool IsMatch(string searchTerm) => _value.ToLower().Contains(searchTerm.ToLower()) || Group.ToLower().Contains(searchTerm.ToLower());
 
             public string Group { get; }
 
