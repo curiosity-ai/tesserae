@@ -123,6 +123,19 @@ namespace Tesserae
         /// </summary>
         public static Stack Stack(Stack.Orientation orientation = Components.Stack.Orientation.Vertical) => new Stack(orientation);
 
+        /// <summary>
+        /// Horizontal stack, same as calling Stack().Horizontal()
+        /// </summary>
+        /// <returns></returns>
+        public static Stack HStack() => new Stack(Components.Stack.Orientation.Horizontal);
+
+
+        /// <summary>
+        /// Horizontal stack, same as calling Stack() or Stack().Vertical()
+        /// </summary>
+        /// <returns></returns>
+        public static Stack VStack() => new Stack(Components.Stack.Orientation.Vertical);
+
         public static Grid Grid(params UnitSize[] columns) => new Grid(columns);
 
         public static SectionStack SectionStack() => new SectionStack();

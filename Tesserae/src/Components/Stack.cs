@@ -73,6 +73,13 @@ namespace Tesserae.Components
         }
 
         /// <summary>
+        /// Sets the align-items css property for this stack to 'center'
+        /// </summary>
+        /// <param name="align"></param>
+        /// <returns></returns>
+        public Stack AlignItemsCenter(ItemAlign align) => AlignItems(ItemAlign.Center);
+
+        /// <summary>
         /// Sets the align-items css property for this stack
         /// </summary>
         /// <param name="align"></param>
