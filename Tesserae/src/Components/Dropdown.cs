@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Tesserae.HTML;
 using static H5.Core.dom;
@@ -10,18 +11,19 @@ namespace Tesserae.Components
 {
     public sealed class Dropdown : Layer<Dropdown>, IContainer<Dropdown, Dropdown.Item>, ICanValidate<Dropdown>, IObservableListComponent<Dropdown.Item>
     {
-        private readonly HTMLElement _childContainer;
+        private static HTMLElement _firstItem;
 
+        private readonly HTMLElement _childContainer;
         private readonly HTMLDivElement _container;
         private readonly HTMLSpanElement _errorSpan;
 
         private HTMLDivElement _spinner;
-
         private bool _isChanged;
         private bool _callSelectOnAdd = true;
         private Func<Task<Item[]>> _itemsSource;
         private ObservableList<Item> _selectedChildren;
         private HTMLDivElement _popupDiv;
+        private string _search;
 
         public Dropdown()
         {
@@ -264,6 +266,7 @@ namespace Tesserae.Components
             DomObserver.WhenMounted(_popupDiv, () =>
             {
                 document.addEventListener("keydown", OnPopupKeyDown);
+                document.addEventListener("keydown", UpdateSearch);
                 if (_selectedChildren.Count > 0) _selectedChildren[_selectedChildren.Count - 1].Render().focus();
             });
         }
@@ -275,6 +278,9 @@ namespace Tesserae.Components
             document.removeEventListener("contextmenu", OnWindowClick);
             document.removeEventListener("wheel", OnWindowClick);
             document.removeEventListener("keydown", OnPopupKeyDown);
+            ClearSearch();
+            ResetSearchItems();
+            document.removeEventListener("keydown", UpdateSearch);
             base.Hide(onHidden);
             if (_isChanged) RaiseOnChange(this);
         }
@@ -325,7 +331,7 @@ namespace Tesserae.Components
             IsEnabled = !value;
             return this;
         }
-        
+
         public Dropdown NoBorder()
         {
             HasBorder = false;
@@ -445,6 +451,8 @@ namespace Tesserae.Components
             }
         }
 
+
+
         public IObservable<IReadOnlyList<Item>> AsObservable()
         {
             return _selectedChildren;
@@ -461,6 +469,82 @@ namespace Tesserae.Components
             Item,
             Header,
             Divider
+        }
+
+        private void UpdateSearch(Event @event)
+        {
+            StopEvent(@event);
+
+            if (!(@event is KeyboardEvent keyboardEvent))
+            {
+                return;
+            }
+
+            var key = keyboardEvent.key;
+
+            if (key == "Backspace")
+            {
+                if (!string.IsNullOrWhiteSpace(_search))
+                {
+                    _search = _search.Remove(_search.Length - 1, 1);
+                    SearchItems();
+                }
+            }
+            else if (key == "Enter")
+            {
+                _firstItem?.click();
+            }
+            else if (key == "Escape")
+            {
+                ClearSearch();
+                ResetSearchItems();
+                Hide();
+            }
+            else if (key.Length == 1 && Regex.IsMatch(key, "[A-Za-z0-9 _\\-.,;:!?\"'/$]*", RegexOptions.IgnoreCase))
+            {
+                _search += key;
+
+                SearchItems();
+
+                console.log("Search: ", _search);
+            }
+
+            if (string.IsNullOrWhiteSpace(_search))
+            {
+                ResetSearchItems();
+            }
+        }
+
+        private void ResetSearchItems(IEnumerable<(HTMLElement item, string textContent)> itemsToReset = null)
+        {
+            itemsToReset = itemsToReset ?? GetItems();
+
+            foreach (var item in itemsToReset)
+            {
+                item.item.style.display = "block";
+            }
+        }
+
+        private void ClearSearch()
+        {
+            _search = string.Empty;
+        }
+
+        private (HTMLElement item, string textContent)[] GetItems() => _childContainer.children.Select(child => ((HTMLElement)child, child.textContent)).ToArray();
+
+        private void SearchItems()
+        {
+            var items         = GetItems();
+            var itemsToRemove = items.Where(item => !item.textContent.Contains(_search));
+            var itemsToReset  = items.Except(itemsToRemove);
+            _firstItem        = itemsToReset.FirstOrDefault().item;
+
+            ResetSearchItems(itemsToReset);
+
+            foreach (var itemToRemove in itemsToRemove)
+            {
+                itemToRemove.item.style.display = "none";
+            }
         }
 
         public class Item : IComponent
@@ -602,7 +686,7 @@ namespace Tesserae.Components
                 IsSelected = true;
                 return this;
             }
-            
+
             public Item SelectedIf(bool shouldSelect)
             {
                 if (shouldSelect)
