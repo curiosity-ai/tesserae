@@ -266,21 +266,19 @@ namespace Tesserae.Components
             DomObserver.WhenMounted(_popupDiv, () =>
             {
                 document.addEventListener("keydown", OnPopupKeyDown);
-                document.addEventListener("keydown", UpdateSearch);
                 if (_selectedChildren.Count > 0) _selectedChildren[_selectedChildren.Count - 1].Render().focus();
             });
         }
 
         public override void Hide(Action onHidden = null)
         {
+            ClearSearch();
+            ResetSearchItems();
             document.removeEventListener("click", OnWindowClick);
             document.removeEventListener("dblclick", OnWindowClick);
             document.removeEventListener("contextmenu", OnWindowClick);
             document.removeEventListener("wheel", OnWindowClick);
             document.removeEventListener("keydown", OnPopupKeyDown);
-            ClearSearch();
-            ResetSearchItems();
-            document.removeEventListener("keydown", UpdateSearch);
             base.Hide(onHidden);
             if (_isChanged) RaiseOnChange(this);
         }
@@ -421,37 +419,68 @@ namespace Tesserae.Components
         private void OnPopupKeyDown(Event e)
         {
             var ev = e as KeyboardEvent;
+
             if (ev.key == "ArrowUp")
             {
-                if (_contentHtml.classList.contains("tss-no-focus")) _contentHtml.classList.remove("tss-no-focus");
+                var visibleItems = _childContainer.children.Where(he => ((HTMLElement)he).style.display != "none").ToArray();
+
+                if (_popupDiv.classList.contains("tss-no-focus")) _popupDiv.classList.remove("tss-no-focus");
+
                 if (document.activeElement != null && _childContainer.contains(document.activeElement))
                 {
-                    var el = (_childContainer.children.TakeWhile(x => !x.Equals(document.activeElement)).LastOrDefault(x => (x as HTMLElement).tabIndex != -1) as HTMLElement);
-                    if (el != null) el.focus();
-                    else (_childContainer.children.Last(x => (x as HTMLElement).tabIndex != -1) as HTMLElement).focus();
+                    if (visibleItems.TakeWhile(x => !x.Equals(document.activeElement)).LastOrDefault(x => (x as HTMLElement).tabIndex != -1) is HTMLElement el)
+                    {
+                        _firstItem = el;
+                    }
+                    else
+                    {
+                        _firstItem = visibleItems.LastOrDefault(x => (x as HTMLElement).tabIndex != -1) as HTMLElement;
+                    }
                 }
                 else
                 {
-                    (_childContainer.children.Last(x => (x as HTMLElement).tabIndex != -1) as HTMLElement).focus();
+                    _firstItem = visibleItems.LastOrDefault(x => (x as HTMLElement).tabIndex != -1) as HTMLElement;
+                }
+
+                if(_firstItem is object)
+                {
+                    console.log(_firstItem);
+                    _firstItem.focus();
                 }
             }
             else if (ev.key == "ArrowDown")
             {
-                if (_contentHtml.classList.contains("tss-no-focus")) _contentHtml.classList.remove("tss-no-focus");
+                var visibleItems = _childContainer.children.Where(he => ((HTMLElement)he).style.display != "none").ToArray();
+
+                if (_popupDiv.classList.contains("tss-no-focus")) _popupDiv.classList.remove("tss-no-focus");
+
                 if (document.activeElement != null && _childContainer.contains(document.activeElement))
                 {
-                    var el = (_childContainer.children.SkipWhile(x => !x.Equals(document.activeElement)).Skip(1).FirstOrDefault(x => (x as HTMLElement).tabIndex != -1) as HTMLElement);
-                    if (el != null) el.focus();
-                    else (_childContainer.children.First(x => (x as HTMLElement).tabIndex != -1) as HTMLElement).focus();
+                    if (visibleItems.SkipWhile(x => !x.Equals(document.activeElement)).Skip(1).FirstOrDefault(x => (x as HTMLElement).tabIndex != -1) is HTMLElement el)
+                    {
+                        _firstItem = el;
+                    }
+                    else
+                    {
+                        _firstItem = visibleItems.FirstOrDefault(x => (x as HTMLElement).tabIndex != -1) as HTMLElement;
+                    }
                 }
                 else
                 {
-                    (_childContainer.children.First(x => (x as HTMLElement).tabIndex != -1) as HTMLElement).focus();
+                    _firstItem = visibleItems.FirstOrDefault(x => (x as HTMLElement).tabIndex != -1) as HTMLElement;
+                }
+
+                if (_firstItem is object)
+                {
+                    console.log(_firstItem);
+                    _firstItem.focus();
                 }
             }
+            else
+            {
+                UpdateSearch(ev);
+            }
         }
-
-
 
         public IObservable<IReadOnlyList<Item>> AsObservable()
         {
@@ -471,42 +500,32 @@ namespace Tesserae.Components
             Divider
         }
 
-        private void UpdateSearch(Event @event)
+        private void UpdateSearch(KeyboardEvent e)
         {
-            StopEvent(@event);
+            StopEvent(e);
 
-            if (!(@event is KeyboardEvent keyboardEvent))
-            {
-                return;
-            }
-
-            var key = keyboardEvent.key;
-
-            if (key == "Backspace")
+            if (e.key == "Backspace")
             {
                 if (!string.IsNullOrWhiteSpace(_search))
                 {
-                    _search = _search.Remove(_search.Length - 1, 1);
+                    _search = _search.Substring(0, _search.Length - 1);
                     SearchItems();
                 }
             }
-            else if (key == "Enter")
+            else if (e.key == "Enter")
             {
                 _firstItem?.click();
             }
-            else if (key == "Escape")
+            else if (e.key == "Escape")
             {
                 ClearSearch();
                 ResetSearchItems();
                 Hide();
             }
-            else if (key.Length == 1 && Regex.IsMatch(key, "[A-Za-z0-9 _\\-.,;:!?\"'/$]*", RegexOptions.IgnoreCase))
+            else if (e.key.Length == 1 && Regex.IsMatch(e.key, "[a-z0-9 _\\-.,;:!?\"'/$]", RegexOptions.IgnoreCase))
             {
-                _search += key;
-
+                _search += e.key;
                 SearchItems();
-
-                console.log("Search: ", _search);
             }
 
             if (string.IsNullOrWhiteSpace(_search))

@@ -133,7 +133,8 @@
     }
 
     .tss-dropdown-item:focus {
-        border: 1px solid var(--tss-secondary-foreground-color);
+        border: 1px solid var(--tss-primary-border-color);
+        background-color: var(--tss-default-background-hover-color);
         outline: transparent none medium;
     }
 
