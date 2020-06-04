@@ -42,11 +42,6 @@ namespace Tesserae.Components
 
                 AddGroupedItems(GetGroupedItems(filteredItems), _list.Items);
 
-                foreach (var listItem in _list.Items)
-                {
-                    listItem.Render();
-                }
-
                 return _list.Stretch().AsTask();
             }).WidthStretch().Height(100.px()).Grow();
 
@@ -91,7 +86,7 @@ namespace Tesserae.Components
 
         private IEnumerable<(GroupedItemsHeader groupedItemsHeader, IEnumerable<TSearchableGroupedItem>)> GetGroupedItems(IEnumerable<TSearchableGroupedItem> items)
         {
-            if (items != null)
+            if (items is object)
             {
                 items = items.ToList();
 
@@ -116,7 +111,7 @@ namespace Tesserae.Components
             foreach (var (groupedItemsHeader, groupedItems) in items)
             {
                 observableList.Add(groupedItemsHeader);
-                observableList.AddRange(groupedItems.OfType<IComponent>());
+                observableList.AddRange(groupedItems.OfType<ISearchableGroupedItem>().Select(t => t.Render()));
             }
         }
 
