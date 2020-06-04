@@ -557,7 +557,7 @@ namespace Tesserae.Components
         private void SearchItems()
         {
             var items         = GetItems();
-            var itemsToRemove = items.Where(item => !item.textContent.Contains(_search));
+            var itemsToRemove = items.Where(item => !(item.textContent.ToLower().Contains(_search.ToLower())));
             var itemsToReset  = items.Except(itemsToRemove);
             _firstItem        = itemsToReset.FirstOrDefault().item;
 
