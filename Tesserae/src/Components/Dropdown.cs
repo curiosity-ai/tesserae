@@ -229,13 +229,24 @@ namespace Tesserae.Components
 
             if (!_popupDiv.classList.contains("tss-no-focus")) _popupDiv.classList.add("tss-no-focus");
 
+            RecomputePopupPosition();
+
+            DomObserver.WhenMounted(_popupDiv, () =>
+            {
+                document.addEventListener("keydown", OnPopupKeyDown);
+                if (_selectedChildren.Count > 0) _selectedChildren[_selectedChildren.Count - 1].Render().focus();
+            });
+        }
+
+        private void RecomputePopupPosition()
+        {
             ClientRect rect = (ClientRect)_container.getBoundingClientRect();
             var contentRect = (ClientRect)_popupDiv.getBoundingClientRect();
             _popupDiv.style.top = rect.bottom - 1 + "px";
             _popupDiv.style.minWidth = rect.width + "px";
 
             var finalLeft = rect.left;
-            if(rect.left + contentRect.width + 1 > window.innerWidth)
+            if (rect.left + contentRect.width + 1 > window.innerWidth)
             {
                 finalLeft = window.innerWidth - contentRect.width - 1;
             }
@@ -262,12 +273,6 @@ namespace Tesserae.Components
                     _popupDiv.style.top = top + "px";
                 }
             }
-
-            DomObserver.WhenMounted(_popupDiv, () =>
-            {
-                document.addEventListener("keydown", OnPopupKeyDown);
-                if (_selectedChildren.Count > 0) _selectedChildren[_selectedChildren.Count - 1].Render().focus();
-            });
         }
 
         public override void Hide(Action onHidden = null)
@@ -444,7 +449,6 @@ namespace Tesserae.Components
 
                 if(_firstItem is object)
                 {
-                    console.log(_firstItem);
                     _firstItem.focus();
                 }
             }
@@ -472,7 +476,6 @@ namespace Tesserae.Components
 
                 if (_firstItem is object)
                 {
-                    console.log(_firstItem);
                     _firstItem.focus();
                 }
             }
@@ -564,6 +567,7 @@ namespace Tesserae.Components
             {
                 itemToRemove.item.style.display = "none";
             }
+            RecomputePopupPosition();
         }
 
         public class Item : IComponent
