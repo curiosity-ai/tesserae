@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using static H5.Core.dom;
 using static Tesserae.UI;
 
@@ -47,6 +48,8 @@ namespace Tesserae.Components
         public Toast   BottomLeft     () { _position = Position.BottomLeft   ; return this;}
         public Toast   TopFull        () { _position = Position.TopFull      ; return this;}
         public Toast   BottomFull     () { _position = Position.BottomFull   ; return this;}
+
+        public Toast Duration(TimeSpan timeSpan) { _timeoutDuration = (int)timeSpan.TotalSeconds; return this;  }
 
         public void Success(IComponent title, IComponent message)     { _type = Type.Success;     _title = title; _message = message; Fire(); }
         public void Information(IComponent title, IComponent message) { _type = Type.Information; _title = title; _message = message; Fire(); }
