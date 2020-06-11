@@ -1,51 +1,54 @@
-﻿using H5;
-using System;
+﻿using System;
 using System.Threading.Tasks;
-using Tesserae.HTML;
-using static Tesserae.UI;
-using static H5.Core.dom;
 using H5.Core;
+using Tesserae.HTML;
+using static H5.Core.dom;
+using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
-
     // This class has a different name than the static method in the UI class due to a bug in the bridge compiler that ends up calling the wrong constructor.
-    // It is also internal to Tesserae to hide it from the compiler, which then exposes only teh IDefer interface
-    internal class DeferedComponent : IDefer
+    // It is also internal to Tesserae to hide it from the compiler, which then exposes only the IDefer interface
+    internal sealed class DeferedComponent : IDefer
     {
+        private readonly Func<Task<IComponent>> _asyncGenerator;
+        private readonly TextBlock _defaultLoadingMessageIfAny;
+
         private bool _needsRefresh;
         private double _refreshTimeout;
-        private Func<Task<IComponent>> _asyncGenerator;
-        private IComponent _loadMessage;
-        private TextBlock _defaultLoadingMessage;
 
         internal HTMLElement _container;
         private int _delay = 1;
 
-        private DeferedComponent()
+        private DeferedComponent(Func<Task<IComponent>> asyncGenerator, IComponent loadMessage, TextBlock defaultLoadingMessageIfAny)
         {
+            if (loadMessage is null)
+                throw new ArgumentNullException(nameof(loadMessage));
+
+            _asyncGenerator = asyncGenerator ?? throw new ArgumentNullException(nameof(asyncGenerator));
+            _defaultLoadingMessageIfAny = defaultLoadingMessageIfAny;
+            _needsRefresh = true;
+            _container = Div(_(id: "tss-deferred"), loadMessage.Render());
         }
 
         internal static DeferedComponent Create(Func<Task<IComponent>> asyncGenerator, IComponent loadMessage)
         {
-            var d = new DeferedComponent();
+            if (asyncGenerator is null)
+                throw new ArgumentNullException(nameof(asyncGenerator));
 
-            if(loadMessage is null)
+            TextBlock defaultLoadingMessage;
+            if (loadMessage is null)
             {
-                d._defaultLoadingMessage = TextBlock().XSmall();
-                d._loadMessage = d._defaultLoadingMessage;
+                defaultLoadingMessage = TextBlock().XSmall();
+                loadMessage = defaultLoadingMessage;
             }
             else
             {
-                d._loadMessage = loadMessage;
+                defaultLoadingMessage = null;
             }
-
-            d._asyncGenerator = asyncGenerator;
-            d._needsRefresh = true;
-            d._container = DIV(d._loadMessage.Render());
-            d._container.id = "tss-deferred";
-            return d;
+            return new DeferedComponent(asyncGenerator, loadMessage, defaultLoadingMessage);
         }
+
         internal static DeferedComponent Create(Func<Task<IComponent>> asyncGenerator) => Create(asyncGenerator, null);
 
         public void Refresh()
@@ -74,33 +77,39 @@ namespace Tesserae.Components
 
         private void TriggerRefresh()
         {
-            if (!_needsRefresh) return;
+            if (!_needsRefresh)
+                return;
+            
             _needsRefresh = false;
+
+            window.setTimeout(
+                _ =>
+                {
+                    if (_defaultLoadingMessageIfAny is object)
+                    {
+                        _defaultLoadingMessageIfAny.Text = "loading...";
+                    }
+                },
+                1_000
+            );
+
             var container = ScrollBar.GetCorrectContainer(_container);
-
-            window.setTimeout((_) =>
-            {
-                if(_defaultLoadingMessage is object)
+            _asyncGenerator()
+                .ContinueWith(r =>
                 {
-                    _defaultLoadingMessage.Text = "loading...";
-                }
-            }, 1000);
-
-            var task = _asyncGenerator();
-            task.ContinueWith(r =>
-            {
-                _defaultLoadingMessage = null;
-                ClearChildren(container);
-                if (r.IsCompleted)
-                {
-                    container.appendChild(r.Result.Render());
-                }
-                else
-                {
-                    container.appendChild(TextBlock("Error rendering async element").Danger());
-                    container.appendChild(TextBlock(r.Exception.ToString()).XSmall());
-                }
-            }).FireAndForget();
+                    _defaultLoadingMessage = null;
+                    ClearChildren(container);
+                    if (r.IsCompleted)
+                    {
+                        container.appendChild(r.Result.Render());
+                    }
+                    else
+                    {
+                        container.appendChild(TextBlock("Error rendering async element").Danger());
+                        container.appendChild(TextBlock(r.Exception.ToString()).XSmall());
+                    }
+                })
+                .FireAndForget();
         }
 
         internal static DeferedComponent Observe<T1>(IObservable<T1> o1, Func<T1, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
@@ -218,7 +227,6 @@ namespace Tesserae.Components
             return d;
         }
     }
-
 
     //Generator code:
 
