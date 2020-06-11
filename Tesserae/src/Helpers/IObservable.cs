@@ -1,6 +1,4 @@
 ﻿namespace Tesserae
 {
-    public interface IObservable
-    {
-    }
+    public interface IObservable { }
 }

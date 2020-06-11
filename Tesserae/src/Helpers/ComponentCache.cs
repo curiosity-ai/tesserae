@@ -70,6 +70,5 @@ namespace Tesserae
 
             return this;
         }
-
     }
 }
