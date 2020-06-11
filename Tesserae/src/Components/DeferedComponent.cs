@@ -12,14 +12,11 @@ namespace Tesserae.Components
     internal sealed class DeferedComponent : IDefer
     {
         private readonly Func<Task<IComponent>> _asyncGenerator;
-        private readonly TextBlock _defaultLoadingMessageIfAny;
-
+        private TextBlock _defaultLoadingMessageIfAny;
         private bool _needsRefresh;
         private double _refreshTimeout;
-
         internal HTMLElement _container;
         private int _delay = 1;
-
         private DeferedComponent(Func<Task<IComponent>> asyncGenerator, IComponent loadMessage, TextBlock defaultLoadingMessageIfAny)
         {
             if (loadMessage is null)
@@ -97,7 +94,7 @@ namespace Tesserae.Components
             _asyncGenerator()
                 .ContinueWith(r =>
                 {
-                    _defaultLoadingMessage = null;
+                    _defaultLoadingMessageIfAny = null;
                     ClearChildren(container);
                     if (r.IsCompleted)
                     {
