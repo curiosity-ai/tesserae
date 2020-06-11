@@ -9,8 +9,10 @@ using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
-    public sealed class Dropdown : Layer<Dropdown>, IContainer<Dropdown, Dropdown.Item>, ICanValidate<Dropdown>, IObservableListComponent<Dropdown.Item>
+    public sealed class Dropdown : Layer<Dropdown>, ICanValidate<Dropdown>, IObservableListComponent<Dropdown.Item>
     {
+        private const string _multiSelectDropdownClassName = "tss-dropdown-multi";
+
         private static HTMLElement _firstItem;
 
         private readonly HTMLElement _childContainer;
@@ -57,16 +59,16 @@ namespace Tesserae.Components
 
         public SelectMode Mode
         {
-            get => _childContainer.classList.contains("tss-dropdown-multi") ? SelectMode.Multi : SelectMode.Single;
+            get => _childContainer.classList.contains(_multiSelectDropdownClassName) ? SelectMode.Multi : SelectMode.Single;
             set
             {
                 if (value == SelectMode.Single)
                 {
-                    _childContainer.classList.remove("tss-dropdown-multi");
+                    _childContainer.classList.remove(_multiSelectDropdownClassName);
                 }
                 else
                 {
-                    _childContainer.classList.add("tss-dropdown-multi");
+                    _childContainer.classList.add(_multiSelectDropdownClassName);
                 }
             }
         }
@@ -151,28 +153,6 @@ namespace Tesserae.Components
             }
         }
 
-
-        public void Clear()
-        {
-            ClearChildren(ScrollBar.GetCorrectContainer(_childContainer));
-        }
-
-        public void Replace(Item newComponent, Item oldComponent)
-        {
-            ScrollBar.GetCorrectContainer(_childContainer).replaceChild(newComponent.Render(), oldComponent.Render());
-        }
-
-        public void Add(Item component)
-        {
-            ScrollBar.GetCorrectContainer(_childContainer).appendChild(component.Render());
-            component.onSelectedChange += OnItemSelected;
-
-            if (component.IsSelected)
-            {
-                OnItemSelected(null, component);
-            }
-        }
-
         public override HTMLElement Render()
         {
             DomObserver.WhenMounted(_container, () =>
@@ -187,12 +167,15 @@ namespace Tesserae.Components
 
         public async Task LoadItemsAsync()
         {
-            if (_itemsSource is null) throw new InvalidOperationException("Only valid with async items");
+            if (_itemsSource is null)
+                throw new InvalidOperationException("Only valid with async items");
+
             var itemsSourceLocal = _itemsSource;
-            _itemsSource = null; //Clear so we don't call this twice
+            _itemsSource = null; // Clear so we don't call this twice
             _spinner = Div(_("tss-spinner"));
             _container.appendChild(_spinner);
             _container.style.pointerEvents = "none";
+
             var items = await itemsSourceLocal();
             Clear();
             Items(items);
@@ -234,7 +217,10 @@ namespace Tesserae.Components
             DomObserver.WhenMounted(_popupDiv, () =>
             {
                 document.addEventListener("keydown", OnPopupKeyDown);
-                if (_selectedChildren.Count > 0) _selectedChildren[_selectedChildren.Count - 1].Render().focus();
+                if (_selectedChildren.Count > 0)
+                {
+                    _selectedChildren[_selectedChildren.Count - 1].Render().focus();
+                }
             });
         }
 
@@ -318,11 +304,33 @@ namespace Tesserae.Components
             return this;
         }
 
+        public void Clear()
+        {
+            ClearChildren(ScrollBar.GetCorrectContainer(_childContainer));
+
+            // 2020-06-11 DWR: We need to do this, otherwise the entries in there will relate to drop down items that are no longer rendered - it's fine, since we'll be rebuilding the items (including selected states) if we've just called clear
+            _selectedChildren.Clear();
+        }
+
+        /// <summary>
+        /// This will add items to the available options - note that it will NOT clear any existing ones first (unlike the method overload that takes a Task-returning delegate) and so you may want to call Clear before calling this
+        /// </summary>
         public Dropdown Items(params Item[] children)
         {
-            children.ForEach(x => Add(x));
+            children.ForEach(component =>
+            {
+                ScrollBar.GetCorrectContainer(_childContainer).appendChild(component.Render());
+                component._onSelected += OnItemSelected;
+                if (component.IsSelected)
+                    OnItemSelected(null, component);
+            });
             return this;
         }
+
+        /// <summary>
+        /// This will specify an asynchronous callback that describes how to get available options - note that they will not be retrieved until LoadItemsAsync is called (when that successfully gets new item data, any existing items will be
+        /// removed first and the list will be completely replace with the new data)
+        /// </summary>
         public Dropdown Items(Func<Task<Item[]>> itemsSource)
         {
             _itemsSource = itemsSource;
@@ -354,45 +362,30 @@ namespace Tesserae.Components
 
         private void OnItemSelected(object sender, Item e)
         {
-            if (Mode == SelectMode.Single && !e.IsSelected) return;
-
             if (Mode == SelectMode.Single)
             {
-                if (_selectedChildren.Count > 0)
+                if (!e.IsSelected)
                 {
-                    foreach (var selectedChild in _selectedChildren.ToArray()) //Need to copy as setting IsSelected will get back here
-                    {
-                        if(selectedChild != e)
-                        {
-                            selectedChild.IsSelected = false;
-                        }
-                    }
-
-                    _selectedChildren.Clear();
+                    // If this is an item getting unselected in a Single-only dropdown then it was probably from the "selectedChild.IsSelected = false" call below and we can ignore it
+                    return;
                 }
 
-                if (!_selectedChildren.Contains(e))
-                {
-                    _selectedChildren.Add(e);
-                }
+                _selectedChildren.Clear();
+                _selectedChildren.Add(e);
 
                 Hide();
             }
             else
             {
-                if(e.IsSelected)
+                if (e.IsSelected)
                 {
                     if (!_selectedChildren.Contains(e))
-                    {
                         _selectedChildren.Add(e);
-                    }
                 }
                 else
                 {
                     if (_selectedChildren.Contains(e))
-                    {
                         _selectedChildren.Remove(e);
-                    }
                 }
 
                 _isChanged = true;
@@ -410,10 +403,10 @@ namespace Tesserae.Components
         {
             ClearChildren(InnerElement);
 
-            for (int i = 0; i < SelectedItems.Length; i++)
+            for (var i = 0; i < SelectedItems.Length; i++)
             {
-                Item sel = SelectedItems[i];
-                var clone = (HTMLElement)(sel.RenderSelected());
+                var sel = SelectedItems[i];
+                var clone = sel.RenderSelected();
                 clone.classList.remove("tss-dropdown-item");
                 clone.classList.remove("tss-selected");
                 clone.classList.add("tss-dropdown-item-on-box");
@@ -447,7 +440,7 @@ namespace Tesserae.Components
                     _firstItem = visibleItems.LastOrDefault(x => (x as HTMLElement).tabIndex != -1) as HTMLElement;
                 }
 
-                if(_firstItem is object)
+                if (_firstItem is object)
                 {
                     _firstItem.focus();
                 }
@@ -556,10 +549,10 @@ namespace Tesserae.Components
 
         private void SearchItems()
         {
-            var items         = GetItems();
+            var items = GetItems();
             var itemsToRemove = items.Where(item => !(item.textContent.ToLower().Contains(_search.ToLower())));
-            var itemsToReset  = items.Except(itemsToRemove);
-            _firstItem        = itemsToReset.FirstOrDefault().item;
+            var itemsToReset = items.Except(itemsToRemove);
+            _firstItem = itemsToReset.FirstOrDefault().item;
 
             ResetSearchItems(itemsToReset);
 
@@ -572,21 +565,18 @@ namespace Tesserae.Components
 
         public class Item : IComponent
         {
-
             private readonly HTMLElement InnerElement;
             private readonly HTMLElement SelectedElement;
-            private dynamic _data;
-            public dynamic Data => _data;
-            public Item(string text, string selectedText = null) : this(TextBlock(text), TextBlock(string.IsNullOrEmpty(selectedText) ? text : selectedText) )
-            {
-            }
+            public Item(string text, string selectedText = null) : this(TextBlock(text), TextBlock(string.IsNullOrEmpty(selectedText) ? text : selectedText)) { }
+
+            public dynamic Data { get; private set; }
 
             public Item(IComponent content, IComponent selectedContent)
             {
                 InnerElement = Button(_("tss-dropdown-item"));
                 InnerElement.appendChild(content.Render());
 
-                if(selectedContent is null || selectedContent == content)
+                if (selectedContent is null || selectedContent == content)
                 {
                     SelectedElement = (HTMLElement)InnerElement.cloneNode(true);
                 }
@@ -600,9 +590,8 @@ namespace Tesserae.Components
                 InnerElement.addEventListener("mouseover", OnItemMouseOver);
             }
 
-
-            public event BeforeSelectEventHandler<Item> onBeforeSelected;
-            internal event EventHandler<Item> onSelectedChange;
+            private event BeforeSelectEventHandler<Item> _onBeforeSelected;
+            internal event EventHandler<Item> _onSelected;
 
             public ItemType Type
             {
@@ -646,29 +635,23 @@ namespace Tesserae.Components
                 get => InnerElement.classList.contains("tss-selected");
                 set
                 {
-                    var changed = value != IsSelected;
-                    if (changed)
+                    if (value && _onBeforeSelected is object)
                     {
-                        if (value && onBeforeSelected is object)
-                        {
-                            var shouldSelect = onBeforeSelected(this);
-                            if (!shouldSelect) return;
-                        }
+                        var shouldSelect = _onBeforeSelected(this);
+                        if (!shouldSelect)
+                            return;
                     }
 
                     if (value)
-                    {
                         InnerElement.classList.add("tss-selected");
-                    }
                     else
-                    {
                         InnerElement.classList.remove("tss-selected");
-                    }
 
-                    if (changed)
-                    {
-                        onSelectedChange?.Invoke(this, this);
-                    }
+                    // 2020-06-11 DWR: We previously had a check here to only fire this even if the value had changed but that would mean that if you had a single-select drop down and you clicked on the option that was already selected
+                    // then nothing would happen (because the value hadn't changed and this callback wouldn't be made) because it's this callback that the parent class uses to hide the drop down list of options. I considered making
+                    // adding the logic to OnItemClick instead (because we want a way to say "hide the drop down list if the User clicked an option) but that bypasses  the _onBeforeSelected and that could be useful (we might want
+                    // to have a callback that prevents you from clicking the item if.. something). While I removed the was-changed check for single-select configurations, it does not harm for multi as well.
+                    _onSelected?.Invoke(this, this);
                 }
             }
 
@@ -721,15 +704,15 @@ namespace Tesserae.Components
 
             public Item SetData(dynamic data)
             {
-                _data = data;
+                Data = data;
                 return this;
             }
 
             public Item OnSelected(EventHandler<Item> onSelected, EventHandler<Item> onDeselected = null)
             {
-                onSelectedChange += (s,e) =>
+                _onSelected += (s, e) =>
                 {
-                    if(e.IsSelected)
+                    if (e.IsSelected)
                     {
                         onSelected?.Invoke(s, e);
                     }
@@ -743,7 +726,7 @@ namespace Tesserae.Components
 
             public Item OnBeforeSelected(BeforeSelectEventHandler<Item> onBeforeSelect)
             {
-                onBeforeSelected += onBeforeSelect;
+                _onBeforeSelected += onBeforeSelect;
                 return this;
             }
 
@@ -751,10 +734,20 @@ namespace Tesserae.Components
             {
                 if (Type == ItemType.Item)
                 {
-                    if (InnerElement.parentElement.classList.contains("tss-dropdown-multi")) IsSelected = !IsSelected;
-                    else IsSelected = true;
+                    if (IsMountedWithinMultiSelectDropdown)
+                    {
+                        // If this is a multi-select dropdown then clicking an item should toggle its selection on or off
+                        IsSelected = !IsSelected;
+                    }
+                    else
+                    {
+                        // If this is a single-select dropdown then clciking it will ALWAYS set it to selected (and setting this property will fire off loads of other logic that will result in the dropdown's list of options being hidden)
+                        IsSelected = true;
+                    }
                 }
             }
+
+            private bool IsMountedWithinMultiSelectDropdown => InnerElement.parentElement.classList.contains(_multiSelectDropdownClassName);
 
             private void OnItemMouseOver(Event ev)
             {
