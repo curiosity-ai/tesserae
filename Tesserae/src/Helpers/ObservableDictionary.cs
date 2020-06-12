@@ -6,7 +6,7 @@ namespace Tesserae
 {
     public class ObservableDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IObservable<IReadOnlyDictionary<TKey, TValue>>
     {
-        public event ObservableEvent.ValueChanged<IReadOnlyDictionary<TKey, TValue>> OnValueChanged;
+        private event ObservableEvent.ValueChanged<IReadOnlyDictionary<TKey, TValue>> OnValueChanged;
         public IReadOnlyDictionary<TKey, TValue> Value => _dictionary;
         
         private readonly Dictionary<TKey, TValue> _dictionary;
