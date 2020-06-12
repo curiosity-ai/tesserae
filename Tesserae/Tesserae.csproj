@@ -28,12 +28,4 @@
     <PackageTags>h5, HTML, UI</PackageTags>
     <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
-
-  <PropertyGroup>
-    <DocumentationFile>Tesserae.xml</DocumentationFile>
-  </PropertyGroup>
-  <ItemGroup>
-    <None Include="Tesserae.xml" Visible="false" />
-  </ItemGroup>
-  
 </Project>
