@@ -49,11 +49,11 @@ namespace Tesserae.Components
             DomObserver.WhenMounted(_timelineOwner, () =>
             {
                 var ro = new ResizeObserver();
-                ro.Observe(document.body);
+                ro.StartObserving(document.body);
                 ro.OnResize = Recompute;
                 DomObserver.WhenRemoved(_timelineOwner, () =>
                 {
-                    ro.Unobserve(document.body);
+                    ro.StopObserving(document.body);
                 });
             });
 

@@ -43,7 +43,7 @@ namespace Tesserae.HTML
             resizeObserver = Script.Write<object>("new ResizeObserver(entries => {0}(entries));", resize);
         }
 
-        public void Observe(HTMLElement element)
+        public void StartObserving(HTMLElement element)
         {
             if (pending is null)
             {
@@ -51,11 +51,11 @@ namespace Tesserae.HTML
             }
             else
             {
-                pending.Add(() => Observe(element));
+                pending.Add(() => StartObserving(element));
             }
         }
 
-        public void Unobserve(HTMLElement element)
+        public void StopObserving(HTMLElement element)
         {
             if (pending is null)
             {
@@ -63,7 +63,7 @@ namespace Tesserae.HTML
             }
             else
             {
-                pending.Add(() => Unobserve(element));
+                pending.Add(() => StopObserving(element));
             }
         }
 
