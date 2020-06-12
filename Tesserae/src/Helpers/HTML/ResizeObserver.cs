@@ -55,7 +55,7 @@ namespace Tesserae.HTML
             }
         }
 
-        public void Unobserve(HTMLElement element)
+        public void StopObserving(HTMLElement element)
         {
             if (pending is null)
             {
@@ -63,7 +63,7 @@ namespace Tesserae.HTML
             }
             else
             {
-                pending.Add(() => Unobserve(element));
+                pending.Add(() => StopObserving(element));
             }
         }
 
