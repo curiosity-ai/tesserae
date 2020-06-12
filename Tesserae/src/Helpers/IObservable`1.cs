@@ -8,7 +8,7 @@
         void Observe(ObservableEvent.ValueChanged<T> valueGetter);
 
         /// <summary>
-        /// This will execute the callback for any future changes (unless the callback is passed to StopObserving first) but it will NOT execute it immediately, with the current value (which is how this method differs to StartObserving)
+        /// This will execute the callback for any future changes (unless the callback is passed to StopObserving first) but it will NOT execute it immediately, with the current value (which is how this method differs to Observing)
         /// </summary>
         void ObserveFutureChanges(ObservableEvent.ValueChanged<T> valueGetter);
 
