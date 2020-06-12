@@ -35,7 +35,7 @@ namespace Tesserae
         private void HookValue(T v)
         {
             if (_valueIsObservable && (v is IObservable<T> observableV))
-                observableV.Observe(RaiseOnValueChanged, callbackImmediately: false);
+                observableV.ObserveFutureChanges(RaiseOnValueChanged);
         }
 
         private void UnhookValue(T v)
@@ -44,7 +44,9 @@ namespace Tesserae
                 observableV.StopObserving(RaiseOnValueChanged);
         }
 
-        public void Observe(ObservableEvent.ValueChanged<IReadOnlyList<T>> valueGetter, bool callbackImmediately = true)
+        public void StartObserving(ObservableEvent.ValueChanged<IReadOnlyList<T>> valueGetter) => Observe(valueGetter, callbackImmediately: true);
+        public void ObserveFutureChanges(ObservableEvent.ValueChanged<IReadOnlyList<T>> valueGetter) => Observe(valueGetter, callbackImmediately: false);
+        private void Observe(ObservableEvent.ValueChanged<IReadOnlyList<T>> valueGetter, bool callbackImmediately)
         {
             OnValueChanged += valueGetter;
             if (callbackImmediately)

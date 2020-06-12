@@ -3,9 +3,14 @@
     public interface IObservable<T> : IObservable
     {
         /// <summary>
-        /// If callbackImmediately is true then the valueGetter will be executed immediately with the observable's current value (this is the default behaviour) - if you only want to observe FUTURE changes then set it to false
+        /// This will execute the callback immediately with the current value AND for any future changes (unless the callback is passed to StopObserving first)
         /// </summary>
-        void Observe(ObservableEvent.ValueChanged<T> valueGetter, bool callbackImmediately = true);
+        void StartObserving(ObservableEvent.ValueChanged<T> valueGetter);
+
+        /// <summary>
+        /// This will execute the callback for any future changes (unless the callback is passed to StopObserving first) but it will NOT execute it immediately, with the current value (which is how this method differs to StartObserving)
+        /// </summary>
+        void ObserveFutureChanges(ObservableEvent.ValueChanged<T> valueGetter);
 
         void StopObserving(ObservableEvent.ValueChanged<T> valueGetter);
 

@@ -14,13 +14,15 @@ namespace Tesserae
 
         public CombinedObservable(IObservable<T1> o1, IObservable<T2> o2)
         {
-            o1.Observe(_ => RaiseOnValueChanged(), callbackImmediately: false);
-            o2.Observe(_ => RaiseOnValueChanged(), callbackImmediately: false);
+            o1.ObserveFutureChanges(_ => RaiseOnValueChanged());
+            o2.ObserveFutureChanges(_ => RaiseOnValueChanged());
             _first = o1;
             _second = o2;
         }
 
-        public void Observe(ObservableEvent.ValueChanged<(T1 first, T2 second)> valueGetter, bool callbackImmediately = true)
+        public void StartObserving(ObservableEvent.ValueChanged<(T1 first, T2 second)> valueGetter) => Observe(valueGetter, callbackImmediately: true);
+        public void ObserveFutureChanges(ObservableEvent.ValueChanged<(T1 first, T2 second)> valueGetter) => Observe(valueGetter, callbackImmediately: false);
+        private void Observe(ObservableEvent.ValueChanged<(T1 first, T2 second)> valueGetter, bool callbackImmediately)
         {
             OnValueChanged += valueGetter;
             if (callbackImmediately)

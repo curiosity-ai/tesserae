@@ -32,7 +32,9 @@ namespace Tesserae
             }
         }
 
-        public void Observe(ObservableEvent.ValueChanged<IReadOnlyDictionary<TKey, TValue>> valueGetter, bool callbackImmediately = true)
+        public void StartObserving(ObservableEvent.ValueChanged<IReadOnlyDictionary<TKey, TValue>> valueGetter) => Observe(valueGetter, callbackImmediately: true);
+        public void ObserveFutureChanges(ObservableEvent.ValueChanged<IReadOnlyDictionary<TKey, TValue>> valueGetter) => Observe(valueGetter, callbackImmediately: false);
+        private void Observe(ObservableEvent.ValueChanged<IReadOnlyDictionary<TKey, TValue>> valueGetter, bool callbackImmediately)
         {
             OnValueChanged += valueGetter;
             if (callbackImmediately)
@@ -44,7 +46,7 @@ namespace Tesserae
         private void HookValue(TValue v)
         {
             if (_valueIsObservable && (v is IObservable<TValue> observable))
-                observable.Observe(RaiseOnValueChanged, callbackImmediately: false);
+                observable.ObserveFutureChanges(RaiseOnValueChanged);
         }
 
         private void UnhookValue(TValue v)

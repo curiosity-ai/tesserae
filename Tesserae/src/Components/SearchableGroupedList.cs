@@ -43,7 +43,7 @@ namespace Tesserae.Components
                 return _list.Stretch().AsTask();
             }).WidthStretch().Height(100.px()).Grow();
 
-            originalItems.Observe(_ => _defered.Refresh());
+            originalItems.StartObserving(_ => _defered.Refresh());
 
             _searchBox.OnSearch((_, __) => _defered.Refresh());
 
