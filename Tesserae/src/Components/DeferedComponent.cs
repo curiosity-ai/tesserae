@@ -112,115 +112,115 @@ namespace Tesserae.Components
         internal static DeferedComponent Observe<T1>(IObservable<T1> o1, Func<T1, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
         {
             var d = Create(() => asyncGenerator(o1.Value), loadMessage);
-            o1.onValueChanged += (v) => d.Refresh();
+            o1.Observe(_ => d.Refresh(), callbackImmediately: false);
             return d;
         }
 
         internal static DeferedComponent Observe<T1, T2>(IObservable<T1> o1, IObservable<T2> o2, Func<T1, T2, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
         {
             var d = Create(() => asyncGenerator(o1.Value, o2.Value), loadMessage);
-            o1.onValueChanged += (v) => d.Refresh();
-            o2.onValueChanged += (v) => d.Refresh();
+            o1.Observe(_ => d.Refresh(), callbackImmediately: false);
+            o2.Observe(_ => d.Refresh(), callbackImmediately: false);
             return d;
         }
 
         internal static DeferedComponent Observe<T1, T2, T3>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, Func<T1, T2, T3, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
         {
             var d = Create(() => asyncGenerator(o1.Value, o2.Value, o3.Value), loadMessage);
-            o1.onValueChanged += (v) => d.Refresh();
-            o2.onValueChanged += (v) => d.Refresh();
-            o3.onValueChanged += (v) => d.Refresh();
+            o1.Observe(_ => d.Refresh(), callbackImmediately: false);
+            o2.Observe(_ => d.Refresh(), callbackImmediately: false);
+            o3.Observe(_ => d.Refresh(), callbackImmediately: false);
             return d;
         }
 
         internal static DeferedComponent Observe<T1, T2, T3, T4>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, Func<T1, T2, T3, T4, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
         {
             var d = Create(() => asyncGenerator(o1.Value, o2.Value, o3.Value, o4.Value), loadMessage);
-            o1.onValueChanged += (v) => d.Refresh();
-            o2.onValueChanged += (v) => d.Refresh();
-            o3.onValueChanged += (v) => d.Refresh();
-            o4.onValueChanged += (v) => d.Refresh();
+            o1.Observe(_ => d.Refresh(), callbackImmediately: false);
+            o2.Observe(_ => d.Refresh(), callbackImmediately: false);
+            o3.Observe(_ => d.Refresh(), callbackImmediately: false);
+            o4.Observe(_ => d.Refresh(), callbackImmediately: false);
             return d;
         }
 
         internal static DeferedComponent Observe<T1, T2, T3, T4, T5>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, Func<T1, T2, T3, T4, T5, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
         {
             var d = Create(() => asyncGenerator(o1.Value, o2.Value, o3.Value, o4.Value, o5.Value), loadMessage);
-            o1.onValueChanged += (v) => d.Refresh();
-            o2.onValueChanged += (v) => d.Refresh();
-            o3.onValueChanged += (v) => d.Refresh();
-            o4.onValueChanged += (v) => d.Refresh();
-            o5.onValueChanged += (v) => d.Refresh();
+            o1.Observe(_ => d.Refresh(), callbackImmediately: false);
+            o2.Observe(_ => d.Refresh(), callbackImmediately: false);
+            o3.Observe(_ => d.Refresh(), callbackImmediately: false);
+            o4.Observe(_ => d.Refresh(), callbackImmediately: false);
+            o5.Observe(_ => d.Refresh(), callbackImmediately: false);
             return d;
         }
 
         internal static DeferedComponent Observe<T1, T2, T3, T4, T5, T6>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, IObservable<T6> o6, Func<T1, T2, T3, T4, T5, T6, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
         {
             var d = Create(() => asyncGenerator(o1.Value, o2.Value, o3.Value, o4.Value, o5.Value, o6.Value), loadMessage);
-            o1.onValueChanged += (v) => d.Refresh();
-            o2.onValueChanged += (v) => d.Refresh();
-            o3.onValueChanged += (v) => d.Refresh();
-            o4.onValueChanged += (v) => d.Refresh();
-            o5.onValueChanged += (v) => d.Refresh();
-            o6.onValueChanged += (v) => d.Refresh();
+            o1.Observe(_ => d.Refresh(), callbackImmediately: false);
+            o2.Observe(_ => d.Refresh(), callbackImmediately: false);
+            o3.Observe(_ => d.Refresh(), callbackImmediately: false);
+            o4.Observe(_ => d.Refresh(), callbackImmediately: false);
+            o5.Observe(_ => d.Refresh(), callbackImmediately: false);
+            o6.Observe(_ => d.Refresh(), callbackImmediately: false);
             return d;
         }
 
         internal static DeferedComponent Observe<T1, T2, T3, T4, T5, T6, T7>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, IObservable<T6> o6, IObservable<T7> o7, Func<T1, T2, T3, T4, T5, T6, T7, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
         {
             var d = Create(() => asyncGenerator(o1.Value, o2.Value, o3.Value, o4.Value, o5.Value, o6.Value, o7.Value), loadMessage);
-            o1.onValueChanged += (v) => d.Refresh();
-            o2.onValueChanged += (v) => d.Refresh();
-            o3.onValueChanged += (v) => d.Refresh();
-            o4.onValueChanged += (v) => d.Refresh();
-            o5.onValueChanged += (v) => d.Refresh();
-            o6.onValueChanged += (v) => d.Refresh();
-            o7.onValueChanged += (v) => d.Refresh();
+            o1.Observe(_ => d.Refresh(), callbackImmediately: false);
+            o2.Observe(_ => d.Refresh(), callbackImmediately: false);
+            o3.Observe(_ => d.Refresh(), callbackImmediately: false);
+            o4.Observe(_ => d.Refresh(), callbackImmediately: false);
+            o5.Observe(_ => d.Refresh(), callbackImmediately: false);
+            o6.Observe(_ => d.Refresh(), callbackImmediately: false);
+            o7.Observe(_ => d.Refresh(), callbackImmediately: false);
             return d;
         }
 
         internal static DeferedComponent Observe<T1, T2, T3, T4, T5, T6, T7, T8>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, IObservable<T6> o6, IObservable<T7> o7, IObservable<T8> o8, Func<T1, T2, T3, T4, T5, T6, T7, T8, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
         {
             var d = Create(() => asyncGenerator(o1.Value, o2.Value, o3.Value, o4.Value, o5.Value, o6.Value, o7.Value, o8.Value), loadMessage);
-            o1.onValueChanged += (v) => d.Refresh();
-            o2.onValueChanged += (v) => d.Refresh();
-            o3.onValueChanged += (v) => d.Refresh();
-            o4.onValueChanged += (v) => d.Refresh();
-            o5.onValueChanged += (v) => d.Refresh();
-            o6.onValueChanged += (v) => d.Refresh();
-            o7.onValueChanged += (v) => d.Refresh();
-            o8.onValueChanged += (v) => d.Refresh();
+            o1.Observe(_ => d.Refresh(), callbackImmediately: false);
+            o2.Observe(_ => d.Refresh(), callbackImmediately: false);
+            o3.Observe(_ => d.Refresh(), callbackImmediately: false);
+            o4.Observe(_ => d.Refresh(), callbackImmediately: false);
+            o5.Observe(_ => d.Refresh(), callbackImmediately: false);
+            o6.Observe(_ => d.Refresh(), callbackImmediately: false);
+            o7.Observe(_ => d.Refresh(), callbackImmediately: false);
+            o8.Observe(_ => d.Refresh(), callbackImmediately: false);
             return d;
         }
 
         internal static DeferedComponent Observe<T1, T2, T3, T4, T5, T6, T7, T8, T9>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, IObservable<T6> o6, IObservable<T7> o7, IObservable<T8> o8, IObservable<T9> o9, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
         {
             var d = Create(() => asyncGenerator(o1.Value, o2.Value, o3.Value, o4.Value, o5.Value, o6.Value, o7.Value, o8.Value, o9.Value), loadMessage);
-            o1.onValueChanged += (v) => d.Refresh();
-            o2.onValueChanged += (v) => d.Refresh();
-            o3.onValueChanged += (v) => d.Refresh();
-            o4.onValueChanged += (v) => d.Refresh();
-            o5.onValueChanged += (v) => d.Refresh();
-            o6.onValueChanged += (v) => d.Refresh();
-            o7.onValueChanged += (v) => d.Refresh();
-            o8.onValueChanged += (v) => d.Refresh();
-            o9.onValueChanged += (v) => d.Refresh();
+            o1.Observe(_ => d.Refresh(), callbackImmediately: false);
+            o2.Observe(_ => d.Refresh(), callbackImmediately: false);
+            o3.Observe(_ => d.Refresh(), callbackImmediately: false);
+            o4.Observe(_ => d.Refresh(), callbackImmediately: false);
+            o5.Observe(_ => d.Refresh(), callbackImmediately: false);
+            o6.Observe(_ => d.Refresh(), callbackImmediately: false);
+            o7.Observe(_ => d.Refresh(), callbackImmediately: false);
+            o8.Observe(_ => d.Refresh(), callbackImmediately: false);
+            o9.Observe(_ => d.Refresh(), callbackImmediately: false);
             return d;
         }
 
         internal static DeferedComponent Observe<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, IObservable<T6> o6, IObservable<T7> o7, IObservable<T8> o8, IObservable<T9> o9, IObservable<T10> o10, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
         {
             var d = Create(() => asyncGenerator(o1.Value, o2.Value, o3.Value, o4.Value, o5.Value, o6.Value, o7.Value, o8.Value, o9.Value, o10.Value), loadMessage);
-            o1.onValueChanged += (v) => d.Refresh();
-            o2.onValueChanged += (v) => d.Refresh();
-            o3.onValueChanged += (v) => d.Refresh();
-            o4.onValueChanged += (v) => d.Refresh();
-            o5.onValueChanged += (v) => d.Refresh();
-            o6.onValueChanged += (v) => d.Refresh();
-            o7.onValueChanged += (v) => d.Refresh();
-            o8.onValueChanged += (v) => d.Refresh();
-            o9.onValueChanged += (v) => d.Refresh();
-            o10.onValueChanged += (v) => d.Refresh();
+            o1.Observe(_ => d.Refresh(), callbackImmediately: false);
+            o2.Observe(_ => d.Refresh(), callbackImmediately: false);
+            o3.Observe(_ => d.Refresh(), callbackImmediately: false);
+            o4.Observe(_ => d.Refresh(), callbackImmediately: false);
+            o5.Observe(_ => d.Refresh(), callbackImmediately: false);
+            o6.Observe(_ => d.Refresh(), callbackImmediately: false);
+            o7.Observe(_ => d.Refresh(), callbackImmediately: false);
+            o8.Observe(_ => d.Refresh(), callbackImmediately: false);
+            o9.Observe(_ => d.Refresh(), callbackImmediately: false);
+            o10.Observe(_ => d.Refresh(), callbackImmediately: false);
             return d;
         }
     }
@@ -241,7 +241,7 @@ namespace Tesserae.Components
     //	sb.AppendLine($"    var d = Create(() => asyncGenerator({vt}), loadMessage);");
     //	for(int j = 1; j <= i; j++)
     //	{
-    //		sb.AppendLine($"    o{j}.onValueChanged += ((v) => d.Refresh());");
+    //		sb.AppendLine($"    o{j}.Observe(_ => d.Refresh(), callbackImmediately: false);");
     //	}
     //	sb.AppendLine("   return d;");
     //	sb.AppendLine("}").AppendLine();

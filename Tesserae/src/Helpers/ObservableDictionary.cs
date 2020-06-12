@@ -6,7 +6,7 @@ namespace Tesserae
 {
     public class ObservableDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IObservable<IReadOnlyDictionary<TKey, TValue>>
     {
-        public event ObservableEvent.ValueChanged<IReadOnlyDictionary<TKey, TValue>> onValueChanged;
+        public event ObservableEvent.ValueChanged<IReadOnlyDictionary<TKey, TValue>> OnValueChanged;
         public IReadOnlyDictionary<TKey, TValue> Value => _dictionary;
         
         private readonly Dictionary<TKey, TValue> _dictionary;
@@ -32,20 +32,25 @@ namespace Tesserae
             }
         }
 
+        public void Observe(ObservableEvent.ValueChanged<IReadOnlyDictionary<TKey, TValue>> valueGetter, bool callbackImmediately = true)
+        {
+            OnValueChanged += valueGetter;
+            if (callbackImmediately)
+                valueGetter(Value);
+        }
+
+        public void StopObserving(ObservableEvent.ValueChanged<IReadOnlyDictionary<TKey, TValue>> valueGetter) => OnValueChanged -= valueGetter;
+
         private void HookValue(TValue v)
         {
-            if (_valueIsObservable && v is IObservable<TValue> observable)
-            {
-                observable.onValueChanged += RaiseOnValueChanged;
-            }
+            if (_valueIsObservable && (v is IObservable<TValue> observable))
+                observable.Observe(RaiseOnValueChanged, callbackImmediately: false);
         }
 
         private void UnhookValue(TValue v)
         {
             if (_valueIsObservable && v is IObservable<TValue> observable)
-            {
-                observable.onValueChanged -= RaiseOnValueChanged;
-            }
+                observable.StopObserving(RaiseOnValueChanged);
         }
 
         private void RaiseOnValueChanged(TValue value)
@@ -54,7 +59,7 @@ namespace Tesserae
             _refreshTimeout = window.setTimeout(raise, 1);
             void raise(object t)
             {
-                onValueChanged?.Invoke(_dictionary);
+                OnValueChanged?.Invoke(_dictionary);
             }
         }
 

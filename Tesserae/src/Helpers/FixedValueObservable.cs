@@ -10,6 +10,9 @@
     {
         public FixedValueObservable(TItem value) => Value = value;
         public TItem Value { get; }
-        public event ObservableEvent.ValueChanged<TItem> onValueChanged;
+
+        // This never changes and so there's no Observe or StopObserving logic required
+        void IObservable<TItem>.Observe(ObservableEvent.ValueChanged<TItem> valueGetter, bool callbackImmediately = true) { }
+        void IObservable<TItem>.StopObserving(ObservableEvent.ValueChanged<TItem> valueGetter) { }
     }
 }

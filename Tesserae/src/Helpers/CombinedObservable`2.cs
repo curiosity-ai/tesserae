@@ -10,34 +10,32 @@ namespace Tesserae
 
         public (T1 first, T2 second) Value => (_first.Value, _second.Value);
 
-        public event ObservableEvent.ValueChanged<(T1 first, T2 second)> onValueChanged;
+        private event ObservableEvent.ValueChanged<(T1 first, T2 second)> OnValueChanged;
 
         public CombinedObservable(IObservable<T1> o1, IObservable<T2> o2)
         {
-            o1.onValueChanged += FirstValueChanged;
-            o2.onValueChanged += SecondValueChanged;
+            o1.Observe(_ => RaiseOnValueChanged(), callbackImmediately: false);
+            o2.Observe(_ => RaiseOnValueChanged(), callbackImmediately: false);
             _first = o1;
             _second = o2;
         }
 
-        private void FirstValueChanged(T1 value)
+        public void Observe(ObservableEvent.ValueChanged<(T1 first, T2 second)> valueGetter, bool callbackImmediately = true)
         {
-            RaiseOnValueChanged();
+            OnValueChanged += valueGetter;
+            if (callbackImmediately)
+                valueGetter(Value);
         }
 
-        private void SecondValueChanged(T2 value)
-        {
-            RaiseOnValueChanged();
-        }
+        public void StopObserving(ObservableEvent.ValueChanged<(T1 first, T2 second)> valueGetter) => OnValueChanged -= valueGetter;
 
         private void RaiseOnValueChanged()
         {
             window.clearTimeout(_refreshTimeout);
-            _refreshTimeout = window.setTimeout(raise, 1);
-            void raise(object t)
-            {
-                onValueChanged?.Invoke(Value);
-            }
+            _refreshTimeout = window.setTimeout(
+                _ => OnValueChanged?.Invoke(Value),
+                1
+            );
         }
     }
 }

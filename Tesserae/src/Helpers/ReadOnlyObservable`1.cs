@@ -13,7 +13,16 @@ namespace Tesserae
 
         public ReadOnlyObservable(T value = default) => _value = value;
 
-        public event ObservableEvent.ValueChanged<T> onValueChanged;
+        private event ObservableEvent.ValueChanged<T> OnValueChanged;
+
+        public void Observe(ObservableEvent.ValueChanged<T> valueGetter, bool callbackImmediately = true)
+        {
+            OnValueChanged += valueGetter;
+            if (callbackImmediately)
+                valueGetter(Value);
+        }
+
+        public void StopObserving(ObservableEvent.ValueChanged<T> valueGetter) => OnValueChanged -= valueGetter;
 
         public T Value
         {
@@ -34,7 +43,7 @@ namespace Tesserae
             _refreshTimeout = window.setTimeout(raise, 1);
             void raise(object t)
             {
-                onValueChanged?.Invoke(_value);
+                OnValueChanged?.Invoke(_value);
             }
         }
     }
