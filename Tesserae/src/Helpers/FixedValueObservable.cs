@@ -12,7 +12,7 @@
         public TItem Value { get; }
 
         // This never changes and so there's no observe-based logic required
-        void IObservable<TItem>.StartObserving(ObservableEvent.ValueChanged<TItem> valueGetter) { }
+        void IObservable<TItem>.Observe(ObservableEvent.ValueChanged<TItem> valueGetter) { }
         void IObservable<TItem>.ObserveFutureChanges(ObservableEvent.ValueChanged<TItem> valueGetter) { }
         void IObservable<TItem>.StopObserving(ObservableEvent.ValueChanged<TItem> valueGetter) { }
     }

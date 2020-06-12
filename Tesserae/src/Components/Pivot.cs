@@ -201,7 +201,7 @@ namespace Tesserae.Components
                 }
 
                 var ro = new ResizeObserver();
-                ro.StartObserving(InnerElement);
+                ro.Observe(InnerElement);
                 ro.OnResize = () => TriggerAnimation();
             }
 

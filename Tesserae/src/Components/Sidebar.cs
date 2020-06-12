@@ -195,7 +195,7 @@ namespace Tesserae.Components
             if (_resizeObserver is null)
             {
                 _resizeObserver = new ResizeObserver();
-                _resizeObserver.StartObserving(_sidebarContainer);
+                _resizeObserver.Observe(_sidebarContainer);
                 _resizeObserver.OnResize = RecomputeContainerMargin;
             }
         }

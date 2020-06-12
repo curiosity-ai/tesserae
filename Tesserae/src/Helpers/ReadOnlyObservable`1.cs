@@ -15,7 +15,7 @@ namespace Tesserae
 
         private event ObservableEvent.ValueChanged<T> OnValueChanged;
 
-        public void StartObserving(ObservableEvent.ValueChanged<T> valueGetter) => Observe(valueGetter, callbackImmediately: true);
+        public void Observe(ObservableEvent.ValueChanged<T> valueGetter) => Observe(valueGetter, callbackImmediately: true);
         public void ObserveFutureChanges(ObservableEvent.ValueChanged<T> valueGetter) => Observe(valueGetter, callbackImmediately: false);
         private void Observe(ObservableEvent.ValueChanged<T> valueGetter, bool callbackImmediately)
         {
