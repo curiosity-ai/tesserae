@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Tesserae.HTML;
 using static H5.Core.dom;
 using static Tesserae.UI;
 
@@ -44,7 +43,7 @@ namespace Tesserae.Components
                 return _list.Stretch().AsTask();
             }).WidthStretch().Height(100.px()).Grow();
 
-            originalItems.Observe(itemsList => { _defered.Refresh(); });
+            originalItems.Observe(_ => _defered.Refresh());
 
             _searchBox.OnSearch((_, __) => _defered.Refresh());
 
