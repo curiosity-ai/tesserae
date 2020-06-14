@@ -94,7 +94,7 @@ namespace Tesserae.Components
             if (SelectedOption == e) return;
             if (SelectedOption != null) SelectedOption.IsSelected = false;
             SelectedOption = e;
-            RaiseOnChange(e);
+            RaiseOnChange(ev: null);
         }
 
         public IObservable<Choice> AsObservable()

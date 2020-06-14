@@ -1,9 +1,8 @@
-﻿using static Tesserae.UI;
-using static H5.Core.dom;
-using System.Linq;
-using System;
-using Tesserae.HTML;
+﻿using System;
 using System.Threading.Tasks;
+using Tesserae.HTML;
+using static H5.Core.dom;
+using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
@@ -432,11 +431,11 @@ namespace Tesserae.Components
             return this;
         }
 
-        private void RaiseOnClick(Event e , Hotkeys.Handler handler)
+        private void RaiseOnClick(Event e, Hotkeys.Handler handler)
         {
             if (IsEnabled)
             {
-                base.RaiseOnClick(this);
+                RaiseOnClick(ev: null);
             }
         }
 

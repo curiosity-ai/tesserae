@@ -271,7 +271,8 @@ namespace Tesserae.Components
             document.removeEventListener("wheel", OnWindowClick);
             document.removeEventListener("keydown", OnPopupKeyDown);
             base.Hide(onHidden);
-            if (_isChanged) RaiseOnChange(this);
+            if (_isChanged)
+                RaiseOnChange(ev: null);
         }
 
         public void Attach(EventHandler<Event> handler, Validation.Mode mode)
@@ -395,7 +396,7 @@ namespace Tesserae.Components
 
             if (_callSelectOnAdd)
             {
-                RaiseOnInput(this);
+                RaiseOnInput(ev: null);
             }
         }
 

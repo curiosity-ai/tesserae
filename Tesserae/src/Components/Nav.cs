@@ -30,15 +30,17 @@ namespace Tesserae.Components
             component.internalOnSelected += OnNavLinkSelected;
             if (component.IsSelected)
             {
-                if (SelectedLink != null) SelectedLink.IsSelected = false;
-                RaiseOnChange(component);
+                if (SelectedLink != null)
+                    SelectedLink.IsSelected = false;
+                RaiseOnChange(ev: null);
                 SelectedLink = component;
             }
 
             if (component.SelectedChild != null)
             {
-                if (SelectedLink != null) SelectedLink.IsSelected = false;
-                RaiseOnChange(component.SelectedChild);
+                if (SelectedLink != null)
+                    SelectedLink.IsSelected = false;
+                RaiseOnChange(ev: null);
                 SelectedLink = component.SelectedChild;
             }
         }
@@ -56,7 +58,7 @@ namespace Tesserae.Components
             if (newComponent.IsSelected)
             {
                 if (SelectedLink != null) SelectedLink.IsSelected = false;
-                RaiseOnChange(newComponent);
+                RaiseOnChange(ev: null);
                 SelectedLink = newComponent;
             }
         }
@@ -75,7 +77,7 @@ namespace Tesserae.Components
         private void OnNavLinkSelected(object sender, NavLink e)
         {
             if (SelectedLink != null) SelectedLink.IsSelected = false;
-            RaiseOnChange(e);
+            RaiseOnChange(ev: null);
             SelectedLink = e;
         }
 
