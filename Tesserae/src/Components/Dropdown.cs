@@ -21,8 +21,9 @@ namespace Tesserae.Components
 
         private HTMLDivElement _spinner;
         private bool _isChanged;
-        private bool _callSelectOnAdd = true;
+        private bool _callSelectOnChangingItemSelections;
         private Func<Task<Item[]>> _itemsSource;
+        private ReadOnlyArray<Item> _lastRenderedItems;
         private ObservableList<Item> _selectedChildren;
         private HTMLDivElement _popupDiv;
         private string _search;
@@ -39,21 +40,24 @@ namespace Tesserae.Components
             InnerElement.onclick = (e) =>
             {
                 StopEvent(e);
-                if (!IsVisible) Show();
+                if (!IsVisible && IsEnabled)
+                    Show();
             };
 
             _container.onclick = (e) =>
             {
                 StopEvent(e);
-                if (!IsVisible) Show();
+                if (!IsVisible && IsEnabled)
+                    Show();
             };
 
+            _callSelectOnChangingItemSelections = true;
             _selectedChildren = new ObservableList<Item>();
         }
 
-        public Dropdown SuppressSelectedOnAddingItem()
+        public Dropdown SuppressSelectedOnChangingItemSelections()
         {
-            _callSelectOnAdd = false;
+            _callSelectOnChangingItemSelections = false;
             return this;
         }
 
@@ -318,13 +322,29 @@ namespace Tesserae.Components
         /// </summary>
         public Dropdown Items(params Item[] children)
         {
+            // 2020-06-13 DWR: When the items are replaced in an already-existing instance (eg. if a Dropdown instance has already been initialised with items but then the Items are updated - either directly by calling this method or by calling
+            // the method overload that takes a Task and then calling LoadItemsAsync.. we still end up here), the selected children data will be taken from the IsSelected values on the children items provided here. That means that if the User
+            // had selected two items and then the available items got updated, if it is desirable for those two items to remain selected then the caller has to ensure that it sets IsSelected to true on those two Dropdown.Item instances.
+            // - Note: The OnItemSelected would call RaiseOnInput if any items were provided here that were had IsSelected set to true and if the _callSelectOnChangingItemSelections setting is set to true but we might as well hold off on that
+            //   and call RaiseOnInput ONCE after ALL of the item changes have been applied. To do that, we'll set _callSelectOnChangingItemSelections to false while we 
+            _lastRenderedItems = children;
             children.ForEach(component =>
             {
                 ScrollBar.GetCorrectContainer(_childContainer).appendChild(component.Render());
                 component._onSelected += OnItemSelected;
-                if (component.IsSelected)
-                    OnItemSelected(null, component);
             });
+            UpdateStateBasedUponCurrentSelections();
+            if (!children.Any())
+            {
+                // If there no options to choose from then ensure that the dropdown list is hidden (it might be open if the User was looking at the options in a multi-select configuration and then the Items were updated in the background)
+                // TODO [2020-06-13 DWR]: We should probably introduce a "no items" state that doesn't allow the User to interact with the component since there's nothing that they can do - in the meantime, I'll settle for setting to Disabled
+                Hide();
+                Disabled(true);
+            }
+            else
+            {
+                Disabled(false);
+            }
             return this;
         }
 
@@ -358,43 +378,51 @@ namespace Tesserae.Components
 
         private void OnWindowClick(Event e)
         {
-            if (e.srcElement != _childContainer && !_childContainer.contains(e.srcElement)) Hide();
+            if (e.srcElement != _childContainer && !_childContainer.contains(e.srcElement))
+                Hide();
+        }
+
+        private void UpdateStateBasedUponCurrentSelections()
+        {
+            // 2020-06-14 DWR: Whenever redrawing the items in the selected-items bar (after the User has added or removed an option or after the Items data has changed), it's better to clear the list out completely and then add in ALL of the
+            // now-selected items because this will list them in the same order in the selected-items bar as they do in the dropdown. This doesn't sound like a huge deal (there could even be an argument for having them appear in the "selected"
+            // bar in the order in which the User selected them) but it IS a big problem if the consumer of this component replaces the Items data because it is the responsibility of the caller to know which of the new items should appear as
+            // selected - based on the items that were selected here before the update. This is because THIS component only deals with Dropdown.Item instances and NOT the source values and it can't be 100% sure that if an item with text "ABC"
+            // was selected before and then new items arrive that any item with text "ABC" should still be selected - only the caller knows strongly-typed values that these dropdown items relate to.
+            // ^ This is less of an issue with single-select configurations since they can only show zero or one selections and so ordering is not important
+            _selectedChildren.Clear();
+            _selectedChildren.AddRange(_lastRenderedItems.Where(item => item.IsSelected));
+            RenderSelected();
         }
 
         private void OnItemSelected(object sender, Item e)
         {
             if (Mode == SelectMode.Single)
             {
-                if (!e.IsSelected)
+                if (e.IsSelected)
                 {
-                    // If this is an item getting unselected in a Single-only dropdown then it was probably from the "selectedChild.IsSelected = false" call below and we can ignore it
+                    // For single select drop downs, when one item is selected then we need to ensure here that any other are UN-selected ("there can be only one")
+                    foreach (var item in _lastRenderedItems)
+                    {
+                        if (item != e)
+                            item.IsSelected = false;
+                    }
+                }
+                else
+                {
+                    // If this is an item getting unselected in a Single-only dropdown then it was probably from the "selectedChild.IsSelected = false" call just above and we can ignore it since we're already processing the OnItemSelected logic
                     return;
                 }
-
-                _selectedChildren.Clear();
-                _selectedChildren.Add(e);
-
                 Hide();
             }
             else
             {
-                if (e.IsSelected)
-                {
-                    if (!_selectedChildren.Contains(e))
-                        _selectedChildren.Add(e);
-                }
-                else
-                {
-                    if (_selectedChildren.Contains(e))
-                        _selectedChildren.Remove(e);
-                }
-
                 _isChanged = true;
             }
 
-            RenderSelected();
+            UpdateStateBasedUponCurrentSelections();
 
-            if (_callSelectOnAdd)
+            if (_callSelectOnChangingItemSelections)
             {
                 RaiseOnInput(ev: null);
             }
