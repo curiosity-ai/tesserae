@@ -218,52 +218,52 @@ namespace Tesserae
             foreach (var r in Routes)
             {
                 par.Clear();
-                if (r.IsMatch(parts, par))
+                if (!r.IsMatch(parts, par))
+                    continue;
+
+                if (p.Length > 1)
                 {
-                    if (p.Length > 1)
+                    //TODO parse query parameters
+                    var query = p[1];
+                    var queryParts = query.Split(new[] { '&' }, StringSplitOptions.RemoveEmptyEntries);
+                    foreach (var qp in queryParts)
                     {
-                        //TODO parse query parameters
-                        var query = p[1];
-                        var queryParts = query.Split(new[] { '&' }, StringSplitOptions.RemoveEmptyEntries);
-                        foreach (var qp in queryParts)
+                        var qpp = qp.Split(new[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
+                        if (qpp.Length == 1)
                         {
-                            var qpp = qp.Split(new[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
-                            if (qpp.Length == 1)
-                            {
-                                par[es5.decodeURIComponent(qpp[0])] = "";
-                            }
-                            else
-                            {
-                                par[es5.decodeURIComponent(qpp[0])] = es5.decodeURIComponent(qpp[1]);
-                            }
+                            par[es5.decodeURIComponent(qpp[0])] = "";
+                        }
+                        else
+                        {
+                            par[es5.decodeURIComponent(qpp[0])] = es5.decodeURIComponent(qpp[1]);
                         }
                     }
-
-                    var toState = new State(
-                        parameters: new Parameters(par),
-                        path: hash,
-                        fullPath: window.location.href,
-                        routeName: r.Name
-                    );
-
-                    if ((_beforeNavigate is null) || _beforeNavigate(toState, _currentState))
-                    {
-                        // Allowed to navigate - do it!
-                        var oldState = _currentState;
-                        _currentState = toState;
-                        r.Activate(toState.Parameters);
-                        Navigated?.Invoke(toState, oldState);
-                    }
-                    else
-                    {
-                        // New route was matched but onBeforeNavigate denied navigation, so revert the current URL back to the "current state" (ie. the last state that was matched before this navigation attempt)
-                        if ((_currentState is object) && !string.IsNullOrEmpty(_currentState.FullPath))
-                        {
-                            window.location.href = _currentState.FullPath;
-                        }
-                    }
-                    return;
                 }
+
+                var toState = new State(
+                    parameters: new Parameters(par),
+                    path: hash,
+                    fullPath: window.location.href,
+                    routeName: r.Name
+                );
+
+                if ((_beforeNavigate is null) || _beforeNavigate(toState, _currentState))
+                {
+                    // Allowed to navigate - do it!
+                    var oldState = _currentState;
+                    _currentState = toState;
+                    r.Activate(toState.Parameters);
+                    Navigated?.Invoke(toState, oldState);
+                }
+                else
+                {
+                    // New route was matched but onBeforeNavigate denied navigation, so revert the current URL back to the "current state" (ie. the last state that was matched before this navigation attempt)
+                    if ((_currentState is object) && !string.IsNullOrEmpty(_currentState.FullPath))
+                    {
+                        window.location.href = _currentState.FullPath;
+                    }
+                }
+                return;
             }
         }
 
