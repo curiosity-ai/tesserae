@@ -16,13 +16,13 @@ namespace Tesserae
         public ObservableDictionary()
         {
             _dictionary = new Dictionary<TKey, TValue>();
-            _valueIsObservable = typeof(TValue).IsObservable();
+            _valueIsObservable = PossibleObservableHelpers.IsObservable(typeof(TValue));
         }
 
         public ObservableDictionary(Dictionary<TKey, TValue> dictionary)
         {
             _dictionary = dictionary;
-            _valueIsObservable = typeof(TValue).IsObservable();
+            _valueIsObservable = PossibleObservableHelpers.IsObservable(typeof(TValue));
             if (_valueIsObservable)
             {
                 foreach (var kv in _dictionary)
@@ -45,14 +45,14 @@ namespace Tesserae
 
         private void HookValue(TValue v)
         {
-            if (_valueIsObservable && (v is IObservable<TValue> observable))
-                observable.ObserveFutureChanges(RaiseOnValueChanged);
+            if (_valueIsObservable)
+                PossibleObservableHelpers.ObserveFutureChangesIfObservable(v, RaiseOnValueChanged);
         }
 
         private void UnhookValue(TValue v)
         {
             if (_valueIsObservable && v is IObservable<TValue> observable)
-                observable.StopObserving(RaiseOnValueChanged);
+                PossibleObservableHelpers.StopObservingIfObservable(v, RaiseOnValueChanged);
         }
 
         private void RaiseOnValueChanged()

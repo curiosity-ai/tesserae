@@ -16,13 +16,13 @@ namespace Tesserae
         public ObservableList()
         {
             _list = new List<T>();
-            _valueIsObservable = typeof(T).IsObservable();
+            _valueIsObservable = PossibleObservableHelpers.IsObservable(typeof(T));
         }
 
         public ObservableList(params T[] initialValues)
         {
             _list = initialValues.ToList();
-            _valueIsObservable = typeof(T).IsObservable();
+            _valueIsObservable = PossibleObservableHelpers.IsObservable(typeof(T));
             if (_valueIsObservable)
             {
                 foreach (var i in _list)
@@ -34,14 +34,14 @@ namespace Tesserae
 
         private void HookValue(T v)
         {
-            if (_valueIsObservable && (v is IObservable<T> observableV))
-                observableV.ObserveFutureChanges(RaiseOnValueChanged);
+            if (_valueIsObservable)
+                PossibleObservableHelpers.ObserveFutureChangesIfObservable(v, RaiseOnValueChanged);
         }
 
         private void UnhookValue(T v)
         {
-            if (_valueIsObservable && (v is IObservable<T> observableV))
-                observableV.StopObserving(RaiseOnValueChanged);
+            if (_valueIsObservable)
+                PossibleObservableHelpers.StopObservingIfObservable(v, RaiseOnValueChanged);
         }
 
         public void Observe(ObservableEvent.ValueChanged<IReadOnlyList<T>> valueGetter) => Observe(valueGetter, callbackImmediately: true);
