@@ -4,7 +4,11 @@ using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
-    // This generic version of Layer should only be used to create derived classes from, so that we know what the return type of methods such as SetContent should be. If you really want JUST a Layer, with no custom behaviour, use the non-generic class (which is derived from this)
+    /// <summary>
+    /// This generic version of Layer should only be used to create derived classes from (such as the ContextMenu, for example). If you require no additional functionality on top of a standard layer then use the non-generic Layer class. The reason for the two classes
+    /// is to avoid confusion as this can NOT be derived from and the generic version MUST be derived from. The generic version exists to maintain the type of component in chained calls made on the ComponentBase class that they both are derived from (when the OnClick
+    /// method is called on a ContextMenu then you expect a ContextMenu to be returned and not simply a Layer instance).
+    /// </summary>
     public abstract class Layer<T> : ComponentBase<T, HTMLDivElement> where T : Layer<T>
     {
         protected IComponent _content;
