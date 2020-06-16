@@ -65,11 +65,11 @@ namespace Tesserae
                     UnhookValue(_list[index]);
                 }
                 _list[index] = value;
-                RaiseOnValueChanged(value);
+                RaiseOnValueChanged();
             }
         }
 
-        private void RaiseOnValueChanged(T value)
+        private void RaiseOnValueChanged()
         {
             window.clearTimeout(_refreshTimeout);
             _refreshTimeout = window.setTimeout(raise, 1);
@@ -89,7 +89,7 @@ namespace Tesserae
         {
             _list.Add(item);
             HookValue(item);
-            RaiseOnValueChanged(item);
+            RaiseOnValueChanged();
         }
 
         public void AddRange(IEnumerable<T> enumerable)
@@ -98,7 +98,7 @@ namespace Tesserae
             {
                 _list.Add(item);
                 HookValue(item);
-                RaiseOnValueChanged(item);
+                RaiseOnValueChanged();
             }
         }
 
@@ -112,7 +112,7 @@ namespace Tesserae
                 }
             }
             _list.Clear();
-            RaiseOnValueChanged(default);
+            RaiseOnValueChanged();
         }
 
         public bool Contains(T item) => _list.Contains(item);
@@ -134,7 +134,7 @@ namespace Tesserae
 
             _list.Insert(index, item);
             HookValue(item);
-            RaiseOnValueChanged(item);
+            RaiseOnValueChanged();
         }
 
         public bool Remove(T item)
@@ -143,7 +143,7 @@ namespace Tesserae
             if (removed)
             {
                 UnhookValue(item);
-                RaiseOnValueChanged(item);
+                RaiseOnValueChanged();
             }
             return removed;
         }
@@ -156,7 +156,7 @@ namespace Tesserae
             }
 
             _list.RemoveAt(index);
-            RaiseOnValueChanged(default);
+            RaiseOnValueChanged();
         }
     }
 }
