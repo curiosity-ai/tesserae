@@ -50,7 +50,7 @@ namespace Tesserae
         window.dispatchEvent(new Event('locationchange'))
     });
 ");
-                window.addEventListener("locationchange", LocationChanged);
+                window.addEventListener("locationchange", (Action<Event>)(_ => LocationChanged(allowCallbackEvenIfLocationUnchanged: false))); // By default we'll ignore any events where the hash value hasn't actually changed
             }
             _initialized = true;
         }
@@ -94,27 +94,37 @@ namespace Tesserae
 
         /// <summary>
         /// This will navigate the User to the specified path (pushing a new entry in the navigation history stack, so the current page / URL will appear in the browser's back button history) unless the path is that which the browser is already at - this
-        /// behaviour may be overridden by setting the optional <paramref name="reload"/> to true (this does not force a reload of the page, it forces a reload of the current view by firing an OnNavigated event whether the specifeid path is 'new' or not)
+        /// behaviour may be overridden by setting the optional <paramref name="reload"/> to true (this does not force a reload of the page, it forces a reload of the current view by firing an OnNavigated event whether the specified path is 'new' or not)
         /// </summary>
         public static void Navigate(string path, bool reload = false)
         {
+            var windowLocationSaysAlreadyThere = AlreadyThere(path);
             if (reload)
             {
-                window.location.href = "./#/donothing";
-            }
-            else
-            {
-                if (_currentState is object && path == _currentState.FullPath)
-                    return; // Nothing to do
+                ExecuteTheNavigation();
+                return;
             }
 
-            if (!AlreadyThere(path))
+            var currentStateSaysAlreadyThere = _currentState?.FullPath == path;
+            if (windowLocationSaysAlreadyThere || currentStateSaysAlreadyThere)
             {
-                window.location.href = path;
+                // Nothing to do - we're already at the right point and we're not forcing a reload
+                return;
             }
-            else if (_currentState is null)
+
+            ExecuteTheNavigation();
+
+            void ExecuteTheNavigation()
             {
-                LocationChanged(null);
+                if (!windowLocationSaysAlreadyThere)
+                {
+                    // If the window.location doesn't indicate that we're already at the desired path then update that and the "locationchange" event listener will fire off the LocationChanged method
+                    window.location.href = path;
+                    return;
+                }
+
+                // If the window.location DOES indicate that we're already at the desired path then changing the path isn't going to do anything, so we'll have to force the LocationChanged call ourselves
+                LocationChanged(allowCallbackEvenIfLocationUnchanged: reload);
             }
         }
 
@@ -202,10 +212,10 @@ namespace Tesserae
             onDone?.Invoke();
         }
 
-        private static void LocationChanged(Event ev)
+        private static void LocationChanged(bool allowCallbackEvenIfLocationUnchanged)
         {
             var currenthash = window.location.hash ?? "";
-            if ((_currentState is object) && (_currentState.FullPath == currenthash))
+            if ((_currentState is object) && (_currentState.FullPath == currenthash) && !allowCallbackEvenIfLocationUnchanged)
             {
                 return;
             }
