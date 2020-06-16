@@ -12,31 +12,17 @@ namespace Tesserae
 {
     public static class Router
     {
-        private static State _currentState;
-
         public delegate void NavigatedHandler(State toState, State fromState);
         public delegate bool CanNavigateHandler(State toState, State fromState);
 
-        public static event NavigatedHandler onNavigated;
-        public static event CanNavigateHandler onBeforeNavigate;
+        private static event NavigatedHandler Navigated;
 
-        public static void OnNavigated(NavigatedHandler onNavigated)
-        {
-            Router.onNavigated += onNavigated;
-        }
+        private static State _currentState;
+        private static CanNavigateHandler _beforeNavigate; // 2020-06-16 DWR: We previously used an event for this but only allowed a single delegate to bind to it, so there is no need for it to be multi-dispatch and so now it's just a field instead of an event
 
-        public static void OnBeforeNavigate(CanNavigateHandler onBeforeNavigate)
-        {
-            //We only keep track of one active BeforeNavigate event
-            foreach (Delegate d in Router.onBeforeNavigate.GetInvocationList())
-            {
-                Router.onBeforeNavigate -= (CanNavigateHandler)d;
-            }
+        public static void OnNavigated(NavigatedHandler onNavigated) => Navigated += onNavigated;
 
-            if (onBeforeNavigate is null) onBeforeNavigate = (a, b) => true;
-
-            Router.onBeforeNavigate += onBeforeNavigate;
-        }
+        public static void OnBeforeNavigate(CanNavigateHandler onBeforeNavigate) => _beforeNavigate = onBeforeNavigate;
 
         public static void Initialize()
         {
@@ -267,13 +253,13 @@ namespace Tesserae
                         RouteName = r.Name
                     };
 
-                    if ((onBeforeNavigate is null) || onBeforeNavigate(toState, _currentState))
+                    if ((_beforeNavigate is null) || _beforeNavigate(toState, _currentState))
                     {
                         // Allowed to navigate - do it!
                         var oldState = _currentState;
                         _currentState = toState;
                         r.Activate(toState.Parameters);
-                        onNavigated?.Invoke(toState, oldState);
+                        Navigated?.Invoke(toState, oldState);
                     }
                     else
                     {
