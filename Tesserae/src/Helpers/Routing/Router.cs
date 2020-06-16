@@ -93,6 +93,13 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Sometimes it is desirable to forcibly rematch the current path as if it was a new location, even if it hasn't changed - depending upon how routing is configured and how views are rendererd according to those routes, this can be useful after
+        /// all of the routes have been configured as the callback from the 'Refresh' method. It can also useful if you have a path that you would like to replace with another without performing a redirect that will appear in the browser history; in that
+        /// case, call Replace and then this. Note: This is equivalent to calling the Navigate method and with the current window.location.hash value and specifying reload as true.
+        /// </summary>
+        public static void ForceMatchCurrent() => Navigate(window.location.hash, reload: true);
+
+        /// <summary>
         /// This will navigate the User to the specified path (pushing a new entry in the navigation history stack, so the current page / URL will appear in the browser's back button history) unless the path is that which the browser is already at - this
         /// behaviour may be overridden by setting the optional <paramref name="reload"/> to true (this does not force a reload of the page, it forces a reload of the current view by firing an OnNavigated event whether the specified path is 'new' or not)
         /// </summary>

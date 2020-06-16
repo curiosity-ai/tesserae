@@ -94,9 +94,7 @@ namespace Tesserae.Tests
                 Router.Register(nameLocal, ToRoute(nameLocal), _ => currentPage.Value = nameLocal);
             }
             Router.Initialize();
-
-            // We need to force "reload" for the first navigation since we want the just-registered routes to be matched against the current URL without us *changing* that URL
-            Router.Refresh(() => Router.Navigate(window.location.hash, reload: true));
+            Router.Refresh(onDone: Router.ForceMatchCurrent); // We need to forcibly match the route at first loading since we want the just-registered routes to be matched against the current URL without us *changing* that URL
 
             string ToRoute(string name) => "/view/" + name;
 
