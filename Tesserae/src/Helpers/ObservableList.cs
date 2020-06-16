@@ -16,13 +16,13 @@ namespace Tesserae
         public ObservableList()
         {
             _list = new List<T>();
-            _valueIsObservable = typeof(IBaseObservable).IsAssignableFrom(typeof(T));
+            _valueIsObservable = typeof(T).IsObservable();
         }
 
         public ObservableList(params T[] initialValues)
         {
             _list = initialValues.ToList();
-            _valueIsObservable = typeof(IBaseObservable).IsAssignableFrom(typeof(T));
+            _valueIsObservable = typeof(T).IsObservable();
             if (_valueIsObservable)
             {
                 foreach (var i in _list)

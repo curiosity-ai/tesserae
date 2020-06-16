@@ -16,13 +16,13 @@ namespace Tesserae
         public ObservableDictionary()
         {
             _dictionary = new Dictionary<TKey, TValue>();
-            _valueIsObservable = typeof(IBaseObservable).IsAssignableFrom(typeof(TValue));
+            _valueIsObservable = typeof(TValue).IsObservable();
         }
 
         public ObservableDictionary(Dictionary<TKey, TValue> dictionary)
         {
             _dictionary = dictionary;
-            _valueIsObservable = typeof(IBaseObservable).IsAssignableFrom(typeof(TValue));
+            _valueIsObservable = typeof(TValue).IsObservable();
             if (_valueIsObservable)
             {
                 foreach (var kv in _dictionary)
