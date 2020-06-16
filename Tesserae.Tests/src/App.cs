@@ -53,26 +53,14 @@ namespace Tesserae.Tests
                 ("FileSelector",          () => new FileSelectorAndDropAreaSample())
             };
 
-            string ToRoute(string name) => "/view/" + name;
-
-            var components = orderedComponents.ToDictionary(c => c.Name, c => c.Component);
-
             var sideBar = Sidebar().Stretch();
-
             var navBar = Navbar().SetTop(Stack().Horizontal()
                                           .WidthStretch()
                                           .HeightStretch()
                                           .Children(SearchBox("Search for a template").WidthStretch().Underlined()));
-
-            var currentPage = new SettableObservable<string>();
-
-            var deferedPage = Defer(currentPage, (curPage) => ShowPage(curPage).AsTask()).Stretch();
-
-            navBar.SetContent(deferedPage);
-
             sideBar.IsVisible = false;
             navBar.IsVisible  = false;
-
+            document.body.style.overflow = "hidden";
             document.body.appendChild(sideBar.Brand(SidebarItem("... meow", "las la-cat", href: "https://curiosity.ai").Large())
                                               .Add(SidebarItem("Colorful sidebar", "las la-tint").OnSelect((s) => sideBar.IsLight = false).Selected())
                                               .Add(SidebarItem("Light sidebar", "las la-tint-slash").OnSelect((s) => sideBar.IsLight = true))
@@ -84,43 +72,51 @@ namespace Tesserae.Tests
                                               .SetContent(navBar)
                                               .Render());
 
-            document.body.style.overflow = "hidden";
 
-            Router.Register("home", "/", p => currentPage.Value = null);
+            // We'll render the content in a DeferedComponent that updates itself whenever the "currentPage" observable's value changes - these changes will be triggered by the routing configured below
+            var documentTitleBase = document.title;
+            var currentPage = new SettableObservable<string>();
+            var components = orderedComponents.ToDictionary(c => c.Name, c => c.Component);
+            navBar.SetContent(
+                Defer(currentPage, curPage => ShowPage(curPage).AsTask()).Stretch()
+            );
 
+            // Configure routes for every component that we listed at the top of this method and one for home - whenever one of those routes is hit, the currentPage observable will have its value changed which will result in a navigation
+            Router.Register("home", "/", _ => currentPage.Value = null);
             foreach (var (name, component) in orderedComponents)
             {
                 var nameLocal = name;
-                Router.Register(nameLocal, ToRoute(nameLocal), p => currentPage.Value = nameLocal);
+                Router.Register(nameLocal, ToRoute(nameLocal), _ => currentPage.Value = nameLocal);
             }
-
-            Router.Register("alert", "/alert/:a/:b/:c", p => Dialog($"A:{p["a"]} B:{p["b"]} C:{p["c"]}").Ok(null, null));
-
             Router.Initialize();
             Router.Refresh(() => Router.Navigate(window.location.hash));
 
+            string ToRoute(string name) => "/view/" + name;
 
-            IComponent ShowPage(string route)
+            IComponent ShowPage(string componentRouteName)
             {
-                if (route is null || !components.ContainsKey(route))
-                {
-                    route = components.Keys.First();
-                }
+                if ((componentRouteName is null) || !components.ContainsKey(componentRouteName))
+                    componentRouteName = components.Keys.First();
                 else
-                {
-                    Router.Push($"#/view/{route}");
-                }
+                    Router.Push($"#/view/{componentRouteName}");
 
-                var component = components[route]();
+                document.title = documentTitleBase + " - " + componentRouteName;
 
-                var links = orderedComponents.ToDictionary(c => c.Name, c => NavLink(c.Name).SelectedOrExpandedIf(c.Name == route).OnSelected((s, e) => { console.log("Route to " + c.Name); Router.Navigate("#" + ToRoute(c.Name)); }));
+                var links = orderedComponents.ToDictionary(
+                    c => c.Name,
+                    c => NavLink(c.Name).SelectedOrExpandedIf(c.Name == componentRouteName).OnSelected((s, e) =>
+                    {
+                        console.log("Route to " + c.Name);
+                        Router.Navigate("#" + ToRoute(c.Name));
+                    })
+                );
 
-                var page = new SplitView().Left(Stack().Stretch().Children(MainNav(links, navBar, sideBar, route)).InvisibleScroll(), background: Theme.Default.Background)
-                                          .LeftIsSmaller(300.px())
-                                          .Stretch();
-
-                page.Right(Stack().Stretch().Children(component.WidthStretch()).InvisibleScroll(), background: Theme.Secondary.Background);
-                return page;
+                var component = components[componentRouteName]();
+                return new SplitView()
+                    .Left(Stack().Stretch().Children(MainNav(links, navBar, sideBar, componentRouteName)).InvisibleScroll(), background: Theme.Default.Background)
+                    .LeftIsSmaller(300.px())
+                    .Stretch()
+                    .Right(Stack().Stretch().Children(component.WidthStretch()).InvisibleScroll(), background: Theme.Secondary.Background);
             }
         }
 
@@ -160,14 +156,14 @@ namespace Tesserae.Tests
                                                 NavLink("Utilities").Expanded()
                                                                     .SmallPlus()
                                                                     .SemiBold()
-                                                                    .Links(links["Layer"]       ,
-                                                                           links["Stack"]       ,
+                                                                    .Links(links["Layer"],
+                                                                           links["Stack"],
                                                                            links["HorizontalSeparator"],
                                                                            links["SectionStack"],
-                                                                           links["TextBlock"]   ,
-                                                                           links["Validator"]   ,
-                                                                           links["Breadcrumb"]  ,
-                                                                           links["OverflowSet"]  ,
+                                                                           links["TextBlock"],
+                                                                           links["Validator"],
+                                                                           links["Breadcrumb"],
+                                                                           links["OverflowSet"],
                                                                            links["Pivot"],
                                                                            links["Defer"],
                                                                            links["Toast"],
