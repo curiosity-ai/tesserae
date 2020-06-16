@@ -4,101 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using H5;
+using H5.Core;
 using Tesserae.Components;
 using static H5.Core.dom;
-using H5.Core;
 
 namespace Tesserae
 {
     public static class Router
     {
-        public class State
-        {
-            public Parameters Parameters;
-            public string RouteName;
-            public string Path;
-            public string FullPath;
-        }
-
-        internal class RoutePart
-        {
-            public string Path;
-            public bool IsVariable;
-            public string VariableName;
-
-            public RoutePart(string path)
-            {
-                Path = path;
-                IsVariable = path.StartsWith(":");
-                VariableName = IsVariable ? path.TrimStart(':') : "";
-            }
-
-            public bool IsMatch(string pathPart, out string capturedVariable)
-            {
-                if (IsVariable)
-                {
-                    capturedVariable = pathPart;
-                    return true;
-                }
-                else
-                {
-                    capturedVariable = null;
-                    return string.Equals(pathPart, Path, StringComparison.InvariantCultureIgnoreCase);
-                }
-            }
-        }
-
-        internal class Route
-        {
-            private RoutePart[] Parts;
-
-            public string Name { get; }
-            public string Path { get; }
-            private Action<Parameters> _action;
-
-            public Route(string name, string path, Action<Parameters> action)
-            {
-                Name = name;
-                Path = path;
-
-                Parts = path.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries).Select(p => new RoutePart(p)).ToArray();
-                _action = action;
-            }
-
-            public bool IsMatch(string[] parts, Dictionary<string, string> parameters)
-            {
-                if (parts.Length == Parts.Length)
-                {
-                    bool isMatch = true;
-
-                    for (int i = 0; i < Parts.Length; i++)
-                    {
-                        isMatch &= Parts[i].IsMatch(parts[i], out var variable);
-                        if (isMatch && Parts[i].IsVariable)
-                        {
-                            parameters.Add(Parts[i].VariableName, variable);
-                        }
-                        if (!isMatch)
-                        {
-                            return false;
-                        }
-                    }
-
-                    return isMatch;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-
-            internal void Activate(Parameters parameters)
-            {
-                _action(parameters);
-            }
-        }
-
-
         private static State _currentState;
 
         public delegate void NavigatedHandler(State toState, State fromState);
@@ -120,7 +33,7 @@ namespace Tesserae
                 Router.onBeforeNavigate -= (CanNavigateHandler)d;
             }
 
-            if(onBeforeNavigate is null) onBeforeNavigate = (a, b) => true;
+            if (onBeforeNavigate is null) onBeforeNavigate = (a, b) => true;
 
             Router.onBeforeNavigate += onBeforeNavigate;
         }
@@ -151,7 +64,7 @@ namespace Tesserae
 ");
                 window.addEventListener("locationchange", onLocationChanged);
             }
-            _initialized = true;           
+            _initialized = true;
         }
 
         private static bool _initialized = false;
@@ -231,7 +144,7 @@ namespace Tesserae
         {
             var sb = new StringBuilder();
             bool inParameter = false;
-            foreach(var c in path)
+            foreach (var c in path)
             {
                 if (c == ':')
                 {
@@ -310,16 +223,15 @@ namespace Tesserae
         private static void onLocationChanged(Event ev)
         {
             var currenthash = window.location.hash ?? "";
-
-            if(_currentState is object && _currentState.FullPath == currenthash)
+            if ((_currentState is object) && (_currentState.FullPath == currenthash))
             {
                 return;
             }
 
-            var p = currenthash.Split(new[] { '?' }, 2); //Do not remove empty entries, as we need the empty entry in the array
+            var p = currenthash.Split(new[] { '?' }, count: 2); // Do not remove empty entries, as we need the empty entry in the array
 
             var hash = p.Length == 0 ? "" : p[0].TrimStart('#');
-            
+
             var par = new Dictionary<string, string>();
             var parts = hash.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
 
@@ -333,10 +245,10 @@ namespace Tesserae
                         //TODO parse query parameters
                         var query = p[1];
                         var queryParts = query.Split(new[] { '&' }, StringSplitOptions.RemoveEmptyEntries);
-                        foreach(var qp in queryParts)
+                        foreach (var qp in queryParts)
                         {
                             var qpp = qp.Split(new[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
-                            if(qpp.Length == 1)
+                            if (qpp.Length == 1)
                             {
                                 par[es5.decodeURIComponent(qpp[0])] = "";
                             }
@@ -355,63 +267,106 @@ namespace Tesserae
                         RouteName = r.Name
                     };
 
-                    if(onBeforeNavigate is null || onBeforeNavigate(toState, _currentState))
+                    if ((onBeforeNavigate is null) || onBeforeNavigate(toState, _currentState))
                     {
+                        // Allowed to navigate - do it!
                         var oldState = _currentState;
                         _currentState = toState;
                         r.Activate(toState.Parameters);
                         onNavigated?.Invoke(toState, oldState);
-                        return;
                     }
                     else
                     {
-                        if(_currentState is object && !string.IsNullOrEmpty(_currentState.FullPath))
+                        // New route was matched but onBeforeNavigate denied navigation, so revert the current URL back to the "current state" (ie. the last state that was matched before this navigation attempt)
+                        if ((_currentState is object) && !string.IsNullOrEmpty(_currentState.FullPath))
                         {
                             window.location.href = _currentState.FullPath;
                         }
-                        return;
                     }
+                    return;
                 }
             }
         }
-    }
 
-    public class Parameters
-    {
-        private Dictionary<string, string> _parameters;
-
-        public Parameters(Dictionary<string, string> parameters)
+        public sealed class State
         {
-            _parameters = parameters;
+            public Parameters Parameters;
+            public string RouteName;
+            public string Path;
+            public string FullPath;
         }
 
-        public new string this[string key] => _parameters[key];
-
-        public IEnumerable<string> Keys => _parameters.Keys;
-
-        public IEnumerable<string> Values => _parameters.Values;
-
-        public int Count => _parameters.Count;
-
-        public bool ContainsKey(string key)
+        private sealed class RoutePart
         {
-            return _parameters.ContainsKey(key);
+            public string Path;
+            public bool IsVariable;
+            public string VariableName;
+
+            public RoutePart(string path)
+            {
+                Path = path;
+                IsVariable = path.StartsWith(":");
+                VariableName = IsVariable ? path.TrimStart(':') : "";
+            }
+
+            public bool IsMatch(string pathPart, out string capturedVariable)
+            {
+                if (IsVariable)
+                {
+                    capturedVariable = pathPart;
+                    return true;
+                }
+                else
+                {
+                    capturedVariable = null;
+                    return string.Equals(pathPart, Path, StringComparison.InvariantCultureIgnoreCase);
+                }
+            }
         }
 
-        public IEnumerator<KeyValuePair<string, string>> GetEnumerator()
+        private sealed class Route
         {
-            return _parameters.GetEnumerator();
-        }
+            private readonly RoutePart[] _parts;
+            private readonly Action<Parameters> _action;
+            public Route(string name, string path, Action<Parameters> action)
+            {
+                Name = name;
+                Path = path;
 
-        public bool TryGetValue(string key, out string value)
-        {
-            return _parameters.TryGetValue(key, out value);
-        }
+                _parts = path.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries).Select(p => new RoutePart(p)).ToArray();
+                _action = action;
+            }
 
-        public Parameters With(string key, string value)
-        {
-            _parameters[key] = value;
-            return this;
+            public string Name { get; }
+            public string Path { get; }
+
+            public bool IsMatch(string[] parts, Dictionary<string, string> parameters)
+            {
+                if (parts.Length == _parts.Length)
+                {
+                    var isMatch = true;
+                    for (var i = 0; i < _parts.Length; i++)
+                    {
+                        isMatch &= _parts[i].IsMatch(parts[i], out var variable);
+                        if (isMatch && _parts[i].IsVariable)
+                        {
+                            parameters.Add(_parts[i].VariableName, variable);
+                        }
+                        if (!isMatch)
+                        {
+                            return false;
+                        }
+                    }
+
+                    return isMatch;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            public void Activate(Parameters parameters) => _action(parameters);
         }
     }
 }
