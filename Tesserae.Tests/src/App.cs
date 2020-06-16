@@ -78,10 +78,15 @@ namespace Tesserae.Tests
             var currentPage = new SettableObservable<string>();
             var components = orderedComponents.ToDictionary(c => c.Name, c => c.Component);
             navBar.SetContent(
-                Defer(currentPage, curPage => ShowPage(curPage).AsTask()).Stretch()
+                Defer(
+                    currentPage,
+                    newlySelectedPage => ShowPage(newlySelectedPage).AsTask()
+                )
+                .Stretch()
             );
 
             // Configure routes for every component that we listed at the top of this method and one for home - whenever one of those routes is hit, the currentPage observable will have its value changed which will result in a navigation
+            // - Note that the "home" route will set the currentPage observable to null and the ShowPage result of that is to show the content for the first component
             Router.Register("home", "/", _ => currentPage.Value = null);
             foreach (var (name, component) in orderedComponents)
             {
@@ -89,7 +94,9 @@ namespace Tesserae.Tests
                 Router.Register(nameLocal, ToRoute(nameLocal), _ => currentPage.Value = nameLocal);
             }
             Router.Initialize();
-            Router.Refresh(() => Router.Navigate(window.location.hash));
+
+            // We need to force "reload" for the first navigation since we want the just-registered routes to be matched against the current URL without us *changing* that URL
+            Router.Refresh(() => Router.Navigate(window.location.hash, reload: true));
 
             string ToRoute(string name) => "/view/" + name;
 
