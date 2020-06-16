@@ -59,38 +59,32 @@ namespace Tesserae
 
         public static void Push(string path)
         {
-            if (AlreadyThere(path)) return; //Nothing to do
+            if (AlreadyThere(path))
+            {
+                // Nothing to do
+                return;
+            }
 
             if (_currentState is null)
-            {
-                _currentState = new State()
-                {
-                    FullPath = path
-                };
-            }
+                _currentState = new State(fullPath: path);
             else
-            {
-                _currentState.FullPath = path;
-            }
+                _currentState = _currentState.WithFullPath(path);
 
             window.history.pushState(null, "", path);
         }
 
         public static void Replace(string path)
         {
-            if (AlreadyThere(path)) return; //Nothing to do
+            if (AlreadyThere(path))
+            {
+                // Nothing to do
+                return;
+            }
 
             if (_currentState is null)
-            {
-                _currentState = new State()
-                {
-                    FullPath = path
-                };
-            }
+                _currentState = new State(fullPath: path);
             else
-            {
-                _currentState.FullPath = path;
-            }
+                _currentState = _currentState.WithFullPath(path);
 
             window.history.replaceState(null, "", path);
         }
@@ -245,13 +239,12 @@ namespace Tesserae
                         }
                     }
 
-                    var toState = new State()
-                    {
-                        Parameters = new Parameters(par),
-                        Path = hash,
-                        FullPath = window.location.href,
-                        RouteName = r.Name
-                    };
+                    var toState = new State(
+                        parameters: new Parameters(par),
+                        path: hash,
+                        fullPath: window.location.href,
+                        routeName: r.Name
+                    );
 
                     if ((_beforeNavigate is null) || _beforeNavigate(toState, _currentState))
                     {
@@ -276,24 +269,35 @@ namespace Tesserae
 
         public sealed class State
         {
-            public Parameters Parameters;
-            public string RouteName;
-            public string Path;
-            public string FullPath;
+            public State(string fullPath) : this(null, null, null, fullPath) { }
+            public State(Parameters parameters, string routeName, string path, string fullPath)
+            {
+                Parameters = parameters;
+                RouteName = routeName;
+                Path = path;
+                FullPath = fullPath;
+            }
+
+            public Parameters Parameters { get; }
+            public string RouteName { get; }
+            public string Path { get; }
+            public string FullPath { get; }
+
+            public State WithFullPath(string fullPath) => new State(Parameters, RouteName, Path, fullPath);
         }
 
         private sealed class RoutePart
         {
-            public string Path;
-            public bool IsVariable;
-            public string VariableName;
-
             public RoutePart(string path)
             {
                 Path = path;
                 IsVariable = path.StartsWith(":");
                 VariableName = IsVariable ? path.TrimStart(':') : "";
             }
+
+            public string Path { get; }
+            public bool IsVariable { get; }
+            public string VariableName { get; }
 
             public bool IsMatch(string pathPart, out string capturedVariable)
             {
