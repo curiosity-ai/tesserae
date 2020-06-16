@@ -20,9 +20,8 @@ namespace Tesserae
         private static State _currentState;
         private static CanNavigateHandler _beforeNavigate; // 2020-06-16 DWR: We previously used an event for this but only allowed a single delegate to bind to it, so there is no need for it to be multi-dispatch and so now it's just a field instead of an event
 
-        public static void OnNavigated(NavigatedHandler onNavigated) => Navigated += onNavigated;
-
         public static void OnBeforeNavigate(CanNavigateHandler onBeforeNavigate) => _beforeNavigate = onBeforeNavigate;
+        public static void OnNavigated(NavigatedHandler onNavigated) => Navigated += onNavigated;
 
         public static void Initialize()
         {
@@ -48,14 +47,15 @@ namespace Tesserae
         window.dispatchEvent(new Event('locationchange'))
     });
 ");
-                window.addEventListener("locationchange", onLocationChanged);
+                window.addEventListener("locationchange", LocationChanged);
             }
             _initialized = true;
         }
 
         private static bool _initialized = false;
-        private static Dictionary<string, Action<Parameters>> _routes = new Dictionary<string, Action<Parameters>>();
-        private static Dictionary<string, string> _paths = new Dictionary<string, string>();
+        private static readonly Dictionary<string, Action<Parameters>> _registedRoutesMappedToActions = new Dictionary<string, Action<Parameters>>();
+        private static readonly Dictionary<string, string> _paths = new Dictionary<string, string>();
+        private static List<Route> _routesToTryMatchingOnLocationChanged;
 
         public static void Push(string path)
         {
@@ -111,7 +111,7 @@ namespace Tesserae
             }
             else if (_currentState is null)
             {
-                onLocationChanged(null);
+                LocationChanged(null);
             }
         }
 
@@ -153,7 +153,7 @@ namespace Tesserae
         {
             uniqueIdentifier = uniqueIdentifier.ToLower();
 
-            if (_routes.ContainsKey(uniqueIdentifier) && !replace)
+            if (_registedRoutesMappedToActions.ContainsKey(uniqueIdentifier) && !replace)
             {
                 // 2020-02-12 DWR: The last thing that the Mosaik App class does is register default routes - this means that the default routes are declared after any routes custom to the current app and this means that it
                 // wouldn't be possible to have custom home pages (for example).. unless we ignore any repeat calls that specify the same uniqueIdentifier. Ignoring them allows the current app to specify a "home" route and
@@ -167,40 +167,39 @@ namespace Tesserae
             _paths.Remove(uniqueIdentifier);
             _paths.Remove(lowerCaseID);
             _paths.Remove(upperCaseID);
-            _routes.Remove(uniqueIdentifier);
-            _routes.Remove(lowerCaseID);
-            _routes.Remove(upperCaseID);
+            _registedRoutesMappedToActions.Remove(uniqueIdentifier);
+            _registedRoutesMappedToActions.Remove(lowerCaseID);
+            _registedRoutesMappedToActions.Remove(upperCaseID);
 
             var lowerCasePath = LowerCasePath(path);
 
             if (path != lowerCasePath)
             {
-                _routes[lowerCaseID] = action;
+                _registedRoutesMappedToActions[lowerCaseID] = action;
                 _paths[lowerCaseID] = lowerCasePath;
             }
 
-            _routes[uniqueIdentifier] = action;
+            _registedRoutesMappedToActions[uniqueIdentifier] = action;
             _paths[uniqueIdentifier] = path;
 
             Refresh();
         }
 
-        private static List<Route> Routes;
-
         public static void Refresh(Action onDone = null)
         {
-            if (!_initialized) { return; }
+            if (!_initialized)
+                return;
 
-            Routes = new List<Route>();
+            _routesToTryMatchingOnLocationChanged = new List<Route>();
             foreach (var kv in _paths)
             {
-                Routes.Add(new Route(kv.Key, kv.Value, _routes[kv.Key]));
+                _routesToTryMatchingOnLocationChanged.Add(new Route(kv.Key, kv.Value, _registedRoutesMappedToActions[kv.Key]));
             }
 
             onDone?.Invoke();
         }
 
-        private static void onLocationChanged(Event ev)
+        private static void LocationChanged(Event ev)
         {
             var currenthash = window.location.hash ?? "";
             if ((_currentState is object) && (_currentState.FullPath == currenthash))
@@ -215,7 +214,7 @@ namespace Tesserae
             var par = new Dictionary<string, string>();
             var parts = hash.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
 
-            foreach (var r in Routes)
+            foreach (var r in _routesToTryMatchingOnLocationChanged)
             {
                 par.Clear();
                 if (!r.IsMatch(parts, par))
