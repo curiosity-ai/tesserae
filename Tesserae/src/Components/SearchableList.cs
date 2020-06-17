@@ -66,7 +66,7 @@ namespace Tesserae.Components
 
         public SearchableList<T> CaptureSearchBox(out SearchBox sb)
         {
-            sb = _searchBox
+            sb = _searchBox;
             return this;
         }
 
