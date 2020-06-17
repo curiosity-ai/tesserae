@@ -64,6 +64,12 @@ namespace Tesserae.Components
             return this;
         }
 
+        public SearchableList<T> CaptureSearchBox(out SearchBox sb)
+        {
+            sb = _searchBox
+            return this;
+        }
+
         public SearchableList<T> BeforeSearchBox(params IComponent[] beforeComponents)
         {
             foreach(var component in beforeComponents.Reverse<IComponent>())
