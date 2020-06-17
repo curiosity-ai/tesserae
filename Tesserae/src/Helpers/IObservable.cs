@@ -1,6 +1,6 @@
 ﻿namespace Tesserae
 {
-    public interface IObservable<T> : IBaseObservable
+    public interface IObservable<T>
     {
         /// <summary>
         /// This will execute the callback immediately with the current value AND for any future changes (unless the callback is passed to StopObserving first)
