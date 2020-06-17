@@ -172,6 +172,11 @@ namespace Tesserae.Components
             return _container;
         }
 
+        /// <summary>
+        /// This will initiate the last async data retrieval specified via a call to the Items method overload that takes a Func-of-Task-of-array-of-T. If there has not been call to that method (or if LoadItemsAsync has already been called after
+        /// it was called) then this will throw an InvalidOperationException. If another async data retrieval had already been initiated but has not completed yet, its results will be ignored when it DOES complete because this call came after it
+        /// and it is presumed that this data will be more current).
+        /// </summary>
         public async Task LoadItemsAsync()
         {
             if (_itemsSource is null)
@@ -197,7 +202,6 @@ namespace Tesserae.Components
                 return;
             }
 
-            Clear();
             Items(items);
         }
 
@@ -323,19 +327,24 @@ namespace Tesserae.Components
             return this;
         }
 
-        public void Clear()
+        /// <summary>
+        /// This will set items to the available options, replacing any that are already rendered (and meaning that any async data retrievals that have started but not completed yet will be ignored when they DO complete because this call came
+        /// after it and it is presumed that this data will be more current)
+        /// </summary>
+        public Dropdown Items(params Item[] children)
         {
+            // 2020-06-17 DWR: Whenever new items are presented to render, remove any previous ones - there used to be a distinct "Clear" method that did this that would be automatically called when loading items async but NOT when calling this
+            // method directly to synchronously update items, which was both inconsistent and surprising behaviour. I checked the code base here and where we use this library and we only called Clear from within this class and once in external
+            // code.. just before adding new items via this method, so by incorporating it here it makes everything simpler.
+            // - IMPORTANT: If we went back to having a distinct "Clear" method that could be called externally then it would need to incorporate similar logic to that found here; it should increment the "latestRequestID" value (because an items
+            //              update is effectively being said to take place that should supercede any async requests that have started but not completed and the loading state, current-selections-bar state and no-items state all would need to be
+            //              maintained correctly). If we ever wanted to add a Clear method for some reason then the best implementation be for it to call this method directly with an empty children array, which probably begs the question WHY
+            //              you would ever want it in the first place if calling this method automatically replaces any existing items.
             ClearChildren(ScrollBar.GetCorrectContainer(_childContainer));
 
             // 2020-06-11 DWR: We need to do this, otherwise the entries in there will relate to drop down items that are no longer rendered - it's fine, since we'll be rebuilding the items (including selected states) if we've just called clear
             _selectedChildren.Clear();
-        }
 
-        /// <summary>
-        /// This will add items to the available options - note that it will NOT clear any existing ones first (unlike the method overload that takes a Task-returning delegate) and so you may want to call Clear before calling this
-        /// </summary>
-        public Dropdown Items(params Item[] children)
-        {
             // Each request (whether sync or async) will get a unique and incrementing ID - if requests overlap then the results of requests that were initiated later are preferred as they are going to be the results of interactions that User
             // performed since the earlier requests started (since this code is browser-based, and so single-threaded, it's only possible for async requests to overlap - synchronous requests never can - but it's important to increment the
             // "latestRequestID" value here to ensure that if a synchronous Items call is made after an async retrieval is initiated (but before it completes) that the later-made synchronous call "wins".
