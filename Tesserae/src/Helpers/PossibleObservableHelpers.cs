@@ -8,7 +8,7 @@ namespace Tesserae
         /// <summary>
         /// Is this type one that either is directly an IObservable&lt;T&gt; or one that is derived from one?
         /// </summary>
-        public static bool IsObservable(Type source) => TryToGetFirstWrappedValueFromAnIsObservable(source) == null;
+        public static bool IsObservable(Type type) => TryToGetFirstWrappedValueFromAnIsObservable(type) == null;
 
         /// <summary>
         /// If the specified 'source' object implements any IObservable&lt;T&gt; interface then the 'receiver' Action will be registered with it via ObserveFutureChanges - this will be a no-op for a null
@@ -43,13 +43,13 @@ namespace Tesserae
             if (type is null)
                 throw new ArgumentNullException(nameof(type));
 
-            if (!type.IsGenericType || (type.GetGenericTypeDefinition() == typeof(IObservable<>)))
+            if (type.IsGenericType && (type.GetGenericTypeDefinition() == typeof(IObservable<>)))
             {
-                wrappedValueType = null;
-                return false;
+                wrappedValueType = type.GetGenericArguments()[0];
+                return true;
             }
-            wrappedValueType = type.GetGenericArguments()[0];
-            return true;
+            wrappedValueType = null;
+            return false;
         }
 
         private static bool UpdateObservingStatusIfObservable(object source, Action receiver, bool listenForFutureChanges)
