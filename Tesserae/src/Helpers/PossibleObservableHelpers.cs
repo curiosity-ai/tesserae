@@ -8,7 +8,7 @@ namespace Tesserae
         /// <summary>
         /// Is this type one that either is directly an IObservable&lt;T&gt; or one that is derived from one?
         /// </summary>
-        public static bool IsObservable(Type type) => TryToGetFirstWrappedValueFromAnIsObservable(type) == null;
+        public static bool IsObservable(Type type) => TryToGetFirstWrappedValueFromAnIsObservable(type) is object;
 
         /// <summary>
         /// If the specified 'source' object implements any IObservable&lt;T&gt; interface then the 'receiver' Action will be registered with it via ObserveFutureChanges - this will be a no-op for a null
