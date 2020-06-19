@@ -32,8 +32,9 @@
 
     .tss-label.tss-inline > * {
         display: inline-block;
-        flex-grow:1;
-        flex-shrink:1;
+        flex-grow: 1;
+        flex-shrink: 1;
+        overflow: hidden; /* 2020-06-19 DWR: This is necessary for inline labels that have an OverflowSet for their content - without it, if the content is too big to fit then it introduces a scrollbar instead of having the arrow-down-to-see-more functionality of the OverflowSet */
     }
 
     .tss-label.tss-inline > label {
