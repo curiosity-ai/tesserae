@@ -12,13 +12,6 @@ namespace Tesserae
         private readonly List<T> _list;
         private readonly bool _valueIsObservable;
         private double _refreshTimeout;
-
-        public ObservableList()
-        {
-            _list = new List<T>();
-            _valueIsObservable = PossibleObservableHelpers.IsObservable(typeof(T));
-        }
-
         public ObservableList(params T[] initialValues)
         {
             _list = initialValues.ToList();
@@ -30,18 +23,6 @@ namespace Tesserae
                     HookValue(i);
                 }
             }
-        }
-
-        private void HookValue(T v)
-        {
-            if (_valueIsObservable)
-                PossibleObservableHelpers.ObserveFutureChangesIfObservable(v, RaiseOnValueChanged);
-        }
-
-        private void UnhookValue(T v)
-        {
-            if (_valueIsObservable)
-                PossibleObservableHelpers.StopObservingIfObservable(v, RaiseOnValueChanged);
         }
 
         public void Observe(ObservableEvent.ValueChanged<IReadOnlyList<T>> valueGetter) => Observe(valueGetter, callbackImmediately: true);
@@ -80,7 +61,6 @@ namespace Tesserae
         }
 
         public int Count => _list.Count;
-
         public bool IsReadOnly => false;
 
         public IReadOnlyList<T> Value => _list;
@@ -119,10 +99,6 @@ namespace Tesserae
 
         public void CopyTo(T[] array, int arrayIndex) => _list.CopyTo(array, arrayIndex);
 
-        public IEnumerator<T> GetEnumerator() => _list.GetEnumerator();
-
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-
         public int IndexOf(T item) => _list.IndexOf(item);
 
         public void Insert(int index, T item)
@@ -158,5 +134,20 @@ namespace Tesserae
             _list.RemoveAt(index);
             RaiseOnValueChanged();
         }
+
+        private void HookValue(T v)
+        {
+            if (_valueIsObservable)
+                PossibleObservableHelpers.ObserveFutureChangesIfObservable(v, RaiseOnValueChanged);
+        }
+
+        private void UnhookValue(T v)
+        {
+            if (_valueIsObservable)
+                PossibleObservableHelpers.StopObservingIfObservable(v, RaiseOnValueChanged);
+        }
+
+        public IEnumerator<T> GetEnumerator() => _list.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }
