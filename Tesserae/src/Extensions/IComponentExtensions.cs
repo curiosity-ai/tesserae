@@ -221,6 +221,12 @@ namespace Tesserae.Components
             return component;
         }
 
+        public static T Collapse<T>(this T component) where T : IComponent
+        {
+            component.Render().classList.add("tss-collapse");
+            return component;
+        }
+
         public static T Fade<T>(this T component) where T : IComponent
         {
             component.Render().classList.add("tss-fade");
@@ -231,6 +237,7 @@ namespace Tesserae.Components
         public static T Show<T>(this T component) where T : IComponent
         {
             component.Render().classList.add("tss-fade", "tss-show");
+            component.Render().classList.remove("tss-collapse");
             return component;
         }
 
