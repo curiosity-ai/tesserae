@@ -21,7 +21,7 @@ namespace Tesserae.Components
         public bool PropagateToStackItemParent => true;
         public ObservableList<T> Items { get; }
 
-        public SearchableList(T[] items, params UnitSize[] columns) : this(new ObservableList<T>(items ?? new T[0]), columns)
+        public SearchableList(T[] items, params UnitSize[] columns) : this(new ObservableList<T>(initialValues: items ?? new T[0]), columns)
         {
         }
 

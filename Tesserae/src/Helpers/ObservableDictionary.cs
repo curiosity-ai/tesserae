@@ -12,11 +12,13 @@ namespace Tesserae
         private readonly Dictionary<TKey, TValue> _dictionary;
         private readonly bool _valueIsObservable;
         private double _refreshTimeout;
+        private readonly bool _shouldHook;
         public ObservableDictionary() : this(new Dictionary<TKey, TValue>()) { }
-        public ObservableDictionary(IEnumerable<KeyValuePair<TKey, TValue>> values, IEqualityComparer<TKey> keyComparer = null)
+        public ObservableDictionary(IEnumerable<KeyValuePair<TKey, TValue>> values, IEqualityComparer<TKey> keyComparer = null, bool shouldHook = true)
         {
             // 2020-6-17 DWR: We're cloning the input, like we do in ObservableList, rather than accepting a Dictionary reference directly and storing that (that whoever provided it to us could mutate without us being aware here)
             _dictionary = new Dictionary<TKey, TValue>(comparer: keyComparer);
+            _shouldHook = shouldHook;
             foreach (var entry in values)
             {
                 if (_dictionary.ContainsKey(entry.Key))
@@ -26,7 +28,7 @@ namespace Tesserae
             }
 
             _valueIsObservable = PossibleObservableHelpers.IsObservable(typeof(TValue));
-            if (_valueIsObservable)
+            if (_valueIsObservable && _shouldHook)
             {
                 foreach (var kv in _dictionary)
                 {
@@ -84,7 +86,7 @@ namespace Tesserae
 
         public void Clear()
         {
-            if (_valueIsObservable)
+            if (_valueIsObservable && _shouldHook)
             {
                 foreach (var kv in _dictionary)
                 {
@@ -129,13 +131,13 @@ namespace Tesserae
 
         private void HookValue(TValue v)
         {
-            if (_valueIsObservable)
+            if (_valueIsObservable && _shouldHook)
                 PossibleObservableHelpers.ObserveFutureChangesIfObservable(v, RaiseOnValueChanged);
         }
 
         private void UnhookValue(TValue v)
         {
-            if (_valueIsObservable && v is IObservable<TValue> observable)
+            if (_valueIsObservable && _shouldHook && v is IObservable<TValue> observable)
                 PossibleObservableHelpers.StopObservingIfObservable(v, RaiseOnValueChanged);
         }
 
