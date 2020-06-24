@@ -8,11 +8,29 @@
     }
 }
 
+.tss-fade-light {
+    transition: opacity 0.15s linear;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tss-fade-light {
+        transition: none;
+    }
+}
+
 .tss-fade:not(.tss-show) {
     opacity: 0;
-    pointer-events:none;
-    cursor:none;
-    user-select:none;
+    pointer-events: none;
+    cursor: none;
+    user-select: none;
+}
+
+.tss-fade-light:not(.tss-show) {
+    opacity: 0.25;
+    pointer-events: none;
+    cursor: none;
+    user-select: none;
+    filter:saturate(0);
 }
 
 .tss-collapse {

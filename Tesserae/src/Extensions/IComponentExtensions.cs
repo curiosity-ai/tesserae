@@ -229,15 +229,25 @@ namespace Tesserae.Components
 
         public static T Fade<T>(this T component) where T : IComponent
         {
-            component.Render().classList.add("tss-fade");
-            component.Render().classList.remove("tss-show");
+            var el = component.Render();
+            el.classList.add("tss-fade");
+            el.classList.remove("tss-fade-light", "tss-show");
+            return component;
+        }
+
+        public static T LightFade<T>(this T component) where T : IComponent
+        {
+            var el = component.Render();
+            el.classList.add("tss-fade-light");
+            el.classList.remove("tss-fade", "tss-show");
             return component;
         }
 
         public static T Show<T>(this T component) where T : IComponent
         {
-            component.Render().classList.add("tss-fade", "tss-show");
-            component.Render().classList.remove("tss-collapse");
+            var el = component.Render();
+            el.classList.add("tss-fade", "tss-show");
+            el.classList.remove("tss-fade-light", "tss-collapse");
             return component;
         }
 
