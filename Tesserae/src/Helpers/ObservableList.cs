@@ -12,11 +12,14 @@ namespace Tesserae
         private readonly List<T> _list;
         private readonly bool _valueIsObservable;
         private double _refreshTimeout;
-        public ObservableList(params T[] initialValues)
+        private readonly bool _shouldHook;
+        
+        public ObservableList(bool shouldHook = true, params T[] initialValues)
         {
             _list = initialValues.ToList();
             _valueIsObservable = PossibleObservableHelpers.IsObservable(typeof(T));
-            if (_valueIsObservable)
+            _shouldHook = shouldHook;
+            if (_valueIsObservable && _shouldHook)
             {
                 foreach (var i in _list)
                 {
@@ -84,7 +87,7 @@ namespace Tesserae
 
         public void Clear()
         {
-            if (_valueIsObservable)
+            if (_valueIsObservable && _shouldHook)
             {
                 foreach (var i in _list)
                 {
@@ -137,13 +140,13 @@ namespace Tesserae
 
         private void HookValue(T v)
         {
-            if (_valueIsObservable)
+            if (_valueIsObservable && _shouldHook)
                 PossibleObservableHelpers.ObserveFutureChangesIfObservable(v, RaiseOnValueChanged);
         }
 
         private void UnhookValue(T v)
         {
-            if (_valueIsObservable)
+            if (_valueIsObservable && _shouldHook)
                 PossibleObservableHelpers.StopObservingIfObservable(v, RaiseOnValueChanged);
         }
 

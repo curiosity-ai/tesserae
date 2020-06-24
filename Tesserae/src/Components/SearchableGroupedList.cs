@@ -20,7 +20,7 @@ namespace Tesserae.Components
         public ObservableList<IComponent> Items { get; }
 
         public SearchableGroupedList(T[] items, Func<string, IComponent> groupedItemHeaderGenerator, params UnitSize[] columns)
-            : this(new ObservableList<T>(items ?? new T[0]), groupedItemHeaderGenerator, columns)
+            : this(new ObservableList<T>(initialValues: items ?? new T[0]), groupedItemHeaderGenerator, columns)
         {
         }
 
