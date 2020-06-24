@@ -220,7 +220,7 @@ namespace Tesserae
 
         public static Dialog Dialog(IComponent content = null, IComponent title = null, bool centerContent = true) => new Dialog(content, title, centerContent);
 
-        public static Dialog Dialog(string title, bool centerContent = true) => new Dialog(title: string.IsNullOrWhiteSpace(title) ? null : TextBlock(title).MediumPlus().Primary().SemiBold(), centerContent:centerContent);
+        public static Dialog Dialog(string text, bool centerContent = true) => new Dialog(title: string.IsNullOrWhiteSpace(text) ? null : TextBlock(text).Primary().SemiBold().MaxWidth(50.vw()), centerContent:centerContent);
 
         public static Pivot Pivot() => new Pivot();
 
