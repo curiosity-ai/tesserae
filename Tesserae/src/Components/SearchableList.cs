@@ -32,8 +32,8 @@ namespace Tesserae.Components
             _list = ItemsList(new IComponent[0], columns);
             _defered = Defer(Items, item =>
             {
-                var searchTerm = _searchBox.Text;
-                var filteredItems = Items.Where(i => string.IsNullOrWhiteSpace(searchTerm) || i.IsMatch(searchTerm)).Select(i => i.Render()).ToArray();
+                var searchTerms = (_searchBox.Text ?? "").Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                var filteredItems = Items.Where(i => searchTerms.Length  == 0 || searchTerms.All(st => i.IsMatch(st))).Select(i => i.Render()).ToArray();
 
                 _list.Items.Clear();
 

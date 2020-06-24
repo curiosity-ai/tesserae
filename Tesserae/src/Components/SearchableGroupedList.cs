@@ -34,9 +34,9 @@ namespace Tesserae.Components
 
             _defered = Defer(Items, item =>
             {
-                var searchTerm = _searchBox.Text;
+                var searchTerms = (_searchBox.Text ?? "").Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
-                var filteredItems = originalItems.OfType<T>().Where(i => string.IsNullOrWhiteSpace(searchTerm) || i.IsMatch(searchTerm)).ToArray();
+                var filteredItems = originalItems.OfType<T>().Where(i => searchTerms.Length == 0 || searchTerms.All(st => i.IsMatch(st))).ToArray();
 
                 AddGroupedItems(filteredItems, _list.Items, isGrid: (columns is object && columns.Length > 1));
 
