@@ -1,9 +1,45 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
+using Tesserae.HTML;
 
 namespace Tesserae.Components
 {
     public static class IComponentExtensions
     {
+        public static T WhenMounted<T>(T component, Action callback) where T : IComponent
+        {
+            DomObserver.WhenMounted(component.Render(), callback);
+            return component;
+        }
+
+        public static T WhenRemoved<T>(T component, Action callback) where T : IComponent
+        {
+            DomObserver.WhenRemoved(component.Render(), callback);
+            return component;
+        }
+
+
+        // The WhenMountedOrRemoved method shouldn't be used, as it would leak the component memory on the DomObserver forever.
+        // We left the code here as a reminder.
+        //     public static T WhenMountedOrRemoved<T>(T component, Action onMounted, Action onRemoved) where T : IComponent
+        //     {
+        //         void Mounted()
+        //         {
+        //             onMounted?.Invoke();
+        //             DomObserver.WhenRemoved(component.Render(), Removed);
+        //         }
+
+        //         void Removed()
+        //         {
+        //             onRemoved?.Invoke();
+        //             DomObserver.WhenMounted(component.Render(), Mounted);
+        //         }
+
+        //         DomObserver.WhenMounted(component.Render(), Mounted);
+        //         return component;
+        //     }
+
+
         public static T AlignAuto<T>(this T component) where T : IComponent
         {
             Stack.SetAlign(component, ItemAlign.Auto);
