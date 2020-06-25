@@ -62,6 +62,8 @@ namespace Tesserae
 
         public static Raw Raw() => new Raw();
 
+        public static Raw Raw(IComponent component) => new Raw(component);
+
         public static Image Image(string source) => new Image(source);
 
         public static Card Card(IComponent content) => new Card(content);
