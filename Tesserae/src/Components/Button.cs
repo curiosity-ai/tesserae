@@ -16,7 +16,7 @@ namespace Tesserae.Components
         {
             _textSpan    = Span(_(text: text));
             InnerElement = Button(_("tss-btn tss-btn-default"), _textSpan);
-            Weight       = TextWeight.SemiBold;
+            Weight       = TextWeight.Regular;
             Size         = TextSize.Small;
 
             AttachClick();
