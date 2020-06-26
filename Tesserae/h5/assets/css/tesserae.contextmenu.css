@@ -164,6 +164,11 @@
     outline: transparent none medium;
 }
 
+.tss-contextmenu-item > .tss-btn {
+    border: 1px transparent;
+    outline: transparent none medium;
+}
+
 .tss-contextmenu-overlay {
     position: absolute;
     left: 0;
