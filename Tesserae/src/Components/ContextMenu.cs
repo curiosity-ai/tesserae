@@ -283,8 +283,10 @@ namespace Tesserae.Components
 
         public class Item : ComponentBase<Item, HTMLButtonElement>
         {
+            private HTMLElement _innerComponent;
             public Item(string text = string.Empty)
             {
+                _innerComponent = null;
                 InnerElement = Button(_("tss-contextmenu-item", text: text));
                 AttachClick();
                 InnerElement.addEventListener("mouseover", OnItemMouseOver);
@@ -292,8 +294,9 @@ namespace Tesserae.Components
 
             public Item(IComponent component)
             {
+                _innerComponent = component.Render();
                 InnerElement = Button(_("tss-contextmenu-item"));
-                InnerElement.appendChild(component.Render());
+                InnerElement.appendChild(_innerComponent);
                 AttachClick();
                 InnerElement.addEventListener("mouseover", OnItemMouseOver);
             }
@@ -369,6 +372,10 @@ namespace Tesserae.Components
                 if (Type == ItemType.Item)
                 {
                     onClick += e;
+                    if(_innerComponent is object)
+                    {
+                        _innerComponent.onclick += (e2) => e.Invoke(this, e2);
+                    }
                 }
                 return this;
             }
