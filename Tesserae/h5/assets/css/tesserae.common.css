@@ -15,10 +15,10 @@
     --tss-font-size-small: 14px;
     --tss-font-size-xsmall: 12px;
     --tss-font-size-tiny: 10px;
-    /* Colors - Colors should reflect in the Theme.cs file*/ 
+    /* Colors - Colors should reflect in the Theme.cs file*/
     --tss-default-background-color: rgb(255, 255, 255);
     --tss-default-foreground-color: rgb(50, 49, 48);
-    --tss-secondary-background-color: rgb(249, 250, 251); 
+    --tss-secondary-background-color: rgb(249, 250, 251);
     --tss-secondary-foreground-color: rgb(101, 103, 107);
     --tss-disabled-background-color: rgb(243, 242, 241);
     --tss-disabled-foreground-color: rgb(161, 159, 157);
@@ -31,9 +31,9 @@
     --tss-default-background-active-color: rgb(243, 242, 241);
     --tss-default-foreground-active-color: rgb(32, 31, 30);
     --tss-progress-background-color: rgb(237, 235, 233);
-    --tss-link-color: rgb(0, 120, 212);
+    --tss-link-color: rgb(36, 142, 250);
     /*Primary color*/
-    --tss-primary-background-color: rgb(0, 120, 212);
+    --tss-primary-background-color: rgb(36, 142, 250);
     --tss-primary-foreground-color: rgb(255, 255, 255);
     --tss-primary-border-color: rgb(16, 110, 190);
     --tss-primary-background-hover-color: rgb(16, 110, 190);
@@ -69,7 +69,7 @@
     --tss-primary-shadow: 0 1.6px 3.6px 0 rgba(0, 120, 212,0.132), 0 0.3px 0.9px 0 rgba(0, 120, 212,0.108);
     --tss-card-shadow: 0 1.6px 3.6px 0 var(--tss-shadow-color-from), 0 0.3px 0.9px 0 var(--tss-shadow-color-to);
     --tss-toast-shadow: 2px 3px 12px 0px rgba(0, 0, 0, 0.45);
-    --tss-sidebar-background-color: rgb(0, 120, 212);
+    --tss-sidebar-background-color: rgb(36, 142, 250);
     --tss-sidebar-foreground-color: rgb(222, 235, 255);
     --tss-navbar-background-color: rgb(255, 255, 255);
     --tss-navbar-foreground-color: rgb(50, 49, 48);
@@ -96,9 +96,9 @@
     --tss-default-background-active-color: rgb(68, 68, 68);
     --tss-default-foreground-active-color: rgb(255, 255, 255);
     --tss-progress-background-color: rgb(68, 68, 68);
-    --tss-link-color: rgb(0, 120, 212);
+    --tss-link-color: rgb(85, 179, 251);
     /*Primary color*/
-    --tss-primary-background-color: rgb(0, 120, 212);
+    --tss-primary-background-color: rgb(85, 179, 251);
     --tss-primary-foreground-color: rgb(255, 255, 255);
     --tss-primary-border-color: rgb(16, 110, 190);
     --tss-primary-background-hover-color: rgb(16, 110, 190);
