@@ -105,7 +105,7 @@ namespace Tesserae.Components
             return component;
         }
 
-        public static T Scroll<T>(this T component) where T : IComponent
+        public static T ScrollY<T>(this T component) where T : IComponent
         {
             var element = component.Render();
 
@@ -113,6 +113,34 @@ namespace Tesserae.Components
             {
                 var targetElement = Stack.GetItem(component);
                 targetElement.style.overflowY = "auto";
+                targetElement.style.overflowX = "none";
+            });
+
+            return component;
+        }
+
+        public static T ScrollX<T>(this T component) where T : IComponent
+        {
+            var element = component.Render();
+
+            DomObserver.WhenMounted(element, () =>
+            {
+                var targetElement = Stack.GetItem(component);
+                targetElement.style.overflowY = "none";
+                targetElement.style.overflowX = "auto";
+            });
+
+            return component;
+        }
+        public static T ScrollBoth<T>(this T component) where T : IComponent
+        {
+            var element = component.Render();
+
+            DomObserver.WhenMounted(element, () =>
+            {
+                var targetElement = Stack.GetItem(component);
+                targetElement.style.overflowY = "auto";
+                targetElement.style.overflowX = "auto";
             });
 
             return component;
