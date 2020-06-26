@@ -18,11 +18,11 @@
     /* Colors - Colors should reflect in the Theme.cs file*/ 
     --tss-default-background-color: rgb(255, 255, 255);
     --tss-default-foreground-color: rgb(50, 49, 48);
-    --tss-secondary-background-color: rgb(247, 248, 250); 
+    --tss-secondary-background-color: rgb(249, 250, 251); 
     --tss-secondary-foreground-color: rgb(101, 103, 107);
     --tss-disabled-background-color: rgb(243, 242, 241);
     --tss-disabled-foreground-color: rgb(161, 159, 157);
-    --tss-default-border-color: rgb(247, 248, 250);
+    --tss-default-border-color: rgb(249, 250, 251);
     --tss-dark-border-color: rgb(138, 136, 134);
     --tss-default-separator-color: rgb(243, 242, 241);
     --tss-invalid-border-color: rgb(164, 38, 44);
