@@ -21,7 +21,7 @@ namespace Tesserae.Components
         public bool PropagateToStackItemParent => true;
         public ObservableList<T> Items { get; }
 
-        public SearchableList(T[] items, params UnitSize[] columns) : this(new ObservableList<T>(items ?? new T[0]), columns)
+        public SearchableList(T[] items, params UnitSize[] columns) : this(new ObservableList<T>(initialValues: items ?? new T[0]), columns)
         {
         }
 
@@ -32,8 +32,8 @@ namespace Tesserae.Components
             _list = ItemsList(new IComponent[0], columns);
             _defered = Defer(Items, item =>
             {
-                var searchTerm = _searchBox.Text;
-                var filteredItems = Items.Where(i => string.IsNullOrWhiteSpace(searchTerm) || i.IsMatch(searchTerm)).Select(i => i.Render()).ToArray();
+                var searchTerms = (_searchBox.Text ?? "").Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                var filteredItems = Items.Where(i => searchTerms.Length  == 0 || searchTerms.All(st => i.IsMatch(st))).Select(i => i.Render()).ToArray();
 
                 _list.Items.Clear();
 
@@ -61,6 +61,12 @@ namespace Tesserae.Components
         public SearchableList<T> SearchBox(Action<SearchBox> sb)
         {
             sb(_searchBox);
+            return this;
+        }
+
+        public SearchableList<T> CaptureSearchBox(out SearchBox sb)
+        {
+            sb = _searchBox;
             return this;
         }
 

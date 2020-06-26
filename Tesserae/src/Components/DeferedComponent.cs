@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using H5.Core;
 using Tesserae.HTML;
 using static H5.Core.dom;
 using static Tesserae.UI;
@@ -25,7 +24,7 @@ namespace Tesserae.Components
             _asyncGenerator = asyncGenerator ?? throw new ArgumentNullException(nameof(asyncGenerator));
             _defaultLoadingMessageIfAny = defaultLoadingMessageIfAny;
             _needsRefresh = true;
-            _container = Div(_(id: "tss-deferred"), loadMessage.Render());
+            _container = DIV(loadMessage.Render());
         }
 
         internal static DeferedComponent Create(Func<Task<IComponent>> asyncGenerator, IComponent loadMessage)
@@ -61,13 +60,13 @@ namespace Tesserae.Components
             return this;
         }
 
-        public dom.HTMLElement Render()
+        public HTMLElement Render()
         {
             DomObserver.WhenMounted(_container, () => TriggerRefresh());
             return _container;
         }
 
-        internal dom.HTMLElement Container()
+        internal HTMLElement Container()
         {
             return _container;
         }

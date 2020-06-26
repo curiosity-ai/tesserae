@@ -20,7 +20,7 @@ namespace Tesserae.Components
 
         public bool PropagateToStackItemParent => true;
 
-        public ItemsList(IComponent[] items, params UnitSize[] columns) : this(new ObservableList<IComponent>(items ?? new IComponent[0]), columns)
+        public ItemsList(IComponent[] items, params UnitSize[] columns) : this(new ObservableList<IComponent>(initialValues: items ?? new IComponent[0]), columns)
         {
         }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using static H5.Core.dom;
 
 namespace Tesserae.Components
 {
@@ -45,10 +46,15 @@ namespace Tesserae.Components
             return this;
         }
 
+        private double _timeout = 0;
         internal void RaiseOnValidation()
         {
-            Revalidate();
-            onValidation?.Invoke(IsValid);
+            //Debounce validation, as this can become expensive when creating a large number of components using the same validator
+            window.clearTimeout(_timeout);
+            _timeout = window.setTimeout(_ => {
+                Revalidate();
+                onValidation?.Invoke(IsValid);
+            }, 100);
         }
 
         public bool IsValid

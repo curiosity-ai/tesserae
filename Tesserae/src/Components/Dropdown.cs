@@ -27,6 +27,7 @@ namespace Tesserae.Components
         private ObservableList<Item> _selectedChildren;
         private HTMLDivElement _popupDiv;
         private string _search;
+        private int _latestRequestID;
 
         public Dropdown()
         {
@@ -53,6 +54,8 @@ namespace Tesserae.Components
 
             _callSelectOnChangingItemSelections = true;
             _selectedChildren = new ObservableList<Item>();
+
+            _latestRequestID = 0;
         }
 
         public Dropdown SuppressSelectedOnChangingItemSelections()
@@ -169,22 +172,37 @@ namespace Tesserae.Components
             return _container;
         }
 
+        /// <summary>
+        /// This will initiate the last async data retrieval specified via a call to the Items method overload that takes a Func-of-Task-of-array-of-T. If there has not been call to that method (or if LoadItemsAsync has already been called after
+        /// it was called) then this will throw an InvalidOperationException. If another async data retrieval had already been initiated but has not completed yet, its results will be ignored when it DOES complete because this call came after it
+        /// and it is presumed that this data will be more current).
+        /// </summary>
         public async Task LoadItemsAsync()
         {
             if (_itemsSource is null)
                 throw new InvalidOperationException("Only valid with async items");
 
+            // Each request (whether sync or async) will get a unique and incrementing ID - if requests overlap then the results of requests that were initiated later are preferred as they are going to be the results of interactions that User
+            // performed since the earlier requests started
+            var currentRequestID = ++_latestRequestID;
+
             var itemsSourceLocal = _itemsSource;
             _itemsSource = null; // Clear so we don't call this twice
-            _spinner = Div(_("tss-spinner"));
-            _container.appendChild(_spinner);
-            _container.style.pointerEvents = "none";
+
+            // Ensure that the loading (aka spinner) state is being shown to indicate work in the background - if this async task runs to completion and no other request (either sync or async) is made then this state will be removed when the
+            // synchronous Items method is called. If another retrieval supercedes this one (by starting after it and thus having a larger currentRequestID value) then that retrieval will call the synchronous Items method (unless it, too, is
+            // superceded) and the loading visual state will be removed then.
+            EnsureAsyncLoadingStateEnabled();
 
             var items = await itemsSourceLocal();
-            Clear();
+            if (currentRequestID != _latestRequestID)
+            {
+                // If another (async-)Items/LoadItemsAsync or synchronous Items call was made after the retrieving of this data began then presume that it is more recent and we should ignore this data (it will be the responsibility of the
+                // later request that 'wins' to update the items and disable any loading state)
+                return;
+            }
+
             Items(items);
-            _container.removeChild(_spinner);
-            _container.style.pointerEvents = "unset";
         }
 
         public override void Show()
@@ -309,19 +327,29 @@ namespace Tesserae.Components
             return this;
         }
 
-        public void Clear()
+        /// <summary>
+        /// This will set items to the available options, replacing any that are already rendered (and meaning that any async data retrievals that have started but not completed yet will be ignored when they DO complete because this call came
+        /// after it and it is presumed that this data will be more current)
+        /// </summary>
+        public Dropdown Items(params Item[] children)
         {
+            // 2020-06-17 DWR: Whenever new items are presented to render, remove any previous ones - there used to be a distinct "Clear" method that did this that would be automatically called when loading items async but NOT when calling this
+            // method directly to synchronously update items, which was both inconsistent and surprising behaviour. I checked the code base here and where we use this library and we only called Clear from within this class and once in external
+            // code.. just before adding new items via this method, so by incorporating it here it makes everything simpler.
+            // - IMPORTANT: If we went back to having a distinct "Clear" method that could be called externally then it would need to incorporate similar logic to that found here; it should increment the "latestRequestID" value (because an items
+            //              update is effectively being said to take place that should supercede any async requests that have started but not completed and the loading state, current-selections-bar state and no-items state all would need to be
+            //              maintained correctly). If we ever wanted to add a Clear method for some reason then the best implementation be for it to call this method directly with an empty children array, which probably begs the question WHY
+            //              you would ever want it in the first place if calling this method automatically replaces any existing items.
             ClearChildren(ScrollBar.GetCorrectContainer(_childContainer));
 
             // 2020-06-11 DWR: We need to do this, otherwise the entries in there will relate to drop down items that are no longer rendered - it's fine, since we'll be rebuilding the items (including selected states) if we've just called clear
             _selectedChildren.Clear();
-        }
 
-        /// <summary>
-        /// This will add items to the available options - note that it will NOT clear any existing ones first (unlike the method overload that takes a Task-returning delegate) and so you may want to call Clear before calling this
-        /// </summary>
-        public Dropdown Items(params Item[] children)
-        {
+            // Each request (whether sync or async) will get a unique and incrementing ID - if requests overlap then the results of requests that were initiated later are preferred as they are going to be the results of interactions that User
+            // performed since the earlier requests started (since this code is browser-based, and so single-threaded, it's only possible for async requests to overlap - synchronous requests never can - but it's important to increment the
+            // "latestRequestID" value here to ensure that if a synchronous Items call is made after an async retrieval is initiated (but before it completes) that the later-made synchronous call "wins".
+            _latestRequestID++;
+
             // 2020-06-13 DWR: When the items are replaced in an already-existing instance (eg. if a Dropdown instance has already been initialised with items but then the Items are updated - either directly by calling this method or by calling
             // the method overload that takes a Task and then calling LoadItemsAsync.. we still end up here), the selected children data will be taken from the IsSelected values on the children items provided here. That means that if the User
             // had selected two items and then the available items got updated, if it is desirable for those two items to remain selected then the caller has to ensure that it sets IsSelected to true on those two Dropdown.Item instances.
@@ -333,6 +361,7 @@ namespace Tesserae.Components
                 ScrollBar.GetCorrectContainer(_childContainer).appendChild(component.Render());
                 component._onSelected += OnItemSelected;
             });
+            EnsureAsyncLoadingStateDisabled(); // If we got here because an async request completed OR while one was in flight but a synchronous call to this method came in after it started but before finishing then ensure to remove its loading state
             UpdateStateBasedUponCurrentSelections();
             if (!children.Any())
             {
@@ -569,9 +598,34 @@ namespace Tesserae.Components
             }
         }
 
-        private void ClearSearch()
+        private void ClearSearch() =>_search = string.Empty;
+
+        /// <summary>
+        /// When a LoadItemsAsync call starts, there should be a spinner to indicate that something is happening in the background - but if a further async request comes in before the previous one has completed then there is no
+        /// need to change anything as the spinner state will already be enabled. When multiple async requests overlap, which was started later will take precedence and the results of the earlier-started one will be ignored -
+        /// when the 'winning' request completes, it will call the synchronous Items method and that will ensure that any loading state is disabled.
+        /// </summary>
+        private void EnsureAsyncLoadingStateEnabled()
         {
-            _search = string.Empty;
+            if (_spinner is object)
+                return;
+
+            _spinner = Div(_("tss-spinner"));
+            _container.appendChild(_spinner);
+            _container.style.pointerEvents = "none";
+        }
+
+        /// <summary>
+        /// When data is successfully retrieved from a LoadItemsAsync call, it will call the synchronous Items method that will call this and ensure that any spinner state is disabled. This happens in the simple case where
+        /// there is only that single async retrieval and it runs to completion and it also happens if it is superceded by a more recent LoadItemsAsync call or by a separate synchronous Items call. 
+        /// </summary>
+        private void EnsureAsyncLoadingStateDisabled()
+        {
+            if (_spinner is null)
+                return;
+
+            _spinner.remove();
+            _container.style.pointerEvents = "unset";
         }
 
         private (HTMLElement item, string textContent)[] GetItems() => _childContainer.children.Select(child => ((HTMLElement)child, child.textContent)).ToArray();

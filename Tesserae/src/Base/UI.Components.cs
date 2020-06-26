@@ -62,6 +62,8 @@ namespace Tesserae
 
         public static Raw Raw() => new Raw();
 
+        public static Raw Raw(IComponent component) => new Raw(component);
+
         public static Image Image(string source) => new Image(source);
 
         public static Card Card(IComponent content) => new Card(content);
@@ -197,7 +199,7 @@ namespace Tesserae
         /// <summary>
         /// A Layer is a technical component that does not have specific Design guidance.
         ///
-        /// Layers are used to render content outside of a DOM tree, at the end of the document.This allows content to escape traditional boundaries caused by "overflow: hidden" css rules and keeps it on the top without using z-index rules.This is useful for example in
+        /// Layers are used to render content outside of a DOM tree, at the end of the document. This allows content to escape traditional boundaries caused by "overflow: hidden" css rules and keeps it on the top without using z-index rules. This is useful for example in
         /// ContextualMenu and Tooltip scenarios, where the content should always overlay everything else.
         /// </summary>
         public static Layer Layer() => new Layer();
@@ -220,7 +222,7 @@ namespace Tesserae
 
         public static Dialog Dialog(IComponent content = null, IComponent title = null, bool centerContent = true) => new Dialog(content, title, centerContent);
 
-        public static Dialog Dialog(string title, bool centerContent = true) => new Dialog(title: string.IsNullOrWhiteSpace(title) ? null : TextBlock(title).MediumPlus().Primary().SemiBold(), centerContent:centerContent);
+        public static Dialog Dialog(string text, bool centerContent = true) => new Dialog(title: string.IsNullOrWhiteSpace(text) ? null : TextBlock(text).Primary().SemiBold().MaxWidth(50.vw()), centerContent:centerContent);
 
         public static Pivot Pivot() => new Pivot();
 

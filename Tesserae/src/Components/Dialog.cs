@@ -30,6 +30,7 @@ namespace Tesserae.Components
             if(centerContent)
             {
                 _modal.CenterContent();
+                if (title is TextBlock tb) tb.TextCenter();
             }
 
             _modal.SetHeader(title);

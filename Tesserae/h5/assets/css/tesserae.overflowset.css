@@ -9,15 +9,15 @@
     margin-right: 0px;
     margin-bottom: 0px;
     margin-left: 0px;
-    display: flex;
-    flex-wrap:nowrap;
+    display: flex !important;
+    flex-wrap: nowrap;
     align-items: center;
-    overflow:hidden;
+    overflow: hidden;
 }
 
 .tss-overflowset-overflow {
     position: relative;
-    display: flex;
+    display: flex !important;
     align-items: center;
 }
 
@@ -37,7 +37,7 @@
 }*/
 
 .tss-overflowset-separator {
-    display: inline-block;
+    display: inline-block !important;
     -webkit-font-smoothing: antialiased;
     font-style: normal;
     font-weight: normal;
@@ -47,7 +47,7 @@
 }
 
     .tss-overflowset-collapse {
-        display:none;
+        display:none !important;
     }
 
 .tss-overflowset .tss-btn {

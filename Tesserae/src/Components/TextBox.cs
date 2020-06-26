@@ -19,6 +19,7 @@ namespace Tesserae.Components
             AttachInput();
             AttachFocus();
             AttachBlur();
+            AttachKeys();
 
             OnChange((_, __) => _observable.Value = Text);
 
