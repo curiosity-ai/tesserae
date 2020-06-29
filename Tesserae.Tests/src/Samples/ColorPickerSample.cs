@@ -25,12 +25,11 @@ namespace Tesserae.Tests.Samples
                     Label("Disabled").Disabled().SetContent(ColorPicker().Disabled()).Width(10.percent()),
                     Label("Required").Required().SetContent(ColorPicker()).Width(10.percent()), ColorPicker().Required().Width(10.percent()),
                     Label("With error message").SetContent(ColorPicker().Error("Error message").IsInvalid()).Width(10.percent()),
-                    Label("With validation").SetContent(ColorPicker().Validation(colorPicker => colorPicker.Base10 > 0 ? null : "Please choose a color")).Width(10.percent()),
-                    Label("With validation on type").SetContent(ColorPicker().Validation(Validation.NonWhite)).Width(10.percent()),
-                    Label("With validation on type").SetContent(ColorPicker().Validation(Validation.NonBlack)).Width(10.percent()))));
+                    Label("With validation for light color").SetContent(ColorPicker().Validation(Validation.LightColor)).Width(10.percent()),
+                    Label("With validation for dark color").SetContent(ColorPicker().Validation(Validation.DarkColor)).Width(10.percent()))));
 
             colorPicker1.OnChange((_, __) => button1.Background = colorPicker1.Text);
-            button1.OnClick((_, __) => window.alert($"{colorPicker1.Text}, {colorPicker1.Base10}"));
+            button1.OnClick((_, __) => window.alert($"{colorPicker1.Text}, {colorPicker1.Color.ToHex()}"));
         }
 
         public HTMLElement Render() => _content.Render();
