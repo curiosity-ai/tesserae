@@ -5,8 +5,7 @@ using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
-    public abstract class Input<TInput> : ComponentBase<TInput, HTMLInputElement>, ICanValidate<TInput>, IObservableComponent<string>
-        where TInput : Input<TInput>
+    public abstract class Input<TInput> : ComponentBase<TInput, HTMLInputElement>, ICanValidate<TInput>, IObservableComponent<string> where TInput : Input<TInput>
     {
         private readonly HTMLDivElement _container;
         private readonly HTMLSpanElement _errorSpan;
