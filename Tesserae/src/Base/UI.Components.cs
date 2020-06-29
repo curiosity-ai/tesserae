@@ -190,6 +190,8 @@ namespace Tesserae
 
         public static TextArea TextArea(string text = string.Empty) => new TextArea(text);
 
+        public static ColorPicker ColorPicker(int? color = null) => new ColorPicker(color);
+
         public static SearchBox SearchBox(string placeholder = string.Empty) => new SearchBox(placeholder);
 
         public static Slider Slider(int val = 0, int min = 0, int max = 100, int step = 10) => new Slider(val, min, max, step);

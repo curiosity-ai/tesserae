@@ -23,6 +23,7 @@ namespace Tesserae.Tests
                 ("EditableLabel",         () => new EditableLabelSample()),
                 ("HorizontalSeparator",   () => new HorizontalSeparatorSample()),
                 ("TextBox",               () => new TextBoxSample()),
+                ("ColorPicker",           () => new ColorPickerSample()),
                 ("SearchBox",             () => new SearchBoxSample()),
                 ("Toggle",                () => new ToggleSample()),
                 ("Spinner",               () => new SpinnerSample()),
@@ -145,6 +146,7 @@ namespace Tesserae.Tests
                                                                               links["SearchBox"] ,
                                                                               links["Toggle"],
                                                                               links["Picker"]),
+                                                                              links["ColorPicker"],
                                                 NavLink("Progress").Expanded()
                                                                    .SmallPlus()
                                                                    .SemiBold()
