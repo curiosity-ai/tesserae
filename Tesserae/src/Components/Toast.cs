@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using static H5.Core.dom;
 using static Tesserae.UI;
 
@@ -37,7 +38,7 @@ namespace Tesserae.Components
 
         private int _timeoutDuration = 5000;
         private double _timeoutHandle = 0;
-        private HTMLDivElement _toastContainer;
+        private HTMLDivElement _toastContainer = Div(_("tss-toast-container"));
 
         public Toast   TopRight       () { _position = Position.TopRight     ; return this;}
         public Toast   TopCenter      () { _position = Position.TopCenter    ; return this;}
@@ -47,6 +48,8 @@ namespace Tesserae.Components
         public Toast   BottomLeft     () { _position = Position.BottomLeft   ; return this;}
         public Toast   TopFull        () { _position = Position.TopFull      ; return this;}
         public Toast   BottomFull     () { _position = Position.BottomFull   ; return this;}
+
+        public Toast Duration(TimeSpan timeSpan) { _timeoutDuration = (int)timeSpan.TotalSeconds; return this;  }
 
         public void Success(IComponent title, IComponent message)     { _type = Type.Success;     _title = title; _message = message; Fire(); }
         public void Information(IComponent title, IComponent message) { _type = Type.Information; _title = title; _message = message; Fire(); }
@@ -68,9 +71,20 @@ namespace Tesserae.Components
         public void Warning(string message)     => Warning(null, message);
         public void Error(string message)       => Error(null, message);
 
+        public Toast Width(UnitSize width)
+        {
+            _toastContainer.style.width = width.ToString();
+            return this;
+        }
+
+        public Toast Height(UnitSize height)
+        {
+            _toastContainer.style.height = height.ToString();
+            return this;
+        }
+
         private void Fire()
         {
-            _toastContainer = Div(_("tss-toast-container"));
             _contentHtml = Div(_($"tss-toast tss-toast-{_type.ToString().ToLower()} tss-toast-{_position.ToString().ToLower()}"), _toastContainer);
 
             if (_title is object)

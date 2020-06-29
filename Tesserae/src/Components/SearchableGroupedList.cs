@@ -6,7 +6,7 @@ using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
-    public class SearchableGroupedList<TSearchableGroupedItem> : IComponent, ISpecialCaseStyling where TSearchableGroupedItem : ISearchableGroupedItem
+    public class SearchableGroupedList<T> : IComponent, ISpecialCaseStyling where T : ISearchableGroupedItem
     {
         private readonly Func<string, IComponent> _groupedItemHeaderGenerator;
         private readonly IDefer _defered;
@@ -19,12 +19,12 @@ namespace Tesserae.Components
         public bool PropagateToStackItemParent => true;
         public ObservableList<IComponent> Items { get; }
 
-        public SearchableGroupedList(TSearchableGroupedItem[] items, Func<string, IComponent> groupedItemHeaderGenerator, params UnitSize[] columns)
-            : this(new ObservableList<TSearchableGroupedItem>(items ?? new TSearchableGroupedItem[0]), groupedItemHeaderGenerator, columns)
+        public SearchableGroupedList(T[] items, Func<string, IComponent> groupedItemHeaderGenerator, params UnitSize[] columns)
+            : this(new ObservableList<T>(initialValues: items ?? new T[0]), groupedItemHeaderGenerator, columns)
         {
         }
 
-        public SearchableGroupedList(ObservableList<TSearchableGroupedItem> items, Func<string, IComponent> groupedItemHeaderGenerator, params UnitSize[] columns)
+        public SearchableGroupedList(ObservableList<T> originalItems, Func<string, IComponent> groupedItemHeaderGenerator, params UnitSize[] columns)
         {
             _groupedItemHeaderGenerator = groupedItemHeaderGenerator;
             _searchBox                  = new SearchBox().Underlined().SetPlaceholder("Type to search").SearchAsYouType().Width(100.px()).Grow();
@@ -32,23 +32,18 @@ namespace Tesserae.Components
 
             Items = new ObservableList<IComponent>();
 
-            AddGroupedItems(GetGroupedItems(items), Items);
-
             _defered = Defer(Items, item =>
             {
-                var searchTerm = _searchBox.Text;
+                var searchTerms = (_searchBox.Text ?? "").Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
-                var filteredItems = Items.OfType<TSearchableGroupedItem>().Where(i => string.IsNullOrWhiteSpace(searchTerm) || i.IsMatch(searchTerm)).ToArray();
+                var filteredItems = originalItems.OfType<T>().Where(i => searchTerms.Length == 0 || searchTerms.All(st => i.IsMatch(st))).ToArray();
 
-                AddGroupedItems(GetGroupedItems(filteredItems), _list.Items);
-
-                foreach (var listItem in _list.Items)
-                {
-                    listItem.Render();
-                }
+                AddGroupedItems(filteredItems, _list.Items, isGrid: (columns is object && columns.Length > 1));
 
                 return _list.Stretch().AsTask();
             }).WidthStretch().Height(100.px()).Grow();
+
+            originalItems.Observe(_ => _defered.Refresh());
 
             _searchBox.OnSearch((_, __) => _defered.Refresh());
 
@@ -57,20 +52,26 @@ namespace Tesserae.Components
             _stack                        = Stack().Children(_searchBoxContainer, _defered.Scroll()).WidthStretch().MaxHeight(100.percent());
         }
 
-        public SearchableGroupedList<TSearchableGroupedItem> WithNoResultsMessage(Func<IComponent> emptyListMessageGenerator)
+        public SearchableGroupedList<T> WithNoResultsMessage(Func<IComponent> emptyListMessageGenerator)
         {
             _list.WithEmptyMessage(emptyListMessageGenerator ?? throw new ArgumentNullException(nameof(emptyListMessageGenerator)));
             _defered.Refresh();
             return this;
         }
 
-        public SearchableGroupedList<TSearchableGroupedItem> SearchBox(Action<SearchBox> sb)
+        public SearchableGroupedList<T> SearchBox(Action<SearchBox> sb)
         {
             sb(_searchBox);
             return this;
         }
 
-        public SearchableGroupedList<TSearchableGroupedItem> BeforeSearchBox(params IComponent[] beforeComponents)
+        public SearchableGroupedList<T> CaptureSearchBox(out SearchBox sb)
+        {
+            sb = _searchBox;
+            return this;
+        }
+
+        public SearchableGroupedList<T> BeforeSearchBox(params IComponent[] beforeComponents)
         {
             foreach(var component in beforeComponents.Reverse<IComponent>())
             {
@@ -80,7 +81,7 @@ namespace Tesserae.Components
             return this;
         }
 
-        public SearchableGroupedList<TSearchableGroupedItem> AfterSearchBox(params IComponent[] afterComponents)
+        public SearchableGroupedList<T> AfterSearchBox(params IComponent[] afterComponents)
         {
             _searchBoxContainerComponents.AddRange(afterComponents);
             _searchBoxContainer.Children(_searchBoxContainerComponents);
@@ -89,34 +90,29 @@ namespace Tesserae.Components
 
         public HTMLElement Render() => _stack.Render();
 
-        private IEnumerable<(GroupedItemsHeader groupedItemsHeader, IEnumerable<TSearchableGroupedItem>)> GetGroupedItems(IEnumerable<TSearchableGroupedItem> items)
+
+        private void AddGroupedItems(IEnumerable<T> items, ObservableList<IComponent> observableList, bool isGrid)
         {
-            if (items != null)
+            observableList.Clear();
+
+            if (items is object)
             {
                 items = items.ToList();
 
                 if (items.Any())
                 {
-                    var groups = items.GroupBy(item => item.Group);
-
-                    foreach (var groupedItems in groups)
+                    foreach (var groupedItems in items.GroupBy(item => item.Group))
                     {
-                        var groupedItemsHeader = new GroupedItemsHeader(groupedItems.Key, _groupedItemHeaderGenerator);
+                        var header = new GroupedItemsHeader(groupedItems.Key, _groupedItemHeaderGenerator);
+                        if (isGrid) 
+                        {
+                            header.GridColumn(1, -1);
+                        }
 
-                        yield return (groupedItemsHeader, groupedItems);
+                        observableList.Add(header);
+                        observableList.AddRange(groupedItems.Select(t => t.Render()));
                     }
                 }
-            }
-        }
-
-        private void AddGroupedItems(IEnumerable<(GroupedItemsHeader groupedItemsHeader, IEnumerable<TSearchableGroupedItem> groupedItems)> items, ObservableList<IComponent> observableList)
-        {
-            _list.Items.Clear();
-
-            foreach (var (groupedItemsHeader, groupedItems) in items)
-            {
-                observableList.Add(groupedItemsHeader);
-                observableList.AddRange(groupedItems.OfType<IComponent>());
             }
         }
 

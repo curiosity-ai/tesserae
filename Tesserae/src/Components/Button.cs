@@ -1,9 +1,8 @@
-﻿using static Tesserae.UI;
-using static H5.Core.dom;
-using System.Linq;
-using System;
-using Tesserae.HTML;
+﻿using System;
 using System.Threading.Tasks;
+using Tesserae.HTML;
+using static H5.Core.dom;
+using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
@@ -11,13 +10,13 @@ namespace Tesserae.Components
     {
         private readonly HTMLSpanElement _textSpan;
         private HTMLElement _iconSpan;
-        private HTMLElement _beforeReplace;
+        private HTMLButtonElement _beforeReplace;
 
         public Button(string text = string.Empty)
         {
             _textSpan    = Span(_(text: text));
             InnerElement = Button(_("tss-btn tss-btn-default"), _textSpan);
-            Weight       = TextWeight.SemiBold;
+            Weight       = TextWeight.Regular;
             Size         = TextSize.Small;
 
             AttachClick();
@@ -279,13 +278,17 @@ namespace Tesserae.Components
         {
             if (_beforeReplace is null)
             {
-                _beforeReplace = (HTMLElement)InnerElement.cloneNode(true);
                 var rect = (DOMRect)InnerElement.getBoundingClientRect();
-                ClearChildren(InnerElement);
-                InnerElement.appendChild(Spinner(text).Medium().Render());
-                InnerElement.style.minHeight = rect.height.px().ToString();
-                IsEnabled = false;
-                InnerElement.classList.add("tss-btn-nominsize");
+
+                _beforeReplace = InnerElement;
+                var newChild = (HTMLButtonElement)InnerElement.cloneNode(false);
+                newChild.style.minHeight = rect.height.px().ToString();
+                newChild.classList.add("tss-btn-nominsize", "tss-disabled");
+                ClearChildren(newChild);
+                newChild.appendChild(Spinner(text).Medium().Render());
+
+                InnerElement.parentElement.replaceChild(newChild, InnerElement);
+                InnerElement = newChild;
             }
         }
 
@@ -293,10 +296,8 @@ namespace Tesserae.Components
         {
             if (_beforeReplace is object)
             {
-                ClearChildren(InnerElement);
-                foreach(var el in _beforeReplace.children) { InnerElement.appendChild(el); }
-                IsEnabled = true;
-                InnerElement.classList.remove("tss-btn-nominsize");
+                InnerElement.parentElement.replaceChild(_beforeReplace, InnerElement);
+                InnerElement = _beforeReplace;
                 _beforeReplace = null;
             }
         }
@@ -432,11 +433,11 @@ namespace Tesserae.Components
             return this;
         }
 
-        private void RaiseOnClick(Event e , Hotkeys.Handler handler)
+        private void RaiseOnClick(Event e, Hotkeys.Handler handler)
         {
             if (IsEnabled)
             {
-                base.RaiseOnClick(this);
+                RaiseOnClick(ev: null);
             }
         }
 

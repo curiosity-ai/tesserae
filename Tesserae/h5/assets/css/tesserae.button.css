@@ -1,4 +1,4 @@
-﻿/* Button */
+﻿tss-btn-nobg /* Button */
 button {
     font-family: inherit;
     color: var(--tss-default-foreground-color);
@@ -21,7 +21,7 @@ a {
     }
 
 .tss-btn {
-    border: 1px solid;
+    border: 1px solid transparent;
     border-radius: 2px;
     outline: transparent none medium;
     min-width: 80px;
@@ -71,11 +71,11 @@ a {
         margin-left: 10px;
     }
 
-
 .tss-btn-default {
     color: var(--tss-default-foreground-color);
-    background-color: var(--tss-default-background-color);
-    border-color: var(--tss-secondary-background-color);
+    border-color: transparent;
+    box-shadow: none;
+    background: transparent;
 }
 
     .tss-btn-default:hover {

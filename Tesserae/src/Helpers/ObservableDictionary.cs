@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using static H5.Core.dom;
 
@@ -6,24 +7,28 @@ namespace Tesserae
 {
     public class ObservableDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IObservable<IReadOnlyDictionary<TKey, TValue>>
     {
-        public event ObservableEvent.ValueChanged<IReadOnlyDictionary<TKey, TValue>> onValueChanged;
-        public IReadOnlyDictionary<TKey, TValue> Value => _dictionary;
+        private event ObservableEvent.ValueChanged<IReadOnlyDictionary<TKey, TValue>> OnValueChanged;
         
         private readonly Dictionary<TKey, TValue> _dictionary;
-        private bool _valueIsObservable;
+        private readonly bool _valueIsObservable;
         private double _refreshTimeout;
-
-        public ObservableDictionary()
+        private readonly bool _shouldHook;
+        public ObservableDictionary() : this(new Dictionary<TKey, TValue>()) { }
+        public ObservableDictionary(IEnumerable<KeyValuePair<TKey, TValue>> values, IEqualityComparer<TKey> keyComparer = null, bool shouldHook = true)
         {
-            _dictionary = new Dictionary<TKey, TValue>();
-            _valueIsObservable = typeof(IObservable).IsAssignableFrom(typeof(TValue));
-        }
+            // 2020-6-17 DWR: We're cloning the input, like we do in ObservableList, rather than accepting a Dictionary reference directly and storing that (that whoever provided it to us could mutate without us being aware here)
+            _dictionary = new Dictionary<TKey, TValue>(comparer: keyComparer);
+            _shouldHook = shouldHook;
+            foreach (var entry in values)
+            {
+                if (_dictionary.ContainsKey(entry.Key))
+                    throw new ArgumentException("Key appears multiple times in input data - invalid: " + entry.Key);
 
-        public ObservableDictionary(Dictionary<TKey, TValue> dictionary)
-        {
-            _dictionary = dictionary;
-            _valueIsObservable = typeof(IObservable).IsAssignableFrom(typeof(TValue));
-            if (_valueIsObservable)
+                _dictionary.Add(entry.Key, entry.Value);
+            }
+
+            _valueIsObservable = PossibleObservableHelpers.IsObservable(typeof(TValue));
+            if (_valueIsObservable && _shouldHook)
             {
                 foreach (var kv in _dictionary)
                 {
@@ -32,31 +37,16 @@ namespace Tesserae
             }
         }
 
-        private void HookValue(TValue v)
+        public void Observe(ObservableEvent.ValueChanged<IReadOnlyDictionary<TKey, TValue>> valueGetter) => Observe(valueGetter, callbackImmediately: true);
+        public void ObserveFutureChanges(ObservableEvent.ValueChanged<IReadOnlyDictionary<TKey, TValue>> valueGetter) => Observe(valueGetter, callbackImmediately: false);
+        private void Observe(ObservableEvent.ValueChanged<IReadOnlyDictionary<TKey, TValue>> valueGetter, bool callbackImmediately)
         {
-            if (_valueIsObservable && v is IObservable<TValue> observable)
-            {
-                observable.onValueChanged += RaiseOnValueChanged;
-            }
+            OnValueChanged += valueGetter;
+            if (callbackImmediately)
+                valueGetter(Value);
         }
 
-        private void UnhookValue(TValue v)
-        {
-            if (_valueIsObservable && v is IObservable<TValue> observable)
-            {
-                observable.onValueChanged -= RaiseOnValueChanged;
-            }
-        }
-
-        private void RaiseOnValueChanged(TValue value)
-        {
-            window.clearTimeout(_refreshTimeout);
-            _refreshTimeout = window.setTimeout(raise, 1);
-            void raise(object t)
-            {
-                onValueChanged?.Invoke(_dictionary);
-            }
-        }
+        public void StopObserving(ObservableEvent.ValueChanged<IReadOnlyDictionary<TKey, TValue>> valueGetter) => OnValueChanged -= valueGetter;
 
         public TValue this[TKey key] 
         { 
@@ -69,35 +59,34 @@ namespace Tesserae
                 }   
                 _dictionary[key] = value; 
                 HookValue(value);
-                RaiseOnValueChanged(value);
+                RaiseOnValueChanged();
             }
         }
 
         public ICollection<TKey> Keys => _dictionary.Keys;
-
         public ICollection<TValue> Values => _dictionary.Values;
-
         public int Count => _dictionary.Count;
-
         public bool IsReadOnly => false;
+
+        public IReadOnlyDictionary<TKey, TValue> Value => _dictionary;
 
         public void Add(TKey key, TValue value)
         {
             _dictionary.Add(key, value);
             HookValue(value);
-            RaiseOnValueChanged(value);
+            RaiseOnValueChanged();
         }
 
         public void Add(KeyValuePair<TKey, TValue> item)
         {
             _dictionary.Add(item.Key, item.Value);
             HookValue(item.Value);
-            RaiseOnValueChanged(item.Value);
+            RaiseOnValueChanged();
         }
 
         public void Clear()
         {
-            if (_valueIsObservable)
+            if (_valueIsObservable && _shouldHook)
             {
                 foreach (var kv in _dictionary)
                 {
@@ -106,28 +95,13 @@ namespace Tesserae
             }
 
             _dictionary.Clear();
-            RaiseOnValueChanged(default);
+            RaiseOnValueChanged();
         }
 
-        public bool Contains(KeyValuePair<TKey, TValue> item)
-        {
-            return ((IDictionary<TKey, TValue>)_dictionary).Contains(item);
-        }
+        public bool Contains(KeyValuePair<TKey, TValue> item) => ((IDictionary<TKey, TValue>)_dictionary).Contains(item);
+        public bool ContainsKey(TKey key) => _dictionary.ContainsKey(key);
 
-        public bool ContainsKey(TKey key)
-        {
-            return _dictionary.ContainsKey(key);
-        }
-
-        public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
-        {
-            ((IDictionary<TKey, TValue>)_dictionary).CopyTo(array, arrayIndex);
-        }
-
-        public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
-        {
-            return _dictionary.GetEnumerator();
-        }
+        public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex) => ((IDictionary<TKey, TValue>)_dictionary).CopyTo(array, arrayIndex);
 
         public bool Remove(TKey key)
         {
@@ -135,7 +109,7 @@ namespace Tesserae
             {
                 _dictionary.Remove(key);
                 UnhookValue(prev);
-                RaiseOnValueChanged(default);
+                RaiseOnValueChanged();
                 return true;
             }
             return false;
@@ -147,20 +121,37 @@ namespace Tesserae
             {
                 _dictionary.Remove(item.Key);
                 UnhookValue(prev);
-                RaiseOnValueChanged(default);
+                RaiseOnValueChanged();
                 return true;
             }
             return false;
         }
 
-        public bool TryGetValue(TKey key, out TValue value)
+        public bool TryGetValue(TKey key, out TValue value) => _dictionary.TryGetValue(key, out value);
+
+        private void HookValue(TValue v)
         {
-            return _dictionary.TryGetValue(key, out value);
+            if (_valueIsObservable && _shouldHook)
+                PossibleObservableHelpers.ObserveFutureChangesIfObservable(v, RaiseOnValueChanged);
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
+        private void UnhookValue(TValue v)
         {
-            return _dictionary.GetEnumerator();
+            if (_valueIsObservable && _shouldHook && v is IObservable<TValue> observable)
+                PossibleObservableHelpers.StopObservingIfObservable(v, RaiseOnValueChanged);
         }
+
+        private void RaiseOnValueChanged()
+        {
+            window.clearTimeout(_refreshTimeout);
+            _refreshTimeout = window.setTimeout(raise, 1);
+            void raise(object t)
+            {
+                OnValueChanged?.Invoke(_dictionary);
+            }
+        }
+
+        public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() => _dictionary.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }

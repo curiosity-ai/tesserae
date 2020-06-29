@@ -13,7 +13,7 @@
   
   <ItemGroup>
     <PackageReference Include="h5" Version="0.0.8547" />
-    <PackageReference Include="h5.core" Version="0.0.8545" />
+    <PackageReference Include="h5.core" Version="0.0.8984" />
     <PackageReference Include="h5.Newtonsoft.Json" Version="0.0.8546" />
   </ItemGroup>
 
@@ -28,5 +28,4 @@
     <PackageTags>h5, HTML, UI</PackageTags>
     <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
-  
 </Project>

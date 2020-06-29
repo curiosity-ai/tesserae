@@ -177,6 +177,20 @@ namespace Tesserae.Components
 
         }
 
+        /// <summary>
+        /// Sets the justify-content css property for this set
+        /// </summary>
+        /// <param name="justify"></param>
+        /// <returns></returns>
+        public OverflowSet JustifyContent(ItemJustify justify)
+        {
+            string cssJustify = justify.ToString().ToLower();
+            if (cssJustify == "end" || cssJustify == "start") cssJustify = $"flex-{cssJustify}";
+            if (cssJustify == "between" || cssJustify == "around" || cssJustify == "evenly") cssJustify = $"space-{cssJustify}";
+            _childContainer.style.justifyContent = cssJustify;
+            return this;
+        }
+
         private void UpdateChildrenSizes()
         {
             if (!_cacheSizes)

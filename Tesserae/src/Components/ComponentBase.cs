@@ -76,76 +76,43 @@ namespace Tesserae.Components
             return (T)this;
         }
 
-        protected void AttachClick()
-        {
-            InnerElement.addEventListener("click", (s) => RaiseOnClick(s));
-        }
+        protected void AttachClick() => InnerElement.addEventListener("click", e => RaiseOnClick(UncheckedCastTo<MouseEvent>(e)));
 
-        protected void AttachChange()
-        {
-            InnerElement.addEventListener("change", (s) => RaiseOnChange(s));
-        }
+        protected void AttachChange() => InnerElement.addEventListener("change", s => RaiseOnChange(s));
 
-        public void RaiseOnClick(object s)
-        {
-            onClick?.Invoke((T)this, Script.Write<MouseEvent>("{0}", s));
-        }
+        public void RaiseOnClick(MouseEvent ev) => onClick?.Invoke((T)this, ev);
 
-        public void RaiseOnChange(object s)
-        {
-            onChange?.Invoke((T)this, Script.Write<Event>("{0}", s));
-        }
+        public void RaiseOnChange(Event ev) => onChange?.Invoke((T)this, ev);
 
-        protected void AttachInput()
-        {
-            InnerElement.addEventListener("input", (s) => RaiseOnInput(s));
-        }
+        protected void AttachInput() => InnerElement.addEventListener("input", ev => RaiseOnInput(ev));
 
         protected void AttachKeys()
         {
-            InnerElement.addEventListener("keypress", (s) => RaiseOnKeyPress(s));
-            InnerElement.addEventListener("keydown", (s) => RaiseOnKeyDown(s));
-            InnerElement.addEventListener("keyup", (s) => RaiseOnKeyUp(s));
+            InnerElement.addEventListener("keypress", ev => RaiseOnKeyPress(UncheckedCastTo<KeyboardEvent>(ev)));
+            InnerElement.addEventListener("keydown", ev => RaiseOnKeyDown(UncheckedCastTo<KeyboardEvent>(ev)));
+            InnerElement.addEventListener("keyup", ev => RaiseOnKeyUp(UncheckedCastTo<KeyboardEvent>(ev)));
         }
 
-        protected void AttachFocus()
-        {
-            InnerElement.addEventListener("focus", (s) => RaiseOnFocus(s));
-        }
+        protected void AttachFocus() => InnerElement.addEventListener("focus", s => RaiseOnFocus(s));
 
-        protected void AttachBlur()
-        {
-            InnerElement.addEventListener("blur", (s) => RaiseOnBlur(s));
-        }
+        protected void AttachBlur() => InnerElement.addEventListener("blur", s => RaiseOnBlur(s));
         
-        protected void RaiseOnInput(object e)
-        {
-            onInput?.Invoke((T)this, Script.Write<Event>("{0}", e));
-        }
+        protected void RaiseOnInput(Event ev) => onInput?.Invoke((T)this, ev);
 
-        protected void RaiseOnKeyDown(object e)
-        {
-            onKeyDown?.Invoke((T)this, Script.Write<KeyboardEvent>("{0}", e));
-        }
+        protected void RaiseOnKeyDown(KeyboardEvent ev) => onKeyDown?.Invoke((T)this, ev);
 
-        protected void RaiseOnKeyUp(object e)
-        {
-            onKeyUp?.Invoke((T)this, Script.Write<KeyboardEvent>("{0}", e));
-        }
+        protected void RaiseOnKeyUp(KeyboardEvent ev) => onKeyUp?.Invoke((T)this, ev);
 
-        protected void RaiseOnKeyPress(object e)
-        {
-            onKeyPress?.Invoke((T)this, Script.Write<KeyboardEvent>("{0}", e));
-        }
+        protected void RaiseOnKeyPress(KeyboardEvent ev) => onKeyPress?.Invoke((T)this, ev);
 
-        private void RaiseOnFocus(object e)
-        {
-            onFocus?.Invoke((T)this, Script.Write<Event>("{0}", e));
-        }
+        private void RaiseOnFocus(Event ev) => onFocus?.Invoke((T)this, ev);
 
-        private void RaiseOnBlur(object s)
-        {
-            onBlur?.Invoke((T)this, Script.Write<Event>("{0}", s));
-        }
+        private void RaiseOnBlur(Event ev) =>  onBlur?.Invoke((T)this, ev);
+
+        /// <summary>
+        /// This should be used when you're sure that the object is of type T at runtime but we don't have that information available to the compiler and we don't the runtime to perform any checks
+        /// </summary>
+        [Template("{value}")]
+        private extern static TTarget UncheckedCastTo<TTarget>(object value);
     }
 }

@@ -95,7 +95,7 @@
 }
 
     .tss-contextmenu-item:hover {
-        background-color: var(--tss-secondary-background-color);
+        background-color: var(--tss-default-background-hover-color);
         outline: transparent none medium;
     }
 
@@ -130,14 +130,6 @@
     font-weight: var(--tss-font-weight-semibold);
 }
 
-    /*.tss-contextmenu-header:hover {
-        background-color: var(--tss-default-background-color);
-    }
-
-    .tss-contextmenu-header:focus {
-        border: 1px solid transparent;
-    }*/
-
 .tss-contextmenu-divider {
     content: "";
     height: 1px;
@@ -159,8 +151,8 @@
     color: var(--tss-disabled-foreground-color);
 }
 
-.tss-contextmenu-item > .tss-btn:hover {
-    background-color: var(--tss-secondary-background-color);
+.tss-contextmenu-item > .tss-btn {
+    border: 1px transparent;
     outline: transparent none medium;
 }
 

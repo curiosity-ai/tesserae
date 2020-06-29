@@ -77,7 +77,7 @@ namespace Tesserae.Components
         /// </summary>
         /// <param name="align"></param>
         /// <returns></returns>
-        public Stack AlignItemsCenter(ItemAlign align) => AlignItems(ItemAlign.Center);
+        public Stack AlignItemsCenter() => AlignItems(ItemAlign.Center);
 
         /// <summary>
         /// Sets the align-items css property for this stack

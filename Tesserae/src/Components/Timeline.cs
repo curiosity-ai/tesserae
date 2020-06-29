@@ -53,7 +53,7 @@ namespace Tesserae.Components
                 ro.OnResize = Recompute;
                 DomObserver.WhenRemoved(_timelineOwner, () =>
                 {
-                    ro.Unobserve(document.body);
+                    ro.StopObserving(document.body);
                 });
             });
 

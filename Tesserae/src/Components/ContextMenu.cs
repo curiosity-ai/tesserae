@@ -47,9 +47,9 @@ namespace Tesserae.Components
             throw new NotImplementedException();
         }
 
-        public void ShowFor(IComponent component)
+        public void ShowFor(IComponent component, int distance = 1)
         {
-            ShowFor(component.Render());
+            ShowFor(component.Render(), distance);
         }
 
         public void ShowAt(int x, int y, int minWidth)
@@ -121,14 +121,10 @@ namespace Tesserae.Components
 
             window.setTimeout((e) =>
             {
-                //document.addEventListener("click", OnWindowClick);
-                //document.addEventListener("dblclick", OnWindowClick);
-                //document.addEventListener("contextmenu", OnWindowClick);
-                //document.addEventListener("wheel", OnWindowClick);
                 document.addEventListener("keydown", OnPopupKeyDown);
             }, 100);
         }
-        public void ShowFor(HTMLElement element)
+        public void ShowFor(HTMLElement element, int distance = 1)
         {
             if (_contentHtml == null)
             {
@@ -150,25 +146,25 @@ namespace Tesserae.Components
             var popupRect = (ClientRect)_popup.getBoundingClientRect();
 
             _popup.style.left     = parentRect.left + "px";
-            _popup.style.top      = parentRect.bottom - 1 + "px";
+            _popup.style.top      = parentRect.bottom - distance + "px";
             _popup.style.minWidth = parentRect.width + "px";
 
 
             //TODO: CHECK THIS LOGIC
 
-            if (window.innerHeight - parentRect.bottom - 1 < popupRect.height)
+            if (window.innerHeight - parentRect.bottom - distance < popupRect.height)
             {
                 var top = parentRect.top - popupRect.height;
                 if (top < 0)
                 {
-                    if (parentRect.top > window.innerHeight - parentRect.bottom - 1)
+                    if (parentRect.top > window.innerHeight - parentRect.bottom - distance)
                     {
                         _popup.style.top = "1px";
-                        _popup.style.height = parentRect.top - 1 + "px";
+                        _popup.style.height = parentRect.top - distance + "px";
                     }
                     else
                     {
-                        _popup.style.height = window.innerHeight - parentRect.bottom - 1 + "px";
+                        _popup.style.height = window.innerHeight - parentRect.bottom - distance + "px";
                     }
                 }
                 else
@@ -177,19 +173,19 @@ namespace Tesserae.Components
                 }
             }
 
-            if (window.innerWidth - parentRect.right - 1 < popupRect.width)
+            if (window.innerWidth - parentRect.right - distance < popupRect.width)
             {
                 var left = parentRect.left - popupRect.width;
                 if (left < 0)
                 {
-                    if (parentRect.left > window.innerWidth - parentRect.right - 1)
+                    if (parentRect.left > window.innerWidth - parentRect.right - distance)
                     {
                         _popup.style.left = "1px";
-                        _popup.style.width = parentRect.left - 1 + "px";
+                        _popup.style.width = parentRect.left - distance + "px";
                     }
                     else
                     {
-                        _popup.style.width = window.innerWidth - parentRect.right - 1 + "px";
+                        _popup.style.width = window.innerWidth - parentRect.right - distance + "px";
                     }
                 }
                 else
@@ -200,20 +196,12 @@ namespace Tesserae.Components
 
             window.setTimeout((e) =>
             {
-                //document.addEventListener("click", OnWindowClick);
-                //document.addEventListener("dblclick", OnWindowClick);
-                //document.addEventListener("contextmenu", OnWindowClick);
-                //document.addEventListener("wheel", OnWindowClick);
                 document.addEventListener("keydown", OnPopupKeyDown);
             }, 100);
         }
 
         public override void Hide(Action onHidden = null)
         {
-            //document.removeEventListener("click", OnWindowClick);
-            //document.removeEventListener("dblclick", OnWindowClick);
-            //document.removeEventListener("contextmenu", OnWindowClick);
-            //document.removeEventListener("wheel", OnWindowClick);
             document.removeEventListener("keydown", OnPopupKeyDown);
             base.Hide(onHidden);
         }
@@ -234,11 +222,6 @@ namespace Tesserae.Components
         {
             children.ForEach(x => Add(x));
             return this;
-        }
-
-        private void OnWindowClick(Event e)
-        {
-            if (e.srcElement != _childContainer && !_childContainer.contains(e.srcElement)) Hide();
         }
 
         private void OnPopupKeyDown(Event e)
@@ -283,8 +266,10 @@ namespace Tesserae.Components
 
         public class Item : ComponentBase<Item, HTMLButtonElement>
         {
+            private HTMLElement _innerComponent;
             public Item(string text = string.Empty)
             {
+                _innerComponent = null;
                 InnerElement = Button(_("tss-contextmenu-item", text: text));
                 AttachClick();
                 InnerElement.addEventListener("mouseover", OnItemMouseOver);
@@ -292,8 +277,9 @@ namespace Tesserae.Components
 
             public Item(IComponent component)
             {
+                _innerComponent = component.Render();
                 InnerElement = Button(_("tss-contextmenu-item"));
-                InnerElement.appendChild(component.Render());
+                InnerElement.appendChild(_innerComponent);
                 AttachClick();
                 InnerElement.addEventListener("mouseover", OnItemMouseOver);
             }
@@ -369,6 +355,10 @@ namespace Tesserae.Components
                 if (Type == ItemType.Item)
                 {
                     onClick += e;
+                    if(_innerComponent is object)
+                    {
+                        _innerComponent.onclick += (e2) => e.Invoke(this, e2);
+                    }
                 }
                 return this;
             }
