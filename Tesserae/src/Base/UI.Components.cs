@@ -192,7 +192,7 @@ namespace Tesserae
 
         public static TextArea TextArea(string text = string.Empty) => new TextArea(text);
 
-        public static ColorPicker ColorPicker(int? color = null) => new ColorPicker(color);
+        public static ColorPicker ColorPicker(Color color = null) => new ColorPicker(color);
 
         public static SearchBox SearchBox(string placeholder = string.Empty) => new SearchBox(placeholder);
 
