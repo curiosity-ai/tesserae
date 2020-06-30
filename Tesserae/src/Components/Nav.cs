@@ -143,7 +143,7 @@ namespace Tesserae.Components
             private bool _shouldExpandOnFirstAdd;
             private readonly List<NavLink> Children = new List<NavLink>();
 
-            public NavLink(string text = null, string icon = null)
+            public NavLink(string text = null)
             {
                 _textSpan = Span(_(text: text));
                 _childContainer = Ul(_("tss-nav-link-container"));
@@ -172,7 +172,8 @@ namespace Tesserae.Components
 
             private void ThrowIfUsingComponent(string method)
             {
-                if (_textSpan is null) throw new Exception($"Not allowed to call {method} when using a custom component for rendering the Navlink");
+                if (_textSpan is null)
+                    throw new Exception($"Not allowed to call {method} when using a custom component for rendering the Navlink");
             }
 
             /// <summary>
