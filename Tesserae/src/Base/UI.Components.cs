@@ -208,7 +208,7 @@ namespace Tesserae
 
         public static Nav Nav() => new Nav();
 
-        public static Nav.NavLink NavLink(string text = null, string icon = null) => new Nav.NavLink(text, icon);
+        public static Nav.NavLink NavLink(string text = null) => new Nav.NavLink(text);
 
         public static Nav.NavLink NavLink(IComponent content) => new Nav.NavLink(content);
 
