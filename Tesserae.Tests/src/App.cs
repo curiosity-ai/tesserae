@@ -110,7 +110,7 @@ namespace Tesserae.Tests
 
                 var links = orderedComponents.ToDictionary(
                     c => c.Name,
-                    c => NavLink(c.Name).SelectedOrExpandedIf(c.Name == componentRouteName).OnSelected((s, e) =>
+                    c => NavLink(c.Name).SelectedOrExpandedIf(c.Name == componentRouteName).OnSelected(s =>
                     {
                         console.log("Route to " + c.Name);
                         Router.Navigate("#" + ToRoute(c.Name));
