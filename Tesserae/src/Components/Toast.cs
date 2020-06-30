@@ -128,12 +128,12 @@ namespace Tesserae.Components
             ResetTimeout();
         }
 
-        private void RefreshPositioning()
+        private static void RefreshPositioning()
         {
             foreach(var kv in OpenToasts)
             {
                 double sum = 0;
-                foreach(var t in kv.Value)
+                foreach (var t in kv.Value)
                 {
                     t.Measure();
 

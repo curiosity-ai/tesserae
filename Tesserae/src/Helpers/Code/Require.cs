@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using H5;
-using H5.Core;
 using static H5.Core.dom;
 
 namespace Tesserae
@@ -39,11 +37,6 @@ namespace Tesserae
         private static void LoadScriptAsync(Action onComplete, Action<string> onFail, params string[] libraries)
         {
             var loadedCount = 0;
-            dom.HTMLElement.onactivateFn onScriptLoaded = e =>
-            {
-                loadedCount++;
-                if (loadedCount == libraries.Length) onComplete?.Invoke();
-            };
             for (int i = 0; i < libraries.Length; i++)
             {
                 var url = libraries[i];
@@ -60,7 +53,7 @@ namespace Tesserae
                     script.src = url;
                     script.async = true;
                     script.onerror = e => { onFail?.Invoke(url); loadedCount++; if (loadedCount == libraries.Length) onComplete?.Invoke(); };
-                    script.onload = onScriptLoaded;
+                    script.onload = OnScriptLoaded;
                     try
                     {
                         document.head.appendChild(script);
@@ -71,7 +64,16 @@ namespace Tesserae
                     }
                 }
             }
-            if (loadedCount == libraries.Length) onComplete?.Invoke();
+            if (loadedCount == libraries.Length)
+            {
+                onComplete?.Invoke();
+            }
+
+            void OnScriptLoaded(Event e)
+            {
+                loadedCount++;
+                if (loadedCount == libraries.Length) onComplete?.Invoke();
+            }
         }
     }
 }

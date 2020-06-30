@@ -8,3 +8,6 @@ dotnet_diagnostic.CA1819.severity = none
 
 # 2020-06-30 DWR: If we want try..catch blocks with non-specific exceptions then that's ok in many circumstances
 dotnet_diagnostic.CA1031.severity = none
+
+# 2020-06-30 DWR: If we want an explicit static constructor to initialise all fields in a clearly defined order then we shall do so
+dotnet_diagnostic.CA1810.severity = none
