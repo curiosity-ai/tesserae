@@ -6,10 +6,10 @@ namespace Tesserae.Components
 {
     public class SearchBox : ComponentBase<SearchBox, HTMLInputElement>,  IHasTextSize, IHasBackgroundColor
     {
-        private HTMLDivElement _container;
-        private HTMLSpanElement _icon;
-        private HTMLElement _iconContainer;
-        private HTMLElement _paddingContainer;
+        private readonly HTMLDivElement _container;
+        private readonly HTMLSpanElement _icon;
+        private readonly HTMLElement _iconContainer;
+        private readonly HTMLElement _paddingContainer;
 
         public event SearchEventHandler onSearch;
         public delegate void SearchEventHandler(SearchBox sender, string value);

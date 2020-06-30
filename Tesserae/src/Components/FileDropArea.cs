@@ -10,9 +10,9 @@ namespace Tesserae.Components
         public event FileDroppedHandler onFileDropped;
         public delegate void FileDroppedHandler(FileDropArea sender, File file);
 
-        private HTMLInputElement _fileInput;
+        private readonly HTMLInputElement _fileInput;
         private Raw _raw;
-        private HTMLElement _container;
+        private readonly HTMLElement _container;
 
         public IComponent Content
         {

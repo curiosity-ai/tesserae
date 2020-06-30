@@ -73,8 +73,8 @@ namespace Tesserae.Tests.Samples
 
         private class SearchableGroupedListItem : ISearchableGroupedItem
         {
-            private string     _value;
-            private IComponent _component;
+            private readonly string     _value;
+            private readonly IComponent _component;
 
             public SearchableGroupedListItem(string value, string group)
             {

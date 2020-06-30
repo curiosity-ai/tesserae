@@ -21,7 +21,7 @@ namespace Build.ImportLineAwesome
             Console.WriteLine($"Parsed samples code, found {allCode.Count} samples.");
         }
 
-        private static Regex RE_GetName = new Regex(@"SampleHeader\(nameof\(([^)]*?)\)");
+        private static readonly Regex RE_GetName = new Regex(@"SampleHeader\(nameof\(([^)]*?)\)");
         private static Dictionary<string, string> GetCode(string[] files)
         {
             var dict = new Dictionary<string, string>();

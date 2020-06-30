@@ -6,7 +6,7 @@ namespace Tesserae.Components
 {
     public sealed class Card : ComponentBase<Card, HTMLElement>
     {
-        private HTMLElement _cardContainer;
+        private readonly HTMLElement _cardContainer;
         public Card(IComponent content)
         {
             InnerElement = Div(_("tss-card"), content.Render());

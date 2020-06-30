@@ -16,8 +16,8 @@ namespace Tesserae.Components
         private readonly HTMLDivElement _labelView;
         private readonly SettableObservable<string> _observable = new SettableObservable<string>();
 
-        private HTMLElement _editIcon;
-        private HTMLElement _cancelEditIcon;
+        private readonly HTMLElement _editIcon;
+        private readonly HTMLElement _cancelEditIcon;
 
         private bool _isCanceling = false;
 

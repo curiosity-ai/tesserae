@@ -95,7 +95,7 @@ namespace Tesserae.Components
 
         public class ComponentInNavLink : NavLink
         {
-            private IComponent _content;
+            private readonly IComponent _content;
             private readonly bool _disableMouseEvents;
             private bool _alreadyRendered = false;
 

@@ -100,7 +100,7 @@ namespace Tesserae.Tests.Samples
 
     public class PickerSampleItemWithComponents : IPickerItem
     {
-        private LineAwesome _icon;
+        private readonly LineAwesome _icon;
 
         public PickerSampleItemWithComponents(string name, LineAwesome icon)
         {

@@ -11,7 +11,7 @@ namespace Tesserae.Tests.Samples
 {
     public class ContextMenuSample : IComponent
     {
-        private IComponent _content;
+        private readonly IComponent _content;
 
         public ContextMenuSample()
         {

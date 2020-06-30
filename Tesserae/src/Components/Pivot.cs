@@ -17,14 +17,14 @@ namespace Tesserae.Components
 
         public bool PropagateToStackItemParent => true;
 
-        private HTMLElement InnerElement;
+        private readonly HTMLElement InnerElement;
 
-        private List<Tab> OrderedTabs = new List<Tab>();
-        private Dictionary<Tab, HTMLElement> RenderedTitles = new Dictionary<Tab, HTMLElement>();
+        private readonly List<Tab> OrderedTabs = new List<Tab>();
+        private readonly Dictionary<Tab, HTMLElement> RenderedTitles = new Dictionary<Tab, HTMLElement>();
 
-        private HTMLElement RenderedTabs;
-        private HTMLElement RenderedContent;
-        private HTMLElement Line;
+        private readonly HTMLElement RenderedTabs;
+        private readonly HTMLElement RenderedContent;
+        private readonly HTMLElement Line;
         private string _initiallySelectedID;
         private string _currentSelectedID;
         private bool _isRendered = false;
@@ -250,7 +250,7 @@ namespace Tesserae.Components
             private Func<IComponent> ContentCreator { get; }
 
             private HTMLElement Content;
-            private bool CanCacheContent;
+            private readonly bool CanCacheContent;
 
             public HTMLElement RenderContent()
             {

@@ -18,7 +18,7 @@ namespace Tesserae.Components
         private readonly HTMLElement _selectionsElement;
 
         private double _debounce;
-        private double _debounceTimeout = 50;
+        private readonly double _debounceTimeout = 50;
         private double _hideSugestionsTimeout;
 
         private HTMLElement _textBoxElement;

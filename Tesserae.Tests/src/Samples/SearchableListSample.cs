@@ -57,8 +57,8 @@ namespace Tesserae.Tests.Samples
 
         private class SearchableListItem : ISearchableItem
         {
-            private string _value;
-            private IComponent _component;
+            private readonly string _value;
+            private readonly IComponent _component;
             public SearchableListItem(string value)
             {
                 _value = value;

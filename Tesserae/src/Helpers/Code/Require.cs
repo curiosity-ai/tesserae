@@ -8,7 +8,7 @@ namespace Tesserae
 {
     public static class Require
     {
-        private static SingleSemaphoreSlim singleCall = new SingleSemaphoreSlim();
+        private static readonly SingleSemaphoreSlim singleCall = new SingleSemaphoreSlim();
         public static void LoadStyleAsync(params string[] styles)
         {
             for (int i = 0; i < styles.Length; i++)

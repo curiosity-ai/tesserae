@@ -10,7 +10,7 @@ namespace Tesserae.Tests.Samples
 {
     public class LineAwesomeSample : IComponent
     {
-        private IComponent _content;
+        private readonly IComponent _content;
 
         public LineAwesomeSample()
         {
@@ -58,8 +58,8 @@ namespace Tesserae.Tests.Samples
 
         private class IconItem : ISearchableItem
         {
-            private string _value;
-            private IComponent component;
+            private readonly string _value;
+            private readonly IComponent component;
             public IconItem(LineAwesome icon, string name)
             {
                 name = ToValidName(name.Substring(3));

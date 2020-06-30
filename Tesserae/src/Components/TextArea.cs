@@ -5,8 +5,8 @@ namespace Tesserae.Components
 {
     public class TextArea : ComponentBase<TextArea, HTMLTextAreaElement>, ICanValidate<TextArea>, IObservableComponent<string>
     {
-        private HTMLDivElement _container;
-        private HTMLSpanElement _errorSpan;
+        private readonly HTMLDivElement _container;
+        private readonly HTMLSpanElement _errorSpan;
         private readonly SettableObservable<string> _observable = new SettableObservable<string>();
 
         public TextArea(string text = string.Empty)

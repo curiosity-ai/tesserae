@@ -7,7 +7,7 @@ namespace Tesserae.Components
     public class DetailsListColumn : IDetailsListColumn
     {
         private readonly Action _onColumnClick;
-        private HTMLElement InnerElement;
+        private readonly HTMLElement InnerElement;
 
         public DetailsListColumn(string title, UnitSize width, bool isRowHeader = false, bool enableColumnSorting = false, string sortingKey = null, Action onColumnClick = null)
         {

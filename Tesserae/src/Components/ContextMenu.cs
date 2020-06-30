@@ -266,7 +266,7 @@ namespace Tesserae.Components
 
         public class Item : ComponentBase<Item, HTMLButtonElement>
         {
-            private HTMLElement _innerComponent;
+            private readonly HTMLElement _innerComponent;
             public Item(string text = string.Empty)
             {
                 _innerComponent = null;

@@ -9,7 +9,7 @@ namespace Tesserae.Tests.Samples
 {
     public class DeferSample: IComponent
     {
-        private IComponent content;
+        private readonly IComponent content;
 
         public DeferSample()
         {

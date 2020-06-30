@@ -8,7 +8,6 @@ namespace Tesserae.Tests.Samples
     public class ColorPickerSample : IComponent
     {
         private readonly IComponent _content;
-
         public ColorPickerSample()
         {
             _content = SectionStack()

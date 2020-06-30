@@ -6,7 +6,7 @@ namespace Tesserae.Components
 {
     public class Grid : IContainer<Grid, IComponent>, IHasBackgroundColor, IHasMarginPadding, ISpecialCaseStyling
     {
-        private HTMLElement _grid;
+        private readonly HTMLElement _grid;
 
         public string Background { get => _grid.style.background; set => _grid.style.background = value; }
         public string Margin { get => _grid.style.margin; set => _grid.style.margin = value; }

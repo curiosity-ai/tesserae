@@ -8,7 +8,7 @@ namespace Tesserae.Components
 {
     public class Validator
     {
-        private Dictionary<ICanValidate, Action> _registeredComponents;
+        private readonly Dictionary<ICanValidate, Action> _registeredComponents;
 
         public event OnValidationHandler onValidation;
 

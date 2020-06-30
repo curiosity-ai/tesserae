@@ -10,7 +10,7 @@ namespace Tesserae.Tests.Samples
 {
     public class PivotSample : IComponent
     {
-        private IComponent content;
+        private readonly IComponent content;
 
         public PivotSample()
         {

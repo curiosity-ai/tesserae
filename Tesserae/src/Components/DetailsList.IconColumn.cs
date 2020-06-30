@@ -7,7 +7,7 @@ namespace Tesserae.Components
     public class DetailsListIconColumn : IDetailsListColumn
     {
         private readonly Action _onColumnClick;
-        private HTMLElement InnerElement;
+        private readonly HTMLElement InnerElement;
 
         public DetailsListIconColumn(Icon icon, UnitSize width, bool enableColumnSorting = false, string sortingKey = null, Action onColumnClick = null)
         {

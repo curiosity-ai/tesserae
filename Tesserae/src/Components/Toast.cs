@@ -33,12 +33,12 @@ namespace Tesserae.Components
         private IComponent _title;
         private IComponent _message;
         private double _height = 0;
-        private static Dictionary<Position, List<Toast>> OpenToasts = new Dictionary<Position, List<Toast>>();
+        private static readonly Dictionary<Position, List<Toast>> OpenToasts = new Dictionary<Position, List<Toast>>();
 
 
         private int _timeoutDuration = 5000;
         private double _timeoutHandle = 0;
-        private HTMLDivElement _toastContainer = Div(_("tss-toast-container"));
+        private readonly HTMLDivElement _toastContainer = Div(_("tss-toast-container"));
 
         public Toast   TopRight       () { CurrentPosition = Position.TopRight     ; return this;}
         public Toast   TopCenter      () { CurrentPosition = Position.TopCenter    ; return this;}

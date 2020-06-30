@@ -15,7 +15,7 @@ namespace Tesserae.Components
         private readonly HTMLDivElement _content;
 
         private static uint _callback;
-        private static Dictionary<HTMLElement, Action> _pendingCallbacks = new Dictionary<HTMLElement, Action>();
+        private static readonly Dictionary<HTMLElement, Action> _pendingCallbacks = new Dictionary<HTMLElement, Action>();
 
         public Label(string text = string.Empty)
         {

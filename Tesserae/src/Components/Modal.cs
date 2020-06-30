@@ -435,8 +435,8 @@ namespace Tesserae.Components
 
         class TranslationPoint
         {
-            static Regex regex = new Regex(@"translate\(([-0-9.].*?)px,\s?([-0-9.].*?)px\)");
-            static Regex regexShort = new Regex(@"translate\(([-0-9.].*?)px\)");
+            static readonly Regex regex = new Regex(@"translate\(([-0-9.].*?)px,\s?([-0-9.].*?)px\)");
+            static readonly Regex regexShort = new Regex(@"translate\(([-0-9.].*?)px\)");
 
             public TranslationPoint(double x = 0, double y = 0)
             {

@@ -7,7 +7,7 @@ namespace Tesserae.Components
     public static class Layers
     {
         private static int CurrentZIndex = 1000;
-        private static HashSet<HTMLElement> CurrentLayers = new HashSet<HTMLElement>();
+        private static readonly HashSet<HTMLElement> CurrentLayers = new HashSet<HTMLElement>();
         public static string PushLayer(HTMLElement element)
         {
             if (CurrentLayers.Add(element))

@@ -8,7 +8,7 @@ namespace Tesserae.Tests.Samples
 {
     public class ToggleSample : IComponent
     {
-        private IComponent _content;
+        private readonly IComponent _content;
 
         public ToggleSample()
         {

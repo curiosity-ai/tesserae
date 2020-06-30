@@ -7,7 +7,7 @@ namespace Tesserae.Components
 {
     public class Link : IComponent
     {
-        private HTMLAnchorElement _anchor;
+        private readonly HTMLAnchorElement _anchor;
         public Link(string url, IComponent component)
         {
             _anchor = A(_(href: url), component.Render());

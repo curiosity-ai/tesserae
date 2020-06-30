@@ -9,7 +9,7 @@ namespace Tesserae
     {
         private readonly Func<(int Key, TComponent Component), HTMLElement> _createComponentExpression;
 
-        private  List<(int Key, HTMLElement HtmlElement)> _componentCache;
+        private readonly List<(int Key, HTMLElement HtmlElement)> _componentCache;
 
         public ComponentCache(Func<(int Key, TComponent Component), HTMLElement> createComponentExpression)
         {

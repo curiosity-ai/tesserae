@@ -7,7 +7,7 @@ namespace Tesserae.Tests.Samples
 {
     public class ValidatorSample : IComponent
     {
-        private IComponent content;
+        private readonly IComponent content;
 
         public ValidatorSample()
         {

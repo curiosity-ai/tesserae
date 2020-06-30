@@ -9,16 +9,16 @@ namespace Tesserae.Components
 {
     public class OverflowSet : IComponent, IContainer<Breadcrumb, IComponent>
     {
-        private string _expandIcon = "la-chevron-down";
-        private HTMLElement _childContainer;
-        private ResizeObserver _resizeObserver;
+        private readonly string _expandIcon = "la-chevron-down";
+        private readonly HTMLElement _childContainer;
+        private readonly ResizeObserver _resizeObserver;
         private int _maximumItemsToDisplay = 10;
         private int _overflowIndex = 0;
         private bool _cacheSizes;
         private double _cachedFullWidth = 0;
         private HTMLElement _chevronToUseAsButton = null;
         
-        private Dictionary<HTMLElement, double> _cachedSizes = new Dictionary<HTMLElement, double>();
+        private readonly Dictionary<HTMLElement, double> _cachedSizes = new Dictionary<HTMLElement, double>();
 
         public int MaximumItemsToDisplay
         {

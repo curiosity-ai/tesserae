@@ -8,10 +8,10 @@ namespace Tesserae.Components
         public delegate void FileSelectedHandler(FileSelector sender, File file);
         public event FileSelectedHandler onFileSelected;
 
-        private HTMLInputElement _fileInput;
-        private IComponent _stack;
-        private TextBox _textBox;
-        private HTMLElement _container;
+        private readonly HTMLInputElement _fileInput;
+        private readonly IComponent _stack;
+        private readonly TextBox _textBox;
+        private readonly HTMLElement _container;
         private File _selectedFile;
 
         public File SelectedFile

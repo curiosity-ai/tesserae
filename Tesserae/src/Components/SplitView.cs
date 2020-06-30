@@ -5,10 +5,10 @@ namespace Tesserae.Components
 {
     public class SplitView : IComponent
     {
-        private HTMLElement InnerElement;
-        private Raw         LeftComponent;
-        private Raw         SplitterComponent;
-        private Raw         RightComponent;
+        private readonly HTMLElement InnerElement;
+        private readonly Raw         LeftComponent;
+        private readonly Raw         SplitterComponent;
+        private readonly Raw         RightComponent;
 
         public SplitView(UnitSize splitterSize = null)
         {

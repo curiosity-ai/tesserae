@@ -9,11 +9,11 @@ namespace Tesserae.Components
 {
     public static class ScrollBar
     {
-        private static List<Handle> LiveHandles = new List<Handle>();
+        private static readonly List<Handle> LiveHandles = new List<Handle>();
 
         public class Handle
         {
-            private object scrollbar;
+            private readonly object scrollbar;
             internal HTMLElement _element;
             public Handle(HTMLElement element)
             {

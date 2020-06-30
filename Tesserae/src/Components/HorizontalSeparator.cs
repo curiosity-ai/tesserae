@@ -7,8 +7,8 @@ namespace Tesserae.Components
 {
     public class HorizontalSeparator : IComponent, IHasBackgroundColor
     {
-        private HTMLElement _container;
-        private HTMLElement _separator;
+        private readonly HTMLElement _container;
+        private readonly HTMLElement _separator;
 
         public Align Alignment
         {

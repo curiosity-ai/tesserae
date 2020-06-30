@@ -37,7 +37,7 @@ namespace Tesserae
             return this;
         }
 
-        private static Dictionary<Unit, Dictionary<int, string>> _cache = new Dictionary<Unit, Dictionary<int, string>>();
+        private static readonly Dictionary<Unit, Dictionary<int, string>> _cache = new Dictionary<Unit, Dictionary<int, string>>();
 
         private string _cachedValue = null;
 
