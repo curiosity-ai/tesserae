@@ -468,8 +468,6 @@ namespace Tesserae.Components
         {
             ClearChildren(InnerElement);
 
-            InnerElement.appendChild(_noItemsSpan); // 2020-06-30 DWR: This may or may not be visible right now, it doesn't matter - we just need to ensure that we add it back in after clearing InnerElement
-
             for (var i = 0; i < SelectedItems.Length; i++)
             {
                 var sel = SelectedItems[i];
@@ -479,7 +477,11 @@ namespace Tesserae.Components
                 clone.classList.add("tss-dropdown-item-on-box");
                 InnerElement.appendChild(clone);
             }
-         }
+
+            // 2020-06-30 DWR: This may or may not be visible right now, it doesn't matter - we just need to ensure that we add it back in after clearing InnerElement
+            // - Note: Put it at the end of the list because there is a styling rule for selections within InnerElement that sayas to add a comma before the item if it's not the first one and that styling will see the no-items element as the first item otherwise :(
+            InnerElement.appendChild(_noItemsSpan);
+        }
 
         private void OnPopupKeyDown(Event e)
         {
@@ -799,17 +801,17 @@ namespace Tesserae.Components
                 return this;
             }
 
-            public Item OnSelected(ComponentEventHandler<Item> onSelected, ComponentEventHandler<Item> onDeselected = null)
+            public Item OnSelected(ComponentEventHandler<Item> whenSelected, ComponentEventHandler<Item> whenDeselected = null)
             {
                 onSelected += sender =>
                 {
                     if (sender.IsSelected)
                     {
-                        onSelected?.Invoke(sender);
+                        whenSelected?.Invoke(sender);
                     }
                     else
                     {
-                        onDeselected?.Invoke(sender);
+                        whenDeselected?.Invoke(sender);
                     }
                 };
                 return this;
