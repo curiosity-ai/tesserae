@@ -8,7 +8,7 @@ using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
-    public class Nav : ComponentBase<Nav, HTMLUListElement>, IContainer<Nav.NavLink, Nav.NavLink>, IHasBackgroundColor
+    public sealed class Nav : ComponentBase<Nav, HTMLUListElement>, IContainer<Nav.NavLink, Nav.NavLink>, IHasBackgroundColor
     {
         public Nav() => InnerElement = Ul(_("tss-nav"));
 

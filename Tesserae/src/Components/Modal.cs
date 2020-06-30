@@ -5,7 +5,7 @@ using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
-    public class Modal : Layer<Modal>, ISpecialCaseStyling, IHasBackgroundColor
+    public sealed class Modal : Layer<Modal>, ISpecialCaseStyling, IHasBackgroundColor
     {
         public event OnShowHandler onShow;
         public delegate void OnShowHandler(Modal sender);
@@ -14,10 +14,10 @@ namespace Tesserae.Components
         public delegate void OnHideHandler(Modal sender);
 
         private readonly HTMLElement _closeButton;
-        protected readonly HTMLElement _modalHeader;
-        protected readonly HTMLElement _modalFooter;
-        protected readonly HTMLElement _modalOverlay;
-        protected readonly HTMLDivElement _modalContent;
+        private readonly HTMLElement _modalHeader;
+        private readonly HTMLElement _modalFooter;
+        private readonly HTMLElement _modalOverlay;
+        private readonly HTMLDivElement _modalContent;
 
         private readonly HTMLElement _modalHeaderCommands;
         private readonly HTMLElement _modalFooterCommands;
@@ -78,7 +78,7 @@ namespace Tesserae.Components
             // for [Esc] (unlike other buttons), only key DOWN and key UP and so we'll have to settle for using onKeyUp.
             onKeyUp += (_, e) =>
             {
-                if ((e.keyCode == 27) && CanLightDismiss && ShowCloseButton)
+                if ((e.keyCode == 27) && CanLightDismiss && WillShowCloseButton)
                 {
                     Hide();
                 }
@@ -250,12 +250,12 @@ namespace Tesserae.Components
 
         public IComponent ShowEmbedded()
         {
-            ShowCloseButton = false;
+            WillShowCloseButton = false;
             _modal.classList.add("tss-embedded");
             return Raw(_modal).Stretch();
         }
 
-        public bool ShowCloseButton
+        public bool WillShowCloseButton
         {
             get => _closeButton.style.display != "none";
             set
@@ -291,6 +291,54 @@ namespace Tesserae.Components
         public Modal NoTopBorder()
         {
             _modalHeader.classList.add("tss-noborder");
+            return this;
+        }
+
+        public Modal ShowCloseButton()
+        {
+            WillShowCloseButton = true;
+            return this;
+        }
+
+        public Modal HideCloseButton()
+        {
+            WillShowCloseButton = false;
+            return this;
+        }
+
+        public Modal LightDismiss()
+        {
+            CanLightDismiss = true;
+            return this;
+        }
+
+        public Modal NoLightDismiss()
+        {
+            CanLightDismiss = false;
+            return this;
+        }
+
+        public Modal Dark()
+        {
+            IsDark = true;
+            return this;
+        }
+
+        public Modal Draggable()
+        {
+            IsDraggable = true;
+            return this;
+        }
+
+        public Modal NonBlocking()
+        {
+            IsNonBlocking = true;
+            return this;
+        }
+
+        public Modal Blocking()
+        {
+            IsNonBlocking = false;
             return this;
         }
 
@@ -343,15 +391,9 @@ namespace Tesserae.Components
             });
         }
 
-        protected override HTMLElement BuildRenderedContent()
-        {
-            return _contentHtml;
-        }
+        protected override HTMLElement BuildRenderedContent() => _contentHtml;
 
-        private void OnCloseClick(object ev)
-        {
-            Hide();
-        }
+        private void OnCloseClick(object ev) => Hide();
 
         private void OnDragMouseMove(object ev)
         {
