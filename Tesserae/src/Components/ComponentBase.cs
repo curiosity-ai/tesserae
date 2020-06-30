@@ -78,9 +78,12 @@ namespace Tesserae.Components
 
         protected void AttachChange() => InnerElement.addEventListener("change", s => RaiseOnChange(s));
 
-        public void RaiseOnClick(MouseEvent ev) => onClick?.Invoke((T)this, ev);
+        // 2020-06-30 DWR: This was previously public, not protected internal, but nothing outside of a component itself should be faking events like this - I've only made it "protected internal" instead of simply "protected" because I don't want to have to
+        // refactor the Dialog component that abuses this feature (TODO: It would make more sense for the Dialog component to bind key presses directly to the actions that should be taken, rather than indirectly firing those actions via a faked button click)
+        protected internal void RaiseOnClick(MouseEvent ev) => onClick?.Invoke((T)this, ev);
 
-        public void RaiseOnChange(Event ev) => onChange?.Invoke((T)this, ev);
+        // 2020-06-30 DWR: This was previously public, not protected, but nothing outside of a component itself should be faking events like this
+        protected void RaiseOnChange(Event ev) => onChange?.Invoke((T)this, ev);
 
         protected void AttachInput() => InnerElement.addEventListener("input", ev => RaiseOnInput(ev));
 
