@@ -1,18 +1,15 @@
 ﻿using System;
-using System.Threading;
 using System.Threading.Tasks;
-using H5;
 using Tesserae.Components;
 using static H5.Core.dom;
-using static Tesserae.UI;
 using static Tesserae.Tests.Samples.SamplesHelper;
+using static Tesserae.UI;
 
 namespace Tesserae.Tests.Samples
 {
-    public class DropdownSample : IComponent
+    public sealed class DropdownSample : IComponent
     {
-        private IComponent _content;
-
+        private readonly IComponent _content;
         public DropdownSample()
         {
             var d = Dropdown();
@@ -115,7 +112,11 @@ namespace Tesserae.Tests.Samples
                 DropdownItem("2-4"),
                 DropdownItem("2-5")
             )),
-            Label("Async 5 seconds delay").SetContent(Dropdown().Items(GetItemsAsync)),
+            Label("No available items").SetContent(Dropdown().Items(new Dropdown.Item[0])),
+            Label("No available items with custom message").SetContent(Dropdown("There's nothing to select, sorry!").Items(new Dropdown.Item[0])),
+            Label("Async 5 seconds delay (starts loading immediately)").SetContent(StartLoadingAsyncDataImmediately(Dropdown().Items(GetItemsAsync))),
+            Label("Async 5 seconds delay (will start loading when dropdown is opened)").SetContent(Dropdown().Items(GetItemsAsync)),
+            Label("Async 5 seconds delay that returns no items (starts loading immediately)").SetContent(StartLoadingAsyncDataImmediately(Dropdown().Items(GetZeroItemsAsync))),
             Label("Async wait Google.com (need CORS)").SetContent(Dropdown().Items(GetGoogleItemsAsync)))));
             d.Attach((e, _) =>
             {
@@ -127,6 +128,12 @@ namespace Tesserae.Tests.Samples
                 }
                 else dd.IsInvalid = false;
             }, Components.Validation.Mode.OnInput);
+        }
+
+        private static Dropdown StartLoadingAsyncDataImmediately(Dropdown dropdown)
+        {
+            dropdown.LoadItemsAsync().FireAndForget();
+            return dropdown;
         }
 
         private async Task<Dropdown.Item[]> GetItemsAsync()
@@ -149,6 +156,12 @@ namespace Tesserae.Tests.Samples
                 DropdownItem("2-4"),
                 DropdownItem("2-5")
             };
+        }
+
+        private async Task<Dropdown.Item[]> GetZeroItemsAsync()
+        {
+            await Task.Delay(5000);
+            return new Dropdown.Item[0];
         }
 
         private async Task<Dropdown.Item[]> GetGoogleItemsAsync()
@@ -221,13 +234,8 @@ namespace Tesserae.Tests.Samples
                 if (tcsTask.IsCompleted)
                 {
                     if (tcsTask.IsFaulted)
-                    {
                         throw tcsTask.Exception;
-                    }
-                    else
-                    {
-                        return tcsTask.Result;
-                    }
+                    return tcsTask.Result;
                 }
             }
         }

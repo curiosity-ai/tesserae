@@ -17,21 +17,25 @@ namespace Tesserae.Components
 
         private readonly HTMLElement _childContainer;
         private readonly HTMLDivElement _container;
+        private readonly HTMLSpanElement _noItemsSpan;
         private readonly HTMLSpanElement _errorSpan;
+        private readonly ObservableList<Item> _selectedChildren;
 
         private HTMLDivElement _spinner;
         private bool _isChanged;
         private bool _callSelectOnChangingItemSelections;
         private Func<Task<Item[]>> _itemsSource;
         private ReadOnlyArray<Item> _lastRenderedItems;
-        private ObservableList<Item> _selectedChildren;
         private HTMLDivElement _popupDiv;
         private string _search;
         private int _latestRequestID;
 
-        public Dropdown()
+        public Dropdown(HTMLSpanElement noItemsSpan = null)
         {
-            InnerElement = Div(_("tss-dropdown"));
+            _noItemsSpan = noItemsSpan ?? Span(_(text: "There are no options available"));
+
+            InnerElement = Div(_("tss-dropdown"), _noItemsSpan);
+
             _errorSpan = Span(_("tss-dropdown-error"));
 
             _container = Div(_("tss-dropdown-container"), InnerElement, _errorSpan);
@@ -363,26 +367,29 @@ namespace Tesserae.Components
             });
             EnsureAsyncLoadingStateDisabled(); // If we got here because an async request completed OR while one was in flight but a synchronous call to this method came in after it started but before finishing then ensure to remove its loading state
             UpdateStateBasedUponCurrentSelections();
-            if (!children.Any())
+            if (children.Any())
             {
-                // If there no options to choose from then ensure that the dropdown list is hidden (it might be open if the User was looking at the options in a multi-select configuration and then the Items were updated in the background)
-                // TODO [2020-06-13 DWR]: We should probably introduce a "no items" state that doesn't allow the User to interact with the component since there's nothing that they can do - in the meantime, I'll settle for setting to Disabled
-                Hide();
-                Disabled(true);
+                Disabled(false);
+                _noItemsSpan.style.display = "none";
             }
             else
             {
-                Disabled(false);
+                Hide();
+                Disabled(true);
+                _noItemsSpan.style.display = "";
             }
             return this;
         }
 
         /// <summary>
         /// This will specify an asynchronous callback that describes how to get available options - note that they will not be retrieved until LoadItemsAsync is called (when that successfully gets new item data, any existing items will be
-        /// removed first and the list will be completely replace with the new data)
+        /// removed first and the list will be completely replace with the new data). LoadItemsAsync may be called explicitly (and immediately after setting this) - if not, it will be called automatically when the User clicks to open the dropdown.
         /// </summary>
         public Dropdown Items(Func<Task<Item[]>> itemsSource)
         {
+            // 2020-06-30 DWR: We should only show the no-items message if we KNOW that there are no options to select and if we've just specified an async retrieval then we won't know whether there are any items or not until it completes - so we'll
+            // ensure that the message is hidden here and then it will be displayed/hidden as appropriate when the async retrieval completes (the non-async Items method will be called and that updates the display state of the no-items message)
+            _noItemsSpan.style.display = "none";
             _itemsSource = itemsSource;
             return this;
         }
@@ -461,6 +468,8 @@ namespace Tesserae.Components
         {
             ClearChildren(InnerElement);
 
+            InnerElement.appendChild(_noItemsSpan); // 2020-06-30 DWR: This may or may not be visible right now, it doesn't matter - we just need to ensure that we add it back in after clearing InnerElement
+
             for (var i = 0; i < SelectedItems.Length; i++)
             {
                 var sel = SelectedItems[i];
@@ -470,7 +479,7 @@ namespace Tesserae.Components
                 clone.classList.add("tss-dropdown-item-on-box");
                 InnerElement.appendChild(clone);
             }
-        }
+         }
 
         private void OnPopupKeyDown(Event e)
         {
@@ -646,7 +655,7 @@ namespace Tesserae.Components
             RecomputePopupPosition();
         }
 
-        public class Item : IComponent
+        public sealed class Item : IComponent
         {
             private readonly HTMLElement InnerElement;
             private readonly HTMLElement SelectedElement;
@@ -749,21 +758,20 @@ namespace Tesserae.Components
                 return InnerElement;
             }
 
-            public HTMLElement RenderSelected()
-            {
-                return SelectedElement;
-            }
+            public HTMLElement RenderSelected() => SelectedElement;
 
             public Item Header()
             {
                 Type = ItemType.Header;
                 return this;
             }
+
             public Item Divider()
             {
                 Type = ItemType.Divider;
                 return this;
             }
+
             public Item Disabled(bool value = true)
             {
                 IsEnabled = !value;
@@ -834,7 +842,8 @@ namespace Tesserae.Components
 
             private void OnItemMouseOver(Event ev)
             {
-                if (Type == ItemType.Item) InnerElement.focus();
+                if (Type == ItemType.Item)
+                    InnerElement.focus();
             }
         }
     }

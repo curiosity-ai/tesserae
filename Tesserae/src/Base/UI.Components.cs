@@ -241,6 +241,8 @@ namespace Tesserae
         public static ProgressIndicator ProgressIndicator() => new ProgressIndicator();
 
         public static Dropdown Dropdown() => new Dropdown();
+        public static Dropdown Dropdown(string noItemsText) => new Dropdown(noItemsSpan: string.IsNullOrWhiteSpace(noItemsText) ? null : Span(_(text: noItemsText)));
+        public static Dropdown Dropdown(HTMLSpanElement noItemsSpan) => new Dropdown(noItemsSpan);
 
         public static Dropdown.Item DropdownItem() => new Dropdown.Item("");
 
