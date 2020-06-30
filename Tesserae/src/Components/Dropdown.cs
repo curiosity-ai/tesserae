@@ -301,7 +301,7 @@ namespace Tesserae.Components
                 RaiseOnChange(ev: null);
         }
 
-        public void Attach(EventHandler<Event> handler, Validation.Mode mode)
+        public void Attach(ComponentEventHandler<Dropdown, Event> handler, Validation.Mode mode)
         {
             if (mode == Validation.Mode.OnBlur)
             {
@@ -431,16 +431,16 @@ namespace Tesserae.Components
             RenderSelected();
         }
 
-        private void OnItemSelected(object sender, Item e)
+        private void OnItemSelected(Item sender, Event e)
         {
             if (Mode == SelectMode.Single)
             {
-                if (e.IsSelected)
+                if (sender.IsSelected)
                 {
                     // For single select drop downs, when one item is selected then we need to ensure here that any other are UN-selected ("there can be only one")
                     foreach (var item in _lastRenderedItems)
                     {
-                        if (item != e)
+                        if (item != sender)
                             item.IsSelected = false;
                     }
                 }
@@ -683,7 +683,7 @@ namespace Tesserae.Components
             }
 
             private event BeforeSelectEventHandler<Item> _onBeforeSelected;
-            internal event EventHandler<Item> _onSelected;
+            internal event ComponentEventHandler<Item, Event> _onSelected;
 
             public ItemType Type
             {
@@ -743,7 +743,7 @@ namespace Tesserae.Components
                     // then nothing would happen (because the value hadn't changed and this callback wouldn't be made) because it's this callback that the parent class uses to hide the drop down list of options. I considered making
                     // adding the logic to OnItemClick instead (because we want a way to say "hide the drop down list if the User clicked an option) but that bypasses  the _onBeforeSelected and that could be useful (we might want
                     // to have a callback that prevents you from clicking the item if.. something). While I removed the was-changed check for single-select configurations, it does not harm for multi as well.
-                    _onSelected?.Invoke(this, this);
+                    _onSelected?.Invoke(this, null);
                 }
             }
 
@@ -799,17 +799,17 @@ namespace Tesserae.Components
                 return this;
             }
 
-            public Item OnSelected(EventHandler<Item> onSelected, EventHandler<Item> onDeselected = null)
+            public Item OnSelected(ComponentEventHandler<Item, Event> onSelected, ComponentEventHandler<Item, Event> onDeselected = null)
             {
-                _onSelected += (s, e) =>
+                _onSelected += (sender, e) =>
                 {
-                    if (e.IsSelected)
+                    if (sender.IsSelected)
                     {
-                        onSelected?.Invoke(s, e);
+                        onSelected?.Invoke(sender, e);
                     }
                     else
                     {
-                        onDeselected?.Invoke(s, e);
+                        onDeselected?.Invoke(sender, e);
                     }
                 };
                 return this;

@@ -206,7 +206,7 @@ namespace Tesserae.Components
             base.Hide(onHidden);
         }
 
-        public void Attach(EventHandler<Event> handler, Validation.Mode mode)
+        public void Attach(ComponentEventHandler<ContextMenu, Event> handler, Validation.Mode mode)
         {
             if (mode == Validation.Mode.OnBlur)
             {
@@ -218,7 +218,7 @@ namespace Tesserae.Components
             }
         }
 
-        public ContextMenu Items(params ContextMenu.Item[] children)
+        public ContextMenu Items(params Item[] children)
         {
             children.ForEach(x => Add(x));
             return this;
@@ -350,7 +350,7 @@ namespace Tesserae.Components
                 return this;
             }
 
-            public new Item OnClick(ComponentEventHandler<MouseEvent> e)
+            public new Item OnClick(ComponentEventHandler<ContextMenu.Item, MouseEvent> e)
             {
                 if (Type == ItemType.Item)
                 {

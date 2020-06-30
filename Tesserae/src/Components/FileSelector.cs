@@ -1,22 +1,18 @@
-﻿using H5;
-using static H5.Core.dom;
+﻿using static H5.Core.dom;
 using static Tesserae.UI;
-using Tesserae;
-using System;
 
 namespace Tesserae.Components
 {
-    public class FileSelector : IComponent , ICanValidate<FileSelector>
+    public sealed class FileSelector : IComponent, ICanValidate<FileSelector>
     {
+        public delegate void FileSelectedHandler(FileSelector sender, File file);
+        public event FileSelectedHandler onFileSelected;
+
         private HTMLInputElement _fileInput;
         private IComponent _stack;
         private TextBox _textBox;
         private HTMLElement _container;
         private File _selectedFile;
-
-        public delegate void FileSelectedHandler(FileSelector sender, File file);
-
-        public event FileSelectedHandler onFileSelected;
 
         public File SelectedFile
         {
@@ -115,11 +111,10 @@ namespace Tesserae.Components
             return this;
         }
 
-        public void Attach(EventHandler<Event> handler, Validation.Mode mode)
+        public void Attach(ComponentEventHandler<FileSelector, Event> handler, Validation.Mode mode)
         {
             onFileSelected += (s, e) => handler(s, null);
         }
-
 
         private string GetFileName(string value)
         {

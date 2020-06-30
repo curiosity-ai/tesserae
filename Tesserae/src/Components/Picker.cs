@@ -8,6 +8,8 @@ namespace Tesserae.Components
 {
     public sealed class Picker<TPickerItem> : IComponent, IObservableListComponent<TPickerItem>  where TPickerItem : class, IPickerItem
     {
+        public event ComponentEventHandler<Picker<TPickerItem>, ItemPickedEvent> onItemSelected;
+
         private readonly ObservableList<TPickerItem> _pickerItems = new ObservableList<TPickerItem>();
         private readonly HTMLElement _container;
         private readonly TextBox _textBox;
@@ -98,12 +100,9 @@ namespace Tesserae.Components
             return this;
         }
 
-        public event EventHandler<TPickerItem> onItemSelected;
-
-        public Picker<TPickerItem> OnItemSelected(EventHandler<TPickerItem> eventHandler)
+        public Picker<TPickerItem> OnItemSelected(ComponentEventHandler<Picker<TPickerItem>, ItemPickedEvent> eventHandler)
         {
             onItemSelected += eventHandler;
-
             return this;
         }
 
@@ -260,7 +259,7 @@ namespace Tesserae.Components
 
             _selectionsElement.appendChild(selectionContainerElement);
 
-            onItemSelected?.Invoke(this, selectedItem);
+            onItemSelected?.Invoke(this, new ItemPickedEvent(selectedItem));
         }
 
         private void UpdateSelection(TPickerItem selectedItem, bool isSelected)
@@ -294,6 +293,12 @@ namespace Tesserae.Components
 
             _suggestionsLayer.SuggestionsContainer.style.left  = textBoxClientRect.left.px().ToString();
             _suggestionsLayer.SuggestionsContainer.style.width = $"{(textBoxClientRect.width / 2).px()}";
+        }
+
+        public sealed class ItemPickedEvent
+        {
+            public ItemPickedEvent(TPickerItem item) => Item = item;
+            public TPickerItem Item { get; }
         }
 
         private class SuggestionsLayer : Layer<SuggestionsLayer>

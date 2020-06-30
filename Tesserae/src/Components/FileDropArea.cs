@@ -1,21 +1,18 @@
-﻿using H5;
+﻿using System;
+using H5;
 using static H5.Core.dom;
 using static Tesserae.UI;
-using Tesserae;
-using System;
-using H5;
 
 namespace Tesserae.Components
 {
-    public class FileDropArea : IComponent
+    public sealed class FileDropArea : IComponent
     {
+        public event FileDroppedHandler onFileDropped;
+        public delegate void FileDroppedHandler(FileDropArea sender, File file);
+
         private HTMLInputElement _fileInput;
         private Raw _raw;
         private HTMLElement _container;
-
-        public delegate void FileDroppedHandler(FileDropArea sender, File file);
-
-        public event FileDroppedHandler onFileDropped;
 
         public IComponent Content
         {

@@ -7,8 +7,6 @@ namespace Tesserae
 {
     public static partial class UI
     {
-        public delegate bool BeforeSelectEventHandler<TSender>(TSender sender);
-
         /// <summary>
         /// Helper method to capture the current component inline on it's definition, as an out variable
         /// </summary>

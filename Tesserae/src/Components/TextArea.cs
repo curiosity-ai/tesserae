@@ -1,5 +1,4 @@
-﻿using System;
-using Tesserae.HTML;
+﻿using Tesserae.HTML;
 using static H5.Core.dom;
 using static Tesserae.UI;
 namespace Tesserae.Components
@@ -116,7 +115,7 @@ namespace Tesserae.Components
             return _container;
         }
 
-        public void Attach(EventHandler<Event> handler, Validation.Mode mode)
+        public void Attach(ComponentEventHandler<TextArea, Event> handler, Validation.Mode mode)
         {
             if (mode == Validation.Mode.OnBlur)
             {

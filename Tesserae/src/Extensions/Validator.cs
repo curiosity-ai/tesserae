@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using static H5.Core.dom;
+using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
@@ -32,9 +33,15 @@ namespace Tesserae.Components
 
         private class Dummy : ICanValidate
         {
-            private Func<bool> _isInvalid;
+            private readonly Func<bool> _isInvalid;
+            private readonly HTMLElement _innerElement;
+            public Dummy(Func<bool> isInvalid)
+            {
+                _isInvalid = isInvalid;
+                _innerElement = Span(_(text: "This is a dummy element to illustrate validation"));
+            }
 
-            public Dummy(Func<bool> isInvalid) => _isInvalid = isInvalid;
+            public HTMLElement Render() => _innerElement;
 
             public string Error { get ; set ; }
             public bool IsInvalid { get => _isInvalid(); set => throw new NotSupportedException(); }

@@ -7,6 +7,12 @@ namespace Tesserae.Components
 {
     public class Modal : Layer<Modal>, ISpecialCaseStyling, IHasBackgroundColor
     {
+        public event OnShowHandler onShow;
+        public delegate void OnShowHandler(Modal sender);
+
+        public event OnHideHandler onHide;
+        public delegate void OnHideHandler(Modal sender);
+
         private readonly HTMLElement _closeButton;
         protected readonly HTMLElement _modalHeader;
         protected readonly HTMLElement _modalFooter;
@@ -25,12 +31,6 @@ namespace Tesserae.Components
         public HTMLElement StylingContainer => _modal;
 
         public bool PropagateToStackItemParent => false;
-
-        public delegate void OnShowHandler(Modal sender);
-        public delegate void OnHideHandler(Modal sender);
-
-        public event OnShowHandler onShow;
-        public event OnHideHandler onHide;
 
         public string Background
         {

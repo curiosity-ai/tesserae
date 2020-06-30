@@ -12,16 +12,6 @@ namespace Tesserae.Components
                 throw new ArgumentNullException(nameof(validate));
             }
 
-            void handler(object sender, Event e)
-            {
-                var s = (T)sender;
-                var msg = validate(s) ?? "";
-                var isInvalid = !string.IsNullOrWhiteSpace(msg);
-                s.Error = msg;
-                s.IsInvalid = isInvalid;
-                validator?.RaiseOnValidation();
-            }
-
             component.Attach(handler, mode);
 
             handler(component, null);
@@ -30,6 +20,16 @@ namespace Tesserae.Components
             validator?.RaiseOnValidation();
 
             return component;
+
+            void handler(T sender, Event e)
+            {
+                var s = sender;
+                var msg = validate(s) ?? "";
+                var isInvalid = !string.IsNullOrWhiteSpace(msg);
+                s.Error = msg;
+                s.IsInvalid = isInvalid;
+                validator?.RaiseOnValidation();
+            }
         }
     }
 }

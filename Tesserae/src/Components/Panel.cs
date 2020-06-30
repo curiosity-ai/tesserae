@@ -6,6 +6,9 @@ namespace Tesserae.Components
 {
     public class Panel : Layer<Panel>
     {
+        public event OnHideHandler onHide;
+        public delegate void OnHideHandler(Panel sender);
+
         private IComponent _footer;
         private readonly HTMLElement _panel;
         private readonly HTMLElement _panelOverlay;
@@ -13,10 +16,6 @@ namespace Tesserae.Components
         private readonly HTMLElement _panelFooter;
         private readonly HTMLElement _panelCommand;
         private readonly HTMLElement _closeButton;
-
-        public delegate void OnHideHandler(Panel sender);
-
-        public event OnHideHandler onHide;
 
         public Panel() : base()
         {

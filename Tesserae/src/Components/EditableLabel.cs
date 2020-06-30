@@ -7,6 +7,9 @@ namespace Tesserae.Components
 {
     public class EditableLabel : ComponentBase<EditableLabel, HTMLInputElement>, IHasTextSize, IObservableComponent<string>
     {
+        public event SaveEditHandler onSave;
+        public delegate bool SaveEditHandler(EditableLabel sender, string newValue);
+
         protected readonly HTMLDivElement _container;
 
         protected readonly HTMLSpanElement _labelText;
@@ -17,10 +20,6 @@ namespace Tesserae.Components
         protected readonly HTMLDivElement _labelView;
         
         private readonly SettableObservable<string> _observable = new SettableObservable<string>();
-
-        public delegate bool SaveEditHandler(EditableLabel sender, string newValue);
-
-        public event SaveEditHandler onSave;
 
         private bool _isCanceling = false;
 
