@@ -297,9 +297,10 @@ namespace Tesserae
 
         public static HTMLOListElement Ol(Attributes init, params HTMLLIElement[] children)
         {
-            var a = new HTMLOListElement();
-            AppendElements(a, children);
-            return a;
+            var ol = new HTMLOListElement();
+            init?.InitElement(ol);
+            AppendElements(ol, children);
+            return ol;
         }
 
         public static HTMLUListElement Ul(Attributes init, params HTMLLIElement[] children)
@@ -442,9 +443,10 @@ namespace Tesserae
 
         public static HTMLDataListElement DataList(Attributes init, params HTMLOptionElement[] children)
         {
-            var f = new HTMLDataListElement();
-            AppendElements(f, children);
-            return f;
+            var dl = new HTMLDataListElement();
+            init?.InitElement(dl);
+            AppendElements(dl, children);
+            return dl;
         }
 
         public static HTMLInputElement TextBox(Attributes init)
