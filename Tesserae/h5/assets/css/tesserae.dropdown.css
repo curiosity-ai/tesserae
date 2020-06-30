@@ -78,7 +78,7 @@
 
 
     .tss-dropdown-container.tss-invalid .tss-dropdown {
-        border-color: var(--tss-invalid-border-color);
+        border: 1px solid var(--tss-invalid-border-color);
     }
 
 .tss-dropdown-container .tss-spinner {
