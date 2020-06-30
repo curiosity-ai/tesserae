@@ -2,10 +2,7 @@
 {
     public class TextBox : Input<TextBox>
     {
-        public TextBox(string text = string.Empty)
-            : base("text", text)
-        {
-        }
+        public TextBox(string text = string.Empty) : base("text", text) { }
 
         public string Placeholder
         {

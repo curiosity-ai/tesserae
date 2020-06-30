@@ -2,7 +2,7 @@
 {
     public interface ICanValidate<T> : ICanValidate where T : IComponent
     {
-        void Attach(ComponentEventHandler<T> handler, Validation.Mode mode);
+        void Attach(ComponentEventHandler<T> handler);
     }
 
     public interface ICanValidate : IComponent

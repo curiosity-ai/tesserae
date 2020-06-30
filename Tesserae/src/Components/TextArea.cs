@@ -115,16 +115,9 @@ namespace Tesserae.Components
             return _container;
         }
 
-        public void Attach(ComponentEventHandler<TextArea> handler, Validation.Mode mode)
+        public void Attach(ComponentEventHandler<TextArea> handler)
         {
-            if (mode == Validation.Mode.OnBlur)
-            {
-                onChange += (s, _) => handler(s);
-            }
-            else
-            {
-                onInput += (s, _) => handler(s);
-            }
+            onInput += (s, _) => handler(s);
         }
 
         public TextArea SetText(string text)

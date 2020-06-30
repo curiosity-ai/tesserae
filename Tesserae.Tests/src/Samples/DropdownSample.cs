@@ -13,18 +13,15 @@ namespace Tesserae.Tests.Samples
         public DropdownSample()
         {
             var dropdownForValidationExample = Dropdown();
-            dropdownForValidationExample.Attach(
-                dd =>
+            dropdownForValidationExample.Attach(dd =>
+            {
+                if (dd.SelectedItems.Length != 1 || dd.SelectedItems[0].Text != "1-1")
                 {
-                    if (dd.SelectedItems.Length != 1 || dd.SelectedItems[0].Text != "1-1")
-                    {
-                        dd.IsInvalid = true;
-                        dd.Error = "Some error happens, need 1-1";
-                    }
-                    else dd.IsInvalid = false;
-                },
-                Validation.Mode.OnInput
-            );
+                    dd.IsInvalid = true;
+                    dd.Error = "Some error happens, need 1-1";
+                }
+                else dd.IsInvalid = false;
+            });
 
             _content = SectionStack()
                 .Title(SampleHeader(nameof(DropdownSample)))
