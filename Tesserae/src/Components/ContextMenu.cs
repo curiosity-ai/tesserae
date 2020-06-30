@@ -206,15 +206,15 @@ namespace Tesserae.Components
             base.Hide(onHidden);
         }
 
-        public void Attach(ComponentEventHandler<ContextMenu, Event> handler, Validation.Mode mode)
+        public void Attach(ComponentEventHandler<ContextMenu> handler, Validation.Mode mode)
         {
             if (mode == Validation.Mode.OnBlur)
             {
-                onChange += (s, e) => handler(this, e);
+                onChange += (s, _) => handler(this);
             }
             else
             {
-                onInput += (s, e) => handler(this, e);
+                onInput += (s, _) => handler(this);
             }
         }
 
@@ -350,7 +350,7 @@ namespace Tesserae.Components
                 return this;
             }
 
-            public new Item OnClick(ComponentEventHandler<ContextMenu.Item, MouseEvent> e)
+            public new Item OnClick(ComponentEventHandler<Item, MouseEvent> e)
             {
                 if (Type == ItemType.Item)
                 {

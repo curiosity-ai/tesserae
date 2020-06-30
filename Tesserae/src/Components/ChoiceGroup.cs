@@ -52,7 +52,7 @@ namespace Tesserae.Components
             component.OnSelect += OnChoiceSelected;
 
             if (component.IsSelected)
-                OnChoiceSelected(component, null);
+                OnChoiceSelected(component);
         }
 
         public void Clear()
@@ -90,7 +90,7 @@ namespace Tesserae.Components
             return this;
         }
 
-        private void OnChoiceSelected(Choice sender, Event e)
+        private void OnChoiceSelected(Choice sender)
         {
             if (SelectedOption == sender)
                 return;
@@ -116,7 +116,7 @@ namespace Tesserae.Components
             private readonly HTMLSpanElement _radioSpan;
             private readonly HTMLLabelElement _label;
 
-            public event ComponentEventHandler<Choice, Event> OnSelect;
+            public event ComponentEventHandler<Choice> OnSelect;
 
             public Choice(string text)
             {
@@ -129,7 +129,7 @@ namespace Tesserae.Components
                 AttachBlur();
                 onChange += (s, e) =>
                 {
-                    if (IsSelected) OnSelect?.Invoke(this, null);
+                    if (IsSelected) OnSelect?.Invoke(this);
                 };
             }
 
@@ -195,7 +195,7 @@ namespace Tesserae.Components
                 return this;
             }
 
-            public Choice OnSelected(ComponentEventHandler<Choice, Event> onSelected)
+            public Choice OnSelected(ComponentEventHandler<Choice> onSelected)
             {
                 OnSelect += onSelected;
                 return this;

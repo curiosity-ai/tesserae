@@ -14,9 +14,8 @@ namespace Tesserae.Tests.Samples
         {
             var dropdownForValidationExample = Dropdown();
             dropdownForValidationExample.Attach(
-                (e, _) =>
+                dd =>
                 {
-                    var dd = (Dropdown)e;
                     if (dd.SelectedItems.Length != 1 || dd.SelectedItems[0].Text != "1-1")
                     {
                         dd.IsInvalid = true;

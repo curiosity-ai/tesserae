@@ -17,17 +17,17 @@ namespace Tesserae.Tests.Samples
                 Stack().Children(
                     TextBlock("Sample panel").MediumPlus().SemiBold(),
                     ChoiceGroup("Side:").Choices(
-                        Choice("Far").Selected().OnSelected((x, e) => panel.Side = Panel.PanelSide.Far),
-                        Choice("Near").OnSelected((x, e) => panel.Side = Panel.PanelSide.Near)
+                        Choice("Far").Selected().OnSelected(x => panel.Side = Panel.PanelSide.Far),
+                        Choice("Near").OnSelected(x => panel.Side = Panel.PanelSide.Near)
                     ),
                     Toggle("Light Dismiss").OnChange((s, e) => panel.CanLightDismiss = s.IsChecked).Checked(panel.CanLightDismiss),
                     ChoiceGroup("Size:").Choices(
-                        Choice("Small").Selected().OnSelected((x, e) => panel.Size = Panel.PanelSize.Small),
-                        Choice("Medium").OnSelected((x, e) => panel.Size = Panel.PanelSize.Medium),
-                        Choice("Large").OnSelected((x, e) => panel.Size = Panel.PanelSize.Large),
-                        Choice("LargeFixed").OnSelected((x, e) => panel.Size = Panel.PanelSize.LargeFixed),
-                        Choice("ExtraLarge").OnSelected((x, e) => panel.Size = Panel.PanelSize.ExtraLarge),
-                        Choice("FullWidth").OnSelected((x, e) => panel.Size = Panel.PanelSize.FullWidth)
+                        Choice("Small").Selected().OnSelected(x => panel.Size = Panel.PanelSize.Small),
+                        Choice("Medium").OnSelected(x => panel.Size = Panel.PanelSize.Medium),
+                        Choice("Large").OnSelected(x => panel.Size = Panel.PanelSize.Large),
+                        Choice("LargeFixed").OnSelected(x => panel.Size = Panel.PanelSize.LargeFixed),
+                        Choice("ExtraLarge").OnSelected(x => panel.Size = Panel.PanelSize.ExtraLarge),
+                        Choice("FullWidth").OnSelected(x => panel.Size = Panel.PanelSize.FullWidth)
                     ),
                     Toggle("Is non-blocking").OnChange((s, e) => panel.IsNonBlocking = s.IsChecked).Checked(panel.IsNonBlocking),
                     Toggle("Is dark overlay").OnChange((s, e) => panel.IsDark = s.IsChecked).Checked(panel.IsDark),

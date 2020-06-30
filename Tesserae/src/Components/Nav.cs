@@ -71,7 +71,7 @@ namespace Tesserae.Components
             return this;
         }
 
-        private void OnNavLinkSelected(NavLink sender, Event e)
+        private void OnNavLinkSelected(NavLink sender)
         {
             if (SelectedLink != null)
                 SelectedLink.IsSelected = false;
@@ -127,10 +127,10 @@ namespace Tesserae.Components
 
         public class NavLink : ComponentBase<NavLink, HTMLLIElement>, IContainer<NavLink, NavLink>, IHasTextSize, IHasBackgroundColor
         {
-            public event ComponentEventHandler<NavLink, Event> onSelected;
-            public event ComponentEventHandler<NavLink, Event> onExpanded;
+            public event ComponentEventHandler<NavLink> onSelected;
+            public event ComponentEventHandler<NavLink> onExpanded;
 
-            internal event ComponentEventHandler<NavLink, Event> internalOnSelected;
+            internal event ComponentEventHandler<NavLink> internalOnSelected;
 
             protected readonly HTMLSpanElement _textSpan;
             protected HTMLElement _iconSpan;
@@ -223,7 +223,7 @@ namespace Tesserae.Components
                     {
                         if (!IsExpanded)
                         {
-                            onExpanded?.Invoke(this, null);
+                            onExpanded?.Invoke(this);
                             ScrollIntoView();
                         }
                         InnerElement.classList.add("tss-expanded");
@@ -239,8 +239,8 @@ namespace Tesserae.Components
                 {
                     if (value && !IsSelected)
                     {
-                        internalOnSelected?.Invoke(this, null);
-                        onSelected?.Invoke(this, null);
+                        internalOnSelected?.Invoke(this);
+                        onSelected?.Invoke(this);
                         ScrollIntoView();
                     }
                     UpdateSelectedClass(value);
@@ -336,7 +336,7 @@ namespace Tesserae.Components
                 component.internalOnSelected += OnChildSelected;
                 if (component.IsSelected)
                 {
-                    internalOnSelected?.Invoke(component, null);
+                    internalOnSelected?.Invoke(component);
 
                     if (SelectedChild != null) SelectedChild.IsSelected = false;
                     SelectedChild = component;
@@ -344,7 +344,7 @@ namespace Tesserae.Components
 
                 if (component.SelectedChild != null)
                 {
-                    internalOnSelected?.Invoke(component.SelectedChild, null);
+                    internalOnSelected?.Invoke(component.SelectedChild);
 
                     if (SelectedChild != null) SelectedChild.IsSelected = false;
                     SelectedChild = component.SelectedChild;
@@ -356,9 +356,9 @@ namespace Tesserae.Components
                 }
             }
 
-            private void OnChildSelected(NavLink sender, Event e)
+            private void OnChildSelected(NavLink sender)
             {
-                internalOnSelected?.Invoke(this, e);
+                internalOnSelected?.Invoke(this);
             }
 
             public void Clear()
@@ -373,7 +373,7 @@ namespace Tesserae.Components
                 ScrollBar.GetCorrectContainer(_childContainer).replaceChild(newComponent.Render(), oldComponent.Render());
                 newComponent.internalOnSelected += OnChildSelected;
                 if (newComponent.IsSelected)
-                    internalOnSelected?.Invoke(newComponent, null);
+                    internalOnSelected?.Invoke(newComponent);
             }
 
             public void Remove(NavLink oldComponent)
@@ -439,13 +439,13 @@ namespace Tesserae.Components
                 return this;
             }
 
-            public NavLink OnSelected(ComponentEventHandler<NavLink, Event> onSelected)
+            public NavLink OnSelected(ComponentEventHandler<NavLink> onSelected)
             {
                 this.onSelected += onSelected;
                 return this;
             }
 
-            public NavLink OnExpanded(ComponentEventHandler<NavLink, Event> onExpanded)
+            public NavLink OnExpanded(ComponentEventHandler<NavLink> onExpanded)
             {
                 this.onExpanded += onExpanded;
                 return this;
@@ -462,7 +462,7 @@ namespace Tesserae.Components
                 bool alreadyRun = false;
                 var dummy = new Nav.NavLink("loading...");
                 Add(dummy);
-                onExpanded += (s, e) =>
+                onExpanded += s =>
                 {
                     if (!alreadyRun)
                     {

@@ -1,5 +1,4 @@
 ﻿using System;
-using static H5.Core.dom;
 
 namespace Tesserae.Components
 {
@@ -8,20 +7,18 @@ namespace Tesserae.Components
         public static T Validation<T>(this T component, Func<T, string> validate, Validator validator = null, Validation.Mode mode = Components.Validation.Mode.OnInput) where T : ICanValidate<T>
         {
             if (validate is null)
-            {
                 throw new ArgumentNullException(nameof(validate));
-            }
 
             component.Attach(handler, mode);
 
-            handler(component, null);
+            handler(component);
 
-            validator?.Register(component, () => handler(component, null));
+            validator?.Register(component, () => handler(component));
             validator?.RaiseOnValidation();
 
             return component;
 
-            void handler(T sender, Event e)
+            void handler(T sender)
             {
                 var s = sender;
                 var msg = validate(s) ?? "";

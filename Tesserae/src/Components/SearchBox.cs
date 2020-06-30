@@ -14,7 +14,6 @@ namespace Tesserae.Components
         public event SearchEventHandler onSearch;
         public delegate void SearchEventHandler(SearchBox sender, string value);
 
-
         public SearchBox(string placeholder = string.Empty)
         {
             InnerElement = TextBox(_("tss-searchbox tss-fontsize-small tss-fontweight-regular", type: "text", placeholder: placeholder));
@@ -150,15 +149,15 @@ namespace Tesserae.Components
             return _container;
         }
 
-        public void Attach(ComponentEventHandler<SearchBox, Event> handler, Validation.Mode mode)
+        public void Attach(ComponentEventHandler<SearchBox> handler, Validation.Mode mode)
         {
             if (mode == Validation.Mode.OnBlur)
             {
-                onChange += (s,e) => handler(s,e);
+                onChange += (s, _) => handler(s);
             }
             else
             {
-                onInput += (s, e) => handler(s, e);
+                onInput += (s, _) => handler(s);
             }
         }
 

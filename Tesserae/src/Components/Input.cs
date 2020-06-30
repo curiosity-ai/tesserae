@@ -92,15 +92,15 @@ namespace Tesserae.Components
             }
         }
 
-        public void Attach(ComponentEventHandler<TInput, Event> handler, Validation.Mode mode)
+        public void Attach(ComponentEventHandler<TInput> handler, Validation.Mode mode)
         {
             if (mode == Validation.Mode.OnBlur)
             {
-                onChange += (s,e) => handler(s,e);
+                onChange += (s, _) => handler(s);
             }
             else
             {
-                onInput += (s, e) => handler(s, e);
+                onInput += (s, _) => handler(s);
             }
         }
 

@@ -301,15 +301,15 @@ namespace Tesserae.Components
                 RaiseOnChange(ev: null);
         }
 
-        public void Attach(ComponentEventHandler<Dropdown, Event> handler, Validation.Mode mode)
+        public void Attach(ComponentEventHandler<Dropdown> handler, Validation.Mode mode)
         {
             if (mode == Validation.Mode.OnBlur)
             {
-                onChange += (s, e) => handler(this, e);
+                onChange += (s, _) => handler(this);
             }
             else
             {
-                onInput += (s, e) => handler(this, e);
+                onInput += (s, _) => handler(this);
             }
         }
 
@@ -431,7 +431,7 @@ namespace Tesserae.Components
             RenderSelected();
         }
 
-        private void OnItemSelected(Item sender, Event e)
+        private void OnItemSelected(Item sender)
         {
             if (Mode == SelectMode.Single)
             {
@@ -683,7 +683,7 @@ namespace Tesserae.Components
             }
 
             private event BeforeSelectEventHandler<Item> _onBeforeSelected;
-            internal event ComponentEventHandler<Item, Event> _onSelected;
+            internal event ComponentEventHandler<Item> _onSelected;
 
             public ItemType Type
             {
@@ -743,7 +743,7 @@ namespace Tesserae.Components
                     // then nothing would happen (because the value hadn't changed and this callback wouldn't be made) because it's this callback that the parent class uses to hide the drop down list of options. I considered making
                     // adding the logic to OnItemClick instead (because we want a way to say "hide the drop down list if the User clicked an option) but that bypasses  the _onBeforeSelected and that could be useful (we might want
                     // to have a callback that prevents you from clicking the item if.. something). While I removed the was-changed check for single-select configurations, it does not harm for multi as well.
-                    _onSelected?.Invoke(this, null);
+                    _onSelected?.Invoke(this);
                 }
             }
 
@@ -799,17 +799,17 @@ namespace Tesserae.Components
                 return this;
             }
 
-            public Item OnSelected(ComponentEventHandler<Item, Event> onSelected, ComponentEventHandler<Item, Event> onDeselected = null)
+            public Item OnSelected(ComponentEventHandler<Item> onSelected, ComponentEventHandler<Item> onDeselected = null)
             {
-                _onSelected += (sender, e) =>
+                _onSelected += sender =>
                 {
                     if (sender.IsSelected)
                     {
-                        onSelected?.Invoke(sender, e);
+                        onSelected?.Invoke(sender);
                     }
                     else
                     {
-                        onDeselected?.Invoke(sender, e);
+                        onDeselected?.Invoke(sender);
                     }
                 };
                 return this;
