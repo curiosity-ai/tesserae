@@ -5,11 +5,32 @@ using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
-    public class Dialog
+    public sealed class Dialog
     {
-        private Modal _modal;
-        private static Random RNG = new Random();
-        private string _scope;
+        private static readonly Random RNG = new Random();
+
+        private readonly Modal _modal;
+        private readonly string _scope;
+        public Dialog(IComponent content = null, IComponent title = null, bool centerContent = true)
+        {
+            _modal = Modal().HideCloseButton().NoLightDismiss().Blocking();
+
+            if (centerContent)
+            {
+                _modal.CenterContent();
+                if (title is TextBlock tb)
+                    tb.TextCenter();
+            }
+
+            _modal.SetHeader(title);
+            _modal.Content = content;
+            _modal.StylingContainer.classList.add("tss-dialog");
+
+            _scope = $"dialog-{RNG.Next()}";
+
+            _modal.OnShow(_ => Hotkeys.SetScope(_scope));
+            _modal.OnHide(_ => Hotkeys.DeleteScope(_scope));
+        }
 
         public bool IsDraggable
         {
@@ -21,26 +42,6 @@ namespace Tesserae.Components
         {
             get => _modal.IsDark;
             set => _modal.IsDark = value;
-        }
-
-        public Dialog(IComponent content = null, IComponent title = null, bool centerContent = true)
-        {
-            _modal = Modal().HideCloseButton().NoLightDismiss().Blocking();
-            
-            if(centerContent)
-            {
-                _modal.CenterContent();
-                if (title is TextBlock tb) tb.TextCenter();
-            }
-
-            _modal.SetHeader(title);
-            _modal.Content = content;
-            _modal.StylingContainer.classList.add("tss-dialog");
-
-            _scope = $"dialog-{RNG.Next()}";
-
-            _modal.OnShow(_ => Hotkeys.SetScope(_scope));
-            _modal.OnHide(_ => Hotkeys.DeleteScope(_scope));
         }
 
         public Dialog Title(IComponent title)
@@ -68,6 +69,18 @@ namespace Tesserae.Components
             return this;
         }
 
+        public Dialog MinHeight(UnitSize unitSize) // 2020-06-30 DWR: This class does not implement IComponent and so the extension method for this functionality that operates against IComponent is not available here
+        {
+            _modal.MinHeight(unitSize);
+            return this;
+        }
+
+        public Dialog Height(UnitSize unitSize) // 2020-06-30 DWR: This class does not implement IComponent and so the extension method for this functionality that operates against IComponent is not available here
+        {
+            _modal.Height(unitSize);
+            return this;
+        }
+
         private Button Bind(string key, Button button)
         {
             Hotkeys.Bind(key, new Hotkeys.Option() { scope = _scope }, (e, h) =>
@@ -87,6 +100,7 @@ namespace Tesserae.Components
                                  .Children(Bind("Esc, Escape, Enter", btnOk(Button("Ok").Primary()).AlignEnd().OnClick((s, e) => { _modal.Hide(); onOk?.Invoke(); }))));
             _modal.Show();
         }
+
         public void OkCancel(Action onOk = null, Action onCancel = null, Func<Button, Button> btnOk = null, Func<Button, Button> btnCancel = null)
         {
             btnOk = btnOk ?? ((b) => b);
@@ -129,15 +143,9 @@ namespace Tesserae.Components
             _modal.Show();
         }
 
-        public void Show()
-        {
-            _modal.Show();
-        }
+        public void Show() => _modal.Show();
 
-        public void Hide(Action onHidden = null)
-        {
-            _modal.Hide(onHidden);
-        }
+        public void Hide(Action onHidden = null) => _modal.Hide(onHidden);
 
         public Dialog Draggable()
         {
@@ -186,7 +194,7 @@ namespace Tesserae.Components
             No,
             Cancel,
             Ok,
-            Retry,
+            Retry
         }
     }
 }

@@ -13,8 +13,8 @@ namespace Tesserae
         private readonly bool _valueIsObservable;
         private double _refreshTimeout;
         private readonly bool _shouldHook;
-        
-        public ObservableList(bool shouldHook = true, params T[] initialValues)
+        public ObservableList(params T[] initialValues) : this(shouldHook: true, initialValues: initialValues) { }
+        public ObservableList(bool shouldHook, params T[] initialValues)
         {
             _list = initialValues.ToList();
             _valueIsObservable = PossibleObservableHelpers.IsObservable(typeof(T));
