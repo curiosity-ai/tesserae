@@ -226,17 +226,6 @@ namespace Tesserae.Components
             }
         }
 
-        private void ClearOnClick(HTMLElement suggestionElement)
-        {
-            if (suggestionElement.onclick is object)
-            {
-                foreach (Delegate d in suggestionElement.onclick.GetInvocationList())
-                {
-                    suggestionElement.onclick -= (HTMLElement.onclickFn)d;
-                }
-            }
-        }
-
         private void CreateSelection(TPickerItem selectedItem)
         {
             UpdateSelection(selectedItem, true);
