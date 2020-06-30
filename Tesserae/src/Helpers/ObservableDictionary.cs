@@ -13,7 +13,8 @@ namespace Tesserae
         private readonly bool _valueIsObservable;
         private double _refreshTimeout;
         private readonly bool _shouldHook;
-        public ObservableDictionary() : this(new Dictionary<TKey, TValue>()) { }
+        public ObservableDictionary(IEqualityComparer<TKey> keyComparer = null, bool shouldHook = true) : this(new Dictionary<TKey, TValue>(keyComparer), shouldHook) { }
+        public ObservableDictionary(Dictionary<TKey, TValue> values, bool shouldHook = true) : this(values, values?.Comparer, shouldHook) { }
         public ObservableDictionary(IEnumerable<KeyValuePair<TKey, TValue>> values, IEqualityComparer<TKey> keyComparer = null, bool shouldHook = true)
         {
             // 2020-6-17 DWR: We're cloning the input, like we do in ObservableList, rather than accepting a Dictionary reference directly and storing that (that whoever provided it to us could mutate without us being aware here)
