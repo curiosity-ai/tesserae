@@ -48,12 +48,14 @@ namespace Tesserae
                 }
                 else
                 {
-                    var script = new HTMLScriptElement();
-                    script.type = "text/javascript";
-                    script.src = url;
-                    script.async = true;
-                    script.onerror = e => { onFail?.Invoke(url); loadedCount++; if (loadedCount == libraries.Length) onComplete?.Invoke(); };
-                    script.onload = OnScriptLoaded;
+                    var script = new HTMLScriptElement
+                    {
+                        type = "text/javascript",
+                        src = url,
+                        async = true,
+                        onerror = e => { onFail?.Invoke(url); loadedCount++; if (loadedCount == libraries.Length) onComplete?.Invoke(); },
+                        onload = OnScriptLoaded
+                    };
                     try
                     {
                         document.head.appendChild(script);

@@ -26,28 +26,27 @@ namespace Tesserae
                                     Action<HTMLElement> el                  = null,
                                     Action<CSSStyleDeclaration> styles      = null)
         {
-            var a = new Attributes();
+            return new Attributes
+            {
+                ClassName = className,
+                Id = id,
+                OnElementCreate = el,
+                Styles = styles,
 
-            a.ClassName       = className;
-            a.Id              = id;
-            a.OnElementCreate = el;
-            a.Styles          = styles;
+                //TODO: remove all of this too:
+                Title = title,
+                Href = href,
+                Src = src,
+                Rel = rel,
+                Target = target,
 
-            //TODO: remove all of this too:
-            a.Title  = title;
-            a.Href   = href;
-            a.Src    = src;
-            a.Rel    = rel;
-            a.Target = target;
-
-            a.Text         = text;
-            a.Type         = type;
-            a.Disabled     = disabled;
-            a.Value        = value;
-            a.DefaultValue = defaultValue;
-            a.Placeholder  = placeholder;
-
-            return a;
+                Text = text,
+                Type = type,
+                Disabled = disabled,
+                Value = value,
+                DefaultValue = defaultValue,
+                Placeholder = placeholder
+            };
         }
     }
 }

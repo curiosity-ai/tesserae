@@ -104,11 +104,12 @@ namespace Tesserae
 
         public static implicit operator HSLColor(Color color)
         {
-            HSLColor hslColor = new HSLColor();
-            hslColor._hue = color.GetHue() / 360.0; // we store hue as 0-1 as opposed to 0-360
-            hslColor._luminosity = color.GetBrightness();
-            hslColor._saturation = color.GetSaturation();
-            return hslColor;
+            return new HSLColor
+            {
+                _hue = color.GetHue() / 360.0, // we store hue as 0-1 as opposed to 0-360
+                _luminosity = color.GetBrightness(),
+                _saturation = color.GetSaturation()
+            };
         }
 
         public void SetRGB(byte red, byte green, byte blue)

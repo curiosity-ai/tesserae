@@ -222,18 +222,9 @@ namespace Tesserae
             if (string.IsNullOrWhiteSpace(html))
                 return SPAN();
 
-            if (IsProbablyHtml(html) || forceParseAsHTML)
-            {
-                var wrapper = new HTMLSpanElement();
-                wrapper.innerHTML = html;
-                return wrapper;
-            }
-            else
-            {
-                var text = new HTMLSpanElement();
-                text.textContent = html;
-                return text;
-            }
+            return (IsProbablyHtml(html) || forceParseAsHTML)
+                ? new HTMLSpanElement { innerHTML = html }
+                : new HTMLSpanElement { textContent = html };
         }
 
         private static bool IsProbablyHtml(string html)
@@ -465,24 +456,21 @@ namespace Tesserae
 
         public static HTMLInputElement CheckBox(Attributes init)
         {
-            var input = new HTMLInputElement();
-            input.type = "checkbox";
+            var input = new HTMLInputElement { type = "checkbox" };
             init?.InitInputElement(input);
             return input;
         }
 
         public static HTMLInputElement RadioButton(Attributes init)
         {
-            var input = new HTMLInputElement();
-            input.type = "radio";
+            var input = new HTMLInputElement { type = "radio" };
             init?.InitInputElement(input);
             return input;
         }
 
         public static HTMLInputElement FileInput(Attributes init)
         {
-            var input = new HTMLInputElement();
-            input.type = "file";
+            var input = new HTMLInputElement { type = "file" };
             init?.InitInputElement(input);
             return input;
         }
