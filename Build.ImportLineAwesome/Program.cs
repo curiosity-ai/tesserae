@@ -7,7 +7,7 @@ namespace Build.ImportLineAwesome
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             var css = File.ReadAllLines(@".\FromGit\line-awesome\dist\line-awesome\css\line-awesome.css");
 

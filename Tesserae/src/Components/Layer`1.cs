@@ -16,10 +16,7 @@ namespace Tesserae.Components
         protected HTMLElement _renderedContent;
         private LayerHost _host;
         private bool _isVisible;
-        public Layer()
-        {
-            InnerElement = Div(_("tss-layer-base"));
-        }
+        protected Layer() => InnerElement = Div(_("tss-layer-base"));
 
         public LayerHost Host
         {

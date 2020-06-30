@@ -4,6 +4,8 @@ namespace Tesserae
 {
     public class HSLColor
     {
+        private static readonly Random _rng = new Random();
+
         // Private data members below are on scale 0-1, they are scaled for use externally based on scale
         private double _hue = 1.0;
         private double _saturation = 1.0;
@@ -52,8 +54,6 @@ namespace Tesserae
             var c = (Color)this;
             return $"#{c.R:X2}{c.G:X2}{c.B:X2}";
         }
-
-        private static Random _rng = new Random();
 
         public static HSLColor Random()
         {

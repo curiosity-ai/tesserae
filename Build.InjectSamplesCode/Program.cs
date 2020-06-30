@@ -9,7 +9,7 @@ namespace Build.ImportLineAwesome
 {
     static class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             var samplesFolder = @"..\Tesserae.Tests\src\Samples\";
 

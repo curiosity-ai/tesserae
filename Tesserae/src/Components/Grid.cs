@@ -89,16 +89,16 @@ namespace Tesserae.Components
 
         public static void SetGridColumn(IComponent component, int start, int end)
         {
-            var correct = Stack.GetCorrectItemToApplyStyle(component);
-            correct.item.style.gridColumn = $"{start} / {end}";
-            if (correct.remember) correct.item.setAttribute("tss-grd-c", "");
+            var (item, remember) = Stack.GetCorrectItemToApplyStyle(component);
+            item.style.gridColumn = $"{start} / {end}";
+            if (remember) item.setAttribute("tss-grd-c", "");
         }
         
         public static void SetGridRow(IComponent component, int start, int end)
         {
-            var correct = Stack.GetCorrectItemToApplyStyle(component);
-            correct.item.style.gridRow = $"{start} / {end}";
-            if (correct.remember) correct.item.setAttribute("tss-grd-r", "");
+            var (item, remember) = Stack.GetCorrectItemToApplyStyle(component);
+            item.style.gridRow = $"{start} / {end}";
+            if (remember) item.setAttribute("tss-grd-r", "");
         }
 
         /// <summary>

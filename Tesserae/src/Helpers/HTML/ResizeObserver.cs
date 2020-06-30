@@ -1,6 +1,6 @@
-﻿using H5;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using H5;
 using Tesserae.Components;
 using static H5.Core.dom;
 
@@ -20,8 +20,7 @@ namespace Tesserae.HTML
             }
             catch
             {
-                pending = new List<Action>();
-                pending.Add(CreateRO);
+                pending = new List<Action> { CreateRO };
                 Require.LoadScriptAsync("./assets/js/resizeobserver.js").ContinueWith(t =>
                 {
                     if (t.IsCompleted)
@@ -93,7 +92,7 @@ namespace Tesserae.HTML
             OnResize?.Invoke();
         }
 
-        public float GetHeight(HTMLElement element)
+        public static float GetHeight(HTMLElement element)
         {
             var height = window.getComputedStyle(element).height;
             if (height == "")
@@ -104,7 +103,7 @@ namespace Tesserae.HTML
             return float.Parse(height.Replace("px", ""));
         }
 
-        public float GetWidth(HTMLElement element)
+        public static float GetWidth(HTMLElement element)
         {
             var width = window.getComputedStyle(element).width;
             if (width == "")

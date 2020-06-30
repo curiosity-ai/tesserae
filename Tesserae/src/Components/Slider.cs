@@ -1,14 +1,13 @@
-﻿using static Tesserae.UI;
-using static H5.Core.dom;
+﻿using static H5.Core.dom;
+using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
-    public class Slider : ComponentBase<Slider, HTMLInputElement>
+    public sealed class Slider : ComponentBase<Slider, HTMLInputElement>
     {
         private readonly HTMLLabelElement _outerLabel;
         private readonly HTMLDivElement _outerDiv;
         private readonly HTMLDivElement _fakeDiv;
-        private readonly HTMLSpanElement _valueSpan;
 
         public Slider(int val = 0, int min = 0, int max = 100, int step = 10)
         {
@@ -20,8 +19,6 @@ namespace Tesserae.Components
             InnerElement.step = step.ToString();
             InnerElement.type = "range";
 
-            _valueSpan = Span(_("m-1", text: val.ToString()));
-
             AttachClick();
             AttachChange();
             AttachInput();
@@ -31,12 +28,12 @@ namespace Tesserae.Components
             if (navigator.userAgent.IndexOf("AppleWebKit") != -1)
             {
                 _fakeDiv = Div(_("tss-slider-fake-progress"));
-                double percent = ((double)(val - min) / (double)(max - min)) * 100.0;
-                _fakeDiv.style.width = $"{percent.ToString("0.##")}%";
+                double percent = ((double)(val - min) / (max - min)) * 100.0;
+                _fakeDiv.style.width = $"{percent:0.##}%";
                 onInput += (e, s) =>
                 {
-                    percent = ((double)(Value - Min) / (double)(Max - Min)) * 100.0;
-                    _fakeDiv.style.width = $"{percent.ToString("0.##")}%";
+                    percent = ((double)(Value - Min) / (Max - Min)) * 100.0;
+                    _fakeDiv.style.width = $"{percent:0.##}%";
                 };
                 _outerLabel = Label(_("tss-slider-container"), InnerElement, Div(_("tss-slider-fake-background")), _fakeDiv);
                 InnerElement.classList.add("tss-fake");

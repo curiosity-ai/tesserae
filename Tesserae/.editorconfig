@@ -2,3 +2,9 @@
 
 # 2020-06-30 DWR: I think that nested public classes are fine and appropriate for many cases
 dotnet_diagnostic.CA1034.severity = none
+
+# 2020-06-30 DWR: I agree with this in premise but we're not going to follow it in this code base (do not return arrays from properties)
+dotnet_diagnostic.CA1819.severity = none
+
+# 2020-06-30 DWR: If we want try..catch blocks with non-specific exceptions then that's ok in many circumstances
+dotnet_diagnostic.CA1034.severity = none

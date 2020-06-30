@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Tesserae.HTML;
 using static H5.Core.dom;
@@ -274,7 +273,7 @@ namespace Tesserae.Components
 
             public bool IsSelected
             {
-                get => IsSelectable ? _container.classList.contains("tss-selected") : false;
+                get => IsSelectable && _container.classList.contains("tss-selected");
                 set
                 {
                     if (!IsSelectable) return;

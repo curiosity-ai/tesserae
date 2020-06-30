@@ -363,7 +363,7 @@ namespace Tesserae.Components
             children.ForEach(component =>
             {
                 ScrollBar.GetCorrectContainer(_childContainer).appendChild(component.Render());
-                component._onSelected += OnItemSelected;
+                component.onSelected += OnItemSelected;
             });
             EnsureAsyncLoadingStateDisabled(); // If we got here because an async request completed OR while one was in flight but a synchronous call to this method came in after it started but before finishing then ensure to remove its loading state
             UpdateStateBasedUponCurrentSelections();
@@ -682,8 +682,8 @@ namespace Tesserae.Components
                 InnerElement.addEventListener("mouseover", OnItemMouseOver);
             }
 
-            private event BeforeSelectEventHandler<Item> _onBeforeSelected;
-            internal event ComponentEventHandler<Item> _onSelected;
+            private event BeforeSelectEventHandler<Item> onBeforeSelected;
+            internal event ComponentEventHandler<Item> onSelected;
 
             public ItemType Type
             {
@@ -727,9 +727,9 @@ namespace Tesserae.Components
                 get => InnerElement.classList.contains("tss-selected");
                 set
                 {
-                    if (value && _onBeforeSelected is object)
+                    if (value && onBeforeSelected is object)
                     {
-                        var shouldSelect = _onBeforeSelected(this);
+                        var shouldSelect = onBeforeSelected(this);
                         if (!shouldSelect)
                             return;
                     }
@@ -743,7 +743,7 @@ namespace Tesserae.Components
                     // then nothing would happen (because the value hadn't changed and this callback wouldn't be made) because it's this callback that the parent class uses to hide the drop down list of options. I considered making
                     // adding the logic to OnItemClick instead (because we want a way to say "hide the drop down list if the User clicked an option) but that bypasses  the _onBeforeSelected and that could be useful (we might want
                     // to have a callback that prevents you from clicking the item if.. something). While I removed the was-changed check for single-select configurations, it does not harm for multi as well.
-                    _onSelected?.Invoke(this);
+                    onSelected?.Invoke(this);
                 }
             }
 
@@ -801,7 +801,7 @@ namespace Tesserae.Components
 
             public Item OnSelected(ComponentEventHandler<Item> onSelected, ComponentEventHandler<Item> onDeselected = null)
             {
-                _onSelected += sender =>
+                onSelected += sender =>
                 {
                     if (sender.IsSelected)
                     {
@@ -817,7 +817,7 @@ namespace Tesserae.Components
 
             public Item OnBeforeSelected(BeforeSelectEventHandler<Item> onBeforeSelect)
             {
-                _onBeforeSelected += onBeforeSelect;
+                onBeforeSelected += onBeforeSelect;
                 return this;
             }
 

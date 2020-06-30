@@ -29,11 +29,11 @@ namespace Tesserae
         {
             foreach (var componentAndKey in _componentsAndKeys)
             {
-                var cachedComponent = _componentCache.SingleOrDefault(component => component.Key == componentAndKey.Key);
+                var (Key, HtmlElement) = _componentCache.SingleOrDefault(component => component.Key == componentAndKey.Key);
 
-                if (cachedComponent.HtmlElement != null)
+                if (HtmlElement != null)
                 {
-                    yield return cachedComponent.HtmlElement;
+                    yield return HtmlElement;
                 }
                 else
                 {

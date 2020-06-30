@@ -10,12 +10,12 @@ namespace Tesserae.Components
         public static Position DefaultPosition { get; set; } = Position.TopRight;
 
         private Type _type = Type.Information;
-        private Position _position { get; set; } = DefaultPosition;
-        private Position _simplePosition
+        private Position CurrentPosition { get; set; } = DefaultPosition;
+        private Position SimplePosition
         {
             get
             {
-                switch (_position)
+                switch (CurrentPosition)
                 {
                     case Position.TopRight: return Position.TopRight;
                     case Position.TopLeft: return Position.TopLeft;
@@ -26,7 +26,7 @@ namespace Tesserae.Components
                     case Position.TopFull: return Position.TopCenter;
                     case Position.TopCenter: return Position.TopCenter;
                 }
-                return _position;
+                return CurrentPosition;
             }
         }
 
@@ -40,14 +40,14 @@ namespace Tesserae.Components
         private double _timeoutHandle = 0;
         private HTMLDivElement _toastContainer = Div(_("tss-toast-container"));
 
-        public Toast   TopRight       () { _position = Position.TopRight     ; return this;}
-        public Toast   TopCenter      () { _position = Position.TopCenter    ; return this;}
-        public Toast   TopLeft        () { _position = Position.TopLeft      ; return this;}
-        public Toast   BottomRight    () { _position = Position.BottomRight  ; return this;}
-        public Toast   BottomCenter   () { _position = Position.BottomCenter ; return this;}
-        public Toast   BottomLeft     () { _position = Position.BottomLeft   ; return this;}
-        public Toast   TopFull        () { _position = Position.TopFull      ; return this;}
-        public Toast   BottomFull     () { _position = Position.BottomFull   ; return this;}
+        public Toast   TopRight       () { CurrentPosition = Position.TopRight     ; return this;}
+        public Toast   TopCenter      () { CurrentPosition = Position.TopCenter    ; return this;}
+        public Toast   TopLeft        () { CurrentPosition = Position.TopLeft      ; return this;}
+        public Toast   BottomRight    () { CurrentPosition = Position.BottomRight  ; return this;}
+        public Toast   BottomCenter   () { CurrentPosition = Position.BottomCenter ; return this;}
+        public Toast   BottomLeft     () { CurrentPosition = Position.BottomLeft   ; return this;}
+        public Toast   TopFull        () { CurrentPosition = Position.TopFull      ; return this;}
+        public Toast   BottomFull     () { CurrentPosition = Position.BottomFull   ; return this;}
 
         public Toast Duration(TimeSpan timeSpan) { _timeoutDuration = (int)timeSpan.TotalSeconds; return this;  }
 
@@ -85,7 +85,7 @@ namespace Tesserae.Components
 
         private void Fire()
         {
-            _contentHtml = Div(_($"tss-toast tss-toast-{_type.ToString().ToLower()} tss-toast-{_position.ToString().ToLower()}"), _toastContainer);
+            _contentHtml = Div(_($"tss-toast tss-toast-{_type.ToString().ToLower()} tss-toast-{CurrentPosition.ToString().ToLower()}"), _toastContainer);
 
             if (_title is object)
             {
@@ -113,10 +113,10 @@ namespace Tesserae.Components
                 ResetTimeout();
             };
 
-            if (!OpenToasts.TryGetValue(_simplePosition, out var list))
+            if (!OpenToasts.TryGetValue(SimplePosition, out var list))
             {
                 list = new List<Toast>();
-                OpenToasts[_simplePosition] = list;
+                OpenToasts[SimplePosition] = list;
             }
 
             list.Add(this);
@@ -184,8 +184,8 @@ namespace Tesserae.Components
 
         private void RemoveAndHide()
         {
-            OpenToasts[_simplePosition].Remove(this);
-            switch (_simplePosition)
+            OpenToasts[SimplePosition].Remove(this);
+            switch (SimplePosition)
             {
                 case Position.TopRight:
                 case Position.TopCenter:

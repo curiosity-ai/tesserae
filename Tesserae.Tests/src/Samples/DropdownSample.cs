@@ -209,7 +209,7 @@ namespace Tesserae.Tests.Samples
             return _content.Render();
         }
 
-        private async Task<string> GetAsync(string url)
+        private static async Task<string> GetAsync(string url)
         {
             var xmlHttp = new XMLHttpRequest();
             xmlHttp.open("GET", url, true);
