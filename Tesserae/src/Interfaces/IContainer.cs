@@ -3,11 +3,15 @@ using System.Collections.Generic;
 
 namespace Tesserae.Components
 {
-    public interface IContainer<T, TChild> : IComponent where T : IContainer<T, TChild> where TChild : IComponent
+    public interface IContainerBase<TChild> : IComponent where TChild : IComponent
     {
         void Add(TChild component);
         void Clear();
         void Replace(TChild newComponent, TChild oldComponent);
+    }
+
+    public interface IContainer<T, TChild> : IContainerBase<TChild> where T : IContainer<T, TChild> where TChild : IComponent
+    {
     }
 
     public static class IContainerExtensions
