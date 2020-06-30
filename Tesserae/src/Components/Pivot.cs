@@ -220,13 +220,17 @@ namespace Tesserae.Components
                 _firstRender = false;
             }
 
-            if (f > 1) { f = 1; }
-            CurrentWidth = CurrentWidth + (TargetWidth - CurrentWidth) * f;
-            CurrentLeft = CurrentLeft + (TargetLeft - CurrentLeft) * f;
+            if (f > 1)
+            {
+                f = 1;
+            }
+
+            CurrentWidth += (TargetWidth - CurrentWidth) * f;
+            CurrentLeft += (TargetLeft - CurrentLeft) * f;
             Line.style.width = CurrentWidth + "px";
             Line.style.marginLeft = (CurrentLeft - Left0) + "px";
-            if (Math.Abs(CurrentLeft - TargetLeft) > 1e-5 ||
-                Math.Abs(CurrentWidth - TargetWidth) > 1e-5)
+            
+            if (Math.Abs(CurrentLeft - TargetLeft) > 1e-5 || Math.Abs(CurrentWidth - TargetWidth) > 1e-5)
             {
                 window.requestAnimationFrame((t) => AnimateLine(t));
             }

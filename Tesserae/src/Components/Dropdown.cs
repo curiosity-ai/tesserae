@@ -648,9 +648,9 @@ namespace Tesserae.Components
 
             ResetSearchItems(itemsToReset);
 
-            foreach (var itemToRemove in itemsToRemove)
+            foreach (var (item, textContent) in itemsToRemove)
             {
-                itemToRemove.item.style.display = "none";
+                item.style.display = "none";
             }
             RecomputePopupPosition();
         }
