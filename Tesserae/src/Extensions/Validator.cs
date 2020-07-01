@@ -67,7 +67,9 @@ namespace Tesserae.Components
         {
             get
             {
-                return !Revalidate(); // If we want to know if the ENTIRE form that this validator is related to then we need to check ALL components and NOT just the ones that the User has edited so far
+                // If we want to know if the ENTIRE form that this validator is related to then we need to check ALL components and NOT just the ones that the User has edited so far - and so we won't call Revalidate and specify Revalidate as true - and
+                // we ALSO want the OnValidationOccured event to fire - which is another reason to call Revalidate() and not Revalidate(bool validateOnlyUserEditedComponents)
+                return Revalidate();
             }
         }
 
