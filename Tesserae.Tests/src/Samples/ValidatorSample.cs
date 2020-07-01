@@ -11,7 +11,7 @@ namespace Tesserae.Tests.Samples
         public ValidatorSample()
         {
             var looksValidSoFar = TextBlock("?");
-            var validator = Validator().OnValidation(haveEncounteredInvalidValue => looksValidSoFar.Text = haveEncounteredInvalidValue ? "Something is not ok ❌" : "Everything is fine so far ✔");
+            var validator = Validator().OnValidation(validity => looksValidSoFar.Text = (validity == ValidationState.Invalid) ? "Something is not ok ❌" : "Everything is fine so far ✔");
 
             // Note: The "Required()" calls on these components only marks them visually as being required - if they must have values then that must be accounted for in their Validation(..) logic
             var tb1 = TextBox().Required();

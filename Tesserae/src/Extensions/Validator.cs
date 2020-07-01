@@ -13,7 +13,7 @@ namespace Tesserae.Components
         /// The haveEncounteredInvalidValue value indicates whether any invalid values have been encountered SO FAR - components will only be validated as a User edits them OR when a Revalidate call is made (or the IsValid property is checked), which
         /// indicates an action such a form submission is about to occur and that EVERYTHING should be checked (unless such an action has occurred, we want to give Users a chance to fill things in BEFORE we shout at them about it)
         /// </summary>
-        public delegate void OnValidationHandler(bool haveEncounteredInvalidValue);
+        public delegate void OnValidationHandler(ValidationState validity);
 
         private readonly Dictionary<ICanValidate, Action> _registeredComponents;
         private readonly HashSet<ICanValidate> _registeredComponentsThatUserHasInteractedWith;
@@ -53,8 +53,8 @@ namespace Tesserae.Components
                 _ =>
                 {
                     // Do NOT force a full revalidation just because one thing has changed, only validate components that the User has edited so far (call Revalidate() or check IsValid to force a FULL revalidation)
-                    var looksValidsForFar = Revalidate(validateOnlyUserEditedComponents: true);
-                    OnValidationOccured?.Invoke(haveEncounteredInvalidValue: !looksValidsForFar);
+                    var validity = Revalidate(validateOnlyUserEditedComponents: true);
+                    OnValidationOccured?.Invoke(validity);
                 },
                 100
             );
@@ -78,34 +78,46 @@ namespace Tesserae.Components
         /// </summary>
         public bool Revalidate()
         {
-            var isValid = Revalidate(validateOnlyUserEditedComponents: false);
-            OnValidationOccured?.Invoke(haveEncounteredInvalidValue: !isValid);
-            return isValid;
+            var validity = Revalidate(validateOnlyUserEditedComponents: false);
+            OnValidationOccured?.Invoke(validity);
+            return validity != ValidationState.Invalid; // Since we've forced a full re-validate here, we know we can translate the enum into a bool safely because it's either ALL valid or at least one component is NOT valid (we didn't skip ANY not-yet-interacted-with components)
         }
 
         /// <summary>
         /// This will return false if any of the components that were checked were found to be in an invalid state (the components checked depends upon validateOnlyUserEditedComponents and which registered components that the User has interacted with)
         /// </summary>
-        private bool Revalidate(bool validateOnlyUserEditedComponents)
+        private ValidationState Revalidate(bool validateOnlyUserEditedComponents)
         {
             if (_callsDepth > 2)
-                return true;
+                return ValidationState.EveryComponentIsValid;
 
+            var atLeastOneComponentNotChecked = false;
             var looksValidSoFar = true;
             _callsDepth++;
             foreach (var kv in _registeredComponents)
             {
-                if (!validateOnlyUserEditedComponents || _registeredComponentsThatUserHasInteractedWith.Contains(kv.Key))
+                if (validateOnlyUserEditedComponents && !_registeredComponentsThatUserHasInteractedWith.Contains(kv.Key))
                 {
-                    kv.Value?.Invoke(); // Force revalidation
-                    if (kv.Key.IsInvalid)
-                    {
-                        looksValidSoFar = false;
-                    }
+                    atLeastOneComponentNotChecked = true;
+                    continue;
+                }
+
+                kv.Value?.Invoke(); // Force revalidation
+                if (kv.Key.IsInvalid)
+                {
+                    looksValidSoFar = false;
                 }
             }
             _callsDepth--;
-            return looksValidSoFar;
+
+            // If we encountered an invalid component then it doesn't matter whether we check all of them or just a subset - the resulting state is Invalid
+            if (!looksValidSoFar)
+                return ValidationState.Invalid;
+
+            // If we DIDN'T encounter an invalid component then it could be that we haven't checked the entire form yet OR it could be that we have and every single one of them is perfect
+            return atLeastOneComponentNotChecked
+                ? ValidationState.NoInvalidComponentFoundSoFar
+                : ValidationState.EveryComponentIsValid;
         }
 
         private sealed class DummyComponentToUseForCustomValidationLogicNotTiedToOneComponent : ICanValidate
