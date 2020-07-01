@@ -4,7 +4,10 @@ namespace Tesserae.Components
 {
     public static class ValidationExtensions
     {
-        public static T Validation<T>(this T component, Func<T, string> validate, Validator validator = null) where T : ICanValidate<T>
+        /// <summary>
+        /// This applies validation logic to a component that implements ICanValidate-of-itself and will register the component with a Validator instance if one is provided
+        /// </summary>
+        public static TComponent Validation<TComponent>(this TComponent component, Func<TComponent, string> validate, Validator validator = null) where TComponent : ICanValidate<TComponent>
         {
             if (component == null)
                 throw new ArgumentNullException(nameof(component));
@@ -20,15 +23,13 @@ namespace Tesserae.Components
 
             return component;
 
-            void ApplyValidation() => ApplyValidationToComponent(component, validate);
-        }
-
-        private static void ApplyValidationToComponent<T>(T component, Func<T, string> validate) where T : ICanValidate
-        {
-            var msg = validate(component) ?? "";
-            var isInvalid = !string.IsNullOrWhiteSpace(msg);
-            component.Error = msg;
-            component.IsInvalid = isInvalid;
+            void ApplyValidation()
+            {
+                var validationWarningIfAny = validate(component);
+                var isInvalid = !string.IsNullOrWhiteSpace(validationWarningIfAny);
+                component.Error = isInvalid ? validationWarningIfAny : "";
+                component.IsInvalid = isInvalid;
+            }
         }
     }
 }
