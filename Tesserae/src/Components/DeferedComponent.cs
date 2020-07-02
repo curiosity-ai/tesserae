@@ -14,8 +14,7 @@ namespace Tesserae.Components
         private TextBlock _defaultLoadingMessageIfAny;
         private bool _needsRefresh;
         private double _refreshTimeout;
-        internal HTMLElement _container;
-        private int _delay = 1;
+        private int _delayInMs = 1;
         private DeferedComponent(Func<Task<IComponent>> asyncGenerator, IComponent loadMessage, TextBlock defaultLoadingMessageIfAny)
         {
             if (loadMessage is null)
@@ -24,7 +23,7 @@ namespace Tesserae.Components
             _asyncGenerator = asyncGenerator ?? throw new ArgumentNullException(nameof(asyncGenerator));
             _defaultLoadingMessageIfAny = defaultLoadingMessageIfAny;
             _needsRefresh = true;
-            _container = DIV(loadMessage.Render());
+            Container = DIV(loadMessage.Render());
         }
 
         internal static DeferedComponent Create(Func<Task<IComponent>> asyncGenerator, IComponent loadMessage)
@@ -51,25 +50,28 @@ namespace Tesserae.Components
         {
             _needsRefresh = true;
             window.clearTimeout(_refreshTimeout);
-            _refreshTimeout = window.setTimeout((t) => TriggerRefresh(), _delay > 0 ? _delay : 1);
+            _refreshTimeout = window.setTimeout(
+                t => TriggerRefresh(),
+                _delayInMs
+            );
         }
 
         public IDefer Debounce(int milliseconds)
         {
-            _delay = milliseconds;
+            if (_delayInMs <= 0)
+                throw new ArgumentOutOfRangeException(nameof(milliseconds), "must be a positive value");
+
+            _delayInMs = milliseconds;
             return this;
         }
 
         public HTMLElement Render()
         {
-            DomObserver.WhenMounted(_container, () => TriggerRefresh());
-            return _container;
+            DomObserver.WhenMounted(Container, TriggerRefresh);
+            return Container;
         }
 
-        internal HTMLElement Container()
-        {
-            return _container;
-        }
+        internal HTMLElement Container { get; }
 
         private void TriggerRefresh()
         {
@@ -89,7 +91,7 @@ namespace Tesserae.Components
                 1_000
             );
 
-            var container = ScrollBar.GetCorrectContainer(_container);
+            var container = ScrollBar.GetCorrectContainer(Container);
             _asyncGenerator()
                 .ContinueWith(r =>
                 {

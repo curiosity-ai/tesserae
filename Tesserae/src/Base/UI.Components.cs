@@ -43,7 +43,7 @@ namespace Tesserae
         {
             if(component is DeferedComponent deferedComponent)
             {
-                deferedComponent._container.id = id;
+                deferedComponent.Container.id = id;
                 return component;
             }
             var el = component.Render();

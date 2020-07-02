@@ -5,7 +5,7 @@ using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
-    public class ItemsList: IComponent, ISpecialCaseStyling
+    public sealed class ItemsList : IComponent, ISpecialCaseStyling
     {
         private readonly Grid _grid;
         private readonly Stack _stack;
@@ -16,7 +16,7 @@ namespace Tesserae.Components
 
         public ObservableList<IComponent> Items { get; }
 
-        public HTMLElement StylingContainer => _defered.Container();
+        public HTMLElement StylingContainer => _defered.Container;
 
         public bool PropagateToStackItemParent => true;
 
