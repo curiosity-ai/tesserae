@@ -116,7 +116,7 @@ namespace Tesserae.Components
                 .SetFooter(Stack().HorizontalReverse().Children(
                     CreateButton("Cancel", onCancel, "Esc, Escape", modifier: btnCancel, isPrimary: false),
                     CreateButton("No", onNo, bindToKeys: null, modifier: btnNo, isPrimary: false),
-                    CreateButton("Yes", onYes, bindToKeys: null, modifier: btnYes, isPrimary: true)
+                    CreateButton("Yes", onYes, "Enter", modifier: btnYes, isPrimary: true)
                 ))
                 .Show();
         }
