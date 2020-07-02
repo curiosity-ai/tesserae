@@ -301,16 +301,9 @@ namespace Tesserae.Components
                 RaiseOnChange(ev: null);
         }
 
-        public void Attach(ComponentEventHandler<Dropdown> handler, Validation.Mode mode)
+        public void Attach(ComponentEventHandler<Dropdown> handler)
         {
-            if (mode == Validation.Mode.OnBlur)
-            {
-                onChange += (s, _) => handler(this);
-            }
-            else
-            {
-                onInput += (s, _) => handler(this);
-            }
+            onInput += (s, _) => handler(this);
         }
 
         public Dropdown Single()

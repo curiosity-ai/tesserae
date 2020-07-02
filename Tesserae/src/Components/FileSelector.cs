@@ -111,7 +111,7 @@ namespace Tesserae.Components
             return this;
         }
 
-        public void Attach(ComponentEventHandler<FileSelector> handler, Validation.Mode mode)
+        public void Attach(ComponentEventHandler<FileSelector> handler)
         {
             onFileSelected += (s, _) => handler(s);
         }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using static H5.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae.Components
@@ -81,66 +80,55 @@ namespace Tesserae.Components
             return this;
         }
 
-        private Button Bind(string key, Button button)
-        {
-            Hotkeys.Bind(key, new Hotkeys.Option() { scope = _scope }, (e, h) =>
-            {
-                StopEvent(e);
-                button.RaiseOnClick(new MouseEvent(null));
-            });
-            return button;
-        }
-
         public void Ok(Action onOk, Func<Button, Button> btnOk = null)
         {
-            btnOk = btnOk ?? ((b) => b);
-
-            _modal.LightDismiss();
-            _modal.SetFooter(Stack().HorizontalReverse()
-                                 .Children(Bind("Esc, Escape, Enter", btnOk(Button("Ok").Primary()).AlignEnd().OnClick((s, e) => { _modal.Hide(); onOk?.Invoke(); }))));
-            _modal.Show();
+            _modal
+                .LightDismiss()
+                .SetFooter(Stack().HorizontalReverse().Children(
+                    CreateButton("Ok", onOk, "Esc, Escape, Enter", modifier: btnOk, isPrimary: true)
+                ))
+                .Show();
         }
 
         public void OkCancel(Action onOk = null, Action onCancel = null, Func<Button, Button> btnOk = null, Func<Button, Button> btnCancel = null)
         {
-            btnOk = btnOk ?? ((b) => b);
-            btnCancel = btnCancel ?? ((b) => b);
-            _modal.SetFooter(Stack().HorizontalReverse()
-                                 .Children(Bind("Esc, Escape,", btnCancel(Button("Cancel")).AlignEnd().OnClick((s, e) => { _modal.Hide(); onCancel?.Invoke(); })),
-                                           Bind("Enter", btnOk(Button("Ok").Primary()).AlignEnd().OnClick((s, e) => { _modal.Hide(); onOk?.Invoke(); }))));
-            _modal.Show();
+            _modal
+                .SetFooter(Stack().HorizontalReverse().Children(
+                    CreateButton("Cancel", onCancel, "Esc, Escape", modifier: btnCancel, isPrimary: false),
+                    CreateButton("Ok", onOk, "Enter", modifier: btnOk, isPrimary: true)
+                ))
+                .Show();
         }
 
         public void YesNo(Action onYes = null, Action onNo = null, Func<Button, Button> btnYes = null, Func<Button, Button> btnNo = null)
         {
-            btnYes = btnYes ?? ((b) => b);
-            btnNo = btnNo ?? ((b) => b);
-            _modal.SetFooter(Stack().HorizontalReverse()
-                                 .Children(Bind("Esc, Escape", btnNo(Button("No")).AlignEnd().OnClick((s, e) => { _modal.Hide(); onNo?.Invoke(); })),
-                                           Bind("Enter", btnYes(Button("Yes").Primary()).AlignEnd().OnClick((s, e) => { _modal.Hide(); onYes?.Invoke(); }))));
-            _modal.Show();
+            _modal
+                .SetFooter(Stack().HorizontalReverse().Children(
+                    CreateButton("No", onNo, "Esc, Escape", modifier: btnNo, isPrimary: false),
+                    CreateButton("Yes", onYes, "Enter", modifier: btnYes, isPrimary: true)
+                ))
+                .Show();
         }
 
         public void YesNoCancel(Action onYes = null, Action onNo = null, Action onCancel = null, Func<Button, Button> btnYes = null, Func<Button, Button> btnNo = null, Func<Button, Button> btnCancel = null)
         {
-            btnYes = btnYes ?? ((b) => b);
-            btnNo = btnNo ?? ((b) => b);
-            btnCancel = btnCancel ?? ((b) => b);
-            _modal.SetFooter(Stack().HorizontalReverse()
-                                 .Children(Bind("Esc, Escape", btnCancel(Button("Cancel")).AlignEnd().OnClick((s, e) => { _modal.Hide(); onCancel?.Invoke(); })),
-                                           btnNo(Button("No")).AlignEnd().OnClick((s, e) => { _modal.Hide(); onNo?.Invoke(); }),
-                                           btnYes(Button("Yes").Primary()).AlignEnd().OnClick((s, e) => { _modal.Hide(); onYes?.Invoke(); })));
-            _modal.Show();
+            _modal
+                .SetFooter(Stack().HorizontalReverse().Children(
+                    CreateButton("Cancel", onCancel, "Esc, Escape", modifier: btnCancel, isPrimary: false),
+                    CreateButton("No", onNo, bindToKeys: null, modifier: btnNo, isPrimary: false),
+                    CreateButton("Yes", onYes, "Enter", modifier: btnYes, isPrimary: true)
+                ))
+                .Show();
         }
 
         public void RetryCancel(Action onRetry = null, Action onCancel = null, Func<Button, Button> btnRetry = null, Func<Button, Button> btnCancel = null)
         {
-            btnRetry = btnRetry ?? ((b) => b);
-            btnCancel = btnCancel ?? ((b) => b);
-            _modal.SetFooter(Stack().HorizontalReverse()
-                                 .Children(Bind("Esc, Escape", btnCancel(Button("Cancel")).AlignEnd().OnClick((s, e) => { _modal.Hide(); onCancel?.Invoke(); })),
-                                           Bind("Enter", btnRetry(Button("Retry").Primary()).AlignEnd().OnClick((s, e) => { _modal.Hide(); onRetry?.Invoke(); }))));
-            _modal.Show();
+            _modal
+                .SetFooter(Stack().HorizontalReverse().Children(
+                    CreateButton("Cancel", onCancel, "Esc, Escape", modifier: btnCancel, isPrimary: false),
+                    CreateButton("Retry", onRetry, "Enter", modifier: btnRetry, isPrimary: true)
+                ))
+                .Show();
         }
 
         public void Show() => _modal.Show();
@@ -196,5 +184,34 @@ namespace Tesserae.Components
             Ok,
             Retry
         }
-    }
+
+        private Button CreateButton(string text, Action onClick, string bindToKeys, Func<Button, Button> modifier, bool isPrimary)
+        {
+            var button = Button(text)
+                .AlignEnd()
+                .OnClick((_, __) =>
+                {
+                    _modal.Hide();
+                    onClick?.Invoke();
+                });
+
+            if (isPrimary)
+                button.Primary();
+
+            if (modifier is object)
+                button = modifier(button);
+
+            if (!string.IsNullOrWhiteSpace(bindToKeys))
+            {
+                Hotkeys.Bind(bindToKeys, new Hotkeys.Option() { scope = _scope }, (e, _) =>
+                {
+                    StopEvent(e);
+                    _modal.Hide();
+                    onClick?.Invoke();
+                });
+            }
+            
+            return button;
+        }
+   }
 }

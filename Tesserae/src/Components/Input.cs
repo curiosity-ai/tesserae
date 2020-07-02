@@ -21,6 +21,7 @@ namespace Tesserae.Components
             AttachInput();
             AttachFocus();
             AttachBlur();
+            AttachKeys();
 
             // TODO: 27/06/20 - MB - calling virtual member within a constructor is a bit of a no-no.
             OnChange((_, __) => _observable.Value = Text);
@@ -92,16 +93,9 @@ namespace Tesserae.Components
             }
         }
 
-        public void Attach(ComponentEventHandler<TInput> handler, Validation.Mode mode)
+        public void Attach(ComponentEventHandler<TInput> handler)
         {
-            if (mode == Validation.Mode.OnBlur)
-            {
-                onChange += (s, _) => handler(s);
-            }
-            else
-            {
-                onInput += (s, _) => handler(s);
-            }
+            onInput += (s, _) => handler(s);
         }
 
         public TInput SetText(string text)

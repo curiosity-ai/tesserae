@@ -1,4 +1,5 @@
-﻿using static H5.Core.dom;
+﻿using System.Collections.Generic;
+using static H5.Core.dom;
 
 namespace Tesserae
 {
@@ -6,12 +7,16 @@ namespace Tesserae
     /// Enables monitoring of changes for a variable of type T (this class is for listeners only, if updating the value is required then the SettableObserver should be used)
     /// </summary>
     /// <typeparam name="T">An immutable type to be observed. Be careful with non-imutable types, as they may be changed in ways that will not be repoted here</typeparam>
-    public class ReadOnlyObservable<T> : IObservable<T>
+    public abstract class ReadOnlyObservable<T> : IObservable<T> // 2020-07-01 DWR: This is an abstract class because it doesn't make sense to have an Observable that can never be updated, so it should always be derived from in order to be useful
     {
         private T _value;
+        private IEqualityComparer<T> _comparer;
         private double _refreshTimeout;
-
-        public ReadOnlyObservable(T value = default) => _value = value;
+        protected ReadOnlyObservable(T value = default, IEqualityComparer<T> comparer = null)
+        {
+            _value = value;
+            _comparer = comparer ?? EqualityComparer<T>.Default;
+        }
 
         private event ObservableEvent.ValueChanged<T> OnValueChanged;
 
@@ -31,7 +36,7 @@ namespace Tesserae
             get => _value;
             protected set
             {
-                if (!_value.Equals(value))
+                if (!_comparer.Equals(_value, value))
                 {
                     _value = value;
                     RaiseOnValueChanged();

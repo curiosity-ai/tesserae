@@ -78,9 +78,11 @@ namespace Tesserae.Components
 
         protected void AttachChange() => InnerElement.addEventListener("change", s => RaiseOnChange(s));
 
-        public void RaiseOnClick(MouseEvent ev) => onClick?.Invoke((T)this, ev);
+        // 2020-06-30 DWR: This was previously public, not protected, but nothing outside of a component itself should be faking events like this
+        protected void RaiseOnClick(MouseEvent ev) => onClick?.Invoke((T)this, ev);
 
-        public void RaiseOnChange(Event ev) => onChange?.Invoke((T)this, ev);
+        // 2020-06-30 DWR: This was previously public, not protected, but nothing outside of a component itself should be faking events like this
+        protected void RaiseOnChange(Event ev) => onChange?.Invoke((T)this, ev);
 
         protected void AttachInput() => InnerElement.addEventListener("input", ev => RaiseOnInput(ev));
 
