@@ -55,10 +55,7 @@ namespace Tesserae.Tests
             };
 
             var sideBar = Sidebar().Stretch();
-            var navBar = Navbar().SetTop(Stack().Horizontal()
-                                          .WidthStretch()
-                                          .HeightStretch()
-                                          .Children(SearchBox("Search for a template").WidthStretch().Underlined()));
+            var navBar = Navbar().SetTop(HStack().S().Children(SearchBox("Search for a template").WidthStretch().Underlined()));
             sideBar.IsVisible = false;
             navBar.IsVisible  = false;
             document.body.style.overflow = "hidden";
@@ -118,7 +115,7 @@ namespace Tesserae.Tests
                 );
 
                 var component = components[componentRouteName]();
-                return new SplitView()
+                return SplitView().NoSplitter()
                     .Left(Stack().Stretch().Children(MainNav(links, navBar, sideBar)).InvisibleScroll(), background: Theme.Default.Background)
                     .LeftIsSmaller(300.px())
                     .Stretch()

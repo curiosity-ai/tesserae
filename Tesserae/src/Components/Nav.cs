@@ -74,11 +74,25 @@ namespace Tesserae.Components
         private void OnNavLinkSelected(NavLink sender)
         {
             if (SelectedLink != null)
-                SelectedLink.IsSelected = false;
+            {
+                RecursivelyUnselect(SelectedLink);
+            }
             
             RaiseOnChange(ev: null);
 
             SelectedLink = sender;
+        }
+
+        private void RecursivelyUnselect(NavLink selectedLink)
+        {
+            if (selectedLink.IsSelected)
+            {
+                selectedLink.IsSelected = false;
+                foreach (var child in selectedLink._childLinks)
+                {
+                    RecursivelyUnselect(child);
+                }
+            }
         }
 
         public Nav Compact()
@@ -141,7 +155,7 @@ namespace Tesserae.Components
             private bool _canSelectAndExpand = false;
             private int _Level;
             private bool _shouldExpandOnFirstAdd;
-            private readonly List<NavLink> Children = new List<NavLink>();
+            internal readonly List<NavLink> _childLinks = new List<NavLink>();
 
             public NavLink(string text = null)
             {
@@ -269,7 +283,7 @@ namespace Tesserae.Components
                 set
                 {
                     _Level = value;
-                    foreach (var c in Children)
+                    foreach (var c in _childLinks)
                     {
                         c.Level = Level + 1;
                     }
@@ -330,7 +344,7 @@ namespace Tesserae.Components
 
             public void Add(NavLink component)
             {
-                Children.Add(component);
+                _childLinks.Add(component);
                 ScrollBar.GetCorrectContainer(_childContainer).appendChild(component.Render());
                 _headerDiv.classList.add("tss-expandable");
                 component.Level = Level + 1;
@@ -365,7 +379,7 @@ namespace Tesserae.Components
             public void Clear()
             {
                 ClearChildren(ScrollBar.GetCorrectContainer(_childContainer));
-                Children.Clear();
+                _childLinks.Clear();
                 _headerDiv.classList.remove("tss-expandable");
             }
 
