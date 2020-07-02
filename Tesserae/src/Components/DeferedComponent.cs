@@ -12,7 +12,7 @@ namespace Tesserae.Components
     {
         private readonly Func<Task<IComponent>> _asyncGenerator;
         private TextBlock _defaultLoadingMessageIfAny;
-        private bool _needsRefresh;
+        private bool _needsRefresh, _waitForComponentToBeMountedBeforeFullyInitiatingRender, _renderHasBeenCalled;
         private double _refreshTimeout;
         private int _delayInMs = 1;
         private DeferedComponent(Func<Task<IComponent>> asyncGenerator, IComponent loadMessage, TextBlock defaultLoadingMessageIfAny)
@@ -23,6 +23,8 @@ namespace Tesserae.Components
             _asyncGenerator = asyncGenerator ?? throw new ArgumentNullException(nameof(asyncGenerator));
             _defaultLoadingMessageIfAny = defaultLoadingMessageIfAny;
             _needsRefresh = true;
+            _waitForComponentToBeMountedBeforeFullyInitiatingRender = true; // 2020-07-02 DWR: This has only just become configurable and the default value matches the previous behaviour - wait for DomObserver.WhenMounted in Render() before calling TriggerRefresh()
+            _renderHasBeenCalled = false;
             Container = DIV(loadMessage.Render());
         }
 
@@ -56,6 +58,8 @@ namespace Tesserae.Components
             );
         }
 
+        /// <summary>
+        /// The milliseconds must be a value of at least one, trying to disable Debounce by passing a zero (or negative) value is not supported
         public IDefer Debounce(int milliseconds)
         {
             if (_delayInMs <= 0)
@@ -65,9 +69,39 @@ namespace Tesserae.Components
             return this;
         }
 
+        /// <summary>
+        /// By default, the component will generate an empty container and only start to initiate the data retrieval and full rendering process when it is mounted in the DOM (so that things like height calculations may be performed accurately, which require that
+        /// the component exist in its expected location in the DOM) but this can be expensive if rendering many items. If it is known that the component is immediately going to be mounted then this method may be called and the DomObserver.WhenMounted logic will
+        /// be bypassed and replaced with a simple setTimeout of very short duration (to allow the immediate rendering of the element to take place).
+        /// </summary>
+        public IDefer DoNotWaitForComponentMountingBeforeRendering()
+        {
+            _waitForComponentToBeMountedBeforeFullyInitiatingRender = false;
+            return this;
+        }
+
         public HTMLElement Render()
         {
-            DomObserver.WhenMounted(Container, TriggerRefresh);
+            // 2020-07-02 DWR: Don't repeat the TriggerRefresh-when-ready logic if it's already been performed once for this component - the TriggerRefresh method checks the _needsRefresh flag and so wouldn't initiate any work but we would still be causing work
+            // ork for ourselves if we needlessly called it and we're registering additional callbacks that is wasteful (particuarly DomObserver.WhenMounted can be expensive if there are many components registered, so that's the primary case to improve here)
+            if (!_renderHasBeenCalled)
+            {
+                if (_waitForComponentToBeMountedBeforeFullyInitiatingRender)
+                {
+                    // Wait until we know that the container has been mounted before starting to load the content and render fully - this is the ideal case because we know for sure that we're rendering directly into the DOM and that any height-based calculations,
+                    // for example, will give accurate results. However, if we're rendering a lot of items then DomObserver.WhenMounted gets expensive because every time that the DOM has a new item added, the DomObserver has to check whether it affects the mounted
+                    // state of any of the elements registered with it (which requires a lot of DOM-walking).
+                    DomObserver.WhenMounted(Container, TriggerRefresh);
+                }
+                else
+                {
+                    // This approach should only be used if it is expected that the element is going to be mounted immediately (to continue the example above, this may be important for things like height calculations - you want the element to be mounterd so that
+                    // you get accurate results for things like that). It's technically less "safe" than using DomObserver.WhenMounted but it's also a lot cheaper if many items are being rendered. This is not the default behaviour, it has to be opted into via a
+                    // call to the DoNotWaitForComponentMountingBeforeRendering method.
+                    setTimeout(_ => TriggerRefresh(), 1);
+                }
+                _renderHasBeenCalled = true;
+            }
             return Container;
         }
 
