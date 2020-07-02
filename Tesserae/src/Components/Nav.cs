@@ -14,6 +14,8 @@ namespace Tesserae.Components
 
         public NavLink SelectedLink { get; private set; }
 
+        private readonly List<NavLink> _children = new List<NavLink>();
+
         public string Background { get => InnerElement.style.background; set => InnerElement.style.background = value; }
 
         public override HTMLElement Render()
@@ -40,23 +42,32 @@ namespace Tesserae.Components
                 RaiseOnChange(ev: null);
                 SelectedLink = component.SelectedChild;
             }
+
+            _children.Add(component);
         }
 
         public void Clear()
         {
+            _children.Clear();
             ClearChildren(ScrollBar.GetCorrectContainer(InnerElement));
         }
 
         public void Replace(NavLink newComponent, NavLink oldComponent)
         {
-            ScrollBar.GetCorrectContainer(InnerElement).replaceChild(newComponent.Render(), oldComponent.Render());
-
-            newComponent.internalOnSelected += OnNavLinkSelected;
-            if (newComponent.IsSelected)
+            var index = _children.IndexOf(oldComponent);
+            if (index >= 0)
             {
-                if (SelectedLink != null) SelectedLink.IsSelected = false;
-                RaiseOnChange(ev: null);
-                SelectedLink = newComponent;
+                _children[index] = newComponent;
+
+                ScrollBar.GetCorrectContainer(InnerElement).replaceChild(newComponent.Render(), oldComponent.Render());
+
+                newComponent.internalOnSelected += OnNavLinkSelected;
+                if (newComponent.IsSelected)
+                {
+                    if (SelectedLink != null) SelectedLink.IsSelected = false;
+                    RaiseOnChange(ev: null);
+                    SelectedLink = newComponent;
+                }
             }
         }
         public Nav Links(params Nav.NavLink[] children)
@@ -73,9 +84,9 @@ namespace Tesserae.Components
 
         private void OnNavLinkSelected(NavLink sender)
         {
-            if (SelectedLink != null)
+            foreach(var c in _children)
             {
-                RecursivelyUnselect(SelectedLink, sender);
+                c.UnselectRecursivelly(sender);
             }
             
             RaiseOnChange(ev: null);
@@ -83,17 +94,6 @@ namespace Tesserae.Components
             SelectedLink = sender;
         }
 
-        private void RecursivelyUnselect(NavLink selectedLink, NavLink sender)
-        {
-            if(selectedLink != sender)
-            {
-                selectedLink.IsSelected = false;
-            }
-            foreach (var child in selectedLink._childLinks)
-            {
-                RecursivelyUnselect(child, sender);
-            }
-        }
 
         public Nav Compact()
         {
@@ -155,7 +155,7 @@ namespace Tesserae.Components
             private bool _canSelectAndExpand = false;
             private int _Level;
             private bool _shouldExpandOnFirstAdd;
-            internal readonly List<NavLink> _childLinks = new List<NavLink>();
+            private readonly List<NavLink> _childLinks = new List<NavLink>();
 
             public NavLink(string text = null)
             {
@@ -521,6 +521,25 @@ namespace Tesserae.Components
                     StopEvent(e);
                 }
             }
+
+            internal void UnselectRecursivelly(NavLink sender)
+            {
+                if(!IsOrHasChild(sender))
+                {
+                    IsSelected = false;
+                }
+
+                foreach(var child in _childLinks)
+                {
+                    child.UnselectRecursivelly(sender);
+                }
+            }
+
+            private bool IsOrHasChild(NavLink sender)
+            {
+                return this == sender || _childLinks.Any(l => l.IsOrHasChild(sender));
+            }
+
         }
     }
 }
