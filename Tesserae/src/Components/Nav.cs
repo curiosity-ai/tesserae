@@ -75,7 +75,7 @@ namespace Tesserae.Components
         {
             if (SelectedLink != null)
             {
-                RecursivelyUnselect(SelectedLink);
+                RecursivelyUnselect(SelectedLink, sender);
             }
             
             RaiseOnChange(ev: null);
@@ -83,15 +83,15 @@ namespace Tesserae.Components
             SelectedLink = sender;
         }
 
-        private void RecursivelyUnselect(NavLink selectedLink)
+        private void RecursivelyUnselect(NavLink selectedLink, NavLink sender)
         {
-            if (selectedLink.IsSelected)
+            if(selectedLink != sender)
             {
                 selectedLink.IsSelected = false;
-                foreach (var child in selectedLink._childLinks)
-                {
-                    RecursivelyUnselect(child);
-                }
+            }
+            foreach (var child in selectedLink._childLinks)
+            {
+                RecursivelyUnselect(child, sender);
             }
         }
 
