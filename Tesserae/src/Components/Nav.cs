@@ -524,14 +524,14 @@ namespace Tesserae.Components
 
             internal void UnselectRecursivelly(NavLink sender)
             {
-                if(!IsOrHasChild(sender))
+                if (!IsOrHasChild(sender))
                 {
                     IsSelected = false;
-                }
 
-                foreach(var child in _childLinks)
-                {
-                    child.UnselectRecursivelly(sender);
+                    foreach (var child in _childLinks)
+                    {
+                        child.UnselectRecursivelly(sender);
+                    }
                 }
             }
 
