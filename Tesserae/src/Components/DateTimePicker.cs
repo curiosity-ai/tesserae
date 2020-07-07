@@ -64,7 +64,7 @@ namespace Tesserae.Components
 
         private static DateTime FormatDateTime(string dateTime)
         {
-            if (DateTime.TryParseExact(dateTime, "s", DateTimeFormatInfo.InvariantInfo, out var result))
+            if (DateTime.TryParseExact(dateTime, "yyyy-MM-ddTHH:mm", DateTimeFormatInfo.InvariantInfo, out var result))
             {
                 return result;
             }

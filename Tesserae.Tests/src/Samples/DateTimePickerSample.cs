@@ -30,11 +30,11 @@ namespace Tesserae.Tests.Samples
                     Label($"With min of {from.ToShortDateString()}").SetContent(DateTimePicker().SetMin(from)),
                     Label("Disabled").Disabled().SetContent(DateTimePicker().Disabled()),
                     Label("Required").Required().SetContent(DateTimePicker()), DateTimePicker().Required(),
-                    Label("With error message").SetContent(DateTimePicker().Error("Error message").IsInvalid())),
+                    Label("With error message").SetContent(DateTimePicker().Error("Error message").IsInvalid()),
                     Label("With validation").SetContent(DateTimePicker().Validation(dateTimePicker => dateTimePicker.DateTime <= DateTime.Now.AddMonths(2) ? null : "Please choose a date less than 2 months in the future")),
                     Label("With validation on type - not in the future").SetContent(DateTimePicker().Validation(Validation.NotInTheFuture)),
                     Label("With validation on type - not in the past").SetContent(DateTimePicker().Validation(Validation.NotInThePast)),
-                    Label($"With validation on type - between {from.ToShortDateString()} and {to.ToShortDateString()}").SetContent(DateTimePicker().Validation(dateTimePicker => Validation.BetweenRange(dateTimePicker, from, to)))));
+                    Label($"With validation on type - between {from.ToShortDateString()} and {to.ToShortDateString()}").SetContent(DateTimePicker().Validation(dateTimePicker => Validation.BetweenRange(dateTimePicker, from, to))))));
         }
 
         public HTMLElement Render() => _content.Render();
