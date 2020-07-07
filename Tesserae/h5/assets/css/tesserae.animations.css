@@ -19,22 +19,22 @@
 }
 
 .tss-fade:not(.tss-show) {
-    opacity: 0;
-    pointer-events: none;
-    cursor: none;
-    user-select: none;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    cursor: none !important;
+    user-select: none !important;
 }
 
 .tss-fade-light:not(.tss-show) {
-    opacity: 0.25;
-    pointer-events: none;
-    cursor: none;
-    user-select: none;
-    filter:saturate(0);
+    opacity: 0.25 !important;
+    pointer-events: none !important;
+    cursor: none !important;
+    user-select: none !important;
+    filter: saturate(0) !important;
 }
 
 .tss-collapse {
-    display:none;
+    display:none !important;
 }
 
 @-webkit-keyframes slideInUp {
