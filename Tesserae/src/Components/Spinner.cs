@@ -15,6 +15,7 @@ namespace Tesserae.Components
             InnerElement = Div(_("tss-spinner"));
             _label = Label(_("tss-spinner-label", text: text));
             _container = Div(_("tss-spinner-container tss-spinner-position-right tss-spinner-size-small"), InnerElement, _label);
+            AttachClick();
         }
 
         public LabelPosition Position
