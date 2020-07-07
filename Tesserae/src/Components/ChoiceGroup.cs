@@ -4,11 +4,10 @@ using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
-    public class ChoiceGroup : ComponentBase<ChoiceGroup, HTMLDivElement>, IContainer<ChoiceGroup, ChoiceGroup.Choice>, IObservableComponent<ChoiceGroup.Choice>
+    public sealed class ChoiceGroup : ComponentBase<ChoiceGroup, HTMLDivElement>, IContainer<ChoiceGroup, ChoiceGroup.Choice>, IObservableComponent<ChoiceGroup.Choice>
     {
         private readonly TextBlock _header;
         private readonly SettableObservable<Choice> _selectedOption = new SettableObservable<Choice>();
-
         public ChoiceGroup(string label = "Pick one")
         {
             _header = (new TextBlock(label)).SemiBold();
@@ -49,9 +48,11 @@ namespace Tesserae.Components
         public void Add(Choice component)
         {
             ScrollBar.GetCorrectContainer(InnerElement).appendChild(component.Render());
+
             component.OnSelect += OnChoiceSelected;
 
-            if (component.IsSelected) OnChoiceSelected(null, component);
+            if (component.IsSelected)
+                OnChoiceSelected(component);
         }
 
         public void Clear()
@@ -89,18 +90,20 @@ namespace Tesserae.Components
             return this;
         }
 
-        private void OnChoiceSelected(object sender, Choice e)
+        private void OnChoiceSelected(Choice sender)
         {
-            if (SelectedOption == e) return;
-            if (SelectedOption != null) SelectedOption.IsSelected = false;
-            SelectedOption = e;
+            if (SelectedOption == sender)
+                return;
+            
+            if (SelectedOption is object)
+                SelectedOption.IsSelected = false;
+
+            SelectedOption = sender;
+
             RaiseOnChange(ev: null);
         }
 
-        public IObservable<Choice> AsObservable()
-        {
-            return _selectedOption;
-        }
+        public IObservable<Choice> AsObservable() => _selectedOption;
 
         public enum ChoiceGroupOrientation
         {
@@ -108,12 +111,12 @@ namespace Tesserae.Components
             Horizontal
         }
 
-        public class Choice : ComponentBase<Choice, HTMLInputElement>
+        public sealed class Choice : ComponentBase<Choice, HTMLInputElement>
         {
             private readonly HTMLSpanElement _radioSpan;
             private readonly HTMLLabelElement _label;
 
-            public event EventHandler<Choice> OnSelect;
+            public event ComponentEventHandler<Choice> OnSelect;
 
             public Choice(string text)
             {
@@ -126,7 +129,7 @@ namespace Tesserae.Components
                 AttachBlur();
                 onChange += (s, e) =>
                 {
-                    if (IsSelected) OnSelect?.Invoke(this, this);
+                    if (IsSelected) OnSelect?.Invoke(this);
                 };
             }
 
@@ -172,17 +175,17 @@ namespace Tesserae.Components
                 return _label;
             }
             public Choice Disabled(bool value = true)
-        {
-            IsEnabled = !value;
-            return this;
-        }
+            {
+                IsEnabled = !value;
+                return this;
+            }
 
             public Choice Selected()
             {
                 IsSelected = true;
                 return this;
             }
-            
+
             public Choice SelectedIf(bool shouldSelect)
             {
                 if (shouldSelect)
@@ -192,7 +195,7 @@ namespace Tesserae.Components
                 return this;
             }
 
-            public Choice OnSelected(EventHandler<ChoiceGroup.Choice> onSelected)
+            public Choice OnSelected(ComponentEventHandler<Choice> onSelected)
             {
                 OnSelect += onSelected;
                 return this;

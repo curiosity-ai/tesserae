@@ -5,9 +5,9 @@ namespace Tesserae.Components
 {
     public class Navbar : IComponent
     {
-        private HTMLElement _navbarContainer;
-        private HTMLElement _contentContainer;
-        private HTMLElement _container;
+        private readonly HTMLElement _navbarContainer;
+        private readonly HTMLElement _contentContainer;
+        private readonly HTMLElement _container;
 
         public Navbar()
         {

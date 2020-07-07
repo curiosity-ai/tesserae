@@ -17,7 +17,8 @@ namespace Tesserae.Components
 
             InnerElement.onclick = (e) =>
             {
-                if (!IsVisible) Show();
+                if (!IsVisible)
+                    Show();
             };
         }
 
@@ -57,7 +58,7 @@ namespace Tesserae.Components
             if (_contentHtml == null)
             {
                 _modalOverlay = Div(_("tss-contextmenu-overlay"));
-                _modalOverlay.addEventListener("click", (_) => Hide());
+                _modalOverlay.addEventListener("click", _ => Hide());
                 _popup = Div(_("tss-contextmenu-popup"), _childContainer);
                 _contentHtml = Div(_(), _modalOverlay, _popup);
             }
@@ -124,12 +125,13 @@ namespace Tesserae.Components
                 document.addEventListener("keydown", OnPopupKeyDown);
             }, 100);
         }
+
         public void ShowFor(HTMLElement element, int distance = 1)
         {
             if (_contentHtml == null)
             {
                 _modalOverlay = Div(_("tss-contextmenu-overlay"));
-                _modalOverlay.addEventListener("click", (_) => Hide());
+                _modalOverlay.addEventListener("click", _ => Hide());
                 _popup = Div(_("tss-contextmenu-popup"), _childContainer);
                 _contentHtml = Div(_(), _modalOverlay, _popup);
             }
@@ -206,19 +208,7 @@ namespace Tesserae.Components
             base.Hide(onHidden);
         }
 
-        public void Attach(EventHandler<Event> handler, Validation.Mode mode)
-        {
-            if (mode == Validation.Mode.OnBlur)
-            {
-                onChange += (s, e) => handler(this, e);
-            }
-            else
-            {
-                onInput += (s, e) => handler(this, e);
-            }
-        }
-
-        public ContextMenu Items(params ContextMenu.Item[] children)
+        public ContextMenu Items(params Item[] children)
         {
             children.ForEach(x => Add(x));
             return this;
@@ -266,7 +256,7 @@ namespace Tesserae.Components
 
         public class Item : ComponentBase<Item, HTMLButtonElement>
         {
-            private HTMLElement _innerComponent;
+            private readonly HTMLElement _innerComponent;
             public Item(string text = string.Empty)
             {
                 _innerComponent = null;
@@ -283,7 +273,6 @@ namespace Tesserae.Components
                 AttachClick();
                 InnerElement.addEventListener("mouseover", OnItemMouseOver);
             }
-
 
             public ItemType Type
             {
@@ -350,7 +339,7 @@ namespace Tesserae.Components
                 return this;
             }
 
-            public new Item OnClick(ComponentEventHandler<MouseEvent> e)
+            public new Item OnClick(ComponentEventHandler<Item, MouseEvent> e)
             {
                 if (Type == ItemType.Item)
                 {

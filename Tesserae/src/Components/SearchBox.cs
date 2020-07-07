@@ -1,5 +1,4 @@
-﻿using System;
-using Tesserae.HTML;
+﻿using Tesserae.HTML;
 using static H5.Core.dom;
 using static Tesserae.UI;
 
@@ -7,14 +6,13 @@ namespace Tesserae.Components
 {
     public class SearchBox : ComponentBase<SearchBox, HTMLInputElement>,  IHasTextSize, IHasBackgroundColor
     {
-        private HTMLDivElement _container;
-        private HTMLSpanElement _icon;
-        private HTMLElement _iconContainer;
-        private HTMLElement _paddingContainer;
+        private readonly HTMLDivElement _container;
+        private readonly HTMLSpanElement _icon;
+        private readonly HTMLElement _iconContainer;
+        private readonly HTMLElement _paddingContainer;
 
         public event SearchEventHandler onSearch;
         public delegate void SearchEventHandler(SearchBox sender, string value);
-
 
         public SearchBox(string placeholder = string.Empty)
         {
@@ -151,16 +149,9 @@ namespace Tesserae.Components
             return _container;
         }
 
-        public void Attach(EventHandler<Event> handler, Validation.Mode mode)
+        public void Attach(ComponentEventHandler<SearchBox> handler)
         {
-            if (mode == Validation.Mode.OnBlur)
-            {
-                onChange += (s,e) => handler(s,e);
-            }
-            else
-            {
-                onInput += (s, e) => handler(s, e);
-            }
+            onInput += (s, _) => handler(s);
         }
 
         public SearchBox SetText(string text)

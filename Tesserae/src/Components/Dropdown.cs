@@ -17,21 +17,25 @@ namespace Tesserae.Components
 
         private readonly HTMLElement _childContainer;
         private readonly HTMLDivElement _container;
+        private readonly HTMLSpanElement _noItemsSpan;
         private readonly HTMLSpanElement _errorSpan;
+        private readonly ObservableList<Item> _selectedChildren;
 
         private HTMLDivElement _spinner;
         private bool _isChanged;
         private bool _callSelectOnChangingItemSelections;
         private Func<Task<Item[]>> _itemsSource;
         private ReadOnlyArray<Item> _lastRenderedItems;
-        private ObservableList<Item> _selectedChildren;
         private HTMLDivElement _popupDiv;
         private string _search;
         private int _latestRequestID;
 
-        public Dropdown()
+        public Dropdown(HTMLSpanElement noItemsSpan = null)
         {
-            InnerElement = Div(_("tss-dropdown"));
+            _noItemsSpan = noItemsSpan ?? Span(_(text: "There are no options available"));
+
+            InnerElement = Div(_("tss-dropdown"), _noItemsSpan);
+
             _errorSpan = Span(_("tss-dropdown-error"));
 
             _container = Div(_("tss-dropdown-container"), InnerElement, _errorSpan);
@@ -297,16 +301,9 @@ namespace Tesserae.Components
                 RaiseOnChange(ev: null);
         }
 
-        public void Attach(EventHandler<Event> handler, Validation.Mode mode)
+        public void Attach(ComponentEventHandler<Dropdown> handler)
         {
-            if (mode == Validation.Mode.OnBlur)
-            {
-                onChange += (s, e) => handler(this, e);
-            }
-            else
-            {
-                onInput += (s, e) => handler(this, e);
-            }
+            onInput += (s, _) => handler(this);
         }
 
         public Dropdown Single()
@@ -359,30 +356,33 @@ namespace Tesserae.Components
             children.ForEach(component =>
             {
                 ScrollBar.GetCorrectContainer(_childContainer).appendChild(component.Render());
-                component._onSelected += OnItemSelected;
+                component.onSelected += OnItemSelected;
             });
             EnsureAsyncLoadingStateDisabled(); // If we got here because an async request completed OR while one was in flight but a synchronous call to this method came in after it started but before finishing then ensure to remove its loading state
             UpdateStateBasedUponCurrentSelections();
-            if (!children.Any())
+            if (children.Any())
             {
-                // If there no options to choose from then ensure that the dropdown list is hidden (it might be open if the User was looking at the options in a multi-select configuration and then the Items were updated in the background)
-                // TODO [2020-06-13 DWR]: We should probably introduce a "no items" state that doesn't allow the User to interact with the component since there's nothing that they can do - in the meantime, I'll settle for setting to Disabled
-                Hide();
-                Disabled(true);
+                Disabled(false);
+                _noItemsSpan.style.display = "none";
             }
             else
             {
-                Disabled(false);
+                Hide();
+                Disabled(true);
+                _noItemsSpan.style.display = "";
             }
             return this;
         }
 
         /// <summary>
         /// This will specify an asynchronous callback that describes how to get available options - note that they will not be retrieved until LoadItemsAsync is called (when that successfully gets new item data, any existing items will be
-        /// removed first and the list will be completely replace with the new data)
+        /// removed first and the list will be completely replace with the new data). LoadItemsAsync may be called explicitly (and immediately after setting this) - if not, it will be called automatically when the User clicks to open the dropdown.
         /// </summary>
         public Dropdown Items(Func<Task<Item[]>> itemsSource)
         {
+            // 2020-06-30 DWR: We should only show the no-items message if we KNOW that there are no options to select and if we've just specified an async retrieval then we won't know whether there are any items or not until it completes - so we'll
+            // ensure that the message is hidden here and then it will be displayed/hidden as appropriate when the async retrieval completes (the non-async Items method will be called and that updates the display state of the no-items message)
+            _noItemsSpan.style.display = "none";
             _itemsSource = itemsSource;
             return this;
         }
@@ -424,16 +424,16 @@ namespace Tesserae.Components
             RenderSelected();
         }
 
-        private void OnItemSelected(object sender, Item e)
+        private void OnItemSelected(Item sender)
         {
             if (Mode == SelectMode.Single)
             {
-                if (e.IsSelected)
+                if (sender.IsSelected)
                 {
                     // For single select drop downs, when one item is selected then we need to ensure here that any other are UN-selected ("there can be only one")
                     foreach (var item in _lastRenderedItems)
                     {
-                        if (item != e)
+                        if (item != sender)
                             item.IsSelected = false;
                     }
                 }
@@ -470,6 +470,10 @@ namespace Tesserae.Components
                 clone.classList.add("tss-dropdown-item-on-box");
                 InnerElement.appendChild(clone);
             }
+
+            // 2020-06-30 DWR: This may or may not be visible right now, it doesn't matter - we just need to ensure that we add it back in after clearing InnerElement
+            // - Note: Put it at the end of the list because there is a styling rule for selections within InnerElement that sayas to add a comma before the item if it's not the first one and that styling will see the no-items element as the first item otherwise :(
+            InnerElement.appendChild(_noItemsSpan);
         }
 
         private void OnPopupKeyDown(Event e)
@@ -639,14 +643,14 @@ namespace Tesserae.Components
 
             ResetSearchItems(itemsToReset);
 
-            foreach (var itemToRemove in itemsToRemove)
+            foreach (var (item, textContent) in itemsToRemove)
             {
-                itemToRemove.item.style.display = "none";
+                item.style.display = "none";
             }
             RecomputePopupPosition();
         }
 
-        public class Item : IComponent
+        public sealed class Item : IComponent
         {
             private readonly HTMLElement InnerElement;
             private readonly HTMLElement SelectedElement;
@@ -673,8 +677,8 @@ namespace Tesserae.Components
                 InnerElement.addEventListener("mouseover", OnItemMouseOver);
             }
 
-            private event BeforeSelectEventHandler<Item> _onBeforeSelected;
-            internal event EventHandler<Item> _onSelected;
+            private event BeforeSelectEventHandler<Item> onBeforeSelected;
+            internal event ComponentEventHandler<Item> onSelected;
 
             public ItemType Type
             {
@@ -718,9 +722,9 @@ namespace Tesserae.Components
                 get => InnerElement.classList.contains("tss-selected");
                 set
                 {
-                    if (value && _onBeforeSelected is object)
+                    if (value && onBeforeSelected is object)
                     {
-                        var shouldSelect = _onBeforeSelected(this);
+                        var shouldSelect = onBeforeSelected(this);
                         if (!shouldSelect)
                             return;
                     }
@@ -734,7 +738,7 @@ namespace Tesserae.Components
                     // then nothing would happen (because the value hadn't changed and this callback wouldn't be made) because it's this callback that the parent class uses to hide the drop down list of options. I considered making
                     // adding the logic to OnItemClick instead (because we want a way to say "hide the drop down list if the User clicked an option) but that bypasses  the _onBeforeSelected and that could be useful (we might want
                     // to have a callback that prevents you from clicking the item if.. something). While I removed the was-changed check for single-select configurations, it does not harm for multi as well.
-                    _onSelected?.Invoke(this, this);
+                    onSelected?.Invoke(this);
                 }
             }
 
@@ -749,21 +753,20 @@ namespace Tesserae.Components
                 return InnerElement;
             }
 
-            public HTMLElement RenderSelected()
-            {
-                return SelectedElement;
-            }
+            public HTMLElement RenderSelected() => SelectedElement;
 
             public Item Header()
             {
                 Type = ItemType.Header;
                 return this;
             }
+
             public Item Divider()
             {
                 Type = ItemType.Divider;
                 return this;
             }
+
             public Item Disabled(bool value = true)
             {
                 IsEnabled = !value;
@@ -791,17 +794,17 @@ namespace Tesserae.Components
                 return this;
             }
 
-            public Item OnSelected(EventHandler<Item> onSelected, EventHandler<Item> onDeselected = null)
+            public Item OnSelected(ComponentEventHandler<Item> whenSelected, ComponentEventHandler<Item> whenDeselected = null)
             {
-                _onSelected += (s, e) =>
+                onSelected += sender =>
                 {
-                    if (e.IsSelected)
+                    if (sender.IsSelected)
                     {
-                        onSelected?.Invoke(s, e);
+                        whenSelected?.Invoke(sender);
                     }
                     else
                     {
-                        onDeselected?.Invoke(s, e);
+                        whenDeselected?.Invoke(sender);
                     }
                 };
                 return this;
@@ -809,7 +812,7 @@ namespace Tesserae.Components
 
             public Item OnBeforeSelected(BeforeSelectEventHandler<Item> onBeforeSelect)
             {
-                _onBeforeSelected += onBeforeSelect;
+                onBeforeSelected += onBeforeSelect;
                 return this;
             }
 
@@ -834,7 +837,8 @@ namespace Tesserae.Components
 
             private void OnItemMouseOver(Event ev)
             {
-                if (Type == ItemType.Item) InnerElement.focus();
+                if (Type == ItemType.Item)
+                    InnerElement.focus();
             }
         }
     }

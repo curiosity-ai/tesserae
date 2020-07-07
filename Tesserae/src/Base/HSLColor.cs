@@ -4,6 +4,8 @@ namespace Tesserae
 {
     public class HSLColor
     {
+        private static readonly Random _rng = new Random();
+
         // Private data members below are on scale 0-1, they are scaled for use externally based on scale
         private double _hue = 1.0;
         private double _saturation = 1.0;
@@ -52,8 +54,6 @@ namespace Tesserae
             var c = (Color)this;
             return $"#{c.R:X2}{c.G:X2}{c.B:X2}";
         }
-
-        private static Random _rng = new Random();
 
         public static HSLColor Random()
         {
@@ -104,11 +104,12 @@ namespace Tesserae
 
         public static implicit operator HSLColor(Color color)
         {
-            HSLColor hslColor = new HSLColor();
-            hslColor._hue = color.GetHue() / 360.0; // we store hue as 0-1 as opposed to 0-360
-            hslColor._luminosity = color.GetBrightness();
-            hslColor._saturation = color.GetSaturation();
-            return hslColor;
+            return new HSLColor
+            {
+                _hue = color.GetHue() / 360.0, // we store hue as 0-1 as opposed to 0-360
+                _luminosity = color.GetBrightness(),
+                _saturation = color.GetSaturation()
+            };
         }
 
         public void SetRGB(byte red, byte green, byte blue)

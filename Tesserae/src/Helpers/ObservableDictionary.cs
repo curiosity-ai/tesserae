@@ -10,15 +10,15 @@ namespace Tesserae
         private event ObservableEvent.ValueChanged<IReadOnlyDictionary<TKey, TValue>> OnValueChanged;
         
         private readonly Dictionary<TKey, TValue> _dictionary;
-        private readonly bool _valueIsObservable;
+        private readonly bool _shouldHookNestedObservables;
         private double _refreshTimeout;
-        private readonly bool _shouldHook;
-        public ObservableDictionary() : this(new Dictionary<TKey, TValue>()) { }
+        public ObservableDictionary(IEqualityComparer<TKey> keyComparer = null, bool shouldHook = true) : this(new Dictionary<TKey, TValue>(keyComparer), shouldHook) { }
+        public ObservableDictionary(Dictionary<TKey, TValue> values, bool shouldHook = true) : this(values, values?.Comparer, shouldHook) { }
         public ObservableDictionary(IEnumerable<KeyValuePair<TKey, TValue>> values, IEqualityComparer<TKey> keyComparer = null, bool shouldHook = true)
         {
             // 2020-6-17 DWR: We're cloning the input, like we do in ObservableList, rather than accepting a Dictionary reference directly and storing that (that whoever provided it to us could mutate without us being aware here)
             _dictionary = new Dictionary<TKey, TValue>(comparer: keyComparer);
-            _shouldHook = shouldHook;
+            _shouldHookNestedObservables = shouldHook && PossibleObservableHelpers.IsObservable(typeof(TValue));
             foreach (var entry in values)
             {
                 if (_dictionary.ContainsKey(entry.Key))
@@ -27,13 +27,11 @@ namespace Tesserae
                 _dictionary.Add(entry.Key, entry.Value);
             }
 
-            _valueIsObservable = PossibleObservableHelpers.IsObservable(typeof(TValue));
-            if (_valueIsObservable && _shouldHook)
+            // Note: The HookValue method will also check these conditions but we can save ourselve the enumeration if we know that we don't care about hooking nested lists
+            if (_shouldHookNestedObservables)
             {
                 foreach (var kv in _dictionary)
-                {
                     HookValue(kv.Value);
-                }
             }
         }
 
@@ -86,7 +84,7 @@ namespace Tesserae
 
         public void Clear()
         {
-            if (_valueIsObservable && _shouldHook)
+            if (_shouldHookNestedObservables)
             {
                 foreach (var kv in _dictionary)
                 {
@@ -131,24 +129,23 @@ namespace Tesserae
 
         private void HookValue(TValue v)
         {
-            if (_valueIsObservable && _shouldHook)
+            if (_shouldHookNestedObservables)
                 PossibleObservableHelpers.ObserveFutureChangesIfObservable(v, RaiseOnValueChanged);
         }
 
         private void UnhookValue(TValue v)
         {
-            if (_valueIsObservable && _shouldHook && v is IObservable<TValue> observable)
+            if (_shouldHookNestedObservables)
                 PossibleObservableHelpers.StopObservingIfObservable(v, RaiseOnValueChanged);
         }
 
         private void RaiseOnValueChanged()
         {
             window.clearTimeout(_refreshTimeout);
-            _refreshTimeout = window.setTimeout(raise, 1);
-            void raise(object t)
-            {
-                OnValueChanged?.Invoke(_dictionary);
-            }
+            _refreshTimeout = window.setTimeout(
+                _ => OnValueChanged?.Invoke(_dictionary),
+                1
+            );
         }
 
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() => _dictionary.GetEnumerator();

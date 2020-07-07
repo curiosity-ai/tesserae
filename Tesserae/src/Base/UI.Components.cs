@@ -7,8 +7,6 @@ namespace Tesserae
 {
     public static partial class UI
     {
-        public delegate bool BeforeSelectEventHandler<TSender>(TSender sender);
-
         /// <summary>
         /// Helper method to capture the current component inline on it's definition, as an out variable
         /// </summary>
@@ -45,7 +43,7 @@ namespace Tesserae
         {
             if(component is DeferedComponent deferedComponent)
             {
-                deferedComponent._container.id = id;
+                deferedComponent.Container.id = id;
                 return component;
             }
             var el = component.Render();
@@ -192,7 +190,7 @@ namespace Tesserae
 
         public static TextArea TextArea(string text = string.Empty) => new TextArea(text);
 
-        public static ColorPicker ColorPicker(int? color = null) => new ColorPicker(color);
+        public static ColorPicker ColorPicker(Color color = null) => new ColorPicker(color);
 
         public static DateTimePicker DateTimePicker(DateTime? dateTime = null) => new DateTimePicker(dateTime);
 
@@ -212,7 +210,7 @@ namespace Tesserae
 
         public static Nav Nav() => new Nav();
 
-        public static Nav.NavLink NavLink(string text = null, string icon = null) => new Nav.NavLink(text, icon);
+        public static Nav.NavLink NavLink(string text = null) => new Nav.NavLink(text);
 
         public static Nav.NavLink NavLink(IComponent content) => new Nav.NavLink(content);
 
@@ -243,6 +241,8 @@ namespace Tesserae
         public static ProgressIndicator ProgressIndicator() => new ProgressIndicator();
 
         public static Dropdown Dropdown() => new Dropdown();
+        public static Dropdown Dropdown(string noItemsText) => new Dropdown(noItemsSpan: string.IsNullOrWhiteSpace(noItemsText) ? null : Span(_(text: noItemsText)));
+        public static Dropdown Dropdown(HTMLSpanElement noItemsSpan) => new Dropdown(noItemsSpan);
 
         public static Dropdown.Item DropdownItem() => new Dropdown.Item("");
 

@@ -1,60 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
-using H5;
-using static Tesserae.UI;
-using static H5.Core.dom;
 using System.Linq;
 using Tesserae.HTML;
+using static H5.Core.dom;
+using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
     public class Pivot : IComponent, ISpecialCaseStyling
     {
+        public event PivotEventHandler<PivotBeforeNavigateEvent> onBeforeNavigate;
+        public event PivotEventHandler<PivotNavigateEvent> onNavigate;
+        public delegate void PivotEventHandler<TEventArgs>(Pivot sender, TEventArgs e);
+
         public HTMLElement StylingContainer => InnerElement;
 
         public bool PropagateToStackItemParent => true;
 
-        public class PivotNavigateEvent
-        {
-            public readonly string CurrentPivot;
-            public readonly string TargetPivot;
+        private readonly HTMLElement InnerElement;
 
-            internal PivotNavigateEvent(string currentPivot, string targetPivot)
-            {
-                CurrentPivot = currentPivot;
-                TargetPivot = targetPivot;
-            }
-        }
-        public class PivotBeforeNavigateEvent : PivotNavigateEvent
-        {
-            internal bool Canceled;
+        private readonly List<Tab> OrderedTabs = new List<Tab>();
+        private readonly Dictionary<Tab, HTMLElement> RenderedTitles = new Dictionary<Tab, HTMLElement>();
 
-            internal PivotBeforeNavigateEvent(string currentPivot, string targetPivot) : base(currentPivot, targetPivot)
-            {
-                Canceled = false;
-            }
-
-            public void Cancel() => Canceled = true;
-        }
-
-        public delegate void PivotEventHandler<TEventArgs>(Pivot sender, TEventArgs e);
-
-        private HTMLElement InnerElement;
-
-        private List<Tab> OrderedTabs = new List<Tab>();
-        private Dictionary<Tab, HTMLElement> RenderedTitles = new Dictionary<Tab, HTMLElement>();
-
-        private HTMLElement RenderedTabs;
-        private HTMLElement RenderedContent;
-        private HTMLElement Line;
+        private readonly HTMLElement RenderedTabs;
+        private readonly HTMLElement RenderedContent;
+        private readonly HTMLElement Line;
         private string _initiallySelectedID;
         private string _currentSelectedID;
         private bool _isRendered = false;
 
         public string SelectedTab => _currentSelectedID ?? _initiallySelectedID;
-
-        public event PivotEventHandler<PivotBeforeNavigateEvent> onBeforeNavigate;
-        public event PivotEventHandler<PivotNavigateEvent> onNavigate;
 
         public Pivot()
         {
@@ -130,7 +105,7 @@ namespace Tesserae.Components
 
         private Pivot Select(Tab tab)
         {
-            if(!_isRendered)
+            if (!_isRendered)
             {
                 _initiallySelectedID = tab.Id;
                 return this;
@@ -153,7 +128,7 @@ namespace Tesserae.Components
             {
                 content = tab.RenderContent();
             }
-            catch(Exception E)
+            catch (Exception E)
             {
                 content.textContent = E.ToString();
             }
@@ -245,20 +220,23 @@ namespace Tesserae.Components
                 _firstRender = false;
             }
 
-            if (f > 1) { f = 1; }
-            CurrentWidth = CurrentWidth + (TargetWidth - CurrentWidth) * f;
-            CurrentLeft = CurrentLeft + (TargetLeft - CurrentLeft) * f;
+            if (f > 1)
+            {
+                f = 1;
+            }
+
+            CurrentWidth += (TargetWidth - CurrentWidth) * f;
+            CurrentLeft += (TargetLeft - CurrentLeft) * f;
             Line.style.width = CurrentWidth + "px";
             Line.style.marginLeft = (CurrentLeft - Left0) + "px";
-            if (Math.Abs(CurrentLeft - TargetLeft) > 1e-5 ||
-                Math.Abs(CurrentWidth - TargetWidth) > 1e-5)
+            
+            if (Math.Abs(CurrentLeft - TargetLeft) > 1e-5 || Math.Abs(CurrentWidth - TargetWidth) > 1e-5)
             {
                 window.requestAnimationFrame((t) => AnimateLine(t));
             }
         }
 
-
-        internal class Tab
+        internal sealed class Tab
         {
             public Tab(string id, Func<IComponent> titleCreator, Func<IComponent> contentCreator, bool cached = false)
             {
@@ -272,7 +250,7 @@ namespace Tesserae.Components
             private Func<IComponent> ContentCreator { get; }
 
             private HTMLElement Content;
-            private bool CanCacheContent;
+            private readonly bool CanCacheContent;
 
             public HTMLElement RenderContent()
             {
@@ -293,13 +271,29 @@ namespace Tesserae.Components
             }
         }
 
-    }
-
-    public static class PivotExtensions
-    {
-        public static Pivot Pivot(this Pivot pivot, string id, Func<IComponent> titleCreator, Func<IComponent> contentCreator, bool cached = false)
+        public sealed class PivotNavigateEvent : PivotEvent
         {
-            return pivot.Add(new Pivot.Tab(id, titleCreator, contentCreator, cached));
+            internal PivotNavigateEvent(string currentPivot, string targetPivot) : base(currentPivot, targetPivot) { }
+        }
+
+        public class PivotBeforeNavigateEvent : PivotEvent
+        {
+            internal PivotBeforeNavigateEvent(string currentPivot, string targetPivot) : base(currentPivot, targetPivot) => Canceled = false;
+
+            internal bool Canceled { get; private set; }
+
+            public void Cancel() => Canceled = true;
+        }
+
+        public abstract class PivotEvent
+        {
+            internal PivotEvent(string currentPivot, string targetPivot)
+            {
+                CurrentPivot = currentPivot;
+                TargetPivot = targetPivot;
+            }
+            public string CurrentPivot { get; }
+            public string TargetPivot { get; }
         }
     }
 }

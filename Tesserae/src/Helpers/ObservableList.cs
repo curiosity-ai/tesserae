@@ -10,21 +10,19 @@ namespace Tesserae
         private event ObservableEvent.ValueChanged<IReadOnlyList<T>> OnValueChanged;
 
         private readonly List<T> _list;
-        private readonly bool _valueIsObservable;
+        private readonly bool _shouldHookNestedObservables;
         private double _refreshTimeout;
-        private readonly bool _shouldHook;
-        
-        public ObservableList(bool shouldHook = true, params T[] initialValues)
+        public ObservableList(params T[] initialValues) : this(shouldHook: true, initialValues: initialValues) { }
+        public ObservableList(bool shouldHook, params T[] initialValues)
         {
             _list = initialValues.ToList();
-            _valueIsObservable = PossibleObservableHelpers.IsObservable(typeof(T));
-            _shouldHook = shouldHook;
-            if (_valueIsObservable && _shouldHook)
+            _shouldHookNestedObservables = shouldHook && PossibleObservableHelpers.IsObservable(typeof(T));
+
+            // Note: The HookValue method will also check these conditions but we can save ourselve the enumeration if we know that we don't care about hooking nested lists
+            if (_shouldHookNestedObservables)
             {
                 foreach (var i in _list)
-                {
-                    HookValue(i);
-                }
+                   HookValue(i);
             }
         }
 
@@ -56,11 +54,10 @@ namespace Tesserae
         private void RaiseOnValueChanged()
         {
             window.clearTimeout(_refreshTimeout);
-            _refreshTimeout = window.setTimeout(raise, 1);
-            void raise(object t)
-            {
-                OnValueChanged?.Invoke(_list);
-            }
+            _refreshTimeout = window.setTimeout(
+                _ => OnValueChanged?.Invoke(_list),
+                1
+            );
         }
 
         public int Count => _list.Count;
@@ -87,7 +84,7 @@ namespace Tesserae
 
         public void Clear()
         {
-            if (_valueIsObservable && _shouldHook)
+            if (_shouldHookNestedObservables)
             {
                 foreach (var i in _list)
                 {
@@ -140,13 +137,13 @@ namespace Tesserae
 
         private void HookValue(T v)
         {
-            if (_valueIsObservable && _shouldHook)
+            if (_shouldHookNestedObservables)
                 PossibleObservableHelpers.ObserveFutureChangesIfObservable(v, RaiseOnValueChanged);
         }
 
         private void UnhookValue(T v)
         {
-            if (_valueIsObservable && _shouldHook)
+            if (_shouldHookNestedObservables)
                 PossibleObservableHelpers.StopObservingIfObservable(v, RaiseOnValueChanged);
         }
 

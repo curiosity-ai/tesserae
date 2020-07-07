@@ -7,7 +7,7 @@ namespace Tesserae.Tests.Samples
 {
     public class ModalSample : IComponent
     {
-        private IComponent _content;
+        private readonly IComponent _content;
 
         public ModalSample()
         {
@@ -29,7 +29,7 @@ namespace Tesserae.Tests.Samples
                             Label("Is draggable").Inline().AutoWidth().SetContent(Toggle().OnChange((s, e) => modal.IsDraggable = s.IsChecked).Checked(modal.IsDraggable)),
                             Label("Is dark overlay").Inline().AutoWidth().SetContent(Toggle().OnChange((s, e) => modal.IsDark = s.IsChecked).Checked(modal.IsDark)),
                             Label("Is non-blocking").Inline().AutoWidth().SetContent(Toggle().OnChange((s, e) => modal.IsNonBlocking = s.IsChecked).Checked(modal.IsNonBlocking)),
-                            Label("Hide close button").Inline().AutoWidth().SetContent(Toggle().OnChange((s, e) => modal.ShowCloseButton = !s.IsChecked).Checked(!modal.ShowCloseButton)),
+                            Label("Hide close button").Inline().AutoWidth().SetContent(Toggle().OnChange((s, e) => modal.WillShowCloseButton = !s.IsChecked).Checked(!modal.WillShowCloseButton)),
                             Label("Open a dialog from here").Var(out var lbl).SetContent(Button("Open").OnClick((s, e) => Dialog("Dialog over Modal").Content(TextBlock("Hello World!")).YesNo(() => lbl.Text = "Yes", () => lbl.Text = "No")))));
 
             _content = SectionStack()

@@ -1,28 +1,24 @@
 ﻿using System;
 using System.Linq;
-using System.Threading.Tasks;
 using static H5.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
-    public class ItemsList: IComponent, ISpecialCaseStyling
+    public sealed class ItemsList : IComponent, ISpecialCaseStyling
     {
         private readonly Grid _grid;
         private readonly Stack _stack;
         private readonly UnitSize _maxStackItemSize;
-        private readonly IDefer _defered;
+        private readonly DeferedComponent _defered;
         private Func<IComponent> _emptyListMessageGenerator;
+        public ItemsList(IComponent[] items, params UnitSize[] columns) : this(new ObservableList<IComponent>(initialValues: items ?? new IComponent[0]), columns) { }
 
         public ObservableList<IComponent> Items { get; }
 
-        public HTMLElement StylingContainer    => ((DeferedComponent)_defered)._container;
+        public HTMLElement StylingContainer => _defered.Container;
 
         public bool PropagateToStackItemParent => true;
-
-        public ItemsList(IComponent[] items, params UnitSize[] columns) : this(new ObservableList<IComponent>(initialValues: items ?? new IComponent[0]), columns)
-        {
-        }
 
         public ItemsList(ObservableList<IComponent> items, params UnitSize[] columns)
         {
@@ -39,47 +35,50 @@ namespace Tesserae.Components
             }
             _emptyListMessageGenerator = null;
 
-            _defered = Defer(Items, observedItems =>
-            {
-                if (!observedItems.Any())
+            _defered = DeferedComponent.Observe(
+                Items,
+                observedItems =>
                 {
-                    if (_emptyListMessageGenerator is object)
+                    if (!observedItems.Any())
                     {
-                        if(_grid is object)
+                        if (_emptyListMessageGenerator is object)
                         {
-                            return _grid.Children(_emptyListMessageGenerator().GridColumnStretch()).AsTask();
+                            if(_grid is object)
+                            {
+                                return _grid.Children(_emptyListMessageGenerator().GridColumnStretch()).AsTask();
+                            }
+                            else
+                            {
+                                return _stack.Children(_emptyListMessageGenerator().WidthStretch().HeightStretch()).AsTask();
+                            }
                         }
                         else
                         {
-                            return _stack.Children(_emptyListMessageGenerator().WidthStretch().HeightStretch()).AsTask();
+                            if(_grid is object)
+                            {
+                                _grid.Clear();
+                                return _grid.AsTask();
+                            }
+                            else
+                            {
+                                _stack.Clear();
+                                return _stack.AsTask();
+                            }
                         }
                     }
                     else
                     {
                         if(_grid is object)
                         {
-                            _grid.Clear();
-                            return _grid.AsTask();
+                            return _grid.Children(Items.ToArray()).AsTask();
                         }
                         else
                         {
-                            _stack.Clear();
-                            return _stack.AsTask();
+                            return _stack.Children(Items.Select(i => i.Width(_maxStackItemSize)).ToArray()).AsTask();
                         }
                     }
                 }
-                else
-                {
-                    if(_grid is object)
-                    {
-                        return _grid.Children(Items.ToArray()).AsTask();
-                    }
-                    else
-                    {
-                        return _stack.Children(Items.Select(i => i.Width(_maxStackItemSize)).ToArray()).AsTask();
-                    }
-                }
-            });
+            );
         }
 
         public ItemsList WithEmptyMessage(Func<IComponent> emptyListMessageGenerator)

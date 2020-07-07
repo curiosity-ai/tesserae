@@ -6,7 +6,7 @@ namespace Tesserae.Components
 {
     public class Grid : IContainer<Grid, IComponent>, IHasBackgroundColor, IHasMarginPadding, ISpecialCaseStyling
     {
-        private HTMLElement _grid;
+        private readonly HTMLElement _grid;
 
         public string Background { get => _grid.style.background; set => _grid.style.background = value; }
         public string Margin { get => _grid.style.margin; set => _grid.style.margin = value; }
@@ -89,16 +89,16 @@ namespace Tesserae.Components
 
         public static void SetGridColumn(IComponent component, int start, int end)
         {
-            var correct = Stack.GetCorrectItemToApplyStyle(component);
-            correct.item.style.gridColumn = $"{start} / {end}";
-            if (correct.remember) correct.item.setAttribute("tss-grd-c", "");
+            var (item, remember) = Stack.GetCorrectItemToApplyStyle(component);
+            item.style.gridColumn = $"{start} / {end}";
+            if (remember) item.setAttribute("tss-grd-c", "");
         }
         
         public static void SetGridRow(IComponent component, int start, int end)
         {
-            var correct = Stack.GetCorrectItemToApplyStyle(component);
-            correct.item.style.gridRow = $"{start} / {end}";
-            if (correct.remember) correct.item.setAttribute("tss-grd-r", "");
+            var (item, remember) = Stack.GetCorrectItemToApplyStyle(component);
+            item.style.gridRow = $"{start} / {end}";
+            if (remember) item.setAttribute("tss-grd-r", "");
         }
 
         /// <summary>

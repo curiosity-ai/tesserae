@@ -1,16 +1,14 @@
-﻿using System;
+﻿using static H5.Core.dom;
 using static Tesserae.UI;
-using static H5.Core.dom;
-using System.Threading.Tasks;
 
 namespace Tesserae.Components
 {
     public class SplitView : IComponent
     {
-        private HTMLElement InnerElement;
-        private Raw         LeftComponent;
-        private Raw         SplitterComponent;
-        private Raw         RightComponent;
+        private readonly HTMLElement InnerElement;
+        private readonly Raw         LeftComponent;
+        private readonly Raw         SplitterComponent;
+        private readonly Raw         RightComponent;
 
         public SplitView(UnitSize splitterSize = null)
         {
@@ -64,16 +62,16 @@ namespace Tesserae.Components
 
         public SplitView LeftIsSmaller(UnitSize leftSize)
         {
-            LeftComponent.Width  = $"calc({leftSize.ToString()} - {SplitterComponent.Width})";
-            RightComponent.Width = $"calc(100% - {leftSize.ToString()})";
+            LeftComponent.Width  = $"calc({leftSize} - {SplitterComponent.Width})";
+            RightComponent.Width = $"calc(100% - {leftSize})";
 
             return this;
         }
 
         public SplitView RightIsSmaller(UnitSize rightSize)
         {
-            RightComponent.Width = $"calc({rightSize.ToString()} - {SplitterComponent.Width})";
-            LeftComponent.Width = $"calc(100% - {rightSize.ToString()})";
+            RightComponent.Width = $"calc({rightSize} - {SplitterComponent.Width})";
+            LeftComponent.Width = $"calc(100% - {rightSize})";
 
             return this;
         }

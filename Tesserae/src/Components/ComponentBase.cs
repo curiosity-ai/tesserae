@@ -5,16 +5,14 @@ namespace Tesserae.Components
 {
     public abstract class ComponentBase<T, THTML> : IComponent, IHasMarginPadding where T : ComponentBase<T, THTML> where THTML : HTMLElement
     {
-        public delegate void ComponentEventHandler<TEventArgs>(T sender, TEventArgs e);
-        
-        public event ComponentEventHandler<MouseEvent> onClick;
-        public event ComponentEventHandler<Event> onChange;
-        public event ComponentEventHandler<Event> onInput;
-        public event ComponentEventHandler<Event> onFocus;
-        public event ComponentEventHandler<Event> onBlur;
-        public event ComponentEventHandler<KeyboardEvent> onKeyUp;
-        public event ComponentEventHandler<KeyboardEvent> onKeyDown;
-        public event ComponentEventHandler<KeyboardEvent> onKeyPress;
+        public event ComponentEventHandler<T, MouseEvent> onClick;
+        public event ComponentEventHandler<T, Event> onChange;
+        public event ComponentEventHandler<T, Event> onInput;
+        public event ComponentEventHandler<T, Event> onFocus;
+        public event ComponentEventHandler<T, Event> onBlur;
+        public event ComponentEventHandler<T, KeyboardEvent> onKeyUp;
+        public event ComponentEventHandler<T, KeyboardEvent> onKeyDown;
+        public event ComponentEventHandler<T, KeyboardEvent> onKeyPress;
 
         public THTML InnerElement { get; protected set; }
         public string Margin { get => InnerElement.style.margin; set => InnerElement.style.margin = value; }
@@ -22,7 +20,7 @@ namespace Tesserae.Components
         
         public abstract HTMLElement Render();
         
-        public virtual T OnClick(ComponentEventHandler<MouseEvent> onClick)
+        public virtual T OnClick(ComponentEventHandler<T, MouseEvent> onClick)
         {
             this.onClick += onClick;
 
@@ -34,43 +32,43 @@ namespace Tesserae.Components
             return (T)this;
         }
 
-        public virtual T OnChange(ComponentEventHandler<Event> onChange)
+        public virtual T OnChange(ComponentEventHandler<T, Event> onChange)
         {
             this.onChange += onChange;
             return (T)this;
         }
 
-        public virtual T OnInput(ComponentEventHandler<Event> onInput)
+        public virtual T OnInput(ComponentEventHandler<T, Event> onInput)
         {
             this.onInput += onInput;
             return (T)this;
         }
 
-        public virtual T OnFocus(ComponentEventHandler<Event> onFocus)
+        public virtual T OnFocus(ComponentEventHandler<T, Event> onFocus)
         {
             this.onFocus += onFocus;
             return (T)this;
         }
 
-        public virtual T OnBlur(ComponentEventHandler<Event> onBlur)
+        public virtual T OnBlur(ComponentEventHandler<T, Event> onBlur)
         {
             this.onBlur += onBlur;
             return (T)this;
         }
 
-        public virtual T OnKeyDown(ComponentEventHandler<KeyboardEvent> onKeyDown)
+        public virtual T OnKeyDown(ComponentEventHandler<T, KeyboardEvent> onKeyDown)
         {
             this.onKeyDown += onKeyDown;
             return (T)this;
         }
 
-        public virtual T OnKeyUp(ComponentEventHandler<KeyboardEvent> onKeyUp)
+        public virtual T OnKeyUp(ComponentEventHandler<T, KeyboardEvent> onKeyUp)
         {
             this.onKeyUp += onKeyUp;
             return (T)this;
         }
 
-        public virtual T OnKeyPress(ComponentEventHandler<KeyboardEvent> onKeyPress)
+        public virtual T OnKeyPress(ComponentEventHandler<T, KeyboardEvent> onKeyPress)
         {
             this.onKeyPress += onKeyPress;
             return (T)this;
@@ -80,9 +78,11 @@ namespace Tesserae.Components
 
         protected void AttachChange() => InnerElement.addEventListener("change", s => RaiseOnChange(s));
 
-        public void RaiseOnClick(MouseEvent ev) => onClick?.Invoke((T)this, ev);
+        // 2020-06-30 DWR: This was previously public, not protected, but nothing outside of a component itself should be faking events like this
+        protected void RaiseOnClick(MouseEvent ev) => onClick?.Invoke((T)this, ev);
 
-        public void RaiseOnChange(Event ev) => onChange?.Invoke((T)this, ev);
+        // 2020-06-30 DWR: This was previously public, not protected, but nothing outside of a component itself should be faking events like this
+        protected void RaiseOnChange(Event ev) => onChange?.Invoke((T)this, ev);
 
         protected void AttachInput() => InnerElement.addEventListener("input", ev => RaiseOnInput(ev));
 

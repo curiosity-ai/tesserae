@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Tesserae.HTML;
 using static H5.Core.dom;
@@ -16,10 +15,10 @@ namespace Tesserae.Components
             Large
         }
 
-        private HTMLElement _sidebarContainer;
-        private HTMLElement _contentContainer;
-        private HTMLElement _container;
-        private List<Item> _items = new List<Item>();
+        private readonly HTMLElement _sidebarContainer;
+        private readonly HTMLElement _contentContainer;
+        private readonly HTMLElement _container;
+        private readonly List<Item> _items = new List<Item>();
         private ResizeObserver _resizeObserver;
 
         public event OnBeforeSelectHandler onBeforeSelect;
@@ -231,7 +230,7 @@ namespace Tesserae.Components
         {
             protected HTMLElement _container;
             private HTMLSpanElement _label;
-            private HTMLElement _icon;
+            private readonly HTMLElement _icon;
             private bool _isSelectable = true;
             private bool _hasOnClick = false;
             private bool _hasOnSelect = false;
@@ -274,7 +273,7 @@ namespace Tesserae.Components
 
             public bool IsSelected
             {
-                get => IsSelectable ? _container.classList.contains("tss-selected") : false;
+                get => IsSelectable && _container.classList.contains("tss-selected");
                 set
                 {
                     if (!IsSelectable) return;

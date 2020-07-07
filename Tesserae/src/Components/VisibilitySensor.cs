@@ -9,10 +9,10 @@ namespace Tesserae.Components
 {
     public class VisibilitySensor : IComponent
     {
-        private HTMLElement InnerElement;
-        private double _debounceTimeout = 50;
+        private readonly HTMLElement InnerElement;
+        private readonly double _debounceTimeout = 50;
         private double _debounce;
-        private Action<VisibilitySensor> _onVisible;
+        private readonly Action<VisibilitySensor> _onVisible;
         private int _maxCalls;
 
         public VisibilitySensor(Action<VisibilitySensor> onVisible, bool singleCall = true, IComponent message = null)

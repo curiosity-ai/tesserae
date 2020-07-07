@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
-using H5;
-using H5.Core;
 using static H5.Core.dom;
 
 namespace Tesserae
 {
     public static class Require
     {
-        private static SingleSemaphoreSlim singleCall = new SingleSemaphoreSlim();
+        private static readonly SingleSemaphoreSlim singleCall = new SingleSemaphoreSlim();
         public static void LoadStyleAsync(params string[] styles)
         {
             for (int i = 0; i < styles.Length; i++)
@@ -39,11 +37,6 @@ namespace Tesserae
         private static void LoadScriptAsync(Action onComplete, Action<string> onFail, params string[] libraries)
         {
             var loadedCount = 0;
-            dom.HTMLElement.onactivateFn onScriptLoaded = e =>
-            {
-                loadedCount++;
-                if (loadedCount == libraries.Length) onComplete?.Invoke();
-            };
             for (int i = 0; i < libraries.Length; i++)
             {
                 var url = libraries[i];
@@ -55,12 +48,14 @@ namespace Tesserae
                 }
                 else
                 {
-                    var script = new HTMLScriptElement();
-                    script.type = "text/javascript";
-                    script.src = url;
-                    script.async = true;
-                    script.onerror = e => { onFail?.Invoke(url); loadedCount++; if (loadedCount == libraries.Length) onComplete?.Invoke(); };
-                    script.onload = onScriptLoaded;
+                    var script = new HTMLScriptElement
+                    {
+                        type = "text/javascript",
+                        src = url,
+                        async = true,
+                        onerror = e => { onFail?.Invoke(url); loadedCount++; if (loadedCount == libraries.Length) onComplete?.Invoke(); },
+                        onload = OnScriptLoaded
+                    };
                     try
                     {
                         document.head.appendChild(script);
@@ -71,7 +66,16 @@ namespace Tesserae
                     }
                 }
             }
-            if (loadedCount == libraries.Length) onComplete?.Invoke();
+            if (loadedCount == libraries.Length)
+            {
+                onComplete?.Invoke();
+            }
+
+            void OnScriptLoaded(Event e)
+            {
+                loadedCount++;
+                if (loadedCount == libraries.Length) onComplete?.Invoke();
+            }
         }
     }
 }

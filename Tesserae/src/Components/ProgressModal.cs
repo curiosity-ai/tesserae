@@ -6,13 +6,13 @@ namespace Tesserae.Components
 
     public class ProgressModal
     {
-        private Modal _modalHost;
-        private Raw _titleHost;
-        private Raw _messageHost;
-        private Raw _progressHost;
-        private Raw _footerHost;
-        private ProgressIndicator _progressIndicator;
-        private Spinner _spinner;
+        private readonly Modal _modalHost;
+        private readonly Raw _titleHost;
+        private readonly Raw _messageHost;
+        private readonly Raw _progressHost;
+        private readonly Raw _footerHost;
+        private readonly ProgressIndicator _progressIndicator;
+        private readonly Spinner _spinner;
         private bool _isSpinner = true;
 
         public ProgressModal()

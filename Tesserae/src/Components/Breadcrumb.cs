@@ -9,8 +9,8 @@ namespace Tesserae.Components
 {
     public class Breadcrumb : IComponent, IContainer<Breadcrumb, IComponent>
     {
-        private HTMLElement _childContainer;
-        private ResizeObserver _resizeObserver;
+        private readonly HTMLElement _childContainer;
+        private readonly ResizeObserver _resizeObserver;
         private int _maximumItemsToDisplay = 10;
         private int _overflowIndex = 0;
         private bool _cacheSizes;
@@ -19,7 +19,7 @@ namespace Tesserae.Components
 
         private string _chevronIcon = "la-chevron-right";
 
-        private Dictionary<HTMLElement, double> _cachedSizes = new Dictionary<HTMLElement, double>();
+        private readonly Dictionary<HTMLElement, double> _cachedSizes = new Dictionary<HTMLElement, double>();
 
         public int MaximumItemsToDisplay
         {

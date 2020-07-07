@@ -5,7 +5,7 @@ namespace Tesserae
 {
     public sealed class UnitSize
     {
-        public UnitSize(double size, Unit unit)
+        public UnitSize(float size, Unit unit)
         {
             if (unit == Unit.Default)
             {
@@ -16,31 +16,63 @@ namespace Tesserae
             Unit = unit;
         }
 
+        internal UnitSize Cache(int val)
+        {
+            if(!_cache.TryGetValue(Unit, out var dict))
+            {
+                dict = new Dictionary<int, string>();
+                _cache[Unit] = dict;
+            }
+
+            if(dict.TryGetValue(val, out var s))
+            {
+                _cachedValue = s;
+            }
+            else
+            {
+                _cachedValue = ToString();
+                dict[val] = _cachedValue;
+            }
+
+            return this;
+        }
+
+        private static readonly Dictionary<Unit, Dictionary<int, string>> _cache = new Dictionary<Unit, Dictionary<int, string>>();
+
+        private string _cachedValue = null;
+
         private UnitSize()            => Unit = Unit.Auto;
 
         public static UnitSize Auto() => new UnitSize();
         public static UnitSize Inherit() => new UnitSize() { Unit = Unit.Inherit };
 
-        public double Size            { get; private set; }
+        public float Size            { get; private set; }
 
         public Unit Unit              { get; private set; }
 
-        [Obsolete("Replace call with .percent, .px or .vh extension methods available on the int and double types")]
-        public static string Translate(Unit unit, double size) => new UnitSize(size, unit).ToString();
-
-        internal IEnumerable<string> Select(Func<object, object> p)
-        {
-            throw new NotImplementedException();
-        }
-
         public override string ToString()
         {
-            if (Unit == Unit.Auto)
+            if (_cachedValue != null ) return _cachedValue;
+
+            switch (Unit)
             {
-                return $"{Unit}";
+                case Unit.Default:
+                    throw new ArgumentException(nameof(Unit));
+                case Unit.Auto:
+                    return "auto";
+                case Unit.Inherit:
+                    return "inherit";
+                case Unit.Percent:
+                    _cachedValue = $"{Size:0.####}%"; break;
+                case Unit.Pixels:
+                    _cachedValue = $"{Size:0.####}px"; break;
+                case Unit.ViewportHeight:
+                    _cachedValue = $"{Size:0.####}vh"; break;
+                case Unit.ViewportWidth:
+                    _cachedValue = $"{Size:0.####}vw"; break;
             }
 
-            return $"{Size:0.####}{Unit}";
+            return _cachedValue;
         }
 
         public static UnitSize operator -(UnitSize a) => new UnitSize(-a.Size, a.Unit);

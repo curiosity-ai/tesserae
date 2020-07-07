@@ -13,8 +13,6 @@ namespace Tesserae.Tests.Samples
 
         public SearchableGroupedListSample()
         {
-            Func<string, IComponent> groupedItemHeaderGenerator = (s) => HorizontalSeparator(TextBlock(s).Primary().SemiBold()).Left();
-
             _content =
                 SectionStack()
                     .WidthStretch()
@@ -33,14 +31,16 @@ namespace Tesserae.Tests.Samples
                             .Children(
                                 SampleTitle("Usage"),
                                 TextBlock("Searchable Grouped List with No Results Message").Medium().PaddingBottom(16.px()).PaddingTop(16.px()),
-                                SearchableGroupedList(GetItems(10), groupedItemHeaderGenerator).PaddingBottom(32.px()).Height(500.px())
+                                SearchableGroupedList(GetItems(10), GroupedItemHeaderGenerator).PaddingBottom(32.px()).Height(500.px())
                                     .WithNoResultsMessage(() => BackgroundArea(Card(TextBlock("No Results").Padding(16.px()))).WidthStretch().HeightStretch().MinHeight(100.px())),
                                 TextBlock("Searchable Grouped List with extra commands").Medium().PaddingBottom(16.px()).PaddingTop(16.px()),
-                                SearchableGroupedList(GetItems(10), groupedItemHeaderGenerator).PaddingBottom(32.px()).Height(500.px()).AfterSearchBox(Button("Sample Button After").Primary()).BeforeSearchBox(Button("Sample Button Before").Link())
+                                SearchableGroupedList(GetItems(10), GroupedItemHeaderGenerator).PaddingBottom(32.px()).Height(500.px()).AfterSearchBox(Button("Sample Button After").Primary()).BeforeSearchBox(Button("Sample Button Before").Link())
                                     .WithNoResultsMessage(() => BackgroundArea(Card(TextBlock("No Results").Padding(16.px()))).WidthStretch().HeightStretch().MinHeight(100.px())),
                                 TextBlock("Searchable Grouped List with Columns").Medium().PaddingBottom(16.px()).PaddingTop(16.px()),
-                                SearchableGroupedList(GetItems(40), groupedItemHeaderGenerator, 25.percent(), 25.percent(), 25.percent(), 25.percent()).Height(500.px())
+                                SearchableGroupedList(GetItems(40), GroupedItemHeaderGenerator, 25.percent(), 25.percent(), 25.percent(), 25.percent()).Height(500.px())
                                 )).PaddingBottom(32.px());
+            
+            IComponent GroupedItemHeaderGenerator(string s) => HorizontalSeparator(TextBlock(s).Primary().SemiBold()).Left();
         }
 
         public HTMLElement Render() => _content.Render();
@@ -73,8 +73,8 @@ namespace Tesserae.Tests.Samples
 
         private class SearchableGroupedListItem : ISearchableGroupedItem
         {
-            private string     _value;
-            private IComponent _component;
+            private readonly string     _value;
+            private readonly IComponent _component;
 
             public SearchableGroupedListItem(string value, string group)
             {

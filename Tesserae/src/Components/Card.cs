@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using H5;
-using static Tesserae.UI;
+﻿using Tesserae.HTML;
 using static H5.Core.dom;
-using Tesserae.HTML;
+using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
-    public class Card : ComponentBase<Card, HTMLElement>
+    public sealed class Card : ComponentBase<Card, HTMLElement>
     {
-        private HTMLElement _cardContainer;
+        private readonly HTMLElement _cardContainer;
         public Card(IComponent content)
         {
             InnerElement = Div(_("tss-card"), content.Render());
@@ -27,7 +24,7 @@ namespace Tesserae.Components
             set => _cardContainer.UpdateClassIf(value, "tss-small");
         }
 
-        public override Card OnClick(ComponentEventHandler<MouseEvent> onClick)
+        public override Card OnClick(ComponentEventHandler<Card, MouseEvent> onClick)
         {
             InnerElement.style.cursor = "pointer";
             return base.OnClick(onClick);

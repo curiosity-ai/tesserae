@@ -1,13 +1,12 @@
-﻿using System;
-using Tesserae.HTML;
+﻿using Tesserae.HTML;
 using static H5.Core.dom;
 using static Tesserae.UI;
 namespace Tesserae.Components
 {
     public class TextArea : ComponentBase<TextArea, HTMLTextAreaElement>, ICanValidate<TextArea>, IObservableComponent<string>
     {
-        private HTMLDivElement _container;
-        private HTMLSpanElement _errorSpan;
+        private readonly HTMLDivElement _container;
+        private readonly HTMLSpanElement _errorSpan;
         private readonly SettableObservable<string> _observable = new SettableObservable<string>();
 
         public TextArea(string text = string.Empty)
@@ -116,16 +115,9 @@ namespace Tesserae.Components
             return _container;
         }
 
-        public void Attach(EventHandler<Event> handler, Validation.Mode mode)
+        public void Attach(ComponentEventHandler<TextArea> handler)
         {
-            if (mode == Validation.Mode.OnBlur)
-            {
-                onChange += (s, e) => handler(s, e);
-            }
-            else
-            {
-                onInput += (s, e) => handler(s, e);
-            }
+            onInput += (s, _) => handler(s);
         }
 
         public TextArea SetText(string text)

@@ -1,6 +1,6 @@
-﻿using H5;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using H5;
 using Tesserae.Components;
 using static H5.Core.dom;
 
@@ -20,8 +20,7 @@ namespace Tesserae.HTML
             }
             catch
             {
-                pending = new List<Action>();
-                pending.Add(CreateRO);
+                pending = new List<Action> { CreateRO };
                 Require.LoadScriptAsync("./assets/js/resizeobserver.js").ContinueWith(t =>
                 {
                     if (t.IsCompleted)
@@ -93,10 +92,10 @@ namespace Tesserae.HTML
             OnResize?.Invoke();
         }
 
-        public float GetHeight(HTMLElement element)
+        public static float GetHeight(HTMLElement element)
         {
             var height = window.getComputedStyle(element).height;
-            if (height == "")
+            if (string.IsNullOrEmpty(height))
             {
                 // 2019-10-04 DWR: I've seen height be returned as a blank string, which will fail at float.parse, so return zero instead
                 return 0;
@@ -104,10 +103,10 @@ namespace Tesserae.HTML
             return float.Parse(height.Replace("px", ""));
         }
 
-        public float GetWidth(HTMLElement element)
+        public static float GetWidth(HTMLElement element)
         {
             var width = window.getComputedStyle(element).width;
-            if (width == "")
+            if (string.IsNullOrEmpty(width))
             {
                 // 2019-10-04 DWR: I presume that if height can be blank (see GetHeight) then width can be too, so include the same safety check
                 return 0;

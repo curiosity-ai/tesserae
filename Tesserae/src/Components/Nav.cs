@@ -8,14 +8,13 @@ using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
-    public class Nav : ComponentBase<Nav, HTMLUListElement>, IContainer<Nav.NavLink, Nav.NavLink>, IHasBackgroundColor
+    public sealed class Nav : ComponentBase<Nav, HTMLUListElement>, IContainer<Nav.NavLink, Nav.NavLink>, IHasBackgroundColor
     {
-        public Nav()
-        {
-            InnerElement = Ul(_("tss-nav"));
-        }
+        public Nav() => InnerElement = Ul(_("tss-nav"));
 
         public NavLink SelectedLink { get; private set; }
+
+        private readonly List<NavLink> _children = new List<NavLink>();
 
         public string Background { get => InnerElement.style.background; set => InnerElement.style.background = value; }
 
@@ -43,23 +42,32 @@ namespace Tesserae.Components
                 RaiseOnChange(ev: null);
                 SelectedLink = component.SelectedChild;
             }
+
+            _children.Add(component);
         }
 
         public void Clear()
         {
+            _children.Clear();
             ClearChildren(ScrollBar.GetCorrectContainer(InnerElement));
         }
 
         public void Replace(NavLink newComponent, NavLink oldComponent)
         {
-            ScrollBar.GetCorrectContainer(InnerElement).replaceChild(newComponent.Render(), oldComponent.Render());
-
-            newComponent.internalOnSelected += OnNavLinkSelected;
-            if (newComponent.IsSelected)
+            var index = _children.IndexOf(oldComponent);
+            if (index >= 0)
             {
-                if (SelectedLink != null) SelectedLink.IsSelected = false;
-                RaiseOnChange(ev: null);
-                SelectedLink = newComponent;
+                _children[index] = newComponent;
+
+                ScrollBar.GetCorrectContainer(InnerElement).replaceChild(newComponent.Render(), oldComponent.Render());
+
+                newComponent.internalOnSelected += OnNavLinkSelected;
+                if (newComponent.IsSelected)
+                {
+                    if (SelectedLink != null) SelectedLink.IsSelected = false;
+                    RaiseOnChange(ev: null);
+                    SelectedLink = newComponent;
+                }
             }
         }
         public Nav Links(params Nav.NavLink[] children)
@@ -74,12 +82,18 @@ namespace Tesserae.Components
             return this;
         }
 
-        private void OnNavLinkSelected(object sender, NavLink e)
+        private void OnNavLinkSelected(NavLink sender)
         {
-            if (SelectedLink != null) SelectedLink.IsSelected = false;
+            foreach(var c in _children)
+            {
+                c.UnselectRecursivelly(sender);
+            }
+            
             RaiseOnChange(ev: null);
-            SelectedLink = e;
+
+            SelectedLink = sender;
         }
+
 
         public Nav Compact()
         {
@@ -95,7 +109,7 @@ namespace Tesserae.Components
 
         public class ComponentInNavLink : NavLink
         {
-            private IComponent _content;
+            private readonly IComponent _content;
             private readonly bool _disableMouseEvents;
             private bool _alreadyRendered = false;
 
@@ -127,6 +141,11 @@ namespace Tesserae.Components
 
         public class NavLink : ComponentBase<NavLink, HTMLLIElement>, IContainer<NavLink, NavLink>, IHasTextSize, IHasBackgroundColor
         {
+            public event ComponentEventHandler<NavLink> onSelected;
+            public event ComponentEventHandler<NavLink> onExpanded;
+
+            internal event ComponentEventHandler<NavLink> internalOnSelected;
+
             protected readonly HTMLSpanElement _textSpan;
             protected HTMLElement _iconSpan;
             protected readonly HTMLDivElement _headerDiv;
@@ -136,10 +155,9 @@ namespace Tesserae.Components
             private bool _canSelectAndExpand = false;
             private int _Level;
             private bool _shouldExpandOnFirstAdd;
-            private readonly List<NavLink> Children = new List<NavLink>();
+            private readonly List<NavLink> _childLinks = new List<NavLink>();
 
-
-            public NavLink(string text = null, string icon = null)
+            public NavLink(string text = null)
             {
                 _textSpan = Span(_(text: text));
                 _childContainer = Ul(_("tss-nav-link-container"));
@@ -164,17 +182,12 @@ namespace Tesserae.Components
                 Weight = TextWeight.Regular;
             }
 
-
-            public event EventHandler<NavLink> onExpanded;
-
             internal NavLink SelectedChild { get; private set; }
-
-            internal event EventHandler<NavLink> internalOnSelected;
-            public event EventHandler<NavLink> onSelected;
 
             private void ThrowIfUsingComponent(string method)
             {
-                if (_textSpan is null) throw new Exception($"Not allowed to call {method} when using a custom component for rendering the Navlink");
+                if (_textSpan is null)
+                    throw new Exception($"Not allowed to call {method} when using a custom component for rendering the Navlink");
             }
 
             /// <summary>
@@ -225,7 +238,7 @@ namespace Tesserae.Components
                     {
                         if (!IsExpanded)
                         {
-                            onExpanded?.Invoke(this, this);
+                            onExpanded?.Invoke(this);
                             ScrollIntoView();
                         }
                         InnerElement.classList.add("tss-expanded");
@@ -241,8 +254,8 @@ namespace Tesserae.Components
                 {
                     if (value && !IsSelected)
                     {
-                        internalOnSelected?.Invoke(this, this);
-                        onSelected?.Invoke(this, this);
+                        internalOnSelected?.Invoke(this);
+                        onSelected?.Invoke(this);
                         ScrollIntoView();
                     }
                     UpdateSelectedClass(value);
@@ -270,7 +283,7 @@ namespace Tesserae.Components
                 set
                 {
                     _Level = value;
-                    foreach (var c in Children)
+                    foreach (var c in _childLinks)
                     {
                         c.Level = Level + 1;
                     }
@@ -331,14 +344,14 @@ namespace Tesserae.Components
 
             public void Add(NavLink component)
             {
-                Children.Add(component);
+                _childLinks.Add(component);
                 ScrollBar.GetCorrectContainer(_childContainer).appendChild(component.Render());
                 _headerDiv.classList.add("tss-expandable");
                 component.Level = Level + 1;
                 component.internalOnSelected += OnChildSelected;
                 if (component.IsSelected)
                 {
-                    internalOnSelected?.Invoke(this, component);
+                    internalOnSelected?.Invoke(component);
 
                     if (SelectedChild != null) SelectedChild.IsSelected = false;
                     SelectedChild = component;
@@ -346,7 +359,7 @@ namespace Tesserae.Components
 
                 if (component.SelectedChild != null)
                 {
-                    internalOnSelected?.Invoke(component, component.SelectedChild);
+                    internalOnSelected?.Invoke(component.SelectedChild);
 
                     if (SelectedChild != null) SelectedChild.IsSelected = false;
                     SelectedChild = component.SelectedChild;
@@ -358,15 +371,15 @@ namespace Tesserae.Components
                 }
             }
 
-            private void OnChildSelected(object sender, NavLink e)
+            private void OnChildSelected(NavLink sender)
             {
-                internalOnSelected?.Invoke(this, e);
+                internalOnSelected?.Invoke(this);
             }
 
             public void Clear()
             {
                 ClearChildren(ScrollBar.GetCorrectContainer(_childContainer));
-                Children.Clear();
+                _childLinks.Clear();
                 _headerDiv.classList.remove("tss-expandable");
             }
 
@@ -374,7 +387,8 @@ namespace Tesserae.Components
             {
                 ScrollBar.GetCorrectContainer(_childContainer).replaceChild(newComponent.Render(), oldComponent.Render());
                 newComponent.internalOnSelected += OnChildSelected;
-                if (newComponent.IsSelected) internalOnSelected?.Invoke(this, newComponent);
+                if (newComponent.IsSelected)
+                    internalOnSelected?.Invoke(newComponent);
             }
 
             public void Remove(NavLink oldComponent)
@@ -440,13 +454,13 @@ namespace Tesserae.Components
                 return this;
             }
 
-            public NavLink OnSelected(EventHandler<Nav.NavLink> onSelected)
+            public NavLink OnSelected(ComponentEventHandler<NavLink> onSelected)
             {
                 this.onSelected += onSelected;
                 return this;
             }
 
-            public NavLink OnExpanded(EventHandler<Nav.NavLink> onExpanded)
+            public NavLink OnExpanded(ComponentEventHandler<NavLink> onExpanded)
             {
                 this.onExpanded += onExpanded;
                 return this;
@@ -463,7 +477,7 @@ namespace Tesserae.Components
                 bool alreadyRun = false;
                 var dummy = new Nav.NavLink("loading...");
                 Add(dummy);
-                onExpanded += (s, e) =>
+                onExpanded += s =>
                 {
                     if (!alreadyRun)
                     {
@@ -507,6 +521,25 @@ namespace Tesserae.Components
                     StopEvent(e);
                 }
             }
+
+            internal void UnselectRecursivelly(NavLink sender)
+            {
+                if(!IsOrHasChild(sender))
+                {
+                    IsSelected = false;
+                }
+
+                foreach(var child in _childLinks)
+                {
+                    child.UnselectRecursivelly(sender);
+                }
+            }
+
+            private bool IsOrHasChild(NavLink sender)
+            {
+                return this == sender || _childLinks.Any(l => l.IsOrHasChild(sender));
+            }
+
         }
     }
 }

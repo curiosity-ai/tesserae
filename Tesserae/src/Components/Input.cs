@@ -1,12 +1,10 @@
-﻿using System;
-using Tesserae.HTML;
+﻿using Tesserae.HTML;
 using static H5.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
-    public abstract class Input<TInput> : ComponentBase<TInput, HTMLInputElement>, ICanValidate<TInput>, IObservableComponent<string>
-        where TInput : Input<TInput>
+    public abstract class Input<TInput> : ComponentBase<TInput, HTMLInputElement>, ICanValidate<TInput>, IObservableComponent<string> where TInput : Input<TInput>
     {
         private readonly HTMLDivElement _container;
         private readonly HTMLSpanElement _errorSpan;
@@ -23,6 +21,7 @@ namespace Tesserae.Components
             AttachInput();
             AttachFocus();
             AttachBlur();
+            AttachKeys();
 
             // TODO: 27/06/20 - MB - calling virtual member within a constructor is a bit of a no-no.
             OnChange((_, __) => _observable.Value = Text);
@@ -94,16 +93,9 @@ namespace Tesserae.Components
             }
         }
 
-        public void Attach(EventHandler<Event> handler, Validation.Mode mode)
+        public void Attach(ComponentEventHandler<TInput> handler)
         {
-            if (mode == Validation.Mode.OnBlur)
-            {
-                onChange += (s,e) => handler(s,e);
-            }
-            else
-            {
-                onInput += (s, e) => handler(s, e);
-            }
+            onInput += (s, _) => handler(s);
         }
 
         public TInput SetText(string text)

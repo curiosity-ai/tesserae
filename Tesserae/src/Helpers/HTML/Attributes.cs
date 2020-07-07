@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using static H5.Core.dom;
 
 namespace Tesserae.HTML
@@ -55,9 +54,9 @@ namespace Tesserae.HTML
             if (!string.IsNullOrEmpty(Alt))       { element.setAttribute("alt", Role); }
             if (!string.IsNullOrEmpty(Role))      { element.setAttribute("role", Role); }
 
-            foreach (var dataAttribute in _data)
+            foreach (var (attributeName, attributeValue) in _data)
             {
-                element.setAttribute($"data-{dataAttribute.attributeName}", dataAttribute.attributeValue);
+                element.setAttribute($"data-{attributeName}", attributeValue);
             }
 
             Styles?.Invoke(element.style);

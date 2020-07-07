@@ -3,7 +3,6 @@ using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
-
     /// <summary>
     /// A Stack is a container-type component that abstracts the implementation of a flexbox in order to define the layout of its children components.
     /// </summary>
@@ -52,11 +51,13 @@ namespace Tesserae.Components
 
         public static void SetAlign(IComponent component, ItemAlign align)
         {
-            var correct = GetCorrectItemToApplyStyle(component);
-            string cssAlign = align.ToString().ToLower();
-            if (cssAlign == "end" || cssAlign == "start") cssAlign = $"flex-{cssAlign}";
-            correct.item.style.alignSelf = cssAlign;
-            if(correct.remember) correct.item.setAttribute("tss-stk-as", "");
+            var (item, remember) = GetCorrectItemToApplyStyle(component);
+            var cssAlign = align.ToString().ToLower();
+            if (cssAlign == "end" || cssAlign == "start")
+                cssAlign = $"flex-{cssAlign}";
+            item.style.alignSelf = cssAlign;
+            if (remember)
+                item.setAttribute("tss-stk-as", "");
         }
 
         /// <summary>
@@ -122,9 +123,9 @@ namespace Tesserae.Components
 
         public static void SetWidth(IComponent component, UnitSize unitSize)
         {
-            var correct = GetCorrectItemToApplyStyle(component);
-            correct.item.style.width = unitSize.ToString();
-            if(correct.remember) correct.item.setAttribute("tss-stk-w","");
+            var (item, remember) = GetCorrectItemToApplyStyle(component);
+            item.style.width = unitSize.ToString();
+            if (remember) item.setAttribute("tss-stk-w", "");
         }
 
         internal static (HTMLElement item, bool remember) GetCorrectItemToApplyStyle(IComponent component)
@@ -141,136 +142,122 @@ namespace Tesserae.Components
 
         public static void SetMinWidth(IComponent component, UnitSize unitSize)
         {
-            var correct = GetCorrectItemToApplyStyle(component);
-            correct.item.style.minWidth = unitSize.ToString();
-            if(correct.remember) correct.item.setAttribute("tss-stk-mw", "");
+            var (item, remember) = GetCorrectItemToApplyStyle(component);
+            item.style.minWidth = unitSize.ToString();
+            if (remember) item.setAttribute("tss-stk-mw", "");
         }
 
         public static void SetMaxWidth(IComponent component, UnitSize unitSize)
         {
-            var correct = GetCorrectItemToApplyStyle(component);
-            correct.item.style.maxWidth = unitSize.ToString();
-            if(correct.remember) correct.item.setAttribute("tss-stk-mxw", "");
+            var (item, remember) = GetCorrectItemToApplyStyle(component);
+            item.style.maxWidth = unitSize.ToString();
+            if (remember) item.setAttribute("tss-stk-mxw", "");
         }
 
         public static void SetHeight(IComponent component, UnitSize unitSize)
         {
-            var correct = GetCorrectItemToApplyStyle(component);
-            correct.item.style.height = unitSize.ToString();
-            if(correct.remember) correct.item.setAttribute("tss-stk-h", "");
+            var (item, remember) = GetCorrectItemToApplyStyle(component);
+            item.style.height = unitSize.ToString();
+            if (remember) item.setAttribute("tss-stk-h", "");
         }
 
         public static void SetMinHeight(IComponent component, UnitSize unitSize)
         {
-            var correct = GetCorrectItemToApplyStyle(component);
-            correct.item.style.minHeight = unitSize.ToString();
-            if(correct.remember) correct.item.setAttribute("tss-stk-mh", "");
+            var (item, remember) = GetCorrectItemToApplyStyle(component);
+            item.style.minHeight = unitSize.ToString();
+            if (remember) item.setAttribute("tss-stk-mh", "");
         }
 
         public static void SetMaxHeight(IComponent component, UnitSize unitSize)
         {
-            var correct = GetCorrectItemToApplyStyle(component);
-            correct.item.style.maxHeight = unitSize.ToString();
-            if(correct.remember) correct.item.setAttribute("tss-stk-mxh", "");
+            var (item, remember) = GetCorrectItemToApplyStyle(component);
+            item.style.maxHeight = unitSize.ToString();
+            if (remember) item.setAttribute("tss-stk-mxh", "");
         }
 
         public static void SetMarginLeft(IComponent component, UnitSize unitSize)
         {
-            var correct = GetCorrectItemToApplyStyle(component);
-            correct.item.style.marginLeft = unitSize.ToString();
-            if(correct.remember) correct.item.setAttribute("tss-stk-m", "");
+            var (item, remember) = GetCorrectItemToApplyStyle(component);
+            item.style.marginLeft = unitSize.ToString();
+            if (remember) item.setAttribute("tss-stk-m", "");
         }
 
         public static void SetMarginRight(IComponent component, UnitSize unitSize)
         {
-            var correct = GetCorrectItemToApplyStyle(component);
-            correct.item.style.marginRight = unitSize.ToString();
-            if(correct.remember) correct.item.setAttribute("tss-stk-m", "");
+            var (item, remember) = GetCorrectItemToApplyStyle(component);
+            item.style.marginRight = unitSize.ToString();
+            if (remember) item.setAttribute("tss-stk-m", "");
         }
 
         public static void SetMarginTop(IComponent component, UnitSize unitSize)
         {
-            var correct = GetCorrectItemToApplyStyle(component);
-            correct.item.style.marginTop= unitSize.ToString();
-            if(correct.remember) correct.item.setAttribute("tss-stk-m", "");
+            var (item, remember) = GetCorrectItemToApplyStyle(component);
+            item.style.marginTop = unitSize.ToString();
+            if (remember) item.setAttribute("tss-stk-m", "");
         }
 
         public static void SetMarginBottom(IComponent component, UnitSize unitSize)
         {
-            var correct = GetCorrectItemToApplyStyle(component);
-            correct.item.style.marginBottom = unitSize.ToString();
-            if(correct.remember) correct.item.setAttribute("tss-stk-m", "");
+            var (item, remember) = GetCorrectItemToApplyStyle(component);
+            item.style.marginBottom = unitSize.ToString();
+            if (remember) item.setAttribute("tss-stk-m", "");
         }
-
 
         public static void SetPaddingLeft(IComponent component, UnitSize unitSize)
         {
-            var correct = GetCorrectItemToApplyStyle(component);
-            correct.item.style.paddingLeft = unitSize.ToString();
-            if(correct.remember) correct.item.setAttribute("tss-stk-p", "");
+            var (item, remember) = GetCorrectItemToApplyStyle(component);
+            item.style.paddingLeft = unitSize.ToString();
+            if (remember) item.setAttribute("tss-stk-p", "");
         }
 
         public static void SetPaddingRight(IComponent component, UnitSize unitSize)
         {
-            var correct = GetCorrectItemToApplyStyle(component);
-            correct.item.style.paddingRight = unitSize.ToString();
-            if(correct.remember) correct.item.setAttribute("tss-stk-p", "");
+            var (item, remember) = GetCorrectItemToApplyStyle(component);
+            item.style.paddingRight = unitSize.ToString();
+            if (remember) item.setAttribute("tss-stk-p", "");
         }
 
         public static void SetPaddingTop(IComponent component, UnitSize unitSize)
         {
-            var correct = GetCorrectItemToApplyStyle(component);
-            correct.item.style.paddingTop = unitSize.ToString();
-            if(correct.remember) correct.item.setAttribute("tss-stk-p", "");
+            var (item, remember) = GetCorrectItemToApplyStyle(component);
+            item.style.paddingTop = unitSize.ToString();
+            if (remember) item.setAttribute("tss-stk-p", "");
         }
 
         public static void SetPaddingBottom(IComponent component, UnitSize unitSize)
         {
-            var correct = GetCorrectItemToApplyStyle(component);
-            correct.item.style.paddingBottom = unitSize.ToString();
-            if(correct.remember) correct.item.setAttribute("tss-stk-p", "");
+            var (item, remember) = GetCorrectItemToApplyStyle(component);
+            item.style.paddingBottom = unitSize.ToString();
+            if (remember) item.setAttribute("tss-stk-p", "");
         }
-
 
         public static void SetGrow(IComponent component, int grow)
         {
-            var correct = GetCorrectItemToApplyStyle(component);
-            correct.item.style.flexGrow = grow.ToString();
-            if(correct.remember) correct.item.setAttribute("tss-stk-fg", "");
+            var (item, remember) = GetCorrectItemToApplyStyle(component);
+            item.style.flexGrow = grow.ToString();
+            if (remember) item.setAttribute("tss-stk-fg", "");
         }
 
         public static void SetShrink(IComponent component, bool shrink)
         {
-            var correct = GetCorrectItemToApplyStyle(component);
-            correct.item.style.flexShrink = shrink ? "1" : "0";
-            if(correct.remember) correct.item.setAttribute("tss-stk-fs", "");
+            var (item, remember) = GetCorrectItemToApplyStyle(component);
+            item.style.flexShrink = shrink ? "1" : "0";
+            if (remember) item.setAttribute("tss-stk-fs", "");
         }
 
         public Stack(Orientation orientation = Orientation.Vertical)
         {
             InnerElement = Div(_("tss-stack"));
-            this.StackOrientation = orientation;
+            StackOrientation = orientation;
         }
 
-        public void Add(IComponent component)
-        {
-            ScrollBar.GetCorrectContainer(InnerElement).appendChild(GetItem(component, true));
-        }
+        public void Add(IComponent component) => ScrollBar.GetCorrectContainer(InnerElement).appendChild(GetItem(component, true));
 
-        public virtual void Clear()
-        {
-            ClearChildren(ScrollBar.GetCorrectContainer(InnerElement));
-        }
+        public virtual void Clear() => ClearChildren(ScrollBar.GetCorrectContainer(InnerElement));
 
-        public void Replace(IComponent newComponent, IComponent oldComponent)
-        {
-            ScrollBar.GetCorrectContainer(InnerElement).replaceChild(GetItem(newComponent), GetItem(oldComponent));
-        }
+        public void Replace(IComponent newComponent, IComponent oldComponent) => ScrollBar.GetCorrectContainer(InnerElement).replaceChild(GetItem(newComponent), GetItem(oldComponent));
 
-        public virtual HTMLElement Render()
-        {
-            return InnerElement;
-        }
+        public virtual HTMLElement Render() => InnerElement;
 
         public Stack Horizontal()
         {
@@ -356,35 +343,35 @@ namespace Tesserae.Components
                 return ha;
             }
 
-            if (has("tss-stk-w"))   { ts.width     = fs.width;  fs.width = "100%"; }
-            if (has("tss-stk-mw"))  { ts.minWidth  = fs.minWidth; fs.minWidth = "100%"; }
-            if (has("tss-stk-mxw")) { ts.maxWidth  = fs.maxWidth; fs.maxWidth = "100%"; }
-            if (has("tss-stk-h"))   { ts.height    = fs.height; fs.height = "100%"; }
-            if (has("tss-stk-mh"))  { ts.minHeight = fs.minHeight; fs.minHeight = "100%"; }
+            if (has("tss-stk-w")) { ts.width = fs.width; fs.width = "100%"; }
+            if (has("tss-stk-mw")) { ts.minWidth = fs.minWidth; fs.minWidth = "100%"; }
+            if (has("tss-stk-mxw")) { ts.maxWidth = fs.maxWidth; fs.maxWidth = "100%"; }
+            if (has("tss-stk-h")) { ts.height = fs.height; fs.height = "100%"; }
+            if (has("tss-stk-mh")) { ts.minHeight = fs.minHeight; fs.minHeight = "100%"; }
             if (has("tss-stk-mxh")) { ts.maxHeight = fs.maxHeight; fs.maxHeight = "100%"; }
 
             if (has("tss-stk-m"))
             {
-                ts.marginLeft   = fs.marginLeft;
-                ts.marginTop    = fs.marginTop;
-                ts.marginRight  = fs.marginRight;
+                ts.marginLeft = fs.marginLeft;
+                ts.marginTop = fs.marginTop;
+                ts.marginRight = fs.marginRight;
                 ts.marginBottom = fs.marginBottom;
-                fs.marginLeft   = fs.marginTop = fs.marginRight = fs.marginBottom = "";
+                fs.marginLeft = fs.marginTop = fs.marginRight = fs.marginBottom = "";
             }
 
             if (has("tss-stk-p"))
             {
-                ts.paddingLeft   = fs.paddingLeft;
-                ts.paddingTop    = fs.paddingTop;
-                ts.paddingRight  = fs.paddingRight;
+                ts.paddingLeft = fs.paddingLeft;
+                ts.paddingTop = fs.paddingTop;
+                ts.paddingRight = fs.paddingRight;
                 ts.paddingBottom = fs.paddingBottom;
-                fs.paddingLeft   = fs.paddingTop = fs.paddingRight = fs.paddingBottom = "";
+                fs.paddingLeft = fs.paddingTop = fs.paddingRight = fs.paddingBottom = "";
             }
 
             //TODO: check if should clear this here:
-            if (has("tss-stk-fg")) { ts.flexGrow   = fs.flexGrow;  /*fs.flexGrow = ""; */}
+            if (has("tss-stk-fg")) { ts.flexGrow = fs.flexGrow;  /*fs.flexGrow = ""; */}
             if (has("tss-stk-fs")) { ts.flexShrink = fs.flexShrink;  /*fs.flexShrink = ""; */}
-            if (has("tss-stk-as")) { ts.alignSelf  = fs.alignSelf; /*fs.alignSelf = "";*/ }
+            if (has("tss-stk-as")) { ts.alignSelf = fs.alignSelf; /*fs.alignSelf = "";*/ }
         }
 
         public enum Orientation
@@ -395,14 +382,13 @@ namespace Tesserae.Components
             HorizontalReverse,
         }
 
-
-
         public struct ItemSize
         {
             public Unit Type { get; set; }
             public float Value { get; set; }
         }
     }
+
     public enum ItemAlign
     {
         Auto,

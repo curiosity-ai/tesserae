@@ -9,7 +9,7 @@ namespace Tesserae
     {
         private readonly Func<(int Key, TComponent Component), HTMLElement> _createComponentExpression;
 
-        private  List<(int Key, HTMLElement HtmlElement)> _componentCache;
+        private readonly List<(int Key, HTMLElement HtmlElement)> _componentCache;
 
         public ComponentCache(Func<(int Key, TComponent Component), HTMLElement> createComponentExpression)
         {
@@ -29,11 +29,11 @@ namespace Tesserae
         {
             foreach (var componentAndKey in _componentsAndKeys)
             {
-                var cachedComponent = _componentCache.SingleOrDefault(component => component.Key == componentAndKey.Key);
+                var (Key, HtmlElement) = _componentCache.SingleOrDefault(component => component.Key == componentAndKey.Key);
 
-                if (cachedComponent.HtmlElement != null)
+                if (HtmlElement != null)
                 {
-                    yield return cachedComponent.HtmlElement;
+                    yield return HtmlElement;
                 }
                 else
                 {

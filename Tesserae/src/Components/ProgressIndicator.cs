@@ -7,8 +7,8 @@ namespace Tesserae.Components
 {
     public class ProgressIndicator : IComponent
     {
-        private HTMLElement InnerElement;
-        private HTMLElement BarElement;
+        private readonly HTMLElement InnerElement;
+        private readonly HTMLElement BarElement;
 
         public ProgressIndicator()
         {

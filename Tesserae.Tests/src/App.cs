@@ -56,10 +56,7 @@ namespace Tesserae.Tests
             };
 
             var sideBar = Sidebar().Stretch();
-            var navBar = Navbar().SetTop(Stack().Horizontal()
-                                          .WidthStretch()
-                                          .HeightStretch()
-                                          .Children(SearchBox("Search for a template").WidthStretch().Underlined()));
+            var navBar = Navbar().SetTop(HStack().S().Children(SearchBox("Search for a template").WidthStretch().Underlined()));
             sideBar.IsVisible = false;
             navBar.IsVisible  = false;
             document.body.style.overflow = "hidden";
@@ -111,7 +108,7 @@ namespace Tesserae.Tests
 
                 var links = orderedComponents.ToDictionary(
                     c => c.Name,
-                    c => NavLink(c.Name).SelectedOrExpandedIf(c.Name == componentRouteName).OnSelected((s, e) =>
+                    c => NavLink(c.Name).SelectedOrExpandedIf(c.Name == componentRouteName).OnSelected(s =>
                     {
                         console.log("Route to " + c.Name);
                         Router.Navigate("#" + ToRoute(c.Name));
@@ -119,15 +116,15 @@ namespace Tesserae.Tests
                 );
 
                 var component = components[componentRouteName]();
-                return new SplitView()
-                    .Left(Stack().Stretch().Children(MainNav(links, navBar, sideBar, componentRouteName)).InvisibleScroll(), background: Theme.Default.Background)
+                return SplitView().NoSplitter()
+                    .Left(Stack().Stretch().Children(MainNav(links, navBar, sideBar)).InvisibleScroll(), background: Theme.Default.Background)
                     .LeftIsSmaller(300.px())
                     .Stretch()
                     .Right(Stack().Stretch().Children(component.WidthStretch()).InvisibleScroll(), background: Theme.Secondary.Background);
             }
         }
 
-        private static IComponent MainNav(Dictionary<string, Nav.NavLink> links, Navbar navBar, Sidebar sideBar, string selectedRoute)
+        private static IComponent MainNav(Dictionary<string, Nav.NavLink> links, Navbar navBar, Sidebar sideBar)
         {
             return Stack().Padding(16.px()).NoShrink().MinHeightStretch()
                           .Children(TextBlock("Tesserae UI Toolkit").MediumPlus().SemiBold().AlignCenter(),
