@@ -47,7 +47,6 @@ namespace Tesserae.Components
                     }
                 )
                 .WidthStretch()
-                .Height(100.px())
                 .Grow(1);
 
             _searchBox.OnSearch((_, __) => _defered.Refresh());
