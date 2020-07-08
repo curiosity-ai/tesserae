@@ -1,9 +1,7 @@
-﻿using H5;
-using H5.Core;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using H5.Core;
 using static H5.Core.dom;
 using static Tesserae.UI;
 
@@ -30,20 +28,27 @@ namespace Tesserae.Components
             Items = items ?? new ObservableList<T>();
             _searchBox = new SearchBox().Underlined().SetPlaceholder("Type to search").SearchAsYouType().Width(100.px()).Grow();
             _list = ItemsList(new IComponent[0], columns);
-            _defered = Defer(Items, item =>
-            {
-                var searchTerms = (_searchBox.Text ?? "").Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                var filteredItems = Items.Where(i => searchTerms.Length  == 0 || searchTerms.All(st => i.IsMatch(st))).Select(i => i.Render()).ToArray();
+            _defered =
+                Defer(
+                    Items,
+                    item =>
+                    {
+                        var searchTerms = (_searchBox.Text ?? "").Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                        var filteredItems = Items.Where(i => searchTerms.Length  == 0 || searchTerms.All(st => i.IsMatch(st))).Select(i => i.Render()).ToArray();
 
-                _list.Items.Clear();
+                        _list.Items.Clear();
 
-                if (filteredItems.Any())
-                {
-                    _list.Items.AddRange(filteredItems);
-                }
+                        if (filteredItems.Any())
+                        {
+                            _list.Items.AddRange(filteredItems);
+                        }
 
-                return _list.Stretch().AsTask();
-            }).WidthStretch().Height(100.px()).Grow(1);
+                        return _list.Stretch().AsTask();
+                    }
+                )
+                .WidthStretch()
+                .Height(100.px())
+                .Grow(1);
 
             _searchBox.OnSearch((_, __) => _defered.Refresh());
             _searchBoxContainer = Stack().Horizontal().WidthStretch().Children(_searchBox).AlignItems(ItemAlign.Center);
