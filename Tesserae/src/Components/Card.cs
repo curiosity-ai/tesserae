@@ -43,6 +43,12 @@ namespace Tesserae.Components
             return this;
         }
 
+        public Card NoAnimation()
+        {
+            InnerElement.classList.add("tss-noanimation", "tss-ismounted");
+            return this;
+        }
+
         public Card NoPadding()
         {
             InnerElement.style.padding = "0px";
