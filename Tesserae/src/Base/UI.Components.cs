@@ -192,6 +192,8 @@ namespace Tesserae
 
         public static ColorPicker ColorPicker(Color color = null) => new ColorPicker(color);
 
+        public static DateTimePicker DateTimePicker(DateTime? dateTime = null) => new DateTimePicker(dateTime);
+
         public static SearchBox SearchBox(string placeholder = string.Empty) => new SearchBox(placeholder);
 
         public static Slider Slider(int val = 0, int min = 0, int max = 100, int step = 10) => new Slider(val, min, max, step);
