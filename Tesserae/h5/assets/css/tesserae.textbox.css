@@ -32,7 +32,7 @@
         opacity: 0.7;
     }
 
-.tss-textBox.tss-disabled {
+.tss-textbox.tss-disabled {
     border-color: var(--tss-disabled-background-color);
     background-color: var(--tss-disabled-background-color);
     color: var(--tss-disabled-foreground-color);
