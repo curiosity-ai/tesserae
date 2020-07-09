@@ -221,15 +221,13 @@ namespace Tesserae
 
         private static void LocationChanged(bool allowCallbackEvenIfLocationUnchanged)
         {
-            var currenthash = window.location.hash ?? "";
-            if ((_currentState is object) && (_currentState.FullPath == currenthash) && !allowCallbackEvenIfLocationUnchanged)
-            {
+            var currentPathFromHash = (window.location.hash ?? "").TrimStart('#');
+            if ((_currentState is object) && (_currentState.Path == currentPathFromHash) && !allowCallbackEvenIfLocationUnchanged)
                 return;
-            }
 
-            var p = currenthash.Split(new[] { '?' }, count: 2); // Do not remove empty entries, as we need the empty entry in the array
+            var p = currentPathFromHash.Split(new[] { '?' }, count: 2); // Do not remove empty entries, as we need the empty entry in the array
 
-            var hash = p.Length == 0 ? "" : p[0].TrimStart('#');
+            var hash = (p.Length == 0) ? "" : p[0];
 
             var par = new Dictionary<string, string>();
             var parts = hash.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
