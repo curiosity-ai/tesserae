@@ -6,7 +6,7 @@ namespace Tesserae.Components
     public sealed class FileSelector : IComponent, ICanValidate<FileSelector>
     {
         public delegate void FileSelectedHandler(FileSelector sender, File file);
-        private event FileSelectedHandler onFileSelected;
+        private event FileSelectedHandler FileSelected;
 
         private readonly HTMLInputElement _fileInput;
         private readonly IComponent _stack;
@@ -20,7 +20,7 @@ namespace Tesserae.Components
             private set
             {
                 _selectedFile = value;
-                onFileSelected?.Invoke(this, value);
+                FileSelected?.Invoke(this, value);
             }
         }
 
@@ -68,9 +68,10 @@ namespace Tesserae.Components
                                       Button().SetTitle("Click to select file...").NoWrap().SetIcon("las la-folder-open").OnClick((s,e) => _fileInput.click()).NoBorder().NoBackground(),
                                       Raw(_fileInput));
 
-            _fileInput.onchange = (e) => updateFile();
+            _fileInput.onchange = _ => updateFile();
 
             _container = Div(_("tss-fileselector"), _stack.Render());
+
             void updateFile()
             {
                 if (_fileInput.files.length > 0)
@@ -83,7 +84,7 @@ namespace Tesserae.Components
 
         public FileSelector OnFileSelected(FileSelectedHandler handler)
         {
-            onFileSelected += handler;
+            FileSelected += handler;
             return this;
         }
 
@@ -113,7 +114,7 @@ namespace Tesserae.Components
 
         public void Attach(ComponentEventHandler<FileSelector> handler)
         {
-            onFileSelected += (s, _) => handler(s);
+            FileSelected += (s, _) => handler(s);
         }
 
         private string GetFileName(string value)

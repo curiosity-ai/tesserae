@@ -7,12 +7,32 @@ namespace Tesserae.Components
 {
     public sealed class FileDropArea : IComponent
     {
-        private event FileDroppedHandler onFileDropped;
+        private event FileDroppedHandler FileDropped;
         public delegate void FileDroppedHandler(FileDropArea sender, File file);
 
         private readonly HTMLInputElement _fileInput;
         private Raw _raw;
         private readonly HTMLElement _container;
+        public FileDropArea()
+        {
+            _fileInput = FileInput(_("tss-file-input"));
+
+            _container = CreateDefaultDropArea();
+
+            _fileInput.onchange = (e) => triggerDroppedOnFile();
+
+            void triggerDroppedOnFile()
+            {
+                if (_fileInput.files.length > 0)
+                {
+                    foreach (var file in _fileInput.files)
+                    {
+                        FileDropped(this, file);
+                        if (!IsMultiple) break;
+                    }
+                }
+            };
+        }
 
         public IComponent Content
         {
@@ -33,27 +53,6 @@ namespace Tesserae.Components
         {
             get => _fileInput.multiple;
             set => _fileInput.multiple = value;
-        }
-
-        public FileDropArea()
-        {
-            _fileInput = FileInput(_("tss-file-input"));
-
-            _container = CreateDefaultDropArea();
-            
-            _fileInput.onchange = (e) => triggerDroppedOnFile();
-
-            void triggerDroppedOnFile()
-            {
-                if (_fileInput.files.length > 0)
-                {
-                    foreach (var file in _fileInput.files)
-                    {
-                        onFileDropped(this, file);
-                        if (!IsMultiple) break;
-                    }
-                }
-            };
         }
 
         private HTMLElement CreateDefaultDropArea()
@@ -105,7 +104,7 @@ namespace Tesserae.Components
                 }
                 else if (Script.Write<bool>("{0}.isFile", entry) == true)
                 {
-                    Action<File> upload = (f) => { onFileDropped?.Invoke(this, f); };
+                    Action<File> upload = (f) => { FileDropped?.Invoke(this, f); };
                     Script.Write("{0}.file({1})", entry, upload);
                 }
             }
@@ -115,7 +114,7 @@ namespace Tesserae.Components
 
         public FileDropArea OnFileDropped(FileDroppedHandler handler)
         {
-            onFileDropped += handler;
+            FileDropped += handler;
             return this;
         }
 

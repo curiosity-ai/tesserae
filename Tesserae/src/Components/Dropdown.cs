@@ -303,7 +303,7 @@ namespace Tesserae.Components
 
         public void Attach(ComponentEventHandler<Dropdown> handler)
         {
-            onInput += (s, _) => handler(this);
+            InputUpdated += (s, _) => handler(this);
         }
 
         public Dropdown Single()
@@ -340,6 +340,7 @@ namespace Tesserae.Components
             ClearChildren(ScrollBar.GetCorrectContainer(_childContainer));
 
             // 2020-06-11 DWR: We need to do this, otherwise the entries in there will relate to drop down items that are no longer rendered - it's fine, since we'll be rebuilding the items (including selected states) if we've just called clear
+            // TODO [2020-07-01 DWR]: It doesn't LOOK to me like this is required any more since we will always call it in UpdateStateBasedUponCurrentSelections a little further below.. but I want to test with it removed before I'm fully confident
             _selectedChildren.Clear();
 
             // Each request (whether sync or async) will get a unique and incrementing ID - if requests overlap then the results of requests that were initiated later are preferred as they are going to be the results of interactions that User
@@ -356,7 +357,7 @@ namespace Tesserae.Components
             children.ForEach(component =>
             {
                 ScrollBar.GetCorrectContainer(_childContainer).appendChild(component.Render());
-                component.onSelected += OnItemSelected;
+                component.SelectedItem += OnItemSelected;
             });
             EnsureAsyncLoadingStateDisabled(); // If we got here because an async request completed OR while one was in flight but a synchronous call to this method came in after it started but before finishing then ensure to remove its loading state
             UpdateStateBasedUponCurrentSelections();
@@ -602,7 +603,7 @@ namespace Tesserae.Components
             }
         }
 
-        private void ClearSearch() =>_search = string.Empty;
+        private void ClearSearch() => _search = string.Empty;
 
         /// <summary>
         /// When a LoadItemsAsync call starts, there should be a spinner to indicate that something is happening in the background - but if a further async request comes in before the previous one has completed then there is no
@@ -677,8 +678,8 @@ namespace Tesserae.Components
                 InnerElement.addEventListener("mouseover", OnItemMouseOver);
             }
 
-            private event BeforeSelectEventHandler<Item> onBeforeSelected;
-            internal event ComponentEventHandler<Item> onSelected;
+            private event BeforeSelectEventHandler<Item> BeforeSelectedItem;
+            internal event ComponentEventHandler<Item> SelectedItem;
 
             public ItemType Type
             {
@@ -688,7 +689,6 @@ namespace Tesserae.Components
                     if (InnerElement.classList.contains("tss-dropdown-header")) return ItemType.Header;
                     return ItemType.Divider;
                 }
-
                 set
                 {
                     InnerElement.classList.remove($"tss-dropdown-{Type.ToString().ToLower()}");
@@ -722,9 +722,9 @@ namespace Tesserae.Components
                 get => InnerElement.classList.contains("tss-selected");
                 set
                 {
-                    if (value && onBeforeSelected is object)
+                    if (value && BeforeSelectedItem is object)
                     {
-                        var shouldSelect = onBeforeSelected(this);
+                        var shouldSelect = BeforeSelectedItem(this);
                         if (!shouldSelect)
                             return;
                     }
@@ -738,7 +738,7 @@ namespace Tesserae.Components
                     // then nothing would happen (because the value hadn't changed and this callback wouldn't be made) because it's this callback that the parent class uses to hide the drop down list of options. I considered making
                     // adding the logic to OnItemClick instead (because we want a way to say "hide the drop down list if the User clicked an option) but that bypasses  the _onBeforeSelected and that could be useful (we might want
                     // to have a callback that prevents you from clicking the item if.. something). While I removed the was-changed check for single-select configurations, it does not harm for multi as well.
-                    onSelected?.Invoke(this);
+                    SelectedItem?.Invoke(this);
                 }
             }
 
@@ -796,7 +796,7 @@ namespace Tesserae.Components
 
             public Item OnSelected(ComponentEventHandler<Item> whenSelected, ComponentEventHandler<Item> whenDeselected = null)
             {
-                onSelected += sender =>
+                SelectedItem += sender =>
                 {
                     if (sender.IsSelected)
                     {
@@ -812,7 +812,7 @@ namespace Tesserae.Components
 
             public Item OnBeforeSelected(BeforeSelectEventHandler<Item> onBeforeSelect)
             {
-                onBeforeSelected += onBeforeSelect;
+                BeforeSelectedItem += onBeforeSelect;
                 return this;
             }
 

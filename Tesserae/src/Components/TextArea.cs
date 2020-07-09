@@ -3,7 +3,7 @@ using static H5.Core.dom;
 using static Tesserae.UI;
 namespace Tesserae.Components
 {
-    public class TextArea : ComponentBase<TextArea, HTMLTextAreaElement>, ICanValidate<TextArea>, IObservableComponent<string>
+    public sealed class TextArea : ComponentBase<TextArea, HTMLTextAreaElement>, ICanValidate<TextArea>, IObservableComponent<string>
     {
         private readonly HTMLDivElement _container;
         private readonly HTMLSpanElement _errorSpan;
@@ -117,7 +117,7 @@ namespace Tesserae.Components
 
         public void Attach(ComponentEventHandler<TextArea> handler)
         {
-            onInput += (s, _) => handler(s);
+            InputUpdated += (s, _) => handler(s);
         }
 
         public TextArea SetText(string text)
@@ -163,9 +163,6 @@ namespace Tesserae.Components
             return this;
         }
 
-        public IObservable<string> AsObservable()
-        {
-            return _observable;
-        }
+        public IObservable<string> AsObservable() => _observable;
     }
 }

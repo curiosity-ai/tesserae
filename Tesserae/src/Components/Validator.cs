@@ -7,7 +7,7 @@ namespace Tesserae.Components
 {
     public sealed class Validator
     {
-        private event OnValidationHandler OnValidationOccured;
+        private event OnValidationHandler ValidationOccured;
 
         /// <summary>
         /// The haveEncounteredInvalidValue value indicates whether any invalid values have been encountered SO FAR - components will only be validated as a User edits them OR when a Revalidate call is made (or the IsValid property is checked), which
@@ -41,7 +41,7 @@ namespace Tesserae.Components
 
         public Validator OnValidation(OnValidationHandler onValidation)
         {
-            OnValidationOccured += onValidation;
+            ValidationOccured += onValidation;
             return this;
         }
 
@@ -54,7 +54,7 @@ namespace Tesserae.Components
                 {
                     // Do NOT force a full revalidation just because one thing has changed, only validate components that the User has edited so far (call Revalidate() or check IsValid to force a FULL revalidation)
                     var validity = Revalidate(validateOnlyUserEditedComponents: true);
-                    OnValidationOccured?.Invoke(validity);
+                    ValidationOccured?.Invoke(validity);
                 },
                 100
             );
@@ -68,7 +68,7 @@ namespace Tesserae.Components
             get
             {
                 // If we want to know if the ENTIRE form that this validator is related to then we need to check ALL components and NOT just the ones that the User has edited so far - and so we won't call Revalidate and specify Revalidate as true - and
-                // we ALSO want the OnValidationOccured event to fire - which is another reason to call Revalidate() and not Revalidate(bool validateOnlyUserEditedComponents)
+                // we ALSO want the ValidationOccured event to fire - which is another reason to call Revalidate() and not Revalidate(bool validateOnlyUserEditedComponents)
                 return Revalidate();
             }
         }
@@ -79,7 +79,7 @@ namespace Tesserae.Components
         public bool Revalidate()
         {
             var validity = Revalidate(validateOnlyUserEditedComponents: false);
-            OnValidationOccured?.Invoke(validity);
+            ValidationOccured?.Invoke(validity);
             return validity != ValidationState.Invalid; // Since we've forced a full re-validate here, we know we can translate the enum into a bool safely because it's either ALL valid or at least one component is NOT valid (we didn't skip ANY not-yet-interacted-with components)
         }
 

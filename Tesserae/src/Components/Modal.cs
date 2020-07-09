@@ -7,10 +7,10 @@ namespace Tesserae.Components
 {
     public sealed class Modal : Layer<Modal>, ISpecialCaseStyling, IHasBackgroundColor
     {
-        private event OnShowHandler onShow;
+        private event OnShowHandler Shown;
         public delegate void OnShowHandler(Modal sender);
 
-        private event OnHideHandler onHide;
+        private event OnHideHandler Hidden;
         public delegate void OnHideHandler(Modal sender);
 
         private readonly HTMLElement _closeButton;
@@ -76,7 +76,7 @@ namespace Tesserae.Components
             // it - which is logic which we use here to decide whether the User must explicitly click the close button or if they can easily discard it via clicking away or hitting [Esc] <- 2020-05-01 DWR: Checking for light dismiss was Rafa's idea, we MIGHT also
             // want to allow [Esc] support for modals with a close button that DON'T allow light dismiss in the future). So we'll hook up the key press now and then check the component's configuration if the event occurs. Also note that there is key PRESS event
             // for [Esc] (unlike other buttons), only key DOWN and key UP and so we'll have to settle for using onKeyUp.
-            onKeyUp += (_, e) =>
+            KeyReleased += (_, e) =>
             {
                 if ((e.keyCode == 27) && CanLightDismiss && WillShowCloseButton)
                 {
@@ -366,23 +366,23 @@ namespace Tesserae.Components
             if (!IsNonBlocking) document.body.style.overflowY = "hidden";
             base.Show();
             _modal.focus(); // 2020-05-01 DWR: We need to put focus into the modal container in order to pick up keypresses
-            onShow?.Invoke(this);
+            Shown?.Invoke(this);
         }
 
         public Modal OnHide(OnHideHandler onHide)
         {
-            this.onHide += onHide;
+            Hidden += onHide;
             return this;
         }
         public Modal OnShow(OnShowHandler onShow)
         {
-            this.onShow += onShow;
+            Shown += onShow;
             return this;
         }
 
         public override void Hide(Action onHidden = null)
         {
-            onHide?.Invoke(this);
+            Hidden?.Invoke(this);
 
             base.Hide(() =>
             {

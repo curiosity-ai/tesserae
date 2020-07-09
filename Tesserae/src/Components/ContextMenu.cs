@@ -343,7 +343,7 @@ namespace Tesserae.Components
             {
                 if (Type == ItemType.Item)
                 {
-                    onClick += e;
+                    Clicked += e;
                     if(_innerComponent is object)
                     {
                         _innerComponent.onclick += (e2) => e.Invoke(this, e2);

@@ -1,15 +1,13 @@
-﻿using System;
-using Tesserae.Components;
+﻿using Tesserae.Components;
 using static H5.Core.dom;
-using static Tesserae.UI;
 using static Tesserae.Tests.Samples.SamplesHelper;
+using static Tesserae.UI;
 
 namespace Tesserae.Tests.Samples
 {
     public class FileSelectorAndDropAreaSample : IComponent
     {
         private readonly IComponent _content;
-
         public FileSelectorAndDropAreaSample()
         {
             _content = SectionStack()
@@ -24,8 +22,8 @@ namespace Tesserae.Tests.Samples
                     SampleSubTitle("Do"),
                     SampleDo("Filter files by supported types"),
                     SampleDo("Provide a message for the file drop area"),
-                    SampleDo("Attach the OnUpload event handler")
-                    ),
+                    SampleDo($"Attach the {nameof(Components.FileDropArea.OnFileDropped)} event handler")
+                ),
             Stack().Width(40.percent()).Children(
                 SampleSubTitle("Don't"),
                 SampleDont("TODO")))))
@@ -39,12 +37,9 @@ namespace Tesserae.Tests.Samples
                     SampleSubTitle("File Drop Area"),
                     Label("Dropped Files: ").SetContent(Stack().Var(out var droppedFiles)),
                     FileDropArea().OnFileDropped((s, e) => droppedFiles.Add(TextBlock(e.name).Small())).Multiple()
-                    ));
+                ));
         }
 
-        public HTMLElement Render()
-        {
-            return _content.Render();
-        }
+        public HTMLElement Render() => _content.Render();
     }
 }

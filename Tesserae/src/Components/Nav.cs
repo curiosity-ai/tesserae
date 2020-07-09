@@ -26,7 +26,7 @@ namespace Tesserae.Components
         public void Add(NavLink component)
         {
             ScrollBar.GetCorrectContainer(InnerElement).appendChild(component.Render());
-            component.internalOnSelected += OnNavLinkSelected;
+            component.InternalSelectedLink += OnNavLinkSelected;
             if (component.IsSelected)
             {
                 if (SelectedLink != null)
@@ -61,7 +61,7 @@ namespace Tesserae.Components
 
                 ScrollBar.GetCorrectContainer(InnerElement).replaceChild(newComponent.Render(), oldComponent.Render());
 
-                newComponent.internalOnSelected += OnNavLinkSelected;
+                newComponent.InternalSelectedLink += OnNavLinkSelected;
                 if (newComponent.IsSelected)
                 {
                     if (SelectedLink != null) SelectedLink.IsSelected = false;
@@ -93,7 +93,6 @@ namespace Tesserae.Components
 
             SelectedLink = sender;
         }
-
 
         public Nav Compact()
         {
@@ -141,10 +140,11 @@ namespace Tesserae.Components
 
         public class NavLink : ComponentBase<NavLink, HTMLLIElement>, IContainer<NavLink, NavLink>, IHasTextSize, IHasBackgroundColor
         {
-            protected event ComponentEventHandler<NavLink> onSelected;
-            protected event ComponentEventHandler<NavLink> onExpanded;
+            private event ComponentEventHandler<NavLink> SelectedLink;
+            private event ComponentEventHandler<NavLink> ExpandedLink;
 
-            internal event ComponentEventHandler<NavLink> internalOnSelected;
+            // TODO [2020-07-09 DWR]: It would be really helpful to know what circumstances this (rather than the SelectedLink event is required, I think)
+            internal event ComponentEventHandler<NavLink> InternalSelectedLink;
 
             protected readonly HTMLSpanElement _textSpan;
             protected HTMLElement _iconSpan;
@@ -238,7 +238,7 @@ namespace Tesserae.Components
                     {
                         if (!IsExpanded)
                         {
-                            onExpanded?.Invoke(this);
+                            ExpandedLink?.Invoke(this);
                             ScrollIntoView();
                         }
                         InnerElement.classList.add("tss-expanded");
@@ -254,8 +254,8 @@ namespace Tesserae.Components
                 {
                     if (value && !IsSelected)
                     {
-                        internalOnSelected?.Invoke(this);
-                        onSelected?.Invoke(this);
+                        InternalSelectedLink?.Invoke(this);
+                        SelectedLink?.Invoke(this);
                         ScrollIntoView();
                     }
                     UpdateSelectedClass(value);
@@ -337,10 +337,7 @@ namespace Tesserae.Components
 
             public string Background { get => _headerDiv.style.background; set => _headerDiv.style.background = value; }
 
-            public override HTMLElement Render()
-            {
-                return InnerElement;
-            }
+            public override HTMLElement Render() => InnerElement;
 
             public void Add(NavLink component)
             {
@@ -348,10 +345,10 @@ namespace Tesserae.Components
                 ScrollBar.GetCorrectContainer(_childContainer).appendChild(component.Render());
                 _headerDiv.classList.add("tss-expandable");
                 component.Level = Level + 1;
-                component.internalOnSelected += OnChildSelected;
+                component.InternalSelectedLink += OnChildSelected;
                 if (component.IsSelected)
                 {
-                    internalOnSelected?.Invoke(component);
+                    InternalSelectedLink?.Invoke(component);
 
                     if (SelectedChild != null) SelectedChild.IsSelected = false;
                     SelectedChild = component;
@@ -359,7 +356,7 @@ namespace Tesserae.Components
 
                 if (component.SelectedChild != null)
                 {
-                    internalOnSelected?.Invoke(component.SelectedChild);
+                    InternalSelectedLink?.Invoke(component.SelectedChild);
 
                     if (SelectedChild != null) SelectedChild.IsSelected = false;
                     SelectedChild = component.SelectedChild;
@@ -373,7 +370,7 @@ namespace Tesserae.Components
 
             private void OnChildSelected(NavLink sender)
             {
-                internalOnSelected?.Invoke(this);
+                InternalSelectedLink?.Invoke(this);
             }
 
             public void Clear()
@@ -386,9 +383,9 @@ namespace Tesserae.Components
             public void Replace(NavLink newComponent, NavLink oldComponent)
             {
                 ScrollBar.GetCorrectContainer(_childContainer).replaceChild(newComponent.Render(), oldComponent.Render());
-                newComponent.internalOnSelected += OnChildSelected;
+                newComponent.InternalSelectedLink += OnChildSelected;
                 if (newComponent.IsSelected)
-                    internalOnSelected?.Invoke(newComponent);
+                    InternalSelectedLink?.Invoke(newComponent);
             }
 
             public void Remove(NavLink oldComponent)
@@ -456,13 +453,13 @@ namespace Tesserae.Components
 
             public NavLink OnSelected(ComponentEventHandler<NavLink> onSelected)
             {
-                this.onSelected += onSelected;
+                SelectedLink += onSelected;
                 return this;
             }
 
             public NavLink OnExpanded(ComponentEventHandler<NavLink> onExpanded)
             {
-                this.onExpanded += onExpanded;
+                ExpandedLink += onExpanded;
                 return this;
             }
 
@@ -477,7 +474,7 @@ namespace Tesserae.Components
                 bool alreadyRun = false;
                 var dummy = new Nav.NavLink("loading...");
                 Add(dummy);
-                onExpanded += s =>
+                ExpandedLink += s =>
                 {
                     if (!alreadyRun)
                     {

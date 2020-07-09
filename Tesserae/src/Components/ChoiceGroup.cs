@@ -114,11 +114,10 @@ namespace Tesserae.Components
 
         public sealed class Choice : ComponentBase<Choice, HTMLInputElement>
         {
+            private event ComponentEventHandler<Choice> SelectedItem;
+
             private readonly HTMLSpanElement _radioSpan;
             private readonly HTMLLabelElement _label;
-
-            private event ComponentEventHandler<Choice> OnSelect;
-
             public Choice(string text)
             {
                 InnerElement = RadioButton(_("tss-option"));
@@ -128,9 +127,9 @@ namespace Tesserae.Components
                 AttachChange();
                 AttachFocus();
                 AttachBlur();
-                onChange += (s, e) =>
+                Changed += (s, e) =>
                 {
-                    if (IsSelected) OnSelect?.Invoke(this);
+                    if (IsSelected) SelectedItem?.Invoke(this);
                 };
             }
 
@@ -199,7 +198,7 @@ namespace Tesserae.Components
 
             public Choice OnSelected(ComponentEventHandler<Choice> onSelected)
             {
-                OnSelect += onSelected;
+                SelectedItem += onSelected;
                 return this;
             }
 
