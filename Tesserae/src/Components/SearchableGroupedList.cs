@@ -32,16 +32,19 @@ namespace Tesserae.Components
 
             Items = new ObservableList<IComponent>();
 
-            _defered = Defer(Items, item =>
-            {
-                var searchTerms = (_searchBox.Text ?? "").Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-
-                var filteredItems = originalItems.OfType<T>().Where(i => searchTerms.Length == 0 || searchTerms.All(st => i.IsMatch(st))).ToArray();
-
-                AddGroupedItems(filteredItems, _list.Items, isGrid: (columns is object && columns.Length > 1));
-
-                return _list.Stretch().AsTask();
-            }).WidthStretch().Height(100.px()).Grow();
+            _defered =
+                Defer(
+                    Items,
+                    item =>
+                    {
+                        var searchTerms = (_searchBox.Text ?? "").Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                        var filteredItems = originalItems.OfType<T>().Where(i => searchTerms.Length == 0 || searchTerms.All(st => i.IsMatch(st))).ToArray();
+                        AddGroupedItems(filteredItems, _list.Items, isGrid: (columns is object && columns.Length > 1));
+                        return _list.Stretch().AsTask();
+                    }
+                )
+                .WidthStretch()
+                .Grow();
 
             originalItems.Observe(_ => _defered.Refresh());
 
