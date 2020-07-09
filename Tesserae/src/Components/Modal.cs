@@ -7,10 +7,10 @@ namespace Tesserae.Components
 {
     public sealed class Modal : Layer<Modal>, ISpecialCaseStyling, IHasBackgroundColor
     {
-        public event OnShowHandler onShow;
+        private event OnShowHandler onShow;
         public delegate void OnShowHandler(Modal sender);
 
-        public event OnHideHandler onHide;
+        private event OnHideHandler onHide;
         public delegate void OnHideHandler(Modal sender);
 
         private readonly HTMLElement _closeButton;

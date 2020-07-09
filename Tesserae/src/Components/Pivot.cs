@@ -9,8 +9,8 @@ namespace Tesserae.Components
 {
     public class Pivot : IComponent, ISpecialCaseStyling
     {
-        public event PivotEventHandler<PivotBeforeNavigateEvent> onBeforeNavigate;
-        public event PivotEventHandler<PivotNavigateEvent> onNavigate;
+        protected event PivotEventHandler<PivotBeforeNavigateEvent> onBeforeNavigate;
+        protected event PivotEventHandler<PivotNavigateEvent> onNavigate;
         public delegate void PivotEventHandler<TEventArgs>(Pivot sender, TEventArgs e);
 
         public HTMLElement StylingContainer => InnerElement;

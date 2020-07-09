@@ -11,7 +11,7 @@ namespace Tesserae.Components
         private readonly HTMLElement _iconContainer;
         private readonly HTMLElement _paddingContainer;
 
-        public event SearchEventHandler onSearch;
+        protected event SearchEventHandler onSearch;
         public delegate void SearchEventHandler(SearchBox sender, string value);
 
         public SearchBox(string placeholder = string.Empty)

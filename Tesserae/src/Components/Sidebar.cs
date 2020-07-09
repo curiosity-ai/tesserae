@@ -21,7 +21,7 @@ namespace Tesserae.Components
         private readonly List<Item> _items = new List<Item>();
         private ResizeObserver _resizeObserver;
 
-        public event OnBeforeSelectHandler onBeforeSelect;
+        protected event OnBeforeSelectHandler onBeforeSelect;
         public delegate bool OnBeforeSelectHandler(Item willBeSelected, Item currentlySelected);
 
         public bool IsLight
@@ -266,8 +266,8 @@ namespace Tesserae.Components
                 }
             }
 
-            public event SidebarItemHandler onClick;
-            public event SidebarItemHandler onSelected;
+            protected event SidebarItemHandler onClick;
+            protected event SidebarItemHandler onSelected;
 
             public delegate void SidebarItemHandler(Item sender);
 

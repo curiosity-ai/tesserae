@@ -141,8 +141,8 @@ namespace Tesserae.Components
 
         public class NavLink : ComponentBase<NavLink, HTMLLIElement>, IContainer<NavLink, NavLink>, IHasTextSize, IHasBackgroundColor
         {
-            public event ComponentEventHandler<NavLink> onSelected;
-            public event ComponentEventHandler<NavLink> onExpanded;
+            protected event ComponentEventHandler<NavLink> onSelected;
+            protected event ComponentEventHandler<NavLink> onExpanded;
 
             internal event ComponentEventHandler<NavLink> internalOnSelected;
 

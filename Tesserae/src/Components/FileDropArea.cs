@@ -7,7 +7,7 @@ namespace Tesserae.Components
 {
     public sealed class FileDropArea : IComponent
     {
-        public event FileDroppedHandler onFileDropped;
+        private event FileDroppedHandler onFileDropped;
         public delegate void FileDroppedHandler(FileDropArea sender, File file);
 
         private readonly HTMLInputElement _fileInput;

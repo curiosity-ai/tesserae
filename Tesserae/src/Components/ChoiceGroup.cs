@@ -49,7 +49,7 @@ namespace Tesserae.Components
         {
             ScrollBar.GetCorrectContainer(InnerElement).appendChild(component.Render());
 
-            component.OnSelect += OnChoiceSelected;
+            component.OnSelected(OnChoiceSelected);
 
             if (component.IsSelected)
                 OnChoiceSelected(component);
@@ -65,8 +65,9 @@ namespace Tesserae.Components
         public void Replace(Choice newComponent, Choice oldComponent)
         {
             ScrollBar.GetCorrectContainer(InnerElement).replaceChild(newComponent.Render(), oldComponent.Render());
-            newComponent.OnSelect += OnChoiceSelected;
+            newComponent.OnSelected(OnChoiceSelected);
         }
+
         public ChoiceGroup Choices(params ChoiceGroup.Choice[] children)
         {
             children.ForEach(x => Add(x));
@@ -116,7 +117,7 @@ namespace Tesserae.Components
             private readonly HTMLSpanElement _radioSpan;
             private readonly HTMLLabelElement _label;
 
-            public event ComponentEventHandler<Choice> OnSelect;
+            private event ComponentEventHandler<Choice> OnSelect;
 
             public Choice(string text)
             {
@@ -174,6 +175,7 @@ namespace Tesserae.Components
             {
                 return _label;
             }
+
             public Choice Disabled(bool value = true)
             {
                 IsEnabled = !value;

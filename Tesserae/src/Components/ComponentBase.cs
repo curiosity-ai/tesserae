@@ -5,14 +5,14 @@ namespace Tesserae.Components
 {
     public abstract class ComponentBase<T, THTML> : IComponent, IHasMarginPadding where T : ComponentBase<T, THTML> where THTML : HTMLElement
     {
-        public event ComponentEventHandler<T, MouseEvent> onClick;
-        public event ComponentEventHandler<T, Event> onChange;
-        public event ComponentEventHandler<T, Event> onInput;
-        public event ComponentEventHandler<T, Event> onFocus;
-        public event ComponentEventHandler<T, Event> onBlur;
-        public event ComponentEventHandler<T, KeyboardEvent> onKeyUp;
-        public event ComponentEventHandler<T, KeyboardEvent> onKeyDown;
-        public event ComponentEventHandler<T, KeyboardEvent> onKeyPress;
+        protected event ComponentEventHandler<T, MouseEvent> onClick;
+        protected event ComponentEventHandler<T, Event> onChange;
+        protected event ComponentEventHandler<T, Event> onInput;
+        protected event ComponentEventHandler<T, Event> onFocus;
+        protected event ComponentEventHandler<T, Event> onBlur;
+        protected event ComponentEventHandler<T, KeyboardEvent> onKeyUp;
+        protected event ComponentEventHandler<T, KeyboardEvent> onKeyDown;
+        protected event ComponentEventHandler<T, KeyboardEvent> onKeyPress;
 
         public THTML InnerElement { get; protected set; }
         public string Margin { get => InnerElement.style.margin; set => InnerElement.style.margin = value; }

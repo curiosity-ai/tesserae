@@ -8,7 +8,7 @@ namespace Tesserae.Components
 {
     public sealed class Picker<TPickerItem> : IComponent, IObservableListComponent<TPickerItem>  where TPickerItem : class, IPickerItem
     {
-        public event ComponentEventHandler<Picker<TPickerItem>, ItemPickedEvent> onItemSelected;
+        private event ComponentEventHandler<Picker<TPickerItem>, ItemPickedEvent> onItemSelected;
 
         private readonly ObservableList<TPickerItem> _pickerItems = new ObservableList<TPickerItem>();
         private readonly HTMLElement _container;

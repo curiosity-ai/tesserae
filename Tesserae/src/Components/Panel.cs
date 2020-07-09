@@ -6,7 +6,7 @@ namespace Tesserae.Components
 {
     public class Panel : Layer<Panel>
     {
-        public event OnHideHandler onHide;
+        protected event OnHideHandler onHide;
         public delegate void OnHideHandler(Panel sender);
 
         private IComponent _footer;

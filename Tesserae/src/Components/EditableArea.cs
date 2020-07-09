@@ -7,7 +7,7 @@ namespace Tesserae.Components
 {
     public sealed class EditableArea : ComponentBase<EditableArea, HTMLTextAreaElement>, IHasTextSize, IObservableComponent<string>
     {
-        public event SaveEditHandler onSave;
+        private event SaveEditHandler onSave;
         public delegate bool SaveEditHandler(EditableArea sender, string newValue);
 
         private readonly HTMLDivElement _container;

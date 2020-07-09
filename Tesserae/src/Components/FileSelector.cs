@@ -6,7 +6,7 @@ namespace Tesserae.Components
     public sealed class FileSelector : IComponent, ICanValidate<FileSelector>
     {
         public delegate void FileSelectedHandler(FileSelector sender, File file);
-        public event FileSelectedHandler onFileSelected;
+        private event FileSelectedHandler onFileSelected;
 
         private readonly HTMLInputElement _fileInput;
         private readonly IComponent _stack;
