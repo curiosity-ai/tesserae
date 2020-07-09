@@ -11,3 +11,6 @@ dotnet_diagnostic.CA1031.severity = none
 
 # 2020-06-30 DWR: If we want an explicit static constructor to initialise all fields in a clearly defined order then we shall do so
 dotnet_diagnostic.CA1810.severity = none
+
+# 2020-07-09 DWR: Custom Equals and In/Equality operators aren't such a big deal with Bridge/H5
+dotnet_diagnostic.CA1815.severity = none
