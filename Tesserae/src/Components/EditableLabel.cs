@@ -7,7 +7,7 @@ namespace Tesserae.Components
 {
     public sealed class EditableLabel : ComponentBase<EditableLabel, HTMLInputElement>, IHasTextSize, IObservableComponent<string>
     {
-        public event SaveEditHandler onSave;
+        private event SaveEditHandler Saved;
         public delegate bool SaveEditHandler(EditableLabel sender, string newValue);
 
         private readonly HTMLDivElement _container;
@@ -41,10 +41,16 @@ namespace Tesserae.Components
             _labelView.addEventListener("click", BeginEditing);
             _cancelEditIcon.addEventListener("click", CancelEditing);
 
-            OnKeyUp(KeyUp);
-            OnBlur(BeginSaveEditing);
+            OnKeyUp((_, e) =>
+            {
+                if (e.key == "Enter")
+                    BeginSaveEditing();
+                else if (e.key == "Escape")
+                    CancelEditing();
+            });
+            
+            OnBlur((_, __) => BeginSaveEditing());
         }
-
 
         public TextSize Size
         {
@@ -102,18 +108,6 @@ namespace Tesserae.Components
             }
         }
 
-        private void KeyUp(EditableLabel sender, KeyboardEvent e)
-        {
-            if (e.key == "Enter")
-            {
-                BeginSaveEditing(sender, e);
-            }
-            else if (e.key == "Escape")
-            {
-                CancelEditing(sender);
-            }
-        }
-
         public bool IsEditingMode
         {
             get => _container.classList.contains("tss-editing");
@@ -134,11 +128,11 @@ namespace Tesserae.Components
 
         public EditableLabel OnSave(SaveEditHandler onSave)
         {
-            this.onSave += onSave;
+            Saved += onSave;
             return this;
         }
 
-        private void BeginEditing(object sender)
+        private void BeginEditing()
         {
             InnerElement.value = _labelText.textContent;
             IsEditingMode = true;
@@ -146,19 +140,14 @@ namespace Tesserae.Components
             InnerElement.focus();
         }
 
-        private void CancelEditing(object sender)
+        private void CancelEditing()
         {
             _isCanceling = true;
             IsEditingMode = false;
             InnerElement.blur();
         }
 
-        private void BeginSaveEditing(EditableLabel sender, Event e)
-        {
-            //We need to do this on a timeout, because clicking on the Cancel would trigger this method first,
-            //with no opportunity to cancel
-            window.setTimeout(SaveEditing, 150);
-        }
+        private void BeginSaveEditing() => window.setTimeout(SaveEditing, 150); // We need to do this on a timeout, because clicking on the Cancel would trigger this method first, with no opportunity to cancel
 
         private void SaveEditing(object e)
         {
@@ -168,7 +157,7 @@ namespace Tesserae.Components
 
             if (newValue != _labelText.textContent)
             {
-                if (onSave is null || onSave(this, newValue))
+                if (Saved is null || Saved(this, newValue))
                 {
                     _labelText.textContent = newValue;
                     _observable.Value = newValue;
@@ -184,13 +173,10 @@ namespace Tesserae.Components
         public EditableLabel SetText(string text)
         {
             if (IsEditingMode)
-            {
                 InnerElement.value = text;
-            }
             else
-            {
                 _labelText.textContent = text;
-            }
+
             _observable.Value = text;
 
             return this;

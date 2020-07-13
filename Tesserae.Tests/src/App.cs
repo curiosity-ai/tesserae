@@ -24,6 +24,7 @@ namespace Tesserae.Tests
                 ("HorizontalSeparator",   () => new HorizontalSeparatorSample()),
                 ("TextBox",               () => new TextBoxSample()),
                 ("ColorPicker",           () => new ColorPickerSample()),
+                ("DateTimePicker",        () => new DateTimePickerSample()),
                 ("SearchBox",             () => new SearchBoxSample()),
                 ("Toggle",                () => new ToggleSample()),
                 ("Spinner",               () => new SpinnerSample()),
@@ -145,6 +146,7 @@ namespace Tesserae.Tests
                                                                               links["Toggle"],
                                                                               links["Picker"]),
                                                                               links["ColorPicker"],
+                                                                              links["DateTimePicker"],
                                                 NavLink("Progress").Expanded()
                                                                    .SmallPlus()
                                                                    .SemiBold()

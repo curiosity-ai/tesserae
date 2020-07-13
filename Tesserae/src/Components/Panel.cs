@@ -4,9 +4,9 @@ using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
-    public class Panel : Layer<Panel>
+    public sealed class Panel : Layer<Panel>
     {
-        public event OnHideHandler onHide;
+        private event OnHideHandler HidePanel;
         public delegate void OnHideHandler(Panel sender);
 
         private IComponent _footer;
@@ -17,7 +17,7 @@ namespace Tesserae.Components
         private readonly HTMLElement _panelCommand;
         private readonly HTMLElement _closeButton;
 
-        public Panel() : base()
+        public Panel()
         {
             _closeButton = Button(_("las la-times", el: el => el.onclick = (e) => Hide()));
             _panelCommand = Div(_("tss-panel-command"), _closeButton);
@@ -158,13 +158,13 @@ namespace Tesserae.Components
 
         public Panel OnHide(OnHideHandler onHide)
         {
-            this.onHide += onHide;
+            HidePanel += onHide;
             return this;
         }
 
         public override void Hide(Action onHidden = null)
         {
-            onHide?.Invoke(this);
+            HidePanel?.Invoke(this);
 
             base.Hide(() =>
             {

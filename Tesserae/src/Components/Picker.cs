@@ -8,7 +8,7 @@ namespace Tesserae.Components
 {
     public sealed class Picker<TPickerItem> : IComponent, IObservableListComponent<TPickerItem>  where TPickerItem : class, IPickerItem
     {
-        public event ComponentEventHandler<Picker<TPickerItem>, ItemPickedEvent> onItemSelected;
+        private event ComponentEventHandler<Picker<TPickerItem>, ItemPickedEvent> SelectedItem;
 
         private readonly ObservableList<TPickerItem> _pickerItems = new ObservableList<TPickerItem>();
         private readonly HTMLElement _container;
@@ -102,7 +102,7 @@ namespace Tesserae.Components
 
         public Picker<TPickerItem> OnItemSelected(ComponentEventHandler<Picker<TPickerItem>, ItemPickedEvent> eventHandler)
         {
-            onItemSelected += eventHandler;
+            SelectedItem += eventHandler;
             return this;
         }
 
@@ -112,9 +112,9 @@ namespace Tesserae.Components
         {
             _container.appendChild(pickerContainer);
 
-            _textBox.OnInput(OnTextBoxInput);
-            _textBox.OnFocus(OnTextBoxInput);
-            _textBox.OnBlur(OnTextBoxBlur);
+            _textBox.OnInput((_, __) => OnTextBoxInput());
+            _textBox.OnFocus((_, __) => OnTextBoxInput());
+            _textBox.OnBlur((_, __) => OnTextBoxBlur());
 
             _textBoxElement = _textBox.Render();
 
@@ -130,7 +130,7 @@ namespace Tesserae.Components
             }
         }
 
-        private void OnTextBoxInput(TextBox textBox, Event @event)
+        private void OnTextBoxInput()
         {
             window.clearTimeout(_hideSugestionsTimeout);
             window.clearTimeout(_debounce);
@@ -153,13 +153,16 @@ namespace Tesserae.Components
             CreateSuggestions(suggestions);
         }
 
-        private void OnTextBoxBlur(TextBox textBox, Event @event)
+        private void OnTextBoxBlur()
         {
-            _hideSugestionsTimeout = window.setTimeout(_ =>
-            {
-                ClearSuggestions();
-                _suggestionsLayer.Hide();
-            }, 150);
+            _hideSugestionsTimeout = window.setTimeout(
+                _ =>
+                {
+                    ClearSuggestions();
+                    _suggestionsLayer.Hide();
+                },
+                150
+            );
         }
 
         private IEnumerable<TPickerItem> GetPickerItems()
@@ -248,7 +251,7 @@ namespace Tesserae.Components
 
             _selectionsElement.appendChild(selectionContainerElement);
 
-            onItemSelected?.Invoke(this, new ItemPickedEvent(selectedItem));
+            SelectedItem?.Invoke(this, new ItemPickedEvent(selectedItem));
         }
 
         private void UpdateSelection(TPickerItem selectedItem, bool isSelected)

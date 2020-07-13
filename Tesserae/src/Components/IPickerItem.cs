@@ -1,6 +1,3 @@
-using System;
-using static H5.Core.dom;
-
 namespace Tesserae.Components
 {
     public interface IPickerItem
@@ -10,17 +7,5 @@ namespace Tesserae.Components
         bool IsSelected { get; set; }
 
         IComponent Render();
-    }
-
-    public static class IPickerItemExtensions
-    {
-        public static T SelectedIf<T>(this T This, bool shouldSelect) where T : IPickerItem
-        {
-            if (shouldSelect)
-            {
-                This.IsSelected = true;
-            }
-            return This;
-        }
     }
 }

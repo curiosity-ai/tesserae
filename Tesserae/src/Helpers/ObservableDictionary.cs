@@ -5,9 +5,9 @@ using static H5.Core.dom;
 
 namespace Tesserae
 {
-    public class ObservableDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IObservable<IReadOnlyDictionary<TKey, TValue>>
+    public sealed class ObservableDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IObservable<IReadOnlyDictionary<TKey, TValue>>
     {
-        private event ObservableEvent.ValueChanged<IReadOnlyDictionary<TKey, TValue>> OnValueChanged;
+        private event ObservableEvent.ValueChanged<IReadOnlyDictionary<TKey, TValue>> ValueChanged;
         
         private readonly Dictionary<TKey, TValue> _dictionary;
         private readonly bool _shouldHookNestedObservables;
@@ -39,12 +39,12 @@ namespace Tesserae
         public void ObserveFutureChanges(ObservableEvent.ValueChanged<IReadOnlyDictionary<TKey, TValue>> valueGetter) => Observe(valueGetter, callbackImmediately: false);
         private void Observe(ObservableEvent.ValueChanged<IReadOnlyDictionary<TKey, TValue>> valueGetter, bool callbackImmediately)
         {
-            OnValueChanged += valueGetter;
+            ValueChanged += valueGetter;
             if (callbackImmediately)
                 valueGetter(Value);
         }
 
-        public void StopObserving(ObservableEvent.ValueChanged<IReadOnlyDictionary<TKey, TValue>> valueGetter) => OnValueChanged -= valueGetter;
+        public void StopObserving(ObservableEvent.ValueChanged<IReadOnlyDictionary<TKey, TValue>> valueGetter) => ValueChanged -= valueGetter;
 
         public TValue this[TKey key] 
         { 
@@ -143,7 +143,7 @@ namespace Tesserae
         {
             window.clearTimeout(_refreshTimeout);
             _refreshTimeout = window.setTimeout(
-                _ => OnValueChanged?.Invoke(_dictionary),
+                _ => ValueChanged?.Invoke(_dictionary),
                 1
             );
         }

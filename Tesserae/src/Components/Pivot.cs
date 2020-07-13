@@ -7,17 +7,11 @@ using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
-    public class Pivot : IComponent, ISpecialCaseStyling
+    public sealed class Pivot : IComponent, ISpecialCaseStyling
     {
-        public event PivotEventHandler<PivotBeforeNavigateEvent> onBeforeNavigate;
-        public event PivotEventHandler<PivotNavigateEvent> onNavigate;
+        private event PivotEventHandler<PivotBeforeNavigateEvent> BeforeNavigated;
+        private event PivotEventHandler<PivotNavigateEvent> Navigated;
         public delegate void PivotEventHandler<TEventArgs>(Pivot sender, TEventArgs e);
-
-        public HTMLElement StylingContainer => InnerElement;
-
-        public bool PropagateToStackItemParent => true;
-
-        private readonly HTMLElement InnerElement;
 
         private readonly List<Tab> OrderedTabs = new List<Tab>();
         private readonly Dictionary<Tab, HTMLElement> RenderedTitles = new Dictionary<Tab, HTMLElement>();
@@ -36,8 +30,12 @@ namespace Tesserae.Components
             Line = Div(_("tss-pivot-line"));
             RenderedTabs = Div(_("tss-pivot-titlebar"));
             RenderedContent = Div(_("tss-pivot-content"));
-            InnerElement = Div(_("tss-pivot"), RenderedTabs, Line, RenderedContent);
+            StylingContainer = Div(_("tss-pivot"), RenderedTabs, Line, RenderedContent);
         }
+
+        public HTMLElement StylingContainer { get; }
+
+        public bool PropagateToStackItemParent => true;
 
         public Pivot Justified()
         {
@@ -83,13 +81,13 @@ namespace Tesserae.Components
 
         public Pivot OnBeforeNavigate(PivotEventHandler<PivotBeforeNavigateEvent> onBeforeNavigate)
         {
-            this.onBeforeNavigate += onBeforeNavigate;
+            BeforeNavigated += onBeforeNavigate;
             return this;
         }
 
         public Pivot OnNavigate(PivotEventHandler<PivotNavigateEvent> onNavigate)
         {
-            this.onNavigate += onNavigate;
+            Navigated += onNavigate;
             return this;
         }
 
@@ -114,7 +112,7 @@ namespace Tesserae.Components
 
             var pbne = new PivotBeforeNavigateEvent(_currentSelectedID, tab.Id);
 
-            onBeforeNavigate?.Invoke(this, pbne);
+            BeforeNavigated?.Invoke(this, pbne);
 
             if (pbne.Canceled) return this;
 
@@ -142,7 +140,7 @@ namespace Tesserae.Components
 
             var pne = new PivotNavigateEvent(_currentSelectedID, tab.Id);
 
-            onNavigate?.Invoke(this, pne);
+            Navigated?.Invoke(this, pne);
 
             return this;
         }
@@ -176,13 +174,12 @@ namespace Tesserae.Components
                 }
 
                 var ro = new ResizeObserver();
-                ro.Observe(InnerElement);
+                ro.Observe(StylingContainer);
                 ro.OnResize = () => TriggerAnimation();
             }
 
-            return InnerElement;
+            return StylingContainer;
         }
-
 
         private void TriggerAnimation()
         {

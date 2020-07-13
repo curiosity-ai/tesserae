@@ -11,7 +11,7 @@ namespace Tesserae.Components
         private readonly HTMLElement _iconContainer;
         private readonly HTMLElement _paddingContainer;
 
-        public event SearchEventHandler onSearch;
+        protected event SearchEventHandler Searched;
         public delegate void SearchEventHandler(SearchBox sender, string value);
 
         public SearchBox(string placeholder = string.Empty)
@@ -32,7 +32,7 @@ namespace Tesserae.Components
             {
                 if(e.key == "Enter")
                 {
-                    onSearch?.Invoke(this, InnerElement.value);
+                    Searched?.Invoke(this, InnerElement.value);
                 }
             });
         }
@@ -151,7 +151,7 @@ namespace Tesserae.Components
 
         public void Attach(ComponentEventHandler<SearchBox> handler)
         {
-            onInput += (s, _) => handler(s);
+            InputUpdated += (s, _) => handler(s);
         }
 
         public SearchBox SetText(string text)
@@ -201,14 +201,14 @@ namespace Tesserae.Components
         {
             OnKeyUp((s, e) =>
             {
-                onSearch?.Invoke(this, InnerElement.value);
+                Searched?.Invoke(this, InnerElement.value);
             });
             return this;
         }
 
         public SearchBox OnSearch(SearchEventHandler onSearch)
         {
-            this.onSearch += onSearch;
+            Searched += onSearch;
             return this;
         }
     }

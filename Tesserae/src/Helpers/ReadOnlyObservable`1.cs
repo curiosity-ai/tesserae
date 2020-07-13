@@ -18,18 +18,18 @@ namespace Tesserae
             _comparer = comparer ?? EqualityComparer<T>.Default;
         }
 
-        private event ObservableEvent.ValueChanged<T> OnValueChanged;
+        private event ObservableEvent.ValueChanged<T> ValueChanged;
 
         public void Observe(ObservableEvent.ValueChanged<T> valueGetter) => Observe(valueGetter, callbackImmediately: true);
         public void ObserveFutureChanges(ObservableEvent.ValueChanged<T> valueGetter) => Observe(valueGetter, callbackImmediately: false);
         private void Observe(ObservableEvent.ValueChanged<T> valueGetter, bool callbackImmediately)
         {
-            OnValueChanged += valueGetter;
+            ValueChanged += valueGetter;
             if (callbackImmediately)
                 valueGetter(Value);
         }
 
-        public void StopObserving(ObservableEvent.ValueChanged<T> valueGetter) => OnValueChanged -= valueGetter;
+        public void StopObserving(ObservableEvent.ValueChanged<T> valueGetter) => ValueChanged -= valueGetter;
 
         public T Value
         {
@@ -50,7 +50,7 @@ namespace Tesserae
             _refreshTimeout = window.setTimeout(raise, 1);
             void raise(object t)
             {
-                OnValueChanged?.Invoke(_value);
+                ValueChanged?.Invoke(_value);
             }
         }
     }

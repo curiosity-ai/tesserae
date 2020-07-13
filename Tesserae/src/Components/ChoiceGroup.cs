@@ -49,7 +49,7 @@ namespace Tesserae.Components
         {
             ScrollBar.GetCorrectContainer(InnerElement).appendChild(component.Render());
 
-            component.OnSelect += OnChoiceSelected;
+            component.OnSelected(OnChoiceSelected);
 
             if (component.IsSelected)
                 OnChoiceSelected(component);
@@ -65,8 +65,9 @@ namespace Tesserae.Components
         public void Replace(Choice newComponent, Choice oldComponent)
         {
             ScrollBar.GetCorrectContainer(InnerElement).replaceChild(newComponent.Render(), oldComponent.Render());
-            newComponent.OnSelect += OnChoiceSelected;
+            newComponent.OnSelected(OnChoiceSelected);
         }
+
         public ChoiceGroup Choices(params ChoiceGroup.Choice[] children)
         {
             children.ForEach(x => Add(x));
@@ -113,11 +114,10 @@ namespace Tesserae.Components
 
         public sealed class Choice : ComponentBase<Choice, HTMLInputElement>
         {
+            private event ComponentEventHandler<Choice> SelectedItem;
+
             private readonly HTMLSpanElement _radioSpan;
             private readonly HTMLLabelElement _label;
-
-            public event ComponentEventHandler<Choice> OnSelect;
-
             public Choice(string text)
             {
                 InnerElement = RadioButton(_("tss-option"));
@@ -127,9 +127,9 @@ namespace Tesserae.Components
                 AttachChange();
                 AttachFocus();
                 AttachBlur();
-                onChange += (s, e) =>
+                Changed += (s, e) =>
                 {
-                    if (IsSelected) OnSelect?.Invoke(this);
+                    if (IsSelected) SelectedItem?.Invoke(this);
                 };
             }
 
@@ -174,6 +174,7 @@ namespace Tesserae.Components
             {
                 return _label;
             }
+
             public Choice Disabled(bool value = true)
             {
                 IsEnabled = !value;
@@ -197,7 +198,7 @@ namespace Tesserae.Components
 
             public Choice OnSelected(ComponentEventHandler<Choice> onSelected)
             {
-                OnSelect += onSelected;
+                SelectedItem += onSelected;
                 return this;
             }
 

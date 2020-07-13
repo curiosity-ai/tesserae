@@ -5,9 +5,9 @@ using static H5.Core.dom;
 
 namespace Tesserae
 {
-    public class ObservableList<T> : IList<T>, ICollection<T>, IObservable<IReadOnlyList<T>>
+    public sealed class ObservableList<T> : IList<T>, ICollection<T>, IObservable<IReadOnlyList<T>>
     {
-        private event ObservableEvent.ValueChanged<IReadOnlyList<T>> OnValueChanged;
+        private event ObservableEvent.ValueChanged<IReadOnlyList<T>> ValueChanged;
 
         private readonly List<T> _list;
         private readonly bool _shouldHookNestedObservables;
@@ -30,12 +30,12 @@ namespace Tesserae
         public void ObserveFutureChanges(ObservableEvent.ValueChanged<IReadOnlyList<T>> valueGetter) => Observe(valueGetter, callbackImmediately: false);
         private void Observe(ObservableEvent.ValueChanged<IReadOnlyList<T>> valueGetter, bool callbackImmediately)
         {
-            OnValueChanged += valueGetter;
+            ValueChanged += valueGetter;
             if (callbackImmediately)
                 valueGetter(Value);
         }
 
-        public void StopObserving(ObservableEvent.ValueChanged<IReadOnlyList<T>> valueGetter) => OnValueChanged -= valueGetter;
+        public void StopObserving(ObservableEvent.ValueChanged<IReadOnlyList<T>> valueGetter) => ValueChanged -= valueGetter;
 
         public T this[int index]
         {
@@ -55,7 +55,7 @@ namespace Tesserae
         {
             window.clearTimeout(_refreshTimeout);
             _refreshTimeout = window.setTimeout(
-                _ => OnValueChanged?.Invoke(_list),
+                _ => ValueChanged?.Invoke(_list),
                 1
             );
         }
