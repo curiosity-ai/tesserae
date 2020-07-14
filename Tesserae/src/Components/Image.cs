@@ -16,37 +16,34 @@ namespace Tesserae.Components
             return InnerElement;
         }
 
-        public Image Fit(ImageFit fit)
+        public Image Contain()
         {
-            switch (fit)
-            {
-                case ImageFit.Contain:
-                    InnerElement.style.objectFit = "contain";
-                    break;
-                case ImageFit.Cover:
-                    InnerElement.style.objectFit = "cover";
-                    break;
-                case ImageFit.Fill:
-                    InnerElement.style.objectFit = "fill";
-                    break;
-                case ImageFit.None:
-                    InnerElement.style.objectFit = "none ";
-                    break;
-                case ImageFit.ScaleDown:
-                    InnerElement.style.objectFit = "scale-down";
-                    break;
-            }
-
+            InnerElement.style.objectFit = "contain";
             return this;
         }
-    }
 
-    public enum ImageFit
-    {
-        Contain,
-        Cover,
-        Fill,
-        None,
-        ScaleDown
+        public Image Cover()
+        {
+            InnerElement.style.objectFit = "cover";
+            return this;
+        }
+
+        public Image Fill()
+        {
+            InnerElement.style.objectFit = "fill";
+            return this;
+        }
+
+        public Image NoFit()
+        {
+            InnerElement.style.objectFit = "none";
+            return this;
+        }
+
+        public Image ScaleDown()
+        {
+            InnerElement.style.objectFit = "scale-down";
+            return this;
+        }
     }
 }
