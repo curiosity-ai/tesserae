@@ -54,7 +54,7 @@ namespace Tesserae.Components
 
         public TextSize Size
         {
-            get => TextSizeExtensions.FromClassList(InnerElement, TextSize.Small);
+            get => ITextFormatingExtensions.FromClassList(InnerElement, TextSize.Small);
             set
             {
                 string current = Size.ToClassName();
@@ -73,7 +73,7 @@ namespace Tesserae.Components
 
         public TextWeight Weight
         {
-            get => TextSizeExtensions.FromClassList(InnerElement, TextWeight.Regular);
+            get => ITextFormatingExtensions.FromClassList(InnerElement, TextWeight.Regular);
             set
             {
                 InnerElement.classList.remove(Weight.ToClassName());
