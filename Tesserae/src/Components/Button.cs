@@ -6,7 +6,7 @@ using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
-    public class Button : ComponentBase<Button, HTMLButtonElement>, IHasTextSize, IHasBackgroundColor, IHasForegroundColor
+    public class Button : ComponentBase<Button, HTMLButtonElement>, ITextFormating, IHasBackgroundColor, IHasForegroundColor
     {
         private readonly HTMLSpanElement _textSpan;
         private HTMLElement _iconSpan;

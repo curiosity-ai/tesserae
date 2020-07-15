@@ -6,7 +6,7 @@ using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
-    public class TextBlock : ComponentBase<TextBlock, HTMLElement>, IHasTextSize, IHasBackgroundColor, IHasForegroundColor
+    public class TextBlock : ComponentBase<TextBlock, HTMLElement>, ITextFormating, IHasBackgroundColor, IHasForegroundColor
     {
         public TextBlock(string text = string.Empty)
         {

@@ -5,7 +5,7 @@ using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
-    public sealed class EditableArea : ComponentBase<EditableArea, HTMLTextAreaElement>, IHasTextSize, IObservableComponent<string>
+    public sealed class EditableArea : ComponentBase<EditableArea, HTMLTextAreaElement>, ITextFormating, IObservableComponent<string>
     {
         private event SaveEditHandler Saved;
         public delegate bool SaveEditHandler(EditableArea sender, string newValue);
