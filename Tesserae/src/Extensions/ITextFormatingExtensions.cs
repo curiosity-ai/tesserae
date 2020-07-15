@@ -4,7 +4,7 @@ using static H5.Core.dom;
 
 namespace Tesserae.Components
 {
-    public static class TextSizeExtensions
+    public static class ITextFormatingExtensions
     {
         public static T SetTextSize<T>(this T hasTextSize, TextSize textSize) where T : ITextFormating
         {
