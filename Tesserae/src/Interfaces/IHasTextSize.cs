@@ -8,7 +8,6 @@ namespace Tesserae.Components
     {
         TextSize Size { get; set; }
         TextWeight Weight { get; set; }
-
         TextAlign TextAlign { get; set; }
     }
 
