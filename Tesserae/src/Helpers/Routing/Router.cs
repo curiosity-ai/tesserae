@@ -85,9 +85,13 @@ namespace Tesserae
             }
 
             if (_currentState is null)
+            {
                 _currentState = new State(fullPath: path);
+            }
             else
+            {
                 _currentState = _currentState.WithFullPath(path);
+            }
 
             window.history.replaceState(null, "", path);
         }
@@ -222,7 +226,7 @@ namespace Tesserae
         private static void LocationChanged(bool allowCallbackEvenIfLocationUnchanged)
         {
             var currentPathFromHash = (window.location.hash ?? "").TrimStart('#');
-            if ((_currentState is object) && (_currentState.Path == currentPathFromHash) && !allowCallbackEvenIfLocationUnchanged)
+            if ((_currentState is object) && (_currentState.Path?.TrimStart('#') == currentPathFromHash || _currentState.FullPath?.TrimStart('#') == currentPathFromHash) && !allowCallbackEvenIfLocationUnchanged)
                 return;
 
             var p = currentPathFromHash.Split(new[] { '?' }, count: 2); // Do not remove empty entries, as we need the empty entry in the array
