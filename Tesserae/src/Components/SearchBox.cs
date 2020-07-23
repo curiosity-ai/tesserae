@@ -4,7 +4,7 @@ using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
-    public class SearchBox : ComponentBase<SearchBox, HTMLInputElement>,  IHasTextSize, IHasBackgroundColor
+    public class SearchBox : ComponentBase<SearchBox, HTMLInputElement>,  ITextFormating, IHasBackgroundColor
     {
         private readonly HTMLDivElement _container;
         private readonly HTMLSpanElement _icon;

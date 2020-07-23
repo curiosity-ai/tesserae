@@ -4,11 +4,10 @@ using static H5.Core.dom;
 
 namespace Tesserae.Components
 {
-    public interface IHasTextSize
+    public interface ITextFormating
     {
         TextSize Size { get; set; }
         TextWeight Weight { get; set; }
-
         TextAlign TextAlign { get; set; }
     }
 

@@ -5,7 +5,7 @@ using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
-    public sealed class EditableLabel : ComponentBase<EditableLabel, HTMLInputElement>, IHasTextSize, IObservableComponent<string>
+    public sealed class EditableLabel : ComponentBase<EditableLabel, HTMLInputElement>, ITextFormating, IObservableComponent<string>
     {
         private event SaveEditHandler Saved;
         public delegate bool SaveEditHandler(EditableLabel sender, string newValue);
@@ -54,7 +54,7 @@ namespace Tesserae.Components
 
         public TextSize Size
         {
-            get => TextSizeExtensions.FromClassList(InnerElement, TextSize.Small);
+            get => ITextFormatingExtensions.FromClassList(InnerElement, TextSize.Small);
             set
             {
                 string current = Size.ToClassName();
@@ -73,7 +73,7 @@ namespace Tesserae.Components
 
         public TextWeight Weight
         {
-            get => TextSizeExtensions.FromClassList(InnerElement, TextWeight.Regular);
+            get => ITextFormatingExtensions.FromClassList(InnerElement, TextWeight.Regular);
             set
             {
                 InnerElement.classList.remove(Weight.ToClassName());

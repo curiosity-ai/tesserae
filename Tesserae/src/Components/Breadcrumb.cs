@@ -17,7 +17,7 @@ namespace Tesserae.Components
         private double _cachedFullWidth = 0;
         private HTMLElement _chevronToUseAsButton = null;
 
-        private string _chevronIcon = "la-chevron-right";
+        private string _chevronIcon = $"{LineAwesome.ChevronRight}";
 
         private readonly Dictionary<HTMLElement, double> _cachedSizes = new Dictionary<HTMLElement, double>();
 
@@ -242,6 +242,12 @@ namespace Tesserae.Components
         public Breadcrumb SetChevron(string icon)
         {
             _chevronIcon = icon;
+            return this;
+        }
+        
+        public Breadcrumb SetChevron(LineAwesome icon)
+        {
+            _chevronIcon = $"{icon}";
             return this;
         }
 

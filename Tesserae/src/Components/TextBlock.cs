@@ -1,12 +1,11 @@
-﻿using H5;
-using System;
+﻿using System;
 using System.Linq;
 using static H5.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
-    public class TextBlock : ComponentBase<TextBlock, HTMLElement>, IHasTextSize, IHasBackgroundColor, IHasForegroundColor
+    public class TextBlock : ComponentBase<TextBlock, HTMLElement>, ITextFormating, IHasBackgroundColor, IHasForegroundColor
     {
         public TextBlock(string text = string.Empty)
         {
@@ -55,7 +54,7 @@ namespace Tesserae.Components
 
         public virtual TextSize Size
         {
-            get => TextSizeExtensions.FromClassList(InnerElement, TextSize.Small);
+            get => ITextFormatingExtensions.FromClassList(InnerElement, TextSize.Small);
             set
             {
                 InnerElement.classList.remove(Size.ToClassName());
@@ -65,7 +64,7 @@ namespace Tesserae.Components
 
         public virtual TextWeight Weight
         {
-            get => TextSizeExtensions.FromClassList(InnerElement, TextWeight.Regular);
+            get => ITextFormatingExtensions.FromClassList(InnerElement, TextWeight.Regular);
             set
             {
                 InnerElement.classList.remove(Weight.ToClassName());

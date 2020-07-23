@@ -1,9 +1,9 @@
 ﻿using System;
-using static Tesserae.UI;
-using static H5.Core.dom;
-using Tesserae.HTML;
 using System.Collections.Generic;
 using System.Linq;
+using Tesserae.HTML;
+using static H5.Core.dom;
+using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
@@ -55,7 +55,7 @@ namespace Tesserae.Components
 
         public override TextSize Size
         {
-            get => TextSizeExtensions.FromClassList(InnerElement, TextSize.Small);
+            get => ITextFormatingExtensions.FromClassList(InnerElement, TextSize.Small);
             set
             {
                 InnerElement.classList.remove(Size.ToClassName());
@@ -67,7 +67,7 @@ namespace Tesserae.Components
 
         public override TextWeight Weight
         {
-            get => TextSizeExtensions.FromClassList(InnerElement, TextWeight.Regular);
+            get => ITextFormatingExtensions.FromClassList(InnerElement, TextWeight.Regular);
             set
             {
                 InnerElement.classList.remove(Weight.ToClassName());
