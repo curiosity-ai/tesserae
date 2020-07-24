@@ -23,6 +23,7 @@ namespace Tesserae
         public void Update(Func<T, T> action)
         {
             Value = action(Value);
+            RaiseOnValueChanged(); //Must raise this here, as obj == obj is always true and wont trigger the change
         }
     }
 }

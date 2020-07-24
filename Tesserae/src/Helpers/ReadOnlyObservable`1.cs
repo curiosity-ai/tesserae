@@ -44,7 +44,7 @@ namespace Tesserae
             }
         }
 
-        private void RaiseOnValueChanged()
+        protected void RaiseOnValueChanged()
         {
             window.clearTimeout(_refreshTimeout);
             _refreshTimeout = window.setTimeout(raise, 1);
