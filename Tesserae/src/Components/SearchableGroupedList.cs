@@ -15,6 +15,8 @@ namespace Tesserae.Components
         private readonly Stack _stack;
         private readonly SearchBox _searchBox;
         private readonly ItemsList _list;
+        private IComparer<string> _groupComparer;
+
         public HTMLElement StylingContainer => _stack.InnerElement;
         public bool PropagateToStackItemParent => true;
         public ObservableList<IComponent> Items { get; }
@@ -29,6 +31,8 @@ namespace Tesserae.Components
             _groupedItemHeaderGenerator = groupedItemHeaderGenerator;
             _searchBox                  = new SearchBox().Underlined().SetPlaceholder("Type to search").SearchAsYouType().Width(100.px()).Grow();
             _list                       = ItemsList(new IComponent[0], columns);
+            
+            _groupComparer = StringComparer.OrdinalIgnoreCase;
 
             Items = new ObservableList<IComponent>();
 
@@ -58,6 +62,13 @@ namespace Tesserae.Components
         public SearchableGroupedList<T> WithNoResultsMessage(Func<IComponent> emptyListMessageGenerator)
         {
             _list.WithEmptyMessage(emptyListMessageGenerator ?? throw new ArgumentNullException(nameof(emptyListMessageGenerator)));
+            _defered.Refresh();
+            return this;
+        }
+
+        public SearchableGroupedList<T> WithGroupOrdering(IComparer<string> groupComparer)
+        {
+            _groupComparer = groupComparer;
             _defered.Refresh();
             return this;
         }
@@ -104,7 +115,7 @@ namespace Tesserae.Components
 
                 if (items.Any())
                 {
-                    foreach (var groupedItems in items.GroupBy(item => item.Group))
+                    foreach (var groupedItems in items.GroupBy(item => item.Group).OrderBy(g => g.Key, _groupComparer))
                     {
                         var header = new GroupedItemsHeader(groupedItems.Key, _groupedItemHeaderGenerator);
                         if (isGrid) 
