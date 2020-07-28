@@ -116,8 +116,8 @@ namespace Tesserae
         
         public int RemoveAll(Predicate<T> match)
         {
-            var toRemove = _list.Where(elem => match(elem)).Select((elem, i) => i);
-            if (toRemove.Count() > 0)
+            var toRemove = _list.Where(elem => match(elem)).Select((elem, i) => i).ToArray();
+            if (toRemove.Any())
             {
                 foreach (var index in toRemove)
                 {
@@ -128,14 +128,13 @@ namespace Tesserae
 
                     _list.RemoveAt(index);
                 }
+
                 RaiseOnValueChanged();
 
-                return toRemove.Count();
+                return toRemove.Length;
             }
-            else
-            {
-                return 0;
-            }
+            
+            return 0;
         }
 
         public bool Remove(T item)
