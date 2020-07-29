@@ -43,6 +43,12 @@ namespace Tesserae.Components
             return this;
         }
 
+
+        public IComponent ShowEmbedded()
+        {
+            return _modalHost.ShowEmbedded();
+        }
+
         public ProgressModal Hide()
         {
             _modalHost.Hide();
