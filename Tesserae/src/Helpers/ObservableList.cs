@@ -114,27 +114,14 @@ namespace Tesserae
             RaiseOnValueChanged();
         }
         
-        public int RemoveAll(Predicate<T> match)
+        public int RemoveAll(Func<T, bool> match)
         {
-            var toRemove = _list.Where(elem => match(elem)).Select((elem, i) => i).ToArray();
-            if (toRemove.Any())
+            var toRemove = _list.Where(match).ToArray();
+            foreach(var r in toRemove)
             {
-                foreach (var index in toRemove)
-                {
-                    if (_list.Count > index)
-                    {
-                        UnhookValue(_list[index]);
-                    }
-
-                    _list.RemoveAt(index);
-                }
-
-                RaiseOnValueChanged();
-
-                return toRemove.Length;
+                Remove(r);
             }
-            
-            return 0;
+            return toRemove.Length;
         }
 
         public bool Remove(T item)
