@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using static H5.Core.dom;
@@ -111,6 +112,29 @@ namespace Tesserae
             _list.Insert(index, item);
             HookValue(item);
             RaiseOnValueChanged();
+        }
+        
+        public int RemoveAll(Predicate<T> match)
+        {
+            var toRemove = _list.Where(elem => match(elem)).Select((elem, i) => i).ToArray();
+            if (toRemove.Any())
+            {
+                foreach (var index in toRemove)
+                {
+                    if (_list.Count > index)
+                    {
+                        UnhookValue(_list[index]);
+                    }
+
+                    _list.RemoveAt(index);
+                }
+
+                RaiseOnValueChanged();
+
+                return toRemove.Length;
+            }
+            
+            return 0;
         }
 
         public bool Remove(T item)
