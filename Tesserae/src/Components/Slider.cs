@@ -3,19 +3,17 @@ using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
-    public sealed class Slider : ComponentBase<Slider, HTMLInputElement>, IObservableComponent<int>
+    public sealed class Slider : ComponentBase<Slider, HTMLInputElement>
     {
         private readonly HTMLLabelElement _outerLabel;
         private readonly HTMLDivElement _outerDiv;
         private readonly HTMLDivElement _fakeDiv;
-        private readonly SettableObservable<int> _observable = new SettableObservable<int>();
 
         public Slider(int val = 0, int min = 0, int max = 100, int step = 10)
         {
             InnerElement = document.createElement("input") as HTMLInputElement;
             InnerElement.className = "tss-slider";
             InnerElement.value = val.ToString();
-            _observable.Value = val;
             InnerElement.min = min.ToString();
             InnerElement.max = max.ToString();
             InnerElement.step = step.ToString();
@@ -67,11 +65,7 @@ namespace Tesserae.Components
         public int Value
         {
             get => int.Parse(InnerElement.value);
-            set
-            {
-                _observable.Value = value;
-                InnerElement.value = value.ToString();
-            }
+            set => InnerElement.value = value.ToString();
         }
 
         public int Min
@@ -115,7 +109,6 @@ namespace Tesserae.Components
         public Slider SetValue(int val)
         {
             Value = val;
-            _observable.Value = val;
             return this;
         }
         public Slider SetMin(int min)
@@ -156,11 +149,6 @@ namespace Tesserae.Components
         {
             Vertical,
             Horizontal
-        }
-
-        public IObservable<int> AsObservable()
-        {
-            return _observable;
         }
     }
 }
