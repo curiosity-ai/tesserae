@@ -16,6 +16,7 @@ namespace Tesserae.Tests
             var orderedComponents = new (string Name, Func<IComponent> Component)[]
             {
                 ("Button",                () => new ButtonSample()),
+                ("Colors",                 () => new ColorSample()),
                 ("CheckBox",              () => new CheckBoxSample()),
                 ("ChoiceGroup",           () => new ChoiceGroupSample()),
                 ("Slider",                () => new SliderSample()),
@@ -179,7 +180,9 @@ namespace Tesserae.Tests
                                                                            links["Float"],
                                                                            links["FileSelector"],
                                                                            links["LineAwesomeIcons"],
-                                                                           links["ProgressModal"]),
+                                                                           links["ProgressModal"],
+                                                                           links["Colors"]
+                                                                           ),
                                                 NavLink("Collections").Expanded()
                                                                       .SmallPlus()
                                                                       .SemiBold()
