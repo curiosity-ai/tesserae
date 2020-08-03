@@ -302,9 +302,9 @@ namespace Tesserae.Components
             return textBlock;
         }
 
-        public static T Disabled<T>(this T textBlock) where T : TextBlock
+        public static T Disabled<T>(this T textBlock, bool value = true) where T : TextBlock
         {
-            textBlock.IsEnabled = false;
+            textBlock.IsEnabled = !value;
             return textBlock;
         }
 
