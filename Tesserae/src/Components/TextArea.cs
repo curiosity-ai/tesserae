@@ -11,7 +11,7 @@ namespace Tesserae.Components
 
         public TextArea(string text = string.Empty)
         {
-            InnerElement = TextArea(_("tss-textbox", type: "text", value: text));
+            InnerElement = TextArea(_("tss-textbox tss-textarea", type: "text", value: text));
             _errorSpan = Span(_("tss-textbox-error"));
             _container = Div(_("tss-textbox-container"), InnerElement, _errorSpan);
             
