@@ -58,11 +58,15 @@
             flex-shrink: 0;
         }
 
+.tss-pivot-titlebar-hide-if-single > .tss-pivot-selected-title:only-child {
+    display: none;
+}
+
 .tss-pivot-content {
     margin: 0;
     padding: 0;
-    flex-grow:1;
-    flex-shrink:1;
+    flex-grow: 1;
+    flex-shrink: 1;
     overflow-y: auto;
     overflow-x: auto;
 }
