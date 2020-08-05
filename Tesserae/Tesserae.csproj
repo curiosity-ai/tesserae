@@ -27,5 +27,6 @@
     <Description>Tesserae is a UI toolkit for building web applications using the H5 C# to JavaScript compiler</Description>
     <PackageTags>h5, HTML, UI</PackageTags>
     <NoWarn>1701;1702;1591</NoWarn>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 </Project>
