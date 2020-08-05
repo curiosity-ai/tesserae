@@ -4,9 +4,7 @@
         where TMomentPicker : MomentPickerBase<TMomentPicker, TMoment>
     {
         protected MomentPickerBase(string type, string defaultText = null)
-            : base(type, defaultText)
-        {
-        }
+            : base(type, defaultText) { }
 
         protected TMoment Moment => FormatMoment(Text);
 
@@ -31,19 +29,19 @@
         public TMomentPicker SetMax(TMoment max)
         {
             Max = max;
-            return (TMomentPicker)this;
+            return (TMomentPicker) this;
         }
 
         public TMomentPicker SetMin(TMoment min)
         {
             Min = min;
-            return (TMomentPicker)this;
+            return (TMomentPicker) this;
         }
 
         public TMomentPicker SetStep(int step)
         {
             Step = step;
-            return (TMomentPicker)this;
+            return (TMomentPicker) this;
         }
 
         protected abstract string FormatMoment(TMoment moment);

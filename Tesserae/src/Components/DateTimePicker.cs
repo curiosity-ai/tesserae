@@ -6,9 +6,7 @@ namespace Tesserae.Components
     public class DateTimePicker : MomentPickerBase<DateTimePicker, DateTime>
     {
         public DateTimePicker(DateTime? dateTime = null)
-            : base("datetime-local", dateTime.HasValue ? FormatDateTime(dateTime.Value) : string.Empty)
-        {
-        }
+            : base("datetime-local", dateTime.HasValue ? FormatDateTime(dateTime.Value) : string.Empty) { }
 
         public DateTime DateTime => Moment;
 

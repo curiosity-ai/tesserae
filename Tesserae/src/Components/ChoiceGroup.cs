@@ -6,17 +6,22 @@ namespace Tesserae.Components
 {
     public sealed class ChoiceGroup : ComponentBase<ChoiceGroup, HTMLDivElement>, IContainer<ChoiceGroup, ChoiceGroup.Choice>, IObservableComponent<ChoiceGroup.Choice>
     {
-        private readonly TextBlock _header;
+        private readonly TextBlock                  _header;
         private readonly SettableObservable<Choice> _selectedOption = new SettableObservable<Choice>();
+
         public ChoiceGroup(string label = "Pick one")
         {
             _header = (new TextBlock(label)).SemiBold();
             var h = _header.Render();
             h.style.alignSelf = "baseline";
-            InnerElement = Div(_("tss-choice-group", styles: s => { s.flexDirection = "column"; }), h);
+            InnerElement      = Div(_("tss-choice-group", styles: s => { s.flexDirection = "column"; }), h);
         }
 
-        public Choice SelectedOption { get => _selectedOption.Value; private set => _selectedOption.Value = value; }
+        public Choice SelectedOption
+        {
+            get => _selectedOption.Value;
+            private set => _selectedOption.Value = value;
+        }
 
         public string Label
         {
@@ -30,7 +35,7 @@ namespace Tesserae.Components
             set
             {
                 if (value == ChoiceGroupOrientation.Horizontal) InnerElement.style.flexDirection = "row";
-                else InnerElement.style.flexDirection = "column";
+                else InnerElement.style.flexDirection                                            = "column";
             }
         }
 
@@ -79,6 +84,7 @@ namespace Tesserae.Components
             Orientation = ChoiceGroup.ChoiceGroupOrientation.Horizontal;
             return this;
         }
+
         public ChoiceGroup Vertical()
         {
             Orientation = ChoiceGroup.ChoiceGroupOrientation.Vertical;
@@ -95,7 +101,7 @@ namespace Tesserae.Components
         {
             if (SelectedOption == sender)
                 return;
-            
+
             if (SelectedOption is object)
                 SelectedOption.IsSelected = false;
 
@@ -116,13 +122,14 @@ namespace Tesserae.Components
         {
             private event ComponentEventHandler<Choice> SelectedItem;
 
-            private readonly HTMLSpanElement _radioSpan;
+            private readonly HTMLSpanElement  _radioSpan;
             private readonly HTMLLabelElement _label;
+
             public Choice(string text)
             {
                 InnerElement = RadioButton(_("tss-option"));
-                _radioSpan = Span(_("tss-option-mark"));
-                _label = Label(_("tss-option-container", text: text), InnerElement, _radioSpan);
+                _radioSpan   = Span(_("tss-option-mark"));
+                _label       = Label(_("tss-option-container", text: text), InnerElement, _radioSpan);
                 AttachClick();
                 AttachChange();
                 AttachFocus();
@@ -193,6 +200,7 @@ namespace Tesserae.Components
                 {
                     IsSelected = true;
                 }
+
                 return this;
             }
 

@@ -1,22 +1,23 @@
 ﻿using Tesserae.HTML;
 using static H5.Core.dom;
 using static Tesserae.UI;
+
 namespace Tesserae.Components
 {
     public sealed class TextArea : ComponentBase<TextArea, HTMLTextAreaElement>, ICanValidate<TextArea>, IObservableComponent<string>
     {
-        private readonly HTMLDivElement _container;
-        private readonly HTMLSpanElement _errorSpan;
+        private readonly HTMLDivElement             _container;
+        private readonly HTMLSpanElement            _errorSpan;
         private readonly SettableObservable<string> _observable = new SettableObservable<string>();
 
         public TextArea(string text = string.Empty)
         {
             InnerElement = TextArea(_("tss-textbox tss-textarea", type: "text", value: text));
-            _errorSpan = Span(_("tss-textbox-error"));
-            _container = Div(_("tss-textbox-container"), InnerElement, _errorSpan);
-            
+            _errorSpan   = Span(_("tss-textbox-error"));
+            _container   = Div(_("tss-textbox-container"), InnerElement, _errorSpan);
+
             //TODO: Need to make container display:flex, and use flex-grow to have correct sizing with _errorSpan
-            InnerElement.style.width = "100%"; 
+            InnerElement.style.width  = "100%";
             InnerElement.style.height = "100%";
 
             AttachChange();
@@ -61,7 +62,7 @@ namespace Tesserae.Components
             set
             {
                 InnerElement.value = value;
-                _observable.Value = value;
+                _observable.Value  = value;
                 RaiseOnInput(null);
             }
         }

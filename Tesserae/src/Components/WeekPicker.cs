@@ -6,9 +6,7 @@ namespace Tesserae.Components
     public class WeekPicker : MomentPickerBase<WeekPicker, (int year, int weekNumber)>
     {
         public WeekPicker((int year, int weekNumber)? week)
-            : base("week", week.HasValue ? FormatWeek(week.Value) : string.Empty)
-        {
-        }
+            : base("week", week.HasValue ? FormatWeek(week.Value) : string.Empty) { }
 
         public (int year, int weekNumber) Week => Moment;
 
@@ -18,7 +16,7 @@ namespace Tesserae.Components
 
         protected override (int year, int weekNumber) FormatMoment(string week)
         {
-            var weekSplit = week.Split(new []{ '-' }, StringSplitOptions.RemoveEmptyEntries);
+            var weekSplit = week.Split(new[] {'-'}, StringSplitOptions.RemoveEmptyEntries);
 
             if (!weekSplit.Any() || weekSplit.Any(string.IsNullOrWhiteSpace))
             {

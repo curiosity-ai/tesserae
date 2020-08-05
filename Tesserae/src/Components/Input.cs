@@ -6,8 +6,8 @@ namespace Tesserae.Components
 {
     public abstract class Input<TInput> : ComponentBase<TInput, HTMLInputElement>, ICanValidate<TInput>, IObservableComponent<string> where TInput : Input<TInput>
     {
-        private readonly HTMLDivElement _container;
-        private readonly HTMLSpanElement _errorSpan;
+        private readonly HTMLDivElement             _container;
+        private readonly HTMLSpanElement            _errorSpan;
         private readonly SettableObservable<string> _observable = new SettableObservable<string>();
 
         protected Input(string type, string defaultText = null)
@@ -25,7 +25,7 @@ namespace Tesserae.Components
 
             // TODO: 27/06/20 - MB - calling virtual member within a constructor is a bit of a no-no.
             OnChange((_, __) => _observable.Value = Text);
-            OnInput((_, __) => _observable.Value = Text);
+            OnInput((_,  __) => _observable.Value = Text);
         }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace Tesserae.Components
         public void Reset()
         {
             InnerElement.value = "";
-            _observable.Value = "";
+            _observable.Value  = "";
         }
 
         public string Text
@@ -44,7 +44,7 @@ namespace Tesserae.Components
             set
             {
                 InnerElement.value = value;
-                _observable.Value = value;
+                _observable.Value  = value;
                 RaiseOnInput(null);
             }
         }
@@ -111,31 +111,31 @@ namespace Tesserae.Components
         public TInput SetText(string text)
         {
             Text = text;
-            return (TInput)this;
+            return (TInput) this;
         }
 
         public TInput ClearText()
         {
             SetText(string.Empty);
-            return (TInput)this;
+            return (TInput) this;
         }
 
         public TInput Disabled(bool value = true)
         {
             IsEnabled = !value;
-            return (TInput)this;
+            return (TInput) this;
         }
 
         public TInput Required()
         {
             IsRequired = true;
-            return (TInput)this;
+            return (TInput) this;
         }
 
         public TInput Focus()
         {
             DomObserver.WhenMounted(InnerElement, () => window.setTimeout((_) => InnerElement.focus(), 500));
-            return (TInput)this;
+            return (TInput) this;
         }
 
         public IObservable<string> AsObservable() => _observable;

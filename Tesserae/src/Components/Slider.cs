@@ -6,18 +6,18 @@ namespace Tesserae.Components
     public sealed class Slider : ComponentBase<Slider, HTMLInputElement>
     {
         private readonly HTMLLabelElement _outerLabel;
-        private readonly HTMLDivElement _outerDiv;
-        private readonly HTMLDivElement _fakeDiv;
+        private readonly HTMLDivElement   _outerDiv;
+        private readonly HTMLDivElement   _fakeDiv;
 
         public Slider(int val = 0, int min = 0, int max = 100, int step = 10)
         {
-            InnerElement = document.createElement("input") as HTMLInputElement;
+            InnerElement           = document.createElement("input") as HTMLInputElement;
             InnerElement.className = "tss-slider";
-            InnerElement.value = val.ToString();
-            InnerElement.min = min.ToString();
-            InnerElement.max = max.ToString();
-            InnerElement.step = step.ToString();
-            InnerElement.type = "range";
+            InnerElement.value     = val.ToString();
+            InnerElement.min       = min.ToString();
+            InnerElement.max       = max.ToString();
+            InnerElement.step      = step.ToString();
+            InnerElement.type      = "range";
 
             AttachClick();
             AttachChange();
@@ -28,11 +28,11 @@ namespace Tesserae.Components
             if (navigator.userAgent.IndexOf("AppleWebKit") != -1)
             {
                 _fakeDiv = Div(_("tss-slider-fake-progress"));
-                double percent = ((double)(val - min) / (max - min)) * 100.0;
+                double percent = ((double) (val - min) / (max - min)) * 100.0;
                 _fakeDiv.style.width = $"{percent:0.##}%";
                 InputUpdated += (e, s) =>
                 {
-                    percent = ((double)(Value - Min) / (Max - Min)) * 100.0;
+                    percent              = ((double) (Value - Min) / (Max - Min)) * 100.0;
                     _fakeDiv.style.width = $"{percent:0.##}%";
                 };
                 _outerLabel = Label(_("tss-slider-container"), InnerElement, Div(_("tss-slider-fake-background")), _fakeDiv);
@@ -73,6 +73,7 @@ namespace Tesserae.Components
             get => int.Parse(InnerElement.min);
             set => InnerElement.min = value.ToString();
         }
+
         public int Max
         {
             get => int.Parse(InnerElement.max);
@@ -111,16 +112,19 @@ namespace Tesserae.Components
             Value = val;
             return this;
         }
+
         public Slider SetMin(int min)
         {
             Min = min;
             return this;
         }
+
         public Slider SetMax(int max)
         {
             Max = max;
             return this;
         }
+
         public Slider SetStep(int step)
         {
             Step = step;

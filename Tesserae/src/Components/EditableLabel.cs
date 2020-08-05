@@ -8,14 +8,15 @@ namespace Tesserae.Components
     public sealed class EditableLabel : ComponentBase<EditableLabel, HTMLInputElement>, ITextFormating, IObservableComponent<string>
     {
         private event SaveEditHandler Saved;
+
         public delegate bool SaveEditHandler(EditableLabel sender, string newValue);
 
-        private readonly HTMLDivElement _container;
-        private readonly HTMLSpanElement _labelText;
-        private readonly HTMLElement _editIcon;
-        private readonly HTMLElement _cancelEditIcon;
-        private readonly HTMLDivElement _editView;
-        private readonly HTMLDivElement _labelView;
+        private readonly HTMLDivElement             _container;
+        private readonly HTMLSpanElement            _labelText;
+        private readonly HTMLElement                _editIcon;
+        private readonly HTMLElement                _cancelEditIcon;
+        private readonly HTMLDivElement             _editView;
+        private readonly HTMLDivElement             _labelView;
         private readonly SettableObservable<string> _observable = new SettableObservable<string>();
 
         private bool _isCanceling = false;
@@ -23,12 +24,12 @@ namespace Tesserae.Components
         public EditableLabel(string text = string.Empty)
         {
             _labelText = Span(_("tss-editablelabel-textspan", text: text, title: "Click to edit"));
-            _editIcon = I(_("tss-editablelabel-edit-icon las la-edit"));
+            _editIcon  = I(_("tss-editablelabel-edit-icon las la-edit"));
             _labelView = Div(_("tss-editablelabel-displaybox"), _labelText, _editIcon);
 
-            InnerElement = TextBox(_("tss-editablelabel-textbox", type: "text"));
+            InnerElement    = TextBox(_("tss-editablelabel-textbox", type: "text"));
             _cancelEditIcon = Div(_("tss-editablelabel-cancel-icon", title: "Cancel edit"), I(_("las la-times")));
-            _editView = Div(_("tss-editablelabel-editbox"), InnerElement, _cancelEditIcon);
+            _editView       = Div(_("tss-editablelabel-editbox"),                           InnerElement, _cancelEditIcon);
 
             _container = Div(_("tss-editablelabel"), _labelView, _editView);
 
@@ -48,7 +49,7 @@ namespace Tesserae.Components
                 else if (e.key == "Escape")
                     CancelEditing();
             });
-            
+
             OnBlur((_, __) => BeginSaveEditing());
         }
 
@@ -104,6 +105,7 @@ namespace Tesserae.Components
                 {
                     InnerElement.classList.remove(curFontSize);
                 }
+
                 InnerElement.classList.add($"tss-textalign-{value.ToString().ToLower()}");
             }
         }
@@ -115,7 +117,7 @@ namespace Tesserae.Components
             {
                 if (value)
                 {
-                    var labelRect = (DOMRect)_labelText.getBoundingClientRect();
+                    var labelRect = (DOMRect) _labelText.getBoundingClientRect();
                     InnerElement.style.minWidth = (labelRect.width * 1.2) + "px";
                     _container.classList.add("tss-editing");
                 }
@@ -135,14 +137,14 @@ namespace Tesserae.Components
         private void BeginEditing()
         {
             InnerElement.value = _labelText.textContent;
-            IsEditingMode = true;
-            _isCanceling = false;
+            IsEditingMode      = true;
+            _isCanceling       = false;
             InnerElement.focus();
         }
 
         private void CancelEditing()
         {
-            _isCanceling = true;
+            _isCanceling  = true;
             IsEditingMode = false;
             InnerElement.blur();
         }
@@ -160,8 +162,8 @@ namespace Tesserae.Components
                 if (Saved is null || Saved(this, newValue))
                 {
                     _labelText.textContent = newValue;
-                    _observable.Value = newValue;
-                    IsEditingMode = false;
+                    _observable.Value      = newValue;
+                    IsEditingMode          = false;
                 }
                 else
                 {

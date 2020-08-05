@@ -5,15 +5,15 @@ namespace Tesserae.Components
 {
     public class CheckBox : ComponentBase<CheckBox, HTMLInputElement>, IObservableComponent<bool>
     {
-        private readonly HTMLSpanElement _checkSpan;
-        private readonly HTMLLabelElement _label;
+        private readonly HTMLSpanElement          _checkSpan;
+        private readonly HTMLLabelElement         _label;
         private readonly SettableObservable<bool> _observable = new SettableObservable<bool>();
 
         public CheckBox(string text = string.Empty)
         {
             InnerElement = CheckBox(_("tss-checkbox"));
-            _checkSpan = Span(_("tss-checkbox-mark"));
-            _label = Label(_("tss-checkbox-container", text: text), InnerElement, _checkSpan);
+            _checkSpan   = Span(_("tss-checkbox-mark"));
+            _label       = Label(_("tss-checkbox-container", text: text), InnerElement, _checkSpan);
             AttachClick();
             AttachChange();
             AttachFocus();
@@ -57,7 +57,7 @@ namespace Tesserae.Components
             set
             {
                 InnerElement.@checked = value;
-                _observable.Value = value;
+                _observable.Value     = value;
             }
         }
 

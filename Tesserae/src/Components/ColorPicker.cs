@@ -2,9 +2,7 @@
 {
     public class ColorPicker : Input<ColorPicker>
     {
-        public ColorPicker(Color color) : base("color", color?.ToHex() ?? "#000000")
-        {
-        }
+        public ColorPicker(Color color) : base("color", color?.ToHex() ?? "#000000") { }
 
         public Color Color => Color.FromString(Text);
 
