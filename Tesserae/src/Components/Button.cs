@@ -302,6 +302,20 @@ namespace Tesserae.Components
             }
         }
 
+        public Button OnClickSpinWhile(Func<Task> action, string text = null)
+        {
+            return OnClick((_, __) =>
+            {
+                Task.Run(async () =>
+                {
+                    ToSpinner(text);
+                    await action();
+                    UndoSpinner();
+                }).FireAndForget();
+            });
+        }
+
+
         public void SpinWhile(Func<Task> action, string text = null)
         {
             Task.Run(async () =>
