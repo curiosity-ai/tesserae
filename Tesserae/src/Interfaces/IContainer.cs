@@ -16,14 +16,39 @@ namespace Tesserae.Components
 
     public static class IContainerExtensions
     {
-        public static T Children<T>(this T container, IEnumerable<IComponent> children) where T : IContainer<T, IComponent>
+        public static T Children<T>(this T container, IComponent first, IEnumerable<IComponent> children) where T : IContainer<T, IComponent>
+        {
+            container.Clear();
+            container.Add(first);
+            foreach (var x in children)
+            {
+                container.Add(x);
+            }
+
+            return container;
+        }
+
+        public static T Children<T>(this T container, IEnumerable<IComponent> children, IComponent last) where T : IContainer<T, IComponent>
         {
             container.Clear();
             foreach (var x in children)
             {
                 container.Add(x);
             }
+            container.Add(last);
 
+            return container;
+        }
+
+        public static T Children<T>(this T container, IComponent first, IEnumerable<IComponent> children, IComponent last) where T : IContainer<T, IComponent>
+        {
+            container.Clear();
+            container.Add(first);
+            foreach (var x in children)
+            {
+                container.Add(x);
+            }
+            container.Add(last);
             return container;
         }
 
