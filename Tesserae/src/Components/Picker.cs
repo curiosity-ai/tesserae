@@ -6,7 +6,7 @@ using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
-    public sealed class Picker<TPickerItem> : IComponent, IObservableListComponent<TPickerItem>  where TPickerItem : class, IPickerItem
+    public sealed class Picker<TPickerItem> : IComponent  where TPickerItem : class, IPickerItem
     {
         private event ComponentEventHandler<Picker<TPickerItem>, ItemPickedEvent> SelectedItem;
 
@@ -44,11 +44,6 @@ namespace Tesserae.Components
             _suggestionsLayer     = new SuggestionsLayer(new Suggestions(suggestionsTitleText));
 
             CreatePicker(pickerContainer);
-        }
-
-        public IObservable<IReadOnlyList<TPickerItem>> AsObservable()
-        {
-            return _pickerItems;
         }
 
         public IEnumerable<TPickerItem> PickerItems           => _pickerItems;

@@ -1,13 +1,41 @@
-﻿using static H5.Core.dom;
+﻿using System;
+using static H5.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
-    public sealed class Slider : ComponentBase<Slider, HTMLInputElement>
+    public sealed class Slider : ComponentBase<Slider, HTMLInputElement>, IBindableComponent<int>
     {
         private readonly HTMLLabelElement _outerLabel;
         private readonly HTMLDivElement   _outerDiv;
         private readonly HTMLDivElement   _fakeDiv;
+
+
+        private SettableObservable<int>           _observable;
+        private ObservableEvent.ValueChanged<int> valueGetter;
+        private bool                              _observableReferenceUsed = false;
+
+        public SettableObservable<int> Observable
+        {
+            get
+            {
+                _observableReferenceUsed = true;
+                return _observable;
+            }
+            set
+            {
+                if (_observableReferenceUsed)
+                {
+                    throw new ArgumentException("Can't set the observable after a reference of it has been used! (.AsObservable() might have been called before .Bind())");
+                }
+
+                if (_observable is object)
+                    _observable.StopObserving(valueGetter);
+                _observable = value;
+                _observable.Observe(valueGetter);
+            }
+        }
+
 
         public Slider(int val = 0, int min = 0, int max = 100, int step = 10)
         {
@@ -18,6 +46,9 @@ namespace Tesserae.Components
             InnerElement.max       = max.ToString();
             InnerElement.step      = step.ToString();
             InnerElement.type      = "range";
+
+            valueGetter = v => Value = v;
+            Observable  = new SettableObservable<int>();
 
             AttachClick();
             AttachChange();
@@ -44,6 +75,9 @@ namespace Tesserae.Components
             }
 
             _outerDiv = Div(_("tss-slider-div"), _outerLabel);
+
+            OnChange((_, __) => _observable.Value = Value);
+            OnInput((_,  __) => _observable.Value = Value);
         }
 
         public SliderOrientation Orientation
@@ -62,10 +96,20 @@ namespace Tesserae.Components
             }
         }
 
+        private void SetBarWidth()
+        {
+            double percent = ((double) (Value - Min) / (Max - Min)) * 100.0;
+            _fakeDiv.style.width = $"{percent:0.##}%";
+        }
+
         public int Value
         {
             get => int.Parse(InnerElement.value);
-            set => InnerElement.value = value.ToString();
+            set
+            {
+                InnerElement.value = value.ToString();
+                RaiseOnInput(null);
+            }
         }
 
         public int Min

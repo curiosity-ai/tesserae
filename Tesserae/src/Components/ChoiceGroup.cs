@@ -6,8 +6,11 @@ namespace Tesserae.Components
 {
     public sealed class ChoiceGroup : ComponentBase<ChoiceGroup, HTMLDivElement>, IContainer<ChoiceGroup, ChoiceGroup.Choice>, IObservableComponent<ChoiceGroup.Choice>
     {
-        private readonly TextBlock                  _header;
-        private readonly SettableObservable<Choice> _selectedOption = new SettableObservable<Choice>();
+        private readonly TextBlock _header;
+
+        private SettableObservable<Choice> _selectedOption;
+
+        public IObservable<Choice> Observable => _selectedOption;
 
         public ChoiceGroup(string label = "Pick one")
         {
@@ -15,6 +18,8 @@ namespace Tesserae.Components
             var h = _header.Render();
             h.style.alignSelf = "baseline";
             InnerElement      = Div(_("tss-choice-group", styles: s => { s.flexDirection = "column"; }), h);
+
+            _selectedOption = new SettableObservable<Choice>();
         }
 
         public Choice SelectedOption
@@ -109,8 +114,6 @@ namespace Tesserae.Components
 
             RaiseOnChange(ev: null);
         }
-
-        public IObservable<Choice> AsObservable() => _selectedOption;
 
         public enum ChoiceGroupOrientation
         {

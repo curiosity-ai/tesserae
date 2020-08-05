@@ -1,6 +1,6 @@
 ﻿namespace Tesserae.Components
 {
-    public class ColorPicker : Input<ColorPicker>
+    public class ColorPicker : Input<ColorPicker>, IBindableComponent<string>
     {
         public ColorPicker(Color color) : base("color", color?.ToHex() ?? "#000000") { }
 

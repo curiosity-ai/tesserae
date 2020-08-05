@@ -1,7 +1,7 @@
 ﻿namespace Tesserae.Components
 {
     public abstract class MomentPickerBase<TMomentPicker, TMoment> : Input<TMomentPicker>
-        where TMomentPicker : MomentPickerBase<TMomentPicker, TMoment>
+        where TMomentPicker : MomentPickerBase<TMomentPicker, TMoment>, IBindableComponent<string>
     {
         protected MomentPickerBase(string type, string defaultText = null)
             : base(type, defaultText) { }

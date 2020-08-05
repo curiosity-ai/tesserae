@@ -3,13 +3,13 @@ using System.Linq;
 
 namespace Tesserae.Components
 {
-    public class WeekPicker : MomentPickerBase<WeekPicker, (int year, int weekNumber)>
+    public class WeekPicker : MomentPickerBase<WeekPicker, (int year, int weekNumber)>, IBindableComponent<string>
     {
         public WeekPicker((int year, int weekNumber)? week)
             : base("week", week.HasValue ? FormatWeek(week.Value) : string.Empty) { }
 
         public (int year, int weekNumber) Week => Moment;
-
+    
         private static string FormatWeek((int year, int weekNumber) week) => $"{week.year}-W{week.weekNumber}";
 
         protected override string FormatMoment((int year, int weekNumber) week) => FormatWeek(week);

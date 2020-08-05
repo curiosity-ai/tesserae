@@ -3,7 +3,7 @@ using System.Globalization;
 
 namespace Tesserae.Components
 {
-    public class DatePicker : MomentPickerBase<DatePicker, DateTime>
+    public class DatePicker : MomentPickerBase<DatePicker, DateTime>, IBindableComponent<string>
     {
         public DatePicker(DateTime? date = null)
             : base("date", date.HasValue ? FormatDateTime(date.Value) : string.Empty) { }

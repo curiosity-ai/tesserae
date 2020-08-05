@@ -5,17 +5,42 @@ using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
-    public sealed class EditableArea : ComponentBase<EditableArea, HTMLTextAreaElement>, ITextFormating, IObservableComponent<string>
+    public sealed class EditableArea : ComponentBase<EditableArea, HTMLTextAreaElement>, ITextFormating, IBindableComponent<string>
     {
         private event SaveEditHandler Saved;
 
         public delegate bool SaveEditHandler(EditableArea sender, string newValue);
 
-        private readonly HTMLDivElement             _container;
-        private readonly HTMLSpanElement            _labelText;
-        private readonly HTMLDivElement             _editView;
-        private readonly HTMLDivElement             _labelView;
-        private readonly SettableObservable<string> _observable = new SettableObservable<string>();
+        private readonly HTMLDivElement  _container;
+        private readonly HTMLSpanElement _labelText;
+        private readonly HTMLDivElement  _editView;
+        private readonly HTMLDivElement  _labelView;
+
+
+        private SettableObservable<string>           _observable;
+        private ObservableEvent.ValueChanged<string> valueGetter;
+        private bool                                 _observableReferenceUsed = false;
+
+        public SettableObservable<string> Observable
+        {
+            get
+            {
+                _observableReferenceUsed = true;
+                return _observable;
+            }
+            set
+            {
+                if (_observableReferenceUsed)
+                {
+                    throw new ArgumentException("Can't set the observable after a reference of it has been used! (.AsObservable() might have been called before .Bind())");
+                }
+
+                if (_observable is object)
+                    _observable.StopObserving(valueGetter);
+                _observable = value;
+                _observable.Observe(valueGetter);
+            }
+        }
 
         private readonly HTMLElement _editIcon;
         private readonly HTMLElement _cancelEditIcon;
@@ -34,6 +59,9 @@ namespace Tesserae.Components
 
             _container = Div(_("tss-editablelabel"), _labelView, _editView);
 
+            valueGetter = value => SetText(value);
+            Observable  = new SettableObservable<string>(text);
+            
             AttachChange();
             AttachInput();
             AttachFocus();
@@ -189,7 +217,5 @@ namespace Tesserae.Components
         }
 
         public override HTMLElement Render() => _container;
-
-        public IObservable<string> AsObservable() => _observable;
     }
 }

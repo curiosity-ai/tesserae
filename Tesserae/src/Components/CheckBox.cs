@@ -1,19 +1,57 @@
-﻿using static H5.Core.dom;
+﻿using System;
+using static H5.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
-    public class CheckBox : ComponentBase<CheckBox, HTMLInputElement>, IObservableComponent<bool>
+    public class CheckBox : ComponentBase<CheckBox, HTMLInputElement>, IBindableComponent<bool>
     {
-        private readonly HTMLSpanElement          _checkSpan;
-        private readonly HTMLLabelElement         _label;
-        private readonly SettableObservable<bool> _observable = new SettableObservable<bool>();
+        private readonly HTMLSpanElement  _checkSpan;
+        private readonly HTMLLabelElement _label;
+
+        private SettableObservable<bool>           _observable;
+        private ObservableEvent.ValueChanged<bool> valueGetter;
+        private bool                               _observableReferenceUsed = false;
+
+        public SettableObservable<bool> Observable
+        {
+            get
+            {
+                _observableReferenceUsed = true;
+                return _observable;
+            }
+            set
+            {
+                if (_observableReferenceUsed)
+                {
+                    throw new ArgumentException("Can't set the observable after a reference of it has been used! (.AsObservable() might have been called before .Bind())");
+                }
+
+                if (_observable is object)
+                    _observable.StopObserving(valueGetter);
+                _observable = value;
+                _observable.Observe(valueGetter);
+            }
+        }
 
         public CheckBox(string text = string.Empty)
         {
+
+            
             InnerElement = CheckBox(_("tss-checkbox"));
             _checkSpan   = Span(_("tss-checkbox-mark"));
             _label       = Label(_("tss-checkbox-container", text: text), InnerElement, _checkSpan);
+            
+            valueGetter = v => IsChecked = v;
+            Observable  = new SettableObservable<bool>();
+            
+            InnerElement.onchange += (e) =>
+            {
+                StopEvent(e);
+                IsChecked = IsChecked;
+                RaiseOnChange(ev: null);
+            };
+
             AttachClick();
             AttachChange();
             AttachFocus();
@@ -82,11 +120,6 @@ namespace Tesserae.Components
         {
             Text = text;
             return this;
-        }
-
-        public IObservable<bool> AsObservable()
-        {
-            return _observable;
         }
     }
 }

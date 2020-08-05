@@ -1,16 +1,44 @@
-﻿using Tesserae.HTML;
+﻿using System;
+using Tesserae.HTML;
 using static H5.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
-    public abstract class Input<TInput> : ComponentBase<TInput, HTMLInputElement>, ICanValidate<TInput>, IObservableComponent<string> where TInput : Input<TInput>
+    public abstract class Input<TInput> : ComponentBase<TInput, HTMLInputElement>, ICanValidate<TInput> where TInput : Input<TInput>, IBindableComponent<string>
     {
-        private readonly HTMLDivElement             _container;
-        private readonly HTMLSpanElement            _errorSpan;
-        private readonly SettableObservable<string> _observable = new SettableObservable<string>();
+        private readonly HTMLDivElement  _container;
+        private readonly HTMLSpanElement _errorSpan;
 
-        protected Input(string type, string defaultText = null)
+
+        private SettableObservable<string>           _observable;
+        private ObservableEvent.ValueChanged<string> valueGetter;
+        private bool                                 _observableReferenceUsed = false;
+
+
+        public SettableObservable<string> Observable
+        {
+            get
+            {
+                _observableReferenceUsed = true;
+                return _observable;
+            }
+            set
+            {
+                if (_observableReferenceUsed)
+                {
+                    throw new ArgumentException("Can't set the observable after a reference of it has been used! (.AsObservable() might have been called before .Bind())");
+                }
+
+                if (_observable is object)
+                    _observable.StopObserving(valueGetter);
+                _observable = value;
+                _observable.Observe(valueGetter);
+            }
+        }
+
+
+        protected Input(string type, string defaultText = String.Empty)
         {
             InnerElement = TextBox(_("tss-textbox", type: type, value: defaultText));
 
@@ -23,7 +51,12 @@ namespace Tesserae.Components
             AttachBlur();
             AttachKeys();
 
+            valueGetter = value => Text = value;
+            Observable  = new SettableObservable<string>(defaultText);
+
             // TODO: 27/06/20 - MB - calling virtual member within a constructor is a bit of a no-no.
+            // 05/08/20 - pius - ok for now since we do not implement these methods in a derived class
+            // @see https://stackoverflow.com/questions/119506/virtual-member-call-in-a-constructor
             OnChange((_, __) => _observable.Value = Text);
             OnInput((_,  __) => _observable.Value = Text);
         }
@@ -138,7 +171,10 @@ namespace Tesserae.Components
             return (TInput) this;
         }
 
-        public IObservable<string> AsObservable() => _observable;
+        public void SetObservable(SettableObservable<string> observable)
+        {
+            Observable = observable;
+        }
 
         public override HTMLElement Render() => _container;
     }

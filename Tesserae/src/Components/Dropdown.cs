@@ -15,11 +15,24 @@ namespace Tesserae.Components
 
         private static HTMLElement _firstItem;
 
-        private readonly HTMLElement          _childContainer;
-        private readonly HTMLDivElement       _container;
-        private readonly HTMLSpanElement      _noItemsSpan;
-        private readonly HTMLSpanElement      _errorSpan;
-        private readonly ObservableList<Item> _selectedChildren;
+        private readonly HTMLElement     _childContainer;
+        private readonly HTMLDivElement  _container;
+        private readonly HTMLSpanElement _noItemsSpan;
+        private readonly HTMLSpanElement _errorSpan;
+
+
+        private ObservableList<Item>                              _observable;
+        private ObservableEvent.ValueChanged<IReadOnlyList<Item>> valueGetter;
+        private bool                                              _observableReferenceUsed = false;
+
+        public IObservable<IReadOnlyList<Item>> ObservableList
+        {
+            get
+            {
+                _observableReferenceUsed = true;
+                return _observable;
+            }
+        }
 
         private HTMLDivElement      _spinner;
         private bool                _isChanged;
@@ -57,7 +70,9 @@ namespace Tesserae.Components
             };
 
             _callSelectOnChangingItemSelections = true;
-            _selectedChildren                   = new ObservableList<Item>();
+
+            valueGetter = items => RenderSelected();
+            _observable = new ObservableList<Item>(new Item[] { });
 
             _latestRequestID = 0;
         }
@@ -84,12 +99,9 @@ namespace Tesserae.Components
             }
         }
 
-        public Item[] SelectedItems => _selectedChildren.ToArray();
+        public Item[] SelectedItems => _observable.ToArray();
 
-        public string SelectedText
-        {
-            get { return string.Join(", ", _selectedChildren.Select(x => x.Text)); }
-        }
+        public string SelectedText => string.Join(", ", _observable.Select(x => x.Text));
 
         public string Error
         {
@@ -234,9 +246,9 @@ namespace Tesserae.Components
             DomObserver.WhenMounted(_popupDiv, () =>
             {
                 document.addEventListener("keydown", OnPopupKeyDown);
-                if (_selectedChildren.Count > 0)
+                if (_observable.Count > 0)
                 {
-                    _selectedChildren[_selectedChildren.Count - 1].Render().focus();
+                    _observable[_observable.Count - 1].Render().focus();
                 }
             });
         }
@@ -332,7 +344,7 @@ namespace Tesserae.Components
 
             // 2020-06-11 DWR: We need to do this, otherwise the entries in there will relate to drop down items that are no longer rendered - it's fine, since we'll be rebuilding the items (including selected states) if we've just called clear
             // TODO [2020-07-01 DWR]: It doesn't LOOK to me like this is required any more since we will always call it in UpdateStateBasedUponCurrentSelections a little further below.. but I want to test with it removed before I'm fully confident
-            _selectedChildren.Clear();
+            _observable.Clear();
 
             // Each request (whether sync or async) will get a unique and incrementing ID - if requests overlap then the results of requests that were initiated later are preferred as they are going to be the results of interactions that User
             // performed since the earlier requests started (since this code is browser-based, and so single-threaded, it's only possible for async requests to overlap - synchronous requests never can - but it's important to increment the
@@ -412,8 +424,8 @@ namespace Tesserae.Components
             // selected - based on the items that were selected here before the update. This is because THIS component only deals with Dropdown.Item instances and NOT the source values and it can't be 100% sure that if an item with text "ABC"
             // was selected before and then new items arrive that any item with text "ABC" should still be selected - only the caller knows strongly-typed values that these dropdown items relate to.
             // ^ This is less of an issue with single-select configurations since they can only show zero or one selections and so ordering is not important
-            _selectedChildren.Clear();
-            _selectedChildren.AddRange(_lastRenderedItems.Where(item => item.IsSelected));
+            _observable.Clear();
+            _observable.AddRange(_lastRenderedItems.Where(item => item.IsSelected));
             RenderSelected();
         }
 
@@ -532,11 +544,6 @@ namespace Tesserae.Components
             {
                 UpdateSearch(ev);
             }
-        }
-
-        public IObservable<IReadOnlyList<Item>> AsObservable()
-        {
-            return _selectedChildren;
         }
 
         public enum SelectMode
