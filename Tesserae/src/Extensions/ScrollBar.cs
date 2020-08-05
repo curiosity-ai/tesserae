@@ -127,7 +127,7 @@ namespace Tesserae.Components
             {
                 var targetElement = Stack.GetItem(component);
                 targetElement.style.overflowY = "auto";
-                targetElement.style.overflowX = "none";
+                targetElement.style.overflowX = "hidden";
             });
 
             return component;
@@ -140,7 +140,7 @@ namespace Tesserae.Components
             DomObserver.WhenMounted(element, () =>
             {
                 var targetElement = Stack.GetItem(component);
-                targetElement.style.overflowY = "none";
+                targetElement.style.overflowY = "hidden";
                 targetElement.style.overflowX = "auto";
             });
 
