@@ -82,6 +82,7 @@ a {
 
         .tss-btn > span:not(:empty) + i {
             margin-right: 10px;
+            margin-left: 10px;
         }
 
 .tss-btn-default {
