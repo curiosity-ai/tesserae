@@ -30,11 +30,23 @@ a {
     padding: 0px 16px;
     min-height: 32px;
     margin: 4px;
-    display: inline-block;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     box-shadow: var(--tss-box-shadow);
 }
+
+    .tss-btn.tss-textalign-left {
+        align-items: flex-start;
+    }
+
+    .tss-btn.tss-textalign-right {
+        align-items: flex-end;
+    }
+
+    .tss-btn.tss-textalign-center {
+        align-items: center;
+    }
 
     .tss-btn:hover {
         color: var(--tss-default-foreground-hover-color);
