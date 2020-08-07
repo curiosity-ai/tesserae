@@ -436,6 +436,11 @@ namespace Tesserae.Components
             return this;
         }
 
+        public Button IconOnHover()
+        {
+            InnerElement.classList.add("tss-btn-icononhover");
+            return this;
+        }
         public Button ReplaceContent(IComponent content)
         {
             ClearChildren(InnerElement);

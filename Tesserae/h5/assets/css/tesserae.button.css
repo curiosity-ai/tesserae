@@ -67,9 +67,22 @@ a {
         text-decoration: none;
     }
 
-    .tss-btn > i + span:not(:empty) {
-        margin-left: 10px;
+    .tss-btn.tss-btn-icononhover > i {
+        opacity: 0;
+        transition: opacity .15s ease-in-out;
     }
+
+    .tss-btn.tss-btn-icononhover:hover > i {
+        opacity: 1;
+    }
+
+        .tss-btn > i + span:not(:empty) {
+            margin-left: 10px;
+        }
+
+        .tss-btn > span:not(:empty) + i {
+            margin-right: 10px;
+        }
 
 .tss-btn-default {
     color: var(--tss-default-foreground-color);
