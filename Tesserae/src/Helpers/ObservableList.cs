@@ -114,6 +114,12 @@ namespace Tesserae
             RaiseOnValueChanged();
         }
         
+        public void Update(int index, T item)
+        {
+            RemoveAt(index);
+            Insert(index, item);
+        }
+        
         public int RemoveAll(Func<T, bool> match)
         {
             var toRemove = _list.Where(match).ToArray();
