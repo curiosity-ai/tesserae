@@ -24,9 +24,17 @@ namespace Tesserae.Components
             AttachClick();
         }
 
-        public string Background { get => InnerElement.style.background; set => InnerElement.style.background = value; }
+        public string Background
+        {
+            get => InnerElement.style.background;
+            set => InnerElement.style.background = value;
+        }
 
-        public string Foreground { get => InnerElement.style.color; set => InnerElement.style.color = value; }
+        public string Foreground
+        {
+            get => InnerElement.style.color;
+            set => InnerElement.style.color = value;
+        }
 
         public bool IsEnabled
         {
@@ -103,6 +111,7 @@ namespace Tesserae.Components
                 {
                     InnerElement.classList.remove(curFontSize);
                 }
+
                 InnerElement.classList.add($"tss-textalign-{value.ToString().ToLower()}");
             }
         }
@@ -133,10 +142,10 @@ namespace Tesserae.Components
                 }
             }
         }
-        
+
         /// <summary>
-         /// Gets or set whenever text block color is primary
-         /// </summary>
+        /// Gets or set whenever text block color is primary
+        /// </summary>
         public bool IsSecondary
         {
             get => InnerElement.classList.contains("tss-fontcolor-secondary");
@@ -302,7 +311,7 @@ namespace Tesserae.Components
 
         public static T Ellipsis<T>(this T textBlock) where T : TextBlock
         {
-            textBlock.EnableEllipsis= true;
+            textBlock.EnableEllipsis = true;
             return textBlock;
         }
 

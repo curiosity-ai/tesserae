@@ -1,25 +1,51 @@
-﻿using static H5.Core.dom;
+﻿using System;
+using static H5.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
-    public class Toggle : ComponentBase<Toggle, HTMLInputElement>, IObservableComponent<bool>
+    public class Toggle : ComponentBase<Toggle, HTMLInputElement>, IBindableComponent<bool>
     {
         private readonly HTMLElement _checkElement;
         private readonly HTMLElement _onOffSpan;
         private readonly HTMLElement _container;
-        private readonly IComponent _offText;
-        private readonly IComponent _onText;
-        private readonly SettableObservable<bool> _observable = new SettableObservable<bool>();
+        private readonly IComponent  _offText;
+        private readonly IComponent  _onText;
+
+        private SettableObservable<bool>           _observable;
+        private ObservableEvent.ValueChanged<bool> valueGetter;
+        private bool                               _observableReferenceUsed = false;
+
+        public SettableObservable<bool> Observable
+        {
+            get
+            {
+                _observableReferenceUsed = true;
+                return _observable;
+            }
+            set
+            {
+                if (_observableReferenceUsed)
+                {
+                    throw new ArgumentException("Can't set the observable after a reference of it has been used! (.AsObservable() might have been called before .Bind())");
+                }
+
+                if (_observable is object)
+                    _observable.StopObserving(valueGetter);
+                _observable = value;
+                _observable.Observe(valueGetter);
+            }
+        }
+
 
         public Toggle(IComponent onText = null, IComponent offText = null)
         {
-            _onText  = onText ?? TextBlock("On");
-            _offText = offText ?? TextBlock("Off");
-            InnerElement = CheckBox(_("tss-checkbox"));
+            _onText       = onText  ?? TextBlock("On");
+            _offText      = offText ?? TextBlock("Off");
+            InnerElement  = CheckBox(_("tss-checkbox"));
             _checkElement = Div(_("tss-toggle-mark"));
-            _onOffSpan = Div(_("tss-toggle-text"), _offText.Render());
-            _container = Div(_("tss-toggle-container"), InnerElement, _checkElement, _onOffSpan);
+            _onOffSpan    = Div(_("tss-toggle-text"),      _offText.Render());
+            _container    = Div(_("tss-toggle-container"), InnerElement, _checkElement, _onOffSpan);
 
             _checkElement.onclick += (e) =>
             {
@@ -28,6 +54,9 @@ namespace Tesserae.Components
                 OnToggleChanged();
                 RaiseOnChange(ev: null);
             };
+
+            valueGetter = v => IsChecked = v;
+            _observable = new SettableObservable<bool>();
 
             OnChange((s, e) => OnToggleChanged());
             AttachClick();
@@ -46,7 +75,7 @@ namespace Tesserae.Components
             {
                 _container.innerText = value;
                 if (string.IsNullOrEmpty(value)) _onOffSpan.style.display = "";
-                else _onOffSpan.style.display = "none";
+                else _onOffSpan.style.display                             = "none";
             }
         }
 
@@ -78,7 +107,7 @@ namespace Tesserae.Components
             set
             {
                 InnerElement.@checked = value;
-                _observable.Value = value;
+                _observable.Value     = value;
                 ClearChildren(_onOffSpan);
                 if (value)
                 {
@@ -107,6 +136,7 @@ namespace Tesserae.Components
             {
                 _onOffSpan.appendChild(_offText.Render());
             }
+
             _observable.Value = IsChecked;
         }
 
@@ -126,11 +156,6 @@ namespace Tesserae.Components
         {
             IsChecked = value;
             return this;
-        }
-
-        public IObservable<bool> AsObservable()
-        {
-            return _observable;
         }
     }
 }

@@ -1,23 +1,52 @@
-﻿using Tesserae.HTML;
+﻿using System;
+using Tesserae.HTML;
 using static H5.Core.dom;
 using static Tesserae.UI;
+
 namespace Tesserae.Components
 {
-    public sealed class TextArea : ComponentBase<TextArea, HTMLTextAreaElement>, ICanValidate<TextArea>, IObservableComponent<string>
+    public sealed class TextArea : ComponentBase<TextArea, HTMLTextAreaElement>, ICanValidate<TextArea>, IBindableComponent<string>
     {
-        private readonly HTMLDivElement _container;
+        private readonly HTMLDivElement  _container;
         private readonly HTMLSpanElement _errorSpan;
-        private readonly SettableObservable<string> _observable = new SettableObservable<string>();
+
+        private SettableObservable<string>           _observable;
+        private ObservableEvent.ValueChanged<string> valueGetter;
+        private bool                                 _observableReferenceUsed = false;
+
+        public SettableObservable<string> Observable
+        {
+            get
+            {
+                _observableReferenceUsed = true;
+                return _observable;
+            }
+            set
+            {
+                if (_observableReferenceUsed)
+                {
+                    throw new ArgumentException("Can't set the observable after a reference of it has been used! (.AsObservable() might have been called before .Bind())");
+                }
+
+                if (_observable is object)
+                    _observable.StopObserving(valueGetter);
+                _observable = value;
+                _observable.Observe(valueGetter);
+            }
+        }
 
         public TextArea(string text = string.Empty)
         {
             InnerElement = TextArea(_("tss-textbox tss-textarea", type: "text", value: text));
-            _errorSpan = Span(_("tss-textbox-error"));
-            _container = Div(_("tss-textbox-container"), InnerElement, _errorSpan);
-            
+            _errorSpan   = Span(_("tss-textbox-error"));
+            _container   = Div(_("tss-textbox-container"), InnerElement, _errorSpan);
+
             //TODO: Need to make container display:flex, and use flex-grow to have correct sizing with _errorSpan
-            InnerElement.style.width = "100%"; 
+            InnerElement.style.width  = "100%";
             InnerElement.style.height = "100%";
+
+            valueGetter = value => Text = value;
+            Observable  = new SettableObservable<string>(text);
 
             AttachChange();
             AttachInput();
@@ -61,7 +90,7 @@ namespace Tesserae.Components
             set
             {
                 InnerElement.value = value;
-                _observable.Value = value;
+                _observable.Value  = value;
                 RaiseOnInput(null);
             }
         }
@@ -163,6 +192,9 @@ namespace Tesserae.Components
             return this;
         }
 
-        public IObservable<string> AsObservable() => _observable;
+        public void SetObservable(SettableObservable<string> observable)
+        {
+            Observable = observable;
+        }
     }
 }

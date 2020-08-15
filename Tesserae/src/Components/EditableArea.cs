@@ -5,16 +5,42 @@ using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
-    public sealed class EditableArea : ComponentBase<EditableArea, HTMLTextAreaElement>, ITextFormating, IObservableComponent<string>
+    public sealed class EditableArea : ComponentBase<EditableArea, HTMLTextAreaElement>, ITextFormating, IBindableComponent<string>
     {
         private event SaveEditHandler Saved;
+
         public delegate bool SaveEditHandler(EditableArea sender, string newValue);
 
-        private readonly HTMLDivElement _container;
+        private readonly HTMLDivElement  _container;
         private readonly HTMLSpanElement _labelText;
-        private readonly HTMLDivElement _editView;
-        private readonly HTMLDivElement _labelView;
-        private readonly SettableObservable<string> _observable = new SettableObservable<string>();
+        private readonly HTMLDivElement  _editView;
+        private readonly HTMLDivElement  _labelView;
+
+
+        private SettableObservable<string>           _observable;
+        private ObservableEvent.ValueChanged<string> valueGetter;
+        private bool                                 _observableReferenceUsed = false;
+
+        public SettableObservable<string> Observable
+        {
+            get
+            {
+                _observableReferenceUsed = true;
+                return _observable;
+            }
+            set
+            {
+                if (_observableReferenceUsed)
+                {
+                    throw new ArgumentException("Can't set the observable after a reference of it has been used! (.AsObservable() might have been called before .Bind())");
+                }
+
+                if (_observable is object)
+                    _observable.StopObserving(valueGetter);
+                _observable = value;
+                _observable.Observe(valueGetter);
+            }
+        }
 
         private readonly HTMLElement _editIcon;
         private readonly HTMLElement _cancelEditIcon;
@@ -24,15 +50,18 @@ namespace Tesserae.Components
         public EditableArea(string text = string.Empty)
         {
             _labelText = Span(_("tss-editablelabel-textspan", text: text, title: "Click to edit"));
-            _editIcon = I(_("tss-editablelabel-edit-icon las la-edit"));
+            _editIcon  = I(_("tss-editablelabel-edit-icon las la-edit"));
             _labelView = Div(_("tss-editablelabel-displaybox"), _labelText, _editIcon);
 
-            InnerElement = TextArea(_("tss-editablelabel-textbox", type: "text"));
-            _cancelEditIcon = Div(_("tss-editablelabel-cancel-icon", title: "Cancel edit"), I(_("las la-times")));
-            _editView = Div(_("tss-editablelabel-editbox"), InnerElement, _cancelEditIcon);
+            InnerElement    = TextArea(_("tss-editablelabel-textbox", type: "text"));
+            _cancelEditIcon = Div(_("tss-editablelabel-cancel-icon",  title: "Cancel edit"), I(_("las la-times")));
+            _editView       = Div(_("tss-editablelabel-editbox"),                            InnerElement, _cancelEditIcon);
 
             _container = Div(_("tss-editablelabel"), _labelView, _editView);
 
+            valueGetter = value => SetText(value);
+            Observable  = new SettableObservable<string>(text);
+            
             AttachChange();
             AttachInput();
             AttachFocus();
@@ -49,7 +78,7 @@ namespace Tesserae.Components
                     CancelEditing();
                 }
             });
-            
+
             OnBlur((_, __) => window.setTimeout(SaveEditing, 150)); // We need to do this on a timeout, because clicking on the Cancel would trigger this method first, with no opportunity to cancel
         }
 
@@ -105,6 +134,7 @@ namespace Tesserae.Components
                 {
                     InnerElement.classList.remove(curFontSize);
                 }
+
                 InnerElement.classList.add($"tss-textalign-{value.ToString().ToLower()}");
             }
         }
@@ -116,8 +146,8 @@ namespace Tesserae.Components
             {
                 if (value)
                 {
-                    var labelRect = (DOMRect)_labelText.getBoundingClientRect();
-                    InnerElement.style.minWidth = (labelRect.width * 1.2) + "px";
+                    var labelRect = (DOMRect) _labelText.getBoundingClientRect();
+                    InnerElement.style.minWidth  = (labelRect.width  * 1.2) + "px";
                     InnerElement.style.minHeight = (labelRect.height * 1.2) + "px";
                     _container.classList.add("tss-editing");
                 }
@@ -137,14 +167,14 @@ namespace Tesserae.Components
         private void BeginEditing()
         {
             InnerElement.value = _labelText.textContent;
-            IsEditingMode = true;
-            _isCanceling = false;
+            IsEditingMode      = true;
+            _isCanceling       = false;
             InnerElement.focus();
         }
 
         private void CancelEditing()
         {
-            _isCanceling = true;
+            _isCanceling  = true;
             IsEditingMode = false;
             InnerElement.blur();
         }
@@ -160,8 +190,8 @@ namespace Tesserae.Components
                 if (Saved is null || Saved(this, newValue))
                 {
                     _labelText.textContent = newValue;
-                    _observable.Value = newValue;
-                    IsEditingMode = false;
+                    _observable.Value      = newValue;
+                    IsEditingMode          = false;
                 }
                 else
                 {
@@ -170,7 +200,7 @@ namespace Tesserae.Components
             }
         }
 
-        public EditableArea  SetText(string text)
+        public EditableArea SetText(string text)
         {
             if (IsEditingMode)
             {
@@ -187,7 +217,5 @@ namespace Tesserae.Components
         }
 
         public override HTMLElement Render() => _container;
-
-        public IObservable<string> AsObservable() => _observable;
     }
 }

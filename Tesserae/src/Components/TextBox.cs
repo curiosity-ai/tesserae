@@ -1,6 +1,6 @@
 ﻿namespace Tesserae.Components
 {
-    public class TextBox : Input<TextBox>
+    public class TextBox : Input<TextBox>, IBindableComponent<string>
     {
         public TextBox(string text = string.Empty) : base("text", text) { }
 
@@ -10,7 +10,7 @@
             set => InnerElement.placeholder = value;
         }
 
-        public bool IsReadOnly
+        public bool IsReadOnly    
         {
             get => InnerElement.hasAttribute("readonly");
             set

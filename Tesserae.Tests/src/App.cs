@@ -52,7 +52,9 @@ namespace Tesserae.Tests
                 ("Defer",                 () => new DeferSample()),
                 ("Toast",                 () => new ToastSample()),
                 ("LineAwesomeIcons",      () => new LineAwesomeSample()),
-                ("FileSelector",          () => new FileSelectorAndDropAreaSample())
+                ("FileSelector",          () => new FileSelectorAndDropAreaSample()),
+                ("Observable",              () => new ObservableSample()),
+
             };
 
             var sideBar = Sidebar().Stretch();
@@ -175,6 +177,7 @@ namespace Tesserae.Tests
                                                                            links["Toast"],
                                                                            links["FileSelector"],
                                                                            links["LineAwesomeIcons"],
+                                                                           links["Observable"],
                                                                            links["ProgressModal"]),
                                                 NavLink("Collections").Expanded()
                                                                       .SmallPlus()

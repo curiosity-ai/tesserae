@@ -3,12 +3,10 @@ using System.Linq;
 
 namespace Tesserae.Components
 {
-    public class MonthPicker : MomentPickerBase<MonthPicker, (int year, int month)>
+    public class MonthPicker : MomentPickerBase<MonthPicker, (int year, int month)>, IBindableComponent<string>
     {
         public MonthPicker((int year, int month)? monthAndYear)
-            : base("month", monthAndYear.HasValue ? FormatMonth(monthAndYear.Value) : string.Empty)
-        {
-        }
+            : base("month", monthAndYear.HasValue ? FormatMonth(monthAndYear.Value) : string.Empty) { }
 
         public (int year, int month) Month => Moment;
 
@@ -30,7 +28,7 @@ namespace Tesserae.Components
 
         protected override (int year, int month) FormatMoment(string monthAndYear)
         {
-            var monthAndYearSplit = monthAndYear.Split(new []{ '-' }, StringSplitOptions.RemoveEmptyEntries);
+            var monthAndYearSplit = monthAndYear.Split(new[] {'-'}, StringSplitOptions.RemoveEmptyEntries);
 
             if (!monthAndYearSplit.Any() || monthAndYearSplit.Any(string.IsNullOrWhiteSpace))
             {

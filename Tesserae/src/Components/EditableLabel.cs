@@ -5,7 +5,7 @@ using static Tesserae.UI;
 
 namespace Tesserae.Components
 {
-    public sealed class EditableLabel : ComponentBase<EditableLabel, HTMLInputElement>, ITextFormating, IObservableComponent<string>
+    public sealed class EditableLabel : ComponentBase<EditableLabel, HTMLInputElement>, ITextFormating,IBindableComponent<string>
     {
         private event SaveEditHandler Saved;
         public delegate bool SaveEditHandler(EditableLabel sender, string newValue);
@@ -16,7 +16,31 @@ namespace Tesserae.Components
         private readonly HTMLElement _cancelEditIcon;
         private readonly HTMLDivElement _editView;
         private readonly HTMLDivElement _labelView;
-        private readonly SettableObservable<string> _observable = new SettableObservable<string>();
+                
+        private SettableObservable<string>           _observable;
+        private ObservableEvent.ValueChanged<string> valueGetter;
+        private bool                                 _observableReferenceUsed = false;
+
+        public SettableObservable<string> Observable
+        {
+            get
+            {
+                _observableReferenceUsed = true;
+                return _observable;
+            }
+            set
+            {
+                if (_observableReferenceUsed)
+                {
+                    throw new ArgumentException("Can't set the observable after a reference of it has been used! (.AsObservable() might have been called before .Bind())");
+                }
+
+                if (_observable is object)
+                    _observable.StopObserving(valueGetter);
+                _observable = value;
+                _observable.Observe(valueGetter);
+            }
+        }
 
         private bool _isCanceling = false;
 
@@ -29,9 +53,12 @@ namespace Tesserae.Components
             InnerElement = TextBox(_("tss-editablelabel-textbox", type: "text"));
             _cancelEditIcon = Div(_("tss-editablelabel-cancel-icon", title: "Cancel edit"), I(_("las la-times")));
             _editView = Div(_("tss-editablelabel-editbox"), InnerElement, _cancelEditIcon);
-
+            
             _container = Div(_("tss-editablelabel"), _labelView, _editView);
 
+            valueGetter = value => SetText(value);
+            Observable  = new SettableObservable<string>(text);
+            
             AttachChange();
             AttachInput();
             AttachFocus();
@@ -50,6 +77,7 @@ namespace Tesserae.Components
             });
             
             OnBlur((_, __) => BeginSaveEditing());
+            
         }
 
         public TextSize Size
@@ -184,6 +212,5 @@ namespace Tesserae.Components
 
         public override HTMLElement Render() => _container;
 
-        public IObservable<string> AsObservable() => _observable;
     }
 }

@@ -3,12 +3,10 @@ using System.Globalization;
 
 namespace Tesserae.Components
 {
-    public class TimePicker : MomentPickerBase<TimePicker, DateTime>
+    public class TimePicker : MomentPickerBase<TimePicker, DateTime>, IBindableComponent<string>
     {
         public TimePicker(DateTime? time = null)
-            : base("time", time.HasValue ? FormatDateTime(time.Value) : string.Empty)
-        {
-        }
+            : base("time", time.HasValue ? FormatDateTime(time.Value) : string.Empty) { }
 
         public DateTime Time => Moment;
 

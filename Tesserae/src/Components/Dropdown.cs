@@ -15,21 +15,34 @@ namespace Tesserae.Components
 
         private static HTMLElement _firstItem;
 
-        private readonly HTMLElement _childContainer;
-        private readonly HTMLDivElement _container;
+        private readonly HTMLElement     _childContainer;
+        private readonly HTMLDivElement  _container;
         private readonly HTMLSpanElement _noItemsSpan;
         private readonly HTMLSpanElement _errorSpan;
-        private readonly ObservableList<Item> _selectedChildren;
         private IComponent _placeholder;
 
-        private HTMLDivElement _spinner;
-        private bool _isChanged;
-        private bool _callSelectOnChangingItemSelections;
-        private Func<Task<Item[]>> _itemsSource;
+
+        private ObservableList<Item>                              _observable;
+        private ObservableEvent.ValueChanged<IReadOnlyList<Item>> valueGetter;
+        private bool                                              _observableReferenceUsed = false;
+
+        public IObservable<IReadOnlyList<Item>> ObservableList
+        {
+            get
+            {
+                _observableReferenceUsed = true;
+                return _observable;
+            }
+        }
+
+        private HTMLDivElement      _spinner;
+        private bool                _isChanged;
+        private bool                _callSelectOnChangingItemSelections;
+        private Func<Task<Item[]>>  _itemsSource;
         private ReadOnlyArray<Item> _lastRenderedItems;
-        private HTMLDivElement _popupDiv;
-        private string _search;
-        private int _latestRequestID;
+        private HTMLDivElement      _popupDiv;
+        private string              _search;
+        private int                 _latestRequestID;
 
         public Dropdown(HTMLSpanElement noItemsSpan = null)
         {
@@ -58,7 +71,9 @@ namespace Tesserae.Components
             };
 
             _callSelectOnChangingItemSelections = true;
-            _selectedChildren = new ObservableList<Item>();
+
+            valueGetter = items => RenderSelected();
+            _observable = new ObservableList<Item>(new Item[] { });
 
             _latestRequestID = 0;
         }
@@ -85,15 +100,9 @@ namespace Tesserae.Components
             }
         }
 
-        public Item[] SelectedItems => _selectedChildren.ToArray();
+        public Item[] SelectedItems => _observable.ToArray();
 
-        public string SelectedText
-        {
-            get
-            {
-                return string.Join(", ", _selectedChildren.Select(x => x.Text));
-            }
-        }
+        public string SelectedText => string.Join(", ", _observable.Select(x => x.Text));
 
         public string Error
         {
@@ -167,13 +176,7 @@ namespace Tesserae.Components
 
         public override HTMLElement Render()
         {
-            DomObserver.WhenMounted(_container, () =>
-            {
-                DomObserver.WhenRemoved(_container, () =>
-                {
-                    Hide();
-                });
-            });
+            DomObserver.WhenMounted(_container, () => { DomObserver.WhenRemoved(_container, () => { Hide(); }); });
             return _container;
         }
 
@@ -214,13 +217,13 @@ namespace Tesserae.Components
         {
             if (_contentHtml == null)
             {
-                _popupDiv = Div(_("tss-dropdown-popup"), _childContainer);
+                _popupDiv    = Div(_("tss-dropdown-popup"), _childContainer);
                 _contentHtml = Div(_("tss-dropdown-layer"), _popupDiv);
 
-                _contentHtml.addEventListener("click", OnWindowClick);
-                _contentHtml.addEventListener("dblclick", OnWindowClick);
+                _contentHtml.addEventListener("click",       OnWindowClick);
+                _contentHtml.addEventListener("dblclick",    OnWindowClick);
                 _contentHtml.addEventListener("contextmenu", OnWindowClick);
-                _contentHtml.addEventListener("wheel", OnWindowClick);
+                _contentHtml.addEventListener("wheel",       OnWindowClick);
 
                 if (_itemsSource is object)
                 {
@@ -230,8 +233,8 @@ namespace Tesserae.Components
             }
 
             _popupDiv.style.height = "unset";
-            _popupDiv.style.left = "-1000px";
-            _popupDiv.style.top = "-1000px";
+            _popupDiv.style.left   = "-1000px";
+            _popupDiv.style.top    = "-1000px";
 
             base.Show();
 
@@ -244,19 +247,19 @@ namespace Tesserae.Components
             DomObserver.WhenMounted(_popupDiv, () =>
             {
                 document.addEventListener("keydown", OnPopupKeyDown);
-                if (_selectedChildren.Count > 0)
+                if (_observable.Count > 0)
                 {
-                    _selectedChildren[_selectedChildren.Count - 1].Render().focus();
+                    _observable[_observable.Count - 1].Render().focus();
                 }
             });
         }
 
         private void RecomputePopupPosition()
         {
-            ClientRect rect = (ClientRect)_container.getBoundingClientRect();
-            var contentRect = (ClientRect)_popupDiv.getBoundingClientRect();
-            _popupDiv.style.top = rect.bottom - 1 + "px";
-            _popupDiv.style.minWidth = rect.width + "px";
+            ClientRect rect        = (ClientRect) _container.getBoundingClientRect();
+            var        contentRect = (ClientRect) _popupDiv.getBoundingClientRect();
+            _popupDiv.style.top      = rect.bottom - 1 + "px";
+            _popupDiv.style.minWidth = rect.width      + "px";
 
             var finalLeft = rect.left;
             if (rect.left + contentRect.width + 1 > window.innerWidth)
@@ -273,7 +276,7 @@ namespace Tesserae.Components
                 {
                     if (rect.top > window.innerHeight - rect.bottom - 1)
                     {
-                        _popupDiv.style.top = "1px";
+                        _popupDiv.style.top    = "1px";
                         _popupDiv.style.height = rect.top - 1 + "px";
                     }
                     else
@@ -292,11 +295,11 @@ namespace Tesserae.Components
         {
             ClearSearch();
             ResetSearchItems();
-            document.removeEventListener("click", OnWindowClick);
-            document.removeEventListener("dblclick", OnWindowClick);
+            document.removeEventListener("click",       OnWindowClick);
+            document.removeEventListener("dblclick",    OnWindowClick);
             document.removeEventListener("contextmenu", OnWindowClick);
-            document.removeEventListener("wheel", OnWindowClick);
-            document.removeEventListener("keydown", OnPopupKeyDown);
+            document.removeEventListener("wheel",       OnWindowClick);
+            document.removeEventListener("keydown",     OnPopupKeyDown);
             base.Hide(onHidden);
             if (_isChanged)
                 RaiseOnChange(ev: null);
@@ -342,7 +345,7 @@ namespace Tesserae.Components
 
             // 2020-06-11 DWR: We need to do this, otherwise the entries in there will relate to drop down items that are no longer rendered - it's fine, since we'll be rebuilding the items (including selected states) if we've just called clear
             // TODO [2020-07-01 DWR]: It doesn't LOOK to me like this is required any more since we will always call it in UpdateStateBasedUponCurrentSelections a little further below.. but I want to test with it removed before I'm fully confident
-            _selectedChildren.Clear();
+            _observable.Clear();
 
             // Each request (whether sync or async) will get a unique and incrementing ID - if requests overlap then the results of requests that were initiated later are preferred as they are going to be the results of interactions that User
             // performed since the earlier requests started (since this code is browser-based, and so single-threaded, it's only possible for async requests to overlap - synchronous requests never can - but it's important to increment the
@@ -373,6 +376,7 @@ namespace Tesserae.Components
                 Disabled(true);
                 _noItemsSpan.style.display = "";
             }
+
             return this;
         }
 
@@ -385,7 +389,7 @@ namespace Tesserae.Components
             // 2020-06-30 DWR: We should only show the no-items message if we KNOW that there are no options to select and if we've just specified an async retrieval then we won't know whether there are any items or not until it completes - so we'll
             // ensure that the message is hidden here and then it will be displayed/hidden as appropriate when the async retrieval completes (the non-async Items method will be called and that updates the display state of the no-items message)
             _noItemsSpan.style.display = "none";
-            _itemsSource = itemsSource;
+            _itemsSource               = itemsSource;
             return this;
         }
 
@@ -435,8 +439,8 @@ namespace Tesserae.Components
             // selected - based on the items that were selected here before the update. This is because THIS component only deals with Dropdown.Item instances and NOT the source values and it can't be 100% sure that if an item with text "ABC"
             // was selected before and then new items arrive that any item with text "ABC" should still be selected - only the caller knows strongly-typed values that these dropdown items relate to.
             // ^ This is less of an issue with single-select configurations since they can only show zero or one selections and so ordering is not important
-            _selectedChildren.Clear();
-            _selectedChildren.AddRange(_lastRenderedItems.Where(item => item.IsSelected));
+            _observable.Clear();
+            _observable.AddRange(_lastRenderedItems.Where(item => item.IsSelected));
             RenderSelected();
         }
 
@@ -458,6 +462,7 @@ namespace Tesserae.Components
                     // If this is an item getting unselected in a Single-only dropdown then it was probably from the "selectedChild.IsSelected = false" call just above and we can ignore it since we're already processing the OnItemSelected logic
                     return;
                 }
+
                 Hide();
             }
             else
@@ -497,6 +502,15 @@ namespace Tesserae.Components
                     rendered.classList.add("tss-dropdown-item-on-box");
                     InnerElement.appendChild(rendered);
                 }
+                else
+                {
+                    var sel   = SelectedItems[i];
+                    var clone = sel.RenderSelected();
+                    clone.classList.remove("tss-dropdown-item");
+                    clone.classList.remove("tss-selected");
+                    clone.classList.add("tss-dropdown-item-on-box");
+                    InnerElement.appendChild(clone);
+                }
             }
 
             // 2020-06-30 DWR: This may or may not be visible right now, it doesn't matter - we just need to ensure that we add it back in after clearing InnerElement
@@ -510,7 +524,7 @@ namespace Tesserae.Components
 
             if (ev.key == "ArrowUp")
             {
-                var visibleItems = _childContainer.children.Where(he => ((HTMLElement)he).style.display != "none").ToArray();
+                var visibleItems = _childContainer.children.Where(he => ((HTMLElement) he).style.display != "none").ToArray();
 
                 if (_popupDiv.classList.contains("tss-no-focus")) _popupDiv.classList.remove("tss-no-focus");
 
@@ -537,7 +551,7 @@ namespace Tesserae.Components
             }
             else if (ev.key == "ArrowDown")
             {
-                var visibleItems = _childContainer.children.Where(he => ((HTMLElement)he).style.display != "none").ToArray();
+                var visibleItems = _childContainer.children.Where(he => ((HTMLElement) he).style.display != "none").ToArray();
 
                 if (_popupDiv.classList.contains("tss-no-focus")) _popupDiv.classList.remove("tss-no-focus");
 
@@ -566,11 +580,6 @@ namespace Tesserae.Components
             {
                 UpdateSearch(ev);
             }
-        }
-
-        public IObservable<IReadOnlyList<Item>> AsObservable()
-        {
-            return _selectedChildren;
         }
 
         public enum SelectMode
@@ -660,13 +669,13 @@ namespace Tesserae.Components
             _container.style.pointerEvents = "unset";
         }
 
-        private (HTMLElement item, string textContent)[] GetItems() => _childContainer.children.Select(child => ((HTMLElement)child, child.textContent)).ToArray();
+        private (HTMLElement item, string textContent)[] GetItems() => _childContainer.children.Select(child => ((HTMLElement) child, child.textContent)).ToArray();
 
         private void SearchItems()
         {
-            var items = GetItems();
+            var items         = GetItems();
             var itemsToRemove = items.Where(item => !(item.textContent.ToLower().Contains(_search.ToLower())));
-            var itemsToReset = items.Except(itemsToRemove);
+            var itemsToReset  = items.Except(itemsToRemove);
             _firstItem = itemsToReset.FirstOrDefault().item;
 
             ResetSearchItems(itemsToReset);
@@ -675,6 +684,7 @@ namespace Tesserae.Components
             {
                 item.style.display = "none";
             }
+
             RecomputePopupPosition();
         }
 
@@ -693,7 +703,7 @@ namespace Tesserae.Components
 
                 if (selectedContent is null || selectedContent == content)
                 {
-                    SelectedElement = (HTMLElement)InnerElement.cloneNode(true);
+                    SelectedElement = (HTMLElement) InnerElement.cloneNode(true);
                 }
                 else
                 {
@@ -701,12 +711,12 @@ namespace Tesserae.Components
                     SelectedElement.appendChild(selectedContent.Render());
                 }
 
-                InnerElement.addEventListener("click", OnItemClick);
+                InnerElement.addEventListener("click",     OnItemClick);
                 InnerElement.addEventListener("mouseover", OnItemMouseOver);
             }
 
-            private event BeforeSelectEventHandler<Item> BeforeSelectedItem;
-            internal event ComponentEventHandler<Item> SelectedItem;
+            private event  BeforeSelectEventHandler<Item> BeforeSelectedItem;
+            internal event ComponentEventHandler<Item>    SelectedItem;
 
             public ItemType Type
             {
@@ -722,7 +732,7 @@ namespace Tesserae.Components
                     InnerElement.classList.add($"tss-dropdown-{value.ToString().ToLower()}");
 
                     if (value == ItemType.Item) InnerElement.tabIndex = 0;
-                    else InnerElement.tabIndex = -1;
+                    else InnerElement.tabIndex                        = -1;
                 }
             }
 
@@ -812,6 +822,7 @@ namespace Tesserae.Components
                 {
                     IsSelected = true;
                 }
+
                 return this;
             }
 
