@@ -22,7 +22,6 @@ namespace Tesserae.Components
         private string _initiallySelectedID;
         private string _currentSelectedID;
         private bool _isRendered = false;
-
         public string SelectedTab => _currentSelectedID ?? _initiallySelectedID;
 
         public Pivot()
@@ -42,6 +41,11 @@ namespace Tesserae.Components
             RenderedTabs.style.justifyContent = "space-between";
             return this;
         }
+        public Pivot HideIfSingle()
+        {
+            RenderedTabs.classList.add("tss-pivot-titlebar-hide-if-single");
+            return this;
+        }
 
         internal Pivot Add(Tab tab)
         {
@@ -51,7 +55,6 @@ namespace Tesserae.Components
             RenderedTitles.Add(tab, title);
             AttachEvents(tab.Id, title);
             RenderedTabs.appendChild(title);
-            //TODO: click, etc
             return this;
         }
 

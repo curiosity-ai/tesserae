@@ -30,11 +30,23 @@ a {
     padding: 0px 16px;
     min-height: 32px;
     margin: 4px;
-    display: inline-block;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     box-shadow: var(--tss-box-shadow);
 }
+
+    .tss-btn.tss-textalign-left {
+        justify-content: flex-start;
+    }
+
+    .tss-btn.tss-textalign-right {
+        justify-content: flex-end;
+    }
+
+    .tss-btn.tss-textalign-center {
+        justify-content: center;
+    }
 
     .tss-btn:hover {
         color: var(--tss-default-foreground-hover-color);
@@ -67,9 +79,23 @@ a {
         text-decoration: none;
     }
 
-    .tss-btn > i + span:not(:empty) {
-        margin-left: 10px;
+    .tss-btn.tss-btn-icononhover > i {
+        opacity: 0;
+        transition: opacity .15s ease-in-out;
     }
+
+    .tss-btn.tss-btn-icononhover:hover > i {
+        opacity: 1;
+    }
+
+        .tss-btn > i + span:not(:empty) {
+            margin-left: 10px;
+        }
+
+        .tss-btn > span:not(:empty) + i {
+            margin-right: 10px;
+            margin-left: 10px;
+        }
 
 .tss-btn-default {
     color: var(--tss-default-foreground-color);

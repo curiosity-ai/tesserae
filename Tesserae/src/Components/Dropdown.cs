@@ -19,6 +19,7 @@ namespace Tesserae.Components
         private readonly HTMLDivElement  _container;
         private readonly HTMLSpanElement _noItemsSpan;
         private readonly HTMLSpanElement _errorSpan;
+        private IComponent _placeholder;
 
 
         private ObservableList<Item>                              _observable;
@@ -410,6 +411,20 @@ namespace Tesserae.Components
             return this;
         }
 
+
+        public Dropdown Placeholder(string text)
+        {
+            _placeholder = TextBlock(text).Secondary();
+            return this;
+        }
+
+        public Dropdown Placeholder(IComponent placeholder)
+        {
+            _placeholder = placeholder;
+            return this;
+        }
+
+
         private void OnWindowClick(Event e)
         {
             if (e.srcElement != _childContainer && !_childContainer.contains(e.srcElement))
@@ -467,14 +482,35 @@ namespace Tesserae.Components
         {
             ClearChildren(InnerElement);
 
-            for (var i = 0; i < SelectedItems.Length; i++)
+            if (SelectedItems.Any())
             {
-                var sel   = SelectedItems[i];
-                var clone = sel.RenderSelected();
-                clone.classList.remove("tss-dropdown-item");
-                clone.classList.remove("tss-selected");
-                clone.classList.add("tss-dropdown-item-on-box");
-                InnerElement.appendChild(clone);
+                for (var i = 0; i < SelectedItems.Length; i++)
+                {
+                    var sel = SelectedItems[i];
+                    var clone = sel.RenderSelected();
+                    clone.classList.remove("tss-dropdown-item");
+                    clone.classList.remove("tss-selected");
+                    clone.classList.add("tss-dropdown-item-on-box");
+                    InnerElement.appendChild(clone);
+                }
+            }
+            else
+            {
+                if(_placeholder is object)
+                {
+                    var rendered = _placeholder.Render();
+                    rendered.classList.add("tss-dropdown-item-on-box");
+                    InnerElement.appendChild(rendered);
+                }
+                else
+                {
+                    var sel   = SelectedItems[i];
+                    var clone = sel.RenderSelected();
+                    clone.classList.remove("tss-dropdown-item");
+                    clone.classList.remove("tss-selected");
+                    clone.classList.add("tss-dropdown-item-on-box");
+                    InnerElement.appendChild(clone);
+                }
             }
 
             // 2020-06-30 DWR: This may or may not be visible right now, it doesn't matter - we just need to ensure that we add it back in after clearing InnerElement

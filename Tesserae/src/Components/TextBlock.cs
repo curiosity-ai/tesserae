@@ -7,10 +7,20 @@ namespace Tesserae.Components
 {
     public class TextBlock : ComponentBase<TextBlock, HTMLElement>, ITextFormating, IHasBackgroundColor, IHasForegroundColor
     {
-        public TextBlock(string text = string.Empty)
+        public TextBlock(string text = string.Empty, bool treatAsHTML = false)
         {
-            text         = text ?? string.Empty;
-            InnerElement = Div(_("tss-textBlock tss-fontsize-small tss-fontweight-regular", text: text));
+            text = text ?? string.Empty;
+            InnerElement = Div(_("tss-textBlock tss-fontsize-small tss-fontweight-regular"));
+            
+            if (treatAsHTML)
+            {
+                InnerElement.innerHTML = text;
+            }
+            else
+            {
+                InnerElement.textContent = text;
+            }
+
             AttachClick();
         }
 

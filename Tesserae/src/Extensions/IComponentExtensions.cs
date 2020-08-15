@@ -267,7 +267,7 @@ namespace Tesserae.Components
         {
             var el = component.Render();
             el.classList.add("tss-fade");
-            el.classList.remove("tss-fade-light", "tss-show");
+            el.classList.remove("tss-fade-light", "tss-show", "tss-fade-light-clickable");
             return component;
         }
 
@@ -275,7 +275,15 @@ namespace Tesserae.Components
         {
             var el = component.Render();
             el.classList.add("tss-fade-light");
-            el.classList.remove("tss-fade", "tss-show");
+            el.classList.remove("tss-fade", "tss-show", "tss-fade-light-clickable");
+            return component;
+        }
+
+        public static T LightFadeClickable<T>(this T component) where T : IComponent
+        {
+            var el = component.Render();
+            el.classList.add("tss-fade-light-clickable");
+            el.classList.remove("tss-fade", "tss-show", "tss-fade-light");
             return component;
         }
 
@@ -283,7 +291,7 @@ namespace Tesserae.Components
         {
             var el = component.Render();
             el.classList.add("tss-fade", "tss-show");
-            el.classList.remove("tss-fade-light", "tss-collapse");
+            el.classList.remove("tss-fade-light", "tss-collapse", "tss-fade-light-clickable");
             return component;
         }
 

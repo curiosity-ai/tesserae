@@ -398,26 +398,49 @@ namespace Tesserae.Components
             return this;
         }
 
-        public Button SetIcon(string icon, string color = "")
+        public Button SetIcon(string icon, string color = "", bool afterText = false)
         {
             Icon = icon;
             if (_iconSpan is object)
             {
                 _iconSpan.style.color = color;
+                if (afterText)
+                {
+                    InnerElement.removeChild(_iconSpan);
+                    InnerElement.appendChild(_iconSpan);
+                }
+                else
+                {
+                    InnerElement.insertBefore(_iconSpan, _textSpan);
+                }
             }
             return this;
         }
 
-        public Button SetIcon(LineAwesome icon, TextSize size = TextSize.Medium, LineAwesomeWeight weight = LineAwesomeWeight.Light , string color = "")
+        public Button SetIcon(LineAwesome icon, string color = "", TextSize size = TextSize.Medium, LineAwesomeWeight weight = LineAwesomeWeight.Light, bool afterText = false)
         {
             Icon = $"{weight} {icon} tss-fontsize-{size.ToString().ToLower()}";
             if (_iconSpan is object)
             {
                 _iconSpan.style.color = color;
+                if (afterText)
+                {
+                    InnerElement.removeChild(_iconSpan);
+                    InnerElement.appendChild(_iconSpan);
+                }
+                else
+                {
+                    InnerElement.insertBefore(_iconSpan, _textSpan);
+                }
             }
             return this;
         }
 
+        public Button IconOnHover()
+        {
+            InnerElement.classList.add("tss-btn-icononhover");
+            return this;
+        }
         public Button ReplaceContent(IComponent content)
         {
             ClearChildren(InnerElement);

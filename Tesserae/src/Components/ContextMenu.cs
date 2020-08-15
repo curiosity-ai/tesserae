@@ -48,9 +48,9 @@ namespace Tesserae.Components
             throw new NotImplementedException();
         }
 
-        public void ShowFor(IComponent component, int distance = 1)
+        public void ShowFor(IComponent component, int distanceX = 1, int distanceY = 1)
         {
-            ShowFor(component.Render(), distance);
+            ShowFor(component.Render(), distanceX, distanceY);
         }
 
         public void ShowAt(int x, int y, int minWidth)
@@ -126,7 +126,7 @@ namespace Tesserae.Components
             }, 100);
         }
 
-        public void ShowFor(HTMLElement element, int distance = 1)
+        public void ShowFor(HTMLElement element, int distanceX = 1, int distanceY = 1)
         {
             if (_contentHtml == null)
             {
@@ -148,25 +148,25 @@ namespace Tesserae.Components
             var popupRect = (ClientRect)_popup.getBoundingClientRect();
 
             _popup.style.left     = parentRect.left + "px";
-            _popup.style.top      = parentRect.bottom - distance + "px";
+            _popup.style.top      = parentRect.bottom - distanceY + "px";
             _popup.style.minWidth = parentRect.width + "px";
 
 
             //TODO: CHECK THIS LOGIC
 
-            if (window.innerHeight - parentRect.bottom - distance < popupRect.height)
+            if (window.innerHeight - parentRect.bottom - distanceY < popupRect.height)
             {
                 var top = parentRect.top - popupRect.height;
                 if (top < 0)
                 {
-                    if (parentRect.top > window.innerHeight - parentRect.bottom - distance)
+                    if (parentRect.top > window.innerHeight - parentRect.bottom - distanceY)
                     {
                         _popup.style.top = "1px";
-                        _popup.style.height = parentRect.top - distance + "px";
+                        _popup.style.height = parentRect.top - distanceY + "px";
                     }
                     else
                     {
-                        _popup.style.height = window.innerHeight - parentRect.bottom - distance + "px";
+                        _popup.style.height = window.innerHeight - parentRect.bottom - distanceY + "px";
                     }
                 }
                 else
@@ -175,19 +175,19 @@ namespace Tesserae.Components
                 }
             }
 
-            if (window.innerWidth - parentRect.right - distance < popupRect.width)
+            if (window.innerWidth - parentRect.right - distanceX < popupRect.width)
             {
                 var left = parentRect.left - popupRect.width;
                 if (left < 0)
                 {
-                    if (parentRect.left > window.innerWidth - parentRect.right - distance)
+                    if (parentRect.left > window.innerWidth - parentRect.right - distanceX)
                     {
                         _popup.style.left = "1px";
-                        _popup.style.width = parentRect.left - distance + "px";
+                        _popup.style.width = parentRect.left - distanceX + "px";
                     }
                     else
                     {
-                        _popup.style.width = window.innerWidth - parentRect.right - distance + "px";
+                        _popup.style.width = window.innerWidth - parentRect.right - distanceX + "px";
                     }
                 }
                 else
