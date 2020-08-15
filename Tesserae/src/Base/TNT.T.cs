@@ -22,7 +22,14 @@ namespace TNT
             {
                 format = translatedFormat;
             }
-            return string.Format(format, formattableString.GetArguments());
+            try
+            {
+                return string.Format(format, formattableString.GetArguments());
+            }
+            catch
+            {
+                return string.Format(formattableString.Format, formattableString.GetArguments());
+            }
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
