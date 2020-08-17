@@ -36,6 +36,12 @@ a {
     box-shadow: var(--tss-box-shadow);
 }
 
+    .tss-btn.tss-text-ellipsis,
+    .tss-btn.tss-text-nowrap,
+    .tss-btn.tss-text-breakspaces {
+        display: inline-block;
+    }
+
     .tss-btn.tss-textalign-left {
         justify-content: flex-start;
     }
