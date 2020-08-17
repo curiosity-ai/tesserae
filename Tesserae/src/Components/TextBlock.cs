@@ -262,6 +262,12 @@ namespace Tesserae.Components
             set => InnerElement.UpdateClassIf(value, "tss-text-ellipsis");
         }
 
+        public bool EnableBreakSpaces
+        {
+            get => !InnerElement.classList.contains("tss-text-breakspaces");
+            set => InnerElement.UpdateClassIf(value, "tss-text-breakspaces");
+        }
+
         public string Cursor
         {
             get => InnerElement.style.cursor;
@@ -302,7 +308,13 @@ namespace Tesserae.Components
 
         public static T Ellipsis<T>(this T textBlock) where T : TextBlock
         {
-            textBlock.EnableEllipsis= true;
+            textBlock.EnableEllipsis = true;
+            return textBlock;
+        }
+
+        public static T BreakSpaces<T>(this T textBlock) where T : TextBlock
+        {
+            textBlock.EnableBreakSpaces = true;
             return textBlock;
         }
 

@@ -13,3 +13,8 @@
 .tss-text-nowrap {
     white-space: nowrap;
 }
+
+.tss-text-breakspaces {
+    white-space: pre-line; /* fallback for Safari */
+    white-space: break-spaces;
+}
