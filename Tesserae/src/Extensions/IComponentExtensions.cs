@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using Tesserae.HTML;
 using static H5.Core.dom;
 
@@ -7,20 +6,28 @@ namespace Tesserae.Components
 {
     public static class IComponentExtensions
     {
-        public static T WhenMounted<T>(T component, Action callback) where T : IComponent
+        public static T WhenMounted<T>(this T component, Action callback) where T : IComponent
         {
-            DomObserver.WhenMounted(component.Render(), callback);
+            if (component.Render().IsMounted())
+            {
+                // 2020-08-13 DWR: In case this is called after the component has already been mounted, call this immediately instead of adding a callback to the DomObserver.WhenMounted queue (that will likely never be cleared because the DomObserver will
+                // never see the component as having been mounted if it's ALREADY mounted)
+                callback();
+            }
+            else
+            {
+                DomObserver.WhenMounted(component.Render(), callback);
+            }
             return component;
         }
 
-        public static T WhenRemoved<T>(T component, Action callback) where T : IComponent
+        public static T WhenRemoved<T>(this T component, Action callback) where T : IComponent
         {
             DomObserver.WhenRemoved(component.Render(), callback);
             return component;
         }
 
-
-        // The WhenMountedOrRemoved method shouldn't be used, as it would leak the component memory on the DomObserver forever.
+        // The WhenMountedOrRemoved method shouldn't be used, as it would leak the component memory on the DomObserver forever (because whenever it's mounted it's registered with WhenRemoved and whenever it's removed it's re-registered with WhenMounted)
         // We left the code here as a reminder.
         //     public static T WhenMountedOrRemoved<T>(T component, Action onMounted, Action onRemoved) where T : IComponent
         //     {
@@ -39,7 +46,6 @@ namespace Tesserae.Components
         //         DomObserver.WhenMounted(component.Render(), Mounted);
         //         return component;
         //     }
-
 
         public static T AlignAuto<T>(this T component) where T : IComponent
         {
