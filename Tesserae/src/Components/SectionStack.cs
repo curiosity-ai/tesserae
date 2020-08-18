@@ -15,9 +15,9 @@ namespace Tesserae.Components
             InnerElement.classList.add("tss-sectionstack");
         }
 
-        public void AddAnimated(IComponent component)
+        public void AddAnimated(IComponent component, bool grow = false)
         {
-            InnerElement.appendChild(GetAnimatedItem(component, false));
+            InnerElement.appendChild(GetAnimatedItem(component, false, grow));
         }
 
         public void AddAnimatedTitle(IComponent component)
@@ -25,7 +25,7 @@ namespace Tesserae.Components
             InnerElement.appendChild(GetAnimatedItem(component, true));
         }
 
-        private HTMLDivElement GetAnimatedItem(IComponent component, bool isTitle)
+        private HTMLDivElement GetAnimatedItem(IComponent component, bool isTitle, bool grow = false)
         {
             if (!((component as dynamic).StackItem is HTMLDivElement item))
             {
@@ -39,6 +39,11 @@ namespace Tesserae.Components
                 }), component.Render());
                 (component as dynamic).StackItem = item;
             }
+            if (grow)
+            {
+                item.style.flexGrow = "1";
+            }
+
             Count++;
             item.style.transitionDelay = $"{0.05f * Count:n2}s";
 
@@ -61,9 +66,9 @@ namespace Tesserae.Components
 
     public static class SectionStackExtensions
     {
-        public static SectionStack Section(this SectionStack stack, IComponent component)
+        public static SectionStack Section(this SectionStack stack, IComponent component, bool grow = false)
         {
-            stack.AddAnimated(component);
+            stack.AddAnimated(component, grow);
             return stack;
         }
 
