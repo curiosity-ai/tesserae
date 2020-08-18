@@ -42,6 +42,7 @@ namespace Tesserae.Components
             if (grow)
             {
                 item.style.flexGrow = "1";
+                item.style.height = "10px";
             }
 
             Count++;
