@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using Tesserae.HTML;
+using static H5.Core.dom;
 
 namespace Tesserae.Components
 {
@@ -263,11 +264,19 @@ namespace Tesserae.Components
             return component;
         }
 
-        public static T Fade<T>(this T component) where T : IComponent
+        public static T Fade<T>(this T component, Action andThen = null) where T : IComponent
         {
             var el = component.Render();
             el.classList.add("tss-fade");
             el.classList.remove("tss-fade-light", "tss-show", "tss-fade-light-clickable");
+            if (andThen is object)
+            {
+                // The opacity transition time on "tss-fade" is 0.15s, so this is the amount of time after which we want to make the optional "andThen" callback
+                setTimeout(
+                    _ => andThen(),
+                    150
+                );
+            }
             return component;
         }
 
