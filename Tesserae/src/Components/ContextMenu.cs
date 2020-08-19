@@ -346,7 +346,11 @@ namespace Tesserae.Components
                     Clicked += e;
                     if(_innerComponent is object)
                     {
-                        _innerComponent.onclick += (e2) => e.Invoke(this, e2);
+                        _innerComponent.onclick += (e2) =>
+                        {
+                            StopEvent(e2);
+                            e.Invoke(this, e2);
+                        };
                     }
                 }
                 return this;
