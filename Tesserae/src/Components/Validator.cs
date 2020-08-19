@@ -37,7 +37,12 @@ namespace Tesserae.Components
             });
         }
 
-        public void RegisterFromCallback(Func<bool> isInvalid, Action onRevalidation) => _registeredComponents.Add(new DummyComponentToUseForCustomValidationLogicNotTiedToOneComponent(isInvalid), onRevalidation);
+        public void RegisterFromCallback(Func<bool> isInvalid, Action onRevalidation)
+        {
+            var dummy = new DummyComponentToUseForCustomValidationLogicNotTiedToOneComponent(isInvalid);
+            _registeredComponentsThatUserHasInteractedWith.Add(dummy); //callbacks must always be checked
+            _registeredComponents.Add(dummy, onRevalidation);
+        }
 
         public Validator OnValidation(OnValidationHandler onValidation)
         {
