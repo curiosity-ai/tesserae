@@ -272,6 +272,9 @@ namespace Tesserae.Components
         }
 
 
+        public static T FadeThenCollapse<T>(this T component) where T : IComponent => Fade(component,async () => { await Task.Delay(1000); Collapse(component); } );
+
+
         public static T Fade<T>(this T component, Func<Task> andThen = null) where T : IComponent => Fade(component, andThen is object ? (Action)(() => andThen.Invoke().FireAndForget()) : null);
 
         public static T Fade<T>(this T component, Action andThen = null) where T : IComponent
