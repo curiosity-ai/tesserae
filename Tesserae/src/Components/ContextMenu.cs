@@ -348,7 +348,10 @@ namespace Tesserae.Components
                     {
                         _innerComponent.onclick += (e2) =>
                         {
-                            StopEvent(e2);
+                            if(_innerComponent.tagName != "A")
+                            {
+                                StopEvent(e2); //Stop double calling the click handler for anything but links
+                            }
                             e.Invoke(this, e2);
                         };
                     }
