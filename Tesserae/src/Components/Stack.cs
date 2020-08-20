@@ -6,7 +6,7 @@ namespace Tesserae.Components
     /// <summary>
     /// A Stack is a container-type component that abstracts the implementation of a flexbox in order to define the layout of its children components.
     /// </summary>
-    public class Stack : IContainer<Stack, IComponent>, IHasBackgroundColor, IHasMarginPadding, ISpecialCaseStyling
+    public class Stack : IContainer<Stack, IComponent>, IHasBackgroundColor, IHasMarginPadding, ISpecialCaseStyling, IHaveTextWrappingOptions
     {
         public Orientation StackOrientation
         {
