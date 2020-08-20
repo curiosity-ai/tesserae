@@ -7,6 +7,7 @@ namespace Tesserae
         private readonly IObservable<T1> _first;
         private readonly IObservable<T2> _second;
         private double _refreshTimeout;
+        private int _delayInMs = 16;
 
         public (T1 first, T2 second) Value => (_first.Value, _second.Value);
 
@@ -36,7 +37,7 @@ namespace Tesserae
             window.clearTimeout(_refreshTimeout);
             _refreshTimeout = window.setTimeout(
                 _ => ValueChanged?.Invoke(Value),
-                1
+                _delayInMs
             );
         }
     }
