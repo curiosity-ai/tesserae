@@ -21,7 +21,12 @@ namespace Tesserae.Components
             LeftComponent.Height     = "100%";
             SplitterComponent.Height = "100%";
             RightComponent.Height    = "100%";
-            SplitInMiddle();
+            LeftComponent.Width   = "10px";
+            RightComponent.Height = "10px";
+            
+            LeftComponent.FlexGrow = "1";
+            RightComponent.FlexGrow = "1";
+
             InnerElement = Div(_("tss-splitview"), LeftComponent.Render(), SplitterComponent.Render(), RightComponent.Render());
         }
 
@@ -55,24 +60,44 @@ namespace Tesserae.Components
 
         public SplitView SplitInMiddle()
         {
-            LeftComponent.Width  = $"calc(50% - {SplitterComponent.Width})";
-            RightComponent.Width = "50%";
+            RightComponent.Width = "";
+            RightComponent.MaxWidth = "";
+            RightComponent.FlexGrow = "1";
+            LeftComponent.Width = "";
+            LeftComponent.MaxWidth = "";
+            LeftComponent.FlexGrow = "1";
             return this;
         }
 
-        public SplitView LeftIsSmaller(UnitSize leftSize)
+        public SplitView LeftIsSmaller(UnitSize leftSize, UnitSize maxLeftSize = null)
         {
-            LeftComponent.Width  = $"calc({leftSize} - {SplitterComponent.Width})";
-            RightComponent.Width = $"calc(100% - {leftSize})";
+            LeftComponent.Width    = leftSize.ToString();
+            LeftComponent.FlexGrow = "";
 
+            if (maxLeftSize is object)
+            {
+                LeftComponent.MaxWidth = maxLeftSize.ToString();
+            }
+
+            RightComponent.Width = "";
+            RightComponent.MaxWidth = "";
+            RightComponent.FlexGrow = "1";
             return this;
         }
 
-        public SplitView RightIsSmaller(UnitSize rightSize)
+        public SplitView RightIsSmaller(UnitSize rightSize, UnitSize maxRightSize = null)
         {
-            RightComponent.Width = $"calc({rightSize} - {SplitterComponent.Width})";
-            LeftComponent.Width = $"calc(100% - {rightSize})";
+            RightComponent.Width    = rightSize.ToString();
+            RightComponent.FlexGrow = "";
 
+            if (maxRightSize is object)
+            {
+                RightComponent.MaxWidth = maxRightSize.ToString();
+            }
+
+            LeftComponent.Width = "";
+            LeftComponent.MaxWidth = "";
+            LeftComponent.FlexGrow = "1";
             return this;
         }
 
