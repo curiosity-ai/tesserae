@@ -30,6 +30,12 @@ namespace Tesserae.Components
             // Record each component that's in the form but ALSO use its Attach method to record each component that the User has interacted with - we want to only show validation messages for components that the User has edited and put into a
             // bad state OR show them for ALL components if the User has tried to submit a form (it's not nice to present them with a form littered with validation messages before they've had a chance to enter anything)
             _registeredComponents.Add(component, onRevalidation);
+
+            if (!component.IsInvalid)
+            {
+                _registeredComponentsThatUserHasInteractedWith.Add(component); //If it has some initial value and for that it is already valid, then set it as interacted
+            }
+
             component.Attach(_ =>
             {
                 _registeredComponentsThatUserHasInteractedWith.Add(component);
@@ -37,7 +43,17 @@ namespace Tesserae.Components
             });
         }
 
-        public void RegisterFromCallback(Func<bool> isInvalid, Action onRevalidation) => _registeredComponents.Add(new DummyComponentToUseForCustomValidationLogicNotTiedToOneComponent(isInvalid), onRevalidation);
+        public void RegisterFromCallback(Func<bool> isInvalid, Action onRevalidation)
+        {
+            var dummy = new DummyComponentToUseForCustomValidationLogicNotTiedToOneComponent(isInvalid);
+            
+            if(!isInvalid())
+            {
+                _registeredComponentsThatUserHasInteractedWith.Add(dummy); //callbacks must always be checked
+            }
+
+            _registeredComponents.Add(dummy, onRevalidation);
+        }
 
         public Validator OnValidation(OnValidationHandler onValidation)
         {

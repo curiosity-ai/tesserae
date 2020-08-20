@@ -123,7 +123,7 @@ namespace Tesserae.Components
                 else
                 {
                     InnerElement.classList.add("tss-btn-default");
-                    InnerElement.classList.remove("tss-btn-default", "tss-btn-success", "tss-btn-danger", "tss-btn-primary");
+                    InnerElement.classList.remove("tss-btn-success", "tss-btn-danger", "tss-btn-primary");
                 }
             }
         }
@@ -144,7 +144,7 @@ namespace Tesserae.Components
                 else
                 {
                     InnerElement.classList.add("tss-btn-default");
-                    InnerElement.classList.remove("tss-btn-default", "tss-btn-success", "tss-btn-danger", "tss-btn-primary");
+                    InnerElement.classList.remove("tss-btn-success", "tss-btn-danger", "tss-btn-primary");
                 }
             }
         }
@@ -165,7 +165,7 @@ namespace Tesserae.Components
                 else
                 {
                     InnerElement.classList.add("tss-btn-default");
-                    InnerElement.classList.remove("tss-btn-default", "tss-btn-success", "tss-btn-danger", "tss-btn-primary");
+                    InnerElement.classList.remove("tss-btn-success", "tss-btn-danger", "tss-btn-primary");
                 }
             }
         }

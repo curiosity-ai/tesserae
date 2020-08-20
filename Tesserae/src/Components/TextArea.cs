@@ -21,6 +21,7 @@ namespace Tesserae.Components
 
             AttachChange();
             AttachInput();
+            AttachKeys();
             AttachFocus();
             AttachBlur();
 

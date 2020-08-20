@@ -82,52 +82,66 @@ namespace Tesserae.Components
 
         public void Ok(Action onOk, Func<Button, Button> btnOk = null)
         {
+            bool acted = false;
             _modal
                 .LightDismiss()
                 .SetFooter(Stack().HorizontalReverse().Children(
-                    CreateButton("Ok", onOk, "Esc, Escape, Enter", modifier: btnOk, isPrimary: true)
+                    CreateButton("Ok", onOk, "Esc, Escape, Enter", modifier: btnOk, isPrimary: true, onActed: () => acted = true)
                 ))
+                .OnHide((_) => { if (!acted) { onOk(); } })
                 .Show();
         }
 
         public void OkCancel(Action onOk = null, Action onCancel = null, Func<Button, Button> btnOk = null, Func<Button, Button> btnCancel = null)
         {
+            bool acted = false;
+
             _modal
                 .SetFooter(Stack().HorizontalReverse().Children(
-                    CreateButton("Cancel", onCancel, "Esc, Escape", modifier: btnCancel, isPrimary: false),
-                    CreateButton("Ok", onOk, "Enter", modifier: btnOk, isPrimary: true)
+                    CreateButton("Cancel", onCancel, "Esc, Escape", modifier: btnCancel, isPrimary: false, onActed: () => acted = true),
+                    CreateButton("Ok", onOk, "Enter", modifier: btnOk, isPrimary: true, onActed: () => acted = true)
                 ))
+                .OnHide((_) => { if (!acted) { onCancel(); } })
                 .Show();
         }
 
         public void YesNo(Action onYes = null, Action onNo = null, Func<Button, Button> btnYes = null, Func<Button, Button> btnNo = null)
         {
+            bool acted = false;
+
             _modal
                 .SetFooter(Stack().HorizontalReverse().Children(
-                    CreateButton("No", onNo, "Esc, Escape", modifier: btnNo, isPrimary: false),
-                    CreateButton("Yes", onYes, "Enter", modifier: btnYes, isPrimary: true)
+                    CreateButton("No", onNo, "Esc, Escape", modifier: btnNo, isPrimary: false, onActed: () => acted = true),
+                    CreateButton("Yes", onYes, "Enter", modifier: btnYes, isPrimary: true, onActed: () => acted = true)
                 ))
+                .OnHide((_) => { if (!acted) { onNo(); } })
                 .Show();
         }
 
         public void YesNoCancel(Action onYes = null, Action onNo = null, Action onCancel = null, Func<Button, Button> btnYes = null, Func<Button, Button> btnNo = null, Func<Button, Button> btnCancel = null)
         {
+            bool acted = false;
+
             _modal
                 .SetFooter(Stack().HorizontalReverse().Children(
-                    CreateButton("Cancel", onCancel, "Esc, Escape", modifier: btnCancel, isPrimary: false),
-                    CreateButton("No", onNo, bindToKeys: null, modifier: btnNo, isPrimary: false),
-                    CreateButton("Yes", onYes, "Enter", modifier: btnYes, isPrimary: true)
+                    CreateButton("Cancel", onCancel, "Esc, Escape", modifier: btnCancel, isPrimary: false, onActed: () => acted = true),
+                    CreateButton("No", onNo, bindToKeys: null, modifier: btnNo, isPrimary: false, onActed: () => acted = true),
+                    CreateButton("Yes", onYes, "Enter", modifier: btnYes, isPrimary: true, onActed: () => acted = true)
                 ))
+                .OnHide((_) => { if (!acted) { onCancel(); } })
                 .Show();
         }
 
         public void RetryCancel(Action onRetry = null, Action onCancel = null, Func<Button, Button> btnRetry = null, Func<Button, Button> btnCancel = null)
         {
+            bool acted = false;
+
             _modal
                 .SetFooter(Stack().HorizontalReverse().Children(
-                    CreateButton("Cancel", onCancel, "Esc, Escape", modifier: btnCancel, isPrimary: false),
-                    CreateButton("Retry", onRetry, "Enter", modifier: btnRetry, isPrimary: true)
+                    CreateButton("Cancel", onCancel, "Esc, Escape", modifier: btnCancel, isPrimary: false, onActed: () => acted = true),
+                    CreateButton("Retry", onRetry, "Enter", modifier: btnRetry, isPrimary: true, onActed: () => acted = true)
                 ))
+                .OnHide((_) => { if (!acted) { onCancel(); } })
                 .Show();
         }
 
@@ -185,12 +199,13 @@ namespace Tesserae.Components
             Retry
         }
 
-        private Button CreateButton(string text, Action onClick, string bindToKeys, Func<Button, Button> modifier, bool isPrimary)
+        private Button CreateButton(string text, Action onClick, string bindToKeys, Func<Button, Button> modifier, bool isPrimary, Action onActed)
         {
             var button = Button(text)
                 .AlignEnd()
                 .OnClick((_, __) =>
                 {
+                    onActed();
                     _modal.Hide();
                     onClick?.Invoke();
                 });
@@ -206,6 +221,7 @@ namespace Tesserae.Components
                 Hotkeys.Bind(bindToKeys, new Hotkeys.Option() { scope = _scope }, (e, _) =>
                 {
                     StopEvent(e);
+                    onActed();
                     _modal.Hide();
                     onClick?.Invoke();
                 });

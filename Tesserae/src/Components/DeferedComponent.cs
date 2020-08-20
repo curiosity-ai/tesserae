@@ -14,7 +14,7 @@ namespace Tesserae.Components
         private TextBlock _defaultLoadingMessageIfAny;
         private bool _needsRefresh, _waitForComponentToBeMountedBeforeFullyInitiatingRender, _renderHasBeenCalled;
         private double _refreshTimeout;
-        private int _delayInMs = 1;
+        private int _delayInMs = 16;
         private DeferedComponent(Func<Task<IComponent>> asyncGenerator, IComponent loadMessage, TextBlock defaultLoadingMessageIfAny)
         {
             if (loadMessage is null)
