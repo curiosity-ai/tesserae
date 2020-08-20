@@ -22,7 +22,7 @@ namespace Tesserae.Components
             SplitterComponent.Height = "100%";
             RightComponent.Height    = "100%";
             LeftComponent.Width   = "10px";
-            RightComponent.Height = "10px";
+            RightComponent.Width = "10px";
             
             LeftComponent.FlexGrow = "1";
             RightComponent.FlexGrow = "1";
