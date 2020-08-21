@@ -5,6 +5,10 @@
     flex-direction:row;
 }
 
+    .tss-splitview > .div {
+        flex-shrink:0;
+    }
+
 .tss-splitter {
     background: var(--tss-overlay-light);
 }

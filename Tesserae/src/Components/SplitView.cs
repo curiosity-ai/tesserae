@@ -21,6 +21,7 @@ namespace Tesserae.Components
             LeftComponent.Height     = "100%";
             SplitterComponent.Height = "100%";
             RightComponent.Height    = "100%";
+
             LeftComponent.Width   = "10px";
             RightComponent.Width = "10px";
             
@@ -60,10 +61,10 @@ namespace Tesserae.Components
 
         public SplitView SplitInMiddle()
         {
-            RightComponent.Width = "";
+            RightComponent.Width = "50%";
             RightComponent.MaxWidth = "";
             RightComponent.FlexGrow = "1";
-            LeftComponent.Width = "";
+            LeftComponent.Width = "50%";
             LeftComponent.MaxWidth = "";
             LeftComponent.FlexGrow = "1";
             return this;
