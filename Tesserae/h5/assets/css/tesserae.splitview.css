@@ -5,7 +5,7 @@
     flex-direction:row;
 }
 
-    .tss-splitview > .div {
+    .tss-splitview > div {
         flex-shrink:0;
     }
 
