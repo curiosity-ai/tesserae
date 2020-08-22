@@ -63,40 +63,33 @@ namespace Tesserae.Components
         {
             RightComponent.Width = "50%";
             RightComponent.MaxWidth = "";
-            RightComponent.FlexGrow = "1";
+            RightComponent.FlexGrow = "";
             LeftComponent.Width = "50%";
             LeftComponent.MaxWidth = "";
-            LeftComponent.FlexGrow = "1";
+            LeftComponent.FlexGrow = "";
             return this;
         }
 
         public SplitView LeftIsSmaller(UnitSize leftSize, UnitSize maxLeftSize = null)
         {
             LeftComponent.Width    = leftSize.ToString();
+            LeftComponent.MaxWidth = maxLeftSize?.ToString() ?? "";
             LeftComponent.FlexGrow = "";
 
-            if (maxLeftSize is object)
-            {
-                LeftComponent.MaxWidth = maxLeftSize.ToString();
-            }
-
-            RightComponent.Width = "";
+            RightComponent.Width = "10px";
             RightComponent.MaxWidth = "";
             RightComponent.FlexGrow = "1";
+
             return this;
         }
 
         public SplitView RightIsSmaller(UnitSize rightSize, UnitSize maxRightSize = null)
         {
-            RightComponent.Width    = rightSize.ToString();
+            RightComponent.Width = rightSize.ToString();
+            RightComponent.MaxWidth = maxRightSize?.ToString() ?? "";
             RightComponent.FlexGrow = "";
 
-            if (maxRightSize is object)
-            {
-                RightComponent.MaxWidth = maxRightSize.ToString();
-            }
-
-            LeftComponent.Width = "";
+            LeftComponent.Width = "10px";
             LeftComponent.MaxWidth = "";
             LeftComponent.FlexGrow = "1";
             return this;
