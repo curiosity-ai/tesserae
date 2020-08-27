@@ -267,7 +267,7 @@ namespace Tesserae.Components
 
         public static T Collapse<T>(this T component) where T : IComponent
         {
-            component.Render().classList.add("tss-collapse");
+            Stack.GetCorrectItemToApplyStyle(component).item.classList.add("tss-collapse");
             return component;
         }
 
