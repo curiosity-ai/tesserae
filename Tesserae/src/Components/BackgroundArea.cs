@@ -19,7 +19,7 @@ namespace Tesserae.Components
             _raw.Content(content);
             return this;
         }
-        public string Background { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+        public string Background { get => _container.style.backgroundColor; set => _container.style.backgroundColor = value; }
 
         public HTMLElement Render() => _container;
     }
