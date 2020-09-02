@@ -126,6 +126,12 @@ namespace Tesserae.Components
             return (TInput)this;
         }
 
+        public TInput NoSpellCheck()
+        {
+            InnerElement.spellcheck = false;
+            return (TInput)this;
+        }
+
         public TInput Required()
         {
             IsRequired = true;

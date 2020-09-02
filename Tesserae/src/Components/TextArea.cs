@@ -151,6 +151,12 @@ namespace Tesserae.Components
             return this;
         }
 
+        public TextArea NoSpellCheck()
+        {
+            InnerElement.spellcheck = false;
+            return this;
+        }
+
         public TextArea Required()
         {
             IsRequired = true;
