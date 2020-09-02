@@ -22,7 +22,7 @@
     --tss-secondary-foreground-color: rgb(101, 103, 107);
     --tss-disabled-background-color: rgb(243, 242, 241);
     --tss-disabled-foreground-color: rgb(161, 159, 157);
-    --tss-default-border-color: rgb(249, 250, 251);
+    --tss-default-border-color: rgb(224 230 235);
     --tss-dark-border-color: rgb(138, 136, 134);
     --tss-default-separator-color: rgb(243, 242, 241);
     --tss-invalid-border-color: rgb(164, 38, 44);

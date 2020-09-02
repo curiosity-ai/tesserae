@@ -271,7 +271,6 @@ namespace Tesserae.Components
             return component;
         }
 
-
         public static T FadeThenCollapse<T>(this T component) where T : IComponent => Fade(component,async () => { await Task.Delay(1000); Collapse(component); } );
 
 
@@ -280,7 +279,7 @@ namespace Tesserae.Components
 
         public static T Fade<T>(this T component, Action andThen = null) where T : IComponent
         {
-            var el = component.Render();
+            var (el, _) = Stack.GetCorrectItemToApplyStyle(component);
             el.classList.add("tss-fade");
             el.classList.remove("tss-fade-light", "tss-show", "tss-fade-light-clickable");
             if (andThen is object)
@@ -300,7 +299,7 @@ namespace Tesserae.Components
 
         public static T LightFade<T>(this T component, Action andThen = null) where T : IComponent
         {
-            var el = component.Render();
+            var (el, _) = Stack.GetCorrectItemToApplyStyle(component);
             el.classList.add("tss-fade-light");
             el.classList.remove("tss-fade", "tss-show", "tss-fade-light-clickable");
             if (andThen is object)
@@ -316,7 +315,7 @@ namespace Tesserae.Components
 
         public static T LightFadeClickable<T>(this T component) where T : IComponent
         {
-            var el = component.Render();
+            var (el, _) = Stack.GetCorrectItemToApplyStyle(component);
             el.classList.add("tss-fade-light-clickable");
             el.classList.remove("tss-fade", "tss-show", "tss-fade-light");
             return component;
@@ -324,7 +323,7 @@ namespace Tesserae.Components
 
         public static T Show<T>(this T component) where T : IComponent
         {
-            var el = component.Render();
+            var (el, _) = Stack.GetCorrectItemToApplyStyle(component);
             el.classList.add("tss-fade", "tss-show");
             el.classList.remove("tss-fade-light", "tss-collapse", "tss-fade-light-clickable");
             return component;
