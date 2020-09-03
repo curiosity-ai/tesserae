@@ -295,6 +295,12 @@ namespace Tesserae.Components
             return this;
         }
 
+        public Stack OverflowHidden()
+        {
+            InnerElement.style.overflow = "hidden";
+            return this;
+        }
+
         internal static HTMLElement GetItem(IComponent component, bool forceAdd = false)
         {
             if (!((component as dynamic).StackItem is HTMLElement item))
