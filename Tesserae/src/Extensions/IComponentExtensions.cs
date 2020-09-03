@@ -282,6 +282,7 @@ namespace Tesserae.Components
             var (el, _) = Stack.GetCorrectItemToApplyStyle(component);
             el.classList.add("tss-fade");
             el.classList.remove("tss-fade-light", "tss-show", "tss-fade-light-clickable");
+            component.Render().classList.remove("tss-fade-light", "tss-show", "tss-fade-light-clickable"); //Need to remove from component as well, because it could have been set before it was added to a stack
             if (andThen is object)
             {
                 // The opacity transition time on "tss-fade" is 0.15s, so this is the amount of time after which we want to make the optional "andThen" callback
@@ -302,6 +303,7 @@ namespace Tesserae.Components
             var (el, _) = Stack.GetCorrectItemToApplyStyle(component);
             el.classList.add("tss-fade-light");
             el.classList.remove("tss-fade", "tss-show", "tss-fade-light-clickable");
+            component.Render().classList.remove("tss-fade", "tss-show", "tss-fade-light-clickable"); //Need to remove from component as well, because it could have been set before it was added to a stack
             if (andThen is object)
             {
                 // The opacity transition time on "tss-fade" is 0.15s, so this is the amount of time after which we want to make the optional "andThen" callback
@@ -318,6 +320,7 @@ namespace Tesserae.Components
             var (el, _) = Stack.GetCorrectItemToApplyStyle(component);
             el.classList.add("tss-fade-light-clickable");
             el.classList.remove("tss-fade", "tss-show", "tss-fade-light");
+            component.Render().classList.remove("tss-fade", "tss-show", "tss-fade-light"); //Need to remove from component as well, because it could have been set before it was added to a stack
             return component;
         }
 
@@ -326,6 +329,7 @@ namespace Tesserae.Components
             var (el, _) = Stack.GetCorrectItemToApplyStyle(component);
             el.classList.add("tss-fade", "tss-show");
             el.classList.remove("tss-fade-light", "tss-collapse", "tss-fade-light-clickable");
+            component.Render().classList.remove("tss-fade-light", "tss-collapse", "tss-fade-light-clickable"); //Need to remove from component as well, because it could have been set before it was added to a stack
             return component;
         }
 
