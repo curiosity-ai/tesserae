@@ -16,16 +16,26 @@ namespace Tesserae.Components
         private readonly HTMLElement _panelFooter;
         private readonly HTMLElement _panelCommand;
         private readonly HTMLElement _closeButton;
+        private readonly HTMLElement _panelTitle;
 
-        public Panel()
+        public Panel(string title = null) : this(TextBlock(title).SemiBold()) { }
+
+        public Panel(IComponent title)
         {
+            _panelTitle = Div(_("tss-panel-title"));
+
             _closeButton = Button(_("las la-times", el: el => el.onclick = (e) => Hide()));
-            _panelCommand = Div(_("tss-panel-command"), _closeButton);
+            _panelCommand = Div(_("tss-panel-command"), _panelTitle, _closeButton);
             _panelContent = Div(_("tss-panel-content"));
             _panelFooter = Div(_("tss-panel-footer"));
             _panel = Div(_("tss-panel tss-panelSize-small tss-panelSide-far"), _panelCommand, Div(_("tss-panel-inner"), _panelContent, _panelFooter));
             _panelOverlay = Div(_("tss-panel-overlay"));
             _contentHtml = Div(_("tss-panel-container"), _panelOverlay, _panel);
+
+            if(title is object)
+            {
+                _panelTitle.appendChild(title.Render());
+            }
         }
 
         public override IComponent Content

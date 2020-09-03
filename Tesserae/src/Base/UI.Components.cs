@@ -214,7 +214,8 @@ namespace Tesserae
 
         public static Nav.NavLink NavLink(IComponent content) => new Nav.NavLink(content);
 
-        public static Panel Panel() => new Panel();
+        public static Panel Panel(string title = null) => new Panel(title);
+        public static Panel Panel(IComponent title) => new Panel(title);
 
         public static Modal Modal(IComponent header = null) => new Modal(header);
 

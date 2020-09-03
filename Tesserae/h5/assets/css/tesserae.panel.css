@@ -34,24 +34,34 @@
     isolation: isolate;
 }
 
+
+
 .tss-panel-command {
     margin: 0;
     padding: 0;
     border: 0;
     height: 44px;
-    position: relative;
+    width: 100%;
+    display: inline-flex;
+    align-items:center;
+}
+
+.tss-panel-title {
+    flex-grow: 1;
+    overflow: hidden;
+    display: inline-flex;
+    flex-wrap: nowrap;
+    width: 10px;
+    padding-left: 16px;
 }
 
     .tss-panel-command button {
-        position: absolute;
-        right: 5px;
-        top: 0;
-        bottom: 0;
         background-color: transparent;
         color: var(--tss-secondary-foreground-color);
         border: medium none;
         cursor: pointer;
         width: 44px;
+        height: 44px;
         user-select: none;
         border-radius: 2px;
         padding: 0 4px;
@@ -64,11 +74,17 @@
         .tss-panel-command button:hover {
             background-color: var(--tss-default-background-hover-color);
             color: var(--tss-default-foreground-color);
+            outline: transparent none medium;
         }
 
         .tss-panel-command button:active {
             background-color: var(--tss-default-background-active-color);
             color: var(--tss-primary-background-active-color);
+            outline: transparent none medium;
+        }
+
+        .tss-panel-command button:focus {
+            outline: transparent none medium;
         }
 
 .tss-panel-inner {
