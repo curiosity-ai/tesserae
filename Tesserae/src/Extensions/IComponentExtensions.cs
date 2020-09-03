@@ -329,7 +329,7 @@ namespace Tesserae.Components
             var (el, _) = Stack.GetCorrectItemToApplyStyle(component);
             el.classList.add("tss-fade", "tss-show");
             el.classList.remove("tss-fade-light", "tss-collapse", "tss-fade-light-clickable");
-            component.Render().classList.remove("tss-fade-light", "tss-collapse", "tss-fade-light-clickable"); //Need to remove from component as well, because it could have been set before it was added to a stack
+            component.Render().classList.remove("tss-fade-light", "tss-collapse", "tss-fade-light-clickable", "tss-fade"); //Need to remove all from component as well, because it could have been set before it was added to a stack
             return component;
         }
 
