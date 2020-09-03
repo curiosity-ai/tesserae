@@ -5,6 +5,7 @@ using static H5.Core.dom;
 
 namespace Tesserae.Components
 {
+
     public static class IComponentExtensions
     {
         public static T WhenMounted<T>(this T component, Action callback) where T : IComponent
@@ -333,6 +334,13 @@ namespace Tesserae.Components
             return component;
         }
 
+        public static T Tooltip<T>(this T component, string text, TooltipPosition position = TooltipPosition.Top) where T : IComponent
+        {
+            var element = component.Render();
+            element.dataset["tooltip"] = text;
+            element.dataset["flow"] = position.ToString();
+            return component;
+        }
 
         //Shortcuts:
 
