@@ -118,6 +118,19 @@ namespace Tesserae.Components
             return component;
         }
 
+        public static T OverflowHidden<T>(this T component) where T : IComponent
+        {
+            var element = component.Render();
+
+            DomObserver.WhenMounted(element, () =>
+            {
+                var targetElement = Stack.GetItem(component);
+                targetElement.style.overflow = "hidden";
+            });
+
+            return component;
+        }
+
 
         public static T ScrollY<T>(this T component) where T : IComponent
         {
