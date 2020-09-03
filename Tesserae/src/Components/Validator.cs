@@ -43,6 +43,16 @@ namespace Tesserae.Components
             });
         }
 
+        public void ResetState()
+        {
+            _registeredComponentsThatUserHasInteractedWith.Clear();
+            foreach(var comp in _registeredComponents)
+            {
+                comp.Key.IsInvalid = false;
+            }
+        }
+
+
         public void RegisterFromCallback(Func<bool> isInvalid, Action onRevalidation)
         {
             var dummy = new DummyComponentToUseForCustomValidationLogicNotTiedToOneComponent(isInvalid);
