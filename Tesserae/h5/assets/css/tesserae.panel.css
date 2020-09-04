@@ -55,7 +55,7 @@
     padding-left: 16px;
 }
 
-    .tss-panel-command button {
+    .tss-panel-command-button {
         background-color: transparent;
         color: var(--tss-secondary-foreground-color);
         border: medium none;
@@ -71,19 +71,19 @@
         font-weight: lighter;
     }
 
-        .tss-panel-command button:hover {
+        .tss-panel-command-button:hover {
             background-color: var(--tss-default-background-hover-color);
             color: var(--tss-default-foreground-color);
             outline: transparent none medium;
         }
 
-        .tss-panel-command button:active {
+        .tss-panel-command-button:active {
             background-color: var(--tss-default-background-active-color);
             color: var(--tss-primary-background-active-color);
             outline: transparent none medium;
         }
 
-        .tss-panel-command button:focus {
+        .tss-panel-command-button:focus {
             outline: transparent none medium;
         }
 

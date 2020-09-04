@@ -24,7 +24,7 @@ namespace Tesserae.Components
         {
             _panelTitle = Div(_("tss-panel-title"));
 
-            _closeButton = Button(_("las la-times", el: el => el.onclick = (e) => Hide()));
+            _closeButton = Button(_("tss-panel-command-button las la-times", el: el => el.onclick = (e) => Hide()));
             _panelCommand = Div(_("tss-panel-command"), _panelTitle, _closeButton);
             _panelContent = Div(_("tss-panel-content"));
             _panelFooter = Div(_("tss-panel-footer"));
