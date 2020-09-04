@@ -334,20 +334,34 @@ namespace Tesserae.Components
             return component;
         }
 
-        public static T Tooltip<T>(this T component, string tooltip) where T : IComponent
+        public static T Tooltip<T>(this T component, string tooltip, TooltipAnimation animation = TooltipAnimation.Scale) where T : IComponent
         {
             var element = component.Render();
-            H5.Script.Write("tippy({0}, { content: {1} });", element, tooltip);
+            if(animation == TooltipAnimation.None)
+            {
+                H5.Script.Write("tippy({0}, { content: {1} });", element, tooltip);
+            }
+            else
+            {
+                H5.Script.Write("tippy({0}, { content: {1},  animation: {2} });", element, tooltip, animation.ToString());
+            }
             return component;
         }
 
-        public static T Tooltip<T>(this T component, IComponent tooltip, bool interactive = false) where T : IComponent
+        public static T Tooltip<T>(this T component, IComponent tooltip, bool interactive = false, TooltipAnimation animation = TooltipAnimation.Scale) where T : IComponent
         {
             var element = component.Render();
             var renderedTooltip = UI.DIV(tooltip.Render());
             renderedTooltip.style.display = "block";
             document.body.appendChild(renderedTooltip);
-            H5.Script.Write("tippy({0}, { content: {1}, interactive: {2} });", element, renderedTooltip, interactive);
+            if (animation == TooltipAnimation.None)
+            {
+                H5.Script.Write("tippy({0}, { content: {1}, interactive: {2} });", element, renderedTooltip, interactive);
+            }
+            else
+            {
+                H5.Script.Write("tippy({0}, { content: {1}, interactive: {2},  animation: {3} });", element, renderedTooltip, interactive, animation.ToString());
+            }
             return component;
         }
 
