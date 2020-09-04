@@ -336,6 +336,8 @@ namespace Tesserae.Components
 
         public static T Tooltip<T>(this T component, string tooltip, TooltipAnimation animation = TooltipAnimation.Scale, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 0, int delayHide = 0) where T : IComponent
         {
+            if (string.IsNullOrWhiteSpace(tooltip)) return;
+
             var element = component.Render();
             if(animation == TooltipAnimation.None)
             {
@@ -350,6 +352,8 @@ namespace Tesserae.Components
 
         public static T Tooltip<T>(this T component, IComponent tooltip, bool interactive = false, TooltipAnimation animation = TooltipAnimation.Scale, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 0, int delayHide = 0) where T : IComponent
         {
+            if (tooltip is null) return;
+
             var element = component.Render();
             var renderedTooltip = UI.DIV(tooltip.Render());
             renderedTooltip.style.display = "block";
