@@ -13,7 +13,7 @@ namespace Tesserae.Components
     }
 
     [Enum(Emit.Value)]
-    public enum TooltipPosition
+    public enum TooltipPlacement
     {
         [Name("top")] Top,
         [Name("top-start")] TopStart,
