@@ -334,21 +334,21 @@ namespace Tesserae.Components
             return component;
         }
 
-        public static T Tooltip<T>(this T component, string tooltip, TooltipAnimation animation = TooltipAnimation.Scale) where T : IComponent
+        public static T Tooltip<T>(this T component, string tooltip, TooltipAnimation animation = TooltipAnimation.Scale, TooltipPlacement placement = TooltipPlacement.Top) where T : IComponent
         {
             var element = component.Render();
             if(animation == TooltipAnimation.None)
             {
-                H5.Script.Write("tippy({0}, { content: {1} });", element, tooltip);
+                H5.Script.Write("tippy({0}, { content: {1}, placement: {2}  });", element, tooltip, placement.ToString());
             }
             else
             {
-                H5.Script.Write("tippy({0}, { content: {1},  animation: {2} });", element, tooltip, animation.ToString());
+                H5.Script.Write("tippy({0}, { content: {1}, placement: {2} ,  animation: {3} });", element, tooltip, placement.ToString(), animation.ToString());
             }
             return component;
         }
 
-        public static T Tooltip<T>(this T component, IComponent tooltip, bool interactive = false, TooltipAnimation animation = TooltipAnimation.Scale) where T : IComponent
+        public static T Tooltip<T>(this T component, IComponent tooltip, bool interactive = false, TooltipAnimation animation = TooltipAnimation.Scale, TooltipPlacement placement = TooltipPlacement.Top) where T : IComponent
         {
             var element = component.Render();
             var renderedTooltip = UI.DIV(tooltip.Render());
@@ -356,11 +356,11 @@ namespace Tesserae.Components
             document.body.appendChild(renderedTooltip);
             if (animation == TooltipAnimation.None)
             {
-                H5.Script.Write("tippy({0}, { content: {1}, interactive: {2} });", element, renderedTooltip, interactive);
+                H5.Script.Write("tippy({0}, { content: {1}, interactive: {2}, placement: {3} });", element, renderedTooltip, interactive, placement.ToString());
             }
             else
             {
-                H5.Script.Write("tippy({0}, { content: {1}, interactive: {2},  animation: {3} });", element, renderedTooltip, interactive, animation.ToString());
+                H5.Script.Write("tippy({0}, { content: {1}, interactive: {2}, placement: {3},  animation: {4} });", element, renderedTooltip, interactive, placement.ToString(), animation.ToString());
             }
             return component;
         }

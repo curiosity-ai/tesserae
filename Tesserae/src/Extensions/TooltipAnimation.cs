@@ -11,4 +11,24 @@ namespace Tesserae.Components
         [Name("scale-subtle")] Scale,
         [Name("perspective-subtle")] Perspective
     }
+
+    [Enum(Emit.Value)]
+    public enum TooltipPosition
+    {
+        [Name("top")] Top,
+        [Name("top-start")] TopStart,
+        [Name("top-end")] TopEnd,
+        [Name("right")] Right,
+        [Name("right-start")] RightStart,
+        [Name("right-end")] RightEnd,
+        [Name("bottom")] Bottom,
+        [Name("bottom-start")] BottomStart,
+        [Name("bottom-end")] BottomEnd,
+        [Name("left")] Left,
+        [Name("left-start")] LeftStart,
+        [Name("left-end")] LeftEnd,
+        [Name("auto")] Auto,
+        [Name("auto-start")] AutoStart,
+        [Name("auto-end")] AutoEnd,
+    }
 }
