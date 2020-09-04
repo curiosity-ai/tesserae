@@ -339,6 +339,12 @@ namespace Tesserae.Components
             var element = component.Render();
             element.dataset["tooltip"] = text;
             element.dataset["flow"] = position.ToString();
+
+            if(text.Length > 40)
+            {
+                element.dataset["tooltipsize"] = "large";
+            }
+
             return component;
         }
 
