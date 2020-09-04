@@ -348,7 +348,7 @@ namespace Tesserae.Components
                     {
                         _innerComponent.onclick += (e2) =>
                         {
-                            if(_innerComponent.tagName != "A")
+                            if(_innerComponent.tagName != "A" || string.IsNullOrWhiteSpace(_innerComponent.As<HTMLAnchorElement>().href))
                             {
                                 StopEvent(e2); //Stop double calling the click handler for anything but links
                             }

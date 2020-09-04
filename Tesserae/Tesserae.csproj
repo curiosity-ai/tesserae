@@ -1,8 +1,8 @@
-﻿<Project Sdk="h5.Target/0.0.8194">
+<Project Sdk="h5.Target/0.0.11500">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <DefineConstants>H5</DefineConstants>
-    <AssemblyName>Tesserae</AssemblyName>
+    <AssemblyName>tss</AssemblyName>
     <RootNamespace>Tesserae</RootNamespace>
     <LangVersion>7.2</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>

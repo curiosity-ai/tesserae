@@ -11,20 +11,20 @@
     // in Debug (this is the default behaviour for projects that don't have any external resources to build into the binary but when a "resources" section is present in a h5.json
     // file then that default behaviour is lost and must be opted back into - see suggestion 1 at the bottom of he opening comment on https://github.com/h5dotnet/Bridge/issues/3991).
     {
-      "name": "Tesserae.js",
-      "files": [ "$(OutDir)h5/Tesserae.js" ]
+      "name": "tss.js",
+      "files": [ "$(OutDir)h5/tss.js" ]
     },
     {
-      "name": "Tesserae.meta.js",
-      "files": [ "$(OutDir)h5/Tesserae.meta.js" ]
+      "name": "tss.meta.js",
+      "files": [ "$(OutDir)h5/tss.meta.js" ]
     },
     {
-      "name": "Tesserae.min.js",
-      "files": [ "$(OutDir)h5/Tesserae.min.js" ]
+      "name": "tss.min.js",
+      "files": [ "$(OutDir)h5/tss.min.js" ]
     },
     {
-      "name": "Tesserae.meta.min.js",
-      "files": [ "$(OutDir)h5/Tesserae.meta.min.js" ]
+      "name": "tss.meta.min.js",
+      "files": [ "$(OutDir)h5/tss.meta.min.js" ]
     },
 
     //Because Bridge will monkey about with JS file names depending upon build configuration (only ".min.js" for Release builds and NO ".min.js" for Debug builds), we need to be a bit
@@ -33,7 +33,7 @@
     //file. This is still a bit of a faff because the file lists appear twice and we need to be careful to keep them in sync. Maybe Bridge will change the behaviour one day regarding the
     //file name changes - if there is no "jquery.js" file then it shouldn't rename "jquery.min.js" when in Debug configuration! (See https://github.com/h5dotnet/Bridge/issues/3992).
     {
-      "name": "Tesserae.Dependencies.js",
+      "name": "tss-dep.js",
       "files": [
         "h5/assets/js/simplebar.min.js",
         "h5/assets/js/hotkeys.min.js"
@@ -41,7 +41,7 @@
       "output": "assets/js"
     },
     {
-      "name": "Tesserae.Dependencies.min.js",
+      "name": "tss-dep.min.js",
       "files": [
         "h5/assets/js/simplebar.min.js",
         "h5/assets/js/hotkeys.min.js"
@@ -60,52 +60,53 @@
     // There is no technical requirement for the CSS files to be combined but it makes it clearer that their content relates to the combined JS content (and it makes the Bridge-generated
     // index.html file cleaner)
     {
-      "name": "Tesserae.Dependencies.css",
+      "name": "tss.css",
       "files": [
         "h5/assets/css/line-awesome.css",
-        "h5/assets/css/tesserae.lineawesome-fixes.css",
+        "h5/assets/css/tss.lineawesome-fixes.css",
         "h5/assets/css/simplebar.css",
-        "h5/assets/css/tesserae.common.css",
-        "h5/assets/css/tesserae.body.css",
-        "h5/assets/css/tesserae.button.css",
-        "h5/assets/css/tesserae.animations.css",
-        "h5/assets/css/tesserae.label.css",
-        "h5/assets/css/tesserae.textblock.css",
-        "h5/assets/css/tesserae.textbox.css",
-        "h5/assets/css/tesserae.textarea.css",
-        "h5/assets/css/tesserae.card.css",
-        "h5/assets/css/tesserae.breadcrumb.css",
-        "h5/assets/css/tesserae.backgroundarea.css",
-        "h5/assets/css/tesserae.overflowset.css",
-        "h5/assets/css/tesserae.checkbox.css",
-        "h5/assets/css/tesserae.choice.css",
-        "h5/assets/css/tesserae.dropdown.css",
-        "h5/assets/css/tesserae.files.css",
-        "h5/assets/css/tesserae.contextmenu.css",
-        "h5/assets/css/tesserae.horizontalseparator.css",
-        "h5/assets/css/tesserae.editablelabel.css",
-        "h5/assets/css/tesserae.layer.css",
-        "h5/assets/css/tesserae.basiclist.css",
-        "h5/assets/css/tesserae.detailslist.css",
-        "h5/assets/css/tesserae.picker.css",
-        "h5/assets/css/tesserae.panel.css",
-        "h5/assets/css/tesserae.pivot.css",
-        "h5/assets/css/tesserae.progressindicator.css",
-        "h5/assets/css/tesserae.modal.css",
-        "h5/assets/css/tesserae.dialog.css",
-        "h5/assets/css/tesserae.nav.css",
-        "h5/assets/css/tesserae.navbar.css",
-        "h5/assets/css/tesserae.searchbox.css",
-        "h5/assets/css/tesserae.sectionstack.css",
-        "h5/assets/css/tesserae.slider.css",
-        "h5/assets/css/tesserae.spinner.css",
-        "h5/assets/css/tesserae.stack.css",
-        "h5/assets/css/tesserae.grid.css",
-        "h5/assets/css/tesserae.sidebar.css",
-        "h5/assets/css/tesserae.splitview.css",
-        "h5/assets/css/tesserae.toast.css",
-        "h5/assets/css/tesserae.toggle.css",
-        "h5/assets/css/tesserae.timeline.css"
+        "h5/assets/css/tss.common.css",
+        "h5/assets/css/tss.body.css",
+        "h5/assets/css/tss.button.css",
+        "h5/assets/css/tss.animations.css",
+        "h5/assets/css/tss.label.css",
+        "h5/assets/css/tss.textblock.css",
+        "h5/assets/css/tss.textbox.css",
+        "h5/assets/css/tss.textarea.css",
+        "h5/assets/css/tss.card.css",
+        "h5/assets/css/tss.breadcrumb.css",
+        "h5/assets/css/tss.backgroundarea.css",
+        "h5/assets/css/tss.overflowset.css",
+        "h5/assets/css/tss.checkbox.css",
+        "h5/assets/css/tss.choice.css",
+        "h5/assets/css/tss.dropdown.css",
+        "h5/assets/css/tss.files.css",
+        "h5/assets/css/tss.contextmenu.css",
+        "h5/assets/css/tss.horizontalseparator.css",
+        "h5/assets/css/tss.editablelabel.css",
+        "h5/assets/css/tss.layer.css",
+        "h5/assets/css/tss.basiclist.css",
+        "h5/assets/css/tss.detailslist.css",
+        "h5/assets/css/tss.picker.css",
+        "h5/assets/css/tss.panel.css",
+        "h5/assets/css/tss.pivot.css",
+        "h5/assets/css/tss.progressindicator.css",
+        "h5/assets/css/tss.modal.css",
+        "h5/assets/css/tss.dialog.css",
+        "h5/assets/css/tss.nav.css",
+        "h5/assets/css/tss.navbar.css",
+        "h5/assets/css/tss.searchbox.css",
+        "h5/assets/css/tss.sectionstack.css",
+        "h5/assets/css/tss.slider.css",
+        "h5/assets/css/tss.spinner.css",
+        "h5/assets/css/tss.stack.css",
+        "h5/assets/css/tss.grid.css",
+        "h5/assets/css/tss.sidebar.css",
+        "h5/assets/css/tss.splitview.css",
+        "h5/assets/css/tss.toast.css",
+        "h5/assets/css/tss.toggle.css",
+        "h5/assets/css/tss.timeline.css",
+        "h5/assets/css/tss.tooltip.css"
       ],
       "output": "assets/css"
     },
@@ -181,5 +182,8 @@
     "inlineComment": "Plain",
     "integer": "Managed",
     "lambda": "Plain"
+  },
+  "sourceMap": {
+    "enabled": false
   }
 }
