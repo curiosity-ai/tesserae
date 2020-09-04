@@ -51,9 +51,9 @@ namespace Tesserae.Tests.Samples
                         SampleTitle("Usage"),
                         TextBlock("Default Button").Medium(),
                         Stack().Horizontal().Children(
-                            Button().Var(out var btn1).SetText("Standard").OnClick((s, e) => alert("Clicked!")),
-                            Button().Var(out var btn2).SetText("Primary").Primary().OnClick((s, e) => alert("Clicked!")),
-                            Button().Var(out var btn3).SetText("Link").Link().OnClick((s, e) => alert("Clicked!"))
+                            Button().Var(out var btn1).SetText("Standard").Tooltip("This is a standard button").OnClick((s, e) => alert("Clicked!")),
+                            Button().Var(out var btn2).SetText("Primary").Tooltip("This is a primary button").Primary().OnClick((s, e) => alert("Clicked!")),
+                            Button().Var(out var btn3).SetText("Link").Tooltip(Button("This is a link button with a button tooltip").Primary().OnClick((_,__) => Toast().Success("You clicked here")), interactive:true).Link().OnClick((s, e) => alert("Clicked!"))
                         ),
                         TextBlock("Icon Button").Medium(),
                         Stack().Horizontal().Children(

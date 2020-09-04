@@ -334,17 +334,20 @@ namespace Tesserae.Components
             return component;
         }
 
-        public static T Tooltip<T>(this T component, string text, TooltipPosition position = TooltipPosition.Top) where T : IComponent
+        public static T Tooltip<T>(this T component, string tooltip) where T : IComponent
         {
             var element = component.Render();
-            element.dataset["tooltip"] = text;
-            element.dataset["flow"] = position.ToString();
+            H5.Script.Write("tippy({0}, { content: {1} });", element, tooltip);
+            return component;
+        }
 
-            if(text.Length > 40)
-            {
-                element.dataset["tooltipsize"] = "large";
-            }
-
+        public static T Tooltip<T>(this T component, IComponent tooltip, bool interactive = false) where T : IComponent
+        {
+            var element = component.Render();
+            var renderedTooltip = UI.DIV(tooltip.Render());
+            renderedTooltip.style.display = "block";
+            document.body.appendChild(renderedTooltip);
+            H5.Script.Write("tippy({0}, { content: {1}, interactive: {2} });", element, renderedTooltip, interactive);
             return component;
         }
 
