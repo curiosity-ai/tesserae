@@ -336,7 +336,7 @@ namespace Tesserae.Components
 
         public static T Tooltip<T>(this T component, string tooltip, TooltipAnimation animation = TooltipAnimation.ShiftAway, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 0, int delayHide = 0) where T : IComponent
         {
-            if (string.IsNullOrWhiteSpace(tooltip)) return;
+            if (string.IsNullOrWhiteSpace(tooltip)) return component; 
 
             var element = component.Render();
             if(animation == TooltipAnimation.None)
@@ -352,7 +352,7 @@ namespace Tesserae.Components
 
         public static T Tooltip<T>(this T component, IComponent tooltip, bool interactive = false, TooltipAnimation animation = TooltipAnimation.ShiftAway, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 0, int delayHide = 0) where T : IComponent
         {
-            if (tooltip is null) return;
+            if (tooltip is null) return component;
 
             var element = component.Render();
             var renderedTooltip = UI.DIV(tooltip.Render());
