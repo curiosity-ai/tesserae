@@ -336,17 +336,21 @@ namespace Tesserae.Components
 
         public static T Tooltip<T>(this T component, string tooltip, TooltipAnimation animation = TooltipAnimation.ShiftAway, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 0, int delayHide = 0) where T : IComponent
         {
-            if (string.IsNullOrWhiteSpace(tooltip)) return component; 
+            if (string.IsNullOrWhiteSpace(tooltip)) return component;
 
-            var element = component.Render();
-            if(animation == TooltipAnimation.None)
+            component.WhenMounted(() =>
             {
-                H5.Script.Write("tippy({0}, { content: {1}, placement: {2}, delay: [{3},{4}]  });", element, tooltip, placement.ToString(), delayShow, delayHide);
-            }
-            else
-            {
-                H5.Script.Write("tippy({0}, { content: {1}, placement: {2} ,  animation: {3}, delay: [{4},{5}] });", element, tooltip, placement.ToString(), animation.ToString(), delayShow, delayHide);
-            }
+                var (element, _) = Stack.GetCorrectItemToApplyStyle(component);
+                if (animation == TooltipAnimation.None)
+                {
+                    H5.Script.Write("tippy({0}, { content: {1}, placement: {2}, delay: [{3},{4}]  });", element, tooltip, placement.ToString(), delayShow, delayHide);
+                }
+                else
+                {
+                    H5.Script.Write("tippy({0}, { content: {1}, placement: {2} ,  animation: {3}, delay: [{4},{5}] });", element, tooltip, placement.ToString(), animation.ToString(), delayShow, delayHide);
+                }
+            });
+
             return component;
         }
 
@@ -354,18 +358,22 @@ namespace Tesserae.Components
         {
             if (tooltip is null) return component;
 
-            var element = component.Render();
-            var renderedTooltip = UI.DIV(tooltip.Render());
-            renderedTooltip.style.display = "block";
-            document.body.appendChild(renderedTooltip);
-            if (animation == TooltipAnimation.None)
+            component.WhenMounted(() =>
             {
-                H5.Script.Write("tippy({0}, { content: {1}, interactive: {2}, placement: {3}, delay: [{4},{5}] });", element, renderedTooltip, interactive, placement.ToString(), delayShow, delayHide);
-            }
-            else
-            {
-                H5.Script.Write("tippy({0}, { content: {1}, interactive: {2}, placement: {3},  animation: {4}, delay: [{5},{6}] });", element, renderedTooltip, interactive, placement.ToString(), animation.ToString(), delayShow, delayHide);
-            }
+                var (element, _) = Stack.GetCorrectItemToApplyStyle(component);
+                var renderedTooltip = UI.DIV(tooltip.Render());
+                renderedTooltip.style.display = "block";
+                document.body.appendChild(renderedTooltip);
+                if (animation == TooltipAnimation.None)
+                {
+                    H5.Script.Write("tippy({0}, { content: {1}, interactive: {2}, placement: {3}, delay: [{4},{5}] });", element, renderedTooltip, interactive, placement.ToString(), delayShow, delayHide);
+                }
+                else
+                {
+                    H5.Script.Write("tippy({0}, { content: {1}, interactive: {2}, placement: {3},  animation: {4}, delay: [{5},{6}] });", element, renderedTooltip, interactive, placement.ToString(), animation.ToString(), delayShow, delayHide);
+                }
+            });
+
             return component;
         }
 
