@@ -18,6 +18,11 @@ namespace Tesserae.Components
             AttachChange();
             AttachFocus();
             AttachBlur();
+
+            InnerElement.onchange = _ =>
+            {
+                _observable.Value = InnerElement.@checked;
+            };
         }
 
         /// <summary>
