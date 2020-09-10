@@ -1,7 +1,7 @@
 
 [![Build Status](https://dev.azure.com/curiosity-ai/mosaik/_apis/build/status/h5.tesserae?branchName=master)](https://dev.azure.com/curiosity-ai/mosaik/_build/latest?definitionId=42&branchName=master)
 
-<a href="https://curiosity.ai"><img src="http://curiosity.ai/media/logo.svg" width="100" height="100" align="right" /></a>
+<a href="https://curiosity.ai"><img src="http://curiosity.ai/media/cat.color.square.svg" width="100" height="100" align="right" /></a>
 # tesserae
 
 _**Tesserae**_ is a UI toolkit for building websites entirely in C#, inspired by Microsoft's [Fluent UI](https://github.com/microsoft/fluentui) toolkit.
