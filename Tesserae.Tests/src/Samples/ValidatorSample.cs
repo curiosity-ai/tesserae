@@ -14,12 +14,15 @@ namespace Tesserae.Tests.Samples
             var validator = Validator().OnValidation(validity => looksValidSoFar.Text = (validity == ValidationState.Invalid) ? "Something is not ok ❌" : "Everything is fine so far ✔");
 
             // Note: The "Required()" calls on these components only marks them visually as being required - if they must have values then that must be accounted for in their Validation(..) logic
-            var tb1 = TextBox().Required();
-            var tb2 = TextBox().Required();
-            tb1.Validation(tb => tb.Text.Length == 0 ? "Empty" : ((tb1.Text == tb2.Text) ? "Duplicated  values" : null), validator);
-            tb2.Validation(tb => Validation.NonZeroPositiveInteger(tb) ?? ((tb1.Text == tb2.Text) ? "Duplicated values" : null), validator);
+            var textBoxThatMustBeNonEmpty = TextBox("").Required();
+            var textBoxThatMustBePositiveInteger = TextBox("").Required();
+            textBoxThatMustBeNonEmpty.Validation(tb => tb.Text.Length == 0 ? "must enter a value" : ((textBoxThatMustBeNonEmpty.Text == textBoxThatMustBePositiveInteger.Text) ? "duplicated  values" : null), validator);
+            textBoxThatMustBePositiveInteger.Validation(tb => Validation.NonZeroPositiveInteger(tb) ?? ((textBoxThatMustBeNonEmpty.Text == textBoxThatMustBePositiveInteger.Text) ? "duplicated values" : null), validator);
 
-            var dropdown = Dropdown().Items(DropdownItem(""), DropdownItem("Item 1"), DropdownItem("Item 2")).Required().Validation(dd => string.IsNullOrWhiteSpace(dd.SelectedText) ? "Must select an item" : null, validator);
+            var preFilledTextBoxThatMustBePositiveIntegerWhoseValueIsValid = TextBox("123").Required().Validation(Validation.NonZeroPositiveInteger, validator);
+            var preFilledTextBoxThatMustBePositiveIntegerWhoseValueIsNotValid = TextBox("xyz").Required().Validation(Validation.NonZeroPositiveInteger, validator);
+
+            var dropdown = Dropdown().Items(DropdownItem(""), DropdownItem("Item 1"), DropdownItem("Item 2")).Required().Validation(dd => string.IsNullOrWhiteSpace(dd.SelectedText) ? "must select an item" : null, validator);
 
             content = SectionStack()
                         .Title(SampleHeader(nameof(ValidatorSample)))
@@ -43,17 +46,24 @@ namespace Tesserae.Tests.Samples
                                 SampleTitle("Usage"),
                                 TextBlock("Basic TextBox").Medium(),
                                 Stack().Width(40.percent()).Padding(8.px()).Children(
-                                    Label("Non-empty").SetContent(tb1),
-                                    Label("Integer > 0").SetContent(tb2),
+                                    Label("Non-empty").SetContent(textBoxThatMustBeNonEmpty),
+                                    Label("Integer > 0 (must not match the value above)").SetContent(textBoxThatMustBePositiveInteger),
+                                    Label("Pre-filled Integer > 0 (initially valid)").SetContent(preFilledTextBoxThatMustBePositiveIntegerWhoseValueIsValid),
+                                    Label("Pre-filled Integer > 0 (initially invalid)").SetContent(preFilledTextBoxThatMustBePositiveIntegerWhoseValueIsNotValid),
                                     Label("Please select something").SetContent(dropdown)
                                 ),
                                 TextBlock("Results Summary").Medium(),
                                 Stack().Width(40.percent()).Padding(8.px()).Children(
-                                    Label("Validity").Inline().SetContent(looksValidSoFar),
+                                    Label("Validity (this only checks fields that User has interacted with so far)").Inline().SetContent(looksValidSoFar),
                                     Label("Test revalidation (will fail if repeated)").SetContent(Button("Validate").OnClick((s, b) => validator.Revalidate()))
                                 )
                             )
                         );
+
+            // 2020-09-16 DWR: The form here follows the pattern of not disabling the submit button (the "Validate" button in this case), so they can enter as much or as little of it as they want and then try to submit and if they
+            // have left required fields unfilled (or not corrected any pre-filled invalid values) then they will THEN be informed of it. But if we wanted to disable the form submit button until the form was known to be in a valid
+            // state then the "AreCurrentValuesAllValid" method can be called after the form is rendered and the button enabled state set accordingly and then updated after each ValidationOccured event.
+            console.log("Is form initially in a valid state: " + validator.AreCurrentValuesAllValid());
         }
 
         public HTMLElement Render() => content.Render();
