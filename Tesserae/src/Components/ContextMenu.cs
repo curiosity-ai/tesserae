@@ -267,7 +267,7 @@ namespace Tesserae.Components
 
             public Item(IComponent component)
             {
-                _innerComponent = component.Render();
+                _innerComponent = component.WS().Render();
                 InnerElement = Button(_("tss-contextmenu-item"));
                 InnerElement.appendChild(_innerComponent);
                 AttachClick();

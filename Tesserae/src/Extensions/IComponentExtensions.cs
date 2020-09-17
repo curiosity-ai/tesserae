@@ -341,6 +341,10 @@ namespace Tesserae.Components
             component.WhenMounted(() =>
             {
                 var (element, _) = Stack.GetCorrectItemToApplyStyle(component);
+                if (element.HasOwnProperty("_tippy"))
+                {
+                    H5.Script.Write("{0}._tippy.destroy();", element);
+                }
                 if (animation == TooltipAnimation.None)
                 {
                     H5.Script.Write("tippy({0}, { content: {1}, placement: {2}, delay: [{3},{4}]  });", element, tooltip, placement.ToString(), delayShow, delayHide);
@@ -364,6 +368,11 @@ namespace Tesserae.Components
                 var renderedTooltip = UI.DIV(tooltip.Render());
                 renderedTooltip.style.display = "block";
                 document.body.appendChild(renderedTooltip);
+                if(element.HasOwnProperty("_tippy"))
+                {
+                    H5.Script.Write("{0}._tippy.destroy();", element);
+                }
+
                 if (animation == TooltipAnimation.None)
                 {
                     H5.Script.Write("tippy({0}, { content: {1}, interactive: {2}, placement: {3}, delay: [{4},{5}] });", element, renderedTooltip, interactive, placement.ToString(), delayShow, delayHide);
