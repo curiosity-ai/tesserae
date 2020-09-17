@@ -267,6 +267,10 @@ namespace Tesserae.Components
 
             public Item(IComponent component)
             {
+                if(component is ITextFormating itf)
+                {
+                    itf.SetTextAlign(TextAlign.Left);
+                }
                 _innerComponent = component.WS().Render();
                 InnerElement = Button(_("tss-contextmenu-item"));
                 InnerElement.appendChild(_innerComponent);
