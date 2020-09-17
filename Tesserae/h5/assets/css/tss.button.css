@@ -93,14 +93,16 @@ a {
         opacity: 1;
     }
 
-        .tss-btn > i + span:not(:empty) {
-            margin-left: 10px;
-        }
+    .tss-btn > i + span:not(:empty) {
+        margin-left: 10px;
+        min-width:16px;
+    }
 
-        .tss-btn > span:not(:empty) + i {
-            margin-right: 10px;
-            margin-left: 10px;
-        }
+    .tss-btn > span:not(:empty) + i {
+        margin-right: 10px;
+        margin-left: 10px;
+        min-width:16px;
+    }
 
 .tss-btn-default {
     color: var(--tss-default-foreground-color);
