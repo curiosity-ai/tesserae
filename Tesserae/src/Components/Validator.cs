@@ -15,26 +15,28 @@ namespace Tesserae.Components
         /// </summary>
         public delegate void OnValidationHandler(ValidationState validity);
 
-        private readonly Dictionary<ICanValidate, Action> _registeredComponents;
+        private readonly Dictionary<ICanValidate, (Func<bool> WouldBeValid, Action Validate)> _registeredComponents;
         private readonly HashSet<ICanValidate> _registeredComponentsThatUserHasInteractedWith;
         private double _timeout = 0;
         private int _callsDepth = 0;
         public Validator()
         {
-            _registeredComponents = new Dictionary<ICanValidate, Action>();
+            _registeredComponents = new Dictionary<ICanValidate, (Func<bool>, Action)>();
             _registeredComponentsThatUserHasInteractedWith = new HashSet<ICanValidate>();
         }
 
-        public void Register<T>(ICanValidate<T> component, Action onRevalidation) where T : ICanValidate<T>
+        public void Register<T>(ICanValidate<T> component, Func<bool> wouldBeValid, Action validate) where T : ICanValidate<T>
         {
+            if (component is null)
+                throw new ArgumentNullException(nameof(component));
+            if (wouldBeValid is null)
+                throw new ArgumentNullException(nameof(wouldBeValid));
+            if (validate is null)
+                throw new ArgumentNullException(nameof(validate));
+
             // Record each component that's in the form but ALSO use its Attach method to record each component that the User has interacted with - we want to only show validation messages for components that the User has edited and put into a
             // bad state OR show them for ALL components if the User has tried to submit a form (it's not nice to present them with a form littered with validation messages before they've had a chance to enter anything)
-            _registeredComponents.Add(component, onRevalidation);
-
-            if (!component.IsInvalid)
-            {
-                _registeredComponentsThatUserHasInteractedWith.Add(component); //If it has some initial value and for that it is already valid, then set it as interacted
-            }
+            _registeredComponents.Add(component, (wouldBeValid, validate));
 
             component.Attach(_ =>
             {
@@ -46,23 +48,16 @@ namespace Tesserae.Components
         public void ResetState()
         {
             _registeredComponentsThatUserHasInteractedWith.Clear();
-            foreach(var comp in _registeredComponents)
+            foreach (var comp in _registeredComponents)
             {
                 comp.Key.IsInvalid = false;
             }
         }
 
-
         public void RegisterFromCallback(Func<bool> isInvalid, Action onRevalidation)
         {
             var dummy = new DummyComponentToUseForCustomValidationLogicNotTiedToOneComponent(isInvalid);
-            
-            if(!isInvalid())
-            {
-                _registeredComponentsThatUserHasInteractedWith.Add(dummy); //callbacks must always be checked
-            }
-
-            _registeredComponents.Add(dummy, onRevalidation);
+            _registeredComponents.Add(dummy, (isInvalid, onRevalidation));
         }
 
         public Validator OnValidation(OnValidationHandler onValidation)
@@ -71,7 +66,7 @@ namespace Tesserae.Components
             return this;
         }
 
-        internal void RaiseOnValidation()
+        private void RaiseOnValidation()
         {
             // Debounce validation, as this can become expensive when creating a large number of components using the same validator
             window.clearTimeout(_timeout);
@@ -79,11 +74,23 @@ namespace Tesserae.Components
                 _ =>
                 {
                     // Do NOT force a full revalidation just because one thing has changed, only validate components that the User has edited so far (call Revalidate() or check IsValid to force a FULL revalidation)
-                    var validity = Revalidate(validateOnlyUserEditedComponents: true);
+                    var validity = GetValidity(validateOnlyUserEditedComponents: true, updateComponentAppearances: true);
                     ValidationOccured?.Invoke(validity);
                 },
                 100
             );
+        }
+
+        /// <summary>
+        /// This will check whether the form's values would currently be considered valid but without updating any the visual states relating to validity - this may be used when a form is being displayed to the User where the fields MIGHT all have been
+        /// pre-populated and so the form may be valid already (but if it's not valid yet then we don't want the fields that the User hasn't edited yet to be shown as invalid until they've had a chance to interact with them).
+        /// 
+        /// This would be used if the submit on the form should be set to disabled initially if the form is invalid (or enabled if IS valid) and subsequently updated on each ValidationOccured event.
+        /// </summary>
+        public bool AreCurrentValuesAllValid()
+        {
+            // Check EVERY component but don't update their visual states if they're invalid
+            return GetValidity(validateOnlyUserEditedComponents: false, updateComponentAppearances: false) != ValidationState.Invalid;
         }
 
         /// <summary>
@@ -104,7 +111,7 @@ namespace Tesserae.Components
         /// </summary>
         public bool Revalidate()
         {
-            var validity = Revalidate(validateOnlyUserEditedComponents: false);
+            var validity = GetValidity(validateOnlyUserEditedComponents: false, updateComponentAppearances: true);
             ValidationOccured?.Invoke(validity);
             return validity != ValidationState.Invalid; // Since we've forced a full re-validate here, we know we can translate the enum into a bool safely because it's either ALL valid or at least one component is NOT valid (we didn't skip ANY not-yet-interacted-with components)
         }
@@ -112,7 +119,7 @@ namespace Tesserae.Components
         /// <summary>
         /// This will return false if any of the components that were checked were found to be in an invalid state (the components checked depends upon validateOnlyUserEditedComponents and which registered components that the User has interacted with)
         /// </summary>
-        private ValidationState Revalidate(bool validateOnlyUserEditedComponents)
+        private ValidationState GetValidity(bool validateOnlyUserEditedComponents, bool updateComponentAppearances)
         {
             if (_callsDepth > 2)
                 return ValidationState.EveryComponentIsValid;
@@ -128,8 +135,25 @@ namespace Tesserae.Components
                     continue;
                 }
 
-                kv.Value?.Invoke(); // Force revalidation
-                if (kv.Key.IsInvalid)
+                // 2020-09-16 DWR: This method is called in a few different ways -
+                //  1. Force a full validation of the form (this is done when the User clicks submit - ie. when Revalidate is called or the IsValid property is checked, which forces a full re-validation)
+                //      > This updates the visual states of all components so that the User can easily see what is wrong (if anything)
+                //  2. When a validation is required for all fields that the User has interacted with so far (this occurs when the User edits any of the fields)
+                //      > This updates the visual states of all components that the User has interacted with so far, so that they User can easily see what they have entered wrong (but without shouting at them about fields that they haven't touched yet)
+                //  3. When we want to determine whether the form, as initially rendered, is in a valid state (this is done after the form is rendered if the submit button should be set to a disabled state if the form is not valid)
+                //      > This does NOT update the visual state of components because we don't want to shout at the User about fields that they haven't interact with yet but we do want to know if the form as it currently stands is ok to submit
+                bool componentIsInvalid;
+                if (updateComponentAppearances)
+                {
+                    kv.Value.Validate(); // Force revalidation
+                    componentIsInvalid = kv.Key.IsInvalid;
+                }
+                else
+                {
+                    componentIsInvalid = !kv.Value.WouldBeValid();
+                }
+
+                if (componentIsInvalid)
                 {
                     looksValidSoFar = false;
                 }

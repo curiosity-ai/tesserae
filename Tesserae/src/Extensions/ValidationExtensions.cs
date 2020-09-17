@@ -18,10 +18,13 @@ namespace Tesserae.Components
             // scream red validation error messages at them before they've even had a chance to start filling it in and that hardly seems polite
             // - So validation should only occur when a component's content is changed (which the component.Atttach call handles) or when the entire form is submitted, at which point there should be a validator instance whose "IsValid"
             //   property is checked and that will FORCE validation of all fields. If the User has left half of the mandatory fields blank at that point, THEN they can be shouted at about it.
+            // TODO: Explain WouldBeValid
             component.Attach(_ => ApplyValidation());
-            validator?.Register(component, () => ApplyValidation());
+            validator?.Register(component, WouldBeValid, () => ApplyValidation());
 
             return component;
+
+            bool WouldBeValid() => string.IsNullOrWhiteSpace(validate(component));
 
             void ApplyValidation()
             {
