@@ -25,7 +25,7 @@
     padding: 0;
     background-color: var(--tss-default-background-color);
     box-shadow: rgba(0, 0, 0, 0.22) 0px 25.6px 57.6px 0px, rgba(0, 0, 0, 0.18) 0px 4.8px 14.4px 0px;
-    border-radius: 2px;
+    border-radius: 4px;
     position: relative;
     text-align: left;
     right: auto;
@@ -135,7 +135,7 @@
     min-width: 32px;
     height: 32px;
     user-select: none;
-    border-radius: 2px;
+    border-radius: 4px;
     padding: 0 4px;
     text-align: center;
     display: inline-block;
@@ -166,7 +166,7 @@
     min-width: 32px;
     height: 32px;
     user-select: none;
-    border-radius: 2px;
+    border-radius: 4px;
     padding: 0 4px;
     text-align: center;
     display: inline-block;
