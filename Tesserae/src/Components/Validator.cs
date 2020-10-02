@@ -145,7 +145,7 @@ namespace Tesserae.Components
                 bool componentIsInvalid;
                 if (updateComponentAppearances)
                 {
-                    kv.Value.Validate(); // Force revalidation
+                    kv.Value.Validate?.Invoke(); // Force revalidation
                     componentIsInvalid = kv.Key.IsInvalid;
                 }
                 else
