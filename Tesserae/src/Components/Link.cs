@@ -11,6 +11,10 @@ namespace Tesserae.Components
         public Link(string url, IComponent component)
         {
             _anchor = A(_(href: url), component.Render());
+            if(component is Button)
+            {
+                _anchor.classList.add("tss-link-btn");
+            }
         }
 
         public string Target
