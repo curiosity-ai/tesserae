@@ -51,6 +51,7 @@ namespace Tesserae.Components
             foreach (var comp in _registeredComponents)
             {
                 comp.Key.IsInvalid = false;
+                comp.Key.Error = "";
             }
         }
 
