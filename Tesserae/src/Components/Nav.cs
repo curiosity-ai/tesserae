@@ -143,7 +143,7 @@ namespace Tesserae.Components
             private event ComponentEventHandler<NavLink> SelectedLink;
             private event ComponentEventHandler<NavLink> ExpandedLink;
 
-            // TODO [2020-07-09 DWR]: It would be really helpful to know what circumstances this (rather than the SelectedLink event is required, I think)
+            // TODO [2020-07-09 DWR]: It would be really helpful to know what circumstances this (rather than the SelectedLink event is required, I think) is needed in
             internal event ComponentEventHandler<NavLink> InternalSelectedLink;
 
             protected readonly HTMLSpanElement _textSpan;
