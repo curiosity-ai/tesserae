@@ -336,51 +336,45 @@ namespace Tesserae.Components
 
         public static T Tooltip<T>(this T component, string tooltip, TooltipAnimation animation = TooltipAnimation.ShiftAway, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 0, int delayHide = 0) where T : IComponent
         {
-            if (string.IsNullOrWhiteSpace(tooltip)) return component;
+            if (string.IsNullOrWhiteSpace(tooltip))
+                return component;
 
-            component.WhenMounted(() =>
-            {
-                var (element, _) = Stack.GetCorrectItemToApplyStyle(component);
-                if (element.HasOwnProperty("_tippy"))
-                {
-                    H5.Script.Write("{0}._tippy.destroy();", element);
-                }
-                if (animation == TooltipAnimation.None)
-                {
-                    H5.Script.Write("tippy({0}, { content: {1}, placement: {2}, delay: [{3},{4}]  });", element, tooltip, placement.ToString(), delayShow, delayHide);
-                }
-                else
-                {
-                    H5.Script.Write("tippy({0}, { content: {1}, placement: {2} ,  animation: {3}, delay: [{4},{5}] });", element, tooltip, placement.ToString(), animation.ToString(), delayShow, delayHide);
-                }
-            });
-
-            return component;
+            return component.Tooltip(
+                new Raw(UI.Raw(tooltip)),
+                animation: animation,
+                placement: placement,
+                delayShow: delayShow,
+                delayHide: delayHide
+            );
         }
 
         public static T Tooltip<T>(this T component, IComponent tooltip, bool interactive = false, TooltipAnimation animation = TooltipAnimation.ShiftAway, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 0, int delayHide = 0) where T : IComponent
         {
-            if (tooltip is null) return component;
+            if (tooltip is null)
+                return component;
 
             component.WhenMounted(() =>
             {
-                var (element, _) = Stack.GetCorrectItemToApplyStyle(component);
                 var renderedTooltip = UI.DIV(tooltip.Render());
                 renderedTooltip.style.display = "block";
                 document.body.appendChild(renderedTooltip);
-                if(element.HasOwnProperty("_tippy"))
-                {
+
+                var (element, _) = Stack.GetCorrectItemToApplyStyle(component);
+                if (element.HasOwnProperty("_tippy"))
                     H5.Script.Write("{0}._tippy.destroy();", element);
-                }
 
                 if (animation == TooltipAnimation.None)
-                {
                     H5.Script.Write("tippy({0}, { content: {1}, interactive: {2}, placement: {3}, delay: [{4},{5}] });", element, renderedTooltip, interactive, placement.ToString(), delayShow, delayHide);
-                }
                 else
-                {
                     H5.Script.Write("tippy({0}, { content: {1}, interactive: {2}, placement: {3},  animation: {4}, delay: [{5},{6}] });", element, renderedTooltip, interactive, placement.ToString(), animation.ToString(), delayShow, delayHide);
-                }
+
+                // 2020-10-05 DWR: Sometimes a tooltip will be attached to an element that is removed from the DOM and then the tooltip is left hanging, orphaned. 
+                component.WhenRemoved(() =>
+                {
+                    // 2020-10-05 DWR: I presume that have to check this property before trying to kill it in case it's already been tidied up
+                    if (element.HasOwnProperty("_tippy"))
+                        H5.Script.Write("{0}._tippy.destroy();", element);
+                });
             });
 
             return component;
