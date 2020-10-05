@@ -55,7 +55,7 @@ namespace Tesserae.Components
 
         public override HTMLElement Render() => InnerElement;
 
-        public virtual void Show()
+        public virtual T Show()
         {
             if (_content is object || _contentHtml is object)
             {
@@ -74,6 +74,7 @@ namespace Tesserae.Components
 
                 _isVisible = true;
             }
+            return (T)this;
         }
 
         public virtual void Hide(Action onHidden = null)

@@ -210,7 +210,7 @@ namespace Tesserae.Components
             Items(items);
         }
 
-        public override void Show()
+        public override Dropdown Show()
         {
             if (_contentHtml == null)
             {
@@ -225,7 +225,7 @@ namespace Tesserae.Components
                 if (_itemsSource is object)
                 {
                     LoadItemsAsync().ContinueWith(t => Show()).FireAndForget();
-                    return;
+                    return this;
                 }
             }
 
@@ -249,6 +249,8 @@ namespace Tesserae.Components
                     _selectedChildren[_selectedChildren.Count - 1].Render().focus();
                 }
             });
+
+            return this;
         }
 
         private void RecomputePopupPosition()
