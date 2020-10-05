@@ -40,6 +40,12 @@ namespace Tesserae.Components
             set => InnerElement.style.flexWrap = value ? "wrap" : "nowrap";
         }
 
+        public bool IsInline
+        {
+            get => InnerElement.style.display == "inline-flex";
+            set => InnerElement.style.display = value ? "inline-flex" : "";
+        }
+
         public HTMLElement InnerElement { get; private set; }
         public string Background { get => InnerElement.style.background; set => InnerElement.style.background = value; }
         public string Margin { get => InnerElement.style.margin; set => InnerElement.style.margin = value; }
@@ -286,6 +292,12 @@ namespace Tesserae.Components
         public Stack Wrap()
         {
             CanWrap = true;
+            return this;
+        }
+
+        public Stack Inline()
+        {
+            IsInline = true;
             return this;
         }
 
