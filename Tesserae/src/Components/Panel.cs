@@ -152,7 +152,6 @@ namespace Tesserae.Components
                 if (value) _closeButton.style.display = "";
                 else _closeButton.style.display = "none";
             }
-
         }
 
         protected override HTMLElement BuildRenderedContent()
@@ -160,10 +159,10 @@ namespace Tesserae.Components
             return _contentHtml;
         }
 
-        public override void Show()
+        public override Panel Show()
         {
             if (!IsNonBlocking) document.body.style.overflowY = "hidden";
-            base.Show();
+            return base.Show();
         }
 
         public Panel OnHide(OnHideHandler onHide)

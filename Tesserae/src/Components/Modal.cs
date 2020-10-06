@@ -351,13 +351,14 @@ namespace Tesserae.Components
             DoShow();
         }
 
-        public override void Show()
+        public override Modal Show()
         {
             _modal.style.marginTop = "";
             _modal.style.marginLeft = "";
             _modal.style.marginRight = "";
             _modal.style.marginBottom = "";
             DoShow();
+            return this;
         }
 
         private void DoShow()

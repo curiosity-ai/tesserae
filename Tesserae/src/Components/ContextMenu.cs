@@ -43,7 +43,7 @@ namespace Tesserae.Components
             throw new NotImplementedException();
         }
 
-        public override void Show()
+        public override ContextMenu Show()
         {
             throw new NotImplementedException();
         }
