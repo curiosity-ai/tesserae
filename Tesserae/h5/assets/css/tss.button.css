@@ -304,8 +304,3 @@ a {
         .tss-btn-linkonhover.tss-danger.tss-disabled {
             color: var(--tss-disabled-foreground-color);
         }
-
-
-.tss-link-btn {
-    line-height:0px;
-}
