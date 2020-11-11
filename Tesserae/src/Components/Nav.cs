@@ -521,7 +521,14 @@ namespace Tesserae.Components
 
             internal void UnselectRecursivelly(NavLink sender)
             {
-                if (!IsOrHasChild(sender))
+                if (this == sender)
+                {
+                    foreach (var child in _childLinks)
+                    {
+                        child.UnselectRecursivelly(sender);
+                    }
+                }
+                else if (!_childLinks.Any(l => l.IsOrHasChild(sender)))
                 {
                     IsSelected = false;
 
@@ -532,11 +539,7 @@ namespace Tesserae.Components
                 }
             }
 
-            private bool IsOrHasChild(NavLink sender)
-            {
-                return this == sender || _childLinks.Any(l => l.IsOrHasChild(sender));
-            }
-
+            private bool IsOrHasChild(NavLink sender) => this == sender || _childLinks.Any(l => l.IsOrHasChild(sender));
         }
     }
 }
