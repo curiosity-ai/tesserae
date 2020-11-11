@@ -125,11 +125,3 @@ steps:
     packagesToPush: '**/Tesserae.0.0.$(build.buildId).nupkg'
     nuGetFeedType: 'external'
     publishFeedCredentials: 'nuget-curiosity'
-
-# - task: NuGetCommand@2
-#   displayName: 'push Tesserae to github'
-#   inputs:
-#     command: 'push'
-#     packagesToPush: '**/Tesserae.0.0.$(build.buildId).nupkg'
-#     nuGetFeedType: 'external'
-#     publishFeedCredentials: 'nuget-github-packages'
