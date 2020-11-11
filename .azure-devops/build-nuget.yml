@@ -8,7 +8,7 @@ trigger:
 - master
 
 pool:
-  vmImage: 'windows-latest'
+  vmImage: 'VS2017-Win2016'
 
 steps:
 - checkout: self
@@ -16,13 +16,6 @@ steps:
   persistCredentials: true
 
 - task: NuGetToolInstaller@0
-
-- task: UseDotNet@2
-  displayName: 'Use .NET Core sdk'
-  inputs:
-    packageType: sdk
-    version: 5.0.100
-    installationPath: $(Agent.ToolsDirectory)/dotnet
 
 - task: NuGetCommand@2
   displayName: 'restore nuget'
@@ -125,3 +118,11 @@ steps:
     packagesToPush: '**/Tesserae.0.0.$(build.buildId).nupkg'
     nuGetFeedType: 'external'
     publishFeedCredentials: 'nuget-curiosity'
+
+# - task: NuGetCommand@2
+#   displayName: 'push Tesserae to github'
+#   inputs:
+#     command: 'push'
+#     packagesToPush: '**/Tesserae.0.0.$(build.buildId).nupkg'
+#     nuGetFeedType: 'external'
+#     publishFeedCredentials: 'nuget-github-packages'
