@@ -315,7 +315,13 @@ namespace Tesserae
 
         internal static HTMLElement GetItem(IComponent component, bool forceAdd = false)
         {
-            if (!((component as dynamic).StackItem is HTMLElement item))
+            HTMLElement item = null;
+            if(component.HasOwnProperty("StackItem"))
+            {
+                item = component["StackItem"] as HTMLElement;
+            }
+
+            if (item is null)
             {
                 var rendered = component.Render();
                 if (forceAdd || (rendered.parentElement is object && rendered.parentElement.classList.contains("tss-stack")))
@@ -327,7 +333,7 @@ namespace Tesserae
                         s.height = "auto";
                         s.flexShrink = "1";
                     }), component.Render());
-                    (component as dynamic).StackItem = item;
+                    component["StackItem"] = item;
 
                     if (forceAdd)
                     {
