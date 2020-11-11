@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using H5;
-using Tesserae.Components;
+using Tesserae;
 using Tesserae.HTML;
 using static H5.Core.dom;
 

@@ -1,7 +1,7 @@
 ﻿using static H5.Core.dom;
 using static Tesserae.UI;
 
-namespace Tesserae.Components
+namespace Tesserae
 {
     /// <summary>
     /// A Stack is a container-type component that abstracts the implementation of a flexbox in order to define the layout of its children components.

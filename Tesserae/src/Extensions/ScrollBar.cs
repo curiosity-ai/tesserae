@@ -5,7 +5,7 @@ using System.Linq;
 using Tesserae.HTML;
 using static H5.Core.dom;
 
-namespace Tesserae.Components
+namespace Tesserae
 {
     public static class ScrollBar
     {

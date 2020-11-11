@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Tesserae.Components;
+using Tesserae;
 using Tesserae.Tests.Samples;
 using static H5.Core.dom;
 using static Tesserae.UI;
@@ -65,9 +65,9 @@ namespace Tesserae.Tests
                                               .Add(SidebarItem("Light sidebar", "las la-tint-slash").OnSelect((s) => sideBar.IsLight = true))
                                               .Add(SidebarItem("Always Open", "las la-arrow-to-right").OnSelect((s) => sideBar.IsAlwaysOpen= true))
                                               .Add(SidebarItem("Open on Hover", "las la-arrows-alt-h").OnSelect((s) => sideBar.IsAlwaysOpen = false))
-                                              .Add(SidebarItem("Small sidebar", "las la-minus-square").OnSelect((s) => sideBar.Width = Components.Sidebar.Size.Small))
-                                              .Add(SidebarItem("Medium sidebar", "las la-square").OnSelect((s) => sideBar.Width = Components.Sidebar.Size.Medium))
-                                              .Add(SidebarItem("Large sidebar", "las la-plus-square").OnSelect((s) => sideBar.Width = Components.Sidebar.Size.Large))
+                                              .Add(SidebarItem("Small sidebar", "las la-minus-square").OnSelect((s) => sideBar.Width = Sidebar.Size.Small))
+                                              .Add(SidebarItem("Medium sidebar", "las la-square").OnSelect((s) => sideBar.Width = Sidebar.Size.Medium))
+                                              .Add(SidebarItem("Large sidebar", "las la-plus-square").OnSelect((s) => sideBar.Width = Sidebar.Size.Large))
                                               .SetContent(navBar)
                                               .Render());
 

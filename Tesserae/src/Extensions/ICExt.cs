@@ -3,10 +3,9 @@ using System.Threading.Tasks;
 using Tesserae.HTML;
 using static H5.Core.dom;
 
-namespace Tesserae.Components
+namespace Tesserae
 {
-
-    public static class IComponentExtensions
+    public static class ICExt //Short name as this appears everywhere in the final compiled code
     {
         public static T WhenMounted<T>(this T component, Action callback) where T : IComponent
         {

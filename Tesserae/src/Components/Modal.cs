@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 using static H5.Core.dom;
 using static Tesserae.UI;
 
-namespace Tesserae.Components
+namespace Tesserae
 {
     public sealed class Modal : Layer<Modal>, ISpecialCaseStyling, IHasBackgroundColor
     {

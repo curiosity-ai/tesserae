@@ -4,7 +4,7 @@ using System.Linq;
 using static H5.Core.dom;
 using static Tesserae.UI;
 
-namespace Tesserae.Components
+namespace Tesserae
 {
     public class SearchableGroupedList<T> : IComponent, ISpecialCaseStyling where T : ISearchableGroupedItem
     {

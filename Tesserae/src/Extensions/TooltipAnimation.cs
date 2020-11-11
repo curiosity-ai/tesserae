@@ -1,6 +1,6 @@
 ﻿using H5;
 
-namespace Tesserae.Components
+namespace Tesserae
 {
     [Enum(Emit.Value)]
     public enum TooltipAnimation

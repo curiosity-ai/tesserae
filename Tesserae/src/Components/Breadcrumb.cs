@@ -5,7 +5,7 @@ using Tesserae.HTML;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Tesserae.Components
+namespace Tesserae
 {
     public class Breadcrumb : IComponent, IContainer<Breadcrumb, IComponent>
     {

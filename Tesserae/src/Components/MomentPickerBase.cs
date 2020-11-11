@@ -1,4 +1,4 @@
-﻿namespace Tesserae.Components
+﻿namespace Tesserae
 {
     public abstract class MomentPickerBase<TMomentPicker, TMoment> : Input<TMomentPicker>
         where TMomentPicker : MomentPickerBase<TMomentPicker, TMoment>

@@ -2,7 +2,7 @@
 using static H5.Core.dom;
 using static Tesserae.UI;
 
-namespace Tesserae.Components
+namespace Tesserae
 {
     public abstract class Input<TInput> : ComponentBase<TInput, HTMLInputElement>, ICanValidate<TInput>, IObservableComponent<string> where TInput : Input<TInput>
     {

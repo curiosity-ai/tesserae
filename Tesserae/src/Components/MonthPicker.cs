@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace Tesserae.Components
+namespace Tesserae
 {
     public class MonthPicker : MomentPickerBase<MonthPicker, (int year, int month)>
     {

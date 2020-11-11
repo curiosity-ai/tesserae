@@ -6,7 +6,7 @@ using Tesserae.HTML;
 using static H5.Core.dom;
 using static Tesserae.UI;
 
-namespace Tesserae.Components
+namespace Tesserae
 {
     public sealed class Nav : ComponentBase<Nav, HTMLUListElement>, IContainer<Nav.NavLink, Nav.NavLink>, IHasBackgroundColor
     {

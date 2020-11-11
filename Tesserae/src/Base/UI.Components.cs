@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Tesserae.Components;
+using Tesserae;
 using static H5.Core.dom;
 
 namespace Tesserae
@@ -121,20 +121,20 @@ namespace Tesserae
         /// <summary>
         /// A Stack is a container-type component that abstracts the implementation of a flexbox in order to define the layout of its children components.
         /// </summary>
-        public static Stack Stack(Stack.Orientation orientation = Components.Stack.Orientation.Vertical) => new Stack(orientation);
+        public static Stack Stack(Stack.Orientation orientation = Tesserae.Stack.Orientation.Vertical) => new Stack(orientation);
 
         /// <summary>
         /// Horizontal stack, same as calling Stack().Horizontal()
         /// </summary>
         /// <returns></returns>
-        public static Stack HStack() => new Stack(Components.Stack.Orientation.Horizontal);
+        public static Stack HStack() => new Stack(Tesserae.Stack.Orientation.Horizontal);
 
 
         /// <summary>
         /// Horizontal stack, same as calling Stack() or Stack().Vertical()
         /// </summary>
         /// <returns></returns>
-        public static Stack VStack() => new Stack(Components.Stack.Orientation.Vertical);
+        public static Stack VStack() => new Stack(Tesserae.Stack.Orientation.Vertical);
 
         public static Grid Grid(params UnitSize[] columns) => new Grid(columns);
 

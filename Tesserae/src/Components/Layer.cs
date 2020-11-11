@@ -1,4 +1,4 @@
-﻿namespace Tesserae.Components
+﻿namespace Tesserae
 {
     /// <summary>
     /// A Layer is a technical component that does not have specific Design guidance.

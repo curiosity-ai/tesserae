@@ -5,7 +5,7 @@ using H5.Core;
 using static H5.Core.dom;
 using static Tesserae.UI;
 
-namespace Tesserae.Components
+namespace Tesserae
 {
     public class SearchableList<T> : IComponent, ISpecialCaseStyling where T : ISearchableItem
     {

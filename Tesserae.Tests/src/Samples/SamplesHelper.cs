@@ -1,4 +1,4 @@
-﻿using Tesserae.Components;
+﻿using Tesserae;
 using static Tesserae.UI;
 
 namespace Tesserae.Tests.Samples

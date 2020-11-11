@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Tesserae.Components
+namespace Tesserae
 {
     public interface IContainerBase<TChild> : IComponent where TChild : IComponent
     {

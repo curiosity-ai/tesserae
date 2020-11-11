@@ -5,7 +5,7 @@ using static Tesserae.UI;
 using static H5.Core.dom;
 using Tesserae.HTML;
 
-namespace Tesserae.Components
+namespace Tesserae
 {
     public class SectionStack : Stack
     {

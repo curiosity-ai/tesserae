@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using H5;
 using H5.Core;
-using Tesserae.Components;
+using Tesserae;
 using static H5.Core.dom;
 
 namespace Tesserae

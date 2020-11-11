@@ -3,7 +3,7 @@ using Tesserae.HTML;
 using static H5.Core.dom;
 using static Tesserae.UI;
 
-namespace Tesserae.Components
+namespace Tesserae
 {
     public class Timeline : IContainer<Timeline, IComponent>, IHasBackgroundColor, IHasMarginPadding
     {

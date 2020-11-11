@@ -3,7 +3,7 @@ using H5;
 using static Tesserae.UI;
 using static H5.Core.dom;
 
-namespace Tesserae.Components
+namespace Tesserae
 {
     public class LayerHost : ComponentBase<Layer, HTMLDivElement>
     {

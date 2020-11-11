@@ -2,7 +2,7 @@
 using static H5.Core.dom;
 using static Tesserae.UI;
 
-namespace Tesserae.Components
+namespace Tesserae
 {
     public class SearchBox : ComponentBase<SearchBox, HTMLInputElement>,  ITextFormating, IHasBackgroundColor
     {
