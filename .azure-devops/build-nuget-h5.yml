@@ -21,7 +21,7 @@ steps:
     version: 5.0.100
     installationPath: $(Agent.ToolsDirectory)/dotnet
 
-- task: NuGetToolInstaller@0
+- task: NuGetToolInstaller@1
 
 - task: CmdLine@2
   inputs:
