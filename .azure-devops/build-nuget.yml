@@ -15,7 +15,7 @@ steps:
   submodules: true
   persistCredentials: true
 
-- task: NuGetToolInstaller@0
+- task: NuGetToolInstaller@1
 
 - task: NuGetCommand@2
   displayName: 'restore nuget'
