@@ -365,6 +365,8 @@ namespace Tesserae
                 else
                     H5.Script.Write("tippy({0}, { content: {1}, interactive: {2}, placement: {3},  animation: {4}, delay: [{5},{6}] });", element, renderedTooltip, interactive, placement.ToString(), animation.ToString(), delayShow, delayHide);
 
+                H5.Script.Write("{0}._tippy.show();", element); //Shows it imediatelly, as the mouse is hovering the element
+
                 // 2020-10-05 DWR: Sometimes a tooltip will be attached to an element that is removed from the DOM and then the tooltip is left hanging, orphaned. 
                 component.WhenRemoved(() =>
                     {
