@@ -30,6 +30,7 @@ namespace Tesserae.HTML
                 return;
 
             var elementsMountedThatWeCareAbout = new List<(HTMLElement element, Action callback)>();
+
             foreach (var mutationRecord in mutationRecords)
             {
                 foreach (var mountedElement in mutationRecord.addedNodes)
@@ -48,9 +49,9 @@ namespace Tesserae.HTML
             
             window.requestAnimationFrame(_ =>
             {
-                foreach (var callbackToMake in elementsMountedThatWeCareAbout.Select(entry => entry.callback))
+                foreach (var entry in elementsMountedThatWeCareAbout)
                 {
-                    callbackToMake();
+                    entry.callback();
                 }
             });
         }
@@ -150,9 +151,9 @@ namespace Tesserae.HTML
 
         public static bool IsEqualToOrIsChildOf(HTMLElement element, Node possibleParentElement)
         {
-            while (element != null)
+            while (H5.Script.Write<bool>("{0} != null", element))  //Short-circuit the == opeartor in C# to make this method faster
             {
-                if (element == possibleParentElement)
+                if (H5.Script.Write<bool>("{0} == {1}", element, possibleParentElement)) //Short-circuit the == opeartor in C# to make this method faster
                 {
                     return true;
                 }

@@ -9,16 +9,8 @@ namespace Tesserae
     {
         public static T WhenMounted<T>(this T component, Action callback) where T : IComponent
         {
-            if (component.Render().IsMounted())
-            {
-                // 2020-08-13 DWR: In case this is called after the component has already been mounted, call this immediately instead of adding a callback to the DomObserver.WhenMounted queue (that will likely never be cleared because the DomObserver will
-                // never see the component as having been mounted if it's ALREADY mounted)
-                callback();
-            }
-            else
-            {
-                DomObserver.WhenMounted(component.Render(), callback);
-            }
+            //No need to double check if already mounted here, as teh DomObserver already do it
+            DomObserver.WhenMounted(component.Render(), callback);
             return component;
         }
 
@@ -352,8 +344,14 @@ namespace Tesserae
             if (tooltip is null)
                 return component;
 
-            component.WhenMounted(() =>
+            var rendered = component.Render();
+
+            rendered.onmouseenter += AttachTooltip;
+
+            void AttachTooltip(MouseEvent e)
             {
+                rendered.onmouseenter -= AttachTooltip;
+
                 var renderedTooltip = UI.DIV(tooltip.Render());
                 renderedTooltip.style.display = "block";
                 document.body.appendChild(renderedTooltip);
@@ -369,13 +367,12 @@ namespace Tesserae
 
                 // 2020-10-05 DWR: Sometimes a tooltip will be attached to an element that is removed from the DOM and then the tooltip is left hanging, orphaned. 
                 component.WhenRemoved(() =>
-                {
+                    {
                     // 2020-10-05 DWR: I presume that have to check this property before trying to kill it in case it's already been tidied up
                     if (element.HasOwnProperty("_tippy"))
-                        H5.Script.Write("{0}._tippy.destroy();", element);
-                });
-            });
-
+                            H5.Script.Write("{0}._tippy.destroy();", element);
+                    });
+            }
             return component;
         }
 
