@@ -116,7 +116,8 @@ namespace Tesserae
                 return;
             }
 
-            var currentStateSaysAlreadyThere = _currentState?.FullPath == path;
+            var currentStateSaysAlreadyThere = AlreadyThere(_currentState?.FullPath, path);
+
             if (windowLocationSaysAlreadyThere || currentStateSaysAlreadyThere)
             {
                 // Nothing to do - we're already at the right point and we're not forcing a reload
@@ -142,6 +143,22 @@ namespace Tesserae
         private static bool AlreadyThere(string path)
         {
             return window.location.href == path || window.location.hash == path;
+        }
+
+        private static bool AlreadyThere(string candidatePath, string hashOrPath)
+        {
+            if (string.IsNullOrEmpty(candidatePath)) return false;
+
+            if (hashOrPath.StartsWith("#"))
+            {
+                var indexOfHash = candidatePath.IndexOf('#');
+                if(indexOfHash < 0) return false;
+                return candidatePath.Substring(indexOfHash) == hashOrPath;
+            }
+            else
+            {
+                return candidatePath == hashOrPath;
+            }
         }
 
         private static string LowerCasePath(string path)
