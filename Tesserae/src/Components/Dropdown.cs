@@ -629,6 +629,7 @@ namespace Tesserae
             foreach (var item in itemsToReset)
             {
                 item.item.style.display = "block";
+                RecursiveUnhighlight(item.item);
             }
         }
 
@@ -666,8 +667,10 @@ namespace Tesserae
 
         private void SearchItems()
         {
+            var searchTerm = _search.Trim().ToLower();
+
             var items = GetItems();
-            var itemsToRemove = items.Where(item => !(item.textContent.ToLower().Contains(_search.ToLower())));
+            var itemsToRemove = items.Where(item => !(item.textContent.ToLower().Contains(searchTerm)));
             var itemsToReset = items.Except(itemsToRemove);
             _firstItem = itemsToReset.FirstOrDefault().item;
 
@@ -677,7 +680,54 @@ namespace Tesserae
             {
                 item.style.display = "none";
             }
+
+            var regex = new Regex("(" + Regex.Escape(searchTerm) + ")", RegexOptions.IgnoreCase);
+            foreach(var (item, _) in itemsToReset)
+            {
+                RecursiveUnhighlight(item);
+                if(searchTerm.Length > 0)
+                {
+                    RecursiveHighlight(item, regex);
+                }
+            } 
+
             RecomputePopupPosition();
+        }
+
+        private static void RecursiveHighlight(HTMLElement baseElement, Regex highlighter)
+        {
+            if (baseElement.childElementCount > 0)
+            {
+                foreach (var e in baseElement.children)
+                {
+                    RecursiveHighlight((HTMLElement)e, highlighter);
+                }
+            }
+            else
+            {
+                if (highlighter.IsMatch(baseElement.textContent))
+                {
+                    var txt = baseElement.textContent;
+                    baseElement.textContent = "";
+                    baseElement.innerHTML = highlighter.Replace(txt, "<mark>$1</mark>");
+                }
+            }
+        }
+
+        private static void RecursiveUnhighlight(HTMLElement baseElement)
+        {
+            if(baseElement.tagName == "MARK")
+            {
+                var newChild = document.createTextNode(baseElement.textContent);
+                baseElement.parentElement.replaceChild(newChild, baseElement);
+            }
+            else if (baseElement.childElementCount > 0)
+            {
+                foreach (var e in baseElement.children)
+                {
+                    RecursiveUnhighlight((HTMLElement)e);
+                }
+            }
         }
 
         public sealed class Item : IComponent
