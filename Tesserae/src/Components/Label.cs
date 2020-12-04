@@ -72,7 +72,7 @@ namespace Tesserae
             {
                 InnerElement.classList.remove(Weight.ToClassName());
                 InnerElement.classList.add(value.ToClassName());
-                _label.classList.remove(Size.ToClassName());
+                _label.classList.remove(Weight.ToClassName());
                 _label.classList.add(value.ToClassName());
             }
         }
