@@ -373,6 +373,12 @@ namespace Tesserae
             return this;
         }
 
+        public Button NoHover()
+        {
+            InnerElement.classList.add("tss-btn-nohover");
+            return this;
+        }
+
         public Button Color(string background, string textColor = "white", string borderColor = "white", string iconColor = "")
         {
             InnerElement.classList.add("tss-btn-nobg");
