@@ -307,4 +307,5 @@ a {
 .tss-btn-nohover:hover {
     background: none;
     background-color: transparent;
+    border: none;
 }
