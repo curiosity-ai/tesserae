@@ -8,10 +8,10 @@ namespace Tesserae
     public class Link : IComponent, ITextFormating
     {
         private readonly HTMLAnchorElement _anchor;
-        public Link(string url, IComponent component)
+        public Link(string url, IComponent component, bool noUnderline = false)
         {
             _anchor = A(_(href: url), component.Render());
-            if(component is Button)
+            if(component is Button && !noUnderline)
             {
                 _anchor.classList.add("tss-link-btn");
             }

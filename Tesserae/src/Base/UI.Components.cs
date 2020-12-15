@@ -259,11 +259,11 @@ namespace Tesserae
 
         public static Spinner Spinner(string text = string.Empty) => new Spinner(text);
 
-        public static Link Link(string url, IComponent content) => new Link(url, content);
+        public static Link Link(string url, IComponent content, bool noUnderline = false) => new Link(url, content, noUnderline);
 
         public static Link Link(string url, string text) => new Link(url, TextBlock(text));
 
-        public static Link Link(string url, string text, string icon) => new Link(url, Button(text).SetIcon(icon).NoBorder().NoBackground().Padding(0.px()));
+        public static Link Link(string url, string text, string icon, bool noUnderline = false) => new Link(url, Button(text).SetIcon(icon).NoBorder().NoBackground().Padding(0.px()), noUnderline);
 
         public static SplitView SplitView() => new SplitView();
 
