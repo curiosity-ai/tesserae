@@ -11,7 +11,8 @@ namespace Tesserae
         public Link(string url, IComponent component, bool noUnderline = false)
         {
             _anchor = A(_(href: url), component.Render());
-            if(component is Button && !noUnderline)
+
+            if(noUnderline)
             {
                 _anchor.classList.add("tss-link-btn");
             }
