@@ -14,7 +14,7 @@ namespace Tesserae
 
             if(noUnderline)
             {
-                _anchor.classList.add("tss-link-btn");
+                _anchor.classList.add("tss-link-no-underline");
             }
         }
 

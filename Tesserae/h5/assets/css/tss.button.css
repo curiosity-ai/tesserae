@@ -318,5 +318,6 @@ a {
     text-decoration: none;
 }
 
-.tss-link-no-underline:hover {
-    text-decoration: none;
+    .tss-link-no-underline:hover {
+        text-decoration: none;
+    }
