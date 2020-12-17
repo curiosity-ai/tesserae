@@ -240,9 +240,10 @@ namespace Tesserae
             onDone?.Invoke();
         }
 
-        public static bool Exists(string route)
+        public static bool Exists(string hashRoute)
         {
-            return _paths.Values.Contains(route);
+            hashRoute = hashRoute.Split(new[] { '?' }, count: 2).First();
+            return _paths.Values.Contains(hashRoute);
         }
 
         private static void LocationChanged(bool allowCallbackEvenIfLocationUnchanged)
