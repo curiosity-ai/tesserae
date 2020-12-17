@@ -240,6 +240,11 @@ namespace Tesserae
             onDone?.Invoke();
         }
 
+        public static bool Exists(string route)
+        {
+            return _paths.Values.Contains(route);
+        }
+
         private static void LocationChanged(bool allowCallbackEvenIfLocationUnchanged)
         {
             var currentPathFromHash = (window.location.hash ?? "").TrimStart('#');
