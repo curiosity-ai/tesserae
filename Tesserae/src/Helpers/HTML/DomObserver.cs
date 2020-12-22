@@ -146,15 +146,11 @@ namespace Tesserae.HTML
             if (callback == null)
                 throw new ArgumentNullException(nameof(callback));
 
-            if (!IsEqualToOrIsChildOf(element, document.body))
-            {
-                // Already unmounted
-                callback();
-            }
-            else
-            {
-                _elementsToTrackRemovalOf.Add((element, callback));
-            }
+            // 2020-12-22 DWR: Tried adding a check here that would execute the callback immediately if the element wasn't currently in the DOM (on the premise that that indicated that it had
+            // already been removed), similar to the check in WhenMounted - however, this doesn't work with a common pattern that we use where we want to register a WhenRemoved callback for
+            // an element before its initial render / adding-to-the-DOM and so that check has had to be removed (as, in that case, the element would not be mounted because it hasn't been
+            // added yet, not because it WAS added to the DOM and had already been removed again)
+            _elementsToTrackRemovalOf.Add((element, callback));
         }
 
         public static bool IsEqualToOrIsChildOf(HTMLElement element, Node possibleParentElement)
