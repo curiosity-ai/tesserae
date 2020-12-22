@@ -51,6 +51,12 @@ namespace Tesserae.HTML
             {
                 foreach (var entry in elementsMountedThatWeCareAbout)
                 {
+                    if (!entry.element.IsMounted())
+                    {
+                        // Ensure that the element wasn't removed from the DOM while we were waiting for the next animation frame
+                        continue;
+                    }
+
                     entry.callback();
                 }
             });
@@ -100,9 +106,15 @@ namespace Tesserae.HTML
             _elementsToTrackRemovalOf = _elementsToTrackRemovalOf.Except(elementsRemovedThatWeCareAbout).ToList();
             window.requestAnimationFrame(_ =>
             {
-                foreach (var callbackToMake in elementsRemovedThatWeCareAbout.Select(entry => entry.callback))
+                foreach (var entry in elementsRemovedThatWeCareAbout)
                 {
-                    callbackToMake();
+                    if (entry.element.IsMounted())
+                    {
+                        // Ensure that the element wasn't re-added to the DOM while we were waiting for the next animation frame
+                        continue;
+                    }
+
+                    entry.callback();
                 }
             });
         }
