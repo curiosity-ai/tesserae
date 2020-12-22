@@ -123,7 +123,7 @@ namespace Tesserae.HTML
 
             if (IsEqualToOrIsChildOf(element, document.body))
             {
-                //Already mounted
+                // Already mounted
                 callback();
             }
             else
@@ -145,7 +145,15 @@ namespace Tesserae.HTML
             if (callback == null)
                 throw new ArgumentNullException(nameof(callback));
 
-            _elementsToTrackRemovalOf.Add((element, callback));
+            if (!IsEqualToOrIsChildOf(element, document.body))
+            {
+                // Already unmounted
+                callback();
+            }
+            else
+            {
+                _elementsToTrackRemovalOf.Add((element, callback));
+            }
         }
 
         public static bool IsEqualToOrIsChildOf(HTMLElement element, Node possibleParentElement)
