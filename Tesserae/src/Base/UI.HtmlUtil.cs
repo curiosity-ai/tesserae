@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using H5;
-using Tesserae;
 using Tesserae.HTML;
 using static H5.Core.dom;
 
@@ -25,12 +24,18 @@ namespace Tesserae
             if (source == null)
                 throw new ArgumentNullException(nameof(source));
 
-            var top = document.querySelector("html");
-            while (source != null)
+            return IsEqualToOrIsChildOf(source, document.querySelector("html") as Node);
+        }
+
+        public static bool IsEqualToOrIsChildOf(this HTMLElement element, Node possibleParentElement)
+        {
+            while (Script.Write<bool>("{0} != null", element))  //Short-circuit the == opeartor in C# to make this method faster
             {
-                if (source == top)
+                if (Script.Write<bool>("{0} == {1}", element, possibleParentElement)) //Short-circuit the == opeartor in C# to make this method faster
+                {
                     return true;
-                source = source.parentElement;
+                }
+                element = element.parentElement;
             }
             return false;
         }

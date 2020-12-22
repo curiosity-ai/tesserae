@@ -37,7 +37,7 @@ namespace Tesserae.HTML
                 {
                     foreach (var elementToTrackMountingOf in _elementsToTrackMountingOf)
                     {
-                        if (IsEqualToOrIsChildOf(elementToTrackMountingOf.element, mountedElement))
+                        if (elementToTrackMountingOf.element.IsEqualToOrIsChildOf(mountedElement))
                             elementsMountedThatWeCareAbout.Add(elementToTrackMountingOf);
                     }
                 }
@@ -84,7 +84,7 @@ namespace Tesserae.HTML
 
                     foreach (var elementToTrackRemovalOf in _elementsToTrackRemovalOf)
                     {
-                        if (IsEqualToOrIsChildOf(elementToTrackRemovalOf.element, removedElement))
+                        if (elementToTrackRemovalOf.element.IsEqualToOrIsChildOf(removedElement))
                         {
                             elementsRemovedThatWeCareAbout.Add(elementToTrackRemovalOf);
                         }
@@ -122,9 +122,8 @@ namespace Tesserae.HTML
             if (callback == null)
                 throw new ArgumentNullException(nameof(callback));
 
-            if (IsEqualToOrIsChildOf(element, document.body))
+            if (element.IsMounted())
             {
-                // Already mounted
                 callback();
             }
             else
@@ -151,19 +150,6 @@ namespace Tesserae.HTML
             // an element before its initial render / adding-to-the-DOM and so that check has had to be removed (as, in that case, the element would not be mounted because it hasn't been
             // added yet, not because it WAS added to the DOM and had already been removed again)
             _elementsToTrackRemovalOf.Add((element, callback));
-        }
-
-        public static bool IsEqualToOrIsChildOf(HTMLElement element, Node possibleParentElement)
-        {
-            while (H5.Script.Write<bool>("{0} != null", element))  //Short-circuit the == opeartor in C# to make this method faster
-            {
-                if (H5.Script.Write<bool>("{0} == {1}", element, possibleParentElement)) //Short-circuit the == opeartor in C# to make this method faster
-                {
-                    return true;
-                }
-                element = element.parentElement;
-            }
-            return false;
         }
     }
 }
