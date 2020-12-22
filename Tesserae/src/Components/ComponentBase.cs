@@ -1,7 +1,7 @@
 ﻿using H5;
 using static H5.Core.dom;
 
-namespace Tesserae.Components
+namespace Tesserae
 {
     public abstract class ComponentBase<T, THTML> : IComponent, IHasMarginPadding where T : ComponentBase<T, THTML> where THTML : HTMLElement
     {

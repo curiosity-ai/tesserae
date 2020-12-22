@@ -3,7 +3,7 @@ using System.Linq;
 using static H5.Core.dom;
 using static Tesserae.UI;
 
-namespace Tesserae.Components
+namespace Tesserae
 {
     public sealed class ContextMenu : Layer<ContextMenu>, IContainer<ContextMenu, ContextMenu.Item>
     {
@@ -267,7 +267,7 @@ namespace Tesserae.Components
 
             public Item(IComponent component)
             {
-                if(component is ITextFormating itf)
+                if(component is ITextFormating itf && (itf is Button || itf is Link))
                 {
                     itf.SetTextAlign(TextAlign.Left);
                 }

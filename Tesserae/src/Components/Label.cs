@@ -5,7 +5,7 @@ using Tesserae.HTML;
 using static H5.Core.dom;
 using static Tesserae.UI;
 
-namespace Tesserae.Components
+namespace Tesserae
 {
     public class Label : TextBlock
     {
@@ -72,7 +72,7 @@ namespace Tesserae.Components
             {
                 InnerElement.classList.remove(Weight.ToClassName());
                 InnerElement.classList.add(value.ToClassName());
-                _label.classList.remove(Size.ToClassName());
+                _label.classList.remove(Weight.ToClassName());
                 _label.classList.add(value.ToClassName());
             }
         }

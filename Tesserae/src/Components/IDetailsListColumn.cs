@@ -1,6 +1,6 @@
 using System;
 
-namespace Tesserae.Components
+namespace Tesserae
 {
     public interface IDetailsListColumn : IComponent
     {

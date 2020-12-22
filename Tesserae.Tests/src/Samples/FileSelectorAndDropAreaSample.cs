@@ -1,4 +1,4 @@
-﻿using Tesserae.Components;
+﻿using Tesserae;
 using static H5.Core.dom;
 using static Tesserae.Tests.Samples.SamplesHelper;
 using static Tesserae.UI;
@@ -22,7 +22,7 @@ namespace Tesserae.Tests.Samples
                     SampleSubTitle("Do"),
                     SampleDo("Filter files by supported types"),
                     SampleDo("Provide a message for the file drop area"),
-                    SampleDo($"Attach the {nameof(Components.FileDropArea.OnFileDropped)} event handler")
+                    SampleDo($"Attach the {nameof(FileDropArea.OnFileDropped)} event handler")
                 ),
             Stack().Width(40.percent()).Children(
                 SampleSubTitle("Don't"),

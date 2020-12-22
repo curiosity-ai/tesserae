@@ -184,7 +184,6 @@ a {
     box-shadow: none;
 }
 
-
 .tss-btn-primary.tss-btn-nobg {
     color: var(--tss-primary-background-color);
 }
@@ -304,3 +303,21 @@ a {
         .tss-btn-linkonhover.tss-danger.tss-disabled {
             color: var(--tss-disabled-foreground-color);
         }
+
+.tss-btn-nohover:hover {
+    background: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+}
+
+.tss-btn-link.tss-btn-nohover:hover {
+    border: none;
+}
+
+.tss-link-no-underline {
+    text-decoration: none;
+}
+
+    .tss-link-no-underline:hover {
+        text-decoration: none;
+    }

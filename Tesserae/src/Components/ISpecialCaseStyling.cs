@@ -1,6 +1,6 @@
 ﻿using static H5.Core.dom;
 
-namespace Tesserae.Components
+namespace Tesserae
 {
     public interface ISpecialCaseStyling
     {

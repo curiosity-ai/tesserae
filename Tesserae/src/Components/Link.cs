@@ -3,17 +3,18 @@ using H5;
 using static H5.Core.dom;
 using static Tesserae.UI;
 
-namespace Tesserae.Components
+namespace Tesserae
 {
     public class Link : IComponent, ITextFormating
     {
         private readonly HTMLAnchorElement _anchor;
-        public Link(string url, IComponent component)
+        public Link(string url, IComponent component, bool noUnderline = false)
         {
             _anchor = A(_(href: url), component.Render());
-            if(component is Button)
+
+            if(noUnderline)
             {
-                _anchor.classList.add("tss-link-btn");
+                _anchor.classList.add("tss-link-no-underline");
             }
         }
 

@@ -1,4 +1,4 @@
-﻿namespace Tesserae.Components
+﻿namespace Tesserae
 {
     public interface IHasMarginPadding //TODO: Change interface to match methods for padding/margin on StackExtensions
     {

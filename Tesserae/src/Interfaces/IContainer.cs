@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Tesserae.Components
+namespace Tesserae
 {
     public interface IContainerBase<TChild> : IComponent where TChild : IComponent
     {
@@ -16,17 +16,6 @@ namespace Tesserae.Components
 
     public static class IContainerExtensions
     {
-        public static T Children<T>(this T container, IEnumerable<IComponent> children) where T : IContainer<T, IComponent>
-        {
-            container.Clear();
-            foreach (var x in children)
-            {
-                container.Add(x);
-            }
-
-            return container;
-        }
-
         public static T Children<T>(this T container, IComponent first, IEnumerable<IComponent> children) where T : IContainer<T, IComponent>
         {
             container.Clear();
@@ -39,14 +28,18 @@ namespace Tesserae.Components
             return container;
         }
 
-        public static T Children<T>(this T container, IEnumerable<IComponent> children, IComponent last) where T : IContainer<T, IComponent>
+        public static T Children<T>(this T container, IEnumerable<IComponent> children, IComponent last = null) where T : IContainer<T, IComponent>
         {
             container.Clear();
             foreach (var x in children)
             {
                 container.Add(x);
             }
-            container.Add(last);
+
+            if(last is object)
+            {
+                container.Add(last);
+            }
 
             return container;
         }
@@ -70,7 +63,7 @@ namespace Tesserae.Components
             return container;
         }
 
-        public static T Children<T>(this T container, IEnumerable<Nav.NavLink> children) where T : IContainer<T, IComponent>
+        public static T Children<T>(this T container, IEnumerable<Nav.NavLink> children) where T : IContainer<Nav.NavLink, Nav.NavLink>
         {
             container.Clear();
             foreach (var x in children)
@@ -81,14 +74,14 @@ namespace Tesserae.Components
             return container;
         }
 
-        public static T Children<T>(this T container, params Nav.NavLink[] children) where T : IContainer<T, Nav.NavLink>
+        public static T Children<T>(this T container, params Nav.NavLink[] children) where T : IContainer<Nav.NavLink, Nav.NavLink>
         {
             container.Clear();
             children.ForEach(x => container.Add(x));
             return container;
         }
         
-        public static T Children<T>(this T container, IEnumerable<ChoiceGroup.Choice> children) where T : IContainer<T, IComponent>
+        public static T Children<T>(this T container, IEnumerable<ChoiceGroup.Choice> children) where T : IContainer<T, ChoiceGroup.Choice>
         {
             container.Clear();
             foreach (var x in children)

@@ -1,5 +1,5 @@
 ﻿using System;
-using Tesserae.Components;
+using Tesserae;
 using static H5.Core.dom;
 using static Tesserae.UI;
 using static Tesserae.Tests.Samples.SamplesHelper;

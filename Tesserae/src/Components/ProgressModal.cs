@@ -1,7 +1,7 @@
 ﻿using System;
 using static Tesserae.UI;
 
-namespace Tesserae.Components
+namespace Tesserae
 {
 
     public class ProgressModal

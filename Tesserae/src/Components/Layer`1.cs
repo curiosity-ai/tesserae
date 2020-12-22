@@ -2,7 +2,7 @@
 using static H5.Core.dom;
 using static Tesserae.UI;
 
-namespace Tesserae.Components
+namespace Tesserae
 {
     /// <summary>
     /// This generic version of Layer should only be used to create derived classes from (such as the ContextMenu, for example). If you require no additional functionality on top of a standard layer then use the non-generic Layer class. The reason for the two classes

@@ -1,4 +1,4 @@
-﻿namespace Tesserae.Components
+﻿namespace Tesserae
 {
     public static class LayerExtensions
     {

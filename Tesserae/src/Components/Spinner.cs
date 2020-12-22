@@ -3,7 +3,7 @@ using static H5.Core.dom;
 using System.Linq;
 using System;
 
-namespace Tesserae.Components
+namespace Tesserae
 {
     public class Spinner : ComponentBase<Spinner, HTMLDivElement>
     {

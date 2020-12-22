@@ -2,13 +2,18 @@ using Tesserae.HTML;
 using static H5.Core.dom;
 using static Tesserae.UI;
 
-namespace Tesserae.Components
+namespace Tesserae
 {
-    public class Image : ComponentBase<Image, HTMLImageElement>
+    public class Image : ComponentBase<Image, HTMLImageElement>, ISpecialCaseStyling
     {
+        public HTMLElement StylingContainer => InnerElement;
+
+        public bool PropagateToStackItemParent { get; private set; }
+
         public Image(string source)
         {
             InnerElement = UI.Image(_(src:source));
+            PropagateToStackItemParent = true;
         }
 
         public override HTMLElement Render()
@@ -43,6 +48,13 @@ namespace Tesserae.Components
         public Image ScaleDown()
         {
             InnerElement.style.objectFit = "scale-down";
+            return this;
+        }
+
+        public Image Circle()
+        {
+            InnerElement.style.borderRadius = "50%";
+            PropagateToStackItemParent = false;
             return this;
         }
     }

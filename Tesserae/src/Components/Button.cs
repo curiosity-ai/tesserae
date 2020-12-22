@@ -4,7 +4,7 @@ using Tesserae.HTML;
 using static H5.Core.dom;
 using static Tesserae.UI;
 
-namespace Tesserae.Components
+namespace Tesserae
 {
     public class Button : ComponentBase<Button, HTMLButtonElement>, ITextFormating, IHasBackgroundColor, IHasForegroundColor, IHaveTextWrappingOptions
     {
@@ -370,6 +370,12 @@ namespace Tesserae.Components
         public Button LinkOnHover()
         {
             InnerElement.classList.add("tss-btn-linkonhover");
+            return this;
+        }
+
+        public Button NoHover()
+        {
+            InnerElement.classList.add("tss-btn-nohover");
             return this;
         }
 

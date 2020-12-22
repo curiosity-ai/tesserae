@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using static Tesserae.UI;
 
-namespace Tesserae.Components
+namespace Tesserae
 {
     public sealed class Dialog
     {

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Tesserae.Components
+namespace Tesserae
 {
     internal static class EnumerableExtensions
     {

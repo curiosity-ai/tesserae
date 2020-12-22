@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace Tesserae.Components
+namespace Tesserae
 {
     public class DateTimePicker : MomentPickerBase<DateTimePicker, DateTime>
     {

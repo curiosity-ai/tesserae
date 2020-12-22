@@ -3,7 +3,7 @@ using System.Linq;
 using TNT;
 using static TNT.T;
 
-namespace Tesserae.Components
+namespace Tesserae
 {
     public static class Validation
     {

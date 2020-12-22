@@ -6,7 +6,7 @@ using static H5.Core.dom;
 using static H5.Core.dom.Node;
 using Tesserae.HTML;
 
-namespace Tesserae.Components
+namespace Tesserae
 {
     public class DetailsList<TDetailsListItem> : IComponent, ISpecialCaseStyling where TDetailsListItem : class, IDetailsListItem<TDetailsListItem>
     {

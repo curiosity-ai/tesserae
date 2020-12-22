@@ -4,7 +4,7 @@ using Tesserae.HTML;
 using static H5.Core.dom;
 using static Tesserae.UI;
 
-namespace Tesserae.Components
+namespace Tesserae
 {
     // This class has a different name than the static method in the UI class due to a bug in the bridge compiler that ends up calling the wrong constructor.
     // It is also internal to Tesserae to hide it from the compiler, which then exposes only the IDefer interface
