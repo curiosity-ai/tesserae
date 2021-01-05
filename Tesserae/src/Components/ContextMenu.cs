@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using static H5.Core.dom;
 using static Tesserae.UI;
@@ -11,16 +12,15 @@ namespace Tesserae
         private          HTMLDivElement _modalOverlay;
         private          HTMLDivElement _popup;
 
+        public event ComponentEventHandler<Item, MouseEvent> ItemClick;
+
+
+        private List<Item> _items = new List<Item>();
+
         public ContextMenu()
         {
             InnerElement    = Div(_("tss-contextmenu"));
             _childContainer = Div(_());
-
-            InnerElement.onclick = (e) =>
-            {
-                if (!IsVisible)
-                    Show();
-            };
         }
 
         public void Clear()
@@ -35,9 +35,46 @@ namespace Tesserae
 
         public void Add(Item component)
         {
+            _items.Add(component);
             ScrollBar.GetCorrectContainer(_childContainer).appendChild(component.Render());
-            component.OnClick((s, e) => Hide());
+
+            component.CloseOtherSubmenus += CloseOtherSubmenus;
+            component.OnClick((s, e) =>
+            {
+                ItemClick?.Invoke(s, e);
+                Hide();
+            });
         }
+
+        private void CloseOtherSubmenus(Item sender)
+        {
+            foreach (var item in _items)
+            {
+                if (item != sender)
+                {
+                    item.HideSubmenus();
+                }
+            }
+        }
+
+        private void HideIfNotHovered()
+        {
+            var anyItemHovered = false;
+
+            foreach (var child in ScrollBar.GetCorrectContainer(_childContainer).children)
+            {
+                anyItemHovered = child.matches(":hover");
+                if (anyItemHovered) break;
+            }
+
+            if (!anyItemHovered) Hide();
+        }
+
+        private void OnItemClick(ComponentEventHandler<Item, MouseEvent> componentEventHandler)
+        {
+            ItemClick += componentEventHandler;
+        }
+
 
         public override HTMLElement Render()
         {
@@ -127,15 +164,24 @@ namespace Tesserae
             }, 100);
         }
 
-        public void ShowFor(HTMLElement element, int distanceX = 1, int distanceY = 1)
+        public void ShowFor(HTMLElement element, int distanceX = 1, int distanceY = 1, bool asSubMenu = false)
         {
-            if (_contentHtml == null)
+            if (asSubMenu)
             {
-                _modalOverlay = Div(_("tss-contextmenu-overlay"));
-                _modalOverlay.addEventListener("click", _ => Hide());
                 _popup       = Div(_("tss-contextmenu-popup"), _childContainer);
                 _contentHtml = Div(_(),                        _modalOverlay, _popup);
             }
+            else
+            {
+                if (_contentHtml == null)
+                {
+                    _modalOverlay = Div(_("tss-contextmenu-overlay"));
+                    _modalOverlay.addEventListener("click", _ => Hide());
+                    _popup       = Div(_("tss-contextmenu-popup"), _childContainer);
+                    _contentHtml = Div(_(),                        _modalOverlay, _popup);
+                }
+            }
+
 
             _popup.style.height = "unset";
             _popup.style.left   = "-1000px";
@@ -148,9 +194,9 @@ namespace Tesserae
             ClientRect parentRect = (ClientRect) element.getBoundingClientRect();
             var        popupRect  = (ClientRect) _popup.getBoundingClientRect();
 
-            _popup.style.left     = parentRect.left               + "px";
-            _popup.style.top      = parentRect.bottom - distanceY + "px";
-            _popup.style.minWidth = parentRect.width              + "px";
+            _popup.style.left     = parentRect.left   + distanceX + "px";
+            _popup.style.top      = parentRect.bottom + distanceY + "px";
+            _popup.style.minWidth = parentRect.width  + "px";
 
 
             //TODO: CHECK THIS LOGIC
@@ -207,6 +253,10 @@ namespace Tesserae
         {
             document.removeEventListener("keydown", OnPopupKeyDown);
             base.Hide(onHidden);
+            foreach (var item in _items)
+            {
+                item.HideSubmenus();
+            }
         }
 
         public ContextMenu Items(params Item[] children)
@@ -248,6 +298,8 @@ namespace Tesserae
             }
         }
 
+
+
         public enum ItemType
         {
             Item,
@@ -258,13 +310,19 @@ namespace Tesserae
         public class Item : ComponentBase<Item, HTMLButtonElement>
         {
             private readonly HTMLElement _innerComponent;
+            private          ContextMenu _subMenu;
+
+            public event ComponentEventHandler<Item> CloseOtherSubmenus;
+
+            public bool HasSubMenu => _subMenu != null;
 
             public Item(string text = string.Empty)
             {
                 _innerComponent = null;
                 InnerElement    = Button(_("tss-contextmenu-item", text: text));
                 AttachClick();
-                InnerElement.addEventListener("mouseover", OnItemMouseOver);
+                InnerElement.addEventListener("mouseenter", OnItemMouseEnter);
+                InnerElement.addEventListener("mouseleave", OnItemMouseLeave);
             }
 
             public Item(IComponent component)
@@ -278,7 +336,8 @@ namespace Tesserae
                 InnerElement    = Button(_("tss-contextmenu-item"));
                 InnerElement.appendChild(_innerComponent);
                 AttachClick();
-                InnerElement.addEventListener("mouseover", OnItemMouseOver);
+                InnerElement.addEventListener("mouseenter", OnItemMouseEnter);
+                InnerElement.addEventListener("mouseleave", OnItemMouseLeave);
             }
 
             public ItemType Type
@@ -346,33 +405,84 @@ namespace Tesserae
                 return this;
             }
 
+            public Item SubMenu(ContextMenu cm)
+            {
+                _subMenu = cm;
+
+                InnerElement.appendChild(I(_("las la-angle-right")));
+                InnerElement.classList.add("tss-contextmenu-submenu-button");
+                return this;
+            }
+
             public new Item OnClick(ComponentEventHandler<Item, MouseEvent> e)
             {
                 if (Type == ItemType.Item)
                 {
-                    Clicked += e;
-                    if (_innerComponent is object)
+                    if (HasSubMenu)
                     {
-                        _innerComponent.onclick += (e2) =>
+                        _subMenu.OnItemClick(e);
+                    }
+                    else
+                    {
+                        Clicked += e;
+                        if (_innerComponent is object)
                         {
-                            if (_innerComponent.tagName != "A" || string.IsNullOrWhiteSpace(_innerComponent.As<HTMLAnchorElement>().href))
+                            _innerComponent.onclick += (e2) =>
                             {
-                                StopEvent(e2); //Stop double calling the click handler for anything but links
-                            }
+                                if (_innerComponent.tagName != "A" || string.IsNullOrWhiteSpace(_innerComponent.As<HTMLAnchorElement>().href))
+                                {
+                                    StopEvent(e2); //Stop double calling the click handler for anything but links
+                                }
 
-                            e.Invoke(this, e2);
-                        };
+                                e.Invoke(this, e2);
+                            };
+                        }
                     }
                 }
 
                 return this;
             }
 
-            private void OnItemMouseOver(Event ev)
+
+            public void HideSubmenus()
             {
-                if (Type == ItemType.Item)
+                if (_subMenu != null)
                 {
-                    InnerElement.focus();
+                    _subMenu.Hide();
+                }
+            }
+
+            private void ShowSubMenu()
+            {
+                if (_subMenu != null && !_subMenu.IsVisible)
+                {
+                    ClientRect selfRect = (ClientRect) InnerElement.getBoundingClientRect();
+                    _subMenu.ShowFor(InnerElement, (int) selfRect.width, (int) -selfRect.height, asSubMenu: true);
+                }
+            }
+
+            private void OnItemMouseEnter(Event mouseEvent)
+            {
+                if (mouseEvent is MouseEvent e)
+                {
+                    if (Type == ItemType.Item)
+                    {
+                        InnerElement.focus();
+                        CloseOtherSubmenus?.Invoke(this);
+                    }
+
+                    ShowSubMenu();
+                }
+            }
+
+            private void OnItemMouseLeave(Event mouseEvent)
+            {
+                if (mouseEvent is MouseEvent e)
+                {
+                    if (_subMenu != null)
+                    {
+                        _subMenu.HideIfNotHovered();
+                    }
                 }
             }
         }

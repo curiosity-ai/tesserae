@@ -163,5 +163,11 @@
     right: 0;
     bottom: 0;
     background-color: transparent;
-    visibility:visible;
+    visibility: visible;
+}
+
+
+.tss-contextmenu-submenu-button i {
+    float: right;
+    padding-left: 15px;
 }
