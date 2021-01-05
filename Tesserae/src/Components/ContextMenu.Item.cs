@@ -162,7 +162,7 @@ namespace Tesserae
             {
                 if (_subMenu != null && !_subMenu.IsVisible)
                 {
-                    ClientRect selfRect = (ClientRect) InnerElement.getBoundingClientRect();
+                    var selfRect = (ClientRect) InnerElement.getBoundingClientRect();
                     _subMenu.ShowFor(InnerElement, (int) selfRect.width, (int) -selfRect.height, asSubMenu: true);
                 }
             }
