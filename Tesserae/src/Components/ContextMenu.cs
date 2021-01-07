@@ -12,7 +12,7 @@ namespace Tesserae
         private          HTMLDivElement _modalOverlay;
         private          HTMLDivElement _popup;
 
-        public event ComponentEventHandler<Item, MouseEvent> ItemClick;
+        private event ComponentEventHandler<Item, MouseEvent> ItemClick;
 
 
         private List<Item> _items = new List<Item>();
