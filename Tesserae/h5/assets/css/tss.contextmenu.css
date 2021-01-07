@@ -86,12 +86,14 @@
     outline: transparent none medium;
     cursor: pointer;
     text-align: left;
-    display: block;
+    display: flex;
     padding: 0 8px;
     min-height: 36px;
     line-height: 20px;
     width: 100%;
     position: relative;
+    align-items: center;
+    justify-content: space-between;
 }
 
     .tss-contextmenu-item:hover {
@@ -167,7 +169,6 @@
 }
 
 
-.tss-contextmenu-submenu-button i {
-    float: right;
+.tss-contextmenu-submenu-button-icon {
     padding-left: 15px;
 }

@@ -40,10 +40,10 @@ namespace Tesserae.Tests.Samples
 
 
             var cmcm = ContextMenu().Items(
-                ContextMenuItem("New").SubMenu(cmsub),
+                ContextMenuItem(Link("#", "New")).SubMenu(cmsub),
                 ContextMenuItem().Divider(),
                 ContextMenuItem("Edit").OnClick((s2, e2) => msg2.Text("Clicked: Edit")),
-                ContextMenuItem("Properties").SubMenu(cmsub2),
+                ContextMenuItem(Button("Properties").Compact().Link().SetIcon(LineAwesome.ExpandArrowsAlt)).SubMenu(cmsub2),
                 ContextMenuItem("Header").Header(),
                 ContextMenuItem("Disabled").Disabled(),
                 ContextMenuItem("Link").OnClick((s2, e2) => msg2.Text("Clicked: Link"))

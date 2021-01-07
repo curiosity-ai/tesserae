@@ -13,7 +13,7 @@ namespace Tesserae
             Divider
         }
 
-        public class Item : ComponentBase<Item, HTMLButtonElement>
+        public class Item : ComponentBase<Item, HTMLElement>
         {
             private readonly HTMLElement _innerComponent;
             private          ContextMenu _subMenu;
@@ -36,10 +36,14 @@ namespace Tesserae
                 if (component is ITextFormating itf && (itf is Button || itf is Link))
                 {
                     itf.SetTextAlign(TextAlign.Left);
+                    if (itf is Button itfb)
+                    {
+                        itfb.NoPadding();
+                    }
                 }
 
-                _innerComponent = component.WS().Render();
-                InnerElement    = Button(_("tss-contextmenu-item"));
+                _innerComponent = component.Render();
+                InnerElement    = Div(_("tss-contextmenu-item"), _innerComponent);
                 InnerElement.appendChild(_innerComponent);
                 AttachClick();
                 InnerElement.addEventListener("mouseenter", OnItemMouseEnter);
@@ -115,8 +119,7 @@ namespace Tesserae
             {
                 _subMenu = cm;
 
-                InnerElement.appendChild(I(_("las la-angle-right")));
-                InnerElement.classList.add("tss-contextmenu-submenu-button");
+                InnerElement.appendChild(I(_("las la-angle-right tss-contextmenu-submenu-button-icon")));
                 return this;
             }
 
