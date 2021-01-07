@@ -39,6 +39,7 @@ namespace Tesserae
                     if (itf is Button itfb)
                     {
                         itfb.NoPadding();
+                        itfb.NoMargin();
                     }
                 }
 
@@ -136,6 +137,10 @@ namespace Tesserae
                         Clicked += e;
                         if (_innerComponent is object)
                         {
+                            Clicked += (sender, mouseEvent) =>
+                            {
+                                _innerComponent.click();;
+                            };
                             _innerComponent.onclick += (e2) =>
                             {
                                 if (_innerComponent.tagName != "A" || string.IsNullOrWhiteSpace(_innerComponent.As<HTMLAnchorElement>().href))

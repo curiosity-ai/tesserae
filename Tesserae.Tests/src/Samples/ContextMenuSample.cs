@@ -42,6 +42,11 @@ namespace Tesserae.Tests.Samples
             var cmcm = ContextMenu().Items(
                 ContextMenuItem(Link("#", "New")).SubMenu(cmsub),
                 ContextMenuItem().Divider(),
+                ContextMenuItem(Button("All").Compact().Link()
+                   .OnClick((_, __) =>
+                    {
+                        msg2.Text("Clicked: All");
+                    })),
                 ContextMenuItem("Edit").OnClick((s2, e2) => msg2.Text("Clicked: Edit")),
                 ContextMenuItem(Button("Properties").Compact().Link().SetIcon(LineAwesome.ExpandArrowsAlt)).SubMenu(cmsub2),
                 ContextMenuItem("Header").Header(),
