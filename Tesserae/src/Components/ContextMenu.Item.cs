@@ -158,6 +158,7 @@ namespace Tesserae
                 if (_subMenu != null)
                 {
                     _subMenu.Hide();
+                    InnerElement.classList.remove("tss-selected");
                 }
             }
 
@@ -167,6 +168,7 @@ namespace Tesserae
                 {
                     var selfRect = (ClientRect) InnerElement.getBoundingClientRect();
                     _subMenu.ShowFor(InnerElement, (int) selfRect.width, (int) -selfRect.height, asSubMenu: true);
+                    InnerElement.classList.add("tss-selected");
                 }
             }
 
@@ -191,6 +193,10 @@ namespace Tesserae
                     if (_subMenu != null)
                     {
                         _subMenu.HideIfNotHovered();
+                        if (!_subMenu.IsVisible)
+                        {
+                            InnerElement.classList.remove("tss-selected");
+                        }
                     }
                 }
             }
