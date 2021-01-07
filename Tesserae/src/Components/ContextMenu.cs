@@ -164,7 +164,9 @@ namespace Tesserae
             }, 100);
         }
 
-        public void ShowFor(HTMLElement element, int distanceX = 1, int distanceY = 1, bool asSubMenu = false)
+        public void ShowFor(HTMLElement element, int distanceX = 1, int distanceY = 1) => ShowFor(element, distanceX, distanceY, false);
+
+        private void ShowFor(HTMLElement element, int distanceX, int distanceY, bool asSubMenu)
         {
             if (asSubMenu)
             {
