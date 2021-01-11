@@ -16,42 +16,42 @@ namespace Tesserae.Tests.Samples
 
             var cmsub = ContextMenu().Items(
                 ContextMenuItem().Divider(),
-                ContextMenuItem("Edit Sub").OnClick((s2,       e2) => msg2.Text("Clicked: Edit Sub")),
-                ContextMenuItem("Properties Sub").OnClick((s2, e2) => msg2.Text("Clicked: Properties Sub")),
+                ContextMenuItem("Edit Sub").OnClick((s2,       e2) => Toast().Information("Clicked: Edit Sub")),
+                ContextMenuItem("Properties Sub").OnClick((s2, e2) => Toast().Information("Clicked: Properties Sub")),
                 ContextMenuItem("Header Sub").Header(),
                 ContextMenuItem("Disabled Sub").Disabled(),
-                ContextMenuItem("Link Sub").OnClick((s2, e2) => msg2.Text("Clicked: Link Sub")));
+                ContextMenuItem("Link Sub").OnClick((s2, e2) => Toast().Information("Clicked: Link Sub")));
 
             var cmsub3 = ContextMenu().Items(
                 ContextMenuItem().Divider(),
-                ContextMenuItem("Edit Sub3").OnClick((s2,       e2) => msg2.Text("Clicked: Edit Sub3")),
-                ContextMenuItem("Properties Sub3").OnClick((s2, e2) => msg2.Text("Clicked: Properties Sub3")),
+                ContextMenuItem("Edit Sub3").OnClick((s2,       e2) => Toast().Information("Clicked: Edit Sub3")),
+                ContextMenuItem("Properties Sub3").OnClick((s2, e2) => Toast().Information("Clicked: Properties Sub3")),
                 ContextMenuItem("Header Sub3").Header(),
                 ContextMenuItem("Disabled Sub3").Disabled(),
-                ContextMenuItem("Link Sub3").OnClick((s2, e2) => msg2.Text("Clicked: Link Sub3")));
+                ContextMenuItem("Link Sub3").OnClick((s2, e2) => Toast().Information("Clicked: Link Sub3")));
 
             var cmsub2 = ContextMenu().Items(
                 ContextMenuItem().Divider(),
-                ContextMenuItem("Edit Sub2").OnClick((s2, e2) => msg2.Text("Clicked: Edit Sub2")),
+                ContextMenuItem("Edit Sub2").OnClick((s2, e2) => Toast().Information("Clicked: Edit Sub2")),
                 ContextMenuItem("Properties Sub2").SubMenu(cmsub3),
                 ContextMenuItem("Header Sub2").Header(),
                 ContextMenuItem("Disabled Sub2").Disabled(),
-                ContextMenuItem("Link Sub2").OnClick((s2, e2) => msg2.Text("Clicked: Link Sub2")));
+                ContextMenuItem("Link Sub2").OnClick((s2, e2) => Toast().Information("Clicked: Link Sub2")));
 
 
             var cmcm = ContextMenu().Items(
                 ContextMenuItem(Link("#", "New")).SubMenu(cmsub),
                 ContextMenuItem().Divider(),
-                ContextMenuItem(Button("All").Compact().Link()
+                ContextMenuItem(Button("All").Compact().Link())
                    .OnClick((_, __) =>
                     {
-                        msg2.Text("Clicked: All");
-                    })),
-                ContextMenuItem("Edit").OnClick((s2, e2) => msg2.Text("Clicked: Edit")),
+                        Toast().Information("Clicked: All");
+                    }),
+                ContextMenuItem(Button("Edit").Compact().Link().SetIcon(LineAwesome.Edit)).OnClick((s2, e2) => Toast().Information("Clicked: Edit")),
                 ContextMenuItem(Button("Properties").Compact().Link().SetIcon(LineAwesome.ExpandArrowsAlt)).SubMenu(cmsub2),
                 ContextMenuItem("Header").Header(),
                 ContextMenuItem("Disabled").Disabled(),
-                ContextMenuItem("Link").OnClick((s2, e2) => msg2.Text("Clicked: Link"))
+                ContextMenuItem("Link").OnClick((s2, e2) => Toast().Information("Clicked: Link"))
             );
 
 
@@ -79,13 +79,13 @@ namespace Tesserae.Tests.Samples
                             Label("Standard with Headers").SetContent(
                                 Button("Open").Var(out var btn2).OnClick((s, e) =>
                                     ContextMenu().Items(
-                                        ContextMenuItem("New").OnClick((s2, e2) => msg.Text("Clicked: New")),
+                                        ContextMenuItem("New").OnClick((s2, e2) => Toast().Information("Clicked: New")),
                                         ContextMenuItem().Divider(),
-                                        ContextMenuItem("Edit").OnClick((s2,       e2) => msg.Text("Clicked: Edit")),
-                                        ContextMenuItem("Properties").OnClick((s2, e2) => msg.Text("Clicked: Properties")),
+                                        ContextMenuItem("Edit").OnClick((s2,       e2) => Toast().Information("Clicked: Edit")),
+                                        ContextMenuItem("Properties").OnClick((s2, e2) => Toast().Information("Clicked: Properties")),
                                         ContextMenuItem("Header").Header(),
                                         ContextMenuItem("Disabled").Disabled(),
-                                        ContextMenuItem("Link").OnClick((s2, e2) => msg.Text("Clicked: Link"))
+                                        ContextMenuItem("Link").OnClick((s2, e2) => Toast().Information("Clicked: Link"))
                                     ).ShowFor(btn2)
                                 )), msg),
                         Stack().Children(
