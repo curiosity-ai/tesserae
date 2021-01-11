@@ -7,7 +7,7 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
-    public class Label : TextBlock
+    public sealed class Label : TextBlock, ISpecialCaseStyling
     {
         private static int _labelForId = 0;
 
@@ -113,6 +113,11 @@ namespace Tesserae
                 _label.htmlFor = id;
             }
         }
+
+        // 2021-01-11 DWR: Need to implement ISpecialCaseStyling so that extension methods such as AlignStart result in the styling being applied to the correct element
+        HTMLElement ISpecialCaseStyling.StylingContainer => _label;
+        bool ISpecialCaseStyling.PropagateToStackItemParent => true;
+
         public Label SetContent( IComponent content)
         {
             Content = content;
