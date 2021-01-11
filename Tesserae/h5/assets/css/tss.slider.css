@@ -34,7 +34,7 @@
     background-color: var(--tss-slider-color);
     position: absolute;
     left: 0px;
-    top: 0px;
+    top: 6px;
     height: 4px;
     z-index: 0;
     user-select: none;
@@ -57,7 +57,7 @@
     background-color: var(--tss-default-border-color);
     position: relative;
     left: 0px;
-    top: 0px;
+    top: 6px;
     height: 4px;
     width: 100%;
     z-index: 0;
@@ -86,7 +86,7 @@
         background-color: transparent;
         position: absolute;
         left: 0;
-        top: 0;
+        top: 6px;
         z-index: 1;
     }
 
