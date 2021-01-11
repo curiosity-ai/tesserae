@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Tesserae;
 using static H5.Core.dom;
 using static Tesserae.Tests.Samples.SamplesHelper;
 using static Tesserae.UI;
