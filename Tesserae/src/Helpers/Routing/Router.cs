@@ -249,7 +249,7 @@ namespace Tesserae
 
         private static void LocationChanged(bool allowCallbackEvenIfLocationUnchanged)
         {
-            var currentPathFromHash = (window.location.hash ?? "").TrimStart('#');
+            var currentPathFromHash = (window.location.hash ?? "");
 
             if (!allowCallbackEvenIfLocationUnchanged && (_currentState is object) )
             {
@@ -258,6 +258,9 @@ namespace Tesserae
                     return;
                 }
             }
+
+            //The call to AlreadyThere above expects the hash to be still in the URL, so we only remove it here
+            currentPathFromHash = currentPathFromHash.TrimStart('#');
 
             var p = currentPathFromHash.Split(new[] { '?' }, count: 2); // Do not remove empty entries, as we need the empty entry in the array
 
