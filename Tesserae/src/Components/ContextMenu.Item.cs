@@ -36,11 +36,6 @@ namespace Tesserae
                 if (component is ITextFormating itf && (itf is Button || itf is Link))
                 {
                     itf.SetTextAlign(TextAlign.Left);
-                    if (itf is Button itfb)
-                    {
-                        itfb.NoPadding();
-                        itfb.NoMargin();
-                    }
                 }
 
                 _innerComponent = component.Render();
