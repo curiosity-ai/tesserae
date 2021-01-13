@@ -150,16 +150,19 @@ namespace Tesserae
         {
             if (string.IsNullOrEmpty(candidatePath)) return false;
 
-            if (hashOrPath.StartsWith("#"))
+            if (candidatePath == hashOrPath) return true;
+
+            if (hashOrPath.StartsWith("#") || candidatePath.StartsWith("#"))
             {
-                var indexOfHash = candidatePath.IndexOf('#');
-                if(indexOfHash < 0) return false;
-                return candidatePath.Substring(indexOfHash) == hashOrPath;
+                var ix1 = candidatePath.IndexOf('#');
+                var ix2 =    hashOrPath.IndexOf('#');
+
+                if (ix1 < 0 && ix2 < 0) return false;
+
+                return candidatePath.Substring(ix1) == hashOrPath.Substring(ix2);
             }
-            else
-            {
-                return candidatePath == hashOrPath;
-            }
+
+            return false;
         }
 
         private static string LowerCasePath(string path)
