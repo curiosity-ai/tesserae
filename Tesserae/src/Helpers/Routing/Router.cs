@@ -250,8 +250,14 @@ namespace Tesserae
         private static void LocationChanged(bool allowCallbackEvenIfLocationUnchanged)
         {
             var currentPathFromHash = (window.location.hash ?? "").TrimStart('#');
-            if ((_currentState is object) && (_currentState.FullPath?.TrimStart('#') == currentPathFromHash) && !allowCallbackEvenIfLocationUnchanged)
-                return;
+
+            if (!allowCallbackEvenIfLocationUnchanged && (_currentState is object) )
+            {
+                if (AlreadyThere(currentPathFromHash, _currentState.FullPath)) ;
+                {
+                    return;
+                }
+            }
 
             var p = currentPathFromHash.Split(new[] { '?' }, count: 2); // Do not remove empty entries, as we need the empty entry in the array
 
