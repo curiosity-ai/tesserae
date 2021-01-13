@@ -30,6 +30,8 @@ namespace Tesserae
         {
             if (!_initialized)
             {
+                //We overload 'pushState' because on some browsers 'locationchange' is not properly triggered.
+                //However, not on 'replaceState' because we do not want to reload the page.
                 Script.Write(
 @"
     window.history.pushState = ( f => function pushState(){
@@ -42,7 +44,6 @@ namespace Tesserae
     window.history.replaceState = ( f => function replaceState(){
         var ret = f.apply(this, arguments);
         window.dispatchEvent(new Event('replacestate'));
-        window.dispatchEvent(new Event('locationchange'));
         return ret;
     })(window.history.replaceState);
 
