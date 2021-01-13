@@ -253,7 +253,7 @@ namespace Tesserae
 
             if (!allowCallbackEvenIfLocationUnchanged && (_currentState is object) )
             {
-                if (AlreadyThere(currentPathFromHash, _currentState.FullPath)) ;
+                if (AlreadyThere(currentPathFromHash, _currentState.FullPath))
                 {
                     return;
                 }
