@@ -43,7 +43,7 @@ namespace Tesserae.Tests.Samples
                             Float(Button("RightCenter"), Float.Position.RightCenter),
                             Float(Button("BottomLeft"), Float.Position.BottomLeft),
                             Float(Button("BottonMiddle"), Float.Position.BottonMiddle),
-                            Float(Button("TBottomRightopLeft"), Float.Position.BottomRight)
+                            Float(Button("BottomRight"), Float.Position.BottomRight)
                         )));
         }
 
