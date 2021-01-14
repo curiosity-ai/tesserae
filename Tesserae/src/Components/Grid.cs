@@ -162,10 +162,28 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Make this grid relative (i.e. position:relative)
+        /// </summary>
+        /// <returns></returns>
+        public Grid Relative()
+        {
+            _grid.classList.add("tss-relative");
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the align-items css property for this grid to 'center'
+        /// </summary>
+        /// <param name="align"></param>
+        /// <returns></returns>
+        public Grid AlignItemsCenter() => AlignItems(ItemAlign.Center);
+
         public virtual void Clear()
         {
             ClearChildren(_grid);
         }
+        
         public void Replace(IComponent newComponent, IComponent oldComponent)
         {
             _grid.replaceChild(GetItem(newComponent), GetItem(oldComponent));

@@ -85,6 +85,16 @@ namespace Tesserae
         /// <param name="align"></param>
         /// <returns></returns>
         public Stack AlignItemsCenter() => AlignItems(ItemAlign.Center);
+        
+        /// <summary>
+        /// Make this stack relative (i.e. position:relative)
+        /// </summary>
+        /// <returns></returns>
+        public Stack Relative()
+        {
+            InnerElement.classList.add("tss-relative");
+            return this;
+        }
 
         /// <summary>
         /// Sets the align-items css property for this stack

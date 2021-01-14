@@ -52,6 +52,7 @@ namespace Tesserae.Tests
                 ("Pivot",                 () => new PivotSample()),
                 ("Defer",                 () => new DeferSample()),
                 ("Toast",                 () => new ToastSample()),
+                ("Float",                 () => new FloatSample()),
                 ("LineAwesomeIcons",      () => new LineAwesomeSample()),
                 ("FileSelector",          () => new FileSelectorAndDropAreaSample())
             };
@@ -175,6 +176,7 @@ namespace Tesserae.Tests
                                                                            links["Pivot"],
                                                                            links["Defer"],
                                                                            links["Toast"],
+                                                                           links["Float"],
                                                                            links["FileSelector"],
                                                                            links["LineAwesomeIcons"],
                                                                            links["ProgressModal"]),

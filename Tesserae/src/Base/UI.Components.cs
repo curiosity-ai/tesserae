@@ -140,6 +140,8 @@ namespace Tesserae
 
         public static SectionStack SectionStack() => new SectionStack();
 
+        public static Float Float(IComponent child, Float.Position position) => new Float(child, position);
+
         public static Button Button(string text = string.Empty) => new Button(text);
 
         public static CheckBox CheckBox(string text = string.Empty) => new CheckBox(text);
