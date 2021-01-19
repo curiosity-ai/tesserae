@@ -1,9 +1,7 @@
 ﻿/* Slider */
 .tss-slider-div {
     width: 100%;
-    margin: 4px;
-    margin-bottom: 8px;
-    padding-right: 8px;
+    padding-bottom: 8px;
 }
 
 .tss-slider-container {
@@ -103,7 +101,7 @@
     .tss-slider::-webkit-slider-thumb {
         -webkit-appearance: none;
         width: 16px;
-        height: 16px;
+        height: 32px;
         border-radius: 10px;
         background-color: var(--tss-default-background-color);
         border: 2px solid var(--tss-slider-color);
@@ -111,14 +109,14 @@
 
     .tss-slider::-moz-range-thumb {
         width: 16px;
-        height: 16px;
+        height: 32px;
         border-radius: 10px;
         background-color: var(--tss-default-background-color);
         border: 2px solid var(--tss-slider-color);
     }
 
     .tss-slider::-moz-range-progress {
-        height: 4px;
+        height: 8px;
         border-radius: 4px;
         background-color: var(--tss-default-border-color);
     }
