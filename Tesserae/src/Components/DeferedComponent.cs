@@ -128,7 +128,9 @@ namespace Tesserae
 
             var container = ScrollBar.GetCorrectContainer(Container);
             
-            var currentID = id++; //Save the last value so we only replace the content if the task that finished is the latest to have been triggered
+            id++;
+            
+            var currentID = id; //Save the last value so we only replace the content if the task that finished is the latest to have been triggered
 
             _asyncGenerator()
                 .ContinueWith(r =>
