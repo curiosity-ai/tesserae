@@ -5,10 +5,25 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
-    public class ProgressIndicator : IComponent
+    public class ProgressIndicator : IComponent, IHasForegroundColor
     {
         private readonly HTMLElement InnerElement;
         private readonly HTMLElement BarElement;
+
+        public string Foreground
+        {
+            get => BarElement.style.background; set
+            {
+                if(BarElement.classList.contains("tss-progressindicator-bar-indeterminate"))
+                {
+                    BarElement.style.background = $"linear-gradient(to right, var(--tss-progress-background-color) 0%, {value} 50%, var(--tss-progress-background-color) 100%)";
+                }
+                else
+                {
+                    BarElement.style.background = value;
+                }
+            }
+        }
 
         public ProgressIndicator()
         {
