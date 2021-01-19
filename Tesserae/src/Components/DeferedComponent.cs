@@ -15,6 +15,7 @@ namespace Tesserae
         private bool _needsRefresh, _waitForComponentToBeMountedBeforeFullyInitiatingRender, _renderHasBeenCalled;
         private double _refreshTimeout;
         private int _delayInMs = 16;
+        private int id = 0;
         private DeferedComponent(Func<Task<IComponent>> asyncGenerator, IComponent loadMessage, TextBlock defaultLoadingMessageIfAny)
         {
             if (loadMessage is null)
@@ -126,19 +127,25 @@ namespace Tesserae
             );
 
             var container = ScrollBar.GetCorrectContainer(Container);
+            
+            var currentID = id++; //Save the last value so we only replace the content if the task that finished is the latest to have been triggered
+
             _asyncGenerator()
                 .ContinueWith(r =>
                 {
-                    _defaultLoadingMessageIfAny = null;
-                    ClearChildren(container);
-                    if (r.IsCompleted)
+                    if (currentID == id)
                     {
-                        container.appendChild(r.Result.Render());
-                    }
-                    else
-                    {
-                        container.appendChild(TextBlock("Error rendering async element").Danger());
-                        container.appendChild(TextBlock(r.Exception.ToString()).XSmall());
+                        _defaultLoadingMessageIfAny = null;
+                        ClearChildren(container);
+                        if (r.IsCompleted)
+                        {
+                            container.appendChild(r.Result.Render());
+                        }
+                        else
+                        {
+                            container.appendChild(TextBlock("Error rendering async element").Danger());
+                            container.appendChild(TextBlock(r.Exception.ToString()).XSmall());
+                        }
                     }
                 })
                 .FireAndForget();
