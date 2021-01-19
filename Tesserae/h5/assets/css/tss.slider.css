@@ -34,8 +34,8 @@
     background-color: var(--tss-slider-color);
     position: absolute;
     left: 0px;
-    top: 6px;
-    height: 4px;
+    top: 4px;
+    height: 8px;
     z-index: 0;
     user-select: none;
 }
@@ -57,8 +57,8 @@
     background-color: var(--tss-default-border-color);
     position: relative;
     left: 0px;
-    top: 6px;
-    height: 4px;
+    top: 4px;
+    height: 8px;
     width: 100%;
     z-index: 0;
     user-select: none;
@@ -80,13 +80,15 @@
     border-radius: 4px;
     background-color: var(--tss-slider-color);
     outline: none;
+    cursor: pointer;
 }
 
     .tss-slider.tss-fake {
         background-color: transparent;
+        border-color: transparent;
         position: absolute;
         left: 0;
-        top: 6px;
+        top: 7px;
         z-index: 1;
     }
 
