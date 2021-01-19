@@ -41,6 +41,7 @@ namespace Tesserae
             else
             {
                 _outerLabel = Label(_("tss-slider-container"), InnerElement);
+                InnerElement.style.height = "8px";
             }
 
             _outerDiv = Div(_("tss-slider-div"), _outerLabel);
