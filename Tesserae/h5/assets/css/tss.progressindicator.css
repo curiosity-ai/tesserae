@@ -13,14 +13,14 @@
 
     .tss-progressindicator > .tss-progressindicator-bar {
         background-color: var(--tss-primary-background-color);
-        height: 2px;
+        height: 100%;
         position: absolute;
         width: 0px;
         /*transition: width 0.15s linear 0s;*/
     }
 
     .tss-progressindicator > .tss-progressindicator-bar-indeterminate {
-        height: 2px;
+        height: 100%;
         position: absolute;
         width: 0px;
         min-width: 25%;
@@ -29,6 +29,10 @@
         animation: 2.5s ease 0s infinite normal none running progressLeftToRight;
     }
 
+
+.tss-stack-item > .tss-progressindicator {
+    margin-bottom:16px;
+}
 
 @keyframes progressLeftToRight {
     from {
