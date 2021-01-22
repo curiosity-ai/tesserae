@@ -226,7 +226,7 @@ namespace Tesserae
 
             if (window.innerWidth - parentRect.right - distanceX < popupRect.width)
             {
-                var left = parentRect.left - popupRect.width;
+                var left = parentRect.right - popupRect.width;
                 if (left < 0)
                 {
                     if (parentRect.left > window.innerWidth - parentRect.right - distanceX)

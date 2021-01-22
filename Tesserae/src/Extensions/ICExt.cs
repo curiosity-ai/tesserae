@@ -419,7 +419,6 @@ namespace Tesserae
         /// <summary>PaddingBottom</summary>
         public static T PB<T>(this T component, UnitSize unitSize) where T : IComponent => PaddingBottom(component, unitSize);
 
-
         public static T ML<T>(this T component, int pixels) where T : IComponent => MarginLeft(component, pixels.px());
 
         /// <summary>MarginRight</summary>
