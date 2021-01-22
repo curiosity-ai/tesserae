@@ -4,7 +4,7 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
-    public sealed class Panel : Layer<Panel>
+    public sealed class Panel : Layer<Panel>, IHasBackgroundColor
     {
         private event OnHideHandler HidePanel;
         public delegate void OnHideHandler(Panel sender);
@@ -153,6 +153,8 @@ namespace Tesserae
                 else _closeButton.style.display = "none";
             }
         }
+
+        public string Background { get => _panel.style.background; set => _panel.style.background = value; }
 
         protected override HTMLElement BuildRenderedContent()
         {
