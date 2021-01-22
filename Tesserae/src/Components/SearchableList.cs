@@ -15,6 +15,8 @@ namespace Tesserae
         private readonly Stack _stack;
         private readonly SearchBox _searchBox;
         private readonly ItemsList _list;
+        
+        private int _minimumItemsToShowBox = 0;
         public HTMLElement StylingContainer => _stack.InnerElement;
         public bool PropagateToStackItemParent => true;
         public ObservableList<T> Items { get; }
@@ -41,6 +43,15 @@ namespace Tesserae
                         if (filteredItems.Any())
                         {
                             _list.Items.AddRange(filteredItems);
+                        }
+
+                        if(filteredItems.Length >= _minimumItemsToShowBox)
+                        {
+                            _searchBox.Show();
+                        }
+                        else
+                        {
+                            _searchBox.Collapse();
                         }
 
                         return _list.Stretch().AsTask();
@@ -71,6 +82,12 @@ namespace Tesserae
         public SearchableList<T> CaptureSearchBox(out SearchBox sb)
         {
             sb = _searchBox;
+            return this;
+        }
+
+        public SearchableList<T> HideSearchBoxIfLessThan(int items)
+        {
+            _minimumItemsToShowBox = items;
             return this;
         }
 
