@@ -16,7 +16,7 @@ namespace Tesserae.Tests
             var orderedComponents = new (string Name, Func<IComponent> Component)[]
             {
                 ("Button", () => new ButtonSample()),
-                ("Colors", () => new ColorSample()),
+                ("ThemeColors", () => new ThemeColorsSample()),
                 ("CheckBox", () => new CheckBoxSample()),
                 ("ChoiceGroup", () => new ChoiceGroupSample()),
                 ("Slider", () => new SliderSample()),
@@ -33,6 +33,7 @@ namespace Tesserae.Tests
                 ("ProgressIndicator", () => new ProgressIndicatorSample()),
                 ("Dialog", () => new DialogSample()),
                 ("Modal", () => new ModalSample()),
+                ("TutorialModal", () => new TutorialModalSample()),
                 ("Panel", () => new PanelSample()),
                 ("ContextMenu", () => new ContextMenuSample()),
                 ("ProgressModal", () => new ProgressModalSample()),
@@ -63,17 +64,16 @@ namespace Tesserae.Tests
             sideBar.IsVisible            = false;
             navBar.IsVisible             = false;
             document.body.style.overflow = "hidden";
-            document.body.appendChild(
-                sideBar.Brand(SidebarItem("... meow",   "las la-cat", href: "https://curiosity.ai").Large())
-                   .Add(SidebarItem("Colorful sidebar", "las la-tint").OnSelect((s) => sideBar.IsLight                = false).Selected())
-                   .Add(SidebarItem("Light sidebar",    "las la-tint-slash").OnSelect((s) => sideBar.IsLight          = true))
-                   .Add(SidebarItem("Always Open",      "las la-arrow-to-right").OnSelect((s) => sideBar.IsAlwaysOpen = true))
-                   .Add(SidebarItem("Open on Hover",    "las la-arrows-alt-h").OnSelect((s) => sideBar.IsAlwaysOpen   = false))
-                   .Add(SidebarItem("Small sidebar",    "las la-minus-square").OnSelect((s) => sideBar.Width          = Sidebar.Size.Small))
-                   .Add(SidebarItem("Medium sidebar",   "las la-square").OnSelect((s) => sideBar.Width                = Sidebar.Size.Medium))
-                   .Add(SidebarItem("Large sidebar",    "las la-plus-square").OnSelect((s) => sideBar.Width           = Sidebar.Size.Large))
-                   .SetContent(navBar)
-                   .Render());
+            document.body.appendChild(sideBar.Brand(SidebarItem("... meow", "las la-cat", href: "https://curiosity.ai").Large())
+               .Add(SidebarItem("Colorful sidebar",                         "las la-tint").OnSelect((s) => sideBar.IsLight                = false).Selected())
+               .Add(SidebarItem("Light sidebar",                            "las la-tint-slash").OnSelect((s) => sideBar.IsLight          = true))
+               .Add(SidebarItem("Always Open",                              "las la-arrow-to-right").OnSelect((s) => sideBar.IsAlwaysOpen = true))
+               .Add(SidebarItem("Open on Hover",                            "las la-arrows-alt-h").OnSelect((s) => sideBar.IsAlwaysOpen   = false))
+               .Add(SidebarItem("Small sidebar",                            "las la-minus-square").OnSelect((s) => sideBar.Width          = Sidebar.Size.Small))
+               .Add(SidebarItem("Medium sidebar",                           "las la-square").OnSelect((s) => sideBar.Width                = Sidebar.Size.Medium))
+               .Add(SidebarItem("Large sidebar",                            "las la-plus-square").OnSelect((s) => sideBar.Width           = Sidebar.Size.Large))
+               .SetContent(navBar)
+               .Render());
 
 
             // We'll render the content in a DeferedComponent that updates itself whenever the "currentPage" observable's value changes - these changes will be triggered by the routing configured below
@@ -186,6 +186,7 @@ namespace Tesserae.Tests
                                .SemiBold()
                                .Links(links["Dialog"],
                                     links["Modal"],
+                                    links["TutorialModal"],
                                     links["Panel"],
                                     links["ContextMenu"]),
                             NavLink("Utilities").Expanded()
@@ -206,7 +207,7 @@ namespace Tesserae.Tests
                                     links["FileSelector"],
                                     links["LineAwesomeIcons"],
                                     links["ProgressModal"],
-                                    links["Colors"]
+                                    links["ThemeColors"]
                                 ),
                             NavLink("Collections").Expanded()
                                .SmallPlus()

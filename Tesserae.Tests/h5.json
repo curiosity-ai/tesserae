@@ -14,6 +14,11 @@
     // files after they've been copied because they get copied AND THEN Bridge does its work ("cleanOutputFolderBeforeBuildPattern": "*.*" would be the ideal configuration because it means
     // that builds are more reliable - it's not possible for artifacts from previous builds to exist). A compromise is to use "cleanOutputFolderBeforeBuildPattern": "*.js|*.css" so we can
     // let VS copy in other asset types, such as images, instead of us having to include EVERY additional image and other file in the resources list here).
+    {
+      "name": "box-img.svg",
+      "files": [ "h5/assets/img/box-img.svg" ],
+      "output": "assets/img"
+    }
   ],
   "cleanOutputFolderBeforeBuildPattern": "*.js|*.css|*.dontload", // See warning above about not using "cleanOutputFolderBeforeBuildPattern": "*.*"
   "console": { "enabled": false },

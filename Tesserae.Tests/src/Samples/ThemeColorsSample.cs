@@ -6,18 +6,15 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    public class ColorSample : IComponent
+    public class ThemeColorsSample : IComponent
     {
         private IComponent _content;
 
 
-        public ColorSample()
+        public ThemeColorsSample()
         {
             _content = SectionStack()
-               .Title(SampleHeader(nameof(ColorSample)))
-               .Section(Stack().Children(
-                    SampleTitle("Overview"))
-                )
+               .Title(SampleHeader(nameof(ThemeColorsSample)))
                .Section(
                     Stack().Children(
                         DetailsList<ColorListItem>(
