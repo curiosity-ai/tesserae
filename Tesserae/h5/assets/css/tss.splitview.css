@@ -3,6 +3,7 @@
     display:flex;
     height:100%;
     flex-direction:row;
+    position:relative;
 }
 
     .tss-splitview > div {
@@ -16,3 +17,14 @@
     .tss-splitter:hover {
         background: var(--tss-overlay-dark);
     }
+
+
+.tss-splitview-panel-style.tss-split-left > *:first-child {
+    box-shadow: rgba(0, 0, 0, 0.22) 0px 25.6px 57.6px 0px, rgba(0, 0, 0, 0.18) 0px 4.8px 14.4px 0px;
+    z-index: 2;
+}
+
+.tss-splitview-panel-style.tss-split-right > *:last-child {
+    box-shadow: rgba(0, 0, 0, 0.22) 0px 25.6px 57.6px 0px, rgba(0, 0, 0, 0.18) 0px 4.8px 14.4px 0px;
+    z-index: 2;
+}

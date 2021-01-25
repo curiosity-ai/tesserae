@@ -119,7 +119,7 @@ namespace Tesserae.Tests
                 var closePanelButton = Button().SetIcon(LineAwesome.ArrowLeft).Tooltip("Close panel");
 
                 var component = components[componentRouteName]();
-                var splitView = SplitView().NoSplitter()
+                var splitView = SplitView().NoSplitter().PanelStyle()
                     .Left(Stack().Stretch().Children(MainNav(links, navBar, sideBar)).InvisibleScroll(), background: Theme.Default.Background)
                     .LeftIsSmaller(300.px())
                     .Stretch()

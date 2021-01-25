@@ -6,111 +6,110 @@ namespace Tesserae
 {
     public class SplitView : IComponent
     {
-        private readonly HTMLElement InnerElement;
-        private readonly Raw         LeftComponent;
-        private readonly Raw         SplitterComponent;
-        private readonly Raw         RightComponent;
-        private bool?                leftIsSmaller;
+        private readonly HTMLElement _splitContainer;
+        private readonly Raw _leftComponent;
+        private readonly Raw _splitterComponent;
+        private readonly Raw _rightComponent;
 
         public SplitView(UnitSize splitterSize = null)
         {
-            LeftComponent     = Raw(Div(_()));
-            SplitterComponent = Raw(Div(_("tss-splitter")));
-            RightComponent    = Raw(Div(_()));
-            SplitterComponent.Width = (splitterSize is object && splitterSize.Unit != Unit.Auto && splitterSize.Unit != Unit.Inherit)
+            _leftComponent     = Raw(Div(_()));
+            _splitterComponent = Raw(Div(_("tss-splitter")));
+            _rightComponent    = Raw(Div(_()));
+            _splitterComponent.Width = (splitterSize is object && splitterSize.Unit != Unit.Auto && splitterSize.Unit != Unit.Inherit)
                                           ? splitterSize.ToString()
                                           : "8px";
-            LeftComponent.Height     = "100%";
-            SplitterComponent.Height = "100%";
-            RightComponent.Height    = "100%";
+            _leftComponent.Height     = "100%";
+            _splitterComponent.Height = "100%";
+            _rightComponent.Height    = "100%";
 
-            LeftComponent.Width   = "10px";
-            RightComponent.Width = "10px";
+            _leftComponent.Width   = "10px";
+            _rightComponent.Width = "10px";
             
-            LeftComponent.FlexGrow = "1";
-            RightComponent.FlexGrow = "1";
+            _leftComponent.FlexGrow = "1";
+            _rightComponent.FlexGrow = "1";
 
-            InnerElement = Div(_("tss-splitview"), LeftComponent.Render(), SplitterComponent.Render(), RightComponent.Render());
+            _splitContainer = Div(_("tss-splitview"), _leftComponent.Render(), _splitterComponent.Render(), _rightComponent.Render());
         }
 
         public SplitView Left(IComponent component, string background = "")
         {
-            LeftComponent.Content(component);
+            _leftComponent.Content(component);
+            _leftComponent.Background = background;
 
-            LeftComponent.Background = background;
             return this;
         }
 
         public SplitView Right(IComponent component, string background = "")
         {
-            RightComponent.Content(component);
+            _rightComponent.Content(component);
+            _rightComponent.Background = background;
 
-            RightComponent.Background = background;
             return this;
         }
 
         public SplitView Splitter(IComponent component)
         {
-            SplitterComponent.Content(component);
+            _splitterComponent.Content(component);
+            return this;
+        }
+
+        public SplitView PanelStyle()
+        {
+            _splitContainer.classList.add("tss-splitview-panel-style");
             return this;
         }
 
         public SplitView NoSplitter()
         {
-            SplitterComponent.Width = "0px";
+            _splitterComponent.Width = "0px";
             return this;
         }
 
         public SplitView SplitInMiddle()
         {
-            RightComponent.Width = "50%";
-            RightComponent.MaxWidth = "";
-            RightComponent.FlexGrow = "";
-            LeftComponent.Width = "50%";
-            LeftComponent.MaxWidth = "";
-            LeftComponent.FlexGrow = "";
-            leftIsSmaller = null;
+            _rightComponent.Width = "50%";
+            _rightComponent.MaxWidth = "";
+            _rightComponent.FlexGrow = "";
+            _leftComponent.Width = "50%";
+            _leftComponent.MaxWidth = "";
+            _leftComponent.FlexGrow = "";
+            _splitContainer.classList.remove("tss-split-left");
+            _splitContainer.classList.remove("tss-split-right");
             return this;
         }
 
         public SplitView Close()
         {
-            if (leftIsSmaller.HasValue)
+            if (_splitContainer.classList.contains("tss-split-left"))
             {
-                if (leftIsSmaller.Value)
-                {
-                    LeftComponent.Collapse();
-                }
-                else
-                {
-                    RightComponent.Collapse();
-                }
+                _leftComponent.Collapse();
+            }
+            else if (_splitContainer.classList.contains("tss-split-right"))
+            {
+                _rightComponent.Collapse();
             }
             else
             {
-                throw new InvalidOperationException("Set one side as smaller first, to make this SplitView closable.");
+                throw new Exception("Only valid for left or right splits");
             }
-
 
             return this;
         }
 
         public SplitView Open()
         {
-            if (leftIsSmaller.HasValue)
+            if (_splitContainer.classList.contains("tss-split-left"))
             {
-                if (leftIsSmaller.Value)
-                {
-                    LeftComponent.Show();
-                }
-                else
-                {
-                    RightComponent.Show();
-                }
+                _leftComponent.Show();
+            }
+            else if(_splitContainer.classList.contains("tss-split-right"))
+            {
+                _rightComponent.Show();
             }
             else
             {
-                throw new InvalidOperationException("Set one side as smaller first, to make this SplitView closable.");
+                throw new Exception("Only valid for left or right splits");
             }
 
             return this;
@@ -118,35 +117,36 @@ namespace Tesserae
 
         public SplitView LeftIsSmaller(UnitSize leftSize, UnitSize maxLeftSize = null)
         {
-            LeftComponent.Width    = leftSize.ToString();
-            LeftComponent.MaxWidth = maxLeftSize?.ToString() ?? "";
-            LeftComponent.FlexGrow = "";
+            _leftComponent.Width    = leftSize.ToString();
+            _leftComponent.MaxWidth = maxLeftSize?.ToString() ?? "";
+            _leftComponent.FlexGrow = "";
 
-            RightComponent.Width = "10px";
-            RightComponent.MaxWidth = "";
-            RightComponent.FlexGrow = "1";
-            leftIsSmaller = true;
+            _rightComponent.Width = "10px";
+            _rightComponent.MaxWidth = "";
+            _rightComponent.FlexGrow = "1";
+            _splitContainer.classList.add("tss-split-left");
+            _splitContainer.classList.remove("tss-split-right");
 
             return this;
         }
 
         public SplitView RightIsSmaller(UnitSize rightSize, UnitSize maxRightSize = null)
         {
-            RightComponent.Width = rightSize.ToString();
-            RightComponent.MaxWidth = maxRightSize?.ToString() ?? "";
-            RightComponent.FlexGrow = "";
+            _rightComponent.Width = rightSize.ToString();
+            _rightComponent.MaxWidth = maxRightSize?.ToString() ?? "";
+            _rightComponent.FlexGrow = "";
 
-            LeftComponent.Width = "10px";
-            LeftComponent.MaxWidth = "";
-            LeftComponent.FlexGrow = "1";
-            leftIsSmaller = false;
-
+            _leftComponent.Width = "10px";
+            _leftComponent.MaxWidth = "";
+            _leftComponent.FlexGrow = "1";
+            _splitContainer.classList.add("tss-split-right");
+            _splitContainer.classList.remove("tss-split-left");
             return this;
         }
 
         public HTMLElement Render()
         {
-            return InnerElement;
+            return _splitContainer;
         }
     }
 
