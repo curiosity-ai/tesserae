@@ -11,33 +11,37 @@ namespace Tesserae
         private readonly Stack     _content;
         private readonly TextBlock _title;
         private readonly TextBlock _helpText;
+        private readonly Raw       _illustration;
 
-        public TutorialModal(string title, string helpText)
+        public TutorialModal(string title, string helpText, string imageSrc = null)
         {
             _footerCommands = HStack().Padding(10.px()).AlignEnd().AlignItems(ItemAlign.End);
             _content        = VStack().S().ScrollY().Padding("38px 57px 0 39px");
             _title          = TextBlock(title).Large().Bold().PaddingTop(10.px()).PaddingBottom(20.px());
-            _helpText       = TextBlock(helpText).Padding("20px 32px 0 0");
-            _modal = Modal()
-               .Width(800.px())
-               .Height(60.vh())
-               .NoContentPadding()
+            _helpText       = TextBlock(helpText).Padding("20px 30px 0 0");
+            _illustration   = Raw();
+
+
+            if (string.IsNullOrWhiteSpace(imageSrc))
+            {
+                _illustration.Content(Image(imageSrc).PT(40.px()));
+            }
+
+            _modal = Modal().Width(800.px()).Height(60.vh())
+               .NoContentPadding().LightDismiss().Dark()
                .Content(
                     HStack().Children(
-                        VStack().HS().OverflowHidden()
-                           .Width(255.px())
-                           .Padding("40px 13px 0 32px")
-                           .Background(Theme.Secondary.Background)
+                        VStack().HS().OverflowHidden().JustifyContent(ItemJustify.Between)
+                           .Width(255.px()).Padding("40px 13px 0 32px").Background(Theme.Secondary.Background)
                            .Children(
-                                _title,
-                                _helpText,
-                                Image("./assets/img/box-img.svg").PT(30.px())),
+                                VStack().Children(_title, _helpText),
+                                _illustration),
                         VStack().HS().W(545.px()).JustifyContent(ItemJustify.End)
                            .Children(
                                 _content,
                                 _footerCommands)
                     )
-                ).LightDismiss().Dark();
+                );
         }
 
         public TutorialModal SetFooterCommands(params IComponent[] commands)
@@ -61,6 +65,12 @@ namespace Tesserae
         public TutorialModal SetHelpText(string helpText)
         {
             _helpText.Text = helpText;
+            return this;
+        }
+
+        public TutorialModal SetImageSrc(string imageSrc)
+        {
+            _illustration.Content(Image(imageSrc).PT(30.px()));
             return this;
         }
 
