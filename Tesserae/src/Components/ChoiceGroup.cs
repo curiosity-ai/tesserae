@@ -13,7 +13,7 @@ namespace Tesserae
             _header = (new TextBlock(label)).SemiBold();
             var h = _header.Render();
             h.style.alignSelf = "baseline";
-            InnerElement = Div(_("tss-choice-group", styles: s => { s.flexDirection = "column"; }), h);
+            InnerElement = Div(_("tss-choice-group tss-default-component-margin", styles: s => { s.flexDirection = "column"; }), h);
         }
 
         public Choice SelectedOption { get => _selectedOption.Value; private set => _selectedOption.Value = value; }
@@ -122,7 +122,7 @@ namespace Tesserae
             {
                 InnerElement = RadioButton(_("tss-option"));
                 _radioSpan = Span(_("tss-option-mark"));
-                _label = Label(_("tss-option-container", text: text), InnerElement, _radioSpan);
+                _label = Label(_("tss-option-container tss-default-component-margin", text: text), InnerElement, _radioSpan);
                 AttachClick();
                 AttachChange();
                 AttachFocus();

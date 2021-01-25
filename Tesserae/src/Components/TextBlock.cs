@@ -10,7 +10,7 @@ namespace Tesserae
         public TextBlock(string text = string.Empty, bool treatAsHTML = false)
         {
             text = text ?? string.Empty;
-            InnerElement = Div(_("tss-textBlock tss-fontsize-small tss-fontweight-regular"));
+            InnerElement = Div(_("tss-textBlock tss-fontsize-small tss-fontweight-regular tss-default-component-margin"));
             
             if (treatAsHTML)
             {

@@ -27,7 +27,7 @@ namespace Tesserae
             if (columns.Length < 2)
             {
                 _stack = Stack().Horizontal().Wrap().WidthStretch().MaxHeight(100.percent()).Scroll();
-                _maxStackItemSize = columns.FirstOrDefault();
+                _maxStackItemSize = columns.FirstOrDefault() ?? 100.percent();
             }
             else
             {
@@ -74,14 +74,7 @@ namespace Tesserae
                         }
                         else
                         {
-                            if (_maxStackItemSize is object)
-                            {
-                                return _stack.Children(observedItems.Select(i => i.Width(_maxStackItemSize)).ToArray()).AsTask();
-                            }
-                            else
-                            {
-                                return _stack.Children(observedItems.ToArray()).AsTask();
-                            }
+                            return _stack.Children(observedItems.Select(i => i.Width(_maxStackItemSize)).ToArray()).AsTask();
                         }
                     }
                 }

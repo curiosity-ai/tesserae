@@ -406,6 +406,12 @@ namespace Tesserae
             if (has("tss-stk-fg")) { ts.flexGrow = fs.flexGrow;  /*fs.flexGrow = ""; */}
             if (has("tss-stk-fs")) { ts.flexShrink = fs.flexShrink;  /*fs.flexShrink = ""; */}
             if (has("tss-stk-as")) { ts.alignSelf = fs.alignSelf; /*fs.alignSelf = "";*/ }
+
+            if (from.classList.contains("tss-default-component-margin"))
+            {
+                from.classList.remove("tss-default-component-margin");
+                to.classList.add("tss-default-component-margin");
+            }
         }
 
         public enum Orientation

@@ -1,7 +1,6 @@
 ﻿/* Choice */
 .tss-choice-group {
     display: flex;
-    margin: 4px;
 }
 
     .tss-choice-group div {
@@ -16,7 +15,6 @@
     font-weight: var(--tss-font-weight-regular);
     user-select: none;
     padding-left: 28px;
-    margin: 4px;
     display: block;
     text-align:left;
 }

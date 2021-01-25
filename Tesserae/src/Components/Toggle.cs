@@ -19,7 +19,7 @@ namespace Tesserae
             InnerElement = CheckBox(_("tss-checkbox"));
             _checkElement = Div(_("tss-toggle-mark"));
             _onOffSpan = Div(_("tss-toggle-text"), _offText.Render());
-            _container = Div(_("tss-toggle-container"), InnerElement, _checkElement, _onOffSpan);
+            _container = Div(_("tss-toggle-container tss-default-component-margin"), InnerElement, _checkElement, _onOffSpan);
 
             _checkElement.onclick += (e) =>
             {

@@ -265,6 +265,10 @@
     cursor: pointer;
 }
 
+.tss-default-component-margin {
+    margin: 4px;
+}
+
 
 .simplebar-wrapper {
     height: 100%; /* We change this, because the default of inherit from simple-bar doesn't play nice with our Stack*/
