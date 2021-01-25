@@ -137,7 +137,7 @@ namespace Tesserae
                 }
             }
 
-            if (window.innerWidth - y - 1 < popupRect.width)
+            if (window.innerWidth - x - 1 < popupRect.width)
             {
                 var left = x - popupRect.width;
                 if (left < 0)
