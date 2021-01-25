@@ -1,4 +1,5 @@
-﻿using static H5.Core.dom;
+﻿using System;
+using static H5.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -9,6 +10,7 @@ namespace Tesserae
         private readonly Raw         LeftComponent;
         private readonly Raw         SplitterComponent;
         private readonly Raw         RightComponent;
+        private bool?                leftIsSmaller;
 
         public SplitView(UnitSize splitterSize = null)
         {
@@ -67,6 +69,50 @@ namespace Tesserae
             LeftComponent.Width = "50%";
             LeftComponent.MaxWidth = "";
             LeftComponent.FlexGrow = "";
+            leftIsSmaller = null;
+            return this;
+        }
+
+        public SplitView Close()
+        {
+            if (leftIsSmaller.HasValue)
+            {
+                if (leftIsSmaller.Value)
+                {
+                    LeftComponent.Collapse();
+                }
+                else
+                {
+                    RightComponent.Collapse();
+                }
+            }
+            else
+            {
+                throw new InvalidOperationException("Set one side as smaller first, to make this SplitView closable.");
+            }
+
+
+            return this;
+        }
+
+        public SplitView Open()
+        {
+            if (leftIsSmaller.HasValue)
+            {
+                if (leftIsSmaller.Value)
+                {
+                    LeftComponent.Show();
+                }
+                else
+                {
+                    RightComponent.Show();
+                }
+            }
+            else
+            {
+                throw new InvalidOperationException("Set one side as smaller first, to make this SplitView closable.");
+            }
+
             return this;
         }
 
@@ -79,6 +125,7 @@ namespace Tesserae
             RightComponent.Width = "10px";
             RightComponent.MaxWidth = "";
             RightComponent.FlexGrow = "1";
+            leftIsSmaller = true;
 
             return this;
         }
@@ -92,6 +139,8 @@ namespace Tesserae
             LeftComponent.Width = "10px";
             LeftComponent.MaxWidth = "";
             LeftComponent.FlexGrow = "1";
+            leftIsSmaller = false;
+
             return this;
         }
 

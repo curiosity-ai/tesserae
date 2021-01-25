@@ -116,13 +116,32 @@ namespace Tesserae.Tests
                         Router.Navigate("#" + ToRoute(c.Name));
                     })
                 );
+                var closePanelButton = Button().SetIcon(LineAwesome.ArrowLeft).Tooltip("Close panel");
 
                 var component = components[componentRouteName]();
-                return SplitView().NoSplitter()
+                var splitView = SplitView().NoSplitter()
                     .Left(Stack().Stretch().Children(MainNav(links, navBar, sideBar)).InvisibleScroll(), background: Theme.Default.Background)
                     .LeftIsSmaller(300.px())
                     .Stretch()
-                    .Right(Stack().Stretch().Children(component.WidthStretch()).InvisibleScroll(), background: Theme.Secondary.Background);
+                    .Right(Stack().Stretch().Children(closePanelButton, component.WidthStretch()).InvisibleScroll(), background: Theme.Secondary.Background);
+
+                bool panelIsOpen = true;
+                closePanelButton.OnClick((_, __) =>
+                {
+                    if (panelIsOpen)
+                    {
+                        panelIsOpen = false;
+                        splitView.Close();
+                        closePanelButton.SetIcon(LineAwesome.ArrowRight).Tooltip("Open panel");
+                    }
+                    else
+                    {
+                        panelIsOpen = true;
+                        splitView.Open();
+                        closePanelButton.SetIcon(LineAwesome.ArrowLeft).Tooltip("Close panel");
+                    }
+                });
+                return splitView;
             }
         }
 
