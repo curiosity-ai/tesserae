@@ -41,11 +41,12 @@ namespace Tesserae
         /// <returns></returns>
         public static T Id<T>(this T component, string id) where T : IComponent
         {
-            if(component is DeferedComponent deferedComponent)
+            if (component is DeferedComponent deferedComponent)
             {
                 deferedComponent.Container.id = id;
                 return component;
             }
+
             var el = component.Render();
             el.id = id;
             return component;
@@ -216,18 +217,21 @@ namespace Tesserae
 
         public static Nav.NavLink NavLink(IComponent content) => new Nav.NavLink(content);
 
-        public static Panel Panel(string title = null) => new Panel(title);
-        public static Panel Panel(IComponent title) => new Panel(title);
+        public static Panel Panel(string     title = null) => new Panel(title);
+        public static Panel Panel(IComponent title)        => new Panel(title);
 
         public static Modal Modal(IComponent header = null) => new Modal(header);
 
         public static Modal Modal(string header) => new Modal(string.IsNullOrWhiteSpace(header) ? null : TextBlock(header).MediumPlus().SemiBold());
 
+        public static TutorialModal TutorialModal()                              => new TutorialModal("",    "");
+        public static TutorialModal TutorialModal(string title, string helpText) => new TutorialModal(title, helpText);
+
         public static ProgressModal ProgressModal() => new ProgressModal();
 
         public static Dialog Dialog(IComponent content = null, IComponent title = null, bool centerContent = true) => new Dialog(content, title, centerContent);
 
-        public static Dialog Dialog(string text, bool centerContent = true) => new Dialog(title: string.IsNullOrWhiteSpace(text) ? null : TextBlock(text).Primary().SemiBold().MaxWidth(50.vw()), centerContent:centerContent);
+        public static Dialog Dialog(string text, bool centerContent = true) => new Dialog(title: string.IsNullOrWhiteSpace(text) ? null : TextBlock(text).Primary().SemiBold().MaxWidth(50.vw()), centerContent: centerContent);
 
         public static Pivot Pivot() => new Pivot();
 
@@ -243,8 +247,8 @@ namespace Tesserae
 
         public static ProgressIndicator ProgressIndicator() => new ProgressIndicator();
 
-        public static Dropdown Dropdown() => new Dropdown();
-        public static Dropdown Dropdown(string noItemsText) => new Dropdown(noItemsSpan: string.IsNullOrWhiteSpace(noItemsText) ? null : Span(_(text: noItemsText)));
+        public static Dropdown Dropdown()                            => new Dropdown();
+        public static Dropdown Dropdown(string          noItemsText) => new Dropdown(noItemsSpan: string.IsNullOrWhiteSpace(noItemsText) ? null : Span(_(text: noItemsText)));
         public static Dropdown Dropdown(HTMLSpanElement noItemsSpan) => new Dropdown(noItemsSpan);
 
         public static Dropdown.Item DropdownItem() => new Dropdown.Item("");
@@ -279,7 +283,7 @@ namespace Tesserae
 
         public static SearchableGroupedList<T> SearchableGroupedList<T>(ObservableList<T> components, Func<string, IComponent> groupedItemHeaderGenerator, params UnitSize[] columns) where T : ISearchableGroupedItem => new SearchableGroupedList<T>(components, groupedItemHeaderGenerator, columns);
 
-        public static ItemsList ItemsList(IComponent[] components, params UnitSize[] columns)=> new ItemsList(components, columns);
+        public static ItemsList ItemsList(IComponent[] components, params UnitSize[] columns) => new ItemsList(components, columns);
 
         public static ItemsList ItemsList(ObservableList<IComponent> components, params UnitSize[] columns) => new ItemsList(components, columns);
 
@@ -293,7 +297,7 @@ namespace Tesserae
 
         public static VisibilitySensor VisibilitySensor(Action<VisibilitySensor> onVisible, bool singleCall = true, IComponent message = null) => new VisibilitySensor(onVisible, singleCall, message);
 
-        public static CombinedObservable<T1, T2> Combine<T1, T2>(IObservable<T1> o1, IObservable<T2> o2) => new CombinedObservable<T1,T2>(o1, o2);
+        public static CombinedObservable<T1, T2> Combine<T1, T2>(IObservable<T1> o1, IObservable<T2> o2) => new CombinedObservable<T1, T2>(o1, o2);
 
         public static Timeline Timeline() => new Timeline();
     }
