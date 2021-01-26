@@ -86,6 +86,11 @@ namespace Tesserae
             return this;
         }
 
+        public TutorialModal ContentPadding(string padding)
+        {
+            _content.Padding(padding);
+            return this;
+        }
 
         public TutorialModal Show()
         {
