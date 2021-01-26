@@ -49,6 +49,12 @@ namespace Tesserae
             return this;
         }
 
+        public Card BackgroundColor(string color)
+        {
+            InnerElement.style.backgroundColor = color;
+            return this;
+        }
+
         public Card NoPadding()
         {
             InnerElement.style.padding = "0px";
