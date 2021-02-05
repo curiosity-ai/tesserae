@@ -38,7 +38,7 @@ namespace Tesserae
                                 _illustration),
                         VStack().HS().W(545.px()).JustifyContent(ItemJustify.End)
                            .Children(
-                                _content,
+                                _content.InvisibleScroll(),
                                 _footerCommands)
                     )
                 );
@@ -90,6 +90,11 @@ namespace Tesserae
         {
             _content.Padding(padding);
             return this;
+        }
+        
+        public IComponent ShowEmbedded()
+        {
+            return Raw(_modal);
         }
 
         public TutorialModal Show()
