@@ -269,6 +269,20 @@ namespace Tesserae
 
         public void Add(IComponent component) => ScrollBar.GetCorrectContainer(InnerElement).appendChild(GetItem(component, true));
 
+        public void Prepend(IComponent component)
+        {
+            var container = ScrollBar.GetCorrectContainer(InnerElement);
+            
+            if(container.childElementCount > 0)
+            {
+                container.insertBefore(0, GetItem(component, true));
+            }
+            else
+            {
+                container.appendChild(GetItem(component, true));
+            }
+        }
+
         public virtual void Clear() => ClearChildren(ScrollBar.GetCorrectContainer(InnerElement));
 
         public void Replace(IComponent newComponent, IComponent oldComponent) => ScrollBar.GetCorrectContainer(InnerElement).replaceChild(GetItem(newComponent), GetItem(oldComponent));
