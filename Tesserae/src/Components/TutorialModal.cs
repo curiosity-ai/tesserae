@@ -41,7 +41,7 @@ namespace Tesserae
                            .Children(
                                 VStack().Children(_title, _helpText),
                                 _illustration),
-                        VStack().HS().W(545.px()).JustifyContent(ItemJustify.End)
+                        VStack().HS().W(545.px()).Grow().JustifyContent(ItemJustify.End)
                            .Children(
                                 _content.H(10.px()).Grow(),
                                 _footerCommands)
