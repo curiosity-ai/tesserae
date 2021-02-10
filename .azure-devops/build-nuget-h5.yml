@@ -2,7 +2,7 @@ variables:
   buildConfiguration: 'Release'
   repo: 'https://$(username):$(pat)@github.com/curiosity-ai/tesserae.git'
   msg: 'update_demo_$(build.buildId)'
-  version: '$(Year:yyyy).$(build.buildId)'
+  packageVersion: '$(Year:yyyy).$(build.buildId)'
 trigger:
 - master
 
@@ -15,7 +15,7 @@ steps:
   persistCredentials: true
 
 - task: UseDotNet@2
-  displayName: 'Use .NET Core sdk'
+  displayName: 'Use .NET 5.0 sdk'
   inputs:
     packageType: sdk
     version: 5.0.103
@@ -24,15 +24,18 @@ steps:
 - task: NuGetToolInstaller@1
 
 - task: CmdLine@2
+  displayName: 'install h5 compiler'
   inputs:
     script: 'dotnet tool update --global h5-compiler'
 
 - task: CmdLine@2
+  displayName: 'restore project'
   inputs:
     script: 'dotnet restore $(Build.SourcesDirectory)\Tesserae\Tesserae.csproj'
     workingDirectory: '$(Build.SourcesDirectory)/Tesserae/'
 
 - task: CmdLine@2
+  displayName: 'restore tests project'
   inputs:
     script: 'dotnet restore $(Build.SourcesDirectory)\Tesserae.Tests\Tesserae.Tests.csproj'
     workingDirectory: '$(Build.SourcesDirectory)/Tesserae.Tests/'
@@ -77,12 +80,12 @@ steps:
 
 - task: CmdLine@2
   inputs:
-    script: 'dotnet build $(Build.SourcesDirectory)\Tesserae\Tesserae.csproj  -c $(buildConfiguration) /p:Version=$(version)'
+    script: 'dotnet build $(Build.SourcesDirectory)\Tesserae\Tesserae.csproj  -c $(buildConfiguration) /p:Version=$(packageVersion)'
     workingDirectory: '$(Build.SourcesDirectory)/Tesserae/'
 
 - task: CmdLine@2
   inputs:
-    script: 'dotnet build $(Build.SourcesDirectory)\Tesserae.Tests\Tesserae.Tests.csproj  -c $(buildConfiguration) /p:Version=$(version)'
+    script: 'dotnet build $(Build.SourcesDirectory)\Tesserae.Tests\Tesserae.Tests.csproj  -c $(buildConfiguration) /p:Version=$(packageVersion)'
     workingDirectory: '$(Build.SourcesDirectory)/Tesserae.Tests/'
 
 - task: PowerShell@2
@@ -112,6 +115,6 @@ steps:
   displayName: 'push  Tesserae to nuget'
   inputs:
     command: 'push'
-    packagesToPush: '**/*/Tesserae.$(version).nupkg' # The package name comes from the PackageID, not project name
+    packagesToPush: '**/*/Tesserae.$(packageVersion).nupkg' # The package name comes from the PackageID, not project name
     nuGetFeedType: 'external'
     publishFeedCredentials: 'nuget-curiosity'
