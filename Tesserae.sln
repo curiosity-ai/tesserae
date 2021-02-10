@@ -12,7 +12,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DevOps", "DevOps", "{15502E5E-34AB-4EDD-AAC2-84DBBC05DEBB}"
 	ProjectSection(SolutionItems) = preProject
 		.azure-devops\build-nuget-h5.yml = .azure-devops\build-nuget-h5.yml
-		.azure-devops\build-nuget.yml = .azure-devops\build-nuget.yml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Build.InjectSamplesCode", "Build.InjectSamplesCode\Build.InjectSamplesCode.csproj", "{BA7E4838-8FF6-470D-8E2E-A9917F57D8EC}"

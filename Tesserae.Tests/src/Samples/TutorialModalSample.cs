@@ -44,7 +44,7 @@ namespace Tesserae.Tests.Samples
                .Var(out var tutorialModal)
                .SetTitle("This is a Tutorial Modal")
                .SetHelpText("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ")
-               .SetImageSrc("./assets/img/box-img.svg")
+               .SetImageSrc("./assets/img/box-img.svg", 16.px())
                .SetContent(
                     Label("Input 1").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
                     Label("Input 1").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
