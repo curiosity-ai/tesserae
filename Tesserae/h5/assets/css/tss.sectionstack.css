@@ -39,3 +39,8 @@
     -webkit-box-shadow: var(--tss-card-shadow);
     box-shadow: var(--tss-card-shadow);
 }
+
+
+.tss-sectionstack .tss-sectionstack-item:last-child {
+    margin-bottom: 0px !important;
+}
