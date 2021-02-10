@@ -1,10 +1,11 @@
 ﻿using System;
 using H5.Core;
+using static H5.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
 {
-    public class TutorialModal : IComponent
+    public class TutorialModal : IComponent, ISpecialCaseStyling
     {
         private readonly Modal     _modal;
         private readonly Stack     _footerCommands;
@@ -12,6 +13,10 @@ namespace Tesserae
         private readonly TextBlock _title;
         private readonly TextBlock _helpText;
         private readonly Raw       _illustration;
+
+        public HTMLElement StylingContainer => _modal.StylingContainer;
+
+        public bool PropagateToStackItemParent => _modal.PropagateToStackItemParent;
 
         public TutorialModal(string title, string helpText, string imageSrc = null)
         {
