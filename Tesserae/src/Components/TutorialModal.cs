@@ -29,7 +29,7 @@ namespace Tesserae
 
             if (string.IsNullOrWhiteSpace(imageSrc))
             {
-                _illustration.Content(Image(imageSrc).PT(40.px()));
+                _illustration.Content(Image(imageSrc).Contain().W(196).H(196));
             }
 
             _modal = Modal().Width(800.px()).Height(60.vh())
@@ -37,10 +37,9 @@ namespace Tesserae
                .Content(
                     HStack().S().Children(
                         VStack().HS().OverflowHidden().JustifyContent(ItemJustify.Between)
-                           .Width(255.px()).Padding("40px 13px 0 32px").Background(Theme.Secondary.Background)
+                           .Width(255.px()).Padding("40px 13px 32px 32px").Background(Theme.Secondary.Background)
                            .Children(
-                                VStack().Children(_title, _helpText),
-                                _illustration),
+                                VStack().S().Children(_title, _helpText, Raw().H(48.px()).Grow(), _illustration)),
                         VStack().HS().W(545.px()).Grow().JustifyContent(ItemJustify.End)
                            .Children(
                                 _content.H(10.px()).Grow(),
