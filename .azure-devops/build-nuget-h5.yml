@@ -2,7 +2,6 @@ variables:
   buildConfiguration: 'Release'
   repo: 'https://$(username):$(pat)@github.com/curiosity-ai/tesserae.git'
   msg: 'update_demo_$(build.buildId)'
-  buildVersion: '$(Year:yyyy).$(build.buildId)'
 
 trigger:
 - master
@@ -14,6 +13,14 @@ steps:
 - checkout: self
   submodules: true
   persistCredentials: true
+
+- task: PowerShell@2
+  displayName: 'Set Version'
+  inputs:
+    targetType: 'inline'
+    script: |
+      $date=$(Get-Date -Format yyyy);
+      Write-Host "##vso[task.setvariable variable=buildVersion]$date.$(build.buildId)"
 
 - task: UseDotNet@2
   displayName: 'Use .NET 5.0 sdk'
@@ -80,11 +87,13 @@ steps:
       dotnet run
 
 - task: CmdLine@2
+  displayName: 'Build Tesserae'
   inputs:
     script: 'dotnet build $(Build.SourcesDirectory)\Tesserae\Tesserae.csproj  -c $(buildConfiguration) /p:Version=$(buildVersion)'
     workingDirectory: '$(Build.SourcesDirectory)/Tesserae/'
 
 - task: CmdLine@2
+  displayName: 'Build Tesserae Tests'
   inputs:
     script: 'dotnet build $(Build.SourcesDirectory)\Tesserae.Tests\Tesserae.Tests.csproj  -c $(buildConfiguration) /p:Version=$(buildVersion)'
     workingDirectory: '$(Build.SourcesDirectory)/Tesserae.Tests/'
