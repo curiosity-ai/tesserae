@@ -24,7 +24,7 @@ namespace Tesserae
             _content        = VStack().Padding("38px 57px 0 39px");
             _title          = TextBlock(title).Large().Bold().PaddingTop(10.px()).PaddingBottom(20.px());
             _helpText       = TextBlock(helpText).Padding("20px 30px 0 0");
-            _illustration   = Raw();
+            _illustration   = Raw().W(196).H(196);
 
 
             if (string.IsNullOrWhiteSpace(imageSrc))
@@ -74,7 +74,8 @@ namespace Tesserae
 
         public TutorialModal SetImageSrc(string imageSrc, UnitSize padding)
         {
-            _illustration.Content(Image(imageSrc).Contain().W(196).H(196).Padding(padding));
+            _illustration.Content(Image(imageSrc).Contain().S());
+            _illustration.Padding(padding);
             return this;
         }
 
