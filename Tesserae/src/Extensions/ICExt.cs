@@ -386,6 +386,12 @@ namespace Tesserae
         /// <summary>Height</summary>
         public static T H<T>(this T component, UnitSize unitSize) where T : IComponent => Height(component, unitSize);
 
+        /// <summary>Width</summary>
+        public static T W<T>(this T component, int pixels) where T : IComponent => Width(component, pixels.px());
+
+        /// <summary>Height</summary>
+        public static T H<T>(this T component, int pixels) where T : IComponent => Height(component, pixels.px());
+
         /// <summary>Stretch</summary>
         public static T S<T>(this T component) where T : IComponent => Stretch(component);
 

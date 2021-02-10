@@ -35,7 +35,7 @@ namespace Tesserae
             _modal = Modal().Width(800.px()).Height(60.vh())
                .NoContentPadding().LightDismiss().Dark()
                .Content(
-                    HStack().Children(
+                    HStack().S().Children(
                         VStack().HS().OverflowHidden().JustifyContent(ItemJustify.Between)
                            .Width(255.px()).Padding("40px 13px 0 32px").Background(Theme.Secondary.Background)
                            .Children(
