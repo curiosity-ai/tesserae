@@ -2,7 +2,8 @@ variables:
   buildConfiguration: 'Release'
   repo: 'https://$(username):$(pat)@github.com/curiosity-ai/tesserae.git'
   msg: 'update_demo_$(build.buildId)'
-  packageVersion: '$(Year:yyyy).$(build.buildId)'
+  buildVersion: '$(Year:yyyy).$(build.buildId)'
+
 trigger:
 - master
 
@@ -80,12 +81,12 @@ steps:
 
 - task: CmdLine@2
   inputs:
-    script: 'dotnet build $(Build.SourcesDirectory)\Tesserae\Tesserae.csproj  -c $(buildConfiguration) /p:Version=$(packageVersion)'
+    script: 'dotnet build $(Build.SourcesDirectory)\Tesserae\Tesserae.csproj  -c $(buildConfiguration) /p:Version=$(buildVersion)'
     workingDirectory: '$(Build.SourcesDirectory)/Tesserae/'
 
 - task: CmdLine@2
   inputs:
-    script: 'dotnet build $(Build.SourcesDirectory)\Tesserae.Tests\Tesserae.Tests.csproj  -c $(buildConfiguration) /p:Version=$(packageVersion)'
+    script: 'dotnet build $(Build.SourcesDirectory)\Tesserae.Tests\Tesserae.Tests.csproj  -c $(buildConfiguration) /p:Version=$(buildVersion)'
     workingDirectory: '$(Build.SourcesDirectory)/Tesserae.Tests/'
 
 - task: PowerShell@2
@@ -115,6 +116,6 @@ steps:
   displayName: 'push  Tesserae to nuget'
   inputs:
     command: 'push'
-    packagesToPush: '**/*/Tesserae.$(packageVersion).nupkg' # The package name comes from the PackageID, not project name
+    packagesToPush: '**/*/Tesserae.$(buildVersion).nupkg' # The package name comes from the PackageID, not project name
     nuGetFeedType: 'external'
     publishFeedCredentials: 'nuget-curiosity'
