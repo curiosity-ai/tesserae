@@ -91,6 +91,11 @@ namespace Tesserae
             _content.Padding(padding);
             return this;
         }
+        
+        public IComponent ShowEmbedded()
+        {
+            return Raw(_modal);
+        }
 
         public TutorialModal Show()
         {

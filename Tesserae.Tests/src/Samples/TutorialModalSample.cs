@@ -11,6 +11,7 @@ namespace Tesserae.Tests.Samples
 
         public TutorialModalSample()
         {
+            var container = Raw();
 
             _content = SectionStack()
                .Title(SampleHeader(nameof(TutorialModalSample)))
@@ -30,29 +31,37 @@ namespace Tesserae.Tests.Samples
                             SampleDont("Don’t overuse Tutorial Modals. In some cases they can be perceived as interrupting workflow, and too many can be a bad user experience.")))))
                .Section(Stack().Children(
                     SampleTitle("Usage"),
-                    Button("Open Tutorial Modal").OnClick((s, e) => TutorialModal()
-                       .Var(out var tutorialModal)
-                       .SetTitle("This is a Tutorial Modal")
-                       .SetHelpText("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ")
-                       .SetImageSrc("./assets/img/box-img.svg")
-                       .SetContent(
-                            Label("Input 1").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
-                            Label("Input 1").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
-                            Label("Input 1").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
-                            Label("Input 1").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
-                            Label("Input 1").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
-                            Label("Input 1").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
-                            Label("Input 1").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
-                            Label("Input 1").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
-                            Label("Input 1").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
-                            Label("Input 1").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
-                            Label("Input 1").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
-                            Label("Input 1").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
-                            Label("Input 1").SetContent(TextBox().SetPlaceholder("Enter your input here...")))
-                       .SetFooterCommands(
-                            Button("Discard").OnClick((_,        __) => tutorialModal.Hide()),
-                            Button("Save").Primary().OnClick((_, __) => tutorialModal.Hide())).Show())
+                    Button("Open Tutorial Modal").OnClick((s, e) => SampleTutorialModal().Show()),
+                    SampleTitle("Embedded Modal"),
+                    Button("Open Modal Below").OnClick((s, e) => container.Content(SampleTutorialModal().ShowEmbedded())),
+                    container
                 ));
+        }
+
+        private static TutorialModal SampleTutorialModal()
+        {
+            return TutorialModal()
+               .Var(out var tutorialModal)
+               .SetTitle("This is a Tutorial Modal")
+               .SetHelpText("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ")
+               .SetImageSrc("./assets/img/box-img.svg")
+               .SetContent(
+                    Label("Input 1").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
+                    Label("Input 1").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
+                    Label("Input 1").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
+                    Label("Input 1").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
+                    Label("Input 1").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
+                    Label("Input 1").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
+                    Label("Input 1").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
+                    Label("Input 1").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
+                    Label("Input 1").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
+                    Label("Input 1").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
+                    Label("Input 1").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
+                    Label("Input 1").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
+                    Label("Input 1").SetContent(TextBox().SetPlaceholder("Enter your input here...")))
+               .SetFooterCommands(
+                    Button("Discard").OnClick((_,        __) => tutorialModal.Hide()),
+                    Button("Save").Primary().OnClick((_, __) => tutorialModal.Hide()));
         }
 
         public HTMLElement Render()
