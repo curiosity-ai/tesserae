@@ -16,7 +16,7 @@ namespace Tesserae
         public TutorialModal(string title, string helpText, string imageSrc = null)
         {
             _footerCommands = HStack().Padding(10.px()).AlignEnd().AlignItems(ItemAlign.End);
-            _content        = VStack().S().ScrollY().Padding("38px 57px 0 39px");
+            _content        = VStack().Padding("38px 57px 0 39px");
             _title          = TextBlock(title).Large().Bold().PaddingTop(10.px()).PaddingBottom(20.px());
             _helpText       = TextBlock(helpText).Padding("20px 30px 0 0");
             _illustration   = Raw();
@@ -38,7 +38,7 @@ namespace Tesserae
                                 _illustration),
                         VStack().HS().W(545.px()).JustifyContent(ItemJustify.End)
                            .Children(
-                                _content,
+                                _content.H(10.px()).Grow(),
                                 _footerCommands)
                     )
                 );
