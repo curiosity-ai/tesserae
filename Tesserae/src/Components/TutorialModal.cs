@@ -29,7 +29,7 @@ namespace Tesserae
 
             if (string.IsNullOrWhiteSpace(imageSrc))
             {
-                _illustration.Content(Image(imageSrc).Contain().W(196).H(196));
+                SetImageSrc(imageSrc, 16.px());
             }
 
             _modal = Modal().Width(800.px()).Height(60.vh())
@@ -72,9 +72,9 @@ namespace Tesserae
             return this;
         }
 
-        public TutorialModal SetImageSrc(string imageSrc)
+        public TutorialModal SetImageSrc(string imageSrc, UnitSize padding)
         {
-            _illustration.Content(Image(imageSrc).Contain().W(196).H(196));
+            _illustration.Content(Image(imageSrc).Contain().W(196).H(196).Padding(padding));
             return this;
         }
 
