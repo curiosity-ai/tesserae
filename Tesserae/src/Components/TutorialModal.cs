@@ -74,7 +74,7 @@ namespace Tesserae
 
         public TutorialModal SetImageSrc(string imageSrc)
         {
-            _illustration.Content(Image(imageSrc).PT(30.px()));
+            _illustration.Content(Image(imageSrc).Contain().W(196).H(196));
             return this;
         }
 
