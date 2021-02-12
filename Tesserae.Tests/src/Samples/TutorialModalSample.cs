@@ -32,6 +32,7 @@ namespace Tesserae.Tests.Samples
                .Section(Stack().Children(
                     SampleTitle("Usage"),
                     Button("Open Tutorial Modal").OnClick((s, e) => SampleTutorialModal().Show()),
+                    Button("Open Large Tutorial Modal").OnClick((s, e) => SampleTutorialModal().Height(90.vh()).Width(90.vw()).Show()),
                     SampleTitle("Embedded Modal"),
                     Button("Open Modal Below").OnClick((s, e) => container.Content(SampleTutorialModal().ShowEmbedded())),
                     container
