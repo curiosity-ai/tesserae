@@ -33,22 +33,15 @@ namespace Tesserae
                 SetImageSrc(imageSrc, 16.px());
             }
 
-            _leftStack = VStack().HS().OverflowHidden().JustifyContent(ItemJustify.Between)
-                           .Width(255.px()).Padding("40px 13px 32px 32px").Background(Theme.Secondary.Background)
-                           .Children(
-                                VStack().S().Children(_title, _helpText, Raw().H(48.px()).Grow(), _illustration));
-          
-            _rightStack = VStack().HS().W(545.px()).Grow().JustifyContent(ItemJustify.End)
-                           .Children(
-                                _content.H(10.px()).Grow(),
-                                _footerCommands);
-
-            _modal = Modal().Width(800.px()).Height(60.vh())
+            _modal = Modal().Width(800.px()).MinHeight(60.vh()).MaxHeight(95.vh())
                .NoContentPadding().LightDismiss().Dark()
                .Content(
                     HStack().S().Children(
-                        _leftStack,
-                        _rightStack
+                        VStack().OverflowHidden().JustifyContent(ItemJustify.Between)
+                           .Width(255.px()).Padding("40px 13px 32px 32px").Background(Theme.Secondary.Background)
+                           .Children(VStack().WS().Children(_title, _helpText, Raw().H(48.px()).Grow(), _illustration)),
+                        VStack().RemovePropagation().HS().W(545.px()).Grow().JustifyContent(ItemJustify.End)
+                           .Children(_content.H(10.px()).Grow(), _footerCommands)
                     )
                 );
         }
@@ -59,8 +52,7 @@ namespace Tesserae
             _footerCommands.Children(commands);
             return this;
         }
-
-        public TutorialModal SetContent(params IComponent[] content)
+        public TutorialModal SetContent(IComponent content)
         {
             _content.Clear();
             _content.Children(content);

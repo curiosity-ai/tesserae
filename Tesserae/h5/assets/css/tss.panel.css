@@ -34,6 +34,44 @@
     isolation: isolate;
 }
 
+.tss-panel-near-animate {
+    animation: 0.3s ease-in-out 0.01s 1 normal none running tss-panel-near-animation;
+}
+
+@keyframes tss-panel-near-animation {
+    0% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+
+    50% {
+        transform: translateX(0);
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.tss-panel-far-animate {
+    animation: 0.3s ease-in-out 0.01s 1 normal none running tss-panel-far-animation;
+}
+
+@keyframes tss-panel-far-animation {
+    0% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    50% {
+        transform: translateX(0);
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
 
 
 .tss-panel-command {

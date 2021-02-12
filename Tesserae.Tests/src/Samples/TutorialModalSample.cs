@@ -46,19 +46,16 @@ namespace Tesserae.Tests.Samples
                .SetHelpText("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ")
                .SetImageSrc("./assets/img/box-img.svg", 16.px())
                .SetContent(
+                VStack().S().ScrollY().Children(
                     Label("Input 1").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
-                    Label("Input 1").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
-                    Label("Input 1").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
-                    Label("Input 1").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
-                    Label("Input 1").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
-                    Label("Input 1").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
-                    Label("Input 1").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
-                    Label("Input 1").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
-                    Label("Input 1").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
-                    Label("Input 1").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
-                    Label("Input 1").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
-                    Label("Input 1").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
-                    Label("Input 1").SetContent(TextBox().SetPlaceholder("Enter your input here...")))
+                    Label("Input 2").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
+                    Label("Input 3").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
+                    Label("Input 4").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
+                    Label("Input 5").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
+                    Label("Input 6").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
+                    Label("Input 7").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
+                    Label("Input 8").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
+                    Label("Input 9").SetContent(TextBox().SetPlaceholder("Enter your input here..."))))
                .SetFooterCommands(
                     Button("Discard").OnClick((_,        __) => tutorialModal.Hide()),
                     Button("Save").Primary().OnClick((_, __) => tutorialModal.Hide()));
