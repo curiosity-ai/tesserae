@@ -53,7 +53,7 @@ namespace Tesserae
 
         public HTMLElement StylingContainer => InnerElement;
 
-        public bool PropagateToStackItemParent => true;
+        public bool PropagateToStackItemParent { get; private set; } = true;
 
         public static void SetAlign(IComponent component, ItemAlign align)
         {
@@ -154,6 +154,12 @@ namespace Tesserae
             {
                 return (GetItem(component), true);
             }
+        }
+
+        public Stack RemovePropagation()
+        {
+            PropagateToStackItemParent = false;
+            return this;
         }
 
         public static void SetMinWidth(IComponent component, UnitSize unitSize)

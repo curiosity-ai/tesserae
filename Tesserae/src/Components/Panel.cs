@@ -164,6 +164,18 @@ namespace Tesserae
         public override Panel Show()
         {
             if (!IsNonBlocking) document.body.style.overflowY = "hidden";
+
+            if (Side == PanelSide.Near)
+            {
+                _panel.classList.add("tss-panel-near-animate");
+                _panel.classList.remove("tss-panel-far-animate");
+            }
+            else
+            {
+                _panel.classList.add("tss-panel-far-animate");
+                _panel.classList.remove("tss-panel-near-animate");
+            }
+
             return base.Show();
         }
 
