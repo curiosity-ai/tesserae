@@ -13,6 +13,8 @@ namespace Tesserae
         private readonly TextBlock _title;
         private readonly TextBlock _helpText;
         private readonly Raw       _illustration;
+        private readonly Stack _leftStack;
+        private readonly Stack _rightStack;
 
         public HTMLElement StylingContainer => _modal.StylingContainer;
 
@@ -26,24 +28,27 @@ namespace Tesserae
             _helpText       = TextBlock(helpText).Padding("20px 30px 0 0");
             _illustration   = Raw().W(196).H(196);
 
-
             if (string.IsNullOrWhiteSpace(imageSrc))
             {
                 SetImageSrc(imageSrc, 16.px());
             }
 
+            _leftStack = VStack().HS().OverflowHidden().JustifyContent(ItemJustify.Between)
+                           .Width(255.px()).Padding("40px 13px 32px 32px").Background(Theme.Secondary.Background)
+                           .Children(
+                                VStack().S().Children(_title, _helpText, Raw().H(48.px()).Grow(), _illustration));
+          
+            _rightStack = VStack().HS().W(545.px()).Grow().JustifyContent(ItemJustify.End)
+                           .Children(
+                                _content.H(10.px()).Grow(),
+                                _footerCommands);
+
             _modal = Modal().Width(800.px()).Height(60.vh())
                .NoContentPadding().LightDismiss().Dark()
                .Content(
                     HStack().S().Children(
-                        VStack().HS().OverflowHidden().JustifyContent(ItemJustify.Between)
-                           .Width(255.px()).Padding("40px 13px 32px 32px").Background(Theme.Secondary.Background)
-                           .Children(
-                                VStack().S().Children(_title, _helpText, Raw().H(48.px()).Grow(), _illustration)),
-                        VStack().HS().W(545.px()).Grow().JustifyContent(ItemJustify.End)
-                           .Children(
-                                _content.H(10.px()).Grow(),
-                                _footerCommands)
+                        _leftStack,
+                        _rightStack
                     )
                 );
         }
@@ -54,10 +59,24 @@ namespace Tesserae
             _footerCommands.Children(commands);
             return this;
         }
+
         public TutorialModal SetContent(params IComponent[] content)
         {
             _content.Clear();
             _content.Children(content);
+            return this;
+        }
+
+        public TutorialModal Height(UnitSize height)
+        {
+            _leftStack.Height(height);
+            _rightStack.Height(height);
+            return this;
+        }
+
+        public TutorialModal Width(UnitSize width)
+        {
+            _rightStack.Width(width);
             return this;
         }
 
@@ -66,6 +85,7 @@ namespace Tesserae
             _title.Text = title;
             return this;
         }
+
         public TutorialModal SetHelpText(string helpText)
         {
             _helpText.Text = helpText;
