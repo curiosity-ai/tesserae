@@ -364,6 +364,7 @@ namespace Tesserae
         private void DoShow()
         {
             _modal.style.transform = "translate(0px,0px)";
+            _modal.classList.add("tss-modal-animate");
             if (!IsNonBlocking) document.body.style.overflowY = "hidden";
             base.Show();
             _modal.focus(); // 2020-05-01 DWR: We need to put focus into the modal container in order to pick up keypresses

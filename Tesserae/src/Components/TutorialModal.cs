@@ -54,7 +54,7 @@ namespace Tesserae
             _footerCommands.Children(commands);
             return this;
         }
-        public TutorialModal SetContent(params IComponent[] content)
+        public TutorialModal SetContent(IComponent content)
         {
             _content.Clear();
             _content.Children(content);
