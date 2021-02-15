@@ -272,6 +272,33 @@ namespace Tesserae
             InnerElement = Div(_("tss-stack"));
             StackOrientation = orientation;
         }
+        private event ComponentEventHandler<Stack, Event> MouseOver;
+        private event ComponentEventHandler<Stack, Event> MouseOut;
+
+        private void RaiseMouseOver(Event ev) => MouseOver?.Invoke((Stack) this, ev);
+        private void RaiseMouseOut(Event  ev) => MouseOut?.Invoke((Stack) this, ev);
+
+        public Stack OnMouseOver(ComponentEventHandler<Stack, Event> onMouseOver)
+        {
+            if (!(InnerElement.onmouseover is object))
+            {
+                InnerElement.onmouseover += s => RaiseMouseOver(s);
+            }
+
+            MouseOver += onMouseOver;
+            return (Stack) this;
+        }
+
+        public Stack OnMouseOut(ComponentEventHandler<Stack, Event> onMouseOut)
+        {
+            if (!(InnerElement.onmouseout is object))
+            {
+                InnerElement.onmouseout += s => RaiseMouseOut(s);
+            }
+
+            MouseOut += onMouseOut;
+            return (Stack) this;
+        }
 
         public void Add(IComponent component) => ScrollBar.GetCorrectContainer(InnerElement).appendChild(GetItem(component, true));
 

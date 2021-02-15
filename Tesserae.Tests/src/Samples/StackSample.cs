@@ -12,6 +12,13 @@ namespace Tesserae.Tests.Samples
 
         public StackSample()
         {
+            
+            var mainButton = Button("Some Text").TextLeft().MinWidth(200.px()).Ellipsis().IconOnHover();
+            mainButton.Tooltip("Tooltip for the main Button").SetIcon(LineAwesome.ChevronLeft, Theme.Primary.Background);
+
+            var otherButton = Button().Tooltip("Tooltip for the other Button").SetIcon(LineAwesome.ThumbsDown, color: Theme.Danger.Background).Fade();
+            var hoverStack     = HStack().MaxWidth(500.px()).Children(mainButton, otherButton);
+            
             var stack = Stack();
             var countSlider = Slider(5, 0, 10, 1);
             _content = SectionStack()
@@ -40,9 +47,13 @@ namespace Tesserae.Tests.Samples
                         })
                     )
                     )
-                ),
-                stack.HeightAuto())));
-                SetChildren(stack, 5);
+                ),stack.HeightAuto())))
+               .Section(Stack().Children(SampleTitle("Advanced"),
+                    Label("Stack with hover events").SetContent(hoverStack
+                       .OnMouseOver((s, e) => otherButton.Show())
+                       .OnMouseOut((s,  e) => otherButton.Fade())
+                       .Children(mainButton.WS(), otherButton))));
+            SetChildren(stack, 5);
         }
 
         private void SetChildren(Stack stack, int count)
