@@ -91,11 +91,11 @@ namespace Tesserae.Tests.Samples
                                    .Medium()
                                    .PaddingBottom(16.px()),
                                 DetailsList<DetailsListSampleFileItem>(
-                                        IconColumn(Icon(LineAwesome.File), width: 10.percent(), enableColumnSorting: true, sortingKey: "FileIcon"),
-                                        DetailsListColumn(title: "File Name",     width: 30.percent(), enableColumnSorting: true, sortingKey: "FileName",    isRowHeader: true),
-                                        DetailsListColumn(title: "Date Modified", width: 20.percent(), maxWidth: 100.px(),        enableColumnSorting: true, sortingKey: "DateModified"),
+                                        IconColumn(Icon(LineAwesome.File), width: 80.px(), enableColumnSorting: true, sortingKey: "FileIcon"),
+                                        DetailsListColumn(title: "File Name",     width: 40.percent(), enableColumnSorting: true, sortingKey: "FileName",    isRowHeader: true),
+                                        DetailsListColumn(title: "Date Modified", width: 20.percent(), maxWidth: 150.px(),        enableColumnSorting: true, sortingKey: "DateModified"),
                                         DetailsListColumn(title: "Modified By",   width: 20.percent(), maxWidth: 150.px(),        enableColumnSorting: true, sortingKey: "ModifiedBy"),
-                                        DetailsListColumn(title: "File Size",     width: 30.percent(), enableColumnSorting: true, sortingKey: "FileSize"))
+                                        DetailsListColumn(title: "File Size",     width: 20.percent(), maxWidth: 100.px(),        enableColumnSorting: true, sortingKey: "FileSize"))
                                    .Height(500.px())
                                    .Width(100.percent())
                                    .WithListItems(GetDetailsListItems())
