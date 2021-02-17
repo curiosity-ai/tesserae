@@ -62,7 +62,7 @@ namespace Tesserae
         public static Raw Raw() => new Raw();
 
         public static Raw Raw(IComponent component) => new Raw(component);
-        
+
         public static IComponent Empty() => new Raw();
 
         public static Image Image(string source) => new Image(source);
