@@ -82,6 +82,22 @@ namespace Tesserae.Tests.Samples
                                         DetailsListColumn(title: "Modified By",   width: 150.px(), enableColumnSorting: true, sortingKey: "ModifiedBy"),
                                         DetailsListColumn(title: "File Size",     width: 120.px(), enableColumnSorting: true, sortingKey: "FileSize"))
                                    .Height(500.px())
+                                   .FitToSize()
+                                   .WithListItems(GetDetailsListItems())
+                                   .SortedBy("FileName")
+                                   .Shrink()
+                                   .PaddingBottom(32.px()),
+                                TextBlock("Details List With Component Rows and responsive width")
+                                   .Medium()
+                                   .PaddingBottom(16.px()),
+                                DetailsList<DetailsListSampleFileItem>(
+                                        IconColumn(Icon(LineAwesome.File), width: 10.percent(), enableColumnSorting: true, sortingKey: "FileIcon"),
+                                        DetailsListColumn(title: "File Name",     width: 30.percent(), enableColumnSorting: true, sortingKey: "FileName",    isRowHeader: true),
+                                        DetailsListColumn(title: "Date Modified", width: 20.percent(), maxWidth: 100.px(),        enableColumnSorting: true, sortingKey: "DateModified"),
+                                        DetailsListColumn(title: "Modified By",   width: 20.percent(), maxWidth: 150.px(),        enableColumnSorting: true, sortingKey: "ModifiedBy"),
+                                        DetailsListColumn(title: "File Size",     width: 30.percent(), enableColumnSorting: true, sortingKey: "FileSize"))
+                                   .Height(500.px())
+                                   .Width(100.percent())
                                    .WithListItems(GetDetailsListItems())
                                    .SortedBy("FileName")
                                    .PaddingBottom(32.px()),

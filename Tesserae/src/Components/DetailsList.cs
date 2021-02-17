@@ -24,6 +24,8 @@ namespace Tesserae
         private HTMLElement      _columnSortingIcon;
         private Func<IComponent> _emptyListMessageGenerator;
 
+        private bool _FixedWidth = false;
+
         public DetailsList(params IDetailsListColumn[] columns)
         {
             if (columns == null)
@@ -67,6 +69,7 @@ namespace Tesserae
 
             var gridCellHtmlElement = Div(_("tss-detailslist-list-item tss-text-ellipsis").WithRole(role));
             gridCellHtmlElement.style.width = column.Width.ToString();
+            if (column.MaxWidth is object) gridCellHtmlElement.style.maxWidth = column.MaxWidth.ToString();
             gridCellHtmlElement.appendChild(gridCellInnerHtmlExpression().Render());
 
             return Raw(gridCellHtmlElement);
@@ -123,13 +126,8 @@ namespace Tesserae
 
         private void CreateList()
         {
-            var totalWidth = _columns.Sum(detailsListColumn => detailsListColumn.Width.Size + 4);
-
             var detailsListHeader = Div(_("tss-detailslist-header").WithRole("presentation"));
-            detailsListHeader.style.width = (totalWidth).px().ToString();
-
             _listContainer.appendChild(detailsListHeader);
-            _listContainer.style.width = $"min(100%, {(totalWidth + 32).px()})";
 
             foreach (var column in _columns)
             {
@@ -137,8 +135,44 @@ namespace Tesserae
             }
 
             _listItemsContainer = Div(_("tss-detailslist-list-items-container").WithRole("presentation"));
-            _listItemsContainer.style.width = (totalWidth).px().ToString();
             _listContainer.appendChild(_listItemsContainer);
+
+            if (_FixedWidth)
+            {
+                if (_columns.Any(detailsListColumn =>
+                {
+                    switch (detailsListColumn.Width.Unit)
+                    {
+                        case Unit.Pixels:
+                            return false;
+                        case Unit.Default:
+                        case Unit.Auto:
+                        case Unit.Percent:
+                        case Unit.ViewportHeight:
+                        case Unit.ViewportWidth:
+                        case Unit.Inherit:
+                        default:
+                            return true;
+
+                    }
+                }))
+                {
+                    throw new ArgumentException("Can't use 'FitToSize' and non fixed column sizes together. Try max width?");
+                }
+
+                var totalWidth = _columns.Sum(detailsListColumn => detailsListColumn.Width.Size + 4);
+
+                detailsListHeader.style.width = (totalWidth).px().ToString();
+                _listContainer.style.width = $"min(100%, {(totalWidth + 32).px()})";
+                _listItemsContainer.style.width = (totalWidth).px().ToString();
+
+            }
+            else
+            {
+                detailsListHeader.style.width = "100%";
+                _listContainer.style.width = "100%";
+                _listItemsContainer.style.width = "100%";
+            }
 
             DomObserver.WhenMounted(detailsListHeader, () =>
             {
@@ -149,6 +183,12 @@ namespace Tesserae
             RefreshListItems();
 
             _listAlreadyCreated = true;
+        }
+
+        public DetailsList<TDetailsListItem> FitToSize()
+        {
+            _FixedWidth = true;
+            return this;
         }
 
         private void RefreshListItems()
@@ -180,6 +220,8 @@ namespace Tesserae
             var columnHtmlElement = column.Render();
 
             columnHeader.style.width = column.Width.ToString();
+            if (column.MaxWidth is object) columnHeader.style.maxWidth = column.MaxWidth.ToString();
+
 
             if (column.EnableOnColumnClickEvent || column.EnableColumnSorting)
             {

@@ -9,7 +9,7 @@ namespace Tesserae
         private readonly Action      _onColumnClick;
         private readonly HTMLElement InnerElement;
 
-        public DetailsListColumn(string title, UnitSize width, bool isRowHeader = false, bool enableColumnSorting = false, string sortingKey = null, Action onColumnClick = null)
+        public DetailsListColumn(string title, UnitSize width, UnitSize maxWidth, bool isRowHeader = false, bool enableColumnSorting = false, string sortingKey = null, Action onColumnClick = null)
         {
             if (string.IsNullOrWhiteSpace(title))
             {
@@ -22,6 +22,7 @@ namespace Tesserae
             }
 
             Width = width ?? throw new ArgumentNullException(nameof(width));
+            MaxWidth = maxWidth;
             SortingKey = sortingKey ?? string.Empty;
             Title = title;
             IsRowHeader = isRowHeader;
@@ -39,6 +40,7 @@ namespace Tesserae
         public string      SortingKey               { get; }
         public string      Title                    { get; }
         public UnitSize    Width                    { get; }
+        public UnitSize    MaxWidth                 { get; }
         public bool        IsRowHeader              { get; }
         public bool        EnableColumnSorting      { get; }
         public bool        EnableOnColumnClickEvent { get; }
