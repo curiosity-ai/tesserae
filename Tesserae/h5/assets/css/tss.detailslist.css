@@ -53,7 +53,7 @@
 }
 
 .tss-detailslist-column-header {
-    padding: 4px 32px 4px 12px;
+    padding: 11px;
     display: inline-flex;
 }
 
@@ -62,7 +62,7 @@
 }
 .tss-detailslist-list-item {
     display: inline-block;
-    padding: 11px 32px 11px 12px;
+    padding: 11px;
     position: relative;
     float: left;
 }
