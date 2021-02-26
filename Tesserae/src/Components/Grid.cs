@@ -188,6 +188,11 @@ namespace Tesserae
         {
             _grid.replaceChild(GetItem(newComponent), GetItem(oldComponent));
         }
+        
+        public void Remove(IComponent component)
+        {
+            _grid.removeChild(GetItem(component));
+        }
 
         public virtual HTMLElement Render() => _grid;
     }

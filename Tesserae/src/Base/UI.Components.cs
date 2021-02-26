@@ -289,6 +289,11 @@ namespace Tesserae
 
         public static ItemsList ItemsList(ObservableList<IComponent> components, params UnitSize[] columns) => new ItemsList(components, columns);
 
+        public static InfiniteScrollingList InfiniteScrollingList(Func<IComponent[]> getNextItemPage,  params UnitSize[] columns) => new InfiniteScrollingList(getNextItemPage, columns);
+        public static InfiniteScrollingList InfiniteScrollingList(Func<Task<IComponent[]>> getNextItemPage,  params UnitSize[] columns) => new InfiniteScrollingList(getNextItemPage, columns);
+        public static InfiniteScrollingList InfiniteScrollingList(IComponent[] initComponents, Func<Task<IComponent[]>> getNextItemPage, params UnitSize[] columns) => new InfiniteScrollingList(initComponents, getNextItemPage, columns);
+        public static InfiniteScrollingList InfiniteScrollingList(IComponent[] initComponents, Func<IComponent[]> getNextItemPage, params UnitSize[] columns) => new InfiniteScrollingList(initComponents, getNextItemPage, columns);
+
         public static DetailsList<TDetailsListItem> DetailsList<TDetailsListItem>(params IDetailsListColumn[] columns) where TDetailsListItem : class, IDetailsListItem<TDetailsListItem> => new DetailsList<TDetailsListItem>(columns);
 
         public static DetailsListIconColumn IconColumn(Icon icon, UnitSize width, bool enableColumnSorting = false, string sortingKey = null, Action onColumnClick = null) => new DetailsListIconColumn(icon, width, null, enableColumnSorting, sortingKey, onColumnClick);

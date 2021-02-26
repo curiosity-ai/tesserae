@@ -38,6 +38,7 @@ namespace Tesserae.Tests
                 ("ContextMenu", () => new ContextMenuSample()),
                 ("ProgressModal", () => new ProgressModalSample()),
                 ("ItemsList", () => new ItemsListSample()),
+                ("InfiniteScrollingList", () => new InfiniteScrollingListSample()),
                 ("VirtualizedList", () => new VirtualizedListSample()),
                 ("SearchableList", () => new SearchableListSample()),
                 ("SearchableGroupedList", () => new SearchableGroupedListSample()),
@@ -214,6 +215,7 @@ namespace Tesserae.Tests
                                .SemiBold()
                                .Links(links["ItemsList"],
                                     links["VirtualizedList"],
+                                    links["InfiniteScrollingList"],
                                     links["SearchableList"],
                                     links["SearchableGroupedList"],
                                     links["DetailsList"],

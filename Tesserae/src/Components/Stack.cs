@@ -319,6 +319,7 @@ namespace Tesserae
         public virtual void Clear() => ClearChildren(ScrollBar.GetCorrectContainer(InnerElement));
 
         public void Replace(IComponent newComponent, IComponent oldComponent) => ScrollBar.GetCorrectContainer(InnerElement).replaceChild(GetItem(newComponent), GetItem(oldComponent));
+        public void Remove(IComponent component) => ScrollBar.GetCorrectContainer(InnerElement).removeChild(GetItem(component));
 
         public virtual HTMLElement Render() => InnerElement;
 
