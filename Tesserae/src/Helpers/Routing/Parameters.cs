@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Tesserae
 {
@@ -24,5 +25,8 @@ namespace Tesserae
             _parameters[key] = value;
             return this;
         }
+
+        public string     ToQueryString() => _parameters.Any() ? "?" + string.Join("&", _parameters.Select(p => p.Key + "=" + p.Value)) : "";
+        public Parameters Clone()         => new Parameters(_parameters);
     }
 }

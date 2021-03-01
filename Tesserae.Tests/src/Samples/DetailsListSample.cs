@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Tesserae;
 using static H5.Core.dom;
 using static Tesserae.Tests.Samples.SamplesHelper;
@@ -14,6 +15,9 @@ namespace Tesserae.Tests.Samples
 
         public DetailsListSample()
         {
+            var query = Router.GetQueryParameters();
+            int page = query.ContainsKey("page") && query.TryGetValue("page", out var queryPageStr) && int.TryParse(queryPageStr, out var queryPage) ? queryPage : 2;
+
             _content =
                 SectionStack()
                    .Title(SampleHeader(nameof(DetailsListSample)))
@@ -117,6 +121,28 @@ namespace Tesserae.Tests.Samples
                                    .WithListItems(GetComponentDetailsListItems())
                                    .SortedBy("Name")
                                    .PaddingBottom(32.px()),
+                                TextBlock("Details List With Textual Rows and paginated content")
+                                   .Medium()
+                                   .PaddingBottom(16.px()),
+                                DetailsList<DetailsListSampleFileItem>(
+                                        IconColumn(Icon(LineAwesome.File), width: 32.px(), enableColumnSorting: true, sortingKey: "FileIcon"),
+                                        DetailsListColumn(title: "File Name",     width: 350.px(), enableColumnSorting: true, sortingKey: "FileName", isRowHeader: true),
+                                        DetailsListColumn(title: "Date Modified", width: 170.px(), enableColumnSorting: true, sortingKey: "DateModified"),
+                                        DetailsListColumn(title: "Modified By",   width: 150.px(), enableColumnSorting: true, sortingKey: "ModifiedBy"),
+                                        DetailsListColumn(title: "File Size",     width: 120.px(), enableColumnSorting: true, sortingKey: "FileSize"))
+                                   .Height(500.px())
+                                   .FitToSize()
+                                   .WithListItems(GetDetailsListItems(0, page))
+                                   .WithPaginatedItems(async () =>
+                                    {
+                                        page++;
+                                        Router.ReplaceQueryParameters(parameters => parameters.With("page", page.ToString()));
+                                        return await GetDetailsListItemsAsync(page, 1);
+
+                                    })
+                                   .SortedBy("FileName")
+                                   .Shrink()
+                                   .PaddingBottom(32.px()),
                                 TextBlock("Details List With Empty List Message")
                                    .Medium()
                                    .PaddingBottom(16.px()),
@@ -130,7 +156,8 @@ namespace Tesserae.Tests.Samples
                                    .WithEmptyMessage(() => BackgroundArea(Card(TextBlock("Empty list").Padding(16.px()))).WidthStretch().HeightStretch())
                                    .Height(500.px())
                                    .WithListItems(new DetailsListSampleFileItem[0])
-                                   .SortedBy("Name")));
+                                   .SortedBy("Name")
+                            ));
         }
 
         public HTMLElement Render()
@@ -138,31 +165,36 @@ namespace Tesserae.Tests.Samples
             return _content.Render();
         }
 
-        private DetailsListSampleFileItem[] GetDetailsListItems()
+        private async Task<DetailsListSampleFileItem[]> GetDetailsListItemsAsync(int start = 1, int count = 100)
+        {
+            await Task.Delay(1000);
+            return GetDetailsListItems(start, count);
+        }
+        private DetailsListSampleFileItem[] GetDetailsListItems(int start = 1, int count = 100)
         {
             return Enumerable
-               .Range(1, 100)
+               .Range(start, count)
                .SelectMany(number => new List<DetailsListSampleFileItem>
                 {
                     new DetailsListSampleFileItem(
                         fileIcon: LineAwesome.FileWord,
-                        fileName: "Interesting File Name, quite long as you can see. In fact, let's make it " +
+                        fileName: $"Interesting File Name {number}, quite long as you can see. In fact, let's make it " +
                                   "longer to see how the padding looks.",
-                        dateModified: DateTime.Today.AddDays(-10),
+                        dateModified: DateTime.Today.AddDays(-number),
                         modifiedBy: "Dale Cooper",
-                        fileSize: 10),
+                        fileSize: number + 0.7),
                     new DetailsListSampleFileItem(
                         fileIcon: LineAwesome.FileExcel,
-                        fileName: "File Name 2",
-                        dateModified: DateTime.Today.AddDays(-20),
+                        fileName: $"File Name {number}",
+                        dateModified: DateTime.Today.AddDays(-number),
                         modifiedBy: "Rusty",
-                        fileSize: 12),
+                        fileSize: number + 0.1),
                     new DetailsListSampleFileItem(
                         fileIcon: LineAwesome.FilePowerpoint,
-                        fileName: "File Name 3",
-                        dateModified: DateTime.Today.AddDays(-30),
+                        fileName: $"File Name {number}",
+                        dateModified: DateTime.Today.AddDays(-number),
                         modifiedBy: "Cole",
-                        fileSize: 15)
+                        fileSize: number + 0.5)
                 }).ToArray();
         }
 
@@ -213,7 +245,7 @@ namespace Tesserae.Tests.Samples
 
     public class DetailsListSampleFileItem : IDetailsListItem<DetailsListSampleFileItem>
     {
-        public DetailsListSampleFileItem(LineAwesome fileIcon, string fileName, DateTime dateModified, string modifiedBy, int fileSize)
+        public DetailsListSampleFileItem(LineAwesome fileIcon, string fileName, DateTime dateModified, string modifiedBy, double fileSize)
         {
             FileIcon = fileIcon;
             FileName = fileName;
@@ -230,7 +262,7 @@ namespace Tesserae.Tests.Samples
 
         public string ModifiedBy { get; }
 
-        public int FileSize { get; }
+        public double FileSize { get; }
 
         public bool EnableOnListItemClickEvent => true;
 

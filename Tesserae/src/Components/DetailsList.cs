@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using static Tesserae.UI;
 using static H5.Core.dom;
 using static H5.Core.dom.Node;
@@ -23,6 +24,8 @@ namespace Tesserae
         private LineAwesome      _currentLineAwesomeSortingIcon;
         private HTMLElement      _columnSortingIcon;
         private Func<IComponent> _emptyListMessageGenerator;
+
+        private Func<Task<TDetailsListItem[]>> _getNextItemPage = null;
 
         private bool _FixedWidth = false;
 
@@ -78,6 +81,17 @@ namespace Tesserae
         public DetailsList<TDetailsListItem> WithEmptyMessage(Func<IComponent> emptyListMessageGenerator)
         {
             _emptyListMessageGenerator = emptyListMessageGenerator ?? throw new ArgumentNullException(nameof(emptyListMessageGenerator));
+
+            return this;
+        }
+        public DetailsList<TDetailsListItem> WithPaginatedItems(Func<Task<TDetailsListItem[]>> getNextItemPage)
+        {
+            _getNextItemPage = getNextItemPage;
+
+            if (_listAlreadyCreated)
+            {
+                RefreshListItems();
+            }
 
             return this;
         }
@@ -157,7 +171,7 @@ namespace Tesserae
                     }
                 }))
                 {
-                    throw new ArgumentException("Can't use 'FitToSize' and non fixed column sizes together. Try max width?");
+                    throw new ArgumentException("Can't use 'FitToSize' and non fixed column sizes together. You could try max width.");
                 }
 
                 var totalWidth = _columns.Sum(detailsListColumn => detailsListColumn.Width.Size + 4);
@@ -193,10 +207,40 @@ namespace Tesserae
 
         private void RefreshListItems()
         {
-            _listItemsContainer.RemoveChildElements();
             if (_componentCache.HasComponents)
             {
-                _listItemsContainer.AppendChildren(_componentCache.GetAllRenderedComponentsFromCache().ToArray());
+                if (_getNextItemPage is object)
+                {
+                    var vis = VisibilitySensor(v =>
+                    {
+                        Task.Run<Task>(async () =>
+                        {
+                            var nextPageItems = await _getNextItemPage();
+
+                            var vElement = v.Render();
+                            _listItemsContainer.removeChild(vElement);
+
+                            if (nextPageItems is object && nextPageItems.Any())
+                            {
+                                _componentCache.AddComponents(nextPageItems);
+                            }
+                            _listItemsContainer.AppendChildren(_componentCache.GetAllRenderedComponentsFromCache().ToArray());
+
+                            v.Reset();
+                            _listItemsContainer.appendChild(vElement);
+
+                        }).FireAndForget();
+                    }, message: TextBlock("Loading..."));
+
+                    _listItemsContainer.RemoveChildElements();
+                    _listItemsContainer.AppendChildren(_componentCache.GetAllRenderedComponentsFromCache().ToArray());
+                    _listItemsContainer.appendChild(vis.Render());
+                }
+                else
+                {
+                    _listItemsContainer.RemoveChildElements();
+                    _listItemsContainer.AppendChildren(_componentCache.GetAllRenderedComponentsFromCache().ToArray());
+                }
             }
             else if (_emptyListMessageGenerator is object)
             {

@@ -85,29 +85,29 @@ namespace Tesserae
                         {
                             if (_grid is object)
                             {
-                                _grid.Remove(v);
                                 var nextPageItems = await getNextItemPage();
+                                _grid.Remove(v);
                                 foreach (var item in nextPageItems)
                                 {
                                     _grid.Add(item.W(_maxStackItemSize));
                                 }
+                                v.Reset();
                                 _grid.Add(v);
                             }
                             else
                             {
-                                _stack.Remove(v);
                                 var nextPageItems = await getNextItemPage();
+                                _stack.Remove(v);
                                 foreach (var item in nextPageItems)
                                 {
                                     _stack.Add(item.W(_maxStackItemSize));
                                 }
+                                v.Reset();
                                 _stack.Add(v);
-
                             }
                         }).FireAndForget();
 
-                    },
-                    singleCall: false, TextBlock("Loading..."));
+                    },message: TextBlock("Loading..."));
 
                 if (_grid is object)
                 {

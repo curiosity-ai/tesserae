@@ -97,6 +97,34 @@ namespace Tesserae
             window.history.replaceState(null, "", path);
         }
 
+        public static Parameters GetQueryParameters() => _currentState.Parameters;
+
+        public static void SetQueryParameters(Parameters parameters)
+        {
+            var url = _currentState.FullPath;
+
+            var queryStart = url.IndexOf("?");
+            if (queryStart > 0)
+            {
+                url = url.Substring(0, queryStart);
+            }
+            _currentState = new State(parameters, _currentState.RouteName, _currentState.Path, url + parameters.ToQueryString());
+            window.history.replaceState(null, "", _currentState.FullPath);
+
+        }
+        
+        public static void ReplaceQueryParameters(Func<Parameters, Parameters> updateFn)
+        {
+            var newParameters = updateFn(_currentState.Parameters.Clone());
+
+            if (newParameters.Equals(_currentState.Parameters))
+            {
+                // Nothing to do
+                return;
+            }
+            SetQueryParameters(newParameters);
+        }
+
         /// <summary>
         /// Sometimes it is desirable to forcibly rematch the current path as if it was a new location, even if it hasn't changed - depending upon how routing is configured and how views are rendererd according to those routes, this can be useful after
         /// all of the routes have been configured as the callback from the 'Refresh' method. It can also useful if you have a path that you would like to replace with another without performing a redirect that will appear in the browser history; in that
