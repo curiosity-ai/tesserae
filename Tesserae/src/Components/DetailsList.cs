@@ -274,12 +274,12 @@ namespace Tesserae
                 columnHeader.classList.add("tss-cursor-pointer");
             }
 
-            if (column.EnableColumnSorting && !column.EnableOnColumnClickEvent)
+            if (column.EnableColumnSorting)
             {
                 columnHeader.addEventListener("click", () => SortList(column.SortingKey, columnHtmlElement));
             }
 
-            if (!column.EnableColumnSorting && !column.EnableOnColumnClickEvent)
+            if (column.EnableOnColumnClickEvent)
             {
                 columnHeader.addEventListener("click", column.OnColumnClick);
             }
