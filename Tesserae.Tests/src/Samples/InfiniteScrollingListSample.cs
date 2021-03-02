@@ -15,7 +15,8 @@ namespace Tesserae.Tests.Samples
         public InfiniteScrollingListSample()
         {
 
-            var page = 0;
+            var page = 1;
+            var pageGrid = 1;
             _content = SectionStack().WidthStretch()
                .Title(SampleHeader(nameof(InfiniteScrollingListSample)))
                .Section(
@@ -35,7 +36,11 @@ namespace Tesserae.Tests.Samples
                             TextBlock("Basic List with VisibilitySensor")
                                .Medium()
                                .PaddingBottom(16.px()),
-                            InfiniteScrollingList(() => GetSomeItemsAsync(20, page++)).Height(500.px()).PaddingBottom(32.px())
+                            InfiniteScrollingList(GetSomeItems(20, 0, " initial"), async () => await GetSomeItemsAsync(20, page++)).Height(500.px()).PaddingBottom(32.px()),
+                            TextBlock("Basic Grid List with VisibilitySensor")
+                               .Medium()
+                               .PaddingBottom(16.px()),
+                            InfiniteScrollingList(GetSomeItems(20, 0, " initial"), async () => await GetSomeItemsAsync(20, pageGrid++), 33.percent(), 33.percent(), 34.percent()).Height(500.px()).PaddingBottom(32.px())
                         ));
         }
 
@@ -44,18 +49,23 @@ namespace Tesserae.Tests.Samples
             return _content.Render();
         }
 
-        private async Task<IComponent[]> GetSomeItemsAsync(int count, int page = -1)
+        private IComponent[] GetSomeItems(int count, int page = -1, string txt = "")
         {
-            await Task.Delay(200);
             var pageString = page > 0 ? page.ToString() : "";
             return Enumerable
                .Range(1, count)
                .Select(number =>
                 {
-                    var card = Card(TextBlock($"Lorem Ipsum {pageString}{number}").NonSelectable()).MinWidth(200.px());
+                    var card = Card(TextBlock($"Lorem Ipsum {pageString}{number}" + txt).NonSelectable()).MinWidth(200.px());
                     return card;
                 })
                .ToArray();
+        }
+
+        private async Task<IComponent[]> GetSomeItemsAsync(int count, int page = -1, string txt = "")
+        {
+            await Task.Delay(200);
+            return GetSomeItems(count, page, txt);
         }
     }
 }

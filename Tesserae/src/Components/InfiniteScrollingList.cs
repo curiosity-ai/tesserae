@@ -9,12 +9,11 @@ namespace Tesserae
 {
     public sealed class InfiniteScrollingList : IComponent, ISpecialCaseStyling
     {
-        private readonly Grid                _grid;
-        private readonly Stack               _stack;
-        private readonly UnitSize            _maxStackItemSize;
-        private readonly HTMLDivElement      _container;
-        private          Func<IComponent>    _emptyListMessageGenerator;
-        private readonly HashSet<IComponent> _currentItems = new HashSet<IComponent>();
+        private readonly Grid             _grid;
+        private readonly Stack            _stack;
+        private readonly UnitSize         _maxStackItemSize;
+        private readonly HTMLDivElement   _container;
+        private          Func<IComponent> _emptyListMessageGenerator;
 
         public InfiniteScrollingList(Func<IComponent[]>       getNextItemPage, params UnitSize[]  columns) : this(new IComponent[0], () => Task.FromResult<IComponent[]>(getNextItemPage()), columns) { }
         public InfiniteScrollingList(IComponent[]             items,           Func<IComponent[]> getNextItemPage, params UnitSize[] columns) : this(items, () => Task.FromResult<IComponent[]>(getNextItemPage()), columns) { }
@@ -24,41 +23,6 @@ namespace Tesserae
 
         public bool PropagateToStackItemParent => true;
 
-        private void AddItems(IComponent[] items)
-        {
-            if (items is object && items.Any() && _currentItems is object && _currentItems.Any())
-            {
-                var toAdd = items.Where(i => !_currentItems.Contains(i)).ToArray();
-
-                if (_grid is object)
-                {
-                    foreach (var item in toAdd)
-                    {
-                        _currentItems.Add(item);
-                        _grid.Add(item);
-                    }
-                }
-                else
-                {
-                    foreach (var item in toAdd)
-                    {
-                        _currentItems.Add(item);
-                        _stack.Add(item.W(_maxStackItemSize));
-                    }
-                }
-            }
-            if ((!(_currentItems is object) || _currentItems.Any()) && _emptyListMessageGenerator is object)
-            {
-                if (_grid is object)
-                {
-                    _grid.Children(_emptyListMessageGenerator().GridColumnStretch()).AsTask();
-                }
-                else
-                {
-                    _stack.Children(_emptyListMessageGenerator().WidthStretch().HeightStretch()).AsTask();
-                }
-            }
-        }
 
         public InfiniteScrollingList(IComponent[] items, Func<Task<IComponent[]>> getNextItemPage, params UnitSize[] columns)
         {
@@ -90,7 +54,7 @@ namespace Tesserae
                             {
                                 foreach (var item in nextPageItems)
                                 {
-                                    _grid.Add(item.W(_maxStackItemSize));
+                                    _grid.Add(item);
                                 }
                                 v.Reset();
                                 _grid.Add(v);
@@ -102,8 +66,6 @@ namespace Tesserae
                             _stack.Remove(v);
                             if (nextPageItems is object && nextPageItems.Any())
                             {
-
-
                                 foreach (var item in nextPageItems)
                                 {
                                     _stack.Add(item.W(_maxStackItemSize));
@@ -123,6 +85,39 @@ namespace Tesserae
                 else
                 {
                     _stack.Add(vs);
+                }
+            }
+        }
+
+
+        private void AddItems(IComponent[] items)
+        {
+            if (items is object && items.Any())
+            {
+                if (_grid is object)
+                {
+                    foreach (var item in items)
+                    {
+                        _grid.Add(item);
+                    }
+                }
+                else
+                {
+                    foreach (var item in items)
+                    {
+                        _stack.Add(item.W(_maxStackItemSize));
+                    }
+                }
+            }
+            if (_emptyListMessageGenerator is object)
+            {
+                if (_grid is object)
+                {
+                    _grid.Children(_emptyListMessageGenerator().GridColumnStretch()).AsTask();
+                }
+                else
+                {
+                    _stack.Children(_emptyListMessageGenerator().WidthStretch().HeightStretch()).AsTask();
                 }
             }
         }
