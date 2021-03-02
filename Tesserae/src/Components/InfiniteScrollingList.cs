@@ -76,17 +76,18 @@ namespace Tesserae
             _emptyListMessageGenerator = null;
             AddItems(items);
 
-
             if (getNextItemPage is object)
             {
                 var vs = VisibilitySensor(v =>
+                {
+                    Task.Run<Task>(async () =>
                     {
-                        Task.Run<Task>(async () =>
+                        if (_grid is object)
                         {
-                            if (_grid is object)
+                            var nextPageItems = await getNextItemPage();
+                            _grid.Remove(v);
+                            if (nextPageItems is object && nextPageItems.Any())
                             {
-                                var nextPageItems = await getNextItemPage();
-                                _grid.Remove(v);
                                 foreach (var item in nextPageItems)
                                 {
                                     _grid.Add(item.W(_maxStackItemSize));
@@ -94,10 +95,15 @@ namespace Tesserae
                                 v.Reset();
                                 _grid.Add(v);
                             }
-                            else
+                        }
+                        else
+                        {
+                            var nextPageItems = await getNextItemPage();
+                            _stack.Remove(v);
+                            if (nextPageItems is object && nextPageItems.Any())
                             {
-                                var nextPageItems = await getNextItemPage();
-                                _stack.Remove(v);
+
+
                                 foreach (var item in nextPageItems)
                                 {
                                     _stack.Add(item.W(_maxStackItemSize));
@@ -105,9 +111,10 @@ namespace Tesserae
                                 v.Reset();
                                 _stack.Add(v);
                             }
-                        }).FireAndForget();
+                        }
+                    }).FireAndForget();
 
-                    },message: TextBlock("Loading..."));
+                }, message: TextBlock("Loading..."));
 
                 if (_grid is object)
                 {
