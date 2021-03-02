@@ -223,11 +223,13 @@ namespace Tesserae
                             if (nextPageItems is object && nextPageItems.Any())
                             {
                                 _componentCache.AddComponents(nextPageItems);
-                            }
-                            _listItemsContainer.AppendChildren(_componentCache.GetAllRenderedComponentsFromCache().ToArray());
+                                //this works since a node on the DOM can only exist at one place at a time
+                                _listItemsContainer.AppendChildren(_componentCache.GetAllRenderedComponentsFromCache().ToArray());
 
-                            v.Reset();
-                            _listItemsContainer.appendChild(vElement);
+                                v.Reset();
+                                _listItemsContainer.appendChild(vElement);
+                            }
+                            // if there are no new items, don't add the visibility sensor again, to not trigger repeated updates
 
                         }).FireAndForget();
                     }, message: TextBlock("Loading..."));
