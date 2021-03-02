@@ -27,8 +27,6 @@ namespace Tesserae
 
         private Func<Task<TDetailsListItem[]>> _getNextItemPage = null;
 
-        private bool _FixedWidth = false;
-
         public DetailsList(params IDetailsListColumn[] columns)
         {
             if (columns == null)
@@ -151,35 +149,12 @@ namespace Tesserae
             _listItemsContainer = Div(_("tss-detailslist-list-items-container").WithRole("presentation"));
             _listContainer.appendChild(_listItemsContainer);
 
-            if (_FixedWidth)
+            if (_columns.All(detailsListColumn =>detailsListColumn.Width.Unit == Unit.Pixels))
             {
-                if (_columns.Any(detailsListColumn =>
-                {
-                    switch (detailsListColumn.Width.Unit)
-                    {
-                        case Unit.Pixels:
-                            return false;
-                        case Unit.Default:
-                        case Unit.Auto:
-                        case Unit.Percent:
-                        case Unit.ViewportHeight:
-                        case Unit.ViewportWidth:
-                        case Unit.Inherit:
-                        default:
-                            return true;
-
-                    }
-                }))
-                {
-                    throw new ArgumentException("Can't use 'FitToSize' and non fixed column sizes together. You could try max width.");
-                }
-
                 var totalWidth = _columns.Sum(detailsListColumn => detailsListColumn.Width.Size + 4);
-
                 detailsListHeader.style.width = (totalWidth).px().ToString();
                 _listContainer.style.width = $"min(100%, {(totalWidth + 32).px()})";
                 _listItemsContainer.style.width = (totalWidth).px().ToString();
-
             }
             else
             {
@@ -197,12 +172,6 @@ namespace Tesserae
             RefreshListItems();
 
             _listAlreadyCreated = true;
-        }
-
-        public DetailsList<TDetailsListItem> FitToSize()
-        {
-            _FixedWidth = true;
-            return this;
         }
 
         private void RefreshListItems()

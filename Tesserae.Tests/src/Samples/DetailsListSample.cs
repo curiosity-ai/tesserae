@@ -86,7 +86,6 @@ namespace Tesserae.Tests.Samples
                                         DetailsListColumn(title: "Modified By",   width: 150.px(), enableColumnSorting: true, sortingKey: "ModifiedBy"),
                                         DetailsListColumn(title: "File Size",     width: 120.px(), enableColumnSorting: true, sortingKey: "FileSize"))
                                    .Height(500.px())
-                                   .FitToSize()
                                    .WithListItems(GetDetailsListItems())
                                    .SortedBy("FileName")
                                    .Shrink()
@@ -131,7 +130,6 @@ namespace Tesserae.Tests.Samples
                                         DetailsListColumn(title: "Modified By",   width: 150.px(), enableColumnSorting: true, sortingKey: "ModifiedBy"),
                                         DetailsListColumn(title: "File Size",     width: 120.px(), enableColumnSorting: true, sortingKey: "FileSize"))
                                    .Height(500.px())
-                                   .FitToSize()
                                    .WithListItems(GetDetailsListItems(0, page))
                                    .WithPaginatedItems(async () =>
                                     {
