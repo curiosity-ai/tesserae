@@ -1,4 +1,4 @@
-﻿using static H5.Core.dom;
+using static H5.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -272,6 +272,33 @@ namespace Tesserae
             InnerElement = Div(_("tss-stack"));
             StackOrientation = orientation;
         }
+        private event ComponentEventHandler<Stack, Event> MouseOver;
+        private event ComponentEventHandler<Stack, Event> MouseOut;
+
+        private void RaiseMouseOver(Event ev) => MouseOver?.Invoke((Stack) this, ev);
+        private void RaiseMouseOut(Event  ev) => MouseOut?.Invoke((Stack) this, ev);
+
+        public Stack OnMouseOver(ComponentEventHandler<Stack, Event> onMouseOver)
+        {
+            if (!(InnerElement.onmouseover is object))
+            {
+                InnerElement.onmouseover += s => RaiseMouseOver(s);
+            }
+
+            MouseOver += onMouseOver;
+            return (Stack) this;
+        }
+
+        public Stack OnMouseOut(ComponentEventHandler<Stack, Event> onMouseOut)
+        {
+            if (!(InnerElement.onmouseout is object))
+            {
+                InnerElement.onmouseout += s => RaiseMouseOut(s);
+            }
+
+            MouseOut += onMouseOut;
+            return (Stack) this;
+        }
 
         public void Add(IComponent component) => ScrollBar.GetCorrectContainer(InnerElement).appendChild(GetItem(component, true));
 
@@ -281,7 +308,7 @@ namespace Tesserae
             
             if(container.childElementCount > 0)
             {
-                container.insertBefore(0, GetItem(component, true));
+                container.insertBefore(GetItem(component, true), container.firstElementChild);
             }
             else
             {
@@ -292,6 +319,7 @@ namespace Tesserae
         public virtual void Clear() => ClearChildren(ScrollBar.GetCorrectContainer(InnerElement));
 
         public void Replace(IComponent newComponent, IComponent oldComponent) => ScrollBar.GetCorrectContainer(InnerElement).replaceChild(GetItem(newComponent), GetItem(oldComponent));
+        public void Remove(IComponent component) => ScrollBar.GetCorrectContainer(InnerElement).removeChild(GetItem(component));
 
         public virtual HTMLElement Render() => InnerElement;
 

@@ -12,19 +12,19 @@ namespace Tesserae
 {
     public static class Router
     {
-        public delegate void NavigatedHandler(State toState, State fromState);
-        public delegate bool CanNavigateHandler(State toState, State fromState);
+        public delegate void NavigatedHandler(State               toState, State fromState);
+        public delegate bool CanNavigateHandler(State             toState, State fromState);
         public delegate void NoMatchHandler(ReadOnlyArray<string> routeParts);
 
         private static event NavigatedHandler Navigated;
-        private static event NoMatchHandler NotMatched;
+        private static event NoMatchHandler   NotMatched;
 
-        private static State _currentState;
+        private static State              _currentState;
         private static CanNavigateHandler _beforeNavigate; // 2020-06-16 DWR: We previously used an event for this but only allowed a single delegate to bind to it, so there is no need for it to be multi-dispatch and so now it's just a field instead of an event
 
         public static void OnBeforeNavigate(CanNavigateHandler onBeforeNavigate) => _beforeNavigate = onBeforeNavigate;
-        public static void OnNavigated(NavigatedHandler onNavigated) => Navigated += onNavigated;
-        public static void OnNotMatched(NoMatchHandler notMatched) => NotMatched += notMatched;
+        public static void OnNavigated(NavigatedHandler        onNavigated)      => Navigated += onNavigated;
+        public static void OnNotMatched(NoMatchHandler         notMatched)       => NotMatched += notMatched;
 
         public static void Initialize()
         {
@@ -33,7 +33,7 @@ namespace Tesserae
                 //We overload 'pushState' because on some browsers 'locationchange' is not properly triggered.
                 //However, not on 'replaceState' because we do not want to reload the page.
                 Script.Write(
-@"
+                    @"
     window.history.pushState = ( f => function pushState(){
         var ret = f.apply(this, arguments);
         window.dispatchEvent(new Event('pushstate'));
@@ -51,15 +51,15 @@ namespace Tesserae
         window.dispatchEvent(new Event('locationchange'))
     });
 ");
-                window.addEventListener("locationchange", (Action<Event>)(_ => LocationChanged(allowCallbackEvenIfLocationUnchanged: false))); // By default we'll ignore any events where the hash value hasn't actually changed
+                window.addEventListener("locationchange", (Action<Event>) (_ => LocationChanged(allowCallbackEvenIfLocationUnchanged: false))); // By default we'll ignore any events where the hash value hasn't actually changed
             }
             _initialized = true;
         }
 
-        private static bool _initialized = false;
+        private static          bool                                   _initialized                   = false;
         private static readonly Dictionary<string, Action<Parameters>> _registedRoutesMappedToActions = new Dictionary<string, Action<Parameters>>();
-        private static readonly Dictionary<string, string> _paths = new Dictionary<string, string>();
-        private static List<Route> _routesToTryMatchingOnLocationChanged;
+        private static readonly Dictionary<string, string>             _paths                         = new Dictionary<string, string>();
+        private static          List<Route>                            _routesToTryMatchingOnLocationChanged;
 
         public static void Push(string path)
         {
@@ -95,6 +95,34 @@ namespace Tesserae
             }
 
             window.history.replaceState(null, "", path);
+        }
+
+        public static Parameters GetQueryParameters() => _currentState.Parameters;
+
+        public static void SetQueryParameters(Parameters parameters)
+        {
+            var url = _currentState.FullPath;
+
+            var queryStart = url.IndexOf("?");
+            if (queryStart > 0)
+            {
+                url = url.Substring(0, queryStart);
+            }
+            _currentState = new State(parameters, _currentState.RouteName, _currentState.Path, url + parameters.ToQueryString());
+            window.history.replaceState(null, "", _currentState.FullPath);
+
+        }
+        
+        public static void ReplaceQueryParameters(Func<Parameters, Parameters> updateFn)
+        {
+            var newParameters = updateFn(_currentState.Parameters.Clone());
+
+            if (newParameters.Equals(_currentState.Parameters))
+            {
+                // Nothing to do
+                return;
+            }
+            SetQueryParameters(newParameters);
         }
 
         /// <summary>
@@ -155,7 +183,7 @@ namespace Tesserae
             if (hashOrPath.StartsWith("#") || candidatePath.StartsWith("#"))
             {
                 var ix1 = candidatePath.IndexOf('#');
-                var ix2 =    hashOrPath.IndexOf('#');
+                var ix2 = hashOrPath.IndexOf('#');
 
                 if (ix1 < 0 && ix2 < 0) return false;
 
@@ -173,7 +201,8 @@ namespace Tesserae
             {
                 if (c == ':')
                 {
-                    inParameter = true; sb.Append(':');
+                    inParameter = true;
+                    sb.Append(':');
                 }
                 else if (c == '/')
                 {
@@ -246,7 +275,7 @@ namespace Tesserae
 
         public static bool Exists(string hashRoute)
         {
-            hashRoute = hashRoute.Split(new[] { '?' }, count: 2).First();
+            hashRoute = hashRoute.Split(new[] {'?'}, count: 2).First();
             return _paths.Values.Contains(hashRoute);
         }
 
@@ -254,7 +283,7 @@ namespace Tesserae
         {
             var currentPathFromHash = (window.location.hash ?? "");
 
-            if (!allowCallbackEvenIfLocationUnchanged && (_currentState is object) )
+            if (!allowCallbackEvenIfLocationUnchanged && (_currentState is object))
             {
                 if (AlreadyThere(_currentState.FullPath, currentPathFromHash))
                 {
@@ -265,12 +294,12 @@ namespace Tesserae
             //The call to AlreadyThere above expects the hash to be still in the URL, so we only remove it here
             currentPathFromHash = currentPathFromHash.TrimStart('#');
 
-            var p = currentPathFromHash.Split(new[] { '?' }, count: 2); // Do not remove empty entries, as we need the empty entry in the array
+            var p = currentPathFromHash.Split(new[] {'?'}, count: 2); // Do not remove empty entries, as we need the empty entry in the array
 
             var hash = (p.Length == 0) ? "" : p[0];
 
             var par = new Dictionary<string, string>();
-            var parts = hash.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+            var parts = hash.Split(new[] {'/'}, StringSplitOptions.RemoveEmptyEntries);
 
             foreach (var r in _routesToTryMatchingOnLocationChanged)
             {
@@ -282,10 +311,10 @@ namespace Tesserae
                 {
                     //TODO parse query parameters
                     var query = p[1];
-                    var queryParts = query.Split(new[] { '&' }, StringSplitOptions.RemoveEmptyEntries);
+                    var queryParts = query.Split(new[] {'&'}, StringSplitOptions.RemoveEmptyEntries);
                     foreach (var qp in queryParts)
                     {
-                        var qpp = qp.Split(new[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
+                        var qpp = qp.Split(new[] {'='}, StringSplitOptions.RemoveEmptyEntries);
                         if (qpp.Length == 1)
                         {
                             par[es5.decodeURIComponent(qpp[0])] = "";
@@ -339,9 +368,9 @@ namespace Tesserae
             }
 
             public Parameters Parameters { get; }
-            public string RouteName { get; }
-            public string Path { get; }
-            public string FullPath { get; }
+            public string     RouteName  { get; }
+            public string     Path       { get; }
+            public string     FullPath   { get; }
 
             public State WithFullPath(string fullPath) => new State(Parameters, RouteName, Path, fullPath);
         }
@@ -355,8 +384,8 @@ namespace Tesserae
                 VariableName = IsVariable ? path.TrimStart(':') : "";
             }
 
-            public string Path { get; }
-            public bool IsVariable { get; }
+            public string Path         { get; }
+            public bool   IsVariable   { get; }
             public string VariableName { get; }
 
             public bool IsMatch(string pathPart, out string capturedVariable)
@@ -376,14 +405,14 @@ namespace Tesserae
 
         private sealed class Route
         {
-            private readonly RoutePart[] _parts;
+            private readonly RoutePart[]        _parts;
             private readonly Action<Parameters> _action;
             public Route(string name, string path, Action<Parameters> action)
             {
                 Name = name;
                 Path = path;
 
-                _parts = path.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries).Select(p => new RoutePart(p)).ToArray();
+                _parts = path.Split(new[] {'/'}, StringSplitOptions.RemoveEmptyEntries).Select(p => new RoutePart(p)).ToArray();
                 _action = action;
             }
 

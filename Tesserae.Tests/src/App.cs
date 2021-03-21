@@ -38,6 +38,7 @@ namespace Tesserae.Tests
                 ("ContextMenu", () => new ContextMenuSample()),
                 ("ProgressModal", () => new ProgressModalSample()),
                 ("ItemsList", () => new ItemsListSample()),
+                ("InfiniteScrollingList", () => new InfiniteScrollingListSample()),
                 ("VirtualizedList", () => new VirtualizedListSample()),
                 ("SearchableList", () => new SearchableListSample()),
                 ("SearchableGroupedList", () => new SearchableGroupedListSample()),
@@ -122,7 +123,7 @@ namespace Tesserae.Tests
                 var closePanelButton = Button().SetIcon(LineAwesome.ArrowLeft).Tooltip("Close panel");
 
                 var component = components[componentRouteName]();
-                var splitView = SplitView().NoSplitter().PanelStyle()
+                var splitView = SplitView().NoSplitter()
                    .Left(Stack().Stretch().Children(MainNav(links, navBar, sideBar)).InvisibleScroll(), background: Theme.Default.Background)
                    .LeftIsSmaller(300.px())
                    .Stretch()
@@ -214,6 +215,7 @@ namespace Tesserae.Tests
                                .SemiBold()
                                .Links(links["ItemsList"],
                                     links["VirtualizedList"],
+                                    links["InfiniteScrollingList"],
                                     links["SearchableList"],
                                     links["SearchableGroupedList"],
                                     links["DetailsList"],

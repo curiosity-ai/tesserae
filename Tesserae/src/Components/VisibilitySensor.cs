@@ -9,16 +9,16 @@ namespace Tesserae
 {
     public class VisibilitySensor : IComponent
     {
-        private readonly HTMLElement InnerElement;
-        private readonly double _debounceTimeout = 50;
-        private double _debounce;
+        private readonly HTMLElement              InnerElement;
+        private readonly double                   _debounceTimeout = 50;
+        private          double                   _debounce;
         private readonly Action<VisibilitySensor> _onVisible;
-        private int _maxCalls;
+        private          int                      _maxCalls;
 
         public VisibilitySensor(Action<VisibilitySensor> onVisible, bool singleCall = true, IComponent message = null)
         {
             InnerElement = DIV();
-            if(message is object)
+            if (message is object)
             {
                 InnerElement.appendChild(message.Render());
             }
@@ -33,7 +33,7 @@ namespace Tesserae
         public void Reset()
         {
             DomObserver.WhenMounted(InnerElement, HookCheck);
-            if(_maxCalls < 1) //will only reach 0 if it was single call
+            if (_maxCalls < 1) //will only reach 0 if it was single call
             {
                 _maxCalls = 1;
             }
@@ -63,16 +63,16 @@ namespace Tesserae
         {
             var viewport_top = window.scrollY;
             var viewport_bottom = window.scrollY + window.innerHeight;
-            var rect = (DOMRect)InnerElement.getBoundingClientRect();
-            if(rect.top > viewport_top && rect.bottom < viewport_bottom)
+            var rect = (DOMRect) InnerElement.getBoundingClientRect();
+            if (rect.top > viewport_top && rect.bottom < viewport_bottom)
             {
-                if(_maxCalls > 0)
+                if (_maxCalls > 0)
                 {
                     _maxCalls--;
                     _onVisible(this);
                 }
 
-                if(_maxCalls == 0)
+                if (_maxCalls == 0)
                 {
                     UnHookCheck();
                 }

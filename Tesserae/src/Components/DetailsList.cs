@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using static Tesserae.UI;
 using static H5.Core.dom;
 using static H5.Core.dom.Node;
@@ -10,19 +11,21 @@ namespace Tesserae
 {
     public class DetailsList<TDetailsListItem> : IComponent, ISpecialCaseStyling where TDetailsListItem : class, IDetailsListItem<TDetailsListItem>
     {
-        private readonly List<IDetailsListColumn> _columns;
+        private readonly List<IDetailsListColumn>         _columns;
         private readonly ComponentCache<TDetailsListItem> _componentCache;
-        private readonly HTMLElement _container;
-        private readonly HTMLDivElement _listContainer;
+        private readonly HTMLElement                      _container;
+        private readonly HTMLDivElement                   _listContainer;
 
         private bool _listAlreadyCreated;
 
         private HTMLDivElement _listItemsContainer;
 
-        private string _previousColumnSortingKey;
-        private LineAwesome _currentLineAwesomeSortingIcon;
-        private HTMLElement _columnSortingIcon;
+        private string           _previousColumnSortingKey;
+        private LineAwesome      _currentLineAwesomeSortingIcon;
+        private HTMLElement      _columnSortingIcon;
         private Func<IComponent> _emptyListMessageGenerator;
+
+        private Func<Task<TDetailsListItem[]>> _getNextItemPage = null;
 
         public DetailsList(params IDetailsListColumn[] columns)
         {
@@ -36,16 +39,16 @@ namespace Tesserae
                 throw new ArgumentException(nameof(columns));
             }
 
-            _columns        = columns.ToList();
+            _columns = columns.ToList();
             _componentCache = new ComponentCache<TDetailsListItem>(CreateListItem);
-            _listContainer  = Div(_("tss-detailslist").WithRole("grid"));
+            _listContainer = Div(_("tss-detailslist").WithRole("grid"));
 
-            _container                     = Div(_("tss-detailslist-container"), _listContainer);
-            _previousColumnSortingKey      = string.Empty;
+            _container = Div(_("tss-detailslist-container"), _listContainer);
+            _previousColumnSortingKey = string.Empty;
             _currentLineAwesomeSortingIcon = LineAwesome.ArrowUp;
         }
 
-        public HTMLElement StylingContainer    => _container;
+        public HTMLElement StylingContainer => _container;
 
         public bool PropagateToStackItemParent => false;
 
@@ -65,8 +68,9 @@ namespace Tesserae
         {
             var role = column.IsRowHeader ? "rowheader" : "gridcell";
 
-            var gridCellHtmlElement          = Div(_("tss-detailslist-list-item tss-text-ellipsis").WithRole(role));
-            gridCellHtmlElement.style.width  = column.Width.ToString();
+            var gridCellHtmlElement = Div(_("tss-detailslist-list-item tss-text-ellipsis").WithRole(role));
+            gridCellHtmlElement.style.width = column.Width.ToString();
+            if (column.MaxWidth is object) gridCellHtmlElement.style.maxWidth = column.MaxWidth.ToString();
             gridCellHtmlElement.appendChild(gridCellInnerHtmlExpression().Render());
 
             return Raw(gridCellHtmlElement);
@@ -78,10 +82,21 @@ namespace Tesserae
 
             return this;
         }
+        public DetailsList<TDetailsListItem> WithPaginatedItems(Func<Task<TDetailsListItem[]>> getNextItemPage)
+        {
+            _getNextItemPage = getNextItemPage;
+
+            if (_listAlreadyCreated)
+            {
+                RefreshListItems();
+            }
+
+            return this;
+        }
 
         public DetailsList<TDetailsListItem> WithListItems(params TDetailsListItem[] listItems)
         {
-            if(listItems is object && listItems.Any())
+            if (listItems is object && listItems.Any())
             {
                 _componentCache.AddComponents(listItems);
             }
@@ -123,13 +138,8 @@ namespace Tesserae
 
         private void CreateList()
         {
-            var totalWidth = _columns.Sum(detailsListColumn => detailsListColumn.Width.Size + 4);
-
-            var detailsListHeader          = Div(_("tss-detailslist-header").WithRole("presentation"));
-            detailsListHeader.style.width  = (totalWidth).px().ToString();
-
+            var detailsListHeader = Div(_("tss-detailslist-header").WithRole("presentation"));
             _listContainer.appendChild(detailsListHeader);
-            _listContainer.style.width = $"min(100%, {(totalWidth + 32).px()})";
 
             foreach (var column in _columns)
             {
@@ -137,13 +147,26 @@ namespace Tesserae
             }
 
             _listItemsContainer = Div(_("tss-detailslist-list-items-container").WithRole("presentation"));
-            _listItemsContainer.style.width = (totalWidth).px().ToString();
             _listContainer.appendChild(_listItemsContainer);
+
+            if (_columns.All(detailsListColumn =>detailsListColumn.Width.Unit == Unit.Pixels))
+            {
+                var totalWidth = _columns.Sum(detailsListColumn => detailsListColumn.Width.Size + 4);
+                detailsListHeader.style.width = (totalWidth).px().ToString();
+                _listContainer.style.width = $"min(100%, {(totalWidth + 32).px()})";
+                _listItemsContainer.style.width = (totalWidth).px().ToString();
+            }
+            else
+            {
+                detailsListHeader.style.width = "100%";
+                _listContainer.style.width = "100%";
+                _listItemsContainer.style.width = "100%";
+            }
 
             DomObserver.WhenMounted(detailsListHeader, () =>
             {
-                var rect = (DOMRect)detailsListHeader.getBoundingClientRect();
-                _listItemsContainer.style.minHeight = "calc(100% - "  + rect.height + "px)";
+                var rect = (DOMRect) detailsListHeader.getBoundingClientRect();
+                _listItemsContainer.style.minHeight = "calc(100% - " + rect.height + "px)";
             });
 
             RefreshListItems();
@@ -153,10 +176,42 @@ namespace Tesserae
 
         private void RefreshListItems()
         {
-            _listItemsContainer.RemoveChildElements();
             if (_componentCache.HasComponents)
             {
-                _listItemsContainer.AppendChildren(_componentCache.GetAllRenderedComponentsFromCache().ToArray());
+                if (_getNextItemPage is object)
+                {
+                    var vis = VisibilitySensor(v =>
+                    {
+                        Task.Run<Task>(async () =>
+                        {
+                            var nextPageItems = await _getNextItemPage();
+
+                            var vElement = v.Render();
+                            _listItemsContainer.removeChild(vElement);
+
+                            if (nextPageItems is object && nextPageItems.Any())
+                            {
+                                _componentCache.AddComponents(nextPageItems);
+                                //this works since a node on the DOM can only exist at one place at a time
+                                _listItemsContainer.AppendChildren(_componentCache.GetAllRenderedComponentsFromCache().ToArray());
+
+                                v.Reset();
+                                _listItemsContainer.appendChild(vElement);
+                            }
+                            // if there are no new items, don't add the visibility sensor again, to not trigger repeated updates
+
+                        }).FireAndForget();
+                    }, message: TextBlock("Loading..."));
+
+                    _listItemsContainer.RemoveChildElements();
+                    _listItemsContainer.AppendChildren(_componentCache.GetAllRenderedComponentsFromCache().ToArray());
+                    _listItemsContainer.appendChild(vis.Render());
+                }
+                else
+                {
+                    _listItemsContainer.RemoveChildElements();
+                    _listItemsContainer.AppendChildren(_componentCache.GetAllRenderedComponentsFromCache().ToArray());
+                }
             }
             else if (_emptyListMessageGenerator is object)
             {
@@ -164,7 +219,7 @@ namespace Tesserae
                 var emptyMessage = _emptyListMessageGenerator().Render();
                 DomObserver.WhenMounted(emptyMessage, () =>
                 {
-                    var rect = (DOMRect)_listItemsContainer.getBoundingClientRect();
+                    var rect = (DOMRect) _listItemsContainer.getBoundingClientRect();
                     emptyMessage.style.height = Math.Max(64, rect.height) + "px";
                     emptyMessage.style.width = "100%";
                 });
@@ -180,18 +235,20 @@ namespace Tesserae
             var columnHtmlElement = column.Render();
 
             columnHeader.style.width = column.Width.ToString();
+            if (column.MaxWidth is object) columnHeader.style.maxWidth = column.MaxWidth.ToString();
+
 
             if (column.EnableOnColumnClickEvent || column.EnableColumnSorting)
             {
                 columnHeader.classList.add("tss-cursor-pointer");
             }
 
-            if (column.EnableColumnSorting && !column.EnableOnColumnClickEvent)
+            if (column.EnableColumnSorting)
             {
                 columnHeader.addEventListener("click", () => SortList(column.SortingKey, columnHtmlElement));
             }
 
-            if (!column.EnableColumnSorting && !column.EnableOnColumnClickEvent)
+            if (column.EnableOnColumnClickEvent)
             {
                 columnHeader.addEventListener("click", column.OnColumnClick);
             }
@@ -218,7 +275,7 @@ namespace Tesserae
             var (detailsListItemNumber, detailsListItem) = detailsListItemAndKey;
 
             var detailsListItemContainer = Div(_("tss-detailslist-list-item-container").WithRole("presentation"));
-            var gridCellHtmlElements     = detailsListItem.Render(_columns, CreateGridCell).ToArray();
+            var gridCellHtmlElements = detailsListItem.Render(_columns, CreateGridCell).ToArray();
 
             if (detailsListItem.EnableOnListItemClickEvent)
             {
@@ -236,7 +293,7 @@ namespace Tesserae
 
         private void SortList(string columnSortingKey, Interface columnHtmlElement)
         {
-           _listItemsContainer.classList.add("tss-fade");
+            _listItemsContainer.classList.add("tss-fade");
 
             window.setTimeout(_ =>
             {
