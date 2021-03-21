@@ -1,4 +1,4 @@
-﻿using static H5.Core.dom;
+using static H5.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -308,7 +308,7 @@ namespace Tesserae
             
             if(container.childElementCount > 0)
             {
-                container.insertBefore(0, GetItem(component, true));
+                container.insertBefore(GetItem(component, true), container.firstElementChild);
             }
             else
             {
