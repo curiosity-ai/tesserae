@@ -128,10 +128,6 @@ namespace Tesserae
             _luminosity = color.GetBrightness();
             _saturation = color.GetSaturation();
         }
-        public HSLColor(byte red, byte green, byte blue) : this(Color.FromArgb(red, green, blue))
-        {
-            
-        }
         public HSLColor(double hue, double saturation, double luminosity)
         {
             Hue = hue;
