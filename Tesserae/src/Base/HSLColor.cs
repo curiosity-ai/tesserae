@@ -11,11 +11,12 @@ namespace Tesserae
         private double _saturation = 1.0;
         private double _luminosity = 1.0;
         private const double _scale = 240.0;
+        private const double _scaleHue = 360.0;
 
         public double Hue
         {
-            get { return _hue * _scale; }
-            set { _hue = CheckRange(value / _scale); }
+            get { return _hue * _scaleHue; }
+            set { _hue = CheckRange(value / _scaleHue); }
         }
         public double Saturation
         {
@@ -57,7 +58,7 @@ namespace Tesserae
 
         public static HSLColor Random()
         {
-            return new HSLColor(_rng.NextDouble() * _scale, _rng.NextDouble() * _scale, 0.5 * _scale);
+            return new HSLColor(_rng.NextDouble() * _scaleHue, _rng.NextDouble() * _scale, 0.5 * _scale);
         }
 
         public static implicit operator Color(HSLColor hslColor)
@@ -106,7 +107,7 @@ namespace Tesserae
         {
             return new HSLColor
             {
-                _hue = color.GetHue() / 360.0, // we store hue as 0-1 as opposed to 0-360
+                _hue = color.GetHue() / _scaleHue, // we store hue as 0-1 as opposed to 0-360
                 _luminosity = color.GetBrightness(),
                 _saturation = color.GetSaturation()
             };
@@ -123,11 +124,13 @@ namespace Tesserae
         public HSLColor() { }
         public HSLColor(Color color)
         {
-            SetRGB(color.R, color.G, color.B);
+            _hue = color.GetHue() / _scaleHue; // we store hue as 0-1 as opposed to 0-360
+            _luminosity = color.GetBrightness();
+            _saturation = color.GetSaturation();
         }
-        public HSLColor(byte red, byte green, byte blue)
+        public HSLColor(byte red, byte green, byte blue) : this(Color.FromArgb(red, green, blue))
         {
-            SetRGB(red, green, blue);
+            
         }
         public HSLColor(double hue, double saturation, double luminosity)
         {
