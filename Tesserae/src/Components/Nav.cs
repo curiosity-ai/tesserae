@@ -100,6 +100,12 @@ namespace Tesserae
             return this;
         }
 
+        public Nav NoLinkStyle()
+        {
+            InnerElement.classList.add("tss-nav-no-underline");
+            return this;
+        }
+
         public Nav SelectMarkerOnRight()
         {
             InnerElement.classList.add("tss-nav-right");

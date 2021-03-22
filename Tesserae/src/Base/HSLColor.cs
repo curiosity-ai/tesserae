@@ -67,7 +67,9 @@ namespace Tesserae
             if (hslColor._luminosity != 0)
             {
                 if (hslColor._saturation == 0)
+                {
                     r = g = b = hslColor._luminosity;
+                }
                 else
                 {
                     double temp2 = GetTemp2(hslColor);
