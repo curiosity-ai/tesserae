@@ -114,11 +114,10 @@ namespace Tesserae
             }
         }
 
-        // 2021-01-11 DWR: Need to implement ISpecialCaseStyling so that extension methods such as AlignStart result in the styling being applied to the correct element
-        HTMLElement ISpecialCaseStyling.StylingContainer => _label;
+        HTMLElement ISpecialCaseStyling.StylingContainer => InnerElement;
         bool ISpecialCaseStyling.PropagateToStackItemParent => true;
 
-        public Label SetContent( IComponent content)
+        public Label SetContent(IComponent content)
         {
             Content = content;
             return this;
