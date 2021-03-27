@@ -47,12 +47,21 @@ namespace Tesserae
         public static T Children<T>(this T container, IComponent first, IEnumerable<IComponent> children, IComponent last) where T : IContainer<T, IComponent>
         {
             container.Clear();
-            container.Add(first);
+
+            if (first is object)
+            {
+                container.Add(first);
+            }
+
             foreach (var x in children)
             {
                 container.Add(x);
             }
-            container.Add(last);
+
+            if (last is object)
+            {
+                container.Add(last);
+            }
             return container;
         }
 
