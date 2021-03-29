@@ -28,11 +28,11 @@ namespace Tesserae.Tests.Samples
                         Stack().Width(40.percent()).Children(
                             SampleSubTitle("Don't"),
                             SampleDont("Don't use Breadcrumbs as a primary way to navigate an app or site.")))))
-               .Section(Stack().Children(
+               .Section(Stack().Width(450.px()).Children(
                     SampleTitle("Usage"),
                     Label("Selected: ").SetContent(TextBlock().Var(out var msg)),
                     TextBlock("All Visible").Medium(),
-                    Breadcrumb().PaddingTop(16.px()).PaddingBottom(16.px()).Items(
+                    Breadcrumb().PaddingTop(16.px()).SetOverflowIndex(-1).PaddingBottom(16.px()).Items(
                         Crumb("Folder 1").OnClick((s, e) => msg.Text("Folder 1")),
                         Crumb("Folder 2").OnClick((s, e) => msg.Text("Folder 2")).Disabled(),
                         Crumb("Folder 3").OnClick((s, e) => msg.Text("Folder 3")),
