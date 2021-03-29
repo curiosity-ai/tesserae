@@ -344,6 +344,10 @@ namespace Tesserae
             var (element, _) = Stack.GetCorrectItemToApplyStyle(component);
             if (element.HasOwnProperty("_tippy"))
                 H5.Script.Write("{0}._tippy.destroy();", element);
+
+            var rendered = component.Render();
+            rendered.onmouseenter = null;
+
             return component;
         }
         
