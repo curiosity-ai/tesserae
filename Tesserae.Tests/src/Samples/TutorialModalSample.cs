@@ -34,7 +34,7 @@ namespace Tesserae.Tests.Samples
                     Button("Open Tutorial Modal").OnClick((s,       e) => SampleTutorialModal().Show()),
                     Button("Open Large Tutorial Modal").OnClick((s, e) => SampleTutorialModal().Height(90.vh()).Width(90.vw()).Show()),
                     SampleTitle("Embedded Modal"),
-                    Button("Open Modal Below").OnClick((s, e) => container.Content(SampleTutorialModal().ShowEmbedded())),
+                    Button("Open Modal Below").OnClick((s, e) => container.Content(SampleTutorialModal().Border("#ffaf66", 5.px()).ShowEmbedded())),
                     container
                 ));
         }
@@ -44,7 +44,7 @@ namespace Tesserae.Tests.Samples
             return TutorialModal()
                .Var(out var tutorialModal)
                .SetTitle("This is a Tutorial Modal")
-               .SetHelpText("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ")
+               .SetHelpText("Lorem ipsum dolor sit amet, consectetur adipiscing elit,<b> sed do </b> eiusmod tempor incididunt ut labore et dolore magna aliqua. ", treatAsHTML: true)
                .SetImageSrc("./assets/img/box-img.svg", 16.px())
                .SetContent(
                     VStack().S().ScrollY().Children(

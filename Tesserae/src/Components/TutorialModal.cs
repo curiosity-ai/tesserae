@@ -86,12 +86,21 @@ namespace Tesserae
             return this;
         }
 
-        public TutorialModal SetHelpText(string helpText)
+        public TutorialModal SetHelpText(string helpText, bool treatAsHTML = false)
         {
-            _helpText.Text = helpText;
+            if (treatAsHTML)
+            {
+                _helpText.Text = null;
+                _helpText.HTML = helpText;
+            }
+            else
+            {
+                _helpText.HTML = null;
+                _helpText.Text = helpText;
+            }
             return this;
         }
-
+        
         public TutorialModal SetImageSrc(string imageSrc, UnitSize padding)
         {
             _illustration.Content(Image(imageSrc).Contain());

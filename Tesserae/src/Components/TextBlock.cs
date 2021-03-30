@@ -55,6 +55,12 @@ namespace Tesserae
             get => InnerElement.innerText;
             set => InnerElement.innerText = value;
         }
+        
+        public string HTML
+        {
+            get => InnerElement.innerHTML;
+            set => InnerElement.innerHTML = value;
+        }
 
         public string Title
         {
