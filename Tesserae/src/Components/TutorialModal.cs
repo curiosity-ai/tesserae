@@ -122,6 +122,15 @@ namespace Tesserae
             return Raw(_modal);
         }
 
+        public TutorialModal Border(string color, UnitSize size = null)
+        {
+            size = size ?? 1.px();
+            _modal.StylingContainer.style.borderColor = color;
+            _modal.StylingContainer.style.borderWidth = size.ToString();
+            _modal.StylingContainer.style.borderStyle = "solid";
+            return this;
+        }
+        
         public TutorialModal Show()
         {
             _modal.Show();
