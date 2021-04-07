@@ -19,7 +19,7 @@ namespace Tesserae
             private readonly HTMLElement _innerComponent;
             internal ContextMenu _subMenu;
             private event ComponentEventHandler<Item> PossiblyOpenSubMenu;
-            internal bool currentlyMouseovered = false;
+            internal bool CurrentlyMouseovered = false;
 
             public bool HasSubMenu => _subMenu != null;
 
@@ -181,7 +181,7 @@ namespace Tesserae
                     if (Type == ItemType.Item)
                     {
                         InnerElement.focus();
-                        currentlyMouseovered = true;
+                        CurrentlyMouseovered = true;
                         PossiblyOpenSubMenu?.Invoke(this);
                     }
                 }
@@ -191,7 +191,7 @@ namespace Tesserae
             {
                 if (mouseEvent is MouseEvent e)
                 {
-                    currentlyMouseovered = false;
+                    CurrentlyMouseovered = false;
                 }
             }
         }
