@@ -22,18 +22,10 @@ namespace Tesserae.Tests.Samples
                 ContextMenuItem("Disabled Sub").Disabled(),
                 ContextMenuItem("Link Sub").OnClick((s2, e2) => Toast().Information("Clicked: Link Sub")));
 
-            var cmsub3 = ContextMenu().Items(
-                ContextMenuItem().Divider(),
-                ContextMenuItem("Edit Sub3").OnClick((s2,       e2) => Toast().Information("Clicked: Edit Sub3")),
-                ContextMenuItem("Properties Sub3").OnClick((s2, e2) => Toast().Information("Clicked: Properties Sub3")),
-                ContextMenuItem("Header Sub3").Header(),
-                ContextMenuItem("Disabled Sub3").Disabled(),
-                ContextMenuItem("Link Sub3").OnClick((s2, e2) => Toast().Information("Clicked: Link Sub3")));
-
             var cmsub2 = ContextMenu().Items(
                 ContextMenuItem().Divider(),
                 ContextMenuItem("Edit Sub2").OnClick((s2, e2) => Toast().Information("Clicked: Edit Sub2")),
-                ContextMenuItem("Properties Sub2").SubMenu(cmsub3),
+                ContextMenuItem("Properties Sub2"),
                 ContextMenuItem("Header Sub2").Header(),
                 ContextMenuItem("Disabled Sub2").Disabled(),
                 ContextMenuItem("Link Sub2").OnClick((s2, e2) => Toast().Information("Clicked: Link Sub2")));

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using static H5.Core.dom;
 using static Tesserae.UI;
 
@@ -16,9 +17,9 @@ namespace Tesserae
         public class Item : ComponentBase<Item, HTMLElement>
         {
             private readonly HTMLElement _innerComponent;
-            private          ContextMenu _subMenu;
-
-            public event ComponentEventHandler<Item> CloseOtherSubmenus;
+            internal ContextMenu _subMenu;
+            private event ComponentEventHandler<Item> PossiblyOpenSubMenu;
+            internal bool currentlyMouseovered = false;
 
             public bool HasSubMenu => _subMenu != null;
 
@@ -114,6 +115,11 @@ namespace Tesserae
             public Item SubMenu(ContextMenu cm)
             {
                 _subMenu = cm;
+                if (cm._items.Any(i => i.HasSubMenu))
+                {
+                    //TODO implement submenu of submenus (bad ux though)
+                    throw new InvalidOperationException("Sub menus of submenus currently not supported");
+                }
 
                 InnerElement.appendChild(I(_("las la-angle-right tss-contextmenu-submenu-button-icon")));
                 return this;
@@ -158,14 +164,14 @@ namespace Tesserae
                 }
             }
 
-            private void ShowSubMenu()
+            internal void HookMouseEnter(ComponentEventHandler<Item> mouseEventCallback)
             {
-                if (_subMenu != null && !_subMenu.IsVisible)
-                {
-                    var selfRect = (ClientRect) InnerElement.getBoundingClientRect();
-                    _subMenu.ShowFor(InnerElement, (int) selfRect.width, (int) -selfRect.height, asSubMenu: true);
-                    InnerElement.classList.add("tss-selected");
-                }
+                PossiblyOpenSubMenu += mouseEventCallback;
+            }
+
+            internal void UnHookMouseEnter(ComponentEventHandler<Item> mouseEventCallback)
+            {
+                PossiblyOpenSubMenu -= mouseEventCallback;
             }
 
             private void OnItemMouseEnter(Event mouseEvent)
@@ -175,10 +181,9 @@ namespace Tesserae
                     if (Type == ItemType.Item)
                     {
                         InnerElement.focus();
-                        CloseOtherSubmenus?.Invoke(this);
+                        currentlyMouseovered = true;
+                        PossiblyOpenSubMenu?.Invoke(this);
                     }
-
-                    ShowSubMenu();
                 }
             }
 
@@ -186,18 +191,9 @@ namespace Tesserae
             {
                 if (mouseEvent is MouseEvent e)
                 {
-                    if (_subMenu != null)
-                    {
-                        _subMenu.HideIfNotHovered();
-                        if (!_subMenu.IsVisible)
-                        {
-                            InnerElement.classList.remove("tss-selected");
-                        }
-                    }
+                    currentlyMouseovered = false;
                 }
             }
         }
-
-
     }
 }

@@ -8,12 +8,48 @@ namespace Tesserae
 {
     public sealed partial class ContextMenu : Layer<ContextMenu>, IContainer<ContextMenu, ContextMenu.Item>
     {
+
+        private struct Point2d
+        {
+            public Point2d(double x, double y)
+            {
+                this.x = x;
+                this.y = y;
+
+            }
+            public double x;
+            public double y;
+        }
+
         private readonly HTMLElement    _childContainer;
         private          HTMLDivElement _modalOverlay;
         private          HTMLDivElement _popup;
 
-        private event ComponentEventHandler<Item, MouseEvent> ItemClick;
 
+        //Submenu handling
+        private const int delay = 200;
+        private double timeoutId;
+        private Point2d previousMouseCoordinates;
+        private Point2d currentMouseCoordinates;
+
+        // Coords that box the context menu + submenu. Used to check if the mouse moved out.
+        private Point2d extremeCoordinatesTopLeft;
+        private Point2d extremeCoordinatesBottomRight;
+
+        private Point2d menuElementCoordinatesTopLeft;
+
+        private Point2d activeSubMenuTopLeftCoordinates;
+        private Point2d activeSubMenuBottomLeftCoordinates;
+        private int activeSubMenuWidth;
+        private int activeSubMenuHeight;
+
+        private Item activeMenuItem;
+        private ContextMenu activeSubMenu;
+        private double possiblyDeactivateActiveMenuItemTimout;
+
+        private double printLocationTimout;
+
+        private event ComponentEventHandler<Item, MouseEvent> ItemClick;
 
         private List<Item> _items = new List<Item>();
 
@@ -38,44 +74,13 @@ namespace Tesserae
             _items.Add(component);
             ScrollBar.GetCorrectContainer(_childContainer).appendChild(component.Render());
 
-            component.CloseOtherSubmenus += CloseOtherSubmenus;
             component.OnClick((s, e) =>
             {
                 ItemClick?.Invoke(s, e);
                 Hide();
             });
         }
-
-        private void CloseOtherSubmenus(Item sender)
-        {
-            foreach (var item in _items)
-            {
-                if (item != sender)
-                {
-                    item.HideSubmenus();
-                }
-            }
-        }
-
-        private void HideIfNotHovered()
-        {
-            var anyItemHovered = false;
-
-            foreach (var child in ScrollBar.GetCorrectContainer(_childContainer).children)
-            {
-                anyItemHovered = child.matches(":hover");
-                if (anyItemHovered) break;
-            }
-
-            if (!anyItemHovered) Hide();
-        }
-
-        private void OnItemClick(ComponentEventHandler<Item, MouseEvent> componentEventHandler)
-        {
-            ItemClick += componentEventHandler;
-        }
-
-
+        
         public override HTMLElement Render()
         {
             throw new NotImplementedException();
@@ -84,6 +89,43 @@ namespace Tesserae
         public override ContextMenu Show()
         {
             throw new NotImplementedException();
+        }
+
+        private void SaveMouseCoordinates(double x, double y)
+        {
+            previousMouseCoordinates.x = currentMouseCoordinates.x;
+            previousMouseCoordinates.y = currentMouseCoordinates.y;
+            currentMouseCoordinates.x = x;
+            currentMouseCoordinates.y = y;
+        }
+
+        private void OnWindowMouseMove(Event evnt)
+        {
+            var e = (MouseEvent) evnt;
+            SaveMouseCoordinates(e.pageX, e.pageY);
+
+            if (activeMenuItem != null)
+            {
+                HideSubMenuIfCompletelyOutside();
+            }
+        }
+
+        private void HideSubMenuIfCompletelyOutside()
+        {
+            if ((currentMouseCoordinates.x < extremeCoordinatesTopLeft.x
+              || currentMouseCoordinates.x > extremeCoordinatesBottomRight.x
+              || currentMouseCoordinates.y < extremeCoordinatesTopLeft.y
+              || currentMouseCoordinates.y > extremeCoordinatesBottomRight.y) && !_items.Any(i => i.currentlyMouseovered)
+            )
+            {
+                CancelPendingMenuItemActivations();
+                DeactivateActiveMenuItem();
+            }
+        }
+
+        private void OnItemClick(ComponentEventHandler<Item, MouseEvent> componentEventHandler)
+        {
+            ItemClick += componentEventHandler;
         }
 
         public void ShowFor(IComponent component, int distanceX = 1, int distanceY = 1)
@@ -162,6 +204,13 @@ namespace Tesserae
             {
                 document.addEventListener("keydown", OnPopupKeyDown);
             }, 100);
+
+            extremeCoordinatesTopLeft.x = x;
+            extremeCoordinatesTopLeft.y = y;
+            extremeCoordinatesBottomRight.x = x + popupRect.width;
+            extremeCoordinatesBottomRight.y = y + popupRect.height;
+
+            PossiblySetupSubMenuHooks();
         }
 
         public void ShowFor(HTMLElement element, int distanceX = 1, int distanceY = 1) => ShowFor(element, distanceX, distanceY, false);
@@ -184,7 +233,6 @@ namespace Tesserae
                 }
             }
 
-
             _popup.style.height = "unset";
             _popup.style.left   = "-1000px";
             _popup.style.top    = "-1000px";
@@ -196,10 +244,12 @@ namespace Tesserae
             ClientRect parentRect = (ClientRect) element.getBoundingClientRect();
             var        popupRect  = (ClientRect) _popup.getBoundingClientRect();
 
-            _popup.style.left     = parentRect.left   + distanceX + "px";
-            _popup.style.top      = parentRect.bottom + distanceY + "px";
-            _popup.style.minWidth = parentRect.width  + "px";
+            var x = parentRect.left + distanceX;
+            var y = parentRect.bottom + distanceY;
 
+            _popup.style.left     = x + "px";
+            _popup.style.top      = y + "px";
+            _popup.style.minWidth = parentRect.width + "px";
 
             //TODO: CHECK THIS LOGIC
 
@@ -249,15 +299,143 @@ namespace Tesserae
             {
                 document.addEventListener("keydown", OnPopupKeyDown);
             }, 100);
+
+            extremeCoordinatesTopLeft.x = x;
+            extremeCoordinatesTopLeft.y = y;
+            extremeCoordinatesBottomRight.x = y + popupRect.width;
+            extremeCoordinatesBottomRight.y = y + popupRect.height;
+
+
+            PossiblySetupSubMenuHooks();
+        }
+
+        private void CancelPendingMenuItemActivations()
+        {
+            if (timeoutId > 0)
+            {
+                clearTimeout(timeoutId);
+            }
+        }
+
+        private double CalculateSlope(Point2d a, Point2d b)
+        {
+            return (b.y - a.y) / (b.x - a.x);
+        }
+
+        private Point2d CalculateTopLeftCoords(HTMLElement element)
+        {
+            var rect = (DOMRect) element.getBoundingClientRect();
+            double topX = rect.left + (window.pageXOffset != 0 ? window.pageXOffset : document.documentElement.scrollLeft);
+            double topY = rect.top + (window.pageYOffset != 0 ? window.pageYOffset : document.documentElement.scrollTop);
+            return new Point2d(topX, topY);
+        }
+
+        private (Point2d topleft, Point2d bottomLEft, int width, int height) CalculateTopAndBottomLeftCoords(HTMLElement element)
+        {
+            var rect = (DOMRect) element.getBoundingClientRect();
+            double topX = rect.left + (window.pageXOffset != 0 ? window.pageXOffset : document.documentElement.scrollLeft);
+            double topY = rect.top + (window.pageYOffset != 0 ? window.pageYOffset : document.documentElement.scrollTop);
+            return (new Point2d(topX, topY), new Point2d(topX, topY + element.offsetHeight), element.offsetWidth, element.offsetHeight);
+        }
+
+        private void ActivateMenuItem(Item menuItem)
+        {
+            activeMenuItem = menuItem ?? throw new ArgumentNullException();
+
+            if (activeMenuItem.HasSubMenu)
+            {
+                var menuItemElement = menuItem.Render();
+
+                activeSubMenu = menuItem._subMenu;
+
+                var selfRect = (ClientRect) menuItemElement.getBoundingClientRect();
+
+
+                activeSubMenu.ShowFor(menuItemElement, (int) selfRect.width, (int) -selfRect.height, asSubMenu: true);
+                menuItemElement.classList.add("tss-selected");
+
+
+                (activeSubMenuTopLeftCoordinates, activeSubMenuBottomLeftCoordinates, activeSubMenuWidth, activeSubMenuHeight) = CalculateTopAndBottomLeftCoords(activeSubMenu._popup);
+
+
+                extremeCoordinatesTopLeft.x = menuElementCoordinatesTopLeft.x;
+                extremeCoordinatesTopLeft.y = menuElementCoordinatesTopLeft.y;
+                extremeCoordinatesBottomRight.x = activeSubMenuTopLeftCoordinates.x + activeSubMenuWidth;
+                extremeCoordinatesBottomRight.y = activeSubMenuTopLeftCoordinates.y + activeSubMenuHeight;
+            }
+        }
+
+        private bool ShouldChangeActiveMenuItem()
+        {
+
+            var shouldChange = activeMenuItem == null
+                            || CalculateSlope(previousMouseCoordinates, activeSubMenuTopLeftCoordinates) < CalculateSlope(currentMouseCoordinates, activeSubMenuTopLeftCoordinates)
+                            || CalculateSlope(previousMouseCoordinates, activeSubMenuBottomLeftCoordinates) > CalculateSlope(currentMouseCoordinates, activeSubMenuBottomLeftCoordinates);
+            return shouldChange;
+        }
+
+        private void DeactivateActiveMenuItem()
+        {
+            if (activeMenuItem != null)
+            {
+                activeMenuItem.HideSubmenus();
+                activeMenuItem = null;
+            }
+        }
+
+        private bool PossiblyActivateMenuItem(Item menuItem)
+        {
+            CancelPendingMenuItemActivations();
+            if (!ShouldChangeActiveMenuItem())
+            {
+                return false;
+            }
+            else
+            {
+                DeactivateActiveMenuItem();
+                ActivateMenuItem(menuItem);
+                return true;
+            }
+        }
+        
+        private void OnMenuItemMouseEnter(Item item)
+        {
+            if (!PossiblyActivateMenuItem(item))
+            {
+                timeoutId = window.setTimeout(args =>
+                {
+                    if (_items.Any(i => i.currentlyMouseovered))
+                    {
+                        CancelPendingMenuItemActivations();
+                        DeactivateActiveMenuItem();
+                        ActivateMenuItem(_items.First(i => i.currentlyMouseovered));
+                    }
+                }, delay);
+            }
+        }
+
+        private void PossiblySetupSubMenuHooks()
+        {
+            if (_items.Any(i => i.HasSubMenu))
+            {
+                window.addEventListener("mousemove", OnWindowMouseMove);
+                menuElementCoordinatesTopLeft = CalculateTopLeftCoords(_popup);
+                foreach (var item in _items)
+                {
+                    item.HookMouseEnter(OnMenuItemMouseEnter);
+                }
+            }
         }
 
         public override void Hide(Action onHidden = null)
         {
+            window.removeEventListener("mousemove", OnWindowMouseMove);
             document.removeEventListener("keydown", OnPopupKeyDown);
             base.Hide(onHidden);
             foreach (var item in _items)
             {
                 item.HideSubmenus();
+                item.UnHookMouseEnter(OnMenuItemMouseEnter);
             }
         }
 
