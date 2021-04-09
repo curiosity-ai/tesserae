@@ -275,6 +275,14 @@ a {
     min-width: unset;
 }
 
+.tss-btn-remove-padding {
+    padding: 0px;
+}
+
+.tss-btn-remove-margin {
+    margin: 0px;
+}
+
 .tss-btn-linkonhover:hover {
     color: var(--tss-link-color);
 }
