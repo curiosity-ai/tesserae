@@ -185,7 +185,7 @@ namespace Tesserae
             return this;
         }
 
-        public static bool IsInsideAModal(this HTMLElement element)
+        public static bool IsInsideAModal(HTMLElement element)
         {
             while (Script.Write<bool>("{0} != null", element))  //Short-circuit the == opeartor in C# to make this method faster
             {
