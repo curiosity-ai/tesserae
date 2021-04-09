@@ -93,6 +93,18 @@ steps:
     workingDirectory: '$(Build.SourcesDirectory)/Tesserae/'
 
 - task: CmdLine@2
+  inputs:
+    script: 'dir $(Build.SourcesDirectory)\Tesserae\bin\ /S'
+
+- task: NuGetCommand@2
+  displayName: 'push  Tesserae to nuget'
+  inputs:
+    command: 'push'
+    packagesToPush: '**/*/Tesserae.$(buildVersion).nupkg' # The package name comes from the PackageID, not project name
+    nuGetFeedType: 'external'
+    publishFeedCredentials: 'nuget-curiosity'
+
+- task: CmdLine@2
   displayName: 'Build Tesserae Tests'
   inputs:
     script: 'dotnet build $(Build.SourcesDirectory)\Tesserae.Tests\Tesserae.Tests.csproj  -c $(buildConfiguration) /p:Version=$(buildVersion)'
@@ -116,15 +128,3 @@ steps:
       git push --set-upstream origin gh-pages --force
     errorActionPreference: 'continue'
     ignoreLASTEXITCODE: true
-
-
-- task: CmdLine@2
-  inputs:
-    script: 'dir $(Build.SourcesDirectory)\Tesserae\bin\ /S'
-- task: NuGetCommand@2
-  displayName: 'push  Tesserae to nuget'
-  inputs:
-    command: 'push'
-    packagesToPush: '**/*/Tesserae.$(buildVersion).nupkg' # The package name comes from the PackageID, not project name
-    nuGetFeedType: 'external'
-    publishFeedCredentials: 'nuget-curiosity'
