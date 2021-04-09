@@ -254,6 +254,12 @@ namespace Tesserae
             return this;
         }
 
+        public Button LessPadding()
+        {
+            InnerElement.classList.add("tss-btn-less-padding");
+            return this;
+        }
+
         public Button Link()
         {
             IsLink = true;

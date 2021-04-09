@@ -279,6 +279,14 @@ a {
     padding: 0px;
 }
 
+.tss-btn-less-padding {
+    padding: 0px 8px;
+}
+
+.tss-btn.tss-small.tss-btn-less-padding {
+    padding: 0px 4px;
+}
+
 .tss-btn-remove-margin {
     margin: 0px;
 }
