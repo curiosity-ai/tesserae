@@ -173,22 +173,6 @@ namespace Tesserae
             return this;
         }
 
-        public static bool IsInsideAModal(HTMLElement element, out HTMLElement modal)
-        {
-            while (Script.Write<bool>("{0} != null", element))  //Short-circuit the == opeartor in C# to make this method faster
-            {
-                if (element.classList.contains("tss-modal"))
-                {
-                    modal = element;
-                    return true;
-                }
-                element = element.parentElement;
-            }
-            modal = null;
-            return false;
-        }
-
-
         private static void TriggerAll()
         {
             foreach(var kv in _pendingCallbacks)
@@ -237,17 +221,10 @@ namespace Tesserae
                 foreach (var f in found)
                 {
                     var rect = (DOMRect)f.getBoundingClientRect();
-                    minWidth = Math.Max(minWidth, rect.width);
+                    minWidth = Math.Max(minWidth, Math.Max(rect.width, f.offsetWidth));
                 }
 
-                double scale = 1;
-
-                if (IsInsideAModal(found.First(), out var modal))
-                {
-                    scale = modal.offsetWidth / modal.getBoundingClientRect().As<DOMRect>().width;
-                }
-
-                var mw = (minWidth * scale + 4).px().ToString();
+                var mw = (minWidth + 4).px().ToString();
                 foreach (var f in found)
                 {
                     f.style.minWidth = mw;
