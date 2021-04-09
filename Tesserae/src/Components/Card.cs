@@ -55,6 +55,15 @@ namespace Tesserae
             return this;
         }
 
+        public Card Border(string color, UnitSize size = null)
+        {
+            size = size ?? 1.px();
+            InnerElement.style.borderColor = color;
+            InnerElement.style.borderWidth = size.ToString();
+            InnerElement.style.borderStyle = "solid";
+            return this;
+        }
+        
         public Card NoPadding()
         {
             InnerElement.style.padding = "0px";

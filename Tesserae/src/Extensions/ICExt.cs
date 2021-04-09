@@ -339,6 +339,18 @@ namespace Tesserae
             );
         }
 
+        public static T RemoveTooltip<T>(this T component) where T : IComponent
+        {
+            var (element, _) = Stack.GetCorrectItemToApplyStyle(component);
+            if (element.HasOwnProperty("_tippy"))
+                H5.Script.Write("{0}._tippy.destroy();", element);
+
+            var rendered = component.Render();
+            rendered.onmouseenter = null;
+
+            return component;
+        }
+        
         public static T Tooltip<T>(this T component, IComponent tooltip, bool interactive = false, TooltipAnimation animation = TooltipAnimation.ShiftAway, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 0, int delayHide = 0) where T : IComponent
         {
             if (tooltip is null)

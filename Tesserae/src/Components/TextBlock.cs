@@ -11,7 +11,7 @@ namespace Tesserae
         {
             text = text ?? string.Empty;
             InnerElement = Div(_("tss-textblock tss-fontsize-small tss-fontweight-regular"));
-            
+
             if (treatAsHTML)
             {
                 InnerElement.innerHTML = text;
@@ -54,6 +54,12 @@ namespace Tesserae
         {
             get => InnerElement.innerText;
             set => InnerElement.innerText = value;
+        }
+        
+        public string HTML
+        {
+            get => InnerElement.innerHTML;
+            set => InnerElement.innerHTML = value;
         }
 
         public string Title
@@ -133,10 +139,10 @@ namespace Tesserae
                 }
             }
         }
-        
+
         /// <summary>
-         /// Gets or set whenever text block color is primary
-         /// </summary>
+        /// Gets or set whenever text block color is primary
+        /// </summary>
         public bool IsSecondary
         {
             get => InnerElement.classList.contains("tss-fontcolor-secondary");

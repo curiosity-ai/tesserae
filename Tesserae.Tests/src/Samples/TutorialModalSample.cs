@@ -31,10 +31,10 @@ namespace Tesserae.Tests.Samples
                             SampleDont("Don’t overuse Tutorial Modals. In some cases they can be perceived as interrupting workflow, and too many can be a bad user experience.")))))
                .Section(Stack().Children(
                     SampleTitle("Usage"),
-                    Button("Open Tutorial Modal").OnClick((s, e) => SampleTutorialModal().Show()),
+                    Button("Open Tutorial Modal").OnClick((s,       e) => SampleTutorialModal().Show()),
                     Button("Open Large Tutorial Modal").OnClick((s, e) => SampleTutorialModal().Height(90.vh()).Width(90.vw()).Show()),
                     SampleTitle("Embedded Modal"),
-                    Button("Open Modal Below").OnClick((s, e) => container.Content(SampleTutorialModal().ShowEmbedded())),
+                    Button("Open Modal Below").OnClick((s, e) => container.Content(SampleTutorialModal().Border("#ffaf66", 5.px()).ShowEmbedded())),
                     container
                 ));
         }
@@ -44,19 +44,19 @@ namespace Tesserae.Tests.Samples
             return TutorialModal()
                .Var(out var tutorialModal)
                .SetTitle("This is a Tutorial Modal")
-               .SetHelpText("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ")
+               .SetHelpText("Lorem ipsum dolor sit amet, consectetur adipiscing elit,<b> sed do </b> eiusmod tempor incididunt ut labore et dolore magna aliqua. ", treatAsHTML: true)
                .SetImageSrc("./assets/img/box-img.svg", 16.px())
                .SetContent(
-                VStack().S().ScrollY().Children(
-                    Label("Input 1").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
-                    Label("Input 2").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
-                    Label("Input 3").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
-                    Label("Input 4").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
-                    Label("Input 5").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
-                    Label("Input 6").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
-                    Label("Input 7").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
-                    Label("Input 8").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
-                    Label("Input 9").SetContent(TextBox().SetPlaceholder("Enter your input here..."))))
+                    VStack().S().ScrollY().Children(
+                        Label("Input 1").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
+                        Label("Input 2").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
+                        Label("Input 3").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
+                        Label("Input 4").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
+                        Label("Input 5").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
+                        Label("Input 6").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
+                        Label("Input 7").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
+                        Label("Input 8").SetContent(TextBox().SetPlaceholder("Enter your input here...")),
+                        Label("Input 9").SetContent(TextBox().SetPlaceholder("Enter your input here..."))))
                .SetFooterCommands(
                     Button("Discard").OnClick((_,        __) => tutorialModal.Hide()),
                     Button("Save").Primary().OnClick((_, __) => tutorialModal.Hide()));

@@ -13,8 +13,8 @@ namespace Tesserae
         private readonly TextBlock _title;
         private readonly TextBlock _helpText;
         private readonly Raw       _illustration;
-        private readonly Stack _leftStack;
-        private readonly Stack _rightStack;
+        private readonly Stack     _leftStack;
+        private readonly Stack     _rightStack;
 
         public HTMLElement StylingContainer => _modal.StylingContainer;
 
@@ -23,10 +23,10 @@ namespace Tesserae
         public TutorialModal(string title, string helpText, string imageSrc = null)
         {
             _footerCommands = HStack().Padding(10.px()).AlignEnd().AlignItems(ItemAlign.End);
-            _content        = VStack().Padding("38px 32px 0px 32px");
-            _title          = TextBlock(title).Large().Bold().PaddingTop(10.px()).PaddingBottom(20.px());
-            _helpText       = TextBlock(helpText).Padding("20px 30px 0 0");
-            _illustration   = Raw().W(196).H(196);
+            _content = VStack().Padding("38px 32px 0px 32px");
+            _title = TextBlock(title).Large().Bold().PaddingTop(10.px()).PaddingBottom(20.px());
+            _helpText = TextBlock(helpText).Padding("20px 30px 0 0");
+            _illustration = Raw().W(196).H(196);
 
             if (string.IsNullOrWhiteSpace(imageSrc))
             {
@@ -34,12 +34,12 @@ namespace Tesserae
             }
 
             _leftStack = VStack().OverflowHidden()
-                           .RemovePropagation()
-                           .Width(300.px()).Padding("40px 32px 32px 32px").Background(Theme.Secondary.Background)
-                           .Children(VStack().S().JustifyContent(ItemJustify.Between).Children(_title, _helpText, Raw().H(48.px()).Grow(), _illustration));
+               .RemovePropagation()
+               .Width(300.px()).Padding("40px 32px 32px 32px").Background(Theme.Secondary.Background)
+               .Children(VStack().S().JustifyContent(ItemJustify.Between).Children(_title, _helpText, Raw().H(48.px()).Grow(), _illustration));
 
             _rightStack = VStack().OverflowHidden().HS().W(10.px()).Grow().JustifyContent(ItemJustify.End)
-                                  .Children(_content.H(10.px()).Grow(), _footerCommands);
+               .Children(_content.H(10.px()).Grow(), _footerCommands);
 
             _modal = Modal()
                .NoContentPadding().LightDismiss().Dark()
@@ -86,12 +86,21 @@ namespace Tesserae
             return this;
         }
 
-        public TutorialModal SetHelpText(string helpText)
+        public TutorialModal SetHelpText(string helpText, bool treatAsHTML = false)
         {
-            _helpText.Text = helpText;
+            if (treatAsHTML)
+            {
+                _helpText.Text = null;
+                _helpText.HTML = helpText;
+            }
+            else
+            {
+                _helpText.HTML = null;
+                _helpText.Text = helpText;
+            }
             return this;
         }
-
+        
         public TutorialModal SetImageSrc(string imageSrc, UnitSize padding)
         {
             _illustration.Content(Image(imageSrc).Contain());
@@ -116,10 +125,19 @@ namespace Tesserae
             _content.Padding(padding);
             return this;
         }
-        
+
         public IComponent ShowEmbedded()
         {
             return Raw(_modal);
+        }
+
+        public TutorialModal Border(string color, UnitSize size = null)
+        {
+            size = size ?? 1.px();
+            _modal.StylingContainer.style.borderColor = color;
+            _modal.StylingContainer.style.borderWidth = size.ToString();
+            _modal.StylingContainer.style.borderStyle = "solid";
+            return this;
         }
 
         public TutorialModal Show()
