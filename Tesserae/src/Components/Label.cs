@@ -16,7 +16,6 @@ namespace Tesserae
         private readonly HTMLDivElement _content;
 
         private static uint _callback;
-        private static double _callbackTimer;
         private static readonly Dictionary<HTMLElement, Action> _pendingCallbacks = new Dictionary<HTMLElement, Action>();
 
         public Label(string text = string.Empty)
@@ -165,36 +164,27 @@ namespace Tesserae
 
                 if(parent is object)
                 {
-                    if(IsInsideAModal(parent))
-                    {
-                        _pendingCallbacks.TryAdd(parent, () => AutoSizeChildrenLabels(parent, nestingLevels + 2));
-                        window.cancelAnimationFrame(_callback);
-                        window.clearTimeout(_callbackTimer);
-                        _callbackTimer = window.setTimeout(_ => TriggerAll(), 500); //longer than the animation
-                    }
-                    else
-                    {
-                        _pendingCallbacks.TryAdd(parent, () => AutoSizeChildrenLabels(parent, nestingLevels + 2));
-                        window.cancelAnimationFrame(_callback);
-                        window.clearTimeout(_callbackTimer);
-                        _callback = window.requestAnimationFrame(_ => TriggerAll());
-                    }
+                    _pendingCallbacks.TryAdd(parent, () => AutoSizeChildrenLabels(parent, nestingLevels + 2));
+                    window.cancelAnimationFrame(_callback);
+                    _callback = window.requestAnimationFrame(_ => TriggerAll());
                 }
             });
 
             return this;
         }
 
-        public static bool IsInsideAModal(HTMLElement element)
+        public static bool IsInsideAModal(HTMLElement element, out HTMLElement modal)
         {
             while (Script.Write<bool>("{0} != null", element))  //Short-circuit the == opeartor in C# to make this method faster
             {
                 if (element.classList.contains("tss-modal"))
                 {
+                    modal = element;
                     return true;
                 }
                 element = element.parentElement;
             }
+            modal = null;
             return false;
         }
 
@@ -249,7 +239,15 @@ namespace Tesserae
                     var rect = (DOMRect)f.getBoundingClientRect();
                     minWidth = Math.Max(minWidth, rect.width);
                 }
-                var mw = (minWidth + 4).px().ToString();
+
+                double scale = 1;
+
+                if (IsInsideAModal(found.First(), out var modal))
+                {
+                    scale = modal.offsetWidth / modal.getBoundingClientRect().As<DOMRect>().width;
+                }
+
+                var mw = (minWidth * scale + 4).px().ToString();
                 foreach (var f in found)
                 {
                     f.style.minWidth = mw;
