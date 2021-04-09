@@ -244,13 +244,13 @@ namespace Tesserae
 
         public Button NoMargin()
         {
-            InnerElement.style.margin = "0px";
+            InnerElement.classList.add("tss-btn-remove-margin");
             return this;
         }
 
         public Button NoPadding()
         {
-            InnerElement.style.padding = "0px";
+            InnerElement.classList.add("tss-btn-remove-padding");
             return this;
         }
 
