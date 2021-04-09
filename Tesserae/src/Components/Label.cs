@@ -1,4 +1,5 @@
-﻿using System;
+﻿using H5;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Tesserae.HTML;
@@ -15,6 +16,7 @@ namespace Tesserae
         private readonly HTMLDivElement _content;
 
         private static uint _callback;
+        private static double _callbackTimer;
         private static readonly Dictionary<HTMLElement, Action> _pendingCallbacks = new Dictionary<HTMLElement, Action>();
 
         public Label(string text = string.Empty)
@@ -163,14 +165,39 @@ namespace Tesserae
 
                 if(parent is object)
                 {
-                    _pendingCallbacks.TryAdd(parent, () => AutoSizeChildrenLabels(parent, nestingLevels + 2));
-                    window.cancelAnimationFrame(_callback);
-                    _callback = window.requestAnimationFrame(_ => TriggerAll());
+                    if(IsInsideAModal(parent))
+                    {
+                        _pendingCallbacks.TryAdd(parent, () => AutoSizeChildrenLabels(parent, nestingLevels + 2));
+                        window.cancelAnimationFrame(_callback);
+                        window.clearTimeout(_callbackTimer);
+                        _callbackTimer = window.setTimeout(_ => TriggerAll(), 500); //longer than the animation
+                    }
+                    else
+                    {
+                        _pendingCallbacks.TryAdd(parent, () => AutoSizeChildrenLabels(parent, nestingLevels + 2));
+                        window.cancelAnimationFrame(_callback);
+                        window.clearTimeout(_callbackTimer);
+                        _callback = window.requestAnimationFrame(_ => TriggerAll());
+                    }
                 }
             });
 
             return this;
         }
+
+        public static bool IsInsideAModal(this HTMLElement element)
+        {
+            while (Script.Write<bool>("{0} != null", element))  //Short-circuit the == opeartor in C# to make this method faster
+            {
+                if (element.classList.contains("tss-modal"))
+                {
+                    return true;
+                }
+                element = element.parentElement;
+            }
+            return false;
+        }
+
 
         private static void TriggerAll()
         {
@@ -209,7 +236,6 @@ namespace Tesserae
 
                 nestingLevels--;
             } while (nestingLevels > 0);
-
 
             if (found.Count == 1)
             {
