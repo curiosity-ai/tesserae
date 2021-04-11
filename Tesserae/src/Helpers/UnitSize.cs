@@ -1,3 +1,4 @@
+using H5;
 using System;
 using System.Collections.Generic;
 
@@ -5,6 +6,19 @@ namespace Tesserae
 {
     public sealed class UnitSize
     {
+        private static UnitSize[] _cachedIntegers = CreateCache(32);
+
+        public static UnitSize FromPixelCache(int value) => _cachedIntegers[value];
+        private static UnitSize[] CreateCache(int count)
+        {
+            var us = new UnitSize[count];
+            for(int i = 0; i < us.Length; i++)
+            {
+                us[i] = new UnitSize(i, Unit.Pixels);
+            }
+            return us;
+        }
+
         public UnitSize(float size, Unit unit)
         {
             if (unit == Unit.Default)
@@ -15,29 +29,6 @@ namespace Tesserae
             Size = size;
             Unit = unit;
         }
-
-        internal UnitSize Cache(int val)
-        {
-            if(!_cache.TryGetValue(Unit, out var dict))
-            {
-                dict = new Dictionary<int, string>();
-                _cache[Unit] = dict;
-            }
-
-            if(dict.TryGetValue(val, out var s))
-            {
-                _cachedValue = s;
-            }
-            else
-            {
-                _cachedValue = ToString();
-                dict[val] = _cachedValue;
-            }
-
-            return this;
-        }
-
-        private static readonly Dictionary<Unit, Dictionary<int, string>> _cache = new Dictionary<Unit, Dictionary<int, string>>();
 
         private string _cachedValue = null;
 
@@ -52,7 +43,7 @@ namespace Tesserae
 
         public override string ToString()
         {
-            if (_cachedValue != null ) return _cachedValue;
+            if (Script.Write<bool>("{0}", _cachedValue)) return _cachedValue;
 
             switch (Unit)
             {
@@ -63,13 +54,13 @@ namespace Tesserae
                 case Unit.Inherit:
                     return "inherit";
                 case Unit.Percent:
-                    _cachedValue = $"{Size:0.####}%"; break;
+                    _cachedValue = Script.Write<string>("{0} + '%'", Size); break;
                 case Unit.Pixels:
-                    _cachedValue = $"{Size:0.####}px"; break;
+                    _cachedValue = Script.Write<string>("{0} + 'px'", Size); break;
                 case Unit.ViewportHeight:
-                    _cachedValue = $"{Size:0.####}vh"; break;
+                    _cachedValue = Script.Write<string>("{0} + 'vh'", Size); break;
                 case Unit.ViewportWidth:
-                    _cachedValue = $"{Size:0.####}vw"; break;
+                    _cachedValue = Script.Write<string>("{0} + 'vw'", Size); break;
             }
 
             return _cachedValue;

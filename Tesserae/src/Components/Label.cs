@@ -217,14 +217,14 @@ namespace Tesserae
             }
             else
             {
-                double minWidth = 10;
+                int minWidth = 10;
                 foreach (var f in found)
                 {
                     var rect = (DOMRect)f.getBoundingClientRect();
-                    minWidth = Math.Max(minWidth, Math.Max(rect.width, f.offsetWidth));
+                    minWidth = Math.Max(minWidth, Math.Max((int)rect.width, f.offsetWidth));
                 }
 
-                var mw = (minWidth + 4).px().ToString();
+                var mw = Script.Write<string>("({0}) + 'px'", minWidth + 4);
                 foreach (var f in found)
                 {
                     f.style.minWidth = mw;
