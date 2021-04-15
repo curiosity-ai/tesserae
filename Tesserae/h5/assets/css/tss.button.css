@@ -287,6 +287,11 @@ a {
     padding: 0px 4px;
 }
 
+.tss-btn.tss-btn-less-padding > span:not(:empty) + i {
+    margin-right: 0px;
+}
+
+
 .tss-btn-remove-margin {
     margin: 0px;
 }
