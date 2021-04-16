@@ -28,7 +28,7 @@ namespace Tesserae
             _helpText = TextBlock(helpText).Padding("20px 30px 0 0");
             _illustration = Raw().W(196).H(196);
 
-            if (string.IsNullOrWhiteSpace(imageSrc))
+            if (!string.IsNullOrWhiteSpace(imageSrc))
             {
                 SetImageSrc(imageSrc, 16.px());
             }
