@@ -100,10 +100,17 @@ namespace Tesserae
             }
             return this;
         }
-        
+
         public TutorialModal SetImageSrc(string imageSrc, UnitSize padding)
         {
             _illustration.Content(Image(imageSrc).Contain());
+            _illustration.Padding(padding);
+            return this;
+        }
+
+        public TutorialModal SetImage(Image image, UnitSize padding)
+        {
+            _illustration.Content(image);
             _illustration.Padding(padding);
             return this;
         }
