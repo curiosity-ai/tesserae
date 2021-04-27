@@ -146,6 +146,19 @@ namespace Tesserae
             return this;
         }
 
+
+        public TutorialModal OnHide(Modal.OnHideHandler onHide)
+        {
+            _modal.OnHide(onHide);
+            return this;
+        }
+
+        public TutorialModal OnShow(Modal.OnShowHandler onShow)
+        {
+            _modal.OnShow(onShow);
+            return this;
+        }
+
         public void Hide(Action onHidden = null)
         {
             _modal.Hide(onHidden);
