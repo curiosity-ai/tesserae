@@ -1,8 +1,11 @@
 ﻿using static H5.Core.dom;
 using static Tesserae.UI;
+using System.Linq;
 
 namespace Tesserae
 {
+
+
     public sealed class Slider : ComponentBase<Slider, HTMLInputElement>
     {
         private readonly HTMLLabelElement _outerLabel;
@@ -112,6 +115,7 @@ namespace Tesserae
             Value = val;
             return this;
         }
+
         public Slider SetMin(int min)
         {
             Min = min;
