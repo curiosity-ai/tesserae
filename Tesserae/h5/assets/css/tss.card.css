@@ -45,3 +45,14 @@
     padding: 2px 8px 2px 8px;
     margin-bottom: 2px;
 }
+
+.tss-card.tss-card-hover {
+}
+
+.tss-card.tss-card-hover:hover {
+    background-color: var(--tss-default-background-hover-color);
+}
+
+.tss-card.tss-card-hover:active {
+    background-color: var(--tss-default-background-hover-color);
+}

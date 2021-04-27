@@ -70,6 +70,19 @@ namespace Tesserae
             return this;
         }
 
+        public Card HoverColor(bool enabled = true)
+        {
+            if (enabled)
+            {
+                InnerElement.classList.add("tss-card-hover");
+            }
+            else
+            {
+                InnerElement.classList.remove("tss-card-hover");
+            }
+            return this;
+        }
+
         public override HTMLElement Render()
         {
             return _cardContainer;
