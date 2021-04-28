@@ -308,26 +308,55 @@ namespace Tesserae
             }
         }
 
-        public Button OnClickSpinWhile(Func<Task> action, string text = null)
+        public Button OnClickSpinWhile(Func<Task> action, string text = null, Action<Button, Exception> onError = null)
         {
             return OnClick((_, __) =>
             {
                 Task.Run(async () =>
                 {
+                    Exception innerException = null;
                     ToSpinner(text);
-                    await action();
-                    UndoSpinner();
+                    try
+                    {
+                        await action();
+                    }
+                    catch (Exception e)
+                    {
+                        innerException = e;
+                        throw;
+                    }
+                    finally
+                    {
+                        UndoSpinner();
+                        if (innerException is object) onError?.Invoke(this, innerException); // UndoSpinner replaces the inner element, that's why we call this here
+
+                    }
                 }).FireAndForget();
             });
         }
 
 
-        public void SpinWhile(Func<Task> action, string text = null)
+        public void SpinWhile(Func<Task> action, string text = null, Action<Button, Exception> onError = null)
         {
             Task.Run(async () =>
             {
+                Exception innerException = null;
                 ToSpinner(text);
-                await action();
+                try
+                {
+                    await action();
+                }
+                catch (Exception e)
+                {
+                    innerException = e;
+                    throw;
+                }
+                finally
+                {
+                    UndoSpinner();
+                    if (innerException is object) onError?.Invoke(this, innerException); // UndoSpinner replaces the inner element, that's why we call this here
+
+                }
                 UndoSpinner();
             }).FireAndForget();
         }

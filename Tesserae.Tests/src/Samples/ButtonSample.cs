@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Tesserae;
 using static H5.Core.dom;
 using static Tesserae.UI;
@@ -61,6 +62,21 @@ namespace Tesserae.Tests.Samples
                             Button().Var(out var iconBtn2).SetText("Delete").SetIcon("las la-trash-alt").Danger().OnClick((s, e) => alert("Clicked!")),
                             Button().Var(out var iconBtn3).SetText("Primary").SetIcon("las la-minus").Primary().OnClick((s,   e) => alert("Clicked!")),
                             Button().Var(out var iconBtn4).SetText("Copy date").SetIcon("las la-calendar-alt").OnClick((s,    e) => Clipboard.Copy(DateTime.Now.ToString()))
+                        ),
+                        TextBlock("Spinner Button").Medium(),
+                        Stack().Horizontal().Children(
+                            Button().Var(out var spinBtn1).SetText("Spin").OnClickSpinWhile(async () => await Task.Delay(1000)),
+                            Button().Var(out var spinBtn2).SetText("Spin with text").OnClickSpinWhile(async () => await Task.Delay(1000), "loading..."),
+                            Button().Var(out var spinBtn3).SetText("Spin & Error").OnClickSpinWhile(async () =>
+                            {
+                                await Task.Delay(1000);
+                                throw new Exception("Error!");
+                            }, onError: (b, e) => spinBtn3.SetText("Failed: " + e.Message).SetIcon(LineAwesome.ExclamationTriangle).DangerLink()),
+                            Button().Var(out var spinBtn4).SetText("Spin with text & Error").OnClickSpinWhile(async () =>
+                            {
+                                await Task.Delay(1000);
+                                throw new Exception("Error!");
+                            }, "loading...", onError: (b, e) => spinBtn4.SetText("Failed: " + e.Message).SetIcon(LineAwesome.ExclamationTriangle).DangerLink())
                         ),
                         Toggle("Disable buttons").Checked().OnChange((s, e) =>
                         {
