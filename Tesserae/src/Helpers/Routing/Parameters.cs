@@ -20,9 +20,15 @@ namespace Tesserae
 
         public IEnumerator<KeyValuePair<string, string>> GetEnumerator() => _parameters.GetEnumerator();
 
-        public Parameters With(string key, string value) // TODO [2020-06-16 DWR]: Unused - remove(?)
+        public Parameters With(string key, string value) 
         {
             _parameters[key] = value;
+            return this;
+        }
+        
+        public Parameters Remove(string key) 
+        {
+            _parameters.Remove(key);
             return this;
         }
 
