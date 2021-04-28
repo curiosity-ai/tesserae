@@ -103,7 +103,7 @@ namespace Tesserae
 
         public TutorialModal SetImageSrc(string imageSrc, UnitSize padding)
         {
-            _illustration.Content(Image(imageSrc).Contain());
+            _illustration.Content(Image(imageSrc).Contain().MaxWidth(100.percent()).MaxHeight(100.percent()));
             _illustration.Padding(padding);
             return this;
         }
