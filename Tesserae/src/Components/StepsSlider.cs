@@ -13,7 +13,7 @@ namespace Tesserae
         public StepsSlider(params T[] steps)
         {
             _steps = steps;
-            _slider = Slider(0, 0, _steps.Length, 1);
+            _slider = Slider(0, 0, _steps.Length - 1, 1);
             _equalityComparer = EqualityComparer<T>.Default;
         }
 
