@@ -23,7 +23,6 @@ namespace Tesserae
             return this;
         }
 
-
         public T Value
         {
             get => _steps[_slider.Value];
@@ -52,6 +51,11 @@ namespace Tesserae
         public StepsSlider<T> OnChange(Action<T> onChange)
         {
             _slider.OnChange((s, e) =>
+            {
+                onChange?.Invoke(Value);
+            });
+
+            _slider.OnInput((s, e) =>
             {
                 onChange?.Invoke(Value);
             });

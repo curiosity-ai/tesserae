@@ -376,6 +376,7 @@ namespace Tesserae
             Hidden += onHide;
             return this;
         }
+
         public Modal OnShow(OnShowHandler onShow)
         {
             Shown += onShow;

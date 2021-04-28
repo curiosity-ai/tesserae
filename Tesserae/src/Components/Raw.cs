@@ -43,7 +43,7 @@ namespace Tesserae
         public string Height     { get => InnerElement.style.height;     set { _hasProperties  |= 0b00010000; InnerElement.style.height = value; } }
         public string MaxWidth   { get => InnerElement.style.maxWidth;   set { _hasProperties  |= 0b00100000; InnerElement.style.maxWidth = value; } }
         public string MaxHeight  { get => InnerElement.style.maxHeight;  set { _hasProperties  |= 0b01000000; InnerElement.style.maxHeight = value; } }
-        public string FlexGrow   { get => InnerElement.style.flexGrow;  set { _hasProperties  |= 0b10000000; InnerElement.style.flexGrow = value; } }
+        public string FlexGrow   { get => InnerElement.style.flexGrow;   set { _hasProperties  |= 0b10000000; InnerElement.style.flexGrow = value; } }
 
         public HTMLElement Render() => InnerElement;
     }
