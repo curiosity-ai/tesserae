@@ -8,16 +8,16 @@ namespace Tesserae
 {
     public class Button : ComponentBase<Button, HTMLButtonElement>, ITextFormating, IHasBackgroundColor, IHasForegroundColor, IHaveTextWrappingOptions
     {
-        private readonly HTMLSpanElement _textSpan;
-        private HTMLElement _iconSpan;
-        private HTMLButtonElement _beforeReplace;
+        private readonly HTMLSpanElement   _textSpan;
+        private          HTMLElement       _iconSpan;
+        private          HTMLButtonElement _beforeReplace;
 
         public Button(string text = string.Empty)
         {
-            _textSpan    = Span(_(text: text));
+            _textSpan = Span(_(text: text));
             InnerElement = Button(_("tss-btn tss-btn-default tss-default-component-margin"), _textSpan);
-            Weight       = TextWeight.Regular;
-            Size         = TextSize.Small;
+            Weight = TextWeight.Regular;
+            Size = TextSize.Small;
 
             AttachClick();
             AttachFocus();
@@ -49,7 +49,7 @@ namespace Tesserae
             get => _textSpan.innerText;
             set
             {
-                _textSpan.innerText         = value;
+                _textSpan.innerText = value;
                 InnerElement.style.minWidth = string.IsNullOrEmpty(value) ? "unset" : string.Empty;
             }
         }
@@ -284,10 +284,10 @@ namespace Tesserae
         {
             if (_beforeReplace is null)
             {
-                var rect = (DOMRect)InnerElement.getBoundingClientRect();
+                var rect = (DOMRect) InnerElement.getBoundingClientRect();
 
                 _beforeReplace = InnerElement;
-                var newChild = (HTMLButtonElement)InnerElement.cloneNode(false);
+                var newChild = (HTMLButtonElement) InnerElement.cloneNode(false);
                 newChild.style.minHeight = rect.height.px().ToString();
                 newChild.classList.add("tss-btn-nominsize", "tss-disabled");
                 ClearChildren(newChild);
@@ -308,26 +308,55 @@ namespace Tesserae
             }
         }
 
-        public Button OnClickSpinWhile(Func<Task> action, string text = null)
+        public Button OnClickSpinWhile(Func<Task> action, string text = null, Action<Button, Exception> onError = null)
         {
             return OnClick((_, __) =>
             {
                 Task.Run(async () =>
                 {
+                    Exception innerException = null;
                     ToSpinner(text);
-                    await action();
-                    UndoSpinner();
+                    try
+                    {
+                        await action();
+                    }
+                    catch (Exception e)
+                    {
+                        innerException = e;
+                        throw;
+                    }
+                    finally
+                    {
+                        UndoSpinner();
+                        if (innerException is object) onError?.Invoke(this, innerException); // UndoSpinner replaces the inner element, that's why we call this here
+
+                    }
                 }).FireAndForget();
             });
         }
 
 
-        public void SpinWhile(Func<Task> action, string text = null)
+        public void SpinWhile(Func<Task> action, string text = null, Action<Button, Exception> onError = null)
         {
             Task.Run(async () =>
             {
+                Exception innerException = null;
                 ToSpinner(text);
-                await action();
+                try
+                {
+                    await action();
+                }
+                catch (Exception e)
+                {
+                    innerException = e;
+                    throw;
+                }
+                finally
+                {
+                    UndoSpinner();
+                    if (innerException is object) onError?.Invoke(this, innerException); // UndoSpinner replaces the inner element, that's why we call this here
+
+                }
                 UndoSpinner();
             }).FireAndForget();
         }
@@ -391,7 +420,7 @@ namespace Tesserae
             InnerElement.style.background = background;
             InnerElement.style.color = textColor;
             InnerElement.style.borderColor = borderColor;
-            if(_iconSpan is object)
+            if (_iconSpan is object)
             {
                 _iconSpan.style.color = iconColor;
             }
@@ -502,7 +531,7 @@ namespace Tesserae
         {
             DomObserver.WhenMounted(InnerElement, () =>
             {
-                if(options is null)
+                if (options is null)
                 {
                     Hotkeys.BindGlobal(keys, RaiseOnClick);
                 }

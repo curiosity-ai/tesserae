@@ -21,7 +21,7 @@ namespace Tesserae
             _onOffSpan = Div(_("tss-toggle-text"), _offText.Render());
             _container = Div(_("tss-toggle-container tss-default-component-margin"), InnerElement, _checkElement, _onOffSpan);
 
-            _checkElement.onclick += (e) =>
+            _container.onclick += (e) =>
             {
                 StopEvent(e);
                 IsChecked = !IsChecked;
