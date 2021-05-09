@@ -70,9 +70,13 @@ namespace Tesserae
             }
 
             if (_currentState is null)
+            {
                 _currentState = new State(fullPath: path);
+            }
             else
+            {
                 _currentState = _currentState.WithFullPath(path);
+            }
 
             window.history.pushState(null, "", path);
         }

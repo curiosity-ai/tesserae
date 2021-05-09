@@ -21,6 +21,12 @@ namespace Tesserae
             return InnerElement;
         }
 
+        public Image Position(string objectPosition)
+        {
+            InnerElement.style.objectPosition = objectPosition;
+            return this;
+        }
+
         public Image Contain()
         {
             InnerElement.style.objectFit = "contain";
