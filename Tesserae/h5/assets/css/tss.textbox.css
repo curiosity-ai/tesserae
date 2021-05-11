@@ -4,14 +4,12 @@
     margin: 0px;
     padding: 0px;
     border: 1px solid var(--tss-default-border-color);
-    border-radius: 2px;
+    border-radius: 4px;
     background: var(--tss-default-background-color) none repeat scroll 0% 0%;
     color: var(--tss-default-foreground-color);
     cursor: text;
     height: 32px;
     align-items: stretch;
-    font-size: var(--tss-font-size-small);
-    font-weight: var(--tss-font-weight-regular);
     display: block;
     width: 100%;
     outline: transparent none medium;

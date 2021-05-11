@@ -3,9 +3,13 @@ using System.Linq;
 
 namespace Tesserae
 {
-    public class TextBox : Input<TextBox>, ITextFormating
+    public class TextBox : Input<TextBox>, ITextFormating, IHasBackgroundColor, IHasForegroundColor
     {
-        public TextBox(string text = string.Empty) : base("text", text) { }
+        public TextBox(string text = string.Empty) : base("text", text) 
+        {
+            InnerElement.classList.add("tss-fontsize-small");
+            InnerElement.classList.add("tss-fontweight-regular");
+        }
 
         public string Placeholder
         {
@@ -89,6 +93,18 @@ namespace Tesserae
                 }
                 InnerElement.classList.add($"tss-textalign-{value.ToString().ToLower()}");
             }
+        }
+
+        public string Background
+        {
+            get => InnerElement.style.background;
+            set => InnerElement.style.background = value;
+        }
+
+        public string Foreground
+        {
+            get => InnerElement.style.color;
+            set => InnerElement.style.color = value;
         }
 
         public TextBox SetPlaceholder(string placeholder)
