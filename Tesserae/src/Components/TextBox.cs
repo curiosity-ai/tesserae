@@ -1,6 +1,9 @@
-﻿namespace Tesserae
+﻿using System;
+using System.Linq;
+
+namespace Tesserae
 {
-    public class TextBox : Input<TextBox>
+    public class TextBox : Input<TextBox>, ITextFormating
     {
         public TextBox(string text = string.Empty) : base("text", text) { }
 
@@ -43,6 +46,51 @@
             }
         }
 
+        public virtual TextSize Size
+        {
+            get => ITextFormatingExtensions.FromClassList(InnerElement, TextSize.Small);
+            set
+            {
+                InnerElement.classList.remove(Size.ToClassName());
+                InnerElement.classList.add(value.ToClassName());
+            }
+        }
+
+        public virtual TextWeight Weight
+        {
+            get => ITextFormatingExtensions.FromClassList(InnerElement, TextWeight.Regular);
+            set
+            {
+                InnerElement.classList.remove(Weight.ToClassName());
+                InnerElement.classList.add(value.ToClassName());
+            }
+        }
+
+        public TextAlign TextAlign
+        {
+            get
+            {
+                var curFontSize = InnerElement.classList.FirstOrDefault(t => t.StartsWith("tss-textalign-"));
+                if (curFontSize is object && Enum.TryParse<TextAlign>(curFontSize.Substring("tss-textalign-".Length), true, out var result))
+                {
+                    return result;
+                }
+                else
+                {
+                    return TextAlign.Left;
+                }
+            }
+            set
+            {
+                var curFontSize = InnerElement.classList.FirstOrDefault(t => t.StartsWith("tss-textalign-"));
+                if (curFontSize is object)
+                {
+                    InnerElement.classList.remove(curFontSize);
+                }
+                InnerElement.classList.add($"tss-textalign-{value.ToString().ToLower()}");
+            }
+        }
+
         public TextBox SetPlaceholder(string placeholder)
         {
             Placeholder = placeholder;
@@ -58,6 +106,18 @@
         public TextBox Password()
         {
             IsPassword = true;
+            return this;
+        }
+
+        public TextBox NoBorder()
+        {
+            InnerElement.classList.add("tss-textbox-noborder");
+            return this;
+        }
+
+        public TextBox UnlockHeight()
+        {
+            InnerElement.classList.add("tss-textbox-h100");
             return this;
         }
     }

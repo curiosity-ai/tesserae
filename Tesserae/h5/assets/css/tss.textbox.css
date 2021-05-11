@@ -18,6 +18,7 @@
     padding: 0px 5px;
 }
 
+
     .tss-textbox::placeholder {
         color: var(--tss-default-foreground-color);
         opacity: 0.5;
@@ -65,4 +66,12 @@
 
 .tss-textbox-container.tss-invalid .tss-textbox-error {
     display: block;
+}
+
+.tss-textbox.tss-textbox-noborder {
+    border: 1px solid transparent;
+}
+
+.tss-textbox.tss-textbox-h100 {
+    height: 100%;
 }
