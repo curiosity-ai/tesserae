@@ -1,4 +1,5 @@
-﻿using Tesserae.HTML;
+﻿using System;
+using Tesserae.HTML;
 using static H5.Core.dom;
 using static Tesserae.UI;
 
@@ -29,6 +30,8 @@ namespace Tesserae
             InnerElement.style.cursor = "pointer";
             return base.OnClick(onClick);
         }
+
+        public Card OnClick(Action action) => OnClick((_, __) => action.Invoke());
 
         public Card SetContent(IComponent content)
         {

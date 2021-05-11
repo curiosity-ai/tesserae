@@ -335,6 +335,7 @@ namespace Tesserae
             });
         }
 
+        public Button OnClick(Action action) => OnClick((_, __) => action.Invoke());
 
         public void SpinWhile(Func<Task> action, string text = null, Action<Button, Exception> onError = null)
         {

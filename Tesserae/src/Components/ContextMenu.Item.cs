@@ -154,6 +154,7 @@ namespace Tesserae
                 return this;
             }
 
+            public Item OnClick(Action action) => OnClick((_, __) => action.Invoke());
 
             public void HideSubmenus()
             {
