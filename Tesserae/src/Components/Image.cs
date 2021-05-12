@@ -12,7 +12,7 @@ namespace Tesserae
 
         public Image(string source)
         {
-            InnerElement = UI.Image(_(src:source));
+            InnerElement = UI.Image(_("tss-image", src:source));
             PropagateToStackItemParent = true;
         }
 

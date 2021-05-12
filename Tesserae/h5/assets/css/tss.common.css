@@ -319,3 +319,8 @@
     opacity: 1;
     transition: opacity 0s linear;
 }
+
+.tss-image {
+    vertical-align: unset;
+    border-style: none;
+}
