@@ -178,9 +178,13 @@ namespace Tesserae
 
             public NavLink(IComponent content)
             {
+                var rendered = content.Render();
+
+                rendered.style.marginLeft = "24px";
+
                 _childContainer = Ul(_("tss-nav-link-container"));
                 _expandButton = Button(_("tss-nav-link-button"));
-                _headerDiv = Div(_("tss-nav-link-header"), _expandButton, content.Render());
+                _headerDiv = Div(_("tss-nav-link-header"), _expandButton, rendered);
                 _headerDiv.onclick += ClickHandler;
                 _expandButton.onclick+= ExpandHandler;
                 InnerElement = Li(_("tss-nav-link"), _headerDiv, _childContainer);
