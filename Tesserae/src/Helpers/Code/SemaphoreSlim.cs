@@ -27,6 +27,8 @@ namespace Tesserae
             return completion.Task;
         }
 
+
+        public bool IsPending => _queue.Count > 0;
         public void Release()
         {
             if(_queue.Count == 0)
