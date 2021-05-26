@@ -19,7 +19,6 @@
         background: var(--tss-default-background-color) !important;
     }
 
-
     .tss-sidebar.tss-small {
         max-width: 32px;
     }
@@ -92,7 +91,11 @@
     }
 
 .tss-sidebar.tss-light > .tss-sidebar-item {
-    color: var(--tss-primary-background-color) !important;
+    color: var(--tss-default-foreground-color) !important;
+}
+
+.tss-sidebar.tss-light.tss-sidebar-primary > .tss-sidebar-item {
+    color: var(--tss-default-foreground-color) !important;
 }
 
 .tss-sidebar-item:hover {
@@ -141,6 +144,10 @@
 
 .tss-sidebar.tss-light > .tss-sidebar-item:hover {
     background: var(--tss-default-background-hover-color) !important;
+    color: var(--tss-default-foreground-hover-color) !important;
+}
+
+.tss-sidebar.tss-light.tss-sidebar-primary > .tss-sidebar-item:hover {
     color: var(--tss-primary-background-color) !important;
 }
 

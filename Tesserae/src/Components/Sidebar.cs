@@ -16,7 +16,7 @@ namespace Tesserae
         private readonly HTMLElement _container;
         private readonly List<Item> _items = new List<Item>();
         private ResizeObserver _resizeObserver;
-
+        
         public Sidebar()
         {
             _sidebarContainer = Div(_("tss-sidebar"));
@@ -25,6 +25,11 @@ namespace Tesserae
             Width = Size.Medium;
         }
 
+        public Sidebar Primary()
+        {
+            _sidebarContainer.classList.add("tss-sidebar-primary");
+            return this;
+        }
         public bool IsLight
         {
             get => _sidebarContainer.classList.contains("tss-light");
@@ -98,6 +103,21 @@ namespace Tesserae
         {
             ClearChildren(_contentContainer);
             _contentContainer.appendChild(content.Render());
+            return this;
+        }
+
+        public Sidebar ContentPadding(UnitSize padding)
+        {
+            _sidebarContainer.style.padding = padding.ToString();
+            return this;
+        }
+
+        public Sidebar ContentPadding(UnitSize top, UnitSize bottom, UnitSize left, UnitSize right)
+        {
+            _sidebarContainer.style.paddingTop = top.ToString();
+            _sidebarContainer.style.paddingBottom = bottom.ToString();
+            _sidebarContainer.style.paddingLeft = left.ToString();
+            _sidebarContainer.style.paddingRight = right.ToString();
             return this;
         }
 
@@ -208,7 +228,7 @@ namespace Tesserae
             }
         }
 
-        public sealed class Item : IComponent
+        public sealed class Item : IComponent, IHasForegroundColor, IHasBackgroundColor
         {
             private HTMLElement _container;
             private HTMLSpanElement _label;
@@ -229,6 +249,9 @@ namespace Tesserae
                 get => !_container.classList.contains("tss-extrapadding");
                 set { if (value) _container.classList.add("tss-extrapadding"); else _container.classList.remove("tss-extrapadding"); }
             }
+
+            public string Foreground { get => _container.style.color; set => _container.style.color = value; }
+            public string Background { get => _container.style.background; set => _container.style.background = value; }
 
             public bool IsSelectable
             {
@@ -277,6 +300,7 @@ namespace Tesserae
                 }
             }
 
+     
             public Item(string text, IComponent icon, string href = null)
             {
                 _icon = icon.Render();
@@ -287,6 +311,12 @@ namespace Tesserae
             {
                 _icon = I(_(icon));
                 CreateSelf(text, href);
+            }
+
+            public Item(IComponent content, string href = null)
+            {
+                _icon = null;
+                CreateSelf(content, href);
             }
 
             private void CreateSelf(string text, string href)
@@ -302,6 +332,27 @@ namespace Tesserae
                     _container = A(_("tss-sidebar-item", href: href), Div(_("tss-sidebar-icon"), _icon), _label);
                 }
 
+                AppendOnClick(href);
+            }
+
+            private void CreateSelf(IComponent component, string href)
+            {
+                _label = null;
+
+                if (string.IsNullOrEmpty(href))
+                {
+                    _container = Div(_("tss-sidebar-item"), component.Render());
+                }
+                else
+                {
+                    _container = A(_("tss-sidebar-item", href: href), component.Render());
+                }
+
+                AppendOnClick(href);
+            }
+
+            private void AppendOnClick(string href)
+            {
                 _container.onclick = (e) =>
                 {
                     if (_hasOnClick || _hasOnSelect)
@@ -342,6 +393,13 @@ namespace Tesserae
             {
                 if (_icon is null) return this;
                 _icon.className = icon;
+                return this;
+            }
+
+            public Item SetIcon(LineAwesome icon)
+            {
+                if (_icon is null) return this;
+                _icon.className = $"{LineAwesomeWeight.Light} {icon}";
                 return this;
             }
 
