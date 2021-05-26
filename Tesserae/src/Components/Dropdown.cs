@@ -411,6 +411,12 @@ namespace Tesserae
             return this;
         }
 
+        public Dropdown NoBackground()
+        {
+            _container.classList.add("tss-dropdown-nobg");
+            return this;
+        }
+
         public Dropdown Required()
         {
             IsRequired = true;

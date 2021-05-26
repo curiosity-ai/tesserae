@@ -62,9 +62,14 @@
     cursor: pointer;
 }
 
-.tss-dropdown-container.tss-noborder {
-    border: 1px solid transparent;
-}
+
+    .tss-dropdown-container.tss-dropdown-nobg {
+        background:unset;
+    }
+
+    .tss-dropdown-container.tss-noborder {
+        border: 1px solid transparent;
+    }
 
 
     .tss-dropdown-container.tss-disabled {

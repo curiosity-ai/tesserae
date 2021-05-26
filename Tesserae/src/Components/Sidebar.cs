@@ -30,6 +30,7 @@ namespace Tesserae
             _sidebarContainer.classList.add("tss-sidebar-primary");
             return this;
         }
+
         public bool IsLight
         {
             get => _sidebarContainer.classList.contains("tss-light");
