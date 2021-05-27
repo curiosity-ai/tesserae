@@ -233,6 +233,7 @@
 .tss-sidebar-spacer {
     height:1px;
     flex-grow:1;
+    pointer-events:none;
 }
 
     .tss-sidebar-spacer .tss-sidebar-label {
