@@ -26,9 +26,9 @@
     --tss-dark-border-color: rgb(138, 136, 134);
     --tss-default-separator-color: rgb(243, 242, 241);
     --tss-invalid-border-color: rgb(164, 38, 44);
-    --tss-default-background-hover-color: rgb(243, 242, 241);
+    --tss-default-background-hover-color: rgb(225, 224, 224);
     --tss-default-foreground-hover-color: rgb(32, 31, 30);
-    --tss-default-background-active-color: rgb(243, 242, 241);
+    --tss-default-background-active-color: rgb(235, 234, 234);
     --tss-default-foreground-active-color: rgb(32, 31, 30);
     --tss-progress-background-color: rgb(237, 235, 233);
     --tss-link-color: rgb(36, 142, 250);

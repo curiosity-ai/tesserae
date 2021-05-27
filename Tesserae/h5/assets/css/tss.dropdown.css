@@ -108,7 +108,7 @@
     position: absolute;
     border-radius: 0px 0px 2px 2px;
     background: var(--tss-default-background-color) none repeat scroll 0% 0%;
-    min-height: 50px;
+    min-height: 42px;
     visibility: visible;
     box-shadow: rgba(0, 0, 0, 0.133) 0px 3.2px 7.2px 0px, rgba(0, 0, 0, 0.11) 0px 0.6px 1.8px 0px;
     overflow-y: auto;
