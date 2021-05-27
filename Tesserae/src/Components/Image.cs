@@ -14,7 +14,15 @@ namespace Tesserae
         {
             InnerElement = UI.Image(_("tss-image", src:source));
             PropagateToStackItemParent = true;
+            AttachClick();
         }
+
+        public string Cursor
+        {
+            get => InnerElement.style.cursor;
+            set => InnerElement.style.cursor = value;
+        }
+
 
         public override HTMLElement Render()
         {

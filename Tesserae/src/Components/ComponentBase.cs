@@ -1,5 +1,7 @@
 ﻿using H5;
 using static H5.Core.dom;
+using H5.Core;
+using System;
 
 namespace Tesserae
 {
@@ -26,6 +28,9 @@ namespace Tesserae
 
             if (this is TextBlock textBlock)
                 textBlock.Cursor = "pointer";
+
+            if (this is Image img)
+                img.Cursor = "pointer";
 
             return (T)this;
         }
@@ -72,7 +77,7 @@ namespace Tesserae
             return (T)this;
         }
 
-        protected void AttachClick() => InnerElement.addEventListener("click", e => RaiseOnClick(UncheckedCastTo<MouseEvent>(e)));
+        protected void AttachClick() => InnerElement.addEventListener("click", e => RaiseOnClick(e.As<MouseEvent>()));
 
         protected void AttachChange() => InnerElement.addEventListener("change", s => RaiseOnChange(s));
 
@@ -86,9 +91,9 @@ namespace Tesserae
 
         protected void AttachKeys()
         {
-            InnerElement.addEventListener("keypress", ev => RaiseOnKeyPress(UncheckedCastTo<KeyboardEvent>(ev)));
-            InnerElement.addEventListener("keydown", ev => RaiseOnKeyDown(UncheckedCastTo<KeyboardEvent>(ev)));
-            InnerElement.addEventListener("keyup", ev => RaiseOnKeyUp(UncheckedCastTo<KeyboardEvent>(ev)));
+            InnerElement.addEventListener("keypress", ev => RaiseOnKeyPress(ev.As<KeyboardEvent>()));
+            InnerElement.addEventListener("keydown", ev => RaiseOnKeyDown(ev.As<KeyboardEvent>()));
+            InnerElement.addEventListener("keyup", ev => RaiseOnKeyUp(ev.As<KeyboardEvent>()));
         }
 
         protected void AttachFocus() => InnerElement.addEventListener("focus", s => RaiseOnFocus(s));
@@ -106,11 +111,5 @@ namespace Tesserae
         private void RaiseOnFocus(Event ev) => ReceivedFocus?.Invoke((T)this, ev);
 
         private void RaiseOnBlur(Event ev) =>  LostFocus?.Invoke((T)this, ev);
-
-        /// <summary>
-        /// This should be used when you're sure that the object is of type T at runtime but we don't have that information available to the compiler and we don't the runtime to perform any checks
-        /// </summary>
-        [Template("{value}")]
-        private extern static TTarget UncheckedCastTo<TTarget>(object value);
     }
 }
