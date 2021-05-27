@@ -12,6 +12,8 @@
     transform: translateZ(0px);
     background: var(--tss-sidebar-background-color) !important;
     color: var(--tss-sidebar-foreground-color) !important;
+    display: flex;
+    flex-direction: column;
 }
 
     .tss-sidebar.tss-light {
@@ -226,3 +228,16 @@
 .tss-sidebar-host.tss-hidden > .tss-sidebar-content {
     margin-left: 0px;
 }
+
+
+.tss-sidebar-spacer {
+    height:1px;
+    flex-grow:1;
+}
+
+    .tss-sidebar-spacer .tss-sidebar-label {
+        display: none;
+    }
+    .tss-sidebar-spacer .tss-sidebar-icon {
+        display: none;
+    }

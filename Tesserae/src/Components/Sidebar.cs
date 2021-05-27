@@ -237,6 +237,7 @@ namespace Tesserae
             private bool _isSelectable = true;
             private bool _hasOnClick = false;
             private bool _hasOnSelect = false;
+            private bool _onBottom = false;
             internal Sidebar parent;
 
             public bool IsEnabled
@@ -438,10 +439,9 @@ namespace Tesserae
                 return this;
             }
 
-            public Item ShowOnBottom()
+            public Item Spacer()
             {
-                _container.style.position = "absolute";
-                _container.style.bottom = "16px";
+                _container.classList.add("tss-sidebar-spacer");
                 return this;
             }
 
