@@ -262,6 +262,9 @@ namespace Tesserae
         public static Sidebar.Item SidebarItem(string text, string icon, string href = null) => new Sidebar.Item(text, icon, href);
 
         public static Sidebar.Item SidebarItem(string text, IComponent icon, string href = null) => new Sidebar.Item(text, icon, href);
+        public static Sidebar.Item SidebarItem(IComponent text, string icon, string href = null) => new Sidebar.Item(text, icon, href);
+        public static Sidebar.Item SidebarItem(IComponent text, string href = null) => new Sidebar.Item(text, href);
+        public static Sidebar.Item SidebarItem(IComponent text, IComponent icon, string href = null) => new Sidebar.Item(text, icon, href);
 
         public static Navbar Navbar() => new Navbar();
 
