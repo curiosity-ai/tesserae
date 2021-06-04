@@ -53,6 +53,26 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Adds an ID to the element representing the component.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="component"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public static T Class<T>(this T component, string className) where T : IComponent
+        {
+            if (component is DeferedComponent deferedComponent)
+            {
+                deferedComponent.Container.classList.add(className);
+                return component;
+            }
+
+            var el = component.Render();
+            el.classList.add(className);
+            return component;
+        }
+
+        /// <summary>
         /// Creates a wrapper IComponent from an HTML element
         /// </summary>
         /// <param name="element">HTML element to be wrapped</param>

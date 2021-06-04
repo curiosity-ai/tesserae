@@ -232,7 +232,7 @@ namespace Tesserae
         public sealed class Item : IComponent, IHasForegroundColor, IHasBackgroundColor
         {
             private HTMLElement _container;
-            private HTMLSpanElement _label;
+            private HTMLElement _label;
             private readonly HTMLElement _icon;
             private bool _isSelectable = true;
             private bool _hasOnClick = false;
@@ -306,13 +306,13 @@ namespace Tesserae
             public Item(string text, IComponent icon, string href = null)
             {
                 _icon = icon.Render();
-                CreateSelf(text, href);
+                CreateSelf(Span(_("tss-sidebar-label", text: text)), href);
             }
 
             public Item(string text, string icon, string href = null)
             {
                 _icon = I(_(icon));
-                CreateSelf(text, href);
+                CreateSelf(Span(_("tss-sidebar-label", text: text)), href);
             }
 
             public Item(IComponent content, string href = null)
@@ -321,9 +321,21 @@ namespace Tesserae
                 CreateSelf(content, href);
             }
 
-            private void CreateSelf(string text, string href)
+            public Item(IComponent content, IComponent icon, string href = null)
             {
-                _label = Span(_("tss-sidebar-label", text: text));
+                _icon = icon.Render();
+                CreateSelf(content.Render(), href);
+            }
+
+            public Item(IComponent content, string icon, string href = null)
+            {
+                _icon = I(_(icon));
+                CreateSelf(content.Render(), href);
+            }
+
+            private void CreateSelf(HTMLElement text, string href)
+            {
+                _label = text;
 
                 if (string.IsNullOrEmpty(href))
                 {

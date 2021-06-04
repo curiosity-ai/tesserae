@@ -23,7 +23,6 @@ namespace Tesserae
             set => InnerElement.style.cursor = value;
         }
 
-
         public override HTMLElement Render()
         {
             return InnerElement;
