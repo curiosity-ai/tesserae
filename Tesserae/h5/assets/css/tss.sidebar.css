@@ -80,6 +80,7 @@
     transition: color 0.1s ease 0s;
     display: block !important;
     text-decoration: none !important;
+    flex-shrink: 0;
 }
 
     .tss-sidebar-item * {
@@ -231,9 +232,10 @@
 
 
 .tss-sidebar-spacer {
-    height:1px;
-    flex-grow:1;
-    pointer-events:none;
+    height: 1px;
+    flex-grow: 1;
+    flex-shrink: 1;
+    pointer-events: none;
 }
 
     .tss-sidebar-spacer .tss-sidebar-label {
