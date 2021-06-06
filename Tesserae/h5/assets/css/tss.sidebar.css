@@ -78,7 +78,7 @@
     cursor: pointer;
     user-select: none;
     transition: color 0.1s ease 0s;
-    display: block !important;
+    display: block;
     text-decoration: none !important;
     flex-shrink: 0;
 }
