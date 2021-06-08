@@ -19,7 +19,7 @@ namespace Tesserae.Tests.Samples
                             TextBlock("Toasts are used for short-lived notifications to users.")))
                         .Section(Stack().WidthStretch().Children(
                             SampleTitle("Best Practices"),
-                                SplitView().Left(
+                                SplitView().SplitInMiddle().Left(
                                     Stack().WidthStretch().Children(
                                         SampleSubTitle("Do"),
                                         SampleDo("Write short and recognizable messages"),

@@ -68,12 +68,8 @@ namespace Tesserae
 
         public SplitView SplitInMiddle()
         {
-            _rightComponent.Width = "50%";
             _rightComponent.MaxWidth = "";
-            _rightComponent.FlexGrow = "";
-            _leftComponent.Width = "50%";
             _leftComponent.MaxWidth = "";
-            _leftComponent.FlexGrow = "";
             _splitContainer.classList.remove("tss-split-left");
             _splitContainer.classList.remove("tss-split-right");
             return this;
