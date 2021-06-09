@@ -221,6 +221,7 @@
     animation-fill-mode: unset;
 }
 
+
 .tss-sidebar-host.tss-hidden > .tss-sidebar {
     display: none;
     width: 0px;
@@ -266,6 +267,50 @@
 
 
 
+
+
+.tss-sidebar.tss-light > .tss-sidebar-stack > .tss-stack > .tss-stack-item > .tss-sidebar-item {
+    color: var(--tss-default-foreground-color) !important;
+}
+
+.tss-sidebar.tss-light.tss-sidebar-primary > .tss-sidebar-stack > .tss-stack > .tss-stack-item > .tss-sidebar-item {
+    color: var(--tss-default-foreground-color) !important;
+}
+
+
+.tss-sidebar:hover > .tss-sidebar-stack > .tss-stack > .tss-stack-item > .tss-sidebar-item > .tss-sidebar-stack > .tss-stack > .tss-stack-item > .tss-sidebar-label {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.3s ease 0.5s, visibility 0.5s;
+}
+
+.tss-sidebar-host.tss-open > .tss-sidebar > .tss-sidebar-stack > .tss-stack > .tss-stack-item > .tss-sidebar-item > .tss-sidebar-label {
+    visibility: visible;
+    opacity: 1;
+}
+
+.tss-sidebar-host.tss-open > .tss-sidebar > .tss-sidebar-stack > .tss-stack > .tss-stack-item > .tss-sidebar-item > .tss-sidebar-label {
+    right: 0px;
+    visibility: visible;
+    opacity: 1;
+}
+
+.tss-sidebar.tss-light > .tss-sidebar-item.tss-selected {
+    background: var(--tss-default-background-active-color) !important;
+}
+
+.tss-sidebar.tss-light > .tss-sidebar-item:hover {
+    background: var(--tss-default-background-hover-color) !important;
+    color: var(--tss-default-foreground-hover-color) !important;
+}
+
+.tss-sidebar.tss-light > .tss-sidebar-stack > .tss-stack > .tss-stack-item > .tss-sidebar-item {
+    color: var(--tss-default-foreground-color) !important;
+}
+
+.tss-sidebar.tss-light.tss-sidebar-primary > .tss-sidebar-stack > .tss-stack > .tss-stack-item > .tss-sidebar-item {
+    color: var(--tss-default-foreground-color) !important;
+}
 
 
 .tss-sidebar.tss-small > .tss-sidebar-stack > .tss-stack > .tss-stack-item > .tss-sidebar-item > .tss-sidebar-icon {
