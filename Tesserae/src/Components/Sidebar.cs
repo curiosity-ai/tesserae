@@ -457,6 +457,15 @@ namespace Tesserae
                 return this;
             }
 
+            public Item StackArea(Stack stack)
+            {
+                _container.classList.add("tss-sidebar-stack");
+                _container.classList.remove("tss-sidebar-item");
+                _container.RemoveChildElements();
+                _container.appendChild(stack.Render());
+                return this;
+            }
+
             public Item OnSelect(SidebarItemHandler onSelect)
             {
                 _hasOnSelect = true;

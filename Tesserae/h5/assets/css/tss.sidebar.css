@@ -244,3 +244,22 @@
     .tss-sidebar-spacer .tss-sidebar-icon {
         display: none;
     }
+
+
+
+.tss-sidebar-stack {
+    height: 1px;
+    flex-grow: 1;
+    flex-shrink: 1;
+    position: relative;
+    width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+    display: flex;
+    flex-direction:column;
+    text-decoration: none !important;
+}
+
+    .tss-sidebar-stack * {
+        text-decoration: none !important;
+    }
