@@ -366,6 +366,8 @@ namespace Tesserae
 
                 var renderedTooltip = UI.DIV(tooltip.Render());
                 renderedTooltip.style.display = "block";
+                renderedTooltip.style.overflow = "hidden";
+                renderedTooltip.style.textOverflow = "ellipsis";
                 document.body.appendChild(renderedTooltip);
 
                 var (element, _) = Stack.GetCorrectItemToApplyStyle(component);
