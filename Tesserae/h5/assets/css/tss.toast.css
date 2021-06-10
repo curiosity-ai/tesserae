@@ -108,3 +108,13 @@
     margin-bottom: 8px;
     width: 96vw;
 }
+
+.tss-toast-title > .tss-textblock{
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.tss-toast-message > .tss-textblock{
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
