@@ -180,6 +180,7 @@ a {
 
 .tss-btn-nobg {
     background: transparent;
+    background-color: transparent;
     box-shadow: none;
 }
 
