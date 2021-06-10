@@ -260,6 +260,7 @@
     flex-direction: column;
     text-decoration: none !important;
     overflow-y: auto;
+    overflow-x: hidden;
 }
 
     .tss-sidebar-stack * {
