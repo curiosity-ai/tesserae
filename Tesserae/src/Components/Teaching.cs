@@ -112,7 +112,20 @@ namespace Tesserae
                     }
                     else
                     {
-                        MoveNext();
+                        int time = 0;
+                        int delay = stepType == StepType.After5seconds ? 5_000 : 10_000;
+                        Func<Task> countdown = async () => {
+                            while (time < delay)
+                            {
+                                await Task.Delay(150);
+                                time += 150;
+                                pi.Progress(time, delay);
+                            }
+
+                            MoveNext();
+                        };
+
+                        countdown().FireAndForget();
                     }
                 }
             }
