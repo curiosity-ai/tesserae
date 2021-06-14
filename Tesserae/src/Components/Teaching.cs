@@ -19,7 +19,7 @@ namespace Tesserae
         private Func<bool> _condition;
         private int _stepCounter = 0;
         private int _currentStep = 0;
-        private int _firstDelay = 0;
+        private int _firstDelay = 500;
         private int _stepDelay = 150;
 
         private Dictionary<int, Action> _futureSteps = new Dictionary<int, Action>();
@@ -59,6 +59,10 @@ namespace Tesserae
         public Teaching RunNow()
         {
             _condition = () => true;
+            if (_futureSteps.TryGetValue(0, out var start))
+            {
+                start();
+            }
             return this;
         }
 
