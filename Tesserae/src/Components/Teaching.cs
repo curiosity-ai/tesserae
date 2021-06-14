@@ -19,6 +19,8 @@ namespace Tesserae
         private Func<bool> _condition;
         private int _stepCounter = 0;
         private int _currentStep = 0;
+        private int _firstDelay = 0;
+        private int _stepDelay = 150;
 
         private Dictionary<int, Action> _futureSteps = new Dictionary<int, Action>();
         private Action _completed;
@@ -30,12 +32,27 @@ namespace Tesserae
         public Teaching RunIf(Func<bool> condition)
         {
             _condition = condition;
+            if(_futureSteps.TryGetValue(0, out var start))
+            {
+                start();
+            }
             return this;
         }
 
         public Teaching OnComplete(Action completed)
         {
             _completed = completed;
+            return this;
+        }
+
+        public Teaching FirstDelay(int milliseconds)
+        {
+            _firstDelay = milliseconds;
+            return this;
+        }
+        public Teaching StepDelay(int milliseconds)
+        {
+            _stepDelay= milliseconds; 
             return this;
         }
 
@@ -83,7 +100,7 @@ namespace Tesserae
                         tooltip = VStack().Children(tooltip, pi.PT(8));
                     }
 
-                    hideTooltip = ShowTooltip(showFor, tooltip, animation, placement);
+                    hideTooltip = ShowTooltip(showFor, tooltip, animation, placement, thisStep == 0 ? _firstDelay : _stepDelay);
 
                     if (stepType == StepType.NextButton)
                     {
@@ -112,7 +129,7 @@ namespace Tesserae
 
             showFor.WhenMounted(() =>
             {
-                if(_currentStep == thisStep)
+                if(_currentStep == thisStep && _condition is object)
                 {
                     Show();
                 }
@@ -125,7 +142,7 @@ namespace Tesserae
             return this;
         }
 
-        private static Action ShowTooltip(IComponent showFor, IComponent tooltip, TooltipAnimation animation, TooltipPlacement placement)
+        private static Action ShowTooltip(IComponent showFor, IComponent tooltip, TooltipAnimation animation, TooltipPlacement placement, int delayStart)
         {
             bool interactive = true;
 
@@ -146,7 +163,7 @@ namespace Tesserae
 
             if (animation == TooltipAnimation.None)
             {
-                H5.Script.Write("tippy({0}, { content: {1}, interactive: {2}, placement: {3}, delay: [{4},{5}],  appendTo: document.body });", element, renderedTooltip, interactive, placement.ToString(), 0, 0);
+                H5.Script.Write("tippy({0}, { content: {1}, interactive: {2}, placement: {3}, delay: [{4},{5}],  appendTo: document.body });", element, renderedTooltip, interactive, placement.ToString(), delayStart, 0);
             }
             else
             {
