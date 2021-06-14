@@ -53,9 +53,6 @@ namespace Tesserae
             Button btnNext = null;
             ProgressIndicator pi = null;
 
-
-
-
             Action hideTooltip = null;
 
             void MoveNext()
@@ -131,6 +128,7 @@ namespace Tesserae
         private static Action ShowTooltip(IComponent showFor, IComponent tooltip, TooltipAnimation animation, TooltipPlacement placement)
         {
             bool interactive = true;
+
             var renderedTooltip = UI.DIV(tooltip.Render());
             renderedTooltip.style.display = "block";
             renderedTooltip.style.overflow = "hidden";
@@ -144,13 +142,15 @@ namespace Tesserae
                 H5.Script.Write("{0}._tippy.destroy();", element);
             }
 
+            //RFO: This has a key difference against .Tooltip() in that it hard-cods appendTo: document.body so it's not stuck in an element that will cut it off, see https://atomiks.github.io/tippyjs/v6/faq/
+
             if (animation == TooltipAnimation.None)
             {
-                H5.Script.Write("tippy({0}, { content: {1}, interactive: {2}, placement: {3}, delay: [{4},{5}] });", element, renderedTooltip, interactive, placement.ToString(), 0, 0);
+                H5.Script.Write("tippy({0}, { content: {1}, interactive: {2}, placement: {3}, delay: [{4},{5}],  appendTo: document.body });", element, renderedTooltip, interactive, placement.ToString(), 0, 0);
             }
             else
             {
-                H5.Script.Write("tippy({0}, { content: {1}, interactive: {2}, placement: {3},  animation: {4}, delay: [{5},{6}] });", element, renderedTooltip, interactive, placement.ToString(), animation.ToString(), 0, 0);
+                H5.Script.Write("tippy({0}, { content: {1}, interactive: {2}, placement: {3},  animation: {4}, delay: [{5},{6}],  appendTo: document.body });", element, renderedTooltip, interactive, placement.ToString(), animation.ToString(), 0, 0);
             }
 
             H5.Script.Write("{0}._tippy.show();", element); //Shows it imediatelly
