@@ -49,7 +49,7 @@ namespace Tesserae
             {
                 int left = (int)((window.screen.availWidth - 900) / 2);
                 int top = (int)((window.screen.availHeight - 600) / 2);
-                _features =  $"scrollbars=yes,resizable=yes,toolbar=no,status=no,menubar=no,width=900,height=600,left={left},top={top}");
+                _features =  $"scrollbars=yes,resizable=yes,toolbar=no,status=no,menubar=no,width=900,height=600,left={left},top={top}";
             }
             else
             {
