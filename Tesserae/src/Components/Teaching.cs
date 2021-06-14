@@ -176,7 +176,7 @@ namespace Tesserae
             H5.Script.Write("{0}._tippy.show();", element); //Shows it imediatelly
 
             // 2020-10-05 DWR: Sometimes a tooltip will be attached to an element that is removed from the DOM and then the tooltip is left hanging, orphaned. 
-            return () =>
+            Action hide = () =>
             {
                 // 2020-10-05 DWR: I presume that have to check this property before trying to kill it in case it's already been tidied up
                 if (element.HasOwnProperty("_tippy"))
@@ -184,6 +184,10 @@ namespace Tesserae
                     H5.Script.Write("{0}._tippy.destroy();", element);
                 }
             };
+
+            showFor.WhenRemoved(() => hide());
+
+            return hide;
         }
     }
 }
