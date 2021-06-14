@@ -21,6 +21,7 @@ namespace Tesserae
         private int _currentStep = 0;
 
         private Dictionary<int, Action> _futureSteps = new Dictionary<int, Action>();
+        private Action _completed;
 
         public Teaching()
         {
@@ -29,6 +30,12 @@ namespace Tesserae
         public Teaching RunIf(Func<bool> condition)
         {
             _condition = condition;
+            return this;
+        }
+
+        public Teaching OnComplete(Action completed)
+        {
+            _completed = completed;
             return this;
         }
 
@@ -46,16 +53,7 @@ namespace Tesserae
             Button btnNext = null;
             ProgressIndicator pi = null;
 
-            if(stepType == StepType.NextButton)
-            {
-                btnNext = Button("Next").SetIcon(LineAwesome.ChevronRight).AlignEnd().PT(8);
-                tooltip = VStack().Children(tooltip, btnNext);
-            }
-            else
-            {
-                pi = ProgressIndicator().WS().H(4);
-                tooltip = VStack().Children(tooltip, pi.PT(8));
-            }
+
 
 
             Action hideTooltip = null;
@@ -75,6 +73,19 @@ namespace Tesserae
             {
                 if (_condition())
                 {
+                    if (stepType == StepType.NextButton)
+                    {
+                        var text = _stepCounter > thisStep + 1 ? "Next" : "Ok";
+                        var icon = _stepCounter > thisStep + 1 ? LineAwesome.ChevronRight : LineAwesome.Check;
+                        btnNext = Button(text).SetIcon(icon).AlignEnd().PT(8);
+                        tooltip = VStack().Children(tooltip, btnNext);
+                    }
+                    else
+                    {
+                        pi = ProgressIndicator().WS().H(4);
+                        tooltip = VStack().Children(tooltip, pi.PT(8));
+                    }
+
                     hideTooltip = ShowTooltip(showFor, tooltip, animation, placement);
 
                     if (stepType == StepType.NextButton)
