@@ -91,7 +91,7 @@ namespace Tesserae
                     {
                         var text = _stepCounter > thisStep + 1 ? "Next" : "Ok";
                         var icon = _stepCounter > thisStep + 1 ? LineAwesome.ChevronRight : LineAwesome.Check;
-                        btnNext = Button(text).SetIcon(icon).AlignEnd().PT(8);
+                        btnNext = Button(text).SetIcon(icon).AlignEnd().PT(8).Primary();
                         tooltip = VStack().Children(tooltip, btnNext);
                     }
                     else
@@ -100,7 +100,7 @@ namespace Tesserae
                         tooltip = VStack().Children(tooltip, pi.PT(8));
                     }
 
-                    hideTooltip = ShowTooltip(showFor, tooltip, animation, placement, thisStep == 0 ? _firstDelay : _stepDelay);
+                    hideTooltip = ShowTooltip(showFor, tooltip, animation, placement);
 
                     if (stepType == StepType.NextButton)
                     {
@@ -108,7 +108,6 @@ namespace Tesserae
                     }
                     else
                     {
-                        int delay = stepType == StepType.After5seconds ? 5_000 : 10_000;
                         int time = 0;
 
                         Func<Task> countdown = async () => {
@@ -131,18 +130,18 @@ namespace Tesserae
             {
                 if(_currentStep == thisStep && _condition is object)
                 {
-                    Show();
+                    window.setTimeout((_) => Show(), thisStep == 0 ? _firstDelay : _stepDelay);
                 }
                 else
                 {
-                    _futureSteps[thisStep] = () => Show();
+                    _futureSteps[thisStep] = () => window.setTimeout((_) => Show(), thisStep == 0 ? _firstDelay : _stepDelay); ;
                 }
             });
 
             return this;
         }
 
-        private static Action ShowTooltip(IComponent showFor, IComponent tooltip, TooltipAnimation animation, TooltipPlacement placement, int delayStart)
+        private static Action ShowTooltip(IComponent showFor, IComponent tooltip, TooltipAnimation animation, TooltipPlacement placement)
         {
             bool interactive = true;
 
@@ -163,14 +162,15 @@ namespace Tesserae
 
             if (animation == TooltipAnimation.None)
             {
-                H5.Script.Write("tippy({0}, { content: {1}, interactive: {2}, placement: {3}, delay: [{4},{5}],  appendTo: document.body });", element, renderedTooltip, interactive, placement.ToString(), delayStart, 0);
+                H5.Script.Write("tippy({0}, { content: {1}, interactive: {2}, placement: {3}, delay: [{4},{5}],  trigger: 'manual', appendTo: document.body });", element, renderedTooltip, interactive, placement.ToString(), 0, 0);
             }
             else
             {
-                H5.Script.Write("tippy({0}, { content: {1}, interactive: {2}, placement: {3},  animation: {4}, delay: [{5},{6}],  appendTo: document.body });", element, renderedTooltip, interactive, placement.ToString(), animation.ToString(), 0, 0);
+                H5.Script.Write("tippy({0}, { content: {1}, interactive: {2}, placement: {3},  animation: {4}, delay: [{5},{6}],  trigger: 'manual', appendTo: document.body });", element, renderedTooltip, interactive, placement.ToString(), animation.ToString(), 0, 0);
             }
 
             H5.Script.Write("{0}._tippy.show();", element); //Shows it imediatelly
+            H5.Script.Write("{0}._tippy.disable();", element); //And avoid it being hidden automatically
 
             // 2020-10-05 DWR: Sometimes a tooltip will be attached to an element that is removed from the DOM and then the tooltip is left hanging, orphaned. 
             return () =>
@@ -178,6 +178,7 @@ namespace Tesserae
                 // 2020-10-05 DWR: I presume that have to check this property before trying to kill it in case it's already been tidied up
                 if (element.HasOwnProperty("_tippy"))
                 {
+                    H5.Script.Write("{0}._tippy.enable();", element);
                     H5.Script.Write("{0}._tippy.destroy();", element);
                 }
             };
