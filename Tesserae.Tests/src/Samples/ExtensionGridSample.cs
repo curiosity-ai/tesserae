@@ -12,8 +12,8 @@ namespace Tesserae.Tests.Samples
 
         public ExtensionGridSample()
         {
-            var stack = new ExtensionGrid(() => Toast().Information("See more clicked!")).H(300);
-            var stackSmall = new ExtensionGridSmall(() => Toast().Information("See more clicked!")).H(300);
+            var stack = new ExtensionGrid((b) => Toast().Information("See more clicked!")).H(300);
+            var stackSmall = new ExtensionGridSmall((b) => Toast().Information("See more clicked!")).H(300);
             _content = SectionStack()
                .Title(SampleHeader(nameof(ExtensionGridSample)))
                .Section(stack)
