@@ -61,26 +61,26 @@ namespace Tesserae.Tests
             };
 
             var sideBar = Sidebar().Stretch();
-            var navBar  = Navbar().SetTop(HStack().S().Children(SearchBox("Search for a template").WidthStretch().Underlined()));
-            sideBar.IsVisible            = false;
-            navBar.IsVisible             = false;
+            var navBar = Navbar().SetTop(HStack().S().Children(SearchBox("Search for a template").WidthStretch().Underlined()));
+            sideBar.IsVisible = false;
+            navBar.IsVisible = false;
             document.body.style.overflow = "hidden";
             document.body.appendChild(sideBar.Brand(SidebarItem("... meow", "las la-cat", href: "https://curiosity.ai").Large())
-               .Add(SidebarItem("Colorful sidebar",                         "las la-tint").OnSelect((s) => sideBar.IsLight                = false).Selected())
-               .Add(SidebarItem("Light sidebar",                            "las la-tint-slash").OnSelect((s) => sideBar.IsLight          = true))
+               .Add(SidebarItem("Colorful sidebar",                         "las la-tint").OnSelect((s) => sideBar.IsLight = false).Selected())
+               .Add(SidebarItem("Light sidebar",                            "las la-tint-slash").OnSelect((s) => sideBar.IsLight = true))
                .Add(SidebarItem("Always Open",                              "las la-arrow-to-right").OnSelect((s) => sideBar.IsAlwaysOpen = true))
-               .Add(SidebarItem("Open on Hover",                            "las la-arrows-alt-h").OnSelect((s) => sideBar.IsAlwaysOpen   = false))
-               .Add(SidebarItem("Small sidebar",                            "las la-minus-square").OnSelect((s) => sideBar.Width          = Sidebar.Size.Small))
-               .Add(SidebarItem("Medium sidebar",                           "las la-square").OnSelect((s) => sideBar.Width                = Sidebar.Size.Medium))
-               .Add(SidebarItem("Large sidebar",                            "las la-plus-square").OnSelect((s) => sideBar.Width           = Sidebar.Size.Large))
+               .Add(SidebarItem("Open on Hover",                            "las la-arrows-alt-h").OnSelect((s) => sideBar.IsAlwaysOpen = false))
+               .Add(SidebarItem("Small sidebar",                            "las la-minus-square").OnSelect((s) => sideBar.Width = Sidebar.Size.Small))
+               .Add(SidebarItem("Medium sidebar",                           "las la-square").OnSelect((s) => sideBar.Width = Sidebar.Size.Medium))
+               .Add(SidebarItem("Large sidebar",                            "las la-plus-square").OnSelect((s) => sideBar.Width = Sidebar.Size.Large))
                .SetContent(navBar)
                .Render());
 
 
             // We'll render the content in a DeferedComponent that updates itself whenever the "currentPage" observable's value changes - these changes will be triggered by the routing configured below
             var documentTitleBase = document.title;
-            var currentPage       = new SettableObservable<string>();
-            var components        = orderedComponents.ToDictionary(c => c.Name, c => c.Component);
+            var currentPage = new SettableObservable<string>();
+            var components = orderedComponents.ToDictionary(c => c.Name, c => c.Component);
             navBar.SetContent(
                 Defer(
                         currentPage,
@@ -117,7 +117,7 @@ namespace Tesserae.Tests
                     c => NavLink(c.Name).SelectedOrExpandedIf(c.Name == componentRouteName).OnSelected(s =>
                     {
                         console.log("Route to " + c.Name);
-                        Router.Navigate("#"     + ToRoute(c.Name));
+                        Router.Navigate("#" + ToRoute(c.Name));
                     })
                 );
                 var closePanelButton = Button().SetIcon(LineAwesome.ArrowLeft).Tooltip("Close panel");
@@ -159,7 +159,7 @@ namespace Tesserae.Tests
                             if (t.IsChecked) { Theme.Light(); }
                             else { Theme.Dark(); }
                         })))
-                       .InlineContent(Label("Navbar").Inline().SetContent(Toggle("Show",  "Hidden").OnChange((t, e) => { navBar.IsVisible  = t.IsChecked; })))
+                       .InlineContent(Label("Navbar").Inline().SetContent(Toggle("Show",  "Hidden").OnChange((t, e) => { navBar.IsVisible = t.IsChecked; })))
                        .InlineContent(Label("Sidebar").Inline().SetContent(Toggle("Show", "Hidden").OnChange((t, e) => { sideBar.IsVisible = t.IsChecked; })))
                        .Links(NavLink("Basic Inputs").Expanded()
                                .SmallPlus()
