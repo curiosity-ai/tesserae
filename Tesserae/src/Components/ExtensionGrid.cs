@@ -23,21 +23,21 @@ namespace Tesserae
 
         private ObservableList<IComponent> _items;
         private Stack                      _stack;
-        public ExtensionGrid(List<IComponent> items, Action onSeeMore)
+        public ExtensionGrid(List<IComponent> items, Action<Button> onSeeMore, string seeMoreCardText = "See more")
         {
             _stack = HStack().Wrap().WS();
             _items = new ObservableList<IComponent>(items.ToArray());
-            Init(onSeeMore);
+            Init(onSeeMore, seeMoreCardText);
         }
 
-        public ExtensionGrid(Action onSeeMore)
+        public ExtensionGrid(Action<Button> onSeeMore, string seeMoreCardText = "See more")
         {
             _stack = HStack().Wrap().WS();
             _items = new ObservableList<IComponent>();
-            Init(onSeeMore);
+            Init(onSeeMore, seeMoreCardText);
         }
 
-        private void Init(Action onSeeMore, string seeMoreCardText = "See more")
+        private void Init(Action<Button> onSeeMore, string seeMoreCardText)
         {
             double initCardWidth = 200;
             double initCardHeight = 80;
@@ -54,16 +54,16 @@ namespace Tesserae
                     if (cardWidth < 1)
                     {
                         var rectCard = item.Render().getBoundingClientRect().As<dom.DOMRect>();
-                        cardWidth = es5.Math.max(rectCard.width + STACK_MARGINS,   cardWidth);
-                        cardHeight = es5.Math.max(rectCard.height, cardHeight);
+                        cardWidth = es5.Math.max(rectCard.width + STACK_MARGINS, cardWidth);
+                        cardHeight = es5.Math.max(rectCard.height,               cardHeight);
                         if (initCardWidth == 0) initCardWidth = cardWidth;
                         if (initCardHeight == 0) initCardHeight = cardHeight;
                     }
                 }
 
-                _stack.Add(Button().ReplaceContent(TextBlock(seeMoreCardText).AlignCenter().TextCenter().Secondary().SemiBold())
+                _stack.Add(Button().Var(out var seeMoreBtn).ReplaceContent(TextBlock(seeMoreCardText).AlignCenter().TextCenter().Secondary().SemiBold())
                    .Class("extension-grid-stack-see-more")
-                   .OnClick(() => onSeeMore?.Invoke()));
+                   .OnClick(() => onSeeMore?.Invoke(seeMoreBtn)));
 
                 var r = new ResizeObserver
                 {
