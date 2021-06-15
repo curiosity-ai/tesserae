@@ -18,7 +18,9 @@ namespace Tesserae.Tests.Samples
             _content = SectionStack()
                .Title(SampleHeader(nameof(ExtensionGridSample)))
                .Section(stack1)
+               .Title(TextBlock("No extension button"))
                .Section(stack2)
+               .Title(TextBlock("Small cards without content"))
                .Section(stackSmall);
             SetChildren(stack1, 15);
             SetChildren(stack2, 15);
