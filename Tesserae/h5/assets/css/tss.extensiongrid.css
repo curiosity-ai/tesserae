@@ -17,7 +17,7 @@
     object-fit: fill;
 }
 
-.extension-grid-stack-see-more {
+.extension-grid-stack-extension {
     display: flex;
     width: 200px;
     height: 60px;
@@ -43,7 +43,7 @@
     text-align: left;
 }
 
-.extension-grid-stack-card-small-see-more {
+.extension-grid-stack-extension-small {
     display: flex;
     width: 200px;
     height: 42px;

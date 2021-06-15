@@ -19,72 +19,97 @@ namespace Tesserae
 {
     public class ExtensionGrid : IComponent
     {
-        public const int STACK_MARGINS = 12; // getBoundingClientRect does not return the width including the margins
+        private const int STACK_MARGINS = 12; // getBoundingClientRect does not return the width including the margins
 
         private ObservableList<IComponent> _items;
         private Stack                      _stack;
-        public ExtensionGrid(List<IComponent> items, Action<Button> onSeeMore, string seeMoreCardText = "See more")
+        private bool                       _isSmall;
+
+        public ExtensionGrid(List<IComponent> items, Action<Button> onExtension, string extensionCardText = "See more", bool isSmall = false)
         {
+            _isSmall = isSmall;
             _stack = HStack().Wrap().WS();
             _items = new ObservableList<IComponent>(items.ToArray());
-            Init(onSeeMore, seeMoreCardText);
+            Init(b => b.ReplaceContent(TextBlock(extensionCardText).AlignCenter().TextCenter().Secondary().SemiBold()).OnClick((btn, e) => onExtension(btn)));
         }
 
-        public ExtensionGrid(Action<Button> onSeeMore, string seeMoreCardText = "See more")
+        public ExtensionGrid(Action<Button> onExtension, string extensionCardText = "See more", bool isSmall = false)
         {
+            _isSmall = isSmall;
             _stack = HStack().Wrap().WS();
             _items = new ObservableList<IComponent>();
-            Init(onSeeMore, seeMoreCardText);
+            Init(b => b.ReplaceContent(TextBlock(extensionCardText).AlignCenter().TextCenter().Secondary().SemiBold()).OnClick((btn, e) => onExtension(btn)));
         }
 
-        private void Init(Action<Button> onSeeMore, string seeMoreCardText)
+        public ExtensionGrid(List<IComponent> items, Func<Button, Button> modifyExtension = null, bool isSmall = false)
+        {
+            _isSmall = isSmall;
+            _stack = HStack().Wrap().WS();
+            _items = new ObservableList<IComponent>(items.ToArray());
+            Init(modifyExtension);
+        }
+
+        public ExtensionGrid(Func<Button, Button> modifyExtension = null, bool isSmall = false)
+        {
+            _isSmall = isSmall;
+            _stack = HStack().Wrap().WS();
+            _items = new ObservableList<IComponent>();
+            Init(modifyExtension);
+        }
+
+        private void Init(Func<Button, Button> modifyExtension)
         {
             double initCardWidth = 200;
-            double initCardHeight = 80;
+            double initCardHeight = _isSmall ? 60 : 80;
+
+            bool hasExtensionBtn = modifyExtension is object;
             _items.Observe(items =>
             {
                 _stack.Clear();
 
-                double cardWidth = 0, cardHeight = 0;
+                double cardWidth = -1, cardHeight = -1;
 
                 foreach (var item in items)
                 {
-                    item.Class("extension-grid-stack-card");
+                    item.Class("extension-grid-stack-card" + (_isSmall ? "-small" : ""));
                     _stack.Add(item);
-                    if (cardWidth < 1)
+                    if (cardWidth < 0)
                     {
                         var rectCard = item.Render().getBoundingClientRect().As<dom.DOMRect>();
                         cardWidth = es5.Math.max(rectCard.width + STACK_MARGINS, cardWidth);
                         cardHeight = es5.Math.max(rectCard.height,               cardHeight);
-                        if (initCardWidth == 0) initCardWidth = cardWidth;
-                        if (initCardHeight == 0) initCardHeight = cardHeight;
+                        initCardWidth = cardWidth;
+                        initCardHeight = cardHeight;
                     }
                 }
 
-                _stack.Add(Button().Var(out var seeMoreBtn).ReplaceContent(TextBlock(seeMoreCardText).AlignCenter().TextCenter().Secondary().SemiBold())
-                   .Class("extension-grid-stack-see-more")
-                   .OnClick(() => onSeeMore?.Invoke(seeMoreBtn)));
+                if (hasExtensionBtn)
+                {
+                    var btn = Button().Class("extension-grid-stack-extension" + (_isSmall ? "-small" : ""));
+                    btn = modifyExtension(btn);
+                    _stack.Add(btn);
+                }
 
                 var r = new ResizeObserver
                 {
-                    OnResizeElement = (e) => Resized(cardWidth, cardHeight)
+                    OnResizeElement = (e) => Resized(cardWidth, cardHeight, hasExtensionBtn)
                 };
                 r.Observe(_stack.Render());
             });
-            Resized(initCardWidth, initCardHeight);
+            Resized(initCardWidth, initCardHeight, hasExtensionBtn);
         }
 
-        private void Resized(double cardWidth, double cardHeight)
+        private void Resized(double cardWidth, double cardHeight, bool hasExtensionBtn)
         {
             var rectParent = _stack.Render().getBoundingClientRect().As<dom.DOMRect>();
 
             var parentWidth = rectParent.width;
             var parentHeight = rectParent.height;
 
-            var perRow = Math.Floor((parentWidth) / cardWidth);
+            var perRow = Math.Floor(parentWidth / cardWidth);
             var rows = Math.Floor(parentHeight / cardHeight);
 
-            var toKeep = (int) (rows * perRow) - 1;
+            var toKeep = (int) (rows * perRow) - (hasExtensionBtn ? 1 : 0);
 
             foreach (var item in _items)
             {
@@ -106,7 +131,7 @@ namespace Tesserae
             return _stack.Render();
         }
 
-        public void Add(IExtensionGridComponent component)
+        public void Add(IExtensionGridItem component)
         {
             _items.Add(Button().TextLeft()
                .ReplaceContent(
@@ -121,6 +146,7 @@ namespace Tesserae
 
         public void Add(IComponent image, string title, IComponent content, Action onClick)
         {
+            if (_isSmall) throw new ArgumentException("set isSmall to true to have cards without content");
             _items.Add(Button().TextLeft()
                .ReplaceContent(
                     HStack().S()
@@ -131,13 +157,25 @@ namespace Tesserae
                         )).OnClick((c, e) => onClick?.Invoke()));
         }
 
+        public void Add(IComponent image, string title, Action onClick)
+        {
+            if (!_isSmall) throw new ArgumentException("set isSmall to true to have cards without content");
+            _items.Add(Button().TextLeft()
+               .ReplaceContent(
+                    HStack().S()
+                       .Children(image,
+                            VStack().HS().W(10).Grow().Padding(4.px()).PL(8).Children(
+                                TextBlock(title).SemiBold().Ellipsis().PB(8).ML(5).WS())
+                        )).OnClick((c, e) => onClick?.Invoke()));
+        }
+
         public void Clear()
         {
             _items.Clear();
         }
     }
 
-    public interface IExtensionGridComponent
+    public interface IExtensionGridItem
     {
         IComponent Image   { get; set; }
         IComponent Title   { get; set; }
