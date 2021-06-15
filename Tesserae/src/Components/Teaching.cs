@@ -89,7 +89,7 @@ namespace Tesserae
 
             void Show()
             {
-                if (_condition())
+                if (_condition() && showFor.IsMounted())
                 {
                     if (stepType == StepType.NextButton)
                     {
