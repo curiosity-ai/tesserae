@@ -104,7 +104,7 @@ namespace Tesserae
                         tooltip = VStack().Children(tooltip, pi.PT(8));
                     }
 
-                    hideTooltip = ShowTooltip(showFor, tooltip, animation, placement, hideOnClick: StepType != StepType.NextButton);
+                    hideTooltip = ShowTooltip(showFor, tooltip, animation, placement, hideOnClick: stepType != StepType.NextButton);
 
                     if (stepType == StepType.NextButton)
                     {
