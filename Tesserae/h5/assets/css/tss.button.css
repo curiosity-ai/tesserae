@@ -172,10 +172,13 @@ a {
         background-color: var(--tss-success-background-active-color);
     }
 
-
 .tss-btn-noborder {
     border-color: transparent;
     box-shadow: none;
+}
+
+.tss-btn-noborder:hover {
+    border-color: transparent;
 }
 
 .tss-btn-nobg {
