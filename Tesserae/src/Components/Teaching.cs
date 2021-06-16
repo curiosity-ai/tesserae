@@ -104,7 +104,7 @@ namespace Tesserae
                         tooltip = VStack().Children(tooltip, pi.PT(8));
                     }
 
-                    hideTooltip = ShowTooltip(showFor, tooltip, animation, placement);
+                    hideTooltip = ShowTooltip(showFor, tooltip, animation, placement, hideOnClick: StepType != StepType.NextButton);
 
                     if (stepType == StepType.NextButton)
                     {
@@ -145,7 +145,7 @@ namespace Tesserae
             return this;
         }
 
-        private static Action ShowTooltip(IComponent showFor, IComponent tooltip, TooltipAnimation animation, TooltipPlacement placement)
+        private static Action ShowTooltip(IComponent showFor, IComponent tooltip, TooltipAnimation animation, TooltipPlacement placement, bool hideOnClick)
         {
             bool interactive = true;
 
@@ -166,11 +166,11 @@ namespace Tesserae
 
             if (animation == TooltipAnimation.None)
             {
-                H5.Script.Write("tippy({0}, { content: {1}, interactive: {2}, placement: {3}, delay: [{4},{5}],  trigger: 'manual', hideOnClick: false, appendTo: document.body });", element, renderedTooltip, interactive, placement.ToString(), 0, 0);
+                H5.Script.Write("tippy({0}, { content: {1}, interactive: {2}, placement: {3}, delay: [{4},{5}],  trigger: 'manual', hideOnClick: {6}, appendTo: document.body });", element, renderedTooltip, interactive, placement.ToString(), 0, 0, hideOnClick);
             }
             else
             {
-                H5.Script.Write("tippy({0}, { content: {1}, interactive: {2}, placement: {3},  animation: {4}, delay: [{5},{6}],  trigger: 'manual', hideOnClick: false, appendTo: document.body });", element, renderedTooltip, interactive, placement.ToString(), animation.ToString(), 0, 0);
+                H5.Script.Write("tippy({0}, { content: {1}, interactive: {2}, placement: {3},  animation: {4}, delay: [{5},{6}],  trigger: 'manual', hideOnClick: {7}, appendTo: document.body });", element, renderedTooltip, interactive, placement.ToString(), animation.ToString(), 0, 0, hideOnClick);
             }
 
             H5.Script.Write("{0}._tippy.show();", element); //Shows it imediatelly
