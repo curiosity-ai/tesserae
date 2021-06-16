@@ -176,7 +176,6 @@ a {
 .tss-btn-noborder {
     border-color: transparent;
     box-shadow: none;
-    border: none;
 }
 
 .tss-btn-nobg {
