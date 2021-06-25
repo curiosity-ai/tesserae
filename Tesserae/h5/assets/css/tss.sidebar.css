@@ -135,7 +135,16 @@
     left: 0px;
     text-align:center;
     width:64px;
+    vertical-align: middle;
 }
+
+    .tss-siderbar-icon:before {
+        content: "";
+        display: inline-block;
+        vertical-align: middle;
+        height: 100%;
+    }
+
 
 .tss-sidebar-item.tss-selected {
     background: rgba(255, 255, 255, 0.2) !important;
