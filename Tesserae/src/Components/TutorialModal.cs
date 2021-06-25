@@ -74,11 +74,15 @@ namespace Tesserae
             return this;
         }
 
+        public TutorialModal H(UnitSize height) => Height(height);
+
         public TutorialModal Width(UnitSize width)
         {
             _modal.Width(width);
             return this;
         }
+        
+        public TutorialModal W(UnitSize width) => Width(width);
 
         public TutorialModal SetTitle(string title)
         {
