@@ -493,6 +493,10 @@ namespace Tesserae
                         }).FireAndForget();
                     }
                 };
+                if (IsExpanded)
+                {
+                    ExpandedLink.Invoke(this);
+                }
                 return this;
             }
 
