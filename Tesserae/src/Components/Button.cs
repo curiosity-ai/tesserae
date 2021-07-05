@@ -29,11 +29,6 @@ namespace Tesserae
                 {
                     _button.Render().classList.add("tss-toggle-btn-unchecked");
                 }
-
-                if(current != value)
-                {
-                    Changed?.Invoke(this, null);
-                }
             }
         }
 
@@ -43,6 +38,7 @@ namespace Tesserae
             _button.OnClick(() =>
             {
                 IsChecked = !IsChecked;
+                Changed?.Invoke(this, null);
             });
             
             IsChecked = false;
