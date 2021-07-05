@@ -347,7 +347,7 @@ a {
     }
 
 
+.tss-toggle-btn-unchecked tss-image {
+    filter: saturate(0) brightness(1.1);
 
-.tss-toggle-btn-unchecked {
-    filter: saturate(0) brightness(1.2);
 }

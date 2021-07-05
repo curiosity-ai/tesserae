@@ -7,7 +7,7 @@ namespace Tesserae
     {
         private readonly HTMLElement InnerElement;
 
-        public Icon(string icon) => InnerElement = I(_(icon));
+        public Icon(string icon) => InnerElement = I(_("tss-icon " + icon));
 
         public string Foreground
         {
