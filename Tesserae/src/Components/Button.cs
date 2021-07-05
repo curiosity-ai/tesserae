@@ -56,6 +56,11 @@ namespace Tesserae
             return this;
         }
 
+        public ToggleButton Checked(bool value = true)
+        {
+            IsChecked = value;
+            return this;
+        }
 
         public bool IsEnabled
         {
