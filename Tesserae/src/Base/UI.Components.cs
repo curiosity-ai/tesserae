@@ -53,7 +53,7 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Adds an ID to the element representing the component.
+        /// Adds a CSS class to the element representing the component.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="component"></param>
@@ -69,6 +69,26 @@ namespace Tesserae
 
             var el = component.Render();
             el.classList.add(className);
+            return component;
+        }
+
+        /// <summary>
+        /// Remove a CSS class to the element representing the component.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="component"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public static T RemoveClass<T>(this T component, string className) where T : IComponent
+        {
+            if (component is DeferedComponent deferedComponent)
+            {
+                deferedComponent.Container.classList.remove(className);
+                return component;
+            }
+
+            var el = component.Render();
+            el.classList.remove(className);
             return component;
         }
 
