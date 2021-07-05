@@ -19,6 +19,8 @@ namespace Tesserae
             }
             set
             {
+                var current = IsChecked;
+
                 if (value)
                 {
                     _button.Render().classList.remove("tss-toggle-btn-unchecked");
@@ -26,6 +28,10 @@ namespace Tesserae
                 else
                 {
                     _button.Render().classList.add("tss-toggle-btn-unchecked");
+                }
+                if(current != value)
+                {
+                    Changed?.Invoke(this, new Event());
                 }
             }
         }
