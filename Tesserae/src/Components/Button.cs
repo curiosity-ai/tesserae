@@ -6,6 +6,51 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    public class ToggleButton : IComponent
+    {
+        private Button _button;
+        protected event ComponentEventHandler<ToggleButton, Event> Changed;
+
+        public bool IsChecked
+        {
+            get
+            {
+                return !_button.Render().classList.contains("tss-toggle-btn-unchecked");
+            }
+            set
+            {
+                if (value)
+                {
+                    _button.Render().classList.remove("tss-toggle-btn-unchecked");
+                }
+                else
+                {
+                    _button.Render().classList.add("tss-toggle-btn-unchecked");
+                }
+            }
+        }
+
+        public ToggleButton(Button button)
+        {
+            _button = button;
+            _button.OnClick(() =>
+            {
+                IsChecked = !IsChecked;
+            });
+        }
+
+        public ToggleButton OnChange(ComponentEventHandler<ToggleButton, Event> onChange)
+        {
+            Changed += onChange;
+            return this;
+        }
+
+        public HTMLElement Render()
+        {
+            return ((IComponent)_button).Render();
+        }
+    }
+
     public class Button : ComponentBase<Button, HTMLButtonElement>, ITextFormating, IHasBackgroundColor, IHasForegroundColor, IHaveTextWrappingOptions
     {
         private readonly HTMLSpanElement   _textSpan;

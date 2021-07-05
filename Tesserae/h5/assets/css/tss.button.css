@@ -345,3 +345,9 @@ a {
     .tss-link-no-underline:hover {
         text-decoration: none;
     }
+
+
+
+.tss-toggle-btn-unchecked {
+    filter: saturate(0) brightness(1.2);
+}

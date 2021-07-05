@@ -333,5 +333,6 @@ namespace Tesserae
 
         public static Timeline Timeline() => new Timeline();
         public static Teaching Teaching() => new Teaching();
+        public static ToggleButton ToToggle(this Button button) => new ToggleButton(button);
     }
 }
