@@ -29,9 +29,10 @@ namespace Tesserae
                 {
                     _button.Render().classList.add("tss-toggle-btn-unchecked");
                 }
+
                 if(current != value)
                 {
-                    Changed?.Invoke(this, new Event());
+                    Changed?.Invoke(this, null);
                 }
             }
         }
