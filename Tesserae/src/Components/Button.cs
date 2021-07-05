@@ -37,6 +37,8 @@ namespace Tesserae
             {
                 IsChecked = !IsChecked;
             });
+            
+            IsChecked = false;
         }
 
         public ToggleButton OnChange(ComponentEventHandler<ToggleButton, Event> onChange)
