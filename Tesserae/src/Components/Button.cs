@@ -49,6 +49,19 @@ namespace Tesserae
         {
             return ((IComponent)_button).Render();
         }
+
+        public ToggleButton Disabled(bool value = true)
+        {
+            IsEnabled = !value;
+            return this;
+        }
+
+
+        public bool IsEnabled
+        {
+            get => _button.IsEnabled;
+            set => _button.IsEnabled = value;
+        }
     }
 
     public class Button : ComponentBase<Button, HTMLButtonElement>, ITextFormating, IHasBackgroundColor, IHasForegroundColor, IHaveTextWrappingOptions
