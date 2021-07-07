@@ -33,12 +33,12 @@ namespace Tesserae
                 SetImageSrc(imageSrc, 16.px());
             }
 
-            _leftStack = VStack().OverflowHidden()
+            _leftStack = VStack().OverflowHidden().Class("tss-tutorial-modal-explanation")
                .RemovePropagation()
                .Width(300.px()).Padding("40px 32px 32px 32px").Background(Theme.Secondary.Background)
                .Children(VStack().S().JustifyContent(ItemJustify.Between).Children(_title, _helpText, Raw().H(48.px()).Grow(), _illustration));
 
-            _rightStack = VStack().OverflowHidden().HS().W(10.px()).Grow().JustifyContent(ItemJustify.End)
+            _rightStack = VStack().Class("tss-tutorial-modal-content").OverflowHidden().HS().W(10.px()).Grow().JustifyContent(ItemJustify.End)
                .Children(_content.H(10.px()).Grow(), _footerCommands);
 
             _modal = Modal()
