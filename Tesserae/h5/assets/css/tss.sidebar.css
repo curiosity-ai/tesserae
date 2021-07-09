@@ -73,7 +73,6 @@
     height: 42px;
     line-height: 42px;
     padding-left: 64px;
-    padding-right: 64px;
     color: var(--tss-sidebar-foreground-color) !important;
     cursor: pointer;
     user-select: none;
@@ -189,7 +188,6 @@
     height: 32px;
     line-height: 32px;
     padding-left: 32px;
-    padding-right: 32px;
 }
 
 .tss-sidebar.tss-medium > .tss-sidebar-item > .tss-sidebar-icon {
@@ -206,7 +204,6 @@
     height: 36px;
     line-height: 36px;
     padding-left: 48px;
-    padding-right: 48px;
 }
 
 .tss-sidebar-host.tss-open > .tss-sidebar {
@@ -334,7 +331,6 @@
     height: 32px;
     line-height: 32px;
     padding-left: 32px;
-    padding-right: 32px;
 }
 
 .tss-sidebar.tss-medium > .tss-sidebar-stack > .tss-stack > .tss-stack-item > .tss-sidebar-item > .tss-sidebar-icon {
@@ -347,5 +343,4 @@
     height: 36px;
     line-height: 36px;
     padding-left: 48px;
-    padding-right: 48px;
 }
