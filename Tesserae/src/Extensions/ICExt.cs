@@ -351,7 +351,7 @@ namespace Tesserae
             return component;
         }
         
-        public static T Tooltip<T>(this T component, IComponent tooltip, bool interactive = false, TooltipAnimation animation = TooltipAnimation.ShiftAway, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 0, int delayHide = 0) where T : IComponent
+        public static T Tooltip<T>(this T component, IComponent tooltip, bool interactive = false, TooltipAnimation animation = TooltipAnimation.ShiftAway, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 0, int delayHide = 0, bool appendToBody = false) where T : IComponent
         {
             if (tooltip is null)
                 return component;
@@ -375,9 +375,13 @@ namespace Tesserae
                     H5.Script.Write("{0}._tippy.destroy();", element);
 
                 if (animation == TooltipAnimation.None)
-                    H5.Script.Write("tippy({0}, { content: {1}, interactive: {2}, placement: {3}, delay: [{4},{5}] });", element, renderedTooltip, interactive, placement.ToString(), delayShow, delayHide);
+                {
+                    H5.Script.Write("tippy({0}, { content: {1}, interactive: {2}, placement: {3}, delay: [{4},{5}], appendTo: {6} });", element, renderedTooltip, interactive, placement.ToString(), delayShow, delayHide, appendToBody ? document.body.As<object>() : "parent".As<object>());
+                }
                 else
-                    H5.Script.Write("tippy({0}, { content: {1}, interactive: {2}, placement: {3},  animation: {4}, delay: [{5},{6}] });", element, renderedTooltip, interactive, placement.ToString(), animation.ToString(), delayShow, delayHide);
+                {
+                    H5.Script.Write("tippy({0}, { content: {1}, interactive: {2}, placement: {3},  animation: {4}, delay: [{5},{6}], appendTo: {7} });", element, renderedTooltip, interactive, placement.ToString(), animation.ToString(), delayShow, delayHide, appendToBody ? document.body.As<object>(): "parent".As<object>());
+                }
 
                 H5.Script.Write("{0}._tippy.show();", element); //Shows it imediatelly, as the mouse is hovering the element
 
