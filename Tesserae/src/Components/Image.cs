@@ -17,6 +17,12 @@ namespace Tesserae
             AttachClick();
         }
 
+        public string Source
+        {
+            get => InnerElement.src;
+            set => InnerElement.src = value;
+        }
+
         public string Cursor
         {
             get => InnerElement.style.cursor;
