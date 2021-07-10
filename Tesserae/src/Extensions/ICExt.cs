@@ -358,6 +358,8 @@ namespace Tesserae
 
             var rendered = component.Render();
 
+            rendered.onmouseenter -= AttachTooltip; //Remove any if previously there
+
             rendered.onmouseenter += AttachTooltip;
 
             void AttachTooltip(MouseEvent e)
