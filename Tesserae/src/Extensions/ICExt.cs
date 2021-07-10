@@ -357,14 +357,18 @@ namespace Tesserae
                 return component;
 
             var rendered = component.Render();
+            
+            var marker = new object();
 
-            rendered.onmouseenter -= AttachTooltip; //Remove any if previously there
+            (rendered as dynamic).tooltipMarker = marker;
 
             rendered.onmouseenter += AttachTooltip;
 
             void AttachTooltip(MouseEvent e)
             {
                 rendered.onmouseenter -= AttachTooltip;
+
+                if ((rendered as dynamic).tooltipMarker != marker) return;
 
                 var renderedTooltip = UI.DIV(tooltip.Render());
                 renderedTooltip.style.display = "block";
