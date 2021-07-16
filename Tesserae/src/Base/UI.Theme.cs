@@ -57,6 +57,7 @@ namespace Tesserae
                 var sb = new StringBuilder();
                 sb.AppendLine(":root {");
                 sb.Append("  --tss-primary-background-color: ").Append(primaryLightColor.ToRGB()).AppendLine(";");
+                sb.Append("  --tss-primary-background-color-transparent: ").Append(primaryLightColor.ToRGBA(0.5f)).AppendLine(";");
                 sb.Append("  --tss-sidebar-background-color: ").Append(primaryLightColor.ToRGB()).AppendLine(";");
                 sb.Append("  --tss-link-color: ").Append(primaryLightColor.ToRGB()).AppendLine(";");
                 sb.Append("  --tss-primary-border-color: ").Append(borderColorLight.ToRGB()).AppendLine(";");
@@ -67,6 +68,7 @@ namespace Tesserae
 
                 sb.AppendLine(".tss-dark-mode {");
                 sb.Append("  --tss-primary-background-color: ").Append(primaryDarkColor.ToRGB()).AppendLine(";");
+                sb.Append("  --tss-primary-background-color-transparent: ").Append(primaryDarkColor.ToRGBA(0.5f)).AppendLine(";");
                 sb.Append("  --tss-sidebar-background-color: ").Append(primaryDarkColor.ToRGB()).AppendLine(";");
                 sb.Append("  --tss-link-color: ").Append(primaryDarkColor.ToRGB()).AppendLine(";"); 
                 sb.Append("  --tss-primary-border-color: ").Append(borderColorDark.ToRGB()).AppendLine(";");
