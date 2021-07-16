@@ -351,18 +351,24 @@ namespace Tesserae
             return component;
         }
         
-        public static T Tooltip<T>(this T component, IComponent tooltip, bool interactive = false, TooltipAnimation animation = TooltipAnimation.ShiftAway, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 0, int delayHide = 0, bool appendToBody = false) where T : IComponent
+        public static T Tooltip<T>(this T component, IComponent tooltip, bool interactive = false, TooltipAnimation animation = TooltipAnimation.ShiftAway, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 0, int delayHide = 0, bool appendToBody = true) where T : IComponent
         {
             if (tooltip is null)
                 return component;
 
             var rendered = component.Render();
+            
+            var marker = new object();
+
+            (rendered as dynamic).tooltipMarker = marker;
 
             rendered.onmouseenter += AttachTooltip;
 
             void AttachTooltip(MouseEvent e)
             {
                 rendered.onmouseenter -= AttachTooltip;
+
+                if ((rendered as dynamic).tooltipMarker != marker) return;
 
                 var renderedTooltip = UI.DIV(tooltip.Render());
                 renderedTooltip.style.display = "block";
