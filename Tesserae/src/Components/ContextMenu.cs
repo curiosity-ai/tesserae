@@ -429,8 +429,9 @@ namespace Tesserae
 
         private void OnPopupKeyDown(Event e)
         {
-            var ev = e as KeyboardEvent;
-            if (ev.key == "ArrowUp")
+            var ev = e.As<KeyboardEvent>();
+
+            if (ev.keyCode == 38)
             {
                 if (_contentHtml.classList.contains("tss-no-focus")) _contentHtml.classList.remove("tss-no-focus");
                 if (document.activeElement != null && _childContainer.contains(document.activeElement))
@@ -444,7 +445,7 @@ namespace Tesserae
                     (_childContainer.children.Last(x => (x as HTMLElement).tabIndex != -1) as HTMLElement).focus();
                 }
             }
-            else if (ev.key == "ArrowDown")
+            else if (ev.keyCode == 40) // down arrow
             {
                 if (_contentHtml.classList.contains("tss-no-focus")) _contentHtml.classList.remove("tss-no-focus");
                 if (document.activeElement != null && _childContainer.contains(document.activeElement))
@@ -457,6 +458,10 @@ namespace Tesserae
                 {
                     (_childContainer.children.First(x => (x as HTMLElement).tabIndex != -1) as HTMLElement).focus();
                 }
+            }
+            else if (ev.keyCode == 27) // Esc
+            {
+                Hide();
             }
         }
 
