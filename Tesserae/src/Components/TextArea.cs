@@ -165,9 +165,11 @@ namespace Tesserae
 
         public TextArea Focus()
         {
+            InnerElement.focus();
+            // RFO: remove this for now
             // 2020-12-29 DWR: Seems like this setTimeout is required then the element is rendered within a container that uses "simplebar" scrolling - without the delay, if the element getting focus is out of view then it will not be
             // scrolled into view (even though it has successfully received focus)
-            DomObserver.WhenMounted(InnerElement, () => window.setTimeout((_) => InnerElement.focus(), 500));
+            // DomObserver.WhenMounted(InnerElement, () => window.setTimeout((_) => InnerElement.focus(), 500));
             return this;
         }
 
