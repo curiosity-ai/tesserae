@@ -14,6 +14,7 @@ namespace Tesserae
     {
         public delegate void NavigatedHandler(State               toState, State fromState);
         public delegate bool CanNavigateHandler(State             toState, State fromState);
+        public delegate bool WilNavigate(string url);
         public delegate void NoMatchHandler(ReadOnlyArray<string> routeParts);
 
         private static event NavigatedHandler Navigated;
@@ -21,8 +22,11 @@ namespace Tesserae
 
         private static State              _currentState;
         private static CanNavigateHandler _beforeNavigate; // 2020-06-16 DWR: We previously used an event for this but only allowed a single delegate to bind to it, so there is no need for it to be multi-dispatch and so now it's just a field instead of an event
+        private static WilNavigate        _onWillNavigate; // same here
 
         public static void OnBeforeNavigate(CanNavigateHandler onBeforeNavigate) => _beforeNavigate = onBeforeNavigate;
+
+        public static void OnWíllNavigate(WilNavigate onWillNavigate) => _onWillNavigate = onWillNavigate;
         public static void OnNavigated(NavigatedHandler        onNavigated)      => Navigated += onNavigated;
         public static void OnNotMatched(NoMatchHandler         notMatched)       => NotMatched += notMatched;
 
@@ -142,7 +146,13 @@ namespace Tesserae
         /// </summary>
         public static void Navigate(string path, bool reload = false)
         {
+            if(_onWillNavigate is object)
+            {
+                if (!_onWillNavigate(path)) return;
+            }
+
             var windowLocationSaysAlreadyThere = AlreadyThere(path);
+
             if (reload)
             {
                 ExecuteTheNavigation();

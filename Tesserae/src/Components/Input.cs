@@ -1,4 +1,5 @@
-﻿using Tesserae.HTML;
+﻿using System;
+using Tesserae.HTML;
 using static H5.Core.dom;
 using static Tesserae.UI;
 
@@ -111,39 +112,39 @@ namespace Tesserae
         public TInput SetText(string text)
         {
             Text = text;
-            return (TInput)this;
+            return this.As<TInput>();
         }
 
         public TInput ClearText()
         {
             SetText(string.Empty);
-            return (TInput)this;
+            return this.As<TInput>();
         }
 
         public TInput Disabled(bool value = true)
         {
             IsEnabled = !value;
-            return (TInput)this;
+            return this.As<TInput>();
         }
 
         public TInput NoSpellCheck()
         {
             InnerElement.spellcheck = false;
-            return (TInput)this;
+            return this.As<TInput>();
         }
 
         public TInput Required()
         {
             IsRequired = true;
-            return (TInput)this;
+            return this.As<TInput>();
         }
 
         public TInput Focus()
         {
             // 2020-12-29 DWR: Seems like this setTimeout is required then the element is rendered within a container that uses "simplebar" scrolling - without the delay, if the element getting focus is out of view then it will not be
             // scrolled into view (even though it has successfully received focus)
-            DomObserver.WhenMounted(InnerElement, () => window.setTimeout((_) => InnerElement.focus(), 500));
-            return (TInput)this;
+            DomObserver.WhenMounted(InnerElement, () => { InnerElement.scrollIntoViewIfNeeded(); InnerElement.focus(); });
+            return this.As<TInput>();
         }
 
         public IObservable<string> AsObservable() => _observable;

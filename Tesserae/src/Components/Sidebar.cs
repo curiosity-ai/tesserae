@@ -147,6 +147,10 @@ namespace Tesserae
 
         public Sidebar Clear()
         {
+            foreach(var item in _items)
+            {
+                item.parent = null; //Detach first
+            }
             _items.Clear();
             ClearChildren(_sidebarContainer);
             return this;

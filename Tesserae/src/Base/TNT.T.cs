@@ -13,6 +13,7 @@ namespace TNT
     public static class T
     {
         private static Dictionary<string, string> _currentTranslation = null;
+        private static Func<string, string>       _currentTransformer = null;
 
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static string t(FormattableString formattableString)
@@ -22,14 +23,25 @@ namespace TNT
             {
                 format = translatedFormat;
             }
+
+            string result;
+
             try
             {
-                return string.Format(format, formattableString.GetArguments());
+                result = string.Format(format, formattableString.GetArguments());
             }
             catch
             {
-                return string.Format(formattableString.Format, formattableString.GetArguments());
+                result = string.Format(formattableString.Format, formattableString.GetArguments());
             }
+
+            if (_currentTransformer is object)
+            {
+                return _currentTransformer(result);
+            }
+
+
+            return result;
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
@@ -37,8 +49,19 @@ namespace TNT
         {
             if (_currentTranslation is object && _currentTranslation.TryGetValue(originalString, out var translated))
             {
+                if(_currentTransformer is object)
+                {
+                    return _currentTransformer(translated);
+                }
+
                 return translated;
             }
+
+            if (_currentTransformer is object)
+            {
+                return _currentTransformer(originalString);
+            }
+
             return originalString;
         }
 

@@ -27,26 +27,42 @@ namespace Tesserae
                 {
                     await task;
                 }
+                catch (OperationCanceledException)
+                {
+                    //Ignore
+                }
                 catch(AggregateException age)
                 {
                     if (age.InnerExceptions.Count == 1)
                     {
-                        console.log("Error running FireAndForget Task:" + age.InnerExceptions.Single().ToString());
-                        console.log(age.InnerExceptions.Single());
+                        var exception = age.InnerExceptions.Single();
+                        if (exception.GetType() != typeof(OperationCanceledException))
+                        {
+                            console.log("Error running FireAndForget Task\n" + exception.ToString());
+                            console.log(exception);
+                        }
                     }
                     else
                     {
-                        console.log("Multiple errors running FireAndForget Task:");
+                        bool first = true;
                         foreach (var inner in age.InnerExceptions)
                         {
-                            console.log("\t\tInner exception:" + inner.ToString());
-                            console.log(inner);
+                            if (inner.GetType() != typeof(OperationCanceledException))
+                            {
+                                if(first)
+                                {
+                                    console.log("Multiple errors running FireAndForget Task:");
+                                    first = false;
+                                }
+                                console.log("\t\tInner exception\n" + inner.ToString());
+                                console.log(inner);
+                            }
                         }
                     }
                 }
                 catch (Exception E)
                 {
-                    console.log("Error running FireAndForget Task:" + E.ToString());
+                    console.log("Error running FireAndForget Task\n" + E.ToString());
                     console.log(E);
                 }
             });
