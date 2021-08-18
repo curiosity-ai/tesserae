@@ -15,9 +15,17 @@ namespace Tesserae
         {
             private readonly object scrollbar;
             internal HTMLElement _element;
-            public Handle(HTMLElement element)
+            public Handle(HTMLElement element, bool horizontal)
             {
-                element.style.setProperty("overflow-y", "none", "important");
+                if (horizontal)
+                {
+                    element.style.setProperty("overflow-x", "none", "important");
+                }
+                else
+                {
+                    element.style.setProperty("overflow-y", "none", "important");
+                }
+
                 element.classList.add("tss-invisible-scrollbar");
                 _element = element;
                 scrollbar = Script.Write<object>("new SimpleBar({0})", element);
@@ -73,9 +81,9 @@ namespace Tesserae
             }
         }
 
-        public static Handle EnableInvisibleScroll(HTMLElement element)
+        public static Handle EnableInvisibleScroll(HTMLElement element, bool horizontal = false)
         {
-            var h = new Handle(element);
+            var h = new Handle(element, horizontal);
             LiveHandles.Add(h);
             return h;
         }
@@ -92,14 +100,14 @@ namespace Tesserae
             LiveHandles.RemoveAll(i => i._element == element);
         }
 
-        public static T InvisibleScroll<T>(this T component) where T : IComponent
+        public static T InvisibleScroll<T>(this T component, bool horizontal = false) where T : IComponent
         {
             var element = component.Render();
 
             DomObserver.WhenMounted(element, () =>
             {
                 var targetElement = Stack.GetItem(component);
-                EnableInvisibleScroll(targetElement);
+                EnableInvisibleScroll(targetElement, horizontal);
             });
 
             return component;
