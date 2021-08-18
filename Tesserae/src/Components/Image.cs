@@ -10,9 +10,20 @@ namespace Tesserae
 
         public bool PropagateToStackItemParent { get; private set; }
 
-        public Image(string source)
+        public Image(string source, string fallback = null)
         {
-            InnerElement = UI.Image(_("tss-image", src:source));
+
+            if (!string.IsNullOrEmpty(fallback))
+            {
+                InnerElement = UI.Image(_("tss-image", src: fallback));
+                InnerElement.onerror = _ => InnerElement.style.display = "none"; //Need to be hooked before setting src
+                InnerElement.src = source;
+            }
+            else
+            {
+                InnerElement = UI.Image(_("tss-image", src:source));
+            }
+
             PropagateToStackItemParent = true;
             AttachClick();
         }

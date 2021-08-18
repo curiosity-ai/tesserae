@@ -105,7 +105,7 @@ namespace Tesserae
 
         public static IComponent Empty() => new Raw();
 
-        public static Image Image(string source) => new Image(source);
+        public static Image Image(string source, string fallback = null)) => new Image(source, fallback));
 
         public static Card Card(IComponent content) => new Card(content);
 
