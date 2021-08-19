@@ -16,7 +16,16 @@ namespace Tesserae
             if (!string.IsNullOrEmpty(fallback))
             {
                 InnerElement = UI.Image(_("tss-image", src: fallback));
-                InnerElement.onerror = _ => InnerElement.style.display = "none"; //Need to be hooked before setting src
+                
+                InnerElement.onerror = _ =>  //Need to be hooked before setting src
+                {
+                    if (InnerElement.src != fallback)
+                    {
+                        InnerElement.src = fallback;
+                    }
+
+                };
+
                 InnerElement.src = source;
             }
             else
