@@ -13,6 +13,8 @@ namespace Tesserae
         private readonly List<T> _list;
         private readonly bool _shouldHookNestedObservables;
         private double _refreshTimeout;
+        private double _refreshDelay = 1;
+        public double Delay { get => _refreshDelay; set => _refreshDelay = value; }
         public ObservableList(params T[] initialValues) : this(shouldHook: true, initialValues: initialValues) { }
         public ObservableList(bool shouldHook, params T[] initialValues)
         {
@@ -57,7 +59,7 @@ namespace Tesserae
             window.clearTimeout(_refreshTimeout);
             _refreshTimeout = window.setTimeout(
                 _ => ValueChanged?.Invoke(_list),
-                1
+                _refreshDelay
             );
         }
 

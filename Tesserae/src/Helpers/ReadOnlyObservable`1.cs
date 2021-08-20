@@ -12,6 +12,9 @@ namespace Tesserae
         private T _value;
         private IEqualityComparer<T> _comparer;
         private double _refreshTimeout;
+        private double _refreshDelay = 1;
+        public double Delay { get => _refreshDelay; set => _refreshDelay = value; }
+
         protected ReadOnlyObservable(T value = default, IEqualityComparer<T> comparer = null)
         {
             _value = value;
@@ -25,8 +28,11 @@ namespace Tesserae
         private void Observe(ObservableEvent.ValueChanged<T> valueGetter, bool callbackImmediately)
         {
             ValueChanged += valueGetter;
+
             if (callbackImmediately)
+            {
                 valueGetter(Value);
+            }
         }
 
         public void StopObserving(ObservableEvent.ValueChanged<T> valueGetter) => ValueChanged -= valueGetter;
@@ -47,11 +53,11 @@ namespace Tesserae
         protected void RaiseOnValueChanged()
         {
             window.clearTimeout(_refreshTimeout);
-            _refreshTimeout = window.setTimeout(raise, 1);
-            void raise(object t)
+
+            _refreshTimeout = window.setTimeout((_) =>
             {
                 ValueChanged?.Invoke(_value);
-            }
+            }, _refreshDelay);
         }
     }
 }
