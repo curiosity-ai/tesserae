@@ -403,6 +403,21 @@ namespace Tesserae
             return component;
         }
 
+
+        public static T TabIndex<T>(this T component, int tabIndex) where T : IComponent
+        {
+            var rendered = component.Render();
+            rendered.tabIndex = tabIndex;
+            return component;
+        }
+
+        public static T SkipTab<T>(this T component) where T : IComponent
+        {
+            var rendered = component.Render();
+            rendered.tabIndex = -1;
+            return component;
+        }
+
         //Shortcuts:
 
         /// <summary>Width</summary>
