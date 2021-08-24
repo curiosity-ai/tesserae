@@ -22,6 +22,7 @@ namespace Tesserae
             }
 
             AttachClick();
+            AttachContextMenu();
         }
 
         public string Background { get => InnerElement.style.background; set => InnerElement.style.background = value; }

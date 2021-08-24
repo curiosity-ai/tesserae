@@ -88,6 +88,7 @@ namespace Tesserae
             Size = TextSize.Small;
 
             AttachClick();
+            AttachContextMenu();
             AttachFocus();
             AttachBlur();
 

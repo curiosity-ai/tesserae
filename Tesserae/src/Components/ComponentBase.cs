@@ -8,6 +8,7 @@ namespace Tesserae
     public abstract class ComponentBase<T, THTML> : IComponent, IHasMarginPadding where T : ComponentBase<T, THTML> where THTML : HTMLElement
     {
         protected event ComponentEventHandler<T, MouseEvent> Clicked;
+        protected event ComponentEventHandler<T, MouseEvent> ContextMenu;
         protected event ComponentEventHandler<T, Event> Changed;
         protected event ComponentEventHandler<T, Event> InputUpdated;
         protected event ComponentEventHandler<T, Event> ReceivedFocus;
@@ -21,10 +22,24 @@ namespace Tesserae
         public string Padding { get => InnerElement.style.padding; set => InnerElement.style.padding = value; }
         
         public abstract HTMLElement Render();
-        
+
         public virtual T OnClick(ComponentEventHandler<T, MouseEvent> onClick)
         {
             Clicked += onClick;
+
+            if (this is TextBlock textBlock)
+                textBlock.Cursor = "pointer";
+
+            if (this is Image img)
+                img.Cursor = "pointer";
+
+            return (T)this;
+        }
+
+
+        public virtual T OnContextMenu(ComponentEventHandler<T, MouseEvent> onContextMenu)
+        {
+            ContextMenu += onContextMenu;
 
             if (this is TextBlock textBlock)
                 textBlock.Cursor = "pointer";
@@ -78,13 +93,13 @@ namespace Tesserae
         }
 
         protected void AttachClick() => InnerElement.addEventListener("click", e => RaiseOnClick(e.As<MouseEvent>()));
+        protected void AttachContextMenu() => InnerElement.addEventListener("contextMenu", e => RaiseOnContextMenu(e.As<MouseEvent>()));
 
         protected void AttachChange() => InnerElement.addEventListener("change", s => RaiseOnChange(s));
 
-        // 2020-06-30 DWR: This was previously public, not protected, but nothing outside of a component itself should be faking events like this
         protected void RaiseOnClick(MouseEvent ev) => Clicked?.Invoke((T)this, ev);
+        protected void RaiseOnContextMenu(MouseEvent ev) => ContextMenu?.Invoke((T)this, ev);
 
-        // 2020-06-30 DWR: This was previously public, not protected, but nothing outside of a component itself should be faking events like this
         protected void RaiseOnChange(Event ev) => Changed?.Invoke((T)this, ev);
 
         protected void AttachInput() => InnerElement.addEventListener("input", ev => RaiseOnInput(ev));

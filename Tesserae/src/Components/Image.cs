@@ -35,6 +35,7 @@ namespace Tesserae
 
             PropagateToStackItemParent = true;
             AttachClick();
+            AttachContextMenu();
         }
 
         public string Source

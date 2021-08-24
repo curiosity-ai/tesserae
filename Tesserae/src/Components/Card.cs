@@ -14,6 +14,7 @@ namespace Tesserae
             _cardContainer = Div(_("tss-card-container"), InnerElement);
             DomObserver.WhenMounted(InnerElement, () => InnerElement.classList.add("tss-ismounted"));
             AttachClick();
+            AttachContextMenu();
         }
 
         /// <summary>
