@@ -93,7 +93,7 @@ namespace Tesserae
         }
 
         protected void AttachClick() => InnerElement.addEventListener("click", e => RaiseOnClick(e.As<MouseEvent>()));
-        protected void AttachContextMenu() => InnerElement.addEventListener("contextMenu", e => RaiseOnContextMenu(e.As<MouseEvent>()));
+        protected void AttachContextMenu() => InnerElement.addEventListener("contextmenu", e => RaiseOnContextMenu(e.As<MouseEvent>()));
 
         protected void AttachChange() => InnerElement.addEventListener("change", s => RaiseOnChange(s));
 
