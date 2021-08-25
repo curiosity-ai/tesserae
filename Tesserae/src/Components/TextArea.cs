@@ -3,7 +3,7 @@ using static H5.Core.dom;
 using static Tesserae.UI;
 namespace Tesserae
 {
-    public sealed class TextArea : ComponentBase<TextArea, HTMLTextAreaElement>, ICanValidate<TextArea>, IObservableComponent<string>
+    public sealed class TextArea : ComponentBase<TextArea, HTMLTextAreaElement>, ICanValidate<TextArea>, IObservableComponent<string>, ITabIndex
     {
         private readonly HTMLDivElement _container;
         private readonly HTMLSpanElement _errorSpan;
@@ -28,6 +28,13 @@ namespace Tesserae
             OnChange((_, __) => _observable.Value = Text);
 
             OnInput((_, __) => _observable.Value = Text);
+        }
+        public int TabIndex
+        {
+            set
+            {
+                InnerElement.tabIndex = value;
+            }
         }
 
         public bool IsEnabled

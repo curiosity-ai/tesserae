@@ -9,7 +9,7 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
-    public sealed class Dropdown : Layer<Dropdown>, ICanValidate<Dropdown>, IObservableListComponent<Dropdown.Item>
+    public sealed class Dropdown : Layer<Dropdown>, ICanValidate<Dropdown>, IObservableListComponent<Dropdown.Item>, ITabIndex
     {
         private const string _multiSelectDropdownClassName = "tss-dropdown-multi";
 
@@ -67,6 +67,14 @@ namespace Tesserae
         {
             _callSelectOnChangingItemSelections = false;
             return this;
+        }
+
+        public int TabIndex
+        {
+            set
+            {
+                InnerElement.tabIndex = value;
+            }
         }
 
         public SelectMode Mode

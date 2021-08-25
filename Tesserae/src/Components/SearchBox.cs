@@ -4,7 +4,7 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
-    public class SearchBox : ComponentBase<SearchBox, HTMLInputElement>,  ITextFormating, IHasBackgroundColor
+    public class SearchBox : ComponentBase<SearchBox, HTMLInputElement>,  ITextFormating, IHasBackgroundColor, ITabIndex
     {
         private readonly HTMLDivElement _container;
         private readonly HTMLSpanElement _icon;
@@ -35,6 +35,14 @@ namespace Tesserae
                     Searched?.Invoke(this, InnerElement.value);
                 }
             });
+        }
+
+        public int TabIndex
+        {
+            set
+            {
+                InnerElement.tabIndex = value;
+            }
         }
 
         public bool IsEnabled

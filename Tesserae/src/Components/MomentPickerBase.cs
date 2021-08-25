@@ -1,10 +1,8 @@
 ﻿namespace Tesserae
 {
-    public abstract class MomentPickerBase<TMomentPicker, TMoment> : Input<TMomentPicker>
-        where TMomentPicker : MomentPickerBase<TMomentPicker, TMoment>
+    public abstract class MomentPickerBase<TMomentPicker, TMoment> : Input<TMomentPicker> where TMomentPicker : MomentPickerBase<TMomentPicker, TMoment>
     {
-        protected MomentPickerBase(string type, string defaultText = null)
-            : base(type, defaultText)
+        protected MomentPickerBase(string type, string defaultText = null) : base(type, defaultText)
         {
         }
 

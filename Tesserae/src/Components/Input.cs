@@ -5,7 +5,8 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
-    public abstract class Input<TInput> : ComponentBase<TInput, HTMLInputElement>, ICanValidate<TInput>, IObservableComponent<string> where TInput : Input<TInput>
+
+    public abstract class Input<TInput> : ComponentBase<TInput, HTMLInputElement>, ITabIndex, ICanValidate<TInput>, IObservableComponent<string> where TInput : Input<TInput>
     {
         private readonly HTMLDivElement _container;
         private readonly HTMLSpanElement _errorSpan;
@@ -101,6 +102,14 @@ namespace Tesserae
                 {
                     _container.classList.remove("tss-required");
                 }
+            }
+        }
+
+        public int TabIndex
+        {
+            set
+            {
+                InnerElement.tabIndex = value;
             }
         }
 

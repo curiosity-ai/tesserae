@@ -406,17 +406,20 @@ namespace Tesserae
 
         public static T TabIndex<T>(this T component, int tabIndex) where T : IComponent
         {
-            var rendered = component.Render();
-            rendered.tabIndex = tabIndex;
-            return component;
+            if (component is ITabIndex hasTabIndex)
+            {
+                hasTabIndex.TabIndex = tabIndex;
+                return component;
+            }
+            else
+            {
+                var rendered = component.Render();
+                rendered.tabIndex = tabIndex;
+                return component;
+            }
         }
 
-        public static T SkipTab<T>(this T component) where T : IComponent
-        {
-            var rendered = component.Render();
-            rendered.tabIndex = -1;
-            return component;
-        }
+        public static T SkipTab<T>(this T component) where T : IComponent => TabIndex(component, -1);
 
         //Shortcuts:
 
