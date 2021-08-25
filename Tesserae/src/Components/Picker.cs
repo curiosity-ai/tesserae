@@ -50,7 +50,7 @@ namespace Tesserae
         {
             set
             {
-                _textBox.tabIndex = value;
+                _textBox.TabIndex = value;
             }
         }
 
