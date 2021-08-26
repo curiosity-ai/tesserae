@@ -3,14 +3,14 @@ using System.Globalization;
 
 namespace Tesserae
 {
-    public class TimePicker : MomentPickerBase<TimePicker, DateTime>
+    public class TimePicker : MomentPickerBase<TimePicker, DateTimeOffset>
     {
-        public TimePicker(DateTime? time = null)
+        public TimePicker(DateTimeOffset? time = null)
             : base("time", time.HasValue ? FormatDateTime(time.Value) : string.Empty)
         {
         }
 
-        public DateTime Time => Moment;
+        public DateTimeOffset Time => Moment;
 
         /// <summary>
         /// Adds the pattern attribute to the underlying input element for graceful degradation when retrieving the user selected value on older browsers.
@@ -24,11 +24,11 @@ namespace Tesserae
             return this;
         }
 
-        private static string FormatDateTime(DateTime time) => time.ToString("hh:mm:ss");
+        private static string FormatDateTime(DateTimeOffset time) => time.ToString("hh:mm:ss");
 
-        protected override string FormatMoment(DateTime time) => FormatDateTime(time);
+        protected override string FormatMoment(DateTimeOffset time) => FormatDateTime(time);
 
-        protected override DateTime FormatMoment(string time)
+        protected override DateTimeOffset FormatMoment(string time)
         {
             if (DateTime.TryParseExact(time, "hh:mm:ss", DateTimeFormatInfo.InvariantInfo, out var result))
             {

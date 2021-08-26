@@ -3,14 +3,14 @@ using System.Globalization;
 
 namespace Tesserae
 {
-    public class DatePicker : MomentPickerBase<DatePicker, DateTime>
+    public class DatePicker : MomentPickerBase<DatePicker, DateTimeOffset>
     {
-        public DatePicker(DateTime? date = null)
+        public DatePicker(DateTimeOffset? date = null)
             : base("date", date.HasValue ? FormatDateTime(date.Value) : string.Empty)
         {
         }
 
-        public DateTime Date => Moment;
+        public DateTimeOffset Date => Moment;
 
         /// <summary>
         /// Adds the pattern attribute to the underlying input element for graceful degradation when retrieving the user selected value on older browsers.
@@ -24,15 +24,15 @@ namespace Tesserae
             return this;
         }
 
-        private static string FormatDateTime(DateTime date) => date.ToString("yyyy-MM-dd");
+        private static string FormatDateTime(DateTimeOffset date) => date.ToString("yyyy-MM-dd");
 
-        protected override string FormatMoment(DateTime date) => FormatDateTime(date);
+        protected override string FormatMoment(DateTimeOffset date) => FormatDateTime(date);
 
-        protected override DateTime FormatMoment(string date)
+        protected override DateTimeOffset FormatMoment(string date)
         {
             if (DateTime.TryParseExact(date, "yyyy-MM-dd", DateTimeFormatInfo.InvariantInfo, out var result))
             {
-                return result;
+                return new DateTimeOffset(result);
             }
 
             return default;
