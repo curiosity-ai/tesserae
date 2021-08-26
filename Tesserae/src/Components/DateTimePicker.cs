@@ -24,7 +24,7 @@ namespace Tesserae
             return this;
         }
 
-        private static string FormatDateTime(DateTime dateTime) => dateTime.ToString("s");
+        private static string FormatDateTime(DateTime dateTime) => dateTime.ToString("yyyy-MM-ddTHH:mm");
 
         protected override string FormatMoment(DateTime dateTime) => FormatDateTime(dateTime);
 
