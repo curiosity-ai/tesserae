@@ -27,6 +27,7 @@ namespace Tesserae.Tests
                 ("TextBox", () => new TextBoxSample()),
                 ("ColorPicker", () => new ColorPickerSample()),
                 ("DateTimePicker", () => new DateTimePickerSample()),
+                ("DatePicker", () => new DatePickerSample()),
                 ("SearchBox", () => new SearchBoxSample()),
                 ("Toggle", () => new ToggleSample()),
                 ("Spinner", () => new SpinnerSample()),
@@ -176,6 +177,7 @@ namespace Tesserae.Tests
                                     links["Toggle"],
                                     links["Picker"]),
                             links["ColorPicker"],
+                            links["DatePicker"],
                             links["DateTimePicker"],
                             NavLink("Progress").Expanded()
                                .SmallPlus()
