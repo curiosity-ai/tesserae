@@ -1,4 +1,5 @@
-﻿using System;
+﻿using H5;
+using System;
 using static H5.Core.dom;
 
 namespace Tesserae
@@ -131,14 +132,26 @@ namespace Tesserae
 
         public static Color FromString(string hexString)
         {
-            if (!System.Text.RegularExpressions.Regex.IsMatch(hexString, @"[#]([0-9]|[a-f]|[A-F]){6}\b")) throw new ArgumentException();
+            var hex = hexString.TrimStart('#');
 
-            var value = Convert.ToUInt32(hexString.Substring(1), 16);
+            if (hex.Length != 6) throw new ArgumentException();
 
-            return FromArgb((byte)((value >> 24) & 0xFF),
-                             (byte)((value >> 16) & 0xFF),
-                             (byte)((value >> 8) & 0xFF),
-                             (byte)(value & 0xFF));
+            byte r = 0, g = 0, b = 0;
+
+            Script.Write("var bigint = parseInt(hex, 16); var r = (bigint >> 16) & 255; var g = (bigint >> 8) & 255; var b = bigint & 255;");
+
+            return FromArgb(255, r, g, b);
+
+
+
+            //if (!System.Text.RegularExpressions.Regex.IsMatch(hexString, @"[#]([0-9]|[a-f]|[A-F]){6}\b")) throw new ArgumentException();
+
+            //var value = Convert.ToUInt32(hexString.Substring(1), 16);
+
+            //return FromArgb((byte)((value >> 24) & 0xFF),
+            //                 (byte)((value >> 16) & 0xFF),
+            //                 (byte)((value >> 8) & 0xFF),
+            //                 (byte)(value & 0xFF));
         }
 
         public string ToHex()
