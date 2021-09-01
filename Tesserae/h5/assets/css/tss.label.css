@@ -3,6 +3,7 @@
     margin: 0;
     position: relative;
     width:100%;
+    user-select:none;
 }
 
 .tss-label + .tss-label {
