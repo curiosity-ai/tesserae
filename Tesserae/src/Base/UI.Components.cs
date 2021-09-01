@@ -239,7 +239,8 @@ namespace Tesserae
 
         public static ColorPicker ColorPicker(Color color = null) => new ColorPicker(color);
 
-        public static DateTimePicker DateTimePicker(DateTime? dateTime = null) => new DateTimePicker(dateTime);
+        public static DateTimePicker DateTimePicker(DateTimeOffset? dateTime = null) => new DateTimePicker(dateTime);
+        public static DatePicker     DatePicker(DateTimeOffset?     dateTime = null) => new DatePicker(dateTime);
 
         public static SearchBox SearchBox(string placeholder = string.Empty) => new SearchBox(placeholder);
 
@@ -283,9 +284,9 @@ namespace Tesserae
 
         public static Sidebar.Item SidebarItem(string text, string icon, string href = null) => new Sidebar.Item(text, icon, href);
 
-        public static Sidebar.Item SidebarItem(string text, IComponent icon, string href = null) => new Sidebar.Item(text, icon, href);
-        public static Sidebar.Item SidebarItem(IComponent text, string icon, string href = null) => new Sidebar.Item(text, icon, href);
-        public static Sidebar.Item SidebarItem(IComponent text, string href = null) => new Sidebar.Item(text, href);
+        public static Sidebar.Item SidebarItem(string     text, IComponent icon, string href = null) => new Sidebar.Item(text, icon, href);
+        public static Sidebar.Item SidebarItem(IComponent text, string     icon, string href = null) => new Sidebar.Item(text, icon, href);
+        public static Sidebar.Item SidebarItem(IComponent text, string     href              = null) => new Sidebar.Item(text, href);
         public static Sidebar.Item SidebarItem(IComponent text, IComponent icon, string href = null) => new Sidebar.Item(text, icon, href);
 
         public static Navbar Navbar() => new Navbar();
@@ -334,18 +335,18 @@ namespace Tesserae
 
         public static ItemsList ItemsList(ObservableList<IComponent> components, params UnitSize[] columns) => new ItemsList(components, columns);
 
-        public static InfiniteScrollingList InfiniteScrollingList(Func<IComponent[]> getNextItemPage,  params UnitSize[] columns) => new InfiniteScrollingList(getNextItemPage, columns);
-        public static InfiniteScrollingList InfiniteScrollingList(Func<Task<IComponent[]>> getNextItemPage,  params UnitSize[] columns) => new InfiniteScrollingList(getNextItemPage, columns);
-        public static InfiniteScrollingList InfiniteScrollingList(IComponent[] initComponents, Func<Task<IComponent[]>> getNextItemPage, params UnitSize[] columns) => new InfiniteScrollingList(initComponents, getNextItemPage, columns);
-        public static InfiniteScrollingList InfiniteScrollingList(IComponent[] initComponents, Func<IComponent[]> getNextItemPage, params UnitSize[] columns) => new InfiniteScrollingList(initComponents, getNextItemPage, columns);
+        public static InfiniteScrollingList InfiniteScrollingList(Func<IComponent[]>       getNextItemPage, params UnitSize[]        columns)                                    => new InfiniteScrollingList(getNextItemPage, columns);
+        public static InfiniteScrollingList InfiniteScrollingList(Func<Task<IComponent[]>> getNextItemPage, params UnitSize[]        columns)                                    => new InfiniteScrollingList(getNextItemPage, columns);
+        public static InfiniteScrollingList InfiniteScrollingList(IComponent[]             initComponents,  Func<Task<IComponent[]>> getNextItemPage, params UnitSize[] columns) => new InfiniteScrollingList(initComponents,  getNextItemPage, columns);
+        public static InfiniteScrollingList InfiniteScrollingList(IComponent[]             initComponents,  Func<IComponent[]>       getNextItemPage, params UnitSize[] columns) => new InfiniteScrollingList(initComponents,  getNextItemPage, columns);
 
         public static DetailsList<TDetailsListItem> DetailsList<TDetailsListItem>(params IDetailsListColumn[] columns) where TDetailsListItem : class, IDetailsListItem<TDetailsListItem> => new DetailsList<TDetailsListItem>(columns);
 
-        public static DetailsListIconColumn IconColumn(Icon icon, UnitSize width, bool enableColumnSorting = false, string sortingKey = null, Action onColumnClick = null) => new DetailsListIconColumn(icon, width, null, enableColumnSorting, sortingKey, onColumnClick);
-        public static DetailsListIconColumn IconColumn(Icon icon, UnitSize width, UnitSize maxWidth, bool enableColumnSorting = false, string sortingKey = null, Action onColumnClick = null) => new DetailsListIconColumn(icon, width, maxWidth, enableColumnSorting, sortingKey, onColumnClick);
+        public static DetailsListIconColumn IconColumn(Icon icon, UnitSize width, bool     enableColumnSorting = false, string sortingKey          = null,  Action onColumnClick = null)                              => new DetailsListIconColumn(icon, width, null,     enableColumnSorting, sortingKey, onColumnClick);
+        public static DetailsListIconColumn IconColumn(Icon icon, UnitSize width, UnitSize maxWidth,                    bool   enableColumnSorting = false, string sortingKey    = null, Action onColumnClick = null) => new DetailsListIconColumn(icon, width, maxWidth, enableColumnSorting, sortingKey, onColumnClick);
 
-        public static DetailsListColumn DetailsListColumn(string title, UnitSize width, bool isRowHeader = false, bool enableColumnSorting = false, string sortingKey = null, Action onColumnClick = null) => new DetailsListColumn(title, width, null, isRowHeader, enableColumnSorting, sortingKey, onColumnClick);
-        public static DetailsListColumn DetailsListColumn(string title, UnitSize width, UnitSize maxWidth, bool isRowHeader = false, bool enableColumnSorting = false, string sortingKey = null, Action onColumnClick = null) => new DetailsListColumn(title, width, maxWidth, isRowHeader, enableColumnSorting, sortingKey, onColumnClick);
+        public static DetailsListColumn DetailsListColumn(string title, UnitSize width, bool     isRowHeader = false, bool enableColumnSorting = false, string sortingKey          = null,  Action onColumnClick = null)                              => new DetailsListColumn(title, width, null,     isRowHeader, enableColumnSorting, sortingKey, onColumnClick);
+        public static DetailsListColumn DetailsListColumn(string title, UnitSize width, UnitSize maxWidth,            bool isRowHeader         = false, bool   enableColumnSorting = false, string sortingKey    = null, Action onColumnClick = null) => new DetailsListColumn(title, width, maxWidth, isRowHeader, enableColumnSorting, sortingKey, onColumnClick);
 
         public static Picker<TPickerItem> Picker<TPickerItem>(int maximumAllowedSelections = int.MaxValue, bool duplicateSelectionsAllowed = false, int suggestionsTolerance = 0, bool renderSelectionsInline = true, string suggestionsTitleText = null) where TPickerItem : class, IPickerItem => new Picker<TPickerItem>(maximumAllowedSelections, duplicateSelectionsAllowed, suggestionsTolerance, renderSelectionsInline, suggestionsTitleText);
 
@@ -353,8 +354,8 @@ namespace Tesserae
 
         public static CombinedObservable<T1, T2> Combine<T1, T2>(IObservable<T1> o1, IObservable<T2> o2) => new CombinedObservable<T1, T2>(o1, o2);
 
-        public static Timeline Timeline() => new Timeline();
-        public static Teaching Teaching() => new Teaching();
+        public static Timeline     Timeline()                   => new Timeline();
+        public static Teaching     Teaching()                   => new Teaching();
         public static ToggleButton ToToggle(this Button button) => new ToggleButton(button);
     }
 }
