@@ -275,6 +275,7 @@
 .tss-dropdown-item-on-box {
     font-size: var(--tss-font-size-small);
     font-weight: var(--tss-font-weight-regular);
+    color: var(--tss-default-foreground-color);
     white-space: nowrap;
     min-width: unset;
     background: transparent;
