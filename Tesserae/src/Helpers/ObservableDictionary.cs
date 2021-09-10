@@ -68,6 +68,16 @@ namespace Tesserae
 
         public IReadOnlyDictionary<TKey, TValue> Value => _dictionary;
 
+        public void AddRange(IEnumerable<KeyValuePair<TKey, TValue>> items)
+        {
+            foreach (var item in items)
+            {
+                _dictionary.Add(item.Key, item.Value);
+                HookValue(item.Value);
+            }
+            RaiseOnValueChanged();
+        }
+        
         public void Add(TKey key, TValue value)
         {
             _dictionary.Add(key, value);
