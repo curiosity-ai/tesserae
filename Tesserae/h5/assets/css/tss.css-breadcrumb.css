@@ -1,0 +1,98 @@
+﻿
+.tss-css-breadcrumb-container {
+    display: inline-flex;
+    overflow: hidden;
+}
+
+.tss-css-breadcrumb-wrap:hover:before {
+    transform: scalex(1);
+}
+
+.tss-css-breadcrumb-wrap {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex: 0 auto;
+    flex-shrink: 1000;
+    display: inline-block;
+    position: relative;
+    transition: transform ease-in-out 0.3s;
+}
+
+.tss-css-breadcrumb-wrap:hover {
+    flex: 1 0 auto;
+    opacity: 1;
+    transition: none;
+    opacity: 1;
+    transition: transform ease-in-out 0.4s;
+}
+
+.tss-css-breadcrumb-wrap:hover .sep i {
+    transform: translatex(8px);
+    transition: transform ease-in-out 0.3s;
+}
+
+.tss-css-breadcrumb-wrap:hover ~ .single-tss-css-breadcrumb-wrap {
+    transition: transform ease-in-out 0.4s;
+}
+
+.tss-css-breadcrumb-wrap:first-child {
+    flex: 0 0 auto;
+    flex-shrink: 0.5;
+    opacity: 1;
+}
+
+.tss-css-breadcrumb-wrap:first-child:after {
+    left: 0;
+}
+
+.tss-css-breadcrumb-wrap:first-child .sep {
+    display: none;
+}
+
+.tss-css-breadcrumb-wrap:last-child {
+    flex: 1 0 auto !important;
+}
+
+.tss-css-breadcrumb-wrap:last-child:hover {
+    flex: 1 0 auto !important;
+}
+
+.tss-css-breadcrumb-wrap:last-child:hover:after {
+    display: none;
+}
+
+.tss-css-breadcrumb-wrap:hover:after {
+    opacity: 1;
+    transition: opacity ease-in-out 0.1s, transform ease-in-out 0.2s;
+}
+
+.tss-css-breadcrumb {
+    flex: 0 1 auto;
+    user-select: none;
+    cursor: pointer;
+    padding: 0px 16px;
+    min-height: 32px;
+}
+
+.tss-css-breadcrumb:hover {
+    color: var(--tss-default-foreground-hover-color);
+    background-color: var(--tss-default-background-hover-color);
+}
+
+.tss-css-breadcrumb-sep {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.tss-css-breadcrumb-sep i {
+    font-style: unset;
+    font-family: 'Line Awesome Free';
+    font-weight: 900 !important;
+    font-size: var(--tss-font-size-medium);
+}
+
+.tss-css-breadcrumb-sep i:before {
+    content: "\f105";
+    transition: transform ease-in-out 0.2s;
+}
