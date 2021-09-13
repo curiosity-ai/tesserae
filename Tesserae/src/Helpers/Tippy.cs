@@ -18,26 +18,33 @@ namespace Tesserae
             document.body.appendChild(renderedTooltip);
 
             var (element, _) = Stack.GetCorrectItemToApplyStyle(component);
-            if (element.HasOwnProperty("_tippy"))
-                H5.Script.Write("{0}._tippy.destroy();", element);
+
+            Action onHidden = () =>
+            {
+                if (element.HasOwnProperty("_tippy"))
+                {
+                    H5.Script.Write("{0}._tippy.destroy();", element);
+                }
+            };
+
+            onHidden(); //Remove previous tooltips
 
             if (animation == TooltipAnimation.None)
             {
-                H5.Script.Write("tippy({0}, { content: {1}, interactive: true, interactiveBorder: 8, placement: {2}, appendTo: {3}, maxWidth: {4}});", element, renderedTooltip, placement.ToString(), document.body.As<object>(), maxWidth);
+                H5.Script.Write("tippy({0}, { content: {1}, interactive: true, interactiveBorder: 8, placement: {2}, appendTo: {3}, maxWidth: {4}, onHidden: {5}});", element, renderedTooltip, placement.ToString(), document.body.As<object>(), maxWidth, onHidden);
             }
             else
             {
-                H5.Script.Write("tippy({0}, { content: {1}, interactive: true, interactiveBorder: 8, placement: {2}, animation: {3},  appendTo: {4}, maxWidth: {5}});", element, renderedTooltip, placement.ToString(), animation.ToString(), document.body.As<object>(), maxWidth);
+                H5.Script.Write("tippy({0}, { content: {1}, interactive: true, interactiveBorder: 8, placement: {2}, animation: {3},  appendTo: {4}, maxWidth: {5}, onHidden: {6} });", element, renderedTooltip, placement.ToString(), animation.ToString(), document.body.As<object>(), maxWidth, onHidden);
             }
+
 
             H5.Script.Write("{0}._tippy.show();", element);
 
             // 2020-10-05 DWR: Sometimes a tooltip will be attached to an element that is removed from the DOM and then the tooltip is left hanging, orphaned. 
             component.WhenRemoved(() =>
             {
-                // 2020-10-05 DWR: I presume that have to check this property before trying to kill it in case it's already been tidied up
-                if (element.HasOwnProperty("_tippy"))
-                    H5.Script.Write("{0}._tippy.destroy();", element);
+                onHidden();
             });
         }
     }
