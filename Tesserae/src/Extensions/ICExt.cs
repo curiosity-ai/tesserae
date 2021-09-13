@@ -325,7 +325,7 @@ namespace Tesserae
             return component;
         }
 
-        public static T Tooltip<T>(this T component, string tooltip, TooltipAnimation animation = TooltipAnimation.ShiftAway, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 0, int delayHide = 0, bool followCursor = false) where T : IComponent
+        public static T Tooltip<T>(this T component, string tooltip, TooltipAnimation animation = TooltipAnimation.ShiftAway, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 0, int delayHide = 0, bool followCursor = false, int maxWidth = 350) where T : IComponent
         {
             if (string.IsNullOrWhiteSpace(tooltip))
                 return component;
@@ -336,7 +336,8 @@ namespace Tesserae
                 placement: placement,
                 delayShow: delayShow,
                 delayHide: delayHide,
-                followCursor: followCursor
+                followCursor: followCursor,
+                maxWidth : maxWidth
             );
         }
 
@@ -352,7 +353,7 @@ namespace Tesserae
             return component;
         }
         
-        public static T Tooltip<T>(this T component, IComponent tooltip, bool interactive = false, TooltipAnimation animation = TooltipAnimation.ShiftAway, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 0, int delayHide = 0, bool appendToBody = true, bool followCursor = false) where T : IComponent
+        public static T Tooltip<T>(this T component, IComponent tooltip, bool interactive = false, TooltipAnimation animation = TooltipAnimation.ShiftAway, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 0, int delayHide = 0, bool appendToBody = true, bool followCursor = false, int maxWidth = 350) where T : IComponent
         {
             if (tooltip is null)
                 return component;
@@ -383,11 +384,11 @@ namespace Tesserae
 
                 if (animation == TooltipAnimation.None)
                 {
-                    H5.Script.Write("tippy({0}, { content: {1}, interactive: {2}, placement: {3}, delay: [{4},{5}], appendTo: {6}, followCursor: {7} });", element, renderedTooltip, interactive, placement.ToString(), delayShow, delayHide, appendToBody ? document.body.As<object>() : "parent".As<object>(), followCursor);
+                    H5.Script.Write("tippy({0}, { content: {1}, interactive: {2}, placement: {3}, delay: [{4},{5}], appendTo: {6}, followCursor: {7}, maxWidth: {8} });", element, renderedTooltip, interactive, placement.ToString(), delayShow, delayHide, appendToBody ? document.body.As<object>() : "parent".As<object>(), followCursor, maxWidth);
                 }
                 else
                 {
-                    H5.Script.Write("tippy({0}, { content: {1}, interactive: {2}, placement: {3},  animation: {4}, delay: [{5},{6}], appendTo: {7}, followCursor: {8} });", element, renderedTooltip, interactive, placement.ToString(), animation.ToString(), delayShow, delayHide, appendToBody ? document.body.As<object>(): "parent".As<object>(), followCursor);
+                    H5.Script.Write("tippy({0}, { content: {1}, interactive: {2}, placement: {3},  animation: {4}, delay: [{5},{6}], appendTo: {7}, followCursor: {8}, maxWidth: {9} });", element, renderedTooltip, interactive, placement.ToString(), animation.ToString(), delayShow, delayHide, appendToBody ? document.body.As<object>(): "parent".As<object>(), followCursor, maxWidth);
                 }
 
                 H5.Script.Write("{0}._tippy.show();", element); //Shows it imediatelly, as the mouse is hovering the element
