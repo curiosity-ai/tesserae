@@ -8,7 +8,7 @@ namespace Tesserae
     {
         public TextBreadcrumb(string text)
         {
-            InnerElement = Span(_("tss-css-breadcrumb tss-btn-default tss-fontweight-regular tss-fontsize-small", text: text));
+            InnerElement = Span(_("tss-textbreadcrumb", text: text));
             
             AttachClick();
         }
@@ -17,39 +17,39 @@ namespace Tesserae
             return InnerElement;
         }
     }
-    public class TextBreadcrumbs : IComponent, IContainer<TextBreadcrumbs, TextBreadcrumb>
+    public class TextBreadcrumbs : IComponent, IContainer<TextBreadcrumbs, TextBreadcrumb>, ITextFormating
     {
-        private readonly HTMLElement _childContainer;
+        private readonly HTMLElement InnerElement;
 
         public TextBreadcrumbs()
         {
-            _childContainer = Div(_("tss-css-breadcrumb-container"));
+            InnerElement = Div(_("tss-textbreadcrumb-container tss-fontsize-small tss-fontweight-regular"));
         }
 
         public void Clear()
         {
-            ClearChildren(_childContainer);
+            ClearChildren(InnerElement);
         }
 
         public void Replace(TextBreadcrumb newComponent, TextBreadcrumb oldComponent)
         {
-            _childContainer.replaceChild(newComponent.Render(), oldComponent.Render());
+            InnerElement.replaceChild(newComponent.Render(), oldComponent.Render());
         }
 
         public void Add(TextBreadcrumb component)
         {
-            if (_childContainer.childElementCount == 0)
+            if (InnerElement.childElementCount == 0)
             {
-                _childContainer.appendChild(
-                    Div(_("tss-css-breadcrumb-wrap"),
+                InnerElement.appendChild(
+                    Div(_("tss-textbreadcrumb-wrap"),
                         component.Render()
                     ));
             }
             else
             {
-                _childContainer.appendChild(
-                    Div(_("tss-css-breadcrumb-wrap"),
-                        Span(_("tss-css-breadcrumb-sep"), 
+                InnerElement.appendChild(
+                    Div(_("tss-textbreadcrumb-wrap"),
+                        Span(_("tss-textbreadcrumb-sep"), 
                             I(_())
                         ),
                         component.Render())
@@ -66,7 +66,29 @@ namespace Tesserae
 
         public HTMLElement Render()
         {
-            return _childContainer;
+            return InnerElement;
         }
+
+        public virtual TextSize Size
+        {
+            get => ITextFormatingExtensions.FromClassList(InnerElement, TextSize.Small);
+            set
+            {
+                InnerElement.classList.remove(Size.ToClassName());
+                InnerElement.classList.add(value.ToClassName());
+            }
+        }
+
+        public virtual TextWeight Weight
+        {
+            get => ITextFormatingExtensions.FromClassList(InnerElement, TextWeight.Regular);
+            set
+            {
+                InnerElement.classList.remove(Weight.ToClassName());
+                InnerElement.classList.add(value.ToClassName());
+            }
+        }
+
+        public TextAlign TextAlign { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     }
 }

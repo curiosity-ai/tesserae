@@ -1,0 +1,168 @@
+﻿
+.tss-textbreadcrumb-container {
+    display: inline-flex;
+    overflow: hidden;
+}
+
+    .tss-textbreadcrumb-container.tss-fontsize-mega {
+        font-size: var(--tss-font-size-mega);
+        line-height: calc(16px + var(--tss-font-size-mega));
+        height: calc(16px + var(--tss-font-size-mega));
+    }
+
+    .tss-textbreadcrumb-container.tss-fontsize-xxlarge {
+        font-size: var(--tss-font-size-xxlarge);
+        line-height: calc(16px + var(--tss-font-size-xxlarge));
+        height: calc(16px + var(--tss-font-size-xxlarge));
+    }
+
+    .tss-textbreadcrumb-container.tss-fontsize-xlarge {
+        font-size: var(--tss-font-size-xlarge);
+        line-height: calc(16px + var(--tss-font-size-xlarge));
+        height: calc(16px + var(--tss-font-size-xlarge));
+    }
+
+    .tss-textbreadcrumb-container.tss-fontsize-large {
+        font-size: var(--tss-font-size-large);
+        line-height: calc(16px + var(--tss-font-size-large));
+        height: calc(16px + var(--tss-font-size-large));
+    }
+
+    .tss-textbreadcrumb-container.tss-fontsize-mediumplus {
+        font-size: var(--tss-font-size-mediumplus);
+        line-height: calc(16px + var(--tss-font-size-mediumplus));
+        height: calc(16px + var(--tss-font-size-mediumplus));
+    }
+
+    .tss-textbreadcrumb-container.tss-fontsize-medium {
+        font-size: var(--tss-font-size-medium);
+        line-height: calc(16px + var(--tss-font-size-medium));
+        height: calc(16px + var(--tss-font-size-medium));
+    }
+
+    .tss-textbreadcrumb-container.tss-fontsize-smallplus {
+        font-size: var(--tss-font-size-smallplus);
+        line-height: calc(16px + var(--tss-font-size-smallplus));
+        height: calc(16px + var(--tss-font-size-smallplus));
+    }
+
+    .tss-textbreadcrumb-container.tss-fontsize-small {
+        font-size: var(--tss-font-size-small);
+        line-height: calc(16px + var(--tss-font-size-small));
+        height: calc(16px + var(--tss-font-size-small));
+    }
+
+    .tss-textbreadcrumb-container.tss-fontsize-xsmall {
+        font-size: var(--tss-font-size-xsmall);
+        line-height: calc(16px + var(--tss-font-size-xsmall));
+        height: calc(16px + var(--tss-font-size-xsmall));
+    }
+
+    .tss-textbreadcrumb-container.tss-fontsize-tiny {
+        font-size: var(--tss-font-size-tiny);
+        line-height: calc(16px + var(--tss-font-size-tiny));
+        height: calc(16px + var(--tss-font-size-tiny));
+    }
+
+.tss-css-breadcrumb-wrap:hover:before {
+    transform: scaleX(1);
+}
+
+.tss-textbreadcrumb-wrap {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex: 0 auto;
+    flex-shrink: 1000;
+    display: inline-block;
+    position: relative;
+    transition: transform ease-in-out 0.3s;
+    line-height: inherit;
+    height: inherit;
+    font-size: inherit;
+}
+
+.tss-textbreadcrumb-wrap:hover {
+    flex: 1 0 auto;
+    opacity: 1;
+    transition: none;
+    opacity: 1;
+    transition: transform ease-in-out 0.4s;
+}
+
+.tss-textbreadcrumb-wrap:hover .sep i {
+    transform: translateX(8px);
+    transition: transform ease-in-out 0.3s;
+}
+
+.tss-textbreadcrumb-wrap:hover ~ .single-tss-textbreadcrumb-wrap {
+    transition: transform ease-in-out 0.4s;
+}
+
+.tss-textbreadcrumb-wrap:first-child {
+    flex: 0 0 auto;
+    flex-shrink: 0.5;
+    opacity: 1;
+}
+
+.tss-textbreadcrumb-wrap:first-child:after {
+    left: 0;
+}
+
+.tss-textbreadcrumb-wrap:first-child .sep {
+    display: none;
+}
+
+.tss-textbreadcrumb-wrap:last-child {
+    flex: 1 0 auto !important;
+}
+
+.tss-textbreadcrumb-wrap:last-child:hover {
+    flex: 1 0 auto !important;
+}
+
+.tss-textbreadcrumb-wrap:last-child:hover:after {
+    display: none;
+}
+
+.tss-textbreadcrumb-wrap:hover:after {
+    opacity: 1;
+    transition: opacity ease-in-out 0.1s, transform ease-in-out 0.2s;
+}
+
+.tss-textbreadcrumb {
+    flex: 0 1 auto;
+    user-select: none;
+    cursor: pointer;
+    padding: 0px 16px;
+    line-height: inherit;
+    height: inherit;
+    font-size: inherit;
+    border: 8px solid transparent;
+    border-radius: 8px;
+}
+
+    .tss-textbreadcrumb:hover {
+        color: var(--tss-default-foreground-hover-color);
+        background-color: var(--tss-default-background-hover-color);
+        border: 8px solid var(--tss-default-background-hover-color);
+    }
+
+.tss-textbreadcrumb-sep {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+    .tss-textbreadcrumb-sep i {
+        font-style: unset;
+        font-family: 'Line Awesome Free';
+        font-weight: 900 !important;
+        line-height: inherit;
+        height: inherit;
+        font-size: inherit;
+    }
+
+.tss-textbreadcrumb-sep i:before {
+    content: "\f105";
+    transition: transform ease-in-out 0.2s;
+}
