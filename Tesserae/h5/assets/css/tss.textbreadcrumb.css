@@ -2,6 +2,7 @@
 .tss-textbreadcrumb-container {
     display: inline-flex;
     overflow: hidden;
+    color: var(--tss-default-foreground-color);
 }
 
     .tss-textbreadcrumb-container.tss-fontsize-mega {
@@ -138,6 +139,7 @@
     line-height: inherit;
     height: inherit;
     font-size: inherit;
+    color: inherit;
     border: 8px solid transparent;
     border-radius: 8px;
 }
@@ -160,6 +162,7 @@
         line-height: inherit;
         height: inherit;
         font-size: inherit;
+        color: inherit;
     }
 
 .tss-textbreadcrumb-sep i:before {

@@ -17,7 +17,7 @@ namespace Tesserae
             return InnerElement;
         }
     }
-    public class TextBreadcrumbs : IComponent, IContainer<TextBreadcrumbs, TextBreadcrumb>, ITextFormating
+    public class TextBreadcrumbs : IComponent, IContainer<TextBreadcrumbs, TextBreadcrumb>, ITextFormating, IHasForegroundColor
     {
         private readonly HTMLElement InnerElement;
 
@@ -90,5 +90,7 @@ namespace Tesserae
         }
 
         public TextAlign TextAlign { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+        public string Foreground { get => InnerElement.style.color; set => InnerElement.style.color = value; }
     }
 }
