@@ -9,6 +9,7 @@ namespace Tesserae
     public class ToggleButton : IComponent
     {
         private Button _button;
+
         protected event ComponentEventHandler<ToggleButton, Event> Changed;
 
         public bool IsChecked
@@ -40,7 +41,7 @@ namespace Tesserae
                 IsChecked = !IsChecked;
                 Changed?.Invoke(this, null);
             });
-            
+
             IsChecked = false;
         }
 
@@ -52,7 +53,7 @@ namespace Tesserae
 
         public HTMLElement Render()
         {
-            return ((IComponent)_button).Render();
+            return ((IComponent) _button).Render();
         }
 
         public ToggleButton Disabled(bool value = true)
@@ -397,14 +398,24 @@ namespace Tesserae
                     finally
                     {
                         UndoSpinner();
-                        if (innerException is object) onError?.Invoke(this, innerException); // UndoSpinner replaces the inner element, that's why we call this here
+                        if (innerException is object)
+                        {
+                            if (onError is object)
+                            {
+                                onError(this, innerException);
+                            }
+                            else
+                            {
+                                console.error(innerException);
+                            }
+                        }
 
                     }
                 }).FireAndForget();
             });
         }
 
-        public Button OnClick(Action action) => OnClick((_, __) => action.Invoke());
+        public Button OnClick(Action       action) => OnClick((_,       __) => action.Invoke());
         public Button OnContextMenu(Action action) => OnContextMenu((_, __) => action.Invoke());
 
         public void SpinWhile(Func<Task> action, string text = null, Action<Button, Exception> onError = null)
@@ -425,7 +436,17 @@ namespace Tesserae
                 finally
                 {
                     UndoSpinner();
-                    if (innerException is object) onError?.Invoke(this, innerException); // UndoSpinner replaces the inner element, that's why we call this here
+                    if (innerException is object)
+                    {
+                        if (onError is object)
+                        {
+                            onError(this, innerException);
+                        }
+                        else
+                        {
+                            console.error(innerException);
+                        }
+                    }
 
                 }
                 UndoSpinner();
@@ -594,7 +615,11 @@ namespace Tesserae
         {
             // 2020-12-29 DWR: Seems like this setTimeout is required then the element is rendered within a container that uses "simplebar" scrolling - without the delay, if the element getting focus is out of view then it will not be
             // scrolled into view (even though it has successfully received focus)
-            DomObserver.WhenMounted(InnerElement, () => { InnerElement.scrollIntoViewIfNeeded(); InnerElement.focus(); });
+            DomObserver.WhenMounted(InnerElement, () =>
+            {
+                InnerElement.scrollIntoViewIfNeeded();
+                InnerElement.focus();
+            });
             return this;
         }
 
