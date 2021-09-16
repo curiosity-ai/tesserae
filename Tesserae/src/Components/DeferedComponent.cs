@@ -16,6 +16,7 @@ namespace Tesserae
         private double _refreshTimeout;
         private int _delayInMs = 16;
         private int id = 0;
+        private Action _whenUnmounted;
         private DeferedComponent(Func<Task<IComponent>> asyncGenerator, IComponent loadMessage, TextBlock defaultLoadingMessageIfAny)
         {
             if (loadMessage is null)
@@ -156,140 +157,303 @@ namespace Tesserae
         internal static DeferedComponent Observe<T1>(IObservable<T1> o1, Func<T1, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
         {
             var d = Create(() => asyncGenerator(o1.Value), loadMessage);
-            o1.ObserveFutureChanges(_ => d.Refresh());
+
+            DomObserver.WhenMounted(d.Container, () =>
+            {
+                o1.ObserveFutureChanges(DoRefresh);
+
+                DomObserver.WhenRemoved(d.Container, () =>
+                {
+                    o1.StopObserving(DoRefresh);
+                });
+            });
+
+
+            void DoRefresh<T>(T val)
+            {
+                d.Refresh();
+            }
+
             return d;
         }
 
         internal static DeferedComponent Observe<T1, T2>(IObservable<T1> o1, IObservable<T2> o2, Func<T1, T2, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
         {
             var d = Create(() => asyncGenerator(o1.Value, o2.Value), loadMessage);
-            o1.ObserveFutureChanges(_ => d.Refresh());
-            o2.ObserveFutureChanges(_ => d.Refresh());
+            DomObserver.WhenMounted(d.Container, () =>
+            {
+                o1.ObserveFutureChanges(DoRefresh);
+                o2.ObserveFutureChanges(DoRefresh);
+
+                DomObserver.WhenRemoved(d.Container, () =>
+                {
+                    o1.StopObserving(DoRefresh);
+                    o2.StopObserving(DoRefresh);
+                });
+            });
+
+            void DoRefresh<T>(T val)
+            {
+                d.Refresh();
+            }
+
             return d;
         }
 
         internal static DeferedComponent Observe<T1, T2, T3>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, Func<T1, T2, T3, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
         {
             var d = Create(() => asyncGenerator(o1.Value, o2.Value, o3.Value), loadMessage);
-            o1.ObserveFutureChanges(_ => d.Refresh());
-            o2.ObserveFutureChanges(_ => d.Refresh());
-            o3.ObserveFutureChanges(_ => d.Refresh());
+            DomObserver.WhenMounted(d.Container, () =>
+            {
+                o1.ObserveFutureChanges(DoRefresh);
+                o2.ObserveFutureChanges(DoRefresh);
+                o3.ObserveFutureChanges(DoRefresh);
+
+                DomObserver.WhenRemoved(d.Container, () =>
+                {
+                    o1.StopObserving(DoRefresh);
+                    o2.StopObserving(DoRefresh);
+                    o3.StopObserving(DoRefresh);
+                });
+            });
+
+            void DoRefresh<T>(T val)
+            {
+                d.Refresh();
+            }
+
             return d;
         }
 
         internal static DeferedComponent Observe<T1, T2, T3, T4>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, Func<T1, T2, T3, T4, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
         {
             var d = Create(() => asyncGenerator(o1.Value, o2.Value, o3.Value, o4.Value), loadMessage);
-            o1.ObserveFutureChanges(_ => d.Refresh());
-            o2.ObserveFutureChanges(_ => d.Refresh());
-            o3.ObserveFutureChanges(_ => d.Refresh());
-            o4.ObserveFutureChanges(_ => d.Refresh());
+            DomObserver.WhenMounted(d.Container, () =>
+            {
+                o1.ObserveFutureChanges(DoRefresh);
+                o2.ObserveFutureChanges(DoRefresh);
+                o3.ObserveFutureChanges(DoRefresh);
+                o4.ObserveFutureChanges(DoRefresh);
+
+                DomObserver.WhenRemoved(d.Container, () =>
+                {
+                    o1.StopObserving(DoRefresh);
+                    o2.StopObserving(DoRefresh);
+                    o3.StopObserving(DoRefresh);
+                    o4.StopObserving(DoRefresh);
+                });
+            });
+
+            void DoRefresh<T>(T val)
+            {
+                d.Refresh();
+            }
+
             return d;
         }
 
         internal static DeferedComponent Observe<T1, T2, T3, T4, T5>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, Func<T1, T2, T3, T4, T5, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
         {
             var d = Create(() => asyncGenerator(o1.Value, o2.Value, o3.Value, o4.Value, o5.Value), loadMessage);
-            o1.ObserveFutureChanges(_ => d.Refresh());
-            o2.ObserveFutureChanges(_ => d.Refresh());
-            o3.ObserveFutureChanges(_ => d.Refresh());
-            o4.ObserveFutureChanges(_ => d.Refresh());
-            o5.ObserveFutureChanges(_ => d.Refresh());
+            DomObserver.WhenMounted(d.Container, () =>
+            {
+                o1.ObserveFutureChanges(DoRefresh);
+                o2.ObserveFutureChanges(DoRefresh);
+                o3.ObserveFutureChanges(DoRefresh);
+                o4.ObserveFutureChanges(DoRefresh);
+                o5.ObserveFutureChanges(DoRefresh);
+
+                DomObserver.WhenRemoved(d.Container, () =>
+                {
+                    o1.StopObserving(DoRefresh);
+                    o2.StopObserving(DoRefresh);
+                    o3.StopObserving(DoRefresh);
+                    o4.StopObserving(DoRefresh);
+                    o5.StopObserving(DoRefresh);
+                });
+            });
+
+            void DoRefresh<T>(T val)
+            {
+                d.Refresh();
+            }
+
             return d;
         }
 
         internal static DeferedComponent Observe<T1, T2, T3, T4, T5, T6>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, IObservable<T6> o6, Func<T1, T2, T3, T4, T5, T6, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
         {
             var d = Create(() => asyncGenerator(o1.Value, o2.Value, o3.Value, o4.Value, o5.Value, o6.Value), loadMessage);
-            o1.ObserveFutureChanges(_ => d.Refresh());
-            o2.ObserveFutureChanges(_ => d.Refresh());
-            o3.ObserveFutureChanges(_ => d.Refresh());
-            o4.ObserveFutureChanges(_ => d.Refresh());
-            o5.ObserveFutureChanges(_ => d.Refresh());
-            o6.ObserveFutureChanges(_ => d.Refresh());
+            DomObserver.WhenMounted(d.Container, () =>
+            {
+                o1.ObserveFutureChanges(DoRefresh);
+                o2.ObserveFutureChanges(DoRefresh);
+                o3.ObserveFutureChanges(DoRefresh);
+                o4.ObserveFutureChanges(DoRefresh);
+                o5.ObserveFutureChanges(DoRefresh);
+                o6.ObserveFutureChanges(DoRefresh);
+
+                DomObserver.WhenRemoved(d.Container, () =>
+                {
+                    o1.StopObserving(DoRefresh);
+                    o2.StopObserving(DoRefresh);
+                    o3.StopObserving(DoRefresh);
+                    o4.StopObserving(DoRefresh);
+                    o5.StopObserving(DoRefresh);
+                    o6.StopObserving(DoRefresh);
+                });
+            });
+
+            void DoRefresh<T>(T val)
+            {
+                d.Refresh();
+            }
+
             return d;
         }
 
         internal static DeferedComponent Observe<T1, T2, T3, T4, T5, T6, T7>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, IObservable<T6> o6, IObservable<T7> o7, Func<T1, T2, T3, T4, T5, T6, T7, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
         {
             var d = Create(() => asyncGenerator(o1.Value, o2.Value, o3.Value, o4.Value, o5.Value, o6.Value, o7.Value), loadMessage);
-            o1.ObserveFutureChanges(_ => d.Refresh());
-            o2.ObserveFutureChanges(_ => d.Refresh());
-            o3.ObserveFutureChanges(_ => d.Refresh());
-            o4.ObserveFutureChanges(_ => d.Refresh());
-            o5.ObserveFutureChanges(_ => d.Refresh());
-            o6.ObserveFutureChanges(_ => d.Refresh());
-            o7.ObserveFutureChanges(_ => d.Refresh());
+            DomObserver.WhenMounted(d.Container, () =>
+            {
+                o1.ObserveFutureChanges(DoRefresh);
+                o2.ObserveFutureChanges(DoRefresh);
+                o3.ObserveFutureChanges(DoRefresh);
+                o4.ObserveFutureChanges(DoRefresh);
+                o5.ObserveFutureChanges(DoRefresh);
+                o6.ObserveFutureChanges(DoRefresh);
+                o7.ObserveFutureChanges(DoRefresh);
+
+                DomObserver.WhenRemoved(d.Container, () =>
+                {
+                    o1.StopObserving(DoRefresh);
+                    o2.StopObserving(DoRefresh);
+                    o3.StopObserving(DoRefresh);
+                    o4.StopObserving(DoRefresh);
+                    o5.StopObserving(DoRefresh);
+                    o6.StopObserving(DoRefresh);
+                    o7.StopObserving(DoRefresh);
+                });
+            });
+
+            void DoRefresh<T>(T val)
+            {
+                d.Refresh();
+            }
+
             return d;
         }
 
         internal static DeferedComponent Observe<T1, T2, T3, T4, T5, T6, T7, T8>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, IObservable<T6> o6, IObservable<T7> o7, IObservable<T8> o8, Func<T1, T2, T3, T4, T5, T6, T7, T8, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
         {
             var d = Create(() => asyncGenerator(o1.Value, o2.Value, o3.Value, o4.Value, o5.Value, o6.Value, o7.Value, o8.Value), loadMessage);
-            o1.ObserveFutureChanges(_ => d.Refresh());
-            o2.ObserveFutureChanges(_ => d.Refresh());
-            o3.ObserveFutureChanges(_ => d.Refresh());
-            o4.ObserveFutureChanges(_ => d.Refresh());
-            o5.ObserveFutureChanges(_ => d.Refresh());
-            o6.ObserveFutureChanges(_ => d.Refresh());
-            o7.ObserveFutureChanges(_ => d.Refresh());
-            o8.ObserveFutureChanges(_ => d.Refresh());
+            DomObserver.WhenMounted(d.Container, () =>
+            {
+                o1.ObserveFutureChanges(DoRefresh);
+                o2.ObserveFutureChanges(DoRefresh);
+                o3.ObserveFutureChanges(DoRefresh);
+                o4.ObserveFutureChanges(DoRefresh);
+                o5.ObserveFutureChanges(DoRefresh);
+                o6.ObserveFutureChanges(DoRefresh);
+                o7.ObserveFutureChanges(DoRefresh);
+                o8.ObserveFutureChanges(DoRefresh);
+
+                DomObserver.WhenRemoved(d.Container, () =>
+                {
+                    o1.StopObserving(DoRefresh);
+                    o2.StopObserving(DoRefresh);
+                    o3.StopObserving(DoRefresh);
+                    o4.StopObserving(DoRefresh);
+                    o5.StopObserving(DoRefresh);
+                    o6.StopObserving(DoRefresh);
+                    o7.StopObserving(DoRefresh);
+                    o8.StopObserving(DoRefresh);
+                });
+            });
+
+            void DoRefresh<T>(T val)
+            {
+                d.Refresh();
+            }
+
             return d;
         }
 
         internal static DeferedComponent Observe<T1, T2, T3, T4, T5, T6, T7, T8, T9>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, IObservable<T6> o6, IObservable<T7> o7, IObservable<T8> o8, IObservable<T9> o9, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
         {
             var d = Create(() => asyncGenerator(o1.Value, o2.Value, o3.Value, o4.Value, o5.Value, o6.Value, o7.Value, o8.Value, o9.Value), loadMessage);
-            o1.ObserveFutureChanges(_ => d.Refresh());
-            o2.ObserveFutureChanges(_ => d.Refresh());
-            o3.ObserveFutureChanges(_ => d.Refresh());
-            o4.ObserveFutureChanges(_ => d.Refresh());
-            o5.ObserveFutureChanges(_ => d.Refresh());
-            o6.ObserveFutureChanges(_ => d.Refresh());
-            o7.ObserveFutureChanges(_ => d.Refresh());
-            o8.ObserveFutureChanges(_ => d.Refresh());
-            o9.ObserveFutureChanges(_ => d.Refresh());
+            DomObserver.WhenMounted(d.Container, () =>
+            {
+                o1.ObserveFutureChanges(DoRefresh);
+                o2.ObserveFutureChanges(DoRefresh);
+                o3.ObserveFutureChanges(DoRefresh);
+                o4.ObserveFutureChanges(DoRefresh);
+                o5.ObserveFutureChanges(DoRefresh);
+                o6.ObserveFutureChanges(DoRefresh);
+                o7.ObserveFutureChanges(DoRefresh);
+                o8.ObserveFutureChanges(DoRefresh);
+                o9.ObserveFutureChanges(DoRefresh);
+
+                DomObserver.WhenRemoved(d.Container, () =>
+                {
+                    o1.StopObserving(DoRefresh);
+                    o2.StopObserving(DoRefresh);
+                    o3.StopObserving(DoRefresh);
+                    o4.StopObserving(DoRefresh);
+                    o5.StopObserving(DoRefresh);
+                    o6.StopObserving(DoRefresh);
+                    o7.StopObserving(DoRefresh);
+                    o8.StopObserving(DoRefresh);
+                    o9.StopObserving(DoRefresh);
+                });
+            });
+
+            void DoRefresh<T>(T val)
+            {
+                d.Refresh();
+            }
+
             return d;
         }
 
         internal static DeferedComponent Observe<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, IObservable<T6> o6, IObservable<T7> o7, IObservable<T8> o8, IObservable<T9> o9, IObservable<T10> o10, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
         {
             var d = Create(() => asyncGenerator(o1.Value, o2.Value, o3.Value, o4.Value, o5.Value, o6.Value, o7.Value, o8.Value, o9.Value, o10.Value), loadMessage);
-            o1.ObserveFutureChanges(_ => d.Refresh());
-            o2.ObserveFutureChanges(_ => d.Refresh());
-            o3.ObserveFutureChanges(_ => d.Refresh());
-            o4.ObserveFutureChanges(_ => d.Refresh());
-            o5.ObserveFutureChanges(_ => d.Refresh());
-            o6.ObserveFutureChanges(_ => d.Refresh());
-            o7.ObserveFutureChanges(_ => d.Refresh());
-            o8.ObserveFutureChanges(_ => d.Refresh());
-            o9.ObserveFutureChanges(_ => d.Refresh());
-            o10.ObserveFutureChanges(_ => d.Refresh());
+            DomObserver.WhenMounted(d.Container, () =>
+            {
+                o1.ObserveFutureChanges(DoRefresh);
+                o2.ObserveFutureChanges(DoRefresh);
+                o3.ObserveFutureChanges(DoRefresh);
+                o4.ObserveFutureChanges(DoRefresh);
+                o5.ObserveFutureChanges(DoRefresh);
+                o6.ObserveFutureChanges(DoRefresh);
+                o7.ObserveFutureChanges(DoRefresh);
+                o8.ObserveFutureChanges(DoRefresh);
+                o9.ObserveFutureChanges(DoRefresh);
+                o10.ObserveFutureChanges(DoRefresh);
+
+                DomObserver.WhenRemoved(d.Container, () =>
+                {
+                    o1.StopObserving(DoRefresh);
+                    o2.StopObserving(DoRefresh);
+                    o3.StopObserving(DoRefresh);
+                    o4.StopObserving(DoRefresh);
+                    o5.StopObserving(DoRefresh);
+                    o6.StopObserving(DoRefresh);
+                    o7.StopObserving(DoRefresh);
+                    o8.StopObserving(DoRefresh);
+                    o9.StopObserving(DoRefresh);
+                    o10.StopObserving(DoRefresh);
+                });
+            });
+
+            void DoRefresh<T>(T val)
+            {
+                d.Refresh();
+            }
+
             return d;
         }
     }
-
-    //Generator code:
-
-    //var sb = new StringBuilder(); // For Defer.cs
-    //var sb2 = new StringBuilder(); //For UI.Components.cs
-    //for(int i = 1; i <= 10; i++)
-    //{
-    //	var t = string.Join(", ", Enumerable.Range(1, i).Select(a => $"T{a}"));
-    //	var ot = string.Join(", ", Enumerable.Range(1, i).Select(a => $"IObservable<T{a}> o{a}"));
-    //  var ot2 = string.Join(", ", Enumerable.Range(1, i).Select(a => $"o{a}"));
-    //	var vt = string.Join(", ", Enumerable.Range(1, i).Select(a => $"o{a}.Value"));
-    //  sb2.AppendLine($"public static Defer Defer<{t}>({ot}, Func<{t}, Task<IComponent>> asyncGenerator, IComponent loadMessage = null) => Components.Defer.Observe({ot2}, asyncGenerator, loadMessage);");
-    //	sb.AppendLine($"internal  static Defer Observe<{t}>({ot}, Func<{t}, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)");
-    //	sb.AppendLine("{");
-    //	sb.AppendLine($"    var d = Create(() => asyncGenerator({vt}), loadMessage);");
-    //	for(int j = 1; j <= i; j++)
-    //	{
-    //		sb.AppendLine($"    o{j}.ObserveFutureChanges(_ => d.Refresh());");
-    //	}
-    //	sb.AppendLine("   return d;");
-    //	sb.AppendLine("}").AppendLine();
-    //}
-    //Console.WriteLine(sb.ToString());
-    //Console.WriteLine(sb2.ToString());
 }
