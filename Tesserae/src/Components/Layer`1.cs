@@ -77,6 +77,8 @@ namespace Tesserae
                 }
 
                 _isVisible = true;
+                
+                Tippy.HideAll();
             }
             return (T)this;
         }

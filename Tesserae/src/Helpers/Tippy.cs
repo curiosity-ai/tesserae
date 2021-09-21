@@ -49,5 +49,10 @@ namespace Tesserae
                 onHidden();
             });
         }
+
+        public static void HideAll()
+        {
+            H5.Script.Write("tippy.hideAll()");
+        }
     }
 }
