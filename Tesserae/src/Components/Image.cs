@@ -97,5 +97,11 @@ namespace Tesserae
             PropagateToStackItemParent = false;
             return this;
         }
+
+        public Image Circle(int pixels)
+        {
+            InnerElement.style.borderRadius = $"{pixels}px";
+            return this;
+        }
     }
 }
