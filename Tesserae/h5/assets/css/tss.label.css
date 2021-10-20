@@ -20,9 +20,9 @@
     white-space: nowrap;
 }
 
-    .tss-label > div {
-        margin: 0;
-    }
+.tss-label > div {
+    margin: 4px;
+}
 
 
 .tss-label.tss-inline {
