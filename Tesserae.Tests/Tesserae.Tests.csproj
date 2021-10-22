@@ -1,12 +1,12 @@
-<Project Sdk="h5.Target/0.0.13615">
+<Project Sdk="h5.Target/0.0.21664">
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <DefineConstants>H5</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="h5" Version="0.0.22158" />
-    <PackageReference Include="h5.core" Version="0.0.21577" />
+    <PackageReference Include="h5" Version="0.0.22518" />
+    <PackageReference Include="h5.core" Version="0.0.22512" />
   </ItemGroup>
 
   <ItemGroup>
