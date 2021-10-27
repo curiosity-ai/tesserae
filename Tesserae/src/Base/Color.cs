@@ -168,9 +168,19 @@ namespace Tesserae
             return $"rgb({R:#0.##}, {G:#0.##}, {B:#0.##})";
         }
 
+        public string ToRGBvar()
+        {
+            return $"{R:#0.##}, {G:#0.##}, {B:#0.##}";
+        }
+
         public string ToRGBA(float opacity)
         {
             return $"rgba({R:#0.##}, {G:#0.##}, {B:#0.##}, {opacity:#0.##})";
+        }
+
+        public string ToRGBAvar(float opacity)
+        {
+            return $"{R:#0.##}, {G:#0.##}, {B:#0.##}, {opacity:#0.##}";
         }
     }
 }

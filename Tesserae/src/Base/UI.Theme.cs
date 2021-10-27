@@ -56,25 +56,49 @@ namespace Tesserae
 
                 var sb = new StringBuilder();
                 sb.AppendLine(":root {");
-                sb.Append("  --tss-primary-background-color: ").Append(primaryLightColor.ToRGB()).AppendLine(";");
-                sb.Append("  --tss-primary-background-color-transparent: ").Append(primaryLightColor.ToRGBA(0.2f)).AppendLine(";");
-                sb.Append("  --tss-sidebar-background-color: ").Append(primaryLightColor.ToRGB()).AppendLine(";");
-                sb.Append("  --tss-link-color: ").Append(primaryLightColor.ToRGB()).AppendLine(";");
-                sb.Append("  --tss-primary-border-color: ").Append(borderColorLight.ToRGB()).AppendLine(";");
-                sb.Append("  --tss-primary-background-hover-color: ").Append(borderColorLight.ToRGB()).AppendLine(";");
-                sb.Append("  --tss-primary-background-active-color: ").Append(backgroundActiveLight.ToRGB()).AppendLine(";");
-                sb.Append("  --tss-primary-shadow: ").Append($"0 1.6px 3.6px 0 {primaryLightColor.ToRGBA(0.132f)}, 0 0.3px 0.9px 0 {primaryLightColor.ToRGBA(0.108f)}").AppendLine(";");
+                sb.Append("  --tss-primary-background-color-root: ").Append(primaryLightColor.ToRGBvar()).AppendLine(";");
+                sb.Append("  --tss-sidebar-background-color-root: ").Append(primaryLightColor.ToRGBvar()).AppendLine(";");
+                sb.Append("  --tss-link-color-root: ").Append(primaryLightColor.ToRGBvar()).AppendLine(";");
+                sb.Append("  --tss-primary-border-color-root: ").Append(borderColorLight.ToRGBvar()).AppendLine(";");
+                sb.Append("  --tss-primary-background-hover-color-root: ").Append(borderColorLight.ToRGBvar()).AppendLine(";");
+                sb.Append("  --tss-primary-background-active-color-root: ").Append(backgroundActiveLight.ToRGBvar()).AppendLine(";");
+                sb.Append("  --tss-primary-shadow-color-root: ").Append(primaryLightColor.ToRGBvar()).AppendLine(";");
+
+                //We need to redefine the variables again here otherwise the values won't change as they're derived twice from variables
+                sb.Append(@"
+    --tss-primary-background-color: rgb(var(--tss-primary-background-color-root ));
+    --tss-sidebar-background-color: rgb(var(--tss-sidebar-background-color-root ));
+    --tss-link-color: rgb(var(--tss-link-color-root ));
+    --tss-primary-border-color: rgb(var(--tss-primary-border-color-root ));
+    --tss-primary-background-hover-color: rgb(var(--tss-primary-background-hover-color-root ));
+    --tss-primary-background-active-color: rgb(var(--tss-primary-background-active-color-root ));
+    --tss-primary-shadow: 0 1.6px 3.6px 0 rgba(var(--tss-primary-shadow-color-root),0.132), 0 0.3px 0.9px 0 rgba(var(--tss-primary-shadow-color-root),0.108);
+");
+
                 sb.AppendLine("}");
 
                 sb.AppendLine(".tss-dark-mode {");
-                sb.Append("  --tss-primary-background-color: ").Append(primaryDarkColor.ToRGB()).AppendLine(";");
-                sb.Append("  --tss-primary-background-color-transparent: ").Append(primaryDarkColor.ToRGBA(0.2f)).AppendLine(";");
-                sb.Append("  --tss-sidebar-background-color: ").Append(primaryDarkColor.ToRGB()).AppendLine(";");
-                sb.Append("  --tss-link-color: ").Append(primaryDarkColor.ToRGB()).AppendLine(";"); 
-                sb.Append("  --tss-primary-border-color: ").Append(borderColorDark.ToRGB()).AppendLine(";");
-                sb.Append("  --tss-primary-background-hover-color: ").Append(borderColorDark.ToRGB()).AppendLine(";");
-                sb.Append("  --tss-primary-background-active-color: ").Append(backgroundActiveDark.ToRGB()).AppendLine(";");
-                sb.Append("  --tss-primary-shadow: ").Append($"0 1.6px 3.6px 0 {primaryDarkColor.ToRGBA(0.132f)}, 0 0.3px 0.9px 0 {primaryDarkColor.ToRGBA(0.108f)}").AppendLine(";");
+                sb.Append("  --tss-primary-background-color-root: ").Append(primaryDarkColor.ToRGBvar()).AppendLine(";");
+                sb.Append("  --tss-sidebar-background-color-root: ").Append(primaryDarkColor.ToRGBvar()).AppendLine(";");
+                sb.Append("  --tss-link-color-root: ").Append(primaryDarkColor.ToRGBvar()).AppendLine(";"); 
+                sb.Append("  --tss-primary-border-color-root: ").Append(borderColorDark.ToRGBvar()).AppendLine(";");
+                sb.Append("  --tss-primary-background-hover-color-root: ").Append(borderColorDark.ToRGBvar()).AppendLine(";");
+                sb.Append("  --tss-primary-background-active-color-root: ").Append(backgroundActiveDark.ToRGBvar()).AppendLine(";");
+                sb.Append("  --tss-primary-shadow-color-root: ").Append(primaryDarkColor.ToRGBvar()).AppendLine(";");
+
+                //We need to redefine the variables again here otherwise the values won't change as they're derived twice from variables
+                sb.Append(@"
+    --tss-primary-background-color: rgb(var(--tss-primary-background-color-root ));
+    --tss-sidebar-background-color: rgb(var(--tss-sidebar-background-color-root ));
+    --tss-link-color: rgb(var(--tss-link-color-root ));
+    --tss-primary-border-color: rgb(var(--tss-primary-border-color-root ));
+    --tss-primary-background-hover-color: rgb(var(--tss-primary-background-hover-color-root ));
+    --tss-primary-background-active-color: rgb(var(--tss-primary-background-active-color-root ));
+    --tss-primary-shadow: 0 3.6px 5.6px 0 rgba(var(--tss-primary-shadow-color-root),0.132), 2px 2.3px 5.9px 0 rgba(var(--tss-primary-shadow-color-root),0.108);
+");
+
+
+
                 sb.AppendLine("}");
 
                 _primaryStyleElement = (HTMLStyleElement)document.createElement("style");

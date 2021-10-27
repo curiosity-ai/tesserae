@@ -50,6 +50,15 @@ namespace Tesserae
             return ((Color)this).ToRGBA(opacity);
         }
 
+        public string ToRGBvar()
+        {
+            return ((Color)this).ToRGBvar();
+        }
+        public string ToRGBAvar(float opacity)
+        {
+            return ((Color)this).ToRGBAvar(opacity);
+        }
+
         public string ToHex()
         {
             var c = (Color)this;
