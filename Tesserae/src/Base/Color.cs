@@ -134,7 +134,7 @@ namespace Tesserae
         {
             var hex = hexString.TrimStart('#');
 
-            if(hex.Length == 3)
+            if (hex.Length == 3)
             {
                 hex = hex.Substring(0, 1) + hex.Substring(0, 1) + hex.Substring(1, 1) + hex.Substring(1, 1) + hex.Substring(2, 1) + hex.Substring(2, 1);
             }
