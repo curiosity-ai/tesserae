@@ -79,8 +79,8 @@ namespace Tesserae.HTML
         {
             _elementsToTrackMountingOf.RemoveAll(e => e.ElementOrNullIfCollected is null);
             _elementsToTrackRemovalOf.RemoveAll(e => e.ElementOrNullIfCollected is null);
-
         }
+
         private static void CheckMounted(MutationRecord[] mutationRecords)
         {
             if (_elementsToTrackMountingOf.Count == 0)
