@@ -56,7 +56,7 @@ namespace Tesserae.Tests.Samples
                .Range(1, count)
                .Select(number =>
                 {
-                    var card = Card(TextBlock($"Lorem Ipsum {pageString}{number}" + txt).NonSelectable()).MinWidth(200.px());
+                    var card = Card(TextBlock($"Lorem Ipsum {pageString} / {number}" + txt).NonSelectable()).MinWidth(200.px());
                     return card;
                 })
                .ToArray();
