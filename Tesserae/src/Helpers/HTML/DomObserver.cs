@@ -13,11 +13,36 @@ namespace Tesserae.HTML
 
         private class ElementAndCallback
         {
+            private static bool? _weakrefAvailable;
+
+            private static bool IsAvailable()
+            {
+                if (_weakrefAvailable.HasValue) return _weakrefAvailable.Value;
+
+                try
+                {
+                    Script.Write("let ref = new WeakRef({0})", new object());
+                }
+                catch
+                {
+                    _weakrefAvailable = false;
+                }
+
+                return _weakrefAvailable.Value;
+            }
+
             public HTMLElement ElementOrNullIfCollected => dereference();
             
             private HTMLElement dereference()
             {
-                return Script.Write<HTMLElement>("{0}.ref.deref()", this);
+                if (IsAvailable())
+                {
+                    return Script.Write<HTMLElement>("{0}.ref.deref()", this);
+                }
+                else
+                {
+                    return Script.Write<HTMLElement>("{0}.ref", this);
+                }
             }
 
             public Action Callback;
@@ -25,7 +50,14 @@ namespace Tesserae.HTML
             public ElementAndCallback(HTMLElement element, Action callback)
             {
                 Callback = callback;
-                Script.Write("{0}.ref = new WeakRef({1})", this, element);
+                if (IsAvailable())
+                {
+                    Script.Write("{0}.ref = new WeakRef({1})", this, element);
+                }
+                else
+                {
+                    Script.Write("{0}.ref = {1}", this, element);
+                }
             }
         }
 
