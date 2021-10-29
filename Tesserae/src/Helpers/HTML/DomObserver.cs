@@ -33,7 +33,7 @@ namespace Tesserae.HTML
             }
 
             public HTMLElement ElementOrNullIfCollected => dereference();
-            
+
             private HTMLElement dereference()
             {
                 if (IsAvailable())
@@ -46,18 +46,31 @@ namespace Tesserae.HTML
                 }
             }
 
-            public Action Callback;
+            public Action CallbackOrNullIfCollected => dereferenceCallback();
+
+            private Action dereferenceCallback()
+            {
+                if (IsAvailable())
+                {
+                    return Script.Write<Action>("{0}.callbackref.deref()", this);
+                }
+                else
+                {
+                    return Script.Write<Action>("{0}.callbackref", this);
+                }
+            }
 
             public ElementAndCallback(HTMLElement element, Action callback)
             {
-                Callback = callback;
                 if (IsAvailable())
                 {
                     Script.Write("{0}.ref = new WeakRef({1})", this, element);
+                    Script.Write("{0}.callbackref = new WeakRef({1})", this, callback);
                 }
                 else
                 {
                     Script.Write("{0}.ref = {1}", this, element);
+                    Script.Write("{0}.callbackref = {1}", this, callback);
                 }
             }
         }
@@ -106,7 +119,7 @@ namespace Tesserae.HTML
             }
             if (elementsMountedThatWeCareAbout.Count == 0) return;
 
-            _elementsToTrackMountingOf = _elementsToTrackMountingOf.Except(elementsMountedThatWeCareAbout).Where(e => e.ElementOrNullIfCollected is object).ToList();
+            _elementsToTrackMountingOf = _elementsToTrackMountingOf.Except(elementsMountedThatWeCareAbout).Where(e => e.ElementOrNullIfCollected is object && e.CallbackOrNullIfCollected is object).ToList();
             
             window.requestAnimationFrame(_ =>
             {
@@ -122,7 +135,7 @@ namespace Tesserae.HTML
                             continue;
                         }
 
-                        entry.Callback();
+                        entry.CallbackOrNullIfCollected?.Invoke();
                     }
                 }
             });
@@ -171,7 +184,7 @@ namespace Tesserae.HTML
                 return;
             }
 
-            _elementsToTrackRemovalOf = _elementsToTrackRemovalOf.Except(elementsRemovedThatWeCareAbout).Where(e => e.ElementOrNullIfCollected is object).ToList();
+            _elementsToTrackRemovalOf = _elementsToTrackRemovalOf.Except(elementsRemovedThatWeCareAbout).Where(e => e.ElementOrNullIfCollected is object && e.CallbackOrNullIfCollected is object).ToList();
 
             window.requestAnimationFrame(_ =>
             {
@@ -187,7 +200,7 @@ namespace Tesserae.HTML
                             continue;
                         }
 
-                        entry.Callback();
+                        entry.CallbackOrNullIfCollected?.Invoke();
                     }
                 }
             });
