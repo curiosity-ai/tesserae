@@ -75,6 +75,12 @@ namespace Tesserae.HTML
             observer.observe(document.body, new MutationObserverInit { childList = true, subtree = true });
         }
 
+        public static void CleanUnusedReferences()
+        {
+            _elementsToTrackMountingOf.RemoveAll(e => e.ElementOrNullIfCollected is null);
+            _elementsToTrackRemovalOf.RemoveAll(e => e.ElementOrNullIfCollected is null);
+
+        }
         private static void CheckMounted(MutationRecord[] mutationRecords)
         {
             if (_elementsToTrackMountingOf.Count == 0)
