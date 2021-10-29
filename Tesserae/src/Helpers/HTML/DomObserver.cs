@@ -1,4 +1,5 @@
-﻿using System;
+﻿using H5;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using static H5.Core.dom;
@@ -7,20 +8,38 @@ namespace Tesserae.HTML
 {
     public static class DomObserver
     {
-        private static List<(HTMLElement element, Action callback)> _elementsToTrackMountingOf;
-        private static List<(HTMLElement element, Action callback)> _elementsToTrackRemovalOf;
+        private static List<ElementAndCallback> _elementsToTrackMountingOf;
+        private static List<ElementAndCallback> _elementsToTrackRemovalOf;
+
+        private class ElementAndCallback
+        {
+            public HTMLElement ElementOrNullIfCollected => dereference();
+            
+            private HTMLElement dereference()
+            {
+                return Script.Write<HTMLElement>("{0}.ref.deref()", this);
+            }
+
+            public Action Callback;
+
+            public ElementAndCallback(HTMLElement element, Action callback)
+            {
+                Callback = callback;
+                Script.Write("{0}.ref = new WeakRef({1})", this, element);
+            }
+        }
 
         static DomObserver()
         {
-            _elementsToTrackMountingOf = new List<(HTMLElement, Action)>();
-            _elementsToTrackRemovalOf = new List<(HTMLElement, Action)>();
+            _elementsToTrackMountingOf = new List<ElementAndCallback>();
+            _elementsToTrackRemovalOf = new List<ElementAndCallback>();
 
             var observer = new MutationObserver((mutationRecords, _) =>
             {
                 CheckMounted(mutationRecords);
                 CheckUnmounted(mutationRecords);
-
             });
+
             observer.observe(document.body, new MutationObserverInit { childList = true, subtree = true });
         }
 
@@ -29,7 +48,7 @@ namespace Tesserae.HTML
             if (_elementsToTrackMountingOf.Count == 0)
                 return;
 
-            var elementsMountedThatWeCareAbout = new List<(HTMLElement element, Action callback)>();
+            var elementsMountedThatWeCareAbout = new List<ElementAndCallback>();
 
             foreach (var mutationRecord in mutationRecords)
             {
@@ -37,27 +56,35 @@ namespace Tesserae.HTML
                 {
                     foreach (var elementToTrackMountingOf in _elementsToTrackMountingOf)
                     {
-                        if (elementToTrackMountingOf.element.IsEqualToOrIsChildOf(mountedElement))
+                        var element = elementToTrackMountingOf.ElementOrNullIfCollected;
+
+                        if (element is object && element.IsEqualToOrIsChildOf(mountedElement))
+                        {
                             elementsMountedThatWeCareAbout.Add(elementToTrackMountingOf);
+                        }
                     }
                 }
             }
-            if (elementsMountedThatWeCareAbout.Count == 0)
-                return;
+            if (elementsMountedThatWeCareAbout.Count == 0) return;
 
-            _elementsToTrackMountingOf = _elementsToTrackMountingOf.Except(elementsMountedThatWeCareAbout).ToList();
+            _elementsToTrackMountingOf = _elementsToTrackMountingOf.Except(elementsMountedThatWeCareAbout).Where(e => e.ElementOrNullIfCollected is object).ToList();
             
             window.requestAnimationFrame(_ =>
             {
                 foreach (var entry in elementsMountedThatWeCareAbout)
                 {
-                    if (!entry.element.IsMounted())
-                    {
-                        // Ensure that the element wasn't removed from the DOM while we were waiting for the next animation frame
-                        continue;
-                    }
+                    var element = entry.ElementOrNullIfCollected;
 
-                    entry.callback();
+                    if (element is object)
+                    {
+                        if (!element.IsMounted())
+                        {
+                            // Ensure that the element wasn't removed from the DOM while we were waiting for the next animation frame
+                            continue;
+                        }
+
+                        entry.Callback();
+                    }
                 }
             });
         }
@@ -67,7 +94,7 @@ namespace Tesserae.HTML
             if (_elementsToTrackRemovalOf.Count == 0)
                 return;
 
-            var elementsRemovedThatWeCareAbout = new List<(HTMLElement element, Action callback)>();
+            var elementsRemovedThatWeCareAbout = new List<ElementAndCallback>();
             foreach (var mutationRecord in mutationRecords)
             {
                 foreach (var removedElement in mutationRecord.removedNodes)
@@ -90,7 +117,9 @@ namespace Tesserae.HTML
 
                     foreach (var elementToTrackRemovalOf in _elementsToTrackRemovalOf)
                     {
-                        if (elementToTrackRemovalOf.element.IsEqualToOrIsChildOf(removedElement))
+                        var element = elementToTrackRemovalOf.ElementOrNullIfCollected;
+
+                        if (element is object && element.IsEqualToOrIsChildOf(removedElement))
                         {
                             elementsRemovedThatWeCareAbout.Add(elementToTrackRemovalOf);
                         }
@@ -103,18 +132,24 @@ namespace Tesserae.HTML
                 return;
             }
 
-            _elementsToTrackRemovalOf = _elementsToTrackRemovalOf.Except(elementsRemovedThatWeCareAbout).ToList();
+            _elementsToTrackRemovalOf = _elementsToTrackRemovalOf.Except(elementsRemovedThatWeCareAbout).Where(e => e.ElementOrNullIfCollected is object).ToList();
+
             window.requestAnimationFrame(_ =>
             {
                 foreach (var entry in elementsRemovedThatWeCareAbout)
                 {
-                    if (entry.element.IsMounted())
+                    var element = entry.ElementOrNullIfCollected;
+                    
+                    if (element is object)
                     {
-                        // Ensure that the element wasn't re-added to the DOM while we were waiting for the next animation frame
-                        continue;
-                    }
+                        if (element.IsMounted())
+                        {
+                            // Ensure that the element wasn't re-added to the DOM while we were waiting for the next animation frame
+                            continue;
+                        }
 
-                    entry.callback();
+                        entry.Callback();
+                    }
                 }
             });
         }
@@ -140,7 +175,7 @@ namespace Tesserae.HTML
             }
             else
             {
-                _elementsToTrackMountingOf.Add((element, callback));
+                _elementsToTrackMountingOf.Add(new ElementAndCallback(element, callback));
             }
         }
 
@@ -161,7 +196,7 @@ namespace Tesserae.HTML
             // already been removed), similar to the check in WhenMounted - however, this doesn't work with a common pattern that we use where we want to register a WhenRemoved callback for
             // an element before its initial render / adding-to-the-DOM and so that check has had to be removed (as, in that case, the element would not be mounted because it hasn't been
             // added yet, not because it WAS added to the DOM and had already been removed again)
-            _elementsToTrackRemovalOf.Add((element, callback));
+            _elementsToTrackRemovalOf.Add(new ElementAndCallback(element, callback));
         }
     }
 }
