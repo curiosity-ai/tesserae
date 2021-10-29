@@ -14,7 +14,7 @@ namespace Tesserae.HTML
         private class ElementAndCallback
         {
             private static bool? _weakrefAvailable;
-
+            private static int _count;
             private static bool IsAvailable()
             {
                 if (_weakrefAvailable.HasValue) return _weakrefAvailable.Value;
@@ -64,6 +64,8 @@ namespace Tesserae.HTML
             {
                 if (IsAvailable())
                 {
+                    _count++;
+                    Script.Write("{0}['callbackRefN' + {2}] = new WeakRef({1})", element, callback, _count); //We need to store the callback reference on the object otherwise it can be collected before the element
                     Script.Write("{0}.ref = new WeakRef({1})", this, element);
                     Script.Write("{0}.callbackref = new WeakRef({1})", this, callback);
                 }
