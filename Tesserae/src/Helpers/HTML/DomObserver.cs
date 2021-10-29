@@ -22,6 +22,7 @@ namespace Tesserae.HTML
                 try
                 {
                     Script.Write("let ref = new WeakRef({0})", new object());
+                    _weakrefAvailable = true;
                 }
                 catch
                 {
