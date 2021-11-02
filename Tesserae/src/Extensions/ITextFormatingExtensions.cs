@@ -120,37 +120,46 @@ namespace Tesserae
         internal static TextSize FromClassList(HTMLElement element, TextSize defaultValue)
         {
             var curFontSize = element.classList.FirstOrDefault(t => t.StartsWith("tss-fontsize-"));
-            if (curFontSize is object && Enum.TryParse<TextSize>(curFontSize.Substring("tss-fontsize-".Length), true, out var result))
+
+            switch (curFontSize)
             {
-                return result;
-            }
-            else
-            {
-                return defaultValue;
+                case "tss-fontsize-mega": return TextSize.Mega;
+                case "tss-fontsize-xxlarge": return TextSize.XXLarge;
+                case "tss-fontsize-xlarge": return TextSize.XLarge;
+                case "tss-fontsize-large": return TextSize.Large;
+                case "tss-fontsize-mediumplus": return TextSize.MediumPlus;
+                case "tss-fontsize-medium": return TextSize.Medium;
+                case "tss-fontsize-smallplus": return TextSize.SmallPlus;
+                case "tss-fontsize-small": return TextSize.Small;
+                case "tss-fontsize-xsmall": return TextSize.XSmall;
+                case "tss-fontsize-tiny": return TextSize.Tiny;
+                default: return defaultValue;
             }
         }
 
-        internal static string ToClassName(this TextSize textSize)
+        internal static TextAlign FromClassList(HTMLElement element, TextAlign defaultValue)
         {
-            return $"tss-fontsize-{textSize.ToString().ToLower()}";
-        }
+            var curFontSize = element.classList.FirstOrDefault(t => t.StartsWith("tss-textalign-"));
 
+            switch (curFontSize)
+            {
+                case "tss-textalign-left": return TextAlign.Left;
+                case "tss-textalign-center": return TextAlign.Center;
+                case "tss-textalign-right": return TextAlign.Right;
+                default: return defaultValue;
+            }
+        }
+        
         internal static TextWeight FromClassList(HTMLElement element, TextWeight defaultValue)
         {
-            var curFontSize = element.classList.FirstOrDefault(t => t.StartsWith("tss-fontweight-"));
-            if (curFontSize is object && Enum.TryParse<TextWeight>(curFontSize.Substring("tss-fontweight-".Length), true, out var result))
+            var curWeight = element.classList.FirstOrDefault(t => t.StartsWith("tss-fontweight-"));
+            switch (curWeight)
             {
-                return result;
+                case "tss-fontweight-regular": return TextWeight.Regular;
+                case "tss-fontweight-semibold": return TextWeight.SemiBold;
+                case "tss-fontweight-bold": return TextWeight.Bold;
+                default: return defaultValue;
             }
-            else
-            {
-                return defaultValue;
-            }
-        }
-
-        internal static string ToClassName(this TextWeight textWeight)
-        {
-            return $"tss-fontweight-{textWeight.ToString().ToLower()}";
         }
     }
 }

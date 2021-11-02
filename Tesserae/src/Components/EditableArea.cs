@@ -58,13 +58,13 @@ namespace Tesserae
             get => ITextFormatingExtensions.FromClassList(InnerElement, TextSize.Small);
             set
             {
-                string current = Size.ToClassName();
+                string current = Size.ToString();
                 InnerElement.classList.remove(current);
                 _labelText.classList.remove(current);
                 _editIcon.classList.remove(current);
                 _cancelEditIcon.classList.remove(current);
 
-                string newValue = value.ToClassName();
+                string newValue = value.ToString();
                 InnerElement.classList.add(newValue);
                 _labelText.classList.add(newValue);
                 _editIcon.classList.add(newValue);
@@ -77,10 +77,13 @@ namespace Tesserae
             get => ITextFormatingExtensions.FromClassList(InnerElement, TextWeight.Regular);
             set
             {
-                InnerElement.classList.remove(Weight.ToClassName());
-                _labelText.classList.remove(Weight.ToClassName());
-                InnerElement.classList.add(value.ToClassName());
-                _labelText.classList.add(value.ToClassName());
+                var current = Weight.ToString();
+                var newValue = value.ToString();
+
+                InnerElement.classList.remove(current);
+                _labelText.classList.remove(current);
+                InnerElement.classList.add(newValue);
+                _labelText.classList.add(newValue);
             }
         }
 
@@ -88,24 +91,12 @@ namespace Tesserae
         {
             get
             {
-                var curFontSize = InnerElement.classList.FirstOrDefault(t => t.StartsWith("tss-textalign-"));
-                if (curFontSize is object && Enum.TryParse<TextAlign>(curFontSize.Substring("tss-textalign-".Length), true, out var result))
-                {
-                    return result;
-                }
-                else
-                {
-                    return TextAlign.Left;
-                }
+                return ITextFormatingExtensions.FromClassList(InnerElement, TextAlign.Left);
             }
             set
             {
-                var curFontSize = InnerElement.classList.FirstOrDefault(t => t.StartsWith("tss-textalign-"));
-                if (curFontSize is object)
-                {
-                    InnerElement.classList.remove(curFontSize);
-                }
-                InnerElement.classList.add($"tss-textalign-{value.ToString().ToLower()}");
+                InnerElement.classList.remove(TextAlign.ToString());
+                InnerElement.classList.add(value.ToString());
             }
         }
 

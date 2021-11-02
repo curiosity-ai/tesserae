@@ -59,8 +59,8 @@ namespace Tesserae
             get => ITextFormatingExtensions.FromClassList(InnerElement, TextSize.Small);
             set
             {
-                InnerElement.classList.remove(Size.ToClassName());
-                InnerElement.classList.add(value.ToClassName());
+                InnerElement.classList.remove(Size.ToString());
+                InnerElement.classList.add(value.ToString());
             }
         }
 
@@ -69,8 +69,8 @@ namespace Tesserae
             get => ITextFormatingExtensions.FromClassList(InnerElement, TextWeight.Regular);
             set
             {
-                InnerElement.classList.remove(Weight.ToClassName());
-                InnerElement.classList.add(value.ToClassName());
+                InnerElement.classList.remove(Weight.ToString());
+                InnerElement.classList.add(value.ToString());
             }
         }
 
@@ -78,24 +78,12 @@ namespace Tesserae
         {
             get
             {
-                var curFontSize = InnerElement.classList.FirstOrDefault(t => t.StartsWith("tss-textalign-"));
-                if (curFontSize is object && Enum.TryParse<TextAlign>(curFontSize.Substring("tss-textalign-".Length), true, out var result))
-                {
-                    return result;
-                }
-                else
-                {
-                    return TextAlign.Left;
-                }
+                return ITextFormatingExtensions.FromClassList(InnerElement, TextAlign.Left);
             }
             set
             {
-                var curFontSize = InnerElement.classList.FirstOrDefault(t => t.StartsWith("tss-textalign-"));
-                if (curFontSize is object)
-                {
-                    InnerElement.classList.remove(curFontSize);
-                }
-                InnerElement.classList.add($"tss-textalign-{value.ToString().ToLower()}");
+                InnerElement.classList.remove(TextAlign.ToString());
+                InnerElement.classList.add(value.ToString());
             }
         }
 

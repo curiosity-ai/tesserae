@@ -59,10 +59,12 @@ namespace Tesserae
             get => ITextFormatingExtensions.FromClassList(InnerElement, TextSize.Small);
             set
             {
-                InnerElement.classList.remove(Size.ToClassName());
-                InnerElement.classList.add(value.ToClassName());
-                _label.classList.remove(Size.ToClassName());
-                _label.classList.add(value.ToClassName());
+                var current = Size.ToString();
+                var newValue = value.ToString();
+                InnerElement.classList.remove(current);
+                InnerElement.classList.add(newValue);
+                _label.classList.remove(current);
+                _label.classList.add(newValue);
             }
         }
 
@@ -71,10 +73,13 @@ namespace Tesserae
             get => ITextFormatingExtensions.FromClassList(InnerElement, TextWeight.Regular);
             set
             {
-                InnerElement.classList.remove(Weight.ToClassName());
-                InnerElement.classList.add(value.ToClassName());
-                _label.classList.remove(Weight.ToClassName());
-                _label.classList.add(value.ToClassName());
+                var current = Weight.ToString();
+                var newValue = value.ToString();
+
+                InnerElement.classList.remove(current);
+                InnerElement.classList.add(newValue);
+                _label.classList.remove(current);
+                _label.classList.add(newValue);
             }
         }
 

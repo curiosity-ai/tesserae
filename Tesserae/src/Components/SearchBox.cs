@@ -114,40 +114,31 @@ namespace Tesserae
 
         public TextSize Size
         {
-            get => InnerElement.GetTextSize().textSize ?? TextSize.Small;
+            get => ITextFormatingExtensions.FromClassList(InnerElement, TextSize.Small);
             set
             {
-                var (textSize, textSizeCssClass) = InnerElement.GetTextSize();
-
-                InnerElement.RemoveClassIf(textSize.HasValue, textSizeCssClass);
-
-                InnerElement.classList.add($"tss-fontsize-{value.ToString().ToLower()}");
+                InnerElement.classList.remove(Size.ToString());
+                InnerElement.classList.add(value.ToString());
             }
         }
 
         public TextWeight Weight
         {
-            get => InnerElement.GetTextWeight().textWeight ?? TextWeight.Regular;
+            get => ITextFormatingExtensions.FromClassList(InnerElement, TextWeight.Regular);
             set
             {
-                var (textWeight, textWeightCssClass) = InnerElement.GetTextWeight();
-
-                InnerElement.RemoveClassIf(textWeight.HasValue, textWeightCssClass);
-
-                InnerElement.classList.add($"tss-fontweight-{value.ToString().ToLower()}");
+                InnerElement.classList.remove(Weight.ToString());
+                InnerElement.classList.add(value.ToString());
             }
         }
 
         public TextAlign TextAlign
         {
-            get => InnerElement.GetTextAlign().textAlign ?? TextAlign.Center;
+            get => ITextFormatingExtensions.FromClassList(InnerElement, TextAlign.Center);
             set
             {
-                var (textAlign, textAlignCssClass) = InnerElement.GetTextAlign();
-
-                InnerElement.RemoveClassIf(textAlign.HasValue, textAlignCssClass);
-
-                InnerElement.classList.add($"tss-textalign-{value.ToString().ToLower()}");
+                InnerElement.classList.remove(TextAlign.ToString());
+                InnerElement.classList.add(value.ToString());
             }
         }
         public string Background { get => _container.style.background; set => _container.style.background = value; }

@@ -80,40 +80,31 @@ namespace Tesserae
 
         public TextSize Size
         {
-            get => _anchor.GetTextSize().textSize ?? TextSize.Small;
+            get => ITextFormatingExtensions.FromClassList(_anchor, TextSize.Small);
             set
             {
-                var (textSize, textSizeCssClass) = _anchor.GetTextSize();
-
-                _anchor.RemoveClassIf(textSize.HasValue, textSizeCssClass);
-
-                _anchor.classList.add($"tss-fontsize-{value.ToString().ToLower()}");
+                _anchor.classList.remove(Size.ToString());
+                _anchor.classList.add(value.ToString());
             }
         }
 
         public TextWeight Weight
         {
-            get => _anchor.GetTextWeight().textWeight ?? TextWeight.Regular;
+            get => ITextFormatingExtensions.FromClassList(_anchor, TextWeight.Regular);
             set
             {
-                var (textWeight, textWeightCssClass) = _anchor.GetTextWeight();
-
-                _anchor.RemoveClassIf(textWeight.HasValue, textWeightCssClass);
-
-                _anchor.classList.add($"tss-fontweight-{value.ToString().ToLower()}");
+                _anchor.classList.remove(Weight.ToString());
+                _anchor.classList.add(value.ToString());
             }
         }
 
         public TextAlign TextAlign
         {
-            get => _anchor.GetTextAlign().textAlign ?? TextAlign.Center;
+            get => ITextFormatingExtensions.FromClassList(_anchor, TextAlign.Center);
             set
             {
-                var (textAlign, textAlignCssClass) = _anchor.GetTextAlign();
-
-                _anchor.RemoveClassIf(textAlign.HasValue, textAlignCssClass);
-
-                _anchor.classList.add($"tss-textalign-{value.ToString().ToLower()}");
+                _anchor.classList.remove(TextAlign.ToString());
+                _anchor.classList.add(value.ToString());
             }
         }
     }

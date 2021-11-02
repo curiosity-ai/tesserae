@@ -108,66 +108,6 @@ namespace Tesserae
             return htmlElement;
         }
 
-        public static HTMLElement RemoveClassIf(this HTMLElement htmlElement, bool value, string cssClass)
-        {
-            if (value)
-            {
-                htmlElement.classList.remove(cssClass);
-            }
-
-            return htmlElement;
-        }
-
-        public static (TextSize? textSize, string currentTextSizeCssClass) GetTextSize(this HTMLElement htmlElement)
-        {
-            foreach (var c in htmlElement.classList)
-            {
-                switch (c)
-                {
-                    case "tss-fontsize-tiny": return (TextSize.Tiny, "tss-fontsize-tiny");
-                    case "tss-fontsize-xsmall": return (TextSize.XSmall, "tss-fontsize-xsmall");
-                    case "tss-fontsize-small": return (TextSize.Small, "tss-fontsize-small");
-                    case "tss-fontsize-smallplus": return (TextSize.SmallPlus, "tss-fontsize-smallplus");
-                    case "tss-fontsize-medium": return (TextSize.Medium, "tss-fontsize-medium");
-                    case "tss-fontsize-mediumplus": return (TextSize.MediumPlus, "tss-fontsize-mediumplus");
-                    case "tss-fontsize-large": return (TextSize.Large, "tss-fontsize-large");
-                    case "tss-fontsize-xlarge": return (TextSize.XLarge, "tss-fontsize-xlarge");
-                    case "tss-fontsize-xxlarge": return (TextSize.XXLarge, "tss-fontsize-xxlarge");
-                    case "tss-fontsize-mega": return (TextSize.Mega, "tss-fontsize-mega");
-                }
-            }
-            return (null, string.Empty);
-        }
-
-        public static (TextWeight? textWeight, string currentTextWeightCssClass) GetTextWeight(this HTMLElement htmlElement)
-        {
-
-            foreach (var c in htmlElement.classList)
-            {
-                switch (c)
-                {
-                    case "tss-fontweight-regular": return (TextWeight.Regular, "tss-fontweight-regular");
-                    case "tss-fontweight-semibold": return (TextWeight.SemiBold, "tss-fontweight-semibold");
-                    case "tss-fontweight-bold": return (TextWeight.Bold, "tss-fontweight-bold");
-                }
-            }
-            return (null, string.Empty);
-        }
-
-        public static (TextAlign? textAlign, string currentTextAlignCssClass) GetTextAlign(this HTMLElement htmlElement)
-        {
-            foreach (var c in htmlElement.classList)
-            {
-                switch (c)
-                {
-                    case "tss-textalign-center": return (TextAlign.Center, "tss-textalign-center");
-                    case "tss-textalign-left": return (TextAlign.Left, "tss-textalign-left");
-                    case "tss-textalign-right": return (TextAlign.Right, "tss-textalign-right");
-                }
-            }
-            return (null, string.Empty);
-        }
-
         public static void ReplaceElement(HTMLElement source, HTMLElement replaceWith)
         {
             if (source.parentElement == null)

@@ -74,8 +74,8 @@ namespace Tesserae
             get => ITextFormatingExtensions.FromClassList(InnerElement, TextSize.Small);
             set
             {
-                InnerElement.classList.remove(Size.ToClassName());
-                InnerElement.classList.add(value.ToClassName());
+                InnerElement.classList.remove(Size.ToString());
+                InnerElement.classList.add(value.ToString());
             }
         }
 
@@ -84,8 +84,8 @@ namespace Tesserae
             get => ITextFormatingExtensions.FromClassList(InnerElement, TextWeight.Regular);
             set
             {
-                InnerElement.classList.remove(Weight.ToClassName());
-                InnerElement.classList.add(value.ToClassName());
+                InnerElement.classList.remove(Weight.ToString());
+                InnerElement.classList.add(value.ToString());
             }
         }
 
