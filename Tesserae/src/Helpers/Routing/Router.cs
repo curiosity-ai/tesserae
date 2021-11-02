@@ -14,7 +14,8 @@ namespace Tesserae
     {
         public delegate void NavigatedHandler(State               toState, State fromState);
         public delegate bool CanNavigateHandler(State             toState, State fromState);
-        public delegate bool WilNavigate(string url);
+        public delegate bool WillNavigate(string url);
+        public delegate string TransformRoute(string url);
         public delegate void NoMatchHandler(ReadOnlyArray<string> routeParts);
 
         private static event NavigatedHandler Navigated;
@@ -22,11 +23,13 @@ namespace Tesserae
 
         private static State              _currentState;
         private static CanNavigateHandler _beforeNavigate; // 2020-06-16 DWR: We previously used an event for this but only allowed a single delegate to bind to it, so there is no need for it to be multi-dispatch and so now it's just a field instead of an event
-        private static WilNavigate        _onWillNavigate; // same here
+        private static WillNavigate        _onWillNavigate; // same here
+        private static TransformRoute _transformRoute = (s) => s;
 
         public static void OnBeforeNavigate(CanNavigateHandler onBeforeNavigate) => _beforeNavigate = onBeforeNavigate;
+        public static void OnTransformRoutes(TransformRoute transformRoute) => _transformRoute = transformRoute;
 
-        public static void OnWíllNavigate(WilNavigate onWillNavigate) => _onWillNavigate = onWillNavigate;
+        public static void OnWíllNavigate(WillNavigate onWillNavigate) => _onWillNavigate = onWillNavigate;
         public static void OnNavigated(NavigatedHandler        onNavigated)      => Navigated += onNavigated;
         public static void OnNotMatched(NoMatchHandler         notMatched)       => NotMatched += notMatched;
 
@@ -296,6 +299,11 @@ namespace Tesserae
         private static void LocationChanged(bool allowCallbackEvenIfLocationUnchanged)
         {
             var currentPathFromHash = (window.location.hash ?? "");
+
+            if(_transformRoute is object)
+            {
+                currentPathFromHash = _transformRoute(currentPathFromHash);
+            }
 
             if (!allowCallbackEvenIfLocationUnchanged && (_currentState is object))
             {
