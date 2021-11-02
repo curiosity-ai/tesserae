@@ -300,7 +300,7 @@ namespace Tesserae
         {
             var currentPathFromHash = (window.location.hash ?? "");
 
-            if(_transformRoute is object)
+            if (_transformRoute is object)
             {
                 currentPathFromHash = _transformRoute(currentPathFromHash);
             }
