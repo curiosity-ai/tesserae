@@ -1,6 +1,6 @@
 ﻿/* TextBlock*/
 .tss-textblock {
-
+    user-select: none;
 }
 
 .tss-text-ellipsis {
@@ -16,4 +16,9 @@
 .tss-text-breakspaces {
     white-space: pre-line; /* fallback for Safari */
     white-space: break-spaces;
+}
+
+
+.tss-textblock-selectable{
+    user-select: text;
 }

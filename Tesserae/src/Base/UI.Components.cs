@@ -201,7 +201,7 @@ namespace Tesserae
 
         public static ChoiceGroup ChoiceGroup(string label = string.Empty) => new ChoiceGroup(label);
 
-        public static TextBlock TextBlock(string text = string.Empty, bool treatAsHTML = false) => new TextBlock(text, treatAsHTML);
+        public static TextBlock TextBlock(string text = string.Empty, bool treatAsHTML = false, bool selectable = false) => new TextBlock(text, treatAsHTML, selectable);
 
         public static FileSelector FileSelector() => new FileSelector();
 

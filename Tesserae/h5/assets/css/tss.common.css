@@ -419,4 +419,5 @@
 .tss-image {
     vertical-align: unset;
     border-style: none;
+    user-select: none;
 }

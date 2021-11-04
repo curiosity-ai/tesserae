@@ -7,7 +7,7 @@ namespace Tesserae
 {
     public class TextBlock : ComponentBase<TextBlock, HTMLElement>, ITextFormating, IHasBackgroundColor, IHasForegroundColor, IHaveTextWrappingOptions
     {
-        public TextBlock(string text = string.Empty, bool treatAsHTML = false)
+        public TextBlock(string text = string.Empty, bool treatAsHTML = false, bool selectable = false)
         {
             text = text ?? string.Empty;
             InnerElement = Div(_("tss-textblock tss-fontsize-small tss-fontweight-regular"));
@@ -19,6 +19,11 @@ namespace Tesserae
             else
             {
                 InnerElement.textContent = text;
+            }
+
+            if (selectable)
+            {
+                InnerElement.classList.add("tss-textblock-selectable");
             }
 
             AttachClick();
