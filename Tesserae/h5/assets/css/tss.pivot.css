@@ -72,6 +72,8 @@
 }
 .tss-pivot-line {
     height: 3px;
+    margin-top:-3px;
+    z-index:1;
     width: 0px;
     flex-shrink: 0;
     flex-grow: 0;
