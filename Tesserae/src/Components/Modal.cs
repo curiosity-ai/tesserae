@@ -28,6 +28,8 @@ namespace Tesserae
         private bool _isDragged;
         private TranslationPoint _startPoint;
 
+        public bool AnimateOnShow { get; set; } = true;
+
         public HTMLElement StylingContainer => _modal;
 
         public bool PropagateToStackItemParent => false;
@@ -159,6 +161,12 @@ namespace Tesserae
             return this;
         }
 
+        public Modal NoAnimation()
+        {
+            AnimateOnShow = false;
+            return this;
+        }
+        
         public override IComponent Content
         {
             get => _content;
@@ -364,7 +372,7 @@ namespace Tesserae
         private void DoShow()
         {
             _modal.style.transform = "translate(0px,0px)";
-            _modal.classList.add("tss-modal-animate");
+            if(AnimateOnShow) _modal.classList.add("tss-modal-animate");
             if (!IsNonBlocking) document.body.style.overflowY = "hidden";
             base.Show();
             _modal.focus(); // 2020-05-01 DWR: We need to put focus into the modal container in order to pick up keypresses
