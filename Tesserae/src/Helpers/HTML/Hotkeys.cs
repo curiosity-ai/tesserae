@@ -75,6 +75,15 @@ namespace Tesserae
             Script.Write("hotkeys.filter = {0};", onFilter);
         }
 
+        public static void ResetFilter()
+        {
+            Filter(e =>
+            {
+                var el = (e.target is object ? e.target : e.srcElement).As<HTMLElement>();
+                return !(el.isContentEditable || el.tagName == "INPUT" || el.tagName == "SELECT" || el.tagName == "TEXTAREA");
+            });
+        }
+
         [ObjectLiteral]
         public class Handler
         {
