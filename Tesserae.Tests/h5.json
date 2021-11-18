@@ -35,6 +35,7 @@
     "externalCast": "Plain",
     "inlineComment": "Plain",
     "integer": "Managed",
-    "lambda": "Plain"
+    "lambda": "Plain",
+    "useShortForms": true
   }
 }
