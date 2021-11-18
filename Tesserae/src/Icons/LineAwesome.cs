@@ -4,7 +4,6 @@ namespace Tesserae
 {
 
     [Enum(Emit.Value)]
-    [H5.Name("tss.LineAwesome")]
     public enum LineAwesome
     {
         [Name("la-500px")]                            _500px,
