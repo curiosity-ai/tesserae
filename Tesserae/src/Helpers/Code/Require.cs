@@ -4,6 +4,7 @@ using static H5.Core.dom;
 
 namespace Tesserae
 {
+    [H5.Name("tss.Require")]
     public static class Require
     {
         private static readonly SingleSemaphoreSlim singleCall = new SingleSemaphoreSlim();

@@ -3,6 +3,7 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    [H5.Name("tss.Clipboard")]
     public static class Clipboard
     {
         public static void Copy(string valueToCopy, bool showMessage = true, string customMessage = null)

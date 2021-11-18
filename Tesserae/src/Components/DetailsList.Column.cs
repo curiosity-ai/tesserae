@@ -4,6 +4,7 @@ using static H5.Core.dom;
 
 namespace Tesserae
 {
+    [H5.Name("tss.DetailsListColumn")]
     public class DetailsListColumn : IDetailsListColumn
     {
         private readonly Action      _onColumnClick;

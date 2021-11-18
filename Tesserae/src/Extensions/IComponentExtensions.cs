@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Tesserae.HTML;
 using static H5.Core.dom;
 
 namespace Tesserae
 {
-    public static class ICExt //Short name as this appears everywhere in the final compiled code
+    [H5.Name("tss.ICX")]
+    public static class IComponentExtensions
     {
         public static T WhenMounted<T>(this T component, Action callback) where T : IComponent
         {

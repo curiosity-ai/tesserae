@@ -5,6 +5,7 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    [H5.Name("tss.ItemsList")]
     public sealed class ItemsList : IComponent, ISpecialCaseStyling
     {
         private readonly Grid _grid;

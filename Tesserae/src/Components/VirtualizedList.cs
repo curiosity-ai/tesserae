@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Tesserae.HTML;
 using static System.Math;
 using static H5.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
 {
+    [H5.Name("tss.VirtualizedList")]
     public class VirtualizedList : IComponent
     {
         private const int PagesToVirtualize    = 5;

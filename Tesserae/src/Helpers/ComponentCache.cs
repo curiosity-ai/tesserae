@@ -5,6 +5,7 @@ using static H5.Core.dom;
 
 namespace Tesserae
 {
+    [H5.Name("tss.ComponentCache")]
     public class ComponentCache<TComponent> : ComponentCacheBase<TComponent> where TComponent : class
     {
         private readonly Func<(int Key, TComponent Component), HTMLElement> _createComponentExpression;

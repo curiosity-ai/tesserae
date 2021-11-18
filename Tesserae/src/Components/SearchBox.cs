@@ -1,9 +1,9 @@
-﻿using Tesserae.HTML;
-using static H5.Core.dom;
+﻿using static H5.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
 {
+    [H5.Name("tss.SearchBox")]
     public class SearchBox : ComponentBase<SearchBox, HTMLInputElement>,  ITextFormating, IHasBackgroundColor, ITabIndex
     {
         private readonly HTMLDivElement _container;

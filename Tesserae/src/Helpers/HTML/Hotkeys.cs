@@ -4,6 +4,7 @@ using static H5.Core.dom;
 
 namespace Tesserae
 {
+    [H5.Name("tss.Hotkeys")]
     public static class Hotkeys
     {
         public static bool Shift { get { return Script.Write<bool>("hotkeys.shift == true"); } }

@@ -6,6 +6,7 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    [H5.Name("tss.ContextMenu")]
     public sealed partial class ContextMenu : Layer<ContextMenu>, IContainer<ContextMenu, ContextMenu.Item>
     {
         private readonly HTMLElement _childContainer;

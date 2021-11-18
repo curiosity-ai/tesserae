@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace Tesserae
 {
+    [H5.Name("tss.ICBT")]
     public interface IContainerBase<TChild> : IComponent where TChild : IComponent
     {
         void Add(TChild component);
@@ -10,10 +11,12 @@ namespace Tesserae
         void Replace(TChild newComponent, TChild oldComponent);
     }
 
+    [H5.Name("tss.ICBTTC")]
     public interface IContainer<T, TChild> : IContainerBase<TChild> where T : IContainer<T, TChild> where TChild : IComponent
     {
     }
 
+    [H5.Name("tss.ICTX")]
     public static class IContainerExtensions
     {
         public static T Children<T>(this T container, IComponent first, IEnumerable<IComponent> children) where T : IContainer<T, IComponent>

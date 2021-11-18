@@ -5,6 +5,7 @@ using static H5.Core.dom;
 
 namespace Tesserae
 {
+    [H5.Name("tss.HorizontalSeparator")]
     public class HorizontalSeparator : IComponent, IHasBackgroundColor
     {
         private readonly HTMLElement _container;

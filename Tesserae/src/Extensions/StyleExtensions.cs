@@ -1,5 +1,6 @@
 ﻿namespace Tesserae
 {
+    [H5.Name("tss.ISX")]
     public static class StyleExtensions
     {
         public static T Background<T>(this T element, string color) where T : IHasBackgroundColor

@@ -5,6 +5,7 @@ using static H5.Core.dom;
 
 namespace Tesserae
 {
+    [H5.Name("tss.tippy")]
     public static class Tippy
     {
         public static void ShowFor(IComponent component, IComponent tooltip, out Action hide, TooltipAnimation animation = TooltipAnimation.ShiftAway, TooltipPlacement placement = TooltipPlacement.Top, int maxWidth = 350)

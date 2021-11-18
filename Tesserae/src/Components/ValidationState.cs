@@ -1,5 +1,6 @@
 ﻿namespace Tesserae
 {
+    [H5.Name("tss.VS")]
     public enum ValidationState
     {
         /// <summary>

@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 using static Tesserae.UI;
 using static H5.Core.dom;
 using static H5.Core.dom.Node;
-using Tesserae.HTML;
 
 namespace Tesserae
 {
+    [H5.Name("tss.DetailsList")]
     public class DetailsList<TDetailsListItem> : IComponent, ISpecialCaseStyling where TDetailsListItem : class, IDetailsListItem<TDetailsListItem>
     {
         private readonly List<IDetailsListColumn>         _columns;

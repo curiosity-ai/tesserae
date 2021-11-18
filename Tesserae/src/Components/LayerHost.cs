@@ -5,6 +5,7 @@ using static H5.Core.dom;
 
 namespace Tesserae
 {
+    [H5.Name("tss.LayerHost")]
     public class LayerHost : ComponentBase<Layer, HTMLDivElement>
     {
         public LayerHost()

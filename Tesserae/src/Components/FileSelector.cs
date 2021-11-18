@@ -3,6 +3,7 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    [H5.Name("tss.FileSelector")]
     public sealed class FileSelector : IComponent, ICanValidate<FileSelector>
     {
         public delegate void FileSelectedHandler(FileSelector sender, File file);

@@ -4,6 +4,7 @@ using static H5.Core.dom;
 
 namespace Tesserae
 {
+    [H5.Name("tss.TextBreadcrumb")]
     public class TextBreadcrumb : ComponentBase<TextBreadcrumb, HTMLSpanElement>
     {
         public TextBreadcrumb(string text)
@@ -17,6 +18,7 @@ namespace Tesserae
             return InnerElement;
         }
     }
+    [H5.Name("tss.TextBreadcrumbs")]
     public class TextBreadcrumbs : IComponent, IContainer<TextBreadcrumbs, TextBreadcrumb>, ITextFormating, IHasForegroundColor
     {
         private readonly HTMLElement InnerElement;

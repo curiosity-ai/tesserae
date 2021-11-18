@@ -3,6 +3,7 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    [H5.Name("tss.Navbar")]
     public class Navbar : IComponent
     {
         private readonly HTMLElement _navbarContainer;

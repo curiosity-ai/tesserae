@@ -7,6 +7,7 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    [H5.Name("tss.Float")]
     public sealed class Float : IComponent
     {
         private readonly IComponent _child;

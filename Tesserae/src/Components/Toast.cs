@@ -5,6 +5,7 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    [H5.Name("tss.Toast")]
     public class Toast : Layer<Toast>
     {
         public static Position DefaultPosition { get; set; } = Position.TopRight;

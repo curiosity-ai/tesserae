@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using static H5.Core.dom;
 
-namespace Tesserae.HTML
+namespace Tesserae
 {
+    [H5.Name("tss.att")]
     public sealed class Attributes
     {
         private readonly List<(string attributeName, string attributeValue)> _data;

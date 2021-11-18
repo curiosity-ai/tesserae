@@ -1,12 +1,12 @@
 ﻿using System;
 using static Tesserae.UI;
 using static H5.Core.dom;
-using Tesserae.HTML;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Tesserae
 {
+    [H5.Name("tss.OverflowSet")]
     public class OverflowSet : IComponent, IContainer<Breadcrumb, IComponent>
     {
         private readonly string _expandIcon = "la-chevron-down";

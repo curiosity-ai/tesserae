@@ -1,5 +1,6 @@
 ﻿namespace Tesserae
 {
+    [H5.Name("tss.ICVX")]
     public static class ICanValidateExtensions
     {
         public static T Error<T>(this T component, string error) where T : ICanValidate

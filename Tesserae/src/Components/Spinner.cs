@@ -5,6 +5,7 @@ using System;
 
 namespace Tesserae
 {
+    [H5.Name("tss.Spinner")]
     public class Spinner : ComponentBase<Spinner, HTMLDivElement>
     {
         private readonly HTMLElement _container;

@@ -6,6 +6,7 @@ using static H5.Core.dom;
 
 namespace Tesserae
 {
+    [H5.Name("tss.tX")]
     public static class TaskExtensions
     {
         /// <summary>

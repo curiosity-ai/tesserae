@@ -1,3 +1,4 @@
+using H5;
 using static H5.Core.dom;
 using static Tesserae.UI;
 
@@ -6,7 +7,8 @@ namespace Tesserae
     /// <summary>
     /// A Stack is a container-type component that abstracts the implementation of a flexbox in order to define the layout of its children components.
     /// </summary>
-    public class Stack : IContainer<Stack, IComponent>, IHasBackgroundColor, IHasMarginPadding, ISpecialCaseStyling, IHaveTextWrappingOptions
+    [H5.Name("tss.S")]
+    public class Stack : IContainer<Stack, IComponent>, IHasBackgroundColor, IHasMarginPadding, ISpecialCaseStyling, ICanWrap
     {
         public Orientation StackOrientation
         {
@@ -477,23 +479,27 @@ namespace Tesserae
         }
     }
 
+    [Name("tss.ItemAlign")]
+    [Enum(Emit.Value)]
     public enum ItemAlign
     {
-        Auto,
-        Stretch,
-        Baseline,
-        Start,
-        Center,
-        End
+        [Name("auto")]          Auto,
+        [Name("stretch")]       Stretch,
+        [Name("baseline")]      Baseline,
+        [Name("flex-start")]    Start,
+        [Name("center")]        Center,
+        [Name("flex-end")]      End
     }
 
+    [Name("tss.ItemJustify")]
+    [Enum(Emit.Value)]
     public enum ItemJustify
     {
-        Between,
-        Around,
-        Evenly,
-        Start,
-        Center,
-        End
+        [Name("space-between")] Between,
+        [Name("space-around")] Around,
+        [Name("space-evenly")] Evenly,
+        [Name("flex-start")] Start,
+        [Name("center")] Center,
+        [Name("flex-end")] End
     }
 }

@@ -3,6 +3,7 @@ using System;
 namespace Tesserae
 {
 #pragma warning disable IDE1006 // Naming Styles (2020-06-30 DWR: We'll allow these as special naming violation cases because we've decided that we like how look in the calling code)
+    [H5.Name("tss.usX")]
     public static class UnitSizeExtensions
     {
         public static UnitSize px(this int value)

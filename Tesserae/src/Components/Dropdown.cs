@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Tesserae.HTML;
 using static H5.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
 {
+    [H5.Name("tss.Dropdown")]
     public sealed class Dropdown : Layer<Dropdown>, ICanValidate<Dropdown>, IObservableListComponent<Dropdown.Item>, ITabIndex
     {
         private const string _multiSelectDropdownClassName = "tss-dropdown-multi";

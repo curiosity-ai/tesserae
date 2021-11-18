@@ -3,6 +3,7 @@ using System.Linq;
 
 namespace Tesserae
 {
+    [H5.Name("tss.MonthPicker")]
     public class MonthPicker : MomentPickerBase<MonthPicker, (int year, int month)>
     {
         public MonthPicker((int year, int month)? monthAndYear)

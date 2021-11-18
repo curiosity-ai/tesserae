@@ -3,6 +3,7 @@ using System.Linq;
 
 namespace Tesserae
 {
+    [H5.Name("tss.eeX")]
     internal static class EnumerableExtensions
     {
         internal static List<List<T>> InGroupsOf<T>(

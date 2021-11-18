@@ -7,6 +7,7 @@ namespace Tesserae
     /// Enables monitoring of changes for a variable of type T (this class is for listeners only, if updating the value is required then the SettableObserver should be used)
     /// </summary>
     /// <typeparam name="T">An immutable type to be observed. Be careful with non-imutable types, as they may be changed in ways that will not be repoted here</typeparam>
+    [H5.Name("tss.ReadOnlyObservableT")]
     public abstract class ReadOnlyObservable<T> : IObservable<T> // 2020-07-01 DWR: This is an abstract class because it doesn't make sense to have an Observable that can never be updated, so it should always be derived from in order to be useful
     {
         private T _value;

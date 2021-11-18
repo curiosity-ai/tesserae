@@ -3,7 +3,7 @@
     <TargetFramework>netstandard2.1</TargetFramework>
     <DefineConstants>H5</DefineConstants>
     <AssemblyName>tss</AssemblyName>
-    <RootNamespace>Tesserae</RootNamespace>
+    <RootNamespace>Tss</RootNamespace>
     <LangVersion>7.2</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <DebugType>None</DebugType>
@@ -12,9 +12,9 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="h5" Version="0.0.22518" />
+    <PackageReference Include="h5" Version="0.0.23543" />
     <PackageReference Include="h5.core" Version="0.0.22512" />
-    <PackageReference Include="h5.Newtonsoft.Json" Version="0.0.22513" />
+    <PackageReference Include="h5.Newtonsoft.Json" Version="0.0.23385" />
   </ItemGroup>
 
   <PropertyGroup>

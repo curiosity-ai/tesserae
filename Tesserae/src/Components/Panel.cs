@@ -4,6 +4,7 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    [H5.Name("tss.Panel")]
     public sealed class Panel : Layer<Panel>, IHasBackgroundColor
     {
         private event OnHideHandler HidePanel;

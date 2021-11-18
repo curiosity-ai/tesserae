@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 namespace Tesserae
 {
+    [H5.Name("tss.StepsSlider")]
     public sealed class StepsSlider<T> : IComponent where T : IEquatable<T>
     {
         private readonly T[] _steps;

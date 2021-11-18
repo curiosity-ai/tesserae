@@ -4,6 +4,7 @@ using static H5.Core.dom;
 
 namespace Tesserae
 {
+    [H5.Name("tss.Layers")]
     public static class Layers
     {
         private static int CurrentZIndex = 1000;

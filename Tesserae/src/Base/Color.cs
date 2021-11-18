@@ -4,6 +4,8 @@ using static H5.Core.dom;
 
 namespace Tesserae
 {
+    [H5.Name("tss.Color")]
+
     public class Color
     {
         public byte A { get; private set; }

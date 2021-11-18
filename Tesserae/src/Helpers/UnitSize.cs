@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace Tesserae
 {
+    [H5.Name("tss.us")]
     public sealed class UnitSize
     {
         private static UnitSize[] _cachedIntegers = CreateCache(32);

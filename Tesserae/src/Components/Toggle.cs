@@ -3,6 +3,7 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    [H5.Name("tss.Toggle")]
     public class Toggle : ComponentBase<Toggle, HTMLInputElement>, IObservableComponent<bool>
     {
         private readonly HTMLElement _checkElement;

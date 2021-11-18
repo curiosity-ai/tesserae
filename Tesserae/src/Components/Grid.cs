@@ -4,6 +4,7 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    [H5.Name("tss.Grid")]
     public class Grid : IContainer<Grid, IComponent>, IHasBackgroundColor, IHasMarginPadding, ISpecialCaseStyling
     {
         private readonly HTMLElement _grid;
@@ -115,9 +116,7 @@ namespace Tesserae
         /// <returns></returns>
         public Grid AlignItems(ItemAlign align)
         {
-            string cssAlign = align.ToString().ToLower();
-            if (cssAlign == "end" || cssAlign == "start") cssAlign = $"flex-{cssAlign}";
-            _grid.style.alignItems = cssAlign;
+            _grid.style.alignItems = align.ToString();
             return this;
         }
 
@@ -128,9 +127,7 @@ namespace Tesserae
         /// <returns></returns>
         public Grid AlignContent(ItemAlign align)
         {
-            string cssAlign = align.ToString().ToLower();
-            if (cssAlign == "end" || cssAlign == "start") cssAlign = $"flex-{cssAlign}";
-            _grid.style.alignContent = cssAlign;
+            _grid.style.alignContent = align.ToString();
             return this;
         }
 
@@ -141,10 +138,7 @@ namespace Tesserae
         /// <returns></returns>
         public Grid JustifyContent(ItemJustify justify)
         {
-            string cssJustify = justify.ToString().ToLower();
-            if (cssJustify == "end" || cssJustify == "start") cssJustify = $"flex-{cssJustify}";
-            if (cssJustify == "between" || cssJustify == "around" || cssJustify == "evenly") cssJustify = $"space-{cssJustify}";
-            _grid.style.justifyContent = cssJustify;
+            _grid.style.justifyContent = justify.ToString();
             return this;
         }
 
@@ -155,10 +149,7 @@ namespace Tesserae
         /// <returns></returns>
         public Grid JustifyItems(ItemJustify justify)
         {
-            string cssJustify = justify.ToString().ToLower();
-            if (cssJustify == "end" || cssJustify == "start") cssJustify = $"flex-{cssJustify}";
-            if (cssJustify == "between" || cssJustify == "around" || cssJustify == "evenly") cssJustify = $"space-{cssJustify}";
-            _grid.style.justifyItems = cssJustify;
+            _grid.style.justifyItems = justify.ToString();
             return this;
         }
 

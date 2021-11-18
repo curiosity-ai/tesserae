@@ -3,6 +3,7 @@ using static H5.Core.dom;
 
 namespace Tesserae
 {
+    [H5.Name("tss.BackgroundArea")]
     public class BackgroundArea : IComponent, IHasBackgroundColor
     {
         private readonly Raw _raw;

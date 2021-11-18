@@ -5,6 +5,7 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    [H5.Name("tss.Validator")]
     public sealed class Validator
     {
         private event OnValidationHandler ValidationOccured;

@@ -5,6 +5,7 @@ using static H5.Core.dom;
 
 namespace Tesserae
 {
+    [H5.Name("tss.UI")]
     public static partial class UI
     {
         /// <summary>

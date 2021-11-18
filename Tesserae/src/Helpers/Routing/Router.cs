@@ -10,6 +10,7 @@ using static H5.Core.dom;
 
 namespace Tesserae
 {
+    [H5.Name("tss.Router")]
     public static class Router
     {
         public delegate void NavigatedHandler(State               toState, State fromState);

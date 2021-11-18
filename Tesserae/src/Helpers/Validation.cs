@@ -5,6 +5,7 @@ using static TNT.T;
 
 namespace Tesserae
 {
+    [H5.Name("tss.Validation")]
     public static class Validation
     {
         public static string NotEmpty(TextArea textArea) => string.IsNullOrWhiteSpace(textArea.Text) ? "must not be blank".t() : null;

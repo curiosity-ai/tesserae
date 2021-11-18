@@ -1,9 +1,9 @@
-using Tesserae.HTML;
 using static H5.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
 {
+    [H5.Name("tss.Image")]
     public class Image : ComponentBase<Image, HTMLImageElement>, ISpecialCaseStyling
     {
         public HTMLElement StylingContainer => InnerElement;

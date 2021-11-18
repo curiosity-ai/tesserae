@@ -5,6 +5,7 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    [H5.Name("tss.ProgressIndicator")]
     public class ProgressIndicator : IComponent, IHasForegroundColor
     {
         private readonly HTMLElement InnerElement;

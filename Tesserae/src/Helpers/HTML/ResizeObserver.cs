@@ -4,8 +4,9 @@ using H5;
 using Tesserae;
 using static H5.Core.dom;
 
-namespace Tesserae.HTML
+namespace Tesserae
 {
+    [H5.Name("tss.ResizeObserver")]
     public class ResizeObserver
     {
         public Action<Event> OnResizeElement { get; set; }

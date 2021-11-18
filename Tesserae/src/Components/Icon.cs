@@ -3,6 +3,7 @@ using static H5.Core.dom;
 
 namespace Tesserae
 {
+    [H5.Name("tss.Icon")]
     public class Icon : IComponent, IHasForegroundColor, ITextFormating
     {
         private readonly HTMLElement InnerElement;

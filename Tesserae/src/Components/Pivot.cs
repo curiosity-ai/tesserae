@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Tesserae.HTML;
 using static H5.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
 {
+    [H5.Name("tss.Pivot")]
     public sealed class Pivot : IComponent, ISpecialCaseStyling
     {
         private event PivotEventHandler<PivotBeforeNavigateEvent> BeforeNavigated;

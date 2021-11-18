@@ -1,5 +1,7 @@
 ﻿namespace Tesserae
 {
+
+    [H5.Name("tss.IOBS")]
     public interface IObservable<T>
     {
         /// <summary>

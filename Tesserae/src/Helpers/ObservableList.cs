@@ -6,6 +6,7 @@ using static H5.Core.dom;
 
 namespace Tesserae
 {
+    [H5.Name("tss.ObservableList")]
     public sealed class ObservableList<T> : IList<T>, ICollection<T>, IObservable<IReadOnlyList<T>>
     {
         private event ObservableEvent.ValueChanged<IReadOnlyList<T>> ValueChanged;

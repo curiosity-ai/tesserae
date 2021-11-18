@@ -4,6 +4,7 @@ using static Tesserae.UI;
 namespace Tesserae
 {
 
+    [H5.Name("tss.ProgressModal")]
     public class ProgressModal
     {
         private readonly Modal _modalHost;

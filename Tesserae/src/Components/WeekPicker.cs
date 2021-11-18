@@ -3,6 +3,7 @@ using System.Linq;
 
 namespace Tesserae
 {
+    [H5.Name("tss.WeekPicker")]
     public class WeekPicker : MomentPickerBase<WeekPicker, (int year, int weekNumber)>
     {
         public WeekPicker((int year, int weekNumber)? week)

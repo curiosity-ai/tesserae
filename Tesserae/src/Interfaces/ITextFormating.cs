@@ -5,6 +5,7 @@ using H5;
 
 namespace Tesserae
 {
+    [H5.Name("tss.ITF")]
     public interface ITextFormating
     {
         TextSize Size { get; set; }
@@ -13,6 +14,7 @@ namespace Tesserae
     }
 
     [Enum(Emit.Value)]
+    [H5.Name("tss.TS")]
     public enum TextSize
     {
         [Name("tss-fontsize-tiny")]       Tiny,
@@ -28,6 +30,7 @@ namespace Tesserae
     }
     
     [Enum(Emit.Value)]
+    [H5.Name("tss.TW")]
     public enum TextWeight
     {
         [Name("tss-fontweight-regular")]  Regular,
@@ -36,6 +39,7 @@ namespace Tesserae
     }
 
     [Enum(Emit.Value)]
+    [H5.Name("tss.TA")]
     public enum TextAlign
     {
         [Name("tss-textalign-left")]   Left,

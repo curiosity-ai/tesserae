@@ -2,6 +2,7 @@
 
 namespace Tesserae
 {
+    [H5.Name("tss.IC")]
     public interface IComponent
     {
         HTMLElement Render();

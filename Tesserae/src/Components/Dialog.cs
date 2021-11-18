@@ -4,6 +4,7 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    [H5.Name("tss.Dialog")]
     public sealed class Dialog
     {
         private static readonly Random RNG = new Random();

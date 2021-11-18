@@ -2,6 +2,7 @@
 
 namespace Tesserae
 {
+    [H5.Name("tss.HSLColor")]
     public class HSLColor
     {
         private static readonly Random _rng = new Random();

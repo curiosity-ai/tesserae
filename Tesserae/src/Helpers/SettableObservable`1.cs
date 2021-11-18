@@ -10,6 +10,7 @@ namespace Tesserae
     /// Encapsulates a variable of type T, and enables monitoring for changes as well as the ability to update that value (which will trigger a ValueChanged event)
     /// </summary>
     /// <typeparam name="T">An immutable type to be observed. Be careful with non-imutable types, as you can change them in ways that will not be visible here</typeparam>
+    [H5.Name("tss.SettableObservableT")]
     public sealed class SettableObservable<T> : ReadOnlyObservable<T>
     {
         public SettableObservable(T value = default, IEqualityComparer<T> comparer = null) : base(value, comparer) { }

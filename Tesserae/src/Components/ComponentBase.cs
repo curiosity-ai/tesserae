@@ -5,6 +5,7 @@ using System;
 
 namespace Tesserae
 {
+    [H5.Name("tss.CB")]
     public abstract class ComponentBase<T, THTML> : IComponent, IHasMarginPadding where T : ComponentBase<T, THTML> where THTML : HTMLElement
     {
         protected event ComponentEventHandler<T, MouseEvent> Clicked;

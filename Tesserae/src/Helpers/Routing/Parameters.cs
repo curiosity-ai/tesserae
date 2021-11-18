@@ -3,6 +3,7 @@ using System.Linq;
 
 namespace Tesserae
 {
+    [H5.Name("tss.Parameters")]
     public sealed class Parameters
     {
         private readonly Dictionary<string, string> _parameters;

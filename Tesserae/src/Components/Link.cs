@@ -5,6 +5,7 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    [H5.Name("tss.Link")]
     public class Link : IComponent, ITextFormating
     {
         private readonly HTMLAnchorElement _anchor;

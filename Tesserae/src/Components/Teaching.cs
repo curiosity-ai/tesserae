@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Tesserae.HTML;
 using static Tesserae.UI;
 using static H5.Core.dom;
 using System.Threading.Tasks;
 
 namespace Tesserae
 {
+    [H5.Name("tss.Teaching")]
     public class Teaching
     {
         public enum StepType

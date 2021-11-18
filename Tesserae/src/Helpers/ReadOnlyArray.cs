@@ -13,6 +13,7 @@ namespace Tesserae
     /// does not guarantee that the data itself is immutable (if something still holds a reference to the mutable array then changing that content will result in those changes appearing through the read only
     /// wrapper).
     /// </summary>
+    [H5.Name("tss.ROA")]
     public sealed class ReadOnlyArray<T> : IEnumerable<T>
     {
         [Template("{data}")]

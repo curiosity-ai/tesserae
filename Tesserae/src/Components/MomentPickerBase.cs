@@ -3,6 +3,7 @@ using System.Linq;
 
 namespace Tesserae
 {
+    [H5.Name("tss.MomentPickerBase")]
     public abstract class MomentPickerBase<TMomentPicker, TMoment> : Input<TMomentPicker>, ITextFormating, IHasBackgroundColor, IHasForegroundColor where TMomentPicker : MomentPickerBase<TMomentPicker, TMoment>
     {
         protected MomentPickerBase(string type, string defaultText = null) : base(type, defaultText)

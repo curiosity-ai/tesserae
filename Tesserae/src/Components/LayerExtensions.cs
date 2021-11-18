@@ -1,5 +1,6 @@
 ﻿namespace Tesserae
 {
+    [H5.Name("tss.LayerExtensions")]
     public static class LayerExtensions
     {
         public static T Content<T>(this T layer, IComponent content) where T : Layer<T>

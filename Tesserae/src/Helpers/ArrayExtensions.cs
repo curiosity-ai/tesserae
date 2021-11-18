@@ -1,5 +1,6 @@
 ﻿namespace Tesserae
 {
+    [H5.Name("tss.arX")]
     public static class ArrayExtensions
     {
         /// <summary>

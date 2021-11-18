@@ -2,6 +2,7 @@
 
 namespace Tesserae
 {
+    [H5.Name("tss.vX")]
     public static class ValidationExtensions
     {
         /// <summary>

@@ -1,5 +1,6 @@
 ﻿namespace Tesserae
 {
+    [H5.Name("tss.IDefer")]
     public interface IDefer : IComponent
     {
         /// <summary>

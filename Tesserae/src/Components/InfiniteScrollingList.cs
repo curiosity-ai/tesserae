@@ -7,6 +7,7 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    [H5.Name("tss.InfiniteScrollingList")]
     public sealed class InfiniteScrollingList : IComponent, ISpecialCaseStyling
     {
         private readonly Grid             _grid;

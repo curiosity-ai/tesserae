@@ -1,5 +1,6 @@
 namespace Tesserae
 {
+    [H5.Name("tss.IPickerItem")]
     public interface IPickerItem
     {
         string Name { get; }

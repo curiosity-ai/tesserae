@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using static H5.Core.dom;
 
-namespace Tesserae.HTML
+namespace Tesserae
 {
+    [H5.Name("tss.domObs")]
     public static class DomObserver
     {
         private static List<ElementAndCallback> _elementsToTrackMountingOf;

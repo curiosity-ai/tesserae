@@ -1,8 +1,8 @@
-﻿using Tesserae.HTML;
-using static H5.Core.dom;
+﻿using static H5.Core.dom;
 using static Tesserae.UI;
 namespace Tesserae
 {
+    [H5.Name("tss.TextArea")]
     public sealed class TextArea : ComponentBase<TextArea, HTMLTextAreaElement>, ICanValidate<TextArea>, IObservableComponent<string>, ITabIndex
     {
         private readonly HTMLDivElement _container;

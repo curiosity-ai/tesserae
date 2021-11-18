@@ -2,6 +2,7 @@
 
 namespace Tesserae
 {
+    [H5.Name("tss.SettableObservable")]
     public static class SettableObservable
     {
         /// <summary>

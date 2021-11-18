@@ -2,12 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Tesserae.HTML;
 using static H5.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
 {
+    [H5.Name("tss.Label")]
     public sealed class Label : TextBlock, ISpecialCaseStyling
     {
         private static int _labelForId = 0;

@@ -7,6 +7,7 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    [H5.Name("tss.SearchableList")]
     public class SearchableList<T> : IComponent, ISpecialCaseStyling where T : ISearchableItem
     {
         private readonly IDefer _defered;
@@ -111,6 +112,7 @@ namespace Tesserae
         public dom.HTMLElement Render() => _stack.Render();
     }
 
+    [H5.Name("tss.ISearchableItem")]
     public interface ISearchableItem
     {
         bool IsMatch(string searchTerm);

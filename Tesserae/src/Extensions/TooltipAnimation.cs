@@ -3,6 +3,7 @@
 namespace Tesserae
 {
     [Enum(Emit.Value)]
+    [H5.Name("tss.TooltipAnimation")]
     public enum TooltipAnimation
     {
         [Name("none")] None,
@@ -13,6 +14,7 @@ namespace Tesserae
     }
 
     [Enum(Emit.Value)]
+    [H5.Name("tss.TooltipPlacement")]
     public enum TooltipPlacement
     {
         [Name("top")] Top,

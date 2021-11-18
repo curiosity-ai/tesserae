@@ -3,6 +3,7 @@ using System.Reflection;
 
 namespace Tesserae
 {
+    [H5.Name("tss.PossibleObservableHelpers")]
     internal static class PossibleObservableHelpers
     {
         /// <summary>

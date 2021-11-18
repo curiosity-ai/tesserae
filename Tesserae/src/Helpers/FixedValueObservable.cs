@@ -6,6 +6,7 @@
     /// component - sometimes with three observable inputs and sometimes with four, depending upon whether or not one is readonly). In cases like this, when a non-editable component will be displayed, this may be used to implement the
     /// IObservable interface to pass to Defer - if an EDITABLE version of the input is being used in that particular configuration of the form then there should be an AsObservable method on that component to use instead of this).
     /// </summary>
+    [H5.Name("tss.FixedValueObservable")]
     public sealed class FixedValueObservable<TItem> : IObservable<TItem>
     {
         public FixedValueObservable(TItem value) => Value = value;

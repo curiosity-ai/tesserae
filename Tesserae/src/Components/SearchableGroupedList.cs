@@ -6,6 +6,7 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    [H5.Name("tss.SearchableGroupedList")]
     public class SearchableGroupedList<T> : IComponent, ISpecialCaseStyling where T : ISearchableGroupedItem
     {
         private readonly Func<string, IComponent> _groupedItemHeaderGenerator;
@@ -143,6 +144,7 @@ namespace Tesserae
         }
     }
 
+    [H5.Name("tss.ISearchableGroupedItem")]
     public interface ISearchableGroupedItem : ISearchableItem
     {
         string Group { get; }

@@ -3,6 +3,7 @@ using System.Linq;
 
 namespace Tesserae
 {
+    [H5.Name("tss.ComponentCacheBase")]
     public abstract class ComponentCacheBase<TComponent> where TComponent : class
     {
         protected readonly List<(int Key, TComponent Component)> _componentsAndKeys;

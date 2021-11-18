@@ -3,6 +3,7 @@ using System.Globalization;
 
 namespace Tesserae
 {
+    [H5.Name("tss.DateTimePicker")]
     public class DateTimePicker : MomentPickerBase<DateTimePicker, DateTimeOffset>
     {
         public DateTimePicker(DateTimeOffset? dateTime = null)

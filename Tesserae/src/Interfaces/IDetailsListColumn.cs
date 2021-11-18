@@ -2,6 +2,7 @@ using System;
 
 namespace Tesserae
 {
+    [H5.Name("tss.IDetailsListColumn")]
     public interface IDetailsListColumn : IComponent
     {
         string   SortingKey               { get; }

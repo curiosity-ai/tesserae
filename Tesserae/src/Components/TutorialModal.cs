@@ -5,6 +5,7 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    [H5.Name("tss.TutorialModal")]
     public class TutorialModal : IComponent, ISpecialCaseStyling
     {
         private readonly Modal     _modal;

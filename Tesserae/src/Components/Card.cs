@@ -1,10 +1,10 @@
 ﻿using System;
-using Tesserae.HTML;
 using static H5.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
 {
+    [H5.Name("tss.Card")]
     public sealed class Card : ComponentBase<Card, HTMLElement>
     {
         private readonly HTMLElement _cardContainer;

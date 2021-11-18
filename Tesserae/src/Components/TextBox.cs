@@ -3,6 +3,7 @@ using System.Linq;
 
 namespace Tesserae
 {
+    [H5.Name("tss.TextBox")]
     public class TextBox : Input<TextBox>, ITextFormating, IHasBackgroundColor, IHasForegroundColor
     {
         public TextBox(string text = string.Empty) : base("text", text) 

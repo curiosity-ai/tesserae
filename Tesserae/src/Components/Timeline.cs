@@ -1,10 +1,10 @@
 ﻿using System;
-using Tesserae.HTML;
 using static H5.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
 {
+    [H5.Name("tss.Timeline")]
     public class Timeline : IContainer<Timeline, IComponent>, IHasBackgroundColor, IHasMarginPadding
     {
         private readonly HTMLElement _timeline;

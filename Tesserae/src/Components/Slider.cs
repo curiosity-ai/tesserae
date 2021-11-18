@@ -5,7 +5,7 @@ using System.Linq;
 namespace Tesserae
 {
 
-
+    [H5.Name("tss.Slider")]
     public sealed class Slider : ComponentBase<Slider, HTMLInputElement>
     {
         private readonly HTMLLabelElement _outerLabel;

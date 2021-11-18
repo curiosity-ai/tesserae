@@ -4,6 +4,7 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    [H5.Name("tss.SplitView")]
     public class SplitView : IComponent
     {
         private readonly HTMLElement _splitContainer;
@@ -146,6 +147,7 @@ namespace Tesserae
         }
     }
 
+    [H5.Name("tss.sz")]
     public enum SizeMode
     {
         Pixels,

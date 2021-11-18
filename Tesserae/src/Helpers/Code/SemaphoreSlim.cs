@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 
 namespace Tesserae
 {
+    [H5.Name("tss.SingleSemaphoreSlim")]
     public class SingleSemaphoreSlim
     {
         public SingleSemaphoreSlim()

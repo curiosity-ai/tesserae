@@ -2,6 +2,7 @@
 
 namespace Tesserae
 {
+    [H5.Name("tss.CombinedObservableT2")]
     public sealed class CombinedObservable<T1, T2> : IObservable<(T1 first, T2 second)>
     {
         private readonly IObservable<T1> _first;

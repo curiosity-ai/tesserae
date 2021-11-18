@@ -1,7 +1,8 @@
 ﻿using H5;
 
-namespace Tesserae.HTML
+namespace Tesserae
 {
+    [H5.Name("tss.WeakMap")]
     public class WeakMap
     {
         private object _map;

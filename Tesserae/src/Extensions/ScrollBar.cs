@@ -2,11 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Tesserae.HTML;
 using static H5.Core.dom;
 
 namespace Tesserae
 {
+    [H5.Name("tss.ScrollBar")]
     public static class ScrollBar
     {
         private static readonly List<Handle> LiveHandles = new List<Handle>();

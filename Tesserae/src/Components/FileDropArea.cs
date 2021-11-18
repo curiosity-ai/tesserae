@@ -5,6 +5,7 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    [H5.Name("tss.FileDropArea")]
     public sealed class FileDropArea : IComponent
     {
         private event FileDroppedHandler FileDropped;
