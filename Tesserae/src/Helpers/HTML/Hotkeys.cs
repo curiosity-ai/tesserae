@@ -27,6 +27,7 @@ namespace Tesserae
 
         public static void DeleteScope(string scope)
         {
+            if (GetScope() == scope) ResetFilter();
             Script.Write("hotkeys.deleteScope({0});", scope);
         }
 
