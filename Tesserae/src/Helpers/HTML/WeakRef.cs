@@ -2,8 +2,7 @@
 
 namespace Tesserae
 {
-    [External]
-    public class WeakRef<T>
+    public class WeakRef<T> where T : class
     {
         [Template("new WeakRef({data})")]
         public extern WeakRef(T data);
