@@ -232,7 +232,7 @@ namespace Tesserae.Tests
                                     NavLink("Async 1").LinksAsync(async () =>
                                     {
                                         await Task.Delay(500);
-                                        return new[] {NavLink("Level 2").Links(NavLink("Level 3").Links(NavLink("Level 4")))};
+                                        return new[] { NavLink("Level 2").Links(NavLink("Level 3").Links(NavLink("Level 4"))) };
                                     })
                                 ))
                 );

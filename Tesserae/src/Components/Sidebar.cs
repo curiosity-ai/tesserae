@@ -9,14 +9,14 @@ namespace Tesserae
     public sealed class Sidebar : IComponent
     {
         private event OnBeforeSelectHandler BeforeSelect;
-        public delegate bool OnBeforeSelectHandler(Item willBeSelected, Item currentlySelected);
+        public delegate bool                OnBeforeSelectHandler(Item willBeSelected, Item currentlySelected);
 
-        private readonly HTMLElement _sidebarContainer;
-        private readonly HTMLElement _contentContainer;
-        private readonly HTMLElement _container;
-        private readonly List<Item> _items = new List<Item>();
-        private ResizeObserver _resizeObserver;
-        
+        private readonly HTMLElement    _sidebarContainer;
+        private readonly HTMLElement    _contentContainer;
+        private readonly HTMLElement    _container;
+        private readonly List<Item>     _items = new List<Item>();
+        private          ResizeObserver _resizeObserver;
+
         public Sidebar()
         {
             _sidebarContainer = Div(_("tss-sidebar"));
@@ -147,7 +147,7 @@ namespace Tesserae
 
         public Sidebar Clear()
         {
-            foreach(var item in _items)
+            foreach (var item in _items)
             {
                 item.parent = null; //Detach first
             }
@@ -235,28 +235,37 @@ namespace Tesserae
 
         public sealed class Item : IComponent, IHasForegroundColor, IHasBackgroundColor
         {
-            private HTMLElement _container;
-            private HTMLElement _label;
+            private          HTMLElement _container;
+            private          HTMLElement _label;
             private readonly HTMLElement _icon;
-            private bool _isSelectable = true;
-            private bool _hasOnClick = false;
-            private bool _hasOnSelect = false;
-            private bool _onBottom = false;
-            internal Sidebar parent;
+            private          bool        _isSelectable = true;
+            private          bool        _hasOnClick   = false;
+            private          bool        _hasOnSelect  = false;
+            private          bool        _onBottom     = false;
+            internal         Sidebar     parent;
 
             public bool IsEnabled
             {
                 get => !_container.classList.contains("tss-disabled");
-                set { if (value) _container.classList.add("tss-disabled"); else _container.classList.remove("tss-disabled"); }
+                set
+                {
+                    if (value) _container.classList.add("tss-disabled");
+                    else _container.classList.remove("tss-disabled");
+                }
             }
 
             public bool IsLarge
             {
                 get => !_container.classList.contains("tss-extrapadding");
-                set { if (value) _container.classList.add("tss-extrapadding"); else _container.classList.remove("tss-extrapadding"); }
+                set
+                {
+                    if (value) _container.classList.add("tss-extrapadding");
+                    else _container.classList.remove("tss-extrapadding");
+                }
             }
 
             public string Foreground { get => _container.style.color; set => _container.style.color = value; }
+
             public string Background { get => _container.style.background; set => _container.style.background = value; }
 
             public bool IsSelectable
@@ -306,7 +315,7 @@ namespace Tesserae
                 }
             }
 
-     
+
             public Item(string text, IComponent icon, string href = null)
             {
                 _icon = icon.Render();
