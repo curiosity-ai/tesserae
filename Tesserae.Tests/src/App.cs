@@ -67,14 +67,21 @@ namespace Tesserae.Tests
             sideBar.IsVisible = false;
             navBar.IsVisible = false;
             document.body.style.overflow = "hidden";
+            var sidebarItemAdded = new SettableObservable<bool>(false);
+
+            var hidableSidbarItem = SidebarItem("Hideable item", "las la-cat").OnSelect((s) => Toast().Information("Hideable item clicked!"));
+
+
             document.body.appendChild(sideBar.Brand(SidebarItem("... meow", "las la-cat", href: "https://curiosity.ai").Large())
                .Add(SidebarItem("Colorful sidebar",                         "las la-tint").OnSelect((s) => sideBar.IsLight = false).Selected())
                .Add(SidebarItem("Light sidebar",                            "las la-tint-slash").OnSelect((s) => sideBar.IsLight = true))
+               .Add(sidebarItemAdded, hidableSidbarItem)
                .Add(SidebarItem("Always Open",                              "las la-arrow-to-right").OnSelect((s) => sideBar.IsAlwaysOpen = true))
                .Add(SidebarItem("Open on Hover",                            "las la-arrows-alt-h").OnSelect((s) => sideBar.IsAlwaysOpen = false))
                .Add(SidebarItem("Small sidebar",                            "las la-minus-square").OnSelect((s) => sideBar.Width = Sidebar.Size.Small))
                .Add(SidebarItem("Medium sidebar",                           "las la-square").OnSelect((s) => sideBar.Width = Sidebar.Size.Medium))
                .Add(SidebarItem("Large sidebar",                            "las la-plus-square").OnSelect((s) => sideBar.Width = Sidebar.Size.Large))
+               .Add(SidebarItem("Add item", "las la-plus").OnSelect((s) => sidebarItemAdded.Value = !sidebarItemAdded.Value))
                .SetContent(navBar)
                .Render());
 
