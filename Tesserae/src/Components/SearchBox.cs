@@ -211,5 +211,16 @@ namespace Tesserae
             Searched += onSearch;
             return this;
         }
+
+        public SearchBox Height(UnitSize unitSize)
+        {
+            var h = unitSize.ToString();
+            InnerElement.style.height = h;
+            InnerElement.style.lineHeight = h;
+            _container.style.height = h;
+            return this;
+        }
+
+        public SearchBox H(int unitSize) => Height(unitSize.px());
     }
 }
