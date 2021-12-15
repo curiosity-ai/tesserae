@@ -39,8 +39,8 @@ namespace Tesserae
                         var exception = age.InnerExceptions.Single();
                         if (exception.GetType() != typeof(OperationCanceledException))
                         {
-                            console.log("Error running FireAndForget Task\n" + exception.ToString());
-                            console.log(exception);
+                            console.error("Error running FireAndForget Task\n" + exception.ToString());
+                            console.error(exception);
                         }
                     }
                     else
@@ -52,19 +52,19 @@ namespace Tesserae
                             {
                                 if(first)
                                 {
-                                    console.log("Multiple errors running FireAndForget Task:");
+                                    console.error("Multiple errors running FireAndForget Task:");
                                     first = false;
                                 }
-                                console.log("\t\tInner exception\n" + inner.ToString());
-                                console.log(inner);
+                                console.error("\t\tInner exception\n" + inner.ToString());
+                                console.error(inner);
                             }
                         }
                     }
                 }
                 catch (Exception E)
                 {
-                    console.log("Error running FireAndForget Task\n" + E.ToString());
-                    console.log(E);
+                    console.error("Error running FireAndForget Task\n" + E.ToString());
+                    console.error(E);
                 }
             });
         }
