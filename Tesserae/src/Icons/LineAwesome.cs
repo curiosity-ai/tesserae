@@ -3,7 +3,7 @@ using H5;
 namespace Tesserae
 {
 
-    [Enum(Emit.StringName)]
+    [Enum(Emit.Value)]
     public enum LineAwesome
     {
         [Name("la-500px")]                            _500px,
