@@ -8,10 +8,11 @@ namespace Tesserae
     [H5.Name("tss.txt")]
     public class TextBlock : ComponentBase<TextBlock, HTMLElement>, ITextFormating, IHasBackgroundColor, IHasForegroundColor, ICanWrap
     {
-        public TextBlock(string text = string.Empty, bool treatAsHTML = false, bool selectable = false)
+        public TextBlock(string text = string.Empty, bool treatAsHTML = false, bool selectable = false, TextSize textSize = TextSize.Small, TextWeight textWeight = TextWeight.Regular)
         {
             text = text ?? string.Empty;
-            InnerElement = Div(_("tss-textblock tss-fontsize-small tss-fontweight-regular"));
+            
+            InnerElement = Div(_("tss-textblock " + textSize.ToString() + " " + textWeight.ToString()));
 
             if (treatAsHTML)
             {

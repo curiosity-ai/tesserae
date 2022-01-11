@@ -480,7 +480,7 @@ namespace Tesserae
     }
 
     [Name("tss.ItemAlign")]
-    [Enum(Emit.Value)]
+    [Enum(Emit.StringName)]
     public enum ItemAlign
     {
         [Name("auto")]          Auto,
@@ -492,7 +492,7 @@ namespace Tesserae
     }
 
     [Name("tss.ItemJustify")]
-    [Enum(Emit.Value)]
+    [Enum(Emit.StringName)]
     public enum ItemJustify
     {
         [Name("space-between")] Between,

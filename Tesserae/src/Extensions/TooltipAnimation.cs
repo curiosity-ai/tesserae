@@ -2,7 +2,7 @@
 
 namespace Tesserae
 {
-    [Enum(Emit.Value)]
+    [Enum(Emit.StringName)]
     [H5.Name("tss.TooltipAnimation")]
     public enum TooltipAnimation
     {
@@ -13,7 +13,7 @@ namespace Tesserae
         [Name("perspective-subtle")] Perspective
     }
 
-    [Enum(Emit.Value)]
+    [Enum(Emit.StringName)]
     [H5.Name("tss.TooltipPlacement")]
     public enum TooltipPlacement
     {

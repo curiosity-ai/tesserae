@@ -13,7 +13,7 @@ namespace Tesserae
         TextAlign TextAlign { get; set; }
     }
 
-    [Enum(Emit.Value)]
+    [Enum(Emit.StringName)] //Don't change the emit type without updating the FromClassList method
     [H5.Name("tss.TS")]
     public enum TextSize
     {
@@ -29,7 +29,7 @@ namespace Tesserae
         [Name("tss-fontsize-mega")]       Mega
     }
     
-    [Enum(Emit.Value)]
+    [Enum(Emit.StringName)] //Don't change the emit type without updating the FromClassList method
     [H5.Name("tss.TW")]
     public enum TextWeight
     {
@@ -38,7 +38,7 @@ namespace Tesserae
         [Name("tss-fontweight-bold")]     Bold
     }
 
-    [Enum(Emit.Value)]
+    [Enum(Emit.StringName)] //Don't change the emit type without updating the FromClassList method
     [H5.Name("tss.TA")]
     public enum TextAlign
     {

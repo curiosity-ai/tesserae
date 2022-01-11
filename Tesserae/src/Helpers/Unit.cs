@@ -2,7 +2,7 @@ using H5;
 
 namespace Tesserae
 {
-    [Enum(Emit.Value)]
+    [Enum(Emit.StringName)]
     [H5.Name("tss.Unit")]
     public enum Unit
     {
