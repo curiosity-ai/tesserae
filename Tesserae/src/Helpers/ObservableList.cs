@@ -82,8 +82,8 @@ namespace Tesserae
             {
                 _list.Add(item);
                 HookValue(item);
-                RaiseOnValueChanged();
             }
+            RaiseOnValueChanged();
         }
 
         public void Clear()
