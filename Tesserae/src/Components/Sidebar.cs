@@ -177,36 +177,6 @@ namespace Tesserae
             return this;
         }
 
-        public Sidebar Add(IObservable<bool> shown, Item item)
-        {
-            item.parent = this;
-            var index = _items.Count;
-            _items.Add(item);
-
-            shown.Observe(currentlyShown =>
-            {
-                if (currentlyShown)
-                {
-                    if (index >= _sidebarContainer.childNodes.length)
-                    {
-                        _sidebarContainer.appendChild(item.Render());
-                    }
-                    else
-                    {
-                        _sidebarContainer.insertBefore(item.Render(), _sidebarContainer.childNodes[index]);
-                    }
-                }
-                else
-                {
-                    if (_sidebarContainer.contains(item.Render()))
-                    {
-                        _sidebarContainer.removeChild(item.Render());
-                    }
-                }
-            });
-            return this;
-        }
-
         public Sidebar Remove(Item item)
         {
             _items.Remove(item);
