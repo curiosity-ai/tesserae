@@ -198,7 +198,10 @@ namespace Tesserae
                 }
                 else
                 {
-                    _sidebarContainer.removeChild(_sidebarContainer.childNodes[index]);
+                    if (_sidebarContainer.contains(item.Render()))
+                    {
+                        _sidebarContainer.removeChild(item.Render());
+                    }
                 }
             });
             return this;
