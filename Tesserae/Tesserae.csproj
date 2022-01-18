@@ -9,6 +9,7 @@
     <DebugType>None</DebugType>
     <DebugSymbols>false</DebugSymbols>
     <SkipResourcesExtraction>true</SkipResourcesExtraction>
+    <MinifyLocalVariables>true</MinifyLocalVariables>
   </PropertyGroup>
   
   <ItemGroup>
