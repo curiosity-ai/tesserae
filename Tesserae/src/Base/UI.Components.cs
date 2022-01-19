@@ -114,9 +114,12 @@ namespace Tesserae
 
         //Note: the Defer method with optional loadMessage caused a bridge compiler issue when resolving the method, so we provide here both with and without the loadMessage method
 
+
         public static IDefer Defer(Func<Task<IComponent>> asyncGenerator) => DeferedComponent.Create(asyncGenerator);
 
         public static IDefer DeferSync(Func<IComponent> syncGenerator) => DeferedComponent.Create(() => syncGenerator().AsTask());
+
+        public static IDefer Defer<TComponent>(IObservable<TComponent> observableComponent) where TComponent : IComponent => DeferedComponent.Observe(observableComponent, c => c.AsTask());
 
         public static IDefer Defer<T1>(IObservable<T1> o1, Func<T1, Task<IComponent>> asyncGenerator) => DeferedComponent.Observe(o1, asyncGenerator);
 
