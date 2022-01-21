@@ -241,8 +241,21 @@ namespace Tesserae
             Register(uniqueIdentifier, path, (p) => actionTask(p).FireAndForget());
         }
 
+        public static void Register(string uniqueIdentifier, string path, Action<Parameters> actionTask)
+        {
+            Register(uniqueIdentifier, path, actionTask);
+        }
+
+        public static void Register(string uniquePath, Func<Parameters, Task> actionTask)
+        {
+            Register(uniquePath, uniquePath, (p) => actionTask(p).FireAndForget());
+        }
+
         public static void Register(string uniqueIdentifier, string path, Action<Parameters> action, bool replace = false)
         {
+            if (path.StartsWith("#")) path = path.TrimStart('#');
+            if (!path.StartsWith("/")) path = "/" + path;
+
             uniqueIdentifier = uniqueIdentifier.ToLower();
 
             if (_registedRoutesMappedToActions.ContainsKey(uniqueIdentifier) && !replace)
