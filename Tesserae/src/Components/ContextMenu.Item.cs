@@ -8,12 +8,6 @@ namespace Tesserae
 {
     public sealed partial class ContextMenu
     {
-        public enum TextAlign
-        {
-            [Name("tss-textalign-left")] Left,
-            [Name("tss-textalign-center")] Center,
-            [Name("tss-contextmenu-header")] Right
-        }
 
         [Enum(Emit.StringName)] //Don't change the emit type without updating the FromClassList method
         public enum ItemType

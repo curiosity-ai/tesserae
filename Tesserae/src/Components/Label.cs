@@ -32,12 +32,6 @@ namespace Tesserae
             InnerElement = Div(_("tss-label"), _label, _content);
         }
 
-        public override string Text
-        {
-            get => _label.innerText;
-            set => _label.innerText = value;
-        }
-
         public override bool IsRequired
         {
             get => _label.classList.contains("tss-required");
@@ -51,35 +45,6 @@ namespace Tesserae
                 {
                     _label.classList.remove("tss-required");
                 }
-            }
-        }
-
-        public override TextSize Size
-        {
-            get => ITextFormatingExtensions.FromClassList(InnerElement, TextSize.Small);
-            set
-            {
-                var current = Size.ToString();
-                var newValue = value.ToString();
-                InnerElement.classList.remove(current);
-                InnerElement.classList.add(newValue);
-                _label.classList.remove(current);
-                _label.classList.add(newValue);
-            }
-        }
-
-        public override TextWeight Weight
-        {
-            get => ITextFormatingExtensions.FromClassList(InnerElement, TextWeight.Regular);
-            set
-            {
-                var current = Weight.ToString();
-                var newValue = value.ToString();
-
-                InnerElement.classList.remove(current);
-                InnerElement.classList.add(newValue);
-                _label.classList.remove(current);
-                _label.classList.add(newValue);
             }
         }
 

@@ -795,7 +795,7 @@ namespace Tesserae
                 set
                 {
                     InnerElement.classList.remove(Type.ToString());
-                    InnerElement.classList.add(value);
+                    InnerElement.classList.add(value.ToString());
 
                     if (value == ItemType.Item) InnerElement.tabIndex = 0;
                     else InnerElement.tabIndex = -1;

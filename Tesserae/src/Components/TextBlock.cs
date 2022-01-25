@@ -54,45 +54,53 @@ namespace Tesserae
 
         public bool IsSelectable
         {
-            get => InnerElement.style.userSelect != "none";
-            set => InnerElement.style.userSelect = value ? "" : "none";
+            get => GetTarget().style.userSelect != "none";
+            set => GetTarget().style.userSelect = value ? "" : "none";
         }
 
-        public virtual string Text
+        public string Text
         {
-            get => InnerElement.innerText;
-            set => InnerElement.innerText = value;
+            get => GetTarget().innerText;
+            set => GetTarget().innerText = value;
         }
         
         public string HTML
         {
-            get => InnerElement.innerHTML;
-            set => InnerElement.innerHTML = value;
+            get => GetTarget().innerHTML;
+            set => GetTarget().innerHTML = value;
         }
 
         public string Title
         {
-            get => InnerElement.title;
-            set => InnerElement.title = value;
+            get => GetTarget().title;
+            set => GetTarget().title = value;
         }
 
-        public virtual TextSize Size
+        private HTMLElement GetTarget()
         {
-            get => ITextFormatingExtensions.FromClassList(InnerElement, TextSize.Small);
+            if (InnerElement.classList.contains("tss-label")) return InnerElement.firstElementChild.As<HTMLElement>();
+            return InnerElement;
+        }
+
+        public TextSize Size
+        {
+            get => ITextFormatingExtensions.FromClassList(GetTarget(), TextSize.Small);
             set
             {
-                InnerElement.classList.remove(Size.ToString());
-                InnerElement.classList.add(value.ToString());
+                var el = GetTarget();
+                el.classList.remove(Size.ToString());
+                el.classList.add(value.ToString());
             }
         }
 
-        public virtual TextWeight Weight
+        public TextWeight Weight
         {
-            get => ITextFormatingExtensions.FromClassList(InnerElement, TextWeight.Regular);
+            get => ITextFormatingExtensions.FromClassList(GetTarget(), TextWeight.Regular);
             set
             {
-                InnerElement.classList.remove(Weight.ToString());
-                InnerElement.classList.add(value.ToString());
+                var el = GetTarget();
+                el.classList.remove(Weight.ToString());
+                el.classList.add(value.ToString());
             }
         }
 
@@ -100,12 +108,13 @@ namespace Tesserae
         {
             get
             {
-                return ITextFormatingExtensions.FromClassList(InnerElement, TextAlign.Left);
+                return ITextFormatingExtensions.FromClassList(GetTarget(), TextAlign.Left);
             }
             set
             {
-                InnerElement.classList.remove(TextAlign.ToString());
-                InnerElement.classList.add(value.ToString());
+                var el = GetTarget();
+                el.classList.remove(TextAlign.ToString());
+                el.classList.add(value.ToString());
             }
         }
 
@@ -114,18 +123,19 @@ namespace Tesserae
         /// </summary>
         public bool IsPrimary
         {
-            get => InnerElement.classList.contains("tss-fontcolor-primary");
+            get => GetTarget().classList.contains("tss-fontcolor-primary");
             set
             {
+                var el = GetTarget();
                 if (value)
                 {
-                    InnerElement.classList.add("tss-fontcolor-primary");
-                    InnerElement.classList.remove("tss-fontcolor-invalid", "tss-fontcolor-success", "tss-fontcolor-secondary", "tss-fontcolor-danger", "tss-fontcolor-default");
+                    el.classList.add("tss-fontcolor-primary");
+                    el.classList.remove("tss-fontcolor-invalid", "tss-fontcolor-success", "tss-fontcolor-secondary", "tss-fontcolor-danger", "tss-fontcolor-default");
                 }
                 else
                 {
-                    InnerElement.classList.add("tss-fontcolor-default");
-                    InnerElement.classList.remove("tss-fontcolor-invalid", "tss-fontcolor-success", "tss-fontcolor-secondary", "tss-fontcolor-danger", "tss-fontcolor-primary");
+                    el.classList.add("tss-fontcolor-default");
+                    el.classList.remove("tss-fontcolor-invalid", "tss-fontcolor-success", "tss-fontcolor-secondary", "tss-fontcolor-danger", "tss-fontcolor-primary");
                 }
             }
         }
@@ -135,18 +145,19 @@ namespace Tesserae
         /// </summary>
         public bool IsSecondary
         {
-            get => InnerElement.classList.contains("tss-fontcolor-secondary");
+            get => GetTarget().classList.contains("tss-fontcolor-secondary");
             set
             {
+                var el = GetTarget();
                 if (value)
                 {
-                    InnerElement.classList.add("tss-fontcolor-secondary");
-                    InnerElement.classList.remove("tss-fontcolor-invalid", "tss-fontcolor-success", "tss-fontcolor-primary", "tss-fontcolor-danger", "tss-fontcolor-default");
+                    el.classList.add("tss-fontcolor-secondary");
+                    el.classList.remove("tss-fontcolor-invalid", "tss-fontcolor-success", "tss-fontcolor-primary", "tss-fontcolor-danger", "tss-fontcolor-default");
                 }
                 else
                 {
-                    InnerElement.classList.add("tss-fontcolor-default");
-                    InnerElement.classList.remove("tss-fontcolor-invalid", "tss-fontcolor-success", "tss-fontcolor-secondary", "tss-fontcolor-danger", "tss-fontcolor-primary");
+                    el.classList.add("tss-fontcolor-default");
+                    el.classList.remove("tss-fontcolor-invalid", "tss-fontcolor-success", "tss-fontcolor-secondary", "tss-fontcolor-danger", "tss-fontcolor-primary");
                 }
             }
         }
@@ -156,19 +167,19 @@ namespace Tesserae
         /// </summary>
         public bool IsSuccess
         {
-            get => InnerElement.classList.contains("tss-fontcolor-success");
+            get => GetTarget().classList.contains("tss-fontcolor-success");
             set
             {
+                var el = GetTarget();
                 if (value)
                 {
-                    InnerElement.classList.add("tss-fontcolor-success");
-                    InnerElement.classList.remove("tss-fontcolor-invalid", "tss-fontcolor-secondary", "tss-fontcolor-primary", "tss-fontcolor-danger", "tss-fontcolor-default");
+                    el.classList.add("tss-fontcolor-success");
+                    el.classList.remove("tss-fontcolor-invalid", "tss-fontcolor-secondary", "tss-fontcolor-primary", "tss-fontcolor-danger", "tss-fontcolor-default");
                 }
                 else
                 {
-                    InnerElement.classList.add("tss-fontcolor-default");
-                    InnerElement.classList.remove("tss-fontcolor-invalid", "tss-fontcolor-success", "tss-fontcolor-secondary", "tss-fontcolor-danger", "tss-fontcolor-primary");
-
+                    el.classList.add("tss-fontcolor-default");
+                    el.classList.remove("tss-fontcolor-invalid", "tss-fontcolor-success", "tss-fontcolor-secondary", "tss-fontcolor-danger", "tss-fontcolor-primary");
                 }
             }
         }
@@ -178,18 +189,19 @@ namespace Tesserae
         /// </summary>
         public bool IsDanger
         {
-            get => InnerElement.classList.contains("tss-fontcolor-danger");
+            get => GetTarget().classList.contains("tss-fontcolor-danger");
             set
             {
+                var el = GetTarget();
                 if (value)
                 {
-                    InnerElement.classList.add("tss-fontcolor-danger");
-                    InnerElement.classList.remove("tss-fontcolor-invalid", "tss-fontcolor-secondary", "tss-fontcolor-primary", "tss-fontcolor-success", "tss-fontcolor-default");
+                    el.classList.add("tss-fontcolor-danger");
+                    el.classList.remove("tss-fontcolor-invalid", "tss-fontcolor-secondary", "tss-fontcolor-primary", "tss-fontcolor-success", "tss-fontcolor-default");
                 }
                 else
                 {
-                    InnerElement.classList.add("tss-fontcolor-default");
-                    InnerElement.classList.remove("tss-fontcolor-invalid", "tss-fontcolor-success", "tss-fontcolor-secondary", "tss-fontcolor-danger", "tss-fontcolor-primary");
+                    el.classList.add("tss-fontcolor-default");
+                    el.classList.remove("tss-fontcolor-invalid", "tss-fontcolor-success", "tss-fontcolor-secondary", "tss-fontcolor-danger", "tss-fontcolor-primary");
                 }
             }
         }
@@ -199,58 +211,60 @@ namespace Tesserae
         /// </summary>
         public bool IsInvalid
         {
-            get => InnerElement.classList.contains("tss-fontcolor-invalid");
+            get => GetTarget().classList.contains("tss-fontcolor-invalid");
             set
             {
+                var el = GetTarget();
                 if (value)
                 {
-                    InnerElement.classList.add("tss-fontcolor-invalid");
+                    el.classList.add("tss-fontcolor-invalid");
                 }
                 else
                 {
-                    InnerElement.classList.remove("tss-fontcolor-invalid");
+                    el.classList.remove("tss-fontcolor-invalid");
                 }
             }
         }
 
         public virtual bool IsRequired
         {
-            get => InnerElement.classList.contains("tss-required");
+            get => GetTarget().classList.contains("tss-required");
             set
             {
+                var el = GetTarget();
                 if (value)
                 {
-                    InnerElement.classList.add("tss-required");
+                    el.classList.add("tss-required");
                 }
                 else
                 {
-                    InnerElement.classList.remove("tss-required");
+                    el.classList.remove("tss-required");
                 }
             }
         }
 
         public bool CanWrap
         {
-            get => !InnerElement.classList.contains("tss-text-nowrap");
-            set => InnerElement.UpdateClassIfNot(value, "tss-text-nowrap");
+            get => !GetTarget().classList.contains("tss-text-nowrap");
+            set => GetTarget().UpdateClassIfNot(value, "tss-text-nowrap");
         }
 
         public bool EnableEllipsis
         {
-            get => !InnerElement.classList.contains("tss-text-ellipsis");
-            set => InnerElement.UpdateClassIf(value, "tss-text-ellipsis");
+            get => !GetTarget().classList.contains("tss-text-ellipsis");
+            set => GetTarget().UpdateClassIf(value, "tss-text-ellipsis");
         }
 
         public bool EnableBreakSpaces
         {
-            get => !InnerElement.classList.contains("tss-text-breakspaces");
-            set => InnerElement.UpdateClassIf(value, "tss-text-breakspaces");
+            get => !GetTarget().classList.contains("tss-text-breakspaces");
+            set => GetTarget().UpdateClassIf(value, "tss-text-breakspaces");
         }
 
         public string Cursor
         {
-            get => InnerElement.style.cursor;
-            set => InnerElement.style.cursor = value;
+            get => GetTarget().style.cursor;
+            set => GetTarget().style.cursor = value;
         }
 
         public override HTMLElement Render()
