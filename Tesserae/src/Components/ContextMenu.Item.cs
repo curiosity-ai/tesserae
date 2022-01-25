@@ -1,4 +1,5 @@
-﻿using System;
+﻿using H5;
+using System;
 using System.Linq;
 using static H5.Core.dom;
 using static Tesserae.UI;
@@ -7,11 +8,19 @@ namespace Tesserae
 {
     public sealed partial class ContextMenu
     {
+        public enum TextAlign
+        {
+            [Name("tss-textalign-left")] Left,
+            [Name("tss-textalign-center")] Center,
+            [Name("tss-contextmenu-header")] Right
+        }
+
+        [Enum(Emit.StringName)] //Don't change the emit type without updating the FromClassList method
         public enum ItemType
         {
-            Item,
-            Header,
-            Divider
+            [Name("tss-contextmenu-item")] Item,
+            [Name("tss-contextmenu-header")] Header,
+            [Name("tss-contextmenu-divider")] Divider
         }
 
         public class Item : ComponentBase<Item, HTMLElement>
@@ -57,8 +66,8 @@ namespace Tesserae
                 }
                 set
                 {
-                    InnerElement.classList.remove($"tss-contextmenu-{Type.ToString().ToLower()}");
-                    InnerElement.classList.add($"tss-contextmenu-{value.ToString().ToLower()}");
+                    InnerElement.classList.remove(Type.ToString());
+                    InnerElement.classList.add(value.ToString());
 
                     if (value == ItemType.Item) InnerElement.tabIndex = 0;
                     else InnerElement.tabIndex                        = -1;

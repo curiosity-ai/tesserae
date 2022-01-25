@@ -1,4 +1,5 @@
-﻿using System;
+﻿using H5;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -603,11 +604,12 @@ namespace Tesserae
             Multi
         }
 
+        [Enum(Emit.StringName)] //Don't change the emit type without updating the FromClassList method
         public enum ItemType
         {
-            Item,
-            Header,
-            Divider
+            [Name("tss-contextmenu-item")] Item,
+            [Name("tss-contextmenu-header")] Header,
+            [Name("tss-contextmenu-divider")] Divider
         }
 
         private void UpdateSearch(KeyboardEvent e)
@@ -792,8 +794,8 @@ namespace Tesserae
                 }
                 set
                 {
-                    InnerElement.classList.remove($"tss-dropdown-{Type.ToString().ToLower()}");
-                    InnerElement.classList.add($"tss-dropdown-{value.ToString().ToLower()}");
+                    InnerElement.classList.remove(Type.ToString());
+                    InnerElement.classList.add(value);
 
                     if (value == ItemType.Item) InnerElement.tabIndex = 0;
                     else InnerElement.tabIndex = -1;

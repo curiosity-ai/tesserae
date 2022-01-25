@@ -1,4 +1,5 @@
-﻿using System;
+﻿using H5;
+using System;
 using static H5.Core.dom;
 using static Tesserae.UI;
 
@@ -71,14 +72,18 @@ namespace Tesserae
         {
             get
             {
-                if (Enum.TryParse<PanelSize>(_panel.classList[1].Substring(_panel.classList[1].LastIndexOf('-') + 1), true, out var result))
-                {
-                    return result;
-                }
-
-                return PanelSize.Small;
+                return _panel.classList[1].As<PanelSize>(); //This works because the PanelSize Enum is emited as a string
+                //switch (_panel.classList[1])
+                //{
+                //    case "tss-panelSize-small" : return PanelSize.Small;
+                //    case "tss-panelSize-medium" : return PanelSize.Medium;
+                //    case "tss-panelSize-large" : return PanelSize.Large;
+                //    case "tss-panelSize-largefixed" : return PanelSize.LargeFixed;
+                //    case "tss-panelSize-extralarge" : return PanelSize.ExtraLarge;
+                //    case "tss-panelSize-fullwidth": return PanelSize.FullWidth;
+                //}
             }
-            set => _panel.classList.replace(_panel.classList[1], $"tss-panelSize-{value.ToString().ToLower()}");
+            set => _panel.classList.replace(_panel.classList[1], value.ToString());
         }
 
         public PanelSide Side
@@ -92,7 +97,7 @@ namespace Tesserae
 
                 return PanelSide.Far;
             }
-            set => _panel.classList.replace(_panel.classList[2], $"tss-panelSide-{value.ToString().ToLower()}");
+            set => _panel.classList.replace(_panel.classList[2], value.ToString());
         }
 
         public bool CanLightDismiss
@@ -201,14 +206,16 @@ namespace Tesserae
             Hide();
         }
 
+
+        [Enum(Emit.StringName)]
         public enum PanelSize
         {
-            Small,
-            Medium,
-            Large,
-            LargeFixed,
-            ExtraLarge,
-            FullWidth
+            [Name("tss-panelSize-small")] Small,
+            [Name("tss-panelSize-medium")] Medium,
+            [Name("tss-panelSize-large")] Large,
+            [Name("tss-panelSize-largefixed")] LargeFixed,
+            [Name("tss-panelSize-extralarge")] ExtraLarge,
+            [Name("tss-panelSize-fullwidth")] FullWidth,
         }
 
         public enum PanelSide

@@ -474,7 +474,7 @@ namespace Tesserae
 
         public Button SetIcon(LineAwesome icon, string color = "", TextSize size = TextSize.Medium, LineAwesomeWeight weight = LineAwesomeWeight.Light, bool afterText = false)
         {
-            Icon = $"{weight} {icon} tss-fontsize-{size.ToString().ToLower()}";
+            Icon = $"{weight} {icon} {size}";
             if (_iconSpan is object)
             {
                 _iconSpan.style.color = color;

@@ -184,10 +184,7 @@ namespace Tesserae
         /// <returns></returns>
         public OverflowSet JustifyContent(ItemJustify justify)
         {
-            string cssJustify = justify.ToString().ToLower();
-            if (cssJustify == "end" || cssJustify == "start") cssJustify = $"flex-{cssJustify}";
-            if (cssJustify == "between" || cssJustify == "around" || cssJustify == "evenly") cssJustify = $"space-{cssJustify}";
-            _childContainer.style.justifyContent = cssJustify;
+            _childContainer.style.justifyContent = justify.ToString();
             return this;
         }
 

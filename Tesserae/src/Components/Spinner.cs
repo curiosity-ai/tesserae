@@ -24,7 +24,7 @@ namespace Tesserae
             get
             {
                 var s = _container.classList.FirstOrDefault(x => x.StartsWith("tss-spinner-position-"));
-                if (s != null && Enum.TryParse<LabelPosition>(s, true, out LabelPosition result)) return result;
+                if (s != null && Enum.TryParse(s, true, out LabelPosition result)) return result;
                 return LabelPosition.Right;
             }
             set
@@ -40,7 +40,7 @@ namespace Tesserae
             get
             {
                 var s = _container.classList.FirstOrDefault(x => x.StartsWith("tss-spinner-size-"));
-                if (s != null && Enum.TryParse<CircleSize>(s, true, out CircleSize result)) return result;
+                if (s != null && Enum.TryParse(s, true, out CircleSize result)) return result;
                 return CircleSize.Small;
             }
             set
