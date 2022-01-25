@@ -27,7 +27,7 @@ namespace Tesserae
 
         public Label(IComponent component)
         {
-            _label = Label(_("tss-fontsize-small tss-fontweight-semibold"), component.Render());
+            _label = Label(_("tss-fontsize-small tss-fontweight-semibold tss-fontcolor-default"), component.Render());
             _content = Div(_());
             InnerElement = Div(_("tss-label"), _label, _content);
         }
