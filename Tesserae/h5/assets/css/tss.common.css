@@ -301,6 +301,10 @@
     font-weight: var(--tss-font-weight-bold);
 }
 
+.tss-fontcolor-default {
+    color: var(--tss-default-foreground-color);
+}
+
 .tss-fontcolor-primary {
     color: var(--tss-primary-background-color);
 }

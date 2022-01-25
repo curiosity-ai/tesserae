@@ -20,7 +20,7 @@ namespace Tesserae
 
         public Label(string text = string.Empty)
         {
-            _label = Label(_("tss-fontsize-small tss-fontweight-semibold", text: text));
+            _label = Label(_("tss-fontsize-small tss-fontweight-semibold tss-fontcolor-default", text: text));
             _content = Div(_());
             InnerElement = Div(_("tss-label"), _label, _content);
         }
