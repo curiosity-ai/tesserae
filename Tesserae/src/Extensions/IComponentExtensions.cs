@@ -14,6 +14,22 @@ namespace Tesserae
             return component;
         }
 
+        public static T WhenMountedDelayed<T>(this T component, TimeSpan delay, Action callback, bool onlyIfStillMounted = true) where T : IComponent
+        {
+            //No need to double check if already mounted here, as teh DomObserver already do it
+            DomObserver.WhenMounted(component.Render(), () =>
+            {
+                window.setTimeout(_ =>
+                {
+                    if (component.IsMounted())
+                    {
+                        callback();
+                    }
+                }, delay.TotalMilliseconds);
+            });
+            return component;
+        }
+
         public static T WhenRemoved<T>(this T component, Action callback) where T : IComponent
         {
             DomObserver.WhenRemoved(component.Render(), callback);
