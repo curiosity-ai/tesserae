@@ -200,3 +200,8 @@
 .tippy-box[data-animation=perspective-subtle][data-state=hidden] {
     opacity: 0
 }
+
+
+.tippy-content .tss-fontcolor-default {
+    color: var(--tss-default-background-color);
+}

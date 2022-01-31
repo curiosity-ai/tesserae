@@ -118,3 +118,7 @@
     text-overflow: ellipsis;
     overflow: hidden;
 }
+
+.tss-toast .tss-fontcolor-default {
+    color: var(--tss-default-background-color);
+}
