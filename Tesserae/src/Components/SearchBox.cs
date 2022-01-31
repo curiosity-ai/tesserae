@@ -67,7 +67,7 @@ namespace Tesserae
             set
             {
                 if (value) _container.classList.add("tss-underlined");
-                else _container.classList.remove("tss-underlined", "");
+                else _container.classList.remove("tss-underlined");
             }
         }
 
@@ -174,6 +174,12 @@ namespace Tesserae
         public SearchBox Underlined()
         {
             IsUnderlined = true;
+            return this;
+        }
+
+        public SearchBox NotUnderlined()
+        {
+            IsUnderlined = false;
             return this;
         }
 
