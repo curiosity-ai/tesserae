@@ -205,3 +205,16 @@
 .tippy-content .tss-fontcolor-default {
     color: var(--tss-default-background-color);
 }
+
+
+.tippy-content .tss-btn-default {
+    color: var(--tss-default-foreground-color);
+    background-color: var(--tss-default-background-color);
+    border-color: var(--tss-default-background-color);
+}
+
+    .tippy-content .tss-btn-default:hover {
+        color: var(--tss-default-foreground-hover-color);
+        background-color: var(--tss-default-background-hover-color);
+        border-color: var(--tss-default-background-hover-color);
+    }
