@@ -109,7 +109,7 @@
     width: 96vw;
 }
 
-.tss-toast-title > .tss-textblock{
+.tss-toast-title > .tss-textblock {
     text-overflow: ellipsis;
     overflow: hidden;
 }
