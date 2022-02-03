@@ -142,7 +142,10 @@ namespace Tesserae
                         ClearChildren(container);
                         if (r.IsCompleted)
                         {
-                            container.appendChild(r.Result.Render());
+                            if(r.Result is object)
+                            {
+                                container.appendChild(r.Result.Render());
+                            }
                         }
                         else
                         {
