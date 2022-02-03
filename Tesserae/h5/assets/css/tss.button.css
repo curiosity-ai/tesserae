@@ -58,9 +58,9 @@ a {
         background-color: var(--tss-default-background-hover-color);
     }
 
-.tss-btn-nowrap {
-    white-space: nowrap;
-}
+    .tss-btn.tss-btn-nowrap {
+        white-space: nowrap;
+    }
 
 .tss-btn.tss-small {
     min-height: 16px;
@@ -107,197 +107,197 @@ a {
     min-width: 16px;
 }
 
-.tss-btn-default {
+.tss-btn.tss-btn-default {
     color: var(--tss-default-foreground-color);
     border-color: transparent;
     box-shadow: none;
     background: transparent;
 }
 
-    .tss-btn-default .tss-fontcolor-default {
-        color: var(--tss-default-foreground-color);
-    }
+.tss-btn.tss-btn-default .tss-fontcolor-default {
+    color: var(--tss-default-foreground-color);
+}
 
-    .tss-btn-default:hover {
+    .tss-btn.tss-btn-default:hover {
         color: var(--tss-default-foreground-hover-color);
         background-color: var(--tss-default-background-hover-color);
         border-color: var(--tss-default-background-hover-color);
     }
 
-        .tss-btn-default:hover .tss-fontcolor-default {
+        .tss-btn.tss-btn-default:hover .tss-fontcolor-default {
             color: var(--tss-default-foreground-hover-color);
         }
 
-    .tss-btn-default:active {
+    .tss-btn.tss-btn-default:active {
         color: var(--tss-default-foreground-active-color);
         background-color: var(--tss-default-background-active-color);
         border-color: var(--tss-default-background-active-color);
     }
 
-        .tss-btn-default:active .tss-fontcolor-default {
+        .tss-btn.tss-btn-default:active .tss-fontcolor-default {
             color: var(--tss-default-foreground-active-color);
         }
 
-.tss-btn-primary {
+.tss-btn.tss-btn-primary {
     color: var(--tss-primary-foreground-color);
     background-color: var(--tss-primary-background-color);
     border-color: var(--tss-primary-border-color);
 }
 
-    .tss-btn-primary .tss-fontcolor-default {
+    .tss-btn.tss-btn-primary .tss-fontcolor-default {
         color: var(--tss-primary-foreground-color);
     }
 
-    .tss-btn-primary:hover {
+    .tss-btn.tss-btn-primary:hover {
         color: var(--tss-primary-foreground-hover-color);
         background-color: var(--tss-primary-background-hover-color);
     }
 
-        .tss-btn-primary:hover .tss-fontcolor-default {
+        .tss-btn.tss-btn-primary:hover .tss-fontcolor-default {
             color: var(--tss-primary-foreground-hover-color);
         }
 
-    .tss-btn-primary:active {
+    .tss-btn.tss-btn-primary:active {
         color: var(--tss-primary-foreground-active-color);
         background-color: var(--tss-primary-background-active-color);
     }
 
-        .tss-btn-primary:active .tss-fontcolor-default {
+        .tss-btn.tss-btn-primary:active .tss-fontcolor-default {
             color: var(--tss-primary-foreground-active-color);
         }
 
 
-.tss-btn-danger {
+.tss-btn.tss-btn-danger {
     color: var(--tss-danger-foreground-color);
     background-color: var(--tss-danger-background-color);
     border-color: var(--tss-danger-border-color);
 }
 
-    .tss-btn-danger .tss-fontcolor-default {
+    .tss-btn.tss-btn-danger .tss-fontcolor-default {
         color: var(--tss-danger-foreground-color);
     }
 
-    .tss-btn-danger:hover {
+    .tss-btn.tss-btn-danger:hover {
         color: var(--tss-danger-foreground-hover-color);
         background-color: var(--tss-danger-background-hover-color);
     }
 
-        .tss-btn-danger:hover .tss-fontcolor-default {
+        .tss-btn.tss-btn-danger:hover .tss-fontcolor-default {
             color: var(--tss-danger-foreground-hover-color);
         }
 
-    .tss-btn-danger:active {
+    .tss-btn.tss-btn-danger:active {
         color: var(--tss-danger-foreground-active-color);
         background-color: var(--tss-danger-background-active-color);
     }
 
-        .tss-btn-danger:active .tss-fontcolor-default {
+        .tss-btn.tss-btn-danger:active .tss-fontcolor-default {
             color: var(--tss-danger-foreground-active-color);
         }
 
-.tss-btn-success {
+.tss-btn.tss-btn-success {
     color: var(--tss-success-foreground-color);
     background-color: var(--tss-success-background-color);
     border-color: var(--tss-success-border-color);
 }
 
-    .tss-btn-success .tss-fontcolor-default {
+    .tss-btn.tss-btn-success .tss-fontcolor-default {
         color: var(--tss-success-foreground-color);
     }
 
-    .tss-btn-success:hover {
+    .tss-btn.tss-btn-success:hover {
         color: var(--tss-success-foreground-hover-color);
         background-color: var(--tss-success-background-hover-color);
     }
 
-        .tss-btn-success:hover .tss-fontcolor-default {
+        .tss-btn.tss-btn-success:hover .tss-fontcolor-default {
             color: var(--tss-success-foreground-hover-color);
         }
 
-    .tss-btn-success:active {
+    .tss-btn.tss-btn-success:active {
         color: var(--tss-success-foreground-active-color);
         background-color: var(--tss-success-background-active-color);
     }
 
-        .tss-btn-success:active .tss-fontcolor-default {
+        .tss-btn.tss-btn-success:active .tss-fontcolor-default {
             color: var(--tss-success-foreground-active-color);
         }
 
-.tss-btn-noborder {
+.tss-btn.tss-btn-noborder {
     border-color: transparent;
     box-shadow: none;
 }
 
-    .tss-btn-noborder:hover {
+    .tss-btn.tss-btn-noborder:hover {
         border-color: transparent;
     }
 
-.tss-btn-nobg {
+.tss-btn.tss-btn-nobg {
     background: transparent;
     background-color: transparent;
     box-shadow: none;
 }
 
-.tss-btn-primary.tss-btn-nobg,
-.tss-btn-primary.tss-btn-nobg .tss-fontcolor-default {
+.tss-btn.tss-btn-primary.tss-btn-nobg,
+.tss-btn.tss-btn-primary.tss-btn-nobg .tss-fontcolor-default {
     color: var(--tss-primary-background-color);
 }
 
-    .tss-btn-primary.tss-btn-nobg:hover,
-    .tss-btn-primary.tss-btn-nobg:hover .tss-fontcolor-default {
+    .tss-btn.tss-btn-primary.tss-btn-nobg:hover,
+    .tss-btn.tss-btn-primary.tss-btn-nobg:hover .tss-fontcolor-default {
         color: var(--tss-primary-background-hover-color);
     }
 
-    .tss-btn-primary.tss-btn-nobg:active,
-    .tss-btn-primary.tss-btn-nobg:active .tss-fontcolor-default {
+    .tss-btn.tss-btn-primary.tss-btn-nobg:active,
+    .tss-btn.tss-btn-primary.tss-btn-nobg:active .tss-fontcolor-default {
         color: var(--tss-primary-background-active-color);
     }
 
 
-.tss-btn-danger.tss-btn-nobg,
-.tss-btn-danger.tss-btn-nobg .tss-fontcolor-default {
+.tss-btn.tss-btn-danger.tss-btn-nobg,
+.tss-btn.tss-btn-danger.tss-btn-nobg .tss-fontcolor-default {
     color: var(--tss-danger-background-color);
 }
 
-    .tss-btn-danger.tss-btn-nobg:hover {
+    .tss-btn.tss-btn-danger.tss-btn-nobg:hover {
         color: var(--tss-danger-background-hover-color);
         background-color: var(--tss-danger-background-hover-color);
     }
 
-        .tss-btn-danger.tss-btn-nobg:hover .tss-fontcolor-default {
+        .tss-btn.tss-btn-danger.tss-btn-nobg:hover .tss-fontcolor-default {
             color: var(--tss-danger-background-hover-color);
         }
 
-    .tss-btn-danger.tss-btn-nobg:active {
+    .tss-btn.tss-btn-danger.tss-btn-nobg:active {
         color: var(--tss-danger-background-active-color);
         background-color: var(--tss-danger-background-active-color);
     }
 
-        .tss-btn-danger.tss-btn-nobg:active .tss-fontcolor-default {
+        .tss-btn.tss-btn-danger.tss-btn-nobg:active .tss-fontcolor-default {
             color: var(--tss-danger-background-active-color);
         }
 
 
-.tss-btn-success.tss-btn-nobg,
-.tss-btn-success.tss-btn-nobg .tss-fontcolor-default {
+.tss-btn.tss-btn-success.tss-btn-nobg,
+.tss-btn.tss-btn-success.tss-btn-nobg .tss-fontcolor-default {
     color: var(--tss-success-background-color);
 }
 
-    .tss-btn-success.tss-btn-nobg:hover {
+    .tss-btn.tss-btn-success.tss-btn-nobg:hover {
         color: var(--tss-success-background-hover-color);
         background-color: var(--tss-success-background-hover-color);
     }
 
-        .tss-btn-success.tss-btn-nobg:hover .tss-fontcolor-default {
+        .tss-btn.tss-btn-success.tss-btn-nobg:hover .tss-fontcolor-default {
             color: var(--tss-success-background-hover-color);
         }
 
-    .tss-btn-success.tss-btn-nobg:active,
-    .tss-btn-success.tss-btn-nobg:active .tss-fontcolor-default {
+    .tss-btn.tss-btn-success.tss-btn-nobg:active,
+    .tss-btn.tss-btn-success.tss-btn-nobg:active .tss-fontcolor-default {
         color: var(--tss-success-background-active-color);
     }
 
-.tss-btn-link {
+.tss-btn.tss-btn-link {
     border: none;
     background: none;
     color: var(--tss-link-color);
@@ -306,70 +306,70 @@ a {
     box-shadow: none;
 }
 
-    .tss-btn-link,
-    .tss-btn-link .tss-fontcolor-default {
+    .tss-btn.tss-btn-link,
+    .tss-btn.tss-btn-link .tss-fontcolor-default {
         color: var(--tss-link-color);
     }
 
-        .tss-btn-link:hover {
+        .tss-btn.tss-btn-link:hover {
             border: none;
             background: none;
             background-color: transparent;
             color: var(--tss-link-color);
         }
 
-            .tss-btn-link:hover .tss-fontcolor-default {
+            .tss-btn.tss-btn-link:hover .tss-fontcolor-default {
                 color: var(--tss-link-color);
             }
 
-            .tss-btn-link:hover > span {
+            .tss-btn.tss-btn-link:hover > span {
                 text-decoration: underline;
             }
 
-        .tss-btn-link.tss-disabled {
+        .tss-btn.tss-btn-link.tss-disabled {
             color: var(--tss-disabled-foreground-color);
             background-color: unset;
             border-color: unset;
         }
 
-            .tss-btn-link.tss-disabled .tss-fontcolor-default {
+            .tss-btn.tss-btn-link.tss-disabled .tss-fontcolor-default {
                 color: var(--tss-disabled-foreground-color);
             }
 
-        .tss-btn-link:hover > i {
+        .tss-btn.tss-btn-link:hover > i {
             text-decoration: none !important;
         }
 
-        .tss-btn-link.tss-dark,
-        .tss-btn-link.tss-dark .tss-fontcolor-default {
+        .tss-btn.tss-btn-link.tss-dark,
+        .tss-btn.tss-btn-link.tss-dark .tss-fontcolor-default {
             color: var(--tss-default-foreground-color);
         }
 
-        .tss-btn-link.tss-danger,
-        .tss-btn-link.tss-danger .tss-fontcolor-default {
+        .tss-btn.tss-btn-link.tss-danger,
+        .tss-btn.tss-btn-link.tss-danger .tss-fontcolor-default {
             color: var(--tss-danger-background-color);
         }
 
-            .tss-btn-link.tss-danger:hover,
-            .tss-btn-link.tss-danger:hover .tss-fontcolor-default {
+            .tss-btn.tss-btn-link.tss-danger:hover,
+            .tss-btn.tss-btn-link.tss-danger:hover .tss-fontcolor-default {
                 color: var(--tss-danger-background-color);
             }
 
-            .tss-btn-link.tss-danger.tss-disabled,
-            .tss-btn-link.tss-danger.tss-disabled .tss-fontcolor-default {
+            .tss-btn.tss-btn-link.tss-danger.tss-disabled,
+            .tss-btn.tss-btn-link.tss-danger.tss-disabled .tss-fontcolor-default {
                 color: var(--tss-disabled-foreground-color);
             }
 
-.tss-btn-nominsize {
+.tss-btn.tss-btn-nominsize {
     min-height: unset;
     min-width: unset;
 }
 
-.tss-btn-remove-padding {
+.tss-btn.tss-btn-remove-padding {
     padding: 0px;
 }
 
-.tss-btn-less-padding {
+.tss-btn.tss-btn-less-padding {
     padding: 0px 8px;
 }
 
@@ -382,50 +382,50 @@ a {
 }
 
 
-.tss-btn-remove-margin {
+.tss-btn.tss-btn-remove-margin {
     margin: 0px;
 }
 
-.tss-btn-linkonhover:hover,
-.tss-btn-linkonhover:hover .tss-fontcolor-default {
+.tss-btn.tss-btn-linkonhover:hover,
+.tss-btn.tss-btn-linkonhover:hover .tss-fontcolor-default {
     color: var(--tss-link-color);
 }
 
-    .tss-btn-linkonhover:hover > span {
+    .tss-btn.tss-btn-linkonhover:hover > span {
         text-decoration: underline;
     }
 
-    .tss-btn-linkonhover:hover > i {
+    .tss-btn.tss-btn-linkonhover:hover > i {
         text-decoration: none !important;
     }
 
-.tss-btn-linkonhover.tss-dark,
-.tss-btn-linkonhover.tss-dark .tss-fontcolor-default {
+.tss-btn.tss-btn-linkonhover.tss-dark,
+.tss-btn.tss-btn-linkonhover.tss-dark .tss-fontcolor-default {
     color: var(--tss-default-foreground-color);
 }
 
-.tss-btn-linkonhover.tss-danger,
-.tss-btn-linkonhover.tss-danger .tss-fontcolor-default {
+.tss-btn.tss-btn-linkonhover.tss-danger,
+.tss-btn.tss-btn-linkonhover.tss-danger .tss-fontcolor-default {
     color: var(--tss-danger-background-color);
 }
 
-    .tss-btn-linkonhover.tss-danger:hover,
-    .tss-btn-linkonhover.tss-danger:hover .tss-fontcolor-default {
+    .tss-btn.tss-btn-linkonhover.tss-danger:hover,
+    .tss-btn.tss-btn-linkonhover.tss-danger:hover .tss-fontcolor-default {
         color: var(--tss-danger-background-color);
     }
 
-    .tss-btn-linkonhover.tss-danger.tss-disabled,
-    .tss-btn-linkonhover.tss-danger.tss-disabled .tss-fontcolor-default {
+    .tss-btn.tss-btn-linkonhover.tss-danger.tss-disabled,
+    .tss-btn.tss-btn-linkonhover.tss-danger.tss-disabled .tss-fontcolor-default {
         color: var(--tss-disabled-foreground-color);
     }
 
-.tss-btn-nohover:hover {
+.tss-btn.tss-btn-nohover:hover {
     background: none;
     background-color: transparent;
     border: 1px solid transparent;
 }
 
-.tss-btn-link.tss-btn-nohover:hover {
+.tss-btn.tss-btn-link.tss-btn-nohover:hover {
     border: none;
 }
 
