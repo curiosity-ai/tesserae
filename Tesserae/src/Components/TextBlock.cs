@@ -34,7 +34,7 @@ namespace Tesserae
 
         public string Background { get => InnerElement.style.background; set => InnerElement.style.background = value; }
 
-        public string Foreground { get => InnerElement.style.color; set => InnerElement.style.color = value; }
+        public string Foreground { get => GetTarget().style.color; set => GetTarget().style.color = value; }
 
         public bool IsEnabled
         {
