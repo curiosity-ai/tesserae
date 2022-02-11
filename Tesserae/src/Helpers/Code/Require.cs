@@ -29,13 +29,24 @@ namespace Tesserae
             await singleCall.WaitAsync();
 
             var tcs = new TaskCompletionSource<bool>();
-            LoadScriptAsync(() => tcs.SetResult(true), (err) => tcs.SetException(new Exception(err)), libraries);
+            LoadScriptAsync(() => tcs.SetResult(true), (err) => tcs.SetException(new Exception(err)),false, libraries);
             await tcs.Task;
 
             singleCall.Release();
         }
 
-        private static void LoadScriptAsync(Action onComplete, Action<string> onFail, params string[] libraries)
+        public static async Task LoadModuleAsync(params string[] libraries)
+        {
+            await singleCall.WaitAsync();
+
+            var tcs = new TaskCompletionSource<bool>();
+            LoadScriptAsync(() => tcs.SetResult(true), (err) => tcs.SetException(new Exception(err)), true, libraries);
+            await tcs.Task;
+
+            singleCall.Release();
+        }
+
+        private static void LoadScriptAsync(Action onComplete, Action<string> onFail, bool isModule, params string[] libraries)
         {
             var loadedCount = 0;
             for (int i = 0; i < libraries.Length; i++)
@@ -51,7 +62,7 @@ namespace Tesserae
                 {
                     var script = new HTMLScriptElement
                     {
-                        type = "text/javascript",
+                        type = isModule ? "module" : "text/javascript",
                         src = url,
                         async = true,
                         onerror = e => { onFail?.Invoke(url); loadedCount++; if (loadedCount == libraries.Length) onComplete?.Invoke(); },
