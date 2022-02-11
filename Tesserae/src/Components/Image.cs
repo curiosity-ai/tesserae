@@ -4,7 +4,7 @@ using static Tesserae.UI;
 namespace Tesserae
 {
     [H5.Name("tss.Image")]
-    public class Image : ComponentBase<Image, HTMLImageElement>, ISpecialCaseStyling
+    public class Image : ComponentBase<Image, HTMLImageElement>, ISpecialCaseStyling, IHasBackgroundColor
     {
         public HTMLElement StylingContainer => InnerElement;
 
@@ -16,8 +16,8 @@ namespace Tesserae
             if (!string.IsNullOrEmpty(fallback))
             {
                 InnerElement = UI.Image(_("tss-image", src: fallback));
-                
-                InnerElement.onerror = _ =>  //Need to be hooked before setting src
+
+                InnerElement.onerror = _ => //Need to be hooked before setting src
                 {
                     if (InnerElement.src != fallback)
                     {
@@ -30,7 +30,7 @@ namespace Tesserae
             }
             else
             {
-                InnerElement = UI.Image(_("tss-image", src:source));
+                InnerElement = UI.Image(_("tss-image", src: source));
             }
 
             PropagateToStackItemParent = true;
@@ -102,6 +102,11 @@ namespace Tesserae
         {
             InnerElement.style.borderRadius = $"{pixels}px";
             return this;
+        }
+        public string Background
+        {
+            get => InnerElement.style.background;
+            set => InnerElement.style.background = value;
         }
     }
 }
