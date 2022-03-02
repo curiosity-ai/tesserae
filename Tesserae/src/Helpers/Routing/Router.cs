@@ -64,10 +64,10 @@ namespace Tesserae
             _initialized = true;
         }
 
-        private static          bool                                   _initialized                   = false;
-        private static readonly Dictionary<string, Action<Parameters>> _registedRoutesMappedToActions = new Dictionary<string, Action<Parameters>>();
-        private static readonly Dictionary<string, string>             _paths                         = new Dictionary<string, string>();
-        private static          List<Route>                            _routesToTryMatchingOnLocationChanged;
+        private static bool _initialized = false;
+        private static readonly Dictionary<string, Func<Parameters, bool>> _registedRoutesMappedToActions = new Dictionary<string, Func<Parameters, bool>>();
+        private static readonly Dictionary<string, string> _paths = new Dictionary<string, string>();
+        private static List<Route> _routesToTryMatchingOnLocationChanged;
 
         public static void Push(string path)
         {
@@ -253,6 +253,11 @@ namespace Tesserae
 
         public static void Register(string uniqueIdentifier, string path, Action<Parameters> action, bool replace = false)
         {
+            Register(uniqueIdentifier, path, (p) => { action(p); return true; }, replace);
+        }
+
+        public static void Register(string uniqueIdentifier, string path, Func<Parameters, bool> action, bool replace = false)
+        {
             if (path.StartsWith("#")) path = path.TrimStart('#');
             if (!path.StartsWith("/")) path = "/" + path;
 
@@ -374,8 +379,18 @@ namespace Tesserae
                     // Allowed to navigate - do it!
                     var oldState = _currentState;
                     _currentState = toState;
-                    r.Activate(toState.Parameters);
-                    Navigated?.Invoke(toState, oldState);
+                    if (r.Activate(toState.Parameters))
+                    {
+                        Navigated?.Invoke(toState, oldState);
+                    }
+                    else
+                    {
+                        // New route was matched but refused to activate, so revert the current URL back to the "current state" (ie. the last state that was matched before this navigation attempt)
+                        if ((_currentState is object) && !string.IsNullOrEmpty(_currentState.FullPath))
+                        {
+                            window.location.href = _currentState.FullPath;
+                        }
+                    }
                 }
                 else
                 {
@@ -442,8 +457,8 @@ namespace Tesserae
         private sealed class Route
         {
             private readonly RoutePart[]        _parts;
-            private readonly Action<Parameters> _action;
-            public Route(string name, string path, Action<Parameters> action)
+            private readonly Func<Parameters, bool> _action;
+            public Route(string name, string path, Func<Parameters, bool> action)
             {
                 Name = name;
                 Path = path;
@@ -481,7 +496,7 @@ namespace Tesserae
                 }
             }
 
-            public void Activate(Parameters parameters) => _action(parameters);
+            public bool Activate(Parameters parameters) => _action(parameters);
         }
     }
 }
