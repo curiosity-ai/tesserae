@@ -8,30 +8,38 @@ namespace Tesserae
     {
         public static void Copy(string valueToCopy, bool showMessage = true, string customMessage = null)
         {
-            var ta = TextBox(_());
-            ta.style.opacity = "0";
-            ta.style.position = "absolute";
-            document.body.appendChild(ta);
-
-            try
+            if (navigator.clipboard is object)
             {
-                var curEl = (HTMLElement)document.activeElement;
-                ta.value = valueToCopy;
-                ta.@select();
-                document.execCommand("copy");
+                navigator.clipboard.writeText(valueToCopy);
+            }
+            else
+            {
+                var ta = TextBox(_());
+                ta.style.opacity = "0";
+                ta.style.position = "absolute";
+                document.body.appendChild(ta);
 
-                if (curEl != null)
+                try
                 {
-                    curEl.focus();
+                    var curEl = (HTMLElement)document.activeElement;
+                    ta.value = valueToCopy;
+                    ta.@select();
+                    document.execCommand("copy");
+
+                    if (curEl != null)
+                    {
+                        curEl.focus();
+                    }
                 }
-                if (showMessage)
+                finally
                 {
-                    Toast().Success("", customMessage ?? $"📋 Copied\n{valueToCopy}");
+                    document.body.removeChild(ta);
                 }
             }
-            finally
+
+            if (showMessage)
             {
-                document.body.removeChild(ta);
+                Toast().Success("", customMessage ?? $"📋 Copied\n{valueToCopy}");
             }
         }
     }
