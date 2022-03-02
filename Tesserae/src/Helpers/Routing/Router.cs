@@ -390,6 +390,7 @@ namespace Tesserae
                     }
                     else
                     {
+                        _currentState = oldState;
                         // New route was matched but refused to activate, so revert the current URL back to the "current state" (ie. the last state that was matched before this navigation attempt)
                         if ((_currentState is object) && !string.IsNullOrEmpty(_currentState.FullPath))
                         {
