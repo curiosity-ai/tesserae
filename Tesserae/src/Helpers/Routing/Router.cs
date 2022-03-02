@@ -246,6 +246,11 @@ namespace Tesserae
             Register(uniquePath, uniquePath, action);
         }
 
+        public static void Register(string uniquePath, Func<Parameters, bool> action)
+        {
+            Register(uniquePath, uniquePath, action, replace: false);
+        }
+
         public static void Register(string uniquePath, Func<Parameters, Task> actionTask)
         {
             Register(uniquePath, uniquePath, (p) => actionTask(p).FireAndForget());
