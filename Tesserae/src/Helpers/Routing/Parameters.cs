@@ -33,7 +33,7 @@ namespace Tesserae
             return this;
         }
 
-        public string     ToQueryString() => _parameters.Any() ? "?" + string.Join("&", _parameters.Select(p => p.Key + "=" + p.Value)) : "";
+        public string     ToQueryString() => _parameters.Any() ? "?" + string.Join("&", _parameters.Select(p => p.Key + "=" + H5.Script.EncodeURIComponent(p.Value))) : "";
         public Parameters Clone()         => new Parameters(_parameters);
     }
 }

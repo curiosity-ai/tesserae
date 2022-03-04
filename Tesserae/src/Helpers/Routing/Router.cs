@@ -363,11 +363,11 @@ namespace Tesserae
                         var qpp = qp.Split(new[] {'='}, StringSplitOptions.RemoveEmptyEntries);
                         if (qpp.Length == 1)
                         {
-                            par[es5.decodeURIComponent(qpp[0])] = "";
+                            par[Script.DecodeURIComponent(qpp[0])] = "";
                         }
                         else
                         {
-                            par[es5.decodeURIComponent(qpp[0])] = es5.decodeURIComponent(qpp[1]);
+                            par[Script.DecodeURIComponent(qpp[0])] = Script.DecodeURIComponent(qpp[1]);
                         }
                     }
                 }
