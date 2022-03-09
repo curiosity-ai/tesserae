@@ -1,5 +1,6 @@
 ﻿using static Tesserae.UI;
 using static H5.Core.dom;
+using System;
 
 namespace Tesserae
 {
@@ -8,8 +9,29 @@ namespace Tesserae
     {
         private readonly HTMLElement InnerElement;
 
-        public Icon(string icon) => InnerElement = I(_("tss-icon " + icon));
+        public Icon(string icon)
+        {
+            InnerElement = I(_("tss-icon " + icon));
+            InnerElement.dataset["icon"] = icon;
+        }
 
+        public Icon SetIcon(string icon)
+        {
+            var current = InnerElement.dataset["icon"].As<string>();
+
+            if (!string.IsNullOrWhiteSpace(current))
+            {
+                InnerElement.classList.remove(current.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
+            }
+
+            if(!string.IsNullOrEmpty(icon))
+            {
+                InnerElement.classList.add(icon.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
+            }
+
+            InnerElement.dataset["icon"] = icon;
+            return this;
+        }
         public string Foreground
         {
             get => InnerElement.style.color;
