@@ -14,6 +14,7 @@
     color: var(--tss-sidebar-foreground-color) !important;
     display: flex;
     flex-direction: column;
+    padding-right:16px;
 }
 
     .tss-sidebar.tss-light {
