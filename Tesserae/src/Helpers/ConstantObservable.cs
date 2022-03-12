@@ -12,7 +12,7 @@ namespace Tesserae
     {
         private T _value;
 
-        protected ConstantObservable(T value)
+        public ConstantObservable(T value)
         {
             _value = value;
         }
