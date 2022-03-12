@@ -17,18 +17,8 @@ namespace Tesserae
             _value = value;
         }
 
-        private event ObservableEvent.ValueChanged<T> ValueChanged;
-
-        public void Observe(ObservableEvent.ValueChanged<T> valueGetter) => Observe(valueGetter, callbackImmediately: true);
+        public void Observe(ObservableEvent.ValueChanged<T> valueGetter) { valueGetter(Value); }
         public void ObserveFutureChanges(ObservableEvent.ValueChanged<T> valueGetter) { }
-        private void Observe(ObservableEvent.ValueChanged<T> valueGetter, bool callbackImmediately)
-        {
-            if (callbackImmediately)
-            {
-                valueGetter(Value);
-            }
-        }
-
         public void StopObserving(ObservableEvent.ValueChanged<T> valueGetter) { }
 
         public T Value => _value;
