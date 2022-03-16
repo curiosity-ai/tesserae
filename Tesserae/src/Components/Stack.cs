@@ -1,4 +1,5 @@
 using H5;
+using System;
 using static H5.Core.dom;
 using static Tesserae.UI;
 
@@ -316,6 +317,36 @@ namespace Tesserae
             {
                 container.appendChild(GetItem(component, true));
             }
+        }
+
+        public void InsertBefore(IComponent component, IComponent componentToInsertBefore)
+        {
+            var container = ScrollBar.GetCorrectContainer(InnerElement);
+
+            var element = GetItem(component, true);
+            var elementToInsertBefore = GetItem(componentToInsertBefore, true);
+
+            if (!container.contains(elementToInsertBefore))
+            {
+                throw new Exception(nameof(componentToInsertBefore) + "is not a child of this stack");
+            }
+
+            container.insertBefore(element, elementToInsertBefore);
+        }
+        
+        public void InsertAfter(IComponent component, IComponent componentToInsertBefore)
+        {
+            var container = ScrollBar.GetCorrectContainer(InnerElement);
+
+            var element = GetItem(component, true);
+            var elementToInsertBefore = GetItem(componentToInsertBefore, true);
+
+            if (!container.contains(elementToInsertBefore))
+            {
+                throw new Exception(nameof(componentToInsertBefore) + "is not a child of this stack");
+            }
+
+            container.insertBefore(element, elementToInsertBefore.nextSibling);
         }
 
         public virtual void Clear() => ClearChildren(ScrollBar.GetCorrectContainer(InnerElement));
