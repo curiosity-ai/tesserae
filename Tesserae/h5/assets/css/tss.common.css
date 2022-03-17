@@ -42,6 +42,8 @@
     --tss-primary-foreground-hover-color-root: 255, 255, 255;
     --tss-primary-background-active-color-root: 0, 90, 158;
     --tss-primary-foreground-active-color-root: 255, 255, 255;
+    --tss-warning-background-color-root: 220,145,53;
+    --tss-warning-foreground-color-root: 255, 255, 255;
     --tss-danger-background-color-root: 220,53,69;
     --tss-danger-foreground-color-root: 255, 255, 255;
     --tss-danger-border-color-root: 220,53,69;
@@ -64,9 +66,6 @@
     --tss-navbar-background-color-root: 255, 255, 255;
     --tss-navbar-foreground-color-root: 50, 49, 48;
     --tss-primary-shadow-color-root: 0, 120, 212;
-
-
-
     --tss-default-background-color: rgb(var(--tss-default-background-color-root ));
     --tss-default-foreground-color: rgb(var(--tss-default-foreground-color-root ));
     --tss-secondary-background-color: rgb(var(--tss-secondary-background-color-root ));
@@ -93,6 +92,8 @@
     --tss-primary-background-active-color: rgb(var(--tss-primary-background-active-color-root ));
     --tss-primary-foreground-active-color: rgb(var(--tss-primary-foreground-active-color-root ));
     --tss-primary-background-color-transparent: rgba(var(--tss-primary-background-color-root), 0.2);
+    --tss-warning-background-color: rgb(var(--tss-warning-background-color-root ));
+    --tss-warning-foreground-color: rgb(var(--tss-warning-foreground-color-root ));
     --tss-danger-background-color: rgb(var(--tss-danger-background-color-root ));
     --tss-danger-foreground-color: rgb(var(--tss-danger-foreground-color-root ));
     --tss-danger-border-color: rgb(var(--tss-danger-border-color-root ));
@@ -115,14 +116,12 @@
     --tss-navbar-background-color: rgb(var(--tss-navbar-background-color-root ));
     --tss-navbar-foreground-color: rgb(var(--tss-navbar-foreground-color-root ));
     --tss-primary-shadow: 0 1.6px 3.6px 0 rgba(var(--tss-primary-shadow-color-root),0.132), 0 0.3px 0.9px 0 rgba(var(--tss-primary-shadow-color-root),0.108);
-
     --tss-overlay-light: rgba(255, 255, 255, 0.4);
     --tss-overlay-dark: rgba(0, 0, 0, 0.4);
     --tss-shadow-color-from: rgba(0,0,0,0.132);
     --tss-shadow-color-to: rgba(0,0,0,0.108);
     --tss-box-shadow: 0 1.6px 3.6px 0 var(--tss-shadow-color-from), 0 0.3px 0.9px 0 var(--tss-shadow-color-to);
     --tss-box-shadow-darker: 0 1.6px 3.6px 0 rgba(0, 0, 0, 0.3), 0 0.3px 0.9px 0 rgba(0, 0, 0, 0.45);
-    
     --tss-card-shadow: 0 1.6px 3.6px 0 var(--tss-shadow-color-from), 0 0.3px 0.9px 0 var(--tss-shadow-color-to);
     --tss-toast-shadow: 2px 3px 12px 0px rgba(0, 0, 0, 0.45);
     --tss-scrollbar-track-color: rgba(50, 49, 48, 0.12);
@@ -158,6 +157,8 @@
     --tss-primary-foreground-hover-color-root: 255, 255, 255;
     --tss-primary-background-active-color-root: 0, 90, 158;
     --tss-primary-foreground-active-color-root: 255, 255, 255;
+    --tss-warning-background-color-root: 255, 174, 81;
+    --tss-warning-foreground-color-root: 255, 255, 255;
     --tss-danger-background-color-root: 255, 81, 98;
     --tss-danger-foreground-color-root: 255, 255, 255;
     --tss-danger-border-color-root: 255, 81, 98;
@@ -179,9 +180,6 @@
     --tss-sidebar-foreground-color-root: 222, 235, 255;
     --tss-navbar-background-color-root: 34, 34, 34;
     --tss-navbar-foreground-color-root: 255, 255, 255;
-
-
-
     --tss-default-background-color: rgb(var(--tss-default-background-color-root ));
     --tss-default-foreground-color: rgb(var(--tss-default-foreground-color-root ));
     --tss-secondary-background-color: rgb(var(--tss-secondary-background-color-root ));
@@ -208,6 +206,8 @@
     --tss-primary-background-active-color: rgb(var(--tss-primary-background-active-color-root ));
     --tss-primary-foreground-active-color: rgb(var(--tss-primary-foreground-active-color-root ));
     --tss-primary-background-color-transparent: rgba(var(--tss-primary-background-color-root), 0.2);
+    --tss-warning-background-color: rgb(var(--tss-warning-background-color-root ));
+    --tss-warning-foreground-color: rgb(var(--tss-warning-foreground-color-root ));
     --tss-danger-background-color: rgb(var(--tss-danger-background-color-root ));
     --tss-danger-foreground-color: rgb(var(--tss-danger-foreground-color-root ));
     --tss-danger-border-color: rgb(var(--tss-danger-border-color-root ));
@@ -229,9 +229,7 @@
     --tss-sidebar-foreground-color: rgb(var(--tss-sidebar-foreground-color-root ));
     --tss-navbar-background-color: rgb(var(--tss-navbar-background-color-root ));
     --tss-navbar-foreground-color: rgb(var(--tss-navbar-foreground-color-root ));
-
     --tss-primary-shadow: 0 3.6px 5.6px 0 rgba(var(--tss-primary-shadow-color-root),0.132), 2px 2.3px 5.9px 0 rgba(var(--tss-primary-shadow-color-root),0.108);
-
     --tss-overlay-light: rgba(255, 255, 255, 0.1);
     --tss-overlay-dark: rgba(255, 255, 255, 0.4);
     --tss-shadow-color-from: rgba(0,0,0,0.132);
@@ -315,6 +313,10 @@
 
 .tss-fontcolor-danger {
     color: var(--tss-danger-background-color);
+}
+
+.tss-fontcolor-warning {
+    color: var(--tss-warning-background-color);
 }
 
 .tss-fontcolor-secondary {

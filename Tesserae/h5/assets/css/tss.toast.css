@@ -49,9 +49,8 @@
 }
 
 .tss-toast-warning > .tss-toast-container {
-    /*TODO: add own color for this*/
-    background: var(--tss-danger-background-color);
-    color: var(--tss-danger-foreground-color);
+    background: var(--tss-warning-background-color);
+    color: var(--tss-warning-foreground-color);
 }
 
 .tss-toast-error > .tss-toast-container {
