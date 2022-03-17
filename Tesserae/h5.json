@@ -112,6 +112,7 @@
         "h5/assets/css/tss.toast.css",
         "h5/assets/css/tss.toggle.css",
         "h5/assets/css/tss.timeline.css",
+        "h5/assets/css/tss.schedulepicker.css",
         "h5/assets/css/tss.tooltip.css"
       ],
       "output": "assets/css"

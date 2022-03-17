@@ -1,0 +1,27 @@
+﻿.tss-schedule-selector-button {
+    background-color: var(--tss-default-border-color);
+}
+
+
+
+.tss-schedule-selector-button-hover {
+    opacity: 0.6;
+}
+
+.tss-schedule-selector-button.active-selector-button {
+    background-color: var(--tss-success-background-color);
+}
+
+.tss-schedule-selector-button.active-selector-button:hover {
+    background-color: var(--tss-success-background-color);
+    opacity: 0.6;
+}
+
+.tss-schedule-selector-button.half-active-selector-button {
+    background-color: var(--tss-primary-background-color);
+}
+
+.tss-schedule-selector-button.half-active-selector-button:hover {
+    background-color: var(--tss-primary-background-color);
+    opacity: 0.6;
+}

@@ -59,7 +59,8 @@ namespace Tesserae.Tests
                 ("Toast", () => new ToastSample()),
                 ("Float", () => new FloatSample()),
                 ("LineAwesomeIcons", () => new LineAwesomeSample()),
-                ("FileSelector", () => new FileSelectorAndDropAreaSample())
+                ("FileSelector", () => new FileSelectorAndDropAreaSample()),
+                ("SchedulePicker", () => new SchedulePickerSample())
             };
 
             var sideBar = Sidebar().Stretch();
@@ -212,6 +213,7 @@ namespace Tesserae.Tests
                                     links["Toast"],
                                     links["Float"],
                                     links["FileSelector"],
+                                    links["SchedulePicker"],
                                     links["LineAwesomeIcons"],
                                     links["ProgressModal"],
                                     links["ThemeColors"]
