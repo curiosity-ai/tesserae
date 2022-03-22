@@ -129,7 +129,7 @@ namespace Tesserae
         {
             var newParameters = updateFn(_currentState.Parameters.Clone());
 
-            if (newParameters.Equals(_currentState.Parameters))
+            if (newParameters.SameAs(_currentState.Parameters))
             {
                 // Nothing to do
                 return;

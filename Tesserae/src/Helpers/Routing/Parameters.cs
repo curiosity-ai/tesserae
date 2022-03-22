@@ -19,6 +19,31 @@ namespace Tesserae
         public bool ContainsKey(string key)                   => _parameters.ContainsKey(key);
         public bool TryGetValue(string key, out string value) => _parameters.TryGetValue(key, out value);
 
+        public bool SameAs(Parameters other)
+        {
+            if (other is null) return _parameters.Count > 0;
+            if (other._parameters.Count != _parameters.Count) return false;
+            if (other._parameters.Count == 0 && _parameters.Count == 0) return true;
+            else
+            {
+                foreach (var key in _parameters)
+                {
+                    if (!other._parameters.TryGetValue(key.Key, out var val) || val != key.Value)
+                    {
+                        return false;
+                    }
+                }
+                foreach (var key in other._parameters)
+                {
+                    if (!_parameters.TryGetValue(key.Key, out var val) || val != key.Value)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
         public IEnumerator<KeyValuePair<string, string>> GetEnumerator() => _parameters.GetEnumerator();
 
         public Parameters With(string key, string value) 
