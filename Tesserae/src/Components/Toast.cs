@@ -120,6 +120,16 @@ namespace Tesserae
                 OpenToasts[SimplePosition] = list;
             }
 
+            var textContent = _toastContainer.textContent;
+
+            foreach(var otherToast in list)
+            {
+                if(otherToast._toastContainer.textContent == textContent)
+                {
+                    otherToast.RemoveAndHide();
+                }
+            }
+
             list.Add(this);
 
             RefreshPositioning();
