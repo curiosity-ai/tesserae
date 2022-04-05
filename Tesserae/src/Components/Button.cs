@@ -539,7 +539,15 @@ namespace Tesserae
             // scrolled into view (even though it has successfully received focus)
             DomObserver.WhenMounted(InnerElement, () =>
             {
-                InnerElement.scrollIntoViewIfNeeded();
+                try
+                {
+                    InnerElement.scrollIntoViewIfNeeded();
+                }
+                catch
+                {
+                    InnerElement.scrollIntoView();
+                }
+                
                 InnerElement.focus();
             });
             return this;
