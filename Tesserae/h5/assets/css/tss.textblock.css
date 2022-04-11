@@ -19,6 +19,6 @@
 }
 
 
-.tss-textblock-selectable {
-    user-select: contain;
+.tss-textblock-selectable{
+    user-select: text;
 }
