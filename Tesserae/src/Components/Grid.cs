@@ -10,8 +10,8 @@ namespace Tesserae
         private readonly HTMLElement _grid;
 
         public string Background { get => _grid.style.background; set => _grid.style.background = value; }
-        public string Margin { get => _grid.style.margin; set => _grid.style.margin = value; }
-        public string Padding { get => _grid.style.padding; set => _grid.style.padding = value; }
+        public string Margin     { get => _grid.style.margin;     set => _grid.style.margin = value; }
+        public string Padding    { get => _grid.style.padding;    set => _grid.style.padding = value; }
 
         public HTMLElement StylingContainer => _grid;
 
@@ -21,6 +21,7 @@ namespace Tesserae
         {
             _grid = Div(_("tss-grid").WithRole("grid"));
             JustifyContent(ItemJustify.Start);
+
             if (columns is object && columns.Any(c => c is object))
             {
                 _grid.style.gridTemplateColumns = string.Join(" ", columns.Where(c => c is object).Select(c => c.ToString()));
@@ -39,6 +40,7 @@ namespace Tesserae
         internal static HTMLElement GetItem(IComponent component, bool forceAdd = false)
         {
             HTMLElement item = null;
+
             if (component.HasOwnProperty("StackItem"))
             {
                 item = component["StackItem"] as HTMLElement;
@@ -47,6 +49,7 @@ namespace Tesserae
             if (item is null)
             {
                 var rendered = component.Render();
+
                 if (forceAdd || (rendered.parentElement is object && rendered.parentElement.classList.contains("tss-stack")))
                 {
                     item = Div(_("tss-stack-item", styles: s =>
@@ -84,6 +87,7 @@ namespace Tesserae
             bool has(string att)
             {
                 bool ha = from.hasAttribute(att);
+
                 if (ha)
                 {
                     from.removeAttribute(att);
@@ -91,8 +95,17 @@ namespace Tesserae
                 return ha;
             }
 
-            if (has("tss-grd-c")) { ts.gridColumn = fs.gridColumn; fs.gridColumn = ""; }
-            if (has("tss-grd-r")) { ts.gridRow    = fs.gridRow;    fs.gridRow    = ""; }
+            if (has("tss-grd-c"))
+            {
+                ts.gridColumn = fs.gridColumn;
+                fs.gridColumn = "";
+            }
+
+            if (has("tss-grd-r"))
+            {
+                ts.gridRow = fs.gridRow;
+                fs.gridRow = "";
+            }
         }
 
         public static void SetGridColumn(IComponent component, int start, int end)
@@ -101,7 +114,7 @@ namespace Tesserae
             item.style.gridColumn = $"{start} / {end}";
             if (remember) item.setAttribute("tss-grd-c", "");
         }
-        
+
         public static void SetGridRow(IComponent component, int start, int end)
         {
             var (item, remember) = Stack.GetCorrectItemToApplyStyle(component);
@@ -174,12 +187,12 @@ namespace Tesserae
         {
             ClearChildren(_grid);
         }
-        
+
         public void Replace(IComponent newComponent, IComponent oldComponent)
         {
             _grid.replaceChild(GetItem(newComponent), GetItem(oldComponent));
         }
-        
+
         public void Remove(IComponent component)
         {
             _grid.removeChild(GetItem(component));
