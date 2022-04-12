@@ -40,10 +40,11 @@ namespace Tesserae
         }
     }
 
+
+
     [H5.Name("tss.SchedulePicker")]
     public sealed class SchedulePicker : IComponent
     {
-        private readonly Stack _stack = VStack();
 
         public enum ScheduleState
         {
@@ -62,10 +63,66 @@ namespace Tesserae
             "Saturday".t(),
             "Sunday".t(),
         };
+        private readonly Stack           _stack         = VStack();
+        private const    int             _weekDayNumber = 7;
+        private const    int             _hoursPerDay   = 24;
+        private const    int             _totalHours    = _weekDayNumber * _hoursPerDay;
+        private          ScheduleState[] _scheduleStates;
+        private          string          _activeTooltip     { get; set; } = null;
+        private          string          _inactiveTooltip   { get; set; } = null;
+        private          string          _halfActiveTooltip { get; set; } = null;
+        private readonly TextBlock       _currentState;
+        private readonly TextBlock       _nextStateChange;
+        private readonly Button[]        _buttons;
+        private SchedulePicker() { }
+        public SchedulePicker(ScheduleState initialState = ScheduleState.Active)
+        {
+            _scheduleStates = Enumerable.Range(0, _weekDayNumber * _hoursPerDay + 1).Select(_ => initialState).ToArray();
 
-        private string _activeTooltip     { get; set; } = null;
-        private string _inactiveTooltip   { get; set; } = null;
-        private string _halfActiveTooltip { get; set; } = null;
+            var gridElements = new List<IComponent>();
+            var tmpButtons = new List<Button>();
+
+            gridElements.Add(TextBlock());
+
+            for (var hour = 0; hour < _hoursPerDay; hour++)
+            {
+                gridElements.Add(TextBlock($"{hour:00}:00 - {hour + 1:00}:00"));
+            }
+
+            var weekDays = GetWeekDays;
+            for (var day = 0; day < _weekDayNumber; day++)
+            {
+                gridElements.Add(TextBlock(weekDays[day]));
+                for (var hour = 0; hour < _hoursPerDay; hour++)
+                {
+                    var day1 = day;
+                    var hour1 = hour;
+                    var btn = Button().H(25).WS().Class("tss-schedule-selector-button").OnClick(() =>
+                    {
+                        ToggleState(day1, hour1);
+                    });
+                    MakeDraggable(btn, day, hour);
+
+
+                    gridElements.Add(btn);
+                    tmpButtons.Add(btn);
+                }
+            }
+            _buttons = tmpButtons.ToArray();
+
+            _currentState = TextBlock();
+            _nextStateChange = TextBlock();
+
+            UpdateButtonState();
+
+            var grid1 = Grid(
+                    Enumerable.Range(0, _weekDayNumber + 1).Select(d => 1.fr()).ToArray(),
+                    Enumerable.Range(0, _hoursPerDay + 1).Select(d => 1.fr()).ToArray())
+               .WS().PT(16).PB(16).Gap(2.px()).FlowColumn().Children(gridElements);
+            _stack.Add(HStack().Children(_currentState, _nextStateChange.PL(10.px())));
+            _stack.Add(grid1);
+        }
+
 
         public SchedulePicker ActiveTooltip(string tooltip)
         {
@@ -134,14 +191,6 @@ namespace Tesserae
 //        }
 
 
-        private const int _weekDayNumber = 7;
-        private const int _hoursPerDay   = 24;
-
-        private const int _totalHours = _weekDayNumber * _hoursPerDay;
-
-
-        private ScheduleState[] _scheduleStates = Enumerable.Range(0, _weekDayNumber * _hoursPerDay + 1).Select(_ => ScheduleState.Active).ToArray();
-
         private void ToggleState(int day, int hour)
         {
             _scheduleStates[GetIndex(day, hour)] = (ScheduleState)(((int)_scheduleStates[GetIndex(day, hour)] + 1) % Enum.GetNames(typeof(ScheduleState)).Length);
@@ -206,54 +255,6 @@ namespace Tesserae
             }
         }
 
-
-        private readonly TextBlock _currentState;
-        private readonly TextBlock _nextStateChange;
-        private readonly Button[]  _buttons;
-        public SchedulePicker()
-        {
-            var gridElements = new List<IComponent>();
-            var tmpButtons = new List<Button>();
-
-            gridElements.Add(TextBlock());
-
-            for (var hour = 0; hour < _hoursPerDay; hour++)
-            {
-                gridElements.Add(TextBlock($"{hour:00}:00 - {hour + 1:00}:00"));
-            }
-
-            var weekDays = GetWeekDays;
-            for (var day = 0; day < _weekDayNumber; day++)
-            {
-                gridElements.Add(TextBlock(weekDays[day]));
-                for (var hour = 0; hour < _hoursPerDay; hour++)
-                {
-                    var day1 = day;
-                    var hour1 = hour;
-                    var btn = Button().H(25).WS().Class("tss-schedule-selector-button").OnClick(() =>
-                    {
-                        ToggleState(day1, hour1);
-                    });
-                    MakeDraggable(btn, day, hour);
-
-
-                    gridElements.Add(btn);
-                    tmpButtons.Add(btn);
-                }
-            }
-            _buttons = tmpButtons.ToArray();
-
-            _currentState = TextBlock();
-            _nextStateChange = TextBlock();
-
-            var grid1 = Grid(
-                    Enumerable.Range(0, _weekDayNumber + 1).Select(d => 1.fr()).ToArray(),
-                    Enumerable.Range(0, _hoursPerDay + 1).Select(d => 1.fr()).ToArray())
-               .WS().PT(16).PB(16).Gap(2.px()).FlowColumn().Children(gridElements);
-            _stack.Add(HStack().Children(_currentState, _nextStateChange.PL(10.px())));
-            _stack.Add(grid1);
-
-        }
 
         private void ApplyDrag()
         {
