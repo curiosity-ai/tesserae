@@ -25,8 +25,8 @@ namespace Tesserae
 
         [Name("inherit")]
         Inherit,
-        
+
         [Name("fr")]
-        FractionalUnit,
+        FR,
     }
 }

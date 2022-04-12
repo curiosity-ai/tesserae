@@ -50,7 +50,7 @@ namespace Tesserae
         public Toast   TopFull        () { CurrentPosition = Position.TopFull      ; return this;}
         public Toast   BottomFull     () { CurrentPosition = Position.BottomFull   ; return this;}
 
-        public Toast Duration(TimeSpan timeSpan) { _timeoutDuration = (int)timeSpan.TotalSeconds; return this;  }
+        public Toast Duration(TimeSpan timeSpan) { _timeoutDuration = (int)timeSpan.TotalMilliseconds; return this;  }
 
         public void Success(IComponent title, IComponent message)     { _type = Type.Success;     _title = title; _message = message; Fire(); }
         public void Information(IComponent title, IComponent message) { _type = Type.Information; _title = title; _message = message; Fire(); }
@@ -118,6 +118,16 @@ namespace Tesserae
             {
                 list = new List<Toast>();
                 OpenToasts[SimplePosition] = list;
+            }
+
+            var textContent = _toastContainer.textContent;
+
+            foreach(var otherToast in list)
+            {
+                if(otherToast._toastContainer.textContent == textContent)
+                {
+                    otherToast.RemoveAndHide();
+                }
             }
 
             list.Add(this);

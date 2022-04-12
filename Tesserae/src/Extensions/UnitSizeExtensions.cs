@@ -12,20 +12,22 @@ namespace Tesserae
             return new UnitSize(value, Unit.Pixels);
         }
 
-        public static UnitSize fr(this int value) => new UnitSize(value, Unit.FractionalUnit);
         public static UnitSize percent(this int value) => new UnitSize(value, Unit.Percent);
         public static UnitSize vh(this int value) => new UnitSize(value, Unit.ViewportHeight);
         public static UnitSize vw(this int value) => new UnitSize(value, Unit.ViewportWidth);
+        public static UnitSize fr(this int value) => new UnitSize(value, Unit.FR);
 
         public static UnitSize percent(this double value) => new UnitSize(value.As<float>(), Unit.Percent);
         public static UnitSize px(this double value) => new UnitSize(value.As<float>(), Unit.Pixels);
         public static UnitSize vh(this double value) => new UnitSize(value.As<float>(), Unit.ViewportHeight);
         public static UnitSize vw(this double value) => new UnitSize(value.As<float>(), Unit.ViewportWidth);
+        public static UnitSize fr(this double value) => new UnitSize(value.As<float>(), Unit.FR);
 
         public static UnitSize percent(this float value) => new UnitSize(value, Unit.Percent);
         public static UnitSize px(this float value) => new UnitSize(value, Unit.Pixels);
         public static UnitSize vh(this float value) => new UnitSize(value, Unit.ViewportHeight);
         public static UnitSize vw(this float value) => new UnitSize(value, Unit.ViewportWidth);
+        public static UnitSize fr(this float value) => new UnitSize(value, Unit.FR);
     }
 #pragma warning restore IDE1006 // Naming Styles
 }

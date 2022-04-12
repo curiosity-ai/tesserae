@@ -62,7 +62,7 @@ namespace Tesserae
                     _cachedValue = Script.Write<string>("{0} + 'vh'", Size); break;
                 case Unit.ViewportWidth:
                     _cachedValue = Script.Write<string>("{0} + 'vw'", Size); break;
-                case Unit.FractionalUnit:
+                case Unit.FR:
                     _cachedValue = Script.Write<string>("{0} + 'fr'", Size); break;
             }
 

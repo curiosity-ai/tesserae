@@ -190,7 +190,18 @@ namespace Tesserae
         {
             // 2020-12-29 DWR: Seems like this setTimeout is required then the element is rendered within a container that uses "simplebar" scrolling - without the delay, if the element getting focus is out of view then it will not be
             // scrolled into view (even though it has successfully received focus)
-            DomObserver.WhenMounted(InnerElement, () => { InnerElement.scrollIntoViewIfNeeded(); InnerElement.focus(); });
+            DomObserver.WhenMounted(InnerElement, () => 
+            {
+                try
+                {
+                    InnerElement.scrollIntoViewIfNeeded();
+                }
+                catch
+                {
+                    InnerElement.scrollIntoView();
+                }
+                InnerElement.focus(); 
+            });
             return this;
         }
 

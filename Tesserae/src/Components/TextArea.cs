@@ -172,7 +172,19 @@ namespace Tesserae
 
         public TextArea Focus()
         {
-            // DomObserver.WhenMounted(InnerElement, () => { InnerElement.scrollIntoViewIfNeeded(); InnerElement.focus(); });
+            DomObserver.WhenMounted(InnerElement, () => 
+            {
+                try
+                {
+                    InnerElement.scrollIntoViewIfNeeded();
+                }
+                catch
+                {
+                    InnerElement.scrollIntoView();
+                }
+
+                InnerElement.focus(); 
+            });
             return this;
         }
 
