@@ -3,30 +3,35 @@
   // Always build both minified and non-minified versions of the code so that resource for both versions are always included in the binary and so referencing projects can decide whether
   // to use the minified versions or the non-minified versions
   "outputFormatting": "Both",
-
   "resources": [
-
     // Include the JS that is compiled from the C# in this project - be sure to include non-minified AND minified version (and to include the meta data files required for reflection)
     // because Bridge will only include ".min.js" versions of resources when a project that references this is built in Release and will only include NON-".min.js" versions when built
     // in Debug (this is the default behaviour for projects that don't have any external resources to build into the binary but when a "resources" section is present in a h5.json
     // file then that default behaviour is lost and must be opted back into - see suggestion 1 at the bottom of he opening comment on https://github.com/h5dotnet/Bridge/issues/3991).
     {
       "name": "tss.js",
-      "files": [ "$(OutDir)h5/tss.js" ]
+      "files": [
+        "$(OutDir)h5/tss.js"
+      ]
     },
     {
       "name": "tss.meta.js",
-      "files": [ "$(OutDir)h5/tss.meta.js" ]
+      "files": [
+        "$(OutDir)h5/tss.meta.js"
+      ]
     },
     {
       "name": "tss.min.js",
-      "files": [ "$(OutDir)h5/tss.min.js" ]
+      "files": [
+        "$(OutDir)h5/tss.min.js"
+      ]
     },
     {
       "name": "tss.meta.min.js",
-      "files": [ "$(OutDir)h5/tss.meta.min.js" ]
+      "files": [
+        "$(OutDir)h5/tss.meta.min.js"
+      ]
     },
-
     //Because Bridge will monkey about with JS file names depending upon build configuration (only ".min.js" for Release builds and NO ".min.js" for Debug builds), we need to be a bit
     //careful with how external JS files are referenced. We COULD maintain minified and regular versions of all libraries in this project and then individually reference all of them
     //twice (once min'd and once not) in this section but that seems like a lot of work. An alternative is to bundle them together - once as a ".min.js" file and again as a non-".min.js"
@@ -52,15 +57,15 @@
       ],
       "output": "assets/js"
     },
-
     {
       //polyfill for ResizeObserver, only loaded if needed - mosaik will automatically remove the .dontload extension
       //if using Tesserae elsewhere need to remove it as well
       "name": "resizeobserver.js.dontload",
-      "files": [ "h5/assets/js/resizeobserver.js" ],
+      "files": [
+        "h5/assets/js/resizeobserver.js"
+      ],
       "output": "assets/js"
     },
-
     // There is no technical requirement for the CSS files to be combined but it makes it clearer that their content relates to the combined JS content (and it makes the Bridge-generated
     // index.html file cleaner)
     {
@@ -119,67 +124,93 @@
     },
     {
       "name": "la-brands-400.eot",
-      "files": [ "h5/assets/fonts/la-brands-400.eot" ],
+      "files": [
+        "h5/assets/fonts/la-brands-400.eot"
+      ],
       "output": "assets/fonts"
     },
     {
       "name": "la-brands-400.ttf",
-      "files": [ "h5/assets/fonts/la-brands-400.ttf" ],
+      "files": [
+        "h5/assets/fonts/la-brands-400.ttf"
+      ],
       "output": "assets/fonts"
     },
     {
       "name": "la-brands-400.woff",
-      "files": [ "h5/assets/fonts/la-brands-400.woff" ],
+      "files": [
+        "h5/assets/fonts/la-brands-400.woff"
+      ],
       "output": "assets/fonts"
     },
     {
       "name": "la-brands-400.woff2",
-      "files": [ "h5/assets/fonts/la-brands-400.woff2" ],
+      "files": [
+        "h5/assets/fonts/la-brands-400.woff2"
+      ],
       "output": "assets/fonts"
     },
     {
       "name": "la-regular-400.eot",
-      "files": [ "h5/assets/fonts/la-regular-400.eot" ],
+      "files": [
+        "h5/assets/fonts/la-regular-400.eot"
+      ],
       "output": "assets/fonts"
     },
     {
       "name": "la-regular-400.ttf",
-      "files": [ "h5/assets/fonts/la-regular-400.ttf" ],
+      "files": [
+        "h5/assets/fonts/la-regular-400.ttf"
+      ],
       "output": "assets/fonts"
     },
     {
       "name": "la-regular-400.woff",
-      "files": [ "h5/assets/fonts/la-regular-400.woff" ],
+      "files": [
+        "h5/assets/fonts/la-regular-400.woff"
+      ],
       "output": "assets/fonts"
     },
     {
       "name": "la-regular-400.woff2",
-      "files": [ "h5/assets/fonts/la-regular-400.woff2" ],
+      "files": [
+        "h5/assets/fonts/la-regular-400.woff2"
+      ],
       "output": "assets/fonts"
     },
     {
       "name": "la-solid-900.eot",
-      "files": [ "h5/assets/fonts/la-solid-900.eot" ],
+      "files": [
+        "h5/assets/fonts/la-solid-900.eot"
+      ],
       "output": "assets/fonts"
     },
     {
       "name": "la-solid-900.ttf",
-      "files": [ "h5/assets/fonts/la-solid-900.ttf" ],
+      "files": [
+        "h5/assets/fonts/la-solid-900.ttf"
+      ],
       "output": "assets/fonts"
     },
     {
       "name": "la-solid-900.woff",
-      "files": [ "h5/assets/fonts/la-solid-900.woff" ],
+      "files": [
+        "h5/assets/fonts/la-solid-900.woff"
+      ],
       "output": "assets/fonts"
     },
     {
       "name": "la-solid-900.woff2",
-      "files": [ "h5/assets/fonts/la-solid-900.woff2" ],
+      "files": [
+        "h5/assets/fonts/la-solid-900.woff2"
+      ],
       "output": "assets/fonts"
     }
   ],
   "cleanOutputFolderBeforeBuildPattern": "*.*",
-  "loader": { "type": "Global" },
+  "loader": {
+    "type": "Global"
+  },
   "rules": {
     "anonymousType": "Plain",
     "arrayIndex": "Managed",

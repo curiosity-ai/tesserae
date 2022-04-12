@@ -183,8 +183,8 @@ namespace Tesserae
         /// <returns></returns>
         public static Stack VStack() => new Stack(Tesserae.Stack.Orientation.Vertical);
 
-        public static Grid Grid(params UnitSize[] columns) => new Grid(columns);
-        public static Grid Grid( UnitSize[] columns,  UnitSize[] rows) => new Grid(columns, rows);
+        public static Grid Grid(params UnitSize[] columns)                  => new Grid(columns);
+        public static Grid Grid(UnitSize[]        columns, UnitSize[] rows) => new Grid(columns, rows);
 
         public static SectionStack SectionStack() => new SectionStack();
 

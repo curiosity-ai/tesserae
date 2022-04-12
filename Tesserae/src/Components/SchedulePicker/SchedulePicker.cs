@@ -20,6 +20,7 @@ namespace Tesserae
         public static string Humanize(this DateTimeOffset date)
         {
             var delta = date - DateTimeOffset.UtcNow;
+
             if (delta.TotalSeconds < 30)
                 return "right now".t();
             else if (delta.TotalMinutes < 2)
@@ -90,13 +91,16 @@ namespace Tesserae
             }
 
             var weekDays = GetWeekDays;
+
             for (var day = 0; day < _weekDayNumber; day++)
             {
                 gridElements.Add(TextBlock(weekDays[day]));
+
                 for (var hour = 0; hour < _hoursPerDay; hour++)
                 {
                     var day1 = day;
                     var hour1 = hour;
+
                     var btn = Button().H(25).WS().Class("tss-schedule-selector-button").OnClick(() =>
                     {
                         ToggleState(day1, hour1);
@@ -208,6 +212,7 @@ namespace Tesserae
         private void SetButtonState(Button btn, ScheduleState state, bool hover)
         {
             var btnElement = btn.Render();
+
             if (hover)
             {
                 btnElement.classList.add("tss-schedule-selector-button-hover");
@@ -235,6 +240,7 @@ namespace Tesserae
                 {
                     btnElement.classList.remove("half-active-selector-button");
                     btnElement.classList.remove("active-selector-button");
+
                     if (_inactiveTooltip is object)
                     {
                         btn.Tooltip(_inactiveTooltip);
@@ -245,6 +251,7 @@ namespace Tesserae
                 {
                     btnElement.classList.add("half-active-selector-button");
                     btnElement.classList.remove("active-selector-button");
+
                     if (_halfActiveTooltip is object)
                     {
                         btn.Tooltip(_halfActiveTooltip);
@@ -268,6 +275,7 @@ namespace Tesserae
             UpdateButtonState();
             _currentState.Text($"Current state: {Enum.GetName(typeof(SchedulePicker.ScheduleState), CurrentState())}");
             var nextChange = NextStateChange();
+
             _nextStateChange.Text(nextChange.HasValue
                 ? $"Next change: {nextChange.Value.changeDateTime.Humanize()} to {Enum.GetName(typeof(SchedulePicker.ScheduleState), nextChange.Value.changeTo)}"
                 : "");
@@ -281,6 +289,7 @@ namespace Tesserae
                 for (var hour = 0; hour < _hoursPerDay; hour++)
                 {
                     var index = GetIndex(day, hour);
+
                     if (currentDayMin <= day && currentDayMax >= day && currentHourMin <= hour && currentHourMax >= hour)
                     {
                         SetButtonState(_buttons[index], currentDragStartState, hover: true);
@@ -293,6 +302,7 @@ namespace Tesserae
             }
             _currentState.Text($"Current state: {Enum.GetName(typeof(SchedulePicker.ScheduleState), CurrentState())}");
             var nextChange = NextStateChange();
+
             _nextStateChange.Text(nextChange.HasValue
                 ? $"Next change: {nextChange.Value.changeDateTime.Humanize()} to {Enum.GetName(typeof(SchedulePicker.ScheduleState), nextChange.Value.changeTo)}"
                 : "");
@@ -369,6 +379,7 @@ namespace Tesserae
             element.ondragenter += (e) =>
             {
                 console.log("ondragenter", day, hour);
+
                 if (currentDragStartDay >= 0)
                 {
                     StopEvent(e); //Need to stop the event to make this a drop target

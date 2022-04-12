@@ -86,6 +86,7 @@ namespace Tesserae.Tests
             var documentTitleBase = document.title;
             var currentPage = new SettableObservable<string>();
             var components = orderedComponents.ToDictionary(c => c.Name, c => c.Component);
+
             navBar.SetContent(
                 Defer(
                         currentPage,
@@ -97,6 +98,7 @@ namespace Tesserae.Tests
             // Configure routes for every component that we listed at the top of this method and one for home - whenever one of those routes is hit, the currentPage observable will have its value changed which will result in a navigation
             // - Note that the "home" route will set the currentPage observable to null and the ShowPage result of that is to show the content for the first component
             Router.Register("home", "/", _ => currentPage.Value = null);
+
             foreach (var (name, component) in orderedComponents)
             {
                 var nameLocal = name;
@@ -128,6 +130,7 @@ namespace Tesserae.Tests
                 var closePanelButton = Button().SetIcon(LineAwesome.ArrowLeft).Tooltip("Close panel");
 
                 var component = components[componentRouteName]();
+
                 var splitView = SplitView().NoSplitter()
                    .Left(Stack().Stretch().Children(MainNav(links, navBar, sideBar)).InvisibleScroll(), background: Theme.Default.Background)
                    .LeftIsSmaller(300.px())
@@ -135,6 +138,7 @@ namespace Tesserae.Tests
                    .Right(Stack().Stretch().Children(closePanelButton, component.WidthStretch()).InvisibleScroll(), background: Theme.Secondary.Background);
 
                 bool panelIsOpen = true;
+
                 closePanelButton.OnClick((_, __) =>
                 {
                     if (panelIsOpen)

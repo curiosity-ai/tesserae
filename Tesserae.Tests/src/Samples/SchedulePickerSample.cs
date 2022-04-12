@@ -50,10 +50,11 @@ namespace Tesserae.Tests.Samples
                     Button("Next").OnClick(() =>
                     {
                         var next = picker.NextStateChange();
+
                         if (next.HasValue)
                         {
                             console.log("picker.NextStateChange() : ", SchedulePicker.GetWeekDays[next.Value.changeDateTime.DayOfWeek.ToWeekStartMonday()],
-                                "day ", next.Value.changeDateTime.Day,  "hour ", next.Value.changeDateTime.Hour, "state ", Enum.GetName(typeof(SchedulePicker.ScheduleState), next.Value.changeTo));
+                                "day ", next.Value.changeDateTime.Day, "hour ", next.Value.changeDateTime.Hour, "state ", Enum.GetName(typeof(SchedulePicker.ScheduleState), next.Value.changeTo));
                         }
                         else
                         {
