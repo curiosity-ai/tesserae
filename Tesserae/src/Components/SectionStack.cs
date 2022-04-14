@@ -26,7 +26,7 @@ namespace Tesserae
 
         private HTMLDivElement GetAnimatedItem(IComponent component, bool isTitle, bool grow = false, string customPadding = "")
         {
-            if (!((component as dynamic).StackItem is HTMLDivElement item))
+            if (!((component as dynamic).SectionStackItem is HTMLDivElement item))
             {
                 item = Div(_(isTitle ? "tss-sectionstack-title tss-stack-item tss-sectionstack-item" : "tss-sectionstack-card tss-stack-item tss-sectionstack-item", styles: s =>
                 {
@@ -37,7 +37,7 @@ namespace Tesserae
                     s.overflow = "hidden";
                     s.padding = customPadding;
                 }), component.Render());
-                (component as dynamic).StackItem = item;
+                (component as dynamic).SectionStackItem = item;
             }
             if (grow)
             {

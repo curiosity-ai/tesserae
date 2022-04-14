@@ -38,7 +38,7 @@ namespace Tesserae
             TextBlock defaultLoadingMessage;
             if (loadMessage is null)
             {
-                defaultLoadingMessage = TextBlock().XSmall();
+                defaultLoadingMessage = TextBlock(textSize: TextSize.XSmall);
                 loadMessage = defaultLoadingMessage;
             }
             else
