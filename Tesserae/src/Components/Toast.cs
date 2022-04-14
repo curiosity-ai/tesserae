@@ -6,18 +6,19 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
-    [H5.Name("tss.Toast")]
+    [Name("tss.Toast")]
     public class Toast : Layer<Toast>
     {
         public static Position DefaultPosition { get; set; } = Position.TopRight;
 
         private Type _type = Type.Information;
-        private Position CurrentPosition { get; set; } = DefaultPosition;
-        private Position SimplePosition
+        private Position _pos { get; set; } = DefaultPosition;
+        
+        private Position _simPos
         {
             get
             {
-                switch (CurrentPosition)
+                switch (_pos)
                 {
                     case Position.TopRight: return Position.TopRight;
                     case Position.TopLeft: return Position.TopLeft;
@@ -28,7 +29,7 @@ namespace Tesserae
                     case Position.TopFull: return Position.TopCenter;
                     case Position.TopCenter: return Position.TopCenter;
                 }
-                return CurrentPosition;
+                return _pos;
             }
         }
 
@@ -42,14 +43,14 @@ namespace Tesserae
         private double _timeoutHandle = 0;
         private readonly HTMLDivElement _toastContainer = Div(_("tss-toast-container"));
 
-        public Toast   TopRight       () { CurrentPosition = Position.TopRight     ; return this;}
-        public Toast   TopCenter      () { CurrentPosition = Position.TopCenter    ; return this;}
-        public Toast   TopLeft        () { CurrentPosition = Position.TopLeft      ; return this;}
-        public Toast   BottomRight    () { CurrentPosition = Position.BottomRight  ; return this;}
-        public Toast   BottomCenter   () { CurrentPosition = Position.BottomCenter ; return this;}
-        public Toast   BottomLeft     () { CurrentPosition = Position.BottomLeft   ; return this;}
-        public Toast   TopFull        () { CurrentPosition = Position.TopFull      ; return this;}
-        public Toast   BottomFull     () { CurrentPosition = Position.BottomFull   ; return this;}
+        public Toast   TopRight       () { _pos = Position.TopRight     ; return this;}
+        public Toast   TopCenter      () { _pos = Position.TopCenter    ; return this;}
+        public Toast   TopLeft        () { _pos = Position.TopLeft      ; return this;}
+        public Toast   BottomRight    () { _pos = Position.BottomRight  ; return this;}
+        public Toast   BottomCenter   () { _pos = Position.BottomCenter ; return this;}
+        public Toast   BottomLeft     () { _pos = Position.BottomLeft   ; return this;}
+        public Toast   TopFull        () { _pos = Position.TopFull      ; return this;}
+        public Toast   BottomFull     () { _pos = Position.BottomFull   ; return this;}
 
         public Toast Duration(TimeSpan timeSpan) { _timeoutDuration = (int)timeSpan.TotalMilliseconds; return this;  }
 
@@ -63,10 +64,10 @@ namespace Tesserae
         public void Warning(IComponent message)      => Warning(null, message);
         public void Error(IComponent message) => Error(null, message);
 
-        public void Success(string title, string message)     { _type = Type.Success;     _title = string.IsNullOrEmpty(title) ? null : TextBlock(title).SemiBold().Medium(); _message = TextBlock(message).Small(); Fire(); }
-        public void Information(string title, string message) { _type = Type.Information; _title = string.IsNullOrEmpty(title) ? null : TextBlock(title).SemiBold().Medium(); _message = TextBlock(message).Small(); Fire(); }
-        public void Warning(string title, string message)     { _type = Type.Warning;     _title = string.IsNullOrEmpty(title) ? null : TextBlock(title).SemiBold().Medium(); _message = TextBlock(message).Small(); Fire(); }
-        public void Error(string title, string message)       { _type = Type.Error;       _title = string.IsNullOrEmpty(title) ? null : TextBlock(title).SemiBold().Medium(); _message = TextBlock(message).Small(); Fire(); }
+        public void Success(string title, string message)     { _type = Type.Success;     _title = string.IsNullOrEmpty(title) ? null : TextBlock(title, textSize: TextSize.Medium, textWeight: TextWeight.SemiBold); _message = TextBlock(message, textSize: TextSize.Small); Fire(); }
+        public void Information(string title, string message) { _type = Type.Information; _title = string.IsNullOrEmpty(title) ? null : TextBlock(title, textSize: TextSize.Medium, textWeight: TextWeight.SemiBold); _message = TextBlock(message, textSize: TextSize.Small); Fire(); }
+        public void Warning(string title, string message)     { _type = Type.Warning;     _title = string.IsNullOrEmpty(title) ? null : TextBlock(title, textSize: TextSize.Medium, textWeight: TextWeight.SemiBold); _message = TextBlock(message, textSize: TextSize.Small); Fire(); }
+        public void Error(string title, string message)       { _type = Type.Error;       _title = string.IsNullOrEmpty(title) ? null : TextBlock(title, textSize: TextSize.Medium, textWeight: TextWeight.SemiBold); _message = TextBlock(message, textSize: TextSize.Small); Fire(); }
 
         public void Success(string message)     => Success(null, message);
         public void Information(string message) => Information(null, message);
@@ -87,7 +88,7 @@ namespace Tesserae
 
         private void Fire()
         {
-            _contentHtml = Div(_("tss-toast tss-toast-" + _type + " tss-toast-" + CurrentPosition ), _toastContainer);
+            _contentHtml = Div(_("tss-toast tss-toast-" + _type + " tss-toast-" + _pos ), _toastContainer);
 
             if (_title is object)
             {
@@ -115,10 +116,10 @@ namespace Tesserae
                 ResetTimeout();
             };
 
-            if (!OpenToasts.TryGetValue(SimplePosition, out var list))
+            if (!OpenToasts.TryGetValue(_simPos, out var list))
             {
                 list = new List<Toast>();
-                OpenToasts[SimplePosition] = list;
+                OpenToasts[_simPos] = list;
             }
 
             var textContent = _toastContainer.textContent;
@@ -196,8 +197,8 @@ namespace Tesserae
 
         private void RemoveAndHide()
         {
-            OpenToasts[SimplePosition].Remove(this);
-            switch (SimplePosition)
+            OpenToasts[_simPos].Remove(this);
+            switch (_simPos)
             {
                 case Position.TopRight:
                 case Position.TopCenter:
