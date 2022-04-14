@@ -1,4 +1,5 @@
-﻿using System;
+﻿using H5;
+using System;
 using System.Collections.Generic;
 using static H5.Core.dom;
 using static Tesserae.UI;
@@ -86,7 +87,7 @@ namespace Tesserae
 
         private void Fire()
         {
-            _contentHtml = Div(_($"tss-toast tss-toast-{_type.ToString().ToLower()} tss-toast-{CurrentPosition.ToString().ToLower()}"), _toastContainer);
+            _contentHtml = Div(_("tss-toast tss-toast-" + _type + " tss-toast-" + CurrentPosition ), _toastContainer);
 
             if (_title is object)
             {
@@ -122,7 +123,7 @@ namespace Tesserae
 
             var textContent = _toastContainer.textContent;
 
-            foreach(var otherToast in list)
+            foreach(var otherToast in list.ToArray())
             {
                 if(otherToast._toastContainer.textContent == textContent)
                 {
@@ -215,24 +216,30 @@ namespace Tesserae
             RefreshPositioning();
         }
 
+        [Enum(Emit.StringName)] //Don't change the emit type
+        [Name("tss.Toast.Type")]
+
         public enum Type
         {
-            Success,
-            Information,
-            Warning,
-            Error
+            [Name("success")] Success,
+            [Name("information")] Information,
+            [Name("warning")] Warning,
+            [Name("error")] Error
         }
 
+
+        [Enum(Emit.StringName)] //Don't change the emit type 
+        [H5.Name("tss.Toast.Position")]
         public enum Position
         {
-            TopRight,
-            TopCenter,
-            TopLeft,
-            BottomRight,
-            BottomCenter,
-            BottomLeft,
-            TopFull,
-            BottomFull
+            [Name("topright")] TopRight,
+            [Name("topcenter")] TopCenter,
+            [Name("topleft")] TopLeft,
+            [Name("bottomright")] BottomRight,
+            [Name("bottomcenter")] BottomCenter,
+            [Name("bottomleft")] BottomLeft,
+            [Name("topfull")] TopFull,
+            [Name("bottomfull")] BottomFull
         }
     }
 }
