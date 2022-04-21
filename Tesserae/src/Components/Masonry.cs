@@ -47,7 +47,6 @@ namespace Tesserae
                 _timeout = window.setTimeout((_) =>
                 {
                     Script.Write("{0}.layout()", _masonryObj);
-                    console.log("layouted");
                 }, 16);
             }
         }
