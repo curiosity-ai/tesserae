@@ -43,7 +43,8 @@
         "h5/assets/js/simplebar.min.js",
         "h5/assets/js/hotkeys.min.js",
         "h5/assets/js/popper.min.js",
-        "h5/assets/js/tippy.min.js"
+        "h5/assets/js/tippy.min.js",
+        "h5/assets/js/masonry.min.js"
       ],
       "output": "assets/js"
     },
@@ -53,7 +54,8 @@
         "h5/assets/js/simplebar.min.js",
         "h5/assets/js/hotkeys.min.js",
         "h5/assets/js/popper.min.js",
-        "h5/assets/js/tippy.min.js"
+        "h5/assets/js/tippy.min.js",
+        "h5/assets/js/masonry.min.js"
       ],
       "output": "assets/js"
     },

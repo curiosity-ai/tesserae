@@ -48,6 +48,7 @@ namespace Tesserae.Tests
                 ("Layer", () => new LayerSample()),
                 ("Timeline", () => new TimelineSample()),
                 ("Stack", () => new StackSample()),
+                ("Masonry", () => new MasonrySample()),
                 ("SectionStack", () => new SectionStackSample()),
                 ("TextBlock", () => new TextBlockSample()),
                 ("Validator", () => new ValidatorSample()),
@@ -134,7 +135,7 @@ namespace Tesserae.Tests
                    .Left(Stack().Stretch().Children(MainNav(links, navBar, sideBar)).InvisibleScroll(), background: Theme.Default.Background)
                    .LeftIsSmaller(300.px())
                    .Stretch()
-                   .Right(Stack().Stretch().Children(closePanelButton, component.WidthStretch()).InvisibleScroll(), background: Theme.Secondary.Background);
+                   .Right(Stack().Stretch().Children(closePanelButton, component.WidthStretch()).ScrollY(), background: Theme.Secondary.Background);
 
                 bool panelIsOpen = true;
 
@@ -204,6 +205,7 @@ namespace Tesserae.Tests
                                .SemiBold()
                                .Links(links["Layer"],
                                     links["Stack"],
+                                    links["Masonry"],
                                     links["HorizontalSeparator"],
                                     links["SectionStack"],
                                     links["TextBlock"],
