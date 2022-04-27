@@ -313,9 +313,9 @@ namespace Tesserae
                     {
                         await action();
                     }
-                    catch (Exception e)
+                    catch (Exception E)
                     {
-                        innerException = e;
+                        innerException = E;
                         throw;
                     }
                     finally
