@@ -278,6 +278,11 @@ namespace Tesserae
             {
                 var rect = (DOMRect) InnerElement.getBoundingClientRect();
 
+                if (InnerElement.HasOwnProperty("_tippy"))
+                {
+                    H5.Script.Write("{0}._tippy.disable();", InnerElement);
+                }
+
                 _beforeReplace = InnerElement;
                 var newChild = (HTMLButtonElement) InnerElement.cloneNode(false);
                 newChild.style.minHeight = rect.height.px().ToString();
@@ -296,6 +301,10 @@ namespace Tesserae
             {
                 InnerElement.parentElement.replaceChild(_beforeReplace, InnerElement);
                 InnerElement = _beforeReplace;
+                if (InnerElement.HasOwnProperty("_tippy"))
+                {
+                    H5.Script.Write("{0}._tippy.enable();", InnerElement);
+                }
                 _beforeReplace = null;
             }
         }
