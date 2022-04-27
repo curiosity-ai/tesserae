@@ -302,8 +302,9 @@ namespace Tesserae
 
         public Button OnClickSpinWhile(Func<Task> action, string text = null, Action<Button, Exception> onError = null)
         {
-            return OnClick((_, __) =>
+            return OnClick((_, e) =>
             {
+                StopEvent(e);
                 Task.Run(async () =>
                 {
                     Exception innerException = null;
@@ -337,8 +338,8 @@ namespace Tesserae
             });
         }
 
-        public Button OnClick(Action       action) => OnClick((_,       __) => action.Invoke());
-        public Button OnContextMenu(Action action) => OnContextMenu((_, __) => action.Invoke());
+        public Button OnClick(Action       action) => OnClick((_,       e) => { StopEvent(e); action.Invoke(); });
+        public Button OnContextMenu(Action action) => OnContextMenu((_, e) => { StopEvent(e); action.Invoke(); });
 
         public void SpinWhile(Func<Task> action, string text = null, Action<Button, Exception> onError = null)
         {

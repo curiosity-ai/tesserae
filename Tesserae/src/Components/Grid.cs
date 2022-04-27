@@ -37,6 +37,7 @@ namespace Tesserae
             _grid.appendChild(GetItem(component, true));
         }
 
+
         internal static HTMLElement GetItem(IComponent component, bool forceAdd = false)
         {
             HTMLElement item = null;
