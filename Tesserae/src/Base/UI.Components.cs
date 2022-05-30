@@ -185,7 +185,8 @@ namespace Tesserae
         /// <returns></returns>
         public static Stack VStack() => new Stack(Tesserae.Stack.Orientation.Vertical);
 
-        public static Grid Grid(params UnitSize[] columns) => new Grid(columns);
+        public static Grid Grid(params UnitSize[] columns)                  => new Grid(columns);
+        public static Grid Grid(UnitSize[]        columns, UnitSize[] rows) => new Grid(columns, rows);
 
         public static SectionStack SectionStack() => new SectionStack();
 
@@ -250,7 +251,10 @@ namespace Tesserae
         public static ColorPicker ColorPicker(Color color = null) => new ColorPicker(color);
 
         public static DateTimePicker DateTimePicker(DateTimeOffset? dateTime = null) => new DateTimePicker(dateTime);
+        
         public static DatePicker     DatePicker(DateTimeOffset?     dateTime = null) => new DatePicker(dateTime);
+
+        public static GridPicker GridPicker(string[] columnNames, string[] rowNames, int states, int[][] initialStates, Action<Button, int, int> formatState) => new GridPicker(columnNames, rowNames, states, initialStates, formatState);
 
         public static SearchBox SearchBox(string placeholder = string.Empty) => new SearchBox(placeholder);
 

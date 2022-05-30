@@ -32,6 +32,30 @@ namespace Tesserae
             }
         }
 
+        public Grid(UnitSize[] columns, UnitSize[] rows)
+        {
+            _grid = Div(_("tss-grid").WithRole("grid"));
+            JustifyContent(ItemJustify.Start);
+
+            if (columns is object && columns.Any(c => c is object))
+            {
+                _grid.style.gridTemplateColumns = string.Join(" ", columns.Where(c => c is object).Select(c => c.ToString()));
+            }
+            else
+            {
+                _grid.style.gridTemplateColumns = "100%";
+            }
+
+            if (rows is object && rows.Any(c => c is object))
+            {
+                _grid.style.gridTemplateRows = string.Join(" ", rows.Where(c => c is object).Select(c => c.ToString()));
+            }
+            else
+            {
+                _grid.style.gridTemplateRows = "100%";
+            }
+        }
+
         public void Add(IComponent component)
         {
             _grid.appendChild(GetItem(component, true));
@@ -183,6 +207,31 @@ namespace Tesserae
         /// <param name="align"></param>
         /// <returns></returns>
         public Grid AlignItemsCenter() => AlignItems(ItemAlign.Center);
+
+
+        public Grid Gap(UnitSize gapSize)
+        {
+            _grid.style.gap = gapSize.ToString();
+            return this;
+        }
+
+        public Grid RowGap(UnitSize gapSize)
+        {
+            _grid.style.rowGap = gapSize.ToString();
+            return this;
+        }
+
+        public Grid ColumnGap(UnitSize gapSize)
+        {
+            _grid.style.columnGap = gapSize.ToString();
+            return this;
+        }
+
+        public Grid FlowColumn()
+        {
+            _grid.style.gridAutoFlow = "column";
+            return this;
+        }
 
         public virtual void Clear()
         {
