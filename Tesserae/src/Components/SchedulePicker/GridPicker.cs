@@ -12,32 +12,13 @@ namespace Tesserae
     [H5.Name("tss.GridPicker")]
     public sealed class GridPicker : IComponent
     {
-        //public enum ScheduleState
-        //{
-        //    Active,
-        //    Inactive,
-        //    HalfActive
-        //}
-
-        //public static string[] GetWeekDays { get; } = new[]
-        //{
-        //    "Monday".t(),
-        //    "Tuesday".t(),
-        //    "Wednesday".t(),
-        //    "Thursday".t(),
-        //    "Friday".t(),
-        //    "Saturday".t(),
-        //    "Sunday".t(),
-        //};
-
-        private readonly Stack           _stack         = VStack();
-        private readonly int             _columns;
-        private readonly int             _rows;
-        private readonly int             _stateCount;
+        private readonly Stack _stack = VStack();
+        private readonly int _columns;
+        private readonly int _rows;
+        private readonly int _stateCount;
         private readonly int[][] _states;
         private readonly Action<Button, int, int> _formatState;
-        private readonly Button[][]        _buttons;
-        private GridPicker() { }
+        private readonly Button[][] _buttons;
 
         public GridPicker(string[] columnNames, string[] rowNames, int states, int[][] initialStates, Action<Button, int, int> formatState)
         {
