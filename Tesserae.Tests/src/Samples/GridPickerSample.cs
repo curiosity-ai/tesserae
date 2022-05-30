@@ -66,8 +66,6 @@ namespace Tesserae.Tests.Samples
                             columns: new[] { 128.px(), 24.px() },
                             rowHeight: 24.px());
 
-            var gol = GetEventsSample();
-
             _content = SectionStack()
                .Title(SampleHeader(nameof(GridPickerSample)))
                .Section(Stack().Children(
@@ -80,18 +78,14 @@ namespace Tesserae.Tests.Samples
                     HorizontalSeparator("Hour Example").Left(),
                     hourPicker,
                     HorizontalSeparator("Game of Life").Left(),
-                    gol
-                ));
+                    GetGameOfLifeSample()));
         }
 
-        private static Stack GetEventsSample()
+        private static Stack GetGameOfLifeSample()
         {
             int height = 32;
             int width  = 32;
             bool isPaused = false;
-
-
-
 
             var grid = GridPicker(
                 rowNames: Enumerable.Range(0, height).Select(n => $"{n:00}").ToArray(),
