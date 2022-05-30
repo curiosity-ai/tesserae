@@ -98,8 +98,8 @@ namespace Tesserae.Tests.Samples
 
                     switch (state)
                     {
-                        case 0: color = "white"; break;
-                        case 1: color = "black"; break;
+                        case 0: color = Theme.Default.Background; break;
+                        case 1: color = Theme.Default.Foreground; break;
                     }
                     btn.Background(color);
                 },
