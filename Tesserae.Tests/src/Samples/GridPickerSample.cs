@@ -88,15 +88,10 @@ namespace Tesserae.Tests.Samples
         {
             int height = 32;
             int width  = 32;
-            var btnPause = Button("Pause").SetIcon(LineAwesome.Pause);
             bool isPaused = false;
-            
-            btnPause.OnClick(() =>
-            {
-                isPaused = !isPaused;
-                btnPause.SetIcon(isPaused ? LineAwesome.Play : LineAwesome.Pause);
-                btnPause.SetText(isPaused ? "Resume": "Pause");
-            });
+
+
+
 
             var grid = GridPicker(
                 rowNames: Enumerable.Range(0, height).Select(n => $"{n:00}").ToArray(),
@@ -129,6 +124,28 @@ namespace Tesserae.Tests.Samples
                 }, 200);
 
                 grid.WhenRemoved(() => window.clearInterval(t));
+            });
+
+            var btnReset = Button("Reset").SetIcon(LineAwesome.Bomb).OnClick(() =>
+            {
+                var state = grid.GetState();
+                foreach(var a in state)
+                {
+                    for(int i = 0; i < a.Length; i++)
+                    {
+                        a[i] = 0;
+                    }
+                }
+                grid.SetState(state);
+            });
+
+            var btnPause = Button("Pause").SetIcon(LineAwesome.Pause);
+
+            btnPause.OnClick(() =>
+            {
+                isPaused = !isPaused;
+                btnPause.SetIcon(isPaused ? LineAwesome.Play : LineAwesome.Pause);
+                btnPause.SetText(isPaused ? "Resume" : "Pause");
             });
 
             void Grow()
@@ -186,7 +203,7 @@ namespace Tesserae.Tests.Samples
                 return NumOfAliveNeighbors;
             }
 
-            return VStack().WS().Children(btnPause, grid.WS());
+            return VStack().WS().Children(HStack().WS().Children(btnPause, btnReset), grid.WS());
         }
 
         public HTMLElement Render() => _content.Render();
