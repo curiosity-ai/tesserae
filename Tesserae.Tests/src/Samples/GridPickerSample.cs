@@ -11,7 +11,7 @@ namespace Tesserae.Tests.Samples
         private readonly IComponent _content;
         public GridPickerSample()
         {
-            var picker = new GridPicker(
+            var picker = GridPicker(
                 columnNames: new[] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"},
                 rowNames: new[] { "Morning", "Afternoon", "Night"},
                 states: 3,
