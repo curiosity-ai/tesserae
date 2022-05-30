@@ -278,6 +278,11 @@ namespace Tesserae
             {
                 var rect = (DOMRect) InnerElement.getBoundingClientRect();
 
+                if (InnerElement.HasOwnProperty("_tippy"))
+                {
+                    H5.Script.Write("{0}._tippy.disable();", InnerElement);
+                }
+
                 _beforeReplace = InnerElement;
                 var newChild = (HTMLButtonElement) InnerElement.cloneNode(false);
                 newChild.style.minHeight = rect.height.px().ToString();
@@ -296,14 +301,19 @@ namespace Tesserae
             {
                 InnerElement.parentElement.replaceChild(_beforeReplace, InnerElement);
                 InnerElement = _beforeReplace;
+                if (InnerElement.HasOwnProperty("_tippy"))
+                {
+                    H5.Script.Write("{0}._tippy.enable();", InnerElement);
+                }
                 _beforeReplace = null;
             }
         }
 
         public Button OnClickSpinWhile(Func<Task> action, string text = null, Action<Button, Exception> onError = null)
         {
-            return OnClick((_, __) =>
+            return OnClick((_, e) =>
             {
+                StopEvent(e);
                 Task.Run(async () =>
                 {
                     Exception innerException = null;
@@ -312,9 +322,9 @@ namespace Tesserae
                     {
                         await action();
                     }
-                    catch (Exception e)
+                    catch (Exception E)
                     {
-                        innerException = e;
+                        innerException = E;
                         throw;
                     }
                     finally
@@ -337,8 +347,8 @@ namespace Tesserae
             });
         }
 
-        public Button OnClick(Action       action) => OnClick((_,       __) => action.Invoke());
-        public Button OnContextMenu(Action action) => OnContextMenu((_, __) => action.Invoke());
+        public Button OnClick(Action       action) => OnClick((_,       e) => { StopEvent(e); action.Invoke(); });
+        public Button OnContextMenu(Action action) => OnContextMenu((_, e) => { StopEvent(e); action.Invoke(); });
 
         public void SpinWhile(Func<Task> action, string text = null, Action<Button, Exception> onError = null)
         {

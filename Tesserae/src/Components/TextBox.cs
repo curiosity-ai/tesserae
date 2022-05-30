@@ -34,6 +34,12 @@ namespace Tesserae
             }
         }
 
+        public int MaxLength
+        {
+            get => InnerElement.maxLength;
+            set => InnerElement.maxLength = value;
+        }
+
         // Could have a separate type for Password?
         public bool IsPassword
         {

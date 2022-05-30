@@ -61,13 +61,14 @@ namespace Tesserae
             _grid.appendChild(GetItem(component, true));
         }
 
+
         internal static HTMLElement GetItem(IComponent component, bool forceAdd = false)
         {
             HTMLElement item = null;
 
-            if (component.HasOwnProperty("StackItem"))
+            if (component.HasOwnProperty("GridItem"))
             {
-                item = component["StackItem"] as HTMLElement;
+                item = component["GridItem"] as HTMLElement;
             }
 
             if (item is null)
@@ -84,7 +85,7 @@ namespace Tesserae
                         s.flexShrink = "1";
                     }), component.Render());
 
-                    component["StackItem"] = item;
+                    component["GridItem"] = item;
 
                     if (forceAdd)
                     {

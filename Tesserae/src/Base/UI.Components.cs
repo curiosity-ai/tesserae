@@ -169,6 +169,8 @@ namespace Tesserae
         /// A Stack is a container-type component that abstracts the implementation of a flexbox in order to define the layout of its children components.
         /// </summary>
         public static Stack Stack(Stack.Orientation orientation = Tesserae.Stack.Orientation.Vertical) => new Stack(orientation);
+        
+        public static Masonry Masonry(int columns, int gutter = 10) => new Masonry(columns: columns, gutter: gutter);
 
         /// <summary>
         /// Horizontal stack, same as calling Stack().Horizontal()

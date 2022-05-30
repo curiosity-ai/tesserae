@@ -59,6 +59,6 @@ namespace Tesserae
         }
 
         public string     ToQueryString() => _parameters.Any() ? "?" + string.Join("&", _parameters.Select(p => p.Key + "=" + H5.Script.EncodeURIComponent(p.Value))) : "";
-        public Parameters Clone()         => new Parameters(_parameters);
+        public Parameters Clone()         => new Parameters(_parameters.ToDictionary(kv => kv.Key, kv => kv.Value));
     }
 }

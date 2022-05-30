@@ -11,6 +11,11 @@ namespace Tesserae
         public static void ShowFor(IComponent component, IComponent tooltip, out Action hide, TooltipAnimation animation = TooltipAnimation.ShiftAway, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 0, int delayHide = 0, int maxWidth = 350)
         {
             var rendered = component.Render();
+            if (!rendered.IsMounted())
+            {
+                hide = () => { };
+                return; //Only show tooltips for mounted objects
+            }
 
             var renderedTooltip = UI.DIV(tooltip.Render());
             renderedTooltip.style.display = "block";
