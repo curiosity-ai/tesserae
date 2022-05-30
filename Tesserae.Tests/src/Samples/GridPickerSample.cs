@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Tesserae;
 using static H5.Core.dom;
 using static Tesserae.Tests.Samples.SamplesHelper;
@@ -12,8 +13,8 @@ namespace Tesserae.Tests.Samples
         public GridPickerSample()
         {
             var picker = GridPicker(
-                columnNames: new[] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"},
-                rowNames: new[] { "Morning", "Afternoon", "Night"},
+                columnNames: new[] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" },
+                rowNames: new[] { "Morning", "Afternoon", "Night" },
                 states: 3,
                 initialStates: new[] { new []{ 0, 0, 0, 0, 0, 0, 0 },
                         new []{ 0, 0, 0, 0, 0, 0, 0 },
@@ -43,6 +44,30 @@ namespace Tesserae.Tests.Samples
                     btn.SetText(text);
                 });
 
+            var hourPicker = GridPicker(
+                            rowNames: new[] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" },
+                            columnNames: Enumerable.Range(0, 24).Select(n => $"{n:00}").ToArray(),
+                            states: 4,
+                            initialStates: Enumerable.Range(0, 7).Select(_ => new int[24]).ToArray(),
+                            formatState: (btn, state, previousState) =>
+                            {
+                                string color = "";
+
+                                switch (state)
+                                {
+                                    case 0: color = "#c7c5c5"; break;
+                                    case 1: color = "#a3cfa5"; break;
+                                    case 2: color = "#76cc79"; break;
+                                    case 3: color = "#1fcc24"; break;
+                                }
+
+                                btn.Background(color);
+                            },
+                            columns: new[] { 128.px(), 24.px() },
+                            rowHeight: 24.px());
+
+            var gol = GetEventsSample();
+
             _content = SectionStack()
                .Title(SampleHeader(nameof(GridPickerSample)))
                .Section(Stack().Children(
@@ -50,8 +75,118 @@ namespace Tesserae.Tests.Samples
                     TextBlock("This component let you select states on a grid")))
                .Section(Stack().Children(
                     SampleTitle("Usage"),
-                    picker
+                    HorizontalSeparator("Daytime Example").Left(),
+                    picker,
+                    HorizontalSeparator("Hour Example").Left(),
+                    hourPicker,
+                    HorizontalSeparator("Game of Life").Left(),
+                    gol
                 ));
+        }
+
+        private static Stack GetEventsSample()
+        {
+            int height = 32;
+            int width  = 32;
+            var btnPause = Button("Pause").SetIcon(LineAwesome.Pause);
+            bool isPaused = false;
+            
+            btnPause.OnClick(() =>
+            {
+                isPaused = !isPaused;
+                btnPause.SetIcon(isPaused ? LineAwesome.Play : LineAwesome.Pause);
+                btnPause.SetText(isPaused ? "Resume": "Pause");
+            });
+
+            var grid = GridPicker(
+                rowNames: Enumerable.Range(0, height).Select(n => $"{n:00}").ToArray(),
+                columnNames: Enumerable.Range(0, width).Select(n => $"{n:00}").ToArray(),
+                states: 2,
+                initialStates: Enumerable.Range(0, width).Select(_ => new int[height]).ToArray(),
+                formatState: (btn, state, previousState) =>
+                {
+                    string color = "";
+
+                    switch (state)
+                    {
+                        case 0: color = "white"; break;
+                        case 1: color = "black"; break;
+                    }
+                    btn.Background(color);
+                },
+                columns: new[] { 128.px(), 24.px() },
+                rowHeight: 24.px());
+
+            grid.WhenMounted(() =>
+            {
+
+                var t = window.setInterval((_) =>
+                {
+                    if (grid.IsMounted())
+                    {
+                        Grow();
+                    }
+                }, 200);
+
+                grid.WhenRemoved(() => window.clearInterval(t));
+            });
+
+            void Grow()
+            {
+                if (grid.IsDragging) return;
+                if (isPaused) return;
+
+                var previous = grid.GetState();
+                var cells    = grid.GetState();
+                for (int i = 0; i < height; i++)
+                {
+                    for (int j = 0; j < width; j++)
+                    {
+                        int numOfAliveNeighbors = GetNeighbors(previous, i, j);
+
+                        if (cells[i][j] == 1)
+                        {
+                            if (numOfAliveNeighbors < 2)
+                            {
+                                cells[i][j] = 0;
+                            }
+
+                            if (numOfAliveNeighbors > 3)
+                            {
+                                cells[i][j] = 0;
+                            }
+                        }
+                        else
+                        {
+                            if (numOfAliveNeighbors == 3)
+                            {
+                                cells[i][j] = 1;
+                            }
+                        }
+                    }
+                }
+                grid.SetState(cells);
+            }
+
+            int GetNeighbors(int[][] cells, int x, int y)
+            {
+                int NumOfAliveNeighbors = 0;
+
+                for (int i = x - 1; i < x + 2; i++)
+                {
+                    for (int j = y - 1; j < y + 2; j++)
+                    {
+                        if (i < 0 || j < 0 || i >= height || j >= width || (i == x && j == y))
+                        {
+                            continue;
+                        }
+                        if (cells[i][j] == 1) NumOfAliveNeighbors++;
+                    }
+                }
+                return NumOfAliveNeighbors;
+            }
+
+            return VStack().WS().Children(btnPause, grid.WS());
         }
 
         public HTMLElement Render() => _content.Render();

@@ -1,8 +1,23 @@
 ﻿.tss-gridpicker-button {
     background-color: var(--tss-default-border-color);
+    cursor: crosshair;
+    padding: 0px !important;
+    min-height: unset;
+    display: block;
 }
 
-.tss-gridpicker-button:hover,
-.tss-gridpicker-button-hover {
-    opacity: 0.6;
+.tss-gridpicker .tss-grid .tss-default-component-margin {
+    margin:0px;
+}
+
+.tss-gridpicker-column-title {
+    text-align: center;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.tss-gridpicker-row-title {
+    text-align: right;
+    padding-right:4px;
 }
