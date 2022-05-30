@@ -1,0 +1,8 @@
+﻿.tss-gridpicker-button {
+    background-color: var(--tss-default-border-color);
+}
+
+.tss-gridpicker-button:hover,
+.tss-gridpicker-button-hover {
+    opacity: 0.6;
+}

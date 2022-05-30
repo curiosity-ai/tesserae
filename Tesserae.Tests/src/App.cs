@@ -61,7 +61,7 @@ namespace Tesserae.Tests
                 ("Float", () => new FloatSample()),
                 ("LineAwesomeIcons", () => new LineAwesomeSample()),
                 ("FileSelector", () => new FileSelectorAndDropAreaSample()),
-                ("SchedulePicker", () => new SchedulePickerSample())
+                ("GridPicker", () => new GridPickerSample())
             };
 
             var sideBar = Sidebar().Stretch();
@@ -184,10 +184,12 @@ namespace Tesserae.Tests
                                     links["TextBox"],
                                     links["SearchBox"],
                                     links["Toggle"],
-                                    links["Picker"]),
-                            links["ColorPicker"],
-                            links["DatePicker"],
-                            links["DateTimePicker"],
+                                    links["Picker"],
+                                    links["ColorPicker"],
+                                    links["DatePicker"],
+                                    links["DateTimePicker"],
+                                    links["GridPicker"]
+                                    ),
                             NavLink("Progress").Expanded()
                                .SmallPlus()
                                .SemiBold()
@@ -219,7 +221,6 @@ namespace Tesserae.Tests
                                     links["Toast"],
                                     links["Float"],
                                     links["FileSelector"],
-                                    links["SchedulePicker"],
                                     links["LineAwesomeIcons"],
                                     links["ProgressModal"],
                                     links["ThemeColors"]
