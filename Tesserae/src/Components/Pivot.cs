@@ -55,6 +55,11 @@ namespace Tesserae
             RenderedTitles.Add(tab, title);
             AttachEvents(tab.Id, title);
             RenderedTabs.appendChild(title);
+
+            if(_isRendered && OrderedTabs.Count == 1)
+            {
+                Select(tab.Id);
+            }
             return this;
         }
 
