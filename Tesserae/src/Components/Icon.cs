@@ -32,6 +32,7 @@ namespace Tesserae
             InnerElement.dataset["icon"] = icon;
             return this;
         }
+
         public string Foreground
         {
             get => InnerElement.style.color;

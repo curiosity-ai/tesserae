@@ -522,10 +522,6 @@ namespace Tesserae
         public Button Ellipsis()
         {
             EnableEllipsis = true;
-            if (string.IsNullOrEmpty(Title))
-            {
-                Title = Text;
-            }
             return this;
         }
 
