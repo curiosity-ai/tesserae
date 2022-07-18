@@ -63,6 +63,35 @@ namespace Tesserae
             return this;
         }
 
+        public void RemoveTab(string id)
+        {
+            var tab = OrderedTabs.FirstOrDefault(t => t.Id == id);
+
+            if (tab is object)
+            {
+                OrderedTabs.Remove(tab);
+
+                if (RenderedTitles.TryGetValue(tab, out var renderedTitle))
+                {
+                    RenderedTabs.removeChild(renderedTitle);
+                    RenderedTitles.Remove(tab);
+                }
+
+                if (_currentSelectedID == id)
+                {
+                    if (_isRendered && OrderedTabs.Count > 0)
+                    {
+                        Select(OrderedTabs.First().Id);
+                    }
+                }
+
+                if (_initiallySelectedID == id)
+                {
+                    _initiallySelectedID = null;
+                }
+            }
+        }
+
         private void AttachEvents(string id, HTMLElement title)
         {
             title.onclick = (e) =>
