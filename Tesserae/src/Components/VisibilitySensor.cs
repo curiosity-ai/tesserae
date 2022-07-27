@@ -14,15 +14,19 @@ namespace Tesserae
         private          double                   _debounce;
         private readonly Action<VisibilitySensor> _onVisible;
         private          int                      _maxCalls;
+        private IntersectionObserver              _observer;
 
         public VisibilitySensor(Action<VisibilitySensor> onVisible, bool singleCall = true, IComponent message = null)
         {
             InnerElement = DIV();
+
             if (message is object)
             {
                 InnerElement.appendChild(message.Render());
             }
+            
             _onVisible = onVisible;
+            
             _maxCalls = singleCall ? 1 : int.MaxValue;
 
             DomObserver.WhenMounted(InnerElement, HookCheck);
@@ -38,10 +42,21 @@ namespace Tesserae
                 _maxCalls = 1;
             }
         }
+
         private void HookCheck()
         {
-            document.addEventListener("scroll", OnScroll, true);
-            window.addEventListener("resize", OnScroll, true);
+            IntersectionObserverCallback observerListener = (entries, obs) =>
+            {
+                if (entries.Any(e => e.isIntersecting))
+                {
+                    OnScroll(null);
+                }
+            };
+
+            _observer = new IntersectionObserver(observerListener);
+            _observer.observe(InnerElement);
+
+            window.addEventListener("focus", OnScroll, true);
             DomObserver.WhenRemoved(InnerElement, UnHookCheck);
             //Trigger one time on first render, to force check if visible
             OnScroll(null);
@@ -49,8 +64,9 @@ namespace Tesserae
 
         private void UnHookCheck()
         {
-            document.removeEventListener("scroll", OnScroll);
-            window.removeEventListener("resize", OnScroll);
+            window.removeEventListener("focus", OnScroll);
+            _observer?.disconnect();
+            _observer = null;
         }
 
         private void OnScroll(Event ev)
