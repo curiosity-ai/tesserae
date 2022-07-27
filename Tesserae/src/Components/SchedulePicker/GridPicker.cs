@@ -308,7 +308,7 @@ namespace Tesserae
 
                 UpdateAll();
 
-                RaiseOnChange(new Event());
+                RaiseOnChange(null);
             }
         }
 
