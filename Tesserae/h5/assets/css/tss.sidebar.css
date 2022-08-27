@@ -73,7 +73,11 @@
     margin: 0px;
     border-radius: 4px;
     width: 100%;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
     padding-left: 8px;
     padding-right: 8px;
     text-overflow: ellipsis;
@@ -84,6 +88,8 @@
 
 .tss-sidebar-btn-open.tss-btn > i {
     width: 24px;
+    display: inline-block;
+    text-align: center;
 }
 
 .tss-sidebar-btn.tss-btn > .tss-btn-with-image {
@@ -109,7 +115,11 @@
     margin: 0px;
     border-radius: 4px;
     width: calc(54px - 8px);
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
@@ -119,6 +129,8 @@
 
 .tss-sidebar-btn.tss-btn > i {
     width: 24px;
+    display: inline-block;
+    text-align: center;
 }
 
 .tss-sidebar-btn.tss-btn > .tss-image {
