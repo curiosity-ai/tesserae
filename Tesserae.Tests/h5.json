@@ -24,7 +24,10 @@
   "console": { "enabled": false },
   "loader": { "type": "Global" },
   "sourceMap": { "enabled": true },
-  "reflection": { "disabled": false },
+  "reflection": {
+    "disabled": false,
+    "target":  "inline"
+  },
   "generateTypeScript": false,
   "report": { "enabled": false },
   "rules": {

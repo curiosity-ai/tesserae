@@ -482,6 +482,25 @@ namespace Tesserae
             return this;
         }
 
+        public Button SetIcon(Emoji icon, bool afterText = false)
+        {
+            Icon = $"ec {icon}";
+            if (_iconSpan is object)
+            {
+                _iconSpan.style.color = "";
+                if (afterText)
+                {
+                    InnerElement.removeChild(_iconSpan);
+                    InnerElement.appendChild(_iconSpan);
+                }
+                else
+                {
+                    InnerElement.insertBefore(_iconSpan, _textSpan);
+                }
+            }
+            return this;
+        }
+
         public Button SetIcon(LineAwesome icon, string color = "", TextSize size = TextSize.Medium, LineAwesomeWeight weight = LineAwesomeWeight.Light, bool afterText = false)
         {
             Icon = $"{weight} {icon} {size}";

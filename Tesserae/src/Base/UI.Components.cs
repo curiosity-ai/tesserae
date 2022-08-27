@@ -221,6 +221,8 @@ namespace Tesserae
         public static Icon Icon(string icon, TextSize size, string color = null) => new Icon($"{icon} {size}").Foreground(color ?? "");
 
         public static Icon Icon(LineAwesome icon, LineAwesomeWeight weight = LineAwesomeWeight.Light, TextSize size = TextSize.Medium, string color = null) => new Icon($"{weight} {icon} {size}").Foreground(color ?? "");
+        
+        public static Icon Icon(Emoji icon, TextSize size = TextSize.Medium) => new Icon($"ec {icon} {size}");
 
         public static HorizontalSeparator HorizontalSeparator(string text) => new HorizontalSeparator(text);
 
@@ -296,14 +298,12 @@ namespace Tesserae
 
         public static Sidebar Sidebar() => new Sidebar();
 
-        public static Sidebar.Item SidebarItem(string text, string icon, string href = null) => new Sidebar.Item(text, icon, href);
+        //public static Sidebar.Item SidebarItem(string text, string icon, string href = null) => new Sidebar.Item(text, icon, href);
 
-        public static Sidebar.Item SidebarItem(string     text, IComponent icon, string href = null) => new Sidebar.Item(text, icon, href);
-        public static Sidebar.Item SidebarItem(IComponent text, string     icon, string href = null) => new Sidebar.Item(text, icon, href);
-        public static Sidebar.Item SidebarItem(IComponent text, string     href              = null) => new Sidebar.Item(text, href);
-        public static Sidebar.Item SidebarItem(IComponent text, IComponent icon, string href = null) => new Sidebar.Item(text, icon, href);
-
-        public static Navbar Navbar() => new Navbar();
+        //public static Sidebar.Item SidebarItem(string     text, IComponent icon, string href = null) => new Sidebar.Item(text, icon, href);
+        //public static Sidebar.Item SidebarItem(IComponent text, string     icon, string href = null) => new Sidebar.Item(text, icon, href);
+        //public static Sidebar.Item SidebarItem(IComponent text, string     href              = null) => new Sidebar.Item(text, href);
+        //public static Sidebar.Item SidebarItem(IComponent text, IComponent icon, string href = null) => new Sidebar.Item(text, icon, href);
 
         public static Toast Toast() => new Toast();
 

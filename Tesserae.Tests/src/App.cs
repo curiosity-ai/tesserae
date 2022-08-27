@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Tesserae;
 using Tesserae.Tests.Samples;
+using Tesserae.Tests;
 using static H5.Core.dom;
 using static Tesserae.UI;
 
@@ -13,164 +15,140 @@ namespace Tesserae.Tests
     {
         private static void Main()
         {
-            var orderedComponents = new (string Name, Func<IComponent> Component)[]
-            {
-                ("Button", () => new ButtonSample()),
-                ("ThemeColors", () => new ThemeColorsSample()),
-                ("CheckBox", () => new CheckBoxSample()),
-                ("ChoiceGroup", () => new ChoiceGroupSample()),
-                ("Slider", () => new SliderSample()),
-                ("Dropdown", () => new DropdownSample()),
-                ("Label", () => new LabelSample()),
-                ("EditableLabel", () => new EditableLabelSample()),
-                ("HorizontalSeparator", () => new HorizontalSeparatorSample()),
-                ("TextBox", () => new TextBoxSample()),
-                ("ColorPicker", () => new ColorPickerSample()),
-                ("DateTimePicker", () => new DateTimePickerSample()),
-                ("DatePicker", () => new DatePickerSample()),
-                ("SearchBox", () => new SearchBoxSample()),
-                ("Toggle", () => new ToggleSample()),
-                ("Spinner", () => new SpinnerSample()),
-                ("ProgressIndicator", () => new ProgressIndicatorSample()),
-                ("Dialog", () => new DialogSample()),
-                ("Modal", () => new ModalSample()),
-                ("TutorialModal", () => new TutorialModalSample()),
-                ("Panel", () => new PanelSample()),
-                ("ContextMenu", () => new ContextMenuSample()),
-                ("ProgressModal", () => new ProgressModalSample()),
-                ("ItemsList", () => new ItemsListSample()),
-                ("InfiniteScrollingList", () => new InfiniteScrollingListSample()),
-                ("VirtualizedList", () => new VirtualizedListSample()),
-                ("SearchableList", () => new SearchableListSample()),
-                ("SearchableGroupedList", () => new SearchableGroupedListSample()),
-                ("DetailsList", () => new DetailsListSample()),
-                ("Picker", () => new PickerSample()),
-                ("Layer", () => new LayerSample()),
-                ("Timeline", () => new TimelineSample()),
-                ("Stack", () => new StackSample()),
-                ("Masonry", () => new MasonrySample()),
-                ("SectionStack", () => new SectionStackSample()),
-                ("TextBlock", () => new TextBlockSample()),
-                ("Validator", () => new ValidatorSample()),
-                ("OverflowSet", () => new OverflowSetSample()),
-                ("Breadcrumb", () => new BreadcrumbSample()),
-                ("TextBreadcrumbs", () => new TextBreadcrumbsSample()),
-                ("Pivot", () => new PivotSample()),
-                ("Defer", () => new DeferSample()),
-                ("Toast", () => new ToastSample()),
-                ("Float", () => new FloatSample()),
-                ("LineAwesomeIcons", () => new LineAwesomeSample()),
-                ("FileSelector", () => new FileSelectorAndDropAreaSample()),
-                ("GridPicker", () => new GridPickerSample())
-            };
-
-            var sideBar = Sidebar().Stretch();
-            var navBar = Navbar().SetTop(HStack().S().Children(SearchBox("Search for a template").WidthStretch().Underlined()));
-            sideBar.IsVisible = false;
-            navBar.IsVisible = false;
             document.body.style.overflow = "hidden";
 
+            var allSidebarItems = new List<ISidebarItem>();
+            var sampleToSidebarItem = new Dictionary<Sample, ISidebarItem>();
 
-            document.body.appendChild(sideBar.Brand(SidebarItem("... meow", "las la-cat", href: "https://curiosity.ai").Large())
-               .Add(SidebarItem("Colorful sidebar",                         "las la-tint").OnSelect((s) => sideBar.IsLight = false).Selected())
-               .Add(SidebarItem("Light sidebar",                            "las la-tint-slash").OnSelect((s) => sideBar.IsLight = true))
-               .Add(SidebarItem("Always Open",                              "las la-arrow-to-right").OnSelect((s) => sideBar.IsAlwaysOpen = true))
-               .Add(SidebarItem("Open on Hover",                            "las la-arrows-alt-h").OnSelect((s) => sideBar.IsAlwaysOpen = false))
-               .Add(SidebarItem("Small sidebar",                            "las la-minus-square").OnSelect((s) => sideBar.Width = Sidebar.Size.Small))
-               .Add(SidebarItem("Medium sidebar",                           "las la-square").OnSelect((s) => sideBar.Width = Sidebar.Size.Medium))
-               .Add(SidebarItem("Large sidebar",                            "las la-plus-square").OnSelect((s) => sideBar.Width = Sidebar.Size.Large))
-               .SetContent(navBar)
-               .Render());
+            void SelectSidebar(ISidebarItem toSelect)
+            {
+                allSidebarItems.ForEach(i => i.IsSelected = i == toSelect);
+            }
+
+            var currentPage = new SettableObservable<Sample>(null);
+            
+            currentPage.Observe(selected => 
+            {
+                if (selected is object && sampleToSidebarItem.TryGetValue(selected, out var item))
+                {
+                    SelectSidebar(item);
+                } 
+            });
+            
+            var sidebar     = Sidebar();
+            var pageContent = HStack().Children(sidebar.HS(), Defer(currentPage, page => page is null ? CenteredCardWithBackground(TextBlock("Select an item")).AsTask() : VStack().S().ScrollY().Children(page.ContentGenerator().WS()).AsTask()).HS().W(1).Grow()).S();
+
+            document.body.appendChild(pageContent.Render());
+
+            //Important: Reflection will only properly work here if reflection metadata is emitted inline with the javascript, instead of in a separate .meta.js file
+            //           i.e. in the h5.json file, we need:      "reflection": { "disabled": false, "target":  "inline" },
+
+            var samples = typeof(ISample).Assembly.GetTypes().Where(t => typeof(ISample).IsAssignableFrom(t) && !t.IsInterface)
+                            .Select(sampleType =>
+                            {
+                                var sg = sampleType.GetCustomAttributes(typeof(SampleDetailsAttribute), true).FirstOrDefault() as SampleDetailsAttribute;
+                                var group = sg is object ? sg.Group : "Others";
+                                int order = sg is object ? sg.Order : 0;
+                                LineAwesome icon = sg is object ? sg.Icon : LineAwesome.Circle;
+                                return new Sample(sampleType.Name, sampleType.Name.Replace("Sample", ""), group, order, icon, () => Activator.CreateInstance(sampleType) as IComponent);
+                            })
+                            .ToDictionary(s => s.Name, s => s);
+
+            sidebar.AddHeader(new SidebarButton(Emoji.House, "Tesserae", new SidebarCommand(LineAwesome.ExternalLinkAlt).Tooltip("View on GitHub").OnClick(() => window.open("https://github.com/curiosity-ai/tesserae","_blank"))).CommandsAlwaysVisible());
+
+            var openClose = new SidebarButton(LineAwesome.ChevronLeft, "").Tooltip("Close Sidebar");
+
+            openClose.OnClick(() =>
+            {
+                sidebar.Toggle();
+
+                if (sidebar.IsClosed)
+                {
+                    openClose.SetIcon(LineAwesome.ChevronRight).Tooltip("Open Sidebar");
+                }
+                else
+                {
+                    openClose.SetIcon(LineAwesome.ChevronLeft).Tooltip("Close Sidebar");
+                }
+            });
+
+            var lightDark = new SidebarButton(LineAwesome.Sun, "Light Mode");
+            lightDark.OnClick(() =>
+            {
+                if (Theme.IsDark)
+                {
+                    Theme.Light();
+                    lightDark.SetIcon(LineAwesome.Sun).Tooltip("Light Mode").SetText("Light Mode");
+                }
+                else
+                {
+                    Theme.Dark();
+                    lightDark.SetIcon(LineAwesome.Moon).Tooltip("Dark Mode").SetText("Dark Mode");
+                }
+            });
+
+            sidebar.AddFooter(openClose);
+            sidebar.AddFooter(lightDark);
+            sidebar.AddFooter(new SidebarButton(Emoji.Cat, "By Curiosity").Tooltip("Made with ❤ by Curiosity").OnClick(() => window.open("https://curiosity.ai", "_blank")));
+
+
+            foreach (var group in samples.Values.GroupBy(s => s.Group))
+            {
+                var nav = new SidebarNav(LineAwesome.Box, group.Key, false).OnClick(n => n.Toggle());
+                allSidebarItems.Add(nav);
+                sidebar.AddContent(nav);
+
+                foreach (var item in group.OrderBy(s => s.Order).ThenBy(s => s.Name.ToLower()))
+                {
+                    var sidebarItem = new SidebarButton(item.Icon, item.Name, new SidebarCommand(LineAwesome.Code).Tooltip("Show sample code").OnClick(() => SamplesHelper.ShowSampleCode(item.Name)),
+                                                                              new SidebarCommand(LineAwesome.ExternalLinkAlt).Tooltip("Open in new tab").OnClick(() => window.open($"#/view/{item.Name}","_blank")));
+
+                    sidebarItem.OnClick(() =>
+                    {
+                        Router.Push($"#/view/{item.Name}");
+                        currentPage.Value = item;
+                    });
+
+                    nav.Add(sidebarItem);
+                    allSidebarItems.Add(sidebarItem);
+                    sampleToSidebarItem[item] = sidebarItem;
+                }
+            }
+
+
+            Router.Register("home", "/", _ => currentPage.Value = null);
 
 
             // We'll render the content in a DeferedComponent that updates itself whenever the "currentPage" observable's value changes - these changes will be triggered by the routing configured below
             var documentTitleBase = document.title;
-            var currentPage = new SettableObservable<string>();
-            var components = orderedComponents.ToDictionary(c => c.Name, c => c.Component);
 
-            navBar.SetContent(
-                Defer(
-                        currentPage,
-                        newlySelectedPage => ShowPage(newlySelectedPage).AsTask()
-                    )
-                   .Stretch()
-            );
-
-            // Configure routes for every component that we listed at the top of this method and one for home - whenever one of those routes is hit, the currentPage observable will have its value changed which will result in a navigation
-            // - Note that the "home" route will set the currentPage observable to null and the ShowPage result of that is to show the content for the first component
-            Router.Register("home", "/", _ => currentPage.Value = null);
-
-            foreach (var (name, component) in orderedComponents)
+            foreach (var kv in samples)
             {
-                var nameLocal = name;
-                Router.Register(nameLocal, ToRoute(nameLocal), _ => currentPage.Value = nameLocal);
+                Router.Register($"#/view/{kv.Key}", _ => currentPage.Value = kv.Value);
             }
 
             Router.Initialize();
             Router.Refresh(onDone: Router.ForceMatchCurrent); // We need to forcibly match the route at first loading since we want the just-registered routes to be matched against the current URL without us *changing* that URL
-
-            string ToRoute(string name) => "/view/" + name;
-
-            IComponent ShowPage(string componentRouteName)
-            {
-                if ((componentRouteName is null) || !components.ContainsKey(componentRouteName))
-                    componentRouteName = components.Keys.First();
-                else
-                    Router.Push($"#/view/{componentRouteName}");
-
-                document.title = documentTitleBase + " - " + componentRouteName;
-
-                var links = orderedComponents.ToDictionary(
-                    c => c.Name,
-                    c => NavLink(c.Name).SelectedOrExpandedIf(c.Name == componentRouteName).OnSelected(s =>
-                    {
-                        console.log("Route to " + c.Name);
-                        Router.Navigate("#" + ToRoute(c.Name));
-                    })
-                );
-                var closePanelButton = Button().SetIcon(LineAwesome.ArrowLeft).Tooltip("Close panel");
-
-                var component = components[componentRouteName]();
-
-                var splitView = SplitView().NoSplitter()
-                   .Left(Stack().Stretch().Children(MainNav(links, navBar, sideBar)).InvisibleScroll(), background: Theme.Default.Background)
-                   .LeftIsSmaller(300.px())
-                   .Stretch()
-                   .Right(Stack().Stretch().Children(closePanelButton, component.WidthStretch()).ScrollY(), background: Theme.Secondary.Background);
-
-                bool panelIsOpen = true;
-
-                closePanelButton.OnClick((_, __) =>
-                {
-                    if (panelIsOpen)
-                    {
-                        panelIsOpen = false;
-                        splitView.Close();
-                        closePanelButton.SetIcon(LineAwesome.ArrowRight).Tooltip("Open panel");
-                    }
-                    else
-                    {
-                        panelIsOpen = true;
-                        splitView.Open();
-                        closePanelButton.SetIcon(LineAwesome.ArrowLeft).Tooltip("Close panel");
-                    }
-                });
-                return splitView;
-            }
         }
 
-        private static IComponent MainNav(Dictionary<string, Nav.NavLink> links, Navbar navBar, Sidebar sideBar)
+        private static BackgroundArea CenteredCardWithBackground(IComponent content)
+        {
+            var card = Card(content).NoAnimation().Padding(32.px());
+            card.Render().style.maxHeight = "calc(100% - 32px)";
+            return BackgroundArea(card).S();
+        }
+
+
+        private static IComponent MainNav(Dictionary<string, Nav.NavLink> links)
         {
             return Stack().Padding(16.px()).NoShrink().MinHeightStretch()
                .Children(TextBlock("Tesserae UI Toolkit").MediumPlus().SemiBold().AlignCenter(),
-                    Stack().Horizontal().JustifyContent(ItemJustify.Center).PT(10.px()).PB(10.px()).Children(TextBlock("by").XSmall().PR(4.px()), Link("https://www.curiosity.ai", TextBlock("curiosity.ai").XSmall().Primary()).PR(4.px()), TextBlock("built with").XSmall().PR(4.px()), Link("https://h5.rocks", TextBlock("h5 🚀").XSmall().Primary())),
+                    HStack().JustifyContent(ItemJustify.Center).PT(10.px()).PB(10.px()).Children(TextBlock("by").XSmall().PR(4.px()), Link("https://www.curiosity.ai", TextBlock("curiosity.ai").XSmall().Primary()).PR(4.px()), TextBlock("built with").XSmall().PR(4.px()), Link("https://h5.rocks", TextBlock("h5 🚀").XSmall().Primary())),
                     Nav().InlineContent(Label("Theme").Inline().SetContent(Toggle("Light", "Dark").Checked().OnChange((t, e) =>
                         {
                             if (t.IsChecked) { Theme.Light(); }
                             else { Theme.Dark(); }
                         })))
-                       .InlineContent(Label("Navbar").Inline().SetContent(Toggle("Show",  "Hidden").OnChange((t, e) => { navBar.IsVisible = t.IsChecked; })))
-                       .InlineContent(Label("Sidebar").Inline().SetContent(Toggle("Show", "Hidden").OnChange((t, e) => { sideBar.IsVisible = t.IsChecked; })))
                        .Links(NavLink("Basic Inputs").Expanded()
                                .SmallPlus()
                                .SemiBold()

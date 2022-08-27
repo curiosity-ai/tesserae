@@ -2,7 +2,6 @@ using H5;
 
 namespace Tesserae
 {
-
     [Enum(Emit.Value)]
     public enum LineAwesome
     {
