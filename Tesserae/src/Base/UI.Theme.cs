@@ -57,7 +57,6 @@ namespace Tesserae
                 var sb = new StringBuilder();
                 sb.AppendLine(":root {");
                 sb.Append("  --tss-primary-background-color-root: ").Append(primaryLightColor.ToRGBvar()).AppendLine(";");
-                sb.Append("  --tss-sidebar-background-color-root: ").Append(primaryLightColor.ToRGBvar()).AppendLine(";");
                 sb.Append("  --tss-link-color-root: ").Append(primaryLightColor.ToRGBvar()).AppendLine(";");
                 sb.Append("  --tss-primary-border-color-root: ").Append(borderColorLight.ToRGBvar()).AppendLine(";");
                 sb.Append("  --tss-primary-background-hover-color-root: ").Append(borderColorLight.ToRGBvar()).AppendLine(";");
@@ -67,7 +66,6 @@ namespace Tesserae
                 //We need to redefine the variables again here otherwise the values won't change as they're derived twice from variables
                 sb.Append(@"
     --tss-primary-background-color: rgb(var(--tss-primary-background-color-root ));
-    --tss-sidebar-background-color: rgb(var(--tss-sidebar-background-color-root ));
     --tss-link-color: rgb(var(--tss-link-color-root ));
     --tss-primary-border-color: rgb(var(--tss-primary-border-color-root ));
     --tss-primary-background-hover-color: rgb(var(--tss-primary-background-hover-color-root ));
@@ -79,7 +77,6 @@ namespace Tesserae
 
                 sb.AppendLine(".tss-dark-mode {");
                 sb.Append("  --tss-primary-background-color-root: ").Append(primaryDarkColor.ToRGBvar()).AppendLine(";");
-                sb.Append("  --tss-sidebar-background-color-root: ").Append(primaryDarkColor.ToRGBvar()).AppendLine(";");
                 sb.Append("  --tss-link-color-root: ").Append(primaryDarkColor.ToRGBvar()).AppendLine(";"); 
                 sb.Append("  --tss-primary-border-color-root: ").Append(borderColorDark.ToRGBvar()).AppendLine(";");
                 sb.Append("  --tss-primary-background-hover-color-root: ").Append(borderColorDark.ToRGBvar()).AppendLine(";");
@@ -89,7 +86,6 @@ namespace Tesserae
                 //We need to redefine the variables again here otherwise the values won't change as they're derived twice from variables
                 sb.Append(@"
     --tss-primary-background-color: rgb(var(--tss-primary-background-color-root ));
-    --tss-sidebar-background-color: rgb(var(--tss-sidebar-background-color-root ));
     --tss-link-color: rgb(var(--tss-link-color-root ));
     --tss-primary-border-color: rgb(var(--tss-primary-border-color-root ));
     --tss-primary-background-hover-color: rgb(var(--tss-primary-background-hover-color-root ));
