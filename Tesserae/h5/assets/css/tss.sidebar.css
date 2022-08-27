@@ -104,6 +104,12 @@
     width: 24px;
 }
 
+.tss-sidebar-btn.tss-btn > .tss-image {
+    width: 24px !important;
+    height: 24px !important;
+    object-fit:contain;
+}
+
 .tss-sidebar-commands {
     position: absolute;
     right: 4px;
@@ -125,6 +131,14 @@
     height: 20px !important;
     width: 20px !important;
     border-radius: 4px;
+}
+
+.tss-sidebar-commands > .tss-sidebar-command.tss-btn > .tss-image {
+    padding: 0px;
+    margin: 0px;
+    height: 20px !important;
+    width: 20px !important;
+    object-fit: contain;
 }
 
 .tss-sidebar-nav-header {
@@ -162,6 +176,10 @@
     margin-left: 28px;
 }
 
+.tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-btn > .tss-image {
+    margin-left: 28px;
+}
+
 .tss-sidebar-nav.tss-sidebar-nav-open > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-sidebar-nav-arrow.tss-btn:after {
     transform: translateY(-2px) translateX(2px) rotate(45deg);
 }
@@ -184,6 +202,7 @@
 }
 
 .tss-sidebar-command {
+
 }
 
 

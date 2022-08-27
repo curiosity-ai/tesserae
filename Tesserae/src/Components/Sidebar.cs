@@ -100,6 +100,7 @@ namespace Tesserae
 
 
         public SidebarButton(LineAwesome icon, string text, params SidebarCommand[] commands) : this($"{LineAwesomeWeight.Light} {icon}", text, commands) { }
+
         public SidebarButton(LineAwesome icon, LineAwesomeWeight weight, string text, params SidebarCommand[] commands) : this($"{weight} {icon}", text, commands) { }
 
         public SidebarButton(Emoji icon, string text, params SidebarCommand[] commands) : this($"ec {icon}", text, commands) { }
@@ -146,6 +147,52 @@ namespace Tesserae
                 return Raw(div);
             }
         }
+
+        public SidebarButton(ImageIcon image, string text, params SidebarCommand[] commands)
+        {
+            _selected = new SettableObservable<bool>(false);
+            
+            _tooltipClosed = (b) => b.Tooltip(text);
+
+            _closed = Button().Class("tss-sidebar-btn").ReplaceContent(image);
+
+            _openButton = Button(text).ReplaceContent(image.Clone()).Class("tss-sidebar-btn");
+            _open = Wrap(_openButton);
+
+            _commands = commands;
+
+            _selected.Observe(isSelected =>
+            {
+                if (isSelected)
+                {
+                    _closed.Class("tss-sidebar-selected");
+                    _open.Class("tss-sidebar-selected");
+                }
+                else
+                {
+                    _closed.RemoveClass("tss-sidebar-selected");
+                    _open.RemoveClass("tss-sidebar-selected");
+                }
+            });
+
+            IComponent Wrap(Button button)
+            {
+                var div = Div(_("tss-sidebar-btn-open"));
+                div.appendChild(button.Render());
+
+                if (commands.Length > 0)
+                {
+                    var divCmd = Div(_("tss-sidebar-commands"));
+                    div.appendChild(divCmd);
+                    foreach (var c in commands)
+                    {
+                        divCmd.appendChild(c.Render());
+                    }
+                }
+                return Raw(div);
+            }
+        }
+
 
         public SidebarButton SetText(string text)
         {
@@ -273,6 +320,11 @@ namespace Tesserae
 
         public SidebarCommand(LineAwesome icon, LineAwesomeWeight weight = LineAwesomeWeight.Light) : this($"{weight} {icon}") {}
         public SidebarCommand(Emoji icon) : this($"ec {icon}") {}
+
+        public SidebarCommand(ImageIcon image)
+        {
+            _button = Button().ReplaceContent(image).Class("tss-sidebar-command");
+        }
 
         public SidebarCommand(string icon)
         {

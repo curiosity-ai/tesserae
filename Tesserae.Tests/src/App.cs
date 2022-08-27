@@ -89,7 +89,7 @@ namespace Tesserae.Tests
 
             sidebar.AddFooter(openClose);
             sidebar.AddFooter(lightDark);
-            sidebar.AddFooter(new SidebarButton(Emoji.Cat, "By Curiosity").Tooltip("Made with ❤ by Curiosity").OnClick(() => window.open("https://curiosity.ai", "_blank")));
+            sidebar.AddFooter(new SidebarButton(new ImageIcon("https://curiosity.ai/media/cat-color-square-64.png"), "By Curiosity").Tooltip("Made with ❤ by Curiosity").OnClick(() => window.open("https://curiosity.ai", "_blank")));
 
 
             foreach (var group in samples.Values.GroupBy(s => s.Group))

@@ -3,6 +3,7 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+
     [H5.Name("tss.Image")]
     public class Image : ComponentBase<Image, HTMLImageElement>, ISpecialCaseStyling, IHasBackgroundColor
     {
@@ -12,7 +13,6 @@ namespace Tesserae
 
         public Image(string source, string fallback = null)
         {
-
             if (!string.IsNullOrEmpty(fallback))
             {
                 InnerElement = UI.Image(_("tss-image", src: fallback));
