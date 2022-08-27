@@ -91,6 +91,7 @@ namespace Tesserae
         private readonly IComponent _open;
         private readonly SidebarCommand[] _commands;
         private Action<IComponent> _tooltipClosed;
+        private readonly ImageIcon _image;
         private Action<IComponent> _tooltipOpen;
         private readonly SettableObservable<bool> _selected;
 
@@ -154,9 +155,11 @@ namespace Tesserae
             
             _tooltipClosed = (b) => b.Tooltip(text);
 
+            _image = image;
+
             _closed = Button().Class("tss-sidebar-btn").ReplaceContent(image);
 
-            _openButton = Button(text).ReplaceContent(image.Clone()).Class("tss-sidebar-btn");
+            _openButton = Button(text).ReplaceContent(Raw(Div(_("tss-btn-with-image"), image.Clone().Render(), Span(_(text: text))))).Class("tss-sidebar-btn");
             _open = Wrap(_openButton);
 
             _commands = commands;
@@ -196,7 +199,14 @@ namespace Tesserae
 
         public SidebarButton SetText(string text)
         {
-            _openButton.SetText(text);
+            if (_image is object)
+            {
+                _openButton.ReplaceContent(Raw(Div(_("tss-btn-with-image"), _image.Clone().Render(), Span(_(text: text)))));
+            }
+            else
+            {
+                _openButton.SetText(text);
+            }
             return this;
         }
 
