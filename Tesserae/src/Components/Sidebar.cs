@@ -98,6 +98,8 @@ namespace Tesserae
         public SidebarButton(LineAwesome icon, string text, params SidebarCommand[] commands) : this($"{LineAwesomeWeight.Light} {icon}", text, commands) { }
         public SidebarButton(LineAwesome icon, LineAwesomeWeight weight, string text, params SidebarCommand[] commands) : this($"{weight} {icon}", text, commands) { }
 
+        public SidebarButton(Emoji icon, string text, params SidebarCommand[] commands) : this($"ec {icon}", text, commands) { }
+
         public SidebarButton(string icon, string text, params SidebarCommand[] commands)
         {
             _selected = new SettableObservable<bool>(false);
@@ -237,6 +239,13 @@ namespace Tesserae
             return this;
         }
 
+        public SidebarButton SetIcon(Emoji icon)
+        {
+            _closed.SetIcon(icon);
+            _openButton.SetIcon(icon);
+            return this;
+        }
+
 
         public IComponent RenderClosed()
         {
@@ -259,6 +268,7 @@ namespace Tesserae
         private Action<Button> _tooltip;
 
         public SidebarCommand(LineAwesome icon, LineAwesomeWeight weight = LineAwesomeWeight.Light) : this($"{weight} {icon}") {}
+        public SidebarCommand(Emoji icon) : this($"ec {icon}") {}
 
         public SidebarCommand(string icon)
         {
@@ -319,6 +329,11 @@ namespace Tesserae
             return this;
         }
 
+        public SidebarCommand SetIcon(Emoji icon)
+        {
+            _button.SetIcon(icon);
+            return this;
+        }
 
         internal void RefreshTooltip() => _tooltip?.Invoke(_button);
 
@@ -343,6 +358,7 @@ namespace Tesserae
         public bool IsCollapsed { get { return _collapsed.Value; } set { _collapsed.Value = value; } }
         public bool IsSelected  { get { return _selected.Value; }  set { _selected.Value = value; } }
 
+        public SidebarNav(Emoji icon, string text, bool initiallyCollapsed, params SidebarCommand[] commands) : this($"ec {icon}", text, initiallyCollapsed, commands) { }
         public SidebarNav(LineAwesome icon, string text, bool initiallyCollapsed, params SidebarCommand[] commands) : this($"{LineAwesomeWeight.Light} {icon}", text, initiallyCollapsed, commands) { }
         public SidebarNav(LineAwesome icon, LineAwesomeWeight weight, string text, bool initiallyCollapsed, params SidebarCommand[] commands) : this($"{weight} {icon}", text, initiallyCollapsed, commands) { }
 

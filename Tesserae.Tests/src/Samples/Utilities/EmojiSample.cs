@@ -9,21 +9,20 @@ using Tesserae.Tests;
 namespace Tesserae.Tests.Samples
 {
     [SampleDetails(Group = "Utilities", Order = 10, Icon = LineAwesome.Icons)]
-    public class LineAwesomeSample : IComponent, ISample
+    public class EmojiSample : IComponent, ISample
     {
         private readonly IComponent _content;
 
-        public LineAwesomeSample()
+        public EmojiSample()
         {
-            //TODO: Add dropwdown to select icon weight
             _content = SectionStack().S()
-            .Title(SampleHeader(nameof(LineAwesomeSample)))
+            .Title(SampleHeader(nameof(EmojiSample)))
             .Section(Stack().Children(
                 SampleTitle("Overview"),
-                TextBlock("Tesserae integrates the LineAwesome icons as part of the package, with an auto-generated strongly typed enum for them.")))
+                TextBlock("Tesserae integrates the Emoji.css stylesheet as part of the package, with an auto-generated strongly typed enum for them.")))
             .Section(Stack().Children(
-                SampleTitle($"enum {nameof(LineAwesome)}:"),
-                SearchableList(GetAllIcons().ToArray(), 25.percent(), 25.percent(), 25.percent(), 25.percent())).S(),grow:true);
+                SampleTitle($"enum {nameof(Emoji)}:"),
+                SearchableList(GetAllIcons().ToArray(), 25.percent(), 25.percent(), 25.percent(), 25.percent())).S(), grow:true);
         }
 
         public HTMLElement Render()
@@ -33,8 +32,8 @@ namespace Tesserae.Tests.Samples
 
         private IEnumerable<IconItem> GetAllIcons()
         {
-            var names = Enum.GetNames(typeof(LineAwesome));
-            LineAwesome[] values = (LineAwesome[])Enum.GetValues(typeof(LineAwesome));
+            var names = Enum.GetNames(typeof(Emoji));
+            Emoji[] values = (Emoji[])Enum.GetValues(typeof(Emoji));
 
             for (int i = 0; i < values.Length; i++)
             {
@@ -46,14 +45,13 @@ namespace Tesserae.Tests.Samples
         {
             private readonly string _value;
             private readonly IComponent component;
-            public IconItem(LineAwesome icon, string name)
+            public IconItem(Emoji icon, string name)
             {
                 name = ToValidName(name.Substring(3));
                 _value = name + " " + icon.ToString();
                 component = HStack().WS().AlignItemsCenter().PB(4).Children(
-                        Icon(icon, size: TextSize.Large).MinWidth(36.px()),
-                        TextBlock($"{name}").Ellipsis().Title(icon.ToString()).W(1).Grow());
-
+                                        Icon(icon, size: TextSize.Large).MinWidth(36.px()), 
+                                        TextBlock($"{name}").Ellipsis().Title(icon.ToString()).W(1).Grow());
             }
 
             public bool IsMatch(string searchTerm) => _value.Contains(searchTerm);
@@ -61,8 +59,8 @@ namespace Tesserae.Tests.Samples
             public IComponent Render() => component;
         }
 
-
-        //Copy of the logic in the generator code, as we don't have the enum names anymore on  Enum.GetNames(typeof(LineAwesome))
+        //Copy of the logic in the generator code, as we don't have the enum names anymore on  Enum.GetNames(typeof(Emoji)
+        //Note: there are a few exceptions to this logic that were manually changed
         private static string ToValidName(string icon)
         {
             var words = icon.Split(new char[] { '-' }, StringSplitOptions.RemoveEmptyEntries)

@@ -54,9 +54,9 @@ namespace Tesserae.Tests
                             })
                             .ToDictionary(s => s.Name, s => s);
 
-            sidebar.AddHeader(new SidebarButton(LineAwesome.Home, "Tesserae", new SidebarCommand(LineAwesome.ExternalLinkAlt).Tooltip("View on GitHub").OnClick(() => window.open("https://github.com/curiosity-ai/tesserae","_blank"))).CommandsAlwaysVisible());
+            sidebar.AddHeader(new SidebarButton(Emoji.House, "Tesserae", new SidebarCommand(LineAwesome.ExternalLinkAlt).Tooltip("View on GitHub").OnClick(() => window.open("https://github.com/curiosity-ai/tesserae","_blank"))).CommandsAlwaysVisible());
 
-            var openClose = new SidebarButton(LineAwesome.ChevronLeft, "Close Sidebar");
+            var openClose = new SidebarButton(LineAwesome.ChevronLeft, "").Tooltip("Close Sidebar");
 
             openClose.OnClick(() =>
             {
@@ -89,7 +89,7 @@ namespace Tesserae.Tests
 
             sidebar.AddFooter(openClose);
             sidebar.AddFooter(lightDark);
-            sidebar.AddFooter(new SidebarButton(LineAwesome.Cat, "By Curiosity").Tooltip("Made with ❤ by Curiosity").OnClick(() => window.open("https://curiosity.ai", "_blank")));
+            sidebar.AddFooter(new SidebarButton(Emoji.Cat, "By Curiosity").Tooltip("Made with ❤ by Curiosity").OnClick(() => window.open("https://curiosity.ai", "_blank")));
 
 
             foreach (var group in samples.Values.GroupBy(s => s.Group))

@@ -73,6 +73,7 @@
     {
       "name": "tss.css",
       "files": [
+        "h5/assets/css/emoji.css",
         "h5/assets/css/line-awesome.css",
         "h5/assets/css/tss.lineawesome-fixes.css",
         "h5/assets/css/simplebar.css",
