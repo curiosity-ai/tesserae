@@ -81,6 +81,7 @@ namespace Tesserae
         IComponent RenderClosed();
         IComponent RenderOpen();
         bool IsSelected { get; set; }
+        IComponent CurrentRendered { get; }
     }
 
     public class SidebarButton : ISidebarItem
@@ -94,6 +95,9 @@ namespace Tesserae
         private readonly SettableObservable<bool> _selected;
 
         public bool IsSelected { get { return _selected.Value; } set { _selected.Value = value; } }
+
+        public IComponent CurrentRendered => _closed.IsMounted() ? _closed : _open;
+
 
         public SidebarButton(LineAwesome icon, string text, params SidebarCommand[] commands) : this($"{LineAwesomeWeight.Light} {icon}", text, commands) { }
         public SidebarButton(LineAwesome icon, LineAwesomeWeight weight, string text, params SidebarCommand[] commands) : this($"{weight} {icon}", text, commands) { }
@@ -358,6 +362,11 @@ namespace Tesserae
         public bool IsCollapsed { get { return _collapsed.Value; } set { _collapsed.Value = value; } }
         public bool IsSelected  { get { return _selected.Value; }  set { _selected.Value = value; } }
 
+        private IComponent _lastClosed;
+        private IComponent _lastOpen;
+
+        public IComponent CurrentRendered => (_lastClosed is object && _lastClosed.IsMounted()) ? _lastClosed : _lastOpen;
+
         public SidebarNav(Emoji icon, string text, bool initiallyCollapsed, params SidebarCommand[] commands) : this($"ec {icon}", text, initiallyCollapsed, commands) { }
         public SidebarNav(LineAwesome icon, string text, bool initiallyCollapsed, params SidebarCommand[] commands) : this($"{LineAwesomeWeight.Light} {icon}", text, initiallyCollapsed, commands) { }
         public SidebarNav(LineAwesome icon, LineAwesomeWeight weight, string text, bool initiallyCollapsed, params SidebarCommand[] commands) : this($"{weight} {icon}", text, initiallyCollapsed, commands) { }
@@ -466,32 +475,34 @@ namespace Tesserae
 
             foreach (var c in _commands) c.RefreshTooltip();
 
-            var stack = Div(_("tss-sidebar-nav"));
-            stack.appendChild(_openHeader);
-            stack.appendChild(VStack().Class("tss-sidebar-nav-children").Children(items.Select(i => i.RenderOpen())).Render());
+            var nav = Div(_("tss-sidebar-nav"));
+            nav.appendChild(_openHeader);
+            nav.appendChild(VStack().Class("tss-sidebar-nav-children").Children(items.Select(i => i.RenderOpen())).Render());
 
             CollapsedChanged(_collapsed.Value);
             SelectedChanged(_selected.Value);
 
-            DomObserver.WhenMounted(stack ,() =>
+            DomObserver.WhenMounted(nav ,() =>
             {
                 _collapsed.Observe(CollapsedChanged);
                 _selected.Observe(SelectedChanged);
-                DomObserver.WhenRemoved(stack, () => { _collapsed.StopObserving(CollapsedChanged); _selected.StopObserving(SelectedChanged); });
+                DomObserver.WhenRemoved(nav, () => { _collapsed.StopObserving(CollapsedChanged); _selected.StopObserving(SelectedChanged); });
             });
 
-            return Raw(stack);
+            var comp = Raw(nav);
+            _lastOpen= comp;
+            return comp;
 
             void CollapsedChanged(bool isCollapsed)
             {
                 if (isCollapsed)
                 {
-                    stack.classList.remove("tss-sidebar-nav-open");
+                    nav.classList.remove("tss-sidebar-nav-open");
                     _arrow.Tooltip("Expand".t(), placement: TooltipPlacement.Top);
                 }
                 else
                 {
-                    stack.classList.add("tss-sidebar-nav-open");
+                    nav.classList.add("tss-sidebar-nav-open");
                     _arrow.Tooltip("Collapse".t(), placement: TooltipPlacement.Top);
                 }
             }
@@ -500,11 +511,11 @@ namespace Tesserae
             {
                 if (isSelected)
                 {
-                    stack.classList.add("tss-sidebar-selected");
+                    nav.classList.add("tss-sidebar-selected");
                 }
                 else
                 {
-                    stack.classList.remove("tss-sidebar-selected");
+                    nav.classList.remove("tss-sidebar-selected");
                 }
             }
         }
@@ -513,32 +524,34 @@ namespace Tesserae
         {
             _closedHeader.Tooltip(_text, placement: TooltipPlacement.Top);
 
-            var stack = Div(_("tss-sidebar-nav"));
-            stack.appendChild(_closedHeader.Render());
-            stack.appendChild(VStack().Class("tss-sidebar-nav-children").Children(items.Select(i => i.RenderClosed())).Render());
+            var nav = Div(_("tss-sidebar-nav"));
+            nav.appendChild(_closedHeader.Render());
+            nav.appendChild(VStack().Class("tss-sidebar-nav-children").Children(items.Select(i => i.RenderClosed())).Render());
 
             CollapsedChanged(_collapsed.Value);
             SelectedChanged(_selected.Value);
 
-            DomObserver.WhenMounted(stack, () =>
+            DomObserver.WhenMounted(nav, () =>
             {
                 _collapsed.Observe(CollapsedChanged);
                 _selected.Observe(SelectedChanged);
-                DomObserver.WhenRemoved(stack, () => { _collapsed.StopObserving(CollapsedChanged); _selected.StopObserving(SelectedChanged); });
+                DomObserver.WhenRemoved(nav, () => { _collapsed.StopObserving(CollapsedChanged); _selected.StopObserving(SelectedChanged); });
             });
 
-            return Raw(stack);
+            var comp = Raw(nav);
+            _lastClosed = comp;
+            return comp;
 
             void CollapsedChanged(bool isCollapsed)
             {
                 if (isCollapsed)
                 {
-                    stack.classList.remove("tss-sidebar-nav-open");
+                    nav.classList.remove("tss-sidebar-nav-open");
                     _arrow.Tooltip("Expand".t(), placement: TooltipPlacement.Top);
                 }
                 else
                 {
-                    stack.classList.add("tss-sidebar-nav-open");
+                    nav.classList.add("tss-sidebar-nav-open");
                     _arrow.Tooltip("Collapse".t(), placement: TooltipPlacement.Top);
                 }
             }
@@ -547,11 +560,11 @@ namespace Tesserae
             {
                 if (isSelected)
                 {
-                    stack.classList.add("tss-sidebar-selected");
+                    nav.classList.add("tss-sidebar-selected");
                 }
                 else
                 {
-                    stack.classList.remove("tss-sidebar-selected");
+                    nav.classList.remove("tss-sidebar-selected");
                 }
             }
         }
