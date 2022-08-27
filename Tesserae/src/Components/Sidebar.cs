@@ -1,513 +1,559 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using static H5.Core.dom;
 using static Tesserae.UI;
+using TNT;
+using static TNT.T;
 
 namespace Tesserae
 {
     [H5.Name("tss.Sidebar")]
     public sealed class Sidebar : IComponent
     {
-        private event OnBeforeSelectHandler BeforeSelect;
-        public delegate bool                OnBeforeSelectHandler(Item willBeSelected, Item currentlySelected);
+        private readonly ObservableList<ISidebarItem> _header;
+        private readonly ObservableList<ISidebarItem> _middle;
+        private readonly ObservableList<ISidebarItem> _footer;
+        private readonly SettableObservable<bool> _closed;
+        private readonly Stack _sidebar;
 
-        private readonly HTMLElement    _sidebarContainer;
-        private readonly HTMLElement    _contentContainer;
-        private readonly HTMLElement    _container;
-        private readonly List<Item>     _items = new List<Item>();
-        private          ResizeObserver _resizeObserver;
+        public bool IsClosed {  get { return _closed.Value; } set { _closed.Value = value; } }
 
         public Sidebar()
         {
-            _sidebarContainer = Div(_("tss-sidebar"));
-            _contentContainer = Div(_("tss-sidebar-content"));
-            _container = Div(_("tss-sidebar-host"), _sidebarContainer, _contentContainer);
-            Width = Size.Medium;
-        }
+            _header = new ObservableList<ISidebarItem>();
+            _middle = new ObservableList<ISidebarItem>();
+            _footer = new ObservableList<ISidebarItem>();
+            _closed = new SettableObservable<bool>(false);
+            _sidebar = VStack().Class("tss-sidebar");
 
-        public Sidebar Primary()
-        {
-            _sidebarContainer.classList.add("tss-sidebar-primary");
-            return this;
-        }
-
-        public bool IsLight
-        {
-            get => _sidebarContainer.classList.contains("tss-light");
-            set
+            _closed.Observe(isClosed =>
             {
-                if (value) _sidebarContainer.classList.add("tss-light");
-                else _sidebarContainer.classList.remove("tss-light");
-            }
-        }
-
-        public Size Width
-        {
-            get
-            {
-                if (_sidebarContainer.classList.contains("tss-small"))
-                    return Size.Small;
-                else if (_sidebarContainer.classList.contains("tss-medium"))
-                    return Size.Medium;
-                else
-                    return Size.Large;
-            }
-            set
-            {
-                if (value == Size.Small)
+                if (isClosed)
                 {
-                    _sidebarContainer.classList.add("tss-small");
-                    _sidebarContainer.classList.remove("tss-medium");
-                }
-                else if (value == Size.Medium)
-                {
-                    _sidebarContainer.classList.add("tss-medium");
-                    _sidebarContainer.classList.remove("tss-small");
+                    _sidebar.Class("tss-sidebar-closed");
                 }
                 else
                 {
-                    _sidebarContainer.classList.remove("tss-small");
-                    _sidebarContainer.classList.remove("tss-medium");
+                    _sidebar.RemoveClass("tss-sidebar-closed");
                 }
-            }
+            });
+
+            var combined = new CombinedObservable<IReadOnlyList<ISidebarItem>, IReadOnlyList<ISidebarItem>, IReadOnlyList<ISidebarItem>, bool>(_header, _middle, _footer, _closed);
+
+            combined.ObserveFutureChanges(content => RenderSidebar(content.first, content.second, content.third, content.forth));
         }
 
-        public bool IsVisible
+        private void RenderSidebar(IReadOnlyList<ISidebarItem> header, IReadOnlyList<ISidebarItem> middle, IReadOnlyList<ISidebarItem> footer, bool closed)
         {
-            get => !_container.classList.contains("tss-hidden");
-            set
-            {
-                if (value) _container.classList.remove("tss-hidden");
-                else _container.classList.add("tss-hidden");
-            }
+            _sidebar.Children(VStack().Class("tss-sidebar-header").WS().NoShrink().Children(header.Select(si => closed ? si.RenderClosed() : si.RenderOpen())),
+                              VStack().Class("tss-sidebar-middle").WS().H(10).Grow().ScrollY().Children(middle.Select(si => closed ? si.RenderClosed() : si.RenderOpen())),
+                              VStack().Class("tss-sidebar-footer").WS().NoShrink().Children(footer.Select(si => closed ? si.RenderClosed() : si.RenderOpen()))
+                );
         }
 
-        public bool IsAlwaysOpen
+        public Sidebar Closed(bool isClosed = true)
         {
-            get => _container.classList.contains("tss-open");
-            set
+            _closed.Value = isClosed;
+            return this;
+        }
+
+        public Sidebar Toggle()
+        {
+            _closed.Value = !_closed.Value;
+            return this;
+        }
+
+        public Sidebar AddHeader(ISidebarItem item)  { _header.Add(item); return this; }
+        public Sidebar AddContent(ISidebarItem item) { _middle.Add(item); return this; }
+        public Sidebar AddFooter(ISidebarItem item)  { _footer.Add(item); return this; }
+
+        public void Clear() { ClearHeader(); ClearContent(); ClearFooter(); }
+        public void ClearHeader() => _header.Clear();
+        public void ClearContent() => _middle.Clear();
+        public void ClearFooter() => _footer.Clear();
+
+        public HTMLElement Render() => _sidebar.Render();
+    }
+
+    public interface ISidebarItem 
+    {
+        IComponent RenderClosed();
+        IComponent RenderOpen();
+        bool IsSelected { get; set; }
+    }
+
+    public class SidebarButton : ISidebarItem
+    {
+        private readonly Button _closed;
+        private readonly Button _openButton;
+        private readonly IComponent _open;
+        private readonly SidebarCommand[] _commands;
+        private Action<IComponent> _tooltipClosed;
+        private Action<IComponent> _tooltipOpen;
+        private readonly SettableObservable<bool> _selected;
+
+        public bool IsSelected { get { return _selected.Value; } set { _selected.Value = value; } }
+
+        public SidebarButton(LineAwesome icon, string text, params SidebarCommand[] commands) : this($"{LineAwesomeWeight.Light} {icon}", text, commands) { }
+        public SidebarButton(LineAwesome icon, LineAwesomeWeight weight, string text, params SidebarCommand[] commands) : this($"{weight} {icon}", text, commands) { }
+
+        public SidebarButton(string icon, string text, params SidebarCommand[] commands)
+        {
+            _selected = new SettableObservable<bool>(false);
+            _tooltipClosed = (b) => b.Tooltip(text);
+            _closed = Button().Class("tss-sidebar-btn").SetIcon(icon);
+            
+            _openButton = Button(text).SetIcon(icon).Class("tss-sidebar-btn");
+            _open   = Wrap(_openButton);
+            
+            _commands = commands;
+
+            _selected.Observe(isSelected =>
             {
-                if (value)
+                if (isSelected)
                 {
-                    _container.classList.add("tss-open");
-                    EnableResizeMonitor();
+                    _closed.Class("tss-sidebar-selected");
+                    _open.Class("tss-sidebar-selected");
                 }
                 else
                 {
-                    _container.classList.remove("tss-open");
+                    _closed.RemoveClass("tss-sidebar-selected");
+                    _open.RemoveClass("tss-sidebar-selected");
                 }
-                RecomputeContainerMargin();
-            }
-        }
+            });
 
-        public Sidebar SetContent(IComponent content)
-        {
-            ClearChildren(_contentContainer);
-            _contentContainer.appendChild(content.Render());
-            return this;
-        }
-
-        public Sidebar ContentPadding(UnitSize padding)
-        {
-            _sidebarContainer.style.padding = padding.ToString();
-            return this;
-        }
-
-        public Sidebar ContentPadding(UnitSize top, UnitSize bottom, UnitSize left, UnitSize right)
-        {
-            _sidebarContainer.style.paddingTop = top.ToString();
-            _sidebarContainer.style.paddingBottom = bottom.ToString();
-            _sidebarContainer.style.paddingLeft = left.ToString();
-            _sidebarContainer.style.paddingRight = right.ToString();
-            return this;
-        }
-
-        public Sidebar Light()
-        {
-            IsLight = true;
-            return this;
-        }
-        public Sidebar Small()
-        {
-            Width = Size.Small;
-            return this;
-        }
-
-        public Sidebar Large()
-        {
-            Width = Size.Large;
-            return this;
-        }
-
-        public Sidebar AlwaysOpen()
-        {
-            IsAlwaysOpen = true;
-            return this;
-        }
-
-        public Sidebar Clear()
-        {
-            foreach (var item in _items)
+            IComponent Wrap(Button button)
             {
-                item.parent = null; //Detach first
+                var div = Div(_("tss-sidebar-btn-open"));
+                div.appendChild(button.Render());
+
+                if (commands.Length > 0)
+                {
+                    var divCmd = Div(_("tss-sidebar-commands"));
+                    div.appendChild(divCmd);
+                    foreach (var c in commands)
+                    {
+                        divCmd.appendChild(c.Render());
+                    }
+                }
+                return Raw(div);
             }
+        }
+
+        public SidebarButton SetText(string text)
+        {
+            _openButton.SetText(text);
+            return this;
+        }
+
+        public SidebarButton CommandsAlwaysVisible()
+        {
+            _open.Class("tss-sidebar-commands-always-open");
+            return this;
+        }
+
+        public SidebarButton Selected(bool isSelected = true)
+        {
+            _selected.Value = isSelected;
+            return this;
+        }
+
+        public SidebarButton Tooltip(string text)
+        {
+            _tooltipClosed = (b) => b.Tooltip(text, placement: TooltipPlacement.Right);
+            return this;
+        }
+
+        public SidebarButton Tooltip(IComponent tooltip)
+        {
+            _tooltipClosed = (b) => b.Tooltip(tooltip, placement: TooltipPlacement.Right);
+            return this;
+        }
+
+        public SidebarButton Tooltip(Func<IComponent> tooltip)
+        {
+            _tooltipClosed = (b) => b.Tooltip(tooltip(), placement: TooltipPlacement.Right);
+            return this;
+        }
+
+        public SidebarButton OpenedTooltip(string text)
+        {
+            _tooltipOpen = (b) => b.Tooltip(text, placement: TooltipPlacement.Right);
+            return this;
+        }
+
+        public SidebarButton OpenedTooltip(IComponent tooltip)
+        {
+            _tooltipOpen = (b) => b.Tooltip(tooltip, placement: TooltipPlacement.Right);
+            return this;
+        }
+
+        public SidebarButton OpenedTooltip(Func<IComponent> tooltip)
+        {
+            _tooltipOpen = (b) => b.Tooltip(tooltip(), placement: TooltipPlacement.Right);
+            return this;
+        }
+
+        public SidebarButton OnClick(Action action)
+        {
+            _closed.OnClick(action);
+            _openButton.OnClick(action);
+            return this;
+        }
+
+        public SidebarButton OnContextMenu(Action action)
+        {
+            _closed.OnContextMenu(action);
+            _openButton.OnContextMenu(action);
+            return this;
+        }
+
+        public SidebarButton OnClick(Action<Button, MouseEvent> action)
+        {
+            _closed.OnClick((b, e) => action(b, e));
+            _openButton.OnClick((b, e) => action(b, e));
+            return this;
+        }
+
+        public SidebarButton OnContextMenu(Action<Button, MouseEvent> action)
+        {
+            _closed.OnContextMenu((b, e) => action(b, e));
+            _openButton.OnContextMenu((b, e) => action(b, e));
+            return this;
+        }
+
+        public SidebarButton SetIcon(string icon, string color = "")
+        {
+            _closed.SetIcon(icon, color);
+            _openButton.SetIcon(icon, color);
+            return this;
+        }
+
+        public SidebarButton SetIcon(LineAwesome icon, string color = "", LineAwesomeWeight weight = LineAwesomeWeight.Light)
+        {
+            _closed.SetIcon(icon, color, weight: weight);
+            _openButton.SetIcon(icon, color, weight: weight);
+            return this;
+        }
+
+
+        public IComponent RenderClosed()
+        {
+            _tooltipClosed?.Invoke(_closed);
+            return _closed;
+        }
+
+        public IComponent RenderOpen()
+        {
+            foreach (var c in _commands) c.RefreshTooltip();
+            _tooltipOpen?.Invoke(_openButton);
+            return _open;
+        }
+    }
+
+
+    public class SidebarCommand : IComponent
+    {
+        private readonly Button _button;
+        private Action<Button> _tooltip;
+
+        public SidebarCommand(LineAwesome icon, LineAwesomeWeight weight = LineAwesomeWeight.Light) : this($"{weight} {icon}") {}
+
+        public SidebarCommand(string icon)
+        {
+            _button = Button().SetIcon(icon).Class("tss-sidebar-command");
+        }
+
+        public SidebarCommand Tooltip(string text)
+        {
+            _tooltip = (b) => b.Tooltip(text, placement: TooltipPlacement.Top);
+            return this;
+        }
+
+        public SidebarCommand Tooltip(IComponent tooltip)
+        {
+            _tooltip = (b) => b.Tooltip(tooltip, placement: TooltipPlacement.Top);
+            return this;
+        }
+
+        public SidebarCommand Tooltip(Func<IComponent> tooltip)
+        {
+            _tooltip = (b) => b.Tooltip(tooltip(), placement: TooltipPlacement.Top);
+            return this;
+        }
+
+        public SidebarCommand OnClick(Action action)
+        {
+            _button.OnClick(action);
+            return this;
+        }
+
+        public SidebarCommand OnContextMenu(Action action)
+        {
+            _button.OnContextMenu(action);
+            return this;
+        }
+
+        public SidebarCommand OnClick(Action<Button, MouseEvent> action)
+        {
+            _button.OnClick((b, e) => action(b, e));
+            return this;
+        }
+
+        public SidebarCommand OnContextMenu(Action<Button, MouseEvent> action)
+        {
+            _button.OnContextMenu((b, e) => action(b, e));
+            return this;
+        }
+
+        public SidebarCommand SetIcon(string icon, string color = "")
+        {
+            _button.SetIcon(icon, color);
+            return this;
+        }
+
+        public SidebarCommand SetIcon(LineAwesome icon, string color = "", LineAwesomeWeight weight = LineAwesomeWeight.Light)
+        {
+            _button.SetIcon(icon, color, weight: weight);
+            return this;
+        }
+
+
+        internal void RefreshTooltip() => _tooltip?.Invoke(_button);
+
+        public HTMLElement Render() => _button.Render();
+    }
+
+
+    public class SidebarNav : ISidebarItem
+    {
+        private readonly string _text;
+        private readonly Button _closedHeader;
+        private readonly HTMLElement _openHeader;
+        private readonly Button _arrow;
+        private readonly Button _openHeaderButton;
+        private readonly ObservableList<ISidebarItem> _items;
+        private readonly SettableObservable<bool> _collapsed;
+        private readonly SettableObservable<bool> _selected;
+        private readonly Func<IComponent> _closedContent;
+        private readonly Func<IComponent> _openContent;
+        private SidebarCommand[] _commands;
+
+        public bool IsCollapsed { get { return _collapsed.Value; } set { _collapsed.Value = value; } }
+        public bool IsSelected  { get { return _selected.Value; }  set { _selected.Value = value; } }
+
+        public SidebarNav(LineAwesome icon, string text, bool initiallyCollapsed, params SidebarCommand[] commands) : this($"{LineAwesomeWeight.Light} {icon}", text, initiallyCollapsed, commands) { }
+        public SidebarNav(LineAwesome icon, LineAwesomeWeight weight, string text, bool initiallyCollapsed, params SidebarCommand[] commands) : this($"{weight} {icon}", text, initiallyCollapsed, commands) { }
+
+        public SidebarNav(string icon, string text, bool initiallyCollapsed, params SidebarCommand[] commands)
+        {
+            _text = text;
+            _closedHeader = Button().SetIcon(icon).Class("tss-sidebar-nav-header").Class("tss-sidebar-btn");
+            _openHeader = Div(_("tss-sidebar-nav-header tss-sidebar-btn-open"));
+
+            _arrow     = Button().Class("tss-sidebar-nav-arrow").Fade();
+
+            _openHeaderButton = Button(text).SetIcon(icon).Class("tss-sidebar-nav-button");
+            _openHeader.appendChild(_openHeaderButton.Render());
+            _openHeader.appendChild(_arrow.Render());
+
+            _commands = commands;
+
+            if (commands.Length > 0)
+            {
+                var divCmd = Div(_("tss-sidebar-commands"));
+                _openHeader.appendChild(divCmd);
+                foreach (var c in commands)
+                {
+                    divCmd.appendChild(c.Render());
+                }
+            }
+
+            _items = new ObservableList<ISidebarItem>();
+            _collapsed = new SettableObservable<bool>(initiallyCollapsed);
+            _selected  = new SettableObservable<bool>(false);
+
+            _closedContent = () => Defer(_items, (items) => RenderClosed(items).AsTask());
+            _openContent   = () => Defer(_items, (items) => RenderOpened(items).AsTask());
+
+            _arrow.OnClick(() =>
+            {
+                _collapsed.Value = !_collapsed.Value;
+            });
+        }
+
+        public SidebarNav Collapsed(bool isCollapsed = true)
+        {
+            _collapsed.Value = isCollapsed;
+            return this;
+        }
+
+        public SidebarNav Selected(bool isSelected = true)
+        {
+            _selected.Value = isSelected;
+            return this;
+        }
+
+        public SidebarNav Toggle()
+        {
+            _collapsed.Value = !_collapsed.Value;
+            return this;
+        }
+
+        public SidebarNav OnClick(Action action)
+        {
+            _closedHeader.OnClick(action);
+            _openHeaderButton.OnClick(action);
+            return this;
+        }
+
+        public SidebarNav OnClick(Action<SidebarNav> action)
+        {
+            _closedHeader.OnClick(() => action(this));
+            _openHeaderButton.OnClick(() => action(this));
+            return this;
+        }
+
+        public SidebarNav OnContextMenu(Action action)
+        {
+            _closedHeader.OnContextMenu(action);
+            _openHeaderButton.OnContextMenu(action);
+            return this;
+        }
+
+        public SidebarNav OnClick(Action<Button, MouseEvent> action)
+        {
+            _closedHeader.OnClick((b, e) => action(b, e));
+            _openHeaderButton.OnClick((b, e) => action(b, e));
+            return this;
+        }
+
+        public SidebarNav OnContextMenu(Action<Button, MouseEvent> action)
+        {
+            _closedHeader.OnContextMenu((b, e) => action(b, e));
+            _openHeaderButton.OnContextMenu((b, e) => action(b, e));
+            return this;
+        }
+
+        private IComponent RenderOpened(IReadOnlyList<ISidebarItem> items)
+        {
+            if (items.Count > 0)
+            {
+                _arrow.Show();
+            }
+            else
+            {
+                _arrow.Fade();
+            }
+
+
+            foreach (var c in _commands) c.RefreshTooltip();
+
+            var stack = Div(_("tss-sidebar-nav"));
+            stack.appendChild(_openHeader);
+            stack.appendChild(VStack().Class("tss-sidebar-nav-children").Children(items.Select(i => i.RenderOpen())).Render());
+
+            CollapsedChanged(_collapsed.Value);
+            SelectedChanged(_selected.Value);
+
+            DomObserver.WhenMounted(stack ,() =>
+            {
+                _collapsed.Observe(CollapsedChanged);
+                _selected.Observe(SelectedChanged);
+                DomObserver.WhenRemoved(stack, () => { _collapsed.StopObserving(CollapsedChanged); _selected.StopObserving(SelectedChanged); });
+            });
+
+            return Raw(stack);
+
+            void CollapsedChanged(bool isCollapsed)
+            {
+                if (isCollapsed)
+                {
+                    stack.classList.remove("tss-sidebar-nav-open");
+                    _arrow.Tooltip("Expand".t(), placement: TooltipPlacement.Top);
+                }
+                else
+                {
+                    stack.classList.add("tss-sidebar-nav-open");
+                    _arrow.Tooltip("Collapse".t(), placement: TooltipPlacement.Top);
+                }
+            }
+
+            void SelectedChanged(bool isSelected)
+            {
+                if (isSelected)
+                {
+                    stack.classList.add("tss-sidebar-selected");
+                }
+                else
+                {
+                    stack.classList.remove("tss-sidebar-selected");
+                }
+            }
+        }
+
+        private IComponent RenderClosed(IReadOnlyList<ISidebarItem> items)
+        {
+            _closedHeader.Tooltip(_text, placement: TooltipPlacement.Top);
+
+            var stack = Div(_("tss-sidebar-nav"));
+            stack.appendChild(_closedHeader.Render());
+            stack.appendChild(VStack().Class("tss-sidebar-nav-children").Children(items.Select(i => i.RenderClosed())).Render());
+
+            CollapsedChanged(_collapsed.Value);
+            SelectedChanged(_selected.Value);
+
+            DomObserver.WhenMounted(stack, () =>
+            {
+                _collapsed.Observe(CollapsedChanged);
+                _selected.Observe(SelectedChanged);
+                DomObserver.WhenRemoved(stack, () => { _collapsed.StopObserving(CollapsedChanged); _selected.StopObserving(SelectedChanged); });
+            });
+
+            return Raw(stack);
+
+            void CollapsedChanged(bool isCollapsed)
+            {
+                if (isCollapsed)
+                {
+                    stack.classList.remove("tss-sidebar-nav-open");
+                    _arrow.Tooltip("Expand".t(), placement: TooltipPlacement.Top);
+                }
+                else
+                {
+                    stack.classList.add("tss-sidebar-nav-open");
+                    _arrow.Tooltip("Collapse".t(), placement: TooltipPlacement.Top);
+                }
+            }
+
+            void SelectedChanged(bool isSelected)
+            {
+                if (isSelected)
+                {
+                    stack.classList.add("tss-sidebar-selected");
+                }
+                else
+                {
+                    stack.classList.remove("tss-sidebar-selected");
+                }
+            }
+        }
+
+
+        public void Clear()
+        {
             _items.Clear();
-            ClearChildren(_sidebarContainer);
-            return this;
         }
 
-        public Sidebar Brand(IComponent brand)
+        public void Add(ISidebarItem item)
         {
-            if (_sidebarContainer.childElementCount == 0)
-            {
-                _sidebarContainer.appendChild(brand.Render());
-            }
-            else
-            {
-                _sidebarContainer.insertBefore(brand.Render(), _sidebarContainer.firstElementChild);
-            }
-            return this;
-        }
-
-        public Sidebar Add(Item item)
-        {
-            item.parent = this;
             _items.Add(item);
-            _sidebarContainer.appendChild(item.Render());
-            return this;
         }
 
-        public Sidebar Remove(Item item)
-        {
-            _items.Remove(item);
-            _sidebarContainer.removeChild(item.Render());
-            return this;
-        }
+        public IComponent RenderClosed() => _closedContent();
 
-        public Sidebar OnBeforeSelect(OnBeforeSelectHandler onBeforeSelect)
-        {
-            BeforeSelect += onBeforeSelect;
-            return this;
-        }
+        public IComponent RenderOpen() => _openContent();
 
-        public HTMLElement Render() => _container;
-
-        private void SelectItem(Item item)
-        {
-            foreach (var i in _items)
-            {
-                if (i != item)
-                {
-                    i.IsSelected = false;
-                }
-            }
-        }
-
-        private void EnableResizeMonitor()
-        {
-            if (_resizeObserver is null)
-            {
-                _resizeObserver = new ResizeObserver();
-                _resizeObserver.Observe(_sidebarContainer);
-                _resizeObserver.OnResize = RecomputeContainerMargin;
-            }
-        }
-
-        private void RecomputeContainerMargin()
-        {
-            if (IsAlwaysOpen)
-            {
-                var rect = (DOMRect)_sidebarContainer.getBoundingClientRect();
-                _contentContainer.style.marginLeft = rect.width.px().ToString();
-            }
-            else
-            {
-                _contentContainer.style.marginLeft = "";
-            }
-        }
-
-        private bool OnBeforeSelect(Item willBeSelected)
-        {
-            var currentlySelected = _items.Where(i => i.IsSelected).FirstOrDefault();
-
-            if (BeforeSelect is object)
-            {
-                return BeforeSelect(willBeSelected, currentlySelected);
-            }
-            else
-            {
-                return true;
-            }
-        }
-
-        public sealed class Item : IComponent, IHasForegroundColor, IHasBackgroundColor
-        {
-            private          HTMLElement _container;
-            private          HTMLElement _label;
-            private readonly HTMLElement _icon;
-            private          bool        _isSelectable = true;
-            private          bool        _hasOnClick   = false;
-            private          bool        _hasOnSelect  = false;
-            private          bool        _onBottom     = false;
-            internal         Sidebar     parent;
-
-            public bool IsEnabled
-            {
-                get => !_container.classList.contains("tss-disabled");
-                set
-                {
-                    if (value) _container.classList.add("tss-disabled");
-                    else _container.classList.remove("tss-disabled");
-                }
-            }
-
-            public bool IsLarge
-            {
-                get => !_container.classList.contains("tss-extrapadding");
-                set
-                {
-                    if (value) _container.classList.add("tss-extrapadding");
-                    else _container.classList.remove("tss-extrapadding");
-                }
-            }
-
-            public string Foreground { get => _container.style.color; set => _container.style.color = value; }
-
-            public string Background { get => _container.style.background; set => _container.style.background = value; }
-
-            public bool IsSelectable
-            {
-                get => _isSelectable;
-                set
-                {
-                    _isSelectable = value;
-                    if (!_isSelectable)
-                    {
-                        _container.classList.remove("tss-selected");
-                        _container.classList.add("tss-nonselectable");
-                    }
-                    else
-                    {
-                        _container.classList.remove("tss-nonselectable");
-                    }
-                }
-            }
-
-            private event SidebarItemHandler ClickedItem;
-            private event SidebarItemHandler SelectedItem;
-
-            public delegate void SidebarItemHandler(Item sender);
-
-            public bool IsSelected
-            {
-                get => IsSelectable && _container.classList.contains("tss-selected");
-                set
-                {
-                    if (!IsSelectable) return;
-
-                    var changed = value != IsSelected;
-
-                    if (value)
-                    {
-                        _container.classList.add("tss-selected");
-                        if (changed)
-                        {
-                            parent?.SelectItem(this);
-                        }
-                    }
-                    else
-                    {
-                        _container.classList.remove("tss-selected");
-                    }
-                }
-            }
-
-
-            public Item(string text, IComponent icon, string href = null)
-            {
-                _icon = icon.Render();
-                CreateSelf(Span(_("tss-sidebar-label", text: text)), href);
-            }
-
-            public Item(string text, string icon, string href = null)
-            {
-                _icon = I(_(icon));
-                CreateSelf(Span(_("tss-sidebar-label", text: text)), href);
-            }
-
-            public Item(IComponent content, string href = null)
-            {
-                _icon = null;
-                CreateSelf(content, href);
-            }
-
-            public Item(IComponent content, IComponent icon, string href = null)
-            {
-                _icon = icon.Render();
-                CreateSelf(content.Render(), href);
-            }
-
-            public Item(IComponent content, string icon, string href = null)
-            {
-                _icon = I(_(icon));
-                CreateSelf(content.Render(), href);
-            }
-
-            private void CreateSelf(HTMLElement text, string href)
-            {
-                _label = text;
-
-                if (string.IsNullOrEmpty(href))
-                {
-                    _container = Div(_("tss-sidebar-item"), Div(_("tss-sidebar-icon"), _icon), _label);
-                }
-                else
-                {
-                    _container = A(_("tss-sidebar-item", href: href), Div(_("tss-sidebar-icon"), _icon), _label);
-                }
-
-                AppendOnClick(href);
-            }
-
-            private void CreateSelf(IComponent component, string href)
-            {
-                _label = null;
-
-                if (string.IsNullOrEmpty(href))
-                {
-                    _container = Div(_("tss-sidebar-item"), component.Render());
-                }
-                else
-                {
-                    _container = A(_("tss-sidebar-item", href: href), component.Render());
-                }
-
-                AppendOnClick(href);
-            }
-
-            private void AppendOnClick(string href)
-            {
-                _container.onclick = (e) =>
-                {
-                    if (_hasOnClick || _hasOnSelect)
-                    {
-                        StopEvent(e);
-                    }
-                    else
-                    {
-                        if (!string.IsNullOrEmpty(href))
-                        {
-                            StopEvent(e);
-                            Router.Navigate(href);
-                        }
-                    }
-
-                    ClickedItem?.Invoke(this);
-
-                    if (!IsSelectable)
-                    {
-                        return;
-                    }
-
-                    if (parent is object)
-                    {
-                        if (!parent.OnBeforeSelect(this))
-                        {
-                            return;
-                        }
-                    }
-
-                    IsSelected = true;
-
-                    SelectedItem?.Invoke(this);
-                };
-            }
-
-            public Item SetIcon(string icon)
-            {
-                if (_icon is null) return this;
-                _icon.className = icon;
-                return this;
-            }
-
-            public Item SetIcon(LineAwesome icon)
-            {
-                if (_icon is null) return this;
-                _icon.className = $"{LineAwesomeWeight.Light} {icon}";
-                return this;
-            }
-
-            public Item SetText(string text)
-            {
-                if (_label is null) return this;
-                _label.textContent = text;
-                return this;
-            }
-
-            public Item Selected()
-            {
-                IsSelected = true;
-                return this;
-            }
-
-            public Item SelectedIf(bool shouldSelect)
-            {
-                if (shouldSelect)
-                {
-                    IsSelected = true;
-                }
-                return this;
-            }
-
-            public Item Large()
-            {
-                IsLarge = true;
-                return this;
-            }
-
-            public Item NonSelectable()
-            {
-                IsSelectable = false;
-                return this;
-            }
-
-            public Item Spacer()
-            {
-                _container.classList.add("tss-sidebar-spacer");
-                return this;
-            }
-
-            public Item StackArea(Stack stack)
-            {
-                _container.classList.add("tss-sidebar-stack");
-                _container.classList.remove("tss-sidebar-item");
-                _container.RemoveChildElements();
-                _container.appendChild(stack.Render());
-                return this;
-            }
-
-            public Item OnSelect(SidebarItemHandler onSelect)
-            {
-                _hasOnSelect = true;
-                SelectedItem += onSelect;
-                return this;
-            }
-
-            public Item OnClick(SidebarItemHandler onClick)
-            {
-                _hasOnClick = true;
-                ClickedItem += onClick;
-                return this;
-            }
-
-            public HTMLElement Render() => _container;
-        }
-
-        public enum Size
-        {
-            Small,
-            Medium,
-            Large
-        }
     }
 }

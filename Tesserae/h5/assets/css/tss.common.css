@@ -61,8 +61,8 @@
     --tss-slider-color-root: 200, 198, 196;
     --tss-slider-active-color-root: 222, 236, 249;
     --tss-slider-disabled-color-root: 243, 242, 241;
-    --tss-sidebar-background-color-root: 36, 142, 250;
-    --tss-sidebar-foreground-color-root: 222, 235, 255;
+    --tss-sidebar-background-color-root: 249, 250, 251;
+    --tss-sidebar-foreground-color-root: 101, 103, 107;
     --tss-navbar-background-color-root: 255, 255, 255;
     --tss-navbar-foreground-color-root: 50, 49, 48;
     --tss-primary-shadow-color-root: 0, 120, 212;
@@ -124,9 +124,10 @@
     --tss-box-shadow-darker: 0 1.6px 3.6px 0 rgba(0, 0, 0, 0.3), 0 0.3px 0.9px 0 rgba(0, 0, 0, 0.45);
     --tss-card-shadow: 0 1.6px 3.6px 0 var(--tss-shadow-color-from), 0 0.3px 0.9px 0 var(--tss-shadow-color-to);
     --tss-toast-shadow: 2px 3px 12px 0px rgba(0, 0, 0, 0.45);
-    --tss-scrollbar-track-color: rgba(50, 49, 48, 0.12);
-    --tss-scrollbar-track-hidden-color: rgba(50, 49, 48, 0.06);
-    --tss-scrollbar-thumb-color: rgba(50, 49, 48, 0.2);
+    --tss-scrollbar-track-color: rgba(50, 49, 48, 0.10);
+    --tss-scrollbar-track-hidden-color: rgba(50, 49, 48, 0.03);
+    --tss-scrollbar-thumb-color: rgba(50, 49, 48, 0.15);
+    --tss-scrollbar-thumb-hidden-color: rgba(50, 49, 48, 0.04);
     --tss-simplebar-thumb-color: rgba(50, 49, 48,0.32);
 }
 
@@ -142,7 +143,7 @@
     --tss-dark-border-color-root: 68, 68, 68;
     --tss-default-separator-color-root: 51, 51, 51;
     --tss-invalid-border-color-root: 231, 76, 60;
-    --tss-default-background-hover-color-root: 49, 49, 49;
+    --tss-default-background-hover-color-root: 40, 40, 40;
     --tss-default-foreground-hover-color-root: 255, 255, 255;
     --tss-default-background-active-color-root: 68, 68, 68;
     --tss-default-foreground-active-color-root: 255, 255, 255;
@@ -176,8 +177,8 @@
     --tss-slider-color-root: 200, 198, 196;
     --tss-slider-active-color-root: 222, 236, 249;
     --tss-slider-disabled-color-root: 243, 242, 241;
-    --tss-sidebar-background-color-root: 0, 49, 86;
-    --tss-sidebar-foreground-color-root: 222, 235, 255;
+    --tss-sidebar-background-color-root: 51, 51, 51;
+    --tss-sidebar-foreground-color-root: 217, 217, 217;
     --tss-navbar-background-color-root: 34, 34, 34;
     --tss-navbar-foreground-color-root: 255, 255, 255;
     --tss-default-background-color: rgb(var(--tss-default-background-color-root ));
@@ -242,6 +243,7 @@
     --tss-scrollbar-track-hidden-color: rgba(255,255,255,0.04);
     --tss-scrollbar-thumb-color: rgba(255,255,255,0.15);
     --tss-simplebar-thumb-color: rgba(255,255,255,0.23);
+    --tss-scrollbar-thumb-hidden-color: rgba(255, 255, 255, 0.04);
 }
 
 /* Fonts */
@@ -395,10 +397,8 @@
 
 ::-webkit-scrollbar-thumb {
     border-radius: 10px;
-    background: var(--tss-scrollbar-track-color);
-    opacity: 0.8;
+    background: var(--tss-scrollbar-thumb-hidden-color);
 }
-
 
 *:hover::-webkit-scrollbar-thumb {
     background: var(--tss-scrollbar-thumb-color);
