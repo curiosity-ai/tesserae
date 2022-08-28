@@ -132,7 +132,7 @@
 }
 
 .tss-sidebar-btn.tss-btn > i,
-.tss-sidebar .tss-sidebar-commands-line .tss-sidebar-command.tss-btn {
+.tss-sidebar .tss-sidebar-commands-line .tss-sidebar-command.tss-btn > i {
     width: 24px;
     display: inline-block;
     text-align: center;
@@ -147,7 +147,7 @@
 
 
 .tss-sidebar-btn.tss-btn > .tss-image,
-.tss-sidebar .tss-sidebar-commands-line .tss-sidebar-command.tss-btn {
+.tss-sidebar .tss-sidebar-commands-line .tss-sidebar-command.tss-btn > .tss-image {
     width: 24px !important;
     height: 24px !important;
     object-fit: contain;
@@ -285,7 +285,7 @@
 
 .tss-sidebar-commands-line {
     display:inline-flex;
-    justify-content: space-around;
+    justify-content: space-between;
     flex-wrap: nowrap;
     width:100%;
 }
