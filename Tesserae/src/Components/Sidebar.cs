@@ -343,13 +343,15 @@ namespace Tesserae
 
             DomObserver.WhenMounted(div, () =>
             {
+                div.appendChild(_commands[0].Render());
+
                 window.setTimeout((__) =>
                 {
                     HTMLDivElement stack = null;
                     var rect = div.getBoundingClientRect().As<DOMRect>();
                     int max = (int)Math.Floor(rect.width / (48));
 
-                    for (int i = 0; i < _commands.Length; i++)
+                    for (int i = 1; i < _commands.Length; i++)
                     {
                         var command = _commands[i];
                         if (i < max)
