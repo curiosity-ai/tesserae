@@ -11,8 +11,9 @@
     background: var(--tss-sidebar-background-color);
     transition: 0.3s width ease-out;
 }
-    .tss-sidebar .tss-default-component-margin{
-        margin:0px !important;
+
+    .tss-sidebar .tss-default-component-margin {
+        margin: 0px !important;
     }
 
     .tss-sidebar.tss-sidebar-closed {
@@ -26,23 +27,20 @@
             display: none !important;
         }
 
-        .tss-sidebar > .tss-stack-item:nth-child(2) {
-            margin: 0px -12px !important;
-            width: calc(100% + 24px) !important;
-            padding-left: 12px !important;
-        }
+    .tss-sidebar > .tss-stack-item:nth-child(2) {
+        margin: 0px -12px !important;
+        width: calc(100% + 24px) !important;
+        padding-left: 12px !important;
+    }
 
 
 .tss-sidebar-header {
-
 }
 
 .tss-sidebar-middle {
-
 }
 
 .tss-sidebar-footer {
-
 }
 
 .tss-sidebar-btn-open {
@@ -104,6 +102,7 @@
         height: 24px !important;
         object-fit: contain;
         min-width: 24px !important;
+        padding:2px;
     }
 
 .tss-sidebar-btn.tss-btn .tss-btn-with-image > .tss-image + span:not(:empty) {
@@ -112,8 +111,7 @@
 }
 
 .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn.tss-btn,
-.tss-sidebar .tss-sidebar-commands-line .tss-btn
-{
+.tss-sidebar .tss-sidebar-commands-line .tss-btn {
     text-align: center !important;
     padding: 0px;
     margin: 0px;
@@ -140,9 +138,9 @@
 }
 
 .tss-sidebar-btn.tss-btn > span {
-    white-space:nowrap;
-    text-overflow:ellipsis;
-    overflow:hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 
@@ -172,18 +170,23 @@
     padding: 0px;
     margin: 0px;
     min-height: unset !important;
-    height: 20px !important;
-    width: 20px !important;
+    height: 22px !important;
+    width: 22px !important;
     border-radius: 4px;
 }
 
-.tss-sidebar-commands > .tss-sidebar-command.tss-btn > .tss-image {
-    padding: 0px;
-    margin: 0px;
-    height: 20px !important;
-    width: 20px !important;
-    object-fit: contain;
-}
+    .tss-sidebar-commands > .tss-sidebar-command.tss-btn:not(:last-child) {
+        margin-right: 4px !important;
+    }
+
+    .tss-sidebar-commands > .tss-sidebar-command.tss-btn > .tss-image {
+        padding: 0px;
+        margin: 0px;
+        height: 16px !important;
+        width: 16px !important;
+        margin:calc(22px - 16px);
+        object-fit: contain;
+    }
 
 .tss-sidebar-nav-header {
     position: relative;
@@ -191,17 +194,17 @@
 }
 
 
-.tss-sidebar-nav-header > .tss-sidebar-nav-arrow.tss-btn {
-    position: absolute;
-    padding: 0px;
-    margin:0px;
-    min-height: unset !important;
-    height: 18px !important;
-    width: 18px !important;
-    border-radius: 4px;
-    top: 9px;
-    left: 8px;
-}
+    .tss-sidebar-nav-header > .tss-sidebar-nav-arrow.tss-btn {
+        position: absolute;
+        padding: 0px;
+        margin: 0px;
+        min-height: unset !important;
+        height: 18px !important;
+        width: 18px !important;
+        border-radius: 4px;
+        top: 9px;
+        left: 11px;
+    }
 
 .tss-sidebar-nav-arrow.tss-btn:after {
     content: "";
@@ -218,10 +221,16 @@
 
 .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-btn i {
     margin-left: 28px;
+    width: 24px !important;
+    min-width: 24px;
+    text-align: center;
 }
 
 .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-btn > .tss-btn-with-image > .tss-image {
     margin-left: 28px;
+    width: 24px !important;
+    height: 24px !important;
+    min-width: 24px;
 }
 
 .tss-sidebar-nav.tss-sidebar-nav-open > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-sidebar-nav-arrow.tss-btn:after {
@@ -246,20 +255,16 @@
 }
 
 .tss-sidebar-command {
-
 }
 
 
 .tss-sidebar-nav-header {
-
 }
 
-    .tss-sidebar-nav-header.tss-sidebar-btn-open{
-
+    .tss-sidebar-nav-header.tss-sidebar-btn-open {
     }
 
 .tss-sidebar-nav-arrow {
-
 }
 
 
@@ -284,12 +289,11 @@
 
 
 .tss-sidebar-commands-line {
-    display:inline-flex;
+    display: inline-flex;
     justify-content: space-between;
     flex-wrap: nowrap;
-    width:100%;
+    width: 100%;
 }
 
     .tss-sidebar-commands-line.tss-sidebar-commands-line-closed {
-
     }

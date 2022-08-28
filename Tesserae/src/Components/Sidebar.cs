@@ -113,9 +113,11 @@ namespace Tesserae
             _closed = Button().Class("tss-sidebar-btn").SetIcon(icon);
             
             _openButton = Button(text).SetIcon(icon).Class("tss-sidebar-btn");
-            _open   = Wrap(_openButton);
             
             _commands = commands;
+
+            _open   = Wrap(_openButton);
+            
 
             _selected.Observe(isSelected =>
             {
@@ -131,22 +133,23 @@ namespace Tesserae
                 }
             });
 
-            IComponent Wrap(Button button)
-            {
-                var div = Div(_("tss-sidebar-btn-open"));
-                div.appendChild(button.Render());
+        }
+        
+        private IComponent Wrap(Button button)
+        {
+            var div = Div(_("tss-sidebar-btn-open"));
+            div.appendChild(button.Render());
 
-                if (commands.Length > 0)
+            if (_commands is object && _commands.Length > 0)
+            {
+                var divCmd = Div(_("tss-sidebar-commands"));
+                div.appendChild(divCmd);
+                foreach (var c in _commands)
                 {
-                    var divCmd = Div(_("tss-sidebar-commands"));
-                    div.appendChild(divCmd);
-                    foreach (var c in commands)
-                    {
-                        divCmd.appendChild(c.Render());
-                    }
+                    divCmd.appendChild(c.Render());
                 }
-                return Raw(div);
             }
+            return Raw(div);
         }
 
         public SidebarButton(ImageIcon image, string text, params SidebarCommand[] commands)
@@ -425,6 +428,24 @@ namespace Tesserae
         public SidebarCommand(string icon)
         {
             _button = Button().SetIcon(icon).Class("tss-sidebar-command");
+        }
+
+        public SidebarCommand Primary()
+        {
+            _button.IsPrimary = true;
+            return this;
+        }
+
+        public SidebarCommand Success()
+        {
+            _button.IsSuccess = true;
+            return this;
+        }
+
+        public SidebarCommand Danger()
+        {
+            _button.IsDanger = true;
+            return this;
         }
 
         public SidebarCommand Tooltip(string text)
