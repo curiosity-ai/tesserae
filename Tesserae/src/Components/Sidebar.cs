@@ -337,7 +337,7 @@ namespace Tesserae
 
         public bool IsSelected { get; set; }
 
-        public IComponent CurrentRendered { get; }
+        public IComponent CurrentRendered { get; private set; }
 
         public IComponent RenderOpen()
         {
@@ -346,6 +346,7 @@ namespace Tesserae
 
             DomObserver.WhenMounted(div, () =>
             {
+                _commands[0].RefreshTooltip();
                 div.appendChild(_commands[0].Render());
 
                 window.setTimeout((__) =>
@@ -357,6 +358,7 @@ namespace Tesserae
                     for (int i = 1; i < _commands.Length; i++)
                     {
                         var command = _commands[i];
+                        command.RefreshTooltip();
                         if (i < max)
                         {
                             div.appendChild(command.Render());
@@ -374,7 +376,7 @@ namespace Tesserae
                     }
                 }, 400); //Need to be after the animation
             });
-
+            CurrentRendered = divWrapped;
             return divWrapped;
         }
 
@@ -391,6 +393,7 @@ namespace Tesserae
                 for (int i = 0; i < _commands.Length; i++)
                 {
                     var command = _commands[i];
+                    command.RefreshTooltip();
                     if (i < max)
                     {
                         div.appendChild(command.Render());
@@ -408,6 +411,7 @@ namespace Tesserae
                 }
             });
 
+            CurrentRendered = divWrapped;
             return divWrapped;
         }
     }
