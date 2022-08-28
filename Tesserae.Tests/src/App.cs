@@ -72,23 +72,31 @@ namespace Tesserae.Tests
                 }
             });
 
-            var lightDark = new SidebarButton(LineAwesome.Sun, "Light Mode");
+
+            var lightDark = new SidebarCommand(LineAwesome.Sun).Tooltip("Light Mode");
+
             lightDark.OnClick(() =>
             {
                 if (Theme.IsDark)
                 {
                     Theme.Light();
-                    lightDark.SetIcon(LineAwesome.Sun).Tooltip("Light Mode").SetText("Light Mode");
+                    lightDark.SetIcon(LineAwesome.Sun).Tooltip("Light Mode");
                 }
                 else
                 {
                     Theme.Dark();
-                    lightDark.SetIcon(LineAwesome.Moon).Tooltip("Dark Mode").SetText("Dark Mode");
+                    lightDark.SetIcon(LineAwesome.Moon).Tooltip("Dark Mode");
                 }
             });
 
+            var toast = new SidebarCommand(Emoji.Bread).Tooltip("Toast !").OnClick(() => Toast().Success("Here is your toast 🍞"));
+            var pizza = new SidebarCommand(Emoji.Pizza).Tooltip("Pizza!").OnClick(() => Toast().Success("Here is your pizza 🍕"));
+            var cheese = new SidebarCommand(Emoji.Cheese).Tooltip("Cheese !").OnClick(() => Toast().Success("Here is your cheese 🧀"));
+
+            var commands = new SidebarCommands(lightDark, toast, pizza, cheese);
+
+            sidebar.AddFooter(commands);
             sidebar.AddFooter(openClose);
-            sidebar.AddFooter(lightDark);
             sidebar.AddFooter(new SidebarButton(new ImageIcon("https://curiosity.ai/media/cat-color-square-64.png"), "By Curiosity").Tooltip("Made with ❤ by Curiosity").OnClick(() => window.open("https://curiosity.ai", "_blank")));
 
 

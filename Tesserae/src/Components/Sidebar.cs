@@ -323,6 +323,90 @@ namespace Tesserae
     }
 
 
+    public class SidebarCommands : ISidebarItem
+    {
+        private readonly SidebarCommand[] _commands;
+
+        public SidebarCommands(params SidebarCommand[] commands)
+        {
+            _commands = commands;
+        }
+
+        public bool IsSelected { get; set; }
+
+        public IComponent CurrentRendered { get; }
+
+        public IComponent RenderOpen()
+        {
+            var div = Div(_("tss-sidebar-commands-line"));
+            var divWrapped = Raw(div);
+
+            DomObserver.WhenMounted(div, () =>
+            {
+                window.setTimeout((__) =>
+                {
+                    HTMLDivElement stack = null;
+                    var rect = div.getBoundingClientRect().As<DOMRect>();
+                    int max = (int)Math.Floor(rect.width / (48));
+
+                    for (int i = 0; i < _commands.Length; i++)
+                    {
+                        var command = _commands[i];
+                        if (i < max)
+                        {
+                            div.appendChild(command.Render());
+                        }
+                        else
+                        {
+                            if (stack is null) stack = Div(_("tss-sidebar-commands-line-extra"));
+                            stack.appendChild(command.Render());
+                        }
+                    }
+
+                    if (stack is object)
+                    {
+                        divWrapped.Tooltip(Raw(stack), true, placement: TooltipPlacement.Right, delayHide: 500);
+                    }
+                }, 400); //Need to be after the animation
+            });
+
+            return divWrapped;
+        }
+
+        public IComponent RenderClosed()
+        {
+            var div = Div(_("tss-sidebar-commands-line tss-sidebar-commands-line-closed"));
+            var divWrapped = Raw(div);
+
+            DomObserver.WhenMounted(div, () =>
+            {
+                HTMLDivElement stack = null;
+                int max = 1;
+
+                for (int i = 0; i < _commands.Length; i++)
+                {
+                    var command = _commands[i];
+                    if (i < max)
+                    {
+                        div.appendChild(command.Render());
+                    }
+                    else
+                    {
+                        if (stack is null) stack = Div(_("tss-sidebar-commands-line-extra"));
+                        stack.appendChild(command.Render());
+                    }
+                }
+
+                if (stack is object)
+                {
+                    divWrapped.Tooltip(Raw(stack), true, placement: TooltipPlacement.Right, delayHide: 500);
+                }
+            });
+
+            return divWrapped;
+        }
+    }
+
     public class SidebarCommand : IComponent
     {
         private readonly Button _button;
