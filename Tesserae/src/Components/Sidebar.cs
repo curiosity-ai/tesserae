@@ -351,7 +351,7 @@ namespace Tesserae
 
                 window.setTimeout((__) =>
                 {
-                    HTMLDivElement stack = null;
+                    HTMLDivElement otherCommands = null;
                     var rect = div.getBoundingClientRect().As<DOMRect>();
                     int max = (int)Math.Floor(rect.width / (48));
 
@@ -365,14 +365,28 @@ namespace Tesserae
                         }
                         else
                         {
-                            if (stack is null) stack = Div(_("tss-sidebar-commands-line-extra"));
-                            stack.appendChild(command.Render());
+                            if (otherCommands is null) otherCommands = Div(_("tss-sidebar-commands-line-extra"));
+                            otherCommands.appendChild(command.Render());
                         }
                     }
 
-                    if (stack is object)
+                    if (otherCommands is object)
                     {
-                        divWrapped.Tooltip(Raw(stack), true, placement: TooltipPlacement.Right, delayHide: 500);
+                        divWrapped.Tooltip(Raw(otherCommands), true, placement: TooltipPlacement.Right, delayHide: 500);
+
+                        DomObserver.WhenMounted(otherCommands, () =>
+                        {
+                            DomObserver.WhenRemoved(otherCommands, () =>
+                            {
+                                if (divWrapped.IsMounted())
+                                {
+                                    for (int i = 0; i < _commands.Length; i++)
+                                    {
+                                        _commands[i].RefreshTooltip();
+                                    }
+                                }
+                            });
+                        });
                     }
                 }, 400); //Need to be after the animation
             });
@@ -387,7 +401,7 @@ namespace Tesserae
 
             DomObserver.WhenMounted(div, () =>
             {
-                HTMLDivElement stack = null;
+                HTMLDivElement otherCommands = null;
                 int max = 1;
 
                 for (int i = 0; i < _commands.Length; i++)
@@ -400,14 +414,27 @@ namespace Tesserae
                     }
                     else
                     {
-                        if (stack is null) stack = Div(_("tss-sidebar-commands-line-extra"));
-                        stack.appendChild(command.Render());
+                        if (otherCommands is null) otherCommands = Div(_("tss-sidebar-commands-line-extra"));
+                        otherCommands.appendChild(command.Render());
                     }
                 }
 
-                if (stack is object)
+                if (otherCommands is object)
                 {
-                    divWrapped.Tooltip(Raw(stack), true, placement: TooltipPlacement.Right, delayHide: 500);
+                    divWrapped.Tooltip(Raw(otherCommands), true, placement: TooltipPlacement.Right, delayHide: 500);
+                    DomObserver.WhenMounted(otherCommands, () =>
+                    {
+                        DomObserver.WhenRemoved(otherCommands, () =>
+                        {
+                            if (divWrapped.IsMounted())
+                            {
+                                for (int i = 0; i < _commands.Length; i++)
+                                {
+                                    _commands[i].RefreshTooltip();
+                                }
+                            }
+                        });
+                    });
                 }
             });
 

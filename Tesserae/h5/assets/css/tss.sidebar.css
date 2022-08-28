@@ -305,3 +305,7 @@
     display: inline-flex;
     flex-wrap: nowrap;
 }
+
+    .tss-sidebar-commands-line-extra .tss-btn:not(:last-child) {
+        margin-right: 8px;
+    } 
