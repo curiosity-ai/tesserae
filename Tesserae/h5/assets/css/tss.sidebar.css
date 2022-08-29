@@ -326,4 +326,5 @@
 
 .tss-sidebar-btn-light {
     background: var(--tss-default-background-active-color);
+    border-radius:6px;
 }
