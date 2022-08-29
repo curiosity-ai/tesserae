@@ -219,6 +219,13 @@ namespace Tesserae
             return this;
         }
 
+        public SidebarButton Light()
+        {
+            _open.Class("tss-sidebar-btn-light");
+            _closed.Class("tss-sidebar-btn-light");
+            return this;
+        }
+
         public SidebarButton Selected(bool isSelected = true)
         {
             _selected.Value = isSelected;
@@ -459,6 +466,18 @@ namespace Tesserae
         public SidebarCommand(string icon)
         {
             _button = Button().SetIcon(icon).Class("tss-sidebar-command");
+        }
+
+        public SidebarCommand Foreground(string color)
+        {
+            _button.Foreground(color);
+            return this;
+        }
+
+        public SidebarCommand Background(string color)
+        {
+            _button.Background(color);
+            return this;
         }
 
         public SidebarCommand Primary()
