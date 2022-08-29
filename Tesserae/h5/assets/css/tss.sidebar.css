@@ -223,18 +223,27 @@
 }
 
 .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-btn i {
-    margin-left: 28px;
     width: 24px !important;
     min-width: 24px;
     text-align: center;
 }
 
+
 .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-btn > .tss-btn-with-image > .tss-image {
-    margin-left: 28px;
     width: 24px !important;
     height: 24px !important;
     min-width: 24px;
 }
+
+.tss-sidebar-nav-header.tss-sidebar-btn-open:not(.tss-sidebar-nav-header-empty) > .tss-btn i,
+.tss-sidebar-nav-header.tss-sidebar-btn-open:not(.tss-sidebar-nav-header-empty) > .tss-btn > .tss-btn-with-image > .tss-image {
+    margin-left: 28px;
+}
+
+.tss-sidebar-nav-header.tss-sidebar-btn-open.tss-sidebar-nav-header-empty > .tss-sidebar-nav-arrow {
+    display:none;
+}
+
 
 .tss-sidebar-nav.tss-sidebar-nav-open > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-sidebar-nav-arrow.tss-btn:after {
     transform: translateY(-2px) translateX(2px) rotate(45deg);

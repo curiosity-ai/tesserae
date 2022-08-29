@@ -575,9 +575,9 @@ namespace Tesserae
         {
             _text = text;
             _closedHeader = Button().SetIcon(icon).Class("tss-sidebar-nav-header").Class("tss-sidebar-btn");
-            _openHeader = Div(_("tss-sidebar-nav-header tss-sidebar-btn-open"));
+            _openHeader = Div(_("tss-sidebar-nav-header tss-sidebar-btn-open tss-sidebar-nav-header-empty"));
 
-            _arrow     = Button().Class("tss-sidebar-nav-arrow").Fade();
+            _arrow     = Button().Class("tss-sidebar-nav-arrow");
 
             _openHeaderButton = Button(text).SetIcon(icon).Class("tss-sidebar-nav-button");
             _openHeader.appendChild(_openHeaderButton.Render());
@@ -665,13 +665,12 @@ namespace Tesserae
         {
             if (items.Count > 0)
             {
-                _arrow.Show();
+                _openHeader.classList.remove("tss-sidebar-nav-header-empty");
             }
             else
             {
-                _arrow.Fade();
+                _openHeader.classList.add("tss-sidebar-nav-header-empty");
             }
-
 
             foreach (var c in _commands) c.RefreshTooltip();
 
