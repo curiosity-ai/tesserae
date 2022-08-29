@@ -167,7 +167,8 @@
 }
 
 .tss-sidebar-btn-open:hover > .tss-sidebar-commands,
-.tss-sidebar-btn-open.tss-sidebar-commands-always-open > .tss-sidebar-commands {
+.tss-sidebar-btn-open.tss-sidebar-commands-always-open > .tss-sidebar-commands,
+.tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-commands {
     display: inline-flex;
 }
 
