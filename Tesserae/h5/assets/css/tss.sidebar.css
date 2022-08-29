@@ -89,6 +89,7 @@
     display: inline-block;
     text-align: center;
     min-width: 24px !important;
+    margin-top:2px;
 }
 
 .tss-sidebar-btn.tss-btn > .tss-btn-with-image {
@@ -137,6 +138,7 @@
     display: inline-block;
     text-align: center;
     min-width: 24px !important;
+    margin-top: 2px;
 }
 
 .tss-sidebar-btn.tss-btn > span {
@@ -288,7 +290,7 @@
     height: 0px;
     overflow: hidden;
     transition: 0.3s height ease-in-out;
-    background:rgba(var(--tss-default-background-color-root),0.3);
+    background: rgba(var(--tss-default-background-color-root),0.3);
 }
 
 .tss-sidebar-nav.tss-sidebar-nav-open > .tss-sidebar-nav-children {
