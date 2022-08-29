@@ -297,6 +297,10 @@
 .tss-sidebar-nav.tss-sidebar-nav-open > .tss-sidebar-nav-children {
     height: auto;
 }
+    .tss-sidebar-nav > .tss-sidebar-nav-children > :first-child {
+        margin-top: 4px;
+    }
+
 
 .tss-sidebar:not(.tss-sidebar-closed) .tss-sidebar-nav-children > .tss-stack-item {
     margin-left: 28px;

@@ -379,7 +379,7 @@ namespace Tesserae
 
                     if (otherCommands is object)
                     {
-                        divWrapped.Tooltip(Raw(otherCommands), true, placement: TooltipPlacement.Right, delayHide: 500);
+                        divWrapped.Tooltip(Raw(otherCommands), true, placement: TooltipPlacement.Right, delayHide: 500, maxWidth:1000);
 
                         DomObserver.WhenMounted(otherCommands, () =>
                         {
@@ -428,7 +428,7 @@ namespace Tesserae
 
                 if (otherCommands is object)
                 {
-                    divWrapped.Tooltip(Raw(otherCommands), true, placement: TooltipPlacement.Right, delayHide: 500);
+                    divWrapped.Tooltip(Raw(otherCommands), true, placement: TooltipPlacement.Right, delayHide: 500, maxWidth: 1000);
                     DomObserver.WhenMounted(otherCommands, () =>
                     {
                         DomObserver.WhenRemoved(otherCommands, () =>
