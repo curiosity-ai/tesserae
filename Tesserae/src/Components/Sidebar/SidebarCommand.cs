@@ -106,7 +106,7 @@ namespace Tesserae
                 });
             });
 
-            Tippy.ShowFor(_button.Render(), menuDiv, out Action hide, placement: TooltipPlacement.BottomStart, delayHide: 1000, theme: "tss-sidebar-tippy");
+            Tippy.ShowFor(_button.Render(), menuDiv, out Action hide, placement: TooltipPlacement.BottomStart, maxWidth: 500, delayHide: 1000, theme: "tss-sidebar-tippy");
 
         }
 

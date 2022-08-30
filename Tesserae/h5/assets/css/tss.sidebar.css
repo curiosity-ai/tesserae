@@ -169,7 +169,7 @@
 .tss-sidebar-btn-open:hover > .tss-sidebar-commands,
 .tss-sidebar-btn-open.tss-sidebar-commands-always-open > .tss-sidebar-commands,
 .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-commands {
-    display: inline-flex;
+    display: flex;
 }
 
 .tss-sidebar-commands > .tss-sidebar-command.tss-btn {
@@ -309,10 +309,9 @@
 
 
 .tss-sidebar-commands-line {
-    display: inline-flex;
+    display: flex;
     justify-content: space-between;
     flex-wrap: nowrap;
-    width: 100%;
 }
 
     .tss-sidebar-commands-line.tss-sidebar-commands-line-closed {
@@ -350,6 +349,8 @@
     min-height: unset;
     border-radius: 0px;
     margin: 0px;
+    padding: 0px 12px;
+    min-width: 52px !important;
 }
 
     .tss-sidebar-menu > .tss-sidebar-btn-open > .tss-btn:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success),
