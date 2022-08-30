@@ -100,7 +100,17 @@ namespace Tesserae.Tests
             var happy = new SidebarCommand(Emoji.Smile).Tooltip("I like this !").OnClick(() => Toast().Success("Thanks for your feedback"));
             var sad   = new SidebarCommand(Emoji.Disappointed).Tooltip("I don't like this!").OnClick(() => Toast().Success("Thanks for your feedback"));
 
-            var commandsEndAligned = new SidebarCommands(fireworks, happy, sad).AlignEnd();
+            var dotsMenu = new SidebarCommand(LineAwesome.EllipsisH).OnClickMenu(() => new ISidebarItem[] 
+            {
+                new SidebarButton(LineAwesome.User, "Manage Account"),
+                new SidebarButton(LineAwesome.Cog, "Preferences"),
+                new SidebarButton(LineAwesome.TrashAlt, "Delete Account"),
+                new SidebarCommands(new SidebarCommand(Emoji.Smile), new SidebarCommand(Emoji.Disappointed), new SidebarCommand(Emoji.Angry)),
+                new SidebarCommands(new SidebarCommand(LineAwesome.Plus).Primary(), new SidebarCommand(LineAwesome.TrashAlt).Danger()).AlignEnd(),
+                new SidebarButton(LineAwesome.SignOutAlt, "Sign Out"),
+            });
+
+            var commandsEndAligned = new SidebarCommands(fireworks, dotsMenu).AlignEnd();
 
             sidebar.AddFooter(commands);
             sidebar.AddFooter(commandsEndAligned);

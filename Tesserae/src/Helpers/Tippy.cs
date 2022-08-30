@@ -8,9 +8,10 @@ namespace Tesserae
     [H5.Name("tss.tippy")]
     public static class Tippy
     {
-        public static void ShowFor(IComponent component, IComponent tooltip, out Action hide, TooltipAnimation animation = TooltipAnimation.ShiftAway, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 0, int delayHide = 0, int maxWidth = 350, bool arrow = false)
+        public static void ShowFor(IComponent component, IComponent tooltip, out Action hide, TooltipAnimation animation = TooltipAnimation.None, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 0, int delayHide = 0, int maxWidth = 350, bool arrow = false)
         {
             var rendered = component.Render();
+
             if (!rendered.IsMounted())
             {
                 hide = () => { };
@@ -51,6 +52,47 @@ namespace Tesserae
 
             // 2020-10-05 DWR: Sometimes a tooltip will be attached to an element that is removed from the DOM and then the tooltip is left hanging, orphaned. 
             component.WhenRemoved(() =>
+            {
+                onHidden();
+            });
+        }
+
+        public static void ShowFor(HTMLElement parent, HTMLElement tooltip, out Action hide, TooltipAnimation animation = TooltipAnimation.None, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 0, int delayHide = 0, int maxWidth = 350, bool arrow = false, string theme = null)
+        {
+            if (!parent.IsMounted())
+            {
+                hide = () => { };
+                return; //Only show tooltips for mounted objects
+            }
+
+            document.body.appendChild(tooltip);
+
+            Action onHidden = () =>
+            {
+                if (parent.HasOwnProperty("_tippy"))
+                {
+                    H5.Script.Write("{0}._tippy.destroy();", parent);
+                }
+            };
+
+            hide = onHidden;
+
+            onHidden(); //Remove previous tooltips
+
+            if (animation == TooltipAnimation.None)
+            {
+                H5.Script.Write("tippy({0}, { content: {1}, interactive: true, interactiveBorder: 8, placement: {2}, appendTo: {3}, maxWidth: {4}, onHidden: {5}, delay: [{6},{7}], arrow: {8}, theme: {9} });", parent, tooltip, placement.ToString(), document.body.As<object>(), maxWidth, onHidden, delayShow, delayHide, arrow, theme);
+            }
+            else
+            {
+                H5.Script.Write("tippy({0}, { content: {1}, interactive: true, interactiveBorder: 8, placement: {2}, animation: {3},  appendTo: {4}, maxWidth: {5}, onHidden: {6}, delay: [{7},{8}], arrow: {9}, theme: {10} });", parent, tooltip, placement.ToString(), animation.ToString(), document.body.As<object>(), maxWidth, onHidden, delayShow, delayHide, arrow, theme);
+            }
+
+
+            H5.Script.Write("{0}._tippy.show();", parent);
+
+            // 2020-10-05 DWR: Sometimes a tooltip will be attached to an element that is removed from the DOM and then the tooltip is left hanging, orphaned. 
+            DomObserver.WhenRemoved(parent, () =>
             {
                 onHidden();
             });

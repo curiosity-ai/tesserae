@@ -338,8 +338,54 @@
     background-color: var(--tss-default-background-hover-color);
 }
 
-
 .tss-sidebar-commands-spacer {
     width:1px;
     flex-grow:1;
 }
+
+.tss-sidebar-menu > .tss-sidebar-btn-open .tss-btn,
+.tss-sidebar-menu > .tss-sidebar-commands-line > .tss-sidebar-command.tss-btn {
+    border: 1px solid transparent;
+    height: 36px !important;
+    min-height: unset;
+    border-radius: 0px;
+    margin: 0px;
+}
+
+    .tss-sidebar-menu > .tss-sidebar-btn-open > .tss-btn:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success),
+    .tss-sidebar-menu > .tss-sidebar-commands-line > .tss-sidebar-command.tss-btn:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success) {
+        color: var(--tss-default-background-color);
+        background: var(--tss-default-foreground-color);
+        border-color: var(--tss-default-foreground-color);
+    }
+
+    .tss-sidebar-menu > .tss-sidebar-btn-open .tss-btn.tss-btn-default:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success):hover,
+    .tss-sidebar-menu > .tss-sidebar-commands-line > .tss-sidebar-command:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success):hover {
+        color: var(--tss-default-background-hover-color);
+        background: var(--tss-default-foreground-hover-color);
+        border-color: var(--tss-default-foreground-color);
+    }
+
+
+.tss-sidebar-menu > .tss-sidebar-commands-line {
+    padding-bottom: 2px;
+}
+
+.tss-sidebar-menu *:last-child {
+    padding-bottom: 0px;
+    margin-bottom: 0px !important;
+}
+
+.tippy-box[data-theme~='tss-sidebar-tippy'] {
+    padding: 0px;
+    margin: 0px;
+    border-radius: 6px;
+    overflow: hidden;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+    .tippy-box[data-theme~='tss-sidebar-tippy'] .tippy-content {
+        padding: 0px;
+        margin: 0px;
+    }
