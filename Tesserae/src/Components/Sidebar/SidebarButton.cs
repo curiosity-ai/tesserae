@@ -151,6 +151,13 @@ namespace Tesserae
             return this;
         }
 
+        public SidebarButton Default()
+        {
+            _openButton.IsPrimary = false;
+            _closed.IsPrimary = false;
+            return this;
+        }
+
         public SidebarButton Success()
         {
             _openButton.Success();
