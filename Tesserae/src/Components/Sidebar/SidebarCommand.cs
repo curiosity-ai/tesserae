@@ -62,18 +62,21 @@ namespace Tesserae
         public SidebarCommand Tooltip(string text)
         {
             _tooltip = (b) => b.Tooltip(text, placement: TooltipPlacement.Top);
+            RefreshTooltip();
             return this;
         }
 
         public SidebarCommand Tooltip(IComponent tooltip)
         {
             _tooltip = (b) => b.Tooltip(tooltip, placement: TooltipPlacement.Top);
+            RefreshTooltip();
             return this;
         }
 
         public SidebarCommand Tooltip(Func<IComponent> tooltip)
         {
             _tooltip = (b) => b.Tooltip(tooltip(), placement: TooltipPlacement.Top);
+            RefreshTooltip();
             return this;
         }
 

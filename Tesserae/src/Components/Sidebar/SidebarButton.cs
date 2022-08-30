@@ -181,36 +181,42 @@ namespace Tesserae
         public SidebarButton Tooltip(string text)
         {
             _tooltipClosed = (b) => b.Tooltip(text, placement: TooltipPlacement.Right);
+            _tooltipClosed(_closed);
             return this;
         }
 
         public SidebarButton Tooltip(IComponent tooltip)
         {
             _tooltipClosed = (b) => b.Tooltip(tooltip, placement: TooltipPlacement.Right);
+            _tooltipClosed(_closed);
             return this;
         }
 
         public SidebarButton Tooltip(Func<IComponent> tooltip)
         {
             _tooltipClosed = (b) => b.Tooltip(tooltip(), placement: TooltipPlacement.Right);
+            _tooltipClosed(_closed);
             return this;
         }
 
         public SidebarButton OpenedTooltip(string text)
         {
             _tooltipOpen = (b) => b.Tooltip(text, placement: TooltipPlacement.Right);
+            _tooltipOpen(_openButton);
             return this;
         }
 
         public SidebarButton OpenedTooltip(IComponent tooltip)
         {
             _tooltipOpen = (b) => b.Tooltip(tooltip, placement: TooltipPlacement.Right);
+            _tooltipOpen(_openButton);
             return this;
         }
 
         public SidebarButton OpenedTooltip(Func<IComponent> tooltip)
         {
             _tooltipOpen = (b) => b.Tooltip(tooltip(), placement: TooltipPlacement.Right);
+            _tooltipOpen(_openButton);
             return this;
         }
 
