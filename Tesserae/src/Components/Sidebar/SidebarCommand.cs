@@ -35,6 +35,12 @@ namespace Tesserae
             return this;
         }
 
+        public SidebarCommand Default()
+        {
+            _button.IsPrimary = false;
+            return this;
+        }
+
         public SidebarCommand Primary()
         {
             _button.IsPrimary = true;
