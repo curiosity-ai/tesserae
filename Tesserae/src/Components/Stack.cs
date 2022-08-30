@@ -459,9 +459,10 @@ namespace Tesserae
             }
 
             if (has("tss-stk-w")) { ts.width = fs.width; fs.width = "100%"; }
+            if (has("tss-stk-h")) { ts.height = fs.height; fs.height = "100%"; }
+
             if (has("tss-stk-mw")) { ts.minWidth = fs.minWidth; fs.minWidth = "inherit"; }
             if (has("tss-stk-mxw")) { ts.maxWidth = fs.maxWidth; fs.maxWidth = "inherit"; }
-            if (has("tss-stk-h")) { ts.height = fs.height; fs.height = "100%"; }
             if (has("tss-stk-mh")) { ts.minHeight = fs.minHeight;  fs.minHeight = "inherit"; }
             if (has("tss-stk-mxh")) { ts.maxHeight = fs.maxHeight; fs.maxHeight = "inherit"; }
 
