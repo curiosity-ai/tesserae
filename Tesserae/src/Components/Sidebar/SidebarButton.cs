@@ -158,6 +158,13 @@ namespace Tesserae
             return this;
         }
 
+        public SidebarButton Primary()
+        {
+            _openButton.Primary();
+            _closed.Primary();
+            return this;
+        }
+
         public SidebarButton Selected(bool isSelected = true)
         {
             _selected.Value = isSelected;
