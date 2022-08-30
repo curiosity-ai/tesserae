@@ -332,3 +332,8 @@
     background: var(--tss-default-background-active-color);
     border-radius:6px;
 }
+
+.tss-sidebar-btn-open:hover > .tss-sidebar-commands > .tss-btn.tss-btn-default {
+    color: var(--tss-default-foreground-hover-color);
+    background-color: var(--tss-default-background-hover-color);
+}
