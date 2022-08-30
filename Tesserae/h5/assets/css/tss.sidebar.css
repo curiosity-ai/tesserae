@@ -168,6 +168,7 @@
 
 .tss-sidebar-btn-open:hover > .tss-sidebar-commands,
 .tss-sidebar-btn-open.tss-sidebar-commands-always-open > .tss-sidebar-commands,
+.tss-sidebar-command-menu-is-open.tss-sidebar-commands,
 .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-commands {
     display: flex;
 }
@@ -355,9 +356,9 @@
 
     .tss-sidebar-menu > .tss-sidebar-btn-open > .tss-btn:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success),
     .tss-sidebar-menu > .tss-sidebar-commands-line > .tss-sidebar-command.tss-btn:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success) {
-        color: var(--tss-default-background-color);
-        background: var(--tss-default-foreground-color);
-        border-color: var(--tss-default-foreground-color);
+        background: var(--tss-tooltip-background-color);
+        color: var(--tss-tooltip-foreground-color);
+        border-color: var(--tss-tooltip-background-color);
     }
 
     .tss-sidebar-menu > .tss-sidebar-btn-open .tss-btn.tss-btn-default:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success):hover,
@@ -382,8 +383,6 @@
     margin: 0px;
     border-radius: 6px;
     overflow: hidden;
-    padding-top: 2px;
-    padding-bottom: 2px;
 }
 
     .tippy-box[data-theme~='tss-sidebar-tippy'] .tippy-content {

@@ -100,8 +100,10 @@ namespace Tesserae
 
             DomObserver.WhenMounted(menuDiv, () =>
             {
+                _button.Render().parentElement.classList.add("tss-sidebar-command-menu-is-open");
                 DomObserver.WhenRemoved(menuDiv, () =>
                 {
+                    _button.Render().parentElement.classList.remove("tss-sidebar-command-menu-is-open");
                     RefreshTooltip();
                 });
             });
