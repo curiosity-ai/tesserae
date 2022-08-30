@@ -89,13 +89,21 @@ namespace Tesserae.Tests
                 }
             });
 
-            var toast = new SidebarCommand(Emoji.Bread).Tooltip("Toast !").OnClick(() => Toast().Success("Here is your toast 🍞"));
-            var pizza = new SidebarCommand(Emoji.Pizza).Tooltip("Pizza!").OnClick(() => Toast().Success("Here is your pizza 🍕"));
+            var toast  = new SidebarCommand(Emoji.Bread).Tooltip("Toast !").OnClick(() => Toast().Success("Here is your toast 🍞"));
+            var pizza  = new SidebarCommand(Emoji.Pizza).Tooltip("Pizza!").OnClick(() => Toast().Success("Here is your pizza 🍕"));
             var cheese = new SidebarCommand(Emoji.Cheese).Tooltip("Cheese !").OnClick(() => Toast().Success("Here is your cheese 🧀"));
 
             var commands = new SidebarCommands(lightDark, toast, pizza, cheese);
 
+
+            var fireworks = new SidebarCommand(Emoji.ConfettiBall).Tooltip("Confetti !").OnClick(() => Toast().Success("🎊"));
+            var happy = new SidebarCommand(Emoji.Smile).Tooltip("I like this !").OnClick(() => Toast().Success("Thanks for your feedback"));
+            var sad   = new SidebarCommand(Emoji.Disappointed).Tooltip("I don't like this!").OnClick(() => Toast().Success("Thanks for your feedback"));
+
+            var commandsEndAligned = new SidebarCommands(fireworks, happy, sad).AlignEnd();
+
             sidebar.AddFooter(commands);
+            sidebar.AddFooter(commandsEndAligned);
             sidebar.AddFooter(openClose);
             sidebar.AddFooter(new SidebarButton(new ImageIcon("https://curiosity.ai/media/cat-color-square-64.png"), "By Curiosity").Tooltip("Made with ❤ by Curiosity").OnClick(() => window.open("https://curiosity.ai", "_blank")));
 

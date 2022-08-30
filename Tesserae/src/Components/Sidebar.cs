@@ -336,6 +336,7 @@ namespace Tesserae
     public class SidebarCommands : ISidebarItem
     {
         private readonly SidebarCommand[] _commands;
+        private bool _isEndAligned;
 
         public SidebarCommands(params SidebarCommand[] commands)
         {
@@ -351,6 +352,11 @@ namespace Tesserae
             var div = Div(_("tss-sidebar-commands-line"));
             var divWrapped = Raw(div);
 
+            if (_isEndAligned)
+            {
+                div.classList.add("tss-sidebar-commands-end-aligned");
+            }
+
             DomObserver.WhenMounted(div, () =>
             {
                 _commands[0].RefreshTooltip();
@@ -361,6 +367,11 @@ namespace Tesserae
                     HTMLDivElement otherCommands = null;
                     var rect = div.getBoundingClientRect().As<DOMRect>();
                     int max = (int)Math.Floor(rect.width / (48));
+
+                    if (_isEndAligned && _commands.Length > 1)
+                    {
+                        div.appendChild(Div(_("tss-sidebar-commands-spacer")));
+                    }
 
                     for (int i = 1; i < _commands.Length; i++)
                     {
@@ -447,6 +458,12 @@ namespace Tesserae
 
             CurrentRendered = divWrapped;
             return divWrapped;
+        }
+
+        public SidebarCommands AlignEnd()
+        {
+            _isEndAligned = true;
+            return this;
         }
     }
 

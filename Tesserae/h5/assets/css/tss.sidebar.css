@@ -84,12 +84,12 @@
     height: 36px !important;
 }
 
-.tss-sidebar-btn-open.tss-btn > i {
+.tss-sidebar-btn-open > .tss-sidebar-commands > .tss-btn > i {
     width: 24px;
     display: inline-block;
     text-align: center;
     min-width: 24px !important;
-    margin-top:2px;
+    margin-top: 2px;
 }
 
 .tss-sidebar-btn.tss-btn > .tss-btn-with-image {
@@ -336,4 +336,10 @@
 .tss-sidebar-btn-open:hover > .tss-sidebar-commands > .tss-btn.tss-btn-default {
     color: var(--tss-default-foreground-hover-color);
     background-color: var(--tss-default-background-hover-color);
+}
+
+
+.tss-sidebar-commands-spacer {
+    width:1px;
+    flex-grow:1;
 }
