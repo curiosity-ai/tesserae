@@ -277,11 +277,6 @@ namespace Tesserae
                 }
             };
 
-            element.ondragleave += (e) =>
-            {
-                console.log("ondragleave", column, row);
-            };
-
             element.ondrop += (e) =>
             {
                 TryEndDrag();
