@@ -144,6 +144,20 @@ namespace Tesserae
             return this;
         }
 
+        public SidebarButton Danger()
+        {
+            _openButton.Danger();
+            _closed.Danger();
+            return this;
+        }
+
+        public SidebarButton Success()
+        {
+            _openButton.Success();
+            _closed.Success();
+            return this;
+        }
+
         public SidebarButton Selected(bool isSelected = true)
         {
             _selected.Value = isSelected;
