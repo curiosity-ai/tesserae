@@ -8,7 +8,7 @@ namespace Tesserae
     [H5.Name("tss.tippy")]
     public static class Tippy
     {
-        public static void ShowFor(IComponent component, IComponent tooltip, out Action hide, TooltipAnimation animation = TooltipAnimation.ShiftAway, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 0, int delayHide = 0, int maxWidth = 350)
+        public static void ShowFor(IComponent component, IComponent tooltip, out Action hide, TooltipAnimation animation = TooltipAnimation.ShiftAway, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 0, int delayHide = 0, int maxWidth = 350, bool arrow = false)
         {
             var rendered = component.Render();
             if (!rendered.IsMounted())
@@ -39,11 +39,11 @@ namespace Tesserae
 
             if (animation == TooltipAnimation.None)
             {
-                H5.Script.Write("tippy({0}, { content: {1}, interactive: true, interactiveBorder: 8, placement: {2}, appendTo: {3}, maxWidth: {4}, onHidden: {5}, delay: [{6},{7}]});", element, renderedTooltip, placement.ToString(), document.body.As<object>(), maxWidth, onHidden, delayShow, delayHide);
+                H5.Script.Write("tippy({0}, { content: {1}, interactive: true, interactiveBorder: 8, placement: {2}, appendTo: {3}, maxWidth: {4}, onHidden: {5}, delay: [{6},{7}], arrow: {8}});", element, renderedTooltip, placement.ToString(), document.body.As<object>(), maxWidth, onHidden, delayShow, delayHide, arrow);
             }
             else
             {
-                H5.Script.Write("tippy({0}, { content: {1}, interactive: true, interactiveBorder: 8, placement: {2}, animation: {3},  appendTo: {4}, maxWidth: {5}, onHidden: {6}, delay: [{7},{8}]});", element, renderedTooltip, placement.ToString(), animation.ToString(), document.body.As<object>(), maxWidth, onHidden, delayShow, delayHide);
+                H5.Script.Write("tippy({0}, { content: {1}, interactive: true, interactiveBorder: 8, placement: {2}, animation: {3},  appendTo: {4}, maxWidth: {5}, onHidden: {6}, delay: [{7},{8}], arrow: {9}});", element, renderedTooltip, placement.ToString(), animation.ToString(), document.body.As<object>(), maxWidth, onHidden, delayShow, delayHide, arrow);
             }
 
 
