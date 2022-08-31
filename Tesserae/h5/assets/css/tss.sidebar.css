@@ -343,7 +343,7 @@
     flex-grow:1;
 }
 
-.tss-sidebar-menu > .tss-sidebar-btn-open .tss-btn,
+.tss-sidebar-menu > .tss-sidebar-btn-open > .tss-btn,
 .tss-sidebar-menu > .tss-sidebar-commands-line > .tss-sidebar-command.tss-btn {
     border: 1px solid transparent;
     height: 36px !important;
@@ -373,7 +373,7 @@
     padding-bottom: 2px;
 }
 
-.tss-sidebar-menu *:last-child {
+.tss-sidebar-menu > *:last-child {
     padding-bottom: 0px;
     margin-bottom: 0px !important;
 }
