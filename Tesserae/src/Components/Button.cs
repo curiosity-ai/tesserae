@@ -484,7 +484,7 @@ namespace Tesserae
 
         internal void OnIconClick(Action<HTMLElement, MouseEvent> action)
         {
-            _iconSpan.onclick += (e) => action(_iconSpan, e);
+            _iconSpan.onclick += (e) => { StopEvent(e); action(_iconSpan, e); } ;
         }
 
         public Button SetIcon(Emoji icon, bool afterText = false)
