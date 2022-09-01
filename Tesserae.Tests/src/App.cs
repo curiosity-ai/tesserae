@@ -54,7 +54,10 @@ namespace Tesserae.Tests
                             })
                             .ToDictionary(s => s.Name, s => s);
 
-            sidebar.AddHeader(new SidebarButton(Emoji.House, "Tesserae", new SidebarCommand(LineAwesome.ExternalLinkAlt).Tooltip("View on GitHub").OnClick(() => window.open("https://github.com/curiosity-ai/tesserae","_blank"))).CommandsAlwaysVisible());
+            sidebar.AddHeader(new SidebarButton(Emoji.House, "Tesserae", new SidebarCommand(LineAwesome.ExternalLinkAlt).Tooltip("View on GitHub")
+                                                                                .OnClick(() => window.open("https://github.com/curiosity-ai/tesserae","_blank")))
+                                    .CommandsAlwaysVisible()
+                                    .OnOpenIconClick(() => Toast().Success("You clicked on the icon")));
 
             var openClose = new SidebarButton(LineAwesome.ChevronLeft, "").Tooltip("Close Sidebar");
 

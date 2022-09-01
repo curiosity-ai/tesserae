@@ -227,6 +227,20 @@ namespace Tesserae
             return this;
         }
 
+        public SidebarButton OnOpenIconClick(Action<HTMLElement, MouseEvent> action)
+        {
+            _openButton.OnIconClick(action);
+            _openButton.Class("tss-sidebar-btn-has-icon-click");
+            return this;
+        }
+
+        public SidebarButton OnOpenIconClick(Action action)
+        {
+            _openButton.OnIconClick((_,__) => action());
+            _openButton.Class("tss-sidebar-btn-has-icon-click");
+            return this;
+        }
+
         public SidebarButton OnContextMenu(Action action)
         {
             _closed.OnContextMenu(action);
