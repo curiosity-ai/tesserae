@@ -260,6 +260,20 @@
     left: 16px;
 }
 
+.tss-sidebar-btn-has-icon-click.tss-btn > i,
+.tss-sidebar-btn-has-icon-click.tss-btn > .tss-btn-with-image > .tss-image {
+    height: 24px;
+    line-height: 24px;
+}
+
+    .tss-sidebar-btn-has-icon-click.tss-btn > i:hover,
+    .tss-sidebar-btn-has-icon-click.tss-btn > .tss-btn-with-image > .tss-image:hover {
+        background-color: var(--tss-default-background-hover-color);
+        border-radius: 6px;
+        height: 24px;
+        line-height: 24px;
+    }
+
 
 
 .tss-sidebar-nav.tss-sidebar-nav-open > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-sidebar-nav-arrow.tss-btn:after {

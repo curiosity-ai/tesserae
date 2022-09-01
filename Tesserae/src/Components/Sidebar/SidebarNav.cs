@@ -95,6 +95,13 @@ namespace Tesserae
             return this;
         }
 
+        public SidebarNav OnOpenIconClick(Action<HTMLElement, MouseEvent> action)
+        {
+            _openHeaderButton.OnIconClick(action);
+            _openHeaderButton.Class("tss-sidebar-btn-has-icon-click");
+            return this;
+        }
+
         public SidebarNav OnClick(Action action)
         {
             _closedHeader.OnClick(action);

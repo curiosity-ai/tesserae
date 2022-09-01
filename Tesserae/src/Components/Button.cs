@@ -482,6 +482,11 @@ namespace Tesserae
             return this;
         }
 
+        internal void OnIconClick(Action<HTMLElement, MouseEvent> action)
+        {
+            _iconSpan.onclick += (e) => action(_iconSpan, e);
+        }
+
         public Button SetIcon(Emoji icon, bool afterText = false)
         {
             Icon = $"ec {icon}";
@@ -525,6 +530,7 @@ namespace Tesserae
             InnerElement.classList.add("tss-btn-icononhover");
             return this;
         }
+
         public Button ReplaceContent(IComponent content)
         {
             ClearChildren(InnerElement);

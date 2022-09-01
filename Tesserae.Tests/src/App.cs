@@ -112,7 +112,7 @@ namespace Tesserae.Tests
 
             var commandsEndAligned = new SidebarCommands(fireworks, dotsMenu).AlignEnd();
 
-            sidebar.AddFooter(new SidebarNav(Emoji.MailboxWithNoMail, "Empty Nav", true).ShowDotIfEmpty());
+            sidebar.AddFooter(new SidebarNav(Emoji.MailboxWithNoMail, "Empty Nav", true).ShowDotIfEmpty().OnOpenIconClick((e,m) => Toast().Success("You clicked on the icon!")));
 
             sidebar.AddFooter(commands);
             sidebar.AddFooter(commandsEndAligned);
