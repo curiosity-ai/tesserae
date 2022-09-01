@@ -89,6 +89,12 @@ namespace Tesserae
             return this;
         }
 
+        public SidebarNav ShowDotIfEmpty()
+        {
+            _openHeader.classList.add("tss-sidebar-nav-header-dot-if-empty");
+            return this;
+        }
+
         public SidebarNav OnClick(Action action)
         {
             _closedHeader.OnClick(action);
@@ -181,7 +187,7 @@ namespace Tesserae
                 }
             }
         }
-
+        
         private IComponent RenderClosed(IReadOnlyList<ISidebarItem> items)
         {
             _closedHeader.Tooltip(_text, placement: TooltipPlacement.Top);

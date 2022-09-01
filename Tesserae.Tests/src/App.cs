@@ -112,6 +112,8 @@ namespace Tesserae.Tests
 
             var commandsEndAligned = new SidebarCommands(fireworks, dotsMenu).AlignEnd();
 
+            sidebar.AddFooter(new SidebarNav(Emoji.MailboxWithNoMail, "Empty Nav", true).ShowDotIfEmpty());
+
             sidebar.AddFooter(commands);
             sidebar.AddFooter(commandsEndAligned);
             sidebar.AddFooter(openClose);
