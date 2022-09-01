@@ -12,6 +12,7 @@ namespace Tesserae
         private readonly ObservableList<ISidebarItem> _middle;
         private readonly ObservableList<ISidebarItem> _footer;
         private readonly SettableObservable<bool> _closed;
+        private double _closedTimeout;
         private readonly Stack _sidebar;
 
         public bool IsClosed {  get { return _closed.Value; } set { _closed.Value = value; } }
@@ -26,14 +27,20 @@ namespace Tesserae
 
             _closed.Observe(isClosed =>
             {
-                if (isClosed)
+                //Do this on a timeout to improve the animation behaviour
+                window.clearTimeout(_closedTimeout);
+
+                _closedTimeout = window.setTimeout((_) =>
                 {
-                    _sidebar.Class("tss-sidebar-closed");
-                }
-                else
-                {
-                    _sidebar.RemoveClass("tss-sidebar-closed");
-                }
+                    if (isClosed)
+                    {
+                        _sidebar.Class("tss-sidebar-closed");
+                    }
+                    else
+                    {
+                        _sidebar.RemoveClass("tss-sidebar-closed");
+                    }
+                }, 15);
             });
 
             var combined = new CombinedObservable<IReadOnlyList<ISidebarItem>, IReadOnlyList<ISidebarItem>, IReadOnlyList<ISidebarItem>, bool>(_header, _middle, _footer, _closed);
