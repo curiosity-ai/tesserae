@@ -134,6 +134,28 @@ namespace Tesserae
 
         public static Color FromString(string hexString)
         {
+            byte r = 0, g = 0, b = 0;
+
+            if (hexString.Contains("rgb("))
+            {
+                hexString = hexString.Replace("rgb", "").Replace(" ", "").Replace("(", "").Replace(")", "");
+                var parts = hexString.Split(new[] { ',' });
+                r = byte.Parse(parts[0]);
+                g = byte.Parse(parts[1]);
+                b = byte.Parse(parts[2]);
+                return FromArgb(255, r, g, b);
+            }
+            else if (hexString.Contains("rgba("))
+            {
+                hexString = hexString.Replace("rgba", "").Replace(" ", "").Replace("(", "").Replace(")", "");
+                var parts = hexString.Split(new[] { ',' });
+                r = byte.Parse(parts[0]);
+                g = byte.Parse(parts[1]);
+                b = byte.Parse(parts[2]);
+                var a = float.Parse(parts[3]);
+                return FromArgb((byte)(a*255), r, g, b);
+            }
+
             var hex = hexString.TrimStart('#');
 
             if (hex.Length == 3)
@@ -143,7 +165,6 @@ namespace Tesserae
 
             if (hex.Length != 6) throw new ArgumentException();
 
-            byte r = 0, g = 0, b = 0;
 
             Script.Write("var bigint = parseInt(hex, 16); var r = (bigint >> 16) & 255; var g = (bigint >> 8) & 255; var b = bigint & 255;");
 

@@ -8,6 +8,8 @@ namespace Tesserae
         public static class Theme
         {
             private static HTMLStyleElement _primaryStyleElement;
+            private static HTMLStyleElement _backgroundStyleElement;
+
             public static void Dark()
             {
                 document.body.classList.add("tss-dark-mode");
@@ -18,9 +20,115 @@ namespace Tesserae
                 document.body.classList.remove("tss-dark-mode");
             }
 
-            public static bool IsDark => document.body.classList.contains("tss-dark-mode");
+            public static bool IsDark
+            {
+                get
+                {
+                    return document.body.classList.contains("tss-dark-mode");
+                }
+                set
+                {
+                    if (value)
+                    {
+                        Dark();
+                    }
+                    else
+                    {
+                        Light();
+                    }
+                }
+            }
 
-            public static void SetPrimary(Color primaryColor) => SetPrimary(primaryColor, primaryColor);
+            public static bool IsLight
+            {
+                get
+                {
+                    return !IsDark;
+                }
+                set
+                {
+                    IsDark = !value;
+                }
+            }
+
+
+            public static void SetBackground(Color defaultLight, Color defaultDark)
+            {
+                if (_backgroundStyleElement is object)
+                {
+                    _backgroundStyleElement.remove();
+                    _backgroundStyleElement = null;
+                }
+
+                var secondaryLight    = (HSLColor)defaultLight;
+                var sidebarLight      = (HSLColor)defaultLight;
+                var hoverLight        = (HSLColor)defaultLight;
+                var activeLight       = (HSLColor)defaultLight;
+                var progressLight     = (HSLColor)defaultLight;
+
+                var secondaryDark     = (HSLColor)defaultDark;
+                var hoverDark         = (HSLColor)defaultDark;
+                var activeDark        = (HSLColor)defaultDark;
+                var progressDark      = (HSLColor)defaultDark;
+
+
+                secondaryLight.Luminosity    -= 4;
+                hoverLight.Luminosity        -= 12;
+                activeLight.Luminosity       -= 9;
+                progressLight.Luminosity     -= 9;
+
+                secondaryDark.Luminosity     += 7;
+                hoverDark.Luminosity         += 2;
+                activeDark.Luminosity        += 13;
+                progressDark.Luminosity      += 13;
+
+
+                var sb = new StringBuilder();
+                sb.AppendLine(":root {");
+                //sb.Append("  --tss-default-background-color-root: ").Append(defaultLight.ToRGBvar()).AppendLine(";");
+                sb.Append("  --tss-secondary-background-color-root: ").Append(secondaryLight.ToRGBvar()).AppendLine(";");
+                //sb.Append("  --tss-default-background-hover-color-root: ").Append(hoverLight.ToRGBvar()).AppendLine(";");
+                //sb.Append("  --tss-default-background-active-color-root: ").Append(activeLight.ToRGBvar()).AppendLine(";");
+                sb.Append("  --tss-progress-background-color-root: ").Append(progressLight.ToRGBvar()).AppendLine(";");
+                
+                //We need to redefine the variables again here otherwise the values won't change as they're derived twice from variables
+                sb.Append(@"
+    --tss-default-background-color: rgb(var(--tss-default-background-color-root ));
+    --tss-secondary-background-color: rgb(var(--tss-secondary-background-color-root ));
+    --tss-default-background-hover-color: rgb(var(--tss-default-background-hover-color-root ));
+    --tss-default-background-active-color: rgb(var(--tss-default-background-active-color-root ));
+    --tss-progress-background-color: rgb(var(--tss-progress-background-color-root ));
+");
+
+                sb.AppendLine("}");
+
+                sb.AppendLine(".tss-dark-mode {");
+                //sb.Append("  --tss-default-background-color-root: ").Append(defaultDark.ToRGBvar()).AppendLine(";");
+                sb.Append("  --tss-secondary-background-color-root: ").Append(secondaryDark.ToRGBvar()).AppendLine(";");
+                //sb.Append("  --tss-default-background-hover-color-root: ").Append(hoverDark.ToRGBvar()).AppendLine(";");
+                //sb.Append("  --tss-default-background-active-color-root: ").Append(activeDark.ToRGBvar()).AppendLine(";");
+                sb.Append("  --tss-progress-background-color-root: ").Append(progressDark.ToRGBvar()).AppendLine(";");
+
+                //We need to redefine the variables again here otherwise the values won't change as they're derived twice from variables
+                sb.Append(@"
+    --tss-default-background-color: rgb(var(--tss-default-background-color-root ));
+    --tss-secondary-background-color: rgb(var(--tss-secondary-background-color-root ));
+    --tss-default-background-hover-color: rgb(var(--tss-default-background-hover-color-root ));
+    --tss-default-background-active-color: rgb(var(--tss-default-background-active-color-root ));
+    --tss-progress-background-color: rgb(var(--tss-progress-background-color-root ));
+");
+
+                sb.AppendLine("}");
+
+                _backgroundStyleElement = (HTMLStyleElement)document.createElement("style");
+                _backgroundStyleElement.type = "text/css";
+                _backgroundStyleElement.appendChild(document.createTextNode(sb.ToString()));
+
+                var head = document.getElementsByTagName("head")[0];
+                head.appendChild(_backgroundStyleElement);
+            }
+
+
             public static void SetPrimary(Color primaryLightColor, Color primaryDarkColor)
             {
                 if(_primaryStyleElement is object)

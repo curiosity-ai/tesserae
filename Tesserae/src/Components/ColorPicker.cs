@@ -7,7 +7,17 @@
         {
         }
 
-        public Color Color => Color.FromString(Text);
+        public Color Color
+        {
+            get
+            {
+                return Color.FromString(Text);
+            }
+            set
+            {
+                SetColor(value);
+            }
+        }
 
         public ColorPicker SetColor(Color color) => SetText(color.ToHex());
     }

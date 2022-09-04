@@ -8,7 +8,7 @@
     padding-bottom: 16px;
     width: 250px;
     user-select: none;
-    background: var(--tss-sidebar-background-color);
+    background: transparent;
     transition: 0.3s width ease-out;
 }
 
@@ -319,7 +319,7 @@
     height: 0px;
     overflow: hidden;
     transition: 0.3s height ease-in-out;
-    background: rgba(var(--tss-default-background-color-root),0.3);
+    /*background: rgba(var(--tss-default-background-color-root),0.3);*/
 }
 
 .tss-sidebar-nav.tss-sidebar-nav-open > .tss-sidebar-nav-children {

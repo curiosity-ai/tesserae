@@ -15,6 +15,48 @@ namespace Tesserae.Tests.Samples
 
         public ThemeColorsSample()
         {
+            var currentTheme = Theme.IsLight;
+            var primaryLight    = new SettableObservable<Color>();
+            var backgroundLight = new SettableObservable<Color>();
+            var primaryDark     = new SettableObservable<Color>();
+            var backgroundDark  = new SettableObservable<Color>();
+
+            var combined = new CombinedObservable<Color, Color, Color, Color>(primaryLight, primaryDark, backgroundLight, backgroundDark);
+
+            var cpPrimaryLight    = ColorPicker().OnInput((cp, ev) => primaryLight.Value = cp.Color);
+            var cpPrimaryDark     = ColorPicker().OnInput((cp, ev) => primaryDark.Value = cp.Color);
+            var cpBackgroundLight = ColorPicker().OnInput((cp, ev) => backgroundLight.Value = cp.Color);
+            var cpBackgroundDark  = ColorPicker().OnInput((cp, ev) => backgroundDark.Value = cp.Color);
+
+            Theme.Light();
+            window.setTimeout((_) =>
+            {
+
+                primaryLight.Value = Color.FromString(Color.EvalVar(Theme.Primary.Background));
+                backgroundLight.Value = Color.FromString(Color.EvalVar(Theme.Default.Background));
+                
+                Theme.Dark();
+                window.setTimeout((__) =>
+                {
+                    primaryDark.Value = Color.FromString(Color.EvalVar(Theme.Primary.Background));
+                    backgroundDark.Value = Color.FromString(Color.EvalVar(Theme.Default.Background));
+                    Theme.IsLight = currentTheme;
+
+
+                    cpPrimaryLight.Color    = primaryLight.Value;
+                    cpPrimaryDark.Color     = primaryDark.Value;
+                    cpBackgroundLight.Color = backgroundLight.Value;
+                    cpBackgroundDark.Color  = backgroundDark.Value;
+
+                    combined.ObserveFutureChanges(v =>
+                    {
+                        Theme.SetPrimary(v.first, v.second);
+                        Theme.SetBackground(v.third, v.forth);
+                    });
+
+                }, 1);
+            }, 1);
+
             _content = SectionStack()
                .Title(SampleHeader(nameof(ThemeColorsSample)))
                .Section(
@@ -38,7 +80,11 @@ namespace Tesserae.Tests.Samples
                                 new ColorListItem("Success"),
                                 new ColorListItem("Danger")
                             })
-                           .SortedBy("Name")
+                           .SortedBy("Name"),
+                            Label("Primary Light").Inline()   .SetContent(cpPrimaryLight    ),
+                            Label("Primary Dark").Inline()    .SetContent(cpPrimaryDark     ),
+                            Label("Background Light").Inline().SetContent(cpBackgroundLight ),
+                            Label("Background Dark").Inline() .SetContent(cpBackgroundDark  )
                     ));
         }
 

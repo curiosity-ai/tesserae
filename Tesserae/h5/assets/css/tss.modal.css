@@ -25,7 +25,7 @@
     padding: 0;
     background-color: var(--tss-default-background-color);
     box-shadow: rgba(0, 0, 0, 0.22) 0px 25.6px 57.6px 0px, rgba(0, 0, 0, 0.18) 0px 4.8px 14.4px 0px;
-    border-radius: 4px;
+    border-radius: 8px;
     position: relative;
     text-align: left;
     right: auto;

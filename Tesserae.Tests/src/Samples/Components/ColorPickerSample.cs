@@ -21,7 +21,6 @@ namespace Tesserae.Tests.Samples
                 Stack().Width(40.percent()).Children(
                     Label("Standard").SetContent(HStack().Stretch().Children(ColorPicker().Width(10.percent()).Var(out var colorPicker1), Button().SetText("Click me!").Var(out var button1))),
                     Label("With preset color").SetContent(ColorPicker(Color.FromString("#0078d4"))).Width(10.percent()),
-                    Label("Change Theme Color").SetContent(ColorPicker(Color.FromString("#0078d4")).OnChange((cp, e) => Theme.SetPrimary(cp.Color))).Width(10.percent()),
                     Label("Disabled").Disabled().SetContent(ColorPicker().Disabled()).Width(10.percent()),
                     Label("Required").Required().SetContent(ColorPicker()).Width(10.percent()), ColorPicker().Required().Width(10.percent()),
                     Label("With error message").SetContent(ColorPicker().Error("Error message").IsInvalid()).Width(10.percent()),
