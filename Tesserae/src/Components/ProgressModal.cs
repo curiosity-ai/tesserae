@@ -18,10 +18,6 @@ namespace Tesserae
 
         public ProgressModal()
         {
-            var x_TODO = Modal();
-            x_TODO.Blocking();
-
-
             _titleHost   = Raw().WidthStretch();
             _messageHost = Raw().WidthStretch();
             _footerHost = Raw().WidthStretch();

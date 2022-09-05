@@ -261,7 +261,7 @@ namespace Tesserae
         {
             WillShowCloseButton = false;
             _modal.classList.add("tss-embedded");
-            return Raw(_modal).Stretch();
+            return Raw(_modal);
         }
 
         public bool WillShowCloseButton
