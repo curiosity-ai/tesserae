@@ -13,6 +13,66 @@ namespace Tesserae.Tests.Samples
         private IComponent _content;
 
 
+        public static void DumpTheme()
+        {
+            foreach(var (fromC, toC) in new[] 
+            {
+                ("tss-default-background-color-root", "tss-default-background-hover-color-root"),
+                ("tss-default-background-color-root", "tss-default-background-active-color-root"),
+
+                ("tss-default-foreground-color-root", "tss-default-foreground-hover-color-root"),
+                ("tss-default-foreground-color-root", "tss-default-foreground-active-color-root"),
+
+                ("tss-primary-background-color-root", "tss-primary-border-color-root"),
+                ("tss-primary-background-color-root", "tss-primary-background-hover-color-root"),
+                ("tss-primary-background-color-root", "tss-primary-background-active-color-root"),
+
+                ("tss-primary-foreground-color-root", "tss-primary-foreground-hover-color-root"),
+                ("tss-primary-foreground-color-root", "tss-primary-foreground-active-color-root"),
+
+                ("tss-danger-background-color-root", "tss-danger-border-color-root"),
+                ("tss-danger-background-color-root", "tss-danger-background-hover-color-root"),
+                ("tss-danger-background-color-root", "tss-danger-background-active-color-root"),
+
+                ("tss-danger-foreground-color-root", "tss-danger-foreground-hover-color-root"),
+                ("tss-danger-foreground-color-root", "tss-danger-foreground-active-color-root"),
+
+                ("tss-scrollbar-track-color", "tss-scrollbar-track-hidden-color"),
+                ("tss-scrollbar-track-color", "tss-scrollbar-thumb-color"),
+                ("tss-scrollbar-track-color", "tss-scrollbar-thumb-hidden-color"),
+
+                ("tss-default-border-color-root", "tss-default-background-color-root"),
+                ("tss-dark-border-color-root", "tss-default-background-color-root"),
+                ("tss-default-separator-color-root", "tss-default-background-color-root"),
+                ("tss-progress-background-color-root", "tss-default-background-color-root"),
+                ("tss-link-color-root", "tss-primary-background-color-root"),
+                ("tss-tooltip-background-color-root", "tss-default-foreground-color-root"),
+                ("tss-tooltip-foreground-color-root", "tss-default-background-color-root"),
+                ("tss-tooltip-background-color-root", "tss-default-background-color-root"),
+                ("tss-tooltip-foreground-color-root", "tss-default-foreground-color-root"),
+            })
+            {
+                console.log($"{(Theme.IsDark ? "DARK" : "LIGHT")}: {fromC} to {toC}: {LightDiff(fromC, toC):n1}");
+            }
+        }
+
+        public static double LightDiff(string from, string to)
+        {
+            string fromVar = Color.EvalVar("var(--" + from + ")");
+            string toVar = Color.EvalVar("var(--" + to + ")");
+            if (!fromVar.Contains("("))
+            {
+                fromVar = "rgb(" + fromVar + ")";
+            }
+            if (!toVar.Contains("("))
+            {
+                toVar = "rgb(" + toVar + ")";
+            }
+            var fromColor = (HSLColor)Color.FromString(fromVar);
+            var toColor  = (HSLColor)Color.FromString(toVar);
+            return toColor.Luminosity - fromColor.Luminosity;
+        }
+
         public ThemeColorsSample()
         {
             var currentTheme = Theme.IsLight;

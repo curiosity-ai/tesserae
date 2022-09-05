@@ -23,7 +23,7 @@
     --tss-secondary-foreground-color-root: 101, 103, 107;
     --tss-disabled-background-color-root: 243, 242, 241;
     --tss-disabled-foreground-color-root: 161, 159, 157;
-    --tss-default-border-color-root: 224 230 235;
+    --tss-default-border-color-root: 224, 230, 235;
     --tss-dark-border-color-root: 138, 136, 134;
     --tss-default-separator-color-root: 243, 242, 241;
     --tss-invalid-border-color-root: 164, 38, 44;
@@ -61,8 +61,6 @@
     --tss-slider-color-root: 200, 198, 196;
     --tss-slider-active-color-root: 222, 236, 249;
     --tss-slider-disabled-color-root: 243, 242, 241;
-    --tss-navbar-background-color-root: 255, 255, 255;
-    --tss-navbar-foreground-color-root: 50, 49, 48;
     --tss-primary-shadow-color-root: 0, 120, 212;
     --tss-default-background-color: rgb(var(--tss-default-background-color-root ));
     --tss-default-foreground-color: rgb(var(--tss-default-foreground-color-root ));
@@ -109,15 +107,13 @@
     --tss-slider-color: rgb(var(--tss-slider-color-root ));
     --tss-slider-active-color: rgb(var(--tss-slider-active-color-root ));
     --tss-slider-disabled-color: rgb(var(--tss-slider-disabled-color-root ));
-    --tss-navbar-background-color: rgb(var(--tss-navbar-background-color-root ));
-    --tss-navbar-foreground-color: rgb(var(--tss-navbar-foreground-color-root ));
     --tss-primary-shadow: 0 1.6px 3.6px 0 rgba(var(--tss-primary-shadow-color-root),0.132), 0 0.3px 0.9px 0 rgba(var(--tss-primary-shadow-color-root),0.108);
     --tss-overlay-light: rgba(255, 255, 255, 0.4);
     --tss-overlay-dark: rgba(0, 0, 0, 0.4);
     --tss-shadow-color-from: rgba(0,0,0,0.132);
     --tss-shadow-color-to: rgba(0,0,0,0.108);
-    --tss-box-shadow: 0 1.6px 3.6px 0 var(--tss-shadow-color-from), 0 0.3px 0.9px 0 var(--tss-shadow-color-to);
     --tss-box-shadow-darker: 0 1.6px 3.6px 0 rgba(0, 0, 0, 0.3), 0 0.3px 0.9px 0 rgba(0, 0, 0, 0.45);
+    --tss-box-shadow: 0 1.6px 3.6px 0 var(--tss-shadow-color-from), 0 0.3px 0.9px 0 var(--tss-shadow-color-to);
     --tss-card-shadow: 0 1.6px 3.6px 0 var(--tss-shadow-color-from), 0 0.3px 0.9px 0 var(--tss-shadow-color-to);
     --tss-toast-shadow: 2px 3px 12px 0px rgba(0, 0, 0, 0.45);
     --tss-scrollbar-track-color: rgba(50, 49, 48, 0.10);
@@ -173,8 +169,6 @@
     --tss-slider-color-root: 200, 198, 196;
     --tss-slider-active-color-root: 222, 236, 249;
     --tss-slider-disabled-color-root: 243, 242, 241;
-    --tss-navbar-background-color-root: 34, 34, 34;
-    --tss-navbar-foreground-color-root: 255, 255, 255;
     --tss-default-background-color: rgb(var(--tss-default-background-color-root ));
     --tss-default-foreground-color: rgb(var(--tss-default-foreground-color-root ));
     --tss-secondary-background-color: rgb(var(--tss-secondary-background-color-root ));
@@ -220,8 +214,6 @@
     --tss-slider-color: rgb(var(--tss-slider-color-root ));
     --tss-slider-active-color: rgb(var(--tss-slider-active-color-root ));
     --tss-slider-disabled-color: rgb(var(--tss-slider-disabled-color-root ));
-    --tss-navbar-background-color: rgb(var(--tss-navbar-background-color-root ));
-    --tss-navbar-foreground-color: rgb(var(--tss-navbar-foreground-color-root ));
     --tss-primary-shadow: 0 3.6px 5.6px 0 rgba(var(--tss-primary-shadow-color-root),0.132), 2px 2.3px 5.9px 0 rgba(var(--tss-primary-shadow-color-root),0.108);
     --tss-overlay-light: rgba(255, 255, 255, 0.1);
     --tss-overlay-dark: rgba(255, 255, 255, 0.4);
