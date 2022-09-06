@@ -362,7 +362,9 @@ namespace Tesserae
         {
             var (element, _) = Stack.GetCorrectItemToApplyStyle(component);
             if (element.HasOwnProperty("_tippy"))
+            {
                 H5.Script.Write("{0}._tippy.destroy();", element);
+            }
 
             var rendered = component.Render();
             rendered.onmouseenter = null;
@@ -397,7 +399,9 @@ namespace Tesserae
 
                 var (element, _) = Stack.GetCorrectItemToApplyStyle(component);
                 if (element.HasOwnProperty("_tippy"))
+                {
                     H5.Script.Write("{0}._tippy.destroy();", element);
+                }
 
                 if (animation == TooltipAnimation.None)
                 {
@@ -409,14 +413,20 @@ namespace Tesserae
                 }
 
                 H5.Script.Write("{0}._tippy.show();", element); //Shows it imediatelly, as the mouse is hovering the element
+                var currentTippy = H5.Script.Write<object>("{0}._tippy", element);
 
                 // 2020-10-05 DWR: Sometimes a tooltip will be attached to an element that is removed from the DOM and then the tooltip is left hanging, orphaned. 
                 component.WhenRemoved(() =>
                     {
                     // 2020-10-05 DWR: I presume that have to check this property before trying to kill it in case it's already been tidied up
                     if (element.HasOwnProperty("_tippy"))
+                    {
+                        if(currentTippy == H5.Script.Write<object>("{0}._tippy", element))
+                        {
                             H5.Script.Write("{0}._tippy.destroy();", element);
-                    });
+                        }
+                    }
+                });
             }
             return component;
         }
