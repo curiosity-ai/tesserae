@@ -59,7 +59,9 @@
 }
 
 .tss-sidebar-btn.tss-sidebar-selected,
-.tss-sidebar-btn-open.tss-sidebar-selected .tss-sidebar-btn {
+.tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn,
+.tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-btn,
+.tss-sidebar-nav.tss-sidebar-selected > .tss-btn {
     color: var(--tss-default-foreground-hover-color);
     background-color: rgba(var(--tss-default-background-hover-color-root), 0.5);
 }
