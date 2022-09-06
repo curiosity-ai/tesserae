@@ -117,6 +117,20 @@ namespace Tesserae
             }
         }
 
+        public SidebarButton ClearProgress()
+        {
+            _openButton.Render().style.background = "";
+            _closed.Render().style.background = "";
+            return this;
+        }
+        public SidebarButton Progress(float progress)
+        {
+            var p = $"linear-gradient(to right, rgba(var(--tss-primary-background-color-root),0.2), rgba(var(--tss-primary-background-color-root),0.2) {progress*100:0.0}%, transparent 0)";
+            _openButton.Render().style.background = p;
+            _closed.Render().style.background = p;
+            return this;
+        }
+
 
         public SidebarButton SetText(string text)
         {
