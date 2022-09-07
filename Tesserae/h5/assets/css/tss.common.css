@@ -21,6 +21,7 @@
     --tss-default-foreground-color-root: 50, 49, 48;
     --tss-secondary-background-color-root: 249, 250, 251;
     --tss-secondary-foreground-color-root: 101, 103, 107;
+    --tss-sidebar-background-color-root: 249, 250, 251;
     --tss-disabled-background-color-root: 243, 242, 241;
     --tss-disabled-foreground-color-root: 161, 159, 157;
     --tss-default-border-color-root: 224, 230, 235;
@@ -66,6 +67,7 @@
     --tss-default-foreground-color: rgb(var(--tss-default-foreground-color-root ));
     --tss-secondary-background-color: rgb(var(--tss-secondary-background-color-root ));
     --tss-secondary-foreground-color: rgb(var(--tss-secondary-foreground-color-root ));
+    --tss-sidebar-background-color: rgb(var(--tss-sidebar-background-color-root ));
     --tss-disabled-background-color: rgb(var(--tss-disabled-background-color-root ));
     --tss-disabled-foreground-color: rgb(var(--tss-disabled-foreground-color-root ));
     --tss-default-border-color: rgb(var(--tss-default-border-color-root ));
@@ -129,6 +131,7 @@
     --tss-default-foreground-color-root: 217, 217, 217;
     --tss-secondary-background-color-root: 51, 51, 51;
     --tss-secondary-foreground-color-root: 217, 217, 217;
+    --tss-sidebar-background-color-root: 51, 51, 51;
     --tss-disabled-background-color-root: 0, 0, 0;
     --tss-disabled-foreground-color-root: 173, 181, 189;
     --tss-default-border-color-root: 51, 51, 51;
@@ -173,6 +176,7 @@
     --tss-default-foreground-color: rgb(var(--tss-default-foreground-color-root ));
     --tss-secondary-background-color: rgb(var(--tss-secondary-background-color-root ));
     --tss-secondary-foreground-color: rgb(var(--tss-secondary-foreground-color-root ));
+    --tss-sidebar-background-color: rgb(var(--tss-sidebar-background-color-root ));
     --tss-disabled-background-color: rgb(var(--tss-disabled-background-color-root ));
     --tss-disabled-foreground-color: rgb(var(--tss-disabled-foreground-color-root ));
     --tss-default-border-color: rgb(var(--tss-default-border-color-root ));

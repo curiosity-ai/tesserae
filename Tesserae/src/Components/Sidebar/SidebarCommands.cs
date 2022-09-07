@@ -18,6 +18,26 @@ namespace Tesserae
 
         public IComponent CurrentRendered { get; private set; }
 
+        private void WhenSizeIsStable(HTMLElement element, Action<int> action, int previousWidth = -999)
+        {
+            if (element.IsMounted())
+            {
+                var currentWidth = (int)(element.getBoundingClientRect().As<DOMRect>().width);
+                if (currentWidth == previousWidth)
+                {
+                    action(currentWidth);
+                }
+                else
+                {
+                    window.setTimeout((_) => WhenSizeIsStable(element, action, currentWidth), 16);
+                }
+            }
+            else
+            {
+                DomObserver.WhenMounted(element, () => WhenSizeIsStable(element, action));
+            }
+        }
+
         public IComponent RenderOpen()
         {
             var div = Div(_("tss-sidebar-commands-line"));
@@ -35,11 +55,10 @@ namespace Tesserae
                 _commands[0].RefreshTooltip();
                 div.appendChild(_commands[0].Render());
 
-                window.setTimeout((__) =>
+                WhenSizeIsStable(div , (stableWidth) =>
                 {
                     HTMLDivElement otherCommands = null;
-                    var rect = div.getBoundingClientRect().As<DOMRect>();
-                    int max = (int)Math.Floor(rect.width / (48));
+                    int max = (int)Math.Floor(stableWidth / 48f);
 
                     if (_isEndAligned && _commands.Length > 1)
                     {
