@@ -297,12 +297,6 @@ namespace Tesserae
             return this;
         }
 
-        public Modal NoTopBorder()
-        {
-            _modalHeader.classList.add("tss-noborder");
-            return this;
-        }
-
         public Modal ShowCloseButton()
         {
             WillShowCloseButton = true;

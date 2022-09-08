@@ -85,17 +85,11 @@
     width: 100%;
     padding: 0px 12px 0px 12px;
     position: relative;
-    border-top: 4px solid var(--tss-primary-background-color);
     flex-shrink: 0;
     display: inline-flex;
     align-items: center;
     background: var(--tss-default-background-color);
 }
-
-    .tss-modal-header.tss-noborder {
-        border-top: unset;
-    }
-
 
 .tss-modal-header-content {
     flex-grow: 1;
