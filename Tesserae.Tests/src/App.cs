@@ -36,6 +36,9 @@ namespace Tesserae.Tests
             });
             
             var sidebar     = Sidebar();
+
+            sidebar.AddHeader(new SidebarText("Tesserae", "TSS", textSize: TextSize.Large, textWeight: TextWeight.Bold).PT(16).PB(16));
+
             var pageContent = HStack().Children(sidebar.HS(), Defer(currentPage, page => page is null ? CenteredCardWithBackground(TextBlock("Select an item")).AsTask() : VStack().S().ScrollY().Children(page.ContentGenerator().WS()).AsTask()).HS().W(1).Grow()).S();
 
             document.body.appendChild(pageContent.Render());
