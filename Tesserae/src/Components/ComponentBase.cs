@@ -24,8 +24,16 @@ namespace Tesserae
 
         public abstract HTMLElement Render();
 
-        public virtual T OnClick(ComponentEventHandler<T, MouseEvent> onClick)
+        public virtual T OnClick(ComponentEventHandler<T, MouseEvent> onClick, bool clearPrevious = true)
         {
+            if (Clicked != null && clearPrevious)
+            {
+                foreach (Delegate d in Clicked.GetInvocationList())
+                {
+                    Clicked -= (ComponentEventHandler<T, MouseEvent>)d;
+                }
+            }
+
             Clicked += onClick;
 
             if (this is TextBlock textBlock)
@@ -38,8 +46,16 @@ namespace Tesserae
         }
 
 
-        public virtual T OnContextMenu(ComponentEventHandler<T, MouseEvent> onContextMenu)
+        public virtual T OnContextMenu(ComponentEventHandler<T, MouseEvent> onContextMenu, bool clearPrevious = true)
         {
+            if (ContextMenu != null && clearPrevious)
+            {
+                foreach (Delegate d in ContextMenu.GetInvocationList())
+                {
+                    ContextMenu -= (ComponentEventHandler<T, MouseEvent>)d;
+                }
+            }
+
             ContextMenu += onContextMenu;
 
             if (this is TextBlock textBlock)

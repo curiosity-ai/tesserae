@@ -26,10 +26,10 @@ namespace Tesserae
             set => _cardContainer.UpdateClassIf(value, "tss-small");
         }
 
-        public override Card OnClick(ComponentEventHandler<Card, MouseEvent> onClick)
+        public override Card OnClick(ComponentEventHandler<Card, MouseEvent> onClick, bool clearPrevious = true)
         {
             InnerElement.style.cursor = "pointer";
-            return base.OnClick(onClick);
+            return base.OnClick(onClick, clearPrevious);
         }
 
         public Card OnClick(Action action) => OnClick((_, __) => action.Invoke());
