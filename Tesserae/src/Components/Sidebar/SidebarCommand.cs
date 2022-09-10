@@ -13,7 +13,7 @@ namespace Tesserae
         public SidebarCommand(LineAwesome icon, LineAwesomeWeight weight = LineAwesomeWeight.Light) : this($"{weight} {icon}") {}
         public SidebarCommand(Emoji icon) : this($"ec {icon}") {}
 
-        public SidebarCommand(ImageIcon image)
+        public SidebarCommand(ISidebarIcon image)
         {
             _button = Button().ReplaceContent(image).Class("tss-sidebar-command");
         }

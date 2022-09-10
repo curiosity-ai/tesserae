@@ -4,7 +4,7 @@ using static Tesserae.UI;
 namespace Tesserae
 {
     [H5.Name("tss.ImageIcon")]
-    public class ImageIcon : IComponent
+    public class ImageIcon : ISidebarIcon
     {
         private HTMLImageElement _img;
         public ImageIcon(string source)
@@ -17,6 +17,11 @@ namespace Tesserae
 
         public HTMLElement Render() => _img;
 
-        public ImageIcon Clone() => new ImageIcon(_img.src);
+        public ISidebarIcon Clone() => new ImageIcon(_img.src);
+    }
+
+    public interface ISidebarIcon : IComponent
+    {
+        ISidebarIcon Clone();
     }
 }

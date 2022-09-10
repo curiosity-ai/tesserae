@@ -11,7 +11,7 @@ namespace Tesserae
         private readonly IComponent _open;
         private readonly SidebarCommand[] _commands;
         private Action<IComponent> _tooltipClosed;
-        private readonly ImageIcon _image;
+        private readonly ISidebarIcon _image;
         private Action<IComponent> _tooltipOpen;
         private readonly SettableObservable<bool> _selected;
 
@@ -70,7 +70,7 @@ namespace Tesserae
             return Raw(div);
         }
 
-        public SidebarButton(ImageIcon image, string text, params SidebarCommand[] commands)
+        public SidebarButton(ISidebarIcon image, string text, params SidebarCommand[] commands)
         {
             _selected = new SettableObservable<bool>(false);
             
