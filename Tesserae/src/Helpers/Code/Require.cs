@@ -28,22 +28,32 @@ namespace Tesserae
         {
             await singleCall.WaitAsync();
 
-            var tcs = new TaskCompletionSource<bool>();
-            LoadScriptAsync(() => tcs.SetResult(true), (err) => tcs.SetException(new Exception(err)),false, libraries);
-            await tcs.Task;
-
-            singleCall.Release();
+            try
+            {
+                var tcs = new TaskCompletionSource<bool>();
+                LoadScriptAsync(() => tcs.SetResult(true), (err) => tcs.SetException(new Exception(err)),false, libraries);
+                await tcs.Task;
+            }
+            finally
+            {
+                singleCall.Release();
+            }
         }
 
         public static async Task LoadModuleAsync(params string[] libraries)
         {
             await singleCall.WaitAsync();
 
-            var tcs = new TaskCompletionSource<bool>();
-            LoadScriptAsync(() => tcs.SetResult(true), (err) => tcs.SetException(new Exception(err)), true, libraries);
-            await tcs.Task;
-
-            singleCall.Release();
+            try
+            {
+                var tcs = new TaskCompletionSource<bool>();
+                LoadScriptAsync(() => tcs.SetResult(true), (err) => tcs.SetException(new Exception(err)), true, libraries);
+                await tcs.Task;
+            }
+            finally
+            {
+                singleCall.Release();
+            }
         }
 
         private static void LoadScriptAsync(Action onComplete, Action<string> onFail, bool isModule, params string[] libraries)
