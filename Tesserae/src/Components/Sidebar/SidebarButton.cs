@@ -297,6 +297,19 @@ namespace Tesserae
             return this;
         }
 
+        public SidebarButton Collapse()
+        {
+            _closed.Collapse();
+            _open.Collapse();
+            return this;
+        }
+
+        public SidebarButton Show()
+        {
+            _closed.Show();
+            _open.Show();
+            return this;
+        }
 
         public IComponent RenderClosed()
         {
