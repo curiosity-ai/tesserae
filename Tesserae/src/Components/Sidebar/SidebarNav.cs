@@ -22,6 +22,8 @@ namespace Tesserae
         private readonly Func<IComponent> _openContent;
         private SidebarCommand[] _commands;
 
+        private event Action<IComponent> _onRendered; 
+
         public bool IsCollapsed { get { return _collapsed.Value; } set { _collapsed.Value = value; } }
         public bool IsSelected  { get { return _selected.Value; }  set { _selected.Value = value; } }
 
@@ -188,6 +190,7 @@ namespace Tesserae
 
             var comp = Raw(nav);
             _lastOpen= comp;
+            _onRendered?.Invoke(comp);
             return comp;
 
             void CollapsedChanged(bool isCollapsed)
@@ -237,6 +240,7 @@ namespace Tesserae
 
             var comp = Raw(nav);
             _lastClosed = comp;
+            _onRendered?.Invoke(comp);
             return comp;
 
             void CollapsedChanged(bool isCollapsed)
@@ -281,5 +285,10 @@ namespace Tesserae
 
         public IComponent RenderOpen() => _openContent();
 
+        public SidebarNav OnRendered(Action<IComponent> onRendered)
+        {
+            _onRendered += onRendered;
+            return this;
+        }
     }
 }
