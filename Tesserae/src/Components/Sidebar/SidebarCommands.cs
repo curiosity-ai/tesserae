@@ -18,18 +18,21 @@ namespace Tesserae
 
         public IComponent CurrentRendered { get; private set; }
 
-        private void WhenSizeIsStable(HTMLElement element, Action<int> action, int previousWidth = -999)
+        private void WhenSizeIsStable(HTMLElement element, Action<int> action, int previousWidth = -1)
         {
+            int delay = previousWidth < 0 ? 400 : 50; //Needs to happen after the animation finishes, which takes 300ms (see .tss-sidebar)
+            
             if (element.IsMounted())
             {
                 var currentWidth = (int)(element.getBoundingClientRect().As<DOMRect>().width);
+
                 if (currentWidth == previousWidth)
                 {
                     action(currentWidth);
                 }
                 else
                 {
-                    window.setTimeout((_) => WhenSizeIsStable(element, action, currentWidth), 16);
+                    window.setTimeout((_) => WhenSizeIsStable(element, action, currentWidth), delay);
                 }
             }
             else
@@ -98,7 +101,7 @@ namespace Tesserae
                             });
                         });
                     }
-                }, 400); //Need to be after the animation
+                }); 
             });
             CurrentRendered = divWrapped;
             return divWrapped;
