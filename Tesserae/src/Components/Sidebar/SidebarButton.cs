@@ -253,6 +253,7 @@ namespace Tesserae
             _open.Id(id);
             _closed.Id(id);
             return this;
+
         }
 
         public SidebarButton OnOpenIconClick(Action action)

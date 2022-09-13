@@ -10,7 +10,7 @@ namespace Tesserae
 {
     public class SidebarNav : ISidebarItem
     {
-        private readonly string _text;
+        private string _text;
         private readonly Button _closedHeader;
         private readonly HTMLElement _openHeader;
         private readonly Button _arrow;
@@ -69,6 +69,21 @@ namespace Tesserae
             {
                 _collapsed.Value = !_collapsed.Value;
             });
+        }
+
+        public SidebarNav SetText(string text)
+        {
+            _openHeaderButton.SetText(text);
+            _closedHeader.Tooltip(text, placement: TooltipPlacement.Top);
+            _text = text;
+            return this;
+        }
+
+        public SidebarNav SetIcon(string icon)
+        {
+            _openHeaderButton.SetIcon(icon);
+            _closedHeader.SetIcon(icon);
+            return this;
         }
 
         public SidebarNav Collapsed(bool isCollapsed = true)
