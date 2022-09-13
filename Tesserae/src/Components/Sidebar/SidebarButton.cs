@@ -248,6 +248,13 @@ namespace Tesserae
             return this;
         }
 
+        public SidebarButton Id(string id)
+        {
+            _open.Id(id);
+            _closed.Id(id);
+            return this;
+        }
+
         public SidebarButton OnOpenIconClick(Action action)
         {
             _openButton.OnIconClick((_,__) => action());
