@@ -15,6 +15,8 @@ namespace Tesserae
         private          Action<IComponent>       _tooltipOpen;
         private readonly SettableObservable<bool> _selected;
 
+        private event Action<HTMLElement> _onRendered;
+
         public bool IsSelected { get { return _selected.Value; } set { _selected.Value = value; } }
 
         public IComponent CurrentRendered => _closed.IsMounted() ? _closed : _open;
@@ -321,9 +323,16 @@ namespace Tesserae
             return this;
         }
 
+        
+        public ISidebarItem OnRendered(Action<HTMLElement> onRendered)
+        {
+            _onRendered += onRendered;
+            return this;
+        }
         public IComponent RenderClosed()
         {
             _tooltipClosed?.Invoke(_closed);
+            _onRendered?.Invoke(_closed.Render());
             return _closed;
         }
 
@@ -331,6 +340,7 @@ namespace Tesserae
         {
             foreach (var c in _commands) c.RefreshTooltip();
             _tooltipOpen?.Invoke(_openButton);
+            _onRendered?.Invoke(_open.Render());
             return _open;
         }
     }
