@@ -107,7 +107,7 @@ namespace Tesserae
             return divWrapped;
         }
 
-        internal IComponent RenderOpenFull()
+        public IComponent RenderOpenFull()
         {
             var div = Div(_("tss-sidebar-commands-line"));
             var divWrapped = Raw(div);
