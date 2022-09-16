@@ -10,17 +10,19 @@ namespace Tesserae
 {
     public class SidebarNav : ISidebarItem
     {
-        private string _text;
-        private readonly Button _closedHeader;
-        private readonly HTMLElement _openHeader;
-        private readonly Button _arrow;
-        private readonly Button _openHeaderButton;
+        private          string                       _text;
+        private readonly Button                       _closedHeader;
+        private readonly HTMLElement                  _openHeader;
+        private readonly Button                       _arrow;
+        private readonly Button                       _openHeaderButton;
         private readonly ObservableList<ISidebarItem> _items;
-        private readonly SettableObservable<bool> _collapsed;
-        private readonly SettableObservable<bool> _selected;
-        private readonly Func<IComponent> _closedContent;
-        private readonly Func<IComponent> _openContent;
-        private SidebarCommand[] _commands;
+        private readonly SettableObservable<bool>     _collapsed;
+        private readonly SettableObservable<bool>     _selected;
+        private readonly Func<IComponent>             _closedContent;
+        private readonly Func<IComponent>             _openContent;
+        private          SidebarCommand[]             _commands;
+
+        private event Action<HTMLElement> _onRendered;
 
         public bool IsCollapsed { get { return _collapsed.Value; } set { _collapsed.Value = value; } }
         public bool IsSelected  { get { return _selected.Value; }  set { _selected.Value = value; } }
@@ -30,9 +32,9 @@ namespace Tesserae
 
         public IComponent CurrentRendered => (_lastClosed is object && _lastClosed.IsMounted()) ? _lastClosed : _lastOpen;
 
-        public SidebarNav(Emoji icon, string text, bool initiallyCollapsed, params SidebarCommand[] commands) : this($"ec {icon}", text, initiallyCollapsed, commands) { }
-        public SidebarNav(LineAwesome icon, string text, bool initiallyCollapsed, params SidebarCommand[] commands) : this($"{LineAwesomeWeight.Light} {icon}", text, initiallyCollapsed, commands) { }
-        public SidebarNav(LineAwesome icon, LineAwesomeWeight weight, string text, bool initiallyCollapsed, params SidebarCommand[] commands) : this($"{weight} {icon}", text, initiallyCollapsed, commands) { }
+        public SidebarNav(Emoji       icon, string            text,   bool   initiallyCollapsed, params SidebarCommand[] commands) : this($"ec {icon}", text, initiallyCollapsed, commands) { }
+        public SidebarNav(LineAwesome icon, string            text,   bool   initiallyCollapsed, params SidebarCommand[] commands) : this($"{LineAwesomeWeight.Light} {icon}", text, initiallyCollapsed, commands) { }
+        public SidebarNav(LineAwesome icon, LineAwesomeWeight weight, string text,               bool                    initiallyCollapsed, params SidebarCommand[] commands) : this($"{weight} {icon}", text, initiallyCollapsed, commands) { }
 
         public SidebarNav(string icon, string text, bool initiallyCollapsed, params SidebarCommand[] commands)
         {
@@ -40,7 +42,7 @@ namespace Tesserae
             _closedHeader = Button().SetIcon(icon).Class("tss-sidebar-nav-header").Class("tss-sidebar-btn");
             _openHeader = Div(_("tss-sidebar-nav-header tss-sidebar-btn-open tss-sidebar-nav-header-empty"));
 
-            _arrow     = Button().Class("tss-sidebar-nav-arrow");
+            _arrow = Button().Class("tss-sidebar-nav-arrow");
 
             _openHeaderButton = Button(text).SetIcon(icon).Class("tss-sidebar-nav-button");
             _openHeader.appendChild(_openHeaderButton.Render());
@@ -52,6 +54,7 @@ namespace Tesserae
             {
                 var divCmd = Div(_("tss-sidebar-commands"));
                 _openHeader.appendChild(divCmd);
+
                 foreach (var c in commands)
                 {
                     divCmd.appendChild(c.Render());
@@ -60,10 +63,10 @@ namespace Tesserae
 
             _items = new ObservableList<ISidebarItem>();
             _collapsed = new SettableObservable<bool>(initiallyCollapsed);
-            _selected  = new SettableObservable<bool>(false);
+            _selected = new SettableObservable<bool>(false);
 
             _closedContent = () => Defer(_items, (items) => RenderClosed(items).AsTask());
-            _openContent   = () => Defer(_items, (items) => RenderOpened(items).AsTask());
+            _openContent = () => Defer(_items, (items) => RenderOpened(items).AsTask());
 
             _arrow.OnClick(() =>
             {
@@ -119,7 +122,7 @@ namespace Tesserae
 
         public SidebarNav OnOpenIconClick(Action action)
         {
-            _openHeaderButton.OnIconClick((_,__) => action());
+            _openHeaderButton.OnIconClick((_, __) => action());
             _openHeaderButton.Class("tss-sidebar-btn-has-icon-click");
             return this;
         }
@@ -147,14 +150,14 @@ namespace Tesserae
 
         public SidebarNav OnClick(Action<Button, MouseEvent> action)
         {
-            _closedHeader.OnClick((b, e) => action(b, e));
+            _closedHeader.OnClick((b,     e) => action(b, e));
             _openHeaderButton.OnClick((b, e) => action(b, e));
             return this;
         }
 
         public SidebarNav OnContextMenu(Action<Button, MouseEvent> action)
         {
-            _closedHeader.OnContextMenu((b, e) => action(b, e));
+            _closedHeader.OnContextMenu((b,     e) => action(b, e));
             _openHeaderButton.OnContextMenu((b, e) => action(b, e));
             return this;
         }
@@ -179,15 +182,21 @@ namespace Tesserae
             CollapsedChanged(_collapsed.Value);
             SelectedChanged(_selected.Value);
 
-            DomObserver.WhenMounted(nav ,() =>
+            DomObserver.WhenMounted(nav, () =>
             {
                 _collapsed.Observe(CollapsedChanged);
                 _selected.Observe(SelectedChanged);
-                DomObserver.WhenRemoved(nav, () => { _collapsed.StopObserving(CollapsedChanged); _selected.StopObserving(SelectedChanged); });
+
+                DomObserver.WhenRemoved(nav, () =>
+                {
+                    _collapsed.StopObserving(CollapsedChanged);
+                    _selected.StopObserving(SelectedChanged);
+                });
             });
 
             var comp = Raw(nav);
-            _lastOpen= comp;
+            _lastOpen = comp;
+            _onRendered?.Invoke(_openHeader);
             return comp;
 
             void CollapsedChanged(bool isCollapsed)
@@ -216,7 +225,7 @@ namespace Tesserae
                 }
             }
         }
-        
+
         private IComponent RenderClosed(IReadOnlyList<ISidebarItem> items)
         {
             _closedHeader.Tooltip(_text, placement: TooltipPlacement.Top);
@@ -232,11 +241,17 @@ namespace Tesserae
             {
                 _collapsed.Observe(CollapsedChanged);
                 _selected.Observe(SelectedChanged);
-                DomObserver.WhenRemoved(nav, () => { _collapsed.StopObserving(CollapsedChanged); _selected.StopObserving(SelectedChanged); });
+
+                DomObserver.WhenRemoved(nav, () =>
+                {
+                    _collapsed.StopObserving(CollapsedChanged);
+                    _selected.StopObserving(SelectedChanged);
+                });
             });
 
             var comp = Raw(nav);
             _lastClosed = comp;
+            _onRendered?.Invoke(_closedHeader.Render());
             return comp;
 
             void CollapsedChanged(bool isCollapsed)
@@ -281,5 +296,10 @@ namespace Tesserae
 
         public IComponent RenderOpen() => _openContent();
 
+        public ISidebarItem OnRendered(Action<HTMLElement> onRendered)
+        {
+            _onRendered += onRendered;
+            return this;
+        }
     }
 }

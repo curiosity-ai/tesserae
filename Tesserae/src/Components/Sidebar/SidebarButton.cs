@@ -6,14 +6,16 @@ namespace Tesserae
 {
     public class SidebarButton : ISidebarItem
     {
-        private readonly Button _closed;
-        private readonly Button _openButton;
-        private readonly IComponent _open;
-        private readonly SidebarCommand[] _commands;
-        private Action<IComponent> _tooltipClosed;
-        private readonly ISidebarIcon _image;
-        private Action<IComponent> _tooltipOpen;
+        private readonly Button                   _closed;
+        private readonly Button                   _openButton;
+        private readonly IComponent               _open;
+        private readonly SidebarCommand[]         _commands;
+        private          Action<IComponent>       _tooltipClosed;
+        private readonly ISidebarIcon             _image;
+        private          Action<IComponent>       _tooltipOpen;
         private readonly SettableObservable<bool> _selected;
+
+        private event Action<HTMLElement> _onRendered;
 
         public bool IsSelected { get { return _selected.Value; } set { _selected.Value = value; } }
 
@@ -30,13 +32,13 @@ namespace Tesserae
             _selected = new SettableObservable<bool>(false);
             _tooltipClosed = (b) => b.Tooltip(text);
             _closed = Button().Class("tss-sidebar-btn").SetIcon(icon);
-            
+
             _openButton = Button(text).SetIcon(icon).Class("tss-sidebar-btn");
-            
+
             _commands = commands;
 
-            _open   = Wrap(_openButton);
-            
+            _open = Wrap(_openButton);
+
 
             _selected.Observe(isSelected =>
             {
@@ -52,7 +54,7 @@ namespace Tesserae
                 }
             });
         }
-        
+
         private IComponent Wrap(Button button)
         {
             var div = Div(_("tss-sidebar-btn-open"));
@@ -62,6 +64,7 @@ namespace Tesserae
             {
                 var divCmd = Div(_("tss-sidebar-commands"));
                 div.appendChild(divCmd);
+
                 foreach (var c in _commands)
                 {
                     divCmd.appendChild(c.Render());
@@ -73,7 +76,7 @@ namespace Tesserae
         public SidebarButton(ISidebarIcon image, string text, params SidebarCommand[] commands)
         {
             _selected = new SettableObservable<bool>(false);
-            
+
             _tooltipClosed = (b) => b.Tooltip(text);
 
             _image = image;
@@ -108,6 +111,7 @@ namespace Tesserae
                 {
                     var divCmd = Div(_("tss-sidebar-commands"));
                     div.appendChild(divCmd);
+
                     foreach (var c in commands)
                     {
                         divCmd.appendChild(c.Render());
@@ -125,7 +129,7 @@ namespace Tesserae
         }
         public SidebarButton Progress(float progress)
         {
-            var p = $"linear-gradient(to right, rgba(var(--tss-primary-background-color-root),0.2), rgba(var(--tss-primary-background-color-root),0.2) {progress*100:0.0}%, transparent 0)";
+            var p = $"linear-gradient(to right, rgba(var(--tss-primary-background-color-root),0.2), rgba(var(--tss-primary-background-color-root),0.2) {progress * 100:0.0}%, transparent 0)";
             _openButton.Render().style.background = p;
             _closed.Render().style.background = p;
             return this;
@@ -258,7 +262,7 @@ namespace Tesserae
 
         public SidebarButton OnOpenIconClick(Action action)
         {
-            _openButton.OnIconClick((_,__) => action());
+            _openButton.OnIconClick((_, __) => action());
             _openButton.Class("tss-sidebar-btn-has-icon-click");
             return this;
         }
@@ -272,14 +276,14 @@ namespace Tesserae
 
         public SidebarButton OnClick(Action<Button, MouseEvent> action)
         {
-            _closed.OnClick((b, e) => action(b, e));
+            _closed.OnClick((b,     e) => action(b, e));
             _openButton.OnClick((b, e) => action(b, e));
             return this;
         }
 
         public SidebarButton OnContextMenu(Action<Button, MouseEvent> action)
         {
-            _closed.OnContextMenu((b, e) => action(b, e));
+            _closed.OnContextMenu((b,     e) => action(b, e));
             _openButton.OnContextMenu((b, e) => action(b, e));
             return this;
         }
@@ -319,9 +323,16 @@ namespace Tesserae
             return this;
         }
 
+        
+        public ISidebarItem OnRendered(Action<HTMLElement> onRendered)
+        {
+            _onRendered += onRendered;
+            return this;
+        }
         public IComponent RenderClosed()
         {
             _tooltipClosed?.Invoke(_closed);
+            _onRendered?.Invoke(_closed.Render());
             return _closed;
         }
 
@@ -329,6 +340,7 @@ namespace Tesserae
         {
             foreach (var c in _commands) c.RefreshTooltip();
             _tooltipOpen?.Invoke(_openButton);
+            _onRendered?.Invoke(_open.Render());
             return _open;
         }
     }
