@@ -7,7 +7,7 @@ namespace Tesserae
     public class SidebarCommands : ISidebarItem
     {
         private readonly SidebarCommand[] _commands;
-        private bool _isEndAligned;
+        private          bool             _isEndAligned;
 
         public SidebarCommands(params SidebarCommand[] commands)
         {
@@ -21,7 +21,7 @@ namespace Tesserae
         private void WhenSizeIsStable(HTMLElement element, Action<int> action, int previousWidth = -1)
         {
             int delay = previousWidth < 0 ? 400 : 50; //Needs to happen after the animation finishes, which takes 300ms (see .tss-sidebar)
-            
+
             if (element.IsMounted())
             {
                 var currentWidth = (int)(element.getBoundingClientRect().As<DOMRect>().width);
@@ -58,7 +58,7 @@ namespace Tesserae
                 _commands[0].RefreshTooltip();
                 div.appendChild(_commands[0].Render());
 
-                WhenSizeIsStable(div , (stableWidth) =>
+                WhenSizeIsStable(div, (stableWidth) =>
                 {
                     HTMLDivElement otherCommands = null;
                     int max = (int)Math.Floor(stableWidth / 48f);
@@ -72,6 +72,7 @@ namespace Tesserae
                     {
                         var command = _commands[i];
                         command.RefreshTooltip();
+
                         if (i < max)
                         {
                             div.appendChild(command.Render());
@@ -85,7 +86,7 @@ namespace Tesserae
 
                     if (otherCommands is object)
                     {
-                        divWrapped.Tooltip(Raw(otherCommands), true, placement: TooltipPlacement.Right, delayHide: 500, maxWidth:1000);
+                        divWrapped.Tooltip(Raw(otherCommands), true, placement: TooltipPlacement.Right, delayHide: 500, maxWidth: 1000);
 
                         DomObserver.WhenMounted(otherCommands, () =>
                         {
@@ -101,7 +102,7 @@ namespace Tesserae
                             });
                         });
                     }
-                }); 
+                });
             });
             CurrentRendered = divWrapped;
             return divWrapped;
@@ -154,6 +155,7 @@ namespace Tesserae
                 {
                     var command = _commands[i];
                     command.RefreshTooltip();
+
                     if (i < max)
                     {
                         div.appendChild(command.Render());
@@ -168,6 +170,7 @@ namespace Tesserae
                 if (otherCommands is object)
                 {
                     divWrapped.Tooltip(Raw(otherCommands), true, placement: TooltipPlacement.Right, delayHide: 500, maxWidth: 1000);
+
                     DomObserver.WhenMounted(otherCommands, () =>
                     {
                         DomObserver.WhenRemoved(otherCommands, () =>
