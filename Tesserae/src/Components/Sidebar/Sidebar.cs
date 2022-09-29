@@ -15,6 +15,8 @@ namespace Tesserae
         private          double                       _closedTimeout;
         private readonly Stack                        _sidebar;
 
+        public const int SIDEBAR_TRANSITION_TIME = 300;
+
         public bool IsClosed { get { return _closed.Value; } set { _closed.Value = value; } }
 
         public Sidebar()

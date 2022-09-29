@@ -331,8 +331,12 @@ namespace Tesserae
         }
         public IComponent RenderClosed()
         {
-            _tooltipClosed?.Invoke(_closedButton);
             _onRendered?.Invoke(_closedButton.Render());
+            _closedButton.RemoveTooltip();
+            DomObserver.WhenMounted(_closedButton.Render(), () =>
+            {
+                window.setTimeout(_ => { _tooltipClosed?.Invoke(_closedButton); }, Sidebar.SIDEBAR_TRANSITION_TIME);
+            });
             return _closedButton;
         }
 

@@ -151,6 +151,7 @@ namespace Tesserae
                 HTMLDivElement otherCommands = null;
                 int max = 1;
 
+
                 for (int i = 0; i < _commands.Length; i++)
                 {
                     var command = _commands[i];
@@ -167,24 +168,29 @@ namespace Tesserae
                     }
                 }
 
-                if (otherCommands is object)
+                window.setTimeout(__ =>
                 {
-                    divWrapped.Tooltip(Raw(otherCommands), true, placement: TooltipPlacement.Right, delayHide: 500, maxWidth: 1000);
 
-                    DomObserver.WhenMounted(otherCommands, () =>
+                    if (otherCommands is object)
                     {
-                        DomObserver.WhenRemoved(otherCommands, () =>
+                        divWrapped.Tooltip(Raw(otherCommands), true, placement: TooltipPlacement.Right, delayHide: 500, maxWidth: 1000);
+
+                        DomObserver.WhenMounted(otherCommands, () =>
                         {
-                            if (divWrapped.IsMounted())
+                            DomObserver.WhenRemoved(otherCommands, () =>
                             {
-                                for (int i = 0; i < _commands.Length; i++)
+                                if (divWrapped.IsMounted())
                                 {
-                                    _commands[i].RefreshTooltip();
+                                    for (int i = 0; i < _commands.Length; i++)
+                                    {
+                                        _commands[i].RefreshTooltip();
+                                    }
                                 }
-                            }
+                            });
                         });
-                    });
-                }
+                    }
+
+                }, Sidebar.SIDEBAR_TRANSITION_TIME);
             });
 
             CurrentRendered = divWrapped;
