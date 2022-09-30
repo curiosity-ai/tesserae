@@ -20,13 +20,13 @@ namespace Tesserae
 
         private void WhenSizeIsStable(HTMLElement element, Action<int> action, int previousWidth = -1)
         {
-            int delay = previousWidth < 0 ? 400 : 50; //Needs to happen after the animation finishes, which takes 300ms (see .tss-sidebar)
+            int delay = previousWidth < 0 ? Sidebar.SIDEBAR_TRANSITION_TIME : 100; //Needs to happen after the animation finishes, which takes 300ms (see .tss-sidebar)
 
             if (element.IsMounted())
             {
                 var currentWidth = (int)(element.getBoundingClientRect().As<DOMRect>().width);
 
-                if (currentWidth == previousWidth)
+                if (currentWidth > 0 && currentWidth == previousWidth)
                 {
                     action(currentWidth);
                 }
