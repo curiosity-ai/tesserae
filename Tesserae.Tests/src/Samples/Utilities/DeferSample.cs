@@ -7,7 +7,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 namespace Tesserae.Tests.Samples
 {
     [SampleDetails(Group = "Utilities", Order = 0, Icon = LineAwesome.Spinner)]
-    public class DeferSample : IComponent
+    public class DeferSample : IComponent, ISample
     {
         private readonly IComponent content;
 
