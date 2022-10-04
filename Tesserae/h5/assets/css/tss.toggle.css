@@ -5,6 +5,7 @@
     color: var(--tss-default-foreground-color);
     font-size: var(--tss-font-size-small);
     font-weight: var(--tss-font-weight-semibold);
+    -webkit-user-select: none;
     user-select: none;
     padding-left: 45px;
     display: inline-block;

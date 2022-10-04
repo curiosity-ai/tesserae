@@ -11,6 +11,7 @@
     width: calc(100% - 16px);
     outline: transparent none medium;
     padding: 5px 5px;
+    -webkit-user-select: none;
     user-select: none;
     flex-wrap: nowrap;
     display: inline-flex;
@@ -77,8 +78,9 @@
         background-color: var(--tss-disabled-background-color);
         color: var(--tss-disabled-foreground-color);
         cursor: default;
-        user-select:none;
-        pointer-events:none;
+        -webkit-user-select: none;
+        user-select: none;
+        pointer-events: none;
     }
 
 
@@ -112,6 +114,7 @@
     visibility: visible;
     box-shadow: rgba(0, 0, 0, 0.133) 0px 3.2px 7.2px 0px, rgba(0, 0, 0, 0.11) 0px 0.6px 1.8px 0px;
     overflow-y: auto;
+    -webkit-user-select: none;
     user-select: none;
 }
 

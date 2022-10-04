@@ -16,6 +16,7 @@
     width: 100%;
     outline: transparent none medium;
     padding: 5px 5px;
+    -webkit-user-select: none;
     user-select: none;
 }
 
@@ -74,6 +75,7 @@
     visibility: visible;
     box-shadow: var(--tss-box-shadow);
     overflow-y: auto;
+    -webkit-user-select: none;
     user-select: none;
 }
 

@@ -417,5 +417,6 @@ body {
 .tss-image {
     vertical-align: unset;
     border-style: none;
+    -webkit-user-select: none;
     user-select: none;
 }

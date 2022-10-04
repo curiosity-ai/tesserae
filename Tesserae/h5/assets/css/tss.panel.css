@@ -93,21 +93,22 @@
     padding-left: 16px;
 }
 
-    .tss-panel-command-button {
-        background-color: transparent;
-        color: var(--tss-secondary-foreground-color);
-        border: medium none;
-        cursor: pointer;
-        width: 44px;
-        height: 44px;
-        user-select: none;
-        border-radius: 2px;
-        padding: 0 4px;
-        text-align: center;
-        display: inline-block;
-        font-size: var(--tss-font-size-mediumplus);
-        font-weight: lighter;
-    }
+.tss-panel-command-button {
+    background-color: transparent;
+    color: var(--tss-secondary-foreground-color);
+    border: medium none;
+    cursor: pointer;
+    width: 44px;
+    height: 44px;
+    -webkit-user-select: none;
+    user-select: none;
+    border-radius: 2px;
+    padding: 0 4px;
+    text-align: center;
+    display: inline-block;
+    font-size: var(--tss-font-size-mediumplus);
+    font-weight: lighter;
+}
 
         .tss-panel-command-button:hover {
             background-color: var(--tss-default-background-hover-color);

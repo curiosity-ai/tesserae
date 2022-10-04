@@ -2,8 +2,9 @@
 .tss-label {
     margin: 0;
     position: relative;
-    width:100%;
-    user-select:none;
+    width: 100%;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 .tss-label + .tss-label {

@@ -25,6 +25,7 @@ a {
     border-radius: 2px;
     outline: transparent none medium;
     min-width: 80px;
+    -webkit-user-select: none;
     user-select: none;
     cursor: pointer;
     padding: 0px 16px;

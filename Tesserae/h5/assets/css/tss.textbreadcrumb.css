@@ -133,6 +133,7 @@
 
 .tss-textbreadcrumb {
     flex: 0 1 auto;
+    -webkit-user-select: none;
     user-select: none;
     cursor: pointer;
     padding: 0px;

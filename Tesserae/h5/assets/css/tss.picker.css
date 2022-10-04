@@ -40,6 +40,7 @@
         padding: 5px 0px;
         position: relative;
         text-align: left;
+        -webkit-user-select: none;
         user-select: none;
         cursor: pointer;
         text-overflow: ellipsis;
@@ -64,6 +65,7 @@
 .tss-picker-selection {
     display: inline-flex;
     flex-wrap: nowrap;
+    -webkit-user-select: none;
     user-select: none;
     text-overflow: ellipsis;
     white-space: nowrap;

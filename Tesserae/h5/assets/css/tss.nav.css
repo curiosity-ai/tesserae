@@ -30,6 +30,7 @@
     width: 20px;
     border: none;
     outline: transparent none medium;
+    -webkit-user-select: none;
     user-select: none;
     margin: 0;
     cursor: pointer;
@@ -66,6 +67,7 @@
     background: var(--tss-default-background-color);
     border-left: 4px solid var(--tss-default-background-color);
     cursor: pointer;
+    -webkit-user-select: none;
     user-select: none;
     padding: 8px;
     position: relative;

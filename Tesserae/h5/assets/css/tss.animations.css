@@ -22,6 +22,7 @@
     opacity: 0 !important;
     pointer-events: none !important;
     cursor: none !important;
+    -webkit-user-select: none !important;
     user-select: none !important;
 }
 
@@ -29,6 +30,7 @@
     opacity: 0.25 !important;
     pointer-events: none !important;
     cursor: none !important;
+    -webkit-user-select: none !important;
     user-select: none !important;
     filter: saturate(0) !important;
 }

@@ -39,9 +39,10 @@
     margin: 0;
     padding: 48px;
     list-style: none;
-    cursor:pointer;
-    user-select:none;
-    pointer-events:all;
+    cursor: pointer;
+    -webkit-user-select: none;
+    user-select: none;
+    pointer-events: all;
 }
 
     .tss-filedroparea.tss-dropping {

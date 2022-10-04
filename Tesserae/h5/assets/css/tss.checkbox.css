@@ -5,10 +5,11 @@
     color: var(--tss-default-foreground-color);
     font-size: var(--tss-font-size-small);
     font-weight: var(--tss-font-weight-regular);
+    -webkit-user-select: none;
     user-select: none;
     padding-left: 25px;
     display: block;
-    height:21px;
+    height: 21px;
 }
 
     .tss-checkbox-container .tss-checkbox {
