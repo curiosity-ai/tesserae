@@ -11,11 +11,13 @@ namespace Tesserae
         private readonly ObservableList<ISidebarItem> _header;
         private readonly ObservableList<ISidebarItem> _middle;
         private readonly ObservableList<ISidebarItem> _footer;
-        private readonly SettableObservable<bool> _closed;
-        private double _closedTimeout;
-        private readonly Stack _sidebar;
+        private readonly SettableObservable<bool>     _closed;
+        private          double                       _closedTimeout;
+        private readonly Stack                        _sidebar;
 
-        public bool IsClosed {  get { return _closed.Value; } set { _closed.Value = value; } }
+        public const int SIDEBAR_TRANSITION_TIME = 300;
+
+        public bool IsClosed { get { return _closed.Value; } set { _closed.Value = value; } }
 
         public Sidebar()
         {
@@ -51,9 +53,9 @@ namespace Tesserae
         private void RenderSidebar(IReadOnlyList<ISidebarItem> header, IReadOnlyList<ISidebarItem> middle, IReadOnlyList<ISidebarItem> footer, bool closed)
         {
             _sidebar.Children(VStack().Class("tss-sidebar-header").WS().NoShrink().Children(header.Select(si => closed ? si.RenderClosed() : si.RenderOpen())),
-                              VStack().Class("tss-sidebar-middle").WS().H(10).Grow().ScrollY().Children(middle.Select(si => closed ? si.RenderClosed() : si.RenderOpen())),
-                              VStack().Class("tss-sidebar-footer").WS().NoShrink().Children(footer.Select(si => closed ? si.RenderClosed() : si.RenderOpen()))
-                );
+                VStack().Class("tss-sidebar-middle").WS().H(10).Grow().ScrollY().Children(middle.Select(si => closed ? si.RenderClosed() : si.RenderOpen())),
+                VStack().Class("tss-sidebar-footer").WS().NoShrink().Children(footer.Select(si => closed ? si.RenderClosed() : si.RenderOpen()))
+            );
         }
 
         public Sidebar Closed(bool isClosed = true)
@@ -68,14 +70,31 @@ namespace Tesserae
             return this;
         }
 
-        public Sidebar AddHeader(ISidebarItem item)  { _header.Add(item); return this; }
-        public Sidebar AddContent(ISidebarItem item) { _middle.Add(item); return this; }
-        public Sidebar AddFooter(ISidebarItem item)  { _footer.Add(item); return this; }
+        public Sidebar AddHeader(ISidebarItem item)
+        {
+            _header.Add(item);
+            return this;
+        }
+        public Sidebar AddContent(ISidebarItem item)
+        {
+            _middle.Add(item);
+            return this;
+        }
+        public Sidebar AddFooter(ISidebarItem item)
+        {
+            _footer.Add(item);
+            return this;
+        }
 
-        public void Clear() { ClearHeader(); ClearContent(); ClearFooter(); }
-        public void ClearHeader() => _header.Clear();
+        public void Clear()
+        {
+            ClearHeader();
+            ClearContent();
+            ClearFooter();
+        }
+        public void ClearHeader()  => _header.Clear();
         public void ClearContent() => _middle.Clear();
-        public void ClearFooter() => _footer.Clear();
+        public void ClearFooter()  => _footer.Clear();
 
         public HTMLElement Render() => _sidebar.Render();
     }

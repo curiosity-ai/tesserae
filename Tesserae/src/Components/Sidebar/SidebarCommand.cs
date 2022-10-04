@@ -6,12 +6,12 @@ namespace Tesserae
 {
     public class SidebarCommand : IComponent
     {
-        private readonly Button _button;
-        private Action<Button> _tooltip;
-        private Func<ISidebarItem[]> _menuGenerator;
+        private readonly Button               _button;
+        private          Action<Button>       _tooltip;
+        private          Func<ISidebarItem[]> _menuGenerator;
 
-        public SidebarCommand(LineAwesome icon, LineAwesomeWeight weight = LineAwesomeWeight.Light) : this($"{weight} {icon}") {}
-        public SidebarCommand(Emoji icon) : this($"ec {icon}") {}
+        public SidebarCommand(LineAwesome icon, LineAwesomeWeight weight = LineAwesomeWeight.Light) : this($"{weight} {icon}") { }
+        public SidebarCommand(Emoji       icon) : this($"ec {icon}") { }
 
         public SidebarCommand(ISidebarIcon image)
         {
@@ -94,10 +94,10 @@ namespace Tesserae
             var items = _menuGenerator();
 
             var menuDiv = Div(_("tss-sidebar-menu"));
-            
-            foreach(var item in items)
+
+            foreach (var item in items)
             {
-                if(item is SidebarCommands sbc)
+                if (item is SidebarCommands sbc)
                 {
                     menuDiv.appendChild(sbc.RenderOpenFull().Render());
                 }
@@ -110,6 +110,7 @@ namespace Tesserae
             DomObserver.WhenMounted(menuDiv, () =>
             {
                 _button.Render().parentElement.classList.add("tss-sidebar-command-menu-is-open");
+
                 DomObserver.WhenRemoved(menuDiv, () =>
                 {
                     _button.Render().parentElement.classList.remove("tss-sidebar-command-menu-is-open");

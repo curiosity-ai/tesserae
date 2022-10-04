@@ -6,7 +6,7 @@ namespace Tesserae
 {
     public class SidebarButton : ISidebarItem
     {
-        private readonly Button                   _closed;
+        private readonly Button                   _closedButton;
         private readonly Button                   _openButton;
         private readonly IComponent               _open;
         private readonly SidebarCommand[]         _commands;
@@ -19,7 +19,7 @@ namespace Tesserae
 
         public bool IsSelected { get { return _selected.Value; } set { _selected.Value = value; } }
 
-        public IComponent CurrentRendered => _closed.IsMounted() ? _closed : _open;
+        public IComponent CurrentRendered => _closedButton.IsMounted() ? _closedButton : _open;
 
         public SidebarButton(LineAwesome icon, string text, params SidebarCommand[] commands) : this($"{LineAwesomeWeight.Light} {icon}", text, commands) { }
 
@@ -31,7 +31,7 @@ namespace Tesserae
         {
             _selected = new SettableObservable<bool>(false);
             _tooltipClosed = (b) => b.Tooltip(text);
-            _closed = Button().Class("tss-sidebar-btn").SetIcon(icon);
+            _closedButton = Button().Class("tss-sidebar-btn").SetIcon(icon);
 
             _openButton = Button(text).SetIcon(icon).Class("tss-sidebar-btn");
 
@@ -44,12 +44,12 @@ namespace Tesserae
             {
                 if (isSelected)
                 {
-                    _closed.Class("tss-sidebar-selected");
+                    _closedButton.Class("tss-sidebar-selected");
                     _open.Class("tss-sidebar-selected");
                 }
                 else
                 {
-                    _closed.RemoveClass("tss-sidebar-selected");
+                    _closedButton.RemoveClass("tss-sidebar-selected");
                     _open.RemoveClass("tss-sidebar-selected");
                 }
             });
@@ -81,7 +81,7 @@ namespace Tesserae
 
             _image = image;
 
-            _closed = Button().Class("tss-sidebar-btn").ReplaceContent(image);
+            _closedButton = Button().Class("tss-sidebar-btn").ReplaceContent(image);
 
             _openButton = Button(text).ReplaceContent(Raw(Div(_("tss-btn-with-image"), image.Clone().Render(), Span(_(text: text))))).Class("tss-sidebar-btn");
             _open = Wrap(_openButton);
@@ -92,12 +92,12 @@ namespace Tesserae
             {
                 if (isSelected)
                 {
-                    _closed.Class("tss-sidebar-selected");
+                    _closedButton.Class("tss-sidebar-selected");
                     _open.Class("tss-sidebar-selected");
                 }
                 else
                 {
-                    _closed.RemoveClass("tss-sidebar-selected");
+                    _closedButton.RemoveClass("tss-sidebar-selected");
                     _open.RemoveClass("tss-sidebar-selected");
                 }
             });
@@ -124,14 +124,14 @@ namespace Tesserae
         public SidebarButton ClearProgress()
         {
             _openButton.Render().style.background = "";
-            _closed.Render().style.background = "";
+            _closedButton.Render().style.background = "";
             return this;
         }
         public SidebarButton Progress(float progress)
         {
             var p = $"linear-gradient(to right, rgba(var(--tss-primary-background-color-root),0.2), rgba(var(--tss-primary-background-color-root),0.2) {progress * 100:0.0}%, transparent 0)";
             _openButton.Render().style.background = p;
-            _closed.Render().style.background = p;
+            _closedButton.Render().style.background = p;
             return this;
         }
 
@@ -158,35 +158,35 @@ namespace Tesserae
         public SidebarButton Light()
         {
             _open.Class("tss-sidebar-btn-light");
-            _closed.Class("tss-sidebar-btn-light");
+            _closedButton.Class("tss-sidebar-btn-light");
             return this;
         }
 
         public SidebarButton Danger()
         {
             _openButton.Danger();
-            _closed.Danger();
+            _closedButton.Danger();
             return this;
         }
 
         public SidebarButton Default()
         {
             _openButton.IsPrimary = false;
-            _closed.IsPrimary = false;
+            _closedButton.IsPrimary = false;
             return this;
         }
 
         public SidebarButton Success()
         {
             _openButton.Success();
-            _closed.Success();
+            _closedButton.Success();
             return this;
         }
 
         public SidebarButton Primary()
         {
             _openButton.Primary();
-            _closed.Primary();
+            _closedButton.Primary();
             return this;
         }
 
@@ -199,21 +199,21 @@ namespace Tesserae
         public SidebarButton Tooltip(string text)
         {
             _tooltipClosed = (b) => b.Tooltip(text, placement: TooltipPlacement.Right);
-            _tooltipClosed(_closed);
+            _tooltipClosed(_closedButton);
             return this;
         }
 
         public SidebarButton Tooltip(IComponent tooltip)
         {
             _tooltipClosed = (b) => b.Tooltip(tooltip, placement: TooltipPlacement.Right);
-            _tooltipClosed(_closed);
+            _tooltipClosed(_closedButton);
             return this;
         }
 
         public SidebarButton Tooltip(Func<IComponent> tooltip)
         {
             _tooltipClosed = (b) => b.Tooltip(tooltip(), placement: TooltipPlacement.Right);
-            _tooltipClosed(_closed);
+            _tooltipClosed(_closedButton);
             return this;
         }
 
@@ -240,7 +240,7 @@ namespace Tesserae
 
         public SidebarButton OnClick(Action action)
         {
-            _closed.OnClick(action);
+            _closedButton.OnClick(action);
             _openButton.OnClick(action);
             return this;
         }
@@ -255,7 +255,7 @@ namespace Tesserae
         public SidebarButton Id(string id)
         {
             _open.Id(id);
-            _closed.Id(id);
+            _closedButton.Id(id);
             return this;
 
         }
@@ -269,61 +269,61 @@ namespace Tesserae
 
         public SidebarButton OnContextMenu(Action action)
         {
-            _closed.OnContextMenu(action);
+            _closedButton.OnContextMenu(action);
             _openButton.OnContextMenu(action);
             return this;
         }
 
         public SidebarButton OnClick(Action<Button, MouseEvent> action)
         {
-            _closed.OnClick((b,     e) => action(b, e));
-            _openButton.OnClick((b, e) => action(b, e));
+            _closedButton.OnClick((b, e) => action(b, e));
+            _openButton.OnClick((b,   e) => action(b, e));
             return this;
         }
 
         public SidebarButton OnContextMenu(Action<Button, MouseEvent> action)
         {
-            _closed.OnContextMenu((b,     e) => action(b, e));
-            _openButton.OnContextMenu((b, e) => action(b, e));
+            _closedButton.OnContextMenu((b, e) => action(b, e));
+            _openButton.OnContextMenu((b,   e) => action(b, e));
             return this;
         }
 
         public SidebarButton SetIcon(string icon, string color = "")
         {
-            _closed.SetIcon(icon, color);
+            _closedButton.SetIcon(icon, color);
             _openButton.SetIcon(icon, color);
             return this;
         }
 
         public SidebarButton SetIcon(LineAwesome icon, string color = "", LineAwesomeWeight weight = LineAwesomeWeight.Light)
         {
-            _closed.SetIcon(icon, color, weight: weight);
+            _closedButton.SetIcon(icon, color, weight: weight);
             _openButton.SetIcon(icon, color, weight: weight);
             return this;
         }
 
         public SidebarButton SetIcon(Emoji icon)
         {
-            _closed.SetIcon(icon);
+            _closedButton.SetIcon(icon);
             _openButton.SetIcon(icon);
             return this;
         }
 
         public SidebarButton Collapse()
         {
-            _closed.Collapse();
+            _closedButton.Collapse();
             _open.Collapse();
             return this;
         }
 
         public SidebarButton Show()
         {
-            _closed.Show();
+            _closedButton.Show();
             _open.Show();
             return this;
         }
 
-        
+
         public ISidebarItem OnRendered(Action<HTMLElement> onRendered)
         {
             _onRendered += onRendered;
@@ -331,9 +331,13 @@ namespace Tesserae
         }
         public IComponent RenderClosed()
         {
-            _tooltipClosed?.Invoke(_closed);
-            _onRendered?.Invoke(_closed.Render());
-            return _closed;
+            _onRendered?.Invoke(_closedButton.Render());
+            _closedButton.RemoveTooltip();
+            DomObserver.WhenMounted(_closedButton.Render(), () =>
+            {
+                window.setTimeout(_ => { _tooltipClosed?.Invoke(_closedButton); }, Sidebar.SIDEBAR_TRANSITION_TIME);
+            });
+            return _closedButton;
         }
 
         public IComponent RenderOpen()
