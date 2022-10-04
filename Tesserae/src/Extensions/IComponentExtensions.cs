@@ -289,8 +289,8 @@ namespace Tesserae
         {
             var (el, _) = Stack.GetCorrectItemToApplyStyle(component);
             el.classList.add("tss-fade");
-            el.classList.remove("tss-fade-light", "tss-show", "tss-fade-light-clickable");
-            component.Render().classList.remove("tss-fade-light", "tss-show", "tss-fade-light-clickable"); //Need to remove from component as well, because it could have been set before it was added to a stack
+            el.classList.remove("tss-fade-light", "tss-show");
+            component.Render().classList.remove("tss-fade-light", "tss-show"); //Need to remove from component as well, because it could have been set before it was added to a stack
             if (andThen is object)
             {
                 // The opacity transition time on "tss-fade" is 0.15s, so this is the amount of time after which we want to make the optional "andThen" callback
@@ -310,8 +310,8 @@ namespace Tesserae
         {
             var (el, _) = Stack.GetCorrectItemToApplyStyle(component);
             el.classList.add("tss-fade-light");
-            el.classList.remove("tss-fade", "tss-show", "tss-fade-light-clickable");
-            component.Render().classList.remove("tss-fade", "tss-show", "tss-fade-light-clickable"); //Need to remove from component as well, because it could have been set before it was added to a stack
+            el.classList.remove("tss-fade", "tss-show");
+            component.Render().classList.remove("tss-fade", "tss-show"); //Need to remove from component as well, because it could have been set before it was added to a stack
             if (andThen is object)
             {
                 // The opacity transition time on "tss-fade" is 0.15s, so this is the amount of time after which we want to make the optional "andThen" callback
@@ -323,21 +323,12 @@ namespace Tesserae
             return component;
         }
 
-        public static T LightFadeClickable<T>(this T component) where T : IComponent
-        {
-            var (el, _) = Stack.GetCorrectItemToApplyStyle(component);
-            el.classList.add("tss-fade-light-clickable");
-            el.classList.remove("tss-fade", "tss-show", "tss-fade-light");
-            component.Render().classList.remove("tss-fade", "tss-show", "tss-fade-light"); //Need to remove from component as well, because it could have been set before it was added to a stack
-            return component;
-        }
-
         public static T Show<T>(this T component) where T : IComponent
         {
             var (el, _) = Stack.GetCorrectItemToApplyStyle(component);
             el.classList.add("tss-fade", "tss-show");
-            el.classList.remove("tss-fade-light", "tss-collapse", "tss-fade-light-clickable");
-            component.Render().classList.remove("tss-fade-light", "tss-collapse", "tss-fade-light-clickable", "tss-fade"); //Need to remove all from component as well, because it could have been set before it was added to a stack
+            el.classList.remove("tss-fade-light", "tss-collapse");
+            component.Render().classList.remove("tss-fade-light", "tss-collapse", "tss-fade"); //Need to remove all from component as well, because it could have been set before it was added to a stack
             return component;
         }
 

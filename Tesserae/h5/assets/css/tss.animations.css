@@ -35,11 +35,6 @@
     filter: saturate(0) !important;
 }
 
-.tss-fade-light-clickable:not(.tss-show) {
-    opacity: 0.25 !important;
-    filter: saturate(0) !important;
-}
-
 .tss-collapse {
     display:none !important;
 }
