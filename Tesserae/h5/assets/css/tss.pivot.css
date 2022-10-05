@@ -79,4 +79,5 @@
     flex-grow: 0;
     background: var(--tss-primary-background-color);
     overflow: hidden;
+    pointer-events:none;
 }
