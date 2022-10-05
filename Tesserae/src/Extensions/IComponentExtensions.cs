@@ -275,7 +275,9 @@ namespace Tesserae
 
         public static T Collapse<T>(this T component) where T : IComponent
         {
-            Stack.GetCorrectItemToApplyStyle(component).item.classList.add("tss-collapse");
+            var (el, _) = Stack.GetCorrectItemToApplyStyle(component);
+            el = TryGetParentStackItem(el);
+            el.classList.add("tss-collapse");
             return component;
         }
 
@@ -288,6 +290,7 @@ namespace Tesserae
         public static T Fade<T>(this T component, Action andThen = null) where T : IComponent
         {
             var (el, _) = Stack.GetCorrectItemToApplyStyle(component);
+            el = TryGetParentStackItem(el);
             el.classList.add("tss-fade");
             el.classList.remove("tss-fade-light", "tss-show");
             component.Render().classList.remove("tss-fade-light", "tss-show"); //Need to remove from component as well, because it could have been set before it was added to a stack
@@ -309,6 +312,7 @@ namespace Tesserae
         public static T LightFade<T>(this T component, Action andThen = null) where T : IComponent
         {
             var (el, _) = Stack.GetCorrectItemToApplyStyle(component);
+            el = TryGetParentStackItem(el);
             el.classList.add("tss-fade-light");
             el.classList.remove("tss-fade", "tss-show");
             component.Render().classList.remove("tss-fade", "tss-show"); //Need to remove from component as well, because it could have been set before it was added to a stack
@@ -326,10 +330,20 @@ namespace Tesserae
         public static T Show<T>(this T component) where T : IComponent
         {
             var (el, _) = Stack.GetCorrectItemToApplyStyle(component);
+            el = TryGetParentStackItem(el);
             el.classList.add("tss-fade", "tss-show");
             el.classList.remove("tss-fade-light", "tss-collapse");
             component.Render().classList.remove("tss-fade-light", "tss-collapse", "tss-fade"); //Need to remove all from component as well, because it could have been set before it was added to a stack
             return component;
+        }
+
+        private static HTMLElement TryGetParentStackItem(HTMLElement el)
+        {
+            if(el.parentElement is object && el.parentElement.classList.contains("tss-stack-item"))
+            {
+                return el.parentElement;
+            }
+            return el;
         }
 
         public static T Tooltip<T>(this T component, string tooltipHtml, TooltipAnimation animation = TooltipAnimation.None, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 0, int delayHide = 0, bool followCursor = false, int maxWidth = 350, bool arrow = false) where T : IComponent
