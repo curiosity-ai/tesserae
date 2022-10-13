@@ -9,9 +9,18 @@ namespace Tesserae
         private readonly Button               _button;
         private          Action<Button>       _tooltip;
         private          Func<ISidebarItem[]> _menuGenerator;
+        private bool _badge;
+
+        internal bool IsBadge => _badge;
 
         public SidebarCommand(LineAwesome icon, LineAwesomeWeight weight = LineAwesomeWeight.Light) : this($"{weight} {icon}") { }
         public SidebarCommand(Emoji       icon) : this($"ec {icon}") { }
+
+        public SidebarCommand(string badge, string background, string foreground) 
+        {
+            _badge = true;
+            _button = Button().SetText(badge).Class("tss-sidebar-command").Foreground(foreground).Background(background);
+        }
 
         public SidebarCommand(ISidebarIcon image)
         {

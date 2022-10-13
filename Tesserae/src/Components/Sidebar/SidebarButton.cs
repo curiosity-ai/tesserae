@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using static H5.Core.dom;
 using static Tesserae.UI;
 
@@ -10,6 +11,7 @@ namespace Tesserae
         private readonly Button                   _openButton;
         private readonly IComponent               _open;
         private readonly SidebarCommand[]         _commands;
+        private readonly SidebarCommand           _badge;
         private          Action<IComponent>       _tooltipClosed;
         private readonly ISidebarIcon             _image;
         private          Action<IComponent>       _tooltipOpen;
@@ -35,10 +37,10 @@ namespace Tesserae
 
             _openButton = Button(text).SetIcon(icon).Class("tss-sidebar-btn");
 
-            _commands = commands;
+            _commands = commands.Where(c => !c.IsBadge).ToArray();
+            _badge = commands.Where(c => c.IsBadge).FirstOrDefault();
 
             _open = Wrap(_openButton);
-
 
             _selected.Observe(isSelected =>
             {
@@ -53,25 +55,33 @@ namespace Tesserae
                     _open.RemoveClass("tss-sidebar-selected");
                 }
             });
-        }
-
-        private IComponent Wrap(Button button)
-        {
-            var div = Div(_("tss-sidebar-btn-open"));
-            div.appendChild(button.Render());
-
-            if (_commands is object && _commands.Length > 0)
+            
+            IComponent Wrap(Button button)
             {
-                var divCmd = Div(_("tss-sidebar-commands"));
-                div.appendChild(divCmd);
+                var div = Div(_("tss-sidebar-btn-open"));
+                div.appendChild(button.Render());
 
-                foreach (var c in _commands)
+                if (_badge is object)
                 {
-                    divCmd.appendChild(c.Render());
+                    var divCmd = Div(_("tss-sidebar-badges"));
+                    div.appendChild(divCmd);
+                    divCmd.appendChild(_badge.Render());
                 }
+
+                if (_commands is object && _commands.Length > 0)
+                {
+                    var divCmd = Div(_("tss-sidebar-commands"));
+                    div.appendChild(divCmd);
+
+                    foreach (var c in _commands)
+                    {
+                        divCmd.appendChild(c.Render());
+                    }
+                }
+                return Raw(div);
             }
-            return Raw(div);
         }
+
 
         public SidebarButton(ISidebarIcon image, string text, params SidebarCommand[] commands)
         {
@@ -84,9 +94,11 @@ namespace Tesserae
             _closedButton = Button().Class("tss-sidebar-btn").ReplaceContent(image);
 
             _openButton = Button(text).ReplaceContent(Raw(Div(_("tss-btn-with-image"), image.Clone().Render(), Span(_(text: text))))).Class("tss-sidebar-btn");
-            _open = Wrap(_openButton);
 
-            _commands = commands;
+            _commands = commands.Where(c => !c.IsBadge).ToArray();
+            _badge = commands.Where(c => c.IsBadge).FirstOrDefault();
+            
+            _open = Wrap(_openButton);
 
             _selected.Observe(isSelected =>
             {
@@ -107,12 +119,19 @@ namespace Tesserae
                 var div = Div(_("tss-sidebar-btn-open"));
                 div.appendChild(button.Render());
 
-                if (commands.Length > 0)
+                if (_badge is object)
+                {
+                    var divCmd = Div(_("tss-sidebar-badges"));
+                    div.appendChild(divCmd);
+                    divCmd.appendChild(_badge.Render());
+                }
+
+                if (_commands.Length > 0)
                 {
                     var divCmd = Div(_("tss-sidebar-commands"));
                     div.appendChild(divCmd);
 
-                    foreach (var c in commands)
+                    foreach (var c in _commands)
                     {
                         divCmd.appendChild(c.Render());
                     }

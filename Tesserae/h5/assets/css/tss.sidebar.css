@@ -24,7 +24,8 @@
         padding-right: 4px;
     }
 
-        .tss-sidebar.tss-sidebar-closed .tss-sidebar-commands {
+        .tss-sidebar.tss-sidebar-closed .tss-sidebar-commands,
+        .tss-sidebar.tss-sidebar-closed .tss-sidebar-badges {
             display: none !important;
         }
 
@@ -169,11 +170,39 @@
     flex-wrap: nowrap;
 }
 
+.tss-sidebar-badges {
+    position: absolute;
+    right: 4px;
+    display: flex;
+    z-index: 2;
+    top: 10px;
+    flex-wrap: nowrap;
+}
+
 .tss-sidebar-btn-open:hover > .tss-sidebar-commands,
 .tss-sidebar-btn-open.tss-sidebar-commands-always-open > .tss-sidebar-commands,
 .tss-sidebar-command-menu-is-open.tss-sidebar-commands,
 .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-commands {
     display: flex;
+}
+
+.tss-sidebar-btn-open:hover > .tss-sidebar-badges,
+.tss-sidebar-btn-open.tss-sidebar-commands-always-open > .tss-sidebar-badges,
+.tss-sidebar-command-menu-is-open.tss-sidebar-badges,
+.tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-badges {
+    display: none;
+}
+
+
+.tss-sidebar-badges > .tss-btn {
+    min-height: unset;
+    min-width: unset;
+    height: 16px;
+    width: 20px;
+    border-radius: 8px;
+    font-size: 10px;
+    padding: 0;
+    line-height: 16px;
 }
 
 .tss-sidebar-commands > .tss-sidebar-command.tss-btn {
