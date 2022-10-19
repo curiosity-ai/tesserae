@@ -196,13 +196,15 @@
 
 .tss-sidebar-badges > .tss-btn {
     min-height: unset;
-    min-width: unset;
+    min-width: 20px;
     height: 16px;
-    width: 20px;
-    border-radius: 8px;
+    border-radius: 6px;
     font-size: 10px;
-    padding: 0;
+    padding: 0px 4px;
     line-height: 16px;
+    font-weight: 700;
+    white-space: nowrap;
+}
 }
 
 .tss-sidebar-commands > .tss-sidebar-command.tss-btn {

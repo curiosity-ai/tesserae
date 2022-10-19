@@ -23,6 +23,12 @@
     isolation:isolate;
 }
 
+    .tss-layer-content.tss-layer-content-transparent {
+        background-color: transparent;
+        border: 1px solid transparent;
+    }
+
 .tss-layer-host {
     position: relative;
 }
+

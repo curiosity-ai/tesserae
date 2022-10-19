@@ -17,6 +17,7 @@ namespace Tesserae
         protected HTMLElement _renderedContent;
         private LayerHost _host;
         private bool _isVisible;
+        private bool _isTransparent;
         protected Layer() => InnerElement = Div(_("tss-layer-base"));
 
         public LayerHost Host
@@ -51,6 +52,20 @@ namespace Tesserae
             {
                 if (value) Show();
                 else Hide();
+            }
+        }
+
+        public bool IsTransparent
+        {
+            get => _isTransparent;
+            set
+            {
+                _isTransparent = value;
+                if (IsVisible)
+                {
+                    Hide();
+                    Show();
+                }
             }
         }
 
@@ -107,7 +122,13 @@ namespace Tesserae
         protected virtual HTMLElement BuildRenderedContent()
         {
             if (_contentHtml is object) return _contentHtml;
-            return Div(_("tss-layer-content"), _content.Render());
+
+            var div = Div(_("tss-layer-content"), _content.Render());
+            if (_isTransparent)
+            {
+                div.classList.add("tss-layer-content-transparent");
+            }
+            return div;
         }
     }
 }
