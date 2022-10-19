@@ -20,6 +20,8 @@ namespace Tesserae
         private bool _isTransparent;
         protected Layer() => InnerElement = Div(_("tss-layer-base"));
 
+        private Action<MouseEvent> _onLayerClick;
+
         public LayerHost Host
         {
             get => _host;
@@ -119,6 +121,11 @@ namespace Tesserae
             }
         }
 
+        public void OnBackgroundClick(Action<MouseEvent> action)
+        {
+            _onLayerClick = action;
+        }
+
         protected virtual HTMLElement BuildRenderedContent()
         {
             if (_contentHtml is object) return _contentHtml;
@@ -127,6 +134,14 @@ namespace Tesserae
             if (_isTransparent)
             {
                 div.classList.add("tss-layer-content-transparent");
+            }
+
+            if(_onLayerClick is object)
+            {
+                div.onclick += (e) =>
+                {
+                    _onLayerClick(e);
+                };
             }
             return div;
         }
