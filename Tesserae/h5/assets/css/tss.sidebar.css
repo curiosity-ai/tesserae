@@ -351,14 +351,18 @@
 .tss-sidebar-nav-children {
     height: 0px;
     overflow: hidden;
-    transition: 0.3s height ease-in-out;
-    /*background: rgba(var(--tss-default-background-color-root),0.3);*/
+    opacity: 0;
+    transform: translateY(-8px);
+    transition: 0.3s opacity ease-in-out, 0.2s transform ease-in-out;
 }
 
 .tss-sidebar-nav.tss-sidebar-nav-open > .tss-sidebar-nav-children {
     height: auto;
+    transform: translateY(0);
+    opacity: 1;
 }
-    .tss-sidebar-nav > .tss-sidebar-nav-children > :first-child {
+
+.tss-sidebar-nav > .tss-sidebar-nav-children > :first-child {
         margin-top: 4px;
     }
 
