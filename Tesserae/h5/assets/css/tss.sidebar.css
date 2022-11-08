@@ -19,7 +19,7 @@
 
     .tss-sidebar.tss-sidebar-closed {
         max-width: unset;
-        width: 54px;
+        width: 54px !important;
         padding-left: 4px;
         padding-right: 4px;
     }
