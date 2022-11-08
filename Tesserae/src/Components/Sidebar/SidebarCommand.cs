@@ -179,7 +179,18 @@ namespace Tesserae
             {
                 throw new Exception("Only supported for badges");
             }
+            
             _button.SetText(badge);
+            
+            if (string.IsNullOrEmpty(badge))
+            {
+                _button.Collapse();
+            }
+            else
+            {
+                _button.Show();
+            }
+
             return this;
         }
 
