@@ -173,6 +173,16 @@ namespace Tesserae
             return this;
         }
 
+        public SidebarCommand SetBadge(string badge)
+        {
+            if (!_badge)
+            {
+                throw new Exception("Only supported for badges");
+            }
+            _button.SetText(badge);
+            return this;
+        }
+
         internal void RefreshTooltip() => _tooltip?.Invoke(_button);
 
         public HTMLElement Render() => _button.Render();
