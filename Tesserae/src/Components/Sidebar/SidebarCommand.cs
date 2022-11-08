@@ -20,6 +20,10 @@ namespace Tesserae
         {
             _badge = true;
             _button = Button().SetText(badge).Class("tss-sidebar-command").Foreground(foreground).Background(background);
+            if (string.IsNullOrEmpty(badge))
+            {
+                _button.Collapse();
+            }
         }
 
         public SidebarCommand(ISidebarIcon image)
