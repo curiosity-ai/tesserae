@@ -24,3 +24,10 @@
     -webkit-user-select: text;
     user-select: text;
 }
+
+.tss-textblock-with-after {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+}

@@ -8,26 +8,55 @@ namespace Tesserae
     [H5.Name("tss.txt")]
     public class TextBlock : ComponentBase<TextBlock, HTMLElement>, ITextFormating, IHasBackgroundColor, IHasForegroundColor, ICanWrap
     {
-        public TextBlock(string text = string.Empty, bool treatAsHTML = false, bool selectable = false, TextSize textSize = TextSize.Small, TextWeight textWeight = TextWeight.Regular)
+        public TextBlock(string text = string.Empty, bool treatAsHTML = false, bool selectable = false, TextSize textSize = TextSize.Small, TextWeight textWeight = TextWeight.Regular, string afterText = null)
         {
             text = text ?? string.Empty;
-            
-            InnerElement = Div(_("tss-textblock tss-fontcolor-default " + textSize.ToString() + " " + textWeight.ToString()));
 
-            if (treatAsHTML)
+            if (!string.IsNullOrEmpty(afterText))
             {
-                InnerElement.innerHTML = text;
+                var first = Div(_("tss-text-ellipsis"));
+                var second = Div(_("tss-text-nowrap"));
+                InnerElement = Div(_("tss-textblock tss-fontcolor-default tss-textblock-with-after " + textSize.ToString() + " " + textWeight.ToString()), first, second);
+                if (treatAsHTML)
+                {
+                    first.innerHTML = text;
+                    second.innerHTML = afterText;
+                }
+                else
+                {
+                    first.textContent = text;
+                    second.textContent = afterText;
+                }
             }
             else
             {
-                InnerElement.textContent = text;
+                InnerElement = Div(_("tss-textblock tss-fontcolor-default " + textSize.ToString() + " " + textWeight.ToString()));
+                if (treatAsHTML)
+                {
+                    InnerElement.innerHTML = text;
+                }
+                else
+                {
+                    InnerElement.textContent = text;
+                }
             }
+
+
 
             if (selectable)
             {
                 InnerElement.classList.add("tss-textblock-selectable");
             }
 
+            AttachClick();
+            AttachContextMenu();
+        }
+
+        public TextBlock(string text)
+        {
+            text = text ?? string.Empty;
+            InnerElement = Div(_("tss-textblock tss-fontcolor-default " + TextSize.Small.ToString() + " " + TextWeight.Regular.ToString()));
+            InnerElement.textContent = text;
             AttachClick();
             AttachContextMenu();
         }

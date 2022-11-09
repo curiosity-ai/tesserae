@@ -224,6 +224,21 @@ namespace Tesserae
             return document.createTextNode(text);
         }
 
+        public static HTMLDivElement Div(Attributes init, HTMLElement first)
+        {
+            var result = InitElement(new HTMLDivElement(), init, null);
+            result.appendChild(first);
+            return result;
+        }
+
+        public static HTMLDivElement Div(Attributes init, HTMLElement first, HTMLElement second)
+        {
+            var result = InitElement(new HTMLDivElement(), init, null);
+            result.appendChild(first);
+            result.appendChild(second);
+            return result;
+        }
+
         public static HTMLDivElement Div(Attributes init, params HTMLElement[] children)
         {
             return InitElement(new HTMLDivElement(), init, children);
