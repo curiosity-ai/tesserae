@@ -11,11 +11,13 @@ namespace Tesserae
         private readonly Raw _leftComponent;
         private readonly Raw _splitterComponent;
         private readonly Raw _rightComponent;
+        private bool _resizable;
+        private Action<int> _onResizeEnd;
 
         public SplitView(UnitSize splitterSize = null)
         {
             _leftComponent     = Raw(Div(_()));
-            _splitterComponent = Raw(Div(_("tss-splitter")));
+            _splitterComponent = Raw(Div(_("tss-splitter tss-no-splitter")));
             _rightComponent    = Raw(Div(_()));
             _splitterComponent.Width = (splitterSize is object && splitterSize.Unit != Unit.Auto && splitterSize.Unit != Unit.Inherit)
                                           ? splitterSize.ToString()
@@ -31,6 +33,53 @@ namespace Tesserae
             _rightComponent.FlexGrow = "1";
 
             _splitContainer = Div(_("tss-splitview"), _leftComponent.Render(), _splitterComponent.Render(), _rightComponent.Render());
+        }
+
+        public SplitView Resizable(Action<int> onResizeEnd)
+        {
+            _resizable = true;
+            _onResizeEnd = onResizeEnd;
+            _splitterComponent.RemoveClass("tss-no-splitter");
+            HookDragEvents(_splitterComponent);
+            return this;
+        }
+
+        private void HookDragEvents(IComponent dragArea)
+        {
+            var el = dragArea.Render();
+
+            double width = 0;
+
+            el.onmousedown += (me) =>
+            {
+                window.onmousemove += Resize;
+                window.onmouseup += StopResize;
+            };
+
+            void Resize(MouseEvent me)
+            {
+                HTMLElement current;
+
+                if (_splitContainer.classList.contains("tss-split-right"))
+                {
+                    current = _rightComponent.Render();
+                }
+                else
+                {
+                    current = _leftComponent.Render();
+                }
+
+
+                width = Math.Max(200, (me.clientX - current.offsetLeft));
+                current.style.width = width + "px";
+            }
+
+            void StopResize(MouseEvent me)
+            {
+                window.onmousemove -= Resize;
+                window.onmouseup -= StopResize;
+                _onResizeEnd?.Invoke((int)width);
+            }
         }
 
         public SplitView Left(IComponent component, string background = "")
@@ -49,12 +98,6 @@ namespace Tesserae
             return this;
         }
 
-        public SplitView Splitter(IComponent component)
-        {
-            _splitterComponent.Content(component);
-            return this;
-        }
-
         public SplitView PanelStyle()
         {
             _splitContainer.classList.add("tss-splitview-panel-style");
@@ -63,7 +106,7 @@ namespace Tesserae
 
         public SplitView NoSplitter()
         {
-            _splitterComponent.Width = "0px";
+            _splitterComponent.Class("tss-no-splitter");
             return this;
         }
 

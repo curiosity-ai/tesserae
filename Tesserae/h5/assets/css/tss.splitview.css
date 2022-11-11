@@ -10,13 +10,26 @@
         flex-shrink:0;
     }
 
+.tss-splitter.tss-no-splitter {
+    width: 0px;
+    pointer-events:none;
+}
+
 .tss-splitter {
-    background: var(--tss-overlay-light);
+    background: transparent;
+    width: 8px;
+    margin-left: -4px;
+    cursor: e-resize;
 }
 
     .tss-splitter:hover {
-        background: var(--tss-overlay-dark);
+        background: rgba(var(--tss-default-foreground-color-root),0.3);
     }
+
+    .tss-splitter:active {
+        background: rgba(var(--tss-default-foreground-color-root),0.9);
+    }
+
 
 
 .tss-splitview-panel-style.tss-split-left > *:first-child {
