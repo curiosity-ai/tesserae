@@ -107,7 +107,6 @@ namespace Tesserae
             {
                 if (_host == null)
                 {
-                    Layers.PopLayer(_renderedContent);
                     _renderedContent.classList.remove("tss-show");
                     var tr = _renderedContent;
                     window.setTimeout((_) => { document.body.removeChild(tr); onHidden?.Invoke(); }, 150);
