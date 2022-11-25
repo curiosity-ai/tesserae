@@ -5,8 +5,10 @@ using System;
 
 namespace Tesserae
 {
+
+
     [H5.Name("tss.CB")]
-    public abstract class ComponentBase<T, THTML> : IComponent, IHasMarginPadding where T : ComponentBase<T, THTML> where THTML : HTMLElement
+    public abstract class ComponentBase<T, THTML> : IComponent, IHasClickHandler, IHasMarginPadding where T : ComponentBase<T, THTML> where THTML : HTMLElement
     {
         protected event ComponentEventHandler<T, MouseEvent>    Clicked;
         protected event ComponentEventHandler<T, MouseEvent>    ContextMenu;
@@ -23,6 +25,16 @@ namespace Tesserae
         public string Padding      { get => InnerElement.style.padding; set => InnerElement.style.padding = value; }
 
         public abstract HTMLElement Render();
+
+        public void OnClickBase(ComponentEventHandler<IComponent, MouseEvent> onClick, bool clearPrevious = true)
+        {
+            OnClick((a,b) => onClick(a,b), clearPrevious);
+        }
+
+        public void OnContextMenuBase(ComponentEventHandler<IComponent, MouseEvent> onContextMenu, bool clearPrevious = true)
+        {
+            OnContextMenu((a, b) => onContextMenu(a, b), clearPrevious);
+        }
 
         public virtual T OnClick(ComponentEventHandler<T, MouseEvent> onClick, bool clearPrevious = true)
         {
