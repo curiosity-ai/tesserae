@@ -1,42 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using H5;
 using static H5.Core.dom;
 
 namespace Tesserae
 {
-    [H5.Name("tss.Layers")]
+    [Name("tss.Layers")]
     public static class Layers
     {
-        private static int CurrentZIndex = 1000;
-        private static readonly HashSet<HTMLElement> CurrentLayers = new HashSet<HTMLElement>();
+        private const int BaseZIndex = 1000;
         public static string PushLayer(HTMLElement element)
         {
-            if (CurrentLayers.Add(element))
+            return (CurrentZIndex() + 10).ToString();
+        }
+
+        private static int CurrentZIndex()
+        {
+            int maxIndex = BaseZIndex;
+
+            foreach (HTMLElement htmlElement in document.querySelectorAll(".tss-layer"))
             {
-                CurrentZIndex += 10;
-                return CurrentZIndex.ToString();
+                if (int.TryParse(htmlElement.style.zIndex, out var zIndex) && zIndex > maxIndex) maxIndex = zIndex;
             }
-            else
-            {
-                throw new InvalidOperationException();
-            }
+            return maxIndex;
         }
 
         public static string AboveCurrent()
         {
-            return (CurrentZIndex + 5).ToString();
-        }
-
-        public static void PopLayer(HTMLElement element)
-        {
-            if (CurrentLayers.Remove(element))
-            {
-                CurrentZIndex -= 10;
-            }
-            else
-            {
-                throw new InvalidOperationException();
-            }
+            return (CurrentZIndex() + 5).ToString();
         }
     }
 }

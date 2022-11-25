@@ -8,6 +8,7 @@ namespace Tesserae
     public class SplitView : IComponent
     {
         private readonly HTMLElement _splitContainer;
+        private readonly string _splitterSize;
         private readonly Raw _leftComponent;
         private readonly Raw _splitterComponent;
         private readonly Raw _rightComponent;
@@ -16,12 +17,15 @@ namespace Tesserae
 
         public SplitView(UnitSize splitterSize = null)
         {
-            _leftComponent     = Raw(Div(_()));
-            _splitterComponent = Raw(Div(_("tss-splitter tss-no-splitter")));
-            _rightComponent    = Raw(Div(_()));
-            _splitterComponent.Width = (splitterSize is object && splitterSize.Unit != Unit.Auto && splitterSize.Unit != Unit.Inherit)
+            _splitterSize = (splitterSize is object && splitterSize.Unit != Unit.Auto && splitterSize.Unit != Unit.Inherit)
                                           ? splitterSize.ToString()
                                           : "8px";
+            _leftComponent     = Raw(Div(_()));
+            var splitter = Div(_("tss-splitter tss-no-splitter"));
+            splitter.draggable = false;
+            _splitterComponent = Raw(splitter);
+            _rightComponent    = Raw(Div(_()));
+            _splitterComponent.Width = _splitterSize;
             _leftComponent.Height     = "100%";
             _splitterComponent.Height = "100%";
             _rightComponent.Height    = "100%";
@@ -35,11 +39,12 @@ namespace Tesserae
             _splitContainer = Div(_("tss-splitview"), _leftComponent.Render(), _splitterComponent.Render(), _rightComponent.Render());
         }
 
-        public SplitView Resizable(Action<int> onResizeEnd)
+        public SplitView Resizable(Action<int> onResizeEnd = null)
         {
             _resizable = true;
             _onResizeEnd = onResizeEnd;
             _splitterComponent.RemoveClass("tss-no-splitter");
+            _splitterComponent.Width = _splitterSize;
             HookDragEvents(_splitterComponent);
             return this;
         }
@@ -49,17 +54,11 @@ namespace Tesserae
             var el = dragArea.Render();
 
             double width = 0;
+            DOMRect rect;
+            HTMLElement current;
 
             el.onmousedown += (me) =>
             {
-                window.onmousemove += Resize;
-                window.onmouseup += StopResize;
-            };
-
-            void Resize(MouseEvent me)
-            {
-                HTMLElement current;
-
                 if (_splitContainer.classList.contains("tss-split-right"))
                 {
                     current = _rightComponent.Render();
@@ -68,10 +67,17 @@ namespace Tesserae
                 {
                     current = _leftComponent.Render();
                 }
+                rect = _splitContainer.getBoundingClientRect().As<DOMRect>();
+                window.onmousemove += Resize;
+                window.onmouseup += StopResize;
+            };
 
-
-                width = Math.Max(200, (me.clientX - current.offsetLeft));
+            void Resize(MouseEvent me)
+            {
+                width = Math.Min(rect.width - 16, Math.Max(16, (me.clientX - rect.left)));
                 current.style.width = width + "px";
+                current.style.flexGrow = "0";
+                current.style.flexShrink = "1";
             }
 
             void StopResize(MouseEvent me)
@@ -79,13 +85,17 @@ namespace Tesserae
                 window.onmousemove -= Resize;
                 window.onmouseup -= StopResize;
                 _onResizeEnd?.Invoke((int)width);
+                rect = null;
             }
         }
 
         public SplitView Left(IComponent component, string background = "")
         {
             _leftComponent.Content(component);
-            _leftComponent.Background = background;
+            if (!string.IsNullOrEmpty(background))
+            {
+                _leftComponent.Background = background;
+            }
 
             return this;
         }
@@ -93,7 +103,10 @@ namespace Tesserae
         public SplitView Right(IComponent component, string background = "")
         {
             _rightComponent.Content(component);
-            _rightComponent.Background = background;
+            if (!string.IsNullOrEmpty(background))
+            {
+                _rightComponent.Background = background;
+            }
 
             return this;
         }
@@ -107,6 +120,7 @@ namespace Tesserae
         public SplitView NoSplitter()
         {
             _splitterComponent.Class("tss-no-splitter");
+            _splitterComponent.Width = "";
             return this;
         }
 
@@ -160,10 +174,12 @@ namespace Tesserae
             _leftComponent.Width    = leftSize.ToString();
             _leftComponent.MaxWidth = maxLeftSize?.ToString() ?? "";
             _leftComponent.FlexGrow = "";
+            _leftComponent.FlexShrink = "";
 
             _rightComponent.Width = "10px";
             _rightComponent.MaxWidth = "";
             _rightComponent.FlexGrow = "1";
+            _rightComponent.FlexShrink = "";
             _splitContainer.classList.add("tss-split-left");
             _splitContainer.classList.remove("tss-split-right");
 
@@ -175,10 +191,12 @@ namespace Tesserae
             _rightComponent.Width = rightSize.ToString();
             _rightComponent.MaxWidth = maxRightSize?.ToString() ?? "";
             _rightComponent.FlexGrow = "";
+            _rightComponent.FlexShrink = "";
 
             _leftComponent.Width = "10px";
             _leftComponent.MaxWidth = "";
             _leftComponent.FlexGrow = "1";
+            _leftComponent.FlexShrink = "";
             _splitContainer.classList.add("tss-split-right");
             _splitContainer.classList.remove("tss-split-left");
             return this;
