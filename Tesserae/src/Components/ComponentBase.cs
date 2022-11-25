@@ -45,7 +45,6 @@ namespace Tesserae
             return (T)this;
         }
 
-
         public virtual T OnContextMenu(ComponentEventHandler<T, MouseEvent> onContextMenu, bool clearPrevious = true)
         {
             if (ContextMenu != null && clearPrevious)
@@ -114,8 +113,9 @@ namespace Tesserae
 
         protected void AttachChange() => InnerElement.addEventListener("change", s => RaiseOnChange(s));
 
-        protected void RaiseOnClick(MouseEvent       ev) => Clicked?.Invoke((T)this, ev);
-        protected void RaiseOnContextMenu(MouseEvent ev) => ContextMenu?.Invoke((T)this, ev);
+        public void RaiseOnClick(MouseEvent       ev) => Clicked?.Invoke((T)this, ev);
+
+        public void RaiseOnContextMenu(MouseEvent ev) => ContextMenu?.Invoke((T)this, ev);
 
         protected void RaiseOnChange(Event ev) => Changed?.Invoke((T)this, ev);
 
