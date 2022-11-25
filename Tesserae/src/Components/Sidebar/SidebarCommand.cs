@@ -10,8 +10,10 @@ namespace Tesserae
         private          Action<Button>       _tooltip;
         private          Func<ISidebarItem[]> _menuGenerator;
         private bool _badge;
+        private bool _hookParentContextMenu;
 
         internal bool IsBadge => _badge;
+        internal bool ShouldHookToContextMenu => _hookParentContextMenu;
 
         public SidebarCommand(LineAwesome icon, LineAwesomeWeight weight = LineAwesomeWeight.Light) : this($"{weight} {icon}") { }
         public SidebarCommand(Emoji       icon) : this($"ec {icon}") { }
@@ -39,6 +41,12 @@ namespace Tesserae
         public SidebarCommand Foreground(string color)
         {
             _button.Foreground(color);
+            return this;
+        }
+
+        public SidebarCommand HookToParentContextMenu()
+        {
+            _hookParentContextMenu = true;
             return this;
         }
 
@@ -133,6 +141,18 @@ namespace Tesserae
 
             Tippy.ShowFor(_button.Render(), menuDiv, out Action hide, placement: TooltipPlacement.BottomStart, maxWidth: 500, delayHide: 1000, theme: "tss-sidebar-tippy");
 
+        }
+
+        public SidebarCommand RaiseOnClick(MouseEvent mouseEvent)
+        {
+            _button.RaiseOnClick(mouseEvent);
+            return this;
+        }
+
+        public SidebarCommand RaiseOnContextMenu(MouseEvent mouseEvent)
+        {
+            _button.RaiseOnContextMenu(mouseEvent);
+            return this;
         }
 
         public SidebarCommand OnClick(Action action)

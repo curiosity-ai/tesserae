@@ -42,6 +42,13 @@ namespace Tesserae
 
             _open = Wrap(_openButton);
 
+            var hookContextMenu = _commands.FirstOrDefault(c => c.ShouldHookToContextMenu);
+            
+            if (hookContextMenu is object)
+            {
+                OnContextMenu((b,e) => hookContextMenu.RaiseOnClick(e));
+            }
+
             _selected.Observe(isSelected =>
             {
                 if (isSelected)
