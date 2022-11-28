@@ -123,7 +123,11 @@ namespace Tesserae.Tests
             sidebar.AddFooter(commands);
             sidebar.AddFooter(commandsEndAligned);
             sidebar.AddFooter(openClose);
-            sidebar.AddFooter(new SidebarButton(new ImageIcon("https://curiosity.ai/media/cat-color-square-64.png"), "By Curiosity", new SidebarCommand("+3", Theme.Primary.Background, Theme.Primary.Foreground), new SidebarCommand(LineAwesome.ExternalLinkAlt).OnClick(() => window.open("https://github.com/curiosity-ai/tesserae", "_blank"))).Tooltip("Made with ❤ by Curiosity").OnClick(() => window.open("https://curiosity.ai", "_blank")));
+
+            sidebar.AddFooter(new SidebarButton(new ImageIcon("https://curiosity.ai/media/cat-color-square-64.png"), "By Curiosity",
+                new SidebarCommand(null, LineAwesome.Users, Theme.Sidebar.Background, Theme.Sidebar.Foreground),
+                new SidebarCommand("+3", Theme.Primary.Background, Theme.Primary.Foreground),
+                new SidebarCommand(LineAwesome.ExternalLinkAlt).OnClick(() => window.open("https://github.com/curiosity-ai/tesserae", "_blank"))).Tooltip("Made with ❤ by Curiosity").OnClick(() => window.open("https://curiosity.ai", "_blank")));
 
 
             foreach (var group in samples.Values.GroupBy(s => s.Group))

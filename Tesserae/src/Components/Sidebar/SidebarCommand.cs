@@ -53,6 +53,17 @@ namespace Tesserae
             }
         }
 
+        public SidebarCommand(string badge, string background, string foreground)
+        {
+            _badge = true;
+            _button = Button().SetText(badge).Class("tss-sidebar-command").Foreground(foreground).Background(background);
+
+            if (string.IsNullOrWhiteSpace(badge))
+            {
+                _button.Collapse();
+            }
+        }
+
         public SidebarCommand(ISidebarIcon image)
         {
             _button = Button().ReplaceContent(image).Class("tss-sidebar-command");
