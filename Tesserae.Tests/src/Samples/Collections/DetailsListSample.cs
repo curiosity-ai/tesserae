@@ -83,10 +83,10 @@ namespace Tesserae.Tests.Samples
                                    .PaddingBottom(16.px()),
                                 DetailsList<DetailsListSampleFileItem>(
                                         IconColumn(Icon(LineAwesome.File), width: 32.px(), enableColumnSorting: true, sortingKey: "FileIcon"),
-                                        DetailsListColumn(title: "File Name",     width: 350.px(), enableColumnSorting: true, sortingKey: "FileName", isRowHeader: true),
+                                        DetailsListColumn(title: "File Name", width: 350.px(), enableColumnSorting: true, sortingKey: "FileName", isRowHeader: true),
                                         DetailsListColumn(title: "Date Modified", width: 170.px(), enableColumnSorting: true, sortingKey: "DateModified"),
-                                        DetailsListColumn(title: "Modified By",   width: 150.px(), enableColumnSorting: true, sortingKey: "ModifiedBy"),
-                                        DetailsListColumn(title: "File Size",     width: 120.px(), enableColumnSorting: true, sortingKey: "FileSize"))
+                                        DetailsListColumn(title: "Modified By", width: 150.px(), enableColumnSorting: true, sortingKey: "ModifiedBy"),
+                                        DetailsListColumn(title: "File Size", width: 120.px(), enableColumnSorting: true, sortingKey: "FileSize"))
                                    .Height(500.px())
                                    .WithListItems(GetDetailsListItems())
                                    .SortedBy("FileName")
@@ -97,10 +97,10 @@ namespace Tesserae.Tests.Samples
                                    .PaddingBottom(16.px()),
                                 DetailsList<DetailsListSampleFileItem>(
                                         IconColumn(Icon(LineAwesome.File), width: 80.px(), enableColumnSorting: true, sortingKey: "FileIcon"),
-                                        DetailsListColumn(title: "File Name",     width: 40.percent(), enableColumnSorting: true, sortingKey: "FileName",    isRowHeader: true),
-                                        DetailsListColumn(title: "Date Modified", width: 20.percent(), maxWidth: 150.px(),        enableColumnSorting: true, sortingKey: "DateModified"),
-                                        DetailsListColumn(title: "Modified By",   width: 20.percent(), maxWidth: 150.px(),        enableColumnSorting: true, sortingKey: "ModifiedBy"),
-                                        DetailsListColumn(title: "File Size",     width: 20.percent(), maxWidth: 100.px(),        enableColumnSorting: true, sortingKey: "FileSize"))
+                                        DetailsListColumn(title: "File Name", width: 40.percent(), enableColumnSorting: true, sortingKey: "FileName", isRowHeader: true),
+                                        DetailsListColumn(title: "Date Modified", width: 20.percent(), maxWidth: 150.px(), enableColumnSorting: true, sortingKey: "DateModified"),
+                                        DetailsListColumn(title: "Modified By", width: 20.percent(), maxWidth: 150.px(), enableColumnSorting: true, sortingKey: "ModifiedBy"),
+                                        DetailsListColumn(title: "File Size", width: 20.percent(), maxWidth: 100.px(), enableColumnSorting: true, sortingKey: "FileSize"))
                                    .Height(500.px())
                                    .Width(100.percent())
                                    .WithListItems(GetDetailsListItems())
@@ -111,12 +111,12 @@ namespace Tesserae.Tests.Samples
                                    .PaddingBottom(16.px()),
                                 DetailsList<DetailsListSampleItemWithComponents>(
                                         IconColumn(Icon(LineAwesome.Apple), width: 32.px(), enableColumnSorting: true, sortingKey: "Icon"),
-                                        DetailsListColumn(title: "CheckBox",    width: 120.px()),
-                                        DetailsListColumn(title: "Name",        width: 250.px(), isRowHeader: true),
-                                        DetailsListColumn(title: "Button",      width: 150.px()),
+                                        DetailsListColumn(title: "CheckBox", width: 120.px()),
+                                        DetailsListColumn(title: "Name", width: 250.px(), isRowHeader: true),
+                                        DetailsListColumn(title: "Button", width: 150.px()),
                                         DetailsListColumn(title: "ChoiceGroup", width: 400.px()),
-                                        DetailsListColumn(title: "Dropdown",    width: 250.px()),
-                                        DetailsListColumn(title: "Toggle",      width: 100.px()))
+                                        DetailsListColumn(title: "Dropdown", width: 250.px()),
+                                        DetailsListColumn(title: "Toggle", width: 100.px()))
                                    .Compact()
                                    .Height(500.px())
                                    .WithListItems(GetComponentDetailsListItems())
@@ -127,10 +127,10 @@ namespace Tesserae.Tests.Samples
                                    .PaddingBottom(16.px()),
                                 DetailsList<DetailsListSampleFileItem>(
                                         IconColumn(Icon(LineAwesome.File), width: 32.px(), enableColumnSorting: true, sortingKey: "FileIcon"),
-                                        DetailsListColumn(title: "File Name",     width: 350.px(), enableColumnSorting: true, sortingKey: "FileName", isRowHeader: true),
+                                        DetailsListColumn(title: "File Name", width: 350.px(), enableColumnSorting: true, sortingKey: "FileName", isRowHeader: true),
                                         DetailsListColumn(title: "Date Modified", width: 170.px(), enableColumnSorting: true, sortingKey: "DateModified"),
-                                        DetailsListColumn(title: "Modified By",   width: 150.px(), enableColumnSorting: true, sortingKey: "ModifiedBy"),
-                                        DetailsListColumn(title: "File Size",     width: 120.px(), enableColumnSorting: true, sortingKey: "FileSize"))
+                                        DetailsListColumn(title: "Modified By", width: 150.px(), enableColumnSorting: true, sortingKey: "ModifiedBy"),
+                                        DetailsListColumn(title: "File Size", width: 120.px(), enableColumnSorting: true, sortingKey: "FileSize"))
                                    .Height(500.px())
                                    .WithListItems(GetDetailsListItems(0, page))
                                    .WithPaginatedItems(async () =>
@@ -148,10 +148,10 @@ namespace Tesserae.Tests.Samples
                                    .PaddingBottom(16.px()),
                                 DetailsList<DetailsListSampleFileItem>(
                                         IconColumn(Icon(LineAwesome.File), width: 32.px(), enableColumnSorting: true, sortingKey: "FileIcon"),
-                                        DetailsListColumn(title: "File Name",     width: 350.px(), enableColumnSorting: true, sortingKey: "FileName", isRowHeader: true),
+                                        DetailsListColumn(title: "File Name", width: 350.px(), enableColumnSorting: true, sortingKey: "FileName", isRowHeader: true),
                                         DetailsListColumn(title: "Date Modified", width: 170.px(), enableColumnSorting: true, sortingKey: "DateModified"),
-                                        DetailsListColumn(title: "Modified By",   width: 150.px(), enableColumnSorting: true, sortingKey: "ModifiedBy"),
-                                        DetailsListColumn(title: "File Size",     width: 120.px(), enableColumnSorting: true, sortingKey: "FileSize"))
+                                        DetailsListColumn(title: "Modified By", width: 150.px(), enableColumnSorting: true, sortingKey: "ModifiedBy"),
+                                        DetailsListColumn(title: "File Size", width: 120.px(), enableColumnSorting: true, sortingKey: "FileSize"))
                                    .Compact()
                                    .WithEmptyMessage(() => BackgroundArea(Card(TextBlock("Empty list").Padding(16.px()))).WidthStretch().HeightStretch())
                                    .Height(500.px())

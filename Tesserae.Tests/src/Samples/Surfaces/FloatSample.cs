@@ -14,24 +14,24 @@ namespace Tesserae.Tests.Samples
         public FloatSample()
         {
             _content = SectionStack()
-                .Title(SampleHeader(nameof(FloatSample)))
-                    .Section(Stack().Children(
-                        SampleTitle("Overview"),
-                        TextBlock("Floats are used to create absolute-positioned overlays within other containers"))
+               .Title(SampleHeader(nameof(FloatSample)))
+               .Section(Stack().Children(
+                    SampleTitle("Overview"),
+                    TextBlock("Floats are used to create absolute-positioned overlays within other containers"))
                 )
-                .Section(Stack().WidthStretch().Children(
+               .Section(Stack().WidthStretch().Children(
                     SampleTitle("Best Practices"),
-                        Stack().WidthStretch().Horizontal().Children(
-                            Stack().WidthStretch().Children(
-                                SampleSubTitle("Do"),
-                                SampleDo("Make sure you're not covering anything else under your container")
-                            ),
-                            Stack().WidthStretch().Children(
-                                SampleSubTitle("Don't"),
-                                SampleDont("Don't forget to add .Relative() to the parent Stack or Grid where you place a Float component!")
-                            ))
+                    Stack().WidthStretch().Horizontal().Children(
+                        Stack().WidthStretch().Children(
+                            SampleSubTitle("Do"),
+                            SampleDo("Make sure you're not covering anything else under your container")
+                        ),
+                        Stack().WidthStretch().Children(
+                            SampleSubTitle("Don't"),
+                            SampleDont("Don't forget to add .Relative() to the parent Stack or Grid where you place a Float component!")
+                        ))
                 ))
-                .Section(
+               .Section(
                     Stack().Children(
                         SampleTitle("Usage"),
                         TextBlock("Possible Positions").Medium(),

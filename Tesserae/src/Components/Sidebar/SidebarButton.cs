@@ -43,10 +43,10 @@ namespace Tesserae
             _open = Wrap(_openButton);
 
             var hookContextMenu = _commands.FirstOrDefault(c => c.ShouldHookToContextMenu);
-            
+
             if (hookContextMenu is object)
             {
-                OnContextMenu((b,e) => hookContextMenu.RaiseOnClick(e));
+                OnContextMenu((b, e) => hookContextMenu.RaiseOnClick(e));
             }
 
             _selected.Observe(isSelected =>
@@ -62,7 +62,7 @@ namespace Tesserae
                     _open.RemoveClass("tss-sidebar-selected");
                 }
             });
-            
+
             IComponent Wrap(Button button)
             {
                 var div = Div(_("tss-sidebar-btn-open"));
@@ -104,7 +104,7 @@ namespace Tesserae
 
             _commands = commands.Where(c => !c.IsBadge).ToArray();
             _badge = commands.Where(c => c.IsBadge).FirstOrDefault();
-            
+
             _open = Wrap(_openButton);
 
             _selected.Observe(isSelected =>
@@ -359,6 +359,7 @@ namespace Tesserae
         {
             _onRendered?.Invoke(_closedButton.Render());
             _closedButton.RemoveTooltip();
+
             DomObserver.WhenMounted(_closedButton.Render(), () =>
             {
                 window.setTimeout(_ => { _tooltipClosed?.Invoke(_closedButton); }, Sidebar.SIDEBAR_TRANSITION_TIME);

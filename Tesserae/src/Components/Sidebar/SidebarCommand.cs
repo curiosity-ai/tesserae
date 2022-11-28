@@ -9,10 +9,10 @@ namespace Tesserae
         private readonly Button               _button;
         private          Action<Button>       _tooltip;
         private          Func<ISidebarItem[]> _menuGenerator;
-        private bool _badge;
-        private bool _hookParentContextMenu;
+        private          bool                 _badge;
+        private          bool                 _hookParentContextMenu;
 
-        internal bool IsBadge => _badge;
+        internal bool IsBadge                 => _badge;
         internal bool ShouldHookToContextMenu => _hookParentContextMenu;
 
         public SidebarCommand(LineAwesome icon, LineAwesomeWeight weight = LineAwesomeWeight.Light) : this($"{weight} {icon}") { }
@@ -228,9 +228,9 @@ namespace Tesserae
             {
                 throw new Exception("Only supported for badges");
             }
-            
+
             _button.SetText(badge);
-            
+
             if (string.IsNullOrEmpty(badge))
             {
                 _button.Collapse();

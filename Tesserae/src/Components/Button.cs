@@ -276,7 +276,7 @@ namespace Tesserae
         {
             if (_beforeReplace is null)
             {
-                var rect = (DOMRect) InnerElement.getBoundingClientRect();
+                var rect = (DOMRect)InnerElement.getBoundingClientRect();
 
                 if (InnerElement.HasOwnProperty("_tippy"))
                 {
@@ -284,7 +284,7 @@ namespace Tesserae
                 }
 
                 _beforeReplace = InnerElement;
-                var newChild = (HTMLButtonElement) InnerElement.cloneNode(false);
+                var newChild = (HTMLButtonElement)InnerElement.cloneNode(false);
                 newChild.style.minHeight = rect.height.px().ToString();
                 newChild.classList.add("tss-btn-nominsize", "tss-disabled");
                 ClearChildren(newChild);
@@ -301,6 +301,7 @@ namespace Tesserae
             {
                 InnerElement.parentElement.replaceChild(_beforeReplace, InnerElement);
                 InnerElement = _beforeReplace;
+
                 if (InnerElement.HasOwnProperty("_tippy"))
                 {
                     H5.Script.Write("{0}._tippy.enable();", InnerElement);
@@ -314,10 +315,12 @@ namespace Tesserae
             return OnClick((_, e) =>
             {
                 StopEvent(e);
+
                 Task.Run(async () =>
                 {
                     Exception innerException = null;
                     ToSpinner(text);
+
                     try
                     {
                         await action();
@@ -330,6 +333,7 @@ namespace Tesserae
                     finally
                     {
                         UndoSpinner();
+
                         if (innerException is object)
                         {
                             if (onError is object)
@@ -347,8 +351,16 @@ namespace Tesserae
             });
         }
 
-        public Button OnClick(Action       action) => OnClick((_,       e) => { StopEvent(e); action.Invoke(); });
-        public Button OnContextMenu(Action action) => OnContextMenu((_, e) => { StopEvent(e); action.Invoke(); });
+        public Button OnClick(Action action) => OnClick((_, e) =>
+        {
+            StopEvent(e);
+            action.Invoke();
+        });
+        public Button OnContextMenu(Action action) => OnContextMenu((_, e) =>
+        {
+            StopEvent(e);
+            action.Invoke();
+        });
 
         public void SpinWhile(Func<Task> action, string text = null, Action<Button, Exception> onError = null)
         {
@@ -356,6 +368,7 @@ namespace Tesserae
             {
                 Exception innerException = null;
                 ToSpinner(text);
+
                 try
                 {
                     await action();
@@ -368,6 +381,7 @@ namespace Tesserae
                 finally
                 {
                     UndoSpinner();
+
                     if (innerException is object)
                     {
                         if (onError is object)
@@ -444,6 +458,7 @@ namespace Tesserae
             InnerElement.style.background = background;
             InnerElement.style.color = textColor;
             InnerElement.style.borderColor = borderColor;
+
             if (_iconSpan is object)
             {
                 _iconSpan.style.color = iconColor;
@@ -466,9 +481,11 @@ namespace Tesserae
         public Button SetIcon(string icon, string color = "", bool afterText = false)
         {
             Icon = icon;
+
             if (_iconSpan is object)
             {
                 _iconSpan.style.color = color;
+
                 if (afterText)
                 {
                     InnerElement.removeChild(_iconSpan);
@@ -484,15 +501,21 @@ namespace Tesserae
 
         internal void OnIconClick(Action<HTMLElement, MouseEvent> action)
         {
-            _iconSpan.onclick += (e) => { StopEvent(e); action(_iconSpan, e); } ;
+            _iconSpan.onclick += (e) =>
+            {
+                StopEvent(e);
+                action(_iconSpan, e);
+            };
         }
 
         public Button SetIcon(Emoji icon, bool afterText = false)
         {
             Icon = $"ec {icon}";
+
             if (_iconSpan is object)
             {
                 _iconSpan.style.color = "";
+
                 if (afterText)
                 {
                     InnerElement.removeChild(_iconSpan);
@@ -509,9 +532,11 @@ namespace Tesserae
         public Button SetIcon(LineAwesome icon, string color = "", TextSize size = TextSize.Medium, LineAwesomeWeight weight = LineAwesomeWeight.Light, bool afterText = false)
         {
             Icon = $"{weight} {icon} {size}";
+
             if (_iconSpan is object)
             {
                 _iconSpan.style.color = color;
+
                 if (afterText)
                 {
                     InnerElement.removeChild(_iconSpan);
@@ -578,7 +603,7 @@ namespace Tesserae
                 {
                     InnerElement.scrollIntoView();
                 }
-                
+
                 InnerElement.focus();
             });
             return this;

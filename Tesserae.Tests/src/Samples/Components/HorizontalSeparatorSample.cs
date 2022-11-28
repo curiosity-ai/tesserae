@@ -15,23 +15,23 @@ namespace Tesserae.Tests.Samples
         public HorizontalSeparatorSample()
         {
             _content = SectionStack()
-            .Title(SampleHeader(nameof(HorizontalSeparatorSample)))
-            .Section(Stack().Children(
-                SampleTitle("Overview"),
-                TextBlock("A separator visually separates content into groups."),
-                TextBlock("You can render content in the separator by specifying the component's children. The component's children can be plain text or a component like Icon. The content is center-aligned by default.")))
-            .Section(Stack().Children(
-                SampleTitle("Best Practices"),
-                HStack().Children(
-                Stack().Width(40.percent()).Children(
-                    SampleSubTitle("Do"),
-                    SampleDo("Explain what is the group this separator introduces"),
-                    SampleDo("Be short and concise.")
-                    ),
-                Stack().Width(40.percent()).Children(
-                    SampleSubTitle("Don't"),
-                    SampleDont("Use long group names")))))
-            .Section(Stack().Children(
+               .Title(SampleHeader(nameof(HorizontalSeparatorSample)))
+               .Section(Stack().Children(
+                    SampleTitle("Overview"),
+                    TextBlock("A separator visually separates content into groups."),
+                    TextBlock("You can render content in the separator by specifying the component's children. The component's children can be plain text or a component like Icon. The content is center-aligned by default.")))
+               .Section(Stack().Children(
+                    SampleTitle("Best Practices"),
+                    HStack().Children(
+                        Stack().Width(40.percent()).Children(
+                            SampleSubTitle("Do"),
+                            SampleDo("Explain what is the group this separator introduces"),
+                            SampleDo("Be short and concise.")
+                        ),
+                        Stack().Width(40.percent()).Children(
+                            SampleSubTitle("Don't"),
+                            SampleDont("Use long group names")))))
+               .Section(Stack().Children(
                     SampleTitle("Usage"),
                     HorizontalSeparator("Center"),
                     HorizontalSeparator("Left").Left(),

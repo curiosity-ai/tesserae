@@ -13,7 +13,7 @@ namespace Tesserae.Tests.Samples
         public SliderSample()
         {
             var value = new SettableObservable<int>(0);
-            var s1 = Slider(val: 0, min: 0, max: 100, step: 1).OnInput((s, e) => value.Update(currVal => value.Value = s.Value));
+            var s1 = Slider(val: 0, min: 0, max: 100, step: 1).OnInput((s,  e) => value.Update(currVal => value.Value = s.Value));
             var s2 = Slider(val: 0, min: 0, max: 100, step: 10).OnInput((s, e) => value.Update(currVal => value.Value = s.Value));
             value.Observe(changedValue => s1.Value = changedValue);
 
@@ -22,8 +22,8 @@ namespace Tesserae.Tests.Samples
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("TODO")
-                //                TextBlock("ChoiceGroup emphasize all options equally, and that may draw more attention to the options than necessary. Consider using other controls, unless the options deserve extra attention from the user. For example, if the default option is recommended for most users in most situations, use a Dropdown component instead."),
-                //                TextBlock("If there are only two mutually exclusive options, combine them into a single Checkbox or Toggle switch. For example, use a Checkbox for \"I agree\" instead of ChoiceGroup buttons for \"I agree\" and \"I don't agree.\"")
+                    //                TextBlock("ChoiceGroup emphasize all options equally, and that may draw more attention to the options than necessary. Consider using other controls, unless the options deserve extra attention from the user. For example, if the default option is recommended for most users in most situations, use a Dropdown component instead."),
+                    //                TextBlock("If there are only two mutually exclusive options, combine them into a single Checkbox or Toggle switch. For example, use a Checkbox for \"I agree\" instead of ChoiceGroup buttons for \"I agree\" and \"I don't agree.\"")
                 ))
                .Section(Stack().Children(
                     SampleTitle("Best Practices"),
