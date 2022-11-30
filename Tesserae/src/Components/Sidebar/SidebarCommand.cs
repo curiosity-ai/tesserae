@@ -13,6 +13,7 @@ namespace Tesserae
 
         internal bool ShouldHookToContextMenu => _hookParentContextMenu;
 
+        public SidebarCommand(string icon, LineAwesomeWeight weight = LineAwesomeWeight.Light) : this($"{weight} {icon}") { }
         public SidebarCommand(LineAwesome icon, LineAwesomeWeight weight = LineAwesomeWeight.Light) : this($"{weight} {icon}") { }
         public SidebarCommand(Emoji       icon) : this($"ec {icon}") { }
 

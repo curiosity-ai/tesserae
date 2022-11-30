@@ -27,7 +27,9 @@ namespace Tesserae
 
         public SidebarButton(LineAwesome icon, LineAwesomeWeight weight, string text, params SidebarCommand[] commands) : this($"{weight} {icon}", text, null, commands) { }
 
-        public SidebarButton(Emoji icon, string text, params SidebarCommand[] commands) : this($"ec {icon}", text, null, commands) { }
+        public SidebarButton(Emoji        icon,  string text, params SidebarCommand[] commands) : this($"ec {icon}", text, null, commands) { }
+        public SidebarButton(string       icon,  string text, params SidebarCommand[] commands) : this(icon, text, null, commands) { }
+        public SidebarButton(ISidebarIcon image, string text, params SidebarCommand[] commands) : this(image, text, null, commands) { }
 
         public SidebarButton(string icon, string text, SidebarBadge badge, params SidebarCommand[] commands)
         {
@@ -88,7 +90,6 @@ namespace Tesserae
                 return Raw(div);
             }
         }
-
 
         public SidebarButton(ISidebarIcon image, string text, SidebarBadge badge, params SidebarCommand[] commands)
         {
