@@ -19,6 +19,7 @@ namespace Tesserae.Tests.Samples
 
             var page = 1;
             var pageGrid = 1;
+
             _content = SectionStack().WidthStretch()
                .Title(SampleHeader(nameof(InfiniteScrollingListSample)))
                .Section(
@@ -54,6 +55,7 @@ namespace Tesserae.Tests.Samples
         private IComponent[] GetSomeItems(int count, int page = -1, string txt = "")
         {
             var pageString = page > 0 ? page.ToString() : "";
+
             return Enumerable
                .Range(1, count)
                .Select(number =>

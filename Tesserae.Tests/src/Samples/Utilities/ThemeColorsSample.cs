@@ -15,42 +15,42 @@ namespace Tesserae.Tests.Samples
 
         public static void DumpTheme()
         {
-            foreach(var (fromC, toC) in new[] 
-            {
-                ("tss-default-background-color-root", "tss-default-background-hover-color-root"),
-                ("tss-default-background-color-root", "tss-default-background-active-color-root"),
+            foreach (var (fromC, toC) in new[]
+                     {
+                         ("tss-default-background-color-root", "tss-default-background-hover-color-root"),
+                         ("tss-default-background-color-root", "tss-default-background-active-color-root"),
 
-                ("tss-default-foreground-color-root", "tss-default-foreground-hover-color-root"),
-                ("tss-default-foreground-color-root", "tss-default-foreground-active-color-root"),
+                         ("tss-default-foreground-color-root", "tss-default-foreground-hover-color-root"),
+                         ("tss-default-foreground-color-root", "tss-default-foreground-active-color-root"),
 
-                ("tss-primary-background-color-root", "tss-primary-border-color-root"),
-                ("tss-primary-background-color-root", "tss-primary-background-hover-color-root"),
-                ("tss-primary-background-color-root", "tss-primary-background-active-color-root"),
+                         ("tss-primary-background-color-root", "tss-primary-border-color-root"),
+                         ("tss-primary-background-color-root", "tss-primary-background-hover-color-root"),
+                         ("tss-primary-background-color-root", "tss-primary-background-active-color-root"),
 
-                ("tss-primary-foreground-color-root", "tss-primary-foreground-hover-color-root"),
-                ("tss-primary-foreground-color-root", "tss-primary-foreground-active-color-root"),
+                         ("tss-primary-foreground-color-root", "tss-primary-foreground-hover-color-root"),
+                         ("tss-primary-foreground-color-root", "tss-primary-foreground-active-color-root"),
 
-                ("tss-danger-background-color-root", "tss-danger-border-color-root"),
-                ("tss-danger-background-color-root", "tss-danger-background-hover-color-root"),
-                ("tss-danger-background-color-root", "tss-danger-background-active-color-root"),
+                         ("tss-danger-background-color-root", "tss-danger-border-color-root"),
+                         ("tss-danger-background-color-root", "tss-danger-background-hover-color-root"),
+                         ("tss-danger-background-color-root", "tss-danger-background-active-color-root"),
 
-                ("tss-danger-foreground-color-root", "tss-danger-foreground-hover-color-root"),
-                ("tss-danger-foreground-color-root", "tss-danger-foreground-active-color-root"),
+                         ("tss-danger-foreground-color-root", "tss-danger-foreground-hover-color-root"),
+                         ("tss-danger-foreground-color-root", "tss-danger-foreground-active-color-root"),
 
-                ("tss-scrollbar-track-color", "tss-scrollbar-track-hidden-color"),
-                ("tss-scrollbar-track-color", "tss-scrollbar-thumb-color"),
-                ("tss-scrollbar-track-color", "tss-scrollbar-thumb-hidden-color"),
+                         ("tss-scrollbar-track-color", "tss-scrollbar-track-hidden-color"),
+                         ("tss-scrollbar-track-color", "tss-scrollbar-thumb-color"),
+                         ("tss-scrollbar-track-color", "tss-scrollbar-thumb-hidden-color"),
 
-                ("tss-default-border-color-root", "tss-default-background-color-root"),
-                ("tss-dark-border-color-root", "tss-default-background-color-root"),
-                ("tss-default-separator-color-root", "tss-default-background-color-root"),
-                ("tss-progress-background-color-root", "tss-default-background-color-root"),
-                ("tss-link-color-root", "tss-primary-background-color-root"),
-                ("tss-tooltip-background-color-root", "tss-default-foreground-color-root"),
-                ("tss-tooltip-foreground-color-root", "tss-default-background-color-root"),
-                ("tss-tooltip-background-color-root", "tss-default-background-color-root"),
-                ("tss-tooltip-foreground-color-root", "tss-default-foreground-color-root"),
-            })
+                         ("tss-default-border-color-root", "tss-default-background-color-root"),
+                         ("tss-dark-border-color-root", "tss-default-background-color-root"),
+                         ("tss-default-separator-color-root", "tss-default-background-color-root"),
+                         ("tss-progress-background-color-root", "tss-default-background-color-root"),
+                         ("tss-link-color-root", "tss-primary-background-color-root"),
+                         ("tss-tooltip-background-color-root", "tss-default-foreground-color-root"),
+                         ("tss-tooltip-foreground-color-root", "tss-default-background-color-root"),
+                         ("tss-tooltip-background-color-root", "tss-default-background-color-root"),
+                         ("tss-tooltip-foreground-color-root", "tss-default-foreground-color-root"),
+                     })
             {
                 console.log($"{(Theme.IsDark ? "DARK" : "LIGHT")}: {fromC} to {toC}: {LightDiff(fromC, toC):n1}");
             }
@@ -60,42 +60,46 @@ namespace Tesserae.Tests.Samples
         {
             string fromVar = Color.EvalVar("var(--" + from + ")");
             string toVar = Color.EvalVar("var(--" + to + ")");
+
             if (!fromVar.Contains("("))
             {
                 fromVar = "rgb(" + fromVar + ")";
             }
+
             if (!toVar.Contains("("))
             {
                 toVar = "rgb(" + toVar + ")";
             }
             var fromColor = (HSLColor)Color.FromString(fromVar);
-            var toColor  = (HSLColor)Color.FromString(toVar);
+            var toColor = (HSLColor)Color.FromString(toVar);
             return toColor.Luminosity - fromColor.Luminosity;
         }
 
         public ThemeColorsSample()
         {
             var currentTheme = Theme.IsLight;
-            var primaryLight    = new SettableObservable<Color>();
+            var primaryLight = new SettableObservable<Color>();
             var backgroundLight = new SettableObservable<Color>();
-            var primaryDark     = new SettableObservable<Color>();
-            var backgroundDark  = new SettableObservable<Color>();
+            var primaryDark = new SettableObservable<Color>();
+            var backgroundDark = new SettableObservable<Color>();
 
             var combined = new CombinedObservable<Color, Color, Color, Color>(primaryLight, primaryDark, backgroundLight, backgroundDark);
 
-            var cpPrimaryLight    = ColorPicker().OnInput((cp, ev) => primaryLight.Value = cp.Color);
-            var cpPrimaryDark     = ColorPicker().OnInput((cp, ev) => primaryDark.Value = cp.Color);
+            var cpPrimaryLight = ColorPicker().OnInput((cp,    ev) => primaryLight.Value = cp.Color);
+            var cpPrimaryDark = ColorPicker().OnInput((cp,     ev) => primaryDark.Value = cp.Color);
             var cpBackgroundLight = ColorPicker().OnInput((cp, ev) => backgroundLight.Value = cp.Color);
-            var cpBackgroundDark  = ColorPicker().OnInput((cp, ev) => backgroundDark.Value = cp.Color);
+            var cpBackgroundDark = ColorPicker().OnInput((cp,  ev) => backgroundDark.Value = cp.Color);
 
             Theme.Light();
+
             window.setTimeout((_) =>
             {
 
                 primaryLight.Value = Color.FromString(Color.EvalVar(Theme.Primary.Background));
                 backgroundLight.Value = Color.FromString(Color.EvalVar(Theme.Default.Background));
-                
+
                 Theme.Dark();
+
                 window.setTimeout((__) =>
                 {
                     primaryDark.Value = Color.FromString(Color.EvalVar(Theme.Primary.Background));
@@ -103,10 +107,10 @@ namespace Tesserae.Tests.Samples
                     Theme.IsLight = currentTheme;
 
 
-                    cpPrimaryLight.Color    = primaryLight.Value;
-                    cpPrimaryDark.Color     = primaryDark.Value;
+                    cpPrimaryLight.Color = primaryLight.Value;
+                    cpPrimaryDark.Color = primaryDark.Value;
                     cpBackgroundLight.Color = backgroundLight.Value;
-                    cpBackgroundDark.Color  = backgroundDark.Value;
+                    cpBackgroundDark.Color = backgroundDark.Value;
 
                     combined.ObserveFutureChanges(v =>
                     {
@@ -141,10 +145,10 @@ namespace Tesserae.Tests.Samples
                                 new ColorListItem("Danger")
                             })
                            .SortedBy("Name"),
-                            Label("Primary Light").Inline()   .SetContent(cpPrimaryLight    ),
-                            Label("Primary Dark").Inline()    .SetContent(cpPrimaryDark     ),
-                            Label("Background Light").Inline().SetContent(cpBackgroundLight ),
-                            Label("Background Dark").Inline() .SetContent(cpBackgroundDark  )
+                        Label("Primary Light").Inline().SetContent(cpPrimaryLight),
+                        Label("Primary Dark").Inline().SetContent(cpPrimaryDark),
+                        Label("Background Light").Inline().SetContent(cpBackgroundLight),
+                        Label("Background Dark").Inline().SetContent(cpBackgroundDark)
                     ));
         }
 
@@ -163,33 +167,33 @@ namespace Tesserae.Tests.Samples
                 {
                     "Default", new Dictionary<string, string>
                     {
-                        {nameof(Theme.Default.Background), Theme.Default.Background},
-                        {nameof(Theme.Default.Foreground), Theme.Default.Foreground},
-                        {nameof(Theme.Default.Border), Theme.Default.Border},
-                        {nameof(Theme.Default.BackgroundActive), Theme.Default.BackgroundActive},
-                        {nameof(Theme.Default.BackgroundHover), Theme.Default.BackgroundHover},
-                        {nameof(Theme.Default.ForegroundActive), Theme.Default.ForegroundActive},
-                        {nameof(Theme.Default.ForegroundHover), Theme.Default.ForegroundHover},
+                        { nameof(Theme.Default.Background), Theme.Default.Background },
+                        { nameof(Theme.Default.Foreground), Theme.Default.Foreground },
+                        { nameof(Theme.Default.Border), Theme.Default.Border },
+                        { nameof(Theme.Default.BackgroundActive), Theme.Default.BackgroundActive },
+                        { nameof(Theme.Default.BackgroundHover), Theme.Default.BackgroundHover },
+                        { nameof(Theme.Default.ForegroundActive), Theme.Default.ForegroundActive },
+                        { nameof(Theme.Default.ForegroundHover), Theme.Default.ForegroundHover },
 
                     }
                 },
                 {
                     "Primary", new Dictionary<string, string>
                     {
-                        {nameof(Theme.Primary.Background), Theme.Primary.Background},
-                        {nameof(Theme.Primary.Foreground), Theme.Primary.Foreground},
-                        {nameof(Theme.Primary.Border), Theme.Primary.Border},
-                        {nameof(Theme.Primary.BackgroundActive), Theme.Primary.BackgroundActive},
-                        {nameof(Theme.Primary.BackgroundHover), Theme.Primary.BackgroundHover},
-                        {nameof(Theme.Primary.ForegroundActive), Theme.Primary.ForegroundActive},
-                        {nameof(Theme.Primary.ForegroundHover), Theme.Primary.ForegroundHover},
+                        { nameof(Theme.Primary.Background), Theme.Primary.Background },
+                        { nameof(Theme.Primary.Foreground), Theme.Primary.Foreground },
+                        { nameof(Theme.Primary.Border), Theme.Primary.Border },
+                        { nameof(Theme.Primary.BackgroundActive), Theme.Primary.BackgroundActive },
+                        { nameof(Theme.Primary.BackgroundHover), Theme.Primary.BackgroundHover },
+                        { nameof(Theme.Primary.ForegroundActive), Theme.Primary.ForegroundActive },
+                        { nameof(Theme.Primary.ForegroundHover), Theme.Primary.ForegroundHover },
                     }
                 },
                 {
                     "Secondary", new Dictionary<string, string>()
                     {
-                        {nameof(Theme.Secondary.Background), Theme.Secondary.Background},
-                        {nameof(Theme.Secondary.Foreground), Theme.Secondary.Foreground},
+                        { nameof(Theme.Secondary.Background), Theme.Secondary.Background },
+                        { nameof(Theme.Secondary.Foreground), Theme.Secondary.Foreground },
 //                {nameof(Theme.Secondary.Border), Theme.Secondary.Border},
 //                {nameof(Theme.Secondary.BackgroundActive), Theme.Secondary.BackgroundActive},
 //                {nameof(Theme.Secondary.BackgroundHover), Theme.Secondary.BackgroundHover},
@@ -200,25 +204,25 @@ namespace Tesserae.Tests.Samples
                 {
                     "Danger", new Dictionary<string, string>()
                     {
-                        {nameof(Theme.Danger.Background), Theme.Danger.Background},
-                        {nameof(Theme.Danger.Foreground), Theme.Danger.Foreground},
-                        {nameof(Theme.Danger.Border), Theme.Danger.Border},
-                        {nameof(Theme.Danger.BackgroundActive), Theme.Danger.BackgroundActive},
-                        {nameof(Theme.Danger.BackgroundHover), Theme.Danger.BackgroundHover},
-                        {nameof(Theme.Danger.ForegroundActive), Theme.Danger.ForegroundActive},
-                        {nameof(Theme.Danger.ForegroundHover), Theme.Danger.ForegroundHover},
+                        { nameof(Theme.Danger.Background), Theme.Danger.Background },
+                        { nameof(Theme.Danger.Foreground), Theme.Danger.Foreground },
+                        { nameof(Theme.Danger.Border), Theme.Danger.Border },
+                        { nameof(Theme.Danger.BackgroundActive), Theme.Danger.BackgroundActive },
+                        { nameof(Theme.Danger.BackgroundHover), Theme.Danger.BackgroundHover },
+                        { nameof(Theme.Danger.ForegroundActive), Theme.Danger.ForegroundActive },
+                        { nameof(Theme.Danger.ForegroundHover), Theme.Danger.ForegroundHover },
                     }
                 },
                 {
                     "Success", new Dictionary<string, string>
                     {
-                        {nameof(Theme.Success.Background), Theme.Success.Background},
-                        {nameof(Theme.Success.Foreground), Theme.Success.Foreground},
-                        {nameof(Theme.Success.Border), Theme.Success.Border},
-                        {nameof(Theme.Success.BackgroundActive), Theme.Success.BackgroundActive},
-                        {nameof(Theme.Success.BackgroundHover), Theme.Success.BackgroundHover},
-                        {nameof(Theme.Success.ForegroundActive), Theme.Success.ForegroundActive},
-                        {nameof(Theme.Success.ForegroundHover), Theme.Success.ForegroundHover},
+                        { nameof(Theme.Success.Background), Theme.Success.Background },
+                        { nameof(Theme.Success.Foreground), Theme.Success.Foreground },
+                        { nameof(Theme.Success.Border), Theme.Success.Border },
+                        { nameof(Theme.Success.BackgroundActive), Theme.Success.BackgroundActive },
+                        { nameof(Theme.Success.BackgroundHover), Theme.Success.BackgroundHover },
+                        { nameof(Theme.Success.ForegroundActive), Theme.Success.ForegroundActive },
+                        { nameof(Theme.Success.ForegroundHover), Theme.Success.ForegroundHover },
                     }
                 }
             };

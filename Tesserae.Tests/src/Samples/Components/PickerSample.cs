@@ -16,30 +16,30 @@ namespace Tesserae.Tests.Samples
         {
             _content =
                 SectionStack()
-                    .Title(SampleHeader(nameof(PickerSample)))
-                    .Section(
+                   .Title(SampleHeader(nameof(PickerSample)))
+                   .Section(
                         Stack()
-                            .Children(
+                           .Children(
                                 SampleTitle("Overview"),
                                 TextBlock("Pickers are used to pick recipients.")))
-                    .Section(
+                   .Section(
                         Stack()
-                            .Width(40.percent())
-                            .Children(
+                           .Width(40.percent())
+                           .Children(
                                 SampleTitle("Usage"),
                                 TextBlock("Picker with text suggestions and tag-like selections")
-                                    .Medium()
-                                    .PaddingBottom(16.px()),
+                                   .Medium()
+                                   .PaddingBottom(16.px()),
                                 Picker<PickerSampleItem>(suggestionsTitleText: "Suggested Tags").Items(GetPickerItems())
-                                    .PaddingBottom(32.px()),
+                                   .PaddingBottom(32.px()),
                                 TextBlock("Picker with single selection")
-                                    .Medium()
-                                    .PaddingBottom(16.px()),
+                                   .Medium()
+                                   .PaddingBottom(16.px()),
                                 Picker<PickerSampleItem>(suggestionsTitleText: "Suggested Tags", maximumAllowedSelections: 1).Items(GetPickerItems())
-                                    .PaddingBottom(32.px()),
+                                   .PaddingBottom(32.px()),
                                 TextBlock("Picker with icon and text suggestions and component based selections")
-                                    .Medium()
-                                    .PaddingBottom(16.px()),
+                                   .Medium()
+                                   .PaddingBottom(16.px()),
                                 Picker<PickerSampleItemWithComponents>(suggestionsTitleText: "Suggested Items", renderSelectionsInline: false).Items(GetComponentPickerItems())));
         }
 

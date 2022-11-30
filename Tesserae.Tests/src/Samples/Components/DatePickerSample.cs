@@ -14,6 +14,7 @@ namespace Tesserae.Tests.Samples
         {
             var from = DateTime.Now.AddDays(-7);
             var to = DateTime.Now.AddDays(7);
+
             _content = SectionStack()
                .Title(SampleHeader(nameof(DatePickerSample)))
                .Section(Stack().Children(

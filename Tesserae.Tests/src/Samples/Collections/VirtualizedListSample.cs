@@ -17,15 +17,15 @@ namespace Tesserae.Tests.Samples
         {
             _content =
                 SectionStack()
-                    .Title(SampleHeader(nameof(VirtualizedListSample)))
-                    .Section(
+                   .Title(SampleHeader(nameof(VirtualizedListSample)))
+                   .Section(
                         Stack()
-                            .Children(
+                           .Children(
                                 SampleTitle("Overview"),
                                 TextBlock("List provides a base component for rendering large sets of items. " +
                                           "It is agnostic of the tile component used, and selection " +
                                           "management. These concerns can be layered separately.")
-                                    .PaddingBottom(16.px()),
+                                   .PaddingBottom(16.px()),
                                 TextBlock("Performance is important, and DOM content is expensive. Therefore, " +
                                           "limit what you render. List applies this principle by using UI " +
                                           "virtualization. Unlike a simple for loop that renders all items in " +
@@ -33,7 +33,7 @@ namespace Tesserae.Tests.Samples
                                           "the subset of rendered content is shifted. This gives a much " +
                                           "better experience for large sets, especially when the " +
                                           "per-item components are complex/render-intensive/network-intensive.")
-                                    .PaddingBottom(16.px()),
+                                   .PaddingBottom(16.px()),
                                 TextBlock("List breaks down the set of items passed in into pages. Only pages " +
                                           "within a 'materialized window' are actually rendered. As that window " +
                                           "changes due to scroll events, pages that fall outside that window are " +
@@ -41,17 +41,17 @@ namespace Tesserae.Tests.Samples
                                           "elements. This gives the user the experience of browsing massive amounts " +
                                           "of content but only using a small number of actual elements. " +
                                           "This gives the browser much less layout to resolve.")))
-                    .Section(
+                   .Section(
                         Stack()
-                            .Children(
+                           .Children(
                                 SampleTitle("Usage"),
                                 TextBlock("Virtualized List")
-                                    .Medium()
-                                    .PaddingBottom(16.px()),
+                                   .Medium()
+                                   .PaddingBottom(16.px()),
                                 VirtualizedList().WithListItems(GetALotOfItems()).PaddingBottom(32.px()),
                                 TextBlock("Virtualized List with Empty List Message")
-                                    .Medium()
-                                    .PaddingBottom(16.px()),
+                                   .Medium()
+                                   .PaddingBottom(16.px()),
                                 VirtualizedList().WithEmptyMessage(() => TextBlock("No List Items")).WithListItems(Enumerable.Empty<IComponent>())));
         }
 
@@ -63,8 +63,8 @@ namespace Tesserae.Tests.Samples
         private IEnumerable<SampleVirtualizedItem> GetALotOfItems()
         {
             return Enumerable
-                .Range(1, 5000)
-                .Select(number => new SampleVirtualizedItem($"Lorem Ipsum {number}"));
+               .Range(1, 5000)
+               .Select(number => new SampleVirtualizedItem($"Lorem Ipsum {number}"));
         }
 
         public sealed class SampleVirtualizedItem : IComponent
