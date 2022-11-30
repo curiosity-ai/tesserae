@@ -74,6 +74,12 @@ namespace Tesserae
             return this;
         }
 
+        public SidebarBadge NoPadding()
+        {
+            _button.NoPadding();
+            return this;
+        }
+        
         public SidebarBadge Default()
         {
             _button.IsPrimary = false;
