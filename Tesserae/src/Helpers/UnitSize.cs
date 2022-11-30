@@ -31,6 +31,13 @@ namespace Tesserae
             Unit = unit;
         }
 
+        public UnitSize(string custom)
+        {
+            Size = -1;
+            Unit = Unit.Default;
+            _cachedValue = custom;
+        }
+
         private string _cachedValue = null;
 
         private UnitSize()            => Unit = Unit.Auto;
@@ -44,7 +51,7 @@ namespace Tesserae
 
         public override string ToString()
         {
-            if (Script.Write<bool>("{0}", _cachedValue)) return _cachedValue;
+            if (_cachedValue.As<bool>()) return _cachedValue; //Compile to a faster check than string.IsNullOrEmpty in javascript
 
             switch (Unit)
             {
