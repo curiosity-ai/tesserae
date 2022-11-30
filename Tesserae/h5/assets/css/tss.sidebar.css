@@ -227,7 +227,11 @@
         margin:calc(22px - 16px);
         object-fit: contain;
     }
-
+    
+.tss-sidebar-badge-transparent-icon{
+    opacity: 0.3;
+}
+    
 .tss-sidebar-nav-header {
     position: relative;
     isolation: isolate;

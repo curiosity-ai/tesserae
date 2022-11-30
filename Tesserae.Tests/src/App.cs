@@ -125,8 +125,9 @@ namespace Tesserae.Tests
             sidebar.AddFooter(openClose);
 
             sidebar.AddFooter(new SidebarButton(new ImageIcon("https://curiosity.ai/media/cat-color-square-64.png"), "By Curiosity",
-                new SidebarCommand(null, LineAwesome.Users, Theme.Sidebar.Background, Theme.Sidebar.Foreground),
-                new SidebarCommand("+3", Theme.Primary.Background, Theme.Primary.Foreground),
+                new SidebarBadge("+3").Foreground(Theme.Primary.Foreground).Background(Theme.Primary.Background),
+//                new SidebarBadge(null, LineAwesome.Users).Foreground(Theme.Sidebar.Foreground).Background(Theme.Sidebar.Background).SemiTransparent(),
+//                new SidebarCommand("+3", Theme.Primary.Background, Theme.Primary.Foreground),
                 new SidebarCommand(LineAwesome.ExternalLinkAlt).OnClick(() => window.open("https://github.com/curiosity-ai/tesserae", "_blank"))).Tooltip("Made with ❤ by Curiosity").OnClick(() => window.open("https://curiosity.ai", "_blank")));
 
 
