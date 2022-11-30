@@ -18,7 +18,6 @@
 .tss-splitter {
     background: transparent;
     width: 8px;
-    margin-left: -4px;
     cursor: e-resize;
 }
 
