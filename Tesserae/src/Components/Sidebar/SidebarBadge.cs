@@ -11,7 +11,7 @@ namespace Tesserae
 
         public SidebarBadge(string badge, LineAwesome badgeIcon, TextSize iconSize = TextSize.Tiny)
         {
-            _button = Button().Class("tss-sidebar-command");
+            _button = Button().Class("tss-sidebar-command").Class("tss-sidebar-badge");
 
             _button.SetIcon(badgeIcon, size: iconSize);
 
@@ -23,7 +23,7 @@ namespace Tesserae
 
         public SidebarBadge(string badge, string badgeIcon)
         {
-            _button = Button().Class("tss-sidebar-command");
+            _button = Button().Class("tss-sidebar-command").Class("tss-sidebar-badge");
 
             if (!string.IsNullOrWhiteSpace(badgeIcon))
             {
@@ -43,7 +43,7 @@ namespace Tesserae
 
         public SidebarBadge(string badge)
         {
-            _button = Button().SetText(badge).Class("tss-sidebar-command");
+            _button = Button().SetText(badge).Class("tss-sidebar-command").Class("tss-sidebar-badge");
 
             if (string.IsNullOrWhiteSpace(badge))
             {
@@ -53,7 +53,7 @@ namespace Tesserae
 
         public SidebarBadge(ISidebarIcon image)
         {
-            _button = Button().ReplaceContent(image).Class("tss-sidebar-command");
+            _button = Button().ReplaceContent(image).Class("tss-sidebar-command").Class("tss-sidebar-badge");
         }
 
         public SidebarBadge SemiTransparent()
@@ -74,12 +74,6 @@ namespace Tesserae
             return this;
         }
 
-        public SidebarBadge NoPadding()
-        {
-            _button.NoPadding();
-            return this;
-        }
-        
         public SidebarBadge Default()
         {
             _button.IsPrimary = false;

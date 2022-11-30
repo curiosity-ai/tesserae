@@ -23,8 +23,10 @@ namespace Tesserae
 
         public IComponent CurrentRendered => _closedButton.IsMounted() ? _closedButton : _open;
 
+        public SidebarButton(LineAwesome icon, string text, SidebarBadge            badge, params SidebarCommand[] commands) : this($"{LineAwesomeWeight.Light} {icon}", text, badge, commands) { }
         public SidebarButton(LineAwesome icon, string text, params SidebarCommand[] commands) : this($"{LineAwesomeWeight.Light} {icon}", text, null, commands) { }
 
+        public SidebarButton(LineAwesome icon, LineAwesomeWeight weight, string text, SidebarBadge            badge, params SidebarCommand[] commands) : this($"{weight} {icon}", text, badge, commands) { }
         public SidebarButton(LineAwesome icon, LineAwesomeWeight weight, string text, params SidebarCommand[] commands) : this($"{weight} {icon}", text, null, commands) { }
 
         public SidebarButton(Emoji        icon,  string text, params SidebarCommand[] commands) : this($"ec {icon}", text, null, commands) { }

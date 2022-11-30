@@ -457,3 +457,7 @@
         padding: 0px;
         margin: 0px;
     }
+.tss-sidebar-badge{
+    min-width:20px;
+    padding: 0px;
+}
