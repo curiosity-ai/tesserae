@@ -70,6 +70,7 @@ namespace Tesserae
                 rect = _splitContainer.getBoundingClientRect().As<DOMRect>();
                 window.onmousemove += Resize;
                 window.onmouseup += StopResize;
+                StopEvent(me);
             };
 
             void Resize(MouseEvent me)
@@ -78,6 +79,7 @@ namespace Tesserae
                 current.style.width = width + "px";
                 current.style.flexGrow = "0";
                 current.style.flexShrink = "1";
+                StopEvent(me);
             }
 
             void StopResize(MouseEvent me)
@@ -86,6 +88,7 @@ namespace Tesserae
                 window.onmouseup -= StopResize;
                 _onResizeEnd?.Invoke((int)width);
                 rect = null;
+                StopEvent(me);
             }
         }
 
