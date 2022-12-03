@@ -26,16 +26,16 @@ namespace Tesserae.Tests
             }
 
             var currentPage = new SettableObservable<Sample>(null);
-            
-            currentPage.Observe(selected => 
+
+            currentPage.Observe(selected =>
             {
                 if (selected is object && sampleToSidebarItem.TryGetValue(selected, out var item))
                 {
                     SelectSidebar(item);
-                } 
+                }
             });
-            
-            var sidebar     = Sidebar();
+
+            var sidebar = Sidebar();
 
             sidebar.AddHeader(new SidebarText("Tesserae", "TSS", textSize: TextSize.Large, textWeight: TextWeight.Bold).PT(16).PB(16));
 
@@ -47,22 +47,22 @@ namespace Tesserae.Tests
             //           i.e. in the h5.json file, we need:      "reflection": { "disabled": false, "target":  "inline" },
 
             var samples = typeof(ISample).Assembly.GetTypes().Where(t => typeof(ISample).IsAssignableFrom(t) && !t.IsInterface)
-                            .Select(sampleType =>
-                            {
-                                var sg = sampleType.GetCustomAttributes(typeof(SampleDetailsAttribute), true).FirstOrDefault() as SampleDetailsAttribute;
-                                var group = sg is object ? sg.Group : "Others";
-                                int order = sg is object ? sg.Order : 0;
-                                LineAwesome icon = sg is object ? sg.Icon : LineAwesome.Circle;
-                                return new Sample(sampleType.Name, sampleType.Name.Replace("Sample", ""), group, order, icon, () => Activator.CreateInstance(sampleType) as IComponent);
-                            })
-                            .ToDictionary(s => s.Name, s => s);
+               .Select(sampleType =>
+                {
+                    var sg = sampleType.GetCustomAttributes(typeof(SampleDetailsAttribute), true).FirstOrDefault() as SampleDetailsAttribute;
+                    var group = sg is object ? sg.Group : "Others";
+                    int order = sg is object ? sg.Order : 0;
+                    LineAwesome icon = sg is object ? sg.Icon : LineAwesome.Circle;
+                    return new Sample(sampleType.Name, sampleType.Name.Replace("Sample", ""), group, order, icon, () => Activator.CreateInstance(sampleType) as IComponent);
+                })
+               .ToDictionary(s => s.Name, s => s);
 
             sidebar.AddHeader(new SidebarButton(Emoji.House, "Tesserae", new SidebarCommand(LineAwesome.ExternalLinkAlt).Tooltip("View on GitHub")
-                                                                                .OnClick(() => window.open("https://github.com/curiosity-ai/tesserae","_blank")))
-                                    .CommandsAlwaysVisible()
-                                    .OnOpenIconClick(() => Toast().Success("You clicked on the icon")));
+                   .OnClick(() => window.open("https://github.com/curiosity-ai/tesserae", "_blank")))
+               .CommandsAlwaysVisible()
+               .OnOpenIconClick(() => Toast().Success("You clicked on the icon")));
 
-            var openClose = new SidebarButton(LineAwesome.ChevronLeft, "").Tooltip("Close Sidebar");
+            var openClose = new SidebarButton(LineAwesome.ChevronLeft, "", new SidebarBadge(null, LineAwesome.Users).SemiTransparent()).Tooltip("Close Sidebar");
 
             openClose.OnClick(() =>
             {
@@ -95,8 +95,8 @@ namespace Tesserae.Tests
                 }
             });
 
-            var toast  = new SidebarCommand(Emoji.Bread).Tooltip("Toast !").OnClick(() => Toast().Success("Here is your toast 🍞"));
-            var pizza  = new SidebarCommand(Emoji.Pizza).Tooltip("Pizza!").OnClick(() => Toast().Success("Here is your pizza 🍕"));
+            var toast = new SidebarCommand(Emoji.Bread).Tooltip("Toast !").OnClick(() => Toast().Success("Here is your toast 🍞"));
+            var pizza = new SidebarCommand(Emoji.Pizza).Tooltip("Pizza!").OnClick(() => Toast().Success("Here is your pizza 🍕"));
             var cheese = new SidebarCommand(Emoji.Cheese).Tooltip("Cheese !").OnClick(() => Toast().Success("Here is your cheese 🧀"));
 
             var commands = new SidebarCommands(lightDark, toast, pizza, cheese);
@@ -104,9 +104,9 @@ namespace Tesserae.Tests
 
             var fireworks = new SidebarCommand(Emoji.ConfettiBall).Tooltip("Confetti !").OnClick(() => Toast().Success("🎊"));
             var happy = new SidebarCommand(Emoji.Smile).Tooltip("I like this !").OnClick(() => Toast().Success("Thanks for your feedback"));
-            var sad   = new SidebarCommand(Emoji.Disappointed).Tooltip("I don't like this!").OnClick(() => Toast().Success("Thanks for your feedback"));
+            var sad = new SidebarCommand(Emoji.Disappointed).Tooltip("I don't like this!").OnClick(() => Toast().Success("Thanks for your feedback"));
 
-            var dotsMenu = new SidebarCommand(LineAwesome.EllipsisH).OnClickMenu(() => new ISidebarItem[] 
+            var dotsMenu = new SidebarCommand(LineAwesome.EllipsisH).OnClickMenu(() => new ISidebarItem[]
             {
                 new SidebarButton(LineAwesome.User, "Manage Account"),
                 new SidebarButton(LineAwesome.Cog, "Preferences"),
@@ -118,12 +118,16 @@ namespace Tesserae.Tests
 
             var commandsEndAligned = new SidebarCommands(fireworks, dotsMenu).AlignEnd();
 
-            sidebar.AddFooter(new SidebarNav(Emoji.MailboxWithNoMail, "Empty Nav", true).ShowDotIfEmpty().OnOpenIconClick((e,m) => Toast().Success("You clicked on the icon!")));
-            
+            sidebar.AddFooter(new SidebarNav(Emoji.MailboxWithNoMail, "Empty Nav", true).ShowDotIfEmpty().OnOpenIconClick((e, m) => Toast().Success("You clicked on the icon!")));
+
             sidebar.AddFooter(commands);
             sidebar.AddFooter(commandsEndAligned);
             sidebar.AddFooter(openClose);
-            sidebar.AddFooter(new SidebarButton(new ImageIcon("https://curiosity.ai/media/cat-color-square-64.png"), "By Curiosity", new SidebarCommand("+3", Theme.Primary.Background, Theme.Primary.Foreground), new SidebarCommand(LineAwesome.ExternalLinkAlt).OnClick(() => window.open("https://github.com/curiosity-ai/tesserae", "_blank"))).Tooltip("Made with ❤ by Curiosity").OnClick(() => window.open("https://curiosity.ai", "_blank")));
+
+            sidebar.AddFooter(new SidebarButton(new ImageIcon("https://curiosity.ai/media/cat-color-square-64.png"), "By Curiosity",
+                new SidebarBadge("+3").Foreground(Theme.Primary.Foreground).Background(Theme.Primary.Background),
+//                new SidebarCommand("+3", Theme.Primary.Background, Theme.Primary.Foreground),
+                new SidebarCommand(LineAwesome.ExternalLinkAlt).OnClick(() => window.open("https://github.com/curiosity-ai/tesserae", "_blank"))).Tooltip("Made with ❤ by Curiosity").OnClick(() => window.open("https://curiosity.ai", "_blank")));
 
 
             foreach (var group in samples.Values.GroupBy(s => s.Group))
@@ -135,7 +139,7 @@ namespace Tesserae.Tests
                 foreach (var item in group.OrderBy(s => s.Order).ThenBy(s => s.Name.ToLower()))
                 {
                     var sidebarItem = new SidebarButton(item.Icon, item.Name, new SidebarCommand(LineAwesome.Code).Tooltip("Show sample code").OnClick(() => SamplesHelper.ShowSampleCode(item.Name)),
-                                                                              new SidebarCommand(LineAwesome.ExternalLinkAlt).Tooltip("Open in new tab").OnClick(() => window.open($"#/view/{item.Name}","_blank")));
+                        new SidebarCommand(LineAwesome.ExternalLinkAlt).Tooltip("Open in new tab").OnClick(() => window.open($"#/view/{item.Name}", "_blank")));
 
                     sidebarItem.OnClick(() =>
                     {
@@ -201,7 +205,7 @@ namespace Tesserae.Tests
                                     links["DatePicker"],
                                     links["DateTimePicker"],
                                     links["GridPicker"]
-                                    ),
+                                ),
                             NavLink("Progress").Expanded()
                                .SmallPlus()
                                .SemiBold()

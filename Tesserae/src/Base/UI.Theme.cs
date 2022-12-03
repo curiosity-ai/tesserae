@@ -233,6 +233,12 @@ namespace Tesserae
                 public const string OverlayDark      = "var(--tss-overlay-dark)";
                 public const string CardShadow       = "var(--tss-card-shadow, 0 0.3px 0.9px 0 rgba(0,0,0,0.108))";
             }
+            
+            public static class Sidebar
+            {
+                public const string Background       = "var(--tss-sidebar-background-color)";
+                public const string Foreground       = "var(--tss-sidebar-foreground-color)";
+            }
 
             public static class Secondary
             {

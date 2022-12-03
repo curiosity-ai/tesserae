@@ -5,8 +5,10 @@ using System;
 
 namespace Tesserae
 {
+
+
     [H5.Name("tss.CB")]
-    public abstract class ComponentBase<T, THTML> : IComponent, IHasMarginPadding where T : ComponentBase<T, THTML> where THTML : HTMLElement
+    public abstract class ComponentBase<T, THTML> : IComponent, IHasClickHandler, IHasMarginPadding where T : ComponentBase<T, THTML> where THTML : HTMLElement
     {
         protected event ComponentEventHandler<T, MouseEvent>    Clicked;
         protected event ComponentEventHandler<T, MouseEvent>    ContextMenu;
@@ -23,6 +25,16 @@ namespace Tesserae
         public string Padding      { get => InnerElement.style.padding; set => InnerElement.style.padding = value; }
 
         public abstract HTMLElement Render();
+
+        public void OnClickBase(ComponentEventHandler<IComponent, MouseEvent> onClick, bool clearPrevious = true)
+        {
+            OnClick((a,b) => onClick(a,b), clearPrevious);
+        }
+
+        public void OnContextMenuBase(ComponentEventHandler<IComponent, MouseEvent> onContextMenu, bool clearPrevious = true)
+        {
+            OnContextMenu((a, b) => onContextMenu(a, b), clearPrevious);
+        }
 
         public virtual T OnClick(ComponentEventHandler<T, MouseEvent> onClick, bool clearPrevious = true)
         {
@@ -44,7 +56,6 @@ namespace Tesserae
 
             return (T)this;
         }
-
 
         public virtual T OnContextMenu(ComponentEventHandler<T, MouseEvent> onContextMenu, bool clearPrevious = true)
         {
@@ -114,8 +125,9 @@ namespace Tesserae
 
         protected void AttachChange() => InnerElement.addEventListener("change", s => RaiseOnChange(s));
 
-        protected void RaiseOnClick(MouseEvent       ev) => Clicked?.Invoke((T)this, ev);
-        protected void RaiseOnContextMenu(MouseEvent ev) => ContextMenu?.Invoke((T)this, ev);
+        public void RaiseOnClick(MouseEvent       ev) => Clicked?.Invoke((T)this, ev);
+
+        public void RaiseOnContextMenu(MouseEvent ev) => ContextMenu?.Invoke((T)this, ev);
 
         protected void RaiseOnChange(Event ev) => Changed?.Invoke((T)this, ev);
 

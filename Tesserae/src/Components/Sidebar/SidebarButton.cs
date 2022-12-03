@@ -11,7 +11,7 @@ namespace Tesserae
         private readonly Button                   _openButton;
         private readonly IComponent               _open;
         private readonly SidebarCommand[]         _commands;
-        private readonly SidebarCommand           _badge;
+        private readonly SidebarBadge             _badge;
         private          Action<IComponent>       _tooltipClosed;
         private readonly ISidebarIcon             _image;
         private          Action<IComponent>       _tooltipOpen;
@@ -23,13 +23,18 @@ namespace Tesserae
 
         public IComponent CurrentRendered => _closedButton.IsMounted() ? _closedButton : _open;
 
-        public SidebarButton(LineAwesome icon, string text, params SidebarCommand[] commands) : this($"{LineAwesomeWeight.Light} {icon}", text, commands) { }
+        public SidebarButton(LineAwesome icon, string text, SidebarBadge            badge, params SidebarCommand[] commands) : this($"{LineAwesomeWeight.Light} {icon}", text, badge, commands) { }
+        public SidebarButton(LineAwesome icon, string text, params SidebarCommand[] commands) : this($"{LineAwesomeWeight.Light} {icon}", text, null, commands) { }
 
-        public SidebarButton(LineAwesome icon, LineAwesomeWeight weight, string text, params SidebarCommand[] commands) : this($"{weight} {icon}", text, commands) { }
+        public SidebarButton(LineAwesome icon, LineAwesomeWeight weight, string text, SidebarBadge            badge, params SidebarCommand[] commands) : this($"{weight} {icon}", text, badge, commands) { }
+        public SidebarButton(LineAwesome icon, LineAwesomeWeight weight, string text, params SidebarCommand[] commands) : this($"{weight} {icon}", text, null, commands) { }
 
-        public SidebarButton(Emoji icon, string text, params SidebarCommand[] commands) : this($"ec {icon}", text, commands) { }
+        public SidebarButton(Emoji        icon,  string text, params SidebarCommand[] commands) : this($"ec {icon}", text, null, commands) { }
+        public SidebarButton(Emoji        icon,  string text, SidebarBadge            badge, params SidebarCommand[] commands) : this($"ec {icon}", text, badge, commands) { }
+        public SidebarButton(string       icon,  string text, params SidebarCommand[] commands) : this(icon, text, null, commands) { }
+        public SidebarButton(ISidebarIcon image, string text, params SidebarCommand[] commands) : this(image, text, null, commands) { }
 
-        public SidebarButton(string icon, string text, params SidebarCommand[] commands)
+        public SidebarButton(string icon, string text, SidebarBadge badge, params SidebarCommand[] commands)
         {
             _selected = new SettableObservable<bool>(false);
             _tooltipClosed = (b) => b.Tooltip(text);
@@ -37,10 +42,17 @@ namespace Tesserae
 
             _openButton = Button(text).SetIcon(icon).Class("tss-sidebar-btn");
 
-            _commands = commands.Where(c => !c.IsBadge).ToArray();
-            _badge = commands.Where(c => c.IsBadge).FirstOrDefault();
+            _commands = commands;
+            _badge = badge;
 
             _open = Wrap(_openButton);
+
+            var hookContextMenu = _commands.FirstOrDefault(c => c.ShouldHookToContextMenu);
+
+            if (hookContextMenu is object)
+            {
+                OnContextMenu((b, e) => hookContextMenu.RaiseOnClick(e));
+            }
 
             _selected.Observe(isSelected =>
             {
@@ -55,7 +67,7 @@ namespace Tesserae
                     _open.RemoveClass("tss-sidebar-selected");
                 }
             });
-            
+
             IComponent Wrap(Button button)
             {
                 var div = Div(_("tss-sidebar-btn-open"));
@@ -82,8 +94,7 @@ namespace Tesserae
             }
         }
 
-
-        public SidebarButton(ISidebarIcon image, string text, params SidebarCommand[] commands)
+        public SidebarButton(ISidebarIcon image, string text, SidebarBadge badge, params SidebarCommand[] commands)
         {
             _selected = new SettableObservable<bool>(false);
 
@@ -95,9 +106,9 @@ namespace Tesserae
 
             _openButton = Button(text).ReplaceContent(Raw(Div(_("tss-btn-with-image"), image.Clone().Render(), Span(_(text: text))))).Class("tss-sidebar-btn");
 
-            _commands = commands.Where(c => !c.IsBadge).ToArray();
-            _badge = commands.Where(c => c.IsBadge).FirstOrDefault();
-            
+            _commands = commands;
+            _badge = badge;
+
             _open = Wrap(_openButton);
 
             _selected.Observe(isSelected =>
@@ -352,6 +363,7 @@ namespace Tesserae
         {
             _onRendered?.Invoke(_closedButton.Render());
             _closedButton.RemoveTooltip();
+
             DomObserver.WhenMounted(_closedButton.Render(), () =>
             {
                 window.setTimeout(_ => { _tooltipClosed?.Invoke(_closedButton); }, Sidebar.SIDEBAR_TRANSITION_TIME);

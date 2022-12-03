@@ -17,13 +17,13 @@ namespace Tesserae.Tests.Samples
         {
             //TODO: Add dropwdown to select icon weight
             _content = SectionStack().S()
-            .Title(SampleHeader(nameof(LineAwesomeSample)))
-            .Section(Stack().Children(
-                SampleTitle("Overview"),
-                TextBlock("Tesserae integrates the LineAwesome icons as part of the package, with an auto-generated strongly typed enum for them.")))
-            .Section(Stack().Children(
-                SampleTitle($"enum {nameof(LineAwesome)}:"),
-                SearchableList(GetAllIcons().ToArray(), 25.percent(), 25.percent(), 25.percent(), 25.percent())).S(),grow:true);
+               .Title(SampleHeader(nameof(LineAwesomeSample)))
+               .Section(Stack().Children(
+                    SampleTitle("Overview"),
+                    TextBlock("Tesserae integrates the LineAwesome icons as part of the package, with an auto-generated strongly typed enum for them.")))
+               .Section(Stack().Children(
+                    SampleTitle($"enum {nameof(LineAwesome)}:"),
+                    SearchableList(GetAllIcons().ToArray(), 25.percent(), 25.percent(), 25.percent(), 25.percent())).S(), grow: true);
         }
 
         public HTMLElement Render()
@@ -44,15 +44,16 @@ namespace Tesserae.Tests.Samples
 
         private class IconItem : ISearchableItem
         {
-            private readonly string _value;
+            private readonly string     _value;
             private readonly IComponent component;
             public IconItem(LineAwesome icon, string name)
             {
                 name = ToValidName(name.Substring(3));
                 _value = name + " " + icon.ToString();
+
                 component = HStack().WS().AlignItemsCenter().PB(4).Children(
-                        Icon(icon, size: TextSize.Large).MinWidth(36.px()),
-                        TextBlock($"{name}").Ellipsis().Title(icon.ToString()).W(1).Grow());
+                    Icon(icon, size: TextSize.Large).MinWidth(36.px()),
+                    TextBlock($"{name}").Ellipsis().Title(icon.ToString()).W(1).Grow());
 
             }
 
@@ -66,10 +67,11 @@ namespace Tesserae.Tests.Samples
         private static string ToValidName(string icon)
         {
             var words = icon.Split(new char[] { '-' }, StringSplitOptions.RemoveEmptyEntries)
-                            .Select(i => i.Substring(0, 1).ToUpper() + i.Substring(1))
-                            .ToArray();
+               .Select(i => i.Substring(0, 1).ToUpper() + i.Substring(1))
+               .ToArray();
 
             var name = string.Join("", words);
+
             if (char.IsDigit(name[0]))
             {
                 return "_" + name;

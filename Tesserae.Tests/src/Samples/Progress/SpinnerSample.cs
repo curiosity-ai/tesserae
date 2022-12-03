@@ -15,13 +15,13 @@ namespace Tesserae.Tests.Samples
         public SpinnerSample()
         {
             _content = SectionStack()
-                .Title(SampleHeader(nameof(SpinnerSample)))
-                .Section(Stack().Children(
+               .Title(SampleHeader(nameof(SpinnerSample)))
+               .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock(
                         "A Spinner is an outline of a circle which animates around itself indicating to the user that things are processing. A Spinner is shown when it's unsure how long a task will take making it the indeterminate version of a ProgressIndicator. They can be various sizes, located inline with content or centered. They generally appear after an action is being processed or committed. They are subtle and generally do not take up much space, but are transitions from the completed task."))
                 )
-                .Section(Stack().WidthStretch().Children(
+               .Section(Stack().WidthStretch().Children(
                     SampleTitle("Best Practices"),
                     Stack().WidthStretch().Horizontal().Children(
                         Stack().WidthStretch().Children(
@@ -38,7 +38,7 @@ namespace Tesserae.Tests.Samples
                             SampleDont("Don't include more than a few words when paired with a Spinner.")
                         ))
                 ))
-                .Section(
+               .Section(
                     Stack().Width(400.px()).Children(
                         SampleTitle("Usage"),
                         TextBlock("Spinner sizes").Medium(),
@@ -47,7 +47,7 @@ namespace Tesserae.Tests.Samples
                         Label("Medium spinner").SetContent(Spinner().Medium()).AlignCenter(),
                         Label("Large spinner").SetContent(Spinner().Large()).AlignCenter()
                     ))
-                .Section(
+               .Section(
                     Stack().Width(400.px()).Children(
                         TextBlock("Spinner label positioning").Medium(),
                         Label("Spinner with label positioned below").SetContent(Spinner("I am definitely loading...").Below()),

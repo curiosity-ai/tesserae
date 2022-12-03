@@ -9,22 +9,13 @@ namespace Tesserae
         private readonly Button               _button;
         private          Action<Button>       _tooltip;
         private          Func<ISidebarItem[]> _menuGenerator;
-        private bool _badge;
+        private          bool                 _hookParentContextMenu;
 
-        internal bool IsBadge => _badge;
+        internal bool ShouldHookToContextMenu => _hookParentContextMenu;
 
+        public SidebarCommand(string icon, LineAwesomeWeight weight = LineAwesomeWeight.Light) : this($"{weight} {icon}") { }
         public SidebarCommand(LineAwesome icon, LineAwesomeWeight weight = LineAwesomeWeight.Light) : this($"{weight} {icon}") { }
         public SidebarCommand(Emoji       icon) : this($"ec {icon}") { }
-
-        public SidebarCommand(string badge, string background, string foreground) 
-        {
-            _badge = true;
-            _button = Button().SetText(badge).Class("tss-sidebar-command").Foreground(foreground).Background(background);
-            if (string.IsNullOrEmpty(badge))
-            {
-                _button.Collapse();
-            }
-        }
 
         public SidebarCommand(ISidebarIcon image)
         {
@@ -39,6 +30,12 @@ namespace Tesserae
         public SidebarCommand Foreground(string color)
         {
             _button.Foreground(color);
+            return this;
+        }
+
+        public SidebarCommand HookToParentContextMenu()
+        {
+            _hookParentContextMenu = true;
             return this;
         }
 
@@ -135,6 +132,18 @@ namespace Tesserae
 
         }
 
+        public SidebarCommand RaiseOnClick(MouseEvent mouseEvent)
+        {
+            _button.RaiseOnClick(mouseEvent);
+            return this;
+        }
+
+        public SidebarCommand RaiseOnContextMenu(MouseEvent mouseEvent)
+        {
+            _button.RaiseOnContextMenu(mouseEvent);
+            return this;
+        }
+
         public SidebarCommand OnClick(Action action)
         {
             _button.OnClick(action);
@@ -174,27 +183,6 @@ namespace Tesserae
         public SidebarCommand SetIcon(Emoji icon)
         {
             _button.SetIcon(icon);
-            return this;
-        }
-
-        public SidebarCommand SetBadge(string badge)
-        {
-            if (!_badge)
-            {
-                throw new Exception("Only supported for badges");
-            }
-            
-            _button.SetText(badge);
-            
-            if (string.IsNullOrEmpty(badge))
-            {
-                _button.Collapse();
-            }
-            else
-            {
-                _button.Show();
-            }
-
             return this;
         }
 

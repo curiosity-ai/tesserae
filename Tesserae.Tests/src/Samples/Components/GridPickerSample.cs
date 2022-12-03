@@ -16,9 +16,11 @@ namespace Tesserae.Tests.Samples
                 columnNames: new[] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" },
                 rowNames: new[] { "Morning", "Afternoon", "Night" },
                 states: 3,
-                initialStates: new[] { new []{ 0, 0, 0, 0, 0, 0, 0 },
-                        new []{ 0, 0, 0, 0, 0, 0, 0 },
-                        new []{ 0, 0, 0, 0, 0, 0, 0 }
+                initialStates: new[]
+                {
+                    new[] { 0, 0, 0, 0, 0, 0, 0 },
+                    new[] { 0, 0, 0, 0, 0, 0, 0 },
+                    new[] { 0, 0, 0, 0, 0, 0, 0 }
                 },
                 formatState: (btn, state, previousState) =>
                 {
@@ -26,18 +28,22 @@ namespace Tesserae.Tests.Samples
 
                     switch (state)
                     {
+                        // @formatter:off
                         case 0: text = "☠"; break;
                         case 1: text = "🐢"; break;
                         case 2: text = "🐇"; break;
+                        // @formatter:on
                     }
 
                     if (previousState >= 0 && previousState != state)
                     {
                         switch (previousState)
                         {
+                            // @formatter:off
                             case 0: text = $"☠ -> {text}"; break;
                             case 1: text = $"🐢 -> {text}"; break;
                             case 2: text = $"🐇 -> {text}"; break;
+                            // @formatter:on
                         }
                     }
 
@@ -45,26 +51,28 @@ namespace Tesserae.Tests.Samples
                 });
 
             var hourPicker = GridPicker(
-                            rowNames: new[] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" },
-                            columnNames: Enumerable.Range(0, 24).Select(n => $"{n:00}").ToArray(),
-                            states: 4,
-                            initialStates: Enumerable.Range(0, 7).Select(_ => new int[24]).ToArray(),
-                            formatState: (btn, state, previousState) =>
-                            {
-                                string color = "";
+                rowNames: new[] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" },
+                columnNames: Enumerable.Range(0, 24).Select(n => $"{n:00}").ToArray(),
+                states: 4,
+                initialStates: Enumerable.Range(0, 7).Select(_ => new int[24]).ToArray(),
+                formatState: (btn, state, previousState) =>
+                {
+                    string color = "";
 
-                                switch (state)
-                                {
-                                    case 0: color = "#c7c5c5"; break;
-                                    case 1: color = "#a3cfa5"; break;
-                                    case 2: color = "#76cc79"; break;
-                                    case 3: color = "#1fcc24"; break;
-                                }
+                    switch (state)
+                    {
+                        // @formatter:off
+                        case 0: color = "#c7c5c5"; break;
+                        case 1: color = "#a3cfa5"; break;
+                        case 2: color = "#76cc79"; break;
+                        case 3: color = "#1fcc24"; break;
+                        // @formatter:on
+                    }
 
-                                btn.Background(color);
-                            },
-                            columns: new[] { 128.px(), 24.px() },
-                            rowHeight: 24.px());
+                    btn.Background(color);
+                },
+                columns: new[] { 128.px(), 24.px() },
+                rowHeight: 24.px());
 
             _content = SectionStack()
                .Title(SampleHeader(nameof(GridPickerSample)))
@@ -98,8 +106,10 @@ namespace Tesserae.Tests.Samples
 
                     switch (state)
                     {
+                        // @formatter:off
                         case 0: color = Theme.Default.Background; break;
                         case 1: color = Theme.Default.Foreground; break;
+                        // @formatter:on
                     }
                     btn.Background(color);
                 },
@@ -123,6 +133,7 @@ namespace Tesserae.Tests.Samples
             var btnReset = Button("Reset").SetIcon(LineAwesome.Bomb).OnClick(() =>
             {
                 var state = grid.GetState();
+
                 foreach (var a in state)
                 {
                     for (int i = 0; i < a.Length; i++)
@@ -149,6 +160,7 @@ namespace Tesserae.Tests.Samples
 
                 var previous = grid.GetState();
                 var cells = grid.GetState();
+
                 for (int i = 0; i < height; i++)
                 {
                     for (int j = 0; j < width; j++)

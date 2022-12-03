@@ -17,31 +17,31 @@ namespace Tesserae.Tests.Samples
         {
             _content =
                 SectionStack()
-                    .WidthStretch()
-                    .Title(SampleHeader(nameof(SearchableGroupedListSample)))
-                    .Section(
+                   .WidthStretch()
+                   .Title(SampleHeader(nameof(SearchableGroupedListSample)))
+                   .Section(
                         Stack()
-                            .Children(
+                           .Children(
                                 SampleTitle("Overview"),
                                 TextBlock("This list provides a base component for implementing search over a known number of items." +
                                           "It is agnostic of the tile component used, and selection " +
                                           "management. These concerns can be layered separately.")
-                                    .PaddingBottom(16.px()),
+                                   .PaddingBottom(16.px()),
                                 TextBlock("You need to implement ISearchableGroupedItem interface on the items, and specially the IsMatch method to enable searching on them")))
-                    .Section(
+                   .Section(
                         Stack()
-                            .Children(
+                           .Children(
                                 SampleTitle("Usage"),
                                 TextBlock("Searchable Grouped List with No Results Message").Medium().PaddingBottom(16.px()).PaddingTop(16.px()),
                                 SearchableGroupedList(GetItems(10), GroupedItemHeaderGenerator).PaddingBottom(32.px()).Height(500.px())
-                                    .WithNoResultsMessage(() => BackgroundArea(Card(TextBlock("No Results").Padding(16.px()))).WidthStretch().HeightStretch().MinHeight(100.px())),
+                                   .WithNoResultsMessage(() => BackgroundArea(Card(TextBlock("No Results").Padding(16.px()))).WidthStretch().HeightStretch().MinHeight(100.px())),
                                 TextBlock("Searchable Grouped List with extra commands").Medium().PaddingBottom(16.px()).PaddingTop(16.px()),
                                 SearchableGroupedList(GetItems(10), GroupedItemHeaderGenerator).PaddingBottom(32.px()).Height(500.px()).AfterSearchBox(Button("Sample Button After").Primary()).BeforeSearchBox(Button("Sample Button Before").Link())
-                                    .WithNoResultsMessage(() => BackgroundArea(Card(TextBlock("No Results").Padding(16.px()))).WidthStretch().HeightStretch().MinHeight(100.px())),
+                                   .WithNoResultsMessage(() => BackgroundArea(Card(TextBlock("No Results").Padding(16.px()))).WidthStretch().HeightStretch().MinHeight(100.px())),
                                 TextBlock("Searchable Grouped List with Columns").Medium().PaddingBottom(16.px()).PaddingTop(16.px()),
                                 SearchableGroupedList(GetItems(40), GroupedItemHeaderGenerator, 25.percent(), 25.percent(), 25.percent(), 25.percent()).Height(500.px())
-                                )).PaddingBottom(32.px());
-            
+                            )).PaddingBottom(32.px());
+
             IComponent GroupedItemHeaderGenerator(string s) => HorizontalSeparator(TextBlock(s).Primary().SemiBold()).Left();
         }
 
@@ -50,8 +50,8 @@ namespace Tesserae.Tests.Samples
         private SearchableGroupedListItem[] GetItems(int count)
         {
             return Enumerable
-                .Range(1, count)
-                .Select((number, index) =>
+               .Range(1, count)
+               .Select((number, index) =>
                 {
                     var group = string.Empty;
 
@@ -70,7 +70,7 @@ namespace Tesserae.Tests.Samples
 
                     return new SearchableGroupedListItem($"Lorem Ipsum {number}", group);
                 })
-                .ToArray();
+               .ToArray();
         }
 
         private class SearchableGroupedListItem : ISearchableGroupedItem
@@ -80,7 +80,7 @@ namespace Tesserae.Tests.Samples
 
             public SearchableGroupedListItem(string value, string group)
             {
-                _value     = value;
+                _value = value;
                 _component = Card(TextBlock(value).NonSelectable());
 
                 Group = group;

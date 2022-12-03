@@ -15,13 +15,13 @@ namespace Tesserae.Tests.Samples
         public ProgressIndicatorSample()
         {
             _content = SectionStack()
-                .Title(SampleHeader(nameof(ProgressIndicatorSample)))
-                .Section(Stack().Children(
+               .Title(SampleHeader(nameof(ProgressIndicatorSample)))
+               .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock(
                         "ProgressIndicators are used to show the completion status of an operation lasting more than 2 seconds. If the state of progress cannot be determined, use a Spinner instead. ProgressIndicators can appear in a new panel, a flyout, under the UI initiating the operation, or even replacing the initiating UI, as long as the UI can return if the operation is canceled or is stopped."))
                 )
-                .Section(Stack().WidthStretch().Children(
+               .Section(Stack().WidthStretch().Children(
                     SampleTitle("Best Practices"),
                     Stack().WidthStretch().Horizontal().Children(
                         Stack().WidthStretch().Children(
@@ -38,7 +38,7 @@ namespace Tesserae.Tests.Samples
                             SampleDont("Cause progress to “rewind” to show new steps")
                         ))
                 ))
-                .Section(
+               .Section(
                     Stack().Children(
                         SampleTitle("Usage"),
                         TextBlock("States").Medium(),

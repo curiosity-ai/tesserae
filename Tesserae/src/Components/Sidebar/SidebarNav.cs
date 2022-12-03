@@ -59,6 +59,13 @@ namespace Tesserae
                 {
                     divCmd.appendChild(c.Render());
                 }
+
+                var hookContextMenu = _commands.FirstOrDefault(c => c.ShouldHookToContextMenu);
+
+                if (hookContextMenu is object)
+                {
+                    OnContextMenu((b, e) => hookContextMenu.RaiseOnClick(e));
+                }
             }
 
             _items = new ObservableList<ISidebarItem>();

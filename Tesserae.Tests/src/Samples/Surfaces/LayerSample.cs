@@ -30,7 +30,7 @@ namespace Tesserae.Tests.Samples
                         layer2.Content(HStack().Children(TextBlock("This is the second example layer content."),
                             Button("Hide second Layer").SetIcon(LineAwesome.TimesCircle).Primary().OnClick((s, e) => layer2.IsVisible = false)
                         )),
-                        Toggle("Toggle Component Layer").OnChange((s, e) => layer.IsVisible = s.IsChecked), Toggle())), 
+                        Toggle("Toggle Component Layer").OnChange((s, e) => layer.IsVisible = s.IsChecked), Toggle())),
                     Toggle("Toggle Component Layer").OnChange((s, e) => layer.IsVisible = s.IsChecked),
                     TextBlock("Using LayerHost to control projection").Medium(),
                     Toggle("Show on Host").OnChange((s, e) => layer.Host = s.IsChecked ? layerHost : null),

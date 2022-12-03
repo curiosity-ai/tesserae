@@ -477,6 +477,9 @@ namespace Tesserae
         /// <summary>HeightStretch</summary>
         public static T HS<T>(this T component) where T : IComponent => HeightStretch(component);
 
+        /// <summary>Margin</summary>
+        public static T M<T>(this T component, UnitSize unitSize) where T : IComponent => Margin(component, unitSize);
+
         /// <summary>MarginLeft</summary>
         public static T ML<T>(this T component, UnitSize unitSize) where T : IComponent => MarginLeft(component, unitSize);
 
@@ -488,6 +491,9 @@ namespace Tesserae
 
         /// <summary>MarginBottom</summary>
         public static T MB<T>(this T component, UnitSize unitSize) where T : IComponent => MarginBottom(component, unitSize);
+
+        /// <summary>Padding</summary>
+        public static T P<T>(this T component, UnitSize unitSize) where T : IComponent => Padding(component, unitSize);
 
         /// <summary>PaddingLeft</summary>
         public static T PL<T>(this T component, UnitSize unitSize) where T : IComponent => PaddingLeft(component, unitSize);
@@ -501,6 +507,10 @@ namespace Tesserae
         /// <summary>PaddingBottom</summary>
         public static T PB<T>(this T component, UnitSize unitSize) where T : IComponent => PaddingBottom(component, unitSize);
 
+        /// <summary>Margin</summary>
+        public static T M<T>(this T component, int pixels) where T : IComponent => Margin(component, pixels.px());
+
+        /// <summary>MarginLeft</summary>
         public static T ML<T>(this T component, int pixels) where T : IComponent => MarginLeft(component, pixels.px());
 
         /// <summary>MarginRight</summary>
@@ -511,6 +521,9 @@ namespace Tesserae
 
         /// <summary>MarginBottom</summary>
         public static T MB<T>(this T component, int pixels) where T : IComponent => MarginBottom(component, pixels.px());
+
+        /// <summary>Padding</summary>
+        public static T P<T>(this T component, int pixels) where T : IComponent => Padding(component, pixels.px());
 
         /// <summary>PaddingLeft</summary>
         public static T PL<T>(this T component, int pixels) where T : IComponent => PaddingLeft(component, pixels.px());

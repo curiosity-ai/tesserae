@@ -52,16 +52,19 @@ namespace Tesserae.Tests.Samples
                         SampleTitle("Usage"),
                         TextBlock("Default Button").Medium(),
                         HStack().Children(
-                            Button().Var(out var btn1).SetText("Standard").Tooltip("This is a standard button").OnClick((s, e) => alert("Clicked!")),
-                            Button().Var(out var btn2).SetText("Primary").Tooltip("This is a primary button").Primary().OnClick((s, e) => alert("Clicked!")),
-                            Button().Var(out var btn3).SetText("Link").Tooltip(Button("This is a link button with a button tooltip").Primary().OnClick((_, __) => Toast().Success("You clicked here")), interactive: true).Link().OnClick((s, e) => alert("Clicked!"))
+                            Button().Var(out var btn1).SetText("Standard").Tooltip("This is a standard button")
+                               .OnClick((s, e) => alert("Clicked!")),
+                            Button().Var(out var btn2).SetText("Primary").Tooltip("This is a primary button").Primary()
+                               .OnClick((s, e) => alert("Clicked!")),
+                            Button().Var(out var btn3).SetText("Link").Tooltip(Button("This is a link button with a button tooltip").Primary()
+                               .OnClick((_, __) => Toast().Success("You clicked here")), interactive: true).Link().OnClick((s, e) => alert("Clicked!"))
                         ),
                         TextBlock("Icon Button").Medium(),
                         HStack().Children(
-                            Button().Var(out var iconBtn1).SetText("Confirm").SetIcon("las la-check").Success().OnClick((s, e) => alert("Clicked!")),
+                            Button().Var(out var iconBtn1).SetText("Confirm").SetIcon("las la-check").Success().OnClick((s,   e) => alert("Clicked!")),
                             Button().Var(out var iconBtn2).SetText("Delete").SetIcon("las la-trash-alt").Danger().OnClick((s, e) => alert("Clicked!")),
-                            Button().Var(out var iconBtn3).SetText("Primary").SetIcon("las la-minus").Primary().OnClick((s, e) => alert("Clicked!")),
-                            Button().Var(out var iconBtn4).SetText("Copy date").SetIcon("las la-calendar-alt").OnClick((s, e) => Clipboard.Copy(DateTime.Now.ToString()))
+                            Button().Var(out var iconBtn3).SetText("Primary").SetIcon("las la-minus").Primary().OnClick((s,   e) => alert("Clicked!")),
+                            Button().Var(out var iconBtn4).SetText("Copy date").SetIcon("las la-calendar-alt").OnClick((s,    e) => Clipboard.Copy(DateTime.Now.ToString()))
                         ),
                         TextBlock("Spinner Button").Medium(),
                         HStack().Children(

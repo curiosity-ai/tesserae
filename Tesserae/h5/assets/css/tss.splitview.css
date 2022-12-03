@@ -8,6 +8,7 @@
 
     .tss-splitview > div {
         flex-shrink:0;
+        overflow-x: hidden;
     }
 
 .tss-splitter.tss-no-splitter {
@@ -18,8 +19,8 @@
 .tss-splitter {
     background: transparent;
     width: 8px;
-    margin-left: -4px;
     cursor: e-resize;
+    user-select: none;
 }
 
     .tss-splitter:hover {

@@ -48,7 +48,12 @@ namespace Tesserae.Tests.Samples
             {
                 modal = ProgressModal().Title("Lorem Ipsum");
                 cts = new CancellationTokenSource();
-                modal.WithCancel((b) => { b.Disabled(); cts.Cancel(); });
+
+                modal.WithCancel((b) =>
+                {
+                    b.Disabled();
+                    cts.Cancel();
+                });
                 progress = 0;
                 modal.Message("Preparing to process...").ProgressSpin().Show();
                 await Task.Delay(1500);
@@ -56,13 +61,13 @@ namespace Tesserae.Tests.Samples
             }
 
             _content = SectionStack()
-                .Title(SampleHeader(nameof(ProgressModalSample)))
-                .Section(Stack().Children(
+               .Title(SampleHeader(nameof(ProgressModalSample)))
+               .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock(
                         "TODO"))
                 )
-                .Section(Stack().Children(
+               .Section(Stack().Children(
                     SampleTitle("Best Practices"),
                     HStack().Children(
                         Stack().Children(
@@ -74,7 +79,7 @@ namespace Tesserae.Tests.Samples
                             SampleDont("TODO")
                         ))
                 ))
-                .Section(
+               .Section(
                     Stack().Width(400.px()).Children(
                         SampleTitle("Usage"),
                         Button("Open Modal").OnClick((s, e) => PlayModal().FireAndForget())
