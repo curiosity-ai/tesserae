@@ -21,6 +21,7 @@ namespace Tesserae
         private readonly Func<IComponent>             _closedContent;
         private readonly Func<IComponent>             _openContent;
         private          SidebarCommand[]             _commands;
+        private bool _isHidden;
 
         private event Action<HTMLElement> _onRendered;
 
@@ -79,6 +80,18 @@ namespace Tesserae
             {
                 _collapsed.Value = !_collapsed.Value;
             });
+        }
+
+        public void Show()
+        {
+            _lastOpen.Show();
+            _isHidden = false;
+        }
+
+        public void Collapse()
+        {
+            _lastOpen.Collapse();
+            _isHidden = true;
         }
 
         public SidebarNav SetText(string text)
@@ -204,6 +217,12 @@ namespace Tesserae
             var comp = Raw(nav);
             _lastOpen = comp;
             _onRendered?.Invoke(_openHeader);
+
+            if (_isHidden)
+            {
+                comp.Collapse();
+            }
+
             return comp;
 
             void CollapsedChanged(bool isCollapsed)
@@ -259,6 +278,12 @@ namespace Tesserae
             var comp = Raw(nav);
             _lastClosed = comp;
             _onRendered?.Invoke(_closedHeader.Render());
+
+            if (_isHidden)
+            {
+                comp.Collapse();
+            }
+
             return comp;
 
             void CollapsedChanged(bool isCollapsed)

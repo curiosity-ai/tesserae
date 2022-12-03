@@ -94,6 +94,18 @@ namespace Tesserae
             }
         }
 
+        public void Show()
+        {
+            _closedButton.Show();
+            _openButton.Show();
+        }
+
+        public void Collapse()
+        {
+            _closedButton.Collapse();
+            _openButton.Collapse();
+        }
+
         public SidebarButton(ISidebarIcon image, string text, SidebarBadge badge, params SidebarCommand[] commands)
         {
             _selected = new SettableObservable<bool>(false);
@@ -338,21 +350,6 @@ namespace Tesserae
             _openButton.SetIcon(icon);
             return this;
         }
-
-        public SidebarButton Collapse()
-        {
-            _closedButton.Collapse();
-            _open.Collapse();
-            return this;
-        }
-
-        public SidebarButton Show()
-        {
-            _closedButton.Show();
-            _open.Show();
-            return this;
-        }
-
 
         public ISidebarItem OnRendered(Action<HTMLElement> onRendered)
         {
