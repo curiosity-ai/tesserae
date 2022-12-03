@@ -117,13 +117,13 @@ namespace Tesserae
 
         public void Show()
         {
-            CurrentRendered.Show();
+            CurrentRendered?.Show();
             _isHidden = false;
         }
 
         public void Collapse()
         {
-            CurrentRendered.Collapse();
+            CurrentRendered?.Collapse();
             _isHidden = true;
         }
         public IComponent RenderOpenFull()

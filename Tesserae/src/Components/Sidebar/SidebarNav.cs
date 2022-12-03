@@ -84,13 +84,15 @@ namespace Tesserae
 
         public void Show()
         {
-            _lastOpen.Show();
+            _lastOpen?.Show();
+            _lastClosed?.Show();
             _isHidden = false;
         }
 
         public void Collapse()
         {
-            _lastOpen.Collapse();
+            _lastOpen?.Collapse();
+            _lastClosed?.Collapse();
             _isHidden = true;
         }
 
