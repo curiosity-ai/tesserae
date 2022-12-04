@@ -111,7 +111,7 @@ namespace Tesserae
 
         public static Parameters GetQueryParameters() => _currentState.Parameters;
 
-        public static void SetQueryParameters(Parameters parameters)
+        public static void SetQueryParameters(Parameters parameters, bool pushToHistory = false)
         {
             var url = _currentState.FullPath;
 
@@ -121,11 +121,17 @@ namespace Tesserae
                 url = url.Substring(0, queryStart);
             }
             _currentState = new State(parameters, _currentState.RouteName, _currentState.Path, url + parameters.ToQueryString());
-            window.history.replaceState(null, "", _currentState.FullPath);
-
+            if (pushToHistory)
+            {
+                window.history.pushState(null, "", _currentState.FullPath);
+            }
+            else 
+            { 
+                window.history.replaceState(null, "", _currentState.FullPath);
+            }
         }
         
-        public static void ReplaceQueryParameters(Func<Parameters, Parameters> updateFn)
+        public static void ReplaceQueryParameters(Func<Parameters, Parameters> updateFn, bool pushToHistory = false)
         {
             var newParameters = updateFn(_currentState.Parameters.Clone());
 
@@ -134,7 +140,7 @@ namespace Tesserae
                 // Nothing to do
                 return;
             }
-            SetQueryParameters(newParameters);
+            SetQueryParameters(newParameters, pushToHistory);
         }
 
         /// <summary>
