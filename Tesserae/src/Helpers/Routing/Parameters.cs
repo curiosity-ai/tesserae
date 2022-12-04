@@ -7,6 +7,7 @@ namespace Tesserae
     public sealed class Parameters
     {
         private readonly Dictionary<string, string> _parameters;
+        public Parameters() => _parameters = new Dictionary<string, string>();
         public Parameters(Dictionary<string, string> parameters) => _parameters = parameters;
 
         public new string this[string key] => _parameters[key];
