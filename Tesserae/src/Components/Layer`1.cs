@@ -79,14 +79,22 @@ namespace Tesserae
             {
                 if (_host is null)
                 {
-                    var oldLayer = _renderedContent; //Remove any previous host
+                    if(_renderedContent is object && _renderedContent.IsMounted())
+                    {
+                        _renderedContent.style.zIndex = Layers.PushLayer(_renderedContent);
+                        window.requestAnimationFrame((_) => _renderedContent?.classList.add("tss-show"));
+                    }
+                    else
+                    {
+                        var oldLayer = _renderedContent; //Remove any previous host
 
-                    _renderedContent = Div(_("tss-layer tss-fade"), BuildRenderedContent());
-                    _renderedContent.style.zIndex = Layers.PushLayer(_renderedContent);
-                    document.body.appendChild(_renderedContent);
-                    window.requestAnimationFrame((_) => _renderedContent?.classList.add("tss-show"));
+                        _renderedContent = Div(_("tss-layer tss-fade"), BuildRenderedContent());
+                        _renderedContent.style.zIndex = Layers.PushLayer(_renderedContent);
+                        document.body.appendChild(_renderedContent);
+                        window.requestAnimationFrame((_) => _renderedContent?.classList.add("tss-show"));
 
-                    oldLayer?.remove();
+                        oldLayer?.remove();
+                    }
                 }
                 else
                 {
