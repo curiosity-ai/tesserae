@@ -427,3 +427,7 @@ body {
     left:50%;
     transform:translateX(-50%) translateY(-50%);
 }
+
+.tss-defer-with-loading-msg {
+    position: relative;
+}

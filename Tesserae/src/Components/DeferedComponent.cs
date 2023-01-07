@@ -123,7 +123,7 @@ namespace Tesserae
                     if (_defaultLoadingMessageIfAny is object)
                     {
                         _defaultLoadingMessageIfAny.Text = "Loading...".t();
-                        Container.style.position = "relative";
+                        Container.classList.add("tss-defer-with-loading-msg");
                     }
                 },
                 1_000
@@ -142,7 +142,7 @@ namespace Tesserae
                     {
                         if(_defaultLoadingMessageIfAny is object)
                         {
-                            Container.style.position = ""; //Reset value
+                            Container.classList.remove("tss-defer-with-loading-msg");
                         }
 
                         _defaultLoadingMessageIfAny = null;
