@@ -24,7 +24,7 @@ namespace Tesserae
                 InnerElement.classList.remove(current.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
             }
 
-            if(!string.IsNullOrEmpty(icon))
+            if (!string.IsNullOrEmpty(icon))
             {
                 InnerElement.classList.add(icon.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
             }
@@ -51,7 +51,7 @@ namespace Tesserae
 
         public TextWeight Weight
         {
-            get =>  ITextFormatingExtensions.FromClassList(InnerElement, TextWeight.Regular);
+            get => ITextFormatingExtensions.FromClassList(InnerElement, TextWeight.Regular);
             set
             {
                 InnerElement.classList.remove(Weight.ToString());
