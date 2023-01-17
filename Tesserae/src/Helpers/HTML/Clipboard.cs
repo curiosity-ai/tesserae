@@ -10,7 +10,24 @@ namespace Tesserae
         {
             if (navigator.clipboard is object)
             {
-                navigator.clipboard.writeText(valueToCopy);
+                navigator.clipboard.writeText(valueToCopy).ToTask().ContinueWith(t =>
+                {
+                    if(t.IsFaulted)
+                    {
+                        if (showMessage)
+                        {
+                            Toast().Error("", $"Error copying: {t.Exception}");
+                        }
+                        else
+                        {
+                            console.log($"Error copying: {t.Exception}");
+                        }
+                    }
+                    else if (showMessage)
+                    {
+                        Toast().Success("", customMessage ?? $"📋 Copied\n{valueToCopy}");
+                    }
+                });
             }
             else
             {
@@ -35,11 +52,11 @@ namespace Tesserae
                 {
                     document.body.removeChild(ta);
                 }
-            }
 
-            if (showMessage)
-            {
-                Toast().Success("", customMessage ?? $"📋 Copied\n{valueToCopy}");
+                if (showMessage)
+                {
+                    Toast().Success("", customMessage ?? $"📋 Copied\n{valueToCopy}");
+                }
             }
         }
     }
