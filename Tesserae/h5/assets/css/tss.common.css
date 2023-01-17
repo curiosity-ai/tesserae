@@ -420,3 +420,14 @@ body {
     -webkit-user-select: none;
     user-select: none;
 }
+
+.tss-defer-loading-msg {
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translateX(-50%) translateY(-50%);
+}
+
+.tss-defer-with-loading-msg {
+    position: relative;
+}

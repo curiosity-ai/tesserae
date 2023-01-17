@@ -9,60 +9,13 @@ namespace Tesserae
         private readonly Button               _button;
         private          Action<Button>       _tooltip;
         private          Func<ISidebarItem[]> _menuGenerator;
-        private          bool                 _badge;
         private          bool                 _hookParentContextMenu;
 
-        internal bool IsBadge                 => _badge;
         internal bool ShouldHookToContextMenu => _hookParentContextMenu;
 
+        public SidebarCommand(string icon, LineAwesomeWeight weight = LineAwesomeWeight.Light) : this($"{weight} {icon}") { }
         public SidebarCommand(LineAwesome icon, LineAwesomeWeight weight = LineAwesomeWeight.Light) : this($"{weight} {icon}") { }
         public SidebarCommand(Emoji       icon) : this($"ec {icon}") { }
-
-
-        public SidebarCommand(string badge, LineAwesome badgeIcon, string background, string foreground, TextSize iconSize = TextSize.Tiny)
-        {
-            _badge = true;
-            _button = Button().Class("tss-sidebar-command").Foreground(foreground).Background(background);
-
-            _button.SetIcon(badgeIcon, size: iconSize);
-
-            if (!string.IsNullOrWhiteSpace(badge))
-            {
-                _button.SetText(badge);
-            }
-        }
-
-        public SidebarCommand(string badge, string badgeIcon, string background, string foreground)
-        {
-            _badge = true;
-            _button = Button().Class("tss-sidebar-command").Foreground(foreground).Background(background);
-
-            if (!string.IsNullOrWhiteSpace(badgeIcon))
-            {
-                _button.SetIcon(badgeIcon);
-            }
-
-            if (!string.IsNullOrWhiteSpace(badge))
-            {
-                _button.SetText(badge);
-            }
-
-            if (string.IsNullOrWhiteSpace(badgeIcon) && string.IsNullOrWhiteSpace(badge))
-            {
-                _button.Collapse();
-            }
-        }
-
-        public SidebarCommand(string badge, string background, string foreground)
-        {
-            _badge = true;
-            _button = Button().SetText(badge).Class("tss-sidebar-command").Foreground(foreground).Background(background);
-
-            if (string.IsNullOrWhiteSpace(badge))
-            {
-                _button.Collapse();
-            }
-        }
 
         public SidebarCommand(ISidebarIcon image)
         {
@@ -230,27 +183,6 @@ namespace Tesserae
         public SidebarCommand SetIcon(Emoji icon)
         {
             _button.SetIcon(icon);
-            return this;
-        }
-
-        public SidebarCommand SetBadge(string badge)
-        {
-            if (!_badge)
-            {
-                throw new Exception("Only supported for badges");
-            }
-
-            _button.SetText(badge);
-
-            if (string.IsNullOrEmpty(badge))
-            {
-                _button.Collapse();
-            }
-            else
-            {
-                _button.Show();
-            }
-
             return this;
         }
 

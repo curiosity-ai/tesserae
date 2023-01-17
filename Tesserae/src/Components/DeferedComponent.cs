@@ -2,6 +2,8 @@
 using System.Threading.Tasks;
 using static H5.Core.dom;
 using static Tesserae.UI;
+using TNT;
+using static TNT.T;
 
 namespace Tesserae
 {
@@ -16,7 +18,6 @@ namespace Tesserae
         private double _refreshTimeout;
         private int _delayInMs = 16;
         private int id = 0;
-        private Action _whenUnmounted;
         private DeferedComponent(Func<Task<IComponent>> asyncGenerator, IComponent loadMessage, TextBlock defaultLoadingMessageIfAny)
         {
             if (loadMessage is null)
@@ -38,7 +39,7 @@ namespace Tesserae
             TextBlock defaultLoadingMessage;
             if (loadMessage is null)
             {
-                defaultLoadingMessage = TextBlock(textSize: TextSize.XSmall);
+                defaultLoadingMessage = TextBlock(textSize: TextSize.XSmall).Class("tss-defer-loading-msg");
                 loadMessage = defaultLoadingMessage;
             }
             else
@@ -121,7 +122,8 @@ namespace Tesserae
                 {
                     if (_defaultLoadingMessageIfAny is object)
                     {
-                        _defaultLoadingMessageIfAny.Text = "loading...";
+                        _defaultLoadingMessageIfAny.Text = "Loading...".t();
+                        Container.classList.add("tss-defer-with-loading-msg");
                     }
                 },
                 1_000
@@ -138,6 +140,11 @@ namespace Tesserae
                 {
                     if (currentID == id)
                     {
+                        if(_defaultLoadingMessageIfAny is object)
+                        {
+                            Container.classList.remove("tss-defer-with-loading-msg");
+                        }
+
                         _defaultLoadingMessageIfAny = null;
                         ClearChildren(container);
                         if (r.IsCompleted)

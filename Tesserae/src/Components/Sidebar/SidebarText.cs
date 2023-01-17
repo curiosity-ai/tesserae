@@ -18,6 +18,18 @@ namespace Tesserae
             _open   = TextBlock(text, textSize: textSize, textWeight: textWeight);
         }
 
+        public void Show()
+        {
+            _closed.Show();
+            _open.Show();
+        }
+
+        public void Collapse()
+        {
+            _closed.Collapse();
+            _open.Collapse();
+        }
+
         public SidebarText SetText(string text)
         {
             _open.Text = text;

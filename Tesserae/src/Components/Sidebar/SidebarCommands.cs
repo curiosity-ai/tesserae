@@ -8,6 +8,7 @@ namespace Tesserae
     {
         private readonly SidebarCommand[] _commands;
         private          bool             _isEndAligned;
+        private          bool             _isHidden;
 
         public SidebarCommands(params SidebarCommand[] commands)
         {
@@ -105,9 +106,26 @@ namespace Tesserae
                 });
             });
             CurrentRendered = divWrapped;
+            
+            if (_isHidden)
+            {
+                divWrapped.Collapse();
+            }
+
             return divWrapped;
         }
 
+        public void Show()
+        {
+            CurrentRendered?.Show();
+            _isHidden = false;
+        }
+
+        public void Collapse()
+        {
+            CurrentRendered?.Collapse();
+            _isHidden = true;
+        }
         public IComponent RenderOpenFull()
         {
             var div = Div(_("tss-sidebar-commands-line"));
@@ -136,6 +154,12 @@ namespace Tesserae
             });
 
             CurrentRendered = divWrapped;
+
+            if (_isHidden)
+            {
+                divWrapped.Collapse();
+            }
+
             return divWrapped;
         }
 
@@ -194,6 +218,12 @@ namespace Tesserae
             });
 
             CurrentRendered = divWrapped;
+
+            if (_isHidden)
+            {
+                divWrapped.Collapse();
+            }
+
             return divWrapped;
         }
 
