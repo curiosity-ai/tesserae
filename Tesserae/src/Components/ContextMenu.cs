@@ -202,7 +202,7 @@ namespace Tesserae
             if (asSubMenu)
             {
                 _popup = Div(_("tss-contextmenu-popup"), _childContainer);
-                _contentHtml = Div(_(), _modalOverlay, _popup);
+                _contentHtml = Div(_(), _popup);
             }
             else
             {
