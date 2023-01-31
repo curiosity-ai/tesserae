@@ -31,7 +31,7 @@ namespace Tesserae
             _cancelEditIcon = Div(_("tss-editablelabel-cancel-icon", title: "Cancel edit"), I(_("las la-times")));
             _editView = Div(_("tss-editablelabel-editbox"), InnerElement, _cancelEditIcon);
 
-            _container = Div(_("tss-editablelabel tss-fontsize-small"), _labelView, _editView);
+            _container = Div(_("tss-editablelabel tss-fontcolor-default tss-fontsize-small tss-fontweight-regular"), _labelView, _editView);
 
             AttachChange();
             AttachInput();
