@@ -1,6 +1,6 @@
-<Project Sdk="h5.Target/22.11.34319">
+<Project Sdk="h5.Target/23.2.35852">
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <DefineConstants>H5</DefineConstants>
     <MinifyLocalVariables>true</MinifyLocalVariables>
   </PropertyGroup>
