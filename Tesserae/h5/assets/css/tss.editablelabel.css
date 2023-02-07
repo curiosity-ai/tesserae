@@ -20,7 +20,9 @@
 }
 
 .tss-editablelabel-textspan {
-    display: inline-flex;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .tss-editablelabel-textbox {
