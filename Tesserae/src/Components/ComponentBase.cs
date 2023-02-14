@@ -129,7 +129,8 @@ namespace Tesserae
 
         public void RaiseOnContextMenu(MouseEvent ev) => ContextMenu?.Invoke((T)this, ev);
 
-        protected void RaiseOnChange(Event ev) => Changed?.Invoke((T)this, ev);
+        //Some controls won't change the underlying value till after this event. As we usually want the final value and not the previous state, we raise the event on a timer
+        protected void RaiseOnChange(Event ev) => window.setTimeout((_) => Changed?.Invoke((T)this, ev), 1);
 
         protected void AttachInput() => InnerElement.addEventListener("input", ev => RaiseOnInput(ev));
 
