@@ -15,6 +15,10 @@ namespace Tesserae
             InnerElement.dataset["icon"] = icon;
         }
 
+        public Icon SetIcon(LineAwesome icon, LineAwesomeWeight weight = LineAwesomeWeight.Light, TextSize size = TextSize.Medium) => SetIcon($"{weight} {icon} {size}");
+
+        public Icon SetIcon(Emoji icon, TextSize size = TextSize.Medium) => SetIcon($"ec {icon} {size}");
+
         public Icon SetIcon(string icon)
         {
             var current = InnerElement.dataset["icon"].As<string>();
@@ -24,7 +28,7 @@ namespace Tesserae
                 InnerElement.classList.remove(current.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
             }
 
-            if(!string.IsNullOrEmpty(icon))
+            if (!string.IsNullOrEmpty(icon))
             {
                 InnerElement.classList.add(icon.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
             }
@@ -51,7 +55,7 @@ namespace Tesserae
 
         public TextWeight Weight
         {
-            get =>  ITextFormatingExtensions.FromClassList(InnerElement, TextWeight.Regular);
+            get => ITextFormatingExtensions.FromClassList(InnerElement, TextWeight.Regular);
             set
             {
                 InnerElement.classList.remove(Weight.ToString());
