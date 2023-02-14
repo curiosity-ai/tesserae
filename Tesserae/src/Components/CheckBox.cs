@@ -14,7 +14,8 @@ namespace Tesserae
         {
             InnerElement = CheckBox(_("tss-checkbox"));
             _checkSpan = Span(_("tss-checkbox-mark"));
-            _label = Label(_("tss-checkbox-container tss-default-component-margin", text: text), InnerElement, _checkSpan);
+            _label = Label(_("tss-checkbox-container tss-default-component-margin tss-fontcolor-default tss-fontsize-small tss-fontweight-regular", text: text), InnerElement, _checkSpan);
+
             AttachClick();
             AttachChange();
             AttachFocus();
