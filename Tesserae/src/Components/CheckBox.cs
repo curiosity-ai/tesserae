@@ -20,11 +20,11 @@ namespace Tesserae
             AttachChange();
             AttachFocus();
             AttachBlur();
-
-            InnerElement.onchange = _ =>
+            
+            InnerElement.addEventListener("change", _ =>
             {
                 _observable.Value = InnerElement.@checked;
-            };
+            });
         }
 
         /// <summary>
