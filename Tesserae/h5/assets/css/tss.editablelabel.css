@@ -10,6 +10,8 @@
     align-items: center;
     width: 100%;
     white-space: pre-wrap;
+    height: 32px;
+    padding-left:2px;
 }
 
 .tss-editablelabel-editbox {
@@ -18,7 +20,9 @@
 }
 
 .tss-editablelabel-textspan {
-    display: inline-flex;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .tss-editablelabel-textbox {

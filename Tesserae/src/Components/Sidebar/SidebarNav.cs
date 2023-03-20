@@ -149,17 +149,56 @@ namespace Tesserae
             return this;
         }
 
+        private Action WrapAction(Action action)
+        {
+            return () =>
+            {
+                if (IsSelected && _items.Count > 0)
+                {
+                    Toggle();
+                }
+                else
+                {
+                    action();
+                }
+            };
+        }
+
+        private Action<Button, MouseEvent> WrapAction(Action<Button, MouseEvent> action)
+        {
+            return (b,e) =>
+            {
+                if (IsSelected && _items.Count > 0)
+                {
+                    Toggle();
+                }
+                else
+                {
+                    action(b,e);
+                }
+            };
+        }
+
         public SidebarNav OnClick(Action action)
         {
-            _closedHeader.OnClick(action);
-            _openHeaderButton.OnClick(action);
+            var wrapped = WrapAction(action);
+            _closedHeader.OnClick(wrapped);
+            _openHeaderButton.OnClick(wrapped);
             return this;
         }
 
         public SidebarNav OnClick(Action<SidebarNav> action)
         {
-            _closedHeader.OnClick(() => action(this));
-            _openHeaderButton.OnClick(() => action(this));
+            var wrapped = WrapAction(() => action(this));
+            _closedHeader.OnClick(wrapped);
+            _openHeaderButton.OnClick(wrapped);
+            return this;
+        }
+        public SidebarNav OnClick(Action<Button, MouseEvent> action)
+        {
+            var wrapped = WrapAction(action);
+            _closedHeader.OnClick((b,e) => wrapped(b,e));
+            _openHeaderButton.OnClick((b,e) => wrapped(b,e));
             return this;
         }
 
@@ -170,12 +209,7 @@ namespace Tesserae
             return this;
         }
 
-        public SidebarNav OnClick(Action<Button, MouseEvent> action)
-        {
-            _closedHeader.OnClick((b,     e) => action(b, e));
-            _openHeaderButton.OnClick((b, e) => action(b, e));
-            return this;
-        }
+
 
         public SidebarNav OnContextMenu(Action<Button, MouseEvent> action)
         {
