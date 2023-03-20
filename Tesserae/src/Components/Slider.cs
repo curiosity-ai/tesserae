@@ -77,12 +77,12 @@ namespace Tesserae
         public int Value
         {
             get => int.Parse(InnerElement.value);
-            set => 
+            set
             {
-                if(Value != value)
+                if (Value != value)
                 {
                     InnerElement.value = value.ToString();
-                    if(_fakeDiv is object) UpdateFakeProgress();
+                    if (_fakeDiv is object) UpdateFakeProgress();
                 }
             }
         }
