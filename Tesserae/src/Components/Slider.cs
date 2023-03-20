@@ -33,11 +33,12 @@ namespace Tesserae
                 _fakeDiv = Div(_("tss-slider-fake-progress"));
                 double percent = ((double)(val - min) / (max - min)) * 100.0;
                 _fakeDiv.style.width = $"{percent:0.##}%";
+                
                 InputUpdated += (e, s) =>
                 {
-                    percent = ((double)(Value - Min) / (Max - Min)) * 100.0;
-                    _fakeDiv.style.width = $"{percent:0.##}%";
+                    percent = UpdateFakeProgress();
                 };
+
                 _outerLabel = Label(_("tss-slider-container"), InnerElement, Div(_("tss-slider-fake-background")), _fakeDiv);
                 InnerElement.classList.add("tss-fake");
             }
@@ -48,6 +49,13 @@ namespace Tesserae
             }
 
             _outerDiv = Div(_("tss-slider-div"), _outerLabel);
+        }
+
+        private double UpdateFakeProgress()
+        {
+            double percent = ((double)(Value - Min) / (Max - Min)) * 100.0;
+            _fakeDiv.style.width = $"{percent:0.##}%";
+            return percent;
         }
 
         public SliderOrientation Orientation
@@ -69,7 +77,14 @@ namespace Tesserae
         public int Value
         {
             get => int.Parse(InnerElement.value);
-            set => InnerElement.value = value.ToString();
+            set => 
+            {
+                if(Value != value)
+                {
+                    InnerElement.value = value.ToString();
+                    if(_fakeDiv is object) UpdateFakeProgress();
+                }
+            }
         }
 
         public int Min
