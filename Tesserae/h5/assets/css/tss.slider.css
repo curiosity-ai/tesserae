@@ -54,7 +54,7 @@
 
 .tss-slider-fake-background {
     border-radius: 4px;
-    background-color: var(--tss-default-border-color);
+    background-color: rgba(var(--tss-slider-active-color-root), 0.3);
     position: relative;
     left: 0px;
     top: 4px;
