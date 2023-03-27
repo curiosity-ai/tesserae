@@ -1,4 +1,4 @@
-﻿/* Stack */
+/* Stack */
 .tss-card-container {
     padding: 2px;
 }
@@ -8,7 +8,6 @@
     width: calc(100% - 4px);
     display: flex;
     padding: 16px;
-    margin-bottom: 12px;
     position: relative;
     opacity: 0;
     -webkit-transform: translate3d(0, 48px, 0);
