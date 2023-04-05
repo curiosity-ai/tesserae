@@ -274,35 +274,33 @@ namespace Tesserae
         {
             public Tab(string id, Func<IComponent> titleCreator, Func<IComponent> contentCreator, bool cached = false)
             {
-                Id = id;
-                CanCacheContent = cached;
-                ContentCreator = contentCreator;
-                TitleCreator = titleCreator;
+                Id               = id;
+                _canCacheContent = cached;
+                _contentCreator  = contentCreator;
+                _titleCreator    = titleCreator;
             }
-            public string Id { get; private set; }
-            private Func<IComponent> TitleCreator { get; }
-            private Func<IComponent> ContentCreator { get; }
 
-            private HTMLElement Content;
-            private readonly bool CanCacheContent;
+            private Func<IComponent> _titleCreator;
+            private Func<IComponent> _contentCreator;
+            private HTMLElement _content;
+            private readonly bool _canCacheContent;
 
             public HTMLElement RenderContent()
             {
-                if (CanCacheContent && Content is object)
+                if (_canCacheContent && _content is object)
                 {
-                    return Content;
+                    return _content;
                 }
                 else
                 {
-                    Content = ContentCreator().Render();
-                    return Content;
+                    _content = _contentCreator().Render();
+                    return _content;
                 }
             }
 
-            public HTMLElement RenderTitle()
-            {
-                return TitleCreator().Render();
-            }
+            public string Id { get; }
+
+            public HTMLElement RenderTitle() => _titleCreator().Render();
         }
 
         public sealed class PivotNavigateEvent : PivotEvent
