@@ -15,7 +15,6 @@ namespace Tesserae
         {
             InnerElement = TextBox(_("tss-textbox", type: type, value: defaultText));
             
-            InnerElement.size = 1; //Remove the input min-width derived from the size attribute, see https://stackoverflow.com/questions/29470676/why-doesnt-the-input-element-respect-min-width
 
             _errorSpan = Span(_("tss-textbox-error"));
             _container = Div(_("tss-textbox-container"), InnerElement, _errorSpan);
