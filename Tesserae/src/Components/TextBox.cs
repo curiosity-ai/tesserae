@@ -125,6 +125,11 @@ namespace Tesserae
             InnerElement.classList.add("tss-textbox-noborder");
             return this;
         }
+        public TextBox NoMinWidth()
+        {
+            InnerElement.size = 1; //Remove the input min-width derived from the size attribute, see https://stackoverflow.com/questions/29470676/why-doesnt-the-input-element-respect-min-width
+            return this;
+        }
 
         public TextBox UnlockHeight()
         {
