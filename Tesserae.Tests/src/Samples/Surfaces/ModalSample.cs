@@ -6,7 +6,7 @@ using static Tesserae.UI;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = "Surfaces", Order = 10, Icon = LineAwesome.WindowRestore)]
+    [SampleDetails(Group = "Surfaces", Order = 10, Icon = UIcons.WindowRestore)]
     public class ModalSample : IComponent, ISample
     {
         private readonly IComponent _content;

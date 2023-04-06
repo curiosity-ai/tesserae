@@ -7,7 +7,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = "Components", Order = 10, Icon = LineAwesome.CaretSquareDown)]
+    [SampleDetails(Group = "Components", Order = 10, Icon = UIcons.CaretSquareDown)]
     public class PickerSample : IComponent, ISample
     {
         private readonly IComponent _content;
@@ -68,15 +68,15 @@ namespace Tesserae.Tests.Samples
         {
             return new[]
             {
-                new PickerSampleItemWithComponents("Bob", LineAwesome.Bomb),
-                new PickerSampleItemWithComponents("BOB", LineAwesome.Blender),
-                new PickerSampleItemWithComponents("Donuts by J Dilla", LineAwesome.Carrot),
-                new PickerSampleItemWithComponents("Donuts", LineAwesome.CarBattery),
-                new PickerSampleItemWithComponents("Coffee", LineAwesome.Coffee),
-                new PickerSampleItemWithComponents("Chicken Coop", LineAwesome.Hamburger),
-                new PickerSampleItemWithComponents("Cherry Pie", LineAwesome.ChartPie),
-                new PickerSampleItemWithComponents("Chess", LineAwesome.Chess),
-                new PickerSampleItemWithComponents("Cooper", LineAwesome.QuestionCircle)
+                new PickerSampleItemWithComponents("Bob", UIcons.Bomb),
+                new PickerSampleItemWithComponents("BOB", UIcons.BlenderPhone),
+                new PickerSampleItemWithComponents("Donuts by J Dilla", UIcons.Carrot),
+                new PickerSampleItemWithComponents("Donuts", UIcons.CarBattery),
+                new PickerSampleItemWithComponents("Coffee", UIcons.Coffee),
+                new PickerSampleItemWithComponents("Chicken Coop", UIcons.Hamburger),
+                new PickerSampleItemWithComponents("Cherry Pie", UIcons.ChartPie),
+                new PickerSampleItemWithComponents("Chess", UIcons.Chess),
+                new PickerSampleItemWithComponents("Cooper", UIcons.Interrogation)
             };
         }
     }
@@ -100,9 +100,9 @@ namespace Tesserae.Tests.Samples
 
     public class PickerSampleItemWithComponents : IPickerItem
     {
-        private readonly LineAwesome _icon;
+        private readonly UIcons _icon;
 
-        public PickerSampleItemWithComponents(string name, LineAwesome icon)
+        public PickerSampleItemWithComponents(string name, UIcons icon)
         {
             Name = name;
             _icon = icon;

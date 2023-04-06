@@ -5,7 +5,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = "Collections", Order = 10, Icon = LineAwesome.EllipsisH)]
+    [SampleDetails(Group = "Collections", Order = 10, Icon = UIcons.MenuDots)]
     public class OverflowSetSample : IComponent, ISample
     {
         private readonly IComponent _content;

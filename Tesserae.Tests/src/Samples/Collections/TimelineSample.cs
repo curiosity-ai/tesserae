@@ -8,7 +8,7 @@ using Tesserae.Tests;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = "Collections", Order = 20, Icon = LineAwesome.History)]
+    [SampleDetails(Group = "Collections", Order = 20, Icon = UIcons.TimePast)]
     public class TimelineSample : IComponent, ISample
     {
         private readonly IComponent _content;

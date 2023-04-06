@@ -5,7 +5,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = "Components", Order = 0, Icon = LineAwesome.SlidersH)]
+    [SampleDetails(Group = "Components", Order = 0, Icon = UIcons.TableColumns)]
     public class SplitViewSample : IComponent, ISample
     {
         private readonly IComponent _content;

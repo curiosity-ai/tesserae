@@ -269,9 +269,9 @@ namespace Tesserae
             return InitElement(document.createElement("i"), init, children);
         }
 
-        public static HTMLElement I(LineAwesome icon, LineAwesomeWeight size = LineAwesomeWeight.Default, string cssClass = null)
+        public static HTMLElement I(UIcons icon, UIconsWeight weight = UIconsWeight.Regular, string cssClass = null)
         {
-            return I(_($"{size} {icon} {cssClass}"));
+            return I(_($"{Tesserae.Icon.Transform(icon, weight)} {cssClass}"));
         }
 
         public static HTMLElement Sup(Attributes init, params HTMLElement[] children)

@@ -15,9 +15,17 @@ namespace Tesserae
             InnerElement.dataset["icon"] = icon;
         }
 
-        public Icon SetIcon(LineAwesome icon, LineAwesomeWeight weight = LineAwesomeWeight.Light, TextSize size = TextSize.Medium) => SetIcon($"{weight} {icon} {size}");
-
         public Icon SetIcon(Emoji icon, TextSize size = TextSize.Medium) => SetIcon($"ec {icon} {size}");
+        
+        public Icon SetIcon(UIcons icon, UIconsWeight weight = UIconsWeight.Regular, TextSize size = TextSize.Medium) => SetIcon($"{Transform(icon, weight)} {size}");
+
+        public static string Transform(UIcons icon, UIconsWeight weight)
+        {
+            string v = icon.ToString();
+            if (weight == UIconsWeight.Regular) return v;
+            return weight + v.Substring(6);
+        }
+
 
         public Icon SetIcon(string icon)
         {

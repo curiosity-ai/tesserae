@@ -6,7 +6,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = "Utilities", Order = 0, Icon = LineAwesome.Tag)]
+    [SampleDetails(Group = "Utilities", Order = 0, Icon = UIcons.CommentInfo)]
     public class TippySample : IComponent, ISample
     {
         private readonly IComponent content;

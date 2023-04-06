@@ -5,7 +5,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = "Components", Order = 20, Icon = LineAwesome.PencilAlt)]
+    [SampleDetails(Group = "Components", Order = 20, Icon = UIcons.Edit)]
     public class EditableLabelSample : IComponent, ISample
     {
         private readonly IComponent _content;

@@ -57,27 +57,6 @@ steps:
       git config --global user.name "$(USER)"
       git config --global user.password  "$(PAT)"
 
-- task: CmdLine@2
-  displayName: 'update lineawesome'
-  inputs:
-    script: |
-      cd $(Build.SourcesDirectory)/Build.ImportLineAwesome/
-      mkdir FromGit
-      cd FromGit
-      git clone --depth=1 --branch=master  https://github.com/icons8/line-awesome/
-      copy .\line-awesome\dist\line-awesome\fonts\*.eot   ..\..\Tesserae\h5\assets\fonts\
-      copy .\line-awesome\dist\line-awesome\fonts\*.ttf   ..\..\Tesserae\h5\assets\fonts\
-      copy .\line-awesome\dist\line-awesome\fonts\*.woff  ..\..\Tesserae\h5\assets\fonts\
-      copy .\line-awesome\dist\line-awesome\fonts\*.woff2 ..\..\Tesserae\h5\assets\fonts\
-      copy .\line-awesome\dist\line-awesome\css\line-awesome.min.css ..\..\Tesserae\h5\assets\css\line-awesome.css
-      cd ..
-      dotnet run
-      rmdir /s .\FromGit\line-awesome /q
-      cd ..
-      git add .
-      git commit -m "Updated line-awesome"
-      git push origin HEAD:master
-
 # This has to run after the git commit above, so the injected source-code stays out of the repository
 - task: CmdLine@2
   displayName: 'update samples'

@@ -9,15 +9,16 @@ namespace Build.ImportInterfaceIcons
     {
         static void Main()
         {
-            var css = File.ReadAllLines(@".\FromGit\line-awesome\dist\line-awesome\css\line-awesome.css");
+            var css = File.ReadAllLines(@"C:\work\tesserae\Tesserae\h5\assets\css\uicons-regular-rounded.css");
 
-            var icons = css.Where(l => l.StartsWith(".la-") && l.EndsWith(":before {"))
-                           .Select(l => l.Substring(".la-".Length).Split(new char[] { ':' }, StringSplitOptions.RemoveEmptyEntries).First())
+            var icons = css.Select(l => l.Trim())
+                           .Where(l => l.StartsWith(".fi-rr-") && l.EndsWith(":before {"))
+                           .Select(l => l.Substring(".fi-rr-".Length).Split(new char[] { ':' }, StringSplitOptions.RemoveEmptyEntries).First())
                            .OrderBy(i => i)
                            .ToArray();
 
-            File.WriteAllText(@"..\Tesserae\src\Icons\LineAwesome.cs", CreateEnum(icons));
-            Console.WriteLine($"Parsed line-awesome.css, found {icons.Length} icons.");
+            File.WriteAllText(@"C:\work\tesserae\Tesserae\src\Icons\UIcons.cs", CreateEnum(icons));
+            Console.WriteLine($"Parsed uicons-regular-rounded.css, found {icons.Length} icons.");
         }
 
         private static string CreateEnum(string[] icons)
@@ -27,12 +28,12 @@ namespace Build.ImportInterfaceIcons
             sb.AppendLine("namespace Tesserae");
             sb.AppendLine("{").AppendLine();
             sb.AppendLine("    [Enum(Emit.Value)]");
-            sb.AppendLine("    public enum LineAwesome");
+            sb.AppendLine("    public enum UIcons");
             sb.AppendLine("    {");
             var maxLen = icons.Max(l => l.Length) + "        [Name(\"\"] ".Length + 1;
             foreach (var i in icons)
             {
-                sb.Append(("        [Name(\"la-" + i + "\")] ").PadRight(maxLen, ' '));
+                sb.Append(("        [Name(\"fi-rr-" + i + "\")] ").PadRight(maxLen, ' '));
                 sb.AppendLine($"{ToValidName(i)},");
             }
             sb.AppendLine("    }");

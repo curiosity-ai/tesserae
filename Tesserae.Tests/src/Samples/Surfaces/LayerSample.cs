@@ -6,7 +6,7 @@ using static Tesserae.UI;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = "Surfaces", Order = 0, Icon = LineAwesome.LayerGroup)]
+    [SampleDetails(Group = "Surfaces", Order = 0, Icon = UIcons.TablePivot)]
     public class LayerSample : IComponent, ISample
     {
         private readonly IComponent _content;
@@ -26,9 +26,9 @@ namespace Tesserae.Tests.Samples
                     SampleTitle("Usage"),
                     TextBlock("Basic layered content").Medium(),
                     layer.Content(HStack().Children(TextBlock("This is example layer content."),
-                        Button("Show second Layer").SetIcon(LineAwesome.PlusCircle).Primary().OnClick((s, e) => layer2.IsVisible = true),
+                        Button("Show second Layer").SetIcon(UIcons.Add).Primary().OnClick((s, e) => layer2.IsVisible = true),
                         layer2.Content(HStack().Children(TextBlock("This is the second example layer content."),
-                            Button("Hide second Layer").SetIcon(LineAwesome.TimesCircle).Primary().OnClick((s, e) => layer2.IsVisible = false)
+                            Button("Hide second Layer").SetIcon(UIcons.CrossCircle).Primary().OnClick((s, e) => layer2.IsVisible = false)
                         )),
                         Toggle("Toggle Component Layer").OnChange((s, e) => layer.IsVisible = s.IsChecked), Toggle())),
                     Toggle("Toggle Component Layer").OnChange((s, e) => layer.IsVisible = s.IsChecked),

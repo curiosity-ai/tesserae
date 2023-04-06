@@ -13,8 +13,7 @@ namespace Tesserae
 
         internal bool ShouldHookToContextMenu => _hookParentContextMenu;
 
-        public SidebarCommand(string icon, LineAwesomeWeight weight = LineAwesomeWeight.Light) : this($"{weight} {icon}") { }
-        public SidebarCommand(LineAwesome icon, LineAwesomeWeight weight = LineAwesomeWeight.Light) : this($"{weight} {icon}") { }
+        public SidebarCommand(UIcons icon, UIconsWeight weight = UIconsWeight.Regular) : this(Icon.Transform(icon,weight)) { }
         public SidebarCommand(Emoji       icon) : this($"ec {icon}") { }
 
         public SidebarCommand(ISidebarIcon image)
@@ -174,7 +173,7 @@ namespace Tesserae
             return this;
         }
 
-        public SidebarCommand SetIcon(LineAwesome icon, string color = "", LineAwesomeWeight weight = LineAwesomeWeight.Light)
+        public SidebarCommand SetIcon(UIcons icon, string color = "", UIconsWeight weight = UIconsWeight.Regular)
         {
             _button.SetIcon(icon, color, weight: weight);
             return this;

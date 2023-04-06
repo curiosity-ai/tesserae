@@ -52,17 +52,17 @@ namespace Tesserae.Tests
                     var sg = sampleType.GetCustomAttributes(typeof(SampleDetailsAttribute), true).FirstOrDefault() as SampleDetailsAttribute;
                     var group = sg is object ? sg.Group : "Others";
                     int order = sg is object ? sg.Order : 0;
-                    LineAwesome icon = sg is object ? sg.Icon : LineAwesome.Circle;
+                    UIcons icon = sg is object ? sg.Icon : UIcons.Circle;
                     return new Sample(sampleType.Name, sampleType.Name.Replace("Sample", ""), group, order, icon, () => Activator.CreateInstance(sampleType) as IComponent);
                 })
                .ToDictionary(s => s.Name, s => s);
 
-            sidebar.AddHeader(new SidebarButton(Emoji.House, "Tesserae", new SidebarCommand(LineAwesome.ExternalLinkAlt).Tooltip("View on GitHub")
+            sidebar.AddHeader(new SidebarButton(Emoji.House, "Tesserae", new SidebarCommand(UIcons.ArrowUpFromSquare).Tooltip("View on GitHub")
                    .OnClick(() => window.open("https://github.com/curiosity-ai/tesserae", "_blank")))
                .CommandsAlwaysVisible()
                .OnOpenIconClick(() => Toast().Success("You clicked on the icon")));
 
-            var openClose = new SidebarButton(LineAwesome.ChevronLeft, "", new SidebarBadge(null, LineAwesome.Users).SemiTransparent()).Tooltip("Close Sidebar");
+            var openClose = new SidebarButton(UIcons.AngleLeft, "", new SidebarBadge(null, UIcons.Users).SemiTransparent()).Tooltip("Close Sidebar");
 
             openClose.OnClick(() =>
             {
@@ -70,28 +70,28 @@ namespace Tesserae.Tests
 
                 if (sidebar.IsClosed)
                 {
-                    openClose.SetIcon(LineAwesome.ChevronRight).Tooltip("Open Sidebar");
+                    openClose.SetIcon(UIcons.AngleRight).Tooltip("Open Sidebar");
                 }
                 else
                 {
-                    openClose.SetIcon(LineAwesome.ChevronLeft).Tooltip("Close Sidebar");
+                    openClose.SetIcon(UIcons.AngleLeft).Tooltip("Close Sidebar");
                 }
             });
 
 
-            var lightDark = new SidebarCommand(LineAwesome.Sun).Tooltip("Light Mode");
+            var lightDark = new SidebarCommand(UIcons.Sun).Tooltip("Light Mode");
 
             lightDark.OnClick(() =>
             {
                 if (Theme.IsDark)
                 {
                     Theme.Light();
-                    lightDark.SetIcon(LineAwesome.Sun).Tooltip("Light Mode");
+                    lightDark.SetIcon(UIcons.Sun).Tooltip("Light Mode");
                 }
                 else
                 {
                     Theme.Dark();
-                    lightDark.SetIcon(LineAwesome.Moon).Tooltip("Dark Mode");
+                    lightDark.SetIcon(UIcons.Moon).Tooltip("Dark Mode");
                 }
             });
 
@@ -106,14 +106,14 @@ namespace Tesserae.Tests
             var happy = new SidebarCommand(Emoji.Smile).Tooltip("I like this !").OnClick(() => Toast().Success("Thanks for your feedback"));
             var sad = new SidebarCommand(Emoji.Disappointed).Tooltip("I don't like this!").OnClick(() => Toast().Success("Thanks for your feedback"));
 
-            var dotsMenu = new SidebarCommand(LineAwesome.EllipsisH).OnClickMenu(() => new ISidebarItem[]
+            var dotsMenu = new SidebarCommand(UIcons.MenuDots).OnClickMenu(() => new ISidebarItem[]
             {
-                new SidebarButton(LineAwesome.User, "Manage Account"),
-                new SidebarButton(LineAwesome.Cog, "Preferences"),
-                new SidebarButton(LineAwesome.TrashAlt, "Delete Account"),
+                new SidebarButton(UIcons.User, "Manage Account"),
+                new SidebarButton(UIcons.Settings, "Preferences"),
+                new SidebarButton(UIcons.Trash, "Delete Account"),
                 new SidebarCommands(new SidebarCommand(Emoji.Smile), new SidebarCommand(Emoji.Disappointed), new SidebarCommand(Emoji.Angry)),
-                new SidebarCommands(new SidebarCommand(LineAwesome.Plus).Primary(), new SidebarCommand(LineAwesome.TrashAlt).Danger()).AlignEnd(),
-                new SidebarButton(LineAwesome.SignOutAlt, "Sign Out"),
+                new SidebarCommands(new SidebarCommand(UIcons.Plus).Primary(), new SidebarCommand(UIcons.Trash).Danger()).AlignEnd(),
+                new SidebarButton(UIcons.SignOutAlt, "Sign Out"),
             });
 
             var commandsEndAligned = new SidebarCommands(fireworks, dotsMenu).AlignEnd();
@@ -127,19 +127,19 @@ namespace Tesserae.Tests
             sidebar.AddFooter(new SidebarButton(new ImageIcon("https://curiosity.ai/media/cat-color-square-64.png"), "By Curiosity",
                 new SidebarBadge("+3").Foreground(Theme.Primary.Foreground).Background(Theme.Primary.Background),
 //                new SidebarCommand("+3", Theme.Primary.Background, Theme.Primary.Foreground),
-                new SidebarCommand(LineAwesome.ExternalLinkAlt).OnClick(() => window.open("https://github.com/curiosity-ai/tesserae", "_blank"))).Tooltip("Made with ❤ by Curiosity").OnClick(() => window.open("https://curiosity.ai", "_blank")));
+                new SidebarCommand(UIcons.ArrowUpRightFromSquare).OnClick(() => window.open("https://github.com/curiosity-ai/tesserae", "_blank"))).Tooltip("Made with ❤ by Curiosity").OnClick(() => window.open("https://curiosity.ai", "_blank")));
 
 
             foreach (var group in samples.Values.GroupBy(s => s.Group))
             {
-                var nav = new SidebarNav(LineAwesome.Box, group.Key, false).OnClick(n => n.Toggle());
+                var nav = new SidebarNav(UIcons.Box, group.Key, false).OnClick(n => n.Toggle());
                 allSidebarItems.Add(nav);
                 sidebar.AddContent(nav);
 
                 foreach (var item in group.OrderBy(s => s.Order).ThenBy(s => s.Name.ToLower()))
                 {
-                    var sidebarItem = new SidebarButton(item.Icon, item.Name, new SidebarCommand(LineAwesome.Code).Tooltip("Show sample code").OnClick(() => SamplesHelper.ShowSampleCode(item.Name)),
-                        new SidebarCommand(LineAwesome.ExternalLinkAlt).Tooltip("Open in new tab").OnClick(() => window.open($"#/view/{item.Name}", "_blank")));
+                    var sidebarItem = new SidebarButton(item.Icon, item.Name, new SidebarCommand(UIcons.SquareTerminal).Tooltip("Show sample code").OnClick(() => SamplesHelper.ShowSampleCode(item.Name)),
+                        new SidebarCommand(UIcons.ArrowUpRightFromSquare).Tooltip("Open in new tab").OnClick(() => window.open($"#/view/{item.Name}", "_blank")));
 
                     sidebarItem.OnClick(() =>
                     {
@@ -174,95 +174,6 @@ namespace Tesserae.Tests
             var card = Card(content).NoAnimation().Padding(32.px());
             card.Render().style.maxHeight = "calc(100% - 32px)";
             return BackgroundArea(card).S();
-        }
-
-
-        private static IComponent MainNav(Dictionary<string, Nav.NavLink> links)
-        {
-            return Stack().Padding(16.px()).NoShrink().MinHeightStretch()
-               .Children(TextBlock("Tesserae UI Toolkit").MediumPlus().SemiBold().AlignCenter(),
-                    HStack().JustifyContent(ItemJustify.Center).PT(10.px()).PB(10.px()).Children(TextBlock("by").XSmall().PR(4.px()), Link("https://www.curiosity.ai", TextBlock("curiosity.ai").XSmall().Primary()).PR(4.px()), TextBlock("built with").XSmall().PR(4.px()), Link("https://h5.rocks", TextBlock("h5 🚀").XSmall().Primary())),
-                    Nav().InlineContent(Label("Theme").Inline().SetContent(Toggle("Light", "Dark").Checked().OnChange((t, e) =>
-                        {
-                            if (t.IsChecked) { Theme.Light(); }
-                            else { Theme.Dark(); }
-                        })))
-                       .Links(NavLink("Basic Inputs").Expanded()
-                               .SmallPlus()
-                               .SemiBold()
-                               .Links(links["Button"],
-                                    links["CheckBox"],
-                                    links["ChoiceGroup"],
-                                    links["Slider"],
-                                    links["Dropdown"],
-                                    links["Label"],
-                                    links["EditableLabel"],
-                                    links["TextBox"],
-                                    links["SearchBox"],
-                                    links["Toggle"],
-                                    links["Picker"],
-                                    links["ColorPicker"],
-                                    links["DatePicker"],
-                                    links["DateTimePicker"],
-                                    links["GridPicker"]
-                                ),
-                            NavLink("Progress").Expanded()
-                               .SmallPlus()
-                               .SemiBold()
-                               .Links(links["Spinner"],
-                                    links["ProgressIndicator"]),
-                            NavLink("Surfaces").Expanded()
-                               .SmallPlus()
-                               .SemiBold()
-                               .Links(links["Dialog"],
-                                    links["Modal"],
-                                    links["TutorialModal"],
-                                    links["Panel"],
-                                    links["ContextMenu"]),
-                            NavLink("Utilities").Expanded()
-                               .SmallPlus()
-                               .SemiBold()
-                               .Links(links["Layer"],
-                                    links["Stack"],
-                                    links["Masonry"],
-                                    links["HorizontalSeparator"],
-                                    links["SectionStack"],
-                                    links["TextBlock"],
-                                    links["Validator"],
-                                    links["Breadcrumb"],
-                                    links["TextBreadcrumbs"],
-                                    links["OverflowSet"],
-                                    links["Pivot"],
-                                    links["Defer"],
-                                    links["Toast"],
-                                    links["Float"],
-                                    links["FileSelector"],
-                                    links["LineAwesomeIcons"],
-                                    links["ProgressModal"],
-                                    links["ThemeColors"]
-                                ),
-                            NavLink("Collections").Expanded()
-                               .SmallPlus()
-                               .SemiBold()
-                               .Links(links["ItemsList"],
-                                    links["VirtualizedList"],
-                                    links["InfiniteScrollingList"],
-                                    links["SearchableList"],
-                                    links["SearchableGroupedList"],
-                                    links["DetailsList"],
-                                    links["Timeline"]),
-                            NavLink("Nav Sample").Expanded()
-                               .SmallPlus()
-                               .SemiBold()
-                               .Links(NavLink("Level 1").Links(NavLink("Level 2").Links(NavLink("Level 3").Links(NavLink("Level 4")))),
-                                    NavLink("Level 1").Links(NavLink("Level 2").Links(NavLink("Level 3").Links(NavLink("Level 4")))),
-                                    NavLink("Async 1").LinksAsync(async () =>
-                                    {
-                                        await Task.Delay(500);
-                                        return new[] { NavLink("Level 2").Links(NavLink("Level 3").Links(NavLink("Level 4"))) };
-                                    })
-                                ))
-                );
         }
     }
 }

@@ -5,7 +5,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = "Components", Order = 0, Icon = LineAwesome.ToggleOn)]
+    [SampleDetails(Group = "Components", Order = 0, Icon = UIcons.SettingsSliders)]
     public class ToggleSample : IComponent, ISample
     {
         private readonly IComponent _content;

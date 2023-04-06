@@ -5,7 +5,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = "Components", Order = 0, Icon = LineAwesome.Tag)]
+    [SampleDetails(Group = "Components", Order = 0, Icon = UIcons.TextSize)]
     public class LabelSample : IComponent, ISample
     {
         private readonly IComponent _content;

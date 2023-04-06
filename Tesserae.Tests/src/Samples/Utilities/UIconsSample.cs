@@ -8,21 +8,21 @@ using Tesserae.Tests;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = "Utilities", Order = 10, Icon = LineAwesome.Icons)]
-    public class LineAwesomeSample : IComponent, ISample
+    [SampleDetails(Group = "Utilities", Order = 10, Icon = UIcons.Picture)]
+    public class UIconsSample : IComponent, ISample
     {
         private readonly IComponent _content;
 
-        public LineAwesomeSample()
+        public UIconsSample()
         {
             //TODO: Add dropwdown to select icon weight
             _content = SectionStack().S()
-               .Title(SampleHeader(nameof(LineAwesomeSample)))
+               .Title(SampleHeader(nameof(UIconsSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
-                    TextBlock("Tesserae integrates the LineAwesome icons as part of the package, with an auto-generated strongly typed enum for them.")))
+                    TextBlock("Tesserae integrates the UIcons icons as part of the package, with an auto-generated strongly typed enum for them.")))
                .Section(Stack().Children(
-                    SampleTitle($"enum {nameof(LineAwesome)}:"),
+                    SampleTitle($"enum {nameof(UIcons)}:"),
                     SearchableList(GetAllIcons().ToArray(), 25.percent(), 25.percent(), 25.percent(), 25.percent())).S(), grow: true);
         }
 
@@ -33,8 +33,8 @@ namespace Tesserae.Tests.Samples
 
         private IEnumerable<IconItem> GetAllIcons()
         {
-            var names = Enum.GetNames(typeof(LineAwesome));
-            LineAwesome[] values = (LineAwesome[])Enum.GetValues(typeof(LineAwesome));
+            var names = Enum.GetNames(typeof(UIcons));
+            UIcons[] values = (UIcons[])Enum.GetValues(typeof(UIcons));
 
             for (int i = 0; i < values.Length; i++)
             {
@@ -46,9 +46,9 @@ namespace Tesserae.Tests.Samples
         {
             private readonly string     _value;
             private readonly IComponent component;
-            public IconItem(LineAwesome icon, string name)
+            public IconItem(UIcons icon, string name)
             {
-                name = ToValidName(name.Substring(3));
+                name = ToValidName(name.Substring(6));
                 _value = name + " " + icon.ToString();
 
                 component = HStack().WS().AlignItemsCenter().PB(4).Children(

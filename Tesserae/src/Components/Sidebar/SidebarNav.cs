@@ -34,8 +34,8 @@ namespace Tesserae
         public IComponent CurrentRendered => (_lastClosed is object && _lastClosed.IsMounted()) ? _lastClosed : _lastOpen;
 
         public SidebarNav(Emoji       icon, string            text,   bool   initiallyCollapsed, params SidebarCommand[] commands) : this($"ec {icon}", text, initiallyCollapsed, commands) { }
-        public SidebarNav(LineAwesome icon, string            text,   bool   initiallyCollapsed, params SidebarCommand[] commands) : this($"{LineAwesomeWeight.Light} {icon}", text, initiallyCollapsed, commands) { }
-        public SidebarNav(LineAwesome icon, LineAwesomeWeight weight, string text,               bool                    initiallyCollapsed, params SidebarCommand[] commands) : this($"{weight} {icon}", text, initiallyCollapsed, commands) { }
+        public SidebarNav(UIcons icon, string            text,   bool   initiallyCollapsed, params SidebarCommand[] commands) : this(Icon.Transform(icon, UIconsWeight.Regular), text, initiallyCollapsed, commands) { }
+        public SidebarNav(UIcons icon, UIconsWeight weight, string text,               bool                    initiallyCollapsed, params SidebarCommand[] commands) : this(Icon.Transform(icon,weight), text, initiallyCollapsed, commands) { }
 
         public SidebarNav(string icon, string text, bool initiallyCollapsed, params SidebarCommand[] commands)
         {

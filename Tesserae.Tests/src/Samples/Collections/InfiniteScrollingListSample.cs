@@ -9,7 +9,7 @@ using Tesserae.Tests;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = "Collections", Order = 20, Icon = LineAwesome.Infinity)]
+    [SampleDetails(Group = "Collections", Order = 20, Icon = UIcons.Infinity)]
     public class InfiniteScrollingListSample : IComponent, ISample
     {
         private readonly IComponent _content;

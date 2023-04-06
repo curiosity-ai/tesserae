@@ -8,7 +8,7 @@ using Tesserae.Tests;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = "Collections", Order = 20, Icon = LineAwesome.List)]
+    [SampleDetails(Group = "Collections", Order = 20, Icon = UIcons.List)]
     public class ItemsListSample : IComponent, ISample
     {
         private readonly IComponent _content;

@@ -6,7 +6,7 @@ using static Tesserae.UI;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = "Components", Order = 10, Icon = LineAwesome.Table)]
+    [SampleDetails(Group = "Components", Order = 10, Icon = UIcons.TableLayout)]
     public class GridPickerSample : IComponent, ISample
     {
         private readonly IComponent _content;
@@ -130,7 +130,7 @@ namespace Tesserae.Tests.Samples
                 grid.WhenRemoved(() => window.clearInterval(t));
             });
 
-            var btnReset = Button("Reset").SetIcon(LineAwesome.Bomb).OnClick(() =>
+            var btnReset = Button("Reset").SetIcon(UIcons.Bomb).OnClick(() =>
             {
                 var state = grid.GetState();
 
@@ -144,12 +144,12 @@ namespace Tesserae.Tests.Samples
                 grid.SetState(state);
             });
 
-            var btnPause = Button("Pause").SetIcon(LineAwesome.Pause);
+            var btnPause = Button("Pause").SetIcon(UIcons.Pause);
 
             btnPause.OnClick(() =>
             {
                 isPaused = !isPaused;
-                btnPause.SetIcon(isPaused ? LineAwesome.Play : LineAwesome.Pause);
+                btnPause.SetIcon(isPaused ? UIcons.Play : UIcons.Pause);
                 btnPause.SetText(isPaused ? "Resume" : "Pause");
             });
 

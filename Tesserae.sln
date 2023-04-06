@@ -1,13 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29102.190
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tesserae", "Tesserae\Tesserae.csproj", "{35F1070A-7B2A-4FAF-B433-19BEFD8BA11E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tesserae.Tests", "Tesserae.Tests\Tesserae.Tests.csproj", "{35F1071A-7B2A-4FAF-B433-19BEFD8BA11E}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Build.ImportLineAwesome", "Build.ImportLineAwesome\Build.ImportLineAwesome.csproj", "{1817F8C6-E437-476C-A193-D1C36794412E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DevOps", "DevOps", "{15502E5E-34AB-4EDD-AAC2-84DBBC05DEBB}"
 	ProjectSection(SolutionItems) = preProject
@@ -20,6 +18,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Build.ImportInterfaceIcons", "Build.ImportInterfaceIcons\Build.ImportInterfaceIcons.csproj", "{084992F7-74EB-4123-989C-86CDFE8BDBC4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,14 +35,14 @@ Global
 		{35F1071A-7B2A-4FAF-B433-19BEFD8BA11E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{35F1071A-7B2A-4FAF-B433-19BEFD8BA11E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{35F1071A-7B2A-4FAF-B433-19BEFD8BA11E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1817F8C6-E437-476C-A193-D1C36794412E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1817F8C6-E437-476C-A193-D1C36794412E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1817F8C6-E437-476C-A193-D1C36794412E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1817F8C6-E437-476C-A193-D1C36794412E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BA7E4838-8FF6-470D-8E2E-A9917F57D8EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BA7E4838-8FF6-470D-8E2E-A9917F57D8EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BA7E4838-8FF6-470D-8E2E-A9917F57D8EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BA7E4838-8FF6-470D-8E2E-A9917F57D8EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{084992F7-74EB-4123-989C-86CDFE8BDBC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{084992F7-74EB-4123-989C-86CDFE8BDBC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{084992F7-74EB-4123-989C-86CDFE8BDBC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{084992F7-74EB-4123-989C-86CDFE8BDBC4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

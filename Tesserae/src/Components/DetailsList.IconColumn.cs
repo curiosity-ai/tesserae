@@ -36,7 +36,6 @@ namespace Tesserae
         public Icon              Icon                     { get; }
         public UnitSize          Width                    { get; }
         public UnitSize          MaxWidth                 { get; }
-        public LineAwesomeWeight IconWeight               { get; }
         public bool              IsRowHeader              => false;
         public bool              EnableColumnSorting      { get; }
         public bool              EnableOnColumnClickEvent { get; }

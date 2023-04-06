@@ -221,7 +221,7 @@ namespace Tesserae
 
         public static Icon Icon(string icon, TextSize size, string color = null) => new Icon($"{icon} {size}").Foreground(color ?? "");
 
-        public static Icon Icon(LineAwesome icon, LineAwesomeWeight weight = LineAwesomeWeight.Light, TextSize size = TextSize.Medium, string color = null) => new Icon($"{weight} {icon} {size}").Foreground(color ?? "");
+        public static Icon Icon(UIcons icon, UIconsWeight weight = UIconsWeight.Regular, TextSize size = TextSize.Medium, string color = null) => new Icon($"{Tesserae.Icon.Transform(icon, weight)} {size}").Foreground(color ?? "");
         
         public static Icon Icon(Emoji icon, TextSize size = TextSize.Medium) => new Icon($"ec {icon} {size}");
 

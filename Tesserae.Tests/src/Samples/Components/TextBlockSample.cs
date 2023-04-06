@@ -5,7 +5,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = "Components", Order = 0, Icon = LineAwesome.Font)]
+    [SampleDetails(Group = "Components", Order = 0, Icon = UIcons.F)]
     public class TextBlockSample : IComponent, ISample
     {
         private readonly IComponent _content;

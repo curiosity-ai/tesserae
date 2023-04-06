@@ -5,7 +5,7 @@ using static Tesserae.UI;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = "Utilities", Order = 20, Icon = LineAwesome.FolderOpen)]
+    [SampleDetails(Group = "Utilities", Order = 20, Icon = UIcons.Folder)]
     public class FileSelectorAndDropAreaSample : IComponent, ISample
     {
         private readonly IComponent _content;

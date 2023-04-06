@@ -7,7 +7,7 @@ using Panel = Tesserae.Panel;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = "Surfaces", Order = 10, Icon = LineAwesome.WindowMinimize)]
+    [SampleDetails(Group = "Surfaces", Order = 10, Icon = UIcons.WindowMinimize)]
     public class PanelSample : IComponent, ISample
     {
         private readonly IComponent _content;

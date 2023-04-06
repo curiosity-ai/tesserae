@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Build.ImportLineAwesome
+namespace Build.ImportInterfaceIcons
 {
     static class Program
     {

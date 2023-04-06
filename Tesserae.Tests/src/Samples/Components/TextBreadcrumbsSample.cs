@@ -4,7 +4,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = "Components", Order = 20, Icon = LineAwesome.EllipsisH)]
+    [SampleDetails(Group = "Components", Order = 20, Icon = UIcons.MenuDots)]
     public class TextBreadcrumbsSample : IComponent, ISample
     {
         private readonly IComponent _content;
