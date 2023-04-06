@@ -37,7 +37,7 @@ namespace Tesserae.Tests
 
             var sidebar = Sidebar();
 
-            sidebar.AddHeader(new SidebarText("Tesserae", "TSS", textSize: TextSize.Large, textWeight: TextWeight.Bold).PT(16).PB(16));
+            sidebar.AddHeader(new SidebarText("tesserae", "TSS", textSize: TextSize.Large, textWeight: TextWeight.Bold).PT(16).PB(16).PL(12));
 
             var pageContent = HStack().Children(sidebar.HS(), Defer(currentPage, page => page is null ? CenteredCardWithBackground(TextBlock("Select an item")).AsTask() : VStack().S().ScrollY().Children(page.ContentGenerator().WS()).AsTask()).HS().W(1).Grow()).S();
 
@@ -57,7 +57,7 @@ namespace Tesserae.Tests
                 })
                .ToDictionary(s => s.Name, s => s);
 
-            sidebar.AddHeader(new SidebarButton(Emoji.House, "Tesserae", new SidebarCommand(UIcons.ArrowUpFromSquare).Tooltip("View on GitHub")
+            sidebar.AddHeader(new SidebarButton(Emoji.House, "GitHub", new SidebarCommand(UIcons.ArrowUpRightFromSquare).Tooltip("View on GitHub")
                    .OnClick(() => window.open("https://github.com/curiosity-ai/tesserae", "_blank")))
                .CommandsAlwaysVisible()
                .OnOpenIconClick(() => Toast().Success("You clicked on the icon")));
