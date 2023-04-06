@@ -57,7 +57,7 @@ namespace Tesserae.Tests
                 })
                .ToDictionary(s => s.Name, s => s);
 
-            sidebar.AddHeader(new SidebarButton(Emoji.House, "GitHub", new SidebarCommand(UIcons.ArrowUpRightFromSquare).Tooltip("View on GitHub")
+            sidebar.AddHeader(new SidebarButton(Emoji.House, "Source Code", new SidebarCommand(UIcons.ArrowUpRightFromSquare).Tooltip("Open repository on GitHub")
                    .OnClick(() => window.open("https://github.com/curiosity-ai/tesserae", "_blank")))
                .CommandsAlwaysVisible()
                .OnOpenIconClick(() => Toast().Success("You clicked on the icon")));
