@@ -529,7 +529,7 @@ namespace Tesserae
             return this;
         }
 
-        public Button SetIcon(UIcons icon, string color = "", TextSize size = TextSize.Medium, UIconsWeight weight = UIconsWeight.Regular, bool afterText = false)
+        public Button SetIcon(UIcons icon, string color = "", TextSize size = TextSize.Small, UIconsWeight weight = UIconsWeight.Regular, bool afterText = false)
         {
             Icon = $"{Tesserae.Icon.Transform(icon, weight)} {size}";
 
