@@ -456,6 +456,13 @@ namespace Tesserae
             }
         }
 
+        public static T Style<T>(this T component, Action<CSSStyleDeclaration> style) where T : IComponent
+        {
+            style(component.Render().style);
+            return component;
+        }
+
+
         public static T SkipTab<T>(this T component) where T : IComponent => TabIndex(component, -1);
 
         //Shortcuts:
