@@ -61,7 +61,7 @@ namespace Tesserae
                 _modalHeader.style.display = "none";
             }
 
-            _closeButton = Button(_("tss-modal-button las la-times", el: el => el.onclick = e => Hide()));
+            _closeButton = Button(_($"tss-modal-button {UIcons.Cross}", el: el => el.onclick = e => Hide()));
             _modalHeaderCommands.appendChild(_closeButton);
 
             _modalContent = Div(_("tss-modal-content"));
