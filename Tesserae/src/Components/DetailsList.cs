@@ -334,10 +334,10 @@ namespace Tesserae
             _currentSortingIcon = _currentSortingIcon == UIcons.ArrowUp ? UIcons.ArrowDown : UIcons.ArrowUp;
         }
 
-        private void UpdateColumnSortingIcon(Interface htmlElement, Action setLineAwesomeIconExpression)
+        private void UpdateColumnSortingIcon(Interface htmlElement, Action setIconExpression)
         {
             _columnSortingIcon.remove();
-            setLineAwesomeIconExpression();
+            setIconExpression();
             CreateColumnSortingIcon();
             htmlElement.parentElement.appendChild(_columnSortingIcon);
         }
