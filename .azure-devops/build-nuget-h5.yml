@@ -81,7 +81,7 @@ steps:
     command: 'push'
     packagesToPush: '**/*/Tesserae.$(buildVersion).nupkg' # The package name comes from the PackageID, not project name
     nuGetFeedType: 'external'
-    publishFeedCredentials: 'nuget-curiosity'
+    publishFeedCredentials: 'nuget-curiosity-org'
 
 - task: CmdLine@2
   displayName: 'Build Tesserae Tests'
