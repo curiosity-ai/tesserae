@@ -94,14 +94,14 @@ namespace Tesserae
                     // Wait until we know that the container has been mounted before starting to load the content and render fully - this is the ideal case because we know for sure that we're rendering directly into the DOM and that any height-based calculations,
                     // for example, will give accurate results. However, if we're rendering a lot of items then DomObserver.WhenMounted gets expensive because every time that the DOM has a new item added, the DomObserver has to check whether it affects the mounted
                     // state of any of the elements registered with it (which requires a lot of DOM-walking).
-                    DomObserver.WhenMounted(Container, TriggerRefresh);
+                    DomObserver.WhenMounted(Container, Refresh);
                 }
                 else
                 {
                     // This approach should only be used if it is expected that the element is going to be mounted immediately (to continue the example above, this may be important for things like height calculations - you want the element to be mounterd so that
                     // you get accurate results for things like that). It's technically less "safe" than using DomObserver.WhenMounted but it's also a lot cheaper if many items are being rendered. This is not the default behaviour, it has to be opted into via a
                     // call to the DoNotWaitForComponentMountingBeforeRendering method.
-                    setTimeout(_ => TriggerRefresh(), 1);
+                    setTimeout(_ => Refresh(), 1);
                 }
                 _renderHasBeenCalled = true;
             }
