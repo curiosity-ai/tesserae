@@ -346,7 +346,7 @@ namespace Tesserae
             return el;
         }
 
-        public static T Tooltip<T>(this T component, string tooltipHtml, TooltipAnimation animation = TooltipAnimation.None, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 0, int delayHide = 0, bool followCursor = false, int maxWidth = 350, bool arrow = false, IComponent parent = null) where T : IComponent
+        public static T Tooltip<T>(this T component, string tooltipHtml, TooltipAnimation animation = TooltipAnimation.None, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 250, int delayHide = 0, bool followCursor = false, int maxWidth = 350, bool arrow = false, IComponent parent = null) where T : IComponent
         {
             if (string.IsNullOrWhiteSpace(tooltipHtml))
                 return component;
@@ -378,7 +378,7 @@ namespace Tesserae
             return component;
         }
         
-        public static T Tooltip<T>(this T component, IComponent tooltip, bool interactive = false, TooltipAnimation animation = TooltipAnimation.None, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 0, int delayHide = 0, bool appendToBody = true, bool followCursor = false, int maxWidth = 350, bool hideOnClick = true, bool arrow = false, IComponent parent = null) where T : IComponent
+        public static T Tooltip<T>(this T component, IComponent tooltip, bool interactive = false, TooltipAnimation animation = TooltipAnimation.None, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 250, int delayHide = 0, bool appendToBody = true, bool followCursor = false, int maxWidth = 350, bool hideOnClick = true, bool arrow = false, IComponent parent = null) where T : IComponent
         {
             if (tooltip is null)
                 return component;
