@@ -104,7 +104,7 @@
     .tss-slider::-webkit-slider-thumb {
         -webkit-appearance: none;
         width: 16px;
-        height: 32px;
+        height: 24px;
         border-radius: 10px;
         background-color: var(--tss-default-background-color);
         border: 2px solid var(--tss-slider-color);
@@ -112,7 +112,7 @@
 
     .tss-slider::-moz-range-thumb {
         width: 16px;
-        height: 32px;
+        height: 24px;
         border-radius: 10px;
         background-color: var(--tss-default-background-color);
         border: 2px solid var(--tss-slider-color);
