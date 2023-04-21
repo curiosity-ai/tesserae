@@ -6,7 +6,7 @@ using Tesserae.Tests;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = "Surfaces", Order = 0, Icon = LineAwesome.Sign)]
+    [SampleDetails(Group = "Surfaces", Order = 0, Icon = UIcons.GameBoardAlt)]
     public class FloatSample : IComponent, ISample
     {
         private readonly IComponent _content;

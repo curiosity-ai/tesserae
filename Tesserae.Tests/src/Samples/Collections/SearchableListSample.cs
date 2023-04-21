@@ -8,7 +8,7 @@ using Tesserae.Tests;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = "Collections", Order = 20, Icon = LineAwesome.Search)]
+    [SampleDetails(Group = "Collections", Order = 20, Icon = UIcons.Search)]
     public class SearchableListSample : IComponent, ISample
     {
         private readonly IComponent _content;

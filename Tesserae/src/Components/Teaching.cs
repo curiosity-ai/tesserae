@@ -94,7 +94,7 @@ namespace Tesserae
                     if (stepType == StepType.NextButton)
                     {
                         var text = _stepCounter > thisStep + 1 ? "Next" : "Ok";
-                        var icon = _stepCounter > thisStep + 1 ? LineAwesome.ChevronRight : LineAwesome.Check;
+                        var icon = _stepCounter > thisStep + 1 ? UIcons.AngleRight : UIcons.Check;
                         btnNext = Button(text).SetIcon(icon).AlignEnd().PT(8).Primary();
                         tooltip = VStack().Children(tooltip, btnNext);
                     }

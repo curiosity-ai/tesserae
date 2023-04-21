@@ -7,7 +7,7 @@ using Tesserae.Tests;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = "Collections", Order = 0, Icon = LineAwesome.RulerVertical)]
+    [SampleDetails(Group = "Collections", Order = 0, Icon = UIcons.RulerVertical)]
     public class StackSample : IComponent, ISample
     {
         private readonly IComponent _content;
@@ -16,9 +16,9 @@ namespace Tesserae.Tests.Samples
         {
 
             var mainButton = Button("Some Text").TextLeft().MinWidth(200.px()).Ellipsis().IconOnHover();
-            mainButton.Tooltip("Tooltip for the main Button").SetIcon(LineAwesome.ChevronLeft, Theme.Primary.Background);
+            mainButton.Tooltip("Tooltip for the main Button").SetIcon(UIcons.AngleLeft, Theme.Primary.Background);
 
-            var otherButton = Button().Tooltip("Tooltip for the other Button").SetIcon(LineAwesome.ThumbsDown, color: Theme.Danger.Background).Fade();
+            var otherButton = Button().Tooltip("Tooltip for the other Button").SetIcon(UIcons.ThumbsDown, color: Theme.Danger.Background).Fade();
             var hoverStack = HStack().MaxWidth(500.px()).Children(mainButton, otherButton);
 
             var stack = Stack();

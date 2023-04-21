@@ -7,7 +7,7 @@ using Tesserae.Tests;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = "Components", Order = 20, Icon = LineAwesome.GripLines)]
+    [SampleDetails(Group = "Components", Order = 20, Icon = UIcons.HorizontalRule)]
     public class HorizontalSeparatorSample : IComponent, ISample
     {
         private readonly IComponent _content;

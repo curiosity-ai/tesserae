@@ -6,7 +6,7 @@ using Tesserae.Tests;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = "Utilities", Order = 20, Icon = LineAwesome.BreadSlice)]
+    [SampleDetails(Group = "Utilities", Order = 20, Icon = UIcons.BreadSlice)]
     public class ToastSample : IComponent, ISample
     {
         private readonly IComponent _content;

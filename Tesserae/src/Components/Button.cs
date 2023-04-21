@@ -529,9 +529,9 @@ namespace Tesserae
             return this;
         }
 
-        public Button SetIcon(LineAwesome icon, string color = "", TextSize size = TextSize.Medium, LineAwesomeWeight weight = LineAwesomeWeight.Light, bool afterText = false)
+        public Button SetIcon(UIcons icon, string color = "", TextSize size = TextSize.Small, UIconsWeight weight = UIconsWeight.Regular, bool afterText = false)
         {
-            Icon = $"{weight} {icon} {size}";
+            Icon = $"{Tesserae.Icon.Transform(icon, weight)} {size}";
 
             if (_iconSpan is object)
             {

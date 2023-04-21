@@ -17,7 +17,7 @@ namespace Tesserae
         private          double         _cachedFullWidth      = 0;
         private          HTMLElement    _chevronToUseAsButton = null;
 
-        private string _chevronIcon = $"{LineAwesome.ChevronRight}";
+        private string _chevronIcon = UIcons.AngleRight.ToString();
 
         private readonly Dictionary<HTMLElement, double> _cachedSizes = new Dictionary<HTMLElement, double>();
 
@@ -79,7 +79,7 @@ namespace Tesserae
             {
                 //Reset modified chevron if any
                 _chevronToUseAsButton.classList.add(_chevronIcon, "tss-breadcrumb-collapse");
-                _chevronToUseAsButton.classList.remove("la-ellipsis-h", "tss-breadcrumb-opencolapsed");
+                _chevronToUseAsButton.classList.remove(UIcons.MenuDots.ToString(), "tss-breadcrumb-opencolapsed");
 
                 _chevronToUseAsButton.onclick = null;
                 _chevronToUseAsButton = null;
@@ -163,7 +163,7 @@ namespace Tesserae
 
                 if (_chevronToUseAsButton is object)
                 {
-                    _chevronToUseAsButton.classList.add("la-ellipsis-h", "tss-breadcrumb-opencolapsed");
+                    _chevronToUseAsButton.classList.add(UIcons.MenuDots.ToString(), "tss-breadcrumb-opencolapsed");
                     _chevronToUseAsButton.classList.remove(_chevronIcon, "tss-breadcrumb-collapse");
                     _chevronToUseAsButton.onclick = (e) =>
                     {
@@ -219,7 +219,7 @@ namespace Tesserae
         {
             if (_childContainer.childElementCount > 0)
             {
-                _childContainer.appendChild(I(_("tss-breadcrumb-chevron las " + _chevronIcon)));
+                _childContainer.appendChild(I(_("tss-breadcrumb-chevron " + _chevronIcon)));
             }
             _childContainer.appendChild(component.Render());
         }
@@ -248,9 +248,9 @@ namespace Tesserae
             return this;
         }
 
-        public Breadcrumb SetChevron(LineAwesome icon)
+        public Breadcrumb SetChevron(UIcons icon)
         {
-            _chevronIcon = $"{icon}";
+            _chevronIcon = icon.ToString();
             return this;
         }
 

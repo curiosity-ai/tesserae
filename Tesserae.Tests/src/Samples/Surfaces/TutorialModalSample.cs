@@ -6,7 +6,7 @@ using static Tesserae.UI;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = "Surfaces", Order = 20, Icon = LineAwesome.Indent)]
+    [SampleDetails(Group = "Surfaces", Order = 20, Icon = UIcons.Indent)]
     public class TutorialModalSample : IComponent, ISample
     {
         private readonly IComponent _content;

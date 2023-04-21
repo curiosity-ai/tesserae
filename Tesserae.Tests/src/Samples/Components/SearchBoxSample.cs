@@ -5,7 +5,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = "Components", Order = 20, Icon = LineAwesome.Search)]
+    [SampleDetails(Group = "Components", Order = 20, Icon = UIcons.Search)]
     public class SearchBoxSample : IComponent, ISample
     {
         private readonly IComponent _content;

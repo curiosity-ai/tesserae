@@ -7,6 +7,6 @@ namespace Tesserae.Tests
     {
         public string      Group { get; set; }
         public int         Order { get; set; }
-        public LineAwesome Icon  { get; set; }
+        public UIcons      Icon  { get; set; }
     }
 }

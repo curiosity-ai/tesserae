@@ -7,7 +7,7 @@ using Tesserae.Tests;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = "Surfaces", Order = 10, Icon = LineAwesome.WindowMinimize)]
+    [SampleDetails(Group = "Surfaces", Order = 10, Icon = UIcons.WindowMinimize)]
     public class DialogSample : IComponent, ISample
     {
         private readonly IComponent _content;

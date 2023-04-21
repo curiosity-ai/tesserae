@@ -14,7 +14,7 @@ namespace Tesserae.Tests.Samples
                .Children(
                     TextBlock(text).XLarge().Bold(),
                     Raw().Grow(1),
-                    Button().SetIcon(LineAwesome.Code).SetTitle("View code for this sample").OnClick(() => ShowSampleCode(sampleType)));
+                    Button().SetIcon(UIcons.SquareTerminal).SetTitle("View code for this sample").OnClick(() => ShowSampleCode(sampleType)));
         }
 
         public static void ShowSampleCode(string sampleType)

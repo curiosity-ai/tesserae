@@ -10,7 +10,7 @@ using static Tesserae.UI;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = "Collections", Order = 20, Icon = LineAwesome.Table)]
+    [SampleDetails(Group = "Collections", Order = 20, Icon = UIcons.TableRows)]
     public class DetailsListSample : IComponent, ISample
     {
         private readonly IComponent _content;
@@ -82,7 +82,7 @@ namespace Tesserae.Tests.Samples
                                    .Medium()
                                    .PaddingBottom(16.px()),
                                 DetailsList<DetailsListSampleFileItem>(
-                                        IconColumn(Icon(LineAwesome.File), width: 32.px(), enableColumnSorting: true, sortingKey: "FileIcon"),
+                                        IconColumn(Icon(UIcons.File), width: 32.px(), enableColumnSorting: true, sortingKey: "FileIcon"),
                                         DetailsListColumn(title: "File Name", width: 350.px(), enableColumnSorting: true, sortingKey: "FileName", isRowHeader: true),
                                         DetailsListColumn(title: "Date Modified", width: 170.px(), enableColumnSorting: true, sortingKey: "DateModified"),
                                         DetailsListColumn(title: "Modified By", width: 150.px(), enableColumnSorting: true, sortingKey: "ModifiedBy"),
@@ -96,7 +96,7 @@ namespace Tesserae.Tests.Samples
                                    .Medium()
                                    .PaddingBottom(16.px()),
                                 DetailsList<DetailsListSampleFileItem>(
-                                        IconColumn(Icon(LineAwesome.File), width: 80.px(), enableColumnSorting: true, sortingKey: "FileIcon"),
+                                        IconColumn(Icon(UIcons.File), width: 80.px(), enableColumnSorting: true, sortingKey: "FileIcon"),
                                         DetailsListColumn(title: "File Name", width: 40.percent(), enableColumnSorting: true, sortingKey: "FileName", isRowHeader: true),
                                         DetailsListColumn(title: "Date Modified", width: 20.percent(), maxWidth: 150.px(), enableColumnSorting: true, sortingKey: "DateModified"),
                                         DetailsListColumn(title: "Modified By", width: 20.percent(), maxWidth: 150.px(), enableColumnSorting: true, sortingKey: "ModifiedBy"),
@@ -110,7 +110,7 @@ namespace Tesserae.Tests.Samples
                                    .Medium()
                                    .PaddingBottom(16.px()),
                                 DetailsList<DetailsListSampleItemWithComponents>(
-                                        IconColumn(Icon(LineAwesome.Apple), width: 32.px(), enableColumnSorting: true, sortingKey: "Icon"),
+                                        IconColumn(Icon(UIcons.AppleWhole), width: 32.px(), enableColumnSorting: true, sortingKey: "Icon"),
                                         DetailsListColumn(title: "CheckBox", width: 120.px()),
                                         DetailsListColumn(title: "Name", width: 250.px(), isRowHeader: true),
                                         DetailsListColumn(title: "Button", width: 150.px()),
@@ -126,7 +126,7 @@ namespace Tesserae.Tests.Samples
                                    .Medium()
                                    .PaddingBottom(16.px()),
                                 DetailsList<DetailsListSampleFileItem>(
-                                        IconColumn(Icon(LineAwesome.File), width: 32.px(), enableColumnSorting: true, sortingKey: "FileIcon"),
+                                        IconColumn(Icon(UIcons.File), width: 32.px(), enableColumnSorting: true, sortingKey: "FileIcon"),
                                         DetailsListColumn(title: "File Name", width: 350.px(), enableColumnSorting: true, sortingKey: "FileName", isRowHeader: true),
                                         DetailsListColumn(title: "Date Modified", width: 170.px(), enableColumnSorting: true, sortingKey: "DateModified"),
                                         DetailsListColumn(title: "Modified By", width: 150.px(), enableColumnSorting: true, sortingKey: "ModifiedBy"),
@@ -147,7 +147,7 @@ namespace Tesserae.Tests.Samples
                                    .Medium()
                                    .PaddingBottom(16.px()),
                                 DetailsList<DetailsListSampleFileItem>(
-                                        IconColumn(Icon(LineAwesome.File), width: 32.px(), enableColumnSorting: true, sortingKey: "FileIcon"),
+                                        IconColumn(Icon(UIcons.File), width: 32.px(), enableColumnSorting: true, sortingKey: "FileIcon"),
                                         DetailsListColumn(title: "File Name", width: 350.px(), enableColumnSorting: true, sortingKey: "FileName", isRowHeader: true),
                                         DetailsListColumn(title: "Date Modified", width: 170.px(), enableColumnSorting: true, sortingKey: "DateModified"),
                                         DetailsListColumn(title: "Modified By", width: 150.px(), enableColumnSorting: true, sortingKey: "ModifiedBy"),
@@ -177,20 +177,20 @@ namespace Tesserae.Tests.Samples
                .SelectMany(number => new List<DetailsListSampleFileItem>
                 {
                     new DetailsListSampleFileItem(
-                        fileIcon: LineAwesome.FileWord,
+                        fileIcon: UIcons.FileWord,
                         fileName: $"Interesting File Name {number}, quite long as you can see. In fact, let's make it " +
                                   "longer to see how the padding looks.",
                         dateModified: DateTime.Today.AddDays(-number),
                         modifiedBy: "Dale Cooper",
                         fileSize: number + 0.7),
                     new DetailsListSampleFileItem(
-                        fileIcon: LineAwesome.FileExcel,
+                        fileIcon: UIcons.FileExcel,
                         fileName: $"File Name {number}",
                         dateModified: DateTime.Today.AddDays(-number),
                         modifiedBy: "Rusty",
                         fileSize: number + 0.1),
                     new DetailsListSampleFileItem(
-                        fileIcon: LineAwesome.FilePowerpoint,
+                        fileIcon: UIcons.FilePowerpoint,
                         fileName: $"File Name {number}",
                         dateModified: DateTime.Today.AddDays(-number),
                         modifiedBy: "Cole",
@@ -205,7 +205,7 @@ namespace Tesserae.Tests.Samples
                .SelectMany(number => new List<DetailsListSampleItemWithComponents>
                 {
                     new DetailsListSampleItemWithComponents()
-                       .WithIcon(LineAwesome.Code)
+                       .WithIcon(UIcons.SquareTerminal)
                        .WithCheckBox(
                             CheckBox("CheckBox"))
                        .WithName("Component Details List Item")
@@ -245,7 +245,7 @@ namespace Tesserae.Tests.Samples
 
     public class DetailsListSampleFileItem : IDetailsListItem<DetailsListSampleFileItem>
     {
-        public DetailsListSampleFileItem(LineAwesome fileIcon, string fileName, DateTime dateModified, string modifiedBy, double fileSize)
+        public DetailsListSampleFileItem(UIcons fileIcon, string fileName, DateTime dateModified, string modifiedBy, double fileSize)
         {
             FileIcon = fileIcon;
             FileName = fileName;
@@ -254,7 +254,7 @@ namespace Tesserae.Tests.Samples
             FileSize = fileSize;
         }
 
-        public LineAwesome FileIcon { get; }
+        public UIcons FileIcon { get; }
 
         public string FileName { get; }
 
@@ -318,7 +318,7 @@ namespace Tesserae.Tests.Samples
 
     public class DetailsListSampleItemWithComponents : IDetailsListItem<DetailsListSampleItemWithComponents>
     {
-        public LineAwesome Icon { get; private set; }
+        public UIcons Icon { get; private set; }
 
         public CheckBox CheckBox { get; private set; }
 
@@ -343,7 +343,7 @@ namespace Tesserae.Tests.Samples
             return 0;
         }
 
-        public DetailsListSampleItemWithComponents WithIcon(LineAwesome icon)
+        public DetailsListSampleItemWithComponents WithIcon(UIcons icon)
         {
             Icon = icon;
             return this;

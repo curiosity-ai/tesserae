@@ -7,7 +7,7 @@ using Tesserae.Tests;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = "Progress", Order = 10, Icon = LineAwesome.Barcode)]
+    [SampleDetails(Group = "Progress", Order = 10, Icon = UIcons.Barcode)]
     public class ProgressIndicatorSample : IComponent, ISample
     {
         private readonly IComponent _content;

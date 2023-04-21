@@ -9,7 +9,7 @@ namespace Tesserae
         private readonly Button         _button;
         private          Action<Button> _tooltip;
 
-        public SidebarBadge(string badge, LineAwesome badgeIcon, TextSize iconSize = TextSize.Tiny)
+        public SidebarBadge(string badge, UIcons badgeIcon, TextSize iconSize = TextSize.Tiny)
         {
             _button = Button().Class("tss-sidebar-command").Class("tss-sidebar-badge");
 
@@ -125,7 +125,7 @@ namespace Tesserae
             return this;
         }
 
-        public SidebarBadge SetIcon(LineAwesome icon, string color = "", LineAwesomeWeight weight = LineAwesomeWeight.Light)
+        public SidebarBadge SetIcon(UIcons icon, string color = "", UIconsWeight weight = UIconsWeight.Regular)
         {
             _button.SetIcon(icon, color, weight: weight);
             return this;

@@ -346,7 +346,7 @@ namespace Tesserae
             return el;
         }
 
-        public static T Tooltip<T>(this T component, string tooltipHtml, TooltipAnimation animation = TooltipAnimation.None, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 0, int delayHide = 0, bool followCursor = false, int maxWidth = 350, bool arrow = false) where T : IComponent
+        public static T Tooltip<T>(this T component, string tooltipHtml, TooltipAnimation animation = TooltipAnimation.None, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 250, int delayHide = 0, bool followCursor = false, int maxWidth = 350, bool arrow = false, IComponent parent = null) where T : IComponent
         {
             if (string.IsNullOrWhiteSpace(tooltipHtml))
                 return component;
@@ -359,7 +359,8 @@ namespace Tesserae
                 delayHide: delayHide,
                 followCursor: followCursor,
                 maxWidth : maxWidth,
-                arrow: arrow
+                arrow: arrow,
+                parent: parent
             );
         }
 
@@ -377,7 +378,7 @@ namespace Tesserae
             return component;
         }
         
-        public static T Tooltip<T>(this T component, IComponent tooltip, bool interactive = false, TooltipAnimation animation = TooltipAnimation.None, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 0, int delayHide = 0, bool appendToBody = true, bool followCursor = false, int maxWidth = 350, bool hideOnClick = true, bool arrow = false) where T : IComponent
+        public static T Tooltip<T>(this T component, IComponent tooltip, bool interactive = false, TooltipAnimation animation = TooltipAnimation.None, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 250, int delayHide = 0, bool appendToBody = true, bool followCursor = false, int maxWidth = 350, bool hideOnClick = true, bool arrow = false, IComponent parent = null) where T : IComponent
         {
             if (tooltip is null)
                 return component;
@@ -418,10 +419,13 @@ namespace Tesserae
                 }
 
                 H5.Script.Write("{0}._tippy.show();", element); //Shows it imediatelly, as the mouse is hovering the element
+                
                 var currentTippy = H5.Script.Write<object>("{0}._tippy", element);
 
                 // 2020-10-05 DWR: Sometimes a tooltip will be attached to an element that is removed from the DOM and then the tooltip is left hanging, orphaned. 
-                component.WhenRemoved(() =>
+                if (parent is null) parent = component;
+
+                parent.WhenRemoved(() =>
                     {
                     // 2020-10-05 DWR: I presume that have to check this property before trying to kill it in case it's already been tidied up
                     if (element.HasOwnProperty("_tippy"))
@@ -451,6 +455,13 @@ namespace Tesserae
                 return component;
             }
         }
+
+        public static T Style<T>(this T component, Action<CSSStyleDeclaration> style) where T : IComponent
+        {
+            style(component.Render().style);
+            return component;
+        }
+
 
         public static T SkipTab<T>(this T component) where T : IComponent => TabIndex(component, -1);
 

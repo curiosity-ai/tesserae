@@ -8,10 +8,10 @@ namespace Tesserae.Tests
         public string           Name             { get; }
         public string           Group            { get; }
         public int              Order            { get; }
-        public LineAwesome      Icon             { get; }
+        public UIcons      Icon             { get; }
         public Func<IComponent> ContentGenerator { get; }
 
-        public Sample(string type, string name, string group, int order, LineAwesome icon, Func<IComponent> contentGenerator)
+        public Sample(string type, string name, string group, int order, UIcons icon, Func<IComponent> contentGenerator)
         {
             Type = type;
             Name = name;

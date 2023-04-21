@@ -124,7 +124,7 @@ namespace Tesserae
                     throw new InvalidOperationException("Sub menus of submenus currently not supported");
                 }
 
-                InnerElement.appendChild(I(_("las la-angle-right tss-contextmenu-submenu-button-icon")));
+                InnerElement.appendChild(I(_($"{UIcons.AngleRight} tss-contextmenu-submenu-button-icon")));
                 return this;
             }
 

@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Tesserae.Tests.src.Samples.Collections
 {
-    [SampleDetails(Group = "Collections", Order = 0, Icon = LineAwesome.Table)]
+    [SampleDetails(Group = "Collections", Order = 0, Icon = UIcons.Grid)]
     public class MasonrySample : IComponent, ISample
     {
         private readonly IComponent _content;

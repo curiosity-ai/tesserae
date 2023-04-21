@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = "Surfaces", Order = 20, Icon = LineAwesome.SimCard)]
+    [SampleDetails(Group = "Surfaces", Order = 20, Icon = UIcons.TableLayout)]
     public class PivotSample : IComponent, ISample
     {
         private readonly IComponent content;

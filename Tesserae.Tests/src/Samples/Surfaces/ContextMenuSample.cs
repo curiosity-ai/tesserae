@@ -5,7 +5,7 @@ using Tesserae.Tests;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = "Surfaces", Order = 20, Icon = LineAwesome.Bars)]
+    [SampleDetails(Group = "Surfaces", Order = 20, Icon = UIcons.AppsAdd)]
     public class ContextMenuSample : IComponent, ISample
     {
         private readonly IComponent _content;
@@ -41,8 +41,8 @@ namespace Tesserae.Tests.Samples
                     {
                         Toast().Information("Clicked: All");
                     }),
-                ContextMenuItem(Button("Edit").Compact().Link().SetIcon(LineAwesome.Edit)).OnClick((s2, e2) => Toast().Information("Clicked: Edit")),
-                ContextMenuItem(Button("Properties").Compact().Link().SetIcon(LineAwesome.ExpandArrowsAlt)).SubMenu(cmsub2),
+                ContextMenuItem(Button("Edit").Compact().Link().SetIcon(UIcons.Edit)).OnClick((s2, e2) => Toast().Information("Clicked: Edit")),
+                ContextMenuItem(Button("Properties").Compact().Link().SetIcon(UIcons.ExpandArrowsAlt)).SubMenu(cmsub2),
                 ContextMenuItem("Header").Header(),
                 ContextMenuItem("Disabled").Disabled(),
                 ContextMenuItem("Link").OnClick((s2, e2) => Toast().Information("Clicked: Link"))

@@ -6,7 +6,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = "Components", Order = 0, Icon = LineAwesome.MousePointer)]
+    [SampleDetails(Group = "Components", Order = 0, Icon = UIcons.Cursor)]
     public class ButtonSample : IComponent, ISample
     {
         private readonly IComponent _content;
@@ -74,12 +74,12 @@ namespace Tesserae.Tests.Samples
                             {
                                 await Task.Delay(1000);
                                 throw new Exception("Error!");
-                            }, onError: (b, e) => spinBtn3.SetText("Failed: " + e.Message).SetIcon(LineAwesome.ExclamationTriangle).DangerLink()),
+                            }, onError: (b, e) => spinBtn3.SetText("Failed: " + e.Message).SetIcon(UIcons.TriangleWarning).DangerLink()),
                             Button().Var(out var spinBtn4).SetText("Spin with text & Error").OnClickSpinWhile(async () =>
                             {
                                 await Task.Delay(1000);
                                 throw new Exception("Error!");
-                            }, "loading...", onError: (b, e) => spinBtn4.SetText("Failed: " + e.Message).SetIcon(LineAwesome.ExclamationTriangle).DangerLink())
+                            }, "loading...", onError: (b, e) => spinBtn4.SetText("Failed: " + e.Message).SetIcon(UIcons.TriangleWarning).DangerLink())
                         ),
                         Toggle("Disable buttons").Checked().OnChange((s, e) =>
                         {

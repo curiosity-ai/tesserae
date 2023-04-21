@@ -66,7 +66,7 @@ namespace Tesserae
             _textBox = TextBox().ReadOnly().Grow(1).AlignCenter();
             _stack = Stack().Horizontal().WidthStretch()
                             .Children(_textBox,
-                                      Button().SetTitle("Click to select file...").NoWrap().SetIcon("las la-folder-open").OnClick((s,e) => _fileInput.click()).NoBorder().NoBackground(),
+                                      Button().SetTitle("Click to select file...").NoWrap().SetIcon(UIcons.Folder).OnClick((s,e) => _fileInput.click()).NoBorder().NoBackground(),
                                       Raw(_fileInput));
 
             _fileInput.onchange = _ => updateFile();

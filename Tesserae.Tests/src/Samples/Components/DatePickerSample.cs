@@ -5,7 +5,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = "Components", Order = 10, Icon = LineAwesome.Calendar)]
+    [SampleDetails(Group = "Components", Order = 10, Icon = UIcons.Calendar)]
     public class DatePickerSample : IComponent, ISample
     {
         private readonly IComponent _content;

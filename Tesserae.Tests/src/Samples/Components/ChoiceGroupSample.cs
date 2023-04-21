@@ -5,7 +5,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = "Components", Order = 0, Icon = LineAwesome.DotCircle)]
+    [SampleDetails(Group = "Components", Order = 0, Icon = UIcons.List)]
     public class ChoiceGroupSample : IComponent, ISample
     {
         private readonly IComponent _content;

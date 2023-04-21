@@ -4,7 +4,7 @@ using static Tesserae.UI;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = "Components", Order = 10, Icon = LineAwesome.Palette)]
+    [SampleDetails(Group = "Components", Order = 10, Icon = UIcons.Palette)]
     public class ColorPickerSample : IComponent, ISample
     {
         private readonly IComponent _content;

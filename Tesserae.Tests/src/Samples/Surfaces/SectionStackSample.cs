@@ -7,7 +7,7 @@ using Tesserae.Tests;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = "Surfaces", Order = 20, Icon = LineAwesome.BorderAll)]
+    [SampleDetails(Group = "Surfaces", Order = 20, Icon = UIcons.BorderAll)]
     public class SectionStackSample : IComponent, ISample
     {
         private readonly IComponent _content;

@@ -9,7 +9,7 @@ using Tesserae.Tests;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = "Progress", Order = 20, Icon = LineAwesome.WindowMaximize)]
+    [SampleDetails(Group = "Progress", Order = 20, Icon = UIcons.WindowMaximize)]
     public class ProgressModalSample : IComponent, ISample
     {
         private readonly IComponent _content;

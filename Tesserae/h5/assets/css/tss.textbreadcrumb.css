@@ -157,16 +157,18 @@
 }
 
     .tss-textbreadcrumb-sep i {
-        font-style: unset;
-        font-family: 'Line Awesome Free';
-        font-weight: 900 !important;
+        font-family: uicons-regular-rounded !important;
+        font-style: normal;
+        font-weight: normal !important;
+        font-variant: normal;
+        text-transform: none;
         line-height: inherit;
         height: inherit;
         font-size: inherit;
         color: inherit;
     }
 
-.tss-textbreadcrumb-sep i:before {
-    content: "\f105";
-    transition: transform ease-in-out 0.2s;
-}
+        .tss-textbreadcrumb-sep i:before {
+            content: "\f12d";
+            transition: transform ease-in-out 0.2s;
+        }

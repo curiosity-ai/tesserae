@@ -9,7 +9,7 @@ namespace Tesserae
     [H5.Name("tss.OverflowSet")]
     public class OverflowSet : IComponent, IContainer<Breadcrumb, IComponent>
     {
-        private readonly string _expandIcon = "la-chevron-down";
+        private readonly string _expandIcon = UIcons.ArrowDown.ToString();
         private readonly HTMLElement _childContainer;
         private readonly ResizeObserver _resizeObserver;
         private int _maximumItemsToDisplay = 10;

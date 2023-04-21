@@ -112,7 +112,7 @@ namespace Tesserae
 
         public ProgressModal WithCancel(Action<Button> onCancel, Action<Button> btnCancel = null)
         {
-            var button = Button().SetText("Cancel").SetIcon(LineAwesome.Times).Danger();
+            var button = Button().SetText("Cancel").SetIcon(UIcons.Cross).Danger();
             btnCancel?.Invoke(button);
             button.OnClick((b, __) => onCancel(b));
             _footerHost.PaddingTop(16.px()).Content(button.AlignCenter());

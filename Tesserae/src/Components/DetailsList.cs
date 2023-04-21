@@ -21,7 +21,7 @@ namespace Tesserae
         private HTMLDivElement _listItemsContainer;
 
         private string           _previousColumnSortingKey;
-        private LineAwesome      _currentLineAwesomeSortingIcon;
+        private UIcons           _currentSortingIcon;
         private HTMLElement      _columnSortingIcon;
         private Func<IComponent> _emptyListMessageGenerator;
 
@@ -45,7 +45,7 @@ namespace Tesserae
 
             _container = Div(_("tss-detailslist-container"), _listContainer);
             _previousColumnSortingKey = string.Empty;
-            _currentLineAwesomeSortingIcon = LineAwesome.ArrowUp;
+            _currentSortingIcon = UIcons.ArrowUp;
         }
 
         public HTMLElement StylingContainer => _container;
@@ -267,7 +267,7 @@ namespace Tesserae
 
         private void CreateColumnSortingIcon()
         {
-            _columnSortingIcon = I(_currentLineAwesomeSortingIcon, cssClass: "tss-detailslist-column-header-sorting-icon");
+            _columnSortingIcon = I(_currentSortingIcon, cssClass: "tss-detailslist-column-header-sorting-icon");
         }
 
         private HTMLElement CreateListItem((int Key, TDetailsListItem DetailsListItem) detailsListItemAndKey)
@@ -300,7 +300,7 @@ namespace Tesserae
                 if (_previousColumnSortingKey.Equals(columnSortingKey))
                 {
                     _componentCache.ReverseComponentOrder();
-                    UpdateColumnSortingIcon(columnHtmlElement, InvertLineAwesomeColumnSortingIcon);
+                    UpdateColumnSortingIcon(columnHtmlElement, InvertSortingIcon);
                 }
                 else
                 {
@@ -310,7 +310,7 @@ namespace Tesserae
                     {
                         UpdateColumnSortingIcon(columnHtmlElement, () =>
                         {
-                            _currentLineAwesomeSortingIcon = LineAwesome.ArrowUp;
+                            _currentSortingIcon = UIcons.ArrowUp;
                         });
                     }
                 }
@@ -329,15 +329,15 @@ namespace Tesserae
 
         private void SortListItems(string columnSortingKey) => _componentCache.SortComponents((detailsListItem, detailsListItemOther) => detailsListItem.CompareTo(detailsListItemOther, columnSortingKey));
 
-        private void InvertLineAwesomeColumnSortingIcon()
+        private void InvertSortingIcon()
         {
-            _currentLineAwesomeSortingIcon = _currentLineAwesomeSortingIcon == LineAwesome.ArrowUp ? LineAwesome.ArrowDown : LineAwesome.ArrowUp;
+            _currentSortingIcon = _currentSortingIcon == UIcons.ArrowUp ? UIcons.ArrowDown : UIcons.ArrowUp;
         }
 
-        private void UpdateColumnSortingIcon(Interface htmlElement, Action setLineAwesomeIconExpression)
+        private void UpdateColumnSortingIcon(Interface htmlElement, Action setIconExpression)
         {
             _columnSortingIcon.remove();
-            setLineAwesomeIconExpression();
+            setIconExpression();
             CreateColumnSortingIcon();
             htmlElement.parentElement.appendChild(_columnSortingIcon);
         }

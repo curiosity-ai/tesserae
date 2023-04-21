@@ -5,7 +5,7 @@ using static Tesserae.UI;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = "Utilities", Order = 0, Icon = LineAwesome.Check)]
+    [SampleDetails(Group = "Utilities", Order = 0, Icon = UIcons.Check)]
     public class ValidatorSample : IComponent, ISample
     {
         private readonly IComponent content;
