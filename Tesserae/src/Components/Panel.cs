@@ -26,7 +26,7 @@ namespace Tesserae
         {
             _panelTitle = Div(_("tss-panel-title"));
 
-            _closeButton = Button(_($"tss-panel-command-button {UIcons.Cross}", el: el => el.onclick = (e) => Hide()));
+            _closeButton = Button(_($"tss-panel-command-button", el: el => el.onclick = (e) => Hide()), I(_("tss-fontsize-small " + UIcons.Cross.ToString())));
             _panelCommand = Div(_("tss-panel-command"), _panelTitle, _closeButton);
             _panelContent = Div(_("tss-panel-content"));
             _panelFooter = Div(_("tss-panel-footer"));
