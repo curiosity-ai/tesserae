@@ -47,8 +47,10 @@
 
 .tss-textbox-container {
     position: relative;
-    margin-bottom: 4px;
 }
+    .tss-textbox-container.tss-invalid {
+        margin-bottom: 4px;
+    }
 
     .tss-textbox-container.tss-invalid .tss-textbox {
         border-color: var(--tss-invalid-border-color);
