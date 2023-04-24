@@ -60,19 +60,20 @@
     .tss-toggle-container input:checked ~ .tss-toggle-mark:after {
         background-color: var(--tss-primary-foreground-color);
         left: unset;
-        right: 3px;
+        transform: translate(24px, 0);
     }
 
     .tss-toggle-container .tss-toggle-mark:after {
         content: "";
         position: absolute;
         display: inline-block;
-        top: 3px;
+        top: 3.5px;
         left: 3px;
         width: 12px;
         height: 12px;
         border-radius: 50%;
         background-color: var(--tss-default-foreground-color);
+        transition: transform ease-in-out 0.25s;
     }
 
     .tss-toggle-container.tss-disabled {

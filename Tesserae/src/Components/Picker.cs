@@ -247,7 +247,7 @@ namespace Tesserae
             var selectionComponent = selectedItem.Render();
             var removeButton = Button()
                                 .Link()
-                                .SetIcon(UIcons.Cross, color: "var(--tss-default-foreground-color)")
+                                .SetIcon(UIcons.Cross, size: TextSize.Tiny, color: "var(--tss-default-foreground-color)")
                                 .OnClick((_,__) =>
                                 {
                                     UpdateSelection(selectedItem, false);
