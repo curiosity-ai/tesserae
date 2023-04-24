@@ -21,15 +21,15 @@ namespace Tesserae
         public Label(string text = string.Empty)
         {
             _label = Label(_("tss-fontsize-small tss-fontweight-semibold tss-fontcolor-default", text: text));
-            _content = Div(_());
-            InnerElement = Div(_("tss-label"), _label, _content);
+            _content = Div(_("tss-label-content"));
+            InnerElement = Div(_("tss-label tss-default-component-margin"), _label, _content);
         }
 
         public Label(IComponent component)
         {
             _label = Label(_("tss-fontsize-small tss-fontweight-semibold tss-fontcolor-default"), component.Render());
-            _content = Div(_());
-            InnerElement = Div(_("tss-label"), _label, _content);
+            _content = Div(_("tss-label-content"));
+            InnerElement = Div(_("tss-label tss-default-component-margin"), _label, _content);
         }
 
         public override bool IsRequired

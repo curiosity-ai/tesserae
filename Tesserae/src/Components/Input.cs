@@ -17,7 +17,7 @@ namespace Tesserae
             
 
             _errorSpan = Span(_("tss-textbox-error"));
-            _container = Div(_("tss-textbox-container"), InnerElement, _errorSpan);
+            _container = Div(_("tss-textbox-container tss-default-component-margin"), InnerElement, _errorSpan);
 
             AttachChange();
             AttachInput();
