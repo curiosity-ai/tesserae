@@ -39,7 +39,7 @@
     box-shadow: none;
     margin: 0px;
     border: 1px solid var(--tss-default-border-color);
-    border-radius: 2px;
+    border-radius: 4px;
     background: var(--tss-default-background-color) none repeat scroll 0% 0%;
     color: var(--tss-default-foreground-color);
     cursor: text;
