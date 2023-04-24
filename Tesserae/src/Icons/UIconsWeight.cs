@@ -6,13 +6,13 @@ namespace Tesserae
     [H5.Name("tss.uiconweight")]
     public enum UIconsWeight
     {
-        [Name("ff-rr-")]
+        [Name("fi-rr-")]
         Regular,
         
-        [Name("ff-sr-")]
+        [Name("fi-sr-")]
         Solid,
         
-        [Name("ff-br-")]
+        [Name("fi-br-")]
         Bold
     }
 }
