@@ -24,8 +24,8 @@
     }
 
 .tss-filedroparea {
-    border: 2px dashed var(--tss-primary-border-color);
-    border-radius: 12px;
+    border: 2px dashed var(--tss-dark-border-color);
+    border-radius: 8px;
     background: var(--tss-default-background-color);
     height: 100%;
     width: 100%;
@@ -54,11 +54,12 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    color: var(--tss-dark-border-color);
 }
 
 
 .tss-filedroparea-icon {
-    color: var(--tss-primary-background-color);
+    color: var(--tss-dark-border-color);
     transition: transform 0.3s ease-in-out;
     transform: translateY(0);
     padding-bottom: 20px;

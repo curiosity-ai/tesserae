@@ -61,7 +61,7 @@ namespace Tesserae
             var dropArea = Div(_("tss-filedroparea"));
             dropArea.appendChild(_fileInput);
 
-            _raw = Raw(Div(_("tss-filedroparea-message"), I(_($"{UIcons.Upload} tss-filedroparea-icon")), TextBlock("Drop files here or click to upload").SemiBold().Medium().Primary().Render()));
+            _raw = Raw(Div(_("tss-filedroparea-message"), I(_($"{UIcons.Upload} tss-filedroparea-icon")), TextBlock("Drop files here or click to upload").SemiBold().Primary().Render()));
 
             dropArea.appendChild(_raw.Render());
             dropArea.onclick = (e) => { _fileInput.click(); };
