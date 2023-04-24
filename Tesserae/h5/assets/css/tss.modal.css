@@ -245,5 +245,4 @@
     box-shadow: var(--tss-card-shadow);
     max-width: calc(100% - 4px);
     max-height: calc(100% - 4px);
-    margin-bottom: 4px;
 }
