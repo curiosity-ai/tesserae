@@ -286,6 +286,9 @@
     border-width: 0px !important;
     padding: 0px;
     margin: 0px;
+    display: inline-flex;
+    text-overflow: ellipsis;
+    width:100%;
 }
 
 .tss-dropdown .tss-dropdown-item-on-box:not(:first-child) {
@@ -295,16 +298,4 @@
 .tss-dropdown .tss-dropdown-item-on-box:not(:first-child)::before {
     content:',';
     padding-right:6px;
-}
-
-.tss-dropdown-item-on-box {
-    min-width: unset;
-    background: transparent;
-    border: none;
-    border-width: 0px !important;
-    padding: 0px;
-    margin: 0px;
-    display: inline-flex;
-    white-space: nowrap;
-    text-overflow: ellipsis;
 }
