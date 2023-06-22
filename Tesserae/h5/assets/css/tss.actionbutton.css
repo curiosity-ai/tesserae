@@ -1,0 +1,125 @@
+/* ActionButton */
+
+.tss-actionbutton-container {
+    background-color: transparent;
+    min-height: 32px;
+    display: flex;
+    min-width: 100px;
+    align-items: unset;
+    justify-content: unset;
+    line-height: normal;
+    border: 1px solid transparent;
+    border-radius: 2px;
+    outline: transparent none medium;
+    -webkit-user-select: none;
+    user-select: none;
+    cursor: pointer;
+}
+
+.tss-actionbutton-container:hover {
+}
+
+.tss-actionbutton-container > .tss-actionbutton-actionbtn {
+    border-radius: 0px 2px 2px 0px
+}
+
+.tss-actionbutton-container > .tss-actionbutton-displaybutton {
+    border-radius: 2px 0px 0px 2px;
+}
+
+.tss-actionbutton-container > .tss-actionbutton-actionbtn:hover {
+    background: var(--tss-default-background-hover-color);
+}
+
+.tss-actionbutton-container > .tss-actionbutton-actionbtn {
+    padding: 0px;
+    margin: 0px;
+    width: 32px;
+    border: none;
+    min-width: unset;
+    box-shadow: none;
+    background: none;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    justify-content: center;
+}
+
+.tss-actionbutton-container > .tss-actionbutton-displaybutton {
+    padding: 0px 8px 0px 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tss-actionbutton-container > {
+    border: none;
+    margin: 0px;
+    height: 103%;
+    text-align: left;
+    flex-grow: 1;
+    box-shadow: none;
+    justify-content: flex-start;
+}
+
+.tss-actionbutton-container > .tss-actionbutton-displaybutton:hover {
+    background: var(--tss-default-background-hover-color);
+}
+
+.tss-actionbutton-container > .tss-btn-primary {
+    color: var(--tss-primary-foreground-color);
+    background-color: var(--tss-primary-background-color);
+    border-color: var(--tss-primary-border-color);
+}
+
+.tss-actionbutton-container > .tss-btn-primary .tss-fontcolor-default {
+    color: var(--tss-primary-foreground-color);
+}
+
+.tss-actionbutton-container > .tss-btn-primary:hover {
+    color: var(--tss-primary-foreground-hover-color);
+    background-color: var(--tss-primary-background-hover-color);
+}
+
+.tss-actionbutton-container > .tss-btn-primary:hover .tss-fontcolor-default {
+    color: var(--tss-primary-foreground-hover-color);
+}
+
+.tss-actionbutton-container > .tss-btn-primary:active {
+    color: var(--tss-primary-foreground-active-color);
+    background-color: var(--tss-primary-background-active-color);
+}
+
+.tss-actionbutton-container > .tss-btn-primary:active .tss-fontcolor-default {
+    color: var(--tss-primary-foreground-active-color);
+}
+
+.tss-actionbutton-container > .tss-btn-danger {
+    color: var(--tss-danger-foreground-color);
+    background-color: var(--tss-danger-background-color);
+    border-color: var(--tss-danger-border-color);
+}
+
+.tss-actionbutton-container > .tss-btn-danger .tss-fontcolor-default {
+    color: var(--tss-danger-foreground-color);
+}
+
+.tss-actionbutton-container > .tss-btn-danger:hover {
+    color: var(--tss-danger-foreground-hover-color);
+    background-color: var(--tss-danger-background-hover-color);
+}
+
+.tss-actionbutton-container > .tss-btn-danger:hover .tss-fontcolor-default {
+    color: var(--tss-danger-foreground-hover-color);
+}
+
+.tss-actionbutton-container > .tss-btn-danger:active {
+    color: var(--tss-danger-foreground-active-color);
+    background-color: var(--tss-danger-background-active-color);
+}
+
+.tss-actionbutton-container > .tss-btn-danger:active .tss-fontcolor-default {
+    color: var(--tss-danger-foreground-active-color);
+}
+
+/* /ActionButton */

@@ -192,6 +192,9 @@ namespace Tesserae
 
         public static Button Button(string text = string.Empty) => new Button(text);
 
+        public static ActionButton ActionButton(IComponent contnent = null, UIcons  actionIcon  = UIcons.AngleCircleDown, string color      = null)                                        => new ActionButton(contnent, null, null, actionIcon, color);
+        public static ActionButton ActionButton(string     textContent,     UIcons? displayIcon = null,                   UIcons actionIcon = UIcons.AngleCircleDown, string color = null) => new ActionButton(null, textContent, displayIcon, actionIcon, color);
+
         public static CheckBox CheckBox(string text = string.Empty) => new CheckBox(text);
 
         public static Toggle Toggle(IComponent onText, IComponent offText) => new Toggle(onText: onText, offText: offText);
