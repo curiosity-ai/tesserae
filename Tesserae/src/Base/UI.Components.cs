@@ -8,6 +8,9 @@ namespace Tesserae
     [H5.Name("tss.UI")]
     public static partial class UI
     {
+        static UI()
+        {
+        }
         /// <summary>
         /// Helper method to capture the current component inline on it's definition, as an out variable
         /// </summary>
@@ -192,8 +195,10 @@ namespace Tesserae
 
         public static Button Button(string text = string.Empty) => new Button(text);
 
-        public static ActionButton ActionButton(IComponent contnent = null, UIcons  actionIcon  = UIcons.AngleCircleDown, string color      = null)                                        => new ActionButton(contnent, null, null, actionIcon, color);
-        public static ActionButton ActionButton(string     textContent,     UIcons? displayIcon = null,                   UIcons actionIcon = UIcons.AngleCircleDown, string color = null) => new ActionButton(null, textContent, displayIcon, actionIcon, color);
+        public static ActionButton ActionButton(string     textContent, UIcons displayIcon,                         UIconsWeight displayIconWeight = UIconsWeight.Regular, string   displayColor   = null,                   TextSize displayIconSize = TextSize.Small, UIconsWeight actionIconWeight = UIconsWeight.Regular, UIcons actionIcon = UIcons.AngleCircleDown, string actionColor = null, TextSize actionIconSize = TextSize.Small) => new ActionButton(textContent, displayIcon, displayIconWeight, displayColor, displayIconSize, actionIconWeight, actionIcon, actionColor, actionIconSize);
+        public static ActionButton ActionButton(string     textContent, string displayIcon,                         UIconsWeight actionIconWeight  = UIconsWeight.Regular, UIcons   actionIcon     = UIcons.AngleCircleDown, string   actionColor     = null,           TextSize     actionIconSize   = TextSize.Small) => new ActionButton(textContent, displayIcon, actionIconWeight, actionIcon, actionColor, actionIconSize);
+        public static ActionButton ActionButton(string     textContent, UIcons actionIcon = UIcons.AngleCircleDown, UIconsWeight actionIconWeight  = UIconsWeight.Regular, string   actionColor    = null,                   TextSize actionIconSize  = TextSize.Small) => new ActionButton(textContent, actionIcon, actionIconWeight, actionColor, actionIconSize);
+        public static ActionButton ActionButton(IComponent contnent,    string actionIcon = null,                   string       actionColor       = null,                 TextSize actionIconSize = TextSize.Small) => new ActionButton(contnent, actionIcon, actionColor, actionIconSize);
 
         public static CheckBox CheckBox(string text = string.Empty) => new CheckBox(text);
 

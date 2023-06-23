@@ -22,37 +22,70 @@ namespace Tesserae
         protected event ActionButtonEventHandler<HTMLButtonElement, MouseEvent> ClickedAction;
         protected event ActionButtonEventHandler<HTMLButtonElement, MouseEvent> ContextMenuAction;
 
-        public ActionButton(IComponent contnent = null, string textContent = null, UIcons? display = null, UIcons actionIcon = UIcons.AngleCircleDown, string actionColor = null)
+        public ActionButton(
+            string       textContent,
+            UIcons       displayIcon,
+            UIconsWeight displayIconWeight = UIconsWeight.Regular,
+            string       displayColor      = null,
+            TextSize     displayIconSize   = TextSize.Small,
+            UIconsWeight actionIconWeight  = UIconsWeight.Regular,
+            UIcons       actionIcon        = UIcons.AngleCircleDown,
+            string       actionColor       = null,
+            TextSize     actionIconSize    = TextSize.Small)
+            : this(HStack().Children(Icon(displayIcon, displayIconWeight, displayIconSize, displayColor), TextBlock(textContent).PL(8)),
+                Icon.Transform(actionIcon, actionIconWeight),
+                actionColor,
+                actionIconSize)
         {
-            if (contnent is object)
-            {
-                _content = contnent;
-            }
-            else
-            {
-                if (display.HasValue)
-                {
-                    _content = HStack().Children(Icon(display.Value), TextBlock(textContent).PL(8));
-                }
-                else
-                {
-                    _content = TextBlock(textContent);
-                }
-            }
+        }
+
+        public ActionButton(
+            string       textContent,
+            string       displayIcon,
+            UIconsWeight actionIconWeight = UIconsWeight.Regular,
+            UIcons       actionIcon       = UIcons.AngleCircleDown,
+            string       actionColor      = null,
+            TextSize     actionIconSize   = TextSize.Small)
+            : this(HStack().Children(Icon(displayIcon), TextBlock(textContent).PL(8)),
+                Icon.Transform(actionIcon, actionIconWeight),
+                actionColor,
+                actionIconSize)
+        {
+        }
+
+        public ActionButton(
+            string       textContent,
+            UIcons       actionIcon       = UIcons.AngleCircleDown,
+            UIconsWeight actionIconWeight = UIconsWeight.Regular,
+            string       actionColor      = null,
+            TextSize     actionIconSize   = TextSize.Small)
+            : this(TextBlock(textContent),
+                Icon.Transform(actionIcon, actionIconWeight),
+                actionColor,
+                actionIconSize)
+        {
+        }
+
+        public ActionButton(
+            IComponent contnent,
+            string     actionIcon     = null,
+            string     actionColor    = null,
+            TextSize   actionIconSize = TextSize.Small)
+        {
+            if (string.IsNullOrWhiteSpace(actionIcon)) actionIcon = Icon.Transform(UIcons.AngleCircleDown, UIconsWeight.Regular);
+
+            _content = contnent;
 
             DisplayButton = Div(_("tss-actionbutton-displaybutton"), _content.Render());
 
-            var weight = UIconsWeight.Regular;
-            var size = TextSize.Small;
-            var iStr = Icon.Transform(actionIcon, weight);
-            _iconSpan = I(_("tss-icon " + iStr + " " + size));
+            _iconSpan = I(_("tss-icon " + actionIcon + " " + actionIconSize));
 
             if (actionColor is object)
             {
                 _iconSpan.SetStyle(s => s.color = actionColor);
             }
 
-            _iconSpan.dataset["icon"] = iStr;
+            _iconSpan.dataset["icon"] = actionIcon;
 
             ActionBtn = Button(_("tss-btn-remove-padding tss-actionbutton-actionbtn"), _iconSpan);
             Container = Div(_("tss-actionbutton-container tss-default-component-margin"), DisplayButton, ActionBtn);

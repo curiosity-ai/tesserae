@@ -46,7 +46,7 @@
 }
 
 .tss-actionbutton-container > .tss-actionbutton-displaybutton {
-    padding: 0px 8px 0px 8px;
+    padding: 4px 16px 4px 16px;
     display: inline-flex;
     align-items: center;
     justify-content: center;

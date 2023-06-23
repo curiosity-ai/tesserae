@@ -53,16 +53,16 @@ namespace Tesserae.Tests.Samples
                         SampleTitle("Usage"),
                         TextBlock("Default ActionButton").Medium(),
                         VStack().Children(
-                            ActionButton("Action1", UIcons.Calendar, UIcons.Trash).Var(out var btn1) //.SetText("Standard").Tooltip("This is a standard button")
+                            ActionButton("Action1").Var(out var btn1) //.SetText("Standard").Tooltip("This is a standard button")
                                .OnClickDisplay((s, e) => alert("Clicked1 display!"))
                                .OnClickAction((s,  e) => alert("Clicked1 action!")),
-                            ActionButton("Action11", UIcons.Calendar, UIcons.Trash, Theme.Danger.Background).Var(out var btn11).Primary() //.SetText("Standard").Tooltip("This is a standard button")
+                            ActionButton("Action11", "fi-rr-calendar").Var(out var btn11).Primary() //.SetText("Standard").Tooltip("This is a standard button")
                                .OnClickDisplay((s, e) => alert("Clicked1 display!"))
                                .OnClickAction((s,  e) => alert("Clicked1 action!")),
-                            ActionButton(TextBlock("Action  2")).Var(out var btn2).Danger() //.SetText("Standard").Tooltip("This is a standard button")
+                            ActionButton("Action  2", displayIcon: UIcons.Calendar).Var(out var btn2).Danger() //.SetText("Standard").Tooltip("This is a standard button")
                                .OnClickDisplay((s, e) => alert("Clicked2 display!"))
                                .OnClickAction((s,  e) => alert("Clicked2 action!")),
-                            ActionButton(TextBlock("Action 3 but it is a really long button text")).Var(out var btn3).Primary() //.SetText("Standard").Tooltip("This is a standard button")
+                            ActionButton("Action 3 but it is a really long button text").Var(out var btn3).Primary() //.SetText("Standard").Tooltip("This is a standard button")
                                .OnClickDisplay((s, e) => alert("Clicked3 display!"))
                                .OnClickAction((s, e) =>
                                 {
