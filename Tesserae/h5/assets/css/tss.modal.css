@@ -75,6 +75,7 @@
     display: inline-flex;
     align-items: center;
     background: var(--tss-default-background-color);
+    -webkit-app-region: none;
 }
 
 
@@ -89,6 +90,7 @@
     display: inline-flex;
     align-items: center;
     background: var(--tss-default-background-color);
+    -webkit-app-region: none;
 }
 
 .tss-modal-header-content {
