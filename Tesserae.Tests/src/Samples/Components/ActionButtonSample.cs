@@ -56,12 +56,16 @@ namespace Tesserae.Tests.Samples
                             ActionButton("Action1").Var(out var btn1) //.SetText("Standard").Tooltip("This is a standard button")
                                .OnClickDisplay((s, e) => alert("Clicked1 display!"))
                                .OnClickAction((s,  e) => alert("Clicked1 action!")),
-                            ActionButton("Action11", "fi-rr-calendar").Var(out var btn11).Primary() //.SetText("Standard").Tooltip("This is a standard button")
+                            ActionButton("Action1.1", "fi-rr-calendar").Var(out var btn11).Primary() //.SetText("Standard").Tooltip("This is a standard button")
                                .OnClickDisplay((s, e) => alert("Clicked1 display!"))
                                .OnClickAction((s,  e) => alert("Clicked1 action!")),
                             ActionButton("Action  2", displayIcon: UIcons.Calendar).Var(out var btn2).Danger() //.SetText("Standard").Tooltip("This is a standard button")
                                .OnClickDisplay((s, e) => alert("Clicked2 display!"))
-                               .OnClickAction((s,  e) => alert("Clicked2 action!")),
+                               .OnClickAction((s,  e) => alert("Clicked2 action!"))
+                               .ModifyActionButton(btn =>
+                                {
+                                    Raw(btn).Tooltip("Action!", arrow: true);
+                                }),
                             ActionButton("Action 3 but it is a really long button text").Var(out var btn3).Primary() //.SetText("Standard").Tooltip("This is a standard button")
                                .OnClickDisplay((s, e) => alert("Clicked3 display!"))
                                .OnClickAction((s, e) =>
@@ -90,10 +94,7 @@ namespace Tesserae.Tests.Samples
                                 }),
                             ActionButton(VStack().Children(HStack().Children(Icon(UIcons.Arrows), TextBlock("Lorem ipsum")), TextBlock("Subtitle").Tiny(), TextBlock("Subtitle2").Tiny(), TextBlock("Subtitle4").Tiny())).Var(out var btn4) //.SetText("Standard").Tooltip("This is a standard button")
                                .OnClickDisplay((s, e) => alert("Clicked4 display!"))
-                               .OnClickAction((s,  e) => alert("Clicked4 action!")),
-                            Button("test").Primary(),
-                            Button("test").Danger().SetIcon(UIcons.Trash),
-                            Button("test").SetIcon(UIcons.Arrows)
+                               .OnClickAction((s,  e) => alert("Clicked4 action!"))
 //                            ActionButton("action2").Var(out var btn2) //.SetText("Primary").Tooltip("This is a primary button").Primary()
 //                               .OnClick((s, e) => alert("Clicked2!")),
 //                            ActionButton("action3").Var(out var btn3) //.SetText("Link").Tooltip(Button("This is a link button with a button tooltip").Primary()

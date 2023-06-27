@@ -8,9 +8,10 @@ namespace Tesserae
     [H5.Name("tss.ActionButton")]
     public class ActionButton : IComponent
     {
-        public HTMLDivElement    Container     { get; protected set; }
-        public HTMLDivElement    DisplayButton { get; protected set; }
-        public HTMLButtonElement ActionBtn     { get; protected set; }
+        public HTMLDivElement    Container          { get; protected set; }
+        public HTMLDivElement    DisplayButton      { get; protected set; }
+        public HTMLButtonElement ActionBtn          { get; protected set; }
+        public IComponent        ActionBtnComponent { get; protected set; }
 
         private readonly IComponent  _content;
         private          HTMLElement _iconSpan;
@@ -88,13 +89,16 @@ namespace Tesserae
             _iconSpan.dataset["icon"] = actionIcon;
 
             ActionBtn = Button(_("tss-btn-remove-padding tss-actionbutton-actionbtn"), _iconSpan);
-            Container = Div(_("tss-actionbutton-container tss-default-component-margin"), DisplayButton, ActionBtn);
+            ActionBtnComponent = Raw(ActionBtn);
+
+            Container = Div(_("tss-actionbutton-container tss-default-component-margin"), DisplayButton, ActionBtnComponent.Render());
 
             DisplayButton.addEventListener("click", @event => ClickedDisplay?.Invoke(DisplayButton, @event.As<MouseEvent>()));
             DisplayButton.addEventListener("contextmenu", @event => ContextMenuDisplay?.Invoke(DisplayButton, @event.As<MouseEvent>()));
 
             ActionBtn.addEventListener("click", @event => ClickedAction?.Invoke(ActionBtn, @event.As<MouseEvent>()));
             ActionBtn.addEventListener("contextmenu", @event => ContextMenuAction?.Invoke(ActionBtn, @event.As<MouseEvent>()));
+
         }
 
         public HTMLElement Render()
@@ -131,6 +135,13 @@ namespace Tesserae
 
             return this;
         }
+
+        public ActionButton ModifyActionButton(Action<IComponent> modify)
+        {
+            modify(ActionBtnComponent);
+            return this;
+        }
+
         /// <summary>
         /// Gets or set whenever button is danger
         /// </summary>
