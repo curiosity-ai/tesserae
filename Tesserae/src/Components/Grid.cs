@@ -133,6 +133,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Needs to be called before the component is added to the Grid.
+        /// </summary>
         public static void SetGridColumn(IComponent component, int start, int end)
         {
             var (item, remember) = Stack.GetCorrectItemToApplyStyle(component);
@@ -140,6 +143,9 @@ namespace Tesserae
             if (remember) item.setAttribute("tss-grd-c", "");
         }
 
+        /// <summary>
+        /// Needs to be called before the component is added to the Grid.
+        /// </summary>
         public static void SetGridRow(IComponent component, int start, int end)
         {
             var (item, remember) = Stack.GetCorrectItemToApplyStyle(component);

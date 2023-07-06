@@ -179,12 +179,12 @@ namespace Tesserae
             get => !InnerElement.classList.contains("tss-disabled");
             set => InnerElement.UpdateClassIfNot(value, "tss-disabled");
         }
-
         public bool CanWrap
         {
             get => !InnerElement.classList.contains("tss-btn-nowrap");
             set => InnerElement.UpdateClassIfNot(value, "tss-btn-nowrap");
         }
+
 
         public bool EnableEllipsis
         {

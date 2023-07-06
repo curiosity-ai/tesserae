@@ -12,7 +12,7 @@ namespace Tesserae
             return (CurrentZIndex() + 10).ToString();
         }
 
-        private static int CurrentZIndex()
+        internal static int CurrentZIndex()
         {
             int maxIndex = BaseZIndex;
 

@@ -47,6 +47,8 @@ namespace Tesserae
             }
         }
 
+        public bool IsTopmost => int.Parse(_renderedContent.style.zIndex) == Layers.CurrentZIndex();
+
         public bool IsVisible
         {
             get => _isVisible;

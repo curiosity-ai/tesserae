@@ -58,6 +58,7 @@
 .tss-dropdown-container {
     position: relative;
     border: 1px solid var(--tss-default-border-color);
+    border-radius: 4px;
     background: var(--tss-default-background-color) none repeat scroll 0% 0%;
     color: var(--tss-default-foreground-color);
     cursor: pointer;
@@ -108,7 +109,7 @@
 
 .tss-dropdown-popup {
     position: absolute;
-    border-radius: 0px 0px 2px 2px;
+    border-radius: 0px 0px 4px 4px;
     background: var(--tss-default-background-color) none repeat scroll 0% 0%;
     min-height: 42px;
     visibility: visible;
