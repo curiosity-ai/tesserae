@@ -109,6 +109,7 @@ namespace Tesserae
         public Label WithContentMargin()
         {
             InnerElement.classList.add("tss-label-with-content-margin");
+            _content.classList.add("tss-default-component-margin");
             return this;
         }
 
