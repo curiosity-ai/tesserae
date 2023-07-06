@@ -214,7 +214,11 @@ namespace Tesserae
         /// <returns></returns>
         public Grid AlignItemsCenter() => AlignItems(ItemAlign.Center);
 
-
+        public Grid OverflowHidden()
+        {
+            _grid.style.overflow = "hidden";
+            return this;
+        }
         public Grid Gap(UnitSize gapSize)
         {
             _grid.style.gap = gapSize.ToString();
