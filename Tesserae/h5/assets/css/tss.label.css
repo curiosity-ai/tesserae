@@ -7,7 +7,7 @@
     user-select: none;
 }
 
-    .tss-label > .tss-label-content > .tss-default-component-margin {
+    .tss-label:not(.tss-label-with-content-margin) > .tss-label-content > .tss-default-component-margin {
         margin: unset;
     }
 

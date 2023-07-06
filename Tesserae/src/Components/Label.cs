@@ -106,6 +106,12 @@ namespace Tesserae
             return this;
         }
 
+        public Label WithContentMargin()
+        {
+            _label.classList.add("tss-label-with-content-margin");
+            return this;
+        }
+
         public Label AutoWidth(int nestingLevels = 1, bool alignRight = false)
         {
             _label.classList.add("tss-label-autowidth");
