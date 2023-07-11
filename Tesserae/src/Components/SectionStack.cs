@@ -38,7 +38,7 @@ namespace Tesserae
             }
 
             item.style.height = grow ? "10px" : "auto";
-            item.style.flexShrink = shrink ? "0" : "1";
+            item.style.flexShrink = shrink ? "1" : "0";
             item.style.flexGrow = grow ? "1" : "";
             item.style.padding = customPadding;
             
