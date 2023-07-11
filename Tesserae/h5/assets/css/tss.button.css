@@ -139,88 +139,88 @@ a {
             color: var(--tss-default-foreground-active-color);
         }
 
-.tss-btn.tss-btn-primary {
+.tss-btn.tss-btn-primary:not(.tss-disabled) {
     color: var(--tss-primary-foreground-color);
     background-color: var(--tss-primary-background-color);
     border-color: var(--tss-primary-border-color);
 }
 
-    .tss-btn.tss-btn-primary .tss-fontcolor-default {
+    .tss-btn.tss-btn-primary:not(.tss-disabled) .tss-fontcolor-default {
         color: var(--tss-primary-foreground-color);
     }
 
-    .tss-btn.tss-btn-primary:hover {
+    .tss-btn.tss-btn-primary:not(.tss-disabled):hover {
         color: var(--tss-primary-foreground-hover-color);
         background-color: var(--tss-primary-background-hover-color);
     }
 
-        .tss-btn.tss-btn-primary:hover .tss-fontcolor-default {
+        .tss-btn.tss-btn-primary:not(.tss-disabled):hover .tss-fontcolor-default {
             color: var(--tss-primary-foreground-hover-color);
         }
 
-    .tss-btn.tss-btn-primary:active {
+    .tss-btn.tss-btn-primary:not(.tss-disabled):active {
         color: var(--tss-primary-foreground-active-color);
         background-color: var(--tss-primary-background-active-color);
     }
 
-        .tss-btn.tss-btn-primary:active .tss-fontcolor-default {
+        .tss-btn.tss-btn-primary:not(.tss-disabled):active .tss-fontcolor-default {
             color: var(--tss-primary-foreground-active-color);
         }
 
 
-.tss-btn.tss-btn-danger {
+.tss-btn.tss-btn-danger:not(.tss-disabled) {
     color: var(--tss-danger-foreground-color);
     background-color: var(--tss-danger-background-color);
     border-color: var(--tss-danger-border-color);
 }
 
-    .tss-btn.tss-btn-danger .tss-fontcolor-default {
+    .tss-btn.tss-btn-danger:not(.tss-disabled) .tss-fontcolor-default {
         color: var(--tss-danger-foreground-color);
     }
 
-    .tss-btn.tss-btn-danger:hover {
+    .tss-btn.tss-btn-danger:not(.tss-disabled):hover {
         color: var(--tss-danger-foreground-hover-color);
         background-color: var(--tss-danger-background-hover-color);
     }
 
-        .tss-btn.tss-btn-danger:hover .tss-fontcolor-default {
+        .tss-btn.tss-btn-danger:not(.tss-disabled):hover .tss-fontcolor-default {
             color: var(--tss-danger-foreground-hover-color);
         }
 
-    .tss-btn.tss-btn-danger:active {
+    .tss-btn.tss-btn-danger:not(.tss-disabled):active {
         color: var(--tss-danger-foreground-active-color);
         background-color: var(--tss-danger-background-active-color);
     }
 
-        .tss-btn.tss-btn-danger:active .tss-fontcolor-default {
+        .tss-btn.tss-btn-danger:not(.tss-disabled):active .tss-fontcolor-default {
             color: var(--tss-danger-foreground-active-color);
         }
 
-.tss-btn.tss-btn-success {
+.tss-btn.tss-btn-success:not(.tss-disabled) {
     color: var(--tss-success-foreground-color);
     background-color: var(--tss-success-background-color);
     border-color: var(--tss-success-border-color);
 }
 
-    .tss-btn.tss-btn-success .tss-fontcolor-default {
+    .tss-btn.tss-btn-success:not(.tss-disabled) .tss-fontcolor-default {
         color: var(--tss-success-foreground-color);
     }
 
-    .tss-btn.tss-btn-success:hover {
+    .tss-btn.tss-btn-success:not(.tss-disabled):hover {
         color: var(--tss-success-foreground-hover-color);
         background-color: var(--tss-success-background-hover-color);
     }
 
-        .tss-btn.tss-btn-success:hover .tss-fontcolor-default {
+        .tss-btn.tss-btn-success:not(.tss-disabled):hover .tss-fontcolor-default {
             color: var(--tss-success-foreground-hover-color);
         }
 
-    .tss-btn.tss-btn-success:active {
+    .tss-btn.tss-btn-success:not(.tss-disabled):active {
         color: var(--tss-success-foreground-active-color);
         background-color: var(--tss-success-background-active-color);
     }
 
-        .tss-btn.tss-btn-success:active .tss-fontcolor-default {
+        .tss-btn.tss-btn-success:not(.tss-disabled):active .tss-fontcolor-default {
             color: var(--tss-success-foreground-active-color);
         }
 
