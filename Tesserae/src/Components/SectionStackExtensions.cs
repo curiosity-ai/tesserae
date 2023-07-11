@@ -5,9 +5,9 @@ namespace Tesserae
     [H5.Name("tss.SectionStackX")]
     public static class SectionStackExtensions
     {
-        public static SectionStack Section(this SectionStack stack, IComponent component, bool grow = false, string customPadding = "")
+        public static SectionStack Section(this SectionStack stack, IComponent component, bool grow = false, bool shrink = false, string customPadding = "")
         {
-            stack.AddAnimated(component, grow, customPadding);
+            stack.AddAnimated(component, grow, shrink, customPadding);
             return stack;
         }
 
