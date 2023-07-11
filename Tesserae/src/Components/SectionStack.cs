@@ -14,9 +14,9 @@ namespace Tesserae
             InnerElement.classList.add("tss-sectionstack");
         }
 
-        public void AddAnimated(IComponent component, bool grow = false, string customPadding = "")
+        public void AddAnimated(IComponent component, bool grow = false, bool shrink = false, string customPadding = "")
         {
-            InnerElement.appendChild(GetAnimatedItem(component, false, grow, customPadding));
+            InnerElement.appendChild(GetAnimatedItem(component, false, grow, shrink, customPadding));
         }
 
         public void AddAnimatedTitle(IComponent component)
@@ -24,28 +24,26 @@ namespace Tesserae
             InnerElement.appendChild(GetAnimatedItem(component, true));
         }
 
-        private HTMLDivElement GetAnimatedItem(IComponent component, bool isTitle, bool grow = false, string customPadding = "")
+        private HTMLDivElement GetAnimatedItem(IComponent component, bool isTitle, bool grow = false, bool shrink = false, string customPadding = "")
         {
             if (!((component as dynamic).SectionStackItem is HTMLDivElement item))
             {
-                item = Div(_(isTitle ? "tss-sectionstack-title tss-stack-item tss-sectionstack-item" : "tss-sectionstack-card tss-stack-item tss-sectionstack-item", styles: s =>
-                {
-                    s.alignSelf = "auto";
-                    s.width = "auto";
-                    s.height = "auto";
-                    s.flexShrink = "1";
-                    s.overflow = "hidden";
-                    s.padding = customPadding;
-                }), component.Render());
+                item = Div(_(isTitle ? "tss-sectionstack-title tss-stack-item tss-sectionstack-item" : "tss-sectionstack-card tss-stack-item tss-sectionstack-item"), component.Render());
+                
+                item.style.alignSelf = "auto";
+                item.style.width = "auto";
+                item.style.overflow = "hidden";
+
                 (component as dynamic).SectionStackItem = item;
             }
-            if (grow)
-            {
-                item.style.flexGrow = "1";
-                item.style.height = "10px";
-            }
 
+            item.style.height = grow ? "10px" : "auto";
+            item.style.flexShrink = shrink ? "0" : "1";
+            item.style.flexGrow = grow ? "1" : "";
+            item.style.padding = customPadding;
+            
             Count++;
+
             item.style.transitionDelay = $"{0.05f * Count:n2}s";
 
             DomObserver.WhenMounted(item, () => item.classList.add("tss-ismounted"));
