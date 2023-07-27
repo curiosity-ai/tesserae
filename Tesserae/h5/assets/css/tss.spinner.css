@@ -2,32 +2,45 @@
 .tss-spinner {
     border-radius: 50%;
     border: 1.5px solid;
-    border-color: var(--tss-primary-background-color) var(--tss-progress-background-color) var(--tss-progress-background-color); /*rgb(199, 224, 244) rgb(199, 224, 244);*/
+    border-color: var(--tss-primary-background-color) var(--tss-progress-background-color) var(--tss-progress-background-color);
     border-image: none 100% / 1 / 0 stretch;
     animation-name: tss-spinner-animation;
     animation-duration: 1.3s;
     animation-iteration-count: infinite;
     animation-timing-function: cubic-bezier(0.53, 0.21, 0.29, 0.67);
+    flex-shrink:0;
+}
+
+.tss-spinner-success {
+    border-color: var(--tss-success-background-color) var(--tss-progress-background-color) var(--tss-progress-background-color);
+}
+
+.tss-spinner-danger {
+    border-color: var(--tss-danger-background-color) var(--tss-progress-background-color) var(--tss-progress-background-color);
 }
 
 .tss-spinner-size-xsmall .tss-spinner {
     width: 12px;
     height: 12px;
+    border: 3px solid;
 }
 
 .tss-spinner-size-small .tss-spinner {
     width: 16px;
     height: 16px;
+    border: 4.5px solid;
 }
 
 .tss-spinner-size-medium .tss-spinner {
     width: 20px;
     height: 20px;
+    border: 5px solid;
 }
 
 .tss-spinner-size-large .tss-spinner {
     width: 28px;
     height: 28px;
+    border: 6.5px solid;
 }
 
 .tss-spinner-container {

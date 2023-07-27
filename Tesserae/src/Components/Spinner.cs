@@ -19,6 +19,27 @@ namespace Tesserae
             AttachClick();
         }
 
+        public Spinner Success()
+        {
+            InnerElement.classList.add("tss-spinner-success");
+            InnerElement.classList.remove("tss-spinner-danger");
+            return this;
+        }
+
+        public Spinner Danger()
+        {
+            InnerElement.classList.add("tss-spinner-danger");
+            InnerElement.classList.remove("tss-spinner-success");
+            return this;
+        }
+
+        public Spinner Primary()
+        {
+            InnerElement.classList.remove("tss-spinner-success");
+            InnerElement.classList.remove("tss-spinner-danger");
+            return this;
+        }
+
         public LabelPosition Position
         {
             get
