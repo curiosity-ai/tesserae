@@ -13,9 +13,9 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="h5" Version="22.11.34330" />
-    <PackageReference Include="h5.core" Version="22.11.34329" />
-    <PackageReference Include="h5.Newtonsoft.Json" Version="22.11.34331" />
+    <PackageReference Include="h5" Version="23.7.39854" />
+    <PackageReference Include="h5.core" Version="23.7.39858" />
+    <PackageReference Include="h5.Newtonsoft.Json" Version="23.7.39897" />
   </ItemGroup>
 
   <PropertyGroup>
