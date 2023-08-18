@@ -11,6 +11,8 @@ namespace Build.UpdateInterfaceIcons
     {
         static void Main()
         {
+            if (!Directory.GetCurrentDirectory().EndsWith("Build.UpdateInterfaceIcons")) throw new InvalidOperationException("make sure to set the working directory to Build.UpdateInterfaceIcons");
+
             try
             {
                 Directory.Delete("flaticon-uicons", recursive: true);
