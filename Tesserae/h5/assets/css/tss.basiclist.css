@@ -14,3 +14,7 @@
     float: left;
     width: 100%;
 }
+
+.tss-basiclist > .tss-stack{
+    overflow-x: hidden;
+}

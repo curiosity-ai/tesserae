@@ -31,7 +31,7 @@ namespace Tesserae
 
             if (columns.Length < 2)
             {
-                _stack = Stack().Horizontal().Wrap().WidthStretch().MaxHeight(100.percent()).Scroll();
+                _stack = HStack().Wrap().WidthStretch().MaxHeight(100.percent()).Scroll();
                 _maxStackItemSize = columns.FirstOrDefault() ?? 100.percent();
             }
             else
