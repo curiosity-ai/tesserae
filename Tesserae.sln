@@ -19,7 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Build.ImportInterfaceIcons", "Build.ImportInterfaceIcons\Build.ImportInterfaceIcons.csproj", "{084992F7-74EB-4123-989C-86CDFE8BDBC4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Build.UpdateInterfaceIcons", "Build.UpdateInterfaceIcons\Build.UpdateInterfaceIcons.csproj", "{084992F7-74EB-4123-989C-86CDFE8BDBC4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
