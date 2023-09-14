@@ -50,14 +50,16 @@ namespace Build.UpdateInterfaceIcons
                 }
             }
 
-            var cssDir = Path.Combine("flaticon-uicons", "src", "uicons", "css");
+            var cssDir = Path.Combine(repoDir, "src", "uicons", "css");
             var icons  = new HashSet<string>();
 
             foreach (var file in Directory.EnumerateFiles(cssDir, "*.*", SearchOption.AllDirectories))
             {
+                if (file.Contains("/all/")) continue;
+
                 if (file.EndsWith("rounded.css") || (file.Contains("brands") && file.EndsWith("all.css")))
                 {
-                    Console.WriteLine("Parsin CSS: " + file);
+                    Console.WriteLine("Parsing CSS: " + file);
 
                     string name;
 
@@ -70,6 +72,8 @@ namespace Build.UpdateInterfaceIcons
                     // rpalce line-height: 1; with line-height: inherit;
 
                     var lines = File.ReadAllLines(file);
+
+                    Console.WriteLine($"Found {lines.Length} lines in CSS {file}.");
 
                     for (int i = 0; i < lines.Length; i++)
                     {

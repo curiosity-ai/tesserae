@@ -64,6 +64,7 @@ steps:
       cd $(Build.SourcesDirectory)/Build.UpdateInterfaceIcons/
       dotnet run
       cd ..
+      git rm --cached Build.UpdateInterfaceIcons/flaticon-uicons
       git add .
       git commit -m "Updated uicons"
       git push origin HEAD:master
