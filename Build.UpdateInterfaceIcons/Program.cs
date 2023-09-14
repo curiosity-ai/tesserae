@@ -65,10 +65,10 @@ namespace Build.UpdateInterfaceIcons
 
                     string name;
 
-                    if (file.Contains("{ps}solid{ps}"))        { name = "uicons-solid-rounded"; }
-                    else if (file.Contains("{ps}regular{ps}")) { name = "uicons-regular-rounded"; }
-                    else if (file.Contains("{ps}bold{ps}"))    { name = "uicons-bold-rounded"; }
-                    else if (file.Contains("{ps}brands{ps}"))  { name = "uicons-brands"; }
+                    if (file.Contains($"{ps}solid{ps}"))        { name = "uicons-solid-rounded"; }
+                    else if (file.Contains($"{ps}regular{ps}")) { name = "uicons-regular-rounded"; }
+                    else if (file.Contains($"{ps}bold{ps}"))    { name = "uicons-bold-rounded"; }
+                    else if (file.Contains($"{ps}brands{ps}"))  { name = "uicons-brands"; }
                     else { continue; }
 
                     // rpalce line-height: 1; with line-height: inherit;
