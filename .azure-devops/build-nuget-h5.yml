@@ -57,6 +57,17 @@ steps:
       git config --global user.name "$(USER)"
       git config --global user.password  "$(PAT)"
 
+- task: CmdLine@2
+  displayName: 'update lineawesome'
+  inputs:
+    script: |
+      cd $(Build.SourcesDirectory)/Build.UpdateInterfaceIcons/
+      dotnet run
+      cd ..
+      git add .
+      git commit -m "Updated uicons"
+      git push origin HEAD:master
+
 # This has to run after the git commit above, so the injected source-code stays out of the repository
 - task: CmdLine@2
   displayName: 'update samples'
