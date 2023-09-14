@@ -52,10 +52,12 @@ namespace Build.UpdateInterfaceIcons
 
             var cssDir = Path.Combine(repoDir, "src", "uicons", "css");
             var icons  = new HashSet<string>();
+            
+            var ps = Path.DirectorySeparatorChar;
 
             foreach (var file in Directory.EnumerateFiles(cssDir, "*.*", SearchOption.AllDirectories))
             {
-                if (file.Contains("/all/")) continue;
+                if (file.Contains($"{ps}all{ps}")) continue;
 
                 if (file.EndsWith("rounded.css") || (file.Contains("brands") && file.EndsWith("all.css")))
                 {
@@ -63,10 +65,10 @@ namespace Build.UpdateInterfaceIcons
 
                     string name;
 
-                    if (file.Contains("/solid/"))        { name = "uicons-solid-rounded"; }
-                    else if (file.Contains("/regular/")) { name = "uicons-regular-rounded"; }
-                    else if (file.Contains("/bold/"))    { name = "uicons-bold-rounded"; }
-                    else if (file.Contains("/brands/"))  { name = "uicons-brands"; }
+                    if (file.Contains("{ps}solid{ps}"))        { name = "uicons-solid-rounded"; }
+                    else if (file.Contains("{ps}regular{ps}")) { name = "uicons-regular-rounded"; }
+                    else if (file.Contains("{ps}bold{ps}"))    { name = "uicons-bold-rounded"; }
+                    else if (file.Contains("{ps}brands{ps}"))  { name = "uicons-brands"; }
                     else { continue; }
 
                     // rpalce line-height: 1; with line-height: inherit;
