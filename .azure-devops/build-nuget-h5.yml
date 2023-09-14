@@ -58,7 +58,7 @@ steps:
       git config --global user.password  "$(PAT)"
 
 - task: CmdLine@2
-  displayName: 'update lineawesome'
+  displayName: 'update uicons'
   inputs:
     script: |
       cd $(Build.SourcesDirectory)/Build.UpdateInterfaceIcons/
