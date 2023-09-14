@@ -13,26 +13,18 @@ namespace Build.UpdateInterfaceIcons
         {
             if (!Directory.GetCurrentDirectory().EndsWith("Build.UpdateInterfaceIcons")) throw new InvalidOperationException("make sure to set the working directory to Build.UpdateInterfaceIcons");
 
-            try
-            {
-                Directory.Delete("flaticon-uicons", recursive: true);
-            }
-            catch (DirectoryNotFoundException e)
-            {
-                //ignore
-            }
-
             var p = Process.Start(new ProcessStartInfo()
             {
                 UseShellExecute = true,
                 FileName        = "git",
                 Arguments       = "clone https://github.com/freepik-company/flaticon-uicons.git",
+                WorkingDirectory = Path.GetTempPath()
             });
 
             p.WaitForExit();
 
             Console.WriteLine("Cloned git repo");
-            var repoDir = Path.Combine(Directory.GetCurrentDirectory(), "flaticon-uicons");
+            var repoDir = Path.Combine(Path.GetTempPath(), "flaticon-uicons");
 
             var webfontsDir = Path.Combine(repoDir, "src", "uicons", "webfonts");
 
@@ -127,17 +119,7 @@ namespace Build.UpdateInterfaceIcons
             var allIcons     = icons.OrderBy(i => i).ToArray();
 
             File.WriteAllText(uiconsCsPath, CreateEnum(allIcons));
-            Console.WriteLine($"Parsed uicons-regular-rounded.css, found {allIcons.Length} icons.");
-
-
-            try
-            {
-                Directory.Delete(repoDir, recursive: true);
-            }
-            catch (DirectoryNotFoundException e)
-            {
-                //ignore
-            }
+            Console.WriteLine($"Parsed css files, found {allIcons.Length} icons.");
         }
 
         private static Dictionary<string, string> IconAliases = new Dictionary<string, string>
