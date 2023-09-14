@@ -3,7 +3,7 @@ using H5;
 namespace Tesserae
 {
 
-    [Enum(Emit.Value)]
+    [Enum(Emit.StringName)]
     public enum UIcons
     {
         [Name("fi-rr-0")]                                        _0,
