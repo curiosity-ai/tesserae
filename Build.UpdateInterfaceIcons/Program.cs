@@ -124,8 +124,7 @@ namespace Build.UpdateInterfaceIcons
 
         private static Dictionary<string, string> IconAliases = new Dictionary<string, string>
         {
-            { "hand", "ThumbsDown" },
-            { "social-network", "ThumbsUp" }
+            //Example: (not needed anymore on latest uicons version): { "social-network", "ThumbsUp" }
         };
 
         private static string CreateEnum(string[] icons)
