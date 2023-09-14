@@ -32,7 +32,9 @@ namespace Build.UpdateInterfaceIcons
             p.WaitForExit();
 
             Console.WriteLine("Cloned git repo");
-            var webfontsDir = Path.Combine("flaticon-uicons", "src", "uicons", "webfonts");
+            var repoDir = Path.Combine(Directory.GetCurrentDirectory(), "flaticon-uicons");
+
+            var webfontsDir = Path.Combine(repoDir, "src", "uicons", "webfonts");
 
             var tesseraeFontsDir = Path.Combine("..", "Tesserae", "h5", "assets", "fonts");
             var tesseraeCssDir   = Path.Combine("..", "Tesserae", "h5", "assets", "css");
@@ -49,70 +51,74 @@ namespace Build.UpdateInterfaceIcons
             }
 
             var cssDir = Path.Combine("flaticon-uicons", "src", "uicons", "css");
-            var icons  = new List<string>();
+            var icons  = new HashSet<string>();
 
-            foreach (string file in Directory.EnumerateFiles(cssDir, "*.*", SearchOption.AllDirectories))
+            foreach (var file in Directory.EnumerateFiles(cssDir, "*.*", SearchOption.AllDirectories))
             {
-                if (File.Exists(file))
+                if (file.EndsWith("rounded.css") || (file.Contains("brands") && file.EndsWith("all.css")))
                 {
-                    if (file.EndsWith("rounded.css") || (file.Contains("brands") && file.EndsWith("all.css")))
+                    Console.WriteLine("Parsin CSS: " + file);
+
+                    string name;
+
+                    if (file.Contains("/solid/"))        { name = "uicons-solid-rounded"; }
+                    else if (file.Contains("/regular/")) { name = "uicons-regular-rounded"; }
+                    else if (file.Contains("/bold/"))    { name = "uicons-bold-rounded"; }
+                    else if (file.Contains("/brands/"))  { name = "uicons-brands"; }
+                    else { continue; }
+
+                    // rpalce line-height: 1; with line-height: inherit;
+
+                    var lines = File.ReadAllLines(file);
+
+                    for (int i = 0; i < lines.Length; i++)
                     {
-                        string name;
+                        var line = lines[i];
 
-                        if (file.Contains("/solid/")) name        = "uicons-solid-rounded";
-                        else if (file.Contains("/regular/")) name = "uicons-regular-rounded";
-                        else if (file.Contains("/bold/")) name    = "uicons-bold-rounded";
-                        else if (file.Contains("/brands/")) name  = "uicons-brands";
-                        else continue;
-
-                        // rpalce line-height: 1; with line-height: inherit;
-
-                        var lines = File.ReadAllLines(file);
-
-
-                        for (int i = 0; i < lines.Length; i++)
+                        if (line.Contains("line-height: 1;"))
                         {
-                            var line = lines[i];
-
-                            if (line.Contains("line-height: 1;"))
-                            {
-                                var startIndex = line.IndexOf("line-height: 1;");
-                                var newLine    = line.Substring(0, startIndex) + "line-height: inherit;" + line.Substring(startIndex + "line-height: 1;".Length);
-                                lines[i] = newLine;
-                            }
-
-                            if (line.Contains("""eot#iefix") format("embedded-opentype"),"""))
-                            {
-                                lines[i] = "";
-                            }
-
-                            if (line.Contains(""".woff") format("woff");"""))
-                            {
-                                lines[i] = "";
-                            }
-
-                            if (line.Contains(""".woff2") format("woff2"),"""))
-                            {
-                                lines[i] = $"""     src: url("../fonts/{name}.woff2") format("woff2"); """;
-                            }
-
-                            var iconLine = line.Trim();
-
-                            if (iconLine.StartsWith(".fi-rr-") && iconLine.EndsWith(":before {"))
-                            {
-                                icons.Add(iconLine.Substring(".fi-rr-".Length).Split(new char[] { ':' }, StringSplitOptions.RemoveEmptyEntries).First());
-                            }
+                            var startIndex = line.IndexOf("line-height: 1;");
+                            var newLine    = line.Substring(0, startIndex) + "line-height: inherit;" + line.Substring(startIndex + "line-height: 1;".Length);
+                            lines[i] = newLine;
                         }
 
-                        File.WriteAllLines(Path.Combine(tesseraeCssDir, name + ".css"), lines);
+                        if (line.Contains("""eot#iefix") format("embedded-opentype"),"""))
+                        {
+                            lines[i] = "";
+                        }
 
-                        Console.WriteLine("Copying " + file);
+                        if (line.Contains(""".woff") format("woff");"""))
+                        {
+                            lines[i] = "";
+                        }
+
+                        if (line.Contains(""".woff2") format("woff2"),"""))
+                        {
+                            lines[i] = $"""     src: url("../fonts/{name}.woff2") format("woff2"); """;
+                        }
+
+                        var iconLine = line.Trim();
+
+                        if ((iconLine.StartsWith(".fi-rr-") || iconLine.StartsWith(".fi-br-") || iconLine.StartsWith(".fi-sr-") ) && iconLine.EndsWith(":before {"))
+                        {
+                            var iconName = iconLine.Substring(".fi-rr-".Length).Split(new char[] { ':' }, StringSplitOptions.RemoveEmptyEntries).First();
+                            if(icons.Add( iconName))
+                            {
+                                Console.WriteLine($"Found icon {iconName}");
+                            }
+                        }
                     }
+
+                    File.WriteAllLines(Path.Combine(tesseraeCssDir, name + ".css"), lines);
+
+                    Console.WriteLine("Copying " + file);
                 }
             }
 
+            Console.WriteLine($"Found {icons.Count} icons from css");
+
             var uiconsCsPath = Path.Combine("..", "Tesserae", "src", "Icons", "UIcons.cs");
-            var allIcons     = icons.Distinct().OrderBy(i => i).ToArray();
+            var allIcons     = icons.OrderBy(i => i).ToArray();
 
             File.WriteAllText(uiconsCsPath, CreateEnum(allIcons));
             Console.WriteLine($"Parsed uicons-regular-rounded.css, found {allIcons.Length} icons.");
@@ -120,7 +126,7 @@ namespace Build.UpdateInterfaceIcons
 
             try
             {
-                Directory.Delete("flaticon-uicons", recursive: true);
+                Directory.Delete(repoDir, recursive: true);
             }
             catch (DirectoryNotFoundException e)
             {
