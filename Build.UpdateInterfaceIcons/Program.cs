@@ -103,18 +103,19 @@ namespace Build.UpdateInterfaceIcons
                         if ((iconLine.StartsWith(".fi-rr-") || iconLine.StartsWith(".fi-br-") || iconLine.StartsWith(".fi-sr-") ) && iconLine.EndsWith(":before {"))
                         {
                             var iconName = iconLine.Substring(".fi-rr-".Length).Split(new char[] { ':' }, StringSplitOptions.RemoveEmptyEntries).First();
+                            
                             if (icons.Add(iconName))
                             {
                                 Console.WriteLine($"Found icon {iconName}");
+                            }
 
-                                if (isRegularRounded && ExportAsVariables.Contains(iconName))
-                                {
-                                    var contentLineParts = lines[i + 1].Trim().Split(new char[] { '"' }, StringSplitOptions.RemoveEmptyEntries);
-                                    var contentValue = contentLineParts[1];
+                            if (isRegularRounded && ExportAsVariables.Contains(iconName))
+                            {
+                                var contentLineParts = lines[i + 1].Trim().Split(new char[] { '"' }, StringSplitOptions.RemoveEmptyEntries);
+                                var contentValue = contentLineParts[1];
 
-                                    extraLines.Add($"--var-{iconName}: {contentValue};");
-                                    Console.WriteLine($"Exporting CSS variable --var-{iconName}: {contentValue};");
-                                }
+                                extraLines.Add($"--var-{iconName}: {contentValue};");
+                                Console.WriteLine($"Exporting CSS variable --var-{iconName}: {contentValue};");
                             }
                         }
                     }
