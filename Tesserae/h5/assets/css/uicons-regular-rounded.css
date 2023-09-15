@@ -1,10 +1,10 @@
 :root {
---var-angle-left: \f132;
---var-angle-right: \f133;
---var-checkbox: \f2df;
---var-sidebar-flip: \f7fd;
---var-sidebar: \f7fe;
---var-square: \f890;
+--var-angle-left: '\f132';
+--var-angle-right: '\f133';
+--var-checkbox: '\f2df';
+--var-sidebar-flip: '\f7fd';
+--var-sidebar: '\f7fe';
+--var-square: '\f890';
 }
 @font-face {
 font-family: "uicons-regular-rounded";
