@@ -146,10 +146,10 @@ namespace Build.UpdateInterfaceIcons
 
         private static HashSet<string> ExportAsVariables = new HashSet<string>()
         {
-            "fi-rr-checkbox",
-            "fi-rr-square",
-            "fi-rr-sidebar",
-            "fi-rr-sidebar-flip",
+            "checkbox",
+            "square",
+            "sidebar",
+            "sidebar-flip",
         };
 
         private static string CreateEnum(string[] icons)
