@@ -63,12 +63,15 @@ namespace Build.UpdateInterfaceIcons
                     else if (file.Contains($"{ps}brands{ps}"))  { name = "uicons-brands"; }
                     else { continue; }
 
+                    bool isRegularRounded = file.Contains($"{ps}regular{ps}") && file.EndsWith("rounded.css");
+
                     // rpalce line-height: 1; with line-height: inherit;
 
                     var lines = File.ReadAllLines(file);
 
                     Console.WriteLine($"Found {lines.Length} lines in CSS {file}.");
-
+                    var extraLines = new List<string>();
+                    
                     for (int i = 0; i < lines.Length; i++)
                     {
                         var line = lines[i];
@@ -100,14 +103,28 @@ namespace Build.UpdateInterfaceIcons
                         if ((iconLine.StartsWith(".fi-rr-") || iconLine.StartsWith(".fi-br-") || iconLine.StartsWith(".fi-sr-") ) && iconLine.EndsWith(":before {"))
                         {
                             var iconName = iconLine.Substring(".fi-rr-".Length).Split(new char[] { ':' }, StringSplitOptions.RemoveEmptyEntries).First();
-                            if(icons.Add( iconName))
+                            if (icons.Add(iconName))
                             {
                                 Console.WriteLine($"Found icon {iconName}");
+
+                                if (isRegularRounded && ExportAsVariables.Contains(iconName))
+                                {
+                                    var contentLineParts = lines[i + 1].Trim().Split(new char[] { '"' }, StringSplitOptions.RemoveEmptyEntries);
+                                    var contentValue = contentLineParts[1];
+
+                                    extraLines.Add($"--var-{iconName}: {contentValue};");
+                                }
                             }
                         }
                     }
 
-                    File.WriteAllLines(Path.Combine(tesseraeCssDir, name + ".css"), lines);
+                    if (extraLines.Count > 0)
+                    {
+                        extraLines.Insert(0, ":root {");
+                        extraLines.Add("}");
+                    }
+
+                    File.WriteAllLines(Path.Combine(tesseraeCssDir, name + ".css"), extraLines.Concat(lines));
 
                     Console.WriteLine("Copying " + file);
                 }
@@ -125,6 +142,14 @@ namespace Build.UpdateInterfaceIcons
         private static Dictionary<string, string> IconAliases = new Dictionary<string, string>
         {
             //Example: (not needed anymore on latest uicons version): { "social-network", "ThumbsUp" }
+        };
+
+        private static HashSet<string> ExportAsVariables = new HashSet<string>()
+        {
+            "fi-rr-checkbox",
+            "fi-rr-square",
+            "fi-rr-sidebar",
+            "fi-rr-sidebar-flip",
         };
 
         private static string CreateEnum(string[] icons)
