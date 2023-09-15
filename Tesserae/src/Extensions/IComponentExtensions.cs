@@ -67,19 +67,19 @@ namespace Tesserae
             Stack.SetAlign(component, ItemAlign.Stretch);
             return component;
         }
-        
+
         public static T AlignBaseline<T>(this T component) where T : IComponent
         {
             Stack.SetAlign(component, ItemAlign.Baseline);
             return component;
         }
-        
+
         public static T AlignStart<T>(this T component) where T : IComponent
         {
             Stack.SetAlign(component, ItemAlign.Start);
             return component;
         }
-        
+
         public static T AlignCenter<T>(this T component) where T : IComponent
         {
             Stack.SetAlign(component, ItemAlign.Center);
@@ -276,24 +276,29 @@ namespace Tesserae
         public static T Collapse<T>(this T component) where T : IComponent
         {
             var (el, _) = Stack.GetCorrectItemToApplyStyle(component);
-            el = TryGetParentStackItem(el);
+            el          = TryGetParentStackItem(el);
             el.classList.add("tss-collapse");
             return component;
         }
 
-        public static T FadeThenCollapse<T>(this T component) where T : IComponent => Fade(component,async () => { await Task.Delay(1000); Collapse(component); } );
+        public static T FadeThenCollapse<T>(this T component) where T : IComponent => Fade(component, async () =>
+        {
+            await Task.Delay(1000);
+            Collapse(component);
+        });
 
 
-        public static T Fade<T>(this T component) where T : IComponent => Fade(component, () => { });
+        public static T Fade<T>(this T component) where T : IComponent                            => Fade(component, () => { });
         public static T Fade<T>(this T component, Func<Task> andThen = null) where T : IComponent => Fade(component, andThen is object ? (Action)(() => andThen.Invoke().FireAndForget()) : null);
 
         public static T Fade<T>(this T component, Action andThen = null) where T : IComponent
         {
             var (el, _) = Stack.GetCorrectItemToApplyStyle(component);
-            el = TryGetParentStackItem(el);
+            el          = TryGetParentStackItem(el);
             el.classList.add("tss-fade");
             el.classList.remove("tss-fade-light", "tss-show");
             component.Render().classList.remove("tss-fade-light", "tss-show"); //Need to remove from component as well, because it could have been set before it was added to a stack
+
             if (andThen is object)
             {
                 // The opacity transition time on "tss-fade" is 0.15s, so this is the amount of time after which we want to make the optional "andThen" callback
@@ -312,10 +317,11 @@ namespace Tesserae
         public static T LightFade<T>(this T component, Action andThen = null) where T : IComponent
         {
             var (el, _) = Stack.GetCorrectItemToApplyStyle(component);
-            el = TryGetParentStackItem(el);
+            el          = TryGetParentStackItem(el);
             el.classList.add("tss-fade-light");
             el.classList.remove("tss-fade", "tss-show");
             component.Render().classList.remove("tss-fade", "tss-show"); //Need to remove from component as well, because it could have been set before it was added to a stack
+
             if (andThen is object)
             {
                 // The opacity transition time on "tss-fade" is 0.15s, so this is the amount of time after which we want to make the optional "andThen" callback
@@ -330,7 +336,7 @@ namespace Tesserae
         public static T Show<T>(this T component) where T : IComponent
         {
             var (el, _) = Stack.GetCorrectItemToApplyStyle(component);
-            el = TryGetParentStackItem(el);
+            el          = TryGetParentStackItem(el);
             el.classList.add("tss-fade", "tss-show");
             el.classList.remove("tss-fade-light", "tss-collapse");
             component.Render().classList.remove("tss-fade-light", "tss-collapse", "tss-fade"); //Need to remove all from component as well, because it could have been set before it was added to a stack
@@ -339,7 +345,7 @@ namespace Tesserae
 
         private static HTMLElement TryGetParentStackItem(HTMLElement el)
         {
-            if(el.parentElement is object && el.parentElement.classList.contains("tss-stack-item"))
+            if (el.parentElement is object && el.parentElement.classList.contains("tss-stack-item"))
             {
                 return el.parentElement;
             }
@@ -358,7 +364,7 @@ namespace Tesserae
                 delayShow: delayShow,
                 delayHide: delayHide,
                 followCursor: followCursor,
-                maxWidth : maxWidth,
+                maxWidth: maxWidth,
                 arrow: arrow,
                 parent: parent
             );
@@ -367,6 +373,7 @@ namespace Tesserae
         public static T RemoveTooltip<T>(this T component) where T : IComponent
         {
             var (element, _) = Stack.GetCorrectItemToApplyStyle(component);
+
             if (element.HasOwnProperty("_tippy"))
             {
                 H5.Script.Write("{0}._tippy.destroy();", element);
@@ -377,14 +384,14 @@ namespace Tesserae
 
             return component;
         }
-        
+
         public static T Tooltip<T>(this T component, IComponent tooltip, bool interactive = false, TooltipAnimation animation = TooltipAnimation.None, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 250, int delayHide = 0, bool appendToBody = true, bool followCursor = false, int maxWidth = 350, bool hideOnClick = true, bool arrow = false, IComponent parent = null) where T : IComponent
         {
             if (tooltip is null)
                 return component;
 
             var rendered = component.Render();
-            
+
             var marker = new object();
 
             (rendered as dynamic).tooltipMarker = marker;
@@ -398,12 +405,13 @@ namespace Tesserae
                 if ((rendered as dynamic).tooltipMarker != marker) return;
 
                 var renderedTooltip = UI.DIV(tooltip.Render());
-                renderedTooltip.style.display = "block";
-                renderedTooltip.style.overflow = "hidden";
+                renderedTooltip.style.display      = "block";
+                renderedTooltip.style.overflow     = "hidden";
                 renderedTooltip.style.textOverflow = "ellipsis";
                 document.body.appendChild(renderedTooltip);
 
                 var (element, _) = Stack.GetCorrectItemToApplyStyle(component);
+
                 if (element.HasOwnProperty("_tippy"))
                 {
                     H5.Script.Write("{0}._tippy.destroy();", element);
@@ -415,22 +423,22 @@ namespace Tesserae
                 }
                 else
                 {
-                    H5.Script.Write("tippy({0}, { content: {1}, interactive: {2}, placement: {3},  animation: {4}, delay: [{5},{6}], appendTo: {7}, followCursor: {8}, maxWidth: {9}, hideOnClick: {10}, arrow: {11} });", element, renderedTooltip, interactive, placement.ToString(), animation.ToString(), delayShow, delayHide, appendToBody ? document.body.As<object>(): "parent".As<object>(), followCursor, maxWidth, hideOnClick, arrow);
+                    H5.Script.Write("tippy({0}, { content: {1}, interactive: {2}, placement: {3},  animation: {4}, delay: [{5},{6}], appendTo: {7}, followCursor: {8}, maxWidth: {9}, hideOnClick: {10}, arrow: {11} });", element, renderedTooltip, interactive, placement.ToString(), animation.ToString(), delayShow, delayHide, appendToBody ? document.body.As<object>() : "parent".As<object>(), followCursor, maxWidth, hideOnClick, arrow);
                 }
 
                 H5.Script.Write("{0}._tippy.show();", element); //Shows it imediatelly, as the mouse is hovering the element
-                
+
                 var currentTippy = H5.Script.Write<object>("{0}._tippy", element);
 
                 // 2020-10-05 DWR: Sometimes a tooltip will be attached to an element that is removed from the DOM and then the tooltip is left hanging, orphaned. 
                 if (parent is null) parent = component;
 
                 parent.WhenRemoved(() =>
-                    {
+                {
                     // 2020-10-05 DWR: I presume that have to check this property before trying to kill it in case it's already been tidied up
                     if (element.HasOwnProperty("_tippy"))
                     {
-                        if(currentTippy == H5.Script.Write<object>("{0}._tippy", element))
+                        if (currentTippy == H5.Script.Write<object>("{0}._tippy", element))
                         {
                             H5.Script.Write("{0}._tippy.destroy();", element);
                         }
