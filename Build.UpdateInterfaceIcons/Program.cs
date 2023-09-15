@@ -115,7 +115,7 @@ namespace Build.UpdateInterfaceIcons
                                 var contentValue = contentLineParts[1];
 
                                 extraLines.Add($"--var-{iconName}: {contentValue};");
-                                Console.WriteLine($"Exporting CSS variable --var-{iconName}: {contentValue};");
+                                Console.WriteLine($"Exporting CSS variable --uicon-var-{iconName}: {contentValue};");
                             }
                         }
                     }
@@ -152,6 +152,10 @@ namespace Build.UpdateInterfaceIcons
             "square",
             "sidebar",
             "sidebar-flip",
+            "angle-right",
+            "angle-left",
+            "angle-top",
+            "angle-bottom",
         };
 
         private static string CreateEnum(string[] icons)
