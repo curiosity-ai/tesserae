@@ -115,7 +115,7 @@ namespace Build.UpdateInterfaceIcons
                                 var contentValue = contentLineParts[1];
 
                                 extraLines.Add($"--var-{iconName}: '{contentValue}';");
-                                Console.WriteLine($"Exporting CSS variable --uicon-var-{iconName}: {contentValue};");
+                                Console.WriteLine($"Exporting CSS variable --uicon-var-{iconName}: '{contentValue}';");
                             }
                         }
                     }
