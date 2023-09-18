@@ -56,11 +56,36 @@ namespace Tesserae
             }
         }
 
+        public Grid Columns(params UnitSize[] columns)
+        {
+            if (columns is object && columns.Any(c => c is object))
+            {
+                _grid.style.gridTemplateColumns = string.Join(" ", columns.Where(c => c is object).Select(c => c.ToString()));
+            }
+            else
+            {
+                _grid.style.gridTemplateColumns = "100%";
+            }
+            return this;
+        }
+
+        public Grid Rows(UnitSize[] rows)
+        {
+            if (rows is object && rows.Any(c => c is object))
+            {
+                _grid.style.gridTemplateRows = string.Join(" ", rows.Where(c => c is object).Select(c => c.ToString()));
+            }
+            else
+            {
+                _grid.style.gridTemplateRows = "100%";
+            }
+            return this;
+        }
+
         public void Add(IComponent component)
         {
             _grid.appendChild(GetItem(component, true));
         }
-
 
         internal static HTMLElement GetItem(IComponent component, bool forceAdd = false)
         {
