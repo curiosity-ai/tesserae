@@ -10,16 +10,16 @@
     position: relative;
     background-color: var(--tss-tooltip-background-color);
     color: var(--tss-tooltip-foreground-color);
-    border-radius: 4px;
     font-size: var(--tss-font-size-small);
     line-height: var(--tss-font-size-medium);
     outline: 0;
     transition-property: transform,visibility,opacity;
     box-shadow: var(--tss-box-shadow);
+    border-radius: 8px;
 }
 
     .tippy-box > .tippy-content > div {
-        border-radius: 4px;
+        background: transparent;
     }
 
     .tippy-box[data-placement^=top] > .tippy-arrow {
