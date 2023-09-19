@@ -18,6 +18,10 @@
     box-shadow: var(--tss-box-shadow);
 }
 
+    .tippy-box > .tippy-content > div {
+        border-radius: 4px;
+    }
+
     .tippy-box[data-placement^=top] > .tippy-arrow {
         bottom: 0
     }
