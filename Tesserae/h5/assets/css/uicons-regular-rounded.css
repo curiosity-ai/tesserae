@@ -3412,7 +3412,7 @@ line-height: inherit;
         .fi-rr-hand-wave:before {
     content: "\f569";
     }
-        .fi-rr-hand:before {
+        .fi-rr-thumbs-down:before {
     content: "\f56a";
     }
         .fi-rr-hands-bubbles:before {
@@ -5554,7 +5554,7 @@ line-height: inherit;
         .fi-rr-soap:before {
     content: "\f833";
     }
-        .fi-rr-social-network:before {
+        .fi-rr-thumbs-up:before {
     content: "\f834";
     }
         .fi-rr-solar-system:before {

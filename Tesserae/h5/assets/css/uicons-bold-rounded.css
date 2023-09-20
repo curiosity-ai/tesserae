@@ -3421,7 +3421,7 @@ line-height: inherit;
         .fi-br-hand-wave:before {
     content: "\f56f";
     }
-        .fi-br-hand:before {
+        .fi-br-thumbs-down:before {
     content: "\f570";
     }
         .fi-br-hands-bubbles:before {
@@ -5554,7 +5554,7 @@ line-height: inherit;
         .fi-br-soap:before {
     content: "\f836";
     }
-        .fi-br-social-network:before {
+        .fi-br-thumbs-up:before {
     content: "\f837";
     }
         .fi-br-solar-system:before {
