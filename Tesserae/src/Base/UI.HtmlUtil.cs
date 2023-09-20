@@ -22,16 +22,16 @@ namespace Tesserae
         {
             if (source == null)
                 throw new ArgumentNullException(nameof(source));
-
-            return IsEqualToOrIsChildOf(source, document.querySelector("html") as Node);
+            return source.isConnected;
+            //return IsEqualToOrIsChildOf(source, document.querySelector("html") as Node);
         }
 
         public static bool IsMounted(this IComponent source)
         {
             if (source == null)
                 throw new ArgumentNullException(nameof(source));
-
-            return IsEqualToOrIsChildOf(source.Render(), document.querySelector("html") as Node);
+            return source.Render().isConnected;
+            //return IsEqualToOrIsChildOf(source.Render(), document.querySelector("html") as Node);
         }
 
         public static bool IsEqualToOrIsChildOf(this HTMLElement element, Node possibleParentElement)
