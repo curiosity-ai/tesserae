@@ -36,6 +36,8 @@ namespace Tesserae
 
         public static bool IsEqualToOrIsChildOf(this HTMLElement element, Node possibleParentElement)
         {
+            return Script.Write<bool>("{0} == {1}", element, possibleParentElement) || possibleParentElement.contains(element);
+
             while (Script.Write<bool>("{0} != null", element))  //Short-circuit the == opeartor in C# to make this method faster
             {
                 if (Script.Write<bool>("{0} == {1}", element, possibleParentElement)) //Short-circuit the == opeartor in C# to make this method faster
