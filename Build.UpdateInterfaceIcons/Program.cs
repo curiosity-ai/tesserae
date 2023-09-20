@@ -76,6 +76,15 @@ namespace Build.UpdateInterfaceIcons
                     {
                         var line = lines[i];
 
+                        foreach (var (replace, with) in IconsToFixInCss)
+                        {
+                            if (line.Contains(replace))
+                            {
+                                line = line.Replace(replace, with);
+                                lines[i] = line;
+                            }
+                        }
+
                         if (line.Contains("line-height: 1;"))
                         {
                             var startIndex = line.IndexOf("line-height: 1;");
@@ -126,6 +135,7 @@ namespace Build.UpdateInterfaceIcons
                         extraLines.Add("}");
                     }
 
+
                     File.WriteAllLines(Path.Combine(tesseraeCssDir, name + ".css"), extraLines.Concat(lines));
 
                     Console.WriteLine("Copying " + file);
@@ -141,9 +151,10 @@ namespace Build.UpdateInterfaceIcons
             Console.WriteLine($"Parsed css files, found {allIcons.Length} icons.");
         }
 
-        private static Dictionary<string, string> IconAliases = new Dictionary<string, string>
+        private static Dictionary<string, string> IconsToFixInCss = new Dictionary<string, string>
         {
-            //Example: (not needed anymore on latest uicons version): { "social-network", "ThumbsUp" }
+            { "-social-network:before", "-thumbs-up:before" },
+            { "-hand:before", "-thumbs-down:before" },
         };
 
         private static HashSet<string> ExportAsVariables = new HashSet<string>()
@@ -175,11 +186,11 @@ namespace Build.UpdateInterfaceIcons
                 sb.Append(("        [Name(\"fi-rr-" + i + "\")] ").PadRight(maxLen, ' '));
                 sb.AppendLine($"{ToValidName(i)},");
 
-                if (IconAliases.ContainsKey(i))
-                {
-                    sb.Append(("        [Name(\"fi-rr-" + i + "\")] ").PadRight(maxLen, ' '));
-                    sb.AppendLine($"{IconAliases[i]},");
-                }
+                //if (IconAliases.ContainsKey(i))
+                //{
+                //    sb.Append(("        [Name(\"fi-rr-" + i + "\")] ").PadRight(maxLen, ' '));
+                //    sb.AppendLine($"{IconAliases[i]},");
+                //}
             }
             sb.AppendLine("    }");
             sb.AppendLine("}");
