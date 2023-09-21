@@ -20,7 +20,9 @@ namespace Tesserae
         private readonly HTMLElement _modalOverlay;
         private readonly HTMLDivElement _modalContent;
 
+        private readonly HTMLElement _modalLeftHeaderCommands;
         private readonly HTMLElement _modalHeaderCommands;
+        private readonly HTMLElement _modalLeftFooterCommands;
         private readonly HTMLElement _modalFooterCommands;
         private readonly HTMLElement _modalHeaderContents;
         private readonly HTMLElement _modalFooterContents;
@@ -47,10 +49,12 @@ namespace Tesserae
             _modalFooterContents = Div(_("tss-modal-footer-content"));
 
             _modalHeaderCommands = Div(_("tss-modal-header-commands"));
+            _modalLeftHeaderCommands = Div(_("tss-modal-left-header-commands"));
             _modalFooterCommands = Div(_("tss-modal-footer-commands"));
+            _modalLeftFooterCommands = Div(_("tss-modal-left-footer-commands"));
 
-            _modalHeader = Div(_("tss-modal-header"), _modalHeaderContents, _modalHeaderCommands);
-            _modalFooter = Div(_("tss-modal-footer"), _modalFooterContents, _modalFooterCommands);
+            _modalHeader = Div(_("tss-modal-header"), _modalLeftHeaderCommands, _modalHeaderContents, _modalHeaderCommands);
+            _modalFooter = Div(_("tss-modal-footer"), _modalLeftFooterCommands, _modalFooterContents, _modalFooterCommands);
 
             if (header != null)
             {
@@ -136,6 +140,38 @@ namespace Tesserae
                 foreach (var command in commands)
                 {
                     _modalFooterCommands.appendChild(command.Render());
+                }
+            }
+
+            return this;
+        }
+
+        public Modal SetLeftHeaderCommands(params IComponent[] commands)
+        {
+            _modalHeader.style.display = "";
+            ClearChildren(_modalLeftHeaderCommands);
+
+            if (commands is object)
+            {
+                foreach (var command in commands)
+                {
+                    _modalLeftHeaderCommands.appendChild(command.Render());
+                }
+            }
+
+            return this;
+        }
+
+        public Modal SetLeftFooterCommands(params IComponent[] commands)
+        {
+            _modalFooter.style.display = "";
+            ClearChildren(_modalLeftFooterCommands);
+
+            if (commands is object)
+            {
+                foreach (var command in commands)
+                {
+                    _modalLeftFooterCommands.appendChild(command.Render());
                 }
             }
 

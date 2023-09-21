@@ -117,32 +117,37 @@
     }
 
 
-.tss-modal-header-commands {
+.tss-modal-header-commands,
+.tss-modal-left-header-commands {
     flex-shrink: 0;
     flex-wrap: nowrap;
     display: inline-flex;
     align-items: center;
 }
 
-    .tss-modal-header-commands:not(:empty) {
+    .tss-modal-header-commands:not(:empty),
+    .tss-modal-left-header-commands:not(:empty) {
         padding: 6px 0px 6px 0px;
     }
 
 
-.tss-modal-footer-commands {
+.tss-modal-footer-commands,
+.tss-modal-left-footer-commands {
     flex-shrink: 0;
     flex-wrap: nowrap;
     display: inline-flex;
     align-items: center;
 }
 
-    .tss-modal-footer-commands:not(:empty) {
+    .tss-modal-footer-commands:not(:empty),
+    .tss-modal-left-footer-commands:not(:empty) {
         padding: 6px 0px 6px 0px;
     }
 
 
 
-.tss-modal-header-commands > button {
+.tss-modal-header-commands > button,
+.tss-modal-left-header-commands > button {
     background-color: transparent;
     color: var(--tss-secondary-foreground-color);
     border: none;
@@ -164,46 +169,17 @@
         margin-left: 4px;
     }
 
-    .tss-modal-header-commands > button:hover {
+    .tss-modal-header-commands > button:hover,
+    .tss-modal-left-header-commands > button:hover {
         background-color: var(--tss-default-background-hover-color);
         color: var(--tss-default-foreground-color);
     }
 
-    .tss-modal-header-commands > button:active {
+    .tss-modal-header-commands > button:active,
+    .tss-modal-left-header-commands > button:active {
         background-color: var(--tss-default-background-active-color);
         color: var(--tss-primary-background-active-color);
     }
-
-/*.tss-modal-footer-commands > button {
-    background-color: transparent;
-    color: var(--tss-secondary-foreground-color);
-    border: none;
-    cursor: pointer;
-    min-width: 32px;
-    height: 32px;
-    user-select: none;
-    border-radius: 4px;
-    padding: 0 4px;
-    text-align: center;
-    display: inline-block;
-    font-size: var(--tss-font-size-small);
-    font-weight: var(--tss-font-weight-semibold);
-    box-shadow: none;
-}
-
-    .tss-modal-footer-commands > button:not(:first-of-type) {
-        margin-left: 4px;
-    }
-
-    .tss-modal-footer-commands > button:hover {
-        background-color: var(--tss-default-background-hover-color);
-        color: var(--tss-default-foreground-color);
-    }
-
-    .tss-modal-footer-commands > button:active {
-        background-color: var(--tss-default-background-active-color);
-        color: var(--tss-primary-background-active-color);
-    }*/
 
 .tss-modal-content {
     display: flex;
