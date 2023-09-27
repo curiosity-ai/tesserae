@@ -10,12 +10,12 @@ namespace Tesserae
     {
         private static HTMLElement GetAppendToTarget(HTMLElement hostElement)
         {
-            var child = hostElement;
+            var child  = hostElement;
             var parent = child.parentElement;
-            
+
             while (parent is object && !parent.classList.contains("tippy-content"))
             {
-                child = parent;
+                child  = parent;
                 parent = parent.parentElement;
             }
 
@@ -40,8 +40,8 @@ namespace Tesserae
             var appendTo = GetAppendToTarget(rendered);
 
             var renderedTooltip = UI.DIV(tooltip.Render());
-            renderedTooltip.style.display = "block";
-            renderedTooltip.style.overflow = "hidden";
+            renderedTooltip.style.display      = "block";
+            renderedTooltip.style.overflow     = "hidden";
             renderedTooltip.style.textOverflow = "ellipsis";
             document.body.appendChild(renderedTooltip);
 
