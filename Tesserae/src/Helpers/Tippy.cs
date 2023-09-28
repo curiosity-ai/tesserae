@@ -60,7 +60,11 @@ namespace Tesserae
 
             hide = onHiddenInternal;
 
-            onHiddenInternal(); //Remove previous tooltips
+            //Remove previous tooltips
+            if (element.HasOwnProperty("_tippy"))
+            {
+                H5.Script.Write("{0}._tippy.destroy();", element);
+            }
 
             if (animation == TooltipAnimation.None)
             {
@@ -104,10 +108,13 @@ namespace Tesserae
 
             if (onHide is null) onHide = () => true;
 
-
             hide = onHiddenInternal;
 
-            onHiddenInternal(); //Remove previous tooltips
+            //Remove previous tooltips
+            if (hostElement.HasOwnProperty("_tippy"))
+            {
+                H5.Script.Write("{0}._tippy.destroy();", hostElement);
+            }
 
             if (animation == TooltipAnimation.None)
             {
