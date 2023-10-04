@@ -169,6 +169,6 @@
     }
 
         .tss-textbreadcrumb-sep i:before {
-            content: "\f12d";
+            content: var(--uicon-var-angle-right);
             transition: transform ease-in-out 0.2s;
         }
