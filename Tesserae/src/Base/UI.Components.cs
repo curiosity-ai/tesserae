@@ -262,6 +262,8 @@ namespace Tesserae
         public static DateTimePicker DateTimePicker(DateTime? dateTime = null) => new DateTimePicker(dateTime);
 
         public static DatePicker DatePicker(DateTime? dateTime = null) => new DatePicker(dateTime);
+        
+        public static NumberPicker NumberPicker(int defaultValue = 0) => new NumberPicker(defaultValue);
 
         public static GridPicker GridPicker(string[] columnNames, string[] rowNames, int states, int[][] initialStates, Action<Button, int, int> formatState, UnitSize[] columns = null, UnitSize rowHeight = null) => new GridPicker(columnNames, rowNames, states, initialStates, formatState, columns, rowHeight);
 
