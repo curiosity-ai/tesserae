@@ -258,19 +258,19 @@ namespace Tesserae
 
         public bool IsDraggable
         {
-            get => _modal.classList.contains("tss-modal-draggable");
+            get => _modalHeaderContents.classList.contains("tss-modal-draggable");
             set
             {
                 if (value)
                 {
-                    _modal.classList.add("tss-modal-draggable");
-                    _modal.addEventListener("mousedown", OnDragMouseDown);
+                    _modalHeaderContents.classList.add("tss-modal-draggable");
+                    _modalHeaderContents.addEventListener("mousedown", OnDragMouseDown);
 
                 }
                 else
                 {
-                    _modal.classList.remove("tss-modal-draggable");
-                    _modal.removeEventListener("mousedown", OnDragMouseDown);
+                    _modalHeaderContents.classList.remove("tss-modal-draggable");
+                    _modalHeaderContents.removeEventListener("mousedown", OnDragMouseDown);
                 }
             }
         }
