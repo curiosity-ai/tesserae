@@ -507,25 +507,27 @@ namespace Tesserae
             {
                 var x = X;
                 var y = Y;
+                var halfW = (window.innerWidth - rect.width) / 2;
+                var halfH = (window.innerHeight - rect.height) / 2;
 
-                if(rect.left + x < 0)
+                if (x < -halfW)
                 {
-                    x = - rect.left;
+                    x = -halfW;
                 }
 
-                if(rect.top + y < 0)
+                if (y < -halfH)
                 {
-                    y = -rect.top;
+                    y = -halfH;
                 }
 
-                if (rect.bottom + y > window.innerHeight)
+                if (y > halfH)
                 {
-                    y = window.innerHeight - rect.bottom;
+                    y = halfH;
                 }
 
-                if(rect.right + x > window.innerWidth)
+                if(x > halfW)
                 {
-                    x = window.innerWidth - rect.right;
+                    x = halfW;
                 }
 
                 return $"translate({x}px,{y}px)";
