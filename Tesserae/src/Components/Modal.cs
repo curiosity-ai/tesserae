@@ -444,7 +444,7 @@ namespace Tesserae
                 var e = ev as MouseEvent;
                 _startPoint.X += e.movementX;
                 _startPoint.Y += e.movementY;
-                _modal.style.transform = _startPoint.To();
+                _modal.style.transform = _startPoint.To(_modal.getBoundingClientRect().As<DOMRect>());
             }
         }
 
@@ -486,8 +486,8 @@ namespace Tesserae
                 Y = y;
             }
 
-            public double X { get; set; }
-            public double Y { get; set; }
+            public double X;
+            public double Y;
 
             public static TranslationPoint From(string translation)
             {
@@ -503,9 +503,32 @@ namespace Tesserae
                 }
             }
 
-            public string To()
+            public string To(DOMRect rect)
             {
-                return $"translate({X}px,{Y}px)";
+                var x = X;
+                var y = Y;
+
+                if(rect.left + x < 0)
+                {
+                    x = - rect.left;
+                }
+
+                if(rect.top + y < 0)
+                {
+                    y = -rect.top;
+                }
+
+                if (rect.bottom + y > window.innerHeight)
+                {
+                    y = window.innerHeight - rect.bottom;
+                }
+
+                if(rect.right + x > window.innerWidth)
+                {
+                    x = window.innerWidth - rect.right;
+                }
+
+                return $"translate({x}px,{y}px)";
             }
         }
     }
