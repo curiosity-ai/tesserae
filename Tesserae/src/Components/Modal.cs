@@ -456,6 +456,7 @@ namespace Tesserae
                 document.body.removeEventListener("mouseup", OnDragMouseUp);
                 document.body.removeEventListener("mousemove", OnDragMouseMove);
                 document.body.removeEventListener("mouseleave", OnDragMouseUp);
+                document.body.classList.remove("tss-modal-dragging");
                 document.body.style.userSelect = "";
                 _isDragged = false;
             }
@@ -469,6 +470,7 @@ namespace Tesserae
                 document.body.addEventListener("mouseup", OnDragMouseUp);
                 document.body.addEventListener("mousemove", OnDragMouseMove);
                 document.body.addEventListener("mouseleave", OnDragMouseUp);
+                document.body.classList.add("tss-modal-dragging");
                 _modal.style.userSelect = "none";
                 _startPoint = TranslationPoint.From(_modal.style.transform);
                 _isDragged = true;

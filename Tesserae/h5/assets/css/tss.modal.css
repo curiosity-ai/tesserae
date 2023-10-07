@@ -211,7 +211,11 @@
 }
 
 .tss-modal-draggable {
-    cursor: move;
+    cursor: grab;
+}
+
+body.tss-modal-dragging .tss-modal-draggable {
+    cursor: grabbing !important;
 }
 
 .tss-modal-modeless {
