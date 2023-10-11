@@ -15,11 +15,11 @@
     outline: 0;
     transition-property: transform,visibility,opacity;
     box-shadow: var(--tss-box-shadow);
-    border-radius: 8px;
 }
 
     .tippy-box > .tippy-content > div {
         background: transparent;
+        border-radius: 8px;
     }
 
     .tippy-box[data-placement^=top] > .tippy-arrow {
