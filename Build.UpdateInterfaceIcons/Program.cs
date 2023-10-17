@@ -167,7 +167,9 @@ namespace Build.UpdateInterfaceIcons
             "angle-left",
             "angle-top",
             "angle-bottom",
-            "slash"
+            "slash",
+            "lock",
+            "unlock"
         };
 
         private static string CreateEnum(string[] icons)
