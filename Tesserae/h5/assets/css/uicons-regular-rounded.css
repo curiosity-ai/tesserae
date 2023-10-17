@@ -2,10 +2,12 @@
 --uicon-var-angle-left: '\f132';
 --uicon-var-angle-right: '\f133';
 --uicon-var-checkbox: '\f2df';
+--uicon-var-lock: '\f635';
 --uicon-var-sidebar-flip: '\f7fd';
 --uicon-var-sidebar: '\f7fe';
 --uicon-var-slash: '\f81a';
 --uicon-var-square: '\f890';
+--uicon-var-unlock: '\f97e';
 }
 @font-face {
 font-family: "uicons-regular-rounded";
