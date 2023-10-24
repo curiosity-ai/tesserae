@@ -133,7 +133,10 @@ namespace Tesserae
             if (_currentSelectedID != id || refresh)
             {
                 var tab = OrderedTabs.FirstOrDefault(t => t.Id == id);
-                Select(tab);
+                if(tab is object)
+                {
+                    Select(tab);
+                }
             }
             return this;
         }
