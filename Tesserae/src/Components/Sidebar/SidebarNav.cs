@@ -28,6 +28,8 @@ namespace Tesserae
         public bool IsCollapsed { get { return _collapsed.Value; } set { _collapsed.Value = value; } }
         public bool IsSelected  { get { return _selected.Value; }  set { _selected.Value = value; } }
 
+        public IObservable<bool> CollapsedStatus => _collapsed;
+
         private IComponent _lastClosed;
         private IComponent _lastOpen;
 
