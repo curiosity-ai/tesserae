@@ -32,7 +32,7 @@ namespace Tesserae
             _searchBox = new SearchBox().Underlined().SetPlaceholder("Type to search").SearchAsYouType().Width(100.px()).Grow();
             _list = ItemsList(new IComponent[0], columns);
             _defered =
-                Defer(
+                DeferSync(
                     Items,
                     item =>
                     {
@@ -55,16 +55,16 @@ namespace Tesserae
                             _searchBox.Collapse();
                         }
 
-                        return _list.Stretch().AsTask();
+                        return _list.S();
                     }
                 )
-                .WidthStretch()
+                .WS()
                 .Grow(1);
 
             _searchBox.OnSearch((_, __) => _defered.Refresh());
-            _searchBoxContainer = Stack().Horizontal().WidthStretch().Children(_searchBox).AlignItems(ItemAlign.Center);
+            _searchBoxContainer = Stack().Horizontal().WS().Children(_searchBox).AlignItems(ItemAlign.Center);
             _searchBoxContainerComponents = new List<IComponent>() { _searchBox };
-            _stack = Stack().Children(_searchBoxContainer, _defered.Scroll()).WidthStretch().MaxHeight(100.percent());
+            _stack = Stack().Children(_searchBoxContainer, _defered.Scroll()).WS().MaxHeight(100.percent());
         }
 
         public SearchableList<T> WithNoResultsMessage(Func<IComponent> emptyListMessageGenerator)

@@ -75,8 +75,8 @@ namespace Tesserae
             _collapsed = new SettableObservable<bool>(initiallyCollapsed);
             _selected = new SettableObservable<bool>(false);
 
-            _closedContent = () => Defer(_items, (items) => RenderClosed(items).AsTask());
-            _openContent = () => Defer(_items, (items) => RenderOpened(items).AsTask());
+            _closedContent = () => DeferSync(_items, (items) => RenderClosed(items));
+            _openContent = () => DeferSync(_items, (items) => RenderOpened(items));
 
             _arrow.OnClick(() =>
             {

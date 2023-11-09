@@ -37,7 +37,7 @@ namespace Tesserae.Tests.Samples
                .Section(
                     Stack().Children(
                         SampleTitle("Usage"),
-                        Label("Value").Medium().SetContent(Defer(value, currentValue => TextBlock(currentValue.ToString()).AsTask())),
+                        Label("Value").Medium().SetContent(DeferSync(value, currentValue => TextBlock(currentValue.ToString()))),
                         Label("Default Slider (val: 0, min: 0, max: 100, step: 1)").Medium().SetContent(s1),
                         Label("Default Slider (val: 0, min: 0, max: 100, step: 10)").Medium().SetContent(s2)
                     ));

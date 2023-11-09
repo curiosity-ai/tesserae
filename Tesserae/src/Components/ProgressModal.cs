@@ -18,9 +18,9 @@ namespace Tesserae
 
         public ProgressModal()
         {
-            _titleHost   = Raw().WidthStretch();
-            _messageHost = Raw().WidthStretch();
-            _footerHost = Raw().WidthStretch();
+            _titleHost   = Raw().WS();
+            _messageHost = Raw().WS();
+            _footerHost = Raw().WS();
             _progressHost = Raw();
             _spinner = Spinner().Large().Margin(8.px());
             _progressHost.Content(_spinner);
@@ -29,7 +29,7 @@ namespace Tesserae
             _modalHost = Modal().Blocking().NoLightDismiss().HideCloseButton().CenterContent()
                                 .Content(Stack()
                                                .AlignCenter()
-                                               .WidthStretch()
+                                               .WS()
                                                .Children(_titleHost, _progressHost, _messageHost, _footerHost));
 
         }
