@@ -19,6 +19,7 @@ namespace Tesserae
         private readonly HTMLElement _childContainer;
         private readonly HTMLDivElement _container;
         private readonly HTMLSpanElement _noItemsSpan;
+        private readonly HTMLSpanElement _searchSpan;
         private readonly HTMLSpanElement _errorSpan;
         private readonly ObservableList<Item> _selectedChildren;
         private IComponent _placeholder;
@@ -35,6 +36,7 @@ namespace Tesserae
         public Dropdown(HTMLSpanElement noItemsSpan = null)
         {
             _noItemsSpan = noItemsSpan ?? Span(_(text: "There are no options available"));
+            _searchSpan = Span(_("tss-dropdown-search-term"));
 
             InnerElement = Div(_("tss-dropdown"), _noItemsSpan);
 
@@ -283,11 +285,31 @@ namespace Tesserae
 
         private void RecomputePopupPosition()
         {
-            ClientRect rect = (ClientRect)_container.getBoundingClientRect();
-            var contentRect = (ClientRect)_popupDiv.getBoundingClientRect();
+            if(!string.IsNullOrEmpty(_search))
+            {
+                if (!_searchSpan.isConnected)
+                {
+                    InnerElement.insertBefore(_searchSpan, InnerElement.children[0]);
+                }
+                _searchSpan.innerText = _search;
+                InnerElement.classList.add("tss-dropdown-searching");
+            }
+            else
+            {
+                InnerElement.classList.remove("tss-dropdown-searching");
+            }
+
+            var items = GetItems();
+            var visibleItems = items.Where(i => i.item.style.display != "none").Select(i => (item: i.item, height: i.item.getBoundingClientRect().As<DOMRect>().height)).ToArray();
+
+            var maxHeight = visibleItems.Length > 0 ? visibleItems.Sum(h => h.height)  + "px" : "80vh";
+
+            _popupDiv.style.maxHeight = maxHeight;
+
+            var rect = _container.getBoundingClientRect().As<DOMRect>();
+            var contentRect = _popupDiv.getBoundingClientRect().As<DOMRect>();
             _popupDiv.style.top = rect.bottom - 1 + "px";
             _popupDiv.style.minWidth = rect.width + "px";
-
             var finalLeft = rect.left;
             if (rect.left + contentRect.width + 1 > window.innerWidth)
             {
@@ -655,6 +677,8 @@ namespace Tesserae
             {
                 ResetSearchItems();
             }
+
+            RecomputePopupPosition();
         }
 
         private void ResetSearchItems(IEnumerable<(HTMLElement item, string textContent)> itemsToReset = null)
@@ -668,7 +692,15 @@ namespace Tesserae
             }
         }
 
-        private void ClearSearch() => _search = string.Empty;
+        private void ClearSearch()
+        {
+            _search = string.Empty;
+            InnerElement.classList.remove("tss-dropdown-searching");
+            if (_searchSpan.isConnected)
+            {
+                _searchSpan.remove();
+            }
+        }
 
         /// <summary>
         /// When a LoadItemsAsync call starts, there should be a spinner to indicate that something is happening in the background - but if a further async request comes in before the previous one has completed then there is no
@@ -725,8 +757,6 @@ namespace Tesserae
                     RecursiveHighlight(item, regex);
                 }
             } 
-
-            RecomputePopupPosition();
         }
 
         private static void RecursiveHighlight(HTMLElement baseElement, Regex highlighter)
