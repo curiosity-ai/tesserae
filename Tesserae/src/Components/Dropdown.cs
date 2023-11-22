@@ -297,6 +297,10 @@ namespace Tesserae
             else
             {
                 InnerElement.classList.remove("tss-dropdown-searching");
+                if (_searchSpan.isConnected)
+                {
+                    _searchSpan.remove();
+                }
             }
 
             var items = GetItems();
