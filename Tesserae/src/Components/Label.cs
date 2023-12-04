@@ -113,6 +113,12 @@ namespace Tesserae
             return this;
         }
 
+        public Label AlignLabelTop()
+        {
+            _label.style.alignSelf = "flex-start";
+            return this;
+        }
+
         public Label AutoWidth(int nestingLevels = 1, bool alignRight = false)
         {
             _label.classList.add("tss-label-autowidth");
