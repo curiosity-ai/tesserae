@@ -8,10 +8,11 @@ namespace Tesserae
         /// <summary>
         /// This applies validation logic to a component that implements ICanValidate-of-itself and will register the component with a Validator instance if one is provided
         /// </summary>
-        public static TComponent Validation<TComponent>(this TComponent component, Func<TComponent, string> validate, Validator validator = null) where TComponent : ICanValidate<TComponent>
+        public static TComponent Validation<TComponent>(this TComponent component, Func<TComponent, string> validate, Validator validator = null, bool forceInitialValidation = false) where TComponent : ICanValidate<TComponent>
         {
             if (component == null)
                 throw new ArgumentNullException(nameof(component));
+
             if (validate == null)
                 throw new ArgumentNullException(nameof(validate));
 
@@ -25,7 +26,9 @@ namespace Tesserae
             // at all and would be considered valid but without displaying all the validation messages on inputs that the User hasn't touched yet for things that are NOT valid.
 
             component.Attach(_ => ApplyValidation());
-            validator?.Register(component, WouldBeValid, () => ApplyValidation());;
+            validator?.Register(component, WouldBeValid, () => ApplyValidation());
+
+            if (forceInitialValidation) ApplyValidation();
 
             return component;
 
@@ -34,8 +37,8 @@ namespace Tesserae
             void ApplyValidation()
             {
                 var validationWarningIfAny = validate(component);
-                var isInvalid = !string.IsNullOrWhiteSpace(validationWarningIfAny);
-                component.Error = isInvalid ? validationWarningIfAny : "";
+                var isInvalid              = !string.IsNullOrWhiteSpace(validationWarningIfAny);
+                component.Error     = isInvalid ? validationWarningIfAny : "";
                 component.IsInvalid = isInvalid;
             }
         }
