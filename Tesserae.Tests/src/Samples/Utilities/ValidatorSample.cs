@@ -12,16 +12,14 @@ namespace Tesserae.Tests.Samples
         public ValidatorSample()
         {
             var looksValidSoFar = TextBlock("?");
-            var validator = Validator().OnValidation(validity => looksValidSoFar.Text = validity == ValidationState.Invalid ? "Something is not ok ❌" : "Everything is fine so far ✔");
+            var validator       = Validator().OnValidation(validity => looksValidSoFar.Text = validity == ValidationState.Invalid ? "Something is not ok ❌" : "Everything is fine so far ✔");
 
             // Note: The "Required()" calls on these components only marks them visually as being required - if they must have values then that must be accounted for in their Validation(..) logic
-            var textBoxThatMustBeNonEmpty = TextBox("").Required();
+            var textBoxThatMustBeNonEmpty        = TextBox("").Required();
             var textBoxThatMustBePositiveInteger = TextBox("").Required();
             textBoxThatMustBeNonEmpty.Validation(tb => tb.Text.Length == 0 ? "must enter a value" : textBoxThatMustBeNonEmpty.Text == textBoxThatMustBePositiveInteger.Text ? "duplicated  values" : null, validator);
             textBoxThatMustBePositiveInteger.Validation(tb => Validation.NonZeroPositiveInteger(tb) ?? (textBoxThatMustBeNonEmpty.Text == textBoxThatMustBePositiveInteger.Text ? "duplicated values" : null), validator);
 
-            var preFilledTextBoxThatMustBePositiveIntegerWhoseValueIsValid = TextBox("123").Required().Validation(Validation.NonZeroPositiveInteger, validator);
-            var preFilledTextBoxThatMustBePositiveIntegerWhoseValueIsNotValid = TextBox("xyz").Required().Validation(Validation.NonZeroPositiveInteger, validator);
 
             var dropdown = Dropdown().Items(DropdownItem(""), DropdownItem("Item 1"), DropdownItem("Item 2")).Required().Validation(dd => string.IsNullOrWhiteSpace(dd.SelectedText) ? "must select an item" : null, validator);
 
@@ -49,8 +47,9 @@ namespace Tesserae.Tests.Samples
                         Stack().Width(40.percent()).Padding(8.px()).Children(
                             Label("Non-empty").SetContent(textBoxThatMustBeNonEmpty),
                             Label("Integer > 0 (must not match the value above)").SetContent(textBoxThatMustBePositiveInteger),
-                            Label("Pre-filled Integer > 0 (initially valid)").SetContent(preFilledTextBoxThatMustBePositiveIntegerWhoseValueIsValid),
-                            Label("Pre-filled Integer > 0 (initially invalid)").SetContent(preFilledTextBoxThatMustBePositiveIntegerWhoseValueIsNotValid),
+                            Label("Pre-filled Integer > 0 (initially valid)").SetContent(TextBox("123").Required().Validation(Validation.NonZeroPositiveInteger, validator)),
+                            Label("Pre-filled Integer > 0 (initially i  nvalid)").SetContent(TextBox("xyz").Required().Validation(Validation.NonZeroPositiveInteger, validator)),
+                            Label("Not empty with forced instant validation").SetContent(TextBox("").Required().Validation(tb => string.IsNullOrWhiteSpace(tb.Text) ? "Can't be empty" : null, validator, forceInitialValidation: true)),
                             Label("Please select something").SetContent(dropdown)
                         ),
                         TextBlock("Results Summary").Medium(),
