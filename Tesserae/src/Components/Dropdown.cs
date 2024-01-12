@@ -644,9 +644,9 @@ namespace Tesserae
         [Enum(Emit.StringName)] //Don't change the emit type without updating the FromClassList method
         public enum ItemType
         {
-            [Name("tss-contextmenu-item")] Item,
-            [Name("tss-contextmenu-header")] Header,
-            [Name("tss-contextmenu-divider")] Divider
+            [Name("tss-dropdown-item")] Item,
+            [Name("tss-dropdown-header")] Header,
+            [Name("tss-dropdown-divider")] Divider
         }
 
         private void UpdateSearch(KeyboardEvent e)
