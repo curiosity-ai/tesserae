@@ -37,6 +37,11 @@ namespace Tesserae
                 (component as dynamic).SectionStackItem = item;
             }
 
+            if (component.HasOwnProperty("StackItem"))
+            {
+                H5.Script.Delete(component["StackItem"]);
+            }
+
             item.style.height = grow ? "10px" : "auto";
             item.style.flexShrink = shrink ? "1" : "0";
             item.style.flexGrow = grow ? "1" : "";

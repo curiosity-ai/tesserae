@@ -407,7 +407,20 @@ namespace Tesserae
         internal static HTMLElement GetItem(IComponent component, bool forceAdd = false)
         {
             HTMLElement item = null;
-            if(component.HasOwnProperty("StackItem"))
+
+            if (component.HasOwnProperty("SectionStackItem"))
+            {
+                if (forceAdd)
+                {
+                    H5.Script.Delete(component["SectionStackItem"]);
+                }
+                else 
+                {
+                    item = component["SectionStackItem"] as HTMLElement;
+                }
+            }
+            
+            if (item is null && component.HasOwnProperty("StackItem"))
             {
                 item = component["StackItem"] as HTMLElement;
             }
@@ -424,13 +437,13 @@ namespace Tesserae
                         s.height = "auto";
                         s.flexShrink = "1";
                     }), component.Render());
+
                     component["StackItem"] = item;
 
                     if (forceAdd)
                     {
                         CopyStylesDefinedWithExtension(rendered, item);
                     }
-
                 }
                 else
                 {
