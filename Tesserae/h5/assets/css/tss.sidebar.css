@@ -168,7 +168,7 @@
     right: 4px;
     display: none;
     z-index: 2;
-    top: 8px;
+    top: 3px;
     flex-wrap: nowrap;
 }
 
@@ -248,7 +248,7 @@
         height: 18px !important;
         width: 18px !important;
         border-radius: 4px;
-        top: 9px;
+        top: 5px;
         left: 11px;
     }
 
@@ -269,6 +269,7 @@
     width: 24px !important;
     min-width: 24px;
     text-align: center;
+    margin-top:1px;
 }
 
 
