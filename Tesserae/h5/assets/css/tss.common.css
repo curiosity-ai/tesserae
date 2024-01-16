@@ -5,16 +5,16 @@
     --tss-font-weight-semibold: 600;
     --tss-font-weight-bold: 700;
     /* Sizes */
-    --tss-font-size-mega: 42px;
-    --tss-font-size-xxlarge: 32px;
-    --tss-font-size-xlarge: 28px;
-    --tss-font-size-large: 24px;
-    --tss-font-size-mediumplus: 20px;
-    --tss-font-size-medium: 18px;
-    --tss-font-size-smallplus: 16px;
-    --tss-font-size-small: 13px;
-    --tss-font-size-xsmall: 11px;
-    --tss-font-size-tiny: 10px;
+    --tss-font-size-mega: 40px;
+    --tss-font-size-xxlarge: 30px;
+    --tss-font-size-xlarge: 26px;
+    --tss-font-size-large: 22px;
+    --tss-font-size-mediumplus: 18px;
+    --tss-font-size-medium: 16px;
+    --tss-font-size-smallplus: 14px;
+    --tss-font-size-small: 11px;
+    --tss-font-size-xsmall: 9px;
+    --tss-font-size-tiny: 8px;
     /* Colors - Colors should reflect in the Theme.cs file*/
 
     --tss-default-background-color-root: 255, 255, 255;
