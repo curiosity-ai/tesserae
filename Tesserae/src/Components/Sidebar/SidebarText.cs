@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using H5.Core;
 using static H5.Core.dom;
 using static Tesserae.UI;
 
@@ -6,9 +8,9 @@ namespace Tesserae
 {
     public class SidebarText : ISidebarItem
     {
-        private readonly TextBlock _closed;
-        private readonly TextBlock _open;
-        public IComponent CurrentRendered => _closed.IsMounted() ? _closed : _open;
+        private readonly TextBlock  _closed;
+        private readonly TextBlock  _open;
+        public           IComponent CurrentRendered => _closed.IsMounted() ? _closed : _open;
 
         public bool IsSelected { get; set; }
 
@@ -29,6 +31,8 @@ namespace Tesserae
             _closed.Collapse();
             _open.Collapse();
         }
+        public string Identifier { get; set; }
+        public string GroupIdentifier { get; }
 
         public SidebarText SetText(string text)
         {
@@ -38,7 +42,7 @@ namespace Tesserae
 
         public SidebarText Foreground(string color)
         {
-            _open.Foreground = color;
+            _open.Foreground   = color;
             _closed.Foreground = color;
             return this;
         }

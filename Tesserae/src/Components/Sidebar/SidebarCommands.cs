@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using H5.Core;
 using static H5.Core.dom;
 using static Tesserae.UI;
 
@@ -44,7 +46,7 @@ namespace Tesserae
 
         public IComponent RenderOpen()
         {
-            var div = Div(_("tss-sidebar-commands-line"));
+            var div        = Div(_("tss-sidebar-commands-line"));
             var divWrapped = Raw(div);
 
             if (_isEndAligned)
@@ -62,7 +64,7 @@ namespace Tesserae
                 WhenSizeIsStable(div, (stableWidth) =>
                 {
                     HTMLDivElement otherCommands = null;
-                    int max = (int)Math.Floor(stableWidth / 48f);
+                    int            max           = (int)Math.Floor(stableWidth / 48f);
 
                     if (_isEndAligned && _commands.Length > 1)
                     {
@@ -106,7 +108,7 @@ namespace Tesserae
                 });
             });
             CurrentRendered = divWrapped;
-            
+
             if (_isHidden)
             {
                 divWrapped.Collapse();
@@ -126,9 +128,10 @@ namespace Tesserae
             CurrentRendered?.Collapse();
             _isHidden = true;
         }
+
         public IComponent RenderOpenFull()
         {
-            var div = Div(_("tss-sidebar-commands-line"));
+            var div        = Div(_("tss-sidebar-commands-line"));
             var divWrapped = Raw(div);
 
             if (_isEndAligned)
@@ -165,7 +168,7 @@ namespace Tesserae
 
         public IComponent RenderClosed()
         {
-            var div = Div(_("tss-sidebar-commands-line tss-sidebar-commands-line-closed"));
+            var div        = Div(_("tss-sidebar-commands-line tss-sidebar-commands-line-closed"));
             var divWrapped = Raw(div);
 
             DomObserver.WhenMounted(div, () =>
@@ -173,7 +176,7 @@ namespace Tesserae
                 ClearChildren(div); //Make sure we don't hit here twice
 
                 HTMLDivElement otherCommands = null;
-                int max = 1;
+                int            max           = 1;
 
 
                 for (int i = 0; i < _commands.Length; i++)
@@ -232,5 +235,8 @@ namespace Tesserae
             _isEndAligned = true;
             return this;
         }
+        
+        public string Identifier      { get; set; }
+        public string GroupIdentifier { get; set; }
     }
 }

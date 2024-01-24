@@ -9,10 +9,10 @@ namespace Tesserae
     [H5.Name("tss.ResizeObserver")]
     public class ResizeObserver
     {
-        public Action<Event> OnResizeElement { get; set; }
-        public Action OnResize { get; set; }
-        private object resizeObserver;
-        private List<Action> pending;
+        public  Action<Event> OnResizeElement { get; set; }
+        public  Action        OnResize        { get; set; }
+        private object        resizeObserver;
+        private List<Action>  pending;
         public ResizeObserver()
         {
             try
@@ -22,12 +22,14 @@ namespace Tesserae
             catch
             {
                 pending = new List<Action> { CreateRO };
+
                 Require.LoadScriptAsync("./assets/js/resizeobserver.js").ContinueWith(t =>
                 {
                     if (t.IsCompleted)
                     {
                         var p = pending;
                         pending = null;
+
                         foreach (var a in p)
                         {
                             a();
@@ -47,7 +49,7 @@ namespace Tesserae
         {
             if (pending is null)
             {
-                Script.Write("{0}.observe(element)", resizeObserver);
+                Script.Write("{0}.observe({1})", resizeObserver, element);
             }
             else
             {
@@ -96,6 +98,7 @@ namespace Tesserae
         public static float GetHeight(HTMLElement element)
         {
             var height = window.getComputedStyle(element).height;
+
             if (string.IsNullOrEmpty(height))
             {
                 // 2019-10-04 DWR: I've seen height be returned as a blank string, which will fail at float.parse, so return zero instead
@@ -107,6 +110,7 @@ namespace Tesserae
         public static float GetWidth(HTMLElement element)
         {
             var width = window.getComputedStyle(element).width;
+
             if (string.IsNullOrEmpty(width))
             {
                 // 2019-10-04 DWR: I presume that if height can be blank (see GetHeight) then width can be too, so include the same safety check

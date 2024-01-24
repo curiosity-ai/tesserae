@@ -68,6 +68,15 @@
       ],
       "output": "assets/js"
     },
+    {
+      //polyfill for ResizeObserver, only loaded if needed - mosaik will automatically remove the .dontload extension
+      //if using Tesserae elsewhere need to remove it as well
+      "name": "sortable.min.js",
+      "files": [
+        "h5/assets/js/sortable.min.js"
+      ],
+      "output": "assets/js"
+    },
     // There is no technical requirement for the CSS files to be combined but it makes it clearer that their content relates to the combined JS content (and it makes the Bridge-generated
     // index.html file cleaner)
     {

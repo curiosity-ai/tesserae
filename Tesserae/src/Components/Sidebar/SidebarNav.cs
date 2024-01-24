@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using H5;
+using H5.Core;
 using static H5.Core.dom;
 using static Tesserae.UI;
 using TNT;
 using static TNT.T;
+using static Tesserae.ArrayExtensions;
 
 namespace Tesserae
 {
@@ -21,12 +24,16 @@ namespace Tesserae
         private readonly Func<IComponent>             _closedContent;
         private readonly Func<IComponent>             _openContent;
         private          SidebarCommand[]             _commands;
-        private bool _isHidden;
+        private          bool                         _isHidden;
+        public           bool                         ReorderMode = false;
+
+
+        private string[] _itemOrder;
 
         private event Action<HTMLElement> _onRendered;
 
         public bool IsCollapsed { get { return _collapsed.Value; } set { _collapsed.Value = value; } }
-        public bool IsSelected  { get { return _selected.Value; }  set { _selected.Value = value; } }
+        public bool IsSelected  { get { return _selected.Value; }  set { _selected.Value  = value; } }
 
         public IObservable<bool> CollapsedStatus => _collapsed;
 
@@ -35,15 +42,15 @@ namespace Tesserae
 
         public IComponent CurrentRendered => (_lastClosed is object && _lastClosed.IsMounted()) ? _lastClosed : _lastOpen;
 
-        public SidebarNav(Emoji       icon, string            text,   bool   initiallyCollapsed, params SidebarCommand[] commands) : this($"ec {icon}", text, initiallyCollapsed, commands) { }
-        public SidebarNav(UIcons icon, string            text,   bool   initiallyCollapsed, params SidebarCommand[] commands) : this(Icon.Transform(icon, UIconsWeight.Regular), text, initiallyCollapsed, commands) { }
-        public SidebarNav(UIcons icon, UIconsWeight weight, string text,               bool                    initiallyCollapsed, params SidebarCommand[] commands) : this(Icon.Transform(icon,weight), text, initiallyCollapsed, commands) { }
+        public SidebarNav(Emoji  icon, string       text,   bool   initiallyCollapsed, params SidebarCommand[] commands) : this($"ec {icon}", text, initiallyCollapsed, commands) { }
+        public SidebarNav(UIcons icon, string       text,   bool   initiallyCollapsed, params SidebarCommand[] commands) : this(Icon.Transform(icon, UIconsWeight.Regular), text, initiallyCollapsed, commands) { }
+        public SidebarNav(UIcons icon, UIconsWeight weight, string text,               bool                    initiallyCollapsed, params SidebarCommand[] commands) : this(Icon.Transform(icon, weight), text, initiallyCollapsed, commands) { }
 
         public SidebarNav(string icon, string text, bool initiallyCollapsed, params SidebarCommand[] commands)
         {
-            _text = text;
+            _text         = text;
             _closedHeader = Button().SetIcon(icon).Class("tss-sidebar-nav-header").Class("tss-sidebar-btn");
-            _openHeader = Div(_("tss-sidebar-nav-header tss-sidebar-btn-open tss-sidebar-nav-header-empty"));
+            _openHeader   = Div(_("tss-sidebar-nav-header tss-sidebar-btn-open tss-sidebar-nav-header-empty"));
 
             _arrow = Button().Class("tss-sidebar-nav-arrow");
 
@@ -71,17 +78,29 @@ namespace Tesserae
                 }
             }
 
-            _items = new ObservableList<ISidebarItem>();
+            _items     = new ObservableList<ISidebarItem>();
             _collapsed = new SettableObservable<bool>(initiallyCollapsed);
-            _selected = new SettableObservable<bool>(false);
+            _selected  = new SettableObservable<bool>(false);
 
             _closedContent = () => DeferSync(_items, (items) => RenderClosed(items));
-            _openContent = () => DeferSync(_items, (items) => RenderOpened(items));
+            _openContent   = () => DeferSync(_items, (items) => RenderOpened(items));
 
             _arrow.OnClick(() =>
             {
                 _collapsed.Value = !_collapsed.Value;
             });
+        }
+
+        private IReadOnlyList<ISidebarItem> OrderItems(IReadOnlyList<ISidebarItem> items)
+        {
+            var dict = new object();
+
+            for (var i = 0; i < _itemOrder.Length; i++)
+            {
+                dict[_itemOrder[i]] = i;
+            }
+
+            return items.OrderBy(k => dict.HasOwnProperty(k.Identifier) ? dict[k.Identifier] : int.MaxValue).ToList();
         }
 
         public void Show()
@@ -168,7 +187,7 @@ namespace Tesserae
 
         private Action<Button, MouseEvent> WrapAction(Action<Button, MouseEvent> action)
         {
-            return (b,e) =>
+            return (b, e) =>
             {
                 if (IsSelected && _items.Count > 0)
                 {
@@ -176,7 +195,7 @@ namespace Tesserae
                 }
                 else
                 {
-                    action(b,e);
+                    action(b, e);
                 }
             };
         }
@@ -199,8 +218,8 @@ namespace Tesserae
         public SidebarNav OnClick(Action<Button, MouseEvent> action)
         {
             var wrapped = WrapAction(action);
-            _closedHeader.OnClick((b,e) => wrapped(b,e));
-            _openHeaderButton.OnClick((b,e) => wrapped(b,e));
+            _closedHeader.OnClick((b,     e) => wrapped(b, e));
+            _openHeaderButton.OnClick((b, e) => wrapped(b, e));
             return this;
         }
 
@@ -235,7 +254,41 @@ namespace Tesserae
 
             var nav = Div(_("tss-sidebar-nav"));
             nav.appendChild(_openHeader);
-            nav.appendChild(VStack().Class("tss-sidebar-nav-children").Children(items.Select(i => i.RenderOpen())).Render());
+
+
+            var children = VStack();
+
+            if (ReorderMode)
+            {
+                var itemsArray = items.ToArray();
+
+                itemsArray.Push(new SidebarAddItemsHereMarker());
+                items = itemsArray;
+            }
+
+            if (_itemOrder is object)
+            {
+                items = OrderItems(items);
+            }
+
+            if (ReorderMode)
+            {
+                Sortable.Create(children.Render(), new SortableOptions()
+                {
+                    animation  = 150,
+                    ghostClass = "tss-sortable-ghost",
+
+                    onEnd = e =>
+                    {
+                        _itemOrder = _itemOrder ?? items.Select(i => i.Identifier).ToArray();
+                        if (!_itemOrder.Contains(SidebarAddItemsHereMarker.NEW_ITEMS_ADDED_ORDER_KEY)) _itemOrder.Push(SidebarAddItemsHereMarker.NEW_ITEMS_ADDED_ORDER_KEY);
+
+                        _itemOrder.MoveItem(e.oldIndex, e.newIndex);
+                    }
+                });
+            }
+
+            nav.appendChild(children.Class("tss-sidebar-nav-children").Children(items.Select(i => i.RenderOpen())).Render());
 
             CollapsedChanged(_collapsed.Value);
             SelectedChanged(_selected.Value);
@@ -359,6 +412,8 @@ namespace Tesserae
 
         public void Add(ISidebarItem item)
         {
+            if (GroupIdentifier is object && item is SidebarNav) throw new NotImplementedException("more than 2 levels of sidebar nav is not supported with reordering the sidebar items.");
+
             _items.Add(item);
         }
 
@@ -370,6 +425,18 @@ namespace Tesserae
         {
             _onRendered += onRendered;
             return this;
+        }
+
+        public string Identifier      { get; set; }
+        public string GroupIdentifier { get; set; }
+
+        public void InitSorting(string[] itemOrder)
+        {
+            _itemOrder = itemOrder;
+        }
+        public string[] GetSorting()
+        {
+            return _itemOrder ?? _items.Value.Select(i => i.Identifier).ToArray();
         }
     }
 }

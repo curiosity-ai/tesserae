@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using H5.Core;
+using TNT;
 using static H5.Core.dom;
 using static Tesserae.UI;
 
@@ -23,6 +26,9 @@ namespace Tesserae
 
         public IComponent CurrentRendered => _closedButton.IsMounted() ? _closedButton : _open;
 
+        public string Identifier      { get; set; }
+        public string GroupIdentifier { get; set; }
+
         public SidebarButton(UIcons icon, string text, SidebarBadge            badge, params SidebarCommand[] commands) : this(Icon.Transform(icon, UIconsWeight.Regular), text, badge, commands) { }
         public SidebarButton(UIcons icon, string text, params SidebarCommand[] commands) : this(Icon.Transform(icon, UIconsWeight.Regular), text, null, commands) { }
 
@@ -36,14 +42,14 @@ namespace Tesserae
 
         public SidebarButton(string icon, string text, SidebarBadge badge, params SidebarCommand[] commands)
         {
-            _selected = new SettableObservable<bool>(false);
+            _selected      = new SettableObservable<bool>(false);
             _tooltipClosed = (b) => b.Tooltip(text);
-            _closedButton = Button().Class("tss-sidebar-btn").SetIcon(icon);
+            _closedButton  = Button().Class("tss-sidebar-btn").SetIcon(icon);
 
             _openButton = Button(text).SetIcon(icon).Class("tss-sidebar-btn");
 
             _commands = commands;
-            _badge = badge;
+            _badge    = badge;
 
             _open = Wrap(_openButton);
 
@@ -119,7 +125,7 @@ namespace Tesserae
             _openButton = Button(text).ReplaceContent(Raw(Div(_("tss-btn-with-image"), image.Clone().Render(), Span(_(text: text))))).Class("tss-sidebar-btn");
 
             _commands = commands;
-            _badge = badge;
+            _badge    = badge;
 
             _open = Wrap(_openButton);
 
@@ -165,14 +171,14 @@ namespace Tesserae
 
         public SidebarButton ClearProgress()
         {
-            _openButton.Render().style.background = "";
+            _openButton.Render().style.background   = "";
             _closedButton.Render().style.background = "";
             return this;
         }
         public SidebarButton Progress(float progress)
         {
             var p = $"linear-gradient(to right, rgba(var(--tss-primary-background-color-root),0.2), rgba(var(--tss-primary-background-color-root),0.2) {progress * 100:0.0}%, transparent 0)";
-            _openButton.Render().style.background = p;
+            _openButton.Render().style.background   = p;
             _closedButton.Render().style.background = p;
             return this;
         }
@@ -213,7 +219,7 @@ namespace Tesserae
 
         public SidebarButton Default()
         {
-            _openButton.IsPrimary = false;
+            _openButton.IsPrimary   = false;
             _closedButton.IsPrimary = false;
             return this;
         }

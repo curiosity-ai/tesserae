@@ -12,29 +12,30 @@ namespace Tesserae
         private event ObservableEvent.ValueChanged<IReadOnlyList<T>> ValueChanged;
 
         private readonly List<T> _list;
-        private readonly bool _shouldHookNestedObservables;
-        private double _refreshTimeout;
-        private double _refreshDelay = 1;
-        public double Delay { get => _refreshDelay; set => _refreshDelay = value; }
+        private readonly bool    _shouldHookNestedObservables;
+        private          double  _refreshTimeout;
+        private          double  _refreshDelay = 1;
+        public           double  Delay { get => _refreshDelay; set => _refreshDelay = value; }
         public ObservableList(params T[] initialValues) : this(shouldHook: true, initialValues: initialValues) { }
         public ObservableList(bool shouldHook, params T[] initialValues)
         {
-            _list = initialValues.ToList();
+            _list                        = initialValues.ToList();
             _shouldHookNestedObservables = shouldHook && PossibleObservableHelpers.IsObservable(typeof(T));
 
             // Note: The HookValue method will also check these conditions but we can save ourselve the enumeration if we know that we don't care about hooking nested lists
             if (_shouldHookNestedObservables)
             {
                 foreach (var i in _list)
-                   HookValue(i);
+                    HookValue(i);
             }
         }
 
-        public void Observe(ObservableEvent.ValueChanged<IReadOnlyList<T>> valueGetter) => Observe(valueGetter, callbackImmediately: true);
+        public void Observe(ObservableEvent.ValueChanged<IReadOnlyList<T>>              valueGetter) => Observe(valueGetter, callbackImmediately: true);
         public void ObserveFutureChanges(ObservableEvent.ValueChanged<IReadOnlyList<T>> valueGetter) => Observe(valueGetter, callbackImmediately: false);
         private void Observe(ObservableEvent.ValueChanged<IReadOnlyList<T>> valueGetter, bool callbackImmediately)
         {
             ValueChanged += valueGetter;
+
             if (callbackImmediately)
                 valueGetter(Value);
         }
@@ -58,13 +59,14 @@ namespace Tesserae
         private void RaiseOnValueChanged()
         {
             window.clearTimeout(_refreshTimeout);
+
             _refreshTimeout = window.setTimeout(
                 _ => ValueChanged?.Invoke(_list),
                 _refreshDelay
             );
         }
 
-        public int Count => _list.Count;
+        public int  Count      => _list.Count;
         public bool IsReadOnly => false;
 
         public IReadOnlyList<T> Value => _list;
@@ -116,17 +118,18 @@ namespace Tesserae
             HookValue(item);
             RaiseOnValueChanged();
         }
-        
+
         public void Update(int index, T item)
         {
             RemoveAt(index);
             Insert(index, item);
         }
-        
+
         public int RemoveAll(Func<T, bool> match)
         {
             var toRemove = _list.Where(match).ToArray();
-            foreach(var r in toRemove)
+
+            foreach (var r in toRemove)
             {
                 Remove(r);
             }
@@ -136,6 +139,7 @@ namespace Tesserae
         public bool Remove(T item)
         {
             var removed = _list.Remove(item);
+
             if (removed)
             {
                 UnhookValue(item);
@@ -167,7 +171,7 @@ namespace Tesserae
                 PossibleObservableHelpers.StopObservingIfObservable(v, RaiseOnValueChanged);
         }
 
-        public IEnumerator<T> GetEnumerator() => _list.GetEnumerator();
+        public IEnumerator<T>   GetEnumerator() => _list.GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }

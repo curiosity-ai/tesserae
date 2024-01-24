@@ -60,6 +60,13 @@
     z-index: 1;
 }
 
+.tss-sortable-ghost > .tss-sidebar-btn-open > .tss-btn 
+ {
+    color: var(--tss-primary-foreground-active-color-root);
+    background-color: rgba(var(--tss-primary-background-active-color-root), 0.5);
+    /*color: var(--tss-default-foreground-hover-color);*/
+}
+
 .tss-sidebar-btn.tss-sidebar-selected,
 .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn,
 .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-btn,
