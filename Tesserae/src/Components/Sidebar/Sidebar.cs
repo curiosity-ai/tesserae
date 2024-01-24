@@ -17,7 +17,7 @@ namespace Tesserae
         private readonly SettableObservable<bool>                        _closed;
         private          double                                          _closedTimeout;
         private readonly Stack                                           _sidebar;
-        public           bool                                            ReorderMode = false;
+        public           bool                                            IsInReorderMode = false;
 
         private string[] _itemOrder;
 
@@ -62,11 +62,11 @@ namespace Tesserae
             {
                 if (closed)
                 {
-                    if (ReorderMode)
+                    if (IsInReorderMode)
                     {
                         Refresh();
                     }
-                    ReorderMode = false;
+                    IsInReorderMode = false;
                 }
             });
         }
@@ -75,7 +75,7 @@ namespace Tesserae
         {
             var stackMiddle = VStack();
 
-            if (ReorderMode)
+            if (IsInReorderMode)
             {
                 var middleArray = middle.ToArray();
 
@@ -107,7 +107,7 @@ namespace Tesserae
             {
                 if (item is SidebarNav nav)
                 {
-                    nav.ReorderMode = ReorderMode;
+                    nav.ReorderMode = IsInReorderMode;
                 }
             }
 
@@ -172,27 +172,21 @@ namespace Tesserae
 
         public HTMLElement Render() => _sidebar.Render();
 
-        [ObjectLiteral]
-        public class SidebarOrder
-        {
-            public string[]                     TopLevelOrder { get; set; }
-            public Dictionary<string, string[]> Children      { get; set; }
-        }
 
-        public void InitSorting(SidebarOrder order)
+        public void InitSorting(string[] topLevelOrder, Dictionary<string, string[]> children)
         {
-            _itemOrder = order.TopLevelOrder;
+            _itemOrder = topLevelOrder;
 
             foreach (var item in _middle.Value)
             {
-                if (item is SidebarNav nav && order.Children.TryGetValue(item.Identifier, out string[] itemOrder))
+                if (item is SidebarNav nav && children.TryGetValue(item.Identifier, out string[] itemOrder))
                 {
                     nav.InitSorting(itemOrder);
                 }
             }
         }
 
-        public SidebarOrder GetSorting()
+        public (string[] topLevelOrder, Dictionary<string, string[]> children) GetSorting()
         {
             var children = new Dictionary<string, string[]>();
 
@@ -203,13 +197,9 @@ namespace Tesserae
                     children[nav.Identifier] = nav.GetSorting();
                 }
             }
-
-            return new SidebarOrder()
-            {
-                TopLevelOrder = _itemOrder ?? _middle.Value.Select(i => i.Identifier).ToArray(),
-                Children      = children
-            };
+            return (_itemOrder ?? _middle.Value.Select(i => i.Identifier).ToArray(), children);
         }
+
         public void Refresh()
         {
             RenderSidebar(_header.Value, _middle.Value, _footer.Value, _closed.Value);

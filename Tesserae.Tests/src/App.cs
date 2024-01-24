@@ -81,7 +81,7 @@ namespace Tesserae.Tests
 
             var reorderSidebarToggle = new SidebarCommand(UIcons.ArrowsCross);
 
-            if (sidebar.ReorderMode)
+            if (sidebar.IsInReorderMode)
             {
                 reorderSidebarToggle.SetIcon(UIcons.AppsSort, weight: UIconsWeight.Solid).Tooltip("Stop reordering Sidebar");
             }
@@ -93,9 +93,9 @@ namespace Tesserae.Tests
             reorderSidebarToggle.OnClick(() =>
             {
 
-                sidebar.ReorderMode = !sidebar.ReorderMode;
+                sidebar.IsInReorderMode = !sidebar.IsInReorderMode;
 
-                if (sidebar.ReorderMode)
+                if (sidebar.IsInReorderMode)
                 {
                     reorderSidebarToggle.SetIcon(UIcons.AppsSort, weight: UIconsWeight.Solid).Tooltip("Stop reordering Sidebar");
                 }
