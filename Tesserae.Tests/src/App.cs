@@ -38,6 +38,8 @@ namespace Tesserae.Tests
 
             var sidebar = Sidebar();
 
+//            sidebar.DisableSorting();
+
             sidebar.AddHeader(new SidebarText("tesserae", "TSS", textSize: TextSize.Large, textWeight: TextWeight.Bold).PT(16).PB(16).PL(12));
 
             var pageContent = HStack().Children(sidebar.HS(), DeferSync(currentPage, page => page is null ? (IComponent)CenteredCardWithBackground(TextBlock("Select an item")) : VStack().S().ScrollY().Children(page.ContentGenerator().WS())).HS().W(1).Grow()).S();
@@ -58,7 +60,7 @@ namespace Tesserae.Tests
                 })
                .ToDictionary(s => s.Name, s => s);
 
-            sidebar.AddHeader(new SidebarButton(Emoji.House, "Source Code", new SidebarCommand(UIcons.ArrowUpRightFromSquare).Tooltip("Open repository on GitHub")
+            sidebar.AddHeader(new SidebarButton("SOURCE_CODE", Emoji.House, "Source Code", new SidebarCommand(UIcons.ArrowUpRightFromSquare).Tooltip("Open repository on GitHub")
                    .OnClick(() => window.open("https://github.com/curiosity-ai/tesserae", "_blank")))
                .CommandsAlwaysVisible()
                .OnOpenIconClick(() => Toast().Success("You clicked on the icon")));
@@ -78,35 +80,6 @@ namespace Tesserae.Tests
                     openClose.SetIcon(UIcons.AngleLeft).Tooltip("Close Sidebar");
                 }
             });
-
-            var reorderSidebarToggle = new SidebarCommand(UIcons.ArrowsCross);
-
-            if (sidebar.IsInReorderMode)
-            {
-                reorderSidebarToggle.SetIcon(UIcons.AppsSort, weight: UIconsWeight.Solid).Tooltip("Stop reordering Sidebar");
-            }
-            else
-            {
-                reorderSidebarToggle.SetIcon(UIcons.AppsSort, weight: UIconsWeight.Regular).Tooltip("Reoder Sidebar");
-            }
-
-            reorderSidebarToggle.OnClick(() =>
-            {
-
-                sidebar.IsInReorderMode = !sidebar.IsInReorderMode;
-
-                if (sidebar.IsInReorderMode)
-                {
-                    reorderSidebarToggle.SetIcon(UIcons.AppsSort, weight: UIconsWeight.Solid).Tooltip("Stop reordering Sidebar");
-                }
-                else
-                {
-                    reorderSidebarToggle.SetIcon(UIcons.AppsSort, weight: UIconsWeight.Regular).Tooltip("Reoder Sidebar");
-                }
-                sidebar.Refresh();
-
-            });
-
 
             var lightDark = new SidebarCommand(UIcons.Sun).Tooltip("Light Mode");
 
@@ -128,7 +101,7 @@ namespace Tesserae.Tests
             var pizza  = new SidebarCommand(Emoji.Pizza).Tooltip("Pizza!").OnClick(() => Toast().Success("Here is your pizza 🍕"));
             var cheese = new SidebarCommand(Emoji.Cheese).Tooltip("Cheese !").OnClick(() => Toast().Success("Here is your cheese 🧀"));
 
-            var commands = new SidebarCommands(lightDark, toast, pizza, cheese);
+            var commands = new SidebarCommands("TOASTS", lightDark, toast, pizza, cheese);
 
 
             var fireworks = new SidebarCommand(Emoji.ConfettiBall).Tooltip("Confetti !").OnClick(() => Toast().Success("🎊"));
@@ -137,26 +110,26 @@ namespace Tesserae.Tests
 
             var dotsMenu = new SidebarCommand(UIcons.MenuDots).OnClickMenu(() => new ISidebarItem[]
             {
-                new SidebarButton(UIcons.User, "Manage Account"),
-                new SidebarButton(UIcons.Settings, "Preferences"),
-                new SidebarButton(UIcons.Trash, "Delete Account"),
-                new SidebarCommands(new SidebarCommand(Emoji.Smile), new SidebarCommand(Emoji.Disappointed), new SidebarCommand(Emoji.Angry)),
-                new SidebarCommands(new SidebarCommand(UIcons.Plus).Primary(), new SidebarCommand(UIcons.Trash).Danger()).AlignEnd(),
-                new SidebarButton(UIcons.SignOutAlt, "Sign Out"),
+                new SidebarButton("MANAGE_ACCOUNT", UIcons.User, "Manage Account"),
+                new SidebarButton("PREFERENCES", UIcons.Settings, "Preferences"),
+                new SidebarButton("DELETE", UIcons.Trash, "Delete Account"),
+                new SidebarCommands("EMOTIONS", new SidebarCommand(Emoji.Smile), new SidebarCommand(Emoji.Disappointed), new SidebarCommand(Emoji.Angry)),
+                new SidebarCommands("ADD_DELETE", new SidebarCommand(UIcons.Plus).Primary(), new SidebarCommand(UIcons.Trash).Danger()).AlignEnd(),
+                new SidebarButton("SIGNOUT", UIcons.SignOutAlt, "Sign Out"),
             });
 
-            var commandsEndAligned = new SidebarCommands(fireworks, dotsMenu).AlignEnd();
+            var commandsEndAligned = new SidebarCommands("SETTINGS", fireworks, dotsMenu).AlignEnd();
 
-            var commandSidebarconfig = new SidebarCommands(openClose, reorderSidebarToggle);
+            var commandSidebarconfig = new SidebarCommands("OPENCLOSE", openClose);
 
 
-            sidebar.AddFooter(new SidebarNav(Emoji.MailboxWithNoMail, "Empty Nav", true).ShowDotIfEmpty().OnOpenIconClick((e, m) => Toast().Success("You clicked on the icon!")));
+            sidebar.AddFooter(new SidebarNav("EMPTY_NAV", Emoji.MailboxWithNoMail, "Empty Nav", true).ShowDotIfEmpty().OnOpenIconClick((e, m) => Toast().Success("You clicked on the icon!")));
 
             sidebar.AddFooter(commands);
             sidebar.AddFooter(commandsEndAligned);
             sidebar.AddFooter(commandSidebarconfig);
 
-            sidebar.AddFooter(new SidebarButton(
+            sidebar.AddFooter(new SidebarButton("CURIOSITY_REF",
                 new ImageIcon("https://curiosity.ai/media/cat-color-square-64.png"),
                 "By Curiosity",
                 new SidebarBadge("+3").Foreground(Theme.Primary.Foreground).Background(Theme.Primary.Background),
@@ -170,8 +143,7 @@ namespace Tesserae.Tests
             {
                 var groupKey = group.Key + groupIndex++;
 
-                var nav = new SidebarNav(UIcons.Box, group.Key, false).OnClick(n => n.Toggle());
-                nav.Identifier = groupKey;
+                var nav = new SidebarNav(group.Key, UIcons.Box, group.Key, false).OnClick(n => n.Toggle());
                 allSidebarItems.Add(nav);
                 sidebar.AddContent(nav);
 
@@ -179,7 +151,7 @@ namespace Tesserae.Tests
 
                 foreach (var item in group.OrderBy(s => s.Order).ThenBy(s => s.Name.ToLower()))
                 {
-                    var sidebarItem = new SidebarButton(item.Icon, item.Name, new SidebarCommand(UIcons.SquareTerminal).Tooltip("Show sample code").OnClick(() => SamplesHelper.ShowSampleCode(item.Name)),
+                    var sidebarItem = new SidebarButton(item.Name + itemIndex++, item.Icon, item.Name, new SidebarCommand(UIcons.SquareTerminal).Tooltip("Show sample code").OnClick(() => SamplesHelper.ShowSampleCode(item.Name)),
                         new SidebarCommand(UIcons.ArrowUpRightFromSquare).Tooltip("Open in new tab").OnClick(() => window.open($"#/view/{item.Name}", "_blank")));
 
                     sidebarItem.OnClick(() =>
@@ -188,8 +160,6 @@ namespace Tesserae.Tests
                         currentPage.Value = item;
                     });
 
-                    sidebarItem.GroupIdentifier = groupKey;
-                    sidebarItem.Identifier      = item.Name + itemIndex++;
 
                     nav.Add(sidebarItem);
                     allSidebarItems.Add(sidebarItem);

@@ -26,22 +26,23 @@ namespace Tesserae
 
         public IComponent CurrentRendered => _closedButton.IsMounted() ? _closedButton : _open;
 
-        public string Identifier      { get; set; }
+        public string Identifier      { get; }
         public string GroupIdentifier { get; set; }
 
-        public SidebarButton(UIcons icon, string text, SidebarBadge            badge, params SidebarCommand[] commands) : this(Icon.Transform(icon, UIconsWeight.Regular), text, badge, commands) { }
-        public SidebarButton(UIcons icon, string text, params SidebarCommand[] commands) : this(Icon.Transform(icon, UIconsWeight.Regular), text, null, commands) { }
+        public SidebarButton(string identifier, UIcons icon, string text, SidebarBadge            badge, params SidebarCommand[] commands) : this(identifier, Icon.Transform(icon, UIconsWeight.Regular), text, badge, commands) { }
+        public SidebarButton(string identifier, UIcons icon, string text, params SidebarCommand[] commands) : this(identifier, Icon.Transform(icon, UIconsWeight.Regular), text, null, commands) { }
 
-        public SidebarButton(UIcons icon, UIconsWeight weight, string text, SidebarBadge            badge, params SidebarCommand[] commands) : this(Icon.Transform(icon, weight), text, badge, commands) { }
-        public SidebarButton(UIcons icon, UIconsWeight weight, string text, params SidebarCommand[] commands) : this(Icon.Transform(icon, weight), text, null, commands) { }
+        public SidebarButton(string identifier, UIcons icon, UIconsWeight weight, string text, SidebarBadge            badge, params SidebarCommand[] commands) : this(identifier, Icon.Transform(icon, weight), text, badge, commands) { }
+        public SidebarButton(string identifier, UIcons icon, UIconsWeight weight, string text, params SidebarCommand[] commands) : this(identifier, Icon.Transform(icon, weight), text, null, commands) { }
 
-        public SidebarButton(Emoji        icon,  string text, params SidebarCommand[] commands) : this($"ec {icon}", text, null, commands) { }
-        public SidebarButton(Emoji        icon,  string text, SidebarBadge            badge, params SidebarCommand[] commands) : this($"ec {icon}", text, badge, commands) { }
-        public SidebarButton(ISidebarIcon image, string text, params SidebarCommand[] commands) : this(image, text, null, commands) { }
-        public SidebarButton(string       icon,  string text, params SidebarCommand[] commands) : this(icon, text, null, commands) { }
+        public SidebarButton(string identifier, Emoji        icon,  string text, params SidebarCommand[] commands) : this(identifier, $"ec {icon}", text, null, commands) { }
+        public SidebarButton(string identifier, Emoji        icon,  string text, SidebarBadge            badge, params SidebarCommand[] commands) : this(identifier, $"ec {icon}", text, badge, commands) { }
+        public SidebarButton(string identifier, ISidebarIcon image, string text, params SidebarCommand[] commands) : this(identifier, image, text, null, commands) { }
+        public SidebarButton(string identifier, string       icon,  string text, params SidebarCommand[] commands) : this(identifier, icon, text, null, commands) { }
 
-        public SidebarButton(string icon, string text, SidebarBadge badge, params SidebarCommand[] commands)
+        public SidebarButton(string identifier, string icon, string text, SidebarBadge badge, params SidebarCommand[] commands)
         {
+            Identifier     = identifier;
             _selected      = new SettableObservable<bool>(false);
             _tooltipClosed = (b) => b.Tooltip(text);
             _closedButton  = Button().Class("tss-sidebar-btn").SetIcon(icon);
@@ -112,9 +113,10 @@ namespace Tesserae
             _openButton.Collapse();
         }
 
-        public SidebarButton(ISidebarIcon image, string text, SidebarBadge badge, params SidebarCommand[] commands)
+        public SidebarButton(string identifier, ISidebarIcon image, string text, SidebarBadge badge, params SidebarCommand[] commands)
         {
-            _selected = new SettableObservable<bool>(false);
+            Identifier = identifier;
+            _selected  = new SettableObservable<bool>(false);
 
             _tooltipClosed = (b) => b.Tooltip(text);
 

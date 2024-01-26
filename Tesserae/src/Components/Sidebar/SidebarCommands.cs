@@ -12,9 +12,10 @@ namespace Tesserae
         private          bool             _isEndAligned;
         private          bool             _isHidden;
 
-        public SidebarCommands(params SidebarCommand[] commands)
+        public SidebarCommands(string identifier, params SidebarCommand[] commands)
         {
-            _commands = commands;
+            Identifier = identifier;
+            _commands  = commands;
         }
 
         public bool IsSelected { get; set; }
@@ -235,7 +236,7 @@ namespace Tesserae
             _isEndAligned = true;
             return this;
         }
-        
+
         public string Identifier      { get; set; }
         public string GroupIdentifier { get; set; }
     }

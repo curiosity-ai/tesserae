@@ -12,12 +12,12 @@ namespace Tesserae
     public sealed class Sidebar : IComponent
     {
         private readonly ObservableList<ISidebarItem>                    _header;
-        public readonly  SettableObservable<IReadOnlyList<ISidebarItem>> _middle;
+        private readonly SettableObservable<IReadOnlyList<ISidebarItem>> _middle;
         private readonly ObservableList<ISidebarItem>                    _footer;
         private readonly SettableObservable<bool>                        _closed;
         private          double                                          _closedTimeout;
         private readonly Stack                                           _sidebar;
-        public           bool                                            IsInReorderMode = false;
+        private          bool                                            _isInReorderMode = true;
 
         private string[] _itemOrder;
 
@@ -62,11 +62,11 @@ namespace Tesserae
             {
                 if (closed)
                 {
-                    if (IsInReorderMode)
+                    if (_isInReorderMode)
                     {
                         Refresh();
                     }
-                    IsInReorderMode = false;
+                    _isInReorderMode = false;
                 }
             });
         }
@@ -75,15 +75,9 @@ namespace Tesserae
         {
             var stackMiddle = VStack();
 
-            if (IsInReorderMode)
+            if (_isInReorderMode)
             {
-                var middleArray = middle.ToArray();
-
-                middleArray.Push(new SidebarAddItemsHereMarker());
-                middle = middleArray;
-
-
-                Sortable.Create(stackMiddle.Render(), new SortableOptions()
+                var sortable = new Sortable(stackMiddle.Render(), new SortableOptions()
                 {
                     animation  = 150,
                     invertSwap = true,
@@ -91,8 +85,6 @@ namespace Tesserae
                     onEnd = e =>
                     {
                         _itemOrder = _itemOrder ?? _middle.Value.Select(i => i.Identifier).ToArray();
-                        if (!_itemOrder.Contains(SidebarAddItemsHereMarker.NEW_ITEMS_ADDED_ORDER_KEY)) _itemOrder.Push(SidebarAddItemsHereMarker.NEW_ITEMS_ADDED_ORDER_KEY);
-
                         _itemOrder.MoveItem(e.oldIndex, e.newIndex);
                     }
                 });
@@ -107,7 +99,7 @@ namespace Tesserae
             {
                 if (item is SidebarNav nav)
                 {
-                    nav.ReorderMode = IsInReorderMode;
+                    nav.ReorderMode = _isInReorderMode;
                 }
             }
 
@@ -119,9 +111,6 @@ namespace Tesserae
 
         private IReadOnlyList<ISidebarItem> OrderItems(IReadOnlyList<ISidebarItem> items)
         {
-            var unorderedValue                     = Array.IndexOf(_itemOrder, SidebarAddItemsHereMarker.NEW_ITEMS_ADDED_ORDER_KEY);
-            if (unorderedValue < 0) unorderedValue = int.MaxValue;
-
             var dict = new object();
 
             for (var i = 0; i < _itemOrder.Length; i++)
@@ -129,7 +118,7 @@ namespace Tesserae
                 dict[_itemOrder[i]] = i;
             }
 
-            return items.OrderBy(k => dict.HasOwnProperty(k.Identifier) ? dict[k.Identifier] : unorderedValue).ToList();
+            return items.OrderBy(k => dict.HasOwnProperty(k.Identifier) ? dict[k.Identifier] : int.MaxValue).ToList();
         }
 
         public Sidebar Closed(bool isClosed = true)
@@ -172,7 +161,6 @@ namespace Tesserae
 
         public HTMLElement Render() => _sidebar.Render();
 
-
         public void InitSorting(string[] topLevelOrder, Dictionary<string, string[]> children)
         {
             _itemOrder = topLevelOrder;
@@ -203,6 +191,12 @@ namespace Tesserae
         public void Refresh()
         {
             RenderSidebar(_header.Value, _middle.Value, _footer.Value, _closed.Value);
+        }
+
+        public Sidebar DisableSorting()
+        {
+            _isInReorderMode = false;
+            return this;
         }
     }
 }

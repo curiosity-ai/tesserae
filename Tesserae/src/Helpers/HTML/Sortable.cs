@@ -12,64 +12,15 @@ namespace Tesserae
         private          HTMLElement     _element;
         private          object          _sortable;
         private readonly SortableOptions _options;
-        private          List<Action>    _pending;
 
-        private Sortable(HTMLElement element, SortableOptions options)
+        public Sortable(HTMLElement element, SortableOptions options)
         {
             _element = element;
             _options = options;
 
-            try
-            {
-                Init();
-            }
-            catch
-            {
-                _pending = new List<Action> { Init };
-
-                Require.LoadScriptAsync("./assets/js/sortable.min.js").ContinueWith(t =>
-                {
-                    if (t.IsCompleted)
-                    {
-                        var p = _pending;
-                        _pending = null;
-
-                        foreach (var a in p)
-                        {
-                            a();
-                        }
-                    }
-                }).FireAndForget();
-            }
-        }
-
-        public static void Create(HTMLElement element, SortableOptions options)
-        {
-            var sortable = new Sortable(element, options);
-        }
-
-        private void Init()
-        {
-            if (_pending is null)
-            {
-                if (_options is object)
-                {
-                    _sortable = Script.Write<object>("new Sortable({0},{1})", _element, _options);
-                }
-                else
-                {
-                    _sortable = Script.Write<object>("new Sortable({0})", _element);
-                }
-
-                if (_sortable is null)
-                {
-                    _sortable = Script.Write<object>("Sortable.create({1})", _element);
-                }
-            }
-            else
-            {
-                _pending.Add(() => Init());
-            }
+            _sortable = _options is object
+                ? Script.Write<object>("new Sortable({0}, {1})", _element, _options)
+                : Script.Write<object>("new Sortable({0})", _element);
         }
     }
 

@@ -14,10 +14,11 @@ namespace Tesserae
 
         public bool IsSelected { get; set; }
 
-        public SidebarText(string text, string closedText = null, TextSize textSize = TextSize.Small, TextWeight textWeight = TextWeight.Regular)
+        public SidebarText(string identifier, string text, string closedText = null, TextSize textSize = TextSize.Small, TextWeight textWeight = TextWeight.Regular)
         {
-            _closed = TextBlock(closedText ?? "", textSize: textSize, textWeight: textWeight);
-            _open   = TextBlock(text, textSize: textSize, textWeight: textWeight);
+            Identifier = identifier;
+            _closed    = TextBlock(closedText ?? "", textSize: textSize, textWeight: textWeight);
+            _open      = TextBlock(text, textSize: textSize, textWeight: textWeight);
         }
 
         public void Show()
@@ -31,8 +32,8 @@ namespace Tesserae
             _closed.Collapse();
             _open.Collapse();
         }
-        public string Identifier { get; set; }
-        public string GroupIdentifier { get; }
+        public string Identifier      { get; }
+        public string GroupIdentifier { get; set; }
 
         public SidebarText SetText(string text)
         {

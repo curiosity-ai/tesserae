@@ -42,12 +42,13 @@ namespace Tesserae
 
         public IComponent CurrentRendered => (_lastClosed is object && _lastClosed.IsMounted()) ? _lastClosed : _lastOpen;
 
-        public SidebarNav(Emoji  icon, string       text,   bool   initiallyCollapsed, params SidebarCommand[] commands) : this($"ec {icon}", text, initiallyCollapsed, commands) { }
-        public SidebarNav(UIcons icon, string       text,   bool   initiallyCollapsed, params SidebarCommand[] commands) : this(Icon.Transform(icon, UIconsWeight.Regular), text, initiallyCollapsed, commands) { }
-        public SidebarNav(UIcons icon, UIconsWeight weight, string text,               bool                    initiallyCollapsed, params SidebarCommand[] commands) : this(Icon.Transform(icon, weight), text, initiallyCollapsed, commands) { }
+        public SidebarNav(string identifier, Emoji  icon, string       text,   bool   initiallyCollapsed, params SidebarCommand[] commands) : this(identifier, $"ec {icon}", text, initiallyCollapsed, commands) { }
+        public SidebarNav(string identifier, UIcons icon, string       text,   bool   initiallyCollapsed, params SidebarCommand[] commands) : this(identifier, Icon.Transform(icon, UIconsWeight.Regular), text, initiallyCollapsed, commands) { }
+        public SidebarNav(string identifier, UIcons icon, UIconsWeight weight, string text,               bool                    initiallyCollapsed, params SidebarCommand[] commands) : this(identifier, Icon.Transform(icon, weight), text, initiallyCollapsed, commands) { }
 
-        public SidebarNav(string icon, string text, bool initiallyCollapsed, params SidebarCommand[] commands)
+        public SidebarNav(string identifier, string icon, string text, bool initiallyCollapsed, params SidebarCommand[] commands)
         {
+            Identifier    = identifier;
             _text         = text;
             _closedHeader = Button().SetIcon(icon).Class("tss-sidebar-nav-header").Class("tss-sidebar-btn");
             _openHeader   = Div(_("tss-sidebar-nav-header tss-sidebar-btn-open tss-sidebar-nav-header-empty"));
@@ -255,16 +256,7 @@ namespace Tesserae
             var nav = Div(_("tss-sidebar-nav"));
             nav.appendChild(_openHeader);
 
-
             var children = VStack();
-
-            if (ReorderMode)
-            {
-                var itemsArray = items.ToArray();
-
-                itemsArray.Push(new SidebarAddItemsHereMarker());
-                items = itemsArray;
-            }
 
             if (_itemOrder is object)
             {
@@ -273,7 +265,7 @@ namespace Tesserae
 
             if (ReorderMode)
             {
-                Sortable.Create(children.Render(), new SortableOptions()
+                var sortable = new Sortable(children.Render(), new SortableOptions()
                 {
                     animation  = 150,
                     ghostClass = "tss-sortable-ghost",
@@ -281,8 +273,6 @@ namespace Tesserae
                     onEnd = e =>
                     {
                         _itemOrder = _itemOrder ?? items.Select(i => i.Identifier).ToArray();
-                        if (!_itemOrder.Contains(SidebarAddItemsHereMarker.NEW_ITEMS_ADDED_ORDER_KEY)) _itemOrder.Push(SidebarAddItemsHereMarker.NEW_ITEMS_ADDED_ORDER_KEY);
-
                         _itemOrder.MoveItem(e.oldIndex, e.newIndex);
                     }
                 });
@@ -412,8 +402,9 @@ namespace Tesserae
 
         public void Add(ISidebarItem item)
         {
-            if (GroupIdentifier is object && item is SidebarNav) throw new NotImplementedException("more than 2 levels of sidebar nav is not supported with reordering the sidebar items.");
+            if (item is SidebarNav) throw new ArgumentException("more than 2 levels of sidebar nav is not supported with reordering the sidebar items.");
 
+            item.GroupIdentifier = Identifier;
             _items.Add(item);
         }
 
@@ -427,7 +418,7 @@ namespace Tesserae
             return this;
         }
 
-        public string Identifier      { get; set; }
+        public string Identifier      { get; }
         public string GroupIdentifier { get; set; }
 
         public void InitSorting(string[] itemOrder)

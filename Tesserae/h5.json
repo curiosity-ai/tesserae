@@ -44,7 +44,8 @@
         "h5/assets/js/hotkeys.min.js",
         "h5/assets/js/popper.min.js",
         "h5/assets/js/tippy.min.js",
-        "h5/assets/js/masonry.min.js"
+        "h5/assets/js/masonry.min.js",
+        "h5/assets/js/sortable.min.js"
       ],
       "output": "assets/js"
     },
@@ -55,24 +56,7 @@
         "h5/assets/js/hotkeys.min.js",
         "h5/assets/js/popper.min.js",
         "h5/assets/js/tippy.min.js",
-        "h5/assets/js/masonry.min.js"
-      ],
-      "output": "assets/js"
-    },
-    {
-      //polyfill for ResizeObserver, only loaded if needed - mosaik will automatically remove the .dontload extension
-      //if using Tesserae elsewhere need to remove it as well
-      "name": "resizeobserver.js.dontload",
-      "files": [
-        "h5/assets/js/resizeobserver.js"
-      ],
-      "output": "assets/js"
-    },
-    {
-      //polyfill for ResizeObserver, only loaded if needed - mosaik will automatically remove the .dontload extension
-      //if using Tesserae elsewhere need to remove it as well
-      "name": "sortable.min.js",
-      "files": [
+        "h5/assets/js/masonry.min.js",
         "h5/assets/js/sortable.min.js"
       ],
       "output": "assets/js"

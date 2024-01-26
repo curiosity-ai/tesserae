@@ -12,34 +12,7 @@ namespace Tesserae
         public  Action<Event> OnResizeElement { get; set; }
         public  Action        OnResize        { get; set; }
         private object        resizeObserver;
-        private List<Action>  pending;
         public ResizeObserver()
-        {
-            try
-            {
-                CreateRO();
-            }
-            catch
-            {
-                pending = new List<Action> { CreateRO };
-
-                Require.LoadScriptAsync("./assets/js/resizeobserver.js").ContinueWith(t =>
-                {
-                    if (t.IsCompleted)
-                    {
-                        var p = pending;
-                        pending = null;
-
-                        foreach (var a in p)
-                        {
-                            a();
-                        }
-                    }
-                }).FireAndForget();
-            }
-        }
-
-        private void CreateRO()
         {
             Action<Event[]> resize = DoResize;
             resizeObserver = Script.Write<object>("new ResizeObserver(entries => {0}(entries));", resize);
@@ -47,38 +20,17 @@ namespace Tesserae
 
         public void Observe(HTMLElement element)
         {
-            if (pending is null)
-            {
-                Script.Write("{0}.observe({1})", resizeObserver, element);
-            }
-            else
-            {
-                pending.Add(() => Observe(element));
-            }
+            Script.Write("{0}.observe({1})", resizeObserver, element);
         }
 
         public void StopObserving(HTMLElement element)
         {
-            if (pending is null)
-            {
-                Script.Write("{0}.unobserve(element)", resizeObserver);
-            }
-            else
-            {
-                pending.Add(() => StopObserving(element));
-            }
+            Script.Write("{0}.unobserve(element)", resizeObserver);
         }
 
         public void Disconnect()
         {
-            if (pending is null)
-            {
-                Script.Write("{0}.disconnect()", resizeObserver);
-            }
-            else
-            {
-                pending.Add(Disconnect);
-            }
+            Script.Write("{0}.disconnect()", resizeObserver);
         }
 
         private void DoResize(Event[] entries)
