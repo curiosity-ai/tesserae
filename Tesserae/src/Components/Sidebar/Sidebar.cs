@@ -166,6 +166,8 @@ namespace Tesserae
         }
         public Sidebar AddContent(ISidebarItem item)
         {
+            if (_middle.Value.Any(m => m.Identifier == item.Identifier)) throw new ArgumentException("Identifier already in use: " + item.Identifier);
+
             _middle.Value = _middle.Value?.Concat(new[] { item }).ToList();
             return this;
         }
