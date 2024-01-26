@@ -14,6 +14,8 @@ namespace Tesserae.Tests
 {
     internal static class App
     {
+        private const string _sidebarOrderKey = "tss-sample-sidebar-order";
+
         private static void Main()
         {
             document.body.style.overflow = "hidden";
@@ -37,6 +39,52 @@ namespace Tesserae.Tests
             });
 
             var sidebar = Sidebar();
+
+            var sidebarOrderJson = localStorage.getItem(_sidebarOrderKey);
+
+            if (sidebarOrderJson is object)
+            {
+                var sidebarOrderObj = es5.JSON.parse(sidebarOrderJson);
+                console.log("loaded sorting", sidebarOrderObj);
+
+                var topLevelOrder = sidebarOrderObj["topLevelOrder"].As<string[]>();
+
+                var childrenObj = sidebarOrderObj["children"].As<object>();
+                var children    = new Dictionary<string, string[]>();
+
+                foreach (var groupIdentifier in System.Object.GetOwnPropertyNames(childrenObj))
+                {
+                    children[groupIdentifier] = childrenObj[groupIdentifier].As<string[]>();
+                }
+
+                sidebar.InitSorting(topLevelOrder, children);
+
+            }
+
+
+            var sortingTimeout = 0d;
+
+            sidebar.OnSortingChanged((topLevelOrder, children) =>
+            {
+                window.clearTimeout(sortingTimeout);
+
+                sortingTimeout = window.setTimeout(_ =>
+                {
+                    var sidebarOrderStorageObject = new { };
+                    sidebarOrderStorageObject["topLevelOrder"] = topLevelOrder;
+
+                    var sidebarChildrenObject = new { };
+
+                    foreach (var child in children)
+                    {
+                        sidebarChildrenObject[child.Key] = child.Value;
+                    }
+                    var sorting = new { topLevelOrder = topLevelOrder, children = sidebarChildrenObject };
+
+                    localStorage.setItem(_sidebarOrderKey, es5.JSON.stringify(sorting));
+                    console.log("saved sorting", sorting);
+                }, 1000);
+            });
 
 //            sidebar.DisableSorting();
 

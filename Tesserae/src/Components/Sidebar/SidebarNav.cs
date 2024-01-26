@@ -13,6 +13,8 @@ namespace Tesserae
 {
     public class SidebarNav : ISidebarItem
     {
+        public event Action<string[]> _onSortingChanged;
+
         private          string                       _text;
         private readonly Button                       _closedHeader;
         private readonly HTMLElement                  _openHeader;
@@ -25,8 +27,7 @@ namespace Tesserae
         private readonly Func<IComponent>             _openContent;
         private          SidebarCommand[]             _commands;
         private          bool                         _isHidden;
-        public           bool                         ReorderMode = false;
-
+        private          bool                         _isInReorderMode = false;
 
         private string[] _itemOrder;
 
@@ -263,17 +264,17 @@ namespace Tesserae
                 items = OrderItems(items);
             }
 
-            if (ReorderMode)
+            if (_isInReorderMode)
             {
                 var sortable = new Sortable(children.Render(), new SortableOptions()
                 {
                     animation  = 150,
                     ghostClass = "tss-sortable-ghost",
-
                     onEnd = e =>
                     {
                         _itemOrder = _itemOrder ?? items.Select(i => i.Identifier).ToArray();
                         _itemOrder.MoveItem(e.oldIndex, e.newIndex);
+                        _onSortingChanged?.Invoke(_itemOrder);
                     }
                 });
             }
@@ -425,9 +426,20 @@ namespace Tesserae
         {
             _itemOrder = itemOrder;
         }
-        public string[] GetSorting()
+        public string[] GetCurrentSorting()
         {
             return _itemOrder ?? _items.Value.Select(i => i.Identifier).ToArray();
         }
+
+        public void Sortable(bool sortable = true)
+        {
+            _isInReorderMode = sortable;
+        }
+        public void OnSortingChanged(Action<string[]> OnSortingChanged)
+        {
+            _onSortingChanged += OnSortingChanged;
+        }
+
+
     }
 }

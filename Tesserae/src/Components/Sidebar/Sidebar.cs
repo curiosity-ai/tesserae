@@ -17,17 +17,22 @@ namespace Tesserae
         private readonly SettableObservable<bool>                        _closed;
         private          double                                          _closedTimeout;
         private readonly Stack                                           _sidebar;
-        private          bool                                            _isInReorderMode = true;
+        private          bool                                            _isInReorderMode;
 
-        private string[] _itemOrder;
+        private event Action<string[], Dictionary<string, string[]>> _onSortingChanged;
+
+        private string[]                     _itemOrder;
+        private Dictionary<string, string[]> _itemOrderChildren;
 
         public const int SIDEBAR_TRANSITION_TIME = 300;
 
 
         public bool IsClosed { get { return _closed.Value; } set { _closed.Value = value; } }
 
-        public Sidebar()
+        public Sidebar(bool sortable = true)
         {
+            _isInReorderMode = sortable;
+
             _header  = new ObservableList<ISidebarItem>();
             _middle  = new SettableObservable<IReadOnlyList<ISidebarItem>>(new List<ISidebarItem>());
             _footer  = new ObservableList<ISidebarItem>();
@@ -86,20 +91,38 @@ namespace Tesserae
                     {
                         _itemOrder = _itemOrder ?? _middle.Value.Select(i => i.Identifier).ToArray();
                         _itemOrder.MoveItem(e.oldIndex, e.newIndex);
+                        _onSortingChanged?.Invoke(_itemOrder, _itemOrderChildren);
                     }
                 });
+
+                foreach (var middleItem in middle)
+                {
+                    if (middleItem is SidebarNav middleNavItem)
+                    {
+                        middleNavItem.Sortable();
+
+                        middleNavItem.OnSortingChanged((newItemOrder) =>
+                        {
+                            _itemOrderChildren[middleItem.Identifier] = newItemOrder;
+                            _onSortingChanged?.Invoke(_itemOrder, _itemOrderChildren);
+                        });
+                    }
+                }
             }
 
             if (_itemOrder is object)
             {
-                middle = OrderItems(middle);
+                middle = OrderItems(_itemOrder, middle);
             }
 
-            foreach (var item in middle)
+            if (_itemOrderChildren is object)
             {
-                if (item is SidebarNav nav)
+                foreach (var middleItem in middle)
                 {
-                    nav.ReorderMode = _isInReorderMode;
+                    if (middleItem is SidebarNav middleNavItem && _itemOrderChildren.TryGetValue(middleItem.Identifier, out var navOrder))
+                    {
+                        middleNavItem.InitSorting(navOrder);
+                    }
                 }
             }
 
@@ -109,17 +132,13 @@ namespace Tesserae
             );
         }
 
-        private IReadOnlyList<ISidebarItem> OrderItems(IReadOnlyList<ISidebarItem> items)
-        {
-            var dict = new object();
-
-            for (var i = 0; i < _itemOrder.Length; i++)
+        internal static IReadOnlyList<ISidebarItem> OrderItems(string[] order, IReadOnlyList<ISidebarItem> items)
+            => items.OrderBy(k =>
             {
-                dict[_itemOrder[i]] = i;
-            }
+                var index = Array.IndexOf(order, k.Identifier);
+                return index >= 0 ? index : int.MaxValue;
+            }).ToList();
 
-            return items.OrderBy(k => dict.HasOwnProperty(k.Identifier) ? dict[k.Identifier] : int.MaxValue).ToList();
-        }
 
         public Sidebar Closed(bool isClosed = true)
         {
@@ -163,18 +182,11 @@ namespace Tesserae
 
         public void InitSorting(string[] topLevelOrder, Dictionary<string, string[]> children)
         {
-            _itemOrder = topLevelOrder;
-
-            foreach (var item in _middle.Value)
-            {
-                if (item is SidebarNav nav && children.TryGetValue(item.Identifier, out string[] itemOrder))
-                {
-                    nav.InitSorting(itemOrder);
-                }
-            }
+            _itemOrder         = topLevelOrder;
+            _itemOrderChildren = children;
         }
 
-        public (string[] topLevelOrder, Dictionary<string, string[]> children) GetSorting()
+        public (string[] topLevelOrder, Dictionary<string, string[]> children) GetCurrentSorting()
         {
             var children = new Dictionary<string, string[]>();
 
@@ -182,7 +194,7 @@ namespace Tesserae
             {
                 if (item is SidebarNav nav)
                 {
-                    children[nav.Identifier] = nav.GetSorting();
+                    children[nav.Identifier] = nav.GetCurrentSorting();
                 }
             }
             return (_itemOrder ?? _middle.Value.Select(i => i.Identifier).ToArray(), children);
@@ -193,10 +205,9 @@ namespace Tesserae
             RenderSidebar(_header.Value, _middle.Value, _footer.Value, _closed.Value);
         }
 
-        public Sidebar DisableSorting()
+        public void OnSortingChanged(Action<string[], Dictionary<string, string[]>> onSortingChanged)
         {
-            _isInReorderMode = false;
-            return this;
+            _onSortingChanged += onSortingChanged;
         }
     }
 }
