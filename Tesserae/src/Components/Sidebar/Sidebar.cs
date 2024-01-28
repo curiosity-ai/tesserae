@@ -17,21 +17,20 @@ namespace Tesserae
         private readonly SettableObservable<bool>                        _closed;
         private          double                                          _closedTimeout;
         private readonly Stack                                           _sidebar;
-        private          bool                                            _isInReorderMode;
+        private          bool                                            _isSortable;
 
         private event Action<string[], Dictionary<string, string[]>> _onSortingChanged;
 
         private string[]                     _itemOrder;
-        private Dictionary<string, string[]> _itemOrderChildren;
+        private Dictionary<string, string[]> _itemOrderChildren = new Dictionary<string, string[]>();
 
         public const int SIDEBAR_TRANSITION_TIME = 300;
 
-
         public bool IsClosed { get { return _closed.Value; } set { _closed.Value = value; } }
 
-        public Sidebar(bool sortable = true)
+        public Sidebar(bool sortable = false)
         {
-            _isInReorderMode = sortable;
+            _isSortable = sortable;
 
             _header  = new ObservableList<ISidebarItem>();
             _middle  = new SettableObservable<IReadOnlyList<ISidebarItem>>(new List<ISidebarItem>());
@@ -67,20 +66,28 @@ namespace Tesserae
             {
                 if (closed)
                 {
-                    if (_isInReorderMode)
+                    if (_isSortable)
                     {
+                        var before = _isSortable;
+                        _isSortable = false;
                         Refresh();
+                        _isSortable = before;
                     }
-                    _isInReorderMode = false;
                 }
             });
+        }
+
+        public void Sortable(bool sortable = true)
+        {
+            _isSortable = sortable;
+            Refresh();
         }
 
         private void RenderSidebar(IReadOnlyList<ISidebarItem> header, IReadOnlyList<ISidebarItem> middle, IReadOnlyList<ISidebarItem> footer, bool closed)
         {
             var stackMiddle = VStack();
 
-            if (_isInReorderMode)
+            if (_isSortable)
             {
                 var sortable = new Sortable(stackMiddle.Render(), new SortableOptions()
                 {
@@ -121,7 +128,7 @@ namespace Tesserae
                 {
                     if (middleItem is SidebarNav middleNavItem && _itemOrderChildren.TryGetValue(middleItem.Identifier, out var navOrder))
                     {
-                        middleNavItem.InitSorting(navOrder);
+                        middleNavItem.LoadSorting(navOrder);
                     }
                 }
             }
@@ -180,7 +187,7 @@ namespace Tesserae
 
         public HTMLElement Render() => _sidebar.Render();
 
-        public void InitSorting(string[] topLevelOrder, Dictionary<string, string[]> children)
+        public void LoadSorting(string[] topLevelOrder, Dictionary<string, string[]> children)
         {
             _itemOrder         = topLevelOrder;
             _itemOrderChildren = children;

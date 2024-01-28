@@ -57,8 +57,7 @@ namespace Tesserae.Tests
                     children[groupIdentifier] = childrenObj[groupIdentifier].As<string[]>();
                 }
 
-                sidebar.InitSorting(topLevelOrder, children);
-
+                sidebar.LoadSorting(topLevelOrder, children);
             }
 
 

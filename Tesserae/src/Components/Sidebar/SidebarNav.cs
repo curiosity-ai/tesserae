@@ -27,7 +27,7 @@ namespace Tesserae
         private readonly Func<IComponent>             _openContent;
         private          SidebarCommand[]             _commands;
         private          bool                         _isHidden;
-        private          bool                         _isInReorderMode = false;
+        private          bool                         _isSortable = false;
 
         private string[] _itemOrder;
 
@@ -264,7 +264,7 @@ namespace Tesserae
                 items = OrderItems(items);
             }
 
-            if (_isInReorderMode)
+            if (_isSortable)
             {
                 var sortable = new Sortable(children.Render(), new SortableOptions()
                 {
@@ -422,24 +422,23 @@ namespace Tesserae
         public string Identifier      { get; }
         public string GroupIdentifier { get; set; }
 
-        public void InitSorting(string[] itemOrder)
+        public void LoadSorting(string[] itemOrder)
         {
             _itemOrder = itemOrder;
         }
         public string[] GetCurrentSorting()
         {
-            return _itemOrder ?? _items.Value.Select(i => i.Identifier).ToArray();
+            return _itemOrder ?? _items.Select(i => i.Identifier).ToArray();
         }
 
         public void Sortable(bool sortable = true)
         {
-            _isInReorderMode = sortable;
+            _isSortable = sortable;
         }
+
         public void OnSortingChanged(Action<string[]> OnSortingChanged)
         {
             _onSortingChanged += OnSortingChanged;
         }
-
-
     }
 }
