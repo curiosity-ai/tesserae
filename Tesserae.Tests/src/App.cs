@@ -87,7 +87,7 @@ namespace Tesserae.Tests
 
 //            sidebar.DisableSorting();
 
-            sidebar.AddHeader(new SidebarText("tesserae", "TSS", textSize: TextSize.Large, textWeight: TextWeight.Bold).PT(16).PB(16).PL(12));
+            sidebar.AddHeader(new SidebarText("header", "tesserae", "TSS", textSize: TextSize.Large, textWeight: TextWeight.Bold).PT(16).PB(16).PL(12));
 
             var pageContent = HStack().Children(sidebar.HS(), DeferSync(currentPage, page => page is null ? (IComponent)CenteredCardWithBackground(TextBlock("Select an item")) : VStack().S().ScrollY().Children(page.ContentGenerator().WS())).HS().W(1).Grow()).S();
 
