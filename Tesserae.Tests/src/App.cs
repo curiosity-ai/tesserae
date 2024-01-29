@@ -40,26 +40,6 @@ namespace Tesserae.Tests
 
             var sidebar = Sidebar(sortable: true);
 
-            var sidebarOrderJson = localStorage.getItem(_sidebarOrderKey);
-
-            if (sidebarOrderJson is object)
-            {
-                var sidebarOrderObj = es5.JSON.parse(sidebarOrderJson);
-                console.log("loaded sorting", sidebarOrderObj);
-
-                var topLevelOrder = sidebarOrderObj["topLevelOrder"].As<string[]>();
-
-                var childrenObj = sidebarOrderObj["children"].As<object>();
-                var children    = new Dictionary<string, string[]>();
-
-                foreach (var groupIdentifier in System.Object.GetOwnPropertyNames(childrenObj))
-                {
-                    children[groupIdentifier] = childrenObj[groupIdentifier].As<string[]>();
-                }
-
-                sidebar.LoadSorting(topLevelOrder, children);
-            }
-
 
             var sortingTimeout = 0d;
 
@@ -84,8 +64,6 @@ namespace Tesserae.Tests
                     console.log("saved sorting", sorting);
                 }, 1000);
             });
-
-//            sidebar.DisableSorting();
 
             sidebar.AddHeader(new SidebarText("header", "tesserae", "TSS", textSize: TextSize.Large, textWeight: TextWeight.Bold).PT(16).PB(16).PL(12));
 
@@ -212,6 +190,27 @@ namespace Tesserae.Tests
                     allSidebarItems.Add(sidebarItem);
                     sampleToSidebarItem[item] = sidebarItem;
                 }
+            }
+
+
+            var sidebarOrderJson = localStorage.getItem(_sidebarOrderKey);
+
+            if (sidebarOrderJson is object)
+            {
+                var sidebarOrderObj = es5.JSON.parse(sidebarOrderJson);
+                console.log("loaded sorting", sidebarOrderObj);
+
+                var topLevelOrder = sidebarOrderObj["topLevelOrder"].As<string[]>();
+
+                var childrenObj = sidebarOrderObj["children"].As<object>();
+                var children    = new Dictionary<string, string[]>();
+
+                foreach (var groupIdentifier in GetOwnPropertyNames(childrenObj))
+                {
+                    children[groupIdentifier] = childrenObj[groupIdentifier].As<string[]>();
+
+                }
+                sidebar.LoadSorting(topLevelOrder, children);
             }
 
             Router.Register("home", "/", _ => currentPage.Value = null);

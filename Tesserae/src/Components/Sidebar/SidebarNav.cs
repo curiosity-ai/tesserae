@@ -15,19 +15,19 @@ namespace Tesserae
     {
         public event Action<string[]> _onSortingChanged;
 
-        private          string                       _text;
-        private readonly Button                       _closedHeader;
-        private readonly HTMLElement                  _openHeader;
-        private readonly Button                       _arrow;
-        private readonly Button                       _openHeaderButton;
-        private readonly ObservableList<ISidebarItem> _items;
-        private readonly SettableObservable<bool>     _collapsed;
-        private readonly SettableObservable<bool>     _selected;
-        private readonly Func<IComponent>             _closedContent;
-        private readonly Func<IComponent>             _openContent;
-        private          SidebarCommand[]             _commands;
-        private          bool                         _isHidden;
-        private          bool                         _isSortable = false;
+        private          string                                          _text;
+        private readonly Button                                          _closedHeader;
+        private readonly HTMLElement                                     _openHeader;
+        private readonly Button                                          _arrow;
+        private readonly Button                                          _openHeaderButton;
+        private readonly SettableObservable<IReadOnlyList<ISidebarItem>> _items;
+        private readonly SettableObservable<bool>                        _collapsed;
+        private readonly SettableObservable<bool>                        _selected;
+        private readonly Func<IComponent>                                _closedContent;
+        private readonly Func<IComponent>                                _openContent;
+        private          SidebarCommand[]                                _commands;
+        private          bool                                            _isHidden;
+        private          bool                                            _isSortable = false;
 
         private string[] _itemOrder;
 
@@ -80,7 +80,7 @@ namespace Tesserae
                 }
             }
 
-            _items     = new ObservableList<ISidebarItem>();
+            _items     = new SettableObservable<IReadOnlyList<ISidebarItem>>(new ISidebarItem[] { });
             _collapsed = new SettableObservable<bool>(initiallyCollapsed);
             _selected  = new SettableObservable<bool>(false);
 
@@ -91,18 +91,6 @@ namespace Tesserae
             {
                 _collapsed.Value = !_collapsed.Value;
             });
-        }
-
-        private IReadOnlyList<ISidebarItem> OrderItems(IReadOnlyList<ISidebarItem> items)
-        {
-            var dict = new object();
-
-            for (var i = 0; i < _itemOrder.Length; i++)
-            {
-                dict[_itemOrder[i]] = i;
-            }
-
-            return items.OrderBy(k => dict.HasOwnProperty(k.Identifier) ? dict[k.Identifier] : int.MaxValue).ToList();
         }
 
         public void Show()
@@ -176,7 +164,7 @@ namespace Tesserae
         {
             return () =>
             {
-                if (IsSelected && _items.Count > 0)
+                if (IsSelected && _items.Value.Count > 0)
                 {
                     Toggle();
                 }
@@ -191,7 +179,7 @@ namespace Tesserae
         {
             return (b, e) =>
             {
-                if (IsSelected && _items.Count > 0)
+                if (IsSelected && _items.Value.Count > 0)
                 {
                     Toggle();
                 }
@@ -259,11 +247,6 @@ namespace Tesserae
 
             var children = VStack();
 
-            if (_itemOrder is object)
-            {
-                items = OrderItems(items);
-            }
-
             if (_isSortable)
             {
                 var sortable = new Sortable(children.Render(), new SortableOptions()
@@ -272,7 +255,7 @@ namespace Tesserae
                     ghostClass = "tss-sortable-ghost",
                     onEnd = e =>
                     {
-                        _itemOrder = _itemOrder ?? items.Select(i => i.Identifier).ToArray();
+                        _itemOrder = _itemOrder ?? _items.Value.Select(i => i.Identifier).ToArray();
                         _itemOrder.MoveItem(e.oldIndex, e.newIndex);
                         _onSortingChanged?.Invoke(_itemOrder);
                     }
@@ -398,7 +381,7 @@ namespace Tesserae
 
         public void Clear()
         {
-            _items.Clear();
+            _items.Value = new ISidebarItem[] { };
         }
 
         public void Add(ISidebarItem item)
@@ -408,7 +391,9 @@ namespace Tesserae
             if (_items.Value.Any(m => m.Identifier == item.Identifier)) throw new ArgumentException("Identifier already in use: " + item.Identifier);
 
             item.GroupIdentifier = Identifier;
-            _items.Add(item);
+            var newItems = _items.Value.As<ISidebarItem[]>();
+            newItems.Push(item);
+            _items.Value = newItems;
         }
 
         public IComponent RenderClosed() => _closedContent();
@@ -426,11 +411,20 @@ namespace Tesserae
 
         public void LoadSorting(string[] itemOrder)
         {
-            _itemOrder = itemOrder;
+            var dict = new object();
+
+            for (var i = 0; i < itemOrder.Length; i++)
+            {
+                dict[itemOrder[i]] = i;
+            }
+
+            var items = _items.Value.OrderBy(i => dict.HasOwnProperty(i.Identifier) ? dict[i.Identifier] : int.MaxValue).ToArray();
+            _itemOrder   = _items.Value.Select(i => i.Identifier).ToArray();
+            _items.Value = items;
         }
         public string[] GetCurrentSorting()
         {
-            return _itemOrder ?? _items.Select(i => i.Identifier).ToArray();
+            return _itemOrder ?? _items.Value.Select(i => i.Identifier).ToArray();
         }
 
         public void Sortable(bool sortable = true)

@@ -21,8 +21,7 @@ namespace Tesserae
 
         private event Action<string[], Dictionary<string, string[]>> _onSortingChanged;
 
-        private string[]                     _itemOrder;
-        private Dictionary<string, string[]> _itemOrderChildren = new Dictionary<string, string[]>();
+        private string[] _itemOrder;
 
         public const int SIDEBAR_TRANSITION_TIME = 300;
 
@@ -98,7 +97,7 @@ namespace Tesserae
                     {
                         _itemOrder = _itemOrder ?? _middle.Value.Select(i => i.Identifier).ToArray();
                         _itemOrder.MoveItem(e.oldIndex, e.newIndex);
-                        _onSortingChanged?.Invoke(_itemOrder, _itemOrderChildren);
+                        _onSortingChanged?.Invoke(_itemOrder, GetCurrentChildrenSorting());
                     }
                 });
 
@@ -108,27 +107,12 @@ namespace Tesserae
                     {
                         middleNavItem.Sortable();
 
-                        middleNavItem.OnSortingChanged((newItemOrder) =>
+                        middleNavItem.OnSortingChanged(newItemOrder =>
                         {
-                            _itemOrderChildren[middleItem.Identifier] = newItemOrder;
-                            _onSortingChanged?.Invoke(_itemOrder, _itemOrderChildren);
+                            var childrenOrder = GetCurrentChildrenSorting();
+                            childrenOrder[middleItem.Identifier] = newItemOrder;
+                            _onSortingChanged?.Invoke(_itemOrder, childrenOrder);
                         });
-                    }
-                }
-            }
-
-            if (_itemOrder is object)
-            {
-                middle = OrderItems(_itemOrder, middle);
-            }
-
-            if (_itemOrderChildren is object)
-            {
-                foreach (var middleItem in middle)
-                {
-                    if (middleItem is SidebarNav middleNavItem && _itemOrderChildren.TryGetValue(middleItem.Identifier, out var navOrder))
-                    {
-                        middleNavItem.LoadSorting(navOrder);
                     }
                 }
             }
@@ -138,14 +122,6 @@ namespace Tesserae
                 VStack().Class("tss-sidebar-footer").WS().NoShrink().Children(footer.Select(si => closed ? si.RenderClosed() : si.RenderOpen()))
             );
         }
-
-        internal static IReadOnlyList<ISidebarItem> OrderItems(string[] order, IReadOnlyList<ISidebarItem> items)
-            => items.OrderBy(k =>
-            {
-                var index = Array.IndexOf(order, k.Identifier);
-                return index >= 0 ? index : int.MaxValue;
-            }).ToList();
-
 
         public Sidebar Closed(bool isClosed = true)
         {
@@ -189,13 +165,34 @@ namespace Tesserae
 
         public HTMLElement Render() => _sidebar.Render();
 
+
+        //Should be called after all items have been added
         public void LoadSorting(string[] topLevelOrder, Dictionary<string, string[]> children)
         {
-            _itemOrder         = topLevelOrder;
-            _itemOrderChildren = children;
+            var dict = new object();
+
+            for (var i = 0; i < topLevelOrder.Length; i++)
+            {
+                dict[topLevelOrder[i]] = i;
+            }
+
+            var middleItems = _middle.Value.OrderBy(i => dict.HasOwnProperty(i.Identifier) ? dict[i.Identifier] : int.MaxValue).ToArray();
+            _itemOrder = _middle.Value.Select(i => i.Identifier).ToArray();
+
+            foreach (var middleItem in middleItems)
+            {
+                if (middleItem is SidebarNav middleNavItem && children.TryGetValue(middleItem.Identifier, out var navOrder))
+                {
+                    middleNavItem.LoadSorting(navOrder);
+                }
+            }
+
+            _middle.Value = middleItems;
         }
 
-        public (string[] topLevelOrder, Dictionary<string, string[]> children) GetCurrentSorting()
+        public (string[] topLevelOrder, Dictionary<string, string[]> children) GetCurrentSorting() => (_itemOrder, GetCurrentChildrenSorting());
+
+        private Dictionary<string, string[]> GetCurrentChildrenSorting()
         {
             var children = new Dictionary<string, string[]>();
 
@@ -206,7 +203,7 @@ namespace Tesserae
                     children[nav.Identifier] = nav.GetCurrentSorting();
                 }
             }
-            return (_itemOrder ?? _middle.Value.Select(i => i.Identifier).ToArray(), children);
+            return children;
         }
 
         public void Refresh()
