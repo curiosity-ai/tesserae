@@ -43,22 +43,19 @@ namespace Tesserae.Tests
 
             var sortingTimeout = 0d;
 
-            sidebar.OnSortingChanged((topLevelOrder, children) =>
+            sidebar.OnSortingChanged(itemOrder =>
             {
                 window.clearTimeout(sortingTimeout);
 
                 sortingTimeout = window.setTimeout(_ =>
                 {
-                    var sidebarOrderStorageObject = new { };
-                    sidebarOrderStorageObject["topLevelOrder"] = topLevelOrder;
+                    var itemOrderObject = new { };
 
-                    var sidebarChildrenObject = new { };
-
-                    foreach (var child in children)
+                    foreach (var item in itemOrder)
                     {
-                        sidebarChildrenObject[child.Key] = child.Value;
+                        itemOrderObject[item.Key] = item.Value;
                     }
-                    var sorting = new { topLevelOrder = topLevelOrder, children = sidebarChildrenObject };
+                    var sorting = new { itemOrder = itemOrderObject };
 
                     localStorage.setItem(_sidebarOrderKey, es5.JSON.stringify(sorting));
                     console.log("saved sorting", sorting);
@@ -200,17 +197,17 @@ namespace Tesserae.Tests
                 var sidebarOrderObj = es5.JSON.parse(sidebarOrderJson);
                 console.log("loaded sorting", sidebarOrderObj);
 
-                var topLevelOrder = sidebarOrderObj["topLevelOrder"].As<string[]>();
 
-                var childrenObj = sidebarOrderObj["children"].As<object>();
-                var children    = new Dictionary<string, string[]>();
+                var itemOrderObj = sidebarOrderObj["itemOrder"].As<object>();
+                if (itemOrderObj is null) return;
+                var itemOrder = new Dictionary<string, string[]>();
 
-                foreach (var groupIdentifier in GetOwnPropertyNames(childrenObj))
+                foreach (var identifier in GetOwnPropertyNames(itemOrderObj))
                 {
-                    children[groupIdentifier] = childrenObj[groupIdentifier].As<string[]>();
+                    itemOrder[identifier] = itemOrderObj[identifier].As<string[]>();
 
                 }
-                sidebar.LoadSorting(topLevelOrder, children);
+                sidebar.LoadSorting(itemOrder);
             }
 
             Router.Register("home", "/", _ => currentPage.Value = null);

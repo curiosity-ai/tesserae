@@ -237,7 +237,11 @@ namespace Tesserae
             return this;
         }
 
-        public string Identifier      { get; set; }
-        public string GroupIdentifier { get; set; }
+        public string Identifier { get; private set; }
+        public void AddGroupIdentifier(string groupIdentifier)
+        {
+            Identifier = groupIdentifier + "_|_" + Identifier;
+        }
+
     }
 }

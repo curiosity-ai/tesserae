@@ -26,8 +26,12 @@ namespace Tesserae
 
         public IComponent CurrentRendered => _closedButton.IsMounted() ? _closedButton : _open;
 
-        public string Identifier      { get; }
-        public string GroupIdentifier { get; set; }
+        public string Identifier { get; private set; }
+        public void AddGroupIdentifier(string groupIdentifier)
+        {
+            Identifier = groupIdentifier + "_|_" + Identifier;
+        }
+
 
         public SidebarButton(string identifier, UIcons icon, string text, SidebarBadge            badge, params SidebarCommand[] commands) : this(identifier, Icon.Transform(icon, UIconsWeight.Regular), text, badge, commands) { }
         public SidebarButton(string identifier, UIcons icon, string text, params SidebarCommand[] commands) : this(identifier, Icon.Transform(icon, UIconsWeight.Regular), text, null, commands) { }

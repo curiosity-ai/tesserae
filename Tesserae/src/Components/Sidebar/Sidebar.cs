@@ -19,9 +19,9 @@ namespace Tesserae
         private readonly Stack                                           _sidebar;
         private          bool                                            _isSortable;
 
-        private event Action<string[], Dictionary<string, string[]>> _onSortingChanged;
+        private event Action<Dictionary<string, string[]>> _onSortingChanged;
 
-        private string[] _itemOrder;
+        private string[] _itemOrder = new string[] { };
 
         public const int SIDEBAR_TRANSITION_TIME = 300;
 
@@ -95,9 +95,8 @@ namespace Tesserae
                     ghostClass = "tss-sortable-ghost",
                     onEnd = e =>
                     {
-                        _itemOrder = _itemOrder ?? _middle.Value.Select(i => i.Identifier).ToArray();
                         _itemOrder.MoveItem(e.oldIndex, e.newIndex);
-                        _onSortingChanged?.Invoke(_itemOrder, GetCurrentChildrenSorting());
+                        _onSortingChanged?.Invoke(GetCurrentSorting());
                     }
                 });
 
@@ -109,9 +108,14 @@ namespace Tesserae
 
                         middleNavItem.OnSortingChanged(newItemOrder =>
                         {
-                            var childrenOrder = GetCurrentChildrenSorting();
-                            childrenOrder[middleItem.Identifier] = newItemOrder;
-                            _onSortingChanged?.Invoke(_itemOrder, childrenOrder);
+                            var itemOrder = GetCurrentSorting();
+
+                            foreach (var newItem in newItemOrder)
+                            {
+                                itemOrder[newItem.Key] = newItem.Value;
+                            }
+
+                            _onSortingChanged?.Invoke(itemOrder);
                         });
                     }
                 }
@@ -140,13 +144,19 @@ namespace Tesserae
             _header.Add(item);
             return this;
         }
+
+        public const string ROOT_SIDEBAR_FOR_ORDERING = "ROOT";
+
         public Sidebar AddContent(ISidebarItem item)
         {
             if (_middle.Value.Any(m => m.Identifier == item.Identifier)) throw new ArgumentException("Identifier already in use: " + item.Identifier);
 
+            item.AddGroupIdentifier(ROOT_SIDEBAR_FOR_ORDERING);
             _middle.Value = _middle.Value?.Concat(new[] { item }).ToList();
+            _itemOrder.Push(item.Identifier);
             return this;
         }
+
         public Sidebar AddFooter(ISidebarItem item)
         {
             _footer.Add(item);
@@ -167,43 +177,49 @@ namespace Tesserae
 
 
         //Should be called after all items have been added
-        public void LoadSorting(string[] topLevelOrder, Dictionary<string, string[]> children)
+        public void LoadSorting(Dictionary<string, string[]> itemOrder)
         {
-            var dict = new object();
-
-            for (var i = 0; i < topLevelOrder.Length; i++)
+            if (itemOrder.TryGetValue(ROOT_SIDEBAR_FOR_ORDERING, out var topLevelOrder) && topLevelOrder is object)
             {
-                dict[topLevelOrder[i]] = i;
+                var dict = new object();
+
+                for (var i = 0; i < topLevelOrder.Length; i++)
+                {
+                    dict[topLevelOrder[i]] = i;
+                }
+
+                var middleItems = _middle.Value.OrderBy(i => dict.HasOwnProperty(i.Identifier) ? dict[i.Identifier] : int.MaxValue).ToArray();
+                _itemOrder    = _itemOrder.OrderBy(i => dict.HasOwnProperty(i) ? dict[i] : int.MaxValue).ToArray();
+                _middle.Value = middleItems;
+
             }
 
-            var middleItems = _middle.Value.OrderBy(i => dict.HasOwnProperty(i.Identifier) ? dict[i.Identifier] : int.MaxValue).ToArray();
-            _itemOrder = _middle.Value.Select(i => i.Identifier).ToArray();
-
-            foreach (var middleItem in middleItems)
+            foreach (var middleItem in _middle.Value)
             {
-                if (middleItem is SidebarNav middleNavItem && children.TryGetValue(middleItem.Identifier, out var navOrder))
+                if (middleItem is SidebarNav middleNavItem)
                 {
-                    middleNavItem.LoadSorting(navOrder);
+                    middleNavItem.LoadSorting(itemOrder);
                 }
             }
 
-            _middle.Value = middleItems;
         }
 
-        public (string[] topLevelOrder, Dictionary<string, string[]> children) GetCurrentSorting() => (_itemOrder, GetCurrentChildrenSorting());
-
-        private Dictionary<string, string[]> GetCurrentChildrenSorting()
+        private Dictionary<string, string[]> GetCurrentSorting()
         {
-            var children = new Dictionary<string, string[]>();
+            var dict = new Dictionary<string, string[]>();
 
             foreach (var item in _middle.Value)
             {
                 if (item is SidebarNav nav)
                 {
-                    children[nav.Identifier] = nav.GetCurrentSorting();
+                    foreach (var sorting in nav.GetCurrentSorting())
+                    {
+                        dict[sorting.Key] = sorting.Value;
+                    }
                 }
             }
-            return children;
+            dict[ROOT_SIDEBAR_FOR_ORDERING] = _itemOrder;
+            return dict;
         }
 
         public void Refresh()
@@ -211,7 +227,7 @@ namespace Tesserae
             RenderSidebar(_header.Value, _middle.Value, _footer.Value, _closed.Value);
         }
 
-        public void OnSortingChanged(Action<string[], Dictionary<string, string[]>> onSortingChanged)
+        public void OnSortingChanged(Action<Dictionary<string, string[]>> onSortingChanged)
         {
             _onSortingChanged += onSortingChanged;
         }

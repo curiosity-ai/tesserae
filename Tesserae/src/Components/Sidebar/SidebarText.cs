@@ -32,8 +32,12 @@ namespace Tesserae
             _closed.Collapse();
             _open.Collapse();
         }
-        public string Identifier      { get; }
-        public string GroupIdentifier { get; set; }
+        public string Identifier { get; private set; }
+        public void AddGroupIdentifier(string groupIdentifier)
+        {
+            Identifier = groupIdentifier + "_|_" + Identifier;
+        }
+
 
         public SidebarText SetText(string text)
         {
