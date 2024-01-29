@@ -38,7 +38,7 @@ namespace Tesserae.Tests
                 }
             });
 
-            var sidebar = Sidebar();
+            var sidebar = Sidebar(sortable: true);
 
             var sidebarOrderJson = localStorage.getItem(_sidebarOrderKey);
 

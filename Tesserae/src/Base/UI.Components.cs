@@ -305,7 +305,7 @@ namespace Tesserae
 
         public static Pivot Pivot() => new Pivot();
 
-        public static Sidebar Sidebar() => new Sidebar();
+        public static Sidebar Sidebar(bool sortable = false) => new Sidebar(sortable);
 
         //public static Sidebar.Item SidebarItem(string text, string icon, string href = null) => new Sidebar.Item(text, icon, href);
 
