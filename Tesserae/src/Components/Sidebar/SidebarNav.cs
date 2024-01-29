@@ -403,7 +403,7 @@ namespace Tesserae
 
         public void Add(ISidebarItem item)
         {
-            if (item is SidebarNav) throw new ArgumentException("more than 2 levels of sidebar nav is not supported with reordering the sidebar items.");
+            if (item is SidebarNav) console.error("more than 2 levels of sidebar nav is not supported with reordering the sidebar items.", item.Identifier, " added to ", Identifier);
 
             if (_items.Value.Any(m => m.Identifier == item.Identifier)) throw new ArgumentException("Identifier already in use: " + item.Identifier);
 
