@@ -188,10 +188,13 @@ namespace Tesserae
                     dict[topLevelOrder[i]] = i;
                 }
 
-                var middleItems = _middle.Value.OrderBy(i => dict.HasOwnProperty(i.Identifier) ? dict[i.Identifier] : int.MaxValue).ToArray();
-                _itemOrder    = _itemOrder.OrderBy(i => dict.HasOwnProperty(i) ? dict[i] : int.MaxValue).ToArray();
-                _middle.Value = middleItems;
+                var itemOrderSorted = _itemOrder.OrderBy(i => dict.HasOwnProperty(i) ? dict[i] : int.MaxValue).ToArray();
 
+                if (!_itemOrder.SequenceEqual(itemOrderSorted))
+                {
+                    _middle.Value = _middle.Value.OrderBy(i => dict.HasOwnProperty(i.Identifier) ? dict[i.Identifier] : int.MaxValue).ToArray();
+                    _itemOrder    = itemOrderSorted;
+                }
             }
 
             foreach (var middleItem in _middle.Value)
