@@ -57,8 +57,8 @@ namespace Tesserae
 
         public static void StopEvent(Event e)
         {
-            e.preventDefault();
-            e.stopImmediatePropagation();
+            e?.preventDefault();
+            e?.stopImmediatePropagation();
         }
 
         public static List<Element> ToList(HTMLCollection c)
