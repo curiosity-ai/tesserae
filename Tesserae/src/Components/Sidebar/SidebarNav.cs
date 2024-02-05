@@ -29,7 +29,7 @@ namespace Tesserae
         private          bool                                            _isHidden;
         private          bool                                            _isSortable = false;
 
-        private string[] _itemOrder = new string[] { };
+        private List<string> _itemOrder = new List<string>();
 
         private event Action<HTMLElement> _onRendered;
 
@@ -274,7 +274,9 @@ namespace Tesserae
                     ghostClass = "tss-sortable-ghost",
                     onEnd = e =>
                     {
-                        _itemOrder.MoveItem(e.oldIndex, e.newIndex);
+                        var old = _itemOrder[e.oldIndex];
+                        _itemOrder[e.oldIndex] = _itemOrder[e.newIndex];
+                        _itemOrder[e.newIndex] = old;
                         _onSortingChanged?.Invoke(GetCurrentSorting());
                     }
                 });
@@ -408,7 +410,7 @@ namespace Tesserae
             var newItems = _items.Value.As<ISidebarItem[]>();
             newItems.Push(item);
             _items.Value = newItems;
-            _itemOrder.Push(item.Identifier);
+            _itemOrder.Add(item.Identifier);
         }
 
         public IComponent RenderClosed() => _closedContent();
@@ -438,7 +440,7 @@ namespace Tesserae
                     dict[childrenOrder[i]] = i;
                 }
 
-                var itemOrderSorted = _itemOrder.OrderBy(i => dict.HasOwnProperty(i) ? dict[i] : int.MaxValue).ToArray();
+                var itemOrderSorted = _itemOrder.OrderBy(i => dict.HasOwnProperty(i) ? dict[i] : int.MaxValue).Distinct().ToList();
 
                 if (!_itemOrder.SequenceEqual(itemOrderSorted))
                 {
@@ -459,7 +461,8 @@ namespace Tesserae
         public Dictionary<string, string[]> GetCurrentSorting()
         {
             var dict = new Dictionary<string, string[]>();
-            dict[Identifier] = _itemOrder.ToArray();
+
+            dict[Identifier] = _itemOrder.Distinct().ToArray();
 
             foreach (var sidebarItem in _items.Value)
             {
@@ -471,6 +474,7 @@ namespace Tesserae
                     }
                 }
             }
+
             return dict;
         }
 

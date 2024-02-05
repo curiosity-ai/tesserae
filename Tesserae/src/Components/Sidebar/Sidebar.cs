@@ -19,9 +19,9 @@ namespace Tesserae
         private readonly Stack                                           _sidebar;
         private          bool                                            _isSortable;
 
-        private event Action<Dictionary<string, string[]>> _onSortingChanged;
+        private Action<Dictionary<string, string[]>> _onSortingChanged;
 
-        private string[] _itemOrder = new string[] { };
+        private List<string> _itemOrder = new List<string>();
 
         public const int SIDEBAR_TRANSITION_TIME = 300;
 
@@ -95,7 +95,9 @@ namespace Tesserae
                     ghostClass = "tss-sortable-ghost",
                     onEnd = e =>
                     {
-                        _itemOrder.MoveItem(e.oldIndex, e.newIndex);
+                        var old = _itemOrder[e.oldIndex];
+                        _itemOrder[e.oldIndex] = _itemOrder[e.newIndex];
+                        _itemOrder[e.newIndex] = old;
                         _onSortingChanged?.Invoke(GetCurrentSorting());
                     }
                 });
@@ -153,7 +155,7 @@ namespace Tesserae
 
             item.AddGroupIdentifier(ROOT_SIDEBAR_FOR_ORDERING);
             _middle.Value = _middle.Value?.Concat(new[] { item }).ToList();
-            _itemOrder.Push(item.Identifier);
+            _itemOrder.Add(item.Identifier);
             return this;
         }
 
@@ -188,7 +190,7 @@ namespace Tesserae
                     dict[topLevelOrder[i]] = i;
                 }
 
-                var itemOrderSorted = _itemOrder.OrderBy(i => dict.HasOwnProperty(i) ? dict[i] : int.MaxValue).ToArray();
+                var itemOrderSorted = _itemOrder.OrderBy(i => dict.HasOwnProperty(i) ? dict[i] : int.MaxValue).Distinct().ToList();
 
                 if (!_itemOrder.SequenceEqual(itemOrderSorted))
                 {
@@ -204,7 +206,6 @@ namespace Tesserae
                     middleNavItem.LoadSorting(itemOrder);
                 }
             }
-
         }
 
         private Dictionary<string, string[]> GetCurrentSorting()
@@ -217,11 +218,13 @@ namespace Tesserae
                 {
                     foreach (var sorting in nav.GetCurrentSorting())
                     {
-                        dict[sorting.Key] = sorting.Value;
+                        dict[sorting.Key] = sorting.Value.Distinct().ToArray();
                     }
                 }
             }
-            dict[ROOT_SIDEBAR_FOR_ORDERING] = _itemOrder;
+
+            dict[ROOT_SIDEBAR_FOR_ORDERING] = _itemOrder.Distinct().ToArray();
+
             return dict;
         }
 
@@ -232,7 +235,7 @@ namespace Tesserae
 
         public void OnSortingChanged(Action<Dictionary<string, string[]>> onSortingChanged)
         {
-            _onSortingChanged += onSortingChanged;
+            _onSortingChanged = onSortingChanged;
         }
     }
 }
