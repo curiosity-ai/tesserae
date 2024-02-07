@@ -163,7 +163,7 @@ namespace Tesserae
         /// </summary>
         public static void SetGridColumn(IComponent component, int start, int end)
         {
-            var (item, remember) = Stack.GetCorrectItemToApplyStyle(component);
+            var (item, remember) = GetCorrectItemToApplyStyle(component);
             item.style.gridColumn = $"{start} / {end}";
             if (remember) item.setAttribute("tss-grd-c", "");
         }
@@ -173,9 +173,21 @@ namespace Tesserae
         /// </summary>
         public static void SetGridRow(IComponent component, int start, int end)
         {
-            var (item, remember) = Stack.GetCorrectItemToApplyStyle(component);
+            var (item, remember) = GetCorrectItemToApplyStyle(component);
             item.style.gridRow = $"{start} / {end}";
             if (remember) item.setAttribute("tss-grd-r", "");
+        }
+
+        internal static (HTMLElement item, bool remember) GetCorrectItemToApplyStyle(IComponent component)
+        {
+            if (component is ISpecialCaseStyling specialCase)
+            {
+                return (specialCase.StylingContainer, specialCase.PropagateToStackItemParent);
+            }
+            else
+            {
+                return (GetItem(component), true);
+            }
         }
 
         /// <summary>
