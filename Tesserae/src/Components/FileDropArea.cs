@@ -143,6 +143,11 @@ namespace Tesserae
             return this;
         }
 
+        public void Reset()
+        {
+            _fileInput.value = null;
+        }
+
         public HTMLElement Render()
         {
             return _container;

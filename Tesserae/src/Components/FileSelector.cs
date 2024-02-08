@@ -113,6 +113,11 @@ namespace Tesserae
             return this;
         }
 
+        public void Reset()
+        {
+            _fileInput.value = null;
+        }
+
         public void Attach(ComponentEventHandler<FileSelector> handler)
         {
             FileSelected += (s, _) => handler(s);
