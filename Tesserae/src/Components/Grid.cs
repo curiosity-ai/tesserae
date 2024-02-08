@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using static H5.Core.dom;
 using static Tesserae.UI;
 
@@ -93,7 +94,7 @@ namespace Tesserae
 
             if (component.HasOwnProperty("GridItem"))
             {
-                item = component["GridItem"] as HTMLElement;
+                item = component["GridItem"].As<HTMLElement>();
             }
 
             if (item is null)
@@ -116,7 +117,6 @@ namespace Tesserae
                     {
                         CopyStylesDefinedWithExtension(rendered, item);
                     }
-
                 }
                 else
                 {
@@ -163,9 +163,17 @@ namespace Tesserae
         /// </summary>
         public static void SetGridColumn(IComponent component, int start, int end)
         {
-            var (item, remember) = GetCorrectItemToApplyStyle(component);
+            var (item, rememberAndPropagate) = GetCorrectItemToApplyStyle(component);
             item.style.gridColumn = $"{start} / {end}";
-            if (remember) item.setAttribute("tss-grd-c", "");
+
+            if (rememberAndPropagate)
+            {
+                item.setAttribute("tss-grd-c", "");
+                if (item.HasOwnProperty("GridItem"))
+                {
+                    item["GridItem"].As<HTMLElement>().style.gridColumn = item.style.gridColumn;
+                }
+            }
         }
 
         /// <summary>
@@ -173,9 +181,17 @@ namespace Tesserae
         /// </summary>
         public static void SetGridRow(IComponent component, int start, int end)
         {
-            var (item, remember) = GetCorrectItemToApplyStyle(component);
+            var (item, rememberAndPropagate) = GetCorrectItemToApplyStyle(component);
             item.style.gridRow = $"{start} / {end}";
-            if (remember) item.setAttribute("tss-grd-r", "");
+            if (rememberAndPropagate)
+            {
+                item.setAttribute("tss-grd-r", "");
+
+                if (item.HasOwnProperty("GridItem"))
+                {
+                    item["GridItem"].As<HTMLElement>().style.gridRow = item.style.gridRow;
+                }
+            }
         }
 
         internal static (HTMLElement item, bool remember) GetCorrectItemToApplyStyle(IComponent component)
