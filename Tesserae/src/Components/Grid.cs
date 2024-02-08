@@ -169,9 +169,9 @@ namespace Tesserae
             if (rememberAndPropagate)
             {
                 item.setAttribute("tss-grd-c", "");
-                if (item.HasOwnProperty("GridItem"))
+                if (component.HasOwnProperty("GridItem"))
                 {
-                    item["GridItem"].As<HTMLElement>().style.gridColumn = item.style.gridColumn;
+                    component["GridItem"].As<HTMLElement>().style.gridColumn = item.style.gridColumn;
                 }
             }
         }
@@ -187,9 +187,9 @@ namespace Tesserae
             {
                 item.setAttribute("tss-grd-r", "");
 
-                if (item.HasOwnProperty("GridItem"))
+                if (component.HasOwnProperty("GridItem"))
                 {
-                    item["GridItem"].As<HTMLElement>().style.gridRow = item.style.gridRow;
+                    component["GridItem"].As<HTMLElement>().style.gridRow = item.style.gridRow;
                 }
             }
         }

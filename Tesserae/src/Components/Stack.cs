@@ -73,9 +73,9 @@ namespace Tesserae
             if (remember)
             {
                 item.setAttribute("tss-stk-as", "");
-                if (item.HasOwnProperty("StackItem"))
+                if (component.HasOwnProperty("StackItem"))
                 {
-                    item["StackItem"].As<HTMLElement>().style.alignSelf = item.style.alignSelf;
+                    component["StackItem"].As<HTMLElement>().style.alignSelf = item.style.alignSelf;
                 }
             }
         }
@@ -176,9 +176,9 @@ namespace Tesserae
             if (remember)
             {
                 item.setAttribute("tss-stk-w", "");
-                if (item.HasOwnProperty("StackItem"))
+                if (component.HasOwnProperty("StackItem"))
                 {
-                    item["StackItem"].As<HTMLElement>().style.width = item.style.width;
+                    component["StackItem"].As<HTMLElement>().style.width = item.style.width;
                 }
             }
         }
@@ -190,9 +190,9 @@ namespace Tesserae
             if (remember)
             {
                 item.setAttribute("tss-stk-mw", "");
-                if (item.HasOwnProperty("StackItem"))
+                if (component.HasOwnProperty("StackItem"))
                 {
-                    item["StackItem"].As<HTMLElement>().style.minWidth = item.style.minWidth;
+                    component["StackItem"].As<HTMLElement>().style.minWidth = item.style.minWidth;
                 }
             }
         }
@@ -204,9 +204,9 @@ namespace Tesserae
             if (remember)
             {
                 item.setAttribute("tss-stk-mxw", "");
-                if (item.HasOwnProperty("StackItem"))
+                if (component.HasOwnProperty("StackItem"))
                 {
-                    item["StackItem"].As<HTMLElement>().style.maxWidth = item.style.maxWidth;
+                    component["StackItem"].As<HTMLElement>().style.maxWidth = item.style.maxWidth;
                 }
             }
         }
@@ -218,9 +218,9 @@ namespace Tesserae
             if (remember)
             {
                 item.setAttribute("tss-stk-h", "");
-                if (item.HasOwnProperty("StackItem"))
+                if (component.HasOwnProperty("StackItem"))
                 {
-                    item["StackItem"].As<HTMLElement>().style.height = item.style.height;
+                    component["StackItem"].As<HTMLElement>().style.height = item.style.height;
                 }
             }
         }
@@ -232,9 +232,9 @@ namespace Tesserae
             if (remember)
             {
                 item.setAttribute("tss-stk-mh", "");
-                if (item.HasOwnProperty("StackItem"))
+                if (component.HasOwnProperty("StackItem"))
                 {
-                    item["StackItem"].As<HTMLElement>().style.minHeight = item.style.minHeight;
+                    component["StackItem"].As<HTMLElement>().style.minHeight = item.style.minHeight;
                 }
             }
         }
@@ -246,9 +246,9 @@ namespace Tesserae
             if (remember)
             {
                 item.setAttribute("tss-stk-mxh", "");
-                if (item.HasOwnProperty("StackItem"))
+                if (component.HasOwnProperty("StackItem"))
                 {
-                    item["StackItem"].As<HTMLElement>().style.maxHeight = item.style.maxHeight;
+                    component["StackItem"].As<HTMLElement>().style.maxHeight = item.style.maxHeight;
                 }
             }
         }
@@ -260,9 +260,9 @@ namespace Tesserae
             if (remember)
             {
                 item.setAttribute("tss-stk-m", "");
-                if (item.HasOwnProperty("StackItem"))
+                if (component.HasOwnProperty("StackItem"))
                 {
-                    item["StackItem"].As<HTMLElement>().style.marginLeft = item.style.marginLeft;
+                    component["StackItem"].As<HTMLElement>().style.marginLeft = item.style.marginLeft;
                 }
             }
         }
@@ -274,9 +274,9 @@ namespace Tesserae
             if (remember)
             {
                 item.setAttribute("tss-stk-m", "");
-                if (item.HasOwnProperty("StackItem"))
+                if (component.HasOwnProperty("StackItem"))
                 {
-                    item["StackItem"].As<HTMLElement>().style.marginRight = item.style.marginRight;
+                    component["StackItem"].As<HTMLElement>().style.marginRight = item.style.marginRight;
                 }
             }
         }
@@ -288,9 +288,9 @@ namespace Tesserae
             if (remember)
             {
                 item.setAttribute("tss-stk-m", "");
-                if (item.HasOwnProperty("StackItem"))
+                if (component.HasOwnProperty("StackItem"))
                 {
-                    item["StackItem"].As<HTMLElement>().style.marginTop = item.style.marginTop;
+                    component["StackItem"].As<HTMLElement>().style.marginTop = item.style.marginTop;
                 }
             }
         }
@@ -302,9 +302,9 @@ namespace Tesserae
             if (remember)
             {
                 item.setAttribute("tss-stk-m", "");
-                if (item.HasOwnProperty("StackItem"))
+                if (component.HasOwnProperty("StackItem"))
                 {
-                    item["StackItem"].As<HTMLElement>().style.marginBottom = item.style.marginBottom;
+                    component["StackItem"].As<HTMLElement>().style.marginBottom = item.style.marginBottom;
                 }
             }
         }
@@ -316,9 +316,9 @@ namespace Tesserae
             if (remember)
             {
                 item.setAttribute("tss-stk-p", "");
-                if (item.HasOwnProperty("StackItem"))
+                if (component.HasOwnProperty("StackItem"))
                 {
-                    item["StackItem"].As<HTMLElement>().style.paddingLeft = item.style.paddingLeft;
+                    component["StackItem"].As<HTMLElement>().style.paddingLeft = item.style.paddingLeft;
                 }
             }
         }
@@ -330,9 +330,9 @@ namespace Tesserae
             if (remember)
             {
                 item.setAttribute("tss-stk-p", "");
-                if (item.HasOwnProperty("StackItem"))
+                if (component.HasOwnProperty("StackItem"))
                 {
-                    item["StackItem"].As<HTMLElement>().style.paddingRight = item.style.paddingRight;
+                    component["StackItem"].As<HTMLElement>().style.paddingRight = item.style.paddingRight;
                 }
             }
         }
@@ -344,9 +344,9 @@ namespace Tesserae
             if (remember)
             {
                 item.setAttribute("tss-stk-p", "");
-                if (item.HasOwnProperty("StackItem"))
+                if (component.HasOwnProperty("StackItem"))
                 {
-                    item["StackItem"].As<HTMLElement>().style.paddingTop = item.style.paddingTop;
+                    component["StackItem"].As<HTMLElement>().style.paddingTop = item.style.paddingTop;
                 }
             }
 
@@ -359,9 +359,9 @@ namespace Tesserae
             if (remember)
             {
                 item.setAttribute("tss-stk-p", "");
-                if (item.HasOwnProperty("StackItem"))
+                if (component.HasOwnProperty("StackItem"))
                 {
-                    item["StackItem"].As<HTMLElement>().style.paddingBottom = item.style.paddingBottom;
+                    component["StackItem"].As<HTMLElement>().style.paddingBottom = item.style.paddingBottom;
                 }
             }
 
@@ -374,9 +374,9 @@ namespace Tesserae
             if (remember)
             {
                 item.setAttribute("tss-stk-fg", "");
-                if (item.HasOwnProperty("StackItem"))
+                if (component.HasOwnProperty("StackItem"))
                 {
-                    item["StackItem"].As<HTMLElement>().style.flexGrow = item.style.flexGrow;
+                    component["StackItem"].As<HTMLElement>().style.flexGrow = item.style.flexGrow;
                 }
             }
         }
@@ -388,9 +388,9 @@ namespace Tesserae
             if (remember)
             {
                 item.setAttribute("tss-stk-fs", "");
-                if (item.HasOwnProperty("StackItem"))
+                if (component.HasOwnProperty("StackItem"))
                 {
-                    item["StackItem"].As<HTMLElement>().style.flexShrink = item.style.flexShrink;
+                    component["StackItem"].As<HTMLElement>().style.flexShrink = item.style.flexShrink;
                 }
             }
         }
