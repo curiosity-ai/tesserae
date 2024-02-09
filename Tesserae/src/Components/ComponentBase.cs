@@ -10,16 +10,16 @@ namespace Tesserae
     [H5.Name("tss.CB")]
     public abstract class ComponentBase<T, THTML> : IComponent, IHasClickHandler, IHasMarginPadding where T : ComponentBase<T, THTML> where THTML : HTMLElement
     {
-        protected event ComponentEventHandler<T, MouseEvent>    Clicked;
-        protected event ComponentEventHandler<T, MouseEvent>    ContextMenu;
-        protected event ComponentEventHandler<T, Event>         Changed;
-        protected event ComponentEventHandler<T, Event>         Pasted;
-        protected event ComponentEventHandler<T, Event>         InputUpdated;
-        protected event ComponentEventHandler<T, Event>         ReceivedFocus;
-        protected event ComponentEventHandler<T, Event>         LostFocus;
-        protected event ComponentEventHandler<T, KeyboardEvent> KeyDown;
-        protected event ComponentEventHandler<T, KeyboardEvent> KeyUp;
-        protected event ComponentEventHandler<T, KeyboardEvent> KeyPress;
+        protected event ComponentEventHandler<T, MouseEvent>     Clicked;
+        protected event ComponentEventHandler<T, MouseEvent>     ContextMenu;
+        protected event ComponentEventHandler<T, Event>          Changed;
+        protected event ComponentEventHandler<T, ClipboardEvent> Pasted;
+        protected event ComponentEventHandler<T, Event>          InputUpdated;
+        protected event ComponentEventHandler<T, Event>          ReceivedFocus;
+        protected event ComponentEventHandler<T, Event>          LostFocus;
+        protected event ComponentEventHandler<T, KeyboardEvent>  KeyDown;
+        protected event ComponentEventHandler<T, KeyboardEvent>  KeyUp;
+        protected event ComponentEventHandler<T, KeyboardEvent>  KeyPress;
 
         public THTML  InnerElement { get;                               protected set; }
         public string Margin       { get => InnerElement.style.margin;  set => InnerElement.style.margin = value; }
@@ -121,7 +121,7 @@ namespace Tesserae
             return (T)this;
         }
 
-        public virtual T OnPasted(ComponentEventHandler<T, Event> onPasted)
+        public virtual T OnPasted(ComponentEventHandler<T, ClipboardEvent> onPasted)
         {
             Pasted += onPasted;
             return (T)this;
@@ -146,14 +146,14 @@ namespace Tesserae
             InnerElement.addEventListener("keypress", ev => RaiseOnKeyPress(ev.As<KeyboardEvent>()));
             InnerElement.addEventListener("keydown",  ev => RaiseOnKeyDown(ev.As<KeyboardEvent>()));
             InnerElement.addEventListener("keyup",    ev => RaiseOnKeyUp(ev.As<KeyboardEvent>()));
-            InnerElement.addEventListener("paste",    ev => RaiseOnPaste(ev));
+            InnerElement.addEventListener("paste",    ev => RaiseOnPaste(ev.As<ClipboardEvent>()));
         }
 
         protected void AttachFocus() => InnerElement.addEventListener("focus", s => RaiseOnFocus(s));
 
         protected void AttachBlur() => InnerElement.addEventListener("blur", s => RaiseOnBlur(s));
 
-        protected void RaiseOnPaste(Event ev) => Pasted?.Invoke((T)this, ev);
+        protected void RaiseOnPaste(ClipboardEvent ev) => Pasted?.Invoke((T)this, ev);
         protected void RaiseOnInput(Event ev) => InputUpdated?.Invoke((T)this, ev);
 
         protected void RaiseOnKeyDown(KeyboardEvent ev) => KeyDown?.Invoke((T)this, ev);
