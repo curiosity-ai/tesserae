@@ -307,6 +307,12 @@ namespace Tesserae
             return this;
         }
 
+        public Grid NoDefaultMargin()
+        {
+            _grid.classList.add("tss-default-component-no-margin");
+            return this;
+        }
+
         public void Replace(IComponent newComponent, IComponent oldComponent)
         {
             _grid.replaceChild(GetItem(newComponent), GetItem(oldComponent));

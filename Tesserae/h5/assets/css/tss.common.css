@@ -363,7 +363,12 @@ body {
 }
 
 .tss-default-component-margin {
-    margin: 4px;
+    --tss-default-margin: 4px;
+    margin: var(--tss-default-margin);
+}
+
+.tss-default-component-no-margin > .tss-stack-item > .tss-default-component-margin {
+    --tss-default-margin: 0px;
 }
 
 

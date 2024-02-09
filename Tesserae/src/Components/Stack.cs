@@ -528,6 +528,11 @@ namespace Tesserae
             InnerElement.style.overflow = "hidden";
             return this;
         }
+        public Stack NoDefaultMargin()
+        {
+            InnerElement.classList.add("tss-default-component-no-margin");
+            return this;
+        }
 
         internal static HTMLElement GetItem(IComponent component, bool forceAdd = false)
         {
