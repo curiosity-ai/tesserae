@@ -16,7 +16,7 @@ namespace Tesserae
 
         public HTMLElement StylingContainer => _grid;
 
-        public bool PropagateToStackItemParent => false;
+        public bool PropagateToStackItemParent { get; private set; } = true;
 
         public Grid(params UnitSize[] columns)
         {
@@ -299,6 +299,12 @@ namespace Tesserae
         public virtual void Clear()
         {
             ClearChildren(_grid);
+        }
+
+        public Grid RemovePropagation()
+        {
+            PropagateToStackItemParent = false;
+            return this;
         }
 
         public void Replace(IComponent newComponent, IComponent oldComponent)
