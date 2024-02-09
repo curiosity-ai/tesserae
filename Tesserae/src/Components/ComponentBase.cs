@@ -13,12 +13,13 @@ namespace Tesserae
         protected event ComponentEventHandler<T, MouseEvent>    Clicked;
         protected event ComponentEventHandler<T, MouseEvent>    ContextMenu;
         protected event ComponentEventHandler<T, Event>         Changed;
+        protected event ComponentEventHandler<T, Event>         Pasted;
         protected event ComponentEventHandler<T, Event>         InputUpdated;
         protected event ComponentEventHandler<T, Event>         ReceivedFocus;
         protected event ComponentEventHandler<T, Event>         LostFocus;
-        protected event ComponentEventHandler<T, KeyboardEvent> KeyPushedDown;
-        protected event ComponentEventHandler<T, KeyboardEvent> KeyReleased;
-        protected event ComponentEventHandler<T, KeyboardEvent> KeyFullyPressed;
+        protected event ComponentEventHandler<T, KeyboardEvent> KeyDown;
+        protected event ComponentEventHandler<T, KeyboardEvent> KeyUp;
+        protected event ComponentEventHandler<T, KeyboardEvent> KeyPress;
 
         public THTML  InnerElement { get;                               protected set; }
         public string Margin       { get => InnerElement.style.margin;  set => InnerElement.style.margin = value; }
@@ -104,19 +105,25 @@ namespace Tesserae
 
         public virtual T OnKeyDown(ComponentEventHandler<T, KeyboardEvent> onKeyDown)
         {
-            KeyPushedDown += onKeyDown;
+            KeyDown += onKeyDown;
             return (T)this;
         }
 
         public virtual T OnKeyUp(ComponentEventHandler<T, KeyboardEvent> onKeyUp)
         {
-            KeyReleased += onKeyUp;
+            KeyUp += onKeyUp;
             return (T)this;
         }
 
         public virtual T OnKeyPress(ComponentEventHandler<T, KeyboardEvent> onKeyPress)
         {
-            KeyFullyPressed += onKeyPress;
+            KeyPress += onKeyPress;
+            return (T)this;
+        }
+
+        public virtual T OnPasted(ComponentEventHandler<T, Event> onPasted)
+        {
+            Pasted += onPasted;
             return (T)this;
         }
 
@@ -139,19 +146,21 @@ namespace Tesserae
             InnerElement.addEventListener("keypress", ev => RaiseOnKeyPress(ev.As<KeyboardEvent>()));
             InnerElement.addEventListener("keydown",  ev => RaiseOnKeyDown(ev.As<KeyboardEvent>()));
             InnerElement.addEventListener("keyup",    ev => RaiseOnKeyUp(ev.As<KeyboardEvent>()));
+            InnerElement.addEventListener("paste",    ev => RaiseOnPaste(ev));
         }
 
         protected void AttachFocus() => InnerElement.addEventListener("focus", s => RaiseOnFocus(s));
 
         protected void AttachBlur() => InnerElement.addEventListener("blur", s => RaiseOnBlur(s));
 
+        protected void RaiseOnPaste(Event ev) => Pasted?.Invoke((T)this, ev);
         protected void RaiseOnInput(Event ev) => InputUpdated?.Invoke((T)this, ev);
 
-        protected void RaiseOnKeyDown(KeyboardEvent ev) => KeyPushedDown?.Invoke((T)this, ev);
+        protected void RaiseOnKeyDown(KeyboardEvent ev) => KeyDown?.Invoke((T)this, ev);
 
-        protected void RaiseOnKeyUp(KeyboardEvent ev) => KeyReleased?.Invoke((T)this, ev);
+        protected void RaiseOnKeyUp(KeyboardEvent ev) => KeyUp?.Invoke((T)this, ev);
 
-        protected void RaiseOnKeyPress(KeyboardEvent ev) => KeyFullyPressed?.Invoke((T)this, ev);
+        protected void RaiseOnKeyPress(KeyboardEvent ev) => KeyPress?.Invoke((T)this, ev);
 
         private void RaiseOnFocus(Event ev) => ReceivedFocus?.Invoke((T)this, ev);
 

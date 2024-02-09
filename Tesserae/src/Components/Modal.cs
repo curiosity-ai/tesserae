@@ -83,7 +83,7 @@ namespace Tesserae
             // it - which is logic which we use here to decide whether the User must explicitly click the close button or if they can easily discard it via clicking away or hitting [Esc] <- 2020-05-01 DWR: Checking for light dismiss was Rafa's idea, we MIGHT also
             // want to allow [Esc] support for modals with a close button that DON'T allow light dismiss in the future). So we'll hook up the key press now and then check the component's configuration if the event occurs. Also note that there is key PRESS event
             // for [Esc] (unlike other buttons), only key DOWN and key UP and so we'll have to settle for using onKeyUp.
-            KeyReleased += (_, e) =>
+            KeyUp += (_, e) =>
             {
                 if ((e.keyCode == 27) && CanLightDismiss && WillShowCloseButton)
                 {
