@@ -120,7 +120,7 @@ namespace Tesserae
             UpdateSingle(column, row);
         }
 
-        private void UpdateSingle(int column, int row)
+        private void UpdateSingle(int column, int row, bool skipEvent = false)
         {
             if (_draggingColumnMin <= column && _draggingColumnMax >= column && _draggingRowMin <= row && _draggingRowMax >= row)
             {
@@ -132,7 +132,7 @@ namespace Tesserae
             }
 
             
-            if (!IsDragging)
+            if (!IsDragging && !skipEvent)
             {
                 RaiseOnChange(null);
             }
@@ -217,7 +217,7 @@ namespace Tesserae
             {
                 _hoverColumn = -1;
                 _hoverRow = -1;
-                UpdateSingle(column, row);
+                UpdateSingle(column, row, skipEvent: true);
             };
 
             element.ondragstart += (e) =>
