@@ -111,13 +111,13 @@ namespace Tesserae
             return this;
         }
 
-        private void NextState(int column, int row)
+        private void NextState(int column, int row, bool skipEvent = false)
         {
             var current = _states[row][column];
             var newIndex = (current + 1) % _stateCount;
             _states[row][column] = newIndex;
 
-            UpdateSingle(column, row);
+            UpdateSingle(column, row, skipEvent);
         }
 
         private void UpdateSingle(int column, int row, bool skipEvent = false)
@@ -222,7 +222,7 @@ namespace Tesserae
 
             element.ondragstart += (e) =>
             {
-                NextState(column, row);
+                NextState(column, row, skipEvent: true);
 
                 _dragSource = this;
 
