@@ -45,7 +45,7 @@ namespace Tesserae
         }
         public HTMLElement Render() => _img;
 
-        public ISidebarIcon Clone() => new IconImageIcon(_img.dataset["icon"].As<string>());
+        public ISidebarIcon Clone() => new IconImageIcon((string)_img.dataset["icon"]);
     }
 
 
