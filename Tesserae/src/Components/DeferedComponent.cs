@@ -31,7 +31,7 @@ namespace Tesserae
             Container = DIV(loadMessage.Render());
         }
 
-        public static DeferedComponent Create(Func<Task<IComponent>> asyncGenerator, IComponent loadMessage)
+        internal static DeferedComponent Create(Func<Task<IComponent>> asyncGenerator, IComponent loadMessage)
         {
             if (asyncGenerator is null)
                 throw new ArgumentNullException(nameof(asyncGenerator));
