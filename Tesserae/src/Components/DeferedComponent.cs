@@ -121,6 +121,10 @@ namespace Tesserae
 
             var container = ScrollBar.GetCorrectContainer(Container);
 
+            id++;
+            
+            var currentID = id; //Save the last value so we only replace the content if the task that finished is the latest to have been triggered
+
             window.setTimeout(
                 _ =>
                 {
@@ -129,29 +133,30 @@ namespace Tesserae
                         _defaultLoadingMessageIfAny.Text = "Loading...".t();
                         container.classList.add("tss-defer-with-loading-msg");
                     }
-                    ClearChildren(container);
-                    container.appendChild(_loadMessage.Render());
+
+                    if(currentID == id)
+                    {
+                        ClearChildren(container);
+                        container.appendChild(_loadMessage.Render());
+                    }
                 },
                 1_000
             );
-
-            
-            id++;
-            
-            var currentID = id; //Save the last value so we only replace the content if the task that finished is the latest to have been triggered
 
             _asyncGenerator()
                 .ContinueWith(r =>
                 {
                     if (currentID == id)
                     {
-                        if(_defaultLoadingMessageIfAny is object)
+                        id++;
+
+                        if (_defaultLoadingMessageIfAny is object)
                         {
                             Container.classList.remove("tss-defer-with-loading-msg");
                         }
 
-                        _defaultLoadingMessageIfAny = null;
                         ClearChildren(container);
+
                         if (r.IsCompleted)
                         {
                             if(r.Result is object)
