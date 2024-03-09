@@ -47,7 +47,16 @@ namespace Tesserae
         public SidebarNav(string identifier, UIcons icon, string       text,   bool   initiallyCollapsed, params SidebarCommand[] commands) : this(identifier, Icon.Transform(icon, UIconsWeight.Regular), text, initiallyCollapsed, commands) { }
         public SidebarNav(string identifier, UIcons icon, UIconsWeight weight, string text,               bool                    initiallyCollapsed, params SidebarCommand[] commands) : this(identifier, Icon.Transform(icon, weight), text, initiallyCollapsed, commands) { }
 
-        private const string collapse_local_storage_save_key = "tss_sidebar_nav_collapse_state_";
+        public const string collapse_local_storage_save_key = "tss_sidebar_nav_collapse_state_";
+
+        public static void WithCollapseStatePersist(Func<string, string> get, Action<string, string> set)
+        {
+            _getCollapseState = get;
+            _setCollapseState = set;
+        }
+
+        private static Func<string, string>   _getCollapseState = null;
+        private static Action<string, string> _setCollapseState = null;
 
         public SidebarNav(string identifier, string icon, string text, bool initiallyCollapsed, params SidebarCommand[] commands)
         {
@@ -88,7 +97,9 @@ namespace Tesserae
 
             if (!string.IsNullOrWhiteSpace(identifier))
             {
-                var collapseState = localStorage.getItem(collapse_local_storage_save_key + identifier);
+                var collapseState = _getCollapseState is object
+                    ? _getCollapseState(collapse_local_storage_save_key + identifier)
+                    : localStorage.getItem(collapse_local_storage_save_key + identifier);
 
                 if (bool.TryParse(collapseState, out var cs))
                 {
@@ -97,7 +108,14 @@ namespace Tesserae
 
                 _collapsed.ObserveFutureChanges(c =>
                 {
-                    localStorage.setItem(collapse_local_storage_save_key + identifier, c.ToString());
+                    if (_setCollapseState is object)
+                    {
+                        _setCollapseState(collapse_local_storage_save_key + identifier, c.ToString());
+                    }
+                    else
+                    {
+                        localStorage.setItem(collapse_local_storage_save_key + identifier, c.ToString());
+                    }
                 });
             }
 

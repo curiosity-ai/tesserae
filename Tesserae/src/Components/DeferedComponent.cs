@@ -12,6 +12,7 @@ namespace Tesserae
     [H5.Name("tss.DC")]
     internal sealed class DeferedComponent : IDefer
     {
+        private readonly IComponent _loadMessage;
         private readonly Func<Task<IComponent>> _asyncGenerator;
         private TextBlock _defaultLoadingMessageIfAny;
         private bool _needsRefresh, _waitForComponentToBeMountedBeforeFullyInitiatingRender, _renderHasBeenCalled;
@@ -22,7 +23,8 @@ namespace Tesserae
         {
             if (loadMessage is null)
                 throw new ArgumentNullException(nameof(loadMessage));
-
+            
+            _loadMessage = loadMessage;
             _asyncGenerator = asyncGenerator ?? throw new ArgumentNullException(nameof(asyncGenerator));
             _defaultLoadingMessageIfAny = defaultLoadingMessageIfAny;
             _needsRefresh = true;
@@ -117,36 +119,44 @@ namespace Tesserae
             
             _needsRefresh = false;
 
+            var container = ScrollBar.GetCorrectContainer(Container);
+
+            id++;
+            
+            var currentID = id; //Save the last value so we only replace the content if the task that finished is the latest to have been triggered
+
             window.setTimeout(
                 _ =>
                 {
                     if (_defaultLoadingMessageIfAny is object)
                     {
                         _defaultLoadingMessageIfAny.Text = "Loading...".t();
-                        Container.classList.add("tss-defer-with-loading-msg");
+                        container.classList.add("tss-defer-with-loading-msg");
+                    }
+
+                    if(currentID == id)
+                    {
+                        ClearChildren(container);
+                        container.appendChild(_loadMessage.Render());
                     }
                 },
                 1_000
             );
-
-            var container = ScrollBar.GetCorrectContainer(Container);
-            
-            id++;
-            
-            var currentID = id; //Save the last value so we only replace the content if the task that finished is the latest to have been triggered
 
             _asyncGenerator()
                 .ContinueWith(r =>
                 {
                     if (currentID == id)
                     {
-                        if(_defaultLoadingMessageIfAny is object)
+                        id++;
+
+                        if (_defaultLoadingMessageIfAny is object)
                         {
                             Container.classList.remove("tss-defer-with-loading-msg");
                         }
 
-                        _defaultLoadingMessageIfAny = null;
                         ClearChildren(container);
+
                         if (r.IsCompleted)
                         {
                             if(r.Result is object)
