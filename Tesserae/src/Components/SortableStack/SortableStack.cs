@@ -112,21 +112,69 @@ namespace Tesserae
             get => _container.CanWrap;
             set => _container.CanWrap = value;
         }
-        public Stack AlignItems(ItemAlign align)                                  => _container.AlignItems(align);
-        public Stack Relative()                                                   => _container.Relative();
-        public Stack AlignContent(ItemAlign     align)                            => _container.AlignContent(align);
-        public Stack JustifyContent(ItemJustify justify)                          => _container.JustifyContent(justify);
-        public Stack JustifyItems(ItemJustify   justify)                          => _container.JustifyItems(justify);
-        public Stack RemovePropagation()                                          => _container.RemovePropagation();
-        public Stack OnMouseOver(ComponentEventHandler<Stack, Event> onMouseOver) => _container.OnMouseOver(onMouseOver);
-        public Stack OnMouseOut(ComponentEventHandler<Stack, Event>  onMouseOut)  => _container.OnMouseOut(onMouseOut);
+        public SortableStack NoWrap()
+        {
+            CanWrap = false;
+            return this;
+        }
+
+        public SortableStack Wrap()
+        {
+            CanWrap = true;
+            return this;
+        }
+
+        public SortableStack AlignItems(ItemAlign align)
+        {
+            _container.AlignItems(align);
+            return this;
+        }
+        public SortableStack Relative()
+        {
+            _container.Relative();
+            return this;
+        }
+        public SortableStack AlignContent(ItemAlign align)
+        {
+            _container.AlignContent(align);
+            return this;
+        }
+        public SortableStack JustifyContent(ItemJustify justify)
+        {
+            _container.JustifyContent(justify);
+            return this;
+        }
+        public SortableStack JustifyItems(ItemJustify justify)
+        {
+            _container.JustifyItems(justify);
+            return this;
+        }
+        public SortableStack RemovePropagation()
+        {
+            _container.RemovePropagation();
+            return this;
+        }
+        public SortableStack OnMouseOver(ComponentEventHandler<Stack, Event> onMouseOver)
+        {
+            _container.OnMouseOver(onMouseOver);
+            return this;
+        }
+        public SortableStack OnMouseOut(ComponentEventHandler<Stack, Event> onMouseOut)
+        {
+            _container.OnMouseOut(onMouseOut);
+            return this;
+        }
         public void Clear()
         {
             _items.Clear();
             _itemOrder.Clear();
             _container.Clear();
         }
-        public Stack NoDefaultMargin() => _container.NoDefaultMargin();
+        public SortableStack NoDefaultMargin()
+        {
+            _container.NoDefaultMargin();
+            return this;
+        }
 
         public void Remove(string identifer)
         {
