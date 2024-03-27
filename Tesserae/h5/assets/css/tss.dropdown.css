@@ -300,7 +300,7 @@
     margin: 0px;
     display: inline-flex;
     text-overflow: ellipsis;
-    max-width:100%;
+    width:100%;
 }
 
 .tss-dropdown .tss-dropdown-item-on-box:not(:first-child) {
