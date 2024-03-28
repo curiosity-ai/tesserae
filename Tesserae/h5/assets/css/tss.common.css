@@ -243,42 +243,52 @@ body {
 /* Sizes */
 .tss-fontsize-mega {
     font-size: var(--tss-font-size-mega);
+    line-height: var(--tss-font-size-mega);
 }
 
 .tss-fontsize-xxlarge {
     font-size: var(--tss-font-size-xxlarge);
+    line-height: var(--tss-font-size-xxlarge);
 }
 
 .tss-fontsize-xlarge {
     font-size: var(--tss-font-size-xlarge);
+    line-height: var(--tss-font-size-xlarge);
 }
 
 .tss-fontsize-large {
     font-size: var(--tss-font-size-large);
+    line-height: var(--tss-font-size-large);
 }
 
 .tss-fontsize-mediumplus {
     font-size: var(--tss-font-size-mediumplus);
+    line-height: var(--tss-font-size-mediumplus);
 }
 
 .tss-fontsize-medium {
     font-size: var(--tss-font-size-medium);
+    line-height: var(--tss-font-size-medium);
 }
 
 .tss-fontsize-smallplus {
     font-size: var(--tss-font-size-smallplus);
+    line-height: var(--tss-font-size-smallplus);
 }
 
 .tss-fontsize-small {
     font-size: var(--tss-font-size-small);
+    line-height: var(--tss-font-size-small);
 }
 
 .tss-fontsize-xsmall {
     font-size: var(--tss-font-size-xsmall);
+    line-height: var(--tss-font-size-xsmall);
 }
 
 .tss-fontsize-tiny {
     font-size: var(--tss-font-size-tiny);
+    line-height: var(--tss-font-size-tiny);
 }
 
 /* Weights */
