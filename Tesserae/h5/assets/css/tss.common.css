@@ -291,6 +291,50 @@ body {
     line-height: var(--tss-font-size-tiny);
 }
 
+
+
+
+.tss-fontsize-mega i{
+    line-height: var(--tss-font-size-mega);
+}
+
+.tss-fontsize-xxlarge i {
+    line-height: var(--tss-font-size-xxlarge);
+}
+
+.tss-fontsize-xlarge i{
+    line-height: var(--tss-font-size-xlarge);
+}
+
+.tss-fontsize-large i{
+    line-height: var(--tss-font-size-large);
+}
+
+.tss-fontsize-mediumplus i{
+    line-height: var(--tss-font-size-mediumplus);
+}
+
+.tss-fontsize-medium i{
+    line-height: var(--tss-font-size-medium);
+}
+
+.tss-fontsize-smallplus i{
+    line-height: var(--tss-font-size-smallplus);
+}
+
+.tss-fontsize-small i{
+    line-height: var(--tss-font-size-small);
+}
+
+.tss-fontsize-xsmall i{
+    line-height: var(--tss-font-size-xsmall);
+}
+
+.tss-fontsize-tiny i{
+    line-height: var(--tss-font-size-tiny);
+}
+
+
 /* Weights */
 .tss-fontweight-regular {
     font-weight: var(--tss-font-weight-regular);
