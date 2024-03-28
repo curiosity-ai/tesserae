@@ -95,10 +95,13 @@ namespace Tesserae
                     ghostClass = "tss-sortable-ghost",
                     onEnd = e =>
                     {
-                        var old = _itemOrder[e.oldIndex];
-                        _itemOrder[e.oldIndex] = _itemOrder[e.newIndex];
-                        _itemOrder[e.newIndex] = old;
-                        _onSortingChanged?.Invoke(GetCurrentSorting());
+                        if(e.oldIndex != e.newIndex)
+                        {
+                            var old = _itemOrder[e.oldIndex];
+                            _itemOrder.RemoveAt(e.oldIndex);
+                            _itemOrder.Insert(e.newIndex, old);
+                            _onSortingChanged?.Invoke(GetCurrentSorting());
+                        }
                     }
                 });
 
