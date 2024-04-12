@@ -22,8 +22,10 @@ namespace Tesserae
         public bool PropagateToStackItemParent => true;
         public ObservableList<T> Items { get; }
 
+        public bool ShowNotMatchingItems { get; set; }
         public SearchableList(T[] items, params UnitSize[] columns) : this(new ObservableList<T>(initialValues: items ?? new T[0]), columns)
         {
+
         }
 
         public SearchableList(ObservableList<T> items, params UnitSize[] columns)
@@ -37,7 +39,23 @@ namespace Tesserae
                     item =>
                     {
                         var searchTerms = (_searchBox.Text ?? "").Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                        var filteredItems = Items.Where(i => searchTerms.Length  == 0 || searchTerms.All(st => i.IsMatch(st))).Select(i => i.Render()).ToArray();
+
+                        var includeItems = new List<IComponent>();
+                        var excludeItems = new List<IComponent>();
+
+                        foreach(var i in Items)
+                        {
+                            if(searchTerms.Length == 0 || searchTerms.All(st => i.IsMatch(st)))
+                            {
+                                includeItems.Add(i.Render().RemoveClass("tss-searchable-list-no-match"));
+                            }
+                            else if (ShowNotMatchingItems)
+                            {
+                                excludeItems.Add(i.Render().Class("tss-searchable-list-no-match"));
+                            }
+                        }
+
+                        var filteredItems = includeItems.Concat(excludeItems).ToArray();
 
                         _list.Items.Clear();
 
@@ -89,6 +107,12 @@ namespace Tesserae
         public SearchableList<T> HideSearchBoxIfLessThan(int items)
         {
             _minimumItemsToShowBox = items;
+            return this;
+        }
+
+        public SearchableList<T> ShowNotMatching()
+        {
+            ShowNotMatchingItems = true;
             return this;
         }
 

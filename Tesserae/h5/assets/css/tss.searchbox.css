@@ -123,3 +123,9 @@
 .tss-searchbox-container.tss-noicon:focus-within > .tss-searchbox-padding {
     width: 0px;
 }
+
+
+.tss-searchable-list-no-match {
+    opacity:0.4;
+    filter:saturate(0);
+}
