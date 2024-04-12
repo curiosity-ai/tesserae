@@ -30,4 +30,4 @@ start http://localhost:5000/
 
 ### Samples
 
-The Tesserae.Tests project contains multiple samples of how to use this library. It is also built automatically and hosted [on our website](http://tesserae.curiosity.ai/).
+The Tesserae.Tests project contains multiple samples of how to use this library. It is also built automatically and hosted [on our website](https://curiosity.ai/tesserae).
