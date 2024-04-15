@@ -5,7 +5,6 @@ using static H5.Core.dom;
 namespace Tesserae
 {
     [H5.Name("tss.Color")]
-
     public class Color
     {
         public byte A { get; private set; }
@@ -48,7 +47,8 @@ namespace Tesserae
             float delta;
             float hue = 0.0f;
 
-            max = r; min = r;
+            max = r;
+            min = r;
 
             if (g > max) max = g;
             if (b > max) max = b;
@@ -87,7 +87,8 @@ namespace Tesserae
 
             float max, min;
 
-            max = r; min = r;
+            max = r;
+            min = r;
 
             if (g > max) max = g;
             if (b > max) max = b;
@@ -105,9 +106,10 @@ namespace Tesserae
             float b = B / 255.0f;
 
             float max, min;
-            float l, s = 0;
+            float l,   s = 0;
 
-            max = r; min = r;
+            max = r;
+            min = r;
 
             if (g > max) max = g;
             if (b > max) max = b;
@@ -153,7 +155,14 @@ namespace Tesserae
                 g = byte.Parse(parts[1]);
                 b = byte.Parse(parts[2]);
                 var a = float.Parse(parts[3]);
-                return FromArgb((byte)(a*255), r, g, b);
+                return FromArgb((byte)(a * 255), r, g, b);
+            }
+            else if (hexString.Contains("var("))
+            {
+                int prefixLength = "var(".Length;
+                var cssColorVariable = hexString.Substring(prefixLength, hexString.Length - prefixLength - 1);
+                var rgbString        = window.getComputedStyle(document.documentElement).getPropertyValue(cssColorVariable);
+                return FromString(rgbString);
             }
 
             var hex = hexString.TrimStart('#');
@@ -169,7 +178,6 @@ namespace Tesserae
             Script.Write("var bigint = parseInt(hex, 16); var r = (bigint >> 16) & 255; var g = (bigint >> 8) & 255; var b = bigint & 255;");
 
             return FromArgb(255, r, g, b);
-
 
 
             //if (!System.Text.RegularExpressions.Regex.IsMatch(hexString, @"[#]([0-9]|[a-f]|[A-F]){6}\b")) throw new ArgumentException();
