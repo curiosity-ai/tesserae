@@ -10,7 +10,7 @@ namespace Tesserae
     {
         private readonly HTMLSpanElement   _textSpan;
         private          HTMLElement       _iconSpan;
-        private          HTMLButtonElement _beforeReplace;
+        private          HTMLButtonElement _spinner;
 
         public Button(string text = string.Empty)
         {
@@ -274,7 +274,31 @@ namespace Tesserae
 
         public void ToSpinner(string text = null)
         {
-            if (_beforeReplace is null)
+            if (_spinner is null)
+            {
+                var s = (HTMLButtonElement)InnerElement.cloneNode(false);
+                _spinner = s;
+                _spinner.classList.add("tss-btn-nominsize", "tss-disabled");
+                ClearChildren(_spinner);
+                _spinner.appendChild(Spinner(text).Medium().Render());
+
+                if (InnerElement.IsMounted())
+                {
+                    MountSpinner();
+                }
+                else
+                {
+                    DomObserver.WhenMounted(InnerElement, () =>
+                    {
+                        if (_spinner == s)
+                        {
+                            MountSpinner();
+                        }
+                    });
+                }
+            }
+
+            void MountSpinner()
             {
                 var rect = (DOMRect)InnerElement.getBoundingClientRect();
 
@@ -283,31 +307,25 @@ namespace Tesserae
                     H5.Script.Write("{0}._tippy.disable();", InnerElement);
                 }
 
-                _beforeReplace = InnerElement;
-                var newChild = (HTMLButtonElement)InnerElement.cloneNode(false);
-                newChild.style.minHeight = rect.height.px().ToString();
-                newChild.classList.add("tss-btn-nominsize", "tss-disabled");
-                ClearChildren(newChild);
-                newChild.appendChild(Spinner(text).Medium().Render());
+                _spinner.style.minHeight = rect.height.px().ToString();
 
-                InnerElement.parentElement.replaceChild(newChild, InnerElement);
-                InnerElement = newChild;
+                InnerElement.parentElement.replaceChild(_spinner, InnerElement);
             }
         }
 
         public void UndoSpinner()
         {
-            if (_beforeReplace is object)
+            if (_spinner is object && _spinner.IsMounted())
             {
-                InnerElement.parentElement.replaceChild(_beforeReplace, InnerElement);
-                InnerElement = _beforeReplace;
+                _spinner.parentElement.replaceChild(InnerElement, _spinner);
 
                 if (InnerElement.HasOwnProperty("_tippy"))
                 {
                     H5.Script.Write("{0}._tippy.enable();", InnerElement);
                 }
-                _beforeReplace = null;
             }
+
+            _spinner = null;
         }
 
         public Button OnClickSpinWhile(Func<Task> action, string text = null, Action<Button, Exception> onError = null)
