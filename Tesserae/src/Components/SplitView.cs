@@ -120,7 +120,7 @@ namespace Tesserae
             return this;
         }
 
-        public SplitView NoSplitter()
+        public SplitView NotResizable()
         {
             _splitterComponent.Class("tss-no-splitter");
             _splitterComponent.Width = "";
