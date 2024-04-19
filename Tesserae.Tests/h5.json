@@ -15,8 +15,8 @@
     // that builds are more reliable - it's not possible for artifacts from previous builds to exist). A compromise is to use "cleanOutputFolderBeforeBuildPattern": "*.js|*.css" so we can
     // let VS copy in other asset types, such as images, instead of us having to include EVERY additional image and other file in the resources list here).
     {
-      "name": "box-img.svg",
-      "files": [ "h5/assets/img/box-img.svg" ],
+      "name": "images",
+      "files": [ "h5/assets/img/*" ],
       "output": "assets/img"
     }
   ],

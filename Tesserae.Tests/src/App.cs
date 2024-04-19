@@ -152,7 +152,7 @@ namespace Tesserae.Tests
             sidebar.AddFooter(commandSidebarconfig);
 
             sidebar.AddFooter(new SidebarButton("CURIOSITY_REF",
-                new ImageIcon("https://curiosity.ai/media/cat-color-square-64.png"),
+                new ImageIcon("/assets/img/curiosity-logo.svg"),
                 "By Curiosity",
                 new SidebarBadge("+3").Foreground(Theme.Primary.Foreground).Background(Theme.Primary.Background),
 //                new SidebarCommand("+3", Theme.Primary.Background, Theme.Primary.Foreground),
