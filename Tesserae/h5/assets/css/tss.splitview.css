@@ -6,6 +6,13 @@
     position:relative;
 }
 
+    .tss-splitview.tss-splitview-horizontal {
+        display: flex;
+        height: 100%;
+        flex-direction: column;
+        position: relative;
+    }
+
     .tss-splitview > div {
         flex-shrink:0;
         overflow-x: hidden;
@@ -16,16 +23,23 @@
     pointer-events:none;
 }
 
-.tss-splitter {
+.tss-splitview:not(.tss-splitview-horizontal) .tss-splitter {
     background: transparent;
     width: 8px;
     cursor: e-resize;
     user-select: none;
 }
 
-    .tss-splitter:hover {
-        background: rgba(var(--tss-default-foreground-color-root),0.3);
-    }
+.tss-splitview.tss-splitview-horizontal .tss-splitter {
+    background: transparent;
+    height: 8px;
+    cursor: n-resize;
+    user-select: none;
+}
+
+.tss-splitter:hover {
+    background: rgba(var(--tss-default-foreground-color-root),0.3);
+}
 
     .tss-splitter:active {
         background: rgba(var(--tss-default-foreground-color-root),0.9);

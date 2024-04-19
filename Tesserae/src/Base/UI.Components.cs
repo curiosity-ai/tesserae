@@ -343,6 +343,7 @@ namespace Tesserae
         public static Link Link(string url, string text, string icon, bool noUnderline = false) => new Link(url, Button(text).SetIcon(icon).NoBorder().NoBackground().Padding(0.px()), noUnderline);
 
         public static SplitView SplitView() => new SplitView();
+        public static HorizontalSplitView HorizontalSplitView() => new HorizontalSplitView();
 
         public static VirtualizedList VirtualizedList(int rowsPerPage = 4, int columnsPerRow = 4) => new VirtualizedList(rowsPerPage, columnsPerRow);
 
