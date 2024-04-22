@@ -13,7 +13,7 @@ namespace Tesserae.Tests.Samples
         public SplitViewSample()
         {
             var splitView = SplitView();
-            var horzSplitView = HorizontalSplitView();
+            var horzSplitView = HorizontalSplitView().BottomIsSmaller(50.px());
 
             _content = SectionStack()
                .S()

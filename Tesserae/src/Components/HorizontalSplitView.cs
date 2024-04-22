@@ -75,7 +75,14 @@ namespace Tesserae
 
             void Resize(MouseEvent me)
             {
-                height = Math.Min(rect.height - 16, Math.Max(16, (me.clientY - rect.top)));
+                if(_splitContainer.classList.contains("tss-split-bottom"))
+                {
+                    height = Math.Min(rect.height - 16, Math.Max(16, (rect.bottom - me.clientY)));
+                }
+                else
+                {
+                    height = Math.Min(rect.height - 16, Math.Max(16, (me.clientY - rect.top)));
+                }
                 current.style.height = height + "px";
                 current.style.flexGrow = "0";
                 current.style.flexShrink = "1";
