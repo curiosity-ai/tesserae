@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using static H5.Core.dom;
 using static Tesserae.UI;
 
@@ -398,6 +399,16 @@ namespace Tesserae
             _modal.style.marginBottom = "";
             DoShow();
             return this;
+        }
+
+        public Task ShowAsync()
+        {
+            var tcs = new TaskCompletionSource<bool>();
+
+            OnHide((_) => tcs.SetResult(true));
+            Show();
+
+            return tcs.Task;
         }
 
         private void DoShow()
