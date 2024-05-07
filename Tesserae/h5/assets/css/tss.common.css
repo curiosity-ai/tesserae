@@ -281,43 +281,43 @@ body {
     font-size: var(--tss-font-size-tiny);
 }
 
-.tss-fontsize-mega i{
+i.tss-fontsize-mega {
     line-height: var(--tss-font-size-mega);
 }
 
-.tss-fontsize-xxlarge i {
+i.tss-fontsize-xxlarge {
     line-height: var(--tss-font-size-xxlarge);
 }
 
-.tss-fontsize-xlarge i{
+i.tss-fontsize-xlarge {
     line-height: var(--tss-font-size-xlarge);
 }
 
-.tss-fontsize-large i{
+i.tss-fontsize-large {
     line-height: var(--tss-font-size-large);
 }
 
-.tss-fontsize-mediumplus i{
+i.tss-fontsize-mediumplus {
     line-height: var(--tss-font-size-mediumplus);
 }
 
-.tss-fontsize-medium i{
+i.tss-fontsize-medium {
     line-height: var(--tss-font-size-medium);
 }
 
-.tss-fontsize-smallplus i{
+i.tss-fontsize-smallplus {
     line-height: var(--tss-font-size-smallplus);
 }
 
-.tss-fontsize-small i{
+i.tss-fontsize-small {
     line-height: var(--tss-font-size-small);
 }
 
-.tss-fontsize-xsmall i{
+i.tss-fontsize-xsmall {
     line-height: var(--tss-font-size-xsmall);
 }
 
-.tss-fontsize-tiny i{
+i.tss-fontsize-tiny {
     line-height: var(--tss-font-size-tiny);
 }
 
