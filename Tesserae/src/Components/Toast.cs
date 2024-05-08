@@ -210,7 +210,7 @@ namespace Tesserae
                 case Position.BottomCenter:
                 case Position.BottomLeft:
                 case Position.BottomFull:
-                    _toastContainer.style.marginBottom = "100vh";
+                    _toastContainer.style.marginBottom = "0px";
                     break;
             }
             Hide();
