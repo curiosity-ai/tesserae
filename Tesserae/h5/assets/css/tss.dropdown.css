@@ -310,4 +310,5 @@
 .tss-dropdown .tss-dropdown-item-on-box:not(:first-child)::before {
     content:',';
     padding-right:6px;
+    height:0px;
 }

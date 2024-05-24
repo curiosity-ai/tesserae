@@ -570,6 +570,8 @@ namespace Tesserae
         {
             var ev = e as KeyboardEvent;
 
+            if (ev.ctrlKey || ev.altKey || ev.metaKey) return;
+
             if (ev.key == "ArrowUp")
             {
                 var visibleItems = _childContainer.children.Where(he => ((HTMLElement)he).style.display != "none").ToArray();
