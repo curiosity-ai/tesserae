@@ -44,7 +44,7 @@ namespace Tesserae
         public IComponent CurrentRendered => (_lastClosed is object && _lastClosed.IsMounted()) ? _lastClosed : _lastOpen;
 
         public SidebarNav(string identifier, Emoji  icon, string       text,   bool   initiallyCollapsed, params SidebarCommand[] commands) : this(identifier, $"ec {icon}", text, initiallyCollapsed, commands) { }
-        public SidebarNav(string identifier, UIcons icon, string       text,   bool   initiallyCollapsed, params SidebarCommand[] commands) : this(identifier, Icon.Transform(icon, UIconsWeight.Regular), text, initiallyCollapsed, commands) { }
+        public SidebarNav(string identifier, UIcons icon, string       text,   bool   initiallyCollapsed, params SidebarCommand[] commands) : this(identifier, Icon.Transform(icon,                                             UIconsWeight.Regular), text, initiallyCollapsed, commands) { }
         public SidebarNav(string identifier, UIcons icon, UIconsWeight weight, string text,               bool                    initiallyCollapsed, params SidebarCommand[] commands) : this(identifier, Icon.Transform(icon, weight), text, initiallyCollapsed, commands) { }
 
         public const string collapse_local_storage_save_key = "tss_sidebar_nav_collapse_state_";
@@ -98,7 +98,7 @@ namespace Tesserae
             if (!string.IsNullOrWhiteSpace(identifier))
             {
                 var collapseState = _getCollapseState is object
-                    ? _getCollapseState(collapse_local_storage_save_key + identifier)
+                    ? _getCollapseState(collapse_local_storage_save_key    + identifier)
                     : localStorage.getItem(collapse_local_storage_save_key + identifier);
 
                 if (bool.TryParse(collapseState, out var cs))
@@ -432,6 +432,22 @@ namespace Tesserae
             newItems.Push(item);
             _items.Value = newItems.ToArray();
             _itemOrder.Add(item.Identifier);
+        }
+
+        public void AddRange(IEnumerable<ISidebarItem> items)
+        {
+            var newItems = _items.Value.As<ISidebarItem[]>();
+
+            var itemsToAdd = items as ISidebarItem[] ?? items.ToArray();
+
+            foreach (var item in itemsToAdd)
+            {
+                item.AddGroupIdentifier(Identifier);
+                newItems.Push(item);
+            }
+
+            _items.Value = newItems.ToArray();
+            _itemOrder.AddRange(itemsToAdd.Select(i => i.Identifier));
         }
 
         public IComponent RenderClosed() => _closedContent();
