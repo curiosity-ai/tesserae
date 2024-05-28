@@ -10,21 +10,21 @@ namespace Tesserae
     [H5.Name("tss.ReadOnlyObservableT")]
     public abstract class ReadOnlyObservable<T> : IObservable<T> // 2020-07-01 DWR: This is an abstract class because it doesn't make sense to have an Observable that can never be updated, so it should always be derived from in order to be useful
     {
-        private T _value;
+        private T                    _value;
         private IEqualityComparer<T> _comparer;
-        private double _refreshTimeout;
-        private double _refreshDelay = 1;
-        public double Delay { get => _refreshDelay; set => _refreshDelay = value; }
+        private double               _refreshTimeout;
+        private double               _refreshDelay = 1;
+        public  double               Delay { get => _refreshDelay; set => _refreshDelay = value; }
 
         protected ReadOnlyObservable(T value = default, IEqualityComparer<T> comparer = null)
         {
-            _value = value;
+            _value    = value;
             _comparer = comparer ?? EqualityComparer<T>.Default;
         }
 
         private event ObservableEvent.ValueChanged<T> ValueChanged;
 
-        public void Observe(ObservableEvent.ValueChanged<T> valueGetter) => Observe(valueGetter, callbackImmediately: true);
+        public void Observe(ObservableEvent.ValueChanged<T>              valueGetter) => Observe(valueGetter, callbackImmediately: true);
         public void ObserveFutureChanges(ObservableEvent.ValueChanged<T> valueGetter) => Observe(valueGetter, callbackImmediately: false);
         private void Observe(ObservableEvent.ValueChanged<T> valueGetter, bool callbackImmediately)
         {

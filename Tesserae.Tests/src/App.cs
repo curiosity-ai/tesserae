@@ -132,9 +132,9 @@ namespace Tesserae.Tests
 
             var dotsMenu = new SidebarCommand(UIcons.MenuDots).OnClickMenu(() => new ISidebarItem[]
             {
-                new SidebarButton("MANAGE_ACCOUNT", UIcons.User, "Manage Account"),
-                new SidebarButton("PREFERENCES", UIcons.Settings, "Preferences"),
-                new SidebarButton("DELETE", UIcons.Trash, "Delete Account"),
+                new SidebarButton("MANAGE_ACCOUNT", UIcons.User,     "Manage Account"),
+                new SidebarButton("PREFERENCES",    UIcons.Settings, "Preferences"),
+                new SidebarButton("DELETE",         UIcons.Trash,    "Delete Account"),
                 new SidebarCommands("EMOTIONS", new SidebarCommand(Emoji.Smile), new SidebarCommand(Emoji.Disappointed), new SidebarCommand(Emoji.Angry)),
                 new SidebarCommands("ADD_DELETE", new SidebarCommand(UIcons.Plus).Primary(), new SidebarCommand(UIcons.Trash).Danger()).AlignEnd(),
                 new SidebarButton("SIGNOUT", UIcons.SignOutAlt, "Sign Out"),
