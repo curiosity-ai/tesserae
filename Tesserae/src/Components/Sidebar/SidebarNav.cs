@@ -430,7 +430,7 @@ namespace Tesserae
             item.AddGroupIdentifier(Identifier);
             var newItems = _items.Value.As<ISidebarItem[]>();
             newItems.Push(item);
-            _items.Value = newItems;
+            _items.Value = newItems.ToArray();
             _itemOrder.Add(item.Identifier);
         }
 
