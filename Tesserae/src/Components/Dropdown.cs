@@ -32,6 +32,7 @@ namespace Tesserae
         private HTMLDivElement _popupDiv;
         private string _search;
         private int _latestRequestID;
+        private Func<Item[], IComponent> _customRenderer;
 
         public Dropdown(HTMLSpanElement noItemsSpan = null)
         {
@@ -535,20 +536,33 @@ namespace Tesserae
             }
         }
 
+        public Dropdown WithCustomSelectionRender(Func<Item[], IComponent> renderSelectedItems)
+        {
+            _customRenderer = renderSelectedItems;
+            return this;
+        }
+
         private void RenderSelected()
         {
             ClearChildren(InnerElement);
 
             if (SelectedItems.Any())
             {
-                for (var i = 0; i < SelectedItems.Length; i++)
+                if (_customRenderer is object)
                 {
-                    var sel = SelectedItems[i];
-                    var clone = sel.RenderSelected();
-                    clone.classList.remove("tss-dropdown-item");
-                    clone.classList.remove("tss-selected");
-                    clone.classList.add("tss-dropdown-item-on-box");
-                    InnerElement.appendChild(clone);
+                    InnerElement.appendChild(_customRenderer(SelectedItems).Render());
+                }
+                else
+                {
+                    for (var i = 0; i < SelectedItems.Length; i++)
+                    {
+                        var sel = SelectedItems[i];
+                        var clone = sel.RenderSelected();
+                        clone.classList.remove("tss-dropdown-item");
+                        clone.classList.remove("tss-selected");
+                        clone.classList.add("tss-dropdown-item-on-box");
+                        InnerElement.appendChild(clone);
+                    }
                 }
             }
             else
