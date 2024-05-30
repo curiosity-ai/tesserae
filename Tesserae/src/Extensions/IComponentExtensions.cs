@@ -395,7 +395,7 @@ namespace Tesserae
 
             var marker = new object();
 
-            (rendered as dynamic).tooltipMarker = marker;
+            rendered["tooltipMarker"] = marker;
 
             rendered.onmouseenter += AttachTooltip;
 
@@ -403,7 +403,7 @@ namespace Tesserae
             {
                 rendered.onmouseenter -= AttachTooltip;
 
-                if ((rendered as dynamic).tooltipMarker != marker) return;
+                if (rendered["tooltipMarker"] != marker) return;
 
                 var renderedTooltip = UI.DIV(tooltip.Render());
                 renderedTooltip.style.display      = "block";
@@ -444,6 +444,8 @@ namespace Tesserae
                             H5.Script.Write("{0}._tippy.destroy();", element);
                         }
                     }
+                    if (rendered["tooltipMarker"] != marker) return;
+                    rendered.onmouseenter += AttachTooltip; //Add mount again as needed
                 });
             }
             return component;
