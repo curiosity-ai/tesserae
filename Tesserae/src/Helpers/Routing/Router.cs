@@ -269,6 +269,7 @@ namespace Tesserae
 
         public static void Register(string uniqueIdentifier, string path, Func<Parameters, bool> action, bool replace = false)
         {
+            path = path.Trim();
             if (path.StartsWith("#")) path = path.TrimStart('#');
             if (!path.StartsWith("/")) path = "/" + path;
 

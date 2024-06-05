@@ -8,6 +8,7 @@ namespace Tesserae
     [H5.Name("tss.tippy")]
     public static class Tippy
     {
+        public static int DeadZoneTop = 0;
         private static HTMLElement GetAppendToTarget(HTMLElement hostElement)
         {
             var child  = hostElement;
@@ -40,8 +41,8 @@ namespace Tesserae
             var appendTo = GetAppendToTarget(rendered);
 
             var renderedTooltip = UI.DIV(tooltip.Render());
-            renderedTooltip.style.display      = "block";
-            renderedTooltip.style.overflow     = "hidden";
+            renderedTooltip.style.display = "block";
+            renderedTooltip.style.overflow = "hidden";
             renderedTooltip.style.textOverflow = "ellipsis";
             document.body.appendChild(renderedTooltip);
 
@@ -66,6 +67,8 @@ namespace Tesserae
                 H5.Script.Write("{0}._tippy.destroy();", element);
             }
 
+            placement = CheckDeadZone(placement, appendTo);
+
             if (animation == TooltipAnimation.None)
             {
                 H5.Script.Write("tippy({0}, { content: {1}, interactive: true, interactiveBorder: 8, placement: {2}, appendTo: {3}, maxWidth: {4}, onHidden: {5}, delay: [{6},{7}], arrow: {8}, theme: {9}, hideOnClick: {10}, onHide: {11} });",
@@ -83,6 +86,23 @@ namespace Tesserae
             {
                 onHiddenInternal();
             });
+        }
+
+        private static TooltipPlacement CheckDeadZone(TooltipPlacement placement, HTMLElement appendTo)
+        {
+            var rect = appendTo.getBoundingClientRect().As<DOMRect>();
+
+            if (rect.top <= DeadZoneTop)
+            {
+                switch (placement)
+                {
+                    case TooltipPlacement.Top: placement = TooltipPlacement.Bottom; break;
+                    case TooltipPlacement.TopStart: placement = TooltipPlacement.BottomStart; break;
+                    case TooltipPlacement.TopEnd: placement = TooltipPlacement.BottomEnd; break;
+                }
+            }
+
+            return placement;
         }
 
         public static void ShowFor(HTMLElement hostElement, HTMLElement tooltip, out Action hide, TooltipAnimation animation = TooltipAnimation.None, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 0, int delayHide = 0, int maxWidth = 350, bool arrow = false, string theme = null, bool hideOnClick = true, Action onHiddenCallback = null, Func<bool> onHide = null)
@@ -115,6 +135,8 @@ namespace Tesserae
             {
                 H5.Script.Write("{0}._tippy.destroy();", hostElement);
             }
+
+            placement = CheckDeadZone(placement, hostElement);
 
             if (animation == TooltipAnimation.None)
             {
