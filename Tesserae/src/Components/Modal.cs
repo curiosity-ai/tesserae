@@ -418,7 +418,7 @@ namespace Tesserae
             if (!IsNonBlocking) document.body.style.overflowY = "hidden";
             base.Show();
             _modal.focus(); // 2020-05-01 DWR: We need to put focus into the modal container in order to pick up keypresses
-            Shown?.Invoke(this);
+            RaiseOnShow();
         }
 
         public Modal OnHide(OnHideHandler onHide)
@@ -433,9 +433,20 @@ namespace Tesserae
             return this;
         }
 
-        public override void Hide(Action onHidden = null)
+
+        public void RaiseOnHide()
         {
             Hidden?.Invoke(this);
+        }
+
+        public void RaiseOnShow()
+        {
+            Shown?.Invoke(this);
+        }
+
+        public override void Hide(Action onHidden = null)
+        {
+            RaiseOnHide();
 
             base.Hide(() =>
             {
