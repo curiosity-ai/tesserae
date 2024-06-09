@@ -1,10 +1,15 @@
 :root {
+--uicon-var-upload: '\f1ae';
 --uicon-var-unlock: '\f1b3';
 --uicon-var-square: '\f30b';
 --uicon-var-slash: '\f39b';
 --uicon-var-sidebar: '\f3c8';
 --uicon-var-sidebar-flip: '\f3c9';
+--uicon-var-refresh: '\f484';
 --uicon-var-lock: '\f69a';
+--uicon-var-download: '\f988';
+--uicon-var-cloud-upload: '\fa8c';
+--uicon-var-cloud-upload-alt: '\fa8d';
 --uicon-var-checkbox: '\fb2e';
 --uicon-var-angle-right: '\fd6a';
 --uicon-var-angle-left: '\fd6b';
