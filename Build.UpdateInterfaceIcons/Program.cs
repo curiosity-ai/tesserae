@@ -169,7 +169,12 @@ namespace Build.UpdateInterfaceIcons
             "angle-bottom",
             "slash",
             "lock",
-            "unlock"
+            "unlock",
+            "upload",
+            "download",
+            "cloud-upload-alt",
+            "cloud-upload",
+            "refresh"
         };
 
         private static string CreateEnum(string[] icons)
