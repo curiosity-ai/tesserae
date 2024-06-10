@@ -30,6 +30,7 @@ namespace Tesserae
             return component;
         }
 
+
         public static IComponent If(bool condition, IComponent ifTrue, IComponent ifFalse = null) => condition ? (ifTrue ?? Raw()) : (ifFalse ?? Raw());
 
         public static IComponent If(bool condition, Func<IComponent> ifTrue, IComponent ifFalse = null) => condition ? (ifTrue?.Invoke() ?? Raw()) : (ifFalse ?? Raw());
@@ -195,9 +196,8 @@ namespace Tesserae
 
         public static Button Button(string text = string.Empty) => new Button(text);
 
-        public static ActionButton ActionButton(string     textContent, UIcons displayIcon,                         UIconsWeight displayIconWeight = UIconsWeight.Regular, string   displayColor   = null,                   TextSize displayIconSize = TextSize.Small, UIconsWeight actionIconWeight = UIconsWeight.Regular, UIcons actionIcon = UIcons.AngleCircleDown, string actionColor = null, TextSize actionIconSize = TextSize.Small) => new ActionButton(textContent, displayIcon, displayIconWeight, displayColor, displayIconSize, actionIconWeight, actionIcon, actionColor, actionIconSize);
-        public static ActionButton ActionButton(string     textContent, string displayIcon,                         UIconsWeight actionIconWeight  = UIconsWeight.Regular, UIcons   actionIcon     = UIcons.AngleCircleDown, string   actionColor     = null,           TextSize     actionIconSize   = TextSize.Small) => new ActionButton(textContent, displayIcon, actionIconWeight, actionIcon, actionColor, actionIconSize);
-        public static ActionButton ActionButton(string     textContent, UIcons actionIcon = UIcons.AngleCircleDown, UIconsWeight actionIconWeight  = UIconsWeight.Regular, string   actionColor    = null,                   TextSize actionIconSize  = TextSize.Small) => new ActionButton(textContent, actionIcon, actionIconWeight, actionColor, actionIconSize);
+        public static ActionButton ActionButton(string     textContent, UIcons displayIcon,                         UIconsWeight displayIconWeight = UIconsWeight.Regular, string   displayColor   = null, TextSize displayIconSize = TextSize.Small, UIconsWeight actionIconWeight = UIconsWeight.Regular, UIcons actionIcon = UIcons.AngleCircleDown, string actionColor = null, TextSize actionIconSize = TextSize.Small) => new ActionButton(textContent, displayIcon, displayIconWeight, displayColor, displayIconSize, actionIconWeight, actionIcon, actionColor, actionIconSize);
+        public static ActionButton ActionButton(string     textContent, UIcons actionIcon = UIcons.AngleCircleDown, UIconsWeight actionIconWeight  = UIconsWeight.Regular, string   actionColor    = null, TextSize actionIconSize  = TextSize.Small) => new ActionButton(textContent, actionIcon: actionIcon, actionIconWeight: actionIconWeight, actionColor: actionColor, actionIconSize: actionIconSize);
         public static ActionButton ActionButton(IComponent contnent,    string actionIcon = null,                   string       actionColor       = null,                 TextSize actionIconSize = TextSize.Small) => new ActionButton(contnent, actionIcon, actionColor, actionIconSize);
 
         public static CheckBox CheckBox(string text = string.Empty) => new CheckBox(text);
@@ -223,13 +223,10 @@ namespace Tesserae
 
         public static Validator Validator() => new Validator();
 
-        public static Icon Icon(string icon, string color = null) => new Icon(icon).Foreground(color ?? "");
-
-        public static Icon Icon(string icon, TextSize size, string color = null) => new Icon($"{icon} {size}").Foreground(color ?? "");
-
-        public static Icon Icon(UIcons icon, UIconsWeight weight = UIconsWeight.Regular, TextSize size = TextSize.Small, string color = null) => new Icon($"{Tesserae.Icon.Transform(icon, weight)} {size}").Foreground(color ?? "");
-
-        public static Icon Icon(Emoji icon, TextSize size = TextSize.Medium) => new Icon($"ec {icon} {size}");
+        public static Icon Icon(UIcons? icon, UIconsWeight weight = UIconsWeight.Regular, TextSize size = TextSize.Small, string color = null) => icon.HasValue ? new Icon(icon.Value, weight, size).Foreground(color ?? "") : new Icon().Foreground(color ?? "");
+        public static Icon Icon(UIcons  icon, string       color)                                                                              => new Icon(icon).Foreground(color               ?? "");
+        public static Icon Icon(UIcons  icon, UIconsWeight weight = UIconsWeight.Regular, TextSize size = TextSize.Small, string color = null) => new Icon(icon, weight, size).Foreground(color ?? "");
+        public static Icon Icon(Emoji   icon, TextSize     size   = TextSize.Medium) => new Icon(icon, size);
 
         public static HorizontalSeparator HorizontalSeparator(string text) => new HorizontalSeparator(text);
 
@@ -340,7 +337,7 @@ namespace Tesserae
 
         public static Link Link(string url, string text) => new Link(url, TextBlock(text));
 
-        public static Link Link(string url, string text, string icon, bool noUnderline = false) => new Link(url, Button(text).SetIcon(icon).NoBorder().NoBackground().Padding(0.px()), noUnderline);
+        public static Link Link(string url, string text, UIcons icon, bool noUnderline = false) => new Link(url, Button(text).SetIcon(icon).NoBorder().NoBackground().Padding(0.px()), noUnderline);
 
         public static SplitView           SplitView()           => new SplitView();
         public static HorizontalSplitView HorizontalSplitView() => new HorizontalSplitView();

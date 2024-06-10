@@ -11,8 +11,8 @@
 @font-face {
     font-family: "uicons-bold-rounded";
      src: url("../fonts/uicons-bold-rounded.woff2") format("woff2"); 
-    url("../../webfonts/uicons-bold-rounded.woff") format("woff"),
-    url("../../webfonts/uicons-bold-rounded.eot#iefix") format("embedded-opentype");
+
+
     font-display: swap;
 }
     i[class^="fi-br-"]:before, i[class*=" fi-br-"]:before, span[class^="fi-br-"]:before, span[class*="fi-br-"]:before {

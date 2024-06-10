@@ -56,7 +56,7 @@ namespace Tesserae.Tests.Samples
                             ActionButton("Action1").Var(out var btn1) //.SetText("Standard").Tooltip("This is a standard button")
                                .OnClickDisplay((s, e) => alert("Clicked1 display!"))
                                .OnClickAction((s,  e) => alert("Clicked1 action!")),
-                            ActionButton("Action1.1", "fi-rr-calendar").Var(out var btn11).Primary() //.SetText("Standard").Tooltip("This is a standard button")
+                            ActionButton("Action1.1", actionIcon: UIcons.Calendar).Var(out var btn11).Primary() //.SetText("Standard").Tooltip("This is a standard button")
                                .OnClickDisplay((s, e) => alert("Clicked1 display!"))
                                .OnClickAction((s,  e) => alert("Clicked1 action!")),
                             ActionButton("Action  2", displayIcon: UIcons.Calendar).Var(out var btn2).Danger() //.SetText("Standard").Tooltip("This is a standard button")

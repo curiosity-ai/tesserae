@@ -248,12 +248,6 @@ namespace Tesserae
             return this;
         }
 
-        public Breadcrumb SetChevron(string icon)
-        {
-            _chevronIcon = icon;
-            return this;
-        }
-
         public Breadcrumb SetChevron(UIcons icon)
         {
             _chevronIcon = icon.ToString();

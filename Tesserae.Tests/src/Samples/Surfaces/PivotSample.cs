@@ -37,7 +37,7 @@ namespace Tesserae.Tests.Samples
                     SampleSubTitle("Cached vs. Not Cached Tabs"),
                     Pivot().Pivot("tab1", () => Button().SetText("Cached").NoBorder().NoBackground().Link(),
                             () => TextBlock(DateTimeOffset.UtcNow.ToString()).Regular(), cached: true)
-                       .Pivot("tab2",                                                    () => Button().SetText("Not Cached").SetIcon("las la-sync").NoBorder().NoBackground().Link(),
+                       .Pivot("tab2",                                                    () => Button().SetText("Not Cached").SetIcon(UIcons.Refresh).NoBorder().NoBackground().Link(),
                             () => TextBlock(DateTimeOffset.UtcNow.ToString()).Regular(), cached: false),
                     SampleSubTitle("Cached vs. Not Cached Tabs"),
                     SampleSubTitle("Scroll with limited height"),

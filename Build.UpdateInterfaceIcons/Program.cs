@@ -3,153 +3,221 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Build.UpdateInterfaceIcons
 {
     class Program
     {
-        static void Main()
+
+        const string version = "2.4.0";
+
+        static async Task Main()
         {
+            var tempDir = Path.GetTempPath();
+
             if (!Directory.GetCurrentDirectory().EndsWith("Build.UpdateInterfaceIcons")) throw new InvalidOperationException("make sure to set the working directory to Build.UpdateInterfaceIcons");
 
-            var p = Process.Start(new ProcessStartInfo()
+
+            var types = new string[]
             {
-                UseShellExecute  = true,
-                FileName         = "git",
-                Arguments        = "clone https://github.com/freepik-company/flaticon-uicons.git",
-                WorkingDirectory = Path.GetTempPath()
-            });
+                "uicons-brands",
+//                "uicons-regular-straight",
+                "uicons-regular-rounded",
+//                "uicons-bold-straight",
+                "uicons-bold-rounded",
+                "uicons-solid-rounded",
+//                "uicons-solid-straight",
+//                "uicons-thin-straight",
+                "uicons-thin-rounded"
+            };
 
-            p.WaitForExit();
-
-            Console.WriteLine("Cloned git repo");
-            var repoDir = Path.Combine(Path.GetTempPath(), "flaticon-uicons");
-
-            var webfontsDir = Path.Combine(repoDir, "src", "uicons", "webfonts");
 
             var tesseraeFontsDir = Path.Combine("..", "Tesserae", "h5", "assets", "fonts");
             var tesseraeCssDir   = Path.Combine("..", "Tesserae", "h5", "assets", "css");
             if (!Directory.Exists(tesseraeFontsDir)) throw new InvalidOperationException("tesserae dir does not exit");
             if (!Directory.Exists(tesseraeCssDir)) throw new InvalidOperationException("tesserae dir does not exit");
 
-            foreach (var file in Directory.EnumerateFiles(webfontsDir))
+
+            Console.WriteLine("download fonts");
+
+            foreach (var type in types)
             {
-                if (file.EndsWith("rounded.woff2") || file.EndsWith("brands.woff2"))
-                {
-                    Console.WriteLine("Copying " + file);
-                    System.IO.File.Copy(file, Path.Combine(tesseraeFontsDir, Path.GetFileName(file)), overwrite: true);
-                }
+                var fontFileName = $"{type}.woff2";
+
+                await DownloadFileAsync(GetWoff2Url(version, type), Path.Combine(tempDir, fontFileName));
+                System.IO.File.Copy(Path.Combine(tempDir, fontFileName), Path.Combine(tesseraeFontsDir, fontFileName), overwrite: true);
             }
 
-            var cssDir = Path.Combine(repoDir, "src", "uicons", "css");
-            var icons  = new HashSet<string>();
+            Console.WriteLine("download css");
+
+            foreach (var type in types)
+            {
+                await DownloadFileAsync(GetCssUrl(version, type), Path.Combine(tempDir, $"{type}.css"));
+            }
+
+            var icons = new Dictionary<string, List<string>>();
 
             var ps = Path.DirectorySeparatorChar;
 
-            foreach (var file in Directory.EnumerateFiles(cssDir, "*.*", SearchOption.AllDirectories))
+            foreach (var type in types)
             {
-                if (file.Contains($"{ps}all{ps}")) continue;
+                var file = Path.Combine(tempDir, $"{type}.css");
 
-                if (file.EndsWith("rounded.css") || (file.Contains("brands") && file.EndsWith("all.css")))
+                Console.WriteLine("Parsing CSS: " + file);
+
+                bool isRegularRounded = file.Contains($"{ps}regular{ps}") && file.EndsWith("rounded.css");
+
+                // rpalce line-height: 1; with line-height: inherit;
+
+                var lines = File.ReadAllLines(file);
+
+                Console.WriteLine($"Found {lines.Length} lines in CSS {file}.");
+                var extraLines = new List<string>();
+
+                for (int i = 0; i < lines.Length; i++)
                 {
-                    Console.WriteLine("Parsing CSS: " + file);
+                    var line = lines[i];
 
-                    string name;
-
-                    if (file.Contains($"{ps}solid{ps}")) { name        = "uicons-solid-rounded"; }
-                    else if (file.Contains($"{ps}regular{ps}")) { name = "uicons-regular-rounded"; }
-                    else if (file.Contains($"{ps}bold{ps}")) { name    = "uicons-bold-rounded"; }
-                    else if (file.Contains($"{ps}brands{ps}")) { name  = "uicons-brands"; }
-                    else { continue; }
-
-                    bool isRegularRounded = file.Contains($"{ps}regular{ps}") && file.EndsWith("rounded.css");
-
-                    // rpalce line-height: 1; with line-height: inherit;
-
-                    var lines = File.ReadAllLines(file);
-
-                    Console.WriteLine($"Found {lines.Length} lines in CSS {file}.");
-                    var extraLines = new List<string>();
-
-                    for (int i = 0; i < lines.Length; i++)
+                    foreach (var (replace, with) in IconsToFixInCss)
                     {
-                        var line = lines[i];
-
-                        foreach (var (replace, with) in IconsToFixInCss)
+                        if (line.Contains(replace))
                         {
-                            if (line.Contains(replace))
-                            {
-                                line     = line.Replace(replace, with);
-                                lines[i] = line;
-                            }
-                        }
-
-                        if (line.Contains("line-height: 1;"))
-                        {
-                            var startIndex = line.IndexOf("line-height: 1;");
-                            var newLine    = line.Substring(0, startIndex) + "line-height: inherit;" + line.Substring(startIndex + "line-height: 1;".Length);
-                            lines[i] = newLine;
-                        }
-
-                        if (line.Contains("""eot#iefix") format("embedded-opentype"),"""))
-                        {
-                            lines[i] = "";
-                        }
-
-                        if (line.Contains(""".woff") format("woff");"""))
-                        {
-                            lines[i] = "";
-                        }
-
-                        if (line.Contains(""".woff2") format("woff2"),"""))
-                        {
-                            lines[i] = $"""     src: url("../fonts/{name}.woff2") format("woff2"); """;
-                        }
-
-                        var iconLine = line.Trim();
-
-                        if ((iconLine.StartsWith(".fi-rr-") || iconLine.StartsWith(".fi-br-") || iconLine.StartsWith(".fi-sr-")) && iconLine.EndsWith(":before {"))
-                        {
-                            var iconName = iconLine.Substring(".fi-rr-".Length).Split(new char[] { ':' }, StringSplitOptions.RemoveEmptyEntries).First();
-
-                            if (icons.Add(iconName))
-                            {
-                                Console.WriteLine($"Found icon {iconName}");
-                            }
-
-                            if (isRegularRounded && ExportAsVariables.Contains(iconName))
-                            {
-                                var contentLineParts = lines[i + 1].Trim().Split(new char[] { '"' }, StringSplitOptions.RemoveEmptyEntries);
-                                var contentValue     = contentLineParts[1];
-
-                                extraLines.Add($"--uicon-var-{iconName}: '{contentValue}';");
-                                Console.WriteLine($"Exporting CSS variable --uicon-var-{iconName}: '{contentValue}';");
-                            }
+                            line     = line.Replace(replace, with);
+                            lines[i] = line;
                         }
                     }
 
-                    if (extraLines.Count > 0)
+                    if (line.Contains("line-height: 1;"))
                     {
-                        extraLines.Insert(0, ":root {");
-                        extraLines.Add("}");
+                        var startIndex = line.IndexOf("line-height: 1;");
+                        var newLine    = line.Substring(0, startIndex) + "line-height: inherit;" + line.Substring(startIndex + "line-height: 1;".Length);
+                        lines[i] = newLine;
                     }
 
+                    if (line.Contains("""eot#iefix") format("embedded-opentype")"""))
+                    {
+                        lines[i] = "";
+                    }
 
-                    File.WriteAllLines(Path.Combine(tesseraeCssDir, name + ".css"), extraLines.Concat(lines));
+                    if (line.Contains(""".woff") format("woff")"""))
+                    {
+                        lines[i] = "";
+                    }
 
-                    Console.WriteLine("Copying " + file);
+                    if (line.Contains(""".woff2") format("woff2")"""))
+                    {
+                        lines[i] = $"""     src: url("../fonts/{type}.woff2") format("woff2"); """;
+                    }
+
+                    var iconLine = line.Trim();
+
+                    if (iconLine.StartsWith(".fi") && iconLine.EndsWith(":before {"))
+                    {
+                        var prefix = IconPrefixes.First(p => iconLine.Contains($".fi-{p}-"));
+
+                        string iconName = iconLine.Substring($".fi-{prefix}-".Length).Split(new[] { ':' }, StringSplitOptions.RemoveEmptyEntries).First();
+
+
+                        var typesIconList = icons.GetValueOrDefault(iconName, new List<string>());
+                        typesIconList.Add(type);
+                        icons[iconName] = typesIconList;
+                        Console.WriteLine($"Found icon {iconName} in {type}");
+
+                        if (isRegularRounded && ExportAsVariables.Contains(iconName))
+                        {
+                            var contentLineParts = lines[i + 1].Trim().Split(new char[] { '"' }, StringSplitOptions.RemoveEmptyEntries);
+                            var contentValue     = contentLineParts[1];
+
+                            extraLines.Add($"--uicon-var-{iconName}: '{contentValue}';");
+                            Console.WriteLine($"Exporting CSS variable --uicon-var-{iconName}: '{contentValue}';");
+                        }
+                    }
                 }
+
+                if (extraLines.Count > 0)
+                {
+                    extraLines.Insert(0, ":root {");
+                    extraLines.Add("}");
+                }
+
+
+                File.WriteAllLines(Path.Combine(tesseraeCssDir, type + ".css"), extraLines.Concat(lines));
+
+                Console.WriteLine("Copying " + file);
             }
 
             Console.WriteLine($"Found {icons.Count} icons from css");
 
             var uiconsCsPath = Path.Combine("..", "Tesserae", "src", "Icons", "UIcons.cs");
-            var allIcons     = icons.OrderBy(i => i).ToArray();
+            var allIcons     = icons.OrderBy(i => i.Key).ToArray();
 
-            File.WriteAllText(uiconsCsPath, CreateEnum(allIcons));
+
+            foreach (var i in icons)
+            {
+                if (!i.Value.Contains(_brandsPrefix) && i.Value.Count != (IconPrefixes.Length - 1))
+                {
+                    Console.WriteLine($"icon {i.Key} does not have all versions. It has : {string.Join(",", i.Value)}");
+                }
+            }
+
+
+            File.WriteAllText(uiconsCsPath, CreateEnum(
+                allIcons.Where(i => !i.Value.Any(v => v.Contains(_brandsPrefix))).Select(i => i.Key).ToArray(),
+                allIcons.Where(i => i.Value.Any(v => v.Contains(_brandsPrefix))).Select(i => i.Key).ToArray()
+            ));
             Console.WriteLine($"Parsed css files, found {allIcons.Length} icons.");
         }
+
+
+
+
+        public static async Task DownloadFileAsync(string url, string filename)
+        {
+            Console.WriteLine($"Downloading {url} to {filename}");
+
+            using var client = new HttpClient();
+            using var s      = await client.GetStreamAsync(url);
+            using var fs     = new FileStream(filename, FileMode.Create);
+            await s.CopyToAsync(fs);
+        }
+
+        public static string GetCssUrl(string version, string type)
+        {
+            return $"https://cdn-uicons.flaticon.com/{version}/{type}/css/{type}.css";
+        }
+
+        public static string GetWoff2Url(string version, string type)
+        {
+            return $"https://cdn-uicons.flaticon.com/{version}/{type}/webfonts/{type}.woff2";
+        }
+
+        public static string GetWoffUrl(string version, string type)
+        {
+            return $"https://cdn-uicons.flaticon.com/{version}/{type}/webfonts/{type}.woff";
+        }
+
+        public static string GetEmbeddedOpenTypeUrl(string version, string type)
+        {
+            return $"https://cdn-uicons.flaticon.com/{version}/{type}/webfonts/{type}.eot#iefix";
+        }
+
+        private const string _brandsPrefix       = "brands";
+        private const string _regularRoundPrefix = "rr";
+        private const string _solidRoundPrefix   = "sr";
+        private const string _thinRoundPrefix    = "tr";
+        private const string _boldRoundPrefix    = "br";
+
+        public static readonly string[] IconPrefixes = new string[]
+        {
+            _brandsPrefix,
+            _boldRoundPrefix,
+            _thinRoundPrefix,
+            _solidRoundPrefix,
+            _regularRoundPrefix,
+        };
 
         private static Dictionary<string, string> IconsToFixInCss = new Dictionary<string, string>
         {
@@ -178,7 +246,7 @@ namespace Build.UpdateInterfaceIcons
             "refresh"
         };
 
-        private static string CreateEnum(string[] icons)
+        private static string CreateEnum(string[] iconsRegular, string[] iconsBrands)
         {
             var sb = new StringBuilder();
             sb.AppendLine("using H5;").AppendLine();
@@ -187,12 +255,28 @@ namespace Build.UpdateInterfaceIcons
             sb.AppendLine("    [Enum(Emit.Value)]");
             sb.AppendLine("    public enum UIcons");
             sb.AppendLine("    {");
-            var maxLen = icons.Max(l => l.Length) + "        [Name(\"\"] ".Length + 1;
 
-            foreach (var i in icons)
+            var maxLen = new[] { iconsBrands.Max(l => "fi-brands-".Length + l.Length), iconsRegular.Max(l => "fi-rr-".Length + l.Length) }.Max() + "        [Name(\"\")] ".Length;
+
+            sb.Append(("        [Name(\"fi-rr-" + "circle" + "\")] ").PadRight(maxLen, ' '));
+            sb.AppendLine($"Default,");
+
+            foreach (var i in iconsRegular)
             {
                 sb.Append(("        [Name(\"fi-rr-" + i + "\")] ").PadRight(maxLen, ' '));
                 sb.AppendLine($"{ToValidName(i)},");
+
+                //if (IconAliases.ContainsKey(i))
+                //{
+                //    sb.Append(("        [Name(\"fi-rr-" + i + "\")] ").PadRight(maxLen, ' '));
+                //    sb.AppendLine($"{IconAliases[i]},");
+                //}
+            }
+
+            foreach (var i in iconsBrands)
+            {
+                sb.Append(("        [Name(\"fi-brands-" + i + "\")] ").PadRight(maxLen, ' '));
+                sb.AppendLine($"{ToValidBrandsName(i)},");
 
                 //if (IconAliases.ContainsKey(i))
                 //{
@@ -204,6 +288,24 @@ namespace Build.UpdateInterfaceIcons
             sb.AppendLine("}");
 
             return sb.ToString();
+        }
+
+        private static string ToValidBrandsName(string icon)
+        {
+            var words = icon.Split(new char[] { '-' }, StringSplitOptions.RemoveEmptyEntries)
+               .Select(i => i.Substring(0, 1).ToUpper() + i.Substring(1))
+               .ToArray();
+
+            var name = string.Join("", words);
+
+            if (char.IsDigit(name[0]))
+            {
+                return "Brands" + "_" + name;
+            }
+            else
+            {
+                return "Brands" + name;
+            }
         }
 
         private static string ToValidName(string icon)

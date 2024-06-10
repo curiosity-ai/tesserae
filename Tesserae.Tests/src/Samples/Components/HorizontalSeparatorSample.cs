@@ -37,9 +37,9 @@ namespace Tesserae.Tests.Samples
                     HorizontalSeparator("Left").Left(),
                     HorizontalSeparator("Right").Right(),
                     SampleTitle("Custom Separators"),
-                    HorizontalSeparator(HStack().Children(Icon("las la-plane").AlignCenter().PaddingRight(8.px()), TextBlock("Custom Center").SemiBold().MediumPlus().AlignCenter())).Primary(),
-                    HorizontalSeparator(HStack().Children(Icon("las la-plane").AlignCenter().PaddingRight(8.px()), TextBlock("Custom Left").SemiBold().MediumPlus().AlignCenter())).Primary().Left(),
-                    HorizontalSeparator(HStack().Children(Icon("las la-plane").AlignCenter().PaddingRight(8.px()), TextBlock("Custom Right").SemiBold().MediumPlus().AlignCenter())).Primary().Right()));
+                    HorizontalSeparator(HStack().Children(Icon(UIcons.Plane).AlignCenter().PaddingRight(8.px()), TextBlock("Custom Center").SemiBold().MediumPlus().AlignCenter())).Primary(),
+                    HorizontalSeparator(HStack().Children(Icon(UIcons.Plane).AlignCenter().PaddingRight(8.px()), TextBlock("Custom Left").SemiBold().MediumPlus().AlignCenter())).Primary().Left(),
+                    HorizontalSeparator(HStack().Children(Icon(UIcons.Plane).AlignCenter().PaddingRight(8.px()), TextBlock("Custom Right").SemiBold().MediumPlus().AlignCenter())).Primary().Right()));
         }
 
         public HTMLElement Render()
