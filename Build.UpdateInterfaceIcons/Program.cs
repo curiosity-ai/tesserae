@@ -15,9 +15,9 @@ namespace Build.UpdateInterfaceIcons
 
             var p = Process.Start(new ProcessStartInfo()
             {
-                UseShellExecute = true,
-                FileName        = "git",
-                Arguments       = "clone https://github.com/freepik-company/flaticon-uicons.git",
+                UseShellExecute  = true,
+                FileName         = "git",
+                Arguments        = "clone https://github.com/freepik-company/flaticon-uicons.git",
                 WorkingDirectory = Path.GetTempPath()
             });
 
@@ -44,7 +44,7 @@ namespace Build.UpdateInterfaceIcons
 
             var cssDir = Path.Combine(repoDir, "src", "uicons", "css");
             var icons  = new HashSet<string>();
-            
+
             var ps = Path.DirectorySeparatorChar;
 
             foreach (var file in Directory.EnumerateFiles(cssDir, "*.*", SearchOption.AllDirectories))
@@ -57,10 +57,10 @@ namespace Build.UpdateInterfaceIcons
 
                     string name;
 
-                    if (file.Contains($"{ps}solid{ps}"))        { name = "uicons-solid-rounded"; }
+                    if (file.Contains($"{ps}solid{ps}")) { name        = "uicons-solid-rounded"; }
                     else if (file.Contains($"{ps}regular{ps}")) { name = "uicons-regular-rounded"; }
-                    else if (file.Contains($"{ps}bold{ps}"))    { name = "uicons-bold-rounded"; }
-                    else if (file.Contains($"{ps}brands{ps}"))  { name = "uicons-brands"; }
+                    else if (file.Contains($"{ps}bold{ps}")) { name    = "uicons-bold-rounded"; }
+                    else if (file.Contains($"{ps}brands{ps}")) { name  = "uicons-brands"; }
                     else { continue; }
 
                     bool isRegularRounded = file.Contains($"{ps}regular{ps}") && file.EndsWith("rounded.css");
@@ -71,7 +71,7 @@ namespace Build.UpdateInterfaceIcons
 
                     Console.WriteLine($"Found {lines.Length} lines in CSS {file}.");
                     var extraLines = new List<string>();
-                    
+
                     for (int i = 0; i < lines.Length; i++)
                     {
                         var line = lines[i];
@@ -80,7 +80,7 @@ namespace Build.UpdateInterfaceIcons
                         {
                             if (line.Contains(replace))
                             {
-                                line = line.Replace(replace, with);
+                                line     = line.Replace(replace, with);
                                 lines[i] = line;
                             }
                         }
@@ -109,10 +109,10 @@ namespace Build.UpdateInterfaceIcons
 
                         var iconLine = line.Trim();
 
-                        if ((iconLine.StartsWith(".fi-rr-") || iconLine.StartsWith(".fi-br-") || iconLine.StartsWith(".fi-sr-") ) && iconLine.EndsWith(":before {"))
+                        if ((iconLine.StartsWith(".fi-rr-") || iconLine.StartsWith(".fi-br-") || iconLine.StartsWith(".fi-sr-")) && iconLine.EndsWith(":before {"))
                         {
                             var iconName = iconLine.Substring(".fi-rr-".Length).Split(new char[] { ':' }, StringSplitOptions.RemoveEmptyEntries).First();
-                            
+
                             if (icons.Add(iconName))
                             {
                                 Console.WriteLine($"Found icon {iconName}");
@@ -121,7 +121,7 @@ namespace Build.UpdateInterfaceIcons
                             if (isRegularRounded && ExportAsVariables.Contains(iconName))
                             {
                                 var contentLineParts = lines[i + 1].Trim().Split(new char[] { '"' }, StringSplitOptions.RemoveEmptyEntries);
-                                var contentValue = contentLineParts[1];
+                                var contentValue     = contentLineParts[1];
 
                                 extraLines.Add($"--uicon-var-{iconName}: '{contentValue}';");
                                 Console.WriteLine($"Exporting CSS variable --uicon-var-{iconName}: '{contentValue}';");

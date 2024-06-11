@@ -63,7 +63,7 @@ namespace Tesserae
 
         private static IComponent Clone(Node node)
         {
-            var c = (HTMLElement) (node.cloneNode(true));
+            var c = (HTMLElement)(node.cloneNode(true));
             c.classList.remove("tss-breadcrumb-collapse");
             return Raw(c);
         }
@@ -71,7 +71,7 @@ namespace Tesserae
         private void Recompute()
         {
 
-            int childElementCount = (int) _childContainer.childElementCount;
+            int childElementCount = (int)_childContainer.childElementCount;
             if (childElementCount == 0) return;
 
 
@@ -82,7 +82,7 @@ namespace Tesserae
                 _chevronToUseAsButton.classList.remove(UIcons.MenuDots.ToString(), "tss-breadcrumb-opencolapsed");
 
                 _chevronToUseAsButton.onclick = null;
-                _chevronToUseAsButton = null;
+                _chevronToUseAsButton         = null;
             }
 
             UpdateChildrenSizes();
@@ -91,8 +91,8 @@ namespace Tesserae
 
             var keep = new int[childElementCount];
 
-            const int KEEP = 2;
-            const int COLLAPSE = 1;
+            const int KEEP        = 2;
+            const int COLLAPSE    = 1;
             const int NOTMEASURED = 0;
 
 
@@ -101,9 +101,11 @@ namespace Tesserae
                 for (int i = 0; i <= Math.Min(keep.Length - 1, ((_overflowIndex) * 2)); i++)
                 {
                     keep[i] = KEEP;
+
                     if ((i + 1 < _overflowIndex - 2))
                     {
-                        var child = (HTMLElement) _childContainer.children[(uint) i + 1];
+                        var child = (HTMLElement)_childContainer.children[(uint)i + 1];
+
                         if (isChevron(child))
                         {
                             keep[i + 1] = KEEP;
@@ -115,13 +117,15 @@ namespace Tesserae
                 keep[keep.Length - 1] = KEEP;
 
                 var debt = _cachedFullWidth - _cachedSizes.Values.Sum() - 64;
+
                 while (debt < 0)
                 {
                     var candidate = Array.IndexOf(keep, NOTMEASURED);
+
                     if (candidate >= 0)
                     {
                         keep[candidate] = COLLAPSE;
-                        var child = (HTMLElement) _childContainer.children[(uint) candidate];
+                        var child = (HTMLElement)_childContainer.children[(uint)candidate];
                         debt += _cachedSizes[child];
                     }
                     else
@@ -134,7 +138,8 @@ namespace Tesserae
 
                 for (uint i = 0; i < _childContainer.childElementCount; i++)
                 {
-                    var child = (HTMLElement) _childContainer.children[i];
+                    var child = (HTMLElement)_childContainer.children[i];
+
                     if (keep[i] == COLLAPSE)
                     {
                         if (_chevronToUseAsButton is null)
@@ -147,7 +152,7 @@ namespace Tesserae
                             else if (i > 0)
                             {
                                 //previous element is a chevron, so use it instead
-                                _chevronToUseAsButton = (HTMLElement) _childContainer.children[i - 1];
+                                _chevronToUseAsButton = (HTMLElement)_childContainer.children[i - 1];
                             }
                         }
 
@@ -165,6 +170,7 @@ namespace Tesserae
                 {
                     _chevronToUseAsButton.classList.add(UIcons.MenuDots.ToString(), "tss-breadcrumb-opencolapsed");
                     _chevronToUseAsButton.classList.remove(_chevronIcon, "tss-breadcrumb-collapse");
+
                     _chevronToUseAsButton.onclick = (e) =>
                     {
                         StopEvent(e);
@@ -186,11 +192,11 @@ namespace Tesserae
 
                 for (uint i = 0; i < _childContainer.childElementCount; i++)
                 {
-                    var child = (HTMLElement) _childContainer.children[i];
+                    var child = (HTMLElement)_childContainer.children[i];
                     child.classList.remove("tss-breadcrumb-collapse");
                 }
 
-                var rect = (DOMRect) _childContainer.getBoundingClientRect();
+                var rect = (DOMRect)_childContainer.getBoundingClientRect();
                 _cachedFullWidth = rect.width;
             }
 
@@ -199,7 +205,7 @@ namespace Tesserae
             {
                 if (!_cachedSizes.ContainsKey(child))
                 {
-                    var childRect = (DOMRect) child.getBoundingClientRect();
+                    var childRect = (DOMRect)child.getBoundingClientRect();
                     _cachedSizes[child] = childRect.width;
                 }
             }

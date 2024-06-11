@@ -8,10 +8,10 @@ namespace Tesserae
     {
         [Name("fi-rr-")]
         Regular,
-        
+
         [Name("fi-sr-")]
         Solid,
-        
+
         [Name("fi-br-")]
         Bold
     }

@@ -11,12 +11,12 @@ namespace Tesserae
 
         public Icon(string icon)
         {
-            InnerElement = I(_("tss-icon " + icon));
+            InnerElement                 = I(_("tss-icon " + icon));
             InnerElement.dataset["icon"] = icon;
         }
 
         public Icon SetIcon(Emoji icon, TextSize size = TextSize.Medium) => SetIcon($"ec {icon} {size}");
-        
+
         public Icon SetIcon(UIcons icon, UIconsWeight weight = UIconsWeight.Regular, TextSize size = TextSize.Small) => SetIcon($"{Transform(icon, weight)} {size}");
 
         public static string Transform(UIcons icon, UIconsWeight weight)

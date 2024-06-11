@@ -13,8 +13,8 @@ namespace Tesserae
 
         internal bool ShouldHookToContextMenu => _hookParentContextMenu;
 
-        public SidebarCommand(UIcons icon, UIconsWeight weight = UIconsWeight.Regular) : this(Icon.Transform(icon,weight)) { }
-        public SidebarCommand(Emoji       icon) : this($"ec {icon}") { }
+        public SidebarCommand(UIcons icon, UIconsWeight weight = UIconsWeight.Regular) : this(Icon.Transform(icon, weight)) { }
+        public SidebarCommand(Emoji  icon) : this($"ec {icon}") { }
 
         public SidebarCommand(ISidebarIcon image)
         {
