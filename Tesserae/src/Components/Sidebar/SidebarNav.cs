@@ -67,7 +67,7 @@ namespace Tesserae
 
             _arrow = Button().Class("tss-sidebar-nav-arrow");
 
-            _openHeaderButton = buttonWithIcon.Class("tss-sidebar-nav-button");
+            _openHeaderButton = buttonWithIcon.SetText(text).Class("tss-sidebar-nav-button");
             _openHeader.appendChild(_openHeaderButton.Render());
             _openHeader.appendChild(_arrow.Render());
 
