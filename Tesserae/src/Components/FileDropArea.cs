@@ -32,7 +32,7 @@ namespace Tesserae
                         if (!IsMultiple) break;
                     }
                 }
-            };
+            }
         }
 
         public IComponent Content

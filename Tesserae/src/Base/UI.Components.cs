@@ -292,7 +292,7 @@ namespace Tesserae
 
         public static Modal Modal(IComponent header = null) => new Modal(header);
 
-        public static Modal Modal(string header) => new Modal(string.IsNullOrWhiteSpace(header) ? null : TextBlock(header).MediumPlus().SemiBold());
+        public static Modal Modal(string header) => new Modal(string.IsNullOrWhiteSpace(header) ? null : TextBlock(header).SemiBold());
 
         public static TutorialModal TutorialModal()                              => new TutorialModal("", "");
         public static TutorialModal TutorialModal(string title, string helpText) => new TutorialModal(title, helpText);
