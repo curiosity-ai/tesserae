@@ -24,13 +24,13 @@ namespace Build.UpdateInterfaceIcons
             var types = new string[]
             {
                 "uicons-brands",
-//                "uicons-regular-straight",
+                "uicons-regular-straight",
                 "uicons-regular-rounded",
-//                "uicons-bold-straight",
+                "uicons-bold-straight",
                 "uicons-bold-rounded",
                 "uicons-solid-rounded",
-//                "uicons-solid-straight",
-//                "uicons-thin-straight",
+                "uicons-solid-straight",
+                "uicons-thin-straight",
                 "uicons-thin-rounded"
             };
 
@@ -204,11 +204,15 @@ namespace Build.UpdateInterfaceIcons
             return $"https://cdn-uicons.flaticon.com/{version}/{type}/webfonts/{type}.eot#iefix";
         }
 
-        private const string _brandsPrefix       = "brands";
-        private const string _regularRoundPrefix = "rr";
-        private const string _solidRoundPrefix   = "sr";
-        private const string _thinRoundPrefix    = "tr";
-        private const string _boldRoundPrefix    = "br";
+        private const string _brandsPrefix           = "brands";
+        private const string _regularRoundPrefix     = "rr";
+        private const string _solidRoundPrefix       = "sr";
+        private const string _thinRoundPrefix        = "tr";
+        private const string _boldRoundPrefix        = "br";
+        private const string _regularStraiightPrefix = "rs";
+        private const string _boldStraiightPrefix    = "bs";
+        private const string _solidStraiightPrefix   = "ss";
+        private const string _thinStraiightPrefix    = "ts";
 
         public static readonly string[] IconPrefixes = new string[]
         {
@@ -217,6 +221,10 @@ namespace Build.UpdateInterfaceIcons
             _thinRoundPrefix,
             _solidRoundPrefix,
             _regularRoundPrefix,
+            _regularStraiightPrefix,
+            _boldStraiightPrefix,
+            _solidStraiightPrefix,
+            _thinStraiightPrefix
         };
 
         private static Dictionary<string, string> IconsToFixInCss = new Dictionary<string, string>

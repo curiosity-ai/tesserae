@@ -16,6 +16,18 @@ namespace Tesserae
         Bold,
 
         [Name("fi-tr-")]
-        Thin
+        Thin,
+
+        [Name("fi-rs-")]
+        RegularStraight,
+
+        [Name("fi-ss-")]
+        SolidStraight,
+
+        [Name("fi-bs-")]
+        BoldStraight,
+
+        [Name("fi-ts-")]
+        ThinStraight
     }
 }
