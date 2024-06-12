@@ -14,10 +14,10 @@ namespace Tesserae
 
         public Button(string text = string.Empty)
         {
-            _textSpan = Span(_(text: text));
+            _textSpan    = Span(_(text: text));
             InnerElement = Button(_("tss-btn tss-btn-default tss-default-component-margin"), _textSpan);
-            Weight = TextWeight.Regular;
-            Size = TextSize.Small;
+            Weight       = TextWeight.Regular;
+            Size         = TextSize.Small;
 
             AttachClick();
             AttachContextMenu();
@@ -50,7 +50,7 @@ namespace Tesserae
             get => _textSpan.innerText;
             set
             {
-                _textSpan.innerText = value;
+                _textSpan.innerText         = value;
                 InnerElement.style.minWidth = string.IsNullOrEmpty(value) ? "unset" : string.Empty;
             }
         }
@@ -473,8 +473,8 @@ namespace Tesserae
         public Button Color(string background, string textColor = "white", string borderColor = "white", string iconColor = "")
         {
             InnerElement.classList.add("tss-btn-nobg");
-            InnerElement.style.background = background;
-            InnerElement.style.color = textColor;
+            InnerElement.style.background  = background;
+            InnerElement.style.color       = textColor;
             InnerElement.style.borderColor = borderColor;
 
             if (_iconSpan is object)

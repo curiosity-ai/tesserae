@@ -4,23 +4,23 @@ using static Tesserae.UI;
 namespace Tesserae
 {
     [H5.Name("tss.SearchBox")]
-    public class SearchBox : ComponentBase<SearchBox, HTMLInputElement>,  ITextFormating, IHasBackgroundColor, ITabIndex
+    public class SearchBox : ComponentBase<SearchBox, HTMLInputElement>, ITextFormating, IHasBackgroundColor, ITabIndex
     {
-        private readonly HTMLDivElement _container;
+        private readonly HTMLDivElement  _container;
         private readonly HTMLSpanElement _icon;
-        private readonly HTMLElement _iconContainer;
-        private readonly HTMLElement _paddingContainer;
+        private readonly HTMLElement     _iconContainer;
+        private readonly HTMLElement     _paddingContainer;
 
         protected event SearchEventHandler Searched;
-        public delegate void SearchEventHandler(SearchBox sender, string value);
+        public delegate void               SearchEventHandler(SearchBox sender, string value);
 
         public SearchBox(string placeholder = string.Empty)
         {
-            InnerElement = TextBox(_("tss-searchbox tss-fontsize-small tss-fontweight-regular", type: "text", placeholder: placeholder));
-            _icon = Span(_(UIcons.Search.ToString()));
-            _iconContainer = Div(_("tss-searchbox-icon"), _icon);
+            InnerElement      = TextBox(_("tss-searchbox tss-fontsize-small tss-fontweight-regular", type: "text", placeholder: placeholder));
+            _icon             = Span(_(UIcons.Search.ToString()));
+            _iconContainer    = Div(_("tss-searchbox-icon"), _icon);
             _paddingContainer = Div(_("tss-searchbox-padding"));
-            _container = Div(_("tss-searchbox-container"), _iconContainer, InnerElement, _paddingContainer);
+            _container        = Div(_("tss-searchbox-container"), _iconContainer, InnerElement, _paddingContainer);
 
             AttachChange();
             AttachInput();
@@ -30,7 +30,7 @@ namespace Tesserae
 
             OnKeyPress((s, e) =>
             {
-                if(e.key == "Enter")
+                if (e.key == "Enter")
                 {
                     Searched?.Invoke(this, InnerElement.value);
                 }
@@ -199,7 +199,7 @@ namespace Tesserae
         {
             // 2020-12-29 DWR: Seems like this setTimeout is required then the element is rendered within a container that uses "simplebar" scrolling - without the delay, if the element getting focus is out of view then it will not be
             // scrolled into view (even though it has successfully received focus)
-            DomObserver.WhenMounted(InnerElement, () => window.setTimeout((_) =>  InnerElement.focus(), 500));
+            DomObserver.WhenMounted(InnerElement, () => window.setTimeout((_) => InnerElement.focus(), 500));
             return this;
         }
 
@@ -221,9 +221,9 @@ namespace Tesserae
         public SearchBox Height(UnitSize unitSize)
         {
             var h = unitSize.ToString();
-            InnerElement.style.height = h;
+            InnerElement.style.height     = h;
             InnerElement.style.lineHeight = h;
-            _container.style.height = h;
+            _container.style.height       = h;
             return this;
         }
 

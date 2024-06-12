@@ -88,15 +88,15 @@ namespace Tesserae
 
             _iconSpan.dataset["icon"] = actionIcon;
 
-            ActionBtn = Button(_("tss-btn-remove-padding tss-actionbutton-actionbtn"), _iconSpan);
+            ActionBtn          = Button(_("tss-btn-remove-padding tss-actionbutton-actionbtn"), _iconSpan);
             ActionBtnComponent = Raw(ActionBtn);
 
             Container = Div(_("tss-actionbutton-container tss-default-component-margin"), DisplayButton, ActionBtnComponent.Render());
 
-            DisplayButton.addEventListener("click", @event => ClickedDisplay?.Invoke(DisplayButton, @event.As<MouseEvent>()));
+            DisplayButton.addEventListener("click",       @event => ClickedDisplay?.Invoke(DisplayButton, @event.As<MouseEvent>()));
             DisplayButton.addEventListener("contextmenu", @event => ContextMenuDisplay?.Invoke(DisplayButton, @event.As<MouseEvent>()));
 
-            ActionBtn.addEventListener("click", @event => ClickedAction?.Invoke(ActionBtn, @event.As<MouseEvent>()));
+            ActionBtn.addEventListener("click",       @event => ClickedAction?.Invoke(ActionBtn, @event.As<MouseEvent>()));
             ActionBtn.addEventListener("contextmenu", @event => ContextMenuAction?.Invoke(ActionBtn, @event.As<MouseEvent>()));
 
         }
