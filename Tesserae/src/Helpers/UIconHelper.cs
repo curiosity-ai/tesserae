@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using static H5.Core.dom;
 
 
@@ -10,17 +11,10 @@ namespace Tesserae
         public static UIcons WithDefaultUIcon(UIcons icon, UIcons defaultIcon) => string.IsNullOrWhiteSpace(icon.ToString()) ? defaultIcon : icon;
         public static UIcons WithDefaultUIcon(UIcons icon) => string.IsNullOrWhiteSpace(icon.ToString()) ? UIcons.Default : icon;
 
-        public static Emoji  WithTextSize(this  Emoji  icon, TextSize  size) => icon.WithCss(size.ToString());
-        public static UIcons WithTextSize(this  UIcons icon, TextSize  size) => icon.WithCss(size.ToString());
+        public static Emoji  WithTextSize(this  Emoji  icon, TextSize  size)  => icon.WithCss(size.ToString());
+        public static UIcons WithTextSize(this  UIcons icon, TextSize  size)  => icon.WithCss(size.ToString());
         public static UIcons WithTextColor(this UIcons icon, TextColor color) => icon.WithCss(color.ToString());
 
-        
-        
-        public static UIcons GetUIconOrDefault(string iconName, UIcons ifInvalid = UIcons.Default)
-        {
-            const bool ignoreCase = true; // 2020-06-15 DWR: Used a const here rather than including a "magic value" of true in the line below - I'd have used named arguments but there is a bug with Bridge/h5 that prevents that
-            return Enum.TryParse<UIcons>(iconName, ignoreCase, out var parsedIcon) ? parsedIcon : ifInvalid;
-        }
 
         public static bool TryGetUIcon(this string value, out UIcons icon)
         {
@@ -50,9 +44,9 @@ namespace Tesserae
             }
         }
 
-        public static UIcons ParseUIcon(this string value)
+        public static UIcons ParseUIcon(this string value, UIcons ifInvalid = UIcons.Default)
         {
-            return Enum.TryParse<UIcons>(value, out var icon) ? icon : UIcons.Default;
+            return !string.IsNullOrWhiteSpace(value) ? Enum.TryParse<UIcons>(value.Split(' ').FirstOrDefault(), out var icon) ? icon : ifInvalid : ifInvalid;
         }
 
         public static UIcons AsUIcon(this string value)
