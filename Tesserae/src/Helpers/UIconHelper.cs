@@ -77,6 +77,7 @@ namespace Tesserae
             return value.As<Emoji>();
         }
 
+
         public static string GetUnicode(UIcons? icon)
         {
             return GetUnicode(icon ?? UIcons.Circle);
@@ -107,19 +108,34 @@ namespace Tesserae
 
             foreach (var sheet in document.styleSheets)
             {
-                var cssss = sheet.As<CSSStyleSheet>();
+                var cssStyleSheet = sheet.As<CSSStyleSheet>();
 
                 try
                 {
-                    if (cssss.cssRules is object)
+                    if (cssStyleSheet.cssRules is object)
                     {
-                        foreach (var rule in cssss.cssRules)
+                        foreach (var rule in cssStyleSheet.cssRules)
                         {
                             var cssRule = rule.As<CSSStyleRule>();
 
-                            if (cssRule.selectorText.Contains(iconSelectorString))
+                            var ruleText = cssRule.selectorText;
+
+                            if (ruleText is object && ruleText.Length > 0)
                             {
-                                return cssRule.style.content.Trim('"');
+                                var l = ruleText.Length;
+
+                                if (ruleText.Contains(iconSelectorString))
+                                {
+                                    var isMatch = ruleText
+                                       .Substring(0, l - 8) // strip "::before"
+                                       .Substring(1, l - 1) // strip leading "."
+                                       .Equals(iconSelectorString);
+
+                                    if (isMatch)
+                                    {
+                                        return cssRule.style.content.Trim('"');
+                                    }
+                                }
                             }
                         }
                     }
@@ -132,5 +148,6 @@ namespace Tesserae
 
             return null;
         }
+
     }
 }

@@ -30,7 +30,7 @@ namespace Tesserae
     }
 
     [Enum(Emit.StringName)] //Don't change the emit type without updating the FromClassList method
-    [H5.Name("tss.TS")]
+    [H5.Name("tss.TC")]
     public enum TextColor
     {
         [Name("text-dark")]      Dark,
