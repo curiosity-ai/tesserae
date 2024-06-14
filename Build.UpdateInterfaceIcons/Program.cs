@@ -169,6 +169,7 @@ namespace Build.UpdateInterfaceIcons
             "angle-bottom",
             "slash",
             "lock",
+            "lock-open-alt",
             "unlock",
             "upload",
             "download",
