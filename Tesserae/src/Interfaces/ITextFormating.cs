@@ -8,9 +8,9 @@ namespace Tesserae
     [H5.Name("tss.ITF")]
     public interface ITextFormating
     {
-        TextSize Size { get; set; }
-        TextWeight Weight { get; set; }
-        TextAlign TextAlign { get; set; }
+        TextSize   Size      { get; set; }
+        TextWeight Weight    { get; set; }
+        TextAlign  TextAlign { get; set; }
     }
 
     [Enum(Emit.StringName)] //Don't change the emit type without updating the FromClassList method
@@ -28,7 +28,21 @@ namespace Tesserae
         [Name("tss-fontsize-xxlarge")]    XXLarge,
         [Name("tss-fontsize-mega")]       Mega
     }
-    
+
+    [Enum(Emit.StringName)] //Don't change the emit type without updating the FromClassList method
+    [H5.Name("tss.TS")]
+    public enum TextColor
+    {
+        [Name("text-dark")]      Dark,
+        [Name("text-warning")]   Warning,
+        [Name("text-danger")]    Danger,
+        [Name("text-muted")]     Muted,
+        [Name("text-success")]   Success,
+        [Name("text-primary")]   Primary,
+        [Name("text-secondary")] Secondary,
+    }
+
+
     [Enum(Emit.StringName)] //Don't change the emit type without updating the FromClassList method
     [H5.Name("tss.TW")]
     public enum TextWeight
