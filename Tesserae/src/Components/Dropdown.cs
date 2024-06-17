@@ -27,6 +27,7 @@ namespace Tesserae
         private HTMLDivElement           _spinner;
         private bool                     _isChanged;
         private bool                     _callSelectOnChangingItemSelections;
+        private bool                     _fitContent = false;
         private Func<Task<Item[]>>       _itemsSource;
         private ReadOnlyArray<Item>      _lastRenderedItems;
         private HTMLDivElement           _popupDiv;
@@ -72,6 +73,12 @@ namespace Tesserae
         public Dropdown SuppressSelectedOnChangingItemSelections()
         {
             _callSelectOnChangingItemSelections = false;
+            return this;
+        }
+
+        public Dropdown FitContent()
+        {
+            _fitContent = true;
             return this;
         }
 
@@ -571,6 +578,11 @@ namespace Tesserae
                         clone.classList.remove("tss-dropdown-item");
                         clone.classList.remove("tss-selected");
                         clone.classList.add("tss-dropdown-item-on-box");
+
+                        if (_fitContent)
+                        {
+                            clone.classList.add("tss-dropdown-fit-content");
+                        }
                         InnerElement.appendChild(clone);
                     }
                 }
@@ -581,6 +593,10 @@ namespace Tesserae
                 {
                     var rendered = _placeholder.Render();
                     rendered.classList.add("tss-dropdown-item-on-box");
+                    if (_fitContent)
+                    {
+                        rendered.classList.add("tss-dropdown-fit-content");
+                    }
                     InnerElement.appendChild(rendered);
                 }
             }

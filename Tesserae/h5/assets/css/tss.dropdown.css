@@ -312,3 +312,8 @@
     padding-right:6px;
     height:0px;
 }
+
+.tss-dropdown-fit-content {
+    width:fit-content;
+    max-width: 100%;
+}
