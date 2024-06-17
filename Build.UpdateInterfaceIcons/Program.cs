@@ -68,7 +68,7 @@ namespace Build.UpdateInterfaceIcons
 
                 Console.WriteLine("Parsing CSS: " + file);
 
-                bool isRegularRounded = file.Contains($"{ps}regular{ps}") && file.EndsWith("rounded.css");
+                bool isRegularRounded = Path.GetFileName(file) == "uicons-regular-rounded.css";
 
                 // rpalce line-height: 1; with line-height: inherit;
 
