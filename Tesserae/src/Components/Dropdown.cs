@@ -16,28 +16,28 @@ namespace Tesserae
 
         private static HTMLElement _firstItem;
 
-        private readonly HTMLElement _childContainer;
-        private readonly HTMLDivElement _container;
-        private readonly HTMLSpanElement _noItemsSpan;
-        private readonly HTMLSpanElement _searchSpan;
-        private readonly HTMLSpanElement _errorSpan;
+        private readonly HTMLElement          _childContainer;
+        private readonly HTMLDivElement       _container;
+        private readonly HTMLSpanElement      _noItemsSpan;
+        private readonly HTMLSpanElement      _searchSpan;
+        private readonly HTMLSpanElement      _errorSpan;
         private readonly ObservableList<Item> _selectedChildren;
-        private IComponent _placeholder;
+        private          IComponent           _placeholder;
 
-        private HTMLDivElement _spinner;
-        private bool _isChanged;
-        private bool _callSelectOnChangingItemSelections;
-        private Func<Task<Item[]>> _itemsSource;
-        private ReadOnlyArray<Item> _lastRenderedItems;
-        private HTMLDivElement _popupDiv;
-        private string _search;
-        private int _latestRequestID;
+        private HTMLDivElement           _spinner;
+        private bool                     _isChanged;
+        private bool                     _callSelectOnChangingItemSelections;
+        private Func<Task<Item[]>>       _itemsSource;
+        private ReadOnlyArray<Item>      _lastRenderedItems;
+        private HTMLDivElement           _popupDiv;
+        private string                   _search;
+        private int                      _latestRequestID;
         private Func<Item[], IComponent> _customRenderer;
 
         public Dropdown(HTMLSpanElement noItemsSpan = null)
         {
             _noItemsSpan = noItemsSpan ?? Span(_(text: "There are no options available"));
-            _searchSpan = Span(_("tss-dropdown-search-term"));
+            _searchSpan  = Span(_("tss-dropdown-search-term"));
 
             InnerElement = Div(_("tss-dropdown"), _noItemsSpan);
 
@@ -50,6 +50,7 @@ namespace Tesserae
             InnerElement.onclick = (e) =>
             {
                 StopEvent(e);
+
                 if (!IsVisible && IsEnabled)
                     Show();
             };
@@ -57,12 +58,13 @@ namespace Tesserae
             _container.onclick = (e) =>
             {
                 StopEvent(e);
+
                 if (!IsVisible && IsEnabled)
                     Show();
             };
 
             _callSelectOnChangingItemSelections = true;
-            _selectedChildren = new ObservableList<Item>();
+            _selectedChildren                   = new ObservableList<Item>();
 
             _latestRequestID = 0;
         }
@@ -193,7 +195,7 @@ namespace Tesserae
         {
             // 2020-12-29 DWR: Seems like this setTimeout is required then the element is rendered within a container that uses "simplebar" scrolling - without the delay, if the element getting focus is out of view then it will not be
             // scrolled into view (even though it has successfully received focus)
-            DomObserver.WhenMounted(InnerElement, () => 
+            DomObserver.WhenMounted(InnerElement, () =>
             {
                 try
                 {
@@ -203,7 +205,7 @@ namespace Tesserae
                 {
                     InnerElement.scrollIntoView();
                 }
-                InnerElement.focus(); 
+                InnerElement.focus();
             });
             return this;
         }
@@ -231,6 +233,7 @@ namespace Tesserae
             EnsureAsyncLoadingStateEnabled();
 
             var items = await itemsSourceLocal();
+
             if (currentRequestID != _latestRequestID)
             {
                 // If another (async-)Items/LoadItemsAsync or synchronous Items call was made after the retrieving of this data began then presume that it is more recent and we should ignore this data (it will be the responsibility of the
@@ -245,13 +248,13 @@ namespace Tesserae
         {
             if (_contentHtml == null)
             {
-                _popupDiv = Div(_("tss-dropdown-popup"), _childContainer);
+                _popupDiv    = Div(_("tss-dropdown-popup"), _childContainer);
                 _contentHtml = Div(_("tss-dropdown-layer"), _popupDiv);
 
-                _contentHtml.addEventListener("click", OnWindowClick);
-                _contentHtml.addEventListener("dblclick", OnWindowClick);
+                _contentHtml.addEventListener("click",       OnWindowClick);
+                _contentHtml.addEventListener("dblclick",    OnWindowClick);
                 _contentHtml.addEventListener("contextmenu", OnWindowClick);
-                _contentHtml.addEventListener("wheel", OnWindowClick);
+                _contentHtml.addEventListener("wheel",       OnWindowClick);
 
                 if (_itemsSource is object)
                 {
@@ -261,8 +264,8 @@ namespace Tesserae
             }
 
             _popupDiv.style.height = "unset";
-            _popupDiv.style.left = "-1000px";
-            _popupDiv.style.top = "-1000px";
+            _popupDiv.style.left   = "-1000px";
+            _popupDiv.style.top    = "-1000px";
 
             base.Show();
 
@@ -275,6 +278,7 @@ namespace Tesserae
             DomObserver.WhenMounted(_popupDiv, () =>
             {
                 document.addEventListener("keydown", OnPopupKeyDown);
+
                 if (_selectedChildren.Count > 0)
                 {
                     _selectedChildren[_selectedChildren.Count - 1].Render().focus();
@@ -286,7 +290,7 @@ namespace Tesserae
 
         private void RecomputePopupPosition()
         {
-            if(!string.IsNullOrEmpty(_search))
+            if (!string.IsNullOrEmpty(_search))
             {
                 if (!_searchSpan.isConnected)
                 {
@@ -298,24 +302,26 @@ namespace Tesserae
             else
             {
                 InnerElement.classList.remove("tss-dropdown-searching");
+
                 if (_searchSpan.isConnected)
                 {
                     _searchSpan.remove();
                 }
             }
 
-            var items = GetItems();
+            var items        = GetItems();
             var visibleItems = items.Where(i => i.item.style.display != "none").Select(i => (item: i.item, height: i.item.getBoundingClientRect().As<DOMRect>().height)).ToArray();
 
-            var maxHeight = visibleItems.Length > 0 ? visibleItems.Sum(h => h.height)  + "px" : "80vh";
+            var maxHeight = visibleItems.Length > 0 ? visibleItems.Sum(h => h.height) + "px" : "80vh";
 
             _popupDiv.style.maxHeight = maxHeight;
 
-            var rect = _container.getBoundingClientRect().As<DOMRect>();
+            var rect        = _container.getBoundingClientRect().As<DOMRect>();
             var contentRect = _popupDiv.getBoundingClientRect().As<DOMRect>();
-            _popupDiv.style.top = rect.bottom - 1 + "px";
-            _popupDiv.style.minWidth = rect.width + "px";
+            _popupDiv.style.top      = rect.bottom - 1 + "px";
+            _popupDiv.style.minWidth = rect.width      + "px";
             var finalLeft = rect.left;
+
             if (rect.left + contentRect.width + 1 > window.innerWidth)
             {
                 finalLeft = window.innerWidth - contentRect.width - 1;
@@ -326,11 +332,12 @@ namespace Tesserae
             if (window.innerHeight - rect.bottom - 1 < contentRect.height)
             {
                 var top = rect.top - contentRect.height;
+
                 if (top < 0)
                 {
                     if (rect.top > window.innerHeight - rect.bottom - 1)
                     {
-                        _popupDiv.style.top = "1px";
+                        _popupDiv.style.top    = "1px";
                         _popupDiv.style.height = rect.top - 1 + "px";
                     }
                     else
@@ -349,12 +356,13 @@ namespace Tesserae
         {
             ClearSearch();
             ResetSearchItems();
-            document.removeEventListener("click", OnWindowClick);
-            document.removeEventListener("dblclick", OnWindowClick);
+            document.removeEventListener("click",       OnWindowClick);
+            document.removeEventListener("dblclick",    OnWindowClick);
             document.removeEventListener("contextmenu", OnWindowClick);
-            document.removeEventListener("wheel", OnWindowClick);
-            document.removeEventListener("keydown", OnPopupKeyDown);
+            document.removeEventListener("wheel",       OnWindowClick);
+            document.removeEventListener("keydown",     OnPopupKeyDown);
             base.Hide(onHidden);
+
             if (_isChanged)
                 RaiseOnChange(ev: null);
         }
@@ -412,6 +420,7 @@ namespace Tesserae
             // - Note: The OnItemSelected would call RaiseOnInput if any items were provided here that were had IsSelected set to true and if the _callSelectOnChangingItemSelections setting is set to true but we might as well hold off on that
             //   and call RaiseOnInput ONCE after ALL of the item changes have been applied. To do that, we'll set _callSelectOnChangingItemSelections to false while we 
             _lastRenderedItems = children;
+
             children.ForEach(component =>
             {
                 ScrollBar.GetCorrectContainer(_childContainer).appendChild(component.Render());
@@ -419,6 +428,7 @@ namespace Tesserae
             });
             EnsureAsyncLoadingStateDisabled(); // If we got here because an async request completed OR while one was in flight but a synchronous call to this method came in after it started but before finishing then ensure to remove its loading state
             UpdateStateBasedUponCurrentSelections();
+
             if (children.Any())
             {
                 Disabled(false);
@@ -442,7 +452,7 @@ namespace Tesserae
             // 2020-06-30 DWR: We should only show the no-items message if we KNOW that there are no options to select and if we've just specified an async retrieval then we won't know whether there are any items or not until it completes - so we'll
             // ensure that the message is hidden here and then it will be displayed/hidden as appropriate when the async retrieval completes (the non-async Items method will be called and that updates the display state of the no-items message)
             _noItemsSpan.style.display = "none";
-            _itemsSource = itemsSource;
+            _itemsSource               = itemsSource;
             return this;
         }
 
@@ -556,7 +566,7 @@ namespace Tesserae
                 {
                     for (var i = 0; i < SelectedItems.Length; i++)
                     {
-                        var sel = SelectedItems[i];
+                        var sel   = SelectedItems[i];
                         var clone = sel.RenderSelected();
                         clone.classList.remove("tss-dropdown-item");
                         clone.classList.remove("tss-selected");
@@ -567,7 +577,7 @@ namespace Tesserae
             }
             else
             {
-                if(_placeholder is object)
+                if (_placeholder is object)
                 {
                     var rendered = _placeholder.Render();
                     rendered.classList.add("tss-dropdown-item-on-box");
@@ -660,8 +670,8 @@ namespace Tesserae
         [Enum(Emit.StringName)] //Don't change the emit type without updating the FromClassList method
         public enum ItemType
         {
-            [Name("tss-dropdown-item")] Item,
-            [Name("tss-dropdown-header")] Header,
+            [Name("tss-dropdown-item")]    Item,
+            [Name("tss-dropdown-header")]  Header,
             [Name("tss-dropdown-divider")] Divider
         }
 
@@ -716,6 +726,7 @@ namespace Tesserae
         {
             _search = string.Empty;
             InnerElement.classList.remove("tss-dropdown-searching");
+
             if (_searchSpan.isConnected)
             {
                 _searchSpan.remove();
@@ -756,9 +767,9 @@ namespace Tesserae
         {
             var searchTerm = _search.Trim().ToLower();
 
-            var items = GetItems();
+            var items         = GetItems();
             var itemsToRemove = items.Where(item => !(item.textContent.ToLower().Contains(searchTerm)));
-            var itemsToReset = items.Except(itemsToRemove);
+            var itemsToReset  = items.Except(itemsToRemove);
             _firstItem = itemsToReset.FirstOrDefault().item;
 
             ResetSearchItems(itemsToReset);
@@ -769,14 +780,16 @@ namespace Tesserae
             }
 
             var regex = new Regex("(" + Regex.Escape(searchTerm) + ")", RegexOptions.IgnoreCase);
-            foreach(var (item, _) in itemsToReset)
+
+            foreach (var (item, _) in itemsToReset)
             {
                 RecursiveUnhighlight(item);
-                if(searchTerm.Length > 0)
+
+                if (searchTerm.Length > 0)
                 {
                     RecursiveHighlight(item, regex);
                 }
-            } 
+            }
         }
 
         private static void RecursiveHighlight(HTMLElement baseElement, Regex highlighter)
@@ -794,14 +807,14 @@ namespace Tesserae
                 {
                     var txt = baseElement.textContent;
                     baseElement.textContent = "";
-                    baseElement.innerHTML = highlighter.Replace(txt, "<mark>$1</mark>");
+                    baseElement.innerHTML   = highlighter.Replace(txt, "<mark>$1</mark>");
                 }
             }
         }
 
         private static void RecursiveUnhighlight(HTMLElement baseElement)
         {
-            if(baseElement.tagName == "MARK")
+            if (baseElement.tagName == "MARK")
             {
                 var newChild = document.createTextNode(baseElement.textContent);
                 baseElement.parentElement.replaceChild(newChild, baseElement);
@@ -838,12 +851,12 @@ namespace Tesserae
                     SelectedElement.appendChild(selectedContent.Render());
                 }
 
-                InnerElement.addEventListener("click", OnItemClick);
+                InnerElement.addEventListener("click",     OnItemClick);
                 InnerElement.addEventListener("mouseover", OnItemMouseOver);
             }
 
-            private event BeforeSelectEventHandler<Item> BeforeSelectedItem;
-            internal event ComponentEventHandler<Item> SelectedItem;
+            private event  BeforeSelectEventHandler<Item> BeforeSelectedItem;
+            internal event ComponentEventHandler<Item>    SelectedItem;
 
             public ItemType Type
             {
@@ -859,7 +872,7 @@ namespace Tesserae
                     InnerElement.classList.add(value.ToString());
 
                     if (value == ItemType.Item) InnerElement.tabIndex = 0;
-                    else InnerElement.tabIndex = -1;
+                    else InnerElement.tabIndex                        = -1;
                 }
             }
 
@@ -889,6 +902,7 @@ namespace Tesserae
                     if (value && BeforeSelectedItem is object)
                     {
                         var shouldSelect = BeforeSelectedItem(this);
+
                         if (!shouldSelect)
                             return;
                     }
