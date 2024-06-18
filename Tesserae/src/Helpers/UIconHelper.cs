@@ -148,6 +148,24 @@ namespace Tesserae
 
             return null;
         }
+        
+        public static string GetFontText(UIcons icon, UIconsWeight weight)
+        {
+            if (icon.ToString().Contains("-brands-")) return "uicons-brands";
+
+            switch (weight)
+            {
+                case UIconsWeight.Regular:         return "uicons-regular-rounded";
+                case UIconsWeight.Solid:           return "uicons-solid-rounded";
+                case UIconsWeight.Bold:            return "uicons-bold-rounded";
+                case UIconsWeight.Thin:            return "uicons-thin-rounded";
+                case UIconsWeight.RegularStraight: return "uicons-regular-straight";
+                case UIconsWeight.SolidStraight:   return "uicons-solid-straight";
+                case UIconsWeight.BoldStraight:    return "uicons-bold-straight";
+                case UIconsWeight.ThinStraight:    return "uicons-thin-straight";
+                default:                           throw new ArgumentOutOfRangeException(nameof(weight), weight, null);
+            }
+        }
 
     }
 }
