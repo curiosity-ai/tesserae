@@ -11,11 +11,32 @@ namespace Build.UpdateInterfaceIcons
 {
     class Program
     {
+        static async Task<string> FetchVersion()
+        {
+            Console.WriteLine($"Fetching Version");
+            var updateFontsJsUrlFromGithub = "https://raw.githubusercontent.com/freepik-company/flaticon-uicons/main/utils/update-fonts.js";
 
-        const string version = "2.4.0";
+            using var client = new HttpClient();
+            var       s      = await client.GetStringAsync(updateFontsJsUrlFromGithub);
+
+            foreach (var line in s.Split("\n"))
+            {
+                var prefix = "const CDN_URL = 'https://cdn-uicons.flaticon.com/";
+
+                if (line.StartsWith(prefix))
+                {
+                    return line.Substring(prefix.Length, line.Length - prefix.Length - "';".Length);
+                }
+            }
+
+            throw new Exception("version not found");
+        }
+
 
         static async Task Main()
         {
+            var version = await FetchVersion();
+
             var tempDir = Path.GetTempPath();
 
             if (!Directory.GetCurrentDirectory().EndsWith("Build.UpdateInterfaceIcons")) throw new InvalidOperationException("make sure to set the working directory to Build.UpdateInterfaceIcons");
