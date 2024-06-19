@@ -15,12 +15,11 @@ namespace Tesserae
         public static UIcons WithTextSize(this  UIcons icon, TextSize  size)  => icon.WithCss(size.ToString());
         public static UIcons WithTextColor(this UIcons icon, TextColor color) => icon.WithCss(color.ToString());
 
-
-        public static bool TryGetUIcon(this string value, out UIcons icon)
+        public static bool TryGetUIcon(string value, out UIcons icon)
         {
             if (value.StartsWith("fi"))
             {
-                icon = value.AsUIcon();
+                icon = AsUIcon(value);
                 return true;
             }
             else
@@ -30,7 +29,7 @@ namespace Tesserae
             }
         }
 
-        public static bool TryGetEmoji(this string value, out Emoji icon)
+        public static bool TryGetEmoji(string value, out Emoji icon)
         {
             if (value.StartsWith("ec"))
             {
@@ -44,12 +43,12 @@ namespace Tesserae
             }
         }
 
-        public static UIcons ParseUIcon(this string value, UIcons ifInvalid = UIcons.Default)
+        public static UIcons ParseUIcon(string value, UIcons ifInvalid = UIcons.Default)
         {
             return !string.IsNullOrWhiteSpace(value) ? Enum.TryParse<UIcons>(value.Split(' ').FirstOrDefault(), out var icon) ? icon : ifInvalid : ifInvalid;
         }
 
-        public static UIcons AsUIcon(this string value)
+        public static UIcons AsUIcon(string value)
         {
             return value.As<UIcons>();
         }
@@ -65,14 +64,14 @@ namespace Tesserae
         }
 
 
-        public static UIcons? AsUIconNullable(this string value)
+        public static UIcons? AsUIconNullable(string value)
         {
             return string.IsNullOrWhiteSpace(value)
                 ? (UIcons?)null
                 : value.As<UIcons>();
         }
 
-        public static Emoji AsEmoji(this string value)
+        public static Emoji AsEmoji(string value)
         {
             return value.As<Emoji>();
         }
@@ -80,7 +79,7 @@ namespace Tesserae
 
         public static string GetUnicode(UIcons? icon)
         {
-            return GetUnicode(icon ?? UIcons.Circle);
+            return GetUnicode(icon ?? UIcons.Default);
         }
 
         private static readonly Dictionary<UIcons, string> Icon2Unicode = new Dictionary<UIcons, string>();
@@ -89,7 +88,7 @@ namespace Tesserae
         {
             var iconStr = icon.ToString();
 
-            if (string.IsNullOrWhiteSpace(iconStr)) return GetUnicode(UIcons.Circle);
+            if (string.IsNullOrWhiteSpace(iconStr)) return GetUnicode(UIcons.Default);
 
             if (Icon2Unicode.TryGetValue(icon, out var unicode))
             {
@@ -148,7 +147,7 @@ namespace Tesserae
 
             return null;
         }
-        
+
         public static string GetFontText(UIcons icon, UIconsWeight weight)
         {
             if (icon.ToString().Contains("-brands-")) return "uicons-brands";
