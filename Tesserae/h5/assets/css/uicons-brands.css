@@ -11,8 +11,8 @@
 @font-face {
     font-family: "uicons-brands";
      src: url("../fonts/uicons-brands.woff2") format("woff2"); 
-    url("../../webfonts/uicons-brands.woff") format("woff"),
-    url("../../webfonts/uicons-brands.eot#iefix") format("embedded-opentype");
+
+
     font-display: swap;
 }
     i[class^="fi-brands-"]:before, i[class*=" fi-brands-"]:before, span[class^="fi-brands-"]:before, span[class*="fi-brands-"]:before {

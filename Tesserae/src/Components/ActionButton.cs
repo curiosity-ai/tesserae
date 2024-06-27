@@ -42,7 +42,7 @@ namespace Tesserae
 
         public ActionButton(
             string       textContent,
-            string       displayIcon,
+            UIcons       displayIcon,
             UIconsWeight actionIconWeight = UIconsWeight.Regular,
             UIcons       actionIcon       = UIcons.AngleCircleDown,
             string       actionColor      = null,
@@ -53,7 +53,6 @@ namespace Tesserae
                 actionIconSize)
         {
         }
-
         public ActionButton(
             string       textContent,
             UIcons       actionIcon       = UIcons.AngleCircleDown,

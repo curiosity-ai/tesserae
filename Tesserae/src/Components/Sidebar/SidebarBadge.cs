@@ -21,23 +21,13 @@ namespace Tesserae
             }
         }
 
-        public SidebarBadge(string badge, string badgeIcon)
+        public SidebarBadge(string badge, UIcons badgeIcon)
         {
-            _button = Button().Class("tss-sidebar-command").Class("tss-sidebar-badge");
-
-            if (!string.IsNullOrWhiteSpace(badgeIcon))
-            {
-                _button.SetIcon(badgeIcon);
-            }
+            _button = Button().Class("tss-sidebar-command").Class("tss-sidebar-badge").SetIcon(badgeIcon);
 
             if (!string.IsNullOrWhiteSpace(badge))
             {
                 _button.SetText(badge);
-            }
-
-            if (string.IsNullOrWhiteSpace(badgeIcon) && string.IsNullOrWhiteSpace(badge))
-            {
-                _button.Collapse();
             }
         }
 
@@ -116,12 +106,6 @@ namespace Tesserae
         {
             _tooltip = (b) => b.Tooltip(tooltip(), placement: TooltipPlacement.Top);
             RefreshTooltip();
-            return this;
-        }
-
-        public SidebarBadge SetIcon(string icon, string color = "")
-        {
-            _button.SetIcon(icon, color);
             return this;
         }
 

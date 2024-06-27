@@ -49,9 +49,9 @@ namespace Tesserae.Tests.Samples
                         Label("Underline").SetContent(SearchBox("Search").Underlined().OnSearch((s,                            e) => alert($"Searched for {e}"))),
                         Label("Search as you type").SetContent(SearchBox("Search").Underlined().SearchAsYouType().OnSearch((s, e) => searchAsYouType.Text = $"Searched for {e}")),
                         searchAsYouType,
-                        Label("Custom Icon").Required().SetContent(SearchBox("Filter").SetIcon("las la-filter").OnSearch((s, e) => alert($"Filter for {e}"))),
-                        Label("No Icon").SetContent(SearchBox("Search").NoIcon().OnSearch((s,                                e) => alert($"Searched for {e}"))),
-                        Label("Fixed Width").Required().SetContent(SearchBox("Small Search").Width(200.px()).OnSearch((s,    e) => alert($"Searched for {e}"))))));
+                        Label("Custom Icon").Required().SetContent(SearchBox("Filter").SetIcon(UIcons.Filter).OnSearch((s, e) => alert($"Filter for {e}"))),
+                        Label("No Icon").SetContent(SearchBox("Search").NoIcon().OnSearch((s,                              e) => alert($"Searched for {e}"))),
+                        Label("Fixed Width").Required().SetContent(SearchBox("Small Search").Width(200.px()).OnSearch((s,  e) => alert($"Searched for {e}"))))));
         }
 
         public HTMLElement Render()

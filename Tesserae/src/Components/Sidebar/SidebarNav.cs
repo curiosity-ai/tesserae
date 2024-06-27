@@ -43,9 +43,9 @@ namespace Tesserae
 
         public IComponent CurrentRendered => (_lastClosed is object && _lastClosed.IsMounted()) ? _lastClosed : _lastOpen;
 
-        public SidebarNav(string identifier, Emoji  icon, string       text,   bool   initiallyCollapsed, params SidebarCommand[] commands) : this(identifier, $"ec {icon}", text, initiallyCollapsed, commands) { }
-        public SidebarNav(string identifier, UIcons icon, string       text,   bool   initiallyCollapsed, params SidebarCommand[] commands) : this(identifier, Icon.Transform(icon,                                             UIconsWeight.Regular), text, initiallyCollapsed, commands) { }
-        public SidebarNav(string identifier, UIcons icon, UIconsWeight weight, string text,               bool                    initiallyCollapsed, params SidebarCommand[] commands) : this(identifier, Icon.Transform(icon, weight), text, initiallyCollapsed, commands) { }
+        public SidebarNav(string identifier, Emoji  icon, string       text,   bool   initiallyCollapsed, params SidebarCommand[] commands) : this(identifier, text, initiallyCollapsed, Button().SetIcon(icon), commands) { }
+        public SidebarNav(string identifier, UIcons icon, string       text,   bool   initiallyCollapsed, params SidebarCommand[] commands) : this(identifier, text, initiallyCollapsed, Button().SetIcon(icon), commands) { }
+        public SidebarNav(string identifier, UIcons icon, UIconsWeight weight, string text,               bool                    initiallyCollapsed, params SidebarCommand[] commands) : this(identifier, text, initiallyCollapsed, Button().SetIcon(icon, weight: weight), commands) { }
 
         public const string collapse_local_storage_save_key = "tss_sidebar_nav_collapse_state_";
 
@@ -58,16 +58,16 @@ namespace Tesserae
         private static Func<string, string>   _getCollapseState = null;
         private static Action<string, string> _setCollapseState = null;
 
-        public SidebarNav(string identifier, string icon, string text, bool initiallyCollapsed, params SidebarCommand[] commands)
+        private SidebarNav(string identifier, string text, bool initiallyCollapsed, Button buttonWithIcon, params SidebarCommand[] commands)
         {
             Identifier    = identifier;
             _text         = text;
-            _closedHeader = Button().SetIcon(icon).Class("tss-sidebar-nav-header").Class("tss-sidebar-btn");
+            _closedHeader = buttonWithIcon.Class("tss-sidebar-nav-header").Class("tss-sidebar-btn");
             _openHeader   = Div(_("tss-sidebar-nav-header tss-sidebar-btn-open tss-sidebar-nav-header-empty"));
 
             _arrow = Button().Class("tss-sidebar-nav-arrow");
 
-            _openHeaderButton = Button(text).SetIcon(icon).Class("tss-sidebar-nav-button");
+            _openHeaderButton = buttonWithIcon.SetText(text).Class("tss-sidebar-nav-button");
             _openHeader.appendChild(_openHeaderButton.Render());
             _openHeader.appendChild(_arrow.Render());
 
@@ -149,13 +149,6 @@ namespace Tesserae
             _openHeaderButton.SetText(text);
             _closedHeader.Tooltip(text, placement: TooltipPlacement.Top);
             _text = text;
-            return this;
-        }
-
-        public SidebarNav SetIcon(string icon)
-        {
-            _openHeaderButton.SetIcon(icon);
-            _closedHeader.SetIcon(icon);
             return this;
         }
 

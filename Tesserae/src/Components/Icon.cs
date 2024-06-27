@@ -9,26 +9,30 @@ namespace Tesserae
     {
         private readonly HTMLElement InnerElement;
 
-        public Icon(string icon)
+        public Icon()
         {
-            InnerElement                 = I(_("tss-icon " + icon));
-            InnerElement.dataset["icon"] = icon;
+            InnerElement = I(_("tss-icon "));
         }
 
-        public Icon SetIcon(Emoji icon, TextSize size = TextSize.Medium) => SetIcon($"ec {icon} {size}");
-
-        public Icon SetIcon(UIcons icon, UIconsWeight weight = UIconsWeight.Regular, TextSize size = TextSize.Small) => SetIcon($"{Transform(icon, weight)} {size}");
-
-        public static string Transform(UIcons icon, UIconsWeight weight)
+        public Icon(UIcons icon, UIconsWeight weight = UIconsWeight.Regular, TextSize size = TextSize.Small)
         {
-            string v = icon.ToString();
-            if (weight == UIconsWeight.Regular) return v;
-            return weight + v.Substring(6);
+            var iconStr = $"{Transform(icon, weight)} {size}";
+
+            InnerElement                 = I(_("tss-icon " + iconStr));
+            InnerElement.dataset["icon"] = iconStr;
         }
 
-
-        public Icon SetIcon(string icon)
+        public Icon(Emoji icon, TextSize size = TextSize.Medium)
         {
+            var iconStr = $"ec {icon} {size}";
+
+            InnerElement                 = I(_("tss-icon " + iconStr));
+            InnerElement.dataset["icon"] = iconStr;
+        }
+
+        public Icon SetIcon(Emoji icon, TextSize size = TextSize.Medium)
+        {
+            var iconStr = $"ec {icon} {size}";
             var current = InnerElement.dataset["icon"].As<string>();
 
             if (!string.IsNullOrWhiteSpace(current))
@@ -36,13 +40,34 @@ namespace Tesserae
                 InnerElement.classList.remove(current.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
             }
 
-            if (!string.IsNullOrEmpty(icon))
+            InnerElement.classList.add(iconStr.ToString().Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
+
+            InnerElement.dataset["icon"] = iconStr.ToString();
+            return this;
+        }
+
+        public Icon SetIcon(UIcons icon, UIconsWeight weight = UIconsWeight.Regular, TextSize size = TextSize.Small)
+        {
+            var iconStr = $"{Transform(icon, weight)} {size}";
+
+            var current = InnerElement.dataset["icon"].As<string>();
+
+            if (!string.IsNullOrWhiteSpace(current))
             {
-                InnerElement.classList.add(icon.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
+                InnerElement.classList.remove(current.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
             }
 
-            InnerElement.dataset["icon"] = icon;
+            InnerElement.classList.add(iconStr.ToString().Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
+
+            InnerElement.dataset["icon"] = iconStr.ToString();
             return this;
+        }
+
+        public static string Transform(UIcons icon, UIconsWeight weight)
+        {
+            string v = icon.ToString();
+            if (weight == UIconsWeight.Regular) return v;
+            return weight + v.Substring(6);
         }
 
         public string Foreground

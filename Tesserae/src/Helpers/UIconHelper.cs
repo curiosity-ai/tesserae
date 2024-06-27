@@ -9,7 +9,7 @@ namespace Tesserae
     public static class UIconHelper
     {
         public static UIcons WithDefaultUIcon(UIcons icon, UIcons defaultIcon) => string.IsNullOrWhiteSpace(icon.ToString()) ? defaultIcon : icon;
-        public static UIcons WithDefaultUIcon(UIcons icon) => string.IsNullOrWhiteSpace(icon.ToString()) ? UIcons.Circle : icon;
+        public static UIcons WithDefaultUIcon(UIcons icon) => string.IsNullOrWhiteSpace(icon.ToString()) ? UIcons.Default : icon;
 
         public static Emoji  WithTextSize(this  Emoji  icon, TextSize  size)  => icon.WithCss(size.ToString());
         public static UIcons WithTextSize(this  UIcons icon, TextSize  size)  => icon.WithCss(size.ToString());
@@ -43,7 +43,7 @@ namespace Tesserae
             }
         }
 
-        public static UIcons ParseUIcon(string value, UIcons ifInvalid = UIcons.Circle)
+        public static UIcons ParseUIcon(string value, UIcons ifInvalid = UIcons.Default)
         {
             return !string.IsNullOrWhiteSpace(value) ? Enum.TryParse<UIcons>(value.Split(' ').FirstOrDefault(), out var icon) ? icon : ifInvalid : ifInvalid;
         }
@@ -79,7 +79,7 @@ namespace Tesserae
 
         public static string GetUnicode(UIcons? icon)
         {
-            return GetUnicode(icon ?? UIcons.Circle);
+            return GetUnicode(icon ?? UIcons.Default);
         }
 
         private static readonly Dictionary<UIcons, string> Icon2Unicode = new Dictionary<UIcons, string>();
@@ -88,7 +88,7 @@ namespace Tesserae
         {
             var iconStr = icon.ToString();
 
-            if (string.IsNullOrWhiteSpace(iconStr)) return GetUnicode(UIcons.Circle);
+            if (string.IsNullOrWhiteSpace(iconStr)) return GetUnicode(UIcons.Default);
 
             if (Icon2Unicode.TryGetValue(icon, out var unicode))
             {
@@ -154,10 +154,15 @@ namespace Tesserae
 
             switch (weight)
             {
-                case UIconsWeight.Regular: return "uicons-regular-rounded";
-                case UIconsWeight.Solid:   return "uicons-solid-rounded";
-                case UIconsWeight.Bold:    return "uicons-bold-rounded";
-                default:                   throw new ArgumentOutOfRangeException(nameof(weight), weight, null);
+                case UIconsWeight.Regular:         return "uicons-regular-rounded";
+                case UIconsWeight.Solid:           return "uicons-solid-rounded";
+                case UIconsWeight.Bold:            return "uicons-bold-rounded";
+                case UIconsWeight.Thin:            return "uicons-thin-rounded";
+                case UIconsWeight.RegularStraight: return "uicons-regular-straight";
+                case UIconsWeight.SolidStraight:   return "uicons-solid-straight";
+                case UIconsWeight.BoldStraight:    return "uicons-bold-straight";
+                case UIconsWeight.ThinStraight:    return "uicons-thin-straight";
+                default:                           throw new ArgumentOutOfRangeException(nameof(weight), weight, null);
             }
         }
 

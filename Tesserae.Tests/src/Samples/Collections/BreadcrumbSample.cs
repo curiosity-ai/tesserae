@@ -74,7 +74,7 @@ namespace Tesserae.Tests.Samples
                         Crumb("Folder 5").OnClick((s, e) => msg.Text("Folder 5")),
                         Crumb("Folder 6").OnClick((s, e) => msg.Text("Folder 6"))),
                     TextBlock("Collapse 300px, from second, custom chevron").Medium(),
-                    Breadcrumb().PaddingTop(16.px()).PaddingBottom(16.px()).MaxWidth(300.px()).SetChevron("fa-plane").SetOverflowIndex(1).Items(
+                    Breadcrumb().PaddingTop(16.px()).PaddingBottom(16.px()).MaxWidth(300.px()).SetChevron(UIcons.Plane).SetOverflowIndex(1).Items(
                         Crumb("Folder 1").OnClick((s, e) => msg.Text("Folder 1")),
                         Crumb("Folder 2").OnClick((s, e) => msg.Text("Folder 2")),
                         Crumb("Folder 3").OnClick((s, e) => msg.Text("Folder 3")),

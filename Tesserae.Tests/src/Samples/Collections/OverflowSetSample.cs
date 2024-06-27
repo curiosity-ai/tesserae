@@ -49,21 +49,21 @@ namespace Tesserae.Tests.Samples
                         Button("Folder 6").Link().OnClick((s, e) => msg.Text("Folder 6"))),
                     TextBlock("Collapse 200px").Medium(),
                     OverflowSet().PaddingTop(16.px()).PaddingBottom(16.px()).MaxWidth(200.px()).Items(
-                        Button("Folder 1").Link().SetIcon("las la-acorn").OnClick((s,   e) => msg.Text("Folder 1")),
-                        Button("Folder 2").Link().SetIcon("las la-corn").OnClick((s,    e) => msg.Text("Folder 2")),
-                        Button("Folder 3").Link().SetIcon("las la-bacon").OnClick((s,   e) => msg.Text("Folder 3")),
-                        Button("Folder 4").Link().SetIcon("las la-taco").OnClick((s,    e) => msg.Text("Folder 4")),
-                        Button("Folder 5").Link().SetIcon("las la-pie").OnClick((s,     e) => msg.Text("Folder 5")),
-                        Button("Folder 6").Link().SetIcon("las la-popcorn").OnClick((s, e) => msg.Text("Folder 6")))
+                        Button("Folder 1").Link().SetIcon(UIcons.Acorn).OnClick((s,   e) => msg.Text("Folder 1")),
+                        Button("Folder 2").Link().SetIcon(UIcons.Corn).OnClick((s,    e) => msg.Text("Folder 2")),
+                        Button("Folder 3").Link().SetIcon(UIcons.Bacon).OnClick((s,   e) => msg.Text("Folder 3")),
+                        Button("Folder 4").Link().SetIcon(UIcons.Taco).OnClick((s,    e) => msg.Text("Folder 4")),
+                        Button("Folder 5").Link().SetIcon(UIcons.Pie).OnClick((s,     e) => msg.Text("Folder 5")),
+                        Button("Folder 6").Link().SetIcon(UIcons.Popcorn).OnClick((s, e) => msg.Text("Folder 6")))
                    ,
                     TextBlock("Collapse 200px, Small").Medium(),
                     OverflowSet().PaddingTop(16.px()).PaddingBottom(16.px()).Small().MaxWidth(200.px()).Items(
-                        Button("Folder 1").Link().SetIcon("las la-acorn").OnClick((s,   e) => msg.Text("Folder 1")),
-                        Button("Folder 2").Link().SetIcon("las la-corn").OnClick((s,    e) => msg.Text("Folder 2")),
-                        Button("Folder 3").Link().SetIcon("las la-bacon").OnClick((s,   e) => msg.Text("Folder 3")),
-                        Button("Folder 4").Link().SetIcon("las la-taco").OnClick((s,    e) => msg.Text("Folder 4")),
-                        Button("Folder 5").Link().SetIcon("las la-pie").OnClick((s,     e) => msg.Text("Folder 5")),
-                        Button("Folder 6").Link().SetIcon("las la-popcorn").OnClick((s, e) => msg.Text("Folder 6")))
+                        Button("Folder 1").Link().SetIcon(UIcons.Acorn).OnClick((s,   e) => msg.Text("Folder 1")),
+                        Button("Folder 2").Link().SetIcon(UIcons.Corn).OnClick((s,    e) => msg.Text("Folder 2")),
+                        Button("Folder 3").Link().SetIcon(UIcons.Bacon).OnClick((s,   e) => msg.Text("Folder 3")),
+                        Button("Folder 4").Link().SetIcon(UIcons.Taco).OnClick((s,    e) => msg.Text("Folder 4")),
+                        Button("Folder 5").Link().SetIcon(UIcons.Pie).OnClick((s,     e) => msg.Text("Folder 5")),
+                        Button("Folder 6").Link().SetIcon(UIcons.Popcorn).OnClick((s, e) => msg.Text("Folder 6")))
                    ,
                     TextBlock("Collapse 300px").Medium(),
                     OverflowSet().PaddingTop(16.px()).PaddingBottom(16.px()).MaxWidth(300.px()).Items(

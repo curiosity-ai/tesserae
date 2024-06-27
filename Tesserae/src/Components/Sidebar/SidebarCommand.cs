@@ -13,17 +13,17 @@ namespace Tesserae
 
         internal bool ShouldHookToContextMenu => _hookParentContextMenu;
 
-        public SidebarCommand(UIcons icon, UIconsWeight weight = UIconsWeight.Regular) : this(Icon.Transform(icon, weight)) { }
-        public SidebarCommand(Emoji  icon) : this($"ec {icon}") { }
+        public SidebarCommand(UIcons icon, UIconsWeight weight = UIconsWeight.Regular) : this(Button().SetIcon(icon, weight: weight)) { }
+        public SidebarCommand(Emoji  icon) : this(Button().SetIcon(icon)) { }
 
         public SidebarCommand(ISidebarIcon image)
         {
             _button = Button().ReplaceContent(image).Class("tss-sidebar-command");
         }
 
-        public SidebarCommand(string icon)
+        private SidebarCommand(Button buttonWithIcon)
         {
-            _button = Button().SetIcon(icon).Class("tss-sidebar-command");
+            _button = buttonWithIcon.Class("tss-sidebar-command");
         }
 
         public SidebarCommand Foreground(string color)
@@ -164,12 +164,6 @@ namespace Tesserae
         public SidebarCommand OnContextMenu(Action<Button, MouseEvent> action)
         {
             _button.OnContextMenu((b, e) => action(b, e));
-            return this;
-        }
-
-        public SidebarCommand SetIcon(string icon, string color = "")
-        {
-            _button.SetIcon(icon, color);
             return this;
         }
 

@@ -87,15 +87,6 @@ namespace Tesserae
             set => InnerElement.placeholder = value;
         }
 
-        public string Icon
-        {
-            get => _icon.className;
-            set
-            {
-                _icon.className = value;
-            }
-        }
-
         public bool IsInvalid
         {
             get => _container.classList.contains("tss-invalid");
@@ -183,12 +174,13 @@ namespace Tesserae
             return this;
         }
 
-        public SearchBox SetIcon(string icon)
+        public SearchBox SetIcon(UIcons icon)
         {
-            Icon = icon;
+            _icon.className = icon.ToString();
             return this;
         }
 
+        
         public SearchBox NoIcon()
         {
             _container.classList.add("tss-noicon");

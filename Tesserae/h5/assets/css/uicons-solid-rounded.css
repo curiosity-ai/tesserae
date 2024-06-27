@@ -11,8 +11,8 @@
 @font-face {
     font-family: "uicons-solid-rounded";
      src: url("../fonts/uicons-solid-rounded.woff2") format("woff2"); 
-    url("../../webfonts/uicons-solid-rounded.woff") format("woff"),
-    url("../../webfonts/uicons-solid-rounded.eot#iefix") format("embedded-opentype");
+
+
     font-display: swap;
 }
     i[class^="fi-sr-"]:before, i[class*=" fi-sr-"]:before, span[class^="fi-sr-"]:before, span[class*="fi-sr-"]:before {

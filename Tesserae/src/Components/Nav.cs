@@ -458,12 +458,6 @@ namespace Tesserae
                 return this;
             }
 
-            public NavLink SetIcon(string icon)
-            {
-                Icon = icon;
-                return this;
-            }
-
             public NavLink OnSelected(ComponentEventHandler<NavLink> onSelected)
             {
                 SelectedLink += onSelected;

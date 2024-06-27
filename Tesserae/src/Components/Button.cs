@@ -496,7 +496,7 @@ namespace Tesserae
             return this;
         }
 
-        public Button SetIcon(string icon, string color = "", bool afterText = false)
+        private Button SetIcon(string icon, string color = "", bool afterText = false)
         {
             Icon = icon;
 
@@ -513,6 +513,19 @@ namespace Tesserae
                 {
                     InnerElement.insertBefore(_iconSpan, _textSpan);
                 }
+            }
+            return this;
+        }
+
+        public Button ClearIcon()
+        {
+            Icon = null;
+
+            if (_iconSpan is object)
+            {
+                _iconSpan.style.color = null;
+
+                InnerElement.removeChild(_iconSpan);
             }
             return this;
         }
@@ -550,6 +563,29 @@ namespace Tesserae
         public Button SetIcon(UIcons icon, string color = "", TextSize size = TextSize.Small, UIconsWeight weight = UIconsWeight.Regular, bool afterText = false)
         {
             Icon = $"{Tesserae.Icon.Transform(icon, weight)} {size}";
+
+            if (_iconSpan is object)
+            {
+                _iconSpan.style.color = color;
+
+                if (afterText)
+                {
+                    InnerElement.removeChild(_iconSpan);
+                    InnerElement.appendChild(_iconSpan);
+                }
+                else
+                {
+                    InnerElement.insertBefore(_iconSpan, _textSpan);
+                }
+            }
+            return this;
+        }
+
+        public Button SetIcon(UIcons? icon, string color = "", TextSize size = TextSize.Small, UIconsWeight weight = UIconsWeight.Regular, bool afterText = false)
+        {
+            if (!icon.HasValue) return this;
+
+            Icon = $"{Tesserae.Icon.Transform(icon.Value, weight)} {size}";
 
             if (_iconSpan is object)
             {

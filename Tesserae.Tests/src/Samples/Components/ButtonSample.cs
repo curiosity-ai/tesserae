@@ -61,10 +61,10 @@ namespace Tesserae.Tests.Samples
                         ),
                         TextBlock("Icon Button").Medium(),
                         HStack().Children(
-                            Button().Var(out var iconBtn1).SetText("Confirm").SetIcon("las la-check").Success().OnClick((s,   e) => alert("Clicked!")),
-                            Button().Var(out var iconBtn2).SetText("Delete").SetIcon("las la-trash-alt").Danger().OnClick((s, e) => alert("Clicked!")),
-                            Button().Var(out var iconBtn3).SetText("Primary").SetIcon("las la-minus").Primary().OnClick((s,   e) => alert("Clicked!")),
-                            Button().Var(out var iconBtn4).SetText("Copy date").SetIcon("las la-calendar-alt").OnClick((s,    e) => Clipboard.Copy(DateTime.Now.ToString()))
+                            Button().Var(out var iconBtn1).SetText("Confirm").SetIcon(UIcons.Check).Success().OnClick((s,   e) => alert("Clicked!")),
+                            Button().Var(out var iconBtn2).SetText("Delete").SetIcon(UIcons.Trash).Danger().OnClick((s, e) => alert("Clicked!")),
+                            Button().Var(out var iconBtn3).SetText("Primary").SetIcon(UIcons.Minus).Primary().OnClick((s,   e) => alert("Clicked!")),
+                            Button().Var(out var iconBtn4).SetText("Copy date").SetIcon(UIcons.Calendar).OnClick((s,    e) => Clipboard.Copy(DateTime.Now.ToString()))
                         ),
                         TextBlock("Spinner Button").Medium(),
                         HStack().Children(
