@@ -71,6 +71,13 @@ namespace Tesserae
                 : value.As<UIcons>();
         }
 
+        public static Emoji? AsEmojiNullable(string value)
+        {
+            return string.IsNullOrWhiteSpace(value)
+                ? (Emoji?)null
+                : value.As<Emoji>();
+        }
+
         public static Emoji AsEmoji(string value)
         {
             return value.As<Emoji>();
