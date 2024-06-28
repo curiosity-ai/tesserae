@@ -1,6 +1,11 @@
-﻿.ec {
+﻿.ec, i[class^="ec-"]:before, i[class*=" ec-"]:before, span[class^="ec-"]:before, span[class*="ec-"]:before {
     font-family: monospace;
     font-style: normal;
+    font-weight: normal !important;
+    font-variant: normal;
+    text-transform: none;
+    line-height: inherit;
+    -webkit-font-smoothing: antialiased;
 }
 
 .ec-100:before {

@@ -477,3 +477,8 @@ i.tss-fontsize-tiny {
 .tss-defer-with-loading-msg {
     position: relative;
 }
+
+.tss-icon {
+    font-family: monospace;
+    font-style: normal;
+}
