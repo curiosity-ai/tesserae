@@ -6,7 +6,7 @@ namespace Tesserae
     [Enum(Emit.Value)]
     public enum UIcons
     {
-        [Name("fi-rr-circle")]                                         Default,
+        [Name("fi-rr-default-empty")]                                  Default,
         [Name("fi-rr-0")]                                              _0,
         [Name("fi-rr-00s-music-disc")]                                 _00sMusicDisc,
         [Name("fi-rr-1")]                                              _1,
