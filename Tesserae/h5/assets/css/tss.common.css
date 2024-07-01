@@ -234,6 +234,18 @@
     --tss-scrollbar-thumb-hidden-color: rgba(255, 255, 255, 0.04);
 }
 
+*[class^="fi-rr-"] {
+    --tss-font-size-mega: 41px;
+    --tss-font-size-xxlarge: 31px;
+    --tss-font-size-xlarge: 27px;
+    --tss-font-size-large: 23px;
+    --tss-font-size-mediumplus: 19px;
+    --tss-font-size-medium: 17px;
+    --tss-font-size-smallplus: 15px;
+    --tss-font-size-small: 12px;
+    --tss-font-size-xsmall: 10px;
+    --tss-font-size-tiny: 9px;
+}
 
 body {
     background: var(--tss-default-background-color);
