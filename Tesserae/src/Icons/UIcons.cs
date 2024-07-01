@@ -1695,7 +1695,6 @@ namespace Tesserae
         [Name("fi-rr-hard-hat")]                                       HardHat,
         [Name("fi-rr-hashtag")]                                        Hashtag,
         [Name("fi-rr-hashtag-lock")]                                   HashtagLock,
-        [Name("fi-rr-hastag")]                                         Hastag,
         [Name("fi-rr-hat-beach")]                                      HatBeach,
         [Name("fi-rr-hat-birthday")]                                   HatBirthday,
         [Name("fi-rr-hat-chef")]                                       HatChef,
