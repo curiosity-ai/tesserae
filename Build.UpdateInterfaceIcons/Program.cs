@@ -287,7 +287,7 @@ namespace Build.UpdateInterfaceIcons
 
             var maxLen = new[] { iconsBrands.Max(l => "fi-brands-".Length + l.Length), iconsRegular.Max(l => "fi-rr-".Length + l.Length) }.Max() + "        [Name(\"\")] ".Length;
 
-            sb.Append(("        [Name(\"fi-rr-" + "circle" + "\")] ").PadRight(maxLen, ' '));
+            sb.Append(("        [Name(\"fi-rr-default-empty\")] ").PadRight(maxLen, ' '));
             sb.AppendLine($"Default,");
 
             foreach (var i in iconsRegular)
