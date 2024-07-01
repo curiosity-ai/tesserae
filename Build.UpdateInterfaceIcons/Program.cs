@@ -251,6 +251,7 @@ namespace Build.UpdateInterfaceIcons
         private static Dictionary<string, string> IconsToFixInCss = new Dictionary<string, string>
         {
             { "-social-network:before", "-thumbs-up:before" },
+            { "-hastag:before", "-hashtag:before" },
             { "-hand:before", "-thumbs-down:before" },
         };
 
