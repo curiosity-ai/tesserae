@@ -49,10 +49,10 @@ namespace Tesserae
             _modalHeaderContents = Div(_("tss-modal-header-content"));
             _modalFooterContents = Div(_("tss-modal-footer-content"));
 
-            _modalHeaderCommands = Div(_("tss-modal-header-commands"));
-            _modalLeftHeaderCommands = Div(_("tss-modal-left-header-commands"));
-            _modalFooterCommands = Div(_("tss-modal-footer-commands"));
-            _modalLeftFooterCommands = Div(_("tss-modal-left-footer-commands"));
+            _modalHeaderCommands = Div(_("tss-modal-header-commands tss-default-component-no-margin"));
+            _modalLeftHeaderCommands = Div(_("tss-modal-left-header-commands tss-default-component-no-margin"));
+            _modalFooterCommands = Div(_("tss-modal-footer-commands tss-default-component-no-margin"));
+            _modalLeftFooterCommands = Div(_("tss-modal-left-footer-commands tss-default-component-no-margin"));
 
             _modalHeader = Div(_("tss-modal-header"), _modalLeftHeaderCommands, _modalHeaderContents, _modalHeaderCommands);
             _modalFooter = Div(_("tss-modal-footer"), _modalLeftFooterCommands, _modalFooterContents, _modalFooterCommands);
