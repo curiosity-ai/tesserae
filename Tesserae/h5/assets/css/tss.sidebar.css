@@ -270,6 +270,12 @@
     border-width: 0 1px 1px 0;
     transform: rotate(-45deg);
     transition: transform 0.15s linear;
+    z-index:2;
+}
+
+.tss-sidebar-nav:hover .tss-sidebar-nav-arrow.tss-btn:after {
+    border: solid rgba(var(--tss-secondary-foreground-color-root), 0.8);
+    border-width: 0 1px 1px 0;
 }
 
 .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-btn i {
