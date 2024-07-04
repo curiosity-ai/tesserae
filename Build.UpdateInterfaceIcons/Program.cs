@@ -273,7 +273,8 @@ namespace Build.UpdateInterfaceIcons
             "download",
             "cloud-upload-alt",
             "cloud-upload",
-            "refresh"
+            "refresh",
+            "square-a",
         };
 
         private static string CreateEnum(string[] iconsRegular, string[] iconsBrands)
