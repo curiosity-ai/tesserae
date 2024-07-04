@@ -1,4 +1,4 @@
-﻿.ec, i[class^="ec-"]:before, i[class*=" ec-"]:before, span[class^="ec-"]:before, span[class*="ec-"]:before {
+﻿.ec, i[class^="ec-"], i[class*=" ec-"], span[class^="ec-"], span[class*="ec-"], i[class^="ec-"]:before, i[class*=" ec-"]:before, span[class^="ec-"]:before, span[class*="ec-"]:before {
     font-family: monospace;
     font-style: normal;
     font-weight: normal !important;
