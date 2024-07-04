@@ -581,29 +581,6 @@ namespace Tesserae
             return this;
         }
 
-        public Button SetIcon(UIcons? icon, string color = "", TextSize size = TextSize.Small, UIconsWeight weight = UIconsWeight.Regular, bool afterText = false)
-        {
-            if (!icon.HasValue) return this;
-
-            Icon = $"{Tesserae.Icon.Transform(icon.Value, weight)} {size}";
-
-            if (_iconSpan is object)
-            {
-                _iconSpan.style.color = color;
-
-                if (afterText)
-                {
-                    InnerElement.removeChild(_iconSpan);
-                    InnerElement.appendChild(_iconSpan);
-                }
-                else
-                {
-                    InnerElement.insertBefore(_iconSpan, _textSpan);
-                }
-            }
-            return this;
-        }
-
         public Button IconOnHover()
         {
             InnerElement.classList.add("tss-btn-icononhover");

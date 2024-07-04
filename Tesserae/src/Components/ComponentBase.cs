@@ -11,6 +11,8 @@ namespace Tesserae
     public abstract class ComponentBase<T, THTML> : IComponent, IHasClickHandler, IHasMarginPadding where T : ComponentBase<T, THTML> where THTML : HTMLElement
     {
         protected event ComponentEventHandler<T, MouseEvent>     Clicked;
+        protected event ComponentEventHandler<T, MouseEvent>     MouseOver;
+        protected event ComponentEventHandler<T, MouseEvent>     MouseOut;
         protected event ComponentEventHandler<T, MouseEvent>     ContextMenu;
         protected event ComponentEventHandler<T, Event>          Changed;
         protected event ComponentEventHandler<T, ClipboardEvent> Pasted;
@@ -54,6 +56,30 @@ namespace Tesserae
 
             if (this is Image img)
                 img.Cursor = "pointer";
+
+            return (T)this;
+        }
+
+        public virtual T OnMouseOver(ComponentEventHandler<T, MouseEvent> onEnter, ComponentEventHandler<T, MouseEvent> onLeave = null, bool clearPrevious = true)
+        {
+            if (MouseOver != null && clearPrevious)
+            {
+                foreach (Delegate d in MouseOver.GetInvocationList())
+                {
+                    MouseOut -= (ComponentEventHandler<T, MouseEvent>)d;
+                }
+                foreach (Delegate d in MouseOut.GetInvocationList())
+                {
+                    MouseOut -= (ComponentEventHandler<T, MouseEvent>)d;
+                }
+            }
+
+            MouseOver += onEnter;
+
+            if (onLeave is object)
+            {
+                MouseOut += onLeave;
+            }
 
             return (T)this;
         }
@@ -127,12 +153,20 @@ namespace Tesserae
             return (T)this;
         }
 
-        protected void AttachClick()       => InnerElement.addEventListener("click",       e => RaiseOnClick(e.As<MouseEvent>()));
+        protected void AttachClick()       
+        {
+            InnerElement.addEventListener("click", e => RaiseOnClick(e.As<MouseEvent>()));
+            InnerElement.addEventListener("mouseover", e => RaiseOnMouseOver(e.As<MouseEvent>()));
+            InnerElement.addEventListener("mouseout", e => RaiseOnMouseOut(e.As<MouseEvent>()));
+        } 
+
         protected void AttachContextMenu() => InnerElement.addEventListener("contextmenu", e => RaiseOnContextMenu(e.As<MouseEvent>()));
 
         protected void AttachChange() => InnerElement.addEventListener("change", s => RaiseOnChange(s));
 
         public void RaiseOnClick(MouseEvent       ev) => Clicked?.Invoke((T)this, ev);
+        public void RaiseOnMouseOver(MouseEvent   ev) => MouseOver?.Invoke((T)this, ev);
+        public void RaiseOnMouseOut(MouseEvent    ev) => MouseOut?.Invoke((T)this, ev);
 
         public void RaiseOnContextMenu(MouseEvent ev) => ContextMenu?.Invoke((T)this, ev);
 
