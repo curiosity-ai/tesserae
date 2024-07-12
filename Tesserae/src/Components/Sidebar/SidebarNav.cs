@@ -43,9 +43,9 @@ namespace Tesserae
 
         public IComponent CurrentRendered => (_lastClosed is object && _lastClosed.IsMounted()) ? _lastClosed : _lastOpen;
 
-        public SidebarNav(string identifier, Emoji  icon, string       text,   bool   initiallyCollapsed, params SidebarCommand[] commands) : this(identifier, text, initiallyCollapsed, Button().SetIcon(icon), commands) { }
-        public SidebarNav(string identifier, UIcons icon, string       text,   bool   initiallyCollapsed, params SidebarCommand[] commands) : this(identifier, text, initiallyCollapsed, Button().SetIcon(icon), commands) { }
-        public SidebarNav(string identifier, UIcons icon, UIconsWeight weight, string text,               bool                    initiallyCollapsed, params SidebarCommand[] commands) : this(identifier, text, initiallyCollapsed, Button().SetIcon(icon, weight: weight), commands) { }
+        public SidebarNav(string identifier, Emoji  icon, string       text,   bool   initiallyCollapsed, params SidebarCommand[] commands) : this(identifier, text, initiallyCollapsed, b => b.SetIcon(icon), commands) { }
+        public SidebarNav(string identifier, UIcons icon, string       text,   bool   initiallyCollapsed, params SidebarCommand[] commands) : this(identifier, text, initiallyCollapsed, b => b.SetIcon(icon), commands) { }
+        public SidebarNav(string identifier, UIcons icon, UIconsWeight weight, string text,               bool                    initiallyCollapsed, params SidebarCommand[] commands) : this(identifier, text, initiallyCollapsed, b => b.SetIcon(icon, weight: weight), commands) { }
 
         public const string collapse_local_storage_save_key = "tss_sidebar_nav_collapse_state_";
 
@@ -58,16 +58,19 @@ namespace Tesserae
         private static Func<string, string>   _getCollapseState = null;
         private static Action<string, string> _setCollapseState = null;
 
-        private SidebarNav(string identifier, string text, bool initiallyCollapsed, Button buttonWithIcon, params SidebarCommand[] commands)
+        private SidebarNav(string identifier, string text, bool initiallyCollapsed, Action<Button> setButtonIcon, params SidebarCommand[] commands)
         {
             Identifier    = identifier;
             _text         = text;
-            _closedHeader = buttonWithIcon.Class("tss-sidebar-nav-header").Class("tss-sidebar-btn");
+            _closedHeader = Button().Class("tss-sidebar-nav-header").Class("tss-sidebar-btn");
+            setButtonIcon(_closedHeader);
             _openHeader   = Div(_("tss-sidebar-nav-header tss-sidebar-btn-open tss-sidebar-nav-header-empty"));
 
             _arrow = Button().Class("tss-sidebar-nav-arrow");
 
-            _openHeaderButton = buttonWithIcon.SetText(text).Class("tss-sidebar-nav-button");
+            _openHeaderButton = Button().SetText(text).Class("tss-sidebar-nav-button");
+            setButtonIcon(_openHeaderButton);
+
             _openHeader.appendChild(_openHeaderButton.Render());
             _openHeader.appendChild(_arrow.Render());
 
