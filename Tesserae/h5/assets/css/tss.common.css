@@ -494,3 +494,7 @@ i.tss-fontsize-tiny {
     font-family: monospace;
     font-style: normal;
 }
+
+i[class^="fi-"]:before, i[class*=" fi-"]:before, span[class^="fi-"]:before, span[class*="fi-"]:before {
+    display:inline-block;
+}
