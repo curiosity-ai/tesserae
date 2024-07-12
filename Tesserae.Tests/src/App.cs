@@ -14,7 +14,8 @@ namespace Tesserae.Tests
 {
     internal static class App
     {
-        private const string _sidebarOrderKey = "tss-sample-sidebar-order";
+        private const string _sidebarOrderKey     = "tss-sample-sidebar-order";
+        private const string _sidebarOpenStateKey = "tss-sample-sidebar-open-close";
 
         private static void Main()
         {
@@ -89,6 +90,10 @@ namespace Tesserae.Tests
 
             var openClose = new SidebarCommand(UIcons.AngleLeft).Tooltip("Close Sidebar");
 
+            var sidebarOpenState = bool.TryParse(localStorage.getItem(_sidebarOpenStateKey), out var v) ? v : true;
+
+            sidebar.Closed(!sidebarOpenState);
+
             openClose.OnClick(() =>
             {
                 sidebar.Toggle();
@@ -96,10 +101,12 @@ namespace Tesserae.Tests
                 if (sidebar.IsClosed)
                 {
                     openClose.SetIcon(UIcons.AngleRight).Tooltip("Open Sidebar");
+                    localStorage.setItem(_sidebarOpenStateKey, false.ToString());
                 }
                 else
                 {
                     openClose.SetIcon(UIcons.AngleLeft).Tooltip("Close Sidebar");
+                    localStorage.setItem(_sidebarOpenStateKey, true.ToString());
                 }
             });
 
