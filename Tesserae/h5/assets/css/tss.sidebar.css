@@ -337,7 +337,7 @@
     content: "";
     position: absolute;
     left: 19px;
-    bottom: 0px;
+    bottom: -2px;
     width: 6px;
     height: 6px;
     border: solid rgba(var(--tss-secondary-foreground-color-root), 0.4);
