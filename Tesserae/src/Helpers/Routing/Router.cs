@@ -14,7 +14,7 @@ namespace Tesserae
     public static class Router
     {
         public delegate void NavigatedHandler(State               toState, State fromState);
-        public delegate bool CanNavigateHandler(State             toState, State fromState);
+        public delegate bool CanNavigateHandler(State             toState, State fromState, bool isBack);
         public delegate bool WillNavigate(string url);
         public delegate string TransformRoute(string url);
         public delegate void NoMatchHandler(ReadOnlyArray<string> routeParts);
@@ -45,7 +45,9 @@ namespace Tesserae
     window.history.pushState = ( f => function pushState(){
         var ret = f.apply(this, arguments);
         window.dispatchEvent(new Event('pushstate'));
-        window.dispatchEvent(new Event('locationchange'));
+        let e = new Event('locationchange');
+        e.trigger = 'pushstate';
+        window.dispatchEvent(e);
         return ret;
     })(window.history.pushState);
 
@@ -56,10 +58,12 @@ namespace Tesserae
     })(window.history.replaceState);
 
     window.addEventListener('popstate',()=>{
-        window.dispatchEvent(new Event('locationchange'))
+        let e = new Event('locationchange');
+        e.trigger = 'popstate';
+        window.dispatchEvent(e);
     });
 ");
-                window.addEventListener("locationchange", (Action<Event>) (_ => LocationChanged(allowCallbackEvenIfLocationUnchanged: false))); // By default we'll ignore any events where the hash value hasn't actually changed
+                window.addEventListener("locationchange", (Action<Event>) (e => LocationChanged(allowCallbackEvenIfLocationUnchanged: false, trigger: e["trigger"].As<string>()))); // By default we'll ignore any events where the hash value hasn't actually changed
             }
             _initialized = true;
         }
@@ -189,7 +193,7 @@ namespace Tesserae
                 }
 
                 // If the window.location DOES indicate that we're already at the desired path then changing the path isn't going to do anything, so we'll have to force the LocationChanged call ourselves
-                LocationChanged(allowCallbackEvenIfLocationUnchanged: reload);
+                LocationChanged(allowCallbackEvenIfLocationUnchanged: reload, trigger: "navigate");
             }
         }
 
@@ -327,7 +331,7 @@ namespace Tesserae
             return _paths.Values.Contains(hashRoute);
         }
 
-        private static void LocationChanged(bool allowCallbackEvenIfLocationUnchanged)
+        private static void LocationChanged(bool allowCallbackEvenIfLocationUnchanged, string trigger)
         {
             var currentPathFromHash = (window.location.hash ?? "");
 
@@ -386,7 +390,7 @@ namespace Tesserae
                     routeName: r.Name
                 );
 
-                if ((_beforeNavigate is null) || _beforeNavigate(toState, _currentState))
+                if ((_beforeNavigate is null) || _beforeNavigate(toState, _currentState, isBack: trigger == "popstate"))
                 {
                     // Allowed to navigate - do it!
                     var oldState = _currentState;
