@@ -22,7 +22,8 @@ namespace Tesserae
         private static event NavigatedHandler Navigated;
         private static event NoMatchHandler   NotMatched;
 
-        private static State              _currentState;
+        private static State              _lastState { get; set; }
+        private static State              _currentState { get; set; }
         private static CanNavigateHandler _beforeNavigate; // 2020-06-16 DWR: We previously used an event for this but only allowed a single delegate to bind to it, so there is no need for it to be multi-dispatch and so now it's just a field instead of an event
         private static WillNavigate        _onWillNavigate; // same here
         private static TransformRoute _transformRoute = (s) => s;
@@ -83,10 +84,12 @@ namespace Tesserae
 
             if (_currentState is null)
             {
+                _lastState = null;
                 _currentState = new State(fullPath: path);
             }
             else
             {
+                _lastState = _currentState;
                 _currentState = _currentState.WithFullPath(path);
             }
 
@@ -103,10 +106,12 @@ namespace Tesserae
 
             if (_currentState is null)
             {
+                _lastState = null;
                 _currentState = new State(fullPath: path);
             }
             else
             {
+                _lastState = _currentState;
                 _currentState = _currentState.WithFullPath(path);
             }
 
@@ -124,7 +129,11 @@ namespace Tesserae
             {
                 url = url.Substring(0, queryStart);
             }
+            
+            var stateBefore = _currentState;
             _currentState = new State(parameters, _currentState.RouteName, _currentState.Path, url + parameters.ToQueryString());
+            _lastState = stateBefore;
+
             if (pushToHistory)
             {
                 window.history.pushState(null, "", _currentState.FullPath);
@@ -389,8 +398,13 @@ namespace Tesserae
                     fullPath: window.location.href,
                     routeName: r.Name
                 );
+                
+                var isBack = (_lastState is object && _lastState.Path == toState.Path);
+                console.log("lastState: " + (_lastState?.FullPath ?? "null"));
+                console.log("toState: " + (toState?.FullPath ?? "null"));
+                console.log(isBack);
 
-                if ((_beforeNavigate is null) || _beforeNavigate(toState, _currentState, isBack: trigger == "popstate"))
+                if ((_beforeNavigate is null) || _beforeNavigate(toState, _currentState, isBack: isBack))
                 {
                     // Allowed to navigate - do it!
                     var oldState = _currentState;
@@ -398,6 +412,7 @@ namespace Tesserae
                     if (r.Activate(toState.Parameters))
                     {
                         Navigated?.Invoke(toState, oldState);
+                        _lastState = oldState;
                     }
                     else
                     {
