@@ -154,9 +154,13 @@ namespace Tesserae
 
         public Sidebar AddContent(ISidebarItem item)
         {
-            if (_middleContent.Value.Any(m => m.Identifier == item.Identifier)) throw new ArgumentException("Identifier already in use: " + item.Identifier);
-
             item.AddGroupIdentifier(ROOT_SIDEBAR_FOR_ORDERING);
+
+            if (_middleContent.Value.Any(m => m.Identifier == item.Identifier))
+            {
+                return this; //nothing to do...
+            };
+
             _middleContent.Value = _middleContent.Value?.Concat(new[] { item }).ToList();
             _itemOrder.Add(item.Identifier);
             return this;

@@ -424,9 +424,16 @@ namespace Tesserae
         public void Add(ISidebarItem item)
         {
             item.AddGroupIdentifier(Identifier);
-            var newItems = _items.Value.As<ISidebarItem[]>();
-            newItems.Push(item);
-            _items.Value = newItems.ToArray();
+
+            var items = _items.Value.As<ISidebarItem[]>();
+
+            if (items.Any(m => m.Identifier == item.Identifier))
+            {
+                return; //nothing to do...
+            }
+
+            items.Push(item);
+            _items.Value = items.ToArray();
             _itemOrder.Add(item.Identifier);
         }
 
@@ -449,6 +456,12 @@ namespace Tesserae
             foreach (var item in itemsToAdd)
             {
                 item.AddGroupIdentifier(Identifier);
+
+                if (newItems.Any(m => m.Identifier == item.Identifier))
+                {
+                    continue; //already there...
+                }
+
                 newItems.Push(item);
             }
 
