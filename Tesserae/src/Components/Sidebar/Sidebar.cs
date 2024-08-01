@@ -164,11 +164,12 @@ namespace Tesserae
 
         public Sidebar RemoveContent(ISidebarItem item)
         {
-            if (_middleContent.Value.All(m => m.Identifier != item.Identifier)) return this; //nothing to do
+            var identifierWithGroupIdentifier = ROOT_SIDEBAR_FOR_ORDERING + "_|_" + item.Identifier;
 
-            item.AddGroupIdentifier(ROOT_SIDEBAR_FOR_ORDERING);
-            _middleContent.Value = _middleContent.Value?.Where(m => m.Identifier != item.Identifier).ToList();
-            _itemOrder.Remove(item.Identifier);
+            if (_middleContent.Value.All(m => m.Identifier != identifierWithGroupIdentifier)) return this; //nothing to do
+
+            _middleContent.Value = _middleContent.Value?.Where(m => m.Identifier != identifierWithGroupIdentifier).ToList();
+            _itemOrder.Remove(identifierWithGroupIdentifier);
             return this;
         }
 

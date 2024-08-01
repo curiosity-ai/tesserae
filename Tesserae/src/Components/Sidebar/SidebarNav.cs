@@ -432,11 +432,12 @@ namespace Tesserae
 
         public void Remove(ISidebarItem item)
         {
-            item.AddGroupIdentifier(Identifier);
+            var identifierWithGroupIdentifier = Identifier + "_|_" + item.Identifier;
+
             var newItems = _items.Value.As<ISidebarItem[]>();
-            newItems     = newItems.Where(i => i.Identifier != item.Identifier).ToArray();
+            newItems     = newItems.Where(i => i.Identifier != identifierWithGroupIdentifier).ToArray();
             _items.Value = newItems;
-            _itemOrder.Remove(item.Identifier);
+            _itemOrder.Remove(identifierWithGroupIdentifier);
         }
 
         public void AddRange(IEnumerable<ISidebarItem> items)
