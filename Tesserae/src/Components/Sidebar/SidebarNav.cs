@@ -64,7 +64,7 @@ namespace Tesserae
             _text         = text;
             _closedHeader = Button().Class("tss-sidebar-nav-header").Class("tss-sidebar-btn");
             setButtonIcon(_closedHeader);
-            _openHeader   = Div(_("tss-sidebar-nav-header tss-sidebar-btn-open tss-sidebar-nav-header-empty"));
+            _openHeader = Div(_("tss-sidebar-nav-header tss-sidebar-btn-open tss-sidebar-nav-header-empty"));
 
             _arrow = Button().Class("tss-sidebar-nav-arrow");
 
@@ -428,6 +428,15 @@ namespace Tesserae
             newItems.Push(item);
             _items.Value = newItems.ToArray();
             _itemOrder.Add(item.Identifier);
+        }
+
+        public void Remove(ISidebarItem item)
+        {
+            item.AddGroupIdentifier(Identifier);
+            var newItems = _items.Value.As<ISidebarItem[]>();
+            newItems     = newItems.Where(i => i.Identifier != item.Identifier).ToArray();
+            _items.Value = newItems;
+            _itemOrder.Remove(item.Identifier);
         }
 
         public void AddRange(IEnumerable<ISidebarItem> items)

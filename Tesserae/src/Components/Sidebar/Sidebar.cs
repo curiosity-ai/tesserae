@@ -12,7 +12,7 @@ namespace Tesserae
     public sealed class Sidebar : IComponent
     {
         private readonly ObservableList<ISidebarItem>                    _header;
-        private readonly SettableObservable<IReadOnlyList<ISidebarItem>> _middle;
+        private readonly SettableObservable<IReadOnlyList<ISidebarItem>> _middleContent;
         private readonly ObservableList<ISidebarItem>                    _footer;
         private readonly SettableObservable<bool>                        _closed;
         private          double                                          _closedTimeout;
@@ -31,11 +31,11 @@ namespace Tesserae
         {
             _isSortable = sortable;
 
-            _header  = new ObservableList<ISidebarItem>();
-            _middle  = new SettableObservable<IReadOnlyList<ISidebarItem>>(new List<ISidebarItem>());
-            _footer  = new ObservableList<ISidebarItem>();
-            _closed  = new SettableObservable<bool>(false);
-            _sidebar = VStack().Class("tss-sidebar");
+            _header        = new ObservableList<ISidebarItem>();
+            _middleContent = new SettableObservable<IReadOnlyList<ISidebarItem>>(new List<ISidebarItem>());
+            _footer        = new ObservableList<ISidebarItem>();
+            _closed        = new SettableObservable<bool>(false);
+            _sidebar       = VStack().Class("tss-sidebar");
 
             _closed.Observe(isClosed =>
             {
@@ -56,7 +56,7 @@ namespace Tesserae
             });
 
 
-            var combined = new CombinedObservable<IReadOnlyList<ISidebarItem>, IReadOnlyList<ISidebarItem>, IReadOnlyList<ISidebarItem>, bool>(_header, _middle, _footer, _closed);
+            var combined = new CombinedObservable<IReadOnlyList<ISidebarItem>, IReadOnlyList<ISidebarItem>, IReadOnlyList<ISidebarItem>, bool>(_header, _middleContent, _footer, _closed);
 
             combined.ObserveFutureChanges(content => RenderSidebar(content.first, content.second, content.third, content.forth));
 
@@ -95,7 +95,7 @@ namespace Tesserae
                     ghostClass = "tss-sortable-ghost",
                     onEnd = e =>
                     {
-                        if(e.oldIndex != e.newIndex)
+                        if (e.oldIndex != e.newIndex)
                         {
                             var old = _itemOrder[e.oldIndex];
                             _itemOrder.RemoveAt(e.oldIndex);
@@ -154,11 +154,21 @@ namespace Tesserae
 
         public Sidebar AddContent(ISidebarItem item)
         {
-            if (_middle.Value.Any(m => m.Identifier == item.Identifier)) throw new ArgumentException("Identifier already in use: " + item.Identifier);
+            if (_middleContent.Value.Any(m => m.Identifier == item.Identifier)) throw new ArgumentException("Identifier already in use: " + item.Identifier);
 
             item.AddGroupIdentifier(ROOT_SIDEBAR_FOR_ORDERING);
-            _middle.Value = _middle.Value?.Concat(new[] { item }).ToList();
+            _middleContent.Value = _middleContent.Value?.Concat(new[] { item }).ToList();
             _itemOrder.Add(item.Identifier);
+            return this;
+        }
+
+        public Sidebar RemoveContent(ISidebarItem item)
+        {
+            if (_middleContent.Value.All(m => m.Identifier != item.Identifier)) return this; //nothing to do
+
+            item.AddGroupIdentifier(ROOT_SIDEBAR_FOR_ORDERING);
+            _middleContent.Value = _middleContent.Value?.Where(m => m.Identifier != item.Identifier).ToList();
+            _itemOrder.Remove(item.Identifier);
             return this;
         }
 
@@ -175,7 +185,7 @@ namespace Tesserae
             ClearFooter();
         }
         public void ClearHeader()  => _header.Clear();
-        public void ClearContent() => _middle.Value = new List<ISidebarItem>();
+        public void ClearContent() => _middleContent.Value = new List<ISidebarItem>();
         public void ClearFooter()  => _footer.Clear();
 
         public HTMLElement Render() => _sidebar.Render();
@@ -197,12 +207,12 @@ namespace Tesserae
 
                 if (!_itemOrder.SequenceEqual(itemOrderSorted))
                 {
-                    _middle.Value = _middle.Value.OrderBy(i => dict.HasOwnProperty(i.Identifier) ? dict[i.Identifier] : int.MaxValue).ToArray();
-                    _itemOrder    = itemOrderSorted;
+                    _middleContent.Value = _middleContent.Value.OrderBy(i => dict.HasOwnProperty(i.Identifier) ? dict[i.Identifier] : int.MaxValue).ToArray();
+                    _itemOrder           = itemOrderSorted;
                 }
             }
 
-            foreach (var middleItem in _middle.Value)
+            foreach (var middleItem in _middleContent.Value)
             {
                 if (middleItem is SidebarNav middleNavItem)
                 {
@@ -215,7 +225,7 @@ namespace Tesserae
         {
             var dict = new Dictionary<string, string[]>();
 
-            foreach (var item in _middle.Value)
+            foreach (var item in _middleContent.Value)
             {
                 if (item is SidebarNav nav)
                 {
@@ -233,7 +243,7 @@ namespace Tesserae
 
         public void Refresh()
         {
-            RenderSidebar(_header.Value, _middle.Value, _footer.Value, _closed.Value);
+            RenderSidebar(_header.Value, _middleContent.Value, _footer.Value, _closed.Value);
         }
 
         public void OnSortingChanged(Action<Dictionary<string, string[]>> onSortingChanged)
