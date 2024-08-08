@@ -68,15 +68,15 @@ namespace Tesserae.Tests.Samples
         {
             return new[]
             {
-                new PickerSampleItemWithComponents("Bob", UIcons.Bomb),
-                new PickerSampleItemWithComponents("BOB", UIcons.BlenderPhone),
+                new PickerSampleItemWithComponents("Bob",               UIcons.Bomb),
+                new PickerSampleItemWithComponents("BOB",               UIcons.BlenderPhone),
                 new PickerSampleItemWithComponents("Donuts by J Dilla", UIcons.Carrot),
-                new PickerSampleItemWithComponents("Donuts", UIcons.CarBattery),
-                new PickerSampleItemWithComponents("Coffee", UIcons.Coffee),
-                new PickerSampleItemWithComponents("Chicken Coop", UIcons.Hamburger),
-                new PickerSampleItemWithComponents("Cherry Pie", UIcons.ChartPie),
-                new PickerSampleItemWithComponents("Chess", UIcons.Chess),
-                new PickerSampleItemWithComponents("Cooper", UIcons.Interrogation)
+                new PickerSampleItemWithComponents("Donuts",            UIcons.CarBattery),
+                new PickerSampleItemWithComponents("Coffee",            UIcons.Coffee),
+                new PickerSampleItemWithComponents("Chicken Coop",      UIcons.Hamburger),
+                new PickerSampleItemWithComponents("Cherry Pie",        UIcons.ChartPie),
+                new PickerSampleItemWithComponents("Chess",             UIcons.Chess),
+                new PickerSampleItemWithComponents("Cooper",            UIcons.Interrogation)
             };
         }
     }
@@ -104,7 +104,7 @@ namespace Tesserae.Tests.Samples
 
         public PickerSampleItemWithComponents(string name, UIcons icon)
         {
-            Name = name;
+            Name  = name;
             _icon = icon;
         }
 

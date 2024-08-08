@@ -6,7 +6,7 @@ namespace Tesserae
     public class WeakMap
     {
         private object _map;
-        
+
         public WeakMap()
         {
             _map = Script.Write<object>("new WeakMap()");

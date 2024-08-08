@@ -7,13 +7,13 @@ namespace Tesserae
     [H5.Name("tss.Hotkeys")]
     public static class Hotkeys
     {
-        public static bool Shift { get { return Script.Write<bool>("hotkeys.shift == true"); } }
-        public static bool Ctrl { get { return Script.Write<bool>("hotkeys.ctrl == true"); } }
-        public static bool Alt { get { return Script.Write<bool>("hotkeys.alt == true"); } }
+        public static bool Shift     { get { return Script.Write<bool>("hotkeys.shift == true"); } }
+        public static bool Ctrl      { get { return Script.Write<bool>("hotkeys.ctrl == true"); } }
+        public static bool Alt       { get { return Script.Write<bool>("hotkeys.alt == true"); } }
         public static bool OptionKey { get { return Script.Write<bool>("hotkeys.option == true"); } }
-        public static bool Control { get { return Script.Write<bool>("hotkeys.control == true"); } }
-        public static bool Cmd { get { return Script.Write<bool>("hotkeys.cmd == true"); } }
-        public static bool Command { get { return Script.Write<bool>("hotkeys.command == true"); } }
+        public static bool Control   { get { return Script.Write<bool>("hotkeys.control == true"); } }
+        public static bool Cmd       { get { return Script.Write<bool>("hotkeys.cmd == true"); } }
+        public static bool Command   { get { return Script.Write<bool>("hotkeys.command == true"); } }
 
         public static string GetScope()
         {
@@ -91,18 +91,18 @@ namespace Tesserae
             public string key;
             public string shortcut;
             public string scope;
-            public bool keyup;
-            public bool keydown;
-            public int[] mods;
+            public bool   keyup;
+            public bool   keydown;
+            public int[]  mods;
         }
 
         [ObjectLiteral]
         public class Option
         {
-            public string scope;
+            public string      scope;
             public HTMLElement element;
-            public bool keyup;
-            public bool keydown;
+            public bool        keyup;
+            public bool        keydown;
         }
     }
 }

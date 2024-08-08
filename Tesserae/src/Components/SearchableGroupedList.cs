@@ -10,17 +10,17 @@ namespace Tesserae
     public class SearchableGroupedList<T> : IComponent, ISpecialCaseStyling where T : ISearchableGroupedItem
     {
         private readonly Func<string, IComponent> _groupedItemHeaderGenerator;
-        private readonly IDefer _defered;
-        private readonly Stack _searchBoxContainer;
-        private readonly List<IComponent> _searchBoxContainerComponents;
-        private readonly Stack _stack;
-        private readonly SearchBox _searchBox;
-        private readonly ItemsList _list;
-        private IComparer<string> _groupComparer;
+        private readonly IDefer                   _defered;
+        private readonly Stack                    _searchBoxContainer;
+        private readonly List<IComponent>         _searchBoxContainerComponents;
+        private readonly Stack                    _stack;
+        private readonly SearchBox                _searchBox;
+        private readonly ItemsList                _list;
+        private          IComparer<string>        _groupComparer;
 
-        public HTMLElement StylingContainer => _stack.InnerElement;
-        public bool PropagateToStackItemParent => true;
-        public ObservableList<IComponent> Items { get; }
+        public HTMLElement                StylingContainer           => _stack.InnerElement;
+        public bool                       PropagateToStackItemParent => true;
+        public ObservableList<IComponent> Items                      { get; }
 
         public SearchableGroupedList(T[] items, Func<string, IComponent> groupedItemHeaderGenerator, params UnitSize[] columns)
             : this(new ObservableList<T>(initialValues: items ?? new T[0]), groupedItemHeaderGenerator, columns)
@@ -32,24 +32,24 @@ namespace Tesserae
             _groupedItemHeaderGenerator = groupedItemHeaderGenerator;
             _searchBox                  = new SearchBox().Underlined().SetPlaceholder("Type to search").SearchAsYouType().Width(100.px()).Grow();
             _list                       = ItemsList(new IComponent[0], columns);
-            
+
             _groupComparer = StringComparer.OrdinalIgnoreCase;
 
             Items = new ObservableList<IComponent>();
 
             _defered =
                 DeferSync(
-                    Items,
-                    item =>
-                    {
-                        var searchTerms = (_searchBox.Text ?? "").Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                        var filteredItems = originalItems.OfType<T>().Where(i => searchTerms.Length == 0 || searchTerms.All(st => i.IsMatch(st))).ToArray();
-                        AddGroupedItems(filteredItems, _list.Items, isGrid: (columns is object && columns.Length > 1));
-                        return _list.S();
-                    }
-                )
-                .WS()
-                .Grow();
+                        Items,
+                        item =>
+                        {
+                            var searchTerms   = (_searchBox.Text ?? "").Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                            var filteredItems = originalItems.OfType<T>().Where(i => searchTerms.Length == 0 || searchTerms.All(st => i.IsMatch(st))).ToArray();
+                            AddGroupedItems(filteredItems, _list.Items, isGrid: (columns is object && columns.Length > 1));
+                            return _list.S();
+                        }
+                    )
+                   .WS()
+                   .Grow();
 
             originalItems.Observe(_ => _defered.Refresh());
 
@@ -88,7 +88,7 @@ namespace Tesserae
 
         public SearchableGroupedList<T> BeforeSearchBox(params IComponent[] beforeComponents)
         {
-            foreach(var component in beforeComponents.Reverse<IComponent>())
+            foreach (var component in beforeComponents.Reverse<IComponent>())
             {
                 _searchBoxContainerComponents.Insert(0, component);
             }
@@ -119,7 +119,8 @@ namespace Tesserae
                     foreach (var groupedItems in items.GroupBy(item => item.Group).OrderBy(g => g.Key, _groupComparer))
                     {
                         var header = new GroupedItemsHeader(groupedItems.Key, _groupedItemHeaderGenerator);
-                        if (isGrid) 
+
+                        if (isGrid)
                         {
                             header.GridColumn(1, -1);
                         }

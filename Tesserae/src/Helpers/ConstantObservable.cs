@@ -8,7 +8,7 @@ namespace Tesserae
     /// </summary>
     /// <typeparam name="T">An immutable type to be observed. Be careful with non-imutable types, as they may be changed in ways that will not be repoted here</typeparam>
     [H5.Name("tss.ConstantObservableT")]
-    public class ConstantObservable<T> : IObservable<T> 
+    public class ConstantObservable<T> : IObservable<T>
     {
         private T _value;
 
@@ -17,9 +17,9 @@ namespace Tesserae
             _value = value;
         }
 
-        public void Observe(ObservableEvent.ValueChanged<T> valueGetter) { valueGetter(Value); }
+        public void Observe(ObservableEvent.ValueChanged<T>              valueGetter) { valueGetter(Value); }
         public void ObserveFutureChanges(ObservableEvent.ValueChanged<T> valueGetter) { }
-        public void StopObserving(ObservableEvent.ValueChanged<T> valueGetter) { }
+        public void StopObserving(ObservableEvent.ValueChanged<T>        valueGetter) { }
 
         public T Value => _value;
     }

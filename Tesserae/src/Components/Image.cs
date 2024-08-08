@@ -94,7 +94,7 @@ namespace Tesserae
         public Image Circle()
         {
             InnerElement.style.borderRadius = "50%";
-            PropagateToStackItemParent = false;
+            PropagateToStackItemParent      = false;
             return this;
         }
 

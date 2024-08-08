@@ -6,21 +6,21 @@ namespace Tesserae
     [H5.Name("tss.ChecBox")]
     public class CheckBox : ComponentBase<CheckBox, HTMLInputElement>, IObservableComponent<bool>
     {
-        private readonly HTMLSpanElement _checkSpan;
-        private readonly HTMLLabelElement _label;
+        private readonly HTMLSpanElement          _checkSpan;
+        private readonly HTMLLabelElement         _label;
         private readonly SettableObservable<bool> _observable = new SettableObservable<bool>();
 
         public CheckBox(string text = string.Empty)
         {
             InnerElement = CheckBox(_("tss-checkbox"));
-            _checkSpan = Span(_("tss-checkbox-mark"));
-            _label = Label(_("tss-checkbox-container tss-default-component-margin tss-fontcolor-default tss-fontsize-small tss-fontweight-regular", text: text), InnerElement, _checkSpan);
+            _checkSpan   = Span(_("tss-checkbox-mark"));
+            _label       = Label(_("tss-checkbox-container tss-default-component-margin tss-fontcolor-default tss-fontsize-small tss-fontweight-regular", text: text), InnerElement, _checkSpan);
 
             AttachClick();
             AttachChange();
             AttachFocus();
             AttachBlur();
-            
+
             InnerElement.addEventListener("change", _ =>
             {
                 _observable.Value = InnerElement.@checked;
@@ -64,7 +64,7 @@ namespace Tesserae
             set
             {
                 InnerElement.@checked = value;
-                _observable.Value = value;
+                _observable.Value     = value;
             }
         }
 

@@ -13,7 +13,7 @@ namespace Tesserae.Tests.Samples
         public DateTimePickerSample()
         {
             var from = DateTime.Now.AddDays(-7);
-            var to = DateTime.Now.AddDays(7);
+            var to   = DateTime.Now.AddDays(7);
 
             _content = SectionStack()
                .Title(SampleHeader(nameof(DateTimePickerSample)))

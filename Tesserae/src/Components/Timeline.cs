@@ -11,8 +11,8 @@ namespace Tesserae
         private readonly HTMLElement _timelineOwner;
 
         public string Background { get => _timelineOwner.style.background; set => _timelineOwner.style.background = value; }
-        public string Margin { get => _timelineOwner.style.margin; set => _timelineOwner.style.margin = value; }
-        public string Padding { get => _timelineOwner.style.padding; set => _timelineOwner.style.padding = value; }
+        public string Margin     { get => _timelineOwner.style.margin;     set => _timelineOwner.style.margin = value; }
+        public string Padding    { get => _timelineOwner.style.padding;    set => _timelineOwner.style.padding = value; }
         public bool IsSameSide
         {
             get => _timelineOwner.classList.contains("tss-left");
@@ -22,7 +22,7 @@ namespace Tesserae
         private bool left = true;
         public Timeline()
         {
-            _timeline = Div(_("tss-timeline"));
+            _timeline      = Div(_("tss-timeline"));
             _timelineOwner = Div(_("tss-timeline-owner"), _timeline);
         }
 
@@ -51,6 +51,7 @@ namespace Tesserae
                 var ro = new ResizeObserver();
                 ro.Observe(document.body);
                 ro.OnResize = Recompute;
+
                 DomObserver.WhenRemoved(_timelineOwner, () =>
                 {
                     ro.StopObserving(document.body);
@@ -73,6 +74,7 @@ namespace Tesserae
             if (rebaseAll)
             {
                 left = true;
+
                 foreach (var n in parent.children)
                 {
                     n.classList.remove("tss-left", "tss-right");

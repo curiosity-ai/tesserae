@@ -12,7 +12,7 @@ namespace Tesserae
             {
                 navigator.clipboard.writeText(valueToCopy).ToTask().ContinueWith(t =>
                 {
-                    if(t.IsFaulted)
+                    if (t.IsFaulted)
                     {
                         if (showMessage)
                         {
@@ -32,7 +32,7 @@ namespace Tesserae
             else
             {
                 var ta = TextBox(_());
-                ta.style.opacity = "0";
+                ta.style.opacity  = "0";
                 ta.style.position = "absolute";
                 document.body.appendChild(ta);
 

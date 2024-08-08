@@ -39,13 +39,13 @@ namespace Tesserae
                 throw new ArgumentException(nameof(columns));
             }
 
-            _columns = columns.ToList();
+            _columns        = columns.ToList();
             _componentCache = new ComponentCache<TDetailsListItem>(CreateListItem);
-            _listContainer = Div(_("tss-detailslist").WithRole("grid"));
+            _listContainer  = Div(_("tss-detailslist").WithRole("grid"));
 
-            _container = Div(_("tss-detailslist-container"), _listContainer);
+            _container                = Div(_("tss-detailslist-container"), _listContainer);
             _previousColumnSortingKey = string.Empty;
-            _currentSortingIcon = UIcons.ArrowUp;
+            _currentSortingIcon       = UIcons.ArrowUp;
         }
 
         public HTMLElement StylingContainer => _container;
@@ -149,23 +149,23 @@ namespace Tesserae
             _listItemsContainer = Div(_("tss-detailslist-list-items-container").WithRole("presentation"));
             _listContainer.appendChild(_listItemsContainer);
 
-            if (_columns.All(detailsListColumn =>detailsListColumn.Width.Unit == Unit.Pixels))
+            if (_columns.All(detailsListColumn => detailsListColumn.Width.Unit == Unit.Pixels))
             {
                 var totalWidth = _columns.Sum(detailsListColumn => detailsListColumn.Width.Size + 4);
-                detailsListHeader.style.width = (totalWidth).px().ToString();
-                _listContainer.style.width = $"min(100%, {(totalWidth + 32).px()})";
+                detailsListHeader.style.width   = (totalWidth).px().ToString();
+                _listContainer.style.width      = $"min(100%, {(totalWidth + 32).px()})";
                 _listItemsContainer.style.width = (totalWidth).px().ToString();
             }
             else
             {
-                detailsListHeader.style.width = "100%";
-                _listContainer.style.width = "100%";
+                detailsListHeader.style.width   = "100%";
+                _listContainer.style.width      = "100%";
                 _listItemsContainer.style.width = "100%";
             }
 
             DomObserver.WhenMounted(detailsListHeader, () =>
             {
-                var rect = (DOMRect) detailsListHeader.getBoundingClientRect();
+                var rect = (DOMRect)detailsListHeader.getBoundingClientRect();
                 _listItemsContainer.style.minHeight = "calc(100% - " + rect.height + "px)";
             });
 
@@ -217,11 +217,12 @@ namespace Tesserae
             {
                 //We render the message so that it fits the whole area from the _listItemsContainer, if it has a pre-defined height, otherwise, we set a min height of 64 px
                 var emptyMessage = _emptyListMessageGenerator().Render();
+
                 DomObserver.WhenMounted(emptyMessage, () =>
                 {
-                    var rect = (DOMRect) _listItemsContainer.getBoundingClientRect();
+                    var rect = (DOMRect)_listItemsContainer.getBoundingClientRect();
                     emptyMessage.style.height = Math.Max(64, rect.height) + "px";
-                    emptyMessage.style.width = "100%";
+                    emptyMessage.style.width  = "100%";
                 });
                 _listItemsContainer.appendChild(emptyMessage);
             }
@@ -275,7 +276,7 @@ namespace Tesserae
             var (detailsListItemNumber, detailsListItem) = detailsListItemAndKey;
 
             var detailsListItemContainer = Div(_("tss-detailslist-list-item-container").WithRole("presentation"));
-            var gridCellHtmlElements = detailsListItem.Render(_columns, CreateGridCell).ToArray();
+            var gridCellHtmlElements     = detailsListItem.Render(_columns, CreateGridCell).ToArray();
 
             if (detailsListItem.EnableOnListItemClickEvent)
             {

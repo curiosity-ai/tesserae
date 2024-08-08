@@ -36,19 +36,19 @@ namespace Tesserae
         public TMomentPicker SetMax(TMoment max)
         {
             Max = max;
-            return (TMomentPicker) this;
+            return (TMomentPicker)this;
         }
 
         public TMomentPicker SetMin(TMoment min)
         {
             Min = min;
-            return (TMomentPicker) this;
+            return (TMomentPicker)this;
         }
 
         public TMomentPicker SetStep(int step)
         {
             Step = step;
-            return (TMomentPicker) this;
+            return (TMomentPicker)this;
         }
 
         protected abstract string FormatMoment(TMoment moment);

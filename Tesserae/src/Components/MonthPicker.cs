@@ -31,7 +31,7 @@ namespace Tesserae
 
         protected override (int year, int month) FormatMoment(string monthAndYear)
         {
-            var monthAndYearSplit = monthAndYear.Split(new []{ '-' }, StringSplitOptions.RemoveEmptyEntries);
+            var monthAndYearSplit = monthAndYear.Split(new[] { '-' }, StringSplitOptions.RemoveEmptyEntries);
 
             if (!monthAndYearSplit.Any() || monthAndYearSplit.Any(string.IsNullOrWhiteSpace))
             {

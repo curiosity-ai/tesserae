@@ -8,32 +8,32 @@ namespace Tesserae
     public class SplitView : IComponent
     {
         private readonly HTMLElement _splitContainer;
-        private readonly string _splitterSize;
-        private readonly Raw _leftComponent;
-        private readonly Raw _splitterComponent;
-        private readonly Raw _rightComponent;
-        private bool _resizable;
-        private Action<int> _onResizeEnd;
+        private readonly string      _splitterSize;
+        private readonly Raw         _leftComponent;
+        private readonly Raw         _splitterComponent;
+        private readonly Raw         _rightComponent;
+        private          bool        _resizable;
+        private          Action<int> _onResizeEnd;
 
         public SplitView(UnitSize splitterSize = null)
         {
             _splitterSize = (splitterSize is object && splitterSize.Unit != Unit.Auto && splitterSize.Unit != Unit.Inherit)
-                                          ? splitterSize.ToString()
-                                          : "8px";
-            _leftComponent     = Raw(Div(_()));
+                ? splitterSize.ToString()
+                : "8px";
+            _leftComponent = Raw(Div(_()));
             var splitter = Div(_("tss-splitter tss-no-splitter"));
-            splitter.draggable = false;
-            _splitterComponent = Raw(splitter);
-            _rightComponent    = Raw(Div(_()));
-            _splitterComponent.Width = _splitterSize;
+            splitter.draggable        = false;
+            _splitterComponent        = Raw(splitter);
+            _rightComponent           = Raw(Div(_()));
+            _splitterComponent.Width  = _splitterSize;
             _leftComponent.Height     = "100%";
             _splitterComponent.Height = "100%";
             _rightComponent.Height    = "100%";
 
-            _leftComponent.Width   = "10px";
+            _leftComponent.Width  = "10px";
             _rightComponent.Width = "10px";
-            
-            _leftComponent.FlexGrow = "1";
+
+            _leftComponent.FlexGrow  = "1";
             _rightComponent.FlexGrow = "1";
 
             _splitContainer = Div(_("tss-splitview"), _leftComponent.Render(), _splitterComponent.Render(), _rightComponent.Render());
@@ -41,7 +41,7 @@ namespace Tesserae
 
         public SplitView Resizable(Action<int> onResizeEnd = null)
         {
-            _resizable = true;
+            _resizable   = true;
             _onResizeEnd = onResizeEnd;
             _splitterComponent.RemoveClass("tss-no-splitter");
             _splitterComponent.Width = _splitterSize;
@@ -53,8 +53,8 @@ namespace Tesserae
         {
             var el = dragArea.Render();
 
-            double width = 0;
-            DOMRect rect;
+            double      width = 0;
+            DOMRect     rect;
             HTMLElement current;
 
             el.onmousedown += (me) =>
@@ -67,17 +67,17 @@ namespace Tesserae
                 {
                     current = _leftComponent.Render();
                 }
-                rect = _splitContainer.getBoundingClientRect().As<DOMRect>();
+                rect               =  _splitContainer.getBoundingClientRect().As<DOMRect>();
                 window.onmousemove += Resize;
-                window.onmouseup += StopResize;
+                window.onmouseup   += StopResize;
                 StopEvent(me);
             };
 
             void Resize(MouseEvent me)
             {
-                width = Math.Min(rect.width - 16, Math.Max(16, (me.clientX - rect.left)));
-                current.style.width = width + "px";
-                current.style.flexGrow = "0";
+                width                    = Math.Min(rect.width - 16, Math.Max(16, (me.clientX - rect.left)));
+                current.style.width      = width + "px";
+                current.style.flexGrow   = "0";
                 current.style.flexShrink = "1";
                 StopEvent(me);
             }
@@ -85,7 +85,7 @@ namespace Tesserae
             void StopResize(MouseEvent me)
             {
                 window.onmousemove -= Resize;
-                window.onmouseup -= StopResize;
+                window.onmouseup   -= StopResize;
                 _onResizeEnd?.Invoke((int)width);
                 rect = null;
                 StopEvent(me);
@@ -95,6 +95,7 @@ namespace Tesserae
         public SplitView Left(IComponent component, string background = "")
         {
             _leftComponent.Content(component);
+
             if (!string.IsNullOrEmpty(background))
             {
                 _leftComponent.Background = background;
@@ -106,6 +107,7 @@ namespace Tesserae
         public SplitView Right(IComponent component, string background = "")
         {
             _rightComponent.Content(component);
+
             if (!string.IsNullOrEmpty(background))
             {
                 _rightComponent.Background = background;
@@ -130,7 +132,7 @@ namespace Tesserae
         public SplitView SplitInMiddle()
         {
             _rightComponent.MaxWidth = "";
-            _leftComponent.MaxWidth = "";
+            _leftComponent.MaxWidth  = "";
             _splitContainer.classList.remove("tss-split-left");
             _splitContainer.classList.remove("tss-split-right");
             return this;
@@ -160,7 +162,7 @@ namespace Tesserae
             {
                 _leftComponent.Show();
             }
-            else if(_splitContainer.classList.contains("tss-split-right"))
+            else if (_splitContainer.classList.contains("tss-split-right"))
             {
                 _rightComponent.Show();
             }
@@ -174,14 +176,14 @@ namespace Tesserae
 
         public SplitView LeftIsSmaller(UnitSize leftSize, UnitSize maxLeftSize = null)
         {
-            _leftComponent.Width    = leftSize.ToString();
-            _leftComponent.MaxWidth = maxLeftSize?.ToString() ?? "";
-            _leftComponent.FlexGrow = "";
+            _leftComponent.Width      = leftSize.ToString();
+            _leftComponent.MaxWidth   = maxLeftSize?.ToString() ?? "";
+            _leftComponent.FlexGrow   = "";
             _leftComponent.FlexShrink = "";
 
-            _rightComponent.Width = "10px";
-            _rightComponent.MaxWidth = "";
-            _rightComponent.FlexGrow = "1";
+            _rightComponent.Width      = "10px";
+            _rightComponent.MaxWidth   = "";
+            _rightComponent.FlexGrow   = "1";
             _rightComponent.FlexShrink = "";
             _splitContainer.classList.add("tss-split-left");
             _splitContainer.classList.remove("tss-split-right");
@@ -191,14 +193,14 @@ namespace Tesserae
 
         public SplitView RightIsSmaller(UnitSize rightSize, UnitSize maxRightSize = null)
         {
-            _rightComponent.Width = rightSize.ToString();
-            _rightComponent.MaxWidth = maxRightSize?.ToString() ?? "";
-            _rightComponent.FlexGrow = "";
+            _rightComponent.Width      = rightSize.ToString();
+            _rightComponent.MaxWidth   = maxRightSize?.ToString() ?? "";
+            _rightComponent.FlexGrow   = "";
             _rightComponent.FlexShrink = "";
 
-            _leftComponent.Width = "10px";
-            _leftComponent.MaxWidth = "";
-            _leftComponent.FlexGrow = "1";
+            _leftComponent.Width      = "10px";
+            _leftComponent.MaxWidth   = "";
+            _leftComponent.FlexGrow   = "1";
             _leftComponent.FlexShrink = "";
             _splitContainer.classList.add("tss-split-right");
             _splitContainer.classList.remove("tss-split-left");

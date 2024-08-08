@@ -33,7 +33,7 @@ namespace Tesserae.Tests.Samples
 
         private IEnumerable<IconItem> GetAllIcons()
         {
-            var names = Enum.GetNames(typeof(UIcons));
+            var      names  = Enum.GetNames(typeof(UIcons));
             UIcons[] values = (UIcons[])Enum.GetValues(typeof(UIcons));
 
             for (int i = 0; i < values.Length; i++)
@@ -48,7 +48,7 @@ namespace Tesserae.Tests.Samples
             private readonly IComponent component;
             public IconItem(UIcons icon, string name)
             {
-                name = ToValidName(name.Substring(6));
+                name   = ToValidName(name.Substring(6));
                 _value = name + " " + icon.ToString();
 
                 component = HStack().WS().AlignItemsCenter().PB(4).Children(

@@ -24,6 +24,7 @@ namespace Tesserae
         {
             if (other is null) return _parameters.Count > 0;
             if (other._parameters.Count != _parameters.Count) return false;
+
             if (other._parameters.Count == 0 && _parameters.Count == 0) return true;
             else
             {
@@ -34,6 +35,7 @@ namespace Tesserae
                         return false;
                     }
                 }
+
                 foreach (var key in other._parameters)
                 {
                     if (!_parameters.TryGetValue(key.Key, out var val) || val != key.Value)
@@ -47,13 +49,13 @@ namespace Tesserae
         }
         public IEnumerator<KeyValuePair<string, string>> GetEnumerator() => _parameters.GetEnumerator();
 
-        public Parameters With(string key, string value) 
+        public Parameters With(string key, string value)
         {
             _parameters[key] = value;
             return this;
         }
-        
-        public Parameters Remove(string key) 
+
+        public Parameters Remove(string key)
         {
             _parameters.Remove(key);
             return this;

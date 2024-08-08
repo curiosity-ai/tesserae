@@ -12,12 +12,13 @@ namespace Tesserae
         {
             for (int i = 0; i < styles.Length; i++)
             {
-                var url = styles[i];
+                var         url           = styles[i];
                 HTMLElement existingStyle = (HTMLElement)document.querySelector($"link[href^='{url}']");
+
                 if (existingStyle == null)
                 {
                     var l = document.createElement("link") as HTMLLinkElement;
-                    l.rel = "stylesheet";
+                    l.rel  = "stylesheet";
                     l.href = url;
                     document.head.appendChild(l);
                 }
@@ -31,7 +32,7 @@ namespace Tesserae
             try
             {
                 var tcs = new TaskCompletionSource<bool>();
-                LoadScriptAsync(() => tcs.SetResult(true), (err) => tcs.SetException(new Exception(err)),false, libraries);
+                LoadScriptAsync(() => tcs.SetResult(true), (err) => tcs.SetException(new Exception(err)), false, libraries);
                 await tcs.Task;
             }
             finally
@@ -59,10 +60,12 @@ namespace Tesserae
         private static void LoadScriptAsync(Action onComplete, Action<string> onFail, bool isModule, params string[] libraries)
         {
             var loadedCount = 0;
+
             for (int i = 0; i < libraries.Length; i++)
             {
-                var url = libraries[i];
+                var         url         = libraries[i];
                 HTMLElement existingLib = (HTMLElement)document.querySelector($"script[src^='{url}']");
+
                 if (existingLib != null)
                 {
                     // Is already loaded?
@@ -72,22 +75,30 @@ namespace Tesserae
                 {
                     var script = new HTMLScriptElement
                     {
-                        type = isModule ? "module" : "text/javascript",
-                        src = url,
+                        type  = isModule ? "module" : "text/javascript",
+                        src   = url,
                         async = true,
-                        onerror = e => { onFail?.Invoke(url); loadedCount++; if (loadedCount == libraries.Length) onComplete?.Invoke(); },
+                        onerror = e =>
+                        {
+                            onFail?.Invoke(url);
+                            loadedCount++;
+                            if (loadedCount == libraries.Length) onComplete?.Invoke();
+                        },
                         onload = OnScriptLoaded
                     };
+
                     try
                     {
                         document.head.appendChild(script);
                     }
                     catch
                     {
-                        onFail?.Invoke(url); loadedCount++;
+                        onFail?.Invoke(url);
+                        loadedCount++;
                     }
                 }
             }
+
             if (loadedCount == libraries.Length)
             {
                 onComplete?.Invoke();

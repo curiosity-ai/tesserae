@@ -9,12 +9,12 @@ namespace Tesserae
     [H5.Name("tss.ContextMenu")]
     public sealed partial class ContextMenu : Layer<ContextMenu>, IContainer<ContextMenu, ContextMenu.Item>
     {
-        private readonly HTMLElement _childContainer;
-        private HTMLDivElement _modalOverlay;
-        private HTMLDivElement _popup;
+        private readonly HTMLElement    _childContainer;
+        private          HTMLDivElement _modalOverlay;
+        private          HTMLDivElement _popup;
 
-        private const int DELAY = 200;
-        private double _timeoutId;
+        private const int    DELAY = 200;
+        private       double _timeoutId;
 
         private Point2D _previousMouseCoords;
         private Point2D _currentMouseCoords;
@@ -28,7 +28,7 @@ namespace Tesserae
         private Point2D _activeSubMenuTopLeftCoords;
         private Point2D _activeSubMenuBottomLeftCoords;
 
-        private Item _activeMenuItem;
+        private Item        _activeMenuItem;
         private ContextMenu _activeSubMenu;
 
         private event ComponentEventHandler<Item, MouseEvent> ItemClick;
@@ -37,7 +37,7 @@ namespace Tesserae
 
         public ContextMenu()
         {
-            InnerElement = Div(_("tss-contextmenu"));
+            InnerElement    = Div(_("tss-contextmenu"));
             _childContainer = Div(_());
         }
 
@@ -77,13 +77,13 @@ namespace Tesserae
         {
             _previousMouseCoords.x = _currentMouseCoords.x;
             _previousMouseCoords.y = _currentMouseCoords.y;
-            _currentMouseCoords.x = x;
-            _currentMouseCoords.y = y;
+            _currentMouseCoords.x  = x;
+            _currentMouseCoords.y  = y;
         }
 
         private void OnWindowMouseMove(Event evnt)
         {
-            var e = (MouseEvent) evnt;
+            var e = (MouseEvent)evnt;
             SaveMouseCoords(e.pageX, e.pageY);
 
             if (_activeMenuItem != null)
@@ -94,10 +94,10 @@ namespace Tesserae
 
         private void HideSubMenuIfCompletelyOutside()
         {
-            if ((_currentMouseCoords.x < _extremeCoordsTopLeft.x
-              || _currentMouseCoords.x > _extremeCoordsBottomRight.x
-              || _currentMouseCoords.y < _extremeCoordsTopLeft.y
-              || _currentMouseCoords.y > _extremeCoordsBottomRight.y) && !_items.Any(i => i.CurrentlyMouseovered)
+            if ((_currentMouseCoords.x    < _extremeCoordsTopLeft.x
+                 || _currentMouseCoords.x > _extremeCoordsBottomRight.x
+                 || _currentMouseCoords.y < _extremeCoordsTopLeft.y
+                 || _currentMouseCoords.y > _extremeCoordsBottomRight.y) && !_items.Any(i => i.CurrentlyMouseovered)
             )
             {
                 CancelPendingMenuItemActivations();
@@ -121,21 +121,21 @@ namespace Tesserae
             {
                 _modalOverlay = Div(_("tss-contextmenu-overlay"));
                 _modalOverlay.addEventListener("click", _ => Hide());
-                _popup = Div(_("tss-contextmenu-popup"), _childContainer);
-                _contentHtml = Div(_(), _modalOverlay, _popup);
+                _popup       = Div(_("tss-contextmenu-popup"), _childContainer);
+                _contentHtml = Div(_(),                        _modalOverlay, _popup);
             }
 
             _popup.style.height = "unset";
-            _popup.style.left = "-1000px";
-            _popup.style.top = "-1000px";
+            _popup.style.left   = "-1000px";
+            _popup.style.top    = "-1000px";
 
             base.Show();
 
             if (!_popup.classList.contains("tss-no-focus")) _popup.classList.add("tss-no-focus");
 
-            var popupRect = (ClientRect) _popup.getBoundingClientRect();
-            _popup.style.left = x + "px";
-            _popup.style.top = y + "px";
+            var popupRect = (ClientRect)_popup.getBoundingClientRect();
+            _popup.style.left     = x        + "px";
+            _popup.style.top      = y        + "px";
             _popup.style.minWidth = minWidth + "px";
 
             //TODO: CHECK THIS LOGIC
@@ -143,11 +143,12 @@ namespace Tesserae
             if (window.innerHeight - y - 1 < popupRect.height)
             {
                 var top = y - popupRect.height;
+
                 if (top < 0)
                 {
                     if (y > window.innerHeight - y - 1)
                     {
-                        _popup.style.top = "1px";
+                        _popup.style.top    = "1px";
                         _popup.style.height = y - 1 + "px";
                     }
                     else
@@ -164,11 +165,12 @@ namespace Tesserae
             if (window.innerWidth - x - 1 < popupRect.width)
             {
                 var left = x - popupRect.width;
+
                 if (left < 0)
                 {
                     if (x > window.innerWidth - x - 1)
                     {
-                        _popup.style.left = "1px";
+                        _popup.style.left  = "1px";
                         _popup.style.width = x - 1 + "px";
                     }
                     else
@@ -187,8 +189,8 @@ namespace Tesserae
                 document.addEventListener("keydown", OnPopupKeyDown);
             }, 100);
 
-            _extremeCoordsTopLeft.x = x;
-            _extremeCoordsTopLeft.y = y;
+            _extremeCoordsTopLeft.x     = x;
+            _extremeCoordsTopLeft.y     = y;
             _extremeCoordsBottomRight.x = x + popupRect.width;
             _extremeCoordsBottomRight.y = y + popupRect.height;
 
@@ -201,8 +203,8 @@ namespace Tesserae
         {
             if (asSubMenu)
             {
-                _popup = Div(_("tss-contextmenu-popup"), _childContainer);
-                _contentHtml = Div(_(), _popup);
+                _popup       = Div(_("tss-contextmenu-popup"), _childContainer);
+                _contentHtml = Div(_(),                        _popup);
             }
             else
             {
@@ -210,27 +212,27 @@ namespace Tesserae
                 {
                     _modalOverlay = Div(_("tss-contextmenu-overlay"));
                     _modalOverlay.addEventListener("click", _ => Hide());
-                    _popup = Div(_("tss-contextmenu-popup"), _childContainer);
-                    _contentHtml = Div(_(), _modalOverlay, _popup);
+                    _popup       = Div(_("tss-contextmenu-popup"), _childContainer);
+                    _contentHtml = Div(_(),                        _modalOverlay, _popup);
                 }
             }
 
             _popup.style.height = "unset";
-            _popup.style.left = "-1000px";
-            _popup.style.top = "-1000px";
+            _popup.style.left   = "-1000px";
+            _popup.style.top    = "-1000px";
 
             base.Show();
 
             if (!_popup.classList.contains("tss-no-focus")) _popup.classList.add("tss-no-focus");
 
-            ClientRect parentRect = (ClientRect) element.getBoundingClientRect();
-            var popupRect = (ClientRect) _popup.getBoundingClientRect();
+            ClientRect parentRect = (ClientRect)element.getBoundingClientRect();
+            var        popupRect  = (ClientRect)_popup.getBoundingClientRect();
 
-            var x = parentRect.left + distanceX;
+            var x = parentRect.left   + distanceX;
             var y = parentRect.bottom + distanceY;
 
-            _popup.style.left = x + "px";
-            _popup.style.top = y + "px";
+            _popup.style.left     = x                + "px";
+            _popup.style.top      = y                + "px";
             _popup.style.minWidth = parentRect.width + "px";
 
             //TODO: CHECK THIS LOGIC
@@ -238,11 +240,12 @@ namespace Tesserae
             if (window.innerHeight - parentRect.bottom - distanceY < popupRect.height)
             {
                 var top = parentRect.top - popupRect.height;
+
                 if (top < 0)
                 {
                     if (parentRect.top > window.innerHeight - parentRect.bottom - distanceY)
                     {
-                        _popup.style.top = "1px";
+                        _popup.style.top    = "1px";
                         _popup.style.height = parentRect.top - distanceY + "px";
                     }
                     else
@@ -259,11 +262,12 @@ namespace Tesserae
             if (window.innerWidth - parentRect.right - distanceX < popupRect.width)
             {
                 var left = parentRect.right - popupRect.width;
+
                 if (left < 0)
                 {
                     if (parentRect.left > window.innerWidth - parentRect.right - distanceX)
                     {
-                        _popup.style.left = "1px";
+                        _popup.style.left  = "1px";
                         _popup.style.width = parentRect.left - distanceX + "px";
                     }
                     else
@@ -282,8 +286,8 @@ namespace Tesserae
                 document.addEventListener("keydown", OnPopupKeyDown);
             }, 100);
 
-            _extremeCoordsTopLeft.x = x;
-            _extremeCoordsTopLeft.y = y;
+            _extremeCoordsTopLeft.x     = x;
+            _extremeCoordsTopLeft.y     = y;
             _extremeCoordsBottomRight.x = y + popupRect.width;
             _extremeCoordsBottomRight.y = y + popupRect.height;
 
@@ -306,17 +310,17 @@ namespace Tesserae
 
         private Point2D CalculateTopLeftCoords(HTMLElement element)
         {
-            var rect = (DOMRect) element.getBoundingClientRect();
+            var    rect = (DOMRect)element.getBoundingClientRect();
             double topX = rect.left + (window.pageXOffset != 0 ? window.pageXOffset : document.documentElement.scrollLeft);
-            double topY = rect.top + (window.pageYOffset != 0 ? window.pageYOffset : document.documentElement.scrollTop);
+            double topY = rect.top  + (window.pageYOffset != 0 ? window.pageYOffset : document.documentElement.scrollTop);
             return new Point2D(topX, topY);
         }
 
         private (Point2D topleft, Point2D bottomLEft, int width, int height) CalculateTopAndBottomLeftCoords(HTMLElement element)
         {
-            var rect = (DOMRect) element.getBoundingClientRect();
+            var    rect = (DOMRect)element.getBoundingClientRect();
             double topX = rect.left + (window.pageXOffset != 0 ? window.pageXOffset : document.documentElement.scrollLeft);
-            double topY = rect.top + (window.pageYOffset != 0 ? window.pageYOffset : document.documentElement.scrollTop);
+            double topY = rect.top  + (window.pageYOffset != 0 ? window.pageYOffset : document.documentElement.scrollTop);
             return (new Point2D(topX, topY), new Point2D(topX, topY + element.offsetHeight), element.offsetWidth, element.offsetHeight);
         }
 
@@ -330,10 +334,10 @@ namespace Tesserae
 
                 _activeSubMenu = menuItem._subMenu;
 
-                var selfRect = (ClientRect) menuItemElement.getBoundingClientRect();
+                var selfRect = (ClientRect)menuItemElement.getBoundingClientRect();
 
 
-                _activeSubMenu.ShowFor(menuItemElement, (int) selfRect.width, (int) -selfRect.height, asSubMenu: true);
+                _activeSubMenu.ShowFor(menuItemElement, (int)selfRect.width, (int)-selfRect.height, asSubMenu: true);
                 menuItemElement.classList.add("tss-selected");
                 int activeSubMenuWidth;
                 int _activeSubMenuHeight;
@@ -341,8 +345,8 @@ namespace Tesserae
                 (_activeSubMenuTopLeftCoords, _activeSubMenuBottomLeftCoords, activeSubMenuWidth, _activeSubMenuHeight) = CalculateTopAndBottomLeftCoords(_activeSubMenu._popup);
 
 
-                _extremeCoordsTopLeft.x = _menuElementCoordsTopLeft.x;
-                _extremeCoordsTopLeft.y = _menuElementCoordsTopLeft.y;
+                _extremeCoordsTopLeft.x     = _menuElementCoordsTopLeft.x;
+                _extremeCoordsTopLeft.y     = _menuElementCoordsTopLeft.y;
                 _extremeCoordsBottomRight.x = _activeSubMenuTopLeftCoords.x + activeSubMenuWidth;
                 _extremeCoordsBottomRight.y = _activeSubMenuTopLeftCoords.y + _activeSubMenuHeight;
             }
@@ -351,9 +355,9 @@ namespace Tesserae
         private bool ShouldChangeActiveMenuItem()
         {
 
-            var shouldChange = _activeMenuItem == null
-                            || CalculateSlope(_previousMouseCoords, _activeSubMenuTopLeftCoords) < CalculateSlope(_currentMouseCoords, _activeSubMenuTopLeftCoords)
-                            || CalculateSlope(_previousMouseCoords, _activeSubMenuBottomLeftCoords) > CalculateSlope(_currentMouseCoords, _activeSubMenuBottomLeftCoords);
+            var shouldChange = _activeMenuItem                                       == null
+             || CalculateSlope(_previousMouseCoords, _activeSubMenuTopLeftCoords)    < CalculateSlope(_currentMouseCoords, _activeSubMenuTopLeftCoords)
+             || CalculateSlope(_previousMouseCoords, _activeSubMenuBottomLeftCoords) > CalculateSlope(_currentMouseCoords, _activeSubMenuBottomLeftCoords);
             return shouldChange;
         }
 
@@ -369,6 +373,7 @@ namespace Tesserae
         private bool PossiblyActivateMenuItem(Item menuItem)
         {
             CancelPendingMenuItemActivations();
+
             if (!ShouldChangeActiveMenuItem())
             {
                 return false;
@@ -403,6 +408,7 @@ namespace Tesserae
             {
                 window.addEventListener("mousemove", OnWindowMouseMove);
                 _menuElementCoordsTopLeft = CalculateTopLeftCoords(_popup);
+
                 foreach (var item in _items)
                 {
                     item.HookMouseEnter(OnMenuItemMouseEnter);
@@ -415,6 +421,7 @@ namespace Tesserae
             window.removeEventListener("mousemove", OnWindowMouseMove);
             document.removeEventListener("keydown", OnPopupKeyDown);
             base.Hide(onHidden);
+
             foreach (var item in _items)
             {
                 item.HideSubmenus();
@@ -435,9 +442,11 @@ namespace Tesserae
             if (ev.keyCode == 38)
             {
                 if (_contentHtml.classList.contains("tss-no-focus")) _contentHtml.classList.remove("tss-no-focus");
+
                 if (document.activeElement != null && _childContainer.contains(document.activeElement))
                 {
                     var el = (_childContainer.children.TakeWhile(x => !x.Equals(document.activeElement)).LastOrDefault(x => (x as HTMLElement).tabIndex != -1) as HTMLElement);
+
                     if (el != null) el.focus();
                     else (_childContainer.children.Last(x => (x as HTMLElement).tabIndex != -1) as HTMLElement).focus();
                 }
@@ -449,9 +458,11 @@ namespace Tesserae
             else if (ev.keyCode == 40) // down arrow
             {
                 if (_contentHtml.classList.contains("tss-no-focus")) _contentHtml.classList.remove("tss-no-focus");
+
                 if (document.activeElement != null && _childContainer.contains(document.activeElement))
                 {
                     var el = (_childContainer.children.SkipWhile(x => !x.Equals(document.activeElement)).Skip(1).FirstOrDefault(x => (x as HTMLElement).tabIndex != -1) as HTMLElement);
+
                     if (el != null) el.focus();
                     else (_childContainer.children.First(x => (x as HTMLElement).tabIndex != -1) as HTMLElement).focus();
                 }

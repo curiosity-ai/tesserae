@@ -17,13 +17,13 @@ namespace Tesserae
             After10seconds
         }
         private Func<bool> _condition;
-        private int _stepCounter = 0;
-        private int _currentStep = 0;
-        private int _firstDelay = 500;
-        private int _stepDelay = 150;
+        private int        _stepCounter = 0;
+        private int        _currentStep = 0;
+        private int        _firstDelay  = 500;
+        private int        _stepDelay   = 150;
 
         private Dictionary<int, Action> _futureSteps = new Dictionary<int, Action>();
-        private Action _completed;
+        private Action                  _completed;
 
         public Teaching()
         {
@@ -32,7 +32,8 @@ namespace Tesserae
         public Teaching RunIf(Func<bool> condition)
         {
             _condition = condition;
-            if(_futureSteps.TryGetValue(0, out var start))
+
+            if (_futureSteps.TryGetValue(0, out var start))
             {
                 start();
             }
@@ -52,13 +53,14 @@ namespace Tesserae
         }
         public Teaching StepDelay(int milliseconds)
         {
-            _stepDelay= milliseconds; 
+            _stepDelay = milliseconds;
             return this;
         }
 
         public Teaching RunNow()
         {
             _condition = () => true;
+
             if (_futureSteps.TryGetValue(0, out var start))
             {
                 start();
@@ -71,8 +73,8 @@ namespace Tesserae
             var thisStep = _stepCounter;
             _stepCounter++;
 
-            Button btnNext = null;
-            ProgressIndicator pi = null;
+            Button            btnNext = null;
+            ProgressIndicator pi      = null;
 
             Action hideTooltip = null;
 
@@ -100,7 +102,7 @@ namespace Tesserae
                     }
                     else
                     {
-                        pi = ProgressIndicator().WS().H(4);
+                        pi      = ProgressIndicator().WS().H(4);
                         tooltip = VStack().Children(tooltip, pi.PT(8));
                     }
 
@@ -112,9 +114,11 @@ namespace Tesserae
                     }
                     else
                     {
-                        int time = 0;
+                        int time  = 0;
                         int delay = stepType == StepType.After5seconds ? 5_000 : 10_000;
-                        Func<Task> countdown = async () => {
+
+                        Func<Task> countdown = async () =>
+                        {
                             while (time < delay)
                             {
                                 await Task.Delay(150);
@@ -132,13 +136,14 @@ namespace Tesserae
 
             showFor.WhenMounted(() =>
             {
-                if(_currentStep == thisStep && _condition is object)
+                if (_currentStep == thisStep && _condition is object)
                 {
                     window.setTimeout((_) => Show(), thisStep == 0 ? _firstDelay : _stepDelay);
                 }
                 else
                 {
-                    _futureSteps[thisStep] = () => window.setTimeout((_) => Show(), thisStep == 0 ? _firstDelay : _stepDelay); ;
+                    _futureSteps[thisStep] = () => window.setTimeout((_) => Show(), thisStep == 0 ? _firstDelay : _stepDelay);
+                    ;
                 }
             });
 
@@ -150,8 +155,8 @@ namespace Tesserae
             bool interactive = true;
 
             var renderedTooltip = UI.DIV(tooltip.Render());
-            renderedTooltip.style.display = "block";
-            renderedTooltip.style.overflow = "hidden";
+            renderedTooltip.style.display      = "block";
+            renderedTooltip.style.overflow     = "hidden";
             renderedTooltip.style.textOverflow = "ellipsis";
             document.body.appendChild(renderedTooltip);
 

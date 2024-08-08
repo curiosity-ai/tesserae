@@ -13,27 +13,27 @@ namespace Tesserae
     [H5.Name("tss.Router")]
     public static class Router
     {
-        public delegate void NavigatedHandler(State               toState, State fromState);
-        public delegate bool CanNavigateHandler(State             toState, State fromState, bool isBack);
-        public delegate bool WillNavigate(string url);
-        public delegate string TransformRoute(string url);
-        public delegate void NoMatchHandler(ReadOnlyArray<string> routeParts);
+        public delegate void   NavigatedHandler(State               toState, State fromState);
+        public delegate bool   CanNavigateHandler(State             toState, State fromState, bool isBack);
+        public delegate bool   WillNavigate(string                  url);
+        public delegate string TransformRoute(string                url);
+        public delegate void   NoMatchHandler(ReadOnlyArray<string> routeParts);
 
         private static event NavigatedHandler Navigated;
         private static event NoMatchHandler   NotMatched;
 
-        private static State              _lastState { get; set; }
+        private static State              _lastState    { get; set; }
         private static State              _currentState { get; set; }
         private static CanNavigateHandler _beforeNavigate; // 2020-06-16 DWR: We previously used an event for this but only allowed a single delegate to bind to it, so there is no need for it to be multi-dispatch and so now it's just a field instead of an event
-        private static WillNavigate        _onWillNavigate; // same here
-        private static TransformRoute _transformRoute = (s) => s;
+        private static WillNavigate       _onWillNavigate; // same here
+        private static TransformRoute     _transformRoute = (s) => s;
 
         public static void OnBeforeNavigate(CanNavigateHandler onBeforeNavigate) => _beforeNavigate = onBeforeNavigate;
-        public static void OnTransformRoutes(TransformRoute transformRoute) => _transformRoute = transformRoute;
+        public static void OnTransformRoutes(TransformRoute    transformRoute)   => _transformRoute = transformRoute;
 
-        public static void OnWíllNavigate(WillNavigate onWillNavigate) => _onWillNavigate = onWillNavigate;
-        public static void OnNavigated(NavigatedHandler        onNavigated)      => Navigated += onNavigated;
-        public static void OnNotMatched(NoMatchHandler         notMatched)       => NotMatched += notMatched;
+        public static void OnWíllNavigate(WillNavigate  onWillNavigate) => _onWillNavigate = onWillNavigate;
+        public static void OnNavigated(NavigatedHandler onNavigated)    => Navigated += onNavigated;
+        public static void OnNotMatched(NoMatchHandler  notMatched)     => NotMatched += notMatched;
 
         public static void Initialize()
         {
@@ -64,15 +64,15 @@ namespace Tesserae
         window.dispatchEvent(e);
     });
 ");
-                window.addEventListener("locationchange", (Action<Event>) (e => LocationChanged(allowCallbackEvenIfLocationUnchanged: false, trigger: e["trigger"].As<string>()))); // By default we'll ignore any events where the hash value hasn't actually changed
+                window.addEventListener("locationchange", (Action<Event>)(e => LocationChanged(allowCallbackEvenIfLocationUnchanged: false, trigger: e["trigger"].As<string>()))); // By default we'll ignore any events where the hash value hasn't actually changed
             }
             _initialized = true;
         }
 
-        private static bool _initialized = false;
+        private static          bool                                       _initialized                   = false;
         private static readonly Dictionary<string, Func<Parameters, bool>> _registedRoutesMappedToActions = new Dictionary<string, Func<Parameters, bool>>();
-        private static readonly Dictionary<string, string> _paths = new Dictionary<string, string>();
-        private static List<Route> _routesToTryMatchingOnLocationChanged;
+        private static readonly Dictionary<string, string>                 _paths                         = new Dictionary<string, string>();
+        private static          List<Route>                                _routesToTryMatchingOnLocationChanged;
 
         public static void Push(string path)
         {
@@ -84,12 +84,12 @@ namespace Tesserae
 
             if (_currentState is null)
             {
-                _lastState = null;
+                _lastState    = null;
                 _currentState = new State(fullPath: path);
             }
             else
             {
-                _lastState = _currentState;
+                _lastState    = _currentState;
                 _currentState = _currentState.WithFullPath(path);
             }
 
@@ -106,12 +106,12 @@ namespace Tesserae
 
             if (_currentState is null)
             {
-                _lastState = null;
+                _lastState    = null;
                 _currentState = new State(fullPath: path);
             }
             else
             {
-                _lastState = _currentState;
+                _lastState    = _currentState;
                 _currentState = _currentState.WithFullPath(path);
             }
 
@@ -125,25 +125,26 @@ namespace Tesserae
             var url = _currentState.FullPath;
 
             var queryStart = url.IndexOf("?");
+
             if (queryStart > 0)
             {
                 url = url.Substring(0, queryStart);
             }
-            
+
             var stateBefore = _currentState;
             _currentState = new State(parameters, _currentState.RouteName, _currentState.Path, url + parameters.ToQueryString());
-            _lastState = stateBefore;
+            _lastState    = stateBefore;
 
             if (pushToHistory)
             {
                 window.history.pushState(null, "", _currentState.FullPath);
             }
-            else 
-            { 
+            else
+            {
                 window.history.replaceState(null, "", _currentState.FullPath);
             }
         }
-        
+
         public static void ReplaceQueryParameters(Func<Parameters, Parameters> updateFn, bool pushToHistory = false)
         {
             var newParameters = updateFn(_currentState.Parameters.Clone());
@@ -169,7 +170,7 @@ namespace Tesserae
         /// </summary>
         public static void Navigate(string path, bool reload = false)
         {
-            if(_onWillNavigate is object)
+            if (_onWillNavigate is object)
             {
                 if (!_onWillNavigate(path)) return;
             }
@@ -232,8 +233,9 @@ namespace Tesserae
 
         private static string LowerCasePath(string path)
         {
-            var sb = new StringBuilder();
+            var  sb          = new StringBuilder();
             bool inParameter = false;
+
             foreach (var c in path)
             {
                 if (c == ':')
@@ -277,13 +279,17 @@ namespace Tesserae
 
         public static void Register(string uniqueIdentifier, string path, Action<Parameters> action, bool replace = false)
         {
-            Register(uniqueIdentifier, path, (p) => { action(p); return true; }, replace);
+            Register(uniqueIdentifier, path, (p) =>
+            {
+                action(p);
+                return true;
+            }, replace);
         }
 
         public static void Register(string uniqueIdentifier, string path, Func<Parameters, bool> action, bool replace = false)
         {
             path = path.Trim();
-            if (path.StartsWith("#")) path = path.TrimStart('#');
+            if (path.StartsWith("#")) path  = path.TrimStart('#');
             if (!path.StartsWith("/")) path = "/" + path;
 
             uniqueIdentifier = uniqueIdentifier.ToLower();
@@ -311,11 +317,11 @@ namespace Tesserae
             if (path != lowerCasePath)
             {
                 _registedRoutesMappedToActions[lowerCaseID] = action;
-                _paths[lowerCaseID] = lowerCasePath;
+                _paths[lowerCaseID]                         = lowerCasePath;
             }
 
             _registedRoutesMappedToActions[uniqueIdentifier] = action;
-            _paths[uniqueIdentifier] = path;
+            _paths[uniqueIdentifier]                         = path;
 
             Refresh();
         }
@@ -326,6 +332,7 @@ namespace Tesserae
                 return;
 
             _routesToTryMatchingOnLocationChanged = new List<Route>();
+
             foreach (var kv in _paths)
             {
                 _routesToTryMatchingOnLocationChanged.Add(new Route(kv.Key, kv.Value, _registedRoutesMappedToActions[kv.Key]));
@@ -336,7 +343,7 @@ namespace Tesserae
 
         public static bool Exists(string hashRoute)
         {
-            hashRoute = hashRoute.Split(new[] {'?'}, count: 2).First();
+            hashRoute = hashRoute.Split(new[] { '?' }, count: 2).First();
             return _paths.Values.Contains(hashRoute);
         }
 
@@ -360,27 +367,30 @@ namespace Tesserae
             //The call to AlreadyThere above expects the hash to be still in the URL, so we only remove it here
             currentPathFromHash = currentPathFromHash.TrimStart('#');
 
-            var p = currentPathFromHash.Split(new[] {'?'}, count: 2); // Do not remove empty entries, as we need the empty entry in the array
+            var p = currentPathFromHash.Split(new[] { '?' }, count: 2); // Do not remove empty entries, as we need the empty entry in the array
 
             var hash = (p.Length == 0) ? "" : p[0];
 
-            var par = new Dictionary<string, string>();
-            var parts = hash.Split(new[] {'/'}, StringSplitOptions.RemoveEmptyEntries);
+            var par   = new Dictionary<string, string>();
+            var parts = hash.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
 
             foreach (var r in _routesToTryMatchingOnLocationChanged)
             {
                 par.Clear();
+
                 if (!r.IsMatch(parts, par))
                     continue;
 
                 if (p.Length > 1)
                 {
                     //TODO parse query parameters
-                    var query = p[1];
-                    var queryParts = query.Split(new[] {'&'}, StringSplitOptions.RemoveEmptyEntries);
+                    var query      = p[1];
+                    var queryParts = query.Split(new[] { '&' }, StringSplitOptions.RemoveEmptyEntries);
+
                     foreach (var qp in queryParts)
                     {
-                        var qpp = qp.Split(new[] {'='}, StringSplitOptions.RemoveEmptyEntries);
+                        var qpp = qp.Split(new[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
+
                         if (qpp.Length == 1)
                         {
                             par[Script.DecodeURIComponent(qpp[0])] = "";
@@ -398,10 +408,10 @@ namespace Tesserae
                     fullPath: window.location.href,
                     routeName: r.Name
                 );
-                
+
                 var isBack = (_lastState is object && _lastState.Path == toState.Path);
                 console.log("lastState: " + (_lastState?.FullPath ?? "null"));
-                console.log("toState: " + (toState?.FullPath ?? "null"));
+                console.log("toState: "   + (toState?.FullPath    ?? "null"));
                 console.log(isBack);
 
                 if ((_beforeNavigate is null) || _beforeNavigate(toState, _currentState, isBack: isBack))
@@ -409,6 +419,7 @@ namespace Tesserae
                     // Allowed to navigate - do it!
                     var oldState = _currentState;
                     _currentState = toState;
+
                     if (r.Activate(toState.Parameters))
                     {
                         Navigated?.Invoke(toState, oldState);
@@ -417,6 +428,7 @@ namespace Tesserae
                     else
                     {
                         _currentState = oldState;
+
                         // New route was matched but refused to activate, so revert the current URL back to the "current state" (ie. the last state that was matched before this navigation attempt)
                         if ((_currentState is object) && !string.IsNullOrEmpty(_currentState.FullPath))
                         {
@@ -445,9 +457,9 @@ namespace Tesserae
             public State(Parameters parameters, string routeName, string path, string fullPath)
             {
                 Parameters = parameters;
-                RouteName = routeName;
-                Path = path;
-                FullPath = fullPath;
+                RouteName  = routeName;
+                Path       = path;
+                FullPath   = fullPath;
             }
 
             public Parameters Parameters { get; }
@@ -462,8 +474,8 @@ namespace Tesserae
         {
             public RoutePart(string path)
             {
-                Path = path;
-                IsVariable = path.StartsWith(":");
+                Path         = path;
+                IsVariable   = path.StartsWith(":");
                 VariableName = IsVariable ? path.TrimStart(':') : "";
             }
 
@@ -488,14 +500,14 @@ namespace Tesserae
 
         private sealed class Route
         {
-            private readonly RoutePart[]        _parts;
+            private readonly RoutePart[]            _parts;
             private readonly Func<Parameters, bool> _action;
             public Route(string name, string path, Func<Parameters, bool> action)
             {
                 Name = name;
                 Path = path;
 
-                _parts = path.Split(new[] {'/'}, StringSplitOptions.RemoveEmptyEntries).Select(p => new RoutePart(p)).ToArray();
+                _parts  = path.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries).Select(p => new RoutePart(p)).ToArray();
                 _action = action;
             }
 
@@ -507,13 +519,16 @@ namespace Tesserae
                 if (parts.Length == _parts.Length)
                 {
                     var isMatch = true;
+
                     for (var i = 0; i < _parts.Length; i++)
                     {
                         isMatch &= _parts[i].IsMatch(parts[i], out var variable);
+
                         if (isMatch && _parts[i].IsVariable)
                         {
                             parameters.Add(_parts[i].VariableName, variable);
                         }
+
                         if (!isMatch)
                         {
                             return false;

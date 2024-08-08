@@ -10,26 +10,26 @@ namespace Tesserae
     public sealed class Modal : Layer<Modal>, ISpecialCaseStyling, IHasBackgroundColor
     {
         private event OnShowHandler Shown;
-        public delegate void OnShowHandler(Modal sender);
+        public delegate void        OnShowHandler(Modal sender);
 
         private event OnHideHandler Hidden;
-        public delegate void OnHideHandler(Modal sender);
+        public delegate void        OnHideHandler(Modal sender);
 
-        private readonly HTMLElement _closeButton;
-        private readonly HTMLElement _modalHeader;
-        private readonly HTMLElement _modalFooter;
-        private readonly HTMLElement _modalOverlay;
+        private readonly HTMLElement    _closeButton;
+        private readonly HTMLElement    _modalHeader;
+        private readonly HTMLElement    _modalFooter;
+        private readonly HTMLElement    _modalOverlay;
         private readonly HTMLDivElement _modalContent;
 
-        private readonly HTMLElement _modalLeftHeaderCommands;
-        private readonly HTMLElement _modalHeaderCommands;
-        private readonly HTMLElement _modalLeftFooterCommands;
-        private readonly HTMLElement _modalFooterCommands;
-        private readonly HTMLElement _modalHeaderContents;
-        private readonly HTMLElement _modalFooterContents;
+        private readonly HTMLElement    _modalLeftHeaderCommands;
+        private readonly HTMLElement    _modalHeaderCommands;
+        private readonly HTMLElement    _modalLeftFooterCommands;
+        private readonly HTMLElement    _modalFooterCommands;
+        private readonly HTMLElement    _modalHeaderContents;
+        private readonly HTMLElement    _modalFooterContents;
         private readonly HTMLDivElement _modal;
 
-        private bool _isDragged;
+        private bool             _isDragged;
         private TranslationPoint _startPoint;
 
         public bool AnimateOnShow { get; set; } = true;
@@ -49,9 +49,9 @@ namespace Tesserae
             _modalHeaderContents = Div(_("tss-modal-header-content"));
             _modalFooterContents = Div(_("tss-modal-footer-content"));
 
-            _modalHeaderCommands = Div(_("tss-modal-header-commands tss-default-component-no-margin"));
+            _modalHeaderCommands     = Div(_("tss-modal-header-commands tss-default-component-no-margin"));
             _modalLeftHeaderCommands = Div(_("tss-modal-left-header-commands tss-default-component-no-margin"));
-            _modalFooterCommands = Div(_("tss-modal-footer-commands tss-default-component-no-margin"));
+            _modalFooterCommands     = Div(_("tss-modal-footer-commands tss-default-component-no-margin"));
             _modalLeftFooterCommands = Div(_("tss-modal-left-footer-commands tss-default-component-no-margin"));
 
             _modalHeader = Div(_("tss-modal-header"), _modalLeftHeaderCommands, _modalHeaderContents, _modalHeaderCommands);
@@ -66,17 +66,17 @@ namespace Tesserae
                 _modalHeader.style.display = "none";
             }
 
-            _closeButton = Button(_($"tss-modal-button", el: el => el.onclick = e => Hide()), I(_("tss-fontsize-small " +  UIcons.Cross.ToString())));
+            _closeButton = Button(_($"tss-modal-button", el: el => el.onclick = e => Hide()), I(_("tss-fontsize-small " + UIcons.Cross.ToString())));
             _modalHeaderCommands.appendChild(_closeButton);
 
             _modalContent = Div(_("tss-modal-content"));
-            _modal = Div(_("tss-modal", styles: s => s.transform = "translate(0px,0px)"), _modalHeader, _modalContent, _modalFooter);
+            _modal        = Div(_("tss-modal", styles: s => s.transform = "translate(0px,0px)"), _modalHeader, _modalContent, _modalFooter);
             _modalOverlay = Div(_("tss-modal-overlay"));
-            _contentHtml = Div(_("tss-modal-container"), _modalOverlay, _modal);
+            _contentHtml  = Div(_("tss-modal-container"), _modalOverlay, _modal);
             IsNonBlocking = false; //blocking by default
 
             // 2020-05-01 DWR: In order to pick up key press events, we need to set the InnerElement on the base class before calling AttachKeys AND we need to give the container a tabindex value, otherwise it's not focusable and can't pick up key
-            InnerElement = _modal;
+            InnerElement    = _modal;
             _modal.tabIndex = 0;
             AttachKeys();
 
@@ -97,6 +97,7 @@ namespace Tesserae
         {
             _modalHeader.style.display = "";
             ClearChildren(_modalHeaderContents);
+
             if (header is object)
             {
                 _modalHeaderContents.appendChild(header.Render());
@@ -108,6 +109,7 @@ namespace Tesserae
         {
             _modalFooter.style.display = "";
             ClearChildren(_modalFooterContents);
+
             if (footer is object)
             {
                 _modalFooterContents.appendChild(footer.Render());
@@ -204,14 +206,16 @@ namespace Tesserae
             AnimateOnShow = false;
             return this;
         }
-        
+
         public override IComponent Content
         {
             get => _content;
             set
             {
-                ClearChildren(_modalContent); ;
+                ClearChildren(_modalContent);
+                ;
                 _content = value;
+
                 if (_content != null)
                 {
                     _modalContent.appendChild(_content.Render());
@@ -227,15 +231,15 @@ namespace Tesserae
                 if (value)
                 {
                     _modalOverlay.classList.add("tss-modal-lightDismiss");
-                    _modalOverlay.addEventListener("click", OnCloseClick);
-                    _modalOverlay.addEventListener("dblclick", OnCloseClick);
+                    _modalOverlay.addEventListener("click",       OnCloseClick);
+                    _modalOverlay.addEventListener("dblclick",    OnCloseClick);
                     _modalOverlay.addEventListener("contextmenu", OnCloseClick);
                 }
                 else
                 {
                     _modalOverlay.classList.remove("tss-modal-lightDismiss");
-                    _modalOverlay.removeEventListener("click", OnCloseClick);
-                    _modalOverlay.removeEventListener("dblclick", OnCloseClick);
+                    _modalOverlay.removeEventListener("click",       OnCloseClick);
+                    _modalOverlay.removeEventListener("dblclick",    OnCloseClick);
                     _modalOverlay.removeEventListener("contextmenu", OnCloseClick);
                 }
             }
@@ -384,18 +388,18 @@ namespace Tesserae
 
         public void ShowAt(UnitSize fromTop = null, UnitSize fromLeft = null, UnitSize fromRight = null, UnitSize fromBottom = null)
         {
-            _modal.style.marginTop = fromTop is object ? fromTop.ToString() : UnitSize.Auto().ToString();
-            _modal.style.marginLeft = fromLeft is object ? fromLeft.ToString() : UnitSize.Auto().ToString();
-            _modal.style.marginRight = fromRight is object ? fromRight.ToString() : UnitSize.Auto().ToString();
+            _modal.style.marginTop    = fromTop is object ? fromTop.ToString() : UnitSize.Auto().ToString();
+            _modal.style.marginLeft   = fromLeft is object ? fromLeft.ToString() : UnitSize.Auto().ToString();
+            _modal.style.marginRight  = fromRight is object ? fromRight.ToString() : UnitSize.Auto().ToString();
             _modal.style.marginBottom = fromBottom is object ? fromBottom.ToString() : UnitSize.Auto().ToString();
             DoShow();
         }
 
         public override Modal Show()
         {
-            _modal.style.marginTop = "";
-            _modal.style.marginLeft = "";
-            _modal.style.marginRight = "";
+            _modal.style.marginTop    = "";
+            _modal.style.marginLeft   = "";
+            _modal.style.marginRight  = "";
             _modal.style.marginBottom = "";
             DoShow();
             return this;
@@ -464,44 +468,46 @@ namespace Tesserae
             if (_isDragged)
             {
                 var e = ev as MouseEvent;
-                _startPoint.X += e.movementX;
-                _startPoint.Y += e.movementY;
-                _modal.style.transform = _startPoint.To(_modal.getBoundingClientRect().As<DOMRect>());
+                _startPoint.X          += e.movementX;
+                _startPoint.Y          += e.movementY;
+                _modal.style.transform =  _startPoint.To(_modal.getBoundingClientRect().As<DOMRect>());
             }
         }
 
         private void OnDragMouseUp(object ev)
         {
             var e = ev as MouseEvent;
+
             if (_isDragged && e.button == 0)
             {
-                document.body.removeEventListener("mouseup", OnDragMouseUp);
-                document.body.removeEventListener("mousemove", OnDragMouseMove);
+                document.body.removeEventListener("mouseup",    OnDragMouseUp);
+                document.body.removeEventListener("mousemove",  OnDragMouseMove);
                 document.body.removeEventListener("mouseleave", OnDragMouseUp);
                 document.body.classList.remove("tss-modal-dragging");
                 document.body.style.userSelect = "";
-                _isDragged = false;
+                _isDragged                     = false;
             }
         }
 
         private void OnDragMouseDown(object ev)
         {
             var e = ev as MouseEvent;
+
             if (e.button == 0)
             {
-                document.body.addEventListener("mouseup", OnDragMouseUp);
-                document.body.addEventListener("mousemove", OnDragMouseMove);
+                document.body.addEventListener("mouseup",    OnDragMouseUp);
+                document.body.addEventListener("mousemove",  OnDragMouseMove);
                 document.body.addEventListener("mouseleave", OnDragMouseUp);
                 document.body.classList.add("tss-modal-dragging");
                 _modal.style.userSelect = "none";
-                _startPoint = TranslationPoint.From(_modal.style.transform);
-                _isDragged = true;
+                _startPoint             = TranslationPoint.From(_modal.style.transform);
+                _isDragged              = true;
             }
         }
 
         class TranslationPoint
         {
-            static readonly Regex regex = new Regex(@"translate\(([-0-9.].*?)px,\s?([-0-9.].*?)px\)");
+            static readonly Regex regex      = new Regex(@"translate\(([-0-9.].*?)px,\s?([-0-9.].*?)px\)");
             static readonly Regex regexShort = new Regex(@"translate\(([-0-9.].*?)px\)");
 
             public TranslationPoint(double x = 0, double y = 0)
@@ -529,9 +535,9 @@ namespace Tesserae
 
             public string To(DOMRect rect)
             {
-                var x = X;
-                var y = Y;
-                var halfW = (window.innerWidth - rect.width) / 2;
+                var x     = X;
+                var y     = Y;
+                var halfW = (window.innerWidth  - rect.width)  / 2;
                 var halfH = (window.innerHeight - rect.height) / 2;
 
                 if (x < -halfW + 5)

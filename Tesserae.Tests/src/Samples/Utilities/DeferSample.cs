@@ -13,7 +13,7 @@ namespace Tesserae.Tests.Samples
 
         public DeferSample()
         {
-            var stack = SectionStack();
+            var stack       = SectionStack();
             var countSlider = Slider(5, 0, 10, 1);
 
             content = SectionStack()

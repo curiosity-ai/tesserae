@@ -22,6 +22,7 @@ namespace Tesserae
         public static void FireAndForget(this Task task)
         {
             if (task is null) return;
+
             Task.Run(async () =>
             {
                 try
@@ -32,11 +33,12 @@ namespace Tesserae
                 {
                     //Ignore
                 }
-                catch(AggregateException age)
+                catch (AggregateException age)
                 {
                     if (age.InnerExceptions.Count == 1)
                     {
                         var exception = age.InnerExceptions.Single();
+
                         if (exception.GetType() != typeof(OperationCanceledException))
                         {
                             console.error("Error running FireAndForget Task\n" + exception.ToString());
@@ -46,11 +48,12 @@ namespace Tesserae
                     else
                     {
                         bool first = true;
+
                         foreach (var inner in age.InnerExceptions)
                         {
                             if (inner.GetType() != typeof(OperationCanceledException))
                             {
-                                if(first)
+                                if (first)
                                 {
                                     console.error("Multiple errors running FireAndForget Task:");
                                     first = false;

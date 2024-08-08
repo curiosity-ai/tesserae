@@ -13,8 +13,8 @@ namespace Tesserae
 
         public class Handle
         {
-            private readonly object scrollbar;
-            internal HTMLElement _element;
+            private readonly object      scrollbar;
+            internal         HTMLElement _element;
             public Handle(HTMLElement element, bool horizontal)
             {
                 if (horizontal)
@@ -27,7 +27,7 @@ namespace Tesserae
                 }
 
                 element.classList.add("tss-invisible-scrollbar");
-                _element = element;
+                _element  = element;
                 scrollbar = Script.Write<object>("new SimpleBar({0})", element);
             }
             public void Recalculate()
@@ -62,11 +62,12 @@ namespace Tesserae
 
         public static HTMLElement GetCorrectContainer(HTMLElement element)
         {
-            if(element.classList.contains("tss-invisible-scrollbar"))
+            if (element.classList.contains("tss-invisible-scrollbar"))
             {
                 //try finding the new container created by the scrollbar class
                 var sbc = element.getElementsByClassName("simplebar-content");
-                if(sbc.length > 0)
+
+                if (sbc.length > 0)
                 {
                     return (HTMLElement)sbc[0];
                 }
@@ -91,8 +92,8 @@ namespace Tesserae
         public static void DisableInvisibleScroll(HTMLElement element)
         {
             var previous = LiveHandles.Where(i => i._element == element).FirstOrDefault();
-            
-            if(previous is object)
+
+            if (previous is object)
             {
                 previous.Disable();
             }

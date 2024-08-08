@@ -22,16 +22,16 @@ namespace Tesserae
                 throw new ArgumentException(nameof(sortingKey));
             }
 
-            Width = width ?? throw new ArgumentNullException(nameof(width));
-            MaxWidth = maxWidth;
-            SortingKey = sortingKey ?? string.Empty;
-            Title = title;
-            IsRowHeader = isRowHeader;
+            Width               = width ?? throw new ArgumentNullException(nameof(width));
+            MaxWidth            = maxWidth;
+            SortingKey          = sortingKey ?? string.Empty;
+            Title               = title;
+            IsRowHeader         = isRowHeader;
             EnableColumnSorting = enableColumnSorting;
 
             if (onColumnClick != null)
             {
-                _onColumnClick = onColumnClick;
+                _onColumnClick           = onColumnClick;
                 EnableOnColumnClickEvent = true;
             }
 

@@ -38,7 +38,7 @@ namespace Tesserae
         {
             return Script.Write<bool>("{0} == {1}", element, possibleParentElement) || possibleParentElement.contains(element);
 
-            while (Script.Write<bool>("{0} != null", element))  //Short-circuit the == opeartor in C# to make this method faster
+            while (Script.Write<bool>("{0} != null", element)) //Short-circuit the == opeartor in C# to make this method faster
             {
                 if (Script.Write<bool>("{0} == {1}", element, possibleParentElement)) //Short-circuit the == opeartor in C# to make this method faster
                 {
@@ -64,6 +64,7 @@ namespace Tesserae
         public static List<Element> ToList(HTMLCollection c)
         {
             var l = new List<Element>();
+
             for (uint i = 0; i < c.length; i++)
             {
                 l.Add(c.item(i));
@@ -102,7 +103,7 @@ namespace Tesserae
                 htmlElement.classList.remove(cssClass);
             }
 
-            if(cssClass == "tss-disabled" && !Script.Write<bool>("(typeof {0}.disabled === 'undefined')", htmlElement))
+            if (cssClass == "tss-disabled" && !Script.Write<bool>("(typeof {0}.disabled === 'undefined')", htmlElement))
             {
                 Script.Write("{0}.disabled = {1}", htmlElement, !value);
             }
@@ -137,11 +138,11 @@ namespace Tesserae
 
         public static void AppendElements(HTMLElement parent, params HTMLElement[] children)
         {
-            if(children != null)
+            if (children != null)
             {
                 foreach (var child in children)
                 {
-                    if(child != null)
+                    if (child != null)
                     {
                         parent.appendChild(child);
                     }
@@ -179,6 +180,7 @@ namespace Tesserae
         static T InitElement<T>(T element, Attributes init, params HTMLElement[] children) where T : HTMLElement
         {
             init?.InitElement(element);
+
             if (children != null)
             {
                 if (Script.Write<bool>("Array.isArray(children)"))
@@ -199,7 +201,7 @@ namespace Tesserae
                 return SPAN();
 
             return (IsProbablyHtml(html) || forceParseAsHTML)
-                ? new HTMLSpanElement { innerHTML = html }
+                ? new HTMLSpanElement { innerHTML   = html }
                 : new HTMLSpanElement { textContent = html };
         }
 
@@ -207,6 +209,7 @@ namespace Tesserae
         {
             //Super simple heuristic to detect if text contains any <> html tags
             var open = html.IndexOf('<');
+
             if (open >= 0)
             {
                 var close = html.IndexOf('>', open);
@@ -545,23 +548,25 @@ namespace Tesserae
 
         public static void MakeScrollableOnHover(HTMLElement element, int initialDelay = 1000, double pixelsPerSecond = 100)
         {
-            double progress = 0;
-            bool stop = false;
-            double initial = 0;
-            double maxDelta = 0;
-            double t0 = -1;
-            double ratio = 1;
+            double               progress       = 0;
+            bool                 stop           = false;
+            double               initial        = 0;
+            double               maxDelta       = 0;
+            double               t0             = -1;
+            double               ratio          = 1;
             FrameRequestCallback animateElement = null;
 
             var target = ((HTMLElement)element.firstElementChild);
+
             animateElement = (t) =>
             {
-                if(t0 < 0)
+                if (t0 < 0)
                 {
-                    t0 = t;
-                    ratio = (pixelsPerSecond)/1000;
+                    t0    = t;
+                    ratio = (pixelsPerSecond) / 1000;
                 }
-                progress = (t-t0) * ratio;
+                progress = (t - t0) * ratio;
+
                 if (progress > maxDelta || stop)
                 {
                     if (stop)
@@ -582,9 +587,9 @@ namespace Tesserae
 
             element.onmouseenter = (e) =>
             {
-                stop = false;
+                stop     = false;
                 progress = 0;
-                t0 = -1;
+                t0       = -1;
                 maxDelta = -((DOMRect)element.getBoundingClientRect()).width;
 
                 foreach (var c in element.children)
@@ -592,7 +597,7 @@ namespace Tesserae
                     maxDelta += ((DOMRect)c.getBoundingClientRect()).width;
                 }
 
-                if(maxDelta > 0)
+                if (maxDelta > 0)
                 {
                     initial = window.setTimeout((t) =>
                     {

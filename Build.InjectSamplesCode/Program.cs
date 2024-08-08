@@ -26,11 +26,12 @@ namespace Build.ImportInterfaceIcons
         {
             var dict = new Dictionary<string, string>();
 
-            foreach(var f in files)
+            foreach (var f in files)
             {
-                var code = File.ReadAllText(f);
+                var code  = File.ReadAllText(f);
                 var match = RE_GetName.Match(code);
-                if(match.Success)
+
+                if (match.Success)
                 {
                     var name = match.Groups[1].Value;
                     dict[name] = code;
@@ -74,11 +75,11 @@ namespace Build.ImportInterfaceIcons
             if (value.Contains(beginMarker) && value.Contains(endMarker))
             {
                 var innerCode = value.Replace(beginMarker, "⁋").Split(new char[] { '⁋' }, 2).Skip(1).First()
-                                     .Replace(endMarker,   "⁋").Split(new char[] { '⁋' }, 2).First();
+                   .Replace(endMarker, "⁋").Split(new char[] { '⁋' }, 2).First();
 
 
                 innerCode =
-@"
+                    @"
 // -- Necessary 'using' headers 
 // using System;
 // using Retyped;
@@ -88,8 +89,8 @@ namespace Build.ImportInterfaceIcons
 // using static Tesserae.UI;
 
 "
-+
-RemovePadding(innerCode);
+                   +
+                    RemovePadding(innerCode);
 
                 return EscapeCode(innerCode);
             }

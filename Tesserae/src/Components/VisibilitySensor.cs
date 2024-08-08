@@ -14,7 +14,7 @@ namespace Tesserae
         private          double                   _debounce;
         private readonly Action<VisibilitySensor> _onVisible;
         private          int                      _maxCalls;
-        private IntersectionObserver              _observer;
+        private          IntersectionObserver     _observer;
 
         public VisibilitySensor(Action<VisibilitySensor> onVisible, bool singleCall = true, IComponent message = null)
         {
@@ -24,9 +24,9 @@ namespace Tesserae
             {
                 InnerElement.appendChild(message.Render());
             }
-            
+
             _onVisible = onVisible;
-            
+
             _maxCalls = singleCall ? 1 : int.MaxValue;
 
             DomObserver.WhenMounted(InnerElement, HookCheck);
@@ -37,6 +37,7 @@ namespace Tesserae
         public void Reset()
         {
             DomObserver.WhenMounted(InnerElement, HookCheck);
+
             if (_maxCalls < 1) //will only reach 0 if it was single call
             {
                 _maxCalls = 1;
@@ -77,9 +78,10 @@ namespace Tesserae
 
         private void CheckVisibility(object t)
         {
-            var viewport_top = window.scrollY;
+            var viewport_top    = window.scrollY;
             var viewport_bottom = window.scrollY + window.innerHeight;
-            var rect = (DOMRect) InnerElement.getBoundingClientRect();
+            var rect            = (DOMRect)InnerElement.getBoundingClientRect();
+
             if (rect.top > viewport_top && rect.bottom < viewport_bottom)
             {
                 if (_maxCalls > 0)

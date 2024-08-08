@@ -13,7 +13,8 @@ namespace Tesserae
         private static UnitSize[] CreateCache(int count)
         {
             var us = new UnitSize[count];
-            for(int i = 0; i < us.Length; i++)
+
+            for (int i = 0; i < us.Length; i++)
             {
                 us[i] = new UnitSize(i, Unit.Pixels);
             }
@@ -33,21 +34,21 @@ namespace Tesserae
 
         public UnitSize(string custom)
         {
-            Size = -1;
-            Unit = Unit.Default;
+            Size         = -1;
+            Unit         = Unit.Default;
             _cachedValue = custom;
         }
 
         private string _cachedValue = null;
 
-        private UnitSize()            => Unit = Unit.Auto;
+        private UnitSize() => Unit = Unit.Auto;
 
-        public static UnitSize Auto() => new UnitSize();
+        public static UnitSize Auto()    => new UnitSize();
         public static UnitSize Inherit() => new UnitSize() { Unit = Unit.Inherit };
 
-        public float Size            { get; private set; }
+        public float Size { get; private set; }
 
-        public Unit Unit              { get; private set; }
+        public Unit Unit { get; private set; }
 
         public override string ToString()
         {
@@ -62,22 +63,27 @@ namespace Tesserae
                 case Unit.Inherit:
                     return "inherit";
                 case Unit.Percent:
-                    _cachedValue = Script.Write<string>("{0} + '%'", Size); break;
+                    _cachedValue = Script.Write<string>("{0} + '%'", Size);
+                    break;
                 case Unit.Pixels:
-                    _cachedValue = Script.Write<string>("{0} + 'px'", Size); break;
+                    _cachedValue = Script.Write<string>("{0} + 'px'", Size);
+                    break;
                 case Unit.ViewportHeight:
-                    _cachedValue = Script.Write<string>("{0} + 'vh'", Size); break;
+                    _cachedValue = Script.Write<string>("{0} + 'vh'", Size);
+                    break;
                 case Unit.ViewportWidth:
-                    _cachedValue = Script.Write<string>("{0} + 'vw'", Size); break;
+                    _cachedValue = Script.Write<string>("{0} + 'vw'", Size);
+                    break;
                 case Unit.FR:
-                    _cachedValue = Script.Write<string>("{0} + 'fr'", Size); break;
+                    _cachedValue = Script.Write<string>("{0} + 'fr'", Size);
+                    break;
             }
 
             return _cachedValue;
         }
 
         public static UnitSize operator -(UnitSize a) => new UnitSize(-a.Size, a.Unit);
-        public static UnitSize operator +(UnitSize a) => new UnitSize(a.Size, a.Unit);
+        public static UnitSize operator +(UnitSize a) => new UnitSize(a.Size,  a.Unit);
 
         //TODO: add other operators so we can perform math on UnitSizes and have it convert to calc(...)
         //     will need to remove Size and Unit properties or add a way to limit their usage for only "pure" units (without calc)

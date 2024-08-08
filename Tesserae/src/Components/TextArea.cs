@@ -1,22 +1,23 @@
 ﻿using static H5.Core.dom;
 using static Tesserae.UI;
+
 namespace Tesserae
 {
     [H5.Name("tss.TextArea")]
     public sealed class TextArea : ComponentBase<TextArea, HTMLTextAreaElement>, ICanValidate<TextArea>, IObservableComponent<string>, ITabIndex
     {
-        private readonly HTMLDivElement _container;
-        private readonly HTMLSpanElement _errorSpan;
+        private readonly HTMLDivElement             _container;
+        private readonly HTMLSpanElement            _errorSpan;
         private readonly SettableObservable<string> _observable = new SettableObservable<string>();
 
         public TextArea(string text = string.Empty)
         {
             InnerElement = TextArea(_("tss-textbox tss-textarea", type: "text", value: text));
-            _errorSpan = Span(_("tss-textbox-error"));
-            _container = Div(_("tss-textbox-container"), InnerElement, _errorSpan);
-            
+            _errorSpan   = Span(_("tss-textbox-error"));
+            _container   = Div(_("tss-textbox-container"), InnerElement, _errorSpan);
+
             //TODO: Need to make container display:flex, and use flex-grow to have correct sizing with _errorSpan
-            InnerElement.style.width = "100%"; 
+            InnerElement.style.width  = "100%";
             InnerElement.style.height = "100%";
 
             AttachChange();
@@ -69,7 +70,7 @@ namespace Tesserae
             set
             {
                 InnerElement.value = value;
-                _observable.Value = value;
+                _observable.Value  = value;
                 RaiseOnInput(null);
             }
         }
@@ -172,7 +173,7 @@ namespace Tesserae
 
         public TextArea Focus()
         {
-            DomObserver.WhenMounted(InnerElement, () => 
+            DomObserver.WhenMounted(InnerElement, () =>
             {
                 try
                 {
@@ -183,7 +184,7 @@ namespace Tesserae
                     InnerElement.scrollIntoView();
                 }
 
-                InnerElement.focus(); 
+                InnerElement.focus();
             });
             return this;
         }

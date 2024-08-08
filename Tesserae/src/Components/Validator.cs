@@ -17,12 +17,12 @@ namespace Tesserae
         public delegate void OnValidationHandler(ValidationState validity);
 
         private readonly Dictionary<ICanValidate, (Func<bool> WouldBeValid, Action Validate)> _registeredComponents;
-        private readonly HashSet<ICanValidate> _registeredComponentsThatUserHasInteractedWith;
-        private double _timeout = 0;
-        private int _callsDepth = 0;
+        private readonly HashSet<ICanValidate>                                                _registeredComponentsThatUserHasInteractedWith;
+        private          double                                                               _timeout    = 0;
+        private          int                                                                  _callsDepth = 0;
         public Validator()
         {
-            _registeredComponents = new Dictionary<ICanValidate, (Func<bool>, Action)>();
+            _registeredComponents                          = new Dictionary<ICanValidate, (Func<bool>, Action)>();
             _registeredComponentsThatUserHasInteractedWith = new HashSet<ICanValidate>();
         }
 
@@ -30,8 +30,10 @@ namespace Tesserae
         {
             if (component is null)
                 throw new ArgumentNullException(nameof(component));
+
             if (wouldBeValid is null)
                 throw new ArgumentNullException(nameof(wouldBeValid));
+
             if (validate is null)
                 throw new ArgumentNullException(nameof(validate));
 
@@ -49,10 +51,11 @@ namespace Tesserae
         public void ResetState()
         {
             _registeredComponentsThatUserHasInteractedWith.Clear();
+
             foreach (var comp in _registeredComponents)
             {
                 comp.Key.IsInvalid = false;
-                comp.Key.Error = "";
+                comp.Key.Error     = "";
             }
         }
 
@@ -72,6 +75,7 @@ namespace Tesserae
         {
             // Debounce validation, as this can become expensive when creating a large number of components using the same validator
             window.clearTimeout(_timeout);
+
             _timeout = window.setTimeout(
                 _ =>
                 {
@@ -127,8 +131,9 @@ namespace Tesserae
                 return ValidationState.EveryComponentIsValid;
 
             var atLeastOneComponentNotChecked = false;
-            var looksValidSoFar = true;
+            var looksValidSoFar               = true;
             _callsDepth++;
+
             foreach (var kv in _registeredComponents)
             {
                 if (validateOnlyUserEditedComponents && !_registeredComponentsThatUserHasInteractedWith.Contains(kv.Key))
@@ -145,6 +150,7 @@ namespace Tesserae
                 //  3. When we want to determine whether the form, as initially rendered, is in a valid state (this is done after the form is rendered if the submit button should be set to a disabled state if the form is not valid)
                 //      > This does NOT update the visual state of components because we don't want to shout at the User about fields that they haven't interact with yet but we do want to know if the form as it currently stands is ok to submit
                 bool componentIsInvalid;
+
                 if (updateComponentAppearances)
                 {
                     kv.Value.Validate?.Invoke(); // Force revalidation
@@ -174,18 +180,18 @@ namespace Tesserae
 
         private sealed class DummyComponentToUseForCustomValidationLogicNotTiedToOneComponent : ICanValidate
         {
-            private readonly Func<bool> _isInvalid;
+            private readonly Func<bool>  _isInvalid;
             private readonly HTMLElement _innerElement;
             public DummyComponentToUseForCustomValidationLogicNotTiedToOneComponent(Func<bool> isInvalid)
             {
-                _isInvalid = isInvalid;
+                _isInvalid    = isInvalid;
                 _innerElement = Span(_(text: "This is a dummy element to illustrate validation"));
             }
 
             public HTMLElement Render() => _innerElement;
 
-            public string Error { get; set; }
-            public bool IsInvalid { get => _isInvalid(); set => throw new NotSupportedException(); }
+            public string Error     { get;                 set; }
+            public bool   IsInvalid { get => _isInvalid(); set => throw new NotSupportedException(); }
         }
     }
 }

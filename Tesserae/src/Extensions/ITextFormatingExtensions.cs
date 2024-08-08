@@ -154,7 +154,7 @@ namespace Tesserae
             //    default: return defaultValue;
             //}
         }
-        
+
         internal static TextWeight FromClassList(HTMLElement element, TextWeight defaultValue)
         {
             var curWeight = element.classList.FirstOrDefault(t => t.StartsWith("tss-fontweight-"));

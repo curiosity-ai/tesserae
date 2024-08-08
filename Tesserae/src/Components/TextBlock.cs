@@ -14,23 +14,25 @@ namespace Tesserae
 
             if (!string.IsNullOrEmpty(afterText))
             {
-                var first = Div(_("tss-text-ellipsis"));
+                var first  = Div(_("tss-text-ellipsis"));
                 var second = Div(_("tss-text-nowrap"));
                 InnerElement = Div(_("tss-textblock tss-fontcolor-default tss-textblock-with-after " + textSize.ToString() + " " + textWeight.ToString()), first, second);
+
                 if (treatAsHTML)
                 {
-                    first.innerHTML = text;
+                    first.innerHTML  = text;
                     second.innerHTML = afterText;
                 }
                 else
                 {
-                    first.textContent = text;
+                    first.textContent  = text;
                     second.textContent = afterText;
                 }
             }
             else
             {
                 InnerElement = Div(_("tss-textblock tss-fontcolor-default " + textSize.ToString() + " " + textWeight.ToString()));
+
                 if (treatAsHTML)
                 {
                     InnerElement.innerHTML = text;
@@ -40,7 +42,6 @@ namespace Tesserae
                     InnerElement.textContent = text;
                 }
             }
-
 
 
             if (selectable)
@@ -54,8 +55,8 @@ namespace Tesserae
 
         public TextBlock(string text)
         {
-            text = text ?? string.Empty;
-            InnerElement = Div(_("tss-textblock tss-fontcolor-default " + TextSize.Small.ToString() + " " + TextWeight.Regular.ToString()));
+            text                     = text ?? string.Empty;
+            InnerElement             = Div(_("tss-textblock tss-fontcolor-default " + TextSize.Small.ToString() + " " + TextWeight.Regular.ToString()));
             InnerElement.textContent = text;
             AttachClick();
             AttachContextMenu();
@@ -92,7 +93,7 @@ namespace Tesserae
             get => GetTarget().innerText;
             set => GetTarget().innerText = value;
         }
-        
+
         public string HTML
         {
             get => GetTarget().innerHTML;
@@ -156,6 +157,7 @@ namespace Tesserae
             set
             {
                 var el = GetTarget();
+
                 if (value)
                 {
                     el.classList.add("tss-fontcolor-primary");
@@ -178,6 +180,7 @@ namespace Tesserae
             set
             {
                 var el = GetTarget();
+
                 if (value)
                 {
                     el.classList.add("tss-fontcolor-secondary");
@@ -200,6 +203,7 @@ namespace Tesserae
             set
             {
                 var el = GetTarget();
+
                 if (value)
                 {
                     el.classList.add("tss-fontcolor-success");
@@ -222,6 +226,7 @@ namespace Tesserae
             set
             {
                 var el = GetTarget();
+
                 if (value)
                 {
                     el.classList.add("tss-fontcolor-danger");
@@ -244,6 +249,7 @@ namespace Tesserae
             set
             {
                 var el = GetTarget();
+
                 if (value)
                 {
                     el.classList.add("tss-fontcolor-invalid");
@@ -261,6 +267,7 @@ namespace Tesserae
             set
             {
                 var el = GetTarget();
+
                 if (value)
                 {
                     el.classList.add("tss-required");

@@ -10,7 +10,7 @@ namespace Tesserae
         public TextBreadcrumb(string text)
         {
             InnerElement = Span(_("tss-textbreadcrumb", text: text));
-            
+
             AttachClick();
         }
         public override HTMLElement Render()
@@ -51,7 +51,7 @@ namespace Tesserae
             {
                 InnerElement.appendChild(
                     Div(_("tss-textbreadcrumb-wrap"),
-                        Span(_("tss-textbreadcrumb-sep"), 
+                        Span(_("tss-textbreadcrumb-sep"),
                             I(_())
                         ),
                         component.Render())

@@ -7,14 +7,14 @@ namespace Tesserae
     [H5.Name("tss.ChoiceGroup")]
     public sealed class ChoiceGroup : ComponentBase<ChoiceGroup, HTMLDivElement>, IContainer<ChoiceGroup, ChoiceGroup.Choice>, IObservableComponent<ChoiceGroup.Choice>
     {
-        private readonly TextBlock _header;
+        private readonly TextBlock                  _header;
         private readonly SettableObservable<Choice> _selectedOption = new SettableObservable<Choice>();
         public ChoiceGroup(string label = "Pick one")
         {
             _header = (new TextBlock(label)).SemiBold();
             var h = _header.Render();
             h.style.alignSelf = "baseline";
-            InnerElement = Div(_("tss-choice-group tss-default-component-margin", styles: s => { s.flexDirection = "column"; }), h);
+            InnerElement      = Div(_("tss-choice-group tss-default-component-margin", styles: s => { s.flexDirection = "column"; }), h);
         }
 
         public Choice SelectedOption { get => _selectedOption.Value; private set => _selectedOption.Value = value; }
@@ -31,7 +31,7 @@ namespace Tesserae
             set
             {
                 if (value == ChoiceGroupOrientation.Horizontal) InnerElement.style.flexDirection = "row";
-                else InnerElement.style.flexDirection = "column";
+                else InnerElement.style.flexDirection                                            = "column";
             }
         }
 
@@ -96,7 +96,7 @@ namespace Tesserae
         {
             if (SelectedOption == sender)
                 return;
-            
+
             if (SelectedOption is object)
                 SelectedOption.IsSelected = false;
 
@@ -117,17 +117,18 @@ namespace Tesserae
         {
             private event ComponentEventHandler<Choice> SelectedItem;
 
-            private readonly HTMLSpanElement _radioSpan;
+            private readonly HTMLSpanElement  _radioSpan;
             private readonly HTMLLabelElement _label;
             public Choice(string text)
             {
                 InnerElement = RadioButton(_("tss-option"));
-                _radioSpan = Span(_("tss-option-mark"));
-                _label = Label(_("tss-option-container tss-default-component-margin", text: text), InnerElement, _radioSpan);
+                _radioSpan   = Span(_("tss-option-mark"));
+                _label       = Label(_("tss-option-container tss-default-component-margin", text: text), InnerElement, _radioSpan);
                 AttachClick();
                 AttachChange();
                 AttachFocus();
                 AttachBlur();
+
                 Changed += (s, e) =>
                 {
                     if (IsSelected) SelectedItem?.Invoke(this);

@@ -33,6 +33,7 @@ namespace Tesserae
         public ToggleButton(Button button)
         {
             _button = button;
+
             _button.OnClick(() =>
             {
                 IsChecked = !IsChecked;
@@ -50,7 +51,7 @@ namespace Tesserae
 
         public HTMLElement Render()
         {
-            return ((IComponent) _button).Render();
+            return ((IComponent)_button).Render();
         }
 
         public ToggleButton Disabled(bool value = true)

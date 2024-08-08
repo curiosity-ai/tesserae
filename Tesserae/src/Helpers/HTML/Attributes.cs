@@ -15,11 +15,11 @@ namespace Tesserae
         }
 
         public string ClassName { get; internal set; }
-        public string Id { get; internal set; }
-        public string Title { get; internal set; }
+        public string Id        { get; internal set; }
+        public string Title     { get; internal set; }
 
         public Action<HTMLElement>         OnElementCreate = null;
-        public Action<CSSStyleDeclaration> Styles = null;
+        public Action<CSSStyleDeclaration> Styles          = null;
 
         public string Href         { get; internal set; }
         public string Src          { get; internal set; }
@@ -41,6 +41,7 @@ namespace Tesserae
             if (!string.IsNullOrEmpty(Text))
             {
                 var lines = Text.Replace("\r\n", "\n").Replace('\r', '\n').Split('\n'); // Normalise line returns and break on them
+
                 for (var i = 0; i < lines.Length; i++)
                 {
                     if (i > 0)
@@ -49,11 +50,15 @@ namespace Tesserae
                 }
             }
 
-            if (!string.IsNullOrEmpty(Id))        { element.id = Id; }
+            if (!string.IsNullOrEmpty(Id)) { element.id = Id; }
+
             if (!string.IsNullOrEmpty(ClassName)) { element.className = ClassName; }
-            if (!string.IsNullOrEmpty(Title))     { element.title = Title; }
-            if (!string.IsNullOrEmpty(Alt))       { element.setAttribute("alt", Role); }
-            if (!string.IsNullOrEmpty(Role))      { element.setAttribute("role", Role); }
+
+            if (!string.IsNullOrEmpty(Title)) { element.title = Title; }
+
+            if (!string.IsNullOrEmpty(Alt)) { element.setAttribute("alt", Role); }
+
+            if (!string.IsNullOrEmpty(Role)) { element.setAttribute("role", Role); }
 
             foreach (var (attributeName, attributeValue) in _data)
             {
@@ -68,54 +73,71 @@ namespace Tesserae
         {
             InitElement(element);
 
-            if (!string.IsNullOrEmpty(Href))   { element.href = Href; }
-            if (!string.IsNullOrEmpty(Rel))    { element.rel = Rel; }
+            if (!string.IsNullOrEmpty(Href)) { element.href = Href; }
+
+            if (!string.IsNullOrEmpty(Rel)) { element.rel = Rel; }
+
             if (!string.IsNullOrEmpty(Target)) { element.target = Target; }
+
             if (!string.IsNullOrEmpty(@Type)) { element.type = @Type; }
         }
 
         public void InitButtonElement(HTMLButtonElement element)
         {
             InitElement(element);
+
             if (!string.IsNullOrEmpty(@Type)) { element.type = @Type; }
         }
 
         public void InitImageElement(HTMLImageElement element)
         {
             InitElement(element);
+
             if (!string.IsNullOrEmpty(Src)) { element.src = Src; }
         }
 
         public void InitInputElement(HTMLInputElement element)
         {
             InitElement(element);
-            if (!string.IsNullOrEmpty(Placeholder))  { element.placeholder = Placeholder; }
+
+            if (!string.IsNullOrEmpty(Placeholder)) { element.placeholder = Placeholder; }
+
             if (!string.IsNullOrEmpty(DefaultValue)) { element.defaultValue = DefaultValue; }
-            if (Disabled.HasValue)                   { element.disabled = Disabled.Value; }
-            if (!string.IsNullOrEmpty(Value))        { element.value = Value; }
-            if (!string.IsNullOrEmpty(@Type))        { element.type = @Type; }
+
+            if (Disabled.HasValue) { element.disabled = Disabled.Value; }
+
+            if (!string.IsNullOrEmpty(Value)) { element.value = Value; }
+
+            if (!string.IsNullOrEmpty(@Type)) { element.type = @Type; }
         }
 
         public void InitIFrameElement(HTMLIFrameElement element)
         {
             InitElement(element);
+
             if (!string.IsNullOrEmpty(Src)) { element.src = Src; }
         }
 
         public void InitOptionElement(HTMLOptionElement element)
         {
             InitElement(element);
+
             if (Disabled.HasValue) { element.disabled = Disabled.Value; }
+
             if (!string.IsNullOrEmpty(Value)) { element.value = Value; }
         }
 
         public void InitTextAreaElement(HTMLTextAreaElement element)
         {
             InitElement(element);
-            if (!string.IsNullOrEmpty(Placeholder))  { element.placeholder = Placeholder; }
+
+            if (!string.IsNullOrEmpty(Placeholder)) { element.placeholder = Placeholder; }
+
             if (!string.IsNullOrEmpty(DefaultValue)) { element.defaultValue = DefaultValue; }
-            if (Disabled.HasValue)                   { element.disabled = Disabled.Value; }
-            if (!string.IsNullOrEmpty(Value))        { element.value = Value; }
+
+            if (Disabled.HasValue) { element.disabled = Disabled.Value; }
+
+            if (!string.IsNullOrEmpty(Value)) { element.value = Value; }
         }
 
         public Attributes WithAlt(string alt)

@@ -12,7 +12,7 @@ namespace Tesserae.Tests.Samples
 
         public SplitViewSample()
         {
-            var splitView = SplitView();
+            var splitView     = SplitView();
             var horzSplitView = HorizontalSplitView().BottomIsSmaller(50.px());
 
             _content = SectionStack()
@@ -35,7 +35,15 @@ namespace Tesserae.Tests.Samples
                             SampleDont("TODO")))))
                .Section(
                     VStack().S().Children(
-                        HStack().WS().Children(Button("Resizable").OnClick(() => { splitView.Resizable(); horzSplitView.Resizable(); }), Button("Non-resizable").OnClick(() => { splitView.NotResizable(); horzSplitView.NotResizable(); })),
+                        HStack().WS().Children(Button("Resizable").OnClick(() =>
+                        {
+                            splitView.Resizable();
+                            horzSplitView.Resizable();
+                        }), Button("Non-resizable").OnClick(() =>
+                        {
+                            splitView.NotResizable();
+                            horzSplitView.NotResizable();
+                        })),
                         splitView.Left(Stack().S().Background("green"))
                            .Right(Stack().S().Background("blue"))
                            .Resizable()
@@ -46,7 +54,7 @@ namespace Tesserae.Tests.Samples
                            .Resizable()
                            .P(10)
                            .WS().H(10).Grow())
-                    , grow: true);
+                  , grow: true);
         }
 
         public HTMLElement Render()

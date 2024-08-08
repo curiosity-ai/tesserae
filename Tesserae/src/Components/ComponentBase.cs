@@ -31,7 +31,7 @@ namespace Tesserae
 
         public void OnClickBase(ComponentEventHandler<IComponent, MouseEvent> onClick, bool clearPrevious = true)
         {
-            OnClick((a,b) => onClick(a,b), clearPrevious);
+            OnClick((a, b) => onClick(a, b), clearPrevious);
         }
 
         public void OnContextMenuBase(ComponentEventHandler<IComponent, MouseEvent> onContextMenu, bool clearPrevious = true)
@@ -68,6 +68,7 @@ namespace Tesserae
                 {
                     MouseOut -= (ComponentEventHandler<T, MouseEvent>)d;
                 }
+
                 foreach (Delegate d in MouseOut.GetInvocationList())
                 {
                     MouseOut -= (ComponentEventHandler<T, MouseEvent>)d;
@@ -153,20 +154,20 @@ namespace Tesserae
             return (T)this;
         }
 
-        protected void AttachClick()       
+        protected void AttachClick()
         {
-            InnerElement.addEventListener("click", e => RaiseOnClick(e.As<MouseEvent>()));
+            InnerElement.addEventListener("click",     e => RaiseOnClick(e.As<MouseEvent>()));
             InnerElement.addEventListener("mouseover", e => RaiseOnMouseOver(e.As<MouseEvent>()));
-            InnerElement.addEventListener("mouseout", e => RaiseOnMouseOut(e.As<MouseEvent>()));
-        } 
+            InnerElement.addEventListener("mouseout",  e => RaiseOnMouseOut(e.As<MouseEvent>()));
+        }
 
         protected void AttachContextMenu() => InnerElement.addEventListener("contextmenu", e => RaiseOnContextMenu(e.As<MouseEvent>()));
 
         protected void AttachChange() => InnerElement.addEventListener("change", s => RaiseOnChange(s));
 
-        public void RaiseOnClick(MouseEvent       ev) => Clicked?.Invoke((T)this, ev);
-        public void RaiseOnMouseOver(MouseEvent   ev) => MouseOver?.Invoke((T)this, ev);
-        public void RaiseOnMouseOut(MouseEvent    ev) => MouseOut?.Invoke((T)this, ev);
+        public void RaiseOnClick(MouseEvent     ev) => Clicked?.Invoke((T)this, ev);
+        public void RaiseOnMouseOver(MouseEvent ev) => MouseOver?.Invoke((T)this, ev);
+        public void RaiseOnMouseOut(MouseEvent  ev) => MouseOut?.Invoke((T)this, ev);
 
         public void RaiseOnContextMenu(MouseEvent ev) => ContextMenu?.Invoke((T)this, ev);
 
@@ -188,7 +189,7 @@ namespace Tesserae
         protected void AttachBlur() => InnerElement.addEventListener("blur", s => RaiseOnBlur(s));
 
         protected void RaiseOnPaste(ClipboardEvent ev) => Pasted?.Invoke((T)this, ev);
-        protected void RaiseOnInput(Event ev) => InputUpdated?.Invoke((T)this, ev);
+        protected void RaiseOnInput(Event          ev) => InputUpdated?.Invoke((T)this, ev);
 
         protected void RaiseOnKeyDown(KeyboardEvent ev) => KeyDown?.Invoke((T)this, ev);
 

@@ -8,13 +8,13 @@ namespace Tesserae
     {
         internal static List<List<T>> InGroupsOf<T>(
             this IEnumerable<T> source,
-            int groupSize)
+            int                 groupSize)
         {
             return source
-                .Select((item, index) => new { Index = index, Item = item })
-                .GroupBy(item => item.Index / groupSize)
-                .Select(groupItem => groupItem.Select(item => item.Item).ToList())
-                .ToList();
+               .Select((item, index) => new { Index = index, Item = item })
+               .GroupBy(item => item.Index / groupSize)
+               .Select(groupItem => groupItem.Select(item => item.Item).ToList())
+               .ToList();
         }
     }
 }

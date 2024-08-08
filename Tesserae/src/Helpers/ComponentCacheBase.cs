@@ -15,7 +15,7 @@ namespace Tesserae
 
         public int ComponentsCount => _componentsAndKeys.Count;
 
-        public bool HasComponents  => _componentsAndKeys.Any();
+        public bool HasComponents => _componentsAndKeys.Any();
 
         protected void AddToComponents(IEnumerable<TComponent> components)
         {

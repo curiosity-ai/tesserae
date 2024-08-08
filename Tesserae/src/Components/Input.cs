@@ -14,7 +14,7 @@ namespace Tesserae
         protected Input(string type, string defaultText = null)
         {
             InnerElement = TextBox(_("tss-textbox", type: type, value: defaultText));
-            
+
 
             _errorSpan = Span(_("tss-textbox-error"));
             _container = Div(_("tss-textbox-container tss-default-component-margin"), InnerElement, _errorSpan);
@@ -37,7 +37,7 @@ namespace Tesserae
         public void Reset()
         {
             InnerElement.value = "";
-            _observable.Value = "";
+            _observable.Value  = "";
         }
 
         public string Text
@@ -46,7 +46,7 @@ namespace Tesserae
             set
             {
                 InnerElement.value = value;
-                _observable.Value = value;
+                _observable.Value  = value;
                 RaiseOnInput(null);
             }
         }

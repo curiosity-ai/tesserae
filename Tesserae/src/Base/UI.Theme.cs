@@ -60,27 +60,27 @@ namespace Tesserae
                     _backgroundStyleElement = null;
                 }
 
-                var secondaryLight    = (HSLColor)defaultLight;
-                var sidebarLight      = (HSLColor)defaultLight;
-                var hoverLight        = (HSLColor)defaultLight;
-                var activeLight       = (HSLColor)defaultLight;
-                var progressLight     = (HSLColor)defaultLight;
+                var secondaryLight = (HSLColor)defaultLight;
+                var sidebarLight   = (HSLColor)defaultLight;
+                var hoverLight     = (HSLColor)defaultLight;
+                var activeLight    = (HSLColor)defaultLight;
+                var progressLight  = (HSLColor)defaultLight;
 
-                var secondaryDark     = (HSLColor)defaultDark;
-                var hoverDark         = (HSLColor)defaultDark;
-                var activeDark        = (HSLColor)defaultDark;
-                var progressDark      = (HSLColor)defaultDark;
+                var secondaryDark = (HSLColor)defaultDark;
+                var hoverDark     = (HSLColor)defaultDark;
+                var activeDark    = (HSLColor)defaultDark;
+                var progressDark  = (HSLColor)defaultDark;
 
 
-                secondaryLight.Luminosity    -= 4;
-                hoverLight.Luminosity        -= 12;
-                activeLight.Luminosity       -= 9;
-                progressLight.Luminosity     -= 9;
+                secondaryLight.Luminosity -= 4;
+                hoverLight.Luminosity     -= 12;
+                activeLight.Luminosity    -= 9;
+                progressLight.Luminosity  -= 9;
 
-                secondaryDark.Luminosity     += 7;
-                hoverDark.Luminosity         += 2;
-                activeDark.Luminosity        += 13;
-                progressDark.Luminosity      += 13;
+                secondaryDark.Luminosity += 7;
+                hoverDark.Luminosity     += 2;
+                activeDark.Luminosity    += 13;
+                progressDark.Luminosity  += 13;
 
 
                 var sb = new StringBuilder();
@@ -90,7 +90,7 @@ namespace Tesserae
                 //sb.Append("  --tss-default-background-hover-color-root: ").Append(hoverLight.ToRGBvar()).AppendLine(";");
                 //sb.Append("  --tss-default-background-active-color-root: ").Append(activeLight.ToRGBvar()).AppendLine(";");
                 sb.Append("  --tss-progress-background-color-root: ").Append(progressLight.ToRGBvar()).AppendLine(";");
-                
+
                 //We need to redefine the variables again here otherwise the values won't change as they're derived twice from variables
                 sb.Append(@"
     --tss-default-background-color: rgb(var(--tss-default-background-color-root ));
@@ -120,7 +120,7 @@ namespace Tesserae
 
                 sb.AppendLine("}");
 
-                _backgroundStyleElement = (HTMLStyleElement)document.createElement("style");
+                _backgroundStyleElement      = (HTMLStyleElement)document.createElement("style");
                 _backgroundStyleElement.type = "text/css";
                 _backgroundStyleElement.appendChild(document.createTextNode(sb.ToString()));
 
@@ -131,7 +131,7 @@ namespace Tesserae
 
             public static void SetPrimary(Color primaryLightColor, Color primaryDarkColor)
             {
-                if(_primaryStyleElement is object)
+                if (_primaryStyleElement is object)
                 {
                     _primaryStyleElement.remove();
                     _primaryStyleElement = null;
@@ -146,21 +146,21 @@ namespace Tesserae
                 // rgb(16, 110, 190) = hsl(208, 85.5, 40.4)
                 // rgb(0, 90, 158)   = hsl(206, 100, 31)
 
-                borderColorLight.Luminosity      -= (100 - 85.5);  //Uses the same delta as in the current template
-                borderColorLight.Saturation      -= (41.6 - 40.4); //TODO: get real values instead using Color.EvalVar
-                borderColorLight.Hue             -= (206 - 208);   // Main problem is just how to handle the .tss-dark-mode eval, as it will change the return value
+                borderColorLight.Luminosity -= (100  - 85.5); //Uses the same delta as in the current template
+                borderColorLight.Saturation -= (41.6 - 40.4); //TODO: get real values instead using Color.EvalVar
+                borderColorLight.Hue        -= (206  - 208); // Main problem is just how to handle the .tss-dark-mode eval, as it will change the return value
 
-                borderColorDark.Luminosity       -= (100 - 85.5);
-                borderColorDark.Saturation       -= (41.6 - 40.4);
-                borderColorDark.Hue              -= (206 - 208);
+                borderColorDark.Luminosity -= (100  - 85.5);
+                borderColorDark.Saturation -= (41.6 - 40.4);
+                borderColorDark.Hue        -= (206  - 208);
 
-                backgroundActiveLight.Luminosity -= (100 - 100);
+                backgroundActiveLight.Luminosity -= (100  - 100);
                 backgroundActiveLight.Saturation -= (41.6 - 31);
-                backgroundActiveLight.Hue        -= (206 - 206);
+                backgroundActiveLight.Hue        -= (206  - 206);
 
-                backgroundActiveDark.Luminosity  -= (100 - 100);
-                backgroundActiveDark.Saturation  -= (41.6 - 31);
-                backgroundActiveDark.Hue         -= (206 - 206);
+                backgroundActiveDark.Luminosity -= (100  - 100);
+                backgroundActiveDark.Saturation -= (41.6 - 31);
+                backgroundActiveDark.Hue        -= (206  - 206);
 
                 var sb = new StringBuilder();
                 sb.AppendLine(":root {");
@@ -185,7 +185,7 @@ namespace Tesserae
 
                 sb.AppendLine(".tss-dark-mode {");
                 sb.Append("  --tss-primary-background-color-root: ").Append(primaryDarkColor.ToRGBvar()).AppendLine(";");
-                sb.Append("  --tss-link-color-root: ").Append(primaryDarkColor.ToRGBvar()).AppendLine(";"); 
+                sb.Append("  --tss-link-color-root: ").Append(primaryDarkColor.ToRGBvar()).AppendLine(";");
                 sb.Append("  --tss-primary-border-color-root: ").Append(borderColorDark.ToRGBvar()).AppendLine(";");
                 sb.Append("  --tss-primary-background-hover-color-root: ").Append(borderColorDark.ToRGBvar()).AppendLine(";");
                 sb.Append("  --tss-primary-background-active-color-root: ").Append(backgroundActiveDark.ToRGBvar()).AppendLine(";");
@@ -202,10 +202,9 @@ namespace Tesserae
 ");
 
 
-
                 sb.AppendLine("}");
 
-                _primaryStyleElement = (HTMLStyleElement)document.createElement("style");
+                _primaryStyleElement      = (HTMLStyleElement)document.createElement("style");
                 _primaryStyleElement.type = "text/css";
                 _primaryStyleElement.appendChild(document.createTextNode(sb.ToString()));
 
@@ -226,29 +225,29 @@ namespace Tesserae
                 public const string BackgroundActive = "var(--tss-default-background-active-color)";
                 public const string ForegroundActive = "var(--tss-default-foreground-active-color)";
 
-                public const string Slider           = "var(--tss-slider-color)";
-                public const string SliderActive     = "var(--tss-slider-active-color)";
-                public const string SliderDisabled   = "var(--tss-slider-disabled-color)";
-                public const string OverlayLight     = "var(--tss-overlay-light)";
-                public const string OverlayDark      = "var(--tss-overlay-dark)";
-                public const string CardShadow       = "var(--tss-card-shadow, 0 0.3px 0.9px 0 rgba(0,0,0,0.108))";
+                public const string Slider         = "var(--tss-slider-color)";
+                public const string SliderActive   = "var(--tss-slider-active-color)";
+                public const string SliderDisabled = "var(--tss-slider-disabled-color)";
+                public const string OverlayLight   = "var(--tss-overlay-light)";
+                public const string OverlayDark    = "var(--tss-overlay-dark)";
+                public const string CardShadow     = "var(--tss-card-shadow, 0 0.3px 0.9px 0 rgba(0,0,0,0.108))";
             }
-            
+
             public static class Sidebar
             {
-                public const string Background       = "var(--tss-sidebar-background-color)";
-                public const string Foreground       = "var(--tss-sidebar-foreground-color)";
+                public const string Background = "var(--tss-sidebar-background-color)";
+                public const string Foreground = "var(--tss-sidebar-foreground-color)";
             }
 
             public static class Secondary
             {
-                public const string Background       = "var(--tss-secondary-background-color)";
-                public const string Foreground       = "var(--tss-secondary-foreground-color)";
+                public const string Background = "var(--tss-secondary-background-color)";
+                public const string Foreground = "var(--tss-secondary-foreground-color)";
             }
             public static class Disabled
             {
-                public const string Background       = "var(--tss-disabled-background-color)";
-                public const string Foreground       = "var(--tss-disabled-foreground-color)";
+                public const string Background = "var(--tss-disabled-background-color)";
+                public const string Foreground = "var(--tss-disabled-foreground-color)";
             }
 
             public static class Primary

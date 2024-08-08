@@ -9,20 +9,20 @@ namespace Tesserae
     [H5.Name("tss.OverflowSet")]
     public class OverflowSet : IComponent, IContainer<Breadcrumb, IComponent>
     {
-        private readonly string _expandIcon = UIcons.ArrowDown.ToString();
-        private readonly HTMLElement _childContainer;
+        private readonly string         _expandIcon = UIcons.ArrowDown.ToString();
+        private readonly HTMLElement    _childContainer;
         private readonly ResizeObserver _resizeObserver;
-        private int _maximumItemsToDisplay = 10;
-        private int _overflowIndex = 0;
-        private bool _cacheSizes;
-        private double _cachedFullWidth = 0;
-        private HTMLElement _chevronToUseAsButton = null;
-        
+        private          int            _maximumItemsToDisplay = 10;
+        private          int            _overflowIndex         = 0;
+        private          bool           _cacheSizes;
+        private          double         _cachedFullWidth      = 0;
+        private          HTMLElement    _chevronToUseAsButton = null;
+
         private readonly Dictionary<HTMLElement, double> _cachedSizes = new Dictionary<HTMLElement, double>();
 
         public int MaximumItemsToDisplay
         {
-            get => _maximumItemsToDisplay; 
+            get => _maximumItemsToDisplay;
             set
             {
                 _maximumItemsToDisplay = value;
@@ -32,7 +32,8 @@ namespace Tesserae
 
         public int OverflowIndex
         {
-            get => _overflowIndex; set
+            get => _overflowIndex;
+            set
             {
                 _overflowIndex = value;
                 Recompute();
@@ -70,7 +71,7 @@ namespace Tesserae
                 _chevronToUseAsButton.classList.remove("las", _expandIcon, "tss-overflowset-opencolapsed");
 
                 _chevronToUseAsButton.onclick = null;
-                _chevronToUseAsButton = null;
+                _chevronToUseAsButton         = null;
             }
 
             UpdateChildrenSizes();
@@ -79,21 +80,23 @@ namespace Tesserae
 
             var keep = new int[childElementCount];
 
-            const int KEEP = 2;
-            const int COLLAPSE = 1;
+            const int KEEP        = 2;
+            const int COLLAPSE    = 1;
             const int NOTMEASURED = 0;
 
             if (_overflowIndex >= 0)
             {
                 keep[0] = KEEP;
-                for (int i = 0; i <= Math.Min(keep.Length - 1, ((_overflowIndex)*2)); i++)
+
+                for (int i = 0; i <= Math.Min(keep.Length - 1, ((_overflowIndex) * 2)); i++)
                 {
                     keep[i] = KEEP;
                     int nextIndex = i + 1;
 
-                    if ((nextIndex < _overflowIndex-2) && nextIndex < childElementCount)
+                    if ((nextIndex < _overflowIndex - 2) && nextIndex < childElementCount)
                     {
                         var child = (HTMLElement)_childContainer.children[(uint)nextIndex];
+
                         if (isChevron(child))
                         {
                             keep[i + 1] = KEEP;
@@ -102,7 +105,7 @@ namespace Tesserae
                 }
             }
 
-            if(!keep.Any(k => k == KEEP))
+            if (!keep.Any(k => k == KEEP))
             {
                 keep[0] = KEEP;
             }
@@ -110,10 +113,12 @@ namespace Tesserae
             keep[keep.Length - 1] = NOTMEASURED;
 
             var debt = _cachedFullWidth - _cachedSizes.Values.Sum() - 32;
-            while(debt < 0)
+
+            while (debt < 0)
             {
                 var candidate = Array.LastIndexOf(keep, NOTMEASURED);
-                if(candidate >= 0)
+
+                if (candidate >= 0)
                 {
                     keep[candidate] = COLLAPSE;
                     var child = (HTMLElement)_childContainer.children[(uint)candidate];
@@ -130,13 +135,14 @@ namespace Tesserae
             for (uint i = 0; i < _childContainer.childElementCount; i++)
             {
                 var child = (HTMLElement)_childContainer.children[i];
+
                 if (keep[i] == COLLAPSE)
                 {
-                    if(_chevronToUseAsButton is null)
+                    if (_chevronToUseAsButton is null)
                     {
                         if (isChevron(child))
                         {
-                            _chevronToUseAsButton = child; 
+                            _chevronToUseAsButton = child;
                             continue; //Don't collapse this, instead keep for menu button
                         }
                         else if (i > 0)
@@ -167,6 +173,7 @@ namespace Tesserae
             {
                 _chevronToUseAsButton.classList.add("las", _expandIcon, "tss-overflowset-opencolapsed");
                 _chevronToUseAsButton.classList.remove("tss-overflowset-collapse");
+
                 _chevronToUseAsButton.onclick = (e) =>
                 {
                     StopEvent(e);
@@ -205,7 +212,6 @@ namespace Tesserae
             }
 
 
-
             foreach (HTMLElement child in _childContainer.children)
             {
                 if (!_cachedSizes.ContainsKey(child))
@@ -228,7 +234,7 @@ namespace Tesserae
 
         public void Add(IComponent component)
         {
-            if(_childContainer.childElementCount > 0)
+            if (_childContainer.childElementCount > 0)
             {
                 _childContainer.appendChild(I(_("tss-overflowset-separator")));
             }

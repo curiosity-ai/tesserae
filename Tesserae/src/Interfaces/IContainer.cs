@@ -23,6 +23,7 @@ namespace Tesserae
         {
             container.Clear();
             container.Add(first);
+
             foreach (var x in children)
             {
                 container.Add(x);
@@ -34,12 +35,13 @@ namespace Tesserae
         public static T Children<T>(this T container, IEnumerable<IComponent> children, IComponent last = null) where T : IContainer<T, IComponent>
         {
             container.Clear();
+
             foreach (var x in children)
             {
                 container.Add(x);
             }
 
-            if(last is object)
+            if (last is object)
             {
                 container.Add(last);
             }
@@ -78,6 +80,7 @@ namespace Tesserae
         public static T Children<T>(this T container, IEnumerable<Nav.NavLink> children) where T : IContainer<Nav.NavLink, Nav.NavLink>
         {
             container.Clear();
+
             foreach (var x in children)
             {
                 container.Add(x);
@@ -92,10 +95,11 @@ namespace Tesserae
             children.ForEach(x => container.Add(x));
             return container;
         }
-        
+
         public static T Children<T>(this T container, IEnumerable<ChoiceGroup.Choice> children) where T : IContainer<T, ChoiceGroup.Choice>
         {
             container.Clear();
+
             foreach (var x in children)
             {
                 container.Add(x);
