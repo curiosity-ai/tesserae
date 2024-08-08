@@ -731,6 +731,19 @@ namespace Tesserae
             public Unit  Type  { get; set; }
             public float Value { get; set; }
         }
+        public IComponent Skeleton(bool enabled = true)
+        {
+            if (enabled)
+            {
+                InnerElement.classList.add("tss-skeleton");
+            }
+            else
+            {
+                InnerElement.classList.remove("tss-skeleton");
+            }
+
+            return this;
+        }
     }
 
     [Name("tss.ItemAlign")]

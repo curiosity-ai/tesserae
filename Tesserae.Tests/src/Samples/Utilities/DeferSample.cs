@@ -20,16 +20,14 @@ namespace Tesserae.Tests.Samples
                .Title(SampleHeader(nameof(DeferSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
-                    TextBlock("Use Defer() to render asyncronous components. The asyncronous task is only triggered on the first render of the Defer component")))
+                    TextBlock("Use Defer() to render asynchronous components. The asynchronous task is only triggered on the first render of the Defer component")))
                .Section(Stack().Children(
                     SampleTitle("Usage"),
                     Stack().Children(
                         HStack().Children(
                             Stack().Children(
                                 Label("Number of items:").SetContent(countSlider.OnInput((s, e) => SetChildren(stack, s.Value)))
-                            )
-                        )
-                    ),
+                            ))),
                     stack.HeightAuto()
                 ));
             SetChildren(stack, 5);
@@ -49,13 +47,23 @@ namespace Tesserae.Tests.Samples
                         {
                             await Task.Delay(delay);
 
-                            return Stack().Children(
+                            return HStack().WS().HS().Children(Image("./assets/img/curiosity-logo.svg").W(40).H(40), VStack().W(50).Grow().PL(8).Children(
                                 TextBlock("Wrap (Default)").SmallPlus(),
-                                TextBlock("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.").Width(50.percent()),
-                                TextBlock("No Wrap").SmallPlus(),
-                                TextBlock("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.").NoWrap().Width(50.percent())
-                            );
-                        }
+                                TextBlock("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.").Width(50.percent()).PT(4),
+                                TextBlock("No Wrap").SmallPlus().PT(4),
+                                Button("Click Me").Primary(),
+                                Label("Icon:").Inline().SetContent(Icon(UIcons.HelicopterSide, weight: UIconsWeight.Bold, size: TextSize.Large)),
+                                TextBlock("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.").NoWrap().Width(50.percent()).PT(4)
+                            ));
+                        }, loadMessage:
+                        HStack().WS().HS().Children(Image("").W(40).H(40), VStack().W(50).Grow().PL(8).Children(
+                            TextBlock("Wrap (Default)").SmallPlus(),
+                            TextBlock("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.").Width(50.percent()).PT(4),
+                            TextBlock("No Wrap").SmallPlus().PT(4),
+                            Button("Click Me").Primary(),
+                            Label("Icon:").Inline().SetContent(Icon(UIcons.HelicopterSide, weight: UIconsWeight.Bold, size: TextSize.Large)),
+                            TextBlock("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.").NoWrap().Width(50.percent()).PT(4)
+                        )).Skeleton()
                     )));
             }
         }
