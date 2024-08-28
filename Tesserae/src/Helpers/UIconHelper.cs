@@ -64,29 +64,19 @@ namespace Tesserae
         }
 
 
-        public static UIcons? AsUIconNullable(string value)
+        public static UIcons ToIconOrDefault(string value, UIcons defaultIcon)
         {
-            return string.IsNullOrWhiteSpace(value)
-                ? (UIcons?)null
-                : value.As<UIcons>();
+            return string.IsNullOrWhiteSpace(value) ? defaultIcon : value.As<UIcons>();
         }
 
-        public static Emoji? AsEmojiNullable(string value)
+        public static Emoji ToEmojiOrDefault(string value, Emoji defaultEmoji)
         {
-            return string.IsNullOrWhiteSpace(value)
-                ? (Emoji?)null
-                : value.As<Emoji>();
+            return string.IsNullOrWhiteSpace(value) ? defaultEmoji : value.As<Emoji>();
         }
 
         public static Emoji AsEmoji(string value)
         {
             return value.As<Emoji>();
-        }
-
-
-        public static string GetUnicode(UIcons? icon)
-        {
-            return GetUnicode(icon ?? UIcons.Default);
         }
 
         private static readonly Dictionary<UIcons, string> Icon2Unicode = new Dictionary<UIcons, string>();
