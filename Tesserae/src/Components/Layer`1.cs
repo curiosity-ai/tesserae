@@ -12,12 +12,12 @@ namespace Tesserae
     [H5.Name("tss.LayerT")]
     public abstract class Layer<T> : ComponentBase<T, HTMLDivElement> where T : Layer<T>
     {
-        protected IComponent _content;
+        protected IComponent     _content;
         protected HTMLDivElement _contentHtml;
-        protected HTMLElement _renderedContent;
-        private LayerHost _host;
-        private bool _isVisible;
-        private bool _isTransparent;
+        protected HTMLElement    _renderedContent;
+        private   LayerHost      _host;
+        private   bool           _isVisible;
+        private   bool           _isTransparent;
         protected Layer() => InnerElement = Div(_("tss-layer-base"));
 
         private Action<MouseEvent> _onLayerClick;
@@ -39,6 +39,7 @@ namespace Tesserae
             set
             {
                 _content = value;
+
                 if (IsVisible)
                 {
                     Hide();
@@ -65,6 +66,7 @@ namespace Tesserae
             set
             {
                 _isTransparent = value;
+
                 if (IsVisible)
                 {
                     Hide();
@@ -81,7 +83,7 @@ namespace Tesserae
             {
                 if (_host is null)
                 {
-                    if(_renderedContent is object && _renderedContent.IsMounted())
+                    if (_renderedContent is object && _renderedContent.IsMounted())
                     {
                         _renderedContent.style.zIndex = Layers.PushLayer(_renderedContent);
                         window.requestAnimationFrame((_) => _renderedContent?.classList.add("tss-show"));
@@ -90,7 +92,7 @@ namespace Tesserae
                     {
                         var oldLayer = _renderedContent; //Remove any previous host
 
-                        _renderedContent = Div(_("tss-layer tss-fade"), BuildRenderedContent());
+                        _renderedContent              = Div(_("tss-layer tss-fade"), BuildRenderedContent());
                         _renderedContent.style.zIndex = Layers.PushLayer(_renderedContent);
                         document.body.appendChild(_renderedContent);
                         window.requestAnimationFrame((_) => _renderedContent?.classList.add("tss-show"));
@@ -105,7 +107,7 @@ namespace Tesserae
                 }
 
                 _isVisible = true;
-                
+
                 Tippy.HideAll();
             }
             return (T)this;
@@ -119,14 +121,19 @@ namespace Tesserae
                 {
                     _renderedContent.classList.remove("tss-show");
                     var tr = _renderedContent;
-                    window.setTimeout((_) => { document.body.removeChild(tr); onHidden?.Invoke(); }, 150);
+
+                    window.setTimeout((_) =>
+                    {
+                        document.body.removeChild(tr);
+                        onHidden?.Invoke();
+                    }, 150);
                 }
                 else
                 {
                     _host.InnerElement.removeChild(_renderedContent);
                 }
                 _renderedContent = null;
-                _isVisible = false;
+                _isVisible       = false;
             }
         }
 
@@ -140,12 +147,13 @@ namespace Tesserae
             if (_contentHtml is object) return _contentHtml;
 
             var div = Div(_("tss-layer-content"), _content.Render());
+
             if (_isTransparent)
             {
                 div.classList.add("tss-layer-content-transparent");
             }
 
-            if(_onLayerClick is object)
+            if (_onLayerClick is object)
             {
                 div.onclick += (e) =>
                 {

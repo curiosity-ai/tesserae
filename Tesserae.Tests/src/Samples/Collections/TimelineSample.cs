@@ -35,8 +35,8 @@ namespace Tesserae.Tests.Samples
                        .Children(
                             SampleTitle("Overview"),
                             TextBlock("Timeline provides a base component for rendering vertical timelines. " +
-                                      "It is agnostic of the tile component used, and selection " +
-                                      "management. These concerns can be layered separately.")
+                                    "It is agnostic of the tile component used, and selection "               +
+                                    "management. These concerns can be layered separately.")
                                .PaddingBottom(16.px())))
                .Section(
                     Stack()

@@ -19,6 +19,7 @@ namespace TNT
         public static string t(FormattableString formattableString)
         {
             var format = formattableString.Format;
+
             if (_currentTranslation is object && _currentTranslation.TryGetValue(format, out var translatedFormat))
             {
                 format = translatedFormat;
@@ -49,7 +50,7 @@ namespace TNT
         {
             if (_currentTranslation is object && _currentTranslation.TryGetValue(originalString, out var translated))
             {
-                if(_currentTransformer is object)
+                if (_currentTransformer is object)
                 {
                     return _currentTransformer(translated);
                 }

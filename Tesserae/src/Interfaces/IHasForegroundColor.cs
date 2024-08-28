@@ -1,6 +1,6 @@
 ﻿namespace Tesserae
 {
-    
+
     [H5.Name("tss.IHFG")]
     public interface IHasForegroundColor
     {

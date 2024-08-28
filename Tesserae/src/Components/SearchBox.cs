@@ -180,7 +180,7 @@ namespace Tesserae
             return this;
         }
 
-        
+
         public SearchBox NoIcon()
         {
             _container.classList.add("tss-noicon");

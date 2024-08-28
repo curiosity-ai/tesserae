@@ -91,12 +91,12 @@ namespace Tesserae.Tests.Samples
 
         private static Stack GetGameOfLifeSample()
         {
-            int height = 32;
-            int width = 32;
+            int  height   = 32;
+            int  width    = 32;
             bool isPaused = false;
 
             var grid = GridPicker(
-                rowNames: Enumerable.Range(0, height).Select(n => $"{n:00}").ToArray(),
+                rowNames: Enumerable.Range(0,    height).Select(n => $"{n:00}").ToArray(),
                 columnNames: Enumerable.Range(0, width).Select(n => $"{n:00}").ToArray(),
                 states: 2,
                 initialStates: Enumerable.Range(0, width).Select(_ => new int[height]).ToArray(),
@@ -159,7 +159,7 @@ namespace Tesserae.Tests.Samples
                 if (isPaused) return;
 
                 var previous = grid.GetState();
-                var cells = grid.GetState();
+                var cells    = grid.GetState();
 
                 for (int i = 0; i < height; i++)
                 {

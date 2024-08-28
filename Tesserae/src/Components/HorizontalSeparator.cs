@@ -41,7 +41,7 @@ namespace Tesserae
         {
             _separator = Div(_("tss-horizontalseparator"));
             _container = Div(_("tss-horizontalseparator-container"), _separator);
-            Text = text;
+            Text       = text;
         }
 
         public HorizontalSeparator(IComponent component)

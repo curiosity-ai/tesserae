@@ -6,7 +6,7 @@ namespace Tesserae
     [H5.Name("tss.TextBox")]
     public class TextBox : Input<TextBox>, ITextFormating, IHasBackgroundColor, IHasForegroundColor
     {
-        public TextBox(string text = string.Empty) : base("text", text) 
+        public TextBox(string text = string.Empty) : base("text", text)
         {
             InnerElement.classList.add("tss-fontsize-small");
             InnerElement.classList.add("tss-fontweight-regular");

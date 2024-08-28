@@ -9,9 +9,9 @@ namespace Tesserae
     public sealed class Panel : Layer<Panel>, IHasBackgroundColor
     {
         private event OnHideHandler HidePanel;
-        public delegate void OnHideHandler(Panel sender);
+        public delegate void        OnHideHandler(Panel sender);
 
-        private IComponent _footer;
+        private          IComponent  _footer;
         private readonly HTMLElement _panel;
         private readonly HTMLElement _panelOverlay;
         private readonly HTMLElement _panelContent;
@@ -26,15 +26,15 @@ namespace Tesserae
         {
             _panelTitle = Div(_("tss-panel-title"));
 
-            _closeButton = Button(_($"tss-panel-command-button", el: el => el.onclick = (e) => Hide()), I(_("tss-fontsize-small " + UIcons.Cross.ToString())));
+            _closeButton  = Button(_($"tss-panel-command-button", el: el => el.onclick = (e) => Hide()), I(_("tss-fontsize-small " + UIcons.Cross.ToString())));
             _panelCommand = Div(_("tss-panel-command"), _panelTitle, _closeButton);
             _panelContent = Div(_("tss-panel-content"));
-            _panelFooter = Div(_("tss-panel-footer"));
-            _panel = Div(_("tss-panel tss-panelSize-small tss-panelSide-far"), _panelCommand, Div(_("tss-panel-inner"), _panelContent, _panelFooter));
+            _panelFooter  = Div(_("tss-panel-footer"));
+            _panel        = Div(_("tss-panel tss-panelSize-small tss-panelSide-far"), _panelCommand, Div(_("tss-panel-inner"), _panelContent, _panelFooter));
             _panelOverlay = Div(_("tss-panel-overlay"));
-            _contentHtml = Div(_("tss-panel-container"), _panelOverlay, _panel);
+            _contentHtml  = Div(_("tss-panel-container"), _panelOverlay, _panel);
 
-            if(title is object)
+            if (title is object)
             {
                 _panelTitle.appendChild(title.Render());
             }
@@ -45,8 +45,10 @@ namespace Tesserae
             get => _content;
             set
             {
-                ClearChildren(_panelContent); ;
+                ClearChildren(_panelContent);
+                ;
                 _content = value;
+
                 if (_content != null)
                 {
                     _panelContent.appendChild(_content.Render());
@@ -59,8 +61,10 @@ namespace Tesserae
             get => _footer;
             set
             {
-                ClearChildren(_panelFooter); ;
+                ClearChildren(_panelFooter);
+                ;
                 _footer = value;
+
                 if (_footer != null)
                 {
                     _panelFooter.appendChild(_footer.Render());
@@ -156,7 +160,7 @@ namespace Tesserae
             set
             {
                 if (value) _closeButton.style.display = "";
-                else _closeButton.style.display = "none";
+                else _closeButton.style.display       = "none";
             }
         }
 
@@ -210,12 +214,12 @@ namespace Tesserae
         [Enum(Emit.StringName)]
         public enum PanelSize
         {
-            [Name("tss-panelSize-small")] Small,
-            [Name("tss-panelSize-medium")] Medium,
-            [Name("tss-panelSize-large")] Large,
+            [Name("tss-panelSize-small")]      Small,
+            [Name("tss-panelSize-medium")]     Medium,
+            [Name("tss-panelSize-large")]      Large,
             [Name("tss-panelSize-largefixed")] LargeFixed,
             [Name("tss-panelSize-extralarge")] ExtraLarge,
-            [Name("tss-panelSize-fullwidth")] FullWidth,
+            [Name("tss-panelSize-fullwidth")]  FullWidth,
         }
 
         public enum PanelSide

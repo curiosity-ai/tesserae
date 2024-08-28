@@ -11,7 +11,7 @@ namespace Tesserae
         IComponent CurrentRendered { get; }
         void       Show();
         void       Collapse();
-        string     Identifier { get;  }
+        string     Identifier { get; }
         void       AddGroupIdentifier(string groupIdentifier);
     }
 }

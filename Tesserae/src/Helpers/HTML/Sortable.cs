@@ -20,7 +20,7 @@ namespace Tesserae
 
             _sortable = _options is object
                 ? Script.Write<object>("new Sortable({0}, {1})", _element, _options)
-                : Script.Write<object>("new Sortable({0})", _element);
+                : Script.Write<object>("new Sortable({0})",      _element);
         }
     }
 

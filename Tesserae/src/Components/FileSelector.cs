@@ -6,14 +6,14 @@ namespace Tesserae
     [H5.Name("tss.FileSelector")]
     public sealed class FileSelector : IComponent, ICanValidate<FileSelector>
     {
-        public delegate void FileSelectedHandler(FileSelector sender, File file);
+        public delegate void              FileSelectedHandler(FileSelector sender, File file);
         private event FileSelectedHandler FileSelected;
 
         private readonly HTMLInputElement _fileInput;
-        private readonly IComponent _stack;
-        private readonly TextBox _textBox;
-        private readonly HTMLElement _container;
-        private File _selectedFile;
+        private readonly IComponent       _stack;
+        private readonly TextBox          _textBox;
+        private readonly HTMLElement      _container;
+        private          File             _selectedFile;
 
         public File SelectedFile
         {
@@ -63,11 +63,12 @@ namespace Tesserae
         public FileSelector()
         {
             _fileInput = FileInput(_("tss-file-input"));
-            _textBox = TextBox().ReadOnly().Grow(1).AlignCenter();
+            _textBox   = TextBox().ReadOnly().Grow(1).AlignCenter();
+
             _stack = Stack().Horizontal().WS()
-                            .Children(_textBox,
-                                      Button().SetTitle("Click to select file...").NoWrap().SetIcon(UIcons.Folder).OnClick((s,e) => _fileInput.click()).NoBorder().NoBackground(),
-                                      Raw(_fileInput));
+               .Children(_textBox,
+                    Button().SetTitle("Click to select file...").NoWrap().SetIcon(UIcons.Folder).OnClick((s, e) => _fileInput.click()).NoBorder().NoBackground(),
+                    Raw(_fileInput));
 
             _fileInput.onchange = _ => updateFile();
 
@@ -77,10 +78,11 @@ namespace Tesserae
             {
                 if (_fileInput.files.length > 0)
                 {
-                    SelectedFile = _fileInput.files[0];
+                    SelectedFile  = _fileInput.files[0];
                     _textBox.Text = GetFileName(_fileInput.value);
                 }
-            };
+            }
+            ;
         }
 
         public FileSelector OnFileSelected(FileSelectedHandler handler)
@@ -125,7 +127,7 @@ namespace Tesserae
 
         private string GetFileName(string value)
         {
-            var lastSep = value.LastIndexOfAny(new[] { '/', '\\'});
+            var lastSep = value.LastIndexOfAny(new[] { '/', '\\' });
             return value.Substring(lastSep + 1);
         }
 

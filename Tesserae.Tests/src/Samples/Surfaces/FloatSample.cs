@@ -36,15 +36,15 @@ namespace Tesserae.Tests.Samples
                         SampleTitle("Usage"),
                         TextBlock("Possible Positions").Medium(),
                         Stack().Relative().Horizontal().WS().Height(400.px()).Children(
-                            Float(Button("TopLeft"), Float.Position.TopLeft),
-                            Float(Button("TopMiddle"), Float.Position.TopMiddle),
-                            Float(Button("TopRight"), Float.Position.TopRight),
-                            Float(Button("LeftCenter"), Float.Position.LeftCenter),
-                            Float(Button("Center"), Float.Position.Center),
-                            Float(Button("RightCenter"), Float.Position.RightCenter),
-                            Float(Button("BottomLeft"), Float.Position.BottomLeft),
+                            Float(Button("TopLeft"),      Float.Position.TopLeft),
+                            Float(Button("TopMiddle"),    Float.Position.TopMiddle),
+                            Float(Button("TopRight"),     Float.Position.TopRight),
+                            Float(Button("LeftCenter"),   Float.Position.LeftCenter),
+                            Float(Button("Center"),       Float.Position.Center),
+                            Float(Button("RightCenter"),  Float.Position.RightCenter),
+                            Float(Button("BottomLeft"),   Float.Position.BottomLeft),
                             Float(Button("BottonMiddle"), Float.Position.BottonMiddle),
-                            Float(Button("BottomRight"), Float.Position.BottomRight)
+                            Float(Button("BottomRight"),  Float.Position.BottomRight)
                         )));
         }
 

@@ -17,29 +17,29 @@ namespace Tesserae
                 throw new ArgumentException(nameof(sortingKey));
             }
 
-            Icon = icon;
-            Width = width ?? throw new ArgumentNullException(nameof(width));
-            MaxWidth = maxWidth;
-            SortingKey = sortingKey ?? string.Empty;
+            Icon                = icon;
+            Width               = width ?? throw new ArgumentNullException(nameof(width));
+            MaxWidth            = maxWidth;
+            SortingKey          = sortingKey ?? string.Empty;
             EnableColumnSorting = enableColumnSorting;
 
             if (onColumnClick != null)
             {
-                _onColumnClick = onColumnClick;
+                _onColumnClick           = onColumnClick;
                 EnableOnColumnClickEvent = true;
             }
 
             InnerElement = Div(_()).appendChild(Icon.Render());
         }
 
-        public string            SortingKey               { get; }
-        public Icon              Icon                     { get; }
-        public UnitSize          Width                    { get; }
-        public UnitSize          MaxWidth                 { get; }
-        public bool              IsRowHeader              => false;
-        public bool              EnableColumnSorting      { get; }
-        public bool              EnableOnColumnClickEvent { get; }
-        public void              OnColumnClick()          => _onColumnClick?.Invoke();
-        public HTMLElement       Render()                 => InnerElement;
+        public string      SortingKey               { get; }
+        public Icon        Icon                     { get; }
+        public UnitSize    Width                    { get; }
+        public UnitSize    MaxWidth                 { get; }
+        public bool        IsRowHeader              => false;
+        public bool        EnableColumnSorting      { get; }
+        public bool        EnableOnColumnClickEvent { get; }
+        public void        OnColumnClick()          => _onColumnClick?.Invoke();
+        public HTMLElement Render()                 => InnerElement;
     }
 }

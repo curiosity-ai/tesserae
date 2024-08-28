@@ -7,30 +7,31 @@ namespace Tesserae
     [H5.Name("tss.ProgressModal")]
     public class ProgressModal
     {
-        private readonly Modal _modalHost;
-        private readonly Raw _titleHost;
-        private readonly Raw _messageHost;
-        private readonly Raw _progressHost;
-        private readonly Raw _footerHost;
+        private readonly Modal             _modalHost;
+        private readonly Raw               _titleHost;
+        private readonly Raw               _messageHost;
+        private readonly Raw               _progressHost;
+        private readonly Raw               _footerHost;
         private readonly ProgressIndicator _progressIndicator;
-        private readonly Spinner _spinner;
-        private bool _isSpinner = true;
+        private readonly Spinner           _spinner;
+        private          bool              _isSpinner = true;
 
         public ProgressModal()
         {
-            _titleHost   = Raw().WS();
-            _messageHost = Raw().WS();
-            _footerHost = Raw().WS();
+            _titleHost    = Raw().WS();
+            _messageHost  = Raw().WS();
+            _footerHost   = Raw().WS();
             _progressHost = Raw();
-            _spinner = Spinner().Large().Margin(8.px());
+            _spinner      = Spinner().Large().Margin(8.px());
             _progressHost.Content(_spinner);
             _progressIndicator = ProgressIndicator();
-            _isSpinner = true;
+            _isSpinner         = true;
+
             _modalHost = Modal().Blocking().NoLightDismiss().HideCloseButton().CenterContent()
-                                .Content(Stack()
-                                               .AlignCenter()
-                                               .WS()
-                                               .Children(_titleHost, _progressHost, _messageHost, _footerHost));
+               .Content(Stack()
+                   .AlignCenter()
+                   .WS()
+                   .Children(_titleHost, _progressHost, _messageHost, _footerHost));
 
         }
 

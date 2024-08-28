@@ -13,9 +13,10 @@ namespace Tesserae
 
         public string Foreground
         {
-            get => BarElement.style.background; set
+            get => BarElement.style.background;
+            set
             {
-                if(BarElement.classList.contains("tss-progressindicator-bar-indeterminate"))
+                if (BarElement.classList.contains("tss-progressindicator-bar-indeterminate"))
                 {
                     BarElement.style.background = $"linear-gradient(to right, var(--tss-progress-background-color) 0%, {value} 50%, var(--tss-progress-background-color) 100%)";
                 }
@@ -28,7 +29,7 @@ namespace Tesserae
 
         public ProgressIndicator()
         {
-            BarElement = Div(_("tss-progressindicator-bar"));
+            BarElement   = Div(_("tss-progressindicator-bar"));
             InnerElement = Div(_("tss-progressindicator"), BarElement);
         }
 
@@ -41,7 +42,7 @@ namespace Tesserae
                 BarElement.classList.add("tss-progressindicator-bar");
                 BarElement.classList.remove("tss-progressindicator-bar-indeterminate");
             }
-            percent = Math.Max(0f, Math.Min(100f, percent));
+            percent                = Math.Max(0f, Math.Min(100f, percent));
             BarElement.style.width = $"{percent}%";
             return this;
         }

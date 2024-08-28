@@ -8,13 +8,13 @@ namespace Tesserae
     [H5.Name("tss.StepsSlider")]
     public sealed class StepsSlider<T> : IComponent where T : IEquatable<T>
     {
-        private readonly T[] _steps;
-        private readonly Slider _slider;
-        private IEqualityComparer<T> _equalityComparer;
+        private readonly T[]                  _steps;
+        private readonly Slider               _slider;
+        private          IEqualityComparer<T> _equalityComparer;
         public StepsSlider(params T[] steps)
         {
-            _steps = steps;
-            _slider = Slider(0, 0, _steps.Length - 1, 1);
+            _steps            = steps;
+            _slider           = Slider(0, 0, _steps.Length - 1, 1);
             _equalityComparer = EqualityComparer<T>.Default;
         }
 
@@ -27,7 +27,7 @@ namespace Tesserae
         public T Value
         {
             get => _steps[_slider.Value];
-            set => _slider.Value = Array.FindIndex(_steps, p => _equalityComparer.Equals(p,Value));
+            set => _slider.Value = Array.FindIndex(_steps, p => _equalityComparer.Equals(p, Value));
         }
 
         public bool IsEnabled

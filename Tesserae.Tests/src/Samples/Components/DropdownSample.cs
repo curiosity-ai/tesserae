@@ -19,7 +19,7 @@ namespace Tesserae.Tests.Samples
                 if (dd.SelectedItems.Length != 1 || dd.SelectedItems[0].Text != "1-1")
                 {
                     dd.IsInvalid = true;
-                    dd.Error = "Some error happens, need 1-1";
+                    dd.Error     = "Some error happens, need 1-1";
                 }
                 else dd.IsInvalid = false;
             });

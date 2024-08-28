@@ -13,8 +13,8 @@ namespace Tesserae.Tests.Samples
         public SliderSample()
         {
             var value = new SettableObservable<int>(0);
-            var s1 = Slider(val: 0, min: 0, max: 100, step: 1).OnInput((s,  e) => value.Update(currVal => value.Value = s.Value));
-            var s2 = Slider(val: 0, min: 0, max: 100, step: 10).OnInput((s, e) => value.Update(currVal => value.Value = s.Value));
+            var s1    = Slider(val: 0, min: 0, max: 100, step: 1).OnInput((s,  e) => value.Update(currVal => value.Value = s.Value));
+            var s2    = Slider(val: 0, min: 0, max: 100, step: 10).OnInput((s, e) => value.Update(currVal => value.Value = s.Value));
             value.Observe(changedValue => s1.Value = changedValue);
 
             _content = SectionStack()

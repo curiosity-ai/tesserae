@@ -10,17 +10,17 @@ namespace Tesserae
     [H5.Name("tss.SearchableList")]
     public class SearchableList<T> : IComponent, ISpecialCaseStyling where T : ISearchableItem
     {
-        private readonly IDefer _defered;
-        private readonly Stack _searchBoxContainer;
+        private readonly IDefer           _defered;
+        private readonly Stack            _searchBoxContainer;
         private readonly List<IComponent> _searchBoxContainerComponents;
-        private readonly Stack _stack;
-        private readonly SearchBox _searchBox;
-        private readonly ItemsList _list;
-        
-        private int _minimumItemsToShowBox = 0;
-        public HTMLElement StylingContainer => _stack.InnerElement;
-        public bool PropagateToStackItemParent => true;
-        public ObservableList<T> Items { get; }
+        private readonly Stack            _stack;
+        private readonly SearchBox        _searchBox;
+        private readonly ItemsList        _list;
+
+        private int               _minimumItemsToShowBox = 0;
+        public  HTMLElement       StylingContainer           => _stack.InnerElement;
+        public  bool              PropagateToStackItemParent => true;
+        public  ObservableList<T> Items                      { get; }
 
         public bool ShowNotMatchingItems { get; set; }
         public SearchableList(T[] items, params UnitSize[] columns) : this(new ObservableList<T>(initialValues: items ?? new T[0]), columns)
@@ -30,59 +30,60 @@ namespace Tesserae
 
         public SearchableList(ObservableList<T> items, params UnitSize[] columns)
         {
-            Items = items ?? new ObservableList<T>();
+            Items      = items ?? new ObservableList<T>();
             _searchBox = new SearchBox().Underlined().SetPlaceholder("Type to search").SearchAsYouType().Width(100.px()).Grow();
-            _list = ItemsList(new IComponent[0], columns);
+            _list      = ItemsList(new IComponent[0], columns);
+
             _defered =
                 DeferSync(
-                    Items,
-                    item =>
-                    {
-                        var searchTerms = (_searchBox.Text ?? "").Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-
-                        var includeItems = new List<IComponent>();
-                        var excludeItems = new List<IComponent>();
-
-                        foreach(var i in Items)
+                        Items,
+                        item =>
                         {
-                            if(searchTerms.Length == 0 || searchTerms.All(st => i.IsMatch(st)))
+                            var searchTerms = (_searchBox.Text ?? "").Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+                            var includeItems = new List<IComponent>();
+                            var excludeItems = new List<IComponent>();
+
+                            foreach (var i in Items)
                             {
-                                includeItems.Add(i.Render().RemoveClass("tss-searchable-list-no-match"));
+                                if (searchTerms.Length == 0 || searchTerms.All(st => i.IsMatch(st)))
+                                {
+                                    includeItems.Add(i.Render().RemoveClass("tss-searchable-list-no-match"));
+                                }
+                                else if (ShowNotMatchingItems)
+                                {
+                                    excludeItems.Add(i.Render().Class("tss-searchable-list-no-match"));
+                                }
                             }
-                            else if (ShowNotMatchingItems)
+
+                            var filteredItems = includeItems.Concat(excludeItems).ToArray();
+
+                            _list.Items.Clear();
+
+                            if (filteredItems.Any())
                             {
-                                excludeItems.Add(i.Render().Class("tss-searchable-list-no-match"));
+                                _list.Items.AddRange(filteredItems);
                             }
+
+                            if (filteredItems.Length >= _minimumItemsToShowBox)
+                            {
+                                _searchBox.Show();
+                            }
+                            else
+                            {
+                                _searchBox.Collapse();
+                            }
+
+                            return _list.S();
                         }
-
-                        var filteredItems = includeItems.Concat(excludeItems).ToArray();
-
-                        _list.Items.Clear();
-
-                        if (filteredItems.Any())
-                        {
-                            _list.Items.AddRange(filteredItems);
-                        }
-
-                        if(filteredItems.Length >= _minimumItemsToShowBox)
-                        {
-                            _searchBox.Show();
-                        }
-                        else
-                        {
-                            _searchBox.Collapse();
-                        }
-
-                        return _list.S();
-                    }
-                )
-                .WS()
-                .Grow(1);
+                    )
+                   .WS()
+                   .Grow(1);
 
             _searchBox.OnSearch((_, __) => _defered.Refresh());
-            _searchBoxContainer = Stack().Horizontal().WS().Children(_searchBox).AlignItems(ItemAlign.Center);
+            _searchBoxContainer           = Stack().Horizontal().WS().Children(_searchBox).AlignItems(ItemAlign.Center);
             _searchBoxContainerComponents = new List<IComponent>() { _searchBox };
-            _stack = Stack().Children(_searchBoxContainer, _defered.Scroll()).WS().MaxHeight(100.percent());
+            _stack                        = Stack().Children(_searchBoxContainer, _defered.Scroll()).WS().MaxHeight(100.percent());
         }
 
         public SearchableList<T> WithNoResultsMessage(Func<IComponent> emptyListMessageGenerator)
@@ -118,7 +119,7 @@ namespace Tesserae
 
         public SearchableList<T> BeforeSearchBox(params IComponent[] beforeComponents)
         {
-            foreach(var component in beforeComponents.Reverse<IComponent>())
+            foreach (var component in beforeComponents.Reverse<IComponent>())
             {
                 _searchBoxContainerComponents.Insert(0, component);
             }
@@ -139,7 +140,7 @@ namespace Tesserae
     [H5.Name("tss.ISearchableItem")]
     public interface ISearchableItem
     {
-        bool IsMatch(string searchTerm);
+        bool       IsMatch(string searchTerm);
         IComponent Render();
     }
 }

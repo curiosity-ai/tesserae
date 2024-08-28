@@ -17,9 +17,9 @@ namespace Tesserae
             {
                 switch (InnerElement.style.flexDirection)
                 {
-                    case "row": return Orientation.Horizontal;
-                    case "column": return Orientation.Vertical;
-                    case "row-reverse": return Orientation.HorizontalReverse;
+                    case "row":            return Orientation.Horizontal;
+                    case "column":         return Orientation.Vertical;
+                    case "row-reverse":    return Orientation.HorizontalReverse;
                     case "column-reverse": return Orientation.VerticalReverse;
                 }
 
@@ -29,10 +29,18 @@ namespace Tesserae
             {
                 switch (value)
                 {
-                    case Orientation.Horizontal: InnerElement.style.flexDirection = "row"; break;
-                    case Orientation.Vertical: InnerElement.style.flexDirection = "column"; break;
-                    case Orientation.HorizontalReverse: InnerElement.style.flexDirection = "row-reverse"; break;
-                    case Orientation.VerticalReverse: InnerElement.style.flexDirection = "column-reverse"; break;
+                    case Orientation.Horizontal:
+                        InnerElement.style.flexDirection = "row";
+                        break;
+                    case Orientation.Vertical:
+                        InnerElement.style.flexDirection = "column";
+                        break;
+                    case Orientation.HorizontalReverse:
+                        InnerElement.style.flexDirection = "row-reverse";
+                        break;
+                    case Orientation.VerticalReverse:
+                        InnerElement.style.flexDirection = "column-reverse";
+                        break;
                 }
             }
         }
@@ -49,10 +57,10 @@ namespace Tesserae
             set => InnerElement.style.display = value ? "inline-flex" : "";
         }
 
-        public HTMLElement InnerElement { get; private set; }
-        public string Background { get => InnerElement.style.background; set => InnerElement.style.background = value; }
-        public string Margin { get => InnerElement.style.margin; set => InnerElement.style.margin = value; }
-        public string Padding { get => InnerElement.style.padding; set => InnerElement.style.padding = value; }
+        public HTMLElement InnerElement { get;                                  private set; }
+        public string      Background   { get => InnerElement.style.background; set => InnerElement.style.background = value; }
+        public string      Margin       { get => InnerElement.style.margin;     set => InnerElement.style.margin = value; }
+        public string      Padding      { get => InnerElement.style.padding;    set => InnerElement.style.padding = value; }
 
         public HTMLElement StylingContainer => InnerElement;
 
@@ -62,17 +70,18 @@ namespace Tesserae
         {
             var (item, remember) = GetCorrectItemToApplyStyle(component);
             var cssAlign = align.ToString();
-            
+
             if (cssAlign == "end" || cssAlign == "start")
             {
                 cssAlign = $"flex-{cssAlign}";
             }
 
             item.style.alignSelf = cssAlign;
-            
+
             if (remember)
             {
                 item.setAttribute("tss-stk-as", "");
+
                 if (component.HasOwnProperty("StackItem"))
                 {
                     component["StackItem"].As<HTMLElement>().style.alignSelf = item.style.alignSelf;
@@ -87,7 +96,7 @@ namespace Tesserae
         /// <returns></returns>
         public Stack AlignItems(ItemAlign align)
         {
-            string cssAlign = align.ToString();
+            string cssAlign                                        = align.ToString();
             if (cssAlign == "end" || cssAlign == "start") cssAlign = $"flex-{cssAlign}";
             InnerElement.style.alignItems = cssAlign;
             return this;
@@ -117,7 +126,7 @@ namespace Tesserae
         /// <returns></returns>
         public Stack AlignContent(ItemAlign align)
         {
-            string cssAlign = align.ToString().ToLower();
+            string cssAlign                                        = align.ToString().ToLower();
             if (cssAlign == "end" || cssAlign == "start") cssAlign = $"flex-{cssAlign}";
             InnerElement.style.alignContent = cssAlign;
             return this;
@@ -130,8 +139,8 @@ namespace Tesserae
         /// <returns></returns>
         public Stack JustifyContent(ItemJustify justify)
         {
-            string cssJustify = justify.ToString().ToLower();
-            if (cssJustify == "end" || cssJustify == "start") cssJustify = $"flex-{cssJustify}";
+            string cssJustify                                                                           = justify.ToString().ToLower();
+            if (cssJustify == "end"     || cssJustify == "start") cssJustify                            = $"flex-{cssJustify}";
             if (cssJustify == "between" || cssJustify == "around" || cssJustify == "evenly") cssJustify = $"space-{cssJustify}";
             InnerElement.style.justifyContent = cssJustify;
             return this;
@@ -144,8 +153,8 @@ namespace Tesserae
         /// <returns></returns>
         public Stack JustifyItems(ItemJustify justify)
         {
-            string cssJustify = justify.ToString().ToLower();
-            if (cssJustify == "end" || cssJustify == "start") cssJustify = $"flex-{cssJustify}";
+            string cssJustify                                                                           = justify.ToString().ToLower();
+            if (cssJustify == "end"     || cssJustify == "start") cssJustify                            = $"flex-{cssJustify}";
             if (cssJustify == "between" || cssJustify == "around" || cssJustify == "evenly") cssJustify = $"space-{cssJustify}";
             InnerElement.style.justifyItems = cssJustify;
             return this;
@@ -172,10 +181,12 @@ namespace Tesserae
         public static void SetWidth(IComponent component, UnitSize unitSize)
         {
             var (item, remember) = GetCorrectItemToApplyStyle(component);
-            item.style.width = unitSize.ToString();
+            item.style.width     = unitSize.ToString();
+
             if (remember)
             {
                 item.setAttribute("tss-stk-w", "");
+
                 if (component.HasOwnProperty("StackItem"))
                 {
                     component["StackItem"].As<HTMLElement>().style.width = item.style.width;
@@ -186,10 +197,12 @@ namespace Tesserae
         public static void SetMinWidth(IComponent component, UnitSize unitSize)
         {
             var (item, remember) = GetCorrectItemToApplyStyle(component);
-            item.style.minWidth = unitSize.ToString();
+            item.style.minWidth  = unitSize.ToString();
+
             if (remember)
             {
                 item.setAttribute("tss-stk-mw", "");
+
                 if (component.HasOwnProperty("StackItem"))
                 {
                     component["StackItem"].As<HTMLElement>().style.minWidth = item.style.minWidth;
@@ -200,10 +213,12 @@ namespace Tesserae
         public static void SetMaxWidth(IComponent component, UnitSize unitSize)
         {
             var (item, remember) = GetCorrectItemToApplyStyle(component);
-            item.style.maxWidth = unitSize.ToString();
+            item.style.maxWidth  = unitSize.ToString();
+
             if (remember)
             {
                 item.setAttribute("tss-stk-mxw", "");
+
                 if (component.HasOwnProperty("StackItem"))
                 {
                     component["StackItem"].As<HTMLElement>().style.maxWidth = item.style.maxWidth;
@@ -214,10 +229,12 @@ namespace Tesserae
         public static void SetHeight(IComponent component, UnitSize unitSize)
         {
             var (item, remember) = GetCorrectItemToApplyStyle(component);
-            item.style.height = unitSize.ToString();
+            item.style.height    = unitSize.ToString();
+
             if (remember)
             {
                 item.setAttribute("tss-stk-h", "");
+
                 if (component.HasOwnProperty("StackItem"))
                 {
                     component["StackItem"].As<HTMLElement>().style.height = item.style.height;
@@ -229,9 +246,11 @@ namespace Tesserae
         {
             var (item, remember) = GetCorrectItemToApplyStyle(component);
             item.style.minHeight = unitSize.ToString();
+
             if (remember)
             {
                 item.setAttribute("tss-stk-mh", "");
+
                 if (component.HasOwnProperty("StackItem"))
                 {
                     component["StackItem"].As<HTMLElement>().style.minHeight = item.style.minHeight;
@@ -243,9 +262,11 @@ namespace Tesserae
         {
             var (item, remember) = GetCorrectItemToApplyStyle(component);
             item.style.maxHeight = unitSize.ToString();
+
             if (remember)
             {
                 item.setAttribute("tss-stk-mxh", "");
+
                 if (component.HasOwnProperty("StackItem"))
                 {
                     component["StackItem"].As<HTMLElement>().style.maxHeight = item.style.maxHeight;
@@ -255,11 +276,13 @@ namespace Tesserae
 
         public static void SetMarginLeft(IComponent component, UnitSize unitSize)
         {
-            var (item, remember) = GetCorrectItemToApplyStyle(component);
+            var (item, remember)  = GetCorrectItemToApplyStyle(component);
             item.style.marginLeft = unitSize.ToString();
+
             if (remember)
             {
                 item.setAttribute("tss-stk-m", "");
+
                 if (component.HasOwnProperty("StackItem"))
                 {
                     component["StackItem"].As<HTMLElement>().style.marginLeft = item.style.marginLeft;
@@ -269,11 +292,13 @@ namespace Tesserae
 
         public static void SetMarginRight(IComponent component, UnitSize unitSize)
         {
-            var (item, remember) = GetCorrectItemToApplyStyle(component);
+            var (item, remember)   = GetCorrectItemToApplyStyle(component);
             item.style.marginRight = unitSize.ToString();
+
             if (remember)
             {
                 item.setAttribute("tss-stk-m", "");
+
                 if (component.HasOwnProperty("StackItem"))
                 {
                     component["StackItem"].As<HTMLElement>().style.marginRight = item.style.marginRight;
@@ -285,9 +310,11 @@ namespace Tesserae
         {
             var (item, remember) = GetCorrectItemToApplyStyle(component);
             item.style.marginTop = unitSize.ToString();
+
             if (remember)
             {
                 item.setAttribute("tss-stk-m", "");
+
                 if (component.HasOwnProperty("StackItem"))
                 {
                     component["StackItem"].As<HTMLElement>().style.marginTop = item.style.marginTop;
@@ -297,11 +324,13 @@ namespace Tesserae
 
         public static void SetMarginBottom(IComponent component, UnitSize unitSize)
         {
-            var (item, remember) = GetCorrectItemToApplyStyle(component);
+            var (item, remember)    = GetCorrectItemToApplyStyle(component);
             item.style.marginBottom = unitSize.ToString();
+
             if (remember)
             {
                 item.setAttribute("tss-stk-m", "");
+
                 if (component.HasOwnProperty("StackItem"))
                 {
                     component["StackItem"].As<HTMLElement>().style.marginBottom = item.style.marginBottom;
@@ -311,11 +340,13 @@ namespace Tesserae
 
         public static void SetPaddingLeft(IComponent component, UnitSize unitSize)
         {
-            var (item, remember) = GetCorrectItemToApplyStyle(component);
+            var (item, remember)   = GetCorrectItemToApplyStyle(component);
             item.style.paddingLeft = unitSize.ToString();
+
             if (remember)
             {
                 item.setAttribute("tss-stk-p", "");
+
                 if (component.HasOwnProperty("StackItem"))
                 {
                     component["StackItem"].As<HTMLElement>().style.paddingLeft = item.style.paddingLeft;
@@ -325,11 +356,13 @@ namespace Tesserae
 
         public static void SetPaddingRight(IComponent component, UnitSize unitSize)
         {
-            var (item, remember) = GetCorrectItemToApplyStyle(component);
+            var (item, remember)    = GetCorrectItemToApplyStyle(component);
             item.style.paddingRight = unitSize.ToString();
+
             if (remember)
             {
                 item.setAttribute("tss-stk-p", "");
+
                 if (component.HasOwnProperty("StackItem"))
                 {
                     component["StackItem"].As<HTMLElement>().style.paddingRight = item.style.paddingRight;
@@ -339,11 +372,13 @@ namespace Tesserae
 
         public static void SetPaddingTop(IComponent component, UnitSize unitSize)
         {
-            var (item, remember) = GetCorrectItemToApplyStyle(component);
+            var (item, remember)  = GetCorrectItemToApplyStyle(component);
             item.style.paddingTop = unitSize.ToString();
+
             if (remember)
             {
                 item.setAttribute("tss-stk-p", "");
+
                 if (component.HasOwnProperty("StackItem"))
                 {
                     component["StackItem"].As<HTMLElement>().style.paddingTop = item.style.paddingTop;
@@ -354,11 +389,13 @@ namespace Tesserae
 
         public static void SetPaddingBottom(IComponent component, UnitSize unitSize)
         {
-            var (item, remember) = GetCorrectItemToApplyStyle(component);
+            var (item, remember)     = GetCorrectItemToApplyStyle(component);
             item.style.paddingBottom = unitSize.ToString();
+
             if (remember)
             {
                 item.setAttribute("tss-stk-p", "");
+
                 if (component.HasOwnProperty("StackItem"))
                 {
                     component["StackItem"].As<HTMLElement>().style.paddingBottom = item.style.paddingBottom;
@@ -370,10 +407,12 @@ namespace Tesserae
         public static void SetGrow(IComponent component, int grow)
         {
             var (item, remember) = GetCorrectItemToApplyStyle(component);
-            item.style.flexGrow = grow.ToString();
+            item.style.flexGrow  = grow.ToString();
+
             if (remember)
             {
                 item.setAttribute("tss-stk-fg", "");
+
                 if (component.HasOwnProperty("StackItem"))
                 {
                     component["StackItem"].As<HTMLElement>().style.flexGrow = item.style.flexGrow;
@@ -383,11 +422,13 @@ namespace Tesserae
 
         public static void SetShrink(IComponent component, bool shrink)
         {
-            var (item, remember) = GetCorrectItemToApplyStyle(component);
+            var (item, remember)  = GetCorrectItemToApplyStyle(component);
             item.style.flexShrink = shrink ? "1" : "0";
+
             if (remember)
             {
                 item.setAttribute("tss-stk-fs", "");
+
                 if (component.HasOwnProperty("StackItem"))
                 {
                     component["StackItem"].As<HTMLElement>().style.flexShrink = item.style.flexShrink;
@@ -397,14 +438,14 @@ namespace Tesserae
 
         public Stack(Orientation orientation = Orientation.Vertical)
         {
-            InnerElement = Div(_("tss-stack"));
+            InnerElement     = Div(_("tss-stack"));
             StackOrientation = orientation;
         }
         private event ComponentEventHandler<Stack, Event> MouseOver;
         private event ComponentEventHandler<Stack, Event> MouseOut;
 
         private void RaiseMouseOver(Event ev) => MouseOver?.Invoke((Stack)this, ev);
-        private void RaiseMouseOut(Event ev) => MouseOut?.Invoke((Stack)this, ev);
+        private void RaiseMouseOut(Event  ev) => MouseOut?.Invoke((Stack)this, ev);
 
         public Stack OnMouseOver(ComponentEventHandler<Stack, Event> onMouseOver)
         {
@@ -448,7 +489,7 @@ namespace Tesserae
         {
             var container = ScrollBar.GetCorrectContainer(InnerElement);
 
-            var element = GetItem(component, true);
+            var element               = GetItem(component,               true);
             var elementToInsertBefore = GetItem(componentToInsertBefore, true);
 
             if (!container.contains(elementToInsertBefore))
@@ -463,7 +504,7 @@ namespace Tesserae
         {
             var container = ScrollBar.GetCorrectContainer(InnerElement);
 
-            var element = GetItem(component, true);
+            var element               = GetItem(component,               true);
             var elementToInsertBefore = GetItem(componentToInsertBefore, true);
 
             if (!container.contains(elementToInsertBefore))
@@ -477,7 +518,7 @@ namespace Tesserae
         public virtual void Clear() => ClearChildren(ScrollBar.GetCorrectContainer(InnerElement));
 
         public void Replace(IComponent newComponent, IComponent oldComponent) => ScrollBar.GetCorrectContainer(InnerElement).replaceChild(GetItem(newComponent), GetItem(oldComponent));
-        public void Remove(IComponent component) => ScrollBar.GetCorrectContainer(InnerElement).removeChild(GetItem(component));
+        public void Remove(IComponent  component) => ScrollBar.GetCorrectContainer(InnerElement).removeChild(GetItem(component));
 
         public virtual HTMLElement Render() => InnerElement;
 
@@ -558,13 +599,14 @@ namespace Tesserae
             if (item is null)
             {
                 var rendered = component.Render();
+
                 if (forceAdd || (rendered.parentElement is object && rendered.parentElement.classList.contains("tss-stack")))
                 {
                     item = Div(_("tss-stack-item", styles: s =>
                     {
-                        s.alignSelf = "auto";
-                        s.width = "auto";
-                        s.height = "auto";
+                        s.alignSelf  = "auto";
+                        s.width      = "auto";
+                        s.height     = "auto";
                         s.flexShrink = "1";
                     }), component.Render());
 
@@ -594,6 +636,7 @@ namespace Tesserae
             bool has(string att)
             {
                 bool ha = from.hasAttribute(att);
+
                 if (ha)
                 {
                     from.removeAttribute(att);
@@ -601,35 +644,65 @@ namespace Tesserae
                 return ha;
             }
 
-            if (has("tss-stk-w")) { ts.width = fs.width; fs.width = "100%"; }
-            if (has("tss-stk-h")) { ts.height = fs.height; fs.height = "100%"; }
+            if (has("tss-stk-w"))
+            {
+                ts.width = fs.width;
+                fs.width = "100%";
+            }
 
-            if (has("tss-stk-mw")) { ts.minWidth = fs.minWidth; fs.minWidth = fs.minWidth.Contains("%") ? "100%" : "inherit"; }
-            if (has("tss-stk-mxw")) { ts.maxWidth = fs.maxWidth; fs.maxWidth = fs.maxWidth.Contains("%") ? "100%" : "inherit"; }
-            if (has("tss-stk-mh")) { ts.minHeight = fs.minHeight; fs.minHeight = fs.minHeight.Contains("%") ? "100%" : "inherit"; }
-            if (has("tss-stk-mxh")) { ts.maxHeight = fs.maxHeight; fs.maxHeight = fs.maxHeight.Contains("%") ? "100%" : "inherit"; }
+            if (has("tss-stk-h"))
+            {
+                ts.height = fs.height;
+                fs.height = "100%";
+            }
+
+            if (has("tss-stk-mw"))
+            {
+                ts.minWidth = fs.minWidth;
+                fs.minWidth = fs.minWidth.Contains("%") ? "100%" : "inherit";
+            }
+
+            if (has("tss-stk-mxw"))
+            {
+                ts.maxWidth = fs.maxWidth;
+                fs.maxWidth = fs.maxWidth.Contains("%") ? "100%" : "inherit";
+            }
+
+            if (has("tss-stk-mh"))
+            {
+                ts.minHeight = fs.minHeight;
+                fs.minHeight = fs.minHeight.Contains("%") ? "100%" : "inherit";
+            }
+
+            if (has("tss-stk-mxh"))
+            {
+                ts.maxHeight = fs.maxHeight;
+                fs.maxHeight = fs.maxHeight.Contains("%") ? "100%" : "inherit";
+            }
 
             if (has("tss-stk-m"))
             {
-                ts.marginLeft = fs.marginLeft;
-                ts.marginTop = fs.marginTop;
-                ts.marginRight = fs.marginRight;
+                ts.marginLeft   = fs.marginLeft;
+                ts.marginTop    = fs.marginTop;
+                ts.marginRight  = fs.marginRight;
                 ts.marginBottom = fs.marginBottom;
-                fs.marginLeft = fs.marginTop = fs.marginRight = fs.marginBottom = "";
+                fs.marginLeft   = fs.marginTop = fs.marginRight = fs.marginBottom = "";
             }
 
             if (has("tss-stk-p"))
             {
-                ts.paddingLeft = fs.paddingLeft;
-                ts.paddingTop = fs.paddingTop;
-                ts.paddingRight = fs.paddingRight;
+                ts.paddingLeft   = fs.paddingLeft;
+                ts.paddingTop    = fs.paddingTop;
+                ts.paddingRight  = fs.paddingRight;
                 ts.paddingBottom = fs.paddingBottom;
-                fs.paddingLeft = fs.paddingTop = fs.paddingRight = fs.paddingBottom = "";
+                fs.paddingLeft   = fs.paddingTop = fs.paddingRight = fs.paddingBottom = "";
             }
 
             //TODO: check if should clear this here:
-            if (has("tss-stk-fg")) { ts.flexGrow = fs.flexGrow;  /*fs.flexGrow = ""; */}
-            if (has("tss-stk-fs")) { ts.flexShrink = fs.flexShrink;  /*fs.flexShrink = ""; */}
+            if (has("tss-stk-fg")) { ts.flexGrow = fs.flexGrow; /*fs.flexGrow = ""; */ }
+
+            if (has("tss-stk-fs")) { ts.flexShrink = fs.flexShrink; /*fs.flexShrink = ""; */ }
+
             if (has("tss-stk-as")) { ts.alignSelf = fs.alignSelf; /*fs.alignSelf = "";*/ }
 
             //We need to propagate some styles otherwise they don't work if they were applied before adding to the stack
@@ -655,8 +728,21 @@ namespace Tesserae
 
         public struct ItemSize
         {
-            public Unit Type { get; set; }
+            public Unit  Type  { get; set; }
             public float Value { get; set; }
+        }
+        public IComponent Skeleton(bool enabled = true)
+        {
+            if (enabled)
+            {
+                InnerElement.classList.add("tss-skeleton");
+            }
+            else
+            {
+                InnerElement.classList.remove("tss-skeleton");
+            }
+
+            return this;
         }
     }
 
@@ -664,12 +750,12 @@ namespace Tesserae
     [Enum(Emit.StringName)]
     public enum ItemAlign
     {
-        [Name("auto")] Auto,
-        [Name("stretch")] Stretch,
-        [Name("baseline")] Baseline,
+        [Name("auto")]       Auto,
+        [Name("stretch")]    Stretch,
+        [Name("baseline")]   Baseline,
         [Name("flex-start")] Start,
-        [Name("center")] Center,
-        [Name("flex-end")] End
+        [Name("center")]     Center,
+        [Name("flex-end")]   End
     }
 
     [Name("tss.ItemJustify")]
@@ -677,10 +763,10 @@ namespace Tesserae
     public enum ItemJustify
     {
         [Name("space-between")] Between,
-        [Name("space-around")] Around,
-        [Name("space-evenly")] Evenly,
-        [Name("flex-start")] Start,
-        [Name("center")] Center,
-        [Name("flex-end")] End
+        [Name("space-around")]  Around,
+        [Name("space-evenly")]  Evenly,
+        [Name("flex-start")]    Start,
+        [Name("center")]        Center,
+        [Name("flex-end")]      End
     }
 }

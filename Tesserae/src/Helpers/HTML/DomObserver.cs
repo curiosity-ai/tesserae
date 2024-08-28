@@ -15,7 +15,7 @@ namespace Tesserae
         private class ElementAndCallback
         {
             private static bool? _weakrefAvailable;
-            private static int _count;
+            private static int   _count;
             private static bool IsAvailable()
             {
                 if (_weakrefAvailable.HasValue) return _weakrefAvailable.Value;
@@ -66,14 +66,15 @@ namespace Tesserae
                 if (IsAvailable())
                 {
                     _count++;
-                    if(_count < 0) { _count = 0; }
-                    Script.Write("{0}['callbackRefN' + {2}] = {1}", element, callback, _count); //We need to store the callback reference on the object otherwise it can be collected before the element
-                    Script.Write("{0}.ref = new WeakRef({1})", this, element);
-                    Script.Write("{0}.callbackref = new WeakRef({1})", this, callback);
+
+                    if (_count < 0) { _count = 0; }
+                    Script.Write("{0}['callbackRefN' + {2}] = {1}",    element, callback, _count); //We need to store the callback reference on the object otherwise it can be collected before the element
+                    Script.Write("{0}.ref = new WeakRef({1})",         this,    element);
+                    Script.Write("{0}.callbackref = new WeakRef({1})", this,    callback);
                 }
                 else
                 {
-                    Script.Write("{0}.ref = {1}", this, element);
+                    Script.Write("{0}.ref = {1}",         this, element);
                     Script.Write("{0}.callbackref = {1}", this, callback);
                 }
             }
@@ -82,7 +83,7 @@ namespace Tesserae
         static DomObserver()
         {
             _elementsToTrackMountingOf = new List<ElementAndCallback>();
-            _elementsToTrackRemovalOf = new List<ElementAndCallback>();
+            _elementsToTrackRemovalOf  = new List<ElementAndCallback>();
 
             var observer = new MutationObserver((mutationRecords, _) =>
             {
@@ -124,7 +125,7 @@ namespace Tesserae
             if (elementsMountedThatWeCareAbout.Count == 0) return;
 
             _elementsToTrackMountingOf = _elementsToTrackMountingOf.Except(elementsMountedThatWeCareAbout).Where(e => e.ElementOrNullIfCollected is object && e.CallbackOrNullIfCollected is object).ToList();
-            
+
             window.requestAnimationFrame(_ =>
             {
                 foreach (var entry in elementsMountedThatWeCareAbout)
@@ -151,6 +152,7 @@ namespace Tesserae
                 return;
 
             var elementsRemovedThatWeCareAbout = new List<ElementAndCallback>();
+
             foreach (var mutationRecord in mutationRecords)
             {
                 foreach (var removedElement in mutationRecord.removedNodes)
@@ -158,7 +160,7 @@ namespace Tesserae
                     // 2019-10-28 DWR: The intent behind the NotifyWhenRemoved method is to fire a callback when an element is removed from the document, so that any related tidy-up / disposal
                     // may be performed. However, this will also be fired if an element (or one of its ancestors) is RE-rendered somewhere and that's not really what we want, so if the element
                     // that has been identified as being "removed" is actually still part of a branch that reaches back up to the html element then don't consider it removed.
-                    
+
                     var highestAncestorElementIfAny = removedElement.parentElement;
 
                     while (highestAncestorElementIfAny?.parentElement != null)
@@ -195,7 +197,7 @@ namespace Tesserae
                 foreach (var entry in elementsRemovedThatWeCareAbout)
                 {
                     var element = entry.ElementOrNullIfCollected;
-                    
+
                     if (element is object)
                     {
                         if (element.IsMounted())
@@ -222,6 +224,7 @@ namespace Tesserae
         {
             if (element == null)
                 throw new ArgumentNullException(nameof(element));
+
             if (callback == null)
                 throw new ArgumentNullException(nameof(callback));
 
@@ -245,6 +248,7 @@ namespace Tesserae
         {
             if (element == null)
                 throw new ArgumentNullException(nameof(element));
+
             if (callback == null)
                 throw new ArgumentNullException(nameof(callback));
 

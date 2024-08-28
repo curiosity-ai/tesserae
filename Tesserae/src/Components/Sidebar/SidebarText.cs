@@ -18,7 +18,7 @@ namespace Tesserae
         {
             Identifier = identifier;
             _closed    = TextBlock(closedText ?? "", textSize: textSize, textWeight: textWeight);
-            _open      = TextBlock(text, textSize: textSize, textWeight: textWeight);
+            _open      = TextBlock(text,             textSize: textSize, textWeight: textWeight);
         }
 
         public void Show()

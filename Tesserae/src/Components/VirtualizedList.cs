@@ -14,21 +14,21 @@ namespace Tesserae
         private const int InitialPagesToCreate = PagesToVirtualize;
 
         private readonly ListPageCache<IComponent> _listPageCache;
-        private readonly int _pagesToVirtualizeUpperBoundary;
-        private readonly int _pagesToVirtualizeLowerBoundary;
-        private readonly string _componentHeightInPercentage;
-        private readonly string _componentWidthInPercentage;
-        private readonly HTMLElement _innerElement;
-        private readonly HTMLDivElement _basicListContainer;
-        private readonly HTMLDivElement _topSpacingDiv;
-        private readonly HTMLDivElement _bottomSpacingDiv;
+        private readonly int                       _pagesToVirtualizeUpperBoundary;
+        private readonly int                       _pagesToVirtualizeLowerBoundary;
+        private readonly string                    _componentHeightInPercentage;
+        private readonly string                    _componentWidthInPercentage;
+        private readonly HTMLElement               _innerElement;
+        private readonly HTMLDivElement            _basicListContainer;
+        private readonly HTMLDivElement            _topSpacingDiv;
+        private readonly HTMLDivElement            _bottomSpacingDiv;
 
-        private bool _initialPagesCreated;
+        private bool             _initialPagesCreated;
         private Func<IComponent> _emptyListMessageGenerator;
-        private int _currentPage;
-        private UnitSize _componentHeight;
-        private UnitSize _pageHeight;
-        private double _currentScrollPosition;
+        private int              _currentPage;
+        private UnitSize         _componentHeight;
+        private UnitSize         _pageHeight;
+        private double           _currentScrollPosition;
 
         public VirtualizedList(int rowsPerPage = 4, int columnsPerRow = 4)
         {
@@ -44,7 +44,7 @@ namespace Tesserae
 
             _listPageCache = new ListPageCache<IComponent>(rowsPerPage, columnsPerRow, CreatePageHtmlElement, CreateComponentContainerHtmlElement);
 
-            _pagesToVirtualizeUpperBoundary = (int)Floor((double)PagesToVirtualize / 2);
+            _pagesToVirtualizeUpperBoundary = (int)Floor((double)PagesToVirtualize   / 2);
             _pagesToVirtualizeLowerBoundary = (int)Ceiling((double)PagesToVirtualize / 2);
 
             _componentHeightInPercentage = GetComponentSize(rowsPerPage);
@@ -155,8 +155,8 @@ namespace Tesserae
         {
             return Div(
                 _("tss-basiclist-page")
-                    .WithRole("presentation")
-                    .WithData("tss-basiclist-pagenumber", pageNumber.ToString()));
+                   .WithRole("presentation")
+                   .WithData("tss-basiclist-pagenumber", pageNumber.ToString()));
         }
 
         private HTMLElement CreateComponentContainerHtmlElement((int key, IComponent component) componentAndKey)
@@ -165,13 +165,13 @@ namespace Tesserae
 
             return Div(
                 _("tss-basiclist-item",
-                    styles: cssStyleDeclaration =>
-                    {
-                        cssStyleDeclaration.height = _componentHeightInPercentage;
-                        cssStyleDeclaration.width  = _componentWidthInPercentage;
-                    })
-                    .WithRole("listitems")
-                    .WithData("tss-basiclist-componentnumber", key.ToString()),
+                        styles: cssStyleDeclaration =>
+                        {
+                            cssStyleDeclaration.height = _componentHeightInPercentage;
+                            cssStyleDeclaration.width  = _componentWidthInPercentage;
+                        })
+                   .WithRole("listitems")
+                   .WithData("tss-basiclist-componentnumber", key.ToString()),
                 component.Render());
         }
 
@@ -307,8 +307,8 @@ namespace Tesserae
                 }
             }
 
-            _currentPage            = newPage;
-            _currentScrollPosition  = scrollPosition;
+            _currentPage           = newPage;
+            _currentScrollPosition = scrollPosition;
         }
 
         private ScrollDirection GetScrollDirection(double scrollTop)
@@ -323,7 +323,7 @@ namespace Tesserae
                 return ScrollDirection.Up;
             }
 
-            return  ScrollDirection.Neutral;
+            return ScrollDirection.Neutral;
         }
 
         private enum ScrollDirection

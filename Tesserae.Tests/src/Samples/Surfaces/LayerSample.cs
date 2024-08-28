@@ -12,8 +12,8 @@ namespace Tesserae.Tests.Samples
         private readonly IComponent _content;
         public LayerSample()
         {
-            var layer = Layer();
-            var layer2 = Layer();
+            var layer     = Layer();
+            var layer2    = Layer();
             var layerHost = LayerHost();
 
             _content = SectionStack()

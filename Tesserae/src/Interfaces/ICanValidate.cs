@@ -9,7 +9,7 @@
     [H5.Name("tss.ICV")]
     public interface ICanValidate : IComponent
     {
-        string Error { get; set; }
-        bool IsInvalid { get; set; }
+        string Error     { get; set; }
+        bool   IsInvalid { get; set; }
     }
 }

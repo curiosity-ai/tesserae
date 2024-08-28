@@ -8,25 +8,25 @@ namespace Tesserae
     [H5.Name("tss.Masonry")]
     public class Masonry : IContainer<Masonry, IComponent>, IHasBackgroundColor, IHasMarginPadding, ISpecialCaseStyling
     {
-        private readonly string _percent;
+        private readonly string      _percent;
         private readonly HTMLElement _masonry;
-        private readonly object _masonryObj;
-        private readonly int _gutter;
+        private readonly object      _masonryObj;
+        private readonly int         _gutter;
 
         public string Background { get => _masonry.style.background; set => _masonry.style.background = value; }
         public string Margin     { get => _masonry.style.margin;     set => _masonry.style.margin = value; }
         public string Padding    { get => _masonry.style.padding;    set => _masonry.style.padding = value; }
 
-        public HTMLElement StylingContainer => _masonry;
-        private double _timeout;
-        public bool PropagateToStackItemParent => false;
+        public  HTMLElement StylingContainer => _masonry;
+        private double      _timeout;
+        public  bool        PropagateToStackItemParent => false;
 
         public Masonry(int columns, int gutter = 10)
         {
-            _percent = $"calc({(100f / columns):0.00}% - {gutter}px)";
-            _masonry = Div(_("tss-masonry"));
+            _percent    = $"calc({(100f / columns):0.00}% - {gutter}px)";
+            _masonry    = Div(_("tss-masonry"));
             _masonryObj = Script.Write<object>("new Masonry({0}, { itemSelector: '.tss-masonry-item', columnWidth: '.tss-masonry-item', gutter: {1}, percentPosition: true })", _masonry, gutter);
-            _gutter = gutter;
+            _gutter     = gutter;
             DomObserver.WhenMounted(_masonry, () => Layout());
         }
 
@@ -44,6 +44,7 @@ namespace Tesserae
             if (_masonry.IsMounted())
             {
                 window.clearTimeout(_timeout);
+
                 _timeout = window.setTimeout((_) =>
                 {
                     Script.Write("{0}.layout()", _masonryObj);
@@ -68,9 +69,9 @@ namespace Tesserae
                 {
                     item = Div(_("tss-masonry-item", styles: s =>
                     {
-                        s.alignSelf = "auto";
-                        s.width = _percent;
-                        s.height = "auto";
+                        s.alignSelf  = "auto";
+                        s.width      = _percent;
+                        s.height     = "auto";
                         s.flexShrink = "1";
                     }), component.Render());
 

@@ -16,41 +16,41 @@ namespace Tesserae.Tests.Samples
         public static void DumpTheme()
         {
             foreach (var (fromC, toC) in new[]
-                     {
-                         ("tss-default-background-color-root", "tss-default-background-hover-color-root"),
-                         ("tss-default-background-color-root", "tss-default-background-active-color-root"),
+                {
+                    ("tss-default-background-color-root", "tss-default-background-hover-color-root"),
+                    ("tss-default-background-color-root", "tss-default-background-active-color-root"),
 
-                         ("tss-default-foreground-color-root", "tss-default-foreground-hover-color-root"),
-                         ("tss-default-foreground-color-root", "tss-default-foreground-active-color-root"),
+                    ("tss-default-foreground-color-root", "tss-default-foreground-hover-color-root"),
+                    ("tss-default-foreground-color-root", "tss-default-foreground-active-color-root"),
 
-                         ("tss-primary-background-color-root", "tss-primary-border-color-root"),
-                         ("tss-primary-background-color-root", "tss-primary-background-hover-color-root"),
-                         ("tss-primary-background-color-root", "tss-primary-background-active-color-root"),
+                    ("tss-primary-background-color-root", "tss-primary-border-color-root"),
+                    ("tss-primary-background-color-root", "tss-primary-background-hover-color-root"),
+                    ("tss-primary-background-color-root", "tss-primary-background-active-color-root"),
 
-                         ("tss-primary-foreground-color-root", "tss-primary-foreground-hover-color-root"),
-                         ("tss-primary-foreground-color-root", "tss-primary-foreground-active-color-root"),
+                    ("tss-primary-foreground-color-root", "tss-primary-foreground-hover-color-root"),
+                    ("tss-primary-foreground-color-root", "tss-primary-foreground-active-color-root"),
 
-                         ("tss-danger-background-color-root", "tss-danger-border-color-root"),
-                         ("tss-danger-background-color-root", "tss-danger-background-hover-color-root"),
-                         ("tss-danger-background-color-root", "tss-danger-background-active-color-root"),
+                    ("tss-danger-background-color-root", "tss-danger-border-color-root"),
+                    ("tss-danger-background-color-root", "tss-danger-background-hover-color-root"),
+                    ("tss-danger-background-color-root", "tss-danger-background-active-color-root"),
 
-                         ("tss-danger-foreground-color-root", "tss-danger-foreground-hover-color-root"),
-                         ("tss-danger-foreground-color-root", "tss-danger-foreground-active-color-root"),
+                    ("tss-danger-foreground-color-root", "tss-danger-foreground-hover-color-root"),
+                    ("tss-danger-foreground-color-root", "tss-danger-foreground-active-color-root"),
 
-                         ("tss-scrollbar-track-color", "tss-scrollbar-track-hidden-color"),
-                         ("tss-scrollbar-track-color", "tss-scrollbar-thumb-color"),
-                         ("tss-scrollbar-track-color", "tss-scrollbar-thumb-hidden-color"),
+                    ("tss-scrollbar-track-color", "tss-scrollbar-track-hidden-color"),
+                    ("tss-scrollbar-track-color", "tss-scrollbar-thumb-color"),
+                    ("tss-scrollbar-track-color", "tss-scrollbar-thumb-hidden-color"),
 
-                         ("tss-default-border-color-root", "tss-default-background-color-root"),
-                         ("tss-dark-border-color-root", "tss-default-background-color-root"),
-                         ("tss-default-separator-color-root", "tss-default-background-color-root"),
-                         ("tss-progress-background-color-root", "tss-default-background-color-root"),
-                         ("tss-link-color-root", "tss-primary-background-color-root"),
-                         ("tss-tooltip-background-color-root", "tss-default-foreground-color-root"),
-                         ("tss-tooltip-foreground-color-root", "tss-default-background-color-root"),
-                         ("tss-tooltip-background-color-root", "tss-default-background-color-root"),
-                         ("tss-tooltip-foreground-color-root", "tss-default-foreground-color-root"),
-                     })
+                    ("tss-default-border-color-root", "tss-default-background-color-root"),
+                    ("tss-dark-border-color-root", "tss-default-background-color-root"),
+                    ("tss-default-separator-color-root", "tss-default-background-color-root"),
+                    ("tss-progress-background-color-root", "tss-default-background-color-root"),
+                    ("tss-link-color-root", "tss-primary-background-color-root"),
+                    ("tss-tooltip-background-color-root", "tss-default-foreground-color-root"),
+                    ("tss-tooltip-foreground-color-root", "tss-default-background-color-root"),
+                    ("tss-tooltip-background-color-root", "tss-default-background-color-root"),
+                    ("tss-tooltip-foreground-color-root", "tss-default-foreground-color-root"),
+                })
             {
                 console.log($"{(Theme.IsDark ? "DARK" : "LIGHT")}: {fromC} to {toC}: {LightDiff(fromC, toC):n1}");
             }
@@ -59,7 +59,7 @@ namespace Tesserae.Tests.Samples
         public static double LightDiff(string from, string to)
         {
             string fromVar = Color.EvalVar("var(--" + from + ")");
-            string toVar = Color.EvalVar("var(--" + to + ")");
+            string toVar   = Color.EvalVar("var(--" + to   + ")");
 
             if (!fromVar.Contains("("))
             {
@@ -71,46 +71,46 @@ namespace Tesserae.Tests.Samples
                 toVar = "rgb(" + toVar + ")";
             }
             var fromColor = (HSLColor)Color.FromString(fromVar);
-            var toColor = (HSLColor)Color.FromString(toVar);
+            var toColor   = (HSLColor)Color.FromString(toVar);
             return toColor.Luminosity - fromColor.Luminosity;
         }
 
         public ThemeColorsSample()
         {
-            var currentTheme = Theme.IsLight;
-            var primaryLight = new SettableObservable<Color>();
+            var currentTheme    = Theme.IsLight;
+            var primaryLight    = new SettableObservable<Color>();
             var backgroundLight = new SettableObservable<Color>();
-            var primaryDark = new SettableObservable<Color>();
-            var backgroundDark = new SettableObservable<Color>();
+            var primaryDark     = new SettableObservable<Color>();
+            var backgroundDark  = new SettableObservable<Color>();
 
             var combined = new CombinedObservable<Color, Color, Color, Color>(primaryLight, primaryDark, backgroundLight, backgroundDark);
 
-            var cpPrimaryLight = ColorPicker().OnInput((cp,    ev) => primaryLight.Value = cp.Color);
-            var cpPrimaryDark = ColorPicker().OnInput((cp,     ev) => primaryDark.Value = cp.Color);
+            var cpPrimaryLight    = ColorPicker().OnInput((cp, ev) => primaryLight.Value = cp.Color);
+            var cpPrimaryDark     = ColorPicker().OnInput((cp, ev) => primaryDark.Value = cp.Color);
             var cpBackgroundLight = ColorPicker().OnInput((cp, ev) => backgroundLight.Value = cp.Color);
-            var cpBackgroundDark = ColorPicker().OnInput((cp,  ev) => backgroundDark.Value = cp.Color);
+            var cpBackgroundDark  = ColorPicker().OnInput((cp, ev) => backgroundDark.Value = cp.Color);
 
             Theme.Light();
 
             window.setTimeout((_) =>
             {
 
-                primaryLight.Value = Color.FromString(Color.EvalVar(Theme.Primary.Background));
+                primaryLight.Value    = Color.FromString(Color.EvalVar(Theme.Primary.Background));
                 backgroundLight.Value = Color.FromString(Color.EvalVar(Theme.Default.Background));
 
                 Theme.Dark();
 
                 window.setTimeout((__) =>
                 {
-                    primaryDark.Value = Color.FromString(Color.EvalVar(Theme.Primary.Background));
+                    primaryDark.Value    = Color.FromString(Color.EvalVar(Theme.Primary.Background));
                     backgroundDark.Value = Color.FromString(Color.EvalVar(Theme.Default.Background));
-                    Theme.IsLight = currentTheme;
+                    Theme.IsLight        = currentTheme;
 
 
-                    cpPrimaryLight.Color = primaryLight.Value;
-                    cpPrimaryDark.Color = primaryDark.Value;
+                    cpPrimaryLight.Color    = primaryLight.Value;
+                    cpPrimaryDark.Color     = primaryDark.Value;
                     cpBackgroundLight.Color = backgroundLight.Value;
-                    cpBackgroundDark.Color = backgroundDark.Value;
+                    cpBackgroundDark.Color  = backgroundDark.Value;
 
                     combined.ObserveFutureChanges(v =>
                     {
@@ -126,14 +126,14 @@ namespace Tesserae.Tests.Samples
                .Section(
                     Stack().Children(
                         DetailsList<ColorListItem>(
-                                DetailsListColumn(title: "ThemeName", width: 120.px()),
-                                DetailsListColumn(title: "Background", width: 160.px()),
-                                DetailsListColumn(title: "Foreground", width: 160.px()),
-                                DetailsListColumn(title: "Border", width: 160.px()),
+                                DetailsListColumn(title: "ThemeName",        width: 120.px()),
+                                DetailsListColumn(title: "Background",       width: 160.px()),
+                                DetailsListColumn(title: "Foreground",       width: 160.px()),
+                                DetailsListColumn(title: "Border",           width: 160.px()),
                                 DetailsListColumn(title: "BackgroundActive", width: 160.px()),
-                                DetailsListColumn(title: "BackgroundHover", width: 160.px()),
+                                DetailsListColumn(title: "BackgroundHover",  width: 160.px()),
                                 DetailsListColumn(title: "ForegroundActive", width: 160.px()),
-                                DetailsListColumn(title: "ForegroundHover", width: 160.px()))
+                                DetailsListColumn(title: "ForegroundHover",  width: 160.px()))
                            .Compact()
                            .Height(500.px())
                            .WithListItems(new[]
@@ -239,7 +239,7 @@ namespace Tesserae.Tests.Samples
                 {
                     return Raw(Div(_(styles: (s) =>
                     {
-                        s.width = "50px";
+                        s.width  = "50px";
                         s.height = "49px";
                         //                        s.boxShadow = "1px 1px 1px 1px lightgrey";
                     })));
@@ -247,12 +247,12 @@ namespace Tesserae.Tests.Samples
 
                 return Raw(Div(_(styles: (s) =>
                 {
-                    s.width = "50px";
-                    s.height = "49px";
+                    s.width           = "50px";
+                    s.height          = "49px";
                     s.backgroundColor = color;
-                    s.color = color;
-                    s.borderColor = color;
-                    s.boxShadow = "1px 1px 1px 1px lightgrey";
+                    s.color           = color;
+                    s.borderColor     = color;
+                    s.boxShadow       = "1px 1px 1px 1px lightgrey";
                 })));
             }
 
@@ -274,13 +274,13 @@ namespace Tesserae.Tests.Samples
             public IEnumerable<IComponent> Render(IList<IDetailsListColumn> columns, Func<IDetailsListColumn, Func<IComponent>, IComponent> createGridCellExpression)
             {
                 yield return createGridCellExpression(columns[0], () => TextBlock(ThemeName));
-                yield return createGridCellExpression(columns[1], () => ColorSquare(Mapping[ThemeName].GetValueOrDefault("Background", "")));
-                yield return createGridCellExpression(columns[2], () => ColorSquare(Mapping[ThemeName].GetValueOrDefault("Foreground", "")));
-                yield return createGridCellExpression(columns[3], () => ColorSquare(Mapping[ThemeName].GetValueOrDefault("Border", "")));
+                yield return createGridCellExpression(columns[1], () => ColorSquare(Mapping[ThemeName].GetValueOrDefault("Background",       "")));
+                yield return createGridCellExpression(columns[2], () => ColorSquare(Mapping[ThemeName].GetValueOrDefault("Foreground",       "")));
+                yield return createGridCellExpression(columns[3], () => ColorSquare(Mapping[ThemeName].GetValueOrDefault("Border",           "")));
                 yield return createGridCellExpression(columns[4], () => ColorSquare(Mapping[ThemeName].GetValueOrDefault("BackgroundActive", "")));
-                yield return createGridCellExpression(columns[5], () => ColorSquare(Mapping[ThemeName].GetValueOrDefault("BackgroundHover", "")));
+                yield return createGridCellExpression(columns[5], () => ColorSquare(Mapping[ThemeName].GetValueOrDefault("BackgroundHover",  "")));
                 yield return createGridCellExpression(columns[6], () => ColorSquare(Mapping[ThemeName].GetValueOrDefault("ForegroundActive", "")));
-                yield return createGridCellExpression(columns[7], () => ColorSquare(Mapping[ThemeName].GetValueOrDefault("ForegroundHover", "")));
+                yield return createGridCellExpression(columns[7], () => ColorSquare(Mapping[ThemeName].GetValueOrDefault("ForegroundHover",  "")));
             }
         }
     }

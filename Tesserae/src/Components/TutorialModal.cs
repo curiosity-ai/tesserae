@@ -24,10 +24,10 @@ namespace Tesserae
         public TutorialModal(string title, string helpText, string imageSrc = null)
         {
             _footerCommands = HStack().Padding(10.px()).WS().AlignItems(ItemAlign.End);
-            _content = VStack().Padding("38px 32px 0px 32px");
-            _title = TextBlock(title).Large().Bold().PaddingTop(10.px()).PaddingBottom(20.px());
-            _helpText = TextBlock(helpText).Padding("20px 30px 0 0");
-            _illustration = Raw().W(196).H(196);
+            _content        = VStack().Padding("38px 32px 0px 32px");
+            _title          = TextBlock(title).Large().Bold().PaddingTop(10.px()).PaddingBottom(20.px());
+            _helpText       = TextBlock(helpText).Padding("20px 30px 0 0");
+            _illustration   = Raw().W(196).H(196);
 
             if (!string.IsNullOrWhiteSpace(imageSrc))
             {
@@ -82,7 +82,7 @@ namespace Tesserae
             _modal.Width(width);
             return this;
         }
-        
+
         public TutorialModal W(UnitSize width) => Width(width);
 
         public TutorialModal SetTitle(string title)
@@ -145,7 +145,7 @@ namespace Tesserae
 
         public TutorialModal Border(string color, UnitSize size = null)
         {
-            size = size ?? 1.px();
+            size                                      = size ?? 1.px();
             _modal.StylingContainer.style.borderColor = color;
             _modal.StylingContainer.style.borderWidth = size.ToString();
             _modal.StylingContainer.style.borderStyle = "solid";

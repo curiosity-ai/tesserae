@@ -8,11 +8,11 @@ namespace Tesserae
     [H5.Name("tss.ItemsList")]
     public sealed class ItemsList : IComponent, ISpecialCaseStyling
     {
-        private readonly Grid _grid;
-        private readonly Stack _stack;
-        private readonly UnitSize _maxStackItemSize;
+        private readonly Grid             _grid;
+        private readonly Stack            _stack;
+        private readonly UnitSize         _maxStackItemSize;
         private readonly DeferedComponent _defered;
-        private Func<IComponent> _emptyListMessageGenerator;
+        private          Func<IComponent> _emptyListMessageGenerator;
         public ItemsList(IComponent[] items, params UnitSize[] columns) : this(new ObservableList<IComponent>(initialValues: items ?? new IComponent[0]), columns) { }
 
         public ObservableList<IComponent> Items { get; }
@@ -27,7 +27,7 @@ namespace Tesserae
 
             if (columns.Length < 2)
             {
-                _stack = Stack().Horizontal().Wrap().WS().MaxHeight(100.percent()).Scroll();
+                _stack            = Stack().Horizontal().Wrap().WS().MaxHeight(100.percent()).Scroll();
                 _maxStackItemSize = columns.FirstOrDefault() ?? 100.percent();
             }
             else
@@ -44,7 +44,7 @@ namespace Tesserae
                     {
                         if (_emptyListMessageGenerator is object)
                         {
-                            if(_grid is object)
+                            if (_grid is object)
                             {
                                 return _grid.Children(_emptyListMessageGenerator().GridColumnStretch()).AsTask();
                             }
@@ -55,7 +55,7 @@ namespace Tesserae
                         }
                         else
                         {
-                            if(_grid is object)
+                            if (_grid is object)
                             {
                                 _grid.Clear();
                                 return _grid.AsTask();
@@ -69,7 +69,7 @@ namespace Tesserae
                     }
                     else
                     {
-                        if(_grid is object)
+                        if (_grid is object)
                         {
                             return _grid.Children(observedItems).AsTask();
                         }

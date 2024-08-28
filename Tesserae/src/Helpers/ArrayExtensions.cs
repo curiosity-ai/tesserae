@@ -24,7 +24,7 @@ namespace Tesserae
         {
             var element = arr[fromIndex];
             arr.Splice(fromIndex, 1);
-            arr.Splice(toIndex, 0, element);
+            arr.Splice(toIndex,   0, element);
         }
         /// <summary>
         /// Gets the first item that matches if it exists

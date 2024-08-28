@@ -9,12 +9,12 @@ namespace Tesserae
     public sealed class EditableArea : ComponentBase<EditableArea, HTMLTextAreaElement>, ITextFormating, IObservableComponent<string>
     {
         private event SaveEditHandler Saved;
-        public delegate bool SaveEditHandler(EditableArea sender, string newValue);
+        public delegate bool          SaveEditHandler(EditableArea sender, string newValue);
 
-        private readonly HTMLDivElement _container;
-        private readonly HTMLSpanElement _labelText;
-        private readonly HTMLDivElement _editView;
-        private readonly HTMLDivElement _labelView;
+        private readonly HTMLDivElement             _container;
+        private readonly HTMLSpanElement            _labelText;
+        private readonly HTMLDivElement             _editView;
+        private readonly HTMLDivElement             _labelView;
         private readonly SettableObservable<string> _observable = new SettableObservable<string>();
 
         private readonly HTMLElement _editIcon;
@@ -25,12 +25,12 @@ namespace Tesserae
         public EditableArea(string text = string.Empty)
         {
             _labelText = Span(_("tss-editablelabel-textspan tss-fontcolor-default tss-fontsize-small tss-fontweight-regular", text: text, title: "Click to edit"));
-            _editIcon = I(_($"tss-editablelabel-edit-icon {UIcons.Pencil}"));
+            _editIcon  = I(_($"tss-editablelabel-edit-icon {UIcons.Pencil}"));
             _labelView = Div(_("tss-editablelabel-displaybox"), _labelText, _editIcon);
 
-            InnerElement = TextArea(_("tss-editablelabel-textbox tss-fontcolor-default tss-fontsize-small tss-fontweight-regular", type: "text"));
-            _cancelEditIcon = Div(_("tss-editablelabel-cancel-icon", title: "Cancel edit"), I(_(UIcons.Cross.ToString())));
-            _editView = Div(_("tss-editablelabel-editbox"), InnerElement, _cancelEditIcon);
+            InnerElement    = TextArea(_("tss-editablelabel-textbox tss-fontcolor-default tss-fontsize-small tss-fontweight-regular", type: "text"));
+            _cancelEditIcon = Div(_("tss-editablelabel-cancel-icon",                                                                  title: "Cancel edit"), I(_(UIcons.Cross.ToString())));
+            _editView       = Div(_("tss-editablelabel-editbox"),                                                                                            InnerElement, _cancelEditIcon);
 
             _container = Div(_("tss-editablelabel "), _labelView, _editView);
 
@@ -50,7 +50,7 @@ namespace Tesserae
                     CancelEditing();
                 }
             });
-            
+
             OnBlur((_, __) => window.setTimeout(SaveEditing, 150)); // We need to do this on a timeout, because clicking on the Cancel would trigger this method first, with no opportunity to cancel
         }
 
@@ -78,7 +78,7 @@ namespace Tesserae
             get => ITextFormatingExtensions.FromClassList(InnerElement, TextWeight.Regular);
             set
             {
-                var current = Weight.ToString();
+                var current  = Weight.ToString();
                 var newValue = value.ToString();
 
                 InnerElement.classList.remove(current);
@@ -109,7 +109,7 @@ namespace Tesserae
                 if (value)
                 {
                     var labelRect = (DOMRect)_labelText.getBoundingClientRect();
-                    InnerElement.style.minWidth = (labelRect.width * 1.2) + "px";
+                    InnerElement.style.minWidth  = (labelRect.width  * 1.2) + "px";
                     InnerElement.style.minHeight = (labelRect.height * 1.2) + "px";
                     _container.classList.add("tss-editing");
                 }
@@ -129,14 +129,14 @@ namespace Tesserae
         private void BeginEditing()
         {
             InnerElement.value = _labelText.textContent;
-            IsEditingMode = true;
-            _isCanceling = false;
+            IsEditingMode      = true;
+            _isCanceling       = false;
             InnerElement.focus();
         }
 
         private void CancelEditing()
         {
-            _isCanceling = true;
+            _isCanceling  = true;
             IsEditingMode = false;
             InnerElement.blur();
         }
@@ -152,8 +152,8 @@ namespace Tesserae
                 if (Saved is null || Saved(this, newValue))
                 {
                     _labelText.textContent = newValue;
-                    _observable.Value = newValue;
-                    IsEditingMode = false;
+                    _observable.Value      = newValue;
+                    IsEditingMode          = false;
                 }
                 else
                 {
@@ -162,7 +162,7 @@ namespace Tesserae
             }
         }
 
-        public EditableArea  SetText(string text)
+        public EditableArea SetText(string text)
         {
             if (IsEditingMode)
             {

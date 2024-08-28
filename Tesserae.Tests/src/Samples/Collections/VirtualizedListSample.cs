@@ -23,24 +23,24 @@ namespace Tesserae.Tests.Samples
                            .Children(
                                 SampleTitle("Overview"),
                                 TextBlock("List provides a base component for rendering large sets of items. " +
-                                          "It is agnostic of the tile component used, and selection " +
-                                          "management. These concerns can be layered separately.")
+                                        "It is agnostic of the tile component used, and selection "            +
+                                        "management. These concerns can be layered separately.")
                                    .PaddingBottom(16.px()),
-                                TextBlock("Performance is important, and DOM content is expensive. Therefore, " +
-                                          "limit what you render. List applies this principle by using UI " +
-                                          "virtualization. Unlike a simple for loop that renders all items in " +
-                                          "a set, a List only renders a subset of items, and as you scroll around, " +
-                                          "the subset of rendered content is shifted. This gives a much " +
-                                          "better experience for large sets, especially when the " +
-                                          "per-item components are complex/render-intensive/network-intensive.")
+                                TextBlock("Performance is important, and DOM content is expensive. Therefore, "    +
+                                        "limit what you render. List applies this principle by using UI "          +
+                                        "virtualization. Unlike a simple for loop that renders all items in "      +
+                                        "a set, a List only renders a subset of items, and as you scroll around, " +
+                                        "the subset of rendered content is shifted. This gives a much "            +
+                                        "better experience for large sets, especially when the "                   +
+                                        "per-item components are complex/render-intensive/network-intensive.")
                                    .PaddingBottom(16.px()),
                                 TextBlock("List breaks down the set of items passed in into pages. Only pages " +
-                                          "within a 'materialized window' are actually rendered. As that window " +
-                                          "changes due to scroll events, pages that fall outside that window are " +
-                                          "removed, and their layout space is remembered and pushed into spacer " +
-                                          "elements. This gives the user the experience of browsing massive amounts " +
-                                          "of content but only using a small number of actual elements. " +
-                                          "This gives the browser much less layout to resolve.")))
+                                    "within a 'materialized window' are actually rendered. As that window "     +
+                                    "changes due to scroll events, pages that fall outside that window are "    +
+                                    "removed, and their layout space is remembered and pushed into spacer "     +
+                                    "elements. This gives the user the experience of browsing massive amounts " +
+                                    "of content but only using a small number of actual elements. "             +
+                                    "This gives the browser much less layout to resolve.")))
                    .Section(
                         Stack()
                            .Children(
@@ -76,9 +76,9 @@ namespace Tesserae.Tests.Samples
                 _innerElement =
                     Div(_(text: text, styles: s =>
                     {
-                        s.display = "block";
+                        s.display   = "block";
                         s.textAlign = "center";
-                        s.height = "63px";
+                        s.height    = "63px";
                     }));
             }
 

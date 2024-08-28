@@ -7,24 +7,24 @@ using static Tesserae.UI;
 namespace Tesserae
 {
     [H5.Name("tss.Picker")]
-    public sealed class Picker<TPickerItem> : IComponent, ITabIndex, IObservableListComponent<TPickerItem>  where TPickerItem : class, IPickerItem
+    public sealed class Picker<TPickerItem> : IComponent, ITabIndex, IObservableListComponent<TPickerItem> where TPickerItem : class, IPickerItem
     {
         private event ComponentEventHandler<Picker<TPickerItem>, ItemPickedEvent> SelectedItem;
 
         private readonly ObservableList<TPickerItem> _pickerItems = new ObservableList<TPickerItem>();
-        private readonly HTMLElement _container;
-        private readonly TextBox _textBox;
-        private readonly SuggestionsLayer _suggestionsLayer;
-        private readonly bool _renderSelectionsInline;
-        private readonly HTMLElement _selectionsElement;
+        private readonly HTMLElement                 _container;
+        private readonly TextBox                     _textBox;
+        private readonly SuggestionsLayer            _suggestionsLayer;
+        private readonly bool                        _renderSelectionsInline;
+        private readonly HTMLElement                 _selectionsElement;
 
-        private double _debounce;
+        private          double _debounce;
         private readonly double _debounceTimeout = 50;
-        private double _hideSugestionsTimeout;
+        private          double _hideSugestionsTimeout;
 
         private HTMLElement _textBoxElement;
 
-        public Picker(int maximumAllowedSelections = int.MaxValue, bool duplicateSelectionsAllowed = false, int suggestionsTolerance = 0,  bool renderSelectionsInline = true, string suggestionsTitleText = null)
+        public Picker(int maximumAllowedSelections = int.MaxValue, bool duplicateSelectionsAllowed = false, int suggestionsTolerance = 0, bool renderSelectionsInline = true, string suggestionsTitleText = null)
         {
             MaximumAllowedSelections   = maximumAllowedSelections;
             DuplicateSelectionsAllowed = duplicateSelectionsAllowed;
@@ -40,9 +40,9 @@ namespace Tesserae
                 _selectionsElement.classList.add("tss-picker-selections-inline");
             }
 
-            _container            = DIV();
-            _textBox              = TextBox();
-            _suggestionsLayer     = new SuggestionsLayer(new Suggestions(suggestionsTitleText));
+            _container        = DIV();
+            _textBox          = TextBox();
+            _suggestionsLayer = new SuggestionsLayer(new Suggestions(suggestionsTitleText));
 
             CreatePicker(pickerContainer);
         }
@@ -61,17 +61,17 @@ namespace Tesserae
             return _pickerItems;
         }
 
-        public IEnumerable<TPickerItem> PickerItems           => _pickerItems;
+        public IEnumerable<TPickerItem> PickerItems => _pickerItems;
 
-        public IEnumerable<TPickerItem> SelectedPickerItems   => _pickerItems.Where(pickerItem => pickerItem.IsSelected);
+        public IEnumerable<TPickerItem> SelectedPickerItems => _pickerItems.Where(pickerItem => pickerItem.IsSelected);
 
         public IEnumerable<TPickerItem> UnselectedPickerItems => _pickerItems.Where(pickerItem => !pickerItem.IsSelected);
 
-        public int? MaximumAllowedSelections                  { get; }
+        public int? MaximumAllowedSelections { get; }
 
-        public bool DuplicateSelectionsAllowed                { get; }
+        public bool DuplicateSelectionsAllowed { get; }
 
-        public int SuggestionsTolerance                       { get; }
+        public int SuggestionsTolerance { get; }
 
         public Picker<TPickerItem> Items(params TPickerItem[] items)
         {
@@ -99,7 +99,7 @@ namespace Tesserae
 
             _pickerItems.AddRange(items);
 
-            foreach(var item in items)
+            foreach (var item in items)
             {
                 if (item.IsSelected)
                 {
@@ -124,7 +124,7 @@ namespace Tesserae
 
             _textBox.OnInput((_, __) => OnTextBoxInput());
             _textBox.OnFocus((_, __) => OnTextBoxInput());
-            _textBox.OnBlur((_, __) => OnTextBoxBlur());
+            _textBox.OnBlur((_,  __) => OnTextBoxBlur());
 
             _textBoxElement = _textBox.Render();
 
@@ -244,15 +244,16 @@ namespace Tesserae
             UpdateSelection(selectedItem, true);
 
             var selectionContainerElement = Div(_("tss-picker-selection"));
-            var selectionComponent = selectedItem.Render();
+            var selectionComponent        = selectedItem.Render();
+
             var removeButton = Button()
-                                .Link()
-                                .SetIcon(UIcons.Cross, size: TextSize.Tiny, color: "var(--tss-default-foreground-color)")
-                                .OnClick((_,__) =>
-                                {
-                                    UpdateSelection(selectedItem, false);
-                                    selectionContainerElement.remove();
-                                }).Render();
+               .Link()
+               .SetIcon(UIcons.Cross, size: TextSize.Tiny, color: "var(--tss-default-foreground-color)")
+               .OnClick((_, __) =>
+                {
+                    UpdateSelection(selectedItem, false);
+                    selectionContainerElement.remove();
+                }).Render();
 
             removeButton.classList.add("tss-picker-remove");
 
@@ -269,6 +270,7 @@ namespace Tesserae
             selectedItem.IsSelected = isSelected;
             _textBox.ClearText();
             window.clearTimeout(_hideSugestionsTimeout);
+
             _hideSugestionsTimeout = window.setTimeout(_ =>
             {
                 ClearSuggestions();
@@ -313,7 +315,7 @@ namespace Tesserae
                 _contentHtml = Div(_("tss-layer-content"), _suggestions);
             }
 
-            public Element SuggestionsContent       => _suggestions;
+            public Element SuggestionsContent => _suggestions;
 
             public HTMLElement SuggestionsContainer => _renderedContent;
         }

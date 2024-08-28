@@ -105,9 +105,9 @@ namespace Tesserae
                 {
                     item = Div(_("tss-stack-item", styles: s =>
                     {
-                        s.alignSelf = "auto";
-                        s.width = "auto";
-                        s.height = "auto";
+                        s.alignSelf  = "auto";
+                        s.width      = "auto";
+                        s.height     = "auto";
                         s.flexShrink = "1";
                     }), component.Render());
 
@@ -164,11 +164,12 @@ namespace Tesserae
         public static void SetGridColumn(IComponent component, int start, int end)
         {
             var (item, rememberAndPropagate) = GetCorrectItemToApplyStyle(component);
-            item.style.gridColumn = $"{start} / {end}";
+            item.style.gridColumn            = $"{start} / {end}";
 
             if (rememberAndPropagate)
             {
                 item.setAttribute("tss-grd-c", "");
+
                 if (component.HasOwnProperty("GridItem"))
                 {
                     component["GridItem"].As<HTMLElement>().style.gridColumn = item.style.gridColumn;
@@ -182,7 +183,8 @@ namespace Tesserae
         public static void SetGridRow(IComponent component, int start, int end)
         {
             var (item, rememberAndPropagate) = GetCorrectItemToApplyStyle(component);
-            item.style.gridRow = $"{start} / {end}";
+            item.style.gridRow               = $"{start} / {end}";
+
             if (rememberAndPropagate)
             {
                 item.setAttribute("tss-grd-r", "");

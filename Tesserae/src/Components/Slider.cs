@@ -9,18 +9,18 @@ namespace Tesserae
     public sealed class Slider : ComponentBase<Slider, HTMLInputElement>
     {
         private readonly HTMLLabelElement _outerLabel;
-        private readonly HTMLDivElement _outerDiv;
-        private readonly HTMLDivElement _fakeDiv;
+        private readonly HTMLDivElement   _outerDiv;
+        private readonly HTMLDivElement   _fakeDiv;
 
         public Slider(int val = 0, int min = 0, int max = 100, int step = 10)
         {
-            InnerElement = document.createElement("input") as HTMLInputElement;
+            InnerElement           = document.createElement("input") as HTMLInputElement;
             InnerElement.className = "tss-slider";
-            InnerElement.value = val.ToString();
-            InnerElement.min = min.ToString();
-            InnerElement.max = max.ToString();
-            InnerElement.step = step.ToString();
-            InnerElement.type = "range";
+            InnerElement.value     = val.ToString();
+            InnerElement.min       = min.ToString();
+            InnerElement.max       = max.ToString();
+            InnerElement.step      = step.ToString();
+            InnerElement.type      = "range";
 
             AttachClick();
             AttachChange();
@@ -33,7 +33,7 @@ namespace Tesserae
                 _fakeDiv = Div(_("tss-slider-fake-progress"));
                 double percent = ((double)(val - min) / (max - min)) * 100.0;
                 _fakeDiv.style.width = $"{percent:0.##}%";
-                
+
                 InputUpdated += (e, s) =>
                 {
                     percent = UpdateFakeProgress();
@@ -44,7 +44,7 @@ namespace Tesserae
             }
             else
             {
-                _outerLabel = Label(_("tss-slider-container"), InnerElement);
+                _outerLabel               = Label(_("tss-slider-container"), InnerElement);
                 InnerElement.style.height = "8px";
             }
 

@@ -10,15 +10,15 @@ namespace Tesserae
     public sealed class ListPageCache<TComponent> : ComponentCacheBase<TComponent>
         where TComponent : class
     {
-        private readonly Func<int, HTMLElement> _createPageHtmlElementExpression;
+        private readonly Func<int, HTMLElement>                             _createPageHtmlElementExpression;
         private readonly Func<(int Key, TComponent Component), HTMLElement> _afterComponentRetrievedExpression;
-        private readonly Dictionary<int, HTMLElement> _pageCache;
-        private readonly List<List<(int Key, TComponent Component)>> _pages;
+        private readonly Dictionary<int, HTMLElement>                       _pageCache;
+        private readonly List<List<(int Key, TComponent Component)>>        _pages;
 
         public ListPageCache(
-            int rowsPerPage,
-            int columnsPerRow,
-            Func<int, HTMLElement> createPageHtmlElementExpression,
+            int                                                rowsPerPage,
+            int                                                columnsPerRow,
+            Func<int, HTMLElement>                             createPageHtmlElementExpression,
             Func<(int key, TComponent component), HTMLElement> afterComponentRetrievedExpression)
         {
             if (rowsPerPage <= 0)
@@ -36,23 +36,23 @@ namespace Tesserae
 
             _createPageHtmlElementExpression =
                 createPageHtmlElementExpression ??
-                    throw new ArgumentNullException(nameof(createPageHtmlElementExpression));
+                throw new ArgumentNullException(nameof(createPageHtmlElementExpression));
 
             _afterComponentRetrievedExpression =
                 afterComponentRetrievedExpression ??
-                    throw new ArgumentNullException(nameof(afterComponentRetrievedExpression));
+                throw new ArgumentNullException(nameof(afterComponentRetrievedExpression));
 
-            _pageCache  = new Dictionary<int, HTMLElement>();
-            _pages      = new List<List<(int key, TComponent component)>>();
+            _pageCache = new Dictionary<int, HTMLElement>();
+            _pages     = new List<List<(int key, TComponent component)>>();
         }
 
-        public int RowsPerPage       { get; }
+        public int RowsPerPage { get; }
 
         public int ComponentsPerPage { get; }
 
-        public int PagesCount        => _pages.Count;
+        public int PagesCount => _pages.Count;
 
-        public int RowsCount         => RowsPerPage * PagesCount;
+        public int RowsCount => RowsPerPage * PagesCount;
 
         public ListPageCache<TComponent> AddComponents(IEnumerable<TComponent> components)
         {
@@ -76,8 +76,8 @@ namespace Tesserae
 
             page.AppendChildren(
                 GetComponentsForPage(pageNumberToRetrieve)
-                    .Select(_afterComponentRetrievedExpression)
-                    .ToArray());
+                   .Select(_afterComponentRetrievedExpression)
+                   .ToArray());
 
             _pageCache.Add(pageNumberToRetrieve, page);
 

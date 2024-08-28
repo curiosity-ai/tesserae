@@ -19,7 +19,7 @@ namespace Tesserae
 
         protected override (int year, int weekNumber) FormatMoment(string week)
         {
-            var weekSplit = week.Split(new []{ '-' }, StringSplitOptions.RemoveEmptyEntries);
+            var weekSplit = week.Split(new[] { '-' }, StringSplitOptions.RemoveEmptyEntries);
 
             if (!weekSplit.Any() || weekSplit.Any(string.IsNullOrWhiteSpace))
             {

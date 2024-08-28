@@ -9,7 +9,7 @@ namespace Tesserae
     {
         private static readonly Random RNG = new Random();
 
-        private readonly Modal _modal;
+        private readonly Modal  _modal;
         private readonly string _scope;
         public Dialog(IComponent content = null, IComponent title = null, bool centerContent = true)
         {
@@ -18,6 +18,7 @@ namespace Tesserae
             if (centerContent)
             {
                 _modal.CenterContent();
+
                 if (title is TextBlock tb)
                     tb.TextCenter();
             }
@@ -84,13 +85,17 @@ namespace Tesserae
         public void Ok(Action onOk, Func<Button, Button> btnOk = null)
         {
             bool acted = false;
+
             _modal
-                .LightDismiss()
-                .SetFooter(Stack().HorizontalReverse().Children(
+               .LightDismiss()
+               .SetFooter(Stack().HorizontalReverse().Children(
                     CreateButton("Ok", onOk, "Esc, Escape, Enter", modifier: btnOk, isPrimary: true, onActed: () => acted = true)
                 ))
-                .OnHide((_) => { if (!acted) { onOk(); } })
-                .Show();
+               .OnHide((_) =>
+                {
+                    if (!acted) { onOk(); }
+                })
+               .Show();
         }
 
         public void OkCancel(Action onOk = null, Action onCancel = null, Func<Button, Button> btnOk = null, Func<Button, Button> btnCancel = null)
@@ -98,12 +103,15 @@ namespace Tesserae
             bool acted = false;
 
             _modal
-                .SetFooter(Stack().HorizontalReverse().Children(
+               .SetFooter(Stack().HorizontalReverse().Children(
                     CreateButton("Cancel", onCancel, "Esc, Escape", modifier: btnCancel, isPrimary: false, onActed: () => acted = true),
-                    CreateButton("Ok", onOk, "Enter", modifier: btnOk, isPrimary: true, onActed: () => acted = true)
+                    CreateButton("Ok",     onOk,     "Enter",       modifier: btnOk,     isPrimary: true,  onActed: () => acted = true)
                 ))
-                .OnHide((_) => { if (!acted) { onCancel(); } })
-                .Show();
+               .OnHide((_) =>
+                {
+                    if (!acted) { onCancel(); }
+                })
+               .Show();
         }
 
         public void YesNo(Action onYes = null, Action onNo = null, Func<Button, Button> btnYes = null, Func<Button, Button> btnNo = null)
@@ -111,12 +119,15 @@ namespace Tesserae
             bool acted = false;
 
             _modal
-                .SetFooter(Stack().HorizontalReverse().Children(
-                    CreateButton("No", onNo, "Esc, Escape", modifier: btnNo, isPrimary: false, onActed: () => acted = true),
-                    CreateButton("Yes", onYes, "Enter", modifier: btnYes, isPrimary: true, onActed: () => acted = true)
+               .SetFooter(Stack().HorizontalReverse().Children(
+                    CreateButton("No",  onNo,  "Esc, Escape", modifier: btnNo,  isPrimary: false, onActed: () => acted = true),
+                    CreateButton("Yes", onYes, "Enter",       modifier: btnYes, isPrimary: true,  onActed: () => acted = true)
                 ))
-                .OnHide((_) => { if (!acted) { onNo(); } })
-                .Show();
+               .OnHide((_) =>
+                {
+                    if (!acted) { onNo(); }
+                })
+               .Show();
         }
 
         public void YesNoCancel(Action onYes = null, Action onNo = null, Action onCancel = null, Func<Button, Button> btnYes = null, Func<Button, Button> btnNo = null, Func<Button, Button> btnCancel = null)
@@ -124,13 +135,16 @@ namespace Tesserae
             bool acted = false;
 
             _modal
-                .SetFooter(Stack().HorizontalReverse().Children(
-                    CreateButton("Cancel", onCancel, "Esc, Escape", modifier: btnCancel, isPrimary: false, onActed: () => acted = true),
-                    CreateButton("No", onNo, bindToKeys: null, modifier: btnNo, isPrimary: false, onActed: () => acted = true),
-                    CreateButton("Yes", onYes, "Enter", modifier: btnYes, isPrimary: true, onActed: () => acted = true)
+               .SetFooter(Stack().HorizontalReverse().Children(
+                    CreateButton("Cancel", onCancel, "Esc, Escape",    modifier: btnCancel, isPrimary: false, onActed: () => acted = true),
+                    CreateButton("No",     onNo,     bindToKeys: null, modifier: btnNo,     isPrimary: false, onActed: () => acted = true),
+                    CreateButton("Yes",    onYes,    "Enter",          modifier: btnYes,    isPrimary: true,  onActed: () => acted = true)
                 ))
-                .OnHide((_) => { if (!acted) { onCancel(); } })
-                .Show();
+               .OnHide((_) =>
+                {
+                    if (!acted) { onCancel(); }
+                })
+               .Show();
         }
 
         public void RetryCancel(Action onRetry = null, Action onCancel = null, Func<Button, Button> btnRetry = null, Func<Button, Button> btnCancel = null)
@@ -138,12 +152,15 @@ namespace Tesserae
             bool acted = false;
 
             _modal
-                .SetFooter(Stack().HorizontalReverse().Children(
+               .SetFooter(Stack().HorizontalReverse().Children(
                     CreateButton("Cancel", onCancel, "Esc, Escape", modifier: btnCancel, isPrimary: false, onActed: () => acted = true),
-                    CreateButton("Retry", onRetry, "Enter", modifier: btnRetry, isPrimary: true, onActed: () => acted = true)
+                    CreateButton("Retry",  onRetry,  "Enter",       modifier: btnRetry,  isPrimary: true,  onActed: () => acted = true)
                 ))
-                .OnHide((_) => { if (!acted) { onCancel(); } })
-                .Show();
+               .OnHide((_) =>
+                {
+                    if (!acted) { onCancel(); }
+                })
+               .Show();
         }
 
         public void Show() => _modal.Show();
@@ -203,8 +220,8 @@ namespace Tesserae
         private Button CreateButton(string text, Action onClick, string bindToKeys, Func<Button, Button> modifier, bool isPrimary, Action onActed)
         {
             var button = Button(text)
-                .AlignEnd()
-                .OnClick((_, __) =>
+               .AlignEnd()
+               .OnClick((_, __) =>
                 {
                     onActed();
                     _modal.Hide();
@@ -227,8 +244,8 @@ namespace Tesserae
                     onClick?.Invoke();
                 });
             }
-            
+
             return button;
         }
-   }
+    }
 }

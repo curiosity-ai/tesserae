@@ -32,7 +32,7 @@ namespace Tesserae.Tests.Samples
 
         private IEnumerable<IconItem> GetAllIcons()
         {
-            var names = Enum.GetNames(typeof(Emoji));
+            var     names  = Enum.GetNames(typeof(Emoji));
             Emoji[] values = (Emoji[])Enum.GetValues(typeof(Emoji));
 
             for (int i = 0; i < values.Length; i++)
@@ -47,7 +47,7 @@ namespace Tesserae.Tests.Samples
             private readonly IComponent component;
             public IconItem(Emoji icon, string name)
             {
-                name = ToValidName(name.Substring(3));
+                name   = ToValidName(name.Substring(3));
                 _value = name + " " + icon.ToString();
 
                 component = HStack().WS().AlignItemsCenter().PB(4).Children(

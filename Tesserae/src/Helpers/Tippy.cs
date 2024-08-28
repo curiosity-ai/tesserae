@@ -41,8 +41,8 @@ namespace Tesserae
             var appendTo = GetAppendToTarget(rendered);
 
             var renderedTooltip = UI.DIV(tooltip.Render());
-            renderedTooltip.style.display = "block";
-            renderedTooltip.style.overflow = "hidden";
+            renderedTooltip.style.display      = "block";
+            renderedTooltip.style.overflow     = "hidden";
             renderedTooltip.style.textOverflow = "ellipsis";
             document.body.appendChild(renderedTooltip);
 
@@ -96,9 +96,15 @@ namespace Tesserae
             {
                 switch (placement)
                 {
-                    case TooltipPlacement.Top: placement = TooltipPlacement.Bottom; break;
-                    case TooltipPlacement.TopStart: placement = TooltipPlacement.BottomStart; break;
-                    case TooltipPlacement.TopEnd: placement = TooltipPlacement.BottomEnd; break;
+                    case TooltipPlacement.Top:
+                        placement = TooltipPlacement.Bottom;
+                        break;
+                    case TooltipPlacement.TopStart:
+                        placement = TooltipPlacement.BottomStart;
+                        break;
+                    case TooltipPlacement.TopEnd:
+                        placement = TooltipPlacement.BottomEnd;
+                        break;
                 }
             }
 

@@ -31,7 +31,7 @@ namespace Tesserae
 
             if (columns.Length < 2)
             {
-                _stack = HStack().Wrap().WS().MaxHeight(100.percent()).Scroll();
+                _stack            = HStack().Wrap().WS().MaxHeight(100.percent()).Scroll();
                 _maxStackItemSize = columns.FirstOrDefault() ?? 100.percent();
             }
             else
@@ -51,6 +51,7 @@ namespace Tesserae
                         {
                             var nextPageItems = await getNextItemPage();
                             _grid.Remove(v);
+
                             if (nextPageItems is object && nextPageItems.Any())
                             {
                                 foreach (var item in nextPageItems)
@@ -65,6 +66,7 @@ namespace Tesserae
                         {
                             var nextPageItems = await getNextItemPage();
                             _stack.Remove(v);
+
                             if (nextPageItems is object && nextPageItems.Any())
                             {
                                 foreach (var item in nextPageItems)
@@ -110,6 +112,7 @@ namespace Tesserae
                     }
                 }
             }
+
             if (_emptyListMessageGenerator is object)
             {
                 if (_grid is object)

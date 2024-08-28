@@ -593,6 +593,7 @@ namespace Tesserae
                 {
                     var rendered = _placeholder.Render();
                     rendered.classList.add("tss-dropdown-item-on-box");
+
                     if (_fitContent)
                     {
                         rendered.classList.add("tss-dropdown-fit-content");

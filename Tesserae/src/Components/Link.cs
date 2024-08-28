@@ -9,13 +9,13 @@ namespace Tesserae
     public class Link : IComponent, ITextFormating
     {
         private readonly HTMLAnchorElement _anchor;
-        private string _features;
+        private          string            _features;
 
         public Link(string url, IComponent component, bool noUnderline = false)
         {
             _anchor = A(_(href: url), component.Render());
 
-            if(noUnderline)
+            if (noUnderline)
             {
                 _anchor.classList.add("tss-link-no-underline");
             }
@@ -46,11 +46,11 @@ namespace Tesserae
 
         public Link AsWindow(string features = null)
         {
-            if(string.IsNullOrEmpty(features))
+            if (string.IsNullOrEmpty(features))
             {
-                int left = (int)((window.screen.availWidth - 900) / 2);
-                int top = (int)((window.screen.availHeight - 600) / 2);
-                _features =  $"scrollbars=yes,resizable=yes,toolbar=no,status=no,menubar=no,width=900,height=600,left={left},top={top}";
+                int left = (int)((window.screen.availWidth  - 900) / 2);
+                int top  = (int)((window.screen.availHeight - 600) / 2);
+                _features = $"scrollbars=yes,resizable=yes,toolbar=no,status=no,menubar=no,width=900,height=600,left={left},top={top}";
             }
             else
             {

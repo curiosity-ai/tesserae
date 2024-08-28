@@ -24,8 +24,8 @@ namespace Tesserae.Tests.Samples
                            .Children(
                                 SampleTitle("Overview"),
                                 TextBlock("This list provides a base component for implementing search over a known number of items." +
-                                          "It is agnostic of the tile component used, and selection " +
-                                          "management. These concerns can be layered separately.")
+                                        "It is agnostic of the tile component used, and selection "                                   +
+                                        "management. These concerns can be layered separately.")
                                    .PaddingBottom(16.px()),
                                 TextBlock("You need to implement ISearchableGroupedItem interface on the items, and specially the IsMatch method to enable searching on them")))
                    .Section(
@@ -80,7 +80,7 @@ namespace Tesserae.Tests.Samples
 
             public SearchableGroupedListItem(string value, string group)
             {
-                _value = value;
+                _value     = value;
                 _component = Card(TextBlock(value).NonSelectable());
 
                 Group = group;

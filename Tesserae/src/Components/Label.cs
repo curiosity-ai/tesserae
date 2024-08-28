@@ -13,22 +13,22 @@ namespace Tesserae
         private static int _labelForId = 0;
 
         private readonly HTMLLabelElement _label;
-        private readonly HTMLDivElement _content;
+        private readonly HTMLDivElement   _content;
 
-        private static uint _callback;
+        private static          uint                            _callback;
         private static readonly Dictionary<HTMLElement, Action> _pendingCallbacks = new Dictionary<HTMLElement, Action>();
 
         public Label(string text = string.Empty)
         {
-            _label = Label(_("tss-fontsize-small tss-fontweight-semibold tss-fontcolor-default", text: text));
-            _content = Div(_("tss-label-content"));
+            _label       = Label(_("tss-fontsize-small tss-fontweight-semibold tss-fontcolor-default", text: text));
+            _content     = Div(_("tss-label-content"));
             InnerElement = Div(_("tss-label tss-default-component-margin"), _label, _content);
         }
 
         public Label(IComponent component)
         {
-            _label = Label(_("tss-fontsize-small tss-fontweight-semibold tss-fontcolor-default"), component.Render());
-            _content = Div(_("tss-label-content"));
+            _label       = Label(_("tss-fontsize-small tss-fontweight-semibold tss-fontcolor-default"), component.Render());
+            _content     = Div(_("tss-label-content"));
             InnerElement = Div(_("tss-label tss-default-component-margin"), _label, _content);
         }
 
@@ -70,6 +70,7 @@ namespace Tesserae
             {
                 var id = string.Empty;
                 ClearChildren(_content);
+
                 if (value != null)
                 {
                     _content.appendChild(value.Render());
@@ -85,8 +86,8 @@ namespace Tesserae
             }
         }
 
-        HTMLElement ISpecialCaseStyling.StylingContainer => InnerElement;
-        bool ISpecialCaseStyling.PropagateToStackItemParent => true;
+        HTMLElement ISpecialCaseStyling.StylingContainer           => InnerElement;
+        bool ISpecialCaseStyling.       PropagateToStackItemParent => true;
 
         public Label SetContent(IComponent content)
         {
@@ -131,10 +132,12 @@ namespace Tesserae
             DomObserver.WhenMounted(InnerElement, () =>
             {
                 HTMLElement parent = InnerElement;
-                int levels = nestingLevels;
+                int         levels = nestingLevels;
+
                 do
                 {
                     parent = parent.parentElement;
+
                     if (!parent.classList.contains("tss-stack-item"))
                     {
                         levels--;
@@ -145,7 +148,7 @@ namespace Tesserae
                     }
                 } while (levels > 0 && parent.parentElement is object);
 
-                if(parent is object)
+                if (parent is object)
                 {
                     _pendingCallbacks.TryAdd(parent, () => AutoSizeChildrenLabels(parent, nestingLevels + 2));
                     window.cancelAnimationFrame(_callback);
@@ -158,7 +161,7 @@ namespace Tesserae
 
         private static void TriggerAll()
         {
-            foreach(var kv in _pendingCallbacks)
+            foreach (var kv in _pendingCallbacks)
             {
                 kv.Value();
             }
@@ -171,15 +174,18 @@ namespace Tesserae
 
             var stack = new Stack<HTMLElement>();
             stack.Push(parent);
+
             do
             {
                 var new_stack = new Stack<HTMLElement>();
+
                 while (stack.Count > 0)
                 {
                     var el = stack.Pop();
-                    foreach(HTMLElement e in el.children)
+
+                    foreach (HTMLElement e in el.children)
                     {
-                        if(e.classList.contains("tss-label-autowidth") && e.parentElement.classList.contains("tss-inline"))
+                        if (e.classList.contains("tss-label-autowidth") && e.parentElement.classList.contains("tss-inline"))
                         {
                             found.Add(e);
                         }
@@ -201,6 +207,7 @@ namespace Tesserae
             else
             {
                 int minWidth = 10;
+
                 foreach (var f in found)
                 {
                     var rect = (DOMRect)f.getBoundingClientRect();
@@ -208,6 +215,7 @@ namespace Tesserae
                 }
 
                 var mw = Script.Write<string>("({0}) + 'px'", minWidth + 4);
+
                 foreach (var f in found)
                 {
                     f.style.minWidth = mw;

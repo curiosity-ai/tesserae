@@ -5,7 +5,7 @@ namespace Tesserae
     [H5.Name("tss.ISCS")]
     public interface ISpecialCaseStyling
     {
-        HTMLElement StylingContainer { get; }
-        bool PropagateToStackItemParent { get; }
+        HTMLElement StylingContainer           { get; }
+        bool        PropagateToStackItemParent { get; }
     }
 }

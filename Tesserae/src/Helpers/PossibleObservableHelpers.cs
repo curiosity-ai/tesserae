@@ -62,6 +62,7 @@ namespace Tesserae
                 return false;
 
             var wrappedValueTypeIfSourceIsAnObserverable = TryToGetFirstWrappedValueFromAnIsObservable(source.GetType());
+
             if (wrappedValueTypeIfSourceIsAnObserverable is null)
                 return false;
 
@@ -74,14 +75,14 @@ namespace Tesserae
             //     we would be passing an anonymous function reference to ObserveFutureChanges.. which would work but things would go wrong when we tried to call StopObserving because we would get
             //     a NEW anonymous function reference, which wouldn't appear as one of the items on the underlying observable's OnValueChanged invocation list and so the StopObserving would silently
             //     fail, in effect.
-            var methodName = listenForFutureChanges ? nameof(HookCallbackForFutureChanges) : nameof(UnhookCallbackForFutureChanges);
+            var methodName    = listenForFutureChanges ? nameof(HookCallbackForFutureChanges) : nameof(UnhookCallbackForFutureChanges);
             var unboundMethod = typeof(PossibleObservableHelpers).GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Static);
-            var boundMethod = unboundMethod.MakeGenericMethod(wrappedValueTypeIfSourceIsAnObserverable).Invoke(null, source, receiver); // "obj" is null for a static method
+            var boundMethod   = unboundMethod.MakeGenericMethod(wrappedValueTypeIfSourceIsAnObserverable).Invoke(null, source, receiver); // "obj" is null for a static method
             return true;
         }
 
         private static void HookCallbackForFutureChanges<T>(IObservable<T> observable, ObservableEvent.ValueChanged<T> receiver) => observable.ObserveFutureChanges(receiver);
-        
+
         private static void UnhookCallbackForFutureChanges<T>(IObservable<T> observable, ObservableEvent.ValueChanged<T> receiver) => observable.StopObserving(receiver);
     }
 }

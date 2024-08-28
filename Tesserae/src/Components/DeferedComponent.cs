@@ -12,25 +12,25 @@ namespace Tesserae
     [H5.Name("tss.DC")]
     internal sealed class DeferedComponent : IDefer
     {
-        private readonly IComponent _loadMessage;
+        private readonly IComponent             _loadMessage;
         private readonly Func<Task<IComponent>> _asyncGenerator;
-        private TextBlock _defaultLoadingMessageIfAny;
-        private bool _needsRefresh, _waitForComponentToBeMountedBeforeFullyInitiatingRender, _renderHasBeenCalled;
-        private double _refreshTimeout;
-        private int _delayInMs = 16;
-        private int id = 0;
+        private          TextBlock              _defaultLoadingMessageIfAny;
+        private          bool                   _needsRefresh, _waitForComponentToBeMountedBeforeFullyInitiatingRender, _renderHasBeenCalled;
+        private          double                 _refreshTimeout;
+        private          int                    _delayInMs = 16;
+        private          int                    id         = 0;
         private DeferedComponent(Func<Task<IComponent>> asyncGenerator, IComponent loadMessage, TextBlock defaultLoadingMessageIfAny)
         {
             if (loadMessage is null)
                 throw new ArgumentNullException(nameof(loadMessage));
-            
-            _loadMessage = loadMessage;
-            _asyncGenerator = asyncGenerator ?? throw new ArgumentNullException(nameof(asyncGenerator));
-            _defaultLoadingMessageIfAny = defaultLoadingMessageIfAny;
-            _needsRefresh = true;
+
+            _loadMessage                                            = loadMessage;
+            _asyncGenerator                                         = asyncGenerator ?? throw new ArgumentNullException(nameof(asyncGenerator));
+            _defaultLoadingMessageIfAny                             = defaultLoadingMessageIfAny;
+            _needsRefresh                                           = true;
             _waitForComponentToBeMountedBeforeFullyInitiatingRender = true; // 2020-07-02 DWR: This has only just become configurable and the default value matches the previous behaviour - wait for DomObserver.WhenMounted in Render() before calling TriggerRefresh()
-            _renderHasBeenCalled = false;
-            Container = DIV(loadMessage.Render());
+            _renderHasBeenCalled                                    = false;
+            Container                                               = DIV(loadMessage.Render());
         }
 
         internal static DeferedComponent Create(Func<Task<IComponent>> asyncGenerator, IComponent loadMessage)
@@ -39,10 +39,11 @@ namespace Tesserae
                 throw new ArgumentNullException(nameof(asyncGenerator));
 
             TextBlock defaultLoadingMessage;
+
             if (loadMessage is null)
             {
                 defaultLoadingMessage = TextBlock(textSize: TextSize.XSmall).Class("tss-defer-loading-msg");
-                loadMessage = defaultLoadingMessage;
+                loadMessage           = defaultLoadingMessage;
             }
             else
             {
@@ -57,6 +58,7 @@ namespace Tesserae
         {
             _needsRefresh = true;
             window.clearTimeout(_refreshTimeout);
+
             _refreshTimeout = window.setTimeout(
                 t => TriggerRefresh(),
                 _delayInMs
@@ -116,13 +118,13 @@ namespace Tesserae
         {
             if (!_needsRefresh)
                 return;
-            
+
             _needsRefresh = false;
 
             var container = ScrollBar.GetCorrectContainer(Container);
 
             id++;
-            
+
             var currentID = id; //Save the last value so we only replace the content if the task that finished is the latest to have been triggered
 
             window.setTimeout(
@@ -134,7 +136,7 @@ namespace Tesserae
                         container.classList.add("tss-defer-with-loading-msg");
                     }
 
-                    if(currentID == id)
+                    if (currentID == id)
                     {
                         ClearChildren(container);
                         container.appendChild(_loadMessage.Render());
@@ -144,7 +146,7 @@ namespace Tesserae
             );
 
             _asyncGenerator()
-                .ContinueWith(r =>
+               .ContinueWith(r =>
                 {
                     if (currentID == id)
                     {
@@ -159,7 +161,7 @@ namespace Tesserae
 
                         if (r.IsCompleted)
                         {
-                            if(r.Result is object)
+                            if (r.Result is object)
                             {
                                 container.appendChild(r.Result.Render());
                             }
@@ -171,7 +173,7 @@ namespace Tesserae
                         }
                     }
                 })
-                .FireAndForget();
+               .FireAndForget();
         }
 
         internal static DeferedComponent Observe<T1>(IObservable<T1> o1, Func<T1, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
@@ -200,6 +202,7 @@ namespace Tesserae
         internal static DeferedComponent Observe<T1, T2>(IObservable<T1> o1, IObservable<T2> o2, Func<T1, T2, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
         {
             var d = Create(() => asyncGenerator(o1.Value, o2.Value), loadMessage);
+
             DomObserver.WhenMounted(d.Container, () =>
             {
                 o1.ObserveFutureChanges(DoRefresh);
@@ -223,6 +226,7 @@ namespace Tesserae
         internal static DeferedComponent Observe<T1, T2, T3>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, Func<T1, T2, T3, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
         {
             var d = Create(() => asyncGenerator(o1.Value, o2.Value, o3.Value), loadMessage);
+
             DomObserver.WhenMounted(d.Container, () =>
             {
                 o1.ObserveFutureChanges(DoRefresh);
@@ -248,6 +252,7 @@ namespace Tesserae
         internal static DeferedComponent Observe<T1, T2, T3, T4>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, Func<T1, T2, T3, T4, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
         {
             var d = Create(() => asyncGenerator(o1.Value, o2.Value, o3.Value, o4.Value), loadMessage);
+
             DomObserver.WhenMounted(d.Container, () =>
             {
                 o1.ObserveFutureChanges(DoRefresh);
@@ -275,6 +280,7 @@ namespace Tesserae
         internal static DeferedComponent Observe<T1, T2, T3, T4, T5>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, Func<T1, T2, T3, T4, T5, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
         {
             var d = Create(() => asyncGenerator(o1.Value, o2.Value, o3.Value, o4.Value, o5.Value), loadMessage);
+
             DomObserver.WhenMounted(d.Container, () =>
             {
                 o1.ObserveFutureChanges(DoRefresh);
@@ -304,6 +310,7 @@ namespace Tesserae
         internal static DeferedComponent Observe<T1, T2, T3, T4, T5, T6>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, IObservable<T6> o6, Func<T1, T2, T3, T4, T5, T6, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
         {
             var d = Create(() => asyncGenerator(o1.Value, o2.Value, o3.Value, o4.Value, o5.Value, o6.Value), loadMessage);
+
             DomObserver.WhenMounted(d.Container, () =>
             {
                 o1.ObserveFutureChanges(DoRefresh);
@@ -335,6 +342,7 @@ namespace Tesserae
         internal static DeferedComponent Observe<T1, T2, T3, T4, T5, T6, T7>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, IObservable<T6> o6, IObservable<T7> o7, Func<T1, T2, T3, T4, T5, T6, T7, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
         {
             var d = Create(() => asyncGenerator(o1.Value, o2.Value, o3.Value, o4.Value, o5.Value, o6.Value, o7.Value), loadMessage);
+
             DomObserver.WhenMounted(d.Container, () =>
             {
                 o1.ObserveFutureChanges(DoRefresh);
@@ -368,6 +376,7 @@ namespace Tesserae
         internal static DeferedComponent Observe<T1, T2, T3, T4, T5, T6, T7, T8>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, IObservable<T6> o6, IObservable<T7> o7, IObservable<T8> o8, Func<T1, T2, T3, T4, T5, T6, T7, T8, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
         {
             var d = Create(() => asyncGenerator(o1.Value, o2.Value, o3.Value, o4.Value, o5.Value, o6.Value, o7.Value, o8.Value), loadMessage);
+
             DomObserver.WhenMounted(d.Container, () =>
             {
                 o1.ObserveFutureChanges(DoRefresh);
@@ -403,6 +412,7 @@ namespace Tesserae
         internal static DeferedComponent Observe<T1, T2, T3, T4, T5, T6, T7, T8, T9>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, IObservable<T6> o6, IObservable<T7> o7, IObservable<T8> o8, IObservable<T9> o9, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
         {
             var d = Create(() => asyncGenerator(o1.Value, o2.Value, o3.Value, o4.Value, o5.Value, o6.Value, o7.Value, o8.Value, o9.Value), loadMessage);
+
             DomObserver.WhenMounted(d.Container, () =>
             {
                 o1.ObserveFutureChanges(DoRefresh);
@@ -440,6 +450,7 @@ namespace Tesserae
         internal static DeferedComponent Observe<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, IObservable<T6> o6, IObservable<T7> o7, IObservable<T8> o8, IObservable<T9> o9, IObservable<T10> o10, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, Task<IComponent>> asyncGenerator, IComponent loadMessage = null)
         {
             var d = Create(() => asyncGenerator(o1.Value, o2.Value, o3.Value, o4.Value, o5.Value, o6.Value, o7.Value, o8.Value, o9.Value, o10.Value), loadMessage);
+
             DomObserver.WhenMounted(d.Container, () =>
             {
                 o1.ObserveFutureChanges(DoRefresh);

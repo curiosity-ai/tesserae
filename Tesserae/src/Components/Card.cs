@@ -10,7 +10,7 @@ namespace Tesserae
         private readonly HTMLElement _cardContainer;
         public Card(IComponent content)
         {
-            InnerElement = Div(_("tss-card"), content.Render());
+            InnerElement   = Div(_("tss-card"),           content.Render());
             _cardContainer = Div(_("tss-card-container"), InnerElement);
             DomObserver.WhenMounted(InnerElement, () => InnerElement.classList.add("tss-ismounted"));
             AttachClick();
@@ -61,13 +61,13 @@ namespace Tesserae
 
         public Card Border(string color, UnitSize size = null)
         {
-            size = size ?? 1.px();
+            size                           = size ?? 1.px();
             InnerElement.style.borderColor = color;
             InnerElement.style.borderWidth = size.ToString();
             InnerElement.style.borderStyle = "solid";
             return this;
         }
-        
+
         public Card NoPadding()
         {
             InnerElement.style.padding = "0px";

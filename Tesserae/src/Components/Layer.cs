@@ -10,6 +10,8 @@
     /// generic Layer class. The reason for the two classes is to avoid confusion as this can NOT be derived from and the generic version MUST be derived from. The generic version exists to maintain the type of component in chained calls made on the ComponentBase
     /// class that they both are derived from (when the OnClick method is called on a ContextMenu then you expect a ContextMenu to be returned and not simply a Layer instance).
     /// </summary>
-    [H5.Name("tss.Layer")] 
-    public sealed class Layer : Layer<Layer> { }
+    [H5.Name("tss.Layer")]
+    public sealed class Layer : Layer<Layer>
+    {
+    }
 }

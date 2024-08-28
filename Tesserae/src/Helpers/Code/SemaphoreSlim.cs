@@ -32,7 +32,7 @@ namespace Tesserae
         public bool IsPending => _queue.Count > 0;
         public void Release()
         {
-            if(_queue.Count == 0)
+            if (_queue.Count == 0)
             {
                 throw new InvalidOperationException("Nothing to release");
             }

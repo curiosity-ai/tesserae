@@ -43,77 +43,77 @@
     --tss-primary-foreground-hover-color-root: 255, 255, 255;
     --tss-primary-background-active-color-root: 0, 90, 158;
     --tss-primary-foreground-active-color-root: 255, 255, 255;
-    --tss-warning-background-color-root: 220,145,53;
+    --tss-warning-background-color-root: 220, 145, 53;
     --tss-warning-foreground-color-root: 255, 255, 255;
-    --tss-danger-background-color-root: 220,53,69;
+    --tss-danger-background-color-root: 220, 53, 69;
     --tss-danger-foreground-color-root: 255, 255, 255;
-    --tss-danger-border-color-root: 220,53,69;
+    --tss-danger-border-color-root: 220, 53, 69;
     --tss-danger-background-hover-color-root: 200, 35, 51;
-    --tss-danger-foreground-hover-color-root: 255,255,255;
+    --tss-danger-foreground-hover-color-root: 255, 255, 255;
     --tss-danger-background-active-color-root: 189, 33, 48;
     --tss-danger-foreground-active-color-root: 255, 255, 255;
     --tss-success-background-color-root: 40, 167, 69;
     --tss-success-foreground-color-root: 255, 255, 255;
     --tss-success-border-color-root: 40, 167, 69;
     --tss-success-background-hover-color-root: 33, 136, 56;
-    --tss-success-foreground-hover-color-root: 255,255,255;
+    --tss-success-foreground-hover-color-root: 255, 255, 255;
     --tss-success-background-active-color-root: 30, 126, 52;
     --tss-success-foreground-active-color-root: 255, 255, 255;
     --tss-slider-color-root: 200, 198, 196;
     --tss-slider-active-color-root: 222, 236, 249;
     --tss-slider-disabled-color-root: 243, 242, 241;
     --tss-primary-shadow-color-root: 0, 120, 212;
-    --tss-default-background-color: rgb(var(--tss-default-background-color-root ));
-    --tss-default-foreground-color: rgb(var(--tss-default-foreground-color-root ));
-    --tss-secondary-background-color: rgb(var(--tss-secondary-background-color-root ));
-    --tss-secondary-foreground-color: rgb(var(--tss-secondary-foreground-color-root ));
-    --tss-sidebar-background-color: rgb(var(--tss-sidebar-background-color-root ));
-    --tss-disabled-background-color: rgb(var(--tss-disabled-background-color-root ));
-    --tss-disabled-foreground-color: rgb(var(--tss-disabled-foreground-color-root ));
-    --tss-default-border-color: rgb(var(--tss-default-border-color-root ));
-    --tss-dark-border-color: rgb(var(--tss-dark-border-color-root ));
-    --tss-default-separator-color: rgb(var(--tss-default-separator-color-root ));
-    --tss-invalid-border-color: rgb(var(--tss-invalid-border-color-root ));
-    --tss-default-background-hover-color: rgb(var(--tss-default-background-hover-color-root ));
-    --tss-default-foreground-hover-color: rgb(var(--tss-default-foreground-hover-color-root ));
-    --tss-default-background-active-color: rgb(var(--tss-default-background-active-color-root ));
-    --tss-default-foreground-active-color: rgb(var(--tss-default-foreground-active-color-root ));
-    --tss-progress-background-color: rgb(var(--tss-progress-background-color-root ));
-    --tss-link-color: rgb(var(--tss-link-color-root ));
-    --tss-tooltip-background-color: rgb(var(--tss-tooltip-background-color-root ));
-    --tss-tooltip-foreground-color: rgb(var(--tss-tooltip-foreground-color-root ));
-    --tss-primary-background-color: rgb(var(--tss-primary-background-color-root ));
-    --tss-primary-foreground-color: rgb(var(--tss-primary-foreground-color-root ));
-    --tss-primary-border-color: rgb(var(--tss-primary-border-color-root ));
-    --tss-primary-background-hover-color: rgb(var(--tss-primary-background-hover-color-root ));
-    --tss-primary-foreground-hover-color: rgb(var(--tss-primary-foreground-hover-color-root ));
-    --tss-primary-background-active-color: rgb(var(--tss-primary-background-active-color-root ));
-    --tss-primary-foreground-active-color: rgb(var(--tss-primary-foreground-active-color-root ));
+    --tss-default-background-color: rgb(var(--tss-default-background-color-root));
+    --tss-default-foreground-color: rgb(var(--tss-default-foreground-color-root));
+    --tss-secondary-background-color: rgb(var(--tss-secondary-background-color-root));
+    --tss-secondary-foreground-color: rgb(var(--tss-secondary-foreground-color-root));
+    --tss-sidebar-background-color: rgb(var(--tss-sidebar-background-color-root));
+    --tss-disabled-background-color: rgb(var(--tss-disabled-background-color-root));
+    --tss-disabled-foreground-color: rgb(var(--tss-disabled-foreground-color-root));
+    --tss-default-border-color: rgb(var(--tss-default-border-color-root));
+    --tss-dark-border-color: rgb(var(--tss-dark-border-color-root));
+    --tss-default-separator-color: rgb(var(--tss-default-separator-color-root));
+    --tss-invalid-border-color: rgb(var(--tss-invalid-border-color-root));
+    --tss-default-background-hover-color: rgb(var(--tss-default-background-hover-color-root));
+    --tss-default-foreground-hover-color: rgb(var(--tss-default-foreground-hover-color-root));
+    --tss-default-background-active-color: rgb(var(--tss-default-background-active-color-root));
+    --tss-default-foreground-active-color: rgb(var(--tss-default-foreground-active-color-root));
+    --tss-progress-background-color: rgb(var(--tss-progress-background-color-root));
+    --tss-link-color: rgb(var(--tss-link-color-root));
+    --tss-tooltip-background-color: rgb(var(--tss-tooltip-background-color-root));
+    --tss-tooltip-foreground-color: rgb(var(--tss-tooltip-foreground-color-root));
+    --tss-primary-background-color: rgb(var(--tss-primary-background-color-root));
+    --tss-primary-foreground-color: rgb(var(--tss-primary-foreground-color-root));
+    --tss-primary-border-color: rgb(var(--tss-primary-border-color-root));
+    --tss-primary-background-hover-color: rgb(var(--tss-primary-background-hover-color-root));
+    --tss-primary-foreground-hover-color: rgb(var(--tss-primary-foreground-hover-color-root));
+    --tss-primary-background-active-color: rgb(var(--tss-primary-background-active-color-root));
+    --tss-primary-foreground-active-color: rgb(var(--tss-primary-foreground-active-color-root));
     --tss-primary-background-color-transparent: rgba(var(--tss-primary-background-color-root), 0.2);
-    --tss-warning-background-color: rgb(var(--tss-warning-background-color-root ));
-    --tss-warning-foreground-color: rgb(var(--tss-warning-foreground-color-root ));
-    --tss-danger-background-color: rgb(var(--tss-danger-background-color-root ));
-    --tss-danger-foreground-color: rgb(var(--tss-danger-foreground-color-root ));
-    --tss-danger-border-color: rgb(var(--tss-danger-border-color-root ));
-    --tss-danger-background-hover-color: rgb(var(--tss-danger-background-hover-color-root ));
-    --tss-danger-foreground-hover-color: rgb(var(--tss-danger-foreground-hover-color-root ));
-    --tss-danger-background-active-color: rgb(var(--tss-danger-background-active-color-root ));
-    --tss-danger-foreground-active-color: rgb(var(--tss-danger-foreground-active-color-root ));
-    --tss-success-background-color: rgb(var(--tss-success-background-color-root ));
-    --tss-success-foreground-color: rgb(var(--tss-success-foreground-color-root ));
-    --tss-success-border-color: rgb(var(--tss-success-border-color-root ));
-    --tss-success-background-hover-color: rgb(var(--tss-success-background-hover-color-root ));
-    --tss-success-foreground-hover-color: rgb(var(--tss-success-foreground-hover-color-root ));
-    --tss-success-background-active-color: rgb(var(--tss-success-background-active-color-root ));
-    --tss-success-foreground-active-color: rgb(var(--tss-success-foreground-active-color-root ));
-    --tss-slider-color: rgb(var(--tss-slider-color-root ));
-    --tss-slider-active-color: rgb(var(--tss-slider-active-color-root ));
-    --tss-slider-disabled-color: rgb(var(--tss-slider-disabled-color-root ));
-    --tss-primary-shadow: 0 1.6px 3.6px 0 rgba(var(--tss-primary-shadow-color-root),0.132), 0 0.3px 0.9px 0 rgba(var(--tss-primary-shadow-color-root),0.108);
+    --tss-warning-background-color: rgb(var(--tss-warning-background-color-root));
+    --tss-warning-foreground-color: rgb(var(--tss-warning-foreground-color-root));
+    --tss-danger-background-color: rgb(var(--tss-danger-background-color-root));
+    --tss-danger-foreground-color: rgb(var(--tss-danger-foreground-color-root));
+    --tss-danger-border-color: rgb(var(--tss-danger-border-color-root));
+    --tss-danger-background-hover-color: rgb(var(--tss-danger-background-hover-color-root));
+    --tss-danger-foreground-hover-color: rgb(var(--tss-danger-foreground-hover-color-root));
+    --tss-danger-background-active-color: rgb(var(--tss-danger-background-active-color-root));
+    --tss-danger-foreground-active-color: rgb(var(--tss-danger-foreground-active-color-root));
+    --tss-success-background-color: rgb(var(--tss-success-background-color-root));
+    --tss-success-foreground-color: rgb(var(--tss-success-foreground-color-root));
+    --tss-success-border-color: rgb(var(--tss-success-border-color-root));
+    --tss-success-background-hover-color: rgb(var(--tss-success-background-hover-color-root));
+    --tss-success-foreground-hover-color: rgb(var(--tss-success-foreground-hover-color-root));
+    --tss-success-background-active-color: rgb(var(--tss-success-background-active-color-root));
+    --tss-success-foreground-active-color: rgb(var(--tss-success-foreground-active-color-root));
+    --tss-slider-color: rgb(var(--tss-slider-color-root));
+    --tss-slider-active-color: rgb(var(--tss-slider-active-color-root));
+    --tss-slider-disabled-color: rgb(var(--tss-slider-disabled-color-root));
+    --tss-primary-shadow: 0 1.6px 3.6px 0 rgba(var(--tss-primary-shadow-color-root), 0.132), 0 0.3px 0.9px 0 rgba(var(--tss-primary-shadow-color-root), 0.108);
     --tss-overlay-light: rgba(255, 255, 255, 0.4);
     --tss-overlay-dark: rgba(0, 0, 0, 0.4);
-    --tss-shadow-color-from: rgba(0,0,0,0.132);
-    --tss-shadow-color-to: rgba(0,0,0,0.108);
+    --tss-shadow-color-from: rgba(0, 0, 0, 0.132);
+    --tss-shadow-color-to: rgba(0, 0, 0, 0.108);
     --tss-box-shadow-darker: 0 1.6px 3.6px 0 rgba(0, 0, 0, 0.3), 0 0.3px 0.9px 0 rgba(0, 0, 0, 0.45);
     --tss-box-shadow: 0 1.6px 3.6px 0 var(--tss-shadow-color-from), 0 0.3px 0.9px 0 var(--tss-shadow-color-to);
     --tss-card-shadow: 0 1.6px 3.6px 0 var(--tss-shadow-color-from), 0 0.3px 0.9px 0 var(--tss-shadow-color-to);
@@ -122,7 +122,7 @@
     --tss-scrollbar-track-hidden-color: rgba(50, 49, 48, 0.03);
     --tss-scrollbar-thumb-color: rgba(50, 49, 48, 0.15);
     --tss-scrollbar-thumb-hidden-color: rgba(50, 49, 48, 0.04);
-    --tss-simplebar-thumb-color: rgba(50, 49, 48,0.32);
+    --tss-simplebar-thumb-color: rgba(50, 49, 48, 0.32);
 }
 
 .tss-dark-mode {
@@ -159,78 +159,78 @@
     --tss-danger-foreground-color-root: 255, 255, 255;
     --tss-danger-border-color-root: 255, 81, 98;
     --tss-danger-background-hover-color-root: 200, 35, 51;
-    --tss-danger-foreground-hover-color-root: 255,255,255;
+    --tss-danger-foreground-hover-color-root: 255, 255, 255;
     --tss-danger-background-active-color-root: 189, 33, 48;
     --tss-danger-foreground-active-color-root: 255, 255, 255;
     --tss-success-background-color-root: 30, 136, 56;
     --tss-success-foreground-color-root: 255, 255, 255;
     --tss-success-border-color-root: 30, 136, 56;
     --tss-success-background-hover-color-root: 33, 136, 56;
-    --tss-success-foreground-hover-color-root: 255,255,255;
+    --tss-success-foreground-hover-color-root: 255, 255, 255;
     --tss-success-background-active-color-root: 30, 126, 52;
     --tss-success-foreground-active-color-root: 255, 255, 255;
     --tss-slider-color-root: 200, 198, 196;
     --tss-slider-active-color-root: 222, 236, 249;
     --tss-slider-disabled-color-root: 243, 242, 241;
-    --tss-default-background-color: rgb(var(--tss-default-background-color-root ));
-    --tss-default-foreground-color: rgb(var(--tss-default-foreground-color-root ));
-    --tss-secondary-background-color: rgb(var(--tss-secondary-background-color-root ));
-    --tss-secondary-foreground-color: rgb(var(--tss-secondary-foreground-color-root ));
-    --tss-sidebar-background-color: rgb(var(--tss-sidebar-background-color-root ));
-    --tss-disabled-background-color: rgb(var(--tss-disabled-background-color-root ));
-    --tss-disabled-foreground-color: rgb(var(--tss-disabled-foreground-color-root ));
-    --tss-default-border-color: rgb(var(--tss-default-border-color-root ));
-    --tss-dark-border-color: rgb(var(--tss-dark-border-color-root ));
-    --tss-default-separator-color: rgb(var(--tss-default-separator-color-root ));
-    --tss-invalid-border-color: rgb(var(--tss-invalid-border-color-root ));
-    --tss-default-background-hover-color: rgb(var(--tss-default-background-hover-color-root ));
-    --tss-default-foreground-hover-color: rgb(var(--tss-default-foreground-hover-color-root ));
-    --tss-default-background-active-color: rgb(var(--tss-default-background-active-color-root ));
-    --tss-default-foreground-active-color: rgb(var(--tss-default-foreground-active-color-root ));
-    --tss-progress-background-color: rgb(var(--tss-progress-background-color-root ));
-    --tss-link-color: rgb(var(--tss-link-color-root ));
-    --tss-tooltip-background-color: rgb(var(--tss-tooltip-background-color-root ));
-    --tss-tooltip-foreground-color: rgb(var(--tss-tooltip-foreground-color-root ));
-    --tss-primary-background-color: rgb(var(--tss-primary-background-color-root ));
-    --tss-primary-foreground-color: rgb(var(--tss-primary-foreground-color-root ));
-    --tss-primary-border-color: rgb(var(--tss-primary-border-color-root ));
-    --tss-primary-background-hover-color: rgb(var(--tss-primary-background-hover-color-root ));
-    --tss-primary-foreground-hover-color: rgb(var(--tss-primary-foreground-hover-color-root ));
-    --tss-primary-background-active-color: rgb(var(--tss-primary-background-active-color-root ));
-    --tss-primary-foreground-active-color: rgb(var(--tss-primary-foreground-active-color-root ));
+    --tss-default-background-color: rgb(var(--tss-default-background-color-root));
+    --tss-default-foreground-color: rgb(var(--tss-default-foreground-color-root));
+    --tss-secondary-background-color: rgb(var(--tss-secondary-background-color-root));
+    --tss-secondary-foreground-color: rgb(var(--tss-secondary-foreground-color-root));
+    --tss-sidebar-background-color: rgb(var(--tss-sidebar-background-color-root));
+    --tss-disabled-background-color: rgb(var(--tss-disabled-background-color-root));
+    --tss-disabled-foreground-color: rgb(var(--tss-disabled-foreground-color-root));
+    --tss-default-border-color: rgb(var(--tss-default-border-color-root));
+    --tss-dark-border-color: rgb(var(--tss-dark-border-color-root));
+    --tss-default-separator-color: rgb(var(--tss-default-separator-color-root));
+    --tss-invalid-border-color: rgb(var(--tss-invalid-border-color-root));
+    --tss-default-background-hover-color: rgb(var(--tss-default-background-hover-color-root));
+    --tss-default-foreground-hover-color: rgb(var(--tss-default-foreground-hover-color-root));
+    --tss-default-background-active-color: rgb(var(--tss-default-background-active-color-root));
+    --tss-default-foreground-active-color: rgb(var(--tss-default-foreground-active-color-root));
+    --tss-progress-background-color: rgb(var(--tss-progress-background-color-root));
+    --tss-link-color: rgb(var(--tss-link-color-root));
+    --tss-tooltip-background-color: rgb(var(--tss-tooltip-background-color-root));
+    --tss-tooltip-foreground-color: rgb(var(--tss-tooltip-foreground-color-root));
+    --tss-primary-background-color: rgb(var(--tss-primary-background-color-root));
+    --tss-primary-foreground-color: rgb(var(--tss-primary-foreground-color-root));
+    --tss-primary-border-color: rgb(var(--tss-primary-border-color-root));
+    --tss-primary-background-hover-color: rgb(var(--tss-primary-background-hover-color-root));
+    --tss-primary-foreground-hover-color: rgb(var(--tss-primary-foreground-hover-color-root));
+    --tss-primary-background-active-color: rgb(var(--tss-primary-background-active-color-root));
+    --tss-primary-foreground-active-color: rgb(var(--tss-primary-foreground-active-color-root));
     --tss-primary-background-color-transparent: rgba(var(--tss-primary-background-color-root), 0.2);
-    --tss-warning-background-color: rgb(var(--tss-warning-background-color-root ));
-    --tss-warning-foreground-color: rgb(var(--tss-warning-foreground-color-root ));
-    --tss-danger-background-color: rgb(var(--tss-danger-background-color-root ));
-    --tss-danger-foreground-color: rgb(var(--tss-danger-foreground-color-root ));
-    --tss-danger-border-color: rgb(var(--tss-danger-border-color-root ));
-    --tss-danger-background-hover-color: rgb(var(--tss-danger-background-hover-color-root ));
-    --tss-danger-foreground-hover-color: rgb(var(--tss-danger-foreground-hover-color-root ));
-    --tss-danger-background-active-color: rgb(var(--tss-danger-background-active-color-root ));
-    --tss-danger-foreground-active-color: rgb(var(--tss-danger-foreground-active-color-root ));
-    --tss-success-background-color: rgb(var(--tss-success-background-color-root ));
-    --tss-success-foreground-color: rgb(var(--tss-success-foreground-color-root ));
-    --tss-success-border-color: rgb(var(--tss-success-border-color-root ));
-    --tss-success-background-hover-color: rgb(var(--tss-success-background-hover-color-root ));
-    --tss-success-foreground-hover-color: rgb(var(--tss-success-foreground-hover-color-root ));
-    --tss-success-background-active-color: rgb(var(--tss-success-background-active-color-root ));
-    --tss-success-foreground-active-color: rgb(var(--tss-success-foreground-active-color-root ));
-    --tss-slider-color: rgb(var(--tss-slider-color-root ));
-    --tss-slider-active-color: rgb(var(--tss-slider-active-color-root ));
-    --tss-slider-disabled-color: rgb(var(--tss-slider-disabled-color-root ));
-    --tss-primary-shadow: 0 3.6px 5.6px 0 rgba(var(--tss-primary-shadow-color-root),0.132), 2px 2.3px 5.9px 0 rgba(var(--tss-primary-shadow-color-root),0.108);
+    --tss-warning-background-color: rgb(var(--tss-warning-background-color-root));
+    --tss-warning-foreground-color: rgb(var(--tss-warning-foreground-color-root));
+    --tss-danger-background-color: rgb(var(--tss-danger-background-color-root));
+    --tss-danger-foreground-color: rgb(var(--tss-danger-foreground-color-root));
+    --tss-danger-border-color: rgb(var(--tss-danger-border-color-root));
+    --tss-danger-background-hover-color: rgb(var(--tss-danger-background-hover-color-root));
+    --tss-danger-foreground-hover-color: rgb(var(--tss-danger-foreground-hover-color-root));
+    --tss-danger-background-active-color: rgb(var(--tss-danger-background-active-color-root));
+    --tss-danger-foreground-active-color: rgb(var(--tss-danger-foreground-active-color-root));
+    --tss-success-background-color: rgb(var(--tss-success-background-color-root));
+    --tss-success-foreground-color: rgb(var(--tss-success-foreground-color-root));
+    --tss-success-border-color: rgb(var(--tss-success-border-color-root));
+    --tss-success-background-hover-color: rgb(var(--tss-success-background-hover-color-root));
+    --tss-success-foreground-hover-color: rgb(var(--tss-success-foreground-hover-color-root));
+    --tss-success-background-active-color: rgb(var(--tss-success-background-active-color-root));
+    --tss-success-foreground-active-color: rgb(var(--tss-success-foreground-active-color-root));
+    --tss-slider-color: rgb(var(--tss-slider-color-root));
+    --tss-slider-active-color: rgb(var(--tss-slider-active-color-root));
+    --tss-slider-disabled-color: rgb(var(--tss-slider-disabled-color-root));
+    --tss-primary-shadow: 0 3.6px 5.6px 0 rgba(var(--tss-primary-shadow-color-root), 0.132), 2px 2.3px 5.9px 0 rgba(var(--tss-primary-shadow-color-root), 0.108);
     --tss-overlay-light: rgba(255, 255, 255, 0.1);
     --tss-overlay-dark: rgba(255, 255, 255, 0.4);
-    --tss-shadow-color-from: rgba(0,0,0,0.132);
-    --tss-shadow-color-to: rgba(0,0,0,0.108);
+    --tss-shadow-color-from: rgba(0, 0, 0, 0.132);
+    --tss-shadow-color-to: rgba(0, 0, 0, 0.108);
     --tss-box-shadow: 0 3.6px 5.6px 0 var(--tss-shadow-color-from), 2px 2.3px 5.9px 0 var(--tss-shadow-color-to);
     --tss-box-shadow-darker: 0 1.6px 3.6px 0 rgba(0, 0, 0, 0.3), 0 0.3px 0.9px 0 rgba(0, 0, 0, 0.45);
     --tss-card-shadow: 0 3.6px 5.6px 0 var(--tss-shadow-color-from), 2px 2.3px 5.9px 0 var(--tss-shadow-color-to);
     --tss-toast-shadow: 2px 3px 12px 0px rgba(0, 0, 0, 0.45);
-    --tss-scrollbar-track-color: rgba(255,255,255,0.08);
-    --tss-scrollbar-track-hidden-color: rgba(255,255,255,0.04);
-    --tss-scrollbar-thumb-color: rgba(255,255,255,0.15);
-    --tss-simplebar-thumb-color: rgba(255,255,255,0.23);
+    --tss-scrollbar-track-color: rgba(255, 255, 255, 0.08);
+    --tss-scrollbar-track-hidden-color: rgba(255, 255, 255, 0.04);
+    --tss-scrollbar-thumb-color: rgba(255, 255, 255, 0.15);
+    --tss-simplebar-thumb-color: rgba(255, 255, 255, 0.23);
     --tss-scrollbar-thumb-hidden-color: rgba(255, 255, 255, 0.04);
 }
 
@@ -479,11 +479,44 @@ i.tss-fontsize-tiny {
     user-select: none;
 }
 
+
+@keyframes skeleton-glow {
+    0% {
+        background: rgba(211, 216, 222, .2);
+        border-color: rgba(211, 216, 222, .2)
+    }
+
+    to {
+        background: rgba(95, 107, 124, .2);
+        border-color: rgba(95, 107, 124, .2)
+    }
+}
+
+.tss-skeleton .tss-image,
+.tss-skeleton .tss-label label,
+.tss-skeleton .tss-icon,
+.tss-skeleton .tss-textblock,
+.tss-skeleton .tss-btn {
+    animation: skeleton-glow 1s linear infinite alternate;
+    background: rgba(211, 216, 222, .2);
+    background-clip: padding-box !important;
+    border-color: rgba(211, 216, 222, .2) !important;
+    border-radius: 2px;
+    box-shadow: none !important;
+    color: transparent !important;
+    cursor: default;
+    pointer-events: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 .tss-defer-loading-msg {
-    position:absolute;
-    top:50%;
-    left:50%;
-    transform:translateX(-50%) translateY(-50%);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
 }
 
 .tss-defer-with-loading-msg {
@@ -496,5 +529,5 @@ i.tss-fontsize-tiny {
 }
 
 i[class^="fi-"]:before, i[class*=" fi-"]:before, span[class^="fi-"]:before, span[class*="fi-"]:before {
-    display:inline-block;
+    display: inline-block;
 }

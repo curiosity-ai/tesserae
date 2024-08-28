@@ -12,8 +12,8 @@ namespace Tesserae.Tests.Samples
 
         public ContextMenuSample()
         {
-            var d = ContextMenu();
-            var msg = TextBlock();
+            var d    = ContextMenu();
+            var msg  = TextBlock();
             var msg2 = TextBlock();
 
             var cmsub = ContextMenu().Items(

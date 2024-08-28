@@ -17,7 +17,7 @@ namespace Tesserae.Tests.Samples
         public InfiniteScrollingListSample()
         {
 
-            var page = 1;
+            var page     = 1;
             var pageGrid = 1;
 
             _content = SectionStack().WidthStretch()
@@ -27,8 +27,8 @@ namespace Tesserae.Tests.Samples
                        .Children(
                             SampleTitle("Overview"),
                             TextBlock("List provides a base component for rendering paginates sets of items. " +
-                                      "It is agnostic of the tile component used, and selection " +
-                                      "management. These concerns can be layered separately.")
+                                    "It is agnostic of the tile component used, and selection "                +
+                                    "management. These concerns can be layered separately.")
                                .PaddingBottom(16.px()),
                             TextBlock("Performance is adequate for smaller lists, for large number of items use VirtualizedList.")
                                .PaddingBottom(16.px())))

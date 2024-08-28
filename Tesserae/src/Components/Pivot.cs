@@ -10,25 +10,25 @@ namespace Tesserae
     public sealed class Pivot : IComponent, ISpecialCaseStyling
     {
         private event PivotEventHandler<PivotBeforeNavigateEvent> BeforeNavigated;
-        private event PivotEventHandler<PivotNavigateEvent> Navigated;
-        public delegate void PivotEventHandler<TEventArgs>(Pivot sender, TEventArgs e);
+        private event PivotEventHandler<PivotNavigateEvent>       Navigated;
+        public delegate void                                      PivotEventHandler<TEventArgs>(Pivot sender, TEventArgs e);
 
-        private readonly List<Tab> OrderedTabs = new List<Tab>();
+        private readonly List<Tab>                    OrderedTabs    = new List<Tab>();
         private readonly Dictionary<Tab, HTMLElement> RenderedTitles = new Dictionary<Tab, HTMLElement>();
 
         private readonly HTMLElement RenderedTabs;
         private readonly HTMLElement RenderedContent;
         private readonly HTMLElement Line;
-        private string _initiallySelectedID;
-        private string _currentSelectedID;
-        private bool _isRendered = false;
-        public string SelectedTab => _currentSelectedID ?? _initiallySelectedID;
+        private          string      _initiallySelectedID;
+        private          string      _currentSelectedID;
+        private          bool        _isRendered = false;
+        public           string      SelectedTab => _currentSelectedID ?? _initiallySelectedID;
 
         public Pivot()
         {
-            Line = Div(_("tss-pivot-line"));
-            RenderedTabs = Div(_("tss-pivot-titlebar"));
-            RenderedContent = Div(_("tss-pivot-content"));
+            Line             = Div(_("tss-pivot-line"));
+            RenderedTabs     = Div(_("tss-pivot-titlebar"));
+            RenderedContent  = Div(_("tss-pivot-content"));
             StylingContainer = Div(_("tss-pivot"), RenderedTabs, Line, RenderedContent);
         }
 
@@ -56,7 +56,7 @@ namespace Tesserae
             AttachEvents(tab.Id, title);
             RenderedTabs.appendChild(title);
 
-            if(_isRendered && OrderedTabs.Count == 1)
+            if (_isRendered && OrderedTabs.Count == 1)
             {
                 Select(tab.Id);
             }
@@ -133,7 +133,8 @@ namespace Tesserae
             if (_currentSelectedID != id || refresh)
             {
                 var tab = OrderedTabs.FirstOrDefault(t => t.Id == id);
-                if(tab is object)
+
+                if (tab is object)
                 {
                     Select(tab);
                 }
@@ -159,7 +160,7 @@ namespace Tesserae
             var title = RenderedTitles[tab];
 
             HTMLElement content = Div(_());
-            content.style.width = "100%";
+            content.style.width     = "100%";
             content.style.minHeight = "100%";
 
             try
@@ -229,31 +230,33 @@ namespace Tesserae
 
         private HTMLElement SelectedNav;
         private HTMLElement HoveredNav;
-        private double T0 = 0;
-        private double CurrentWidth = 0;
-        private double CurrentLeft = 0;
-        private double TargetWidth;
-        private double TargetLeft;
-        private double Left0;
-        private bool _firstRender = false;
+        private double      T0           = 0;
+        private double      CurrentWidth = 0;
+        private double      CurrentLeft  = 0;
+        private double      TargetWidth;
+        private double      TargetLeft;
+        private double      Left0;
+        private bool        _firstRender = false;
 
         private void AnimateLine(double time)
         {
             if (T0 < 0)
             {
                 var target = HoveredNav ?? SelectedNav;
+
                 if (target is null) { return; }
                 T0 = time;
                 var r = (DOMRect)target.getBoundingClientRect();
                 TargetWidth = r.width;
-                TargetLeft = r.left;
-                Left0 = ((DOMRect)RenderedTabs.getBoundingClientRect()).left;
+                TargetLeft  = r.left;
+                Left0       = ((DOMRect)RenderedTabs.getBoundingClientRect()).left;
             }
 
             var f = (time - T0) / 500; //500ms animation
+
             if (_firstRender)
             {
-                f = 1;
+                f            = 1;
                 _firstRender = false;
             }
 
@@ -262,11 +265,11 @@ namespace Tesserae
                 f = 1;
             }
 
-            CurrentWidth += (TargetWidth - CurrentWidth) * f;
-            CurrentLeft += (TargetLeft - CurrentLeft) * f;
-            Line.style.width = CurrentWidth + "px";
-            Line.style.marginLeft = (CurrentLeft - Left0) + "px";
-            
+            CurrentWidth          += (TargetWidth - CurrentWidth) * f;
+            CurrentLeft           += (TargetLeft  - CurrentLeft)  * f;
+            Line.style.width      =  CurrentWidth          + "px";
+            Line.style.marginLeft =  (CurrentLeft - Left0) + "px";
+
             if (Math.Abs(CurrentLeft - TargetLeft) > 1e-5 || Math.Abs(CurrentWidth - TargetWidth) > 1e-5)
             {
                 window.requestAnimationFrame((t) => AnimateLine(t));
@@ -283,10 +286,10 @@ namespace Tesserae
                 _titleCreator    = titleCreator;
             }
 
-            private Func<IComponent> _titleCreator;
-            private Func<IComponent> _contentCreator;
-            private HTMLElement _content;
-            private readonly bool _canCacheContent;
+            private          Func<IComponent> _titleCreator;
+            private          Func<IComponent> _contentCreator;
+            private          HTMLElement      _content;
+            private readonly bool             _canCacheContent;
 
             public HTMLElement RenderContent()
             {
@@ -325,10 +328,10 @@ namespace Tesserae
             internal PivotEvent(string currentPivot, string targetPivot)
             {
                 CurrentPivot = currentPivot;
-                TargetPivot = targetPivot;
+                TargetPivot  = targetPivot;
             }
             public string CurrentPivot { get; }
-            public string TargetPivot { get; }
+            public string TargetPivot  { get; }
         }
     }
 }

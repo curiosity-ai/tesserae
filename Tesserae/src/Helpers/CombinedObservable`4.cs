@@ -22,10 +22,10 @@ namespace Tesserae
             o2.ObserveFutureChanges(_ => RaiseOnValueChanged());
             o3.ObserveFutureChanges(_ => RaiseOnValueChanged());
             o4.ObserveFutureChanges(_ => RaiseOnValueChanged());
-            _first = o1;
+            _first  = o1;
             _second = o2;
-            _third = o3;
-            _forth = o4;
+            _third  = o3;
+            _forth  = o4;
         }
 
         public void Observe(ObservableEvent.ValueChanged<(T1 first, T2 second, T3 third, T4 forth)>              valueGetter) => Observe(valueGetter, callbackImmediately: true);
@@ -33,6 +33,7 @@ namespace Tesserae
         private void Observe(ObservableEvent.ValueChanged<(T1 first, T2 second, T3 third, T4 forth)> valueGetter, bool callbackImmediately)
         {
             ValueChanged += valueGetter;
+
             if (callbackImmediately)
                 valueGetter(Value);
         }
@@ -42,6 +43,7 @@ namespace Tesserae
         private void RaiseOnValueChanged()
         {
             window.clearTimeout(_refreshTimeout);
+
             _refreshTimeout = window.setTimeout(
                 _ => ValueChanged?.Invoke(Value),
                 _delayInMs

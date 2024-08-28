@@ -9,11 +9,11 @@ namespace Tesserae
     public sealed class FileDropArea : IComponent
     {
         private event FileDroppedHandler FileDropped;
-        public delegate void FileDroppedHandler(FileDropArea sender, File file);
+        public delegate void             FileDroppedHandler(FileDropArea sender, File file);
 
         private readonly HTMLInputElement _fileInput;
-        private Raw _raw;
-        private readonly HTMLElement _container;
+        private          Raw              _raw;
+        private readonly HTMLElement      _container;
         public FileDropArea()
         {
             _fileInput = FileInput(_("tss-file-input"));
@@ -65,13 +65,25 @@ namespace Tesserae
 
             dropArea.appendChild(_raw.Render());
             dropArea.onclick = (e) => { _fileInput.click(); };
-            dropArea.ondragover = (e) => { StopEvent(e); dropArea.classList.add("tss-dropping"); };
-            dropArea.ondragleave = (e) => { StopEvent(e); dropArea.classList.remove("tss-dropping"); };
+
+            dropArea.ondragover = (e) =>
+            {
+                StopEvent(e);
+                dropArea.classList.add("tss-dropping");
+            };
+
+            dropArea.ondragleave = (e) =>
+            {
+                StopEvent(e);
+                dropArea.classList.remove("tss-dropping");
+            };
+
             dropArea.ondrop = (e) =>
             {
                 StopEvent(e);
                 dropArea.classList.remove("tss-dropping");
-                foreach(var item in e.dataTransfer.items)
+
+                foreach (var item in e.dataTransfer.items)
                 {
                     if (item.kind != "file") continue;
                     OnReadEntry(item.webkitGetAsEntry());
@@ -82,8 +94,8 @@ namespace Tesserae
 
             void ReadDirectory(object dir)
             {
-                var dirReader = Script.Write<object>("{0}.createReader()", dir);
-                Action<object[]> readEnt = OnReadEntries;
+                var              dirReader = Script.Write<object>("{0}.createReader()", dir);
+                Action<object[]> readEnt   = OnReadEntries;
                 Script.Write(@"{0}.readEntries({1});", dirReader, readEnt);
             }
 

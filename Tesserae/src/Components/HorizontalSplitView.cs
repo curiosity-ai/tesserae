@@ -8,32 +8,32 @@ namespace Tesserae
     public class HorizontalSplitView : IComponent
     {
         private readonly HTMLElement _splitContainer;
-        private readonly string _splitterSize;
-        private readonly Raw _topComponent;
-        private readonly Raw _splitterComponent;
-        private readonly Raw _bottomComponent;
-        private bool _resizable;
-        private Action<int> _onResizeEnd;
+        private readonly string      _splitterSize;
+        private readonly Raw         _topComponent;
+        private readonly Raw         _splitterComponent;
+        private readonly Raw         _bottomComponent;
+        private          bool        _resizable;
+        private          Action<int> _onResizeEnd;
 
         public HorizontalSplitView(UnitSize splitterSize = null)
         {
             _splitterSize = (splitterSize is object && splitterSize.Unit != Unit.Auto && splitterSize.Unit != Unit.Inherit)
-                                          ? splitterSize.ToString()
-                                          : "8px";
-            _topComponent     = Raw(Div(_()));
+                ? splitterSize.ToString()
+                : "8px";
+            _topComponent = Raw(Div(_()));
             var splitter = Div(_("tss-splitter  tss-no-splitter"));
-            splitter.draggable = false;
-            _splitterComponent = Raw(splitter);
-            _bottomComponent    = Raw(Div(_()));
+            splitter.draggable        = false;
+            _splitterComponent        = Raw(splitter);
+            _bottomComponent          = Raw(Div(_()));
             _splitterComponent.Height = _splitterSize;
-            _topComponent.Width     = "100%";
-            _splitterComponent.Width = "100%";
+            _topComponent.Width       = "100%";
+            _splitterComponent.Width  = "100%";
             _bottomComponent.Width    = "100%";
 
-            _topComponent.Height   = "10px";
+            _topComponent.Height    = "10px";
             _bottomComponent.Height = "10px";
-            
-            _topComponent.FlexGrow = "1";
+
+            _topComponent.FlexGrow    = "1";
             _bottomComponent.FlexGrow = "1";
 
             _splitContainer = Div(_("tss-splitview tss-splitview-horizontal"), _topComponent.Render(), _splitterComponent.Render(), _bottomComponent.Render());
@@ -41,7 +41,7 @@ namespace Tesserae
 
         public HorizontalSplitView Resizable(Action<int> onResizeEnd = null)
         {
-            _resizable = true;
+            _resizable   = true;
             _onResizeEnd = onResizeEnd;
             _splitterComponent.RemoveClass("tss-no-splitter");
             _splitterComponent.Height = _splitterSize;
@@ -53,8 +53,8 @@ namespace Tesserae
         {
             var el = dragArea.Render();
 
-            double height = 0;
-            DOMRect rect;
+            double      height = 0;
+            DOMRect     rect;
             HTMLElement current;
 
             el.onmousedown += (me) =>
@@ -67,15 +67,15 @@ namespace Tesserae
                 {
                     current = _topComponent.Render();
                 }
-                rect = _splitContainer.getBoundingClientRect().As<DOMRect>();
+                rect               =  _splitContainer.getBoundingClientRect().As<DOMRect>();
                 window.onmousemove += Resize;
-                window.onmouseup += StopResize;
+                window.onmouseup   += StopResize;
                 StopEvent(me);
             };
 
             void Resize(MouseEvent me)
             {
-                if(_splitContainer.classList.contains("tss-split-bottom"))
+                if (_splitContainer.classList.contains("tss-split-bottom"))
                 {
                     height = Math.Min(rect.height - 16, Math.Max(16, (rect.bottom - me.clientY)));
                 }
@@ -83,8 +83,8 @@ namespace Tesserae
                 {
                     height = Math.Min(rect.height - 16, Math.Max(16, (me.clientY - rect.top)));
                 }
-                current.style.height = height + "px";
-                current.style.flexGrow = "0";
+                current.style.height     = height + "px";
+                current.style.flexGrow   = "0";
                 current.style.flexShrink = "1";
                 StopEvent(me);
             }
@@ -92,7 +92,7 @@ namespace Tesserae
             void StopResize(MouseEvent me)
             {
                 window.onmousemove -= Resize;
-                window.onmouseup -= StopResize;
+                window.onmouseup   -= StopResize;
                 _onResizeEnd?.Invoke((int)height);
                 rect = null;
                 StopEvent(me);
@@ -139,7 +139,7 @@ namespace Tesserae
         public HorizontalSplitView SplitInMiddle()
         {
             _bottomComponent.MaxHeight = "";
-            _topComponent.MaxHeight = "";
+            _topComponent.MaxHeight    = "";
             _splitContainer.classList.remove("tss-split-top");
             _splitContainer.classList.remove("tss-split-bottom");
             return this;
@@ -169,7 +169,7 @@ namespace Tesserae
             {
                 _topComponent.Show();
             }
-            else if(_splitContainer.classList.contains("tss-split-bottom"))
+            else if (_splitContainer.classList.contains("tss-split-bottom"))
             {
                 _bottomComponent.Show();
             }
@@ -183,14 +183,14 @@ namespace Tesserae
 
         public HorizontalSplitView TopIsSmaller(UnitSize topSize, UnitSize maxTopSize = null)
         {
-            _topComponent.Height    = topSize.ToString();
-            _topComponent.MaxHeight = maxTopSize?.ToString() ?? "";
-            _topComponent.FlexGrow = "";
+            _topComponent.Height     = topSize.ToString();
+            _topComponent.MaxHeight  = maxTopSize?.ToString() ?? "";
+            _topComponent.FlexGrow   = "";
             _topComponent.FlexShrink = "";
 
-            _bottomComponent.Height = "10px";
-            _bottomComponent.MaxHeight = "";
-            _bottomComponent.FlexGrow = "1";
+            _bottomComponent.Height     = "10px";
+            _bottomComponent.MaxHeight  = "";
+            _bottomComponent.FlexGrow   = "1";
             _bottomComponent.FlexShrink = "";
             _splitContainer.classList.add("tss-split-top");
             _splitContainer.classList.remove("tss-split-bottom");
@@ -200,14 +200,14 @@ namespace Tesserae
 
         public HorizontalSplitView BottomIsSmaller(UnitSize bottomSize, UnitSize maxBottomSize = null)
         {
-            _bottomComponent.Height = bottomSize.ToString();
-            _bottomComponent.MaxHeight = maxBottomSize?.ToString() ?? "";
-            _bottomComponent.FlexGrow = "";
+            _bottomComponent.Height     = bottomSize.ToString();
+            _bottomComponent.MaxHeight  = maxBottomSize?.ToString() ?? "";
+            _bottomComponent.FlexGrow   = "";
             _bottomComponent.FlexShrink = "";
 
-            _topComponent.Height = "10px";
-            _topComponent.MaxHeight = "";
-            _topComponent.FlexGrow = "1";
+            _topComponent.Height     = "10px";
+            _topComponent.MaxHeight  = "";
+            _topComponent.FlexGrow   = "1";
             _topComponent.FlexShrink = "";
             _splitContainer.classList.add("tss-split-bottom");
             _splitContainer.classList.remove("tss-split-top");

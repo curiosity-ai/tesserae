@@ -47,7 +47,7 @@ namespace Tesserae.Tests.Samples
             async Task PlayModal()
             {
                 modal = ProgressModal().Title("Lorem Ipsum");
-                cts = new CancellationTokenSource();
+                cts   = new CancellationTokenSource();
 
                 modal.WithCancel((b) =>
                 {

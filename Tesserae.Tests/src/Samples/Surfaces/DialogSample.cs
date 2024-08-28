@@ -14,7 +14,7 @@ namespace Tesserae.Tests.Samples
 
         public DialogSample()
         {
-            var dialog = Dialog("Lorem Ipsum");
+            var dialog   = Dialog("Lorem Ipsum");
             var response = TextBlock();
 
             _content = SectionStack()
@@ -57,7 +57,7 @@ namespace Tesserae.Tests.Samples
 
             dialog.Content(Stack().Children(TextBlock("Lorem ipsum dolor sit amet, consectetur adipiscing elit."),
                     Toggle("Is draggable").OnChange((c,    ev) => dialog.IsDraggable = c.IsChecked),
-                    Toggle("Is dark overlay").OnChange((c, ev) => dialog.IsDark = c.IsChecked).Checked(dialog.IsDark)
+                    Toggle("Is dark overlay").OnChange((c, ev) => dialog.IsDark      = c.IsChecked).Checked(dialog.IsDark)
                 ))
                .Commands(Button("Send").Primary().AlignEnd().OnClick((c, ev) => dialog.Hide()), Button("Don`t send").AlignEnd().OnClick((c, ev) => dialog.Hide()));
         }

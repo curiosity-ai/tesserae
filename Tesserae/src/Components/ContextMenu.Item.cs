@@ -12,17 +12,17 @@ namespace Tesserae
         [Enum(Emit.StringName)] //Don't change the emit type without updating the FromClassList method
         public enum ItemType
         {
-            [Name("tss-contextmenu-item")] Item,
-            [Name("tss-contextmenu-header")] Header,
+            [Name("tss-contextmenu-item")]    Item,
+            [Name("tss-contextmenu-header")]  Header,
             [Name("tss-contextmenu-divider")] Divider
         }
 
         public class Item : ComponentBase<Item, HTMLElement>
         {
-            private readonly HTMLElement _innerComponent;
-            internal ContextMenu _subMenu;
+            private readonly HTMLElement              _innerComponent;
+            internal         ContextMenu              _subMenu;
             private event ComponentEventHandler<Item> PossiblyOpenSubMenu;
-            internal bool CurrentlyMouseovered = false;
+            internal bool                             CurrentlyMouseovered = false;
 
             public bool HasSubMenu => _subMenu != null;
 
@@ -118,6 +118,7 @@ namespace Tesserae
             public Item SubMenu(ContextMenu cm)
             {
                 _subMenu = cm;
+
                 if (cm._items.Any(i => i.HasSubMenu))
                 {
                     //TODO implement submenu of submenus (bad ux though)
@@ -139,6 +140,7 @@ namespace Tesserae
                     else
                     {
                         Clicked += e;
+
                         if (_innerComponent is object)
                         {
                             _innerComponent.onclick += (e2) =>
