@@ -223,7 +223,6 @@ namespace Tesserae
 
         public static Validator Validator() => new Validator();
 
-        public static Icon Icon(UIcons? icon, UIconsWeight weight = UIconsWeight.Regular, TextSize size = TextSize.Small, string color = null) => icon.HasValue ? new Icon(icon.Value, weight, size).Foreground(color ?? "") : new Icon().Foreground(color ?? "");
         public static Icon Icon(UIcons  icon, string       color)                                                                              => new Icon(icon).Foreground(color               ?? "");
         public static Icon Icon(UIcons  icon, UIconsWeight weight = UIconsWeight.Regular, TextSize size = TextSize.Small, string color = null) => new Icon(icon, weight, size).Foreground(color ?? "");
         public static Icon Icon(Emoji   icon, TextSize     size   = TextSize.Medium) => new Icon(icon, size);
