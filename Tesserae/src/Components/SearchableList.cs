@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using H5.Core;
 using static H5.Core.dom;
 using static Tesserae.UI;
@@ -18,6 +19,8 @@ namespace Tesserae
         private readonly ItemsList        _list;
 
         private int               _minimumItemsToShowBox = 0;
+        private Func<string, Task<T[]>> _backgroundSearcher;
+
         public  HTMLElement       StylingContainer           => _stack.InnerElement;
         public  bool              PropagateToStackItemParent => true;
         public  ObservableList<T> Items                      { get; }
@@ -33,7 +36,7 @@ namespace Tesserae
             Items      = items ?? new ObservableList<T>();
             _searchBox = new SearchBox().Underlined().SetPlaceholder("Type to search").SearchAsYouType().Width(100.px()).Grow();
             _list      = ItemsList(new IComponent[0], columns);
-
+            object marker;
             _defered =
                 DeferSync(
                         Items,
@@ -42,6 +45,7 @@ namespace Tesserae
                             var searchTerms = (_searchBox.Text ?? "").Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
                             var includeItems = new List<IComponent>();
+                            var includeItemsBackground = new List<IComponent>();
                             var excludeItems = new List<IComponent>();
 
                             foreach (var i in Items)
@@ -56,6 +60,35 @@ namespace Tesserae
                                 }
                             }
 
+                            if (_backgroundSearcher is object && !string.IsNullOrEmpty(_searchBox.Text))
+                            {
+                                var markerLocal = new object();
+                                marker = markerLocal;
+                                _backgroundSearcher(_searchBox.Text).ContinueWith(t =>
+                                {
+                                    if (markerLocal != marker) return;
+                                    if (t.IsCompleted)
+                                    {
+                                        foreach(var bi in t.Result)
+                                        {
+                                            includeItemsBackground.Add(bi.Render().RemoveClass("tss-searchable-list-no-match"));
+                                        }
+
+                                        var filteredItemsWithBackground = includeItems.Concat(includeItemsBackground)
+                                                                                      .Concat(excludeItems).ToArray();
+
+                                        _list.Items.Clear();
+
+                                        if (filteredItemsWithBackground.Any())
+                                        {
+                                            _list.Items.AddRange(filteredItemsWithBackground);
+                                        }
+
+                                        _searchBox.Show();
+                                    }
+                                }).FireAndForget();
+                            }
+
                             var filteredItems = includeItems.Concat(excludeItems).ToArray();
 
                             _list.Items.Clear();
@@ -65,7 +98,7 @@ namespace Tesserae
                                 _list.Items.AddRange(filteredItems);
                             }
 
-                            if (filteredItems.Length >= _minimumItemsToShowBox)
+                            if (filteredItems.Length >= _minimumItemsToShowBox || _backgroundSearcher is object)
                             {
                                 _searchBox.Show();
                             }
@@ -102,6 +135,13 @@ namespace Tesserae
         public SearchableList<T> CaptureSearchBox(out SearchBox sb)
         {
             sb = _searchBox;
+            return this;
+        }
+
+        public SearchableList<T> WithBackgroundSearch(Func<string, Task<T[]>> searcher)
+        {
+            _backgroundSearcher = searcher;
+            _minimumItemsToShowBox = 0;
             return this;
         }
 
