@@ -227,7 +227,7 @@ namespace Tesserae
             }
         }
 
-        private Dictionary<string, string[]> GetCurrentSorting()
+        public Dictionary<string, string[]> GetCurrentSorting()
         {
             var dict = new Dictionary<string, string[]>();
 
