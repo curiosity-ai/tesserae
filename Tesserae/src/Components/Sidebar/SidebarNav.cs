@@ -62,9 +62,9 @@ namespace Tesserae
         {
             Identifier    = identifier;
             _text         = text;
-            _closedHeader = Button().Class("tss-sidebar-nav-header").Class("tss-sidebar-btn");
+            _closedHeader = Button().Class("tss-sidebar-nav-header").Class("tss-sidebar-btn").Id(identifier);
             setButtonIcon(_closedHeader);
-            _openHeader = Div(_("tss-sidebar-nav-header tss-sidebar-btn-open tss-sidebar-nav-header-empty"));
+            _openHeader = Div(_("tss-sidebar-nav-header tss-sidebar-btn-open tss-sidebar-nav-header-empty", id: identifier));
 
             _arrow = Button().Class("tss-sidebar-nav-arrow");
 

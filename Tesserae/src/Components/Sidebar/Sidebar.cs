@@ -160,7 +160,6 @@ namespace Tesserae
             {
                 return this; //nothing to do...
             }
-            ;
 
             _middleContent.Value = _middleContent.Value?.Concat(new[] { item }).ToList();
             _itemOrder.Add(item.Identifier);
