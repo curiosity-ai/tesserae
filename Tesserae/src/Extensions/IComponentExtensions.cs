@@ -381,7 +381,13 @@ namespace Tesserae
             }
 
             var rendered = component.Render();
+
             rendered.onmouseenter = null;
+
+            if (rendered.HasOwnProperty("tooltipMarker"))
+            {
+                rendered["tooltipMarker"] = null;
+            }
 
             return component;
         }
