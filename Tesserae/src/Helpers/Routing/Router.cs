@@ -72,7 +72,7 @@ namespace Tesserae
         private static          bool                                       _initialized                   = false;
         private static readonly Dictionary<string, Func<Parameters, bool>> _registedRoutesMappedToActions = new Dictionary<string, Func<Parameters, bool>>();
         private static readonly Dictionary<string, string>                 _paths                         = new Dictionary<string, string>();
-        private static          List<Route>                                _routesToTryMatchingOnLocationChanged;
+        private static          List<Route>                                _routesToTryMatchingOnLocationChanged = new List<Route>(); 
 
         public static void Push(string path)
         {
@@ -331,7 +331,7 @@ namespace Tesserae
             if (!_initialized)
                 return;
 
-            _routesToTryMatchingOnLocationChanged = new List<Route>();
+            _routesToTryMatchingOnLocationChanged.Clear();
 
             foreach (var kv in _paths)
             {
