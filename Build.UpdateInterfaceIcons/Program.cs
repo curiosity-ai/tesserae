@@ -11,6 +11,8 @@ namespace Build.UpdateInterfaceIcons
 {
     class Program
     {
+        private const string MIN_Version = "2.5.0";
+
         static async Task<string> FetchVersion()
         {
             Console.WriteLine($"Fetching Version");
@@ -25,7 +27,11 @@ namespace Build.UpdateInterfaceIcons
 
                 if (line.StartsWith(prefix))
                 {
-                    return line.Substring(prefix.Length, line.Length - prefix.Length - "';".Length);
+
+                    var versionFetched = new Version(line.Substring(prefix.Length, line.Length - prefix.Length - "';".Length));
+                    var versionMin     = new Version(MIN_Version);
+
+                    return versionFetched > versionMin ? versionFetched.ToString() : versionMin.ToString();
                 }
             }
 
