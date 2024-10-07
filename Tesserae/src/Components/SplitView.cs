@@ -36,7 +36,7 @@ namespace Tesserae
             _leftComponent.FlexGrow  = "1";
             _rightComponent.FlexGrow = "1";
 
-            _splitContainer = Div(_("tss-splitview"), _leftComponent.Render(), _splitterComponent.Render(), _rightComponent.Render());
+            _splitContainer = Div(_("tss-splitview tss-splitview-vertical"), _leftComponent.Render(), _splitterComponent.Render(), _rightComponent.Render());
         }
 
         public SplitView Resizable(Action<int> onResizeEnd = null)
