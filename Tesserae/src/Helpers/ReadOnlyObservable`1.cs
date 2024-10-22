@@ -12,14 +12,27 @@ namespace Tesserae
     {
         private T                    _value;
         private IEqualityComparer<T> _comparer;
-        private double               _refreshTimeout;
-        private double               _refreshDelay = 1;
-        public  double               Delay { get => _refreshDelay; set => _refreshDelay = value; }
+
+        private DebouncerWithMaxDelay _debouncer;
+
+        public int Delay
+        {
+            get
+            {
+                return _debouncer?.DelayInMs ?? 1;
+            }
+            set
+            {
+                _debouncer = new DebouncerWithMaxDelay(() => ValueChanged?.Invoke(_value), delayInMs: value);
+            }
+        }
 
         protected ReadOnlyObservable(T value = default, IEqualityComparer<T> comparer = null)
         {
             _value    = value;
             _comparer = comparer ?? EqualityComparer<T>.Default;
+
+            _debouncer = new DebouncerWithMaxDelay(() => ValueChanged?.Invoke(_value));
         }
 
         private event ObservableEvent.ValueChanged<T> ValueChanged;
@@ -53,12 +66,7 @@ namespace Tesserae
 
         protected void RaiseOnValueChanged()
         {
-            window.clearTimeout(_refreshTimeout);
-
-            _refreshTimeout = window.setTimeout((_) =>
-            {
-                ValueChanged?.Invoke(_value);
-            }, _refreshDelay);
+            _debouncer.RaiseOnValueChanged();
         }
     }
 }

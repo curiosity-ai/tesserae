@@ -12,7 +12,9 @@ namespace Tesserae
 
         private readonly Dictionary<TKey, TValue> _dictionary;
         private readonly bool                     _shouldHookNestedObservables;
-        private          double                   _refreshTimeout;
+
+        private DebouncerWithMaxDelay _debouncer;
+
         public ObservableDictionary(IEqualityComparer<TKey>  keyComparer = null, bool shouldHook = true) : this(new Dictionary<TKey, TValue>(keyComparer), shouldHook) { }
         public ObservableDictionary(Dictionary<TKey, TValue> values,             bool shouldHook = true) : this(values, values?.Comparer, shouldHook) { }
         public ObservableDictionary(IEnumerable<KeyValuePair<TKey, TValue>> values, IEqualityComparer<TKey> keyComparer = null, bool shouldHook = true)
@@ -35,6 +37,8 @@ namespace Tesserae
                 foreach (var kv in _dictionary)
                     HookValue(kv.Value);
             }
+
+            _debouncer = new DebouncerWithMaxDelay(() => ValueChanged?.Invoke(_dictionary), delayInMs: 1);
         }
 
         public void Observe(ObservableEvent.ValueChanged<IReadOnlyDictionary<TKey, TValue>>              valueGetter) => Observe(valueGetter, callbackImmediately: true);
@@ -154,12 +158,7 @@ namespace Tesserae
 
         private void RaiseOnValueChanged()
         {
-            window.clearTimeout(_refreshTimeout);
-
-            _refreshTimeout = window.setTimeout(
-                _ => ValueChanged?.Invoke(_dictionary),
-                1
-            );
+            _debouncer.RaiseOnValueChanged();
         }
 
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() => _dictionary.GetEnumerator();

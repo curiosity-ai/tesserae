@@ -1,5 +1,4 @@
-﻿using static H5.Core.dom;
-
+﻿
 namespace Tesserae
 {
     [H5.Name("tss.CombinedObservableT2")]
@@ -7,8 +6,9 @@ namespace Tesserae
     {
         private readonly IObservable<T1> _first;
         private readonly IObservable<T2> _second;
-        private          double          _refreshTimeout;
-        private          int             _delayInMs = 16;
+
+        private DebouncerWithMaxDelay _debouncer;
+
 
         public (T1 first, T2 second) Value => (_first.Value, _second.Value);
 
@@ -20,6 +20,9 @@ namespace Tesserae
             o2.ObserveFutureChanges(_ => RaiseOnValueChanged());
             _first  = o1;
             _second = o2;
+
+            _debouncer = new DebouncerWithMaxDelay(() => ValueChanged?.Invoke(Value));
+
         }
 
         public void Observe(ObservableEvent.ValueChanged<(T1 first, T2 second)>              valueGetter) => Observe(valueGetter, callbackImmediately: true);
@@ -36,12 +39,7 @@ namespace Tesserae
 
         private void RaiseOnValueChanged()
         {
-            window.clearTimeout(_refreshTimeout);
-
-            _refreshTimeout = window.setTimeout(
-                _ => ValueChanged?.Invoke(Value),
-                _delayInMs
-            );
+            _debouncer.RaiseOnValueChanged();
         }
     }
 }

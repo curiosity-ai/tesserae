@@ -16,9 +16,9 @@ namespace Tesserae
         private readonly Func<Task<IComponent>> _asyncGenerator;
         private          TextBlock              _defaultLoadingMessageIfAny;
         private          bool                   _needsRefresh, _waitForComponentToBeMountedBeforeFullyInitiatingRender, _renderHasBeenCalled;
-        private          double                 _refreshTimeout;
-        private          int                    _delayInMs = 16;
-        private          int                    id         = 0;
+        private          DebouncerWithMaxDelay  _debouncer;
+
+        private int id = 0;
         private DeferedComponent(Func<Task<IComponent>> asyncGenerator, IComponent loadMessage, TextBlock defaultLoadingMessageIfAny)
         {
             if (loadMessage is null)
@@ -31,6 +31,9 @@ namespace Tesserae
             _waitForComponentToBeMountedBeforeFullyInitiatingRender = true; // 2020-07-02 DWR: This has only just become configurable and the default value matches the previous behaviour - wait for DomObserver.WhenMounted in Render() before calling TriggerRefresh()
             _renderHasBeenCalled                                    = false;
             Container                                               = DIV(loadMessage.Render());
+
+            _debouncer = new DebouncerWithMaxDelay(() => TriggerRefresh());
+
         }
 
         internal static DeferedComponent Create(Func<Task<IComponent>> asyncGenerator, IComponent loadMessage)
@@ -57,22 +60,21 @@ namespace Tesserae
         public void Refresh()
         {
             _needsRefresh = true;
-            window.clearTimeout(_refreshTimeout);
-
-            _refreshTimeout = window.setTimeout(
-                t => TriggerRefresh(),
-                _delayInMs
-            );
+            _debouncer.RaiseOnValueChanged();
         }
 
         /// <summary>
         /// The milliseconds must be a value of at least one, trying to disable Debounce by passing a zero (or negative) value is not supported
-        public IDefer Debounce(int milliseconds)
+        public IDefer Debounce(int delayInMs)
         {
-            if (_delayInMs <= 0)
-                throw new ArgumentOutOfRangeException(nameof(milliseconds), "must be a positive value");
+            _debouncer = new DebouncerWithMaxDelay(() => TriggerRefresh(), delayInMs: delayInMs);
+            return this;
+        }
 
-            _delayInMs = milliseconds;
+        public IDefer Debounce(int delayInMs, int maxDelayInMs)
+        {
+            _debouncer = new DebouncerWithMaxDelay(() => TriggerRefresh(), delayInMs: delayInMs, maxDelayInMs: maxDelayInMs);
+
             return this;
         }
 

@@ -13,9 +13,20 @@ namespace Tesserae
 
         private readonly List<T> _list;
         private readonly bool    _shouldHookNestedObservables;
-        private          double  _refreshTimeout;
-        private          double  _refreshDelay = 1;
-        public           double  Delay { get => _refreshDelay; set => _refreshDelay = value; }
+
+        private DebouncerWithMaxDelay _debouncer;
+
+        public int Delay
+        {
+            get
+            {
+                return _debouncer?.DelayInMs ?? 1;
+            }
+            set
+            {
+                _debouncer = new DebouncerWithMaxDelay(() => ValueChanged?.Invoke(Value), delayInMs: value);
+            }
+        }
         public ObservableList(params T[] initialValues) : this(shouldHook: true, initialValues: initialValues) { }
         public ObservableList(bool shouldHook, params T[] initialValues)
         {
@@ -28,6 +39,8 @@ namespace Tesserae
                 foreach (var i in _list)
                     HookValue(i);
             }
+
+            _debouncer = new DebouncerWithMaxDelay(() => ValueChanged?.Invoke(_list), delayInMs: 1);
         }
 
         public void Observe(ObservableEvent.ValueChanged<IReadOnlyList<T>>              valueGetter) => Observe(valueGetter, callbackImmediately: true);
@@ -58,12 +71,7 @@ namespace Tesserae
 
         private void RaiseOnValueChanged()
         {
-            window.clearTimeout(_refreshTimeout);
-
-            _refreshTimeout = window.setTimeout(
-                _ => ValueChanged?.Invoke(_list),
-                _refreshDelay
-            );
+            _debouncer.RaiseOnValueChanged();
         }
 
         public int  Count      => _list.Count;
