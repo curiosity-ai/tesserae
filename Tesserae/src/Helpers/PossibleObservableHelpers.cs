@@ -25,11 +25,8 @@ namespace Tesserae
 
         private static Type TryToGetFirstWrappedValueFromAnIsObservable(Type type)
         {
-            if (type is null)
-                throw new ArgumentNullException(nameof(type));
-
-            if (IsAnIObservableInterface(type, out var wrappedValueType))
-                return wrappedValueType;
+            if (type is null) throw new ArgumentNullException(nameof(type));
+            if (IsAnIObservableInterface(type, out var wrappedValueType)) return wrappedValueType;
 
             foreach (var i in type.GetInterfaces())
             {
@@ -55,11 +52,8 @@ namespace Tesserae
 
         private static bool UpdateObservingStatusIfObservable(object source, Action receiver, bool listenForFutureChanges)
         {
-            if (receiver is null)
-                throw new ArgumentNullException(nameof(receiver));
-
-            if (source is null)
-                return false;
+            if (receiver is null) throw new ArgumentNullException(nameof(receiver));
+            if (source is null) return false;
 
             var wrappedValueTypeIfSourceIsAnObserverable = TryToGetFirstWrappedValueFromAnIsObservable(source.GetType());
 

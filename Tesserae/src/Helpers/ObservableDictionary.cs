@@ -25,8 +25,7 @@ namespace Tesserae
 
             foreach (var entry in values)
             {
-                if (_dictionary.ContainsKey(entry.Key))
-                    throw new ArgumentException("Key appears multiple times in input data - invalid: " + entry.Key);
+                if (_dictionary.ContainsKey(entry.Key)) throw new ArgumentException("Key appears multiple times in input data - invalid: " + entry.Key);
 
                 _dictionary.Add(entry.Key, entry.Value);
             }
@@ -34,8 +33,7 @@ namespace Tesserae
             // Note: The HookValue method will also check these conditions but we can save ourselve the enumeration if we know that we don't care about hooking nested lists
             if (_shouldHookNestedObservables)
             {
-                foreach (var kv in _dictionary)
-                    HookValue(kv.Value);
+                foreach (var kv in _dictionary) HookValue(kv.Value);
             }
 
             _debouncer = new DebouncerWithMaxDelay(() => ValueChanged?.Invoke(_dictionary), delayInMs: 1);
@@ -146,14 +144,12 @@ namespace Tesserae
 
         private void HookValue(TValue v)
         {
-            if (_shouldHookNestedObservables)
-                PossibleObservableHelpers.ObserveFutureChangesIfObservable(v, RaiseOnValueChanged);
+            if (_shouldHookNestedObservables) PossibleObservableHelpers.ObserveFutureChangesIfObservable(v, RaiseOnValueChanged);
         }
 
         private void UnhookValue(TValue v)
         {
-            if (_shouldHookNestedObservables)
-                PossibleObservableHelpers.StopObservingIfObservable(v, RaiseOnValueChanged);
+            if (_shouldHookNestedObservables) PossibleObservableHelpers.StopObservingIfObservable(v, RaiseOnValueChanged);
         }
 
         private void RaiseOnValueChanged()
