@@ -69,10 +69,10 @@ namespace Tesserae
             _initialized = true;
         }
 
-        private static          bool                                       _initialized                   = false;
-        private static readonly Dictionary<string, Func<Parameters, bool>> _registedRoutesMappedToActions = new Dictionary<string, Func<Parameters, bool>>();
-        private static readonly Dictionary<string, string>                 _paths                         = new Dictionary<string, string>();
-        private static          List<Route>                                _routesToTryMatchingOnLocationChanged = new List<Route>(); 
+        private static          bool                                       _initialized                          = false;
+        private static readonly Dictionary<string, Func<Parameters, bool>> _registedRoutesMappedToActions        = new Dictionary<string, Func<Parameters, bool>>();
+        private static readonly Dictionary<string, string>                 _paths                                = new Dictionary<string, string>();
+        private static          List<Route>                                _routesToTryMatchingOnLocationChanged = new List<Route>();
 
         public static void Push(string path)
         {
@@ -199,6 +199,19 @@ namespace Tesserae
                 {
                     // If the window.location doesn't indicate that we're already at the desired path then update that and the "locationchange" event listener will fire off the LocationChanged method
                     window.location.href = path;
+
+                    if (!window.location.href.EndsWith(path))
+                    {
+                        // Sometimes assigning window.location.href doesn't actually work
+                        
+                        console.debug("Failed to navigate to ", path, " from", window.location.href, "\nRetrying on a timeout");
+
+                        setTimeout(_ =>
+                        {
+                            window.location.href = path;
+                        }, 1);
+                    }
+
                     return;
                 }
 
