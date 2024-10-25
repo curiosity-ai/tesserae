@@ -30,6 +30,7 @@ namespace Tesserae
 
             OnInput((_, __) => _observable.Value = Text);
         }
+
         public int TabIndex
         {
             set
@@ -85,6 +86,12 @@ namespace Tesserae
         {
             get => _errorSpan.innerText;
             set => _errorSpan.innerText = value;
+        }
+
+        public int MaxLength
+        {
+            get => InnerElement.maxLength;
+            set => InnerElement.maxLength = value;
         }
 
         public bool IsInvalid
