@@ -18,19 +18,19 @@
         overflow-x: hidden;
     }
 
-.tss-splitter.tss-no-splitter {
-    width: 0px;
-    pointer-events:none;
-}
+    .tss-splitview > .tss-splitter.tss-no-splitter {
+        width: 0px !important;
+        pointer-events: none;
+    }
 
-.tss-splitview:not(.tss-splitview-horizontal) .tss-splitter {
+.tss-splitview:not(.tss-splitview-horizontal) > .tss-splitter {
     background: transparent;
     width: 8px;
     cursor: e-resize;
     user-select: none;
 }
 
-.tss-splitview.tss-splitview-horizontal .tss-splitter {
+.tss-splitview.tss-splitview-horizontal > .tss-splitter {
     background: transparent;
     height: 8px;
     cursor: n-resize;
