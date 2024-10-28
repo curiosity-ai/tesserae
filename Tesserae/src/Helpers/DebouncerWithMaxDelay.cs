@@ -13,9 +13,11 @@ namespace Tesserae
         private double _lastInvoked = 0;
         private Action _onTrigger;
 
-        public DebouncerWithMaxDelay(Action onTrigger, int delayInMs = 16, int maxDelayInMs = 1000)
+        public DebouncerWithMaxDelay(Action onTrigger, int delayInMs = 16, int maxDelayInMs = -1)
         {
-            if (delayInMs >= maxDelayInMs) throw new ArgumentException($"{nameof(delayInMs)} {delayInMs} must be smaller than {nameof(maxDelayInMs)} {maxDelayInMs}");
+            if (maxDelayInMs < 0) maxDelayInMs = delayInMs;
+
+            if (delayInMs >= maxDelayInMs) maxDelayInMs = delayInMs * 10;
 
             _delayInMs    = delayInMs;
             _maxDelayInMs = maxDelayInMs;
