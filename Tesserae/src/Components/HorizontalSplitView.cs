@@ -188,9 +188,11 @@ namespace Tesserae
             _topComponent.FlexGrow   = "";
             _topComponent.FlexShrink = "";
 
-            _bottomComponent.Height     = "10px";
+            bool fullTop = _topComponent.Height == "100%";
+
+            _bottomComponent.Height     = fullTop ? "0px" : "1px";
+            _bottomComponent.FlexGrow   = fullTop ? "0" :"1";
             _bottomComponent.MaxHeight  = "";
-            _bottomComponent.FlexGrow   = "1";
             _bottomComponent.FlexShrink = "";
             _splitContainer.classList.add("tss-split-top");
             _splitContainer.classList.remove("tss-split-bottom");
@@ -205,9 +207,10 @@ namespace Tesserae
             _bottomComponent.FlexGrow   = "";
             _bottomComponent.FlexShrink = "";
 
-            _topComponent.Height     = "10px";
+            bool fullBottom = _bottomComponent.Height == "100%";
+            _topComponent.Height     = fullBottom ? "0px" : "10px";
+            _topComponent.FlexGrow   = fullBottom ? "0" : "1";
             _topComponent.MaxHeight  = "";
-            _topComponent.FlexGrow   = "1";
             _topComponent.FlexShrink = "";
             _splitContainer.classList.add("tss-split-bottom");
             _splitContainer.classList.remove("tss-split-top");
