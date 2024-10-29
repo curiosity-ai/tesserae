@@ -45,7 +45,44 @@
         background: rgba(var(--tss-default-foreground-color-root),0.9);
     }
 
+.tss-splitview > .tss-splitter {
+    position: relative;
+    overflow: hidden;
+}
 
+.tss-splitview.tss-splitview-horizontal > .tss-splitter:before {
+    content: ' ';
+    left: calc(50% - 20px);
+    top: 50%;
+    position: absolute;
+    width: 40px;
+    height: 1px;
+    background: var(--tss-default-border-color);
+}
+
+.tss-splitview.tss-splitview-horizontal > .tss-splitter:hover:before {
+    left: calc(50% - 40px);
+    width: 80px;
+    height: 2px;
+    background: var(--tss-dark-border-color) !important;
+}
+
+.tss-splitview.tss-splitview-vertical > .tss-splitter:before {
+    content: ' ';
+    top: calc(50% - 20px);
+    left: 50%;
+    position: absolute;
+    height: 40px;
+    width: 1px;
+    background: var(--tss-default-border-color);
+}
+
+.tss-splitview.tss-splitview-vertical > .tss-splitter:hover:before {
+    top: calc(50% - 40px);
+    height: 80px;
+    width: 2px;
+    background: var(--tss-dark-border-color) !important;
+}
 
 .tss-splitview-panel-style.tss-split-left > *:first-child {
     box-shadow: rgba(0, 0, 0, 0.22) 0px 25.6px 57.6px 0px, rgba(0, 0, 0, 0.18) 0px 4.8px 14.4px 0px;
