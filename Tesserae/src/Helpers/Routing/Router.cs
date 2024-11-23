@@ -423,9 +423,6 @@ namespace Tesserae
                 );
 
                 var isBack = (_lastState is object && _lastState.Path == toState.Path);
-                console.log("lastState: " + (_lastState?.FullPath ?? "null"));
-                console.log("toState: "   + (toState?.FullPath    ?? "null"));
-                console.log(isBack);
 
                 if ((_beforeNavigate is null) || _beforeNavigate(toState, _currentState, isBack: isBack))
                 {
