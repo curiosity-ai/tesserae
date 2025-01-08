@@ -17,6 +17,8 @@ namespace Tesserae
         private          TextBlock              _defaultLoadingMessageIfAny;
         private          bool                   _needsRefresh, _waitForComponentToBeMountedBeforeFullyInitiatingRender, _renderHasBeenCalled;
         private          DebouncerWithMaxDelay  _debouncer;
+        private          TaskCompletionSource<bool> _refreshCompleted;
+
 
         private int id = 0;
         private DeferedComponent(Func<Task<IComponent>> asyncGenerator, IComponent loadMessage, TextBlock defaultLoadingMessageIfAny)
@@ -61,6 +63,15 @@ namespace Tesserae
         {
             _needsRefresh = true;
             _debouncer.RaiseOnValueChanged();
+        }
+
+        public Task RefreshAsync()
+        {
+            if (_refreshCompleted is null) _refreshCompleted = new TaskCompletionSource<bool>();
+
+            _needsRefresh = true;
+            _debouncer.RaiseOnValueChanged();
+            return _refreshCompleted.Task;
         }
 
         /// <summary>
@@ -118,8 +129,7 @@ namespace Tesserae
 
         private void TriggerRefresh()
         {
-            if (!_needsRefresh)
-                return;
+            if (!_needsRefresh) return;
 
             _needsRefresh = false;
 
@@ -172,6 +182,12 @@ namespace Tesserae
                         {
                             container.appendChild(TextBlock("Error rendering async element").Danger());
                             container.appendChild(TextBlock(r.Exception.ToString()).XSmall());
+                        }
+
+                        if (_refreshCompleted is object)
+                        {
+                            _refreshCompleted.SetResult(r.IsCompleted);
+                            _refreshCompleted = null;
                         }
                     }
                 })

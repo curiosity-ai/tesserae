@@ -1,4 +1,6 @@
-﻿namespace Tesserae
+﻿using System.Threading.Tasks;
+
+namespace Tesserae
 {
     [H5.Name("tss.IDefer")]
     public interface IDefer : IComponent
@@ -8,6 +10,7 @@
         IDefer Debounce(int milliseconds);
 
         void Refresh();
+        Task RefreshAsync();
 
         /// <summary>
         /// By default, the component will generate an empty container and only start to initiate the data retrieval and full rendering process when it is mounted in the DOM (so that things like height calculations may be performed accurately, which require that
