@@ -82,7 +82,11 @@ namespace Tesserae
                         {
                             onFail?.Invoke(url);
                             loadedCount++;
-                            if (loadedCount == libraries.Length) onComplete?.Invoke();
+
+                            if (loadedCount == libraries.Length)
+                            {
+                                onComplete?.Invoke();
+                            }
                         },
                         onload = OnScriptLoaded
                     };
