@@ -17,6 +17,7 @@ namespace Tesserae
         private          TextBlock              _defaultLoadingMessageIfAny;
         private          bool                   _needsRefresh, _waitForComponentToBeMountedBeforeFullyInitiatingRender, _renderHasBeenCalled;
         private          DebouncerWithMaxDelay  _debouncer;
+        private          int _loadingMessageDelay = 1000;
         private          TaskCompletionSource<bool> _refreshCompleted;
 
 
@@ -76,16 +77,17 @@ namespace Tesserae
 
         /// <summary>
         /// The milliseconds must be a value of at least one, trying to disable Debounce by passing a zero (or negative) value is not supported
-        public IDefer Debounce(int delayInMs)
+        public IDefer Debounce(int delayInMs, int millisecondsForLoadingMessage = 1000)
         {
             _debouncer = new DebouncerWithMaxDelay(() => TriggerRefresh(), delayInMs: delayInMs);
+            _loadingMessageDelay = millisecondsForLoadingMessage;
             return this;
         }
 
-        public IDefer Debounce(int delayInMs, int maxDelayInMs)
+        public IDefer Debounce(int delayInMs, int maxDelayInMs, int millisecondsForLoadingMessage = 1000)
         {
             _debouncer = new DebouncerWithMaxDelay(() => TriggerRefresh(), delayInMs: delayInMs, maxDelayInMs: maxDelayInMs);
-
+            _loadingMessageDelay = millisecondsForLoadingMessage;
             return this;
         }
 
@@ -154,7 +156,7 @@ namespace Tesserae
                         container.appendChild(_loadMessage.Render());
                     }
                 },
-                1_000
+                _loadingMessageDelay
             );
 
             _asyncGenerator()
