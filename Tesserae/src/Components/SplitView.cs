@@ -174,9 +174,10 @@ namespace Tesserae
             return this;
         }
 
-        public SplitView LeftIsSmaller(UnitSize leftSize, UnitSize maxLeftSize = null)
+        public SplitView LeftIsSmaller(UnitSize leftSize, UnitSize maxLeftSize = null, UnitSize minLeftSize = null)
         {
             _leftComponent.Width      = leftSize.ToString();
+            _leftComponent.MinWidth   = minLeftSize?.ToString() ?? "";
             _leftComponent.MaxWidth   = maxLeftSize?.ToString() ?? "";
             _leftComponent.FlexGrow   = "";
             _leftComponent.FlexShrink = "";
@@ -192,9 +193,10 @@ namespace Tesserae
             return this;
         }
 
-        public SplitView RightIsSmaller(UnitSize rightSize, UnitSize maxRightSize = null)
+        public SplitView RightIsSmaller(UnitSize rightSize, UnitSize maxRightSize = null, UnitSize minRightSize = null)
         {
             _rightComponent.Width      = rightSize.ToString();
+            _rightComponent.MinWidth   = minRightSize?.ToString() ?? "";
             _rightComponent.MaxWidth   = maxRightSize?.ToString() ?? "";
             _rightComponent.FlexGrow   = "";
             _rightComponent.FlexShrink = "";
@@ -214,12 +216,5 @@ namespace Tesserae
         {
             return _splitContainer;
         }
-    }
-
-    [H5.Name("tss.sz")]
-    public enum SizeMode
-    {
-        Pixels,
-        Percent
     }
 }

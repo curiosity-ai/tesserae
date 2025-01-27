@@ -181,10 +181,11 @@ namespace Tesserae
             return this;
         }
 
-        public HorizontalSplitView TopIsSmaller(UnitSize topSize, UnitSize maxTopSize = null)
+        public HorizontalSplitView TopIsSmaller(UnitSize topSize, UnitSize maxTopSize = null, UnitSize minTopSize = null)
         {
             _topComponent.Height     = topSize.ToString();
             _topComponent.MaxHeight  = maxTopSize?.ToString() ?? "";
+            _topComponent.MinHeight  = minTopSize?.ToString() ?? "";
             _topComponent.FlexGrow   = "";
             _topComponent.FlexShrink = "";
 
@@ -200,10 +201,11 @@ namespace Tesserae
             return this;
         }
 
-        public HorizontalSplitView BottomIsSmaller(UnitSize bottomSize, UnitSize maxBottomSize = null)
+        public HorizontalSplitView BottomIsSmaller(UnitSize bottomSize, UnitSize maxBottomSize = null, UnitSize minBottomSize = null)
         {
             _bottomComponent.Height     = bottomSize.ToString();
             _bottomComponent.MaxHeight  = maxBottomSize?.ToString() ?? "";
+            _bottomComponent.MinHeight  = minBottomSize?.ToString() ?? "";
             _bottomComponent.FlexGrow   = "";
             _bottomComponent.FlexShrink = "";
 
