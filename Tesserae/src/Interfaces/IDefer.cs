@@ -7,7 +7,13 @@ namespace Tesserae
     {
         /// <summary>
         /// The milliseconds must be a value of at least one, trying to disable Debounce by passing a zero (or negative) value is not supported
-        IDefer Debounce(int milliseconds);
+        /// </summary>
+        IDefer Debounce(int milliseconds, int millisecondsForLoadingMessage = 1000);
+
+        /// <summary>
+        /// The milliseconds must be a value of at least one, trying to disable Debounce by passing a zero (or negative) value is not supported
+        /// </summary>
+        IDefer Debounce(int delayInMs, int maxDelayInMs, int millisecondsForLoadingMessage = 1000);
 
         void Refresh();
         Task RefreshAsync();
