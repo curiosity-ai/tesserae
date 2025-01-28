@@ -280,6 +280,12 @@ namespace Tesserae
             _timeoutHandle = window.setTimeout((_) => RemoveAndHide(), _timeoutDuration);
         }
 
+        public void Remove()
+        {
+            ClearTimeout();
+            RemoveAndHide();
+        }
+
         private void RemoveAndHide()
         {
             OpenToasts[_simPos].Remove(this);
