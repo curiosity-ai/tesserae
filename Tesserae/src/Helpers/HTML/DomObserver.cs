@@ -87,8 +87,9 @@ namespace Tesserae
 
             var observer = new MutationObserver((mutationRecords, _) =>
             {
-                CheckMounted(mutationRecords);
+                //First check all unmounted rules as they might modify the dom, then the mounted ones
                 CheckUnmounted(mutationRecords);
+                CheckMounted(mutationRecords);
             });
 
             observer.observe(document.body, new MutationObserverInit { childList = true, subtree = true });

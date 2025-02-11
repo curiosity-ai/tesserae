@@ -108,7 +108,10 @@ namespace Tesserae
 
                 _isVisible = true;
 
-                Tippy.HideAll();
+                if (!_contentHtml.classList.contains("tss-toast"))
+                {
+                    Tippy.HideAll();
+                }
             }
             return (T)this;
         }

@@ -13,6 +13,8 @@ namespace Tesserae
 
         private Type     _type = Type.Information;
         private Position _pos { get; set; } = DefaultPosition;
+        private bool _banner = false;
+        private bool _showHideButton;
 
         private Position _simPos
         {
@@ -48,39 +50,53 @@ namespace Tesserae
             _pos = Position.TopRight;
             return this;
         }
+
         public Toast TopCenter()
         {
             _pos = Position.TopCenter;
             return this;
         }
+
         public Toast TopLeft()
         {
             _pos = Position.TopLeft;
             return this;
         }
+
         public Toast BottomRight()
         {
             _pos = Position.BottomRight;
             return this;
         }
+
         public Toast BottomCenter()
         {
             _pos = Position.BottomCenter;
             return this;
         }
+
         public Toast BottomLeft()
         {
             _pos = Position.BottomLeft;
             return this;
         }
+
         public Toast TopFull()
         {
             _pos = Position.TopFull;
             return this;
         }
+
         public Toast BottomFull()
         {
             _pos = Position.BottomFull;
+            return this;
+        }
+
+        public Toast Banner(bool showHideButton = true)
+        {
+            _banner = true;
+            _showHideButton = showHideButton;
             return this;
         }
 
@@ -111,6 +127,7 @@ namespace Tesserae
             _message = message;
             Fire();
         }
+
         public void Error(IComponent title, IComponent message)
         {
             _type    = Type.Error;
@@ -214,15 +231,55 @@ namespace Tesserae
                 {
                     otherToast.RemoveAndHide();
                 }
+                else if (_banner && otherToast._banner)
+                {
+                    otherToast.RemoveAndHide();
+                }
             }
 
             list.Add(this);
 
             RefreshPositioning();
 
-            Show();
+            if(_banner)
+            {
+                ShowAsBanner();
+            }
+            else
+            {
+                Show();
+            }
 
             ResetTimeout();
+        }
+
+        private void ShowAsBanner()
+        {
+            _renderedContent = BuildRenderedContent();
+            var captured = _renderedContent;
+
+            if(_showHideButton)
+            {
+                var btn = Button().SetIcon(UIcons.Cross).OnClick(() => Hide()).NoMinSize().NoPadding().Class("tss-banner-hide-button");
+                _renderedContent.querySelector(".tss-toast-container").As<HTMLElement>().appendChild(btn.Render());
+            }
+
+            _renderedContent.classList.add("tss-banner");
+            document.body.appendChild(_renderedContent);
+            var rect = _renderedContent.querySelector(".tss-toast-container").As<HTMLElement>().getBoundingClientRect().As<DOMRect>();
+            var h = rect.height + "px";
+            document.body.style.setProperty("height", $"calc(100vh - {h})", "important");
+            document.body.style.setProperty("margin-top", h, "important");
+            document.body["tssBannerActive"] = captured;
+            DomObserver.WhenRemoved(_renderedContent, () =>
+            {
+                if (document.body["tssBannerActive"] == captured)
+                {
+                    document.body.style.height = "";
+                    document.body.style.marginTop = "";
+                    document.body["tssBannerActive"] = null;
+                }
+            });
         }
 
         private static void RefreshPositioning()
@@ -234,6 +291,8 @@ namespace Tesserae
                 foreach (var t in kv.Value)
                 {
                     t.Measure();
+                    
+                    if (t._banner) continue;
 
                     switch (kv.Key)
                     {

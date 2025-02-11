@@ -38,26 +38,6 @@
     word-wrap: break-word;
 }
 
-.tss-toast-success > .tss-toast-container {
-    background: var(--tss-success-background-color);
-    color: var(--tss-success-foreground-color);
-}
-
-.tss-toast-information > .tss-toast-container {
-    background: var(--tss-primary-background-color);
-    color: var(--tss-primary-foreground-color);
-}
-
-.tss-toast-warning > .tss-toast-container {
-    background: var(--tss-warning-background-color);
-    color: var(--tss-warning-foreground-color);
-}
-
-.tss-toast-error > .tss-toast-container {
-    background: var(--tss-danger-background-color);
-    color: var(--tss-danger-foreground-color);
-}
-
 .tss-toast-topright > .tss-toast-container {
     margin-top: 16px;
     margin-right: 16px;
@@ -119,5 +99,69 @@
 }
 
 .tss-toast .tss-fontcolor-default {
-    color: var(--tss-default-background-color);
+    color: var(--tss-default-foreground-color) !important;
 }
+
+.tss-toast > .tss-toast-container:before {
+    content: ' ';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 6px;
+    left: 0;
+}
+
+.tss-toast > .tss-toast-container {
+    background: var(--tss-default-background-color) !important;
+    color: var(--tss-default-foreground-color) !important;
+    position: relative;
+}
+
+
+.tss-toast-error > .tss-toast-container:before {
+    background: var(--tss-danger-background-color) !important;
+    color: var(--tss-danger-foreground-color) !important;
+}
+
+.tss-toast-success > .tss-toast-container:before {
+    background: var(--tss-success-background-color);
+    color: var(--tss-success-foreground-color);
+}
+
+.tss-toast-information > .tss-toast-container:before {
+    background: var(--tss-primary-background-color);
+    color: var(--tss-primary-foreground-color);
+}
+
+.tss-toast-warning > .tss-toast-container:before {
+    background: var(--tss-warning-background-color);
+    color: var(--tss-warning-foreground-color);
+}
+
+.tss-banner {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    margin: 0px;
+}
+
+    .tss-banner.tss-toast > .tss-toast-container {
+        margin: 0px;
+        height: fit-content;
+        width: 100%;
+        margin-top: 0px !important;
+        opacity: 1;
+        box-shadow: unset !important;
+        border-bottom: 1px solid var(--tss-dark-border-color);
+        border-radius: 0px;
+        padding: 4px 12px;
+    }
+
+    .tss-banner .tss-banner-hide-button {
+        position: absolute;
+        right: 4px;
+        height: 24px;
+        width: 24px;
+        top: calc(50% - 12px - 4px);
+    }
