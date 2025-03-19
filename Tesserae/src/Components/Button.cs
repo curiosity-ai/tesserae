@@ -50,8 +50,10 @@ namespace Tesserae
             get => _textSpan.innerText;
             set
             {
+                bool isEmpty = string.IsNullOrEmpty(value);
                 _textSpan.innerText         = value;
-                InnerElement.style.minWidth = string.IsNullOrEmpty(value) ? "unset" : string.Empty;
+                InnerElement.style.minWidth = isEmpty ? "unset" : string.Empty;
+                InnerElement.UpdateClassIf(isEmpty, "tss-btn-only-icon");
             }
         }
 
@@ -77,6 +79,8 @@ namespace Tesserae
                     InnerElement.removeChild(_iconSpan);
                     _iconSpan = null;
 
+                    InnerElement.classList.remove("tss-btn-only-icon");
+
                     return;
                 }
 
@@ -87,6 +91,7 @@ namespace Tesserae
                 }
 
                 _iconSpan.className = value;
+                InnerElement.UpdateClassIf(string.IsNullOrEmpty(Text), "tss-btn-only-icon");
             }
         }
 
@@ -591,6 +596,7 @@ namespace Tesserae
         {
             ClearChildren(InnerElement);
             InnerElement.appendChild(content.Render());
+            InnerElement.classList.remove("tss-btn-only-icon");
             return this;
         }
 

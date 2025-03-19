@@ -69,6 +69,10 @@ a {
     padding: 0px 8px;
 }
 
+    .tss-btn.tss-btn-only-icon {
+        aspect-ratio: 1;
+    }
+
 .tss-btn:focus {
     outline: none;
 }
