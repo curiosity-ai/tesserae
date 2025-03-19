@@ -13,7 +13,7 @@ namespace Build.ImportInterfaceIcons
         {
             var samplesFolder = @"..\Tesserae.Tests\src\Samples\";
 
-            var allFiles = Directory.GetFiles(samplesFolder, "*.cs");
+            var allFiles = Directory.GetFiles(samplesFolder, "*.cs", SearchOption.AllDirectories);
 
             var allCode = GetCode(allFiles);
 
