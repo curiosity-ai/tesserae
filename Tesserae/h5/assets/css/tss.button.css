@@ -71,6 +71,7 @@ a {
 
     .tss-btn.tss-btn-only-icon {
         aspect-ratio: 1;
+        padding: 0px 10px;
     }
 
 .tss-btn:focus {
