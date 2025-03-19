@@ -121,6 +121,7 @@ namespace Tesserae
             {
                 _modalOverlay = Div(_("tss-contextmenu-overlay"));
                 _modalOverlay.addEventListener("click", _ => Hide());
+                _modalOverlay.addEventListener("contextmenu", _ => Hide());
                 _popup       = Div(_("tss-contextmenu-popup"), _childContainer);
                 _contentHtml = Div(_(),                        _modalOverlay, _popup);
             }
