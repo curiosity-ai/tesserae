@@ -6,7 +6,7 @@ using static Tesserae.UI;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = "Components", Order = 10, Icon = UIcons.Grid)]
+    [SampleDetails(Group = "Collections", Order = 10, Icon = UIcons.Grid)]
     public class GridSample : IComponent, ISample
     {
         private readonly IComponent _content;
