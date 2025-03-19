@@ -82,10 +82,9 @@ namespace Build.ImportInterfaceIcons
                     @"
 // -- Necessary 'using' headers 
 // using System;
-// using Retyped;
-// using static Retyped.dom;
+// using H5;
+// using static H5.dom;
 // using Tesserae;
-// using Tesserae.Components;
 // using static Tesserae.UI;
 
 "
