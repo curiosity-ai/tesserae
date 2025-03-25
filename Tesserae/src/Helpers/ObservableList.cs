@@ -95,6 +95,24 @@ namespace Tesserae
             }
             RaiseOnValueChanged();
         }
+        
+        public void ReplaceAll(IEnumerable<T> enumerable)
+        {
+            if (_shouldHookNestedObservables)
+            {
+                foreach (var i in _list)
+                {
+                    UnhookValue(i);
+                }
+            }
+            _list.Clear();
+            foreach (var item in enumerable)
+            {
+                _list.Add(item);
+                HookValue(item);
+            }
+            RaiseOnValueChanged();
+        }
 
         public void Clear()
         {
@@ -129,8 +147,14 @@ namespace Tesserae
 
         public void Update(int index, T item)
         {
-            RemoveAt(index);
-            Insert(index, item);
+            if (_list.Count > index)
+            {
+                UnhookValue(_list[index]);
+                _list.RemoveAt(index);
+            }
+            _list.Insert(index, item);
+            HookValue(item);
+            RaiseOnValueChanged();
         }
 
         public int RemoveAll(Func<T, bool> match)
@@ -181,5 +205,6 @@ namespace Tesserae
 
         public IEnumerator<T>   GetEnumerator() => _list.GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
     }
 }
