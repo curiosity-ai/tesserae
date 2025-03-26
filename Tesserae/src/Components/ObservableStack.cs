@@ -12,7 +12,7 @@ namespace Tesserae
     /// A Stack is a container-type component that abstracts the implementation of a flexbox in order to define the layout of its children components.
     /// </summary>
     [H5.Name("tss.OS")]
-    public class ObservableStack<T> : IComponent, IHasBackgroundColor, IHasMarginPadding, ISpecialCaseStyling, ICanWrap where T : ObservableStack<T>.IObservableStackItem
+    public class ObservableStack : IComponent, IHasBackgroundColor, IHasMarginPadding, ISpecialCaseStyling, ICanWrap
     {
         public Orientation StackOrientation
         {
@@ -75,7 +75,7 @@ namespace Tesserae
         /// </summary>
         /// <param name="align"></param>
         /// <returns></returns>
-        public ObservableStack<T> AlignItems(ItemAlign align)
+        public ObservableStack AlignItems(ItemAlign align)
         {
             string cssAlign                                        = align.ToString();
             if (cssAlign == "end" || cssAlign == "start") cssAlign = $"flex-{cssAlign}";
@@ -88,13 +88,13 @@ namespace Tesserae
         /// </summary>
         /// <param name="align"></param>
         /// <returns></returns>
-        public ObservableStack<T> AlignItemsCenter() => AlignItems(ItemAlign.Center);
+        public ObservableStack AlignItemsCenter() => AlignItems(ItemAlign.Center);
 
         /// <summary>
         /// Make this stack relative (i.e. position:relative)
         /// </summary>
         /// <returns></returns>
-        public ObservableStack<T> Relative()
+        public ObservableStack Relative()
         {
             InnerElement.classList.add("tss-relative");
             return this;
@@ -105,7 +105,7 @@ namespace Tesserae
         /// </summary>
         /// <param name="align"></param>
         /// <returns></returns>
-        public ObservableStack<T> AlignContent(ItemAlign align)
+        public ObservableStack AlignContent(ItemAlign align)
         {
             string cssAlign                                        = align.ToString().ToLower();
             if (cssAlign == "end" || cssAlign == "start") cssAlign = $"flex-{cssAlign}";
@@ -118,7 +118,7 @@ namespace Tesserae
         /// </summary>
         /// <param name="justify"></param>
         /// <returns></returns>
-        public ObservableStack<T> JustifyContent(ItemJustify justify)
+        public ObservableStack JustifyContent(ItemJustify justify)
         {
             string cssJustify                                                                           = justify.ToString().ToLower();
             if (cssJustify == "end"     || cssJustify == "start") cssJustify                            = $"flex-{cssJustify}";
@@ -132,7 +132,7 @@ namespace Tesserae
         /// </summary>
         /// <param name="justify"></param>
         /// <returns></returns>
-        public ObservableStack<T> JustifyItems(ItemJustify justify)
+        public ObservableStack JustifyItems(ItemJustify justify)
         {
             string cssJustify                                                                           = justify.ToString().ToLower();
             if (cssJustify == "end"     || cssJustify == "start") cssJustify                            = $"flex-{cssJustify}";
@@ -141,13 +141,13 @@ namespace Tesserae
             return this;
         }
 
-        public ObservableStack<T> RemovePropagation()
+        public ObservableStack RemovePropagation()
         {
             PropagateToStackItemParent = false;
             return this;
         }
 
-        private ObservableList<T> _observableList;
+        private ObservableList<IObservableStackItem> _observableList;
 
         private class ExistingStackElement
         {
@@ -156,7 +156,7 @@ namespace Tesserae
             public HTMLElement RenderedElement { get; set; }
         }
 
-        private void ReconcileChildren(T[] newChildren)
+        private void ReconcileChildren(IObservableStackItem[] newChildren)
         {
             var parent = ScrollBar.GetCorrectContainer(InnerElement);
 
@@ -236,7 +236,7 @@ namespace Tesserae
             }
         }
 
-        public ObservableStack(ObservableList<T> observableList, Orientation orientation = Orientation.Vertical)
+        public ObservableStack(ObservableList<IObservableStackItem> observableList, Orientation orientation = Orientation.Vertical)
         {
             InnerElement     = Div(_("tss-stack"));
             StackOrientation = orientation;
@@ -259,13 +259,13 @@ namespace Tesserae
             });
         }
 
-        private event ComponentEventHandler<ObservableStack<T>, Event> MouseOver;
-        private event ComponentEventHandler<ObservableStack<T>, Event> MouseOut;
+        private event ComponentEventHandler<ObservableStack, Event> MouseOver;
+        private event ComponentEventHandler<ObservableStack, Event> MouseOut;
 
-        private void RaiseMouseOver(Event ev) => MouseOver?.Invoke((ObservableStack<T>)this, ev);
-        private void RaiseMouseOut(Event  ev) => MouseOut?.Invoke((ObservableStack<T>)this, ev);
+        private void RaiseMouseOver(Event ev) => MouseOver?.Invoke((ObservableStack)this, ev);
+        private void RaiseMouseOut(Event  ev) => MouseOut?.Invoke((ObservableStack)this, ev);
 
-        public ObservableStack<T> OnMouseOver(ComponentEventHandler<ObservableStack<T>, Event> onMouseOver)
+        public ObservableStack OnMouseOver(ComponentEventHandler<ObservableStack, Event> onMouseOver)
         {
             if (!(InnerElement.onmouseover is object))
             {
@@ -273,10 +273,10 @@ namespace Tesserae
             }
 
             MouseOver += onMouseOver;
-            return (ObservableStack<T>)this;
+            return (ObservableStack)this;
         }
 
-        public ObservableStack<T> OnMouseOut(ComponentEventHandler<ObservableStack<T>, Event> onMouseOut)
+        public ObservableStack OnMouseOut(ComponentEventHandler<ObservableStack, Event> onMouseOut)
         {
             if (!(InnerElement.onmouseout is object))
             {
@@ -284,7 +284,7 @@ namespace Tesserae
             }
 
             MouseOut += onMouseOut;
-            return (ObservableStack<T>)this;
+            return (ObservableStack)this;
         }
 
 
@@ -292,54 +292,54 @@ namespace Tesserae
 
         public virtual HTMLElement Render() => InnerElement;
 
-        public ObservableStack<T> Horizontal()
+        public ObservableStack Horizontal()
         {
             StackOrientation = Stack.Orientation.Horizontal;
             return this;
         }
 
-        public ObservableStack<T> Vertical()
+        public ObservableStack Vertical()
         {
             StackOrientation = Stack.Orientation.Vertical;
             return this;
         }
 
-        public ObservableStack<T> HorizontalReverse()
+        public ObservableStack HorizontalReverse()
         {
             StackOrientation = Stack.Orientation.HorizontalReverse;
             return this;
         }
 
-        public ObservableStack<T> VerticalReverse()
+        public ObservableStack VerticalReverse()
         {
             StackOrientation = Stack.Orientation.VerticalReverse;
             return this;
         }
 
-        public ObservableStack<T> Wrap()
+        public ObservableStack Wrap()
         {
             CanWrap = true;
             return this;
         }
 
-        public ObservableStack<T> Inline()
+        public ObservableStack Inline()
         {
             IsInline = true;
             return this;
         }
 
-        public ObservableStack<T> NoWrap()
+        public ObservableStack NoWrap()
         {
             CanWrap = false;
             return this;
         }
 
-        public ObservableStack<T> OverflowHidden()
+        public ObservableStack OverflowHidden()
         {
             InnerElement.style.overflow = "hidden";
             return this;
         }
-        public ObservableStack<T> NoDefaultMargin()
+        public ObservableStack NoDefaultMargin()
         {
             InnerElement.classList.add("tss-default-component-no-margin");
             return this;
