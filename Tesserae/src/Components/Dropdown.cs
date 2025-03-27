@@ -21,6 +21,7 @@ namespace Tesserae
         private readonly HTMLSpanElement      _noItemsSpan;
         private readonly HTMLSpanElement      _searchSpan;
         private readonly HTMLSpanElement      _errorSpan;
+        private readonly HTMLElement          _iconContainer;
         private readonly ObservableList<Item> _selectedChildren;
         private          IComponent           _placeholder;
 
@@ -43,8 +44,9 @@ namespace Tesserae
             InnerElement = Div(_("tss-dropdown"), _noItemsSpan);
 
             _errorSpan = Span(_("tss-dropdown-error"));
+            _iconContainer  = I(_("tss-dropdown-icon"));
 
-            _container = Div(_("tss-dropdown-container"), InnerElement, _errorSpan);
+            _container = Div(_("tss-dropdown-container"), InnerElement, _errorSpan, _iconContainer);
 
             _childContainer = Div(_());
 
@@ -394,6 +396,17 @@ namespace Tesserae
         public Dropdown NoArrow()
         {
             InnerElement.classList.add("tss-dropdown-noarrow");
+            InnerElement.classList.remove("tss-dropdown-custom-icon");
+            _iconContainer.className = null;
+            return this;
+        }
+
+        public Dropdown SetArrowIcon(UIcons icon, TextSize size = TextSize.Small, UIconsWeight weight = UIconsWeight.Regular)
+        {
+            InnerElement.classList.remove("tss-dropdown-noarrow");
+            InnerElement.classList.add("tss-dropdown-custom-icon");
+            _iconContainer.className  = $"tss-dropdown-icon {Tesserae.Icon.Transform(icon, weight)} {size}";
+
             return this;
         }
 

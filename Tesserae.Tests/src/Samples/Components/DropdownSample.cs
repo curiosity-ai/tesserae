@@ -129,6 +129,11 @@ namespace Tesserae.Tests.Samples
                                 DropdownItem("2-4"),
                                 DropdownItem("2-5")
                             )),
+                            Label("Custom Dropdown Icon").SetContent(Dropdown().SetArrowIcon(UIcons.AnglesUpDown).Items(
+                                DropdownItem("1-1").Selected(),
+                                DropdownItem("1-2"),
+                                DropdownItem("1-3")
+                            )),
                             Label("No available items").SetContent(Dropdown().Items(new Dropdown.Item[0])),
                             Label("No available items with custom message").SetContent(Dropdown("There's nothing to select, sorry!").Items(new Dropdown.Item[0])),
                             Label("Async 5 seconds delay (starts loading immediately)").SetContent(StartLoadingAsyncDataImmediately(Dropdown().Items(GetItemsAsync))),
