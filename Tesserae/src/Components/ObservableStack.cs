@@ -151,7 +151,8 @@ namespace Tesserae
 
         private class ExistingStackElement
         {
-            public string      StackID         { get; set; }
+            public string      Identifier      { get; set; }
+            public string      ContentHash     { get; set; }
             public HTMLElement RenderedElement { get; set; }
         }
 
@@ -168,43 +169,45 @@ namespace Tesserae
             foreach (var renderedElement in currentChildrenArray)
             {
                 var dataset   = renderedElement.As<HTMLElement>().dataset;
-                var stackId   = dataset["tssID"].As<string>();
+                var identifier  = dataset["tssID"].As<string>();
+                var contentHash = dataset["tssHash"].As<string>();
 
-                currentKeyMap.Add(stackId, new ExistingStackElement()
+                currentKeyMap.Add(identifier, new ExistingStackElement()
                 {
-                    StackID         = stackId,
+                    Identifier         = identifier,
+                    ContentHash        = contentHash,
                     RenderedElement = renderedElement.As<HTMLElement>(),
                 });
 
-                currentIndexMap.Add(stackId, index);
+                currentIndexMap.Add(identifier, index);
 
                 index++;
             }
 
             int lastIndex     = 0;
-            var processedKeys = new HashSet<string>();
+            var processedIdentifiers = new HashSet<string>();
 
             int newIdx = 0;
 
             while (newIdx < newChildren.Count)
             {
                 IComponentWithID newChild = newChildren[newIdx];
-                string key = newChild.Identifier;
+                string identifier = newChild.Identifier;
 
                 HTMLElement currentNodeAtPosition = newIdx < currentChildrenArray.Length ? currentChildrenArray[newIdx].As<HTMLElement>() : null;
 
-                if (currentKeyMap.TryGetValue(key, out var existingChild))
+                if (currentKeyMap.TryGetValue(identifier, out var existingChild))
                 {
-                    processedKeys.Add(key);
+                    processedIdentifiers.Add(identifier);
 
-                    if (existingChild.StackID != newChild.Identifier)
+                    if (existingChild.ContentHash != newChild.ContentHash)
                     {
                         var newItem = GetItem(newChild);
 
                         parent.replaceChild(newItem, existingChild.RenderedElement);
                     }
 
-                    int oldIndex = currentIndexMap[key];
+                    int oldIndex = currentIndexMap[identifier];
 
                     if (oldIndex < lastIndex)
                     {
@@ -235,7 +238,7 @@ namespace Tesserae
 
             foreach (var entry in currentKeyMap)
             {
-                if (!processedKeys.Contains(entry.Key))
+                if (!processedIdentifiers.Contains(entry.Key))
                 {
                     parent.removeChild(entry.Value.RenderedElement);
                 }
@@ -354,6 +357,7 @@ namespace Tesserae
 
 
             item.dataset["tssID"]   = component.Identifier;
+            item.dataset["tssHash"] = component.ContentHash;
 
             CopyStylesDefinedWithExtension(rendered, item);
             return item;
@@ -469,6 +473,7 @@ namespace Tesserae
         public interface IComponentWithID : IComponent
         {
             string Identifier { get; }
+            string ContentHash { get; }
         }
     }
 }
