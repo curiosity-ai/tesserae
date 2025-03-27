@@ -9,8 +9,10 @@ namespace Tesserae
     {
         private static readonly Random RNG = new Random();
 
-        private readonly Modal  _modal;
+        private readonly Modal _modal;
         private readonly string _scope;
+        private readonly bool _centerContent;
+
         public Dialog(IComponent content = null, IComponent title = null, bool centerContent = true)
         {
             _modal = Modal().HideCloseButton().NoLightDismiss().Blocking();
@@ -22,6 +24,8 @@ namespace Tesserae
                 if (title is TextBlock tb)
                     tb.TextCenter();
             }
+
+            _centerContent = centerContent;
 
             _modal.SetHeader(title);
             _modal.Content = content;
@@ -70,16 +74,21 @@ namespace Tesserae
             return this;
         }
 
-        public Dialog MinHeight(UnitSize unitSize) // 2020-06-30 DWR: This class does not implement IComponent and so the extension method for this functionality that operates against IComponent is not available here
+        public Dialog MinHeight(UnitSize unitSize)
         {
             _modal.MinHeight(unitSize);
             return this;
         }
 
-        public Dialog Height(UnitSize unitSize) // 2020-06-30 DWR: This class does not implement IComponent and so the extension method for this functionality that operates against IComponent is not available here
+        public Dialog Height(UnitSize unitSize)
         {
             _modal.Height(unitSize);
             return this;
+        }
+
+        private static Stack GetButtonsStack()
+        {
+            return Stack().NoDefaultMargin().HorizontalReverse().JustifyContent(ItemJustify.Evenly).WS();
         }
 
         public void Ok(Action onOk, Func<Button, Button> btnOk = null)
@@ -88,13 +97,13 @@ namespace Tesserae
 
             _modal
                .LightDismiss()
-               .SetFooter(Stack().HorizontalReverse().Children(
+               .SetFooter(GetButtonsStack().Children(
                     CreateButton("Ok", onOk, "Esc, Escape, Enter", modifier: btnOk, isPrimary: true, onActed: () => acted = true)
                 ))
                .OnHide((_) =>
-                {
-                    if (!acted) { onOk(); }
-                })
+               {
+                   if (!acted) { onOk(); }
+               })
                .Show();
         }
 
@@ -103,9 +112,9 @@ namespace Tesserae
             bool acted = false;
 
             _modal
-               .SetFooter(Stack().HorizontalReverse().Children(
+               .SetFooter(GetButtonsStack().Children(
                     CreateButton("Cancel", onCancel, "Esc, Escape", modifier: btnCancel, isPrimary: false, onActed: () => acted = true),
-                    CreateButton("Ok",     onOk,     "Enter",       modifier: btnOk,     isPrimary: true,  onActed: () => acted = true)
+                    CreateButton("Ok", onOk, "Enter", modifier: btnOk, isPrimary: true, onActed: () => acted = true)
                 ))
                .OnHide((_) =>
                 {
@@ -119,9 +128,9 @@ namespace Tesserae
             bool acted = false;
 
             _modal
-               .SetFooter(Stack().HorizontalReverse().Children(
-                    CreateButton("No",  onNo,  "Esc, Escape", modifier: btnNo,  isPrimary: false, onActed: () => acted = true),
-                    CreateButton("Yes", onYes, "Enter",       modifier: btnYes, isPrimary: true,  onActed: () => acted = true)
+               .SetFooter(GetButtonsStack().Children(
+                    CreateButton("No", onNo, "Esc, Escape", modifier: btnNo, isPrimary: false, onActed: () => acted = true),
+                    CreateButton("Yes", onYes, "Enter", modifier: btnYes, isPrimary: true, onActed: () => acted = true)
                 ))
                .OnHide((_) =>
                 {
@@ -135,10 +144,10 @@ namespace Tesserae
             bool acted = false;
 
             _modal
-               .SetFooter(Stack().HorizontalReverse().Children(
-                    CreateButton("Cancel", onCancel, "Esc, Escape",    modifier: btnCancel, isPrimary: false, onActed: () => acted = true),
-                    CreateButton("No",     onNo,     bindToKeys: null, modifier: btnNo,     isPrimary: false, onActed: () => acted = true),
-                    CreateButton("Yes",    onYes,    "Enter",          modifier: btnYes,    isPrimary: true,  onActed: () => acted = true)
+               .SetFooter(GetButtonsStack().Children(
+                    CreateButton("Cancel", onCancel, "Esc, Escape", modifier: btnCancel, isPrimary: false, onActed: () => acted = true),
+                    CreateButton("No", onNo, bindToKeys: null, modifier: btnNo, isPrimary: false, onActed: () => acted = true),
+                    CreateButton("Yes", onYes, "Enter", modifier: btnYes, isPrimary: true, onActed: () => acted = true)
                 ))
                .OnHide((_) =>
                 {
@@ -152,9 +161,9 @@ namespace Tesserae
             bool acted = false;
 
             _modal
-               .SetFooter(Stack().HorizontalReverse().Children(
+               .SetFooter(GetButtonsStack().Children(
                     CreateButton("Cancel", onCancel, "Esc, Escape", modifier: btnCancel, isPrimary: false, onActed: () => acted = true),
-                    CreateButton("Retry",  onRetry,  "Enter",       modifier: btnRetry,  isPrimary: true,  onActed: () => acted = true)
+                    CreateButton("Retry", onRetry, "Enter", modifier: btnRetry, isPrimary: true, onActed: () => acted = true)
                 ))
                .OnHide((_) =>
                 {

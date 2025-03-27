@@ -14,6 +14,7 @@ namespace Tesserae
     public class SidebarNav : ISidebarItem
     {
         public event Action<Dictionary<string, string[]>> _onSortingChanged;
+        public event Action<ParentChangedEvent>     _onParentChanged;
 
         private          string                                          _text;
         private readonly Button                                          _closedHeader;
@@ -28,6 +29,7 @@ namespace Tesserae
         private          SidebarCommand[]                                _commands;
         private          bool                                            _isHidden;
         private          bool                                            _isSortable = false;
+        private          string                                          _sortableGroup = null;
 
         private List<string> _itemOrder = new List<string>();
 
@@ -62,9 +64,9 @@ namespace Tesserae
         {
             Identifier    = identifier;
             _text         = text;
-            _closedHeader = Button().Class("tss-sidebar-nav-header").Class("tss-sidebar-btn").Id(identifier);
+            _closedHeader = Button().Class("tss-sidebar-nav-header").Class("tss-sidebar-btn").Id(identifier + "-closed");
             setButtonIcon(_closedHeader);
-            _openHeader = Div(_("tss-sidebar-nav-header tss-sidebar-btn-open tss-sidebar-nav-header-empty", id: identifier));
+            _openHeader = Div(_("tss-sidebar-nav-header tss-sidebar-btn-open tss-sidebar-nav-header-empty", id: identifier + "-open"));
 
             _arrow = Button().Class("tss-sidebar-nav-arrow");
 
@@ -253,8 +255,6 @@ namespace Tesserae
             return this;
         }
 
-
-
         public SidebarNav OnContextMenu(Action<Button, MouseEvent> action)
         {
             _closedHeader.OnContextMenu((b,     e) => action(b, e));
@@ -275,7 +275,8 @@ namespace Tesserae
 
             foreach (var c in _commands) c.RefreshTooltip();
 
-            var nav = Div(_("tss-sidebar-nav"));
+            var nav = Div(_("tss-sidebar-nav", id: Identifier));
+            nav["tssOwner"] = this;
             nav.appendChild(_openHeader);
 
             var children = VStack();
@@ -286,9 +287,15 @@ namespace Tesserae
                 {
                     animation  = 150,
                     ghostClass = "tss-sortable-ghost",
+                    swapThreshold = 0.65,
+                    group = _sortableGroup,
                     onEnd = e =>
                     {
-                        if (e.oldIndex != e.newIndex)
+                        if(e.from != e.to)
+                        {
+                            _onParentChanged?.Invoke(ConvertEvent(e));
+                        }
+                        else if (e.oldIndex != e.newIndex)
                         {
                             var old = _itemOrder[e.oldIndex];
                             _itemOrder.RemoveAt(e.oldIndex);
@@ -354,11 +361,37 @@ namespace Tesserae
             }
         }
 
+        private ParentChangedEvent ConvertEvent(SortableEvent e)
+        {
+            SidebarNav GetParent(HTMLElement el)
+            {
+                if (el.classList.contains("tss-sidebar-nav-children"))
+                {
+                    return el.parentElement["tssOwner"].As<SidebarNav>();
+                }
+                return el["tssOwner"].As<SidebarNav>();
+            }
+
+            SidebarNav GetChild(HTMLElement el)
+            {
+                return el.querySelector(".tss-sidebar-nav")["tssOwner"].As<SidebarNav>();
+            }
+
+            return new ParentChangedEvent()
+            {
+                From = GetParent(e.from),
+                To   = GetParent(e.to),
+                Item = GetChild(e.item),
+                Cancel = () => e.from.insertBefore(e.item, e.from.children[(uint)e.oldIndex])
+            };
+        }
+
         private IComponent RenderClosed(IReadOnlyList<ISidebarItem> items)
         {
             _closedHeader.Tooltip(_text, placement: TooltipPlacement.Top);
 
-            var nav = Div(_("tss-sidebar-nav"));
+            var nav = Div(_("tss-sidebar-nav", id: Identifier));
+            nav["tssOwner"] = this;
             nav.appendChild(_closedHeader.Render());
             nav.appendChild(VStack().Class("tss-sidebar-nav-children").Children(items.Select(i => i.RenderClosed())).Render());
 
@@ -447,7 +480,7 @@ namespace Tesserae
             _itemOrder.Remove(identifierWithGroupIdentifier);
         }
 
-        public void AddRange(IEnumerable<ISidebarItem> items)
+        public SidebarNav AddRange(IEnumerable<ISidebarItem> items)
         {
             var newItems = _items.Value.As<ISidebarItem[]>();
 
@@ -467,6 +500,7 @@ namespace Tesserae
 
             _items.Value = newItems.ToArray();
             _itemOrder.AddRange(itemsToAdd.Select(i => i.Identifier));
+            return this;
         }
 
         public IComponent RenderClosed() => _closedContent();
@@ -480,9 +514,12 @@ namespace Tesserae
         }
 
         public string Identifier { get; private set; }
+
+        public string OwnIdentifier => Sidebar.GetOwnIdentifier(Identifier);
+
         public void AddGroupIdentifier(string groupIdentifier)
         {
-            Identifier = groupIdentifier + "_|_" + Identifier;
+            Identifier = groupIdentifier + Sidebar.GroupIdentifierSeparator + Identifier;
         }
 
         public void LoadSorting(Dictionary<string, string[]> itemOrder)
@@ -534,9 +571,10 @@ namespace Tesserae
             return dict;
         }
 
-        public void Sortable(bool sortable = true)
+        public SidebarNav Sortable(bool sortable = true, string sortableGroup = null)
         {
             _isSortable = sortable;
+            _sortableGroup = sortable ? sortableGroup : null;
 
             foreach (var sidebarItem in _items.Value)
             {
@@ -560,11 +598,30 @@ namespace Tesserae
                     }
                 }
             }
+
+            return this;
         }
 
-        public void OnSortingChanged(Action<Dictionary<string, string[]>> onSortingChanged)
+        public SidebarNav OnSortingChanged(Action<Dictionary<string, string[]>> onSortingChanged)
         {
             _onSortingChanged += onSortingChanged;
+            return this;
+        }
+
+        public SidebarNav OnParentChanged(Action<ParentChangedEvent> onParentChanged)
+        {
+            _onParentChanged += onParentChanged;
+            return this;
+        }
+
+        public class ParentChangedEvent
+        {
+            public SidebarNav Item { get; set; } 
+            public SidebarNav To { get; set; } 
+            public SidebarNav From { get; set; } 
+            public int OldIndex { get; set; }
+            public int NewIndex { get; set; }
+            public Action Cancel { get; set; }
         }
     }
 }

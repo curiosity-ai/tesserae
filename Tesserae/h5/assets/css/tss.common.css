@@ -420,7 +420,7 @@ i.tss-fontsize-tiny {
     margin: var(--tss-default-margin);
 }
 
-.tss-default-component-no-margin > .tss-stack-item > .tss-default-component-margin {
+.tss-default-component-no-margin > .tss-default-component-margin {
     --tss-default-margin: 0px;
 }
 

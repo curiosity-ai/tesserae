@@ -3,12 +3,22 @@
 .tss-dialog {
     position: relative;
     text-align: left;
-    /*outline: transparent solid 3px;*/
     max-height: calc(100% - 32px);
-    /*max-width: 450px;*/
     min-height: 176px;
     min-width: 288px;
     overflow-y: auto;
-    /*width: 288px;*/
     display: flex;
+    border-radius: 6px;
 }
+
+    .tss-dialog .tss-modal-header {
+        padding: 12px 12px 0px 12px;
+    }
+
+    .tss-dialog .tss-modal-content {
+        padding: 0px 12px 0px 12px;
+    }
+
+    .tss-dialog .tss-modal-footer {
+        padding: 0px 12px 6px 12px;
+    }

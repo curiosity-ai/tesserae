@@ -93,6 +93,7 @@ namespace Tesserae
                     animation  = 150,
                     invertSwap = true,
                     ghostClass = "tss-sortable-ghost",
+                    swapThreshold = 0.65,
                     onEnd = e =>
                     {
                         if (e.oldIndex != e.newIndex)
@@ -255,5 +256,17 @@ namespace Tesserae
         {
             _onSortingChanged = onSortingChanged;
         }
+
+        public static string GetOwnIdentifier(string identifier)
+        {
+            var ix = identifier.IndexOf(GroupIdentifierSeparator);
+            if (ix >= 0)
+            {
+                return identifier.Substring(ix + GroupIdentifierSeparator.Length);
+            }
+            return identifier;
+        }
+
+        public const string GroupIdentifierSeparator = "_|_";
     }
 }

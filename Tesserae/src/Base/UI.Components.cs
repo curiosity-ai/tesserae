@@ -297,7 +297,8 @@ namespace Tesserae
 
         public static Dialog Dialog(IComponent content = null, IComponent title = null, bool centerContent = true) => new Dialog(content, title, centerContent);
 
-        public static Dialog Dialog(string text, bool centerContent = true) => new Dialog(title: string.IsNullOrWhiteSpace(text) ? null : TextBlock(text).Primary().SemiBold().MaxWidth(50.vw()), centerContent: centerContent);
+        public static Dialog Dialog(string text, bool centerContent = true) => new Dialog(content: string.IsNullOrWhiteSpace(text) ? null : TextBlock(text).MaxWidth(50.vw()), centerContent: centerContent);
+        public static Dialog Dialog(string title, string content, bool centerContent = true) => new Dialog(title: string.IsNullOrWhiteSpace(title) ? null : TextBlock(title).MaxWidth(50.vw()), content: string.IsNullOrWhiteSpace(content) ? null : TextBlock(content).MaxWidth(50.vw()), centerContent: centerContent);
 
         public static Pivot Pivot() => new Pivot();
 

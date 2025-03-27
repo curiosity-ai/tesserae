@@ -238,9 +238,12 @@ namespace Tesserae
         }
 
         public string Identifier { get; private set; }
+        
+        public string OwnIdentifier => Sidebar.GetOwnIdentifier(Identifier);
+
         public void AddGroupIdentifier(string groupIdentifier)
         {
-            Identifier = groupIdentifier + "_|_" + Identifier;
+            Identifier = groupIdentifier + Sidebar.GroupIdentifierSeparator + Identifier;
         }
 
     }

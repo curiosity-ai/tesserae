@@ -12,6 +12,7 @@ namespace Tesserae
         void       Show();
         void       Collapse();
         string     Identifier { get; }
+        string     OwnIdentifier { get; }
         void       AddGroupIdentifier(string groupIdentifier);
     }
 }

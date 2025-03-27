@@ -27,9 +27,12 @@ namespace Tesserae
         public IComponent CurrentRendered => _closedButton.IsMounted() ? _closedButton : _open;
 
         public string Identifier { get; private set; }
+        
+        public string OwnIdentifier => Sidebar.GetOwnIdentifier(Identifier);
+
         public void AddGroupIdentifier(string groupIdentifier)
         {
-            Identifier = groupIdentifier + "_|_" + Identifier;
+            Identifier = groupIdentifier + Sidebar.GroupIdentifierSeparator + Identifier;
         }
 
         public SidebarButton(string identifier, Emoji        icon,  string       text,   params SidebarCommand[] commands) : this(identifier, text, null, Button().SetIcon(icon), Button().SetIcon(icon), commands) { }

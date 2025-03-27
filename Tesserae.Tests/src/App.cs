@@ -41,7 +41,6 @@ namespace Tesserae.Tests
 
             var sidebar = Sidebar(sortable: true);
 
-
             var sortingTimeout = 0d;
 
             sidebar.OnSortingChanged(itemOrder =>
@@ -74,13 +73,13 @@ namespace Tesserae.Tests
 
             var samples = typeof(ISample).Assembly.GetTypes().Where(t => typeof(ISample).IsAssignableFrom(t) && !t.IsInterface)
                .Select(sampleType =>
-                {
-                    var    sg    = sampleType.GetCustomAttributes(typeof(SampleDetailsAttribute), true).FirstOrDefault() as SampleDetailsAttribute;
-                    var    group = sg is object ? sg.Group : "Others";
-                    int    order = sg is object ? sg.Order : 0;
-                    UIcons icon  = sg is object ? sg.Icon : UIcons.Circle;
-                    return new Sample(sampleType.Name, sampleType.Name.Replace("Sample", ""), group, order, icon, () => Activator.CreateInstance(sampleType) as IComponent);
-                })
+               {
+                   var sg = sampleType.GetCustomAttributes(typeof(SampleDetailsAttribute), true).FirstOrDefault() as SampleDetailsAttribute;
+                   var group = sg is object ? sg.Group : "Others";
+                   int order = sg is object ? sg.Order : 0;
+                   UIcons icon = sg is object ? sg.Icon : UIcons.Circle;
+                   return new Sample(sampleType.Name, FormatSampleName(sampleType), group, order, icon, () => Activator.CreateInstance(sampleType) as IComponent);
+               })
                .ToDictionary(s => s.Name, s => s);
 
             sidebar.AddHeader(new SidebarButton("SOURCE_CODE", Emoji.House, "Source Code", new SidebarCommand(UIcons.ArrowUpRightFromSquare).Tooltip("Open repository on GitHub")
@@ -152,7 +151,10 @@ namespace Tesserae.Tests
             var commandSidebarconfig = new SidebarCommands("OPENCLOSE", openClose);
 
 
+            sidebar.AddFooter(new SidebarNav("DEEP_NAV", Emoji.EvergreenTree, "Multi-Depth Nav", true).Sortable().AddRange(CreateDeepNav("root")));
+
             sidebar.AddFooter(new SidebarNav("EMPTY_NAV", Emoji.MailboxWithNoMail, "Empty Nav", true).ShowDotIfEmpty().OnOpenIconClick((e, m) => Toast().Success("You clicked on the icon!")));
+
 
             sidebar.AddFooter(commands);
             sidebar.AddFooter(commandsEndAligned);
@@ -230,6 +232,25 @@ namespace Tesserae.Tests
 
             Router.Initialize();
             Router.Refresh(onDone: Router.ForceMatchCurrent); // We need to forcibly match the route at first loading since we want the just-registered routes to be matched against the current URL without us *changing* that URL
+        }
+
+        private static IEnumerable<ISidebarItem> CreateDeepNav(string path, int currentDepth = 0, int maxDepth = 3)
+        {
+            if (currentDepth < maxDepth)
+            {
+                Action<SidebarNav.ParentChangedEvent> HandleChange = (e)=>
+                {
+                    Dialog($"Move element {e.Item.OwnIdentifier} from {e.From.OwnIdentifier} to {e.To.OwnIdentifier}?").YesNo(onNo: e.Cancel);
+                };
+                yield return new SidebarNav($"{path}/{currentDepth + 1}.1", Emoji.DeciduousTree, $"{path}/{currentDepth + 1}.1", true).Sortable(sortableGroup: "trees").AddRange(CreateDeepNav($"{path}/{currentDepth + 1}.1", currentDepth + 1, maxDepth)).OnParentChanged(HandleChange);
+                yield return new SidebarNav($"{path}/{currentDepth + 1}.2", Emoji.DeciduousTree, $"{path}/{currentDepth + 1}.2", true).Sortable(sortableGroup: "trees").AddRange(CreateDeepNav($"{path}/{currentDepth + 1}.2", currentDepth + 1, maxDepth)).OnParentChanged(HandleChange);
+                yield return new SidebarNav($"{path}/{currentDepth + 1}.3", Emoji.DeciduousTree, $"{path}/{currentDepth + 1}.3", true).Sortable(sortableGroup: "trees").AddRange(CreateDeepNav($"{path}/{currentDepth + 1}.3", currentDepth + 1, maxDepth)).OnParentChanged(HandleChange);
+            }
+        }
+
+        private static string FormatSampleName(Type sampleType)
+        {
+            return string.Join("", sampleType.Name.Replace("Sample", "").Select(c => char.IsUpper(c) ? " " + c : "" + c)).Trim().Replace("U Icons", "UIcons").Replace(" And ", " and ");
         }
 
         private static BackgroundArea CenteredCardWithBackground(IComponent content)
