@@ -163,7 +163,7 @@ namespace Tesserae
             var currentIndexMap = new Dictionary<string, int>();
 
             var index                = 0;
-            var currentChildrenArray = parent.querySelectorAll($":scope > [data-tssID]").ToArray();
+            var currentChildrenArray = parent.querySelectorAll(":scope > [data-tssID]").ToArray();
 
             foreach (var renderedElement in currentChildrenArray)
             {
