@@ -36,6 +36,8 @@ namespace Tesserae
         private int                      _latestRequestID;
         private Func<Item[], IComponent> _customRenderer;
 
+        public static UIcons? GlobalCustomIcon = null;
+
         public Dropdown(HTMLSpanElement noItemsSpan = null)
         {
             _noItemsSpan = noItemsSpan ?? Span(_(text: "There are no options available"));
@@ -70,6 +72,11 @@ namespace Tesserae
             _selectedChildren                   = new ObservableList<Item>();
 
             _latestRequestID = 0;
+
+            if (GlobalCustomIcon.HasValue)
+            {
+                SetArrowIcon(GlobalCustomIcon.Value);
+            }
         }
 
         public Dropdown SuppressSelectedOnChangingItemSelections()
