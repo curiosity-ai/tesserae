@@ -36,7 +36,7 @@ namespace Tesserae
         private int                      _latestRequestID;
         private Func<Item[], IComponent> _customRenderer;
 
-        public static UIcons? GlobalCustomIcon = null;
+        public static UIcons GlobalCustomIcon = UIcons.AngleDown;
 
         public Dropdown(HTMLSpanElement noItemsSpan = null)
         {
@@ -73,10 +73,7 @@ namespace Tesserae
 
             _latestRequestID = 0;
 
-            if (GlobalCustomIcon.HasValue)
-            {
-                SetArrowIcon(GlobalCustomIcon.Value);
-            }
+            SetArrowIcon(GlobalCustomIcon);
         }
 
         public Dropdown SuppressSelectedOnChangingItemSelections()
