@@ -147,16 +147,15 @@ namespace Tesserae
             return this;
         }
 
-        private ObservableList<IObservableStackItem> _observableList;
+        private ObservableList<IComponentWithID> _observableList;
 
         private class ExistingStackElement
         {
             public string      StackID         { get; set; }
-            public string      StackHash       { get; set; }
             public HTMLElement RenderedElement { get; set; }
         }
 
-        private void ReconcileChildren(IObservableStackItem[] newChildren)
+        private void ReconcileChildren(IReadOnlyList<IComponentWithID> newChildren)
         {
             var parent = ScrollBar.GetCorrectContainer(InnerElement);
 
@@ -164,34 +163,33 @@ namespace Tesserae
             var currentIndexMap = new Dictionary<string, int>();
 
             var index                = 0;
-            var currentChildrenArray = parent.querySelectorAll($"[data-stackid]").ToArray();
+            var currentChildrenArray = parent.querySelectorAll($":scope > [data-tssID]").ToArray();
 
             foreach (var renderedElement in currentChildrenArray)
             {
                 var dataset   = renderedElement.As<HTMLElement>().dataset;
-                var stackId   = dataset["stackid"].As<string>();
-                var stackHash = dataset["stackhash"].As<string>();
+                var stackId   = dataset["tssID"].As<string>();
 
                 currentKeyMap.Add(stackId, new ExistingStackElement()
                 {
                     StackID         = stackId,
-                    StackHash       = stackHash,
                     RenderedElement = renderedElement.As<HTMLElement>(),
                 });
+
                 currentIndexMap.Add(stackId, index);
 
                 index++;
             }
 
-            int             lastIndex     = 0;
-            HashSet<string> processedKeys = new HashSet<string>();
+            int lastIndex     = 0;
+            var processedKeys = new HashSet<string>();
 
             int newIdx = 0;
 
-            while (newIdx < newChildren.Length)
+            while (newIdx < newChildren.Count)
             {
-                IObservableStackItem newChild = newChildren[newIdx];
-                string               key      = newChild.GetId();
+                IComponentWithID newChild = newChildren[newIdx];
+                string key = newChild.Identifier;
 
                 HTMLElement currentNodeAtPosition = newIdx < currentChildrenArray.Length ? currentChildrenArray[newIdx].As<HTMLElement>() : null;
 
@@ -199,7 +197,7 @@ namespace Tesserae
                 {
                     processedKeys.Add(key);
 
-                    if (existingChild.StackHash != newChild.GetHash())
+                    if (existingChild.StackID != newChild.Identifier)
                     {
                         var newItem = GetItem(newChild);
 
@@ -210,8 +208,16 @@ namespace Tesserae
 
                     if (oldIndex < lastIndex)
                     {
-                        HTMLElement nextSibling = newIdx + 1 < newChildren.Length ? parent.childNodes[newIdx + 1].As<HTMLElement>() : null;
-                        parent.insertBefore(existingChild.RenderedElement, nextSibling);
+                        HTMLElement nextSibling = newIdx + 1 < newChildren.Count ? parent.children[(uint)newIdx + 1].As<HTMLElement>() : null;
+                        
+                        if (nextSibling is object)
+                        {
+                            parent.insertBefore(existingChild.RenderedElement, nextSibling);
+                        }
+                        else
+                        {
+                            parent.appendChild(existingChild.RenderedElement); //TODO: Check this
+                        }
                     }
                     else
                     {
@@ -236,7 +242,7 @@ namespace Tesserae
             }
         }
 
-        public ObservableStack(ObservableList<IObservableStackItem> observableList, Orientation orientation = Orientation.Vertical)
+        public ObservableStack(ObservableList<IComponentWithID> observableList, Orientation orientation = Orientation.Vertical)
         {
             InnerElement     = Div(_("tss-stack"));
             StackOrientation = orientation;
@@ -244,18 +250,7 @@ namespace Tesserae
 
             _observableList.Observe(currentValues =>
             {
-#if DEBUG
-                if (currentValues.Count != currentValues.Select(v => v.GetId()).Distinct().Count())
-                {
-                    console.error("Values in ObservableStack don't have unique ids ", currentValues);
-                }
-                if (currentValues.Count != currentValues.Select(v => v.GetHash()).Distinct().Count())
-                {
-                    console.error("Values in ObservableStack don't have unique hashes ", currentValues);
-                }
-#endif
-
-                ReconcileChildren(currentValues.ToArray());
+                ReconcileChildren(currentValues);
             });
         }
 
@@ -345,7 +340,7 @@ namespace Tesserae
             return this;
         }
 
-        internal static HTMLElement GetItem(IObservableStackItem component)
+        internal static HTMLElement GetItem(IComponentWithID component)
         {
             var rendered = component.Render();
 
@@ -358,8 +353,7 @@ namespace Tesserae
             }), rendered);
 
 
-            item.dataset["stackid"]   = component.GetId();
-            item.dataset["stackhash"] = component.GetHash();
+            item.dataset["tssID"]   = component.Identifier;
 
             CopyStylesDefinedWithExtension(rendered, item);
             return item;
@@ -472,27 +466,9 @@ namespace Tesserae
             return this;
         }
 
-        public class StackItemHelper
+        public interface IComponentWithID : IComponent
         {
-            public static int Fnv1aHash(string value)
-            {
-                var valArray = value.ToCharArray();
-
-                var hash = 0x811c9dc5; // FNV offset basis
-
-                for (var i = 0; i < valArray.Length; i++)
-                {
-                    hash ^= valArray[i];
-                    hash += (hash << 1) + (hash << 4) + (hash << 7) + (hash << 8) + (hash << 24);
-                }
-                return Script.Write<int>("{0} >>> 0", hash); // Convert to unsigned 32-bit integer
-            }
-        }
-
-        public interface IObservableStackItem : IComponent
-        {
-            string GetId();
-            string GetHash();
+            string Identifier { get; }
         }
     }
 }
