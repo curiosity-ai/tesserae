@@ -28,7 +28,7 @@ namespace Tesserae
 
         public void Add(IComponent component)
         {
-            ScrollBar.GetCorrectContainer(_timeline).appendChild(Wrap(component));
+            _timeline.appendChild(Wrap(component));
             Rebase(false);
         }
 
@@ -69,7 +69,7 @@ namespace Tesserae
 
         private void Rebase(bool rebaseAll)
         {
-            var parent = ScrollBar.GetCorrectContainer(_timeline);
+            var parent = _timeline;
 
             if (rebaseAll)
             {
@@ -85,7 +85,7 @@ namespace Tesserae
             else
             {
                 //just do the final one
-                ScrollBar.GetCorrectContainer(_timeline).lastElementChild.classList.add(left ? "tss-left" : "tss-right");
+                _timeline.lastElementChild.classList.add(left ? "tss-left" : "tss-right");
                 left = !left;
             }
         }
@@ -104,7 +104,7 @@ namespace Tesserae
 
         public void Replace(IComponent newComponent, IComponent oldComponent)
         {
-            ScrollBar.GetCorrectContainer(_timeline).replaceChild(Wrap(newComponent), Wrap(oldComponent));
+            _timeline.replaceChild(Wrap(newComponent), Wrap(oldComponent));
             Rebase(true);
         }
     }

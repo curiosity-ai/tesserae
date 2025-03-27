@@ -48,7 +48,7 @@ namespace Tesserae
 
         public void Add(Choice component)
         {
-            ScrollBar.GetCorrectContainer(InnerElement).appendChild(component.Render());
+            InnerElement.appendChild(component.Render());
 
             component.OnSelected(OnChoiceSelected);
 
@@ -58,14 +58,14 @@ namespace Tesserae
 
         public void Clear()
         {
-            var container = ScrollBar.GetCorrectContainer(InnerElement);
+            var container = InnerElement;
             ClearChildren(container);
-            ScrollBar.GetCorrectContainer(InnerElement).appendChild(_header.Render());
+            InnerElement.appendChild(_header.Render());
         }
 
         public void Replace(Choice newComponent, Choice oldComponent)
         {
-            ScrollBar.GetCorrectContainer(InnerElement).replaceChild(newComponent.Render(), oldComponent.Render());
+            InnerElement.replaceChild(newComponent.Render(), oldComponent.Render());
             newComponent.OnSelected(OnChoiceSelected);
         }
 

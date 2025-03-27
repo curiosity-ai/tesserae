@@ -158,7 +158,7 @@ namespace Tesserae
 
         private void ReconcileChildren(IReadOnlyList<IComponentWithID> newChildren)
         {
-            var parent = ScrollBar.GetCorrectContainer(InnerElement);
+            var parent = InnerElement;
 
             var currentKeyMap   = new Dictionary<string, ExistingStackElement>();
             var currentIndexMap = new Dictionary<string, int>();
@@ -286,7 +286,7 @@ namespace Tesserae
         }
 
 
-        public virtual void Clear() => ClearChildren(ScrollBar.GetCorrectContainer(InnerElement));
+        public virtual void Clear() => ClearChildren(InnerElement);
 
         public virtual HTMLElement Render() => InnerElement;
 

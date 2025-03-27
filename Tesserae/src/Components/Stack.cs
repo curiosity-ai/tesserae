@@ -469,11 +469,11 @@ namespace Tesserae
             return (Stack)this;
         }
 
-        public void Add(IComponent component) => ScrollBar.GetCorrectContainer(InnerElement).appendChild(GetItem(component, true));
+        public void Add(IComponent component) => InnerElement.appendChild(GetItem(component, true));
 
         public void Prepend(IComponent component)
         {
-            var container = ScrollBar.GetCorrectContainer(InnerElement);
+            var container = InnerElement;
 
             if (container.childElementCount > 0)
             {
@@ -487,7 +487,7 @@ namespace Tesserae
 
         public void InsertBefore(IComponent component, IComponent componentToInsertBefore)
         {
-            var container = ScrollBar.GetCorrectContainer(InnerElement);
+            var container = InnerElement;
 
             var element               = GetItem(component,               true);
             var elementToInsertBefore = GetItem(componentToInsertBefore, true);
@@ -502,7 +502,7 @@ namespace Tesserae
 
         public void InsertAfter(IComponent component, IComponent componentToInsertBefore)
         {
-            var container = ScrollBar.GetCorrectContainer(InnerElement);
+            var container = InnerElement;
 
             var element               = GetItem(component,               true);
             var elementToInsertBefore = GetItem(componentToInsertBefore, true);
@@ -515,10 +515,10 @@ namespace Tesserae
             container.insertBefore(element, elementToInsertBefore.nextSibling);
         }
 
-        public virtual void Clear() => ClearChildren(ScrollBar.GetCorrectContainer(InnerElement));
+        public virtual void Clear() => ClearChildren(InnerElement);
 
-        public void Replace(IComponent newComponent, IComponent oldComponent) => ScrollBar.GetCorrectContainer(InnerElement).replaceChild(GetItem(newComponent), GetItem(oldComponent));
-        public void Remove(IComponent  component) => ScrollBar.GetCorrectContainer(InnerElement).removeChild(GetItem(component));
+        public void Replace(IComponent newComponent, IComponent oldComponent) => InnerElement.replaceChild(GetItem(newComponent), GetItem(oldComponent));
+        public void Remove(IComponent  component) => InnerElement.removeChild(GetItem(component));
 
         public virtual HTMLElement Render() => InnerElement;
 

@@ -43,18 +43,18 @@ namespace Tesserae
 
         public void Clear()
         {
-            ClearChildren(ScrollBar.GetCorrectContainer(_childContainer));
+            ClearChildren(_childContainer);
         }
 
         public void Replace(Item newComponent, Item oldComponent)
         {
-            ScrollBar.GetCorrectContainer(_childContainer).replaceChild(newComponent.Render(), oldComponent.Render());
+            _childContainer.replaceChild(newComponent.Render(), oldComponent.Render());
         }
 
         public void Add(Item component)
         {
             _items.Add(component);
-            ScrollBar.GetCorrectContainer(_childContainer).appendChild(component.Render());
+            _childContainer.appendChild(component.Render());
 
             component.OnClick((s, e) =>
             {

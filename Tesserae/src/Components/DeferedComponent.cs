@@ -135,8 +135,6 @@ namespace Tesserae
 
             _needsRefresh = false;
 
-            var container = ScrollBar.GetCorrectContainer(Container);
-
             id++;
 
             var currentID = id; //Save the last value so we only replace the content if the task that finished is the latest to have been triggered
@@ -147,13 +145,13 @@ namespace Tesserae
                     if (_defaultLoadingMessageIfAny is object)
                     {
                         _defaultLoadingMessageIfAny.Text = "Loading...".t();
-                        container.classList.add("tss-defer-with-loading-msg");
+                        Container.classList.add("tss-defer-with-loading-msg");
                     }
 
                     if (currentID == id)
                     {
-                        ClearChildren(container);
-                        container.appendChild(_loadMessage.Render());
+                        ClearChildren(Container);
+                        Container.appendChild(_loadMessage.Render());
                     }
                 },
                 _loadingMessageDelay
@@ -171,19 +169,19 @@ namespace Tesserae
                             Container.classList.remove("tss-defer-with-loading-msg");
                         }
 
-                        ClearChildren(container);
+                        ClearChildren(Container);
 
                         if (r.IsCompleted)
                         {
                             if (r.Result is object)
                             {
-                                container.appendChild(r.Result.Render());
+                                Container.appendChild(r.Result.Render());
                             }
                         }
                         else
                         {
-                            container.appendChild(TextBlock("Error rendering async element").Danger());
-                            container.appendChild(TextBlock(r.Exception.ToString()).XSmall());
+                            Container.appendChild(TextBlock("Error rendering async element").Danger());
+                            Container.appendChild(TextBlock(r.Exception.ToString()).XSmall());
                         }
 
                         if (_refreshCompleted is object)

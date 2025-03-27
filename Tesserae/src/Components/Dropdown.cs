@@ -410,7 +410,7 @@ namespace Tesserae
             //              update is effectively being said to take place that should supercede any async requests that have started but not completed and the loading state, current-selections-bar state and no-items state all would need to be
             //              maintained correctly). If we ever wanted to add a Clear method for some reason then the best implementation be for it to call this method directly with an empty children array, which probably begs the question WHY
             //              you would ever want it in the first place if calling this method automatically replaces any existing items.
-            ClearChildren(ScrollBar.GetCorrectContainer(_childContainer));
+            ClearChildren(_childContainer);
 
             // 2020-06-11 DWR: We need to do this, otherwise the entries in there will relate to drop down items that are no longer rendered - it's fine, since we'll be rebuilding the items (including selected states) if we've just called clear
             // TODO [2020-07-01 DWR]: It doesn't LOOK to me like this is required any more since we will always call it in UpdateStateBasedUponCurrentSelections a little further below.. but I want to test with it removed before I'm fully confident
@@ -430,7 +430,7 @@ namespace Tesserae
 
             children.ForEach(component =>
             {
-                ScrollBar.GetCorrectContainer(_childContainer).appendChild(component.Render());
+                _childContainer.appendChild(component.Render());
                 component.SelectedItem += OnItemSelected;
             });
             EnsureAsyncLoadingStateDisabled(); // If we got here because an async request completed OR while one was in flight but a synchronous call to this method came in after it started but before finishing then ensure to remove its loading state

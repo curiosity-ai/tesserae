@@ -25,7 +25,7 @@ namespace Tesserae
 
         public void Add(NavLink component)
         {
-            ScrollBar.GetCorrectContainer(InnerElement).appendChild(component.Render());
+            InnerElement.appendChild(component.Render());
             component.InternalSelectedLink += OnNavLinkSelected;
 
             if (component.IsSelected)
@@ -50,7 +50,7 @@ namespace Tesserae
         public void Clear()
         {
             _children.Clear();
-            ClearChildren(ScrollBar.GetCorrectContainer(InnerElement));
+            ClearChildren(InnerElement);
         }
 
         public void Replace(NavLink newComponent, NavLink oldComponent)
@@ -61,7 +61,7 @@ namespace Tesserae
             {
                 _children[index] = newComponent;
 
-                ScrollBar.GetCorrectContainer(InnerElement).replaceChild(newComponent.Render(), oldComponent.Render());
+                InnerElement.replaceChild(newComponent.Render(), oldComponent.Render());
 
                 newComponent.InternalSelectedLink += OnNavLinkSelected;
 
@@ -353,7 +353,7 @@ namespace Tesserae
             public void Add(NavLink component)
             {
                 _childLinks.Add(component);
-                ScrollBar.GetCorrectContainer(_childContainer).appendChild(component.Render());
+                _childContainer.appendChild(component.Render());
                 _headerDiv.classList.add("tss-expandable");
                 component.Level                =  Level + 1;
                 component.InternalSelectedLink += OnChildSelected;
@@ -387,14 +387,14 @@ namespace Tesserae
 
             public void Clear()
             {
-                ClearChildren(ScrollBar.GetCorrectContainer(_childContainer));
+                ClearChildren(_childContainer);
                 _childLinks.Clear();
                 _headerDiv.classList.remove("tss-expandable");
             }
 
             public void Replace(NavLink newComponent, NavLink oldComponent)
             {
-                ScrollBar.GetCorrectContainer(_childContainer).replaceChild(newComponent.Render(), oldComponent.Render());
+                _childContainer.replaceChild(newComponent.Render(), oldComponent.Render());
                 newComponent.InternalSelectedLink += OnChildSelected;
 
                 if (newComponent.IsSelected)
