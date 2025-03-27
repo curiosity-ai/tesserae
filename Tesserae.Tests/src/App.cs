@@ -151,7 +151,7 @@ namespace Tesserae.Tests
             var commandSidebarconfig = new SidebarCommands("OPENCLOSE", openClose);
 
 
-            sidebar.AddFooter(new SidebarNav("DEEP_NAV", Emoji.EvergreenTree, "Multi-Depth Nav", true).Sortable().AddRange(CreateDeepNav("root")));
+            sidebar.AddFooter(new SidebarNav("DEEP_NAV", Emoji.EvergreenTree, "Multi-Depth Nav", true).Sortable(sortableGroup: "trees").AddRange(CreateDeepNav("root")));
 
             sidebar.AddFooter(new SidebarNav("EMPTY_NAV", Emoji.MailboxWithNoMail, "Empty Nav", true).ShowDotIfEmpty().OnOpenIconClick((e, m) => Toast().Success("You clicked on the icon!")));
 
