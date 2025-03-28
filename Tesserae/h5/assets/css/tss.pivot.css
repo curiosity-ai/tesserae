@@ -92,15 +92,15 @@
 
 .tss-pivot-line {
     height: 4px;
-    margin-top:-2px;
-    z-index:1;
+    margin-top: -2px;
+    z-index: 1;
     width: 0px;
     flex-shrink: 0;
     flex-grow: 0;
-    background: var(--tss-primary-background-color);
+    background-color: var(--tss-primary-background-hover-color);
     overflow: hidden;
-    pointer-events:none;
-    border-radius:4px;
+    pointer-events: none;
+    border-radius: 4px;
 }
 
 

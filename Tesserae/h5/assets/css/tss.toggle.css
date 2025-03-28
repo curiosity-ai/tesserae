@@ -9,6 +9,7 @@
     user-select: none;
     padding-left: 45px;
     display: inline-block;
+    height:20px;
 }
 
     .tss-toggle-container .tss-toggle-text {
@@ -50,12 +51,12 @@
         }
 
     .tss-toggle-container input:checked ~ .tss-toggle-mark {
-        background-color: var(--tss-primary-background-color);
+        background-color: var(--tss-primary-background-hover-color);
         border-color: var(--tss-primary-background-color);
     }
 
     .tss-toggle-container:hover input:checked ~ .tss-toggle-mark {
-        background-color: var(--tss-primary-background-hover-color);
+        background-color: var(--tss-primary-background-color);
     }
 
     .tss-toggle-container input:checked ~ .tss-toggle-mark:after {
