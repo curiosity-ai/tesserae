@@ -51,7 +51,8 @@ namespace Tesserae.Tests.Samples
                        .Pivot("tab3", PivotTitle("50 Items"),  () => ItemsList(GetSomeItems(50)).PB(16),  cached: true)
                        .Pivot("tab4", PivotTitle("100 Items"), () => ItemsList(GetSomeItems(100)).PB(16), cached: true),
                     SampleSubTitle("Tab Overflow"),
-                    Pivot().MaxHeight(500.px()).MaxWidth(300.px())
+                    SplitView().Resizable().WS().H(500).LeftIsSmaller(300.px()).Left(
+                    Pivot().S()
                        .Pivot("tab1", PivotTitle("Tab 1"), () => ItemsList(GetSomeItems(5)).PB(16), cached: true)
                        .Pivot("tab2", PivotTitle("Tab 2"), () => ItemsList(GetSomeItems(5)).PB(16), cached: true)
                        .Pivot("tab3", PivotTitle("Tab 3"), () => ItemsList(GetSomeItems(5)).PB(16), cached: true)
@@ -59,7 +60,8 @@ namespace Tesserae.Tests.Samples
                        .Pivot("tab5", PivotTitle("Tab 5"), () => ItemsList(GetSomeItems(5)).PB(16), cached: true)
                        .Pivot("tab6", PivotTitle("Tab 6"), () => ItemsList(GetSomeItems(5)).PB(16), cached: true)
                        .Pivot("tab7", PivotTitle("Tab 7"), () => ItemsList(GetSomeItems(5)).PB(16), cached: true)
-                       .Pivot("tab8", PivotTitle("Tab 8"), () => ItemsList(GetSomeItems(5)).PB(16), cached: true)
+                       .Pivot("tab8", PivotTitle("Tab 8"), () => ItemsList(GetSomeItems(5)).PB(16), cached: true))
+                    .Right(TextBlock("👈 resize this area to see the overflow adjusting which tabs to show").WS().BreakSpaces())
                 ));
         }
 
