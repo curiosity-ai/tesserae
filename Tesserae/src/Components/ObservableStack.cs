@@ -154,47 +154,44 @@ namespace Tesserae
             public string      Identifier      { get; set; }
             public string      ContentHash     { get; set; }
             public HTMLElement RenderedElement { get; set; }
+            public int         Index           { get; set; }
         }
 
         private void ReconcileChildren(IReadOnlyList<IComponentWithID> newChildren)
         {
             var parent = InnerElement;
 
-            var currentKeyMap   = new Dictionary<string, ExistingStackElement>();
-            var currentIndexMap = new Dictionary<string, int>();
+            var currentKeyMap = new Dictionary<string, ExistingStackElement>();
 
             var index                = 0;
-            var currentChildrenArray = parent.querySelectorAll(":scope > [data-tssID]").ToArray();
+            var currentChildrenArray = parent.querySelectorAll(":scope > [data-tssid]").ToArray();
 
             foreach (var renderedElement in currentChildrenArray)
             {
-                var dataset   = renderedElement.As<HTMLElement>().dataset;
-                var identifier  = dataset["tssID"].As<string>();
-                var contentHash = dataset["tssHash"].As<string>();
+                var dataset     = renderedElement.As<HTMLElement>().dataset;
+                var identifier  = dataset["tssid"].As<string>();
+                var contentHash = dataset["tsshash"].As<string>();
 
                 currentKeyMap.Add(identifier, new ExistingStackElement()
                 {
-                    Identifier         = identifier,
-                    ContentHash        = contentHash,
+                    Identifier      = identifier,
+                    ContentHash     = contentHash,
                     RenderedElement = renderedElement.As<HTMLElement>(),
+                    Index           = index,
                 });
-
-                currentIndexMap.Add(identifier, index);
 
                 index++;
             }
 
-            int lastIndex     = 0;
+            int lastIndex            = 0;
             var processedIdentifiers = new HashSet<string>();
 
-            int newIdx = 0;
+            var addedElementsToInsert = new List<(int position, IComponentWithID component)>();
 
-            while (newIdx < newChildren.Count)
+            for (int newIdx = 0; newIdx < newChildren.Count; newIdx++)
             {
-                IComponentWithID newChild = newChildren[newIdx];
-                string identifier = newChild.Identifier;
-
-                HTMLElement currentNodeAtPosition = newIdx < currentChildrenArray.Length ? currentChildrenArray[newIdx].As<HTMLElement>() : null;
+                IComponentWithID newChild   = newChildren[newIdx];
+                string           identifier = newChild.Identifier;
 
                 if (currentKeyMap.TryGetValue(identifier, out var existingChild))
                 {
@@ -205,22 +202,14 @@ namespace Tesserae
                         var newItem = GetItem(newChild);
 
                         parent.replaceChild(newItem, existingChild.RenderedElement);
+                        existingChild.RenderedElement = newItem;
                     }
 
-                    int oldIndex = currentIndexMap[identifier];
+                    int oldIndex = currentKeyMap[identifier].Index;
 
                     if (oldIndex < lastIndex)
                     {
-                        HTMLElement nextSibling = newIdx + 1 < newChildren.Count ? parent.children[(uint)newIdx + 1].As<HTMLElement>() : null;
-                        
-                        if (nextSibling is object)
-                        {
-                            parent.insertBefore(existingChild.RenderedElement, nextSibling);
-                        }
-                        else
-                        {
-                            parent.appendChild(existingChild.RenderedElement); //TODO: Check this
-                        }
+                        parent.appendChild(existingChild.RenderedElement);
                     }
                     else
                     {
@@ -229,11 +218,8 @@ namespace Tesserae
                 }
                 else
                 {
-                    var newItem = GetItem(newChild);
-                    parent.insertBefore(newItem, currentNodeAtPosition);
+                    addedElementsToInsert.Add((newIdx, newChild));
                 }
-
-                newIdx++;
             }
 
             foreach (var entry in currentKeyMap)
@@ -243,8 +229,23 @@ namespace Tesserae
                     parent.removeChild(entry.Value.RenderedElement);
                 }
             }
-        }
 
+            foreach (var (position, component) in addedElementsToInsert.OrderBy(x => x.position))
+            {
+                var newItem = GetItem(component);
+
+                var currentNodeAt = parent.children[(uint)position].As<HTMLElement>();
+
+                if (currentNodeAt != null)
+                {
+                    parent.insertBefore(newItem, currentNodeAt);
+                }
+                else
+                {
+                    parent.appendChild(newItem);
+                }
+            }
+        }
         public ObservableStack(ObservableList<IComponentWithID> observableList, Orientation orientation = Orientation.Vertical)
         {
             InnerElement     = Div(_("tss-stack"));
@@ -356,8 +357,8 @@ namespace Tesserae
             }), rendered);
 
 
-            item.dataset["tssID"]   = component.Identifier;
-            item.dataset["tssHash"] = component.ContentHash;
+            item.dataset["tssid"]   = component.Identifier;
+            item.dataset["tsshash"] = component.ContentHash;
 
             CopyStylesDefinedWithExtension(rendered, item);
             return item;
@@ -472,7 +473,7 @@ namespace Tesserae
 
         public interface IComponentWithID : IComponent
         {
-            string Identifier { get; }
+            string Identifier  { get; }
             string ContentHash { get; }
         }
     }
