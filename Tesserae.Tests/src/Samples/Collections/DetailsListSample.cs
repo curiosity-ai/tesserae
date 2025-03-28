@@ -32,7 +32,7 @@ namespace Tesserae.Tests.Samples
                                         "ways to aid a user in finding content with sorting, grouping and "           +
                                         "filtering.  Lists are a great way to handle large amounts of content, "      +
                                         "but poorly designed Lists can be difficult to parse.")
-                                   .PaddingBottom(16.px()),
+                                   .PB(16),
                                 TextBlock("Use a DetailsList when density of information is critical. Lists can "  +
                                         "support single and multiple selection, as well as drag and drop and "     +
                                         "marquee selection. They are composed of a column header, which "          +
@@ -42,7 +42,7 @@ namespace Tesserae.Tests.Samples
                                         "minimum. One can also include other columns such as Date Modified, or "   +
                                         "any other metadata field associated with the collection. Place the most " +
                                         "important columns from left to right for ease of recall and comparison.")
-                                   .PaddingBottom(16.px()),
+                                   .PB(16),
                                 TextBlock("DetailsList is classically used to display files, but is also used to " +
                                     "render custom lists that can be purely metadata. Avoid using file type "      +
                                     "icon overlays to denote status of a file as it can make the entire icon "     +
@@ -80,7 +80,7 @@ namespace Tesserae.Tests.Samples
                                 SampleTitle("Usage"),
                                 TextBlock("Details List With Textual Rows")
                                    .Medium()
-                                   .PaddingBottom(16.px()),
+                                   .PB(16),
                                 DetailsList<DetailsListSampleFileItem>(
                                         IconColumn(Icon(UIcons.File), width: 32.px(), enableColumnSorting: true, sortingKey: "FileIcon"),
                                         DetailsListColumn(title: "File Name",     width: 350.px(), enableColumnSorting: true, sortingKey: "FileName", isRowHeader: true),
@@ -94,7 +94,7 @@ namespace Tesserae.Tests.Samples
                                    .PaddingBottom(32.px()),
                                 TextBlock("Details List With Component Rows and responsive width")
                                    .Medium()
-                                   .PaddingBottom(16.px()),
+                                   .PB(16),
                                 DetailsList<DetailsListSampleFileItem>(
                                         IconColumn(Icon(UIcons.File), width: 80.px(), enableColumnSorting: true, sortingKey: "FileIcon"),
                                         DetailsListColumn(title: "File Name",     width: 40.percent(), enableColumnSorting: true, sortingKey: "FileName",    isRowHeader: true),
@@ -108,7 +108,7 @@ namespace Tesserae.Tests.Samples
                                    .PaddingBottom(32.px()),
                                 TextBlock("Details List With Component Rows")
                                    .Medium()
-                                   .PaddingBottom(16.px()),
+                                   .PB(16),
                                 DetailsList<DetailsListSampleItemWithComponents>(
                                         IconColumn(Icon(UIcons.AppleWhole), width: 32.px(), enableColumnSorting: true, sortingKey: "Icon"),
                                         DetailsListColumn(title: "CheckBox",    width: 120.px()),
@@ -124,7 +124,7 @@ namespace Tesserae.Tests.Samples
                                    .PaddingBottom(32.px()),
                                 TextBlock("Details List With Textual Rows and paginated content")
                                    .Medium()
-                                   .PaddingBottom(16.px()),
+                                   .PB(16),
                                 DetailsList<DetailsListSampleFileItem>(
                                         IconColumn(Icon(UIcons.File), width: 32.px(), enableColumnSorting: true, sortingKey: "FileIcon"),
                                         DetailsListColumn(title: "File Name",     width: 350.px(), enableColumnSorting: true, sortingKey: "FileName", isRowHeader: true),
@@ -145,7 +145,7 @@ namespace Tesserae.Tests.Samples
                                    .PaddingBottom(32.px()),
                                 TextBlock("Details List With Empty List Message")
                                    .Medium()
-                                   .PaddingBottom(16.px()),
+                                   .PB(16),
                                 DetailsList<DetailsListSampleFileItem>(
                                         IconColumn(Icon(UIcons.File), width: 32.px(), enableColumnSorting: true, sortingKey: "FileIcon"),
                                         DetailsListColumn(title: "File Name",     width: 350.px(), enableColumnSorting: true, sortingKey: "FileName", isRowHeader: true),

@@ -302,6 +302,11 @@ namespace Tesserae
 
         public static Pivot Pivot() => new Pivot();
 
+        public static Func<IComponent> PivotTitle(string text) => () => Button(text).NoBackground().Regular();
+
+        public static Func<IComponent> PivotTitle(string text, UIcons icon) => () => Button(text).NoBackground().Regular().SetIcon(icon);
+
+
         public static Sidebar Sidebar(bool sortable = false) => new Sidebar(sortable);
 
         //public static Sidebar.Item SidebarItem(string text, string icon, string href = null) => new Sidebar.Item(text, icon, href);

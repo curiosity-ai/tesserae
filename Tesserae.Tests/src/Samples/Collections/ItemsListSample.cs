@@ -37,28 +37,28 @@ namespace Tesserae.Tests.Samples
                             TextBlock("List provides a base component for rendering small sets of items. " +
                                     "It is agnostic of the tile component used, and selection "            +
                                     "management. These concerns can be layered separately.")
-                               .PaddingBottom(16.px()),
+                               .PB(16),
                             TextBlock("Performance is adequate for smaller lists, for large number of items use VirtualizedList.")
-                               .PaddingBottom(16.px())))
+                               .PB(16)))
                .Section(
                     Stack()
                        .Children(
                             SampleTitle("Usage"),
                             TextBlock("Basic List")
                                .Medium()
-                               .PaddingBottom(16.px()),
-                            ItemsList(GetSomeItems(10)).PaddingBottom(16.px()).Height(500.px()).PaddingBottom(32.px()),
+                               .PB(16),
+                            ItemsList(GetSomeItems(10)).PB(16).Height(500.px()).PaddingBottom(32.px()),
                             TextBlock("Basic List with columns")
                                .Medium()
-                               .PaddingBottom(16.px()),
+                               .PB(16),
                             ItemsList(GetSomeItems(100), 25.percent(), 25.percent(), 25.percent(), 25.percent()).Height(500.px()).PaddingBottom(32.px()),
                             TextBlock("Basic List with VisibilitySensor")
                                .Medium()
-                               .PaddingBottom(16.px()),
+                               .PB(16),
                             ItemsList(obsList, 25.percent(), 25.percent(), 25.percent(), 25.percent()).Height(500.px()).PaddingBottom(32.px()),
                             TextBlock("Basic List with Empty List Message ")
                                .Medium()
-                               .PaddingBottom(16.px()),
+                               .PB(16),
                             ItemsList(new IComponent[0], 25.percent(), 25.percent(), 25.percent(), 25.percent())
                                .WithEmptyMessage(() => BackgroundArea(Card(TextBlock("Empty list").Padding(16.px()))).WidthStretch().HeightStretch().MinHeight(100.px()))
                                .Height(500.px())));

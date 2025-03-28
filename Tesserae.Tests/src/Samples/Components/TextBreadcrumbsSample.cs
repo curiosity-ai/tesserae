@@ -31,7 +31,7 @@ namespace Tesserae.Tests.Samples
                     SampleTitle("Usage"),
                     Label("Selected: ").SetContent(TextBlock().Var(out var msg)),
                     TextBlock("All Visible").Medium(),
-                    TextBreadcrumbs().MaxWidth(100.percent()).PaddingTop(16.px()).PaddingBottom(16.px()).Items(
+                    TextBreadcrumbs().MaxWidth(100.percent()).PaddingTop(16.px()).PB(16).Items(
                         TextBreadcrumb("Folder 1").OnClick((s, e) => msg.Text("Folder 1")),
                         TextBreadcrumb("Folder 2").OnClick((s, e) => msg.Text("Folder 2")),
                         TextBreadcrumb("Folder 3").OnClick((s, e) => msg.Text("Folder 3")),
@@ -50,7 +50,7 @@ namespace Tesserae.Tests.Samples
                         TextBreadcrumb("Folder 5").OnClick((s, e) => msg.Text("Folder 5")),
                         TextBreadcrumb("Folder 6").OnClick((s, e) => msg.Text("Folder 6"))),
                     TextBlock("All Visible, Small").Medium(),
-                    TextBreadcrumbs().MaxWidth(100.percent()).PaddingTop(16.px()).PaddingBottom(16.px()).Items(
+                    TextBreadcrumbs().MaxWidth(100.percent()).PaddingTop(16.px()).PB(16).Items(
                         TextBreadcrumb("Folder 1").OnClick((s, e) => msg.Text("Folder 1")),
                         TextBreadcrumb("Folder 2").OnClick((s, e) => msg.Text("Folder 2")),
                         TextBreadcrumb("Folder 3").OnClick((s, e) => msg.Text("Folder 3")),
@@ -58,7 +58,7 @@ namespace Tesserae.Tests.Samples
                         TextBreadcrumb("Folder 5").OnClick((s, e) => msg.Text("Folder 5")),
                         TextBreadcrumb("Folder 6").OnClick((s, e) => msg.Text("Folder 6"))),
                     TextBlock("Collapse 200px").Medium(),
-                    TextBreadcrumbs().MaxWidth(100.percent()).PaddingTop(16.px()).PaddingBottom(16.px()).MaxWidth(200.px()).Items(
+                    TextBreadcrumbs().MaxWidth(100.percent()).PaddingTop(16.px()).PB(16).MaxWidth(200.px()).Items(
                         TextBreadcrumb("Folder 1").OnClick((s, e) => msg.Text("Folder 1")),
                         TextBreadcrumb("Folder 2").OnClick((s, e) => msg.Text("Folder 2")),
                         TextBreadcrumb("Folder 3").OnClick((s, e) => msg.Text("Folder 3")),
@@ -66,7 +66,7 @@ namespace Tesserae.Tests.Samples
                         TextBreadcrumb("Folder 5").OnClick((s, e) => msg.Text("Folder 5")),
                         TextBreadcrumb("Folder 6").OnClick((s, e) => msg.Text("Folder 6"))),
                     TextBlock("Collapse 200px, Small").Medium(),
-                    TextBreadcrumbs().MaxWidth(100.percent()).PaddingTop(16.px()).PaddingBottom(16.px()).MaxWidth(200.px()).Items(
+                    TextBreadcrumbs().MaxWidth(100.percent()).PaddingTop(16.px()).PB(16).MaxWidth(200.px()).Items(
                         TextBreadcrumb("Folder 1").OnClick((s, e) => msg.Text("Folder 1")),
                         TextBreadcrumb("Folder 2").OnClick((s, e) => msg.Text("Folder 2")),
                         TextBreadcrumb("Folder 3").OnClick((s, e) => msg.Text("Folder 3")),
@@ -74,7 +74,7 @@ namespace Tesserae.Tests.Samples
                         TextBreadcrumb("Folder 5").OnClick((s, e) => msg.Text("Folder 5")),
                         TextBreadcrumb("Folder 6").OnClick((s, e) => msg.Text("Folder 6"))),
                     TextBlock("Collapse 300px").Medium(),
-                    TextBreadcrumbs().MaxWidth(100.percent()).PaddingTop(16.px()).PaddingBottom(16.px()).MaxWidth(300.px()).Items(
+                    TextBreadcrumbs().MaxWidth(100.percent()).PaddingTop(16.px()).PB(16).MaxWidth(300.px()).Items(
                         TextBreadcrumb("Folder 1").OnClick((s, e) => msg.Text("Folder 1")),
                         TextBreadcrumb("Folder 2").OnClick((s, e) => msg.Text("Folder 2")),
                         TextBreadcrumb("Folder 3").OnClick((s, e) => msg.Text("Folder 3")),
@@ -82,7 +82,7 @@ namespace Tesserae.Tests.Samples
                         TextBreadcrumb("Folder 5").OnClick((s, e) => msg.Text("Folder 5")),
                         TextBreadcrumb("Folder 6").OnClick((s, e) => msg.Text("Folder 6"))),
                     TextBlock("Collapse 300px, from second, custom chevron").Medium(),
-                    TextBreadcrumbs().MaxWidth(100.percent()).PaddingTop(16.px()).PaddingBottom(16.px()).MaxWidth(300.px()).Items(
+                    TextBreadcrumbs().MaxWidth(100.percent()).PaddingTop(16.px()).PB(16).MaxWidth(300.px()).Items(
                         TextBreadcrumb("Folder 1").OnClick((s, e) => msg.Text("Folder 1")),
                         TextBreadcrumb("Folder 2").OnClick((s, e) => msg.Text("Folder 2")),
                         TextBreadcrumb("Folder 3").OnClick((s, e) => msg.Text("Folder 3")),

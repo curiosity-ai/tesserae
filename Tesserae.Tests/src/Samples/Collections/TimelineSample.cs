@@ -37,19 +37,19 @@ namespace Tesserae.Tests.Samples
                             TextBlock("Timeline provides a base component for rendering vertical timelines. " +
                                     "It is agnostic of the tile component used, and selection "               +
                                     "management. These concerns can be layered separately.")
-                               .PaddingBottom(16.px())))
+                               .PB(16)))
                .Section(
                     Stack()
                        .Children(
                             SampleTitle("Usage"),
-                            TextBlock("Timeline").Medium().PaddingBottom(16.px()),
-                            Timeline().Children(GetSomeItems(10)).PaddingBottom(16.px()).Height(500.px()).PaddingBottom(32.px()),
-                            TextBlock("Timeline with Max Width").Medium().PaddingBottom(16.px()),
-                            Timeline().TimelineWidth(600.px()).Children(GetSomeItems(10)).PaddingBottom(16.px()).Height(500.px()).PaddingBottom(32.px()),
-                            TextBlock("Timeline Same Side").Medium().PaddingBottom(16.px()),
-                            Timeline().SameSide().Children(GetSomeItems(10)).PaddingBottom(16.px()).Height(500.px()).PaddingBottom(32.px()),
-                            TextBlock("Timeline Same Side with Max Width").Medium().PaddingBottom(16.px()),
-                            Timeline().TimelineWidth(600.px()).SameSide().Children(GetSomeItems(10)).PaddingBottom(16.px()).Height(500.px()).PaddingBottom(32.px())
+                            TextBlock("Timeline").Medium().PB(16),
+                            Timeline().Children(GetSomeItems(10)).PB(16).Height(500.px()).PaddingBottom(32.px()),
+                            TextBlock("Timeline with Max Width").Medium().PB(16),
+                            Timeline().TimelineWidth(600.px()).Children(GetSomeItems(10)).PB(16).Height(500.px()).PaddingBottom(32.px()),
+                            TextBlock("Timeline Same Side").Medium().PB(16),
+                            Timeline().SameSide().Children(GetSomeItems(10)).PB(16).Height(500.px()).PaddingBottom(32.px()),
+                            TextBlock("Timeline Same Side with Max Width").Medium().PB(16),
+                            Timeline().TimelineWidth(600.px()).SameSide().Children(GetSomeItems(10)).PB(16).Height(500.px()).PaddingBottom(32.px())
                         ));
         }
 

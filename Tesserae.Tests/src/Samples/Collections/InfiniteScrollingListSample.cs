@@ -29,20 +29,20 @@ namespace Tesserae.Tests.Samples
                             TextBlock("List provides a base component for rendering paginates sets of items. " +
                                     "It is agnostic of the tile component used, and selection "                +
                                     "management. These concerns can be layered separately.")
-                               .PaddingBottom(16.px()),
+                               .PB(16),
                             TextBlock("Performance is adequate for smaller lists, for large number of items use VirtualizedList.")
-                               .PaddingBottom(16.px())))
+                               .PB(16)))
                .Section(
                     Stack()
                        .Children(
                             SampleTitle("Usage"),
                             TextBlock("Basic List with VisibilitySensor")
                                .Medium()
-                               .PaddingBottom(16.px()),
+                               .PB(16),
                             InfiniteScrollingList(GetSomeItems(20, 0, " initial"), async () => await GetSomeItemsAsync(20, page++)).Height(500.px()).PaddingBottom(32.px()),
                             TextBlock("Basic Grid List with VisibilitySensor")
                                .Medium()
-                               .PaddingBottom(16.px()),
+                               .PB(16),
                             InfiniteScrollingList(GetSomeItems(20, 0, " initial"), async () => await GetSomeItemsAsync(20, pageGrid++), 33.percent(), 33.percent(), 34.percent()).Height(500.px()).PaddingBottom(32.px())
                         ));
         }

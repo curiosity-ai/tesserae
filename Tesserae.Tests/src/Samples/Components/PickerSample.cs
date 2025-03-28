@@ -29,17 +29,17 @@ namespace Tesserae.Tests.Samples
                                 SampleTitle("Usage"),
                                 TextBlock("Picker with text suggestions and tag-like selections")
                                    .Medium()
-                                   .PaddingBottom(16.px()),
+                                   .PB(16),
                                 Picker<PickerSampleItem>(suggestionsTitleText: "Suggested Tags").Items(GetPickerItems())
                                    .PaddingBottom(32.px()),
                                 TextBlock("Picker with single selection")
                                    .Medium()
-                                   .PaddingBottom(16.px()),
+                                   .PB(16),
                                 Picker<PickerSampleItem>(suggestionsTitleText: "Suggested Tags", maximumAllowedSelections: 1).Items(GetPickerItems())
                                    .PaddingBottom(32.px()),
                                 TextBlock("Picker with icon and text suggestions and component based selections")
                                    .Medium()
-                                   .PaddingBottom(16.px()),
+                                   .PB(16),
                                 Picker<PickerSampleItemWithComponents>(suggestionsTitleText: "Suggested Items", renderSelectionsInline: false).Items(GetComponentPickerItems())));
         }
 

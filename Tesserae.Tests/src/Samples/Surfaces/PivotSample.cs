@@ -34,41 +34,40 @@ namespace Tesserae.Tests.Samples
                     )))
                .Section(Stack().Children(
                     SampleTitle("Usage"),
+                    SampleSubTitle("Normal Style"),
+                    GetPivot(),
+                    SampleSubTitle("Justified Style"),
+                    GetPivot().Justified(),
+                    SampleSubTitle("Centered Style"),
+                    GetPivot().Centered(),
                     SampleSubTitle("Cached vs. Not Cached Tabs"),
-                    Pivot().Pivot("tab1", () => Button().SetText("Cached").NoBorder().NoBackground().Link(),
-                            () => TextBlock(DateTimeOffset.UtcNow.ToString()).Regular(), cached: true)
-                       .Pivot("tab2",                                                    () => Button().SetText("Not Cached").SetIcon(UIcons.Refresh).NoBorder().NoBackground().Link(),
-                            () => TextBlock(DateTimeOffset.UtcNow.ToString()).Regular(), cached: false),
+                    Pivot().Pivot("tab1", PivotTitle("Cached"),     () => TextBlock(DateTimeOffset.UtcNow.ToString()).Regular(), cached: true)
+                           .Pivot("tab2", PivotTitle("Not Cached"), () => TextBlock(DateTimeOffset.UtcNow.ToString()).Regular(), cached: false),
                     SampleSubTitle("Cached vs. Not Cached Tabs"),
                     SampleSubTitle("Scroll with limited height"),
                     Pivot().MaxHeight(500.px())
-                       .Pivot("tab1",                                                () => Button().SetText("5 Items").NoBorder().NoBackground().Link(),
-                            () => ItemsList(GetSomeItems(5)).PaddingBottom(16.px()), cached: true)
-                       .Pivot("tab2",                                                 () => Button().SetText("10 Items").NoBorder().NoBackground().Link(),
-                            () => ItemsList(GetSomeItems(20)).PaddingBottom(16.px()), cached: true)
-                       .Pivot("tab3",                                                 () => Button().SetText("50 Items").NoBorder().NoBackground().Link(),
-                            () => ItemsList(GetSomeItems(50)).PaddingBottom(16.px()), cached: true)
-                       .Pivot("tab4",                                                  () => Button().SetText("100 Items").NoBorder().NoBackground().Link(),
-                            () => ItemsList(GetSomeItems(100)).PaddingBottom(16.px()), cached: true),
-                    SampleSubTitle("Too many tabs (WIP)"),
+                       .Pivot("tab1", PivotTitle("5 Items"),   () => ItemsList(GetSomeItems(5)).PB(16),   cached: true)
+                       .Pivot("tab2", PivotTitle("10 Items"),  () => ItemsList(GetSomeItems(20)).PB(16),  cached: true)
+                       .Pivot("tab3", PivotTitle("50 Items"),  () => ItemsList(GetSomeItems(50)).PB(16),  cached: true)
+                       .Pivot("tab4", PivotTitle("100 Items"), () => ItemsList(GetSomeItems(100)).PB(16), cached: true),
+                    SampleSubTitle("Tab Overflow"),
                     Pivot().MaxHeight(500.px()).MaxWidth(300.px())
-                       .Pivot("tab1",                                                () => Button().SetText("5 Items").NoBorder().NoBackground().Link().Ellipsis(),
-                            () => ItemsList(GetSomeItems(5)).PaddingBottom(16.px()), cached: true)
-                       .Pivot("tab2",                                                 () => Button().SetText("10 Items").NoBorder().NoBackground().Link().Ellipsis(),
-                            () => ItemsList(GetSomeItems(20)).PaddingBottom(16.px()), cached: true)
-                       .Pivot("tab3",                                                 () => Button().SetText("50 Items").NoBorder().NoBackground().Link().Ellipsis(),
-                            () => ItemsList(GetSomeItems(50)).PaddingBottom(16.px()), cached: true)
-                       .Pivot("tab4",                                                  () => Button().SetText("100 Items").NoBorder().NoBackground().Link().Ellipsis(),
-                            () => ItemsList(GetSomeItems(100)).PaddingBottom(16.px()), cached: true)
-                       .Pivot("tab5",                                                () => Button().SetText("5 Items").NoBorder().NoBackground().Link().Ellipsis(),
-                            () => ItemsList(GetSomeItems(5)).PaddingBottom(16.px()), cached: true)
-                       .Pivot("tab6",                                                 () => Button().SetText("10 Items").NoBorder().NoBackground().Link().Ellipsis(),
-                            () => ItemsList(GetSomeItems(20)).PaddingBottom(16.px()), cached: true)
-                       .Pivot("tab7",                                                 () => Button().SetText("50 Items").NoBorder().NoBackground().Link().Ellipsis(),
-                            () => ItemsList(GetSomeItems(50)).PaddingBottom(16.px()), cached: true)
-                       .Pivot("tab8",                                                  () => Button().SetText("100 Items").NoBorder().NoBackground().Link().Ellipsis(),
-                            () => ItemsList(GetSomeItems(100)).PaddingBottom(16.px()), cached: true)
+                       .Pivot("tab1", PivotTitle("Tab 1"), () => ItemsList(GetSomeItems(5)).PB(16), cached: true)
+                       .Pivot("tab2", PivotTitle("Tab 2"), () => ItemsList(GetSomeItems(5)).PB(16), cached: true)
+                       .Pivot("tab3", PivotTitle("Tab 3"), () => ItemsList(GetSomeItems(5)).PB(16), cached: true)
+                       .Pivot("tab4", PivotTitle("Tab 4"), () => ItemsList(GetSomeItems(5)).PB(16), cached: true)
+                       .Pivot("tab5", PivotTitle("Tab 5"), () => ItemsList(GetSomeItems(5)).PB(16), cached: true)
+                       .Pivot("tab6", PivotTitle("Tab 6"), () => ItemsList(GetSomeItems(5)).PB(16), cached: true)
+                       .Pivot("tab7", PivotTitle("Tab 7"), () => ItemsList(GetSomeItems(5)).PB(16), cached: true)
+                       .Pivot("tab8", PivotTitle("Tab 8"), () => ItemsList(GetSomeItems(5)).PB(16), cached: true)
                 ));
+        }
+
+        private Pivot GetPivot()
+        {
+            return Pivot().Pivot("first-tab",  PivotTitle("First Tab"),  () => TextBlock("First Tab"))
+                          .Pivot("second-tab", PivotTitle("Second Tab"), () => TextBlock("Second Tab"))
+                          .Pivot("third-tab",  PivotTitle("Third Tab"),  () => TextBlock("Third Tab"));
         }
 
         public HTMLElement Render()

@@ -3,8 +3,10 @@
     margin: 0;
     padding: 0;
     display: flex;
-    flex-direction:column;
-    height:100%;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
 }
 
 .tss-pivot-titlebar {
@@ -64,7 +66,18 @@
             flex-shrink: 0;
         }
 
-.tss-pivot-titlebar-hide-if-single > .tss-pivot-selected-title:only-child {
+.tss-pivot-titlebar-more{
+
+}
+
+.tss-pivot-titlebar-scroll-left i,
+.tss-pivot-titlebar-scroll-right i {
+    font-size: 10px;
+}
+
+.tss-pivot-titlebar-hide-if-single > .tss-pivot-selected-title:only-child,
+.tss-pivot-titlebar-hide-if-single > .tss-pivot-titlebar-scroll-left
+.tss-pivot-titlebar-hide-if-single > .tss-pivot-titlebar-scroll-right {
     display: none;
 }
 
@@ -76,8 +89,9 @@
     overflow-y: auto;
     overflow-x: auto;
 }
+
 .tss-pivot-line {
-    height: 2px;
+    height: 4px;
     margin-top:-2px;
     z-index:1;
     width: 0px;
@@ -86,4 +100,10 @@
     background: var(--tss-primary-background-color);
     overflow: hidden;
     pointer-events:none;
+    border-radius:4px;
+}
+
+
+.tss-pivot-titlebar-hidden-overflow {
+    display: none;
 }

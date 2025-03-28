@@ -9,27 +9,40 @@ namespace Tesserae
     [H5.Name("tss.Pivot")]
     public sealed class Pivot : IComponent, ISpecialCaseStyling
     {
-        private event PivotEventHandler<PivotBeforeNavigateEvent> BeforeNavigated;
-        private event PivotEventHandler<PivotNavigateEvent>       Navigated;
         public delegate void                                      PivotEventHandler<TEventArgs>(Pivot sender, TEventArgs e);
 
-        private readonly List<Tab>                    OrderedTabs    = new List<Tab>();
-        private readonly Dictionary<Tab, HTMLElement> RenderedTitles = new Dictionary<Tab, HTMLElement>();
-
-        private readonly HTMLElement RenderedTabs;
-        private readonly HTMLElement RenderedContent;
-        private readonly HTMLElement Line;
+        private event PivotEventHandler<PivotBeforeNavigateEvent> _beforeNavigated;
+        private event PivotEventHandler<PivotNavigateEvent>       _navigated;
+        private readonly List<Tab>                    _orderedTabs    = new List<Tab>();
+        private readonly Dictionary<Tab, HTMLElement> _renderedTitles = new Dictionary<Tab, HTMLElement>();
+        private readonly HTMLElement _renderedTabs;
+        private readonly HTMLElement _renderedContent;
+        private readonly HTMLElement _line;
+        private readonly HTMLDivElement _scrollCommands;
         private          string      _initiallySelectedID;
         private          string      _currentSelectedID;
         private          bool        _isRendered = false;
         public           string      SelectedTab => _currentSelectedID ?? _initiallySelectedID;
+        private HTMLElement _selectedNav;
+        private HTMLElement _hoveredNav;
+        private double _t0 = 0;
+        private double _currentWidth = 0;
+        private double _currentLeft = 0;
+        private double _targetWidth;
+        private double _targetLeft;
+        private double _left0;
+        private bool _firstRender = false;
+        private ResizeObserver _ro;
+        private readonly Button _moreBtn;
+
 
         public Pivot()
         {
-            Line             = Div(_("tss-pivot-line"));
-            RenderedTabs     = Div(_("tss-pivot-titlebar"));
-            RenderedContent  = Div(_("tss-pivot-content"));
-            StylingContainer = Div(_("tss-pivot"), RenderedTabs, Line, RenderedContent);
+            _moreBtn          = Button().SetIcon(UIcons.MenuDots).Class("tss-pivot-titlebar-more").OnClick(() => ShowMoreTabs());
+            _line             = Div(_("tss-pivot-line"));
+            _renderedTabs     = Div(_("tss-pivot-titlebar"));
+            _renderedContent  = Div(_("tss-pivot-content"));
+            StylingContainer = Div(_("tss-pivot"), _renderedTabs, _line, _renderedContent);
         }
 
         public HTMLElement StylingContainer { get; }
@@ -38,50 +51,124 @@ namespace Tesserae
 
         public Pivot Justified()
         {
-            RenderedTabs.style.justifyContent = "space-between";
+            _renderedTabs.style.justifyContent = "space-between";
             return this;
         }
+
+        public Pivot Centered()
+        {
+            _renderedTabs.style.justifyContent = "center";
+            return this;
+        }
+
+
         public Pivot HideIfSingle()
         {
-            RenderedTabs.classList.add("tss-pivot-titlebar-hide-if-single");
+            _renderedTabs.classList.add("tss-pivot-titlebar-hide-if-single");
             return this;
         }
 
         internal Pivot Add(Tab tab)
         {
             if (_initiallySelectedID is null) _initiallySelectedID = tab.Id;
-            OrderedTabs.Add(tab);
+            _orderedTabs.Add(tab);
             var title = tab.RenderTitle();
-            RenderedTitles.Add(tab, title);
+            _renderedTitles.Add(tab, title);
             AttachEvents(tab.Id, title);
-            RenderedTabs.appendChild(title);
+            _renderedTabs.appendChild(title);
 
-            if (_isRendered && OrderedTabs.Count == 1)
+            if (_isRendered && _orderedTabs.Count == 1)
             {
                 Select(tab.Id);
             }
+
+            RefreshTabsOverflow();
+
             return this;
+        }
+
+        private void RefreshTabsOverflow(HTMLElement willSelect = null)
+        {
+            var moreWidth = 32;
+            var maxWidth = _renderedTabs.getBoundingClientRect().As<DOMRect>().width - moreWidth;
+            double curWidth = 0;
+            bool hasMore = false;
+            
+            var orderedTitles = _orderedTabs.Select(t => _renderedTitles[t]).ToArray();
+
+            if (willSelect is object)
+            {
+                foreach (var rendered in orderedTitles)
+                {
+                    rendered.classList.remove("tss-pivot-titlebar-hidden-overflow");
+                }
+            }
+
+            orderedTitles = orderedTitles.OrderBy(e => (e == willSelect  || (willSelect is null && e.classList.contains("tss-pivot-selected-title"))) ? 0 : 1).ToArray();
+
+            foreach (var rendered in orderedTitles)
+            {
+                curWidth += rendered.getBoundingClientRect().As<DOMRect>().width;
+                if (curWidth > maxWidth)
+                {
+                    rendered.classList.add("tss-pivot-titlebar-hidden-overflow");
+                    hasMore = true;
+                }
+                else
+                {
+                    rendered.classList.remove("tss-pivot-titlebar-hidden-overflow");
+                }
+            }
+
+            if (hasMore)
+            {
+                _renderedTabs.appendChild(_moreBtn.Render());
+            }
+            else if (_moreBtn.IsMounted())
+            {
+                _moreBtn.Render().remove();
+            }
+        }
+
+        private void ShowMoreTabs()
+        {
+            var elementsToClone = _renderedTabs.querySelectorAll(".tss-pivot-titlebar-hidden-overflow").Select(n => n.As<HTMLElement>()).ToArray();
+            var cloned = elementsToClone.Select(n => n.cloneNode(true).As<HTMLElement>()).ToArray();
+            var items = new ContextMenu.Item[cloned.Length];
+            for (int i = 0; i < cloned.Length; i++)
+            {
+                var iLocal = i;
+                HTMLElement c = cloned[i];
+                c.classList.remove("tss-pivot-titlebar-hidden-overflow");
+                items[i] = ContextMenuItem(Raw(c)).OnClick(() =>
+                {
+                    RefreshTabsOverflow(elementsToClone[iLocal]);
+                    elementsToClone[iLocal].click();
+                });
+            }
+
+            ContextMenu().Items(items).ShowFor(_moreBtn);
         }
 
         public void RemoveTab(string id)
         {
-            var tab = OrderedTabs.FirstOrDefault(t => t.Id == id);
+            var tab = _orderedTabs.FirstOrDefault(t => t.Id == id);
 
             if (tab is object)
             {
-                OrderedTabs.Remove(tab);
+                _orderedTabs.Remove(tab);
 
-                if (RenderedTitles.TryGetValue(tab, out var renderedTitle))
+                if (_renderedTitles.TryGetValue(tab, out var renderedTitle))
                 {
-                    RenderedTabs.removeChild(renderedTitle);
-                    RenderedTitles.Remove(tab);
+                    _renderedTabs.removeChild(renderedTitle);
+                    _renderedTitles.Remove(tab);
                 }
 
                 if (_currentSelectedID == id)
                 {
-                    if (_isRendered && OrderedTabs.Count > 0)
+                    if (_isRendered && _orderedTabs.Count > 0)
                     {
-                        Select(OrderedTabs.First().Id);
+                        Select(_orderedTabs.First().Id);
                     }
                 }
 
@@ -102,15 +189,15 @@ namespace Tesserae
 
             title.onmouseover = e =>
             {
-                HoveredNav = title;
+                _hoveredNav = title;
                 TriggerAnimation();
             };
 
             title.onmouseleave = e =>
             {
-                if (HoveredNav == title)
+                if (_hoveredNav == title)
                 {
-                    HoveredNav = null;
+                    _hoveredNav = null;
                     TriggerAnimation();
                 }
             };
@@ -118,13 +205,13 @@ namespace Tesserae
 
         public Pivot OnBeforeNavigate(PivotEventHandler<PivotBeforeNavigateEvent> onBeforeNavigate)
         {
-            BeforeNavigated += onBeforeNavigate;
+            _beforeNavigated += onBeforeNavigate;
             return this;
         }
 
         public Pivot OnNavigate(PivotEventHandler<PivotNavigateEvent> onNavigate)
         {
-            Navigated += onNavigate;
+            _navigated += onNavigate;
             return this;
         }
 
@@ -132,7 +219,7 @@ namespace Tesserae
         {
             if (_currentSelectedID != id || refresh)
             {
-                var tab = OrderedTabs.FirstOrDefault(t => t.Id == id);
+                var tab = _orderedTabs.FirstOrDefault(t => t.Id == id);
 
                 if (tab is object)
                 {
@@ -150,14 +237,13 @@ namespace Tesserae
                 return this;
             }
 
-
             var pbne = new PivotBeforeNavigateEvent(_currentSelectedID, tab.Id);
 
-            BeforeNavigated?.Invoke(this, pbne);
+            _beforeNavigated?.Invoke(this, pbne);
 
             if (pbne.Canceled) return this;
 
-            var title = RenderedTitles[tab];
+            var title = _renderedTitles[tab];
 
             HTMLElement content = Div(_());
             content.style.width     = "100%";
@@ -172,8 +258,8 @@ namespace Tesserae
                 content.textContent = E.ToString();
             }
 
-            ClearChildren(RenderedContent);
-            RenderedContent.appendChild(content);
+            ClearChildren(_renderedContent);
+            _renderedContent.appendChild(content);
 
             _currentSelectedID = tab.Id;
             UpdateTitleStyles(title);
@@ -181,14 +267,14 @@ namespace Tesserae
 
             var pne = new PivotNavigateEvent(_currentSelectedID, tab.Id);
 
-            Navigated?.Invoke(this, pne);
+            _navigated?.Invoke(this, pne);
 
             return this;
         }
 
         private void UpdateTitleStyles(HTMLElement title)
         {
-            foreach (var v in RenderedTitles.Values)
+            foreach (var v in _renderedTitles.Values)
             {
                 if (v == title)
                 {
@@ -199,7 +285,7 @@ namespace Tesserae
                     v.classList.remove("tss-pivot-selected-title");
                 }
             }
-            SelectedNav = title;
+            _selectedNav = title;
         }
 
         public HTMLElement Render()
@@ -214,9 +300,14 @@ namespace Tesserae
                     Select(_initiallySelectedID);
                 }
 
-                var ro = new ResizeObserver();
-                ro.Observe(StylingContainer);
-                ro.OnResize = () => TriggerAnimation();
+                _ro = new ResizeObserver();
+                _ro.Observe(StylingContainer);
+                _ro.OnResize = () =>
+                {
+                    RefreshTabsOverflow(); TriggerAnimation();
+                } ;
+                
+                DomObserver.WhenRemoved(StylingContainer, () => _ro.StopObserving(StylingContainer));
             }
 
             return StylingContainer;
@@ -224,35 +315,26 @@ namespace Tesserae
 
         private void TriggerAnimation()
         {
-            T0 = -1;
+            _t0 = -1;
             window.requestAnimationFrame((t) => AnimateLine(t));
         }
 
-        private HTMLElement SelectedNav;
-        private HTMLElement HoveredNav;
-        private double      T0           = 0;
-        private double      CurrentWidth = 0;
-        private double      CurrentLeft  = 0;
-        private double      TargetWidth;
-        private double      TargetLeft;
-        private double      Left0;
-        private bool        _firstRender = false;
-
         private void AnimateLine(double time)
         {
-            if (T0 < 0)
+            if (_t0 < 0)
             {
-                var target = HoveredNav ?? SelectedNav;
+                var target = _hoveredNav ?? _selectedNav;
 
                 if (target is null) { return; }
-                T0 = time;
-                var r = (DOMRect)target.getBoundingClientRect();
-                TargetWidth = r.width;
-                TargetLeft  = r.left;
-                Left0       = ((DOMRect)RenderedTabs.getBoundingClientRect()).left;
+
+                _t0 = time;
+                var r = target.getBoundingClientRect().As<DOMRect>();
+                _left0       = _renderedTabs.getBoundingClientRect().As<DOMRect>().left;
+                _targetWidth = r.width;
+                _targetLeft  = r.left;
             }
 
-            var f = (time - T0) / 500; //500ms animation
+            var f = (time - _t0) / 500; //500ms animation
 
             if (_firstRender)
             {
@@ -265,12 +347,12 @@ namespace Tesserae
                 f = 1;
             }
 
-            CurrentWidth          += (TargetWidth - CurrentWidth) * f;
-            CurrentLeft           += (TargetLeft  - CurrentLeft)  * f;
-            Line.style.width      =  CurrentWidth          + "px";
-            Line.style.marginLeft =  (CurrentLeft - Left0) + "px";
+            _currentWidth          += (_targetWidth - _currentWidth) * f;
+            _currentLeft           += (_targetLeft  - _currentLeft)  * f;
+            _line.style.width      =  _currentWidth          + "px";
+            _line.style.marginLeft =  (_currentLeft - _left0) + "px";
 
-            if (Math.Abs(CurrentLeft - TargetLeft) > 1e-5 || Math.Abs(CurrentWidth - TargetWidth) > 1e-5)
+            if (Math.Abs(_currentLeft - _targetLeft) > 1e-5 || Math.Abs(_currentWidth - _targetWidth) > 1e-5)
             {
                 window.requestAnimationFrame((t) => AnimateLine(t));
             }
