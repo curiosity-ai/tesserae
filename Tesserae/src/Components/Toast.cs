@@ -20,6 +20,7 @@ namespace Tesserae
         {
             get
             {
+                if (_banner) return Position.TopCenter; //All banners count towards the same "equivalent position"
                 switch (_pos)
                 {
                     case Position.TopRight:     return Position.TopRight;
@@ -97,6 +98,12 @@ namespace Tesserae
         {
             _banner = true;
             _showHideButton = showHideButton;
+
+            if (_pos != Position.TopFull && _pos != Position.BottomFull)
+            {
+                _pos = Position.TopFull;
+            }
+
             return this;
         }
 
@@ -258,18 +265,31 @@ namespace Tesserae
             _renderedContent = BuildRenderedContent();
             var captured = _renderedContent;
 
-            if(_showHideButton)
+            if (_showHideButton)
             {
                 var btn = Button().SetIcon(UIcons.Cross).OnClick(() => Hide()).NoMinSize().NoPadding().Class("tss-banner-hide-button");
                 _renderedContent.querySelector(".tss-toast-container").As<HTMLElement>().appendChild(btn.Render());
             }
 
             _renderedContent.classList.add("tss-banner");
+
+            if (_pos == Position.BottomFull)
+            {
+                _renderedContent.classList.add("tss-banner-bottom");
+            }
+
             document.body.appendChild(_renderedContent);
             var rect = _renderedContent.querySelector(".tss-toast-container").As<HTMLElement>().getBoundingClientRect().As<DOMRect>();
             var h = rect.height + "px";
             document.body.style.setProperty("height", $"calc(100vh - {h})", "important");
-            document.body.style.setProperty("margin-top", h, "important");
+            if (_pos == Position.BottomFull)
+            {
+                document.body.style.setProperty("margin-top", "0", "important");
+            }
+            else
+            {
+                document.body.style.setProperty("margin-top", h, "important");
+            }
             document.body["tssBannerActive"] = captured;
             DomObserver.WhenRemoved(_renderedContent, () =>
             {

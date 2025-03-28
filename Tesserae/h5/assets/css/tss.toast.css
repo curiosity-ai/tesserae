@@ -146,6 +146,11 @@
     margin: 0px;
 }
 
+.tss-banner.tss-banner-bottom {
+    top: unset;
+    /*no need to set bottom:0 because the banner will already render on the bottom */
+}
+
     .tss-banner.tss-toast > .tss-toast-container {
         margin: 0px;
         height: fit-content;
