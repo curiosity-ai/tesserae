@@ -38,7 +38,7 @@ namespace Tesserae
 
         public Pivot()
         {
-            _moreBtn          = Button().SetIcon(UIcons.MenuDots).Class("tss-pivot-titlebar-more").OnClick(() => ShowMoreTabs());
+            _moreBtn          = Button().SetIcon(UIcons.MenuDots).NoMinSize().W(32).HS().NoPadding().Class("tss-pivot-titlebar-more").OnClick(() => ShowMoreTabs());
             _line             = Div(_("tss-pivot-line"));
             _renderedTabs     = Div(_("tss-pivot-titlebar"));
             _renderedContent  = Div(_("tss-pivot-content"));
@@ -89,19 +89,21 @@ namespace Tesserae
 
         private void RefreshTabsOverflow(HTMLElement willSelect = null)
         {
-            var moreWidth = 32;
+            if (_moreBtn.IsMounted())
+            {
+                _moreBtn.Render().remove();
+            }
+
+            var moreWidth = 40;
             var maxWidth = _renderedTabs.getBoundingClientRect().As<DOMRect>().width - moreWidth;
             double curWidth = 0;
             bool hasMore = false;
             
             var orderedTitles = _orderedTabs.Select(t => _renderedTitles[t]).ToArray();
 
-            if (willSelect is object)
+            foreach (var rendered in orderedTitles)
             {
-                foreach (var rendered in orderedTitles)
-                {
-                    rendered.classList.remove("tss-pivot-titlebar-hidden-overflow");
-                }
+                rendered.classList.remove("tss-pivot-titlebar-hidden-overflow");
             }
 
             orderedTitles = orderedTitles.OrderBy(e => (e == willSelect  || (willSelect is null && e.classList.contains("tss-pivot-selected-title"))) ? 0 : 1).ToArray();
@@ -123,10 +125,6 @@ namespace Tesserae
             if (hasMore)
             {
                 _renderedTabs.appendChild(_moreBtn.Render());
-            }
-            else if (_moreBtn.IsMounted())
-            {
-                _moreBtn.Render().remove();
             }
         }
 
