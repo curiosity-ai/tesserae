@@ -52,7 +52,7 @@ namespace Tesserae.Tests.src.Samples.Collections
 
         private static int                              _viewBoxHeight = 500;
         public static  int                              ElementIndex;
-        public static  ObservableList<IComponentWithID> StackElementsList1;
+        public static  ObservableList<IComponentWithID> StackElementsList;
 
 
         public ObservableStackSample()
@@ -60,44 +60,33 @@ namespace Tesserae.Tests.src.Samples.Collections
             var mainButton = Button("Some Text").TextLeft().MinWidth(200.px()).Ellipsis().IconOnHover();
             mainButton.Tooltip("Tooltip for the main Button").SetIcon(UIcons.AngleLeft, Theme.Primary.Background);
 
-            StackElementsList1 = new ObservableList<IComponentWithID>();
+            StackElementsList = new ObservableList<IComponentWithID>();
 
-            StackElementsList1.Observe(c => console.log(string.Join(", ", c.Select(e => e.Identifier))));
 
-            var obsStack = new ObservableStack(StackElementsList1, debounce: true);
+            var obsStack = new ObservableStack(StackElementsList, debounce: true);
 
-            StackElementsList1.ReplaceAll(UpdateIsLast(Enumerable.Range(0, 4).Select(i => new StackElements(displayName: i.ToString(), id: i.ToString())).ToArray()));
+            StackElementsList.ReplaceAll(Enumerable.Range(0, 4).Select(i => new StackElements(displayName: i.ToString(), id: i.ToString())).ToArray());
             ElementIndex = 4;
 
             _content = SectionStack()
                .Title(SampleHeader(nameof(ObservableStackSample)))
                .Section(Stack().Children(
-                    SampleTitle("Overview"),
-                    TextBlock("A stack that observes a list of elements with an Identifier and a ContentHash. "
-                      + "Opposed to a Defer, which rerenders the whole element. "
-                      + "This Stack uses reconciliation to edit the DOM nodes to match the items in the observable liest. "
-                      + "The data filed on the DOM elements is used to attach an identifer and a hash to the element to detect changes. ")))
+                        SampleTitle("Overview"),
+                        TextBlock("The ObservableStack is a container display element that efficiently updates its contents using reconciliation rather than full re-renders. Unlike the Defer component, which refreshes entirely based on observables, the Stack selectively patches existing DOM elements to reflect changes in an observable list.\n"
+                          + "Each element in the Stack is tracked using an Identifier and a ContentHash, which are stored in the DOM’s data field. This allows the component to compare updates without inspecting the actual rendered content. If an element’s position and hash remain unchanged, it is left untouched; otherwise, it is updated in place. This approach significantly improves performance, especially in scenarios where maintaining UI state—such as scroll position—is critical.\n"
+                          + "The reconciliation process is optimized to update only necessary parts of the DOM, preventing unnecessary reflows and repaints. Additionally, a debounce mechanism helps control update frequency, though care should be taken to avoid race conditions.\n"
+                          + "The Stack integrates seamlessly with the frontend library’s observable list feature, making it an ideal choice for dynamic interfaces that require efficient, incremental updates.").BreakSpaces()
+                    )
+                )
                .Section(Stack().Children(SampleTitle("Observable Stack"),
                         SplitView()
                            .Left(VStack().Children(
-                                HStack().Children(
-                                    Button("Check").OnClick(() =>
-                                    {
-                                        if (obsStack.RunCheckIfReconcileWorked(StackElementsList1.Value))
-                                        {
-                                            Toast().Success("Check success");
-                                        }
-                                        else
-                                        {
-                                            Toast().Warning("Check failed");
-                                        }
-                                    }),
-                                    Button("Randomize").OnClick(() =>
-                                    {
-                                        StackElementsList1.ReplaceAll(UpdateIsLast(StackElementsList1.Value.ToList().OrderBy(_ => Math.Random()).ToList()));
-                                    })),
+                                Button("Randomize").OnClick(() =>
+                                {
+                                    StackElementsList.ReplaceAll(StackElementsList.Value.ToList().OrderBy(_ => Math.Random()).ToList());
+                                }),
                                 Label("Edit Elements").SetContent(
-                                    VStack().Children(DeferSync(StackElementsList1, currentElements =>
+                                    VStack().Children(DeferSync(StackElementsList, currentElements =>
                                         {
                                             var stack = VStack();
 
@@ -108,35 +97,28 @@ namespace Tesserae.Tests.src.Samples.Collections
                                                 stack.Add(
                                                     HStack().AlignItemsCenter().WS().JustifyContent(ItemJustify.Evenly).Children(Button().SetIcon(UIcons.ArrowUp).OnClick(() =>
                                                         {
-                                                            console.log($"{index} move up");
-                                                            var newList = StackElementsList1.Value.ToList();
+                                                            var newList = StackElementsList.Value.ToList();
                                                             MoveItem(newList, index, Math.Max(index - 1, 0));
-                                                            StackElementsList1.ReplaceAll(UpdateIsLast(newList));
+                                                            StackElementsList.ReplaceAll(newList);
                                                         }),
                                                         Button().SetIcon(UIcons.ArrowDown).OnClick(() =>
                                                         {
-                                                            console.log($"{index} move down");
-
-                                                            var newList = StackElementsList1.Value.ToList();
+                                                            var newList = StackElementsList.Value.ToList();
                                                             MoveItem(newList, index, Math.Min(index + 1, newList.Count - 1));
-                                                            StackElementsList1.ReplaceAll(UpdateIsLast(newList));
+                                                            StackElementsList.ReplaceAll(newList);
                                                         }),
                                                         TextBox(currentElements[i].As<StackElements>().DisplayName).OnBlur((tb, e) =>
                                                         {
-                                                            console.log($"{index} rename");
-
                                                             var updatedText = tb.Text;
 
-                                                            var newList = StackElementsList1.Value.ToList();
+                                                            var newList = StackElementsList.Value.ToList();
 
                                                             var reference = newList[index].As<StackElements>();
                                                             reference.DisplayName = updatedText;
 
                                                             newList[index] = reference;
 
-                                                            StackElementsList1.ReplaceAll(UpdateIsLast(newList));
-
-
+                                                            StackElementsList.ReplaceAll(newList);
                                                         }).Background(currentElements[i].As<StackElements>().Color))
                                                 );
                                             }
@@ -161,34 +143,12 @@ namespace Tesserae.Tests.src.Samples.Collections
             list.Insert(newIndex, item);
         }
 
-        private static List<IComponentWithID> UpdateIsLast(IReadOnlyList<IComponentWithID> stackElementsList)
-        {
-            var elements = stackElementsList.ToList();
-//            bool anyChanged = false;
-//
-//            for (int i = 0; i < elements.Count; i++)
-//            {
-//                var element       = elements[i];
-//                var isLastElement = (i == elements.Count - 1);
-//
-//                if (element is StackElements stackElement && stackElement.IsLast != isLastElement)
-//                {
-//                    stackElement.IsLast = isLastElement;
-//                    anyChanged          = true;
-//                }
-//            }
-
-            return elements;
-        }
-
         public static void Add()
         {
-            console.log($"add");
-
             ElementIndex++;
-            var newList = StackElementsList1.Value.ToList();
+            var newList = StackElementsList.Value.ToList();
             newList.Add(new StackElements(displayName: ElementIndex.ToString(), id: ElementIndex.ToString()));
-            StackElementsList1.ReplaceAll(UpdateIsLast(newList));
+            StackElementsList.ReplaceAll(newList);
         }
 
         public HTMLElement Render()
