@@ -18,6 +18,12 @@
       "name": "images",
       "files": [ "h5/assets/img/*" ],
       "output": "assets/img"
+    },
+    {
+      "name": "tss-samples.css",
+      "files": [
+        "h5/assets/css/tss-samples.css"
+      ]
     }
   ],
   "cleanOutputFolderBeforeBuildPattern": "*.js|*.css|*.dontload", // See warning above about not using "cleanOutputFolderBeforeBuildPattern": "*.*"

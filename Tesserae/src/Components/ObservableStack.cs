@@ -209,7 +209,14 @@ namespace Tesserae
 
                     if (oldIndex < lastIndex)
                     {
-                        parent.appendChild(existingChild.RenderedElement);
+                        if (lastIndex >= parent.children.length)
+                        {
+                            parent.appendChild(existingChild.RenderedElement);
+                        }
+                        else
+                        {
+                            parent.insertBefore(existingChild.RenderedElement, parent.children[(uint)lastIndex + 1]);
+                        }
                     }
                     else
                     {
@@ -245,17 +252,70 @@ namespace Tesserae
                     parent.appendChild(newItem);
                 }
             }
+
+            RunCheckIfReconcileWorked(newChildren);
         }
-        public ObservableStack(ObservableList<IComponentWithID> observableList, Orientation orientation = Orientation.Vertical)
+
+        public bool RunCheckIfReconcileWorked(IReadOnlyList<IComponentWithID> current)
+        {
+            var parent = InnerElement;
+
+            var final = parent.children.Select(c =>
+            {
+                var dataset     = c.As<HTMLElement>().dataset;
+                var identifier  = dataset["tssid"].As<string>();
+                var contentHash = dataset["tsshash"].As<string>();
+
+                return (Identifier: identifier, ContentHash: contentHash);
+            }).ToArray();
+
+            var updated = current.Select(e =>
+            {
+                return (e.Identifier, e.ContentHash);
+
+            }).ToArray();
+
+            console.log("expected ", string.Join(", ", updated.Select(e => $"{e.Identifier}:{e.ContentHash}")));
+            console.log("actual   ", string.Join(", ", final.Select(e => $"{e.Identifier}:{e.ContentHash}")));
+
+
+            for (int i = 0; i < updated.Length; i++)
+            {
+                if (updated[i].ContentHash != final[i].ContentHash || updated[i].ContentHash != final[i].ContentHash)
+                {
+                    console.error("ReconcileChildren failed");
+
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public ObservableStack(ObservableList<IComponentWithID> observableList, Orientation orientation = Orientation.Vertical, bool debounce = true)
         {
             InnerElement     = Div(_("tss-stack"));
             StackOrientation = orientation;
             _observableList  = observableList;
 
-            _observableList.Observe(currentValues =>
+            if (debounce)
             {
-                ReconcileChildren(currentValues);
-            });
+                var debouncer = new DebouncerWithMaxDelay(() =>
+                {
+                    ReconcileChildren(_observableList.Value);
+                }, delayInMs: 16, maxDelayInMs: 300);
+
+                _observableList.Observe(currentValues =>
+                {
+                    debouncer.RaiseOnValueChanged();
+                });
+            }
+            else
+            {
+                _observableList.Observe(currentValues =>
+                {
+                    ReconcileChildren(currentValues);
+                });
+            }
         }
 
         private event ComponentEventHandler<ObservableStack, Event> MouseOver;
@@ -470,11 +530,12 @@ namespace Tesserae
 
             return this;
         }
+    }
 
-        public interface IComponentWithID : IComponent
-        {
-            string Identifier  { get; }
-            string ContentHash { get; }
-        }
+    [H5.Name("tss.ICID")]
+    public interface IComponentWithID : IComponent
+    {
+        string Identifier  { get; }
+        string ContentHash { get; }
     }
 }

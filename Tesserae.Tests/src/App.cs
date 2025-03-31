@@ -227,7 +227,7 @@ namespace Tesserae.Tests
 
             foreach (var kv in samples)
             {
-                Router.Register($"#/view/{kv.Key}", _ => currentPage.Value = kv.Value);
+                Router.Register($"#/view/{kv.Key.Replace(" ", "%20")}", _ => currentPage.Value = kv.Value);
             }
 
             Router.Initialize();
