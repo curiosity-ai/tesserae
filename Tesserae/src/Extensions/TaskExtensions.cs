@@ -10,7 +10,7 @@ namespace Tesserae
     public static class TaskExtensions
     {
         /// <summary>
-        /// Bridge doesn't support Task.Completed, so we'll fill in something similar
+        /// H5 doesn't support Task.Completed, so we'll fill in something similar
         /// </summary>
         public static Task Completed { get; } = BuildCompletedTask();
 
@@ -74,7 +74,7 @@ namespace Tesserae
 
         public static async Task<T> Unwrap<T>(this Task<Task<T>> task)
         {
-            // 2020-02-07 DWR: Can't just "return await await task;" because Bridge will fail at runtime
+            // 2020-02-07 DWR: Can't just "return await await task;" because H5 will fail at runtime
             var onceUnwrappedTask = await task;
             return await onceUnwrappedTask;
         }

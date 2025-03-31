@@ -11,7 +11,7 @@
     // Note: Unlike the library projects (eg. Mosaik.UI), we don't have to include the names of the compiled-from-C# JS (and their metadata files) in the resources list here (as documented
     // at https://github.com/h5dotnet/Bridge/issues/3704)
     // WARNING: When relying on assets to get copied into the output folder by VS, we can't use the full "cleanOutputFolderBeforeBuildPattern": "*.*" option because it will delete those
-    // files after they've been copied because they get copied AND THEN Bridge does its work ("cleanOutputFolderBeforeBuildPattern": "*.*" would be the ideal configuration because it means
+    // files after they've been copied because they get copied AND THEN H5 does its work ("cleanOutputFolderBeforeBuildPattern": "*.*" would be the ideal configuration because it means
     // that builds are more reliable - it's not possible for artifacts from previous builds to exist). A compromise is to use "cleanOutputFolderBeforeBuildPattern": "*.js|*.css" so we can
     // let VS copy in other asset types, such as images, instead of us having to include EVERY additional image and other file in the resources list here).
     {

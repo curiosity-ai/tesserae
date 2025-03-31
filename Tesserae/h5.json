@@ -5,7 +5,7 @@
   "outputFormatting": "Both",
   "resources": [
     // Include the JS that is compiled from the C# in this project - be sure to include non-minified AND minified version (and to include the meta data files required for reflection)
-    // because Bridge will only include ".min.js" versions of resources when a project that references this is built in Release and will only include NON-".min.js" versions when built
+    // because H5 will only include ".min.js" versions of resources when a project that references this is built in Release and will only include NON-".min.js" versions when built
     // in Debug (this is the default behaviour for projects that don't have any external resources to build into the binary but when a "resources" section is present in a h5.json
     // file then that default behaviour is lost and must be opted back into - see suggestion 1 at the bottom of he opening comment on https://github.com/h5dotnet/Bridge/issues/3991).
     {
@@ -32,10 +32,10 @@
         "$(OutDir)h5/tss.meta.min.js"
       ]
     },
-    //Because Bridge will monkey about with JS file names depending upon build configuration (only ".min.js" for Release builds and NO ".min.js" for Debug builds), we need to be a bit
+    //Because H5 will monkey about with JS file names depending upon build configuration (only ".min.js" for Release builds and NO ".min.js" for Debug builds), we need to be a bit
     //careful with how external JS files are referenced. We COULD maintain minified and regular versions of all libraries in this project and then individually reference all of them
     //twice (once min'd and once not) in this section but that seems like a lot of work. An alternative is to bundle them together - once as a ".min.js" file and again as a non-".min.js"
-    //file. This is still a bit of a faff because the file lists appear twice and we need to be careful to keep them in sync. Maybe Bridge will change the behaviour one day regarding the
+    //file. This is still a bit of a faff because the file lists appear twice and we need to be careful to keep them in sync. Maybe H5 will change the behaviour one day regarding the
     //file name changes - if there is no "jquery.js" file then it shouldn't rename "jquery.min.js" when in Debug configuration! (See https://github.com/h5dotnet/Bridge/issues/3992).
     {
       "name": "tss-dep.js",
@@ -59,7 +59,7 @@
       ],
       "output": "assets/js"
     },
-    // There is no technical requirement for the CSS files to be combined but it makes it clearer that their content relates to the combined JS content (and it makes the Bridge-generated
+    // There is no technical requirement for the CSS files to be combined but it makes it clearer that their content relates to the combined JS content (and it makes the H5-generated
     // index.html file cleaner)
     {
       "name": "tss.css",
