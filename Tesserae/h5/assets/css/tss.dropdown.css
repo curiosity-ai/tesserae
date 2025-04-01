@@ -82,6 +82,10 @@
         top: calc(50% - var(--tss-font-size-small) / 2);
     }
 
+    .tss-dropdown.tss-dropdown-custom-icon{
+        margin-right:22px;
+    }
+
 
     .tss-dropdown-container.tss-invalid > .tss-dropdown {
         border: 1px solid var(--tss-invalid-border-color);
