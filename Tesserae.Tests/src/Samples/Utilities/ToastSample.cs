@@ -79,14 +79,13 @@ namespace Tesserae.Tests.Samples
                             Button().SetText("Success").OnClick(() => Toast().BottomFull().Success("This is a title", "Success!")),
                             Button().SetText("Warning").OnClick(() => Toast().BottomFull().Warning("This is a title", "Warning!")),
                             Button().SetText("Error").OnClick(() => Toast().BottomFull().Error("This is a title", "Error!"))),
-
                         SampleSubTitle("Toast as banner"),
                         HStack().Children(
                             Button().SetText("Info on top").OnClick(() => Toast().TopFull().Banner().Information("This is a banner", "Info!")),
                             Button().SetText("Success on top").OnClick(() => Toast().TopFull().Banner().Success("This is a banner", "Success!")),
                             Button().SetText("Warning on bottom").OnClick(() => Toast().BottomFull().Banner().Warning("This is a banner", "Warning!")),
                             Button().SetText("Error on bottom").OnClick(() => Toast().BottomFull().Banner().Error("This is a banner", "Error!")))
-                        ));
+                    ));
         }
 
         public HTMLElement Render()
