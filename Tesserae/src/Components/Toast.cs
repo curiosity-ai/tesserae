@@ -16,6 +16,9 @@ namespace Tesserae
         private bool     _banner = false;
         private bool     _showHideButton;
 
+        private bool _dismissOnClick = true;
+
+
         private Position _simPos
         {
             get
@@ -195,6 +198,12 @@ namespace Tesserae
             return this;
         }
 
+        public Toast NoDismiss(bool value = true)
+        {
+            _dismissOnClick = !value;
+            return this;
+        }
+
         private void Fire()
         {
             _contentHtml = Div(_("tss-toast tss-toast-" + _type + " tss-toast-" + _pos), _toastContainer);
@@ -214,11 +223,14 @@ namespace Tesserae
                 ClearTimeout();
             };
 
-            _toastContainer.onclick = (e) =>
+            if (_dismissOnClick)
             {
-                ClearTimeout();
-                RemoveAndHide();
-            };
+                _toastContainer.onclick = (e) =>
+                {
+                    ClearTimeout();
+                    RemoveAndHide();
+                };
+            }
 
             _toastContainer.onmouseleave = (e) =>
             {
