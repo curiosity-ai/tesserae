@@ -13,14 +13,18 @@ namespace Tesserae
 
         private Type     _type = Type.Information;
         private Position _pos { get; set; } = DefaultPosition;
-        private bool _banner = false;
-        private bool _showHideButton;
+        private bool     _banner = false;
+        private bool     _showHideButton;
+
+        private bool _dismissOnClick = true;
+
 
         private Position _simPos
         {
             get
             {
                 if (_banner) return Position.TopCenter; //All banners count towards the same "equivalent position"
+
                 switch (_pos)
                 {
                     case Position.TopRight:     return Position.TopRight;
@@ -96,7 +100,7 @@ namespace Tesserae
 
         public Toast Banner(bool showHideButton = true)
         {
-            _banner = true;
+            _banner         = true;
             _showHideButton = showHideButton;
 
             if (_pos != Position.TopFull && _pos != Position.BottomFull)
@@ -194,6 +198,12 @@ namespace Tesserae
             return this;
         }
 
+        public Toast NoDismiss(bool value = true)
+        {
+            _dismissOnClick = !value;
+            return this;
+        }
+
         private void Fire()
         {
             _contentHtml = Div(_("tss-toast tss-toast-" + _type + " tss-toast-" + _pos), _toastContainer);
@@ -213,11 +223,14 @@ namespace Tesserae
                 ClearTimeout();
             };
 
-            _toastContainer.onclick = (e) =>
+            if (_dismissOnClick)
             {
-                ClearTimeout();
-                RemoveAndHide();
-            };
+                _toastContainer.onclick = (e) =>
+                {
+                    ClearTimeout();
+                    RemoveAndHide();
+                };
+            }
 
             _toastContainer.onmouseleave = (e) =>
             {
@@ -248,7 +261,7 @@ namespace Tesserae
 
             RefreshPositioning();
 
-            if(_banner)
+            if (_banner)
             {
                 ShowAsBanner();
             }
@@ -280,8 +293,9 @@ namespace Tesserae
 
             document.body.appendChild(_renderedContent);
             var rect = _renderedContent.querySelector(".tss-toast-container").As<HTMLElement>().getBoundingClientRect().As<DOMRect>();
-            var h = rect.height + "px";
+            var h    = rect.height + "px";
             document.body.style.setProperty("height", $"calc(100vh - {h})", "important");
+
             if (_pos == Position.BottomFull)
             {
                 document.body.style.setProperty("margin-top", "0", "important");
@@ -291,12 +305,13 @@ namespace Tesserae
                 document.body.style.setProperty("margin-top", h, "important");
             }
             document.body["tssBannerActive"] = captured;
+
             DomObserver.WhenRemoved(_renderedContent, () =>
             {
                 if (document.body["tssBannerActive"] == captured)
                 {
-                    document.body.style.height = "";
-                    document.body.style.marginTop = "";
+                    document.body.style.height       = "";
+                    document.body.style.marginTop    = "";
                     document.body["tssBannerActive"] = null;
                 }
             });
@@ -311,7 +326,7 @@ namespace Tesserae
                 foreach (var t in kv.Value)
                 {
                     t.Measure();
-                    
+
                     if (t._banner) continue;
 
                     switch (kv.Key)
