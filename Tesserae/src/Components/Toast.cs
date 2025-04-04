@@ -17,7 +17,7 @@ namespace Tesserae
         private bool     _showHideButton;
 
         private bool _dismissOnClick = true;
-
+        private bool _overwrite      = true;
 
         private Position _simPos
         {
@@ -205,6 +205,12 @@ namespace Tesserae
             return this;
         }
 
+        public Toast NoOverwrite(bool value = true)
+        {
+            _overwrite = !value;
+            return this;
+        }
+
         private void Fire()
         {
             _contentHtml = Div(_("tss-toast tss-toast-" + _type + " tss-toast-" + _pos), _toastContainer);
@@ -250,11 +256,14 @@ namespace Tesserae
             {
                 if (otherToast._toastContainer.textContent == textContent)
                 {
-                    otherToast.RemoveAndHide();
-                }
-                else if (_banner && otherToast._banner)
-                {
-                    otherToast.RemoveAndHide();
+                    if (_overwrite)
+                    {
+                        otherToast.RemoveAndHide();
+                    }
+                    else if (_banner && otherToast._banner)
+                    {
+                        otherToast.RemoveAndHide();
+                    }
                 }
             }
 
