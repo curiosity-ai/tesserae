@@ -477,3 +477,35 @@
     min-width:20px;
     padding: 0px;
 }
+
+
+
+@media screen and (min-height: 1000px) {
+    .tss-sidebar-btn-open > .tss-btn {
+        height: 36px !important;
+    }
+
+    .tss-sidebar-commands {
+        top: 6px;
+    }
+
+    .tss-sidebar-nav-header > .tss-sidebar-nav-arrow.tss-btn {
+        top: 8px;
+    }
+
+    .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn.tss-btn, .tss-sidebar .tss-sidebar-commands-line .tss-btn, .tss-sidebar-commands-line-extra .tss-btn {
+        height: 36px !important;
+    }
+
+    .tss-sidebar-btn-has-icon-click.tss-btn > i,
+    .tss-sidebar-btn-has-icon-click.tss-btn > .tss-btn-with-image > .tss-image {
+        height: 36px !important;
+        line-height: 36px !important;
+    }
+
+        .tss-sidebar-btn-has-icon-click.tss-btn > i:hover,
+        .tss-sidebar-btn-has-icon-click.tss-btn > .tss-btn-with-image > .tss-image:hover {
+            height: 36px !important;
+            line-height: 36px !important;
+        }
+}
