@@ -1,0 +1,8 @@
+@keyframes highlight {
+    0% { background-color: orange; }
+    100% { background-color: transparent; }
+}
+
+.flash-bg {
+    animation: highlight 2s ease-out;
+}
