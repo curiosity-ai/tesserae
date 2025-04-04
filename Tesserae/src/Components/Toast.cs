@@ -114,6 +114,7 @@ namespace Tesserae
         public Toast Duration(TimeSpan timeSpan)
         {
             _timeoutDuration = (int)timeSpan.TotalMilliseconds;
+            ResetTimeout();
             return this;
         }
 
