@@ -1,6 +1,7 @@
 ﻿using H5;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using static H5.Core.dom;
 using static Tesserae.UI;
 
@@ -211,23 +212,67 @@ namespace Tesserae
             return this;
         }
 
-        private void Fire()
+        private void UpdateContainer()
         {
-            _contentHtml = Div(_("tss-toast tss-toast-" + _type + " tss-toast-" + _pos), _toastContainer);
+            _contentHtml.className = "tss-toast tss-toast-" + _type + " tss-toast-" + _pos;
 
             if (_title is object)
             {
-                _toastContainer.appendChild(Div(_("tss-toast-title"), _title.Render()));
+                var newTitle = Div(_("tss-toast-title"), _title.Render());
+
+                if (_toastContainer.children.TryGetFirst(c => c.className.Contains("tss-toast-title"), out var currentTitle))
+                {
+                    _toastContainer.replaceChild(newTitle, currentTitle);
+                }
+                else
+                {
+                    if (_toastContainer.children.Any())
+                    {
+                        _toastContainer.insertBefore(newTitle, _toastContainer.firstChild);
+                    }
+                    else
+                    {
+                        _toastContainer.appendChild(newTitle);
+                    }
+                }
+            }
+            else
+            {
+                if (_toastContainer.children.TryGetFirst(c => c.className.Contains("tss-toast-title"), out var currentTitle))
+                {
+                    _toastContainer.removeChild(currentTitle);
+                }
             }
 
             if (_message is object)
             {
-                _toastContainer.appendChild(Div(_("tss-toast-message"), _message.Render()));
+                var newMessage = Div(_("tss-toast-message"), _message.Render());
+
+                if (_toastContainer.children.TryGetFirst(c => c.className.Contains("tss-toast-message"), out var currentMessage))
+                {
+                    _toastContainer.replaceChild(newMessage, currentMessage);
+                }
+                else
+                {
+                    _toastContainer.appendChild(newMessage);
+                }
+            }
+            else
+            {
+                if (_toastContainer.children.TryGetFirst(c => c.className.Contains("tss-toast-message"), out var currentMessage))
+                {
+                    _toastContainer.removeChild(currentMessage);
+                }
             }
 
             _toastContainer.onmouseenter = (e) =>
             {
                 ClearTimeout();
+            };
+
+            _toastContainer.onmouseleave = (e) =>
+            {
+                ResetTimeout();
             };
 
             if (_dismissOnClick)
@@ -238,11 +283,15 @@ namespace Tesserae
                     RemoveAndHide();
                 };
             }
-
-            _toastContainer.onmouseleave = (e) =>
+            else
             {
-                ResetTimeout();
-            };
+                _toastContainer.onclick = null;
+            }
+
+            foreach (var kv in OpenToasts)
+            {
+                kv.Value.Remove(this);
+            }
 
             if (!OpenToasts.TryGetValue(_simPos, out var list))
             {
@@ -250,37 +299,94 @@ namespace Tesserae
                 OpenToasts[_simPos] = list;
             }
 
-            var textContent = _toastContainer.textContent;
-
-            foreach (var otherToast in list.ToArray())
+            if (!list.Contains(this))
             {
-                if (otherToast._toastContainer.textContent == textContent)
-                {
-                    if (_overwrite)
-                    {
-                        otherToast.RemoveAndHide();
-                    }
-                    else if (_banner && otherToast._banner)
-                    {
-                        otherToast.RemoveAndHide();
-                    }
-                }
+                list.Add(this);
             }
 
-            list.Add(this);
-
             RefreshPositioning();
+            ResetTimeout();
+        }
 
-            if (_banner)
+        private void Fire()
+        {
+            if (_contentHtml is object && _contentHtml.IsMounted())
             {
-                ShowAsBanner();
+                UpdateContainer();
             }
             else
             {
-                Show();
-            }
+                _contentHtml = Div(_("tss-toast tss-toast-" + _type + " tss-toast-" + _pos), _toastContainer);
 
-            ResetTimeout();
+                Script.Write("{0}.replaceChildren()", _toastContainer); // clear all children
+
+                if (_title is object)
+                {
+                    _toastContainer.appendChild(Div(_("tss-toast-title"), _title.Render()));
+                }
+
+                if (_message is object)
+                {
+                    _toastContainer.appendChild(Div(_("tss-toast-message"), _message.Render()));
+                }
+
+                _toastContainer.onmouseenter = (e) =>
+                {
+                    ClearTimeout();
+                };
+
+                if (_dismissOnClick)
+                {
+                    _toastContainer.onclick = (e) =>
+                    {
+                        ClearTimeout();
+                        RemoveAndHide();
+                    };
+                }
+
+                _toastContainer.onmouseleave = (e) =>
+                {
+                    ResetTimeout();
+                };
+
+                if (!OpenToasts.TryGetValue(_simPos, out var list))
+                {
+                    list                = new List<Toast>();
+                    OpenToasts[_simPos] = list;
+                }
+
+                var textContent = _toastContainer.textContent;
+
+                foreach (var otherToast in list.ToArray())
+                {
+                    if (otherToast._toastContainer.textContent == textContent)
+                    {
+                        if (_overwrite)
+                        {
+                            otherToast.RemoveAndHide();
+                        }
+                        else if (_banner && otherToast._banner)
+                        {
+                            otherToast.RemoveAndHide();
+                        }
+                    }
+                }
+
+                list.Add(this);
+
+                RefreshPositioning();
+
+                if (_banner)
+                {
+                    ShowAsBanner();
+                }
+                else
+                {
+                    Show();
+                }
+
+                ResetTimeout();
+            }
         }
 
         private void ShowAsBanner()
@@ -345,12 +451,14 @@ namespace Tesserae
                         case Position.TopCenter:
                         case Position.TopLeft:
                         case Position.TopFull:
-                            t._toastContainer.style.marginTop = $"{sum + 16}px";
+                            t._toastContainer.style.marginTop    = $"{sum + 16}px";
+                            t._toastContainer.style.marginBottom = null;
                             break;
                         case Position.BottomRight:
                         case Position.BottomCenter:
                         case Position.BottomLeft:
                         case Position.BottomFull:
+                            t._toastContainer.style.marginTop    = null;
                             t._toastContainer.style.marginBottom = $"{sum + 16}px";
                             break;
                     }
