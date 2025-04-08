@@ -3,8 +3,8 @@
 .tss-toast {
     display: flex;
     visibility: visible;
-    height:100%;
-    pointer-events:none;
+    height: 100%;
+    pointer-events: none;
 }
 
 .tss-toast-container {
@@ -16,14 +16,14 @@
     margin-bottom: auto;
     box-shadow: var(--tss-toast-shadow);
     pointer-events: all;
-    opacity:0.85;
-    border-radius:3px;
+    opacity: 0.85;
+    border-radius: 3px;
     transition: all 0.3s ease-in-out;
 }
 
-.tss-toast-container:hover{
-    opacity:1;
-    cursor:pointer;
+.tss-toast-container:hover {
+    opacity: 1;
+    cursor: pointer;
 }
 
 .tss-toast-title {
@@ -68,7 +68,7 @@
     margin-right: auto;
     margin-left: auto;
     min-width: 300px;
-    max-width:50vw;
+    max-width: 50vw;
     align-items: center;
     justify-content: center;
 }
@@ -93,7 +93,7 @@
     overflow: hidden;
 }
 
-.tss-toast-message > .tss-textblock{
+.tss-toast-message > .tss-textblock {
     text-overflow: ellipsis;
     overflow: hidden;
 }
