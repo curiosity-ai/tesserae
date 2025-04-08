@@ -18,12 +18,15 @@ namespace Tesserae
 
         private readonly Dictionary<ICanValidate, (Func<bool> WouldBeValid, Action Validate)> _registeredComponents;
         private readonly HashSet<ICanValidate>                                                _registeredComponentsThatUserHasInteractedWith;
-        private          double                                                               _timeout    = 0;
-        private          int                                                                  _callsDepth = 0;
+        private          DebouncerWithMaxDelay                                                _debouncer;
+
+        private int _callsDepth = 0;
         public Validator()
         {
             _registeredComponents                          = new Dictionary<ICanValidate, (Func<bool>, Action)>();
             _registeredComponentsThatUserHasInteractedWith = new HashSet<ICanValidate>();
+
+            _debouncer = new DebouncerWithMaxDelay(() => RaiseOnValidationInternal(), delayInMs: 100, maxDelayInMs: 3000);
         }
 
         public void Register<T>(ICanValidate<T> component, Func<bool> wouldBeValid, Action validate) where T : ICanValidate<T>
@@ -73,18 +76,28 @@ namespace Tesserae
 
         private void RaiseOnValidation()
         {
-            // Debounce validation, as this can become expensive when creating a large number of components using the same validator
-            window.clearTimeout(_timeout);
+            _debouncer.RaiseOnValueChanged();
+        }
 
-            _timeout = window.setTimeout(
-                _ =>
-                {
-                    // Do NOT force a full revalidation just because one thing has changed, only validate components that the User has edited so far (call Revalidate() or check IsValid to force a FULL revalidation)
-                    var validity = GetValidity(validateOnlyUserEditedComponents: true, updateComponentAppearances: true);
-                    ValidationOccured?.Invoke(validity);
-                },
-                100
-            );
+        private void RaiseOnValidationInternal()
+        {
+            // Do NOT force a full revalidation just because one thing has changed, only validate components that the User has edited so far (call Revalidate() or check IsValid to force a FULL revalidation)
+            var validity = GetValidity(validateOnlyUserEditedComponents: true, updateComponentAppearances: true);
+            ValidationOccured?.Invoke(validity);
+        }
+
+        /// <summary>
+        /// The milliseconds must be a value of at least one, trying to disable Debounce by passing a zero (or negative) value is not supported
+        public Validator Debounce(int delayInMs)
+        {
+            _debouncer = new DebouncerWithMaxDelay(() => RaiseOnValidationInternal(), delayInMs: delayInMs);
+            return this;
+        }
+
+        public Validator Debounce(int delayInMs, int maxDelayInMs)
+        {
+            _debouncer = new DebouncerWithMaxDelay(() => RaiseOnValidationInternal(), delayInMs: delayInMs, maxDelayInMs: maxDelayInMs);
+            return this;
         }
 
         /// <summary>
