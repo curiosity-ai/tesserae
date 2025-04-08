@@ -58,6 +58,7 @@
     width: 40px;
     height: 1px;
     background: var(--tss-default-border-color);
+    cursor: s-resize;
 }
 
 .tss-splitview.tss-splitview-horizontal > .tss-splitter:hover:before {
@@ -75,6 +76,7 @@
     height: 40px;
     width: 1px;
     background: var(--tss-default-border-color);
+    cursor: e-resize;
 }
 
 .tss-splitview.tss-splitview-vertical > .tss-splitter:hover:before {
