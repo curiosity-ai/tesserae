@@ -89,6 +89,8 @@ namespace Tesserae
 
         private void RefreshTabsOverflow(HTMLElement willSelect = null)
         {
+            if (!StylingContainer.IsMounted()) return; //Nothing to do yet
+            
             if (_moreBtn.IsMounted())
             {
                 _moreBtn.Render().remove();
