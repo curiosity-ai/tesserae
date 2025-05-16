@@ -304,6 +304,17 @@ namespace Tesserae
                 {
                     RefreshTabsOverflow(); TriggerAnimation();
                 } ;
+
+                DomObserver.WhenMounted(StylingContainer, () =>
+                {
+                    RefreshTabsOverflow();
+                    TriggerAnimation();
+                    //Also do on a timeout to account for animations on modals
+                    window.setTimeout((_) => {
+                        RefreshTabsOverflow();
+                        TriggerAnimation();
+                    }, 1000);
+                });
                 
                 DomObserver.WhenRemoved(StylingContainer, () => _ro.StopObserving(StylingContainer));
             }
