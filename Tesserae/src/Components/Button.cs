@@ -8,9 +8,9 @@ namespace Tesserae
     [H5.Name("tss.Button")]
     public class Button : ComponentBase<Button, HTMLButtonElement>, ITextFormating, IHasBackgroundColor, IHasForegroundColor, ICanWrap
     {
-        private readonly HTMLSpanElement   _textSpan;
-        private          HTMLElement       _iconSpan;
-        private          HTMLButtonElement _spinner;
+        private  HTMLSpanElement   _textSpan;
+        private  HTMLElement       _iconSpan;
+        private  HTMLButtonElement _spinner;
 
         public Button(string text = string.Empty)
         {
@@ -501,27 +501,6 @@ namespace Tesserae
             return this;
         }
 
-        private Button SetIcon(string icon, string color = "", bool afterText = false)
-        {
-            Icon = icon;
-
-            if (_iconSpan is object)
-            {
-                _iconSpan.style.color = color;
-
-                if (afterText)
-                {
-                    InnerElement.removeChild(_iconSpan);
-                    InnerElement.appendChild(_iconSpan);
-                }
-                else
-                {
-                    InnerElement.insertBefore(_iconSpan, _textSpan);
-                }
-            }
-            return this;
-        }
-
         public Button ClearIcon()
         {
             Icon = null;
@@ -597,6 +576,12 @@ namespace Tesserae
             ClearChildren(InnerElement);
             InnerElement.appendChild(content.Render());
             InnerElement.classList.remove("tss-btn-only-icon");
+            return this;
+        }
+        public Button ReplaceText(HTMLSpanElement textSpan)
+        {
+            InnerElement.replaceChild(textSpan, _textSpan);
+            _textSpan = textSpan;
             return this;
         }
 
