@@ -5,6 +5,34 @@ using static H5.Core.dom;
 
 namespace Tesserae
 {
+    [H5.ObjectLiteral]
+    public class TippyInstanceState
+    {
+        public bool isEnabled;
+        public bool isVisible;
+        public bool isDestroyed;
+        public bool isMounted;
+        public bool isShown;
+    }
+
+    [H5.ObjectLiteral]
+    public class TippyInstance
+    {
+        public void clearDelayTimeouts() { }
+        public void destroy() { }
+        public void disable() { }
+        public void enable() { }
+        public void hide() { }
+        public void show() { }
+        public void hideWithInteractivity() { }
+        public int id { get; }
+        public void unmount() { }
+        public HTMLElement reference { get; }
+        public void setContent(HTMLElement content) { }
+
+        public TippyInstanceState state { get; }
+    }
+
     [H5.Name("tss.tippy")]
     public static class Tippy
     {
@@ -28,7 +56,7 @@ namespace Tesserae
             return document.body;
         }
 
-        public static void ShowFor(IComponent hostComponent, IComponent tooltip, out Action hide, TooltipAnimation animation = TooltipAnimation.None, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 0, int delayHide = 0, int maxWidth = 350, bool arrow = false, string theme = null, bool hideOnClick = true, Action onHiddenCallback = null, Func<bool> onHide = null, Action onClickOutside = null)
+        public static void ShowFor(IComponent hostComponent, IComponent tooltip, out Action hide, TooltipAnimation animation = TooltipAnimation.None, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 0, int delayHide = 0, int maxWidth = 350, bool arrow = false, string theme = null, bool hideOnClick = true, Action onHiddenCallback = null, Func<bool> onHide = null, Action<TippyInstance, MouseEvent> onClickOutside = null)
         {
             var rendered = hostComponent.Render();
 
@@ -111,7 +139,7 @@ namespace Tesserae
             return placement;
         }
 
-        public static void ShowFor(HTMLElement hostElement, HTMLElement tooltip, out Action hide, TooltipAnimation animation = TooltipAnimation.None, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 0, int delayHide = 0, int maxWidth = 350, bool arrow = false, string theme = null, bool hideOnClick = true, Action onHiddenCallback = null, Func<bool> onHide = null, Action onClickOutside = null)
+        public static void ShowFor(HTMLElement hostElement, HTMLElement tooltip, out Action hide, TooltipAnimation animation = TooltipAnimation.None, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 0, int delayHide = 0, int maxWidth = 350, bool arrow = false, string theme = null, bool hideOnClick = true, Action onHiddenCallback = null, Func<bool> onHide = null, Action<TippyInstance, MouseEvent> onClickOutside = null)
         {
             if (!hostElement.IsMounted())
             {
