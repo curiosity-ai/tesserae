@@ -32,7 +32,7 @@ namespace Tesserae
         private bool             _isDragged;
         private TranslationPoint _startPoint;
 
-        public bool AnimateOnShow { get; set; } = true;
+        public bool AnimateOnShow { get { return base.AnimateOnShow; } set { base.AnimateOnShow = value; } }
 
         public HTMLElement StylingContainer => _modal;
 

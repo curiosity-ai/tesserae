@@ -75,6 +75,8 @@ namespace Tesserae
             }
         }
 
+        public bool AnimateOnShow { get; set; } = true;
+
         public override HTMLElement Render() => InnerElement;
 
         public virtual T Show()
@@ -93,6 +95,10 @@ namespace Tesserae
                         var oldLayer = _renderedContent; //Remove any previous host
 
                         _renderedContent              = Div(_("tss-layer tss-fade"), BuildRenderedContent());
+                        if (!AnimateOnShow)
+                        {
+                            _renderedContent.classList.add("tss-fade-instant");
+                        }
                         _renderedContent.style.zIndex = Layers.PushLayer(_renderedContent);
                         document.body.appendChild(_renderedContent);
                         window.requestAnimationFrame((_) => _renderedContent?.classList.add("tss-show"));
