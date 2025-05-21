@@ -198,5 +198,21 @@ namespace Tesserae
         {
             H5.Script.Write("tippy.hideAll()");
         }
+
+        internal static void CheckRepositionNeeded(HTMLElement container)
+        {
+            if (!container.isConnected) return;
+            var parent = container.parentElement;
+
+            while (parent is object)
+            {
+                if (parent.HasOwnProperty("_tippy"))
+                {
+                    H5.Script.Write("{0}._tippy.popperInstance.update()", parent);
+                    break;
+                }
+                parent = parent.parentElement;
+            }
+        }
     }
 }
