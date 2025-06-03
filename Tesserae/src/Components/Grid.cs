@@ -292,6 +292,18 @@ namespace Tesserae
             return this;
         }
 
+        public Grid AutoRows(UnitSize autoRowValue)
+        {
+            _grid.style.gridAutoRows = autoRowValue.ToString();
+            return this;
+        }
+
+        public Grid AutoColumn(UnitSize autoColumnValue)
+        {
+            _grid.style.gridAutoColumns = autoColumnValue.ToString();
+            return this;
+        }
+
         public Grid FlowColumn()
         {
             _grid.style.gridAutoFlow = "column";

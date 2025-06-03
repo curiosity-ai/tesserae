@@ -14,34 +14,25 @@ namespace Tesserae.Tests.Samples
         {
             var grid = Grid(columns: new[] { 1.fr(), 1.fr(), 200.px() });
             grid.Gap(6.px());
-            var btn = Button().SetText("this").WS().Primary();
-            btn.GridColumnStretch();
-            btn.GridRow(1, 2);
-            grid.Add(btn);
-            grid.Add(Button().SetText("other"));
-            grid.Add(Button().SetText("other"));
-            grid.Add(Button().SetText("other"));
-            grid.Add(Button().SetText("other"));
-            grid.Add(Button().SetText("other"));
-            grid.Add(Button().SetText("other"));
-            grid.Add(Button().SetText("other"));
-            grid.Add(Button().SetText("other"));
-            grid.Add(Button().SetText("other"));
-            grid.Add(Button().SetText("other"));
-            grid.Add(Button().SetText("other"));
-            grid.Add(Button().SetText("other"));
-            grid.Add(Button().SetText("other"));
+            grid.Add(Button().SetText("this").WS().Primary().GridColumnStretch().GridRow(1, 2));
+
+            Enumerable.Range(1, 12).ForEach(v => grid.Add(Button().SetText($"Button {v}")));
+
+
+            var gridAutoSize = Grid(new UnitSize("repeat(auto-fit, minmax(min(200px, 100%), 1fr))"));
+
+            Enumerable.Range(1, 12).ForEach(v => gridAutoSize.Add(Button().WS().TextCenter().SetText($"Button {v}")));
 
 
             _content = SectionStack()
                .Title(SampleHeader(nameof(GridSample)))
-               .Section(Stack().Children(
+               .Section(VStack().Children(
                     SampleTitle("Overview"),
                     TextBlock("This component let you add items to a grid")))
-               .Section(Stack().Children(
+               .Section(VStack().Children(
                     SampleTitle("Usage"),
-                    HorizontalSeparator("Daytime Example").Left(),
-                    grid));
+                    TextBlock("Simple Grid").Medium().PB(16), grid,
+                    TextBlock("Auto Sizing Grid").Medium().PB(16).PT(32), gridAutoSize));
         }
 
         public HTMLElement Render() => _content.Render();

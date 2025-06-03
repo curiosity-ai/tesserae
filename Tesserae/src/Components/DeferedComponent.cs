@@ -189,6 +189,8 @@ namespace Tesserae
                             _refreshCompleted.SetResult(r.IsCompleted);
                             _refreshCompleted = null;
                         }
+
+                        Tippy.CheckRepositionNeeded(Container);
                     }
                 })
                .FireAndForget();
