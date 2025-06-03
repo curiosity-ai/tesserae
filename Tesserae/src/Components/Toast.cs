@@ -51,6 +51,17 @@ namespace Tesserae
         private          double         _timeoutHandle   = 0;
         private readonly HTMLDivElement _toastContainer  = Div(_("tss-toast-container"));
 
+        public Toast Class(string className)
+        {
+            _toastContainer.classList.add(className);
+            return this;
+        }
+        public Toast RemoveClass(string className)
+        {
+            _toastContainer.classList.remove(className);
+            return this;
+        }
+
         public Toast TopRight()
         {
             _pos = Position.TopRight;
