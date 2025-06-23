@@ -60,7 +60,7 @@ namespace Tesserae
             {
                 ItemClick?.Invoke(s, e);
                 Hide();
-            });
+            }, clearPrevious: false);
         }
 
         public override HTMLElement Render()
