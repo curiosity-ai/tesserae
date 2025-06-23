@@ -465,6 +465,7 @@ namespace Tesserae
             if (has("tss-stk-fs")) { ts.flexShrink = fs.flexShrink; /*fs.flexShrink = ""; */ }
 
             if (has("tss-stk-as")) { ts.alignSelf = fs.alignSelf; /*fs.alignSelf = "";*/ }
+            if (has("tss-stk-js")) { ts.justifySelf = fs.justifySelf; /*fs.alignSelf = "";*/ }
 
             //We need to propagate some styles otherwise they don't work if they were applied before adding to the stack
             foreach (var s in _stylesToPropagate)

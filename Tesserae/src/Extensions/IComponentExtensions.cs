@@ -92,6 +92,24 @@ namespace Tesserae
             return component;
         }
 
+        public static T JustifyStart<T>(this T component) where T : IComponent
+        {
+            Stack.SetJustify(component, ItemJustify.Start);
+            return component;
+        }
+
+        public static T JustifyCenter<T>(this T component) where T : IComponent
+        {
+            Stack.SetJustify(component, ItemJustify.Center);
+            return component;
+        }
+
+        public static T JustifyEnd<T>(this T component) where T : IComponent
+        {
+            Stack.SetJustify(component, ItemJustify.End);
+            return component;
+        }
+
         public static T Margin<T>(this T component, UnitSize unitSize) where T : IComponent
         {
             Stack.SetMarginLeft(component, unitSize);
