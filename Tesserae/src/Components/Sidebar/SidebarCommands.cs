@@ -11,6 +11,7 @@ namespace Tesserae
         private readonly SidebarCommand[] _commands;
         private          bool             _isEndAligned;
         private          bool             _isHidden;
+        private          bool             _notSortable;
 
         public SidebarCommands(string identifier, params SidebarCommand[] commands)
         {
@@ -115,6 +116,11 @@ namespace Tesserae
                 divWrapped.Collapse();
             }
 
+            if (_notSortable)
+            {
+                divWrapped.Class("tss-sortable-disable");
+            }
+
             return divWrapped;
         }
 
@@ -162,6 +168,11 @@ namespace Tesserae
             if (_isHidden)
             {
                 divWrapped.Collapse();
+            }
+            
+            if (_notSortable)
+            {
+                divWrapped.Class("tss-sortable-disable");
             }
 
             return divWrapped;
@@ -234,6 +245,13 @@ namespace Tesserae
         public SidebarCommands AlignEnd()
         {
             _isEndAligned = true;
+            return this;
+        }
+
+        public SidebarCommands NotSortable()
+        {
+            CurrentRendered?.Class("tss-sortable-disable");
+            _notSortable = true;
             return this;
         }
 

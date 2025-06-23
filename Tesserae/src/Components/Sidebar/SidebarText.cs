@@ -32,6 +32,14 @@ namespace Tesserae
             _closed.Collapse();
             _open.Collapse();
         }
+
+        public SidebarText NotSortable()
+        {
+            _closed.Class("tss-sortable-disable");
+            _open.Class("tss-sortable-disable");
+            return this;
+        }
+
         public string Identifier { get; private set; }
 
         public string OwnIdentifier => Sidebar.GetOwnIdentifier(Identifier);

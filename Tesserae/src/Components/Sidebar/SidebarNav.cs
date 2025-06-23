@@ -59,6 +59,7 @@ namespace Tesserae
 
         private static Func<string, string>   _getCollapseState = null;
         private static Action<string, string> _setCollapseState = null;
+        private bool _notSortable;
 
         private SidebarNav(string identifier, string text, bool initiallyCollapsed, Action<Button> setButtonIcon, params SidebarCommand[] commands)
         {
@@ -147,6 +148,13 @@ namespace Tesserae
             _lastOpen?.Collapse();
             _lastClosed?.Collapse();
             _isHidden = true;
+        }
+        public SidebarNav NotSortable()
+        {
+            _lastOpen?.Class("tss-sortable-disable");
+            _lastClosed?.Class("tss-sortable-disable");
+            _notSortable = true;
+            return this;
         }
 
         public SidebarNav SetText(string text)
@@ -333,6 +341,11 @@ namespace Tesserae
                 comp.Collapse();
             }
 
+            if (_notSortable)
+            {
+                comp.Class("tss-sortable-disable");
+            }
+
             return comp;
 
             void CollapsedChanged(bool isCollapsed)
@@ -418,6 +431,11 @@ namespace Tesserae
             if (_isHidden)
             {
                 comp.Collapse();
+            }
+
+            if (_notSortable)
+            {
+                comp.Class("tss-sortable-disable");
             }
 
             return comp;

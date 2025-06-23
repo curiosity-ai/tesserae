@@ -116,6 +116,13 @@ namespace Tesserae
             _openButton.Collapse();
         }
 
+        public SidebarButton NotSortable()
+        {
+            _closedButton.Class("tss-sortable-disable");
+            _openButton.Class("tss-sortable-disable");
+            return this;
+        }
+
         public SidebarButton(string identifier, ISidebarIcon image, string text, SidebarBadge badge, params SidebarCommand[] commands)
         {
             Identifier = identifier;
