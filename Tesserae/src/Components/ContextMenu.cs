@@ -105,8 +105,15 @@ namespace Tesserae
             }
         }
 
-        private void OnItemClick(ComponentEventHandler<Item, MouseEvent> componentEventHandler)
+        private void OnItemClick(ComponentEventHandler<Item, MouseEvent> componentEventHandler, bool clearPrevious = true)
         {
+            if (ItemClick != null && clearPrevious)
+            {
+                foreach (Delegate d in ItemClick.GetInvocationList())
+                {
+                    ItemClick -= (ComponentEventHandler<Item, MouseEvent>)d;
+                }
+            }
             ItemClick += componentEventHandler;
         }
 

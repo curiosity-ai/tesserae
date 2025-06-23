@@ -129,13 +129,13 @@ namespace Tesserae
                 return this;
             }
 
-            public new Item OnClick(ComponentEventHandler<Item, MouseEvent> e)
+            public override Item OnClick(ComponentEventHandler<Item, MouseEvent> e, bool clearPrevious = true)
             {
                 if (Type == ItemType.Item)
                 {
                     if (HasSubMenu)
                     {
-                        _subMenu.OnItemClick(e);
+                        _subMenu.OnItemClick(e, clearPrevious);
                     }
                     else
                     {
@@ -143,15 +143,30 @@ namespace Tesserae
 
                         if (_innerComponent is object)
                         {
-                            _innerComponent.onclick += (e2) =>
+                            if (clearPrevious)
                             {
-                                if (_innerComponent.tagName != "A" || string.IsNullOrWhiteSpace(_innerComponent.As<HTMLAnchorElement>().href))
+                                _innerComponent.onclick = (e2) =>
                                 {
-                                    StopEvent(e2); //Stop double calling the click handler for anything but links
-                                }
+                                    if (_innerComponent.tagName != "A" || string.IsNullOrWhiteSpace(_innerComponent.As<HTMLAnchorElement>().href))
+                                    {
+                                        StopEvent(e2); //Stop double calling the click handler for anything but links
+                                    }
 
-                                e.Invoke(this, e2);
-                            };
+                                    e.Invoke(this, e2);
+                                };
+                            }
+                            else
+                            {
+                                _innerComponent.onclick += (e2) =>
+                                {
+                                    if (_innerComponent.tagName != "A" || string.IsNullOrWhiteSpace(_innerComponent.As<HTMLAnchorElement>().href))
+                                    {
+                                        StopEvent(e2); //Stop double calling the click handler for anything but links
+                                    }
+
+                                    e.Invoke(this, e2);
+                                };
+                            }
                         }
                     }
                 }
@@ -159,7 +174,7 @@ namespace Tesserae
                 return this;
             }
 
-            public Item OnClick(Action action) => OnClick((_, __) => action.Invoke());
+            public Item OnClick(Action action, bool clearPrevious = true) => OnClick((_, __) => action.Invoke(), clearPrevious);
 
             public void HideSubmenus()
             {
