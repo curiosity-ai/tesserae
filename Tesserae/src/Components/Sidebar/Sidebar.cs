@@ -94,6 +94,7 @@ namespace Tesserae
                     invertSwap = true,
                     ghostClass = "tss-sortable-ghost",
                     swapThreshold = 0.65,
+                    filter = ".tss-sortable-disable",
                     onEnd = e =>
                     {
                         if (e.oldIndex != e.newIndex)

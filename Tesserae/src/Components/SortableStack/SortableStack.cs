@@ -21,6 +21,7 @@ namespace Tesserae
                 animation  = 150,
                 invertSwap = true,
                 ghostClass = "tss-sortable-ghost",
+                filter = ".tss-sortable-disable",
                 swapThreshold = 0.65,
                 onEnd = e =>
                 {

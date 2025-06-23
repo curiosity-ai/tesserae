@@ -288,6 +288,7 @@ namespace Tesserae
                     animation  = 150,
                     ghostClass = "tss-sortable-ghost",
                     swapThreshold = 0.65,
+                    filter = ".tss-sortable-disable",
                     group = _sortableGroup,
                     onEnd = e =>
                     {
