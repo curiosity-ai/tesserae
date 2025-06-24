@@ -68,6 +68,12 @@ namespace Tesserae
             return this;
         }
 
+        public void RefreshPivotSizes()
+        {
+            RefreshTabsOverflow();
+            TriggerAnimation();
+        }
+
         internal Pivot Add(Tab tab)
         {
             if (_initiallySelectedID is null) _initiallySelectedID = tab.Id;
@@ -304,7 +310,8 @@ namespace Tesserae
                 _ro.Observe(StylingContainer);
                 _ro.OnResize = () =>
                 {
-                    RefreshTabsOverflow(); TriggerAnimation();
+                    RefreshTabsOverflow(); 
+                    TriggerAnimation();
                 } ;
 
                 DomObserver.WhenMounted(StylingContainer, () =>
