@@ -139,7 +139,7 @@
 }
 
     .tss-dropdown-item:hover {
-        background-color: var(--tss-secondary-background-color);
+        background-color: var(--tss-default-background-hover-color);
         outline: transparent none medium;
     }
 
