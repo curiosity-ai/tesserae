@@ -31,6 +31,8 @@ namespace Tesserae
         private Item        _activeMenuItem;
         private ContextMenu _activeSubMenu;
 
+        private event Action _onHide;
+
         private event ComponentEventHandler<Item, MouseEvent> ItemClick;
 
         private List<Item> _items = new List<Item>();
@@ -61,6 +63,17 @@ namespace Tesserae
                 ItemClick?.Invoke(s, e);
                 Hide();
             }, clearPrevious: false);
+        }
+
+        public ContextMenu OnHide(Action onHidden)
+        {
+            _onHide += onHidden;
+            return this;
+        }
+
+        public override void Hide(Action onHidden = null)
+        {
+            base.Hide(() => { _onHide?.Invoke(); onHidden?.Invoke(); });
         }
 
         public override HTMLElement Render()
