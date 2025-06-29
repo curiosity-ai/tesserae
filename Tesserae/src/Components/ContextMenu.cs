@@ -71,11 +71,6 @@ namespace Tesserae
             return this;
         }
 
-        public override void Hide(Action onHidden = null)
-        {
-            base.Hide(() => { _onHide?.Invoke(); onHidden?.Invoke(); });
-        }
-
         public override HTMLElement Render()
         {
             throw new NotImplementedException();
@@ -441,7 +436,8 @@ namespace Tesserae
         {
             window.removeEventListener("mousemove", OnWindowMouseMove);
             document.removeEventListener("keydown", OnPopupKeyDown);
-            base.Hide(onHidden);
+         
+            base.Hide(() => { _onHide?.Invoke(); onHidden?.Invoke(); });
 
             foreach (var item in _items)
             {
