@@ -24,6 +24,7 @@ namespace Tesserae
             AttachFocus();
             AttachBlur();
             AttachKeys();
+            AttachClick();
 
             // TODO: 27/06/20 - MB - calling virtual member within a constructor is a bit of a no-no.
             OnChange((_, __) => _observable.Value = Text);
