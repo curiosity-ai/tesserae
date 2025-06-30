@@ -128,6 +128,7 @@ namespace Tesserae
         public void ShowFor(IComponent component, int distanceX = 1, int distanceY = 1)
         {
             ShowFor(component.Render(), distanceX, distanceY);
+            component.WhenMounted(() => component.WhenRemoved(() => Hide()));
         }
 
         public void ShowAt(int x, int y, int minWidth)
