@@ -222,10 +222,11 @@ namespace Tesserae
             [Name("tss-panelSize-fullwidth")]  FullWidth,
         }
 
+        [Enum(Emit.StringName)]
         public enum PanelSide
         {
-            Far,
-            Near
+            [Name("tss-panelSide-far")]  Far,
+            [Name("tss-panelSide-near")]  Near
         }
 
         public Panel HideCloseButton()
