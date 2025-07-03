@@ -186,6 +186,10 @@ namespace Tesserae
         /// </summary>
         /// <returns></returns>
         public static Stack VStack() => new Stack(Tesserae.Stack.Orientation.Vertical);
+        
+        public static SortableStack SortableStack(Stack.Orientation orientation = Tesserae.Stack.Orientation.Vertical) => new SortableStack(orientation);
+        public static SortableStack VSortableStack() => new SortableStack(Tesserae.Stack.Orientation.Vertical);
+        public static SortableStack HSortableStack() => new SortableStack(Tesserae.Stack.Orientation.Vertical);
 
         public static Grid Grid(params UnitSize[] columns)                  => new Grid(columns);
         public static Grid Grid(UnitSize[]        columns, UnitSize[] rows) => new Grid(columns, rows);
