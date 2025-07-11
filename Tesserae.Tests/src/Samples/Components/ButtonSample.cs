@@ -81,6 +81,10 @@ namespace Tesserae.Tests.Samples
                                 throw new Exception("Error!");
                             }, "loading...", onError: (b, e) => spinBtn4.SetText("Failed: " + e.Message).SetIcon(UIcons.TriangleWarning).DangerLink())
                         ),
+                        TextBlock("Other buttons").Medium(),
+                        HStack().Children(
+                            ButtonAndIcon("Main Button", (mainButton, iconButton, ev) => Tippy.ShowFor(mainButton, TextBlock("You clicked on the icon"), out var _), mainIcon: UIcons.Rocket, secondaryIcon: UIcons.Info)
+                                .OnClick((b,_) => Tippy.ShowFor(b, TextBlock("You clicked on the main button"), out var _))),
                         Toggle("Disable buttons").Checked().OnChange((s, e) =>
                         {
                             btn1.IsEnabled = btn2.IsEnabled = btn3.IsEnabled = iconBtn1.IsEnabled = iconBtn2.IsEnabled = iconBtn3.IsEnabled = iconBtn4.IsEnabled = s.IsChecked;

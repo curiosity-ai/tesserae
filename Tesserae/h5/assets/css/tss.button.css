@@ -454,3 +454,21 @@ a {
 .tss-toggle-btn-unchecked .tss-fontcolor-default {
     color: var(--tss-disabled-foreground-color);
 }
+
+.tss-btn-and-icon {
+    border: 1px solid transparent;
+    border-radius: 2px;
+    flex-wrap: nowrap;
+}
+
+    .tss-btn-and-icon .tss-btn {
+        border: 1px solid transparent !important;
+        border-radius: 0px;
+    }
+
+        .tss-btn-and-icon .tss-btn:hover {
+            border: 1px solid transparent !important;
+            color: var(--tss-default-foreground-hover-color);
+            background-color: var(--tss-default-background-hover-color);
+            border-radius: 0px;
+        }

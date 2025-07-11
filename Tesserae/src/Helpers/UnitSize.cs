@@ -44,6 +44,7 @@ namespace Tesserae
         private UnitSize() => Unit = Unit.Auto;
 
         public static UnitSize Auto()    => new UnitSize();
+        public static UnitSize FitContent()    => new UnitSize("fit-content");
         public static UnitSize Inherit() => new UnitSize() { Unit = Unit.Inherit };
 
         public float Size { get; private set; }
