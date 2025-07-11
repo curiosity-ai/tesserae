@@ -459,6 +459,7 @@ a {
     border: 1px solid transparent;
     border-radius: 2px;
     flex-wrap: nowrap;
+    width:fit-content;
 }
 
     .tss-btn-and-icon .tss-btn {
