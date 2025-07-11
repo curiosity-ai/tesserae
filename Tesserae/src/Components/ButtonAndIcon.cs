@@ -13,6 +13,7 @@ namespace Tesserae
         private readonly Button _arrowButton;
         public ButtonAndIcon(string text, IconClickHandler onIconClick, UIcons mainIcon = UIcons.Circle, UIcons secondaryIcon = UIcons.AngleDown)
         {
+            SetText(text);
             SetIcon(mainIcon);
             Ellipsis();
             _parent = Div(_("tss-btn-and-icon tss-default-component-no-margin"));
