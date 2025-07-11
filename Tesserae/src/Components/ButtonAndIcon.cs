@@ -46,5 +46,7 @@ namespace Tesserae
             InnerElement.style.minWidth = minWidth.ToString();
             return this;
         }
+
+        public override HTMLElement Render() => _parent;
     }
 }
