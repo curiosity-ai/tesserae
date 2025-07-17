@@ -448,9 +448,12 @@ namespace Tesserae
             children.ForEach(component =>
             {
                 _childContainer.appendChild(component.Render());
+                component.SelectedItem -= OnItemSelected; //Ensure OnItemSelected is only hooked once
                 component.SelectedItem += OnItemSelected;
             });
+
             EnsureAsyncLoadingStateDisabled(); // If we got here because an async request completed OR while one was in flight but a synchronous call to this method came in after it started but before finishing then ensure to remove its loading state
+
             UpdateStateBasedUponCurrentSelections();
 
             if (children.Any())
@@ -464,6 +467,7 @@ namespace Tesserae
                 Disabled(true);
                 _noItemsSpan.style.display = "";
             }
+
             return this;
         }
 
@@ -533,7 +537,7 @@ namespace Tesserae
             // was selected before and then new items arrive that any item with text "ABC" should still be selected - only the caller knows strongly-typed values that these dropdown items relate to.
             // ^ This is less of an issue with single-select configurations since they can only show zero or one selections and so ordering is not important
             _selectedChildren.Clear();
-            _selectedChildren.AddRange(_lastRenderedItems.Where(item => item.IsSelected));
+            _selectedChildren.AddRange(_lastRenderedItems.Where(item => item.IsSelected).Take(Mode == SelectMode.Single ? 1 : int.MaxValue));
             RenderSelected();
         }
 
@@ -547,7 +551,9 @@ namespace Tesserae
                     foreach (var item in _lastRenderedItems)
                     {
                         if (item != sender)
+                        {
                             item.IsSelected = false;
+                        }
                     }
                 }
                 else
