@@ -281,6 +281,12 @@ namespace Build.UpdateInterfaceIcons
             "cloud-upload",
             "refresh",
             "square-a",
+            "thumbtack",
+            "thumbtack-slash",
+            "heart",
+            "heart-slash",
+            "bookmark",
+            "bookmark-slash"
         };
 
         private static string CreateEnum(string[] iconsRegular, string[] iconsBrands)
