@@ -1,10 +1,14 @@
 :root {
 --uicon-var-angle-left: '\f151';
 --uicon-var-angle-right: '\f152';
+--uicon-var-bookmark-slash: '\f294';
+--uicon-var-bookmark: '\f295';
 --uicon-var-checkbox: '\f3e0';
 --uicon-var-cloud-upload-alt: '\f490';
 --uicon-var-cloud-upload: '\f491';
 --uicon-var-download: '\f5ba';
+--uicon-var-heart-slash: '\f7f2';
+--uicon-var-heart: '\f7f4';
 --uicon-var-lock-open-alt: '\f936';
 --uicon-var-lock: '\f937';
 --uicon-var-refresh: '\fbaa';
@@ -13,6 +17,7 @@
 --uicon-var-slash: '\fcbd';
 --uicon-var-square-a: '\fd29';
 --uicon-var-square: '\fd59';
+--uicon-var-thumbtack: '\fe40';
 --uicon-var-unlock: '\ff04';
 --uicon-var-upload: '\ff0a';
 }
