@@ -120,7 +120,7 @@ namespace Tesserae
             return this;
         }
 
-        public Label AutoWidth(int nestingLevels = 1, bool alignRight = false)
+        public Label AutoWidth(string parentSelector = null, bool alignRight = false)
         {
             _label.classList.add("tss-label-autowidth");
 
@@ -131,26 +131,34 @@ namespace Tesserae
 
             DomObserver.WhenMounted(InnerElement, () =>
             {
-                HTMLElement parent = InnerElement;
-                int         levels = nestingLevels;
-
-                do
-                {
-                    parent = parent.parentElement;
-
-                    if (!parent.classList.contains("tss-stack-item"))
-                    {
-                        levels--;
-                    }
-                    else
-                    {
-                        nestingLevels++;
-                    }
-                } while (levels > 0 && parent.parentElement is object);
+                HTMLElement parent = string.IsNullOrEmpty(parentSelector) ? InnerElement.parentElement.parentElement : document.querySelector(parentSelector).As<HTMLElement>();
 
                 if (parent is object)
                 {
-                    _pendingCallbacks.TryAdd(parent, () => AutoSizeChildrenLabels(parent, nestingLevels + 2));
+                    _pendingCallbacks.TryAdd(parent, () => AutoSizeChildrenLabels(parent));
+                    window.cancelAnimationFrame(_callback);
+                    _callback = window.requestAnimationFrame(_ => TriggerAll());
+                }
+            });
+
+            return this;
+        }
+        public Label AutoWidth(IComponent parentElement, bool alignRight = false)
+        {
+            _label.classList.add("tss-label-autowidth");
+
+            if (alignRight)
+            {
+                _label.classList.add("tss-textalign-right");
+            }
+
+            DomObserver.WhenMounted(InnerElement, () =>
+            {
+                var parent = parentElement.Render();
+
+                if (parent is object)
+                {
+                    _pendingCallbacks.TryAdd(parent, () => AutoSizeChildrenLabels(parent));
                     window.cancelAnimationFrame(_callback);
                     _callback = window.requestAnimationFrame(_ => TriggerAll());
                 }
@@ -168,37 +176,17 @@ namespace Tesserae
             _pendingCallbacks.Clear();
         }
 
-        private static void AutoSizeChildrenLabels(HTMLElement parent, int nestingLevels)
+        private static void AutoSizeChildrenLabels(HTMLElement parent)
         {
             var found = new List<HTMLElement>();
 
-            var stack = new Stack<HTMLElement>();
-            stack.Push(parent);
-
-            do
+            foreach(HTMLElement childLabel in parent.querySelectorAll(".tss-label-autowidth"))
             {
-                var new_stack = new Stack<HTMLElement>();
-
-                while (stack.Count > 0)
+                if (childLabel.parentElement.classList.contains("tss-inline"))
                 {
-                    var el = stack.Pop();
-
-                    foreach (HTMLElement e in el.children)
-                    {
-                        if (e.classList.contains("tss-label-autowidth") && e.parentElement.classList.contains("tss-inline"))
-                        {
-                            found.Add(e);
-                        }
-                        else
-                        {
-                            new_stack.Push(e);
-                        }
-                    }
+                    found.Add(childLabel);
                 }
-                stack = new_stack;
-
-                nestingLevels--;
-            } while (nestingLevels > 0);
+            }
 
             if (found.Count == 1)
             {
@@ -210,7 +198,7 @@ namespace Tesserae
 
                 foreach (var f in found)
                 {
-                    var rect = (DOMRect)f.getBoundingClientRect();
+                    var rect = f.getBoundingClientRect().As<DOMRect>();
                     minWidth = Math.Max(minWidth, Math.Max((int)rect.width, f.offsetWidth));
                 }
 
