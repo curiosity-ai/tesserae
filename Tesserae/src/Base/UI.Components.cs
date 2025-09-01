@@ -387,5 +387,13 @@ namespace Tesserae
         public static Timeline     Timeline()                   => new Timeline();
         public static Teaching     Teaching()                   => new Teaching();
         public static ToggleButton ToToggle(this Button button) => new ToggleButton(button);
+
+        public static void TryRemoveChild(HTMLElement parentElement, HTMLElement childToRemove)
+        {
+            if(parentElement.contains(childToRemove))
+            {
+                parentElement.removeChild(childToRemove);
+            }
+        }
     }
 }

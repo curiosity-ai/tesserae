@@ -549,7 +549,7 @@ namespace Tesserae
         public virtual void Clear() => ClearChildren(InnerElement);
 
         public void Replace(IComponent newComponent, IComponent oldComponent) => InnerElement.replaceChild(GetItem(newComponent), GetItem(oldComponent));
-        public void Remove(IComponent  component) => InnerElement.removeChild(GetItem(component));
+        public void Remove(IComponent component) => TryRemoveChild(InnerElement, GetItem(component));
 
         public virtual HTMLElement Render() => InnerElement;
 

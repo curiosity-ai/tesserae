@@ -334,7 +334,7 @@ namespace Tesserae
 
         public void Remove(IComponent component)
         {
-            _grid.removeChild(GetItem(component));
+            TryRemoveChild(_grid, GetItem(component));
         }
 
         public virtual HTMLElement Render() => _grid;
