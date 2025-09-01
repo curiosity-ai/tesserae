@@ -184,7 +184,7 @@ namespace Tesserae
 
             foreach (var i in _items)
             {
-                if (i.Identifier != identifer)
+                if (i.Identifier == identifer)
                 {
                     _container.Remove(i.Component);
                 }
