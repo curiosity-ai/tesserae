@@ -190,10 +190,8 @@ namespace Tesserae
                 }
             }
 
-            _items = _items.Where(i => i.Identifier != identifer).ToList();
+            _items.RemoveAll(i => i.Identifier == identifer);
         }
-
-
     }
 
     public class SortableStackItem
