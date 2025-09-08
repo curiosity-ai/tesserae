@@ -73,6 +73,7 @@ namespace Tesserae
         private static readonly Dictionary<string, Func<Parameters, bool>> _registedRoutesMappedToActions        = new Dictionary<string, Func<Parameters, bool>>();
         private static readonly Dictionary<string, string>                 _paths                                = new Dictionary<string, string>();
         private static          List<Route>                                _routesToTryMatchingOnLocationChanged = new List<Route>();
+        private static double _tryNavigateAgain;
 
         public static void Push(string path)
         {
@@ -206,7 +207,7 @@ namespace Tesserae
                         
                         console.debug("Failed to navigate to ", path, " from", window.location.href, "\nRetrying on a timeout");
 
-                        setTimeout(_ =>
+                        _tryNavigateAgain = setTimeout(_ =>
                         {
                             window.location.href = path;
                         }, 1);
@@ -442,6 +443,7 @@ namespace Tesserae
                         // New route was matched but refused to activate, so revert the current URL back to the "current state" (ie. the last state that was matched before this navigation attempt)
                         if ((_currentState is object) && !string.IsNullOrEmpty(_currentState.FullPath))
                         {
+                            window.clearTimeout(_tryNavigateAgain);
                             window.location.href = _currentState.FullPath;
                         }
                     }
@@ -451,6 +453,7 @@ namespace Tesserae
                     // New route was matched but onBeforeNavigate denied navigation, so revert the current URL back to the "current state" (ie. the last state that was matched before this navigation attempt)
                     if ((_currentState is object) && !string.IsNullOrEmpty(_currentState.FullPath))
                     {
+                        window.clearTimeout(_tryNavigateAgain);
                         window.location.href = _currentState.FullPath;
                     }
                 }
