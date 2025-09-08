@@ -204,12 +204,15 @@ namespace Tesserae
                     }, 1);
                     
                     // If the window.location doesn't indicate that we're already at the desired path then update that and the "locationchange" event listener will fire off the LocationChanged method
-                    window.location.href = path;
+                    window.location.href = path; // during handling of the "locationchange" event, _tryNavigateAgain might be cleared if we want the path not to change by the handler
 
                     if (!window.location.href.EndsWith(path))
                     {
-                        // Sometimes assigning window.location.href doesn't actually work
-                        console.debug("Failed to navigate to ", path, " from", window.location.href, "\nRetrying on a timeout");
+                        if (_tryNavigateAgain is object)
+                        {
+                            // Sometimes assigning window.location.href doesn't actually work
+                            console.debug("Failed to navigate to ", path, " from", window.location.href, "\nRetrying on a timeout");
+                        }
                     }
                     else
                     {
