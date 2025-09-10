@@ -312,7 +312,7 @@ namespace Tesserae
                     H5.Script.Write("{0}._tippy.disable();", InnerElement);
                 }
 
-                _spinner.style.minHeight = rect.height.px().ToString();
+                _spinner.style.height = rect.height.px().ToString();
 
                 InnerElement.parentElement.replaceChild(_spinner, InnerElement);
             }
