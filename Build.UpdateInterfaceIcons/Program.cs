@@ -11,7 +11,7 @@ namespace Build.UpdateInterfaceIcons
 {
     class Program
     {
-        private const string MIN_Version = "2.5.0";
+        private const string MIN_Version = "3.0.0";
 
         static async Task<string> FetchVersion()
         {
