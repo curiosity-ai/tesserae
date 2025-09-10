@@ -8,9 +8,9 @@ namespace Tesserae
     [H5.Name("tss.Button")]
     public class Button : ComponentBase<Button, HTMLButtonElement>, ITextFormating, IHasBackgroundColor, IHasForegroundColor, ICanWrap
     {
-        private  HTMLSpanElement   _textSpan;
-        private  HTMLElement       _iconSpan;
-        private  HTMLButtonElement _spinner;
+        private HTMLSpanElement   _textSpan;
+        private HTMLElement       _iconSpan;
+        private HTMLButtonElement _spinner;
 
         public Button(string text = string.Empty)
         {
@@ -313,6 +313,7 @@ namespace Tesserae
                 }
 
                 _spinner.style.height = rect.height.px().ToString();
+                _spinner.style.width  = rect.width.px().ToString();
 
                 InnerElement.parentElement.replaceChild(_spinner, InnerElement);
             }
