@@ -498,6 +498,16 @@ namespace Tesserae
             return InitElement(document.createElement("thead"), init, children);
         }
 
+        public static HTMLTableColElement TColgroup(Attributes init, params HTMLTableColElement[] children)
+        {
+            return InitElement(document.createElement("colgroup").As<HTMLTableColElement>(), init, children);
+        }
+
+        public static HTMLTableColElement TCol(Attributes init)
+        {
+            return InitElement(new HTMLTableColElement(), init);
+        }
+
         public static HTMLTableSectionElement TBody(Attributes init, params HTMLTableRowElement[] children)
         {
             return InitElement(new HTMLTableSectionElement(), init, children);
