@@ -13,7 +13,7 @@
 }
 
 .tss-detailslist-header {
-    display: inline-block;
+    display: inline-flex;
     float: left;
     position: sticky;
     top: 0;
@@ -53,7 +53,7 @@
 }
 
 .tss-detailslist-column-header {
-    padding: 11px;
+    padding: var(--tss-detailslist-default-padding);
     display: inline-flex;
 }
 
@@ -62,12 +62,13 @@
 }
 .tss-detailslist-list-item {
     display: inline-block;
-    padding: 11px;
+    padding: var(--tss-detailslist-default-padding);
     position: relative;
     float: left;
 }
 
 
-.tss-detailslist.tss-small > .tss-detailslist-list-item {
-    padding: 4px 32px 4px 12px;
+.tss-detailslist.tss-small > .tss-detailslist-list-item,
+.tss-detailslist.tss-small > .tss-detailslist-column-header {
+    padding: var(--tss-detailslist-compact-padding);
 }

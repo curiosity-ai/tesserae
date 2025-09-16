@@ -69,8 +69,22 @@ namespace Tesserae
             var role = column.IsRowHeader ? "rowheader" : "gridcell";
 
             var gridCellHtmlElement = Div(_("tss-detailslist-list-item tss-text-ellipsis").WithRole(role));
-            gridCellHtmlElement.style.width = column.Width.ToString();
+
+            if (column.Width.Unit == Unit.FR)
+            {
+                gridCellHtmlElement.style.width = "10px";
+                gridCellHtmlElement.style.flexGrow = column.Width.Size.ToString();
+            }
+            else
+            {
+                gridCellHtmlElement.style.width = column.Width.ToString();
+                gridCellHtmlElement.style.flexGrow = "0";
+            }
+            
+            gridCellHtmlElement.style.flexShrink = "0";
+
             if (column.MaxWidth is object) gridCellHtmlElement.style.maxWidth = column.MaxWidth.ToString();
+            
             gridCellHtmlElement.appendChild(gridCellInnerHtmlExpression().Render());
 
             return Raw(gridCellHtmlElement);
@@ -235,9 +249,20 @@ namespace Tesserae
             // TODO: Add role of "button" to this element.
             var columnHtmlElement = column.Render();
 
-            columnHeader.style.width = column.Width.ToString();
-            if (column.MaxWidth is object) columnHeader.style.maxWidth = column.MaxWidth.ToString();
+            if (column.Width.Unit == Unit.FR)
+            {
+                columnHeader.style.width = "10px";
+                columnHeader.style.flexGrow = column.Width.Size.ToString();
+            }
+            else
+            {
+                columnHeader.style.width = column.Width.ToString();
+                columnHeader.style.flexGrow = "0";
+            }
 
+            columnHeader.style.flexShrink = "0";
+
+            if (column.MaxWidth is object) columnHeader.style.maxWidth = column.MaxWidth.ToString();
 
             if (column.EnableOnColumnClickEvent || column.EnableColumnSorting)
             {
