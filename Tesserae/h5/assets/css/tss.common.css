@@ -123,6 +123,8 @@
     --tss-scrollbar-thumb-color: rgba(50, 49, 48, 0.15);
     --tss-scrollbar-thumb-hidden-color: rgba(50, 49, 48, 0.04);
     --tss-simplebar-thumb-color: rgba(50, 49, 48, 0.32);
+    --tss-detailslist-default-padding: 10px;
+    --tss-detailslist-compact-padding: 6px;
 }
 
 .tss-dark-mode {
