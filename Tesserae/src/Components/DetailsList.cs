@@ -156,6 +156,12 @@ namespace Tesserae
                 _listContainer.style.width      = $"min(100%, {(totalWidth + 32).px()})";
                 _listItemsContainer.style.width = (totalWidth).px().ToString();
             }
+            else if (_columns.Any(detailsListColumn => detailsListColumn.Width.Unit == Unit.FR))
+            {
+                detailsListHeader.style.width   = "100%";
+                _listContainer.style.width      = "100%";
+                _listItemsContainer.style.width = "100%";
+            }
             else
             {
                 detailsListHeader.style.width   = "100%";
