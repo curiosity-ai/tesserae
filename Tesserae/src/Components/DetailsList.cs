@@ -293,7 +293,10 @@ namespace Tesserae
 
         private void CreateColumnSortingIcon()
         {
-            _columnSortingIcon = I(_currentSortingIcon, cssClass: "tss-detailslist-column-header-sorting-icon");
+            if(_columnSortingIcon is null)
+            {
+                _columnSortingIcon = I(_currentSortingIcon, cssClass: "tss-detailslist-column-header-sorting-icon");
+            }
         }
 
         private HTMLElement CreateListItem((int Key, TDetailsListItem DetailsListItem) detailsListItemAndKey)
