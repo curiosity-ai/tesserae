@@ -12,12 +12,12 @@ namespace Tesserae
         {
             for (int i = 0; i < styles.Length; i++)
             {
-                var         url           = styles[i];
-                HTMLElement existingStyle = (HTMLElement)document.querySelector($"link[href^='{url}']");
+                var url           = styles[i];
+                var existingStyle = document.querySelector($"link[href^='{url}']").As<HTMLElement>();
 
                 if (existingStyle == null)
                 {
-                    var l = document.createElement("link") as HTMLLinkElement;
+                    var l = document.createElement("link").As<HTMLLinkElement>();
                     l.rel  = "stylesheet";
                     l.href = url;
                     document.head.appendChild(l);
@@ -32,7 +32,7 @@ namespace Tesserae
             try
             {
                 var tcs = new TaskCompletionSource<bool>();
-                LoadScriptAsync(() => tcs.SetResult(true), (err) => tcs.SetException(new Exception(err)), false, libraries);
+                LoadScriptAsync(() => tcs.TrySetResult(true), (err) => tcs.TrySetException(new Exception(err)), false, libraries);
                 await tcs.Task;
             }
             finally
@@ -48,7 +48,7 @@ namespace Tesserae
             try
             {
                 var tcs = new TaskCompletionSource<bool>();
-                LoadScriptAsync(() => tcs.SetResult(true), (err) => tcs.SetException(new Exception(err)), true, libraries);
+                LoadScriptAsync(() => tcs.TrySetResult(true), (err) => tcs.TrySetException(new Exception(err)), true, libraries);
                 await tcs.Task;
             }
             finally
@@ -63,8 +63,8 @@ namespace Tesserae
 
             for (int i = 0; i < libraries.Length; i++)
             {
-                var         url         = libraries[i];
-                HTMLElement existingLib = (HTMLElement)document.querySelector($"script[src^='{url}']");
+                var url         = libraries[i];
+                var existingLib = document.querySelector($"script[src^='{url}']").As<HTMLElement>();
 
                 if (existingLib != null)
                 {
