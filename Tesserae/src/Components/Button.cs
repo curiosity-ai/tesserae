@@ -336,6 +336,11 @@ namespace Tesserae
 
         public Button OnClickSpinWhile(Func<Task> action, string text = null, Action<Button, Exception> onError = null)
         {
+            return OnClickSpinWhile((MouseEvent e) => action(), text, onError);
+        }
+
+        public Button OnClickSpinWhile(Func<MouseEvent, Task> action, string text = null, Action<Button, Exception> onError = null)
+        {
             return OnClick((_, e) =>
             {
                 StopEvent(e);
@@ -347,7 +352,7 @@ namespace Tesserae
 
                     try
                     {
-                        await action();
+                        await action(e);
                     }
                     catch (Exception E)
                     {
