@@ -15,7 +15,9 @@ namespace Tesserae
         private Raw _parent;
         private ViewModel _viewModel;
         private MutationObserver _observer;
-
+        private List<Action> _whenMounted = new List<Action>();
+        private double _onChangeTimeout;
+        private event Action<NodeView> _onChange;
         private string _previousState;
 
         public NodeView()
@@ -26,57 +28,106 @@ namespace Tesserae
             {
                 _viewModel = Script.Write<ViewModel>("BaklavaJS.createBaklava({0})", _owner);
 
-                _viewModel.editor.registerNodeType(DefineNode(InterfaceBuilder.New("Hello World")
-                                                          .AddInput("inp", () => Interfaces.TextInputInterface("Input", "Hi Input"))
-                                                          .AddOutput("out", () => Interfaces.TextInputInterface("Output", "Hi Output"))
-                                                          .Build()));
-
-                _viewModel.editor.registerNodeType(DefineNode(InterfaceBuilder.New("Complex")
-                                          .AddInput("text", () => Interfaces.TextInterface("Input", "Hi Input"))
-                                          .AddInput("int", () => Interfaces.IntegerInterface("Input", 123))
-                                          .AddInput("num", () => Interfaces.NumberInterface("Input", 3.14))
-                                          .AddInput("btn", () => Interfaces.ButtonInterface("Input", () => Toast().Information("Hi!")))
-                                          .AddInput("chk", () => Interfaces.CheckboxInterface("Input", false))
-                                          .AddInput("sel", () => Interfaces.SelectInterface("Input", "A", new ReadOnlyArray<string>(new[] { "A", "B", "C" })))
-                                          .AddInput("sld", () => Interfaces.SliderInterface("Input", 0.5, 0, 1))
-                                          .AddOutput("out", () => Interfaces.TextInterface("Output", "Hi Output"))
-                                          .Build()));
+                foreach (var v in _whenMounted)
+                {
+                    v();
+                }
 
                 HookChangeMonitoring();
 
-                _viewModel.settings.useStraightConnections = false;
+                InitializeSettings();
 
-                _viewModel.settings.enableMinimap = false; //Disabled in the source code as it has a performance impact
+                window.setTimeout((_) => ReplaceToolbarIcons(), 15); //On a timer to ensure the entire UI is built and rendered
+            });
+        }
 
-                _viewModel.settings.displayValueOnHover = false;
+        public NodeView OnChange(Action<NodeView> onChange)
+        {
+            _onChange += onChange;
+            return this;
+        }
 
-                _viewModel.settings.nodes = new NodeSettings()
-                {
-                    defaultWidth = 200,
-                    maxWidth = 320,
-                    minWidth = 150,
-                    resizable = false,
-                    reverseY = false
-                };
+        public NodeView DefineNode(string nodeTypeName, Action<InterfaceBuilder> buildNode)
+        {
+            Action action = () =>
+            {
+                var ib = InterfaceBuilder.New(nodeTypeName);
+                buildNode(ib);
+                _viewModel.editor.registerNodeType(DefineNode(ib.Build()));
+            };
 
-                _viewModel.settings.contextMenu = new ContextMenuSettings() { enabled = true, additionalItems = new ReadOnlyArray<ContextMenuItem>(new ContextMenuItem[0]) };
+            if(_viewModel is object)
+            {
+                action();
+            }
+            else
+            {
+                _whenMounted.Add(action);
+            }
+            
+            return this;
+        }
 
-                _viewModel.settings.zoomToFit = new ZoomToFitSettings() { paddingLeft = 300, paddingRight = 50, paddingTop = 110, paddingBottom = 50 };
+        public dom.HTMLElement Render() => _parent.Render();
 
-                _viewModel.settings.background = new BackgroundSetttings()
-                {
-                    gridDivision = 5,
-                    gridSize = 100,
-                    subGridVisibleThreshold = 0.6,
-                };
+        public string GetState(bool formated = false)
+        {
+            if (formated)
+            {
+                return es5.JSON.stringify(_viewModel.displayedGraph.save(), (double[])null, 4);
+            }
+            else
+            {
+                return es5.JSON.stringify(_viewModel.displayedGraph.save());
+            }
+        }
+        public void SetState(string stateJson)
+        {
+            if (_viewModel is object)
+            {
+                _viewModel.displayedGraph.load(es5.JSON.parse(stateJson).As<IGraphState>());
+            }
+            else
+            {
+                _whenMounted.Add(() => SetState(stateJson));
+            }
+        }
 
-                //_viewModel.settings.palette = new PalleteSettings() { enabled = false };
-                _viewModel.settings.sidebar = new SidebarSettings() { enabled = false, width = 200, resizable = true };
+        private void InitializeSettings()
+        {
+            _viewModel.settings.useStraightConnections = false;
 
-                _viewModel.settings.toolbar = new ToolbarSettings()
-                {
-                    commands = new ReadOnlyArray<ToolbarCommand>(new[]
-                        {
+            _viewModel.settings.enableMinimap = false; //Disabled in the source code as it has a performance impact
+
+            _viewModel.settings.displayValueOnHover = false;
+
+            _viewModel.settings.nodes = new NodeSettings()
+            {
+                defaultWidth = 200,
+                maxWidth = 320,
+                minWidth = 150,
+                resizable = false,
+                reverseY = false
+            };
+
+            _viewModel.settings.contextMenu = new ContextMenuSettings() { enabled = true, additionalItems = new ReadOnlyArray<ContextMenuItem>(new ContextMenuItem[0]) };
+
+            _viewModel.settings.zoomToFit = new ZoomToFitSettings() { paddingLeft = 300, paddingRight = 50, paddingTop = 110, paddingBottom = 50 };
+
+            _viewModel.settings.background = new BackgroundSetttings()
+            {
+                gridDivision = 5,
+                gridSize = 100,
+                subGridVisibleThreshold = 0.6,
+            };
+
+            //_viewModel.settings.palette = new PalleteSettings() { enabled = false };
+            _viewModel.settings.sidebar = new SidebarSettings() { enabled = false, width = 200, resizable = true };
+
+            _viewModel.settings.toolbar = new ToolbarSettings()
+            {
+                commands = new ReadOnlyArray<ToolbarCommand>(new[]
+                    {
                         new ToolbarCommand()
                         {
                             command = ToolbarCommands.UNDO_COMMAND,
@@ -103,12 +154,9 @@ namespace Tesserae
                             title = "Zoom To Fit"
                         }
                     }),
-                    subgraphCommands = new ReadOnlyArray<ToolbarCommand>(new ToolbarCommand[0]),
-                    enabled = true
-                };
-
-                window.setTimeout((_) => ReplaceToolbarIcons(), 15);
-            });
+                subgraphCommands = new ReadOnlyArray<ToolbarCommand>(new ToolbarCommand[0]),
+                enabled = true
+            };
         }
 
         private void HookChangeMonitoring()
@@ -128,9 +176,9 @@ namespace Tesserae
 
         private void ReplaceToolbarIcons()
         {
-            foreach(HTMLElement toolbarEl in _owner.querySelectorAll(".baklava-toolbar-button"))
+            foreach (HTMLElement toolbarEl in _owner.querySelectorAll(".baklava-toolbar-button"))
             {
-                switch(toolbarEl.title)
+                switch (toolbarEl.title)
                 {
                     case "Undo":
                     {
@@ -159,7 +207,7 @@ namespace Tesserae
                     }
                 }
             }
-            
+
             void ReplaceIcon(HTMLElement el, UIcons icon)
             {
                 ClearChildren(el);
@@ -167,9 +215,6 @@ namespace Tesserae
             }
         }
 
-        private double _onChangeTimeout;
-
-        private event Action<NodeView> _onChange; 
         private void RaiseChange()
         {
             var state = GetState();
@@ -180,11 +225,6 @@ namespace Tesserae
             }
         }
 
-        public NodeView OnChange(Action<NodeView> onChange)
-        {
-            _onChange += onChange;
-            return this;
-        }
 
         private static object Wrap<T>(Func<T> value)
         {
@@ -201,7 +241,8 @@ namespace Tesserae
                 _type = type;
             }
 
-            public static InterfaceBuilder New(string type) => new InterfaceBuilder(type);
+            internal static InterfaceBuilder New(string type) => new InterfaceBuilder(type);
+
             public InterfaceBuilder AddInput(string inputName, Func<NodeInterface> inputGenerator)
             {
                 _inputs[inputName] = inputGenerator;
@@ -214,7 +255,7 @@ namespace Tesserae
                 return this;
             }
 
-            public DynamicNodeDefinition Build()
+            internal DynamicNodeDefinition Build()
             {
                 var inputObj  = new object();
                 var outputObj = new object();
@@ -290,26 +331,11 @@ namespace Tesserae
             }
         }
 
+        private static Node CreateGraphNodeType(GraphTemplate template) => Script.Write<Node>("BaklavaJS.Core.createGraphNodeType({0})", template);
+        private static Node DefineDynamicNode(DynamicNodeDefinition nodeDefinition) => Script.Write<Node>("BaklavaJS.Core.defineDynamicNode({0})", nodeDefinition);
+        private static AbstractNodeConstructor DefineNode(DynamicNodeDefinition definition) => Script.Write<AbstractNodeConstructor>("BaklavaJS.Core.defineNode({0})", definition);
+        private static string GetGraphNodeTypeString(GraphTemplate template) => Script.Write<string>("BaklavaJS.Core.getGraphNodeTypeString({0})", template);
 
-        public static Node CreateGraphNodeType(GraphTemplate template) => Script.Write<Node>("BaklavaJS.Core.createGraphNodeType({0})", template);
-        public static Node DefineDynamicNode(DynamicNodeDefinition nodeDefinition) => Script.Write<Node>("BaklavaJS.Core.defineDynamicNode({0})", nodeDefinition);
-        public static AbstractNodeConstructor DefineNode(DynamicNodeDefinition definition) => Script.Write<AbstractNodeConstructor>("BaklavaJS.Core.defineNode({0})", definition);
-        public static string GetGraphNodeTypeString(GraphTemplate template) => Script.Write<string>("BaklavaJS.Core.getGraphNodeTypeString({0})", template);
-
-
-        public dom.HTMLElement Render() => _parent.Render();
-
-        public string GetState(bool formated = false)
-        {
-            if (formated)
-            {
-                return es5.JSON.stringify(_viewModel.displayedGraph.save(), (double[])null, 4);
-            }
-            else
-            {
-                return es5.JSON.stringify(_viewModel.displayedGraph.save());
-            }
-        }
 
         [ObjectLiteral]
         public class Node
