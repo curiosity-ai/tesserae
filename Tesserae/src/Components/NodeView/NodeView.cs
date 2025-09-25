@@ -22,6 +22,8 @@ namespace Tesserae
 
         public NodeView()
         {
+            //Docs: https://baklava.tech/getting-started.html
+            
             _owner = Div(_("tss-nodeview"));
             _parent = Raw(_owner);
             _parent.WhenMounted(() =>
@@ -53,7 +55,14 @@ namespace Tesserae
             {
                 var ib = InterfaceBuilder.New(nodeTypeName);
                 buildNode(ib);
-                _viewModel.editor.registerNodeType(DefineNode(ib.Build()));
+                if(!string.IsNullOrEmpty(ib._category))
+                {
+                    _viewModel.editor.registerNodeType(DefineNode(ib.Build()), new IRegisterNodeTypeOptions() { category = ib._category});
+                }
+                else
+                {
+                    _viewModel.editor.registerNodeType(DefineNode(ib.Build()));
+                }
             };
 
             if(_viewModel is object)
@@ -70,26 +79,33 @@ namespace Tesserae
 
         public dom.HTMLElement Render() => _parent.Render();
 
-        public string GetState(bool formated = false)
+        public NodeViewGraphState GetState() => _viewModel.displayedGraph.save();
+            
+        public string GetJsonState(bool formated = false)
         {
             if (formated)
             {
-                return es5.JSON.stringify(_viewModel.displayedGraph.save(), (double[])null, 4);
+                return es5.JSON.stringify(GetState(), (double[])null, 4);
             }
             else
             {
-                return es5.JSON.stringify(_viewModel.displayedGraph.save());
+                return es5.JSON.stringify(GetState());
             }
         }
         public void SetState(string stateJson)
         {
+            SetState(es5.JSON.parse(stateJson).As<NodeViewGraphState>());
+        }
+
+        public void SetState(NodeViewGraphState state)
+        {
             if (_viewModel is object)
             {
-                _viewModel.displayedGraph.load(es5.JSON.parse(stateJson).As<IGraphState>());
+                _viewModel.displayedGraph.load(state);
             }
             else
             {
-                _whenMounted.Add(() => SetState(stateJson));
+                _whenMounted.Add(() => SetState(state));
             }
         }
 
@@ -152,7 +168,13 @@ namespace Tesserae
                         {
                             command = ToolbarCommands.ZOOM_TO_FIT_GRAPH_COMMAND,
                             title = "Zoom To Fit"
+                        },
+                        new ToolbarCommand()
+                        {
+                            command = ToolbarCommands.START_SELECTION_BOX_COMMAND,
+                            title = "Box Select"
                         }
+
                     }),
                 subgraphCommands = new ReadOnlyArray<ToolbarCommand>(new ToolbarCommand[0]),
                 enabled = true
@@ -205,6 +227,11 @@ namespace Tesserae
                         ReplaceIcon(toolbarEl, UIcons.ExpandArrowsAlt);
                         break;
                     }
+                    case "Box Select":
+                    {
+                        ReplaceIcon(toolbarEl, UIcons.SquareDashed);
+                        break;
+                    }
                 }
             }
 
@@ -217,7 +244,7 @@ namespace Tesserae
 
         private void RaiseChange()
         {
-            var state = GetState();
+            var state = GetJsonState();
             if (state != _previousState)
             {
                 _onChange?.Invoke(this);
@@ -236,12 +263,33 @@ namespace Tesserae
             private string _type;
             private Dictionary<string, Func<NodeInterface>> _inputs = new Dictionary<string, Func<NodeInterface>>();
             private Dictionary<string, Func<NodeInterface>> _outputs = new Dictionary<string, Func<NodeInterface>>();
+            private bool _twoColumn = false;
+            private int _width = 200;
+
+            internal string _category { get; private set; }
+
             private InterfaceBuilder(string type)
             {
                 _type = type;
             }
 
             internal static InterfaceBuilder New(string type) => new InterfaceBuilder(type);
+
+            public InterfaceBuilder TwoColumn(bool twoColumn = true)
+            {
+                _twoColumn = twoColumn;
+                return this;
+            }
+            public InterfaceBuilder Category(string category)
+            {
+                _category = category;
+                return this;
+            }
+            public InterfaceBuilder Width(int width)
+            {
+                _width = width;
+                return this;
+            }
 
             public InterfaceBuilder AddInput(string inputName, Func<NodeInterface> inputGenerator)
             {
@@ -272,7 +320,9 @@ namespace Tesserae
                 {
                     type = _type,
                     inputs = inputObj,
-                    outputs = outputObj
+                    outputs = outputObj,
+                    twoColumn = _twoColumn,
+                    width = _width
                 };
             }
         }
@@ -429,10 +479,10 @@ namespace Tesserae
             public void destroy() { }
             public Node findNodeById(string id) { return null; }
             public NodeInterface findNodeInterface(string id) { return null; }
-            public void load(IGraphState state) { }
+            [Template("{this}.load({0})")] public void load(NodeViewGraphState state) { }
             public void removeConnection(Connection connection) { }
             public void removeNode(Node node) { }
-            [Template("{this}.save()")] public IGraphState save() { return null; }
+            [Template("{this}.save()")] public NodeViewGraphState save() { return null; }
         }
 
         [ObjectLiteral]
@@ -471,7 +521,10 @@ namespace Tesserae
             public Action onPlaced;
             public string title;
             public string type;
+            public bool twoColumn;
+            public int width;
         }
+
         [ObjectLiteral]
         public class GraphTemplate
         {
@@ -487,7 +540,7 @@ namespace Tesserae
             public Graph createGraph() { return null; }
             public Graph createGraph(Graph graph) { return null; }
             public IGraphTemplateState save() { return null; }
-            public void update(IGraphState state) { }
+            public void update(NodeViewGraphState state) { }
             public static GraphTemplate fromGraph(Graph graph, Editor editor) { return null; }
         }
 
@@ -551,12 +604,6 @@ namespace Tesserae
         {
             public object save;
             public object load;
-        }
-
-        [ObjectLiteral]
-        public class NodeState
-        {
-
         }
 
         [ObjectLiteral]
@@ -635,17 +682,65 @@ namespace Tesserae
         }
 
         [ObjectLiteral]
-        public class IGraphState
+        public class NodeViewGraphState
         {
+            public string id;
+            public ReadOnlyArray<NodeState> nodes;
+            public ReadOnlyArray<ConnectionState> connections;
+            public ReadOnlyArray<GraphInterfaceState> inputs;
+            public ReadOnlyArray<GraphInterfaceState> outputs;
+            public PanningState panning;
+            public double scaling;
+        }
 
+        [ObjectLiteral]
+        public class PanningState
+        {
+            public double x;
+            public double y;
+        }
+        [ObjectLiteral]
+        public class PositionState
+        {
+            public double x;
+            public double y;
+        }
+
+        [ObjectLiteral]
+        public class NodeState
+        {
+            public string type;
+            public string id;
+            public string title;
+            public ReadOnlyMap<string, ValueState> inputs;
+            public ReadOnlyMap<string, ValueState> outputs;
+            public PositionState position;
+            public double width;
+            public bool twoColumn;
+        }
+
+        [ObjectLiteral]
+        public class GraphInterfaceState
+        {
+            public string id;
+            public string name;
+            public string nodeId;
+            public string nodeInterfaceId;
+        }
+
+        [ObjectLiteral]
+        public class ValueState
+        {
+            public string id;
+            public dynamic value;
         }
 
         [ObjectLiteral]
         public class IRegisterNodeTypeOptions
         {
-
+            public string category;
         }
-        
+
         [ObjectLiteral]
         public class AbstractNodeConstructor
         {

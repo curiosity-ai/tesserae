@@ -28,7 +28,7 @@ namespace Tesserae.Tests.Samples
                                                    .AddOutput("out", () => NodeView.Interfaces.TextInterface("Output", "Hi Output")));
             var textArea = TextArea().WS().H(10).Grow();
 
-            nodeView.OnChange(v => textArea.Text = v.GetState(true));
+            nodeView.OnChange(v => textArea.Text = v.GetJsonState(true));
 
             textArea.OnBlur((ta, ev) => nodeView.SetState(ta.Text));
 
