@@ -37,4 +37,15 @@ namespace Tesserae
         // this mutation)
         public static implicit operator ReadOnlyArray<T>(T[] data) => Script.Write<ReadOnlyArray<T>>("{0}", data);
     }
+
+    [H5.Name("tss.ROM")]
+    public sealed class ReadOnlyMap<TKey, TValue>
+    {
+        [Template("{data}")]
+        public extern ReadOnlyMap(object data);
+
+        [External] // Required due to https://github.com/bridgedotnet/Bridge/issues/4015
+        public extern TValue this[TKey key] { [Template("{this}[{key}]")] get; }
+        public extern int Length { [Name("length")] get; }
+    }
 }
