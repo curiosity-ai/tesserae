@@ -474,22 +474,22 @@ namespace Tesserae
             public BeforeLoadAfterSaveHooks nodeHooks;
             public GraphTemplate  template;
 
-            public ReadOnlyArray<Connection> connections() { return null; }
-            public bool destroying() { return false; }
-            public ReadOnlyArray<IGraphInterface> inputs() { return null; }
-            public bool loading() { return false; }
-            public ReadOnlyArray<Node> nodes() { return null; }
-            public ReadOnlyArray<IGraphInterface> outputs() { return null; }
+            [Template("{this}.connections()")] public ReadOnlyArray<Connection> connections() { return null; }
+            [Template("{this}.destroying()")] public bool destroying() { return false; }
+            [Template("{this}.inputs()")] public ReadOnlyArray<IGraphInterface> inputs() { return null; }
+            [Template("{this}.loading()")] public bool loading() { return false; }
+            [Template("{this}.nodes()")] public ReadOnlyArray<Node> nodes() { return null; }
+            [Template("{this}.outputs()")] public ReadOnlyArray<IGraphInterface> outputs() { return null; }
 
-            public void addConnection(NodeInterface from, NodeInterface to) { }
-            public void addNode(NodeInterface node) { }
-            public CheckConnectionResult checkConnection(NodeInterface from, NodeInterface to) { return null; }
-            public void destroy() { }
-            public Node findNodeById(string id) { return null; }
-            public NodeInterface findNodeInterface(string id) { return null; }
+            [Template("{this}.addConnection({0}, {1})")] public void addConnection(NodeInterface from, NodeInterface to) { }
+            [Template("{this}.addNode({0})")] public void addNode(NodeInterface node) { }
+            [Template("{this}.checkConnection({0}, {1})")] public CheckConnectionResult checkConnection(NodeInterface from, NodeInterface to) { return null; }
+            [Template("{this}.destroy()")] public void destroy() { }
+            [Template("{this}.findNodeById({0})")] public Node findNodeById(string id) { return null; }
+            [Template("{this}.findNodeInterface({0})")] public NodeInterface findNodeInterface(string id) { return null; }
             [Template("{this}.load({0})")] public void load(NodeViewGraphState state) { }
-            public void removeConnection(Connection connection) { }
-            public void removeNode(Node node) { }
+            [Template("{this}.removeConnection({0})")] public void removeConnection(Connection connection) { }
+            [Template("{this}.removeNode({0})")] public void removeNode(Node node) { }
             [Template("{this}.save()")] public NodeViewGraphState save() { return null; }
         }
 
@@ -501,8 +501,8 @@ namespace Tesserae
             public IHistory history;
             public readonly bool isSubgraph;
             public IViewSettings settings;
-            public void switchGraph(Graph newGraph) { }
-            public void switchGraph(GraphTemplate newGraph) { }
+            [Template("{this}.switchGraph({0})")] public void switchGraph(Graph newGraph) { }
+            [Template("{this}.switchGraph({0})")] public void switchGraph(GraphTemplate newGraph) { }
 
             //    clipboard: IClipboard;
             //    commandHandler: ICommandHandler;
@@ -542,14 +542,14 @@ namespace Tesserae
             public BeforeLoadAfterSaveHooks hooks;
             public string id;
             public ReadOnlyArray<NodeState> nodes;
-            public ReadOnlyArray<IGraphInterface> inputs() { return null; }
-            public string name() { return null; }
-            public ReadOnlyArray<IGraphInterface> outputs() { return null; }
-            public Graph createGraph() { return null; }
-            public Graph createGraph(Graph graph) { return null; }
-            public IGraphTemplateState save() { return null; }
-            public void update(NodeViewGraphState state) { }
-            public static GraphTemplate fromGraph(Graph graph, Editor editor) { return null; }
+            [Template("{this}.inputs()")] public ReadOnlyArray<IGraphInterface> inputs() { return null; }
+            [Template("{this}.name()")] public string name() { return null; }
+            [Template("{this}.outputs()")] public ReadOnlyArray<IGraphInterface> outputs() { return null; }
+            [Template("{this}.createGraph()")] public Graph createGraph() { return null; }
+            [Template("{this}.createGraph({0})")] public Graph createGraph(Graph graph) { return null; }
+            [Template("{this}.save()")] public IGraphTemplateState save() { return null; }
+            [Template("{this}.update({0})")] public void update(NodeViewGraphState state) { }
+            [Template("{this}.fromGraph({0}, {1})")] public static GraphTemplate fromGraph(Graph graph, Editor editor) { return null; }
         }
 
         [ObjectLiteral]
@@ -638,13 +638,13 @@ namespace Tesserae
             public string templateId;
             public int connectionCount() { return 0; }
             public void connectionCount(int value) { }
-            public object value() { return null; }
-            public void value(object value) { }
-            public void load(INodeInterfaceState state) { }
-            public INodeInterfaceState save() {  return null; }
-            public void setComponent(object component) { }
-            public void setHidden(bool hidden) { }
-            public void setPort(bool value) { }
+            [Template("{this}.value()")] public object value() { return null; }
+            [Template("{this}.value({0})")] public void value(object value) { }
+            [Template("{this}.load({0})")] public void load(INodeInterfaceState state) { }
+            [Template("{this}.save()")] public INodeInterfaceState save() {  return null; }
+            [Template("{this}.setComponent({0})")] public void setComponent(object component) { }
+            [Template("{this}.setHidden({0})")] public void setHidden(bool hidden) { }
+            [Template("{this}.setPort({0})")] public void setPort(bool value) { }
         }
 
         [ObjectLiteral]
