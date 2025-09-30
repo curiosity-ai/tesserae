@@ -329,54 +329,62 @@ namespace Tesserae
 
         public static class Interfaces
         {
-            public static NodeInterface ButtonInterface(string name, Action onClick, bool allowMultipleConnections = false)
+            public static NodeInterface ButtonInterface(string name, Action onClick, bool allowMultipleConnections = false, bool setPort = true)
             {
                 var ni = Script.Write<NodeInterface>("new BaklavaJS.RendererVue.ButtonInterface({0}, {1})", name, onClick);
                 ni["allowMultipleConnections"] = allowMultipleConnections;
+                ni.setPort(setPort);
                 return ni;
             }
-            public static NodeInterface CheckboxInterface(string name, bool value, bool allowMultipleConnections = false)
+            public static NodeInterface CheckboxInterface(string name, bool value, bool allowMultipleConnections = false, bool setPort = true)
             {
                 var ni = Script.Write<NodeInterface>("new BaklavaJS.RendererVue.CheckboxInterface({0}, {1})", name, value);
                 ni["allowMultipleConnections"] = allowMultipleConnections;
+                ni.setPort(setPort);
                 return ni;
             }
 
-            public static NodeInterface IntegerInterface(string name, int value, bool allowMultipleConnections = false)
+            public static NodeInterface IntegerInterface(string name, int value, bool allowMultipleConnections = false, bool setPort = true)
             {
                 var ni = Script.Write<NodeInterface>("new BaklavaJS.RendererVue.IntegerInterface({0}, {1})", name, value);
                 ni["allowMultipleConnections"] = allowMultipleConnections;
+                ni.setPort(setPort);
                 return ni;
             }
-            public static NodeInterface NumberInterface(string name, double value, bool allowMultipleConnections = false)
+            public static NodeInterface NumberInterface(string name, double value, bool allowMultipleConnections = false, bool setPort = true)
             {
                 var ni = Script.Write<NodeInterface>("new BaklavaJS.RendererVue.NumberInterface({0}, {1})", name, value);
                 ni["allowMultipleConnections"] = allowMultipleConnections;
+                ni.setPort(setPort);
                 return ni;
             }
-            public static NodeInterface SelectInterface(string name, string defaultValue, ReadOnlyArray<string> values, bool allowMultipleConnections = false)
+            public static NodeInterface SelectInterface(string name, string defaultValue, ReadOnlyArray<string> values, bool allowMultipleConnections = false, bool setPort = true)
             {
                 var ni = Script.Write<NodeInterface>("new BaklavaJS.RendererVue.SelectInterface({0}, {1}, {2})", name, defaultValue, values);
                 ni["allowMultipleConnections"] = allowMultipleConnections;
+                ni.setPort(setPort);
                 return ni;
             }
-            public static NodeInterface SliderInterface(string name, double value, double min, double max, bool allowMultipleConnections = false)
+            public static NodeInterface SliderInterface(string name, double value, double min, double max, bool allowMultipleConnections = false, bool setPort = true)
             {
                 var ni = Script.Write<NodeInterface>("new BaklavaJS.RendererVue.SliderInterface({0}, {1})", name, value, min, max);
                 ni["allowMultipleConnections"] = allowMultipleConnections;
+                ni.setPort(setPort);
                 return ni;
             }
-            public static NodeInterface TextInterface(string name, string value, bool allowMultipleConnections = false)
+            public static NodeInterface TextInterface(string name, string value, bool allowMultipleConnections = false, bool setPort = true)
             {
                 var ni = Script.Write<NodeInterface>("new BaklavaJS.RendererVue.TextInterface({0}, {1})", name, value);
                 ni["allowMultipleConnections"] = allowMultipleConnections;
+                ni.setPort(setPort);
                 return ni;
             }
 
-            public static NodeInterface TextInputInterface(string name, string value, bool allowMultipleConnections = false)
+            public static NodeInterface TextInputInterface(string name, string value, bool allowMultipleConnections = false, bool setPort = true)
             {
                 var ni = Script.Write<NodeInterface>("new BaklavaJS.RendererVue.TextInputInterface({0}, {1})", name, value);
                 ni["allowMultipleConnections"] = allowMultipleConnections;
+                ni.setPort(setPort);
                 return ni;
             }
         }
