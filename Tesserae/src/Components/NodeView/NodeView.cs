@@ -77,6 +77,34 @@ namespace Tesserae
             return this;
         }
 
+        public NodeView DefineDynamicNode(string nodeTypeName, Action<InterfaceBuilder> buildBaseNode, Action<InputsState, OutputsState, InterfaceBuilder> onUpdate)
+        {
+            Action action = () =>
+            {
+                var ib = InterfaceBuilder.New(nodeTypeName).OnUpdate(onUpdate);
+                buildBaseNode(ib);
+                if (!string.IsNullOrEmpty(ib._category))
+                {
+                    _viewModel.editor.registerNodeType(DefineDynamicNode(ib.Build()), new IRegisterNodeTypeOptions() { category = ib._category });
+                }
+                else
+                {
+                    _viewModel.editor.registerNodeType(DefineDynamicNode(ib.Build()));
+                }
+            };
+
+            if (_viewModel is object)
+            {
+                action();
+            }
+            else
+            {
+                _whenMounted.Add(action);
+            }
+
+            return this;
+        }
+
         public dom.HTMLElement Render() => _parent.Render();
 
         public NodeViewGraphState GetState() => _viewModel.displayedGraph.save();
@@ -265,6 +293,9 @@ namespace Tesserae
             private Dictionary<string, Func<NodeInterface>> _outputs = new Dictionary<string, Func<NodeInterface>>();
             private bool _twoColumn = false;
             private int _width = 200;
+            private Action<InputsState, OutputsState, InterfaceBuilder> _onUpdate;
+            private string[] _forceInputUpdates;
+            private string[] _forceOutputUpdates;
 
             internal string _category { get; private set; }
 
@@ -303,18 +334,14 @@ namespace Tesserae
                 return this;
             }
 
+            internal InterfaceBuilder OnUpdate(Action<InputsState, OutputsState, InterfaceBuilder> onUpdate)
+            {
+                _onUpdate = onUpdate;
+                return this;
+            }
             internal DynamicNodeDefinition Build()
             {
-                var inputObj  = new object();
-                var outputObj = new object();
-                foreach (var kv in _inputs)
-                {
-                    inputObj[kv.Key] = Wrap(kv.Value);
-                }
-                foreach (var kv in _outputs)
-                {
-                    outputObj[kv.Key] = Wrap(kv.Value);
-                }
+                GetInputsOutputs(out var inputObj, out var outputObj);
 
                 return new DynamicNodeDefinition()
                 {
@@ -322,7 +349,51 @@ namespace Tesserae
                     inputs = inputObj,
                     outputs = outputObj,
                     twoColumn = _twoColumn,
-                    width = _width
+                    width = _width,
+                    onUpdate = _onUpdate is object ? WrapOnUpdate(_onUpdate) : null
+                };
+            }
+
+            private void GetInputsOutputs(out object inputObj, out object outputObj)
+            {
+                inputObj = new object();
+                outputObj = new object();
+                foreach (var kv in _inputs)
+                {
+                    inputObj[kv.Key] = Wrap(kv.Value);
+                }
+
+                foreach (var kv in _outputs)
+                {
+                    outputObj[kv.Key] = Wrap(kv.Value);
+                }
+            }
+
+            public InterfaceBuilder ForceInputUpdates(params string[] inputs)
+            {
+                _forceInputUpdates = inputs;
+                return this;
+            }
+            public InterfaceBuilder ForceOutputUpdates(params string[] outputs)
+            {
+                _forceOutputUpdates = outputs;
+                return this;
+            }
+
+            private Func<InputsState, OutputsState, DynamicNodeUpdateResult> WrapOnUpdate(Action<InputsState, OutputsState, InterfaceBuilder> onUpdate)
+            {
+                return (i,o) =>
+                {
+                    var ib = InterfaceBuilder.New(_type);
+                    onUpdate(i, o, ib);
+                    ib.GetInputsOutputs(out var inputObj, out var outputObj);
+                    return new DynamicNodeUpdateResult()
+                    {
+                        inputs = inputObj,
+                        outputs = outputObj,
+                        forceUpdateInputs = _forceInputUpdates,
+                        forceUpdateOutputs = _forceOutputUpdates
+                    };
                 };
             }
         }
@@ -390,7 +461,7 @@ namespace Tesserae
         }
 
         private static Node CreateGraphNodeType(GraphTemplate template) => Script.Write<Node>("BaklavaJS.Core.createGraphNodeType({0})", template);
-        private static Node DefineDynamicNode(DynamicNodeDefinition nodeDefinition) => Script.Write<Node>("BaklavaJS.Core.defineDynamicNode({0})", nodeDefinition);
+        private static AbstractNodeConstructor DefineDynamicNode(DynamicNodeDefinition nodeDefinition) => Script.Write<AbstractNodeConstructor>("BaklavaJS.Core.defineDynamicNode({0})", nodeDefinition);
         private static AbstractNodeConstructor DefineNode(DynamicNodeDefinition definition) => Script.Write<AbstractNodeConstructor>("BaklavaJS.Core.defineNode({0})", definition);
         private static string GetGraphNodeTypeString(GraphTemplate template) => Script.Write<string>("BaklavaJS.Core.getGraphNodeTypeString({0})", template);
 
@@ -527,6 +598,7 @@ namespace Tesserae
             public Action onCreate;
             public Action onDestroy;
             public Action onPlaced;
+            public Func<InputsState, OutputsState, DynamicNodeUpdateResult> onUpdate;
             public string title;
             public string type;
             public bool twoColumn;
@@ -886,6 +958,27 @@ namespace Tesserae
             public int paddingLeft;
             public int paddingRight;
             public int paddingTop;
+        }
+        
+        [ObjectLiteral]
+        public class DynamicNodeUpdateResult
+        {
+            public object inputs;
+            public object outputs;
+            public ReadOnlyArray<string> forceUpdateInputs;
+            public ReadOnlyArray<string> forceUpdateOutputs;
+        }
+
+        [ObjectLiteral]
+        public class InputsState
+        {
+
+        }
+        
+        [ObjectLiteral]
+        public class OutputsState
+        {
+
         }
     }
 }

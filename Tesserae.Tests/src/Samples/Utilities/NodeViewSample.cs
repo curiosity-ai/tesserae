@@ -26,6 +26,18 @@ namespace Tesserae.Tests.Samples
                                                    .AddInput("sel",  () => NodeView.Interfaces.SelectInterface("Input", "A", new ReadOnlyArray<string>(new[] { "A", "B", "C" })))
                                                    .AddInput("sld",  () => NodeView.Interfaces.SliderInterface("Input", 0.5, 0, 1))
                                                    .AddOutput("out", () => NodeView.Interfaces.TextInterface("Output", "Hi Output")));
+
+            nodeView.DefineDynamicNode("Dynamic", ib => ib.AddInput("inp", () => NodeView.Interfaces.IntegerInterface("Output Count", 1)),
+                                                  (inputState, outputState, ib) =>
+                                                  {
+                                                      var inputCount = inputState["inp"].As<int>();
+                                                      for(int i  = 0; i < inputCount; i++)
+                                                      {
+                                                          ib.AddOutput($"out-{i}", () => NodeView.Interfaces.TextInterface($"out-{i}", i.ToString()));
+                                                      }
+                                                  });
+
+
             var textArea = TextArea().WS().H(10).Grow();
 
             nodeView.OnChange(v => textArea.Text = v.GetJsonState(true));
