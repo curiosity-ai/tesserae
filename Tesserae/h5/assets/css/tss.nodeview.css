@@ -87,13 +87,13 @@
 }
 
 .tss-nodeview .baklava-toolbar {
-    height: 32px !important;
+    height: 40px !important;
     padding: 4px !important;
     display: inline-flex !important;
 }
 
 .tss-nodeview .baklava-node-palette {
-    height: calc(100% - 32px) !important;
+    height: calc(100% - 40px) !important;
     padding: 16px !important;
     top:32px !important;
 }
@@ -101,4 +101,56 @@
 .tss-nodeview .baklava-toolbar-button:disabled{
     opacity:0.5;
     filter:saturate(0);
+}
+
+.tss-nodeview .baklava-node-palette {
+    padding: 8px !important;
+}
+
+    .tss-nodeview .baklava-node-palette section {
+    }
+
+        .tss-nodeview .baklava-node-palette section h1 {
+            margin-top: 20px;
+            font-size: var(--tss-font-size-tiny) !important;
+            font-weight: var(--tss-font-weight-semibold);
+            color: var(--tss-secondary-foreground-color);
+        }
+
+        .tss-nodeview .baklava-node-palette section:first-child h1 {
+            margin-top: 16px !important;
+        }
+
+        .tss-nodeview .baklava-node-palette section .baklava-node.--palette {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            width: 100%;
+            line-height: var(--tss-font-size-small);
+            font-size: var(--tss-font-size-small);
+            border-radius: 6px;
+        }
+
+            .tss-nodeview .baklava-node-palette section .baklava-node.--palette:before {
+                content: var(--uicon-var-block);
+                left: 6px;
+                font-family: uicons-regular-rounded !important;
+                font-style: normal;
+                font-weight: normal !important;
+                font-variant: normal;
+                text-transform: none;
+                -webkit-font-smoothing: antialiased;
+                position: absolute;
+                line-height: var(--tss-font-size-small);
+                font-size: var(--tss-font-size-small);
+            }
+
+            .tss-nodeview .baklava-node-palette section .baklava-node.--palette .__title {
+                width: 100%;
+                flex-grow: 1;
+                padding-left: 32px;
+            }
+
+.tss-nodeview .baklava-node.--palette {
+    margin: 4px 0px;
 }
