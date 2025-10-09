@@ -212,13 +212,13 @@
 }
 
 
-.tippy-content .tss-btn-default {
+.tippy-content .tss-btn-default:not(.tss-disabled) {
     color: var(--tss-default-foreground-color);
     background-color: var(--tss-default-background-color);
     border-color: var(--tss-default-background-color);
 }
 
-    .tippy-content .tss-btn-default:hover {
+    .tippy-content .tss-btn-default:not(.tss-disabled):hover {
         color: var(--tss-default-foreground-hover-color);
         background-color: var(--tss-default-background-hover-color);
         border-color: var(--tss-default-background-hover-color);
