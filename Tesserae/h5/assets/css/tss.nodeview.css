@@ -154,3 +154,9 @@
 .tss-nodeview .baklava-node.--palette {
     margin: 4px 0px !important;
 }
+
+.tss-nodeview .baklava-context-menu > .item > .__submenu-icon {
+    position: absolute !important;
+    right: 4px !important;
+    top: calc(var(--tss-font-size-small) / 2) !important;
+}
