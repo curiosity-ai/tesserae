@@ -123,34 +123,27 @@ a {
     background: transparent;
 }
 
-.tss-btn.tss-btn-default:not(.tss-disabled) {
-    color: var(--tss-default-foreground-color);
-    border-color: transparent;
-    box-shadow: none;
-    background: transparent;
-}
-
-.tss-btn.tss-btn-default:not(.tss-disabled) .tss-fontcolor-default {
+.tss-btn.tss-btn-default .tss-fontcolor-default {
     color: var(--tss-default-foreground-color);
 }
 
-    .tss-btn.tss-btn-default:not(.tss-disabled):hover {
+    .tss-btn.tss-btn-default:hover {
         color: var(--tss-default-foreground-hover-color);
         background-color: var(--tss-default-background-hover-color);
         border-color: var(--tss-default-background-hover-color);
     }
 
-        .tss-btn.tss-btn-default:not(.tss-disabled):hover .tss-fontcolor-default {
+        .tss-btn.tss-btn-default:hover .tss-fontcolor-default {
             color: var(--tss-default-foreground-hover-color);
         }
 
-    .tss-btn.tss-btn-default:not(.tss-disabled):active {
+    .tss-btn.tss-btn-default:active {
         color: var(--tss-default-foreground-active-color);
         background-color: var(--tss-default-background-active-color);
         border-color: var(--tss-default-background-active-color);
     }
 
-        .tss-btn.tss-btn-default:not(.tss-disabled):active .tss-fontcolor-default {
+        .tss-btn.tss-btn-default:active .tss-fontcolor-default {
             color: var(--tss-default-foreground-active-color);
         }
 
