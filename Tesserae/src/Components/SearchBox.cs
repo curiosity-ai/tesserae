@@ -199,6 +199,10 @@ namespace Tesserae
         {
             OnKeyUp((s, e) =>
             {
+                if (e.altKey || e.ctrlKey || e.metaKey || e.key == "Enter" || e.key == "Escape")
+                {
+                    return;
+                }
                 Searched?.Invoke(this, InnerElement.value);
             });
             return this;
