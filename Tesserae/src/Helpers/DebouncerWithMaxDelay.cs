@@ -37,6 +37,7 @@ namespace Tesserae
             }
             else
             {
+                _lastInvoked = es5.Date.now(); //Need to set it here too to avoid immediatelly triggering it above on two subsequent calls
                 _refreshTimeout = window.setTimeout(
                     _ =>
                     {
