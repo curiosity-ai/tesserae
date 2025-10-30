@@ -7,10 +7,14 @@ namespace Tesserae
     [H5.Name("tss.ChoiceGroup")]
     public sealed class ChoiceGroup : ComponentBase<ChoiceGroup, HTMLDivElement>, IContainer<ChoiceGroup, ChoiceGroup.Choice>, IObservableComponent<ChoiceGroup.Choice>
     {
+        private readonly string _name;
         private readonly TextBlock                  _header;
         private readonly SettableObservable<Choice> _selectedOption = new SettableObservable<Choice>();
+        private static int _count = 0;
         public ChoiceGroup(string label = "Pick one")
         {
+            _count++;
+            _name = $"choice-group-{_count}";
             _header = (new TextBlock(label)).SemiBold();
             var h = _header.Render();
             h.style.alignSelf = "baseline";
@@ -48,6 +52,7 @@ namespace Tesserae
 
         public void Add(Choice component)
         {
+            component.Name(_name);
             InnerElement.appendChild(component.Render());
 
             component.OnSelected(OnChoiceSelected);
@@ -65,6 +70,7 @@ namespace Tesserae
 
         public void Replace(Choice newComponent, Choice oldComponent)
         {
+            newComponent.Name(_name);
             InnerElement.replaceChild(newComponent.Render(), oldComponent.Render());
             newComponent.OnSelected(OnChoiceSelected);
         }
@@ -208,6 +214,11 @@ namespace Tesserae
             {
                 Text = text;
                 return this;
+            }
+
+            internal void Name(string name)
+            {
+                InnerElement.name = name;
             }
         }
     }
