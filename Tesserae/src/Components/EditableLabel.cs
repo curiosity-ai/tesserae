@@ -107,8 +107,10 @@ namespace Tesserae
             {
                 if (value)
                 {
-                    var labelRect = (DOMRect)_labelText.getBoundingClientRect();
-                    InnerElement.style.minWidth = (labelRect.width * 1.2) + "px";
+                    var labelRect = _labelText.getBoundingClientRect().As<DOMRect>();
+                    var parentRect = _container.getBoundingClientRect().As<DOMRect>();
+                    var targetWidth = parentRect.width > 100 ? Math.Min(labelRect.width * 1.2, parentRect.width - 48) : labelRect.width * 1.2;
+                    InnerElement.style.minWidth = targetWidth + "px";
                     _container.classList.add("tss-editing");
                 }
                 else
