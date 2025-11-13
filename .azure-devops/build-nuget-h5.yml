@@ -23,10 +23,10 @@ steps:
       Write-Host "##vso[task.setvariable variable=buildVersion]$date.$(build.buildId)"
 
 - task: UseDotNet@2
-  displayName: 'Use .NET 9.0 sdk'
+  displayName: 'Use .NET 10.0 sdk'
   inputs:
     packageType: sdk
-    version: 9.x
+    version: 10.x
     installationPath: $(Agent.ToolsDirectory)/dotnet
 
 - task: NuGetToolInstaller@1
