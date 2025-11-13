@@ -1,4 +1,4 @@
-﻿<Project Sdk="h5.Target/23.2.35852">
+<Project Sdk="h5.Target/25.11.62725">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <DefineConstants>H5</DefineConstants>
@@ -13,9 +13,9 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="h5" Version="25.3.57184" />
-    <PackageReference Include="h5.core" Version="24.11.53879" />
-    <PackageReference Include="h5.Newtonsoft.Json" Version="24.2.45748" />
+    <PackageReference Include="h5" Version="25.11.62743" />
+    <PackageReference Include="h5.core" Version="25.11.62746" />
+    <PackageReference Include="h5.Newtonsoft.Json" Version="25.11.62749" />
   </ItemGroup>
 
   <PropertyGroup>
