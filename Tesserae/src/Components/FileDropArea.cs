@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using H5;
 using static H5.Core.dom;
 using static Tesserae.UI;
@@ -8,8 +9,9 @@ namespace Tesserae
     [H5.Name("tss.FileDropArea")]
     public sealed class FileDropArea : IComponent
     {
-        private event FileDroppedHandler FileDropped;
-        public delegate void             FileDroppedHandler(FileDropArea sender, File file);
+        private event FilesDroppedHandler FilesDropped;
+        public delegate void              FilesDroppedHandler(FileDropArea sender, File[] file);
+        public delegate void              FileDroppedHandler(FileDropArea  sender, File   file);
 
         private readonly HTMLInputElement _fileInput;
         private          Raw              _raw;
@@ -26,11 +28,10 @@ namespace Tesserae
             {
                 if (_fileInput.files.length > 0)
                 {
-                    foreach (var file in _fileInput.files)
-                    {
-                        FileDropped(this, file);
-                        if (!IsMultiple) break;
-                    }
+                    FilesDropped(this,
+                        IsMultiple
+                            ? new[] { _fileInput.files.First() }
+                            : _fileInput.files.ToArray());
                 }
             }
         }
@@ -117,7 +118,7 @@ namespace Tesserae
                 }
                 else if (Script.Write<bool>("{0}.isFile", entry) == true)
                 {
-                    Action<File> upload = (f) => { FileDropped?.Invoke(this, f); };
+                    Action<File> upload = (f) => { FilesDropped?.Invoke(this, new[] { f }); };
                     Script.Write("{0}.file({1})", entry, upload);
                 }
             }
@@ -127,7 +128,19 @@ namespace Tesserae
 
         public FileDropArea OnFileDropped(FileDroppedHandler handler)
         {
-            FileDropped += handler;
+            FilesDropped += (sender, files) =>
+            {
+                foreach (var file in files)
+                {
+                    handler(sender, file);
+                }
+            };
+            return this;
+        }
+
+        public FileDropArea OnFilesDropped(FilesDroppedHandler handler)
+        {
+            FilesDropped += handler;
             return this;
         }
 
