@@ -23,7 +23,7 @@ namespace Tesserae.Tests.Samples
                             SampleSubTitle("Do"),
                             SampleDo("Filter files by supported types"),
                             SampleDo("Provide a message for the file drop area"),
-                            SampleDo($"Attach the {nameof(FileDropArea.OnFileDropped)} event handler")
+                            SampleDo($"Attach the {nameof(FileDropArea.OnFilesDropped)} event handler")
                         ),
                         Stack().Width(40.percent()).Children(
                             SampleSubTitle("Don't"),
@@ -37,7 +37,13 @@ namespace Tesserae.Tests.Samples
                     FileSelector().SetPlaceholder("Please select any image").SetAccepts("image/*").OnFileSelected((fs,            e) => size.Text = fs.SelectedFile.size.ToString() + " bytes"),
                     SampleSubTitle("File Drop Area"),
                     Label("Dropped Files: ").SetContent(Stack().Var(out var droppedFiles)),
-                    FileDropArea().OnFileDropped((s, e) => droppedFiles.Add(TextBlock(e.name).Small())).Multiple()
+                    FileDropArea().OnFilesDropped((s, e) =>
+                    {
+                        foreach (var file in e)
+                        {
+                            droppedFiles.Add(TextBlock(file.name).Small());
+                        }
+                    }).Multiple()
                 ));
         }
 
