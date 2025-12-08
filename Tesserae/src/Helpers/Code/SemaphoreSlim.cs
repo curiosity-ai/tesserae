@@ -50,4 +50,48 @@ namespace Tesserae
             }
         }
     }
+
+
+    [H5.Name("tss.Semaphore")]
+    public class Semaphore
+    {
+        private          int                               currentCount;
+        private readonly Queue<TaskCompletionSource<bool>> _queue;
+
+        public Semaphore(int maxConcurrency = 1)
+        {
+            currentCount = maxConcurrency;
+            _queue       = new Queue<TaskCompletionSource<bool>>();
+        }
+
+        public Task WaitAsync()
+        {
+            if (this.currentCount > 0)
+            {
+                this.currentCount--;
+                return Task.CompletedTask;
+            }
+
+            var completion = new TaskCompletionSource<bool>();
+
+            _queue.Enqueue(completion);
+
+            return completion.Task.ContinueWith(t =>
+            {
+                this.currentCount--;
+            });
+        }
+
+        public bool IsPending => _queue.Count > 0;
+        public void Release()
+        {
+            this.currentCount++;
+
+            if (_queue.Count > 0)
+            {
+                _queue.Dequeue().SetResult(true);
+            }
+        }
+    }
+
 }
