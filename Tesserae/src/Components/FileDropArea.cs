@@ -14,7 +14,7 @@ namespace Tesserae
         /// <summary>
         /// To accept multiple files, mark the FileDropArea as multiple.
         /// </summary>
-        public delegate void              FilesDroppedHandler(FileDropArea sender, File[] file);
+        public delegate void              FilesDroppedHandler(FileDropArea sender, File[] files);
 
         private readonly HTMLInputElement _fileInput;
         private          Raw              _raw;
