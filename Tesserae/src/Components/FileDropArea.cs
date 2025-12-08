@@ -10,11 +10,11 @@ namespace Tesserae
     public sealed class FileDropArea : IComponent
     {
         private event FilesDroppedHandler FilesDropped;
-        
+
         /// <summary>
         /// To accept multiple files, mark the FileDropArea as multiple.
         /// </summary>
-        public delegate void              FilesDroppedHandler(FileDropArea sender, File[] files);
+        public delegate void FilesDroppedHandler(FileDropArea sender, File[] files);
 
         private readonly HTMLInputElement _fileInput;
         private          Raw              _raw;
@@ -33,8 +33,8 @@ namespace Tesserae
                 {
                     FilesDropped(this,
                         IsMultiple
-                            ? new[] { _fileInput.files.First() }
-                            : _fileInput.files.ToArray());
+                            ? _fileInput.files.ToArray()
+                            : new[] { _fileInput.files.First() });
                 }
             }
         }
