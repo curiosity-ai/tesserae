@@ -130,74 +130,82 @@ namespace Tesserae
             return this;
         }
 
-        public void Success(IComponent title, IComponent message)
+        public Toast Success(IComponent title, IComponent message)
         {
             _type    = Type.Success;
             _title   = title;
             _message = message;
             Fire();
+            return this;
         }
-        public void Information(IComponent title, IComponent message)
+        public Toast Information(IComponent title, IComponent message)
         {
             _type    = Type.Information;
             _title   = title;
             _message = message;
             Fire();
+            return this;
         }
-        public void Warning(IComponent title, IComponent message)
+        public Toast Warning(IComponent title, IComponent message)
         {
             _type    = Type.Warning;
             _title   = title;
             _message = message;
             Fire();
+            return this;
         }
 
-        public void Error(IComponent title, IComponent message)
+        public Toast Error(IComponent title, IComponent message)
         {
             _type    = Type.Error;
             _title   = title;
             _message = message;
             Fire();
+            return this;
         }
 
-        public void Success(IComponent     message) => Success(null, message);
-        public void Information(IComponent message) => Information(null, message);
-        public void Warning(IComponent     message) => Warning(null, message);
-        public void Error(IComponent       message) => Error(null, message);
+        public Toast Success(IComponent     message) => Success(null, message);
+        public Toast Information(IComponent message) => Information(null, message);
+        public Toast Warning(IComponent     message) => Warning(null, message);
+        public Toast Error(IComponent       message) => Error(null, message);
 
-        public void Success(string title, string message)
+        public Toast Success(string title, string message)
         {
             _type    = Type.Success;
             _title   = string.IsNullOrEmpty(title) ? null : TextBlock(title, textSize: TextSize.Medium, textWeight: TextWeight.SemiBold);
             _message = TextBlock(message, textSize: TextSize.Small);
             Fire();
+            return this;
         }
-        public void Information(string title, string message)
+        public Toast Information(string title, string message)
         {
             _type    = Type.Information;
             _title   = string.IsNullOrEmpty(title) ? null : TextBlock(title, textSize: TextSize.Medium, textWeight: TextWeight.SemiBold);
             _message = TextBlock(message, textSize: TextSize.Small);
             Fire();
+            return this;
         }
-        public void Warning(string title, string message)
+        public Toast Warning(string title, string message)
         {
             _type    = Type.Warning;
             _title   = string.IsNullOrEmpty(title) ? null : TextBlock(title, textSize: TextSize.Medium, textWeight: TextWeight.SemiBold);
             _message = TextBlock(message, textSize: TextSize.Small);
             Fire();
+            return this;
         }
-        public void Error(string title, string message)
+        public Toast Error(string title, string message)
         {
             _type    = Type.Error;
             _title   = string.IsNullOrEmpty(title) ? null : TextBlock(title, textSize: TextSize.Medium, textWeight: TextWeight.SemiBold);
             _message = TextBlock(message, textSize: TextSize.Small);
             Fire();
+            return this;
         }
 
-        public void Success(string     message) => Success(null, message);
-        public void Information(string message) => Information(null, message);
-        public void Warning(string     message) => Warning(null, message);
-        public void Error(string       message) => Error(null, message);
+        public Toast Success(string     message) => Success(null, message);
+        public Toast Information(string message) => Information(null, message);
+        public Toast Warning(string     message) => Warning(null, message);
+        public Toast Error(string       message) => Error(null, message);
 
         public Toast Width(UnitSize width)
         {
@@ -503,13 +511,18 @@ namespace Tesserae
             _timeoutHandle = window.setTimeout((_) => RemoveAndHide(), _timeoutDuration);
         }
 
-        public void Remove()
+        public override void Hide(Action onHidden = null)
         {
             ClearTimeout();
-            RemoveAndHide();
+            RemoveAndHide(onHidden);
         }
 
-        private void RemoveAndHide()
+        public void Remove()
+        {
+            Hide();
+        }
+
+        private void RemoveAndHide(Action onHidden = null)
         {
             OpenToasts[_simPos].Remove(this);
 
@@ -528,7 +541,7 @@ namespace Tesserae
                     _toastContainer.style.marginBottom = "0px";
                     break;
             }
-            Hide();
+            base.Hide(onHidden);
             RefreshPositioning();
         }
 
