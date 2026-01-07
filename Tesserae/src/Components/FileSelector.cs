@@ -63,9 +63,9 @@ namespace Tesserae
         public FileSelector()
         {
             _fileInput = FileInput(_("tss-file-input"));
-            _textBox   = TextBox().ReadOnly().Grow(1).AlignCenter();
+            _textBox   = TextBox().ReadOnly().Grow(1).AlignCenter().Class("tss-file-input-text");
 
-            _stack = Stack().Horizontal().WS()
+            _stack = HStack().WS()
                .Children(_textBox,
                     Button().SetTitle("Click to select file...").NoWrap().SetIcon(UIcons.Folder).OnClick((s, e) => _fileInput.click()).NoBorder().NoBackground(),
                     Raw(_fileInput));
@@ -83,6 +83,12 @@ namespace Tesserae
                 }
             }
             ;
+        }
+
+        public FileSelector NoTextBox()
+        {
+            _textBox.Collapse();
+            return this;
         }
 
         public FileSelector OnFileSelected(FileSelectedHandler handler)
