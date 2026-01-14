@@ -136,8 +136,8 @@ namespace Tesserae
             if (_contentHtml == null)
             {
                 _modalOverlay = Div(_("tss-contextmenu-overlay"));
-                _modalOverlay.addEventListener("click", _ => Hide());
-                _modalOverlay.addEventListener("contextmenu", _ => Hide());
+                _modalOverlay.addEventListener("click", e => { StopEvent(e);  Hide(); });
+                _modalOverlay.addEventListener("contextmenu", e => { StopEvent(e);  Hide(); });
                 _popup       = Div(_("tss-contextmenu-popup"), _childContainer);
                 _contentHtml = Div(_(),                        _modalOverlay, _popup);
             }
@@ -228,7 +228,8 @@ namespace Tesserae
                 if (_contentHtml == null)
                 {
                     _modalOverlay = Div(_("tss-contextmenu-overlay"));
-                    _modalOverlay.addEventListener("click", _ => Hide());
+                    _modalOverlay.addEventListener("click", e => { StopEvent(e);  Hide(); });
+                    _modalOverlay.addEventListener("contextmenu", e => { StopEvent(e);  Hide(); });
                     _popup       = Div(_("tss-contextmenu-popup"), _childContainer);
                     _contentHtml = Div(_(),                        _modalOverlay, _popup);
                 }
