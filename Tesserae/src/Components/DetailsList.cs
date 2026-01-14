@@ -365,7 +365,7 @@ namespace Tesserae
 
         private void UpdateColumnSortingIcon(Interface htmlElement, Action setIconExpression)
         {
-            _columnSortingIcon.remove();
+            if(_columnSortingIcon is object) _columnSortingIcon.remove();
             setIconExpression();
             CreateColumnSortingIcon();
             htmlElement.parentElement.appendChild(_columnSortingIcon);
