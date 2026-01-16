@@ -1,0 +1,50 @@
+body {
+    background-color: #0079bf; /* Classic Trello Blue */
+    color: #172b4d;
+}
+
+.board-header {
+    background: rgba(0,0,0,0.15);
+}
+
+.board-title {
+    color: white;
+}
+
+.board-canvas {
+    align-items: flex-start;
+}
+
+.board-column {
+    background-color: #ebedf0;
+    border-radius: 4px;
+    margin-right: 12px;
+    max-height: 100%;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+    transition: background-color 0.2s;
+}
+
+.board-column.drag-over {
+    background-color: #dfe1e6;
+    outline: 2px dashed #0079bf;
+}
+
+.column-tasks {
+    padding: 0 8px 8px 8px;
+    min-height: 100px;
+}
+
+.task-card {
+    background: white;
+    border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(9,30,66,0.25);
+    cursor: pointer;
+}
+
+.task-card:hover {
+    background-color: #f4f5f7;
+}
+
+.task-card.dragging {
+    opacity: 0.5;
+}
