@@ -1,0 +1,36 @@
+{
+  "output": "$(OutDir)/h5/",
+  "fileName": "app.js",
+  "html": {
+    "disabled": false,
+    "title": "Tesserae Notes App"
+  },
+  "resources": [
+    {
+      "name": "style.css",
+      "files": [
+        "h5/assets/css/style.css"
+      ]
+    }
+  ],
+  "console": { "enabled": true },
+  "loader": { "type": "Global" },
+  "sourceMap": { "enabled": true },
+  "reflection": {
+    "disabled": false,
+    "target":  "inline"
+  },
+  "generateTypeScript": false,
+  "report": { "enabled": false },
+  "rules": {
+    "anonymousType": "Plain",
+    "arrayIndex": "Managed",
+    "autoProperty": "Plain",
+    "boxing": "Managed",
+    "externalCast": "Plain",
+    "inlineComment": "Plain",
+    "integer": "Managed",
+    "lambda": "Plain",
+    "useShortForms": true
+  }
+}

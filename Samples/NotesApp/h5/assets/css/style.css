@@ -1,0 +1,15 @@
+body {
+    background-color: white;
+}
+.tss-splitview-left {
+    border-right: 1px solid #edebe9;
+    background-color: #faf9f8;
+}
+.tss-textarea {
+    border: none;
+    resize: none;
+}
+.tss-textarea:focus {
+    border: none;
+    box-shadow: none;
+}
