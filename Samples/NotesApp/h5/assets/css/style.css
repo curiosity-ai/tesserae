@@ -1,15 +1,52 @@
 body {
     background-color: white;
 }
-.tss-splitview-left {
-    border-right: 1px solid #edebe9;
+
+.notes-sidebar {
     background-color: #faf9f8;
+    border-right: 1px solid #edebe9;
 }
-.tss-textarea {
-    border: none;
-    resize: none;
+
+.note-item-btn {
+    text-align: left !important;
+    padding: 0 !important;
+    border: none !important;
+    border-bottom: 1px solid #f3f2f1 !important;
+    height: auto !important;
+    border-radius: 0 !important;
 }
-.tss-textarea:focus {
-    border: none;
-    box-shadow: none;
+
+.note-item-btn:hover {
+    background-color: #f3f2f1 !important;
+}
+
+.note-item-btn.selected {
+    background-color: #edebe9 !important;
+    border-left: 4px solid #0078d4 !important;
+}
+
+.editor-toolbar {
+    border-bottom: 1px solid #edebe9;
+}
+
+.note-title-editor {
+    border: none !important;
+    font-size: 24px !important;
+    font-weight: 600 !important;
+}
+
+.note-content-editor {
+    border: none !important;
+    font-size: 16px !important;
+    resize: none !important;
+}
+
+.pinned-btn {
+    color: #0078d4 !important;
+}
+
+.text-ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }

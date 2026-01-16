@@ -1,8 +1,54 @@
 body {
     background-color: #faf9f8;
+    color: #323130;
 }
-.tss-card {
-    background: white;
-    box-shadow: 0 1.6px 3.6px 0 rgba(0,0,0,.132), 0 0.3px 0.9px 0 rgba(0,0,0,.108);
-    border-radius: 2px;
+
+.weather-sidebar {
+    background-color: white;
+    border-right: 1px solid #edebe9;
+}
+
+.weather-city, .weather-temp, .weather-condition, .weather-icon-main {
+    color: white;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.forecast-card {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    border-radius: 12px;
+}
+
+.weather-bg-sunny {
+    background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+}
+
+.weather-bg-partly-cloudy {
+    background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
+}
+
+.weather-bg-cloudy {
+    background: linear-gradient(135deg, #bdc3c7 0%, #2c3e50 100%);
+}
+
+.weather-bg-rainy {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.weather-bg-stormy {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.weather-bg-snowy {
+    background: linear-gradient(135deg, #e6e9f0 0%, #eef1f5 100%);
+}
+
+.weather-bg-snowy .weather-city,
+.weather-bg-snowy .weather-temp,
+.weather-bg-snowy .weather-condition,
+.weather-bg-snowy .weather-icon-main,
+.weather-bg-snowy .forecast-card {
+    color: #323130;
 }

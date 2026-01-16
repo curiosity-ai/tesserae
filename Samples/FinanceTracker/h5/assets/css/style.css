@@ -1,6 +1,30 @@
 body {
     background-color: #f3f2f1;
 }
-.tss-textblock {
-    white-space: nowrap;
+
+.finance-header {
+    background: white;
+    border-bottom: 1px solid #edebe9;
+}
+
+.finance-title {
+    color: #107c10;
+}
+
+.text-green {
+    color: #107c10;
+}
+
+.text-red {
+    color: #a4262c;
+}
+
+.delete-btn {
+    color: #a19f9d;
+    background: transparent !important;
+    border: none !important;
+}
+
+.delete-btn:hover {
+    color: #a4262c;
 }
