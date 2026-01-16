@@ -12,7 +12,27 @@ Tesserae is a UI toolkit for building web applications entirely in C#. It levera
 
 ### 2. Styling and Configuration
 - **Fluent Interface**: Tesserae uses a fluent API for styling and layout.
-  - Example: `Button("Submit").Primary().W(100.px()).MarginTop(16.px())`
+- **Use Short Methods**: Always prefer short methods over their full-length counterparts. These methods can take a `UnitSize` or an `int` (which automatically maps to pixels).
+
+#### Available Short Methods:
+| Short Method | Full Method | Description |
+| :--- | :--- | :--- |
+| `.W(val)` | `.Width(val)` | Set width |
+| `.H(val)` | `.Height(val)` | Set height |
+| `.S()` | `.Stretch()` | Stretch both width and height to 100% |
+| `.WS()` | `.WidthStretch()` | Stretch width to 100% |
+| `.HS()` | `.HeightStretch()` | Stretch height to 100% |
+| `.M(val)` | `.Margin(val)` | Set margin on all sides |
+| `.ML(val)` | `.MarginLeft(val)` | Set left margin |
+| `.MR(val)` | `.MarginRight(val)` | Set right margin |
+| `.MT(val)` | `.MarginTop(val)` | Set top margin |
+| `.MB(val)` | `.MarginBottom(val)` | Set bottom margin |
+| `.P(val)` | `.Padding(val)` | Set padding on all sides |
+| `.PL(val)` | `.PaddingLeft(val)` | Set left padding |
+| `.PR(val)` | `.PaddingRight(val)` | Set right padding |
+| `.PT(val)` | `.PaddingTop(val)` | Set top padding |
+| `.PB(val)` | `.PaddingBottom(val)` | Set bottom padding |
+
 - **Layout Components**: Use `HStack` (horizontal) and `VStack` (vertical) for basic layout. For more complex grids, use `Grid`.
 - **Unit Sizes**: Use the extension methods on integers for sizes: `10.px()`, `100.percent()`, `50.vh()`, `20.vw()`.
 
@@ -29,7 +49,7 @@ Tesserae is a UI toolkit for building web applications entirely in C#. It levera
 ## Environment & Build Setup
 
 ### 1. Requirements
-- **.NET SDK**: Works with .NET 7.0, 8.0, and 10.0.
+- **.NET SDK**: **Always use .NET 10.0.**
 - **h5-compiler**: This dotnet tool is essential for compilation. Version `0.0.34002` is a verified stable fallback if the latest version has issues.
 
 ### 2. Build Configuration
