@@ -38,8 +38,12 @@ Tesserae is a UI toolkit for building web applications entirely in C#. It levera
 
 ### 3. State and Reactivity
 - **Observables**: Use `SettableObservable<T>` for single values and `ObservableList<T>` for collections.
-- **Dynamic Content**: Use `Defer` or `DeferSync` to render content that depends on observables.
-  - Example: `Defer(myObservable, value => Task.FromResult(TextBlock(value)))`
+- **Dynamic Content**: Use `Defer` or `DeferSync` to render content that depends on observables or asynchronous operations.
+  - **`Defer`**: Used for asynchronous component generation. It expects a generator that returns a `Task<IComponent>`.
+    - *Example (Async)*: `Defer(async () => { var data = await FetchData(); return TextBlock(data); })`
+    - *Example (Observable)*: `Defer(myObservable, value => Task.FromResult((IComponent)TextBlock(value)))`
+  - **`DeferSync`**: Used for synchronous component generation. It expects a generator that returns an `IComponent`.
+    - *Example*: `DeferSync(myObservable, value => TextBlock(value))`
 - **Manual Notifications**: If a property inside an object in an `ObservableList` changes, you may need to call a notification mechanism (like `list.ReplaceAll(list.ToList())`) to trigger a UI refresh, as Tesserae's standard `ObservableList` doesn't automatically watch nested property changes.
 
 ### 4. Persistence
