@@ -9,16 +9,17 @@ namespace Tesserae
     {
         private readonly HTMLDivElement             _container;
         private readonly HTMLSpanElement            _errorSpan;
-        private readonly SettableObservable<string> _observable = new SettableObservable<string>();
+        private readonly SettableObservable<string> _observable;
 
         protected Input(string type, string defaultText = null)
         {
             InnerElement = TextBox(_("tss-textbox", type: type, value: defaultText));
-
-
             _errorSpan = Span(_("tss-textbox-error"));
             _container = Div(_("tss-textbox-container tss-default-component-margin"), InnerElement, _errorSpan);
-
+            
+            _observable = new SettableObservable<string>();
+            _observable.Value = defaultText;
+            
             AttachChange();
             AttachInput();
             AttachFocus();

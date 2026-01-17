@@ -15,7 +15,7 @@ namespace Tesserae
         private readonly HTMLSpanElement            _labelText;
         private readonly HTMLDivElement             _editView;
         private readonly HTMLDivElement             _labelView;
-        private readonly SettableObservable<string> _observable = new SettableObservable<string>();
+        private readonly SettableObservable<string> _observable;
 
         private readonly HTMLElement _editIcon;
         private readonly HTMLElement _cancelEditIcon;
@@ -27,6 +27,7 @@ namespace Tesserae
             _labelText = Span(_("tss-editablelabel-textspan tss-fontcolor-default tss-fontsize-small tss-fontweight-regular", text: text, title: "Click to edit"));
             _editIcon  = I(_($"tss-editablelabel-edit-icon {UIcons.Pencil}"));
             _labelView = Div(_("tss-editablelabel-displaybox"), _labelText, _editIcon);
+            
 
             InnerElement    = TextArea(_("tss-editablelabel-textbox tss-fontcolor-default tss-fontsize-small tss-fontweight-regular", type: "text"));
             _cancelEditIcon = Div(_("tss-editablelabel-cancel-icon",                                                                  title: "Cancel edit"), I(_(UIcons.Cross.ToString())));
@@ -34,11 +35,15 @@ namespace Tesserae
 
             _container = Div(_("tss-editablelabel "), _labelView, _editView);
 
+
             AttachChange();
             AttachInput();
             AttachFocus();
             AttachBlur();
             AttachKeys();
+
+            _observable = new SettableObservable<string>();
+            _observable.Value = text;
 
             _labelView.addEventListener("click", BeginEditing);
             _cancelEditIcon.addEventListener("click", CancelEditing);
@@ -52,6 +57,7 @@ namespace Tesserae
             });
 
             OnBlur((_, __) => window.setTimeout(SaveEditing, 150)); // We need to do this on a timeout, because clicking on the Cancel would trigger this method first, with no opportunity to cancel
+            
         }
 
         public TextSize Size

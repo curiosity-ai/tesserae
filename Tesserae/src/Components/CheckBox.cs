@@ -8,7 +8,7 @@ namespace Tesserae
     {
         private readonly HTMLSpanElement          _checkSpan;
         private readonly HTMLLabelElement         _label;
-        private readonly SettableObservable<bool> _observable = new SettableObservable<bool>();
+        private readonly SettableObservable<bool> _observable;
 
         public CheckBox(string text = string.Empty)
         {
@@ -20,6 +20,9 @@ namespace Tesserae
             AttachChange();
             AttachFocus();
             AttachBlur();
+
+            _observable = new SettableObservable<bool>();
+            _observable.Value = InnerElement.@checked;
 
             InnerElement.addEventListener("change", _ =>
             {

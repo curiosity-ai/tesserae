@@ -11,7 +11,7 @@ namespace Tesserae
         private readonly HTMLElement              _container;
         private readonly IComponent               _offText;
         private readonly IComponent               _onText;
-        private readonly SettableObservable<bool> _observable = new SettableObservable<bool>();
+        private readonly SettableObservable<bool> _observable;
 
         public Toggle(IComponent onText = null, IComponent offText = null)
         {
@@ -21,6 +21,8 @@ namespace Tesserae
             _checkElement = Div(_("tss-toggle-mark"));
             _onOffSpan    = Div(_("tss-toggle-text"),                                   _offText.Render());
             _container    = Div(_("tss-toggle-container tss-default-component-margin"), InnerElement, _checkElement, _onOffSpan);
+
+            _observable = new SettableObservable<bool>();
 
             _container.onclick += (e) =>
             {

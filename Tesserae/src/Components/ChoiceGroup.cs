@@ -9,7 +9,7 @@ namespace Tesserae
     {
         private readonly string _name;
         private readonly TextBlock                  _header;
-        private readonly SettableObservable<Choice> _selectedOption = new SettableObservable<Choice>();
+        private readonly SettableObservable<Choice> _selectedOption;
         private static int _count = 0;
         public ChoiceGroup(string label = "Pick one")
         {
@@ -18,6 +18,7 @@ namespace Tesserae
             _header = (new TextBlock(label)).SemiBold();
             var h = _header.Render();
             h.style.alignSelf = "baseline";
+            _selectedOption = new SettableObservable<Choice>();
             InnerElement      = Div(_("tss-choice-group tss-default-component-margin", styles: s => { s.flexDirection = "column"; }), h);
         }
 

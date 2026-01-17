@@ -51,6 +51,8 @@ namespace Tesserae
             });
 
             OnBlur((_, __) => BeginSaveEditing());
+            
+            _observable.Value = text;
         }
 
         public TextSize Size
