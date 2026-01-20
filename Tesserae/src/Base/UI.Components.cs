@@ -31,10 +31,31 @@ namespace Tesserae
         }
 
 
+        /// <summary>
+        /// Conditionally renders a component based on a boolean condition.
+        /// </summary>
+        /// <param name="condition">The condition to evaluate.</param>
+        /// <param name="ifTrue">The component to render if the condition is true.</param>
+        /// <param name="ifFalse">The component to render if the condition is false (defaults to an empty component).</param>
+        /// <returns>The selected component.</returns>
         public static IComponent If(bool condition, IComponent ifTrue, IComponent ifFalse = null) => condition ? (ifTrue ?? Raw()) : (ifFalse ?? Raw());
 
+        /// <summary>
+        /// Conditionally renders a component based on a boolean condition, using a factory function for the true case.
+        /// </summary>
+        /// <param name="condition">The condition to evaluate.</param>
+        /// <param name="ifTrue">A function that returns the component to render if the condition is true.</param>
+        /// <param name="ifFalse">The component to render if the condition is false (defaults to an empty component).</param>
+        /// <returns>The selected component.</returns>
         public static IComponent If(bool condition, Func<IComponent> ifTrue, IComponent ifFalse = null) => condition ? (ifTrue?.Invoke() ?? Raw()) : (ifFalse ?? Raw());
 
+        /// <summary>
+        /// Conditionally renders a component based on a boolean condition, using factory functions for both cases.
+        /// </summary>
+        /// <param name="condition">The condition to evaluate.</param>
+        /// <param name="ifTrue">A function that returns the component to render if the condition is true.</param>
+        /// <param name="ifFalse">A function that returns the component to render if the condition is false.</param>
+        /// <returns>The selected component.</returns>
         public static IComponent If(bool condition, Func<IComponent> ifTrue, Func<IComponent> ifFalse) => condition ? (ifTrue?.Invoke() ?? Raw()) : (ifFalse?.Invoke() ?? Raw());
 
         /// <summary>
@@ -110,10 +131,26 @@ namespace Tesserae
 
         public static IComponent Empty() => new Raw();
 
+        /// <summary>
+        /// Creates a new Image component.
+        /// </summary>
+        /// <param name="source">The URL or path to the image source.</param>
+        /// <param name="fallback">An optional fallback image source to use if the primary source fails to load.</param>
+        /// <returns>A new Image component.</returns>
         public static Image Image(string source, string fallback = null) => new Image(source, fallback);
 
+        /// <summary>
+        /// Creates a new Card component with the specified content.
+        /// </summary>
+        /// <param name="content">The component to be placed inside the card.</param>
+        /// <returns>A new Card component.</returns>
         public static Card Card(IComponent content) => new Card(content);
 
+        /// <summary>
+        /// Creates a new BackgroundArea component with the specified content.
+        /// </summary>
+        /// <param name="content">The component to be placed inside the background area.</param>
+        /// <returns>A new BackgroundArea component.</returns>
         public static BackgroundArea BackgroundArea(IComponent content) => new BackgroundArea(content);
 
         //Note: the Defer method with optional loadMessage caused a bridge compiler issue when resolving the method, so we provide here both with and without the loadMessage method
@@ -198,6 +235,11 @@ namespace Tesserae
 
         public static Float Float(IComponent child, Float.Position position) => new Float(child, position);
 
+        /// <summary>
+        /// Creates a new Button component with the specified text.
+        /// </summary>
+        /// <param name="text">The text to display on the button.</param>
+        /// <returns>A new Button component.</returns>
         public static Button Button(string text = string.Empty) => new Button(text);
         public static ButtonAndIcon ButtonAndIcon(string text, ButtonAndIcon.IconClickHandler onIconClick, UIcons mainIcon = UIcons.Circle, UIcons secondaryIcon = UIcons.AngleDown) => new ButtonAndIcon(text, onIconClick, mainIcon, secondaryIcon);
         public static ActionButton ActionButton(string     textContent, UIcons displayIcon,                         UIconsWeight displayIconWeight = UIconsWeight.Regular, string   displayColor   = null, TextSize displayIconSize = TextSize.Small, UIconsWeight actionIconWeight = UIconsWeight.Regular, UIcons actionIcon = UIcons.AngleCircleDown, string actionColor = null, TextSize actionIconSize = TextSize.Small) => new ActionButton(textContent, displayIcon, displayIconWeight, displayColor, displayIconSize, actionIconWeight, actionIcon, actionColor, actionIconSize);
@@ -253,8 +295,18 @@ namespace Tesserae
 
         public static OverflowSet OverflowSet() => new OverflowSet();
 
+        /// <summary>
+        /// Creates a new TextBox component with the specified initial text.
+        /// </summary>
+        /// <param name="text">The initial text value of the text box.</param>
+        /// <returns>A new TextBox component.</returns>
         public static TextBox TextBox(string text = string.Empty) => new TextBox(text);
 
+        /// <summary>
+        /// Creates a new TextArea component with the specified initial text.
+        /// </summary>
+        /// <param name="text">The initial text value of the text area.</param>
+        /// <returns>A new TextArea component.</returns>
         public static TextArea TextArea(string text = string.Empty) => new TextArea(text);
 
         public static ColorPicker ColorPicker(Color color = null) => new ColorPicker(color);

@@ -18,6 +18,11 @@ namespace Tesserae
             return null;
         }
 
+        /// <summary>
+        /// Checks if the specified HTML element is currently mounted in the DOM.
+        /// </summary>
+        /// <param name="source">The HTML element to check.</param>
+        /// <returns>True if the element is connected to the DOM; otherwise, false.</returns>
         public static bool IsMounted(this HTMLElement source)
         {
             if (source == null)
@@ -26,6 +31,11 @@ namespace Tesserae
             //return IsEqualToOrIsChildOf(source, document.querySelector("html") as Node);
         }
 
+        /// <summary>
+        /// Checks if the specified component is currently mounted in the DOM.
+        /// </summary>
+        /// <param name="source">The component to check.</param>
+        /// <returns>True if the component's rendered element is connected to the DOM; otherwise, false.</returns>
         public static bool IsMounted(this IComponent source)
         {
             if (source == null)
@@ -34,19 +44,19 @@ namespace Tesserae
             //return IsEqualToOrIsChildOf(source.Render(), document.querySelector("html") as Node);
         }
 
+        /// <summary>
+        /// Checks if an HTML element is equal to or a child of a possible parent node.
+        /// </summary>
+        /// <param name="element">The HTML element to check.</param>
+        /// <param name="possibleParentElement">The possible parent node.</param>
+        /// <returns>True if the element is the same as or a descendant of the possible parent; otherwise, false.</returns>
         public static bool IsEqualToOrIsChildOf(this HTMLElement element, Node possibleParentElement)
         {
-            return Script.Write<bool>("{0} == {1}", element, possibleParentElement) || possibleParentElement.contains(element);
-
-            while (Script.Write<bool>("{0} != null", element)) //Short-circuit the == opeartor in C# to make this method faster
+            if (possibleParentElement is null)
             {
-                if (Script.Write<bool>("{0} == {1}", element, possibleParentElement)) //Short-circuit the == opeartor in C# to make this method faster
-                {
-                    return true;
-                }
-                element = element.parentElement;
+                return false;
             }
-            return false;
+            return Script.Write<bool>("{0} == {1}", element, possibleParentElement) || possibleParentElement.contains(element);
         }
 
         public static void AppendChildren(this HTMLElement source, params HTMLElement[] children)
@@ -55,6 +65,10 @@ namespace Tesserae
                 source.appendChild(child);
         }
 
+        /// <summary>
+        /// Prevents the default action and stops immediate propagation of the specified event.
+        /// </summary>
+        /// <param name="e">The event to stop.</param>
         public static void StopEvent(Event e)
         {
             e?.preventDefault();
@@ -150,6 +164,10 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Removes all child nodes from the specified HTML element.
+        /// </summary>
+        /// <param name="element">The HTML element to clear.</param>
         public static void ClearChildren(HTMLElement element)
         {
             while (element.lastChild != null)

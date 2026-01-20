@@ -102,24 +102,41 @@ namespace Tesserae
             set => InnerElement.style.color = value;
         }
 
+        /// <summary>
+        /// Sets the placeholder text for the text box.
+        /// </summary>
+        /// <param name="placeholder">The placeholder text.</param>
+        /// <returns>The text box instance.</returns>
         public TextBox SetPlaceholder(string placeholder)
         {
             Placeholder = placeholder;
             return this;
         }
 
+        /// <summary>
+        /// Sets the text box to read-only mode.
+        /// </summary>
+        /// <returns>The text box instance.</returns>
         public TextBox ReadOnly()
         {
             IsReadOnly = true;
             return this;
         }
 
+        /// <summary>
+        /// Sets the text box to password mode.
+        /// </summary>
+        /// <returns>The text box instance.</returns>
         public TextBox Password()
         {
             IsPassword = true;
             return this;
         }
 
+        /// <summary>
+        /// Removes the border from the text box.
+        /// </summary>
+        /// <returns>The text box instance.</returns>
         public TextBox NoBorder()
         {
             InnerElement.classList.add("tss-textbox-noborder");

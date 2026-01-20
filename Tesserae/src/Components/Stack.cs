@@ -553,42 +553,70 @@ namespace Tesserae
 
         public virtual HTMLElement Render() => InnerElement;
 
+        /// <summary>
+        /// Sets the stack orientation to horizontal.
+        /// </summary>
+        /// <returns>The stack instance.</returns>
         public Stack Horizontal()
         {
             StackOrientation = Stack.Orientation.Horizontal;
             return this;
         }
 
+        /// <summary>
+        /// Sets the stack orientation to vertical.
+        /// </summary>
+        /// <returns>The stack instance.</returns>
         public Stack Vertical()
         {
             StackOrientation = Stack.Orientation.Vertical;
             return this;
         }
 
+        /// <summary>
+        /// Sets the stack orientation to horizontal reverse.
+        /// </summary>
+        /// <returns>The stack instance.</returns>
         public Stack HorizontalReverse()
         {
             StackOrientation = Stack.Orientation.HorizontalReverse;
             return this;
         }
 
+        /// <summary>
+        /// Sets the stack orientation to vertical reverse.
+        /// </summary>
+        /// <returns>The stack instance.</returns>
         public Stack VerticalReverse()
         {
             StackOrientation = Stack.Orientation.VerticalReverse;
             return this;
         }
 
+        /// <summary>
+        /// Enables wrapping of children within the stack.
+        /// </summary>
+        /// <returns>The stack instance.</returns>
         public Stack Wrap()
         {
             CanWrap = true;
             return this;
         }
 
+        /// <summary>
+        /// Sets the stack to be rendered as an inline-flex container.
+        /// </summary>
+        /// <returns>The stack instance.</returns>
         public Stack Inline()
         {
             IsInline = true;
             return this;
         }
 
+        /// <summary>
+        /// Disables wrapping of children within the stack.
+        /// </summary>
+        /// <returns>The stack instance.</returns>
         public Stack NoWrap()
         {
             CanWrap = false;

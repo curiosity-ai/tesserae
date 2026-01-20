@@ -233,30 +233,50 @@ namespace Tesserae
         }
 
 
+        /// <summary>
+        /// Sets the button to a compact style.
+        /// </summary>
+        /// <returns>The button instance.</returns>
         public Button Compact()
         {
             IsCompact = true;
             return this;
         }
 
+        /// <summary>
+        /// Removes the default margin from the button.
+        /// </summary>
+        /// <returns>The button instance.</returns>
         public Button NoMargin()
         {
             InnerElement.classList.add("tss-btn-remove-margin");
             return this;
         }
 
+        /// <summary>
+        /// Removes all padding from the button.
+        /// </summary>
+        /// <returns>The button instance.</returns>
         public Button NoPadding()
         {
             InnerElement.classList.add("tss-btn-remove-padding");
             return this;
         }
 
+        /// <summary>
+        /// Reduces the padding of the button.
+        /// </summary>
+        /// <returns>The button instance.</returns>
         public Button LessPadding()
         {
             InnerElement.classList.add("tss-btn-less-padding");
             return this;
         }
 
+        /// <summary>
+        /// Sets the button to be styled as a link.
+        /// </summary>
+        /// <returns>The button instance.</returns>
         public Button Link()
         {
             IsLink = true;
@@ -428,24 +448,41 @@ namespace Tesserae
             }).FireAndForget();
         }
 
+        /// <summary>
+        /// Sets the button as a primary button.
+        /// </summary>
+        /// <returns>The button instance.</returns>
         public Button Primary()
         {
             IsPrimary = true;
             return this;
         }
 
+        /// <summary>
+        /// Sets the button as a success button.
+        /// </summary>
+        /// <returns>The button instance.</returns>
         public Button Success()
         {
             IsSuccess = true;
             return this;
         }
 
+        /// <summary>
+        /// Sets the button as a danger button.
+        /// </summary>
+        /// <returns>The button instance.</returns>
         public Button Danger()
         {
             IsDanger = true;
             return this;
         }
 
+        /// <summary>
+        /// Sets the enabled state of the button.
+        /// </summary>
+        /// <param name="value">Whether the button should be disabled (defaults to true).</param>
+        /// <returns>The button instance.</returns>
         public Button Disabled(bool value = true)
         {
             IsEnabled = !value;
