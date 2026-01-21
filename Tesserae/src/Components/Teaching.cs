@@ -7,13 +7,22 @@ using System.Threading.Tasks;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A component for creating onboarding or instructional walkthroughs.
+    /// </summary>
     [H5.Name("tss.Teaching")]
     public class Teaching
     {
+        /// <summary>
+        /// Represents the type of step in a teaching walkthrough.
+        /// </summary>
         public enum StepType
         {
+            /// <summary>The step remains until the 'Next' button is clicked.</summary>
             NextButton,
+            /// <summary>The step remains for 5 seconds.</summary>
             After5seconds,
+            /// <summary>The step remains for 10 seconds.</summary>
             After10seconds
         }
         private Func<bool> _condition;
@@ -25,10 +34,18 @@ namespace Tesserae
         private Dictionary<int, Action> _futureSteps = new Dictionary<int, Action>();
         private Action                  _completed;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Teaching"/> class.
+        /// </summary>
         public Teaching()
         {
         }
 
+        /// <summary>
+        /// Runs the teaching walkthrough if the condition is met.
+        /// </summary>
+        /// <param name="condition">The condition.</param>
+        /// <returns>The current instance.</returns>
         public Teaching RunIf(Func<bool> condition)
         {
             _condition = condition;
@@ -40,23 +57,42 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Attaches a handler to the completed event.
+        /// </summary>
+        /// <param name="completed">The handler.</param>
+        /// <returns>The current instance.</returns>
         public Teaching OnComplete(Action completed)
         {
             _completed = completed;
             return this;
         }
 
+        /// <summary>
+        /// Sets the initial delay before the walkthrough starts.
+        /// </summary>
+        /// <param name="milliseconds">The delay in milliseconds.</param>
+        /// <returns>The current instance.</returns>
         public Teaching FirstDelay(int milliseconds)
         {
             _firstDelay = milliseconds;
             return this;
         }
+        /// <summary>
+        /// Sets the delay between steps.
+        /// </summary>
+        /// <param name="milliseconds">The delay in milliseconds.</param>
+        /// <returns>The current instance.</returns>
         public Teaching StepDelay(int milliseconds)
         {
             _stepDelay = milliseconds;
             return this;
         }
 
+        /// <summary>
+        /// Runs the teaching walkthrough immediately.
+        /// </summary>
+        /// <returns>The current instance.</returns>
         public Teaching RunNow()
         {
             _condition = () => true;
@@ -68,6 +104,15 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Adds a step to the teaching walkthrough.
+        /// </summary>
+        /// <param name="showFor">The component to anchor the tooltip to.</param>
+        /// <param name="tooltip">The tooltip content.</param>
+        /// <param name="animation">The tooltip animation.</param>
+        /// <param name="placement">The tooltip placement.</param>
+        /// <param name="stepType">The step type.</param>
+        /// <returns>The current instance.</returns>
         public Teaching AddStep(IComponent showFor, IComponent tooltip, TooltipAnimation animation = TooltipAnimation.ShiftToward, TooltipPlacement placement = TooltipPlacement.Top, StepType stepType = StepType.NextButton)
         {
             var thisStep = _stepCounter;

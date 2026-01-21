@@ -101,10 +101,10 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Sets the align-items css property for this stack
+        /// Sets the align-content CSS property for this stack.
         /// </summary>
-        /// <param name="align"></param>
-        /// <returns></returns>
+        /// <param name="align">The alignment.</param>
+        /// <returns>The current instance.</returns>
         public ObservableStack AlignContent(ItemAlign align)
         {
             string cssAlign                                        = align.ToString().ToLower();
@@ -114,10 +114,10 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Sets the justify-content css property for this stack
+        /// Sets the justify-content CSS property for this stack.
         /// </summary>
-        /// <param name="justify"></param>
-        /// <returns></returns>
+        /// <param name="justify">The justification.</param>
+        /// <returns>The current instance.</returns>
         public ObservableStack JustifyContent(ItemJustify justify)
         {
             string cssJustify                                                                           = justify.ToString().ToLower();
@@ -128,10 +128,10 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Sets the justify-content css property for this stack
+        /// Sets the justify-items CSS property for this stack.
         /// </summary>
-        /// <param name="justify"></param>
-        /// <returns></returns>
+        /// <param name="justify">The justification.</param>
+        /// <returns>The current instance.</returns>
         public ObservableStack JustifyItems(ItemJustify justify)
         {
             string cssJustify                                                                           = justify.ToString().ToLower();

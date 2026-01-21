@@ -11,8 +11,13 @@ using static Tesserae.ArrayExtensions;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A hierarchical navigation component for use within a Sidebar,
+    /// allowing for nested ISidebarItem elements.
+    /// </summary>
     public class SidebarNav : ISidebarItem
     {
+        /// <summary>Event fired when sorting changes within the navigation.</summary>
         public event Action<Dictionary<string, string[]>> _onSortingChanged;
         public event Action<ParentChangedEvent>     _onParentChanged;
 
@@ -35,14 +40,18 @@ namespace Tesserae
 
         private event Action<HTMLElement> _onRendered;
 
+        /// <summary>Gets or sets whether the navigation is collapsed.</summary>
         public bool IsCollapsed { get { return _collapsed.Value; } set { _collapsed.Value = value; } }
+        /// <summary>Gets or sets whether the navigation is currently selected.</summary>
         public bool IsSelected  { get { return _selected.Value; }  set { _selected.Value  = value; } }
 
+        /// <summary>Gets an observable for the collapsed status.</summary>
         public IObservable<bool> CollapsedStatus => _collapsed;
 
         private IComponent _lastClosed;
         private IComponent _lastOpen;
 
+        /// <summary>Gets the component that is currently rendered.</summary>
         public IComponent CurrentRendered => (_lastClosed is object && _lastClosed.IsMounted()) ? _lastClosed : _lastOpen;
 
         public SidebarNav(string identifier, Emoji  icon, string       text,   bool   initiallyCollapsed, params SidebarCommand[] commands) : this(identifier, text, initiallyCollapsed, b => b.SetIcon(icon), commands) { }
@@ -136,6 +145,7 @@ namespace Tesserae
             });
         }
 
+        /// <summary>Shows the navigation component.</summary>
         public void Show()
         {
             _lastOpen?.Show();
@@ -143,12 +153,17 @@ namespace Tesserae
             _isHidden = false;
         }
 
+        /// <summary>Collapses the navigation component.</summary>
         public void Collapse()
         {
             _lastOpen?.Collapse();
             _lastClosed?.Collapse();
             _isHidden = true;
         }
+        /// <summary>
+        /// Marks the navigation component as not sortable.
+        /// </summary>
+        /// <returns>The current instance of the type.</returns>
         public SidebarNav NotSortable()
         {
             _lastOpen?.Class("tss-sortable-disable");
@@ -157,6 +172,11 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the header text of the navigation.
+        /// </summary>
+        /// <param name="text">The text.</param>
+        /// <returns>The current instance of the type.</returns>
         public SidebarNav SetText(string text)
         {
             _openHeaderButton.SetText(text);
@@ -165,30 +185,53 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets whether the navigation is collapsed.
+        /// </summary>
+        /// <param name="isCollapsed">Whether it is collapsed.</param>
+        /// <returns>The current instance of the type.</returns>
         public SidebarNav Collapsed(bool isCollapsed = true)
         {
             _collapsed.Value = isCollapsed;
             return this;
         }
 
+        /// <summary>
+        /// Sets whether the navigation is selected.
+        /// </summary>
+        /// <param name="isSelected">Whether it is selected.</param>
+        /// <returns>The current instance of the type.</returns>
         public SidebarNav Selected(bool isSelected = true)
         {
             _selected.Value = isSelected;
             return this;
         }
 
+        /// <summary>
+        /// Toggles the collapsed state.
+        /// </summary>
+        /// <returns>The current instance of the type.</returns>
         public SidebarNav Toggle()
         {
             _collapsed.Value = !_collapsed.Value;
             return this;
         }
 
+        /// <summary>
+        /// Shows a dot in the header if the navigation is empty.
+        /// </summary>
+        /// <returns>The current instance of the type.</returns>
         public SidebarNav ShowDotIfEmpty()
         {
             _openHeader.classList.add("tss-sidebar-nav-header-dot-if-empty");
             return this;
         }
 
+        /// <summary>
+        /// Adds a click event handler to the open header icon.
+        /// </summary>
+        /// <param name="action">The event handler action.</param>
+        /// <returns>The current instance of the type.</returns>
         public SidebarNav OnOpenIconClick(Action<HTMLElement, MouseEvent> action)
         {
             _openHeaderButton.OnIconClick(action);
@@ -196,6 +239,11 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Adds a click event handler to the open header icon.
+        /// </summary>
+        /// <param name="action">The event handler action.</param>
+        /// <returns>The current instance of the type.</returns>
         public SidebarNav OnOpenIconClick(Action action)
         {
             _openHeaderButton.OnIconClick((_, __) => action());
@@ -233,6 +281,11 @@ namespace Tesserae
             };
         }
 
+        /// <summary>
+        /// Adds a click event handler to the navigation header.
+        /// </summary>
+        /// <param name="action">The event handler action.</param>
+        /// <returns>The current instance of the type.</returns>
         public SidebarNav OnClick(Action action)
         {
             var wrapped = WrapAction(action);
@@ -241,6 +294,11 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Adds a click event handler with SidebarNav argument.
+        /// </summary>
+        /// <param name="action">The event handler action.</param>
+        /// <returns>The current instance of the type.</returns>
         public SidebarNav OnClick(Action<SidebarNav> action)
         {
             var wrapped = WrapAction(() => action(this));
@@ -248,6 +306,11 @@ namespace Tesserae
             _openHeaderButton.OnClick(wrapped);
             return this;
         }
+        /// <summary>
+        /// Adds a click event handler with button and mouse event arguments.
+        /// </summary>
+        /// <param name="action">The event handler action.</param>
+        /// <returns>The current instance of the type.</returns>
         public SidebarNav OnClick(Action<Button, MouseEvent> action)
         {
             var wrapped = WrapAction(action);
@@ -256,6 +319,11 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Adds a context menu event handler.
+        /// </summary>
+        /// <param name="action">The event handler action.</param>
+        /// <returns>The current instance of the type.</returns>
         public SidebarNav OnContextMenu(Action action)
         {
             _closedHeader.OnContextMenu(action);
@@ -263,6 +331,11 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Adds a context menu event handler with button and mouse event arguments.
+        /// </summary>
+        /// <param name="action">The event handler action.</param>
+        /// <returns>The current instance of the type.</returns>
         public SidebarNav OnContextMenu(Action<Button, MouseEvent> action)
         {
             _closedHeader.OnContextMenu((b,     e) => action(b, e));
@@ -468,11 +541,18 @@ namespace Tesserae
         }
 
 
+        /// <summary>
+        /// Clears all items from the navigation.
+        /// </summary>
         public void Clear()
         {
             _items.Value = new ISidebarItem[] { };
         }
 
+        /// <summary>
+        /// Adds an item to the navigation.
+        /// </summary>
+        /// <param name="item">The item to add.</param>
         public void Add(ISidebarItem item)
         {
             item.AddGroupIdentifier(Identifier);
@@ -489,6 +569,10 @@ namespace Tesserae
             _itemOrder.Add(item.Identifier);
         }
 
+        /// <summary>
+        /// Removes an item from the navigation.
+        /// </summary>
+        /// <param name="item">The item to remove.</param>
         public void Remove(ISidebarItem item)
         {
             var identifierWithGroupIdentifier = Identifier + "_|_" + item.Identifier;
@@ -499,6 +583,11 @@ namespace Tesserae
             _itemOrder.Remove(identifierWithGroupIdentifier);
         }
 
+        /// <summary>
+        /// Adds a range of items to the navigation.
+        /// </summary>
+        /// <param name="items">The items to add.</param>
+        /// <returns>The current instance of the type.</returns>
         public SidebarNav AddRange(IEnumerable<ISidebarItem> items)
         {
             var newItems = _items.Value.As<ISidebarItem[]>();
@@ -522,25 +611,39 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>Renders the navigation for the closed state of the sidebar.</summary>
         public IComponent RenderClosed() => _closedContent();
 
+        /// <summary>Renders the navigation for the open state of the sidebar.</summary>
         public IComponent RenderOpen() => _openContent();
 
+        /// <summary>
+        /// Adds a rendered event handler.
+        /// </summary>
+        /// <param name="onRendered">The rendered event handler.</param>
+        /// <returns>The current instance of the type.</returns>
         public ISidebarItem OnRendered(Action<HTMLElement> onRendered)
         {
             _onRendered += onRendered;
             return this;
         }
 
+        /// <summary>Gets the full identifier of the navigation component.</summary>
         public string Identifier { get; private set; }
 
+        /// <summary>Gets the own identifier of the navigation component.</summary>
         public string OwnIdentifier => Sidebar.GetOwnIdentifier(Identifier);
 
+        /// <summary>Adds a group identifier prefix to the navigation component's identifier.</summary>
         public void AddGroupIdentifier(string groupIdentifier)
         {
             Identifier = groupIdentifier + Sidebar.GroupIdentifierSeparator + Identifier;
         }
 
+        /// <summary>
+        /// Loads the sorting order for navigation items.
+        /// </summary>
+        /// <param name="itemOrder">A dictionary mapping group identifiers to ordered item identifiers.</param>
         public void LoadSorting(Dictionary<string, string[]> itemOrder)
         {
             if (itemOrder.TryGetValue(Identifier, out var childrenOrder) && childrenOrder is object)
@@ -570,6 +673,10 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets the current sorting order of all items within this navigation.
+        /// </summary>
+        /// <returns>A dictionary mapping group identifiers to ordered item identifiers.</returns>
         public Dictionary<string, string[]> GetCurrentSorting()
         {
             var dict = new Dictionary<string, string[]>();
@@ -590,6 +697,12 @@ namespace Tesserae
             return dict;
         }
 
+        /// <summary>
+        /// Sets whether items within this navigation are sortable.
+        /// </summary>
+        /// <param name="sortable">Whether items are sortable.</param>
+        /// <param name="sortableGroup">An optional group name for cross-nav sorting.</param>
+        /// <returns>The current instance of the type.</returns>
         public SidebarNav Sortable(bool sortable = true, string sortableGroup = null)
         {
             _isSortable = sortable;
@@ -621,12 +734,22 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Adds a sorting change event handler.
+        /// </summary>
+        /// <param name="onSortingChanged">The event handler action.</param>
+        /// <returns>The current instance of the type.</returns>
         public SidebarNav OnSortingChanged(Action<Dictionary<string, string[]>> onSortingChanged)
         {
             _onSortingChanged += onSortingChanged;
             return this;
         }
 
+        /// <summary>
+        /// Adds a parent changed event handler, for cross-nav sorting.
+        /// </summary>
+        /// <param name="onParentChanged">The event handler action.</param>
+        /// <returns>The current instance of the type.</returns>
         public SidebarNav OnParentChanged(Action<ParentChangedEvent> onParentChanged)
         {
             _onParentChanged += onParentChanged;

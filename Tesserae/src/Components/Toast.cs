@@ -7,9 +7,15 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A Toast component for displaying non-blocking notifications to the user.
+    /// </summary>
     [Name("tss.Toast")]
     public class Toast : Layer<Toast>
     {
+        /// <summary>
+        /// Gets or sets the default position for toasts.
+        /// </summary>
         public static Position DefaultPosition { get; set; } = Position.TopRight;
 
         private Type     _type = Type.Information;
@@ -51,65 +57,113 @@ namespace Tesserae
         private          double         _timeoutHandle   = 0;
         private readonly HTMLDivElement _toastContainer  = Div(_("tss-toast-container"));
 
+        /// <summary>
+        /// Adds a CSS class to the toast container.
+        /// </summary>
+        /// <param name="className">The class name.</param>
+        /// <returns>The current instance of the type.</returns>
         public Toast Class(string className)
         {
             _toastContainer.classList.add(className);
             return this;
         }
+
+        /// <summary>
+        /// Removes a CSS class from the toast container.
+        /// </summary>
+        /// <param name="className">The class name.</param>
+        /// <returns>The current instance of the type.</returns>
         public Toast RemoveClass(string className)
         {
             _toastContainer.classList.remove(className);
             return this;
         }
 
+        /// <summary>
+        /// Sets the toast position to top-right.
+        /// </summary>
+        /// <returns>The current instance of the type.</returns>
         public Toast TopRight()
         {
             _pos = Position.TopRight;
             return this;
         }
 
+        /// <summary>
+        /// Sets the toast position to top-center.
+        /// </summary>
+        /// <returns>The current instance of the type.</returns>
         public Toast TopCenter()
         {
             _pos = Position.TopCenter;
             return this;
         }
 
+        /// <summary>
+        /// Sets the toast position to top-left.
+        /// </summary>
+        /// <returns>The current instance of the type.</returns>
         public Toast TopLeft()
         {
             _pos = Position.TopLeft;
             return this;
         }
 
+        /// <summary>
+        /// Sets the toast position to bottom-right.
+        /// </summary>
+        /// <returns>The current instance of the type.</returns>
         public Toast BottomRight()
         {
             _pos = Position.BottomRight;
             return this;
         }
 
+        /// <summary>
+        /// Sets the toast position to bottom-center.
+        /// </summary>
+        /// <returns>The current instance of the type.</returns>
         public Toast BottomCenter()
         {
             _pos = Position.BottomCenter;
             return this;
         }
 
+        /// <summary>
+        /// Sets the toast position to bottom-left.
+        /// </summary>
+        /// <returns>The current instance of the type.</returns>
         public Toast BottomLeft()
         {
             _pos = Position.BottomLeft;
             return this;
         }
 
+        /// <summary>
+        /// Sets the toast position to top-full width.
+        /// </summary>
+        /// <returns>The current instance of the type.</returns>
         public Toast TopFull()
         {
             _pos = Position.TopFull;
             return this;
         }
 
+        /// <summary>
+        /// Sets the toast position to bottom-full width.
+        /// </summary>
+        /// <returns>The current instance of the type.</returns>
         public Toast BottomFull()
         {
             _pos = Position.BottomFull;
             return this;
         }
 
+        /// <summary>
+        /// Displays the toast as a banner at the top or bottom of the page.
+        /// </summary>
+        /// <param name="showHideButton">Whether to show a button to hide the banner.</param>
+        /// <returns>The current instance of the type.</returns>
         public Toast Banner(bool showHideButton = true)
         {
             _banner         = true;
@@ -123,6 +177,11 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the duration for which the toast is visible.
+        /// </summary>
+        /// <param name="timeSpan">The duration.</param>
+        /// <returns>The current instance of the type.</returns>
         public Toast Duration(TimeSpan timeSpan)
         {
             _timeoutDuration = (int)timeSpan.TotalMilliseconds;
@@ -130,6 +189,12 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Displays a success toast.
+        /// </summary>
+        /// <param name="title">The title of the toast.</param>
+        /// <param name="message">The message content of the toast.</param>
+        /// <returns>The current instance of the type.</returns>
         public Toast Success(IComponent title, IComponent message)
         {
             _type    = Type.Success;
@@ -138,6 +203,12 @@ namespace Tesserae
             Fire();
             return this;
         }
+        /// <summary>
+        /// Displays an information toast.
+        /// </summary>
+        /// <param name="title">The title of the toast.</param>
+        /// <param name="message">The message content of the toast.</param>
+        /// <returns>The current instance of the type.</returns>
         public Toast Information(IComponent title, IComponent message)
         {
             _type    = Type.Information;
@@ -146,6 +217,13 @@ namespace Tesserae
             Fire();
             return this;
         }
+
+        /// <summary>
+        /// Displays a warning toast.
+        /// </summary>
+        /// <param name="title">The title of the toast.</param>
+        /// <param name="message">The message content of the toast.</param>
+        /// <returns>The current instance of the type.</returns>
         public Toast Warning(IComponent title, IComponent message)
         {
             _type    = Type.Warning;
@@ -155,6 +233,12 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Displays an error toast.
+        /// </summary>
+        /// <param name="title">The title of the toast.</param>
+        /// <param name="message">The message content of the toast.</param>
+        /// <returns>The current instance of the type.</returns>
         public Toast Error(IComponent title, IComponent message)
         {
             _type    = Type.Error;
@@ -164,11 +248,40 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Displays a success toast with only a message.
+        /// </summary>
+        /// <param name="message">The message content of the toast.</param>
+        /// <returns>The current instance of the type.</returns>
         public Toast Success(IComponent     message) => Success(null, message);
+
+        /// <summary>
+        /// Displays an information toast with only a message.
+        /// </summary>
+        /// <param name="message">The message content of the toast.</param>
+        /// <returns>The current instance of the type.</returns>
         public Toast Information(IComponent message) => Information(null, message);
+
+        /// <summary>
+        /// Displays a warning toast with only a message.
+        /// </summary>
+        /// <param name="message">The message content of the toast.</param>
+        /// <returns>The current instance of the type.</returns>
         public Toast Warning(IComponent     message) => Warning(null, message);
+
+        /// <summary>
+        /// Displays an error toast with only a message.
+        /// </summary>
+        /// <param name="message">The message content of the toast.</param>
+        /// <returns>The current instance of the type.</returns>
         public Toast Error(IComponent       message) => Error(null, message);
 
+        /// <summary>
+        /// Displays a success toast with string content.
+        /// </summary>
+        /// <param name="title">The title of the toast.</param>
+        /// <param name="message">The message content of the toast.</param>
+        /// <returns>The current instance of the type.</returns>
         public Toast Success(string title, string message)
         {
             _type    = Type.Success;
@@ -177,6 +290,12 @@ namespace Tesserae
             Fire();
             return this;
         }
+        /// <summary>
+        /// Displays an information toast with string content.
+        /// </summary>
+        /// <param name="title">The title of the toast.</param>
+        /// <param name="message">The message content of the toast.</param>
+        /// <returns>The current instance of the type.</returns>
         public Toast Information(string title, string message)
         {
             _type    = Type.Information;
@@ -185,6 +304,13 @@ namespace Tesserae
             Fire();
             return this;
         }
+
+        /// <summary>
+        /// Displays a warning toast with string content.
+        /// </summary>
+        /// <param name="title">The title of the toast.</param>
+        /// <param name="message">The message content of the toast.</param>
+        /// <returns>The current instance of the type.</returns>
         public Toast Warning(string title, string message)
         {
             _type    = Type.Warning;
@@ -193,6 +319,12 @@ namespace Tesserae
             Fire();
             return this;
         }
+        /// <summary>
+        /// Displays an error toast with string content.
+        /// </summary>
+        /// <param name="title">The title of the toast.</param>
+        /// <param name="message">The message content of the toast.</param>
+        /// <returns>The current instance of the type.</returns>
         public Toast Error(string title, string message)
         {
             _type    = Type.Error;
@@ -202,29 +334,72 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Displays a success toast with string message.
+        /// </summary>
+        /// <param name="message">The message content of the toast.</param>
+        /// <returns>The current instance of the type.</returns>
         public Toast Success(string     message) => Success(null, message);
+
+        /// <summary>
+        /// Displays an information toast with string message.
+        /// </summary>
+        /// <param name="message">The message content of the toast.</param>
+        /// <returns>The current instance of the type.</returns>
         public Toast Information(string message) => Information(null, message);
+
+        /// <summary>
+        /// Displays a warning toast with string message.
+        /// </summary>
+        /// <param name="message">The message content of the toast.</param>
+        /// <returns>The current instance of the type.</returns>
         public Toast Warning(string     message) => Warning(null, message);
+
+        /// <summary>
+        /// Displays an error toast with string message.
+        /// </summary>
+        /// <param name="message">The message content of the toast.</param>
+        /// <returns>The current instance of the type.</returns>
         public Toast Error(string       message) => Error(null, message);
 
+        /// <summary>
+        /// Sets the width of the toast.
+        /// </summary>
+        /// <param name="width">The width.</param>
+        /// <returns>The current instance of the type.</returns>
         public Toast Width(UnitSize width)
         {
             _toastContainer.style.width = width.ToString();
             return this;
         }
 
+        /// <summary>
+        /// Sets the height of the toast.
+        /// </summary>
+        /// <param name="height">The height.</param>
+        /// <returns>The current instance of the type.</returns>
         public Toast Height(UnitSize height)
         {
             _toastContainer.style.height = height.ToString();
             return this;
         }
 
+        /// <summary>
+        /// Prevents the toast from being dismissed when clicked.
+        /// </summary>
+        /// <param name="value">Whether to prevent dismissal on click.</param>
+        /// <returns>The current instance of the type.</returns>
         public Toast NoDismiss(bool value = true)
         {
             _dismissOnClick = !value;
             return this;
         }
 
+        /// <summary>
+        /// Prevents the toast from being overwritten by a new toast with the same content.
+        /// </summary>
+        /// <param name="value">Whether to prevent overwriting.</param>
+        /// <returns>The current instance of the type.</returns>
         public Toast NoOverwrite(bool value = true)
         {
             _overwrite = !value;
@@ -511,12 +686,19 @@ namespace Tesserae
             _timeoutHandle = window.setTimeout((_) => RemoveAndHide(), _timeoutDuration);
         }
 
+        /// <summary>
+        /// Hides the toast.
+        /// </summary>
+        /// <param name="onHidden">An optional action to perform when the toast is hidden.</param>
         public override void Hide(Action onHidden = null)
         {
             ClearTimeout();
             RemoveAndHide(onHidden);
         }
 
+        /// <summary>
+        /// Removes the toast.
+        /// </summary>
         public void Remove()
         {
             Hide();
@@ -545,28 +727,45 @@ namespace Tesserae
             RefreshPositioning();
         }
 
+        /// <summary>
+        /// The type of toast.
+        /// </summary>
         [Enum(Emit.StringName)] //Don't change the emit type
         [Name("tss.Toast.Type")]
         public enum Type
         {
+            /// <summary>A success toast.</summary>
             [Name("success")]     Success,
+            /// <summary>An information toast.</summary>
             [Name("information")] Information,
+            /// <summary>A warning toast.</summary>
             [Name("warning")]     Warning,
+            /// <summary>An error toast.</summary>
             [Name("error")]       Error
         }
 
-
+        /// <summary>
+        /// The position of the toast on the screen.
+        /// </summary>
         [Enum(Emit.StringName)] //Don't change the emit type 
         [H5.Name("tss.Toast.Position")]
         public enum Position
         {
+            /// <summary>Top-right position.</summary>
             [Name("topright")]     TopRight,
+            /// <summary>Top-center position.</summary>
             [Name("topcenter")]    TopCenter,
+            /// <summary>Top-left position.</summary>
             [Name("topleft")]      TopLeft,
+            /// <summary>Bottom-right position.</summary>
             [Name("bottomright")]  BottomRight,
+            /// <summary>Bottom-center position.</summary>
             [Name("bottomcenter")] BottomCenter,
+            /// <summary>Bottom-left position.</summary>
             [Name("bottomleft")]   BottomLeft,
+            /// <summary>Top-full width position.</summary>
             [Name("topfull")]      TopFull,
+            /// <summary>Bottom-full width position.</summary>
             [Name("bottomfull")]   BottomFull
         }
     }

@@ -6,6 +6,9 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A component for grouping multiple SidebarCommand items into a single line within a Sidebar.
+    /// </summary>
     public class SidebarCommands : ISidebarItem
     {
         private readonly SidebarCommand[] _commands;
@@ -19,8 +22,10 @@ namespace Tesserae
             _commands  = commands;
         }
 
+        /// <summary>Gets or sets whether the group is currently selected.</summary>
         public bool IsSelected { get; set; }
 
+        /// <summary>Gets the component that is currently rendered.</summary>
         public IComponent CurrentRendered { get; private set; }
 
         private void WhenSizeIsStable(HTMLElement element, Action<int> action, int previousWidth = -1)
@@ -46,6 +51,7 @@ namespace Tesserae
             }
         }
 
+        /// <summary>Renders the commands for the open state of the sidebar.</summary>
         public IComponent RenderOpen()
         {
             var div        = Div(_("tss-sidebar-commands-line"));
@@ -124,18 +130,21 @@ namespace Tesserae
             return divWrapped;
         }
 
+        /// <summary>Shows the commands.</summary>
         public void Show()
         {
             CurrentRendered?.Show();
             _isHidden = false;
         }
 
+        /// <summary>Collapses the commands.</summary>
         public void Collapse()
         {
             CurrentRendered?.Collapse();
             _isHidden = true;
         }
 
+        /// <summary>Renders all commands for the open state without truncation.</summary>
         public IComponent RenderOpenFull()
         {
             var div        = Div(_("tss-sidebar-commands-line"));
@@ -178,6 +187,7 @@ namespace Tesserae
             return divWrapped;
         }
 
+        /// <summary>Renders the commands for the closed state of the sidebar.</summary>
         public IComponent RenderClosed()
         {
             var div        = Div(_("tss-sidebar-commands-line tss-sidebar-commands-line-closed"));
@@ -242,12 +252,20 @@ namespace Tesserae
             return divWrapped;
         }
 
+        /// <summary>
+        /// Aligns the commands to the end of the line.
+        /// </summary>
+        /// <returns>The current instance of the type.</returns>
         public SidebarCommands AlignEnd()
         {
             _isEndAligned = true;
             return this;
         }
 
+        /// <summary>
+        /// Marks the commands as not sortable.
+        /// </summary>
+        /// <returns>The current instance of the type.</returns>
         public SidebarCommands NotSortable()
         {
             CurrentRendered?.Class("tss-sortable-disable");
@@ -255,10 +273,13 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>Gets the full identifier of the command group.</summary>
         public string Identifier { get; private set; }
         
+        /// <summary>Gets the own identifier of the command group.</summary>
         public string OwnIdentifier => Sidebar.GetOwnIdentifier(Identifier);
 
+        /// <summary>Adds a group identifier prefix to the command group's identifier.</summary>
         public void AddGroupIdentifier(string groupIdentifier)
         {
             Identifier = groupIdentifier + Sidebar.GroupIdentifierSeparator + Identifier;

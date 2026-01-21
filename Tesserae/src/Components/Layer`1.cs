@@ -18,10 +18,17 @@ namespace Tesserae
         private   LayerHost      _host;
         private   bool           _isVisible;
         private   bool           _isTransparent;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Layer{T}"/> class.
+        /// </summary>
         protected Layer() => InnerElement = Div(_("tss-layer-base"));
 
         private Action<MouseEvent> _onLayerClick;
 
+        /// <summary>
+        /// Gets or sets the host that will contain this layer. If null, the layer will be hosted in the document body.
+        /// </summary>
         public LayerHost Host
         {
             get => _host;
@@ -33,6 +40,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets the content to be displayed in the layer.
+        /// </summary>
         public virtual IComponent Content
         {
             get => _content;
@@ -48,8 +58,14 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets a value indicating whether this layer is currently the topmost layer.
+        /// </summary>
         public bool IsTopmost => int.Parse(_renderedContent.style.zIndex) == Layers.CurrentZIndex();
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the layer is visible.
+        /// </summary>
         public bool IsVisible
         {
             get => _isVisible;
@@ -60,6 +76,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the layer background should be transparent.
+        /// </summary>
         public bool IsTransparent
         {
             get => _isTransparent;
@@ -75,10 +94,21 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the layer should animate when it is shown.
+        /// </summary>
         public bool AnimateOnShow { get; set; } = true;
 
+        /// <summary>
+        /// Renders the component.
+        /// </summary>
+        /// <returns>The rendered HTML element.</returns>
         public override HTMLElement Render() => InnerElement;
 
+        /// <summary>
+        /// Shows the layer.
+        /// </summary>
+        /// <returns>The component itself, for chaining.</returns>
         public virtual T Show()
         {
             if (_content is object || _contentHtml is object)
@@ -122,6 +152,10 @@ namespace Tesserae
             return (T)this;
         }
 
+        /// <summary>
+        /// Hides the layer.
+        /// </summary>
+        /// <param name="onHidden">An optional action to execute when the layer has been hidden.</param>
         public virtual void Hide(Action onHidden = null)
         {
             if (_renderedContent is object)
@@ -146,11 +180,19 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Sets the action to be executed when the layer background is clicked.
+        /// </summary>
+        /// <param name="action">The action to execute.</param>
         public void OnBackgroundClick(Action<MouseEvent> action)
         {
             _onLayerClick = action;
         }
 
+        /// <summary>
+        /// Builds the HTML element that represents the content of the layer.
+        /// </summary>
+        /// <returns>The rendered content element.</returns>
         protected virtual HTMLElement BuildRenderedContent()
         {
             if (_contentHtml is object) return _contentHtml;

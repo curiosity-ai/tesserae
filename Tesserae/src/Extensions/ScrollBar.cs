@@ -6,9 +6,13 @@ using static H5.Core.dom;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// Provides extension methods for configuring scrollbars on components.
+    /// </summary>
     [H5.Name("tss.ScrollBar")]
     public static class ScrollBar
     {
+        /// <summary>Enables automatic vertical scrolling.</summary>
         public static T Scroll<T>(this T component) where T : IComponent
         {
             var element = component.Render();
@@ -22,6 +26,7 @@ namespace Tesserae
             return component;
         }
 
+        /// <summary>Enables automatic vertical scrolling and hides horizontal scrolling.</summary>
         public static T ScrollY<T>(this T component) where T : IComponent
         {
             var element = component.Render();
@@ -36,6 +41,7 @@ namespace Tesserae
             return component;
         }
 
+        /// <summary>Enables automatic horizontal scrolling and hides vertical scrolling.</summary>
         public static T ScrollX<T>(this T component) where T : IComponent
         {
             var element = component.Render();
@@ -49,6 +55,7 @@ namespace Tesserae
 
             return component;
         }
+        /// <summary>Enables automatic scrolling in both directions.</summary>
         public static T ScrollBoth<T>(this T component) where T : IComponent
         {
             var element = component.Render();

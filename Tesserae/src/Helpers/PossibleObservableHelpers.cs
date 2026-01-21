@@ -3,24 +3,35 @@ using System.Reflection;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// Provides helper methods for working with objects that may implement the IObservable interface.
+    /// </summary>
     [H5.Name("tss.PossibleObservableHelpers")]
     internal static class PossibleObservableHelpers
     {
         /// <summary>
         /// Is this type one that either is directly an IObservable&lt;T&gt; or one that is derived from one?
         /// </summary>
+        /// <param name="type">The type to check.</param>
+        /// <returns>True if the type is an observable, false otherwise.</returns>
         public static bool IsObservable(Type type) => TryToGetFirstWrappedValueFromAnIsObservable(type) is object;
 
         /// <summary>
         /// If the specified 'source' object implements any IObservable&lt;T&gt; interface then the 'receiver' Action will be registered with it via ObserveFutureChanges - this will be a no-op for a null
         /// 'source' but the 'receiver' delegate must not be null
         /// </summary>
+        /// <param name="source">The source object to observe.</param>
+        /// <param name="receiver">The callback to execute on changes.</param>
+        /// <returns>True if the source was an observable and the receiver was registered, false otherwise.</returns>
         public static bool ObserveFutureChangesIfObservable(object source, Action receiver) => UpdateObservingStatusIfObservable(source, receiver, listenForFutureChanges: true);
 
         /// <summary>
         /// If the specified 'source' object implements any IObservable&lt;T&gt; interface then the 'receiver' Action will be unregistered with it via StopObserving - this will be a no-op for a null
         /// 'source' but the 'receiver' delegate must not be null
         /// </summary>
+        /// <param name="source">The source object to stop observing.</param>
+        /// <param name="receiver">The callback to unregister.</param>
+        /// <returns>True if the source was an observable and the receiver was unregistered, false otherwise.</returns>
         public static bool StopObservingIfObservable(object source, Action receiver) => UpdateObservingStatusIfObservable(source, receiver, listenForFutureChanges: false);
 
         private static Type TryToGetFirstWrappedValueFromAnIsObservable(Type type)

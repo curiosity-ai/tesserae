@@ -2,6 +2,9 @@
 
 namespace Tesserae
 {
+    /// <summary>
+    /// Represents a color in the Hue-Saturation-Luminosity (HSL) color space.
+    /// </summary>
     [H5.Name("tss.HSLColor")]
     public class HSLColor
     {
@@ -14,16 +17,27 @@ namespace Tesserae
         private const double _scale      = 240.0;
         private const double _scaleHue   = 360.0;
 
+        /// <summary>
+        /// Gets or sets the hue component. Range: 0 to 360.
+        /// </summary>
         public double Hue
         {
             get { return _hue * _scaleHue; }
             set { _hue = CheckRange(value / _scaleHue); }
         }
+
+        /// <summary>
+        /// Gets or sets the saturation component. Range: 0 to 240.
+        /// </summary>
         public double Saturation
         {
             get { return _saturation * _scale; }
             set { _saturation = CheckRange(value / _scale); }
         }
+
+        /// <summary>
+        /// Gets or sets the luminosity component. Range: 0 to 240.
+        /// </summary>
         public double Luminosity
         {
             get { return _luminosity * _scale; }
@@ -42,30 +56,58 @@ namespace Tesserae
             return string.Format("H: {0:#0.##} S: {1:#0.##} L: {2:#0.##}", Hue, Saturation, Luminosity);
         }
 
+        /// <summary>
+        /// Returns the CSS rgb() string representation of this <see cref="HSLColor"/>.
+        /// </summary>
+        /// <returns>A string like "rgb(r, g, b)".</returns>
         public string ToRGB()
         {
             return ((Color)this).ToRGB();
         }
+
+        /// <summary>
+        /// Returns the CSS rgba() string representation of this <see cref="HSLColor"/> with the specified opacity.
+        /// </summary>
+        /// <param name="opacity">The opacity (0.0 to 1.0).</param>
+        /// <returns>A string like "rgba(r, g, b, a)".</returns>
         public string ToRGBA(float opacity)
         {
             return ((Color)this).ToRGBA(opacity);
         }
 
+        /// <summary>
+        /// Returns a comma-separated string of the RGB components.
+        /// </summary>
+        /// <returns>A string like "r, g, b".</returns>
         public string ToRGBvar()
         {
             return ((Color)this).ToRGBvar();
         }
+
+        /// <summary>
+        /// Returns a comma-separated string of the RGB components and the specified opacity.
+        /// </summary>
+        /// <param name="opacity">The opacity (0.0 to 1.0).</param>
+        /// <returns>A string like "r, g, b, a".</returns>
         public string ToRGBAvar(float opacity)
         {
             return ((Color)this).ToRGBAvar(opacity);
         }
 
+        /// <summary>
+        /// Returns the hex string representation of this <see cref="HSLColor"/>.
+        /// </summary>
+        /// <returns>A hex string (e.g., "#RRGGBB").</returns>
         public string ToHex()
         {
             var c = (Color)this;
             return $"#{c.R:X2}{c.G:X2}{c.B:X2}";
         }
 
+        /// <summary>
+        /// Creates a random <see cref="HSLColor"/>.
+        /// </summary>
+        /// <returns>A random <see cref="HSLColor"/>.</returns>
         public static HSLColor Random()
         {
             return new HSLColor(_rng.NextDouble() * _scaleHue, _rng.NextDouble() * _scale, 0.5 * _scale);
@@ -128,6 +170,12 @@ namespace Tesserae
             };
         }
 
+        /// <summary>
+        /// Sets the RGB components of this <see cref="HSLColor"/>.
+        /// </summary>
+        /// <param name="red">The red component.</param>
+        /// <param name="green">The green component.</param>
+        /// <param name="blue">The blue component.</param>
         public void SetRGB(byte red, byte green, byte blue)
         {
             HSLColor hslColor = (HSLColor)Color.FromArgb(red, green, blue);

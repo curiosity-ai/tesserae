@@ -4,6 +4,9 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A vertical split view component.
+    /// </summary>
     [H5.Name("tss.SplitView")]
     public class SplitView : IComponent
     {
@@ -15,6 +18,10 @@ namespace Tesserae
         private          bool        _resizable;
         private          Action<int> _onResizeEnd;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SplitView"/> class.
+        /// </summary>
+        /// <param name="splitterSize">The size of the splitter.</param>
         public SplitView(UnitSize splitterSize = null)
         {
             _splitterSize = (splitterSize is object && splitterSize.Unit != Unit.Auto && splitterSize.Unit != Unit.Inherit)
@@ -39,6 +46,11 @@ namespace Tesserae
             _splitContainer = Div(_("tss-splitview tss-splitview-vertical"), _leftComponent.Render(), _splitterComponent.Render(), _rightComponent.Render());
         }
 
+        /// <summary>
+        /// Sets the split view to be resizable.
+        /// </summary>
+        /// <param name="onResizeEnd">An optional action to perform when resizing ends.</param>
+        /// <returns>The current instance.</returns>
         public SplitView Resizable(Action<int> onResizeEnd = null)
         {
             _resizable   = true;
@@ -92,6 +104,12 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Sets the left component.
+        /// </summary>
+        /// <param name="component">The component.</param>
+        /// <param name="background">The background color.</param>
+        /// <returns>The current instance.</returns>
         public SplitView Left(IComponent component, string background = "")
         {
             _leftComponent.Content(component);
@@ -104,6 +122,12 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the right component.
+        /// </summary>
+        /// <param name="component">The component.</param>
+        /// <param name="background">The background color.</param>
+        /// <returns>The current instance.</returns>
         public SplitView Right(IComponent component, string background = "")
         {
             _rightComponent.Content(component);
@@ -116,12 +140,20 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the panel style for the split view.
+        /// </summary>
+        /// <returns>The current instance.</returns>
         public SplitView PanelStyle()
         {
             _splitContainer.classList.add("tss-splitview-panel-style");
             return this;
         }
 
+        /// <summary>
+        /// Sets the split view to be not resizable.
+        /// </summary>
+        /// <returns>The current instance.</returns>
         public SplitView NotResizable()
         {
             _splitterComponent.Class("tss-no-splitter");
@@ -129,6 +161,10 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Splits the view in the middle.
+        /// </summary>
+        /// <returns>The current instance.</returns>
         public SplitView SplitInMiddle()
         {
             _rightComponent.MaxWidth = "";
@@ -138,6 +174,10 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Closes the split view.
+        /// </summary>
+        /// <returns>The current instance.</returns>
         public SplitView Close()
         {
             if (_splitContainer.classList.contains("tss-split-left"))
@@ -156,6 +196,10 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Opens the split view.
+        /// </summary>
+        /// <returns>The current instance.</returns>
         public SplitView Open()
         {
             if (_splitContainer.classList.contains("tss-split-left"))
@@ -174,6 +218,13 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the left component to be smaller.
+        /// </summary>
+        /// <param name="leftSize">The left size.</param>
+        /// <param name="maxLeftSize">The maximum left size.</param>
+        /// <param name="minLeftSize">The minimum left size.</param>
+        /// <returns>The current instance.</returns>
         public SplitView LeftIsSmaller(UnitSize leftSize, UnitSize maxLeftSize = null, UnitSize minLeftSize = null)
         {
             _leftComponent.Width      = leftSize.ToString();
@@ -193,6 +244,13 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the right component to be smaller.
+        /// </summary>
+        /// <param name="rightSize">The right size.</param>
+        /// <param name="maxRightSize">The maximum right size.</param>
+        /// <param name="minRightSize">The minimum right size.</param>
+        /// <returns>The current instance.</returns>
         public SplitView RightIsSmaller(UnitSize rightSize, UnitSize maxRightSize = null, UnitSize minRightSize = null)
         {
             _rightComponent.Width      = rightSize.ToString();
@@ -212,6 +270,10 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Renders the component.
+        /// </summary>
+        /// <returns>The rendered HTML element.</returns>
         public HTMLElement Render()
         {
             return _splitContainer;

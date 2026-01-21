@@ -10,11 +10,19 @@ namespace TNT
     using System.Collections.Generic;
     using System.Runtime.CompilerServices;
 
+    /// <summary>
+    /// Translation helper class.
+    /// </summary>
     public static class T
     {
         private static Dictionary<string, string> _currentTranslation = null;
         private static Func<string, string>       _currentTransformer = null;
 
+        /// <summary>
+        /// Translates a formattable string.
+        /// </summary>
+        /// <param name="formattableString">The formattable string to translate.</param>
+        /// <returns>The translated string.</returns>
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static string t(FormattableString formattableString)
         {
@@ -45,6 +53,11 @@ namespace TNT
             return result;
         }
 
+        /// <summary>
+        /// Translates a string.
+        /// </summary>
+        /// <param name="originalString">The string to translate.</param>
+        /// <returns>The translated string.</returns>
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static string t(this string originalString)
         {
@@ -66,6 +79,10 @@ namespace TNT
             return originalString;
         }
 
+        /// <summary>
+        /// Sets the current translation dictionary.
+        /// </summary>
+        /// <param name="translation">The translation dictionary.</param>
         public static void SetTranslation(Dictionary<string, string> translation)
         {
             _currentTranslation = translation;

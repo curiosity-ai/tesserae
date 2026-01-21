@@ -5,6 +5,9 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A Validator class that coordinates validation for multiple components.
+    /// </summary>
     [H5.Name("tss.Validator")]
     public sealed class Validator
     {
@@ -21,6 +24,10 @@ namespace Tesserae
         private          DebouncerWithMaxDelay                                                _debouncer;
 
         private int _callsDepth = 0;
+
+        /// <summary>
+        /// Initializes a new instance of the Validator class.
+        /// </summary>
         public Validator()
         {
             _registeredComponents                          = new Dictionary<ICanValidate, (Func<bool>, Action)>();
@@ -29,6 +36,13 @@ namespace Tesserae
             _debouncer = new DebouncerWithMaxDelay(() => RaiseOnValidationInternal(), delayInMs: 100, maxDelayInMs: 3000);
         }
 
+        /// <summary>
+        /// Registers a component with the validator.
+        /// </summary>
+        /// <typeparam name="T">The type of the component.</typeparam>
+        /// <param name="component">The component to register.</param>
+        /// <param name="wouldBeValid">A function that returns whether the component would be valid without updating its visual state.</param>
+        /// <param name="validate">An action that performs validation and updates the component's visual state.</param>
         public void Register<T>(ICanValidate<T> component, Func<bool> wouldBeValid, Action validate) where T : ICanValidate<T>
         {
             if (component is null)
@@ -51,6 +65,9 @@ namespace Tesserae
             });
         }
 
+        /// <summary>
+        /// Resets the validation state of all registered components.
+        /// </summary>
         public void ResetState()
         {
             _registeredComponentsThatUserHasInteractedWith.Clear();
@@ -62,12 +79,22 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Registers a custom validation logic not tied to a specific component.
+        /// </summary>
+        /// <param name="isInvalid">A function that returns whether the state is invalid.</param>
+        /// <param name="onRevalidation">An action to perform on revalidation.</param>
         public void RegisterFromCallback(Func<bool> isInvalid, Action onRevalidation)
         {
             var dummy = new DummyComponentToUseForCustomValidationLogicNotTiedToOneComponent(isInvalid);
             _registeredComponents.Add(dummy, (isInvalid, onRevalidation));
         }
 
+        /// <summary>
+        /// Adds a validation event handler.
+        /// </summary>
+        /// <param name="onValidation">The validation event handler.</param>
+        /// <returns>The current instance of the type.</returns>
         public Validator OnValidation(OnValidationHandler onValidation)
         {
             ValidationOccured += onValidation;
@@ -87,13 +114,23 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// The milliseconds must be a value of at least one, trying to disable Debounce by passing a zero (or negative) value is not supported
+        /// Sets the debounce delay for validation.
+        /// The milliseconds must be a value of at least one, trying to disable Debounce by passing a zero (or negative) value is not supported.
+        /// </summary>
+        /// <param name="delayInMs">The delay in milliseconds.</param>
+        /// <returns>The current instance of the type.</returns>
         public Validator Debounce(int delayInMs)
         {
             _debouncer = new DebouncerWithMaxDelay(() => RaiseOnValidationInternal(), delayInMs: delayInMs);
             return this;
         }
 
+        /// <summary>
+        /// Sets the debounce delay and maximum delay for validation.
+        /// </summary>
+        /// <param name="delayInMs">The delay in milliseconds.</param>
+        /// <param name="maxDelayInMs">The maximum delay in milliseconds.</param>
+        /// <returns>The current instance of the type.</returns>
         public Validator Debounce(int delayInMs, int maxDelayInMs)
         {
             _debouncer = new DebouncerWithMaxDelay(() => RaiseOnValidationInternal(), delayInMs: delayInMs, maxDelayInMs: maxDelayInMs);
@@ -128,6 +165,10 @@ namespace Tesserae
         /// <summary>
         /// This will trigger the validation logic for EVERY registered component and return false if any of them are not in a valid state (and, by doing so, their display state will be updated accordingly)
         /// </summary>
+        /// <summary>
+        /// Triggers validation for all registered components and returns whether they are all valid.
+        /// </summary>
+        /// <returns>True if all components are valid, false otherwise.</returns>
         public bool Revalidate()
         {
             var validity = GetValidity(validateOnlyUserEditedComponents: false, updateComponentAppearances: true);

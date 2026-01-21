@@ -8,6 +8,9 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A Sidebar component that can be collapsed or expanded, containing header, middle, and footer sections.
+    /// </summary>
     [H5.Name("tss.Sidebar")]
     public sealed class Sidebar : IComponent
     {
@@ -23,10 +26,20 @@ namespace Tesserae
 
         private List<string> _itemOrder = new List<string>();
 
+        /// <summary>
+        /// The transition time for sidebar animations in milliseconds.
+        /// </summary>
         public const int SIDEBAR_TRANSITION_TIME = 300;
 
+        /// <summary>
+        /// Gets or sets whether the sidebar is closed.
+        /// </summary>
         public bool IsClosed { get { return _closed.Value; } set { _closed.Value = value; } }
 
+        /// <summary>
+        /// Initializes a new instance of the Sidebar class.
+        /// </summary>
+        /// <param name="sortable">Whether the middle content items should be sortable.</param>
         public Sidebar(bool sortable = false)
         {
             _isSortable = sortable;
@@ -76,6 +89,10 @@ namespace Tesserae
             });
         }
 
+        /// <summary>
+        /// Sets whether the middle content items are sortable.
+        /// </summary>
+        /// <param name="sortable">Whether items are sortable.</param>
         public void Sortable(bool sortable = true)
         {
             _isSortable = sortable;
@@ -134,26 +151,48 @@ namespace Tesserae
             );
         }
 
+        /// <summary>
+        /// Sets whether the sidebar is closed.
+        /// </summary>
+        /// <param name="isClosed">Whether the sidebar is closed.</param>
+        /// <returns>The current instance of the type.</returns>
         public Sidebar Closed(bool isClosed = true)
         {
             _closed.Value = isClosed;
             return this;
         }
 
+        /// <summary>
+        /// Toggles the closed state of the sidebar.
+        /// </summary>
+        /// <returns>The current instance of the type.</returns>
         public Sidebar Toggle()
         {
             _closed.Value = !_closed.Value;
             return this;
         }
 
+        /// <summary>
+        /// Adds an item to the sidebar header section.
+        /// </summary>
+        /// <param name="item">The item to add.</param>
+        /// <returns>The current instance of the type.</returns>
         public Sidebar AddHeader(ISidebarItem item)
         {
             _header.Add(item);
             return this;
         }
 
+        /// <summary>
+        /// The root identifier used for ordering.
+        /// </summary>
         public const string ROOT_SIDEBAR_FOR_ORDERING = "ROOT";
 
+        /// <summary>
+        /// Adds an item to the middle content section.
+        /// </summary>
+        /// <param name="item">The item to add.</param>
+        /// <returns>The current instance of the type.</returns>
         public Sidebar AddContent(ISidebarItem item)
         {
             item.AddGroupIdentifier(ROOT_SIDEBAR_FOR_ORDERING);
@@ -168,6 +207,11 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Removes an item from the middle content section.
+        /// </summary>
+        /// <param name="item">The item to remove.</param>
+        /// <returns>The current instance of the type.</returns>
         public Sidebar RemoveContent(ISidebarItem item)
         {
             var identifierWithGroupIdentifier = ROOT_SIDEBAR_FOR_ORDERING + "_|_" + item.Identifier;
@@ -179,26 +223,45 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Adds an item to the sidebar footer section.
+        /// </summary>
+        /// <param name="item">The item to add.</param>
+        /// <returns>The current instance of the type.</returns>
         public Sidebar AddFooter(ISidebarItem item)
         {
             _footer.Add(item);
             return this;
         }
 
+        /// <summary>
+        /// Clears all sections of the sidebar.
+        /// </summary>
         public void Clear()
         {
             ClearHeader();
             ClearContent();
             ClearFooter();
         }
+        /// <summary>Clears the header section.</summary>
         public void ClearHeader()  => _header.Clear();
+        /// <summary>Clears the middle content section.</summary>
         public void ClearContent() => _middleContent.Value = new List<ISidebarItem>();
+        /// <summary>Clears the footer section.</summary>
         public void ClearFooter()  => _footer.Clear();
 
+        /// <summary>
+        /// Renders the sidebar.
+        /// </summary>
+        /// <returns>The rendered HTMLElement.</returns>
         public HTMLElement Render() => _sidebar.Render();
 
 
-        //Should be called after all items have been added
+        /// <summary>
+        /// Loads the sorting order for sidebar items.
+        /// Should be called after all items have been added.
+        /// </summary>
+        /// <param name="itemOrder">A dictionary mapping group identifiers to ordered item identifiers.</param>
         public void LoadSorting(Dictionary<string, string[]> itemOrder)
         {
             if (itemOrder.TryGetValue(ROOT_SIDEBAR_FOR_ORDERING, out var topLevelOrder) && topLevelOrder is object)
@@ -228,6 +291,10 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets the current sorting order of all items in the sidebar.
+        /// </summary>
+        /// <returns>A dictionary mapping group identifiers to ordered item identifiers.</returns>
         public Dictionary<string, string[]> GetCurrentSorting()
         {
             var dict = new Dictionary<string, string[]>();
@@ -248,16 +315,28 @@ namespace Tesserae
             return dict;
         }
 
+        /// <summary>
+        /// Refreshes the sidebar rendering.
+        /// </summary>
         public void Refresh()
         {
             RenderSidebar(_header.Value, _middleContent.Value, _footer.Value, _closed.Value);
         }
 
+        /// <summary>
+        /// Adds a sorting change event handler.
+        /// </summary>
+        /// <param name="onSortingChanged">The event handler.</param>
         public void OnSortingChanged(Action<Dictionary<string, string[]>> onSortingChanged)
         {
             _onSortingChanged = onSortingChanged;
         }
 
+        /// <summary>
+        /// Gets the own identifier of an item by removing group identifier prefix.
+        /// </summary>
+        /// <param name="identifier">The full identifier.</param>
+        /// <returns>The own identifier.</returns>
         public static string GetOwnIdentifier(string identifier)
         {
             var ix = identifier.IndexOf(GroupIdentifierSeparator);
@@ -268,6 +347,9 @@ namespace Tesserae
             return identifier;
         }
 
+        /// <summary>
+        /// The separator used between group identifiers and item identifiers.
+        /// </summary>
         public const string GroupIdentifierSeparator = "_|_";
     }
 }
