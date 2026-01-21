@@ -5,10 +5,18 @@ namespace Tesserae
 {
     public static partial class UI
     {
-        //Overloads for most used cases:
+        /// <summary>
+        /// Creates a new <see cref="Attributes"/> object.
+        /// </summary>
         public static Attributes _()                 => new Attributes();
+        /// <summary>
+        /// Creates a new <see cref="Attributes"/> object with the specified class name.
+        /// </summary>
         public static Attributes _(string className) => new Attributes() { ClassName = className };
 
+        /// <summary>
+        /// Creates a new <see cref="Attributes"/> object with the specified parameters.
+        /// </summary>
         public static Attributes _(
             string                      className    = null,
             string                      id           = null,

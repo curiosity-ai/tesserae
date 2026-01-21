@@ -3,6 +3,9 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A Toggle component that allows users to switch between two states (on/off).
+    /// </summary>
     [H5.Name("tss.Toggle")]
     public class Toggle : ComponentBase<Toggle, HTMLInputElement>, IObservableComponent<bool>
     {
@@ -13,6 +16,11 @@ namespace Tesserae
         private readonly IComponent               _onText;
         private readonly SettableObservable<bool> _observable;
 
+        /// <summary>
+        /// Initializes a new instance of the Toggle class.
+        /// </summary>
+        /// <param name="onText">The text to display when the toggle is on.</param>
+        /// <param name="offText">The text to display when the toggle is off.</param>
         public Toggle(IComponent onText = null, IComponent offText = null)
         {
             _onText       = onText  ?? TextBlock("On");
@@ -96,6 +104,10 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Renders the toggle component.
+        /// </summary>
+        /// <returns>The rendered HTMLElement.</returns>
         public override HTMLElement Render()
         {
             return _container;
@@ -116,24 +128,43 @@ namespace Tesserae
             _observable.Value = IsChecked;
         }
 
+        /// <summary>
+        /// Sets the text of the toggle.
+        /// </summary>
+        /// <param name="text">The text.</param>
+        /// <returns>The current instance of the type.</returns>
         public Toggle SetText(string text)
         {
             Text = text;
             return this;
         }
 
+        /// <summary>
+        /// Sets whether the toggle is disabled.
+        /// </summary>
+        /// <param name="value">Whether to disable the toggle.</param>
+        /// <returns>The current instance of the type.</returns>
         public Toggle Disabled(bool value = true)
         {
             IsEnabled = !value;
             return this;
         }
 
+        /// <summary>
+        /// Sets whether the toggle is checked.
+        /// </summary>
+        /// <param name="value">Whether to check the toggle.</param>
+        /// <returns>The current instance of the type.</returns>
         public Toggle Checked(bool value = true)
         {
             IsChecked = value;
             return this;
         }
 
+        /// <summary>
+        /// Returns an observable that tracks the checked state of the toggle.
+        /// </summary>
+        /// <returns>An observable.</returns>
         public IObservable<bool> AsObservable()
         {
             return _observable;

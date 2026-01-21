@@ -6,6 +6,9 @@ using System.Linq;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A VisibilitySensor component that triggers an action when it becomes visible in the viewport.
+    /// </summary>
     [H5.Name("tss.VisibilitySensor")]
     public class VisibilitySensor : IComponent
     {
@@ -16,6 +19,12 @@ namespace Tesserae
         private          int                      _maxCalls;
         private          IntersectionObserver     _observer;
 
+        /// <summary>
+        /// Initializes a new instance of the VisibilitySensor class.
+        /// </summary>
+        /// <param name="onVisible">The action to perform when the sensor becomes visible.</param>
+        /// <param name="singleCall">Whether to trigger the action only once.</param>
+        /// <param name="message">An optional component to display as the content of the sensor.</param>
         public VisibilitySensor(Action<VisibilitySensor> onVisible, bool singleCall = true, IComponent message = null)
         {
             InnerElement = DIV();
@@ -32,8 +41,15 @@ namespace Tesserae
             DomObserver.WhenMounted(InnerElement, HookCheck);
         }
 
+        /// <summary>
+        /// Renders the visibility sensor.
+        /// </summary>
+        /// <returns>The rendered HTMLElement.</returns>
         public HTMLElement Render() => InnerElement;
 
+        /// <summary>
+        /// Resets the sensor so it can trigger the action again.
+        /// </summary>
         public void Reset()
         {
             DomObserver.WhenMounted(InnerElement, HookCheck);

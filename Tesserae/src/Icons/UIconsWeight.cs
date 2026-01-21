@@ -2,6 +2,9 @@
 
 namespace Tesserae
 {
+    /// <summary>
+    /// Defines the weights available for UIcons.
+    /// </summary>
     [Enum(Emit.StringName)]
     [H5.Name("tss.uiconweight")]
     public enum UIconsWeight

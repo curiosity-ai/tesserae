@@ -6,6 +6,9 @@ using static H5.Core.dom;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// Provides extension methods and utilities for working with asynchronous Tasks.
+    /// </summary>
     [H5.Name("tss.tX")]
     public static class TaskExtensions
     {
@@ -72,6 +75,7 @@ namespace Tesserae
             });
         }
 
+        /// <summary>Unwraps a nested task.</summary>
         public static async Task<T> Unwrap<T>(this Task<Task<T>> task)
         {
             // 2020-02-07 DWR: Can't just "return await await task;" because H5 will fail at runtime
@@ -149,6 +153,7 @@ namespace Tesserae
             return (t1.Result, t2.Result, t3.Result, t4.Result, t5.Result, t6.Result, t7.Result, t8.Result);
         }
 
+        /// <summary>Wraps an IComponent in a completed Task.</summary>
         public static Task<IComponent> AsTask(this IComponent component) => Task.FromResult<IComponent>(component);
 
 

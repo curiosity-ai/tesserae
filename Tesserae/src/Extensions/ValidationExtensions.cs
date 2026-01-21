@@ -2,12 +2,21 @@
 
 namespace Tesserae
 {
+    /// <summary>
+    /// Provides extension methods for adding validation logic to components.
+    /// </summary>
     [H5.Name("tss.vX")]
     public static class ValidationExtensions
     {
         /// <summary>
-        /// This applies validation logic to a component that implements ICanValidate-of-itself and will register the component with a Validator instance if one is provided
+        /// This applies validation logic to a component that implements ICanValidate-of-itself and will register the component with a Validator instance if one is provided.
         /// </summary>
+        /// <typeparam name="TComponent">The type of the component.</typeparam>
+        /// <param name="component">The component.</param>
+        /// <param name="validate">The validation function, returning an error message if invalid, or null/empty if valid.</param>
+        /// <param name="validator">An optional validator to register the component with.</param>
+        /// <param name="forceInitialValidation">Whether to force validation immediately.</param>
+        /// <returns>The component instance.</returns>
         public static TComponent Validation<TComponent>(this TComponent component, Func<TComponent, string> validate, Validator validator = null, bool forceInitialValidation = false) where TComponent : ICanValidate<TComponent>
         {
             if (component == null)

@@ -3,14 +3,24 @@ using System.Globalization;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A TimePicker component that allows users to select a time using a native HTML time input.
+    /// </summary>
     [H5.Name("tss.TimePicker")]
     public class TimePicker : MomentPickerBase<TimePicker, DateTimeOffset>
     {
+        /// <summary>
+        /// Initializes a new instance of the TimePicker class.
+        /// </summary>
+        /// <param name="time">The initial time value.</param>
         public TimePicker(DateTimeOffset? time = null)
             : base("time", time.HasValue ? FormatDateTime(time.Value) : string.Empty)
         {
         }
 
+        /// <summary>
+        /// Gets the selected time as a DateTimeOffset.
+        /// </summary>
         public DateTimeOffset Time => Moment;
 
         /// <summary>
