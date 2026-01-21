@@ -152,7 +152,7 @@ namespace Tesserae
 
         private void CreateList()
         {
-            var detailsListHeader = Div(_("tss-detailslist-header").WithRole("presentation"));
+            var detailsListHeader = Div(_("tss-detailslist-header").WithRole("row"));
             _listContainer.appendChild(detailsListHeader);
 
             foreach (var column in _columns)
@@ -160,7 +160,7 @@ namespace Tesserae
                 CreateColumnHeader(column, detailsListHeader);
             }
 
-            _listItemsContainer = Div(_("tss-detailslist-list-items-container").WithRole("presentation"));
+            _listItemsContainer = Div(_("tss-detailslist-list-items-container").WithRole("rowgroup"));
             _listContainer.appendChild(_listItemsContainer);
 
             if (_columns.All(detailsListColumn => detailsListColumn.Width.Unit == Unit.Pixels))
@@ -303,7 +303,7 @@ namespace Tesserae
         {
             var (detailsListItemNumber, detailsListItem) = detailsListItemAndKey;
 
-            var detailsListItemContainer = Div(_("tss-detailslist-list-item-container").WithRole("presentation"));
+            var detailsListItemContainer = Div(_("tss-detailslist-list-item-container").WithRole("row"));
             var gridCellHtmlElements     = detailsListItem.Render(_columns, CreateGridCell).ToArray();
 
             if (detailsListItem.EnableOnListItemClickEvent)

@@ -15,11 +15,12 @@ namespace Tesserae
         {
             _count++;
             _name = $"choice-group-{_count}";
-            _header = (new TextBlock(label)).SemiBold();
+            var headerId = $"choice-group-header-{_count}";
+            _header = (new TextBlock(label)).SemiBold().Id(headerId);
             var h = _header.Render();
             h.style.alignSelf = "baseline";
             _selectedOption = new SettableObservable<Choice>();
-            InnerElement      = Div(_("tss-choice-group tss-default-component-margin", styles: s => { s.flexDirection = "column"; }), h);
+            InnerElement      = Div(_("tss-choice-group tss-default-component-margin", role: "radiogroup", ariaLabelledBy: headerId, styles: s => { s.flexDirection = "column"; }), h);
         }
 
         public Choice SelectedOption { get => _selectedOption.Value; private set => _selectedOption.Value = value; }
