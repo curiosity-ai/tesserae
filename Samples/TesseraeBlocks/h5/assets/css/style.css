@@ -1,0 +1,23 @@
+body {
+    background-color: #faf9f8;
+    user-select: none;
+}
+
+.game-board {
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.game-cell {
+    transition: background-color 0.05s;
+}
+
+.game-cell.filled {
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+    border: 1px solid rgba(0,0,0,0.1);
+}
+
+.game-stats {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}

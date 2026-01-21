@@ -1,0 +1,19 @@
+<Project Sdk="h5.Target/25.11.62725">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <DefineConstants>H5</DefineConstants>
+    <MinifyLocalVariables>true</MinifyLocalVariables>
+    <AssemblyName>NotesApp</AssemblyName>
+    <RootNamespace>NotesApp</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="h5" Version="25.11.62743" />
+    <PackageReference Include="h5.core" Version="25.11.62746" />
+    <PackageReference Include="h5.Newtonsoft.Json" Version="25.11.62749" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Tesserae\Tesserae.csproj" />
+  </ItemGroup>
+</Project>
