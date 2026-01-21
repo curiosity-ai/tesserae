@@ -74,7 +74,7 @@ namespace Tesserae
             {
                 var s = _container.classList.FirstOrDefault(x => x.StartsWith("tss-spinner-position-"));
                 if (s != null) _container.classList.remove(s);
-                _container.classList.add($"tss-spinner-position-{value.ToString()}");
+                _container.classList.add($"tss-spinner-position-{value.ToString().ToLower()}");
             }
         }
 
@@ -93,7 +93,7 @@ namespace Tesserae
             {
                 var s = _container.classList.FirstOrDefault(x => x.StartsWith("tss-spinner-size-"));
                 if (s != null) _container.classList.remove(s);
-                _container.classList.add($"tss-spinner-size-{value.ToString()}");
+                _container.classList.add($"tss-spinner-size-{value.ToString().ToLower()}");
             }
         }
 

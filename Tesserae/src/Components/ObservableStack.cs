@@ -107,7 +107,7 @@ namespace Tesserae
         /// <returns>The current instance.</returns>
         public ObservableStack AlignContent(ItemAlign align)
         {
-            string cssAlign                                        = align.ToString();
+            string cssAlign                                        = align.ToString().ToLower();
             if (cssAlign == "end" || cssAlign == "start") cssAlign = $"flex-{cssAlign}";
             InnerElement.style.alignContent = cssAlign;
             return this;
@@ -134,7 +134,7 @@ namespace Tesserae
         /// <returns>The current instance.</returns>
         public ObservableStack JustifyItems(ItemJustify justify)
         {
-            string cssJustify                                                                           = justify.ToString();
+            string cssJustify                                                                           = justify.ToString().ToLower();
             if (cssJustify == "end"     || cssJustify == "start") cssJustify                            = $"flex-{cssJustify}";
             if (cssJustify == "between" || cssJustify == "around" || cssJustify == "evenly") cssJustify = $"space-{cssJustify}";
             InnerElement.style.justifyItems = cssJustify;
