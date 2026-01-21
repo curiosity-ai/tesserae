@@ -1,0 +1,51 @@
+.tss-accordion {
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: 4px;
+    overflow: hidden;
+    width: 100%;
+}
+
+.tss-accordion-item {
+    border-bottom: 1px solid var(--tss-default-border-color);
+}
+
+.tss-accordion-item:last-child {
+    border-bottom: none;
+}
+
+.tss-accordion-header {
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    background-color: var(--tss-default-background);
+    user-select: none;
+    transition: background-color 0.2s;
+}
+
+.tss-accordion-header:hover {
+    background-color: var(--tss-default-background-hover);
+}
+
+.tss-accordion-header-title {
+    font-weight: 600;
+}
+
+.tss-accordion-header-icon {
+    transition: transform 0.2s;
+}
+
+.tss-accordion-item.tss-open .tss-accordion-header-icon {
+    transform: rotate(180deg);
+}
+
+.tss-accordion-content {
+    padding: 16px;
+    display: none;
+    background-color: var(--tss-default-background);
+}
+
+.tss-accordion-item.tss-open .tss-accordion-content {
+    display: block;
+}

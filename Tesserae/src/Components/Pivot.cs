@@ -40,8 +40,8 @@ namespace Tesserae
         {
             _moreBtn          = Button().SetIcon(UIcons.MenuDots).NoMinSize().W(32).HS().NoPadding().Class("tss-pivot-titlebar-more").OnClick(() => ShowMoreTabs());
             _line             = Div(_("tss-pivot-line"));
-            _renderedTabs     = Div(_("tss-pivot-titlebar"));
-            _renderedContent  = Div(_("tss-pivot-content"));
+            _renderedTabs     = Div(_("tss-pivot-titlebar", role: "tablist"));
+            _renderedContent  = Div(_("tss-pivot-content", role: "tabpanel"));
             StylingContainer = Div(_("tss-pivot"), _renderedTabs, _line, _renderedContent);
         }
 
@@ -79,6 +79,8 @@ namespace Tesserae
             if (_initiallySelectedID is null) _initiallySelectedID = tab.Id;
             _orderedTabs.Add(tab);
             var title = tab.RenderTitle();
+            title.setAttribute("role", "tab");
+            title.setAttribute("aria-selected", "false");
             _renderedTitles.Add(tab, title);
             AttachEvents(tab.Id, title);
             _renderedTabs.appendChild(title);
@@ -285,10 +287,12 @@ namespace Tesserae
                 if (v == title)
                 {
                     v.classList.add("tss-pivot-selected-title");
+                    v.setAttribute("aria-selected", "true");
                 }
                 else
                 {
                     v.classList.remove("tss-pivot-selected-title");
+                    v.setAttribute("aria-selected", "false");
                 }
             }
             _selectedNav = title;

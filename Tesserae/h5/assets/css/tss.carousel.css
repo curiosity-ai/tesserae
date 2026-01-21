@@ -1,0 +1,51 @@
+.tss-carousel {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 4px;
+}
+
+.tss-carousel-items {
+    display: flex;
+    transition: transform 0.5s ease;
+}
+
+.tss-carousel-item {
+    flex: 0 0 100%;
+    width: 100%;
+}
+
+.tss-carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(255, 255, 255, 0.7);
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.tss-carousel-btn-prev { left: 8px; }
+.tss-carousel-btn-next { right: 8px; }
+
+.tss-carousel-dots {
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+}
+
+.tss-carousel-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+}
+
+.tss-carousel-dot.tss-active {
+    background-color: #fff;
+}

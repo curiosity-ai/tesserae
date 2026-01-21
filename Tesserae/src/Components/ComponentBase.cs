@@ -8,7 +8,7 @@ namespace Tesserae
 
 
     [H5.Name("tss.CB")]
-    public abstract class ComponentBase<T, THTML> : IComponent, IHasClickHandler, IHasMarginPadding where T : ComponentBase<T, THTML> where THTML : HTMLElement
+    public abstract class ComponentBase<T, THTML> : IComponent, IHasClickHandler, IHasMarginPadding, IAccessibility where T : ComponentBase<T, THTML> where THTML : HTMLElement
     {
         protected event ComponentEventHandler<T, MouseEvent>     Clicked;
         protected event ComponentEventHandler<T, MouseEvent>     MouseOver;
@@ -26,6 +26,11 @@ namespace Tesserae
         public THTML  InnerElement { get;                               protected set; }
         public string Margin       { get => InnerElement.style.margin;  set => InnerElement.style.margin = value; }
         public string Padding      { get => InnerElement.style.padding; set => InnerElement.style.padding = value; }
+
+        public string AriaRole        { set => InnerElement.setAttribute("role", value); }
+        public string AriaLabel       { set => InnerElement.setAttribute("aria-label", value); }
+        public string AriaLabelledBy  { set => InnerElement.setAttribute("aria-labelledby", value); }
+        public string AriaDescribedBy { set => InnerElement.setAttribute("aria-describedby", value); }
 
         public abstract HTMLElement Render();
 

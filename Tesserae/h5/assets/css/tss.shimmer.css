@@ -1,0 +1,28 @@
+.tss-shimmer {
+    background: var(--tss-default-background-hover);
+    background-image: linear-gradient(to right, var(--tss-default-background-hover) 0%, var(--tss-default-background-hover-dark) 20%, var(--tss-default-background-hover) 40%, var(--tss-default-background-hover) 100%);
+    background-repeat: no-repeat;
+    background-size: 800px 100%;
+    display: block;
+    line-height: 1;
+    position: relative;
+    overflow: hidden;
+    animation: tss-shimmer-animation 1.5s ease-in-out infinite;
+}
+
+@keyframes tss-shimmer-animation {
+    0% {
+        background-position: -468px 0;
+    }
+    100% {
+        background-position: 468px 0;
+    }
+}
+
+.tss-shimmer-circle {
+    border-radius: 50%;
+}
+
+.tss-shimmer-square {
+    border-radius: 4px;
+}

@@ -26,6 +26,7 @@ namespace Tesserae
             _onText       = onText  ?? TextBlock("On");
             _offText      = offText ?? TextBlock("Off");
             InnerElement  = CheckBox(_("tss-checkbox"));
+            InnerElement.setAttribute("role", "switch");
             _checkElement = Div(_("tss-toggle-mark"));
             _onOffSpan    = Div(_("tss-toggle-text"),                                   _offText.Render());
             _container    = Div(_("tss-toggle-container tss-default-component-margin"), InnerElement, _checkElement, _onOffSpan);

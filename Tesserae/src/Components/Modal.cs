@@ -70,7 +70,8 @@ namespace Tesserae
             _modalHeaderCommands.appendChild(_closeButton);
 
             _modalContent = Div(_("tss-modal-content"));
-            _modal        = Div(_("tss-modal", styles: s => s.transform = "translate(0px,0px)"), _modalHeader, _modalContent, _modalFooter);
+            _modal        = Div(_("tss-modal", role: "dialog", styles: s => s.transform = "translate(0px,0px)"), _modalHeader, _modalContent, _modalFooter);
+            _modal.setAttribute("aria-modal", "true");
             _modalOverlay = Div(_("tss-modal-overlay"));
             _contentHtml  = Div(_("tss-modal-container"), _modalOverlay, _modal);
             IsNonBlocking = false; //blocking by default

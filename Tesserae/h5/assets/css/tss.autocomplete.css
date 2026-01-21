@@ -1,0 +1,28 @@
+.tss-autocomplete {
+    position: relative;
+    width: 100%;
+}
+
+.tss-autocomplete-suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background-color: var(--tss-default-background);
+    border: 1px solid var(--tss-default-border-color);
+    border-top: none;
+    max-height: 200px;
+    overflow-y: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tss-autocomplete-suggestion {
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.tss-autocomplete-suggestion:hover {
+    background-color: var(--tss-default-background-hover);
+}

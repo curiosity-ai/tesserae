@@ -730,6 +730,61 @@ namespace Tesserae
         public static ToggleButton ToToggle(this Button button) => new ToggleButton(button);
 
         /// <summary>
+        /// Creates a <see cref="Tesserae.Badge"/> component.
+        /// </summary>
+        public static Badge Badge(string text = string.Empty) => new Badge(text);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.Avatar"/> component.
+        /// </summary>
+        public static Avatar Avatar(string initials = string.Empty, string imageSrc = null) => new Avatar(initials, imageSrc);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.Shimmer"/> component.
+        /// </summary>
+        public static Shimmer Shimmer() => new Shimmer();
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.Accordion"/> component.
+        /// </summary>
+        public static Accordion Accordion() => new Accordion();
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.Pagination"/> component.
+        /// </summary>
+        public static Pagination Pagination(int totalItems = 0, int itemsPerPage = 10, int currentPage = 1) => new Pagination(totalItems, itemsPerPage, currentPage);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.Stepper"/> component.
+        /// </summary>
+        public static Stepper Stepper() => new Stepper();
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.Rating"/> component.
+        /// </summary>
+        public static Rating Rating(int value = 0, int max = 5) => new Rating(value, max);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.Calendar"/> component.
+        /// </summary>
+        public static Calendar Calendar(DateTime? initialDate = null) => new Calendar(initialDate);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.Callout"/> component.
+        /// </summary>
+        public static Callout Callout() => new Callout();
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.Carousel"/> component.
+        /// </summary>
+        public static Carousel Carousel() => new Carousel();
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.Autocomplete"/> component.
+        /// </summary>
+        public static Autocomplete Autocomplete() => new Autocomplete();
+
+        /// <summary>
         /// Tries to remove a child element from a parent element.
         /// </summary>
         public static void TryRemoveChild(HTMLElement parentElement, HTMLElement childToRemove)

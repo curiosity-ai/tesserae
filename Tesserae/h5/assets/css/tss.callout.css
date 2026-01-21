@@ -1,0 +1,19 @@
+.tss-callout-container {
+    position: absolute;
+    z-index: 1000;
+    background-color: var(--tss-default-background);
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 16px;
+    max-width: 300px;
+}
+
+.tss-callout-header {
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.tss-callout-content {
+    font-size: 14px;
+}

@@ -1,0 +1,21 @@
+.tss-rating {
+    display: inline-flex;
+    align-items: center;
+}
+
+.tss-rating-star {
+    cursor: pointer;
+    font-size: 20px;
+    color: var(--tss-default-border-color);
+    transition: color 0.2s;
+    margin-right: 4px;
+}
+
+.tss-rating-star:hover,
+.tss-rating-star.tss-active {
+    color: #ffc107;
+}
+
+.tss-rating-star.tss-readonly {
+    cursor: default;
+}

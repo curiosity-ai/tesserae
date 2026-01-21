@@ -29,10 +29,14 @@ namespace Tesserae
             bool?                       disabled     = null,
             string                      value        = null,
             string                      placeholder  = null,
-            string                      defaultValue = null,
-            string                      title        = null,
-            Action<HTMLElement>         el           = null,
-            Action<CSSStyleDeclaration> styles       = null)
+            string                      defaultValue    = null,
+            string                      title           = null,
+            string                      role            = null,
+            string                      ariaLabel       = null,
+            string                      ariaLabelledBy  = null,
+            string                      ariaDescribedBy = null,
+            Action<HTMLElement>         el              = null,
+            Action<CSSStyleDeclaration> styles          = null)
         {
             return new Attributes
             {
@@ -48,12 +52,16 @@ namespace Tesserae
                 Rel    = rel,
                 Target = target,
 
-                Text         = text,
-                Type         = type,
-                Disabled     = disabled,
-                Value        = value,
-                DefaultValue = defaultValue,
-                Placeholder  = placeholder
+                Text            = text,
+                Type            = type,
+                Disabled        = disabled,
+                Value           = value,
+                DefaultValue    = defaultValue,
+                Placeholder     = placeholder,
+                Role            = role,
+                AriaLabel       = ariaLabel,
+                AriaLabelledBy  = ariaLabelledBy,
+                AriaDescribedBy = ariaDescribedBy
             };
         }
     }

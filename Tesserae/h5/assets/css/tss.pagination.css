@@ -1,0 +1,45 @@
+.tss-pagination {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 16px 0;
+    align-items: center;
+    justify-content: center;
+}
+
+.tss-pagination-item {
+    margin: 0 4px;
+}
+
+.tss-pagination-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    height: 32px;
+    padding: 0 8px;
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: 4px;
+    background-color: var(--tss-default-background);
+    color: var(--tss-default-foreground);
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 14px;
+}
+
+.tss-pagination-link:hover:not(.tss-disabled) {
+    background-color: var(--tss-default-background-hover);
+    border-color: var(--tss-default-border-color-hover);
+}
+
+.tss-pagination-link.tss-active {
+    background-color: var(--tss-primary-background);
+    color: var(--tss-primary-foreground);
+    border-color: var(--tss-primary-background);
+}
+
+.tss-pagination-link.tss-disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}

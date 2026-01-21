@@ -1,0 +1,67 @@
+.tss-stepper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    margin: 16px 0;
+    position: relative;
+}
+
+.tss-stepper-step {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.tss-stepper-step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    width: 100%;
+    height: 2px;
+    background-color: var(--tss-default-border-color);
+    z-index: 1;
+}
+
+.tss-stepper-step.tss-completed:not(:last-child)::after {
+    background-color: var(--tss-primary-background);
+}
+
+.tss-stepper-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid var(--tss-default-border-color);
+    background-color: var(--tss-default-background);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    z-index: 2;
+    margin-bottom: 8px;
+    transition: all 0.2s;
+}
+
+.tss-stepper-step.tss-active .tss-stepper-circle {
+    border-color: var(--tss-primary-background);
+    color: var(--tss-primary-background);
+}
+
+.tss-stepper-step.tss-completed .tss-stepper-circle {
+    border-color: var(--tss-primary-background);
+    background-color: var(--tss-primary-background);
+    color: var(--tss-primary-foreground);
+}
+
+.tss-stepper-label {
+    font-size: 12px;
+    text-align: center;
+    color: var(--tss-default-foreground);
+}
+
+.tss-stepper-step.tss-active .tss-stepper-label {
+    font-weight: 600;
+}

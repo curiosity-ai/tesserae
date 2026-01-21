@@ -1,0 +1,50 @@
+.tss-avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    user-select: none;
+    background-color: var(--tss-default-background-hover);
+    color: var(--tss-default-foreground);
+    border-radius: 50%;
+    vertical-align: middle;
+}
+
+.tss-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.tss-avatar-initials {
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.tss-avatar-square {
+    border-radius: 4px;
+}
+
+.tss-avatar-size-small {
+    width: 24px;
+    height: 24px;
+    font-size: 10px;
+}
+
+.tss-avatar-size-medium {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+}
+
+.tss-avatar-size-large {
+    width: 48px;
+    height: 48px;
+    font-size: 18px;
+}
+
+.tss-avatar-size-huge {
+    width: 96px;
+    height: 96px;
+    font-size: 32px;
+}

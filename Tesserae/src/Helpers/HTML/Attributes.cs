@@ -30,9 +30,12 @@ namespace Tesserae
         public bool?  Disabled     { get; internal set; }
         public string Value        { get; internal set; }
         public string DefaultValue { get; internal set; }
-        public string Placeholder  { get; internal set; }
-        public string Alt          { get; internal set; }
-        public string Role         { get; internal set; }
+        public string Placeholder     { get; internal set; }
+        public string Alt             { get; internal set; }
+        public string Role            { get; internal set; }
+        public string AriaLabel       { get; internal set; }
+        public string AriaLabelledBy  { get; internal set; }
+        public string AriaDescribedBy { get; internal set; }
 
         public IEnumerable<(string name, string value)> Data => _data.AsReadOnly();
 
@@ -56,9 +59,15 @@ namespace Tesserae
 
             if (!string.IsNullOrEmpty(Title)) { element.title = Title; }
 
-            if (!string.IsNullOrEmpty(Alt)) { element.setAttribute("alt", Role); }
+            if (!string.IsNullOrEmpty(Alt)) { element.setAttribute("alt", Alt); }
 
             if (!string.IsNullOrEmpty(Role)) { element.setAttribute("role", Role); }
+
+            if (!string.IsNullOrEmpty(AriaLabel)) { element.setAttribute("aria-label", AriaLabel); }
+
+            if (!string.IsNullOrEmpty(AriaLabelledBy)) { element.setAttribute("aria-labelledby", AriaLabelledBy); }
+
+            if (!string.IsNullOrEmpty(AriaDescribedBy)) { element.setAttribute("aria-describedby", AriaDescribedBy); }
 
             foreach (var (attributeName, attributeValue) in _data)
             {
@@ -160,6 +169,42 @@ namespace Tesserae
             }
 
             Role = role;
+
+            return this;
+        }
+
+        public Attributes WithAriaLabel(string ariaLabel)
+        {
+            if (string.IsNullOrWhiteSpace(ariaLabel))
+            {
+                throw new ArgumentException(nameof(ariaLabel));
+            }
+
+            AriaLabel = ariaLabel;
+
+            return this;
+        }
+
+        public Attributes WithAriaLabelledBy(string ariaLabelledBy)
+        {
+            if (string.IsNullOrWhiteSpace(ariaLabelledBy))
+            {
+                throw new ArgumentException(nameof(ariaLabelledBy));
+            }
+
+            AriaLabelledBy = ariaLabelledBy;
+
+            return this;
+        }
+
+        public Attributes WithAriaDescribedBy(string ariaDescribedBy)
+        {
+            if (string.IsNullOrWhiteSpace(ariaDescribedBy))
+            {
+                throw new ArgumentException(nameof(ariaDescribedBy));
+            }
+
+            AriaDescribedBy = ariaDescribedBy;
 
             return this;
         }

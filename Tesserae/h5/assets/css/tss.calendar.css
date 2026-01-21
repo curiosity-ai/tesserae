@@ -1,0 +1,59 @@
+.tss-calendar {
+    width: 300px;
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: 4px;
+    padding: 16px;
+    background-color: var(--tss-default-background);
+}
+
+.tss-calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.tss-calendar-title {
+    font-weight: 600;
+}
+
+.tss-calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+}
+
+.tss-calendar-day-header {
+    text-align: center;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--tss-default-foreground-secondary);
+    padding: 8px 0;
+}
+
+.tss-calendar-day {
+    text-align: center;
+    padding: 8px 0;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+    font-size: 14px;
+}
+
+.tss-calendar-day:hover {
+    background-color: var(--tss-default-background-hover);
+}
+
+.tss-calendar-day.tss-today {
+    font-weight: 700;
+    color: var(--tss-primary-background);
+}
+
+.tss-calendar-day.tss-selected {
+    background-color: var(--tss-primary-background);
+    color: var(--tss-primary-foreground);
+}
+
+.tss-calendar-day.tss-outside {
+    color: var(--tss-default-border-color);
+}

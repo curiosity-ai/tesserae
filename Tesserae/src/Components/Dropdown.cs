@@ -43,7 +43,9 @@ namespace Tesserae
             _noItemsSpan = noItemsSpan ?? Span(_(text: "There are no options available"));
             _searchSpan  = Span(_("tss-dropdown-search-term"));
 
-            InnerElement = Div(_("tss-dropdown"), _noItemsSpan);
+            InnerElement = Div(_("tss-dropdown", role: "combobox"), _noItemsSpan);
+            InnerElement.setAttribute("aria-haspopup", "listbox");
+            InnerElement.setAttribute("aria-expanded", "false");
 
             _errorSpan = Span(_("tss-dropdown-error"));
             _iconContainer  = I(_("tss-dropdown-icon"));
@@ -261,7 +263,7 @@ namespace Tesserae
         {
             if (_contentHtml == null)
             {
-                _popupDiv    = Div(_("tss-dropdown-popup"), _childContainer);
+                _popupDiv    = Div(_("tss-dropdown-popup", role: "listbox"), _childContainer);
                 _contentHtml = Div(_("tss-dropdown-layer"), _popupDiv);
 
                 _contentHtml.addEventListener("click",       OnWindowClick);
@@ -281,6 +283,7 @@ namespace Tesserae
             _popupDiv.style.top    = "-1000px";
 
             base.Show();
+            InnerElement.setAttribute("aria-expanded", "true");
 
             _isChanged = false;
 
@@ -369,6 +372,7 @@ namespace Tesserae
         {
             ClearSearch();
             ResetSearchItems();
+            InnerElement.setAttribute("aria-expanded", "false");
             document.removeEventListener("click",       OnWindowClick);
             document.removeEventListener("dblclick",    OnWindowClick);
             document.removeEventListener("contextmenu", OnWindowClick);
@@ -878,7 +882,7 @@ namespace Tesserae
 
             public Item(IComponent content, IComponent selectedContent)
             {
-                InnerElement = Button(_("tss-dropdown-item"));
+                InnerElement = Button(_("tss-dropdown-item", role: "option"));
                 InnerElement.appendChild(content.Render());
 
                 if (selectedContent is null || selectedContent == content)
@@ -948,9 +952,15 @@ namespace Tesserae
                     }
 
                     if (value)
+                    {
                         InnerElement.classList.add("tss-selected");
+                        InnerElement.setAttribute("aria-selected", "true");
+                    }
                     else
+                    {
                         InnerElement.classList.remove("tss-selected");
+                        InnerElement.setAttribute("aria-selected", "false");
+                    }
 
                     // 2020-06-11 DWR: We previously had a check here to only fire this even if the value had changed but that would mean that if you had a single-select drop down and you clicked on the option that was already selected
                     // then nothing would happen (because the value hadn't changed and this callback wouldn't be made) because it's this callback that the parent class uses to hide the drop down list of options. I considered making
