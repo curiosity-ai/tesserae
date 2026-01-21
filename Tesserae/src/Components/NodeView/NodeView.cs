@@ -8,6 +8,9 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A NodeView component that provides a visual node-based editor (based on BaklavaJS).
+    /// </summary>
     [H5.Name("tss.NodeView")]
     public class NodeView : IComponent
     {
@@ -20,6 +23,9 @@ namespace Tesserae
         private event Action<NodeView> _onChange;
         private string _previousState;
 
+        /// <summary>
+        /// Initializes a new instance of the NodeView class.
+        /// </summary>
         public NodeView()
         {
             //Docs: https://baklava.tech/getting-started.html
@@ -43,12 +49,23 @@ namespace Tesserae
             });
         }
 
+        /// <summary>
+        /// Adds a change event handler to the node view.
+        /// </summary>
+        /// <param name="onChange">The event handler.</param>
+        /// <returns>The current instance of the type.</returns>
         public NodeView OnChange(Action<NodeView> onChange)
         {
             _onChange += onChange;
             return this;
         }
 
+        /// <summary>
+        /// Defines a new static node type.
+        /// </summary>
+        /// <param name="nodeTypeName">The name of the node type.</param>
+        /// <param name="buildNode">An action to build the node interface.</param>
+        /// <returns>The current instance of the type.</returns>
         public NodeView DefineNode(string nodeTypeName, Action<InterfaceBuilder> buildNode)
         {
             Action action = () =>
@@ -77,6 +94,13 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Defines a new dynamic node type.
+        /// </summary>
+        /// <param name="nodeTypeName">The name of the node type.</param>
+        /// <param name="buildBaseNode">An action to build the base node interface.</param>
+        /// <param name="onUpdate">An action to perform when the node needs updating.</param>
+        /// <returns>The current instance of the type.</returns>
         public NodeView DefineDynamicNode(string nodeTypeName, Action<InterfaceBuilder> buildBaseNode, Action<InputsState, OutputsState, InterfaceBuilder> onUpdate)
         {
             Action action = () =>
@@ -105,10 +129,23 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Renders the node view.
+        /// </summary>
+        /// <returns>The rendered HTMLElement.</returns>
         public dom.HTMLElement Render() => _parent.Render();
 
+        /// <summary>
+        /// Gets the current state of the node graph.
+        /// </summary>
+        /// <returns>The graph state.</returns>
         public NodeViewGraphState GetState() => _viewModel.displayedGraph.save();
-            
+
+        /// <summary>
+        /// Gets the current state of the node graph as a JSON string.
+        /// </summary>
+        /// <param name="formated">Whether to format the JSON string.</param>
+        /// <returns>The JSON string.</returns>
         public string GetJsonState(bool formated = false)
         {
             if (formated)
@@ -120,11 +157,19 @@ namespace Tesserae
                 return es5.JSON.stringify(GetState());
             }
         }
+        /// <summary>
+        /// Sets the state of the node graph from a JSON string.
+        /// </summary>
+        /// <param name="stateJson">The JSON string representing the graph state.</param>
         public void SetState(string stateJson)
         {
             SetState(es5.JSON.parse(stateJson).As<NodeViewGraphState>());
         }
 
+        /// <summary>
+        /// Sets the state of the node graph.
+        /// </summary>
+        /// <param name="state">The graph state.</param>
         public void SetState(NodeViewGraphState state)
         {
             if (_viewModel is object)
@@ -286,6 +331,9 @@ namespace Tesserae
             return value.As<object>();
         }
 
+        /// <summary>
+        /// A builder class for defining node interfaces.
+        /// </summary>
         public class InterfaceBuilder
         {
             private string _type;
@@ -306,28 +354,57 @@ namespace Tesserae
 
             internal static InterfaceBuilder New(string type) => new InterfaceBuilder(type);
 
+            /// <summary>
+            /// Sets whether the node should use a two-column layout.
+            /// </summary>
+            /// <param name="twoColumn">Whether to use two columns.</param>
+            /// <returns>The current instance of the type.</returns>
             public InterfaceBuilder TwoColumn(bool twoColumn = true)
             {
                 _twoColumn = twoColumn;
                 return this;
             }
+
+            /// <summary>
+            /// Sets the category for the node type.
+            /// </summary>
+            /// <param name="category">The category name.</param>
+            /// <returns>The current instance of the type.</returns>
             public InterfaceBuilder Category(string category)
             {
                 _category = category;
                 return this;
             }
+
+            /// <summary>
+            /// Sets the width of the node.
+            /// </summary>
+            /// <param name="width">The width in pixels.</param>
+            /// <returns>The current instance of the type.</returns>
             public InterfaceBuilder Width(int width)
             {
                 _width = width;
                 return this;
             }
 
+            /// <summary>
+            /// Adds an input interface to the node.
+            /// </summary>
+            /// <param name="inputName">The name of the input.</param>
+            /// <param name="inputGenerator">A function that returns the node interface.</param>
+            /// <returns>The current instance of the type.</returns>
             public InterfaceBuilder AddInput(string inputName, Func<NodeInterface> inputGenerator)
             {
                 _inputs[inputName] = inputGenerator;
                 return this;
             }
 
+            /// <summary>
+            /// Adds an output interface to the node.
+            /// </summary>
+            /// <param name="outputName">The name of the output.</param>
+            /// <param name="outputGenerator">A function that returns the node interface.</param>
+            /// <returns>The current instance of the type.</returns>
             public InterfaceBuilder AddOutput(string outputName, Func<NodeInterface> outputGenerator)
             {
                 _outputs[outputName] = outputGenerator;
@@ -369,11 +446,22 @@ namespace Tesserae
                 }
             }
 
+            /// <summary>
+            /// Specifies inputs that must be forced to update.
+            /// </summary>
+            /// <param name="inputs">The input names.</param>
+            /// <returns>The current instance of the type.</returns>
             public InterfaceBuilder ForceInputUpdates(params string[] inputs)
             {
                 _forceInputUpdates = inputs;
                 return this;
             }
+
+            /// <summary>
+            /// Specifies outputs that must be forced to update.
+            /// </summary>
+            /// <param name="outputs">The output names.</param>
+            /// <returns>The current instance of the type.</returns>
             public InterfaceBuilder ForceOutputUpdates(params string[] outputs)
             {
                 _forceOutputUpdates = outputs;
@@ -398,8 +486,14 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Helper methods for creating standard BaklavaJS interfaces.
+        /// </summary>
         public static class Interfaces
         {
+            /// <summary>
+            /// Creates a button interface.
+            /// </summary>
             public static NodeInterface ButtonInterface(string name, Action onClick, bool allowMultipleConnections = false, bool setPort = true)
             {
                 var ni = Script.Write<NodeInterface>("new BaklavaJS.RendererVue.ButtonInterface({0}, {1})", name, onClick);
@@ -407,6 +501,9 @@ namespace Tesserae
                 ni.setPort(setPort);
                 return ni;
             }
+            /// <summary>
+            /// Creates a checkbox interface.
+            /// </summary>
             public static NodeInterface CheckboxInterface(string name, bool value, bool allowMultipleConnections = false, bool setPort = true)
             {
                 var ni = Script.Write<NodeInterface>("new BaklavaJS.RendererVue.CheckboxInterface({0}, {1})", name, value);
@@ -415,6 +512,9 @@ namespace Tesserae
                 return ni;
             }
 
+            /// <summary>
+            /// Creates an integer input interface.
+            /// </summary>
             public static NodeInterface IntegerInterface(string name, int value, bool allowMultipleConnections = false, bool setPort = true)
             {
                 var ni = Script.Write<NodeInterface>("new BaklavaJS.RendererVue.IntegerInterface({0}, {1})", name, value);
@@ -422,6 +522,9 @@ namespace Tesserae
                 ni.setPort(setPort);
                 return ni;
             }
+            /// <summary>
+            /// Creates a number input interface.
+            /// </summary>
             public static NodeInterface NumberInterface(string name, double value, bool allowMultipleConnections = false, bool setPort = true)
             {
                 var ni = Script.Write<NodeInterface>("new BaklavaJS.RendererVue.NumberInterface({0}, {1})", name, value);
@@ -429,6 +532,9 @@ namespace Tesserae
                 ni.setPort(setPort);
                 return ni;
             }
+            /// <summary>
+            /// Creates a select (dropdown) interface.
+            /// </summary>
             public static NodeInterface SelectInterface(string name, string defaultValue, ReadOnlyArray<string> values, bool allowMultipleConnections = false, bool setPort = true)
             {
                 var ni = Script.Write<NodeInterface>("new BaklavaJS.RendererVue.SelectInterface({0}, {1}, {2})", name, defaultValue, values);
@@ -436,6 +542,9 @@ namespace Tesserae
                 ni.setPort(setPort);
                 return ni;
             }
+            /// <summary>
+            /// Creates a slider interface.
+            /// </summary>
             public static NodeInterface SliderInterface(string name, double value, double min, double max, bool allowMultipleConnections = false, bool setPort = true)
             {
                 var ni = Script.Write<NodeInterface>("new BaklavaJS.RendererVue.SliderInterface({0}, {1})", name, value, min, max);
@@ -443,6 +552,9 @@ namespace Tesserae
                 ni.setPort(setPort);
                 return ni;
             }
+            /// <summary>
+            /// Creates a static text interface.
+            /// </summary>
             public static NodeInterface TextInterface(string name, string value, bool allowMultipleConnections = false, bool setPort = true)
             {
                 var ni = Script.Write<NodeInterface>("new BaklavaJS.RendererVue.TextInterface({0}, {1})", name, value);
@@ -451,6 +563,9 @@ namespace Tesserae
                 return ni;
             }
 
+            /// <summary>
+            /// Creates a text input interface.
+            /// </summary>
             public static NodeInterface TextInputInterface(string name, string value, bool allowMultipleConnections = false, bool setPort = true)
             {
                 var ni = Script.Write<NodeInterface>("new BaklavaJS.RendererVue.TextInputInterface({0}, {1})", name, value);

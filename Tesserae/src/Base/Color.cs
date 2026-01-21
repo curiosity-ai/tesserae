@@ -4,26 +4,61 @@ using static H5.Core.dom;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// Represents a color with alpha, red, green, and blue components.
+    /// </summary>
     [H5.Name("tss.Color")]
     public class Color
     {
+        /// <summary>
+        /// Gets the alpha component value of the color.
+        /// </summary>
         public byte A { get; private set; }
+        /// <summary>
+        /// Gets the blue component value of the color.
+        /// </summary>
         public byte B { get; private set; }
+        /// <summary>
+        /// Gets the red component value of the color.
+        /// </summary>
         public byte R { get; private set; }
+        /// <summary>
+        /// Gets the green component value of the color.
+        /// </summary>
         public byte G { get; private set; }
 
         private string Hex;
 
+        /// <summary>
+        /// Creates a <see cref="Color"/> from the specified 8-bit color values (red, green, and blue). The alpha value is implicitly 255 (fully opaque).
+        /// </summary>
+        /// <param name="r">The red component.</param>
+        /// <param name="g">The green component.</param>
+        /// <param name="b">The blue component.</param>
+        /// <returns>The <see cref="Color"/> that this method creates.</returns>
         public static Color FromArgb(byte r, byte g, byte b)
         {
             return new Color() { A = 255, R = r, G = g, B = b };
         }
 
+        /// <summary>
+        /// Creates a <see cref="Color"/> from the four ARGB component (alpha, red, green, and blue) values.
+        /// </summary>
+        /// <param name="a">The alpha component.</param>
+        /// <param name="r">The red component.</param>
+        /// <param name="g">The green component.</param>
+        /// <param name="b">The blue component.</param>
+        /// <returns>The <see cref="Color"/> that this method creates.</returns>
         public static Color FromArgb(byte a, byte r, byte g, byte b)
         {
             return new Color() { A = a, R = r, G = g, B = b };
         }
 
+        /// <summary>
+        /// Evaluates a CSS variable and returns its value.
+        /// </summary>
+        /// <param name="variableName">The name of the CSS variable (e.g., "--my-color" or "var(--my-color)").</param>
+        /// <returns>The value of the CSS variable.</returns>
         public static string EvalVar(string variableName)
         {
             if (variableName.StartsWith("var("))
@@ -34,6 +69,10 @@ namespace Tesserae
             return color;
         }
 
+        /// <summary>
+        /// Gets the hue-saturation-lightness (HSL) hue value, in degrees, for this <see cref="Color"/>.
+        /// </summary>
+        /// <returns>The hue, in degrees, of this <see cref="Color"/>. The hue is measured in degrees, ranging from 0.0 through 360.0, in HSL color space.</returns>
         public float GetHue()
         {
             if (R == G && G == B)
@@ -79,6 +118,10 @@ namespace Tesserae
             return hue;
         }
 
+        /// <summary>
+        /// Gets the hue-saturation-lightness (HSL) lightness value for this <see cref="Color"/>.
+        /// </summary>
+        /// <returns>The lightness of this <see cref="Color"/>. The lightness ranges from 0.0 through 1.0, where 0.0 represents black and 1.0 represents white.</returns>
         public float GetBrightness()
         {
             float r = R / 255.0f;
@@ -99,6 +142,10 @@ namespace Tesserae
             return (max + min) / 2;
         }
 
+        /// <summary>
+        /// Gets the hue-saturation-lightness (HSL) saturation value for this <see cref="Color"/>.
+        /// </summary>
+        /// <returns>The saturation of this <see cref="Color"/>. The saturation ranges from 0.0 through 1.0, where 0.0 is grayscale and 1.0 is the most saturated.</returns>
         public float GetSaturation()
         {
             float r = R / 255.0f;
@@ -134,6 +181,11 @@ namespace Tesserae
             return s;
         }
 
+        /// <summary>
+        /// Creates a <see cref="Color"/> from a string representation. Supports hex, rgb, rgba and CSS variables.
+        /// </summary>
+        /// <param name="hexString">The color string.</param>
+        /// <returns>The <see cref="Color"/>.</returns>
         public static Color FromString(string hexString)
         {
             byte r = 0, g = 0, b = 0;
@@ -190,6 +242,10 @@ namespace Tesserae
             //                 (byte)(value & 0xFF));
         }
 
+        /// <summary>
+        /// Returns the hex string representation of this <see cref="Color"/>.
+        /// </summary>
+        /// <returns>A hex string (e.g., "#RRGGBB").</returns>
         public string ToHex()
         {
             if (Hex is null)
@@ -199,21 +255,39 @@ namespace Tesserae
             return Hex;
         }
 
+        /// <summary>
+        /// Returns the CSS rgb() string representation of this <see cref="Color"/>.
+        /// </summary>
+        /// <returns>A string like "rgb(r, g, b)".</returns>
         public string ToRGB()
         {
             return $"rgb({R:#0.##}, {G:#0.##}, {B:#0.##})";
         }
 
+        /// <summary>
+        /// Returns a comma-separated string of the RGB components.
+        /// </summary>
+        /// <returns>A string like "r, g, b".</returns>
         public string ToRGBvar()
         {
             return $"{R:#0.##}, {G:#0.##}, {B:#0.##}";
         }
 
+        /// <summary>
+        /// Returns the CSS rgba() string representation of this <see cref="Color"/> with the specified opacity.
+        /// </summary>
+        /// <param name="opacity">The opacity (0.0 to 1.0).</param>
+        /// <returns>A string like "rgba(r, g, b, a)".</returns>
         public string ToRGBA(float opacity)
         {
             return $"rgba({R:#0.##}, {G:#0.##}, {B:#0.##}, {opacity:#0.##})";
         }
 
+        /// <summary>
+        /// Returns a comma-separated string of the RGB components and the specified opacity.
+        /// </summary>
+        /// <param name="opacity">The opacity (0.0 to 1.0).</param>
+        /// <returns>A string like "r, g, b, a".</returns>
         public string ToRGBAvar(float opacity)
         {
             return $"{R:#0.##}, {G:#0.##}, {B:#0.##}, {opacity:#0.##}";

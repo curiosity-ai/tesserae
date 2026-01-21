@@ -2,7 +2,9 @@ using H5;
 
 namespace Tesserae
 {
-
+    /// <summary>
+    /// Represents a comprehensive set of icons (UIcons) that can be used within components.
+    /// </summary>
     [Enum(Emit.Value)]
     public enum UIcons
     {

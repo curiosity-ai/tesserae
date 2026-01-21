@@ -5,21 +5,33 @@ namespace Tesserae
 {
     public static partial class UI
     {
+        /// <summary>
+        /// Provides methods to manage the application theme (Dark/Light) and custom colors.
+        /// </summary>
         public static class Theme
         {
             private static HTMLStyleElement _primaryStyleElement;
             private static HTMLStyleElement _backgroundStyleElement;
 
+            /// <summary>
+            /// Enables dark mode.
+            /// </summary>
             public static void Dark()
             {
                 document.body.classList.add("tss-dark-mode");
             }
 
+            /// <summary>
+            /// Enables light mode.
+            /// </summary>
             public static void Light()
             {
                 document.body.classList.remove("tss-dark-mode");
             }
 
+            /// <summary>
+            /// Gets or sets a value indicating whether the theme is dark.
+            /// </summary>
             public static bool IsDark
             {
                 get
@@ -39,6 +51,9 @@ namespace Tesserae
                 }
             }
 
+            /// <summary>
+            /// Gets or sets a value indicating whether the theme is light.
+            /// </summary>
             public static bool IsLight
             {
                 get
@@ -52,6 +67,9 @@ namespace Tesserae
             }
 
 
+            /// <summary>
+            /// Sets the background colors for both light and dark modes.
+            /// </summary>
             public static void SetBackground(Color defaultLight, Color defaultDark)
             {
                 if (_backgroundStyleElement is object)
@@ -129,6 +147,9 @@ namespace Tesserae
             }
 
 
+            /// <summary>
+            /// Sets the primary colors for both light and dark modes.
+            /// </summary>
             public static void SetPrimary(Color primaryLightColor, Color primaryDarkColor)
             {
                 if (_primaryStyleElement is object)

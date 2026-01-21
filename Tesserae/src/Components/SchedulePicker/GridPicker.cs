@@ -9,6 +9,10 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A GridPicker component that allows users to select states across a grid of buttons,
+    /// supporting drag-to-select functionality.
+    /// </summary>
     [H5.Name("tss.GridPicker")]
     public sealed class GridPicker : IComponent
     {
@@ -21,8 +25,21 @@ namespace Tesserae
         private readonly Button[][]                            _buttons;
         private event ComponentEventHandler<GridPicker, Event> Changed;
 
+        /// <summary>
+        /// Gets whether the grid picker is currently being dragged.
+        /// </summary>
         public bool IsDragging => _dragSource == this;
 
+        /// <summary>
+        /// Initializes a new instance of the GridPicker class.
+        /// </summary>
+        /// <param name="columnNames">Names of the columns.</param>
+        /// <param name="rowNames">Names of the rows.</param>
+        /// <param name="states">Number of available states for each grid cell.</param>
+        /// <param name="initialStates">Initial state values for each cell.</param>
+        /// <param name="formatState">An action to format the button based on its state.</param>
+        /// <param name="columns">Optional column widths.</param>
+        /// <param name="rowHeight">Optional row height.</param>
         public GridPicker(string[] columnNames, string[] rowNames, int states, int[][] initialStates, Action<Button, int, int> formatState, UnitSize[] columns = null, UnitSize rowHeight = null)
         {
             _columns     = columnNames.Length;
@@ -93,11 +110,20 @@ namespace Tesserae
                .WS().PT(16).PB(16).Gap(2.px()).FlowColumn().Children(gridElements));
         }
 
+        /// <summary>
+        /// Gets the current state of the grid picker.
+        /// </summary>
+        /// <returns>A 2D array representing the states.</returns>
         public int[][] GetState()
         {
             return _states.Select(t => t.ToArray()).ToArray();
         }
 
+        /// <summary>
+        /// Sets the current state of the grid picker.
+        /// </summary>
+        /// <param name="state">A 2D array representing the new states.</param>
+        /// <returns>The current instance of the type.</returns>
         public GridPicker SetState(int[][] state)
         {
             _states = state;
@@ -108,6 +134,11 @@ namespace Tesserae
 
         private void RaiseOnChange(Event ev) => Changed?.Invoke(this, ev);
 
+        /// <summary>
+        /// Adds a change event handler to the grid picker.
+        /// </summary>
+        /// <param name="onChange">The event handler.</param>
+        /// <returns>The current instance of the type.</returns>
         public GridPicker OnChange(ComponentEventHandler<GridPicker, Event> onChange)
         {
             Changed += onChange;
@@ -312,6 +343,10 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Renders the grid picker.
+        /// </summary>
+        /// <returns>The rendered HTMLElement.</returns>
         public HTMLElement Render()
         {
             return _stack.Render();

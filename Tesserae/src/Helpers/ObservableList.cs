@@ -6,6 +6,10 @@ using static H5.Core.dom;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// Represents a list of items that can be observed for changes.
+    /// </summary>
+    /// <typeparam name="T">The type of the items in the list.</typeparam>
     [H5.Name("tss.ObservableList")]
     public sealed class ObservableList<T> : IList<T>, ICollection<T>, IObservable<IReadOnlyList<T>>
     {
@@ -16,6 +20,7 @@ namespace Tesserae
 
         private DebouncerWithMaxDelay _debouncer;
 
+        /// <summary>Gets or sets the debounce delay in milliseconds for raising value changed events.</summary>
         public int Delay
         {
             get
@@ -27,7 +32,11 @@ namespace Tesserae
                 _debouncer = new DebouncerWithMaxDelay(() => ValueChanged?.Invoke(Value), delayInMs: value);
             }
         }
+        /// <summary>Initializes a new instance of the ObservableList class.</summary>
         public ObservableList(params T[] initialValues) : this(shouldHook: true, initialValues: initialValues) { }
+        /// <summary>Initializes a new instance of the ObservableList class.</summary>
+        /// <param name="shouldHook">Whether to hook into nested observables if T is an observable type.</param>
+        /// <param name="initialValues">The initial set of values.</param>
         public ObservableList(bool shouldHook, params T[] initialValues)
         {
             _list                        = initialValues.ToList();
@@ -43,7 +52,9 @@ namespace Tesserae
             _debouncer = new DebouncerWithMaxDelay(() => ValueChanged?.Invoke(_list), delayInMs: 1);
         }
 
+        /// <summary>Registers a callback for changes, and executes it immediately with the current value.</summary>
         public void Observe(ObservableEvent.ValueChanged<IReadOnlyList<T>>              valueGetter) => Observe(valueGetter, callbackImmediately: true);
+        /// <summary>Registers a callback for future changes.</summary>
         public void ObserveFutureChanges(ObservableEvent.ValueChanged<IReadOnlyList<T>> valueGetter) => Observe(valueGetter, callbackImmediately: false);
         private void Observe(ObservableEvent.ValueChanged<IReadOnlyList<T>> valueGetter, bool callbackImmediately)
         {
@@ -53,8 +64,10 @@ namespace Tesserae
                 valueGetter(Value);
         }
 
+        /// <summary>Unregisters a change callback.</summary>
         public void StopObserving(ObservableEvent.ValueChanged<IReadOnlyList<T>> valueGetter) => ValueChanged -= valueGetter;
 
+        /// <summary>Gets or sets the item at the specified index.</summary>
         public T this[int index]
         {
             get => _list[index];
@@ -74,11 +87,15 @@ namespace Tesserae
             _debouncer.RaiseOnValueChanged();
         }
 
+        /// <summary>Gets the number of items in the list.</summary>
         public int  Count      => _list.Count;
+        /// <summary>Gets whether the list is read-only.</summary>
         public bool IsReadOnly => false;
 
+        /// <summary>Gets the current list of items.</summary>
         public IReadOnlyList<T> Value => _list;
 
+        /// <summary>Adds an item to the list.</summary>
         public void Add(T item)
         {
             _list.Add(item);
@@ -86,6 +103,7 @@ namespace Tesserae
             RaiseOnValueChanged();
         }
 
+        /// <summary>Adds a range of items to the list.</summary>
         public void AddRange(IEnumerable<T> enumerable)
         {
             foreach (var item in enumerable)
@@ -96,6 +114,7 @@ namespace Tesserae
             RaiseOnValueChanged();
         }
         
+        /// <summary>Clears the list and adds the specified items.</summary>
         public void ReplaceAll(IEnumerable<T> enumerable)
         {
             if (_shouldHookNestedObservables)
@@ -114,6 +133,7 @@ namespace Tesserae
             RaiseOnValueChanged();
         }
 
+        /// <summary>Clears the list.</summary>
         public void Clear()
         {
             if (_shouldHookNestedObservables)
@@ -127,12 +147,16 @@ namespace Tesserae
             RaiseOnValueChanged();
         }
 
+        /// <summary>Determines whether the list contains the specified item.</summary>
         public bool Contains(T item) => _list.Contains(item);
 
+        /// <summary>Copies the list items to an array.</summary>
         public void CopyTo(T[] array, int arrayIndex) => _list.CopyTo(array, arrayIndex);
 
+        /// <summary>Gets the index of the specified item.</summary>
         public int IndexOf(T item) => _list.IndexOf(item);
 
+        /// <summary>Inserts an item at the specified index.</summary>
         public void Insert(int index, T item)
         {
             if (_list.Count > index)
@@ -145,6 +169,7 @@ namespace Tesserae
             RaiseOnValueChanged();
         }
 
+        /// <summary>Updates an item at the specified index.</summary>
         public void Update(int index, T item)
         {
             if (_list.Count > index)
@@ -157,6 +182,7 @@ namespace Tesserae
             RaiseOnValueChanged();
         }
 
+        /// <summary>Removes all items that match the specified predicate.</summary>
         public int RemoveAll(Func<T, bool> match)
         {
             var toRemove = _list.Where(match).ToArray();
@@ -168,6 +194,7 @@ namespace Tesserae
             return toRemove.Length;
         }
 
+        /// <summary>Removes the first occurrence of the specified item.</summary>
         public bool Remove(T item)
         {
             var removed = _list.Remove(item);
@@ -180,6 +207,7 @@ namespace Tesserae
             return removed;
         }
 
+        /// <summary>Removes the item at the specified index.</summary>
         public void RemoveAt(int index)
         {
             if (_list.Count > index)

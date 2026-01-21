@@ -4,9 +4,20 @@ using static H5.Core.dom;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// Provides comprehensive extension methods for IComponent instances,
+    /// covering lifecycle events, layout, styling, and animations.
+    /// </summary>
     [H5.Name("tss.ICX")]
     public static class IComponentExtensions
     {
+        /// <summary>
+        /// Registers a callback to be executed when the component is mounted in the DOM.
+        /// </summary>
+        /// <typeparam name="T">The type of the component.</typeparam>
+        /// <param name="component">The component.</param>
+        /// <param name="callback">The callback action.</param>
+        /// <returns>The component instance.</returns>
         public static T WhenMounted<T>(this T component, Action callback) where T : IComponent
         {
             //No need to double check if already mounted here, as teh DomObserver already do it
@@ -14,6 +25,15 @@ namespace Tesserae
             return component;
         }
 
+        /// <summary>
+        /// Registers a callback to be executed after a delay once the component is mounted.
+        /// </summary>
+        /// <typeparam name="T">The type of the component.</typeparam>
+        /// <param name="component">The component.</param>
+        /// <param name="delay">The delay duration.</param>
+        /// <param name="callback">The callback action.</param>
+        /// <param name="onlyIfStillMounted">Whether to only execute if still mounted after the delay.</param>
+        /// <returns>The component instance.</returns>
         public static T WhenMountedDelayed<T>(this T component, TimeSpan delay, Action callback, bool onlyIfStillMounted = true) where T : IComponent
         {
             //No need to double check if already mounted here, as teh DomObserver already do it
@@ -30,6 +50,13 @@ namespace Tesserae
             return component;
         }
 
+        /// <summary>
+        /// Registers a callback to be executed when the component is removed from the DOM.
+        /// </summary>
+        /// <typeparam name="T">The type of the component.</typeparam>
+        /// <param name="component">The component.</param>
+        /// <param name="callback">The callback action.</param>
+        /// <returns>The component instance.</returns>
         public static T WhenRemoved<T>(this T component, Action callback) where T : IComponent
         {
             DomObserver.WhenRemoved(component.Render(), callback);
@@ -56,60 +83,70 @@ namespace Tesserae
         //         return component;
         //     }
 
+        /// <summary>Sets automatic alignment for the component.</summary>
         public static T AlignAuto<T>(this T component) where T : IComponent
         {
             Stack.SetAlign(component, ItemAlign.Auto);
             return component;
         }
 
+        /// <summary>Sets stretch alignment for the component.</summary>
         public static T AlignStretch<T>(this T component) where T : IComponent
         {
             Stack.SetAlign(component, ItemAlign.Stretch);
             return component;
         }
 
+        /// <summary>Sets baseline alignment for the component.</summary>
         public static T AlignBaseline<T>(this T component) where T : IComponent
         {
             Stack.SetAlign(component, ItemAlign.Baseline);
             return component;
         }
 
+        /// <summary>Sets start alignment for the component.</summary>
         public static T AlignStart<T>(this T component) where T : IComponent
         {
             Stack.SetAlign(component, ItemAlign.Start);
             return component;
         }
 
+        /// <summary>Sets center alignment for the component.</summary>
         public static T AlignCenter<T>(this T component) where T : IComponent
         {
             Stack.SetAlign(component, ItemAlign.Center);
             return component;
         }
 
+        /// <summary>Sets end alignment for the component.</summary>
         public static T AlignEnd<T>(this T component) where T : IComponent
         {
             Stack.SetAlign(component, ItemAlign.End);
             return component;
         }
 
+        /// <summary>Sets start justification for the component.</summary>
         public static T JustifyStart<T>(this T component) where T : IComponent
         {
             Stack.SetJustify(component, ItemJustify.Start);
             return component;
         }
 
+        /// <summary>Sets center justification for the component.</summary>
         public static T JustifyCenter<T>(this T component) where T : IComponent
         {
             Stack.SetJustify(component, ItemJustify.Center);
             return component;
         }
 
+        /// <summary>Sets end justification for the component.</summary>
         public static T JustifyEnd<T>(this T component) where T : IComponent
         {
             Stack.SetJustify(component, ItemJustify.End);
             return component;
         }
 
+        /// <summary>Sets the margin for all sides of the component.</summary>
         public static T Margin<T>(this T component, UnitSize unitSize) where T : IComponent
         {
             Stack.SetMarginLeft(component, unitSize);
@@ -119,30 +156,35 @@ namespace Tesserae
             return component;
         }
 
+        /// <summary>Sets the left margin for the component.</summary>
         public static T MarginLeft<T>(this T component, UnitSize unitSize) where T : IComponent
         {
             Stack.SetMarginLeft(component, unitSize);
             return component;
         }
 
+        /// <summary>Sets the right margin for the component.</summary>
         public static T MarginRight<T>(this T component, UnitSize unitSize) where T : IComponent
         {
             Stack.SetMarginRight(component, unitSize);
             return component;
         }
 
+        /// <summary>Sets the top margin for the component.</summary>
         public static T MarginTop<T>(this T component, UnitSize unitSize) where T : IComponent
         {
             Stack.SetMarginTop(component, unitSize);
             return component;
         }
 
+        /// <summary>Sets the bottom margin for the component.</summary>
         public static T MarginBottom<T>(this T component, UnitSize unitSize) where T : IComponent
         {
             Stack.SetMarginBottom(component, unitSize);
             return component;
         }
 
+        /// <summary>Sets the padding for all sides of the component.</summary>
         public static T Padding<T>(this T component, UnitSize unitSize) where T : IComponent
         {
             Stack.SetPaddingLeft(component, unitSize);
@@ -152,96 +194,112 @@ namespace Tesserae
             return component;
         }
 
+        /// <summary>Sets the left padding for the component.</summary>
         public static T PaddingLeft<T>(this T component, UnitSize unitSize) where T : IComponent
         {
             Stack.SetPaddingLeft(component, unitSize);
             return component;
         }
 
+        /// <summary>Sets the right padding for the component.</summary>
         public static T PaddingRight<T>(this T component, UnitSize unitSize) where T : IComponent
         {
             Stack.SetPaddingRight(component, unitSize);
             return component;
         }
 
+        /// <summary>Sets the top padding for the component.</summary>
         public static T PaddingTop<T>(this T component, UnitSize unitSize) where T : IComponent
         {
             Stack.SetPaddingTop(component, unitSize);
             return component;
         }
 
+        /// <summary>Sets the bottom padding for the component.</summary>
         public static T PaddingBottom<T>(this T component, UnitSize unitSize) where T : IComponent
         {
             Stack.SetPaddingBottom(component, unitSize);
             return component;
         }
 
+        /// <summary>Sets the width of the component to auto.</summary>
         public static T WidthAuto<T>(this T component) where T : IComponent
         {
             Stack.SetWidth(component, UnitSize.Auto());
             return component;
         }
 
+        /// <summary>Sets the width of the component.</summary>
         public static T Width<T>(this T component, UnitSize unitSize) where T : IComponent
         {
             Stack.SetWidth(component, unitSize);
             return component;
         }
 
+        /// <summary>Sets the minimum width of the component.</summary>
         public static T MinWidth<T>(this T component, UnitSize unitSize) where T : IComponent
         {
             Stack.SetMinWidth(component, unitSize);
             return component;
         }
 
+        /// <summary>Sets the maximum width of the component.</summary>
         public static T MaxWidth<T>(this T component, UnitSize unitSize) where T : IComponent
         {
             Stack.SetMaxWidth(component, unitSize);
             return component;
         }
 
+        /// <summary>Sets the width of the component to 100%.</summary>
         public static T WidthStretch<T>(this T component) where T : IComponent
         {
             Stack.SetWidth(component, 100.percent());
             return component;
         }
 
+        /// <summary>Sets the height of the component to auto.</summary>
         public static T HeightAuto<T>(this T component) where T : IComponent
         {
             Stack.SetHeight(component, UnitSize.Auto());
             return component;
         }
 
+        /// <summary>Sets the height of the component.</summary>
         public static T Height<T>(this T component, UnitSize unitSize) where T : IComponent
         {
             Stack.SetHeight(component, unitSize);
             return component;
         }
 
+        /// <summary>Sets the minimum height of the component.</summary>
         public static T MinHeight<T>(this T component, UnitSize unitSize) where T : IComponent
         {
             Stack.SetMinHeight(component, unitSize);
             return component;
         }
 
+        /// <summary>Sets the maximum height of the component.</summary>
         public static T MaxHeight<T>(this T component, UnitSize unitSize) where T : IComponent
         {
             Stack.SetMaxHeight(component, unitSize);
             return component;
         }
 
+        /// <summary>Sets the height of the component to 100%.</summary>
         public static T HeightStretch<T>(this T component) where T : IComponent
         {
             Stack.SetHeight(component, 100.percent());
             return component;
         }
 
+        /// <summary>Sets the minimum height of the component to 100%.</summary>
         public static T MinHeightStretch<T>(this T component) where T : IComponent
         {
             Stack.SetMinHeight(component, 100.percent());
             return component;
         }
 
+        /// <summary>Sets both width and height of the component to 100%.</summary>
         public static T Stretch<T>(this T component) where T : IComponent
         {
             Stack.SetWidth(component, 100.percent());
@@ -249,48 +307,56 @@ namespace Tesserae
             return component;
         }
 
+        /// <summary>Sets the flex-grow property for the component.</summary>
         public static T Grow<T>(this T component, int grow = 1) where T : IComponent
         {
             Stack.SetGrow(component, grow);
             return component;
         }
 
+        /// <summary>Sets the flex-shrink property for the component to true.</summary>
         public static T Shrink<T>(this T component) where T : IComponent
         {
             Stack.SetShrink(component, true);
             return component;
         }
 
+        /// <summary>Sets the flex-shrink property for the component to false.</summary>
         public static T NoShrink<T>(this T component) where T : IComponent
         {
             Stack.SetShrink(component, false);
             return component;
         }
 
+        /// <summary>Sets the grid column placement for the component.</summary>
         public static T GridColumn<T>(this T component, int start, int end) where T : IComponent
         {
             Grid.SetGridColumn(component, start, end);
             return component;
         }
 
+        /// <summary>Sets the grid column placement to stretch across all columns.</summary>
         public static T GridColumnStretch<T>(this T component) where T : IComponent
         {
             Grid.SetGridColumn(component, 1, -1);
             return component;
         }
 
+        /// <summary>Sets the grid row placement for the component.</summary>
         public static T GridRow<T>(this T component, int start, int end) where T : IComponent
         {
             Grid.SetGridRow(component, start, end);
             return component;
         }
 
+        /// <summary>Sets the grid row placement to stretch across all rows.</summary>
         public static T GridRowStretch<T>(this T component) where T : IComponent
         {
             Grid.SetGridRow(component, 1, -1);
             return component;
         }
 
+        /// <summary>Collapses the component by adding the tss-collapse class.</summary>
         public static T Collapse<T>(this T component) where T : IComponent
         {
             var (el, _) = Stack.GetCorrectItemToApplyStyle(component);
@@ -299,6 +365,7 @@ namespace Tesserae
             return component;
         }
 
+        /// <summary>Fades out the component and then collapses it.</summary>
         public static T FadeThenCollapse<T>(this T component) where T : IComponent => Fade(component, async () =>
         {
             await Task.Delay(1000);
@@ -306,9 +373,12 @@ namespace Tesserae
         });
 
 
+        /// <summary>Fades out the component.</summary>
         public static T Fade<T>(this T component) where T : IComponent                            => Fade(component, () => { });
+        /// <summary>Fades out the component and executes a task afterwards.</summary>
         public static T Fade<T>(this T component, Func<Task> andThen = null) where T : IComponent => Fade(component, andThen is object ? (Action)(() => andThen.Invoke().FireAndForget()) : null);
 
+        /// <summary>Fades out the component and executes an action afterwards.</summary>
         public static T Fade<T>(this T component, Action andThen = null) where T : IComponent
         {
             var (el, _) = Stack.GetCorrectItemToApplyStyle(component);
@@ -328,10 +398,13 @@ namespace Tesserae
             return component;
         }
 
+        /// <summary>Fades out the component using a light fade effect.</summary>
         public static T LightFade<T>(this T component) where T : IComponent => LightFade(component, () => { });
 
+        /// <summary>Fades out the component using a light fade effect and executes a task afterwards.</summary>
         public static T LightFade<T>(this T component, Func<Task> andThen = null) where T : IComponent => LightFade(component, andThen is object ? (Action)(() => andThen.Invoke().FireAndForget()) : null);
 
+        /// <summary>Fades out the component using a light fade effect and executes an action afterwards.</summary>
         public static T LightFade<T>(this T component, Action andThen = null) where T : IComponent
         {
             var (el, _) = Stack.GetCorrectItemToApplyStyle(component);
@@ -351,6 +424,7 @@ namespace Tesserae
             return component;
         }
 
+        /// <summary>Shows the component by adding the tss-show class and removing collapse/fade classes.</summary>
         public static T Show<T>(this T component) where T : IComponent
         {
             var (el, _) = Stack.GetCorrectItemToApplyStyle(component);
@@ -370,6 +444,7 @@ namespace Tesserae
             return el;
         }
 
+        /// <summary>Adds a tooltip with HTML content to the component.</summary>
         public static T Tooltip<T>(this T component, string tooltipHtml, TooltipAnimation animation = TooltipAnimation.None, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 250, int delayHide = 0, bool followCursor = false, int maxWidth = 350, bool arrow = false, string theme = null, IComponent parent = null) where T : IComponent
         {
             if (string.IsNullOrWhiteSpace(tooltipHtml))
@@ -389,6 +464,7 @@ namespace Tesserae
             );
         }
 
+        /// <summary>Removes the tooltip from the component.</summary>
         public static T RemoveTooltip<T>(this T component) where T : IComponent
         {
             var (element, _) = Stack.GetCorrectItemToApplyStyle(component);
@@ -410,6 +486,7 @@ namespace Tesserae
             return component;
         }
 
+        /// <summary>Adds a tooltip with component content to the component.</summary>
         public static T Tooltip<T>(this T component, IComponent tooltip, bool interactive = false, TooltipAnimation animation = TooltipAnimation.None, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 250, int delayHide = 0, bool appendToBody = true, bool followCursor = false, int maxWidth = 350, bool hideOnClick = true, bool arrow = false, string theme = null, IComponent parent = null) where T : IComponent
         {
             if (tooltip is null)
@@ -476,6 +553,7 @@ namespace Tesserae
         }
 
 
+        /// <summary>Sets the tab index for the component.</summary>
         public static T TabIndex<T>(this T component, int tabIndex) where T : IComponent
         {
             if (component is ITabIndex hasTabIndex)
@@ -491,6 +569,7 @@ namespace Tesserae
             }
         }
 
+        /// <summary>Allows applying custom CSS styles to the component's underlying element.</summary>
         public static T Style<T>(this T component, Action<CSSStyleDeclaration> style) where T : IComponent
         {
             style(component.Render().style);
@@ -498,6 +577,7 @@ namespace Tesserae
         }
 
 
+        /// <summary>Sets the tab index to -1 so the component is skipped during tab navigation.</summary>
         public static T SkipTab<T>(this T component) where T : IComponent => TabIndex(component, -1);
 
         //Shortcuts:

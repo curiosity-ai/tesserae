@@ -7,6 +7,9 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A VirtualizedList component that renders only the visible portion of a large list to improve performance.
+    /// </summary>
     [H5.Name("tss.VirtualizedList")]
     public class VirtualizedList : IComponent
     {
@@ -30,6 +33,11 @@ namespace Tesserae
         private UnitSize         _pageHeight;
         private double           _currentScrollPosition;
 
+        /// <summary>
+        /// Initializes a new instance of the VirtualizedList class.
+        /// </summary>
+        /// <param name="rowsPerPage">The number of rows per virtual page.</param>
+        /// <param name="columnsPerRow">The number of columns per row.</param>
         public VirtualizedList(int rowsPerPage = 4, int columnsPerRow = 4)
         {
             if (rowsPerPage <= 0)
@@ -59,6 +67,11 @@ namespace Tesserae
             AppendChildrenToBasicListContainerHtmlDivElement(_topSpacingDiv, _bottomSpacingDiv);
         }
 
+        /// <summary>
+        /// Sets a message to display when the list is empty.
+        /// </summary>
+        /// <param name="emptyListMessageGenerator">A function that returns the empty list message component.</param>
+        /// <returns>The current instance of the type.</returns>
         public VirtualizedList WithEmptyMessage(Func<IComponent> emptyListMessageGenerator)
         {
             _emptyListMessageGenerator = emptyListMessageGenerator ?? throw new ArgumentNullException(nameof(emptyListMessageGenerator));
@@ -66,6 +79,11 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Adds items to the virtualized list.
+        /// </summary>
+        /// <param name="listItems">The items to add.</param>
+        /// <returns>The current instance of the type.</returns>
         public VirtualizedList WithListItems(IEnumerable<IComponent> listItems)
         {
             if (listItems == null)
@@ -92,6 +110,10 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Renders the virtualized list.
+        /// </summary>
+        /// <returns>The rendered HTMLElement.</returns>
         public HTMLElement Render() => _innerElement;
 
         private static string GetComponentSize(int itemsCount) => (100 / itemsCount).percent().ToString();

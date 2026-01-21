@@ -2,6 +2,9 @@
 
 namespace Tesserae
 {
+    /// <summary>
+    /// Represents a set of Emojis that can be used within components.
+    /// </summary>
     [Enum(Emit.Value)]
     public enum Emoji
     {

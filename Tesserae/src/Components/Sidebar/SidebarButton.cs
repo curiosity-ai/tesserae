@@ -8,6 +8,9 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A Button component for use within a Sidebar, supporting both open and closed states.
+    /// </summary>
     public class SidebarButton : ISidebarItem
     {
         private readonly Button                   _closedButton;
@@ -22,14 +25,19 @@ namespace Tesserae
 
         private event Action<HTMLElement> _onRendered;
 
+        /// <summary>Gets or sets whether the button is currently selected.</summary>
         public bool IsSelected { get { return _selected.Value; } set { _selected.Value = value; } }
 
+        /// <summary>Gets the component that is currently rendered.</summary>
         public IComponent CurrentRendered => _closedButton.IsMounted() ? _closedButton : _open;
 
+        /// <summary>Gets the full identifier of the button.</summary>
         public string Identifier { get; private set; }
         
+        /// <summary>Gets the own identifier of the button.</summary>
         public string OwnIdentifier => Sidebar.GetOwnIdentifier(Identifier);
 
+        /// <summary>Adds a group identifier prefix to the button's identifier.</summary>
         public void AddGroupIdentifier(string groupIdentifier)
         {
             Identifier = groupIdentifier + Sidebar.GroupIdentifierSeparator + Identifier;
@@ -104,18 +112,24 @@ namespace Tesserae
             }
         }
 
+        /// <summary>Shows the button.</summary>
         public void Show()
         {
             _closedButton.Show();
             _openButton.Show();
         }
 
+        /// <summary>Collapses the button.</summary>
         public void Collapse()
         {
             _closedButton.Collapse();
             _openButton.Collapse();
         }
 
+        /// <summary>
+        /// Marks the button as not sortable.
+        /// </summary>
+        /// <returns>The current instance of the type.</returns>
         public SidebarButton NotSortable()
         {
             _closedButton.Class("tss-sortable-disable");
@@ -181,12 +195,22 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Clears the progress indication background.
+        /// </summary>
+        /// <returns>The current instance of the type.</returns>
         public SidebarButton ClearProgress()
         {
             _openButton.Render().style.background   = "";
             _closedButton.Render().style.background = "";
             return this;
         }
+
+        /// <summary>
+        /// Sets a progress indication background.
+        /// </summary>
+        /// <param name="progress">The progress value (0 to 1).</param>
+        /// <returns>The current instance of the type.</returns>
         public SidebarButton Progress(float progress)
         {
             var p = $"linear-gradient(to right, rgba(var(--tss-primary-background-color-root),0.2), rgba(var(--tss-primary-background-color-root),0.2) {progress * 100:0.0}%, transparent 0)";
@@ -196,6 +220,11 @@ namespace Tesserae
         }
 
 
+        /// <summary>
+        /// Sets the text of the button.
+        /// </summary>
+        /// <param name="text">The text.</param>
+        /// <returns>The current instance of the type.</returns>
         public SidebarButton SetText(string text)
         {
             if (_image is object)
@@ -209,12 +238,20 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Ensures that commands associated with the button are always visible when the sidebar is open.
+        /// </summary>
+        /// <returns>The current instance of the type.</returns>
         public SidebarButton CommandsAlwaysVisible()
         {
             _open.Class("tss-sidebar-commands-always-open");
             return this;
         }
 
+        /// <summary>
+        /// Sets the button to use a light style.
+        /// </summary>
+        /// <returns>The current instance of the type.</returns>
         public SidebarButton Light()
         {
             _open.Class("tss-sidebar-btn-light");
@@ -222,6 +259,10 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the button to use a danger style.
+        /// </summary>
+        /// <returns>The current instance of the type.</returns>
         public SidebarButton Danger()
         {
             _openButton.Danger();
@@ -229,6 +270,10 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the button to use the default style.
+        /// </summary>
+        /// <returns>The current instance of the type.</returns>
         public SidebarButton Default()
         {
             _openButton.IsPrimary   = false;
@@ -236,6 +281,10 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the button to use a success style.
+        /// </summary>
+        /// <returns>The current instance of the type.</returns>
         public SidebarButton Success()
         {
             _openButton.Success();
@@ -243,6 +292,10 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the button to use the primary style.
+        /// </summary>
+        /// <returns>The current instance of the type.</returns>
         public SidebarButton Primary()
         {
             _openButton.Primary();
@@ -250,12 +303,22 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets whether the button is selected.
+        /// </summary>
+        /// <param name="isSelected">Whether the button is selected.</param>
+        /// <returns>The current instance of the type.</returns>
         public SidebarButton Selected(bool isSelected = true)
         {
             _selected.Value = isSelected;
             return this;
         }
 
+        /// <summary>
+        /// Sets a tooltip for the closed state button.
+        /// </summary>
+        /// <param name="text">The tooltip text.</param>
+        /// <returns>The current instance of the type.</returns>
         public SidebarButton Tooltip(string text)
         {
             _tooltipClosed = (b) => b.Tooltip(text, placement: TooltipPlacement.Right);
@@ -263,6 +326,11 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets a tooltip component for the closed state button.
+        /// </summary>
+        /// <param name="tooltip">The tooltip component.</param>
+        /// <returns>The current instance of the type.</returns>
         public SidebarButton Tooltip(IComponent tooltip)
         {
             _tooltipClosed = (b) => b.Tooltip(tooltip, placement: TooltipPlacement.Right);
@@ -270,6 +338,11 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets a tooltip generator function for the closed state button.
+        /// </summary>
+        /// <param name="tooltip">The tooltip generator function.</param>
+        /// <returns>The current instance of the type.</returns>
         public SidebarButton Tooltip(Func<IComponent> tooltip)
         {
             _tooltipClosed = (b) => b.Tooltip(tooltip(), placement: TooltipPlacement.Right);
@@ -277,6 +350,11 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets a tooltip for the open state button.
+        /// </summary>
+        /// <param name="text">The tooltip text.</param>
+        /// <returns>The current instance of the type.</returns>
         public SidebarButton OpenedTooltip(string text)
         {
             _tooltipOpen = (b) => b.Tooltip(text, placement: TooltipPlacement.Right);
@@ -284,6 +362,11 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets a tooltip component for the open state button.
+        /// </summary>
+        /// <param name="tooltip">The tooltip component.</param>
+        /// <returns>The current instance of the type.</returns>
         public SidebarButton OpenedTooltip(IComponent tooltip)
         {
             _tooltipOpen = (b) => b.Tooltip(tooltip, placement: TooltipPlacement.Right);
@@ -291,6 +374,11 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets a tooltip generator function for the open state button.
+        /// </summary>
+        /// <param name="tooltip">The tooltip generator function.</param>
+        /// <returns>The current instance of the type.</returns>
         public SidebarButton OpenedTooltip(Func<IComponent> tooltip)
         {
             _tooltipOpen = (b) => b.Tooltip(tooltip(), placement: TooltipPlacement.Right);
@@ -298,6 +386,11 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Adds a click event handler to the button.
+        /// </summary>
+        /// <param name="action">The event handler action.</param>
+        /// <returns>The current instance of the type.</returns>
         public SidebarButton OnClick(Action action)
         {
             _closedButton.OnClick(action);
@@ -305,6 +398,11 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Adds a click event handler to the icon when the button is open.
+        /// </summary>
+        /// <param name="action">The event handler action.</param>
+        /// <returns>The current instance of the type.</returns>
         public SidebarButton OnOpenIconClick(Action<HTMLElement, MouseEvent> action)
         {
             _openButton.OnIconClick(action);
@@ -312,6 +410,11 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the ID of the button.
+        /// </summary>
+        /// <param name="id">The ID.</param>
+        /// <returns>The current instance of the type.</returns>
         public SidebarButton Id(string id)
         {
             _open.Id(id);
@@ -320,6 +423,11 @@ namespace Tesserae
 
         }
 
+        /// <summary>
+        /// Adds a click event handler to the icon when the button is open.
+        /// </summary>
+        /// <param name="action">The event handler action.</param>
+        /// <returns>The current instance of the type.</returns>
         public SidebarButton OnOpenIconClick(Action action)
         {
             _openButton.OnIconClick((_, __) => action());
@@ -327,6 +435,11 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Adds a context menu event handler to the button.
+        /// </summary>
+        /// <param name="action">The event handler action.</param>
+        /// <returns>The current instance of the type.</returns>
         public SidebarButton OnContextMenu(Action action)
         {
             _closedButton.OnContextMenu(action);
@@ -334,6 +447,11 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Adds a click event handler with button and mouse event arguments.
+        /// </summary>
+        /// <param name="action">The event handler action.</param>
+        /// <returns>The current instance of the type.</returns>
         public SidebarButton OnClick(Action<Button, MouseEvent> action)
         {
             _closedButton.OnClick((b, e) => action(b, e));
@@ -341,6 +459,11 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Adds a context menu event handler with button and mouse event arguments.
+        /// </summary>
+        /// <param name="action">The event handler action.</param>
+        /// <returns>The current instance of the type.</returns>
         public SidebarButton OnContextMenu(Action<Button, MouseEvent> action)
         {
             _closedButton.OnContextMenu((b, e) => action(b, e));
@@ -348,6 +471,13 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the icon for the button.
+        /// </summary>
+        /// <param name="icon">The icon.</param>
+        /// <param name="color">The color of the icon.</param>
+        /// <param name="weight">The weight of the icon.</param>
+        /// <returns>The current instance of the type.</returns>
         public SidebarButton SetIcon(UIcons icon, string color = "", UIconsWeight weight = UIconsWeight.Regular)
         {
             _closedButton.SetIcon(icon, color, weight: weight);
@@ -355,6 +485,11 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets an emoji icon for the button.
+        /// </summary>
+        /// <param name="icon">The emoji icon.</param>
+        /// <returns>The current instance of the type.</returns>
         public SidebarButton SetIcon(Emoji icon)
         {
             _closedButton.SetIcon(icon);
@@ -362,11 +497,17 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Adds a rendered event handler.
+        /// </summary>
+        /// <param name="onRendered">The rendered event handler.</param>
+        /// <returns>The current instance of the type.</returns>
         public ISidebarItem OnRendered(Action<HTMLElement> onRendered)
         {
             _onRendered += onRendered;
             return this;
         }
+        /// <summary>Renders the button for the closed state of the sidebar.</summary>
         public IComponent RenderClosed()
         {
             _onRendered?.Invoke(_closedButton.Render());
@@ -379,6 +520,7 @@ namespace Tesserae
             return _closedButton;
         }
 
+        /// <summary>Renders the button for the open state of the sidebar.</summary>
         public IComponent RenderOpen()
         {
             foreach (var c in _commands) c.RefreshTooltip();
