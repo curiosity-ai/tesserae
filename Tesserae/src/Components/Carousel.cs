@@ -85,6 +85,11 @@ namespace Tesserae
             return this;
         }
 
+        public Carousel PadSlides()
+        {
+            _track.classList.add("tss-carousel-track-pad-slides");
+            return this; 
+        }
         public Carousel SetIndex(int index, bool raiseEvent = true)
         {
             if (_slides.Count == 0)

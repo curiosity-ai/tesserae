@@ -175,7 +175,7 @@ namespace Tesserae
         /// <summary>
         /// Creates a <see cref="Tesserae.Avatar"/> component.
         /// </summary>
-        public static Avatar Avatar(string imageUrl = null, string initials = null) => new Avatar(imageUrl, initials);
+        public static Avatar Avatar(string image = null, string initials = null) => new Avatar(image, initials);
 
         /// <summary>
         /// Creates a <see cref="Tesserae.Persona"/> component.
@@ -195,7 +195,7 @@ namespace Tesserae
         /// <summary>
         /// Creates a <see cref="Tesserae.CommandBarItem"/> component.
         /// </summary>
-        public static CommandBarItem CommandBarItem(string text = null, string icon = null) => new CommandBarItem(text, icon);
+        public static CommandBarItem CommandBarItem(string text = null, UIcons? icon = null) => new CommandBarItem(text, icon);
 
         /// <summary>
         /// Creates a <see cref="Tesserae.Skeleton"/> component.

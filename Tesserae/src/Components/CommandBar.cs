@@ -80,7 +80,7 @@ namespace Tesserae
         private readonly HTMLSpanElement _textSpan;
         private          HTMLElement     _icon;
 
-        public CommandBarItem(string text = null, string icon = null)
+        public CommandBarItem(string text = null,  UIcons? icon = null)
         {
             _textSpan  = Span(_("tss-commandbar-item-text", text: text ?? string.Empty));
             InnerElement = Button(_("tss-commandbar-item", type: "button"), _textSpan);
@@ -88,9 +88,9 @@ namespace Tesserae
             AttachClick();
             AttachContextMenu();
 
-            if (!string.IsNullOrEmpty(icon))
+            if (icon.HasValue)
             {
-                SetIcon(icon);
+                SetIcon(icon.Value);
             }
         }
 
@@ -103,7 +103,26 @@ namespace Tesserae
         public string Icon
         {
             get => _icon?.className;
-            set => SetIcon(value);
+            set 
+            {
+                if (string.IsNullOrEmpty(value) && _icon != null)
+                {
+                    InnerElement.removeChild(_icon);
+                    _icon = null;
+
+                    InnerElement.classList.remove("tss-btn-only-icon");
+
+                    return;
+                }
+
+                if (_icon == null)
+                {
+                    _icon = I(_("tss-commandbar-item-icon"));
+                    InnerElement.insertBefore(_icon, _textSpan);
+                }
+
+                _icon.className = $"tss-commandbar-item-icon {value}";
+            }
         }
 
         public bool IsEnabled
@@ -118,25 +137,9 @@ namespace Tesserae
             return this;
         }
 
-        public CommandBarItem SetIcon(string icon)
+        public CommandBarItem SetIcon(UIcons icon)
         {
-            if (string.IsNullOrEmpty(icon))
-            {
-                if (_icon != null)
-                {
-                    InnerElement.removeChild(_icon);
-                    _icon = null;
-                }
-                return this;
-            }
-
-            if (_icon == null)
-            {
-                _icon = I(_("tss-commandbar-item-icon"));
-                InnerElement.insertBefore(_icon, _textSpan);
-            }
-
-            _icon.className = $"tss-commandbar-item-icon {icon}";
+            Icon = $"ec {icon}";
             return this;
         }
 

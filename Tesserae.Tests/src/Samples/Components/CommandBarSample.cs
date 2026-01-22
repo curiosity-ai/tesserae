@@ -12,13 +12,13 @@ namespace Tesserae.Tests.Samples
         public CommandBarSample()
         {
             var commandBar = CommandBar(
-                CommandBarItem("New", Icon.Transform(UIcons.Plus, UIconsWeight.Regular)).Primary().OnClick(() => Toast().Success("New item")),
-                CommandBarItem("Edit", Icon.Transform(UIcons.Edit, UIconsWeight.Regular)).OnClick(() => Toast().Success("Edit item")),
-                CommandBarItem("Share", Icon.Transform(UIcons.Share, UIconsWeight.Regular)).OnClick(() => Toast().Success("Share item")),
-               CommandBarItem("Delete", Icon.Transform(UIcons.Trash, UIconsWeight.Regular)).OnClick(() => Toast().Success("Delete item")))
-               .FarItems(
-                    SearchBox().SetPlaceholder("Search"),
-                    CommandBarItem("Settings", Icon.Transform(UIcons.Settings, UIconsWeight.Regular)));
+                                CommandBarItem("New",    UIcons.Plus).Primary().OnClick(() => Toast().Success("New item")),
+                                CommandBarItem("Edit",   UIcons.Edit).OnClick(() => Toast().Success("Edit item")),
+                                CommandBarItem("Share",  UIcons.Share).OnClick(() => Toast().Success("Share item")),
+                                CommandBarItem("Delete", UIcons.Trash).OnClick(() => Toast().Success("Delete item")))
+                           .FarItems(
+                                SearchBox().SetPlaceholder("Search"),
+                                CommandBarItem("Settings", UIcons.Settings));
 
             _content = SectionStack()
                .Title(SampleHeader(nameof(CommandBarSample)))

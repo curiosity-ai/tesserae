@@ -24,23 +24,30 @@ namespace Tesserae
     [H5.Name("tss.Avatar")]
     public sealed class Avatar : ComponentBase<Avatar, HTMLElement>
     {
+        private const string EmptyImage = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==";
         private readonly HTMLImageElement _image;
         private readonly HTMLSpanElement  _initials;
         private readonly HTMLSpanElement  _presence;
         private          AvatarSize       _size;
         private          AvatarPresence   _presenceState;
 
-        public Avatar(string imageUrl = null, string initials = null)
+        public Avatar(string image = null, string initials = null)
         {
             _image    = new HTMLImageElement();
             _image.className = "tss-avatar-image";
+
+            _image.onerror += (e) =>
+            {
+                _image.src = EmptyImage;
+                UpdateImageState();
+            };
 
             _initials = Span(_("tss-avatar-initials", text: initials ?? string.Empty));
             _presence = Span(_("tss-avatar-presence"));
 
             InnerElement = Div(_("tss-avatar"), _image, _initials, _presence);
 
-            SetImage(imageUrl);
+            SetImage(image);
             SetInitials(initials);
             Size(AvatarSize.Medium);
             Presence(AvatarPresence.None);
@@ -163,7 +170,7 @@ namespace Tesserae
 
         private void UpdateImageState()
         {
-            var hasImage = !string.IsNullOrEmpty(_image.src);
+            var hasImage = !string.IsNullOrWhiteSpace(_image.src) && _image.src != EmptyImage;
             InnerElement.UpdateClassIf(hasImage, "tss-avatar-has-image");
             _image.style.display    = hasImage ? "block" : "none";
             _initials.style.display = hasImage ? "none" : "flex";

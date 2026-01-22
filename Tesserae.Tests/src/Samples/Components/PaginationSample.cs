@@ -20,7 +20,7 @@ namespace Tesserae.Tests.Samples
                .Title(SampleHeader(nameof(PaginationSample)))
                .Section(Stack().Children(
                     SampleTitle("Pagination"),
-                    status,
+                    Card(status).PB(16),
                     pagination));
         }
 

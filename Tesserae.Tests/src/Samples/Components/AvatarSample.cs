@@ -12,6 +12,13 @@ namespace Tesserae.Tests.Samples
         public AvatarSample()
         {
             var avatars = HStack().Children(
+                Avatar(initials: "JD", image: "https://cataas.com/cat").Size(AvatarSize.XSmall),
+                Avatar(initials: "JD", image: "https://cataas.com/cat").Size(AvatarSize.Small).Presence(AvatarPresence.Online),
+                Avatar(initials: "JD", image: "https://cataas.com/cat").Size(AvatarSize.Medium).Presence(AvatarPresence.Away),
+                Avatar(initials: "JD", image: "https://cataas.com/cat").Size(AvatarSize.Large).Presence(AvatarPresence.Busy),
+                Avatar(initials: "JD", image: "https://cataas.com/cat").Size(AvatarSize.XLarge).Presence(AvatarPresence.Offline));
+
+            var avatarsWithoutImage = HStack().Children(
                 Avatar(initials: "JD").Size(AvatarSize.XSmall),
                 Avatar(initials: "JD").Size(AvatarSize.Small).Presence(AvatarPresence.Online),
                 Avatar(initials: "JD").Size(AvatarSize.Medium).Presence(AvatarPresence.Away),
@@ -23,8 +30,11 @@ namespace Tesserae.Tests.Samples
             _content = SectionStack()
                .Title(SampleHeader(nameof(AvatarSample)))
                .Section(Stack().Children(
-                    SampleTitle("Avatars"),
+                    SampleTitle("Avatars with Image"),
                     avatars))
+               .Section(Stack().Children(
+                    SampleTitle("Avatars without Image"),
+                    avatarsWithoutImage))
                .Section(Stack().Children(
                     SampleTitle("Persona"),
                     persona));
