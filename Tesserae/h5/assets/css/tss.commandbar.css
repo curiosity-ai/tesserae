@@ -1,0 +1,55 @@
+.tss-commandbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 6px 8px;
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: 6px;
+    background: var(--tss-secondary-background-color);
+}
+
+.tss-commandbar-section {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.tss-commandbar-far {
+    margin-left: auto;
+}
+
+.tss-commandbar-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--tss-default-foreground-color);
+    padding: 6px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.tss-commandbar-item:hover {
+    background: var(--tss-default-background-hover-color);
+}
+
+.tss-commandbar-item-primary {
+    background: var(--tss-primary-background-color);
+    color: var(--tss-primary-foreground-color);
+}
+
+.tss-commandbar-item-primary:hover {
+    background: var(--tss-primary-background-hover-color);
+}
+
+.tss-commandbar-item.tss-disabled,
+.tss-commandbar-item:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.tss-commandbar-item-icon {
+    font-size: 14px;
+}

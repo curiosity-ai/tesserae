@@ -1,0 +1,111 @@
+.tss-avatar {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--tss-secondary-background-color);
+    color: var(--tss-default-foreground-color);
+    font-weight: var(--tss-font-weight-semibold);
+    overflow: hidden;
+}
+
+.tss-avatar-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.tss-avatar-initials {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.tss-avatar-presence {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 2px solid var(--tss-default-background-color);
+    background: var(--tss-secondary-background-color);
+}
+
+.tss-presence-online {
+    background: var(--tss-success-background-color);
+}
+
+.tss-presence-away {
+    background: var(--tss-warning-background-color);
+}
+
+.tss-presence-busy {
+    background: var(--tss-danger-background-color);
+}
+
+.tss-presence-offline {
+    background: var(--tss-default-border-color);
+}
+
+.tss-avatar-xs {
+    width: 24px;
+    height: 24px;
+    font-size: 10px;
+}
+
+.tss-avatar-sm {
+    width: 32px;
+    height: 32px;
+    font-size: 12px;
+}
+
+.tss-avatar-md {
+    width: 40px;
+    height: 40px;
+    font-size: 14px;
+}
+
+.tss-avatar-lg {
+    width: 56px;
+    height: 56px;
+    font-size: 18px;
+}
+
+.tss-avatar-xl {
+    width: 72px;
+    height: 72px;
+    font-size: 22px;
+}
+
+.tss-persona {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.tss-persona-compact {
+    gap: 8px;
+}
+
+.tss-persona-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.tss-persona-name {
+    font-weight: var(--tss-font-weight-semibold);
+}
+
+.tss-persona-secondary {
+    color: var(--tss-secondary-foreground-color);
+    font-size: var(--tss-font-size-small);
+}
+
+.tss-persona-tertiary {
+    color: var(--tss-secondary-foreground-color);
+    font-size: var(--tss-font-size-xsmall);
+}

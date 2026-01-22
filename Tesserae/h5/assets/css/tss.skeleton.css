@@ -1,0 +1,42 @@
+.tss-skeleton {
+    position: relative;
+    background: var(--tss-secondary-background-color);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.tss-skeleton-line {
+    height: 12px;
+    width: 100%;
+}
+
+.tss-skeleton-rect {
+    height: 120px;
+    width: 100%;
+}
+
+.tss-skeleton-circle {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+}
+
+.tss-skeleton-animated::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -150px;
+    width: 150px;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+    animation: tss-skeleton-shimmer 1.4s infinite;
+}
+
+@keyframes tss-skeleton-shimmer {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(300%);
+    }
+}

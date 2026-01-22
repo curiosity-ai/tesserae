@@ -1,0 +1,50 @@
+.tss-accordion {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.tss-expander {
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: 6px;
+    background: var(--tss-default-background-color);
+    overflow: hidden;
+}
+
+.tss-expander-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 14px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.tss-expander-header:hover {
+    background: var(--tss-default-background-hover-color);
+}
+
+.tss-expander-header-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+}
+
+.tss-expander-title {
+    font-weight: var(--tss-font-weight-semibold);
+}
+
+.tss-expander-chevron {
+    transition: transform 200ms ease;
+    font-size: 14px;
+}
+
+.tss-expander.tss-expanded .tss-expander-chevron {
+    transform: rotate(180deg);
+}
+
+.tss-expander-content {
+    border-top: 1px solid var(--tss-default-border-color);
+    padding: 12px 14px;
+}

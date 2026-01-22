@@ -148,6 +148,76 @@ namespace Tesserae
         public static Card Card(IComponent content) => new Card(content);
 
         /// <summary>
+        /// Creates a <see cref="Tesserae.Accordion"/> component.
+        /// </summary>
+        public static Accordion Accordion(params Expander[] items) => new Accordion(items);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.Expander"/> component.
+        /// </summary>
+        public static Expander Expander(string title = null, IComponent content = null) => new Expander(title, content);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.Badge"/> component.
+        /// </summary>
+        public static Badge Badge(string text = null) => new Badge(text);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.Tag"/> component.
+        /// </summary>
+        public static Tag Tag(string text = null) => new Tag(text);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.Chip"/> component.
+        /// </summary>
+        public static Chip Chip(string text = null) => new Chip(text);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.Avatar"/> component.
+        /// </summary>
+        public static Avatar Avatar(string imageUrl = null, string initials = null) => new Avatar(imageUrl, initials);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.Persona"/> component.
+        /// </summary>
+        public static Persona Persona(string name = null, string secondaryText = null, string tertiaryText = null, Avatar avatar = null) => new Persona(name, secondaryText, tertiaryText, avatar);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.Pagination"/> component.
+        /// </summary>
+        public static Pagination Pagination(int totalItems = 0, int pageSize = 10, int currentPage = 1) => new Pagination(totalItems, pageSize, currentPage);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.CommandBar"/> component.
+        /// </summary>
+        public static CommandBar CommandBar(params IComponent[] items) => new CommandBar(items);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.CommandBarItem"/> component.
+        /// </summary>
+        public static CommandBarItem CommandBarItem(string text = null, string icon = null) => new CommandBarItem(text, icon);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.Skeleton"/> component.
+        /// </summary>
+        public static Skeleton Skeleton(SkeletonType type = SkeletonType.Line) => new Skeleton(type);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.Stepper"/> component.
+        /// </summary>
+        public static Stepper Stepper(params StepperStep[] steps) => new Stepper(steps);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.StepperStep"/> definition.
+        /// </summary>
+        public static StepperStep Step(string title, IComponent content, string description = null) => new StepperStep(title, content, description);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.Carousel"/> component.
+        /// </summary>
+        public static Carousel Carousel(params IComponent[] slides) => new Carousel(slides);
+
+        /// <summary>
         /// Creates a <see cref="Tesserae.BackgroundArea"/> component.
         /// </summary>
         public static BackgroundArea BackgroundArea(IComponent content) => new BackgroundArea(content);

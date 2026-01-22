@@ -1,0 +1,75 @@
+.tss-carousel {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+.tss-carousel-viewport {
+    overflow: hidden;
+    border-radius: 6px;
+    border: 1px solid var(--tss-default-border-color);
+}
+
+.tss-carousel-track {
+    display: flex;
+    transition: transform 300ms ease;
+    width: 100%;
+}
+
+.tss-carousel-slide {
+    min-width: 100%;
+    flex: 0 0 100%;
+}
+
+.tss-carousel-controls {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+    padding: 0 8px;
+    pointer-events: none;
+}
+
+.tss-carousel-nav {
+    pointer-events: auto;
+    border: 1px solid var(--tss-default-border-color);
+    background: var(--tss-default-background-color);
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.tss-carousel-nav:disabled,
+.tss-carousel-nav.tss-disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.tss-carousel-indicators {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+}
+
+.tss-carousel-indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 1px solid var(--tss-default-border-color);
+    background: var(--tss-default-background-color);
+    cursor: pointer;
+}
+
+.tss-carousel-indicator.tss-active {
+    background: var(--tss-primary-background-color);
+    border-color: var(--tss-primary-border-color);
+}
