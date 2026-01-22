@@ -11,8 +11,7 @@
 }
 
 .tss-stepper-step {
-    display: grid;
-    grid-template-columns: auto 1fr;
+    display: inline-flex;
     column-gap: 8px;
     row-gap: 2px;
     align-items: center;
@@ -21,9 +20,13 @@
     border-radius: 6px;
 }
 
-.tss-stepper-step:hover {
-    background: var(--tss-default-background-hover-color);
-}
+    .tss-stepper-step:hover {
+        background: var(--tss-default-background-hover-color);
+    }
+
+    .tss-stepper-step:not(.tss-stepper-active):not(.tss-stepper-complete):hover .tss-stepper-circle {
+        border: 2px solid var(--tss-dark-border-color);
+    }
 
 .tss-stepper-circle {
     width: 26px;

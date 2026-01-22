@@ -38,10 +38,11 @@
 .tss-expander-chevron {
     transition: transform 200ms ease;
     font-size: 14px;
+    transform: translateY(2px);
 }
 
 .tss-expander.tss-expanded .tss-expander-chevron {
-    transform: rotate(180deg);
+    transform: translateY(-2px) rotate(180deg);
 }
 
 .tss-expander-content {

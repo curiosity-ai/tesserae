@@ -24,7 +24,14 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    height: 26px;
 }
+
+    .tss-pagination-button > * {
+        height: 26px;
+        line-height: 26px;
+    }
+
 
 .tss-pagination-button:hover {
     background: var(--tss-default-background-hover-color);

@@ -18,9 +18,9 @@ namespace Tesserae.Tests.Samples
                     HStack().Children(
                         Skeleton(SkeletonType.Circle),
                         VStack().Children(
-                            Skeleton().W(200.px()),
-                            Skeleton().W(140.px()))),
-                    Skeleton(SkeletonType.Rect).W(100.pct()).H(120.px())));
+                            Skeleton().W(200).PL(8),
+                            Skeleton().W(140).PL(8))),
+                    Skeleton(SkeletonType.Rect).WS().H(120).PT(8)));
         }
 
         public HTMLElement Render() => _content.Render();
