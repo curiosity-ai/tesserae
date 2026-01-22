@@ -4,16 +4,16 @@ using static H5.Core.dom;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = "Components", Order = 30, Icon = UIcons.Pictures)]
+    [SampleDetails(Group = "Components", Order = 30, Icon = UIcons.Picture)]
     public class CarouselSample : IComponent, ISample
     {
         private readonly IComponent _content;
 
         public CarouselSample()
         {
-            var slide1 = Card(Stack().Children(TextBlock("Slide One").Large().Bold(), TextBlock("Introduce the gallery with a summary."))).W(100.pct());
-            var slide2 = Card(Stack().Children(TextBlock("Slide Two").Large().Bold(), TextBlock("Highlight a new feature or update."))).W(100.pct());
-            var slide3 = Card(Stack().Children(TextBlock("Slide Three").Large().Bold(), TextBlock("Showcase results or next steps."))).W(100.pct());
+            var slide1 = Card(Stack().Children(TextBlock("Slide One").Large().Bold(), TextBlock("Introduce the gallery with a summary."))).WS();
+            var slide2 = Card(Stack().Children(TextBlock("Slide Two").Large().Bold(), TextBlock("Highlight a new feature or update."))).WS();
+            var slide3 = Card(Stack().Children(TextBlock("Slide Three").Large().Bold(), TextBlock("Showcase results or next steps."))).WS();
 
             var carousel = Carousel(slide1, slide2, slide3);
 

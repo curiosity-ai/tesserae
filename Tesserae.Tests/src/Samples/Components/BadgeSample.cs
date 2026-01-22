@@ -26,9 +26,9 @@ namespace Tesserae.Tests.Samples
                     SampleTitle("Tags & Chips"),
                     HStack().Children(
                         Tag("Outlined").Outline().Pill(),
-                        Tag("Metadata").SetIcon(Icon.Transform(UIcons.Tag, UIconsWeight.Regular)).Outline(),
+                        Tag("Metadata").SetIcon(Icon.Transform(UIcons.Tags, UIconsWeight.Regular)).Outline(),
                         Chip("Editable").Filled().OnRemove(c => Toast().Success("Removed chip")),
-                        Chip("Status").Success().Pill()))));
+                        Chip("Status").Success().Pill())));
         }
 
         public HTMLElement Render() => _content.Render();

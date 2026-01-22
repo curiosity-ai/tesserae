@@ -20,7 +20,7 @@ namespace Tesserae.Tests.Samples
                         VStack().Children(
                             Skeleton().W(200.px()),
                             Skeleton().W(140.px()))),
-                    Skeleton(SkeletonType.Rect).W(100.pct()).H(120.px())));
+                    Skeleton(SkeletonType.Rect).WS().H(120.px())));
         }
 
         public HTMLElement Render() => _content.Render();
