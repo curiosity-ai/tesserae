@@ -157,14 +157,14 @@ namespace Tesserae.Tests.Samples
                 (nameof(Theme.Colors.DarkNeutral900), Theme.Colors.DarkNeutral900),
                 (nameof(Theme.Colors.DarkNeutral1000), Theme.Colors.DarkNeutral1000),
                 (nameof(Theme.Colors.DarkNeutral1100), Theme.Colors.DarkNeutral1100),
-                (nameof(Theme.Colors.DarkNeutralMinus100A), Theme.Colors.DarkNeutralMinus100A),
-                (nameof(Theme.Colors.DarkNeutral100A), Theme.Colors.DarkNeutral100A),
-                (nameof(Theme.Colors.DarkNeutral200A), Theme.Colors.DarkNeutral200A),
-                (nameof(Theme.Colors.DarkNeutral250A), Theme.Colors.DarkNeutral250A),
-                (nameof(Theme.Colors.DarkNeutral300A), Theme.Colors.DarkNeutral300A),
-                (nameof(Theme.Colors.DarkNeutral350A), Theme.Colors.DarkNeutral350A),
-                (nameof(Theme.Colors.DarkNeutral400A), Theme.Colors.DarkNeutral400A),
-                (nameof(Theme.Colors.DarkNeutral500A), Theme.Colors.DarkNeutral500A),
+                (nameof(Theme.Colors.DarkNeutralMinus100Alpha), Theme.Colors.DarkNeutralMinus100Alpha),
+                (nameof(Theme.Colors.DarkNeutral100Alpha), Theme.Colors.DarkNeutral100Alpha),
+                (nameof(Theme.Colors.DarkNeutral200Alpha), Theme.Colors.DarkNeutral200Alpha),
+                (nameof(Theme.Colors.DarkNeutral250Alpha), Theme.Colors.DarkNeutral250Alpha),
+                (nameof(Theme.Colors.DarkNeutral300Alpha), Theme.Colors.DarkNeutral300Alpha),
+                (nameof(Theme.Colors.DarkNeutral350Alpha), Theme.Colors.DarkNeutral350Alpha),
+                (nameof(Theme.Colors.DarkNeutral400Alpha), Theme.Colors.DarkNeutral400Alpha),
+                (nameof(Theme.Colors.DarkNeutral500Alpha), Theme.Colors.DarkNeutral500Alpha),
             };
 
             var groups = allColors.GroupBy(GetGroupName);
