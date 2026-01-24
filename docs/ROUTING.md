@@ -11,8 +11,8 @@ This guide covers the built-in `Router` helper for SPA-style navigation. The rou
 ## Basic setup
 
 ```csharp
-Router.Register("home", "/", _ => LoadHome());
-Router.Register("#/view/:id", parameters => LoadDetail(parameters["id"]));
+Router.Register("home" _ => LoadHome());
+Router.Register("view", parameters => LoadDetail(parameters["id"]));
 
 Router.Initialize();
 Router.Refresh(onDone: Router.ForceMatchCurrent);
@@ -38,9 +38,9 @@ Router.Replace("#/view/Details");
 
 ## Route parameters and query strings
 
-Route parameters are declared using `:name` tokens. During matching, values are stored in the `Parameters` object and passed to your handler.
+Route parameters are parsed from query strings appened to the current hash. You don't need to declare parameters in the route. During matching, values are stored in the `Parameters` dictionary and passed to your handler.
 
-Query strings are parsed into the same parameter collection when a `?key=value` portion is present in the hash. (Parsing is done manually today, so URL encoding is decoded via `Script.DecodeURIComponent`.)
+Query strings are parsed into the parameter collection when a `?key=value` portion is present in the hash.
 
 Example:
 
@@ -68,7 +68,7 @@ Navigate with a query string:
 
 ## Recommendations
 
-- Keep route strings normalized and include a leading `/` or `#/` consistently.
+- Keep route strings normalized. Do not  register routes with a leading `/` or `#/`.
 - Register routes first, then call `Refresh` and `ForceMatchCurrent` to ensure the initial URL is matched without changing it.
 - Register routes early in the application initialization.
 - Prefer `Push`/`Replace` for navigation to preserve SPA behavior and a clean history stack.

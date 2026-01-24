@@ -13,7 +13,7 @@ var card = Card(TextBlock("Hello"))
 card.RemoveClass("is-highlighted");
 ```
 
-`Class(...)` and `RemoveClass(...)` are extension helpers in `UI.Components.cs`, and they work with any component implementing `IComponent`.【F:Tesserae/src/Base/UI.Components.cs†L66-L120】
+`Class(...)` and `RemoveClass(...)` are extension helpers in `UI.Components.cs`, and they work with any component implementing `IComponent`.
 
 ## Example stylesheet
 
