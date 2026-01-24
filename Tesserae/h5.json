@@ -119,6 +119,7 @@
         "h5/assets/css/tss.stack.css",
         "h5/assets/css/tss.grid.css",
         "h5/assets/css/tss.commandbar.css",
+        "h5/assets/css/tss.commandpalette.css",
         "h5/assets/css/tss.sidebar.css",
         "h5/assets/css/tss.splitview.css",
         "h5/assets/css/tss.toast.css",
