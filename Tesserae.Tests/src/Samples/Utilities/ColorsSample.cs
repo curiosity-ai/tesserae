@@ -194,21 +194,21 @@ namespace Tesserae.Tests.Samples
         private IComponent RenderColorStack(string colorName, string colorVar)
         {
             return Stack().Children(
-                Stack().Height(40.px()).Background(colorVar),
+                Stack().H(40).Background(colorVar),
                 HStack().Children(
-                    Button(colorName).WS().OnClick((_, __) =>
+                    Button(colorName).W(10).Grow().OnClick(() =>
                     {
                         Clipboard.Copy($"Theme.Colors.{colorName}");
                         Toast().Success("Copied variable name");
                     }),
-                    Button().SetIcon(UIcons.Copy).OnClick((_, __) =>
+                    Button().SetIcon(UIcons.Copy).OnClick(() =>
                     {
                         var color = Color.FromString(colorVar);
                         Clipboard.Copy(color.ToRGB());
                         Toast().Success("Copied RGB value");
                     }).Tooltip("Copy RGB Value")
                 )
-            ).MB(8.px());
+            ).MB(8);
         }
 
         public HTMLElement Render() => _content.Render();
