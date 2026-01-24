@@ -73,7 +73,7 @@ namespace Tesserae
         /// <summary>
         /// Renders a component and appends it to the document body.
         /// </summary>
-        public static HTMLElement MountToBody(IComponent component, bool clearExisting = false)
+        public static HTMLElement MountToBody(IComponent component, bool clearExisting = true)
         {
             if (component == null)
                 throw new ArgumentNullException(nameof(component));
