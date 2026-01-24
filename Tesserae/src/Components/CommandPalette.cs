@@ -41,15 +41,24 @@ namespace Tesserae
             _searchInput.setAttribute("aria-label", "Command palette search");
             _searchInput.addEventListener("input", _ => RefreshResults());
             _searchInput.addEventListener("keydown", e => HandleSearchKeyDown(e.As<KeyboardEvent>()));
+            _searchInput.addEventListener("blur", e =>
+            {
+                if(_searchInput.IsMounted())
+                {
+                    StopEvent(e);
+                    _searchInput.focus();
+                }
+            });
+            _backButton = Button(_("tss-commandpalette-back tss-fontweight-semibold", type: "button", title: "Go Back"), 
+                                    Div(_("tss-commandpalette-icon"), I(_($"tss-commandpalette-icon-item {UIcons.AngleLeft}"))));
 
-            _backButton = Button(_("tss-commandpalette-back", type: "button"), Span(_(text: "Back")));
             _backButton.addEventListener("click", e =>
             {
                 StopEvent(e);
                 NavigateBack();
             });
 
-            _pathText = Span(_("tss-commandpalette-path"));
+            _pathText = Span(_("tss-commandpalette-path tss-fontweight-semibold"));
             _breadcrumbs = Div(_("tss-commandpalette-breadcrumbs"), _backButton, _pathText);
 
             _searchContainer = Div(_("tss-commandpalette-search-container"), _breadcrumbs, _searchInput);
@@ -65,10 +74,13 @@ namespace Tesserae
                 Hide();
             });
 
-            _contentHtml = Div(_("tss-commandpalette-layer"), _overlay, _positioner);
+            _contentHtml = Div(_("tss-commandpalette-container"), _overlay, _positioner);
 
             SetActions(actions);
-            window.addEventListener("keydown", e => HandleGlobalKeyDown(e.As<KeyboardEvent>()));
+            window.addEventListener("keydown", HandleGlobalKeyDown);
+            
+            InnerElement    = _contentHtml;
+
         }
 
         public string Placeholder
@@ -135,7 +147,6 @@ namespace Tesserae
         public override void Hide(Action onHidden = null)
         {
             base.Hide(onHidden);
-            ResetState();
         }
 
         private void ResetState()
@@ -158,12 +169,13 @@ namespace Tesserae
             }
         }
 
-        private void HandleGlobalKeyDown(KeyboardEvent e)
+        private void HandleGlobalKeyDown(Event ev)
         {
             if (!EnableGlobalShortcut && !EnableGlobalActionShortcuts)
             {
                 return;
             }
+            var e = ev.As<KeyboardEvent>();
 
             var target = (e.target is object ? e.target : e.srcElement).As<HTMLElement>();
             if (target != null && (target.isContentEditable || target.tagName == "INPUT" || target.tagName == "TEXTAREA" || target.tagName == "SELECT"))
@@ -207,7 +219,7 @@ namespace Tesserae
                 return;
             }
 
-            if (e.key == "Enter")
+            if (e.key == "Enter" | e.key == "Tab")
             {
                 StopEvent(e);
                 ActivateSelected();
@@ -217,7 +229,15 @@ namespace Tesserae
             if (e.key == "Escape")
             {
                 StopEvent(e);
-                Hide();
+                
+                if(_breadcrumbs.style.display != "none")
+                {
+                    NavigateBack();
+                }
+                else
+                {
+                    Hide();
+                }
                 return;
             }
 
@@ -399,8 +419,8 @@ namespace Tesserae
                 return true;
             }
 
-            var haystack = string.Join(" ", new[] { action.Name, action.Subtitle, action.Keywords, action.Section }.Where(x => !string.IsNullOrWhiteSpace(x))).ToLowerInvariant();
-            var terms = query.ToLowerInvariant().Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            var haystack = string.Join(" ", new[] { action.Name, action.Subtitle, action.Keywords, action.Section }.Where(x => !string.IsNullOrWhiteSpace(x))).ToLower();
+            var terms = query.ToLower().Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             return terms.All(term => haystack.Contains(term));
         }
 
@@ -409,11 +429,7 @@ namespace Tesserae
             var iconContainer = Div(_("tss-commandpalette-icon"));
             if (action.Icon.HasValue)
             {
-                iconContainer.appendChild(I(_($"tss-commandpalette-icon-item ec {action.Icon.Value}")));
-            }
-            else if (!string.IsNullOrWhiteSpace(action.IconClass))
-            {
-                iconContainer.appendChild(I(_($"tss-commandpalette-icon-item {action.IconClass}")));
+                iconContainer.appendChild(I(_($"tss-commandpalette-icon-item {action.Icon.Value}")));
             }
             else
             {
@@ -465,7 +481,7 @@ namespace Tesserae
                 return null;
             }
 
-            var normalized = key.ToLowerInvariant();
+            var normalized = key.ToLower();
             foreach (var action in _actions)
             {
                 if (action == null || !action.IsVisible || !action.IsEnabled || action.Shortcut == null)
@@ -521,7 +537,6 @@ namespace Tesserae
         public string Keywords { get; set; }
         public string Section { get; set; }
         public string ParentId { get; set; }
-        public string IconClass { get; set; }
         public UIcons? Icon { get; set; }
         public string[] Shortcut { get; set; }
         public bool IsEnabled { get; set; } = true;

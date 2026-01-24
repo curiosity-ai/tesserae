@@ -1,10 +1,12 @@
 using System.Collections.Generic;
 using static Tesserae.UI;
 using static Tesserae.Tests.Samples.SamplesHelper;
+using H5.Core;
+using static H5.Core.dom;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = "Components", Order = 31, Icon = UIcons.Search)]
+    [SampleDetails(Group = "Utilities", Order = 31, Icon = UIcons.Command)]
     public class CommandPaletteSample : IComponent, ISample
     {
         private readonly IComponent _content;
@@ -21,9 +23,9 @@ namespace Tesserae.Tests.Samples
                .Title(SampleHeader(nameof(CommandPaletteSample)))
                .Section(Stack().Children(
                     SampleTitle("Command Palette"),
-                    TextBlock("Use the button below or press Cmd/Ctrl + K to open the palette.").Small().Muted(),
+                    TextBlock("Use the button below or press Cmd/Ctrl + K to open the palette.").Small().Secondary(),
                     openButton,
-                    TextBlock("Try navigating with arrow keys, Enter, Esc, and Backspace for nested items.").Small().Muted().PT(12)
+                    TextBlock("Try navigating with arrow keys, Enter, Esc, and Backspace for nested items.").Small().Secondary().PT(12)
                ));
         }
 
