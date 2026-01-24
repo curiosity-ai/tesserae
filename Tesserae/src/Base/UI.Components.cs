@@ -193,6 +193,19 @@ namespace Tesserae
         public static CommandBar CommandBar(params IComponent[] items) => new CommandBar(items);
 
         /// <summary>
+        /// Creates a <see cref="Tesserae.CommandPalette"/> component.
+        /// </summary>
+        public static CommandPalette CommandPalette(params CommandPaletteAction[] actions) => new CommandPalette(actions);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.CommandPaletteAction"/> definition.
+        /// </summary>
+        public static CommandPaletteAction CommandPaletteAction(string id, string name, Action perform = null)
+        {
+            return new CommandPaletteAction(id, name) { Perform = perform };
+        }
+
+        /// <summary>
         /// Creates a <see cref="Tesserae.CommandBarItem"/> component.
         /// </summary>
         public static CommandBarItem CommandBarItem(string text = null, UIcons? icon = null) => new CommandBarItem(text, icon);

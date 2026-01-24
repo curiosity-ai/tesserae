@@ -213,7 +213,7 @@ namespace Tesserae
             {
                 int prefixLength     = "var(".Length;
                 var cssColorVariable = hexString.Substring(prefixLength, hexString.Length - prefixLength - 1);
-                var rgbString        = window.getComputedStyle(document.documentElement).getPropertyValue(cssColorVariable);
+                var rgbString        = window.getComputedStyle(document.body).getPropertyValue(cssColorVariable);
                 return FromString(rgbString);
             }
 

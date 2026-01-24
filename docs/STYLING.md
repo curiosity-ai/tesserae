@@ -13,7 +13,7 @@ var title = TextBlock("Dashboard")
     .TextCenter();
 ```
 
-Text formatting helpers are defined in `ITextFormatingExtensions`, including fluent shortcuts like `.Tiny()`, `.Small()`, `.Large()`, `.Bold()`, and `.TextCenter()`.【F:Tesserae/src/Extensions/ITextFormatingExtensions.cs†L14-L140】
+Text formatting helpers are defined in `ITextFormatingExtensions`, including fluent shortcuts like `.Tiny()`, `.Small()`, `.Large()`, `.Bold()`, and `.TextCenter()`.
 
 You can also set explicit values:
 
@@ -34,7 +34,7 @@ var card = Card(TextBlock("Summary"))
     .Stretch();
 ```
 
-These helpers set margin, padding, width/height, and flex behavior when used inside stacks or grids.【F:Tesserae/src/Extensions/IComponentExtensions.cs†L148-L328】
+These helpers set margin, padding, width/height, and flex behavior when used inside stacks or grids.
 
 ### Shorthand helpers
 
@@ -45,12 +45,12 @@ var card = Card(TextBlock("Summary"))
     .P(16)        // Padding(16.px())
     .MT(12)       // MarginTop(12.px())
     .MB(12)       // MarginBottom(12.px())
-    .W(320.px())  // Width(320.px())
-    .H(200.px())  // Height(200.px())
-    .S();         // Stretch()
+    .W(320)       // Width(320.px())
+    .H(200)       // Height(200.px())
+    .S();         // Stretch() i.e. same as .HS().WS() or .HeightStretch().WidthStretch()
 ```
 
-Short forms include: `P`, `PT`, `PB`, `PL`, `PR`, `M`, `MT`, `MB`, `ML`, `MR`, `W`, `H`, `S`, `WS`, `HS`. They accept either `UnitSize` or an `int` (pixels).【F:Tesserae/src/Extensions/IComponentExtensions.cs†L573-L664】
+Short forms include: `P`, `PT`, `PB`, `PL`, `PR`, `M`, `MT`, `MB`, `ML`, `MR`, `W`, `H`, `S`, `WS`, `HS`. They accept either `UnitSize` or an `int` (pixels).
 
 ## UnitSize basics
 
@@ -63,7 +63,7 @@ var grid = Grid(1.fr(), 2.fr())
     .ColumnGap(2.percent());
 ```
 
-Available units include `px()`, `percent()`, `fr()`, `vw()`, and `vh()`, along with convenience helpers like `UnitSize.Auto()` and `UnitSize.FitContent()`.【F:Tesserae/src/Extensions/UnitSizeExtensions.cs†L10-L48】【F:Tesserae/src/Helpers/UnitSize.cs†L59-L64】
+Available units include `px()`, `percent()`, `fr()`, `vw()`, and `vh()`, along with convenience helpers like `UnitSize.Auto()` and `UnitSize.FitContent()`. You can manually initialize complex units using a string, for example: `new UnitSize("calc(100% - 32px)")`.
 
 ## Direct DOM styling (advanced)
 
@@ -81,4 +81,4 @@ var button = Button("Download")
     .Style(s => s.borderRadius = "12px");
 ```
 
-> Prefer Tesserae’s fluent APIs first; direct DOM styling is useful for one-off customization or for styles not yet covered by the helper methods.【F:Tesserae/src/Extensions/IComponentExtensions.cs†L573-L578】
+> Prefer Tesserae’s fluent APIs first; direct DOM styling is useful for one-off customization or for styles not yet covered by the helper methods.

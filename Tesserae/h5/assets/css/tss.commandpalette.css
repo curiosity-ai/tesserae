@@ -1,0 +1,198 @@
+.tss-commandpalette-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    visibility: visible;
+}
+
+.tss-commandpalette-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.45);
+}
+
+.tss-commandpalette-positioner {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 12vh 16px 16px;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.tss-commandpalette-animator {
+    width: min(720px, 100%);
+    background: var(--tss-secondary-background-color);
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    max-height: 70vh;
+    overflow: hidden;
+}
+
+.tss-commandpalette-search-container {
+    gap: 8px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--tss-default-border-color);
+    display: inline-flex;
+    flex-direction: row;
+    min-height:60px;
+}
+
+.tss-commandpalette-search {
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: var(--tss-default-foreground-color);
+    font-size: 16px;
+}
+
+.tss-commandpalette-search::placeholder {
+    color: var(--tss-secondary-foreground-color);
+}
+
+.tss-commandpalette-breadcrumbs {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--tss-secondary-foreground-color);
+}
+
+.tss-commandpalette-back {
+    border: none;
+    background: transparent;
+    color: var(--tss-default-foreground-color);
+    cursor: pointer;
+    padding: 0;
+    font-size: 12px;
+}
+
+.tss-commandpalette-path {
+    color: var(--tss-secondary-foreground-color);
+    user-select: none;
+}
+
+.tss-commandpalette-results {
+    overflow-y: auto;
+    padding: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.tss-commandpalette-section {
+    padding: 8px 12px 4px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--tss-secondary-foreground-color);
+}
+
+.tss-commandpalette-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    color: var(--tss-default-foreground-color);
+}
+
+.tss-commandpalette-item:hover {
+    background: var(--tss-default-background-hover-color);
+}
+
+.tss-commandpalette-item.tss-active {
+    background: var(--tss-primary-background-color);
+    color: var(--tss-primary-foreground-color);
+}
+
+.tss-commandpalette-item.tss-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.tss-commandpalette-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    background: var(--tss-default-background-hover-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.tss-commandpalette-icon-item {
+    font-size: 14px;
+}
+
+.tss-commandpalette-icon-placeholder {
+    color: var(--tss-secondary-foreground-color);
+}
+
+.tss-commandpalette-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.tss-commandpalette-title {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.tss-commandpalette-subtitle {
+    font-size: 12px;
+    color: var(--tss-secondary-foreground-color);
+}
+
+.tss-commandpalette-item.tss-active .tss-commandpalette-subtitle {
+    color: var(--tss-primary-foreground-color);
+}
+
+.tss-commandpalette-shortcuts {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-left: auto;
+}
+
+.tss-commandpalette-shortcut {
+    font-size: 11px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    border: 1px solid var(--tss-default-border-color);
+    color: var(--tss-secondary-foreground-color);
+    background: var(--tss-secondary-background-color);
+}
+
+.tss-commandpalette-item.tss-active .tss-commandpalette-shortcut {
+    border-color: rgba(255, 255, 255, 0.4);
+    color: var(--tss-primary-foreground-color);
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.tss-commandpalette-submenu {
+    font-size: 16px;
+    margin-left: 4px;
+    color: var(--tss-secondary-foreground-color);
+}
+
+.tss-commandpalette-item.tss-active .tss-commandpalette-submenu {
+    color: var(--tss-primary-foreground-color);
+}
+
+.tss-commandpalette-empty {
+    display: none;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--tss-secondary-foreground-color);
+}

@@ -12,7 +12,7 @@ var badge = Badge("New")
     .Foreground(Theme.Primary.Foreground);
 ```
 
-The theme exposes default, primary, secondary, danger, and success color variables through nested classes like `Theme.Default` and `Theme.Primary`.【F:Tesserae/src/Base/UI.Theme.cs†L230-L310】
+The theme exposes default, primary, secondary, danger, and success color variables through nested classes like `Theme.Default` and `Theme.Primary`.
 
 ## Switching light/dark mode
 
@@ -22,7 +22,7 @@ Theme.Dark();
 Theme.Light();
 ```
 
-Theme mode toggles a `tss-dark-mode` CSS class on the document body.【F:Tesserae/src/Base/UI.Theme.cs†L15-L64】
+Theme mode toggles a `tss-dark-mode` CSS class on the document body.
 
 ## Customizing theme colors
 
@@ -33,7 +33,7 @@ Theme.SetPrimary(Color.FromString("#0063B1"), Color.FromString("#2899F5"));
 Theme.SetBackground(Color.FromString("#FFFFFF"), Color.FromString("#1B1A19"));
 ```
 
-`SetPrimary` and `SetBackground` generate CSS variables for both light and dark themes at runtime.【F:Tesserae/src/Base/UI.Theme.cs†L74-L229】
+`SetPrimary` and `SetBackground` generate CSS variables for both light and dark themes at runtime.
 
 ## Working with Color
 
@@ -44,4 +44,4 @@ var primary = Color.FromArgb(0, 120, 212);
 var custom = Color.FromString("rgba(16, 110, 190, 1)");
 ```
 
-`Color` also supports evaluating CSS variables via `Color.EvalVar`.【F:Tesserae/src/Base/Color.cs†L19-L73】
+`Color` also supports evaluating CSS variables via `Color.EvalVar`.
