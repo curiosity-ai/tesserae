@@ -66,7 +66,7 @@ namespace Tesserae.Tests
 
             var pageContent = HStack().Children(sidebar.HS(), DeferSync(currentPage, page => page is null ? (IComponent)CenteredCardWithBackground(TextBlock("Select an item")) : VStack().S().ScrollY().Children(page.ContentGenerator().WS())).HS().W(1).Grow()).S();
 
-            document.body.appendChild(pageContent.Render());
+            MountToBody(pageContent);
 
             //Important: Reflection will only properly work here if reflection metadata is emitted inline with the javascript, instead of in a separate .meta.js file
             //           i.e. in the h5.json file, we need:      "reflection": { "disabled": false, "target":  "inline" },
