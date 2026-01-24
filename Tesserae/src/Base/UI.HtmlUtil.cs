@@ -71,6 +71,24 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Renders a component and appends it to the document body.
+        /// </summary>
+        public static HTMLElement MountToBody(IComponent component, bool clearExisting = false)
+        {
+            if (component == null)
+                throw new ArgumentNullException(nameof(component));
+
+            if (clearExisting)
+            {
+                document.body.RemoveChildElements();
+            }
+
+            var rendered = component.Render();
+            document.body.appendChild(rendered);
+            return rendered;
+        }
+
+        /// <summary>
         /// Prevents the default action and stops propagation for the specified event.
         /// </summary>
         public static void StopEvent(Event e)
