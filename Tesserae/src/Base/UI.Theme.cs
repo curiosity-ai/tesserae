@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using static H5.Core.dom;
 
 namespace Tesserae
@@ -13,12 +14,17 @@ namespace Tesserae
             private static HTMLStyleElement _primaryStyleElement;
             private static HTMLStyleElement _backgroundStyleElement;
 
+            public static event Action OnThemeChanged;
             /// <summary>
             /// Enables dark mode.
             /// </summary>
             public static void Dark()
             {
-                document.body.classList.add("tss-dark-mode");
+                if (!IsDark)
+                {
+                    document.body.classList.add("tss-dark-mode");
+                    OnThemeChanged?.Invoke();
+                }
             }
 
             /// <summary>
@@ -26,7 +32,11 @@ namespace Tesserae
             /// </summary>
             public static void Light()
             {
-                document.body.classList.remove("tss-dark-mode");
+                if (IsDark)
+                {
+                    document.body.classList.remove("tss-dark-mode");
+                    OnThemeChanged?.Invoke();
+                }
             }
 
             /// <summary>
@@ -426,18 +436,15 @@ namespace Tesserae
                 public const string Neutral900 = "var(--tss-colors-neutral-900)";
                 public const string Neutral1000 = "var(--tss-colors-neutral-1000)";
                 public const string Neutral1100 = "var(--tss-colors-neutral-1100)";
-                public const string Neutral100A = "var(--tss-colors-neutral-100-alpha)";
-                public const string Neutral200A = "var(--tss-colors-neutral-200-alpha)";
-                public const string Neutral300A = "var(--tss-colors-neutral-300-alpha)";
-                public const string Neutral400A = "var(--tss-colors-neutral-400-alpha)";
-                public const string Neutral500A = "var(--tss-colors-neutral-500-alpha)";
-                public const string DarkNeutralMinus100 = "var(--tss-colors-dark-neutral-minus-100)";
+                public const string Neutral100Alpha = "var(--tss-colors-neutral-100-alpha)";
+                public const string Neutral200Alpha = "var(--tss-colors-neutral-200-alpha)";
+                public const string Neutral300Alpha = "var(--tss-colors-neutral-300-alpha)";
+                public const string Neutral400Alpha = "var(--tss-colors-neutral-400-alpha)";
+                public const string Neutral500Alpha = "var(--tss-colors-neutral-500-alpha)";
                 public const string DarkNeutral0 = "var(--tss-colors-dark-neutral-0)";
                 public const string DarkNeutral100 = "var(--tss-colors-dark-neutral-100)";
                 public const string DarkNeutral200 = "var(--tss-colors-dark-neutral-200)";
-                public const string DarkNeutral250 = "var(--tss-colors-dark-neutral-250)";
                 public const string DarkNeutral300 = "var(--tss-colors-dark-neutral-300)";
-                public const string DarkNeutral350 = "var(--tss-colors-dark-neutral-350)";
                 public const string DarkNeutral400 = "var(--tss-colors-dark-neutral-400)";
                 public const string DarkNeutral500 = "var(--tss-colors-dark-neutral-500)";
                 public const string DarkNeutral600 = "var(--tss-colors-dark-neutral-600)";
@@ -446,12 +453,9 @@ namespace Tesserae
                 public const string DarkNeutral900 = "var(--tss-colors-dark-neutral-900)";
                 public const string DarkNeutral1000 = "var(--tss-colors-dark-neutral-1000)";
                 public const string DarkNeutral1100 = "var(--tss-colors-dark-neutral-1100)";
-                public const string DarkNeutralMinus100Alpha = "var(--tss-colors-dark-neutral-minus-100-alpha)";
                 public const string DarkNeutral100Alpha = "var(--tss-colors-dark-neutral-100-alpha)";
                 public const string DarkNeutral200Alpha = "var(--tss-colors-dark-neutral-200-alpha)";
-                public const string DarkNeutral250Alpha = "var(--tss-colors-dark-neutral-250-alpha)";
                 public const string DarkNeutral300Alpha = "var(--tss-colors-dark-neutral-300-alpha)";
-                public const string DarkNeutral350Alpha = "var(--tss-colors-dark-neutral-350-alpha)";
                 public const string DarkNeutral400Alpha = "var(--tss-colors-dark-neutral-400-alpha)";
                 public const string DarkNeutral500Alpha = "var(--tss-colors-dark-neutral-500-alpha)";
             }

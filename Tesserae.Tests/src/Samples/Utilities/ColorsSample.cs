@@ -137,18 +137,10 @@ namespace Tesserae.Tests.Samples
                 (nameof(Theme.Colors.Neutral900), Theme.Colors.Neutral900),
                 (nameof(Theme.Colors.Neutral1000), Theme.Colors.Neutral1000),
                 (nameof(Theme.Colors.Neutral1100), Theme.Colors.Neutral1100),
-                (nameof(Theme.Colors.Neutral100A), Theme.Colors.Neutral100A),
-                (nameof(Theme.Colors.Neutral200A), Theme.Colors.Neutral200A),
-                (nameof(Theme.Colors.Neutral300A), Theme.Colors.Neutral300A),
-                (nameof(Theme.Colors.Neutral400A), Theme.Colors.Neutral400A),
-                (nameof(Theme.Colors.Neutral500A), Theme.Colors.Neutral500A),
-                (nameof(Theme.Colors.DarkNeutralMinus100), Theme.Colors.DarkNeutralMinus100),
                 (nameof(Theme.Colors.DarkNeutral0), Theme.Colors.DarkNeutral0),
                 (nameof(Theme.Colors.DarkNeutral100), Theme.Colors.DarkNeutral100),
                 (nameof(Theme.Colors.DarkNeutral200), Theme.Colors.DarkNeutral200),
-                (nameof(Theme.Colors.DarkNeutral250), Theme.Colors.DarkNeutral250),
                 (nameof(Theme.Colors.DarkNeutral300), Theme.Colors.DarkNeutral300),
-                (nameof(Theme.Colors.DarkNeutral350), Theme.Colors.DarkNeutral350),
                 (nameof(Theme.Colors.DarkNeutral400), Theme.Colors.DarkNeutral400),
                 (nameof(Theme.Colors.DarkNeutral500), Theme.Colors.DarkNeutral500),
                 (nameof(Theme.Colors.DarkNeutral600), Theme.Colors.DarkNeutral600),
@@ -157,30 +149,44 @@ namespace Tesserae.Tests.Samples
                 (nameof(Theme.Colors.DarkNeutral900), Theme.Colors.DarkNeutral900),
                 (nameof(Theme.Colors.DarkNeutral1000), Theme.Colors.DarkNeutral1000),
                 (nameof(Theme.Colors.DarkNeutral1100), Theme.Colors.DarkNeutral1100),
-                (nameof(Theme.Colors.DarkNeutralMinus100Alpha), Theme.Colors.DarkNeutralMinus100Alpha),
-                (nameof(Theme.Colors.DarkNeutral100Alpha), Theme.Colors.DarkNeutral100Alpha),
-                (nameof(Theme.Colors.DarkNeutral200Alpha), Theme.Colors.DarkNeutral200Alpha),
-                (nameof(Theme.Colors.DarkNeutral250Alpha), Theme.Colors.DarkNeutral250Alpha),
-                (nameof(Theme.Colors.DarkNeutral300Alpha), Theme.Colors.DarkNeutral300Alpha),
-                (nameof(Theme.Colors.DarkNeutral350Alpha), Theme.Colors.DarkNeutral350Alpha),
-                (nameof(Theme.Colors.DarkNeutral400Alpha), Theme.Colors.DarkNeutral400Alpha),
-                (nameof(Theme.Colors.DarkNeutral500Alpha), Theme.Colors.DarkNeutral500Alpha),
             };
 
+            //TODO: Add alpha colors over an image or background
+            //(nameof(Theme.Colors.Neutral100Alpha), Theme.Colors.Neutral100Alpha),
+            //(nameof(Theme.Colors.Neutral200Alpha), Theme.Colors.Neutral200Alpha),
+            //(nameof(Theme.Colors.Neutral300Alpha), Theme.Colors.Neutral300Alpha),
+            //(nameof(Theme.Colors.Neutral400Alpha), Theme.Colors.Neutral400Alpha),
+            //(nameof(Theme.Colors.Neutral500Alpha), Theme.Colors.Neutral500Alpha),
+
+            //(nameof(Theme.Colors.DarkNeutral100Alpha), Theme.Colors.DarkNeutral100Alpha),
+            //(nameof(Theme.Colors.DarkNeutral200Alpha), Theme.Colors.DarkNeutral200Alpha),
+            //(nameof(Theme.Colors.DarkNeutral300Alpha), Theme.Colors.DarkNeutral300Alpha),
+            //(nameof(Theme.Colors.DarkNeutral400Alpha), Theme.Colors.DarkNeutral400Alpha),
+            //(nameof(Theme.Colors.DarkNeutral500Alpha), Theme.Colors.DarkNeutral500Alpha),
+
             var groups = allColors.GroupBy(GetGroupName);
+            
+            var grid = Grid(1.fr(), 1.fr(), 1.fr()).Gap(8.px());
+
+            void Render()
+            {
+                grid.Children(
+                        groups.OrderBy(g => g.Key == "Neutral" ? 0 : g.Key == "DarkNeutral" ? 1 : 2).ThenBy(g => g.Key)
+                            .Select(g =>
+                                VStack().Children(
+                                    SampleTitle(g.Key),
+                                    VStack().Children(g.Select(c => RenderColorStack(c.Name, c.Value)).ToArray())
+                                )
+                        ).ToArray()
+                    );
+            }
+            Render();
+            
+            Theme.OnThemeChanged += () => window.setTimeout(_ => Render(), 1);
 
             _content = SectionStack()
                 .Title(SampleHeader(nameof(ColorsSample)))
-                .Section(
-                    Grid(1.fr(), 1.fr(), 1.fr()).Gap(8.px()).Children(
-                        groups.Select(g =>
-                            VStack().Children(
-                                SampleTitle(g.Key),
-                                VStack().Children(g.Select(c => RenderColorStack(c.Name, c.Value)).ToArray())
-                            )
-                        ).ToArray()
-                    )
-                );
+                .Section(grid);
         }
 
         private string GetGroupName((string Name, string Value) color)
@@ -193,20 +199,27 @@ namespace Tesserae.Tests.Samples
 
         private IComponent RenderColorStack(string colorName, string colorVar)
         {
+            var color = Color.FromString(colorVar);
+            var hsl= new HSLColor(color);
+            var textColor = "black";
+            if(hsl.Luminosity < 100)
+            {
+                textColor = "white";
+            }
             return Stack().Children(
-                Stack().H(40).Background(colorVar),
-                HStack().Children(
-                    Button(colorName).W(10).Grow().OnClick(() =>
+                HStack().NoWrap().Background(colorVar).Children(
+                    Button(colorName).Foreground(textColor).NoBackground().W(10).Grow().OnClick(() =>
                     {
                         Clipboard.Copy($"Theme.Colors.{colorName}");
-                        Toast().Success("Copied variable name");
                     }),
-                    Button().SetIcon(UIcons.Copy).OnClick(() =>
+                    Button().SetIcon(UIcons.Copy, color:textColor).Tooltip(color.ToRGB()).OnClick(() =>
                     {
-                        var color = Color.FromString(colorVar);
                         Clipboard.Copy(color.ToRGB());
-                        Toast().Success("Copied RGB value");
-                    }).Tooltip("Copy RGB Value")
+                    }).Tooltip($"Copy RGB Value: {color.ToRGB()}"),
+                    Button().SetIcon(UIcons.Hashtag, color:textColor).OnClick(() =>
+                    {
+                        Clipboard.Copy(color.ToHex());
+                    }).Tooltip($"Copy Hex Value: {color.ToHex()}")
                 )
             ).MB(8);
         }
