@@ -79,4 +79,4 @@ Detailed guides and documentation can be found in the following sections:
 
 ## Samples
 
-The `Tesserae.Tests` project contains numerous examples demonstrating how to use the library components. A live version of these samples is hosted at [https://docs.curiosity.ai/tesserae](https://docs.curiosity.ai/tesserae).
+The `Tesserae.Tests` project contains numerous examples demonstrating how to use the library components. A live version of these samples is hosted at [https://curiosity.ai/tesserae](https://curiosity.ai/tesserae).
