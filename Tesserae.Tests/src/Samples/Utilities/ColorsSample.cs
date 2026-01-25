@@ -186,7 +186,15 @@ namespace Tesserae.Tests.Samples
 
             _content = SectionStack()
                 .Title(SampleHeader(nameof(ColorsSample)))
-                .Section(grid);
+                .Section(Stack().Children(
+                    SampleTitle("Overview"),
+                    TextBlock("Tesserae provides a comprehensive set of predefined colors that are part of the theme. These colors are accessible via the 'Theme.Colors' class and are designed to provide a consistent visual language across the application, with support for both light and dark modes.")))
+                .Section(Stack().Children(
+                    SampleTitle("Best Practices"),
+                    TextBlock("Prefer using these predefined colors over hardcoded hex values to ensure your application remains consistent with the theme. Use specific color ranges (e.g., Red for errors, Green for success) to convey semantic meaning. Click on any color name below to copy its C# constant name, or use the icons to copy its RGB or Hex values.")))
+                .Section(Stack().Children(
+                    SampleTitle("Usage"),
+                    grid));
         }
 
         private string GetGroupName((string Name, string Value) color)

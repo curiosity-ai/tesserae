@@ -19,10 +19,14 @@ namespace Tesserae.Tests.Samples
             _content = Stack().Children(SectionStack().Title(SampleHeader(nameof(SectionStackSample)))
                    .Section(Stack().Children(
                         SampleTitle("Overview"),
-                        TextBlock("A Session Stack is a container-type component that abstracts the implementation of a flexbox in order to define the layout of its children components.")))
+                        TextBlock("SectionStack is a high-level layout component designed for creating long-form pages or detailed views. It organizes content into distinct vertical sections, typically with a header and footer, providing a consistent structure for complex information architectures.")))
+                   .Section(Stack().Children(
+                        SampleTitle("Best Practices"),
+                        TextBlock("Use SectionStack for the main content area of your pages. Organize related components into distinct sections to improve readability and scanability. Utilize the 'Title' and 'Commands' features of the SectionStack to provide context and actions at the top of the page.")))
                    .Section(Stack().Children(
                         SampleTitle("Usage"),
-                        Label("Number of items:").SetContent(Slider(5, 0, 10, 1).OnInput((s, e) => SetChildren(stack, s.Value))))),
+                        SampleSubTitle("Dynamic Section Generation"),
+                        Label("Number of sections:").SetContent(Slider(5, 0, 10, 1).OnInput((s, e) => SetChildren(stack, s.Value))))),
                 stack);
             SetChildren(stack, 5);
         }

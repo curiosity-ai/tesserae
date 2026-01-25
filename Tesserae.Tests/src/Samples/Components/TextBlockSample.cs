@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static H5.Core.dom;
 using static Tesserae.UI;
 using static Tesserae.Tests.Samples.SamplesHelper;
@@ -16,32 +16,42 @@ namespace Tesserae.Tests.Samples
                .Title(SampleHeader(nameof(TextBlockSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
-                    TextBlock("Text is a component for displaying text. You can use Text to standardize text across your web app.")))
+                    TextBlock("TextBlock is the fundamental component for displaying text in Tesserae. It provides a consistent way to apply typography styles, sizes, and weights across your application."),
+                    TextBlock("It supports various built-in sizes, from tiny to mega, and different weights and colors.")))
+               .Section(Stack().Children(
+                    SampleTitle("Best Practices"),
+                    TextBlock("Use the predefined text sizes to maintain visual hierarchy. Use semi-bold or bold weights for headers and important information. Leverage the built-in color options (primary, success, danger, etc.) to convey meaning consistently. For long blocks of text, ensure the width is constrained for better readability. Use 'NoWrap' and text-overflow properties when dealing with limited space, such as in list items.")))
                .Section(Stack().Children(
                     SampleTitle("Usage"),
-                    TextBlock("TextBox Ramp Example").Medium(),
-                    HStack().Children(TextBlock("Variant").Width(200.px()).SemiBold(), TextBlock("Example").SemiBold()),
-                    HStack().Children(TextBlock("tiny").Width(200.px()),               TextBlock("The quick brown fox jumped over the lazy dog.").Tiny()),
-                    HStack().Children(TextBlock("xSmall").Width(200.px()),             TextBlock("The quick brown fox jumped over the lazy dog.").XSmall()),
-                    HStack().Children(TextBlock("small").Width(200.px()),              TextBlock("The quick brown fox jumped over the lazy dog.").Small()),
-                    HStack().Children(TextBlock("smallPlus").Width(200.px()),          TextBlock("The quick brown fox jumped over the lazy dog.").SmallPlus()),
-                    HStack().Children(TextBlock("medium").Width(200.px()),             TextBlock("The quick brown fox jumped over the lazy dog.").Medium()),
-                    HStack().Children(TextBlock("mediumPlus").Width(200.px()),         TextBlock("The quick brown fox jumped over the lazy dog.").MediumPlus()),
-                    HStack().Children(TextBlock("large").Width(200.px()),              TextBlock("The quick brown fox jumped over the lazy dog.").Large()),
-                    HStack().Children(TextBlock("xLarge").Width(200.px()),             TextBlock("The quick brown fox jumped over the lazy dog.").XLarge()),
-                    HStack().Children(TextBlock("xxLarge").Width(200.px()),            TextBlock("The quick brown fox jumped over the lazy dog.").XXLarge()),
-                    HStack().Children(TextBlock("mega").Width(200.px()),               TextBlock("The quick brown fox jumped over the lazy dog.").Mega()),
-                    TextBlock("TextBox Wrap Example").Medium(),
-                    TextBlock("Wrap (Default)").SmallPlus(),
-                    TextBlock("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.").Width(50.percent()),
-                    TextBlock("No Wrap").SmallPlus(),
-                    TextBlock("This is a very long text that can wrap but from here on it will never wrap:", afterText: "this will not wrap").SmallPlus().WS(),
-                    TextBlock("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.").NoWrap().Width(50.percent())));
+                    SampleSubTitle("Text Sizes"),
+                    VStack().Children(
+                        TextBlock("Mega Text").Mega(),
+                        TextBlock("XXLarge Text").XXLarge(),
+                        TextBlock("XLarge Text").XLarge(),
+                        TextBlock("Large Text").Large(),
+                        TextBlock("MediumPlus Text").MediumPlus(),
+                        TextBlock("Medium Text (Default)").Medium(),
+                        TextBlock("SmallPlus Text").SmallPlus(),
+                        TextBlock("Small Text").Small(),
+                        TextBlock("XSmall Text").XSmall(),
+                        TextBlock("Tiny Text").Tiny()
+                    ),
+                    SampleSubTitle("Weights and Colors"),
+                    VStack().Children(
+                        TextBlock("Bold Primary Text").Bold().Primary(),
+                        TextBlock("Semi-Bold Success Text").SemiBold().Success(),
+                        TextBlock("Regular Danger Text").Regular().Danger()
+                    ),
+                    SampleSubTitle("Wrapping and Overflow"),
+                    VStack().Children(
+                        TextBlock("Default wrapping:").SemiBold(),
+                        TextBlock("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.").Width(300.px()),
+                        TextBlock("No wrapping (ellipsis):").SemiBold().MT(16),
+                        TextBlock("This is a very long text that will be truncated with an ellipsis because it has NoWrap set and a constrained width.").NoWrap().Width(300.px())
+                    )
+                ));
         }
 
-        public HTMLElement Render()
-        {
-            return _content.Render();
-        }
+        public HTMLElement Render() => _content.Render();
     }
 }

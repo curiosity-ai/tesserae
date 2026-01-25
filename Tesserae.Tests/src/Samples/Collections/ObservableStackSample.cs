@@ -1,175 +1,132 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using H5;
-using H5.Core;
 using Tesserae;
 using static H5.Core.dom;
 using static Tesserae.UI;
 using static Tesserae.Tests.Samples.SamplesHelper;
-using Tesserae.Tests;
 
-namespace Tesserae.Tests.src.Samples.Collections
+namespace Tesserae.Tests.Samples
 {
     [SampleDetails(Group = "Collections", Order = 0, Icon = UIcons.RulerVertical)]
     public class ObservableStackSample : IComponent, ISample
     {
         private readonly IComponent _content;
+        private static int _elementIndex = 4;
+        private static ObservableList<IComponentWithID> _stackElementsList;
 
-        public class StackElements : IComponentWithID
+        public class StackElement : IComponentWithID
         {
-            public string Id          { get; set; }
+            public string Id { get; set; }
             public string DisplayName { get; set; }
-            public string Color       { get; set; }
+            public string Color { get; }
+            public string Identifier => Id;
+            public string ContentHash => HashingHelper.Fnv1aHash(Id + DisplayName).ToString();
 
-            private static string GetRandomColor()
+            public StackElement(string id, string displayName)
             {
-                return '#' + Math.Floor(Math.Random() * 16777215).ToString(16).PadLeft(6, '0');
-            }
-
-            public StackElements(string id, string displayName)
-            {
-                Id          = id;
+                Id = id;
                 DisplayName = displayName;
-                Color       = GetRandomColor();
+                Color = '#' + Math.Floor(Math.Random() * 16777215).ToString(16).PadLeft(6, '0');
             }
 
             public HTMLElement Render()
             {
-                var card = Card(VStack().Children(
-                    Label("DisplayName").Inline().AutoWidth().SetContent(TextBlock(DisplayName)),
-                    Label("Id").Inline().AutoWidth().SetContent(TextBlock(Id)),
-                    Label("ContentHash").Inline().AutoWidth().SetContent(TextBlock(ContentHash)).Background(Color)
-                ).Class("flash-bg"));
-
-                return card.Render();
+                return Card(VStack().Children(
+                    Label("Name").Inline().AutoWidth().SetContent(TextBlock(DisplayName)),
+                    Label("ID").Inline().AutoWidth().SetContent(TextBlock(Id)),
+                    Label("Hash").Inline().AutoWidth().SetContent(TextBlock(ContentHash).Background(Color).Padding(4.px()))
+                ).Class("flash-bg")).Render();
             }
-
-            public string Identifier  => Id;
-            public string ContentHash => HashingHelper.Fnv1aHash(Id + DisplayName).ToString();
-
         }
-
-        private static int                              _viewBoxHeight = 500;
-        public static  int                              ElementIndex;
-        public static  ObservableList<IComponentWithID> StackElementsList;
-
 
         public ObservableStackSample()
         {
-            var mainButton = Button("Some Text").TextLeft().MinWidth(200.px()).Ellipsis().IconOnHover();
-            mainButton.Tooltip("Tooltip for the main Button").SetIcon(UIcons.AngleLeft, Theme.Primary.Background);
+            _stackElementsList = new ObservableList<IComponentWithID>();
+            _stackElementsList.ReplaceAll(Enumerable.Range(0, 4).Select(i => new StackElement(i.ToString(), $"Item {i}")).ToArray());
 
-            StackElementsList = new ObservableList<IComponentWithID>();
-
-
-            var obsStack = new ObservableStack(StackElementsList, debounce: true);
-
-            StackElementsList.ReplaceAll(Enumerable.Range(0, 4).Select(i => new StackElements(displayName: i.ToString(), id: i.ToString())).ToArray());
-            ElementIndex = 4;
+            var obsStack = new ObservableStack(_stackElementsList, debounce: true);
 
             _content = SectionStack()
                .Title(SampleHeader(nameof(ObservableStackSample)))
                .Section(Stack().Children(
-                        SampleTitle("Overview"),
-                        TextBlock("The ObservableStack is a container display element that efficiently updates its contents using reconciliation rather than full re-renders. Unlike the Defer component, which refreshes entirely based on observables, the Stack selectively patches existing DOM elements to reflect changes in an observable list.\n"
-                          + "Each element in the Stack is tracked using an Identifier and a ContentHash, which are stored in the DOM’s data field. This allows the component to compare updates without inspecting the actual rendered content. If an element’s position and hash remain unchanged, it is left untouched; otherwise, it is updated in place. This approach significantly improves performance, especially in scenarios where maintaining UI state—such as scroll position—is critical.\n"
-                          + "The reconciliation process is optimized to update only necessary parts of the DOM, preventing unnecessary reflows and repaints. Additionally, a debounce mechanism helps control update frequency, though care should be taken to avoid race conditions.\n"
-                          + "The Stack integrates seamlessly with the frontend library’s observable list feature, making it an ideal choice for dynamic interfaces that require efficient, incremental updates.").BreakSpaces()
-                    )
-                )
-               .Section(Stack().Children(SampleTitle("Observable Stack"),
-                        SplitView()
-                           .Left(VStack().Children(
-                                Button("Randomize").OnClick(() =>
+                    SampleTitle("Overview"),
+                    TextBlock("ObservableStack is a specialized container that synchronizes its DOM with an observable list using an efficient reconciliation process."),
+                    TextBlock("Instead of re-rendering the entire list when a change occurs, it identifies which elements were added, removed, or moved by comparing their unique Identifiers and ContentHashes. This makes it ideal for high-performance lists where preserving scroll position or component state is important.")))
+               .Section(Stack().Children(
+                    SampleTitle("Best Practices"),
+                    TextBlock("Use ObservableStack when your list data changes frequently or when you want smooth transitions for moved items. Ensure each item implements 'IComponentWithID' correctly, providing a stable 'Identifier' and a 'ContentHash' that reflects any changes in the item's data. Avoid frequent full-list replacements if only a few items have changed. Leverage the reconciliation behavior to keep the DOM footprint minimal and performance high.")))
+               .Section(Stack().Children(
+                    SampleTitle("Usage"),
+                    SampleSubTitle("Interactive Reconciliation Demo"),
+                    TextBlock("Modify the list below and watch how the 'Display Elements' on the right update efficiently."),
+                    SplitView().Height(500.px()).WS()
+                       .Left(VStack().Children(
+                            HStack().Children(
+                                Button("Randomize Order").OnClick(() => _stackElementsList.ReplaceAll(_stackElementsList.Value.OrderBy(_ => Math.Random()).ToList())),
+                                Button("Add New Item").Primary().OnClick(() => AddItem())
+                            ).MB(16),
+                            Label("Edit items in-place:").SemiBold(),
+                            DeferSync(_stackElementsList, elements =>
+                            {
+                                var list = VStack();
+                                for (int i = 0; i < elements.Count; i++)
                                 {
-                                    StackElementsList.ReplaceAll(StackElementsList.Value.ToList().OrderBy(_ => Math.Random()).ToList());
-                                }),
-                                Label("Edit Elements").SetContent(
-                                    VStack().Children(DeferSync(StackElementsList, currentElements =>
-                                        {
-                                            var stack = VStack();
-
-                                            for (int i = 0; i < currentElements.Count; i++)
-                                            {
-                                                var index = i;
-
-                                                stack.Add(
-                                                    HStack().AlignItemsCenter().WS().JustifyContent(ItemJustify.Evenly).Children(Button().SetIcon(UIcons.ArrowUp).OnClick(() =>
-                                                        {
-                                                            var newList = StackElementsList.Value.ToList();
-                                                            MoveItem(newList, index, Math.Max(index - 1, 0));
-                                                            StackElementsList.ReplaceAll(newList);
-                                                        }),
-                                                        Button().SetIcon(UIcons.ArrowDown).OnClick(() =>
-                                                        {
-                                                            var newList = StackElementsList.Value.ToList();
-                                                            MoveItem(newList, index, Math.Min(index + 1, newList.Count - 1));
-                                                            StackElementsList.ReplaceAll(newList);
-                                                        }),
-                                                        TextBox(currentElements[i].As<StackElements>().DisplayName).OnBlur((tb, e) =>
-                                                        {
-                                                            var updatedText = tb.Text;
-
-                                                            var newList = StackElementsList.Value.ToList();
-
-                                                            var reference = newList[index].As<StackElements>();
-                                                            reference.DisplayName = updatedText;
-
-                                                            newList[index] = reference;
-
-                                                            StackElementsList.ReplaceAll(newList);
-                                                        }).Background(currentElements[i].As<StackElements>().Color))
-                                                );
-                                            }
-                                            return stack;
-                                        }),
-                                        Empty().H(1).Grow(),
-                                        Button("Add").OnClick(() => Add())))))
-                           .Right(Label("Display Elements")
-                               .SetContent(
-                                    obsStack.H(_viewBoxHeight)))
-                    )
-                );
+                                    var idx = i;
+                                    var item = elements[i] as StackElement;
+                                    list.Add(HStack().AlignItemsCenter().Children(
+                                        Button().SetIcon(UIcons.ArrowUp).OnClick(() => Move(idx, idx - 1)),
+                                        Button().SetIcon(UIcons.ArrowDown).OnClick(() => Move(idx, idx + 1)),
+                                        TextBox(item.DisplayName).OnBlur((tb, _) => { item.DisplayName = tb.Text; Update(idx, item); }).Background(item.Color).WS()
+                                    ).MB(4));
+                                }
+                                return list.ScrollY();
+                            }).Grow()
+                       ).P(8))
+                       .Right(VStack().Children(
+                            Label("Rendered Stack:").SemiBold(),
+                            obsStack.H(450.px()).WS()
+                       ).P(8))
+                ));
         }
 
-        static void MoveItem(List<IComponentWithID> list, int oldIndex, int newIndex)
+        private void Move(int oldIdx, int newIdx)
         {
-            var item = list[oldIndex];
-            list.RemoveAt(oldIndex);
-
-//            if (newIndex > oldIndex) { newIndex--; }
-
-            list.Insert(newIndex, item);
+            if (newIdx < 0 || newIdx >= _stackElementsList.Count) return;
+            var list = _stackElementsList.Value.ToList();
+            var item = list[oldIdx];
+            list.RemoveAt(oldIdx);
+            list.Insert(newIdx, item);
+            _stackElementsList.ReplaceAll(list);
         }
 
-        public static void Add()
+        private void Update(int idx, StackElement item)
         {
-            ElementIndex++;
-            var newList = StackElementsList.Value.ToList();
-            newList.Add(new StackElements(displayName: ElementIndex.ToString(), id: ElementIndex.ToString()));
-            StackElementsList.ReplaceAll(newList);
+            var list = _stackElementsList.Value.ToList();
+            list[idx] = item;
+            _stackElementsList.ReplaceAll(list);
         }
 
-        public HTMLElement Render()
+        private void AddItem()
         {
-            return _content.Render();
+            _elementIndex++;
+            var list = _stackElementsList.Value.ToList();
+            list.Add(new StackElement(_elementIndex.ToString(), $"Item {_elementIndex}"));
+            _stackElementsList.ReplaceAll(list);
         }
+
+        public HTMLElement Render() => _content.Render();
     }
+
     public static class HashingHelper
     {
         public static int Fnv1aHash(string value)
         {
             var valArray = value.ToCharArray();
-
-            var hash = 0x811c9dc5; // FNV offset basis
-
-            for (var i = 0; i < valArray.Length; i++)
-            {
-                hash ^= valArray[i];
-                hash += (hash << 1) + (hash << 4) + (hash << 7) + (hash << 8) + (hash << 24);
-            }
-            return Script.Write<int>("{0} >>> 0", hash); // Convert to unsigned 32-bit integer
+            var hash = 0x811c9dc5;
+            for (var i = 0; i < valArray.Length; i++) { hash ^= (uint)valArray[i]; hash *= 0x01000193; }
+            return (int)hash;
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static H5.Core.dom;
 using static Tesserae.UI;
 using static Tesserae.Tests.Samples.SamplesHelper;
@@ -12,40 +12,41 @@ namespace Tesserae.Tests.Samples
 
         public SliderSample()
         {
-            var value = new SettableObservable<int>(0);
-            var s1    = Slider(val: 0, min: 0, max: 100, step: 1).OnInput((s,  e) => value.Update(currVal => value.Value = s.Value));
-            var s2    = Slider(val: 0, min: 0, max: 100, step: 10).OnInput((s, e) => value.Update(currVal => value.Value = s.Value));
-            value.Observe(changedValue => s1.Value = changedValue);
+            var value = new SettableObservable<int>(50);
+            var s1    = Slider(val: 50, min: 0, max: 100, step: 1).OnInput((s,  e) => value.Value = s.Value);
+            var s2    = Slider(val: 20, min: 0, max: 100, step: 10).OnInput((s, e) => Toast().Information($"Value changed to {s.Value}"));
 
             _content = SectionStack()
                .Title(SampleHeader(nameof(SliderSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
-                    TextBlock("TODO")
-                    //                TextBlock("ChoiceGroup emphasize all options equally, and that may draw more attention to the options than necessary. Consider using other controls, unless the options deserve extra attention from the user. For example, if the default option is recommended for most users in most situations, use a Dropdown component instead."),
-                    //                TextBlock("If there are only two mutually exclusive options, combine them into a single Checkbox or Toggle switch. For example, use a Checkbox for \"I agree\" instead of ChoiceGroup buttons for \"I agree\" and \"I don't agree.\"")
-                ))
+                    TextBlock("Sliders allow users to select a value from a continuous or discrete range of values by moving a thumb along a track."),
+                    TextBlock("They are ideal for settings that don't require high precision but benefit from a visual representation of the available range, such as volume or brightness.")))
                .Section(Stack().Children(
                     SampleTitle("Best Practices"),
+                    TextBlock("Use sliders when users need to choose a value from a range where the relative position is more important than the exact value. Provide clear labels for the minimum and maximum values. If the user needs to select a precise number, consider using a NumberPicker alongside or instead of a slider. Use discrete steps (increments) if the available choices are limited to specific intervals.")))
+               .Section(Stack().Children(
+                    SampleTitle("Usage"),
+                    SampleSubTitle("Basic Sliders"),
+                    VStack().Children(
+                        Label("Continuous Slider (step: 1)").SetContent(s1),
+                        HStack().Children(TextBlock("Current Value: "), DeferSync(value, v => TextBlock(v.ToString()).SemiBold())),
+                        Label("Discrete Slider (step: 10)").SetContent(s2)
+                    ),
+                    SampleSubTitle("States"),
+                    VStack().Children(
+                        Label("Disabled Slider").Disabled().SetContent(Slider(val: 30).Disabled()),
+                        Label("Required Slider").Required().SetContent(Slider(val: 10))
+                    ),
+                    SampleSubTitle("Vertical Sliders"),
                     HStack().Children(
-                        Stack().Width(40.percent()).Children(
-                            SampleSubTitle("Do"),
-                            SampleDo("TODO")),
-                        Stack().Width(40.percent()).Children(
-                            SampleSubTitle("Don't"),
-                            SampleDont("TODO")))))
-               .Section(
-                    Stack().Children(
-                        SampleTitle("Usage"),
-                        Label("Value").Medium().SetContent(DeferSync(value, currentValue => TextBlock(currentValue.ToString()))),
-                        Label("Default Slider (val: 0, min: 0, max: 100, step: 1)").Medium().SetContent(s1),
-                        Label("Default Slider (val: 0, min: 0, max: 100, step: 10)").Medium().SetContent(s2)
-                    ));
+                        Slider(val: 50).Vertical().H(150),
+                        Slider(val: 20).Vertical().H(150),
+                        Slider(val: 80).Vertical().H(150)
+                    )
+                ));
         }
 
-        public HTMLElement Render()
-        {
-            return _content.Render();
-        }
+        public HTMLElement Render() => _content.Render();
     }
 }

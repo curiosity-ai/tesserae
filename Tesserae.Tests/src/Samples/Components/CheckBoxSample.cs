@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static H5.Core.dom;
 using static Tesserae.UI;
 using static Tesserae.Tests.Samples.SamplesHelper;
@@ -16,38 +16,27 @@ namespace Tesserae.Tests.Samples
                .Title(SampleHeader(nameof(CheckBoxSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
-                    TextBlock("A CheckBox is a UI element that allows users to switch between two mutually exclusive options (checked or unchecked, on or off) through a single click or tap. It can also be used to indicate a subordinate setting or preference when paired with another control."),
-                    TextBlock("A CheckBox is used to select or deselect action items. It can be used for a single item or for a list of multiple items that a user can choose from. The control has two selection states: unselected and selected."),
-                    TextBlock("Use a single CheckBox for a subordinate setting, such as with a \"Remember me ? \" login scenario or with a terms of service agreement."),
-                    TextBlock("For a binary choice, the main difference between a CheckBox and a toggle switch is that the CheckBox is for status and the toggle switch is for action. You can delay committing a CheckBox interaction (as part of a form submit, for example), while you should immediately commit a toggle switch interaction. Also, only CheckBoxes allow for multi-selection."),
-                    TextBlock("Use multiple CheckBoxes for multi-select scenarios in which a user chooses one or more items from a group of choices that are not mutually exclusive.")
-                ))
+                    TextBlock("CheckBoxes allow users to select one or more items from a set. They can also be used to turn an option on or off."),
+                    TextBlock("Unlike a Toggle, which is typically used for immediate actions, a CheckBox is often used when a user needs to confirm their selection by clicking a submit button.")))
                .Section(Stack().Children(
                     SampleTitle("Best Practices"),
-                    HStack().Children(
-                        Stack().Width(40.percent()).Children(
-                            SampleSubTitle("Do"),
-                            SampleDo("Allow users to choose any combination of options when several CheckBoxes are grouped together.")
-                        ),
-                        Stack().Width(40.percent()).Children(
-                            SampleSubTitle("Don't"),
-                            SampleDont("Don't use a CheckBox as an on/off control. Instead use a toggle switch."),
-                            SampleDont("Don’t use a CheckBox when the user can choose only one option from the group, use radio buttons instead."),
-                            SampleDont("Don't put two groups of CheckBoxes next to each other. Separate the two groups with labels.")
-                        ))))
+                    TextBlock("Use CheckBoxes when users can select any number of options from a list. Clearly label each CheckBox so the user knows what they are selecting. If you have only two mutually exclusive options, consider using a ChoiceGroup (Radio buttons) or a Toggle. Don't use CheckBoxes as an on/off control for immediate actions; use a Toggle instead.")))
                .Section(Stack().Children(
                     SampleTitle("Usage"),
-                    TextBlock("Basic CheckBoxes").Medium(),
-                    CheckBox("Unchecked checkbox"),
-                    CheckBox("Checked checkbox").Checked(),
-                    CheckBox("Disabled checkbox").Disabled(),
-                    CheckBox("Disabled checked checkbox").Checked().Disabled()
+                    SampleSubTitle("Basic CheckBoxes"),
+                    VStack().Children(
+                        CheckBox("Unchecked checkbox"),
+                        CheckBox("Checked checkbox").Checked(),
+                        CheckBox("Disabled checkbox").Disabled(),
+                        CheckBox("Disabled checked checkbox").Checked().Disabled()),
+                    SampleSubTitle("Validation and States"),
+                    VStack().Children(
+                        Label("Required choice").Required().SetContent(CheckBox("I agree to the terms")),
+                        CheckBox("Checkbox with tooltip").Tooltip("More info here"),
+                        CheckBox("Triggers event").OnChange((s, e) => Toast().Information($"Checked: {s.IsChecked}")))
                 ));
         }
 
-        public HTMLElement Render()
-        {
-            return _content.Render();
-        }
+        public HTMLElement Render() => _content.Render();
     }
 }

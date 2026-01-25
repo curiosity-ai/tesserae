@@ -20,7 +20,10 @@ namespace Tesserae.Tests.Samples
                .Title(SampleHeader(nameof(DeferSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
-                    TextBlock("Use Defer() to render asynchronous components. The asynchronous task is only triggered on the first render of the Defer component")))
+                    TextBlock("Defer is a powerful utility for handling asynchronous UI rendering. It allows you to wrap a component that depends on an async task (like a network request). While the task is in progress, a loading message or a skeleton loader can be shown. Once the task completes, the actual component is seamlessly rendered in its place.")))
+               .Section(Stack().Children(
+                    SampleTitle("Best Practices"),
+                    TextBlock("Use Defer for any component that requires remote data or slow computations. Provide a 'loadMessage'—ideally a skeleton loader—that mimics the final layout to reduce visual flickering. Leverage the lazy-loading nature of Defer, as the async task is only triggered when the component is first rendered. Combine Defer with observables to create highly reactive and responsive interfaces.")))
                .Section(Stack().Children(
                     SampleTitle("Usage"),
                     Stack().Children(

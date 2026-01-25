@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static H5.Core.dom;
 using static Tesserae.UI;
 using static Tesserae.Tests.Samples.SamplesHelper;
@@ -16,51 +16,38 @@ namespace Tesserae.Tests.Samples
                .Title(SampleHeader(nameof(ChoiceGroupSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
-                    TextBlock("The ChoiceGroup component, also known as radio buttons, let users select one option from two or more choices. Each option is represented by one ChoiceGroup button; a user can select only one ChoiceGroup in a button group."),
-                    TextBlock("ChoiceGroup emphasize all options equally, and that may draw more attention to the options than necessary. Consider using other controls, unless the options deserve extra attention from the user. For example, if the default option is recommended for most users in most situations, use a Dropdown component instead."),
-                    TextBlock("If there are only two mutually exclusive options, combine them into a single Checkbox or Toggle switch. For example, use a Checkbox for \"I agree\" instead of ChoiceGroup buttons for \"I agree\" and \"I don't agree.\"")))
+                    TextBlock("ChoiceGroups, also known as radio button groups, allow users to select exactly one option from a set of mutually exclusive choices."),
+                    TextBlock("They emphasize all options equally, which can be useful when you want to ensure the user considers all available alternatives before making a selection.")))
                .Section(Stack().Children(
                     SampleTitle("Best Practices"),
-                    HStack().Children(
-                        Stack().Width(40.percent()).Children(
-                            SampleSubTitle("Do"),
-                            SampleDo("Use when there are 2-7 options, if you have enough screen space and the options are important enough to be a good use of that screen space. Otherwise, use a Checkbox or Dropdown list."),
-                            SampleDo("Use on wizard pages to make the alternatives clear, even if a Checkbox is otherwise acceptable."),
-                            SampleDo("List the options in a logical order, such as most likely to be selected to least, simplest operation to most complex, or least risk to most. Alphabetical ordering is not recommended because it is language dependent and therefore not localizable."),
-                            SampleDo("If none of the options is a valid choice, add another option to reflect this choice, such as \"None\" or \"Does not apply\"."),
-                            SampleDo("Select the safest (to prevent loss of data or system access) and most secure and private option as the default. If safety and security aren't factors, select the most likely or convenient option."),
-                            SampleDo("Align radio buttons vertically instead of horizontally, if possible. Horizontal alignment is harder to read and localize.")),
-                        Stack().Width(40.percent()).Children(
-                            SampleSubTitle("Don't"),
-                            SampleDont("Use when the options are numbers that have fixed steps, like 10, 20, 30. Use a Slider component instead."),
-                            SampleDont("Use if there are more than 7 options, use a Dropdown instead."),
-                            SampleDont("Nest with other ChoiceGroup or CheckBoxes. If possible, keep all the options at the same level.")))))
-               .Section(
-                    Stack().Children(
-                        SampleTitle("Usage"),
-                        TextBlock("Default ChoiceGroup").Medium(),
-                        ChoiceGroup().Choices(
-                            Choice("Option A"),
-                            Choice("Option B"),
-                            Choice("Option C").Disabled(),
-                            Choice("Option D")),
-                        TextBlock("Required ChoiceGroup with a custom label").Medium(),
-                        ChoiceGroup("Custom label").Required().Choices(
-                            Choice("Option A"),
-                            Choice("Option B"),
-                            Choice("Option C").Disabled(),
-                            Choice("Option D")),
-                        TextBlock("Horizontal ChoiceGroup").Medium(),
-                        ChoiceGroup().Horizontal().Choices(
-                            Choice("Option A"),
-                            Choice("Option B"),
-                            Choice("Option C").Disabled(),
-                            Choice("Option D"))));
+                    TextBlock("Use ChoiceGroups when there are between 2 and 7 options and screen space is available. For more than 7 options, a Dropdown is typically more efficient. List options in a logical order (e.g., most likely to least likely). Align options vertically whenever possible for better readability and localization support. Always provide a default selection if one is significantly more likely than the others, and ensure the safest option is the default if applicable.")))
+               .Section(Stack().Children(
+                    SampleTitle("Usage"),
+                    SampleSubTitle("Basic ChoiceGroup"),
+                    ChoiceGroup().Choices(
+                        Choice("Option A"),
+                        Choice("Option B"),
+                        Choice("Option C").Disabled(),
+                        Choice("Option D")),
+                    SampleSubTitle("Required with Label"),
+                    ChoiceGroup("Select an environment").Required().Choices(
+                        Choice("Development"),
+                        Choice("Staging"),
+                        Choice("Production")),
+                    SampleSubTitle("Horizontal Layout"),
+                    ChoiceGroup("Sizes").Horizontal().Choices(
+                        Choice("Small"),
+                        Choice("Medium"),
+                        Choice("Large")),
+                    SampleSubTitle("Event Handling"),
+                    ChoiceGroup("Language").Choices(
+                        Choice("English"),
+                        Choice("Spanish"),
+                        Choice("French")
+                    ).OnChange((s, e) => Toast().Information($"Selected: {s.SelectedOption.Text}"))
+                ));
         }
 
-        public HTMLElement Render()
-        {
-            return _content.Render();
-        }
+        public HTMLElement Render() => _content.Render();
     }
 }

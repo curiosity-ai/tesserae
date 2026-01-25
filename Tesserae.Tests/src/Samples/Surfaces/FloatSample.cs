@@ -17,20 +17,10 @@ namespace Tesserae.Tests.Samples
                .Title(SampleHeader(nameof(FloatSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
-                    TextBlock("Floats are used to create absolute-positioned overlays within other containers"))
-                )
+                    TextBlock("Float components are used to place content in absolute-positioned overlays within a relative container. They allow for precise placement of UI elements, such as badges, help icons, or status indicators, without affecting the layout of surrounding components.")))
                .Section(Stack().WidthStretch().Children(
                     SampleTitle("Best Practices"),
-                    Stack().WidthStretch().Horizontal().Children(
-                        Stack().WidthStretch().Children(
-                            SampleSubTitle("Do"),
-                            SampleDo("Make sure you're not covering anything else under your container")
-                        ),
-                        Stack().WidthStretch().Children(
-                            SampleSubTitle("Don't"),
-                            SampleDont("Don't forget to add .Relative() to the parent Stack or Grid where you place a Float component!")
-                        ))
-                ))
+                    TextBlock("Use Float when you need to position an element independently of the normal document flow. Always ensure the parent container is set to 'Relative' positioning to constrain the floated element. Be careful not to obscure important content or interactive elements beneath the overlay. Use meaningful positions that correlate logically with the parent content.")))
                .Section(
                     Stack().Children(
                         SampleTitle("Usage"),

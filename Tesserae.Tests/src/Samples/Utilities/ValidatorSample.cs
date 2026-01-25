@@ -27,19 +27,10 @@ namespace Tesserae.Tests.Samples
                .Title(SampleHeader(nameof(ValidatorSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
-                    TextBlock("The validator helper allows you to capture the state of multiple components registered on it.")
-                ))
+                    TextBlock("Validator is a utility component that aggregates the validation state of multiple UI components. It provides a centralized way to monitor whether a form or a set of inputs is valid, making it easy to provide real-time feedback to users and prevent the submission of incorrect data.")))
                .Section(Stack().Children(
-                        SampleTitle("Best Practices"),
-                        HStack().Children(
-                            Stack().Width(40.percent()).Children(
-                                SampleSubTitle("Do"),
-                                SampleDo("Display useful validation warning messages to components for when the User has left them in an invalid state or when they have tried to submit a partially-populated form")),
-                            Stack().Width(40.percent()).Children(
-                                SampleSubTitle("Don't"),
-                                SampleDont("Display ALL validation warnings messages as soon as a form is rendered, give the User an opportunity to interact with it and enter valid values before shouting at them")))
-                    )
-                )
+                    SampleTitle("Best Practices"),
+                    TextBlock("Register all related input components with a single Validator. Use clear and descriptive validation messages that help users correct errors. Avoid showing validation errors immediately on form load; instead, allow users to interact with the fields first. Use the Validator's state to enable or disable primary actions like 'Submit' or 'Save' to ensure only valid data is processed.")))
                .Section(
                     Stack().Children(
                         SampleTitle("Usage"),

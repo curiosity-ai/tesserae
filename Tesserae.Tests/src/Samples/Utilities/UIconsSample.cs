@@ -20,9 +20,13 @@ namespace Tesserae.Tests.Samples
                .Title(SampleHeader(nameof(UIconsSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
-                    TextBlock("Tesserae integrates the UIcons icons as part of the package, with an auto-generated strongly typed enum for them.")))
+                    TextBlock("UIcons provide a massive collection of high-quality icons integrated directly into Tesserae. They are accessible through a strongly-typed enum, offering full IntelliSense support and ensuring that your application's iconography is consistent and easily maintainable.")))
                .Section(Stack().Children(
-                    SampleTitle($"enum {nameof(UIcons)}:"),
+                    SampleTitle("Best Practices"),
+                    TextBlock("Use icons to provide visual context and improve the scanability of your UI. Choose icons that are widely recognized and relevant to the action or content they represent. Maintain consistency in icon style and weight throughout your application. Use the SearchableList below to explore the thousands of available icons.")))
+               .Section(Stack().Children(
+                    SampleTitle("Usage"),
+                    SampleSubTitle($"Strongly-typed {nameof(UIcons)} enum"),
                     SearchableList(GetAllIcons().ToArray(), 25.percent(), 25.percent(), 25.percent(), 25.percent())).S(), grow: true);
         }
 

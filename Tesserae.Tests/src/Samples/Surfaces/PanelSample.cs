@@ -41,25 +41,10 @@ namespace Tesserae.Tests.Samples
                .Title(SampleHeader(nameof(PanelSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
-                    TextBlock("Panels are modal UI overlays that provide contextual app information. They often request some kind of creation or management action from the user. Panels are paired with the Overlay component, also known as a Light Dismiss. The Overlay blocks interactions with the app view until dismissed either through clicking or tapping on the Overlay or by selecting a close or completion action within the Panel."),
-                    SampleSubTitle("Examples of experiences that use Panels"),
-                    TextBlock("Member or group list creation or management"),
-                    TextBlock("Document list creation or management"),
-                    TextBlock("Permissions creation or management"),
-                    TextBlock("Settings creation or management"),
-                    TextBlock("Multi-field forms")))
+                    TextBlock("Panels are sliding overlays typically used for creation or management tasks, such as editing a user's profile or configuring settings. They provide a large, temporary surface that slides in from either the left or right side of the screen, keeping the user within the current context while providing space for complex forms or information.")))
                .Section(Stack().Children(
                     SampleTitle("Best Practices"),
-                    HStack().Children(
-                        Stack().Width(40.percent()).Children(
-                            SampleSubTitle("Do"),
-                            SampleDo("Use for self-contained experiences where the user does not need to interact with the app view to complete the task."),
-                            SampleDo("Use for complex creation, edit or management experiences."),
-                            SampleDo("Consider how the panel and its contained contents will scale across Fabric’s responsive web breakpoints.")
-                        ),
-                        Stack().Width(40.percent()).Children(
-                            SampleSubTitle("Don't"),
-                            SampleDont("Don't use for experiences where the user needs to interact with the app view.")))))
+                    TextBlock("Use Panels for self-contained tasks that are too large for a Dialog or Modal. Choose the 'Far' side (right) for most common actions, and 'Near' (left) for navigation-related content. Provide clear 'Save' and 'Cancel' actions in the footer. Ensure that the Panel size is appropriate for its content, using wider variants for complex forms. Use 'LightDismiss' to allow users to quickly exit by clicking outside the panel.")))
                .Section(Stack().Children(
                     SampleTitle("Usage"),
                     Button("Open panel").OnClick((s, e) => panel.Show())));

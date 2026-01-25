@@ -1,4 +1,4 @@
-﻿using static H5.Core.dom;
+using static H5.Core.dom;
 using static Tesserae.Tests.Samples.SamplesHelper;
 using static Tesserae.UI;
 
@@ -14,21 +14,35 @@ namespace Tesserae.Tests.Samples
                .Title(SampleHeader(nameof(ColorPickerSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
-                    TextBlock("The ColorPicker allows users to pick a color from a native browser widget. Unless specified, black is the default color upon render of the component"), Link("https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color", "Please see here for further information.")))
+                    TextBlock("The ColorPicker allows users to select a color using the browser's native color selection widget. It returns the selected color as both a hex string and a Color object."),
+                    TextBlock("This component is useful for personalization settings, drawing applications, or any interface where color customization is required.")))
+               .Section(Stack().Children(
+                    SampleTitle("Best Practices"),
+                    TextBlock("Use the ColorPicker when users need to select a precise color that isn't covered by a predefined set of options. If you only need a few specific colors, consider using a ChoiceGroup with custom styling or a Dropdown instead. Always provide a default color that makes sense for the context. Ensure the picked color is validated if certain constraints apply (e.g., must be a dark color for text readability).")))
                .Section(Stack().Children(
                     SampleTitle("Usage"),
-                    TextBlock("Basic ColorPicker").Medium(),
-                    Stack().Width(40.percent()).Children(
-                        Label("Standard").SetContent(HStack().Stretch().Children(ColorPicker().Width(10.percent()).Var(out var colorPicker1), Button().SetText("Click me!").Var(out var button1))),
-                        Label("With preset color").SetContent(ColorPicker(Color.FromString("#0078d4"))).Width(10.percent()),
-                        Label("Disabled").Disabled().SetContent(ColorPicker().Disabled()).Width(10.percent()),
-                        Label("Required").Required().SetContent(ColorPicker()).Width(10.percent()), ColorPicker().Required().Width(10.percent()),
-                        Label("With error message").SetContent(ColorPicker().Error("Error message").IsInvalid()).Width(10.percent()),
-                        Label("With validation for light color").SetContent(ColorPicker().Validation(Validation.LightColor)).Width(10.percent()),
-                        Label("With validation for dark color").SetContent(ColorPicker().Validation(Validation.DarkColor)).Width(10.percent()))));
+                    SampleSubTitle("Basic ColorPicker"),
+                    VStack().Children(
+                        Label("Pick a color").SetContent(
+                            HStack().Children(
+                                ColorPicker().Var(out var cp1).Width(50.px()),
+                                Button("Apply Color").Var(out var btn1)
+                            )
+                        ),
+                        Label("With default color (Blue)").SetContent(ColorPicker(Color.FromString("#0078d4")).Width(50.px())),
+                        Label("Disabled state").Disabled().SetContent(ColorPicker().Disabled().Width(50.px()))
+                    ),
+                    SampleSubTitle("Validation"),
+                    VStack().Children(
+                        Label("Light color required").SetContent(ColorPicker().Validation(Validation.LightColor).Width(50.px())),
+                        Label("Dark color required").SetContent(ColorPicker().Validation(Validation.DarkColor).Width(50.px()))
+                    ),
+                    SampleSubTitle("Interactive Example"),
+                    TextBlock("Changing the color picker below will update the button's background.")
+                ));
 
-            colorPicker1.OnChange((_, __) => button1.Background = colorPicker1.Text);
-            button1.OnClick((_,       __) => window.alert($"{colorPicker1.Text}, {colorPicker1.Color.ToHex()}"));
+            cp1.OnChange((_, __) => btn1.Background = cp1.Text);
+            btn1.OnClick((_, __) => Toast().Information($"Selected Color: {cp1.Text} (Hex: {cp1.Color.ToHex()})"));
         }
 
         public HTMLElement Render() => _content.Render();

@@ -4,7 +4,6 @@ using Tesserae;
 using static Tesserae.Tests.Samples.SamplesHelper;
 using static Tesserae.UI;
 using static H5.Core.dom;
-using Tesserae.Tests;
 
 namespace Tesserae.Tests.Samples
 {
@@ -15,62 +14,43 @@ namespace Tesserae.Tests.Samples
 
         public SearchableListSample()
         {
-            _content =
-                SectionStack()
-                   .WidthStretch()
+            _content = SectionStack().WidthStretch()
                    .Title(SampleHeader(nameof(SearchableListSample)))
-                   .Section(
-                        Stack()
-                           .Children(
-                                SampleTitle("Overview"),
-                                TextBlock("This list provides a base component for implementing search over a known number of items." +
-                                        "It is agnostic of the tile component used, and selection "                                   +
-                                        "management. These concerns can be layered separately.")
-                                   .PB(16),
-                                TextBlock("You need to implement ISearchableItem interface on the items, and specially the IsMatch method to enable searching on them")))
-                   .Section(
-                        Stack()
-                           .Children(
-                                SampleTitle("Usage"),
-                                TextBlock("Searchable List with No Results Message").Medium().PB(16).PaddingTop(16.px()),
-                                SearchableList(GetItems(10)).PaddingBottom(32.px()).Height(500.px())
-                                   .WithNoResultsMessage(() => BackgroundArea(Card(TextBlock("No Results").Padding(16.px()))).WidthStretch().HeightStretch().MinHeight(100.px())),
-                                TextBlock("Searchable List with extra commands").Medium().PB(16).PaddingTop(16.px()),
-                                SearchableList(GetItems(10)).PaddingBottom(32.px()).Height(500.px()).AfterSearchBox(Button("Sample Button After").Primary()).BeforeSearchBox(Button("Sample Button Before").Link())
-                                   .WithNoResultsMessage(() => BackgroundArea(Card(TextBlock("No Results").Padding(16.px()))).WidthStretch().HeightStretch().MinHeight(100.px())),
-                                TextBlock("Searchable List with Columns").Medium().PB(16).PaddingTop(16.px()),
-                                SearchableList(GetItems(40), 25.percent(), 25.percent(), 25.percent(), 25.percent()).Height(500.px())
-                            )).PaddingBottom(32.px());
+                   .Section(Stack().Children(
+                        SampleTitle("Overview"),
+                        TextBlock("SearchableList combines a search box with a list of items, providing instant filtering as the user types."),
+                        TextBlock("Items must implement the 'ISearchableItem' interface, which defines the matching logic and how each item is rendered.")))
+                   .Section(Stack().Children(
+                        SampleTitle("Best Practices"),
+                        TextBlock("Use SearchableList when you have a moderately sized collection that users need to filter quickly. Ensure the 'IsMatch' implementation is performant and covers all relevant fields. Provide a clear 'No Results' message to help users understand when their search doesn't match anything. Use the 'BeforeSearchBox' and 'AfterSearchBox' slots to add relevant actions like 'Add New' or 'Filter' buttons. For very large datasets, consider server-side filtering or a VirtualizedList.")))
+                   .Section(Stack().Children(
+                        SampleTitle("Usage"),
+                        SampleSubTitle("Basic Searchable List"),
+                        SearchableList(GetItems(10))
+                           .WithNoResultsMessage(() => BackgroundArea(Card(TextBlock("No matching items found").Padding(16.px()))).WS().HS().MinHeight(100.px()))
+                           .Height(400.px()).MB(32),
+                        SampleSubTitle("Searchable Grid with Commands"),
+                        SearchableList(GetItems(24), 25.percent(), 25.percent(), 25.percent(), 25.percent())
+                           .BeforeSearchBox(Button("Filter").SetIcon(UIcons.Filter))
+                           .AfterSearchBox(Button("Add Item").Primary().SetIcon(UIcons.Plus))
+                           .Height(400.px())
+                    ));
         }
 
-        public HTMLElement Render()
-        {
-            return _content.Render();
-        }
+        public HTMLElement Render() => _content.Render();
 
         private SearchableListItem[] GetItems(int count)
         {
-            return Enumerable
-               .Range(1, count)
-               .Select(number => new SearchableListItem($"Lorem Ipsum {number}"))
-               .ToArray();
-
+            return Enumerable.Range(1, count).Select(n => new SearchableListItem($"Item {n}")).ToArray();
         }
 
         private class SearchableListItem : ISearchableItem
         {
-            private readonly string     _value;
+            private readonly string _value;
             private readonly IComponent _component;
-            public SearchableListItem(string value)
-            {
-                _value     = value;
-                _component = Card(TextBlock(value).NonSelectable());
-            }
-
-            public bool IsMatch(string searchTerm) => _value.Contains(searchTerm);
-
+            public SearchableListItem(string value) { _value = value; _component = Card(TextBlock(value)); }
+            public bool IsMatch(string searchTerm) => _value.ToLower().Contains(searchTerm.ToLower());
             public HTMLElement Render() => _component.Render();
-
             IComponent ISearchableItem.Render() => _component;
         }
     }

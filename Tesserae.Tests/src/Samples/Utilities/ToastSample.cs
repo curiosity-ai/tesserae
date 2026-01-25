@@ -17,17 +17,10 @@ namespace Tesserae.Tests.Samples
                .Title(SampleHeader(nameof(ToastSample)))
                .Section(Stack().WidthStretch().Children(
                     SampleTitle("Overview"),
-                    TextBlock("Toasts are used for short-lived notifications to users.")))
+                    TextBlock("Toasts are short-lived, non-intrusive notifications that provide feedback about an operation. They appear temporarily on the screen and then disappear automatically, making them ideal for success messages, warnings, or simple information updates.")))
                .Section(Stack().WidthStretch().Children(
                     SampleTitle("Best Practices"),
-                    SplitView().SplitInMiddle().Left(
-                            Stack().WidthStretch().Children(
-                                SampleSubTitle("Do"),
-                                SampleDo("Write short and recognizable messages"),
-                                SampleDo("Keep toasts long enough to be read, but not long enough to bother")))
-                       .Right(Stack().WidthStretch().Children(
-                            SampleSubTitle("Don't"),
-                            SampleDont("Overload users with toasts.")))))
+                    TextBlock("Use Toasts for brief, informative messages that don't require user action. Keep the text short and recognizable. Ensure the Toast duration is long enough to be read but short enough not to become an annoyance. Avoid overloading the user with too many simultaneous Toasts. For critical errors that require immediate attention or user interaction, use a Dialog or Modal instead.")))
                .Section(
                     Stack().WidthStretch().Children(
                         SampleTitle("Usage"),

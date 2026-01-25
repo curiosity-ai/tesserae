@@ -64,21 +64,10 @@ namespace Tesserae.Tests.Samples
                .Title(SampleHeader(nameof(ProgressModalSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
-                    TextBlock(
-                        "TODO"))
-                )
+                    TextBlock("ProgressModal is a specialized modal overlay that combines a title, a message, and a progress indicator. It is used for long-running operations where it is important to block other user interactions until the task is complete, while keeping the user informed of the progress.")))
                .Section(Stack().Children(
                     SampleTitle("Best Practices"),
-                    HStack().Children(
-                        Stack().Children(
-                            SampleSubTitle("Do"),
-                            SampleDo("TODO")
-                        ),
-                        Stack().Children(
-                            SampleSubTitle("Don't"),
-                            SampleDont("TODO")
-                        ))
-                ))
+                    TextBlock("Use ProgressModal only for operations that truly require the user's focus and shouldn't be interrupted. Ensure that the message provides clear context for what is being processed. Always provide a way to cancel the operation if possible. For background tasks that don't need to block the entire UI, consider using an in-place ProgressIndicator or Spinner instead.")))
                .Section(
                     Stack().Width(400.px()).Children(
                         SampleTitle("Usage"),

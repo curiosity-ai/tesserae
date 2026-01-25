@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static H5.Core.dom;
 using static Tesserae.UI;
 using static Tesserae.Tests.Samples.SamplesHelper;
@@ -16,77 +16,42 @@ namespace Tesserae.Tests.Samples
                .Title(SampleHeader(nameof(OverflowSetSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
-                    TextBlock("Breadcrumbs should be used as a navigational aid in your app or site. They indicate the current page’s location within a hierarchy and help the user understand where they are in relation to the rest of that hierarchy. They also afford one-click access to higher levels of that hierarchy."),
-                    TextBlock("Breadcrumbs are typically placed, in horizontal form, under the masthead or navigation of an experience, above the primary content area.")))
+                    TextBlock("OverflowSet is a container that automatically moves items that don't fit into the available space into an overflow menu."),
+                    TextBlock("It is commonly used for command bars, navigation menus, or any list of actions where you want to maximize the visibility of primary items while ensuring all items are accessible.")))
                .Section(Stack().Children(
                     SampleTitle("Best Practices"),
-                    HStack().Children(
-                        Stack().Width(40.percent()).Children(
-                            SampleSubTitle("Do"),
-                            SampleDo("Place Breadcrumbs at the top of a page, above a list of items, or above the main content of a page.")
-                        ),
-                        Stack().Width(40.percent()).Children(
-                            SampleSubTitle("Don't"),
-                            SampleDont("Don't use Breadcrumbs as a primary way to navigate an app or site.")))))
+                    TextBlock("Use OverflowSet when you have a horizontal list of items that might exceed the screen width. Order items by importance so that the most critical actions are the last to be moved to the overflow menu. Provide a clear icon or label for the overflow trigger (usually a 'more' icon). Ensure that items in the overflow menu remain fully functional.")))
                .Section(Stack().Children(
                     SampleTitle("Usage"),
-                    Label("Selected: ").SetContent(TextBlock().Var(out var msg)),
-                    TextBlock("All Visible").Medium(),
-                    OverflowSet().PaddingTop(16.px()).PB(16).Items(
-                        Button("Folder 1").Link().OnClick((s, e) => msg.Text("Folder 1")),
-                        Button("Folder 2").Link().OnClick((s, e) => msg.Text("Folder 2")).Disabled(),
-                        Button("Folder 3").Link().OnClick((s, e) => msg.Text("Folder 3")),
-                        Button("Folder 4").Link().OnClick((s, e) => msg.Text("Folder 4")),
-                        Button("Folder 5").Link().OnClick((s, e) => msg.Text("Folder 5")),
-                        Button("Folder 6").Link().OnClick((s, e) => msg.Text("Folder 6"))),
-                    TextBlock("All Visible, Small").Medium(),
-                    OverflowSet().Small().PaddingTop(16.px()).PB(16).Items(
-                        Button("Folder 1").Link().OnClick((s, e) => msg.Text("Folder 1")),
-                        Button("Folder 2").Link().OnClick((s, e) => msg.Text("Folder 2")).Disabled(),
-                        Button("Folder 3").Link().OnClick((s, e) => msg.Text("Folder 3")),
-                        Button("Folder 4").Link().OnClick((s, e) => msg.Text("Folder 4")),
-                        Button("Folder 5").Link().OnClick((s, e) => msg.Text("Folder 5")),
-                        Button("Folder 6").Link().OnClick((s, e) => msg.Text("Folder 6"))),
-                    TextBlock("Collapse 200px").Medium(),
-                    OverflowSet().PaddingTop(16.px()).PB(16).MaxWidth(200.px()).Items(
-                        Button("Folder 1").Link().SetIcon(UIcons.Acorn).OnClick((s,   e) => msg.Text("Folder 1")),
-                        Button("Folder 2").Link().SetIcon(UIcons.Corn).OnClick((s,    e) => msg.Text("Folder 2")),
-                        Button("Folder 3").Link().SetIcon(UIcons.Bacon).OnClick((s,   e) => msg.Text("Folder 3")),
-                        Button("Folder 4").Link().SetIcon(UIcons.Taco).OnClick((s,    e) => msg.Text("Folder 4")),
-                        Button("Folder 5").Link().SetIcon(UIcons.Pie).OnClick((s,     e) => msg.Text("Folder 5")),
-                        Button("Folder 6").Link().SetIcon(UIcons.Popcorn).OnClick((s, e) => msg.Text("Folder 6")))
-                   ,
-                    TextBlock("Collapse 200px, Small").Medium(),
-                    OverflowSet().PaddingTop(16.px()).PB(16).Small().MaxWidth(200.px()).Items(
-                        Button("Folder 1").Link().SetIcon(UIcons.Acorn).OnClick((s,   e) => msg.Text("Folder 1")),
-                        Button("Folder 2").Link().SetIcon(UIcons.Corn).OnClick((s,    e) => msg.Text("Folder 2")),
-                        Button("Folder 3").Link().SetIcon(UIcons.Bacon).OnClick((s,   e) => msg.Text("Folder 3")),
-                        Button("Folder 4").Link().SetIcon(UIcons.Taco).OnClick((s,    e) => msg.Text("Folder 4")),
-                        Button("Folder 5").Link().SetIcon(UIcons.Pie).OnClick((s,     e) => msg.Text("Folder 5")),
-                        Button("Folder 6").Link().SetIcon(UIcons.Popcorn).OnClick((s, e) => msg.Text("Folder 6")))
-                   ,
-                    TextBlock("Collapse 300px").Medium(),
-                    OverflowSet().PaddingTop(16.px()).PB(16).MaxWidth(300.px()).Items(
-                        Button("Folder 1").Link().OnClick((s, e) => msg.Text("Folder 1")),
-                        Button("Folder 2").Link().OnClick((s, e) => msg.Text("Folder 2")),
-                        Button("Folder 3").Link().OnClick((s, e) => msg.Text("Folder 3")),
-                        Button("Folder 4").Link().OnClick((s, e) => msg.Text("Folder 4")),
-                        Button("Folder 5").Link().OnClick((s, e) => msg.Text("Folder 5")),
-                        Button("Folder 6").Link().OnClick((s, e) => msg.Text("Folder 6"))),
-                    TextBlock("Collapse 300px, from second, custom chevron").Medium(),
-                    OverflowSet().PaddingTop(16.px()).PB(16).MaxWidth(300.px()).SetOverflowIndex(1).Items(
-                        Button("Folder 1").Link().OnClick((s, e) => msg.Text("Folder 1")),
-                        Button("Folder 2").Link().OnClick((s, e) => msg.Text("Folder 2")),
-                        Button("Folder 3").Link().OnClick((s, e) => msg.Text("Folder 3")),
-                        Button("Folder 4").Link().OnClick((s, e) => msg.Text("Folder 4")),
-                        Button("Folder 5").Link().OnClick((s, e) => msg.Text("Folder 5")),
-                        Button("Folder 6").Link().OnClick((s, e) => msg.Text("Folder 6")))
+                    SampleSubTitle("Basic OverflowSet"),
+                    TextBlock("Resize the window or container to see items moving into the '...' menu."),
+                    OverflowSet().Items(
+                        Button("Action 1").Link().OnClick((s, e) => Toast().Information("Action 1")),
+                        Button("Action 2").Link().OnClick((s, e) => Toast().Information("Action 2")),
+                        Button("Action 3").Link().OnClick((s, e) => Toast().Information("Action 3")),
+                        Button("Action 4").Link().OnClick((s, e) => Toast().Information("Action 4")),
+                        Button("Action 5").Link().OnClick((s, e) => Toast().Information("Action 5")),
+                        Button("Action 6").Link().OnClick((s, e) => Toast().Information("Action 6"))
+                    ).PB(32),
+                    SampleSubTitle("With Icons and Constraints"),
+                    OverflowSet().MaxWidth(300.px()).Items(
+                        Button("Edit").SetIcon(UIcons.Edit).Link(),
+                        Button("Share").SetIcon(UIcons.Share).Link(),
+                        Button("Delete").SetIcon(UIcons.Trash).Link(),
+                        Button("Copy").SetIcon(UIcons.Copy).Link(),
+                        Button("Move").SetIcon(UIcons.Arrows).Link()
+                    ).PB(32),
+                    SampleSubTitle("Custom Overflow Index"),
+                    TextBlock("Force overflow to start after the first item:"),
+                    OverflowSet().SetOverflowIndex(0).MaxWidth(400.px()).Items(
+                        Button("Always Visible").Primary(),
+                        Button("Option A").Link(),
+                        Button("Option B").Link(),
+                        Button("Option C").Link()
+                    )
                 ));
         }
 
-        public HTMLElement Render()
-        {
-            return _content.Render();
-        }
+        public HTMLElement Render() => _content.Render();
     }
 }
