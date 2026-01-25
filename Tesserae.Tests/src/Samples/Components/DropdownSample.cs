@@ -73,6 +73,12 @@ namespace Tesserae.Tests.Samples
                             DropdownItem("Valid Choice")
                         )),
                         Label("Validation (Must select 'Option 1')").SetContent(validatedDropdown)
+                    ),
+                    SampleSubTitle("Rounded Dropdowns"),
+                    VStack().Children(
+                        Label("Small").SetContent(Dropdown().Rounded(BorderRadius.Small).Items(DropdownItem("Option 1"), DropdownItem("Option 2"))),
+                        Label("Medium").SetContent(Dropdown().Rounded(BorderRadius.Medium).Items(DropdownItem("Option 1"), DropdownItem("Option 2"))),
+                        Label("Full").SetContent(Dropdown().Rounded(BorderRadius.Full).Items(DropdownItem("Option 1"), DropdownItem("Option 2")))
                     )
                 ));
         }

@@ -60,7 +60,14 @@ namespace Tesserae.Tests.Samples
                     sortableStack.MB(32),
                     SampleSubTitle("Interactive Events"),
                     TextBlock("Stacks can respond to mouse events, allowing for complex hover behaviors."),
-                    hoverStack.OnMouseOver((s, e) => otherButton.Show()).OnMouseOut((s, e) => otherButton.Fade())
+                    hoverStack.OnMouseOver((s, e) => otherButton.Show()).OnMouseOut((s, e) => otherButton.Fade()),
+                    SampleSubTitle("Rounded Stacks"),
+                    TextBlock("Rounding is visible when the stack has a background or border."),
+                    HStack().Children(
+                        VStack().Children(TextBlock("Small")).Background(Theme.Colors.SecondaryBackground).Padding("16px").Rounded(BorderRadius.Small).Width(100.px()).AlignItemsCenter(),
+                        VStack().Children(TextBlock("Medium")).Background(Theme.Colors.SecondaryBackground).Padding("16px").Rounded(BorderRadius.Medium).Width(100.px()).AlignItemsCenter(),
+                        VStack().Children(TextBlock("Full")).Background(Theme.Colors.SecondaryBackground).Padding("16px").Rounded(BorderRadius.Full).Width(100.px()).AlignItemsCenter()
+                    )
                 ));
             SetChildren(stack, 5);
         }

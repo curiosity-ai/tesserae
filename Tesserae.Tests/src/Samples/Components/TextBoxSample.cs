@@ -42,6 +42,12 @@ namespace Tesserae.Tests.Samples
                     VStack().Children(
                         TextBox().SetPlaceholder("Type and check toast...").OnChange((s, e) => Toast().Information($"Text changed to: {s.Text}")),
                         TextBox().SetPlaceholder("Search-like behavior...").OnInput((s, e) => console.log($"Current input: {s.Text}"))
+                    ),
+                    SampleSubTitle("Rounded TextBoxes"),
+                    VStack().Children(
+                        TextBox().SetPlaceholder("Small").Rounded(BorderRadius.Small),
+                        TextBox().SetPlaceholder("Medium").Rounded(BorderRadius.Medium),
+                        TextBox().SetPlaceholder("Full").Rounded(BorderRadius.Full)
                     )
                 ));
         }
