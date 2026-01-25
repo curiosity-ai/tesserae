@@ -5,7 +5,7 @@ using static Tesserae.UI;
 namespace Tesserae
 {
     [H5.Name("tss.Card")]
-    public sealed class Card : ComponentBase<Card, HTMLElement>
+    public sealed class Card : ComponentBase<Card, HTMLElement>, IHasBackgroundColor
     {
         private readonly HTMLElement _cardContainer;
         public Card(IComponent content)
@@ -53,9 +53,19 @@ namespace Tesserae
             return this;
         }
 
+        public string Background
+        {
+            get => InnerElement.style.background;
+            set
+            {
+                InnerElement.style.background = value;
+                InnerElement.UpdateClassIf(!string.IsNullOrWhiteSpace(value), "tss-filter-effects");
+            }
+        }
+
         public Card BackgroundColor(string color)
         {
-            InnerElement.style.backgroundColor = color;
+            Background = color;
             return this;
         }
 

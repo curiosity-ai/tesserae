@@ -6,7 +6,7 @@ using static Tesserae.UI;
 namespace Tesserae
 {
     [H5.Name("tss.ActionButton")]
-    public class ActionButton : IComponent
+    public class ActionButton : IComponent, IHasBackgroundColor
     {
         public HTMLDivElement    Container          { get; protected set; }
         public HTMLDivElement    DisplayButton      { get; protected set; }
@@ -98,6 +98,18 @@ namespace Tesserae
             ActionBtn.addEventListener("click",       @event => ClickedAction?.Invoke(ActionBtn, @event.As<MouseEvent>()));
             ActionBtn.addEventListener("contextmenu", @event => ContextMenuAction?.Invoke(ActionBtn, @event.As<MouseEvent>()));
 
+        }
+
+        public string Background
+        {
+            get => DisplayButton.style.background;
+            set
+            {
+                DisplayButton.style.background = value;
+                ActionBtn.style.background = value;
+                DisplayButton.UpdateClassIf(!string.IsNullOrWhiteSpace(value), "tss-filter-effects");
+                ActionBtn.UpdateClassIf(!string.IsNullOrWhiteSpace(value), "tss-btn-filter-effects");
+            }
         }
 
         public HTMLElement Render()

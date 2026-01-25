@@ -66,6 +66,13 @@ namespace Tesserae.Tests.Samples
                             Button().Var(out var iconBtn3).SetText("Primary").SetIcon(UIcons.Minus).Primary().OnClick((s, e) => alert("Clicked!")),
                             Button().Var(out var iconBtn4).SetText("Copy date").SetIcon(UIcons.Calendar).OnClick((s,      e) => Clipboard.Copy(DateTime.Now.ToString()))
                         ),
+                        TextBlock("Custom Colors").Medium(),
+                        HStack().Children(
+                            Button().Var(out var iconBtn5).SetText("Confirm").SetIcon(UIcons.Check).Background(Theme.Colors.Blue500).OnClick((s, e) => alert("Clicked!")),
+                            Button().Var(out var iconBtn6).SetText("Delete").SetIcon(UIcons.Trash).Background(Theme.Colors.Lime500).OnClick((s,   e) => alert("Clicked!")),
+                            Button().Var(out var iconBtn7).SetText("Primary").SetIcon(UIcons.Minus).Background(Theme.Colors.Magenta500).OnClick((s, e) => alert("Clicked!")),
+                            Button().Var(out var iconBtn8).SetText("Copy date").SetIcon(UIcons.Calendar).Background(Theme.Colors.Yellow500).OnClick((s,      e) => Clipboard.Copy(DateTime.Now.ToString()))
+                        ),
                         TextBlock("Spinner Button").Medium(),
                         HStack().Children(
                             Button().Var(out var spinBtn1).SetText("Spin").OnClickSpinWhile(async () => await Task.Delay(1000)),
@@ -87,7 +94,7 @@ namespace Tesserae.Tests.Samples
                                 .OnClick((b,_) => Tippy.ShowFor(b, TextBlock("You clicked on the main button"), out var _))),
                         Toggle("Disable buttons").Checked().OnChange((s, e) =>
                         {
-                            btn1.IsEnabled = btn2.IsEnabled = btn3.IsEnabled = iconBtn1.IsEnabled = iconBtn2.IsEnabled = iconBtn3.IsEnabled = iconBtn4.IsEnabled = s.IsChecked;
+                            btn1.IsEnabled = btn2.IsEnabled = btn3.IsEnabled = iconBtn1.IsEnabled = iconBtn2.IsEnabled = iconBtn3.IsEnabled = iconBtn4.IsEnabled = iconBtn5.IsEnabled =iconBtn6.IsEnabled =iconBtn7.IsEnabled =iconBtn8.IsEnabled = s.IsChecked;
                         })));
         }
 
