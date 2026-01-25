@@ -289,7 +289,8 @@ namespace Build.UpdateInterfaceIcons
             "bookmark-slash",
             "thumbs-up",
             "thumbs-down",
-            "block"
+            "block",
+            "sparkles",
         };
 
         private static string CreateEnum(string[] iconsRegular, string[] iconsBrands)
