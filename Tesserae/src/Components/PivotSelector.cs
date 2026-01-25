@@ -25,7 +25,7 @@ namespace Tesserae
 
         public PivotSelector()
         {
-            _dropdown = Dropdown().Grow().MaxWidth(500.px());
+            _dropdown = Dropdown().Grow().MaxWidth(500.px()).MinWidth(new UnitSize("min(200px, 100%)"));
             _commands = HStack().WS().NoShrink();
             _renderedContent = Div(_("tss-pivot-content", role: "tabpanel"));
 

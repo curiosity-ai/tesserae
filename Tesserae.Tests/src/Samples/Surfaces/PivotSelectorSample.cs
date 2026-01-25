@@ -33,8 +33,8 @@ namespace Tesserae.Tests.Samples
                             Button().SetIcon(UIcons.Add).NoBorder().NoBackground().OnClick(() => alert("Add clicked")),
                             Button().SetIcon(UIcons.Settings).NoBorder().NoBackground().OnClick(() => alert("Settings clicked"))
                         )
-                        .Pivot("tab1", () => Button("Tab 1").SetIcon(UIcons.Rocket), () => Card(TextBlock("Content for Tab 1").P(32)))
-                        .Pivot("tab2", () => Button("Tab 2").SetIcon(UIcons.Car),    () => Card(TextBlock("Content for Tab 2").P(32))),
+                        .Pivot("tab1", () => Button("Tab 1").NoBackground().NoBorder().SetIcon(UIcons.Rocket), () => Card(TextBlock("Content for Tab 1").P(32)))
+                        .Pivot("tab2", () => Button("Tab 2").NoBackground().NoBorder().SetIcon(UIcons.Car),    () => Card(TextBlock("Content for Tab 2").P(32))),
                     SampleSubTitle("PivotSelector with large number of tabs").PT(16),
                     PivotSelector()
                         .Pivot(Enumerable.Range(1, 20).Select(i => ($"tab{i}", $"Tab {i}", (Func<IComponent>)(() => Card(TextBlock($"Content for Tab {i}").P(32))))).ToArray())
