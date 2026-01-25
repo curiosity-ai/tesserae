@@ -4,7 +4,7 @@ using static Tesserae.UI;
 namespace Tesserae
 {
     [H5.Name("tss.ChecBox")]
-    public class CheckBox : ComponentBase<CheckBox, HTMLInputElement>, IObservableComponent<bool>
+    public class CheckBox : ComponentBase<CheckBox, HTMLInputElement>, IObservableComponent<bool>, IRoundedStyle
     {
         private readonly HTMLSpanElement          _checkSpan;
         private readonly HTMLLabelElement         _label;

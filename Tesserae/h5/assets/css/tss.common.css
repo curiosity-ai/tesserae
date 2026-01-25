@@ -125,6 +125,9 @@
     --tss-simplebar-thumb-color: rgba(50, 49, 48, 0.32);
     --tss-detailslist-default-padding: 10px;
     --tss-detailslist-compact-padding: 6px;
+    --tss-border-radius-sm: 4px;
+    --tss-border-radius-md: 8px;
+    --tss-border-radius-full: 9999px;
 }
 
 .tss-dark-mode {
@@ -234,6 +237,9 @@
     --tss-scrollbar-thumb-color: rgba(255, 255, 255, 0.15);
     --tss-simplebar-thumb-color: rgba(255, 255, 255, 0.23);
     --tss-scrollbar-thumb-hidden-color: rgba(255, 255, 255, 0.04);
+    --tss-border-radius-sm: 4px;
+    --tss-border-radius-md: 8px;
+    --tss-border-radius-full: 9999px;
 }
 
 *[class^="fi-rr-"] {
@@ -415,6 +421,31 @@ i.tss-fontsize-tiny {
 
 .tss-cursor-pointer {
     cursor: pointer;
+}
+
+.tss-rounded-sm {
+    border-radius: var(--tss-border-radius-sm) !important;
+}
+
+.tss-rounded-md {
+    border-radius: var(--tss-border-radius-md) !important;
+}
+
+.tss-rounded-full {
+    border-radius: var(--tss-border-radius-full) !important;
+}
+
+/* Rounded components propagation */
+.tss-rounded-sm .tss-textbox, .tss-rounded-sm .tss-dropdown, .tss-rounded-sm .tss-checkbox-mark, .tss-rounded-sm .tss-card, .tss-rounded-sm .tss-toggle-check {
+    border-radius: var(--tss-border-radius-sm) !important;
+}
+
+.tss-rounded-md .tss-textbox, .tss-rounded-md .tss-dropdown, .tss-rounded-md .tss-checkbox-mark, .tss-rounded-md .tss-card, .tss-rounded-md .tss-toggle-check {
+    border-radius: var(--tss-border-radius-md) !important;
+}
+
+.tss-rounded-full .tss-textbox, .tss-rounded-full .tss-dropdown, .tss-rounded-full .tss-checkbox-mark, .tss-rounded-full .tss-card, .tss-rounded-full .tss-toggle-check {
+    border-radius: var(--tss-border-radius-full) !important;
 }
 
 .tss-default-component-margin {

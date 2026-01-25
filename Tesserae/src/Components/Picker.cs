@@ -7,7 +7,7 @@ using static Tesserae.UI;
 namespace Tesserae
 {
     [H5.Name("tss.Picker")]
-    public sealed class Picker<TPickerItem> : IComponent, ITabIndex, IObservableListComponent<TPickerItem> where TPickerItem : class, IPickerItem
+    public sealed class Picker<TPickerItem> : IComponent, ITabIndex, IObservableListComponent<TPickerItem>, IRoundedStyle where TPickerItem : class, IPickerItem
     {
         private event ComponentEventHandler<Picker<TPickerItem>, ItemPickedEvent> SelectedItem;
 
