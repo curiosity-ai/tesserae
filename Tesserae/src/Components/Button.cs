@@ -33,7 +33,11 @@ namespace Tesserae
         public string Background
         {
             get => InnerElement.style.background;
-            set => InnerElement.style.background = value;
+            set
+            {
+                InnerElement.style.background = value;
+                InnerElement.UpdateClassIf(!string.IsNullOrWhiteSpace(value), "tss-btn-filter-effects");
+            }
         }
 
         public string Foreground
@@ -446,6 +450,12 @@ namespace Tesserae
             return this;
         }
 
+        public Button WithFilterEffects()
+        {
+            InnerElement.classList.add("tss-btn-filter-effects");
+            return this;
+        }
+
         public Button Disabled(bool value = true)
         {
             IsEnabled = !value;
@@ -487,6 +497,7 @@ namespace Tesserae
             InnerElement.style.background  = background;
             InnerElement.style.color       = textColor;
             InnerElement.style.borderColor = borderColor;
+            InnerElement.classList.add("tss-btn-filter-effects");
 
             if (_iconSpan is object)
             {

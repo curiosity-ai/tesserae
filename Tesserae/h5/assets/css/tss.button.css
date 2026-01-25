@@ -473,3 +473,29 @@ a {
             background-color: var(--tss-default-background-hover-color);
             border-radius: 0px;
         }
+
+.tss-btn.tss-btn-filter-effects {
+    transition: filter 0.15s ease-in-out;
+}
+
+    .tss-btn.tss-btn-filter-effects:hover,
+    .tss-btn.tss-btn-filter-effects:active,
+    .tss-btn.tss-btn-filter-effects.tss-disabled {
+        background-color: transparent;
+        border-color: transparent;
+        box-shadow: none;
+        color: var(--tss-default-foreground-color);
+    }
+
+    .tss-btn.tss-btn-filter-effects:hover {
+        filter: brightness(1.1);
+    }
+
+    .tss-btn.tss-btn-filter-effects:active {
+        filter: brightness(0.9);
+    }
+
+    .tss-btn.tss-btn-filter-effects.tss-disabled {
+        filter: grayscale(1) opacity(0.5);
+        pointer-events: none;
+    }

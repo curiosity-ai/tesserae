@@ -346,7 +346,15 @@ namespace Tesserae
                 }
             }
 
-            public string Background { get => _headerDiv.style.background; set => _headerDiv.style.background = value; }
+            public string Background
+            {
+                get => _headerDiv.style.background;
+                set
+                {
+                    _headerDiv.style.background = value;
+                    _headerDiv.UpdateClassIf(!string.IsNullOrWhiteSpace(value), "tss-filter-effects");
+                }
+            }
 
             public override HTMLElement Render() => InnerElement;
 

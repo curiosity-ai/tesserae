@@ -533,3 +533,20 @@ i.tss-fontsize-tiny {
 i[class^="fi-"]:before, i[class*=" fi-"]:before, span[class^="fi-"]:before, span[class*="fi-"]:before {
     display: inline-block;
 }
+
+.tss-filter-effects {
+    transition: filter 0.15s ease-in-out;
+}
+
+    .tss-filter-effects:hover {
+        filter: brightness(1.1);
+    }
+
+    .tss-filter-effects:active {
+        filter: brightness(0.9);
+    }
+
+    .tss-filter-effects.tss-disabled {
+        filter: grayscale(1) opacity(0.5);
+        pointer-events: none;
+    }

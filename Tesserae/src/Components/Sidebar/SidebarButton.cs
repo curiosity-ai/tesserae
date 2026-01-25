@@ -201,8 +201,8 @@ namespace Tesserae
         /// <returns>The current instance of the type.</returns>
         public SidebarButton ClearProgress()
         {
-            _openButton.Render().style.background   = "";
-            _closedButton.Render().style.background = "";
+            _openButton.Background   = "";
+            _closedButton.Background = "";
             return this;
         }
 
@@ -214,8 +214,8 @@ namespace Tesserae
         public SidebarButton Progress(float progress)
         {
             var p = $"linear-gradient(to right, rgba(var(--tss-primary-background-color-root),0.2), rgba(var(--tss-primary-background-color-root),0.2) {progress * 100:0.0}%, transparent 0)";
-            _openButton.Render().style.background   = p;
-            _closedButton.Render().style.background = p;
+            _openButton.Background   = p;
+            _closedButton.Background = p;
             return this;
         }
 
