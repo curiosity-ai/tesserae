@@ -602,6 +602,11 @@ namespace Tesserae
         public static Pivot Pivot() => new Pivot();
 
         /// <summary>
+        /// Creates a <see cref="Tesserae.PivotSelector"/> component.
+        /// </summary>
+        public static PivotSelector PivotSelector() => new PivotSelector();
+
+        /// <summary>
         /// Creates a function that returns a component to be used as a pivot title.
         /// </summary>
         public static Func<IComponent> PivotTitle(string text) => () => Button(text).NoBackground().Regular();
