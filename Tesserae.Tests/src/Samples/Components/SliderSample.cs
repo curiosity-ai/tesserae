@@ -37,13 +37,14 @@ namespace Tesserae.Tests.Samples
                     VStack().Children(
                         Label("Disabled Slider").Disabled().SetContent(Slider(val: 30).Disabled()),
                         Label("Required Slider").Required().SetContent(Slider(val: 10))
-                    ),
-                    SampleSubTitle("Vertical Sliders"),
-                    HStack().Children(
-                        Slider(val: 50).Vertical().H(150),
-                        Slider(val: 20).Vertical().H(150),
-                        Slider(val: 80).Vertical().H(150)
                     )
+                    //TODO: Fix vertical sliders:
+                    //SampleSubTitle("Vertical Sliders"),
+                    //HStack().Children(
+                    //    Slider(val: 50).Vertical().H(150),
+                    //    Slider(val: 20).Vertical().H(150),
+                    //    Slider(val: 80).Vertical().H(150)
+                    //)
                 ));
         }
 

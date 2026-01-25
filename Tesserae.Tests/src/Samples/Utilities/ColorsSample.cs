@@ -8,7 +8,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = "Utilities", Order = 20, Icon = UIcons.Palette)]
+    [SampleDetails(Group = "Utilities", Order = 10, Icon = UIcons.Palette)]
     public class ColorsSample : IComponent, ISample
     {
         private readonly IComponent _content;

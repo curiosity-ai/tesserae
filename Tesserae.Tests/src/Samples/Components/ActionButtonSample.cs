@@ -39,8 +39,8 @@ namespace Tesserae.Tests.Samples
                     SampleSubTitle("Complex Content"),
                     VStack().Children(
                         ActionButton(VStack().Children(
-                            HStack().Children(Icon(UIcons.Arrows), TextBlock("Move Item").SemiBold()),
-                            TextBlock("Use this to reorganize your workspace").Tiny()
+                            HStack().AlignItemsCenter().Children(Icon(UIcons.Arrows), TextBlock("Move Item").SemiBold().PL(8)),
+                            TextBlock("Use this to reorganize your workspace").Tiny().PT(4)
                         ))
                         .OnClickDisplay((s, e) => Toast().Information("Moving..."))
                         .OnClickAction((s,  e) => Toast().Information("Configure move...")),

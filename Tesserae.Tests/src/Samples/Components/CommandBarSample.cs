@@ -31,13 +31,6 @@ namespace Tesserae.Tests.Samples
                     ).FarItems(
                         SearchBox().SetPlaceholder("Search...").Width(200.px()),
                         CommandBarItem("Settings", UIcons.Settings).OnClick(() => Toast().Information("Settings clicked"))
-                    ),
-                    SampleSubTitle("Contextual Items"),
-                    TextBlock("Command bars can be updated dynamically based on selection. Here is one with mixed item types."),
-                    CommandBar(
-                        CommandBarItem("Refresh", UIcons.Refresh).OnClick(() => Toast().Information("Refreshing...")),
-                        CommandBarItem("Filter", UIcons.Filter).OnClick(() => Toast().Information("Filter opened")),
-                        CommandBarItem("Download", UIcons.Download).Disabled()
                     )
                 ));
         }
