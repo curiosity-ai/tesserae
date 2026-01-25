@@ -19,18 +19,10 @@ namespace Tesserae.Tests.Samples
                .Title(SampleHeader(nameof(TutorialModalSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
-                    TextBlock("Tutorial modals are used for processes where the user can be heavily guided, but still needs to enter data."),
-                    TextBlock("For usage requiring a quick choice from the user, Dialog may be a more appropriate control.")))
+                    TextBlock("TutorialModal is a specialized modal designed for guided processes, such as onboarding or feature walkthroughs. It combines a large content area with a dedicated help panel and an optional illustrative image, providing a structured environment for users to learn while they interact.")))
                .Section(Stack().Children(
                     SampleTitle("Best Practices"),
-                    HStack().Children(
-                        Stack().Width(40.percent()).Children(
-                            SampleSubTitle("Do"),
-                            SampleDo("Use Modals for interactions where something is created and has multiple fields, such as creating a user."),
-                            SampleDo("Always have at least one focusable element inside a Modal.")),
-                        Stack().Width(40.percent()).Children(
-                            SampleSubTitle("Don't"),
-                            SampleDont("Don’t overuse Tutorial Modals. In some cases they can be perceived as interrupting workflow, and too many can be a bad user experience.")))))
+                    TextBlock("Use TutorialModals for complex tasks that benefit from additional explanation and guidance. Ensure that the help text is clear and directly relates to the fields in the content area. Use images or icons to provide visual cues. Always provide a clear way for users to complete or discard the process. Avoid overwhelming users with too much information; keep both the content and the help text concise.")))
                .Section(Stack().Children(
                     SampleTitle("Usage"),
                     Button("Open Tutorial Modal").OnClick((s,       e) => SampleTutorialModal().Show()),

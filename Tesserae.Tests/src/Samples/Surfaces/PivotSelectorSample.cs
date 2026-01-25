@@ -18,8 +18,10 @@ namespace Tesserae.Tests.Samples
                .Title(SampleHeader(nameof(PivotSelectorSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
-                    TextBlock("The PivotSelector component is similar to the Pivot component but uses a Dropdown for navigation between tabs. This is useful when you have many tabs or when horizontal space is limited."),
-                    TextBlock("It also allows adding custom buttons next to the dropdown selector.")))
+                    TextBlock("PivotSelector is a variation of the Pivot component that uses a Dropdown for navigation. It is particularly effective for mobile-first designs or interfaces with a large number of tabs that would otherwise require excessive horizontal scrolling.")))
+               .Section(Stack().Children(
+                    SampleTitle("Best Practices"),
+                    TextBlock("Use PivotSelector when horizontal space is constrained or when the number of tabs is dynamic and potentially large. Provide clear icons and text for each tab to aid navigation. Utilize the 'SetCommands' feature to surface global actions relevant to all tabs, such as 'Add New' or 'Refresh'.")))
                .Section(Stack().Children(
                     SampleTitle("Usage"),
                     SampleSubTitle("Basic PivotSelector"),

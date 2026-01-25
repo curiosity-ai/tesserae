@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using static H5.Core.dom;
 using static Tesserae.Tests.Samples.SamplesHelper;
@@ -25,28 +25,22 @@ namespace Tesserae.Tests.Samples
                 formatState: (btn, state, previousState) =>
                 {
                     string text = "";
-
                     switch (state)
                     {
-                        // @formatter:off
                         case 0: text = "☠"; break;
                         case 1: text = "🐢"; break;
                         case 2: text = "🐇"; break;
-                        // @formatter:on
                     }
 
                     if (previousState >= 0 && previousState != state)
                     {
                         switch (previousState)
                         {
-                            // @formatter:off
                             case 0: text = $"☠ -> {text}"; break;
                             case 1: text = $"🐢 -> {text}"; break;
                             case 2: text = $"🐇 -> {text}"; break;
-                            // @formatter:on
                         }
                     }
-
                     btn.SetText(text);
                 });
 
@@ -58,17 +52,13 @@ namespace Tesserae.Tests.Samples
                 formatState: (btn, state, previousState) =>
                 {
                     string color = "";
-
                     switch (state)
                     {
-                        // @formatter:off
                         case 0: color = "#c7c5c5"; break;
                         case 1: color = "#a3cfa5"; break;
                         case 2: color = "#76cc79"; break;
                         case 3: color = "#1fcc24"; break;
-                        // @formatter:on
                     }
-
                     btn.Background(color);
                 },
                 columns: new[] { 128.px(), 24.px() },
@@ -78,14 +68,21 @@ namespace Tesserae.Tests.Samples
                .Title(SampleHeader(nameof(GridPickerSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
-                    TextBlock("This component let you select states on a grid")))
+                    TextBlock("The GridPicker component provides an interactive grid where each cell can cycle through a predefined number of states. It's highly customizable through its state formatting logic."),
+                    TextBlock("Common use cases include scheduling, availability maps, or any scenario where you need to visualize and edit state across two dimensions.")))
+               .Section(Stack().Children(
+                    SampleTitle("Best Practices"),
+                    TextBlock("Use GridPickers for dense state selection where labels for each cell would be too cluttered. Provide a clear legend or visual cues for what each state represents. Ensure the row and column headers are descriptive. If the grid is large, consider how it will behave on smaller screens. Leverage the state formatting to provide rich feedback, such as changing colors, icons, or text based on the current state.")))
                .Section(Stack().Children(
                     SampleTitle("Usage"),
-                    HorizontalSeparator("Daytime Example").Left(),
+                    SampleSubTitle("Simple Schedule Example"),
+                    TextBlock("Click on cells to cycle through states: Dead (☠), Slow (🐢), and Fast (🐇)."),
                     picker,
-                    HorizontalSeparator("Hour Example").Left(),
+                    SampleSubTitle("Heatmap/Availability Example"),
+                    TextBlock("Assigning different background colors based on state levels (0 to 3)."),
                     hourPicker,
-                    HorizontalSeparator("Game of Life").Left(),
+                    SampleSubTitle("Dynamic/Calculated Grid"),
+                    TextBlock("Using GridPicker for a complex logic visualization (Game of Life)."),
                     GetGameOfLifeSample()));
         }
 
@@ -102,15 +99,7 @@ namespace Tesserae.Tests.Samples
                 initialStates: Enumerable.Range(0, width).Select(_ => new int[height]).ToArray(),
                 formatState: (btn, state, previousState) =>
                 {
-                    string color = "";
-
-                    switch (state)
-                    {
-                        // @formatter:off
-                        case 0: color = Theme.Default.Background; break;
-                        case 1: color = Theme.Default.Foreground; break;
-                        // @formatter:on
-                    }
+                    string color = state == 0 ? Theme.Default.Background : Theme.Default.Foreground;
                     btn.Background(color);
                 },
                 columns: new[] { 128.px(), 24.px() },
@@ -118,34 +107,18 @@ namespace Tesserae.Tests.Samples
 
             grid.WhenMounted(() =>
             {
-
-                var t = window.setInterval((_) =>
-                {
-                    if (grid.IsMounted())
-                    {
-                        Grow();
-                    }
-                }, 200);
-
+                var t = window.setInterval((_) => { if (grid.IsMounted()) Grow(); }, 200);
                 grid.WhenRemoved(() => window.clearInterval(t));
             });
 
             var btnReset = Button("Reset").SetIcon(UIcons.Bomb).OnClick(() =>
             {
                 var state = grid.GetState();
-
-                foreach (var a in state)
-                {
-                    for (int i = 0; i < a.Length; i++)
-                    {
-                        a[i] = 0;
-                    }
-                }
+                foreach (var a in state) for (int i = 0; i < a.Length; i++) a[i] = 0;
                 grid.SetState(state);
             });
 
             var btnPause = Button("Pause").SetIcon(UIcons.Pause);
-
             btnPause.OnClick(() =>
             {
                 isPaused = !isPaused;
@@ -155,37 +128,16 @@ namespace Tesserae.Tests.Samples
 
             void Grow()
             {
-                if (grid.IsDragging) return;
-                if (isPaused) return;
-
+                if (grid.IsDragging || isPaused) return;
                 var previous = grid.GetState();
                 var cells    = grid.GetState();
-
                 for (int i = 0; i < height; i++)
                 {
                     for (int j = 0; j < width; j++)
                     {
-                        int numOfAliveNeighbors = GetNeighbors(previous, i, j);
-
-                        if (cells[i][j] == 1)
-                        {
-                            if (numOfAliveNeighbors < 2)
-                            {
-                                cells[i][j] = 0;
-                            }
-
-                            if (numOfAliveNeighbors > 3)
-                            {
-                                cells[i][j] = 0;
-                            }
-                        }
-                        else
-                        {
-                            if (numOfAliveNeighbors == 3)
-                            {
-                                cells[i][j] = 1;
-                            }
-                        }
+                        int alive = GetNeighbors(previous, i, j);
+                        if (cells[i][j] == 1) cells[i][j] = (alive < 2 || alive > 3) ? 0 : 1;
+                        else if (alive == 3) cells[i][j] = 1;
                     }
                 }
                 grid.SetState(cells);
@@ -193,20 +145,16 @@ namespace Tesserae.Tests.Samples
 
             int GetNeighbors(int[][] cells, int x, int y)
             {
-                int NumOfAliveNeighbors = 0;
-
-                for (int i = x - 1; i < x + 2; i++)
+                int count = 0;
+                for (int i = x - 1; i <= x + 1; i++)
                 {
-                    for (int j = y - 1; j < y + 2; j++)
+                    for (int j = y - 1; j <= y + 1; j++)
                     {
-                        if (i < 0 || j < 0 || i >= height || j >= width || i == x && j == y)
-                        {
-                            continue;
-                        }
-                        if (cells[i][j] == 1) NumOfAliveNeighbors++;
+                        if (i < 0 || j < 0 || i >= height || j >= width || (i == x && j == y)) continue;
+                        if (cells[i][j] == 1) count++;
                     }
                 }
-                return NumOfAliveNeighbors;
+                return count;
             }
 
             return VStack().WS().Children(HStack().WS().Children(btnPause, btnReset), grid.WS());

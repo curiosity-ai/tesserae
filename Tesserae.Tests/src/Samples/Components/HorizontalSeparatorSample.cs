@@ -1,9 +1,7 @@
-﻿using System;
-using Tesserae;
+using System;
 using static H5.Core.dom;
 using static Tesserae.UI;
 using static Tesserae.Tests.Samples.SamplesHelper;
-using Tesserae.Tests;
 
 namespace Tesserae.Tests.Samples
 {
@@ -18,33 +16,31 @@ namespace Tesserae.Tests.Samples
                .Title(SampleHeader(nameof(HorizontalSeparatorSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
-                    TextBlock("A separator visually separates content into groups."),
-                    TextBlock("You can render content in the separator by specifying the component's children. The component's children can be plain text or a component like Icon. The content is center-aligned by default.")))
+                    TextBlock("A HorizontalSeparator visually divides content into groups. It can optionally contain text or other components to label the group it introduces."),
+                    TextBlock("The content can be aligned to the left, center, or right of the line.")))
                .Section(Stack().Children(
                     SampleTitle("Best Practices"),
-                    HStack().Children(
-                        Stack().Width(40.percent()).Children(
-                            SampleSubTitle("Do"),
-                            SampleDo("Explain what is the group this separator introduces"),
-                            SampleDo("Be short and concise.")
-                        ),
-                        Stack().Width(40.percent()).Children(
-                            SampleSubTitle("Don't"),
-                            SampleDont("Use long group names")))))
+                    TextBlock("Use separators to provide structure to long forms or pages. Keep labels short and concise. Use them sparingly; too many separators can clutter the UI. Ensure the labels accurately describe the section that follows.")))
                .Section(Stack().Children(
                     SampleTitle("Usage"),
-                    HorizontalSeparator("Center"),
-                    HorizontalSeparator("Left").Left(),
-                    HorizontalSeparator("Right").Right(),
-                    SampleTitle("Custom Separators"),
-                    HorizontalSeparator(HStack().Children(Icon(UIcons.Plane).AlignCenter().PaddingRight(8.px()), TextBlock("Custom Center").SemiBold().MediumPlus().AlignCenter())).Primary(),
-                    HorizontalSeparator(HStack().Children(Icon(UIcons.Plane).AlignCenter().PaddingRight(8.px()), TextBlock("Custom Left").SemiBold().MediumPlus().AlignCenter())).Primary().Left(),
-                    HorizontalSeparator(HStack().Children(Icon(UIcons.Plane).AlignCenter().PaddingRight(8.px()), TextBlock("Custom Right").SemiBold().MediumPlus().AlignCenter())).Primary().Right()));
+                    SampleSubTitle("Text Alignment"),
+                    HorizontalSeparator("Center Aligned (Default)"),
+                    HorizontalSeparator("Left Aligned").Left(),
+                    HorizontalSeparator("Right Aligned").Right(),
+                    SampleSubTitle("Themed and Custom Content"),
+                    VStack().Children(
+                        HorizontalSeparator("Primary Color").Primary(),
+                        HorizontalSeparator(HStack().Children(
+                            Icon(UIcons.Info).PaddingRight(8.px()),
+                            TextBlock("Information Section").SemiBold()
+                        )).Primary().Left()
+                    ),
+                    SampleSubTitle("Empty Separator"),
+                    TextBlock("A simple line without any label:"),
+                    HorizontalSeparator("")
+                ));
         }
 
-        public HTMLElement Render()
-        {
-            return _content.Render();
-        }
+        public HTMLElement Render() => _content.Render();
     }
 }

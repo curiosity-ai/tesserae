@@ -1,10 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Tesserae;
 using static Tesserae.Tests.Samples.SamplesHelper;
 using static Tesserae.UI;
 using static H5.Core.dom;
-using Tesserae.Tests;
 
 namespace Tesserae.Tests.Samples
 {
@@ -15,55 +15,35 @@ namespace Tesserae.Tests.Samples
 
         public TimelineSample()
         {
-            var obsList = new ObservableList<IComponent>();
-
-            var vs = VisibilitySensor((v) =>
-            {
-                obsList.Remove(v);
-                obsList.AddRange(GetSomeItems(20));
-                v.Reset();
-                obsList.Add(v);
-            });
-
-            obsList.AddRange(GetSomeItems(10));
-            obsList.Add(vs);
-
             _content = SectionStack().WidthStretch()
                .Title(SampleHeader(nameof(TimelineSample)))
-               .Section(
-                    Stack()
-                       .Children(
-                            SampleTitle("Overview"),
-                            TextBlock("Timeline provides a base component for rendering vertical timelines. " +
-                                    "It is agnostic of the tile component used, and selection "               +
-                                    "management. These concerns can be layered separately.")
-                               .PB(16)))
-               .Section(
-                    Stack()
-                       .Children(
-                            SampleTitle("Usage"),
-                            TextBlock("Timeline").Medium().PB(16),
-                            Timeline().Children(GetSomeItems(10)).PB(16).Height(500.px()).PaddingBottom(32.px()),
-                            TextBlock("Timeline with Max Width").Medium().PB(16),
-                            Timeline().TimelineWidth(600.px()).Children(GetSomeItems(10)).PB(16).Height(500.px()).PaddingBottom(32.px()),
-                            TextBlock("Timeline Same Side").Medium().PB(16),
-                            Timeline().SameSide().Children(GetSomeItems(10)).PB(16).Height(500.px()).PaddingBottom(32.px()),
-                            TextBlock("Timeline Same Side with Max Width").Medium().PB(16),
-                            Timeline().TimelineWidth(600.px()).SameSide().Children(GetSomeItems(10)).PB(16).Height(500.px()).PaddingBottom(32.px())
-                        ));
+               .Section(Stack().Children(
+                    SampleTitle("Overview"),
+                    TextBlock("Timeline displays a series of events in chronological order, using a vertical line to connect them."),
+                    TextBlock("It is ideal for activity feeds, version histories, or any process where the sequence of steps is important.")))
+               .Section(Stack().Children(
+                    SampleTitle("Best Practices"),
+                    TextBlock("Use Timelines to show the progression of time or a sequence of related events. Clearly distinguish between past, current, and future events if applicable. Use the 'SameSide' property if you want a more linear, left-aligned layout, or the default staggered layout for a more balanced visual look. Ensure that each event has a clear timestamp and a concise description.")))
+               .Section(Stack().Children(
+                    SampleTitle("Usage"),
+                    SampleSubTitle("Default Staggered Timeline"),
+                    Timeline().Children(GetSomeItems(6)).Height(300.px()).MB(32),
+                    SampleSubTitle("Same Side Alignment"),
+                    Timeline().SameSide().Children(GetSomeItems(6)).Height(300.px()).MB(32),
+                    SampleSubTitle("Constrained Width"),
+                    Timeline().TimelineWidth(400.px()).Children(GetSomeItems(6)).Height(300.px())
+                ));
         }
 
-        public HTMLElement Render()
-        {
-            return _content.Render();
-        }
+        public HTMLElement Render() => _content.Render();
 
         private IComponent[] GetSomeItems(int count)
         {
-            return Enumerable
-               .Range(1, count)
-               .Select(number => TextBlock($"Lorem Ipsum {number}").NonSelectable())
-               .ToArray();
+            return Enumerable.Range(1, count).Select(n =>
+                VStack().Children(
+                    TextBlock($"Event {n}").SemiBold(),
+                    TextBlock($"{DateTime.Today.AddHours(-n):t} - Description of the event happens here.").Small()
+                )).ToArray();
         }
     }
 }

@@ -4,7 +4,6 @@ using Tesserae;
 using static Tesserae.Tests.Samples.SamplesHelper;
 using static Tesserae.UI;
 using static H5.Core.dom;
-using Tesserae.Tests;
 
 namespace Tesserae.Tests.Samples
 {
@@ -15,73 +14,39 @@ namespace Tesserae.Tests.Samples
 
         public VirtualizedListSample()
         {
-            _content =
-                SectionStack()
+            _content = SectionStack()
                    .Title(SampleHeader(nameof(VirtualizedListSample)))
-                   .Section(
-                        Stack()
-                           .Children(
-                                SampleTitle("Overview"),
-                                TextBlock("List provides a base component for rendering large sets of items. " +
-                                        "It is agnostic of the tile component used, and selection "            +
-                                        "management. These concerns can be layered separately.")
-                                   .PB(16),
-                                TextBlock("Performance is important, and DOM content is expensive. Therefore, "    +
-                                        "limit what you render. List applies this principle by using UI "          +
-                                        "virtualization. Unlike a simple for loop that renders all items in "      +
-                                        "a set, a List only renders a subset of items, and as you scroll around, " +
-                                        "the subset of rendered content is shifted. This gives a much "            +
-                                        "better experience for large sets, especially when the "                   +
-                                        "per-item components are complex/render-intensive/network-intensive.")
-                                   .PB(16),
-                                TextBlock("List breaks down the set of items passed in into pages. Only pages " +
-                                    "within a 'materialized window' are actually rendered. As that window "     +
-                                    "changes due to scroll events, pages that fall outside that window are "    +
-                                    "removed, and their layout space is remembered and pushed into spacer "     +
-                                    "elements. This gives the user the experience of browsing massive amounts " +
-                                    "of content but only using a small number of actual elements. "             +
-                                    "This gives the browser much less layout to resolve.")))
-                   .Section(
-                        Stack()
-                           .Children(
-                                SampleTitle("Usage"),
-                                TextBlock("Virtualized List")
-                                   .Medium()
-                                   .PB(16),
-                                VirtualizedList().WithListItems(GetALotOfItems()).PaddingBottom(32.px()),
-                                TextBlock("Virtualized List with Empty List Message")
-                                   .Medium()
-                                   .PB(16),
-                                VirtualizedList().WithEmptyMessage(() => TextBlock("No List Items")).WithListItems(Enumerable.Empty<IComponent>())));
+                   .Section(Stack().Children(
+                        SampleTitle("Overview"),
+                        TextBlock("VirtualizedList is a high-performance component designed for rendering massive datasets—thousands or even tens of thousands of items—without sacrificing UI responsiveness."),
+                        TextBlock("It achieves this by only rendering the items that are currently visible within the viewport (plus a small buffer), significantly reducing the number of DOM elements the browser needs to manage.")))
+                   .Section(Stack().Children(
+                        SampleTitle("Best Practices"),
+                        TextBlock("Use VirtualizedList for any list that could potentially contain more than a few hundred items. Ensure that each item has a consistent height for accurate scroll position calculation. Virtualization is most effective when item components are relatively complex or resource-intensive to render. Always provide a clear 'Empty Message' if the dataset is expected to be empty.")))
+                   .Section(Stack().Children(
+                        SampleTitle("Usage"),
+                        SampleSubTitle("Virtualized List with 5,000 Items"),
+                        TextBlock("Scroll rapidly to see how the list handles a large number of items."),
+                        VirtualizedList().WithListItems(GetALotOfItems()).Height(400.px()).MB(32),
+                        SampleSubTitle("Empty State"),
+                        VirtualizedList()
+                           .WithEmptyMessage(() => BackgroundArea(Card(TextBlock("No items available"))).WS().HS().MinHeight(100.px()))
+                           .WithListItems(Enumerable.Empty<IComponent>())
+                           .Height(150.px())
+                    ));
         }
 
-        public HTMLElement Render()
-        {
-            return _content.Render();
-        }
+        public HTMLElement Render() => _content.Render();
 
         private IEnumerable<SampleVirtualizedItem> GetALotOfItems()
         {
-            return Enumerable
-               .Range(1, 5000)
-               .Select(number => new SampleVirtualizedItem($"Lorem Ipsum {number}"));
+            return Enumerable.Range(1, 5000).Select(n => new SampleVirtualizedItem($"Virtualized Item {n}"));
         }
 
         public sealed class SampleVirtualizedItem : IComponent
         {
             private readonly HTMLElement _innerElement;
-
-            public SampleVirtualizedItem(string text)
-            {
-                _innerElement =
-                    Div(_(text: text, styles: s =>
-                    {
-                        s.display   = "block";
-                        s.textAlign = "center";
-                        s.height    = "63px";
-                    }));
-            }
-
+            public SampleVirtualizedItem(string text) { _innerElement = Div(_(text: text, styles: s => { s.display = "flex"; s.alignItems = "center"; s.padding = "0 16px"; s.height = "40px"; s.borderBottom = "1px solid #eee"; })); }
             public HTMLElement Render() => _innerElement;
         }
     }

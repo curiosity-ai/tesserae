@@ -18,20 +18,10 @@ namespace Tesserae.Tests.Samples
                .Title(SampleHeader(nameof(PivotSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
-                    TextBlock("TODO"),
-                    TextBlock("Examples of experiences that use Panels").MediumPlus()))
+                    TextBlock("Pivots are used for navigating between different views or categories of content within the same context. They provide a compact way to switch between related data sets, such as different tabs in a settings page or different views of a list.")))
                .Section(Stack().Children(
                     SampleTitle("Best Practices"),
-                    HStack().Children(
-                        Stack().Width(40.percent()).Children(
-                            SampleSubTitle("Do"),
-                            SampleDo("TODO")
-                        ),
-                        Stack().Width(40.percent()).Children(
-                            SampleSubTitle("Don't"),
-                            SampleDont("TODO")
-                        )
-                    )))
+                    TextBlock("Use Pivots to organize content into logical categories. Keep labels short and descriptive. Ensure that the most frequently used views are placed first. Utilize the 'Justified' or 'Centered' styles when the pivot should span the full width of its container. Use the 'Cached' option to preserve the state of a tab's content when switching away.")))
                .Section(Stack().Children(
                     SampleTitle("Usage"),
                     SampleSubTitle("Normal Style"),

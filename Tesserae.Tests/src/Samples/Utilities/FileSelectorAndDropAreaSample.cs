@@ -15,19 +15,10 @@ namespace Tesserae.Tests.Samples
                .Title(SampleHeader(nameof(FileSelectorAndDropAreaSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
-                    TextBlock("Use the file selector to allow users to select a single file. Use the file dropdown area to allow drag-and-drop for one or multiple files.")))
+                    TextBlock("FileSelector and FileDropArea provide two different ways for users to upload files. FileSelector uses a standard button that opens the system file dialog, while FileDropArea provides a larger target area for users to drag and drop files directly into the application.")))
                .Section(Stack().Children(
                     SampleTitle("Best Practices"),
-                    HStack().Children(
-                        Stack().Width(40.percent()).Children(
-                            SampleSubTitle("Do"),
-                            SampleDo("Filter files by supported types"),
-                            SampleDo("Provide a message for the file drop area"),
-                            SampleDo($"Attach the {nameof(FileDropArea.OnFilesDropped)} event handler")
-                        ),
-                        Stack().Width(40.percent()).Children(
-                            SampleSubTitle("Don't"),
-                            SampleDont("TODO")))))
+                    TextBlock("Use FileSelector for simple, single-file selections in forms. Use FileDropArea when users are likely to be uploading multiple files or when a more prominent upload target is desired. Always specify the allowed file types using the 'Accepts' property. Provide immediate feedback after files are selected or dropped, such as displaying the file names or sizes.")))
                .Section(Stack().Children(
                     SampleTitle("Usage"),
                     SampleSubTitle("File Selector"),

@@ -14,39 +14,30 @@ namespace Tesserae.Tests.Samples
 
         public PickerSample()
         {
-            _content =
-                SectionStack()
+            _content = SectionStack()
                    .Title(SampleHeader(nameof(PickerSample)))
-                   .Section(
-                        Stack()
-                           .Children(
-                                SampleTitle("Overview"),
-                                TextBlock("Pickers are used to pick recipients.")))
-                   .Section(
-                        Stack()
-                           .Width(40.percent())
-                           .Children(
-                                SampleTitle("Usage"),
-                                TextBlock("Picker with text suggestions and tag-like selections")
-                                   .Medium()
-                                   .PB(16),
-                                Picker<PickerSampleItem>(suggestionsTitleText: "Suggested Tags").Items(GetPickerItems())
-                                   .PaddingBottom(32.px()),
-                                TextBlock("Picker with single selection")
-                                   .Medium()
-                                   .PB(16),
-                                Picker<PickerSampleItem>(suggestionsTitleText: "Suggested Tags", maximumAllowedSelections: 1).Items(GetPickerItems())
-                                   .PaddingBottom(32.px()),
-                                TextBlock("Picker with icon and text suggestions and component based selections")
-                                   .Medium()
-                                   .PB(16),
-                                Picker<PickerSampleItemWithComponents>(suggestionsTitleText: "Suggested Items", renderSelectionsInline: false).Items(GetComponentPickerItems())));
+                   .Section(Stack().Children(
+                        SampleTitle("Overview"),
+                        TextBlock("Pickers are used to select one or more items, such as people or tags, from a large list. They provide a search-based interface with suggestions."),
+                        TextBlock("This component is highly flexible, allowing for custom item rendering, single or multiple selections, and different suggestion behaviors.")))
+                   .Section(Stack().Children(
+                        SampleTitle("Best Practices"),
+                        TextBlock("Use Pickers when the number of options is too large for a standard Dropdown. Ensure that the items can be easily searched by text. Use clear icons or visual indicators if it helps users identify the correct item quickly. For multiple selections, consider how the selected items will be displayed—either inline or in a separate list. Provide a helpful 'suggestions title' to guide the user when they interact with the picker.")))
+                   .Section(Stack().Children(
+                        SampleTitle("Usage"),
+                        SampleSubTitle("Multi-selection Picker"),
+                        TextBlock("Allows selecting multiple tags from the suggestions."),
+                        Picker<PickerSampleItem>(suggestionsTitleText: "Suggested Names").Items(GetPickerItems()).MB(32),
+                        SampleSubTitle("Single Selection Picker"),
+                        TextBlock("Limits selection to only one item at a time."),
+                        Picker<PickerSampleItem>(suggestionsTitleText: "Select one", maximumAllowedSelections: 1).Items(GetPickerItems()).MB(32),
+                        SampleSubTitle("Custom Rendered Items"),
+                        TextBlock("Using icons and complex components for both suggestions and selections."),
+                        Picker<PickerSampleItemWithComponents>(suggestionsTitleText: "System Items", renderSelectionsInline: false).Items(GetComponentPickerItems())
+                    ));
         }
 
-        public HTMLElement Render()
-        {
-            return _content.Render();
-        }
+        public HTMLElement Render() => _content.Render();
 
         private PickerSampleItem[] GetPickerItems()
         {
@@ -68,53 +59,30 @@ namespace Tesserae.Tests.Samples
         {
             return new[]
             {
-                new PickerSampleItemWithComponents("Bob",               UIcons.Bomb),
-                new PickerSampleItemWithComponents("BOB",               UIcons.BlenderPhone),
-                new PickerSampleItemWithComponents("Donuts by J Dilla", UIcons.Carrot),
-                new PickerSampleItemWithComponents("Donuts",            UIcons.CarBattery),
-                new PickerSampleItemWithComponents("Coffee",            UIcons.Coffee),
-                new PickerSampleItemWithComponents("Chicken Coop",      UIcons.Hamburger),
-                new PickerSampleItemWithComponents("Cherry Pie",        UIcons.ChartPie),
-                new PickerSampleItemWithComponents("Chess",             UIcons.Chess),
-                new PickerSampleItemWithComponents("Cooper",            UIcons.Interrogation)
+                new PickerSampleItemWithComponents("Bob", UIcons.Bomb),
+                new PickerSampleItemWithComponents("BOB", UIcons.BlenderPhone),
+                new PickerSampleItemWithComponents("Donuts", UIcons.Carrot),
+                new PickerSampleItemWithComponents("Coffee", UIcons.Coffee),
+                new PickerSampleItemWithComponents("Chess", UIcons.Chess),
+                new PickerSampleItemWithComponents("Cooper", UIcons.Interrogation)
             };
         }
     }
 
     public class PickerSampleItem : IPickerItem
     {
-        public PickerSampleItem(string name)
-        {
-            Name = name;
-        }
-
+        public PickerSampleItem(string name) => Name = name;
         public string Name { get; }
-
         public bool IsSelected { get; set; }
-
-        public IComponent Render()
-        {
-            return TextBlock(Name);
-        }
+        public IComponent Render() => TextBlock(Name);
     }
 
     public class PickerSampleItemWithComponents : IPickerItem
     {
         private readonly UIcons _icon;
-
-        public PickerSampleItemWithComponents(string name, UIcons icon)
-        {
-            Name  = name;
-            _icon = icon;
-        }
-
+        public PickerSampleItemWithComponents(string name, UIcons icon) { Name = name; _icon = icon; }
         public string Name { get; }
-
         public bool IsSelected { get; set; }
-
-        public IComponent Render()
-        {
-            return HStack().AlignContent(ItemAlign.Center).Children(Icon(_icon).MinWidth(16.px()), TextBlock(Name));
-        }
+        public IComponent Render() => HStack().AlignContent(ItemAlign.Center).Children(Icon(_icon).MinWidth(16.px()), TextBlock(Name).ML(8));
     }
 }

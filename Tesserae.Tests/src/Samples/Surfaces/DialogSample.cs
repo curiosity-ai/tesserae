@@ -14,33 +14,17 @@ namespace Tesserae.Tests.Samples
 
         public DialogSample()
         {
-            var dialog   = Dialog("Lorem Ipsum");
+            var dialog   = Dialog("Sample Dialog");
             var response = TextBlock();
 
             _content = SectionStack()
                .Title(SampleHeader(nameof(DialogSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
-                    TextBlock("Dialogs are temporary, modal UI overlay that generally provide contextual app information or require user confirmation/input. In most cases, Dialogs block interactions with the web page or application until being explicitly dismissed, and often request action from the user. They are primarily used for lightweight creation or edit tasks, and simple management tasks."),
-                    TextBlock("Best Practices").MediumPlus()))
+                    TextBlock("Dialogs are modal UI overlays that provide contextual information or require user action, such as confirmation or input. They are designed to capture the user's attention and typically block interaction with the rest of the application until they are dismissed.")))
                .Section(Stack().Children(
-                    HStack().Children(
-                        Stack().Width(40.percent()).Children(
-                            SampleSubTitle("Do"),
-                            SampleDo("Use Dialogs for quick, actionable interactions, such as making a choice or needing the user to provide information."),
-                            SampleDo("When possible, try a non-blocking Dialog before resorting to a blocking Dialog."),
-                            SampleDo("Only include information needed to help users make a decision."),
-                            SampleDo("Button text should reflect the actions available to the user (e.g. save, delete)."),
-                            SampleDo("Validate that the user's entries are acceptable before closing the Dialog. Show an inline validation error near the field they must correct.")),
-                        Stack().Width(40.percent()).Children(
-                            SampleSubTitle("Don't"),
-                            SampleDont("Don’t overuse Modals. In some cases they can be perceived as interrupting workflow, and too many can be a bad user experience."),
-                            SampleDont("Avoid \"Are you sure ?\" or confirmation Dialogs unless the user is making an irreversible or destructive choice."),
-                            SampleDont("Do not use a blocking Dialog unless absolutely necessary because they are very disruptive."),
-                            SampleDont("Don’t have long sentences or complicated choices."),
-                            SampleDont("Avoid generic button labels like \"Ok\" if you can be more specific about the action a user is about to complete."),
-                            SampleDont("Don't dismiss the Dialog if underlying problem is not fixed. Don't put the user back into a broken/error state."),
-                            SampleDont("Don't provide the user with more than 3 buttons.")))))
+                    SampleTitle("Best Practices"),
+                    TextBlock("Use Dialogs for critical or short-term tasks that require a decision. Ensure the content is brief and clearly states the purpose. Provide logical action buttons (e.g., 'Confirm' and 'Cancel') and highlight the primary action. Avoid overusing Dialogs for non-essential information to prevent frustrating the user. Consider using non-modal alternatives if the task doesn't require immediate attention.")))
                .Section(Stack().Children(
                     SampleTitle("Usage"),
                     Button("Open Dialog").OnClick((c, ev) => dialog.Show()),

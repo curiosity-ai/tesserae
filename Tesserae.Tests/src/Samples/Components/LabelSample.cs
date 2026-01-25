@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static H5.Core.dom;
 using static Tesserae.UI;
 using static Tesserae.Tests.Samples.SamplesHelper;
@@ -16,56 +16,37 @@ namespace Tesserae.Tests.Samples
                .Title(SampleHeader(nameof(LabelSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
-                    TextBlock("Labels give a name or title to a component or group of components. Labels should be in close proximity to the component or group they are paired with. Some components, such as TextField, Dropdown, or Toggle, already have Labels incorporated, but other components may optionally add a Label if it helps inform the user of the component’s purpose.")))
+                    TextBlock("Labels provide a name or title for a component or a group of components. They are essential for accessibility and helping users understand the purpose of input fields."),
+                    TextBlock("While many Tesserae components have built-in labels, the standalone Label component offers more flexibility in positioning and styling.")))
                .Section(Stack().Children(
                     SampleTitle("Best Practices"),
-                    HStack().Children(
-                        Stack().Width(40.percent()).Children(
-                            SampleSubTitle("Do"),
-                            SampleDo("Use sentence casing, e.g. “First name”."),
-                            SampleDo("Be short and concise."),
-                            SampleDo("When adding a Label to components, use the text as a noun or short noun phrase.")
-                        ),
-                        Stack().Width(40.percent()).Children(
-                            SampleSubTitle("Don't"),
-                            SampleDo("Use Labels as instructional text, e.g. “Click to get started”."),
-                            SampleDo("Don’t use full sentences or complex punctuation (colons, semicolons, etc.).")))))
+                    TextBlock("Use sentence casing for label text. Keep labels short and concise, typically using a noun or a short noun phrase. Do not use labels as instructional text; use TextBlocks or tooltips for that purpose. Ensure labels are positioned close to the components they describe. Use the 'Required' flag to clearly indicate mandatory fields.")))
                .Section(Stack().Children(
                     SampleTitle("Usage"),
-                    Label("I'm Label"),
-                    Label("I'm a disabled Label").Disabled(),
-                    Label("I'm a required Label").Required(),
-                    Label("I'm a primary Label").Primary(),
-                    Label("I'm a secondary Label").Secondary(),
-                    Label("I'm a tiny Label").Regular().Tiny(),
-                    Label("A Label for An Input").SetContent(TextBox()),
-                    TextBlock("Inline without auto-width").Medium().PaddingTop(16.px()).PaddingBottom(8.px()),
-                    Stack().Children(
-                        Label("Lbl").Inline().SetContent(TextBox()),
-                        Label("Label").Inline().SetContent(TextBox()),
-                        Label("Bigger Label").Inline().SetContent(TextBox()),
-                        Label("The Biggest Label").Inline().SetContent(TextBox())
+                    SampleSubTitle("Basic Labels"),
+                    VStack().Children(
+                        Label("Standard Label"),
+                        Label("Required Label").Required(),
+                        Label("Disabled Label").Disabled(),
+                        Label("Primary Colored Label").Primary()
                     ),
-                    TextBlock("Inline with auto-width").Medium().PaddingTop(16.px()).PaddingBottom(8.px()),
-                    Stack().Children(
-                        Label("Lbl").Inline().AutoWidth().SetContent(TextBox()),
-                        Label("Label").Inline().AutoWidth().SetContent(TextBox()),
-                        Label("Bigger Label").Inline().AutoWidth().SetContent(TextBox()),
-                        Label("The Biggest Label").Inline().AutoWidth().SetContent(TextBox())
+                    SampleSubTitle("Label with Content"),
+                    Label("Username").SetContent(TextBox().SetPlaceholder("Enter your username")),
+                    SampleSubTitle("Inline Layouts"),
+                    TextBlock("Labels can be displayed inline with their content, with optional automatic width synchronization."),
+                    VStack().Children(
+                        Label("Name").Inline().AutoWidth().SetContent(TextBox()),
+                        Label("Department").Inline().AutoWidth().SetContent(TextBox()),
+                        Label("Role").Inline().AutoWidth().SetContent(TextBox())
                     ),
-                    TextBlock("Inline with auto-width, aligned right").Medium().PaddingTop(16.px()).PaddingBottom(8.px()),
-                    Stack().Children(
-                        Label("Lbl").Inline().AutoWidth(alignRight: true).SetContent(TextBox()),
-                        Label("Label").Inline().AutoWidth(alignRight: true).SetContent(TextBox()),
-                        Label("Bigger Label").Inline().AutoWidth(alignRight: true).SetContent(TextBox()),
-                        Label("The Biggest Label").Inline().AutoWidth(alignRight: true).SetContent(TextBox())
+                    SampleSubTitle("Right Aligned Labels"),
+                    VStack().Children(
+                        Label("Short").Inline().AutoWidth(alignRight: true).SetContent(TextBox()),
+                        Label("A much longer label").Inline().AutoWidth(alignRight: true).SetContent(TextBox())
                     )
                 ));
         }
 
-        public HTMLElement Render()
-        {
-            return _content.Render();
-        }
+        public HTMLElement Render() => _content.Render();
     }
 }

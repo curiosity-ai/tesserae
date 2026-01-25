@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static H5.Core.dom;
 using static Tesserae.UI;
 using static Tesserae.Tests.Samples.SamplesHelper;
@@ -16,40 +16,31 @@ namespace Tesserae.Tests.Samples
                .Title(SampleHeader(nameof(ToggleSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
-                    TextBlock("Toggles represent a physical switch that allows users to turn things on or off. Use Toggles to present users with two mutually exclusive options (like on/off), where choosing an option results in an immediate action. Use a Toggle for binary operations that take effect right after the user flips the Toggle. For example, use a Toggle to turn services or hardware components on or off. In other words, if a physical switch would work for the action, a Toggle is probably the best control to use."),
-                    TextBlock("Choosing between Toggle and Checkbox").Medium(),
-                    TextBlock("For some actions, either a Toggle or a Checkbox might work. To decide which control would work better, follow these tips:"),
-                    TextBlock("Use a Toggle for binary settings when changes become effective immediately after the user changes them."),
-                    TextBlock("In the above example, it's clear with the Toggle that the wireless is set to \"On.\" But with the Checkbox, the user needs to think about whether the wireless is on now or whether they need to check the box to turn wireless on."),
-                    TextBlock("Use a Checkbox when the user has to perform extra steps for changes to be effective. For example, if the user must click a \"Submit\", \"Next\", \"Ok\" button to apply changes, use a Checkbox.")))
+                    TextBlock("A Toggle represents a physical switch that allows users to choose between two mutually exclusive options, typically 'on' and 'off'."),
+                    TextBlock("Unlike a Checkbox, a Toggle is intended for immediate actions where the change takes effect as soon as the switch is flipped.")))
                .Section(Stack().Children(
                     SampleTitle("Best Practices"),
-                    HStack().Children(
-                        Stack().Width(40.percent()).Children(
-                            SampleSubTitle("Do"),
-                            SampleDo("Only replace the On and Off labels if there are more specific labels for the setting. If there are short (3-4 characters) labels that represent binary opposites that are more appropriate for a particular setting, use them. ")
-                        ),
-                        Stack().Width(40.percent()).Children(
-                            SampleSubTitle("Don't"),
-                            SampleDont("Don’t use a Toggle if the user will have to do something else or go somewhere else in order to experience its effect. If any extra step is required for changes to be effective, you should use a checkbox and corresponding \"Apply\" button instead of a Toggle.")
-                        )
-                    )))
+                    TextBlock("Use Toggles for binary settings that have an immediate effect (e.g., turning Wi-Fi on or off). Labels should be short and describe the setting clearly. Avoid using Toggles when a user needs to click a 'Submit' or 'Apply' button to save changes; use a Checkbox instead. Ensure that the 'on' and 'off' states are visually distinct and easy to understand at a glance.")))
                .Section(Stack().Children(
                     SampleTitle("Usage"),
-                    TextBlock("Basic Toggles").Medium(),
-                    Label("Enabled and checked").SetContent(Toggle().Checked()),
-                    Label("Enabled and unchecked").SetContent(Toggle()),
-                    Label("Disabled and checked").SetContent(Toggle().Checked().Disabled()),
-                    Label("Disabled and unchecked").SetContent(Toggle().Disabled()),
-                    Label("With inline label").Inline().SetContent(Toggle()),
-                    Label("Disabled with inline label").Inline().SetContent(Toggle().Disabled()).Disabled(),
-                    Toggle("With inline label and without onText and offText"),
-                    Toggle("Disabled with inline label and without onText and offText").Disabled()));
+                    SampleSubTitle("Basic Toggles"),
+                    VStack().Children(
+                        Label("Default (Unchecked)").SetContent(Toggle()),
+                        Label("Checked").SetContent(Toggle().Checked()),
+                        Label("Disabled Checked").Disabled().SetContent(Toggle().Checked().Disabled()),
+                        Label("Disabled Unchecked").Disabled().SetContent(Toggle().Disabled())
+                    ),
+                    SampleSubTitle("Custom Labels and Inline"),
+                    VStack().Children(
+                        Toggle().SetText("With Label"),
+                        Toggle(onText: TextBlock("Visible"), offText: TextBlock("Hidden")),
+                        Label("Inline Toggle").Inline().SetContent(Toggle())
+                    ),
+                    SampleSubTitle("Event Handling"),
+                    Toggle().SetText("Feature X").OnChange((s, e) => Toast().Information($"Feature X is now {(s.IsChecked ? "Enabled" : "Disabled")}"))
+                ));
         }
 
-        public HTMLElement Render()
-        {
-            return _content.Render();
-        }
+        public HTMLElement Render() => _content.Render();
     }
 }

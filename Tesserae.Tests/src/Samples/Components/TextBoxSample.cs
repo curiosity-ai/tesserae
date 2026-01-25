@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static H5.Core.dom;
 using static Tesserae.UI;
 using static Tesserae.Tests.Samples.SamplesHelper;
@@ -16,50 +16,36 @@ namespace Tesserae.Tests.Samples
                .Title(SampleHeader(nameof(TextBoxSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
-                    TextBlock("The TextBox component enables a user to type text into an app. The text displays on the screen in a simple, uniform format.")))
+                    TextBlock("TextBoxes allow users to enter and edit text. They are used in forms, search queries, and anywhere text input is required."),
+                    TextBlock("They support various modes like password input, read-only states, and built-in validation.")))
                .Section(Stack().Children(
                     SampleTitle("Best Practices"),
-                    HStack().Children(
-                        Stack().Width(40.percent()).Children(
-                            SampleSubTitle("Do"),
-                            SampleDo("Use the TextBox to accept data input on a form or page."),
-                            SampleDo("Label the TextBox with a helpful name."),
-                            SampleDo("Provide concise helper text that specifies what content is expected to be entered."),
-                            SampleDo("When part of a form, provide clear designations for which TextBox are required vs. optional."),
-                            SampleDo("Provide all appropriate methods for submitting provided data (e.g. dedicated ‘Submit’ button)."),
-                            SampleDo("Provide all appropriate methods of clearing provided data (‘X’ or something similar)."),
-                            SampleDo("Allow for selection, copy and paste of field data."),
-                            SampleDo("Ensure that the TextBox is functional through use of mouse/keyboard or touch when available.")
-                        ),
-                        Stack().Width(40.percent()).Children(
-                            SampleSubTitle("Don't"),
-                            SampleDont("Don't use a TextBox to render basic copy as part of a body element of a page."),
-                            SampleDont("Don't provide an unlabeled TextBox and expect that users will know what to do with it."),
-                            SampleDont("Don't place a TextBox inline with body copy."),
-                            SampleDont("Don't be overly verbose with helper text."),
-                            SampleDont("Don't occlude the entry or allow entry when the active content is not visible.")
-                        )
-                    )))
+                    TextBlock("Always label your TextBoxes so users know what information is expected. Use placeholder text to provide a hint about the format or content. Mark required fields clearly. Use validation to provide immediate feedback on the correctness of the input. Use the appropriate input type (e.g., Password) for sensitive information. Provide a clear way to submit or clear the data.")))
                .Section(Stack().Children(
                     SampleTitle("Usage"),
-                    TextBlock("Basic TextBox").Medium(),
-                    Stack().Width(40.percent()).Children(
+                    SampleSubTitle("Basic TextBoxes"),
+                    VStack().Children(
                         Label("Standard").SetContent(TextBox()),
-                        Label("Disabled").Disabled().SetContent(TextBox("I am disabled").Disabled()),
-                        Label("Read-only").SetContent(TextBox("I am read-only").ReadOnly()),
-                        Label("Password").SetContent(TextBox("I am a password box").Password()),
-                        Label("Required").Required().SetContent(TextBox("")),
-                        TextBox("").Required(),
-                        Label("With error message").SetContent(TextBox().Error("Error message").IsInvalid()),
-                        Label("With placeholder").SetContent(TextBox().SetPlaceholder("Please enter text here")),
-                        Label("With validation").SetContent(TextBox().Validation((tb) => tb.Text.Length == 0 ? "Empty" : null)),
-                        Label("With validation on type").SetContent(TextBox().Validation(Validation.NonZeroPositiveInteger)),
-                        Label("Disabled with placeholder").Disabled().SetContent(TextBox().SetPlaceholder("I am disabled").Disabled()))));
+                        Label("Placeholder").SetContent(TextBox().SetPlaceholder("Enter your name...")),
+                        Label("Password").SetContent(TextBox().Password()),
+                        Label("Disabled").Disabled().SetContent(TextBox("Disabled content").Disabled()),
+                        Label("Read-only").SetContent(TextBox("Read-only content").ReadOnly())
+                    ),
+                    SampleSubTitle("Validation"),
+                    VStack().Children(
+                        Label("Required").Required().SetContent(TextBox()),
+                        Label("Must not be empty").SetContent(TextBox().Validation(tb => string.IsNullOrWhiteSpace(tb.Text) ? "This field is required" : null)),
+                        Label("Positive Integer only").SetContent(TextBox().Validation(Validation.NonZeroPositiveInteger)),
+                        Label("Custom Error").SetContent(TextBox().Error("Something went wrong").IsInvalid())
+                    ),
+                    SampleSubTitle("Event Handling"),
+                    VStack().Children(
+                        TextBox().SetPlaceholder("Type and check toast...").OnChange((s, e) => Toast().Information($"Text changed to: {s.Text}")),
+                        TextBox().SetPlaceholder("Search-like behavior...").OnInput((s, e) => console.log($"Current input: {s.Text}"))
+                    )
+                ));
         }
 
-        public HTMLElement Render()
-        {
-            return _content.Render();
-        }
+        public HTMLElement Render() => _content.Render();
     }
 }

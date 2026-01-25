@@ -48,8 +48,13 @@ namespace Tesserae.Tests.Samples
                .Title(SampleHeader(nameof(NodeViewSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
-                    TextBlock("Use NodeView for rendering flows.")))
-               .Section(SplitView().SplitInMiddle().Resizable().H(600).WS().Left(nodeView).Right(textArea));
+                    TextBlock("NodeView is a powerful utility for creating node-based visual editors and data flows. It allows you to define custom node types with various input and output interfaces, enabling users to build complex logic or data pipelines graphically.")))
+               .Section(Stack().Children(
+                    SampleTitle("Best Practices"),
+                    TextBlock("Use NodeView for scenarios where users need to define relationships or workflows. Keep node definitions logical and consistent. Provide descriptive names for inputs and outputs. Utilize dynamic nodes when the node structure needs to adapt based on its internal state or external data.")))
+               .Section(Stack().Children(
+                    SampleTitle("Usage"),
+                    SplitView().SplitInMiddle().Resizable().H(600).WS().Left(nodeView).Right(VStack().S().Children(Label("JSON State"), textArea))));
         }
 
         public HTMLElement Render()

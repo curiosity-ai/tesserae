@@ -23,7 +23,10 @@ namespace Tesserae.Tests.Samples
                .Title(SampleHeader(nameof(TippySample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
-                    TextBlock("Use .Tooltip(...) to add tooltips to your components, or Tippy.ShowFor(...) to show them on demand.")))
+                    TextBlock("Tippy is the underlying engine for tooltips and popovers in Tesserae. It provides a flexible way to attach rich, interactive content to any component, with support for various animations, placements, and trigger events.")))
+               .Section(Stack().Children(
+                    SampleTitle("Best Practices"),
+                    TextBlock("Use tooltips to provide additional context or information without cluttering the main UI. Keep text tooltips brief and focused. For interactive tooltips, ensure the content is easy to use and provides clear affordances. Utilize animations sparingly to enhance the user experience without being distracting. Always consider the placement of the tooltip to ensure it doesn't obscure relevant content.")))
                .Section(Stack().Children(
                     SampleTitle("Usage"),
                     VStack().Children(

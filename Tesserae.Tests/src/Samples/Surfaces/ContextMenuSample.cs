@@ -1,7 +1,6 @@
-﻿using static H5.Core.dom;
+using static H5.Core.dom;
 using static Tesserae.UI;
 using static Tesserae.Tests.Samples.SamplesHelper;
-using Tesserae.Tests;
 
 namespace Tesserae.Tests.Samples
 {
@@ -12,89 +11,52 @@ namespace Tesserae.Tests.Samples
 
         public ContextMenuSample()
         {
-            var d    = ContextMenu();
-            var msg  = TextBlock();
-            var msg2 = TextBlock();
-
-            var cmsub = ContextMenu().Items(
-                ContextMenuItem().Divider(),
-                ContextMenuItem("Edit Sub").OnClick((s2,       e2) => Toast().Information("Clicked: Edit Sub")),
-                ContextMenuItem("Properties Sub").OnClick((s2, e2) => Toast().Information("Clicked: Properties Sub")),
-                ContextMenuItem("Header Sub").Header(),
-                ContextMenuItem("Disabled Sub").Disabled(),
-                ContextMenuItem("Link Sub").OnClick((s2, e2) => Toast().Information("Clicked: Link Sub")));
-
-            var cmsub2 = ContextMenu().Items(
-                ContextMenuItem().Divider(),
-                ContextMenuItem("Edit Sub2").OnClick((s2, e2) => Toast().Information("Clicked: Edit Sub2")),
-                ContextMenuItem("Properties Sub2"),
-                ContextMenuItem("Header Sub2").Header(),
-                ContextMenuItem("Disabled Sub2").Disabled(),
-                ContextMenuItem("Link Sub2").OnClick((s2, e2) => Toast().Information("Clicked: Link Sub2")));
-
-
-            var cmcm = ContextMenu().Items(
-                ContextMenuItem(Link("#", "New")).SubMenu(cmsub),
-                ContextMenuItem().Divider(),
-                ContextMenuItem(Button("All").Compact().Link())
-                   .OnClick((_, __) =>
-                    {
-                        Toast().Information("Clicked: All");
-                    }),
-                ContextMenuItem(Button("Edit").Compact().Link().SetIcon(UIcons.Edit)).OnClick((s2, e2) => Toast().Information("Clicked: Edit")),
-                ContextMenuItem(Button("Properties").Compact().Link().SetIcon(UIcons.ExpandArrowsAlt)).SubMenu(cmsub2),
-                ContextMenuItem("Header").Header(),
-                ContextMenuItem("Disabled").Disabled(),
-                ContextMenuItem("Link").OnClick((s2, e2) => Toast().Information("Clicked: Link"))
-            );
-
-
             _content = SectionStack()
                .Title(SampleHeader(nameof(ContextMenuSample)))
-               .Section(Stack().Children(SampleTitle("Overview"),
-                    TextBlock("ContextualMenus are lists of commands that are based on the context of selection, mouse hover or keyboard focus. They are one of the most effective and highly used command surfaces, and can be used in a variety of places.")))
-               .Section(Stack().Children(SampleTitle("Best Practices"),
-                    HStack().Children(Stack().Width(40.percent()).Children(
-                            SampleSubTitle("Do"),
-                            SampleDo("Use to display commands."),
-                            SampleDo("Divide groups of commands with rules."),
-                            SampleDo("Use selection checks without icons."),
-                            SampleDo("Provide submenus for sets of related commands that aren’t as critical as others.")),
-                        Stack().Width(40.percent()).Children(
-                            SampleSubTitle("Don't"),
-                            SampleDont("Use them to display content."),
-                            SampleDont("Show commands as one large group."),
-                            SampleDont("Mix checks and icons."),
-                            SampleDont("Create submenus of submenus.")))))
-               .Section(Stack().Children(SampleTitle("Usage"),
-                    TextBlock("Basic ContextMenus").Medium(),
-                    HStack().Children(
-                        Stack().Children(
-                            Label("Standard with Headers").SetContent(
-                                Button("Open").Var(out var btn2).OnClick((s, e) =>
-                                    ContextMenu().Items(
-                                        ContextMenuItem("New").OnClick((s2, e2) => Toast().Information("Clicked: New")),
-                                        ContextMenuItem().Divider(),
-                                        ContextMenuItem("Edit").OnClick((s2,       e2) => Toast().Information("Clicked: Edit")),
-                                        ContextMenuItem("Properties").OnClick((s2, e2) => Toast().Information("Clicked: Properties")),
-                                        ContextMenuItem("Header").Header(),
-                                        ContextMenuItem("Disabled").Disabled(),
-                                        ContextMenuItem("Link").OnClick((s2, e2) => Toast().Information("Clicked: Link"))
-                                    ).ShowFor(btn2)
-                                )), msg),
-                        Stack().Children(
-                            Label("Standard with Submenus").SetContent(
-                                Button("Open").Var(out var btn3).OnClick((s, e) =>
-                                    cmcm.ShowFor(btn3)
-                                )), msg2
-                        )
+               .Section(Stack().Children(
+                    SampleTitle("Overview"),
+                    TextBlock("ContextMenu is a flyout component that displays a list of commands triggered by user interaction, such as a right-click or a button press."),
+                    TextBlock("It provides a focused set of actions relevant to the current context, helping to keep the main interface clean and uncluttered. It supports nested submenus, dividers, headers, and custom component items.")))
+               .Section(Stack().Children(
+                    SampleTitle("Best Practices"),
+                    TextBlock("Use ContextMenus to surface secondary actions that are relevant to a specific element. Group related commands using dividers. Use submenus sparingly to avoid deep nesting that can be hard to navigate. Ensure that the menu remains within the viewport when opened. Always provide clear labels and icons for common actions.")))
+               .Section(Stack().Children(
+                    SampleTitle("Usage"),
+                    SampleSubTitle("Simple Context Menu"),
+                    Button("Click for Menu").Var(out var btn1).OnClick((s, e) =>
+                        ContextMenu().Items(
+                            ContextMenuItem(HStack().Children(Icon(UIcons.Plus), TextBlock("New Item").ML(8))).OnClick((_, __) => Toast().Success("New Item created")),
+                            ContextMenuItem(HStack().Children(Icon(UIcons.FolderOpen), TextBlock("Open").ML(8))).OnClick((_, __) => Toast().Information("Opening...")),
+                            ContextMenuItem().Divider(),
+                            ContextMenuItem(HStack().Children(Icon(UIcons.Trash, color: Theme.Danger.Background), TextBlock("Delete").ML(8).Danger())).OnClick((_, __) => Toast().Error("Deleted"))
+                        ).ShowFor(btn1)
+                    ).MB(16),
+                    SampleSubTitle("Menu with Submenus and Headers"),
+                    Button("Complex Menu").Var(out var btn2).OnClick((s, e) =>
+                        ContextMenu().Items(
+                            ContextMenuItem("Actions").Header(),
+                            ContextMenuItem(HStack().Children(Icon(UIcons.Edit), TextBlock("Edit").ML(8))).SubMenu(
+                                ContextMenu().Items(
+                                    ContextMenuItem("Edit Name"),
+                                    ContextMenuItem("Edit Permissions"),
+                                    ContextMenuItem("Edit Metadata")
+                                )
+                            ),
+                            ContextMenuItem(HStack().Children(Icon(UIcons.Share), TextBlock("Share").ML(8))).SubMenu(
+                                ContextMenu().Items(
+                                    ContextMenuItem("Copy Link"),
+                                    ContextMenuItem("Email Link")
+                                )
+                            ),
+                            ContextMenuItem().Divider(),
+                            ContextMenuItem("Advanced").Header(),
+                            ContextMenuItem("Properties").Disabled(),
+                            ContextMenuItem(HStack().Children(Icon(UIcons.Settings), TextBlock("Settings").ML(8)))
+                        ).ShowFor(btn2)
                     )
                 ));
         }
 
-        public HTMLElement Render()
-        {
-            return _content.Render();
-        }
+        public HTMLElement Render() => _content.Render();
     }
 }

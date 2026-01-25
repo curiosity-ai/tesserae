@@ -20,8 +20,10 @@ namespace Tesserae.Tests.Samples
                .Title(SampleHeader(nameof(LayerSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
-                    TextBlock("A Layer is a technical component that does not have specific Design guidance."),
-                    TextBlock("Layers are used to render content outside of a DOM tree, at the end of the document. This allows content to escape traditional boundaries caused by \"overflow: hidden\" css rules and keeps it on the top without using z-index rules. This is useful for example in ContextualMenu and Tooltip scenarios, where the content should always overlay everything else.")))
+                    TextBlock("Layer is a technical component used to render content outside of its parent's DOM tree, typically at the end of the document body. This allows content to escape boundaries like 'overflow: hidden' or complex z-index stacks, ensuring that elements like tooltips, context menus, and modals always appear on top of other content.")))
+               .Section(Stack().Children(
+                    SampleTitle("Best Practices"),
+                    TextBlock("Use Layers for UI elements that must appear above all other content regardless of their position in the component hierarchy. Utilize 'LayerHost' when you need to project layered content into a specific part of the DOM instead of the default body location. Be mindful of the lifecycle of layered components to ensure they are properly removed from the DOM when no longer needed.")))
                .Section(Stack().Children(
                     SampleTitle("Usage"),
                     TextBlock("Basic layered content").Medium(),

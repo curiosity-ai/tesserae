@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using static H5.Core.dom;
 using static Tesserae.UI;
 using static Tesserae.Tests.Samples.SamplesHelper;
@@ -19,23 +19,33 @@ namespace Tesserae.Tests.Samples
                .Title(SampleHeader(nameof(DatePickerSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
-                    TextBlock("The DatePicker allows users to pick a datetime from a native browser widget."), Link("https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/datetime-local", "Please see here for further information.")))
+                    TextBlock("DatePickers allow users to select a specific date using a browser-native date selection widget. They ensure that the input is always a valid date format."),
+                    TextBlock("This component is suitable for forms requiring birthdays, appointment dates, or any date-driven data entry.")))
+               .Section(Stack().Children(
+                    SampleTitle("Best Practices"),
+                    TextBlock("Use the DatePicker when users need to enter a specific date. If you need to include time as well, use the DateTimePicker instead. Always provide min and max constraints if the acceptable date range is limited. Use clear validation messages to guide users if they select an invalid date (e.g., a date in the past when only future dates are allowed).")))
                .Section(Stack().Children(
                     SampleTitle("Usage"),
-                    TextBlock("Basic DatePicker").Medium(),
-                    Stack().Width(40.percent()).Children(
+                    SampleSubTitle("Basic DatePicker"),
+                    VStack().Children(
                         Label("Standard").SetContent(DatePicker()),
-                        Label("With default day of two days in the future").SetContent(DatePicker(DateTime.Now.AddDays(2))),
-                        Label("With step increment of 10").SetContent(DatePicker().SetStep(10)),
-                        Label($"With max of {to.ToString("D")}").SetContent(DatePicker().SetMax(to)),
-                        Label($"With min of {from.ToString("D")}").SetContent(DatePicker().SetMin(from)),
-                        Label("Disabled").Disabled().SetContent(DatePicker().Disabled()),
-                        Label("Required").Required().SetContent(DatePicker()), DatePicker().Required(),
-                        Label("With error message").SetContent(DatePicker().Error("Error message").IsInvalid()),
-                        Label("With validation").SetContent(DatePicker().Validation(dateTimePicker => dateTimePicker.Date <= DateTime.Now.AddMonths(2) ? null : "Please choose a date less than 2 months in the future")),
-                        Label("With validation on type - not in the future").SetContent(DatePicker().Validation(Validation.NotInTheFuture)),
-                        Label("With validation on type - not in the past").SetContent(DatePicker().Validation(Validation.NotInThePast)),
-                        Label($"With validation on type - between {from.ToString("D")} and {to.ToString("D")}").SetContent(DatePicker().Validation(dateTimePicker => Validation.BetweenRange(dateTimePicker, from, to))))));
+                        Label("Pre-selected Date (Next Week)").SetContent(DatePicker(DateTime.Now.AddDays(7))),
+                        Label("Disabled").Disabled().SetContent(DatePicker().Disabled())
+                    ),
+                    SampleSubTitle("Range and Constraints"),
+                    VStack().Children(
+                        Label($"Limited Range (Between {from:d} and {to:d})").SetContent(DatePicker().SetMin(from).SetMax(to)),
+                        Label("Step increment of 5 days").SetContent(DatePicker().SetStep(5))
+                    ),
+                    SampleSubTitle("Validation"),
+                    VStack().Children(
+                        Label("Not in the future").SetContent(DatePicker().Validation(Validation.NotInTheFuture)),
+                        Label("Not in the past").SetContent(DatePicker().Validation(Validation.NotInThePast)),
+                        Label("Custom validation (within 2 months)").SetContent(DatePicker().Validation(dp => dp.Date <= DateTime.Now.AddMonths(2) ? null : "Please choose a date less than 2 months in the future"))
+                    ),
+                    SampleSubTitle("Event Handling"),
+                    DatePicker().OnChange((s, e) => Toast().Information($"Selected date: {s.Date:d}"))
+                ));
         }
 
         public HTMLElement Render() => _content.Render();

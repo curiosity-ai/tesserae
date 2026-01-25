@@ -18,26 +18,10 @@ namespace Tesserae.Tests.Samples
                .Title(SampleHeader(nameof(ProgressIndicatorSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
-                    TextBlock(
-                        "ProgressIndicators are used to show the completion status of an operation lasting more than 2 seconds. If the state of progress cannot be determined, use a Spinner instead. ProgressIndicators can appear in a new panel, a flyout, under the UI initiating the operation, or even replacing the initiating UI, as long as the UI can return if the operation is canceled or is stopped."))
-                )
+                    TextBlock("ProgressIndicators provide visual feedback for operations that take more than a few seconds. They show the current completion status and help set expectations for how much work remains. If the total amount of work is unknown, use the indeterminate state or a Spinner instead.")))
                .Section(Stack().WidthStretch().Children(
                     SampleTitle("Best Practices"),
-                    Stack().WidthStretch().Horizontal().Children(
-                        Stack().WidthStretch().Children(
-                            SampleSubTitle("Do"),
-                            SampleDo("Use a ProgressIndicator when the total units to completion is known"),
-                            SampleDo("Display operation description"),
-                            SampleDo("Show text above and/or below the bar"),
-                            SampleDo("Combine steps of a single operation into one bar")
-                        ),
-                        Stack().WidthStretch().Children(
-                            SampleSubTitle("Don't"),
-                            SampleDont("Use a ProgressIndicator when the total units to completion is indeterminate."),
-                            SampleDont("Show text to the right or left of the bar"),
-                            SampleDont("Cause progress to “rewind” to show new steps")
-                        ))
-                ))
+                    TextBlock("Use a ProgressIndicator when the total units to completion can be quantified. Provide a clear label describing the operation in progress. Use the indeterminate state only when the duration is unknown. Combine multiple related steps into a single progress bar for a smoother experience. Avoid letting progress appear to move backwards unless a step failed and is being retried.")))
                .Section(
                     Stack().Children(
                         SampleTitle("Usage"),
