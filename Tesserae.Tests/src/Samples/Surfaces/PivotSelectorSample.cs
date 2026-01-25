@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = "Surfaces", Order = 21, Icon = UIcons.TableLayout)]
+    [SampleDetails(Group = "Surfaces", Order = 20, Icon = UIcons.TableLayout)]
     public class PivotSelectorSample : IComponent, ISample
     {
         private readonly IComponent content;
@@ -24,20 +24,20 @@ namespace Tesserae.Tests.Samples
                     SampleTitle("Usage"),
                     SampleSubTitle("Basic PivotSelector"),
                     PivotSelector()
-                        .Pivot("tab1", "Tab 1", () => TextBlock("Content for Tab 1"))
-                        .Pivot("tab2", "Tab 2", () => TextBlock("Content for Tab 2"))
-                        .Pivot("tab3", "Tab 3", () => TextBlock("Content for Tab 3")),
-                    SampleSubTitle("PivotSelector with custom buttons"),
+                        .Pivot("tab1", "Tab 1", () => Card(TextBlock("Content for Tab 1").P(32)))
+                        .Pivot("tab2", "Tab 2", () => Card(TextBlock("Content for Tab 2").P(32)))
+                        .Pivot("tab3", "Tab 3", () => Card(TextBlock("Content for Tab 3").P(32))),
+                    SampleSubTitle("PivotSelector with custom buttons").PT(16),
                     PivotSelector()
                         .SetCommands(
                             Button().SetIcon(UIcons.Add).NoBorder().NoBackground().OnClick(() => alert("Add clicked")),
                             Button().SetIcon(UIcons.Settings).NoBorder().NoBackground().OnClick(() => alert("Settings clicked"))
                         )
-                        .Pivot("tab1", "Tab 1", () => TextBlock("Content for Tab 1"))
-                        .Pivot("tab2", "Tab 2", () => TextBlock("Content for Tab 2")),
-                    SampleSubTitle("PivotSelector with large number of tabs"),
+                        .Pivot("tab1", () => Button("Tab 1").SetIcon(UIcons.Rocket), () => Card(TextBlock("Content for Tab 1").P(32)))
+                        .Pivot("tab2", () => Button("Tab 2").SetIcon(UIcons.Car),    () => Card(TextBlock("Content for Tab 2").P(32))),
+                    SampleSubTitle("PivotSelector with large number of tabs").PT(16),
                     PivotSelector()
-                        .Pivot(Enumerable.Range(1, 20).Select(i => ($"tab{i}", $"Tab {i}", (Func<IComponent>)(() => TextBlock($"Content for Tab {i}")))).ToArray())
+                        .Pivot(Enumerable.Range(1, 20).Select(i => ($"tab{i}", $"Tab {i}", (Func<IComponent>)(() => Card(TextBlock($"Content for Tab {i}").P(32))))).ToArray())
                 ));
         }
 
