@@ -4,7 +4,7 @@ using static Tesserae.UI;
 namespace Tesserae
 {
     [H5.Name("tss.ChecBox")]
-    public class CheckBox : ComponentBase<CheckBox, HTMLInputElement>, IObservableComponent<bool>
+    public class CheckBox : ComponentBase<CheckBox, HTMLInputElement>, IObservableComponent<bool>, ITextFormating
     {
         private readonly HTMLSpanElement          _checkSpan;
         private readonly HTMLLabelElement         _label;
@@ -14,7 +14,7 @@ namespace Tesserae
         {
             InnerElement = CheckBox(_("tss-checkbox"));
             _checkSpan   = Span(_("tss-checkbox-mark"));
-            _label       = Label(_("tss-checkbox-container tss-default-component-margin tss-fontcolor-default tss-fontsize-small tss-fontweight-regular", text: text), InnerElement, _checkSpan);
+            _label       = Label(_("tss-checkbox-container tss-default-component-margin tss-fontcolor-default " + TextSize.Small.ToString() + " " + TextWeight.Regular.ToString(), text: text), InnerElement, _checkSpan);
 
             AttachClick();
             AttachChange();
@@ -92,6 +92,39 @@ namespace Tesserae
         {
             Text = text;
             return this;
+        }
+
+        /// <summary>Gets or sets the text size.</summary>
+        public TextSize Size
+        {
+            get => ITextFormatingExtensions.FromClassList(_label, TextSize.Small);
+            set
+            {
+                _label.classList.remove(Size.ToString());
+                _label.classList.add(value.ToString());
+            }
+        }
+
+        /// <summary>Gets or sets the text weight.</summary>
+        public TextWeight Weight
+        {
+            get => ITextFormatingExtensions.FromClassList(_label, TextWeight.Regular);
+            set
+            {
+                _label.classList.remove(Weight.ToString());
+                _label.classList.add(value.ToString());
+            }
+        }
+
+        /// <summary>Gets or sets the text alignment.</summary>
+        public TextAlign TextAlign
+        {
+            get => ITextFormatingExtensions.FromClassList(_label, TextAlign.Left);
+            set
+            {
+                _label.classList.remove(TextAlign.ToString());
+                _label.classList.add(value.ToString());
+            }
         }
 
         public IObservable<bool> AsObservable()
