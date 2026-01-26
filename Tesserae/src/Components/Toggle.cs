@@ -7,7 +7,7 @@ namespace Tesserae
     /// A Toggle component that allows users to switch between two states (on/off).
     /// </summary>
     [H5.Name("tss.Toggle")]
-    public class Toggle : ComponentBase<Toggle, HTMLInputElement>, IObservableComponent<bool>
+    public class Toggle : ComponentBase<Toggle, HTMLInputElement>, IObservableComponent<bool>, IRoundedStyle
     {
         private readonly HTMLElement              _checkElement;
         private readonly HTMLElement              _onOffSpan;

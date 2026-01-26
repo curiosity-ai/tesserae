@@ -7,7 +7,7 @@ using static Tesserae.UI;
 namespace Tesserae
 {
     [H5.Name("tss.PivotSelector")]
-    public sealed class PivotSelector : IComponent
+    public class PivotSelector : IComponent
     {
         public delegate void PivotEventHandler<TEventArgs>(PivotSelector sender, TEventArgs e);
 

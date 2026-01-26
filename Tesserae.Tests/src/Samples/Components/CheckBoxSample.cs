@@ -33,7 +33,13 @@ namespace Tesserae.Tests.Samples
                     VStack().Children(
                         Label("Required choice").Required().SetContent(CheckBox("I agree to the terms")),
                         CheckBox("Checkbox with tooltip").Tooltip("More info here"),
-                        CheckBox("Triggers event").OnChange((s, e) => Toast().Information($"Checked: {s.IsChecked}")))
+                        CheckBox("Triggers event").OnChange((s, e) => Toast().Information($"Checked: {s.IsChecked}"))),
+                    SampleSubTitle("Rounded CheckBoxes"),
+                    VStack().Children(
+                        CheckBox("Small rounded").Rounded(BorderRadius.Small),
+                        CheckBox("Medium rounded").Rounded(BorderRadius.Medium),
+                        CheckBox("Full rounded").Rounded(BorderRadius.Full)
+                    )
                 ));
         }
 

@@ -33,11 +33,11 @@ namespace Tesserae.Tests.Samples
                         SampleSubTitle("Standard File List"),
                         TextBlock("A list with textual rows, supporting sorting and custom column widths."),
                         DetailsList<DetailsListSampleFileItem>(
-                                IconColumn(Icon(UIcons.File), width: 32.px(), enableColumnSorting: true, sortingKey: "FileIcon"),
-                                DetailsListColumn(title: "File Name",     width: 350.px(), enableColumnSorting: true, sortingKey: "FileName", isRowHeader: true),
+                                IconColumn(Icon(UIcons.File), width: 32.px()),
+                                DetailsListColumn(title: "File Name", width: 350.px(), enableColumnSorting: true, sortingKey: "FileName", isRowHeader: true),
                                 DetailsListColumn(title: "Date Modified", width: 170.px(), enableColumnSorting: true, sortingKey: "DateModified"),
-                                DetailsListColumn(title: "Modified By",   width: 150.px(), enableColumnSorting: true, sortingKey: "ModifiedBy"),
-                                DetailsListColumn(title: "File Size",     width: 120.px(), enableColumnSorting: true, sortingKey: "FileSize"))
+                                DetailsListColumn(title: "Modified By", width: 150.px(), enableColumnSorting: true, sortingKey: "ModifiedBy"),
+                                DetailsListColumn(title: "File Size", width: 120.px(), enableColumnSorting: true, sortingKey: "FileSize"))
                            .Height(400.px())
                            .WithListItems(GetDetailsListItems())
                            .SortedBy("FileName")
@@ -45,10 +45,11 @@ namespace Tesserae.Tests.Samples
                         SampleSubTitle("Responsive Widths"),
                         TextBlock("Using percentage-based widths with max-width constraints."),
                         DetailsList<DetailsListSampleFileItem>(
-                                IconColumn(Icon(UIcons.File), width: 64.px(), enableColumnSorting: true, sortingKey: "FileIcon"),
-                                DetailsListColumn(title: "File Name",     width: 40.percent(), enableColumnSorting: true, sortingKey: "FileName",    isRowHeader: true),
-                                DetailsListColumn(title: "Date Modified", width: 30.percent(), maxWidth: 150.px(),        enableColumnSorting: true, sortingKey: "DateModified"),
-                                DetailsListColumn(title: "Modified By",   width: 30.percent(), maxWidth: 150.px(),        enableColumnSorting: true, sortingKey: "ModifiedBy"))
+                                IconColumn(Icon(UIcons.File), width: 64.px()),
+                                DetailsListColumn(title: "File Name", width: 40.percent(), enableColumnSorting: true, sortingKey: "FileName", isRowHeader: true),
+                                DetailsListColumn(title: "Date Modified", width: 30.percent(), maxWidth: 150.px(), enableColumnSorting: true, sortingKey: "DateModified"),
+                                DetailsListColumn(title: "Modified By", width: 30.percent(), maxWidth: 150.px(), enableColumnSorting: true, sortingKey: "ModifiedBy"),
+                                DetailsListColumn(title: "File Size", width: 10.percent(), maxWidth: 150.px(), enableColumnSorting: true, sortingKey: "FileSize"))
                            .Height(400.px())
                            .WidthStretch()
                            .WithListItems(GetDetailsListItems())
@@ -57,20 +58,24 @@ namespace Tesserae.Tests.Samples
                         TextBlock("DetailsList can host any Tesserae component within its cells."),
                         DetailsList<DetailsListSampleItemWithComponents>(
                                 IconColumn(Icon(UIcons.AppleWhole), width: 32.px()),
-                                DetailsListColumn(title: "Status",      width: 120.px()),
-                                DetailsListColumn(title: "Name",        width: 250.px(), isRowHeader: true),
-                                DetailsListColumn(title: "Action",      width: 150.px()),
-                                DetailsListColumn(title: "Rating",      width: 400.px()))
+                                DetailsListColumn(title: "Status", width: 120.px()),
+                                DetailsListColumn(title: "Name", width: 250.px(), isRowHeader: true),
+                                DetailsListColumn(title: "Action", width: 150.px()),
+                                DetailsListColumn(title: "Rating", width: 400.px()))
                            .Compact()
                            .Height(400.px())
                            .WithListItems(GetComponentDetailsListItems())
                            .MB(32),
                         SampleSubTitle("Paginated and Empty States"),
-                        HStack().Children(
+                        SplitView().Resizable().SplitInMiddle().Left(
                             VStack().WS().Children(
-                                TextBlock("Infinite scrolling / Pagination").SemiBold(),
+                                TextBlock("Infinite scrolling").SemiBold(),
                                 DetailsList<DetailsListSampleFileItem>(
-                                        DetailsListColumn(title: "Infinite Item", width: 1.fr()))
+                                        IconColumn(Icon(UIcons.File), width: 64.px()),
+                                        DetailsListColumn(title: "File Name", width: 40.percent(), enableColumnSorting: true, sortingKey: "FileName", isRowHeader: true),
+                                        DetailsListColumn(title: "Date Modified", width: 30.percent(), maxWidth: 150.px(), enableColumnSorting: true, sortingKey: "DateModified"),
+                                        DetailsListColumn(title: "Modified By", width: 30.percent(), maxWidth: 150.px(), enableColumnSorting: true, sortingKey: "ModifiedBy"),
+                                        DetailsListColumn(title: "File Size", width: 10.percent(), maxWidth: 150.px(), enableColumnSorting: true, sortingKey: "FileSize"))
                                    .Height(300.px())
                                    .WithListItems(GetDetailsListItems(0, page))
                                    .WithPaginatedItems(async () =>
@@ -79,11 +84,15 @@ namespace Tesserae.Tests.Samples
                                         Router.ReplaceQueryParameters(p => p.With("page", page.ToString()));
                                         return await GetDetailsListItemsAsync(page, 5);
                                     })
-                            ).MR(16),
+                            )).Right(
                             VStack().WS().Children(
                                 TextBlock("Empty State").SemiBold(),
                                 DetailsList<DetailsListSampleFileItem>(
-                                        DetailsListColumn(title: "Column", width: 1.fr()))
+                                        IconColumn(Icon(UIcons.File), width: 64.px()),
+                                        DetailsListColumn(title: "File Name", width: 40.percent(), enableColumnSorting: true, sortingKey: "FileName", isRowHeader: true),
+                                        DetailsListColumn(title: "Date Modified", width: 30.percent(), maxWidth: 150.px(), enableColumnSorting: true, sortingKey: "DateModified"),
+                                        DetailsListColumn(title: "Modified By", width: 30.percent(), maxWidth: 150.px(), enableColumnSorting: true, sortingKey: "ModifiedBy"),
+                                        DetailsListColumn(title: "File Size", width: 10.percent(), maxWidth: 150.px(), enableColumnSorting: true, sortingKey: "FileSize"))
                                    .WithEmptyMessage(() => BackgroundArea(Card(TextBlock("No items found").Padding(16.px()))).WS().HS())
                                    .Height(300.px())
                                    .WithListItems(new DetailsListSampleFileItem[0])

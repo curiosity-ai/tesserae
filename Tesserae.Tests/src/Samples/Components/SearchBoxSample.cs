@@ -45,6 +45,12 @@ namespace Tesserae.Tests.Samples
                         Label("Custom Icon (Filter)").SetContent(SearchBox("Filter items...").SetIcon(UIcons.Filter)),
                         Label("No Icon").SetContent(SearchBox("Iconless search").NoIcon()),
                         Label("Fixed Width (250px)").SetContent(SearchBox("Small search").Width(250.px()))
+                    ),
+                    SampleSubTitle("Rounded SearchBoxes"),
+                    VStack().Children(
+                        SearchBox("Small").Rounded(BorderRadius.Small),
+                        SearchBox("Medium").Rounded(BorderRadius.Medium),
+                        SearchBox("Full").Rounded(BorderRadius.Full)
                     )
                 ));
         }

@@ -43,6 +43,12 @@ namespace Tesserae.Tests.Samples
                     VStack().Children(
                         Label("Short").Inline().AutoWidth(alignRight: true).SetContent(TextBox()),
                         Label("A much longer label").Inline().AutoWidth(alignRight: true).SetContent(TextBox())
+                    ),
+                    SampleSubTitle("Rounded Labels"),
+                    VStack().Children(
+                        Label("Small rounded").Rounded(BorderRadius.Small),
+                        Label("Medium rounded").Rounded(BorderRadius.Medium),
+                        Label("Full rounded").Rounded(BorderRadius.Full)
                     )
                 ));
         }
