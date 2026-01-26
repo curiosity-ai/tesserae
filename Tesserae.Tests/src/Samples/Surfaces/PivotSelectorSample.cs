@@ -39,11 +39,7 @@ namespace Tesserae.Tests.Samples
                         .Pivot("tab2", () => Button("Tab 2").NoBackground().NoBorder().SetIcon(UIcons.Car),    () => Card(TextBlock("Content for Tab 2").P(32))),
                     SampleSubTitle("PivotSelector with large number of tabs").PT(16),
                     PivotSelector()
-                        .Pivot(Enumerable.Range(1, 20).Select(i => ($"tab{i}", $"Tab {i}", (Func<IComponent>)(() => Card(TextBlock($"Content for Tab {i}").P(32))))).ToArray()),
-                    SampleSubTitle("Rounded PivotSelector").PT(16),
-                    PivotSelector().Rounded(BorderRadius.Full)
-                        .Pivot("tab1", "Tab 1", () => Card(TextBlock("Content for Tab 1").P(32)))
-                        .Pivot("tab2", "Tab 2", () => Card(TextBlock("Content for Tab 2").P(32)))
+                        .Pivot(Enumerable.Range(1, 20).Select(i => ($"tab{i}", $"Tab {i}", (Func<IComponent>)(() => Card(TextBlock($"Content for Tab {i}").P(32))))).ToArray())
                 ));
         }
 

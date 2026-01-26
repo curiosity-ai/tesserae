@@ -436,15 +436,33 @@ i.tss-fontsize-tiny {
 }
 
 /* Rounded components propagation */
-.tss-rounded-sm .tss-textbox, .tss-rounded-sm .tss-searchbox, .tss-rounded-sm .tss-dropdown, .tss-rounded-sm .tss-checkbox-mark, .tss-rounded-sm .tss-card, .tss-rounded-sm .tss-toggle-mark, .tss-rounded-sm .tss-dropdown-container {
+.tss-rounded-sm > .tss-textbox,
+.tss-rounded-sm > .tss-searchbox,
+.tss-rounded-sm > .tss-dropdown,
+.tss-rounded-sm > .tss-checkbox-mark,
+.tss-rounded-sm > .tss-card,
+.tss-rounded-sm > .tss-toggle-mark,
+.tss-rounded-sm > .tss-dropdown-container {
     border-radius: var(--tss-border-radius-sm) !important;
 }
 
-.tss-rounded-md .tss-textbox, .tss-rounded-md .tss-searchbox, .tss-rounded-md .tss-dropdown, .tss-rounded-md .tss-checkbox-mark, .tss-rounded-md .tss-card, .tss-rounded-md .tss-toggle-mark, .tss-rounded-md .tss-dropdown-container {
+.tss-rounded-md > .tss-textbox, 
+.tss-rounded-md > .tss-searchbox, 
+.tss-rounded-md > .tss-dropdown, 
+.tss-rounded-md > .tss-checkbox-mark, 
+.tss-rounded-md > .tss-card, 
+.tss-rounded-md > .tss-toggle-mark, 
+.tss-rounded-md > .tss-dropdown-container {
     border-radius: var(--tss-border-radius-md) !important;
 }
 
-.tss-rounded-full .tss-textbox, .tss-rounded-full .tss-searchbox, .tss-rounded-full .tss-dropdown, .tss-rounded-full .tss-checkbox-mark, .tss-rounded-full .tss-card, .tss-rounded-full .tss-toggle-mark, .tss-rounded-full .tss-dropdown-container {
+.tss-rounded-full > .tss-textbox, 
+.tss-rounded-full > .tss-searchbox, 
+.tss-rounded-full > .tss-dropdown, 
+.tss-rounded-full > .tss-checkbox-mark, 
+.tss-rounded-full > .tss-card, 
+.tss-rounded-full > .tss-toggle-mark, 
+.tss-rounded-full > .tss-dropdown-container {
     border-radius: var(--tss-border-radius-full) !important;
 }
 
