@@ -131,7 +131,7 @@ namespace Tesserae
             {
                 InnerElement = RadioButton(_("tss-option"));
                 _radioSpan   = Span(_("tss-option-mark"));
-                _label       = Label(_("tss-option-container tss-default-component-margin " + TextSize.Small.ToString() + " " + TextWeight.Regular.ToString(), text: text), InnerElement, _radioSpan);
+                _label = Label(_("tss-option-container tss-default-component-margin tss-fontcolor-default tss-fontsize-small tss-fontweight-regular", text: text), InnerElement, _radioSpan);
                 AttachClick();
                 AttachChange();
                 AttachFocus();

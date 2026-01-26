@@ -36,9 +36,14 @@ namespace Tesserae.Tests.Samples
                         CheckBox("Triggers event").OnChange((s, e) => Toast().Information($"Checked: {s.IsChecked}"))),
                     SampleSubTitle("Formatting"),
                     VStack().Children(
-                        CheckBox("Tiny text").Tiny(),
-                        CheckBox("Small text (default)").Small(),
-                        CheckBox("Large text").Large(),
+                        CheckBox("Tiny").Tiny(),
+                        CheckBox("Small (default)").Small(),
+                        CheckBox("Small Plus").SmallPlus(),
+                        CheckBox("Medium").Medium(),
+                        CheckBox("Large").Large(),
+                        CheckBox("XLarge").XLarge(),
+                        CheckBox("XXLarge").XXLarge(),
+                        CheckBox("Mega").Mega(),
                         CheckBox("Bold text").Bold()),
                     SampleSubTitle("Rounded CheckBoxes"),
                     VStack().Children(

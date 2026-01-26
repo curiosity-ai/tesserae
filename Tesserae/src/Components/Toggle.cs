@@ -28,8 +28,8 @@ namespace Tesserae
             InnerElement  = CheckBox(_("tss-checkbox"));
             InnerElement.setAttribute("role", "switch");
             _checkElement = Div(_("tss-toggle-mark"));
-            _onOffSpan    = Div(_("tss-toggle-text"),                                   _offText.Render());
-            _container    = Div(_("tss-toggle-container tss-default-component-margin " + TextSize.Small.ToString() + " " + TextWeight.Regular.ToString()), InnerElement, _checkElement, _onOffSpan);
+            _onOffSpan = Div(_("tss-toggle-text"), _offText.Render());
+            _container = Div(_("tss-toggle-container tss-default-component-margin tss-fontcolor-default tss-fontsize-small tss-fontweight-regular"), InnerElement, _checkElement, _onOffSpan);
 
             _observable = new SettableObservable<bool>();
 
@@ -178,7 +178,12 @@ namespace Tesserae
             set
             {
                 _container.classList.remove(Size.ToString());
+                _onText.RemoveClass(Size.ToString());
+                _offText.RemoveClass(Size.ToString());
+
                 _container.classList.add(value.ToString());
+                _onText.Class(value.ToString());
+                _offText.Class(value.ToString());
             }
         }
 
@@ -189,7 +194,12 @@ namespace Tesserae
             set
             {
                 _container.classList.remove(Weight.ToString());
+                _onText.RemoveClass(Weight.ToString());
+                _offText.RemoveClass(Weight.ToString());
+                
                 _container.classList.add(value.ToString());
+                _onText.Class(value.ToString());
+                _offText.Class(value.ToString());
             }
         }
 
@@ -200,7 +210,12 @@ namespace Tesserae
             set
             {
                 _container.classList.remove(TextAlign.ToString());
+                _onText.RemoveClass(TextAlign.ToString());
+                _offText.RemoveClass(TextAlign.ToString());
+
                 _container.classList.add(value.ToString());
+                _onText.Class(value.ToString());
+                _offText.Class(value.ToString());
             }
         }
     }

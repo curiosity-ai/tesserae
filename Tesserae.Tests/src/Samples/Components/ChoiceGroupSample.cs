@@ -37,8 +37,8 @@ namespace Tesserae.Tests.Samples
                     SampleSubTitle("Horizontal Layout"),
                     ChoiceGroup("Sizes").Horizontal().Choices(
                         Choice("Small"),
-                        Choice("Medium"),
-                        Choice("Large")),
+                        Choice("Medium").Medium(),
+                        Choice("Large").Large()),
                     SampleSubTitle("Event Handling"),
                     ChoiceGroup("Language").Choices(
                         Choice("English"),
@@ -49,7 +49,12 @@ namespace Tesserae.Tests.Samples
                     ChoiceGroup("Pick a style").Choices(
                         Choice("Tiny").Tiny(),
                         Choice("Small (default)").Small(),
+                        Choice("Small Plus").SmallPlus(),
+                        Choice("Medium").Medium(),
                         Choice("Large").Large(),
+                        Choice("XLarge").XLarge(),
+                        Choice("XXLarge").XXLarge(),
+                        Choice("Mega").Mega(),
                         Choice("Bold").Bold()
                     )
                 ));

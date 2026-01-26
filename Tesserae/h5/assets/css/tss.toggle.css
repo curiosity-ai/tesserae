@@ -91,3 +91,155 @@
             background-color: var(--tss-disabled-foreground-color);
             border-color: var(--tss-disabled-foreground-color);
         }
+
+
+
+    .tss-toggle-container.tss-fontsize-tiny {
+        height: calc(10px + var(--tss-font-size-tiny));
+        padding-left:36px;
+    }
+
+        .tss-toggle-container.tss-fontsize-tiny .tss-toggle-mark {
+            height: calc(8px + var(--tss-font-size-tiny));
+            width: calc(20px + var(--tss-font-size-tiny));
+            border-radius: 30px;
+        }
+
+            .tss-toggle-container.tss-fontsize-tiny .tss-toggle-mark:after {
+                top: 4px;
+                left: 4px;
+                height: calc(var(--tss-font-size-tiny));
+                width: calc(var(--tss-font-size-tiny));
+            }
+
+        .tss-toggle-container.tss-fontsize-tiny .tss-toggle-text {
+            padding-left: 0px;
+        }
+
+    .tss-toggle-container.tss-fontsize-smallplus {
+        height: calc(10px + var(--tss-font-size-smallplus));
+    }
+
+        .tss-toggle-container.tss-fontsize-smallplus .tss-toggle-mark {
+            height: calc(8px + var(--tss-font-size-smallplus));
+            width: calc(30px + var(--tss-font-size-smallplus));
+            border-radius: 30px;
+        }
+
+            .tss-toggle-container.tss-fontsize-smallplus .tss-toggle-mark:after {
+                top: 4px;
+                left: 4px;
+                height: calc(var(--tss-font-size-smallplus));
+                width: calc(var(--tss-font-size-smallplus));
+            }
+
+        .tss-toggle-container.tss-fontsize-smallplus .tss-toggle-text {
+            padding-left: 8px;
+        }
+
+    .tss-toggle-container.tss-fontsize-medium {
+        height: calc(10px + var(--tss-font-size-medium));
+    }
+
+        .tss-toggle-container.tss-fontsize-medium .tss-toggle-mark {
+            height: calc(8px + var(--tss-font-size-medium));
+            width: calc(30px + var(--tss-font-size-medium));
+            border-radius: 30px;
+        }
+
+            .tss-toggle-container.tss-fontsize-medium .tss-toggle-mark:after {
+                top: 4px;
+                left: 4px;
+                height: calc(var(--tss-font-size-medium));
+                width: calc(var(--tss-font-size-medium));
+            }
+
+        .tss-toggle-container.tss-fontsize-medium .tss-toggle-text {
+            padding-left: 14px;
+        }
+
+
+    .tss-toggle-container.tss-fontsize-large {
+        height: calc(10px + var(--tss-font-size-large));
+    }
+
+        .tss-toggle-container.tss-fontsize-large .tss-toggle-mark {
+            height: calc(8px + var(--tss-font-size-large));
+            width: calc(30px + var(--tss-font-size-large));
+            border-radius: 30px;
+        }
+
+            .tss-toggle-container.tss-fontsize-large .tss-toggle-mark:after {
+                top: 4px;
+                left: 4px;
+                height: calc(var(--tss-font-size-large));
+                width: calc(var(--tss-font-size-large));
+            }
+
+        .tss-toggle-container.tss-fontsize-large .tss-toggle-text {
+            padding-left: 14px;
+        }
+
+    .tss-toggle-container.tss-fontsize-xlarge {
+        height: calc(10px + var(--tss-font-size-xlarge));
+    }
+
+        .tss-toggle-container.tss-fontsize-xlarge .tss-toggle-mark {
+            height: calc(8px + var(--tss-font-size-xlarge));
+            width: calc(30px + var(--tss-font-size-xlarge));
+            border-radius: 30px;
+        }
+
+            .tss-toggle-container.tss-fontsize-xlarge .tss-toggle-mark:after {
+                top: 4px;
+                left: 4px;
+                height: calc(var(--tss-font-size-xlarge));
+                width: calc(var(--tss-font-size-xlarge));
+            }
+
+        .tss-toggle-container.tss-fontsize-xlarge .tss-toggle-text {
+            padding-left: 20px;
+        }
+
+    .tss-toggle-container.tss-fontsize-xxlarge {
+        height: calc(10px + var(--tss-font-size-xxlarge));
+    }
+
+        .tss-toggle-container.tss-fontsize-xxlarge .tss-toggle-mark {
+            height: calc(8px + var(--tss-font-size-xxlarge));
+            width: calc(30px + var(--tss-font-size-xxlarge));
+            border-radius: 30px;
+        }
+
+            .tss-toggle-container.tss-fontsize-xxlarge .tss-toggle-mark:after {
+                top: 4px;
+                left: 4px;
+                height: calc(var(--tss-font-size-xxlarge));
+                width: calc(var(--tss-font-size-xxlarge));
+            }
+
+        .tss-toggle-container.tss-fontsize-xxlarge .tss-toggle-text {
+            padding-left: 24px;
+        }
+
+
+    .tss-toggle-container.tss-fontsize-mega {
+        height: calc(10px + var(--tss-font-size-mega));
+    }
+
+        .tss-toggle-container.tss-fontsize-mega .tss-toggle-mark {
+            height: calc(8px + var(--tss-font-size-mega));
+            width: calc(30px + var(--tss-font-size-mega));
+            border-radius: 30px;
+        }
+
+            .tss-toggle-container.tss-fontsize-mega .tss-toggle-mark:after {
+                top: 4px;
+                left: 4px;
+                height: calc(var(--tss-font-size-mega));
+                width: calc(var(--tss-font-size-mega));
+            }
+
+        .tss-toggle-container.tss-fontsize-mega .tss-toggle-text {
+            padding-left: 34px;
+        }
