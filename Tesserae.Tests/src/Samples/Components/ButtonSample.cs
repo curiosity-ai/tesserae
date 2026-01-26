@@ -55,6 +55,12 @@ namespace Tesserae.Tests.Samples
                         Button().SetText("Lime").Background(Theme.Colors.Lime500).OnClick(() => alert("Clicked!")),
                         Button().SetText("Magenta").Background(Theme.Colors.Magenta500).OnClick(() => alert("Clicked!")),
                         Button().SetText("Yellow").Background(Theme.Colors.Yellow500).OnClick(() => alert("Clicked!"))
+                    ),
+                    SampleSubTitle("Rounded Buttons"),
+                    HStack().Children(
+                        Button().SetText("Small").Rounded(BorderRadius.Small).Primary(),
+                        Button().SetText("Medium").Rounded(BorderRadius.Medium).Primary(),
+                        Button().SetText("Full").Rounded(BorderRadius.Full).Primary()
                     )
                 ));
         }

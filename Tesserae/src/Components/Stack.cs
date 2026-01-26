@@ -9,7 +9,7 @@ namespace Tesserae
     /// A Stack is a container-type component that abstracts the implementation of a flexbox in order to define the layout of its children components.
     /// </summary>
     [H5.Name("tss.S")]
-    public class Stack : IContainer<Stack, IComponent>, IHasBackgroundColor, IHasMarginPadding, ISpecialCaseStyling, ICanWrap
+    public class Stack : IContainer<Stack, IComponent>, IHasBackgroundColor, IHasMarginPadding, ISpecialCaseStyling, ICanWrap, IRoundedStyle
     {
         /// <summary>
         /// Gets or sets the stack orientation.

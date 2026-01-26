@@ -10,7 +10,7 @@ using static Tesserae.UI;
 namespace Tesserae
 {
     [H5.Name("tss.Dropdown")]
-    public sealed class Dropdown : Layer<Dropdown>, ICanValidate<Dropdown>, IObservableListComponent<Dropdown.Item>, ITabIndex
+    public sealed class Dropdown : Layer<Dropdown>, ICanValidate<Dropdown>, IObservableListComponent<Dropdown.Item>, ITabIndex, IRoundedStyle
     {
         private const string _multiSelectDropdownClassName = "tss-dropdown-multi";
 

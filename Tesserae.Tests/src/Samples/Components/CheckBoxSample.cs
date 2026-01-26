@@ -39,7 +39,13 @@ namespace Tesserae.Tests.Samples
                         CheckBox("Tiny text").Tiny(),
                         CheckBox("Small text (default)").Small(),
                         CheckBox("Large text").Large(),
-                        CheckBox("Bold text").Bold())
+                        CheckBox("Bold text").Bold()),
+                    SampleSubTitle("Rounded CheckBoxes"),
+                    VStack().Children(
+                        CheckBox("Small rounded").Rounded(BorderRadius.Small),
+                        CheckBox("Medium rounded").Rounded(BorderRadius.Medium),
+                        CheckBox("Full rounded").Rounded(BorderRadius.Full)
+                    )
                 ));
         }
 

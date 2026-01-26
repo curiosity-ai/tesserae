@@ -9,7 +9,7 @@ namespace Tesserae
     /// A text block component.
     /// </summary>
     [H5.Name("tss.txt")]
-    public class TextBlock : ComponentBase<TextBlock, HTMLElement>, ITextFormating, IHasBackgroundColor, IHasForegroundColor, ICanWrap
+    public class TextBlock : ComponentBase<TextBlock, HTMLElement>, ITextFormating, IHasBackgroundColor, IHasForegroundColor, ICanWrap, IRoundedStyle
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TextBlock"/> class.

@@ -8,7 +8,7 @@ using static Tesserae.UI;
 namespace Tesserae
 {
     [H5.Name("tss.Label")]
-    public sealed class Label : TextBlock, ISpecialCaseStyling
+    public sealed class Label : TextBlock, ISpecialCaseStyling, IRoundedStyle
     {
         private static int _labelForId = 0;
 

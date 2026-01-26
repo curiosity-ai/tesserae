@@ -5,7 +5,7 @@ using static Tesserae.UI;
 namespace Tesserae
 {
     [H5.Name("tss.Card")]
-    public sealed class Card : ComponentBase<Card, HTMLElement>, IHasBackgroundColor
+    public sealed class Card : ComponentBase<Card, HTMLElement>, IHasBackgroundColor, IRoundedStyle
     {
         private readonly HTMLElement _cardContainer;
         public Card(IComponent content)

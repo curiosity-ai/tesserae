@@ -43,7 +43,13 @@ namespace Tesserae.Tests.Samples
                         Toggle("Tiny toggle").Tiny(),
                         Toggle("Small toggle (default)").Small(),
                         Toggle("Large toggle").Large(),
-                        Toggle("Bold toggle").Bold())
+                        Toggle("Bold toggle").Bold()),
+                    SampleSubTitle("Rounded Toggles"),
+                    VStack().Children(
+                        Label("Small").SetContent(Toggle().Rounded(BorderRadius.Small)),
+                        Label("Medium").SetContent(Toggle().Rounded(BorderRadius.Medium)),
+                        Label("Full").SetContent(Toggle().Rounded(BorderRadius.Full))
+                    )
                 ));
         }
 

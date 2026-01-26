@@ -75,3 +75,11 @@
 .tss-textbox.tss-textbox-h100 {
     height: 100%;
 }
+
+.tss-textbox-container.tss-rounded-md .tss-textbox {
+    padding: 0px 8px;
+}
+
+.tss-textbox-container.tss-rounded-full .tss-textbox {
+    padding: 0px 12px;
+}
