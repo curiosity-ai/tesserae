@@ -37,7 +37,13 @@ namespace Tesserae.Tests.Samples
                         Label("Inline Toggle").Inline().SetContent(Toggle())
                     ),
                     SampleSubTitle("Event Handling"),
-                    Toggle().SetText("Feature X").OnChange((s, e) => Toast().Information($"Feature X is now {(s.IsChecked ? "Enabled" : "Disabled")}"))
+                    Toggle().SetText("Feature X").OnChange((s, e) => Toast().Information($"Feature X is now {(s.IsChecked ? "Enabled" : "Disabled")}")),
+                    SampleSubTitle("Formatting"),
+                    VStack().Children(
+                        Toggle("Tiny toggle").Tiny(),
+                        Toggle("Small toggle (default)").Small(),
+                        Toggle("Large toggle").Large(),
+                        Toggle("Bold toggle").Bold())
                 ));
         }
 

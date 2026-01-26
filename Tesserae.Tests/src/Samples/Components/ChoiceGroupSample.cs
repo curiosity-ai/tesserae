@@ -44,7 +44,14 @@ namespace Tesserae.Tests.Samples
                         Choice("English"),
                         Choice("Spanish"),
                         Choice("French")
-                    ).OnChange((s, e) => Toast().Information($"Selected: {s.SelectedOption.Text}"))
+                    ).OnChange((s, e) => Toast().Information($"Selected: {s.SelectedOption.Text}")),
+                    SampleSubTitle("Formatting"),
+                    ChoiceGroup("Pick a style").Choices(
+                        Choice("Tiny").Tiny(),
+                        Choice("Small (default)").Small(),
+                        Choice("Large").Large(),
+                        Choice("Bold").Bold()
+                    )
                 ));
         }
 

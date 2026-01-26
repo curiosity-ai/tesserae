@@ -33,7 +33,13 @@ namespace Tesserae.Tests.Samples
                     VStack().Children(
                         Label("Required choice").Required().SetContent(CheckBox("I agree to the terms")),
                         CheckBox("Checkbox with tooltip").Tooltip("More info here"),
-                        CheckBox("Triggers event").OnChange((s, e) => Toast().Information($"Checked: {s.IsChecked}")))
+                        CheckBox("Triggers event").OnChange((s, e) => Toast().Information($"Checked: {s.IsChecked}"))),
+                    SampleSubTitle("Formatting"),
+                    VStack().Children(
+                        CheckBox("Tiny text").Tiny(),
+                        CheckBox("Small text (default)").Small(),
+                        CheckBox("Large text").Large(),
+                        CheckBox("Bold text").Bold())
                 ));
         }
 
