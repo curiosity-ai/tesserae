@@ -3,8 +3,6 @@
     position: relative;
     cursor: pointer;
     color: var(--tss-default-foreground-color);
-    font-size: var(--tss-font-size-small);
-    font-weight: var(--tss-font-weight-regular);
     -webkit-user-select: none;
     user-select: none;
     padding-left: 25px;
@@ -75,3 +73,158 @@
             background-color: var(--tss-disabled-foreground-color);
             border-color: var(--tss-disabled-foreground-color);
         }
+
+    .tss-checkbox-container.tss-fontsize-mega {
+        height: calc(9px + var(--tss-font-size-mega));
+        padding-left: calc(13px + var(--tss-font-size-mega));
+    }
+
+    .tss-checkbox-container.tss-fontsize-xxlarge {
+        height: calc(9px + var(--tss-font-size-xxlarge));
+        padding-left: calc(13px + var(--tss-font-size-xxlarge));
+    }
+
+    .tss-checkbox-container.tss-fontsize-xlarge {
+        height: calc(9px + var(--tss-font-size-xlarge));
+        padding-left: calc(13px + var(--tss-font-size-xlarge));
+    }
+
+    .tss-checkbox-container.tss-fontsize-large {
+        height: calc(9px + var(--tss-font-size-large));
+        padding-left: calc(13px + var(--tss-font-size-large));
+    }
+
+    .tss-checkbox-container.tss-fontsize-mediumplus {
+        height: calc(9px + var(--tss-font-size-mediumplus));
+        padding-left: calc(13px + var(--tss-font-size-mediumplus));
+    }
+
+    .tss-checkbox-container.tss-fontsize-medium {
+        height: calc(9px + var(--tss-font-size-medium));
+        padding-left: calc(13px + var(--tss-font-size-medium));
+    }
+
+    .tss-checkbox-container.tss-fontsize-smallplus {
+        height: calc(9px + var(--tss-font-size-smallplus));
+        padding-left: calc(13px + var(--tss-font-size-smallplus));
+    }
+
+    .tss-checkbox-container.tss-fontsize-xsmall {
+        height: calc(9px + var(--tss-font-size-xsmall));
+        padding-left: calc(13px + var(--tss-font-size-xsmall));
+    }
+
+    .tss-checkbox-container.tss-fontsize-tiny {
+        height: calc(9px + var(--tss-font-size-tiny));
+        padding-left: calc(13px + var(--tss-font-size-tiny));
+    }
+
+
+    .tss-checkbox-container.tss-fontsize-mega .tss-checkbox-mark {
+        height: calc(7px + var(--tss-font-size-mega));
+        width: calc(7px + var(--tss-font-size-mega));
+    }
+
+    .tss-checkbox-container.tss-fontsize-xxlarge .tss-checkbox-mark {
+        height: calc(7px + var(--tss-font-size-xxlarge));
+        width: calc(7px + var(--tss-font-size-xxlarge));
+    }
+
+    .tss-checkbox-container.tss-fontsize-xlarge .tss-checkbox-mark {
+        height: calc(7px + var(--tss-font-size-xlarge));
+        width: calc(7px + var(--tss-font-size-xlarge));
+    }
+
+    .tss-checkbox-container.tss-fontsize-large .tss-checkbox-mark {
+        height: calc(7px + var(--tss-font-size-large));
+        width: calc(7px + var(--tss-font-size-large));
+    }
+
+    .tss-checkbox-container.tss-fontsize-mediumplus .tss-checkbox-mark {
+        height: calc(7px + var(--tss-font-size-mediumplus));
+        width: calc(7px + var(--tss-font-size-mediumplus));
+    }
+
+    .tss-checkbox-container.tss-fontsize-medium .tss-checkbox-mark {
+        height: calc(7px + var(--tss-font-size-medium));
+        width: calc(7px + var(--tss-font-size-medium));
+    }
+
+    .tss-checkbox-container.tss-fontsize-smallplus .tss-checkbox-mark {
+        height: calc(7px + var(--tss-font-size-smallplus));
+        width: calc(7px + var(--tss-font-size-smallplus));
+    }
+
+    .tss-checkbox-container.tss-fontsize-xsmall .tss-checkbox-mark {
+        height: calc(7px + var(--tss-font-size-xsmall));
+        width: calc(7px + var(--tss-font-size-xsmall));
+    }
+
+    .tss-checkbox-container.tss-fontsize-tiny .tss-checkbox-mark {
+        height: calc(7px + var(--tss-font-size-tiny));
+        width: calc(7px + var(--tss-font-size-tiny));
+    }
+
+
+    .tss-checkbox-container.tss-fontsize-mega .tss-checkbox-mark:after {
+        left: calc(0.4 * var(--tss-font-size-mega));
+        width: calc(0.45 * var(--tss-font-size-mega));
+        height: calc(var(--tss-font-size-mega) - 1px);
+        border-width: 0 2px 2px 0;
+    }
+
+    .tss-checkbox-container.tss-fontsize-xxlarge .tss-checkbox-mark:after {
+        left: calc(0.4 * var(--tss-font-size-xxlarge));
+        width: calc(0.45 * var(--tss-font-size-xxlarge));
+        height: calc(var(--tss-font-size-xxlarge) - 1px);
+        border-width: 0 2px 2px 0;
+    }
+
+    .tss-checkbox-container.tss-fontsize-xlarge .tss-checkbox-mark:after {
+        left: calc(0.4 * var(--tss-font-size-xlarge));
+        width: calc(0.45 * var(--tss-font-size-xlarge));
+        height: calc(var(--tss-font-size-xlarge) - 1px);
+        border-width: 0 2px 2px 0;
+    }
+
+    .tss-checkbox-container.tss-fontsize-large .tss-checkbox-mark:after {
+        left: calc(0.4 * var(--tss-font-size-large));
+        width: calc(0.45 * var(--tss-font-size-large));
+        height: calc(var(--tss-font-size-large) - 1px);
+        border-width: 0 2px 2px 0;
+    }
+
+    .tss-checkbox-container.tss-fontsize-mediumplus .tss-checkbox-mark:after {
+        left: calc(0.4 * var(--tss-font-size-mediumplus));
+        width: calc(0.45 * var(--tss-font-size-mediumplus));
+        height: calc(var(--tss-font-size-mediumplus) - 1px);
+        border-width: 0 2px 2px 0;
+    }
+
+    .tss-checkbox-container.tss-fontsize-medium .tss-checkbox-mark:after {
+        left: calc(0.4 * var(--tss-font-size-medium));
+        width: calc(0.45 * var(--tss-font-size-medium));
+        height: calc(var(--tss-font-size-medium) - 1px);
+        border-width: 0 2px 2px 0;
+    }
+
+    .tss-checkbox-container.tss-fontsize-smallplus .tss-checkbox-mark:after {
+        left: calc(0.4 * var(--tss-font-size-smallplus));
+        width: calc(0.45 * var(--tss-font-size-smallplus));
+        height: calc(var(--tss-font-size-smallplus) - 1px);
+        border-width: 0 2px 2px 0;
+    }
+
+    .tss-checkbox-container.tss-fontsize-xsmall .tss-checkbox-mark:after {
+        left: calc(0.4 * var(--tss-font-size-xsmall));
+        width: calc(0.45 * var(--tss-font-size-xsmall));
+        height: calc(var(--tss-font-size-xsmall) - 1px);
+        border-width: 0 2px 2px 0;
+    }
+
+    .tss-checkbox-container.tss-fontsize-tiny .tss-checkbox-mark:after {
+        left: calc(0.55 * var(--tss-font-size-tiny));
+        width: calc(0.55 * var(--tss-font-size-tiny));
+        height: calc(var(--tss-font-size-tiny) - 1px);
+        border-width: 0 2px 2px 0;
+    }

@@ -38,6 +38,17 @@ namespace Tesserae.Tests.Samples
                     ),
                     SampleSubTitle("Event Handling"),
                     Toggle().SetText("Feature X").OnChange((s, e) => Toast().Information($"Feature X is now {(s.IsChecked ? "Enabled" : "Disabled")}")),
+                    SampleSubTitle("Formatting"),
+                    VStack().Children(
+                        Toggle("Tiny").Tiny(),
+                        Toggle("Small (default)").Small(),
+                        Toggle("Small Plus").SmallPlus(),
+                        Toggle("Medium").Medium(),
+                        Toggle("Large").Large(),
+                        Toggle("XLarge").XLarge(),
+                        Toggle("XXLarge").XXLarge(),
+                        Toggle("Mega").Mega(),
+                        Toggle("Bold text").Bold()),
                     SampleSubTitle("Rounded Toggles"),
                     VStack().Children(
                         Label("Small").SetContent(Toggle().Rounded(BorderRadius.Small)),

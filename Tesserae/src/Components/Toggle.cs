@@ -7,7 +7,7 @@ namespace Tesserae
     /// A Toggle component that allows users to switch between two states (on/off).
     /// </summary>
     [H5.Name("tss.Toggle")]
-    public class Toggle : ComponentBase<Toggle, HTMLInputElement>, IObservableComponent<bool>, IRoundedStyle
+    public class Toggle : ComponentBase<Toggle, HTMLInputElement>, IObservableComponent<bool>, IRoundedStyle, ITextFormating
     {
         private readonly HTMLElement              _checkElement;
         private readonly HTMLElement              _onOffSpan;
@@ -28,8 +28,8 @@ namespace Tesserae
             InnerElement  = CheckBox(_("tss-checkbox"));
             InnerElement.setAttribute("role", "switch");
             _checkElement = Div(_("tss-toggle-mark"));
-            _onOffSpan    = Div(_("tss-toggle-text"),                                   _offText.Render());
-            _container    = Div(_("tss-toggle-container tss-default-component-margin"), InnerElement, _checkElement, _onOffSpan);
+            _onOffSpan = Div(_("tss-toggle-text"), _offText.Render());
+            _container = Div(_("tss-toggle-container tss-default-component-margin tss-fontcolor-default tss-fontsize-small tss-fontweight-regular"), InnerElement, _checkElement, _onOffSpan);
 
             _observable = new SettableObservable<bool>();
 
@@ -169,6 +169,54 @@ namespace Tesserae
         public IObservable<bool> AsObservable()
         {
             return _observable;
+        }
+
+        /// <summary>Gets or sets the text size.</summary>
+        public TextSize Size
+        {
+            get => ITextFormatingExtensions.FromClassList(_container, TextSize.Small);
+            set
+            {
+                _container.classList.remove(Size.ToString());
+                _onText.RemoveClass(Size.ToString());
+                _offText.RemoveClass(Size.ToString());
+
+                _container.classList.add(value.ToString());
+                _onText.Class(value.ToString());
+                _offText.Class(value.ToString());
+            }
+        }
+
+        /// <summary>Gets or sets the text weight.</summary>
+        public TextWeight Weight
+        {
+            get => ITextFormatingExtensions.FromClassList(_container, TextWeight.Regular);
+            set
+            {
+                _container.classList.remove(Weight.ToString());
+                _onText.RemoveClass(Weight.ToString());
+                _offText.RemoveClass(Weight.ToString());
+                
+                _container.classList.add(value.ToString());
+                _onText.Class(value.ToString());
+                _offText.Class(value.ToString());
+            }
+        }
+
+        /// <summary>Gets or sets the text alignment.</summary>
+        public TextAlign TextAlign
+        {
+            get => ITextFormatingExtensions.FromClassList(_container, TextAlign.Left);
+            set
+            {
+                _container.classList.remove(TextAlign.ToString());
+                _onText.RemoveClass(TextAlign.ToString());
+                _offText.RemoveClass(TextAlign.ToString());
+
+                _container.classList.add(value.ToString());
+                _onText.Class(value.ToString());
+                _offText.Class(value.ToString());
+            }
         }
     }
 }

@@ -34,6 +34,17 @@ namespace Tesserae.Tests.Samples
                         Label("Required choice").Required().SetContent(CheckBox("I agree to the terms")),
                         CheckBox("Checkbox with tooltip").Tooltip("More info here"),
                         CheckBox("Triggers event").OnChange((s, e) => Toast().Information($"Checked: {s.IsChecked}"))),
+                    SampleSubTitle("Formatting"),
+                    VStack().Children(
+                        CheckBox("Tiny").Tiny(),
+                        CheckBox("Small (default)").Small(),
+                        CheckBox("Small Plus").SmallPlus(),
+                        CheckBox("Medium").Medium(),
+                        CheckBox("Large").Large(),
+                        CheckBox("XLarge").XLarge(),
+                        CheckBox("XXLarge").XXLarge(),
+                        CheckBox("Mega").Mega(),
+                        CheckBox("Bold text").Bold()),
                     SampleSubTitle("Rounded CheckBoxes"),
                     VStack().Children(
                         CheckBox("Small rounded").Rounded(BorderRadius.Small),

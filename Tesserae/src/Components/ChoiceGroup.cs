@@ -121,7 +121,7 @@ namespace Tesserae
             Horizontal
         }
 
-        public sealed class Choice : ComponentBase<Choice, HTMLInputElement>
+        public sealed class Choice : ComponentBase<Choice, HTMLInputElement>, ITextFormating
         {
             private event ComponentEventHandler<Choice> SelectedItem;
 
@@ -131,7 +131,7 @@ namespace Tesserae
             {
                 InnerElement = RadioButton(_("tss-option"));
                 _radioSpan   = Span(_("tss-option-mark"));
-                _label       = Label(_("tss-option-container tss-default-component-margin", text: text), InnerElement, _radioSpan);
+                _label = Label(_("tss-option-container tss-default-component-margin tss-fontcolor-default tss-fontsize-small tss-fontweight-regular", text: text), InnerElement, _radioSpan);
                 AttachClick();
                 AttachChange();
                 AttachFocus();
@@ -216,6 +216,39 @@ namespace Tesserae
             {
                 Text = text;
                 return this;
+            }
+
+            /// <summary>Gets or sets the text size.</summary>
+            public TextSize Size
+            {
+                get => ITextFormatingExtensions.FromClassList(_label, TextSize.Small);
+                set
+                {
+                    _label.classList.remove(Size.ToString());
+                    _label.classList.add(value.ToString());
+                }
+            }
+
+            /// <summary>Gets or sets the text weight.</summary>
+            public TextWeight Weight
+            {
+                get => ITextFormatingExtensions.FromClassList(_label, TextWeight.Regular);
+                set
+                {
+                    _label.classList.remove(Weight.ToString());
+                    _label.classList.add(value.ToString());
+                }
+            }
+
+            /// <summary>Gets or sets the text alignment.</summary>
+            public TextAlign TextAlign
+            {
+                get => ITextFormatingExtensions.FromClassList(_label, TextAlign.Left);
+                set
+                {
+                    _label.classList.remove(TextAlign.ToString());
+                    _label.classList.add(value.ToString());
+                }
             }
 
             internal void Name(string name)
