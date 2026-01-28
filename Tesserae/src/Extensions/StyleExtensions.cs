@@ -13,9 +13,17 @@
         /// <param name="element">The component.</param>
         /// <param name="color">The background color.</param>
         /// <returns>The component instance.</returns>
-        public static T Background<T>(this T element, string color) where T : IHasBackgroundColor
+        public static T Background<T>(this T element, string color) where T : IComponent
         {
-            element.Background = color ?? "";
+            if (element is IHasBackgroundColor hasBg)
+            {
+                hasBg.Background = color ?? "";
+            }
+            else
+            {
+                var (el, _) = Stack.GetCorrectItemToApplyStyle(element);
+                el.style.background = color ?? "";
+            }
             return element;
         }
 
@@ -26,9 +34,17 @@
         /// <param name="element">The component.</param>
         /// <param name="color">The foreground color.</param>
         /// <returns>The component instance.</returns>
-        public static T Foreground<T>(this T element, string color) where T : IHasForegroundColor
+        public static T Foreground<T>(this T element, string color) where T : IComponent
         {
-            element.Foreground = color ?? "";
+            if (element is IHasForegroundColor hasFg)
+            {
+                hasFg.Foreground = color ?? "";
+            }
+            else
+            {
+                var (el, _) = Stack.GetCorrectItemToApplyStyle(element);
+                el.style.color = color ?? "";
+            }
             return element;
         }
 
@@ -39,9 +55,17 @@
         /// <param name="element">The component.</param>
         /// <param name="padding">The padding value.</param>
         /// <returns>The component instance.</returns>
-        public static T Padding<T>(this T element, string padding) where T : IHasMarginPadding
+        public static T Padding<T>(this T element, string padding) where T : IComponent
         {
-            element.Padding = padding ?? "";
+            if (element is IHasMarginPadding hasMarginPadding)
+            {
+                hasMarginPadding.Padding = padding ?? "";
+            }
+            else
+            {
+                var (el, _) = Stack.GetCorrectItemToApplyStyle(element);
+                el.style.padding = padding ?? "";
+            }
             return element;
         }
 
@@ -52,9 +76,17 @@
         /// <param name="element">The component.</param>
         /// <param name="margin">The margin value.</param>
         /// <returns>The component instance.</returns>
-        public static T Margin<T>(this T element, string margin) where T : IHasMarginPadding
+        public static T Margin<T>(this T element, string margin) where T : IComponent
         {
-            element.Margin = margin ?? "";
+            if (element is IHasMarginPadding hasMarginPadding)
+            {
+                hasMarginPadding.Margin = margin ?? "";
+            }
+            else
+            {
+                var (el, _) = Stack.GetCorrectItemToApplyStyle(element);
+                el.style.margin = margin ?? "";
+            }
             return element;
         }
 

@@ -580,6 +580,107 @@ namespace Tesserae
         /// <summary>Sets the tab index to -1 so the component is skipped during tab navigation.</summary>
         public static T SkipTab<T>(this T component) where T : IComponent => TabIndex(component, -1);
 
+        /// <summary>Adds an click event listener to the component.</summary>
+        public static T OnClick<T>(this T component, Action onClick) where T : IComponent
+        {
+            component.Render().onclick = (e) => onClick();
+            return component;
+        }
+
+        /// <summary>Adds an click event listener to the component.</summary>
+        public static T OnClick<T>(this T component, Action<T, MouseEvent> onClick) where T : IComponent
+        {
+            component.Render().onclick = (e) => onClick(component, e);
+            return component;
+        }
+
+        /// <summary>Makes the component scrollable.</summary>
+        public static T Scrollable<T>(this T component) where T : IComponent
+        {
+            var (el, _) = Stack.GetCorrectItemToApplyStyle(component);
+            el.style.overflowY = "auto";
+            return component;
+        }
+
+        /// <summary>Makes the component scrollable horizontally.</summary>
+        public static T ScrollableHorizontal<T>(this T component) where T : IComponent
+        {
+            var (el, _) = Stack.GetCorrectItemToApplyStyle(component);
+            el.style.overflowX = "auto";
+            return component;
+        }
+
+        /// <summary>Disables scrolling for the component.</summary>
+        public static T NoScroll<T>(this T component) where T : IComponent
+        {
+            var (el, _) = Stack.GetCorrectItemToApplyStyle(component);
+            el.style.overflow = "hidden";
+            return component;
+        }
+
+        /// <summary>Sets the opacity of the component.</summary>
+        public static T Opacity<T>(this T component, double opacity) where T : IComponent
+        {
+            var (el, _) = Stack.GetCorrectItemToApplyStyle(component);
+            el.style.opacity = opacity.ToString();
+            return component;
+        }
+
+        /// <summary>Sets the cursor of the component.</summary>
+        public static T Cursor<T>(this T component, string cursor) where T : IComponent
+        {
+            var (el, _) = Stack.GetCorrectItemToApplyStyle(component);
+            el.style.cursor = cursor;
+            return component;
+        }
+
+        /// <summary>Sets the display of the component.</summary>
+        public static T Display<T>(this T component, string display) where T : IComponent
+        {
+            var (el, _) = Stack.GetCorrectItemToApplyStyle(component);
+            el.style.display = display;
+            return component;
+        }
+
+        /// <summary>Sets the position of the component.</summary>
+        public static T Position<T>(this T component, string position) where T : IComponent
+        {
+            var (el, _) = Stack.GetCorrectItemToApplyStyle(component);
+            el.style.position = position;
+            return component;
+        }
+
+        /// <summary>Sets the z-index of the component.</summary>
+        public static T ZIndex<T>(this T component, int zIndex) where T : IComponent
+        {
+            var (el, _) = Stack.GetCorrectItemToApplyStyle(component);
+            el.style.zIndex = zIndex.ToString();
+            return component;
+        }
+
+        /// <summary>Sets the overflow of the component.</summary>
+        public static T Overflow<T>(this T component, string overflow) where T : IComponent
+        {
+            var (el, _) = Stack.GetCorrectItemToApplyStyle(component);
+            el.style.overflow = overflow;
+            return component;
+        }
+
+        /// <summary>Sets the pointer-events of the component.</summary>
+        public static T PointerEvents<T>(this T component, string pointerEvents) where T : IComponent
+        {
+            var (el, _) = Stack.GetCorrectItemToApplyStyle(component);
+            el.style.pointerEvents = pointerEvents;
+            return component;
+        }
+
+        /// <summary>Sets the title (native tooltip) of the component.</summary>
+        public static T NativeTitle<T>(this T component, string title) where T : IComponent
+        {
+            component.Render().title = title;
+            return component;
+        }
+
         //Shortcuts:
 
         /// <summary>Width</summary>
@@ -593,6 +694,30 @@ namespace Tesserae
 
         /// <summary>Height</summary>
         public static T H<T>(this T component, int pixels) where T : IComponent => Height(component, pixels.px());
+
+        /// <summary>Width</summary>
+        public static T Width<T>(this T component, int pixels) where T : IComponent => Width(component, pixels.px());
+
+        /// <summary>Height</summary>
+        public static T Height<T>(this T component, int pixels) where T : IComponent => Height(component, pixels.px());
+
+        /// <summary>Minimum width</summary>
+        public static T MinWidth<T>(this T component, int pixels) where T : IComponent => MinWidth(component, pixels.px());
+
+        /// <summary>Maximum width</summary>
+        public static T MaxWidth<T>(this T component, int pixels) where T : IComponent => MaxWidth(component, pixels.px());
+
+        /// <summary>Minimum height</summary>
+        public static T MinHeight<T>(this T component, int pixels) where T : IComponent => MinHeight(component, pixels.px());
+
+        /// <summary>Maximum height</summary>
+        public static T MaxHeight<T>(this T component, int pixels) where T : IComponent => MaxHeight(component, pixels.px());
+
+        /// <summary>Padding</summary>
+        public static T Padding<T>(this T component, int pixels) where T : IComponent => Padding(component, pixels.px());
+
+        /// <summary>Margin</summary>
+        public static T Margin<T>(this T component, int pixels) where T : IComponent => Margin(component, pixels.px());
 
         /// <summary>Stretch</summary>
         public static T S<T>(this T component) where T : IComponent => Stretch(component);
@@ -662,5 +787,29 @@ namespace Tesserae
 
         /// <summary>PaddingBottom</summary>
         public static T PB<T>(this T component, int pixels) where T : IComponent => PaddingBottom(component, pixels.px());
+
+        /// <summary>Sets the left margin for the component.</summary>
+        public static T MarginLeft<T>(this T component, int pixels) where T : IComponent => MarginLeft(component, pixels.px());
+
+        /// <summary>Sets the right margin for the component.</summary>
+        public static T MarginRight<T>(this T component, int pixels) where T : IComponent => MarginRight(component, pixels.px());
+
+        /// <summary>Sets the top margin for the component.</summary>
+        public static T MarginTop<T>(this T component, int pixels) where T : IComponent => MarginTop(component, pixels.px());
+
+        /// <summary>Sets the bottom margin for the component.</summary>
+        public static T MarginBottom<T>(this T component, int pixels) where T : IComponent => MarginBottom(component, pixels.px());
+
+        /// <summary>Sets the left padding for the component.</summary>
+        public static T PaddingLeft<T>(this T component, int pixels) where T : IComponent => PaddingLeft(component, pixels.px());
+
+        /// <summary>Sets the right padding for the component.</summary>
+        public static T PaddingRight<T>(this T component, int pixels) where T : IComponent => PaddingRight(component, pixels.px());
+
+        /// <summary>Sets the top padding for the component.</summary>
+        public static T PaddingTop<T>(this T component, int pixels) where T : IComponent => PaddingTop(component, pixels.px());
+
+        /// <summary>Sets the bottom padding for the component.</summary>
+        public static T PaddingBottom<T>(this T component, int pixels) where T : IComponent => PaddingBottom(component, pixels.px());
     }
 }
