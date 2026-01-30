@@ -14,8 +14,8 @@
     padding: 0px 5px;
     background: none;
     margin: 0px;
-    height: 32px;
-    line-height: 32px;
+    height: 36px;
+    line-height: 36px;
 }
 
     .tss-searchbox::placeholder {
@@ -36,18 +36,19 @@
     display: inline-flex;
     position: relative;
     margin-right: 16px;
-    box-shadow: none;
+    box-shadow: var(--tss-shadow-sm);
     margin: 0px;
     border: 1px solid var(--tss-default-border-color);
-    border-radius: 4px;
+    border-radius: var(--tss-border-radius-md);
     background: var(--tss-default-background-color) none repeat scroll 0% 0%;
     color: var(--tss-default-foreground-color);
     cursor: text;
-    height: 32px;
+    height: 36px;
     align-items: stretch;
     width: 100%;
     outline: transparent none medium;
     padding: 0px 5px;
+    transition: all 0.15s ease-in-out;
 }
 
     .tss-searchbox-container.tss-disabled {
@@ -77,6 +78,7 @@
 
     .tss-searchbox-container:focus-within {
         border-color: var(--tss-primary-border-color);
+        box-shadow: var(--tss-ring-offset-shadow), var(--tss-ring-shadow);
     }
 
 .tss-searchbox-icon {
