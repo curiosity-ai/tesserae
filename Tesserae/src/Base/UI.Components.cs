@@ -634,6 +634,16 @@ namespace Tesserae
         public static Toast Toast() => new Toast();
 
         /// <summary>
+        /// Creates a <see cref="Tesserae.SavingToast"/> component.
+        /// </summary>
+        public static SavingToast SavingToast(string initialMessage) => new SavingToast(initialMessage);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.SaveButton"/> component.
+        /// </summary>
+        public static SaveButton SaveButton() => new SaveButton();
+
+        /// <summary>
         /// Creates a <see cref="Tesserae.ProgressIndicator"/> component.
         /// </summary>
         public static ProgressIndicator ProgressIndicator() => new ProgressIndicator();
