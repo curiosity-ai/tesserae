@@ -25,7 +25,7 @@ namespace Tesserae
             var title = HStack().Children(
                 Icon(UIcons.Refresh).Foreground(UI.Theme.Primary.Background),
                 TextBlock("Saving...").SemiBold().Primary()
-            ).AlignItems(ItemAlign.Center).Style(s => s.gap = "8px");
+            ).AlignItems(ItemAlign.Center).Style(s => s.gap = "8px").PL(8);
 
             _toast.Information(title, TextBlock(message ?? _initialMessage));
         }
@@ -37,7 +37,7 @@ namespace Tesserae
             var title = HStack().Children(
                 Icon(UIcons.Check).Foreground(UI.Theme.Success.Background),
                 TextBlock("Saved").SemiBold().Success()
-            ).AlignItems(ItemAlign.Center).Style(s => s.gap = "8px");
+            ).AlignItems(ItemAlign.Center).Style(s => s.gap = "8px").PL(8);
 
             _toast.Success(title, TextBlock(message));
         }
@@ -49,7 +49,7 @@ namespace Tesserae
             var title = HStack().Children(
                 Icon(UIcons.Cross).Foreground(UI.Theme.Danger.Background),
                 TextBlock("Error").SemiBold().Danger()
-            ).AlignItems(ItemAlign.Center).Style(s => s.gap = "8px");
+            ).AlignItems(ItemAlign.Center).Style(s => s.gap = "8px").PL(8);
 
             _toast.Error(title, TextBlock(message));
         }
