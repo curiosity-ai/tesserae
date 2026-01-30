@@ -24,7 +24,7 @@ namespace Tesserae
         private bool     _showHideButton;
 
         private bool _dismissOnClick = true;
-        private bool _overwrite      = true;
+        private bool _overwrite      = false;
 
         private Position _simPos
         {
@@ -400,9 +400,9 @@ namespace Tesserae
         /// </summary>
         /// <param name="value">Whether to prevent overwriting.</param>
         /// <returns>The current instance of the type.</returns>
-        public Toast NoOverwrite(bool value = true)
+        public Toast Overwrite(bool value = true)
         {
-            _overwrite = !value;
+            _overwrite = value;
             return this;
         }
 
@@ -645,14 +645,14 @@ namespace Tesserae
                         case Position.TopCenter:
                         case Position.TopLeft:
                         case Position.TopFull:
-                            t._toastContainer.style.marginTop    = $"{sum + 16}px";
+                            t._toastContainer.style.marginTop = $"{sum + 16}px";
                             t._toastContainer.style.marginBottom = null;
                             break;
                         case Position.BottomRight:
                         case Position.BottomCenter:
                         case Position.BottomLeft:
                         case Position.BottomFull:
-                            t._toastContainer.style.marginTop    = null;
+                            t._toastContainer.style.marginTop = null;
                             t._toastContainer.style.marginBottom = $"{sum + 16}px";
                             break;
                     }

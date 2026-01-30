@@ -13,12 +13,12 @@ namespace Tesserae.Tests.Samples
 
         public SaveButtonSample()
         {
-            var saveButton = SaveButton().OnClick(async () => {
+            var saveButton = SaveButton().Pending().OnClick(async () => {
                 // Demo logic inside the click
             });
 
             // For manual state control
-            var manualButton = SaveButton();
+            var manualButton = SaveButton().NothingToSave();
 
             _content = SectionStack()
                .Title(SampleHeader(nameof(SaveButtonSample)))
@@ -31,24 +31,27 @@ namespace Tesserae.Tests.Samples
                     HStack().Children(
                         manualButton,
                         Stack().Children(
-                            Button("Set Pending").OnClick(() => manualButton.SetState(SaveButton.SaveState.SavePending)),
-                            Button("Set Verifying").OnClick(() => manualButton.SetState(SaveButton.SaveState.Verifying)),
-                            Button("Set Saving").OnClick(() => manualButton.SetState(SaveButton.SaveState.Saving)),
-                            Button("Set Saved").OnClick(() => manualButton.SetState(SaveButton.SaveState.Saved)),
-                            Button("Set Error").OnClick(() => manualButton.SetState(SaveButton.SaveState.Error, "Validation failed!"))
-                        ).Style(s => s.gap = "8px")
-                    ).Style(s => s.gap = "16px"),
+                            Button("Set Nothing to Save"  ).OnClick(() => manualButton.NothingToSave()),
+                            Button("Set Pending"          ).OnClick(() => manualButton.Pending()),
+                            Button("Set Verifying"        ).OnClick(() => manualButton.Verifying()),
+                            Button("Set Saving"           ).OnClick(() => manualButton.Saving()),
+                            Button("Set Saved"            ).OnClick(() => manualButton.Saved()),
+                            Button("Set Error"            ).OnClick(() => manualButton.Error("Validation failed!"))
+                        ).Gap(8.px())
+                    ).Gap(16.px()),
 
                     SampleSubTitle("Live Demo"),
                     TextBlock("Click the button below to simulate a save operation."),
                     saveButton.OnClick(async () => {
-                        saveButton.SetState(SaveButton.SaveState.Verifying);
+                        saveButton.Verifying();
                         await Task.Delay(1000);
-                        saveButton.SetState(SaveButton.SaveState.Saving);
+                        saveButton.Saving();
                         await Task.Delay(2000);
-                        saveButton.SetState(SaveButton.SaveState.Saved);
+                        saveButton.Saved();
                         await Task.Delay(2000);
-                        saveButton.SetState(SaveButton.SaveState.SavePending);
+                        saveButton.NothingToSave();
+                        await Task.Delay(2000);
+                        saveButton.Pending();
                     })
                 ));
         }

@@ -34,9 +34,10 @@ namespace Tesserae
             get => _host;
             set
             {
-                if (IsVisible) Hide();
+                bool wasVisible = IsVisible;
+                if (wasVisible) Hide();
                 _host = value;
-                if (IsVisible) Show();
+                if (wasVisible) Show();
             }
         }
 

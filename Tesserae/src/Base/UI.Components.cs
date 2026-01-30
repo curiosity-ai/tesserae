@@ -636,7 +636,7 @@ namespace Tesserae
         /// <summary>
         /// Creates a <see cref="Tesserae.SavingToast"/> component.
         /// </summary>
-        public static SavingToast SavingToast(string initialMessage) => new SavingToast(initialMessage);
+        public static SavingToast SavingToast(string initialMessage = null) => new SavingToast(initialMessage);
 
         /// <summary>
         /// Creates a <see cref="Tesserae.SaveButton"/> component.

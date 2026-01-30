@@ -175,6 +175,51 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Sets the gap between both rows and columns for the stack layout.
+        /// </summary>
+        /// <param name="gapSize">
+        /// The size of the gap to apply between items.
+        /// </param>
+        /// <returns>
+        /// <returns>The current instance.</returns>
+        /// </returns>
+        public Stack Gap(UnitSize gapSize)
+        {
+            InnerElement.style.gap = gapSize.ToString();
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the vertical spacing (row gap) between items in the stack layout.
+        /// </summary>
+        /// <param name="gapSize">
+        /// The size of the gap to apply between rows.
+        /// </param>
+        /// <returns>
+        /// <returns>The current instance.</returns>
+        /// </returns>
+        public Stack RowGap(UnitSize gapSize)
+        {
+            InnerElement.style.rowGap = gapSize.ToString();
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the horizontal spacing (column gap) between items in the stack layout.
+        /// </summary>
+        /// <param name="gapSize">
+        /// The size of the gap to apply between columns.
+        /// </param>
+        /// <returns>
+        /// <returns>The current instance.</returns>
+        /// </returns>
+        public Stack ColumnGap(UnitSize gapSize)
+        {
+            InnerElement.style.columnGap = gapSize.ToString();
+            return this;
+        }
+
+        /// <summary>
         /// Sets the align-content CSS property for this stack.
         /// </summary>
         /// <param name="align">The alignment.</param>
