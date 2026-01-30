@@ -627,39 +627,45 @@ namespace Tesserae
             });
         }
 
+        private static double _positioningTimeout;
+
         private static void RefreshPositioning()
         {
-            foreach (var kv in OpenToasts)
+            window.clearTimeout(_positioningTimeout);
+            _positioningTimeout = window.setTimeout(_ =>
             {
-                double sum = 0;
-
-                foreach (var t in kv.Value)
+                foreach (var kv in OpenToasts)
                 {
-                    t.Measure();
+                    double sum = 0;
 
-                    if (t._banner) continue;
-
-                    switch (kv.Key)
+                    foreach (var t in kv.Value)
                     {
-                        case Position.TopRight:
-                        case Position.TopCenter:
-                        case Position.TopLeft:
-                        case Position.TopFull:
-                            t._toastContainer.style.marginTop = $"{sum + 16}px";
-                            t._toastContainer.style.marginBottom = null;
-                            break;
-                        case Position.BottomRight:
-                        case Position.BottomCenter:
-                        case Position.BottomLeft:
-                        case Position.BottomFull:
-                            t._toastContainer.style.marginTop = null;
-                            t._toastContainer.style.marginBottom = $"{sum + 16}px";
-                            break;
-                    }
+                        t.Measure();
 
-                    sum += t._height + 16;
+                        if (t._banner) continue;
+
+                        switch (kv.Key)
+                        {
+                            case Position.TopRight:
+                            case Position.TopCenter:
+                            case Position.TopLeft:
+                            case Position.TopFull:
+                                t._toastContainer.style.marginTop = $"{sum + 16}px";
+                                t._toastContainer.style.marginBottom = null;
+                                break;
+                            case Position.BottomRight:
+                            case Position.BottomCenter:
+                            case Position.BottomLeft:
+                            case Position.BottomFull:
+                                t._toastContainer.style.marginTop = null;
+                                t._toastContainer.style.marginBottom = $"{sum + 16}px";
+                                break;
+                        }
+
+                        sum += t._height + 16;
+                    }
                 }
-            }
+            },15);
         }
 
         private void Measure()

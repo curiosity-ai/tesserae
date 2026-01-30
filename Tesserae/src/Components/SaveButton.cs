@@ -77,7 +77,7 @@ namespace Tesserae
                     break;
                 case State.Error:
                     _button.IsDanger = true;
-                    _button.SetIcon(UIcons.Exclamation).SetText(_textError);
+                    _button.SetIcon(UIcons.OctagonXmark).SetText(_textError);
                     if (!string.IsNullOrEmpty(message))
                     {
                         _button.Tooltip(message);

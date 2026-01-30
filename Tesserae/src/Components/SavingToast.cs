@@ -16,19 +16,19 @@ namespace Tesserae
         public SavingToast(string initialMessage)
         {
             _initialMessage = initialMessage ?? "Saving...";
-            _toast = new Toast();
+            _toast = new Toast().Class("tss-saving-toast");
         }
 
         public SavingToast Saving(string message = null, string title = "Saving...")
         {
             _toast.Duration(TimeSpan.FromDays(1)); // Indefinite
 
-            var t = HStack().MinWidth(200.px()).Children(
+            var t = HStack().H(20).MinWidth(200.px()).WS().Children(
                 Icon(UIcons.Disk).Foreground(Theme.Primary.Background),
                 TextBlock(title).SemiBold().SmallPlus().Primary()
             ).AlignItems(ItemAlign.Center).Gap(8.px()).PL(8);
 
-            var msg = VStack().MinWidth(200.px()).PL(8).Children(
+            var msg = VStack().WS().PL(8).Children(
                 TextBlock(message ?? _initialMessage).WS().BreakSpaces().PB(16).PT(8),
                 ProgressIndicator().WS().Indeterminated());
 
@@ -40,7 +40,7 @@ namespace Tesserae
         {
             _toast.Duration(MinimumDisplayTime);
 
-            var t = HStack().MinWidth(200.px()).Children(
+            var t = HStack().H(20).MinWidth(200.px()).WS().Children(
                 Icon(UIcons.Check).Foreground(Theme.Success.Background),
                 TextBlock(title).SemiBold().SmallPlus().Success()
             ).AlignItems(ItemAlign.Center).Gap(8.px()).PL(8);
@@ -49,13 +49,16 @@ namespace Tesserae
             return this;
         }
 
-        public SavingToast Error(string message = null, string title = "Error")
+        public SavingToast Error(string message = null, string title = "Error", bool untilDismissed = false)
         {
-            _toast.Duration(MinimumDisplayTime);
+            _toast.Duration(untilDismissed ? TimeSpan.FromDays(1) : MinimumDisplayTime);
+            
+            var btnHide = Button().SetIcon(UIcons.Cross).OnClick(() => _toast.Hide());
 
-            var t = HStack().MinWidth(200.px()).Children(
-                Icon(UIcons.Cross).Foreground(Theme.Danger.Background),
-                TextBlock(title).SemiBold().SmallPlus().Danger()
+            var t = HStack().H(20).MinWidth(200.px()).WS().Children(
+                Icon(UIcons.OctagonXmark).Foreground(Theme.Danger.Background),
+                TextBlock(title).Grow().SemiBold().SmallPlus().Danger(),
+                If(untilDismissed, btnHide)
             ).AlignItems(ItemAlign.Center).Gap(8.px()).PL(8);
 
             _toast.Error(t, TextBlock(message).PL(8).PT(8).WS().BreakSpaces());

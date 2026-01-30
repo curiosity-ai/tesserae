@@ -25,6 +25,7 @@ namespace Tesserae.Tests.Samples
                         Button("Trigger Saving").OnClick(() => SavingToast().Saving("Saving data...")),
                         Button("Trigger Saved" ).OnClick(() => SavingToast().Saved("Data saved successfully!")),
                         Button("Trigger Error" ).OnClick(() => SavingToast().Error("Could not save data.")),
+                        Button("Trigger Error with Close" ).OnClick(() => SavingToast().Error("Could not save data.", untilDismissed: true)),
                         Button("Many Toasts").OnClickSpinWhile(() => ShowMany())
                     ).Gap(8.px()),
 
