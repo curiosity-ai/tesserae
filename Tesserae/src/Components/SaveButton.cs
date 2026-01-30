@@ -107,8 +107,6 @@ namespace Tesserae
 
         public SaveButton OnClickSpinWhile(Func<Task> action, string text = null, Action<SaveButton, Exception> onError = null)
         {
-            if (_state != State.PendingSave) return this;
-
             Action<Button, Exception> onErrorInner;
             if (onError is object)
             {
@@ -123,7 +121,12 @@ namespace Tesserae
                     throw e;
                 };
             }
-            _button.OnClickSpinWhile(action, text, onErrorInner);
+            _button.OnClickSpinWhile(async () =>
+            {
+                if (_state != State.PendingSave) return;
+
+                await action();
+            }, text, onErrorInner);
             return this;
         }
 
