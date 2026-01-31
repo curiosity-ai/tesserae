@@ -133,7 +133,8 @@
         "h5/assets/css/tss.gridpicker.css",
         "h5/assets/css/tss.tooltip.css",
         "h5/assets/css/tss.actionbutton.css",
-        "h5/assets/css/baklava.css"
+        "h5/assets/css/baklava.css",
+        "h5/assets/css/tss.mobile.css"
       ],
       "output": "assets/css"
     },

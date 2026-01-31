@@ -1,0 +1,81 @@
+/* Mobile Styles */
+
+/* Base Font Size Adjustment */
+body.tss-mobile {
+  /* Increase base font size slightly if needed */
+  /* font-size: 16px; */
+}
+
+/* Sidebar */
+/* Open state: Full width, overlay */
+body.tss-mobile .tss-sidebar:not(.tss-sidebar-closed) {
+    width: 100% !important;
+    max-width: 100% !important;
+    /* If we want it to overlay content, we need position absolute.
+       However, if we keep it static, it pushes content.
+       Given that we want to reuse existing components as is, let's try pushing content out first.
+       If content shrinks to 0, it effectively hides.
+    */
+}
+
+/* Closed state: Standard 54px */
+body.tss-mobile .tss-sidebar.tss-sidebar-closed {
+    /* No change needed, stays 54px */
+}
+
+/* Modal / Dialog */
+body.tss-mobile .tss-modal,
+body.tss-mobile .tss-dialog {
+    min-width: 100% !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-height: 100% !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    position: fixed !important;
+}
+
+body.tss-mobile .tss-modal-content {
+    flex-grow: 1;
+}
+
+/* Toast */
+body.tss-mobile .tss-toast-container {
+    width: calc(100% - 24px) !important;
+    max-width: calc(100% - 24px) !important;
+    margin-left: 12px !important;
+    margin-right: 12px !important;
+    left: 0 !important;
+    right: 0 !important;
+}
+
+/* Scrollbars */
+body.tss-mobile ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+}
+
+body.tss-mobile ::-webkit-scrollbar-thumb {
+    border-radius: 2px;
+}
+
+/* Buttons - Touch Targets */
+body.tss-mobile .tss-btn {
+    min-height: 44px; /* Apple recommendation */
+}
+
+/* Inputs */
+body.tss-mobile input[type="text"],
+body.tss-mobile input[type="password"],
+body.tss-mobile input[type="email"],
+body.tss-mobile input[type="number"],
+body.tss-mobile textarea,
+body.tss-mobile select {
+    font-size: 16px !important; /* Prevent zoom on iOS */
+    min-height: 44px;
+}

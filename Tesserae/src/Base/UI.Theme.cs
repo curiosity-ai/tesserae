@@ -76,6 +76,46 @@ namespace Tesserae
                 }
             }
 
+            /// <summary>
+            /// Gets or sets a value indicating whether the application is running in mobile mode.
+            /// </summary>
+            public static bool IsMobile
+            {
+                get
+                {
+                    return document.body.classList.contains("tss-mobile");
+                }
+                set
+                {
+                    if (value)
+                    {
+                        document.body.classList.add("tss-mobile");
+                    }
+                    else
+                    {
+                        document.body.classList.remove("tss-mobile");
+                    }
+                }
+            }
+
+            /// <summary>
+            /// Automatically detects if the application is running on a mobile device and updates the IsMobile property.
+            /// </summary>
+            public static void AutoDetectMobile()
+            {
+                // Basic mobile detection logic
+                var userAgent = window.navigator.userAgent.ToLower();
+                var isMobile = userAgent.Contains("android") || userAgent.Contains("webos") || userAgent.Contains("iphone") || userAgent.Contains("ipad") || userAgent.Contains("ipod") || userAgent.Contains("blackberry") || userAgent.Contains("windows phone");
+
+                // Also check for screen size as a fallback or additional check
+                if (!isMobile)
+                {
+                    isMobile = window.innerWidth <= 768 || (window.matchMedia("(hover: none)").matches && window.matchMedia("(pointer: coarse)").matches);
+                }
+
+                IsMobile = isMobile;
+            }
+
 
             /// <summary>
             /// Sets the background colors for both light and dark modes.
