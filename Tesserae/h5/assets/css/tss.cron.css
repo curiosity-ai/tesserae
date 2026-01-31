@@ -1,0 +1,93 @@
+
+.tss-cron-editor {
+    display: inline-flex;
+    align-items: center;
+    color: var(--tss-default-foreground-color);
+    border-radius: var(--tss-border-radius-sm);
+    border: 1px solid var(--tss-default-border-color);
+}
+
+.tss-cron-desc {
+    cursor: pointer;
+    border-bottom: 1px dashed var(--tss-default-foreground-color);
+    transition: border-bottom 0.2s;
+}
+
+    .tss-cron-desc:hover {
+        border-bottom: 1px solid var(--tss-default-foreground-color);
+    }
+
+.tss-cron-open {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background-color: var(--tss-default-background-color);
+    box-shadow: var(--tss-box-shadow);
+}
+
+.tss-cron-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.tss-cron-inline-dropdown.tss-dropdown-container {
+    background-color: var(--tss-colors-dark-neutral-700);
+    color: var(--tss-colors-neutral-100);
+    border-radius: var(--tss-border-radius-sm);
+    border: none;
+    padding: 2px 8px;
+    min-width: unset;
+    text-align: center;
+    height: auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--tss-border-radius-sm);
+}
+
+    .tss-cron-inline-dropdown.tss-dropdown-container:hover {
+        background-color: var(--tss-colors-dark-neutral-600);
+    }
+
+.tss-cron-inline-dropdown,
+.tss-cron-inline-dropdown .tss-dropdown-item-on-box {
+    height: 18px !important;
+    min-height: unset !important;
+    align-items: center;
+    display: inline-flex
+}
+
+    .tss-cron-inline-dropdown .tss-dropdown-item-on-box,
+    .tss-cron-inline-dropdown .tss-dropdown-item-on-box .tss-fontcolor-default {
+        color: var(--tss-colors-neutral-100) !important;
+        font-size: var(--tss-font-size-small);
+        background: transparent !important;
+        border: none !important;
+    }
+
+    .tss-cron-inline-dropdown .tss-dropdown-icon {
+        color: var(--tss-colors-neutral-100) !important;
+    }
+
+.tss-cron-label {
+    white-space: nowrap;
+    font-size: var(--tss-font-size-small);
+}
+
+.tss-cron-days {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.tss-cron-custom-input .tss-textbox {
+    font-family: monospace;
+}
+
+.tss-cron-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
