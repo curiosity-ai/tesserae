@@ -14,7 +14,7 @@ namespace Tesserae
         private bool _isCustom;
         private bool _isOpen;
         private bool _daysEnabled = true;
-        private int _minuteInterval = 15;
+        private int _minuteInterval = 60;
         private SettableObservable<string> _observable = new SettableObservable<string>();
 
         private HTMLElement _descContainer;
@@ -101,7 +101,7 @@ namespace Tesserae
 
         private void InitializeSimpleEditor()
         {
-            _frequencyDropdown = Dropdown().Items(DropdownItem("daily").Selected()).Class("tss-cron-inline-dropdown");
+            _frequencyDropdown = Dropdown().Items(DropdownItem("daily").Selected(), DropdownItem("weekly"), DropdownItem("monthly")).Class("tss-cron-inline-dropdown");
             _frequencyDropdown.OnChange((s, e) => UpdateCronFromSimple());
 
             _timeDropdown = Dropdown().Class("tss-cron-inline-dropdown");
@@ -151,7 +151,7 @@ namespace Tesserae
                 RenderDescription();
             });
 
-            _switchToSimpleButton = Button("Back to simple").OnClick((s, e) => SwitchToSimple());
+            _switchToSimpleButton = Button("Back to simple schedule editor").SetIcon(UIcons.AngleRight).OnClick((s, e) => SwitchToSimple());
         }
 
         private void Open()
@@ -174,24 +174,7 @@ namespace Tesserae
 
         public override HTMLElement Render()
         {
-            DomObserver.WhenMounted(InnerElement, () =>
-            {
-                document.addEventListener("click", OnDocumentClick);
-            });
-            DomObserver.WhenRemoved(InnerElement, () =>
-            {
-                document.removeEventListener("click", OnDocumentClick);
-            });
             return InnerElement;
-        }
-
-        private void OnDocumentClick(Event e)
-        {
-            if (!_isOpen) return;
-            if (!InnerElement.contains(e.srcElement))
-            {
-                Close();
-            }
         }
 
         private void UpdateEditorState()
@@ -252,7 +235,6 @@ namespace Tesserae
                     }
                 }
 
-                // Fix: Span() arguments must be HTMLElement or string. Render() components.
                 var row = Div(_("tss-cron-row"));
                 row.appendChild(Span(_("tss-cron-label"), TextBlock("Scheduled ").Render()));
                 row.appendChild(_frequencyDropdown.Render());
@@ -260,7 +242,11 @@ namespace Tesserae
                 row.appendChild(_timeDropdown.Render());
                 row.appendChild(Span(_("tss-cron-label"), TextBlock(" UTC").Render()));
 
-                _editorContainer.appendChild(row);
+                var wrappedRow = Button().ReplaceContent(HStack().AlignItemsCenter().NoDefaultMargin().Children(Icon(UIcons.AngleUp).PR(16), Icon(UIcons.Clock).PR(8), Raw(row)));
+                
+                wrappedRow.OnClick(() => Close());
+
+                _editorContainer.appendChild(wrappedRow.Render());
 
                 if (_daysEnabled)
                 {
@@ -295,7 +281,11 @@ namespace Tesserae
 
         private void SwitchToSimple()
         {
+            var minWidth = _editorContainer.getBoundingClientRect().As<DOMRect>().width;
             _cron = _customCronInput.Text;
+            
+            _customCronInput.MinWidth(minWidth.px());
+
             var parsed = ParseCron(_cron);
             if (parsed.IsValid)
             {
@@ -361,6 +351,9 @@ namespace Tesserae
         private void RenderDescription()
         {
             var parsed = ParseCron(_cron);
+            
+            var text = $"Scheduled at {_cron}";
+
             if (parsed.IsValid)
             {
                 string time = DateTime.Today.AddHours(parsed.Hour).AddMinutes(parsed.Minute).ToString("hh:mm tt");
@@ -372,12 +365,13 @@ namespace Tesserae
                     days = "on " + string.Join(", ", selectedNames);
                 }
 
-                _descContainer.innerText = $"Scheduled {days} at {time} UTC";
+                text  = $"Scheduled {days} at {time} UTC";
             }
-            else
-            {
-                _descContainer.innerText = _cron;
-            }
+
+            var wrappedRow = Button().ReplaceContent(HStack().AlignItemsCenter().NoDefaultMargin().Children(Icon(UIcons.AngleDown).PR(16), Icon(UIcons.Clock).PR(8), TextBlock(text)));
+                
+            _descContainer.RemoveChildElements();
+            _descContainer.appendChild(wrappedRow.Render());
         }
 
         private CronStruct ParseCron(string cron)
