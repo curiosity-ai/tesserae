@@ -507,6 +507,11 @@ namespace Tesserae
         public static NumberPicker NumberPicker(int defaultValue = 0) => new NumberPicker(defaultValue);
 
         /// <summary>
+        /// Creates a <see cref="Tesserae.CronEditor"/> component.
+        /// </summary>
+        public static CronEditor CronEditor(string initialCron = "0 12 * * *") => new CronEditor(initialCron);
+
+        /// <summary>
         /// Creates a <see cref="Tesserae.GridPicker"/> component.
         /// </summary>
         public static GridPicker GridPicker(string[] columnNames, string[] rowNames, int states, int[][] initialStates, Action<Button, int, int> formatState, UnitSize[] columns = null, UnitSize rowHeight = null) => new GridPicker(columnNames, rowNames, states, initialStates, formatState, columns, rowHeight);
