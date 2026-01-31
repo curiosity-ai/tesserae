@@ -14,7 +14,7 @@ namespace Tesserae
         private bool _isCustom;
         private bool _isOpen;
         private bool _daysEnabled = true;
-        private int _minuteInterval = 60;
+        private int _minuteInterval = 15;
         private SettableObservable<string> _observable = new SettableObservable<string>();
 
         private HTMLElement _descContainer;
@@ -28,6 +28,7 @@ namespace Tesserae
         private TextBox _customCronInput;
         private Button _switchToCustomButton;
         private Button _switchToSimpleButton;
+        private Button _closeCustomButton;
 
         private ComponentEventHandler<CronEditor> _onChange;
 
@@ -118,7 +119,6 @@ namespace Tesserae
                 _dayCheckBoxes.Add(cb);
             }
 
-            // Fix: Pass IComponent objects to Children, not Render()ed elements
             _daysStack = HStack().Children(_dayCheckBoxes.Cast<IComponent>().ToArray()).Class("tss-cron-days");
             if (!_daysEnabled) _daysStack.Collapse();
 
@@ -151,7 +151,9 @@ namespace Tesserae
                 RenderDescription();
             });
 
-            _switchToSimpleButton = Button("Back to simple schedule editor").SetIcon(UIcons.AngleRight).OnClick((s, e) => SwitchToSimple());
+            _switchToSimpleButton = Button("Back to simple").OnClick((s, e) => SwitchToSimple());
+            _closeCustomButton = Button().SetIcon(UIcons.Check).Class("tss-cron-btn-icon").NoBorder().NoBackground()
+                                .OnClick((s, e) => Close());
         }
 
         private void Open()
@@ -167,14 +169,39 @@ namespace Tesserae
         private void Close()
         {
             if (!_isOpen) return;
+
+            // Restore sizing
+            _editorContainer.style.minWidth = "";
+            _editorContainer.style.minHeight = "";
+
             _isOpen = false;
             _descContainer.style.display = "";
             _editorContainer.style.display = "none";
+
+            // Ensure description is up to date
+            RenderDescription();
         }
 
         public override HTMLElement Render()
         {
+            DomObserver.WhenMounted(InnerElement, () =>
+            {
+                document.addEventListener("click", OnDocumentClick);
+            });
+            DomObserver.WhenRemoved(InnerElement, () =>
+            {
+                document.removeEventListener("click", OnDocumentClick);
+            });
             return InnerElement;
+        }
+
+        private void OnDocumentClick(Event e)
+        {
+            if (!_isOpen) return;
+            if (!InnerElement.contains(e.srcElement))
+            {
+                Close();
+            }
         }
 
         private void UpdateEditorState()
@@ -185,10 +212,23 @@ namespace Tesserae
 
             if (parsed.IsValid && !_isCustom)
             {
-                _frequencyDropdown.SelectedItems.FirstOrDefault()?.SelectedIf(false);
+                // Reset styling for stability
+                _editorContainer.style.minWidth = "";
+                _editorContainer.style.minHeight = "";
 
+                // Select frequency
+                var frequency = "daily";
+                if (parsed.Frequency == "monthly") frequency = "monthly";
+                else if (parsed.Frequency == "weekly") frequency = "weekly";
+
+                _frequencyDropdown.Items(
+                    DropdownItem("daily").SelectedIf(frequency == "daily"),
+                    DropdownItem("weekly").SelectedIf(frequency == "weekly"),
+                    DropdownItem("monthly").SelectedIf(frequency == "monthly")
+                );
+
+                // Select time
                 var timeVal = $"{parsed.Minute} {parsed.Hour}";
-
                 var items = new List<Dropdown.Item>();
                 int closestDiff = int.MaxValue;
                 string bestVal = timeVal;
@@ -225,6 +265,7 @@ namespace Tesserae
                 }
                 _timeDropdown.Items(items.ToArray());
 
+                // Set days checkboxes
                 if (_daysEnabled)
                 {
                     for (int i = 0; i < 7; i++)
@@ -232,6 +273,15 @@ namespace Tesserae
                         int cronDay = (i + 1) % 7;
                         bool check = parsed.AllDays || parsed.DaysOfWeek.Contains(cronDay);
                         _dayCheckBoxes[i].IsChecked = check;
+                    }
+
+                    if (frequency == "daily" || frequency == "weekly")
+                    {
+                        _daysStack.Show();
+                    }
+                    else
+                    {
+                        _daysStack.Collapse();
                     }
                 }
 
@@ -242,13 +292,9 @@ namespace Tesserae
                 row.appendChild(_timeDropdown.Render());
                 row.appendChild(Span(_("tss-cron-label"), TextBlock(" UTC").Render()));
 
-                var wrappedRow = Button().ReplaceContent(HStack().AlignItemsCenter().NoDefaultMargin().Children(Icon(UIcons.AngleUp).PR(16), Icon(UIcons.Clock).PR(8), Raw(row)));
-                
-                wrappedRow.OnClick(() => Close());
+                _editorContainer.appendChild(row);
 
-                _editorContainer.appendChild(wrappedRow.Render());
-
-                if (_daysEnabled)
+                if (_daysEnabled && (frequency == "daily" || frequency == "weekly"))
                 {
                     _editorContainer.appendChild(_daysStack.Render());
                 }
@@ -259,11 +305,13 @@ namespace Tesserae
             }
             else
             {
+                // Custom Mode
                 _isCustom = true;
                 _customCronInput.Text = _cron;
 
                 var row = Div(_("tss-cron-row"));
                 row.appendChild(_customCronInput.Render());
+                row.appendChild(_closeCustomButton.Render()); // Close button next to input
 
                 var actions = Div(_("tss-cron-actions"));
                 actions.appendChild(_switchToSimpleButton.Render());
@@ -275,17 +323,18 @@ namespace Tesserae
 
         private void SwitchToCustom()
         {
+            // Capture size before switch
+            var rect = _editorContainer.getBoundingClientRect().As<DOMRect>();
+            _editorContainer.style.minWidth = rect.width + "px";
+            _editorContainer.style.minHeight = rect.height + "px";
+
             _isCustom = true;
             UpdateEditorState();
         }
 
         private void SwitchToSimple()
         {
-            var minWidth = _editorContainer.getBoundingClientRect().As<DOMRect>().width;
             _cron = _customCronInput.Text;
-            
-            _customCronInput.MinWidth(minWidth.px());
-
             var parsed = ParseCron(_cron);
             if (parsed.IsValid)
             {
@@ -294,11 +343,9 @@ namespace Tesserae
             }
             else
             {
+                // If invalid, fallback to default daily
                 _isCustom = false;
-                if (!parsed.IsValid)
-                {
-                    _cron = "0 0 * * *";
-                }
+                _cron = "0 0 * * *";
                 UpdateEditorState();
                 _observable.Value = _cron;
                 _onChange?.Invoke(this);
@@ -308,70 +355,111 @@ namespace Tesserae
 
         private void UpdateCronFromSimple()
         {
+            var freqItem = _frequencyDropdown.SelectedItems.FirstOrDefault();
             var timeItem = _timeDropdown.SelectedItems.FirstOrDefault();
-            if (timeItem == null) return;
 
+            if (freqItem == null || timeItem == null) return;
+
+            string freq = freqItem.Text;
             var parts = ((string)timeItem.Data).Split(' ');
             int m = int.Parse(parts[0]);
             int h = int.Parse(parts[1]);
 
-            var days = new List<string>();
-            if (_daysEnabled)
+            string dayPart = "*";
+            string monthPart = "*";
+            string domPart = "*";
+
+            if (freq == "daily" || freq == "weekly")
             {
-                if (_dayCheckBoxes.All(c => c.IsChecked))
+                if (_daysEnabled)
                 {
-                    days.Add("*");
-                }
-                else
-                {
-                    for (int i = 0; i < 7; i++)
+                    if (_dayCheckBoxes.All(c => c.IsChecked))
                     {
-                        if (_dayCheckBoxes[i].IsChecked)
+                        dayPart = "*";
+                    }
+                    else
+                    {
+                        var selected = new List<string>();
+                        for (int i = 0; i < 7; i++)
                         {
-                             int cronDay = (i + 1) % 7;
-                             days.Add(cronDay.ToString());
+                            if (_dayCheckBoxes[i].IsChecked)
+                            {
+                                 int cronDay = (i + 1) % 7;
+                                 selected.Add(cronDay.ToString());
+                            }
                         }
+                        if (selected.Count > 0)
+                            dayPart = string.Join(",", selected);
                     }
                 }
+
+                // If weekly and no days selected (or all), maybe force Mon? Or leave as * (Daily)?
+                // Standard cron "Weekly" is usually "0 0 * * 0" (Weekly on Sunday).
+                // But with our UI, "Weekly" with checkboxes allows specifying days.
+                // If "Daily", checkboxes are also shown.
+                // The main difference might just be semantic or presets.
+
+                if (freq == "weekly")
+                {
+                    // Maybe ensure at least one day?
+                }
+            }
+            else if (freq == "monthly")
+            {
+                // Monthly usually implies "Run once a month".
+                // Default to 1st of month?
+                domPart = "1";
+                dayPart = "*";
+
+                // Hide days stack
+                _daysStack.Collapse();
             }
             else
             {
-                days.Add("*");
+                _daysStack.Show();
             }
 
-            string dayPart = days.Contains("*") || days.Count == 0 ? "*" : string.Join(",", days);
-
-            _cron = $"{m} {h} * * {dayPart}";
+            // Format: m h dom mon dow
+            _cron = $"{m} {h} {domPart} {monthPart} {dayPart}";
 
             _observable.Value = _cron;
             _onChange?.Invoke(this);
+
+            // Re-render to show/hide days based on frequency change
+            UpdateEditorState();
             RenderDescription();
         }
 
         private void RenderDescription()
         {
             var parsed = ParseCron(_cron);
-            
-            var text = $"Scheduled at {_cron}";
-
             if (parsed.IsValid)
             {
                 string time = DateTime.Today.AddHours(parsed.Hour).AddMinutes(parsed.Minute).ToString("hh:mm tt");
-                string days = "daily";
-                if (!parsed.AllDays)
+                string desc = "";
+
+                if (parsed.Frequency == "monthly")
                 {
-                    var names = new[] { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
-                    var selectedNames = parsed.DaysOfWeek.OrderBy(d => d).Select(d => names[d]);
-                    days = "on " + string.Join(", ", selectedNames);
+                    desc = $"Scheduled monthly (1st) at {time} UTC";
+                }
+                else
+                {
+                    string days = "daily";
+                    if (!parsed.AllDays)
+                    {
+                        var names = new[] { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
+                        var selectedNames = parsed.DaysOfWeek.OrderBy(d => d).Select(d => names[d]);
+                        days = "on " + string.Join(", ", selectedNames);
+                    }
+                    desc = $"Scheduled {days} at {time} UTC";
                 }
 
-                text  = $"Scheduled {days} at {time} UTC";
+                _descContainer.innerText = desc;
             }
-
-            var wrappedRow = Button().ReplaceContent(HStack().AlignItemsCenter().NoDefaultMargin().Children(Icon(UIcons.AngleDown).PR(16), Icon(UIcons.Clock).PR(8), TextBlock(text)));
-                
-            _descContainer.RemoveChildElements();
-            _descContainer.appendChild(wrappedRow.Render());
+            else
+            {
+                _descContainer.innerText = _cron;
+            }
         }
 
         private CronStruct ParseCron(string cron)
@@ -385,35 +473,51 @@ namespace Tesserae
                 if (!int.TryParse(parts[0], out res.Minute)) return res;
                 if (!int.TryParse(parts[1], out res.Hour)) return res;
 
-                if (parts[2] != "*" || parts[3] != "*") return res;
-
+                string dom = parts[2];
+                string mon = parts[3];
                 string dow = parts[4];
-                res.DaysOfWeek = new List<int>();
-                if (dow == "*")
+
+                res.IsValid = true;
+
+                if (dom == "1" && dow == "*")
                 {
+                    res.Frequency = "monthly";
+                    res.IsDaily = false;
                     res.AllDays = true;
+                    res.DaysOfWeek = new List<int>();
                 }
                 else
                 {
-                    foreach(var d in dow.Split(','))
+                    // Daily or Weekly
+                    // Assume Daily if * or AllDays
+                    // Weekly if specific days?
+                    res.Frequency = "daily";
+
+                    res.DaysOfWeek = new List<int>();
+                    if (dow == "*")
                     {
-                        if (int.TryParse(d, out int val))
+                        res.AllDays = true;
+                    }
+                    else
+                    {
+                        foreach(var d in dow.Split(','))
                         {
-                            if (val >= 0 && val <= 7)
+                            if (int.TryParse(d, out int val))
                             {
-                                if (val == 7) val = 0;
-                                res.DaysOfWeek.Add(val);
+                                if (val >= 0 && val <= 7)
+                                {
+                                    if (val == 7) val = 0;
+                                    res.DaysOfWeek.Add(val);
+                                }
+                            }
+                            else
+                            {
+                                res.IsValid = false; return res;
                             }
                         }
-                        else
-                        {
-                            return res;
-                        }
+                        if (res.DaysOfWeek.Count < 7) res.Frequency = "weekly";
                     }
                 }
-
-                res.IsValid = true;
-                res.IsDaily = true;
             }
             catch
             {
@@ -430,6 +534,7 @@ namespace Tesserae
             public bool AllDays;
             public bool IsDaily;
             public bool IsValid;
+            public string Frequency;
         }
     }
 }
