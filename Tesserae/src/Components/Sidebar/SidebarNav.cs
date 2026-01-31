@@ -43,7 +43,7 @@ namespace Tesserae
         /// <summary>Gets or sets whether the navigation is collapsed.</summary>
         public bool IsCollapsed { get { return _collapsed.Value; } set { _collapsed.Value = value; } }
         /// <summary>Gets or sets whether the navigation is currently selected.</summary>
-        public bool IsSelected  { get { return _selected.Value; }  set { _selected.Value  = value; } }
+        public bool IsSelected  { get { return _selected.Value; }  set { _selected.Value  = value; if (value) CurrentRendered.ScrollIntoView();} }
 
         /// <summary>Gets an observable for the collapsed status.</summary>
         public IObservable<bool> CollapsedStatus => _collapsed;

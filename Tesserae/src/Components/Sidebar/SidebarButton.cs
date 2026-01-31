@@ -27,7 +27,7 @@ namespace Tesserae
         private event Action<HTMLElement> _onRendered;
 
         /// <summary>Gets or sets whether the button is currently selected.</summary>
-        public bool IsSelected { get { return _selected.Value; } set { _selected.Value = value; } }
+        public bool IsSelected { get { return _selected.Value; } set { _selected.Value = value; if (value) CurrentRendered.ScrollIntoView(); } }
 
         /// <summary>Gets the component that is currently rendered.</summary>
         public IComponent CurrentRendered => _closedButton.IsMounted() ? _closedButton : _open;
