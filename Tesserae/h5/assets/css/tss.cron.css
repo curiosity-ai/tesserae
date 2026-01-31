@@ -1,8 +1,10 @@
+
 .tss-cron-editor {
     display: inline-flex;
     align-items: center;
-    font-family: 'Segoe UI', sans-serif;
     color: var(--tss-default-foreground-color);
+    border-radius: var(--tss-border-radius-sm);
+    border: 1px solid var(--tss-default-border-color);
 }
 
 .tss-cron-desc {
@@ -11,18 +13,15 @@
     transition: border-bottom 0.2s;
 }
 
-.tss-cron-desc:hover {
-    border-bottom: 1px solid var(--tss-default-foreground-color);
-}
+    .tss-cron-desc:hover {
+        border-bottom: 1px solid var(--tss-default-foreground-color);
+    }
 
 .tss-cron-open {
     display: flex;
     flex-direction: column;
     gap: 12px;
     background-color: var(--tss-default-background-color);
-    padding: 16px;
-    border-radius: var(--tss-border-radius-md);
-    border: 1px solid var(--tss-default-border-color);
     box-shadow: var(--tss-box-shadow);
 }
 
@@ -33,42 +32,48 @@
     flex-wrap: wrap;
 }
 
-/* Inline Dropdown Styling */
 .tss-cron-inline-dropdown.tss-dropdown-container {
-    background-color: #2b2b2b;
-    color: white;
+    background-color: var(--tss-colors-dark-neutral-700);
+    color: var(--tss-colors-neutral-100);
     border-radius: var(--tss-border-radius-sm);
     border: none;
     padding: 2px 8px;
-    min-width: unset; /* Allow it to shrink/grow with content */
+    min-width: unset;
     text-align: center;
     height: auto;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    border-radius: var(--tss-border-radius-sm);
 }
 
-.tss-cron-inline-dropdown.tss-dropdown-container:hover {
-    background-color: #3b3b3b;
-}
+    .tss-cron-inline-dropdown.tss-dropdown-container:hover {
+        background-color: var(--tss-colors-dark-neutral-600);
+    }
 
-/* Target the text inside the dropdown button */
+.tss-cron-inline-dropdown,
 .tss-cron-inline-dropdown .tss-dropdown-item-on-box {
-    color: white;
-    font-family: monospace;
-    font-size: var(--tss-font-size-smallplus);
-    background: transparent !important;
-    border: none !important;
+    height: 18px !important;
+    min-height: unset !important;
+    align-items: center;
+    display: inline-flex
 }
 
-.tss-cron-inline-dropdown .tss-dropdown-icon {
-    color: white;
-    margin-left: 8px;
-}
+    .tss-cron-inline-dropdown .tss-dropdown-item-on-box,
+    .tss-cron-inline-dropdown .tss-dropdown-item-on-box .tss-fontcolor-default {
+        color: var(--tss-colors-neutral-100) !important;
+        font-size: var(--tss-font-size-small);
+        background: transparent !important;
+        border: none !important;
+    }
+
+    .tss-cron-inline-dropdown .tss-dropdown-icon {
+        color: var(--tss-colors-neutral-100) !important;
+    }
 
 .tss-cron-label {
     white-space: nowrap;
-    font-size: var(--tss-font-size-medium);
+    font-size: var(--tss-font-size-small);
 }
 
 .tss-cron-days {
@@ -79,9 +84,6 @@
 
 .tss-cron-custom-input .tss-textbox {
     font-family: monospace;
-    background-color: #2b2b2b;
-    color: white;
-    border: none;
 }
 
 .tss-cron-actions {
