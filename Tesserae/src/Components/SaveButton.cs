@@ -11,6 +11,7 @@ namespace Tesserae
     {
         private Button _button;
         private string _textSave = "Save";
+        private string _textSaveHover = null;
         private string _textVerifying = "Verifying...";
         private string _textSaving = "Saving...";
         private string _textSaved = "Saved";
@@ -30,16 +31,34 @@ namespace Tesserae
         public SaveButton()
         {
             _button = Button().MinWidth(100.px());
+            var element = _button.Render();
+            element.addEventListener("mouseenter", (e) =>
+            {
+                if (_state == State.PendingSave && !string.IsNullOrEmpty(_textSaveHover))
+                {
+                    _button.SetText(_textSaveHover);
+                }
+            });
+
+            element.addEventListener("mouseleave", (e) =>
+            {
+                if (_state == State.PendingSave)
+                {
+                    _button.SetText(_textSave);
+                }
+            });
             SetState(State.NothingToSave);
         }
 
-        public SaveButton WithStateTexts(string save = null, string verifying = null, string saving = null, string saved = null, string error = null)
+        public SaveButton WithStateTexts(string save = null, string verifying = null, string saving = null, string saved = null, string error = null, string saveHover = null)
         {
             if (save != null) _textSave = save;
             if (verifying != null) _textVerifying = verifying;
             if (saving != null) _textSaving = saving;
             if (saved != null) _textSaved = saved;
             if (error != null) _textError = error;
+            if (saveHover != null) _textSaveHover = saveHover;
+            SetState(_state);
             return this;
         }
 
