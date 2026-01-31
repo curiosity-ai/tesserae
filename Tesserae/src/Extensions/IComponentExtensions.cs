@@ -662,5 +662,19 @@ namespace Tesserae
 
         /// <summary>PaddingBottom</summary>
         public static T PB<T>(this T component, int pixels) where T : IComponent => PaddingBottom(component, pixels.px());
+
+        public static T ScrollIntoView<T>(this T component) where T : IComponent
+        {
+            var rendered = component.Render();
+            try
+            {
+                rendered.scrollIntoViewIfNeeded();
+            }
+            catch
+            {
+                rendered.scrollIntoView();
+            }
+            return component;
+        }
     }
 }
