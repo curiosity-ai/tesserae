@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using H5;
@@ -15,7 +15,7 @@ namespace Tesserae
     /// A hierarchical navigation component for use within a Sidebar,
     /// allowing for nested ISidebarItem elements.
     /// </summary>
-    public class SidebarNav : ISearchableSidebarItem
+    public class SidebarNav : ISidebarItem
     {
         /// <summary>Event fired when sorting changes within the navigation.</summary>
         public event Action<Dictionary<string, string[]>> _onSortingChanged;
@@ -43,7 +43,7 @@ namespace Tesserae
         /// <summary>Gets or sets whether the navigation is collapsed.</summary>
         public bool IsCollapsed { get { return _collapsed.Value; } set { _collapsed.Value = value; } }
         /// <summary>Gets or sets whether the navigation is currently selected.</summary>
-        public bool IsSelected  { get { return _selected.Value; }  set { _selected.Value  = value; if (value) CurrentRendered.ScrollIntoView();} }
+        public bool IsSelected  { get { return _selected.Value; }  set { _selected.Value  = value; } }
 
         /// <summary>Gets an observable for the collapsed status.</summary>
         public IObservable<bool> CollapsedStatus => _collapsed;
@@ -764,48 +764,6 @@ namespace Tesserae
             public int OldIndex { get; set; }
             public int NewIndex { get; set; }
             public Action Cancel { get; set; }
-        }
-
-        public bool Search(string searchTerm)
-        {
-             if (string.IsNullOrWhiteSpace(searchTerm))
-             {
-                 Show();
-                 foreach(var i in _items.Value)
-                 {
-                     if(i is ISearchableSidebarItem s) s.Search(searchTerm);
-                     else i.Show();
-                 }
-                 return true;
-             }
-
-             bool anyChildMatch = false;
-             foreach(var i in _items.Value)
-             {
-                 if (i is ISearchableSidebarItem s)
-                 {
-                     if(s.Search(searchTerm)) anyChildMatch = true;
-                 }
-                 else
-                 {
-                     i.Collapse();
-                 }
-             }
-
-             bool selfMatch = _text.ToLower().Contains(searchTerm.ToLower());
-
-             if (selfMatch || anyChildMatch)
-             {
-                 Show();
-                 if (anyChildMatch && IsCollapsed)
-                 {
-                     Collapsed(false);
-                 }
-                 return true;
-             }
-
-             Collapse();
-             return false;
         }
     }
 }

@@ -74,6 +74,7 @@
 
     .tss-searchbox-container:hover {
         border-color: var(--tss-default-foreground-color);
+        box-shadow: var(--tss-shadow-sm-hover);
     }
 
     .tss-searchbox-container:focus-within {

@@ -59,7 +59,7 @@ a {
     .tss-btn:hover {
         color: var(--tss-default-foreground-hover-color);
         background-color: var(--tss-default-background-hover-color);
-        box-shadow: var(--tss-shadow);
+        box-shadow: var(--tss-shadow-hover);
     }
 
     .tss-btn.tss-btn-nowrap {
@@ -165,7 +165,7 @@ a {
         color: var(--tss-primary-foreground-hover-color);
         background-color: var(--tss-primary-background-hover-color);
         filter: brightness(110%);
-        box-shadow: var(--tss-shadow);
+        box-shadow: var(--tss-shadow-hover);
     }
 
         .tss-btn.tss-btn-primary:not(.tss-disabled):hover .tss-fontcolor-default {

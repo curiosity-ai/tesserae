@@ -50,7 +50,7 @@
 
 .tss-card.tss-card-hover:hover {
     background-color: var(--tss-default-background-hover-color);
-    box-shadow: var(--tss-shadow-lg);
+    box-shadow: var(--tss-shadow-lg-hover);
 }
 
 .tss-card.tss-card-hover:active {
