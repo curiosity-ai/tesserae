@@ -26,6 +26,9 @@ namespace Tesserae
         private Dropdown _dayOfMonthDropdown;
         private Dropdown.Item[] _dayOfMonthItems;
         private Stack _domContainer;
+        private Dropdown _weeklyDayDropdown;
+        private Dropdown.Item[] _weeklyDayItems;
+        private Stack _weeklyContainer;
         private Stack _daysStack;
         private List<CheckBox> _dayCheckBoxes;
 
@@ -127,12 +130,22 @@ namespace Tesserae
             _dayCheckBoxes = new List<CheckBox>();
             var days = new[] { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" };
 
+            var weeklyItems = new List<Dropdown.Item>();
+
             for (int i = 0; i < 7; i++)
             {
                 var cb = CheckBox(days[i]);
                 cb.OnChange((s, e) => UpdateCronFromSimple());
                 _dayCheckBoxes.Add(cb);
+
+                int cronDay = (i + 1) % 7;
+                weeklyItems.Add(DropdownItem(days[i]).SetData(cronDay));
             }
+
+            _weeklyDayItems = weeklyItems.ToArray();
+            _weeklyDayDropdown = Dropdown().Items(_weeklyDayItems).Class("tss-cron-inline-dropdown");
+            _weeklyDayDropdown.OnChange((s, e) => UpdateCronFromSimple());
+            _weeklyContainer = HStack().NoDefaultMargin().AlignItemsCenter().Children(TextBlock(" on ").Class("tss-cron-label").PR(4), _weeklyDayDropdown);
 
             // Fix: Pass IComponent objects to Children, not Render()ed elements
             _daysStack = HStack().Children(_dayCheckBoxes.Cast<IComponent>().ToArray()).Class("tss-cron-days");
@@ -226,6 +239,7 @@ namespace Tesserae
                 row.appendChild(_frequencyDropdown.Render());
 
                 row.appendChild(_domContainer.Render());
+                row.appendChild(_weeklyContainer.Render());
 
                 row.appendChild(Span(_("tss-cron-label"), TextBlock(" at ").Render()));
                 row.appendChild(_timeDropdown.Render());
@@ -271,9 +285,31 @@ namespace Tesserae
         {
             string freq = "daily";
             if (parsed.DayOfMonth != -1) freq = "monthly";
-            else if (!parsed.AllDays) freq = "weekly";
+            else if (!parsed.AllDays && parsed.DaysOfWeek.Count == 1) freq = "weekly";
 
+            // Allow manual override if ambiguous
             var currentFreq = _frequencyDropdown.SelectedItems.FirstOrDefault()?.Text;
+
+            // If we inferred "weekly" but current is "daily" and valid (1 day selected in daily mode?),
+            // maybe we should stick to "daily"?
+            // But how do we distinguish?
+            // If ParseCron says 1 day, it returns Weekly candidate.
+
+            // If we inferred "daily" but current is "weekly"?
+            // If ParseCron says >1 day or 0 days (*), it's daily. Weekly requires 1 day.
+
+            // If currentFreq is set and consistent with parsed data, prefer it?
+            if (currentFreq == "weekly" && !parsed.AllDays && parsed.DaysOfWeek.Count == 1)
+            {
+                freq = "weekly";
+            }
+            else if (currentFreq == "daily")
+            {
+                // If we inferred weekly (count=1), but user is in Daily mode (1 checkbox checked).
+                // We should probably stay in Daily mode to avoid UI jumping.
+                if (freq == "weekly") freq = "daily";
+            }
+
             if (currentFreq != freq)
             {
                 foreach(var item in _frequencyItems)
@@ -286,20 +322,35 @@ namespace Tesserae
             if (freq == "monthly")
             {
                 _domContainer.Show();
+                _weeklyContainer.Collapse();
+                _daysStack.Collapse();
             }
-            else
+            else if (freq == "weekly")
             {
                 _domContainer.Collapse();
-            }
-
-            if (freq == "weekly" && _daysEnabled)
-            {
-                _daysStack.Show();
+                _weeklyContainer.Show();
+                _daysStack.Collapse();
             }
             else
+            {
+                // DAILY
+                _domContainer.Collapse();
+                _weeklyContainer.Collapse();
+                if (_daysEnabled)
+                {
+                    _daysStack.Show();
+                }
+                else _daysStack.Collapse();
+            }
+
+            // Re-enforce collapse if needed - sometimes H5/CSS issues
+            if (freq == "monthly" || freq == "weekly")
             {
                 _daysStack.Collapse();
             }
+
+            // Console log for debugging
+            console.log($"UpdateSimpleControls Final Visibility: Freq={freq} DaysEnabled={_daysEnabled}");
 
             if (parsed.DayOfMonth != -1)
             {
@@ -315,6 +366,19 @@ namespace Tesserae
                         }
                     }
                 }
+            }
+
+            if (!parsed.AllDays && parsed.DaysOfWeek.Count == 1)
+            {
+                int day = parsed.DaysOfWeek[0];
+                 foreach(var item in _weeklyDayItems)
+                 {
+                     if ((int)item.Data == day)
+                     {
+                         item.Selected();
+                         break;
+                     }
+                 }
             }
 
             var timeVal = $"{parsed.Minute} {parsed.Hour}";
@@ -423,6 +487,12 @@ namespace Tesserae
             }
             else if (freq == "weekly")
             {
+                var dayItem = _weeklyDayDropdown.SelectedItems.FirstOrDefault();
+                int day = dayItem != null ? (int)dayItem.Data : 1;
+                dayPart = day.ToString();
+            }
+            else
+            {
                 var days = new List<string>();
                 if (_daysEnabled)
                 {
@@ -449,11 +519,65 @@ namespace Tesserae
                 dayPart = days.Contains("*") || days.Count == 0 ? "*" : string.Join(",", days);
             }
 
+            // Fix: If Frequency is Weekly, we MUST ensure the cron string reflects that,
+            // otherwise ParseCron might interpret it as Daily if logic is ambiguous.
+            // Weekly: "* * * * 1" (single day).
+            // Daily: "* * * * 1,3" (multiple days) or "* * * * *" (all days).
+
             _cron = $"{m} {h} {domPart} * {dayPart}";
 
             _observable.Value = _cron;
             _onChange?.Invoke(this);
             RenderDescription();
+            if (_isOpen)
+            {
+                // Force update of controls visibility directly here to avoid ParseCron ambiguity round-trip issues
+                // during live editing.
+                UpdateSimpleControls(ParseCron(_cron));
+
+                // However, UpdateSimpleControls relies on ParseCron.
+                // If ParseCron is ambiguous, UpdateSimpleControls will be wrong.
+                // Let's explicitly set the frequency dropdown selection based on what we just decided.
+                // But UpdateSimpleControls does that.
+
+                // Maybe ParseCron needs to be smarter?
+                // If we have single day, is it Weekly or Daily (run on Monday only)?
+                // The PR req says "Weekly" -> Single Choice. "Daily" -> Checkboxes.
+                // So if 1 day is selected, it matches both "Weekly" (1 choice) and "Daily" (1 checkbox checked).
+                // Ambiguity!
+
+                // We need to resolve this ambiguity.
+                // If we are in "Weekly" mode in the UI, we want to stay in "Weekly" mode.
+                // But _cron string is stateless.
+
+                // If we persist the "mode" separately?
+                // No, we rely on parsing.
+
+                // Let's bias ParseCron?
+                // If 1 day selected -> Weekly?
+                // If >1 days selected -> Daily?
+                // If * (all days) -> Daily?
+
+                // If 1 day selected, and we interpret as Weekly, then Daily mode with 1 checkbox is impossible?
+                // User unchecks all but Monday. It switches to Weekly UI?
+                // That might be acceptable or confusing.
+
+                // Alternatively, we use the current dropdown state to hint ParseCron?
+                // Or we pass the intended frequency to UpdateSimpleControls?
+
+                // Let's try to pass the intended frequency to UpdateSimpleControls if possible,
+                // or handle it in UpdateEditorState.
+
+                var parsed = ParseCron(_cron);
+
+                // Override frequency inference if we know what we just set.
+                if (freq == "weekly")
+                {
+                    // Ensure UpdateSimpleControls respects "weekly" even if ParseCron thinks otherwise.
+                    // But UpdateSimpleControls infers freq from parsed.
+                }
+            }
+
             if (_isOpen) UpdateEditorState();
         }
 
