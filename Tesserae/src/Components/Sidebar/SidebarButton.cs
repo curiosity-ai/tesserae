@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using H5.Core;
@@ -11,7 +11,7 @@ namespace Tesserae
     /// <summary>
     /// A Button component for use within a Sidebar, supporting both open and closed states.
     /// </summary>
-    public class SidebarButton : ISidebarItem
+    public class SidebarButton : ISearchableSidebarItem
     {
         private readonly Button                   _closedButton;
         private readonly Button                   _openButton;
@@ -22,6 +22,7 @@ namespace Tesserae
         private readonly ISidebarIcon             _image;
         private          Action<IComponent>       _tooltipOpen;
         private readonly SettableObservable<bool> _selected;
+        private readonly string                   _text;
 
         private event Action<HTMLElement> _onRendered;
 
@@ -54,6 +55,7 @@ namespace Tesserae
         private SidebarButton(string identifier, string text, SidebarBadge badge, Button buttonWithIconClosed, Button buttonWithIconOpen, params SidebarCommand[] commands)
         {
             Identifier     = identifier;
+            _text          = text;
             _selected      = new SettableObservable<bool>(false);
             _tooltipClosed = (b) => b.Tooltip(text, placement: TooltipPlacement.Right);
             
@@ -140,6 +142,7 @@ namespace Tesserae
         public SidebarButton(string identifier, ISidebarIcon image, string text, SidebarBadge badge, params SidebarCommand[] commands)
         {
             Identifier = identifier;
+            _text      = text;
             _selected  = new SettableObservable<bool>(false);
 
             _tooltipClosed = (b) => b.Tooltip(text, placement: TooltipPlacement.Right);
@@ -527,6 +530,24 @@ namespace Tesserae
             _tooltipOpen?.Invoke(_openButton);
             _onRendered?.Invoke(_open.Render());
             return _open;
+        }
+
+        public bool Search(string searchTerm)
+        {
+            if(string.IsNullOrWhiteSpace(searchTerm))
+            {
+                Show();
+                return true;
+            }
+
+            if(_text.ToLower().Contains(searchTerm.ToLower()))
+            {
+                Show();
+                return true;
+            }
+
+            Collapse();
+            return false;
         }
     }
 }

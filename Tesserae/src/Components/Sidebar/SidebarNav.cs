@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using H5;
@@ -15,7 +15,7 @@ namespace Tesserae
     /// A hierarchical navigation component for use within a Sidebar,
     /// allowing for nested ISidebarItem elements.
     /// </summary>
-    public class SidebarNav : ISidebarItem
+    public class SidebarNav : ISearchableSidebarItem
     {
         /// <summary>Event fired when sorting changes within the navigation.</summary>
         public event Action<Dictionary<string, string[]>> _onSortingChanged;
@@ -764,6 +764,48 @@ namespace Tesserae
             public int OldIndex { get; set; }
             public int NewIndex { get; set; }
             public Action Cancel { get; set; }
+        }
+
+        public bool Search(string searchTerm)
+        {
+             if (string.IsNullOrWhiteSpace(searchTerm))
+             {
+                 Show();
+                 foreach(var i in _items.Value)
+                 {
+                     if(i is ISearchableSidebarItem s) s.Search(searchTerm);
+                     else i.Show();
+                 }
+                 return true;
+             }
+
+             bool anyChildMatch = false;
+             foreach(var i in _items.Value)
+             {
+                 if (i is ISearchableSidebarItem s)
+                 {
+                     if(s.Search(searchTerm)) anyChildMatch = true;
+                 }
+                 else
+                 {
+                     i.Collapse();
+                 }
+             }
+
+             bool selfMatch = _text.ToLower().Contains(searchTerm.ToLower());
+
+             if (selfMatch || anyChildMatch)
+             {
+                 Show();
+                 if (anyChildMatch && IsCollapsed)
+                 {
+                     Collapsed(false);
+                 }
+                 return true;
+             }
+
+             Collapse();
+             return false;
         }
     }
 }
