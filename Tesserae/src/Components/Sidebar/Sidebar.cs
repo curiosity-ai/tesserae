@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using H5;
@@ -330,6 +330,32 @@ namespace Tesserae
         public void OnSortingChanged(Action<Dictionary<string, string[]>> onSortingChanged)
         {
             _onSortingChanged = onSortingChanged;
+        }
+
+        /// <summary>
+        /// Searches/Filters the sidebar content items.
+        /// </summary>
+        /// <param name="searchTerm">The term to search for.</param>
+        public void Search(string searchTerm)
+        {
+            foreach (var item in _middleContent.Value)
+            {
+                if (item is ISearchableSidebarItem searchable)
+                {
+                    searchable.Search(searchTerm);
+                }
+                else
+                {
+                    if (string.IsNullOrWhiteSpace(searchTerm))
+                    {
+                        item.Show();
+                    }
+                    else
+                    {
+                        item.Collapse();
+                    }
+                }
+            }
         }
 
         /// <summary>
