@@ -21,7 +21,11 @@ namespace Tesserae
         private HTMLElement _editorContainer;
 
         private Dropdown _frequencyDropdown;
+        private Dropdown.Item[] _frequencyItems;
         private Dropdown _timeDropdown;
+        private Dropdown _dayOfMonthDropdown;
+        private Dropdown.Item[] _dayOfMonthItems;
+        private Stack _domContainer;
         private Stack _daysStack;
         private List<CheckBox> _dayCheckBoxes;
 
@@ -101,12 +105,24 @@ namespace Tesserae
 
         private void InitializeSimpleEditor()
         {
-            _frequencyDropdown = Dropdown().Items(DropdownItem("daily").Selected(), DropdownItem("weekly"), DropdownItem("monthly")).Class("tss-cron-inline-dropdown");
+            _frequencyItems = new[] { DropdownItem("daily").Selected(), DropdownItem("weekly"), DropdownItem("monthly") };
+            _frequencyDropdown = Dropdown().Items(_frequencyItems).Class("tss-cron-inline-dropdown");
             _frequencyDropdown.OnChange((s, e) => UpdateCronFromSimple());
 
             _timeDropdown = Dropdown().Class("tss-cron-inline-dropdown");
             RefreshTimeDropdown();
             _timeDropdown.OnChange((s, e) => UpdateCronFromSimple());
+
+            var domItems = new List<Dropdown.Item>();
+            for (int i = 1; i <= 31; i++)
+            {
+                domItems.Add(DropdownItem(i.ToString()).SetData(i));
+            }
+            _dayOfMonthItems = domItems.ToArray();
+            _dayOfMonthDropdown = Dropdown().Items(_dayOfMonthItems).Class("tss-cron-inline-dropdown");
+            _dayOfMonthDropdown.OnChange((s, e) => UpdateCronFromSimple());
+
+            _domContainer = HStack().NoDefaultMargin().AlignItemsCenter().Children(TextBlock(" on day ").Class("tss-cron-label").PR(4), _dayOfMonthDropdown);
 
             _dayCheckBoxes = new List<CheckBox>();
             var days = new[] { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" };
@@ -168,6 +184,7 @@ namespace Tesserae
         {
             if (!_isOpen) return;
             _isOpen = false;
+            _editorContainer.style.width = "";
             _descContainer.style.display = "";
             _editorContainer.style.display = "none";
         }
@@ -177,67 +194,39 @@ namespace Tesserae
             return InnerElement;
         }
 
+        private bool _showingSimple = false;
+
         private void UpdateEditorState()
         {
-            _editorContainer.innerHTML = "";
-
             var parsed = ParseCron(_cron);
+            bool shouldShowSimple = parsed.IsValid && !_isCustom;
 
-            if (parsed.IsValid && !_isCustom)
+            if (shouldShowSimple && _showingSimple)
             {
-                _frequencyDropdown.SelectedItems.FirstOrDefault()?.SelectedIf(false);
+                UpdateSimpleControls(parsed);
+                return;
+            }
 
-                var timeVal = $"{parsed.Minute} {parsed.Hour}";
+            if (!shouldShowSimple && !_showingSimple && _editorContainer.hasChildNodes())
+            {
+                 // Already showing custom
+                 _customCronInput.Text = _cron;
+                 return;
+            }
 
-                var items = new List<Dropdown.Item>();
-                int closestDiff = int.MaxValue;
-                string bestVal = timeVal;
+            _editorContainer.innerHTML = "";
+            _showingSimple = shouldShowSimple;
 
-                int targetMins = parsed.Hour * 60 + parsed.Minute;
-
-                for (int h = 0; h < 24; h++)
-                {
-                    for (int m = 0; m < 60; m += _minuteInterval)
-                    {
-                        string timeStr = DateTime.Today.AddHours(h).AddMinutes(m).ToString("hh:mm tt");
-                        string val = $"{m} {h}";
-                        var item = DropdownItem(timeStr).SetData(val);
-
-                        int currentMins = h * 60 + m;
-                        int diff = Math.Abs(targetMins - currentMins);
-                        if (diff < closestDiff)
-                        {
-                            closestDiff = diff;
-                            bestVal = val;
-                        }
-
-                        items.Add(item);
-                    }
-                }
-
-                foreach(var item in items)
-                {
-                    if ((string)item.Data == bestVal)
-                    {
-                        item.Selected();
-                        break;
-                    }
-                }
-                _timeDropdown.Items(items.ToArray());
-
-                if (_daysEnabled)
-                {
-                    for (int i = 0; i < 7; i++)
-                    {
-                        int cronDay = (i + 1) % 7;
-                        bool check = parsed.AllDays || parsed.DaysOfWeek.Contains(cronDay);
-                        _dayCheckBoxes[i].IsChecked = check;
-                    }
-                }
+            if (shouldShowSimple)
+            {
+                UpdateSimpleControls(parsed);
 
                 var row = Div(_("tss-cron-row"));
                 row.appendChild(Span(_("tss-cron-label"), TextBlock("Scheduled ").Render()));
                 row.appendChild(_frequencyDropdown.Render());
+
+                row.appendChild(_domContainer.Render());
+
                 row.appendChild(Span(_("tss-cron-label"), TextBlock(" at ").Render()));
                 row.appendChild(_timeDropdown.Render());
                 row.appendChild(Span(_("tss-cron-label"), TextBlock(" UTC").Render()));
@@ -263,29 +252,135 @@ namespace Tesserae
                 _customCronInput.Text = _cron;
 
                 var row = Div(_("tss-cron-row"));
+                _customCronInput.OnClick((s, e) => StopEvent(e));
                 row.appendChild(_customCronInput.Render());
+
+                var wrappedRow = Button().ReplaceContent(HStack().AlignItemsCenter().NoDefaultMargin().Children(Icon(UIcons.AngleUp).PR(16), Icon(UIcons.Clock).PR(8), Raw(row)));
+                wrappedRow.OnClick(() => Close());
+
+                _editorContainer.appendChild(wrappedRow.Render());
 
                 var actions = Div(_("tss-cron-actions"));
                 actions.appendChild(_switchToSimpleButton.Render());
 
-                _editorContainer.appendChild(row);
                 _editorContainer.appendChild(actions);
+            }
+        }
+
+        private void UpdateSimpleControls(CronStruct parsed)
+        {
+            string freq = "daily";
+            if (parsed.DayOfMonth != -1) freq = "monthly";
+            else if (!parsed.AllDays) freq = "weekly";
+
+            var currentFreq = _frequencyDropdown.SelectedItems.FirstOrDefault()?.Text;
+            if (currentFreq != freq)
+            {
+                foreach(var item in _frequencyItems)
+                {
+                    if (item.Text == freq) item.Selected();
+                    else item.SelectedIf(false);
+                }
+            }
+
+            if (freq == "monthly")
+            {
+                _domContainer.Show();
+            }
+            else
+            {
+                _domContainer.Collapse();
+            }
+
+            if (freq == "weekly" && _daysEnabled)
+            {
+                _daysStack.Show();
+            }
+            else
+            {
+                _daysStack.Collapse();
+            }
+
+            if (parsed.DayOfMonth != -1)
+            {
+                var currentDom = _dayOfMonthDropdown.SelectedItems.FirstOrDefault()?.Data;
+                if (currentDom == null || (int)currentDom != parsed.DayOfMonth)
+                {
+                    foreach(var item in _dayOfMonthItems)
+                    {
+                        if ((int)item.Data == parsed.DayOfMonth)
+                        {
+                            item.Selected();
+                            break;
+                        }
+                    }
+                }
+            }
+
+            var timeVal = $"{parsed.Minute} {parsed.Hour}";
+
+            var items = new List<Dropdown.Item>();
+            int closestDiff = int.MaxValue;
+            string bestVal = timeVal;
+
+            int targetMins = parsed.Hour * 60 + parsed.Minute;
+
+            for (int h = 0; h < 24; h++)
+            {
+                for (int m = 0; m < 60; m += _minuteInterval)
+                {
+                    string timeStr = DateTime.Today.AddHours(h).AddMinutes(m).ToString("hh:mm tt");
+                    string val = $"{m} {h}";
+                    var item = DropdownItem(timeStr).SetData(val);
+
+                    int currentMins = h * 60 + m;
+                    int diff = Math.Abs(targetMins - currentMins);
+                    if (diff < closestDiff)
+                    {
+                        closestDiff = diff;
+                        bestVal = val;
+                    }
+
+                    items.Add(item);
+                }
+            }
+
+            foreach(var item in items)
+            {
+                if ((string)item.Data == bestVal)
+                {
+                    item.Selected();
+                    break;
+                }
+            }
+            _timeDropdown.Items(items.ToArray());
+
+            if (_daysEnabled)
+            {
+                for (int i = 0; i < 7; i++)
+                {
+                    int cronDay = (i + 1) % 7;
+                    bool check = parsed.AllDays || parsed.DaysOfWeek.Contains(cronDay);
+                    _dayCheckBoxes[i].IsChecked = check;
+                }
             }
         }
 
         private void SwitchToCustom()
         {
+            var rect = _editorContainer.getBoundingClientRect().As<DOMRect>();
+            _editorContainer.style.width = rect.width.px().ToString();
+
             _isCustom = true;
             UpdateEditorState();
         }
 
         private void SwitchToSimple()
         {
-            var minWidth = _editorContainer.getBoundingClientRect().As<DOMRect>().width;
+            _editorContainer.style.width = "";
+
             _cron = _customCronInput.Text;
             
-            _customCronInput.MinWidth(minWidth.px());
-
             var parsed = ParseCron(_cron);
             if (parsed.IsValid)
             {
@@ -315,37 +410,51 @@ namespace Tesserae
             int m = int.Parse(parts[0]);
             int h = int.Parse(parts[1]);
 
-            var days = new List<string>();
-            if (_daysEnabled)
+            string domPart = "*";
+            string dayPart = "*";
+
+            var freq = _frequencyDropdown.SelectedItems.FirstOrDefault()?.Text ?? "daily";
+
+            if (freq == "monthly")
             {
-                if (_dayCheckBoxes.All(c => c.IsChecked))
+                 var domItem = _dayOfMonthDropdown.SelectedItems.FirstOrDefault();
+                 int dom = domItem != null ? (int)domItem.Data : 1;
+                 domPart = dom.ToString();
+            }
+            else if (freq == "weekly")
+            {
+                var days = new List<string>();
+                if (_daysEnabled)
                 {
-                    days.Add("*");
-                }
-                else
-                {
-                    for (int i = 0; i < 7; i++)
+                    if (_dayCheckBoxes.All(c => c.IsChecked))
                     {
-                        if (_dayCheckBoxes[i].IsChecked)
+                        days.Add("*");
+                    }
+                    else
+                    {
+                        for (int i = 0; i < 7; i++)
                         {
-                             int cronDay = (i + 1) % 7;
-                             days.Add(cronDay.ToString());
+                            if (_dayCheckBoxes[i].IsChecked)
+                            {
+                                 int cronDay = (i + 1) % 7;
+                                 days.Add(cronDay.ToString());
+                            }
                         }
                     }
                 }
-            }
-            else
-            {
-                days.Add("*");
+                else
+                {
+                    days.Add("*");
+                }
+                dayPart = days.Contains("*") || days.Count == 0 ? "*" : string.Join(",", days);
             }
 
-            string dayPart = days.Contains("*") || days.Count == 0 ? "*" : string.Join(",", days);
-
-            _cron = $"{m} {h} * * {dayPart}";
+            _cron = $"{m} {h} {domPart} * {dayPart}";
 
             _observable.Value = _cron;
             _onChange?.Invoke(this);
             RenderDescription();
+            if (_isOpen) UpdateEditorState();
         }
 
         private void RenderDescription()
@@ -385,7 +494,20 @@ namespace Tesserae
                 if (!int.TryParse(parts[0], out res.Minute)) return res;
                 if (!int.TryParse(parts[1], out res.Hour)) return res;
 
-                if (parts[2] != "*" || parts[3] != "*") return res;
+                if (parts[3] != "*") return res;
+
+                if (parts[2] == "*")
+                {
+                    res.DayOfMonth = -1;
+                }
+                else if (int.TryParse(parts[2], out int dom) && dom >= 1 && dom <= 31)
+                {
+                    res.DayOfMonth = dom;
+                }
+                else
+                {
+                    return res;
+                }
 
                 string dow = parts[4];
                 res.DaysOfWeek = new List<int>();
@@ -426,6 +548,7 @@ namespace Tesserae
         {
             public int Minute;
             public int Hour;
+            public int DayOfMonth;
             public List<int> DaysOfWeek;
             public bool AllDays;
             public bool IsDaily;
