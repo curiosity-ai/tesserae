@@ -13,6 +13,10 @@
     transition: 0.3s width ease-out;
 }
 
+.tss-sidebar.tss-sidebar-secondary {
+    background-color: var(--tss-secondary-background-color);
+}
+
     .tss-sidebar .tss-default-component-margin {
         margin: 0px !important;
     }

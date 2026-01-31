@@ -90,6 +90,16 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Sets the sidebar background to the secondary background color.
+        /// </summary>
+        /// <returns>The current instance of the type.</returns>
+        public Sidebar Secondary()
+        {
+            _sidebar.Class("tss-sidebar-secondary");
+            return this;
+        }
+
+        /// <summary>
         /// Sets whether the middle content items are sortable.
         /// </summary>
         /// <param name="sortable">Whether items are sortable.</param>
