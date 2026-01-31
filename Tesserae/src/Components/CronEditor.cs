@@ -109,8 +109,11 @@ namespace Tesserae
         private void InitializeSimpleEditor()
         {
             _frequencyItems = new[] { DropdownItem("daily").Selected(), DropdownItem("weekly"), DropdownItem("monthly") };
+            foreach (var item in _frequencyItems)
+            {
+                item.OnSelected((s) => UpdateCronFromSimple());
+            }
             _frequencyDropdown = Dropdown().Items(_frequencyItems).Class("tss-cron-inline-dropdown");
-            _frequencyDropdown.OnChange((s, e) => UpdateCronFromSimple());
 
             _timeDropdown = Dropdown().Class("tss-cron-inline-dropdown");
             RefreshTimeDropdown();
@@ -119,11 +122,12 @@ namespace Tesserae
             var domItems = new List<Dropdown.Item>();
             for (int i = 1; i <= 31; i++)
             {
-                domItems.Add(DropdownItem(i.ToString()).SetData(i));
+                var item = DropdownItem(i.ToString()).SetData(i);
+                item.OnSelected((s) => UpdateCronFromSimple());
+                domItems.Add(item);
             }
             _dayOfMonthItems = domItems.ToArray();
             _dayOfMonthDropdown = Dropdown().Items(_dayOfMonthItems).Class("tss-cron-inline-dropdown");
-            _dayOfMonthDropdown.OnChange((s, e) => UpdateCronFromSimple());
 
             _domContainer = HStack().NoDefaultMargin().AlignItemsCenter().Children(TextBlock(" on day ").Class("tss-cron-label").PR(4), _dayOfMonthDropdown);
 
@@ -139,12 +143,13 @@ namespace Tesserae
                 _dayCheckBoxes.Add(cb);
 
                 int cronDay = (i + 1) % 7;
-                weeklyItems.Add(DropdownItem(days[i]).SetData(cronDay));
+                var item = DropdownItem(days[i]).SetData(cronDay);
+                item.OnSelected((s) => UpdateCronFromSimple());
+                weeklyItems.Add(item);
             }
 
             _weeklyDayItems = weeklyItems.ToArray();
             _weeklyDayDropdown = Dropdown().Items(_weeklyDayItems).Class("tss-cron-inline-dropdown");
-            _weeklyDayDropdown.OnChange((s, e) => UpdateCronFromSimple());
             _weeklyContainer = HStack().NoDefaultMargin().AlignItemsCenter().Children(TextBlock(" on ").Class("tss-cron-label").PR(4), _weeklyDayDropdown);
 
             // Fix: Pass IComponent objects to Children, not Render()ed elements
@@ -350,7 +355,7 @@ namespace Tesserae
             }
 
             // Console log for debugging
-            console.log($"UpdateSimpleControls Final Visibility: Freq={freq} DaysEnabled={_daysEnabled}");
+            // console.log($"UpdateSimpleControls Final Visibility: Freq={freq} DaysEnabled={_daysEnabled}");
 
             if (parsed.DayOfMonth != -1)
             {
@@ -477,7 +482,36 @@ namespace Tesserae
             string domPart = "*";
             string dayPart = "*";
 
+            // If we are triggering from an item selection, the dropdown value might not have updated yet
+            // if we use .SelectedItems inside the OnSelected handler immediately?
+            // Usually, OnSelected happens after selection update.
+            // But let's check.
+
             var freq = _frequencyDropdown.SelectedItems.FirstOrDefault()?.Text ?? "daily";
+
+            // Force update controls visibility explicitly here to avoid ParseCron ambiguity round-trip issues
+            // This is the key fix. We know what the user just clicked/selected.
+            // We shouldn't wait for ParseCron to guess it back.
+
+            if (freq == "monthly")
+            {
+                _domContainer.Show();
+                _weeklyContainer.Collapse();
+                _daysStack.Collapse();
+            }
+            else if (freq == "weekly")
+            {
+                _domContainer.Collapse();
+                _weeklyContainer.Show();
+                _daysStack.Collapse();
+            }
+            else
+            {
+                _domContainer.Collapse();
+                _weeklyContainer.Collapse();
+                if (_daysEnabled) _daysStack.Show();
+                else _daysStack.Collapse();
+            }
 
             if (freq == "monthly")
             {
