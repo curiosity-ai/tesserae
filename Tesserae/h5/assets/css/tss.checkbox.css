@@ -24,9 +24,10 @@
         left: 0;
         height: 20px;
         width: 20px;
-        border-radius: 2px;
+        border-radius: var(--tss-border-radius-sm);
         background-color: var(--tss-default-background-color);
         border: 1px solid var(--tss-default-foreground-color);
+        transition: all 0.15s ease-in-out;
     }
 
     .tss-checkbox-container:hover input ~ .tss-checkbox-mark:after {

@@ -13,10 +13,6 @@
     transition: 0.3s width ease-out;
 }
 
-.tss-sidebar.tss-sidebar-secondary {
-    background-color: var(--tss-secondary-background-color);
-}
-
     .tss-sidebar .tss-default-component-margin {
         margin: 0px !important;
     }
@@ -512,31 +508,4 @@
             height: 36px !important;
             line-height: 36px !important;
         }
-}
-/* Sidebar Separator */
-.tss-sidebar-separator {
-    width: 100%;
-    height: 1px;
-    background-color: var(--tss-sidebar-separator-color, #eaeaea);
-    margin: 8px 0;
-    display: flex;
-    align-items: center;
-}
-
-.tss-sidebar-separator-with-text {
-    height: auto;
-    background-color: transparent;
-    margin: 16px 0 8px 0;
-    color: var(--tss-sidebar-separator-text-color, #666);
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-}
-
-.tss-sidebar-separator-with-text::after {
-    content: '';
-    flex-grow: 1;
-    height: 1px;
-    background-color: var(--tss-sidebar-separator-color, #eaeaea);
-    margin-left: 8px;
 }

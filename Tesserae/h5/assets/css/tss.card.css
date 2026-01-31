@@ -17,10 +17,10 @@
     transition: transform 300ms cubic-bezier(0.1, 0.9, 0.2, 1),opacity 300ms cubic-bezier(0.1, 0.9, 0.2, 1) 0.05s;
     transition: transform 300ms cubic-bezier(0.1, 0.9, 0.2, 1),opacity 300ms cubic-bezier(0.1, 0.9, 0.2, 1) 0.05s,-webkit-transform 300ms cubic-bezier(0.1, 0.9, 0.2, 1);
     background: var(--tss-default-background-color);
-    border-radius: 2px;
+    border-radius: var(--tss-border-radius-lg);
     background-clip: padding-box;
-    -webkit-box-shadow: var(--tss-card-shadow);
-    box-shadow: var(--tss-card-shadow);
+    -webkit-box-shadow: var(--tss-shadow-md);
+    box-shadow: var(--tss-shadow-md);
 }
 
     /*we keep the ismounted for compatibility here*/
@@ -50,6 +50,7 @@
 
 .tss-card.tss-card-hover:hover {
     background-color: var(--tss-default-background-hover-color);
+    box-shadow: var(--tss-shadow-lg-hover);
 }
 
 .tss-card.tss-card-hover:active {
