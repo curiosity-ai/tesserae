@@ -57,7 +57,7 @@ namespace Tesserae.Tests.Samples
                .Section(Stack().Children(
                     SampleTitle("Hover State"),
                     TextBlock("This SaveButton has a hover text configured. Hover over it when it is in Pending state."),
-                    SaveButton().WithStateTexts(saveHover: "Save Now!").Pending()
+                    SaveButton().Configure(saveHover: "Save Now!").Pending()
                ))
                .Section(Stack().Children(
                    SampleTitle("Dynamic Text Update"),
@@ -72,8 +72,8 @@ namespace Tesserae.Tests.Samples
             return HStack().Children(
                 btn,
                 Stack().Children(
-                    Button("Update Save Text").OnClick(() => btn.WithStateTexts(save: "New Save Text")),
-                    Button("Update Hover Text").OnClick(() => btn.WithStateTexts(saveHover: "New Hover Text"))
+                    Button("Update Save Text").OnClick(() => btn.Configure(save: "New Save Text")),
+                    Button("Update Hover Text").OnClick(() => btn.Configure(saveHover: "New Hover Text"))
                 ).Gap(8.px())
             ).Gap(16.px());
         }
