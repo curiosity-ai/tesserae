@@ -878,7 +878,7 @@ namespace Tesserae
             private readonly HTMLElement SelectedElement;
             public Item(string text, string selectedText = null) : this(TextBlock(text), TextBlock(string.IsNullOrEmpty(selectedText) ? text : selectedText)) { }
 
-            public dynamic Data { get; private set; }
+            public object Data { get; private set; }
 
             public Item(IComponent content, IComponent selectedContent)
             {
@@ -1016,7 +1016,7 @@ namespace Tesserae
                 return this;
             }
 
-            public Item SetData(dynamic data)
+            public Item SetData(object data)
             {
                 Data = data;
                 return this;

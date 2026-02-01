@@ -109,24 +109,28 @@ namespace Tesserae
         private void InitializeSimpleEditor()
         {
             _frequencyItems = new[] { DropdownItem("daily").Selected(), DropdownItem("weekly"), DropdownItem("monthly") };
+            
             foreach (var item in _frequencyItems)
             {
                 item.OnSelected((s) => UpdateCronFromSimple());
             }
+
             _frequencyDropdown = Dropdown().Items(_frequencyItems).Class("tss-cron-inline-dropdown");
 
             _timeDropdown = Dropdown().Class("tss-cron-inline-dropdown");
             RefreshTimeDropdown();
-            _timeDropdown.OnChange((s, e) => UpdateCronFromSimple());
 
             var domItems = new List<Dropdown.Item>();
+
             for (int i = 1; i <= 31; i++)
             {
                 var item = DropdownItem(i.ToString()).SetData(i);
                 item.OnSelected((s) => UpdateCronFromSimple());
                 domItems.Add(item);
             }
+            
             _dayOfMonthItems = domItems.ToArray();
+
             _dayOfMonthDropdown = Dropdown().Items(_dayOfMonthItems).Class("tss-cron-inline-dropdown");
 
             _domContainer = HStack().NoDefaultMargin().AlignItemsCenter().Children(TextBlock(" on day ").Class("tss-cron-label").PR(4), _dayOfMonthDropdown);
@@ -354,9 +358,6 @@ namespace Tesserae
                 _daysStack.Collapse();
             }
 
-            // Console log for debugging
-            // console.log($"UpdateSimpleControls Final Visibility: Freq={freq} DaysEnabled={_daysEnabled}");
-
             if (parsed.DayOfMonth != -1)
             {
                 var currentDom = _dayOfMonthDropdown.SelectedItems.FirstOrDefault()?.Data;
@@ -470,12 +471,20 @@ namespace Tesserae
             }
         }
 
+        private double _timeoutUpdateCronFromSimple;
         private void UpdateCronFromSimple()
         {
+            window.clearTimeout(_timeoutUpdateCronFromSimple);
+            _timeoutUpdateCronFromSimple = window.setTimeout((_) => UpdateCronFromSimpleInner(), 15);
+        }
+
+        private void UpdateCronFromSimpleInner()
+        { 
             var timeItem = _timeDropdown.SelectedItems.FirstOrDefault();
             if (timeItem == null) return;
 
-            var parts = ((string)timeItem.Data).Split(' ');
+            var parts = timeItem.Data.As<string>()?.Split(' ');
+
             int m = int.Parse(parts[0]);
             int h = int.Parse(parts[1]);
 
@@ -562,45 +571,12 @@ namespace Tesserae
 
             _observable.Value = _cron;
             _onChange?.Invoke(this);
+            
             RenderDescription();
+
             if (_isOpen)
             {
-                // Force update of controls visibility directly here to avoid ParseCron ambiguity round-trip issues
-                // during live editing.
                 UpdateSimpleControls(ParseCron(_cron));
-
-                // However, UpdateSimpleControls relies on ParseCron.
-                // If ParseCron is ambiguous, UpdateSimpleControls will be wrong.
-                // Let's explicitly set the frequency dropdown selection based on what we just decided.
-                // But UpdateSimpleControls does that.
-
-                // Maybe ParseCron needs to be smarter?
-                // If we have single day, is it Weekly or Daily (run on Monday only)?
-                // The PR req says "Weekly" -> Single Choice. "Daily" -> Checkboxes.
-                // So if 1 day is selected, it matches both "Weekly" (1 choice) and "Daily" (1 checkbox checked).
-                // Ambiguity!
-
-                // We need to resolve this ambiguity.
-                // If we are in "Weekly" mode in the UI, we want to stay in "Weekly" mode.
-                // But _cron string is stateless.
-
-                // If we persist the "mode" separately?
-                // No, we rely on parsing.
-
-                // Let's bias ParseCron?
-                // If 1 day selected -> Weekly?
-                // If >1 days selected -> Daily?
-                // If * (all days) -> Daily?
-
-                // If 1 day selected, and we interpret as Weekly, then Daily mode with 1 checkbox is impossible?
-                // User unchecks all but Monday. It switches to Weekly UI?
-                // That might be acceptable or confusing.
-
-                // Alternatively, we use the current dropdown state to hint ParseCron?
-                // Or we pass the intended frequency to UpdateSimpleControls?
-
-                // Let's try to pass the intended frequency to UpdateSimpleControls if possible,
-                // or handle it in UpdateEditorState.
 
                 var parsed = ParseCron(_cron);
 
@@ -608,7 +584,6 @@ namespace Tesserae
                 if (freq == "weekly")
                 {
                     // Ensure UpdateSimpleControls respects "weekly" even if ParseCron thinks otherwise.
-                    // But UpdateSimpleControls infers freq from parsed.
                 }
             }
 
@@ -624,12 +599,25 @@ namespace Tesserae
             if (parsed.IsValid)
             {
                 string time = DateTime.Today.AddHours(parsed.Hour).AddMinutes(parsed.Minute).ToString("hh:mm tt");
-                string days = "daily";
-                if (!parsed.AllDays)
+                string days = "";
+                
+                if(parsed.IsDaily)
                 {
-                    var names = new[] { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
-                    var selectedNames = parsed.DaysOfWeek.OrderBy(d => d).Select(d => names[d]);
-                    days = "on " + string.Join(", ", selectedNames);
+                    days = "daily";
+                    if (!parsed.AllDays)
+                    {
+                        var names = new[] { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
+                        var selectedNames = parsed.DaysOfWeek.OrderBy(d => d).Select(d => names[d]);
+                        days = "on " + string.Join(", ", selectedNames);
+                    }
+                }
+                else if(parsed.IsWeekly)
+                {
+                    ///TODO: IMPLEMENT
+                }
+                else if(parsed.IsMonthly)
+                {
+                    //TODO: IMPLEMENT
                 }
 
                 text  = $"Scheduled {days} at {time} UTC";
