@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -62,7 +62,12 @@ namespace Tesserae.Tests
                 }, 1000);
             });
 
-            sidebar.AddHeader(new SidebarText("header", "tesserae", "TSS", textSize: TextSize.Large, textWeight: TextWeight.Bold).PT(16).PB(16).PL(12));
+
+            sidebar.AddHeader(new SidebarText("header", "Tesserae", "TSS", textSize: TextSize.XLarge, textWeight: TextWeight.Bold).PB(16).PL(12));
+
+            var searchBox = new SidebarSearchBox("search", "Search...");
+            searchBox.OnSearch((term) => sidebar.Search(term));
+            sidebar.AddHeader(searchBox);
 
             var pageContent = HStack().Children(sidebar.HS(), DeferSync(currentPage, page => page is null ? (IComponent)CenteredCardWithBackground(TextBlock("Select an item")) : VStack().S().ScrollY().Children(page.ContentGenerator().WS())).HS().W(1).Grow()).S();
 
@@ -125,58 +130,17 @@ namespace Tesserae.Tests
                 }
             });
 
-            var toast  = new SidebarCommand(Emoji.Bread).Tooltip("Toast !").OnClick(() => Toast().Success("Here is your toast 🍞"));
-            var pizza  = new SidebarCommand(Emoji.Pizza).Tooltip("Pizza!").OnClick(() => Toast().Success("Here is your pizza 🍕"));
-            var cheese = new SidebarCommand(Emoji.Cheese).Tooltip("Cheese !").OnClick(() => Toast().Success("Here is your cheese 🧀"));
-
-            var commands = new SidebarCommands("TOASTS", lightDark, toast, pizza, cheese);
-
-
-            var fireworks = new SidebarCommand(Emoji.ConfettiBall).Tooltip("Confetti !").OnClick(() => Toast().Success("🎊"));
-            var happy     = new SidebarCommand(Emoji.Smile).Tooltip("I like this !").OnClick(() => Toast().Success("Thanks for your feedback"));
-            var sad       = new SidebarCommand(Emoji.Disappointed).Tooltip("I don't like this!").OnClick(() => Toast().Success("Thanks for your feedback"));
-
-            var dotsMenu = new SidebarCommand(UIcons.MenuDots).OnClickMenu(() => new ISidebarItem[]
-            {
-                new SidebarButton("MANAGE_ACCOUNT", UIcons.User,     "Manage Account"),
-                new SidebarButton("PREFERENCES",    UIcons.Settings, "Preferences"),
-                new SidebarButton("DELETE",         UIcons.Trash,    "Delete Account"),
-                new SidebarCommands("EMOTIONS", new SidebarCommand(Emoji.Smile), new SidebarCommand(Emoji.Disappointed), new SidebarCommand(Emoji.Angry)),
-                new SidebarCommands("ADD_DELETE", new SidebarCommand(UIcons.Plus).Primary(), new SidebarCommand(UIcons.Trash).Danger()).AlignEnd(),
-                new SidebarButton("SIGNOUT", UIcons.SignOutAlt, "Sign Out"),
-            });
-
-            var commandsEndAligned = new SidebarCommands("SETTINGS", fireworks, dotsMenu).AlignEnd();
-
-            var commandSidebarconfig = new SidebarCommands("OPENCLOSE", openClose);
-
-
-            sidebar.AddFooter(new SidebarNav("DEEP_NAV", Emoji.EvergreenTree, "Multi-Depth Nav", true).Sortable(sortableGroup: "trees").AddRange(CreateDeepNav("root")));
-
-            sidebar.AddFooter(new SidebarNav("EMPTY_NAV", Emoji.MailboxWithNoMail, "Empty Nav", true).ShowDotIfEmpty().OnOpenIconClick((e, m) => Toast().Success("You clicked on the icon!")));
-
-
-            sidebar.AddFooter(commands);
-            sidebar.AddFooter(commandsEndAligned);
+            var commandSidebarconfig = new SidebarCommands("CONFIG", lightDark, openClose);
             sidebar.AddFooter(commandSidebarconfig);
-
-            sidebar.AddFooter(new SidebarButton("CURIOSITY_REF",
-                new ImageIcon("/assets/img/curiosity-logo.svg"),
-                "By Curiosity",
-                new SidebarBadge("+3").Foreground(Theme.Primary.Foreground).Background(Theme.Primary.Background),
-//                new SidebarCommand("+3", Theme.Primary.Background, Theme.Primary.Foreground),
-                new SidebarCommand(UIcons.ArrowUpRightFromSquare).OnClick(() => window.open("https://github.com/curiosity-ai/tesserae", "_blank"))).Tooltip("Made with ❤ by Curiosity").OnClick(() => window.open("https://curiosity.ai", "_blank")));
-
 
             var groupIndex = 0;
 
-            foreach (var group in samples.Values.GroupBy(s => s.Group))
+            foreach (var group in samples.Values.GroupBy(s => s.Group).OrderBy(g => g.Key))
             {
                 var groupKey = group.Key + groupIndex++;
 
-                var nav = new SidebarNav(group.Key, UIcons.Box, group.Key, false).OnClick(n => n.Toggle());
-                allSidebarItems.Add(nav);
-                sidebar.AddContent(nav);
+                var separator = new SidebarSeparator(groupKey, group.Key);
+                sidebar.AddContent(separator);
 
                 var itemIndex = 0;
 
@@ -192,7 +156,7 @@ namespace Tesserae.Tests
                     });
 
 
-                    nav.Add(sidebarItem);
+                    sidebar.AddContent(sidebarItem);
                     allSidebarItems.Add(sidebarItem);
                     sampleToSidebarItem[item] = sidebarItem;
                 }
@@ -232,20 +196,6 @@ namespace Tesserae.Tests
 
             Router.Initialize();
             Router.Refresh(onDone: Router.ForceMatchCurrent); // We need to forcibly match the route at first loading since we want the just-registered routes to be matched against the current URL without us *changing* that URL
-        }
-
-        private static IEnumerable<ISidebarItem> CreateDeepNav(string path, int currentDepth = 0, int maxDepth = 3)
-        {
-            if (currentDepth < maxDepth)
-            {
-                Action<SidebarNav.ParentChangedEvent> HandleChange = (e)=>
-                {
-                    Dialog($"Move element {e.Item.OwnIdentifier} from {e.From.OwnIdentifier} to {e.To.OwnIdentifier}?").YesNo(onNo: e.Cancel);
-                };
-                yield return new SidebarNav($"{path}/{currentDepth + 1}.1", Emoji.DeciduousTree, $"{path}/{currentDepth + 1}.1", true).Sortable(sortableGroup: "trees").AddRange(CreateDeepNav($"{path}/{currentDepth + 1}.1", currentDepth + 1, maxDepth)).OnParentChanged(HandleChange);
-                yield return new SidebarNav($"{path}/{currentDepth + 1}.2", Emoji.DeciduousTree, $"{path}/{currentDepth + 1}.2", true).Sortable(sortableGroup: "trees").AddRange(CreateDeepNav($"{path}/{currentDepth + 1}.2", currentDepth + 1, maxDepth)).OnParentChanged(HandleChange);
-                yield return new SidebarNav($"{path}/{currentDepth + 1}.3", Emoji.DeciduousTree, $"{path}/{currentDepth + 1}.3", true).Sortable(sortableGroup: "trees").AddRange(CreateDeepNav($"{path}/{currentDepth + 1}.3", currentDepth + 1, maxDepth)).OnParentChanged(HandleChange);
-            }
         }
 
         private static string FormatSampleName(Type sampleType)
