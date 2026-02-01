@@ -20,6 +20,7 @@ namespace Tesserae
         private UIcons _iconSaveHover = UIcons.Disk;
         private State _state;
         private bool _hovering;
+        private bool _pendingPrimary = true;
 
         public enum State
         {
@@ -55,7 +56,7 @@ namespace Tesserae
             SetState(State.NothingToSave);
         }
 
-        public SaveButton Configure(string save = null, string verifying = null, string saving = null, string saved = null, string error = null, string saveHover = null, UIcons saveIcon = UIcons.Disk, UIcons saveHoverIcon = UIcons.Disk)
+        public SaveButton Configure(string save = null, string verifying = null, string saving = null, string saved = null, string error = null, string saveHover = null, UIcons saveIcon = UIcons.Disk, UIcons saveHoverIcon = UIcons.Disk, bool pendingPrimary = true)
         {
             if (save != null) _textSave = save;
             if (verifying != null) _textVerifying = verifying;
@@ -65,7 +66,8 @@ namespace Tesserae
             if (saveHover != null) _textSaveHover = saveHover;
 
             if(string.IsNullOrEmpty(_textSaveHover))  _textSaveHover = save;
-
+            
+            _pendingPrimary = pendingPrimary;
             _iconSave = saveIcon;
             _iconSaveHover = saveHoverIcon;
 
@@ -89,7 +91,7 @@ namespace Tesserae
             {
                 case State.NothingToSave:
                 case State.PendingSave:
-                    _button.IsPrimary = true;
+                    _button.IsPrimary = _pendingPrimary;
                     if (_hovering)
                     {
                         _button.SetText(_textSaveHover).SetIcon(_iconSaveHover);

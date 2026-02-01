@@ -57,7 +57,7 @@ namespace Tesserae.Tests.Samples
                .Section(Stack().Children(
                     SampleTitle("Hover State"),
                     TextBlock("This SaveButton has a hover text configured. Hover over it when it is in Pending state."),
-                    SaveButton().Configure(saveHover: "Save Now!").Pending()
+                    SaveButton().Configure(save: "Disabled", saveHover: "Enable Now!", saveIcon: UIcons.ToggleOff   , saveHoverIcon: UIcons.ToggleOn).Pending()
                ))
                .Section(Stack().Children(
                    SampleTitle("Dynamic Text Update"),
