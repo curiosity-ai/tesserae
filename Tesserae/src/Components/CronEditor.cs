@@ -8,14 +8,16 @@ using static Tesserae.UI;
 namespace Tesserae
 {
     [H5.Name("tss.CronEditor")]
-    public sealed class CronEditor : ComponentBase<CronEditor, HTMLDivElement>, IObservableComponent<string>
+    public sealed class CronEditor : ComponentBase<CronEditor, HTMLDivElement>, IObservableComponent<(string cron, bool enabled)>
     {
         private string _cron;
+        private bool _enabled;
         private bool _isCustom;
         private bool _isOpen;
         private bool _daysEnabled = true;
+        private bool _showEnableCheckbox = true;
         private int _minuteInterval = 60;
-        private SettableObservable<string> _observable = new SettableObservable<string>();
+        private SettableObservable<(string cron, bool enabled)> _observable = new SettableObservable<(string cron, bool enabled)>();
 
         private HTMLElement _descContainer;
         private HTMLElement _editorContainer;
@@ -24,6 +26,7 @@ namespace Tesserae
         private Dropdown _timeDropdown;
         private Stack _daysStack;
         private List<CheckBox> _dayCheckBoxes;
+        private CheckBox _enableCheckBox;
 
         private TextBox _customCronInput;
         private Button _switchToCustomButton;
@@ -31,14 +34,16 @@ namespace Tesserae
 
         private ComponentEventHandler<CronEditor> _onChange;
 
-        public string Value
+        public (string cron, bool enabled) Value
         {
-            get => _cron;
+            get => (_cron, _enabled);
             set
             {
-                if (_cron != value)
+                if (_cron != value.cron || _enabled != value.enabled)
                 {
-                    _cron = value;
+                    _cron = value.cron;
+                    _enabled = value.enabled;
+                    _enableCheckBox.IsChecked = _enabled;
                     _observable.Value = value;
                     _onChange?.Invoke(this);
                     RenderDescription();
@@ -50,10 +55,11 @@ namespace Tesserae
             }
         }
 
-        public CronEditor(string initialCron = "0 12 * * *")
+        public CronEditor(string initialCron = "0 12 * * *", bool initialEnabled = true)
         {
             _cron = initialCron;
-            _observable.Value = _cron;
+            _enabled = initialEnabled;
+            _observable.Value = (_cron, _enabled);
             InnerElement = Div(_("tss-cron-editor"));
 
             _descContainer = Div(_("tss-cron-desc"));
@@ -61,6 +67,8 @@ namespace Tesserae
 
             _editorContainer = Div(_("tss-cron-open"));
             _editorContainer.style.display = "none";
+
+            _enableCheckBox = CheckBox("Enable").Checked(_enabled).OnChange((s, e) => EnabledChanged());
 
             InitializeSimpleEditor();
             InitializeCustomEditor();
@@ -81,6 +89,13 @@ namespace Tesserae
             return this;
         }
 
+        public CronEditor ShowEnableCheckbox(bool visible)
+        {
+            _showEnableCheckbox = visible;
+            RenderDescription();
+            return this;
+        }
+
         public CronEditor MinuteInterval(int interval)
         {
             _minuteInterval = interval;
@@ -94,9 +109,21 @@ namespace Tesserae
             return this;
         }
 
-        public IObservable<string> AsObservable()
+        public IObservable<(string cron, bool enabled)> AsObservable()
         {
             return _observable;
+        }
+
+        private void EnabledChanged()
+        {
+            _enabled = _enableCheckBox.IsChecked;
+            _observable.Value = (_cron, _enabled);
+            _onChange?.Invoke(this);
+            RenderDescription();
+            if (_isOpen)
+            {
+                UpdateEditorState();
+            }
         }
 
         private void InitializeSimpleEditor()
@@ -300,7 +327,7 @@ namespace Tesserae
                     _cron = "0 0 * * *";
                 }
                 UpdateEditorState();
-                _observable.Value = _cron;
+                _observable.Value = (_cron, _enabled);
                 _onChange?.Invoke(this);
                 RenderDescription();
             }
@@ -343,7 +370,7 @@ namespace Tesserae
 
             _cron = $"{m} {h} * * {dayPart}";
 
-            _observable.Value = _cron;
+            _observable.Value = (_cron, _enabled);
             _onChange?.Invoke(this);
             RenderDescription();
         }
@@ -368,7 +395,22 @@ namespace Tesserae
                 text  = $"Scheduled {days} at {time} UTC";
             }
 
-            var wrappedRow = Button().ReplaceContent(HStack().AlignItemsCenter().NoDefaultMargin().Children(Icon(UIcons.AngleDown).PR(16), Icon(UIcons.Clock).PR(8), TextBlock(text)));
+            if (!_enabled)
+            {
+                text = "Disabled (" + text + ")";
+            }
+
+            var stack = HStack().AlignItemsCenter().NoDefaultMargin();
+            if (_showEnableCheckbox)
+            {
+                stack.Add(_enableCheckBox);
+            }
+
+            stack.Add(Icon(UIcons.AngleDown).PR(16));
+            stack.Add(Icon(UIcons.Clock).PR(8));
+            stack.Add(TextBlock(text));
+
+            var wrappedRow = Button().ReplaceContent(stack);
                 
             _descContainer.RemoveChildElements();
             _descContainer.appendChild(wrappedRow.Render());

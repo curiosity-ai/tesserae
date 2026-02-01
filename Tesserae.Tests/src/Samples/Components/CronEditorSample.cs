@@ -32,6 +32,12 @@ namespace Tesserae.Tests.Samples
                     SampleSubTitle("With Initial Value (Custom)"),
                     CronEditor("*/5 * * * *"),
 
+                    SampleSubTitle("Initially Disabled"),
+                    CronEditor(initialEnabled: false),
+
+                    SampleSubTitle("With Enable Checkbox Hidden"),
+                    CronEditor().ShowEnableCheckbox(false),
+
                     SampleSubTitle("Observable"),
                     GetObservableExample()
                 ));
@@ -40,8 +46,8 @@ namespace Tesserae.Tests.Samples
         private IComponent GetObservableExample()
         {
             var editor = CronEditor();
-            var text = TextBlock("Current value: " + editor.Value);
-            editor.OnChange((s) => text.Text = "Current value: " + s.Value);
+            var text = TextBlock("Current value: " + editor.Value.cron + " (" + (editor.Value.enabled ? "Enabled" : "Disabled") + ")");
+            editor.OnChange((s) => text.Text = "Current value: " + s.Value.cron + " (" + (s.Value.enabled ? "Enabled" : "Disabled") + ")");
             return VStack().Children(editor, text);
         }
 
