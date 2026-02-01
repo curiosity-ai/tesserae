@@ -26,7 +26,7 @@ namespace Tesserae
         private Dropdown _timeDropdown;
         private Stack _daysStack;
         private List<CheckBox> _dayCheckBoxes;
-        private CheckBox _enableCheckBox;
+        private Button _enableCheckBox;
 
         private TextBox _customCronInput;
         private Button _switchToCustomButton;
@@ -43,7 +43,7 @@ namespace Tesserae
                 {
                     _cron = value.cron;
                     _enabled = value.enabled;
-                    _enableCheckBox.IsChecked = _enabled;
+                    _enableCheckBox.SetIcon(_enabled ? UIcons.ToggleOn : UIcons.ToggleOff);
                     _observable.Value = value;
                     _onChange?.Invoke(this);
                     RenderDescription();
@@ -68,7 +68,7 @@ namespace Tesserae
             _editorContainer = Div(_("tss-cron-open"));
             _editorContainer.style.display = "none";
 
-            _enableCheckBox = CheckBox("Enable").Checked(_enabled).OnChange((s, e) => EnabledChanged());
+            _enableCheckBox = Button().Tooltip(_enabled ? "Enabled, click to disable" : "Disabled, click to enable").SetIcon(_enabled ? UIcons.ToggleOn : UIcons.ToggleOff).OnClick(() => EnabledChanged());
 
             InitializeSimpleEditor();
             InitializeCustomEditor();
@@ -116,7 +116,8 @@ namespace Tesserae
 
         private void EnabledChanged()
         {
-            _enabled = _enableCheckBox.IsChecked;
+            _enabled = !_enabled;
+            _enableCheckBox.Tooltip(_enabled ? "Enabled, click to disable" : "Disabled, click to enable").SetIcon(_enabled ? UIcons.ToggleOn : UIcons.ToggleOff);
             _observable.Value = (_cron, _enabled);
             _onChange?.Invoke(this);
             RenderDescription();
@@ -401,18 +402,20 @@ namespace Tesserae
             }
 
             var stack = HStack().AlignItemsCenter().NoDefaultMargin();
-            if (_showEnableCheckbox)
-            {
-                stack.Add(_enableCheckBox);
-            }
 
-            stack.Add(Icon(UIcons.AngleDown).PR(16));
             stack.Add(Icon(UIcons.Clock).PR(8));
             stack.Add(TextBlock(text));
+            stack.Add(Icon(UIcons.AngleDown).PL(16));
 
             var wrappedRow = Button().ReplaceContent(stack);
                 
             _descContainer.RemoveChildElements();
+
+            if (_showEnableCheckbox)
+            {
+                _descContainer.appendChild(_enableCheckBox.Render());
+            }
+
             _descContainer.appendChild(wrappedRow.Render());
         }
 
