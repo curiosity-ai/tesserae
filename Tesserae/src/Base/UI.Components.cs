@@ -509,7 +509,7 @@ namespace Tesserae
         /// <summary>
         /// Creates a <see cref="Tesserae.CronEditor"/> component.
         /// </summary>
-        public static CronEditor CronEditor(string initialCron = "0 12 * * *") => new CronEditor(initialCron);
+        public static CronEditor CronEditor(string initialCron = "0 12 * * *", bool initialEnabled = true) => new CronEditor(initialCron, initialEnabled);
 
         /// <summary>
         /// Creates a <see cref="Tesserae.GridPicker"/> component.
