@@ -601,7 +601,17 @@ namespace Tesserae
                 string time = DateTime.Today.AddHours(parsed.Hour).AddMinutes(parsed.Minute).ToString("hh:mm tt");
                 string days = "";
                 
-                if(parsed.IsDaily)
+                if (parsed.IsMonthly)
+                {
+                    days = $"monthly on day {parsed.DayOfMonth}";
+                }
+                else if (parsed.IsWeekly)
+                {
+                    var names = new[] { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
+                    int d = parsed.DaysOfWeek[0];
+                    days = $"every {names[d]}";
+                }
+                else if (parsed.IsDaily)
                 {
                     days = "daily";
                     if (!parsed.AllDays)
@@ -610,14 +620,6 @@ namespace Tesserae
                         var selectedNames = parsed.DaysOfWeek.OrderBy(d => d).Select(d => names[d]);
                         days = "on " + string.Join(", ", selectedNames);
                     }
-                }
-                else if(parsed.IsWeekly)
-                {
-                    ///TODO: IMPLEMENT
-                }
-                else if(parsed.IsMonthly)
-                {
-                    //TODO: IMPLEMENT
                 }
 
                 text  = $"Scheduled {days} at {time} UTC";
@@ -681,7 +683,6 @@ namespace Tesserae
                 }
 
                 res.IsValid = true;
-                res.IsDaily = true;
             }
             catch
             {
@@ -697,7 +698,11 @@ namespace Tesserae
             public int DayOfMonth;
             public List<int> DaysOfWeek;
             public bool AllDays;
-            public bool IsDaily;
+
+            public bool IsMonthly => DayOfMonth != -1;
+            public bool IsWeekly => !IsMonthly && !AllDays && DaysOfWeek != null && DaysOfWeek.Count == 1;
+            public bool IsDaily => !IsMonthly && !IsWeekly;
+
             public bool IsValid;
         }
     }
