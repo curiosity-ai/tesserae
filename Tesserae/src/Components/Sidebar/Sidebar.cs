@@ -21,6 +21,7 @@ namespace Tesserae
         private          double                                          _closedTimeout;
         private readonly Stack                                           _sidebar;
         private          bool                                            _isSortable;
+        private          bool                                            _isNavbar;
 
         private Action<Dictionary<string, string[]>> _onSortingChanged;
 
@@ -109,6 +110,19 @@ namespace Tesserae
             Refresh();
         }
 
+        /// <summary>
+        /// Configures the sidebar to render as a navbar.
+        /// </summary>
+        /// <returns>The current instance.</returns>
+        public Sidebar Navbar()
+        {
+            _isNavbar = true;
+            _sidebar.Horizontal();
+            _sidebar.Class("tss-navbar");
+            Refresh();
+            return this;
+        }
+
         private void RenderSidebar(IReadOnlyList<ISidebarItem> header, IReadOnlyList<ISidebarItem> middle, IReadOnlyList<ISidebarItem> footer, bool closed)
         {
             var stackMiddle = VStack();
@@ -155,10 +169,39 @@ namespace Tesserae
                 }
             }
 
-            _sidebar.Children(VStack().Class("tss-sidebar-header").WS().NoShrink().Children(header.Select(si => closed ? si.RenderClosed() : si.RenderOpen())),
-                stackMiddle.Class("tss-sidebar-middle").WS().H(10).Grow().ScrollY().Children(middle.Select(si => closed ? si.RenderClosed() : si.RenderOpen())),
-                VStack().Class("tss-sidebar-footer").WS().NoShrink().Children(footer.Select(si => closed ? si.RenderClosed() : si.RenderOpen()))
-            );
+            if (_isNavbar)
+            {
+                var hamburger = Button().Class("tss-navbar-burger").SetIcon(UIcons.BurgerMenu).OnClick(() => _closed.Value = !_closed.Value);
+
+                var drawer = VStack().Class("tss-navbar-drawer")
+                   .Children(
+                        stackMiddle.Class("tss-sidebar-middle").WS().H(10).Grow().ScrollY().Children(middle.Select(si => si.RenderOpen())),
+                        VStack().Class("tss-sidebar-footer").WS().NoShrink().Children(footer.Select(si => si.RenderOpen()))
+                    );
+
+                if (closed)
+                {
+                    drawer.Collapse();
+                }
+                else
+                {
+                    drawer.Show();
+                }
+
+                _sidebar.Children(
+                    HStack().Class("tss-sidebar-header").WS().NoShrink().Children(header.Select(si => si.RenderOpen())),
+                    Stack().Grow(),
+                    hamburger,
+                    drawer
+                );
+            }
+            else
+            {
+                _sidebar.Children(VStack().Class("tss-sidebar-header").WS().NoShrink().Children(header.Select(si => closed ? si.RenderClosed() : si.RenderOpen())),
+                    stackMiddle.Class("tss-sidebar-middle").WS().H(10).Grow().ScrollY().Children(middle.Select(si => closed ? si.RenderClosed() : si.RenderOpen())),
+                    VStack().Class("tss-sidebar-footer").WS().NoShrink().Children(footer.Select(si => closed ? si.RenderClosed() : si.RenderOpen()))
+                );
+            }
         }
 
         /// <summary>
