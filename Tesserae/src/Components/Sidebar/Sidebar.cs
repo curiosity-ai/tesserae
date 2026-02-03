@@ -60,11 +60,11 @@ namespace Tesserae
                 {
                     if (isClosed)
                     {
-                        _sidebar.Class("tss-sidebar-closed");
+                        _sidebar.Class(_isNavbar ?  "tss-navbar-closed" :  "tss-sidebar-closed");
                     }
                     else
                     {
-                        _sidebar.RemoveClass("tss-sidebar-closed");
+                        _sidebar.RemoveClass(_isNavbar ?  "tss-navbar-closed" :  "tss-sidebar-closed");
                     }
                 }, 15);
             });
@@ -114,11 +114,12 @@ namespace Tesserae
         /// Configures the sidebar to render as a navbar.
         /// </summary>
         /// <returns>The current instance.</returns>
-        public Sidebar Navbar()
+        public Sidebar AsNavbar()
         {
             _isNavbar = true;
             _sidebar.Horizontal();
             _sidebar.Class("tss-navbar");
+            _closed.Value = true;
             Refresh();
             return this;
         }
@@ -171,7 +172,7 @@ namespace Tesserae
 
             if (_isNavbar)
             {
-                var hamburger = Button().Class("tss-navbar-burger").SetIcon(UIcons.BurgerMenu).OnClick(() => _closed.Value = !_closed.Value);
+                var hamburger = Button().Class("tss-navbar-burger").SetIcon(UIcons.MenuBurger).OnClick(() => _closed.Value = !_closed.Value);
 
                 var drawer = VStack().Class("tss-navbar-drawer")
                    .Children(
@@ -189,7 +190,7 @@ namespace Tesserae
                 }
 
                 _sidebar.Children(
-                    HStack().Class("tss-sidebar-header").WS().NoShrink().Children(header.Select(si => si.RenderOpen())),
+                    HStack().Class("tss-sidebar-header").W(10).Grow().NoShrink().Children(header.Select(si => si.RenderOpen())),
                     Stack().Grow(),
                     hamburger,
                     drawer

@@ -13,7 +13,7 @@ namespace Tesserae.Tests.Samples
 
         public NavbarSample()
         {
-            var navbar = Sidebar().Navbar();
+            var navbar = Sidebar().AsNavbar();
 
             navbar.AddHeader(new SidebarButton("brand", UIcons.Rocket, "My App").Primary());
             navbar.AddHeader(new SidebarButton("dashboard", UIcons.Dashboard, "Dashboard"));

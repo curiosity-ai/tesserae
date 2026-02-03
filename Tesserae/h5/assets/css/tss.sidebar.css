@@ -514,16 +514,11 @@
 
 .tss-navbar {
     width: 100% !important;
-    height: auto !important;
+    height: 52px !important;
     padding: 8px 16px !important;
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     align-items: center;
-}
-
-.tss-navbar.tss-sidebar-closed {
-    width: 100% !important;
-    max-width: unset !important;
-    padding: 8px 16px !important;
+    position:relative;
 }
 
 .tss-navbar .tss-sidebar-header {
@@ -531,7 +526,6 @@
     align-items: center;
     margin: 0 !important;
     padding: 0 !important;
-    width: auto !important;
 }
 
 .tss-navbar .tss-sidebar-header > * {
@@ -540,13 +534,9 @@
 }
 
 .tss-navbar-burger {
-    font-size: 20px;
-    padding: 8px;
-    cursor: pointer;
     background: transparent;
-    border: none;
-    color: var(--tss-default-foreground-color);
 }
+
 .tss-navbar-burger:hover {
     background-color: var(--tss-default-background-hover-color);
     border-radius: 4px;
@@ -554,7 +544,7 @@
 
 .tss-navbar-drawer {
     position: absolute;
-    top: 100%;
+    top: 52px;
     right: 0;
     width: 300px;
     background: var(--tss-sidebar-background-color);
@@ -565,6 +555,11 @@
     max-height: 80vh;
     overflow-y: auto;
 }
+
+    .tss-navbar-drawer > .tss-stack-item {
+        height: fit-content !important;
+    }
+
 
 .tss-navbar-drawer.tss-collapse {
     display: none !important;
