@@ -1,4 +1,4 @@
-﻿/* Sidebar */
+/* Sidebar */
 
 
 .tss-sidebar {
@@ -508,4 +508,58 @@
             height: 36px !important;
             line-height: 36px !important;
         }
+}
+
+/* Navbar Mode Extensions */
+
+.tss-navbar {
+    width: 100% !important;
+    height: 52px !important;
+    padding: 8px 16px !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    align-items: center;
+    position:relative;
+}
+
+.tss-navbar .tss-sidebar-header {
+    flex-direction: row !important;
+    align-items: center;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.tss-navbar .tss-sidebar-header > * {
+    margin-bottom: 0px !important;
+    margin-right: 8px;
+}
+
+.tss-navbar-burger {
+    background: transparent;
+}
+
+.tss-navbar-burger:hover {
+    background-color: var(--tss-default-background-hover-color);
+    border-radius: 4px;
+}
+
+.tss-navbar-drawer {
+    position: absolute;
+    top: 52px;
+    right: 0;
+    width: 300px;
+    background: var(--tss-sidebar-background-color);
+    box-shadow: -2px 5px 10px rgba(0,0,0,0.2);
+    z-index: 10000;
+    border-bottom-left-radius: 8px;
+    padding: 16px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.tss-navbar-drawer.tss-collapse {
+    display: none !important;
+}
+
+.tss-navbar-drawer .tss-sidebar-middle {
+    margin-bottom: 16px;
 }

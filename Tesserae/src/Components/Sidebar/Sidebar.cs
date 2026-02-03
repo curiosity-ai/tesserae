@@ -21,6 +21,7 @@ namespace Tesserae
         private          double                                          _closedTimeout;
         private readonly Stack                                           _sidebar;
         private          bool                                            _isSortable;
+        private          bool                                            _isNavbar;
 
         private Action<Dictionary<string, string[]>> _onSortingChanged;
 
@@ -59,11 +60,11 @@ namespace Tesserae
                 {
                     if (isClosed)
                     {
-                        _sidebar.Class("tss-sidebar-closed");
+                        _sidebar.Class(_isNavbar ?  "tss-navbar-closed" :  "tss-sidebar-closed");
                     }
                     else
                     {
-                        _sidebar.RemoveClass("tss-sidebar-closed");
+                        _sidebar.RemoveClass(_isNavbar ?  "tss-navbar-closed" :  "tss-sidebar-closed");
                     }
                 }, 15);
             });
@@ -107,6 +108,20 @@ namespace Tesserae
         {
             _isSortable = sortable;
             Refresh();
+        }
+
+        /// <summary>
+        /// Configures the sidebar to render as a navbar.
+        /// </summary>
+        /// <returns>The current instance.</returns>
+        public Sidebar AsNavbar()
+        {
+            _isNavbar = true;
+            _sidebar.Horizontal();
+            _sidebar.Class("tss-navbar");
+            _closed.Value = true;
+            Refresh();
+            return this;
         }
 
         private void RenderSidebar(IReadOnlyList<ISidebarItem> header, IReadOnlyList<ISidebarItem> middle, IReadOnlyList<ISidebarItem> footer, bool closed)
@@ -155,10 +170,50 @@ namespace Tesserae
                 }
             }
 
-            _sidebar.Children(VStack().Class("tss-sidebar-header").WS().NoShrink().Children(header.Select(si => closed ? si.RenderClosed() : si.RenderOpen())),
-                stackMiddle.Class("tss-sidebar-middle").WS().H(10).Grow().ScrollY().Children(middle.Select(si => closed ? si.RenderClosed() : si.RenderOpen())),
-                VStack().Class("tss-sidebar-footer").WS().NoShrink().Children(footer.Select(si => closed ? si.RenderClosed() : si.RenderOpen()))
-            );
+            if (_isNavbar)
+            {
+                var hamburger = Button().Class("tss-navbar-burger").SetIcon(UIcons.MenuBurger).OnClick(() => _closed.Value = !_closed.Value);
+
+                var drawer = VStack().Class("tss-navbar-drawer")
+                   .Children(
+                        stackMiddle.Class("tss-sidebar-middle").WS().MinHeight(new UnitSize("fit-content")).MaxHeight(80.vh()).ScrollY().Children(middle.Select(si => AttachNavbarClose(si.RenderOpen()))),
+                        VStack().Class("tss-sidebar-footer").WS().NoShrink().Children(footer.Select(si => AttachNavbarClose(si.RenderOpen())))
+                    );
+
+                if (closed)
+                {
+                    drawer.Collapse();
+                }
+                else
+                {
+                    drawer.Show();
+                }
+
+                _sidebar.Children(
+                    HStack().Class("tss-sidebar-header").W(10).Grow().NoShrink().Children(header.Select(si => si.RenderOpen())),
+                    Stack().Grow(),
+                    hamburger,
+                    drawer
+                );
+            }
+            else
+            {
+                _sidebar.Children(VStack().Class("tss-sidebar-header").WS().NoShrink().Children(header.Select(si => closed ? si.RenderClosed() : si.RenderOpen())),
+                    stackMiddle.Class("tss-sidebar-middle").WS().H(10).Grow().ScrollY().Children(middle.Select(si => closed ? si.RenderClosed() : si.RenderOpen())),
+                    VStack().Class("tss-sidebar-footer").WS().NoShrink().Children(footer.Select(si => closed ? si.RenderClosed() : si.RenderOpen()))
+                );
+            }
+        }
+
+        private IComponent AttachNavbarClose(IComponent component)
+        {
+            var el = component.Render();
+            if(!el.HasOwnProperty("_NAVBAR_CLOSE"))
+            {
+                el["_NAVBAR_CLOSE"] = true;
+                el.addEventListener("click", () => _closed.Value = true);
+            }
+            return component;
         }
 
         /// <summary>
