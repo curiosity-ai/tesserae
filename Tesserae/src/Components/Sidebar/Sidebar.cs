@@ -176,8 +176,8 @@ namespace Tesserae
 
                 var drawer = VStack().Class("tss-navbar-drawer")
                    .Children(
-                        stackMiddle.Class("tss-sidebar-middle").WS().H(10).Grow().ScrollY().Children(middle.Select(si => si.RenderOpen())),
-                        VStack().Class("tss-sidebar-footer").WS().NoShrink().Children(footer.Select(si => si.RenderOpen()))
+                        stackMiddle.Class("tss-sidebar-middle").WS().MinHeight(new UnitSize("fit-content")).MaxHeight(80.vh()).ScrollY().Children(middle.Select(si => AttachNavbarClose(si.RenderOpen()))),
+                        VStack().Class("tss-sidebar-footer").WS().NoShrink().Children(footer.Select(si => AttachNavbarClose(si.RenderOpen())))
                     );
 
                 if (closed)
@@ -203,6 +203,17 @@ namespace Tesserae
                     VStack().Class("tss-sidebar-footer").WS().NoShrink().Children(footer.Select(si => closed ? si.RenderClosed() : si.RenderOpen()))
                 );
             }
+        }
+
+        private IComponent AttachNavbarClose(IComponent component)
+        {
+            var el = component.Render();
+            if(!el.HasOwnProperty("_NAVBAR_CLOSE"))
+            {
+                el["_NAVBAR_CLOSE"] = true;
+                el.addEventListener("click", () => _closed.Value = true);
+            }
+            return component;
         }
 
         /// <summary>

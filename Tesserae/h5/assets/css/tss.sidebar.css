@@ -556,11 +556,6 @@
     overflow-y: auto;
 }
 
-    .tss-navbar-drawer > .tss-stack-item {
-        height: fit-content !important;
-    }
-
-
 .tss-navbar-drawer.tss-collapse {
     display: none !important;
 }
