@@ -358,6 +358,7 @@
 }
 
     .tss-sidebar-nav-header.tss-sidebar-btn-open {
+
     }
 
 .tss-sidebar-nav-arrow {
@@ -510,15 +511,24 @@
         }
 }
 
-/* Navbar Mode Extensions */
+.tss-sidebar-separator {
+    margin-top: 8px;
+    margin-bottom: 4px;
+    margin-left: 4px;
+}
 
+.tss-sidebar.tss-sidebar-closed .tss-sidebar-separator {
+    display: none;
+}
+
+/* Navbar Mode Extensions */
 .tss-navbar {
     width: 100% !important;
     height: 52px !important;
     padding: 8px 16px !important;
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     align-items: center;
-    position:relative;
+    position: relative;
 }
 
 .tss-navbar .tss-sidebar-header {
