@@ -12,17 +12,17 @@ namespace Tesserae.Tests.Samples
 
         public TextBlockSample()
         {
-            _content = SectionStack().Secondary()
-               .SampleTitle(typeof(TextBlockSample), UIcons.Text, "A component to display text")
-               .FlatSection(Stack().Children(
-                    Card(VStack().WS().Children(
+            _content = SectionStack()
+               .Title(SampleHeader(nameof(TextBlockSample)))
+               .Section(Stack().Children(
+                    SampleTitle("Overview"),
                     TextBlock("TextBlock is the fundamental component for displaying text in Tesserae. It provides a consistent way to apply typography styles, sizes, and weights across your application."),
-                    TextBlock("It supports various built-in sizes, from tiny to mega, and different weights and colors."))).SetTitle("Overview")))
-               .FlatSection(Stack().Children(
-                    Card(VStack().WS().Children(
-                    TextBlock("Use the predefined text sizes to maintain visual hierarchy. Use semi-bold or bold weights for headers and important information. Leverage the built-in color options (primary, success, danger, etc.) to convey meaning consistently. For long blocks of text, ensure the width is constrained for better readability. Use 'NoWrap' and text-overflow properties when dealing with limited space, such as in list items."))).SetTitle("Best Practices")))
-               .FlatSection(Stack().Children(
-                    Card(VStack().WS().Children(
+                    TextBlock("It supports various built-in sizes, from tiny to mega, and different weights and colors.")))
+               .Section(Stack().Children(
+                    SampleTitle("Best Practices"),
+                    TextBlock("Use the predefined text sizes to maintain visual hierarchy. Use semi-bold or bold weights for headers and important information. Leverage the built-in color options (primary, success, danger, etc.) to convey meaning consistently. For long blocks of text, ensure the width is constrained for better readability. Use 'NoWrap' and text-overflow properties when dealing with limited space, such as in list items.")))
+               .Section(Stack().Children(
+                    SampleTitle("Usage"),
                     SampleSubTitle("Text Sizes"),
                     VStack().Children(
                         TextBlock("Mega Text").Mega(),
@@ -48,15 +48,8 @@ namespace Tesserae.Tests.Samples
                         TextBlock("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.").Width(300.px()),
                         TextBlock("No wrapping (ellipsis):").SemiBold().MT(16),
                         TextBlock("This is a very long text that will be truncated with an ellipsis because it has NoWrap set and a constrained width.").NoWrap().Width(300.px())
-                    ),
-                    SampleSubTitle("Glow Effects"),
-                    VStack().Children(
-                        TextBlock("Default Text").Large().Glow(),
-                        TextBlock("Danger Text").Large().Danger().Glow(),
-                        TextBlock("Foreground Color").Large().Foreground(Theme.Colors.Purple600).Glow(),
-                        TextBlock("Custom Glow").Large().Glow(Theme.Colors.Lime300)
                     )
-                )).SetTitle("Usage")));
+                ));
         }
 
         public HTMLElement Render() => _content.Render();

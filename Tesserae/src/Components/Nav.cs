@@ -7,40 +7,22 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
-    /// <summary>
-    /// A hierarchical, vertically-stacked navigation tree with support for nested sections, icons and badges.
-    /// </summary>
     [H5.Name("tss.Nav")]
     public sealed class Nav : ComponentBase<Nav, HTMLUListElement>, IContainer<Nav.NavLink, Nav.NavLink>, IHasBackgroundColor
     {
-        /// <summary>
-        /// Initializes a new instance of this class.
-        /// </summary>
         public Nav() => InnerElement = Ul(_("tss-nav"));
 
-        /// <summary>
-        /// Gets or sets the selected link.
-        /// </summary>
         public NavLink SelectedLink { get; private set; }
 
         private readonly List<NavLink> _children = new List<NavLink>();
 
-        /// <summary>
-        /// Gets or sets the CSS background of the component.
-        /// </summary>
         public string Background { get => InnerElement.style.background; set => InnerElement.style.background = value; }
 
-        /// <summary>
-        /// Renders the component's root HTML element.
-        /// </summary>
         public override HTMLElement Render()
         {
             return InnerElement;
         }
 
-        /// <summary>
-        /// Adds the given item to the component.
-        /// </summary>
         public void Add(NavLink component)
         {
             InnerElement.appendChild(component.Render());
@@ -65,18 +47,12 @@ namespace Tesserae
             _children.Add(component);
         }
 
-        /// <summary>
-        /// Clears the component's current state.
-        /// </summary>
         public void Clear()
         {
             _children.Clear();
             ClearChildren(InnerElement);
         }
 
-        /// <summary>
-        /// Replaces an existing item with a new one.
-        /// </summary>
         public void Replace(NavLink newComponent, NavLink oldComponent)
         {
             var index = _children.IndexOf(oldComponent);
@@ -97,18 +73,12 @@ namespace Tesserae
                 }
             }
         }
-        /// <summary>
-        /// Configures the component to links.
-        /// </summary>
         public Nav Links(params Nav.NavLink[] children)
         {
             children.ForEach(x => Add(x));
             return this;
         }
 
-        /// <summary>
-        /// Sets a piece of content shown inline next to the navigation item.
-        /// </summary>
         public Nav InlineContent(IComponent content, bool disableMouseEvents = false)
         {
             Add(new Nav.ComponentInNavLink(content, disableMouseEvents));
@@ -119,7 +89,7 @@ namespace Tesserae
         {
             foreach (var c in _children)
             {
-                c.UnselectRecursively(sender);
+                c.UnselectRecursivelly(sender);
             }
 
             RaiseOnChange(ev: null);
@@ -127,27 +97,18 @@ namespace Tesserae
             SelectedLink = sender;
         }
 
-        /// <summary>
-        /// Renders the component in a compact form.
-        /// </summary>
         public Nav Compact()
         {
             InnerElement.classList.add("tss-nav-small");
             return this;
         }
 
-        /// <summary>
-        /// Removes / disables the link style on the component.
-        /// </summary>
         public Nav NoLinkStyle()
         {
             InnerElement.classList.add("tss-nav-no-underline");
             return this;
         }
 
-        /// <summary>
-        /// Renders the selection marker on the right side of the nav.
-        /// </summary>
         public Nav SelectMarkerOnRight()
         {
             InnerElement.classList.add("tss-nav-right");
@@ -160,18 +121,12 @@ namespace Tesserae
             private readonly bool       _disableMouseEvents;
             private          bool       _alreadyRendered = false;
 
-            /// <summary>
-            /// Initializes a new instance of this class.
-            /// </summary>
             public ComponentInNavLink(IComponent content, bool disableMouseEvents) : base()
             {
                 _content            = content;
                 _disableMouseEvents = disableMouseEvents;
             }
 
-            /// <summary>
-            /// Renders the component's root HTML element.
-            /// </summary>
             public override HTMLElement Render()
             {
                 if (!_alreadyRendered)
@@ -211,9 +166,6 @@ namespace Tesserae
             private          bool          _shouldExpandOnFirstAdd;
             private readonly List<NavLink> _childLinks = new List<NavLink>();
 
-            /// <summary>
-            /// Initializes a new instance of this class.
-            /// </summary>
             public NavLink(string text = null)
             {
                 _textSpan             =  Span(_(text: text));
@@ -227,9 +179,6 @@ namespace Tesserae
                 Weight                =  TextWeight.Regular;
             }
 
-            /// <summary>
-            /// Initializes a new instance of this class.
-            /// </summary>
             public NavLink(IComponent content)
             {
                 _childContainer       =  Ul(_("tss-nav-link-container"));
@@ -302,9 +251,6 @@ namespace Tesserae
                 }
             }
 
-            /// <summary>
-            /// Returns a value indicating whether the component is expanded.
-            /// </summary>
             public bool IsExpanded
             {
                 get => InnerElement.classList.contains("tss-expanded");
@@ -323,9 +269,6 @@ namespace Tesserae
                 }
             }
 
-            /// <summary>
-            /// Gets or sets a value indicating whether the component is selected.
-            /// </summary>
             public bool IsSelected
             {
                 get => _headerDiv.classList.contains("tss-selected");
@@ -354,9 +297,6 @@ namespace Tesserae
                     _headerDiv.classList.remove("tss-selected");
             }
 
-            /// <summary>
-            /// Returns a value indicating whether the component has the given children.
-            /// </summary>
             public bool HasChildren => _childContainer.hasChildNodes();
 
             internal int Level
@@ -373,9 +313,6 @@ namespace Tesserae
                 }
             }
 
-            /// <summary>
-            /// Gets or sets the size of the component.
-            /// </summary>
             public TextSize Size
             {
                 get => ITextFormatingExtensions.FromClassList(InnerElement, TextSize.Small);
@@ -386,9 +323,6 @@ namespace Tesserae
                 }
             }
 
-            /// <summary>
-            /// Gets or sets the font weight of the component.
-            /// </summary>
             public TextWeight Weight
             {
                 get => ITextFormatingExtensions.FromClassList(InnerElement, TextWeight.Regular);
@@ -399,9 +333,6 @@ namespace Tesserae
                 }
             }
 
-            /// <summary>
-            /// Gets or sets the text alignment of the component.
-            /// </summary>
             public TextAlign TextAlign
             {
                 get
@@ -415,9 +346,6 @@ namespace Tesserae
                 }
             }
 
-            /// <summary>
-            /// Gets or sets the CSS background of the component.
-            /// </summary>
             public string Background
             {
                 get => _headerDiv.style.background;
@@ -428,14 +356,8 @@ namespace Tesserae
                 }
             }
 
-            /// <summary>
-            /// Renders the component's root HTML element.
-            /// </summary>
             public override HTMLElement Render() => InnerElement;
 
-            /// <summary>
-            /// Adds the given item to the component.
-            /// </summary>
             public void Add(NavLink component)
             {
                 _childLinks.Add(component);
@@ -471,9 +393,6 @@ namespace Tesserae
                 InternalSelectedLink?.Invoke(this);
             }
 
-            /// <summary>
-            /// Clears the component's current state.
-            /// </summary>
             public void Clear()
             {
                 ClearChildren(_childContainer);
@@ -481,9 +400,6 @@ namespace Tesserae
                 _headerDiv.classList.remove("tss-expandable");
             }
 
-            /// <summary>
-            /// Replaces an existing item with a new one.
-            /// </summary>
             public void Replace(NavLink newComponent, NavLink oldComponent)
             {
                 _childContainer.replaceChild(newComponent.Render(), oldComponent.Render());
@@ -493,43 +409,28 @@ namespace Tesserae
                     InternalSelectedLink?.Invoke(newComponent);
             }
 
-            /// <summary>
-            /// Removes the given item from the component.
-            /// </summary>
             public void Remove(NavLink oldComponent)
             {
                 _childContainer.removeChild(oldComponent.Render());
             }
-            /// <summary>
-            /// Sets a piece of content shown inline next to the navigation item.
-            /// </summary>
             public NavLink InlineContent(IComponent content, bool disableMouseEvents = false)
             {
                 Add(new Nav.ComponentInNavLink(content, disableMouseEvents));
                 return this;
             }
 
-            /// <summary>
-            /// Marks the component as selected.
-            /// </summary>
             public NavLink Selected()
             {
                 IsSelected = true;
                 return this;
             }
 
-            /// <summary>
-            /// Returns a value indicating whether the component can select and expand.
-            /// </summary>
             public NavLink CanSelectAndExpand()
             {
                 _canSelectAndExpand = true;
                 return this;
             }
 
-            /// <summary>
-            /// Marks this link as selected (and expanded) when the supplied predicate holds.
-            /// </summary>
             public NavLink SelectedOrExpandedIf(bool shouldSelect)
             {
                 if (shouldSelect)
@@ -553,54 +454,36 @@ namespace Tesserae
                 return this;
             }
 
-            /// <summary>
-            /// Expands the component.
-            /// </summary>
             public NavLink Expanded()
             {
                 IsExpanded = true;
                 return this;
             }
 
-            /// <summary>
-            /// Sets the text of the component.
-            /// </summary>
             public NavLink SetText(string text)
             {
                 Text = text;
                 return this;
             }
 
-            /// <summary>
-            /// Registers a callback invoked when the selected event fires.
-            /// </summary>
             public NavLink OnSelected(ComponentEventHandler<NavLink> onSelected)
             {
                 SelectedLink += onSelected;
                 return this;
             }
 
-            /// <summary>
-            /// Registers a callback invoked when the expanded event fires.
-            /// </summary>
             public NavLink OnExpanded(ComponentEventHandler<NavLink> onExpanded)
             {
                 ExpandedLink += onExpanded;
                 return this;
             }
 
-            /// <summary>
-            /// Configures the component to links.
-            /// </summary>
             public NavLink Links(params Nav.NavLink[] children)
             {
                 children.ForEach(x => Add(x));
                 return this;
             }
 
-            /// <summary>
-            /// Asynchronously loads the child links of this nav node from the supplied factory.
-            /// </summary>
             public NavLink LinksAsync(Func<Task<Nav.NavLink[]>> childrenAsync)
             {
                 bool alreadyRun = false;
@@ -659,13 +542,13 @@ namespace Tesserae
                 }
             }
 
-            internal void UnselectRecursively(NavLink sender)
+            internal void UnselectRecursivelly(NavLink sender)
             {
                 if (this == sender)
                 {
                     foreach (var child in _childLinks)
                     {
-                        child.UnselectRecursively(sender);
+                        child.UnselectRecursivelly(sender);
                     }
                 }
                 else if (!_childLinks.Any(l => l.IsOrHasChild(sender)))
@@ -674,13 +557,10 @@ namespace Tesserae
 
                     foreach (var child in _childLinks)
                     {
-                        child.UnselectRecursively(sender);
+                        child.UnselectRecursivelly(sender);
                     }
                 }
             }
-
-            [Obsolete("Use UnselectRecursively (corrected spelling)")]
-            internal void UnselectRecursivelly(NavLink sender) => UnselectRecursively(sender);
 
             private bool IsOrHasChild(NavLink sender) => this == sender || _childLinks.Any(l => l.IsOrHasChild(sender));
         }

@@ -60,8 +60,7 @@
     z-index: 1;
 }
 
-.tss-sortable-ghost > .tss-sidebar-btn-open > .tss-btn,
-.tss-sortable-ghost > .tss-sidebar-btn-open > a > .tss-btn
+.tss-sortable-ghost > .tss-sidebar-btn-open > .tss-btn 
  {
     color: var(--tss-primary-foreground-active-color-root);
     background-color: rgba(var(--tss-primary-background-active-color-root), 0.5);
@@ -70,18 +69,14 @@
 
 .tss-sidebar-btn.tss-sidebar-selected,
 .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn,
-.tss-sidebar-btn-open.tss-sidebar-selected > a > .tss-sidebar-btn,
 .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-btn,
-.tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > a > .tss-btn,
-.tss-sidebar-nav.tss-sidebar-selected > .tss-btn,
-.tss-sidebar-nav.tss-sidebar-selected > a > .tss-btn {
+.tss-sidebar-nav.tss-sidebar-selected > .tss-btn {
     color: var(--tss-default-foreground-hover-color);
     background-color: rgba(var(--tss-default-background-hover-color-root), 0.5);
 }
 
 
-.tss-sidebar-btn-open > .tss-btn,
-.tss-sidebar-btn-open > a > .tss-btn {
+.tss-sidebar-btn-open > .tss-btn {
     text-align: left !important;
     padding: 0px;
     margin: 0px;
@@ -150,10 +145,8 @@
 }
 
 .tss-sidebar-btn.tss-btn > i,
-.tss-sidebar .tss-sidebar-commands-line .tss-sidebar-command.tss-btn > i,
-.tss-sidebar .tss-sidebar-commands-line a > .tss-sidebar-command.tss-btn > i,
-.tss-sidebar-commands-line-extra .tss-sidebar-command.tss-btn > i,
-.tss-sidebar-commands-line-extra a > .tss-sidebar-command.tss-btn > i {
+.tss-sidebar .tss-sidebar-commands-line .tss-sidebar-command.tss-btn > i
+.tss-sidebar-commands-line-extra .tss-sidebar-command.tss-btn > i {
     width: 24px;
     display: inline-block;
     text-align: center;
@@ -170,9 +163,7 @@
 
 .tss-sidebar-btn.tss-btn > .tss-image,
 .tss-sidebar .tss-sidebar-commands-line .tss-sidebar-command.tss-btn > .tss-image,
-.tss-sidebar .tss-sidebar-commands-line a > .tss-sidebar-command.tss-btn > .tss-image,
-.tss-sidebar-commands-line-extra .tss-sidebar-command.tss-btn > .tss-image,
-.tss-sidebar-commands-line-extra a > .tss-sidebar-command.tss-btn > .tss-image {
+.tss-sidebar-commands-line-extra .tss-sidebar-command.tss-btn > .tss-image {
     width: 24px !important;
     height: 24px !important;
     object-fit: contain;
@@ -224,8 +215,7 @@
     white-space: nowrap;
 }
 
-.tss-sidebar-commands > .tss-sidebar-command.tss-btn,
-.tss-sidebar-commands > a > .tss-sidebar-command.tss-btn {
+.tss-sidebar-commands > .tss-sidebar-command.tss-btn {
     padding: 0px;
     margin: 0px;
     min-height: unset !important;
@@ -234,13 +224,11 @@
     border-radius: 5px;
 }
 
-    .tss-sidebar-commands > .tss-sidebar-command.tss-btn:not(:last-child),
-    .tss-sidebar-commands > a:not(:last-child) > .tss-sidebar-command.tss-btn {
+    .tss-sidebar-commands > .tss-sidebar-command.tss-btn:not(:last-child) {
         margin-right: 4px !important;
     }
 
-    .tss-sidebar-commands > .tss-sidebar-command.tss-btn > .tss-image,
-    .tss-sidebar-commands > a > .tss-sidebar-command.tss-btn > .tss-image {
+    .tss-sidebar-commands > .tss-sidebar-command.tss-btn > .tss-image {
         padding: 0px;
         margin: 0px;
         height: 16px !important;
@@ -290,8 +278,7 @@
     border-width: 0 1px 1px 0;
 }
 
-.tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-btn i,
-.tss-sidebar-nav-header.tss-sidebar-btn-open > a > .tss-btn i {
+.tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-btn i {
     width: 24px !important;
     min-width: 24px;
     text-align: center;
@@ -299,37 +286,32 @@
 }
 
 
-.tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-btn > .tss-btn-with-image > .tss-image,
-.tss-sidebar-nav-header.tss-sidebar-btn-open > a > .tss-btn > .tss-btn-with-image > .tss-image {
+.tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-btn > .tss-btn-with-image > .tss-image {
     width: 24px !important;
     height: 24px !important;
     min-width: 24px;
+}
+
+.tss-sidebar-nav-header.tss-sidebar-btn-open:not(.tss-sidebar-nav-header-empty) > .tss-btn i,
+.tss-sidebar-nav-header.tss-sidebar-btn-open:not(.tss-sidebar-nav-header-empty) > .tss-btn > .tss-btn-with-image > .tss-image,
+.tss-sidebar-nav-header.tss-sidebar-btn-open.tss-sidebar-nav-header-empty.tss-sidebar-nav-header-dot-if-empty > .tss-btn i,
+.tss-sidebar-nav-header.tss-sidebar-btn-open.tss-sidebar-nav-header-empty.tss-sidebar-nav-header-dot-if-empty > .tss-btn > .tss-btn-with-image > .tss-image {
+    margin-left: 28px;
 }
 
 .tss-sidebar-nav-header.tss-sidebar-btn-open.tss-sidebar-nav-header-empty > .tss-sidebar-nav-arrow {
     display: none;
 }
 
-.tss-sidebar-nav-header.tss-sidebar-btn-open:not(.tss-sidebar-nav-header-empty) > .tss-sidebar-nav-arrow {
-    visibility: hidden;
+.tss-sidebar-nav-header.tss-sidebar-btn-open.tss-sidebar-nav-header-empty.tss-sidebar-nav-header-dot-if-empty > .tss-btn:before {
+    content: '';
+    border-radius: 10px;
+    background: rgba(var(--tss-secondary-foreground-color-root), 0.2);
+    width: 6px;
+    height: 6px;
+    position: absolute;
+    left: 16px;
 }
-
-.tss-sidebar-nav-header.tss-sidebar-btn-open:not(.tss-sidebar-nav-header-empty):hover > .tss-sidebar-nav-arrow,
-.tss-sidebar-nav-header.tss-sidebar-btn-open:not(.tss-sidebar-nav-header-empty):focus-within > .tss-sidebar-nav-arrow {
-    visibility: visible;
-}
-
-.tss-sidebar-nav-header.tss-sidebar-btn-open:not(.tss-sidebar-nav-header-empty):hover > .tss-btn > i,
-.tss-sidebar-nav-header.tss-sidebar-btn-open:not(.tss-sidebar-nav-header-empty):hover > a > .tss-btn > i,
-.tss-sidebar-nav-header.tss-sidebar-btn-open:not(.tss-sidebar-nav-header-empty):hover > .tss-btn > .tss-btn-with-image > .tss-image,
-.tss-sidebar-nav-header.tss-sidebar-btn-open:not(.tss-sidebar-nav-header-empty):hover > a > .tss-btn > .tss-btn-with-image > .tss-image,
-.tss-sidebar-nav-header.tss-sidebar-btn-open:not(.tss-sidebar-nav-header-empty):focus-within > .tss-btn > i,
-.tss-sidebar-nav-header.tss-sidebar-btn-open:not(.tss-sidebar-nav-header-empty):focus-within > a > .tss-btn > i,
-.tss-sidebar-nav-header.tss-sidebar-btn-open:not(.tss-sidebar-nav-header-empty):focus-within > .tss-btn > .tss-btn-with-image > .tss-image,
-.tss-sidebar-nav-header.tss-sidebar-btn-open:not(.tss-sidebar-nav-header-empty):focus-within > a > .tss-btn > .tss-btn-with-image > .tss-image {
-    visibility: hidden;
-}
-
 
 .tss-sidebar-btn-has-icon-click.tss-btn > i,
 .tss-sidebar-btn-has-icon-click.tss-btn > .tss-btn-with-image > .tss-image {
@@ -447,9 +429,7 @@
 }
 
 .tss-sidebar-menu > .tss-sidebar-btn-open > .tss-btn,
-.tss-sidebar-menu > .tss-sidebar-btn-open > a > .tss-btn,
-.tss-sidebar-menu > .tss-sidebar-commands-line > .tss-sidebar-command.tss-btn,
-.tss-sidebar-menu > .tss-sidebar-commands-line > a > .tss-sidebar-command.tss-btn {
+.tss-sidebar-menu > .tss-sidebar-commands-line > .tss-sidebar-command.tss-btn {
     border: 1px solid transparent;
     height: 36px !important;
     min-height: unset;
@@ -460,18 +440,14 @@
 }
 
     .tss-sidebar-menu > .tss-sidebar-btn-open > .tss-btn:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success),
-    .tss-sidebar-menu > .tss-sidebar-btn-open > a > .tss-btn:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success),
-    .tss-sidebar-menu > .tss-sidebar-commands-line > .tss-sidebar-command.tss-btn:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success),
-    .tss-sidebar-menu > .tss-sidebar-commands-line > a > .tss-sidebar-command.tss-btn:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success) {
+    .tss-sidebar-menu > .tss-sidebar-commands-line > .tss-sidebar-command.tss-btn:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success) {
         background: var(--tss-tooltip-background-color);
         color: var(--tss-tooltip-foreground-color);
         border-color: var(--tss-tooltip-background-color);
     }
 
-    .tss-sidebar-menu > .tss-sidebar-btn-open > .tss-btn.tss-btn-default:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success):hover,
-    .tss-sidebar-menu > .tss-sidebar-btn-open > a > .tss-btn.tss-btn-default:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success):hover,
-    .tss-sidebar-menu > .tss-sidebar-commands-line > .tss-sidebar-command:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success):hover,
-    .tss-sidebar-menu > .tss-sidebar-commands-line > a > .tss-sidebar-command:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success):hover {
+    .tss-sidebar-menu > .tss-sidebar-btn-open .tss-btn.tss-btn-default:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success):hover,
+    .tss-sidebar-menu > .tss-sidebar-commands-line > .tss-sidebar-command:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success):hover {
         color: var(--tss-default-background-hover-color);
         background: var(--tss-default-foreground-hover-color);
         border-color: var(--tss-default-foreground-color);
@@ -506,8 +482,7 @@
 
 
 @media screen and (min-height: 1000px) {
-    .tss-sidebar-btn-open > .tss-btn,
-    .tss-sidebar-btn-open > a > .tss-btn {
+    .tss-sidebar-btn-open > .tss-btn {
         height: 36px !important;
     }
 
@@ -597,78 +572,4 @@
 
 .tss-navbar-drawer .tss-sidebar-middle {
     margin-bottom: 16px;
-}
-
-/* SidebarSegmentedPivot styles */
-.tss-sidebar-segmentedpivot-wrapper-open {
-    margin-left: 8px;
-    margin-right: 8px;
-    margin-top: 8px;
-    margin-bottom: 8px;
-}
-
-.tss-sidebar-segmentedpivot-wrapper-open .tss-segmentedpivot-titlebar {
-    width: 100%;
-}
-
-.tss-sidebar-segmentedpivot-wrapper-open .tss-segmentedpivot-tab {
-    flex-grow: 1;
-    text-align: center;
-    display: inline-flex;
-    justify-content: center;
-}
-
-.tss-sidebar-segmentedpivot-wrapper-closed {
-    margin-left: 4px;
-    margin-right: 4px;
-    margin-top: 4px;
-    margin-bottom: 4px;
-    overflow: hidden;
-}
-
-
-.tss-sidebar-segmentedpivot-wrapper-closed .tss-segmentedpivot-titlebar {
-    flex-direction: column !important;
-    padding: 2px;
-}
-
-
-.tss-sidebar-segmentedpivot-wrapper-closed .tss-segmentedpivot-tab {
-    padding: 4px 4px;
-    margin-bottom: 2px;
-    flex-grow: 1;
-    text-align: center;
-    min-width: 20px;
-}
-
-.tss-sidebar-segmentedpivot-wrapper-closed .tss-segmentedpivot-tab:last-child {
-    margin-bottom: 0px;
-}
-
-.tss-sidebar-segmentedpivot-wrapper-closed .tss-segmentedpivot-tab {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.tss-sidebar-segmentedpivot-wrapper-open .tss-segmentedpivot-tab {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.tss-sidebar-segmentedpivot-wrapper-closed .tss-segmentedpivot-tab {
-    padding: 4px 4px;
-    margin-bottom: 2px;
-    flex-grow: 1;
-    text-align: center;
-    min-width: 20px;
-    overflow: hidden;
-    text-overflow: clip;
-    white-space: nowrap;
-    word-break: keep-all;
-}
-
-.tss-sidebar-segmentedpivot-wrapper-closed .tss-segmentedpivot-tab:last-child {
-    margin-bottom: 0px;
 }

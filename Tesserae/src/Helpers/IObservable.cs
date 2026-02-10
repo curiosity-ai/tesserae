@@ -1,10 +1,6 @@
 ﻿namespace Tesserae
 {
 
-    /// <summary>
-    /// A simple observable contract used throughout the toolkit for reactive value propagation (Subscribe /
-    /// ObserveFutureChanges).
-    /// </summary>
     [H5.Name("tss.IOBS")]
     public interface IObservable<T>
     {

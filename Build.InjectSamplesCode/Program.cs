@@ -11,28 +11,17 @@ namespace Build.InjectSamplesCode
     {
         static void Main()
         {
-            var samplesFolder = Path.Combine("..", "Tesserae.Tests", "src", "Samples");
-            var outputFile    = Path.Combine("..", "Tesserae.Tests", "src", "SamplesSourceCode.cs");
+            var samplesFolder = @"..\Tesserae.Tests\src\Samples\";
 
             var allFiles = Directory.GetFiles(samplesFolder, "*.cs", SearchOption.AllDirectories);
 
             var allCode = GetCode(allFiles);
 
-            File.WriteAllText(outputFile, CreateCode(allCode));
+            File.WriteAllText(@"..\Tesserae.Tests\src\SamplesSourceCode.cs", CreateCode(allCode));
             Console.WriteLine($"Parsed samples code, found {allCode.Count} samples.");
         }
 
-        // The previous detection pattern was `SampleHeader(nameof(XxxSample))`. That helper has
-        // since been replaced by `SectionStack().SampleTitle(typeof(XxxSample), ...)` (and a
-        // handful of samples — UptimeSample — that don't call SampleTitle at all). The most
-        // reliable cross-cutting marker is now the class declaration itself: every sample is a
-        // `class XxxSample : ... ISample`. The dictionary key (matched against by
-        // SamplesSourceCode.GetCodeForSample) is the bare class name as passed in via
-        // `sampleType.Name` from SamplesHelper.ShowSampleCode.
-        private static readonly Regex RE_SampleClass = new Regex(
-            @"\bclass\s+(\w+Sample)\s*:\s*[^{]*\bISample\b",
-            RegexOptions.Compiled);
-
+        private static readonly Regex RE_GetName = new Regex(@"SampleHeader\(nameof\(([^)]*?)\)");
         private static Dictionary<string, string> GetCode(string[] files)
         {
             var dict = new Dictionary<string, string>();
@@ -40,11 +29,13 @@ namespace Build.InjectSamplesCode
             foreach (var f in files)
             {
                 var code  = File.ReadAllText(f);
-                var match = RE_SampleClass.Match(code);
-                if (!match.Success) continue;
+                var match = RE_GetName.Match(code);
 
-                var name = match.Groups[1].Value;
-                dict[name] = code;
+                if (match.Success)
+                {
+                    var name = match.Groups[1].Value;
+                    dict[name] = code;
+                }
             }
             return dict;
         }

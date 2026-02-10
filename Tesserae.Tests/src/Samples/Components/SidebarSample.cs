@@ -27,19 +27,7 @@ namespace Tesserae.Tests.Samples
 
             sidebar.AddContent(new SidebarSeparator("sep1", "Grouping"));
 
-            var tabs = new SidebarPivot("tabs")
-                .Add("tab1", SegmentTitle("Tab 1", UIcons.Rocket),
-                    new SidebarButton("t1_btn1", UIcons.Rocket, "Launch"),
-                    new SidebarButton("t1_btn2", UIcons.Rocket, "Launch 2"))
-                .Add("tab2", SegmentTitle("Tab 2", UIcons.Plane),
-                    new SidebarButton("t2_btn1", UIcons.Globe, "World"),
-                    new SidebarButton("t2_btn2", UIcons.Globe, "World 2"));
-
-            sidebar.AddContent(tabs);
-
             var settingsNav = new SidebarNav("settings", UIcons.Settings, "Settings", true);
-
-
             settingsNav.Add(new SidebarButton("general", UIcons.Settings, "General"));
             settingsNav.Add(new SidebarButton("security", UIcons.Lock, "Security"));
             settingsNav.Add(new SidebarButton("privacy", UIcons.Eye, "Privacy"));
@@ -49,7 +37,6 @@ namespace Tesserae.Tests.Samples
             sidebar.AddContent(new SidebarSeparator("sep2"));
 
             sidebar.AddContent(new SidebarButton("help", UIcons.Question, "Help"));
-            sidebar.AddContent(new SidebarButton("link", "https://bing.com", UIcons.Link, "External Link"));
 
             // --- Moved from App.cs ---
 
@@ -94,30 +81,29 @@ namespace Tesserae.Tests.Samples
 
             sidebar.AddFooter(new SidebarNav("DEEP_NAV", Emoji.EvergreenTree, "Multi-Depth Nav", true).Sortable(sortableGroup: "trees").AddRange(CreateDeepNav("root")));
 
-            sidebar.AddFooter(new SidebarNav("EMPTY_NAV", Emoji.MailboxWithNoMail, "Empty Nav", true).OnOpenIconClick((e, m) => Toast().Success("You clicked on the icon!")));
+            sidebar.AddFooter(new SidebarNav("EMPTY_NAV", Emoji.MailboxWithNoMail, "Empty Nav", true).ShowDotIfEmpty().OnOpenIconClick((e, m) => Toast().Success("You clicked on the icon!")));
 
 
             sidebar.AddFooter(commands);
             sidebar.AddFooter(commandsEndAligned);
 
             sidebar.AddFooter(new SidebarButton("CURIOSITY_REF",
-                "https://curiosity.ai",
                 new ImageIcon("/assets/img/curiosity-logo.svg"),
                 "By Curiosity",
                 new SidebarBadge("+3").Foreground(Theme.Primary.Foreground).Background(Theme.Primary.Background),
-                new SidebarCommand("https://github.com/curiosity-ai/tesserae", UIcons.ArrowUpRightFromSquare)).Tooltip("Made with ❤ by Curiosity"));
+                new SidebarCommand(UIcons.ArrowUpRightFromSquare).OnClick(() => window.open("https://github.com/curiosity-ai/tesserae", "_blank"))).Tooltip("Made with ❤ by Curiosity").OnClick(() => window.open("https://curiosity.ai", "_blank")));
 
 
-            _content = SectionStack().Secondary()
-               .SampleTitle(typeof(SidebarSample), UIcons.Apps, "A sidebar navigation component")
-               .FlatSection(Stack().Children(
-                    Card(VStack().WS().Children(
-                    TextBlock("A fully featured Sidebar with Search, Navigation, Buttons, and Separators."))).SetTitle("Overview"),
-                    Card(VStack().WS().Children(
-                        SplitView().WS().H(800).LeftIsSmaller(400.px()).Resizable()
-                                   .Left(sidebar.S())
-                                   .Right(CenteredCardWithBackground(Message("Your application content goes here")))
-               )).SetTitle("Usage")));
+            _content = SectionStack()
+               .Title(SampleHeader(nameof(SidebarSample)))
+               .Section(Stack().Children(
+                    SampleTitle("Overview"),
+                    TextBlock("A fully featured Sidebar with Search, Navigation, Buttons, and Separators."),
+                    SampleTitle("Usage"),
+                    Stack().Children(
+                        sidebar.S().H(800.px())
+                    )
+               ));
         }
 
         private static IEnumerable<ISidebarItem> CreateDeepNav(string path, int currentDepth = 0, int maxDepth = 3)

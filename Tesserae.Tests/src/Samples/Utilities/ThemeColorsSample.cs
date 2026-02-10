@@ -121,17 +121,17 @@ namespace Tesserae.Tests.Samples
                 }, 1);
             }, 1);
 
-            _content = SectionStack().Secondary()
-               .SampleTitle(typeof(ThemeColorsSample), UIcons.Palette, "A utility to display theme colors")
-               .FlatSection(Stack().Children(
-                    Card(VStack().WS().Children(
-                    TextBlock("ThemeColors allows for real-time inspection and customization of the application's theme. It provides a detailed view of the primary, secondary, and semantic colors used throughout the UI, and allows you to experiment with different primary and background color combinations for both light and dark modes."))).SetTitle("Overview")))
-               .FlatSection(Stack().Children(
-                    Card(VStack().WS().Children(
-                    TextBlock("Use this sample to verify the accessibility and contrast of your theme choices. Ensure that primary and background colors provide sufficient contrast for readability in both light and dark themes. Changes made here are applied immediately to the entire application, allowing for rapid prototyping of different brand identities."))).SetTitle("Best Practices")))
-               .FlatSection(
+            _content = SectionStack()
+               .Title(SampleHeader(nameof(ThemeColorsSample)))
+               .Section(Stack().Children(
+                    SampleTitle("Overview"),
+                    TextBlock("ThemeColors allows for real-time inspection and customization of the application's theme. It provides a detailed view of the primary, secondary, and semantic colors used throughout the UI, and allows you to experiment with different primary and background color combinations for both light and dark modes.")))
+               .Section(Stack().Children(
+                    SampleTitle("Best Practices"),
+                    TextBlock("Use this sample to verify the accessibility and contrast of your theme choices. Ensure that primary and background colors provide sufficient contrast for readability in both light and dark themes. Changes made here are applied immediately to the entire application, allowing for rapid prototyping of different brand identities.")))
+               .Section(
                     Stack().Children(
-                        Card(VStack().WS().Children(
+                        SampleTitle("Usage"),
                         DetailsList<ColorListItem>(
                                 DetailsListColumn(title: "ThemeName",        width: 120.px()),
                                 DetailsListColumn(title: "Background",       width: 160.px()),
@@ -156,7 +156,7 @@ namespace Tesserae.Tests.Samples
                         Label("Primary Dark").Inline().SetContent(cpPrimaryDark),
                         Label("Background Light").Inline().SetContent(cpBackgroundLight),
                         Label("Background Dark").Inline().SetContent(cpBackgroundDark)
-                    )).SetTitle("Usage")));
+                    ));
         }
 
         public HTMLElement Render()

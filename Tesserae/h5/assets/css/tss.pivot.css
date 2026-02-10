@@ -1,4 +1,4 @@
-/* Tabs */
+﻿/* Tabs */
 .tss-pivot {
     margin: 0;
     padding: 0;
@@ -9,89 +9,77 @@
     position: relative;
 }
 
-.tss-pivot-titlebar-wrapper {
-    display: flex;
+.tss-pivot-titlebar {
+    display: inline-flex;
     flex-direction: row;
     flex-wrap: nowrap;
     flex-shrink: 0;
     flex-grow: 0;
-    align-items: stretch;
-    width: 100%;
-    background: var(--tss-secondary-background-color);
-}
-
-.tss-pivot-titlebar-scroller {
-    position: relative;
-    flex: 1 1 auto;
-    min-width: 0; /* allow the scroller to shrink below its content size */
-    overflow-x: auto;
-    overflow-y: hidden;
-    scrollbar-width: none; /* Firefox: hide native scrollbar (scroll buttons handle it) */
-    -ms-overflow-style: none;
-}
-
-.tss-pivot-titlebar-scroller::-webkit-scrollbar {
-    display: none;
-}
-
-.tss-pivot-titlebar {
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    /* Stretch to fill the scroller when tabs are narrower (so justify-content works)
-       and grow with the content when tabs overflow (enabling horizontal scroll). */
-    min-width: 100%;
-    width: max-content;
     font-size: 14px;
     font-weight: 400;
     box-shadow: none;
-    margin: 0;
-    padding: 0;
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    padding-top: 0px;
+    padding-right: 0px;
+    padding-bottom: 0px;
+    padding-left: 0px;
     box-sizing: border-box;
+    position: relative;
     color: rgb(0, 120, 212);
     white-space: nowrap;
+    background: var(--tss-secondary-background-color);
+    width: 100%;
+    overflow:hidden;
 }
 
     .tss-pivot-titlebar > * {
         background: var(--tss-secondary-background-color);
         border: 0px;
         margin: 0px;
-        flex-shrink: 0;
+        flex-shrink:1;
+        min-width: min-content;        
     }
 
 
     .tss-pivot-titlebar > .tss-pivot-selected-title {
         font-weight: var(--tss-font-weight-semibold);
         background: var(--tss-default-background-color);
+        flex-shrink: 0;
     }
 
         .tss-pivot-titlebar > .tss-pivot-selected-title > span {
             font-weight: var(--tss-font-weight-semibold);
             background: var(--tss-default-background-color);
+            flex-shrink: 0;
         }
 
         .tss-pivot-titlebar > .tss-pivot-selected-title:hover > span {
             background-color: unset;
             border-color: unset;
         }
-
+        
         .tss-pivot-titlebar > .tss-pivot-selected-title > div {
             font-weight: var(--tss-font-weight-semibold);
             background: var(--tss-default-background-color);
+            flex-shrink: 0;
         }
 
-.tss-pivot-titlebar-more,
-.tss-pivot-titlebar-scroll-left,
-.tss-pivot-titlebar-scroll-right {
-    flex-shrink: 0;
-    flex-grow: 0;
-    align-self: stretch;
+.tss-pivot-titlebar-more{
+
 }
 
 .tss-pivot-titlebar-scroll-left i,
 .tss-pivot-titlebar-scroll-right i {
     font-size: 10px;
+}
+
+.tss-pivot-titlebar-hide-if-single > .tss-pivot-selected-title:only-child,
+.tss-pivot-titlebar-hide-if-single > .tss-pivot-titlebar-scroll-left
+.tss-pivot-titlebar-hide-if-single > .tss-pivot-titlebar-scroll-right {
+    display: none;
 }
 
 .tss-pivot-content {
@@ -104,40 +92,19 @@
 }
 
 .tss-pivot-line {
-    position: absolute;
-    bottom: 0;
-    left: 0;
     height: 4px;
-    width: 0px;
+    margin-top: -2px;
     z-index: 1;
+    width: 0px;
+    flex-shrink: 0;
+    flex-grow: 0;
     background-color: var(--tss-primary-background-hover-color);
     overflow: hidden;
     pointer-events: none;
     border-radius: 4px;
-    transition: left 0.5s cubic-bezier(0.2, 0, 0, 1),
-                width 0.5s cubic-bezier(0.2, 0, 0, 1);
-    will-change: left, width;
-}
-
-.tss-pivot-line.tss-pivot-line-instant {
-    transition: none;
-}
-
-.tss-pivot-tab-closeable {
-    padding-right: 8px !important;
-}
-
-.tss-pivot-tab-close {
-    margin-top: 2px;
-    cursor: pointer;
-    vertical-align: middle;
-}
-
-.tss-pivot-tab-close:hover {
-    color: var(--tss-danger-background-color, red);
 }
 
 
-.tss-pivot .tss-pivot-cached-hidden{
-    display:none !important;
+.tss-pivot-titlebar-hidden-overflow {
+    display: none;
 }

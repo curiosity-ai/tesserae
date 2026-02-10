@@ -8,10 +8,6 @@ using static H5.Core.dom.Node;
 
 namespace Tesserae
 {
-    /// <summary>
-    /// A virtualised, sortable, multi-column table for displaying large lists of typed items, similar to Fluent UI's
-    /// DetailsList.
-    /// </summary>
     [H5.Name("tss.DetailsList")]
     public class DetailsList<TDetailsListItem> : IComponent, ISpecialCaseStyling where TDetailsListItem : class, IDetailsListItem<TDetailsListItem>
     {
@@ -31,9 +27,6 @@ namespace Tesserae
 
         private Func<Task<TDetailsListItem[]>> _getNextItemPage = null;
 
-        /// <summary>
-        /// Initializes a new instance of this class.
-        /// </summary>
         public DetailsList(params IDetailsListColumn[] columns)
         {
             if (columns == null)
@@ -55,28 +48,16 @@ namespace Tesserae
             _currentSortingIcon       = UIcons.ArrowUp;
         }
 
-        /// <summary>
-        /// Gets or sets the styling container.
-        /// </summary>
         public HTMLElement StylingContainer => _container;
 
-        /// <summary>
-        /// Gets or sets the propagate to stack item parent.
-        /// </summary>
         public bool PropagateToStackItemParent => false;
 
-        /// <summary>
-        /// Gets or sets a value indicating whether the component is rendered in compact form.
-        /// </summary>
         public bool IsCompact
         {
             get => _listContainer.classList.contains("tss-small");
             set => _listContainer.UpdateClassIf(value, "tss-small");
         }
 
-        /// <summary>
-        /// Renders the component in a compact form.
-        /// </summary>
         public DetailsList<TDetailsListItem> Compact()
         {
             IsCompact = true;
@@ -109,18 +90,12 @@ namespace Tesserae
             return Raw(gridCellHtmlElement);
         }
 
-        /// <summary>
-        /// Returns the component configured with the given empty message.
-        /// </summary>
         public DetailsList<TDetailsListItem> WithEmptyMessage(Func<IComponent> emptyListMessageGenerator)
         {
             _emptyListMessageGenerator = emptyListMessageGenerator ?? throw new ArgumentNullException(nameof(emptyListMessageGenerator));
 
             return this;
         }
-        /// <summary>
-        /// Returns the component configured with the given paginated items.
-        /// </summary>
         public DetailsList<TDetailsListItem> WithPaginatedItems(Func<Task<TDetailsListItem[]>> getNextItemPage)
         {
             _getNextItemPage = getNextItemPage;
@@ -133,9 +108,6 @@ namespace Tesserae
             return this;
         }
 
-        /// <summary>
-        /// Returns the component configured with the given list items.
-        /// </summary>
         public DetailsList<TDetailsListItem> WithListItems(params TDetailsListItem[] listItems)
         {
             if (listItems is object && listItems.Any())
@@ -151,9 +123,6 @@ namespace Tesserae
             return this;
         }
 
-        /// <summary>
-        /// Configures the sorted by on the component.
-        /// </summary>
         public DetailsList<TDetailsListItem> SortedBy(string columnSortingKey)
         {
             if (string.IsNullOrWhiteSpace(columnSortingKey))
@@ -171,9 +140,6 @@ namespace Tesserae
             return this;
         }
 
-        /// <summary>
-        /// Renders the component's root HTML element.
-        /// </summary>
         public HTMLElement Render()
         {
             if (!_listAlreadyCreated)

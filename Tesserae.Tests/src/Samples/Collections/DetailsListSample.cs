@@ -19,17 +19,17 @@ namespace Tesserae.Tests.Samples
             var query = Router.GetQueryParameters();
             int page  = query.ContainsKey("page") && query.TryGetValue("page", out var queryPageStr) && int.TryParse(queryPageStr, out var queryPage) ? queryPage : 2;
 
-            _content = SectionStack().Secondary()
-                   .SampleTitle(typeof(DetailsListSample), UIcons.List, "A list that displays details")
-                   .FlatSection(Stack().Children(
-                        Card(VStack().WS().Children(
+            _content = SectionStack()
+                   .Title(SampleHeader(nameof(DetailsListSample)))
+                   .Section(Stack().Children(
+                        SampleTitle("Overview"),
                         TextBlock("DetailsList is a robust way to display an information-rich collection of items. It supports sorting, grouping, filtering, and pagination."),
-                        TextBlock("It is classically used for file explorers, database record views, or any scenario where information density is critical."))).SetTitle("Overview")))
-                   .FlatSection(Stack().Children(
-                        Card(VStack().WS().Children(
-                        TextBlock("Use DetailsList when users need to compare items across multiple metadata fields. Display columns in order of importance from left to right. Provide ample default width for each column to avoid unnecessary truncation. Use compact mode when vertical space is limited or when displaying very large datasets. Always provide a clear empty state message if the list contains no items."))).SetTitle("Best Practices")))
-                   .FlatSection(Stack().Children(
-                        Card(VStack().WS().Children(
+                        TextBlock("It is classically used for file explorers, database record views, or any scenario where information density is critical.")))
+                   .Section(Stack().Children(
+                        SampleTitle("Best Practices"),
+                        TextBlock("Use DetailsList when users need to compare items across multiple metadata fields. Display columns in order of importance from left to right. Provide ample default width for each column to avoid unnecessary truncation. Use compact mode when vertical space is limited or when displaying very large datasets. Always provide a clear empty state message if the list contains no items.")))
+                   .Section(Stack().Children(
+                        SampleTitle("Usage"),
                         SampleSubTitle("Standard File List"),
                         TextBlock("A list with textual rows, supporting sorting and custom column widths."),
                         DetailsList<DetailsListSampleFileItem>(
@@ -98,7 +98,7 @@ namespace Tesserae.Tests.Samples
                                    .WithListItems(new DetailsListSampleFileItem[0])
                             )
                         )
-                    )).SetTitle("Usage")));
+                    ));
         }
 
         private async Task<DetailsListSampleFileItem[]> GetDetailsListItemsAsync(int start = 1, int count = 100)
@@ -126,7 +126,7 @@ namespace Tesserae.Tests.Samples
         public HTMLElement Render() => _content.Render();
     }
 
-    public class DetailsListSampleFileItem : Tesserae.IDetailsListItem<DetailsListSampleFileItem>
+    public class DetailsListSampleFileItem : IDetailsListItem<DetailsListSampleFileItem>
     {
         public DetailsListSampleFileItem(UIcons icon, string name, DateTime modified, string by, double size) { FileIcon = icon; FileName = name; DateModified = modified; ModifiedBy = by; FileSize = size; }
         public UIcons FileIcon { get; }

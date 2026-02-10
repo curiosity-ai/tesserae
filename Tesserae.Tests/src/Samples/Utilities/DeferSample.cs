@@ -13,26 +13,26 @@ namespace Tesserae.Tests.Samples
 
         public DeferSample()
         {
-            var stack       = SectionStack().Secondary();
+            var stack       = SectionStack();
             var countSlider = Slider(5, 0, 10, 1);
 
-            content = SectionStack().Secondary()
-               .SampleTitle(typeof(DeferSample), UIcons.Clock, "A utility to defer execution")
-               .FlatSection(Stack().Children(
-                    Card(VStack().WS().Children(
-                    TextBlock("Defer is a powerful utility for handling asynchronous UI rendering. It allows you to wrap a component that depends on an async task (like a network request). While the task is in progress, a loading message or a skeleton loader can be shown. Once the task completes, the actual component is seamlessly rendered in its place."))).SetTitle("Overview")))
-               .FlatSection(Stack().Children(
-                    Card(VStack().WS().Children(
-                    TextBlock("Use Defer for any component that requires remote data or slow computations. Provide a 'loadMessage'—ideally a skeleton loader—that mimics the final layout to reduce visual flickering. Leverage the lazy-loading nature of Defer, as the async task is only triggered when the component is first rendered. Combine Defer with observables to create highly reactive and responsive interfaces."))).SetTitle("Best Practices")))
-               .FlatSection(Stack().Children(
-                    Card(VStack().WS().Children(
+            content = SectionStack()
+               .Title(SampleHeader(nameof(DeferSample)))
+               .Section(Stack().Children(
+                    SampleTitle("Overview"),
+                    TextBlock("Defer is a powerful utility for handling asynchronous UI rendering. It allows you to wrap a component that depends on an async task (like a network request). While the task is in progress, a loading message or a skeleton loader can be shown. Once the task completes, the actual component is seamlessly rendered in its place.")))
+               .Section(Stack().Children(
+                    SampleTitle("Best Practices"),
+                    TextBlock("Use Defer for any component that requires remote data or slow computations. Provide a 'loadMessage'—ideally a skeleton loader—that mimics the final layout to reduce visual flickering. Leverage the lazy-loading nature of Defer, as the async task is only triggered when the component is first rendered. Combine Defer with observables to create highly reactive and responsive interfaces.")))
+               .Section(Stack().Children(
+                    SampleTitle("Usage"),
                     Stack().Children(
                         HStack().Children(
                             Stack().Children(
                                 Label("Number of items:").SetContent(countSlider.OnInput((s, e) => SetChildren(stack, s.Value)))
                             ))),
                     stack.HeightAuto()
-                )).SetTitle("Usage")));
+                ));
             SetChildren(stack, 5);
         }
 
@@ -44,7 +44,7 @@ namespace Tesserae.Tests.Samples
             {
                 var delay = (i + 1) * 1_000;
 
-                stack.FlatSection(Stack().Children(
+                stack.Section(Stack().Children(
                     TextBlock($"Section {i} - delayed {i + 1} seconds").MediumPlus().SemiBold(),
                     Defer(async () =>
                         {

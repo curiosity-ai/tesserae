@@ -13,21 +13,21 @@ namespace Tesserae.Tests.Samples
 
         public SaveButtonSample()
         {
-            var saveButton = SaveButton().Pending().OnClickSpinWhile(async () => {
+            var saveButton = SaveButton().Pending().OnClick(async () => {
                 // Demo logic inside the click
             });
 
             // For manual state control
             var manualButton = SaveButton().NothingToSave();
 
-            _content = SectionStack().Secondary()
-               .SampleTitle(typeof(SaveButtonSample), UIcons.Disk, "A button specialized for save operations")
-               .FlatSection(Stack().Children(
-                    Card(VStack().WS().Children(
+            _content = SectionStack()
+               .Title(SampleHeader(nameof(SaveButtonSample)))
+               .Section(Stack().Children(
+                    SampleTitle("Overview"),
                     TextBlock("The SaveButton component is a wrapper around a Button that manages common saving states: Pending, Verifying, Saving, Saved, and Error.")
-               )).SetTitle("Overview")))
-               .FlatSection(Stack().Children(
-                    Card(VStack().WS().Children(
+               ))
+               .Section(Stack().Children(
+                    SampleTitle("Manual State Control"),
                     HStack().Children(
                         manualButton,
                         Stack().Children(
@@ -42,7 +42,7 @@ namespace Tesserae.Tests.Samples
 
                     SampleSubTitle("Live Demo"),
                     TextBlock("Click the button below to simulate a save operation."),
-                    saveButton.OnClickSpinWhile(async () => {
+                    saveButton.OnClick(async () => {
                         saveButton.Verifying();
                         await Task.Delay(1000);
                         saveButton.Saving();
@@ -53,34 +53,17 @@ namespace Tesserae.Tests.Samples
                         await Task.Delay(2000);
                         saveButton.Pending();
                     })
-                )).SetTitle("Manual State Control")))
-               .FlatSection(Stack().Children(
-                    Card(VStack().WS().Children(
+                ))
+               .Section(Stack().Children(
+                    SampleTitle("Hover State"),
                     TextBlock("This SaveButton has a hover text configured. Hover over it when it is in Pending state."),
                     SaveButton().Configure(save: "Disabled", saveHover: "Enable Now!", saveIcon: UIcons.ToggleOff   , saveHoverIcon: UIcons.ToggleOn).Pending()
-               )).SetTitle("Hover State")))
-               .FlatSection(Stack().Children(
-                   Card(VStack().WS().Children(
+               ))
+               .Section(Stack().Children(
+                   SampleTitle("Dynamic Text Update"),
                    TextBlock("This SaveButton text can be updated dynamically."),
                    DynamicTextUpdateSample()
-              )).SetTitle("Dynamic Text Update")))
-               .FlatSection(Stack().Children(
-                   Card(VStack().WS().Children(
-                   TextBlock("This button verifies using a custom async task."),
-                   GetVerifyingWhileButton()
-               )).SetTitle("Verifying While")));
-        }
-
-        private IComponent GetVerifyingWhileButton()
-        {
-            var btn = SaveButton().Pending();
-            btn.OnClickSpinWhile(async () => {
-                await btn.VerifyingWhile(async () => {
-                    await Task.Delay(2000);
-                    return SaveButton.State.PendingSave;
-                });
-            });
-            return btn;
+              ));
         }
 
         private IComponent DynamicTextUpdateSample()

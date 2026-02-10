@@ -6,9 +6,6 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
-    /// <summary>
-    /// A drop target that accepts files dragged from the operating system, with hover and validation feedback.
-    /// </summary>
     [H5.Name("tss.FileDropArea")]
     public sealed class FileDropArea : IComponent
     {
@@ -22,9 +19,6 @@ namespace Tesserae
         private readonly HTMLInputElement _fileInput;
         private          Raw              _raw;
         private readonly HTMLElement      _container;
-        /// <summary>
-        /// Initializes a new instance of this class.
-        /// </summary>
         public FileDropArea()
         {
             _fileInput = FileInput(_("tss-file-input"));
@@ -45,43 +39,9 @@ namespace Tesserae
             }
         }
 
-        /// <summary>
-        /// Initializes a new instance of this class.
-        /// </summary>
-        public FileDropArea(IComponent component)
-        {
-            _fileInput = FileInput(_("tss-file-input"));
-
-            _container = CreateWrappedDropArea(component);
-
-            _fileInput.onchange = (e) => triggerDroppedOnFile();
-
-            void triggerDroppedOnFile()
-            {
-                if (_fileInput.files.length > 0)
-                {
-                    FilesDropped(this,
-                        IsMultiple
-                            ? _fileInput.files.ToArray()
-                            : new[] { _fileInput.files.First() });
-                }
-            }
-        }
-
-        /// <summary>
-        /// Sets the content rendered inside the surface.
-        /// </summary>
         public IComponent Content
         {
-            set => _raw?.Content(value);
-        }
-
-        /// <summary>
-        /// Opens the file selection.
-        /// </summary>
-        public void OpenFileSelection()
-        {
-            _fileInput.click();
+            set => _raw.Content(value);
         }
 
         /// <summary>
@@ -94,64 +54,10 @@ namespace Tesserae
             set => _fileInput.accept = value;
         }
 
-        /// <summary>
-        /// Returns a value indicating whether the component is multiple.
-        /// </summary>
         public bool IsMultiple
         {
             get => _fileInput.multiple;
             set => _fileInput.multiple = value;
-        }
-
-        private HTMLElement CreateWrappedDropArea(IComponent component)
-        {
-            var wrapper = Div(_("tss-filedroparea-wrapper"));
-            wrapper.appendChild(_fileInput);
-            wrapper.appendChild(component.Render());
-
-            var overlay = Div(_("tss-filedroparea-overlay"), Div(_("tss-filedroparea-message"), I(_($"{UIcons.Upload} tss-filedroparea-icon")), TextBlock("Drop files here").SemiBold().Render()));
-            wrapper.appendChild(overlay);
-
-            int dragCounter = 0;
-
-            wrapper.ondragenter = (e) =>
-            {
-                StopEvent(e);
-                dragCounter++;
-                wrapper.classList.add("tss-dropping");
-            };
-
-            wrapper.ondragleave = (e) =>
-            {
-                StopEvent(e);
-                dragCounter--;
-                if (dragCounter <= 0)
-                {
-                    dragCounter = 0;
-                    wrapper.classList.remove("tss-dropping");
-                }
-            };
-
-            wrapper.ondragover = (e) =>
-            {
-                StopEvent(e); // necessary to allow drop
-            };
-
-            wrapper.ondrop = (e) =>
-            {
-                StopEvent(e);
-                dragCounter = 0;
-                wrapper.classList.remove("tss-dropping");
-
-                foreach (var item in e.dataTransfer.items)
-                {
-                    if (item.kind != "file") continue;
-                    OnReadEntry(item.webkitGetAsEntry());
-                    if (!IsMultiple) break;
-                }
-            };
-
-            return wrapper;
         }
 
         private HTMLElement CreateDefaultDropArea()
@@ -189,51 +95,46 @@ namespace Tesserae
                 }
             };
 
+
+            void ReadDirectory(object dir)
+            {
+                var              dirReader = Script.Write<object>("{0}.createReader()", dir);
+                Action<object[]> readEnt   = OnReadEntries;
+                Script.Write(@"{0}.readEntries({1});", dirReader, readEnt);
+            }
+
+            void OnReadEntries(object[] entries)
+            {
+                for (var i = 0; i < entries.Length; i++)
+                {
+                    var entry = entries[i];
+                    OnReadEntry(entry);
+                    if (!IsMultiple) break;
+                }
+            }
+
+            void OnReadEntry(object entry)
+            {
+                if (Script.Write<bool>("{0}.isDirectory", entry) == true)
+                {
+                    ReadDirectory(entry);
+                }
+                else if (Script.Write<bool>("{0}.isFile", entry) == true)
+                {
+                    Action<File> upload = (f) => { FilesDropped?.Invoke(this, new[] { f }); };
+                    Script.Write("{0}.file({1})", entry, upload);
+                }
+            }
+
             return dropArea;
         }
 
-        private void ReadDirectory(object dir)
-        {
-            var              dirReader = Script.Write<object>("{0}.createReader()", dir);
-            Action<object[]> readEnt   = OnReadEntries;
-            Script.Write(@"{0}.readEntries({1});", dirReader, readEnt);
-        }
-
-        private void OnReadEntries(object[] entries)
-        {
-            for (var i = 0; i < entries.Length; i++)
-            {
-                var entry = entries[i];
-                OnReadEntry(entry);
-                if (!IsMultiple) break;
-            }
-        }
-
-        private void OnReadEntry(object entry)
-        {
-            if (Script.Write<bool>("{0}.isDirectory", entry) == true)
-            {
-                ReadDirectory(entry);
-            }
-            else if (Script.Write<bool>("{0}.isFile", entry) == true)
-            {
-                Action<File> upload = (f) => { FilesDropped?.Invoke(this, new[] { f }); };
-                Script.Write("{0}.file({1})", entry, upload);
-            }
-        }
-
-        /// <summary>
-        /// Registers a callback invoked when the files dropped event fires.
-        /// </summary>
         public FileDropArea OnFilesDropped(FilesDroppedHandler handler)
         {
             FilesDropped += handler;
             return this;
         }
 
-        /// <summary>
-        /// Sets the content of the component.
-        /// </summary>
         public FileDropArea SetContent(IComponent content)
         {
             Content = content;
@@ -252,26 +153,17 @@ namespace Tesserae
             return this;
         }
 
-        /// <summary>
-        /// Configures the component to multiple.
-        /// </summary>
         public FileDropArea Multiple()
         {
             IsMultiple = true;
             return this;
         }
 
-        /// <summary>
-        /// Resets the component to its initial state.
-        /// </summary>
         public void Reset()
         {
             _fileInput.value = null;
         }
 
-        /// <summary>
-        /// Renders the component's root HTML element.
-        /// </summary>
         public HTMLElement Render()
         {
             return _container;

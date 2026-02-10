@@ -5,16 +5,8 @@ using System.Collections.Generic;
 namespace Tesserae
 {
     /// <summary>
-    /// Represents a CSS length value: a numeric size paired with a unit (px, %, vh, vw, fr, auto, inherit, fit-content),
-    /// or an arbitrary CSS expression such as <c>calc(...)</c>, <c>var(--name)</c>, <c>clamp(...)</c>, etc.
+    /// Represents a size measurement with a value and a unit.
     /// </summary>
-    /// <remarks>
-    /// Construct typed values via the extension helpers — <c>16.px()</c>, <c>50.percent()</c>, <c>100.vh()</c>,
-    /// <c>10.vw()</c>, <c>1.fr()</c> — and use the static helpers <see cref="Auto"/>, <see cref="Inherit"/>,
-    /// or <see cref="FitContent"/> for keyword values. For anything else (arithmetic across mixed units,
-    /// CSS variables, <c>calc()</c>, <c>min/max/clamp</c>) use the <see cref="UnitSize(string)"/> constructor,
-    /// which forwards the raw CSS verbatim.
-    /// </remarks>
     [H5.Name("tss.us")]
     public sealed class UnitSize
     {
@@ -50,45 +42,9 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UnitSize"/> class using a raw CSS string value.
+        /// Initializes a new instance of the UnitSize class with a custom CSS string.
         /// </summary>
-        /// <remarks>
-        /// <para>
-        /// Use this overload to express any value that CSS accepts as a length but that is not covered by
-        /// the typed unit helpers (<c>.px()</c>, <c>.percent()</c>, <c>.vh()</c>, <c>.vw()</c>, <c>.fr()</c>).
-        /// The string is passed through to the DOM verbatim, so it must be valid CSS.
-        /// </para>
-        /// <para>
-        /// The most common reason to reach for the string constructor is to perform <c>calc(...)</c>
-        /// arithmetic that mixes units the typed API cannot otherwise express (e.g. mixing pixels and
-        /// percentages, or subtracting a fixed offset from a viewport-relative size):
-        /// </para>
-        /// <code>
-        /// // Fill the viewport height minus a 64px header
-        /// stack.Height(new UnitSize("calc(100vh - 64px)"));
-        ///
-        /// // Half the parent width, minus a fixed gutter
-        /// panel.Width(new UnitSize("calc(50% - 16px)"));
-        ///
-        /// // Clamp between a min and max
-        /// card.Width(new UnitSize("clamp(280px, 40vw, 640px)"));
-        ///
-        /// // CSS variables and other functions are also fair game
-        /// box.Height(new UnitSize("var(--sidebar-height, 48px)"));
-        /// box.MinHeight(new UnitSize("max(120px, 10vh)"));
-        /// </code>
-        /// <para>
-        /// Whenever the value can be expressed with the typed helpers prefer those instead, e.g.
-        /// <c>16.px()</c>, <c>50.percent()</c>, <c>100.vh()</c>, <c>1.fr()</c> — they are slightly cheaper
-        /// at runtime (the integer pixel cache short-circuits common cases) and read better at the call
-        /// site. Reach for the string constructor only when you genuinely need <c>calc()</c>, CSS
-        /// variables, <c>min()</c>/<c>max()</c>/<c>clamp()</c>, or other raw CSS expressions.
-        /// </para>
-        /// </remarks>
-        /// <param name="custom">
-        /// A raw CSS length expression. Examples: <c>"calc(100% - 32px)"</c>, <c>"var(--width)"</c>,
-        /// <c>"clamp(200px, 30vw, 600px)"</c>, <c>"min(100%, 800px)"</c>.
-        /// </param>
+        /// <param name="custom">The custom CSS string.</param>
         public UnitSize(string custom)
         {
             Size         = -1;

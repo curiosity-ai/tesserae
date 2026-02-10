@@ -14,17 +14,17 @@ namespace Tesserae.Tests.Samples
 
         public VirtualizedListSample()
         {
-            _content = SectionStack().Secondary()
-                   .SampleTitle(typeof(VirtualizedListSample), UIcons.List, "A list that renders its items virtually")
-                   .FlatSection(Stack().Children(
-                        Card(VStack().WS().Children(
+            _content = SectionStack()
+                   .Title(SampleHeader(nameof(VirtualizedListSample)))
+                   .Section(Stack().Children(
+                        SampleTitle("Overview"),
                         TextBlock("VirtualizedList is a high-performance component designed for rendering massive datasets—thousands or even tens of thousands of items—without sacrificing UI responsiveness."),
-                        TextBlock("It achieves this by only rendering the items that are currently visible within the viewport (plus a small buffer), significantly reducing the number of DOM elements the browser needs to manage."))).SetTitle("Overview")))
-                   .FlatSection(Stack().Children(
-                        Card(VStack().WS().Children(
-                        TextBlock("Use VirtualizedList for any list that could potentially contain more than a few hundred items. Ensure that each item has a consistent height for accurate scroll position calculation. Virtualization is most effective when item components are relatively complex or resource-intensive to render. Always provide a clear 'Empty Message' if the dataset is expected to be empty."))).SetTitle("Best Practices")))
-                   .FlatSection(Stack().Children(
-                        Card(VStack().WS().Children(
+                        TextBlock("It achieves this by only rendering the items that are currently visible within the viewport (plus a small buffer), significantly reducing the number of DOM elements the browser needs to manage.")))
+                   .Section(Stack().Children(
+                        SampleTitle("Best Practices"),
+                        TextBlock("Use VirtualizedList for any list that could potentially contain more than a few hundred items. Ensure that each item has a consistent height for accurate scroll position calculation. Virtualization is most effective when item components are relatively complex or resource-intensive to render. Always provide a clear 'Empty Message' if the dataset is expected to be empty.")))
+                   .Section(Stack().Children(
+                        SampleTitle("Usage"),
                         SampleSubTitle("Virtualized List with 5,000 Items"),
                         TextBlock("Scroll rapidly to see how the list handles a large number of items."),
                         VirtualizedList().WithListItems(GetALotOfItems()).Height(400.px()).MB(32),
@@ -33,7 +33,7 @@ namespace Tesserae.Tests.Samples
                            .WithEmptyMessage(() => BackgroundArea(Card(TextBlock("No items available"))).WS().HS().MinHeight(100.px()))
                            .WithListItems(Enumerable.Empty<IComponent>())
                            .Height(150.px())
-                    )).SetTitle("Usage")));
+                    ));
         }
 
         public HTMLElement Render() => _content.Render();

@@ -13,23 +13,14 @@ namespace Tesserae
     [H5.Name("tss.SettableObservableT")]
     public sealed class SettableObservable<T> : ReadOnlyObservable<T>
     {
-        /// <summary>
-        /// Initializes a new instance of this class.
-        /// </summary>
         public SettableObservable(T value = default, IEqualityComparer<T> comparer = null) : base(value, comparer) { }
 
-        /// <summary>
-        /// Gets or sets the current value of the component.
-        /// </summary>
         public new T Value
         {
             get => base.Value;
             set => base.Value = value;
         }
 
-        /// <summary>
-        /// Configures the component to update.
-        /// </summary>
         public void Update(Action<T> action)
         {
             action(Value);

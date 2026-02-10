@@ -13,14 +13,14 @@ namespace Tesserae.Tests.Samples
 
         public SavingToastSample()
         {
-            _content = SectionStack().Secondary()
-               .SampleTitle(typeof(SavingToastSample), UIcons.Disk, "A toast notification for save operations")
-               .FlatSection(Stack().Children(
-                    Card(VStack().WS().Children(
+            _content = SectionStack()
+               .Title(SampleHeader(nameof(SavingToastSample)))
+               .Section(Stack().Children(
+                    SampleTitle("Overview"),
                     TextBlock("The SavingToast component helps viewing the state of a saving operation (Saving, Saved, Error) with appropriate icons and colors.")
-               )).SetTitle("Overview")))
-               .FlatSection(Stack().Children(
-                    Card(VStack().WS().Children(
+               ))
+               .Section(Stack().Children(
+                    SampleTitle("Usage"),
                     HStack().Children(
                         Button("Trigger Saving").OnClick(() => SavingToast().Saving("Saving data...")),
                         Button("Trigger Saved" ).OnClick(() => SavingToast().Saved("Data saved successfully!")),
@@ -30,13 +30,13 @@ namespace Tesserae.Tests.Samples
                     ).Gap(8.px()),
 
                     SampleSubTitle("Live Demo"),
-                    Button("Simulate Save Process").OnClickSpinWhile(async () => {
+                    Button("Simulate Save Process").OnClick(async () => {
                         var savingToast = SavingToast();
                         savingToast.Saving("Starting save...");
                         await Task.Delay(2000);
                         savingToast.Saved("All done!");
                     })
-                )).SetTitle("Usage")));
+                ));
         }
 
         private async Task ShowMany()

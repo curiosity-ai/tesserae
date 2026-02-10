@@ -14,38 +14,30 @@ namespace Tesserae.Tests.Samples
 
         public SpinnerSample()
         {
-            _content = SectionStack().Secondary()
-               .SampleTitle(typeof(SpinnerSample), UIcons.Spinner, "A spinner component")
-               .FlatSection(Stack().Children(
-                    Card(VStack().WS().Children(
-                    TextBlock("Spinners are animated circular indicators used to show that a task is in progress when the exact duration is unknown. They are subtle, lightweight, and can be easily placed inline with content or centered within a container to provide feedback without disrupting the layout."))).SetTitle("Overview")))
-               .FlatSection(Stack().WidthStretch().Children(
-                    Card(VStack().WS().Children(
-                    TextBlock("Use a Spinner for tasks that take more than a second but have an indeterminate end time. Include a brief, descriptive label (e.g., 'Loading...', 'Processing...') to give users context. Choose a size that is appropriate for the surrounding content—smaller for inline elements and larger for full-page loading states. Avoid showing multiple spinners simultaneously if possible."))).SetTitle("Best Practices")))
-               .FlatSection(
+            _content = SectionStack()
+               .Title(SampleHeader(nameof(SpinnerSample)))
+               .Section(Stack().Children(
+                    SampleTitle("Overview"),
+                    TextBlock("Spinners are animated circular indicators used to show that a task is in progress when the exact duration is unknown. They are subtle, lightweight, and can be easily placed inline with content or centered within a container to provide feedback without disrupting the layout.")))
+               .Section(Stack().WidthStretch().Children(
+                    SampleTitle("Best Practices"),
+                    TextBlock("Use a Spinner for tasks that take more than a second but have an indeterminate end time. Include a brief, descriptive label (e.g., 'Loading...', 'Processing...') to give users context. Choose a size that is appropriate for the surrounding content—smaller for inline elements and larger for full-page loading states. Avoid showing multiple spinners simultaneously if possible.")))
+               .Section(
                     Stack().Width(400.px()).Children(
-                        Card(VStack().WS().Children(
+                        SampleTitle("Usage"),
                         TextBlock("Spinner sizes").Medium(),
                         Label("Extra small spinner").SetContent(Spinner().XSmall()).AlignCenter(),
                         Label("Small spinner").SetContent(Spinner().Small()).AlignCenter(),
                         Label("Medium spinner").SetContent(Spinner().Medium()).AlignCenter(),
                         Label("Large spinner").SetContent(Spinner().Large()).AlignCenter()
-                    )).SetTitle("Usage")))
-               .FlatSection(
+                    ))
+               .Section(
                     Stack().Width(400.px()).Children(
                         TextBlock("Spinner label positioning").Medium(),
                         Label("Spinner with label positioned below").SetContent(Spinner("I am definitely loading...").Below()),
                         Label("Spinner with label positioned above").SetContent(Spinner("Seriously, still loading...").Above()),
                         Label("Spinner with label positioned to right").SetContent(Spinner("Wait, wait...").Right()),
                         Label("Spinner with label positioned to left").SetContent(Spinner("Nope, still loading...").Left())
-                    ))
-               .FlatSection(
-                    Stack().Width(400.px()).Children(
-                        TextBlock("Spinner with fixed progress").Medium(),
-                        Label("25% Progress").SetContent(Spinner().Progress(25).Large()).AlignCenter(),
-                        Label("50% Progress").SetContent(Spinner().Progress(50).Large()).AlignCenter(),
-                        Label("75% Progress").SetContent(Spinner().Progress(75).Large()).AlignCenter(),
-                        Label("100% Progress").SetContent(Spinner().Progress(100).Large()).AlignCenter()
                     ));
         }
 

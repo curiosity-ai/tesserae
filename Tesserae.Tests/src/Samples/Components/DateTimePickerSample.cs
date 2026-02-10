@@ -15,17 +15,17 @@ namespace Tesserae.Tests.Samples
             var from = DateTime.Now.AddDays(-7);
             var to   = DateTime.Now.AddDays(7);
 
-            _content = SectionStack().Secondary()
-               .SampleTitle(typeof(DateTimePickerSample), UIcons.Calendar, "A control to pick a date and time")
-               .FlatSection(Stack().Children(
-                    Card(VStack().WS().Children(
+            _content = SectionStack()
+               .Title(SampleHeader(nameof(DateTimePickerSample)))
+               .Section(Stack().Children(
+                    SampleTitle("Overview"),
                     TextBlock("The DateTimePicker combines date and time selection into a single component, using the browser's native widget."),
-                    TextBlock("It is ideal for scheduling events, setting deadlines, or any task where both the day and time are critical."))).SetTitle("Overview")))
-               .FlatSection(Stack().Children(
-                    Card(VStack().WS().Children(
-                    TextBlock("Use the DateTimePicker when users need to specify a precise moment in time. Consider the user's timezone if the application handles users across different regions. Provide sensible defaults, such as the current time or a common starting point. Use min/max constraints to prevent invalid selections (e.g., booking an appointment in the past)."))).SetTitle("Best Practices")))
-               .FlatSection(Stack().Children(
-                    Card(VStack().WS().Children(
+                    TextBlock("It is ideal for scheduling events, setting deadlines, or any task where both the day and time are critical.")))
+               .Section(Stack().Children(
+                    SampleTitle("Best Practices"),
+                    TextBlock("Use the DateTimePicker when users need to specify a precise moment in time. Consider the user's timezone if the application handles users across different regions. Provide sensible defaults, such as the current time or a common starting point. Use min/max constraints to prevent invalid selections (e.g., booking an appointment in the past).")))
+               .Section(Stack().Children(
+                    SampleTitle("Usage"),
                     SampleSubTitle("Basic DateTimePicker"),
                     VStack().Children(
                         Label("Standard").SetContent(DateTimePicker()),
@@ -44,7 +44,7 @@ namespace Tesserae.Tests.Samples
                     ),
                     SampleSubTitle("Event Handling"),
                     DateTimePicker().OnChange((s, e) => Toast().Information($"Selected: {s.DateTime:g}"))
-                )).SetTitle("Usage")));
+                ));
         }
 
         public HTMLElement Render() => _content.Render();

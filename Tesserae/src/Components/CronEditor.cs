@@ -7,10 +7,6 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
-    /// <summary>
-    /// A structured editor for cron expressions, exposing the schedule fields (minutes, hours, day-of-month, month,
-    /// day-of-week) as separate inputs.
-    /// </summary>
     [H5.Name("tss.CronEditor")]
     public sealed class CronEditor : ComponentBase<CronEditor, HTMLDivElement>, IObservableComponent<(string cron, bool enabled)>
     {
@@ -21,7 +17,7 @@ namespace Tesserae
         private bool _daysEnabled = true;
         private bool _showEnableCheckbox = true;
         private int _minuteInterval = 60;
-        private readonly SettableObservable<(string cron, bool enabled)> _observable;
+        private SettableObservable<(string cron, bool enabled)> _observable = new SettableObservable<(string cron, bool enabled)>();
 
         private HTMLElement _descContainer;
         private HTMLElement _editorContainer;
@@ -38,9 +34,6 @@ namespace Tesserae
 
         private ComponentEventHandler<CronEditor> _onChange;
 
-        /// <summary>
-        /// Gets or sets the cron expression and its enabled/disabled state as a tuple.
-        /// </summary>
         public (string cron, bool enabled) Value
         {
             get => (_cron, _enabled);
@@ -62,14 +55,11 @@ namespace Tesserae
             }
         }
 
-        /// <summary>
-        /// Initializes a new instance of this class.
-        /// </summary>
         public CronEditor(string initialCron = "0 12 * * *", bool initialEnabled = true)
         {
             _cron = initialCron;
             _enabled = initialEnabled;
-            _observable = new SettableObservable<(string cron, bool enabled)>((_cron, _enabled));
+            _observable.Value = (_cron, _enabled);
             InnerElement = Div(_("tss-cron-editor"));
 
             _descContainer = Div(_("tss-cron-desc"));
@@ -88,9 +78,6 @@ namespace Tesserae
             RenderDescription();
         }
 
-        /// <summary>
-        /// Enables or disables the day-of-week selector in the editor.
-        /// </summary>
         public CronEditor DaysEnabled(bool enabled = true)
         {
             _daysEnabled = enabled;
@@ -102,9 +89,6 @@ namespace Tesserae
             return this;
         }
 
-        /// <summary>
-        /// Shows the enable checkbox.
-        /// </summary>
         public CronEditor ShowEnableCheckbox(bool visible)
         {
             _showEnableCheckbox = visible;
@@ -112,9 +96,6 @@ namespace Tesserae
             return this;
         }
 
-        /// <summary>
-        /// Sets the minute-step interval used by the editor.
-        /// </summary>
         public CronEditor MinuteInterval(int interval)
         {
             _minuteInterval = interval;
@@ -122,18 +103,12 @@ namespace Tesserae
             return this;
         }
 
-        /// <summary>
-        /// Registers a callback invoked when the change event fires.
-        /// </summary>
         public CronEditor OnChange(ComponentEventHandler<CronEditor> onChange)
         {
             _onChange += onChange;
             return this;
         }
 
-        /// <summary>
-        /// Returns the component's current value as an <see cref="IObservable{T}"/>.
-        /// </summary>
         public IObservable<(string cron, bool enabled)> AsObservable()
         {
             return _observable;
@@ -197,7 +172,7 @@ namespace Tesserae
         private void InitializeCustomEditor()
         {
             _customCronInput = TextBox().Class("tss-cron-custom-input");
-            _customCronInput.OnInput((s, e) =>
+            _customCronInput.OnChange((s, e) =>
             {
                 _cron = _customCronInput.Text;
                 _onChange?.Invoke(this);
@@ -225,9 +200,6 @@ namespace Tesserae
             _editorContainer.style.display = "none";
         }
 
-        /// <summary>
-        /// Renders the component's root HTML element.
-        /// </summary>
         public override HTMLElement Render()
         {
             return InnerElement;
@@ -273,7 +245,7 @@ namespace Tesserae
 
                 foreach(var item in items)
                 {
-                    if (item.GetDataAs<string>() == bestVal)
+                    if ((string)item.Data == bestVal)
                     {
                         item.Selected();
                         break;
@@ -343,15 +315,23 @@ namespace Tesserae
             _customCronInput.MinWidth(minWidth.px());
 
             var parsed = ParseCron(_cron);
-            _isCustom = false;
-            if (!parsed.IsValid)
+            if (parsed.IsValid)
             {
-                _cron = "0 0 * * *";
+                _isCustom = false;
+                UpdateEditorState();
             }
-            UpdateEditorState();
-            _observable.Value = (_cron, _enabled);
-            _onChange?.Invoke(this);
-            RenderDescription();
+            else
+            {
+                _isCustom = false;
+                if (!parsed.IsValid)
+                {
+                    _cron = "0 0 * * *";
+                }
+                UpdateEditorState();
+                _observable.Value = (_cron, _enabled);
+                _onChange?.Invoke(this);
+                RenderDescription();
+            }
         }
 
         private void UpdateCronFromSimple()
@@ -359,7 +339,7 @@ namespace Tesserae
             var timeItem = _timeDropdown.SelectedItems.FirstOrDefault();
             if (timeItem == null) return;
 
-            var parts = (timeItem.GetDataAs<string>()).Split(' ');
+            var parts = ((string)timeItem.Data).Split(' ');
             int m = int.Parse(parts[0]);
             int h = int.Parse(parts[1]);
 
@@ -489,29 +469,11 @@ namespace Tesserae
 
         private class CronStruct
         {
-            /// <summary>
-            /// Configures the component to minute.
-            /// </summary>
             public int Minute;
-            /// <summary>
-            /// Configures the component to hour.
-            /// </summary>
             public int Hour;
-            /// <summary>
-            /// The list of selected day-of-week indices (0 = Sunday).
-            /// </summary>
             public List<int> DaysOfWeek;
-            /// <summary>
-            /// True when every day of the week is selected.
-            /// </summary>
             public bool AllDays;
-            /// <summary>
-            /// Returns a value indicating whether the component is daily.
-            /// </summary>
             public bool IsDaily;
-            /// <summary>
-            /// Returns a value indicating whether the component is valid.
-            /// </summary>
             public bool IsValid;
         }
     }

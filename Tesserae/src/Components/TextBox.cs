@@ -142,43 +142,6 @@ namespace Tesserae
             return this;
         }
 
-        /// <summary>Sets the text box input type to <c>email</c>.</summary>
-        public TextBox Email()
-        {
-            InnerElement.type = "email";
-            return this;
-        }
-
-        /// <summary>
-        /// Sets the <c>name</c> attribute on the underlying input. Password managers and
-        /// browser autofill heuristics use this to identify the field's role (e.g. <c>username</c>,
-        /// <c>password</c>, <c>email</c>) and to scope saved credentials to the current origin.
-        /// </summary>
-        public TextBox Name(string name)
-        {
-            InnerElement.name = name ?? string.Empty;
-            return this;
-        }
-
-        /// <summary>
-        /// Sets the <c>autocomplete</c> attribute on the underlying input. Use values from the
-        /// WHATWG autofill spec (<c>username</c>, <c>email</c>, <c>current-password</c>,
-        /// <c>new-password</c>, <c>one-time-code</c>, <c>off</c>, ...). Password managers rely on
-        /// this hint to distinguish sign-in flows from password-creation flows.
-        /// </summary>
-        public TextBox AutoComplete(string value)
-        {
-            if (string.IsNullOrEmpty(value))
-            {
-                InnerElement.removeAttribute("autocomplete");
-            }
-            else
-            {
-                InnerElement.setAttribute("autocomplete", value);
-            }
-            return this;
-        }
-
         /// <summary>Removes the border from the text box.</summary>
         public TextBox NoBorder()
         {

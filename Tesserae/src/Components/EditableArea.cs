@@ -5,9 +5,6 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
-    /// <summary>
-    /// An inline-editable multi-line text surface that toggles between a read-only label and a textarea on click.
-    /// </summary>
     [H5.Name("tss.EditableArea")]
     public sealed class EditableArea : ComponentBase<EditableArea, HTMLTextAreaElement>, ITextFormating, IObservableComponent<string>
     {
@@ -25,9 +22,6 @@ namespace Tesserae
 
         private bool _isCanceling = false;
 
-        /// <summary>
-        /// Initializes a new instance of this class.
-        /// </summary>
         public EditableArea(string text = string.Empty)
         {
             _labelText = Span(_("tss-editablelabel-textspan tss-fontcolor-default tss-fontsize-small tss-fontweight-regular", text: text, title: "Click to edit"));
@@ -48,7 +42,8 @@ namespace Tesserae
             AttachBlur();
             AttachKeys();
 
-            _observable = new SettableObservable<string>(text);
+            _observable = new SettableObservable<string>();
+            _observable.Value = text;
 
             _labelView.addEventListener("click", BeginEditing);
             _cancelEditIcon.addEventListener("click", CancelEditing);
@@ -65,9 +60,6 @@ namespace Tesserae
             
         }
 
-        /// <summary>
-        /// Gets or sets the size of the component.
-        /// </summary>
         public TextSize Size
         {
             get => ITextFormatingExtensions.FromClassList(InnerElement, TextSize.Small);
@@ -87,9 +79,6 @@ namespace Tesserae
             }
         }
 
-        /// <summary>
-        /// Gets or sets the font weight of the component.
-        /// </summary>
         public TextWeight Weight
         {
             get => ITextFormatingExtensions.FromClassList(InnerElement, TextWeight.Regular);
@@ -105,9 +94,6 @@ namespace Tesserae
             }
         }
 
-        /// <summary>
-        /// Gets or sets the text alignment of the component.
-        /// </summary>
         public TextAlign TextAlign
         {
             get
@@ -121,9 +107,6 @@ namespace Tesserae
             }
         }
 
-        /// <summary>
-        /// Returns a value indicating whether the component is editing mode.
-        /// </summary>
         public bool IsEditingMode
         {
             get => _container.classList.contains("tss-editing");
@@ -143,9 +126,6 @@ namespace Tesserae
             }
         }
 
-        /// <summary>
-        /// Registers a callback invoked when the save event fires.
-        /// </summary>
         public EditableArea OnSave(SaveEditHandler onSave)
         {
             Saved += onSave;
@@ -188,9 +168,6 @@ namespace Tesserae
             }
         }
 
-        /// <summary>
-        /// Sets the text of the component.
-        /// </summary>
         public EditableArea SetText(string text)
         {
             if (IsEditingMode)
@@ -207,14 +184,8 @@ namespace Tesserae
             return this;
         }
 
-        /// <summary>
-        /// Renders the component's root HTML element.
-        /// </summary>
         public override HTMLElement Render() => _container;
 
-        /// <summary>
-        /// Returns the component's state as a(n) observable.
-        /// </summary>
         public IObservable<string> AsObservable() => _observable;
     }
 }

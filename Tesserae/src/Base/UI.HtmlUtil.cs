@@ -48,7 +48,17 @@ namespace Tesserae
         /// </summary>
         public static bool IsEqualToOrIsChildOf(this HTMLElement element, Node possibleParentElement)
         {
-            return element.isSameNode(possibleParentElement) || possibleParentElement.contains(element);
+            return Script.Write<bool>("{0} == {1}", element, possibleParentElement) || possibleParentElement.contains(element);
+
+            while (Script.Write<bool>("{0} != null", element)) //Short-circuit the == opeartor in C# to make this method faster
+            {
+                if (Script.Write<bool>("{0} == {1}", element, possibleParentElement)) //Short-circuit the == opeartor in C# to make this method faster
+                {
+                    return true;
+                }
+                element = element.parentElement;
+            }
+            return false;
         }
 
         /// <summary>
@@ -79,24 +89,6 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Renders a component centered in the document body.
-        /// </summary>
-        public static HTMLElement MountCenteredToBody(IComponent component, bool clearExisting = true)
-        {
-            if (component == null)
-                throw new ArgumentNullException(nameof(component));
-
-            if (clearExisting)
-            {
-                document.body.RemoveChildElements();
-            }
-
-            var rendered = VStack().P(32).S().AlignItemsCenter().Children(component).Render();
-            document.body.appendChild(rendered);
-            return rendered;
-        }
-
-        /// <summary>
         /// Prevents the default action and stops propagation for the specified event.
         /// </summary>
         public static void StopEvent(Event e)
@@ -105,9 +97,6 @@ namespace Tesserae
             e?.stopImmediatePropagation();
         }
 
-        /// <summary>
-        /// Creates a new <see cref="List"/>.
-        /// </summary>
         public static List<Element> ToList(HTMLCollection c)
         {
             var l = new List<Element>();
@@ -181,9 +170,6 @@ namespace Tesserae
             source.parentElement.replaceChild(replaceWith, source);
         }
 
-        /// <summary>
-        /// Creates a new <see cref="void"/>.
-        /// </summary>
         public static void AppendElements(HTMLElement parent, IEnumerable<HTMLElement> children)
         {
             if (children != null)
@@ -198,9 +184,6 @@ namespace Tesserae
             }
         }
 
-        /// <summary>
-        /// Creates a new <see cref="void"/>.
-        /// </summary>
         public static void AppendElements(HTMLElement parent, params HTMLElement[] children)
         {
             if (children != null)
@@ -226,27 +209,18 @@ namespace Tesserae
             }
         }
 
-        /// <summary>
-        /// Creates a new <see cref="HTMLElement"/>.
-        /// </summary>
         public static HTMLElement AppendClass(HTMLElement element, params string[] classes)
         {
             element.classList.add(classes);
             return element;
         }
 
-        /// <summary>
-        /// Sets the style of the component.
-        /// </summary>
         public static HTMLElement SetStyle(HTMLElement element, Action<CSSStyleDeclaration> style)
         {
             style(element.style);
             return element;
         }
 
-        /// <summary>
-        /// Creates a new <see cref="T"/>.
-        /// </summary>
         public static T SetStyle<T>(this T element, Action<CSSStyleDeclaration> style) where T : HTMLElement
         {
             style(element.style);
@@ -304,17 +278,11 @@ namespace Tesserae
             return false;
         }
 
-        /// <summary>
-        /// Gets or sets the text shown in the component.
-        /// </summary>
         public static Text Text(string text)
         {
             return document.createTextNode(text);
         }
 
-        /// <summary>
-        /// Creates a new <see cref="HTMLDivElement"/>.
-        /// </summary>
         public static HTMLDivElement Div(Attributes init, HTMLElement first)
         {
             var result = InitElement(new HTMLDivElement(), init, null);
@@ -322,9 +290,6 @@ namespace Tesserae
             return result;
         }
 
-        /// <summary>
-        /// Creates a new <see cref="HTMLDivElement"/>.
-        /// </summary>
         public static HTMLDivElement Div(Attributes init, HTMLElement first, HTMLElement second)
         {
             var result = InitElement(new HTMLDivElement(), init, null);
@@ -381,9 +346,6 @@ namespace Tesserae
             return InitElement(document.createElement("i"), init, children);
         }
 
-        /// <summary>
-        /// Creates a new <see cref="HTMLElement"/>.
-        /// </summary>
         public static HTMLElement I(UIcons icon, UIconsWeight weight = UIconsWeight.Regular, string cssClass = null)
         {
             return I(_($"{Tesserae.Icon.Transform(icon, weight)} {cssClass}"));

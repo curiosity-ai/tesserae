@@ -18,17 +18,17 @@ namespace Tesserae.Tests.Samples
                         );
             validatedDropdown.Attach(dd => dd.IsInvalid = dd.SelectedItems.Length != 1 || dd.SelectedItems[0].Text != "Option 1");
 
-            _content = SectionStack().Secondary()
-               .SampleTitle(typeof(DropdownSample), UIcons.CaretDown, "A control to select an option from a dropdown")
-               .FlatSection(Stack().Children(
-                    Card(VStack().WS().Children(
+            _content = SectionStack()
+               .Title(SampleHeader(nameof(DropdownSample)))
+               .Section(Stack().Children(
+                    SampleTitle("Overview"),
                     TextBlock("A Dropdown is a list in which the selected item is always visible, and the others are visible on demand by clicking a drop-down button."),
-                    TextBlock("They are used to simplify the design and make a choice within the UI. When closed, only the selected item is visible. When users click the drop-down button, all the options become visible."))).SetTitle("Overview")))
-               .FlatSection(Stack().Children(
-                    Card(VStack().WS().Children(
-                    TextBlock("Use a Dropdown when there are multiple choices that can be collapsed under one title, especially if the list of items is long or when space is constrained. Use shortened statements or single words as options. Dropdowns are preferred over radio buttons when the selected option is more important than the alternatives. For less than 7 options, consider using a ChoiceGroup if space allows."))).SetTitle("Best Practices")))
-               .FlatSection(Stack().Children(
-                    Card(VStack().WS().Children(
+                    TextBlock("They are used to simplify the design and make a choice within the UI. When closed, only the selected item is visible. When users click the drop-down button, all the options become visible.")))
+               .Section(Stack().Children(
+                    SampleTitle("Best Practices"),
+                    TextBlock("Use a Dropdown when there are multiple choices that can be collapsed under one title, especially if the list of items is long or when space is constrained. Use shortened statements or single words as options. Dropdowns are preferred over radio buttons when the selected option is more important than the alternatives. For less than 7 options, consider using a ChoiceGroup if space allows.")))
+               .Section(Stack().Children(
+                    SampleTitle("Usage"),
                     SampleSubTitle("Basic Dropdown"),
                     VStack().Children(
                         Label("Standard").SetContent(Dropdown().Items(
@@ -48,12 +48,6 @@ namespace Tesserae.Tests.Samples
                     ),
                     SampleSubTitle("Selection Modes"),
                     VStack().Children(
-                        Label("Searchable").SetContent(Dropdown().Searchable().Items(
-                            DropdownItem("Apple"),
-                            DropdownItem("Banana").Selected(),
-                            DropdownItem("Orange").Selected(),
-                            DropdownItem("Grape")
-                        )),
                         Label("Multi-select").SetContent(Dropdown().Multi().Items(
                             DropdownItem("Apple"),
                             DropdownItem("Banana").Selected(),
@@ -70,11 +64,6 @@ namespace Tesserae.Tests.Samples
                     VStack().Children(
                         Label("Load on open (5s delay)").SetContent(Dropdown().Items(GetItemsAsync)),
                         Label("Load immediately (5s delay)").SetContent(StartLoadingAsyncDataImmediately(Dropdown().Items(GetItemsAsync))),
-                        Label("Deferred item content").SetContent(Dropdown().Items(
-                            DeferredDropdownItem("Item 1", 500),
-                            DeferredDropdownItem("Item 2", 800),
-                            DeferredDropdownItem("Item 3", 1100)
-                        )),
                         Label("Empty State").SetContent(Dropdown("No items available").Items(new Dropdown.Item[0]))
                     ),
                     SampleSubTitle("Validation"),
@@ -91,22 +80,13 @@ namespace Tesserae.Tests.Samples
                         Label("Medium").SetContent(Dropdown().Rounded(BorderRadius.Medium).Items(DropdownItem("Option 1"), DropdownItem("Option 2"))),
                         Label("Full").SetContent(Dropdown().Rounded(BorderRadius.Full).Items(DropdownItem("Option 1"), DropdownItem("Option 2")))
                     )
-                )).SetTitle("Usage")));
+                ));
         }
 
         private static Dropdown StartLoadingAsyncDataImmediately(Dropdown dropdown)
         {
             dropdown.LoadItemsAsync().FireAndForget();
             return dropdown;
-        }
-
-        private Dropdown.Item DeferredDropdownItem(string text, int delayMs)
-        {
-            return DropdownItem(Defer(async () =>
-            {
-                await Task.Delay(delayMs);
-                return Label($"Loaded {text}");
-            }, loadMessage: Skeleton().Animated().W(500).H(32)));
         }
 
         private async Task<Dropdown.Item[]> GetItemsAsync()

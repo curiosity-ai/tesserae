@@ -1,21 +1,20 @@
-﻿using System;
-using static H5.Core.dom;
-using static Tesserae.UI;
+﻿using static Tesserae.UI;
 
 namespace Tesserae.Tests.Samples
 {
     public static class SamplesHelper
     {
-        public static SectionStack SampleTitle(this SectionStack stack, Type sampleType, UIcons icon, string subtitle)
+        public static IComponent SampleHeader(string sampleType)
         {
-            var text = Sample.FormatSampleName(sampleType);
-            return stack.Title(icon, text, subtitle, Button("Documentation").SetIcon(UIcons.Books).OnClick(() => window.location.href = "https://docs.curiosity.ai/tesserae/"), Button("View Code").SetIcon(UIcons.SquareTerminal).Tooltip("View source-code for this sample page").OnClick(() => ShowSampleCode(sampleType.Name)));
-        }
+            var text = sampleType.Replace("Sample", "");
 
-        public static SectionStack SampleTitle(this SectionStack stack, string sampleType, UIcons icon, string subtitle)
-        {
-            var text = Sample.FormatSampleName(sampleType);
-            return stack.Title(icon, text, subtitle, Button("Documentation").SetIcon(UIcons.Books).OnClick(() => window.location.href = "https://docs.curiosity.ai/tesserae/"), Button("View Code").SetIcon(UIcons.SquareTerminal).Tooltip("View source-code for this sample page").OnClick(() => ShowSampleCode(sampleType)));
+            return Stack()
+               .Horizontal()
+               .WidthStretch()
+               .Children(
+                    TextBlock(text).XLarge().Bold(),
+                    Raw().Grow(1),
+                    Button().SetIcon(UIcons.SquareTerminal).SetTitle("View code for this sample").OnClick(() => ShowSampleCode(sampleType)));
         }
 
         public static void ShowSampleCode(string sampleType)
@@ -28,7 +27,8 @@ namespace Tesserae.Tests.Samples
                .Show();
         }
 
-        public static IComponent SampleSubTitle(string text) => TextBlock(text).SemiBold().PT(16).PB(8);
+        public static IComponent SampleTitle(string    text) => TextBlock(text).SemiBold().MediumPlus().PB(16);
+        public static IComponent SampleSubTitle(string text) => TextBlock(text).SemiBold().Medium().PB(16);
         public static IComponent SampleDo(string       text) => Label(Raw(I(_("las la-check", styles: s => s.color = "#107c10"))).PaddingRight(8.px())).SetContent(TextBlock(text)).Inline();
         public static IComponent SampleDont(string     text) => Label(Raw(I(_("las la-times", styles: s => s.color = "#e81123"))).PaddingRight(8.px())).SetContent(TextBlock(text)).Inline();
     }

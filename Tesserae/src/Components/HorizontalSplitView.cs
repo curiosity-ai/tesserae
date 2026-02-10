@@ -4,9 +4,6 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
-    /// <summary>
-    /// A horizontal split pane with a draggable handle that resizes a left and right pane.
-    /// </summary>
     [H5.Name("tss.HorizontalSplitView")]
     public class HorizontalSplitView : IComponent
     {
@@ -18,9 +15,6 @@ namespace Tesserae
         private          bool        _resizable;
         private          Action<int> _onResizeEnd;
 
-        /// <summary>
-        /// Initializes a new instance of this class.
-        /// </summary>
         public HorizontalSplitView(UnitSize splitterSize = null)
         {
             _splitterSize = (splitterSize is object && splitterSize.Unit != Unit.Auto && splitterSize.Unit != Unit.Inherit)
@@ -45,9 +39,6 @@ namespace Tesserae
             _splitContainer = Div(_("tss-splitview tss-splitview-horizontal"), _topComponent.Render(), _splitterComponent.Render(), _bottomComponent.Render());
         }
 
-        /// <summary>
-        /// Configures the component to resizable.
-        /// </summary>
         public HorizontalSplitView Resizable(Action<int> onResizeEnd = null)
         {
             _resizable   = true;
@@ -108,9 +99,6 @@ namespace Tesserae
             }
         }
 
-        /// <summary>
-        /// Aligns the content of the component to the top.
-        /// </summary>
         public HorizontalSplitView Top(IComponent component, string background = "")
         {
             _topComponent.Content(component);
@@ -123,9 +111,6 @@ namespace Tesserae
             return this;
         }
 
-        /// <summary>
-        /// Aligns the content of the component to the bottom.
-        /// </summary>
         public HorizontalSplitView Bottom(IComponent component, string background = "")
         {
             _bottomComponent.Content(component);
@@ -138,18 +123,12 @@ namespace Tesserae
             return this;
         }
 
-        /// <summary>
-        /// Renders the split view using the panel-style border treatment.
-        /// </summary>
         public HorizontalSplitView PanelStyle()
         {
             _splitContainer.classList.add("tss-splitview-panel-style");
             return this;
         }
 
-        /// <summary>
-        /// Disables resizing of the split view's handle.
-        /// </summary>
         public HorizontalSplitView NotResizable()
         {
             _splitterComponent.Class("tss-no-splitter");
@@ -157,9 +136,6 @@ namespace Tesserae
             return this;
         }
 
-        /// <summary>
-        /// Splits the view exactly in the middle by default.
-        /// </summary>
         public HorizontalSplitView SplitInMiddle()
         {
             _bottomComponent.MaxHeight = "";
@@ -169,9 +145,6 @@ namespace Tesserae
             return this;
         }
 
-        /// <summary>
-        /// Closes the component.
-        /// </summary>
         public HorizontalSplitView Close()
         {
             if (_splitContainer.classList.contains("tss-split-top"))
@@ -190,9 +163,6 @@ namespace Tesserae
             return this;
         }
 
-        /// <summary>
-        /// Opens the component.
-        /// </summary>
         public HorizontalSplitView Open()
         {
             if (_splitContainer.classList.contains("tss-split-top"))
@@ -211,9 +181,6 @@ namespace Tesserae
             return this;
         }
 
-        /// <summary>
-        /// Sizes the split view so the top pane is the smaller of the two, with optional min/max bounds.
-        /// </summary>
         public HorizontalSplitView TopIsSmaller(UnitSize topSize, UnitSize maxTopSize = null, UnitSize minTopSize = null)
         {
             _topComponent.Height     = topSize.ToString();
@@ -234,9 +201,6 @@ namespace Tesserae
             return this;
         }
 
-        /// <summary>
-        /// Sizes the split view so the bottom pane is the smaller of the two, with optional min/max bounds.
-        /// </summary>
         public HorizontalSplitView BottomIsSmaller(UnitSize bottomSize, UnitSize maxBottomSize = null, UnitSize minBottomSize = null)
         {
             _bottomComponent.Height     = bottomSize.ToString();
@@ -255,9 +219,6 @@ namespace Tesserae
             return this;
         }
 
-        /// <summary>
-        /// Renders the component's root HTML element.
-        /// </summary>
         public HTMLElement Render()
         {
             return _splitContainer;

@@ -132,10 +132,6 @@ namespace Tesserae
                 {
                     action();
                 }
-                else if (_currentStep >= _stepCounter && _completed is object)
-                {
-                    _completed();
-                }
             }
 
             void Show()

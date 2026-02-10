@@ -106,17 +106,6 @@
     height: 16px;
 }
 
-.tss-searchbox-shortcut {
-    display: none;
-    align-items: center;
-    flex-shrink: 0;
-    padding: 0 4px;
-}
-
-.tss-searchbox-container.tss-searchbox-has-shortcut > .tss-searchbox-shortcut {
-    display: inline-flex;
-}
-
 .tss-searchbox-container:focus-within > .tss-searchbox-icon {
     width: 0px;
 }

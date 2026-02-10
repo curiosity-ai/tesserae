@@ -23,17 +23,17 @@ namespace Tesserae.Tests.Samples
 
             var dropdown = Dropdown().Items(DropdownItem(""), DropdownItem("Item 1"), DropdownItem("Item 2")).Required().Validation(dd => string.IsNullOrWhiteSpace(dd.SelectedText) ? "must select an item" : null, validator);
 
-            content = SectionStack().Secondary()
-               .SampleTitle(typeof(ValidatorSample), UIcons.Check, "A utility to validate inputs")
-               .FlatSection(Stack().Children(
-                    Card(VStack().WS().Children(
-                    TextBlock("Validator is a utility component that aggregates the validation state of multiple UI components. It provides a centralized way to monitor whether a form or a set of inputs is valid, making it easy to provide real-time feedback to users and prevent the submission of incorrect data."))).SetTitle("Overview")))
-               .FlatSection(Stack().Children(
-                    Card(VStack().WS().Children(
-                    TextBlock("Register all related input components with a single Validator. Use clear and descriptive validation messages that help users correct errors. Avoid showing validation errors immediately on form load; instead, allow users to interact with the fields first. Use the Validator's state to enable or disable primary actions like 'Submit' or 'Save' to ensure only valid data is processed."))).SetTitle("Best Practices")))
-               .FlatSection(
+            content = SectionStack()
+               .Title(SampleHeader(nameof(ValidatorSample)))
+               .Section(Stack().Children(
+                    SampleTitle("Overview"),
+                    TextBlock("Validator is a utility component that aggregates the validation state of multiple UI components. It provides a centralized way to monitor whether a form or a set of inputs is valid, making it easy to provide real-time feedback to users and prevent the submission of incorrect data.")))
+               .Section(Stack().Children(
+                    SampleTitle("Best Practices"),
+                    TextBlock("Register all related input components with a single Validator. Use clear and descriptive validation messages that help users correct errors. Avoid showing validation errors immediately on form load; instead, allow users to interact with the fields first. Use the Validator's state to enable or disable primary actions like 'Submit' or 'Save' to ensure only valid data is processed.")))
+               .Section(
                     Stack().Children(
-                        Card(VStack().WS().Children(
+                        SampleTitle("Usage"),
                         TextBlock("Basic TextBox").Medium(),
                         Stack().Width(40.percent()).Padding(8.px()).Children(
                             Label("Non-empty").SetContent(textBoxThatMustBeNonEmpty),
@@ -48,7 +48,7 @@ namespace Tesserae.Tests.Samples
                             Label("Validity (this only checks fields that User has interacted with so far)").Inline().SetContent(looksValidSoFar),
                             Label("Test revalidation (will fail if repeated)").SetContent(Button("Validate").OnClick((s, b) => validator.Revalidate()))
                         )
-                    )).SetTitle("Usage"))
+                    )
                 );
 
             // 2020-09-16 DWR: The form here follows the pattern of not disabling the submit button (the "Validate" button in this case), so they can enter as much or as little of it as they want and then try to submit and if they

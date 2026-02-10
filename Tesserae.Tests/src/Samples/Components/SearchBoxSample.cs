@@ -14,17 +14,17 @@ namespace Tesserae.Tests.Samples
         {
             var searchAsYouType = TextBlock("Start typing in the 'Search as you type' box below...");
 
-            _content = SectionStack().Secondary()
-               .SampleTitle(typeof(SearchBoxSample), UIcons.Search, "A control to search")
-               .FlatSection(Stack().Children(
-                    Card(VStack().WS().Children(
+            _content = SectionStack()
+               .Title(SampleHeader(nameof(SearchBoxSample)))
+               .Section(Stack().Children(
+                    SampleTitle("Overview"),
                     TextBlock("SearchBoxes provide an input field for searching through content, allowing users to locate specific items within the website or app."),
-                    TextBlock("They include a search icon and a clear button, and support both 'on search' (e.g., when Enter is pressed) and 'search as you type' behaviors."))).SetTitle("Overview")))
-               .FlatSection(Stack().Children(
-                    Card(VStack().WS().Children(
-                    TextBlock("Always use placeholder text to describe the search scope (e.g., 'Search files'). Use the 'Underlined' style for CommandBars or other minimalist surfaces. Enable 'Search as you type' for small to medium datasets where results can be filtered instantly. Provide a clear visual cue when no results are found. Don't use a SearchBox if you cannot reliably provide accurate results."))).SetTitle("Best Practices")))
-               .FlatSection(Stack().Children(
-                    Card(VStack().WS().Children(
+                    TextBlock("They include a search icon and a clear button, and support both 'on search' (e.g., when Enter is pressed) and 'search as you type' behaviors.")))
+               .Section(Stack().Children(
+                    SampleTitle("Best Practices"),
+                    TextBlock("Always use placeholder text to describe the search scope (e.g., 'Search files'). Use the 'Underlined' style for CommandBars or other minimalist surfaces. Enable 'Search as you type' for small to medium datasets where results can be filtered instantly. Provide a clear visual cue when no results are found. Don't use a SearchBox if you cannot reliably provide accurate results.")))
+               .Section(Stack().Children(
+                    SampleTitle("Usage"),
                     SampleSubTitle("Basic SearchBoxes"),
                     VStack().Children(
                         Label("Default Search").SetContent(SearchBox("Search...").OnSearch((s, e) => Toast().Information($"Searched for: {e}"))),
@@ -51,13 +51,8 @@ namespace Tesserae.Tests.Samples
                         SearchBox("Small").Rounded(BorderRadius.Small),
                         SearchBox("Medium").Rounded(BorderRadius.Medium),
                         SearchBox("Full").Rounded(BorderRadius.Full)
-                    ),
-                    SampleSubTitle("Keyboard Shortcut"),
-                    VStack().Children(
-                        TextBlock("Press Ctrl+K (or ⌘K on macOS) anywhere on the page to focus the SearchBox below."),
-                        SearchBox("Search...").SetKeyboardShortcut("Ctrl", "K")
                     )
-                )).SetTitle("Usage")));
+                ));
         }
 
         public HTMLElement Render() => _content.Render();

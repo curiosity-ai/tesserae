@@ -1,4 +1,4 @@
-﻿<Project Sdk="h5.Target/26.3.64912">
+<Project Sdk="h5.Target/25.11.62725">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <DefineConstants>H5</DefineConstants>
@@ -6,8 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="h5" Version="26.2.64514" />
-    <PackageReference Include="h5.core" Version="26.4.580" />
+    <PackageReference Include="h5" Version="25.11.62743" />
+    <PackageReference Include="h5.core" Version="25.11.62746" />
   </ItemGroup>
 
   <ItemGroup>

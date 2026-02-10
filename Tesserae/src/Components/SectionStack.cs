@@ -28,9 +28,9 @@ namespace Tesserae
         /// <param name="grow">Whether the section should grow.</param>
         /// <param name="shrink">Whether the section should shrink.</param>
         /// <param name="customPadding">Custom padding for the section.</param>
-        public void AddAnimated(IComponent component, bool grow = false, bool shrink = false, string customPadding = "", bool cardStyle = true)
+        public void AddAnimated(IComponent component, bool grow = false, bool shrink = false, string customPadding = "")
         {
-            InnerElement.appendChild(GetAnimatedItem(component, false, grow, shrink, customPadding, cardStyle));
+            InnerElement.appendChild(GetAnimatedItem(component, false, grow, shrink, customPadding));
         }
 
         /// <summary>
@@ -42,11 +42,11 @@ namespace Tesserae
             InnerElement.appendChild(GetAnimatedItem(component, true));
         }
 
-        private HTMLDivElement GetAnimatedItem(IComponent component, bool isTitle, bool grow = false, bool shrink = false, string customPadding = "", bool cardStyle = true)
+        private HTMLDivElement GetAnimatedItem(IComponent component, bool isTitle, bool grow = false, bool shrink = false, string customPadding = "")
         {
             if (!((component as dynamic).SectionStackItem is HTMLDivElement item))
             {
-                item = Div(_(isTitle ? "tss-sectionstack-title tss-stack-item tss-sectionstack-item" : (cardStyle ? "tss-sectionstack-card tss-stack-item tss-sectionstack-item": "tss-stack-item tss-sectionstack-item") ), component.Render());
+                item = Div(_(isTitle ? "tss-sectionstack-title tss-stack-item tss-sectionstack-item" : "tss-sectionstack-card tss-stack-item tss-sectionstack-item"), component.Render());
 
                 item.style.alignSelf = "auto";
                 item.style.width     = "auto";
@@ -81,15 +81,6 @@ namespace Tesserae
         {
             ClearChildren(InnerElement);
             Count = 0;
-        }
-
-        /// <summary>
-        /// Styles the component using the secondary tone.
-        /// </summary>
-        public SectionStack Secondary()
-        {
-            InnerElement.classList.add("tss-sectionstack-secondary");
-            return this;
         }
 
         /// <summary>

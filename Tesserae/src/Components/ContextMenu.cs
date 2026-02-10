@@ -6,10 +6,6 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
-    /// <summary>
-    /// A right-click / hover-driven popup menu with support for items, headers, dividers and arbitrarily deep nested
-    /// submenus.
-    /// </summary>
     [H5.Name("tss.ContextMenu")]
     public sealed partial class ContextMenu : Layer<ContextMenu>, IContainer<ContextMenu, ContextMenu.Item>
     {
@@ -41,34 +37,22 @@ namespace Tesserae
 
         private List<Item> _items = new List<Item>();
 
-        /// <summary>
-        /// Initializes a new instance of this class.
-        /// </summary>
         public ContextMenu()
         {
             InnerElement    = Div(_("tss-contextmenu"));
             _childContainer = Div(_());
         }
 
-        /// <summary>
-        /// Clears the component's current state.
-        /// </summary>
         public void Clear()
         {
             ClearChildren(_childContainer);
         }
 
-        /// <summary>
-        /// Replaces an existing item with a new one.
-        /// </summary>
         public void Replace(Item newComponent, Item oldComponent)
         {
             _childContainer.replaceChild(newComponent.Render(), oldComponent.Render());
         }
 
-        /// <summary>
-        /// Adds the given item to the component.
-        /// </summary>
         public void Add(Item component)
         {
             _items.Add(component);
@@ -81,26 +65,17 @@ namespace Tesserae
             }, clearPrevious: false);
         }
 
-        /// <summary>
-        /// Registers a callback invoked when the hide event fires.
-        /// </summary>
         public ContextMenu OnHide(Action onHidden)
         {
             _onHide += onHidden;
             return this;
         }
 
-        /// <summary>
-        /// Renders the component's root HTML element.
-        /// </summary>
         public override HTMLElement Render()
         {
             throw new NotImplementedException();
         }
 
-        /// <summary>
-        /// Shows the component.
-        /// </summary>
         public override ContextMenu Show()
         {
             throw new NotImplementedException();
@@ -150,18 +125,12 @@ namespace Tesserae
             ItemClick += componentEventHandler;
         }
 
-        /// <summary>
-        /// Shows the for.
-        /// </summary>
         public void ShowFor(IComponent component, int distanceX = 1, int distanceY = 1)
         {
             ShowFor(component.Render(), distanceX, distanceY);
             component.WhenMounted(() => component.WhenRemoved(() => Hide()));
         }
 
-        /// <summary>
-        /// Shows the at.
-        /// </summary>
         public void ShowAt(int x, int y, int minWidth)
         {
             if (_contentHtml == null)
@@ -245,9 +214,6 @@ namespace Tesserae
             PossiblySetupSubMenuHooks();
         }
 
-        /// <summary>
-        /// Shows the for.
-        /// </summary>
         public void ShowFor(HTMLElement element, int distanceX = 1, int distanceY = 1) => ShowFor(element, distanceX, distanceY, false);
 
         private void ShowFor(HTMLElement element, int distanceX, int distanceY, bool asSubMenu)
@@ -468,9 +434,6 @@ namespace Tesserae
             }
         }
 
-        /// <summary>
-        /// Hides the component.
-        /// </summary>
         public override void Hide(Action onHidden = null)
         {
             window.removeEventListener("mousemove", OnWindowMouseMove);
@@ -485,9 +448,6 @@ namespace Tesserae
             }
         }
 
-        /// <summary>
-        /// Adds the given items to the component.
-        /// </summary>
         public ContextMenu Items(params Item[] children)
         {
             children.ForEach(x => Add(x));
@@ -538,22 +498,13 @@ namespace Tesserae
 
         private struct Point2D
         {
-            /// <summary>
-            /// Initializes a new instance of this class.
-            /// </summary>
             public Point2D(double x, double y)
             {
                 this.x = x;
                 this.y = y;
 
             }
-            /// <summary>
-            /// The X coordinate.
-            /// </summary>
             public double x;
-            /// <summary>
-            /// The Y coordinate.
-            /// </summary>
             public double y;
         }
     }

@@ -15,9 +15,6 @@ namespace Tesserae
 
         private DebouncerWithMaxDelay _debouncer;
 
-        /// <summary>
-        /// Gets or sets the delay.
-        /// </summary>
         public int Delay
         {
             get
@@ -40,13 +37,7 @@ namespace Tesserae
 
         private event ObservableEvent.ValueChanged<T> ValueChanged;
 
-        /// <summary>
-        /// Configures the component to observe.
-        /// </summary>
         public void Observe(ObservableEvent.ValueChanged<T>              valueGetter) => Observe(valueGetter, callbackImmediately: true);
-        /// <summary>
-        /// Subscribes the given callback so it fires on every future change to the observed value.
-        /// </summary>
         public void ObserveFutureChanges(ObservableEvent.ValueChanged<T> valueGetter) => Observe(valueGetter, callbackImmediately: false);
         private void Observe(ObservableEvent.ValueChanged<T> valueGetter, bool callbackImmediately)
         {
@@ -58,14 +49,8 @@ namespace Tesserae
             }
         }
 
-        /// <summary>
-        /// Stops a previously-registered callback from receiving further change notifications.
-        /// </summary>
         public void StopObserving(ObservableEvent.ValueChanged<T> valueGetter) => ValueChanged -= valueGetter;
 
-        /// <summary>
-        /// Gets or sets the current value of the component.
-        /// </summary>
         public T Value
         {
             get => _value;

@@ -11,7 +11,7 @@ namespace Tesserae
     {
         private readonly HTMLDivElement             _container;
         private readonly HTMLSpanElement            _errorSpan;
-        private readonly SettableObservable<string> _observable;
+        private readonly SettableObservable<string> _observable = new SettableObservable<string>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TextArea"/> class.
@@ -27,7 +27,6 @@ namespace Tesserae
             InnerElement.style.width  = "100%";
             InnerElement.style.height = "100%";
 
-            _observable = new SettableObservable<string>(text);
             AttachChange();
             AttachInput();
             AttachKeys();
@@ -246,53 +245,5 @@ namespace Tesserae
 
         /// <summary>Returns an observable of the text.</summary>
         public IObservable<string> AsObservable() => _observable;
-
-        /// <summary>
-        /// Enables auto-resizing of the text area as the user types, based on the scrollHeight.
-        /// </summary>
-        /// <param name="allowShrink">If false, the text area will not shrink below its initial size.</param>
-        /// <param name="minHeight">If set, specifies a minimum pixel height for the text area.</param>
-        /// <param name="maxHeight">If set, specifies a maximum pixel height for the text area. Content will scroll if it exceeds this height.</param>
-        /// <returns>The current instance.</returns>
-        public TextArea AutoResize(bool allowShrink = true, int? minHeight = null, int? maxHeight = null)
-        {
-            if (minHeight.HasValue)
-            {
-                InnerElement.style.minHeight = minHeight.Value + "px";
-            }
-
-            if (maxHeight.HasValue)
-            {
-                InnerElement.style.maxHeight = maxHeight.Value + "px";
-            }
-
-            void Resize()
-            {
-                InnerElement.style.height = "auto";
-                InnerElement.style.height = InnerElement.scrollHeight + "px";
-            }
-
-            if (!allowShrink)
-            {
-                DomObserver.WhenMounted(InnerElement, () =>
-                {
-                    var rect = (DOMRect)InnerElement.getBoundingClientRect();
-                    // Do not override user-provided minHeight if it is greater
-                    if (!minHeight.HasValue || rect.height > minHeight.Value)
-                    {
-                        InnerElement.style.minHeight = rect.height + "px";
-                    }
-                    Resize();
-                });
-            }
-            else
-            {
-                DomObserver.WhenMounted(InnerElement, () => Resize());
-            }
-
-            OnInput((_, __) => Resize());
-
-            return this;
-        }
     }
 }

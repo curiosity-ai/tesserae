@@ -6,10 +6,6 @@ using System.Threading.Tasks;
 
 namespace Tesserae
 {
-    /// <summary>
-    /// A button variant that shows a "saving…" spinner and a confirmation tick while an async save operation is in
-    /// progress.
-    /// </summary>
     [Name("tss.SaveButton")]
     public class SaveButton : IComponent
     {
@@ -36,9 +32,6 @@ namespace Tesserae
             Error,
         }
 
-        /// <summary>
-        /// Initializes a new instance of this class.
-        /// </summary>
         public SaveButton()
         {
             _button = Button().MinWidth(100.px());
@@ -63,9 +56,6 @@ namespace Tesserae
             SetState(State.NothingToSave);
         }
 
-        /// <summary>
-        /// Configures the component to configure.
-        /// </summary>
         public SaveButton Configure(string save = null, string verifying = null, string saving = null, string saved = null, string error = null, string saveHover = null, UIcons saveIcon = UIcons.Disk, UIcons saveHoverIcon = UIcons.Disk, bool pendingPrimary = true)
         {
             if (save != null) _textSave = save;
@@ -86,9 +76,6 @@ namespace Tesserae
             return this;
         }
 
-        /// <summary>
-        /// Sets the state of the component.
-        /// </summary>
         public SaveButton SetState(State state, string message = null)
         {
             _button.UndoSpinner();
@@ -143,88 +130,21 @@ namespace Tesserae
         }
 
         
-        /// <summary>
-        /// Configures the nothing to save on the component.
-        /// </summary>
         public SaveButton NothingToSave(string message = null) => SetState(State.NothingToSave, message);
-        /// <summary>
-        /// Configures the component to pending.
-        /// </summary>
         public SaveButton Pending(string message = null) => SetState(State.PendingSave, message);
-        /// <summary>
-        /// Configures the component to verifying.
-        /// </summary>
         public SaveButton Verifying(string message = null) => SetState(State.Verifying, message);
-        /// <summary>
-        /// Configures the component to saving.
-        /// </summary>
         public SaveButton Saving(string message = null) => SetState(State.Saving, message);
-        /// <summary>
-        /// Configures the component to saved.
-        /// </summary>
         public SaveButton Saved(string message = null) => SetState(State.Saved, message);
-        /// <summary>
-        /// Gets or sets the validation error message displayed beneath the component.
-        /// </summary>
         public SaveButton Error(string message = null) => SetState(State.Error, message);
 
 
-        /// <summary>
-        /// Registers a callback invoked when the click event fires.
-        /// </summary>
         public SaveButton OnClick(Action action)
         {
-            _button.OnClick(() =>
-            {
-                if (_state != State.PendingSave) return;
-                action();
-            });
+            if (_state != State.PendingSave) return this;
+            _button.OnClick(action);
             return this;
         }
 
-        /// <summary>
-        /// Registers a callback invoked when the click spin while event fires.
-        /// </summary>
-        public SaveButton OnClickSpinWhile(Func<Task> actionAsync)
-        {
-            _button.OnClickSpinWhile(async () =>
-            {
-                if (_state != State.PendingSave) return;
-                await actionAsync();
-            });
-            return this;
-        }
-
-        /// <summary>
-        /// Configures the verifying while on the component.
-        /// </summary>
-        public async Task<State> VerifyingWhile(Func<Task<State>> action, string text = null, Action<SaveButton, Exception> onError = null)
-        {
-            SetState(State.Verifying, text);
-            try
-            {
-                var result = await action();
-                SetState(result);
-                return result;
-            }
-            catch (Exception e)
-            {
-                if (onError != null)
-                {
-                    onError(this, e);
-                }
-                else
-                {
-                    SetState(State.Error);
-                    Toast().Error(e.Message);
-                }
-                return State.Error;
-            }
-        }
-
-        /// <summary>
-        /// Registers a callback invoked when the click spin while event fires.
-        /// </summary>
         public SaveButton OnClickSpinWhile(Func<Task> action, string text = null, Action<SaveButton, Exception> onError = null)
         {
             Action<Button, Exception> onErrorInner;
@@ -250,9 +170,6 @@ namespace Tesserae
             return this;
         }
 
-        /// <summary>
-        /// Renders the component's root HTML element.
-        /// </summary>
         public HTMLElement Render() => _button.Render();
     }
 }

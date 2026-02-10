@@ -14,7 +14,7 @@ namespace Tesserae
     public class VirtualizedList : IComponent
     {
         private const int PagesToVirtualize    = 5;
-        private const int InitialPagesToCreate = 2;
+        private const int InitialPagesToCreate = PagesToVirtualize;
 
         private readonly ListPageCache<IComponent> _listPageCache;
         private readonly int                       _pagesToVirtualizeUpperBoundary;
@@ -281,82 +281,56 @@ namespace Tesserae
             var scrollTop       = _basicListContainer.scrollTop;
             var scrollDirection = GetScrollDirection(scrollTop);
 
+            if (scrollDirection == ScrollDirection.Neutral)
+            {
+                console.log("Scroll neutral");
+            }
+
             var scrollPosition = scrollTop;
 
             var newPage = (int)Round(scrollPosition / _pageHeight.Size, MidpointRounding.AwayFromZero);
 
-            if (newPage != _currentPage)
+            if ((newPage != _currentPage) && newPage > _pagesToVirtualizeLowerBoundary)
             {
-                // The per-step Down/Up branches assume the rendered window slid by exactly one
-                // page. On a fast scroll the viewport can jump several pages between events,
-                // so a one-page swap would leave the window disjoint from the viewport (which
-                // manifested as a blank list). Detect that case and rebuild the window instead.
-                if (Abs(newPage - _currentPage) > 1)
+                if (scrollDirection == ScrollDirection.Down)
                 {
-                    RebuildRenderedPages(newPage);
+                    console.log($"Scroll down - new page: {newPage}");
+
+                    RemoveFirstPageFromBasicListContainer();
+
+                    var newTopSpacingDivHeight = ((newPage - _pagesToVirtualizeLowerBoundary) * _pageHeight.Size).px();
+                    SetTopSpacingDivHeight(newTopSpacingDivHeight);
+
+                    var pageNumberToAdd = newPage + _pagesToVirtualizeUpperBoundary;
+                    CreatePageDownwards(RetrievePageFromCache(pageNumberToAdd));
+
+                    var newBottomSpacingDivHeight =
+                        ((_listPageCache.PagesCount - (newPage + _pagesToVirtualizeUpperBoundary)) * _pageHeight.Size).px();
+
+                    SetBottomSpacingDivHeight(newBottomSpacingDivHeight);
                 }
-                else if (newPage > _pagesToVirtualizeLowerBoundary)
+                else if (scrollDirection == ScrollDirection.Up)
                 {
-                    if (scrollDirection == ScrollDirection.Down)
-                    {
-                        RemoveFirstPageFromBasicListContainer();
+                    console.log($"Scroll up - new page: {newPage}");
 
-                        var newTopSpacingDivHeight = ((newPage - _pagesToVirtualizeLowerBoundary) * _pageHeight.Size).px();
-                        SetTopSpacingDivHeight(newTopSpacingDivHeight);
+                    RemoveLastPageFromBasicListContainer();
 
-                        var pageNumberToAdd = newPage + _pagesToVirtualizeUpperBoundary;
-                        CreatePageDownwards(RetrievePageFromCache(pageNumberToAdd));
+                    var newTopSpacingDivHeight =
+                        ((newPage - (_pagesToVirtualizeUpperBoundary - 1)) * _pageHeight.Size).px();
+                    SetTopSpacingDivHeight(newTopSpacingDivHeight);
 
-                        var newBottomSpacingDivHeight =
-                            ((_listPageCache.PagesCount - (newPage + _pagesToVirtualizeUpperBoundary)) * _pageHeight.Size).px();
+                    var pageNumberToAdd = newPage - _pagesToVirtualizeUpperBoundary;
+                    CreatePageUpwards(RetrievePageFromCache(pageNumberToAdd));
 
-                        SetBottomSpacingDivHeight(newBottomSpacingDivHeight);
-                    }
-                    else if (scrollDirection == ScrollDirection.Up)
-                    {
-                        RemoveLastPageFromBasicListContainer();
+                    var newBottomSpacingDivHeight =
+                        ((_listPageCache.PagesCount - (newPage + _pagesToVirtualizeLowerBoundary)) * _pageHeight.Size).px();
 
-                        var newTopSpacingDivHeight = ((newPage - _pagesToVirtualizeLowerBoundary) * _pageHeight.Size).px();
-                        SetTopSpacingDivHeight(newTopSpacingDivHeight);
-
-                        var pageNumberToAdd = newPage - _pagesToVirtualizeUpperBoundary;
-                        CreatePageUpwards(RetrievePageFromCache(pageNumberToAdd));
-
-                        var newBottomSpacingDivHeight =
-                            ((_listPageCache.PagesCount - (newPage + _pagesToVirtualizeUpperBoundary)) * _pageHeight.Size).px();
-
-                        SetBottomSpacingDivHeight(newBottomSpacingDivHeight);
-                    }
+                    SetBottomSpacingDivHeight(newBottomSpacingDivHeight);
                 }
             }
 
             _currentPage           = newPage;
             _currentScrollPosition = scrollPosition;
-        }
-
-        private void RebuildRenderedPages(int centerPage)
-        {
-            var rendered = GetRenderedPages();
-            for (var i = (int)rendered.length - 1; i >= 0; i--)
-            {
-                _basicListContainer.removeChild(rendered[i]);
-            }
-
-            var firstPage = Max(1, centerPage - _pagesToVirtualizeLowerBoundary + 1);
-            var lastPage  = Min(_listPageCache.PagesCount, centerPage + _pagesToVirtualizeUpperBoundary);
-
-            for (var pageNumber = firstPage; pageNumber <= lastPage; pageNumber++)
-            {
-                var page = RetrievePageFromCache(pageNumber);
-
-                if (page != null)
-                {
-                    _basicListContainer.insertBefore(page, _bottomSpacingDiv);
-                }
-            }
-
-            SetTopSpacingDivHeight(((firstPage - 1)                       * _pageHeight.Size).px());
-            SetBottomSpacingDivHeight(((_listPageCache.PagesCount - lastPage) * _pageHeight.Size).px());
         }
 
         private ScrollDirection GetScrollDirection(double scrollTop)

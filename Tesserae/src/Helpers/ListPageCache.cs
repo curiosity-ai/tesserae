@@ -94,15 +94,9 @@ namespace Tesserae
             }
 
             var page = _createPageHtmlElementExpression(pageNumberToRetrieve);
-            var items = GetComponentsForPage(pageNumberToRetrieve);
-
-            if (items is null)
-            {
-                return null;
-            }
 
             page.AppendChildren(
-                items
+                GetComponentsForPage(pageNumberToRetrieve)
                    .Select(_afterComponentRetrievedExpression)
                    .ToArray());
 
@@ -114,13 +108,13 @@ namespace Tesserae
         /// <summary>Retrieves HTML elements for a range of pages from the cache.</summary>
         public IEnumerable<HTMLElement> RetrievePagesFromCache(IEnumerable<int> rangeOfPageNumbersToRetrieve)
         {
-            return rangeOfPageNumbersToRetrieve.Select(RetrievePageFromCache).Where(p => p != null);
+            return rangeOfPageNumbersToRetrieve.Select(RetrievePageFromCache);
         }
 
         /// <summary>Retrieves HTML elements for all pages from the cache.</summary>
         public IEnumerable<HTMLElement> RetrieveAllPagesFromCache()
         {
-            return Enumerable.Range(1, PagesCount).Select(RetrievePageFromCache).Where(p => p != null);
+            return Enumerable.Range(1, PagesCount).Select(RetrievePageFromCache);
         }
 
         /// <summary>Clears the entire cache and pages.</summary>
@@ -143,11 +137,7 @@ namespace Tesserae
 
         private List<(int key, TComponent component)> GetComponentsForPage(int pageNumber)
         {
-            if(_pages.Count >= pageNumber)
-            {
-                return _pages[pageNumber - 1];
-            }
-            return null;
+            return _pages.ElementAt(pageNumber - 1);
         }
     }
 }

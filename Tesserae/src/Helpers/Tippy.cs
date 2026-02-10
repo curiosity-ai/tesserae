@@ -5,94 +5,37 @@ using static H5.Core.dom;
 
 namespace Tesserae
 {
-    /// <summary>
-    /// JavaScript-interop literal describing the current state of a Tippy popover instance.
-    /// </summary>
     [H5.ObjectLiteral]
     public class TippyInstanceState
     {
-        /// <summary>
-        /// True when the Tippy instance is enabled and can be shown.
-        /// </summary>
         public bool isEnabled;
-        /// <summary>
-        /// True when the Tippy popover is currently visible.
-        /// </summary>
         public bool isVisible;
-        /// <summary>
-        /// True after the Tippy instance has been destroyed.
-        /// </summary>
         public bool isDestroyed;
-        /// <summary>
-        /// True when the Tippy popper element is mounted in the DOM.
-        /// </summary>
         public bool isMounted;
-        /// <summary>
-        /// True once the Tippy has finished its show animation.
-        /// </summary>
         public bool isShown;
     }
 
     [H5.ObjectLiteral]
     public class TippyInstance
     {
-        /// <summary>
-        /// Clears any pending show/hide delay timeouts on this instance.
-        /// </summary>
         public void clearDelayTimeouts() { }
-        /// <summary>
-        /// Permanently destroys this Tippy instance, releasing its DOM and listeners.
-        /// </summary>
         public void destroy() { }
-        /// <summary>
-        /// Disables this Tippy instance so it can no longer be shown.
-        /// </summary>
         public void disable() { }
-        /// <summary>
-        /// Enables this Tippy instance so it can be shown again.
-        /// </summary>
         public void enable() { }
-        /// <summary>
-        /// Hides the popover immediately.
-        /// </summary>
         public void hide() { }
-        /// <summary>
-        /// Shows the popover.
-        /// </summary>
         public void show() { }
-        /// <summary>
-        /// Hides the popover with an interactive grace period that gives the user time to move the cursor into it before it disappears.
-        /// </summary>
         public void hideWithInteractivity() { }
-        /// <summary>
-        /// Gets the unique numeric identifier assigned to this Tippy instance.
-        /// </summary>
         public int id { get; }
-        /// <summary>
-        /// Removes the popper element from the DOM without destroying the instance.
-        /// </summary>
         public void unmount() { }
-        /// <summary>
-        /// Gets the anchor element the popover is positioned against.
-        /// </summary>
         public HTMLElement reference { get; }
-        /// <summary>
-        /// Replaces the content of the popover with the given element.
-        /// </summary>
         public void setContent(HTMLElement content) { }
 
-        /// <summary>
-        /// Gets a snapshot of the current state (enabled / visible / mounted / shown / destroyed).
-        /// </summary>
         public TippyInstanceState state { get; }
     }
 
     [H5.Name("tss.tippy")]
     public static class Tippy
     {
-        /// <summary>
-        /// Vertical pixel offset reserved at the top of the viewport. Tooltips anchored to elements above this offset are flipped to avoid being hidden behind a sticky header.
-        /// </summary>
         public static int DeadZoneTop = 0;
         private static HTMLElement GetAppendToTarget(HTMLElement hostElement)
         {
@@ -114,10 +57,7 @@ namespace Tesserae
         }
 
         private static Action<TippyInstance, MouseEvent> _doNothing = (_,__) => { };
-        /// <summary>
-        /// Shows a Tippy popover anchored to the given host element/component with the supplied content and configuration. Returns a delegate that can be invoked to hide the popover programmatically.
-        /// </summary>
-        public static void ShowFor(IComponent hostComponent, IComponent tooltip, out Action hide, TooltipAnimation animation = TooltipAnimation.None, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 0, int delayHide = 0, int maxWidth = 350, bool arrow = false, string theme = null, bool hideOnClick = true, Action onHiddenCallback = null, Func<bool> onHide = null, Action<TippyInstance, MouseEvent> onClickOutside = null, bool manualTrigger = false, int interactiveBorder = 8)
+        public static void ShowFor(IComponent hostComponent, IComponent tooltip, out Action hide, TooltipAnimation animation = TooltipAnimation.None, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 0, int delayHide = 0, int maxWidth = 350, bool arrow = false, string theme = null, bool hideOnClick = true, Action onHiddenCallback = null, Func<bool> onHide = null, Action<TippyInstance, MouseEvent> onClickOutside = null)
         {
             var rendered = hostComponent.Render();
 
@@ -158,22 +98,15 @@ namespace Tesserae
 
             placement = CheckDeadZone(placement, appendTo);
 
-            var trigger = manualTrigger ? "manual" : "mouseenter focus";
-            // Stack the Tippy popper into the application z-index lane so it always sits above any
-            // currently-visible Layer (and so any Layer opened from inside it ends up above the
-            // popper in turn — Layers.CurrentZIndex() now reads [data-tippy-root] back). Fall back
-            // to Tippy's hard-coded default of 9999 if Layers.AboveCurrent() can't be parsed.
-            if (!int.TryParse(Layers.AboveCurrent(), out var zIndex)) zIndex = 9999;
-
             if (animation == TooltipAnimation.None)
             {
-                H5.Script.Write("tippy({0}, { content: {1}, interactive: true, interactiveBorder: {13}, trigger: {14}, zIndex: {15}, placement: {2}, appendTo: {3}, maxWidth: {4}, onHidden: {5}, delay: [{6},{7}], arrow: {8}, theme: {9}, hideOnClick: {10}, onHide: {11}, onClickOutside: {12} });",
-                                        element, renderedTooltip, placement.ToString(), appendTo.As<object>(), maxWidth, onHiddenInternal, delayShow, delayHide, arrow, theme, hideOnClick, onHide, onClickOutside ?? _doNothing, interactiveBorder, trigger, zIndex);
+                H5.Script.Write("tippy({0}, { content: {1}, interactive: true, interactiveBorder: 8, placement: {2}, appendTo: {3}, maxWidth: {4}, onHidden: {5}, delay: [{6},{7}], arrow: {8}, theme: {9}, hideOnClick: {10}, onHide: {11}, onClickOutside: {12} });",
+                                        element, renderedTooltip, placement.ToString(), appendTo.As<object>(), maxWidth, onHiddenInternal, delayShow, delayHide, arrow, theme, hideOnClick, onHide, onClickOutside ?? _doNothing);
             }
             else
             {
-                H5.Script.Write("tippy({0}, { content: {1}, interactive: true, interactiveBorder: {14}, trigger: {15}, zIndex: {16}, placement: {2}, animation: {3},  appendTo: {4}, maxWidth: {5}, onHidden: {6}, delay: [{7},{8}], arrow: {9}, theme: {10}, hideOnClick : {11}, onHide: {12}, onClickOutside: {13} });",
-                                        element, renderedTooltip, placement.ToString(), animation.ToString(), appendTo.As<object>(), maxWidth, onHiddenInternal, delayShow, delayHide, arrow, theme, hideOnClick, onHide, onClickOutside ?? _doNothing, interactiveBorder, trigger, zIndex);
+                H5.Script.Write("tippy({0}, { content: {1}, interactive: true, interactiveBorder: 8, placement: {2}, animation: {3},  appendTo: {4}, maxWidth: {5}, onHidden: {6}, delay: [{7},{8}], arrow: {9}, theme: {10}, hideOnClick : {11}, onHide: {12}, onClickOutside: {13} });", 
+                                        element, renderedTooltip, placement.ToString(), animation.ToString(), appendTo.As<object>(), maxWidth, onHiddenInternal, delayShow, delayHide, arrow, theme, hideOnClick, onHide, onClickOutside ?? _doNothing);
             }
 
             H5.Script.Write("{0}._tippy.show();", element);
@@ -208,16 +141,7 @@ namespace Tesserae
             return placement;
         }
 
-        /// <summary>
-        /// Shows a Tippy popover anchored to the given host element/component with the supplied content and configuration. Returns a delegate that can be invoked to hide the popover programmatically.
-        /// </summary>
-        /// <param name="manualTrigger">
-        /// When <c>true</c>, the popover uses a manual trigger and Tippy installs no automatic show/hide listeners.
-        /// In particular this disables the default mouseleave-hide on the anchor, which is the correct behaviour for
-        /// imperatively-shown popovers (menus, comboboxes, etc.) where the user needs to be able to traverse the gap
-        /// between the anchor and the popover surface without it closing under them.
-        /// </param>
-        public static void ShowFor(HTMLElement hostElement, HTMLElement tooltip, out Action hide, TooltipAnimation animation = TooltipAnimation.None, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 0, int delayHide = 0, int maxWidth = 350, bool arrow = false, string theme = null, bool hideOnClick = true, Action onHiddenCallback = null, Func<bool> onHide = null, Action<TippyInstance, MouseEvent> onClickOutside = null, bool manualTrigger = false, int interactiveBorder = 8)
+        public static void ShowFor(HTMLElement hostElement, HTMLElement tooltip, out Action hide, TooltipAnimation animation = TooltipAnimation.None, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 0, int delayHide = 0, int maxWidth = 350, bool arrow = false, string theme = null, bool hideOnClick = true, Action onHiddenCallback = null, Func<bool> onHide = null, Action<TippyInstance, MouseEvent> onClickOutside = null)
         {
             if (!hostElement.IsMounted())
             {
@@ -250,22 +174,15 @@ namespace Tesserae
 
             placement = CheckDeadZone(placement, hostElement);
 
-            var trigger = manualTrigger ? "manual" : "mouseenter focus";
-            // Stack the Tippy popper into the application z-index lane so it always sits above any
-            // currently-visible Layer (and so any Layer opened from inside it ends up above the
-            // popper in turn — Layers.CurrentZIndex() now reads [data-tippy-root] back). Fall back
-            // to Tippy's hard-coded default of 9999 if Layers.AboveCurrent() can't be parsed.
-            if (!int.TryParse(Layers.AboveCurrent(), out var zIndex)) zIndex = 9999;
-
             if (animation == TooltipAnimation.None)
             {
-                H5.Script.Write("tippy({0}, { content: {1}, interactive: true, interactiveBorder: {13}, trigger: {14}, zIndex: {15}, placement: {2}, appendTo: {3}, maxWidth: {4}, onHidden: {5}, delay: [{6},{7}], arrow: {8}, theme: {9}, hideOnClick: {10}, onHide: {11}, onClickOutside: {12} });",
-                                hostElement, tooltip, placement.ToString(), appendTo.As<object>(), maxWidth, onHiddenInternal, delayShow, delayHide, arrow, theme, hideOnClick, onHide, onClickOutside ?? _doNothing, interactiveBorder, trigger, zIndex);
+                H5.Script.Write("tippy({0}, { content: {1}, interactive: true, interactiveBorder: 8, placement: {2}, appendTo: {3}, maxWidth: {4}, onHidden: {5}, delay: [{6},{7}], arrow: {8}, theme: {9}, hideOnClick: {10}, onHide: {11}, onClickOutside: {12} });",
+                                hostElement, tooltip, placement.ToString(), appendTo.As<object>(), maxWidth, onHiddenInternal, delayShow, delayHide, arrow, theme, hideOnClick, onHide, onClickOutside ?? _doNothing);
             }
             else
             {
-                H5.Script.Write("tippy({0}, { content: {1}, interactive: true, interactiveBorder: {14}, trigger: {15}, zIndex: {16}, placement: {2}, animation: {3},  appendTo: {4}, maxWidth: {5}, onHidden: {6}, delay: [{7},{8}], arrow: {9}, theme: {10}, hideOnClick : {11}, onHide: {12}, onClickOutside: {13} });",
-                                hostElement, tooltip, placement.ToString(), animation.ToString(), appendTo.As<object>(), maxWidth, onHiddenInternal, delayShow, delayHide, arrow, theme, hideOnClick, onHide, onClickOutside ?? _doNothing, interactiveBorder, trigger, zIndex);
+                H5.Script.Write("tippy({0}, { content: {1}, interactive: true, interactiveBorder: 8, placement: {2}, animation: {3},  appendTo: {4}, maxWidth: {5}, onHidden: {6}, delay: [{7},{8}], arrow: {9}, theme: {10}, hideOnClick : {11}, onHide: {12}, onClickOutside: {13} });", 
+                                hostElement, tooltip, placement.ToString(), animation.ToString(), appendTo.As<object>(), maxWidth, onHiddenInternal, delayShow, delayHide, arrow, theme, hideOnClick, onHide, onClickOutside ?? _doNothing);
             }
 
             H5.Script.Write("{0}._tippy.show();", hostElement);
@@ -277,32 +194,9 @@ namespace Tesserae
             });
         }
 
-        /// <summary>
-        /// Hides every currently visible Tippy instance in the document <strong>except</strong>
-        /// those configured with <c>trigger: 'manual'</c>.
-        /// </summary>
-        /// <remarks>
-        /// Manual-trigger Tippy instances are imperatively-managed popovers — the new
-        /// <see cref="Popover"/> / <see cref="Menu"/> surfaces, plus the existing TreeCommand /
-        /// SidebarCommand / Teaching menus that call <see cref="ShowFor(HTMLElement, HTMLElement, out Action, TooltipAnimation, TooltipPlacement, int, int, int, bool, string, bool, Action, Func{bool}, Action{TippyInstance, MouseEvent}, bool, int)"/>
-        /// with <c>manualTrigger: true</c>. Those should stay open when an unrelated layer opens
-        /// (otherwise nesting a layer-based control like <see cref="Dropdown"/> inside a popover would
-        /// instantly destroy the popover). Hover-shown tooltips, by contrast, are exactly what this
-        /// method is meant to clean up.
-        /// </remarks>
         public static void HideAll()
         {
-            // Find every visible popper (each Tippy popper is rendered as a root element bearing
-            // data-tippy-root, with the instance attached via the _tippy property), and hide it
-            // unless the instance was created with trigger: 'manual'.
-            H5.Script.Write(@"
-                document.querySelectorAll('[data-tippy-root]').forEach(function(root) {
-                    var inst = root._tippy;
-                    if (!inst || !inst.props) return;
-                    if (inst.props.trigger === 'manual') return;
-                    inst.hide();
-                });
-            ");
+            H5.Script.Write("tippy.hideAll()");
         }
 
         internal static void CheckRepositionNeeded(HTMLElement container)

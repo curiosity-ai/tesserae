@@ -14,9 +14,6 @@ namespace Tesserae
     [H5.Name("tss.OS")]
     public class ObservableStack : IComponent, IHasBackgroundColor, IHasMarginPadding, ISpecialCaseStyling, ICanWrap
     {
-        /// <summary>
-        /// Gets or sets the stack orientation.
-        /// </summary>
         public Orientation StackOrientation
         {
             get
@@ -51,49 +48,25 @@ namespace Tesserae
             }
         }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether the component's text can wrap onto multiple lines.
-        /// </summary>
         public bool CanWrap
         {
             get => InnerElement.style.flexWrap != "nowrap";
             set => InnerElement.style.flexWrap = value ? "wrap" : "nowrap";
         }
 
-        /// <summary>
-        /// Returns a value indicating whether the component is inline.
-        /// </summary>
         public bool IsInline
         {
             get => InnerElement.style.display == "inline-flex";
             set => InnerElement.style.display = value ? "inline-flex" : "";
         }
 
-        /// <summary>
-        /// Gets the underlying DOM element backing this component.
-        /// </summary>
         public HTMLElement InnerElement { get;                                  private set; }
-        /// <summary>
-        /// Gets or sets the CSS background of the component.
-        /// </summary>
         public string      Background   { get => InnerElement.style.background; set => InnerElement.style.background = value; }
-        /// <summary>
-        /// Gets or sets the CSS margin of the component.
-        /// </summary>
         public string      Margin       { get => InnerElement.style.margin;     set => InnerElement.style.margin = value; }
-        /// <summary>
-        /// Gets or sets the CSS padding of the component.
-        /// </summary>
         public string      Padding      { get => InnerElement.style.padding;    set => InnerElement.style.padding = value; }
 
-        /// <summary>
-        /// Gets or sets the styling container.
-        /// </summary>
         public HTMLElement StylingContainer => InnerElement;
 
-        /// <summary>
-        /// Gets or sets the propagate to stack item parent.
-        /// </summary>
         public bool PropagateToStackItemParent { get; private set; } = true;
 
 
@@ -168,9 +141,6 @@ namespace Tesserae
             return this;
         }
 
-        /// <summary>
-        /// Removes the given propagation from the component.
-        /// </summary>
         public ObservableStack RemovePropagation()
         {
             PropagateToStackItemParent = false;
@@ -181,21 +151,9 @@ namespace Tesserae
 
         private class ExistingStackElement
         {
-            /// <summary>
-            /// Gets or sets the identifier.
-            /// </summary>
             public string      Identifier      { get; set; }
-            /// <summary>
-            /// Gets or sets the content hash.
-            /// </summary>
             public string      ContentHash     { get; set; }
-            /// <summary>
-            /// Gets or sets the rendered element.
-            /// </summary>
             public HTMLElement RenderedElement { get; set; }
-            /// <summary>
-            /// Gets or sets the index.
-            /// </summary>
             public int         Index           { get; set; }
         }
 
@@ -295,9 +253,6 @@ namespace Tesserae
                 }
             }
         }
-        /// <summary>
-        /// Initializes a new instance of this class.
-        /// </summary>
         public ObservableStack(ObservableList<IComponentWithID> observableList, Orientation orientation = Orientation.Vertical, bool debounce = true)
         {
             InnerElement     = Div(_("tss-stack"));
@@ -331,9 +286,6 @@ namespace Tesserae
         private void RaiseMouseOver(Event ev) => MouseOver?.Invoke((ObservableStack)this, ev);
         private void RaiseMouseOut(Event  ev) => MouseOut?.Invoke((ObservableStack)this, ev);
 
-        /// <summary>
-        /// Registers a callback invoked when the mouse over event fires.
-        /// </summary>
         public ObservableStack OnMouseOver(ComponentEventHandler<ObservableStack, Event> onMouseOver)
         {
             if (!(InnerElement.onmouseover is object))
@@ -345,9 +297,6 @@ namespace Tesserae
             return (ObservableStack)this;
         }
 
-        /// <summary>
-        /// Registers a callback invoked when the mouse out event fires.
-        /// </summary>
         public ObservableStack OnMouseOut(ComponentEventHandler<ObservableStack, Event> onMouseOut)
         {
             if (!(InnerElement.onmouseout is object))
@@ -360,90 +309,57 @@ namespace Tesserae
         }
 
 
-        /// <summary>
-        /// Clears the component's current state.
-        /// </summary>
         public virtual void Clear() => ClearChildren(InnerElement);
 
-        /// <summary>
-        /// Renders the component's root HTML element.
-        /// </summary>
         public virtual HTMLElement Render() => InnerElement;
 
-        /// <summary>
-        /// Configures the component to horizontal.
-        /// </summary>
         public ObservableStack Horizontal()
         {
             StackOrientation = Stack.Orientation.Horizontal;
             return this;
         }
 
-        /// <summary>
-        /// Configures the component to vertical.
-        /// </summary>
         public ObservableStack Vertical()
         {
             StackOrientation = Stack.Orientation.Vertical;
             return this;
         }
 
-        /// <summary>
-        /// Configures the horizontal reverse on the component.
-        /// </summary>
         public ObservableStack HorizontalReverse()
         {
             StackOrientation = Stack.Orientation.HorizontalReverse;
             return this;
         }
 
-        /// <summary>
-        /// Configures the vertical reverse on the component.
-        /// </summary>
         public ObservableStack VerticalReverse()
         {
             StackOrientation = Stack.Orientation.VerticalReverse;
             return this;
         }
 
-        /// <summary>
-        /// Allows the component's content to wrap onto multiple lines.
-        /// </summary>
         public ObservableStack Wrap()
         {
             CanWrap = true;
             return this;
         }
 
-        /// <summary>
-        /// Renders the component inline.
-        /// </summary>
         public ObservableStack Inline()
         {
             IsInline = true;
             return this;
         }
 
-        /// <summary>
-        /// Removes / disables the wrap on the component.
-        /// </summary>
         public ObservableStack NoWrap()
         {
             CanWrap = false;
             return this;
         }
 
-        /// <summary>
-        /// Hides any content that overflows the component's bounds.
-        /// </summary>
         public ObservableStack OverflowHidden()
         {
             InnerElement.style.overflow = "hidden";
             return this;
         }
-        /// <summary>
-        /// Removes / disables the default margin on the component.
-        /// </summary>
         public ObservableStack NoDefaultMargin()
         {
             InnerElement.classList.add("tss-default-component-no-margin");
@@ -564,9 +480,6 @@ namespace Tesserae
 
         private static readonly string[] _stylesToPropagate = new[] { "tss-default-component-margin", "tss-collapse", "tss-fade-light", "tss-fade", "tss-show" };
 
-        /// <summary>
-        /// Configures the component to skeleton.
-        /// </summary>
         public IComponent Skeleton(bool enabled = true)
         {
             if (enabled)

@@ -374,12 +374,12 @@ namespace Tesserae
 
 
         /// <summary>Fades out the component.</summary>
-        public static T Fade<T>(this T component) where T : IComponent                            => Fade(component, (Action)null);
+        public static T Fade<T>(this T component) where T : IComponent                            => Fade(component, () => { });
         /// <summary>Fades out the component and executes a task afterwards.</summary>
-        public static T Fade<T>(this T component, Func<Task> andThen) where T : IComponent => Fade(component, () => andThen.Invoke().FireAndForget());
+        public static T Fade<T>(this T component, Func<Task> andThen = null) where T : IComponent => Fade(component, andThen is object ? (Action)(() => andThen.Invoke().FireAndForget()) : null);
 
         /// <summary>Fades out the component and executes an action afterwards.</summary>
-        public static T Fade<T>(this T component, Action andThen) where T : IComponent
+        public static T Fade<T>(this T component, Action andThen = null) where T : IComponent
         {
             var (el, _) = Stack.GetCorrectItemToApplyStyle(component);
             el          = TryGetParentStackItem(el);
@@ -663,10 +663,6 @@ namespace Tesserae
         /// <summary>PaddingBottom</summary>
         public static T PB<T>(this T component, int pixels) where T : IComponent => PaddingBottom(component, pixels.px());
 
-        /// <summary>
-        /// Scrolls the component's rendered element into the visible area of its scrollable ancestor.
-        /// Prefers <c>scrollIntoViewIfNeeded</c> when available, falling back to <c>scrollIntoView</c> otherwise.
-        /// </summary>
         public static T ScrollIntoView<T>(this T component) where T : IComponent
         {
             var rendered = component.Render();

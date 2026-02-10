@@ -9,36 +9,74 @@ namespace Tesserae
     [H5.Name("tss.domObs")]
     public static class DomObserver
     {
-        // Marker attributes let us locate tracked elements in an added / removed subtree with
-        // a single native querySelectorAll call instead of walking every tracked entry per
-        // mutation. With many registrations (virtualized lists, deferred components, ...) this
-        // turns an O(addedNodes * trackedEntries * treeDepth) hot path into O(addedNodes + matches).
-        private const string MountAttr       = "data-tss-mount-pending";
-        private const string UnmountAttr     = "data-tss-unmount-pending";
-        private const string MountSelector   = "[data-tss-mount-pending]";
-        private const string UnmountSelector = "[data-tss-unmount-pending]";
-
-        private static readonly List<ElementAndCallback> _elementsToTrackMountingOf;
-        private static readonly List<ElementAndCallback> _elementsToTrackRemovalOf;
-        private static readonly MutationObserver         _observer;
-        private static bool                              _isObserving;
+        private static List<ElementAndCallback> _elementsToTrackMountingOf;
+        private static List<ElementAndCallback> _elementsToTrackRemovalOf;
 
         private class ElementAndCallback
         {
-            // WeakRef is available in every evergreen browser (Chrome 84+, Firefox 79+,
-            // Safari 14.1+), so we use it unconditionally. The callback is parked on the
-            // element itself so that it survives as long as the element does (and gets
-            // collected with it) without us holding a strong reference here.
-            public HTMLElement ElementOrNullIfCollected  => Script.Write<HTMLElement>("{0}.ref.deref()",         this);
-            public Action      CallbackOrNullIfCollected => Script.Write<Action>     ("{0}.callbackref.deref()", this);
-
-            public ElementAndCallback(HTMLElement element, Action callback, string callbackBag)
+            private static bool? _weakrefAvailable;
+            private static int   _count;
+            private static bool IsAvailable()
             {
-                // Park the callback on the element via an array bag so multiple registrations
-                // on the same element don't accumulate ever-growing property names.
-                Script.Write("var bag = {0}[{2}]; if (!bag) { bag = []; {0}[{2}] = bag; } bag.push({1});", element, callback, callbackBag);
-                Script.Write("{0}.ref = new WeakRef({1})",         this, element);
-                Script.Write("{0}.callbackref = new WeakRef({1})", this, callback);
+                if (_weakrefAvailable.HasValue) return _weakrefAvailable.Value;
+
+                try
+                {
+                    Script.Write("let ref = new WeakRef({0})", new object());
+                    _weakrefAvailable = true;
+                }
+                catch
+                {
+                    _weakrefAvailable = false;
+                }
+
+                return _weakrefAvailable.Value;
+            }
+
+            public HTMLElement ElementOrNullIfCollected => dereference();
+
+            private HTMLElement dereference()
+            {
+                if (IsAvailable())
+                {
+                    return Script.Write<HTMLElement>("{0}.ref.deref()", this);
+                }
+                else
+                {
+                    return Script.Write<HTMLElement>("{0}.ref", this);
+                }
+            }
+
+            public Action CallbackOrNullIfCollected => dereferenceCallback();
+
+            private Action dereferenceCallback()
+            {
+                if (IsAvailable())
+                {
+                    return Script.Write<Action>("{0}.callbackref.deref()", this);
+                }
+                else
+                {
+                    return Script.Write<Action>("{0}.callbackref", this);
+                }
+            }
+
+            public ElementAndCallback(HTMLElement element, Action callback)
+            {
+                if (IsAvailable())
+                {
+                    _count++;
+
+                    if (_count < 0) { _count = 0; }
+                    Script.Write("{0}['callbackRefN' + {2}] = {1}",    element, callback, _count); //We need to store the callback reference on the object otherwise it can be collected before the element
+                    Script.Write("{0}.ref = new WeakRef({1})",         this,    element);
+                    Script.Write("{0}.callbackref = new WeakRef({1})", this,    callback);
+                }
+                else
+                {
+                    Script.Write("{0}.ref = {1}",         this, element);
+                    Script.Write("{0}.callbackref = {1}", this, callback);
+                }
             }
         }
 
@@ -47,38 +85,20 @@ namespace Tesserae
             _elementsToTrackMountingOf = new List<ElementAndCallback>();
             _elementsToTrackRemovalOf  = new List<ElementAndCallback>();
 
-            _observer = new MutationObserver((mutationRecords, _) =>
+            var observer = new MutationObserver((mutationRecords, _) =>
             {
                 //First check all unmounted rules as they might modify the dom, then the mounted ones
                 CheckUnmounted(mutationRecords);
                 CheckMounted(mutationRecords);
-                StopObservingIfNothingToTrack();
             });
-        }
 
-        // The MutationObserver receives every childList change on document.body. When
-        // nothing is tracked, that's wasted work, so we start the observer lazily and
-        // stop it as soon as both tracking lists drain.
-        private static void StartObservingIfNeeded()
-        {
-            if (_isObserving) return;
-            _observer.observe(document.body, new MutationObserverInit { childList = true, subtree = true });
-            _isObserving = true;
-        }
-
-        private static void StopObservingIfNothingToTrack()
-        {
-            if (!_isObserving) return;
-            if (_elementsToTrackMountingOf.Count > 0 || _elementsToTrackRemovalOf.Count > 0) return;
-            _observer.disconnect();
-            _isObserving = false;
+            observer.observe(document.body, new MutationObserverInit { childList = true, subtree = true });
         }
 
         public static void CleanUnusedReferences()
         {
             _elementsToTrackMountingOf.RemoveAll(e => e.ElementOrNullIfCollected is null);
             _elementsToTrackRemovalOf.RemoveAll(e => e.ElementOrNullIfCollected is null);
-            StopObservingIfNothingToTrack();
         }
 
         private static void CheckMounted(MutationRecord[] mutationRecords)
@@ -86,83 +106,43 @@ namespace Tesserae
             if (_elementsToTrackMountingOf.Count == 0)
                 return;
 
-            HashSet<HTMLElement> matchedElements = null;
+            var elementsMountedThatWeCareAbout = new List<ElementAndCallback>();
 
             foreach (var mutationRecord in mutationRecords)
             {
-                var addedNodes = mutationRecord.addedNodes;
-                if (addedNodes.length == 0) continue;
-
-                foreach (var addedNode in addedNodes)
+                foreach (var mountedElement in mutationRecord.addedNodes)
                 {
-                    // addedNodes can include Text / Comment nodes - we only care about elements
-                    // (and only elements can carry attributes or have descendants to query).
-                    if (Script.Write<bool>("{0}.nodeType !== 1", addedNode)) continue;
-
-                    var addedElement = addedNode.As<HTMLElement>();
-
-                    if (addedElement.hasAttribute(MountAttr))
+                    foreach (var elementToTrackMountingOf in _elementsToTrackMountingOf)
                     {
-                        if (matchedElements is null) matchedElements = new HashSet<HTMLElement>();
-                        matchedElements.Add(addedElement);
-                    }
+                        var element = elementToTrackMountingOf.ElementOrNullIfCollected;
 
-                    // Native querySelectorAll on the added subtree is significantly faster than
-                    // iterating every tracked entry and calling contains() for each one.
-                    var descendants = addedElement.querySelectorAll(MountSelector);
-                    var len = descendants.length;
-                    if (len == 0) continue;
-
-                    if (matchedElements is null) matchedElements = new HashSet<HTMLElement>();
-                    for (uint i = 0; i < len; i++)
-                    {
-                        matchedElements.Add(descendants[i].As<HTMLElement>());
+                        if (element is object && element.IsEqualToOrIsChildOf(mountedElement))
+                        {
+                            elementsMountedThatWeCareAbout.Add(elementToTrackMountingOf);
+                        }
                     }
                 }
             }
+            if (elementsMountedThatWeCareAbout.Count == 0) return;
 
-            if (matchedElements is null) return;
-
-            // Clear the markers up front so a callback that re-registers the same element doesn't
-            // see the stale marker and skip adding a fresh attribute.
-            foreach (var el in matchedElements)
-            {
-                el.removeAttribute(MountAttr);
-            }
-
-            // Single pass: drop dead refs, capture matches, leave non-matches alone.
-            List<ElementAndCallback> toFire = null;
-            _elementsToTrackMountingOf.RemoveAll(entry =>
-            {
-                var element = entry.ElementOrNullIfCollected;
-
-                if (element is null || entry.CallbackOrNullIfCollected is null)
-                    return true;
-
-                if (matchedElements.Contains(element))
-                {
-                    if (toFire is null) toFire = new List<ElementAndCallback>();
-                    toFire.Add(entry);
-                    return true;
-                }
-
-                return false;
-            });
-
-            if (toFire is null) return;
+            _elementsToTrackMountingOf = _elementsToTrackMountingOf.Except(elementsMountedThatWeCareAbout).Where(e => e.ElementOrNullIfCollected is object && e.CallbackOrNullIfCollected is object).ToList();
 
             window.requestAnimationFrame(_ =>
             {
-                foreach (var entry in toFire)
+                foreach (var entry in elementsMountedThatWeCareAbout)
                 {
                     var element = entry.ElementOrNullIfCollected;
 
-                    if (element is null) continue;
+                    if (element is object)
+                    {
+                        if (!element.IsMounted())
+                        {
+                            // Ensure that the element wasn't removed from the DOM while we were waiting for the next animation frame
+                            continue;
+                        }
 
-                    // The element may have been re-removed between the mutation firing and rAF.
-                    if (!element.IsMounted()) continue;
-
-                    entry.CallbackOrNullIfCollected?.Invoke();
+                        entry.CallbackOrNullIfCollected?.Invoke();
+                    }
                 }
             });
         }
@@ -172,81 +152,63 @@ namespace Tesserae
             if (_elementsToTrackRemovalOf.Count == 0)
                 return;
 
-            HashSet<HTMLElement> matchedElements = null;
+            var elementsRemovedThatWeCareAbout = new List<ElementAndCallback>();
 
             foreach (var mutationRecord in mutationRecords)
             {
-                var removedNodes = mutationRecord.removedNodes;
-                if (removedNodes.length == 0) continue;
-
-                foreach (var removedNode in removedNodes)
+                foreach (var removedElement in mutationRecord.removedNodes)
                 {
-                    if (Script.Write<bool>("{0}.nodeType !== 1", removedNode)) continue;
+                    // 2019-10-28 DWR: The intent behind the NotifyWhenRemoved method is to fire a callback when an element is removed from the document, so that any related tidy-up / disposal
+                    // may be performed. However, this will also be fired if an element (or one of its ancestors) is RE-rendered somewhere and that's not really what we want, so if the element
+                    // that has been identified as being "removed" is actually still part of a branch that reaches back up to the html element then don't consider it removed.
 
-                    var removedElement = removedNode.As<HTMLElement>();
+                    var highestAncestorElementIfAny = removedElement.parentElement;
 
-                    // 2019-10-28 DWR: NotifyWhenRemoved should only fire when an element is actually gone from
-                    // the document, not when it's been re-rendered elsewhere. isConnected is the native O(1)
-                    // version of the "walk up to <html>" check we used to do.
-                    if (removedElement.isConnected) continue;
-
-                    if (removedElement.hasAttribute(UnmountAttr))
+                    while (highestAncestorElementIfAny?.parentElement != null)
                     {
-                        if (matchedElements is null) matchedElements = new HashSet<HTMLElement>();
-                        matchedElements.Add(removedElement);
+                        highestAncestorElementIfAny = highestAncestorElementIfAny.parentElement;
                     }
 
-                    var descendants = removedElement.querySelectorAll(UnmountSelector);
-                    var len = descendants.length;
-                    if (len == 0) continue;
-
-                    if (matchedElements is null) matchedElements = new HashSet<HTMLElement>();
-                    for (uint i = 0; i < len; i++)
+                    if ((highestAncestorElementIfAny != null) && highestAncestorElementIfAny.tagName.Equals("HTML", StringComparison.OrdinalIgnoreCase))
                     {
-                        matchedElements.Add(descendants[i].As<HTMLElement>());
+                        continue;
+                    }
+
+                    foreach (var elementToTrackRemovalOf in _elementsToTrackRemovalOf)
+                    {
+                        var element = elementToTrackRemovalOf.ElementOrNullIfCollected;
+
+                        if (element is object && element.IsEqualToOrIsChildOf(removedElement))
+                        {
+                            elementsRemovedThatWeCareAbout.Add(elementToTrackRemovalOf);
+                        }
                     }
                 }
             }
 
-            if (matchedElements is null) return;
-
-            foreach (var el in matchedElements)
+            if (elementsRemovedThatWeCareAbout.Count == 0)
             {
-                el.removeAttribute(UnmountAttr);
+                return;
             }
 
-            List<ElementAndCallback> toFire = null;
-            _elementsToTrackRemovalOf.RemoveAll(entry =>
-            {
-                var element = entry.ElementOrNullIfCollected;
-
-                if (element is null || entry.CallbackOrNullIfCollected is null)
-                    return true;
-
-                if (matchedElements.Contains(element))
-                {
-                    if (toFire is null) toFire = new List<ElementAndCallback>();
-                    toFire.Add(entry);
-                    return true;
-                }
-
-                return false;
-            });
-
-            if (toFire is null) return;
+            _elementsToTrackRemovalOf = _elementsToTrackRemovalOf.Except(elementsRemovedThatWeCareAbout).Where(e => e.ElementOrNullIfCollected is object && e.CallbackOrNullIfCollected is object).ToList();
 
             window.requestAnimationFrame(_ =>
             {
-                foreach (var entry in toFire)
+                foreach (var entry in elementsRemovedThatWeCareAbout)
                 {
                     var element = entry.ElementOrNullIfCollected;
 
-                    if (element is null) continue;
+                    if (element is object)
+                    {
+                        if (element.IsMounted())
+                        {
+                            // Ensure that the element wasn't re-added to the DOM while we were waiting for the next animation frame
+                            continue;
+                        }
 
-                    // The element may have been re-added between the mutation firing and rAF.
-                    if (element.IsMounted()) continue;
-
-                    entry.CallbackOrNullIfCollected?.Invoke();
+                        entry.CallbackOrNullIfCollected?.Invoke();
+                    }
                 }
             });
         }
@@ -270,12 +232,11 @@ namespace Tesserae
             if (element.IsMounted())
             {
                 callback();
-                return;
             }
-
-            element.setAttribute(MountAttr, "");
-            _elementsToTrackMountingOf.Add(new ElementAndCallback(element, callback, "__tssMountCBs"));
-            StartObservingIfNeeded();
+            else
+            {
+                _elementsToTrackMountingOf.Add(new ElementAndCallback(element, callback));
+            }
         }
 
         /// <summary>
@@ -296,9 +257,7 @@ namespace Tesserae
             // already been removed), similar to the check in WhenMounted - however, this doesn't work with a common pattern that we use where we want to register a WhenRemoved callback for
             // an element before its initial render / adding-to-the-DOM and so that check has had to be removed (as, in that case, the element would not be mounted because it hasn't been
             // added yet, not because it WAS added to the DOM and had already been removed again)
-            element.setAttribute(UnmountAttr, "");
-            _elementsToTrackRemovalOf.Add(new ElementAndCallback(element, callback, "__tssUnmountCBs"));
-            StartObservingIfNeeded();
+            _elementsToTrackRemovalOf.Add(new ElementAndCallback(element, callback));
         }
     }
 }

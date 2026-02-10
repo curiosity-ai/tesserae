@@ -14,16 +14,16 @@ namespace Tesserae.Tests.Samples
 
         public PivotSample()
         {
-            content = SectionStack().Secondary()
-               .SampleTitle(typeof(PivotSample), UIcons.Apps, "A navigation pivot")
-               .FlatSection(Stack().Children(
-                    Card(VStack().WS().Children(
-                    TextBlock("Pivots are used for navigating between different views or categories of content within the same context. They provide a compact way to switch between related data sets, such as different tabs in a settings page or different views of a list."))).SetTitle("Overview")))
-               .FlatSection(Stack().Children(
-                    Card(VStack().WS().Children(
-                    TextBlock("Use Pivots to organize content into logical categories. Keep labels short and descriptive. Ensure that the most frequently used views are placed first. Utilize the 'Justified' or 'Centered' styles when the pivot should span the full width of its container. Use the 'Cached' option to preserve the state of a tab's content when switching away."))).SetTitle("Best Practices")))
-               .FlatSection(Stack().Children(
-                    Card(VStack().WS().Children(
+            content = SectionStack()
+               .Title(SampleHeader(nameof(PivotSample)))
+               .Section(Stack().Children(
+                    SampleTitle("Overview"),
+                    TextBlock("Pivots are used for navigating between different views or categories of content within the same context. They provide a compact way to switch between related data sets, such as different tabs in a settings page or different views of a list.")))
+               .Section(Stack().Children(
+                    SampleTitle("Best Practices"),
+                    TextBlock("Use Pivots to organize content into logical categories. Keep labels short and descriptive. Ensure that the most frequently used views are placed first. Utilize the 'Justified' or 'Centered' styles when the pivot should span the full width of its container. Use the 'Cached' option to preserve the state of a tab's content when switching away.")))
+               .Section(Stack().Children(
+                    SampleTitle("Usage"),
                     SampleSubTitle("Normal Style"),
                     GetPivot(),
                     SampleSubTitle("Justified Style"),
@@ -51,29 +51,8 @@ namespace Tesserae.Tests.Samples
                        .Pivot("tab6", PivotTitle("Tab 6"), () => ItemsList(GetSomeItems(5)).PB(16), cached: true)
                        .Pivot("tab7", PivotTitle("Tab 7"), () => ItemsList(GetSomeItems(5)).PB(16), cached: true)
                        .Pivot("tab8", PivotTitle("Tab 8"), () => ItemsList(GetSomeItems(5)).PB(16), cached: true))
-                    .Right(TextBlock("👈 resize this area to scroll the tab strip — use the chevrons, the mouse wheel, or arrow / Home / End keys, and click the ⋯ button for an All Tabs menu").WS().BreakSpaces()),
-                    SampleSubTitle("Many Tabs with Long Titles"),
-                    GetManyTabsPivot()
-                )).SetTitle("Usage")));
-        }
-
-        private Pivot GetManyTabsPivot()
-        {
-            var titles = new[]
-            {
-                "Project Overview", "Recent Activity", "Pull Requests", "Code Review",
-                "Build Pipelines", "Test Results", "Deployments", "Issue Tracker",
-                "Documentation", "Team Members", "Performance Metrics", "Security Audits",
-                "Release Notes", "Settings & Preferences", "Integrations", "Audit Log"
-            };
-            var pivot = Pivot().H(220);
-            for (int i = 0; i < titles.Length; i++)
-            {
-                var idx = i;
-                pivot = pivot.Pivot($"many-{idx}", PivotTitle(titles[idx]),
-                                    () => TextBlock($"Content for: {titles[idx]}").P(16), cached: true);
-            }
-            return pivot;
+                    .Right(TextBlock("👈 resize this area to see the overflow adjusting which tabs to show").WS().BreakSpaces())
+                ));
         }
 
         private Pivot GetPivot()

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 namespace Tesserae.Tests
 {
@@ -20,15 +19,6 @@ namespace Tesserae.Tests
             Order            = order;
             Icon             = icon;
             ContentGenerator = contentGenerator;
-        }
-
-        public static string FormatSampleName(Type sampleType)
-        {
-            return FormatSampleName(sampleType.Name);
-        }
-        public static string FormatSampleName(string sampleType)
-        {
-            return string.Join("", sampleType.Replace("Sample", "").Select(c => char.IsUpper(c) ? " " + c : "" + c)).Trim().Replace("U Icons", "UIcons").Replace(" And ", " and ");
         }
     }
 }

@@ -7,10 +7,6 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
-    /// <summary>
-    /// A list that lazily loads additional items as the user scrolls toward the bottom, suitable for very large or
-    /// unbounded result sets.
-    /// </summary>
     [H5.Name("tss.InfiniteScrollingList")]
     public sealed class InfiniteScrollingList : IComponent, ISpecialCaseStyling
     {
@@ -20,33 +16,15 @@ namespace Tesserae
         private readonly HTMLDivElement   _container;
         private          Func<IComponent> _emptyListMessageGenerator;
 
-        /// <summary>
-        /// Initializes a new instance of this class.
-        /// </summary>
         public InfiniteScrollingList(Func<IComponent[]>       getNextItemPage, params UnitSize[]  columns) : this(new IComponent[0], () => Task.FromResult<IComponent[]>(getNextItemPage()), columns) { }
-        /// <summary>
-        /// Initializes a new instance of this class.
-        /// </summary>
         public InfiniteScrollingList(IComponent[]             items,           Func<IComponent[]> getNextItemPage, params UnitSize[] columns) : this(items, () => Task.FromResult<IComponent[]>(getNextItemPage()), columns) { }
-        /// <summary>
-        /// Initializes a new instance of this class.
-        /// </summary>
         public InfiniteScrollingList(Func<Task<IComponent[]>> getNextItemPage, params UnitSize[]  columns) : this(new IComponent[0], getNextItemPage, columns) { }
 
-        /// <summary>
-        /// Gets or sets the styling container.
-        /// </summary>
         public HTMLElement StylingContainer => _container;
 
-        /// <summary>
-        /// Gets or sets the propagate to stack item parent.
-        /// </summary>
         public bool PropagateToStackItemParent => true;
 
 
-        /// <summary>
-        /// Initializes a new instance of this class.
-        /// </summary>
         public InfiniteScrollingList(IComponent[] items, Func<Task<IComponent[]>> getNextItemPage, params UnitSize[] columns)
         {
             _container = Div(_("tss-basiclist"));
@@ -148,18 +126,12 @@ namespace Tesserae
             }
         }
 
-        /// <summary>
-        /// Returns the component configured with the given empty message.
-        /// </summary>
         public InfiniteScrollingList WithEmptyMessage(Func<IComponent> emptyListMessageGenerator)
         {
             _emptyListMessageGenerator = emptyListMessageGenerator ?? throw new ArgumentNullException(nameof(emptyListMessageGenerator));
             return this;
         }
 
-        /// <summary>
-        /// Renders the component's root HTML element.
-        /// </summary>
         public HTMLElement Render()
         {
             if (_grid is object)

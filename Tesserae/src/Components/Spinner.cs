@@ -34,7 +34,6 @@ namespace Tesserae
         {
             InnerElement.classList.add("tss-spinner-success");
             InnerElement.classList.remove("tss-spinner-danger");
-            InnerElement.style.removeProperty("--tss-spinner-color");
             return this;
         }
 
@@ -46,7 +45,6 @@ namespace Tesserae
         {
             InnerElement.classList.add("tss-spinner-danger");
             InnerElement.classList.remove("tss-spinner-success");
-            InnerElement.style.removeProperty("--tss-spinner-color");
             return this;
         }
 
@@ -56,18 +54,6 @@ namespace Tesserae
         /// <returns>The current instance.</returns>
         public Spinner Primary()
         {
-            InnerElement.classList.remove("tss-spinner-success");
-            InnerElement.classList.remove("tss-spinner-danger");
-            InnerElement.style.removeProperty("--tss-spinner-color");
-            return this;
-        }
-
-        /// <summary>
-        /// Configures the custom color on the component.
-        /// </summary>
-        public Spinner CustomColor(string color)
-        {
-            InnerElement.style.setProperty("--tss-spinner-color", color);
             InnerElement.classList.remove("tss-spinner-success");
             InnerElement.classList.remove("tss-spinner-danger");
             return this;
@@ -118,43 +104,6 @@ namespace Tesserae
         {
             get => _label.innerText;
             set => _label.innerText = value;
-        }
-
-        /// <summary>
-        /// Sets the progress position (between 0 and total).
-        /// </summary>
-        /// <param name="position">The current position.</param>
-        /// <param name="total">The total amount.</param>
-        /// <returns>The current instance.</returns>
-        public Spinner Progress(int position, int total) => Progress(100f * position / total);
-
-        /// <summary>
-        /// Sets the progress percentage (between 0 and 100).
-        /// </summary>
-        /// <param name="percent">The percentage.</param>
-        /// <returns>The current instance.</returns>
-        public Spinner Progress(float percent)
-        {
-            if (!InnerElement.classList.contains("tss-spinner-progress"))
-            {
-                InnerElement.classList.add("tss-spinner-progress");
-            }
-            percent = Math.Max(0f, Math.Min(100f, percent));
-            InnerElement.style.setProperty("--tss-spinner-progress", percent.ToString());
-            return this;
-        }
-
-        /// <summary>
-        /// Sets the spinner back to the normal indeterminate state.
-        /// </summary>
-        /// <returns>The current instance.</returns>
-        public Spinner Indeterminate()
-        {
-            if (InnerElement.classList.contains("tss-spinner-progress"))
-            {
-                InnerElement.classList.remove("tss-spinner-progress");
-            }
-            return this;
         }
 
         /// <summary>

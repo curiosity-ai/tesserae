@@ -51,9 +51,6 @@ namespace Tesserae
             return value;
         }
 
-        /// <summary>
-        /// Returns a string representation of this instance.
-        /// </summary>
         public override string ToString()
         {
             return string.Format("H: {0:#0.##} S: {1:#0.##} L: {2:#0.##}", Hue, Saturation, Luminosity);
@@ -187,24 +184,13 @@ namespace Tesserae
             _luminosity = hslColor._luminosity;
         }
 
-        /// <summary>
-        /// Creates an empty <see cref="HSLColor"/> at hue 0, saturation 0, luminosity 0.
-        /// </summary>
         public HSLColor() { }
-
-        /// <summary>
-        /// Creates an <see cref="HSLColor"/> from the given RGB <see cref="Color"/>.
-        /// </summary>
         public HSLColor(Color color)
         {
             _hue        = color.GetHue() / _scaleHue; // we store hue as 0-1 as opposed to 0-360
             _luminosity = color.GetBrightness();
             _saturation = color.GetSaturation();
         }
-
-        /// <summary>
-        /// Creates an <see cref="HSLColor"/> from explicit hue (0..360), saturation (0..1) and luminosity (0..1) components.
-        /// </summary>
         public HSLColor(double hue, double saturation, double luminosity)
         {
             Hue        = hue;

@@ -49,14 +49,3 @@
     border-top: 1px solid var(--tss-default-border-color);
     padding: 12px 14px;
 }
-
-.tss-expander-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    border-radius: 8px;
-    font-size: 16px;
-    flex-shrink: 0;
-}

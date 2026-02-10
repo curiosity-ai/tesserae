@@ -3,9 +3,6 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
-    /// <summary>
-    /// Predefined size presets used by the <see cref="Avatar"/> component.
-    /// </summary>
     public enum AvatarSize
     {
         XSmall,
@@ -34,9 +31,6 @@ namespace Tesserae
         private          AvatarSize       _size;
         private          AvatarPresence   _presenceState;
 
-        /// <summary>
-        /// Initializes a new instance of this class.
-        /// </summary>
         public Avatar(string image = null, string initials = null)
         {
             _image    = new HTMLImageElement();
@@ -55,49 +49,34 @@ namespace Tesserae
 
             SetImage(image);
             SetInitials(initials);
-            Size(AvatarSize.Small);
+            Size(AvatarSize.Medium);
             Presence(AvatarPresence.None);
         }
 
-        /// <summary>
-        /// Gets or sets the image url.
-        /// </summary>
         public string ImageUrl
         {
             get => _image.src;
             set => SetImage(value);
         }
 
-        /// <summary>
-        /// Gets or sets the initials.
-        /// </summary>
         public string Initials
         {
             get => _initials.innerText;
             set => SetInitials(value);
         }
 
-        /// <summary>
-        /// Gets or sets the size value.
-        /// </summary>
         public AvatarSize SizeValue
         {
             get => _size;
             set => Size(value);
         }
 
-        /// <summary>
-        /// Gets or sets the presence state.
-        /// </summary>
         public AvatarPresence PresenceState
         {
             get => _presenceState;
             set => Presence(value);
         }
 
-        /// <summary>
-        /// Sets the image of the component.
-        /// </summary>
         public Avatar SetImage(string url)
         {
             _image.src = url ?? string.Empty;
@@ -105,20 +84,13 @@ namespace Tesserae
             return this;
         }
 
-        /// <summary>
-        /// Sets the initials of the component.
-        /// </summary>
         public Avatar SetInitials(string initials)
         {
             _initials.innerText = initials ?? string.Empty;
-            InnerElement.style.background = ""; // clear so we recalculate gradient
             UpdateImageState();
             return this;
         }
 
-        /// <summary>
-        /// Gets or sets the size of the component.
-        /// </summary>
         public Avatar Size(AvatarSize size)
         {
             _size = size;
@@ -146,9 +118,6 @@ namespace Tesserae
             return this;
         }
 
-        /// <summary>
-        /// Configures the component to presence.
-        /// </summary>
         public Avatar Presence(AvatarPresence presence)
         {
             _presenceState = presence;
@@ -187,39 +156,16 @@ namespace Tesserae
             return this;
         }
 
-        /// <summary>
-        /// Gets or sets the CSS background of the component.
-        /// </summary>
         public Avatar Background(string color)
         {
             InnerElement.style.backgroundColor = color;
             return this;
         }
 
-        /// <summary>
-        /// Gets or sets the CSS color (foreground) of the component.
-        /// </summary>
         public Avatar Foreground(string color)
         {
             _initials.style.color = color;
             return this;
-        }
-
-        private static string GetGradientForInitials(string initials)
-        {
-            if (string.IsNullOrWhiteSpace(initials))
-                return "";
-
-            int hash = 0;
-            for (int i = 0; i < initials.Length; i++)
-            {
-                hash = initials[i] + ((hash << 5) - hash);
-            }
-
-            var h1 = System.Math.Abs(hash) % 360;
-            var h2 = (h1 + 40) % 360;
-
-            return $"linear-gradient(135deg, hsl({h1}, 60%, 50%), hsl({h2}, 80%, 40%))";
         }
 
         private void UpdateImageState()
@@ -228,28 +174,8 @@ namespace Tesserae
             InnerElement.UpdateClassIf(hasImage, "tss-avatar-has-image");
             _image.style.display    = hasImage ? "block" : "none";
             _initials.style.display = hasImage ? "none" : "flex";
-
-            if (!hasImage && !string.IsNullOrWhiteSpace(Initials))
-            {
-                if (string.IsNullOrEmpty(InnerElement.style.background) && string.IsNullOrEmpty(InnerElement.style.backgroundColor))
-                {
-                    InnerElement.style.background = GetGradientForInitials(Initials);
-                    _initials.style.color = "white";
-                }
-            }
-            else
-            {
-                if (!string.IsNullOrEmpty(InnerElement.style.background) && InnerElement.style.background.Contains("linear-gradient"))
-                {
-                    InnerElement.style.background = "";
-                    _initials.style.color = "";
-                }
-            }
         }
 
-        /// <summary>
-        /// Renders the component's root HTML element.
-        /// </summary>
         public override HTMLElement Render()
         {
             return InnerElement;
@@ -266,9 +192,6 @@ namespace Tesserae
         private readonly HTMLElement     _textContainer;
         private readonly HTMLElement     _avatarContainer;
 
-        /// <summary>
-        /// Initializes a new instance of this class.
-        /// </summary>
         public Persona(string name = null, string secondaryText = null, string tertiaryText = null, Avatar avatar = null)
         {
             _avatar = avatar ?? new Avatar(initials: string.Empty).Size(AvatarSize.Medium);
@@ -283,9 +206,6 @@ namespace Tesserae
             UpdateOptionalText();
         }
 
-        /// <summary>
-        /// Sets the avatar of the component.
-        /// </summary>
         public Persona SetAvatar(Avatar avatar)
         {
             if (avatar == null)
@@ -299,18 +219,12 @@ namespace Tesserae
             return this;
         }
 
-        /// <summary>
-        /// Sets the name of the component.
-        /// </summary>
         public Persona SetName(string name)
         {
             _name.innerText = name ?? string.Empty;
             return this;
         }
 
-        /// <summary>
-        /// Sets the secondary text of the component.
-        /// </summary>
         public Persona SetSecondaryText(string text)
         {
             _secondary.innerText = text ?? string.Empty;
@@ -318,9 +232,6 @@ namespace Tesserae
             return this;
         }
 
-        /// <summary>
-        /// Sets the tertiary text of the component.
-        /// </summary>
         public Persona SetTertiaryText(string text)
         {
             _tertiary.innerText = text ?? string.Empty;
@@ -328,9 +239,6 @@ namespace Tesserae
             return this;
         }
 
-        /// <summary>
-        /// Renders the component in a compact form.
-        /// </summary>
         public Persona Compact(bool value = true)
         {
             InnerElement.UpdateClassIf(value, "tss-persona-compact");
@@ -343,9 +251,6 @@ namespace Tesserae
             _tertiary.style.display = string.IsNullOrEmpty(_tertiary.innerText) ? "none" : "block";
         }
 
-        /// <summary>
-        /// Renders the component's root HTML element.
-        /// </summary>
         public override HTMLElement Render()
         {
             return InnerElement;

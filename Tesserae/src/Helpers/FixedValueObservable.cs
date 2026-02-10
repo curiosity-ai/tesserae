@@ -9,13 +9,7 @@
     [H5.Name("tss.FixedValueObservable")]
     public sealed class FixedValueObservable<TItem> : IObservable<TItem>
     {
-        /// <summary>
-        /// Initializes a new instance of this class.
-        /// </summary>
         public FixedValueObservable(TItem value) => Value = value;
-        /// <summary>
-        /// Gets or sets the current value of the component.
-        /// </summary>
         public TItem Value { get; }
 
         // This never changes and so there's no observe-based logic required

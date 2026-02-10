@@ -7,10 +7,6 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
-    /// <summary>
-    /// A keyboard-driven full-screen command launcher (Ctrl/Cmd-K style) that lets users search and invoke
-    /// application commands.
-    /// </summary>
     [H5.Name("tss.CommandPalette")]
     public sealed class CommandPalette : Layer<CommandPalette>
     {
@@ -33,43 +29,14 @@ namespace Tesserae
         private string _currentParentId;
         private int _activeIndex = -1;
 
-        private readonly Action<Event> _globalKeyDownHandler;
-        private bool _globalListenerActive;
-
-        /// <summary>
-        /// Raised when action executed occurs.
-        /// </summary>
         public event Action<CommandPaletteAction> ActionExecuted;
 
-        /// <summary>
-        /// Enables the global shortcut on the component.
-        /// </summary>
         public bool EnableGlobalShortcut { get; set; } = true;
-        /// <summary>
-        /// Enables the global action shortcuts on the component.
-        /// </summary>
         public bool EnableGlobalActionShortcuts { get; set; } = true;
-        /// <summary>
-        /// Hides the on action.
-        /// </summary>
         public bool HideOnAction { get; set; } = true;
 
-        /// <summary>
-        /// Key (combined with Ctrl/Cmd) that toggles the palette globally. Case-insensitive. Defaults to "k".
-        /// </summary>
-        public string GlobalShortcutKey { get; set; } = "k";
-
-        /// <summary>
-        /// Creates a CommandPalette whose global Ctrl/Cmd keyboard listener is bound
-        /// to the lifetime of <paramref name="host"/>: the listener is attached when
-        /// <paramref name="host"/> first mounts to the DOM and detached when it is
-        /// removed. This prevents the palette from leaking listeners (and continuing
-        /// to respond to its shortcut) after the owning view has been navigated away.
-        /// </summary>
-        public CommandPalette(IComponent host, IEnumerable<CommandPaletteAction> actions = null)
+        public CommandPalette(IEnumerable<CommandPaletteAction> actions = null)
         {
-            if (host is null) throw new ArgumentNullException(nameof(host));
-
             _searchInput = TextBox(_("tss-commandpalette-search", type: "search", placeholder: "Type a command"));
             _searchInput.setAttribute("aria-label", "Command palette search");
             _searchInput.addEventListener("input", _ => RefreshResults());
@@ -82,7 +49,7 @@ namespace Tesserae
                     _searchInput.focus();
                 }
             });
-            _backButton = Button(_("tss-commandpalette-back tss-fontweight-semibold", type: "button", title: "Go Back"),
+            _backButton = Button(_("tss-commandpalette-back tss-fontweight-semibold", type: "button", title: "Go Back"), 
                                     Div(_("tss-commandpalette-icon"), I(_($"tss-commandpalette-icon-item {UIcons.AngleLeft}"))));
 
             _backButton.addEventListener("click", e =>
@@ -110,38 +77,18 @@ namespace Tesserae
             _contentHtml = Div(_("tss-commandpalette-container"), _overlay, _positioner);
 
             SetActions(actions);
-
-            _globalKeyDownHandler = HandleGlobalKeyDown;
-            host.WhenMounted(() =>
-            {
-                if (_globalListenerActive) return;
-                window.addEventListener("keydown", _globalKeyDownHandler);
-                _globalListenerActive = true;
-                host.WhenRemoved(() =>
-                {
-                    if (!_globalListenerActive) return;
-                    window.removeEventListener("keydown", _globalKeyDownHandler);
-                    _globalListenerActive = false;
-                    if (IsVisible) Hide();
-                });
-            });
-
+            window.addEventListener("keydown", HandleGlobalKeyDown);
+            
             InnerElement    = _contentHtml;
 
         }
 
-        /// <summary>
-        /// Gets or sets the placeholder text shown when the component is empty.
-        /// </summary>
         public string Placeholder
         {
             get => _searchInput.placeholder;
             set => _searchInput.placeholder = value ?? string.Empty;
         }
 
-        /// <summary>
-        /// Sets the actions of the component.
-        /// </summary>
         public CommandPalette SetActions(IEnumerable<CommandPaletteAction> actions)
         {
             _actions.Clear();
@@ -154,9 +101,6 @@ namespace Tesserae
             return this;
         }
 
-        /// <summary>
-        /// Adds the given action to the component.
-        /// </summary>
         public CommandPalette AddAction(CommandPaletteAction action)
         {
             if (action == null)
@@ -173,27 +117,18 @@ namespace Tesserae
             return this;
         }
 
-        /// <summary>
-        /// Opens the component.
-        /// </summary>
         public CommandPalette Open()
         {
             Show();
             return this;
         }
 
-        /// <summary>
-        /// Closes the component.
-        /// </summary>
         public CommandPalette Close()
         {
             Hide();
             return this;
         }
 
-        /// <summary>
-        /// Toggles the component's state.
-        /// </summary>
         public CommandPalette Toggle()
         {
             if (IsVisible) Hide();
@@ -201,9 +136,6 @@ namespace Tesserae
             return this;
         }
 
-        /// <summary>
-        /// Shows the component.
-        /// </summary>
         public override CommandPalette Show()
         {
             base.Show();
@@ -212,9 +144,6 @@ namespace Tesserae
             return this;
         }
 
-        /// <summary>
-        /// Hides the component.
-        /// </summary>
         public override void Hide(Action onHidden = null)
         {
             base.Hide(onHidden);
@@ -254,9 +183,7 @@ namespace Tesserae
                 return;
             }
 
-            if (EnableGlobalShortcut && !string.IsNullOrEmpty(GlobalShortcutKey)
-                && string.Equals(e.key, GlobalShortcutKey, StringComparison.OrdinalIgnoreCase)
-                && (e.metaKey || e.ctrlKey))
+            if (EnableGlobalShortcut && (e.key == "k" || e.key == "K") && (e.metaKey || e.ctrlKey))
             {
                 StopEvent(e);
                 Toggle();
@@ -598,58 +525,22 @@ namespace Tesserae
     [H5.Name("tss.CommandPaletteAction")]
     public sealed class CommandPaletteAction
     {
-        /// <summary>
-        /// Initializes a new instance of this class.
-        /// </summary>
         public CommandPaletteAction(string id, string name)
         {
             Id = id;
             Name = name;
         }
 
-        /// <summary>
-        /// Sets the DOM id of the component.
-        /// </summary>
         public string Id { get; }
-        /// <summary>
-        /// Gets or sets the name of the component.
-        /// </summary>
         public string Name { get; set; }
-        /// <summary>
-        /// Gets or sets the subtitle.
-        /// </summary>
         public string Subtitle { get; set; }
-        /// <summary>
-        /// Gets or sets the keywords.
-        /// </summary>
         public string Keywords { get; set; }
-        /// <summary>
-        /// Gets or sets the section.
-        /// </summary>
         public string Section { get; set; }
-        /// <summary>
-        /// Gets or sets the parent id.
-        /// </summary>
         public string ParentId { get; set; }
-        /// <summary>
-        /// Gets or sets the icon shown by the component.
-        /// </summary>
         public UIcons? Icon { get; set; }
-        /// <summary>
-        /// Gets or sets the shortcut.
-        /// </summary>
         public string[] Shortcut { get; set; }
-        /// <summary>
-        /// Gets or sets a value indicating whether the component is interactive (enabled).
-        /// </summary>
         public bool IsEnabled { get; set; } = true;
-        /// <summary>
-        /// Gets a value indicating whether the component is currently visible.
-        /// </summary>
         public bool IsVisible { get; set; } = true;
-        /// <summary>
-        /// Gets or sets the perform.
-        /// </summary>
         public Action Perform { get; set; }
     }
 }

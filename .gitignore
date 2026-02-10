@@ -287,6 +287,3 @@ __pycache__/
 *.btm.cs
 *.odx.cs
 *.xsd.cs
-
-# Local-only Playwright scripts and artifacts (per CLAUDE.md)
-Tesserae.Tests/playwright/

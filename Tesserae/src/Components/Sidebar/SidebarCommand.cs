@@ -10,31 +10,23 @@ namespace Tesserae
     public class SidebarCommand : IComponent
     {
         private readonly Button               _button;
-        private readonly IComponent           _renderedComponent;
         private          Action<Button>       _tooltip;
         private          Func<ISidebarItem[]> _menuGenerator;
         private          bool                 _hookParentContextMenu;
 
         internal bool ShouldHookToContextMenu => _hookParentContextMenu;
 
-        public SidebarCommand(UIcons icon, UIconsWeight weight = UIconsWeight.Regular) : this(null, Button().SetIcon(icon, weight: weight)) { }
-        public SidebarCommand(string href, UIcons icon, UIconsWeight weight = UIconsWeight.Regular) : this(href, Button().SetIcon(icon, weight: weight)) { }
+        public SidebarCommand(UIcons icon, UIconsWeight weight = UIconsWeight.Regular) : this(Button().SetIcon(icon, weight: weight)) { }
+        public SidebarCommand(Emoji  icon) : this(Button().SetIcon(icon)) { }
 
-        public SidebarCommand(Emoji  icon) : this(null, Button().SetIcon(icon)) { }
-        public SidebarCommand(string href, Emoji  icon) : this(href, Button().SetIcon(icon)) { }
-
-        public SidebarCommand(ISidebarIcon image) : this(null, image) { }
-        public SidebarCommand(string href, ISidebarIcon image)
+        public SidebarCommand(ISidebarIcon image)
         {
             _button = Button().ReplaceContent(image).Class("tss-sidebar-command");
-            _renderedComponent = string.IsNullOrWhiteSpace(href) ? (IComponent)_button : UI.Link(href, _button, noUnderline: true);
         }
 
-        private SidebarCommand(Button buttonWithIcon) : this(null, buttonWithIcon) { }
-        private SidebarCommand(string href, Button buttonWithIcon)
+        private SidebarCommand(Button buttonWithIcon)
         {
             _button = buttonWithIcon.Class("tss-sidebar-command");
-            _renderedComponent = string.IsNullOrWhiteSpace(href) ? (IComponent)_button : UI.Link(href, _button, noUnderline: true);
         }
 
         /// <summary>
@@ -291,6 +283,6 @@ namespace Tesserae
         /// Renders the sidebar command.
         /// </summary>
         /// <returns>The rendered HTMLElement.</returns>
-        public HTMLElement Render() => _renderedComponent.Render();
+        public HTMLElement Render() => _button.Render();
     }
 }

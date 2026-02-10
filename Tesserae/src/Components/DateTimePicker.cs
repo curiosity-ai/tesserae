@@ -3,23 +3,14 @@ using System.Globalization;
 
 namespace Tesserae
 {
-    /// <summary>
-    /// A form input for picking a single date together with a time-of-day.
-    /// </summary>
     [H5.Name("tss.DateTimePicker")]
     public class DateTimePicker : MomentPickerBase<DateTimePicker, DateTime>
     {
-        /// <summary>
-        /// Initializes a new instance of this class.
-        /// </summary>
         public DateTimePicker(DateTime? dateTime = null)
             : base("datetime-local", dateTime.HasValue ? FormatDateTime(dateTime.Value) : string.Empty)
         {
         }
 
-        /// <summary>
-        /// Gets or sets the date time.
-        /// </summary>
         public DateTime DateTime => Moment;
 
         /// <summary>

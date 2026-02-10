@@ -25,17 +25,17 @@ namespace Tesserae.Tests.Samples
 
             navbar.AddFooter(new SidebarButton("footer", UIcons.Info, "About"));
 
-            _content = SectionStack().Secondary()
-               .SampleTitle(typeof(NavbarSample), UIcons.MapMarker, "A navigation bar component")
-               .FlatSection(Stack().Children(
-                    Card(VStack().WS().Children(
-                    TextBlock("A Sidebar rendered as a Navbar. Header items are inline, others are in a drawer."))).SetTitle("Overview"),
-                    Card(VStack().WS().Children(
+            _content = SectionStack()
+               .Title(SampleHeader(nameof(NavbarSample)))
+               .Section(Stack().Children(
+                    SampleTitle("Overview"),
+                    TextBlock("A Sidebar rendered as a Navbar. Header items are inline, others are in a drawer."),
+                    SampleTitle("Usage"),
                     VStack().H(500.px()).Children(
                         navbar,
                         TextBlock("Page Content below the navbar...").Padding(16.px())
                     )
-               )).SetTitle("Usage")));
+               ));
         }
 
         public HTMLElement Render() => _content.Render();

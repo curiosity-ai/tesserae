@@ -51,18 +51,12 @@ namespace Tesserae
         /// </summary>
         /// <param name="onResizeEnd">An optional action to perform when resizing ends.</param>
         /// <returns>The current instance.</returns>
-        public SplitView Resizable(Action<int> onResizeEnd = null, string backgroundColor = null)
+        public SplitView Resizable(Action<int> onResizeEnd = null)
         {
             _resizable   = true;
             _onResizeEnd = onResizeEnd;
             _splitterComponent.RemoveClass("tss-no-splitter");
             _splitterComponent.Width = _splitterSize;
-            
-            if (backgroundColor != null)
-            {
-                _splitterComponent.Render().style.backgroundColor = backgroundColor;
-            }
-
             HookDragEvents(_splitterComponent);
             return this;
         }

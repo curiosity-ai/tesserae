@@ -6,9 +6,6 @@ using System.Linq;
 
 namespace Tesserae
 {
-    /// <summary>
-    /// A horizontal set of items where any items that do not fit are automatically collapsed into an overflow menu.
-    /// </summary>
     [H5.Name("tss.OverflowSet")]
     public class OverflowSet : IComponent, IContainer<Breadcrumb, IComponent>
     {
@@ -23,9 +20,6 @@ namespace Tesserae
 
         private readonly Dictionary<HTMLElement, double> _cachedSizes = new Dictionary<HTMLElement, double>();
 
-        /// <summary>
-        /// Gets or sets the maximum items to display.
-        /// </summary>
         public int MaximumItemsToDisplay
         {
             get => _maximumItemsToDisplay;
@@ -36,9 +30,6 @@ namespace Tesserae
             }
         }
 
-        /// <summary>
-        /// Gets or sets the overflow index.
-        /// </summary>
         public int OverflowIndex
         {
             get => _overflowIndex;
@@ -49,9 +40,6 @@ namespace Tesserae
             }
         }
 
-        /// <summary>
-        /// Returns a value indicating whether the component is small.
-        /// </summary>
         public bool IsSmall
         {
             get => _childContainer.classList.contains("tss-small");
@@ -63,15 +51,13 @@ namespace Tesserae
         }
 
 
-        /// <summary>
-        /// Initializes a new instance of this class.
-        /// </summary>
         public OverflowSet()
         {
             _childContainer = Div(_("tss-overflowset"));
             DomObserver.WhenMounted(_childContainer, Recompute);
-            _resizeObserver = new ResizeObserver((entries, obs) => Recompute());
-            _resizeObserver.observe(document.body);
+            _resizeObserver = new ResizeObserver();
+            _resizeObserver.Observe(document.body);
+            _resizeObserver.OnResize = Recompute;
         }
 
         private void Recompute()
@@ -236,25 +222,16 @@ namespace Tesserae
             }
         }
 
-        /// <summary>
-        /// Clears the component's current state.
-        /// </summary>
         public void Clear()
         {
             ClearChildren(_childContainer);
         }
 
-        /// <summary>
-        /// Replaces an existing item with a new one.
-        /// </summary>
         public void Replace(IComponent newComponent, IComponent oldComponent)
         {
             _childContainer.replaceChild(newComponent.Render(), oldComponent.Render());
         }
 
-        /// <summary>
-        /// Adds the given item to the component.
-        /// </summary>
         public void Add(IComponent component)
         {
             if (_childContainer.childElementCount > 0)
@@ -264,45 +241,30 @@ namespace Tesserae
             _childContainer.appendChild(component.Render());
         }
 
-        /// <summary>
-        /// Adds the given items to the component.
-        /// </summary>
         public OverflowSet Items(params IComponent[] children)
         {
             children.ForEach(x => Add(x));
             return this;
         }
 
-        /// <summary>
-        /// Disables the size cache on the component.
-        /// </summary>
         public OverflowSet DisableSizeCache()
         {
             _cacheSizes = false;
             return this;
         }
 
-        /// <summary>
-        /// Sets the overflow index of the component.
-        /// </summary>
         public OverflowSet SetOverflowIndex(int i)
         {
             _overflowIndex = i;
             return this;
         }
 
-        /// <summary>
-        /// Renders the component at small size.
-        /// </summary>
         public OverflowSet Small()
         {
             IsSmall = true;
             return this;
         }
 
-        /// <summary>
-        /// Renders the component's root HTML element.
-        /// </summary>
         public HTMLElement Render()
         {
             return _childContainer;

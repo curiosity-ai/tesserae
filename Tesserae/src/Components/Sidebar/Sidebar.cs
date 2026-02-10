@@ -27,8 +27,6 @@ namespace Tesserae
 
         private List<string> _itemOrder = new List<string>();
 
-        private HTMLDivElement _mobileBackdrop;
-
         /// <summary>
         /// The transition time for sidebar animations in milliseconds.
         /// </summary>
@@ -55,19 +53,6 @@ namespace Tesserae
 
             _closed.Observe(isClosed =>
             {
-                // Show or hide the mobile backdrop (used in navbar/mobile mode)
-                if (_mobileBackdrop is object)
-                {
-                    if (isClosed)
-                    {
-                        _mobileBackdrop.classList.remove("tss-mobile-backdrop-visible");
-                    }
-                    else
-                    {
-                        _mobileBackdrop.classList.add("tss-mobile-backdrop-visible");
-                    }
-                }
-
                 //Do this on a timeout to improve the animation behaviour
                 window.clearTimeout(_closedTimeout);
 
@@ -135,20 +120,6 @@ namespace Tesserae
             _sidebar.Horizontal();
             _sidebar.Class("tss-navbar");
             _closed.Value = true;
-
-            // Apply the closed class synchronously so CSS states are correct before first paint.
-            _sidebar.Class("tss-navbar-closed");
-
-            // Create a backdrop element appended to the body. On mobile it dims the background
-            // when the drawer is open and closes the sidebar on click.
-            if (_mobileBackdrop is null)
-            {
-                _mobileBackdrop = (HTMLDivElement)document.createElement("div");
-                _mobileBackdrop.className = "tss-mobile-backdrop";
-                _mobileBackdrop.addEventListener("click", (Event e) => { _closed.Value = true; });
-                document.body.appendChild(_mobileBackdrop);
-            }
-
             Refresh();
             return this;
         }
@@ -201,22 +172,10 @@ namespace Tesserae
 
             if (_isNavbar)
             {
-                var hamburger = Button().Class("tss-navbar-burger").SetIcon(UIcons.MenuBurger).OnClick(() => _closed.Toggle());
-
-                var mobileHeader = HStack().Class("tss-navbar-mobile-header").Children(
-                    TextBlock("Navigation").SemiBold().Foreground(UI.Theme.Default.Foreground),
-                    Button().Class("tss-navbar-mobile-close").SetIcon(UIcons.Cross).OnClick(() => _closed.Value = true)
-                );
-
-                // In navbar/mobile mode, search boxes belong inside the drawer so users can
-                // search the sample list from the hamburger menu instead of the top bar.
-                var topBarHeader  = header.Where(si => !(si is SidebarSearchBox)).ToList();
-                var drawerHeader  = header.Where(si =>   si is SidebarSearchBox ).ToList();
+                var hamburger = Button().Class("tss-navbar-burger").SetIcon(UIcons.MenuBurger).OnClick(() => _closed.Value = !_closed.Value);
 
                 var drawer = VStack().Class("tss-navbar-drawer")
                    .Children(
-                        mobileHeader,
-                        VStack().Class("tss-sidebar-header tss-navbar-drawer-header").WS().NoShrink().Children(drawerHeader.Select(si => si.RenderOpen())),
                         stackMiddle.Class("tss-sidebar-middle").WS().MinHeight(new UnitSize("fit-content")).MaxHeight(80.vh()).ScrollY().Children(middle.Select(si => AttachNavbarClose(si.RenderOpen()))),
                         VStack().Class("tss-sidebar-footer").WS().NoShrink().Children(footer.Select(si => AttachNavbarClose(si.RenderOpen())))
                     );
@@ -231,7 +190,7 @@ namespace Tesserae
                 }
 
                 _sidebar.Children(
-                    HStack().Class("tss-sidebar-header").W(10).Grow().NoShrink().Children(topBarHeader.Select(si => si.RenderOpen())),
+                    HStack().Class("tss-sidebar-header").W(10).Grow().NoShrink().Children(header.Select(si => si.RenderOpen())),
                     Stack().Grow(),
                     hamburger,
                     drawer
@@ -252,7 +211,7 @@ namespace Tesserae
             if(!el.HasOwnProperty("_NAVBAR_CLOSE"))
             {
                 el["_NAVBAR_CLOSE"] = true;
-                el.addEventListener("click", (Action<Event>)(_ => _closed.Value = true), true);
+                el.addEventListener("click", () => _closed.Value = true);
             }
             return component;
         }
@@ -274,7 +233,7 @@ namespace Tesserae
         /// <returns>The current instance of the type.</returns>
         public Sidebar Toggle()
         {
-            _closed.Toggle();
+            _closed.Value = !_closed.Value;
             return this;
         }
 
@@ -286,26 +245,6 @@ namespace Tesserae
         public Sidebar AddHeader(ISidebarItem item)
         {
             _header.Add(item);
-            return this;
-        }
-
-        /// <summary>
-        /// Inserts an item after another item in the sidebar header section.
-        /// </summary>
-        /// <param name="item">The item to insert.</param>
-        /// <param name="addAfter">The item to insert after.</param>
-        /// <returns>The current instance of the type.</returns>
-        public Sidebar InsertAfterHeader(ISidebarItem item, ISidebarItem addAfter)
-        {
-            var index = _header.IndexOf(addAfter);
-            if (index >= 0)
-            {
-                _header.Insert(index + 1, item);
-            }
-            else
-            {
-                _header.Add(item);
-            }
             return this;
         }
 
@@ -334,59 +273,18 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Inserts an item after another item in the middle content section.
-        /// </summary>
-        /// <param name="item">The item to insert.</param>
-        /// <param name="addAfter">The item to insert after.</param>
-        /// <returns>The current instance of the type.</returns>
-        public Sidebar InsertAfterContent(ISidebarItem item, ISidebarItem addAfter)
-        {
-            item.AddGroupIdentifier(ROOT_SIDEBAR_FOR_ORDERING);
-
-            if (_middleContent.Value.Any(m => m.Identifier == item.Identifier))
-            {
-                return this; //nothing to do...
-            }
-
-            var middleContentList = _middleContent.Value.ToList();
-            var index = middleContentList.IndexOf(addAfter);
-
-            if (index >= 0)
-            {
-                middleContentList.Insert(index + 1, item);
-                _middleContent.Value = middleContentList;
-
-                var orderIndex = _itemOrder.IndexOf(addAfter.Identifier);
-                if (orderIndex >= 0)
-                {
-                    _itemOrder.Insert(orderIndex + 1, item.Identifier);
-                }
-                else
-                {
-                    _itemOrder.Add(item.Identifier);
-                }
-            }
-            else
-            {
-                AddContent(item);
-            }
-
-            return this;
-        }
-
-        /// <summary>
         /// Removes an item from the middle content section.
         /// </summary>
         /// <param name="item">The item to remove.</param>
         /// <returns>The current instance of the type.</returns>
         public Sidebar RemoveContent(ISidebarItem item)
         {
-            //We don't add this here as the item was already added and has the identifier -> ROOT_SIDEBAR_FOR_ORDERING + "_|_" + 
+            var identifierWithGroupIdentifier = ROOT_SIDEBAR_FOR_ORDERING + "_|_" + item.Identifier;
 
-            if (_middleContent.Value.All(m => m.Identifier != item.Identifier)) return this; //nothing to do
+            if (_middleContent.Value.All(m => m.Identifier != identifierWithGroupIdentifier)) return this; //nothing to do
 
-            _middleContent.Value = _middleContent.Value?.Where(m => m.Identifier != item.Identifier).ToList();
-            _itemOrder.Remove(item.Identifier);
+            _middleContent.Value = _middleContent.Value?.Where(m => m.Identifier != identifierWithGroupIdentifier).ToList();
+            _itemOrder.Remove(identifierWithGroupIdentifier);
             return this;
         }
 
@@ -398,26 +296,6 @@ namespace Tesserae
         public Sidebar AddFooter(ISidebarItem item)
         {
             _footer.Add(item);
-            return this;
-        }
-
-        /// <summary>
-        /// Inserts an item after another item in the sidebar footer section.
-        /// </summary>
-        /// <param name="item">The item to insert.</param>
-        /// <param name="addAfter">The item to insert after.</param>
-        /// <returns>The current instance of the type.</returns>
-        public Sidebar InsertAfterFooter(ISidebarItem item, ISidebarItem addAfter)
-        {
-            var index = _footer.IndexOf(addAfter);
-            if (index >= 0)
-            {
-                _footer.Insert(index + 1, item);
-            }
-            else
-            {
-                _footer.Add(item);
-            }
             return this;
         }
 

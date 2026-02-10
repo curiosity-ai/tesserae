@@ -15,7 +15,6 @@ namespace Tesserae
     {
         private readonly Button                   _closedButton;
         private readonly Button                   _openButton;
-        private readonly IComponent               _closed;
         private readonly IComponent               _open;
         private readonly SidebarCommand[]         _commands;
         private readonly SidebarBadge             _badge;
@@ -28,26 +27,14 @@ namespace Tesserae
         private event Action<HTMLElement> _onRendered;
 
         /// <summary>Gets or sets whether the button is currently selected.</summary>
-        public bool IsSelected
-        {
-            get { return _selected.Value; }
-            set
-            {
-                _selected.Value = value;
-
-                if (value)
-                {
-                    CurrentRendered?.ScrollIntoView();
-                }
-            }
-        }
+        public bool IsSelected { get { return _selected.Value; } set { _selected.Value = value; if (value) CurrentRendered.ScrollIntoView(); } }
 
         /// <summary>Gets the component that is currently rendered.</summary>
-        public IComponent CurrentRendered => _closedButton.IsMounted() ? _closed : _open;
+        public IComponent CurrentRendered => _closedButton.IsMounted() ? _closedButton : _open;
 
         /// <summary>Gets the full identifier of the button.</summary>
         public string Identifier { get; private set; }
-
+        
         /// <summary>Gets the own identifier of the button.</summary>
         public string OwnIdentifier => Sidebar.GetOwnIdentifier(Identifier);
 
@@ -57,35 +44,23 @@ namespace Tesserae
             Identifier = groupIdentifier + Sidebar.GroupIdentifierSeparator + Identifier;
         }
 
-        public SidebarButton(string identifier, Emoji        icon,  string       text,   params SidebarCommand[] commands) : this(identifier, null, text, null, Button().SetIcon(icon), Button().SetIcon(icon), commands) { }
-        public SidebarButton(string identifier, Emoji        icon,  string       text,   SidebarBadge            badge, params SidebarCommand[] commands) : this(identifier, null, text, badge, Button().SetIcon(icon), Button().SetIcon(icon), commands) { }
-        public SidebarButton(string identifier, ISidebarIcon image, string       text,   params SidebarCommand[] commands) : this(identifier, null, image, text, null, commands) { }
-        public SidebarButton(string identifier, UIcons       icon,  string       text,   SidebarBadge            badge, params SidebarCommand[] commands) : this(identifier, null, icon, UIconsWeight.Regular, text, badge, commands) { }
-        public SidebarButton(string identifier, UIcons       icon,  string       text,   params SidebarCommand[] commands) : this(identifier, null, icon, text, null, commands) { }
-        public SidebarButton(string identifier, UIcons       icon,  UIconsWeight weight, string                  text, params SidebarCommand[] commands) : this(identifier, null, icon, weight, text, null, commands) { }
+        public SidebarButton(string identifier, Emoji        icon,  string       text,   params SidebarCommand[] commands) : this(identifier, text, null, Button().SetIcon(icon), Button().SetIcon(icon), commands) { }
+        public SidebarButton(string identifier, Emoji        icon,  string       text,   SidebarBadge            badge, params SidebarCommand[] commands) : this(identifier, text, badge, Button().SetIcon(icon), Button().SetIcon(icon), commands) { }
+        public SidebarButton(string identifier, ISidebarIcon image, string       text,   params SidebarCommand[] commands) : this(identifier, image, text, null, commands) { }
+        public SidebarButton(string identifier, UIcons       icon,  string       text,   SidebarBadge            badge, params SidebarCommand[] commands) : this(identifier, icon, UIconsWeight.Regular, text, badge, commands) { }
+        public SidebarButton(string identifier, UIcons       icon,  string       text,   params SidebarCommand[] commands) : this(identifier, icon, text, null, commands) { }
+        public SidebarButton(string identifier, UIcons       icon,  UIconsWeight weight, string                  text, params SidebarCommand[] commands) : this(identifier, icon, weight, text, null, commands) { }
 
-        public SidebarButton(string identifier, UIcons icon, UIconsWeight weight, string text, SidebarBadge badge, params SidebarCommand[] commands) : this(identifier, null, text, badge, Button().SetIcon(icon, weight: weight), Button().SetIcon(icon, weight: weight), commands) { }
-
-        public SidebarButton(string identifier, string href, Emoji        icon,  string       text,   params SidebarCommand[] commands) : this(identifier, href, text, null, Button().SetIcon(icon), Button().SetIcon(icon), commands) { }
-        public SidebarButton(string identifier, string href, Emoji        icon,  string       text,   SidebarBadge            badge, params SidebarCommand[] commands) : this(identifier, href, text, badge, Button().SetIcon(icon), Button().SetIcon(icon), commands) { }
-        public SidebarButton(string identifier, string href, ISidebarIcon image, string       text,   params SidebarCommand[] commands) : this(identifier, href, image, text, null, commands) { }
-        public SidebarButton(string identifier, string href, UIcons       icon,  string       text,   SidebarBadge            badge, params SidebarCommand[] commands) : this(identifier, href, icon, UIconsWeight.Regular, text, badge, commands) { }
-        public SidebarButton(string identifier, string href, UIcons       icon,  string       text,   params SidebarCommand[] commands) : this(identifier, href, icon, text, null, commands) { }
-        public SidebarButton(string identifier, string href, UIcons       icon,  UIconsWeight weight, string                  text, params SidebarCommand[] commands) : this(identifier, href, icon, weight, text, null, commands) { }
-
-        public SidebarButton(string identifier, string href, UIcons icon, UIconsWeight weight, string text, SidebarBadge badge, params SidebarCommand[] commands) : this(identifier, href, text, badge, Button().SetIcon(icon, weight: weight), Button().SetIcon(icon, weight: weight), commands) { }
-
-        private SidebarButton(string identifier, string href, string text, SidebarBadge badge, Button buttonWithIconClosed, Button buttonWithIconOpen, params SidebarCommand[] commands)
+        public SidebarButton(string identifier, UIcons icon, UIconsWeight weight, string text, SidebarBadge badge, params SidebarCommand[] commands) : this(identifier, text, badge, Button().SetIcon(icon, weight: weight), Button().SetIcon(icon, weight: weight), commands) { }
+        private SidebarButton(string identifier, string text, SidebarBadge badge, Button buttonWithIconClosed, Button buttonWithIconOpen, params SidebarCommand[] commands)
         {
             Identifier     = identifier;
             _text          = text;
             _selected      = new SettableObservable<bool>(false);
             _tooltipClosed = (b) => b.Tooltip(text, placement: TooltipPlacement.Right);
-
-            _closedButton = buttonWithIconClosed.Class("tss-sidebar-btn").Id(identifier);
-            _openButton   = buttonWithIconOpen.SetText(text).Class("tss-sidebar-btn").Id(identifier);
-
-            _closed = string.IsNullOrWhiteSpace(href) ? (IComponent)_closedButton : UI.Link(href, _closedButton, noUnderline: true);
+            
+            _closedButton  = buttonWithIconClosed.Class("tss-sidebar-btn").Id(identifier);
+            _openButton    = buttonWithIconOpen.SetText(text).Class("tss-sidebar-btn").Id(identifier);
 
             _commands = commands;
             _badge    = badge;
@@ -116,18 +91,7 @@ namespace Tesserae
             IComponent Wrap(Button button)
             {
                 var div = Div(_("tss-sidebar-btn-open"));
-
-                if (!string.IsNullOrWhiteSpace(href))
-                {
-                    var link = UI.Link(href, Raw(button.Render()), noUnderline: true);
-                    link.Render().style.display        = "block";
-                    link.Render().style.textDecoration = "none";
-                    div.appendChild(link.Render());
-                }
-                else
-                {
-                    div.appendChild(button.Render());
-                }
+                div.appendChild(button.Render());
 
                 if (_badge is object)
                 {
@@ -154,14 +118,14 @@ namespace Tesserae
         public void Show()
         {
             _closedButton.Show();
-            _open.Show();
+            _openButton.Show();
         }
 
         /// <summary>Collapses the button.</summary>
         public void Collapse()
         {
             _closedButton.Collapse();
-            _open.Collapse();
+            _openButton.Collapse();
         }
 
         /// <summary>
@@ -171,13 +135,11 @@ namespace Tesserae
         public SidebarButton NotSortable()
         {
             _closedButton.Class("tss-sortable-disable");
-            _open.Class("tss-sortable-disable");
+            _openButton.Class("tss-sortable-disable");
             return this;
         }
 
-        public SidebarButton(string identifier, ISidebarIcon image, string text, SidebarBadge badge, params SidebarCommand[] commands) : this(identifier, null, image, text, badge, commands) { }
-
-        public SidebarButton(string identifier, string href, ISidebarIcon image, string text, SidebarBadge badge, params SidebarCommand[] commands)
+        public SidebarButton(string identifier, ISidebarIcon image, string text, SidebarBadge badge, params SidebarCommand[] commands)
         {
             Identifier = identifier;
             _text      = text;
@@ -190,8 +152,6 @@ namespace Tesserae
             _closedButton = Button().Class("tss-sidebar-btn").ReplaceContent(image).Id(identifier);
 
             _openButton = Button(text).ReplaceContent(Raw(Div(_("tss-btn-with-image"), image.Clone().Render(), Span(_(text: text))))).Class("tss-sidebar-btn").Id(identifier);
-
-            _closed = string.IsNullOrWhiteSpace(href) ? (IComponent)_closedButton : UI.Link(href, _closedButton, noUnderline: true);
 
             _commands = commands;
             _badge    = badge;
@@ -215,18 +175,7 @@ namespace Tesserae
             IComponent Wrap(Button button)
             {
                 var div = Div(_("tss-sidebar-btn-open"));
-
-                if (!string.IsNullOrWhiteSpace(href))
-                {
-                    var link = UI.Link(href, Raw(button.Render()), noUnderline: true);
-                    link.Render().style.display        = "block";
-                    link.Render().style.textDecoration = "none";
-                    div.appendChild(link.Render());
-                }
-                else
-                {
-                    div.appendChild(button.Render());
-                }
+                div.appendChild(button.Render());
 
                 if (_badge is object)
                 {
@@ -296,17 +245,9 @@ namespace Tesserae
         /// Ensures that commands associated with the button are always visible when the sidebar is open.
         /// </summary>
         /// <returns>The current instance of the type.</returns>
-        public SidebarButton CommandsAlwaysVisible(bool alwaysVisible = true)
+        public SidebarButton CommandsAlwaysVisible()
         {
-            if (alwaysVisible)
-            {
-                _open.Class("tss-sidebar-commands-always-open");
-            }
-            else
-            {
-                _open.RemoveClass("tss-sidebar-commands-always-open");
-            }
-
+            _open.Class("tss-sidebar-commands-always-open");
             return this;
         }
 
@@ -572,14 +513,14 @@ namespace Tesserae
         /// <summary>Renders the button for the closed state of the sidebar.</summary>
         public IComponent RenderClosed()
         {
-            _onRendered?.Invoke(_closed.Render());
+            _onRendered?.Invoke(_closedButton.Render());
             _closedButton.RemoveTooltip();
 
             DomObserver.WhenMounted(_closedButton.Render(), () =>
             {
                 window.setTimeout(_ => { _tooltipClosed?.Invoke(_closedButton); }, Sidebar.SIDEBAR_TRANSITION_TIME);
             });
-            return _closed;
+            return _closedButton;
         }
 
         /// <summary>Renders the button for the open state of the sidebar.</summary>
@@ -593,13 +534,13 @@ namespace Tesserae
 
         public bool Search(string searchTerm)
         {
-            if (string.IsNullOrWhiteSpace(searchTerm))
+            if(string.IsNullOrWhiteSpace(searchTerm))
             {
                 Show();
                 return true;
             }
 
-            if (_text.ToLower().Contains(searchTerm.ToLower()))
+            if(_text.ToLower().Contains(searchTerm.ToLower()))
             {
                 Show();
                 return true;

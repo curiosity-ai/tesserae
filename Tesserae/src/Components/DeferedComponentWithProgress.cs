@@ -7,10 +7,6 @@ using static TNT.T;
 
 namespace Tesserae
 {
-    /// <summary>
-    /// A <see cref="DeferedComponent"/> variant that reports progress (0-100%) while its real content is being
-    /// prepared.
-    /// </summary>
     [H5.Name("tss.DCWP")]
     internal sealed class DeferedComponentWithProgress : IDefer
     {
@@ -57,18 +53,12 @@ namespace Tesserae
             return new DeferedComponentWithProgress(asyncGenerator, loadMessageGenerator);
         }
 
-        /// <summary>
-        /// Refreshes the component's rendered state.
-        /// </summary>
         public void Refresh()
         {
             _needsRefresh = true;
             _debouncer.RaiseOnValueChanged();
         }
 
-        /// <summary>
-        /// Refreshes the async.
-        /// </summary>
         public Task RefreshAsync()
         {
             if (_refreshCompleted is null) _refreshCompleted = new TaskCompletionSource<bool>();
@@ -78,9 +68,6 @@ namespace Tesserae
             return _refreshCompleted.Task;
         }
 
-        /// <summary>
-        /// Configures the component to debounce.
-        /// </summary>
         public IDefer Debounce(int delayInMs, int millisecondsForLoadingMessage = 1000)
         {
             _debouncer = new DebouncerWithMaxDelay(() => TriggerRefresh(), delayInMs: delayInMs);
@@ -88,9 +75,6 @@ namespace Tesserae
             return this;
         }
 
-        /// <summary>
-        /// Configures the component to debounce.
-        /// </summary>
         public IDefer Debounce(int delayInMs, int maxDelayInMs, int millisecondsForLoadingMessage = 1000)
         {
             _debouncer = new DebouncerWithMaxDelay(() => TriggerRefresh(), delayInMs: delayInMs, maxDelayInMs: maxDelayInMs);
@@ -98,18 +82,12 @@ namespace Tesserae
             return this;
         }
 
-        /// <summary>
-        /// Configures the do not wait for component mounting before rendering on the component.
-        /// </summary>
         public IDefer DoNotWaitForComponentMountingBeforeRendering()
         {
             _waitForComponentToBeMountedBeforeFullyInitiatingRender = false;
             return this;
         }
 
-        /// <summary>
-        /// Renders the component's root HTML element.
-        /// </summary>
         public HTMLElement Render()
         {
             if (!_renderHasBeenCalled)
@@ -218,316 +196,5 @@ namespace Tesserae
                 })
                .FireAndForget();
         }
-
-        internal static DeferedComponentWithProgress Observe<T1>(IObservable<T1> o1, Func<T1, Action<float, string>, Task<IComponent>> asyncGenerator, Func<float, string, IComponent> loadMessageGenerator = null)
-        {
-            var d = Create((progress) => asyncGenerator(o1.Value, progress), loadMessageGenerator);
-
-            DomObserver.WhenMounted(d.Container, () =>
-            {
-                o1.ObserveFutureChanges(DoRefresh);
-
-                DomObserver.WhenRemoved(d.Container, () =>
-                {
-                    o1.StopObserving(DoRefresh);
-                });
-            });
-
-            void DoRefresh<T>(T val)
-            {
-                d.Refresh();
-            }
-
-            return d;
-        }
-
-        internal static DeferedComponentWithProgress Observe<T1, T2>(IObservable<T1> o1, IObservable<T2> o2, Func<T1, T2, Action<float, string>, Task<IComponent>> asyncGenerator, Func<float, string, IComponent> loadMessageGenerator = null)
-        {
-            var d = Create((progress) => asyncGenerator(o1.Value, o2.Value, progress), loadMessageGenerator);
-
-            DomObserver.WhenMounted(d.Container, () =>
-            {
-                o1.ObserveFutureChanges(DoRefresh);
-                o2.ObserveFutureChanges(DoRefresh);
-
-                DomObserver.WhenRemoved(d.Container, () =>
-                {
-                    o1.StopObserving(DoRefresh);
-                    o2.StopObserving(DoRefresh);
-                });
-            });
-
-            void DoRefresh<T>(T val)
-            {
-                d.Refresh();
-            }
-
-            return d;
-        }
-
-        internal static DeferedComponentWithProgress Observe<T1, T2, T3>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, Func<T1, T2, T3, Action<float, string>, Task<IComponent>> asyncGenerator, Func<float, string, IComponent> loadMessageGenerator = null)
-        {
-            var d = Create((progress) => asyncGenerator(o1.Value, o2.Value, o3.Value, progress), loadMessageGenerator);
-
-            DomObserver.WhenMounted(d.Container, () =>
-            {
-                o1.ObserveFutureChanges(DoRefresh);
-                o2.ObserveFutureChanges(DoRefresh);
-                o3.ObserveFutureChanges(DoRefresh);
-
-                DomObserver.WhenRemoved(d.Container, () =>
-                {
-                    o1.StopObserving(DoRefresh);
-                    o2.StopObserving(DoRefresh);
-                    o3.StopObserving(DoRefresh);
-                });
-            });
-
-            void DoRefresh<T>(T val)
-            {
-                d.Refresh();
-            }
-
-            return d;
-        }
-
-        internal static DeferedComponentWithProgress Observe<T1, T2, T3, T4>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, Func<T1, T2, T3, T4, Action<float, string>, Task<IComponent>> asyncGenerator, Func<float, string, IComponent> loadMessageGenerator = null)
-        {
-            var d = Create((progress) => asyncGenerator(o1.Value, o2.Value, o3.Value, o4.Value, progress), loadMessageGenerator);
-
-            DomObserver.WhenMounted(d.Container, () =>
-            {
-                o1.ObserveFutureChanges(DoRefresh);
-                o2.ObserveFutureChanges(DoRefresh);
-                o3.ObserveFutureChanges(DoRefresh);
-                o4.ObserveFutureChanges(DoRefresh);
-
-                DomObserver.WhenRemoved(d.Container, () =>
-                {
-                    o1.StopObserving(DoRefresh);
-                    o2.StopObserving(DoRefresh);
-                    o3.StopObserving(DoRefresh);
-                    o4.StopObserving(DoRefresh);
-                });
-            });
-
-            void DoRefresh<T>(T val)
-            {
-                d.Refresh();
-            }
-
-            return d;
-        }
-
-        internal static DeferedComponentWithProgress Observe<T1, T2, T3, T4, T5>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, Func<T1, T2, T3, T4, T5, Action<float, string>, Task<IComponent>> asyncGenerator, Func<float, string, IComponent> loadMessageGenerator = null)
-        {
-            var d = Create((progress) => asyncGenerator(o1.Value, o2.Value, o3.Value, o4.Value, o5.Value, progress), loadMessageGenerator);
-
-            DomObserver.WhenMounted(d.Container, () =>
-            {
-                o1.ObserveFutureChanges(DoRefresh);
-                o2.ObserveFutureChanges(DoRefresh);
-                o3.ObserveFutureChanges(DoRefresh);
-                o4.ObserveFutureChanges(DoRefresh);
-                o5.ObserveFutureChanges(DoRefresh);
-
-                DomObserver.WhenRemoved(d.Container, () =>
-                {
-                    o1.StopObserving(DoRefresh);
-                    o2.StopObserving(DoRefresh);
-                    o3.StopObserving(DoRefresh);
-                    o4.StopObserving(DoRefresh);
-                    o5.StopObserving(DoRefresh);
-                });
-            });
-
-            void DoRefresh<T>(T val)
-            {
-                d.Refresh();
-            }
-
-            return d;
-        }
-
-        internal static DeferedComponentWithProgress Observe<T1, T2, T3, T4, T5, T6>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, IObservable<T6> o6, Func<T1, T2, T3, T4, T5, T6, Action<float, string>, Task<IComponent>> asyncGenerator, Func<float, string, IComponent> loadMessageGenerator = null)
-        {
-            var d = Create((progress) => asyncGenerator(o1.Value, o2.Value, o3.Value, o4.Value, o5.Value, o6.Value, progress), loadMessageGenerator);
-
-            DomObserver.WhenMounted(d.Container, () =>
-            {
-                o1.ObserveFutureChanges(DoRefresh);
-                o2.ObserveFutureChanges(DoRefresh);
-                o3.ObserveFutureChanges(DoRefresh);
-                o4.ObserveFutureChanges(DoRefresh);
-                o5.ObserveFutureChanges(DoRefresh);
-                o6.ObserveFutureChanges(DoRefresh);
-
-                DomObserver.WhenRemoved(d.Container, () =>
-                {
-                    o1.StopObserving(DoRefresh);
-                    o2.StopObserving(DoRefresh);
-                    o3.StopObserving(DoRefresh);
-                    o4.StopObserving(DoRefresh);
-                    o5.StopObserving(DoRefresh);
-                    o6.StopObserving(DoRefresh);
-                });
-            });
-
-            void DoRefresh<T>(T val)
-            {
-                d.Refresh();
-            }
-
-            return d;
-        }
-
-        internal static DeferedComponentWithProgress Observe<T1, T2, T3, T4, T5, T6, T7>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, IObservable<T6> o6, IObservable<T7> o7, Func<T1, T2, T3, T4, T5, T6, T7, Action<float, string>, Task<IComponent>> asyncGenerator, Func<float, string, IComponent> loadMessageGenerator = null)
-        {
-            var d = Create((progress) => asyncGenerator(o1.Value, o2.Value, o3.Value, o4.Value, o5.Value, o6.Value, o7.Value, progress), loadMessageGenerator);
-
-            DomObserver.WhenMounted(d.Container, () =>
-            {
-                o1.ObserveFutureChanges(DoRefresh);
-                o2.ObserveFutureChanges(DoRefresh);
-                o3.ObserveFutureChanges(DoRefresh);
-                o4.ObserveFutureChanges(DoRefresh);
-                o5.ObserveFutureChanges(DoRefresh);
-                o6.ObserveFutureChanges(DoRefresh);
-                o7.ObserveFutureChanges(DoRefresh);
-
-                DomObserver.WhenRemoved(d.Container, () =>
-                {
-                    o1.StopObserving(DoRefresh);
-                    o2.StopObserving(DoRefresh);
-                    o3.StopObserving(DoRefresh);
-                    o4.StopObserving(DoRefresh);
-                    o5.StopObserving(DoRefresh);
-                    o6.StopObserving(DoRefresh);
-                    o7.StopObserving(DoRefresh);
-                });
-            });
-
-            void DoRefresh<T>(T val)
-            {
-                d.Refresh();
-            }
-
-            return d;
-        }
-
-        internal static DeferedComponentWithProgress Observe<T1, T2, T3, T4, T5, T6, T7, T8>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, IObservable<T6> o6, IObservable<T7> o7, IObservable<T8> o8, Func<T1, T2, T3, T4, T5, T6, T7, T8, Action<float, string>, Task<IComponent>> asyncGenerator, Func<float, string, IComponent> loadMessageGenerator = null)
-        {
-            var d = Create((progress) => asyncGenerator(o1.Value, o2.Value, o3.Value, o4.Value, o5.Value, o6.Value, o7.Value, o8.Value, progress), loadMessageGenerator);
-
-            DomObserver.WhenMounted(d.Container, () =>
-            {
-                o1.ObserveFutureChanges(DoRefresh);
-                o2.ObserveFutureChanges(DoRefresh);
-                o3.ObserveFutureChanges(DoRefresh);
-                o4.ObserveFutureChanges(DoRefresh);
-                o5.ObserveFutureChanges(DoRefresh);
-                o6.ObserveFutureChanges(DoRefresh);
-                o7.ObserveFutureChanges(DoRefresh);
-                o8.ObserveFutureChanges(DoRefresh);
-
-                DomObserver.WhenRemoved(d.Container, () =>
-                {
-                    o1.StopObserving(DoRefresh);
-                    o2.StopObserving(DoRefresh);
-                    o3.StopObserving(DoRefresh);
-                    o4.StopObserving(DoRefresh);
-                    o5.StopObserving(DoRefresh);
-                    o6.StopObserving(DoRefresh);
-                    o7.StopObserving(DoRefresh);
-                    o8.StopObserving(DoRefresh);
-                });
-            });
-
-            void DoRefresh<T>(T val)
-            {
-                d.Refresh();
-            }
-
-            return d;
-        }
-
-        internal static DeferedComponentWithProgress Observe<T1, T2, T3, T4, T5, T6, T7, T8, T9>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, IObservable<T6> o6, IObservable<T7> o7, IObservable<T8> o8, IObservable<T9> o9, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, Action<float, string>, Task<IComponent>> asyncGenerator, Func<float, string, IComponent> loadMessageGenerator = null)
-        {
-            var d = Create((progress) => asyncGenerator(o1.Value, o2.Value, o3.Value, o4.Value, o5.Value, o6.Value, o7.Value, o8.Value, o9.Value, progress), loadMessageGenerator);
-
-            DomObserver.WhenMounted(d.Container, () =>
-            {
-                o1.ObserveFutureChanges(DoRefresh);
-                o2.ObserveFutureChanges(DoRefresh);
-                o3.ObserveFutureChanges(DoRefresh);
-                o4.ObserveFutureChanges(DoRefresh);
-                o5.ObserveFutureChanges(DoRefresh);
-                o6.ObserveFutureChanges(DoRefresh);
-                o7.ObserveFutureChanges(DoRefresh);
-                o8.ObserveFutureChanges(DoRefresh);
-                o9.ObserveFutureChanges(DoRefresh);
-
-                DomObserver.WhenRemoved(d.Container, () =>
-                {
-                    o1.StopObserving(DoRefresh);
-                    o2.StopObserving(DoRefresh);
-                    o3.StopObserving(DoRefresh);
-                    o4.StopObserving(DoRefresh);
-                    o5.StopObserving(DoRefresh);
-                    o6.StopObserving(DoRefresh);
-                    o7.StopObserving(DoRefresh);
-                    o8.StopObserving(DoRefresh);
-                    o9.StopObserving(DoRefresh);
-                });
-            });
-
-            void DoRefresh<T>(T val)
-            {
-                d.Refresh();
-            }
-
-            return d;
-        }
-
-        internal static DeferedComponentWithProgress Observe<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, IObservable<T6> o6, IObservable<T7> o7, IObservable<T8> o8, IObservable<T9> o9, IObservable<T10> o10, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, Action<float, string>, Task<IComponent>> asyncGenerator, Func<float, string, IComponent> loadMessageGenerator = null)
-        {
-            var d = Create((progress) => asyncGenerator(o1.Value, o2.Value, o3.Value, o4.Value, o5.Value, o6.Value, o7.Value, o8.Value, o9.Value, o10.Value, progress), loadMessageGenerator);
-
-            DomObserver.WhenMounted(d.Container, () =>
-            {
-                o1.ObserveFutureChanges(DoRefresh);
-                o2.ObserveFutureChanges(DoRefresh);
-                o3.ObserveFutureChanges(DoRefresh);
-                o4.ObserveFutureChanges(DoRefresh);
-                o5.ObserveFutureChanges(DoRefresh);
-                o6.ObserveFutureChanges(DoRefresh);
-                o7.ObserveFutureChanges(DoRefresh);
-                o8.ObserveFutureChanges(DoRefresh);
-                o9.ObserveFutureChanges(DoRefresh);
-                o10.ObserveFutureChanges(DoRefresh);
-
-                DomObserver.WhenRemoved(d.Container, () =>
-                {
-                    o1.StopObserving(DoRefresh);
-                    o2.StopObserving(DoRefresh);
-                    o3.StopObserving(DoRefresh);
-                    o4.StopObserving(DoRefresh);
-                    o5.StopObserving(DoRefresh);
-                    o6.StopObserving(DoRefresh);
-                    o7.StopObserving(DoRefresh);
-                    o8.StopObserving(DoRefresh);
-                    o9.StopObserving(DoRefresh);
-                    o10.StopObserving(DoRefresh);
-                });
-            });
-
-            void DoRefresh<T>(T val)
-            {
-                d.Refresh();
-            }
-
-            return d;
-        }
-
     }
 }

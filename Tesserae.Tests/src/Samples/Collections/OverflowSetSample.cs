@@ -12,17 +12,17 @@ namespace Tesserae.Tests.Samples
 
         public OverflowSetSample()
         {
-            _content = SectionStack().Secondary()
-               .SampleTitle(typeof(OverflowSetSample), UIcons.MenuDots, "A component to display an overflow set")
-               .FlatSection(Stack().Children(
-                    Card(VStack().WS().Children(
+            _content = SectionStack()
+               .Title(SampleHeader(nameof(OverflowSetSample)))
+               .Section(Stack().Children(
+                    SampleTitle("Overview"),
                     TextBlock("OverflowSet is a container that automatically moves items that don't fit into the available space into an overflow menu."),
-                    TextBlock("It is commonly used for command bars, navigation menus, or any list of actions where you want to maximize the visibility of primary items while ensuring all items are accessible."))).SetTitle("Overview")))
-               .FlatSection(Stack().Children(
-                    Card(VStack().WS().Children(
-                    TextBlock("Use OverflowSet when you have a horizontal list of items that might exceed the screen width. Order items by importance so that the most critical actions are the last to be moved to the overflow menu. Provide a clear icon or label for the overflow trigger (usually a 'more' icon). Ensure that items in the overflow menu remain fully functional."))).SetTitle("Best Practices")))
-               .FlatSection(Stack().Children(
-                    Card(VStack().WS().Children(
+                    TextBlock("It is commonly used for command bars, navigation menus, or any list of actions where you want to maximize the visibility of primary items while ensuring all items are accessible.")))
+               .Section(Stack().Children(
+                    SampleTitle("Best Practices"),
+                    TextBlock("Use OverflowSet when you have a horizontal list of items that might exceed the screen width. Order items by importance so that the most critical actions are the last to be moved to the overflow menu. Provide a clear icon or label for the overflow trigger (usually a 'more' icon). Ensure that items in the overflow menu remain fully functional.")))
+               .Section(Stack().Children(
+                    SampleTitle("Usage"),
                     SampleSubTitle("Basic OverflowSet"),
                     TextBlock("Resize the window or container to see items moving into the '...' menu."),
                     OverflowSet().Items(
@@ -49,7 +49,7 @@ namespace Tesserae.Tests.Samples
                         Button("Option B").Link(),
                         Button("Option C").Link()
                     )
-                )).SetTitle("Usage")));
+                ));
         }
 
         public HTMLElement Render() => _content.Render();

@@ -4,25 +4,16 @@ using System;
 
 namespace Tesserae
 {
-    /// <summary>
-    /// A single icon glyph from the bundled UIcons set, with configurable size, weight and color.
-    /// </summary>
     [H5.Name("tss.Icon")]
     public class Icon : IComponent, IHasForegroundColor, ITextFormating
     {
         private readonly HTMLElement InnerElement;
 
-        /// <summary>
-        /// Initializes a new instance of this class.
-        /// </summary>
         public Icon()
         {
             InnerElement = I(_("tss-icon "));
         }
 
-        /// <summary>
-        /// Initializes a new instance of this class.
-        /// </summary>
         public Icon(UIcons icon, UIconsWeight weight = UIconsWeight.Regular, TextSize size = TextSize.Small)
         {
             var iconStr = $"{Transform(icon, weight)} {size}";
@@ -31,9 +22,6 @@ namespace Tesserae
             InnerElement.dataset["icon"] = iconStr;
         }
 
-        /// <summary>
-        /// Initializes a new instance of this class.
-        /// </summary>
         public Icon(Emoji icon, TextSize size = TextSize.Medium)
         {
             var iconStr = $"ec {icon} {size}";
@@ -42,9 +30,6 @@ namespace Tesserae
             InnerElement.dataset["icon"] = iconStr;
         }
 
-        /// <summary>
-        /// Sets the icon of the component.
-        /// </summary>
         public Icon SetIcon(Emoji icon, TextSize size = TextSize.Medium)
         {
             var iconStr = $"ec {icon} {size}";
@@ -61,9 +46,6 @@ namespace Tesserae
             return this;
         }
 
-        /// <summary>
-        /// Sets the icon of the component.
-        /// </summary>
         public Icon SetIcon(UIcons icon, UIconsWeight weight = UIconsWeight.Regular, TextSize size = TextSize.Small)
         {
             var iconStr = $"{Transform(icon, weight)} {size}";
@@ -81,9 +63,6 @@ namespace Tesserae
             return this;
         }
 
-        /// <summary>
-        /// Configures the component to transform.
-        /// </summary>
         public static string Transform(UIcons icon, UIconsWeight weight)
         {
             string v = icon.ToString();
@@ -91,18 +70,12 @@ namespace Tesserae
             return weight + v.Substring(6);
         }
 
-        /// <summary>
-        /// Gets or sets the CSS color (foreground) of the component.
-        /// </summary>
         public string Foreground
         {
             get => InnerElement.style.color;
             set => InnerElement.style.color = value;
         }
 
-        /// <summary>
-        /// Gets or sets the size of the component.
-        /// </summary>
         public TextSize Size
         {
             get => ITextFormatingExtensions.FromClassList(InnerElement, TextSize.Small);
@@ -113,9 +86,6 @@ namespace Tesserae
             }
         }
 
-        /// <summary>
-        /// Gets or sets the font weight of the component.
-        /// </summary>
         public TextWeight Weight
         {
             get => ITextFormatingExtensions.FromClassList(InnerElement, TextWeight.Regular);
@@ -126,9 +96,6 @@ namespace Tesserae
             }
         }
 
-        /// <summary>
-        /// Gets or sets the text alignment of the component.
-        /// </summary>
         public TextAlign TextAlign
         {
             get => ITextFormatingExtensions.FromClassList(InnerElement, TextAlign.Center);
@@ -139,27 +106,18 @@ namespace Tesserae
             }
         }
 
-        /// <summary>
-        /// Gets or sets the title of the component.
-        /// </summary>
         public string Title
         {
             get => InnerElement.title;
             set => InnerElement.title = value;
         }
 
-        /// <summary>
-        /// Sets the title of the component.
-        /// </summary>
         public Icon SetTitle(string title)
         {
             Title = title;
             return this;
         }
 
-        /// <summary>
-        /// Renders the component's root HTML element.
-        /// </summary>
         public HTMLElement Render() => InnerElement;
     }
 }

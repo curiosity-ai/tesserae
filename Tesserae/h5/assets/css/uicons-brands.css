@@ -6,7 +6,7 @@
 *   _| |_| | | | ||  __/ |  | || (_| | (_|  __/  _| || (_| (_) | | | \__ \          | |    | | (_| | |_| | (_| (_) | | | |
 *  |_____|_| |_|\__\___|_|  |_| \__,_|\___\___| |_____\___\___/|_| |_|___/          |_|    |_|\__,_|\__|_|\___\___/|_| |_|
 *
-*                         UIcons 4.0.0 - https://www.flaticon.com/uicons/interface-icons
+*                         UIcons 3.0.0 - https://www.flaticon.com/uicons/interface-icons
 */
 @font-face {
     font-family: "uicons-brands";
@@ -27,773 +27,665 @@ line-height: inherit;
 }
 
         .fi-brands-3m:before {
-    content: "\e014";
+    content: "\e00c";
     }
         .fi-brands-500px:before {
-    content: "\e01a";
+    content: "\e012";
     }
         .fi-brands-abbot-laboratories:before {
-    content: "\e027";
+    content: "\e01f";
     }
         .fi-brands-accusoft:before {
-    content: "\e02f";
+    content: "\e027";
     }
         .fi-brands-acrobat:before {
-    content: "\e032";
+    content: "\e029";
     }
         .fi-brands-adobe:before {
-    content: "\e043";
+    content: "\e039";
     }
         .fi-brands-aecom:before {
-    content: "\e048";
+    content: "\e03d";
     }
         .fi-brands-aero:before {
-    content: "\e049";
+    content: "\e03e";
     }
         .fi-brands-after-effects:before {
-    content: "\e04b";
+    content: "\e03f";
     }
         .fi-brands-airbnb:before {
-    content: "\e064";
+    content: "\e054";
     }
         .fi-brands-algolia:before {
-    content: "\e073";
+    content: "\e063";
     }
         .fi-brands-amd:before {
-    content: "\e082";
+    content: "\e071";
     }
         .fi-brands-american-express:before {
-    content: "\e083";
+    content: "\e072";
     }
         .fi-brands-android:before {
-    content: "\e090";
+    content: "\e07f";
     }
         .fi-brands-animate:before {
-    content: "\e0ac";
+    content: "\e09b";
     }
         .fi-brands-app-store-ios:before {
-    content: "\e0b9";
+    content: "\e0a8";
     }
         .fi-brands-apple:before {
-    content: "\e0bb";
+    content: "\e0aa";
     }
         .fi-brands-apple-pay:before {
-    content: "\e0c1";
+    content: "\e0b0";
     }
         .fi-brands-artstation:before {
-    content: "\e13b";
+    content: "\e128";
     }
         .fi-brands-astrazeneca:before {
-    content: "\e145";
+    content: "\e131";
     }
         .fi-brands-asus:before {
-    content: "\e146";
+    content: "\e132";
     }
         .fi-brands-atandt:before {
-    content: "\e148";
+    content: "\e134";
     }
         .fi-brands-atlassian:before {
-    content: "\e149";
+    content: "\e135";
     }
         .fi-brands-atom:before {
-    content: "\e14b";
+    content: "\e137";
     }
         .fi-brands-audition:before {
-    content: "\e159";
+    content: "\e144";
     }
         .fi-brands-behance:before {
-    content: "\e1d9";
+    content: "\e1bb";
     }
         .fi-brands-bitcoin:before {
-    content: "\e20a";
+    content: "\e1e7";
     }
         .fi-brands-blackberry:before {
-    content: "\e20e";
+    content: "\e1eb";
     }
         .fi-brands-blogger:before {
-    content: "\e221";
+    content: "\e1fe";
     }
         .fi-brands-bluetooth:before {
-    content: "\e22b";
+    content: "\e207";
     }
         .fi-brands-bootstrap:before {
-    content: "\e268";
+    content: "\e241";
     }
         .fi-brands-bridgestone:before {
-    content: "\e2e9";
+    content: "\e2ae";
     }
         .fi-brands-burger-king:before {
-    content: "\e32d";
+    content: "\e2ed";
     }
         .fi-brands-c:before {
-    content: "\e34e";
+    content: "\e2fe";
     }
         .fi-brands-capture:before {
-    content: "\e3a1";
+    content: "\e34b";
     }
         .fi-brands-cc-amazon-pay:before {
-    content: "\e3eb";
+    content: "\e395";
     }
         .fi-brands-cc-apple-pay:before {
-    content: "\e3ec";
+    content: "\e396";
     }
         .fi-brands-cc-diners-club:before {
-    content: "\e3ed";
+    content: "\e397";
     }
         .fi-brands-cc-visa:before {
-    content: "\e3ee";
+    content: "\e398";
     }
         .fi-brands-centos:before {
-    content: "\e3f6";
+    content: "\e39f";
     }
         .fi-brands-character:before {
-    content: "\e403";
+    content: "\e3ab";
     }
         .fi-brands-chromecast:before {
-    content: "\e45f";
+    content: "\e406";
     }
         .fi-brands-cloudflare:before {
-    content: "\e516";
+    content: "\e4b8";
     }
         .fi-brands-confluence:before {
-    content: "\e597";
+    content: "\e529";
     }
         .fi-brands-creative-commons:before {
-    content: "\e5c7";
+    content: "\e557";
     }
         .fi-brands-creative-commons-by:before {
-    content: "\e5c8";
+    content: "\e558";
     }
         .fi-brands-creative-commons-nc:before {
-    content: "\e5c9";
+    content: "\e559";
     }
         .fi-brands-creative-commons-nc-eu:before {
-    content: "\e5ca";
+    content: "\e55a";
     }
         .fi-brands-creative-commons-nc-jp:before {
-    content: "\e5cb";
+    content: "\e55b";
     }
         .fi-brands-creative-commons-nd:before {
-    content: "\e5cc";
+    content: "\e55c";
     }
         .fi-brands-creative-commons-pd:before {
-    content: "\e5cd";
+    content: "\e55d";
     }
         .fi-brands-creative-commons-pd-alt:before {
-    content: "\e5ce";
+    content: "\e55e";
     }
         .fi-brands-creative-commons-remix:before {
-    content: "\e5cf";
+    content: "\e55f";
     }
         .fi-brands-creative-commons-sa:before {
-    content: "\e5d0";
+    content: "\e560";
     }
         .fi-brands-creative-commons-sampling:before {
-    content: "\e5d1";
+    content: "\e561";
     }
         .fi-brands-creative-commons-sampling-plus:before {
-    content: "\e5d2";
+    content: "\e562";
     }
         .fi-brands-creative-commons-share:before {
-    content: "\e5d3";
+    content: "\e563";
     }
         .fi-brands-creative-commons-zero:before {
-    content: "\e5d4";
+    content: "\e564";
     }
         .fi-brands-css3:before {
-    content: "\e5fa";
+    content: "\e587";
     }
         .fi-brands-css3-alt:before {
-    content: "\e5fb";
+    content: "\e588";
     }
         .fi-brands-dailymotion:before {
-    content: "\e630";
+    content: "\e5b0";
     }
         .fi-brands-deezer:before {
-    content: "\e656";
+    content: "\e5d5";
     }
         .fi-brands-delphi:before {
-    content: "\e65f";
+    content: "\e5de";
     }
         .fi-brands-dev:before {
-    content: "\e66f";
+    content: "\e5ec";
     }
         .fi-brands-devianart:before {
-    content: "\e670";
+    content: "\e5ed";
     }
         .fi-brands-digg:before {
-    content: "\e6a0";
+    content: "\e61b";
     }
         .fi-brands-dimension:before {
-    content: "\e6af";
+    content: "\e62a";
     }
         .fi-brands-discord:before {
-    content: "\e6b9";
-    }
-        .fi-brands-discord-circle:before {
-    content: "\e6ba";
-    }
-        .fi-brands-discord-square:before {
-    content: "\e6bb";
+    content: "\e634";
     }
         .fi-brands-docker:before {
-    content: "\e6da";
+    content: "\e650";
     }
         .fi-brands-dribbble:before {
-    content: "\e71a";
+    content: "\e68b";
     }
         .fi-brands-dropbox:before {
-    content: "\e724";
+    content: "\e695";
     }
         .fi-brands-drupal:before {
-    content: "\e72f";
+    content: "\e69f";
     }
         .fi-brands-ebay:before {
-    content: "\e752";
+    content: "\e6be";
     }
         .fi-brands-elementor:before {
-    content: "\e766";
+    content: "\e6d2";
     }
         .fi-brands-ethereum:before {
-    content: "\e79b";
+    content: "\e706";
     }
         .fi-brands-etsy:before {
-    content: "\e79d";
+    content: "\e708";
     }
         .fi-brands-evernote:before {
-    content: "\e7a2";
+    content: "\e70d";
     }
         .fi-brands-facebook:before {
-    content: "\e80c";
+    content: "\e775";
     }
         .fi-brands-facebook-messenger:before {
-    content: "\e80d";
-    }
-        .fi-brands-facebook-messenger-circle:before {
-    content: "\e80e";
-    }
-        .fi-brands-facebook-messenger-square:before {
-    content: "\e80f";
-    }
-        .fi-brands-facebook-square:before {
-    content: "\e810";
+    content: "\e776";
     }
         .fi-brands-fedex:before {
-    content: "\e829";
+    content: "\e78d";
     }
         .fi-brands-figma:before {
-    content: "\e838";
+    content: "\e79c";
     }
         .fi-brands-firefox:before {
-    content: "\e896";
+    content: "\e7f9";
     }
         .fi-brands-firefox-browser:before {
-    content: "\e897";
+    content: "\e7fa";
     }
         .fi-brands-flaticon:before {
-    content: "\e8b7";
+    content: "\e818";
     }
         .fi-brands-flaticon-1:before {
-    content: "\e8b8";
+    content: "\e819";
     }
         .fi-brands-flickr:before {
-    content: "\e8ba";
+    content: "\e81b";
     }
         .fi-brands-flipboard:before {
-    content: "\e8bc";
+    content: "\e81d";
     }
         .fi-brands-fonts:before {
-    content: "\e8fa";
+    content: "\e859";
     }
         .fi-brands-foursquare:before {
-    content: "\e90d";
+    content: "\e86c";
     }
         .fi-brands-freepik:before {
-    content: "\e918";
+    content: "\e877";
     }
         .fi-brands-freepik-1:before {
-    content: "\e919";
+    content: "\e878";
     }
         .fi-brands-fresco:before {
-    content: "\e91c";
+    content: "\e87b";
     }
         .fi-brands-github:before {
-    content: "\e965";
+    content: "\e8bf";
     }
         .fi-brands-gitlab:before {
-    content: "\e966";
+    content: "\e8c0";
     }
         .fi-brands-goodreads:before {
-    content: "\e989";
+    content: "\e8e0";
     }
         .fi-brands-google:before {
-    content: "\e98a";
-    }
-        .fi-brands-google-circle:before {
-    content: "\e98b";
-    }
-        .fi-brands-google-play:before {
-    content: "\e98c";
-    }
-        .fi-brands-google-play-circle:before {
-    content: "\e98d";
-    }
-        .fi-brands-google-play-square:before {
-    content: "\e98e";
-    }
-        .fi-brands-google-square:before {
-    content: "\e98f";
+    content: "\e8e1";
     }
         .fi-brands-haskell:before {
-    content: "\ea38";
+    content: "\e982";
     }
         .fi-brands-hbo:before {
-    content: "\ea44";
+    content: "\e98e";
     }
         .fi-brands-hotjar:before {
-    content: "\eaac";
+    content: "\e9f1";
     }
         .fi-brands-html5:before {
-    content: "\eada";
+    content: "\ea1d";
     }
         .fi-brands-huawei:before {
-    content: "\eadb";
+    content: "\ea1e";
     }
         .fi-brands-hubspot:before {
-    content: "\eadc";
+    content: "\ea1f";
     }
         .fi-brands-ibm:before {
-    content: "\eae7";
+    content: "\ea29";
     }
         .fi-brands-iconfinder:before {
-    content: "\eaed";
+    content: "\ea2e";
     }
         .fi-brands-illustrator:before {
-    content: "\eaf5";
+    content: "\ea35";
     }
         .fi-brands-illustrator-draw:before {
-    content: "\eaf6";
+    content: "\ea36";
     }
         .fi-brands-imdb:before {
-    content: "\eafb";
+    content: "\ea3a";
     }
         .fi-brands-incopy:before {
-    content: "\eb06";
+    content: "\ea45";
     }
         .fi-brands-indesign:before {
-    content: "\eb08";
+    content: "\ea47";
     }
         .fi-brands-instagram:before {
-    content: "\eb22";
-    }
-        .fi-brands-instagram-circle:before {
-    content: "\eb23";
-    }
-        .fi-brands-instagram-square:before {
-    content: "\eb24";
+    content: "\ea61";
     }
         .fi-brands-intel:before {
-    content: "\eb2c";
+    content: "\ea69";
     }
         .fi-brands-invision:before {
-    content: "\eb3a";
+    content: "\ea77";
     }
         .fi-brands-itunes:before {
-    content: "\eb4c";
+    content: "\ea88";
     }
         .fi-brands-janseen:before {
-    content: "\eb51";
+    content: "\ea8c";
     }
         .fi-brands-java:before {
-    content: "\eb56";
+    content: "\ea91";
     }
         .fi-brands-jcb:before {
-    content: "\eb58";
+    content: "\ea93";
     }
         .fi-brands-jira:before {
-    content: "\eb5a";
+    content: "\ea94";
     }
         .fi-brands-johnson-and-johnson:before {
-    content: "\eb5c";
+    content: "\ea95";
     }
         .fi-brands-joomla:before {
-    content: "\eb5f";
+    content: "\ea98";
     }
         .fi-brands-js:before {
-    content: "\eb66";
+    content: "\ea9f";
     }
         .fi-brands-kickstarter:before {
-    content: "\eb88";
+    content: "\eac0";
     }
         .fi-brands-line:before {
-    content: "\ec1d";
-    }
-        .fi-brands-line-circle:before {
-    content: "\ec1e";
-    }
-        .fi-brands-line-square:before {
-    content: "\ec1f";
+    content: "\eb4c";
     }
         .fi-brands-linkedin:before {
-    content: "\ec27";
-    }
-        .fi-brands-linkedin-circle:before {
-    content: "\ec28";
-    }
-        .fi-brands-linkedin-square:before {
-    content: "\ec29";
+    content: "\eb54";
     }
         .fi-brands-lisp:before {
-    content: "\ec30";
+    content: "\eb5b";
     }
         .fi-brands-mailchimp:before {
-    content: "\ec8c";
+    content: "\ebaf";
     }
         .fi-brands-marriott-international:before {
-    content: "\ecb3";
+    content: "\ebd5";
     }
         .fi-brands-mcdonalds:before {
-    content: "\ecc8";
+    content: "\ebe8";
     }
         .fi-brands-media-encoder:before {
-    content: "\eccd";
+    content: "\ebec";
     }
         .fi-brands-medium:before {
-    content: "\ecd4";
+    content: "\ebf2";
     }
         .fi-brands-meta:before {
-    content: "\ed06";
-    }
-        .fi-brands-meta-circle:before {
-    content: "\ed07";
-    }
-        .fi-brands-meta-square:before {
-    content: "\ed08";
+    content: "\ec24";
     }
         .fi-brands-microsoft:before {
-    content: "\ed1b";
+    content: "\ec35";
     }
         .fi-brands-microsoft-edge:before {
-    content: "\ed1c";
+    content: "\ec36";
     }
         .fi-brands-microsoft-explorer:before {
-    content: "\ed1d";
+    content: "\ec37";
     }
         .fi-brands-mysql:before {
-    content: "\eda6";
+    content: "\ecb8";
     }
         .fi-brands-napster:before {
-    content: "\edad";
+    content: "\ecbd";
     }
         .fi-brands-nestle:before {
-    content: "\edb2";
+    content: "\ecc1";
     }
         .fi-brands-netflix:before {
-    content: "\edb3";
+    content: "\ecc2";
     }
         .fi-brands-node-js:before {
-    content: "\eddc";
+    content: "\eceb";
     }
         .fi-brands-nvidia:before {
-    content: "\edf9";
+    content: "\ed06";
     }
         .fi-brands-oracle:before {
-    content: "\ee35";
+    content: "\ed3b";
     }
         .fi-brands-patreon:before {
-    content: "\ee83";
+    content: "\ed84";
     }
         .fi-brands-paypal:before {
-    content: "\ee91";
+    content: "\ed92";
     }
         .fi-brands-pfizer:before {
-    content: "\ef0c";
+    content: "\ee0b";
     }
         .fi-brands-photoshop:before {
-    content: "\ef24";
+    content: "\ee23";
     }
         .fi-brands-photoshop-camera:before {
-    content: "\ef25";
+    content: "\ee24";
     }
         .fi-brands-photoshop-express:before {
-    content: "\ef26";
+    content: "\ee25";
     }
         .fi-brands-photoshop-lightroom:before {
-    content: "\ef27";
+    content: "\ee26";
     }
         .fi-brands-photoshop-lightroom-classic:before {
-    content: "\ef28";
+    content: "\ee27";
     }
         .fi-brands-php:before {
-    content: "\ef29";
+    content: "\ee28";
     }
         .fi-brands-pinterest:before {
-    content: "\ef47";
-    }
-        .fi-brands-pinterest-square:before {
-    content: "\ef48";
+    content: "\ee44";
     }
         .fi-brands-postgre:before {
-    content: "\efb3";
+    content: "\eeaa";
     }
         .fi-brands-premiere:before {
-    content: "\efbc";
+    content: "\eeb3";
     }
         .fi-brands-premiere-rush:before {
-    content: "\efbd";
+    content: "\eeb4";
     }
         .fi-brands-product-hunt:before {
-    content: "\efdc";
+    content: "\eecf";
     }
         .fi-brands-python:before {
-    content: "\effc";
+    content: "\eeed";
     }
         .fi-brands-raspberry-pi:before {
-    content: "\f034";
+    content: "\ef22";
     }
         .fi-brands-reddit:before {
-    content: "\f04d";
+    content: "\ef3a";
     }
         .fi-brands-samsung:before {
-    content: "\f0f3";
+    content: "\efd4";
     }
         .fi-brands-sap:before {
-    content: "\f0f7";
+    content: "\efd8";
     }
         .fi-brands-sass:before {
-    content: "\f0f8";
+    content: "\efd9";
     }
         .fi-brands-shopify:before {
-    content: "\f192";
+    content: "\f06b";
     }
         .fi-brands-siemens:before {
-    content: "\f1ae";
+    content: "\f086";
     }
         .fi-brands-sketch:before {
-    content: "\f1d8";
+    content: "\f0b0";
     }
         .fi-brands-skype:before {
-    content: "\f1ef";
-    }
-        .fi-brands-skype-circle:before {
-    content: "\f1f0";
-    }
-        .fi-brands-skype-square:before {
-    content: "\f1f1";
+    content: "\f0c7";
     }
         .fi-brands-slack:before {
-    content: "\f1f3";
+    content: "\f0c9";
     }
         .fi-brands-slidesgo:before {
-    content: "\f1ff";
+    content: "\f0d4";
     }
         .fi-brands-snapchat:before {
-    content: "\f227";
-    }
-        .fi-brands-snapchat-circle:before {
-    content: "\f228";
-    }
-        .fi-brands-snapchat-square:before {
-    content: "\f229";
+    content: "\f0f7";
     }
         .fi-brands-sony:before {
-    content: "\f246";
+    content: "\f113";
     }
         .fi-brands-soundcloud:before {
-    content: "\f25b";
+    content: "\f128";
     }
         .fi-brands-spark:before {
-    content: "\f26c";
+    content: "\f138";
     }
         .fi-brands-spotify:before {
-    content: "\f285";
-    }
-        .fi-brands-spotify-square:before {
-    content: "\f286";
+    content: "\f14f";
     }
         .fi-brands-starbucks:before {
-    content: "\f2ee";
+    content: "\f1b6";
     }
         .fi-brands-stock:before {
-    content: "\f2fe";
+    content: "\f1c5";
     }
         .fi-brands-storyset:before {
-    content: "\f30f";
+    content: "\f1d6";
     }
         .fi-brands-stripe:before {
-    content: "\f319";
+    content: "\f1e0";
     }
         .fi-brands-substance-3d-designer:before {
-    content: "\f326";
+    content: "\f1ec";
     }
         .fi-brands-substance-3d-painter:before {
-    content: "\f327";
+    content: "\f1ed";
     }
         .fi-brands-substance-3d-sampler:before {
-    content: "\f328";
+    content: "\f1ee";
     }
         .fi-brands-substance-3d-stager:before {
-    content: "\f329";
+    content: "\f1ef";
     }
         .fi-brands-swift:before {
-    content: "\f34d";
+    content: "\f213";
     }
         .fi-brands-t-mobile:before {
-    content: "\f360";
+    content: "\f225";
     }
         .fi-brands-telegram:before {
-    content: "\f39c";
-    }
-        .fi-brands-telegram-square:before {
-    content: "\f39d";
+    content: "\f25e";
     }
         .fi-brands-tencent:before {
-    content: "\f3a7";
+    content: "\f268";
     }
         .fi-brands-the-home-depot:before {
-    content: "\f3c2";
-    }
-        .fi-brands-threads:before {
-    content: "\f3d2";
-    }
-        .fi-brands-threads-circle:before {
-    content: "\f3d3";
-    }
-        .fi-brands-threads-square:before {
-    content: "\f3d4";
+    content: "\f282";
     }
         .fi-brands-tik-tok:before {
-    content: "\f3e9";
-    }
-        .fi-brands-tiktok-circle:before {
-    content: "\f3ea";
-    }
-        .fi-brands-tiktok-square:before {
-    content: "\f3eb";
+    content: "\f2a5";
     }
         .fi-brands-trello:before {
-    content: "\f483";
+    content: "\f33b";
     }
         .fi-brands-tripadvisor:before {
-    content: "\f48b";
+    content: "\f343";
     }
         .fi-brands-tumblr:before {
-    content: "\f4b7";
+    content: "\f36d";
     }
         .fi-brands-twitch:before {
-    content: "\f4c0";
-    }
-        .fi-brands-twitch-circle:before {
-    content: "\f4c1";
-    }
-        .fi-brands-twitch-square:before {
-    content: "\f4c2";
+    content: "\f376";
     }
         .fi-brands-twitter:before {
-    content: "\f4c3";
+    content: "\f377";
     }
         .fi-brands-twitter-alt:before {
-    content: "\f4c4";
+    content: "\f378";
     }
         .fi-brands-twitter-alt-circle:before {
-    content: "\f4c5";
+    content: "\f379";
     }
         .fi-brands-twitter-alt-square:before {
-    content: "\f4c6";
+    content: "\f37a";
     }
         .fi-brands-typescript:before {
-    content: "\f4cc";
+    content: "\f37e";
     }
         .fi-brands-uber:before {
-    content: "\f4cf";
+    content: "\f381";
     }
         .fi-brands-ubuntu:before {
-    content: "\f4d0";
+    content: "\f382";
     }
         .fi-brands-unilever:before {
-    content: "\f4dd";
+    content: "\f38f";
     }
         .fi-brands-unity:before {
-    content: "\f4df";
+    content: "\f391";
     }
         .fi-brands-unsplash:before {
-    content: "\f4e3";
+    content: "\f394";
     }
         .fi-brands-ups:before {
-    content: "\f4eb";
+    content: "\f39c";
     }
         .fi-brands-usaa:before {
-    content: "\f4f1";
+    content: "\f3a2";
     }
         .fi-brands-verizon:before {
-    content: "\f577";
+    content: "\f426";
     }
         .fi-brands-videvo:before {
-    content: "\f586";
+    content: "\f434";
     }
         .fi-brands-vimeo:before {
-    content: "\f588";
+    content: "\f436";
     }
         .fi-brands-visa:before {
-    content: "\f58f";
+    content: "\f43d";
     }
         .fi-brands-visual-basic:before {
-    content: "\f594";
+    content: "\f442";
     }
         .fi-brands-vk:before {
-    content: "\f595";
+    content: "\f443";
     }
         .fi-brands-walmart:before {
-    content: "\f5b9";
+    content: "\f466";
     }
         .fi-brands-wepik:before {
-    content: "\f5f3";
+    content: "\f49f";
     }
         .fi-brands-whatsapp:before {
-    content: "\f5f5";
-    }
-        .fi-brands-whatsapp-circle:before {
-    content: "\f5f6";
-    }
-        .fi-brands-whatsapp-square:before {
-    content: "\f5f7";
+    content: "\f4a1";
     }
         .fi-brands-wikipedia:before {
-    content: "\f60c";
+    content: "\f4b5";
     }
         .fi-brands-windows:before {
-    content: "\f618";
+    content: "\f4c1";
     }
         .fi-brands-wix:before {
-    content: "\f625";
+    content: "\f4cd";
     }
         .fi-brands-wordpress:before {
-    content: "\f62a";
+    content: "\f4d2";
     }
         .fi-brands-xd:before {
-    content: "\f640";
+    content: "\f4e8";
     }
         .fi-brands-xing:before {
-    content: "\f641";
+    content: "\f4e9";
     }
         .fi-brands-yahoo:before {
-    content: "\f644";
+    content: "\f4ec";
     }
         .fi-brands-yandex:before {
-    content: "\f645";
+    content: "\f4ed";
     }
         .fi-brands-yelp:before {
-    content: "\f646";
+    content: "\f4ee";
     }
         .fi-brands-youtube:before {
-    content: "\f652";
-    }
-        .fi-brands-youtube-circle:before {
-    content: "\f653";
-    }
-        .fi-brands-youtube-square:before {
-    content: "\f654";
+    content: "\f4f9";
     }
         .fi-brands-zoom:before {
-    content: "\f659";
+    content: "\f4fd";
     }

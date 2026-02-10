@@ -5,18 +5,12 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
-    /// <summary>
-    /// A horizontal progress bar with optional label and either determinate or indeterminate state.
-    /// </summary>
     [H5.Name("tss.ProgressIndicator")]
     public class ProgressIndicator : IComponent, IHasForegroundColor
     {
         private readonly HTMLElement InnerElement;
         private readonly HTMLElement BarElement;
 
-        /// <summary>
-        /// Gets or sets the CSS color (foreground) of the component.
-        /// </summary>
         public string Foreground
         {
             get => BarElement.style.background;
@@ -33,23 +27,14 @@ namespace Tesserae
             }
         }
 
-        /// <summary>
-        /// Initializes a new instance of this class.
-        /// </summary>
         public ProgressIndicator()
         {
             BarElement   = Div(_("tss-progressindicator-bar"));
             InnerElement = Div(_("tss-progressindicator"), BarElement);
         }
 
-        /// <summary>
-        /// Configures the component to progress.
-        /// </summary>
         public ProgressIndicator Progress(int position, int total) => Progress(100f * position / total);
 
-        /// <summary>
-        /// Configures the component to progress.
-        /// </summary>
         public ProgressIndicator Progress(float percent)
         {
             if (!BarElement.classList.contains("tss-progressindicator-bar"))
@@ -62,9 +47,6 @@ namespace Tesserae
             return this;
         }
 
-        /// <summary>
-        /// Configures the component to indeterminated.
-        /// </summary>
         public ProgressIndicator Indeterminated()
         {
             if (!BarElement.classList.contains("tss-progressindicator-bar-indeterminate"))
@@ -76,9 +58,6 @@ namespace Tesserae
             return this;
         }
 
-        /// <summary>
-        /// Renders the component's root HTML element.
-        /// </summary>
         public HTMLElement Render()
         {
             return InnerElement;
