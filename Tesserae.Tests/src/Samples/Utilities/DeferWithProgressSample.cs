@@ -33,7 +33,7 @@ namespace Tesserae.Tests.Samples
                                     reportProgress(i / 100f, $"Processing step {i/10} of 10...");
                                     await Task.Delay(500);
                                 }
-                                return TextBlock("Task Completed Successfully!").Success().SemiBold().Padding(10.px());
+                                return TextBlock("Task Completed Successfully!").Success().SemiBold().P(10);
                             }) // Using default loadMessageGenerator
                         );
                     }),

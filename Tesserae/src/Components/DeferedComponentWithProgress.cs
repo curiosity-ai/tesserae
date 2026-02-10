@@ -45,8 +45,8 @@ namespace Tesserae
             {
                 loadMessageGenerator = (p, m) =>
                 {
-                    var msg = TextBlock(string.IsNullOrEmpty(m) ? "Loading...".t() : m, textSize: TextSize.XSmall).Class("tss-defer-loading-msg");
-                    return VStack().Children(msg, ProgressIndicator().Progress(p * 100));
+                    var msg = TextBlock(string.IsNullOrEmpty(m) ? "Loading...".t() : m, textSize: TextSize.XSmall).SemiBold();
+                    return VStack().AlignItemsCenter().WS().Children(ProgressIndicator().WS().Progress(p * 100).MT(8).MB(8), msg.PB(8));
                 };
             }
 
