@@ -14,7 +14,7 @@ namespace Tesserae.Tests.Samples
         public DeltaComponentSample()
         {
             var deltaContainer = document.createElement("div");
-            var deltaComponent = new DeltaComponent(Raw(deltaContainer));
+            var deltaComponent = new DeltaComponent(Raw(deltaContainer)).Animated();
 
             var html = "";
             int step = 1;

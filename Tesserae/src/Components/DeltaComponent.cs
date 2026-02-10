@@ -12,6 +12,7 @@ namespace Tesserae
     {
         private HTMLElement _root;
         private IComponent _currentContent;
+        private bool _isAnimated;
 
         // Node.TEXT_NODE is 3 in DOM
         private const int TEXT_NODE = 3;
@@ -20,6 +21,12 @@ namespace Tesserae
         {
             _currentContent = initial;
             _root = _currentContent.Render();
+        }
+
+        public DeltaComponent Animated()
+        {
+            _isAnimated = true;
+            return this;
         }
 
         public void ReplaceContent(IComponent newContent)
@@ -34,7 +41,12 @@ namespace Tesserae
             {
                 if (current.parentNode != null)
                 {
-                    current.parentNode.replaceChild(next.cloneNode(true), current);
+                    var newChild = next.cloneNode(true);
+                    if (_isAnimated && newChild is HTMLElement newElement)
+                    {
+                        newElement.classList.add("tss-fade-in");
+                    }
+                    current.parentNode.replaceChild(newChild, current);
                 }
                 return;
             }
@@ -51,6 +63,11 @@ namespace Tesserae
                         var delta = nextText.Substring(currentText.Length);
                         var deltaSpan = document.createElement("span");
                         deltaSpan.textContent = delta;
+
+                        if (_isAnimated)
+                        {
+                            deltaSpan.classList.add("tss-fade-in");
+                        }
 
                         if (current.parentNode != null)
                         {
@@ -153,6 +170,11 @@ namespace Tesserae
                         var deltaSpan = document.createElement("span");
                         deltaSpan.textContent = targetText;
 
+                        if (_isAnimated)
+                        {
+                            deltaSpan.classList.add("tss-fade-in");
+                        }
+
                         if (currentIndex < (int)currentChildren.length)
                         {
                             currentParent.insertBefore(deltaSpan, currentChildren[(uint)currentIndex]);
@@ -180,13 +202,22 @@ namespace Tesserae
                         else
                         {
                             var newChild = nextChild.cloneNode(true);
+                            if (_isAnimated && newChild is HTMLElement newElement)
+                            {
+                                newElement.classList.add("tss-fade-in");
+                            }
                             currentParent.replaceChild(newChild, currentChild);
                             currentIndex++;
                         }
                     }
                     else
                     {
-                        currentParent.appendChild(nextChild.cloneNode(true));
+                        var newChild = nextChild.cloneNode(true);
+                        if (_isAnimated && newChild is HTMLElement newElement)
+                        {
+                            newElement.classList.add("tss-fade-in");
+                        }
+                        currentParent.appendChild(newChild);
                         currentIndex++;
                     }
                     nextIndex++;
