@@ -41,9 +41,33 @@ namespace Tesserae
 
             if (current.nodeType == TEXT_NODE)
             {
-                if (current.textContent != next.textContent)
+                var currentText = current.textContent;
+                var nextText = next.textContent;
+
+                if (currentText != nextText)
                 {
-                    current.textContent = next.textContent;
+                    if (nextText.StartsWith(currentText))
+                    {
+                        var delta = nextText.Substring(currentText.Length);
+                        var deltaSpan = document.createElement("span");
+                        deltaSpan.textContent = delta;
+
+                        if (current.parentNode != null)
+                        {
+                            if (current.nextSibling != null)
+                            {
+                                current.parentNode.insertBefore(deltaSpan, current.nextSibling);
+                            }
+                            else
+                            {
+                                current.parentNode.appendChild(deltaSpan);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        current.textContent = nextText;
+                    }
                 }
                 return;
             }

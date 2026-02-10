@@ -23,9 +23,7 @@ namespace Tesserae.Tests.Samples
             {
                 html += "Step " + step++;
                 var d = document.createElement("div");
-                d.textContent = html; // This sets text content, no HTML parsing
-                // Wait, if I append "Step 1" then "Step 1Step 2", I want "Step 2" to be a span?
-                // Yes, my DeltaComponent logic handles text prefix matching.
+                d.textContent = html;
                 deltaComponent.ReplaceContent(Raw(d));
             });
 
@@ -39,11 +37,29 @@ namespace Tesserae.Tests.Samples
 
             var appendMixedBtn = Button("Append Mixed (Text + Span)").OnClick(() =>
             {
-                // This resets strict text mode if used after text
                 html += "Step " + step++ + "<span>Span " + step++ + "</span>";
                 var d = document.createElement("div");
                 d.innerHTML = html;
                 deltaComponent.ReplaceContent(Raw(d));
+            });
+
+            var complexUpdateBtn = Button("Complex Nested Update").OnClick(() =>
+            {
+                // This simulates updating text inside a nested structure
+                // Start: <div><span>Prefix</span></div>
+                // Update: <div><span>PrefixSuffix</span></div>
+                // Should result in: <div><span>Prefix<span>Suffix</span></span></div>
+
+                var d1 = document.createElement("div");
+                d1.innerHTML = "<div><span>Prefix</span><b>Bold</b></div>";
+                deltaComponent.ReplaceContent(Raw(d1));
+
+                window.setTimeout(_ =>
+                {
+                   var d2 = document.createElement("div");
+                   d2.innerHTML = "<div><span>PrefixSuffix</span><b>BoldChange</b></div>";
+                   deltaComponent.ReplaceContent(Raw(d2));
+                }, 500);
             });
 
             var resetBtn = Button("Reset").OnClick(() =>
@@ -59,7 +75,7 @@ namespace Tesserae.Tests.Samples
                 .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("DeltaComponent updates its DOM tree to match a new component's DOM tree using a diff algorithm. It detects text appends and adds them as new spans to avoid full re-rendering."),
-                    HStack().Children(appendTextBtn, appendSpanBtn, appendMixedBtn, resetBtn),
+                    HStack().Children(appendTextBtn, appendSpanBtn, appendMixedBtn, complexUpdateBtn, resetBtn),
                     SampleTitle("Output"),
                     deltaComponent
                 ));
