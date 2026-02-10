@@ -9,9 +9,5 @@
 }
 
 .tss-fade-in {
-    animation: tss-fade-in 0.5s ease-in-out;
-}
-
-.tss-fade-in * {
-    animation: tss-fade-in 0.5s ease-in-out;
+    animation: tss-fade-in 1s ease-in-out;
 }

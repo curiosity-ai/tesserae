@@ -7,71 +7,32 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
-    /// <summary>
-    /// A small inline metric showing the change between two values (with up/down arrow and tone for positive /
-    /// negative / neutral deltas).
-    /// </summary>
     [H5.Name("tss.DeltaComponent")]
     public class DeltaComponent : IComponent
     {
         private HTMLElement _root;
         private IComponent _currentContent;
         private bool _isAnimated;
-        private ShadowRoot _shadowRoot;
 
         // Node.TEXT_NODE is 3 in DOM
         private const int TEXT_NODE = 3;
 
-        /// <summary>
-        /// Initializes a new instance of this class.
-        /// </summary>
-        public DeltaComponent(IComponent initial, bool useShadowDom = false)
+        public DeltaComponent(IComponent initial)
         {
             _currentContent = initial;
-            if (useShadowDom)
-            {
-                _root = document.createElement("div");
-                _shadowRoot = _root.attachShadow(new ShadowRootInit { mode = H5.Core.dom.Literals.Options.mode.open });
-                _shadowRoot.appendChild(_currentContent.Render());
-            }
-            else
-            {
-                _root = _currentContent.Render();
-            }
+            _root = _currentContent.Render();
         }
 
-        /// <summary>
-        /// Configures the component to animated.
-        /// </summary>
         public DeltaComponent Animated()
         {
             _isAnimated = true;
             return this;
         }
 
-        /// <summary>
-        /// Replaces the content in the component.
-        /// </summary>
         public void ReplaceContent(IComponent newContent)
         {
             var newRoot = newContent.Render();
-            if (_shadowRoot != null)
-            {
-                // We are diffing against the content inside shadow root.
-                // Assuming there is one child which is the root of the component.
-                if (_shadowRoot.firstChild != null)
-                {
-                    DiffAndPatch(_shadowRoot.firstChild, newRoot);
-                }
-                else
-                {
-                    _shadowRoot.appendChild(newRoot);
-                }
-            }
-            else
-            {
-                DiffAndPatch(_root, newRoot);
-            }
+            DiffAndPatch(_root, newRoot);
         }
 
         private void DiffAndPatch(Node current, Node next)
@@ -80,16 +41,12 @@ namespace Tesserae
             {
                 if (current.parentNode != null)
                 {
-                    // Use the live `next` node instead of cloneNode(true) so
-                    // event listeners attached by component initialization
-                    // survive a ReplaceContent (cloneNode never copies
-                    // listeners added via addEventListener). The replaced node
-                    // is detached from its previous parent automatically.
-                    if (_isAnimated && next is HTMLElement nextElement)
+                    var newChild = next.cloneNode(true);
+                    if (_isAnimated && newChild is HTMLElement newElement)
                     {
-                        nextElement.classList.add("tss-fade-in");
+                        newElement.classList.add("tss-fade-in");
                     }
-                    current.parentNode.replaceChild(next, current);
+                    current.parentNode.replaceChild(newChild, current);
                 }
                 return;
             }
@@ -142,28 +99,22 @@ namespace Tesserae
         private void SyncAttributes(HTMLElement current, HTMLElement next)
         {
             var currentAttributes = current.attributes;
-            if(currentAttributes.length  > 0)
+            for (int i = (int)currentAttributes.length - 1; i >= 0; i--)
             {
-                for (int i = (int)(currentAttributes.length) - 1; i >= 0; i--)
+                var attr = currentAttributes[(uint)i];
+                if (!next.hasAttribute(attr.name))
                 {
-                    var attr = currentAttributes[(uint)i];
-                    if (!next.hasAttribute(attr.name))
-                    {
-                        current.removeAttribute(attr.name);
-                    }
+                    current.removeAttribute(attr.name);
                 }
             }
 
             var nextAttributes = next.attributes;
-            for (uint i = 0; i < nextAttributes.length; i++)
+            for (int i = 0; i < (int)nextAttributes.length; i++)
             {
-                var attr = nextAttributes[i];
-                var curAttr = current.getAttribute(attr.name);
-                if (curAttr != attr.value)
+                var attr = nextAttributes[(uint)i];
+                if (current.getAttribute(attr.name) != attr.value)
                 {
-                    bool addFadeIn = attr.name == "class" && curAttr.Contains("tss-fade-in");
                     current.setAttribute(attr.name, attr.value);
-                    if (addFadeIn) current.classList.add("tss-fade-in");
                 }
             }
         }
@@ -171,33 +122,26 @@ namespace Tesserae
         private void DiffChildren(HTMLElement currentParent, HTMLElement nextParent)
         {
             var currentChildren = currentParent.childNodes;
-            var nextChildrenLive = nextParent.childNodes;
-
-            // Snapshot — moving a live node into currentParent via
-            // appendChild / replaceChild detaches it from nextParent, which
-            // shrinks nextChildrenLive while we iterate it. Capturing the
-            // children up-front keeps indices stable.
-            int nextLen = (int)nextChildrenLive.length;
-            var nextChildrenSnapshot = new Node[nextLen];
-            for (int i = 0; i < nextLen; i++) nextChildrenSnapshot[i] = (Node)nextChildrenLive[(uint)i];
+            var nextChildren = nextParent.childNodes;
 
             int currentIndex = 0;
             int nextIndex = 0;
+            int nextLen = (int)nextChildren.length;
 
             // Console.WriteLine($"Diffing Children: CurrentLen={currentChildren.length}, NextLen={nextLen}");
 
             while (nextIndex < nextLen)
             {
-                var nextChild = nextChildrenSnapshot[nextIndex];
+                var nextChild = (Node)nextChildren[(uint)nextIndex];
 
                 if (nextChild.nodeType == TEXT_NODE)
                 {
                     string targetText = nextChild.textContent;
                     // Console.WriteLine($"Processing Text Node: '{targetText}'");
 
-                    while (targetText.Length > 0 && currentIndex < currentChildren.length)
+                    while (targetText.Length > 0 && currentIndex < (int)currentChildren.length)
                     {
-                        var currentChild = (Node)currentChildren[currentIndex];
+                        var currentChild = (Node)currentChildren[(uint)currentIndex];
 
                         string currentContent = null;
                         if (currentChild.nodeType == TEXT_NODE)
@@ -223,41 +167,32 @@ namespace Tesserae
 
                     if (targetText.Length > 0)
                     {
-                        if (string.IsNullOrWhiteSpace(targetText))
+                        var deltaSpan = document.createElement("span");
+                        deltaSpan.textContent = targetText;
+
+                        if (_isAnimated)
                         {
-                            // Do nothing
+                            deltaSpan.classList.add("tss-fade-in");
+                        }
+
+                        if (currentIndex < (int)currentChildren.length)
+                        {
+                            currentParent.insertBefore(deltaSpan, currentChildren[(uint)currentIndex]);
                         }
                         else
                         {
-                            var deltaSpan = document.createElement("span");
-                            deltaSpan.textContent = targetText;
-
-                            if (_isAnimated)
-                            {
-                                deltaSpan.classList.add("tss-fade-in");
-                            }
-
-                            if (currentIndex < currentChildren.length)
-                            {
-                                currentParent.insertBefore(deltaSpan, currentChildren[currentIndex]);
-                            }
-                            else
-                            {
-                                currentParent.appendChild(deltaSpan);
-                            }
-                            currentIndex++;
+                            currentParent.appendChild(deltaSpan);
                         }
+                        currentIndex++;
                     }
                     nextIndex++;
                 }
                 else
                 {
-                    // Element. We move the live next-tree node instead of
-                    // cloneNode(true)-ing it so component event listeners
-                    // (e.g. ToolCall expand-on-click) survive a ReplaceContent.
-                    if (currentIndex < currentChildren.length)
+                    // Element
+                    if (currentIndex < (int)currentChildren.length)
                     {
-                        var currentChild = (Node)currentChildren[currentIndex];
+                        var currentChild = (Node)currentChildren[(uint)currentIndex];
 
                         if (IsSameNodeType(currentChild, nextChild))
                         {
@@ -266,24 +201,23 @@ namespace Tesserae
                         }
                         else
                         {
-                            if (_isAnimated && nextChild is HTMLElement newElement)
+                            var newChild = nextChild.cloneNode(true);
+                            if (_isAnimated && newChild is HTMLElement newElement)
                             {
                                 newElement.classList.add("tss-fade-in");
                             }
-                            currentParent.replaceChild(nextChild, currentChild);
+                            currentParent.replaceChild(newChild, currentChild);
                             currentIndex++;
-                            // replaceChild shifts the live NodeList — don't
-                            // advance nextIndex against the old children, the
-                            // next iteration's reread of childNodes handles it.
                         }
                     }
                     else
                     {
-                        if (_isAnimated && nextChild is HTMLElement newElement)
+                        var newChild = nextChild.cloneNode(true);
+                        if (_isAnimated && newChild is HTMLElement newElement)
                         {
                             newElement.classList.add("tss-fade-in");
                         }
-                        currentParent.appendChild(nextChild);
+                        currentParent.appendChild(newChild);
                         currentIndex++;
                     }
                     nextIndex++;
@@ -291,9 +225,9 @@ namespace Tesserae
             }
 
             // Remove extra children
-            while (currentIndex < currentChildren.length)
+            while (currentIndex < (int)currentChildren.length)
             {
-                currentParent.removeChild(currentChildren[currentIndex]);
+                currentParent.removeChild(currentChildren[(uint)currentIndex]);
             }
         }
 
@@ -304,9 +238,6 @@ namespace Tesserae
             return true;
         }
 
-        /// <summary>
-        /// Renders the component's root HTML element.
-        /// </summary>
         public HTMLElement Render()
         {
             return _root;
