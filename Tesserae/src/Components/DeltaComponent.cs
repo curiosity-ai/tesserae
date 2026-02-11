@@ -99,22 +99,28 @@ namespace Tesserae
         private void SyncAttributes(HTMLElement current, HTMLElement next)
         {
             var currentAttributes = current.attributes;
-            for (int i = (int)currentAttributes.length - 1; i >= 0; i--)
+            if(currentAttributes.length  > 0)
             {
-                var attr = currentAttributes[(uint)i];
-                if (!next.hasAttribute(attr.name))
+                for (int i = (int)(currentAttributes.length) - 1; i >= 0; i--)
                 {
-                    current.removeAttribute(attr.name);
+                    var attr = currentAttributes[(uint)i];
+                    if (!next.hasAttribute(attr.name))
+                    {
+                        current.removeAttribute(attr.name);
+                    }
                 }
             }
 
             var nextAttributes = next.attributes;
-            for (int i = 0; i < (int)nextAttributes.length; i++)
+            for (uint i = 0; i < nextAttributes.length; i++)
             {
-                var attr = nextAttributes[(uint)i];
-                if (current.getAttribute(attr.name) != attr.value)
+                var attr = nextAttributes[i];
+                var curAttr = current.getAttribute(attr.name);
+                if (curAttr != attr.value)
                 {
+                    bool addFadeIn = attr.name == "class" && curAttr.Contains("tss-fade-in");
                     current.setAttribute(attr.name, attr.value);
+                    if (addFadeIn) current.classList.add("tss-fade-in");
                 }
             }
         }
@@ -132,16 +138,16 @@ namespace Tesserae
 
             while (nextIndex < nextLen)
             {
-                var nextChild = (Node)nextChildren[(uint)nextIndex];
+                var nextChild = (Node)nextChildren[nextIndex];
 
                 if (nextChild.nodeType == TEXT_NODE)
                 {
                     string targetText = nextChild.textContent;
                     // Console.WriteLine($"Processing Text Node: '{targetText}'");
 
-                    while (targetText.Length > 0 && currentIndex < (int)currentChildren.length)
+                    while (targetText.Length > 0 && currentIndex < currentChildren.length)
                     {
-                        var currentChild = (Node)currentChildren[(uint)currentIndex];
+                        var currentChild = (Node)currentChildren[currentIndex];
 
                         string currentContent = null;
                         if (currentChild.nodeType == TEXT_NODE)
@@ -175,9 +181,9 @@ namespace Tesserae
                             deltaSpan.classList.add("tss-fade-in");
                         }
 
-                        if (currentIndex < (int)currentChildren.length)
+                        if (currentIndex < currentChildren.length)
                         {
-                            currentParent.insertBefore(deltaSpan, currentChildren[(uint)currentIndex]);
+                            currentParent.insertBefore(deltaSpan, currentChildren[currentIndex]);
                         }
                         else
                         {
@@ -190,9 +196,9 @@ namespace Tesserae
                 else
                 {
                     // Element
-                    if (currentIndex < (int)currentChildren.length)
+                    if (currentIndex < currentChildren.length)
                     {
-                        var currentChild = (Node)currentChildren[(uint)currentIndex];
+                        var currentChild = (Node)currentChildren[currentIndex];
 
                         if (IsSameNodeType(currentChild, nextChild))
                         {
@@ -225,9 +231,9 @@ namespace Tesserae
             }
 
             // Remove extra children
-            while (currentIndex < (int)currentChildren.length)
+            while (currentIndex < currentChildren.length)
             {
-                currentParent.removeChild(currentChildren[(uint)currentIndex]);
+                currentParent.removeChild(currentChildren[currentIndex]);
             }
         }
 
