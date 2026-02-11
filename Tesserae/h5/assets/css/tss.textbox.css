@@ -3,7 +3,7 @@
     box-shadow: var(--tss-shadow-sm);
     margin: 0px;
     padding: 0px;
-    border: 1px solid var(--tss-default-border-color);
+    border: 1px solid var(--tss-input-border-color);
     border-radius: var(--tss-border-radius-md);
     background: var(--tss-default-background-color) none repeat scroll 0% 0%;
     color: var(--tss-default-foreground-color);
@@ -13,7 +13,7 @@
     display: block;
     width: 100%;
     outline: transparent none medium;
-    padding: 0px 12px;
+    padding: 8px 12px;
     transition: all 0.15s ease-in-out;
 }
 
@@ -44,8 +44,10 @@
     }
 
     .tss-textbox:focus {
-        border-color: var(--tss-primary-border-color);
-        box-shadow: var(--tss-ring-offset-shadow), var(--tss-ring-shadow);
+        border-color: var(--tss-primary-background-color);
+        --tss-ring-offset-shadow: 0 0 0 var(--tss-ring-offset-width, 2px) var(--tss-ring-offset-color, #fff);
+        --tss-ring-shadow: 0 0 0 calc(2px + var(--tss-ring-offset-width, 2px)) var(--tss-ring-color, rgba(37, 99, 235, 0.5));
+        box-shadow: var(--tss-ring-offset-shadow), var(--tss-ring-shadow), var(--tss-shadow-sm);
     }
 
 .tss-textbox-container {

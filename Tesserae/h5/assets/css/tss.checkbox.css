@@ -5,9 +5,9 @@
     color: var(--tss-default-foreground-color);
     -webkit-user-select: none;
     user-select: none;
-    padding-left: 25px;
+    padding-left: 24px;
     display: block;
-    height: 21px;
+    height: 20px;
 }
 
     .tss-checkbox-container .tss-checkbox {
@@ -20,11 +20,11 @@
 
     .tss-checkbox-container .tss-checkbox-mark {
         position: absolute;
-        top: 0;
+        top: 2px;
         left: 0;
-        height: 20px;
-        width: 20px;
-        border-radius: var(--tss-border-radius-sm);
+        height: 16px;
+        width: 16px;
+        border-radius: var(--tss-border-radius);
         background-color: var(--tss-default-background-color);
         border: 1px solid var(--tss-default-foreground-color);
         transition: all 0.15s ease-in-out;
@@ -52,13 +52,19 @@
         content: "";
         position: absolute;
         display: none;
-        left: 6px;
+        left: 5px;
         top: 1px;
-        width: 7px;
-        height: 12px;
+        width: 5px;
+        height: 9px;
         border: solid var(--tss-dark-border-color);
-        border-width: 0 1px 1px 0;
+        border-width: 0 2px 2px 0;
         transform: rotate(45deg);
+    }
+
+    .tss-checkbox-container input:focus ~ .tss-checkbox-mark {
+        --tss-ring-offset-shadow: 0 0 0 var(--tss-ring-offset-width, 2px) var(--tss-ring-offset-color, #fff);
+        --tss-ring-shadow: 0 0 0 calc(2px + var(--tss-ring-offset-width, 2px)) var(--tss-ring-color, rgba(37, 99, 235, 0.5));
+        box-shadow: var(--tss-ring-offset-shadow), var(--tss-ring-shadow);
     }
 
     .tss-checkbox-container.tss-disabled {

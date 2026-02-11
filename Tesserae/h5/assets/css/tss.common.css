@@ -26,6 +26,7 @@
     --tss-disabled-foreground-color-root: 161, 159, 157;
     --tss-default-border-color-root: 224, 230, 235;
     --tss-dark-border-color-root: 138, 136, 134;
+    --tss-input-border-color-root: 209, 213, 219;
     --tss-default-separator-color-root: 243, 242, 241;
     --tss-invalid-border-color-root: 164, 38, 44;
     --tss-default-background-hover-color-root: 225, 224, 224;
@@ -36,12 +37,12 @@
     --tss-link-color-root: 36, 142, 250;
     --tss-tooltip-background-color-root: 51, 51, 51;
     --tss-tooltip-foreground-color-root: 249, 250, 251;
-    --tss-primary-background-color-root: 36, 142, 250;
+    --tss-primary-background-color-root: 37, 99, 235;
     --tss-primary-foreground-color-root: 255, 255, 255;
-    --tss-primary-border-color-root: 16, 110, 190;
-    --tss-primary-background-hover-color-root: 16, 110, 190;
+    --tss-primary-border-color-root: 29, 78, 216;
+    --tss-primary-background-hover-color-root: 29, 78, 216;
     --tss-primary-foreground-hover-color-root: 255, 255, 255;
-    --tss-primary-background-active-color-root: 0, 90, 158;
+    --tss-primary-background-active-color-root: 30, 64, 175;
     --tss-primary-foreground-active-color-root: 255, 255, 255;
     --tss-warning-background-color-root: 220, 145, 53;
     --tss-warning-foreground-color-root: 255, 255, 255;
@@ -72,6 +73,7 @@
     --tss-disabled-foreground-color: rgb(var(--tss-disabled-foreground-color-root));
     --tss-default-border-color: rgb(var(--tss-default-border-color-root));
     --tss-dark-border-color: rgb(var(--tss-dark-border-color-root));
+    --tss-input-border-color: rgb(var(--tss-input-border-color-root));
     --tss-default-separator-color: rgb(var(--tss-default-separator-color-root));
     --tss-invalid-border-color: rgb(var(--tss-invalid-border-color-root));
     --tss-default-background-hover-color: rgb(var(--tss-default-background-hover-color-root));
@@ -125,7 +127,8 @@
     --tss-simplebar-thumb-color: rgba(50, 49, 48, 0.32);
     --tss-detailslist-default-padding: 10px;
     --tss-detailslist-compact-padding: 6px;
-    --tss-border-radius-sm: 4px;
+    --tss-border-radius-sm: 2px;
+    --tss-border-radius: 4px;
     --tss-border-radius-md: 6px;
     --tss-border-radius-lg: 8px;
     --tss-border-radius-xl: 12px;
@@ -165,6 +168,7 @@
     --tss-disabled-foreground-color-root: 173, 181, 189;
     --tss-default-border-color-root: 51, 51, 51;
     --tss-dark-border-color-root: 68, 68, 68;
+    --tss-input-border-color-root: 75, 85, 99;
     --tss-default-separator-color-root: 51, 51, 51;
     --tss-invalid-border-color-root: 231, 76, 60;
     --tss-default-background-hover-color-root: 40, 40, 40;

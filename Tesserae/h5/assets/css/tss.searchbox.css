@@ -38,8 +38,8 @@
     margin-right: 16px;
     box-shadow: var(--tss-shadow-sm);
     margin: 0px;
-    border: 1px solid var(--tss-default-border-color);
-    border-radius: var(--tss-border-radius-md);
+    border: 1px solid var(--tss-input-border-color);
+    border-radius: var(--tss-border-radius);
     background: var(--tss-default-background-color) none repeat scroll 0% 0%;
     color: var(--tss-default-foreground-color);
     cursor: text;
@@ -70,6 +70,7 @@
             border-color: var(--tss-primary-border-color);
             border-width: 0px 0px 2px;
             padding-bottom: 0px;
+            box-shadow: none;
         }
 
     .tss-searchbox-container:hover {
@@ -79,7 +80,9 @@
 
     .tss-searchbox-container:focus-within {
         border-color: var(--tss-primary-border-color);
-        box-shadow: var(--tss-ring-offset-shadow), var(--tss-ring-shadow);
+        --tss-ring-offset-shadow: 0 0 0 var(--tss-ring-offset-width, 2px) var(--tss-ring-offset-color, #fff);
+        --tss-ring-shadow: 0 0 0 calc(2px + var(--tss-ring-offset-width, 2px)) var(--tss-ring-color, rgba(37, 99, 235, 0.5));
+        box-shadow: var(--tss-ring-offset-shadow), var(--tss-ring-shadow), var(--tss-shadow-sm);
     }
 
 .tss-searchbox-icon {

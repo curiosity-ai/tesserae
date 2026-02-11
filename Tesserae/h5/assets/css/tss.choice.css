@@ -1,4 +1,4 @@
-﻿/* Choice */
+/* Choice */
 .tss-choice-group {
     display: flex;
 }
@@ -16,8 +16,10 @@
     -webkit-user-select: none;
     user-select: none;
     padding-left: 28px;
-    display: block;
+    display: flex;
+    align-items: center;
     text-align: left;
+    min-height: 24px;
 }
 
     .tss-option-container .tss-option {
@@ -30,63 +32,75 @@
 
     .tss-option-container .tss-option-mark {
         position: absolute;
-        top: 2px;
-        left: 1px;
+        top: 50%;
+        left: 0;
+        transform: translateY(-50%);
         height: 18px;
         width: 18px;
         border-radius: 50%;
-        border: 1px solid var(--tss-default-foreground-color);
+        border: 1px solid var(--tss-input-border-color); /* Matches Tailwind border-gray-300 */
+        background-color: var(--tss-default-background-color);
+        transition: all 0.15s ease-in-out;
+        box-sizing: border-box;
     }
 
-    .tss-option-container:hover input ~ .tss-option-mark:after {
-        display: block;
+    .tss-option-container:hover .tss-option-mark {
+        border-color: var(--tss-default-foreground-color);
     }
 
+    /* Focus ring logic */
+    .tss-option-container:focus-within .tss-option-mark {
+        border-color: var(--tss-primary-border-color);
+        --tss-ring-offset-shadow: 0 0 0 var(--tss-ring-offset-width, 2px) var(--tss-ring-offset-color, #fff);
+        --tss-ring-shadow: 0 0 0 calc(2px + var(--tss-ring-offset-width, 2px)) var(--tss-ring-color, rgba(37, 99, 235, 0.5));
+        box-shadow: var(--tss-ring-offset-shadow), var(--tss-ring-shadow), var(--tss-shadow-sm);
+    }
+
+    /* Checked state */
     .tss-option-container input:checked ~ .tss-option-mark {
         border-color: var(--tss-primary-background-color);
+        background-color: var(--tss-primary-background-color);
     }
 
     .tss-option-container:hover input:checked ~ .tss-option-mark {
         border-color: var(--tss-primary-background-hover-color);
+        background-color: var(--tss-primary-background-hover-color);
     }
 
-    .tss-option-container input:checked ~ .tss-option-mark:after {
-        display: block;
-        border-color: var(--tss-primary-background-color);
-    }
-
-    .tss-option-container:hover input:checked ~ .tss-option-mark:after {
-        border-color: var(--tss-primary-background-hover-color);
-    }
-
-
+    /* The dot inside */
     .tss-option-container .tss-option-mark:after {
         content: "";
         position: absolute;
         display: none;
-        left: 3px;
-        top: 3px;
-        width: 10px;
-        height: 10px;
-        border: solid var(--tss-default-foreground-color);
-        border-width: 5px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 8px;
+        height: 8px;
         border-radius: 50%;
+        background-color: var(--tss-primary-foreground-color);
+    }
+
+    .tss-option-container input:checked ~ .tss-option-mark:after {
+        display: block;
     }
 
     .tss-option-container.tss-disabled {
         color: var(--tss-disabled-foreground-color);
+        cursor: not-allowed;
     }
 
         .tss-option-container.tss-disabled .tss-option-mark {
-            border-color: var(--tss-disabled-foreground-color);
+            border-color: var(--tss-disabled-background-color);
+            background-color: var(--tss-disabled-background-color);
         }
 
         .tss-option-container.tss-disabled input:checked ~ .tss-option-mark {
-            border-color: var(--tss-disabled-foreground-color);
+            border-color: var(--tss-disabled-background-color);
+            background-color: var(--tss-disabled-background-color);
         }
 
-
-
+/* Sizing variants */
 .tss-option-container.tss-fontsize-mega {
     height: calc(9px + var(--tss-font-size-mega));
     padding-left: calc(13px + var(--tss-font-size-mega));
@@ -180,73 +194,46 @@
 
 
     .tss-option-container.tss-fontsize-mega .tss-option-mark:after {
-        left: calc(0.13 * var(--tss-font-size-mega));
-        top: calc(0.13 * var(--tss-font-size-mega));
-        width: calc(0.85 * var(--tss-font-size-mega));
-        height: calc(0.85 * var(--tss-font-size-mega));
-        border-width: calc(0.45 * var(--tss-font-size-mega));
+        width: calc(0.5 * (7px + var(--tss-font-size-mega)));
+        height: calc(0.5 * (7px + var(--tss-font-size-mega)));
     }
 
     .tss-option-container.tss-fontsize-xxlarge .tss-option-mark:after {
-        left: calc(0.15 * var(--tss-font-size-xxlarge));
-        top: calc(0.15 * var(--tss-font-size-xxlarge));
-        width: calc(0.85 * var(--tss-font-size-xxlarge));
-        height: calc(0.85 * var(--tss-font-size-xxlarge));
-        border-width: calc(0.45 * var(--tss-font-size-xxlarge));
+        width: calc(0.5 * (7px + var(--tss-font-size-xxlarge)));
+        height: calc(0.5 * (7px + var(--tss-font-size-xxlarge)));
     }
 
     .tss-option-container.tss-fontsize-xlarge .tss-option-mark:after {
-        left: calc(0.15 * var(--tss-font-size-xlarge));
-        top: calc(0.15 * var(--tss-font-size-xlarge));
-        width: calc(0.85 * var(--tss-font-size-xlarge));
-        height: calc(0.85 * var(--tss-font-size-xlarge));
-        border-width: calc(0.45 * var(--tss-font-size-xlarge));
+        width: calc(0.5 * (7px + var(--tss-font-size-xlarge)));
+        height: calc(0.5 * (7px + var(--tss-font-size-xlarge)));
     }
 
     .tss-option-container.tss-fontsize-large .tss-option-mark:after {
-        left: calc(0.19 * var(--tss-font-size-large));
-        top: calc(0.2 * var(--tss-font-size-large));
-        width: calc(0.85 * var(--tss-font-size-large));
-        height: calc(0.85 * var(--tss-font-size-large));
-        border-width: calc(0.45 * var(--tss-font-size-large));
+        width: calc(0.5 * (7px + var(--tss-font-size-large)));
+        height: calc(0.5 * (7px + var(--tss-font-size-large)));
     }
 
     .tss-option-container.tss-fontsize-mediumplus .tss-option-mark:after {
-        left: calc(0.22 * var(--tss-font-size-mediumplus));
-        top: calc(0.22 * var(--tss-font-size-mediumplus));
-        width: calc(0.85 * var(--tss-font-size-mediumplus));
-        height: calc(0.85 * var(--tss-font-size-mediumplus));
-        border-width: calc(0.45 * var(--tss-font-size-mediumplus));
+        width: calc(0.5 * (7px + var(--tss-font-size-mediumplus)));
+        height: calc(0.5 * (7px + var(--tss-font-size-mediumplus)));
     }
 
     .tss-option-container.tss-fontsize-medium .tss-option-mark:after {
-        left: calc(0.20 * var(--tss-font-size-medium));
-        top: calc(0.21 * var(--tss-font-size-medium));
-        width: calc(0.85 * var(--tss-font-size-medium));
-        height: calc(0.85 * var(--tss-font-size-medium));
-        border-width: calc(0.45 * var(--tss-font-size-medium));
+        width: calc(0.5 * (7px + var(--tss-font-size-medium)));
+        height: calc(0.5 * (7px + var(--tss-font-size-medium)));
     }
 
     .tss-option-container.tss-fontsize-smallplus .tss-option-mark:after {
-        left: calc(0.25 * var(--tss-font-size-smallplus));
-        top: calc(0.23 * var(--tss-font-size-smallplus));
-        width: calc(0.85 * var(--tss-font-size-smallplus));
-        height: calc(0.85 * var(--tss-font-size-smallplus));
-        border-width: calc(0.45 * var(--tss-font-size-smallplus));
+        width: calc(0.5 * (7px + var(--tss-font-size-smallplus)));
+        height: calc(0.5 * (7px + var(--tss-font-size-smallplus)));
     }
 
     .tss-option-container.tss-fontsize-xsmall .tss-option-mark:after {
-        left: calc(0.19 * var(--tss-font-size-xsmall));
-        top: calc(0.2 * var(--tss-font-size-xsmall));
-        width: calc(0.85 * var(--tss-font-size-xsmall));
-        height: calc(0.85 * var(--tss-font-size-xsmall));
-        border-width: calc(0.45 * var(--tss-font-size-xsmall));
+        width: calc(0.5 * (7px + var(--tss-font-size-xsmall)));
+        height: calc(0.5 * (7px + var(--tss-font-size-xsmall)));
     }
 
     .tss-option-container.tss-fontsize-tiny .tss-option-mark:after {
-        left: calc(0.35 * var(--tss-font-size-tiny));
-        top: calc(0.4 * var(--tss-font-size-tiny));
-        width: calc(0.85 * var(--tss-font-size-tiny));
-        height: calc(0.85 * var(--tss-font-size-tiny));
-        border-width: calc(0.45 * var(--tss-font-size-tiny));
+        width: calc(0.5 * (7px + var(--tss-font-size-tiny)));
+        height: calc(0.5 * (7px + var(--tss-font-size-tiny)));
     }
