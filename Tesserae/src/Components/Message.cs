@@ -4,10 +4,6 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
-    /// <summary>
-    /// An inline informational message strip with predefined tones (info, success, warning, error) and an optional
-    /// dismiss button.
-    /// </summary>
     [H5.Name("tss.Message")]
     public class Message : ComponentBase<Message, HTMLDivElement>
     {
@@ -16,9 +12,6 @@ namespace Tesserae
         private readonly HTMLDivElement _textContainer;
         private readonly HTMLDivElement _noteContainer;
 
-        /// <summary>
-        /// Initializes a new instance of this class.
-        /// </summary>
         public Message(string title = null, string message = null)
         {
             InnerElement = Div(_("tss-message"));
@@ -36,9 +29,6 @@ namespace Tesserae
             InnerElement.appendChild(_textContainer);
         }
 
-        /// <summary>
-        /// Configures the component to icon.
-        /// </summary>
         public Message Icon(UIcons icon, string color = null, TextSize size = TextSize.Large)
         {
             _iconContainer.innerHTML = "";
@@ -47,28 +37,12 @@ namespace Tesserae
             return this;
         }
 
-        /// <summary>
-        /// Configures the component to icon.
-        /// </summary>
-        public Message Icon(Image image)
-        {
-            _iconContainer.innerHTML = "";
-            _iconContainer.appendChild(image.Render());
-            return this;
-        }
-
-        /// <summary>
-        /// Gets or sets the title of the component.
-        /// </summary>
         public Message Title(string title)
         {
             _titleContainer.textContent = title;
             return this;
         }
 
-        /// <summary>
-        /// Gets or sets the title of the component.
-        /// </summary>
         public Message Title(IComponent title)
         {
             _titleContainer.innerHTML = "";
@@ -76,18 +50,12 @@ namespace Tesserae
             return this;
         }
 
-        /// <summary>
-        /// Gets or sets the text shown in the component.
-        /// </summary>
         public Message Text(string text)
         {
             _textContainer.textContent = text;
             return this;
         }
 
-        /// <summary>
-        /// Gets or sets the text shown in the component.
-        /// </summary>
         public Message Text(IComponent text)
         {
             _textContainer.innerHTML = "";
@@ -95,9 +63,6 @@ namespace Tesserae
             return this;
         }
 
-        /// <summary>
-        /// Configures the component to note.
-        /// </summary>
         public Message Note(string note)
         {
             _noteContainer.innerHTML = "";
@@ -106,9 +71,6 @@ namespace Tesserae
             return this;
         }
 
-        /// <summary>
-        /// Configures the component to note.
-        /// </summary>
         public Message Note(IComponent note)
         {
             _noteContainer.innerHTML = "";
@@ -117,9 +79,6 @@ namespace Tesserae
             return this;
         }
 
-        /// <summary>
-        /// Configures the component to variant.
-        /// </summary>
         public Message Variant(MessageVariant variant)
         {
             InnerElement.classList.remove("tss-message-default", "tss-message-success", "tss-message-warning", "tss-message-error");
@@ -127,9 +86,6 @@ namespace Tesserae
             return this;
         }
 
-        /// <summary>
-        /// Renders the component's root HTML element.
-        /// </summary>
         public override HTMLElement Render()
         {
             return InnerElement;

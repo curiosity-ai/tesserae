@@ -134,6 +134,7 @@
         "h5/assets/css/tss.tooltip.css",
         "h5/assets/css/tss.actionbutton.css",
         "h5/assets/css/tss.deltacomponent.css",
+        "h5/assets/css/tss.message.css",
         "h5/assets/css/baklava.css"
       ],
       "output": "assets/css"

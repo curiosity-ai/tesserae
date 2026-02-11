@@ -659,6 +659,11 @@ namespace Tesserae
         //public static Sidebar.Item SidebarItem(IComponent text, IComponent icon, string href = null) => new Sidebar.Item(text, icon, href);
 
         /// <summary>
+        /// Creates a <see cref="Tesserae.Message"/> component.
+        /// </summary>
+        public static Message Message(string title = null, string message = null) => new Message(title, message);
+
+        /// <summary>
         /// Creates a <see cref="Tesserae.Toast"/> component.
         /// </summary>
         public static Toast Toast() => new Toast();
