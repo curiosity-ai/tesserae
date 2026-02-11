@@ -199,23 +199,30 @@ namespace Tesserae
 
                     if (targetText.Length > 0)
                     {
-                        var deltaSpan = document.createElement("span");
-                        deltaSpan.textContent = targetText;
-
-                        if (_isAnimated)
+                        if (nextIndex == nextLen - 1 && string.IsNullOrWhiteSpace(targetText))
                         {
-                            deltaSpan.classList.add("tss-fade-in");
-                        }
-
-                        if (currentIndex < currentChildren.length)
-                        {
-                            currentParent.insertBefore(deltaSpan, currentChildren[currentIndex]);
+                            // Do nothing
                         }
                         else
                         {
-                            currentParent.appendChild(deltaSpan);
+                            var deltaSpan = document.createElement("span");
+                            deltaSpan.textContent = targetText;
+
+                            if (_isAnimated)
+                            {
+                                deltaSpan.classList.add("tss-fade-in");
+                            }
+
+                            if (currentIndex < currentChildren.length)
+                            {
+                                currentParent.insertBefore(deltaSpan, currentChildren[currentIndex]);
+                            }
+                            else
+                            {
+                                currentParent.appendChild(deltaSpan);
+                            }
+                            currentIndex++;
                         }
-                        currentIndex++;
                     }
                     nextIndex++;
                 }
