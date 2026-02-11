@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using static H5.Core.dom;
 using static Tesserae.UI;
@@ -91,6 +91,52 @@ namespace Tesserae.Tests.Samples
                 deltaComponent.ReplaceContent(Raw(d));
             });
 
+            // Shadow DOM Sample
+            var shadowContainer = document.createElement("div");
+            // Pass useShadowDom = true
+            var shadowDeltaComponent = new DeltaComponent(Raw(shadowContainer), useShadowDom: true).Animated();
+
+            var shadowTyping = Button("Type in Shadow DOM").OnClick(() =>
+            {
+                var lorem = "This text is inside a Shadow DOM!";
+
+                var d1 = document.createElement("div");
+                d1.innerHTML = "<div><span></span><b>Shadow Starting...</b></div>";
+                shadowDeltaComponent.ReplaceContent(Raw(d1));
+
+                int index = 0;
+
+                void TypeNextChar()
+                {
+                    if (index > lorem.Length)
+                    {
+                        var dFinal = document.createElement("div");
+                        dFinal.innerHTML = $"<div><span>{lorem}</span><b> Shadow Done ✔</b></div>";
+                        shadowDeltaComponent.ReplaceContent(Raw(dFinal));
+                        return;
+                    }
+
+                    var currentText = lorem.Substring(0, index);
+
+                    var d = document.createElement("div");
+                    d.innerHTML = $"<div><span>{currentText}</span><b>Shadow Typing... {index}/{lorem.Length}</b></div>";
+                    shadowDeltaComponent.ReplaceContent(Raw(d));
+
+                    index++;
+                    window.setTimeout(_ => TypeNextChar(), 25);
+                }
+
+                TypeNextChar();
+            });
+
+             var shadowResetBtn = Button("Reset Shadow").OnClick(() =>
+            {
+                var d = document.createElement("div");
+                d.textContent = "Shadow DOM Initial Content";
+                shadowDeltaComponent.ReplaceContent(Raw(d));
+            });
+
+
             _content = SectionStack()
                 .Title(SampleHeader(nameof(DeltaComponent)))
                 .Section(Stack().Children(
@@ -98,7 +144,11 @@ namespace Tesserae.Tests.Samples
                     TextBlock("DeltaComponent updates its DOM tree to match a new component's DOM tree using a diff algorithm. It detects text appends and adds them as new spans to avoid full re-rendering."),
                     HStack().Children(typing, typingWithComponents, resetBtn),
                     SampleTitle("Output"),
-                    deltaComponent
+                    deltaComponent,
+                    SampleTitle("Shadow DOM"),
+                    TextBlock("This DeltaComponent renders its content inside a Shadow DOM root."),
+                    HStack().Children(shadowTyping, shadowResetBtn),
+                    shadowDeltaComponent
                 ));
         }
 
