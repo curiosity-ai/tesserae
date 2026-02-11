@@ -304,7 +304,13 @@ namespace Tesserae
         public static IDefer DeferWithProgress<T1, T2, T3, T4, T5, T6, T7, T8, T9>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, IObservable<T6> o6, IObservable<T7> o7, IObservable<T8> o8, IObservable<T9> o9, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, Action<float, string>, Task<IComponent>> asyncGenerator, Func<float, string, IComponent> loadMessage = null) => DeferedComponentWithProgress.Observe(o1, o2, o3, o4, o5, o6, o7, o8, o9, asyncGenerator, loadMessage);
         public static IDefer DeferWithProgress<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, IObservable<T6> o6, IObservable<T7> o7, IObservable<T8> o8, IObservable<T9> o9, IObservable<T10> o10, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, Action<float, string>, Task<IComponent>> asyncGenerator, Func<float, string, IComponent> loadMessage = null) => DeferedComponentWithProgress.Observe(o1, o2, o3, o4, o5, o6, o7, o8, o9, o10, asyncGenerator, loadMessage);
 
-
+        /// <summary>
+        /// A component that renders efficiently diffs of the existing HTML content
+        /// </summary>
+        /// <param name="initial">Initial content to render</param>
+        /// <param name="useShadowDom">Enable Shadow DOM mode</param>
+        /// <returns></returns>
+        public static DeltaComponent DeltaComponent(IComponent initial, bool useShadowDom = false) => new DeltaComponent(initial, useShadowDom);
         /// <summary>
         /// A Stack is a container-type component that abstracts the implementation of a flexbox in order to define the layout of its children components.
         /// </summary>

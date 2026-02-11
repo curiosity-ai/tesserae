@@ -15,7 +15,7 @@ namespace Tesserae.Tests.Samples
         public DeltaComponentSample()
         {
             var deltaContainer = document.createElement("div");
-            var deltaComponent = new DeltaComponent(Raw(deltaContainer)).Animated();
+            var deltaComponent = DeltaComponent(Raw(deltaContainer)).Animated();
 
             var html = "";
             int step = 1;
@@ -93,8 +93,7 @@ namespace Tesserae.Tests.Samples
 
             // Shadow DOM Sample
             var shadowContainer = document.createElement("div");
-            // Pass useShadowDom = true
-            var shadowDeltaComponent = new DeltaComponent(Raw(shadowContainer), useShadowDom: true).Animated();
+            var shadowDeltaComponent = DeltaComponent(Raw(shadowContainer), useShadowDom: true).Animated();
 
             var shadowTyping = Button("Type in Shadow DOM").OnClick(() =>
             {
