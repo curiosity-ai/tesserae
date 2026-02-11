@@ -1,8 +1,9 @@
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using static H5.Core.dom;
 using static Tesserae.UI;
 using static Tesserae.Tests.Samples.SamplesHelper;
+using System.Linq;
 
 namespace Tesserae.Tests.Samples
 {
@@ -19,47 +20,67 @@ namespace Tesserae.Tests.Samples
             var html = "";
             int step = 1;
 
-            var appendTextBtn = Button("Append Text (Auto-Split)").OnClick(() =>
+            var typing = Button("Type Lorem Ipsum").OnClick(() =>
             {
-                html += "Step " + step++;
-                var d = document.createElement("div");
-                d.textContent = html;
-                deltaComponent.ReplaceContent(Raw(d));
-            });
-
-            var appendSpanBtn = Button("Append Span (Explicit)").OnClick(() =>
-            {
-                html += "<span>Step " + step++ + "</span>";
-                var d = document.createElement("div");
-                d.innerHTML = html;
-                deltaComponent.ReplaceContent(Raw(d));
-            });
-
-            var appendMixedBtn = Button("Append Mixed (Text + Span)").OnClick(() =>
-            {
-                html += "Step " + step++ + "<span>Span " + step++ + "</span>";
-                var d = document.createElement("div");
-                d.innerHTML = html;
-                deltaComponent.ReplaceContent(Raw(d));
-            });
-
-            var complexUpdateBtn = Button("Complex Nested Update").OnClick(() =>
-            {
-                // This simulates updating text inside a nested structure
-                // Start: <div><span>Prefix</span></div>
-                // Update: <div><span>PrefixSuffix</span></div>
-                // Should result in: <div><span>Prefix<span>Suffix</span></span></div>
+                var lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris  nisi ut aliquip ex ea commodo consequat.";
 
                 var d1 = document.createElement("div");
-                d1.innerHTML = "<div><span>Prefix</span><b>Bold</b></div>";
+                d1.innerHTML = "<div><span></span><b>Starting...</b></div>";
                 deltaComponent.ReplaceContent(Raw(d1));
 
-                window.setTimeout(_ =>
+                int index = 0;
+
+                void TypeNextChar()
                 {
-                   var d2 = document.createElement("div");
-                   d2.innerHTML = "<div><span>PrefixSuffix</span><b>BoldChange</b></div>";
-                   deltaComponent.ReplaceContent(Raw(d2));
-                }, 500);
+                    if (index > lorem.Length)
+                    {
+                        var dFinal = document.createElement("div");
+                        dFinal.innerHTML = $"<div><span>{lorem}</span><b> Done ✔</b></div>";
+                        deltaComponent.ReplaceContent(Raw(dFinal));
+                        return;
+                    }
+
+                    var currentText = lorem.Substring(0, index);
+
+                    var d = document.createElement("div");
+                    d.innerHTML = $"<div><span>{currentText}</span><b>Typing... {index}/{lorem.Length}</b></div>";
+                    deltaComponent.ReplaceContent(Raw(d));
+
+                    index++;
+                    window.setTimeout(_ => TypeNextChar(), 25);
+                }
+
+                TypeNextChar();
+            });
+
+            var typingWithComponents = Button("Type Lorem Ipsum 2").OnClick(() =>
+            {
+                var lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris  nisi ut aliquip ex ea commodo consequat.".ToArray();
+
+                var stack = HStack().WS().Children(TextBlock("Starting..."));
+
+                deltaComponent.ReplaceContent(stack);
+
+                int index = 0;
+
+                void TypeNextChar()
+                {
+                    if (index > lorem.Length)
+                    {
+                        stack = HStack().WS().Children(lorem.Select(t => TextBlock(t.ToString()).PR(t == ' ' ? 4 : 0)).ToArray(), Icon(UIcons.Check).PR(8));
+                        deltaComponent.ReplaceContent(stack);
+                        return;
+                    }
+
+                    var currentText = lorem.Take(index).ToArray();
+                    stack = HStack().WS().Children(currentText.Select(t => TextBlock(t.ToString()).PR(t == ' ' ? 4 : 0)).ToArray());
+                    deltaComponent.ReplaceContent(stack);
+
+                    index++;
+                    window.setTimeout(_ => TypeNextChar(), 25);
+                }
+
+                TypeNextChar();
             });
 
             var resetBtn = Button("Reset").OnClick(() =>
@@ -75,7 +96,7 @@ namespace Tesserae.Tests.Samples
                 .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("DeltaComponent updates its DOM tree to match a new component's DOM tree using a diff algorithm. It detects text appends and adds them as new spans to avoid full re-rendering."),
-                    HStack().Children(appendTextBtn, appendSpanBtn, appendMixedBtn, complexUpdateBtn, resetBtn),
+                    HStack().Children(typing, typingWithComponents, resetBtn),
                     SampleTitle("Output"),
                     deltaComponent
                 ));
