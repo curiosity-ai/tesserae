@@ -199,7 +199,7 @@ namespace Tesserae
 
                     if (targetText.Length > 0)
                     {
-                        if (nextIndex == nextLen - 1 && string.IsNullOrWhiteSpace(targetText))
+                        if (string.IsNullOrWhiteSpace(targetText))
                         {
                             // Do nothing
                         }
