@@ -37,6 +37,13 @@ namespace Tesserae
             return this;
         }
 
+        public Message Icon(Image image)
+        {
+            _iconContainer.innerHTML = "";
+            _iconContainer.appendChild(image.Render());
+            return this;
+        }
+
         public Message Title(string title)
         {
             _titleContainer.textContent = title;
