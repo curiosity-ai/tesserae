@@ -13,14 +13,24 @@ namespace Tesserae
         private HTMLElement _root;
         private IComponent _currentContent;
         private bool _isAnimated;
+        private ShadowRoot _shadowRoot;
 
         // Node.TEXT_NODE is 3 in DOM
         private const int TEXT_NODE = 3;
 
-        public DeltaComponent(IComponent initial)
+        public DeltaComponent(IComponent initial, bool useShadowDom = false)
         {
             _currentContent = initial;
-            _root = _currentContent.Render();
+            if (useShadowDom)
+            {
+                _root = document.createElement("div");
+                _shadowRoot = _root.attachShadow(new ShadowRootInit { mode = H5.Core.dom.Literals.Options.mode.open });
+                _shadowRoot.appendChild(_currentContent.Render());
+            }
+            else
+            {
+                _root = _currentContent.Render();
+            }
         }
 
         public DeltaComponent Animated()
@@ -32,7 +42,23 @@ namespace Tesserae
         public void ReplaceContent(IComponent newContent)
         {
             var newRoot = newContent.Render();
-            DiffAndPatch(_root, newRoot);
+            if (_shadowRoot != null)
+            {
+                // We are diffing against the content inside shadow root.
+                // Assuming there is one child which is the root of the component.
+                if (_shadowRoot.firstChild != null)
+                {
+                    DiffAndPatch(_shadowRoot.firstChild, newRoot);
+                }
+                else
+                {
+                    _shadowRoot.appendChild(newRoot);
+                }
+            }
+            else
+            {
+                DiffAndPatch(_root, newRoot);
+            }
         }
 
         private void DiffAndPatch(Node current, Node next)
@@ -173,23 +199,30 @@ namespace Tesserae
 
                     if (targetText.Length > 0)
                     {
-                        var deltaSpan = document.createElement("span");
-                        deltaSpan.textContent = targetText;
-
-                        if (_isAnimated)
+                        if (nextIndex == nextLen - 1 && string.IsNullOrWhiteSpace(targetText))
                         {
-                            deltaSpan.classList.add("tss-fade-in");
-                        }
-
-                        if (currentIndex < currentChildren.length)
-                        {
-                            currentParent.insertBefore(deltaSpan, currentChildren[currentIndex]);
+                            // Do nothing
                         }
                         else
                         {
-                            currentParent.appendChild(deltaSpan);
+                            var deltaSpan = document.createElement("span");
+                            deltaSpan.textContent = targetText;
+
+                            if (_isAnimated)
+                            {
+                                deltaSpan.classList.add("tss-fade-in");
+                            }
+
+                            if (currentIndex < currentChildren.length)
+                            {
+                                currentParent.insertBefore(deltaSpan, currentChildren[currentIndex]);
+                            }
+                            else
+                            {
+                                currentParent.appendChild(deltaSpan);
+                            }
+                            currentIndex++;
                         }
-                        currentIndex++;
                     }
                     nextIndex++;
                 }
