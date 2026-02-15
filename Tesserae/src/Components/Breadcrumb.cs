@@ -56,9 +56,8 @@ namespace Tesserae
         {
             _childContainer = Nav(_("tss-breadcrumb", ariaLabel: "Breadcrumb"));
             DomObserver.WhenMounted(_childContainer, Recompute);
-            _resizeObserver = new ResizeObserver();
-            _resizeObserver.Observe(document.body);
-            _resizeObserver.OnResize = Recompute;
+            _resizeObserver = new ResizeObserver((entries, obs) => Recompute());
+            _resizeObserver.observe(document.body);
         }
 
         private static IComponent Clone(Node node)
