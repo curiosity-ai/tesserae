@@ -310,13 +310,13 @@ namespace Tesserae
                     Select(_initiallySelectedID);
                 }
 
-                _ro = new ResizeObserver();
-                _ro.Observe(StylingContainer);
-                _ro.OnResize = () =>
+                _ro = new ResizeObserver((entries, obs) =>
                 {
                     RefreshTabsOverflow(); 
                     TriggerAnimation();
-                } ;
+                });
+
+                _ro.observe(StylingContainer);
 
                 DomObserver.WhenMounted(StylingContainer, () =>
                 {
@@ -329,7 +329,7 @@ namespace Tesserae
                     }, 1000);
                 });
                 
-                DomObserver.WhenRemoved(StylingContainer, () => _ro.StopObserving(StylingContainer));
+                DomObserver.WhenRemoved(StylingContainer, () => _ro.unobserve(StylingContainer));
             }
 
             return StylingContainer;

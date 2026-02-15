@@ -83,13 +83,12 @@ namespace Tesserae
 
             DomObserver.WhenMounted(_timelineOwner, () =>
             {
-                var ro = new ResizeObserver();
-                ro.Observe(document.body);
-                ro.OnResize = Recompute;
+                var ro = new ResizeObserver((entries, obs) => Recompute());
+                ro.observe(document.body);
 
                 DomObserver.WhenRemoved(_timelineOwner, () =>
                 {
-                    ro.StopObserving(document.body);
+                    ro.unobserve(document.body);
                 });
             });
 
