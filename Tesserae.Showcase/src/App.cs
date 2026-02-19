@@ -39,17 +39,17 @@ namespace Tesserae.Showcase
 
             // Mobile Sidebar Logic
             var sidebarElement = sidebar.Render();
-            var overlay = Div(_("mobile-overlay"));
+            var overlay = Div(_("tss-showcase-mobile-overlay"));
 
             // Close sidebar on overlay click
             overlay.onclick = (e) => {
-                sidebarElement.classList.remove("mobile-open");
-                overlay.classList.remove("visible");
+                sidebarElement.classList.remove("tss-showcase-mobile-open");
+                overlay.classList.remove("tss-showcase-visible");
             };
 
-            var hamburger = Button().SetIcon(UIcons.MenuBurger).Class("hamburger-menu").NoBackground().Style(s => s.fontSize = "20px").OnClick(() => {
-                sidebarElement.classList.add("mobile-open");
-                overlay.classList.add("visible");
+            var hamburger = Button().SetIcon(UIcons.MenuBurger).Class("tss-showcase-hamburger-menu").NoBackground().Style(s => s.fontSize = "20px").OnClick(() => {
+                sidebarElement.classList.add("tss-showcase-mobile-open");
+                overlay.classList.add("tss-showcase-visible");
             });
 
 
@@ -68,7 +68,7 @@ namespace Tesserae.Showcase
             invalidEmail.Error = "Invalid email";
 
             // Responsive Grid Container
-            var gridDiv = Div(_("responsive-grid"));
+            var gridDiv = Div(_("tss-showcase-responsive-grid"));
 
             // Helper to add to grid
             void AddToGrid(string title, IComponent content)
@@ -154,7 +154,7 @@ namespace Tesserae.Showcase
 
         private static IComponent ComponentCard(string title, IComponent content)
         {
-            return VStack().Class("showcase-card").Children(
+            return VStack().Class("tss-showcase-card").Children(
                 TextBlock(title).SemiBold().MB(24),
                 VStack().Grow().JustifyContent(ItemJustify.Center).Children(content)
             ).H(300.px());

@@ -5,7 +5,7 @@ body {
 }
 
 /* Card Styling */
-.showcase-card {
+.tss-showcase-card {
     background: white;
     border: 1px solid #e0e0e0;
     padding: 24px;
@@ -13,7 +13,7 @@ body {
     box-sizing: border-box; /* Ensure padding doesn't affect width */
 }
 
-.kumo-card h3 {
+.tss-showcase-card h3 {
     margin-top: 0;
     margin-bottom: 24px;
     font-size: 16px;
@@ -22,7 +22,7 @@ body {
 }
 
 /* Responsive Grid */
-.responsive-grid {
+.tss-showcase-responsive-grid {
     display: grid;
     gap: 24px;
     grid-template-columns: 1fr; /* Mobile default: 1 column */
@@ -30,7 +30,7 @@ body {
 }
 
 @media (min-width: 768px) {
-    .responsive-grid {
+    .tss-showcase-responsive-grid {
         grid-template-columns: 1fr 1fr 1fr; /* Desktop: 3 columns */
     }
 }
@@ -49,13 +49,13 @@ body {
         background: white;
     }
 
-    .tss-sidebar.mobile-open {
+    .tss-sidebar.tss-showcase-mobile-open {
         transform: translateX(0);
         box-shadow: 0 0 10px rgba(0,0,0,0.5);
     }
 
     /* Overlay when sidebar is open */
-    .mobile-overlay {
+    .tss-showcase-mobile-overlay {
         position: fixed;
         top: 0;
         left: 0;
@@ -66,18 +66,18 @@ body {
         display: none;
     }
 
-    .mobile-overlay.visible {
+    .tss-showcase-mobile-overlay.tss-showcase-visible {
         display: block;
     }
 }
 
 /* Hamburger Menu Visibility */
-.hamburger-menu {
+.tss-showcase-hamburger-menu {
     display: none;
 }
 
 @media (max-width: 768px) {
-    .hamburger-menu {
+    .tss-showcase-hamburger-menu {
         display: flex !important;
         margin-right: 16px;
     }
