@@ -1,0 +1,38 @@
+// See all h5.json configuration options at https://github.com/h5dotnet/Bridge/wiki/global-configuration
+{
+  "output": "$(OutDir)/h5/",
+  "fileName": "app.js",
+  "html": {
+    "disabled": false,
+    "title": "Tesserae Showcase"
+  },
+  "resources": [
+    {
+      "name": "tss-showcase.css",
+      "files": [
+        "h5/assets/css/tss-showcase.css"
+      ]
+    }
+  ],
+  "cleanOutputFolderBeforeBuildPattern": "*.js|*.css",
+  "console": { "enabled": false },
+  "loader": { "type": "Global" },
+  "sourceMap": { "enabled": true },
+  "reflection": {
+    "disabled": false,
+    "target":  "inline"
+  },
+  "generateTypeScript": false,
+  "report": { "enabled": false },
+  "rules": {
+    "anonymousType": "Plain",
+    "arrayIndex": "Managed",
+    "autoProperty": "Plain",
+    "boxing": "Managed",
+    "externalCast": "Plain",
+    "inlineComment": "Plain",
+    "integer": "Managed",
+    "lambda": "Plain",
+    "useShortForms": true
+  }
+}
