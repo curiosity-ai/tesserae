@@ -1,0 +1,42 @@
+{
+  "output": "$(OutDir)/h5/",
+  "fileName": "app.js",
+  "html": {
+    "disabled": true
+  },
+  "resources": [
+    {
+      "name": "index.html",
+      "files": [
+        "h5/index.html"
+      ]
+    },
+    {
+      "name": "tss-showcase.css",
+      "files": [
+        "h5/assets/css/tss-showcase.css"
+      ]
+    }
+  ],
+  "cleanOutputFolderBeforeBuildPattern": "*.js|*.css",
+  "console": { "enabled": false },
+  "loader": { "type": "Global" },
+  "sourceMap": { "enabled": true },
+  "reflection": {
+    "disabled": false,
+    "target":  "inline"
+  },
+  "generateTypeScript": false,
+  "report": { "enabled": false },
+  "rules": {
+    "anonymousType": "Plain",
+    "arrayIndex": "Managed",
+    "autoProperty": "Plain",
+    "boxing": "Managed",
+    "externalCast": "Plain",
+    "inlineComment": "Plain",
+    "integer": "Managed",
+    "lambda": "Plain",
+    "useShortForms": true
+  }
+}
