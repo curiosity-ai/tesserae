@@ -14,8 +14,8 @@ namespace Tesserae.Showcase
             // Sidebar
             var sidebar = Sidebar(sortable: false);
 
-            // Custom header for Kumo brand - Using SidebarText as it implements ISidebarItem
-            sidebar.AddHeader(new SidebarText("HEADER", "Kumo", textSize: TextSize.Large, textWeight: TextWeight.SemiBold));
+            // Custom header for Tesserae brand
+            sidebar.AddHeader(new SidebarText("HEADER", "Tesserae", textSize: TextSize.Large, textWeight: TextWeight.SemiBold));
 
             sidebar.AddHeader(new SidebarSearchBox("search", "Search..."));
 
@@ -37,6 +37,22 @@ namespace Tesserae.Showcase
                  sidebar.AddContent(new SidebarButton(c.ToUpper(), UIcons.CircleSmall, c));
             }
 
+            // Mobile Sidebar Logic
+            var sidebarElement = sidebar.Render();
+            var overlay = Div(_("mobile-overlay"));
+
+            // Close sidebar on overlay click
+            overlay.onclick = (e) => {
+                sidebarElement.classList.remove("mobile-open");
+                overlay.classList.remove("visible");
+            };
+
+            var hamburger = Button().SetIcon(UIcons.MenuBurger).Class("hamburger-menu").NoBackground().Style(s => s.fontSize = "20px").OnClick(() => {
+                sidebarElement.classList.add("mobile-open");
+                overlay.classList.add("visible");
+            });
+
+
             // Button with spinner
             var spinnerButton = Button("Create Worker");
             spinnerButton.ToSpinner("Create Worker");
@@ -51,6 +67,61 @@ namespace Tesserae.Showcase
             invalidEmail.Validation(v => "Invalid email");
             invalidEmail.Error = "Invalid email";
 
+            // Responsive Grid Container
+            var gridDiv = Div(_("responsive-grid"));
+
+            // Helper to add to grid
+            void AddToGrid(string title, IComponent content)
+            {
+                gridDiv.appendChild(ComponentCard(title, content).Render());
+            }
+
+            AddToGrid("Button",
+               VStack().Style(s => s.gap = "16px").AlignItems(ItemAlign.Center).Children(
+                   Button("Create Worker").NoBackground().Style(s => s.border = "1px solid #e0e0e0"),
+                   Button("Create Worker").Primary(),
+                   spinnerButton
+               )
+            );
+
+            AddToGrid("Input",
+               VStack().Style(s => s.gap = "16px").W(100.percent()).Children(
+                   TextBox().SetPlaceholder("Type something..."),
+                   invalidTextBox
+               )
+            );
+
+            AddToGrid("Select",
+               VStack().W(100.percent()).Children(
+                   Dropdown().Items(new Dropdown.Item("Select a version..."))
+               )
+            );
+
+            AddToGrid("Combobox",
+               VStack().W(100.percent()).Children(
+                   Dropdown().Items(new Dropdown.Item("Select an issue..."))
+               )
+            );
+
+            AddToGrid("Switch",
+                VStack().AlignItems(ItemAlign.Center).Children(
+                    new Toggle(TextBlock(""), TextBlock("")).Checked()
+                )
+            );
+
+            AddToGrid("Input (with validation)",
+               VStack().Style(s => s.gap = "8px").W(100.percent()).Children(
+                   Label("Email").SemiBold(),
+                   invalidEmail
+               )
+            );
+
+            // Extra placeholders
+            AddToGrid("Dialog", TextBlock("Dialog Content"));
+            AddToGrid("Tooltip", TextBlock("Tooltip Content"));
+            AddToGrid("Dropdown", TextBlock("Dropdown Content"));
+
+
             // Main Content
             var mainContent = VStack().S().Children(
                 // Top Bar
@@ -59,65 +130,31 @@ namespace Tesserae.Showcase
                     .AlignItems(ItemAlign.Center)
                     .JustifyContent(ItemJustify.Between)
                     .Children(
-                        TextBlock(""), // Spacer
+                        HStack().AlignItems(ItemAlign.Center).Children(
+                            hamburger,
+                            TextBlock("") // Spacer/Placeholder
+                        ),
                         HStack().Style(s => s.gap = "16px").Children(
-                            TextBlock("@cloudflare/kumo v1.6.0", textSize: TextSize.Small).Secondary(),
+                            TextBlock("@tesserae/ui v1.0.0", textSize: TextSize.Small).Secondary(),
                             Icon(UIcons.Moon).Style(s => s.cursor = "pointer")
                         )
                     ),
                 // Content Area
                 VStack().W(100.percent()).Grow().ScrollY().Padding("32px").Background("#fafafa").Children(
-                   Grid(1.fr(), 1.fr(), 1.fr()).Style(s => s.gap = "24px").Children(
-                       ComponentCard("Button",
-                           VStack().Style(s => s.gap = "16px").AlignItems(ItemAlign.Center).Children(
-                               Button("Create Worker").NoBackground().Style(s => s.border = "1px solid #e0e0e0"),
-                               Button("Create Worker").Primary(),
-                               spinnerButton
-                           )
-                       ),
-                       ComponentCard("Input",
-                           VStack().Style(s => s.gap = "16px").W(100.percent()).Children(
-                               TextBox().SetPlaceholder("Type something..."),
-                               invalidTextBox
-                           )
-                       ),
-                       ComponentCard("Select",
-                           VStack().W(100.percent()).Children(
-                               Dropdown().Items(new Dropdown.Item("Select a version..."))
-                           )
-                       ),
-                       ComponentCard("Combobox",
-                           VStack().W(100.percent()).Children(
-                               Dropdown().Items(new Dropdown.Item("Select an issue..."))
-                           )
-                       ),
-                       ComponentCard("Switch",
-                            VStack().AlignItems(ItemAlign.Center).Children(
-                                new Toggle(TextBlock(""), TextBlock("")).Checked()
-                            )
-                       ),
-                       ComponentCard("Input (with validation)",
-                           VStack().Style(s => s.gap = "8px").W(100.percent()).Children(
-                               Label("Email").SemiBold(),
-                               invalidEmail
-                           )
-                       ),
-                       // Extra placeholders
-                       ComponentCard("Dialog", TextBlock("Dialog Content")),
-                       ComponentCard("Tooltip", TextBlock("Tooltip Content")),
-                       ComponentCard("Dropdown", TextBlock("Dropdown Content"))
-                   )
+                   Raw(gridDiv)
                 )
             );
 
             // Layout
             var layout = HStack().S().Children(sidebar.HS(), mainContent.Grow());
+
+            document.body.appendChild(overlay);
             MountToBody(layout);
         }
 
         private static IComponent ComponentCard(string title, IComponent content)
         {
-            return VStack().Class("kumo-card").Children(
+            return VStack().Class("showcase-card").Children(
                 TextBlock(title).SemiBold().MB(24),
                 VStack().Grow().JustifyContent(ItemJustify.Center).Children(content)
             ).H(300.px());

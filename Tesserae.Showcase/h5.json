@@ -1,12 +1,16 @@
-// See all h5.json configuration options at https://github.com/h5dotnet/Bridge/wiki/global-configuration
 {
   "output": "$(OutDir)/h5/",
   "fileName": "app.js",
   "html": {
-    "disabled": false,
-    "title": "Tesserae Showcase"
+    "disabled": true
   },
   "resources": [
+    {
+      "name": "index.html",
+      "files": [
+        "h5/index.html"
+      ]
+    },
     {
       "name": "tss-showcase.css",
       "files": [
