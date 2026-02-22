@@ -67,7 +67,7 @@
             flex-shrink: 0;
         }
 
-.tss-pivot-titlebar-more{
+.tss-pivot-titlebar-more {
 
 }
 
@@ -107,4 +107,9 @@
 
 .tss-pivot-titlebar-hidden-overflow {
     display: none;
+}
+
+
+.tss-pivot .tss-pivot-cached-hidden{
+    display:none !important;
 }

@@ -254,7 +254,7 @@ namespace Tesserae
             var title = _renderedTitles[tab];
 
             HTMLElement content = Div(_());
-            content.style.width     = "100%";
+            content.style.width = "100%";
             content.style.minHeight = "100%";
 
             try
@@ -266,7 +266,14 @@ namespace Tesserae
                 content.textContent = E.ToString();
             }
 
-            ClearChildren(_renderedContent);
+            ClearChildrenExceptCached();
+
+            if (tab.KeepCached)
+            {
+                content.classList.add("tss-pivot-keep-cached");
+                content.classList.remove("tss-pivot-cached-hidden");
+            }
+
             _renderedContent.appendChild(content);
 
             _currentSelectedID = tab.Id;
@@ -278,6 +285,21 @@ namespace Tesserae
             _navigated?.Invoke(this, pne);
 
             return this;
+        }
+
+        private void ClearChildrenExceptCached()
+        {
+            foreach(var el in _renderedContent.children)
+            {
+                if (el.classList.contains("tss-pivot-keep-cached"))
+                {
+                    el.classList.add("tss-pivot-cached-hidden");
+                }
+                else
+                {
+                    _renderedContent.removeChild(el);
+                }
+            }
         }
 
         private void UpdateTitleStyles(HTMLElement title)
@@ -389,6 +411,8 @@ namespace Tesserae
                 _contentCreator  = contentCreator;
                 _titleCreator    = titleCreator;
             }
+
+            internal bool KeepCached => _canCacheContent;
 
             private          Func<IComponent> _titleCreator;
             private          Func<IComponent> _contentCreator;
