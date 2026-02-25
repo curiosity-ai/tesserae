@@ -12,8 +12,6 @@ namespace Tesserae
     [H5.Name("tss.Dropdown")]
     public sealed class Dropdown : Layer<Dropdown>, ICanValidate<Dropdown>, IObservableListComponent<Dropdown.Item>, ITabIndex, IRoundedStyle
     {
-        private const string _multiSelectDropdownClassName = "tss-dropdown-multi";
-
         private static HTMLElement _firstItem;
 
         private readonly HTMLElement          _childContainer;
@@ -100,16 +98,16 @@ namespace Tesserae
 
         public SelectMode Mode
         {
-            get => _childContainer.classList.contains(_multiSelectDropdownClassName) ? SelectMode.Multi : SelectMode.Single;
+            get => _childContainer.classList.contains("tss-dropdown-multi") ? SelectMode.Multi : SelectMode.Single;
             set
             {
                 if (value == SelectMode.Single)
                 {
-                    _childContainer.classList.remove(_multiSelectDropdownClassName);
+                    _childContainer.classList.remove("tss-dropdown-multi");
                 }
                 else
                 {
-                    _childContainer.classList.add(_multiSelectDropdownClassName);
+                    _childContainer.classList.add("tss-dropdown-multi");
                 }
             }
         }
@@ -570,6 +568,17 @@ namespace Tesserae
             else
             {
                 _isChanged = true;
+
+                int count = _lastRenderedItems.Count(v => v.IsSelected);
+
+                if (count > 1)
+                {
+                    _childContainer.classList.add("tss-dropdown-has-multi");
+                }
+                else
+                {
+                    _childContainer.classList.remove("tss-dropdown-has-multi");
+                }
             }
 
             UpdateStateBasedUponCurrentSelections();

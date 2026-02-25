@@ -270,6 +270,10 @@
     width:100%;
 }
 
+.tss-dropdown-multi.tss-dropdown-has-multi .tss-dropdown-item-on-box {
+    width: auto;
+}
+
 .tss-dropdown > .tss-dropdown-item-on-box:not(:first-child) {
     margin-left: 2px;
 }
