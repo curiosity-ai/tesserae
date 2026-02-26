@@ -1070,7 +1070,7 @@ namespace Tesserae
                 }
             }
 
-            private bool IsMountedWithinMultiSelectDropdown => InnerElement.parentElement.classList.contains(_multiSelectDropdownClassName);
+            private bool IsMountedWithinMultiSelectDropdown => InnerElement.parentElement.classList.contains("tss-dropdown-multi");
 
             private void OnItemMouseOver(Event ev)
             {
