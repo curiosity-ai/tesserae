@@ -1,4 +1,4 @@
-﻿/* Slider */
+/* Slider */
 .tss-slider-div {
     width: 100%;
     padding-bottom: 8px;
@@ -28,20 +28,35 @@
             margin-left: -50%;
         }
 
+/* The track background (gray) */
+.tss-slider-fake-background {
+    border-radius: 9999px;
+    background-color: var(--tss-default-border-color); /* Tailwind Gray-200 */
+    position: relative;
+    left: 0px;
+    top: 6px;
+    height: 6px;
+    width: 100%;
+    z-index: 0;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+/* The filled part (primary color) */
 .tss-slider-fake-progress {
-    border-radius: 4px 0px 0px 4px;
-    background-color: var(--tss-slider-color);
+    border-radius: 9999px 0 0 9999px;
+    background-color: var(--tss-primary-background-color); /* Tailwind Blue-600 */
     position: absolute;
     left: 0px;
-    top: 4px;
-    height: 8px;
+    top: 6px;
+    height: 6px;
     z-index: 0;
     -webkit-user-select: none;
     user-select: none;
 }
 
 .tss-slider-container input:hover ~ .tss-slider-fake-progress {
-    background-color: var(--tss-primary-background-color);
+    background-color: var(--tss-primary-background-hover-color);
 }
 
 .tss-slider-container input.tss-disabled ~ .tss-slider-fake-progress {
@@ -52,36 +67,16 @@
     background-color: var(--tss-disabled-foreground-color);
 }
 
-.tss-slider-fake-background {
-    border-radius: 4px;
-    background-color: rgba(var(--tss-slider-active-color-root), 0.3);
-    position: relative;
-    left: 0px;
-    top: 4px;
-    height: 8px;
-    width: 100%;
-    z-index: 0;
-    -webkit-user-select: none;
-    user-select: none;
-}
-
-.tss-slider-container input:hover ~ .tss-slider-fake-background {
-    background-color: var(--tss-slider-active-color);
-}
-
-.tss-slider-container input.tss-disabled ~ .tss-slider-fake-background {
-    background-color: var(--tss-slider-disabled-color);
-}
-
-
+/* The input element itself */
 .tss-slider {
     -webkit-appearance: none;
     width: 100%;
-    height: 0px;
-    border-radius: 4px;
-    background-color: var(--tss-slider-color);
+    height: 6px; /* Match track height */
+    border-radius: 9999px;
+    background-color: transparent; /* Track handles background */
     outline: none;
     cursor: pointer;
+    margin: 0;
 }
 
     .tss-slider.tss-fake {
@@ -89,69 +84,64 @@
         border-color: transparent;
         position: absolute;
         left: 0;
-        top: 7px;
+        top: 6px;
         z-index: 1;
     }
 
-        .tss-slider.tss-fake:hover {
-            background-color: transparent;
-        }
-
-        .tss-slider.tss-fake:disabled {
-            background-color: transparent;
-        }
-
+    /* Webkit Thumb */
     .tss-slider::-webkit-slider-thumb {
         -webkit-appearance: none;
+        appearance: none;
         width: 16px;
-        height: 24px;
-        border-radius: 10px;
-        background-color: var(--tss-default-background-color);
-        border: 2px solid var(--tss-slider-color);
+        height: 16px;
+        border-radius: 50%;
+        background-color: #fff;
+        border: 1px solid var(--tss-default-border-color);
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        margin-top: -5px; /* (thumbHeight - trackHeight) / 2 = (16 - 6) / 2 = 5 */
+        transition: all 0.15s ease-in-out;
     }
 
+    /* Firefox Thumb */
     .tss-slider::-moz-range-thumb {
         width: 16px;
-        height: 24px;
-        border-radius: 10px;
-        background-color: var(--tss-default-background-color);
-        border: 2px solid var(--tss-slider-color);
+        height: 16px;
+        border-radius: 50%;
+        background-color: #fff;
+        border: 1px solid var(--tss-default-border-color);
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        transition: all 0.15s ease-in-out;
     }
 
-    .tss-slider::-moz-range-progress {
-        height: 8px;
-        border-radius: 4px;
-        background-color: var(--tss-default-border-color);
+    /* Focus Ring on Thumb */
+    .tss-slider:focus::-webkit-slider-thumb {
+        border-color: var(--tss-primary-border-color);
+        box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--tss-primary-background-color);
     }
 
-    .tss-slider:hover {
-        background-color: var(--tss-slider-active-color);
+    .tss-slider:focus::-moz-range-thumb {
+        border-color: var(--tss-primary-border-color);
+        box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--tss-primary-background-color);
     }
 
-        .tss-slider:hover::-webkit-slider-thumb {
-            border-color: var(--tss-primary-background-color);
-        }
+    .tss-slider:hover::-webkit-slider-thumb {
+        border-color: var(--tss-default-foreground-color);
+    }
 
-        .tss-slider:hover::-moz-range-thumb {
-            border-color: var(--tss-primary-background-color);
-        }
-
-        .tss-slider:hover::-moz-range-progress {
-            background-color: var(--tss-primary-background-color);
-        }
+    .tss-slider:hover::-moz-range-thumb {
+        border-color: var(--tss-default-foreground-color);
+    }
 
     .tss-slider.tss-disabled {
-        background-color: var(--tss-slider-disabled-color);
+        cursor: not-allowed;
     }
 
         .tss-slider.tss-disabled::-webkit-slider-thumb {
             border-color: var(--tss-disabled-foreground-color);
+            background-color: var(--tss-disabled-background-color);
         }
 
         .tss-slider.tss-disabled::-moz-range-thumb {
             border-color: var(--tss-disabled-foreground-color);
-        }
-
-        .tss-slider.tss-disabled::-moz-range-progress {
-            background-color: var(--tss-disabled-foreground-color);
+            background-color: var(--tss-disabled-background-color);
         }

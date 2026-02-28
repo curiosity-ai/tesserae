@@ -28,7 +28,7 @@ a {
     -webkit-user-select: none;
     user-select: none;
     cursor: pointer;
-    padding: 0px 20px;
+    padding: 8px 16px;
     min-height: 36px;
     display: inline-flex;
     align-items: center;
@@ -82,7 +82,9 @@ a {
 
 .tss-btn:focus {
     outline: none;
-    box-shadow: var(--tss-ring-offset-shadow), var(--tss-ring-shadow);
+    --tss-ring-offset-shadow: 0 0 0 var(--tss-ring-offset-width, 2px) var(--tss-ring-offset-color, #fff);
+    --tss-ring-shadow: 0 0 0 calc(2px + var(--tss-ring-offset-width, 2px)) var(--tss-ring-color, rgba(37, 99, 235, 0.5));
+    box-shadow: var(--tss-ring-offset-shadow), var(--tss-ring-shadow), var(--tss-shadow-sm);
 }
 
 .tss-btn.tss-disabled {
