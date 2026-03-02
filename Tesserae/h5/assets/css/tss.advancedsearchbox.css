@@ -140,23 +140,28 @@
 /* Tokens */
 .tss-adv-token-word {
     color: var(--tss-default-foreground-color);
+    background: var(--tss-colors-blue-100);
+    border-radius: 4px;
+    padding-left: 4px;
+    padding-right: 4px;
+    margin-left: -4px;
+    margin-right: -4px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    outline: 1px solid var(--tss-colors-blue-500);
 }
 .tss-adv-token-operator-and {
     color: var(--tss-primary-background-color);
-    font-weight: bold;
 }
 .tss-adv-token-operator-or {
-    color: var(--tss-warning-foreground-color);
-    font-weight: bold;
+    color: var(--tss-primary-background-color);
 }
 .tss-adv-token-operator-not {
-    color: var(--tss-danger-foreground-color);
-    font-weight: bold;
+    color: var(--tss-primary-background-color);
 }
 .tss-adv-token-paren {
-    color: var(--tss-secondary-foreground-color);
-    font-weight: bold;
+    color: var(--tss-primary-background-color);
 }
 .tss-adv-token-quote {
-    color: var(--tss-success-foreground-color);
+    color: var(--tss-primary-background-color);
 }

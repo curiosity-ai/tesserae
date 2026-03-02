@@ -44,7 +44,7 @@ namespace Tesserae
     }
 
     [H5.Name("tss.AdvancedSearchBox")]
-    public class AdvancedSearchBox : ComponentBase<AdvancedSearchBox, HTMLDivElement>, ITextFormating, IHasBackgroundColor, ITabIndex, IRoundedStyle
+    public class AdvancedSearchBox : IComponent, ITextFormating, IHasBackgroundColor, ITabIndex, IRoundedStyle
     {
         private readonly HTMLDivElement _container;
         private readonly HTMLInputElement _input;
@@ -59,6 +59,7 @@ namespace Tesserae
 
         public delegate void SearchEventHandler(AdvancedSearchBox sender, SearchQuery query);
         protected event SearchEventHandler Searched;
+        public event ComponentEventHandler<AdvancedSearchBox, Event> Input;
 
         public AdvancedSearchBox(string placeholder = string.Empty)
         {
@@ -77,14 +78,12 @@ namespace Tesserae
 
             _container = Div(_("tss-advancedsearchbox-container"), _historyBtn, _inputContainer, _clearBtn, _searchBtn);
 
-            AttachChange();
-            AttachInput();
-            AttachFocus();
-            AttachBlur();
-            AttachKeys();
-
             // Set up event listeners
-            _input.addEventListener("input", (e) => OnInputChanged());
+            _input.addEventListener("input", (e) =>
+            {
+                OnInputChanged();
+                Input?.Invoke(this, e);
+            });
             _input.addEventListener("keydown", (e) =>
             {
                 var ke = e.As<KeyboardEvent>();
@@ -248,43 +247,88 @@ namespace Tesserae
         private void RenderTokens(List<SearchToken> tokens)
         {
             ClearTokens();
+
+            var consecutiveWordBuilder = new System.Text.StringBuilder();
+
+            Action flushConsecutiveWords = () =>
+            {
+                if (consecutiveWordBuilder.Length > 0)
+                {
+                    // Trim trailing whitespace from the merged words to render it outside the span
+                    var text = consecutiveWordBuilder.ToString();
+                    var trimmed = text.TrimEnd();
+                    var trailingWhitespace = text.Substring(trimmed.Length);
+
+                    if (!string.IsNullOrEmpty(trimmed))
+                    {
+                        var span = Span(_("tss-adv-token-word", text: trimmed));
+                        _tokensContainer.appendChild(span);
+                    }
+
+                    if (!string.IsNullOrEmpty(trailingWhitespace))
+                    {
+                        var spanSpace = Span(_(text: trailingWhitespace));
+                        _tokensContainer.appendChild(spanSpace);
+                    }
+
+                    consecutiveWordBuilder.Clear();
+                }
+            };
+
             foreach (var token in tokens)
             {
-                string className = "";
-                switch (token.Type)
+                if (token.Type == SearchToken.TokenType.Word || token.Type == SearchToken.TokenType.Whitespace)
                 {
-                    case SearchToken.TokenType.And:
-                        className = "tss-adv-token-operator-and";
-                        break;
-                    case SearchToken.TokenType.Or:
-                        className = "tss-adv-token-operator-or";
-                        break;
-                    case SearchToken.TokenType.Not:
-                        className = "tss-adv-token-operator-not";
-                        break;
-                    case SearchToken.TokenType.ParenthesisOpen:
-                    case SearchToken.TokenType.ParenthesisClose:
-                        className = "tss-adv-token-paren";
-                        break;
-                    case SearchToken.TokenType.Quote:
-                        className = "tss-adv-token-quote";
-                        break;
-                    case SearchToken.TokenType.Word:
-                        className = "tss-adv-token-word";
-                        break;
-                }
-
-                if (string.IsNullOrEmpty(className))
-                {
-                    var span = Span(_(text: token.Value));
-                    _tokensContainer.appendChild(span);
+                    // If we have leading whitespace before any words, flush it directly
+                    if (consecutiveWordBuilder.Length == 0 && token.Type == SearchToken.TokenType.Whitespace)
+                    {
+                        var spanSpace = Span(_(text: token.Value));
+                        _tokensContainer.appendChild(spanSpace);
+                    }
+                    else
+                    {
+                        consecutiveWordBuilder.Append(token.Value);
+                    }
                 }
                 else
                 {
-                    var span = Span(_(className, text: token.Value));
-                    _tokensContainer.appendChild(span);
+                    flushConsecutiveWords();
+
+                    string className = "";
+                    switch (token.Type)
+                    {
+                        case SearchToken.TokenType.And:
+                            className = "tss-adv-token-operator-and";
+                            break;
+                        case SearchToken.TokenType.Or:
+                            className = "tss-adv-token-operator-or";
+                            break;
+                        case SearchToken.TokenType.Not:
+                            className = "tss-adv-token-operator-not";
+                            break;
+                        case SearchToken.TokenType.ParenthesisOpen:
+                        case SearchToken.TokenType.ParenthesisClose:
+                            className = "tss-adv-token-paren";
+                            break;
+                        case SearchToken.TokenType.Quote:
+                            className = "tss-adv-token-quote";
+                            break;
+                    }
+
+                    if (string.IsNullOrEmpty(className))
+                    {
+                        var span = Span(_(text: token.Value));
+                        _tokensContainer.appendChild(span);
+                    }
+                    else
+                    {
+                        var span = Span(_(className, text: token.Value));
+                        _tokensContainer.appendChild(span);
+                    }
                 }
             }
+
+            flushConsecutiveWords();
         }
 
         private void TriggerSearch()
@@ -370,7 +414,7 @@ namespace Tesserae
             {
                 _input.value = value;
                 OnInputChanged();
-                RaiseOnInput(null);
+                Input?.Invoke(this, null);
             }
         }
 
@@ -418,7 +462,7 @@ namespace Tesserae
 
         public string Background { get => _container.style.background; set => _container.style.background = value; }
 
-        public override HTMLDivElement Render()
+        public HTMLElement Render()
         {
             return _container;
         }
