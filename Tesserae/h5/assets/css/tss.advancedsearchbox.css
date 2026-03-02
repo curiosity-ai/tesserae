@@ -1,0 +1,162 @@
+/* AdvancedSearchBox */
+.tss-advancedsearchbox-container {
+    display: inline-flex;
+    position: relative;
+    margin-right: 16px;
+    box-shadow: var(--tss-shadow-sm);
+    margin: 0px;
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: var(--tss-border-radius-md);
+    background: var(--tss-default-background-color) none repeat scroll 0% 0%;
+    color: var(--tss-default-foreground-color);
+    cursor: text;
+    height: 36px;
+    align-items: stretch;
+    width: 100%;
+    outline: transparent none medium;
+    padding: 0px;
+    transition: all 0.15s ease-in-out;
+}
+
+.tss-advancedsearchbox-container.tss-disabled {
+    border-color: var(--tss-disabled-background-color);
+    background-color: var(--tss-disabled-background-color);
+    color: var(--tss-disabled-foreground-color);
+}
+
+.tss-advancedsearchbox-container:hover {
+    border-color: var(--tss-default-foreground-color);
+    box-shadow: var(--tss-shadow-sm-hover);
+}
+
+.tss-advancedsearchbox-container:focus-within {
+    border-color: var(--tss-primary-border-color);
+    box-shadow: var(--tss-ring-offset-shadow), var(--tss-ring-shadow);
+}
+
+.tss-advancedsearchbox-history-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid var(--tss-default-border-color);
+    padding: 0 8px;
+    cursor: pointer;
+    background: var(--tss-secondary-background-color);
+    border-top-left-radius: var(--tss-border-radius-md);
+    border-bottom-left-radius: var(--tss-border-radius-md);
+    color: var(--tss-secondary-foreground-color);
+    flex-shrink: 0;
+}
+.tss-advancedsearchbox-history-btn:hover {
+    background: var(--tss-default-background-hover-color);
+    color: var(--tss-primary-foreground-color);
+}
+
+.tss-advancedsearchbox-input-container {
+    position: relative;
+    flex-grow: 1;
+    display: flex;
+    overflow: hidden;
+    cursor: text;
+}
+
+.tss-advancedsearchbox-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: transparent;
+    color: transparent;
+    caret-color: var(--tss-default-foreground-color);
+    outline: none;
+    padding: 0 5px;
+    margin: 0;
+    font-size: 14px;
+    font-family: inherit;
+    z-index: 2;
+    white-space: pre;
+    overflow-x: auto;
+    overflow-y: hidden;
+    resize: none;
+    line-height: 34px; /* matching container height approx */
+}
+.tss-advancedsearchbox-input::placeholder {
+    color: var(--tss-default-foreground-color) !important;
+    opacity: 0.5;
+    transition: opacity 0.3s ease;
+}
+
+.tss-advancedsearchbox-tokens {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    padding: 0 5px;
+    margin: 0;
+    font-size: 14px;
+    font-family: inherit;
+    white-space: pre;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+
+.tss-advancedsearchbox-clear-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 8px;
+    cursor: pointer;
+    color: var(--tss-secondary-foreground-color);
+    flex-shrink: 0;
+}
+.tss-advancedsearchbox-clear-btn:hover {
+    color: var(--tss-primary-foreground-color);
+}
+.tss-advancedsearchbox-clear-btn.tss-hidden {
+    display: none;
+}
+
+.tss-advancedsearchbox-search-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 12px;
+    cursor: pointer;
+    background: transparent;
+    color: var(--tss-secondary-foreground-color);
+    border-left: 1px solid var(--tss-default-border-color);
+    flex-shrink: 0;
+}
+.tss-advancedsearchbox-search-btn:hover {
+    color: var(--tss-primary-foreground-color);
+}
+
+/* Tokens */
+.tss-adv-token-word {
+    color: var(--tss-default-foreground-color);
+}
+.tss-adv-token-operator-and {
+    color: var(--tss-primary-background-color);
+    font-weight: bold;
+}
+.tss-adv-token-operator-or {
+    color: var(--tss-warning-foreground-color);
+    font-weight: bold;
+}
+.tss-adv-token-operator-not {
+    color: var(--tss-danger-foreground-color);
+    font-weight: bold;
+}
+.tss-adv-token-paren {
+    color: var(--tss-secondary-foreground-color);
+    font-weight: bold;
+}
+.tss-adv-token-quote {
+    color: var(--tss-success-foreground-color);
+}
