@@ -20,7 +20,7 @@ namespace Tesserae.Tests.Samples
                .LightDismiss()
                .Width(60.vw())
                .Height(60.vh())
-               .SetFooter(TextBlock("This is a footer note").SemiBold().MediumPlus())
+               .SetFooter(TextBlock("This is a footer note").SemiBold())
                .Content(Stack().Children(
                     TextBlock("Modals provide a focused environment for users to complete a task or view important information. They can be configured with various options like dark overlays, non-blocking behavior, and draggable headers."),
                     Label("Light Dismiss").Inline().AutoWidth().SetContent(Toggle().OnChange((s,            e) => modal.CanLightDismiss     = s.IsChecked).Checked(modal.CanLightDismiss)),

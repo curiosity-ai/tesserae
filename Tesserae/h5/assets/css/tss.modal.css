@@ -160,8 +160,6 @@
     padding: 0 4px;
     text-align: center;
     display: inline-block;
-    font-size: var(--tss-font-size-mediumplus);
-    font-weight: var(--tss-font-weight-semibold);
     box-shadow: none;
 }
 
