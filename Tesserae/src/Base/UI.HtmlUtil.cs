@@ -89,6 +89,24 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Renders a component centered in the document body.
+        /// </summary>
+        public static HTMLElement MountCenteredToBody(IComponent component, bool clearExisting = true)
+        {
+            if (component == null)
+                throw new ArgumentNullException(nameof(component));
+
+            if (clearExisting)
+            {
+                document.body.RemoveChildElements();
+            }
+
+            var rendered = VStack().P(32).S().AlignItemsCenter().Children(component).Render();
+            document.body.appendChild(rendered);
+            return rendered;
+        }
+
+        /// <summary>
         /// Prevents the default action and stops propagation for the specified event.
         /// </summary>
         public static void StopEvent(Event e)
