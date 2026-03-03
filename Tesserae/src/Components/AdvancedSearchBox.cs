@@ -91,8 +91,102 @@ namespace Tesserae
                 {
                     TriggerSearch();
                 }
+                else if (ke.key == "Backspace")
+                {
+                    var cursorPos = _input.selectionStart;
+                    if (cursorPos > 0 && cursorPos == _input.selectionEnd)
+                    {
+                        // Check if the character to be deleted is a non-breaking space
+                        if (_input.value[(int)cursorPos - 1] == '\u00A0')
+                        {
+                            // If it is, and we're backspacing, we actually want to delete the character *before* it,
+                            // which is the special token, because the user doesn't know the nb-space exists.
+                            // However, we can just delete the character before the nb-space and the nb-space
+                            if (cursorPos >= 2)
+                            {
+                                e.preventDefault();
+                                var currentVal = _input.value;
+                                var newVal = currentVal.Substring(0, (int)cursorPos - 2) + currentVal.Substring((int)cursorPos);
+                                _input.value = newVal;
+                                _input.setSelectionRange((uint)cursorPos - 2, (uint)cursorPos - 2);
+                                OnInputChanged();
+                            }
+                            else
+                            {
+                                // Edge case: cursor is at index 1 (right after the first space). Just delete the space.
+                                e.preventDefault();
+                                var currentVal = _input.value;
+                                var newVal = currentVal.Substring(1);
+                                _input.value = newVal;
+                                _input.setSelectionRange(0, 0);
+                                OnInputChanged();
+                            }
+                        }
+                    }
+                }
+                else if (ke.key == "Delete")
+                {
+                    var cursorPos = _input.selectionStart;
+                    if (cursorPos < _input.value.Length && cursorPos == _input.selectionEnd)
+                    {
+                        if (_input.value[(int)cursorPos] == '\u00A0')
+                        {
+                            // if we press delete on an nb-space, we probably want to delete the token *after* it
+                            if (cursorPos + 2 <= _input.value.Length)
+                            {
+                                e.preventDefault();
+                                var currentVal = _input.value;
+                                var newVal = currentVal.Substring(0, (int)cursorPos) + currentVal.Substring((int)cursorPos + 2);
+                                _input.value = newVal;
+                                _input.setSelectionRange((uint)cursorPos, (uint)cursorPos);
+                                OnInputChanged();
+                            }
+                            else
+                            {
+                                // Edge case: space is at the very end of the string
+                                e.preventDefault();
+                                var currentVal = _input.value;
+                                var newVal = currentVal.Substring(0, (int)cursorPos);
+                                _input.value = newVal;
+                                _input.setSelectionRange((uint)cursorPos, (uint)cursorPos);
+                                OnInputChanged();
+                            }
+                        }
+                    }
+                }
             });
             _input.addEventListener("scroll", (e) => SyncScroll());
+
+            _input.addEventListener("copy", (e) =>
+            {
+                var clipboardEvent = e.As<ClipboardEvent>();
+                var start = _input.selectionStart;
+                var end = _input.selectionEnd;
+                if (start != end)
+                {
+                    var selectedText = _input.value.Substring((int)start, (int)(end - start));
+                    clipboardEvent.clipboardData.setData("text/plain", selectedText.Replace("\u00A0", " "));
+                    e.preventDefault();
+                }
+            });
+
+            _input.addEventListener("cut", (e) =>
+            {
+                var clipboardEvent = e.As<ClipboardEvent>();
+                var start = _input.selectionStart;
+                var end = _input.selectionEnd;
+                if (start != end)
+                {
+                    var selectedText = _input.value.Substring((int)start, (int)(end - start));
+                    clipboardEvent.clipboardData.setData("text/plain", selectedText.Replace("\u00A0", " "));
+
+                    var currentVal = _input.value;
+                    _input.value = currentVal.Substring(0, (int)start) + currentVal.Substring((int)end);
+                    _input.setSelectionRange((uint)start, (uint)start);
+                    OnInputChanged();
+                    e.preventDefault();
+                }
+            });
 
             _clearBtn.addEventListener("click", (e) =>
             {
@@ -123,6 +217,82 @@ namespace Tesserae
         private void OnInputChanged()
         {
             var val = _input.value;
+
+            // Strip incoming zero-width spaces/non-breaking spaces to ensure clean parsing if user copies/pastes internal formatting
+            var cursorPosition = _input.selectionStart;
+
+            bool formattingChanged = false;
+
+            // Note: We use the non-breaking space '\u00A0' to pad special tokens
+            var rawQuery = ParseQuery(val.Replace("\u00A0", " "));
+            var formattedBuilder = new System.Text.StringBuilder();
+
+            int offset = 0;
+
+            foreach (var token in rawQuery.Tokens)
+            {
+                bool isSpecialToken = token.Type == SearchToken.TokenType.ParenthesisOpen ||
+                                      token.Type == SearchToken.TokenType.ParenthesisClose ||
+                                      token.Type == SearchToken.TokenType.And ||
+                                      token.Type == SearchToken.TokenType.Or ||
+                                      token.Type == SearchToken.TokenType.Not;
+
+                if (isSpecialToken)
+                {
+                    // Ensure space before
+                    if (formattedBuilder.Length > 0 && formattedBuilder[formattedBuilder.Length - 1] != '\u00A0' && formattedBuilder[formattedBuilder.Length - 1] != ' ')
+                    {
+                        formattedBuilder.Append('\u00A0');
+                        if (cursorPosition > formattedBuilder.Length - 1) offset++;
+                        formattingChanged = true;
+                    }
+                    else if (formattedBuilder.Length > 0 && formattedBuilder[formattedBuilder.Length - 1] == ' ')
+                    {
+                        // Replace standard space with nb-space for our token wrapper logic
+                        formattedBuilder[formattedBuilder.Length - 1] = '\u00A0';
+                    }
+
+                    formattedBuilder.Append(token.Value);
+
+                    // Space after will be handled by the next token, but we can proactively add it
+                    formattedBuilder.Append('\u00A0');
+                    if (cursorPosition >= formattedBuilder.Length - 1) offset++;
+                    formattingChanged = true;
+                }
+                else
+                {
+                    // If previous was a special token that added a padding space, and this token starts with space, merge them
+                    if (token.Type == SearchToken.TokenType.Whitespace && formattedBuilder.Length > 0 && formattedBuilder[formattedBuilder.Length - 1] == '\u00A0')
+                    {
+                        // skip the leading spaces from this token since we already have the nb-space
+                        var trimmed = token.Value.TrimStart();
+                        if (!string.IsNullOrEmpty(trimmed))
+                        {
+                            formattedBuilder.Append(trimmed);
+                        }
+                    }
+                    else
+                    {
+                        formattedBuilder.Append(token.Value);
+                    }
+                }
+            }
+
+            var finalFormattedStr = formattedBuilder.ToString();
+
+            // Remove trailing nb-space if it's at the very end of the string and the user didn't type it
+            if (finalFormattedStr.EndsWith("\u00A0") && val.Length < finalFormattedStr.Length)
+            {
+                finalFormattedStr = finalFormattedStr.Substring(0, finalFormattedStr.Length - 1);
+            }
+
+            if (finalFormattedStr != val)
+            {
+                _input.value = finalFormattedStr;
+                _input.setSelectionRange((uint)cursorPosition + (uint)offset, (uint)cursorPosition + (uint)offset);
+                val = finalFormattedStr;
+            }
+
             if (string.IsNullOrEmpty(val))
             {
                 _clearBtn.classList.add("tss-hidden");
