@@ -227,8 +227,6 @@ namespace Tesserae
             var rawQuery = ParseQuery(val.Replace("\u00A0", " "));
             var formattedBuilder = new System.Text.StringBuilder();
 
-            int offset = 0;
-
             foreach (var token in rawQuery.Tokens)
             {
                 bool isSpecialToken = token.Type == SearchToken.TokenType.ParenthesisOpen ||
@@ -243,7 +241,6 @@ namespace Tesserae
                     if (formattedBuilder.Length > 0 && formattedBuilder[formattedBuilder.Length - 1] != '\u00A0' && formattedBuilder[formattedBuilder.Length - 1] != ' ')
                     {
                         formattedBuilder.Append('\u00A0');
-                        if (cursorPosition > formattedBuilder.Length - 1) offset++;
                         formattingChanged = true;
                     }
                     else if (formattedBuilder.Length > 0 && formattedBuilder[formattedBuilder.Length - 1] == ' ')
@@ -256,7 +253,6 @@ namespace Tesserae
 
                     // Space after will be handled by the next token, but we can proactively add it
                     formattedBuilder.Append('\u00A0');
-                    if (cursorPosition >= formattedBuilder.Length - 1) offset++;
                     formattingChanged = true;
                 }
                 else
@@ -280,16 +276,57 @@ namespace Tesserae
 
             var finalFormattedStr = formattedBuilder.ToString();
 
+            int newCursorPos = (int)cursorPosition;
+            if (finalFormattedStr != val)
+            {
+                int oldCharIndex = 0;
+                int newCharIndex = 0;
+
+                while (oldCharIndex < cursorPosition && newCharIndex < finalFormattedStr.Length)
+                {
+                    char oldChar = val[oldCharIndex];
+                    char newChar = finalFormattedStr[newCharIndex];
+
+                    if (oldChar == newChar)
+                    {
+                        oldCharIndex++;
+                        newCharIndex++;
+                    }
+                    else if (char.IsWhiteSpace(oldChar) && char.IsWhiteSpace(newChar))
+                    {
+                        oldCharIndex++;
+                        newCharIndex++;
+                    }
+                    else if (char.IsWhiteSpace(newChar))
+                    {
+                        // formatting added a space
+                        newCharIndex++;
+                    }
+                    else if (char.IsWhiteSpace(oldChar))
+                    {
+                        // formatting removed a space
+                        oldCharIndex++;
+                    }
+                    else
+                    {
+                        oldCharIndex++;
+                        newCharIndex++;
+                    }
+                }
+                newCursorPos = newCharIndex;
+            }
+
             // Remove trailing nb-space if it's at the very end of the string and the user didn't type it
             if (finalFormattedStr.EndsWith("\u00A0") && val.Length < finalFormattedStr.Length)
             {
                 finalFormattedStr = finalFormattedStr.Substring(0, finalFormattedStr.Length - 1);
+                if (newCursorPos > finalFormattedStr.Length) newCursorPos = finalFormattedStr.Length;
             }
 
             if (finalFormattedStr != val)
             {
                 _input.value = finalFormattedStr;
-                _input.setSelectionRange((uint)cursorPosition + (uint)offset, (uint)cursorPosition + (uint)offset);
+                _input.setSelectionRange((uint)newCursorPos, (uint)newCursorPos);
                 val = finalFormattedStr;
             }
 
