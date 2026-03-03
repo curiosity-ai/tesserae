@@ -142,12 +142,12 @@
     color: var(--tss-default-foreground-color);
     background: var(--tss-colors-blue-100);
     border-radius: 4px;
-    padding-left: 4px;
-    padding-right: 4px;
-    margin-left: -4px;
-    margin-right: -4px;
-    padding-top: 4px;
-    padding-bottom: 4px;
+    padding-left: 2px;
+    padding-right: 2px;
+    margin-left: -2px;
+    margin-right: -2px;
+    padding-top: 2px;
+    padding-bottom: 2px;
     outline: 1px solid var(--tss-colors-blue-500);
 }
 .tss-adv-token-operator-and {
