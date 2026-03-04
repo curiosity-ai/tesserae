@@ -288,3 +288,45 @@
     width:fit-content;
     max-width: 100%;
 }
+
+/* Custom SearchBox in Dropdown Popup */
+.tss-dropdown-popup .tss-dropdown-searchbox {
+    margin: 8px 8px 0px 8px;
+    width: calc(100% - 16px);
+    border-radius: 6px;
+    background: var(--tss-default-background-hover-color);
+    border: 1px solid transparent;
+}
+
+.tss-dropdown-popup .tss-dropdown-searchbox:focus-within {
+    border: 1px solid var(--tss-primary-border-color);
+}
+
+.tss-dropdown-popup {
+    border-radius: 12px;
+    padding-bottom: 8px;
+    padding-top: 8px;
+    box-shadow: 0px 4px 16px var(--tss-shadow-color, rgba(0, 0, 0, 0.4));
+    border: 1px solid var(--tss-default-border-color);
+    margin-top: 4px; /* Slight spacing below the main container */
+}
+
+/* Give items a bit of margin if they're in a Searchable dropdown so it matches the image padding */
+.tss-dropdown-searchbox + div {
+    padding-top: 8px;
+}
+
+.tss-dropdown-popup .tss-dropdown-item {
+    padding: 0 16px;
+    margin: 0 8px;
+    width: calc(100% - 16px);
+    box-sizing: border-box;
+    border-radius: 6px;
+    min-height: 32px;
+    line-height: 32px;
+}
+
+/* Adjust top placement of popup to look like the image (dropping from the bottom of the container) */
+.tss-dropdown-layer {
+    align-items: flex-start;
+}
