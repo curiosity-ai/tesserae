@@ -30,7 +30,8 @@ namespace Tesserae
         private Func<Task<Item[]>>       _itemsSource;
         private ReadOnlyArray<Item>      _lastRenderedItems;
         private HTMLDivElement           _popupDiv;
-        private string                   _search;
+        private string                   _search = string.Empty;
+        private SearchBox                _searchBox;
         private int                      _latestRequestID;
         private Func<Item[], IComponent> _customRenderer;
 
@@ -261,7 +262,15 @@ namespace Tesserae
         {
             if (_contentHtml == null)
             {
-                _popupDiv    = Div(_("tss-dropdown-popup", role: "listbox"), _childContainer);
+                if (_searchBox != null)
+                {
+                    _searchBox.Render().classList.add("tss-dropdown-searchbox");
+                    _popupDiv = Div(_("tss-dropdown-popup", role: "listbox"), _searchBox.Render(), _childContainer);
+                }
+                else
+                {
+                    _popupDiv = Div(_("tss-dropdown-popup", role: "listbox"), _childContainer);
+                }
                 _contentHtml = Div(_("tss-dropdown-layer"), _popupDiv);
 
                 _contentHtml.addEventListener("click",       OnWindowClick);
@@ -293,7 +302,11 @@ namespace Tesserae
             {
                 document.addEventListener("keydown", OnPopupKeyDown);
 
-                if (_selectedChildren.Count > 0)
+                if (_searchBox != null)
+                {
+                    _searchBox.Focus();
+                }
+                else if (_selectedChildren.Count > 0)
                 {
                     _selectedChildren[_selectedChildren.Count - 1].Render().focus();
                 }
@@ -304,7 +317,7 @@ namespace Tesserae
 
         private void RecomputePopupPosition()
         {
-            if (!string.IsNullOrEmpty(_search))
+            if (!string.IsNullOrEmpty(_search) && _searchBox == null)
             {
                 if (!_searchSpan.isConnected)
                 {
@@ -313,7 +326,7 @@ namespace Tesserae
                 _searchSpan.innerText = _search;
                 InnerElement.classList.add("tss-dropdown-searching");
             }
-            else
+            else if (_searchBox == null)
             {
                 InnerElement.classList.remove("tss-dropdown-searching");
 
@@ -399,11 +412,23 @@ namespace Tesserae
             return this;
         }
 
+
+        public Dropdown Searchable(string placeholder = "Search")
+        {
+            _searchBox = new SearchBox(placeholder).SearchAsYouType().OnSearch((s, e) =>
+            {
+                _search = e;
+                SearchItems();
+                RecomputePopupPosition();
+            });
+            return this;
+        }
+
         public Dropdown NoArrow()
         {
             InnerElement.classList.add("tss-dropdown-noarrow");
             InnerElement.classList.remove("tss-dropdown-custom-icon");
-            _iconContainer.className = null;
+            _iconContainer.style.display = "none";
             return this;
         }
 
@@ -703,7 +728,11 @@ namespace Tesserae
                     _firstItem.focus();
                 }
             }
-            else
+            else if (_searchBox == null)
+            {
+                UpdateSearch(ev);
+            }
+            else if (ev.key == "Escape" || ev.key == "Enter")
             {
                 UpdateSearch(ev);
             }
@@ -783,6 +812,11 @@ namespace Tesserae
             if (_searchSpan.isConnected)
             {
                 _searchSpan.remove();
+            }
+
+            if (_searchBox != null)
+            {
+                _searchBox.Text = string.Empty;
             }
         }
 
