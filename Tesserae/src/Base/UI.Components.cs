@@ -400,6 +400,13 @@ namespace Tesserae
         public static Toggle Toggle() => new Toggle(null, null);
 
         /// <summary>
+        /// Creates a <see cref="Tesserae.IconToggle"/> component.
+        /// </summary>
+        public static IconToggle IconToggle(params IconToggle.Item[] items) => new IconToggle(items);
+
+        public static IconToggle.Item IconToggleItem(UIcons icon, string tooltip, object data = null) => new IconToggle.Item(icon, tooltip, data);
+
+        /// <summary>
         /// Creates a <see cref="Tesserae.ChoiceGroup.Choice"/> component.
         /// </summary>
         public static ChoiceGroup.Choice Choice(string label = string.Empty) => new ChoiceGroup.Choice(label);

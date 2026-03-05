@@ -5,44 +5,32 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
-    /// <summary>
-    /// A group of icon buttons of which exactly one is selected at a time, like a segmented control.
-    /// </summary>
     [H5.Name("tss.IconToggle")]
-    public class IconToggle<T> : IComponent
+    public class IconToggle : IComponent
     {
         private Stack _stack;
         private Dictionary<Item, Button> _items;
-        private SettableObservable<T> _itemsObservable;  
-        /// <summary>
-        /// Initializes a new instance of this class.
-        /// </summary>
+        private SettableObservable<Item> _itemsObservable;  
         public IconToggle(Item[] items)
         {
             _stack = HStack().NoDefaultMargin().Class("tss-icon-toggle").NoWrap();
             _items = new Dictionary<Item, Button>();
-            _itemsObservable = new SettableObservable<T>(items.First().Data);
-            foreach (var item in items)
+            _itemsObservable = new SettableObservable<Item>(items.First());
+            foreach(var item in items)
             {
-                var b = Button().Class("tss-icon-toggle-item").SetIcon(item.Icon).Tooltip(item.Tooltip).OnClick(() => Select(item.Data));
+                var b = Button().Class("tss-icon-toggle-item").SetIcon(item.Icon).Tooltip(item.Tooltip).OnClick(() => Select(item));
                 _items[item] = b;
                 _stack.Add(b);
             }
         }
 
-        /// <summary>
-        /// Renders the component's root HTML element.
-        /// </summary>
         public HTMLElement Render() => _stack.Render();
 
-        /// <summary>
-        /// Configures the component to select.
-        /// </summary>
-        public void Select(T item)
+        public void Select(Item item)
         {
             foreach(var kv in _items)
             {
-                if (EqualityComparer<T>.Default.Equals(kv.Key.Data, item))
+                if (kv.Key == item)
                 {
                     kv.Value.Class("tss-icon-togle-item-selected");
                     _itemsObservable.Value = item;
@@ -54,35 +42,20 @@ namespace Tesserae
             }
         }
 
-        /// <summary>
-        /// Returns the component's state as a(n) observable.
-        /// </summary>
-        public IObservable<T> AsObservable() => _itemsObservable;
+        public IObservable<Item> AsObservable() => _itemsObservable;
 
         public class Item
         {
-            /// <summary>
-            /// Initializes a new instance of this class.
-            /// </summary>
-            public Item(UIcons icon, string tooltip, T data)
+            public Item(UIcons icon, string tooltip, object data = null)
             {
                 Icon = icon;
                 Tooltip = tooltip;
                 Data = data;
             }
 
-            /// <summary>
-            /// Gets or sets the icon shown by the component.
-            /// </summary>
             public UIcons Icon { get; }
-            /// <summary>
-            /// Sets the tooltip shown when the user hovers over the component.
-            /// </summary>
             public string Tooltip { get; }
-            /// <summary>
-            /// Gets or sets the data.
-            /// </summary>
-            public T Data { get; }
+            public object Data { get; }
         }
     }
 }

@@ -243,3 +243,36 @@
         .tss-toggle-container.tss-fontsize-mega .tss-toggle-text {
             padding-left: 34px;
         }
+
+
+.tss-icon-toggle {
+    border: 1px solid var(--tss-default-border-color);
+    width: fit-content;
+    border-radius: 8px;
+    box-shadow: var(--tss-box-shadow);
+    margin-bottom: 8px;
+}
+
+    .tss-icon-toggle .tss-icon-toggle-item {
+        border-radius: 0px;
+    }
+
+        .tss-icon-toggle .tss-icon-toggle-item.tss-icon-togle-item-selected {
+            background: var(--tss-secondary-background-color);
+            box-shadow: inset 2px 2px 4px rgb(0 0 0 / 0.06);
+            border: 0px solid transparent !important;
+        }
+
+
+    .tss-icon-toggle > .tss-stack-item > .tss-icon-toggle-item {
+        border-right: 1px solid rgba(var(--tss-dark-border-color-root), 0.2) !important;
+    }
+
+    .tss-icon-toggle > .tss-stack-item:first-child > .tss-icon-toggle-item {
+        border-radius: 6px 0px 0px 6px;
+    }
+
+    .tss-icon-toggle > .tss-stack-item:last-child > .tss-icon-toggle-item {
+        border-radius: 0px 6px 6px 0px;
+        border-right: 0px solid transparent !important;
+    }
