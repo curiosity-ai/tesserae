@@ -54,7 +54,14 @@ namespace Tesserae.Tests.Samples
                         Label("Small").SetContent(Toggle().Rounded(BorderRadius.Small)),
                         Label("Medium").SetContent(Toggle().Rounded(BorderRadius.Medium)),
                         Label("Full").SetContent(Toggle().Rounded(BorderRadius.Full))
+                    ),
+                    
+                    SampleSubTitle("Icon Toggle"),
+                    VStack().Children(
+                        IconToggle(IconToggleItem(UIcons.Comment, "Chat"), IconToggleItem(UIcons.Search, "Search")),
+                        IconToggle(IconToggleItem(UIcons.AppleWhole, "Apple"), IconToggleItem(UIcons.Banana, "Banana"), IconToggleItem(UIcons.OrangeJuice, "Orange Juice"), IconToggleItem(UIcons.Bread, "Bread"))
                     )
+
                 ));
         }
 
