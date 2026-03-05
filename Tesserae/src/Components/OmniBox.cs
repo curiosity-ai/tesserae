@@ -22,8 +22,10 @@ namespace Tesserae
             public Mode Mode { get; }
             public Mode InitialMode { get; }
 
-            public IComponent[] FooterStart { get; set; }
-            public IComponent[] FooterEnd { get; set;}
+            public IComponent[] ChatFooterLeftSide { get; set; }
+            public IComponent[] ChatFooterRightSide { get; set;}
+            public IComponent[] SearchFooterLeftSide { get; set; }
+            public IComponent[] SearchFooterRightSide { get; set;}
         }
 
         public enum Mode
@@ -236,24 +238,41 @@ namespace Tesserae
                 _chatInput.spellcheck = true;
                 _chatTriggerBtn = Button().SetIcon(UIcons.PaperPlane).Class("tss-omnibox-chat-btn");
 
-                if (config.FooterStart  is object)
+                if (config.ChatFooterLeftSide is object)
                 {
-                    foreach (var i in config.FooterStart )
+                    foreach (var i in config.ChatFooterLeftSide)
                     {
-                        _footer.appendChild(i.Render());
+                        _footer.appendChild(i.Class("tss-omnibox-chat-footer-item").Render());
                     }
                 }
+
+                if (config.SearchFooterLeftSide is object)
+                {
+                    foreach (var i in config.SearchFooterLeftSide)
+                    {
+                        _footer.appendChild(i.Class("tss-omnibox-search-footer-item").Render());
+                    }
+                }
+
 
                 _footer.appendChild(Div(_("tss-omnibox-footer-spacer")));
                 footerEnd.Add(_chatTriggerBtn);
                 _chatContainer = Div(_("tss-omnibox-chat-container"), _chatInput);
             }
 
-            if (config.FooterEnd is object)
+            if (config.ChatFooterRightSide is object)
             {
-                foreach (var i in config.FooterEnd)
+                foreach (var i in config.ChatFooterRightSide)
                 {
-                    _footer.appendChild(i.Render());
+                    _footer.appendChild(i.Class("tss-omnibox-chat-footer-item").Render());
+                }
+            }
+
+            if (config.SearchFooterRightSide is object)
+            {
+                foreach (var i in config.SearchFooterRightSide )
+                {
+                    _footer.appendChild(i.Class("tss-omnibox-search-footer-item").Render());
                 }
             }
 

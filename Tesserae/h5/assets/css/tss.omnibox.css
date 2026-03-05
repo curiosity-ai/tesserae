@@ -246,11 +246,13 @@
 .tss-omnibox-container.tss-omnibox-mode-chat .tss-omnibox-search-container,
 .tss-omnibox-container.tss-omnibox-mode-chat .tss-omnibox-search-history-btn,
 .tss-omnibox-container.tss-omnibox-mode-chat .tss-omnibox-search-clear-btn,
-.tss-omnibox-container.tss-omnibox-mode-chat .tss-omnibox-search-btn {
+.tss-omnibox-container.tss-omnibox-mode-chat .tss-omnibox-search-btn,
+.tss-omnibox-container.tss-omnibox-mode-chat .tss-omnibox-search-footer-item {
     display: none;
 }
 
 .tss-omnibox-container.tss-omnibox-mode-search .tss-omnibox-chat-container,
-.tss-omnibox-container.tss-omnibox-mode-search .tss-omnibox-chat-btn {
+.tss-omnibox-container.tss-omnibox-mode-search .tss-omnibox-chat-btn,
+.tss-omnibox-container.tss-omnibox-mode-search .tss-omnibox-chat-footer-item {
     display: none;
 }
