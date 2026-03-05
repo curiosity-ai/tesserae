@@ -12,7 +12,7 @@ namespace Tesserae
     [H5.Name("tss.Dropdown")]
     public sealed class Dropdown : Layer<Dropdown>, ICanValidate<Dropdown>, IObservableListComponent<Dropdown.Item>, ITabIndex, IRoundedStyle
     {
-        private static HTMLElement _firstItem;
+        private HTMLElement _firstItem;
 
         private readonly HTMLElement          _childContainer;
         private readonly HTMLDivElement       _container;
@@ -317,7 +317,7 @@ namespace Tesserae
 
         private void RecomputePopupPosition()
         {
-            if (!string.IsNullOrEmpty(_search) && _searchBox == null)
+            if (!string.IsNullOrEmpty(_search) && _searchBox is null)
             {
                 if (!_searchSpan.isConnected)
                 {
@@ -326,7 +326,7 @@ namespace Tesserae
                 _searchSpan.innerText = _search;
                 InnerElement.classList.add("tss-dropdown-searching");
             }
-            else if (_searchBox == null)
+            else if (_searchBox is null)
             {
                 InnerElement.classList.remove("tss-dropdown-searching");
 
@@ -339,8 +339,19 @@ namespace Tesserae
             var items        = GetItems();
             var visibleItems = items.Where(i => i.item.style.display != "none").Select(i => (item: i.item, height: i.item.getBoundingClientRect().As<DOMRect>().height)).ToArray();
 
-            var maxHeight = visibleItems.Length > 0 ? visibleItems.Sum(h => h.height) + "px" : "80vh";
+            double searchBoxHeight = 0;
 
+            if (_searchBox is object)
+            {
+                var sbr = _searchBox.Render().getBoundingClientRect().As<DOMRect>();
+                var pdr = _popupDiv.getBoundingClientRect().As<DOMRect>();
+                searchBoxHeight = sbr.height + (sbr.top - pdr.top) + 8;
+            }
+
+            var maxHeight = visibleItems.Length > 0 ? visibleItems.Sum(h => h.height) + "px" : "80vh";
+            var minHeight = ((visibleItems.Length > 0 ? visibleItems.Take(5).Select((h,i) => h.height + (i == 0 ? 0 : 16)).Sum() + 9: 0 ) + searchBoxHeight) + "px" ;
+
+            _popupDiv.style.minHeight = minHeight;
             _popupDiv.style.maxHeight = maxHeight;
 
             var rect        = _container.getBoundingClientRect().As<DOMRect>();
@@ -551,8 +562,10 @@ namespace Tesserae
 
         private void OnWindowClick(Event e)
         {
-            if (e.srcElement != _childContainer && !_childContainer.contains(e.srcElement))
+            if (e.srcElement != _childContainer && !_childContainer.contains(e.srcElement) && (_searchBox is null || !_searchBox.IsFocused))
+            {
                 Hide();
+            }
         }
 
         private void UpdateStateBasedUponCurrentSelections()
@@ -680,9 +693,9 @@ namespace Tesserae
 
                 if (_popupDiv.classList.contains("tss-no-focus")) _popupDiv.classList.remove("tss-no-focus");
 
-                if (document.activeElement != null && _childContainer.contains(document.activeElement))
+                if (document.activeElement != null && (_childContainer.contains(document.activeElement) || (_searchBox is object && _searchBox.IsFocused)))
                 {
-                    if (visibleItems.TakeWhile(x => !x.Equals(document.activeElement)).LastOrDefault(x => (x as HTMLElement).tabIndex != -1) is HTMLElement el)
+                    if (visibleItems.TakeWhile(x => !IsFocused(x)).LastOrDefault(x => (x as HTMLElement).tabIndex != -1) is HTMLElement el)
                     {
                         _firstItem = el;
                     }
@@ -698,7 +711,7 @@ namespace Tesserae
 
                 if (_firstItem is object)
                 {
-                    _firstItem.focus();
+                    FocusOnItem(_firstItem);
                 }
             }
             else if (ev.key == "ArrowDown")
@@ -707,9 +720,9 @@ namespace Tesserae
 
                 if (_popupDiv.classList.contains("tss-no-focus")) _popupDiv.classList.remove("tss-no-focus");
 
-                if (document.activeElement != null && _childContainer.contains(document.activeElement))
+                if (document.activeElement != null && (_childContainer.contains(document.activeElement) || (_searchBox is object && _searchBox.IsFocused)))
                 {
-                    if (visibleItems.SkipWhile(x => !x.Equals(document.activeElement)).Skip(1).FirstOrDefault(x => (x as HTMLElement).tabIndex != -1) is HTMLElement el)
+                    if (visibleItems.SkipWhile(x => !IsFocused(x)).Skip(1).FirstOrDefault(x => (x as HTMLElement).tabIndex != -1) is HTMLElement el)
                     {
                         _firstItem = el;
                     }
@@ -725,7 +738,7 @@ namespace Tesserae
 
                 if (_firstItem is object)
                 {
-                    _firstItem.focus();
+                    FocusOnItem(_firstItem);
                 }
             }
             else if (_searchBox == null)
@@ -736,6 +749,13 @@ namespace Tesserae
             {
                 UpdateSearch(ev);
             }
+        }
+
+        private bool IsFocused(Element x)
+        {
+            if (x.Equals(document.activeElement)) return true;
+            else if (_searchBox is object && x.As<HTMLElement>().classList.contains("tss-dropdown-item-focus")) return true;
+            return false;
         }
 
         public IObservable<IReadOnlyList<Item>> AsObservable()
@@ -857,9 +877,29 @@ namespace Tesserae
             var items         = GetItems();
             var itemsToRemove = items.Where(item => !(item.textContent.ToLower().Contains(searchTerm)));
             var itemsToReset  = items.Except(itemsToRemove);
-            _firstItem = itemsToReset.FirstOrDefault().item;
+            
+            if(!itemsToReset.Any(i => i.item == _firstItem))
+            {
+                _firstItem = itemsToReset.FirstOrDefault().item;
+            }
 
             ResetSearchItems(itemsToReset);
+
+            bool hasFocused = false;
+
+            foreach (var item in itemsToReset)
+            {
+                if (IsFocused(item.item))
+                {
+                    hasFocused = true; 
+                    break;
+                }
+            }
+
+            if (!hasFocused && _firstItem is object)
+            {
+                FocusOnItem(_firstItem);
+            }
 
             foreach (var (item, textContent) in itemsToRemove)
             {
@@ -876,6 +916,23 @@ namespace Tesserae
                 {
                     RecursiveHighlight(item, regex);
                 }
+            }
+        }
+
+        private void FocusOnItem(HTMLElement item)
+        {
+            if (_searchBox is object)
+            {
+                foreach (var i in _popupDiv.querySelectorAll(".tss-dropdown-item-focus"))
+                {
+                    i.As<HTMLElement>().classList.remove("tss-dropdown-item-focus");
+                }
+
+                item.classList.add("tss-dropdown-item-focus");
+            }
+            else
+            {
+                item.focus();
             }
         }
 
@@ -1109,7 +1166,9 @@ namespace Tesserae
             private void OnItemMouseOver(Event ev)
             {
                 if (Type == ItemType.Item)
+                {
                     InnerElement.focus();
+                }
             }
         }
     }
