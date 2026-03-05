@@ -45,6 +45,8 @@ namespace Tesserae
             }
         }
 
+        public bool IsFocused => document.activeElement == InnerElement;
+
         public bool IsEnabled
         {
             get => !_container.classList.contains("tss-disabled");
@@ -189,9 +191,7 @@ namespace Tesserae
 
         public SearchBox Focus()
         {
-            // 2020-12-29 DWR: Seems like this setTimeout is required then the element is rendered within a container that uses "simplebar" scrolling - without the delay, if the element getting focus is out of view then it will not be
-            // scrolled into view (even though it has successfully received focus)
-            DomObserver.WhenMounted(InnerElement, () => window.setTimeout((_) => InnerElement.focus(), 500));
+            DomObserver.WhenMounted(InnerElement, () => InnerElement.focus());
             return this;
         }
 
