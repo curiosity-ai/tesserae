@@ -7,44 +7,8 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
-    public class SearchToken
-    {
-        public enum TokenType
-        {
-            Word,
-            And,
-            Or,
-            Not,
-            ParenthesisOpen,
-            ParenthesisClose,
-            Quote,
-            Whitespace
-        }
-
-        public TokenType Type { get; set; }
-        public string Value { get; set; }
-
-        public SearchToken(TokenType type, string value)
-        {
-            Type = type;
-            Value = value;
-        }
-    }
-
-    public class SearchQuery
-    {
-        public string RawQuery { get; set; }
-        public List<SearchToken> Tokens { get; set; }
-
-        public SearchQuery(string rawQuery, List<SearchToken> tokens)
-        {
-            RawQuery = rawQuery;
-            Tokens = tokens;
-        }
-    }
-
-    [H5.Name("tss.AdvancedSearchBox")]
-    public class AdvancedSearchBox : IComponent, ITextFormating, IHasBackgroundColor, ITabIndex, IRoundedStyle
+    [H5.Name("tss.OmniBox")]
+    public class OmniBox : IComponent, ITextFormating, IHasBackgroundColor, ITabIndex, IRoundedStyle
     {
         private readonly HTMLDivElement _container;
         private readonly HTMLInputElement _input;
@@ -58,26 +22,26 @@ namespace Tesserae
         private Func<Task<SearchQuery>> _historyFetcher;
         private string _tokenTypeMap = string.Empty;
 
-        public delegate void SearchEventHandler(AdvancedSearchBox sender, SearchQuery query);
+        public delegate void SearchEventHandler(OmniBox sender, SearchQuery query);
         protected event SearchEventHandler Searched;
-        public event ComponentEventHandler<AdvancedSearchBox, Event> Input;
+        public event ComponentEventHandler<OmniBox, Event> Input;
 
-        public AdvancedSearchBox(string placeholder = string.Empty)
+        public OmniBox(string placeholder = string.Empty)
         {
-            _input = TextBox(_("tss-advancedsearchbox-input", type: "text", placeholder: placeholder));
+            _input = TextBox(_("tss-omnibox-input", type: "text", placeholder: placeholder));
             _input.autocomplete = "off";
             _input.spellcheck = false;
 
-            _tokensContainer = Div(_("tss-advancedsearchbox-tokens"));
-            _inputContainer = Div(_("tss-advancedsearchbox-input-container"), _input, _tokensContainer);
+            _tokensContainer = Div(_("tss-omnibox-tokens"));
+            _inputContainer = Div(_("tss-omnibox-input-container"), _input, _tokensContainer);
 
-            _historyBtn = Div(_("tss-advancedsearchbox-history-btn"), Icon(UIcons.Clock).Render());
+            _historyBtn = Div(_("tss-omnibox-history-btn"), Icon(UIcons.Clock).Render());
             _historyBtn.style.display = "none"; // Hidden by default unless WithHistory is called
 
-            _clearBtn = Div(_("tss-advancedsearchbox-clear-btn tss-hidden"), Icon(UIcons.CrossCircle).Render());
-            _searchBtn = Div(_("tss-advancedsearchbox-search-btn"), Icon(UIcons.Search).Render());
+            _clearBtn = Div(_("tss-omnibox-clear-btn tss-hidden"), Icon(UIcons.CrossCircle).Render());
+            _searchBtn = Div(_("tss-omnibox-search-btn"), Icon(UIcons.Search).Render());
 
-            _container = Div(_("tss-advancedsearchbox-container"), _historyBtn, _inputContainer, _clearBtn, _searchBtn);
+            _container = Div(_("tss-omnibox-container"), _historyBtn, _inputContainer, _clearBtn, _searchBtn);
 
             // Set up event listeners
             _input.addEventListener("input", (e) =>
@@ -551,19 +515,19 @@ namespace Tesserae
             Searched?.Invoke(this, query);
         }
 
-        public AdvancedSearchBox OnSearch(SearchEventHandler onSearch)
+        public OmniBox OnSearch(SearchEventHandler onSearch)
         {
             Searched += onSearch;
             return this;
         }
 
-        public AdvancedSearchBox OnSearch(Action<AdvancedSearchBox, string> onSearch)
+        public OmniBox OnSearch(Action<OmniBox, string> onSearch)
         {
             Searched += (s, q) => onSearch(s, q.RawQuery);
             return this;
         }
 
-        public AdvancedSearchBox WithHistory(Func<Task<SearchQuery>> historyFetcher)
+        public OmniBox WithHistory(Func<Task<SearchQuery>> historyFetcher)
         {
             _historyFetcher = historyFetcher;
             _historyBtn.style.display = "flex";
@@ -680,31 +644,31 @@ namespace Tesserae
             return _container;
         }
 
-        public AdvancedSearchBox SetText(string text)
+        public OmniBox SetText(string text)
         {
             Text = text;
             return this;
         }
 
-        public AdvancedSearchBox SetPlaceholder(string text)
+        public OmniBox SetPlaceholder(string text)
         {
             Placeholder = text;
             return this;
         }
 
-        public AdvancedSearchBox Disabled(bool value = true)
+        public OmniBox Disabled(bool value = true)
         {
             IsEnabled = !value;
             return this;
         }
 
-        public AdvancedSearchBox Focus()
+        public OmniBox Focus()
         {
             DomObserver.WhenMounted(_input, () => window.setTimeout((_) => _input.focus(), 500));
             return this;
         }
 
-        public AdvancedSearchBox Height(UnitSize unitSize)
+        public OmniBox Height(UnitSize unitSize)
         {
             var h = unitSize.ToString();
             _inputContainer.style.height = h;
@@ -714,6 +678,42 @@ namespace Tesserae
             return this;
         }
 
-        public AdvancedSearchBox H(int unitSize) => Height(unitSize.px());
+        public OmniBox H(int unitSize) => Height(unitSize.px());
+
+        public class SearchToken
+        {
+            public enum TokenType
+            {
+                Word,
+                And,
+                Or,
+                Not,
+                ParenthesisOpen,
+                ParenthesisClose,
+                Quote,
+                Whitespace
+            }
+
+            public TokenType Type { get; set; }
+            public string Value { get; set; }
+
+            public SearchToken(TokenType type, string value)
+            {
+                Type = type;
+                Value = value;
+            }
+        }
+
+        public class SearchQuery
+        {
+            public string RawQuery { get; set; }
+            public List<SearchToken> Tokens { get; set; }
+
+            public SearchQuery(string rawQuery, List<SearchToken> tokens)
+            {
+                RawQuery = rawQuery;
+                Tokens = tokens;
+            }
+        }
     }
 }
