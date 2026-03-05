@@ -48,6 +48,12 @@ namespace Tesserae.Tests.Samples
                     ),
                     SampleSubTitle("Selection Modes"),
                     VStack().Children(
+                        Label("Searchable").SetContent(Dropdown().Searchable().Items(
+                            DropdownItem("Apple"),
+                            DropdownItem("Banana").Selected(),
+                            DropdownItem("Orange").Selected(),
+                            DropdownItem("Grape")
+                        )),
                         Label("Multi-select").SetContent(Dropdown().Multi().Items(
                             DropdownItem("Apple"),
                             DropdownItem("Banana").Selected(),
