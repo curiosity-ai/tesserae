@@ -7,21 +7,21 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
-    [SampleDetails(Group = "Components", Order = 21, Icon = UIcons.Search)]
-    public class AdvancedSearchBoxSample : IComponent, ISample
+    [SampleDetails(Group = "Components", Order = 21, Icon = UIcons.SearchBar)]
+    public class OmniBoxSample : IComponent, ISample
     {
         private readonly IComponent _content;
 
-        public AdvancedSearchBoxSample()
+        public OmniBoxSample()
         {
             var searchOutput = TextBlock("Waiting for input...");
 
-            var defaultSearch = AdvancedSearchBox("Type something like: potato AND ( tomato OR banana) AND NOT apple")
+            var defaultSearch = OmniBox("Type something like: potato AND ( tomato OR banana) AND NOT apple")
                 .Width(100.percent())
                 .WithHistory(async () => {
                     // Simulate fetching history from some server/storage
                     await Task.Delay(200);
-                    return AdvancedSearchBox.ParseQuery("potato AND ( tomato OR banana) AND NOT apple");
+                    return OmniBox.ParseQuery("potato AND ( tomato OR banana) AND NOT apple");
                 })
                 .OnSearch((s, q) =>
                 {
@@ -34,7 +34,7 @@ namespace Tesserae.Tests.Samples
             defaultSearch.Text = "potato AND ( tomato OR banana) AND NOT apple";
 
             _content = SectionStack()
-               .Title(SampleHeader(nameof(AdvancedSearchBoxSample)))
+               .Title(SampleHeader(nameof(OmniBoxSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("AdvancedSearchBox provides a powerful input field for searching through content, supporting parsing and visual rendering of logical operators like AND, OR, NOT, parenthesis, and quotes."),
@@ -48,9 +48,9 @@ namespace Tesserae.Tests.Samples
                     ),
                     SampleSubTitle("Customization"),
                     VStack().Width(100.percent()).Children(
-                        Label("Disabled").Disabled().SetContent(AdvancedSearchBox("Search disabled").Disabled()),
-                        Label("Small Text Size").SetContent(AdvancedSearchBox("Small search...").Do(s => s.Size = TextSize.Small)),
-                        Label("Medium Text Size").SetContent(AdvancedSearchBox("Medium search...").Do(s => s.Size = TextSize.Medium))
+                        Label("Disabled").Disabled().SetContent(OmniBox("Search disabled").Disabled()),
+                        Label("Small Text Size").SetContent(OmniBox("Small search...").Do(s => s.Size = TextSize.Small)),
+                        Label("Medium Text Size").SetContent(OmniBox("Medium search...").Do(s => s.Size = TextSize.Medium))
                     )
                 ));
         }

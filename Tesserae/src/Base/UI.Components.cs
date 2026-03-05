@@ -547,9 +547,9 @@ namespace Tesserae
         public static SearchBox SearchBox(string placeholder = string.Empty) => new SearchBox(placeholder);
 
         /// <summary>
-        /// Creates a <see cref="Tesserae.AdvancedSearchBox"/> component.
+        /// Creates a <see cref="Tesserae.OmniBox"/> component.
         /// </summary>
-        public static AdvancedSearchBox AdvancedSearchBox(string placeholder = string.Empty) => new AdvancedSearchBox(placeholder);
+        public static OmniBox OmniBox(string placeholder = string.Empty) => new OmniBox(placeholder);
 
         /// <summary>
         /// Creates a <see cref="Tesserae.Slider"/> component.
