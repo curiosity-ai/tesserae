@@ -249,7 +249,7 @@
     border: 1px solid var(--tss-default-border-color);
     width: fit-content;
     border-radius: 8px;
-    box-shadow: var(--tss-box-shadow);
+    box-shadow: 0 0.3px 0.9px 0 var(--tss-shadow-color-to);
     margin-bottom: 8px;
 }
 

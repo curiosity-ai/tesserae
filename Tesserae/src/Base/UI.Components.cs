@@ -402,9 +402,12 @@ namespace Tesserae
         /// <summary>
         /// Creates a <see cref="Tesserae.IconToggle"/> component.
         /// </summary>
-        public static IconToggle IconToggle(params IconToggle.Item[] items) => new IconToggle(items);
+        public static IconToggle<T> IconToggle<T>(params IconToggle<T>.Item[] items) => new IconToggle<T>(items);
 
-        public static IconToggle.Item IconToggleItem(UIcons icon, string tooltip, object data = null) => new IconToggle.Item(icon, tooltip, data);
+        /// <summary>
+        /// Creates a <see cref="Tesserae.IconToggle.Item"/> component.
+        /// </summary>
+        public static IconToggle<T>.Item IconToggleItem<T>(UIcons icon, string tooltip, T data) => new IconToggle<T>.Item(icon, tooltip, data);
 
         /// <summary>
         /// Creates a <see cref="Tesserae.ChoiceGroup.Choice"/> component.
@@ -556,7 +559,7 @@ namespace Tesserae
         /// <summary>
         /// Creates a <see cref="Tesserae.OmniBox"/> component.
         /// </summary>
-        public static OmniBox OmniBox(string placeholder = string.Empty) => new OmniBox(placeholder);
+        public static OmniBox OmniBox(OmniBox.Config config) => new OmniBox(config);
 
         /// <summary>
         /// Creates a <see cref="Tesserae.Slider"/> component.
@@ -720,7 +723,7 @@ namespace Tesserae
         /// <summary>
         /// Creates a <see cref="Tesserae.Dropdown.Item"/> component.
         /// </summary>
-        public static Dropdown.Item DropdownItem(string text, string selectedText = string.Empty) => new Dropdown.Item(text, selectedText);
+        public static Dropdown.Item DropdownItem(string text, string selectedText = string.Empty, UIcons? icon = null) => new Dropdown.Item(text, selectedText, icon);
 
         /// <summary>
         /// Creates a <see cref="Tesserae.Dropdown.Item"/> component.

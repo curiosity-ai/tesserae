@@ -14,44 +14,76 @@ namespace Tesserae.Tests.Samples
 
         public OmniBoxSample()
         {
-            var searchOutput = TextBlock("Waiting for input...");
-
-            var defaultSearch = OmniBox("Type something like: potato AND ( tomato OR banana) AND NOT apple")
-                .Width(100.percent())
-                .WithHistory(async () => {
-                    // Simulate fetching history from some server/storage
-                    await Task.Delay(200);
-                    return OmniBox.ParseQuery("potato AND ( tomato OR banana) AND NOT apple");
-                })
-                .OnSearch((s, q) =>
+            var searchModeSample = OmniBox(new OmniBox.Config(OmniBox.Mode.Search)
+            {
+                PlaceholderSearch =    "Type something like: potato AND ( tomato OR banana) AND NOT apple",
+            })
+            .WS()
+            .WithHistory(async () => {
+                return new[] 
                 {
-                    searchOutput.Text = string.IsNullOrEmpty(q.RawQuery)
-                        ? "Cleared."
-                        : $"Searched for: {q.RawQuery} (Parsed into {q.Tokens.Count} tokens)";
-                });
+                    OmniBox.ParseQuery("apple"),
+                    OmniBox.ParseQuery("orange"),
+                    OmniBox.ParseQuery("tomato"),
+                    OmniBox.ParseQuery("banana"),
+                    OmniBox.ParseQuery("potato AND ( tomato OR banana) AND NOT apple"),
+                };
+            })
+            .OnSearch((s, q) =>
+            {
+                Toast().Information($"Searched for: {q.RawQuery} (Parsed into {q.Tokens?.Count ?? 0} tokens)");
+            })
+            .SetSearchText("potato AND ( tomato OR banana) AND NOT apple");
 
-            // Set the prefilled content explicitly to demonstrate functionality
-            defaultSearch.Text = "potato AND ( tomato OR banana) AND NOT apple";
+            var chatModeSample = OmniBox(new OmniBox.Config(OmniBox.Mode.Chat)
+            {
+                PlaceholderChat  =    "Ask me anything",
+            })
+            .WS()
+            .OnChat((s, q) =>
+            {
+                Toast().Information(q.Text);
+            });
+
+
+            var searchAndChatModeSample = OmniBox(new OmniBox.Config(OmniBox.Mode.SearchAndChat)
+            {
+                PlaceholderChat   = "Ask me anything",
+                PlaceholderSearch = "Search for anything",
+                FooterStart = new IComponent[]
+                {
+                    Dropdown().Searchable().Items(DropdownItem("Consult Documents", icon: UIcons.Book).Selected(),
+                                                  DropdownItem("Find a flight", icon: UIcons.AirplaneJourney),
+                                                  DropdownItem("Book a hotel", icon: UIcons.Hotel))
+                } 
+            })
+            .WS()
+            .OnSearch((s, q) =>
+            {
+                Toast().Information($"Searched for: {q.RawQuery} (Parsed into {q.Tokens?.Count ?? 0} tokens)");
+            })
+            .OnChat((s, q) =>
+            {
+                Toast().Information(q.Text);
+            })
+            .WithHistory(async () => {
+                return new OmniBox.SearchQuery[0];
+            });
+
 
             _content = SectionStack()
                .Title(SampleHeader(nameof(OmniBoxSample)))
-               .Section(Stack().Children(
+               .Section(VStack().Children(
                     SampleTitle("Overview"),
-                    TextBlock("AdvancedSearchBox provides a powerful input field for searching through content, supporting parsing and visual rendering of logical operators like AND, OR, NOT, parenthesis, and quotes."),
-                    TextBlock("It includes a search history button, an internal clear button, and a search trigger.")))
-               .Section(Stack().Width(100.percent()).Children(
+                    TextBlock("Omnibox provides a powerful input field for switching between a chat and a search interaction. For search, it also provides support for parsing and visual rendering of logical operators like AND, OR, NOT, parenthesis, and quotes.")))
+               .Section(VStack().WS().Children(
                     SampleTitle("Usage"),
-                    SampleSubTitle("Basic Usage with History"),
-                    VStack().Width(100.percent()).Children(
-                        Label("Advanced Search").SetContent(defaultSearch),
-                        searchOutput
-                    ),
+                    SampleSubTitle("Modes"),
+                        Label("Search").SetContent(searchModeSample),
+                        Label("Chat").SetContent(chatModeSample.MT(6)),
+                        Label("Search & Chat").SetContent(searchAndChatModeSample.MT(6)),
                     SampleSubTitle("Customization"),
-                    VStack().Width(100.percent()).Children(
-                        Label("Disabled").Disabled().SetContent(OmniBox("Search disabled").Disabled()),
-                        Label("Small Text Size").SetContent(OmniBox("Small search...").Do(s => s.Size = TextSize.Small)),
-                        Label("Medium Text Size").SetContent(OmniBox("Medium search...").Do(s => s.Size = TextSize.Medium))
-                    )
+                        Label("Disabled").Disabled().SetContent(OmniBox(new OmniBox.Config(OmniBox.Mode.Search) { PlaceholderSearch = "Search disabled" }).Disabled())
                 ));
         }
 

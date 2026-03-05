@@ -58,10 +58,9 @@ namespace Tesserae.Tests.Samples
                     
                     SampleSubTitle("Icon Toggle"),
                     VStack().Children(
-                        IconToggle(IconToggleItem(UIcons.Comment, "Chat"), IconToggleItem(UIcons.Search, "Search")),
-                        IconToggle(IconToggleItem(UIcons.AppleWhole, "Apple"), IconToggleItem(UIcons.Banana, "Banana"), IconToggleItem(UIcons.OrangeJuice, "Orange Juice"), IconToggleItem(UIcons.Bread, "Bread"))
+                        IconToggle(IconToggleItem(UIcons.Comment, "Chat", "Chat"), IconToggleItem(UIcons.Search, "Search", "Search")),
+                        IconToggle(IconToggleItem(UIcons.AppleWhole, "Apple", "Apple"), IconToggleItem(UIcons.Banana, "Banana", "Banana"), IconToggleItem(UIcons.OrangeJuice, "Orange Juice", "Orange Juice"), IconToggleItem(UIcons.Bread, "Bread", "Bread"))
                     )
-
                 ));
         }
 

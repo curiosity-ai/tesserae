@@ -1,0 +1,256 @@
+.tss-omnibox-container {
+    display: inline-flex;
+    flex-direction: row;
+    position: relative;
+    box-shadow: var(--tss-shadow-sm);
+    margin: 0px;
+    padding: 0px;
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: var(--tss-border-radius-md);
+    background: var(--tss-default-background-color) none repeat scroll 0% 0%;
+    color: var(--tss-default-foreground-color);
+    align-items: stretch;
+    width: 100%;
+    outline: transparent none medium;
+    transition: all 0.15s ease-in-out;
+}
+
+    .tss-omnibox-container.tss-omnibox-chat-and-search {
+        flex-direction: column;
+    }
+
+    .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn {
+        margin: 0px;
+    }
+
+    .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn {
+        border-radius: 0;
+    }
+
+        .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-history-btn {
+            border-right: 1px solid var(--tss-default-border-color);
+            cursor: pointer;
+            background: var(--tss-secondary-background-color);
+            color: var(--tss-secondary-foreground-color);
+            flex-shrink: 0;
+            border-top-left-radius: var(--tss-border-radius-md);
+            border-bottom-left-radius: var(--tss-border-radius-md);
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-clear-btn {
+            cursor: pointer;
+            color: var(--tss-secondary-foreground-color);
+            flex-shrink: 0;
+        }
+
+
+        .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-btn {
+            cursor: pointer;
+            background: transparent;
+            border-left: 1px solid var(--tss-default-border-color);
+            flex-shrink: 0;
+            border-top-right-radius: var(--tss-border-radius-md);
+            border-bottom-right-radius: var(--tss-border-radius-md);
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+
+.tss-omnibox-footer {
+    display: inline-flex;
+    width: calc(100% - 8px);
+    align-items: center;
+    padding-left: 8px;
+    margin-bottom: 8px;
+}
+
+    .tss-omnibox-footer .tss-btn {
+        margin: 0px;
+    }
+
+
+.tss-omnibox-footer-spacer{
+    flex-grow:1;
+    width:0px;
+}
+
+.tss-omnibox-footer .tss-icon-toggle{
+    margin-bottom:0px;
+}
+
+
+.tss-omnibox-search-container {
+    display: inline-flex;
+    position: relative;
+    align-items: stretch;
+    width: 100%;
+    height: 36px;
+}
+
+.tss-omnibox-chat-container,
+.tss-omnibox-container.tss-omnibox-chat-and-search .tss-omnibox-search-container {
+    position: relative;
+    align-items: stretch;
+    width: 100%;
+    padding: 12px 8px;
+    min-height: 80px;
+}
+
+.tss-omnibox-container.tss-disabled .tss-omnibox-search-container {
+    border-color: var(--tss-disabled-background-color);
+    background-color: var(--tss-disabled-background-color);
+    color: var(--tss-disabled-foreground-color);
+}
+
+.tss-omnibox-container:not(.tss-omnibox-chat-and-search):hover .tss-omnibox-search-container {
+    border-color: var(--tss-default-foreground-color);
+    box-shadow: var(--tss-shadow-sm-hover);
+}
+
+.tss-omnibox-container:focus-within .tss-omnibox-search-container {
+    border-color: var(--tss-primary-border-color);
+    box-shadow: var(--tss-ring-offset-shadow), var(--tss-ring-shadow);
+}
+
+.tss-omnibox-search-input-container {
+    position: relative;
+    flex-grow: 1;
+    display: flex;
+    overflow: hidden;
+    cursor: text;
+}
+
+.tss-omnibox-search-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    border: none;
+    background: transparent;
+    color: transparent;
+    caret-color: var(--tss-default-foreground-color);
+    outline: none;
+    padding: 0 5px;
+    margin: 0;
+    font-size: 14px;
+    font-family: inherit;
+    z-index: 2;
+    white-space: pre;
+    overflow-x: auto;
+    overflow-y: hidden;
+    resize: none;
+}
+
+.tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-input {
+    height: 100%;
+    line-height: 34px;
+}
+
+.tss-omnibox-search-input::placeholder {
+    color: var(--tss-default-foreground-color) !important;
+    opacity: 0.5;
+    transition: opacity 0.3s ease;
+}
+
+
+.tss-omnibox-search-tokens {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    padding: 0 5px;
+    margin: 0;
+    font-size: 14px;
+    font-family: inherit;
+    white-space: pre;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+
+.tss-omnibox-container.tss-omnibox-chat-and-search .tss-omnibox-search-container {
+    overflow: visible;
+}
+
+.tss-omnibox-container.tss-omnibox-chat-and-search .tss-omnibox-search-tokens {
+    position: absolute;
+    height: 34px;
+    top: -8px;
+    overflow: visible;
+}
+
+.tss-omnibox-container.tss-omnibox-chat-and-search .tss-omnibox-search-input-container {
+    overflow: visible;
+}
+
+
+
+.tss-omnibox-search-token-word {
+    color: var(--tss-colors-blue-900);
+    background: var(--tss-colors-blue-100);
+    border-radius: 4px;
+    padding-left: 2px;
+    padding-right: 2px;
+    margin-left: -2px;
+    margin-right: -2px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    outline: 1px solid var(--tss-colors-blue-500);
+}
+
+.tss-omnibox-search-token-operator-and,
+.tss-omnibox-search-token-operator-or ,
+.tss-omnibox-search-token-operator-not,
+.tss-omnibox-search-token-paren,
+.tss-omnibox-search-token-quote {
+    color: var(--tss-colors-blue-500);
+}
+
+
+
+.tss-omnibox-chat-input {
+    width: 100%;
+    flex-grow:1;
+    border: none;
+    background: transparent;
+    color: transparent;
+    caret-color: var(--tss-default-foreground-color);
+    outline: none;
+    padding: 0 5px;
+    margin: 0;
+    font-size: 14px;
+    font-family: inherit;
+    z-index: 2;
+    white-space: pre;
+    resize: none;
+}
+
+.tss-omnibox-chat-input::placeholder {
+    color: var(--tss-default-foreground-color) !important;
+    opacity: 0.5;
+    transition: opacity 0.3s ease;
+}
+
+.tippy-box .tss-btn.tss-omnibox-search-history-entry {
+    height: 32px !important;
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+    margin-bottom: 8px !important;
+}
+
+
+.tss-omnibox-container.tss-omnibox-mode-chat .tss-omnibox-search-container,
+.tss-omnibox-container.tss-omnibox-mode-chat .tss-omnibox-search-history-btn,
+.tss-omnibox-container.tss-omnibox-mode-chat .tss-omnibox-search-clear-btn,
+.tss-omnibox-container.tss-omnibox-mode-chat .tss-omnibox-search-btn {
+    display: none;
+}
+
+.tss-omnibox-container.tss-omnibox-mode-search .tss-omnibox-chat-container,
+.tss-omnibox-container.tss-omnibox-mode-search .tss-omnibox-chat-btn {
+    display: none;
+}

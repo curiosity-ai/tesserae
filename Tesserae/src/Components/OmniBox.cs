@@ -7,175 +7,326 @@ using static Tesserae.UI;
 namespace Tesserae
 {
     [H5.Name("tss.OmniBox")]
-    public class OmniBox : IComponent, ITextFormating, IHasBackgroundColor, ITabIndex, IRoundedStyle
+    public class OmniBox : IComponent, IHasBackgroundColor, ITabIndex
     {
-        private readonly HTMLDivElement _container;
-        private readonly HTMLInputElement _input;
-        private readonly HTMLDivElement _tokensContainer;
-        private readonly HTMLDivElement _inputContainer;
+        public class Config
+        {
+            public Config(Mode mode, Mode? initialMode = null)
+            {
+                Mode = mode;
+                InitialMode = initialMode ?? (mode == Mode.SearchAndChat ? Mode.Search : mode); 
+            }
 
-        private readonly HTMLElement _historyBtn;
-        private readonly HTMLElement _clearBtn;
-        private readonly HTMLElement _searchBtn;
+            public string PlaceholderSearch { get; set; }
+            public string PlaceholderChat { get; set; }
+            public Mode Mode { get; }
+            public Mode InitialMode { get; }
 
-        private Func<Task<SearchQuery>> _historyFetcher;
+            public IComponent[] FooterStart { get; set; }
+            public IComponent[] FooterEnd { get; set;}
+        }
+
+        public enum Mode
+        {
+            Search,
+            Chat,
+            SearchAndChat
+        }
+
+
+        private readonly Mode _mode;
+        private readonly SettableObservable<Mode> _activeMode;
+        private HTMLElement _activeInput;
+
+        private readonly HTMLDivElement   _container;
+        private readonly HTMLDivElement   _searchContainer;
+        private readonly HTMLInputElement _searchInput;
+        private readonly HTMLDivElement   _searchTokensContainer;
+        private readonly HTMLDivElement   _searchInputContainer;
+        private readonly Button      _searchHistoryBtn;
+        private readonly Button      _searchClearBtn;
+        private readonly Button      _searchTriggerBtn;
+
+        private readonly HTMLTextAreaElement _chatInput;
+        private readonly HTMLDivElement   _chatContainer;
+        private readonly Button           _chatTriggerBtn;
+        private readonly HTMLDivElement _footer;
+        private Func<Task<SearchQuery[]>> _historyFetcher;
         private string _tokenTypeMap = string.Empty;
+        private readonly IconToggle<Mode> _modeToggle;
 
         public delegate void SearchEventHandler(OmniBox sender, SearchQuery query);
+        public delegate void ChatEventHandler(OmniBox sender, ChatMessage query);
         protected event SearchEventHandler Searched;
+        protected event ChatEventHandler Chatted;
+
         public event ComponentEventHandler<OmniBox, Event> Input;
 
-        public OmniBox(string placeholder = string.Empty)
+        public OmniBox(Config config)
         {
-            _input = TextBox(_("tss-omnibox-input", type: "text", placeholder: placeholder));
-            _input.autocomplete = "off";
-            _input.spellcheck = false;
+            _mode = config.Mode;
 
-            _tokensContainer = Div(_("tss-omnibox-tokens"));
-            _inputContainer = Div(_("tss-omnibox-input-container"), _input, _tokensContainer);
+            _activeMode = new SettableObservable<Mode>(config.InitialMode);
 
-            _historyBtn = Div(_("tss-omnibox-history-btn"), Icon(UIcons.Clock).Render());
-            _historyBtn.style.display = "none"; // Hidden by default unless WithHistory is called
+            _footer = Div(_("tss-omnibox-footer"));
 
-            _clearBtn = Div(_("tss-omnibox-clear-btn tss-hidden"), Icon(UIcons.CrossCircle).Render());
-            _searchBtn = Div(_("tss-omnibox-search-btn"), Icon(UIcons.Search).Render());
+            var footerEnd = new List<IComponent>();
 
-            _container = Div(_("tss-omnibox-container"), _historyBtn, _inputContainer, _clearBtn, _searchBtn);
-
-            // Set up event listeners
-            _input.addEventListener("input", (e) =>
+            if (_mode == Mode.SearchAndChat)
             {
-                OnInputChanged();
-                Input?.Invoke(this, e);
-            });
-            _input.addEventListener("keydown", (e) =>
+                _modeToggle = IconToggle(IconToggleItem(UIcons.Beacon, "Chat", Mode.Chat), IconToggleItem(UIcons.Search, "Search", Mode.Search));
+                _modeToggle.Select(_activeMode.Value);
+                _modeToggle.AsObservable().ObserveFutureChanges(v => _activeMode.Value = v);
+                _footer.appendChild(_modeToggle.Render());
+            }
+
+
+            if (_mode == Mode.Search || _mode == Mode.SearchAndChat)
             {
-                var ke = e.As<KeyboardEvent>();
-                if (ke.key == "Enter")
+                _searchInput = TextBox(_("tss-omnibox-search-input", type: "text", placeholder: config.PlaceholderSearch ?? ""));
+                _searchInput.autocomplete = "off";
+                _searchInput.spellcheck = false;
+
+                _searchTokensContainer = Div(_("tss-omnibox-search-tokens"));
+                _searchInputContainer = Div(_("tss-omnibox-search-input-container"), _searchInput, _searchTokensContainer);
+
+                _searchHistoryBtn = Button().SetIcon(UIcons.TimePast).Class("tss-omnibox-search-history-btn");
+                _searchHistoryBtn.Collapse(); // Hidden by default unless WithHistory is called
+
+                _searchClearBtn = Button().SetIcon(UIcons.CrossCircle).Class("tss-omnibox-search-clear-btn");
+                _searchTriggerBtn = Button().SetIcon(UIcons.Search).Class("tss-omnibox-search-btn");
+
+                if (_mode == Mode.Search)
                 {
-                    TriggerSearch();
+                    _searchContainer = Div(_("tss-omnibox-search-container"), _searchHistoryBtn.Render(), _searchInputContainer, _searchClearBtn.Render(), _searchTriggerBtn.Render());
                 }
-                else if (ke.key == "Backspace")
+                else
                 {
-                    var cursorPos = _input.selectionStart;
-                    if (cursorPos > 0 && cursorPos == _input.selectionEnd)
+                    _searchContainer = Div(_("tss-omnibox-search-container"), _searchInputContainer);
+                    _footer.appendChild(_searchHistoryBtn.Render());
+                    footerEnd.Add(_searchClearBtn);
+                    footerEnd.Add(_searchTriggerBtn);
+                }
+
+                // Set up event listeners
+                _searchInput.addEventListener("input", (e) =>
+                {
+                    OnSearchInputChanged();
+                    Input?.Invoke(this, e);
+                });
+
+                _searchInput.addEventListener("keydown", (e) =>
+                {
+                    var ke = e.As<KeyboardEvent>();
+                    if (ke.key == "Enter")
                     {
-                        // Check if the character to be deleted is a non-breaking space
-                        if (_input.value[(int)cursorPos - 1] == specialWhitespace &&
-                            (int)cursorPos >= 2 &&
-                            _tokenTypeMap.Length > (int)cursorPos - 2 &&
-                            _tokenTypeMap[(int)cursorPos - 2] == '1')
+                        TriggerSearch();
+                    }
+                    else if (ke.key == "Backspace")
+                    {
+                        var cursorPos = _searchInput.selectionStart;
+                        if (cursorPos > 0 && cursorPos == _searchInput.selectionEnd)
                         {
-                            // If it is, and we're backspacing, we actually want to delete the character *before* it,
-                            // which is the special token, because the user doesn't know the nb-space exists.
-                            // However, we can just delete the character before the nb-space and the nb-space
-                            e.preventDefault();
-                            var currentVal = _input.value;
-                            var newVal = currentVal.Substring(0, (int)cursorPos - 2) + currentVal.Substring((int)cursorPos);
-                            _input.value = newVal;
-                            _input.setSelectionRange((uint)cursorPos - 2, (uint)cursorPos - 2);
-                            OnInputChanged();
+                            // Check if the character to be deleted is a non-breaking space
+                            if (_searchInput.value[(int)cursorPos - 1] == specialWhitespace &&
+                                (int)cursorPos >= 2 &&
+                                _tokenTypeMap.Length > (int)cursorPos - 2 &&
+                                _tokenTypeMap[(int)cursorPos - 2] == '1')
+                            {
+                                // If it is, and we're backspacing, we actually want to delete the character *before* it,
+                                // which is the special token, because the user doesn't know the nb-space exists.
+                                // However, we can just delete the character before the nb-space and the nb-space
+                                e.preventDefault();
+                                var currentVal = _searchInput.value;
+                                var newVal = currentVal.Substring(0, (int)cursorPos - 2) + currentVal.Substring((int)cursorPos);
+                                _searchInput.value = newVal;
+                                _searchInput.setSelectionRange((uint)cursorPos - 2, (uint)cursorPos - 2);
+                                OnSearchInputChanged();
+                            }
                         }
                     }
-                }
-                else if (ke.key == "Delete")
-                {
-                    var cursorPos = _input.selectionStart;
-                    if (cursorPos < _input.value.Length && cursorPos == _input.selectionEnd)
+                    else if (ke.key == "Delete")
                     {
-                        if (_input.value[(int)cursorPos] == specialWhitespace)
+                        var cursorPos = _searchInput.selectionStart;
+                        if (cursorPos < _searchInput.value.Length && cursorPos == _searchInput.selectionEnd)
                         {
-                            // if we press delete on an nb-space, we probably want to delete the token *after* it
-                            if (cursorPos + 2 <= _input.value.Length)
+                            if (_searchInput.value[(int)cursorPos] == specialWhitespace)
                             {
-                                e.preventDefault();
-                                var currentVal = _input.value;
-                                var newVal = currentVal.Substring(0, (int)cursorPos) + currentVal.Substring((int)cursorPos + 2);
-                                _input.value = newVal;
-                                _input.setSelectionRange((uint)cursorPos, (uint)cursorPos);
-                                OnInputChanged();
-                            }
-                            else
-                            {
-                                // Edge case: space is at the very end of the string
-                                e.preventDefault();
-                                var currentVal = _input.value;
-                                var newVal = currentVal.Substring(0, (int)cursorPos);
-                                _input.value = newVal;
-                                _input.setSelectionRange((uint)cursorPos, (uint)cursorPos);
-                                OnInputChanged();
+                                // if we press delete on an nb-space, we probably want to delete the token *after* it
+                                if (cursorPos + 2 <= _searchInput.value.Length)
+                                {
+                                    e.preventDefault();
+                                    var currentVal = _searchInput.value;
+                                    var newVal = currentVal.Substring(0, (int)cursorPos) + currentVal.Substring((int)cursorPos + 2);
+                                    _searchInput.value = newVal;
+                                    _searchInput.setSelectionRange((uint)cursorPos, (uint)cursorPos);
+                                    OnSearchInputChanged();
+                                }
+                                else
+                                {
+                                    // Edge case: space is at the very end of the string
+                                    e.preventDefault();
+                                    var currentVal = _searchInput.value;
+                                    var newVal = currentVal.Substring(0, (int)cursorPos);
+                                    _searchInput.value = newVal;
+                                    _searchInput.setSelectionRange((uint)cursorPos, (uint)cursorPos);
+                                    OnSearchInputChanged();
+                                }
                             }
                         }
                     }
-                }
-            });
-            _input.addEventListener("scroll", (e) => SyncScroll());
+                });
+                _searchInput.addEventListener("scroll", (e) => SyncScroll());
 
-            _input.addEventListener("copy", (e) =>
-            {
-                var clipboardEvent = e.As<ClipboardEvent>();
-                var start = _input.selectionStart;
-                var end = _input.selectionEnd;
-                if (start != end)
+                _searchInput.addEventListener("copy", (e) =>
                 {
-                    var selectedText = _input.value.Substring((int)start, (int)(end - start));
-                    clipboardEvent.clipboardData.setData("text/plain", selectedText.Replace(specialWhitespaceString, " "));
-                    e.preventDefault();
-                }
-            });
+                    var clipboardEvent = e.As<ClipboardEvent>();
+                    var start = _searchInput.selectionStart;
+                    var end = _searchInput.selectionEnd;
+                    if (start != end)
+                    {
+                        var selectedText = _searchInput.value.Substring((int)start, (int)(end - start));
+                        clipboardEvent.clipboardData.setData("text/plain", selectedText.Replace(specialWhitespaceString, " "));
+                        e.preventDefault();
+                    }
+                });
 
-            _input.addEventListener("cut", (e) =>
-            {
-                var clipboardEvent = e.As<ClipboardEvent>();
-                var start = _input.selectionStart;
-                var end = _input.selectionEnd;
-                if (start != end)
+                _searchInput.addEventListener("cut", (e) =>
                 {
-                    var selectedText = _input.value.Substring((int)start, (int)(end - start));
-                    clipboardEvent.clipboardData.setData("text/plain", selectedText.Replace(specialWhitespaceString, " "));
+                    var clipboardEvent = e.As<ClipboardEvent>();
+                    var start = _searchInput.selectionStart;
+                    var end = _searchInput.selectionEnd;
+                    if (start != end)
+                    {
+                        var selectedText = _searchInput.value.Substring((int)start, (int)(end - start));
+                        clipboardEvent.clipboardData.setData("text/plain", selectedText.Replace(specialWhitespaceString, " "));
 
-                    var currentVal = _input.value;
-                    _input.value = currentVal.Substring(0, (int)start) + currentVal.Substring((int)end);
-                    _input.setSelectionRange((uint)start, (uint)start);
-                    OnInputChanged();
-                    e.preventDefault();
-                }
-            });
+                        var currentVal = _searchInput.value;
+                        _searchInput.value = currentVal.Substring(0, (int)start) + currentVal.Substring((int)end);
+                        _searchInput.setSelectionRange((uint)start, (uint)start);
+                        OnSearchInputChanged();
+                        e.preventDefault();
+                    }
+                });
 
-            _clearBtn.addEventListener("click", (e) =>
-            {
-                _input.value = string.Empty;
-                OnInputChanged();
-                _input.focus();
-            });
-
-            _searchBtn.addEventListener("click", (e) => TriggerSearch());
-
-            _historyBtn.addEventListener("click", async (e) =>
-            {
-                if (_historyFetcher != null)
+                _searchClearBtn.OnClick(() =>
                 {
-                    await ShowHistoryModal();
+                    _searchInput.value = string.Empty;
+                    OnSearchInputChanged();
+                    _searchInput.focus();
+                });
+
+                _searchTriggerBtn.OnClick(TriggerSearch);
+
+                _searchHistoryBtn.OnClickSpinWhile(async () => 
+                {
+                    if (_historyFetcher != null)
+                    {
+                        await ShowSearchHistory();
+                    }
+                });
+
+                // Initial parse
+                OnSearchInputChanged();
+            }
+
+            if (_mode == Mode.Chat || _mode == Mode.SearchAndChat)
+            {
+                _chatInput = TextArea(_("tss-omnibox-chat-input", type: "text", placeholder: config.PlaceholderChat ?? ""));
+                _chatInput.spellcheck = true;
+                _chatTriggerBtn = Button().SetIcon(UIcons.PaperPlane).Class("tss-omnibox-chat-btn");
+
+                if (config.FooterStart  is object)
+                {
+                    foreach (var i in config.FooterStart )
+                    {
+                        _footer.appendChild(i.Render());
+                    }
                 }
+
+                _footer.appendChild(Div(_("tss-omnibox-footer-spacer")));
+                footerEnd.Add(_chatTriggerBtn);
+                _chatContainer = Div(_("tss-omnibox-chat-container"), _chatInput);
+            }
+
+            if (config.FooterEnd is object)
+            {
+                foreach (var i in config.FooterEnd)
+                {
+                    _footer.appendChild(i.Render());
+                }
+            }
+
+            foreach (var i in footerEnd)
+            {
+                _footer.appendChild(i.Render());
+            }
+
+            switch (_mode)
+            {
+                case Mode.Search:
+                {
+                    _container = Div(_("tss-omnibox-container"), _searchContainer);
+                    break;
+                }
+                case Mode.Chat:
+                {
+                    _container = Div(_("tss-omnibox-container"), _chatContainer, _footer);
+                    break;
+                }
+                case Mode.SearchAndChat:
+                {
+                    _container = Div(_("tss-omnibox-container tss-omnibox-chat-and-search"), _searchContainer, _chatContainer, _footer);
+                    break;
+                }
+            }
+
+            _container.addEventListener("click", (_) =>
+            {
+                _activeInput.focus();
             });
 
-            // Initial parse
-            OnInputChanged();
+            _activeMode.Observe(UpdateMode);
+        }
+
+        private void UpdateMode(Mode mode)
+        {
+            switch (mode)
+            {
+                case Mode.Search:
+                {
+                    _activeInput = _searchInput;
+                    _container.classList.add("tss-omnibox-mode-search");
+                    _container.classList.remove("tss-omnibox-mode-chat");
+                    break;
+                }
+                case Mode.Chat:
+                {
+                    _activeInput = _chatInput;
+                    _container.classList.add("tss-omnibox-mode-chat");
+                    _container.classList.remove("tss-omnibox-mode-search");
+                    break;
+                }
+                case Mode.SearchAndChat:
+                {
+                    throw new InvalidOperationException("Can't set active mode to mixed value");
+                }
+            }
         }
 
         private void SyncScroll()
         {
-            _tokensContainer.scrollLeft = _input.scrollLeft;
+            _searchTokensContainer.scrollLeft = _searchInput.scrollLeft;
         }
 
-        private const char   specialWhitespace = '\u2000'; // \u00A0
+        private const char specialWhitespace = '\u2000'; // \u00A0
         private const string specialWhitespaceString = "\u2000"; // \u00A0
-        private void OnInputChanged()
+        private void OnSearchInputChanged()
         {
-            var val = _input.value;
+            var val = _searchInput.value;
 
             // Strip incoming zero-width spaces/non-breaking spaces to ensure clean parsing if user copies/pastes internal formatting
-            var cursorPosition = _input.selectionStart;
+            var cursorPosition = _searchInput.selectionStart;
 
             bool formattingChanged = false;
 
@@ -294,26 +445,26 @@ namespace Tesserae
 
             if (finalFormattedStr != val)
             {
-                _input.value = finalFormattedStr;
-                _input.setSelectionRange((uint)newCursorPos, (uint)newCursorPos);
+                _searchInput.value = finalFormattedStr;
+                _searchInput.setSelectionRange((uint)newCursorPos, (uint)newCursorPos);
                 val = finalFormattedStr;
             }
 
             if (string.IsNullOrEmpty(val))
             {
-                _clearBtn.classList.add("tss-hidden");
+                _searchClearBtn.Collapse();
                 ClearTokens();
             }
             else
             {
-                _clearBtn.classList.remove("tss-hidden");
+                _searchClearBtn.Show();
                 ParseAndRenderTokens(val);
             }
         }
 
         private void ClearTokens()
         {
-            _tokensContainer.innerHTML = "";
+            _searchTokensContainer.innerHTML = "";
         }
 
         private void ParseAndRenderTokens(string input)
@@ -437,14 +588,14 @@ namespace Tesserae
 
                     if (!string.IsNullOrEmpty(trimmed))
                     {
-                        var span = Span(_("tss-adv-token-word", text: trimmed));
-                        _tokensContainer.appendChild(span);
+                        var span = Span(_("tss-omnibox-search-token-word", text: trimmed));
+                        _searchTokensContainer.appendChild(span);
                     }
 
                     if (!string.IsNullOrEmpty(trailingWhitespace))
                     {
                         var spanSpace = Span(_(text: trailingWhitespace));
-                        _tokensContainer.appendChild(spanSpace);
+                        _searchTokensContainer.appendChild(spanSpace);
                     }
 
                     consecutiveWordBuilder.Clear();
@@ -459,7 +610,7 @@ namespace Tesserae
                     if (consecutiveWordBuilder.Length == 0 && token.Type == SearchToken.TokenType.Whitespace)
                     {
                         var spanSpace = Span(_(text: token.Value));
-                        _tokensContainer.appendChild(spanSpace);
+                        _searchTokensContainer.appendChild(spanSpace);
                     }
                     else
                     {
@@ -474,32 +625,32 @@ namespace Tesserae
                     switch (token.Type)
                     {
                         case SearchToken.TokenType.And:
-                            className = "tss-adv-token-operator-and";
+                            className = "tss-omnibox-search-token-operator-and";
                             break;
                         case SearchToken.TokenType.Or:
-                            className = "tss-adv-token-operator-or";
+                            className = "tss-omnibox-search-token-operator-or";
                             break;
                         case SearchToken.TokenType.Not:
-                            className = "tss-adv-token-operator-not";
+                            className = "tss-omnibox-search-token-operator-not";
                             break;
                         case SearchToken.TokenType.ParenthesisOpen:
                         case SearchToken.TokenType.ParenthesisClose:
-                            className = "tss-adv-token-paren";
+                            className = "tss-omnibox-search-token-paren";
                             break;
                         case SearchToken.TokenType.Quote:
-                            className = "tss-adv-token-quote";
+                            className = "tss-omnibox-search-token-quote";
                             break;
                     }
 
                     if (string.IsNullOrEmpty(className))
                     {
                         var span = Span(_(text: token.Value));
-                        _tokensContainer.appendChild(span);
+                        _searchTokensContainer.appendChild(span);
                     }
                     else
                     {
                         var span = Span(_(className, text: token.Value));
-                        _tokensContainer.appendChild(span);
+                        _searchTokensContainer.appendChild(span);
                     }
                 }
             }
@@ -509,7 +660,7 @@ namespace Tesserae
 
         private void TriggerSearch()
         {
-            var val = _input.value;
+            var val = _searchInput.value;
             var query = ParseQuery(val);
             Searched?.Invoke(this, query);
         }
@@ -526,33 +677,56 @@ namespace Tesserae
             return this;
         }
 
-        public OmniBox WithHistory(Func<Task<SearchQuery>> historyFetcher)
+        public OmniBox OnChat(ChatEventHandler onChat)
         {
-            _historyFetcher = historyFetcher;
-            _historyBtn.style.display = "flex";
+            Chatted += onChat;
             return this;
         }
 
-        private async Task ShowHistoryModal()
+        public OmniBox OnChat(Action<OmniBox, string> onChat)
+        {
+            Chatted += (s, q) => onChat(s, q.Text);
+            return this;
+        }
+
+
+        public OmniBox WithHistory(Func<Task<SearchQuery[]>> historyFetcher)
+        {
+            _historyFetcher = historyFetcher;
+            _searchHistoryBtn.Show();
+            return this;
+        }
+
+        private async Task ShowSearchHistory()
         {
             try
             {
                 var query = await _historyFetcher();
-                if (query != null && !string.IsNullOrEmpty(query.RawQuery))
+                
+                var content = VStack().NoDefaultMargin().W(450).MaxHeight(500.px()).ScrollY();
+                Action hide = null;
+                if (query.Length > 0)
                 {
-                    var content = VStack().Padding(8.px()).Children(
-                        TextBlock("Recent searches").SemiBold().PaddingBottom(4.px()),
-                        Button(query.RawQuery).NoBorder().NoBackground().Do(b => b.Render().style.textAlign = "left").OnClick(() =>
+                    foreach(var q in query)
+                    {
+                        content.Add(Button(q.RawQuery).Class("tss-omnibox-search-history-entry").SetIcon(UIcons.TimePast).WS().NoPadding().NoMinSize().H(32).MB(4).NoBorder().NoBackground().TextLeft().OnClick(() =>
                         {
-                            _input.value = query.RawQuery;
-                            OnInputChanged();
+                            _searchInput.value = q.RawQuery;
+                            OnSearchInputChanged();
                             TriggerSearch();
-                            Tippy.HideAll();
-                        })
-                    );
-
-                    Tippy.ShowFor(Raw(_historyBtn), content, out var tippyInstance, placement: TooltipPlacement.BottomStart, maxWidth: 500);
+                            hide();
+                        }));
+                    }
                 }
+                else
+                {
+                    content.Children(Message("No recent searches", "Your recent searches will appear here once you start searching").Icon(UIcons.EmptySet).H(200));
+                }
+
+                window.setTimeout(_ =>
+                {
+                    Tippy.ShowFor(_searchHistoryBtn, content, out hide, placement: TooltipPlacement.BottomStart, maxWidth: 500, delayHide: 500);
+                }, 1);
             }
             catch (Exception ex)
             {
@@ -562,7 +736,11 @@ namespace Tesserae
 
         public int TabIndex
         {
-            set => _input.tabIndex = value;
+            set
+            {
+                if(_searchInput is object) _searchInput.tabIndex = value;
+                if(_chatInput   is object) _chatInput.tabIndex = value;
+            }
         }
 
         public bool IsEnabled
@@ -573,68 +751,51 @@ namespace Tesserae
                 if (value)
                 {
                     _container.classList.remove("tss-disabled");
-                    _input.disabled = false;
+                    if(_searchInput is object) _searchInput.disabled = false;
+                    if(_chatInput is object) _chatInput.disabled = false;
                 }
                 else
                 {
                     _container.classList.add("tss-disabled");
-                    _input.disabled = true;
+                    if(_searchInput is object) _searchInput.disabled = true;
+                    if(_chatInput is object) _chatInput.disabled = true;
                 }
             }
         }
 
-        public string Text
+        public string SearchText
         {
-            get => _input.value;
+            get => _searchInput.value;
             set
             {
-                _input.value = value;
-                OnInputChanged();
+                _searchInput.value = value;
+                OnSearchInputChanged();
                 Input?.Invoke(this, null);
             }
         }
 
-        public string Placeholder
+        public string ChatText
         {
-            get => _input.placeholder;
-            set => _input.placeholder = value;
-        }
-
-        public TextSize Size
-        {
-            get => ITextFormatingExtensions.FromClassList(_input, TextSize.Small);
+            get => _chatInput.value;
             set
             {
-                _input.classList.remove(Size.ToString());
-                _input.classList.add(value.ToString());
-                _tokensContainer.classList.remove(Size.ToString());
-                _tokensContainer.classList.add(value.ToString());
+                _chatInput.value = value;
+                Input?.Invoke(this, null);
             }
         }
 
-        public TextWeight Weight
+        public string SearchPlaceholder
         {
-            get => ITextFormatingExtensions.FromClassList(_input, TextWeight.Regular);
-            set
-            {
-                _input.classList.remove(Weight.ToString());
-                _input.classList.add(value.ToString());
-                _tokensContainer.classList.remove(Weight.ToString());
-                _tokensContainer.classList.add(value.ToString());
-            }
+            get => _searchInput.placeholder;
+            set => _searchInput.placeholder = value;
         }
 
-        public TextAlign TextAlign
+        public string ChatPlaceholder
         {
-            get => ITextFormatingExtensions.FromClassList(_input, TextAlign.Left);
-            set
-            {
-                _input.classList.remove(TextAlign.ToString());
-                _input.classList.add(value.ToString());
-                _tokensContainer.classList.remove(TextAlign.ToString());
-                _tokensContainer.classList.add(value.ToString());
-            }
+            get => _chatInput.placeholder;
+            set => _chatInput.placeholder = value;
         }
+
 
         public string Background { get => _container.style.background; set => _container.style.background = value; }
 
@@ -643,15 +804,27 @@ namespace Tesserae
             return _container;
         }
 
-        public OmniBox SetText(string text)
+        public OmniBox SetSearchText(string text)
         {
-            Text = text;
+            SearchText = text;
             return this;
         }
 
-        public OmniBox SetPlaceholder(string text)
+        public OmniBox SetSearchPlaceholder(string text)
         {
-            Placeholder = text;
+            SearchPlaceholder = text;
+            return this;
+        }
+
+        public OmniBox SetChatText(string text)
+        {
+            ChatText = text;
+            return this;
+        }
+
+        public OmniBox SetChatPlaceholder(string text)
+        {
+            ChatPlaceholder = text;
             return this;
         }
 
@@ -663,16 +836,22 @@ namespace Tesserae
 
         public OmniBox Focus()
         {
-            DomObserver.WhenMounted(_input, () => window.setTimeout((_) => _input.focus(), 500));
+            DomObserver.WhenMounted(_searchInput, () =>
+            {
+                _activeInput.focus();
+            });
             return this;
         }
 
         public OmniBox Height(UnitSize unitSize)
         {
             var h = unitSize.ToString();
-            _inputContainer.style.height = h;
-            _input.style.lineHeight = h;
-            _tokensContainer.style.lineHeight = h;
+            if (_mode == Mode.Search || _mode == Mode.SearchAndChat)
+            {
+                _searchInputContainer.style.height = h;
+                _searchInput.style.lineHeight = h;
+                _searchTokensContainer.style.lineHeight = h;
+            }
             _container.style.height = h;
             return this;
         }
@@ -713,6 +892,11 @@ namespace Tesserae
                 RawQuery = rawQuery;
                 Tokens = tokens;
             }
+        }
+
+        public class ChatMessage
+        {
+            public string Text { get; set; }
         }
     }
 }
