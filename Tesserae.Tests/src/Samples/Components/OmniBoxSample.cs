@@ -50,7 +50,7 @@ namespace Tesserae.Tests.Samples
             {
                 PlaceholderChat   = "Ask me anything",
                 PlaceholderSearch = "Search for anything",
-                FooterStart = new IComponent[]
+                ChatFooterLeftSide = new IComponent[]
                 {
                     Dropdown().Searchable().Items(DropdownItem("Consult Documents", icon: UIcons.Book).Selected(),
                                                   DropdownItem("Find a flight", icon: UIcons.AirplaneJourney),
