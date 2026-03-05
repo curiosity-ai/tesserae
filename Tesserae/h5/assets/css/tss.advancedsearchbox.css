@@ -1,5 +1,5 @@
 /* AdvancedSearchBox */
-.tss-advancedsearchbox-container {
+.tss-omnibox-container {
     display: inline-flex;
     position: relative;
     margin-right: 16px;
@@ -18,23 +18,23 @@
     transition: all 0.15s ease-in-out;
 }
 
-.tss-advancedsearchbox-container.tss-disabled {
+.tss-omnibox-container.tss-disabled {
     border-color: var(--tss-disabled-background-color);
     background-color: var(--tss-disabled-background-color);
     color: var(--tss-disabled-foreground-color);
 }
 
-.tss-advancedsearchbox-container:hover {
+.tss-omnibox-container:hover {
     border-color: var(--tss-default-foreground-color);
     box-shadow: var(--tss-shadow-sm-hover);
 }
 
-.tss-advancedsearchbox-container:focus-within {
+.tss-omnibox-container:focus-within {
     border-color: var(--tss-primary-border-color);
     box-shadow: var(--tss-ring-offset-shadow), var(--tss-ring-shadow);
 }
 
-.tss-advancedsearchbox-history-btn {
+.tss-omnibox-history-btn {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -47,12 +47,12 @@
     color: var(--tss-secondary-foreground-color);
     flex-shrink: 0;
 }
-.tss-advancedsearchbox-history-btn:hover {
+.tss-omnibox-history-btn:hover {
     background: var(--tss-default-background-hover-color);
     color: var(--tss-primary-foreground-color);
 }
 
-.tss-advancedsearchbox-input-container {
+.tss-omnibox-input-container {
     position: relative;
     flex-grow: 1;
     display: flex;
@@ -60,7 +60,7 @@
     cursor: text;
 }
 
-.tss-advancedsearchbox-input {
+.tss-omnibox-input {
     position: absolute;
     top: 0;
     left: 0;
@@ -82,13 +82,13 @@
     resize: none;
     line-height: 34px; /* matching container height approx */
 }
-.tss-advancedsearchbox-input::placeholder {
+.tss-omnibox-input::placeholder {
     color: var(--tss-default-foreground-color) !important;
     opacity: 0.5;
     transition: opacity 0.3s ease;
 }
 
-.tss-advancedsearchbox-tokens {
+.tss-omnibox-tokens {
     position: absolute;
     top: 0;
     left: 0;
@@ -106,7 +106,7 @@
     align-items: center;
 }
 
-.tss-advancedsearchbox-clear-btn {
+.tss-omnibox-clear-btn {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -115,14 +115,14 @@
     color: var(--tss-secondary-foreground-color);
     flex-shrink: 0;
 }
-.tss-advancedsearchbox-clear-btn:hover {
+.tss-omnibox-clear-btn:hover {
     color: var(--tss-primary-foreground-color);
 }
-.tss-advancedsearchbox-clear-btn.tss-hidden {
+.tss-omnibox-clear-btn.tss-hidden {
     display: none;
 }
 
-.tss-advancedsearchbox-search-btn {
+.tss-omnibox-search-btn {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -133,7 +133,7 @@
     border-left: 1px solid var(--tss-default-border-color);
     flex-shrink: 0;
 }
-.tss-advancedsearchbox-search-btn:hover {
+.tss-omnibox-search-btn:hover {
     color: var(--tss-primary-foreground-color);
 }
 
