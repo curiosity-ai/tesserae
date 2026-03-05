@@ -443,7 +443,7 @@ namespace Tesserae
             return this;
         }
 
-        public Dropdown SetArrowIcon(UIcons icon, TextSize size = TextSize.Small, UIconsWeight weight = UIconsWeight.Regular)
+        public Dropdown SetArrowIcon(UIcons icon, TextSize size = TextSize.Tiny, UIconsWeight weight = UIconsWeight.Regular)
         {
             InnerElement.classList.remove("tss-dropdown-noarrow");
             InnerElement.classList.add("tss-dropdown-custom-icon");
@@ -976,7 +976,21 @@ namespace Tesserae
         {
             private readonly HTMLElement InnerElement;
             private readonly HTMLElement SelectedElement;
-            public Item(string text, string selectedText = null) : this(TextBlock(text), TextBlock(string.IsNullOrEmpty(selectedText) ? text : selectedText)) { }
+            public Item(string text, string selectedText = null, UIcons? icon = null) : this(GetContent(text, icon), GetContent(string.IsNullOrEmpty(selectedText) ? text : selectedText, icon))
+            {
+            }
+
+            private static IComponent GetContent(string text, UIcons? icon)
+            {
+                if (icon is null)
+                {
+                    return Button(text).NoPadding().TextLeft();
+                }
+                else
+                {
+                    return Button(text).NoPadding().TextLeft().SetIcon(icon.Value);
+                }
+            }
 
             public dynamic Data { get; private set; }
 

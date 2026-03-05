@@ -15,8 +15,7 @@
     transition: all 0.15s ease-in-out;
 }
 
-    .tss-omnibox-container.tss-omnibox-chat-and-search,
-    .tss-omnibox-container.tss-omnibox-mode-chat {
+    .tss-omnibox-container.tss-omnibox-chat-and-search {
         flex-direction: column;
     }
 
@@ -28,7 +27,7 @@
         border-radius: 0;
     }
 
-        .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-history-btn,{
+        .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-history-btn {
             border-right: 1px solid var(--tss-default-border-color);
             cursor: pointer;
             background: var(--tss-secondary-background-color);
@@ -40,7 +39,7 @@
             border-bottom-right-radius: 0;
         }
 
-        .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-clear-btn,{
+        .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-clear-btn {
             cursor: pointer;
             color: var(--tss-secondary-foreground-color);
             flex-shrink: 0;
@@ -76,21 +75,6 @@
     width:0px;
 }
 
-.tss-omnibox-generating-container {
-    display: none;
-    align-items: center;
-    gap: 8px;
-    padding-left:8px;
-}
-
-.tss-omnibox-container.tss-omnibox-generating .tss-omnibox-generating-container {
-    display: inline-flex;
-}
-
-.tss-omnibox-container.tss-omnibox-generating .tss-omnibox-footer-left {
-    display: none !important;
-}
-
 .tss-omnibox-footer .tss-icon-toggle{
     margin-bottom:0px;
 }
@@ -102,7 +86,6 @@
     align-items: stretch;
     width: 100%;
     height: 36px;
-    border-radius: var(--tss-border-radius-md);
 }
 
 .tss-omnibox-chat-container,
@@ -136,7 +119,6 @@
     display: flex;
     overflow: hidden;
     cursor: text;
-
 }
 
 .tss-omnibox-search-input {
@@ -228,26 +210,14 @@
     color: var(--tss-colors-blue-500);
 }
 
-.tss-dark-mode .tss-omnibox-search-token-word {
-    color: var(--tss-colors-blue-100);
-    background: rgba(var(--tss-colors-blue-900-root), 0.3);
-    outline-color: rgba(var(--tss-colors-blue-700-root), 0.4);
-}
 
-.tss-dark-mode .tss-omnibox-search-token-operator-and,
-.tss-dark-mode .tss-omnibox-search-token-operator-or,
-.tss-dark-mode .tss-omnibox-search-token-operator-not,
-.tss-dark-mode .tss-omnibox-search-token-paren,
-.tss-dark-mode .tss-omnibox-search-token-quote {
-    color: var(--tss-colors-blue-400);
-}
 
 .tss-omnibox-chat-input {
     width: 100%;
-    flex-grow: 1;
+    flex-grow:1;
     border: none;
     background: transparent;
-    color: var(--tss-default-foreground-color);
+    color: transparent;
     caret-color: var(--tss-default-foreground-color);
     outline: none;
     padding: 0 5px;
@@ -265,188 +235,22 @@
     transition: opacity 0.3s ease;
 }
 
-.tippy-box .tss-btn.tss-omnibox-search-history-entry,
-.tippy-box .tss-btn.tss-omnibox-snap-suggestion {
+.tippy-box .tss-btn.tss-omnibox-search-history-entry {
     height: 32px !important;
     padding-left: 8px !important;
     padding-right: 8px !important;
     margin-bottom: 8px !important;
 }
 
-.tippy-box .tss-btn.tss-omnibox-snap-suggestion {
-    height: 40px !important;
-}
-
 
 .tss-omnibox-container.tss-omnibox-mode-chat .tss-omnibox-search-container,
 .tss-omnibox-container.tss-omnibox-mode-chat .tss-omnibox-search-history-btn,
 .tss-omnibox-container.tss-omnibox-mode-chat .tss-omnibox-search-clear-btn,
-.tss-omnibox-container.tss-omnibox-mode-chat .tss-omnibox-search-btn,
-.tss-omnibox-container.tss-omnibox-mode-chat .tss-omnibox-search-footer-item {
+.tss-omnibox-container.tss-omnibox-mode-chat .tss-omnibox-search-btn {
     display: none;
 }
 
 .tss-omnibox-container.tss-omnibox-mode-search .tss-omnibox-chat-container,
-.tss-omnibox-container.tss-omnibox-mode-search .tss-omnibox-chat-btn,
-.tss-omnibox-container.tss-omnibox-mode-search .tss-omnibox-chat-footer-item {
+.tss-omnibox-container.tss-omnibox-mode-search .tss-omnibox-chat-btn {
     display: none;
-}
-/* Expanded state for Chat and SearchAndChat modes */
-.tss-omnibox-container.tss-omnibox-expanded .tss-omnibox-chat-container,
-.tss-omnibox-container.tss-omnibox-expanded.tss-omnibox-mode-search .tss-omnibox-search-container,
-.tss-omnibox-container.tss-omnibox-expanded.tss-omnibox-mode-chat .tss-omnibox-search-container {
-    min-height: 160px;
-    transition: min-height 0.15s ease-in-out;
-}
-
-.tss-omnibox-container:not(.tss-omnibox-expanded) .tss-omnibox-chat-container,
-.tss-omnibox-container:not(.tss-omnibox-expanded).tss-omnibox-mode-search .tss-omnibox-search-container,
-.tss-omnibox-container:not(.tss-omnibox-expanded).tss-omnibox-mode-chat .tss-omnibox-search-container {
-    transition: min-height 0.15s ease-in-out;
-}
-.tss-omnibox-inline-chips {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding-left: 4px;
-    padding-right: 4px;
-    gap: 4px;
-    background: var(--tss-secondary-background-color);
-    border-right: 1px solid var(--tss-default-border-color);
-}
-
-    .tss-omnibox-inline-chips:empty {
-        display: none;
-    }
-
-.tss-omnibox-inline-chip {
-    display: inline-flex;
-    align-items: center;
-    background-color: var(--tss-secondary-background-color);
-    color: var(--tss-secondary-foreground-color);
-    border-radius: var(--tss-border-radius-md);
-    padding: 2px 4px 2px 8px;
-    font-size: 12px;
-    height: 24px;
-    white-space: nowrap;
-}
-
-.tss-omnibox-inline-chip-close {
-    cursor: pointer;
-    margin-left: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    width: 16px;
-    height: 16px;
-    transition: background-color 0.2s;
-}
-
-.tss-omnibox-inline-chip-close:hover {
-    background-color: var(--tss-danger-background-color);
-    color: var(--tss-danger-foreground-color);
-}
-.tss-omnibox-inline-chip-close i {
-    font-size: 10px;
-}
-
-.tss-omnibox-right-text {
-    display: flex;
-    align-items: center;
-    margin-right: 8px;
-    color: var(--tss-secondary-foreground-color);
-    font-size: 12px;
-    white-space: nowrap;
-}
-
-.tss-omnibox-shortcut {
-    display: none;
-    align-items: center;
-    flex-shrink: 0;
-    padding: 0 6px;
-}
-
-.tss-omnibox-container.tss-omnibox-has-shortcut .tss-omnibox-shortcut {
-    display: inline-flex;
-}
-
-.tss-omnibox-container.tss-omnibox-mode-chat .tss-omnibox-shortcut {
-    display: none;
-}
-
-
-.tss-omnibox-suggestion-highlight {
-    background: var(--tss-colors-blue-200) !important;
-}
-
-/* Model selector button (chat footer) */
-.tss-btn.tss-omnibox-model-selector-btn {
-    height: 28px;
-    padding: 2px 10px;
-    margin: 0 4px;
-    border-radius: var(--tss-border-radius-md);
-    background: var(--tss-secondary-background-color);
-    color: var(--tss-secondary-foreground-color);
-    font-size: 12px;
-    white-space: nowrap;
-    cursor: pointer;
-}
-
-.tss-btn.tss-omnibox-model-selector-btn:hover {
-    background: var(--tss-default-border-color);
-}
-
-.tss-btn.tss-omnibox-model-selector-btn.tss-omnibox-model-selector-locked {
-    cursor: default;
-    opacity: 0.85;
-}
-
-/* Model selector popover */
-.tss-omnibox-model-selector-popover {
-    padding: 6px 4px;
-    min-width: 220px;
-}
-
-.tss-omnibox-model-selector-header {
-    padding: 6px 12px 4px 12px;
-    color: var(--tss-secondary-foreground-color);
-    text-transform: none;
-}
-
-.tss-omnibox-model-selector-divider {
-    height: 1px;
-    background: var(--tss-default-border-color);
-    margin: 6px 4px;
-}
-
-.tippy-box .tss-btn.tss-omnibox-model-selector-row {
-    height: 32px !important;
-    padding-left: 12px !important;
-    padding-right: 12px !important;
-    margin-bottom: 2px !important;
-    border-radius: var(--tss-border-radius-md);
-}
-
-.tippy-box .tss-btn.tss-omnibox-model-selector-row:hover {
-    background: var(--tss-secondary-background-color) !important;
-}
-
-.tss-omnibox-model-selector-item {
-    width: 100%;
-    align-items: center;
-    gap: 6px;
-}
-
-.tss-omnibox-model-selector-item-name {
-    font-size: 13px;
-}
-
-.tss-omnibox-model-selector-spacer {
-    flex-grow: 1;
-}
-
-.tss-omnibox-model-selector-check {
-    color: var(--tss-primary-foreground-color);
-    margin-left: 8px;
 }
