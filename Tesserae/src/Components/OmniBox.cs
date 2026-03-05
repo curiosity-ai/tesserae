@@ -14,7 +14,15 @@ namespace Tesserae
             public Config(Mode mode, Mode? initialMode = null)
             {
                 Mode = mode;
-                InitialMode = initialMode ?? (mode == Mode.SearchAndChat ? Mode.Search : mode); 
+                InitialMode = initialMode ?? (mode == Mode.SearchAndChat ? Mode.Search : mode);
+                IconSearch = UIcons.Search;
+                IconChat = UIcons.PaperPlane;
+                IconModeToggleSearch = UIcons.Search;
+                IconModeToggleChat = UIcons.Beacon;
+                TooltipModeToggleSearch = "Search";
+                TooltipModeToggleChat = "Chat";
+                ExpandOnFocus = false;
+                TokenIgnoreCase = false;
             }
 
             public string PlaceholderSearch { get; set; }
@@ -22,10 +30,23 @@ namespace Tesserae
             public Mode Mode { get; }
             public Mode InitialMode { get; }
 
-            public IComponent[] ChatFooterLeftSide { get; set; }
-            public IComponent[] ChatFooterRightSide { get; set;}
-            public IComponent[] SearchFooterLeftSide { get; set; }
-            public IComponent[] SearchFooterRightSide { get; set;}
+            public UIcons IconSearch { get; set; }
+            public UIcons IconChat { get; set; }
+            public UIcons IconModeToggleSearch { get; set; }
+            public UIcons IconModeToggleChat { get; set; }
+            public string TooltipModeToggleSearch { get; set; }
+            public string TooltipModeToggleChat { get; set; }
+            public bool ExpandOnFocus { get; set; }
+            public bool TokenIgnoreCase { get; set; }
+
+            public FooterItems ChatFooter { get; set; }
+            public FooterItems SearchFooter { get; set; }
+        }
+
+        public class FooterItems
+        {
+            public IComponent[] LeftSide { get; set; }
+            public IComponent[] RightSide { get; set; }
         }
 
         public enum Mode
@@ -56,6 +77,7 @@ namespace Tesserae
         private Func<Task<SearchQuery[]>> _historyFetcher;
         private string _tokenTypeMap = string.Empty;
         private readonly IconToggle<Mode> _modeToggle;
+        private readonly bool _tokenIgnoreCase;
 
         public delegate void SearchEventHandler(OmniBox sender, SearchQuery query);
         public delegate void ChatEventHandler(OmniBox sender, ChatMessage query);
@@ -67,6 +89,7 @@ namespace Tesserae
         public OmniBox(Config config)
         {
             _mode = config.Mode;
+            _tokenIgnoreCase = config.TokenIgnoreCase;
 
             _activeMode = new SettableObservable<Mode>(config.InitialMode);
 
@@ -76,7 +99,7 @@ namespace Tesserae
 
             if (_mode == Mode.SearchAndChat)
             {
-                _modeToggle = IconToggle(IconToggleItem(UIcons.Beacon, "Chat", Mode.Chat), IconToggleItem(UIcons.Search, "Search", Mode.Search));
+                _modeToggle = IconToggle(IconToggleItem(config.IconModeToggleChat, config.TooltipModeToggleChat, Mode.Chat), IconToggleItem(config.IconModeToggleSearch, config.TooltipModeToggleSearch, Mode.Search));
                 _modeToggle.Select(_activeMode.Value);
                 _modeToggle.AsObservable().ObserveFutureChanges(v => _activeMode.Value = v);
                 _footer.appendChild(_modeToggle.Render());
@@ -96,7 +119,7 @@ namespace Tesserae
                 _searchHistoryBtn.Collapse(); // Hidden by default unless WithHistory is called
 
                 _searchClearBtn = Button().SetIcon(UIcons.CrossCircle).Class("tss-omnibox-search-clear-btn");
-                _searchTriggerBtn = Button().SetIcon(UIcons.Search).Class("tss-omnibox-search-btn");
+                _searchTriggerBtn = Button().SetIcon(config.IconSearch).Class("tss-omnibox-search-btn");
 
                 if (_mode == Mode.Search)
                 {
@@ -236,19 +259,19 @@ namespace Tesserae
             {
                 _chatInput = TextArea(_("tss-omnibox-chat-input", type: "text", placeholder: config.PlaceholderChat ?? ""));
                 _chatInput.spellcheck = true;
-                _chatTriggerBtn = Button().SetIcon(UIcons.PaperPlane).Class("tss-omnibox-chat-btn");
+                _chatTriggerBtn = Button().SetIcon(config.IconChat).Class("tss-omnibox-chat-btn");
 
-                if (config.ChatFooterLeftSide is object)
+                if (config.ChatFooter?.LeftSide is object)
                 {
-                    foreach (var i in config.ChatFooterLeftSide)
+                    foreach (var i in config.ChatFooter.LeftSide)
                     {
                         _footer.appendChild(i.Class("tss-omnibox-chat-footer-item").Render());
                     }
                 }
 
-                if (config.SearchFooterLeftSide is object)
+                if (config.SearchFooter?.LeftSide is object)
                 {
-                    foreach (var i in config.SearchFooterLeftSide)
+                    foreach (var i in config.SearchFooter.LeftSide)
                     {
                         _footer.appendChild(i.Class("tss-omnibox-search-footer-item").Render());
                     }
@@ -260,17 +283,17 @@ namespace Tesserae
                 _chatContainer = Div(_("tss-omnibox-chat-container"), _chatInput);
             }
 
-            if (config.ChatFooterRightSide is object)
+            if (config.ChatFooter?.RightSide is object)
             {
-                foreach (var i in config.ChatFooterRightSide)
+                foreach (var i in config.ChatFooter.RightSide)
                 {
                     _footer.appendChild(i.Class("tss-omnibox-chat-footer-item").Render());
                 }
             }
 
-            if (config.SearchFooterRightSide is object)
+            if (config.SearchFooter?.RightSide is object)
             {
-                foreach (var i in config.SearchFooterRightSide )
+                foreach (var i in config.SearchFooter.RightSide )
                 {
                     _footer.appendChild(i.Class("tss-omnibox-search-footer-item").Render());
                 }
@@ -305,7 +328,29 @@ namespace Tesserae
                 _activeInput.focus();
             });
 
+
             _activeMode.Observe(UpdateMode);
+
+            if (config.ExpandOnFocus)
+            {
+                _container.addEventListener("focusin", (_) =>
+                {
+                    if (_mode == Mode.Chat || _mode == Mode.SearchAndChat)
+                    {
+                        _container.classList.add("tss-omnibox-expanded");
+                    }
+                });
+                _container.addEventListener("focusout", (e) =>
+                {
+                    // Check if new focus target is inside the container
+                    var focusEvent = e.As<FocusEvent>();
+                    if (focusEvent.relatedTarget == null || !_container.contains(focusEvent.relatedTarget.As<HTMLElement>()))
+                    {
+                        _container.classList.remove("tss-omnibox-expanded");
+                    }
+                });
+            }
+
         }
 
         private void UpdateMode(Mode mode)
@@ -350,7 +395,7 @@ namespace Tesserae
             bool formattingChanged = false;
 
             // Note: We use the non-breaking space specialWhitespace to pad special tokens
-            var rawQuery = ParseQuery(val.Replace(specialWhitespaceString, " "));
+            var rawQuery = ParseQuery(val.Replace(specialWhitespaceString, " "), _tokenIgnoreCase);
             var formattedBuilder = new System.Text.StringBuilder();
             var mapBuilder = new System.Text.StringBuilder();
 
@@ -488,12 +533,12 @@ namespace Tesserae
 
         private void ParseAndRenderTokens(string input)
         {
-            var query = ParseQuery(input);
+            var query = ParseQuery(input, _tokenIgnoreCase);
             RenderTokens(query.Tokens);
             SyncScroll();
         }
 
-        public static SearchQuery ParseQuery(string input)
+        public static SearchQuery ParseQuery(string input, bool tokenIgnoreCase = false)
         {
             var tokens = new List<SearchToken>();
             if (string.IsNullOrEmpty(input)) return new SearchQuery(input, tokens);
@@ -568,16 +613,16 @@ namespace Tesserae
                 var word = input.Substring(wordStart, i - wordStart);
 
                 // Check for word-based operators
-                var upperWord = word.ToUpper();
-                if (upperWord == "AND")
+                var matchWord = tokenIgnoreCase ? word.ToUpper() : word;
+                if (matchWord == "AND")
                 {
                     tokens.Add(new SearchToken(SearchToken.TokenType.And, word));
                 }
-                else if (upperWord == "OR")
+                else if (matchWord == "OR")
                 {
                     tokens.Add(new SearchToken(SearchToken.TokenType.Or, word));
                 }
-                else if (upperWord == "NOT")
+                else if (matchWord == "NOT")
                 {
                     tokens.Add(new SearchToken(SearchToken.TokenType.Not, word));
                 }
@@ -680,7 +725,7 @@ namespace Tesserae
         private void TriggerSearch()
         {
             var val = _searchInput.value;
-            var query = ParseQuery(val);
+            var query = ParseQuery(val, _tokenIgnoreCase);
             Searched?.Invoke(this, query);
         }
 

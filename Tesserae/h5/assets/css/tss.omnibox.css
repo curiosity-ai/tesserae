@@ -256,3 +256,16 @@
 .tss-omnibox-container.tss-omnibox-mode-search .tss-omnibox-chat-footer-item {
     display: none;
 }
+/* Expanded state for Chat and SearchAndChat modes */
+.tss-omnibox-container.tss-omnibox-expanded .tss-omnibox-chat-container,
+.tss-omnibox-container.tss-omnibox-expanded.tss-omnibox-mode-search .tss-omnibox-search-container,
+.tss-omnibox-container.tss-omnibox-expanded.tss-omnibox-mode-chat .tss-omnibox-search-container {
+    min-height: 160px;
+    transition: min-height 0.15s ease-in-out;
+}
+
+.tss-omnibox-container:not(.tss-omnibox-expanded) .tss-omnibox-chat-container,
+.tss-omnibox-container:not(.tss-omnibox-expanded).tss-omnibox-mode-search .tss-omnibox-search-container,
+.tss-omnibox-container:not(.tss-omnibox-expanded).tss-omnibox-mode-chat .tss-omnibox-search-container {
+    transition: min-height 0.15s ease-in-out;
+}

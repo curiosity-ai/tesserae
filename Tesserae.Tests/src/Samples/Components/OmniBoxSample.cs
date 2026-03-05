@@ -50,11 +50,12 @@ namespace Tesserae.Tests.Samples
             {
                 PlaceholderChat   = "Ask me anything",
                 PlaceholderSearch = "Search for anything",
-                ChatFooterLeftSide = new IComponent[]
+                ChatFooter = new OmniBox.FooterItems { LeftSide = new IComponent[]
                 {
                     Dropdown().Searchable().Items(DropdownItem("Consult Documents", icon: UIcons.Book).Selected(),
                                                   DropdownItem("Find a flight", icon: UIcons.AirplaneJourney),
                                                   DropdownItem("Book a hotel", icon: UIcons.Hotel))
+                }
                 } 
             })
             .WS()
@@ -71,19 +72,36 @@ namespace Tesserae.Tests.Samples
             });
 
 
+
+            var toggle = Toggle("Disabled").OnChange((s, e) =>
+            {
+                var disabled = s.IsChecked;
+                if (disabled)
+                {
+                    searchModeSample.Disabled();
+                    chatModeSample.Disabled();
+                    searchAndChatModeSample.Disabled();
+                }
+                else
+                {
+                    searchModeSample.Disabled(false);
+                    chatModeSample.Disabled(false);
+                    searchAndChatModeSample.Disabled(false);
+                }
+            });
+
             _content = SectionStack()
                .Title(SampleHeader(nameof(OmniBoxSample)))
                .Section(VStack().Children(
                     SampleTitle("Overview"),
+                    toggle.MB(16),
                     TextBlock("Omnibox provides a powerful input field for switching between a chat and a search interaction. For search, it also provides support for parsing and visual rendering of logical operators like AND, OR, NOT, parenthesis, and quotes.")))
                .Section(VStack().WS().Children(
                     SampleTitle("Usage"),
                     SampleSubTitle("Modes"),
                         Label("Search").SetContent(searchModeSample),
                         Label("Chat").SetContent(chatModeSample.MT(6)),
-                        Label("Search & Chat").SetContent(searchAndChatModeSample.MT(6)),
-                    SampleSubTitle("Customization"),
-                        Label("Disabled").Disabled().SetContent(OmniBox(new OmniBox.Config(OmniBox.Mode.Search) { PlaceholderSearch = "Search disabled" }).Disabled())
+                        Label("Search & Chat").SetContent(searchAndChatModeSample.MT(6))
                 ));
         }
 
