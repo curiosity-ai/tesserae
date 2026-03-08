@@ -45,7 +45,8 @@
         "h5/assets/js/tippy.min.js",
         "h5/assets/js/masonry.min.js",
         "h5/assets/js/sortable.min.js",
-        "h5/assets/js/baklava.min.js"
+        "h5/assets/js/baklava.min.js",
+        "h5/assets/js/d3.min.js"
       ],
       "output": "assets/js"
     },
@@ -57,7 +58,8 @@
         "h5/assets/js/tippy.min.js",
         "h5/assets/js/masonry.min.js",
         "h5/assets/js/sortable.min.js",
-        "h5/assets/js/baklava.min.js"
+        "h5/assets/js/baklava.min.js",
+        "h5/assets/js/d3.min.js"
       ],
       "output": "assets/js"
     },
@@ -136,7 +138,8 @@
         "h5/assets/css/tss.actionbutton.css",
         "h5/assets/css/tss.deltacomponent.css",
         "h5/assets/css/tss.message.css",
-        "h5/assets/css/baklava.css"
+        "h5/assets/css/baklava.css",
+        "h5/assets/css/tss.graph.css"
       ],
       "output": "assets/css"
     },
