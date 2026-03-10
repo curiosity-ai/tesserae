@@ -42,8 +42,7 @@ namespace Tesserae
             AttachBlur();
             AttachKeys();
 
-            _observable = new SettableObservable<string>();
-            _observable.Value = text;
+            _observable = new SettableObservable<string>(text);
 
             _labelView.addEventListener("click", BeginEditing);
             _cancelEditIcon.addEventListener("click", CancelEditing);

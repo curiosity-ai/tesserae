@@ -17,7 +17,7 @@ namespace Tesserae
         private readonly HTMLElement                _cancelEditIcon;
         private readonly HTMLDivElement             _editView;
         private readonly HTMLDivElement             _labelView;
-        private readonly SettableObservable<string> _observable = new SettableObservable<string>();
+        private readonly SettableObservable<string> _observable;
 
         private bool _isCanceling = false;
 
@@ -52,7 +52,7 @@ namespace Tesserae
 
             OnBlur((_, __) => BeginSaveEditing());
             
-            _observable.Value = text;
+            _observable = new SettableObservable<string>(text); //Avoid raising the event once
         }
 
         public TextSize Size
