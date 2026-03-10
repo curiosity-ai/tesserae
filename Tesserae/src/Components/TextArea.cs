@@ -11,7 +11,7 @@ namespace Tesserae
     {
         private readonly HTMLDivElement             _container;
         private readonly HTMLSpanElement            _errorSpan;
-        private readonly SettableObservable<string> _observable = new SettableObservable<string>();
+        private readonly SettableObservable<string> _observable;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TextArea"/> class.
@@ -27,6 +27,7 @@ namespace Tesserae
             InnerElement.style.width  = "100%";
             InnerElement.style.height = "100%";
 
+            _observable = new SettableObservable<string>(text);
             AttachChange();
             AttachInput();
             AttachKeys();

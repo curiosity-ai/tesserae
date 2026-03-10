@@ -17,7 +17,7 @@ namespace Tesserae
         private bool _daysEnabled = true;
         private bool _showEnableCheckbox = true;
         private int _minuteInterval = 60;
-        private SettableObservable<(string cron, bool enabled)> _observable = new SettableObservable<(string cron, bool enabled)>();
+        private readonly SettableObservable<(string cron, bool enabled)> _observable;
 
         private HTMLElement _descContainer;
         private HTMLElement _editorContainer;
@@ -59,7 +59,7 @@ namespace Tesserae
         {
             _cron = initialCron;
             _enabled = initialEnabled;
-            _observable.Value = (_cron, _enabled);
+            _observable = new SettableObservable<(string cron, bool enabled)>((_cron, _enabled));
             InnerElement = Div(_("tss-cron-editor"));
 
             _descContainer = Div(_("tss-cron-desc"));

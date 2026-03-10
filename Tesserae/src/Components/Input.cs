@@ -17,8 +17,7 @@ namespace Tesserae
             _errorSpan = Span(_("tss-textbox-error"));
             _container = Div(_("tss-textbox-container tss-default-component-margin"), InnerElement, _errorSpan);
             
-            _observable = new SettableObservable<string>();
-            _observable.Value = defaultText;
+            _observable = new SettableObservable<string>(defaultText);
             
             AttachChange();
             AttachInput();

@@ -21,8 +21,7 @@ namespace Tesserae
             AttachFocus();
             AttachBlur();
 
-            _observable = new SettableObservable<bool>();
-            _observable.Value = InnerElement.@checked;
+            _observable = new SettableObservable<bool>(InnerElement.@checked);
 
             InnerElement.addEventListener("change", _ =>
             {
