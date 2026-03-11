@@ -109,7 +109,6 @@ namespace Tesserae
                 {
                     var link = UI.Link(href, Raw(button.Render()), noUnderline: true);
                     link.Render().style.display = "block";
-                    link.Render().style.width = "100%";
                     link.Render().style.textDecoration = "none";
                     div.appendChild(link.Render());
                 }
@@ -209,7 +208,6 @@ namespace Tesserae
                 {
                     var link = UI.Link(href, Raw(button.Render()), noUnderline: true);
                     link.Render().style.display = "block";
-                    link.Render().style.width = "100%";
                     link.Render().style.textDecoration = "none";
                     div.appendChild(link.Render());
                 }
