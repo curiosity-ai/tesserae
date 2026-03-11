@@ -60,7 +60,8 @@
     z-index: 1;
 }
 
-.tss-sortable-ghost > .tss-sidebar-btn-open > .tss-btn 
+.tss-sortable-ghost > .tss-sidebar-btn-open > .tss-btn,
+.tss-sortable-ghost > .tss-sidebar-btn-open > a > .tss-btn
  {
     color: var(--tss-primary-foreground-active-color-root);
     background-color: rgba(var(--tss-primary-background-active-color-root), 0.5);
@@ -70,13 +71,15 @@
 .tss-sidebar-btn.tss-sidebar-selected,
 .tss-sidebar-btn-open.tss-sidebar-selected > .tss-sidebar-btn,
 .tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-btn,
+.tss-sidebar-nav.tss-sidebar-selected > .tss-sidebar-nav-header.tss-sidebar-btn-open > a > .tss-btn,
 .tss-sidebar-nav.tss-sidebar-selected > .tss-btn {
     color: var(--tss-default-foreground-hover-color);
     background-color: rgba(var(--tss-default-background-hover-color-root), 0.5);
 }
 
 
-.tss-sidebar-btn-open > .tss-btn {
+.tss-sidebar-btn-open > .tss-btn,
+.tss-sidebar-btn-open > a > .tss-btn {
     text-align: left !important;
     padding: 0px;
     margin: 0px;
@@ -278,7 +281,8 @@
     border-width: 0 1px 1px 0;
 }
 
-.tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-btn i {
+.tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-btn i,
+.tss-sidebar-nav-header.tss-sidebar-btn-open > a > .tss-btn i {
     width: 24px !important;
     min-width: 24px;
     text-align: center;
@@ -286,16 +290,21 @@
 }
 
 
-.tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-btn > .tss-btn-with-image > .tss-image {
+.tss-sidebar-nav-header.tss-sidebar-btn-open > .tss-btn > .tss-btn-with-image > .tss-image,
+.tss-sidebar-nav-header.tss-sidebar-btn-open > a > .tss-btn > .tss-btn-with-image > .tss-image {
     width: 24px !important;
     height: 24px !important;
     min-width: 24px;
 }
 
 .tss-sidebar-nav-header.tss-sidebar-btn-open:not(.tss-sidebar-nav-header-empty) > .tss-btn i,
+.tss-sidebar-nav-header.tss-sidebar-btn-open:not(.tss-sidebar-nav-header-empty) > a > .tss-btn i,
 .tss-sidebar-nav-header.tss-sidebar-btn-open:not(.tss-sidebar-nav-header-empty) > .tss-btn > .tss-btn-with-image > .tss-image,
+.tss-sidebar-nav-header.tss-sidebar-btn-open:not(.tss-sidebar-nav-header-empty) > a > .tss-btn > .tss-btn-with-image > .tss-image,
 .tss-sidebar-nav-header.tss-sidebar-btn-open.tss-sidebar-nav-header-empty.tss-sidebar-nav-header-dot-if-empty > .tss-btn i,
-.tss-sidebar-nav-header.tss-sidebar-btn-open.tss-sidebar-nav-header-empty.tss-sidebar-nav-header-dot-if-empty > .tss-btn > .tss-btn-with-image > .tss-image {
+.tss-sidebar-nav-header.tss-sidebar-btn-open.tss-sidebar-nav-header-empty.tss-sidebar-nav-header-dot-if-empty > a > .tss-btn i,
+.tss-sidebar-nav-header.tss-sidebar-btn-open.tss-sidebar-nav-header-empty.tss-sidebar-nav-header-dot-if-empty > .tss-btn > .tss-btn-with-image > .tss-image,
+.tss-sidebar-nav-header.tss-sidebar-btn-open.tss-sidebar-nav-header-empty.tss-sidebar-nav-header-dot-if-empty > a > .tss-btn > .tss-btn-with-image > .tss-image {
     margin-left: 28px;
 }
 
@@ -303,7 +312,8 @@
     display: none;
 }
 
-.tss-sidebar-nav-header.tss-sidebar-btn-open.tss-sidebar-nav-header-empty.tss-sidebar-nav-header-dot-if-empty > .tss-btn:before {
+.tss-sidebar-nav-header.tss-sidebar-btn-open.tss-sidebar-nav-header-empty.tss-sidebar-nav-header-dot-if-empty > .tss-btn:before,
+.tss-sidebar-nav-header.tss-sidebar-btn-open.tss-sidebar-nav-header-empty.tss-sidebar-nav-header-dot-if-empty > a > .tss-btn:before {
     content: '';
     border-radius: 10px;
     background: rgba(var(--tss-secondary-foreground-color-root), 0.2);
@@ -429,6 +439,7 @@
 }
 
 .tss-sidebar-menu > .tss-sidebar-btn-open > .tss-btn,
+.tss-sidebar-menu > .tss-sidebar-btn-open > a > .tss-btn,
 .tss-sidebar-menu > .tss-sidebar-commands-line > .tss-sidebar-command.tss-btn {
     border: 1px solid transparent;
     height: 36px !important;
@@ -440,13 +451,15 @@
 }
 
     .tss-sidebar-menu > .tss-sidebar-btn-open > .tss-btn:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success),
+    .tss-sidebar-menu > .tss-sidebar-btn-open > a > .tss-btn:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success),
     .tss-sidebar-menu > .tss-sidebar-commands-line > .tss-sidebar-command.tss-btn:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success) {
         background: var(--tss-tooltip-background-color);
         color: var(--tss-tooltip-foreground-color);
         border-color: var(--tss-tooltip-background-color);
     }
 
-    .tss-sidebar-menu > .tss-sidebar-btn-open .tss-btn.tss-btn-default:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success):hover,
+    .tss-sidebar-menu > .tss-sidebar-btn-open > .tss-btn.tss-btn-default:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success):hover,
+    .tss-sidebar-menu > .tss-sidebar-btn-open > a > .tss-btn.tss-btn-default:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success):hover,
     .tss-sidebar-menu > .tss-sidebar-commands-line > .tss-sidebar-command:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success):hover {
         color: var(--tss-default-background-hover-color);
         background: var(--tss-default-foreground-hover-color);
@@ -482,7 +495,8 @@
 
 
 @media screen and (min-height: 1000px) {
-    .tss-sidebar-btn-open > .tss-btn {
+    .tss-sidebar-btn-open > .tss-btn,
+    .tss-sidebar-btn-open > a > .tss-btn {
         height: 36px !important;
     }
 
