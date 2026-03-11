@@ -24,7 +24,7 @@ namespace Tesserae.Tests.Samples
                .Title(SampleHeader(nameof(SaveButtonSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
-                    TextBlock("The SaveButton component is a wrapper around a Button that manages common saving states: Pending, Verifying, Saving, Saved, and Error.")
+                    TextBlock("The SaveButton component is a wrapper around a Button that manages common saving states: Pending, Validating, Verifying, Saving, Saved, and Error.")
                ))
                .Section(Stack().Children(
                     SampleTitle("Manual State Control"),
@@ -33,6 +33,7 @@ namespace Tesserae.Tests.Samples
                         Stack().Children(
                             Button("Set Nothing to Save"  ).OnClick(() => manualButton.NothingToSave()),
                             Button("Set Pending"          ).OnClick(() => manualButton.Pending()),
+                            Button("Set Validating"       ).OnClick(() => manualButton.Validating()),
                             Button("Set Verifying"        ).OnClick(() => manualButton.Verifying()),
                             Button("Set Saving"           ).OnClick(() => manualButton.Saving()),
                             Button("Set Saved"            ).OnClick(() => manualButton.Saved()),
@@ -43,6 +44,8 @@ namespace Tesserae.Tests.Samples
                     SampleSubTitle("Live Demo"),
                     TextBlock("Click the button below to simulate a save operation."),
                     saveButton.OnClick(async () => {
+                        saveButton.Validating();
+                        await Task.Delay(1000);
                         saveButton.Verifying();
                         await Task.Delay(1000);
                         saveButton.Saving();
@@ -63,7 +66,24 @@ namespace Tesserae.Tests.Samples
                    SampleTitle("Dynamic Text Update"),
                    TextBlock("This SaveButton text can be updated dynamically."),
                    DynamicTextUpdateSample()
-              ));
+              ))
+               .Section(Stack().Children(
+                   SampleTitle("Validating While"),
+                   TextBlock("This button validates using a custom async task."),
+                   GetValidatingWhileButton()
+               ));
+        }
+
+        private IComponent GetValidatingWhileButton()
+        {
+            var btn = SaveButton().Pending();
+            btn.OnClick(async () => {
+                await btn.ValidatingWhile(async () => {
+                    await Task.Delay(2000);
+                    return SaveButton.State.PendingSave;
+                });
+            });
+            return btn;
         }
 
         private IComponent DynamicTextUpdateSample()
