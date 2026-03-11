@@ -37,6 +37,7 @@ namespace Tesserae.Tests.Samples
             sidebar.AddContent(new SidebarSeparator("sep2"));
 
             sidebar.AddContent(new SidebarButton("help", UIcons.Question, "Help"));
+            sidebar.AddContent(new SidebarButton("link", "https://bing.com", UIcons.Link, "External Link"));
 
             // --- Moved from App.cs ---
 
