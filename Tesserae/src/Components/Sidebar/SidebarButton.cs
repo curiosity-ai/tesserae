@@ -118,14 +118,14 @@ namespace Tesserae
         public void Show()
         {
             _closedButton.Show();
-            _openButton.Show();
+            _open.Show();
         }
 
         /// <summary>Collapses the button.</summary>
         public void Collapse()
         {
             _closedButton.Collapse();
-            _openButton.Collapse();
+            _open.Collapse();
         }
 
         /// <summary>
@@ -135,7 +135,7 @@ namespace Tesserae
         public SidebarButton NotSortable()
         {
             _closedButton.Class("tss-sortable-disable");
-            _openButton.Class("tss-sortable-disable");
+            _open.Class("tss-sortable-disable");
             return this;
         }
 
