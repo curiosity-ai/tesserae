@@ -126,7 +126,7 @@ namespace Tesserae
                 InnerElement.classList.add("tss-spinner-progress");
             }
             percent = Math.Max(0f, Math.Min(100f, percent));
-            InnerElement.style.setProperty("--tss-spinner-progress", percent.ToString(System.Globalization.CultureInfo.InvariantCulture));
+            InnerElement.style.setProperty("--tss-spinner-progress", percent.ToString());
             return this;
         }
 
