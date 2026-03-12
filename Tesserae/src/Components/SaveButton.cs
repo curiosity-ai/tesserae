@@ -145,6 +145,30 @@ namespace Tesserae
             return this;
         }
 
+        public async Task<State> VerifyingWhile(Func<Task<State>> action, string text = null, Action<SaveButton, Exception> onError = null)
+        {
+            SetState(State.Verifying, text);
+            try
+            {
+                var result = await action();
+                SetState(result);
+                return result;
+            }
+            catch (Exception e)
+            {
+                if (onError != null)
+                {
+                    onError(this, e);
+                }
+                else
+                {
+                    SetState(State.Error);
+                    Toast().Error(e.Message);
+                }
+                return State.Error;
+            }
+        }
+
         public SaveButton OnClickSpinWhile(Func<Task> action, string text = null, Action<SaveButton, Exception> onError = null)
         {
             Action<Button, Exception> onErrorInner;
