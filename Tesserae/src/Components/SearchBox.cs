@@ -14,9 +14,11 @@ namespace Tesserae
         protected event SearchEventHandler Searched;
         public delegate void               SearchEventHandler(SearchBox sender, string value);
 
+        private double _timeoutTriggerSearch = 0;
+
         public SearchBox(string placeholder = string.Empty)
         {
-            InnerElement      = TextBox(_("tss-searchbox tss-fontsize-small tss-fontweight-regular", type: "search", placeholder: placeholder));
+            InnerElement      = TextBox(_(className: "tss-searchbox tss-fontsize-small tss-fontweight-regular", type: "search", placeholder: placeholder));
             _icon             = Span(_(UIcons.Search.ToString()));
             _iconContainer    = Div(_("tss-searchbox-icon"), _icon);
             _paddingContainer = Div(_("tss-searchbox-padding"));
@@ -32,9 +34,23 @@ namespace Tesserae
             {
                 if (e.key == "Enter")
                 {
-                    Searched?.Invoke(this, InnerElement.value);
+                    TriggerSearch();
                 }
             });
+
+            InnerElement.addEventListener("search", (_) =>
+            {
+                TriggerSearch();
+            });
+        }
+
+        private void TriggerSearch()
+        {
+            window.clearTimeout(_timeoutTriggerSearch);
+            _timeoutTriggerSearch = window.setTimeout((_) =>
+            {
+                Searched?.Invoke(this, InnerElement.value);
+            }, 50);
         }
 
         public int TabIndex
@@ -203,8 +219,11 @@ namespace Tesserae
                 {
                     return;
                 }
-                Searched?.Invoke(this, InnerElement.value);
+                TriggerSearch();
             });
+
+            InnerElement.attributes["incremental"] = true;
+
             return this;
         }
 
