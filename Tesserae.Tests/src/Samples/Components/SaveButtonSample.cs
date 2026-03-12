@@ -63,7 +63,24 @@ namespace Tesserae.Tests.Samples
                    SampleTitle("Dynamic Text Update"),
                    TextBlock("This SaveButton text can be updated dynamically."),
                    DynamicTextUpdateSample()
-              ));
+              ))
+               .Section(Stack().Children(
+                   SampleTitle("Verifying While"),
+                   TextBlock("This button verifies using a custom async task."),
+                   GetVerifyingWhileButton()
+               ));
+        }
+
+        private IComponent GetVerifyingWhileButton()
+        {
+            var btn = SaveButton().Pending();
+            btn.OnClick(async () => {
+                await btn.VerifyingWhile(async () => {
+                    await Task.Delay(2000);
+                    return SaveButton.State.PendingSave;
+                });
+            });
+            return btn;
         }
 
         private IComponent DynamicTextUpdateSample()
