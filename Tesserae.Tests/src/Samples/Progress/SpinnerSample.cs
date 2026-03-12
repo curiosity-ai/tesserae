@@ -38,6 +38,14 @@ namespace Tesserae.Tests.Samples
                         Label("Spinner with label positioned above").SetContent(Spinner("Seriously, still loading...").Above()),
                         Label("Spinner with label positioned to right").SetContent(Spinner("Wait, wait...").Right()),
                         Label("Spinner with label positioned to left").SetContent(Spinner("Nope, still loading...").Left())
+                    ))
+               .Section(
+                    Stack().Width(400.px()).Children(
+                        TextBlock("Spinner with fixed progress").Medium(),
+                        Label("25% Progress").SetContent(Spinner().Progress(25).Large()).AlignCenter(),
+                        Label("50% Progress").SetContent(Spinner().Progress(50).Large()).AlignCenter(),
+                        Label("75% Progress").SetContent(Spinner().Progress(75).Large()).AlignCenter(),
+                        Label("100% Progress").SetContent(Spinner().Progress(100).Large()).AlignCenter()
                     ));
         }
 

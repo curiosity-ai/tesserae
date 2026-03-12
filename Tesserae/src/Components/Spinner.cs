@@ -107,6 +107,43 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Sets the progress position (between 0 and total).
+        /// </summary>
+        /// <param name="position">The current position.</param>
+        /// <param name="total">The total amount.</param>
+        /// <returns>The current instance.</returns>
+        public Spinner Progress(int position, int total) => Progress(100f * position / total);
+
+        /// <summary>
+        /// Sets the progress percentage (between 0 and 100).
+        /// </summary>
+        /// <param name="percent">The percentage.</param>
+        /// <returns>The current instance.</returns>
+        public Spinner Progress(float percent)
+        {
+            if (!InnerElement.classList.contains("tss-spinner-progress"))
+            {
+                InnerElement.classList.add("tss-spinner-progress");
+            }
+            percent = Math.Max(0f, Math.Min(100f, percent));
+            InnerElement.style.setProperty("--tss-spinner-progress", percent.ToString(System.Globalization.CultureInfo.InvariantCulture));
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the spinner back to the normal indeterminate state.
+        /// </summary>
+        /// <returns>The current instance.</returns>
+        public Spinner Indeterminate()
+        {
+            if (InnerElement.classList.contains("tss-spinner-progress"))
+            {
+                InnerElement.classList.remove("tss-spinner-progress");
+            }
+            return this;
+        }
+
+        /// <summary>
         /// Renders the component.
         /// </summary>
         /// <returns>The rendered HTML element.</returns>
