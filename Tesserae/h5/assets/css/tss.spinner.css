@@ -11,6 +11,15 @@
     animation-iteration-count: infinite;
     animation-timing-function: cubic-bezier(0.53, 0.21, 0.29, 0.67);
     flex-shrink:0;
+    box-sizing: border-box;
+}
+
+.tss-spinner.tss-spinner-progress {
+    animation: none;
+    border: none;
+    background: conic-gradient(var(--tss-spinner-color) calc(var(--tss-spinner-progress, 0) * 1%), var(--tss-progress-background-color) 0);
+    -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - var(--tss-spinner-size)), #000 0);
+    mask: radial-gradient(farthest-side, #0000 calc(100% - var(--tss-spinner-size)), #000 0);
 }
 
 .tss-spinner-success {
