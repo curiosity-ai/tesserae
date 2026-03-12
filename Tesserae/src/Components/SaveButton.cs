@@ -12,7 +12,6 @@ namespace Tesserae
         private Button _button;
         private string _textSave = "Save";
         private string _textSaveHover = null;
-        private string _textValidating = "Validating...";
         private string _textVerifying = "Verifying...";
         private string _textSaving = "Saving...";
         private string _textSaved = "Saved";
@@ -27,7 +26,6 @@ namespace Tesserae
         {
             NothingToSave,
             PendingSave,
-            Validating,
             Verifying,
             Saving,
             Saved,
@@ -58,10 +56,9 @@ namespace Tesserae
             SetState(State.NothingToSave);
         }
 
-        public SaveButton Configure(string save = null, string validating = null, string verifying = null, string saving = null, string saved = null, string error = null, string saveHover = null, UIcons saveIcon = UIcons.Disk, UIcons saveHoverIcon = UIcons.Disk, bool pendingPrimary = true)
+        public SaveButton Configure(string save = null, string verifying = null, string saving = null, string saved = null, string error = null, string saveHover = null, UIcons saveIcon = UIcons.Disk, UIcons saveHoverIcon = UIcons.Disk, bool pendingPrimary = true)
         {
             if (save != null) _textSave = save;
-            if (validating != null) _textValidating = validating;
             if (verifying != null) _textVerifying = verifying;
             if (saving != null) _textSaving = saving;
             if (saved != null) _textSaved = saved;
@@ -104,11 +101,6 @@ namespace Tesserae
                         _button.SetIcon(_iconSave).SetText(_textSave);
                     }
                     break;
-                case State.Validating:
-                    _button.IsPrimary = true;
-                    _button.IsEnabled = false;
-                    _button.ToSpinner(message ?? _textValidating);
-                    break;
                 case State.Verifying:
                     _button.IsPrimary = true;
                     _button.IsEnabled = false;
@@ -140,7 +132,6 @@ namespace Tesserae
         
         public SaveButton NothingToSave(string message = null) => SetState(State.NothingToSave, message);
         public SaveButton Pending(string message = null) => SetState(State.PendingSave, message);
-        public SaveButton Validating(string message = null) => SetState(State.Validating, message);
         public SaveButton Verifying(string message = null) => SetState(State.Verifying, message);
         public SaveButton Saving(string message = null) => SetState(State.Saving, message);
         public SaveButton Saved(string message = null) => SetState(State.Saved, message);
@@ -154,9 +145,9 @@ namespace Tesserae
             return this;
         }
 
-        public async Task<State> ValidatingWhile(Func<Task<State>> action, string text = null, Action<SaveButton, Exception> onError = null)
+        public async Task<State> VerifyingWhile(Func<Task<State>> action, string text = null, Action<SaveButton, Exception> onError = null)
         {
-            SetState(State.Validating, text);
+            SetState(State.Verifying, text);
             try
             {
                 var result = await action();
