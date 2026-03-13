@@ -872,10 +872,10 @@ namespace Tesserae
 
         private void SearchItems()
         {
-            var searchTerm = _search.Trim().ToLower();
+            var searchTerm = _search.Trim().ToLower().Split(new []{' '});
 
             var items         = GetItems();
-            var itemsToRemove = items.Where(item => !(item.textContent.ToLower().Contains(searchTerm)));
+            var itemsToRemove = items.Where(item => (searchTerm.Any(t => !item.textContent.ToLower().Contains(t))));
             var itemsToReset  = items.Except(itemsToRemove);
             
             if(!itemsToReset.Any(i => i.item == _firstItem))
