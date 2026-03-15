@@ -314,6 +314,20 @@ namespace Tesserae
                 public const string ForegroundActive = "var(--tss-success-foreground-active-color)";
             }
 
+            public static class Gradients
+            {
+                public const string Lime = "var(--tss-gradient-lime)";
+                public const string Red = "var(--tss-gradient-red)";
+                public const string Orange = "var(--tss-gradient-orange)";
+                public const string Yellow = "var(--tss-gradient-yellow)";
+                public const string Green = "var(--tss-gradient-green)";
+                public const string Teal = "var(--tss-gradient-teal)";
+                public const string Blue = "var(--tss-gradient-blue)";
+                public const string Purple = "var(--tss-gradient-purple)";
+                public const string Magenta = "var(--tss-gradient-magenta)";
+                public const string AI = "var(--tss-gradient-ai)";
+            }
+
             public static class Colors
             {
                 public const string Lime100 = "var(--tss-colors-lime-100)";
