@@ -872,10 +872,10 @@ namespace Tesserae
 
         private void SearchItems()
         {
-            var searchTerm = _search.Trim().ToLower().Split(new []{' '});
+            var searchTerms = _search.Trim().ToLower().Split(new []{' '});
 
             var items         = GetItems();
-            var itemsToRemove = items.Where(item => (searchTerm.Any(t => !item.textContent.ToLower().Contains(t))));
+            var itemsToRemove = items.Where(item => (searchTerms.Any(t => !item.textContent.ToLower().Contains(t))));
             var itemsToReset  = items.Except(itemsToRemove);
             
             if(!itemsToReset.Any(i => i.item == _firstItem))
@@ -906,13 +906,13 @@ namespace Tesserae
                 item.style.display = "none";
             }
 
-            var regex = new Regex("(" + Regex.Escape(searchTerm) + ")", RegexOptions.IgnoreCase);
+            var regex = new Regex("(" + string.Join("|", searchTerms.Select(Regex.Escape)) + ")", RegexOptions.IgnoreCase);
 
             foreach (var (item, _) in itemsToReset)
             {
                 RecursiveUnhighlight(item);
 
-                if (searchTerm.Length > 0)
+                if (searchTerms.Length > 0 && searchTerms.Any(s => s.Length > 0))
                 {
                     RecursiveHighlight(item, regex);
                 }
