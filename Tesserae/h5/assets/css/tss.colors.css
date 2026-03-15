@@ -283,6 +283,17 @@
     --tss-colors-dark-neutral-400-alpha: rgba(var(--tss-colors-dark-neutral-400-alpha-root));
     --tss-colors-dark-neutral-500-alpha-root: 233,240,251,0.36;
     --tss-colors-dark-neutral-500-alpha: rgba(var(--tss-colors-dark-neutral-500-alpha-root));
+
+    --tss-gradient-lime: linear-gradient(135deg, var(--tss-colors-lime-300), var(--tss-colors-lime-600));
+    --tss-gradient-red: linear-gradient(135deg, var(--tss-colors-red-300), var(--tss-colors-red-600));
+    --tss-gradient-orange: linear-gradient(135deg, var(--tss-colors-orange-300), var(--tss-colors-orange-600));
+    --tss-gradient-yellow: linear-gradient(135deg, var(--tss-colors-yellow-300), var(--tss-colors-yellow-600));
+    --tss-gradient-green: linear-gradient(135deg, var(--tss-colors-green-300), var(--tss-colors-green-600));
+    --tss-gradient-teal: linear-gradient(135deg, var(--tss-colors-teal-300), var(--tss-colors-teal-600));
+    --tss-gradient-blue: linear-gradient(135deg, var(--tss-colors-blue-300), var(--tss-colors-blue-600));
+    --tss-gradient-purple: linear-gradient(135deg, var(--tss-colors-purple-300), var(--tss-colors-purple-600));
+    --tss-gradient-magenta: linear-gradient(135deg, var(--tss-colors-magenta-300), var(--tss-colors-magenta-600));
+    --tss-gradient-ai: linear-gradient(135deg, var(--tss-colors-blue-500), var(--tss-colors-purple-500), var(--tss-colors-magenta-500));
 }
 
 .tss-dark-mode {
@@ -354,4 +365,15 @@
     --tss-colors-neutral-400-alpha: rgba(var(--tss-colors-neutral-400-alpha-root));
     --tss-colors-neutral-500-alpha-root: 233,240,251,0.36;
     --tss-colors-neutral-500-alpha: rgba(var(--tss-colors-neutral-500-alpha-root));
+
+    --tss-gradient-lime: linear-gradient(135deg, var(--tss-colors-lime-400), var(--tss-colors-lime-700));
+    --tss-gradient-red: linear-gradient(135deg, var(--tss-colors-red-400), var(--tss-colors-red-700));
+    --tss-gradient-orange: linear-gradient(135deg, var(--tss-colors-orange-400), var(--tss-colors-orange-700));
+    --tss-gradient-yellow: linear-gradient(135deg, var(--tss-colors-yellow-400), var(--tss-colors-yellow-700));
+    --tss-gradient-green: linear-gradient(135deg, var(--tss-colors-green-400), var(--tss-colors-green-700));
+    --tss-gradient-teal: linear-gradient(135deg, var(--tss-colors-teal-400), var(--tss-colors-teal-700));
+    --tss-gradient-blue: linear-gradient(135deg, var(--tss-colors-blue-400), var(--tss-colors-blue-700));
+    --tss-gradient-purple: linear-gradient(135deg, var(--tss-colors-purple-400), var(--tss-colors-purple-700));
+    --tss-gradient-magenta: linear-gradient(135deg, var(--tss-colors-magenta-400), var(--tss-colors-magenta-700));
+    --tss-gradient-ai: linear-gradient(135deg, var(--tss-colors-blue-600), var(--tss-colors-purple-600), var(--tss-colors-magenta-600));
 }
