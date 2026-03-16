@@ -246,5 +246,51 @@ namespace Tesserae
 
         /// <summary>Returns an observable of the text.</summary>
         public IObservable<string> AsObservable() => _observable;
+
+        /// <summary>
+        /// Enables auto-resizing of the text area as the user types, based on the scrollHeight.
+        /// </summary>
+        /// <param name="allowShrink">If false, the text area will not shrink below its initial size.</param>
+        /// <returns>The current instance.</returns>
+        public TextArea AutoResize(bool allowShrink = true)
+        {
+            double initialHeight = 0;
+            bool hasInitialHeight = false;
+
+            void Resize()
+            {
+                InnerElement.style.height = "auto";
+                var scrollHeight = InnerElement.scrollHeight;
+
+                if (!allowShrink && hasInitialHeight)
+                {
+                    InnerElement.style.height = System.Math.Max(scrollHeight, initialHeight) + "px";
+                }
+                else
+                {
+                    InnerElement.style.height = scrollHeight + "px";
+                }
+            }
+
+            if (!allowShrink)
+            {
+                DomObserver.WhenMounted(InnerElement, () =>
+                {
+                    var rect = (DOMRect)InnerElement.getBoundingClientRect();
+                    initialHeight = rect.height;
+                    hasInitialHeight = true;
+                    Resize();
+                });
+            }
+
+            OnInput((_, __) => Resize());
+
+            if (allowShrink)
+            {
+                DomObserver.WhenMounted(InnerElement, () => Resize());
+            }
+
+            return this;
+        }
     }
 }
