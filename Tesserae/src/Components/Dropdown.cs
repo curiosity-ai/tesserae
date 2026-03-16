@@ -906,13 +906,13 @@ namespace Tesserae
                 item.style.display = "none";
             }
 
-            var regex = new Regex("(" + Regex.Escape(searchTerm) + ")", RegexOptions.IgnoreCase);
+            var regex = new Regex("(" + string.Join("|", searchTerm.Select(s => Regex.Escape(s))) + ")", RegexOptions.IgnoreCase);
 
             foreach (var (item, _) in itemsToReset)
             {
                 RecursiveUnhighlight(item);
 
-                if (searchTerm.Length > 0)
+                if (searchTerm.Length > 0 && searchTerm.Any(s => s.Length > 0))
                 {
                     RecursiveHighlight(item, regex);
                 }
