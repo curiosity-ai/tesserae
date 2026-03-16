@@ -1,0 +1,77 @@
+/* Graph container */
+.tss-graph {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+    background: #1a1918;
+    color: #e0e0e0;
+    font-family: 'Inter', sans-serif;
+}
+
+.tss-graph-svg-container {
+    flex-grow: 1;
+    width: 100%;
+    height: 100%;
+}
+
+.tss-graph-svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+/* Clusters / Environments */
+.tss-graph-cluster-boundary {
+    fill: none;
+    stroke: #333;
+    stroke-width: 1px;
+    stroke-dasharray: 4,4;
+    transition: stroke 0.3s;
+}
+
+.tss-graph-cluster-label {
+    fill: #888;
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 500;
+    pointer-events: none;
+    user-select: none;
+}
+
+/* Links */
+.tss-graph-link {
+    stroke: rgba(255,255,255,0.1);
+    stroke-width: 1px;
+}
+
+/* Nodes */
+.tss-graph-node {
+    cursor: pointer;
+    transition: r 0.2s, stroke 0.2s, stroke-width 0.2s;
+    stroke: rgba(0,0,0,0.5);
+    stroke-width: 0.5px;
+}
+
+.tss-graph-node:hover {
+    stroke: #fff;
+    stroke-width: 1.5px;
+}
+
+/* Labels */
+.tss-graph-label {
+    font-size: 10px;
+    fill: #ccc;
+    pointer-events: none;
+    user-select: none;
+    opacity: 0.8;
+}
+
+.tss-graph-node-group:hover .tss-graph-label {
+    opacity: 1;
+    fill: #fff;
+    font-weight: bold;
+}
