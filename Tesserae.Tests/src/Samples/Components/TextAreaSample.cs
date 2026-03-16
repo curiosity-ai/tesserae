@@ -13,8 +13,6 @@ namespace Tesserae.Tests.Samples
             var taShrink = TextArea("Type here...").AutoResize(allowShrink: true);
             var taNoShrink = TextArea("Type here...").AutoResize(allowShrink: false);
 
-            taShrink.InnerElement.id = "ta-shrink";
-            taNoShrink.InnerElement.id = "ta-no-shrink";
 
             return Stack().Children(
                 TextBlock("TextArea AutoResize Sample").SemiBold().MediumPlus(),
