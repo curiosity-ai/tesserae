@@ -1,24 +1,47 @@
 using System;
-using Tesserae;
 using static H5.Core.dom;
 using static Tesserae.UI;
+using static Tesserae.Tests.Samples.SamplesHelper;
 
 namespace Tesserae.Tests.Samples
 {
     [SampleDetails(Group = "Components", Order = 1, Icon = UIcons.TextSize)]
     public class TextAreaSample : IComponent, ISample
     {
-        public HTMLElement Render()
+        private readonly IComponent _content;
+
+        public TextAreaSample()
         {
-            var taShrink = TextArea("Type here...").AutoResize(allowShrink: true);
-            var taNoShrink = TextArea("Type here...").AutoResize(allowShrink: false);
-
-
-            return Stack().Children(
-                TextBlock("TextArea AutoResize Sample").SemiBold().MediumPlus(),
-                Label("AutoResize (allowShrink = true)").SetContent(taShrink),
-                Label("AutoResize (allowShrink = false)").SetContent(taNoShrink)
-            ).Render();
+            _content = SectionStack()
+               .Title(SampleHeader(nameof(TextAreaSample)))
+               .Section(Stack().Children(
+                    SampleTitle("Overview"),
+                    TextBlock("TextAreas allow users to enter and edit multi-line text. They are commonly used for comments, descriptions, or any input that requires multiple lines of text.")))
+               .Section(Stack().Children(
+                    SampleTitle("Best Practices"),
+                    TextBlock("Use a TextArea when the expected input might be long or span multiple lines. Always pair it with a clear label. Consider using the AutoResize functionality to provide a better user experience without taking up too much initial screen real estate.")))
+               .Section(Stack().Children(
+                    SampleTitle("Usage"),
+                    SampleSubTitle("Basic TextAreas"),
+                    VStack().Children(
+                        Label("Standard").SetContent(TextArea()),
+                        Label("Placeholder").SetContent(TextArea().SetPlaceholder("Enter your description...")),
+                        Label("Disabled").Disabled().SetContent(TextArea("Disabled content").Disabled()),
+                        Label("Read-only").SetContent(TextArea("Read-only content").ReadOnly())
+                    ),
+                    SampleSubTitle("Auto Resize"),
+                    VStack().Children(
+                        Label("AutoResize (allowShrink = true)").SetContent(TextArea("Type multiple lines here...").AutoResize(allowShrink: true)),
+                        Label("AutoResize (allowShrink = false)").SetContent(TextArea("Type multiple lines here...").AutoResize(allowShrink: false))
+                    ),
+                    SampleSubTitle("Validation"),
+                    VStack().Children(
+                        Label("Required").Required().SetContent(TextArea()),
+                        Label("Custom Error").SetContent(TextArea().Error("Something went wrong").IsInvalid())
+                    )
+                ));
         }
+
+        public HTMLElement Render() => _content.Render();
     }
 }
