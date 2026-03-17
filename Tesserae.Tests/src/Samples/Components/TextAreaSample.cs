@@ -32,7 +32,9 @@ namespace Tesserae.Tests.Samples
                     SampleSubTitle("Auto Resize"),
                     VStack().Children(
                         Label("AutoResize (allowShrink = true)").SetContent(TextArea("Type multiple lines here...").AutoResize(allowShrink: true)),
-                        Label("AutoResize (allowShrink = false)").SetContent(TextArea("Type multiple lines here...").AutoResize(allowShrink: false))
+                        Label("AutoResize (allowShrink = false)").SetContent(TextArea("Type multiple lines here...").AutoResize(allowShrink: false)),
+                        Label("AutoResize (minHeight = 100)").SetContent(TextArea("Type here...").AutoResize(minHeight: 100)),
+                        Label("AutoResize (maxHeight = 150)").SetContent(TextArea("Type many lines to see scrolling...").AutoResize(maxHeight: 150))
                     ),
                     SampleSubTitle("Validation"),
                     VStack().Children(
