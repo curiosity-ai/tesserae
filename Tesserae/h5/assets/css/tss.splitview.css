@@ -64,6 +64,7 @@
 .tss-splitview.tss-splitview-horizontal > .tss-splitter:hover:before {
     left: 0;
     width: 100%;
+    top: calc(50% - 1px);
     height: 2px;
     background: var(--tss-primary-background-color) !important;
 }
@@ -82,10 +83,48 @@
 .tss-splitview.tss-splitview-vertical > .tss-splitter:hover:before {
     top: 0;
     height: 100%;
+    left: calc(50% - 1px);
     width: 2px;
     background: var(--tss-primary-background-color) !important;
 }
 
+.tss-splitview.tss-splitview-horizontal > .tss-splitter:after {
+    content: ' ';
+    left: calc(50% - 20px);
+    top: calc(50% - 1px);
+    position: absolute;
+    width: 40px;
+    height: 3px;
+    background: var(--tss-default-border-color);
+    cursor: s-resize;
+    transition: all 0.15s ease-in-out;
+}
+
+.tss-splitview.tss-splitview-horizontal > .tss-splitter:hover:after {
+    left: calc(50% - 40px);
+    top: calc(50% - 1.5px);
+    width: 80px;
+    background: var(--tss-dark-border-color) !important;
+}
+
+.tss-splitview.tss-splitview-vertical > .tss-splitter:after {
+    content: ' ';
+    top: calc(50% - 20px);
+    left: calc(50% - 1px);
+    position: absolute;
+    height: 40px;
+    width: 3px;
+    background: var(--tss-default-border-color);
+    cursor: e-resize;
+    transition: all 0.15s ease-in-out;
+}
+
+.tss-splitview.tss-splitview-vertical > .tss-splitter:hover:after {
+    top: calc(50% - 40px);
+    left: calc(50% - 1.5px);
+    height: 80px;
+    background: var(--tss-dark-border-color) !important;
+}
 .tss-splitview-panel-style.tss-split-left > *:first-child {
     box-shadow: rgba(0, 0, 0, 0.22) 0px 25.6px 57.6px 0px, rgba(0, 0, 0, 0.18) 0px 4.8px 14.4px 0px;
     z-index: 2;
