@@ -12,13 +12,7 @@ namespace Tesserae
         /// </summary>
         public static HTMLElement TryToFindAncestor(this HTMLElement source, string tagNameToFind)
         {
-            while (source.parentElement != null)
-            {
-                if (source.parentElement.tagName.ToUpper() == tagNameToFind)
-                    return source.parentElement;
-                source = source.parentElement;
-            }
-            return null;
+            return source.parentElement?.closest(tagNameToFind) as HTMLElement;
         }
 
         /// <summary>
