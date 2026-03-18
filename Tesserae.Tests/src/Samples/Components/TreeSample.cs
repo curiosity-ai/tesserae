@@ -56,6 +56,17 @@ namespace Tesserae.Tests.Samples
                                 new Tree.Item("Async Child 2", UIcons.File.ToString())
                             };
                         })
+                    ),
+                    SampleSubTitle("Selectable Tree"),
+                    new Tree().SelectionEnabled().Items(
+                        new Tree.Item("Root 1", UIcons.Folder.ToString()).Expanded().Items(
+                            new Tree.Item("Child A", UIcons.File.ToString()),
+                            new Tree.Item("Child B", UIcons.File.ToString())
+                        ),
+                        new Tree.Item("Root 2", UIcons.Folder.ToString()).Expanded().Items(
+                            new Tree.Item("Child C", UIcons.File.ToString()).Selected(),
+                            new Tree.Item("Child D", UIcons.File.ToString())
+                        )
                     )
                ));
         }
