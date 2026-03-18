@@ -1,0 +1,65 @@
+using System;
+using System.Threading.Tasks;
+using static H5.Core.dom;
+using static Tesserae.UI;
+using static Tesserae.Tests.Samples.SamplesHelper;
+
+namespace Tesserae.Tests.Samples
+{
+    [SampleDetails(Group = "Components", Order = 100, Icon = UIcons.FolderTree)]
+    public class TreeSample : IComponent, ISample
+    {
+        private readonly IComponent _content;
+
+        public TreeSample()
+        {
+            _content = SectionStack()
+               .Title(SampleHeader(nameof(TreeSample)))
+               .Section(Stack().Children(
+                    SampleTitle("Overview"),
+                    TextBlock("A tree displays hierarchical data. Nodes can be expanded or collapsed to reveal nested data."),
+                    TextBlock("Supports synchronous and asynchronous loading of child nodes.")))
+               .Section(Stack().Children(
+                    SampleTitle("Usage"),
+                    SampleSubTitle("Basic Synchronous Tree"),
+                    new Tree().Items(
+                        new Tree.Item("samples/ConsoleApp...", UIcons.Folder.ToString()).Expanded().Items(
+                            new Tree.Item("ConsoleApp1.csproj", UIcons.File.ToString()).Selected(),
+                            new Tree.Item("Program.cs", UIcons.File.ToString())
+                        ),
+                        new Tree.Item("src", UIcons.Folder.ToString()).Expanded().Items(
+                            new Tree.Item("MarkdownRende...", UIcons.Folder.ToString()).Expanded().Items(
+                                new Tree.Item("MarkdownConve...", UIcons.File.ToString()),
+                                new Tree.Item("Slides", UIcons.Folder.ToString()).Expanded().Items(
+                                    new Tree.Item("Blocks", UIcons.Folder.ToString()).Expanded().Items(
+                                        new Tree.Item("HeadingRe...", UIcons.File.ToString()),
+                                        new Tree.Item("HeadingRe...", UIcons.File.ToString())
+                                    ),
+                                    new Tree.Item("SlideDocume...", UIcons.File.ToString())
+                                )
+                            ),
+                            new Tree.Item("MarkdownRende...", UIcons.Folder.ToString()).Expanded().Items(
+                                new Tree.Item("MarkdownRende...", UIcons.File.ToString()),
+                                new Tree.Item("Program.cs", UIcons.File.ToString())
+                            ),
+                            new Tree.Item("MarkdownRenderer...", UIcons.File.ToString())
+                        )
+                    ),
+                    SampleSubTitle("Asynchronous Tree"),
+                    new Tree().Items(
+                        new Tree.Item("Lazy Loaded Folder", UIcons.Folder.ToString()).ItemsAsync(async () =>
+                        {
+                            await Task.Delay(1000);
+                            return new[]
+                            {
+                                new Tree.Item("Async Child 1", UIcons.File.ToString()),
+                                new Tree.Item("Async Child 2", UIcons.File.ToString())
+                            };
+                        })
+                    )
+               ));
+        }
+
+        public HTMLElement Render() => _content.Render();
+    }
+}
