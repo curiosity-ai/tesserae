@@ -26,23 +26,23 @@
 .tss-splitview:not(.tss-splitview-horizontal) > .tss-splitter {
     background: transparent;
     width: 8px;
-    cursor: e-resize;
+    cursor: col-resize;
     user-select: none;
 }
 
 .tss-splitview.tss-splitview-horizontal > .tss-splitter {
     background: transparent;
     height: 8px;
-    cursor: n-resize;
+    cursor: row-resize;
     user-select: none;
 }
 
 .tss-splitter:hover {
-    background: rgba(var(--tss-default-foreground-color-root),0.3);
+    background: transparent;
 }
 
     .tss-splitter:active {
-        background: rgba(var(--tss-default-foreground-color-root),0.9);
+        background: transparent;
     }
 
 .tss-splitview > .tss-splitter {
@@ -52,38 +52,38 @@
 
 .tss-splitview.tss-splitview-horizontal > .tss-splitter:before {
     content: ' ';
-    left: calc(50% - 20px);
+    left: 0;
     top: 50%;
     position: absolute;
-    width: 40px;
+    width: 100%;
     height: 1px;
     background: var(--tss-default-border-color);
-    cursor: s-resize;
+    cursor: row-resize;
 }
 
 .tss-splitview.tss-splitview-horizontal > .tss-splitter:hover:before {
-    left: calc(50% - 40px);
-    width: 80px;
+    left: 0;
+    width: 100%;
     height: 2px;
-    background: var(--tss-dark-border-color) !important;
+    background: var(--tss-primary-background-color) !important;
 }
 
 .tss-splitview.tss-splitview-vertical > .tss-splitter:before {
     content: ' ';
-    top: calc(50% - 20px);
+    top: 0;
     left: 50%;
     position: absolute;
-    height: 40px;
+    height: 100%;
     width: 1px;
     background: var(--tss-default-border-color);
-    cursor: e-resize;
+    cursor: col-resize;
 }
 
 .tss-splitview.tss-splitview-vertical > .tss-splitter:hover:before {
-    top: calc(50% - 40px);
-    height: 80px;
+    top: 0;
+    height: 100%;
     width: 2px;
-    background: var(--tss-dark-border-color) !important;
+    background: var(--tss-primary-background-color) !important;
 }
 
 .tss-splitview-panel-style.tss-split-left > *:first-child {
