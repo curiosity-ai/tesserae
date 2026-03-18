@@ -55,9 +55,49 @@
     color: var(--tss-primary-background-color);
 }
 
+.tss-tree-checkbox {
+    margin-right: 8px;
+    font-size: 16px;
+    display: none;
+    color: var(--tss-default-foreground-color);
+}
+
+.tss-tree-checkbox:hover {
+    color: var(--tss-primary-background-color);
+}
+
+.tss-tree-selection-enabled.tss-tree-shift-pressed .tss-tree-icon {
+    display: none;
+}
+
+.tss-tree-selection-enabled.tss-tree-shift-pressed .tss-tree-checkbox {
+    display: inline-block;
+}
+
+.tss-tree-selection-enabled .tss-tree-item-content.tss-selected .tss-tree-icon {
+    display: none;
+}
+
+.tss-tree-selection-enabled .tss-tree-item-content.tss-selected .tss-tree-checkbox {
+    display: inline-block;
+}
+
 .tss-tree-icon {
     margin-right: 8px;
     font-size: 16px;
+}
+
+.tss-tree-icon.fi-rr-spinner {
+    animation: tss-tree-spin 1s linear infinite;
+}
+
+@keyframes tss-tree-spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .tss-tree-text {

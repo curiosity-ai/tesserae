@@ -11,18 +11,78 @@ namespace Tesserae
     public sealed class Tree : ComponentBase<Tree, HTMLUListElement>, IContainer<Tree.Item, Tree.Item>
     {
         private readonly List<Item> _children = new List<Item>();
+        private bool _selectionEnabled = false;
 
         public Tree()
         {
             InnerElement = Ul(_("tss-tree"));
+
+            DomObserver.WhenMounted(InnerElement, () =>
+            {
+                var onKeyDown = new Action<Event>(e =>
+                {
+                    var kbEvent = e.As<KeyboardEvent>();
+                    if (kbEvent.shiftKey)
+                    {
+                        InnerElement.classList.add("tss-tree-shift-pressed");
+                    }
+                });
+
+                var onKeyUp = new Action<Event>(e =>
+                {
+                    var kbEvent = e.As<KeyboardEvent>();
+                    if (!kbEvent.shiftKey)
+                    {
+                        InnerElement.classList.remove("tss-tree-shift-pressed");
+                    }
+                });
+
+                document.body.addEventListener("keydown", onKeyDown);
+                document.body.addEventListener("keyup", onKeyUp);
+
+                DomObserver.WhenRemoved(InnerElement, () =>
+                {
+                    document.body.removeEventListener("keydown", onKeyDown);
+                    document.body.removeEventListener("keyup", onKeyUp);
+                });
+            });
         }
 
         public override HTMLElement Render() => InnerElement;
 
         public Item SelectedItem { get; private set; }
 
+        public event ComponentEventHandler<Tree, Item> SelectedItemChanged;
+
+        public Tree OnSelected(ComponentEventHandler<Tree, Item> onSelected)
+        {
+            SelectedItemChanged += onSelected;
+            return this;
+        }
+
+        public Tree SelectionEnabled(bool enabled = true)
+        {
+            _selectionEnabled = enabled;
+            if (enabled)
+            {
+                InnerElement.classList.add("tss-tree-selection-enabled");
+            }
+            else
+            {
+                InnerElement.classList.remove("tss-tree-selection-enabled");
+            }
+
+            foreach (var item in _children)
+            {
+                item.SelectionEnabled = enabled;
+            }
+
+            return this;
+        }
+
         public void Add(Item component)
         {
+            component.SelectionEnabled = _selectionEnabled;
             _children.Add(component);
             InnerElement.appendChild(component.Render());
             component.InternalSelectedItem += OnItemSelected;
@@ -51,6 +111,7 @@ namespace Tesserae
             var index = _children.IndexOf(oldComponent);
             if (index >= 0)
             {
+                newComponent.SelectionEnabled = _selectionEnabled;
                 _children[index] = newComponent;
                 InnerElement.replaceChild(newComponent.Render(), oldComponent.Render());
                 newComponent.InternalSelectedItem += OnItemSelected;
@@ -71,6 +132,7 @@ namespace Tesserae
             }
 
             SelectedItem = sender;
+            SelectedItemChanged?.Invoke(this, sender);
         }
 
         public Tree Items(params Item[] children)
@@ -90,22 +152,38 @@ namespace Tesserae
             private readonly HTMLDivElement    _headerDiv;
             private readonly HTMLElement       _chevronSpan;
             private          HTMLElement       _iconSpan;
+            private readonly HTMLElement       _checkboxSpan;
             private readonly HTMLSpanElement   _textSpan;
             private readonly HTMLUListElement  _childContainer;
 
             private readonly List<Item> _childItems = new List<Item>();
             private bool _isExpanded;
             private bool _isSelected;
+            private bool _selectionEnabled;
 
             internal Item SelectedChild { get; private set; }
+
+            internal bool SelectionEnabled
+            {
+                get => _selectionEnabled;
+                set
+                {
+                    _selectionEnabled = value;
+                    foreach (var child in _childItems)
+                    {
+                        child.SelectionEnabled = value;
+                    }
+                }
+            }
 
             public Item(string text = null, string icon = null)
             {
                 _chevronSpan    = I(_("tss-tree-chevron " + UIcons.AngleRight.ToString()));
                 _textSpan       = Span(_("tss-tree-text", text: text));
                 _childContainer = Ul(_("tss-tree-children"));
+                _checkboxSpan   = I(_("tss-tree-checkbox " + UIcons.Square.ToString()));
 
-                _headerDiv = Div(_("tss-tree-item-content"), _chevronSpan);
+                _headerDiv = Div(_("tss-tree-item-content"), _chevronSpan, _checkboxSpan);
 
                 if (!string.IsNullOrEmpty(icon))
                 {
@@ -119,6 +197,7 @@ namespace Tesserae
 
                 _headerDiv.onclick = ClickHandler;
                 _chevronSpan.onclick = ChevronClickHandler;
+                _checkboxSpan.onclick = CheckboxClickHandler;
 
                 UpdateChevronVisibility();
             }
@@ -194,12 +273,14 @@ namespace Tesserae
                         if (_isSelected)
                         {
                             _headerDiv.classList.add("tss-selected");
+                            _checkboxSpan.classList.replace(UIcons.Square.ToString(), UIcons.Checkbox.ToString());
                             InternalSelectedItem?.Invoke(this);
                             SelectedItem?.Invoke(this);
                         }
                         else
                         {
                             _headerDiv.classList.remove("tss-selected");
+                            _checkboxSpan.classList.replace(UIcons.Checkbox.ToString(), UIcons.Square.ToString());
                         }
                     }
                 }
@@ -360,12 +441,28 @@ namespace Tesserae
             private void ClickHandler(MouseEvent e)
             {
                 StopEvent(e);
-                IsSelected = true;
+
+                if (SelectionEnabled && e.shiftKey)
+                {
+                    IsSelected = !IsSelected;
+                }
 
                 // Clicking the item content toggles expansion if it has children
                 if (HasChildren || _chevronSpan.classList.contains("tss-has-children"))
                 {
                     IsExpanded = !IsExpanded;
+                }
+
+                RaiseOnClick(e);
+            }
+
+            private void CheckboxClickHandler(MouseEvent e)
+            {
+                StopEvent(e);
+
+                if (SelectionEnabled)
+                {
+                    IsSelected = !IsSelected;
                 }
             }
 
