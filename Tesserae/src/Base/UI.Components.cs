@@ -684,6 +684,12 @@ namespace Tesserae
         /// </summary>
         public static TaskBoardCard TaskBoardCard(IComponent content) => new TaskBoardCard(content);
 
+        /// <summary>
+        /// Creates a <see cref="Tesserae.SidebarLink"/> component.
+        /// </summary>
+        public static SidebarLink SidebarLink(string identifier, UIcons icon, string text, string url, params SidebarCommand[] commands)
+            => new SidebarLink(identifier, icon, text, url, commands);
+
         //public static Sidebar.Item SidebarItem(string text, string icon, string href = null) => new Sidebar.Item(text, icon, href);
 
         //public static Sidebar.Item SidebarItem(string     text, IComponent icon, string href = null) => new Sidebar.Item(text, icon, href);
