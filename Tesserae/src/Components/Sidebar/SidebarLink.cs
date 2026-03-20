@@ -151,6 +151,7 @@ namespace Tesserae
         private static Link CreateStyledSidebarLink(string url, IComponent content, string identifier)
         {
             return Link(url, content, noUnderline: true)
+               .Class("tss-sidebar-link")
                .Class("tss-sidebar-btn")
                .Class("tss-btn")
                .Class("tss-btn-default")
