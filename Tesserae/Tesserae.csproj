@@ -1,4 +1,4 @@
-<Project Sdk="h5.Target/25.11.62725">
+<Project Sdk="h5.target/26.3.64912">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <DefineConstants>H5</DefineConstants>
