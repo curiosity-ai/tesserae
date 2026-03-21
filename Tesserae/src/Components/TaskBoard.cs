@@ -169,18 +169,66 @@ namespace Tesserae
     public class TaskBoardCard : IComponent
     {
         private readonly HTMLElement _container;
+        private readonly Stack _layout;
+        private HTMLElement _header;
+        private HTMLElement _footer;
 
         public TaskBoardCard(IComponent content)
         {
+            _layout = Stack().Vertical().Gap(8.px());
+            _layout.Add(content);
+
             _container = Div(_("tss-taskboard-card", styles: s =>
             {
                 s.background = "var(--tss-default-background-color)";
-                s.borderRadius = "4px";
+                s.borderRadius = "6px";
                 s.boxShadow = "0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)";
-                s.padding = "8px";
+                s.padding = "12px";
                 s.margin = "4px";
                 s.cursor = "grab";
-            }), content.Render());
+                s.display = "flex";
+                s.flexDirection = "column";
+            }), _layout.Render());
+        }
+
+        public TaskBoardCard Header(IComponent headerContent)
+        {
+            if (_header != null)
+            {
+                _container.removeChild(_header);
+            }
+
+            _header = Div(_("tss-taskboard-card-header", styles: s =>
+            {
+                s.marginBottom = "8px";
+                s.display = "flex";
+                s.alignItems = "center";
+                s.justifyContent = "space-between";
+            }), headerContent.Render());
+
+            _container.insertBefore(_header, _layout.Render());
+            return this;
+        }
+
+        public TaskBoardCard Footer(IComponent footerContent)
+        {
+            if (_footer != null)
+            {
+                _container.removeChild(_footer);
+            }
+
+            _footer = Div(_("tss-taskboard-card-footer", styles: s =>
+            {
+                s.marginTop = "12px";
+                s.paddingTop = "8px";
+                s.borderTop = "1px solid var(--tss-default-border-color)";
+                s.display = "flex";
+                s.alignItems = "center";
+                s.justifyContent = "space-between";
+            }), footerContent.Render());
+
+            _container.appendChild(_footer);
+            return this;
         }
 
         public HTMLElement Render() => _container;
