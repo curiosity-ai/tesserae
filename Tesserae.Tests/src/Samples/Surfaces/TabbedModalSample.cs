@@ -16,7 +16,7 @@ namespace Tesserae.Tests.Samples
 
         public TabbedModalSample()
         {
-            _pivot = Pivot().Justified();
+            _pivot = Pivot();
 
             content = SectionStack()
                .Title(SampleHeader(nameof(TabbedModalSample)))
