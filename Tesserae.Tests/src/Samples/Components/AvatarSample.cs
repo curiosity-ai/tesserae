@@ -31,7 +31,7 @@ namespace Tesserae.Tests.Samples
                         Avatar(initials: "JD", image: "https://cataas.com/cat").Size(AvatarSize.Large).Presence(AvatarPresence.Busy),
                         Avatar(initials: "JD", image: "https://cataas.com/cat").Size(AvatarSize.XLarge).Presence(AvatarPresence.Offline)),
                     SampleSubTitle("Initials Fallback"),
-                    TextBlock("When no image is provided, initials are displayed with a generated background color."),
+                    TextBlock("When no image is provided, initials are displayed with a generated background color. The background color is a deterministic hash-based gradient generated from the initials."),
                     HStack().Children(
                         Avatar(initials: "JD").Size(AvatarSize.Small).Presence(AvatarPresence.Online),
                         Avatar(initials: "AS").Size(AvatarSize.Medium).Presence(AvatarPresence.Away),
