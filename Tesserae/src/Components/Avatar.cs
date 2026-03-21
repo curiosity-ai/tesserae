@@ -87,6 +87,7 @@ namespace Tesserae
         public Avatar SetInitials(string initials)
         {
             _initials.innerText = initials ?? string.Empty;
+            InnerElement.style.background = ""; // clear so we recalculate gradient
             UpdateImageState();
             return this;
         }
@@ -168,12 +169,46 @@ namespace Tesserae
             return this;
         }
 
+        private static string GetGradientForInitials(string initials)
+        {
+            if (string.IsNullOrWhiteSpace(initials))
+                return "";
+
+            int hash = 0;
+            for (int i = 0; i < initials.Length; i++)
+            {
+                hash = initials[i] + ((hash << 5) - hash);
+            }
+
+            var h1 = System.Math.Abs(hash) % 360;
+            var h2 = (h1 + 40) % 360;
+
+            return $"linear-gradient(135deg, hsl({h1}, 60%, 50%), hsl({h2}, 80%, 40%))";
+        }
+
         private void UpdateImageState()
         {
             var hasImage = !string.IsNullOrWhiteSpace(_image.src) && _image.src != EmptyImage;
             InnerElement.UpdateClassIf(hasImage, "tss-avatar-has-image");
             _image.style.display    = hasImage ? "block" : "none";
             _initials.style.display = hasImage ? "none" : "flex";
+
+            if (!hasImage && !string.IsNullOrWhiteSpace(Initials))
+            {
+                if (string.IsNullOrEmpty(InnerElement.style.background) && string.IsNullOrEmpty(InnerElement.style.backgroundColor))
+                {
+                    InnerElement.style.background = GetGradientForInitials(Initials);
+                    _initials.style.color = "white";
+                }
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(InnerElement.style.background) && InnerElement.style.background.Contains("linear-gradient"))
+                {
+                    InnerElement.style.background = "";
+                    _initials.style.color = "";
+                }
+            }
         }
 
         public override HTMLElement Render()
