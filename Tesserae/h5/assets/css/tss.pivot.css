@@ -109,6 +109,20 @@
     display: none;
 }
 
+.tss-pivot-tab-closeable {
+    padding-right: 8px !important;
+}
+
+.tss-pivot-tab-close {
+    margin-left: 8px;
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+.tss-pivot-tab-close:hover {
+    color: var(--tss-danger-background-color, red);
+}
+
 
 .tss-pivot .tss-pivot-cached-hidden{
     display:none !important;
