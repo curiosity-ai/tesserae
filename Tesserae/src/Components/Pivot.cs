@@ -79,6 +79,17 @@ namespace Tesserae
             if (_initiallySelectedID is null) _initiallySelectedID = tab.Id;
             _orderedTabs.Add(tab);
             var title = tab.RenderTitle();
+            if (tab.Closeable)
+            {
+                var closeIcon = I(_("tss-pivot-tab-close tss-fontsize-small " + UIcons.Cross.ToString(), ariaLabel: "Close tab"));
+                closeIcon.onclick = (e) =>
+                {
+                    StopEvent(e);
+                    RemoveTab(tab.Id);
+                };
+                title.appendChild(closeIcon);
+                title.classList.add("tss-pivot-tab-closeable");
+            }
             title.setAttribute("role", "tab");
             title.setAttribute("aria-selected", "false");
             _renderedTitles.Add(tab, title);
@@ -184,6 +195,8 @@ namespace Tesserae
                 {
                     _initiallySelectedID = null;
                 }
+
+                tab.OnClosed?.Invoke();
             }
         }
 
@@ -404,15 +417,19 @@ namespace Tesserae
 
         internal sealed class Tab
         {
-            public Tab(string id, Func<IComponent> titleCreator, Func<IComponent> contentCreator, bool cached = false)
+            public Tab(string id, Func<IComponent> titleCreator, Func<IComponent> contentCreator, bool cached = false, bool closeable = false, Action onClosed = null)
             {
                 Id               = id;
                 _canCacheContent = cached;
                 _contentCreator  = contentCreator;
                 _titleCreator    = titleCreator;
+                Closeable        = closeable;
+                OnClosed         = onClosed;
             }
 
             internal bool KeepCached => _canCacheContent;
+            internal bool Closeable { get; }
+            internal Action OnClosed { get; }
 
             private          Func<IComponent> _titleCreator;
             private          Func<IComponent> _contentCreator;
