@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using static H5.Core.dom;
+using Tesserae;
 using static Tesserae.UI;
 using static Tesserae.Tests.Samples.SamplesHelper;
 
@@ -34,7 +35,13 @@ namespace Tesserae.Tests.Samples
                         Button("Animated Tooltip").W(200).Tooltip("This is a simple text tooltip with animations", TooltipAnimation.ShiftAway),
                         Button("Interactive Tooltip").W(200).Tooltip(Button("Click me").OnClick(() => Toast().Success("You clicked!")), interactive: true),
                         Button("Defers on Tooltips").W(200).Tooltip(deferedWithChangingSize),
-                        Button("Nested Tooltips").W(200).Tooltip(Button("Click me").OnClick((b1, _) => Tippy.ShowFor(b1, Button("Click me").OnClick(() => Toast().Success("You clicked!")), out var _)), interactive: true)
+                        Button("Nested Tooltips").W(200).Tooltip(Button("Click me").OnClick((b1, _) => Tippy.ShowFor(b1, Button("Click me").OnClick(() => Toast().Success("You clicked!")), out var _)), interactive: true),
+                        Button("Tooltip with Header/Footer").W(200).Tooltip(new TippyConfig
+                        {
+                            Header = TextBlock("Header").SemiBold(),
+                            Content = TextBlock("This is the main content"),
+                            Footer = TextBlock("Footer").Small()
+                        })
                     )));
 
             content.WhenMounted(() =>
