@@ -13,28 +13,98 @@ namespace Tesserae
         private readonly string _scope;
         private readonly bool _centerContent;
 
+        private IComponent _icon;
+        private IComponent _title;
+        private IComponent _content;
+
         public Dialog(IComponent content = null, IComponent title = null, bool centerContent = true)
         {
             _modal = Modal().HideCloseButton().NoLightDismiss().Blocking();
-
-            if (centerContent)
-            {
-                _modal.CenterContent();
-
-                if (title is TextBlock tb)
-                    tb.TextCenter();
-            }
+            _modal.StylingContainer.classList.add("tss-dialog");
 
             _centerContent = centerContent;
-
-            _modal.SetHeader(title);
-            _modal.Content = content;
-            _modal.StylingContainer.classList.add("tss-dialog");
+            _title = title;
+            _content = content;
 
             _scope = $"dialog-{RNG.Next()}";
 
             _modal.OnShow(_ => Hotkeys.SetScope(_scope));
             _modal.OnHide(_ => Hotkeys.DeleteScope(_scope));
+
+            UpdateLayout();
+        }
+
+        private void UpdateLayout()
+        {
+            if (_title is TextBlock tb)
+            {
+                tb.Class("tss-dialog-title");
+                if (_centerContent)
+                    tb.TextCenter();
+            }
+
+            if (_centerContent)
+            {
+                _modal.CenterContent();
+                _modal.StylingContainer.classList.remove("tss-dialog-left-icon");
+
+                var headerStack = Stack().Vertical().AlignItems(ItemAlign.Center).Width(100.percent());
+                if (_icon != null)
+                {
+                    headerStack.Add(_icon);
+                }
+                if (_title != null)
+                {
+                    headerStack.Add(_title);
+                }
+
+                _modal.SetHeader(headerStack);
+            }
+            else
+            {
+                _modal.StylingContainer.classList.remove("tss-modal-centered-content");
+                if (_icon != null)
+                {
+                    _modal.StylingContainer.classList.add("tss-dialog-left-icon");
+                }
+                else
+                {
+                    _modal.StylingContainer.classList.remove("tss-dialog-left-icon");
+                }
+
+                var headerStack = Stack().Horizontal().AlignItems(ItemAlign.Start).Width(100.percent());
+                if (_icon != null)
+                {
+                    headerStack.Add(_icon);
+                }
+                if (_title != null)
+                {
+                    headerStack.Add(_title);
+                }
+
+                _modal.SetHeader(headerStack);
+            }
+
+            _modal.Content = _content;
+        }
+
+        public Dialog SetIcon(UIcons icon, string color = "", string background = "")
+        {
+            var iconComponent = Icon(icon).Foreground(color).Padding(10.px());
+            var iconContainer = Div(_("tss-dialog-icon"), iconComponent.Render());
+            if (!string.IsNullOrWhiteSpace(background))
+            {
+                iconContainer.style.background = background;
+            }
+
+            if (_centerContent)
+            {
+                iconContainer.classList.add("tss-dialog-icon-center");
+            }
+
+            _icon = Raw(iconContainer);
+            UpdateLayout();
+            return this;
         }
 
         public bool IsDraggable
@@ -51,13 +121,15 @@ namespace Tesserae
 
         public Dialog Title(IComponent title)
         {
-            _modal.SetHeader(title);
+            _title = title;
+            UpdateLayout();
             return this;
         }
 
         public Dialog Content(IComponent content)
         {
-            _modal.Content(content);
+            _content = content;
+            UpdateLayout();
             return this;
         }
 
@@ -88,7 +160,7 @@ namespace Tesserae
 
         private static Stack GetButtonsStack()
         {
-            return Stack().NoDefaultMargin().HorizontalReverse().JustifyContent(ItemJustify.Evenly).WS();
+            return Stack().NoDefaultMargin().HorizontalReverse().JustifyContent(ItemJustify.Start).Gap(8.px()).WS();
         }
 
         public void Ok(Action onOk, Func<Button, Button> btnOk = null)

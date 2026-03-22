@@ -37,6 +37,8 @@ namespace Tesserae.Tests.Samples
                     Button("Open YesNoCancel with dark overlay").OnClick((c, ev) => Dialog("Sample Dialog").Dark().YesNoCancel(() => response.Text("Clicked Yes"), () => response.Text("Clicked No"), () => response.Text("Clicked Cancel"))),
                     Button("Open Ok with dark overlay").OnClick((c,          ev) => Dialog("Sample Dialog").Dark().Ok(() => response.Text("Clicked Ok"))),
                     Button("Open RetryCancel with dark overlay").OnClick((c, ev) => Dialog("Sample Dialog").Dark().RetryCancel(() => response.Text("Clicked Retry"), () => response.Text("Clicked Cancel"))),
+                    Button("Open Centered with Icon").OnClick((c, ev) => Dialog("Payment successful").SetIcon(UIcons.Check, Theme.Success.Foreground, Theme.Success.BackgroundHover).Content(TextBlock("Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur amet labore.")).Ok(() => response.Text("Clicked Ok"))),
+                    Button("Open Left-aligned with Icon").OnClick((c, ev) => Dialog("Deactivate account", centerContent: false).SetIcon(UIcons.Exclamation, Theme.Danger.Foreground, Theme.Danger.BackgroundHover).Content(TextBlock("Are you sure you want to deactivate your account? All of your data will be permanently removed. This action cannot be undone.")).YesNo(() => response.Text("Clicked Deactivate"), () => response.Text("Clicked Cancel"), y => y.Danger().SetText("Deactivate"), n => n.SetText("Cancel"))),
                     response));
 
             dialog.Content(Stack().Children(TextBlock("Lorem ipsum dolor sit amet, consectetur adipiscing elit."),

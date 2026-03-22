@@ -5,20 +5,55 @@
     text-align: left;
     max-height: calc(100% - 32px);
     min-height: 176px;
-    min-width: 288px;
+    min-width: 480px;
     overflow-y: auto;
     display: flex;
-    border-radius: 6px;
+    border-radius: 8px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
     .tss-dialog .tss-modal-header {
-        padding: 12px 12px 0px 12px;
+        padding: 24px 24px 16px 24px;
+        align-items: flex-start;
     }
 
     .tss-dialog .tss-modal-content {
-        padding: 0px 12px 0px 12px;
+        padding: 0px 24px 24px 24px;
+        color: var(--tss-secondary-foreground-color);
+        font-size: 14px;
+        line-height: 20px;
     }
 
     .tss-dialog .tss-modal-footer {
-        padding: 0px 12px 6px 12px;
+        padding: 16px 24px 16px 24px;
+        background-color: var(--tss-default-background-hover-color);
+        justify-content: flex-end;
+    }
+
+    .tss-dialog .tss-dialog-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        width: 40px;
+        height: 40px;
+        border-radius: 9999px;
+        margin-right: 16px;
+    }
+
+    .tss-dialog .tss-dialog-icon-center {
+        margin: 0 auto 16px auto;
+        width: 48px;
+        height: 48px;
+    }
+
+    .tss-dialog .tss-dialog-title {
+        font-size: 18px;
+        font-weight: 500;
+        line-height: 24px;
+        color: var(--tss-default-foreground-color);
+    }
+
+    .tss-dialog.tss-dialog-left-icon .tss-modal-content {
+        padding-left: 80px;
     }
