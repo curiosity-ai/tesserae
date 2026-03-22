@@ -1,4 +1,5 @@
-﻿/* Modal */
+
+/* Modal */
 
 .tss-dialog {
     position: relative;
@@ -8,17 +9,75 @@
     min-width: 288px;
     overflow-y: auto;
     display: flex;
-    border-radius: 6px;
+    border-radius: 8px; /* Slightly larger border radius like Tailwind */
 }
 
     .tss-dialog .tss-modal-header {
-        padding: 12px 12px 0px 12px;
+        padding: 24px 24px 0px 24px; /* Larger padding like Tailwind */
     }
 
     .tss-dialog .tss-modal-content {
-        padding: 0px 12px 0px 12px;
+        padding: 16px 24px 0px 24px;
     }
 
     .tss-dialog .tss-modal-footer {
-        padding: 0px 12px 6px 12px;
+        padding: 24px 24px 24px 24px;
+        gap: 12px; /* Add some gap if flex is used */
     }
+
+/* Icon styles */
+.tss-dialog-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    font-size: 24px;
+}
+
+.tss-dialog-icon-left {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    margin-right: 16px;
+}
+
+.tss-dialog-icon-centered {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 16px;
+    flex-shrink: 0;
+}
+
+/* Base icon colors mapping based on Theme.Colors enum. Lighter background and darker icon to look more like Tailwind */
+.tss-dialog-icon-default {
+    background-color: var(--tss-default-background-hover-color);
+    color: var(--tss-secondary-foreground-color);
+}
+.tss-dialog-icon-primary {
+    background-color: color-mix(in srgb, var(--tss-primary-background-color) 20%, transparent);
+    color: var(--tss-primary-background-color);
+}
+.tss-dialog-icon-success {
+    background-color: color-mix(in srgb, var(--tss-success-background-color) 20%, transparent);
+    color: var(--tss-success-background-color);
+}
+.tss-dialog-icon-danger {
+    background-color: color-mix(in srgb, var(--tss-danger-background-color) 20%, transparent);
+    color: var(--tss-danger-background-color);
+}
+.tss-dialog-icon-warning {
+    background-color: color-mix(in srgb, var(--tss-warning-background-color) 20%, transparent);
+    color: var(--tss-warning-background-color);
+}
+.tss-dialog-icon-info {
+    background-color: color-mix(in srgb, var(--tss-info-background-color) 20%, transparent);
+    color: var(--tss-info-background-color);
+}
+.tss-dialog-icon-light {
+    background-color: var(--tss-light-background-color);
+    color: var(--tss-dark-foreground-color);
+}
+.tss-dialog-icon-dark {
+    background-color: var(--tss-dark-background-color);
+    color: white;
+}

@@ -631,16 +631,16 @@ namespace Tesserae
         /// <summary>
         /// Creates a <see cref="Tesserae.Dialog"/> component.
         /// </summary>
-        public static Dialog Dialog(IComponent content = null, IComponent title = null, bool centerContent = true) => new Dialog(content, title, centerContent);
+        public static Dialog Dialog(IComponent content = null, IComponent title = null, bool centerContent = true, UIcons? icon = null, string iconColor = null) => new Dialog(content, title, centerContent, icon, iconColor);
 
         /// <summary>
         /// Creates a <see cref="Tesserae.Dialog"/> component.
         /// </summary>
-        public static Dialog Dialog(string text, bool centerContent = true) => new Dialog(content: string.IsNullOrWhiteSpace(text) ? null : TextBlock(text).MaxWidth(50.vw()), centerContent: centerContent);
+        public static Dialog Dialog(string text, bool centerContent = true, UIcons? icon = null, string iconColor = null) => new Dialog(content: string.IsNullOrWhiteSpace(text) ? null : TextBlock(text).MaxWidth(50.vw()), centerContent: centerContent, icon: icon, iconColor: iconColor);
         /// <summary>
         /// Creates a <see cref="Tesserae.Dialog"/> component.
         /// </summary>
-        public static Dialog Dialog(string title, string content, bool centerContent = true) => new Dialog(title: string.IsNullOrWhiteSpace(title) ? null : TextBlock(title).MaxWidth(50.vw()), content: string.IsNullOrWhiteSpace(content) ? null : TextBlock(content).MaxWidth(50.vw()), centerContent: centerContent);
+        public static Dialog Dialog(string title, string content, bool centerContent = true, UIcons? icon = null, string iconColor = null) => new Dialog(title: string.IsNullOrWhiteSpace(title) ? null : TextBlock(title).MaxWidth(50.vw()), content: string.IsNullOrWhiteSpace(content) ? null : TextBlock(content).MaxWidth(50.vw()), centerContent: centerContent, icon: icon, iconColor: iconColor);
 
         /// <summary>
         /// Creates a <see cref="Tesserae.Pivot"/> component.
