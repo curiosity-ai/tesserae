@@ -667,6 +667,21 @@ namespace Tesserae
         /// </summary>
         public static Sidebar Sidebar(bool sortable = false) => new Sidebar(sortable);
 
+        /// <summary>
+        /// Creates a <see cref="Tesserae.TaskBoard"/> component.
+        /// </summary>
+        public static TaskBoard TaskBoard() => new TaskBoard();
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.TaskBoardColumn"/> component.
+        /// </summary>
+        public static TaskBoardColumn TaskBoardColumn(string title, string sortableGroup = "taskboard") => new TaskBoardColumn(title, sortableGroup);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.TaskBoardCard"/> component.
+        /// </summary>
+        public static TaskBoardCard TaskBoardCard(IComponent content) => new TaskBoardCard(content);
+
         //public static Sidebar.Item SidebarItem(string text, string icon, string href = null) => new Sidebar.Item(text, icon, href);
 
         //public static Sidebar.Item SidebarItem(string     text, IComponent icon, string href = null) => new Sidebar.Item(text, icon, href);
