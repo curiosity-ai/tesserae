@@ -1,0 +1,121 @@
+/* Tree component */
+.tss-tree {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.tss-tree-item {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.tss-tree-item-content {
+    display: flex;
+    align-items: center;
+    padding: 4px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    color: var(--tss-default-foreground-color);
+}
+
+.tss-tree-item-content:hover {
+    background-color: var(--tss-default-background-hover-color);
+}
+
+.tss-tree-item-content.tss-selected {
+    background-color: var(--tss-default-background-active-color);
+    color: var(--tss-primary-background-color);
+}
+
+.tss-tree-chevron {
+    width: 16px;
+    height: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 4px;
+    color: var(--tss-default-foreground-color);
+    visibility: hidden;
+}
+
+.tss-tree-chevron.tss-has-children {
+    visibility: visible;
+}
+
+.tss-tree-chevron:hover {
+    color: var(--tss-primary-background-color);
+}
+
+.tss-tree-checkbox {
+    margin-right: 8px;
+    font-size: 16px;
+    display: none;
+    color: var(--tss-default-foreground-color);
+}
+
+.tss-tree-checkbox:hover {
+    color: var(--tss-primary-background-color);
+}
+
+.tss-tree-selection-enabled.tss-tree-shift-pressed .tss-tree-icon {
+    display: none;
+}
+
+.tss-tree-selection-enabled.tss-tree-shift-pressed .tss-tree-checkbox {
+    display: inline-block;
+}
+
+.tss-tree-selection-enabled .tss-tree-item-content.tss-selected .tss-tree-icon {
+    display: none;
+}
+
+.tss-tree-selection-enabled .tss-tree-item-content.tss-selected .tss-tree-checkbox {
+    display: inline-block;
+}
+
+.tss-tree-icon {
+    margin-right: 8px;
+    font-size: 16px;
+}
+
+.tss-tree-icon.fi-rr-spinner {
+    animation: tss-tree-spin 1s linear infinite;
+}
+
+@keyframes tss-tree-spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.tss-tree-text {
+    flex-grow: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tss-tree-children {
+    list-style: none;
+    margin: 0 0 0 16px;
+    padding: 0;
+    display: none;
+    flex-direction: column;
+    border-left: 1px solid var(--tss-default-border-color);
+}
+
+.tss-tree-item.tss-expanded > .tss-tree-children {
+    display: flex;
+}

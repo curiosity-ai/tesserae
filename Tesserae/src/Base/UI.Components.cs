@@ -147,6 +147,8 @@ namespace Tesserae
         /// </summary>
         public static Card Card(IComponent content) => new Card(content);
 
+        public static Plan Plan(string title) => new Plan(title);
+
         /// <summary>
         /// Creates a <see cref="Tesserae.Accordion"/> component.
         /// </summary>
@@ -399,6 +401,16 @@ namespace Tesserae
         /// Creates a <see cref="Tesserae.Toggle"/> component.
         /// </summary>
         public static Toggle Toggle() => new Toggle(null, null);
+
+        /// <summary>
+        /// Creates an <see cref="Tesserae.UptimeBars"/> component
+        /// </summary>
+        public static UptimeBars UptimeBars() => new UptimeBars();
+
+        /// <summary>
+        /// Creates an <see cref="Tesserae.UptimeCalendar"/> component
+        /// </summary>
+        public static UptimeCalendar UptimeCalendar(string title, string subtitle) => new UptimeCalendar(title, subtitle);
 
         /// <summary>
         /// Creates a <see cref="Tesserae.IconToggle"/> component.
@@ -666,6 +678,21 @@ namespace Tesserae
         /// Creates a <see cref="Tesserae.Sidebar"/> component.
         /// </summary>
         public static Sidebar Sidebar(bool sortable = false) => new Sidebar(sortable);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.TaskBoard"/> component.
+        /// </summary>
+        public static TaskBoard TaskBoard() => new TaskBoard();
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.TaskBoardColumn"/> component.
+        /// </summary>
+        public static TaskBoardColumn TaskBoardColumn(string title, string sortableGroup = "taskboard") => new TaskBoardColumn(title, sortableGroup);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.TaskBoardCard"/> component.
+        /// </summary>
+        public static TaskBoardCard TaskBoardCard(IComponent content) => new TaskBoardCard(content);
 
         //public static Sidebar.Item SidebarItem(string text, string icon, string href = null) => new Sidebar.Item(text, icon, href);
 
