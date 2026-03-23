@@ -6,9 +6,6 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
-    /// <summary>
-    /// A timeline-style display for showing a multi-step plan or schedule with start/end times for each step.
-    /// </summary>
     [H5.Name("tss.Plan")]
     public sealed class Plan : IComponent, IHasMarginPadding
     {
@@ -35,9 +32,6 @@ namespace Tesserae
         private readonly ProgressIndicator _progressIndicator;
         private readonly Button _startStopButton;
 
-        /// <summary>
-        /// Initializes a new instance of this class.
-        /// </summary>
         public Plan(string title)
         {
             _title = TextBlock(title).SemiBold().MediumPlus();
@@ -86,32 +80,17 @@ namespace Tesserae
             _innerElement = _card.Render();
         }
 
-        /// <summary>
-        /// Renders the component's root HTML element.
-        /// </summary>
         public HTMLElement Render() => _innerElement;
 
-        /// <summary>
-        /// Gets or sets the CSS margin of the component.
-        /// </summary>
         public string Margin { get => _innerElement.style.margin; set => _innerElement.style.margin = value; }
-        /// <summary>
-        /// Gets or sets the CSS padding of the component.
-        /// </summary>
         public string Padding { get => _innerElement.style.padding; set => _innerElement.style.padding = value; }
 
-        /// <summary>
-        /// Gets or sets the title of the component.
-        /// </summary>
         public Plan Title(string title)
         {
             _title.Text = title;
             return this;
         }
 
-        /// <summary>
-        /// Sets the components shown in the header command area.
-        /// </summary>
         public Plan HeaderCommands(params IComponent[] commands)
         {
             _headerCommandsStack.Clear();
@@ -122,18 +101,12 @@ namespace Tesserae
             return this;
         }
 
-        /// <summary>
-        /// Sets a message shown in the footer.
-        /// </summary>
         public Plan FooterMessage(string message)
         {
             _footerMessage.Text = message;
             return this;
         }
 
-        /// <summary>
-        /// Sets the components shown in the footer command area.
-        /// </summary>
         public Plan FooterCommands(params IComponent[] commands)
         {
             _footerCommandsStack.Clear();
@@ -144,9 +117,6 @@ namespace Tesserae
             return this;
         }
 
-        /// <summary>
-        /// Adds the given task to the component.
-        /// </summary>
         public Plan AddTask(string title, bool completed)
         {
             var task = new Task(title, completed);
@@ -155,72 +125,48 @@ namespace Tesserae
             return this;
         }
 
-        /// <summary>
-        /// Configures the component to progress.
-        /// </summary>
         public Plan Progress(int position, int total)
         {
             _progressIndicator.Progress(position, total);
             return this;
         }
 
-        /// <summary>
-        /// Configures the component to progress.
-        /// </summary>
         public Plan Progress(float percent)
         {
             _progressIndicator.Progress(percent);
             return this;
         }
 
-        /// <summary>
-        /// Configures the component to indeterminate.
-        /// </summary>
         public Plan Indeterminate()
         {
             _progressIndicator.Indeterminated();
             return this;
         }
 
-        /// <summary>
-        /// Adds a start / stop toggle button wired up via the supplied callback.
-        /// </summary>
         public Plan StartStopButton(Action<Button> onStartStop)
         {
             _startStopButton.OnClick((b, _) => onStartStop(b));
             return this;
         }
 
-        /// <summary>
-        /// Hides the start stop button.
-        /// </summary>
         public Plan HideStartStopButton()
         {
             _startStopButton.Collapse();
             return this;
         }
 
-        /// <summary>
-        /// Shows the start stop button.
-        /// </summary>
         public Plan ShowStartStopButton()
         {
             _startStopButton.Show();
             return this;
         }
 
-        /// <summary>
-        /// Starts the component's operation.
-        /// </summary>
         public Plan Start()
         {
             _startStopButton.SetIcon(UIcons.Play);
             return this;
         }
 
-        /// <summary>
-        /// Stops the component's operation.
-        /// </summary>
         public Plan Stop()
         {
             _startStopButton.SetIcon(UIcons.SquareSmall);
@@ -233,18 +179,12 @@ namespace Tesserae
             private readonly Icon _icon;
             private readonly TextBlock _text;
 
-            /// <summary>
-            /// Gets or sets the title of the component.
-            /// </summary>
             public string Title
             {
                 get => _text.Text;
                 set => _text.Text = value;
             }
 
-            /// <summary>
-            /// Gets or sets the completed.
-            /// </summary>
             public bool Completed
             {
                 get => _icon.Render().dataset["icon"].As<string>().Contains(Icon(UIcons.CheckCircle).Render().dataset["icon"].As<string>());
@@ -263,9 +203,6 @@ namespace Tesserae
                 }
             }
 
-            /// <summary>
-            /// Initializes a new instance of this class.
-            /// </summary>
             public Task(string title, bool completed)
             {
                 _icon = Icon(completed ? UIcons.CheckCircle : UIcons.Circle);
@@ -282,9 +219,6 @@ namespace Tesserae
                 );
             }
 
-            /// <summary>
-            /// Renders the component's root HTML element.
-            /// </summary>
             public HTMLElement Render() => _taskStack.Render();
         }
     }

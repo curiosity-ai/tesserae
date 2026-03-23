@@ -23,8 +23,9 @@ namespace Tesserae.Tests.Samples
                 .FooterMessage("Finalizing details for licenses and attribution...")
                 .FooterCommands(TextBlock("117 searches").Small().SemiBold())
                 .Progress(1, 5) // Determinate style as per screenshot
-                .Stop()
-                .MaxWidth(800.px());
+                .Stop();
+
+            plan1.Render().style.maxWidth = "800px";
 
             var plan2 = Plan("Database Migration Plan")
                 .AddTask("Backup database", true)
@@ -32,8 +33,7 @@ namespace Tesserae.Tests.Samples
                 .AddTask("Migrate data", true)
                 .FooterMessage("Migration complete")
                 .Progress(100)
-                .HideStartStopButton()
-                .MaxWidth(800.px());
+                .HideStartStopButton();
 
             plan2.Render().style.maxWidth = "800px";
 
@@ -43,24 +43,23 @@ namespace Tesserae.Tests.Samples
                 .AddTask("Find error patterns", false)
                 .FooterMessage("Scanning file 45 of 200...")
                 .Indeterminate()
-                .Start()
-                .MaxWidth(800.px());
+                .Start();
 
             plan3.Render().style.maxWidth = "800px";
 
-            _content = SectionStack().Secondary()
-                .SampleTitle(typeof(PlanSample), UIcons.Map, "A component to display a plan")
-                .FlatSection(Stack().Children(
-                    Card(VStack().WS().Children(
-                    TextBlock("The Plan component displays a complex task with its sub-tasks and overall progress."))).SetTitle("Overview"),
-                    Card(VStack().WS().Children(
-                    TextBlock("Default usage showing a running plan with partial progress.").SemiBold().PT(16).PB(8),
+            _content = SectionStack()
+                .Title(SampleHeader(nameof(PlanSample)))
+                .Section(Stack().Children(
+                    SampleTitle("Overview"),
+                    TextBlock("The Plan component displays a complex task with its sub-tasks and overall progress."),
+                    SampleTitle("Usage"),
+                    TextBlock("Default usage showing a running plan with partial progress.").Medium(),
                     plan1,
-                    TextBlock("A completed plan, with the stop button hidden.").SemiBold().PT(16).PB(8),
+                    TextBlock("A completed plan, with the stop button hidden.").Medium(),
                     plan2,
-                    TextBlock("A plan with indeterminate progress.").SemiBold().PT(16).PB(8),
+                    TextBlock("A plan with indeterminate progress.").Medium(),
                     plan3
-                )).SetTitle("Usage")));
+                ));
         }
 
         public HTMLElement Render()

@@ -147,6 +147,8 @@ namespace Tesserae
         /// </summary>
         public static Card Card(IComponent content) => new Card(content);
 
+        public static Plan Plan(string title) => new Plan(title);
+
         /// <summary>
         /// Creates a <see cref="Tesserae.Accordion"/> component.
         /// </summary>
