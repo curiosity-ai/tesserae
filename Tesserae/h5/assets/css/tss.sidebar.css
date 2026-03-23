@@ -148,8 +148,10 @@
 }
 
 .tss-sidebar-btn.tss-btn > i,
-.tss-sidebar .tss-sidebar-commands-line .tss-sidebar-command.tss-btn > i
-.tss-sidebar-commands-line-extra .tss-sidebar-command.tss-btn > i {
+.tss-sidebar .tss-sidebar-commands-line .tss-sidebar-command.tss-btn > i,
+.tss-sidebar .tss-sidebar-commands-line a > .tss-sidebar-command.tss-btn > i,
+.tss-sidebar-commands-line-extra .tss-sidebar-command.tss-btn > i,
+.tss-sidebar-commands-line-extra a > .tss-sidebar-command.tss-btn > i {
     width: 24px;
     display: inline-block;
     text-align: center;
@@ -166,7 +168,9 @@
 
 .tss-sidebar-btn.tss-btn > .tss-image,
 .tss-sidebar .tss-sidebar-commands-line .tss-sidebar-command.tss-btn > .tss-image,
-.tss-sidebar-commands-line-extra .tss-sidebar-command.tss-btn > .tss-image {
+.tss-sidebar .tss-sidebar-commands-line a > .tss-sidebar-command.tss-btn > .tss-image,
+.tss-sidebar-commands-line-extra .tss-sidebar-command.tss-btn > .tss-image,
+.tss-sidebar-commands-line-extra a > .tss-sidebar-command.tss-btn > .tss-image {
     width: 24px !important;
     height: 24px !important;
     object-fit: contain;
@@ -218,7 +222,8 @@
     white-space: nowrap;
 }
 
-.tss-sidebar-commands > .tss-sidebar-command.tss-btn {
+.tss-sidebar-commands > .tss-sidebar-command.tss-btn,
+.tss-sidebar-commands > a > .tss-sidebar-command.tss-btn {
     padding: 0px;
     margin: 0px;
     min-height: unset !important;
@@ -227,11 +232,13 @@
     border-radius: 5px;
 }
 
-    .tss-sidebar-commands > .tss-sidebar-command.tss-btn:not(:last-child) {
+    .tss-sidebar-commands > .tss-sidebar-command.tss-btn:not(:last-child),
+    .tss-sidebar-commands > a:not(:last-child) > .tss-sidebar-command.tss-btn {
         margin-right: 4px !important;
     }
 
-    .tss-sidebar-commands > .tss-sidebar-command.tss-btn > .tss-image {
+    .tss-sidebar-commands > .tss-sidebar-command.tss-btn > .tss-image,
+    .tss-sidebar-commands > a > .tss-sidebar-command.tss-btn > .tss-image {
         padding: 0px;
         margin: 0px;
         height: 16px !important;
@@ -440,7 +447,8 @@
 
 .tss-sidebar-menu > .tss-sidebar-btn-open > .tss-btn,
 .tss-sidebar-menu > .tss-sidebar-btn-open > a > .tss-btn,
-.tss-sidebar-menu > .tss-sidebar-commands-line > .tss-sidebar-command.tss-btn {
+.tss-sidebar-menu > .tss-sidebar-commands-line > .tss-sidebar-command.tss-btn,
+.tss-sidebar-menu > .tss-sidebar-commands-line > a > .tss-sidebar-command.tss-btn {
     border: 1px solid transparent;
     height: 36px !important;
     min-height: unset;
@@ -452,7 +460,8 @@
 
     .tss-sidebar-menu > .tss-sidebar-btn-open > .tss-btn:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success),
     .tss-sidebar-menu > .tss-sidebar-btn-open > a > .tss-btn:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success),
-    .tss-sidebar-menu > .tss-sidebar-commands-line > .tss-sidebar-command.tss-btn:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success) {
+    .tss-sidebar-menu > .tss-sidebar-commands-line > .tss-sidebar-command.tss-btn:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success),
+    .tss-sidebar-menu > .tss-sidebar-commands-line > a > .tss-sidebar-command.tss-btn:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success) {
         background: var(--tss-tooltip-background-color);
         color: var(--tss-tooltip-foreground-color);
         border-color: var(--tss-tooltip-background-color);
@@ -460,7 +469,8 @@
 
     .tss-sidebar-menu > .tss-sidebar-btn-open > .tss-btn.tss-btn-default:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success):hover,
     .tss-sidebar-menu > .tss-sidebar-btn-open > a > .tss-btn.tss-btn-default:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success):hover,
-    .tss-sidebar-menu > .tss-sidebar-commands-line > .tss-sidebar-command:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success):hover {
+    .tss-sidebar-menu > .tss-sidebar-commands-line > .tss-sidebar-command:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success):hover,
+    .tss-sidebar-menu > .tss-sidebar-commands-line > a > .tss-sidebar-command:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success):hover {
         color: var(--tss-default-background-hover-color);
         background: var(--tss-default-foreground-hover-color);
         border-color: var(--tss-default-foreground-color);
