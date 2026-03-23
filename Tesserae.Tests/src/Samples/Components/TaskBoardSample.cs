@@ -56,10 +56,11 @@ namespace Tesserae.Tests.Samples
                         )
                 );
 
-            var toggle = Toggle("Card Mode").OnChange((s, e) =>
-            {
-                board.CardMode(s.IsChecked);
-            });
+            var toggle = IconToggle(
+                new IconToggle<bool>.Item(UIcons.TableColumns, "Column Mode", false),
+                new IconToggle<bool>.Item(UIcons.TableRows, "Row Mode", true)
+            );
+            toggle.AsObservable().Observe(isRowMode => board.RowMode(isRowMode));
 
             _content = SectionStack()
                .Title(SampleHeader(nameof(TaskBoardSample)))
