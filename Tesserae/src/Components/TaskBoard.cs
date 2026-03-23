@@ -161,6 +161,7 @@ namespace Tesserae
 
                 _cardsContainer.Horizontal();
                 _cardsContainer.Wrap();
+                _cardsContainer.Class("tss-taskboard-cards-container-row-mode");
             }
             else
             {
@@ -172,6 +173,7 @@ namespace Tesserae
 
                 _cardsContainer.Vertical();
                 _cardsContainer.NoWrap();
+                _cardsContainer.RemoveClass("tss-taskboard-cards-container-row-mode");
             }
         }
 
