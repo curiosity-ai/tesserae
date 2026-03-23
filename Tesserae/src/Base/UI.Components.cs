@@ -403,6 +403,16 @@ namespace Tesserae
         public static Toggle Toggle() => new Toggle(null, null);
 
         /// <summary>
+        /// Creates an <see cref="Tesserae.UptimeBars"/> component
+        /// </summary>
+        public static UptimeBars UptimeBars() => new UptimeBars();
+
+        /// <summary>
+        /// Creates an <see cref="Tesserae.UptimeCalendar"/> component
+        /// </summary>
+        public static UptimeCalendar UptimeCalendar(string title, string subtitle) => new UptimeCalendar(title, subtitle);
+
+        /// <summary>
         /// Creates a <see cref="Tesserae.IconToggle"/> component.
         /// </summary>
         public static IconToggle<T> IconToggle<T>(params IconToggle<T>.Item[] items) => new IconToggle<T>(items);
