@@ -19,19 +19,27 @@ namespace Tesserae.Tests.Samples
                 barsItems.Add((status, GetTooltip(status, i)));
             }
 
-            _content = SectionStack().Secondary()
+            _content = SectionStack()
                 .Title(TextBlock("Uptime").XLarge().Bold())
-                .FlatSection(
-                    Card(Stack().Children(
-                    TextBlock("Displays system status over time using colored segments and month grids.").Medium()
-                    )).SetTitle("Overview"))
-                .FlatSection(Card(UptimeBars().Items(barsItems)).SetTitle("Last 90 days uptime"))
-                .FlatSection(Card(UptimeBars().Compact().Items(barsItems)).SetTitle("Service Uptime (compact view)"))
-                .FlatSection(Card(Grid(1.fr(), 1.fr(), 1.fr()).Gap(16.px()).Children(
+                .Section(Stack().Children(
+                    TextBlock("Displays system status over time using colored segments and month grids.").Medium(),
+
+                    Label("Last 90 days uptime").SetContent(
+                        UptimeBars().Items(barsItems)
+                    ),
+
+                    Label("Service uptime (Compact)").SetContent(
+                        UptimeBars().Compact().Items(barsItems)
+                    ),
+
+                    Label("Uptime history").SetContent(
+                        Grid(1.fr(), 1.fr(), 1.fr()).Gap(16.px()).Children(
                             UptimeCalendar("July 2024", "99.8%").Items(GetCalendarItems(90)),
                             UptimeCalendar("August 2024", "98.1%").Items(GetCalendarItems(60)),
                             UptimeCalendar("September 2024", "100%").Items(GetCalendarItems(30))
-                        )).SetTitle("Service Uptime History"));
+                        )
+                    )
+                ));
         }
 
         private IEnumerable<(UptimeStatus, IComponent)> GetCalendarItems(int startDaysAgo)

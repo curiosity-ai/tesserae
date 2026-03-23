@@ -5,9 +5,6 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
-    /// <summary>
-    /// A horizontal series of small status bars showing per-period uptime / availability over a time window.
-    /// </summary>
     [H5.Name("tss.UptimeBars")]
     public class UptimeBars : IComponent, IHasMarginPadding
     {
@@ -15,27 +12,15 @@ namespace Tesserae
         private readonly HTMLElement _barsContainer;
         private Action _hideTooltip;
 
-        /// <summary>
-        /// Gets or sets the CSS margin of the component.
-        /// </summary>
         public string Margin  { get => _container.style.margin;  set => _container.style.margin = value; }
-        /// <summary>
-        /// Gets or sets the CSS padding of the component.
-        /// </summary>
         public string Padding { get => _container.style.padding; set => _container.style.padding = value; }
 
-        /// <summary>
-        /// Initializes a new instance of this class.
-        /// </summary>
         public UptimeBars()
         {
             _barsContainer = Div(_("tss-uptime-bars"));
             _container = Div(_("tss-uptime-row"), _barsContainer);
         }
 
-        /// <summary>
-        /// Adds the given items to the component.
-        /// </summary>
         public UptimeBars Items(IEnumerable<(UptimeStatus status, IComponent tooltipContent)> items)
         {
             ClearChildren(_barsContainer);
@@ -59,9 +44,6 @@ namespace Tesserae
             return this;
         }
 
-        /// <summary>
-        /// Renders the component in a compact form.
-        /// </summary>
         public UptimeBars Compact()
         {
             _barsContainer.classList.add("tss-uptime-bars-compact");
@@ -95,9 +77,6 @@ namespace Tesserae
             _hideTooltip = null;
         }
 
-        /// <summary>
-        /// Renders the component's root HTML element.
-        /// </summary>
         public HTMLElement Render() => _container;
     }
 }
