@@ -12,7 +12,7 @@ namespace Tesserae
         private readonly HTMLElement _container;
         private readonly Stack _stack;
         private readonly List<TaskBoardColumn> _columns = new List<TaskBoardColumn>();
-        private bool _isCardMode = false;
+        private bool _isRowMode = false;
 
         public TaskBoard()
         {
@@ -58,23 +58,25 @@ namespace Tesserae
             return this;
         }
 
-        public TaskBoard CardMode(bool isCardMode = true)
+        public TaskBoard RowMode(bool isRowMode = true)
         {
-            _isCardMode = isCardMode;
-            if (isCardMode)
+            _isRowMode = isRowMode;
+            if (isRowMode)
             {
-                _stack.Wrap();
-                _stack.Class("tss-taskboard-card-mode");
+                _stack.Vertical();
+                _stack.NoWrap();
+                _stack.Class("tss-taskboard-row-mode");
             }
             else
             {
+                _stack.Horizontal();
                 _stack.NoWrap();
-                _stack.RemoveClass("tss-taskboard-card-mode");
+                _stack.RemoveClass("tss-taskboard-row-mode");
             }
 
             foreach (var col in _columns)
             {
-                col.CardMode(isCardMode);
+                col.RowMode(isRowMode);
             }
             return this;
         }
@@ -116,6 +118,7 @@ namespace Tesserae
                 s.borderRadius = "4px";
                 s.margin = "8px";
                 s.width = "300px";
+                s.height = "calc(100% - 16px)";
                 s.maxHeight = "100%";
                 s.flexShrink = "0";
             }), _headerStack.Render(), _cardsContainer.Render());
@@ -146,19 +149,29 @@ namespace Tesserae
             return this;
         }
 
-        internal void CardMode(bool isCardMode)
+        internal void RowMode(bool isRowMode)
         {
-            if (isCardMode)
+            if (isRowMode)
             {
-                _container.style.width = "auto";
-                _container.style.minWidth = "300px";
-                _container.style.flexShrink = "1";
+                _container.style.width = "100%";
+                _container.style.minWidth = "";
+                _container.style.height = "auto";
+                _container.style.maxHeight = "none";
+                _container.style.flexShrink = "0";
+
+                _cardsContainer.Horizontal();
+                _cardsContainer.Wrap();
             }
             else
             {
                 _container.style.width = "300px";
                 _container.style.minWidth = "";
+                _container.style.height = "calc(100% - 16px)";
+                _container.style.maxHeight = "100%";
                 _container.style.flexShrink = "0";
+
+                _cardsContainer.Vertical();
+                _cardsContainer.NoWrap();
             }
         }
 
