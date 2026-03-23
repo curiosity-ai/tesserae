@@ -89,10 +89,11 @@ namespace Tesserae.Tests.Samples
             sidebar.AddFooter(commandsEndAligned);
 
             sidebar.AddFooter(new SidebarButton("CURIOSITY_REF",
+                "https://curiosity.ai",
                 new ImageIcon("/assets/img/curiosity-logo.svg"),
                 "By Curiosity",
                 new SidebarBadge("+3").Foreground(Theme.Primary.Foreground).Background(Theme.Primary.Background),
-                new SidebarCommand(UIcons.ArrowUpRightFromSquare).OnClick(() => window.open("https://github.com/curiosity-ai/tesserae", "_blank"))).Tooltip("Made with ❤ by Curiosity").OnClick(() => window.open("https://curiosity.ai", "_blank")));
+                new SidebarCommand("https://github.com/curiosity-ai/tesserae", UIcons.ArrowUpRightFromSquare)).Tooltip("Made with ❤ by Curiosity"));
 
 
             _content = SectionStack()
