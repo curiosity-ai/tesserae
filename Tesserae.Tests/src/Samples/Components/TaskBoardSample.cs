@@ -57,8 +57,8 @@ namespace Tesserae.Tests.Samples
                 );
 
             var toggle = IconToggle(
-                new IconToggle<bool>.Item(UIcons.TableColumns, "Column Mode", false),
-                new IconToggle<bool>.Item(UIcons.TableRows, "Row Mode", true)
+                IconToggleItem(UIcons.TableColumns, "Column Mode", false),
+                IconToggleItem(UIcons.TableRows, "Row Mode", true)
             );
             toggle.AsObservable().Observe(isRowMode => board.RowMode(isRowMode));
 
