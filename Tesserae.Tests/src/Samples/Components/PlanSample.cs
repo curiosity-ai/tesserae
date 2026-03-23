@@ -23,9 +23,8 @@ namespace Tesserae.Tests.Samples
                 .FooterMessage("Finalizing details for licenses and attribution...")
                 .FooterCommands(TextBlock("117 searches").Small().SemiBold())
                 .Progress(1, 5) // Determinate style as per screenshot
-                .Stop();
-
-            plan1.Render().style.maxWidth = "800px";
+                .Stop()
+                .MaxWidth(800.px());
 
             var plan2 = Plan("Database Migration Plan")
                 .AddTask("Backup database", true)
@@ -33,7 +32,8 @@ namespace Tesserae.Tests.Samples
                 .AddTask("Migrate data", true)
                 .FooterMessage("Migration complete")
                 .Progress(100)
-                .HideStartStopButton();
+                .HideStartStopButton()
+                .MaxWidth(800.px());
 
             plan2.Render().style.maxWidth = "800px";
 
@@ -43,7 +43,8 @@ namespace Tesserae.Tests.Samples
                 .AddTask("Find error patterns", false)
                 .FooterMessage("Scanning file 45 of 200...")
                 .Indeterminate()
-                .Start();
+                .Start()
+                .MaxWidth(800.px());
 
             plan3.Render().style.maxWidth = "800px";
 
@@ -53,11 +54,11 @@ namespace Tesserae.Tests.Samples
                     SampleTitle("Overview"),
                     TextBlock("The Plan component displays a complex task with its sub-tasks and overall progress."),
                     SampleTitle("Usage"),
-                    TextBlock("Default usage showing a running plan with partial progress.").Medium(),
+                    TextBlock("Default usage showing a running plan with partial progress.").SemiBold().PT(16).PB(8),
                     plan1,
-                    TextBlock("A completed plan, with the stop button hidden.").Medium(),
+                    TextBlock("A completed plan, with the stop button hidden.").SemiBold().PT(16).PB(8),
                     plan2,
-                    TextBlock("A plan with indeterminate progress.").Medium(),
+                    TextBlock("A plan with indeterminate progress.").SemiBold().PT(16).PB(8),
                     plan3
                 ));
         }
