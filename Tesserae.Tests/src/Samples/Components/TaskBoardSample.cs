@@ -13,8 +13,14 @@ namespace Tesserae.Tests.Samples
         public TaskBoardSample()
         {
             var board = TaskBoard()
+                .OnColumnDrop(e => console.log($"Column dropped: oldIndex={e.oldIndex}, newIndex={e.newIndex}"))
+                .OnColumnUpdate(e => console.log($"Column updated: oldIndex={e.oldIndex}, newIndex={e.newIndex}"))
                 .Columns(
                     TaskBoardColumn("To Do")
+                        .OnCardAdd(e => console.log("Card added to To Do"))
+                        .OnCardRemove(e => console.log("Card removed from To Do"))
+                        .OnCardDrop(e => console.log("Card dropped in To Do"))
+                        .OnCardUpdate(e => console.log("Card updated in To Do"))
                         .Cards(
                             TaskBoardCard(TextBlock("Research user needs and identify key personas for the upcoming sprint."))
                                 .Header(HStack().JustifyContent(ItemJustify.Between).Width(100.percent()).Children(
@@ -32,6 +38,10 @@ namespace Tesserae.Tests.Samples
                                 ))
                         ),
                     TaskBoardColumn("In Progress")
+                        .OnCardAdd(e => console.log("Card added to In Progress"))
+                        .OnCardRemove(e => console.log("Card removed from In Progress"))
+                        .OnCardDrop(e => console.log("Card dropped in In Progress"))
+                        .OnCardUpdate(e => console.log("Card updated in In Progress"))
                         .Cards(
                             TaskBoardCard(TextBlock("Implement TaskBoard component").SemiBold())
                                 .Header(HStack().JustifyContent(ItemJustify.Between).Width(100.percent()).Children(
@@ -46,6 +56,10 @@ namespace Tesserae.Tests.Samples
                                 .Header(Badge("Testing").Success())
                         ),
                     TaskBoardColumn("Done")
+                        .OnCardAdd(e => console.log("Card added to Done"))
+                        .OnCardRemove(e => console.log("Card removed from Done"))
+                        .OnCardDrop(e => console.log("Card dropped in Done"))
+                        .OnCardUpdate(e => console.log("Card updated in Done"))
                         .Cards(
                             TaskBoardCard(TextBlock("Create project plan"))
                                 .Footer(HStack().JustifyContent(ItemJustify.Between).Width(100.percent()).Children(
@@ -62,12 +76,14 @@ namespace Tesserae.Tests.Samples
             );
             toggle.AsObservable().Observe(isRowMode => board.RowMode(isRowMode));
 
+            var readOnlyToggle = Toggle("Read Only").OnChange((s, e) => board.ReadOnly(s.IsChecked));
+
             _content = SectionStack()
                .Title(SampleHeader(nameof(TaskBoardSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("TaskBoard provides a Trello-like interface with draggable columns and cards. Use it for Kanban boards and task management."),
-                    toggle,
+                    HStack().Children(toggle, readOnlyToggle),
                     board.Height(600.px())
                ));
         }
