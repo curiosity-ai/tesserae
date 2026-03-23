@@ -13,6 +13,10 @@ namespace Tesserae
         private readonly Stack _stack;
         private readonly List<TaskBoardColumn> _columns = new List<TaskBoardColumn>();
         private bool _isRowMode = false;
+        private readonly Sortable _sortable;
+        private bool _isReadOnly = false;
+        private Action<SortableEvent> _onColumnDrop;
+        private Action<SortableEvent> _onColumnUpdate;
 
         public TaskBoard()
         {
@@ -28,12 +32,20 @@ namespace Tesserae
                 s.overflowY = "hidden";
             }), _stack.Render());
 
-            var sortable = new Sortable(_stack.Render(), new SortableOptions()
+            _sortable = new Sortable(_stack.Render(), new SortableOptions()
             {
                 animation = 150,
                 ghostClass = "tss-taskboard-column-ghost",
                 filter = ".tss-sortable-disable",
-                direction = "horizontal"
+                direction = "horizontal",
+                onEnd = (e) =>
+                {
+                    _onColumnDrop?.Invoke(e);
+                },
+                onUpdate = (e) =>
+                {
+                    _onColumnUpdate?.Invoke(e);
+                }
             });
         }
 
@@ -44,6 +56,7 @@ namespace Tesserae
         {
             _columns.Add(column);
             _stack.Add(column);
+            column.IsReadOnly = _isReadOnly;
             return this;
         }
 
@@ -55,6 +68,29 @@ namespace Tesserae
             {
                 AddColumn(col);
             }
+            return this;
+        }
+
+        public TaskBoard ReadOnly(bool isReadOnly = true)
+        {
+            _isReadOnly = isReadOnly;
+            _sortable.Disabled = isReadOnly;
+            foreach (var col in _columns)
+            {
+                col.IsReadOnly = isReadOnly;
+            }
+            return this;
+        }
+
+        public TaskBoard OnColumnDrop(Action<SortableEvent> onColumnDrop)
+        {
+            _onColumnDrop = onColumnDrop;
+            return this;
+        }
+
+        public TaskBoard OnColumnUpdate(Action<SortableEvent> onColumnUpdate)
+        {
+            _onColumnUpdate = onColumnUpdate;
             return this;
         }
 
@@ -93,6 +129,12 @@ namespace Tesserae
         private readonly List<TaskBoardCard> _cards = new List<TaskBoardCard>();
         private readonly TextBlock _titleText;
         private string _groupName;
+        private readonly Sortable _sortable;
+        private bool _isReadOnly = false;
+        private Action<SortableEvent> _onCardDrop;
+        private Action<SortableEvent> _onCardAdd;
+        private Action<SortableEvent> _onCardRemove;
+        private Action<SortableEvent> _onCardUpdate;
 
         public TaskBoardColumn(string title, string sortableGroup = "taskboard")
         {
@@ -123,12 +165,62 @@ namespace Tesserae
                 s.flexShrink = "0";
             }), _headerStack.Render(), _cardsContainer.Render());
 
-            var sortable = new Sortable(_cardsContainer.Render(), new SortableOptions()
+            _sortable = new Sortable(_cardsContainer.Render(), new SortableOptions()
             {
                 animation = 150,
                 group = _groupName,
-                ghostClass = "tss-taskboard-card-ghost"
+                ghostClass = "tss-taskboard-card-ghost",
+                onEnd = (e) =>
+                {
+                    _onCardDrop?.Invoke(e);
+                },
+                onAdd = (e) =>
+                {
+                    _onCardAdd?.Invoke(e);
+                },
+                onRemove = (e) =>
+                {
+                    _onCardRemove?.Invoke(e);
+                },
+                onUpdate = (e) =>
+                {
+                    _onCardUpdate?.Invoke(e);
+                }
             });
+        }
+
+        public bool IsReadOnly
+        {
+            get => _isReadOnly;
+            internal set
+            {
+                _isReadOnly = value;
+                _sortable.Disabled = value;
+            }
+        }
+
+        public TaskBoardColumn OnCardDrop(Action<SortableEvent> onCardDrop)
+        {
+            _onCardDrop = onCardDrop;
+            return this;
+        }
+
+        public TaskBoardColumn OnCardAdd(Action<SortableEvent> onCardAdd)
+        {
+            _onCardAdd = onCardAdd;
+            return this;
+        }
+
+        public TaskBoardColumn OnCardRemove(Action<SortableEvent> onCardRemove)
+        {
+            _onCardRemove = onCardRemove;
+            return this;
+        }
+
+        public TaskBoardColumn OnCardUpdate(Action<SortableEvent> onCardUpdate)
+        {
+            _onCardUpdate = onCardUpdate;
+            return this;
         }
 
         public TaskBoardColumn Cards(params TaskBoardCard[] cards)
