@@ -1,0 +1,167 @@
+/* UptimeBars Component */
+.tss-uptime-row {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.tss-uptime-bars {
+  display: grid;
+  grid-template-columns: repeat(90, 1fr);
+  gap: 3px;
+  align-items: center;
+}
+
+.tss-uptime-bars span {
+  height: 26px;
+  border-radius: 6px;
+  background: #dfe4ea;
+  cursor: pointer;
+  transition: transform 0.12s ease;
+}
+
+.tss-uptime-bars span:hover,
+.tss-uptime-bars span:focus-visible {
+  transform: translateY(-2px);
+  outline: none;
+}
+
+.tss-uptime-bars-compact {
+  grid-template-columns: repeat(90, 1fr);
+  gap: 2px;
+}
+
+.tss-uptime-bars-compact span {
+  height: 12px;
+  border-radius: 4px;
+}
+
+.tss-uptime-bars span.operational {
+  background: rgba(45, 164, 78, 0.85);
+}
+
+.tss-uptime-bars span.minor {
+  background: rgba(217, 119, 6, 0.85);
+}
+
+.tss-uptime-bars span.major {
+  background: rgba(207, 34, 46, 0.85);
+}
+
+.tss-uptime-bars span.maintenance {
+  background: rgba(31, 111, 235, 0.85);
+}
+
+.tss-uptime-bars span.none {
+  background: #dfe4ea;
+}
+
+.tss-uptime-bars span.future {
+  background: #e9edf1;
+  cursor: default;
+  pointer-events: none;
+}
+
+
+/* UptimeCalendar Component */
+.tss-uptime-month-card {
+  border: 1px solid var(--tss-default-border-color, #dcdde1);
+  border-radius: 14px;
+  padding: 14px 16px;
+  background: #ffffff;
+  position: relative;
+  z-index: 0;
+  overflow: visible;
+}
+
+.tss-uptime-month-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.tss-uptime-month-header span {
+  color: var(--tss-secondary-text-color, #718096);
+  font-size: 0.85rem;
+}
+
+.tss-uptime-month-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+}
+
+.tss-uptime-month-day,
+.tss-uptime-month-empty {
+  width: 100%;
+  height: 12px;
+  border-radius: 4px;
+  background: #dfe4ea;
+}
+
+.tss-uptime-month-day {
+  cursor: pointer;
+}
+
+.tss-uptime-month-day.operational {
+  background: rgba(45, 164, 78, 0.8);
+}
+
+.tss-uptime-month-day.minor {
+  background: rgba(217, 119, 6, 0.85);
+}
+
+.tss-uptime-month-day.major {
+  background: rgba(207, 34, 46, 0.85);
+}
+
+.tss-uptime-month-day.maintenance {
+  background: rgba(31, 111, 235, 0.85);
+}
+
+.tss-uptime-month-day.future {
+  background: #e9edf1;
+  cursor: default;
+  pointer-events: none;
+}
+
+.tss-uptime-month-empty {
+  background: transparent;
+  pointer-events: none;
+}
+
+/* Tooltip Theme (Tippy) */
+.tippy-box[data-theme~='uptime'] {
+  background: #24292e; /* dark background for better contrast */
+  border: 1px solid #1b1f23;
+  border-radius: 6px;
+  box-shadow: 0 8px 24px rgba(149, 157, 165, 0.2);
+  color: #fff;
+  font-size: 0.8rem;
+  padding: 4px; /* We let the component handle inner padding */
+  text-align: left;
+}
+
+.tippy-box[data-theme~='uptime'] .tss-text-block {
+  color: #fff !important;
+}
+
+.tippy-box[data-theme~='uptime'] .tss-font-weight-semibold {
+  color: #fff !important;
+  font-weight: 600 !important;
+}
+
+.tippy-box[data-theme~='uptime'][data-placement^='top'] > .tippy-arrow::before {
+  border-top-color: #24292e;
+}
+.tippy-box[data-theme~='uptime'][data-placement^='bottom'] > .tippy-arrow::before {
+  border-bottom-color: #24292e;
+}
+.tippy-box[data-theme~='uptime'][data-placement^='left'] > .tippy-arrow::before {
+  border-left-color: #24292e;
+}
+.tippy-box[data-theme~='uptime'][data-placement^='right'] > .tippy-arrow::before {
+  border-right-color: #24292e;
+}
