@@ -460,7 +460,7 @@ namespace Tesserae
             });
         }
 
-        protected override HTMLElement BuildRenderedContent() => _contentHtml;
+        protected override HTMLElement BuildRenderedContent() => new FocusTrap(_contentHtml).Render();
 
         private void OnCloseClick(object ev) => Hide();
 
