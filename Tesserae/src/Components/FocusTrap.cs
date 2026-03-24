@@ -1,3 +1,4 @@
+using System;
 using H5;
 using static H5.Core.dom;
 
@@ -7,6 +8,8 @@ namespace Tesserae
     public sealed class FocusTrap : IComponent
     {
         private readonly HTMLElement _root;
+        private Action _onEscape;
+        private Action _onEnter;
 
         public FocusTrap(IComponent child)
         {
@@ -20,12 +23,40 @@ namespace Tesserae
             AttachFocusTrap();
         }
 
+        public FocusTrap TrapEscape(Action onEscape)
+        {
+            _onEscape = onEscape;
+            return this;
+        }
+
+        public FocusTrap TrapEnter(Action onEnter)
+        {
+            _onEnter = onEnter;
+            return this;
+        }
+
         private void AttachFocusTrap()
         {
             _root.addEventListener("keydown", ev =>
             {
                 var ke = ev as KeyboardEvent;
-                if (ke != null && ke.key == "Tab")
+                if (ke == null) return;
+
+                if (ke.key == "Escape" && _onEscape != null)
+                {
+                    _onEscape();
+                    ke.preventDefault();
+                    return;
+                }
+
+                if (ke.key == "Enter" && _onEnter != null)
+                {
+                    _onEnter();
+                    ke.preventDefault();
+                    return;
+                }
+
+                if (ke.key == "Tab")
                 {
                     var focusableElements = _root.querySelectorAll("a[href], button:not(:disabled), textarea:not(:disabled), input:not(:disabled), select:not(:disabled), [tabindex]:not([tabindex='-1'])");
                     if (focusableElements.length == 0) return;
