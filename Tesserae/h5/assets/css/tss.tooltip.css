@@ -223,3 +223,25 @@
         background-color: var(--tss-default-background-hover-color);
         border-color: var(--tss-default-background-hover-color);
     }
+.tss-tippy-container {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+}
+
+.tss-tippy-header {
+    border-bottom: 1px solid var(--tss-divider-color, rgba(0,0,0,0.1));
+    padding-bottom: 4px;
+    margin-bottom: 4px;
+}
+
+.tss-tippy-content-inner {
+    flex: 1 1 auto;
+}
+
+.tss-tippy-footer {
+    border-top: 1px solid var(--tss-divider-color, rgba(0,0,0,0.1));
+    padding-top: 4px;
+    margin-top: 4px;
+}

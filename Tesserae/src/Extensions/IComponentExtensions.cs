@@ -445,6 +445,14 @@ namespace Tesserae
         }
 
         /// <summary>Adds a tooltip with HTML content to the component.</summary>
+
+        public static T Tooltip<T>(this T component, TippyConfig config) where T : IComponent
+        {
+            Tippy.ShowFor(component, config, out var hide);
+            return component;
+        }
+
+        /// <summary>Adds a tooltip with HTML content to the component.</summary>
         public static T Tooltip<T>(this T component, string tooltipHtml, TooltipAnimation animation = TooltipAnimation.None, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 250, int delayHide = 0, bool followCursor = false, int maxWidth = 350, bool arrow = false, string theme = null, IComponent parent = null) where T : IComponent
         {
             if (string.IsNullOrWhiteSpace(tooltipHtml))
@@ -459,8 +467,8 @@ namespace Tesserae
                 followCursor: followCursor,
                 maxWidth: maxWidth,
                 arrow: arrow,
-                parent: parent,
-                theme: theme
+                theme: theme,
+                parent: parent
             );
         }
 
@@ -493,62 +501,46 @@ namespace Tesserae
                 return component;
 
             var rendered = component.Render();
-
             var marker = new object();
-
             rendered["tooltipMarker"] = marker;
 
-            rendered.onmouseenter += AttachTooltip;
-
-            void AttachTooltip(MouseEvent e)
+            Action<Event> attachTooltip = null;
+            attachTooltip = (Event e) =>
             {
-                rendered.onmouseenter -= AttachTooltip;
+                rendered.removeEventListener("mouseenter", attachTooltip);
 
                 if (rendered["tooltipMarker"] != marker) return;
 
-                var renderedTooltip = UI.DIV(tooltip.Render());
-                renderedTooltip.style.display      = "block";
-                renderedTooltip.style.overflow     = "hidden";
-                renderedTooltip.style.textOverflow = "ellipsis";
-                document.body.appendChild(renderedTooltip);
-
-                var (element, _) = Stack.GetCorrectItemToApplyStyle(component);
-
-                if (element.HasOwnProperty("_tippy"))
+                var config = new TippyConfig
                 {
-                    H5.Script.Write("{0}._tippy.destroy();", element);
-                }
+                    Content = tooltip,
+                    Interactive = interactive,
+                    Animation = animation,
+                    Placement = placement,
+                    DelayShow = delayShow,
+                    DelayHide = delayHide,
+                    AppendToBody = appendToBody,
+                    FollowCursor = followCursor,
+                    MaxWidth = maxWidth,
+                    HideOnClick = hideOnClick,
+                    Arrow = arrow,
+                    Theme = theme
+                };
 
-                if (animation == TooltipAnimation.None)
-                {
-                    H5.Script.Write("tippy({0}, { content: {1}, interactive: {2}, placement: {3}, delay: [{4},{5}], appendTo: {6}, followCursor: {7}, maxWidth: {8}, hideOnClick:{9}, arrow: {10}, theme: {11} });", element, renderedTooltip, interactive, placement.ToString(), delayShow, delayHide, appendToBody ? document.body.As<object>() : "parent".As<object>(), followCursor, maxWidth, hideOnClick, arrow, theme);
-                }
-                else
-                {
-                    H5.Script.Write("tippy({0}, { content: {1}, interactive: {2}, placement: {3},  animation: {4}, delay: [{5},{6}], appendTo: {7}, followCursor: {8}, maxWidth: {9}, hideOnClick: {10}, arrow: {11}, theme: {12} });", element, renderedTooltip, interactive, placement.ToString(), animation.ToString(), delayShow, delayHide, appendToBody ? document.body.As<object>() : "parent".As<object>(), followCursor, maxWidth, hideOnClick, arrow, theme);
-                }
+                Tippy.ShowFor(component, config, out var hide);
 
-                H5.Script.Write("{0}._tippy.show();", element); //Shows it imediatelly, as the mouse is hovering the element
-
-                var currentTippy = H5.Script.Write<object>("{0}._tippy", element);
-
-                // 2020-10-05 DWR: Sometimes a tooltip will be attached to an element that is removed from the DOM and then the tooltip is left hanging, orphaned. 
+                // Keep tooltip mounting logic alive across reconnects if a parent was provided
                 if (parent is null) parent = component;
 
                 parent.WhenRemoved(() =>
                 {
-                    // 2020-10-05 DWR: I presume that have to check this property before trying to kill it in case it's already been tidied up
-                    if (element.HasOwnProperty("_tippy"))
-                    {
-                        if (currentTippy == H5.Script.Write<object>("{0}._tippy", element))
-                        {
-                            H5.Script.Write("{0}._tippy.destroy();", element);
-                        }
-                    }
+                    hide();
                     if (rendered["tooltipMarker"] != marker) return;
-                    rendered.onmouseenter += AttachTooltip; //Add mount again as needed
+                    rendered.addEventListener("mouseenter", attachTooltip);
                 });
-            }
+            };
+
+            rendered.addEventListener("mouseenter", attachTooltip);
             return component;
         }
 
