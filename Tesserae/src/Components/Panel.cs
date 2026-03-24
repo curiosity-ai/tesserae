@@ -168,7 +168,7 @@ namespace Tesserae
 
         protected override HTMLElement BuildRenderedContent()
         {
-            return _contentHtml;
+            return new FocusTrap(_contentHtml).Render();
         }
 
         public override Panel Show()
