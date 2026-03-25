@@ -452,6 +452,14 @@ namespace Tesserae
             return component;
         }
 
+        public static T Tooltip<T>(this T component, Action<TippyConfig> configAction) where T : IComponent
+        {
+            var config = new TippyConfig();
+            configAction(config);
+            Tippy.ShowFor(component, config, out var hide);
+            return component;
+        }
+
         /// <summary>Adds a tooltip with HTML content to the component.</summary>
         public static T Tooltip<T>(this T component, string tooltipHtml, TooltipAnimation animation = TooltipAnimation.None, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 250, int delayHide = 0, bool followCursor = false, int maxWidth = 350, bool arrow = false, string theme = null, IComponent parent = null) where T : IComponent
         {

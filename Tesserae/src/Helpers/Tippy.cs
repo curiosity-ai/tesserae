@@ -55,6 +55,23 @@ namespace Tesserae
         public bool FollowCursor { get; set; } = false;
 
         public TippyConfig() {}
+
+        public TippyConfig SetHeader(IComponent header) { Header = header; return this; }
+        public TippyConfig SetContent(IComponent content) { Content = content; return this; }
+        public TippyConfig SetFooter(IComponent footer) { Footer = footer; return this; }
+        public TippyConfig SetAnimation(TooltipAnimation animation) { Animation = animation; return this; }
+        public TippyConfig SetPlacement(TooltipPlacement placement) { Placement = placement; return this; }
+        public TippyConfig SetDelay(int show, int hide) { DelayShow = show; DelayHide = hide; return this; }
+        public TippyConfig SetMaxWidth(int maxWidth) { MaxWidth = maxWidth; return this; }
+        public TippyConfig SetArrow(bool arrow) { Arrow = arrow; return this; }
+        public TippyConfig SetTheme(string theme) { Theme = theme; return this; }
+        public TippyConfig SetInteractive(bool interactive) { Interactive = interactive; return this; }
+        public TippyConfig SetHideOnClick(bool hideOnClick) { HideOnClick = hideOnClick; return this; }
+        public TippyConfig SetOnHiddenCallback(Action onHiddenCallback) { OnHiddenCallback = onHiddenCallback; return this; }
+        public TippyConfig SetOnHide(Func<bool> onHide) { OnHide = onHide; return this; }
+        public TippyConfig SetOnClickOutside(Action<TippyInstance, MouseEvent> onClickOutside) { OnClickOutside = onClickOutside; return this; }
+        public TippyConfig SetAppendToBody(bool appendToBody) { AppendToBody = appendToBody; return this; }
+        public TippyConfig SetFollowCursor(bool followCursor) { FollowCursor = followCursor; return this; }
     }
 
     [H5.Name("tss.tippy")]
