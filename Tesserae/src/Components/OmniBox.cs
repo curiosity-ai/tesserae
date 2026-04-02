@@ -85,6 +85,11 @@ namespace Tesserae
         protected event ChatEventHandler Chatted;
 
         public event ComponentEventHandler<OmniBox, Event> Input;
+        public event ComponentEventHandler<OmniBox, KeyboardEvent> KeyDown;
+        public event ComponentEventHandler<OmniBox, KeyboardEvent> KeyUp;
+        public event ComponentEventHandler<OmniBox, KeyboardEvent> KeyPress;
+        public event ComponentEventHandler<OmniBox, Event> ReceivedFocus;
+        public event ComponentEventHandler<OmniBox, Event> LostFocus;
 
         public OmniBox(Config config)
         {
@@ -201,6 +206,12 @@ namespace Tesserae
                         }
                     }
                 });
+                _searchInput.addEventListener("keyup", (e) => KeyUp?.Invoke(this, e.As<KeyboardEvent>()));
+                _searchInput.addEventListener("keypress", (e) => KeyPress?.Invoke(this, e.As<KeyboardEvent>()));
+                _searchInput.addEventListener("keydown", (e) => KeyDown?.Invoke(this, e.As<KeyboardEvent>()));
+                _searchInput.addEventListener("focus", (e) => ReceivedFocus?.Invoke(this, e));
+                _searchInput.addEventListener("blur", (e) => LostFocus?.Invoke(this, e));
+
                 _searchInput.addEventListener("scroll", (e) => SyncScroll());
 
                 _searchInput.addEventListener("copy", (e) =>
@@ -259,6 +270,14 @@ namespace Tesserae
             {
                 _chatInput = TextArea(_("tss-omnibox-chat-input", type: "text", placeholder: config.PlaceholderChat ?? ""));
                 _chatInput.spellcheck = true;
+
+                _chatInput.addEventListener("input", (e) => Input?.Invoke(this, e));
+                _chatInput.addEventListener("keyup", (e) => KeyUp?.Invoke(this, e.As<KeyboardEvent>()));
+                _chatInput.addEventListener("keypress", (e) => KeyPress?.Invoke(this, e.As<KeyboardEvent>()));
+                _chatInput.addEventListener("keydown", (e) => KeyDown?.Invoke(this, e.As<KeyboardEvent>()));
+                _chatInput.addEventListener("focus", (e) => ReceivedFocus?.Invoke(this, e));
+                _chatInput.addEventListener("blur", (e) => LostFocus?.Invoke(this, e));
+
                 _chatTriggerBtn = Button().SetIcon(config.IconChat).Class("tss-omnibox-chat-btn");
 
                 if (config.ChatFooter?.LeftSide is object)
@@ -753,6 +772,41 @@ namespace Tesserae
             return this;
         }
 
+        public OmniBox OnInput(ComponentEventHandler<OmniBox, Event> onInput)
+        {
+            Input += onInput;
+            return this;
+        }
+
+        public OmniBox OnKeyDown(ComponentEventHandler<OmniBox, KeyboardEvent> onKeyDown)
+        {
+            KeyDown += onKeyDown;
+            return this;
+        }
+
+        public OmniBox OnKeyUp(ComponentEventHandler<OmniBox, KeyboardEvent> onKeyUp)
+        {
+            KeyUp += onKeyUp;
+            return this;
+        }
+
+        public OmniBox OnKeyPress(ComponentEventHandler<OmniBox, KeyboardEvent> onKeyPress)
+        {
+            KeyPress += onKeyPress;
+            return this;
+        }
+
+        public OmniBox OnFocus(ComponentEventHandler<OmniBox, Event> onFocus)
+        {
+            ReceivedFocus += onFocus;
+            return this;
+        }
+
+        public OmniBox OnBlur(ComponentEventHandler<OmniBox, Event> onBlur)
+        {
+            LostFocus += onBlur;
+            return this;
+        }
 
         public OmniBox WithHistory(Func<Task<SearchQuery[]>> historyFetcher)
         {
