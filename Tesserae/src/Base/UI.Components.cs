@@ -707,6 +707,31 @@ namespace Tesserae
         public static Message Message(string title = null, string message = null) => new Message(title, message);
 
         /// <summary>
+        /// Creates a <see cref="Tesserae.NonIdealState"/> component.
+        /// </summary>
+        public static NonIdealState NonIdealState(IComponent icon = null, string title = null, string description = null, IComponent action = null) => new NonIdealState(icon, title, description, action);
+
+        /// <summary>
+        /// Creates an <see cref="Tesserae.EntityTitle"/> component.
+        /// </summary>
+        public static EntityTitle EntityTitle(string title = null, string subtitle = null, IComponent icon = null) => new EntityTitle(title, subtitle, icon);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.SegmentedControl"/> component.
+        /// </summary>
+        public static SegmentedControl SegmentedControl() => new SegmentedControl();
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.TagInput"/> component.
+        /// </summary>
+        public static TagInput TagInput() => new TagInput();
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.ControlCard"/> component.
+        /// </summary>
+        public static ControlCard ControlCard(IComponent control, string label = null, string description = null) => new ControlCard(control, label, description);
+
+        /// <summary>
         /// Creates a <see cref="Tesserae.Toast"/> component.
         /// </summary>
         public static Toast Toast() => new Toast();
