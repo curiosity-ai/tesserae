@@ -51,10 +51,10 @@ namespace Tesserae.Tests.Samples
                     ),
                     SampleSubTitle("Glow Effects"),
                     VStack().Children(
-                        TextBlock("Default Text with default Glow").Glow(),
-                        TextBlock("Danger Text with default Glow").Danger().Glow(),
-                        TextBlock("Text with custom Foreground color and default Glow").Foreground(Theme.Colors.Purple600).Glow(),
-                        TextBlock("Text with custom Glow color").Glow(Theme.Success.Background)
+                        TextBlock("Default Text").Large().Glow(),
+                        TextBlock("Danger Text").Large().Danger().Glow(),
+                        TextBlock("Foreground Color").Large().Foreground(Theme.Colors.Purple600).Glow(),
+                        TextBlock("Custom Glow").Large().Glow(Theme.Colors.Lime300)
                     )
                 ));
         }
