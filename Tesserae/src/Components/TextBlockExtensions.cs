@@ -108,5 +108,23 @@
             textBlock.IsSecondary = true;
             return textBlock;
         }
+
+        /// <summary>Adds a glow effect to the text.</summary>
+        public static T Glow<T>(this T textBlock, string color = null) where T : TextBlock
+        {
+            var el = textBlock.Render();
+            el.classList.add("tss-text-glow");
+
+            if (!string.IsNullOrEmpty(color))
+            {
+                el.style.setProperty("--tss-text-glow-color", color);
+            }
+            else
+            {
+                el.style.removeProperty("--tss-text-glow-color");
+            }
+
+            return textBlock;
+        }
     }
 }
