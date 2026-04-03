@@ -13,7 +13,7 @@ namespace Tesserae.Tests.Samples
 
         public ChatSample()
         {
-            var chatArea = ChatArea();
+            var chatArea = ChatArea().Background("var(--tss-colors-neutral-100)");
 
             var predefinedAnswers = new[]
             {
@@ -26,23 +26,12 @@ namespace Tesserae.Tests.Samples
 
             var random = new Random();
 
-            // Shared cancellation flag — set to true to abort the current typing animation
-            var cancelled = false;
-
-            OmniBox input = null;
-
             void AddAIAnswer()
             {
-                cancelled = false;
-
                 var answer = predefinedAnswers[random.Next(predefinedAnswers.Length)];
                 var words = answer.Split(' ');
 
-                var copyButton = Button(UIcons.Copy).NoBorder().NoBackground().Tooltip("Copy");
-                copyButton.Render().classList.remove("tss-btn-default");
-                copyButton.Render().classList.add("tss-btn-icon-only");
-
-                var msgComponent = ChatMessage(TextBlock(""), Avatar(null, "AI"), copyButton).MaxWidth();
+                var msgComponent = ChatMessage(TextBlock(""), Avatar(null, "AI"), Button(UIcons.Copy).NoBorder().NoBackground().OnClick(() => { /* mock copy */ })).MaxWidth();
                 chatArea.Add(msgComponent);
 
                 int index = 0;
@@ -50,17 +39,7 @@ namespace Tesserae.Tests.Samples
 
                 void TypeNextWord()
                 {
-                    if (cancelled)
-                    {
-                        input.IsGenerating = false;
-                        return;
-                    }
-
-                    if (index >= words.Length)
-                    {
-                        input.IsGenerating = false;
-                        return;
-                    }
+                    if (index >= words.Length) return;
 
                     currentText += (index > 0 ? " " : "") + words[index];
                     msgComponent.ReplaceContent(TextBlock(currentText));
@@ -74,62 +53,50 @@ namespace Tesserae.Tests.Samples
             }
 
             // Preload some messages
-            chatArea.Add(ChatMessage(TextBlock("Hello there!"), Avatar(null, "U")).RightAligned().MaxWidth());
+            chatArea.Add(ChatMessage(TextBlock("Hello there!"), Avatar(null, "U")).RightAligned().MaxWidth().Background("var(--tss-colors-blue-500)"));
             chatArea.Add(ChatMessage(TextBlock("Hi! How can I help you today?"), Avatar(null, "AI")).MaxWidth());
 
-            // Demonstrate an AI message that uses a single tool inline via ToolCall.
-            chatArea.Add(ChatMessage(VStack().WS().Children(
-                ToolCall(UIcons.Eye, "Read /home/user/project/src/App.tsx", () => TextBlock("import React from 'react';\n\nexport default function App() {\n    return <div>Hello</div>;\n}").BreakSpaces()),
-                TextBlock("I just read App.tsx — it's a minimal React component. Want me to add routing?").PT(8)
-            ), Avatar(null, "AI")).MaxWidth());
-
-            // Demonstrate an AI message that used many tools, summarized via ToolsUsed.
-            chatArea.Add(ChatMessage(VStack().WS().Children(
-                ToolsUsed(
-                    ToolCall(UIcons.Terminal, "Bash ls -la && git status",                       () => TextBlock("On branch main\nnothing to commit, working tree clean").BreakSpaces()),
-                    ToolCall(UIcons.Eye,      "Read /home/user/project/README.md",              () => TextBlock("# Project\n\nA sample app.").BreakSpaces()),
-                    ToolCall(UIcons.Search,   "Grep \"TODO\" src/",                              () => TextBlock("src/App.tsx:14: // TODO: add routing").BreakSpaces()),
-                    ToolCall(UIcons.Terminal, "Bash dotnet build",                                () => TextBlock("Build succeeded.\n    0 Warning(s)\n    0 Error(s)").BreakSpaces()),
-                    ToolCall(UIcons.Eye,      "Read /home/user/project/src/index.tsx",          () => TextBlock("import { createRoot } from 'react-dom/client';\n...").BreakSpaces()),
-                    ToolCall(UIcons.Tools,    "ToolSearch routing",                              () => TextBlock("Found: react-router-dom v6")),
-                    ToolCall(UIcons.ListCheck, "Update todos").NotExpandable()
-                ).SetSummary("Ran 4 commands, read 2 files, used a tool"),
-                TextBlock("I scanned the project, ran the build, and looked at routing options. Here's what I found:").PT(8)
-            ), Avatar(null, "AI")).MaxWidth());
-
-            input = OmniBox(new OmniBox.Config(OmniBox.Mode.Chat)
+            var input = OmniBox(new OmniBox.Config(OmniBox.Mode.Search)
             {
-                PlaceholderChat = "Ask anything...",
-                IconStop = UIcons.Stop,
-                IconChat = UIcons.ArrowRight
-            })
-            .OnChat((sender, msg) =>
-            {
-                var text = msg.Text;
-                if (string.IsNullOrWhiteSpace(text)) return;
-
-                chatArea.Add(ChatMessage(TextBlock(text), Avatar(null, "U")).RightAligned().MaxWidth());
-
-                sender.IsGenerating = true;
-                AddAIAnswer();
-            })
-            .OnStop((sender) =>
-            {
-                cancelled = true;
-                sender.IsGenerating = false;
+                PlaceholderSearch = "Type a message...",
             });
 
-            var chatContainer = VStack().WS().H(10).Grow().Children(
-                chatArea.WS().H(10).Grow(),
-                input.WS().H(150)
+            var sendBtn = Button("Send").Primary().OnClick(() =>
+            {
+                var text = input.SearchText;
+                if (string.IsNullOrWhiteSpace(text)) return;
+
+                chatArea.Add(ChatMessage(TextBlock(text), Avatar(null, "U")).RightAligned().MaxWidth().Background("var(--tss-colors-blue-500)"));
+                input.SearchText = "";
+
+                AddAIAnswer();
+            });
+
+            input.OnKeyDown((sender, e) =>
+            {
+                if (e.key == "Enter")
+                {
+                    sendBtn.Render().click();
+                }
+            });
+
+            var inputStack = HStack().Padding("16px").AlignItemsCenter().Children(
+                input.Width(100.percent()).Grow(),
+                sendBtn.MarginLeft(8.px())
             );
 
-            _content = SectionStack().Secondary()
-                .SampleTitle(typeof(ChatSample), UIcons.Comments, "A component to display a chat")
-                .FlatSection(Card(VStack().S().Children(
-                    TextBlock("ChatArea and ChatMessage components allow building modern chat experiences with dynamic, animatable messages using DeltaComponent."),
-                    chatContainer.MT(16)
-                )).SetTitle("Overview").S(), grow: true);
+            var chatContainer = VStack().Height(60.vh()).Children(
+                chatArea.Grow(),
+                inputStack
+            );
+
+            _content = SectionStack()
+                .Title(SampleHeader(nameof(ChatSample)))
+                .Section(Stack().Children(
+                    SampleTitle("Overview"),
+                    TextBlock("ChatArea and ChatMessage components allow building chat experiences with dynamic, animatable messages using DeltaComponent."),
+                    chatContainer
+                ));
         }
 
         public HTMLElement Render() => _content.Render();
