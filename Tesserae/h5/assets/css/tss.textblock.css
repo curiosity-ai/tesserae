@@ -31,3 +31,7 @@
     flex-wrap: nowrap;
     justify-content: flex-start;
 }
+
+.tss-text-glow {
+    text-shadow: 0 0 10px var(--tss-text-glow-color, currentColor), 0 0 20px color-mix(in srgb, var(--tss-text-glow-color, currentColor) 40%, transparent);
+}
