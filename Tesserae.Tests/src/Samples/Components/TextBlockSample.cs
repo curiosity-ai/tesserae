@@ -48,6 +48,13 @@ namespace Tesserae.Tests.Samples
                         TextBlock("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.").Width(300.px()),
                         TextBlock("No wrapping (ellipsis):").SemiBold().MT(16),
                         TextBlock("This is a very long text that will be truncated with an ellipsis because it has NoWrap set and a constrained width.").NoWrap().Width(300.px())
+                    ),
+                    SampleSubTitle("Glow Effects"),
+                    VStack().Children(
+                        TextBlock("Default Text").Large().Glow(),
+                        TextBlock("Danger Text").Large().Danger().Glow(),
+                        TextBlock("Foreground Color").Large().Foreground(Theme.Colors.Purple600).Glow(),
+                        TextBlock("Custom Glow").Large().Glow(Theme.Colors.Lime300)
                     )
                 ));
         }
