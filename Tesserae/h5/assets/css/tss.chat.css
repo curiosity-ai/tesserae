@@ -1,0 +1,80 @@
+.tss-chatarea {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 16px;
+    box-sizing: border-box;
+}
+
+.tss-chatmessage-container {
+    display: flex;
+    align-items: flex-end;
+    margin-bottom: 12px;
+    width: 100%;
+}
+
+.tss-chatmessage-avatar {
+    flex-shrink: 0;
+    margin-right: 8px;
+    margin-left: 8px;
+}
+
+.tss-chatmessage-bubble {
+    padding: 10px 14px;
+    border-radius: 8px;
+    background-color: var(--tss-colors-neutral-100);
+    color: var(--tss-colors-neutral-900);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    word-break: break-word;
+    display: flex;
+    flex-direction: column;
+}
+
+.tss-chatmessage-content {
+    line-height: 1.4;
+}
+
+.tss-chatmessage-references {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 6px;
+    padding-top: 6px;
+    border-top: 1px solid var(--tss-colors-neutral-300);
+}
+
+.tss-chatmessage-commands {
+    flex-shrink: 0;
+    margin-left: 8px;
+    margin-right: 8px;
+    align-self: center;
+}
+
+/* Alignments */
+.tss-chat-left {
+    justify-content: flex-start;
+}
+
+.tss-chat-right {
+    justify-content: flex-end;
+    flex-direction: row-reverse;
+}
+
+.tss-chat-right .tss-chatmessage-bubble {
+    background-color: var(--tss-colors-blue-500);
+    color: white;
+}
+
+.tss-chat-right .tss-chatmessage-references {
+    border-top-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Widths */
+.tss-chat-maxwidth .tss-chatmessage-bubble {
+    max-width: 80%;
+}
+
+.tss-chat-fullwidth .tss-chatmessage-bubble {
+    width: 100%;
+}
