@@ -271,14 +271,24 @@ namespace Tesserae
                 _chatInput = TextArea(_("tss-omnibox-chat-input", type: "text", placeholder: config.PlaceholderChat ?? ""));
                 _chatInput.spellcheck = true;
 
+                _chatInput.addEventListener("keydown", (e) =>
+                {
+                    var ke = e.As<KeyboardEvent>();
+                    KeyDown?.Invoke(this, ke);
+
+                    if (ke.key == "Enter" && !ke.shiftKey)
+                    {
+                        TriggerChat();
+                    }
+                });
+
                 _chatInput.addEventListener("input", (e) => Input?.Invoke(this, e));
                 _chatInput.addEventListener("keyup", (e) => KeyUp?.Invoke(this, e.As<KeyboardEvent>()));
                 _chatInput.addEventListener("keypress", (e) => KeyPress?.Invoke(this, e.As<KeyboardEvent>()));
-                _chatInput.addEventListener("keydown", (e) => KeyDown?.Invoke(this, e.As<KeyboardEvent>()));
                 _chatInput.addEventListener("focus", (e) => ReceivedFocus?.Invoke(this, e));
                 _chatInput.addEventListener("blur", (e) => LostFocus?.Invoke(this, e));
 
-                _chatTriggerBtn = Button().SetIcon(config.IconChat).Class("tss-omnibox-chat-btn");
+                _chatTriggerBtn = Button().SetIcon(config.IconChat).Class("tss-omnibox-chat-btn").OnClick(TriggerChat);
 
                 if (config.ChatFooter?.LeftSide is object)
                 {
@@ -746,6 +756,13 @@ namespace Tesserae
             var val = _searchInput.value;
             var query = ParseQuery(val, _tokenIgnoreCase);
             Searched?.Invoke(this, query);
+        }
+
+        private void TriggerChat()
+        {
+            var val = _chatInput.value;
+            Chatted?.Invoke(this, new ChatMessage() { Text = val });
+            _chatInput.value = "";
         }
 
         public OmniBox OnSearch(SearchEventHandler onSearch)

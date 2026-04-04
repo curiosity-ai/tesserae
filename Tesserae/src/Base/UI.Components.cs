@@ -707,6 +707,16 @@ namespace Tesserae
         public static Message Message(string title = null, string message = null) => new Message(title, message);
 
         /// <summary>
+        /// Creates a <see cref="Tesserae.ChatArea"/> component.
+        /// </summary>
+        public static ChatArea ChatArea() => new ChatArea();
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.ChatMessage"/> component.
+        /// </summary>
+        public static ChatMessage ChatMessage(IComponent content, IComponent avatar = null, IComponent commands = null) => new ChatMessage(content, avatar, commands);
+
+        /// <summary>
         /// Creates a <see cref="Tesserae.Toast"/> component.
         /// </summary>
         public static Toast Toast() => new Toast();
