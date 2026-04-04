@@ -19,10 +19,9 @@
     flex-shrink: 0;
     margin-right: 16px;
     margin-left: 16px;
-    margin-top: 4px; /* Align with the first line of text */
+    margin-top: 4px;
 }
 
-/* Base bubble - default to transparent/flat for AI (Left) */
 .tss-chatmessage-bubble {
     padding: 4px 0;
     border-radius: 0;
@@ -48,7 +47,6 @@
     border-top: 1px solid var(--tss-colors-neutral-200);
 }
 
-/* Commands - hide by default, show on hover */
 .tss-chatmessage-commands {
     flex-shrink: 0;
     margin-left: 8px;
@@ -62,17 +60,14 @@
     opacity: 1;
 }
 
-/* Alignments */
 .tss-chat-left {
     justify-content: flex-start;
 }
 
 .tss-chat-right {
-    justify-content: flex-end;
     flex-direction: row-reverse;
 }
 
-/* User Message Styling (Right) */
 .tss-chat-right .tss-chatmessage-bubble {
     background-color: var(--tss-colors-neutral-100, #f3f4f6);
     color: var(--tss-colors-neutral-900, #111111);
