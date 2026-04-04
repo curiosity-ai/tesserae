@@ -214,10 +214,10 @@
 
 .tss-omnibox-chat-input {
     width: 100%;
-    flex-grow:1;
+    flex-grow: 1;
     border: none;
     background: transparent;
-    color: transparent;
+    color: var(--tss-default-foreground-color);
     caret-color: var(--tss-default-foreground-color);
     outline: none;
     padding: 0 5px;
