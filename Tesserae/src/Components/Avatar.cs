@@ -49,7 +49,7 @@ namespace Tesserae
 
             SetImage(image);
             SetInitials(initials);
-            Size(AvatarSize.Medium);
+            Size(AvatarSize.Small);
             Presence(AvatarPresence.None);
         }
 
