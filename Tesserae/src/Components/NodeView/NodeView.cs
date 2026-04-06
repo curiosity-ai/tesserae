@@ -11,10 +11,10 @@ namespace Tesserae
     /// <summary>
     /// A NodeView component that provides a visual node-based editor (based on BaklavaJS).
     /// </summary>
-    [H5.Name("tss.NodeView")]
+    [Name("tss.NodeView")]
     public class NodeView : IComponent
     {
-        private dom.HTMLDivElement _owner;
+        private HTMLDivElement _owner;
         private Raw _parent;
         private ViewModel _viewModel;
         private MutationObserver _observer;
@@ -133,7 +133,7 @@ namespace Tesserae
         /// Renders the node view.
         /// </summary>
         /// <returns>The rendered HTMLElement.</returns>
-        public dom.HTMLElement Render() => _parent.Render();
+        public HTMLElement Render() => _parent.Render();
 
         /// <summary>
         /// Gets the current state of the node graph.
@@ -174,7 +174,16 @@ namespace Tesserae
         {
             if (_viewModel is object)
             {
-                _viewModel.displayedGraph.load(state);
+#if DEBUG
+                console.log(state);
+#endif
+                var errors = _viewModel.displayedGraph.load(state);
+                if(errors.Length > 0) console.log(errors);
+#if DEBUG
+                var newState = _viewModel.displayedGraph.save();
+                console.log(newState);
+#endif
+
             }
             else
             {
@@ -472,7 +481,7 @@ namespace Tesserae
             {
                 return (i,o) =>
                 {
-                    var ib = InterfaceBuilder.New(_type);
+                    var ib = New(_type);
                     onUpdate(i, o, ib);
                     ib.GetInputsOutputs(out var inputObj, out var outputObj);
                     return new DynamicNodeUpdateResult()
@@ -673,7 +682,7 @@ namespace Tesserae
             [Template("{this}.destroy()")] public void destroy() { }
             [Template("{this}.findNodeById({0})")] public Node findNodeById(string id) { return null; }
             [Template("{this}.findNodeInterface({0})")] public NodeInterface findNodeInterface(string id) { return null; }
-            [Template("{this}.load({0})")] public void load(NodeViewGraphState state) { }
+            [Template("{this}.load({0})")] public ReadOnlyArray<string> load(NodeViewGraphState state) { return null; }
             [Template("{this}.removeConnection({0})")] public void removeConnection(Connection connection) { }
             [Template("{this}.removeNode({0})")] public void removeNode(Node node) { }
             [Template("{this}.save()")] public NodeViewGraphState save() { return null; }
@@ -894,6 +903,7 @@ namespace Tesserae
             public double x;
             public double y;
         }
+
         [ObjectLiteral]
         public class PositionState
         {
@@ -907,8 +917,8 @@ namespace Tesserae
             public string type;
             public string id;
             public string title;
-            public ReadOnlyMap<string, ValueState> inputs;
-            public ReadOnlyMap<string, ValueState> outputs;
+            public object inputs;
+            public object outputs;
             public PositionState position;
             public double width;
             public bool twoColumn;
@@ -927,7 +937,7 @@ namespace Tesserae
         public class ValueState
         {
             public string id;
-            public dynamic value;
+            public object value;
         }
 
         [ObjectLiteral]
@@ -963,7 +973,9 @@ namespace Tesserae
         [ObjectLiteral]
         public class ConnectionState
         {
-
+            public string id;
+            public string from;
+            public string to;
         }
 
         [ObjectLiteral]
@@ -1094,6 +1106,89 @@ namespace Tesserae
         public class OutputsState
         {
 
+        }
+        public static StateBuilder State() => new StateBuilder();
+
+        public class StateBuilder
+        {
+            private string _id = Guid.NewGuid().ToString();
+            private List<NodeState> _nodes = new List<NodeState>();
+            private List<ConnectionState> _connections = new List<ConnectionState>();
+
+            public StateBuilder AddNode(string id, string type, string title, double x, double y, double width, Action<NodeStateBuilder> buildNode = null)
+            {
+                var nsb = new NodeStateBuilder(id, type, title, x, y, width);
+                buildNode?.Invoke(nsb);
+                _nodes.Add(nsb.Build());
+                return this;
+            }
+
+            public StateBuilder AddConnection(string fromInterfaceId, string toInterfaceId)
+            {
+                _connections.Add(new ConnectionState
+                {
+                    id = Guid.NewGuid().ToString(),
+                    from = fromInterfaceId,
+                    to = toInterfaceId
+                });
+                return this;
+            }
+
+            public NodeViewGraphState Build()
+            {
+                return new NodeViewGraphState
+                {
+                    id = _id,
+                    nodes = _nodes.ToObjectLiteralArray(),
+                    connections = _connections.ToObjectLiteralArray(),
+                    inputs = new GraphInterfaceState[0],
+                    outputs = new GraphInterfaceState[0],
+                    panning = new PanningState { x = 0, y = 0 },
+                    scaling = 1
+                };
+            }
+        }
+
+        public class NodeStateBuilder
+        {
+            private NodeState _node = new NodeState();
+            private Dictionary<string, ValueState> _inputs = new Dictionary<string, ValueState>();
+            private Dictionary<string, ValueState> _outputs = new Dictionary<string, ValueState>();
+
+            public NodeStateBuilder(string id, string type, string title, double x, double y, double width)
+            {
+                _node.id = id;
+                _node.type = type;
+                _node.title = title;
+                _node.position = new PositionState { x = x, y = y };
+                _node.width = width;
+                _node.twoColumn = false;
+            }
+
+            public NodeStateBuilder TwoColumn(bool twoColumn = true)
+            {
+                _node.twoColumn = twoColumn;
+                return this;
+            }
+
+            public NodeStateBuilder AddInput(string name, string interfaceId, object value = null)
+            {
+                _inputs[name] = new ValueState { id = interfaceId, value = value };
+                return this;
+            }
+
+            public NodeStateBuilder AddOutput(string name, string interfaceId, object value = null)
+            {
+                _outputs[name] = new ValueState { id = interfaceId, value = value };
+                return this;
+            }
+
+            internal NodeState Build()
+            {
+                _node.inputs  = _inputs.ToObjectLiteral();
+                _node.outputs = _outputs.ToObjectLiteral();
+                return _node;
+            }
         }
     }
 }

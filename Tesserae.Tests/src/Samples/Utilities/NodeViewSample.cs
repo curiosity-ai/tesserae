@@ -37,6 +37,43 @@ namespace Tesserae.Tests.Samples
                                                       }
                                                   });
 
+            var stateBuilder = NodeView.State();
+
+            var node1_id = Guid.NewGuid().ToString();
+            var node1_inp = Guid.NewGuid().ToString();
+            var node1_out = Guid.NewGuid().ToString();
+
+
+            stateBuilder.AddNode(node1_id, "Hello World", "My First Node", 100, 100, 200, nb => nb
+                .AddInput("inp",  node1_inp, "Hello")
+                .AddOutput("out", node1_out)
+            );
+
+            var node2_id      = Guid.NewGuid().ToString();
+            var node2_text_id = Guid.NewGuid().ToString(); 
+            var node2_int_id  = Guid.NewGuid().ToString();
+            var node2_num_id  = Guid.NewGuid().ToString();
+            var node2_btn_id  = Guid.NewGuid().ToString();
+            var node2_chk_id  = Guid.NewGuid().ToString();
+            var node2_sel_id  = Guid.NewGuid().ToString();
+            var node2_sld_id  = Guid.NewGuid().ToString();
+            var node2_out_id = Guid.NewGuid().ToString();
+
+            stateBuilder.AddNode(node2_id, "Complex", "A Complex Node", 400, 100, 320, nb => nb
+                .AddInput("text", node2_text_id , "World")
+                .AddInput("int",  node2_int_id  , 42)
+                .AddInput("num",  node2_num_id  , 9.99)
+                .AddInput("btn",  node2_btn_id  , null)
+                .AddInput("chk",  node2_chk_id  , true)
+                .AddInput("sel",  node2_sel_id  , "B")
+                .AddInput("sld",  node2_sld_id  , 0.75)
+                .AddOutput("out", node2_out_id )
+            );
+
+            stateBuilder.AddConnection(node1_out, node2_text_id);
+
+            nodeView.SetState(stateBuilder.Build());
+
 
             var textArea = TextArea().WS().H(10).Grow();
 
