@@ -37,6 +37,25 @@ namespace Tesserae.Tests.Samples
                                                       }
                                                   });
 
+            var stateBuilder = NodeView.State();
+            stateBuilder.AddNode("node1", "Hello World", "My First Node", 100, 100, 200, nb => nb
+                .AddInput("inp", "node1_inp", "Hello")
+                .AddOutput("out", "node1_out")
+            );
+            stateBuilder.AddNode("node2", "Complex", "A Complex Node", 400, 100, 320, nb => nb
+                .AddInput("text", "node2_text", "World")
+                .AddInput("int", "node2_int", 42)
+                .AddInput("num", "node2_num", 9.99)
+                .AddInput("btn", "node2_btn", null)
+                .AddInput("chk", "node2_chk", true)
+                .AddInput("sel", "node2_sel", "B")
+                .AddInput("sld", "node2_sld", 0.75)
+                .AddOutput("out", "node2_out")
+            );
+            stateBuilder.AddConnection("node1_out", "node2_text");
+
+            nodeView.SetState(stateBuilder.Build());
+
 
             var textArea = TextArea().WS().H(10).Grow();
 
