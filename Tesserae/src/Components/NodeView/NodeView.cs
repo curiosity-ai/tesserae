@@ -26,7 +26,7 @@ namespace Tesserae
         /// <summary>
         /// Initializes a new instance of the NodeView class.
         /// </summary>
-        public NodeView()
+        public NodeView(Action<IViewSettings> settings = null)
         {
             //Docs: https://baklava.tech/getting-started.html
             
@@ -43,7 +43,7 @@ namespace Tesserae
 
                 HookChangeMonitoring();
 
-                InitializeSettings();
+                InitializeSettings(settings);
 
                 window.setTimeout((_) => ReplaceToolbarIcons(), 15); //On a timer to ensure the entire UI is built and rendered
             });
@@ -191,7 +191,7 @@ namespace Tesserae
             }
         }
 
-        private void InitializeSettings()
+        private void InitializeSettings(Action<IViewSettings> configure)
         {
             _viewModel.settings.useStraightConnections = false;
 
@@ -261,6 +261,8 @@ namespace Tesserae
                 subgraphCommands = new ReadOnlyArray<ToolbarCommand>(new ToolbarCommand[0]),
                 enabled = true
             };
+
+            configure?.Invoke(_viewModel.settings);
         }
 
         private void HookChangeMonitoring()
