@@ -167,6 +167,153 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Performs an automatic layout of the nodes using a basic topological sort algorithm.
+        /// </summary>
+        public void AutoLayout()
+        {
+            var state = GetState();
+            if (state == null || state.nodes == null || state.nodes.Length == 0) return;
+
+            var nodes = state.nodes;
+            var connections = state.connections;
+
+            // Build node lookups
+            var nodeById = new Dictionary<string, NodeState>();
+            var interfaceToNode = new Dictionary<string, string>(); // maps interface id to node id
+
+            foreach (var node in nodes)
+            {
+                nodeById[node.id] = node;
+
+                if (node.inputs != null)
+                {
+                    foreach (var key in Script.Write<string[]>("Object.keys({0})", node.inputs))
+                    {
+                        var val = node.inputs[key].As<ValueState>();
+                        if (val != null && !string.IsNullOrEmpty(val.id))
+                        {
+                            interfaceToNode[val.id] = node.id;
+                        }
+                    }
+                }
+
+                if (node.outputs != null)
+                {
+                    foreach (var key in Script.Write<string[]>("Object.keys({0})", node.outputs))
+                    {
+                        var val = node.outputs[key].As<ValueState>();
+                        if (val != null && !string.IsNullOrEmpty(val.id))
+                        {
+                            interfaceToNode[val.id] = node.id;
+                        }
+                    }
+                }
+            }
+
+            // Build graph edges
+            var adj = new Dictionary<string, List<string>>();
+            var inDegree = new Dictionary<string, int>();
+
+            foreach (var node in nodes)
+            {
+                adj[node.id] = new List<string>();
+                inDegree[node.id] = 0;
+            }
+
+            if (connections != null)
+            {
+                foreach (var conn in connections)
+                {
+                    if (interfaceToNode.TryGetValue(conn.from, out var fromNode) &&
+                        interfaceToNode.TryGetValue(conn.to, out var toNode))
+                    {
+                        if (!adj.ContainsKey(fromNode)) adj[fromNode] = new List<string>();
+                        if (!inDegree.ContainsKey(toNode)) inDegree[toNode] = 0;
+
+                        adj[fromNode].Add(toNode);
+                        inDegree[toNode]++;
+                    }
+                }
+            }
+
+            // Topological sort (Kahn's algorithm) to assign layers
+            var layers = new Dictionary<int, List<string>>();
+            var currentLayer = new List<string>();
+
+            foreach (var kvp in inDegree)
+            {
+                if (kvp.Value == 0) currentLayer.Add(kvp.Key);
+            }
+
+            int layerIndex = 0;
+            while (currentLayer.Count > 0)
+            {
+                layers[layerIndex] = currentLayer;
+                var nextLayer = new List<string>();
+
+                foreach (var u in currentLayer)
+                {
+                    if (adj.TryGetValue(u, out var neighbors))
+                    {
+                        foreach (var v in neighbors)
+                        {
+                            inDegree[v]--;
+                            if (inDegree[v] == 0)
+                            {
+                                nextLayer.Add(v);
+                            }
+                        }
+                    }
+                }
+                currentLayer = nextLayer;
+                layerIndex++;
+            }
+
+            // Handle cycles (nodes left with inDegree > 0)
+            var remainingNodes = new List<string>();
+            foreach (var kvp in inDegree)
+            {
+                if (kvp.Value > 0)
+                {
+                    remainingNodes.Add(kvp.Key);
+                }
+            }
+            if (remainingNodes.Count > 0)
+            {
+                layers[layerIndex] = remainingNodes;
+            }
+
+            // Assign positions
+            double xSpacing = 400;
+            double ySpacing = 150;
+            double xOffset = 0;
+
+            for (int i = 0; i <= layerIndex; i++)
+            {
+                if (!layers.ContainsKey(i)) continue;
+
+                var layerNodes = layers[i];
+                double currentY = 0;
+
+                foreach (var nodeId in layerNodes)
+                {
+                    if (nodeById.TryGetValue(nodeId, out var node))
+                    {
+                        node.position = new PositionState { x = xOffset, y = currentY };
+                        double nodeHeight = 150; // Approximate height, could be improved by calculating inputs/outputs
+                        if (node.inputs != null) nodeHeight += Script.Write<string[]>("Object.keys({0})", node.inputs).Length * 30;
+                        if (node.outputs != null) nodeHeight += Script.Write<string[]>("Object.keys({0})", node.outputs).Length * 30;
+
+                        currentY += nodeHeight + ySpacing;
+                    }
+                }
+                xOffset += xSpacing;
+            }
+
+            SetState(state);
+        }
+
+        /// <summary>
         /// Sets the state of the node graph.
         /// </summary>
         /// <param name="state">The graph state.</param>
@@ -282,6 +429,32 @@ namespace Tesserae
 
         private void ReplaceToolbarIcons()
         {
+            // BaklavaJS creates a Vue-managed toolbar, so appending DOM elements to it might fail if Vue re-renders.
+            // But we can float a button container over it, or we can just append a custom toolbar container next to .baklava-toolbar inside .baklava-editor.
+            var editorEl = _owner.querySelector(".baklava-editor").As<HTMLElement>();
+            if (editorEl != null)
+            {
+                var existingCustomToolbar = _owner.querySelector(".custom-toolbar");
+                if (existingCustomToolbar == null)
+                {
+                    var customToolbar = Div(_("custom-toolbar"));
+                    customToolbar.style.position = "absolute";
+                    customToolbar.style.top = "10px";
+                    customToolbar.style.left = "260px"; // Give space to the normal toolbar (left aligned instead of right which is covered by json viewer)
+                    customToolbar.style.zIndex = "100";
+
+                    var autoLayoutBtn = Button().SetIcon(UIcons.MagicWand).Tooltip("Auto Layout").NoMinSize().H(32).W(32).OnClick((s, e) => AutoLayout());
+                    var btnEl = autoLayoutBtn.Render();
+                    btnEl.classList.add("baklava-toolbar-button");
+                    btnEl.style.background = "var(--tss-default-background-color, white)";
+                    btnEl.style.border = "1px solid var(--tss-default-border-color, #ccc)";
+                    btnEl.style.borderRadius = "3px";
+
+                    customToolbar.appendChild(btnEl);
+                    editorEl.appendChild(customToolbar);
+                }
+            }
+
             foreach (HTMLElement toolbarEl in _owner.querySelectorAll(".baklava-toolbar-button"))
             {
                 switch (toolbarEl.title)
