@@ -739,7 +739,7 @@ namespace Tesserae
         /// <summary>
         /// Creates a <see cref="Tesserae.NodeView"/> component.
         /// </summary>
-        public static NodeView NodeView()                            => new NodeView();
+        public static NodeView NodeView(Action<NodeView.IViewSettings> settings = null)                            => new NodeView(settings);
         /// <summary>
         /// Creates a <see cref="Tesserae.Dropdown"/> component.
         /// </summary>

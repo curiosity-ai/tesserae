@@ -39,7 +39,7 @@ namespace Tesserae.Tests.Samples
 
             var stateBuilder = NodeView.State();
 
-            var node1_id = Guid.NewGuid().ToString();
+            var node1_id  = Guid.NewGuid().ToString();
             var node1_inp = Guid.NewGuid().ToString();
             var node1_out = Guid.NewGuid().ToString();
 
