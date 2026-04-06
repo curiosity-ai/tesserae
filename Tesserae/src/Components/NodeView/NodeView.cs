@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using H5;
 using H5.Core;
@@ -191,6 +192,152 @@ namespace Tesserae
             }
         }
 
+        public void AutoLayout()
+        {
+            if (_viewModel is null)
+            {
+                _whenMounted.Add(() => AutoLayout());
+                return;
+            }
+
+            var state = GetState();
+            if (state.nodes == null || state.nodes.Length == 0) return;
+
+            var interfaceToNode = new Dictionary<string, string>();
+            foreach (var node in state.nodes)
+            {
+                if (node.inputs != null)
+                {
+                    var inputs = H5.Script.Write<string[]>("Object.keys({0})", node.inputs);
+                    foreach (var key in inputs)
+                    {
+                        var val = node.inputs.As<dynamic>()[key];
+                        interfaceToNode[(string)val.id] = node.id;
+                    }
+                }
+                if (node.outputs != null)
+                {
+                    var outputs = H5.Script.Write<string[]>("Object.keys({0})", node.outputs);
+                    foreach (var key in outputs)
+                    {
+                        var val = node.outputs.As<dynamic>()[key];
+                        interfaceToNode[(string)val.id] = node.id;
+                    }
+                }
+            }
+
+            var adjList = new Dictionary<string, List<string>>();
+            var inDegree = new Dictionary<string, int>();
+
+            foreach (var node in state.nodes)
+            {
+                adjList[node.id] = new List<string>();
+                inDegree[node.id] = 0;
+            }
+
+            if (state.connections != null)
+            {
+                foreach (var conn in state.connections)
+                {
+                    if (interfaceToNode.TryGetValue(conn.from, out var fromNode) &&
+                        interfaceToNode.TryGetValue(conn.to, out var toNode))
+                    {
+                        if (fromNode != toNode)
+                        {
+                            adjList[fromNode].Add(toNode);
+                            inDegree[toNode]++;
+                        }
+                    }
+                }
+            }
+
+            var layers = new Dictionary<string, int>();
+            var queue = new Queue<string>();
+
+            foreach (var kvp in inDegree)
+            {
+                if (kvp.Value == 0)
+                {
+                    queue.Enqueue(kvp.Key);
+                    layers[kvp.Key] = 0;
+                }
+            }
+
+            var visited = new HashSet<string>();
+
+            while (queue.Count > 0)
+            {
+                var curr = queue.Dequeue();
+                if (!visited.Add(curr)) continue;
+
+                var currLayer = layers[curr];
+                foreach (var neighbor in adjList[curr])
+                {
+                    inDegree[neighbor]--;
+                    if (!layers.ContainsKey(neighbor) || layers[neighbor] < currLayer + 1)
+                    {
+                        layers[neighbor] = currLayer + 1;
+                    }
+
+                    if (inDegree[neighbor] == 0)
+                    {
+                        queue.Enqueue(neighbor);
+                    }
+                }
+            }
+
+            // Handle cycles: nodes that didn't get into a layer
+            foreach (var node in state.nodes)
+            {
+                if (!layers.ContainsKey(node.id))
+                {
+                    layers[node.id] = 0; // fallback
+                }
+            }
+
+            var nodesByLayer = new Dictionary<int, List<NodeState>>();
+            foreach (var node in state.nodes)
+            {
+                var l = layers[node.id];
+                if (!nodesByLayer.ContainsKey(l))
+                {
+                    nodesByLayer[l] = new List<NodeState>();
+                }
+                nodesByLayer[l].Add(node);
+            }
+
+            double horizontalSpacing = 400;
+            double verticalSpacing = 200;
+            double xOffset = 0;
+
+            var maxLayer = nodesByLayer.Keys.Max();
+
+            for (int i = 0; i <= maxLayer; i++)
+            {
+                if (!nodesByLayer.ContainsKey(i)) continue;
+
+                var layerNodes = nodesByLayer[i];
+                double yOffset = 0;
+
+                foreach (var node in layerNodes)
+                {
+                    if (node.position == null)
+                    {
+                        node.position = new PositionState();
+                    }
+                    node.position.x = xOffset;
+                    node.position.y = yOffset;
+
+                    yOffset += verticalSpacing + (node.width > 0 ? (node.width / 2) : 100);
+                    // Baklava's height is variable, so we add a generous spacing or could calculate better
+                }
+
+                xOffset += horizontalSpacing;
+            }
+
+            SetState(state);
+        }
+
         private void InitializeSettings(Action<IViewSettings> configure)
         {
             _viewModel.settings.useStraightConnections = false;
@@ -282,6 +429,15 @@ namespace Tesserae
 
         private void ReplaceToolbarIcons()
         {
+            var toolbarContainer = _owner.querySelector(".baklava-toolbar").As<HTMLElement>();
+            if (toolbarContainer != null)
+            {
+                var autoLayoutBtn = Button().SetIcon(UIcons.MagicWand).Tooltip("Auto Layout").NoMinSize().H(32).W(32).OnClick((_, __) => AutoLayout());
+                var customBtnEl = Div(_("baklava-toolbar-button"));
+                customBtnEl.appendChild(autoLayoutBtn.Render());
+                toolbarContainer.appendChild(customBtnEl);
+            }
+
             foreach (HTMLElement toolbarEl in _owner.querySelectorAll(".baklava-toolbar-button"))
             {
                 switch (toolbarEl.title)
