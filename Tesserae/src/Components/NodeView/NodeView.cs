@@ -255,6 +255,11 @@ namespace Tesserae
                         {
                             command = ToolbarCommands.START_SELECTION_BOX_COMMAND,
                             title = "Box Select"
+                        },
+                        new ToolbarCommand()
+                        {
+                            command = ToolbarCommands.AUTO_LAYOUT_COMMAND,
+                            title = "Auto Layout"
                         }
 
                     }),
@@ -314,14 +319,70 @@ namespace Tesserae
                         ReplaceIcon(toolbarEl, UIcons.SquareDashed);
                         break;
                     }
+                    case "Auto Layout":
+                    {
+                        ReplaceIcon(toolbarEl, UIcons.MagicWand, AutoLayout);
+                        break;
+                    }
                 }
             }
 
-            void ReplaceIcon(HTMLElement el, UIcons icon)
+            void ReplaceIcon(HTMLElement el, UIcons icon, Action onClick = null)
             {
                 ClearChildren(el);
-                el.appendChild(Button().SetIcon(icon).Tooltip(el.title).NoMinSize().H(32).W(32).Render());
+                var btn = Button().SetIcon(icon).Tooltip(el.title).NoMinSize().H(32).W(32);
+                if (onClick != null)
+                {
+                    btn.OnClick((s, e) => onClick());
+                }
+                el.appendChild(btn.Render());
             }
+        }
+
+        public void AutoLayout()
+        {
+            Script.Write(@"
+                var elk = new ELK();
+                var editor = {0}.editor;
+                var graph = {{
+                    id: 'root',
+                    layoutOptions: {{
+                        'elk.algorithm': 'layered',
+                        'elk.direction': 'RIGHT',
+                        'elk.spacing.nodeNode': '80',
+                        'elk.layered.spacing.nodeNodeBetweenLayers': '100'
+                    }},
+                    children: editor.graph.nodes.map(node => {{
+                        var domNode = document.getElementById(node.id);
+                        return {{
+                            id: node.id,
+                            width: domNode ? domNode.clientWidth : 200,
+                            height: domNode ? domNode.clientHeight : 300,
+                            x: node.position.x,
+                            y: node.position.y
+                        }};
+                    }}),
+                    edges: editor.graph.connections.map(conn => ({{
+                        id: conn.from.nodeId + ':' + conn.from.id + '-' + conn.to.nodeId + ':' + conn.to.id,
+                        sources: [conn.from.nodeId],
+                        targets: [conn.to.nodeId]
+                    }}))
+                }};
+
+                elk.layout(graph).then(function(newGraph) {{
+                    if (newGraph.children) {{
+                        newGraph.children.forEach(function(child) {{
+                            var node = editor.graph.nodes.find(n => n.id === child.id);
+                            if (node && child.x !== undefined && child.y !== undefined) {{
+                                node.position.x = child.x;
+                                node.position.y = child.y;
+                            }}
+                        }});
+                    }}
+                }}).catch(function(error) {{
+                    console.error('Layout calculation failed:', error);
+                }});
+            ", _viewModel);
         }
 
         private void RaiseChange()
@@ -1068,6 +1129,7 @@ namespace Tesserae
             [Name("START_SELECTION_BOX")] START_SELECTION_BOX_COMMAND,
             [Name("DELETE_NODES")] DELETE_NODES_COMMAND,
             [Name("SWITCH_TO_MAIN_GRAPH")] SWITCH_TO_MAIN_GRAPH_COMMAND,
+            [Name("AUTO_LAYOUT")] AUTO_LAYOUT_COMMAND,
         }
 
         [ObjectLiteral]
