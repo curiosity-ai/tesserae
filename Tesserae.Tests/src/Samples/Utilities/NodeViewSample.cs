@@ -85,6 +85,7 @@ namespace Tesserae.Tests.Samples
                .Title(SampleHeader(nameof(NodeViewSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
+                    Button("Auto Layout").OnClick((_, __) => nodeView.AutoLayout()),
                     TextBlock("NodeView is a powerful utility for creating node-based visual editors and data flows. It allows you to define custom node types with various input and output interfaces, enabling users to build complex logic or data pipelines graphically.")))
                .Section(Stack().Children(
                     SampleTitle("Best Practices"),
