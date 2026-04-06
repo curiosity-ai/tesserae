@@ -11,10 +11,10 @@ namespace Tesserae
     /// <summary>
     /// A NodeView component that provides a visual node-based editor (based on BaklavaJS).
     /// </summary>
-    [H5.Name("tss.NodeView")]
+    [Name("tss.NodeView")]
     public class NodeView : IComponent
     {
-        private dom.HTMLDivElement _owner;
+        private HTMLDivElement _owner;
         private Raw _parent;
         private ViewModel _viewModel;
         private MutationObserver _observer;
@@ -133,7 +133,7 @@ namespace Tesserae
         /// Renders the node view.
         /// </summary>
         /// <returns>The rendered HTMLElement.</returns>
-        public dom.HTMLElement Render() => _parent.Render();
+        public HTMLElement Render() => _parent.Render();
 
         /// <summary>
         /// Gets the current state of the node graph.
@@ -174,7 +174,16 @@ namespace Tesserae
         {
             if (_viewModel is object)
             {
-                _viewModel.displayedGraph.load(state);
+#if DEBUG
+                console.log(state);
+#endif
+                var errors = _viewModel.displayedGraph.load(state);
+                if(errors.Length > 0) console.log(errors);
+#if DEBUG
+                var newState = _viewModel.displayedGraph.save();
+                console.log(newState);
+#endif
+
             }
             else
             {
@@ -472,7 +481,7 @@ namespace Tesserae
             {
                 return (i,o) =>
                 {
-                    var ib = InterfaceBuilder.New(_type);
+                    var ib = New(_type);
                     onUpdate(i, o, ib);
                     ib.GetInputsOutputs(out var inputObj, out var outputObj);
                     return new DynamicNodeUpdateResult()
@@ -673,7 +682,7 @@ namespace Tesserae
             [Template("{this}.destroy()")] public void destroy() { }
             [Template("{this}.findNodeById({0})")] public Node findNodeById(string id) { return null; }
             [Template("{this}.findNodeInterface({0})")] public NodeInterface findNodeInterface(string id) { return null; }
-            [Template("{this}.load({0})")] public void load(NodeViewGraphState state) { }
+            [Template("{this}.load({0})")] public ReadOnlyArray<string> load(NodeViewGraphState state) { return null; }
             [Template("{this}.removeConnection({0})")] public void removeConnection(Connection connection) { }
             [Template("{this}.removeNode({0})")] public void removeNode(Node node) { }
             [Template("{this}.save()")] public NodeViewGraphState save() { return null; }
@@ -880,10 +889,10 @@ namespace Tesserae
         public class NodeViewGraphState
         {
             public string id;
-            public NodeState[] nodes;
-            public ConnectionState[] connections;
-            public GraphInterfaceState[] inputs;
-            public GraphInterfaceState[] outputs;
+            public ReadOnlyArray<NodeState> nodes;
+            public ReadOnlyArray<ConnectionState> connections;
+            public ReadOnlyArray<GraphInterfaceState> inputs;
+            public ReadOnlyArray<GraphInterfaceState> outputs;
             public PanningState panning;
             public double scaling;
         }
@@ -894,6 +903,7 @@ namespace Tesserae
             public double x;
             public double y;
         }
+
         [ObjectLiteral]
         public class PositionState
         {
@@ -907,8 +917,8 @@ namespace Tesserae
             public string type;
             public string id;
             public string title;
-            public System.Collections.Generic.Dictionary<string, ValueState> inputs;
-            public System.Collections.Generic.Dictionary<string, ValueState> outputs;
+            public object inputs;
+            public object outputs;
             public PositionState position;
             public double width;
             public bool twoColumn;
@@ -1101,9 +1111,9 @@ namespace Tesserae
 
         public class StateBuilder
         {
-            private string _id = System.Guid.NewGuid().ToString();
-            private System.Collections.Generic.List<NodeState> _nodes = new System.Collections.Generic.List<NodeState>();
-            private System.Collections.Generic.List<ConnectionState> _connections = new System.Collections.Generic.List<ConnectionState>();
+            private string _id = Guid.NewGuid().ToString();
+            private List<NodeState> _nodes = new List<NodeState>();
+            private List<ConnectionState> _connections = new List<ConnectionState>();
 
             public StateBuilder AddNode(string id, string type, string title, double x, double y, double width, Action<NodeStateBuilder> buildNode = null)
             {
@@ -1117,7 +1127,7 @@ namespace Tesserae
             {
                 _connections.Add(new ConnectionState
                 {
-                    id = System.Guid.NewGuid().ToString(),
+                    id = Guid.NewGuid().ToString(),
                     from = fromInterfaceId,
                     to = toInterfaceId
                 });
@@ -1129,8 +1139,8 @@ namespace Tesserae
                 return new NodeViewGraphState
                 {
                     id = _id,
-                    nodes = _nodes.ToArray(),
-                    connections = _connections.ToArray(),
+                    nodes = _nodes.ToObjectLiteralArray(),
+                    connections = _connections.ToObjectLiteralArray(),
                     inputs = new GraphInterfaceState[0],
                     outputs = new GraphInterfaceState[0],
                     panning = new PanningState { x = 0, y = 0 },
@@ -1142,8 +1152,8 @@ namespace Tesserae
         public class NodeStateBuilder
         {
             private NodeState _node = new NodeState();
-            private System.Collections.Generic.Dictionary<string, ValueState> _inputs = new System.Collections.Generic.Dictionary<string, ValueState>();
-            private System.Collections.Generic.Dictionary<string, ValueState> _outputs = new System.Collections.Generic.Dictionary<string, ValueState>();
+            private Dictionary<string, ValueState> _inputs = new Dictionary<string, ValueState>();
+            private Dictionary<string, ValueState> _outputs = new Dictionary<string, ValueState>();
 
             public NodeStateBuilder(string id, string type, string title, double x, double y, double width)
             {
@@ -1175,8 +1185,8 @@ namespace Tesserae
 
             internal NodeState Build()
             {
-                _node.inputs = _inputs;
-                _node.outputs = _outputs;
+                _node.inputs  = _inputs.ToObjectLiteral();
+                _node.outputs = _outputs.ToObjectLiteral();
                 return _node;
             }
         }

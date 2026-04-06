@@ -48,4 +48,21 @@ namespace Tesserae
         public extern TValue this[TKey key] { [Template("{this}[{key}]")] get; }
         public extern int Length { [Name("length")] get; }
     }
+
+    public static class ObjectLiteralExtensions
+    {
+        public static ReadOnlyArray<T> ToObjectLiteralArray<T>(this IEnumerable<T> source)
+        {
+            return H5.Script.ToArray(source);
+        }
+        public static object ToObjectLiteral<TValue>(this Dictionary<string, TValue> source)
+        {
+            var o = new object();
+            foreach (var kv in source)
+            {
+                o[kv.Key] = kv.Value;
+            }
+            return o;
+        }
+    }
 }
