@@ -106,6 +106,46 @@ namespace Tesserae
         /// <returns>The rendered HTML element.</returns>
         public override HTMLElement Render() => InnerElement;
 
+        private static bool IsWithinClass(HTMLElement element, string className)
+        {
+            while (element is object)
+            {
+                if (element.classList?.contains(className) == true)
+                {
+                    return true;
+                }
+
+                element = element.parentElement;
+            }
+
+            return false;
+        }
+
+        private static bool IsTriggeredFromTippyContent()
+        {
+            return IsWithinClass(document.activeElement as HTMLElement, "tippy-content");
+        }
+
+        private static HTMLElement FindAncestorWithClass(HTMLElement element, string className)
+        {
+            while (element is object)
+            {
+                if (element.classList?.contains(className) == true)
+                {
+                    return element;
+                }
+
+                element = element.parentElement;
+            }
+
+            return null;
+        }
+
+        private bool IsRenderedInTippyContent()
+        {
+            return FindAncestorWithClass(InnerElement.parentElement, "tippy-content") is object;
+        }
+
         /// <summary>
         /// Shows the layer.
         /// </summary>
@@ -145,8 +185,24 @@ namespace Tesserae
 
                 _isVisible = true;
 
-                if (!_contentHtml.classList.contains("tss-toast"))
+                console.log("[layer] show", new
                 {
+                    inner = InnerElement,
+                    content = _contentHtml,
+                    renderedContent = _renderedContent,
+                    isRenderedInTippy = IsRenderedInTippyContent(),
+                    activeElement = document.activeElement
+                });
+
+                if (IsRenderedInTippyContent())
+                {
+                    console.log("[layer] show pinning owning tippy");
+                    Tippy.PinOwningTippy(InnerElement.parentElement);
+                }
+
+                if (!_contentHtml.classList.contains("tss-toast") && !IsTriggeredFromTippyContent() && !IsRenderedInTippyContent())
+                {
+                    console.log("[layer] show calling Tippy.HideAll");
                     Tippy.HideAll();
                 }
             }

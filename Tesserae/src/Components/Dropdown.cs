@@ -27,6 +27,8 @@ namespace Tesserae
         private bool                     _isChanged;
         private bool                     _callSelectOnChangingItemSelections;
         private bool                     _fitContent = false;
+        private bool                     _disableWhenEmpty = true;
+        private bool                     _showNoItemsInControl = true;
         private Func<Task<Item[]>>       _itemsSource;
         private ReadOnlyArray<Item>      _lastRenderedItems;
         private HTMLDivElement           _popupDiv;
@@ -86,6 +88,13 @@ namespace Tesserae
         public Dropdown FitContent()
         {
             _fitContent = true;
+            return this;
+        }
+
+        public Dropdown ClosedControlEmptyState(bool visible = true, bool disableWhenEmpty = true)
+        {
+            _showNoItemsInControl = visible;
+            _disableWhenEmpty     = disableWhenEmpty;
             return this;
         }
 
@@ -502,8 +511,8 @@ namespace Tesserae
             else
             {
                 Hide();
-                Disabled(true);
-                _noItemsSpan.style.display = "";
+                Disabled(_disableWhenEmpty);
+                _noItemsSpan.style.display = _showNoItemsInControl ? "" : "none";
             }
 
             return this;
@@ -637,28 +646,25 @@ namespace Tesserae
         {
             ClearChildren(InnerElement);
 
-            if (SelectedItems.Any())
+            if (_customRenderer is object)
             {
-                if (_customRenderer is object)
+                InnerElement.appendChild(_customRenderer(SelectedItems).Render());
+            }
+            else if (SelectedItems.Any())
+            {
+                for (var i = 0; i < SelectedItems.Length; i++)
                 {
-                    InnerElement.appendChild(_customRenderer(SelectedItems).Render());
-                }
-                else
-                {
-                    for (var i = 0; i < SelectedItems.Length; i++)
-                    {
-                        var sel   = SelectedItems[i];
-                        var clone = sel.RenderSelected();
-                        clone.classList.remove("tss-dropdown-item");
-                        clone.classList.remove("tss-selected");
-                        clone.classList.add("tss-dropdown-item-on-box");
+                    var sel   = SelectedItems[i];
+                    var clone = sel.RenderSelected();
+                    clone.classList.remove("tss-dropdown-item");
+                    clone.classList.remove("tss-selected");
+                    clone.classList.add("tss-dropdown-item-on-box");
 
-                        if (_fitContent)
-                        {
-                            clone.classList.add("tss-dropdown-fit-content");
-                        }
-                        InnerElement.appendChild(clone);
+                    if (_fitContent)
+                    {
+                        clone.classList.add("tss-dropdown-fit-content");
                     }
+                    InnerElement.appendChild(clone);
                 }
             }
             else
@@ -678,7 +684,10 @@ namespace Tesserae
 
             // 2020-06-30 DWR: This may or may not be visible right now, it doesn't matter - we just need to ensure that we add it back in after clearing InnerElement
             // - Note: Put it at the end of the list because there is a styling rule for selections within InnerElement that sayas to add a comma before the item if it's not the first one and that styling will see the no-items element as the first item otherwise :(
-            InnerElement.appendChild(_noItemsSpan);
+            if (_showNoItemsInControl)
+            {
+                InnerElement.appendChild(_noItemsSpan);
+            }
         }
 
         private void OnPopupKeyDown(Event e)

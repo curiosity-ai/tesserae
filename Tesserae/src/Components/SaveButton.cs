@@ -10,17 +10,17 @@ namespace Tesserae
     public class SaveButton : IComponent
     {
         private Button _button;
-        private string _textSave = "Save";
+        private string _textSave      = "Save";
         private string _textSaveHover = null;
         private string _textVerifying = "Verifying...";
-        private string _textSaving = "Saving...";
-        private string _textSaved = "Saved";
-        private string _textError = "Error";
-        private UIcons _iconSave = UIcons.Disk;
+        private string _textSaving    = "Saving...";
+        private string _textSaved     = "Saved";
+        private string _textError     = "Error";
+        private UIcons _iconSave      = UIcons.Disk;
         private UIcons _iconSaveHover = UIcons.Disk;
-        private State _state;
-        private bool _hovering;
-        private bool _pendingPrimary = true;
+        private State  _state;
+        private bool   _hovering;
+        private bool   _pendingPrimary = true;
 
         public enum State
         {
@@ -36,6 +36,7 @@ namespace Tesserae
         {
             _button = Button().MinWidth(100.px());
             var element = _button.Render();
+
             element.addEventListener("mouseenter", (e) =>
             {
                 if (_state == State.PendingSave && !string.IsNullOrEmpty(_textSaveHover))
@@ -58,18 +59,18 @@ namespace Tesserae
 
         public SaveButton Configure(string save = null, string verifying = null, string saving = null, string saved = null, string error = null, string saveHover = null, UIcons saveIcon = UIcons.Disk, UIcons saveHoverIcon = UIcons.Disk, bool pendingPrimary = true)
         {
-            if (save != null) _textSave = save;
+            if (save != null) _textSave           = save;
             if (verifying != null) _textVerifying = verifying;
-            if (saving != null) _textSaving = saving;
-            if (saved != null) _textSaved = saved;
-            if (error != null) _textError = error;
+            if (saving != null) _textSaving       = saving;
+            if (saved != null) _textSaved         = saved;
+            if (error != null) _textError         = error;
             if (saveHover != null) _textSaveHover = saveHover;
 
-            if(string.IsNullOrEmpty(_textSaveHover))  _textSaveHover = save;
-            
+            if (string.IsNullOrEmpty(_textSaveHover)) _textSaveHover = save;
+
             _pendingPrimary = pendingPrimary;
-            _iconSave = saveIcon;
-            _iconSaveHover = saveHoverIcon;
+            _iconSave       = saveIcon;
+            _iconSaveHover  = saveHoverIcon;
 
             SetState(_state);
 
@@ -83,7 +84,7 @@ namespace Tesserae
             // Reset base styles
             _button.IsPrimary = false;
             _button.IsSuccess = false;
-            _button.IsDanger = false;
+            _button.IsDanger  = false;
             _button.IsEnabled = state != State.NothingToSave; // Default to enabled
             _button.RemoveTooltip();
 
@@ -92,6 +93,7 @@ namespace Tesserae
                 case State.NothingToSave:
                 case State.PendingSave:
                     _button.IsPrimary = _pendingPrimary;
+
                     if (_hovering)
                     {
                         _button.SetText(_textSaveHover).SetIcon(_iconSaveHover);
@@ -118,6 +120,7 @@ namespace Tesserae
                 case State.Error:
                     _button.IsDanger = true;
                     _button.SetIcon(UIcons.OctagonXmark).SetText(_textError);
+
                     if (!string.IsNullOrEmpty(message))
                     {
                         _button.Tooltip(message);
@@ -129,13 +132,13 @@ namespace Tesserae
             return this;
         }
 
-        
+
         public SaveButton NothingToSave(string message = null) => SetState(State.NothingToSave, message);
-        public SaveButton Pending(string message = null) => SetState(State.PendingSave, message);
-        public SaveButton Verifying(string message = null) => SetState(State.Verifying, message);
-        public SaveButton Saving(string message = null) => SetState(State.Saving, message);
-        public SaveButton Saved(string message = null) => SetState(State.Saved, message);
-        public SaveButton Error(string message = null) => SetState(State.Error, message);
+        public SaveButton Pending(string       message = null) => SetState(State.PendingSave,   message);
+        public SaveButton Verifying(string     message = null) => SetState(State.Verifying,     message);
+        public SaveButton Saving(string        message = null) => SetState(State.Saving,        message);
+        public SaveButton Saved(string         message = null) => SetState(State.Saved,         message);
+        public SaveButton Error(string         message = null) => SetState(State.Error,         message);
 
 
         public SaveButton OnClick(Action action)
@@ -145,9 +148,24 @@ namespace Tesserae
             return this;
         }
 
+        public SaveButton OnClick(Func<Task> action)
+        {
+            if (_state != State.PendingSave) return this;
+
+            _button.OnClick(() =>
+            {
+                if (action is object)
+                {
+                    action().FireAndForget();
+                }
+            });
+            return this;
+        }
+
         public async Task<State> VerifyingWhile(Func<Task<State>> action, string text = null, Action<SaveButton, Exception> onError = null)
         {
             SetState(State.Verifying, text);
+
             try
             {
                 var result = await action();
@@ -172,6 +190,7 @@ namespace Tesserae
         public SaveButton OnClickSpinWhile(Func<Task> action, string text = null, Action<SaveButton, Exception> onError = null)
         {
             Action<Button, Exception> onErrorInner;
+
             if (onError is object)
             {
                 onErrorInner = (Button b, Exception e) => onError(this, e);
@@ -185,6 +204,7 @@ namespace Tesserae
                     throw e;
                 };
             }
+
             _button.OnClickSpinWhile(async () =>
             {
                 if (_state != State.PendingSave) return;

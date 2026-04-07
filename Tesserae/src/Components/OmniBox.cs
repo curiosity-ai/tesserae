@@ -252,7 +252,7 @@ namespace Tesserae
                     _searchInput.focus();
                 });
 
-                _searchTriggerBtn.OnClick(TriggerSearch);
+                _searchTriggerBtn.OnClick(() => TriggerSearch());
 
                 _searchHistoryBtn.OnClickSpinWhile(async () => 
                 {
@@ -288,7 +288,7 @@ namespace Tesserae
                 _chatInput.addEventListener("focus", (e) => ReceivedFocus?.Invoke(this, e));
                 _chatInput.addEventListener("blur", (e) => LostFocus?.Invoke(this, e));
 
-                _chatTriggerBtn = Button().SetIcon(config.IconChat).Class("tss-omnibox-chat-btn").OnClick(TriggerChat);
+                _chatTriggerBtn = Button().SetIcon(config.IconChat).Class("tss-omnibox-chat-btn").OnClick(() => TriggerChat());
 
                 if (config.ChatFooter?.LeftSide is object)
                 {

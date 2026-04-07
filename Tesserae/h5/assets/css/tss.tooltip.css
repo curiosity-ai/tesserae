@@ -206,12 +206,6 @@
     opacity: 0
 }
 
-
-.tippy-content .tss-fontcolor-default {
-    color: var(--tss-default-background-color);
-}
-
-
 .tippy-content .tss-btn-default:not(.tss-disabled) {
     color: var(--tss-default-foreground-color);
     background-color: var(--tss-default-background-color);
