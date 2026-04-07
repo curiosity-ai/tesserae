@@ -44,7 +44,7 @@ namespace Tesserae.Tests.Samples
             var node1_out = Guid.NewGuid().ToString();
 
 
-            stateBuilder.AddNode(node1_id, "Hello World", "My First Node", 100, 100, 200, nb => nb
+            stateBuilder.AddNode(node1_id, "Hello World", "My First Node", 200, 300, 200, nb => nb
                 .AddInput("inp",  node1_inp, "Hello")
                 .AddOutput("out", node1_out)
             );
@@ -59,18 +59,22 @@ namespace Tesserae.Tests.Samples
             var node2_sld_id  = Guid.NewGuid().ToString();
             var node2_out_id = Guid.NewGuid().ToString();
 
-            stateBuilder.AddNode(node2_id, "Complex", "A Complex Node", 400, 100, 320, nb => nb
+            stateBuilder.AddNode(node2_id, "Complex", "A Complex Node", 100, 100, 320, nb => nb
                 .AddInput("text", node2_text_id , "World")
                 .AddInput("int",  node2_int_id  , 42)
                 .AddInput("num",  node2_num_id  , 9.99)
-                .AddInput("btn",  node2_btn_id  , null)
+                .AddInput("btn",  node2_btn_id)
                 .AddInput("chk",  node2_chk_id  , true)
                 .AddInput("sel",  node2_sel_id  , "B")
                 .AddInput("sld",  node2_sld_id  , 0.75)
-                .AddOutput("out", node2_out_id )
+                .AddOutput("out", node2_out_id)
             );
 
             stateBuilder.AddConnection(node1_out, node2_text_id);
+            var node3_id = Guid.NewGuid().ToString();
+            var node3_inp_id = Guid.NewGuid().ToString();
+            stateBuilder.AddNode(node3_id, "Dynamic", "Dynamic Node", 300, -100, 200, nb => nb.AddInput("inp", node3_inp_id, 3));
+            stateBuilder.AddConnection(node2_out_id, node3_inp_id);
 
             nodeView.SetState(stateBuilder.Build());
 
@@ -85,7 +89,7 @@ namespace Tesserae.Tests.Samples
                .Title(SampleHeader(nameof(NodeViewSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
-                    TextBlock("NodeView is a powerful utility for creating node-based visual editors and data flows. It allows you to define custom node types with various input and output interfaces, enabling users to build complex logic or data pipelines graphically.")))
+                    TextBlock("NodeView is a powerful utility for creating node-based visual editors and data flows. It allows you to define custom node types with various input and output interfaces, enabling users to build complex logic or data pipelines graphically. You can use the Auto Layout button (magic wand icon) in the toolbar to automatically format your node graph!")))
                .Section(Stack().Children(
                     SampleTitle("Best Practices"),
                     TextBlock("Use NodeView for scenarios where users need to define relationships or workflows. Keep node definitions logical and consistent. Provide descriptive names for inputs and outputs. Utilize dynamic nodes when the node structure needs to adapt based on its internal state or external data.")))

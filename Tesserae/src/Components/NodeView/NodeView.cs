@@ -183,7 +183,6 @@ namespace Tesserae
                 var newState = _viewModel.displayedGraph.save();
                 console.log(newState);
 #endif
-
             }
             else
             {
@@ -280,6 +279,143 @@ namespace Tesserae
             }, 50);
         }
 
+
+        public void AutoLayout()
+        {
+            var state = GetState();
+            console.log("----- before -----");
+            console.log(es5.JSON.stringify(state));
+            state = AutoLayout(state);
+            console.log("----- after -----");
+            console.log(es5.JSON.stringify(state));
+            console.log("-----------------");
+            SetState(state);
+        }
+        /// <summary>
+        /// Automatically layouts the graph using a simple layered DAG approach.
+        /// </summary>
+        public static NodeViewGraphState AutoLayout(NodeViewGraphState state = null)
+        {
+            if (state is null || state.nodes is null) return state;
+
+            var interfaceToNode = new Dictionary<string, string>();
+            var nodesMap = new Dictionary<string, NodeState>();
+            var outEdges = new Dictionary<string, List<string>>();
+            var inDegrees = new Dictionary<string, int>();
+
+            foreach (var node in state.nodes)
+            {
+                nodesMap[node.id] = node;
+                outEdges[node.id] = new List<string>();
+                inDegrees[node.id] = 0;
+
+                if (node.inputs != null)
+                {
+                    var inputsDict = Script.Write<string[]>("Object.keys({0})", node.inputs);
+                    foreach (var key in inputsDict)
+                    {
+                        var inp = node.inputs.As<dynamic>()[key];
+                        interfaceToNode[(string)inp.id] = node.id;
+                    }
+                }
+
+                if (node.outputs != null)
+                {
+                    var outputsDict = Script.Write<string[]>("Object.keys({0})", node.outputs);
+                    foreach (var key in outputsDict)
+                    {
+                        var outP = node.outputs.As<dynamic>()[key];
+                        interfaceToNode[(string)outP.id] = node.id;
+                    }
+                }
+            }
+
+            if (state.connections != null)
+            {
+                foreach (var conn in state.connections)
+                {
+                    if (interfaceToNode.ContainsKey(conn.from) && interfaceToNode.ContainsKey(conn.to))
+                    {
+                        var fromNode = interfaceToNode[conn.from];
+                        var toNode = interfaceToNode[conn.to];
+
+                        if (!outEdges[fromNode].Contains(toNode))
+                        {
+                            outEdges[fromNode].Add(toNode);
+                            inDegrees[toNode]++;
+                        }
+                    }
+                }
+            }
+
+            var layers = new List<List<NodeState>>();
+            var currentLayer = new List<NodeState>();
+            var processed = new HashSet<string>();
+
+            foreach (var node in state.nodes)
+            {
+                if (inDegrees[node.id] == 0)
+                {
+                    currentLayer.Add(node);
+                    processed.Add(node.id);
+                }
+            }
+
+            while (currentLayer.Count > 0)
+            {
+                layers.Add(currentLayer);
+                var nextLayer = new List<NodeState>();
+
+                foreach (var node in currentLayer)
+                {
+                    foreach (var neighbor in outEdges[node.id])
+                    {
+                        inDegrees[neighbor]--;
+                        if (inDegrees[neighbor] == 0 && !processed.Contains(neighbor))
+                        {
+                            nextLayer.Add(nodesMap[neighbor]);
+                            processed.Add(neighbor);
+                        }
+                    }
+                }
+                currentLayer = nextLayer;
+            }
+
+            // Handle cycles: nodes not processed yet
+            foreach (var node in state.nodes)
+            {
+                if (!processed.Contains(node.id))
+                {
+                    if (layers.Count == 0) layers.Add(new List<NodeState>());
+                    layers[layers.Count - 1].Add(node);
+                    processed.Add(node.id);
+                }
+            }
+
+            double startX = 0;
+            double gapX = 350;
+            double gapY = 50;
+
+            foreach (var layer in layers)
+            {
+                double startY = 0;
+                double maxW = 0;
+
+                foreach (var node in layer)
+                {
+                    node.position.x = startX;
+                    node.position.y = startY + 50;
+
+                    startY += (node.width > 0 ? node.width * 0.8 : 250) + gapY; // Approximate height, could be improved
+                    maxW = Math.Max(maxW, node.width > 0 ? node.width : 250);
+                }
+
+                startX += maxW + gapX;
+            }
+
+            return state;
+        }
+
         private void ReplaceToolbarIcons()
         {
             foreach (HTMLElement toolbarEl in _owner.querySelectorAll(".baklava-toolbar-button"))
@@ -317,6 +453,15 @@ namespace Tesserae
                         break;
                     }
                 }
+            }
+
+
+            var toolbar = _owner.querySelector(".baklava-toolbar").As<HTMLElement>();
+            if (toolbar != null && toolbar.querySelectorAll(".tss-autolayout-btn").length == 0)
+            {
+                var autoLayoutBtn = Button().SetIcon(UIcons.MagicWand).Tooltip("Auto Layout").NoMinSize().H(32).W(32).OnClick((s, e) => AutoLayout()).Render();
+                autoLayoutBtn.classList.add("tss-autolayout-btn");
+                toolbar.appendChild(autoLayoutBtn);
             }
 
             void ReplaceIcon(HTMLElement el, UIcons icon)
@@ -1173,13 +1318,24 @@ namespace Tesserae
                 return this;
             }
 
-            public NodeStateBuilder AddInput(string name, string interfaceId, object value = null)
+            public NodeStateBuilder AddInput(string name, string interfaceId)
+            {
+                _inputs[name] = new ValueState { id = interfaceId, value = null };
+                return this;
+            }
+
+            public NodeStateBuilder AddInput<T>(string name, string interfaceId, T value = default)
             {
                 _inputs[name] = new ValueState { id = interfaceId, value = value };
                 return this;
             }
+            public NodeStateBuilder AddOutput(string name, string interfaceId)
+            {
+                _outputs[name] = new ValueState { id = interfaceId, value = null };
+                return this;
+            }
 
-            public NodeStateBuilder AddOutput(string name, string interfaceId, object value = null)
+            public NodeStateBuilder AddOutput<T>(string name, string interfaceId, T value = default)
             {
                 _outputs[name] = new ValueState { id = interfaceId, value = value };
                 return this;
