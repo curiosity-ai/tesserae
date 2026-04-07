@@ -13,22 +13,58 @@ namespace Tesserae
         private readonly string _scope;
         private readonly bool _centerContent;
 
-        public Dialog(IComponent content = null, IComponent title = null, bool centerContent = true)
+        public Dialog(IComponent content = null, IComponent title = null, bool centerContent = true, UIcons? icon = null, string iconColor = null)
         {
             _modal = Modal().HideCloseButton().NoLightDismiss().Blocking();
 
-            if (centerContent)
-            {
-                _modal.CenterContent();
-
-                if (title is TextBlock tb)
-                    tb.TextCenter();
-            }
-
             _centerContent = centerContent;
 
-            _modal.SetHeader(title);
-            _modal.Content = content;
+            IComponent header = title;
+            IComponent body = content;
+
+            if (icon.HasValue)
+            {
+                var iconComp = Icon(icon.Value).Class("tss-dialog-icon");
+                if (!string.IsNullOrEmpty(iconColor))
+                {
+                    iconComp.Class($"tss-dialog-icon-{iconColor.ToLower()}");
+                }
+
+                if (centerContent)
+                {
+                    _modal.CenterContent();
+                    header = Stack().Vertical().AlignCenter().Children(
+                        iconComp.Class("tss-dialog-icon-centered"),
+                        title is TextBlock tbTitle ? tbTitle.TextCenter() : title
+                    );
+                    if (content is TextBlock tbContent)
+                        tbContent.TextCenter();
+                }
+                else
+                {
+                    header = null;
+                    body = Stack().Horizontal().AlignStart().Children(
+                        iconComp.Class("tss-dialog-icon-left"),
+                        Stack().Vertical().Class("tss-dialog-content-stack").Children(
+                            title is TextBlock tbTitle ? tbTitle.TextLeft().SemiBold().Large() : title,
+                            content is TextBlock tbContent ? tbContent.TextLeft() : content
+                        )
+                    );
+                }
+            }
+            else
+            {
+                if (centerContent)
+                {
+                    _modal.CenterContent();
+
+                    if (title is TextBlock tb)
+                        tb.TextCenter();
+                }
+            }
+
+            _modal.SetHeader(header);
+            _modal.Content = body;
             _modal.StylingContainer.classList.add("tss-dialog");
 
             _scope = $"dialog-{RNG.Next()}";

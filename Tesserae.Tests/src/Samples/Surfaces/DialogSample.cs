@@ -37,6 +37,9 @@ namespace Tesserae.Tests.Samples
                     Button("Open YesNoCancel with dark overlay").OnClick((c, ev) => Dialog("Sample Dialog").Dark().YesNoCancel(() => response.Text("Clicked Yes"), () => response.Text("Clicked No"), () => response.Text("Clicked Cancel"))),
                     Button("Open Ok with dark overlay").OnClick((c,          ev) => Dialog("Sample Dialog").Dark().Ok(() => response.Text("Clicked Ok"))),
                     Button("Open RetryCancel with dark overlay").OnClick((c, ev) => Dialog("Sample Dialog").Dark().RetryCancel(() => response.Text("Clicked Retry"), () => response.Text("Clicked Cancel"))),
+                    SampleTitle("With Icons"),
+                    Button("Deactivate Account (Left Icon)").OnClick((c, ev) => Dialog("Deactivate account", "Are you sure you want to deactivate your account? All of your data will be permanently removed. This action cannot be undone.", centerContent: false, icon: UIcons.Exclamation, iconColor: "danger").YesNoCancel(() => response.Text("Deactivated"), () => response.Text("Kept"), null, btnYes: y => y.Danger().SetText("Deactivate"), btnNo: n => n.SetText("Cancel"))),
+                    Button("Payment Successful (Centered Icon)").OnClick((c, ev) => Dialog("Payment successful", "Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur amet labore.", centerContent: true, icon: UIcons.Check, iconColor: "success").Ok(() => response.Text("Dashboard"), btnOk: y => y.Primary().SetText("Go back to dashboard").Width(100.percent()))),
                     response));
 
             dialog.Content(Stack().Children(TextBlock("Lorem ipsum dolor sit amet, consectetur adipiscing elit."),
