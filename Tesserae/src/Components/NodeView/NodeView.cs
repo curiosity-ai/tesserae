@@ -183,7 +183,6 @@ namespace Tesserae
                 var newState = _viewModel.displayedGraph.save();
                 console.log(newState);
 #endif
-
             }
             else
             {
@@ -281,13 +280,23 @@ namespace Tesserae
         }
 
 
-        /// <summary>
-        /// Automatically layouts the graph using a simple layered DAG approach.
-        /// </summary>
         public void AutoLayout()
         {
             var state = GetState();
-            if (state == null || state.nodes == null) return;
+            console.log("----- before -----");
+            console.log(es5.JSON.stringify(state));
+            state = AutoLayout(state);
+            console.log("----- after -----");
+            console.log(es5.JSON.stringify(state));
+            console.log("-----------------");
+            SetState(state);
+        }
+        /// <summary>
+        /// Automatically layouts the graph using a simple layered DAG approach.
+        /// </summary>
+        public static NodeViewGraphState AutoLayout(NodeViewGraphState state = null)
+        {
+            if (state is null || state.nodes is null) return state;
 
             var interfaceToNode = new Dictionary<string, string>();
             var nodesMap = new Dictionary<string, NodeState>();
@@ -404,7 +413,7 @@ namespace Tesserae
                 startX += maxW + gapX;
             }
 
-            SetState(state);
+            return state;
         }
 
         private void ReplaceToolbarIcons()
@@ -1309,13 +1318,24 @@ namespace Tesserae
                 return this;
             }
 
-            public NodeStateBuilder AddInput(string name, string interfaceId, object value = null)
+            public NodeStateBuilder AddInput(string name, string interfaceId)
+            {
+                _inputs[name] = new ValueState { id = interfaceId, value = null };
+                return this;
+            }
+
+            public NodeStateBuilder AddInput<T>(string name, string interfaceId, T value = default)
             {
                 _inputs[name] = new ValueState { id = interfaceId, value = value };
                 return this;
             }
+            public NodeStateBuilder AddOutput(string name, string interfaceId)
+            {
+                _outputs[name] = new ValueState { id = interfaceId, value = null };
+                return this;
+            }
 
-            public NodeStateBuilder AddOutput(string name, string interfaceId, object value = null)
+            public NodeStateBuilder AddOutput<T>(string name, string interfaceId, T value = default)
             {
                 _outputs[name] = new ValueState { id = interfaceId, value = value };
                 return this;

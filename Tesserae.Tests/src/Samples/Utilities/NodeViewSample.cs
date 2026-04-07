@@ -63,11 +63,11 @@ namespace Tesserae.Tests.Samples
                 .AddInput("text", node2_text_id , "World")
                 .AddInput("int",  node2_int_id  , 42)
                 .AddInput("num",  node2_num_id  , 9.99)
-                .AddInput("btn",  node2_btn_id  , null)
+                .AddInput("btn",  node2_btn_id)
                 .AddInput("chk",  node2_chk_id  , true)
                 .AddInput("sel",  node2_sel_id  , "B")
                 .AddInput("sld",  node2_sld_id  , 0.75)
-                .AddOutput("out", node2_out_id )
+                .AddOutput("out", node2_out_id)
             );
 
             stateBuilder.AddConnection(node1_out, node2_text_id);
