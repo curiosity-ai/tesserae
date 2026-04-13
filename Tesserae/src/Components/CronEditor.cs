@@ -172,7 +172,7 @@ namespace Tesserae
         private void InitializeCustomEditor()
         {
             _customCronInput = TextBox().Class("tss-cron-custom-input");
-            _customCronInput.OnChange((s, e) =>
+            _customCronInput.OnInput((s, e) =>
             {
                 _cron = _customCronInput.Text;
                 _onChange?.Invoke(this);
@@ -315,23 +315,15 @@ namespace Tesserae
             _customCronInput.MinWidth(minWidth.px());
 
             var parsed = ParseCron(_cron);
-            if (parsed.IsValid)
+            _isCustom = false;
+            if (!parsed.IsValid)
             {
-                _isCustom = false;
-                UpdateEditorState();
+                _cron = "0 0 * * *";
             }
-            else
-            {
-                _isCustom = false;
-                if (!parsed.IsValid)
-                {
-                    _cron = "0 0 * * *";
-                }
-                UpdateEditorState();
-                _observable.Value = (_cron, _enabled);
-                _onChange?.Invoke(this);
-                RenderDescription();
-            }
+            UpdateEditorState();
+            _observable.Value = (_cron, _enabled);
+            _onChange?.Invoke(this);
+            RenderDescription();
         }
 
         private void UpdateCronFromSimple()
