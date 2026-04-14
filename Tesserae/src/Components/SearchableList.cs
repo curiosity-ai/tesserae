@@ -22,6 +22,9 @@ namespace Tesserae
         private Func<string, Task<T[]>> _backgroundSearcher;
 
         private UnitSize          _virtualizedItemHeight;
+        private double            _virtualizedTimeout = 0;
+        private double            _virtualizedViewportMinTop = 0;
+        private double            _virtualizedViewportMaxTop = 0;
         private readonly List<LazyVirtualItem> _virtualItems = new List<LazyVirtualItem>();
 
         public  HTMLElement       StylingContainer           => _stack.InnerElement;
@@ -59,7 +62,7 @@ namespace Tesserae
                                 {
                                     if (_virtualizedItemHeight is object)
                                     {
-                                        var lazy = new LazyVirtualItem(() => i.Render().RemoveClass("tss-searchable-list-no-match"), _virtualizedItemHeight);
+                                        var lazy = new LazyVirtualItem(i.Render().RemoveClass("tss-searchable-list-no-match"), _virtualizedItemHeight);
                                         _virtualItems.Add(lazy);
                                         includeItems.Add(lazy);
                                     }
@@ -72,7 +75,7 @@ namespace Tesserae
                                 {
                                     if (_virtualizedItemHeight is object)
                                     {
-                                        var lazy = new LazyVirtualItem(() => i.Render().Class("tss-searchable-list-no-match"), _virtualizedItemHeight);
+                                        var lazy = new LazyVirtualItem(i.Render().Class("tss-searchable-list-no-match"), _virtualizedItemHeight);
                                         _virtualItems.Add(lazy);
                                         excludeItems.Add(lazy);
                                     }
@@ -203,17 +206,35 @@ namespace Tesserae
         public SearchableList<T> Virtualize(UnitSize itemHeight)
         {
             _virtualizedItemHeight = itemHeight;
-            _defered.Render().addEventListener("scroll", (e) => RecomputeVisibleVirtualItems());
-            _defered.Render().addEventListener("resize", (e) => RecomputeVisibleVirtualItems());
+            var container = _defered.Render();
+            container.parentElement.addEventListener("scroll", (e) => RecomputeVisibleVirtualItems());
+            container.parentElement.addEventListener("resize", (e) => RecomputeVisibleVirtualItems());
+            _defered.Refresh();
+            RecomputeVisibleVirtualItems();
             return this;
         }
 
         private void RecomputeVisibleVirtualItems()
         {
+            window.clearTimeout(_virtualizedTimeout);
+            var container = _defered.Render();
+            double scrollTop = container.parentElement.scrollTop;
+            if (scrollTop > _virtualizedViewportMinTop || scrollTop < _virtualizedViewportMaxTop)
+            {
+                RecomputeVisibleVirtualItemsInner();
+            }
+            else
+            {
+                _virtualizedTimeout = window.setTimeout((_) => RecomputeVisibleVirtualItemsInner(), 50);
+            }
+        }
+
+        private void RecomputeVisibleVirtualItemsInner() 
+        { 
             if (_virtualizedItemHeight is null || _virtualItems.Count == 0) return;
             var container = _defered.Render();
-            double scrollTop = container.scrollTop;
-            double containerHeight = container.clientHeight;
+            double scrollTop = container.parentElement.scrollTop;
+            double containerHeight = container.parentElement.parentElement.scrollHeight;
             if (containerHeight == 0) return;
 
             // We use the fixed height to calculate visible indices
@@ -233,6 +254,9 @@ namespace Tesserae
                 bool isVisible = (i >= startIndex && i <= endIndex);
                 _virtualItems[i].UpdateVisibility(isVisible);
             }
+
+            _virtualizedViewportMinTop = startIndex * itemH;
+            _virtualizedViewportMaxTop = endIndex   * itemH;
         }
 
         public dom.HTMLElement Render() => _stack.Render();

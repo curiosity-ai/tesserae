@@ -116,7 +116,7 @@ namespace Tesserae
                     {
                         var element = elementToTrackMountingOf.ElementOrNullIfCollected;
 
-                        if (element is object && element.IsEqualToOrIsChildOf(mountedElement))
+                        if (element != null && element.IsEqualToOrIsChildOf(mountedElement))
                         {
                             elementsMountedThatWeCareAbout.Add(elementToTrackMountingOf);
                         }
@@ -133,7 +133,7 @@ namespace Tesserae
                 {
                     var element = entry.ElementOrNullIfCollected;
 
-                    if (element is object)
+                    if (element != null)
                     {
                         if (!element.IsMounted())
                         {

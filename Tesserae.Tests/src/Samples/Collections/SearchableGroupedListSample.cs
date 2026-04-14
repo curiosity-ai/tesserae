@@ -53,7 +53,7 @@ namespace Tesserae.Tests.Samples
         {
             private readonly string _value;
             private readonly IComponent _component;
-            public SearchableGroupedListItem(string value, string group) { _value = value; Group = group; _component = Card(TextBlock(value)).Height(64.px()); }
+            public SearchableGroupedListItem(string value, string group) { _value = value; Group = group; _component = Card(TextBlock(value), noAnimation: true).Height(64.px()); }
             public bool IsMatch(string searchTerm) => _value.ToLower().Contains(searchTerm.ToLower()) || Group.ToLower().Contains(searchTerm.ToLower());
             public string Group { get; }
             public IComponent Render() => _component;

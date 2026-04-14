@@ -8,15 +8,15 @@ namespace Tesserae
     public class LazyVirtualItem : IComponent
     {
         private readonly HTMLElement _innerElement;
-        private readonly Func<IComponent> _componentFactory;
-        private IComponent _component;
+        private readonly HTMLElement _component;
         private bool _isRendered;
 
-        public LazyVirtualItem(Func<IComponent> componentFactory, UnitSize height)
+        public LazyVirtualItem(IComponent component, UnitSize height)
         {
-            _componentFactory = componentFactory;
+            _component = component.Render();
             _innerElement = DIV();
             _innerElement.style.height = height.ToString();
+            _innerElement.style.width  = "100%";
             _innerElement.style.overflow = "hidden";
             _innerElement.style.boxSizing = "border-box";
         }
@@ -30,29 +30,14 @@ namespace Tesserae
                 if (!_isRendered)
                 {
                     _isRendered = true;
-                    if (_component == null)
-                    {
-                        _component = _componentFactory();
-                        _innerElement.appendChild(_component.Render());
-                    }
-                    else
-                    {
-                        var el = _component.Render();
-                        el.style.display = "";
-                    }
+                    _innerElement.appendChild(_component);
                 }
+
+                _component.style.display = "";
             }
             else
             {
-                if (_isRendered)
-                {
-                    _isRendered = false;
-                    if (_component != null)
-                    {
-                        var el = _component.Render();
-                        el.style.display = "none";
-                    }
-                }
+                _component.style.display = "none";
             }
         }
     }
