@@ -8,11 +8,20 @@ namespace Tesserae
     public sealed class Card : ComponentBase<Card, HTMLElement>, IHasBackgroundColor, IRoundedStyle
     {
         private readonly HTMLElement _cardContainer;
-        public Card(IComponent content)
+        public Card(IComponent content, bool noAnimation = false)
         {
             InnerElement   = Div(_("tss-card"),           content.Render());
             _cardContainer = Div(_("tss-card-container"), InnerElement);
-            DomObserver.WhenMounted(InnerElement, () => InnerElement.classList.add("tss-ismounted"));
+
+            if (noAnimation)
+            {
+                InnerElement.classList.add("tss-noanimation", "tss-ismounted");
+            }
+            else
+            {
+                DomObserver.WhenMounted(InnerElement, () => InnerElement.classList.add("tss-ismounted"));
+            }
+
             AttachClick();
             AttachContextMenu();
         }
@@ -44,12 +53,6 @@ namespace Tesserae
         public Card Compact()
         {
             IsCompact = true;
-            return this;
-        }
-
-        public Card NoAnimation()
-        {
-            InnerElement.classList.add("tss-noanimation", "tss-ismounted");
             return this;
         }
 

@@ -31,7 +31,12 @@ namespace Tesserae.Tests.Samples
                        .Height(400.px()).MB(32),
                     SampleSubTitle("Grouped Grid Layout"),
                     SearchableGroupedList(GetItems(40), s => Label(s).Primary().Bold(), 33.percent(), 33.percent(), 34.percent())
-                       .Height(500.px())
+                       .Height(500.px()),
+                    SampleSubTitle("Virtualized Grouped List (10000 items)"),
+                    SearchableGroupedList(GetItems(10000), s => HorizontalSeparator(TextBlock(s).Primary().SemiBold()).Left())
+                       .Virtualize(64.px())
+                       .WithNoResultsMessage(() => BackgroundArea(Card(TextBlock("No matching records").Padding(16.px()))).WS().HS().MinHeight(100.px()))
+                       .Height(400.px()).MB(32)
                 ));
         }
 
@@ -48,7 +53,7 @@ namespace Tesserae.Tests.Samples
         {
             private readonly string _value;
             private readonly IComponent _component;
-            public SearchableGroupedListItem(string value, string group) { _value = value; Group = group; _component = Card(TextBlock(value)); }
+            public SearchableGroupedListItem(string value, string group) { _value = value; Group = group; _component = Card(TextBlock(value), noAnimation: true).Height(64.px()); }
             public bool IsMatch(string searchTerm) => _value.ToLower().Contains(searchTerm.ToLower()) || Group.ToLower().Contains(searchTerm.ToLower());
             public string Group { get; }
             public IComponent Render() => _component;

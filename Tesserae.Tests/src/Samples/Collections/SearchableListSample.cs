@@ -33,7 +33,12 @@ namespace Tesserae.Tests.Samples
                         SearchableList(GetItems(24), 25.percent(), 25.percent(), 25.percent(), 25.percent())
                            .BeforeSearchBox(Button("Filter").SetIcon(UIcons.Filter))
                            .AfterSearchBox(Button("Add Item").Primary().SetIcon(UIcons.Plus))
-                           .Height(400.px())
+                           .Height(400.px()),
+                        SampleSubTitle("Virtualized Searchable List (10000 items)"),
+                        SearchableList(GetItems(10000))
+                           .Virtualize(64.px())
+                           .WithNoResultsMessage(() => BackgroundArea(Card(TextBlock("No matching items found").Padding(16.px()))).WS().HS().MinHeight(100.px()))
+                           .Height(400.px()).MB(32)
                     ));
         }
 
@@ -48,7 +53,7 @@ namespace Tesserae.Tests.Samples
         {
             private readonly string _value;
             private readonly IComponent _component;
-            public SearchableListItem(string value) { _value = value; _component = Card(TextBlock(value)); }
+            public SearchableListItem(string value) { _value = value; _component = Card(TextBlock(value), noAnimation: true).Height(64.px()); }
             public bool IsMatch(string searchTerm) => _value.ToLower().Contains(searchTerm.ToLower());
             public HTMLElement Render() => _component.Render();
             IComponent ISearchableItem.Render() => _component;

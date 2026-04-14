@@ -18,6 +18,13 @@ namespace Tesserae
         private readonly ItemsList                _list;
         private          IComparer<string>        _groupComparer;
 
+        private UnitSize          _virtualizedItemHeight;
+        private double            _virtualizedTimeout = 0;
+        private double            _virtualizedViewportMinTop = 0;
+        private double            _virtualizedViewportMaxTop = 0;
+
+        private readonly List<LazyVirtualItem> _virtualItems = new List<LazyVirtualItem>();
+
         public HTMLElement                StylingContainer           => _stack.InnerElement;
         public bool                       PropagateToStackItemParent => true;
         public ObservableList<IComponent> Items                      { get; }
@@ -45,6 +52,7 @@ namespace Tesserae
                             var searchTerms   = (_searchBox.Text ?? "").Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                             var filteredItems = originalItems.OfType<T>().Where(i => searchTerms.Length == 0 || searchTerms.All(st => i.IsMatch(st))).ToArray();
                             AddGroupedItems(filteredItems, _list.Items, isGrid: (columns is object && columns.Length > 1));
+                            window.setTimeout((_) => RecomputeVisibleVirtualItems(), 1);
                             return _list.S();
                         }
                     )
@@ -103,11 +111,69 @@ namespace Tesserae
             return this;
         }
 
+        public SearchableGroupedList<T> Virtualize(UnitSize itemHeight)
+        {
+            _virtualizedItemHeight = itemHeight;
+            _defered.Refresh();
+            var container = _defered.Render();
+            container.parentElement.addEventListener("scroll", (e) => RecomputeVisibleVirtualItems());
+            container.parentElement.addEventListener("resize", (e) => RecomputeVisibleVirtualItems());
+            RecomputeVisibleVirtualItems();
+            return this;
+        }
+
+        private void RecomputeVisibleVirtualItems()
+        {
+            window.clearTimeout(_virtualizedTimeout);
+
+            var container = _defered.Render();
+            double scrollTop = container.parentElement.scrollTop;
+            if (scrollTop > _virtualizedViewportMinTop || scrollTop < _virtualizedViewportMaxTop)
+            {
+                RecomputeVisibleVirtualItemsInner();
+            }
+            else
+            {
+                _virtualizedTimeout = window.setTimeout((_) => RecomputeVisibleVirtualItemsInner(), 50);
+            }
+        }
+
+        private void RecomputeVisibleVirtualItemsInner() 
+        { 
+            if (_virtualizedItemHeight is null || _virtualItems.Count == 0) return;
+            var container = _defered.Render();
+            double scrollTop = container.parentElement.scrollTop;
+            double containerHeight = container.parentElement.parentElement.scrollHeight;
+            if (containerHeight == 0) return;
+
+            // We use the fixed height to calculate visible indices
+            double itemH = _virtualizedItemHeight.Size;
+            if (itemH <= 0) itemH = 1;
+
+            int firstVisibleIndex = (int)(scrollTop / itemH);
+            int visibleCount = (int)(containerHeight / itemH) + 1;
+
+            // Add overscan (e.g., 1x container height)
+            int overscan = visibleCount;
+            int startIndex = Math.Max(0, firstVisibleIndex - overscan);
+            int endIndex = Math.Min(_virtualItems.Count - 1, firstVisibleIndex + visibleCount + overscan);
+
+            for (int i = 0; i < _virtualItems.Count; i++)
+            {
+                bool isVisible = (i >= startIndex && i <= endIndex);
+                _virtualItems[i].UpdateVisibility(isVisible);
+            }
+            
+            _virtualizedViewportMinTop = startIndex * itemH;
+            _virtualizedViewportMaxTop = endIndex   * itemH;
+        }
+
         public HTMLElement Render() => _stack.Render();
 
 
         private void AddGroupedItems(IEnumerable<T> items, ObservableList<IComponent> observableList, bool isGrid)
         {
+            _virtualItems.Clear();
             observableList.Clear();
 
             if (items is object)
@@ -126,7 +192,20 @@ namespace Tesserae
                         }
 
                         observableList.Add(header);
-                        observableList.AddRange(groupedItems.Select(t => t.Render()));
+
+                        if (_virtualizedItemHeight is object)
+                        {
+                            foreach (var groupedItem in groupedItems)
+                            {
+                                var lazy = new LazyVirtualItem(groupedItem.Render(), _virtualizedItemHeight);
+                                _virtualItems.Add(lazy);
+                                observableList.Add(lazy);
+                            }
+                        }
+                        else
+                        {
+                            observableList.AddRange(groupedItems.Select(t => t.Render()));
+                        }
                     }
                 }
             }
