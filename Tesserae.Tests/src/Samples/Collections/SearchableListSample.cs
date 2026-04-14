@@ -53,7 +53,7 @@ namespace Tesserae.Tests.Samples
         {
             private readonly string _value;
             private readonly IComponent _component;
-            public SearchableListItem(string value) { _value = value; _component = Card(TextBlock(value)).Height(64.px()); }
+            public SearchableListItem(string value) { _value = value; _component = Card(TextBlock(value), noAnimation: true).Height(64.px()); }
             public bool IsMatch(string searchTerm) => _value.ToLower().Contains(searchTerm.ToLower());
             public HTMLElement Render() => _component.Render();
             IComponent ISearchableItem.Render() => _component;
