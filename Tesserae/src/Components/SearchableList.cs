@@ -21,6 +21,9 @@ namespace Tesserae
         private int               _minimumItemsToShowBox = 0;
         private Func<string, Task<T[]>> _backgroundSearcher;
 
+        private UnitSize          _virtualizedItemHeight;
+        private readonly List<LazyVirtualItem> _virtualItems = new List<LazyVirtualItem>();
+
         public  HTMLElement       StylingContainer           => _stack.InnerElement;
         public  bool              PropagateToStackItemParent => true;
         public  ObservableList<T> Items                      { get; }
@@ -48,15 +51,35 @@ namespace Tesserae
                             var includeItemsBackground = new List<IComponent>();
                             var excludeItems = new List<IComponent>();
 
+                            _virtualItems.Clear();
+
                             foreach (var i in Items)
                             {
                                 if (searchTerms.Length == 0 || searchTerms.All(st => i.IsMatch(st)))
                                 {
-                                    includeItems.Add(i.Render().RemoveClass("tss-searchable-list-no-match"));
+                                    if (_virtualizedItemHeight is object)
+                                    {
+                                        var lazy = new LazyVirtualItem(() => i.Render().RemoveClass("tss-searchable-list-no-match"), _virtualizedItemHeight);
+                                        _virtualItems.Add(lazy);
+                                        includeItems.Add(lazy);
+                                    }
+                                    else
+                                    {
+                                        includeItems.Add(i.Render().RemoveClass("tss-searchable-list-no-match"));
+                                    }
                                 }
                                 else if (ShowNotMatchingItems)
                                 {
-                                    excludeItems.Add(i.Render().Class("tss-searchable-list-no-match"));
+                                    if (_virtualizedItemHeight is object)
+                                    {
+                                        var lazy = new LazyVirtualItem(() => i.Render().Class("tss-searchable-list-no-match"), _virtualizedItemHeight);
+                                        _virtualItems.Add(lazy);
+                                        excludeItems.Add(lazy);
+                                    }
+                                    else
+                                    {
+                                        excludeItems.Add(i.Render().Class("tss-searchable-list-no-match"));
+                                    }
                                 }
                             }
 
@@ -85,6 +108,7 @@ namespace Tesserae
                                         }
 
                                         _searchBox.Show();
+                                        RecomputeVisibleVirtualItems();
                                     }
                                 }).FireAndForget();
                             }
@@ -106,6 +130,8 @@ namespace Tesserae
                             {
                                 _searchBox.Collapse();
                             }
+
+                            window.setTimeout((_) => RecomputeVisibleVirtualItems(), 1);
 
                             return _list.S();
                         }
@@ -172,6 +198,41 @@ namespace Tesserae
             _searchBoxContainerComponents.AddRange(afterComponents);
             _searchBoxContainer.Children(_searchBoxContainerComponents);
             return this;
+        }
+
+        public SearchableList<T> Virtualize(UnitSize itemHeight)
+        {
+            _virtualizedItemHeight = itemHeight;
+            _defered.Render().addEventListener("scroll", (e) => RecomputeVisibleVirtualItems());
+            _defered.Render().addEventListener("resize", (e) => RecomputeVisibleVirtualItems());
+            return this;
+        }
+
+        private void RecomputeVisibleVirtualItems()
+        {
+            if (_virtualizedItemHeight is null || _virtualItems.Count == 0) return;
+            var container = _defered.Render();
+            double scrollTop = container.scrollTop;
+            double containerHeight = container.clientHeight;
+            if (containerHeight == 0) return;
+
+            // We use the fixed height to calculate visible indices
+            double itemH = _virtualizedItemHeight.Size;
+            if (itemH <= 0) itemH = 1; // Prevent division by zero
+
+            int firstVisibleIndex = (int)(scrollTop / itemH);
+            int visibleCount = (int)(containerHeight / itemH) + 1;
+
+            // Add overscan (e.g., 1x container height)
+            int overscan = visibleCount;
+            int startIndex = Math.Max(0, firstVisibleIndex - overscan);
+            int endIndex = Math.Min(_virtualItems.Count - 1, firstVisibleIndex + visibleCount + overscan);
+
+            for (int i = 0; i < _virtualItems.Count; i++)
+            {
+                bool isVisible = (i >= startIndex && i <= endIndex);
+                _virtualItems[i].UpdateVisibility(isVisible);
+            }
         }
 
         public dom.HTMLElement Render() => _stack.Render();

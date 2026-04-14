@@ -4,37 +4,25 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
-    /// <summary>
-    /// A placeholder used inside virtualised lists that defers building its real content until it scrolls into view.
-    /// </summary>
     [H5.Name("tss.LazyVirtualItem")]
     public class LazyVirtualItem : IComponent
     {
         private readonly HTMLElement _innerElement;
-        private readonly HTMLElement _component;
+        private readonly Func<IComponent> _componentFactory;
+        private IComponent _component;
         private bool _isRendered;
 
-        /// <summary>
-        /// Initializes a new instance of this class.
-        /// </summary>
-        public LazyVirtualItem(IComponent component, UnitSize height)
+        public LazyVirtualItem(Func<IComponent> componentFactory, UnitSize height)
         {
-            _component = component.Render();
+            _componentFactory = componentFactory;
             _innerElement = DIV();
             _innerElement.style.height = height.ToString();
-            _innerElement.style.width  = "100%";
             _innerElement.style.overflow = "hidden";
             _innerElement.style.boxSizing = "border-box";
         }
 
-        /// <summary>
-        /// Renders the component's root HTML element.
-        /// </summary>
         public HTMLElement Render() => _innerElement;
 
-        /// <summary>
-        /// Updates the visibility.
-        /// </summary>
         public void UpdateVisibility(bool isVisible)
         {
             if (isVisible)
@@ -42,14 +30,29 @@ namespace Tesserae
                 if (!_isRendered)
                 {
                     _isRendered = true;
-                    _innerElement.appendChild(_component);
+                    if (_component == null)
+                    {
+                        _component = _componentFactory();
+                        _innerElement.appendChild(_component.Render());
+                    }
+                    else
+                    {
+                        var el = _component.Render();
+                        el.style.display = "";
+                    }
                 }
-
-                _component.style.display = "";
             }
             else
             {
-                _component.style.display = "none";
+                if (_isRendered)
+                {
+                    _isRendered = false;
+                    if (_component != null)
+                    {
+                        var el = _component.Render();
+                        el.style.display = "none";
+                    }
+                }
             }
         }
     }
