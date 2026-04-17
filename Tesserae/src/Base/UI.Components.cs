@@ -146,6 +146,7 @@ namespace Tesserae
         /// Creates a <see cref="Tesserae.Card"/> component.
         /// </summary>
         public static Card Card(IComponent content, bool noAnimation = false) => new Card(content, noAnimation);
+        public static ResourceCard ResourceCard() => new ResourceCard();
 
         public static Plan Plan(string title) => new Plan(title);
 
