@@ -180,15 +180,59 @@ namespace Tesserae
 
         private void RenderSubsteps()
         {
-            _substepItems.Clear();
-            _substepsHost.Clear();
+            var substeps = _model.Substeps ?? new List<DeepResearchSubstepModel>();
 
-            foreach (var substep in _model.Substeps ?? new List<DeepResearchSubstepModel>())
+            // Build lookup of existing substep items by id for reuse
+            var existingById = new Dictionary<string, DeepResearchSubstepItem>();
+            foreach (var item in _substepItems)
             {
-                var item = new DeepResearchSubstepItem(substep);
-                _substepItems.Add(item);
-                _substepsHost.Add(item);
+                var id = item.Model?.Id;
+                if (!string.IsNullOrEmpty(id))
+                {
+                    existingById[id] = item;
+                }
             }
+
+            var newSubstepItems = new List<DeepResearchSubstepItem>(substeps.Count);
+            var reusedIds = new HashSet<string>();
+
+            foreach (var substep in substeps)
+            {
+                var id = substep?.Id;
+                if (!string.IsNullOrEmpty(id) && existingById.TryGetValue(id, out var existing))
+                {
+                    existing.SetModel(substep);
+                    newSubstepItems.Add(existing);
+                    reusedIds.Add(id);
+                }
+                else
+                {
+                    var item = new DeepResearchSubstepItem(substep);
+                    newSubstepItems.Add(item);
+                }
+            }
+
+            // Remove items no longer present
+            foreach (var item in _substepItems)
+            {
+                var id = item.Model?.Id;
+                if (string.IsNullOrEmpty(id) || !reusedIds.Contains(id))
+                {
+                    _substepsHost.Remove(item);
+                }
+            }
+
+            // Add new items
+            foreach (var item in newSubstepItems)
+            {
+                if (item.Render().parentElement == null)
+                {
+                    _substepsHost.Add(item);
+                }
+            }
+
+            _substepItems.Clear();
+            _substepItems.AddRange(newSubstepItems);
         }
     }
 }

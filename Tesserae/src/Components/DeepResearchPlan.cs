@@ -179,38 +179,80 @@ namespace Tesserae
 
         private void RenderSteps()
         {
-            var expandedStates = new Dictionary<string, bool>();
-
-            foreach (var item in _stepItems)
-            {
-                expandedStates[item.Key] = item.IsExpanded;
-            }
-
-            _stepItems.Clear();
-            _stepsHost.Clear();
-
             var steps = _model.Steps ?? new List<DeepResearchStepModel>();
 
             if (steps.Count == 0)
             {
-                _stepsHost.Add(_emptyText);
+                if (_stepItems.Count > 0)
+                {
+                    _stepItems.Clear();
+                    _stepsHost.Clear();
+                }
+
+                if (_emptyText.Render().parentElement == null)
+                {
+                    _stepsHost.Add(_emptyText);
+                }
+
                 return;
             }
+
+            // Build a lookup of existing step items by key for reuse
+            var existingByKey = new Dictionary<string, DeepResearchStepItem>();
+            foreach (var item in _stepItems)
+            {
+                existingByKey[item.Key] = item;
+            }
+
+            var newStepItems = new List<DeepResearchStepItem>(steps.Count);
+            var reusedKeys = new HashSet<string>();
 
             for (var i = 0; i < steps.Count; i++)
             {
                 var stepModel = steps[i] ?? new DeepResearchStepModel();
                 var stepKey = DeepResearchVisuals.GetStepKey(stepModel, i);
-                var stepItem = new DeepResearchStepItem(stepModel);
 
-                if (!stepModel.IsExpanded.HasValue && expandedStates.TryGetValue(stepKey, out var wasExpanded))
+                if (existingByKey.TryGetValue(stepKey, out var existing))
                 {
-                    stepItem.SetExpanded(wasExpanded);
+                    // Reuse existing item - update in-place (no DOM teardown)
+                    existing.SetModel(stepModel);
+                    newStepItems.Add(existing);
+                    reusedKeys.Add(stepKey);
                 }
-
-                _stepItems.Add(stepItem);
-                _stepsHost.Add(stepItem);
+                else
+                {
+                    // New step - create fresh
+                    var stepItem = new DeepResearchStepItem(stepModel);
+                    newStepItems.Add(stepItem);
+                }
             }
+
+            // Remove items that are no longer present
+            foreach (var item in _stepItems)
+            {
+                if (!reusedKeys.Contains(item.Key))
+                {
+                    _stepsHost.Remove(item);
+                }
+            }
+
+            // Remove empty text if it was showing
+            if (_emptyText.Render().parentElement != null)
+            {
+                _stepsHost.Remove(_emptyText);
+            }
+
+            // Add new items that weren't reused (they don't have a parent yet)
+            foreach (var item in newStepItems)
+            {
+                if (item.Render().parentElement == null)
+                {
+                    _stepsHost.Add(item);
+                }
+            }
+
+            _stepItems.Clear();
+            _stepItems.AddRange(newStepItems);
         }
     }
 }
