@@ -1,0 +1,24 @@
+.tss-metric {
+    display: flex;
+    flex-direction: column;
+    padding: 0px;
+    background: transparent;
+}
+
+.tss-metric-title {
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+}
+
+.tss-metric-value {
+    display: flex;
+    align-items: baseline;
+}
+
+.tss-metric-change {
+    margin-left: 8px;
+    display: flex;
+    align-items: center;
+    font-size: var(--tss-font-size-small);
+}

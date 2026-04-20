@@ -659,6 +659,10 @@ namespace Tesserae
         /// Creates a <see cref="Tesserae.Pivot"/> component.
         /// </summary>
         public static Pivot Pivot() => new Pivot();
+        public static CardPivot CardPivot() => new CardPivot();
+        public static SegmentedPivot SegmentedPivot() => new SegmentedPivot();
+        public static Metric Metric(string title, string value) => new Metric(title, value);
+        public static Metric Metric(IComponent title, IComponent value) => new Metric(title, value);
 
         /// <summary>
         /// Creates a <see cref="Tesserae.PivotSelector"/> component.

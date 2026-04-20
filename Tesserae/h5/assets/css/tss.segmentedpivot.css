@@ -1,0 +1,53 @@
+.tss-segmentedpivot {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.tss-segmentedpivot-wrapper {
+    margin-bottom: 16px;
+}
+
+.tss-segmentedpivot-titlebar {
+    display: inline-flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    border-radius: var(--tss-border-radius-lg);
+    background: var(--tss-default-background-color);
+    box-shadow: var(--tss-shadow-sm);
+    border: 1px solid var(--tss-border-color);
+    padding: 4px;
+}
+
+.tss-segmentedpivot-tab {
+    padding: 4px 16px;
+    cursor: pointer;
+    background: transparent;
+    border-radius: var(--tss-border-radius-md);
+    transition: background-color 0.2s;
+    font-size: var(--tss-font-size-small);
+}
+
+.tss-segmentedpivot-tab:hover {
+    background-color: var(--tss-default-background-hover-color);
+}
+
+.tss-segmentedpivot-tab.tss-segmentedpivot-selected {
+    background-color: var(--tss-primary-background-color);
+    color: var(--tss-primary-text-color);
+    box-shadow: var(--tss-shadow-sm);
+}
+
+.tss-segmentedpivot-tab.tss-segmentedpivot-selected * {
+    color: var(--tss-primary-text-color);
+}
+
+
+.tss-segmentedpivot-content {
+    flex-grow: 1;
+    overflow: auto;
+}
+
+.tss-segmentedpivot-cached-hidden {
+    display: none !important;
+}
