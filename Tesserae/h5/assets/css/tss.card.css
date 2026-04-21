@@ -56,3 +56,39 @@
 .tss-card.tss-card-hover:active {
     background-color: var(--tss-default-background-hover-color);
 }
+.tss-card.tss-has-header {
+    flex-direction: column;
+    padding: 0 !important; /* padding moved to content */
+}
+
+.tss-card-header {
+    padding: 16px;
+    border-bottom: 1px solid var(--tss-default-border-color);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.tss-card-title {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--tss-text-color, #333);
+}
+
+.tss-card-tag {
+    background-color: var(--tss-default-background-hover-color, #eee);
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    color: var(--tss-text-color, #333);
+}
+
+.tss-card-content {
+    padding: 16px;
+    flex-grow: 1;
+}
+
+.tss-card-container.tss-small > .tss-card.tss-has-header > .tss-card-header,
+.tss-card-container.tss-small > .tss-card.tss-has-header > .tss-card-content {
+    padding: 2px 8px;
+}

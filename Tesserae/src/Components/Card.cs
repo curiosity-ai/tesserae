@@ -8,6 +8,12 @@ namespace Tesserae
     public sealed class Card : ComponentBase<Card, HTMLElement>, IHasBackgroundColor, IRoundedStyle
     {
         private readonly HTMLElement _cardContainer;
+        private HTMLElement _headerContainer;
+        private HTMLElement _titleContainer;
+        private HTMLElement _tagContainer;
+        private HTMLElement _contentContainer;
+        private bool _noPadding = false;
+
         public Card(IComponent content, bool noAnimation = false)
         {
             InnerElement   = Div(_("tss-card"),           content.Render());
@@ -29,6 +35,41 @@ namespace Tesserae
         /// <summary>
         /// Gets or set whenever the card is rendered in a compact form
         /// </summary>
+        private void EnsureHeader()
+        {
+            if (_headerContainer == null)
+            {
+                InnerElement.classList.add("tss-has-header");
+                _titleContainer = Div(_("tss-card-title"));
+                _tagContainer = Div(_("tss-card-tag"));
+                _headerContainer = Div(_("tss-card-header"), _titleContainer, _tagContainer);
+
+                _contentContainer = Div(_("tss-card-content"));
+
+                if (_noPadding)
+                {
+                    _contentContainer.style.padding = "0px";
+                }
+                else
+                {
+                    _contentContainer.style.padding = InnerElement.style.padding;
+                }
+
+                InnerElement.style.padding = "0px"; // Reset inline padding on main container
+
+                while (InnerElement.firstChild != null)
+                {
+                    _contentContainer.appendChild(InnerElement.firstChild);
+                }
+
+                InnerElement.appendChild(_headerContainer);
+                InnerElement.appendChild(_contentContainer);
+            }
+        }
+
+        /// <summary>
+        /// Gets or set whenever the card is rendered in a compact form
+        /// </summary>
         public bool IsCompact
         {
             get => _cardContainer.classList.contains("tss-small");
@@ -43,10 +84,48 @@ namespace Tesserae
 
         public Card OnClick(Action action) => OnClick((_, __) => action.Invoke());
 
+        public Card SetTitle(string title)
+        {
+            EnsureHeader();
+            _titleContainer.innerText = title;
+            return this;
+        }
+
+        public Card SetTitle(IComponent title)
+        {
+            EnsureHeader();
+            ClearChildren(_titleContainer);
+            if (title != null) _titleContainer.appendChild(title.Render());
+            return this;
+        }
+
+        public Card SetTag(string tag)
+        {
+            EnsureHeader();
+            _tagContainer.innerText = tag;
+            return this;
+        }
+
+        public Card SetTag(IComponent tag)
+        {
+            EnsureHeader();
+            ClearChildren(_tagContainer);
+            if (tag != null) _tagContainer.appendChild(tag.Render());
+            return this;
+        }
+
         public Card SetContent(IComponent content)
         {
-            ClearChildren(InnerElement);
-            InnerElement.appendChild(content.Render());
+            if (_headerContainer != null)
+            {
+                ClearChildren(_contentContainer);
+                _contentContainer.appendChild(content.Render());
+            }
+            else
+            {
+                ClearChildren(InnerElement);
+                InnerElement.appendChild(content.Render());
+            }
             return this;
         }
 
@@ -83,7 +162,15 @@ namespace Tesserae
 
         public Card NoPadding()
         {
-            InnerElement.style.padding = "0px";
+            _noPadding = true;
+            if (_headerContainer != null)
+            {
+                _contentContainer.style.padding = "0px";
+            }
+            else
+            {
+                InnerElement.style.padding = "0px";
+            }
             return this;
         }
 
