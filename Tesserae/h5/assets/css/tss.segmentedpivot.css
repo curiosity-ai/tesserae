@@ -13,33 +13,33 @@
     flex-direction: row;
     flex-wrap: nowrap;
     border-radius: var(--tss-border-radius-lg);
-    background: var(--tss-default-background-color);
-    box-shadow: var(--tss-shadow-sm);
-    border: 1px solid var(--tss-border-color);
+    background: var(--tss-colors-neutral-200-alpha);
     padding: 4px;
 }
 
 .tss-segmentedpivot-tab {
-    padding: 4px 16px;
+    padding: 6px 14px;
     cursor: pointer;
     background: transparent;
     border-radius: var(--tss-border-radius-md);
-    transition: background-color 0.2s;
-    font-size: var(--tss-font-size-small);
+    transition: background-color 0.2s, box-shadow 0.2s, color 0.2s;
+    font-size: var(--tss-font-size-smallplus);
+    color: var(--tss-secondary-foreground-color);
+    font-weight: 500;
 }
 
 .tss-segmentedpivot-tab:hover {
-    background-color: var(--tss-default-background-hover-color);
+    color: var(--tss-default-foreground-color);
 }
 
 .tss-segmentedpivot-tab.tss-segmentedpivot-selected {
-    background-color: var(--tss-primary-background-color);
-    color: var(--tss-primary-text-color);
+    background-color: var(--tss-default-background-color);
+    color: var(--tss-default-foreground-color);
     box-shadow: var(--tss-shadow-sm);
 }
 
 .tss-segmentedpivot-tab.tss-segmentedpivot-selected * {
-    color: var(--tss-primary-text-color);
+    color: var(--tss-default-foreground-color);
 }
 
 
