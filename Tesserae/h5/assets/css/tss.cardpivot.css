@@ -1,0 +1,48 @@
+.tss-cardpivot {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.tss-cardpivot-titlebar {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    border-radius: var(--tss-border-radius-lg);
+    background: var(--tss-default-background-color);
+    box-shadow: var(--tss-shadow-sm);
+    border: 1px solid var(--tss-border-color);
+    margin-bottom: 16px;
+    overflow: hidden;
+}
+
+.tss-cardpivot-tab {
+    flex: 1;
+    min-width: min-content;
+    border-right: 1px solid var(--tss-border-color);
+    cursor: pointer;
+    background: var(--tss-default-background-color);
+    transition: background-color 0.2s;
+    border-bottom: 3px solid transparent;
+}
+
+.tss-cardpivot-tab:last-child {
+    border-right: none;
+}
+
+.tss-cardpivot-tab:hover {
+    background-color: var(--tss-default-background-hover-color);
+}
+
+.tss-cardpivot-tab.tss-cardpivot-selected {
+    border-bottom: 3px solid var(--tss-primary-background-color);
+}
+
+.tss-cardpivot-content {
+    flex-grow: 1;
+    overflow: auto;
+}
+
+.tss-cardpivot-cached-hidden {
+    display: none !important;
+}
