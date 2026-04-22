@@ -66,4 +66,7 @@
 
 .tss-segmentedpivot-tab:active {
     background-color: color-mix(in srgb, var(--tss-default-foreground-color) 20%, transparent);
+
+.tss-segmentedpivot-content > .tss-background-area {
+    border-radius: var(--tss-border-radius-lg);
 }
