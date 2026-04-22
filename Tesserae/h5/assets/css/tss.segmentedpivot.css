@@ -52,3 +52,8 @@
 .tss-segmentedpivot-cached-hidden {
     display: none !important;
 }
+
+
+.tss-segmentedpivot-content > .tss-background-area {
+    border-radius: var(--tss-border-radius-lg);
+}
