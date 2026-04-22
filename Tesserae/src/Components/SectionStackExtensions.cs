@@ -35,25 +35,8 @@ namespace Tesserae
             return stack;
         }
 
-
-        /// <summary>
-        /// Adds a title to the stack using the SectionTitle component.
-        /// </summary>
-        /// <param name="stack">The stack.</param>
-        /// <param name="icon">The icon.</param>
-        /// <param name="title">The title.</param>
-        /// <param name="subtitle">The subtitle.</param>
-        /// <param name="commands">Optional commands to display on the right side.</param>
-        /// <returns>The stack instance.</returns>
-        public static SectionStack Title(this SectionStack stack, UIcons icon, string title, string subtitle, params IComponent[] commands)
-        {
-            stack.AddAnimatedTitle(UI.SectionTitle(icon, title, subtitle, commands));
-            return stack;
-        }
-
         /// <summary>
         /// Adds multiple sections to the stack.
-
         /// </summary>
         /// <param name="stack">The stack.</param>
         /// <param name="children">The components.</param>

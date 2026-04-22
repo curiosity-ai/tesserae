@@ -13,7 +13,7 @@ namespace Tesserae.Tests.Samples
         public CheckBoxSample()
         {
             _content = SectionStack()
-               .SampleTitle(nameof(CheckBoxSample), UIcons.Checkbox, "A control that allows the user to select multiple options")
+               .Title(SampleHeader(nameof(CheckBoxSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("CheckBoxes allow users to select one or more items from a set. They can also be used to turn an option on or off."),

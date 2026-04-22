@@ -244,9 +244,11 @@
     --tss-primary-shadow: 0 3.6px 5.6px 0 rgba(var(--tss-primary-shadow-color-root), 0.132), 2px 2.3px 5.9px 0 rgba(var(--tss-primary-shadow-color-root), 0.108);
     --tss-overlay-light: rgba(255, 255, 255, 0.1);
     --tss-overlay-dark: rgba(255, 255, 255, 0.4);
+    --tss-shadow-color-from: rgba(0, 0, 0, 0.132);
+    --tss-shadow-color-to: rgba(0, 0, 0, 0.108);
     --tss-box-shadow: 0 3.6px 5.6px 0 var(--tss-shadow-color-from), 2px 2.3px 5.9px 0 var(--tss-shadow-color-to);
     --tss-box-shadow-darker: 0 1.6px 3.6px 0 rgba(0, 0, 0, 0.3), 0 0.3px 0.9px 0 rgba(0, 0, 0, 0.45);
-    --tss-card-shadow: 0 3.6px 5.6px 0 rgba(0, 0, 0, 0.4), 2px 2.3px 5.9px 0 rgba(0, 0, 0, 0.3);
+    --tss-card-shadow: 0 3.6px 5.6px 0 var(--tss-shadow-color-from), 2px 2.3px 5.9px 0 var(--tss-shadow-color-to);
     --tss-toast-shadow: 2px 3px 12px 0px rgba(0, 0, 0, 0.45);
     --tss-scrollbar-track-color: rgba(255, 255, 255, 0.08);
     --tss-scrollbar-track-hidden-color: rgba(255, 255, 255, 0.04);
@@ -260,19 +262,6 @@
     --tss-border-radius-full: 9999px;
 
     --tss-ring-offset-color: rgb(var(--tss-default-background-color-root));
-
-    --tss-shadow-color-from: rgba(0, 0, 0, 0.4);
-    --tss-shadow-color-to: rgba(0, 0, 0, 0.3);
-    --tss-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
-    --tss-shadow-sm-hover: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
-    --tss-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.4), 0 1px 2px 0 rgba(0, 0, 0, 0.3);
-    --tss-shadow-hover: 0 1px 3px 0 rgba(0, 0, 0, 0.5), 0 1px 2px 0 rgba(0, 0, 0, 0.4);
-    --tss-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
-    --tss-shadow-md-hover: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.4);
-    --tss-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
-    --tss-shadow-lg-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.4);
-    --tss-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
-    --tss-shadow-xl-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
 }
 
 *[class^="fi-rr-"] {

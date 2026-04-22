@@ -91,7 +91,7 @@ namespace Tesserae.Tests.Samples
             });
 
             _content = SectionStack()
-               .SampleTitle(nameof(OmniBoxSample), UIcons.Search, "An omnibox search component")
+               .Title(SampleHeader(nameof(OmniBoxSample)))
                .Section(VStack().Children(
                     SampleTitle("Overview"),
                     toggle.MB(16),

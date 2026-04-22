@@ -13,7 +13,7 @@ namespace Tesserae.Tests.Samples
         public HorizontalSeparatorSample()
         {
             _content = SectionStack()
-               .SampleTitle(nameof(HorizontalSeparatorSample), UIcons.Minus, "A visual separator for components")
+               .Title(SampleHeader(nameof(HorizontalSeparatorSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("A HorizontalSeparator visually divides content into groups. It can optionally contain text or other components to label the group it introduces."),

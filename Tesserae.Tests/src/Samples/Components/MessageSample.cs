@@ -13,7 +13,7 @@ namespace Tesserae.Tests.Samples
         public MessageSample()
         {
             _content = SectionStack()
-               .SampleTitle(nameof(MessageSample), UIcons.Envelope, "A component to display a message")
+               .Title(SampleHeader(nameof(MessageSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("The Message component is used to display static messages, alerts, or empty states. It supports an icon, title, text body, and an optional note area."),

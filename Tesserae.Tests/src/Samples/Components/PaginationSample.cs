@@ -14,7 +14,7 @@ namespace Tesserae.Tests.Samples
             var status = TextBlock("Showing page 1").Medium();
 
             _content = SectionStack()
-               .SampleTitle(nameof(PaginationSample), UIcons.AngleRight, "A component to navigate through pages")
+               .Title(SampleHeader(nameof(PaginationSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("Pagination allows users to navigate through a large set of data by breaking it into smaller, manageable chunks called pages."),

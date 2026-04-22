@@ -14,7 +14,7 @@ namespace Tesserae.Tests.Samples
         public FloatSample()
         {
             _content = SectionStack()
-               .SampleTitle(nameof(FloatSample), UIcons.Apps, "A component to display floating content")
+               .Title(SampleHeader(nameof(FloatSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("Float components are used to place content in absolute-positioned overlays within a relative container. They allow for precise placement of UI elements, such as badges, help icons, or status indicators, without affecting the layout of surrounding components.")))

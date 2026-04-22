@@ -13,7 +13,7 @@ namespace Tesserae.Tests.Samples
         public ChoiceGroupSample()
         {
             _content = SectionStack()
-               .SampleTitle(nameof(ChoiceGroupSample), UIcons.List, "A control to select a single option from a list")
+               .Title(SampleHeader(nameof(ChoiceGroupSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("ChoiceGroups, also known as radio button groups, allow users to select exactly one option from a set of mutually exclusive choices."),

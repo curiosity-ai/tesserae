@@ -38,7 +38,7 @@ namespace Tesserae.Tests.Samples
                 )).SetFooter(HStack().Children(Button("Footer Button 1").Primary(), Button("Footer Button 2")));
 
             _content = SectionStack()
-               .SampleTitle(nameof(PanelSample), UIcons.WindowRestore, "A panel component")
+               .Title(SampleHeader(nameof(PanelSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("Panels are sliding overlays typically used for creation or management tasks, such as editing a user's profile or configuring settings. They provide a large, temporary surface that slides in from either the left or right side of the screen, keeping the user within the current context while providing space for complex forms or information.")))

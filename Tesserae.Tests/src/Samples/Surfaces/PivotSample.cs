@@ -15,7 +15,7 @@ namespace Tesserae.Tests.Samples
         public PivotSample()
         {
             content = SectionStack()
-               .SampleTitle(nameof(PivotSample), UIcons.Apps, "A navigation pivot")
+               .Title(SampleHeader(nameof(PivotSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("Pivots are used for navigating between different views or categories of content within the same context. They provide a compact way to switch between related data sets, such as different tabs in a settings page or different views of a list.")))

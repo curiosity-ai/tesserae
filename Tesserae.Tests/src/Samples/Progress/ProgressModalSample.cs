@@ -61,7 +61,7 @@ namespace Tesserae.Tests.Samples
             }
 
             _content = SectionStack()
-               .SampleTitle(nameof(ProgressModalSample), UIcons.Spinner, "A modal dialog for progress")
+               .Title(SampleHeader(nameof(ProgressModalSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("ProgressModal is a specialized modal overlay that combines a title, a message, and a progress indicator. It is used for long-running operations where it is important to block other user interactions until the task is complete, while keeping the user informed of the progress.")))

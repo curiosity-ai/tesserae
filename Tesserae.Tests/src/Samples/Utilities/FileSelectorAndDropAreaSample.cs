@@ -12,7 +12,7 @@ namespace Tesserae.Tests.Samples
         public FileSelectorAndDropAreaSample()
         {
             _content = SectionStack()
-               .SampleTitle(nameof(FileSelectorAndDropAreaSample), UIcons.FileUpload, "A control to select and drop files")
+               .Title(SampleHeader(nameof(FileSelectorAndDropAreaSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("FileSelector and FileDropArea provide two different ways for users to upload files. FileSelector uses a standard button that opens the system file dialog, while FileDropArea provides a larger target area for users to drag and drop files directly into the application.")))

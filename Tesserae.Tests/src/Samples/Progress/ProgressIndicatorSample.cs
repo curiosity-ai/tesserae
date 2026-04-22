@@ -15,7 +15,7 @@ namespace Tesserae.Tests.Samples
         public ProgressIndicatorSample()
         {
             _content = SectionStack()
-               .SampleTitle(nameof(ProgressIndicatorSample), UIcons.Spinner, "A component to indicate progress")
+               .Title(SampleHeader(nameof(ProgressIndicatorSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("ProgressIndicators provide visual feedback for operations that take more than a few seconds. They show the current completion status and help set expectations for how much work remains. If the total amount of work is unknown, use the indeterminate state or a Spinner instead.")))

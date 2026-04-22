@@ -16,7 +16,7 @@ namespace Tesserae.Tests.Samples
             var to   = DateTime.Now.AddDays(7);
 
             _content = SectionStack()
-               .SampleTitle(nameof(DateTimePickerSample), UIcons.Calendar, "A control to pick a date and time")
+               .Title(SampleHeader(nameof(DateTimePickerSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("The DateTimePicker combines date and time selection into a single component, using the browser's native widget."),

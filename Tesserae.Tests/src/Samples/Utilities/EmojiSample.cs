@@ -16,7 +16,7 @@ namespace Tesserae.Tests.Samples
         public EmojiSample()
         {
             _content = SectionStack().S()
-               .SampleTitle(nameof(EmojiSample), UIcons.Smile, "A utility to display emojis")
+               .Title(SampleHeader(nameof(EmojiSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("Tesserae includes full support for Emojis via an integrated stylesheet and a strongly-typed enum. This allows you to easily add expressive icons to your application with complete C# IntelliSense support and consistent rendering.")))

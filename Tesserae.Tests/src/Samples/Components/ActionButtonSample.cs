@@ -14,7 +14,7 @@ namespace Tesserae.Tests.Samples
         public ActionButtonSample()
         {
             _content = SectionStack()
-               .SampleTitle(nameof(ActionButtonSample), UIcons.Cursor, "A button that triggers an action")
+               .Title(SampleHeader(nameof(ActionButtonSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("ActionButtons are a variation of the standard Button component that split the interaction into two distinct parts: a display area (typically the label and an icon) and a specific action area (typically a secondary icon on the right)."),

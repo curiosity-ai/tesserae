@@ -13,7 +13,7 @@ namespace Tesserae.Tests.Samples
         public OverflowSetSample()
         {
             _content = SectionStack()
-               .SampleTitle(nameof(OverflowSetSample), UIcons.MenuDots, "A component to display an overflow set")
+               .Title(SampleHeader(nameof(OverflowSetSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("OverflowSet is a container that automatically moves items that don't fit into the available space into an overflow menu."),

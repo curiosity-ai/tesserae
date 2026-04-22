@@ -17,7 +17,7 @@ namespace Tesserae.Tests.Samples
                 .WithNoResultsMessage(() => TextBlock("No models found").MediumPlus());
 
             _content = SectionStack()
-                .SampleTitle(nameof(ResourceCardSample), UIcons.IdCard, "A card to display a resource")
+                .Title(SampleHeader(nameof(ResourceCardSample)))
                 .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("ResourceCards are used to display a summary of a resource like an AI model, document, or service. They provide optional sections for title, subtitle, tags, description, date, icon, and a footer for commands."),

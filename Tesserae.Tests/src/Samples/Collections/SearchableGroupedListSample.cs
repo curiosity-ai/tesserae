@@ -15,7 +15,7 @@ namespace Tesserae.Tests.Samples
         public SearchableGroupedListSample()
         {
             _content = SectionStack().WidthStretch()
-                   .SampleTitle(nameof(SearchableGroupedListSample), UIcons.Search, "A grouped list that can be searched")
+                   .Title(SampleHeader(nameof(SearchableGroupedListSample)))
                    .Section(Stack().Children(
                         SampleTitle("Overview"),
                         TextBlock("SearchableGroupedList extends the functionality of SearchableList by adding automatic grouping of items based on a 'Group' property."),

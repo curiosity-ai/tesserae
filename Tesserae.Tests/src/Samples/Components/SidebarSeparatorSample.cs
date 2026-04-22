@@ -22,7 +22,7 @@ namespace Tesserae.Tests.Samples
             sidebar.AddContent(new SidebarButton("3", UIcons.Settings, "Settings"));
 
             _content = SectionStack()
-               .SampleTitle(nameof(SidebarSeparatorSample), UIcons.Minus, "A visual separator for sidebar items")
+               .Title(SampleHeader(nameof(SidebarSeparatorSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("A separator for the Sidebar component to visually group items."),

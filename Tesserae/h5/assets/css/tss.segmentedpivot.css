@@ -13,14 +13,12 @@
     flex-direction: row;
     flex-wrap: nowrap;
     border-radius: var(--tss-border-radius-lg);
-    background: var(--tss-secondary-background-color);
+    background: var(--tss-colors-neutral-200-alpha);
     padding: 4px;
     box-shadow: inset 0px 2px 8px var(--tss-colors-dark-neutral-1000);
 }
 
 .tss-segmentedpivot-tab {
-    user-select: none;
-    outline: none;
     padding: 6px 14px;
     cursor: pointer;
     background: transparent;
@@ -31,20 +29,20 @@
     font-weight: 500;
 }
 
-    .tss-segmentedpivot-tab:hover {
-        background-color: color-mix(in srgb, var(--tss-default-foreground-color) 10%, transparent);
-        color: var(--tss-default-foreground-color);
-    }
+.tss-segmentedpivot-tab:hover {
+    color: var(--tss-default-foreground-color);
+}
 
-    .tss-segmentedpivot-tab.tss-segmentedpivot-selected {
-        background-color: var(--tss-default-background-color);
-        color: var(--tss-default-foreground-color);
-        box-shadow: var(--tss-shadow-sm);
-    }
+.tss-segmentedpivot-tab.tss-segmentedpivot-selected {
+    background-color: var(--tss-default-background-color);
+    color: var(--tss-default-foreground-color);
+    box-shadow: var(--tss-shadow-sm);
+}
 
-        .tss-segmentedpivot-tab.tss-segmentedpivot-selected * {
-            color: var(--tss-default-foreground-color);
-        }
+.tss-segmentedpivot-tab.tss-segmentedpivot-selected * {
+    color: var(--tss-default-foreground-color);
+}
+
 
 .tss-segmentedpivot-content {
     flex-grow: 1;
@@ -53,20 +51,4 @@
 
 .tss-segmentedpivot-cached-hidden {
     display: none !important;
-}
-
-.tss-segmentedpivot-tab:focus-visible {
-    box-shadow: 0 0 0 2px var(--tss-default-background-color), 0 0 0 4px var(--tss-default-foreground-color);
-}
-
-.tss-segmentedpivot-tab.tss-segmentedpivot-selected:focus-visible {
-    box-shadow: 0 0 0 2px var(--tss-default-background-color), 0 0 0 4px var(--tss-default-foreground-color);
-}
-
-.tss-segmentedpivot-tab:active {
-    background-color: color-mix(in srgb, var(--tss-default-foreground-color) 20%, transparent);
-}
-
-.tss-segmentedpivot-content > .tss-background-area {
-    border-radius: var(--tss-border-radius-lg);
 }

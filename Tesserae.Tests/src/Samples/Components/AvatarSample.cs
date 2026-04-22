@@ -12,7 +12,7 @@ namespace Tesserae.Tests.Samples
         public AvatarSample()
         {
             _content = SectionStack()
-               .SampleTitle(nameof(AvatarSample), UIcons.User, "A component that represents a user")
+               .Title(SampleHeader(nameof(AvatarSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("Avatars are used to represent users, teams, or entities in the system. They can display images, initials, and presence indicators."),

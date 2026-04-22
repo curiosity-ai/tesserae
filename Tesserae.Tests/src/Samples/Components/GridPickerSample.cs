@@ -65,7 +65,7 @@ namespace Tesserae.Tests.Samples
                 rowHeight: 24.px());
 
             _content = SectionStack()
-               .SampleTitle(nameof(GridPickerSample), UIcons.Table, "A control to pick an item from a grid")
+               .Title(SampleHeader(nameof(GridPickerSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("The GridPicker component provides an interactive grid where each cell can cycle through a predefined number of states. It's highly customizable through its state formatting logic."),

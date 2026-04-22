@@ -15,7 +15,7 @@ namespace Tesserae.Tests.Samples
         public MasonrySample()
         {
             _content = SectionStack().S()
-               .SampleTitle(nameof(MasonrySample), UIcons.Table, "A masonry layout component")
+               .Title(SampleHeader(nameof(MasonrySample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("Masonry layout (also known as a Pinterest-style layout) is a grid where items are placed in optimal positions based on available vertical space."),

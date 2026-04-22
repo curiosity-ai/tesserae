@@ -29,7 +29,6 @@
         -webkit-transform: translate3d(0, 0, 0);
         transform: translate3d(0, 0, 0);
     }
-
     .tss-card.tss-ismounted {
         opacity: 1;
         -webkit-transform: translate3d(0, 0, 0);
@@ -37,6 +36,7 @@
     }
 
     .tss-card.tss-noanimation {
+
         transition: unset !important;
     }
 
@@ -48,54 +48,25 @@
 .tss-card.tss-card-hover {
 }
 
-    .tss-card.tss-card-hover:hover {
-        background-color: var(--tss-default-background-hover-color);
-        box-shadow: var(--tss-shadow-lg-hover);
-    }
+.tss-card.tss-card-hover:hover {
+    background-color: var(--tss-default-background-hover-color);
+    box-shadow: var(--tss-shadow-lg-hover);
+}
 
-    .tss-card.tss-card-hover:active {
-        background-color: var(--tss-default-background-hover-color);
-    }
-
-.tss-card.tss-has-layout {
+.tss-card.tss-card-hover:active {
+    background-color: var(--tss-default-background-hover-color);
+}
+.tss-card.tss-has-header {
     flex-direction: column;
     padding: 0 !important; /* padding moved to content */
-    background: transparent !important;
-    box-shadow: none !important;
-    border: none !important;
 }
 
 .tss-card-header {
-    padding: 8px 0px 4px 12px;
-    padding-bottom: 24px;
-    margin-bottom: -16px;
-    border: 1px solid var(--tss-default-border-color);
-    border-bottom: none;
-    z-index: 1;
-    position: relative;
-    width: 100%;
-    box-sizing: border-box;
+    padding: 16px;
+    border-bottom: 1px solid var(--tss-default-border-color);
     display: flex;
     align-items: center;
     gap: 8px;
-    background-color: var(--tss-secondary-background-color);
-    border-top-left-radius: var(--tss-border-radius-lg);
-    border-top-right-radius: var(--tss-border-radius-lg);
-}
-
-.tss-card-footer {
-    padding: 0px 0px 4px 4px;
-    padding-top: 22px;
-    margin-top: -16px;
-    border: 1px solid var(--tss-default-border-color);
-    border-top: none;
-    z-index: 1;
-    position: relative;
-    width: 100%;
-    box-sizing: border-box;
-    background-color: var(--tss-secondary-background-color);
-    border-bottom-left-radius: var(--tss-border-radius-lg);
-    border-bottom-right-radius: var(--tss-border-radius-lg);
 }
 
 .tss-card-title {
@@ -104,32 +75,20 @@
     color: var(--tss-text-color, #333);
 }
 
+.tss-card-tag {
+    background-color: var(--tss-default-background-hover-color, #eee);
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    color: var(--tss-text-color, #333);
+}
+
 .tss-card-content {
     padding: 16px;
     flex-grow: 1;
-    background: var(--tss-default-background-color);
-    border-radius: var(--tss-border-radius-lg);
-    border: 1px solid var(--tss-default-border-color);
-    box-shadow: var(--tss-shadow-md);
-    z-index: 2;
-    position: relative;
-    box-sizing: border-box;
 }
 
-.tss-card.tss-has-layout > .tss-card-content {
-    box-shadow: unset;
-}
-
-.tss-card-container.tss-small > .tss-card.tss-has-layout > .tss-card-header {
-    padding-bottom: 12px;
-    margin-bottom: -8px;
-}
-
-.tss-card-container.tss-small > .tss-card.tss-has-layout > .tss-card-content {
+.tss-card-container.tss-small > .tss-card.tss-has-header > .tss-card-header,
+.tss-card-container.tss-small > .tss-card.tss-has-header > .tss-card-content {
     padding: 2px 8px;
-}
-
-.tss-card-container.tss-small > .tss-card.tss-has-layout > .tss-card-footer {
-    padding-top: 12px;
-    margin-top: -8px;
 }

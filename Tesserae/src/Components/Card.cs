@@ -10,8 +10,8 @@ namespace Tesserae
         private readonly HTMLElement _cardContainer;
         private HTMLElement _headerContainer;
         private HTMLElement _titleContainer;
+        private HTMLElement _tagContainer;
         private HTMLElement _contentContainer;
-        private HTMLElement _footerContainer;
         private bool _noPadding = false;
 
         public Card(IComponent content, bool noAnimation = false)
@@ -35,11 +35,15 @@ namespace Tesserae
         /// <summary>
         /// Gets or set whenever the card is rendered in a compact form
         /// </summary>
-        private void EnsureLayout()
+        private void EnsureHeader()
         {
-            if (_contentContainer == null)
+            if (_headerContainer == null)
             {
-                InnerElement.classList.add("tss-has-layout");
+                InnerElement.classList.add("tss-has-header");
+                _titleContainer = Div(_("tss-card-title"));
+                _tagContainer = Div(_("tss-card-tag"));
+                _headerContainer = Div(_("tss-card-header"), _titleContainer, _tagContainer);
+
                 _contentContainer = Div(_("tss-card-content"));
 
                 if (_noPadding)
@@ -53,44 +57,13 @@ namespace Tesserae
 
                 InnerElement.style.padding = "0px"; // Reset inline padding on main container
 
-                // Move existing styles
-                _contentContainer.style.background = InnerElement.style.background;
-                InnerElement.style.background = "transparent";
-
-                _contentContainer.style.borderColor = InnerElement.style.borderColor;
-                _contentContainer.style.borderWidth = InnerElement.style.borderWidth;
-                _contentContainer.style.borderStyle = InnerElement.style.borderStyle;
-                InnerElement.style.borderColor = "";
-                InnerElement.style.borderWidth = "";
-                InnerElement.style.borderStyle = "";
-
                 while (InnerElement.firstChild != null)
                 {
                     _contentContainer.appendChild(InnerElement.firstChild);
                 }
 
+                InnerElement.appendChild(_headerContainer);
                 InnerElement.appendChild(_contentContainer);
-            }
-        }
-
-        private void EnsureHeader()
-        {
-            EnsureLayout();
-            if (_headerContainer == null)
-            {
-                _titleContainer = Div(_("tss-card-title"));
-                _headerContainer = Div(_("tss-card-header"), _titleContainer);
-                InnerElement.insertBefore(_headerContainer, _contentContainer);
-            }
-        }
-
-        private void EnsureFooter()
-        {
-            EnsureLayout();
-            if (_footerContainer == null)
-            {
-                _footerContainer = Div(_("tss-card-footer"));
-                InnerElement.appendChild(_footerContainer);
             }
         }
 
@@ -114,7 +87,7 @@ namespace Tesserae
         public Card SetTitle(string title)
         {
             EnsureHeader();
-            SetTitle(TextBlock(title).SemiBold());
+            _titleContainer.innerText = title;
             return this;
         }
 
@@ -126,9 +99,24 @@ namespace Tesserae
             return this;
         }
 
+        public Card SetTag(string tag)
+        {
+            EnsureHeader();
+            _tagContainer.innerText = tag;
+            return this;
+        }
+
+        public Card SetTag(IComponent tag)
+        {
+            EnsureHeader();
+            ClearChildren(_tagContainer);
+            if (tag != null) _tagContainer.appendChild(tag.Render());
+            return this;
+        }
+
         public Card SetContent(IComponent content)
         {
-            if (_contentContainer != null)
+            if (_headerContainer != null)
             {
                 ClearChildren(_contentContainer);
                 _contentContainer.appendChild(content.Render());
@@ -141,14 +129,6 @@ namespace Tesserae
             return this;
         }
 
-        public Card SetFooter(IComponent footer)
-        {
-            EnsureFooter();
-            ClearChildren(_footerContainer);
-            if (footer != null) _footerContainer.appendChild(footer.Render());
-            return this;
-        }
-
         public Card Compact()
         {
             IsCompact = true;
@@ -157,11 +137,10 @@ namespace Tesserae
 
         public string Background
         {
-            get => _contentContainer != null ? _contentContainer.style.background : InnerElement.style.background;
+            get => InnerElement.style.background;
             set
             {
-                if (_contentContainer != null) _contentContainer.style.background = value;
-                else InnerElement.style.background = value;
+                InnerElement.style.background = value;
                 InnerElement.UpdateClassIf(!string.IsNullOrWhiteSpace(value), "tss-filter-effects");
             }
         }
@@ -175,25 +154,16 @@ namespace Tesserae
         public Card Border(string color, UnitSize size = null)
         {
             size                           = size ?? 1.px();
-            if (_contentContainer != null)
-            {
-                _contentContainer.style.borderColor = color;
-                _contentContainer.style.borderWidth = size.ToString();
-                _contentContainer.style.borderStyle = "solid";
-            }
-            else
-            {
-                InnerElement.style.borderColor = color;
-                InnerElement.style.borderWidth = size.ToString();
-                InnerElement.style.borderStyle = "solid";
-            }
+            InnerElement.style.borderColor = color;
+            InnerElement.style.borderWidth = size.ToString();
+            InnerElement.style.borderStyle = "solid";
             return this;
         }
 
         public Card NoPadding()
         {
             _noPadding = true;
-            if (_contentContainer != null)
+            if (_headerContainer != null)
             {
                 _contentContainer.style.padding = "0px";
             }

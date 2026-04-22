@@ -17,7 +17,7 @@ namespace Tesserae.Tests.Samples
             var layerHost = LayerHost();
 
             _content = SectionStack()
-               .SampleTitle(nameof(LayerSample), UIcons.Apps, "A component to display a layer")
+               .Title(SampleHeader(nameof(LayerSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("Layer is a technical component used to render content outside of its parent's DOM tree, typically at the end of the document body. This allows content to escape boundaries like 'overflow: hidden' or complex z-index stacks, ensuring that elements like tooltips, context menus, and modals always appear on top of other content.")))

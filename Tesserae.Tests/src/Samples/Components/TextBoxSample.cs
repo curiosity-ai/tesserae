@@ -13,7 +13,7 @@ namespace Tesserae.Tests.Samples
         public TextBoxSample()
         {
             _content = SectionStack()
-               .SampleTitle(nameof(TextBoxSample), UIcons.Text, "A control to input text")
+               .Title(SampleHeader(nameof(TextBoxSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("TextBoxes allow users to enter and edit text. They are used in forms, search queries, and anywhere text input is required."),

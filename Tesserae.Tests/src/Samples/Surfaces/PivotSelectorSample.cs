@@ -15,7 +15,7 @@ namespace Tesserae.Tests.Samples
         public PivotSelectorSample()
         {
             content = SectionStack()
-               .SampleTitle(nameof(PivotSelectorSample), UIcons.Cursor, "A control to select a pivot")
+               .Title(SampleHeader(nameof(PivotSelectorSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("PivotSelector is a variation of the Pivot component that uses a Dropdown for navigation. It is particularly effective for mobile-first designs or interfaces with a large number of tabs that would otherwise require excessive horizontal scrolling.")))

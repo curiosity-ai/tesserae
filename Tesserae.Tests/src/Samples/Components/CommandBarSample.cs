@@ -12,7 +12,7 @@ namespace Tesserae.Tests.Samples
         public CommandBarSample()
         {
             _content = SectionStack()
-               .SampleTitle(nameof(CommandBarSample), UIcons.MenuBurger, "A toolbar for housing commands")
+               .Title(SampleHeader(nameof(CommandBarSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("Command Bars provide a surface for common actions related to a specific context, such as a page or a selected item in a list."),

@@ -14,7 +14,7 @@ namespace Tesserae.Tests.Samples
         public ButtonSample()
         {
             _content = SectionStack()
-               .SampleTitle(nameof(ButtonSample), UIcons.Cursor, "A control that triggers an action")
+               .Title(SampleHeader(nameof(ButtonSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("Buttons are best used to enable a user to commit a change or complete steps in a task. They are typically found inside forms, dialogs, panels or pages. An example of their usage is confirming the deletion of a file in a confirmation dialog."),

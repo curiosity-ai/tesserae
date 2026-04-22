@@ -82,7 +82,7 @@ namespace Tesserae.Tests.Samples
             textArea.OnBlur((ta, ev) => nodeView.SetState(ta.Text));
 
             content = SectionStack()
-               .SampleTitle(nameof(NodeViewSample), UIcons.Sitemap, "A utility to display nodes")
+               .Title(SampleHeader(nameof(NodeViewSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("NodeView is a powerful utility for creating node-based visual editors and data flows. It allows you to define custom node types with various input and output interfaces, enabling users to build complex logic or data pipelines graphically.")))

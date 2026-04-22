@@ -16,7 +16,7 @@ namespace Tesserae.Tests.Samples
             var container = Raw();
 
             _content = SectionStack()
-               .SampleTitle(nameof(TutorialModalSample), UIcons.GraduationCap, "A modal dialog for tutorials")
+               .Title(SampleHeader(nameof(TutorialModalSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("TutorialModal is a specialized modal designed for guided processes, such as onboarding or feature walkthroughs. It combines a large content area with a dedicated help panel and an optional illustrative image, providing a structured environment for users to learn while they interact.")))

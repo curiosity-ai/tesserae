@@ -51,22 +51,6 @@ namespace Tesserae
             _orderedTabs.Add(tab);
 
             var titleContainer = Div(_("tss-segmentedpivot-tab"));
-            titleContainer.tabIndex = 0;
-            titleContainer.onkeydown = (e) =>
-            {
-                if (e.key == " ")
-                {
-                    StopEvent(e);
-                }
-            };
-            titleContainer.onkeyup = (e) =>
-            {
-                if (e.key == "Enter" || e.key == " ")
-                {
-                    StopEvent(e);
-                    Select(tab.Id);
-                }
-            };
             titleContainer.onclick = (e) =>
             {
                 StopEvent(e);

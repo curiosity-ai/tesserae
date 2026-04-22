@@ -18,7 +18,7 @@ namespace Tesserae.Tests.Samples
             var response = TextBlock();
 
             _content = SectionStack()
-               .SampleTitle(nameof(DialogSample), UIcons.CommentAlt, "A dialog component")
+               .Title(SampleHeader(nameof(DialogSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("Dialogs are modal UI overlays that provide contextual information or require user action, such as confirmation or input. They are designed to capture the user's attention and typically block interaction with the rest of the application until they are dismissed.")))

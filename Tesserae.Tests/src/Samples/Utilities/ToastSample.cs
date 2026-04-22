@@ -14,7 +14,7 @@ namespace Tesserae.Tests.Samples
         public ToastSample()
         {
             _content = SectionStack()
-               .SampleTitle(nameof(ToastSample), UIcons.Exclamation, "A utility to display toast notifications")
+               .Title(SampleHeader(nameof(ToastSample)))
                .Section(Stack().WidthStretch().Children(
                     SampleTitle("Overview"),
                     TextBlock("Toasts are short-lived, non-intrusive notifications that provide feedback about an operation. They appear temporarily on the screen and then disappear automatically, making them ideal for success messages, warnings, or simple information updates.")))

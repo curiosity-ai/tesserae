@@ -21,7 +21,7 @@ namespace Tesserae.Tests.Samples
             var manualButton = SaveButton().NothingToSave();
 
             _content = SectionStack()
-               .SampleTitle(nameof(SaveButtonSample), UIcons.Disk, "A button specialized for save operations")
+               .Title(SampleHeader(nameof(SaveButtonSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("The SaveButton component is a wrapper around a Button that manages common saving states: Pending, Verifying, Saving, Saved, and Error.")

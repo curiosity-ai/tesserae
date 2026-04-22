@@ -13,7 +13,7 @@ namespace Tesserae.Tests.Samples
         public EditableLabelSample()
         {
             _content = SectionStack()
-               .SampleTitle(nameof(EditableLabelSample), UIcons.Edit, "A label that can be edited")
+               .Title(SampleHeader(nameof(EditableLabelSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("EditableLabels and EditableAreas allow users to view content as standard text and switch to an editing mode (input or textarea) upon interaction."),

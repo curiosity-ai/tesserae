@@ -13,7 +13,7 @@ namespace Tesserae.Tests.Samples
         public ToggleSample()
         {
             _content = SectionStack()
-               .SampleTitle(nameof(ToggleSample), UIcons.ToggleOn, "A control to toggle between two states")
+               .Title(SampleHeader(nameof(ToggleSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("A Toggle represents a physical switch that allows users to choose between two mutually exclusive options, typically 'on' and 'off'."),

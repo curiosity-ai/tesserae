@@ -16,7 +16,7 @@ namespace Tesserae.Tests.Samples
             var to   = DateTime.Now.AddDays(7);
 
             _content = SectionStack()
-               .SampleTitle(nameof(DatePickerSample), UIcons.Calendar, "A component to select a date")
+               .Title(SampleHeader(nameof(DatePickerSample)))
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("DatePickers allow users to select a specific date using a browser-native date selection widget. They ensure that the input is always a valid date format."),
