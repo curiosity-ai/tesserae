@@ -284,9 +284,17 @@ namespace Tesserae
         /// Ensures that commands associated with the button are always visible when the sidebar is open.
         /// </summary>
         /// <returns>The current instance of the type.</returns>
-        public SidebarButton CommandsAlwaysVisible()
+        public SidebarButton CommandsAlwaysVisible(bool alwaysVisible = true)
         {
-            _open.Class("tss-sidebar-commands-always-open");
+            if (alwaysVisible)
+            {
+                _open.Class("tss-sidebar-commands-always-open");
+            }
+            else
+            {
+                _open.RemoveClass("tss-sidebar-commands-always-open");
+            }
+
             return this;
         }
 
