@@ -32,6 +32,10 @@ namespace Tesserae.Tests.Samples
                         Card(Metric("Requests", "688.46k").Change(HStack().AlignItemsCenter().Children(Icon(UIcons.ArrowDown).Foreground(Theme.Colors.Red600).S(), TextBlock("-0.4%").Foreground(Theme.Colors.Red600)))).W(250.px()),
                         Card(Metric("Tokens", "10.57B").Change(HStack().AlignItemsCenter().Children(Icon(UIcons.ArrowDown).Foreground(Theme.Colors.Red600).S(), TextBlock("-0.32%").Foreground(Theme.Colors.Red600)))).W(250.px())
                     ),
+                    SampleSubTitle("Card With Header & Tags"),
+                    HStack().Children(
+                        Card(HStack().Children(Metric("Requests", "688.46k").Change(HStack().AlignItemsCenter().Children(Icon(UIcons.ArrowDown).Foreground(Theme.Colors.Red600).S(), TextBlock("-0.4%").Foreground(Theme.Colors.Red600))).W(250.px()), Metric("Tokens", "10.57B").Change(HStack().AlignItemsCenter().Children(Icon(UIcons.ArrowDown).Foreground(Theme.Colors.Red600).S(), TextBlock("-0.32%").Foreground(Theme.Colors.Red600))).W(250.px()))).SetTitle("Metrics").SetTag("Last 24 hours")
+                    ),
                     SampleSubTitle("With Tooltips inside title"),
                     HStack().Children(
                         Card(Metric(HStack().AlignItemsCenter().Children(TextBlock("Requests").SmallPlus().SemiBold().Foreground(Theme.Secondary.Foreground), Icon(UIcons.Info).S().PL(4).Tooltip("Total number of requests")), TextBlock("1.1k").XLarge().SemiBold())).W(200.px()),
