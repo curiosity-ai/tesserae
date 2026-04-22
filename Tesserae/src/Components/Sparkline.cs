@@ -45,6 +45,31 @@ namespace Tesserae
             svg.setAttribute("width", "100%");
             svg.setAttribute("height", "100%");
 
+            // Create gradient
+            var defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
+            var gradientId = "gradient-" + Guid.NewGuid().ToString();
+            var linearGradient = document.createElementNS("http://www.w3.org/2000/svg", "linearGradient");
+            linearGradient.setAttribute("id", gradientId);
+            linearGradient.setAttribute("x1", "0%");
+            linearGradient.setAttribute("y1", "0%");
+            linearGradient.setAttribute("x2", "0%");
+            linearGradient.setAttribute("y2", "100%");
+
+            var stop1 = document.createElementNS("http://www.w3.org/2000/svg", "stop");
+            stop1.setAttribute("offset", "0%");
+            stop1.setAttribute("stop-color", color);
+            stop1.setAttribute("stop-opacity", "0.5");
+
+            var stop2 = document.createElementNS("http://www.w3.org/2000/svg", "stop");
+            stop2.setAttribute("offset", "100%");
+            stop2.setAttribute("stop-color", color);
+            stop2.setAttribute("stop-opacity", "0");
+
+            linearGradient.appendChild(stop1);
+            linearGradient.appendChild(stop2);
+            defs.appendChild(linearGradient);
+            svg.appendChild(defs);
+
             var points = "";
             for (int i = 0; i < data.Length; i++)
             {
@@ -56,13 +81,12 @@ namespace Tesserae
             var polyline = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
             polyline.setAttribute("fill", "none");
             polyline.setAttribute("stroke", color);
-            polyline.setAttribute("stroke-width", "2");
+            polyline.setAttribute("stroke-width", "1"); // Changed to 1
             polyline.setAttribute("points", points);
 
-            // Optional: Add area under the line
+            // Add area under the line with gradient
             var polygon = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
-            polygon.setAttribute("fill", color);
-            polygon.setAttribute("opacity", "0.2");
+            polygon.setAttribute("fill", $"url(#{gradientId})");
             polygon.setAttribute("points", $"{width},{height} 0,{height} " + points);
 
             svg.appendChild(polygon);
