@@ -30,7 +30,7 @@ namespace Tesserae.Tests.Samples
             var countSlider = Slider(5, 0, 10, 1);
 
             _content = SectionStack()
-               .Title(SampleHeader(nameof(StackSample)))
+               .SampleTitle(nameof(StackSample), UIcons.Apps, "A layout container that stacks its children")
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("Stacks are container components that simplify the use of Flexbox for layout. They allow you to arrange children components either horizontally (HStack) or vertically (VStack)."),

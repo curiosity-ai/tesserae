@@ -17,7 +17,7 @@ namespace Tesserae.Tests.Samples
         {
             //TODO: Add dropwdown to select icon weight
             _content = SectionStack().S()
-               .Title(SampleHeader(nameof(UIconsSample)))
+               .SampleTitle(nameof(UIconsSample), UIcons.Picture, "A utility to display icons")
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("UIcons provide a massive collection of high-quality icons integrated directly into Tesserae. They are accessible through a strongly-typed enum, offering full IntelliSense support and ensuring that your application's iconography is consistent and easily maintainable.")))

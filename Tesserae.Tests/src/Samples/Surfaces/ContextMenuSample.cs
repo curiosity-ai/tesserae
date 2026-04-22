@@ -12,7 +12,7 @@ namespace Tesserae.Tests.Samples
         public ContextMenuSample()
         {
             _content = SectionStack()
-               .Title(SampleHeader(nameof(ContextMenuSample)))
+               .SampleTitle(nameof(ContextMenuSample), UIcons.Cursor, "A menu that appears on context")
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("ContextMenu is a flyout component that displays a list of commands triggered by user interaction, such as a right-click or a button press."),

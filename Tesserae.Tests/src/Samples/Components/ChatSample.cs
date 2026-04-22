@@ -79,7 +79,7 @@ namespace Tesserae.Tests.Samples
             );
 
             _content = SectionStack()
-                .Title(SampleHeader(nameof(ChatSample)))
+                .SampleTitle(nameof(ChatSample), UIcons.Comments, "A component to display a chat")
                 .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("ChatArea and ChatMessage components allow building modern chat experiences with dynamic, animatable messages using DeltaComponent."),

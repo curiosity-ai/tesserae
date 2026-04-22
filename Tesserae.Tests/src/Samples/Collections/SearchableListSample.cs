@@ -15,7 +15,7 @@ namespace Tesserae.Tests.Samples
         public SearchableListSample()
         {
             _content = SectionStack().WidthStretch()
-                   .Title(SampleHeader(nameof(SearchableListSample)))
+                   .SampleTitle(nameof(SearchableListSample), UIcons.Search, "A list that can be searched")
                    .Section(Stack().Children(
                         SampleTitle("Overview"),
                         TextBlock("SearchableList combines a search box with a list of items, providing instant filtering as the user types."),

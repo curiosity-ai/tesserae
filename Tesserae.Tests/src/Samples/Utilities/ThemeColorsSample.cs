@@ -122,7 +122,7 @@ namespace Tesserae.Tests.Samples
             }, 1);
 
             _content = SectionStack()
-               .Title(SampleHeader(nameof(ThemeColorsSample)))
+               .SampleTitle(nameof(ThemeColorsSample), UIcons.Palette, "A utility to display theme colors")
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("ThemeColors allows for real-time inspection and customization of the application's theme. It provides a detailed view of the primary, secondary, and semantic colors used throughout the UI, and allows you to experiment with different primary and background color combinations for both light and dark modes.")))

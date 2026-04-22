@@ -20,7 +20,7 @@ namespace Tesserae.Tests.Samples
                .OnClick(() => palette.Open());
 
             _content = SectionStack()
-               .Title(SampleHeader(nameof(CommandPaletteSample)))
+               .SampleTitle(nameof(CommandPaletteSample), UIcons.Keyboard, "A command palette utility")
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("CommandPalette provides a fast and efficient way for users to navigate an application and trigger commands using only their keyboard. Inspired by modern editors and tools, it allows users to search through a list of actions and execute them with a single keystroke.")))

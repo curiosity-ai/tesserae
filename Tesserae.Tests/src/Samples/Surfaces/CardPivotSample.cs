@@ -12,7 +12,7 @@ namespace Tesserae.Tests.Samples
         public CardPivotSample()
         {
             content = SectionStack()
-               .Title(SampleHeader(nameof(CardPivotSample)))
+               .SampleTitle(nameof(CardPivotSample), UIcons.Apps, "A pivot using cards")
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("A CardPivot is a tabbed interface where the tabs are presented as connected cards with a shared border. It is useful for displaying selectable metrics that control the view below them.")))
