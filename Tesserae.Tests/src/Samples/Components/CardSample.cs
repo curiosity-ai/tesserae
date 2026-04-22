@@ -40,17 +40,17 @@ namespace Tesserae.Tests.Samples
                 ))
                 .Section(Stack().Children(
                     SampleTitle("Usage"),
-                    TextBlock("Basic Card").MediumPlus(),
+                    TextBlock("Basic Card").SemiBold().PT(8),
                     Card(TextBlock("This is a basic card.")),
-                    TextBlock("Card with Header").MediumPlus(),
+                    TextBlock("Card with Header").SemiBold().PT(16),
                     Card(TextBlock("This is a card with a header.")).SetTitle("Header").SetTag("Tag"),
-                    TextBlock("Card with Header and Footer").MediumPlus(),
+                    TextBlock("Card with Header and Footer").SemiBold().PT(16),
                     Card(TextBlock("This is a card with a header and a footer.")).SetTitle("Header").SetTag("Tag").SetFooter(Button("Action").Primary()),
-                    TextBlock("Compact Card").MediumPlus(),
+                    TextBlock("Compact Card").SemiBold().PT(16),
                     Card(TextBlock("This is a compact card.")).SetTitle("Header").SetTag("Tag").Compact(),
-                    TextBlock("Hover Card").MediumPlus(),
+                    TextBlock("Hover Card").SemiBold().PT(16),
                     Card(TextBlock("This card has hover effect.")).HoverColor(),
-                    TextBlock("Custom Background").MediumPlus(),
+                    TextBlock("Custom Background").SemiBold().PT(16),
                     Card(TextBlock("This card has a custom background.")).BackgroundColor(Theme.Primary.Background)
                 ));
         }
