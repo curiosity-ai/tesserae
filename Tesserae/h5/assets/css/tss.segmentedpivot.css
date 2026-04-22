@@ -31,22 +31,20 @@
     font-weight: 500;
 }
 
-.tss-segmentedpivot-tab:hover {
-    background-color: color-mix(in srgb, var(--tss-default-foreground-color) 10%, transparent);
+    .tss-segmentedpivot-tab:hover {
+        background-color: color-mix(in srgb, var(--tss-default-foreground-color) 10%, transparent);
+        color: var(--tss-default-foreground-color);
+    }
 
-    color: var(--tss-default-foreground-color);
-}
+    .tss-segmentedpivot-tab.tss-segmentedpivot-selected {
+        background-color: var(--tss-default-background-color);
+        color: var(--tss-default-foreground-color);
+        box-shadow: var(--tss-shadow-sm);
+    }
 
-.tss-segmentedpivot-tab.tss-segmentedpivot-selected {
-    background-color: var(--tss-default-background-color);
-    color: var(--tss-default-foreground-color);
-    box-shadow: var(--tss-shadow-sm);
-}
-
-.tss-segmentedpivot-tab.tss-segmentedpivot-selected * {
-    color: var(--tss-default-foreground-color);
-}
-
+        .tss-segmentedpivot-tab.tss-segmentedpivot-selected * {
+            color: var(--tss-default-foreground-color);
+        }
 
 .tss-segmentedpivot-content {
     flex-grow: 1;
@@ -60,12 +58,14 @@
 .tss-segmentedpivot-tab:focus-visible {
     box-shadow: 0 0 0 2px var(--tss-default-background-color), 0 0 0 4px var(--tss-default-foreground-color);
 }
+
 .tss-segmentedpivot-tab.tss-segmentedpivot-selected:focus-visible {
     box-shadow: 0 0 0 2px var(--tss-default-background-color), 0 0 0 4px var(--tss-default-foreground-color);
 }
 
 .tss-segmentedpivot-tab:active {
     background-color: color-mix(in srgb, var(--tss-default-foreground-color) 20%, transparent);
+}
 
 .tss-segmentedpivot-content > .tss-background-area {
     border-radius: var(--tss-border-radius-lg);
