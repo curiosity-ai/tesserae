@@ -930,5 +930,14 @@ namespace Tesserae
                 parentElement.removeChild(childToRemove);
             }
         }
+
+        public static BackgroundArea CenteredCardWithBackground(IComponent content)
+        {
+            var card = Card(content, noAnimation: true).Padding(32.px());
+            card.Render().style.maxHeight = "calc(100% - 32px)";
+            return BackgroundArea(card).S();
+        }
+        public static BackgroundArea CenteredWithBackground(IComponent content) => BackgroundArea(Stack().Children(content).P(32)).S();
+        public static BackgroundArea ZeroPaddingCenteredCardWithBackground(IComponent content, int outerPadding = 32) => BackgroundArea(Card(content, noAnimation: true).NoPadding().Padding(outerPadding.px())).S();
     }
 }

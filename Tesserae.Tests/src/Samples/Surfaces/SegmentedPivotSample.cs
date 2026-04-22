@@ -20,10 +20,10 @@ namespace Tesserae.Tests.Samples
                     SampleTitle("Usage"),
                     SampleSubTitle("Basic Usage"),
                     SegmentedPivot()
-                        .SegmentedPivot("tab1", () => TextBlock("Overview"), () => Card(TextBlock("Overview Content").P(32)))
-                        .SegmentedPivot("tab2", () => TextBlock("Logs"), () => Card(TextBlock("Logs Content").P(32)))
-                        .SegmentedPivot("tab3", () => TextBlock("Analytics"), () => Card(TextBlock("Analytics Content").P(32)))
-                        .SegmentedPivot("tab4", () => TextBlock("Firewall"), () => Card(TextBlock("Firewall Content").P(32)))
+                        .SegmentedPivot("tab1", () => TextBlock("Overview"),  () => CenteredWithBackground(Message("Overview Content")))
+                        .SegmentedPivot("tab2", () => TextBlock("Logs"),      () => CenteredWithBackground(Message("Logs Content")))
+                        .SegmentedPivot("tab3", () => TextBlock("Analytics"), () => CenteredWithBackground(Message("Analytics Content")))
+                        .SegmentedPivot("tab4", () => TextBlock("Firewall"),  () => CenteredWithBackground(Message("Firewall Content")))
                ));
         }
 
