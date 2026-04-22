@@ -13,7 +13,7 @@
     flex-direction: row;
     flex-wrap: nowrap;
     border-radius: var(--tss-border-radius-lg);
-    background: var(--tss-colors-neutral-200-alpha);
+    background: var(--tss-secondary-background-color);
     padding: 4px;
     box-shadow: inset 0px 2px 8px var(--tss-colors-dark-neutral-1000);
 }
