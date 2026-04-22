@@ -15,24 +15,24 @@ namespace Tesserae.Tests.Samples
 
         public TimelineSample()
         {
-            _content = SectionStack().WidthStretch()
-               .SampleTitle(nameof(TimelineSample), UIcons.Clock, "A component to display a timeline")
-               .Section(Stack().Children(
-                    SampleTitle("Overview"),
+            _content = SectionStack().Secondary().WidthStretch()
+               .SampleTitle(typeof(TimelineSample), UIcons.Clock, "A component to display a timeline")
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
                     TextBlock("Timeline displays a series of events in chronological order, using a vertical line to connect them."),
-                    TextBlock("It is ideal for activity feeds, version histories, or any process where the sequence of steps is important.")))
-               .Section(Stack().Children(
-                    SampleTitle("Best Practices"),
-                    TextBlock("Use Timelines to show the progression of time or a sequence of related events. Clearly distinguish between past, current, and future events if applicable. Use the 'SameSide' property if you want a more linear, left-aligned layout, or the default staggered layout for a more balanced visual look. Ensure that each event has a clear timestamp and a concise description.")))
-               .Section(Stack().Children(
-                    SampleTitle("Usage"),
+                    TextBlock("It is ideal for activity feeds, version histories, or any process where the sequence of steps is important."))).SetTitle("Overview")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    TextBlock("Use Timelines to show the progression of time or a sequence of related events. Clearly distinguish between past, current, and future events if applicable. Use the 'SameSide' property if you want a more linear, left-aligned layout, or the default staggered layout for a more balanced visual look. Ensure that each event has a clear timestamp and a concise description."))).SetTitle("Best Practices")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
                     SampleSubTitle("Default Staggered Timeline"),
                     Timeline().Children(GetSomeItems(6)).Height(300.px()).MB(32),
                     SampleSubTitle("Same Side Alignment"),
                     Timeline().SameSide().Children(GetSomeItems(6)).Height(300.px()).MB(32),
                     SampleSubTitle("Constrained Width"),
                     Timeline().TimelineWidth(400.px()).Children(GetSomeItems(6)).Height(300.px())
-                ));
+                )).SetTitle("Usage")));
         }
 
         public HTMLElement Render() => _content.Render();

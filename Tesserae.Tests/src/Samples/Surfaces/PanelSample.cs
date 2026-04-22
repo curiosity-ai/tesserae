@@ -37,17 +37,17 @@ namespace Tesserae.Tests.Samples
                     Toggle("Hide close button").OnChange((s, e) => panel.ShowCloseButton = !s.IsChecked).Checked(!panel.ShowCloseButton)
                 )).SetFooter(HStack().Children(Button("Footer Button 1").Primary(), Button("Footer Button 2")));
 
-            _content = SectionStack()
-               .SampleTitle(nameof(PanelSample), UIcons.WindowRestore, "A panel component")
-               .Section(Stack().Children(
-                    SampleTitle("Overview"),
-                    TextBlock("Panels are sliding overlays typically used for creation or management tasks, such as editing a user's profile or configuring settings. They provide a large, temporary surface that slides in from either the left or right side of the screen, keeping the user within the current context while providing space for complex forms or information.")))
-               .Section(Stack().Children(
-                    SampleTitle("Best Practices"),
-                    TextBlock("Use Panels for self-contained tasks that are too large for a Dialog or Modal. Choose the 'Far' side (right) for most common actions, and 'Near' (left) for navigation-related content. Provide clear 'Save' and 'Cancel' actions in the footer. Ensure that the Panel size is appropriate for its content, using wider variants for complex forms. Use 'LightDismiss' to allow users to quickly exit by clicking outside the panel.")))
-               .Section(Stack().Children(
-                    SampleTitle("Usage"),
-                    Button("Open panel").OnClick((s, e) => panel.Show())));
+            _content = SectionStack().Secondary()
+               .SampleTitle(typeof(PanelSample), UIcons.WindowRestore, "A panel component")
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    TextBlock("Panels are sliding overlays typically used for creation or management tasks, such as editing a user's profile or configuring settings. They provide a large, temporary surface that slides in from either the left or right side of the screen, keeping the user within the current context while providing space for complex forms or information."))).SetTitle("Overview")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    TextBlock("Use Panels for self-contained tasks that are too large for a Dialog or Modal. Choose the 'Far' side (right) for most common actions, and 'Near' (left) for navigation-related content. Provide clear 'Save' and 'Cancel' actions in the footer. Ensure that the Panel size is appropriate for its content, using wider variants for complex forms. Use 'LightDismiss' to allow users to quickly exit by clicking outside the panel."))).SetTitle("Best Practices")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    Button("Open panel").OnClick((s, e) => panel.Show()))).SetTitle("Usage")));
         }
 
         public HTMLElement Render()

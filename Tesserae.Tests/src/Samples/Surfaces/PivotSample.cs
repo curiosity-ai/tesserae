@@ -14,16 +14,16 @@ namespace Tesserae.Tests.Samples
 
         public PivotSample()
         {
-            content = SectionStack()
-               .SampleTitle(nameof(PivotSample), UIcons.Apps, "A navigation pivot")
-               .Section(Stack().Children(
-                    SampleTitle("Overview"),
-                    TextBlock("Pivots are used for navigating between different views or categories of content within the same context. They provide a compact way to switch between related data sets, such as different tabs in a settings page or different views of a list.")))
-               .Section(Stack().Children(
-                    SampleTitle("Best Practices"),
-                    TextBlock("Use Pivots to organize content into logical categories. Keep labels short and descriptive. Ensure that the most frequently used views are placed first. Utilize the 'Justified' or 'Centered' styles when the pivot should span the full width of its container. Use the 'Cached' option to preserve the state of a tab's content when switching away.")))
-               .Section(Stack().Children(
-                    SampleTitle("Usage"),
+            content = SectionStack().Secondary()
+               .SampleTitle(typeof(PivotSample), UIcons.Apps, "A navigation pivot")
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    TextBlock("Pivots are used for navigating between different views or categories of content within the same context. They provide a compact way to switch between related data sets, such as different tabs in a settings page or different views of a list."))).SetTitle("Overview")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    TextBlock("Use Pivots to organize content into logical categories. Keep labels short and descriptive. Ensure that the most frequently used views are placed first. Utilize the 'Justified' or 'Centered' styles when the pivot should span the full width of its container. Use the 'Cached' option to preserve the state of a tab's content when switching away."))).SetTitle("Best Practices")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
                     SampleSubTitle("Normal Style"),
                     GetPivot(),
                     SampleSubTitle("Justified Style"),
@@ -52,7 +52,7 @@ namespace Tesserae.Tests.Samples
                        .Pivot("tab7", PivotTitle("Tab 7"), () => ItemsList(GetSomeItems(5)).PB(16), cached: true)
                        .Pivot("tab8", PivotTitle("Tab 8"), () => ItemsList(GetSomeItems(5)).PB(16), cached: true))
                     .Right(TextBlock("👈 resize this area to see the overflow adjusting which tabs to show").WS().BreakSpaces())
-                ));
+                )).SetTitle("Usage")));
         }
 
         private Pivot GetPivot()

@@ -78,14 +78,14 @@ namespace Tesserae.Tests.Samples
 
             var readOnlyToggle = Toggle("Read Only").OnChange((s, e) => board.ReadOnly(s.IsChecked));
 
-            _content = SectionStack()
-               .SampleTitle(nameof(TaskBoardSample), UIcons.ClipboardList, "A board for managing tasks")
-               .Section(Stack().Children(
-                    SampleTitle("Overview"),
+            _content = SectionStack().Secondary()
+               .SampleTitle(typeof(TaskBoardSample), UIcons.ClipboardList, "A board for managing tasks")
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
                     TextBlock("TaskBoard provides a Trello-like interface with draggable columns and cards. Use it for Kanban boards and task management."),
                     HStack().Children(toggle, readOnlyToggle),
                     board.Height(600.px())
-               ));
+               )).SetTitle("Overview")));
         }
 
         public HTMLElement Render() => _content.Render();

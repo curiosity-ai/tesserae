@@ -2,8 +2,12 @@
 .tss-sectionstack {
     display: flex;
     flex-direction: column;
-    padding: 16px;
+    padding: 16px 32px;
     background: transparent;
+}
+
+.tss-sectionstack-secondary {
+    background: var(--tss-secondary-background-color);
 }
 
 .tss-sectionstack-item {

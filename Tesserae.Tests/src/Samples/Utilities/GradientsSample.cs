@@ -35,26 +35,26 @@ namespace Tesserae.Tests.Samples
             {
                 grid.Children(
                     VStack().Children(
-                        SampleTitle("Linear Gradients"),
+                        Card(VStack().WS().Children(
                         VStack().Children(allGradients.Select(g => RenderGradientStack(g.Name, g.Value)).ToArray())
-                    )
+                    )).SetTitle("Linear Gradients"))
                 );
             }
             Render();
 
             Theme.OnThemeChanged += () => window.setTimeout(_ => Render(), 1);
 
-            _content = SectionStack()
-                .SampleTitle(nameof(GradientsSample), UIcons.Palette, "A utility to apply gradients")
-                .Section(Stack().Children(
-                    SampleTitle("Overview"),
-                    TextBlock("Tesserae provides a comprehensive set of predefined gradients that are part of the theme. These gradients are accessible via the 'Theme.Gradients' class and are designed to provide a consistent visual language across the application, with support for both light and dark modes.")))
-                .Section(Stack().Children(
-                    SampleTitle("Best Practices"),
-                    TextBlock("Prefer using these predefined gradients over hardcoded linear-gradient functions to ensure your application remains consistent with the theme. Click on any gradient name below to copy its C# constant name.")))
-                .Section(Stack().Children(
-                    SampleTitle("Usage"),
-                    grid));
+            _content = SectionStack().Secondary()
+                .SampleTitle(typeof(GradientsSample), UIcons.Palette, "A utility to apply gradients")
+                .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    TextBlock("Tesserae provides a comprehensive set of predefined gradients that are part of the theme. These gradients are accessible via the 'Theme.Gradients' class and are designed to provide a consistent visual language across the application, with support for both light and dark modes."))).SetTitle("Overview")))
+                .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    TextBlock("Prefer using these predefined gradients over hardcoded linear-gradient functions to ensure your application remains consistent with the theme. Click on any gradient name below to copy its C# constant name."))).SetTitle("Best Practices")))
+                .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    grid)).SetTitle("Usage")));
         }
 
         private IComponent RenderGradientStack(string gradientName, string gradientVar)

@@ -25,17 +25,17 @@ namespace Tesserae.Tests.Samples
             obsList.AddRange(GetSomeItems(10, " (Initial)"));
             obsList.Add(vs);
 
-            _content = SectionStack().WidthStretch()
-               .SampleTitle(nameof(ItemsListSample), UIcons.List, "A list that displays items")
-               .Section(Stack().Children(
-                    SampleTitle("Overview"),
+            _content = SectionStack().Secondary().WidthStretch()
+               .SampleTitle(typeof(ItemsListSample), UIcons.List, "A list that displays items")
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
                     TextBlock("ItemsList is a versatile component for displaying collections of items. It supports static lists, observable lists, and grid layouts."),
-                    TextBlock("It is ideal for smaller to medium-sized collections. For very large datasets, consider using VirtualizedList for better performance.")))
-               .Section(Stack().Children(
-                    SampleTitle("Best Practices"),
-                    TextBlock("Use ItemsList when you want full control over the rendering of each item. Leverage observable lists to automatically update the UI when the underlying data changes. Use columns to create grid layouts that adapt to the container width. Always provide a meaningful empty message if there are no items to display. If you expect a very high number of items, ensure you test the performance or switch to a virtualized approach.")))
-               .Section(Stack().Children(
-                    SampleTitle("Usage"),
+                    TextBlock("It is ideal for smaller to medium-sized collections. For very large datasets, consider using VirtualizedList for better performance."))).SetTitle("Overview")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    TextBlock("Use ItemsList when you want full control over the rendering of each item. Leverage observable lists to automatically update the UI when the underlying data changes. Use columns to create grid layouts that adapt to the container width. Always provide a meaningful empty message if there are no items to display. If you expect a very high number of items, ensure you test the performance or switch to a virtualized approach."))).SetTitle("Best Practices")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
                     SampleSubTitle("Simple List"),
                     ItemsList(GetSomeItems(5)).Height(250.px()).MB(32),
                     SampleSubTitle("Multi-column Grid"),
@@ -47,7 +47,7 @@ namespace Tesserae.Tests.Samples
                     ItemsList(new IComponent[0])
                        .WithEmptyMessage(() => BackgroundArea(Card(TextBlock("No items to show").Padding(16.px()))).WS().HS().MinHeight(100.px()))
                        .Height(150.px())
-                ));
+                )).SetTitle("Usage")));
         }
 
         public HTMLElement Render() => _content.Render();

@@ -90,19 +90,19 @@ namespace Tesserae.Tests.Samples
                 }
             });
 
-            _content = SectionStack()
-               .SampleTitle(nameof(OmniBoxSample), UIcons.Search, "An omnibox search component")
-               .Section(VStack().Children(
-                    SampleTitle("Overview"),
+            _content = SectionStack().Secondary()
+               .SampleTitle(typeof(OmniBoxSample), UIcons.Search, "An omnibox search component")
+               .FlatSection(VStack().Children(
+                    Card(VStack().WS().Children(
                     toggle.MB(16),
-                    TextBlock("Omnibox provides a powerful input field for switching between a chat and a search interaction. For search, it also provides support for parsing and visual rendering of logical operators like AND, OR, NOT, parenthesis, and quotes.")))
-               .Section(VStack().WS().Children(
-                    SampleTitle("Usage"),
+                    TextBlock("Omnibox provides a powerful input field for switching between a chat and a search interaction. For search, it also provides support for parsing and visual rendering of logical operators like AND, OR, NOT, parenthesis, and quotes."))).SetTitle("Overview")))
+               .FlatSection(VStack().WS().Children(
+                    Card(VStack().WS().Children(
                     SampleSubTitle("Modes"),
                         Label("Search").SetContent(searchModeSample),
                         Label("Chat").SetContent(chatModeSample.MT(6)),
                         Label("Search & Chat").SetContent(searchAndChatModeSample.MT(6))
-                ));
+                )).SetTitle("Usage")));
         }
 
         public HTMLElement Render() => _content.Render();

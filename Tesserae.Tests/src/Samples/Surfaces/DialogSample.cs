@@ -17,16 +17,16 @@ namespace Tesserae.Tests.Samples
             var dialog   = Dialog("Sample Dialog");
             var response = TextBlock();
 
-            _content = SectionStack()
-               .SampleTitle(nameof(DialogSample), UIcons.CommentAlt, "A dialog component")
-               .Section(Stack().Children(
-                    SampleTitle("Overview"),
-                    TextBlock("Dialogs are modal UI overlays that provide contextual information or require user action, such as confirmation or input. They are designed to capture the user's attention and typically block interaction with the rest of the application until they are dismissed.")))
-               .Section(Stack().Children(
-                    SampleTitle("Best Practices"),
-                    TextBlock("Use Dialogs for critical or short-term tasks that require a decision. Ensure the content is brief and clearly states the purpose. Provide logical action buttons (e.g., 'Confirm' and 'Cancel') and highlight the primary action. Avoid overusing Dialogs for non-essential information to prevent frustrating the user. Consider using non-modal alternatives if the task doesn't require immediate attention.")))
-               .Section(Stack().Children(
-                    SampleTitle("Usage"),
+            _content = SectionStack().Secondary()
+               .SampleTitle(typeof(DialogSample), UIcons.CommentAlt, "A dialog component")
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    TextBlock("Dialogs are modal UI overlays that provide contextual information or require user action, such as confirmation or input. They are designed to capture the user's attention and typically block interaction with the rest of the application until they are dismissed."))).SetTitle("Overview")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    TextBlock("Use Dialogs for critical or short-term tasks that require a decision. Ensure the content is brief and clearly states the purpose. Provide logical action buttons (e.g., 'Confirm' and 'Cancel') and highlight the primary action. Avoid overusing Dialogs for non-essential information to prevent frustrating the user. Consider using non-modal alternatives if the task doesn't require immediate attention."))).SetTitle("Best Practices")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
                     Button("Open Dialog").OnClick((c, ev) => dialog.Show()),
                     HStack().Children(
                         Button("Open YesNo").OnClick((c,       ev) => Dialog("Sample Dialog").YesNo(() => response.Text("Clicked Yes"), () => response.Text("Clicked No"))),
@@ -37,7 +37,7 @@ namespace Tesserae.Tests.Samples
                     Button("Open YesNoCancel with dark overlay").OnClick((c, ev) => Dialog("Sample Dialog").Dark().YesNoCancel(() => response.Text("Clicked Yes"), () => response.Text("Clicked No"), () => response.Text("Clicked Cancel"))),
                     Button("Open Ok with dark overlay").OnClick((c,          ev) => Dialog("Sample Dialog").Dark().Ok(() => response.Text("Clicked Ok"))),
                     Button("Open RetryCancel with dark overlay").OnClick((c, ev) => Dialog("Sample Dialog").Dark().RetryCancel(() => response.Text("Clicked Retry"), () => response.Text("Clicked Cancel"))),
-                    response));
+                    response)).SetTitle("Usage")));
 
             dialog.Content(Stack().Children(TextBlock("Lorem ipsum dolor sit amet, consectetur adipiscing elit."),
                     Toggle("Is draggable").OnChange((c,    ev) => dialog.IsDraggable = c.IsChecked),

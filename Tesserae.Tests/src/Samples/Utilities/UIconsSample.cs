@@ -16,18 +16,18 @@ namespace Tesserae.Tests.Samples
         public UIconsSample()
         {
             //TODO: Add dropwdown to select icon weight
-            _content = SectionStack().S()
-               .SampleTitle(nameof(UIconsSample), UIcons.Picture, "A utility to display icons")
-               .Section(Stack().Children(
-                    SampleTitle("Overview"),
-                    TextBlock("UIcons provide a massive collection of high-quality icons integrated directly into Tesserae. They are accessible through a strongly-typed enum, offering full IntelliSense support and ensuring that your application's iconography is consistent and easily maintainable.")))
-               .Section(Stack().Children(
-                    SampleTitle("Best Practices"),
-                    TextBlock("Use icons to provide visual context and improve the scanability of your UI. Choose icons that are widely recognized and relevant to the action or content they represent. Maintain consistency in icon style and weight throughout your application. Use the SearchableList below to explore the thousands of available icons.")))
-               .Section(Stack().Children(
-                    SampleTitle("Usage"),
+            _content = SectionStack().Secondary().S()
+               .SampleTitle(typeof(UIconsSample), UIcons.Picture, "A utility to display icons")
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    TextBlock("UIcons provide a massive collection of high-quality icons integrated directly into Tesserae. They are accessible through a strongly-typed enum, offering full IntelliSense support and ensuring that your application's iconography is consistent and easily maintainable."))).SetTitle("Overview")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    TextBlock("Use icons to provide visual context and improve the scanability of your UI. Choose icons that are widely recognized and relevant to the action or content they represent. Maintain consistency in icon style and weight throughout your application. Use the SearchableList below to explore the thousands of available icons."))).SetTitle("Best Practices")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
                     SampleSubTitle($"Strongly-typed {nameof(UIcons)} enum"),
-                    SearchableList(GetAllIcons().ToArray(), 25.percent(), 25.percent(), 25.percent(), 25.percent())).S(), grow: true);
+                    SearchableList(GetAllIcons().ToArray(), 25.percent(), 25.percent(), 25.percent(), 25.percent()))).SetTitle("Usage")).S(), grow: true);
         }
 
         public HTMLElement Render()

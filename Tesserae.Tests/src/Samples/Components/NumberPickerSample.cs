@@ -12,17 +12,17 @@ namespace Tesserae.Tests.Samples
 
         public NumberPickerSample()
         {
-            _content = SectionStack()
-               .SampleTitle(nameof(NumberPickerSample), UIcons.SortAmountUp, "A control to pick a number")
-               .Section(Stack().Children(
-                    SampleTitle("Overview"),
+            _content = SectionStack().Secondary()
+               .SampleTitle(typeof(NumberPickerSample), UIcons.SortAmountUp, "A control to pick a number")
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
                     TextBlock("The NumberPicker provides an input field specifically for numeric values, leveraging the browser's native number input widget."),
-                    TextBlock("It supports constraints like minimum and maximum values, as well as step increments for easier value adjustment.")))
-               .Section(Stack().Children(
-                    SampleTitle("Best Practices"),
-                    TextBlock("Use the NumberPicker whenever a precise numeric input is required. Set appropriate 'min', 'max', and 'step' values to guide the user. If the range of numbers is small and discrete, consider using a Slider or ChoiceGroup instead. Use validation to ensure the entered number meets specific criteria (e.g., must be even or positive).")))
-               .Section(Stack().Children(
-                    SampleTitle("Usage"),
+                    TextBlock("It supports constraints like minimum and maximum values, as well as step increments for easier value adjustment."))).SetTitle("Overview")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    TextBlock("Use the NumberPicker whenever a precise numeric input is required. Set appropriate 'min', 'max', and 'step' values to guide the user. If the range of numbers is small and discrete, consider using a Slider or ChoiceGroup instead. Use validation to ensure the entered number meets specific criteria (e.g., must be even or positive)."))).SetTitle("Best Practices")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
                     SampleSubTitle("Basic NumberPickers"),
                     VStack().Children(
                         Label("Standard").SetContent(NumberPicker()),
@@ -41,7 +41,7 @@ namespace Tesserae.Tests.Samples
                     ),
                     SampleSubTitle("Event Handling"),
                     NumberPicker().OnChange((s, e) => Toast().Information($"Value changed to: {s.Value}"))
-                ));
+                )).SetTitle("Usage")));
         }
 
         public HTMLElement Render() => _content.Render();

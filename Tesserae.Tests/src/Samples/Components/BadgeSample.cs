@@ -11,17 +11,17 @@ namespace Tesserae.Tests.Samples
 
         public BadgeSample()
         {
-            _content = SectionStack()
-               .SampleTitle(nameof(BadgeSample), UIcons.Certificate, "A component to display a badge")
-               .Section(Stack().Children(
-                    SampleTitle("Overview"),
+            _content = SectionStack().Secondary()
+               .SampleTitle(typeof(BadgeSample), UIcons.Certificate, "A component to display a badge")
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
                     TextBlock("Badges, Tags, and Chips are small visual elements used to categorize content, highlight status, or display metadata."),
-                    TextBlock("They come in various styles: Badges are typically static indicators, Tags are for categorization, and Chips often include interactive elements like a removal button.")))
-               .Section(Stack().Children(
-                    SampleTitle("Best Practices"),
-                    TextBlock("Use badges to call attention to small pieces of information like counts or status. Use tags for categorization where multiple labels might apply. Use chips for entities that can be removed or interacted with individually. Ensure colors are used consistently to convey meaning (e.g., red for danger/errors, green for success).")))
-               .Section(Stack().Children(
-                    SampleTitle("Usage"),
+                    TextBlock("They come in various styles: Badges are typically static indicators, Tags are for categorization, and Chips often include interactive elements like a removal button."))).SetTitle("Overview")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    TextBlock("Use badges to call attention to small pieces of information like counts or status. Use tags for categorization where multiple labels might apply. Use chips for entities that can be removed or interacted with individually. Ensure colors are used consistently to convey meaning (e.g., red for danger/errors, green for success)."))).SetTitle("Best Practices")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
                     SampleSubTitle("Standard Badges"),
                     HStack().Children(
                         Badge("Default"),
@@ -37,7 +37,7 @@ namespace Tesserae.Tests.Samples
                         Tag("Metadata").SetIcon(Icon.Transform(UIcons.Tags, UIconsWeight.Regular)).Outline(),
                         Chip("Interactive Chip").Filled().OnRemove(c => Toast().Success("Removed chip")),
                         Chip("Status Chip").Success().Pill())
-                ));
+                )).SetTitle("Usage")));
         }
 
         public HTMLElement Render() => _content.Render();

@@ -14,19 +14,19 @@ namespace Tesserae.Tests.Samples
 
         public SectionStackSample()
         {
-            var stack = SectionStack();
+            var stack = SectionStack().Secondary();
 
-            _content = Stack().Children(SectionStack().SampleTitle(nameof(SectionStackSample), UIcons.Apps, "A stack with animated sections")
-                   .Section(Stack().Children(
-                        SampleTitle("Overview"),
-                        TextBlock("SectionStack is a high-level layout component designed for creating long-form pages or detailed views. It organizes content into distinct vertical sections, typically with a header and footer, providing a consistent structure for complex information architectures.")))
-                   .Section(Stack().Children(
-                        SampleTitle("Best Practices"),
-                        TextBlock("Use SectionStack for the main content area of your pages. Organize related components into distinct sections to improve readability and scanability. Utilize the 'Title' and 'Commands' features of the SectionStack to provide context and actions at the top of the page.")))
-                   .Section(Stack().Children(
-                        SampleTitle("Usage"),
+            _content = Stack().Children(SectionStack().Secondary().SampleTitle(typeof(SectionStackSample), UIcons.Apps, "A stack with animated sections")
+                   .FlatSection(Stack().Children(
+                        Card(VStack().WS().Children(
+                        TextBlock("SectionStack is a high-level layout component designed for creating long-form pages or detailed views. It organizes content into distinct vertical sections, typically with a header and footer, providing a consistent structure for complex information architectures."))).SetTitle("Overview")))
+                   .FlatSection(Stack().Children(
+                        Card(VStack().WS().Children(
+                        TextBlock("Use SectionStack for the main content area of your pages. Organize related components into distinct sections to improve readability and scanability. Utilize the 'Title' and 'Commands' features of the SectionStack to provide context and actions at the top of the page."))).SetTitle("Best Practices")))
+                   .FlatSection(Stack().Children(
+                        Card(VStack().WS().Children(
                         SampleSubTitle("Dynamic Section Generation"),
-                        Label("Number of sections:").SetContent(Slider(5, 0, 10, 1).OnInput((s, e) => SetChildren(stack, s.Value))))),
+                        Label("Number of sections:").SetContent(Slider(5, 0, 10, 1).OnInput((s, e) => SetChildren(stack, s.Value))))).SetTitle("Usage"))),
                 stack);
             SetChildren(stack, 5);
         }
@@ -38,7 +38,7 @@ namespace Tesserae.Tests.Samples
 
             for (int i = 0; i < count; i++)
             {
-                stack.Section(Stack().Children(
+                stack.FlatSection(Stack().Children(
                     TextBlock($"Section {i}").MediumPlus().SemiBold(),
                     TextBlock("Wrap (Default)").SmallPlus(),
                     TextBlock("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.").Width(50.percent()),
