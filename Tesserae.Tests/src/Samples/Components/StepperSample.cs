@@ -14,14 +14,14 @@ namespace Tesserae.Tests.Samples
             _content = SectionStack()
                .SampleTitle(nameof(StepperSample), UIcons.ShoePrints, "A component to display a step-by-step process")
                .Section(Stack().Children(
-                    SampleTitle("Overview"),
+                    Card(VStack().WS().Children(
                     TextBlock("Steppers (also known as Wizards) guide users through a multi-step process by breaking it down into smaller, logical chunks."),
-                    TextBlock("They manage the visibility of content for each step and provide built-in navigation controls (Previous/Next) while tracking the current progress.")))
+                    TextBlock("They manage the visibility of content for each step and provide built-in navigation controls (Previous/Next) while tracking the current progress."))).SetTitle("Overview")))
                .Section(Stack().Children(
-                    SampleTitle("Best Practices"),
-                    TextBlock("Use Steppers for complex tasks that have a clear sequential order. Keep each step focused on a single topic to avoid overwhelming the user. Provide clear labels for each step so the user knows what to expect. Use the 'Review' step to allow users to verify their input before the final submission. Ensure that the 'Previous' action allows users to return and modify their entries without losing data.")))
+                    Card(VStack().WS().Children(
+                    TextBlock("Use Steppers for complex tasks that have a clear sequential order. Keep each step focused on a single topic to avoid overwhelming the user. Provide clear labels for each step so the user knows what to expect. Use the 'Review' step to allow users to verify their input before the final submission. Ensure that the 'Previous' action allows users to return and modify their entries without losing data."))).SetTitle("Best Practices")))
                .Section(Stack().Children(
-                    SampleTitle("Usage"),
+                    Card(VStack().WS().Children(
                     SampleSubTitle("Registration Wizard"),
                     Stepper(
                         Step("Personal Info", Stack().Children(
@@ -42,7 +42,7 @@ namespace Tesserae.Tests.Samples
                             Button("Complete Registration").Primary().MT(16)
                         ))
                     ).OnStepChange(s => Toast().Information($"Step {s.CurrentStepIndex + 1}: {s.CurrentStep.Title}"))
-                ));
+                )).SetTitle("Usage")));
         }
 
         public HTMLElement Render() => _content.Render();

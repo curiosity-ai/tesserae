@@ -139,16 +139,16 @@ namespace Tesserae.Tests.Samples
             _content = SectionStack()
                 .SampleTitle(nameof(DeltaComponent), UIcons.Refresh, "A component that animates changes")
                 .Section(Stack().Children(
-                    SampleTitle("Overview"),
+                    Card(VStack().WS().Children(
                     TextBlock("DeltaComponent updates its DOM tree to match a new component's DOM tree using a diff algorithm. It detects text appends and adds them as new spans to avoid full re-rendering."),
-                    HStack().Children(typing, typingWithComponents, resetBtn),
-                    SampleTitle("Output"),
-                    deltaComponent,
-                    SampleTitle("Shadow DOM"),
+                    HStack().Children(typing, typingWithComponents, resetBtn))).SetTitle("Overview"),
+                    Card(VStack().WS().Children(
+                    deltaComponent)).SetTitle("Output"),
+                    Card(VStack().WS().Children(
                     TextBlock("This DeltaComponent renders its content inside a Shadow DOM root."),
                     HStack().Children(shadowTyping, shadowResetBtn),
                     shadowDeltaComponent
-                ));
+                )).SetTitle("Shadow DOM")));
         }
 
         public HTMLElement Render() => _content.Render();

@@ -17,20 +17,20 @@ namespace Tesserae.Tests.Samples
             _content = SectionStack()
                .SampleTitle(nameof(SpinnerSample), UIcons.Spinner, "A spinner component")
                .Section(Stack().Children(
-                    SampleTitle("Overview"),
-                    TextBlock("Spinners are animated circular indicators used to show that a task is in progress when the exact duration is unknown. They are subtle, lightweight, and can be easily placed inline with content or centered within a container to provide feedback without disrupting the layout.")))
+                    Card(VStack().WS().Children(
+                    TextBlock("Spinners are animated circular indicators used to show that a task is in progress when the exact duration is unknown. They are subtle, lightweight, and can be easily placed inline with content or centered within a container to provide feedback without disrupting the layout."))).SetTitle("Overview")))
                .Section(Stack().WidthStretch().Children(
-                    SampleTitle("Best Practices"),
-                    TextBlock("Use a Spinner for tasks that take more than a second but have an indeterminate end time. Include a brief, descriptive label (e.g., 'Loading...', 'Processing...') to give users context. Choose a size that is appropriate for the surrounding content—smaller for inline elements and larger for full-page loading states. Avoid showing multiple spinners simultaneously if possible.")))
+                    Card(VStack().WS().Children(
+                    TextBlock("Use a Spinner for tasks that take more than a second but have an indeterminate end time. Include a brief, descriptive label (e.g., 'Loading...', 'Processing...') to give users context. Choose a size that is appropriate for the surrounding content—smaller for inline elements and larger for full-page loading states. Avoid showing multiple spinners simultaneously if possible."))).SetTitle("Best Practices")))
                .Section(
                     Stack().Width(400.px()).Children(
-                        SampleTitle("Usage"),
+                        Card(VStack().WS().Children(
                         TextBlock("Spinner sizes").Medium(),
                         Label("Extra small spinner").SetContent(Spinner().XSmall()).AlignCenter(),
                         Label("Small spinner").SetContent(Spinner().Small()).AlignCenter(),
                         Label("Medium spinner").SetContent(Spinner().Medium()).AlignCenter(),
                         Label("Large spinner").SetContent(Spinner().Large()).AlignCenter()
-                    ))
+                    )).SetTitle("Usage")))
                .Section(
                     Stack().Width(400.px()).Children(
                         TextBlock("Spinner label positioning").Medium(),

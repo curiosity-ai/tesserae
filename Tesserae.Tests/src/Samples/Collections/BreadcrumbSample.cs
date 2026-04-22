@@ -15,14 +15,14 @@ namespace Tesserae.Tests.Samples
             _content = SectionStack()
                .SampleTitle(nameof(BreadcrumbSample), UIcons.AngleRight, "A breadcrumb navigation component")
                .Section(Stack().Children(
-                    SampleTitle("Overview"),
+                    Card(VStack().WS().Children(
                     TextBlock("Breadcrumbs provide a secondary navigation system that reveals a user's location in a website or web app. They allow for one-click access to any higher level in the hierarchy."),
-                    TextBlock("Unlike TextBreadcrumbs, this component supports more advanced configuration like custom chevrons, overflow indices, and different sizes.")))
+                    TextBlock("Unlike TextBreadcrumbs, this component supports more advanced configuration like custom chevrons, overflow indices, and different sizes."))).SetTitle("Overview")))
                .Section(Stack().Children(
-                    SampleTitle("Best Practices"),
-                    TextBlock("Place breadcrumbs at the top of the page, above the primary content. Use them when the site hierarchy is at least two levels deep. Each breadcrumb item should represent a page or a container. The last item should represent the current location and be non-clickable. Ensure that the breadcrumbs collapse gracefully on smaller screens or when space is limited.")))
+                    Card(VStack().WS().Children(
+                    TextBlock("Place breadcrumbs at the top of the page, above the primary content. Use them when the site hierarchy is at least two levels deep. Each breadcrumb item should represent a page or a container. The last item should represent the current location and be non-clickable. Ensure that the breadcrumbs collapse gracefully on smaller screens or when space is limited."))).SetTitle("Best Practices")))
                .Section(Stack().Children(
-                    SampleTitle("Usage"),
+                    Card(VStack().WS().Children(
                     SampleSubTitle("Basic Breadcrumbs"),
                     Breadcrumb().Items(
                         Crumb("Home").OnClick((s, e) => Toast().Information("Home")),
@@ -54,7 +54,7 @@ namespace Tesserae.Tests.Samples
                         Crumb("Feature"),
                         Crumb("Detail")
                     )
-                ));
+                )).SetTitle("Usage")));
         }
 
         public HTMLElement Render() => _content.Render();

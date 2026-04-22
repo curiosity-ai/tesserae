@@ -99,13 +99,13 @@ namespace Tesserae.Tests.Samples
             _content = SectionStack()
                .SampleTitle(nameof(SidebarSample), UIcons.Apps, "A sidebar navigation component")
                .Section(Stack().Children(
-                    SampleTitle("Overview"),
-                    TextBlock("A fully featured Sidebar with Search, Navigation, Buttons, and Separators."),
-                    SampleTitle("Usage"),
+                    Card(VStack().WS().Children(
+                    TextBlock("A fully featured Sidebar with Search, Navigation, Buttons, and Separators."))).SetTitle("Overview"),
+                    Card(VStack().WS().Children(
                     Stack().Children(
                         sidebar.S().H(800.px())
                     )
-               ));
+               )).SetTitle("Usage")));
         }
 
         private static IEnumerable<ISidebarItem> CreateDeepNav(string path, int currentDepth = 0, int maxDepth = 3)

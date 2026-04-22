@@ -51,14 +51,14 @@ namespace Tesserae.Tests.Samples
             _content = SectionStack()
                .SampleTitle(nameof(ObservableStackSample), UIcons.Apps, "A stack that observes changes")
                .Section(Stack().Children(
-                    SampleTitle("Overview"),
+                    Card(VStack().WS().Children(
                     TextBlock("ObservableStack is a specialized container that synchronizes its DOM with an observable list using an efficient reconciliation process."),
-                    TextBlock("Instead of re-rendering the entire list when a change occurs, it identifies which elements were added, removed, or moved by comparing their unique Identifiers and ContentHashes. This makes it ideal for high-performance lists where preserving scroll position or component state is important.")))
+                    TextBlock("Instead of re-rendering the entire list when a change occurs, it identifies which elements were added, removed, or moved by comparing their unique Identifiers and ContentHashes. This makes it ideal for high-performance lists where preserving scroll position or component state is important."))).SetTitle("Overview")))
                .Section(Stack().Children(
-                    SampleTitle("Best Practices"),
-                    TextBlock("Use ObservableStack when your list data changes frequently or when you want smooth transitions for moved items. Ensure each item implements 'IComponentWithID' correctly, providing a stable 'Identifier' and a 'ContentHash' that reflects any changes in the item's data. Avoid frequent full-list replacements if only a few items have changed. Leverage the reconciliation behavior to keep the DOM footprint minimal and performance high.")))
+                    Card(VStack().WS().Children(
+                    TextBlock("Use ObservableStack when your list data changes frequently or when you want smooth transitions for moved items. Ensure each item implements 'IComponentWithID' correctly, providing a stable 'Identifier' and a 'ContentHash' that reflects any changes in the item's data. Avoid frequent full-list replacements if only a few items have changed. Leverage the reconciliation behavior to keep the DOM footprint minimal and performance high."))).SetTitle("Best Practices")))
                .Section(Stack().Children(
-                    SampleTitle("Usage"),
+                    Card(VStack().WS().Children(
                     SampleSubTitle("Interactive Reconciliation Demo"),
                     TextBlock("Modify the list below and watch how the 'Display Elements' on the right update efficiently."),
                     SplitView().Height(500.px()).WS()
@@ -88,7 +88,7 @@ namespace Tesserae.Tests.Samples
                             Label("Rendered Stack:").SemiBold(),
                             obsStack.H(450.px()).WS()
                        ).P(8))
-                ));
+                )).SetTitle("Usage")));
         }
 
         private void Move(int oldIdx, int newIdx)

@@ -15,12 +15,12 @@ namespace Tesserae.Tests.Samples
             _content = SectionStack()
                .SampleTitle(nameof(MessageSample), UIcons.Envelope, "A component to display a message")
                .Section(Stack().Children(
-                    SampleTitle("Overview"),
+                    Card(VStack().WS().Children(
                     TextBlock("The Message component is used to display static messages, alerts, or empty states. It supports an icon, title, text body, and an optional note area."),
                     TextBlock("It comes with variants for standard, success, warning, and error states.")
-               ))
+               )).SetTitle("Overview")))
                .Section(Stack().Children(
-                    SampleTitle("Usage"),
+                    Card(VStack().WS().Children(
                     SampleSubTitle("Standard Message (with Note)"),
                     Message("No Database Schema Yet", "Start by describing your database requirements in the chat. I'll help you design a complete schema with tables, relationships, and best practices.")
                         .Icon(UIcons.FileCode)
@@ -40,7 +40,7 @@ namespace Tesserae.Tests.Samples
                     Message("No results found", "We couldn't find any items matching your search criteria.")
                         .Icon(UIcons.Search)
                         .Variant(MessageVariant.Default)
-               ));
+               )).SetTitle("Usage")));
         }
 
         public HTMLElement Render() => _content.Render();

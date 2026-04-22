@@ -21,16 +21,16 @@ namespace Tesserae.Tests.Samples
             content = SectionStack()
                .SampleTitle(nameof(TabbedModalSample), UIcons.WindowMaximize, "A modal dialog with tabs")
                .Section(Stack().Children(
-                    SampleTitle("Overview"),
-                    TextBlock("This sample demonstrates how to host Modals within a Pivot component, as well as how to use closeable tabs. Hosting a Modal within a Pivot allows it to embed its content while taking advantage of the Pivot's caching and lifecycle, and displaying a close button in the tab title automatically.")))
+                    Card(VStack().WS().Children(
+                    TextBlock("This sample demonstrates how to host Modals within a Pivot component, as well as how to use closeable tabs. Hosting a Modal within a Pivot allows it to embed its content while taking advantage of the Pivot's caching and lifecycle, and displaying a close button in the tab title automatically."))).SetTitle("Overview")))
                .Section(Stack().Children(
-                    SampleTitle("Usage"),
+                    Card(VStack().WS().Children(
                     HStack().Children(
                         Button("Open Closeable Modal").OnClick((_, __) => AddModalTab(closeable: true)),
                         Button("Open Non-Closeable Modal").OnClick((_, __) => AddModalTab(closeable: false))
                     ),
                     _pivot.WS().H(500)
-                ));
+                )).SetTitle("Usage")));
 
             // Add an initial modal
             AddModalTab(true);

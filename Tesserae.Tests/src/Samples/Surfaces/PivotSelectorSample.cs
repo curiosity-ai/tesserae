@@ -17,13 +17,13 @@ namespace Tesserae.Tests.Samples
             content = SectionStack()
                .SampleTitle(nameof(PivotSelectorSample), UIcons.Cursor, "A control to select a pivot")
                .Section(Stack().Children(
-                    SampleTitle("Overview"),
-                    TextBlock("PivotSelector is a variation of the Pivot component that uses a Dropdown for navigation. It is particularly effective for mobile-first designs or interfaces with a large number of tabs that would otherwise require excessive horizontal scrolling.")))
+                    Card(VStack().WS().Children(
+                    TextBlock("PivotSelector is a variation of the Pivot component that uses a Dropdown for navigation. It is particularly effective for mobile-first designs or interfaces with a large number of tabs that would otherwise require excessive horizontal scrolling."))).SetTitle("Overview")))
                .Section(Stack().Children(
-                    SampleTitle("Best Practices"),
-                    TextBlock("Use PivotSelector when horizontal space is constrained or when the number of tabs is dynamic and potentially large. Provide clear icons and text for each tab to aid navigation. Utilize the 'SetCommands' feature to surface global actions relevant to all tabs, such as 'Add New' or 'Refresh'.")))
+                    Card(VStack().WS().Children(
+                    TextBlock("Use PivotSelector when horizontal space is constrained or when the number of tabs is dynamic and potentially large. Provide clear icons and text for each tab to aid navigation. Utilize the 'SetCommands' feature to surface global actions relevant to all tabs, such as 'Add New' or 'Refresh'."))).SetTitle("Best Practices")))
                .Section(Stack().Children(
-                    SampleTitle("Usage"),
+                    Card(VStack().WS().Children(
                     SampleSubTitle("Basic PivotSelector"),
                     PivotSelector()
                         .Pivot("tab1", "Tab 1", () => Card(TextBlock("Content for Tab 1").P(32)))
@@ -40,7 +40,7 @@ namespace Tesserae.Tests.Samples
                     SampleSubTitle("PivotSelector with large number of tabs").PT(16),
                     PivotSelector()
                         .Pivot(Enumerable.Range(1, 20).Select(i => ($"tab{i}", $"Tab {i}", (Func<IComponent>)(() => Card(TextBlock($"Content for Tab {i}").P(32))))).ToArray())
-                ));
+                )).SetTitle("Usage")));
         }
 
         public HTMLElement Render()

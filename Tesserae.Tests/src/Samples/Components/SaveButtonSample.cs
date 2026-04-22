@@ -23,11 +23,11 @@ namespace Tesserae.Tests.Samples
             _content = SectionStack()
                .SampleTitle(nameof(SaveButtonSample), UIcons.Disk, "A button specialized for save operations")
                .Section(Stack().Children(
-                    SampleTitle("Overview"),
+                    Card(VStack().WS().Children(
                     TextBlock("The SaveButton component is a wrapper around a Button that manages common saving states: Pending, Verifying, Saving, Saved, and Error.")
-               ))
+               )).SetTitle("Overview")))
                .Section(Stack().Children(
-                    SampleTitle("Manual State Control"),
+                    Card(VStack().WS().Children(
                     HStack().Children(
                         manualButton,
                         Stack().Children(
@@ -53,22 +53,22 @@ namespace Tesserae.Tests.Samples
                         await Task.Delay(2000);
                         saveButton.Pending();
                     })
-                ))
+                )).SetTitle("Manual State Control")))
                .Section(Stack().Children(
-                    SampleTitle("Hover State"),
+                    Card(VStack().WS().Children(
                     TextBlock("This SaveButton has a hover text configured. Hover over it when it is in Pending state."),
                     SaveButton().Configure(save: "Disabled", saveHover: "Enable Now!", saveIcon: UIcons.ToggleOff   , saveHoverIcon: UIcons.ToggleOn).Pending()
-               ))
+               )).SetTitle("Hover State")))
                .Section(Stack().Children(
-                   SampleTitle("Dynamic Text Update"),
+                   Card(VStack().WS().Children(
                    TextBlock("This SaveButton text can be updated dynamically."),
                    DynamicTextUpdateSample()
-              ))
+              )).SetTitle("Dynamic Text Update")))
                .Section(Stack().Children(
-                   SampleTitle("Verifying While"),
+                   Card(VStack().WS().Children(
                    TextBlock("This button verifies using a custom async task."),
                    GetVerifyingWhileButton()
-               ));
+               )).SetTitle("Verifying While")));
         }
 
         private IComponent GetVerifyingWhileButton()

@@ -18,15 +18,15 @@ namespace Tesserae.Tests.Samples
 
             _content = Stack().Children(SectionStack().SampleTitle(nameof(SectionStackSample), UIcons.Apps, "A stack with animated sections")
                    .Section(Stack().Children(
-                        SampleTitle("Overview"),
-                        TextBlock("SectionStack is a high-level layout component designed for creating long-form pages or detailed views. It organizes content into distinct vertical sections, typically with a header and footer, providing a consistent structure for complex information architectures.")))
+                        Card(VStack().WS().Children(
+                        TextBlock("SectionStack is a high-level layout component designed for creating long-form pages or detailed views. It organizes content into distinct vertical sections, typically with a header and footer, providing a consistent structure for complex information architectures."))).SetTitle("Overview")))
                    .Section(Stack().Children(
-                        SampleTitle("Best Practices"),
-                        TextBlock("Use SectionStack for the main content area of your pages. Organize related components into distinct sections to improve readability and scanability. Utilize the 'Title' and 'Commands' features of the SectionStack to provide context and actions at the top of the page.")))
+                        Card(VStack().WS().Children(
+                        TextBlock("Use SectionStack for the main content area of your pages. Organize related components into distinct sections to improve readability and scanability. Utilize the 'Title' and 'Commands' features of the SectionStack to provide context and actions at the top of the page."))).SetTitle("Best Practices")))
                    .Section(Stack().Children(
-                        SampleTitle("Usage"),
+                        Card(VStack().WS().Children(
                         SampleSubTitle("Dynamic Section Generation"),
-                        Label("Number of sections:").SetContent(Slider(5, 0, 10, 1).OnInput((s, e) => SetChildren(stack, s.Value))))),
+                        Label("Number of sections:").SetContent(Slider(5, 0, 10, 1).OnInput((s, e) => SetChildren(stack, s.Value))))).SetTitle("Usage"))),
                 stack);
             SetChildren(stack, 5);
         }

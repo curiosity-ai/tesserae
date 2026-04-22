@@ -32,14 +32,14 @@ namespace Tesserae.Tests.Samples
             _content = SectionStack()
                .SampleTitle(nameof(StackSample), UIcons.Apps, "A layout container that stacks its children")
                .Section(Stack().Children(
-                    SampleTitle("Overview"),
+                    Card(VStack().WS().Children(
                     TextBlock("Stacks are container components that simplify the use of Flexbox for layout. They allow you to arrange children components either horizontally (HStack) or vertically (VStack)."),
-                    TextBlock("Tesserae's Stack also includes advanced features like 'SortableStack' for drag-and-drop reordering.")))
+                    TextBlock("Tesserae's Stack also includes advanced features like 'SortableStack' for drag-and-drop reordering."))).SetTitle("Overview")))
                .Section(Stack().Children(
-                    SampleTitle("Best Practices"),
-                    TextBlock("Use Stacks as the primary way to organize your UI elements. Use HStack for side-by-side components and VStack for top-to-bottom arrangements. Leverage the 'Gap' property to ensure consistent spacing between children. Use SortableStack when users need to customize the order of items, such as in a dashboard or task list. Avoid deeply nested stacks if a Grid layout would be more appropriate for the complexity.")))
+                    Card(VStack().WS().Children(
+                    TextBlock("Use Stacks as the primary way to organize your UI elements. Use HStack for side-by-side components and VStack for top-to-bottom arrangements. Leverage the 'Gap' property to ensure consistent spacing between children. Use SortableStack when users need to customize the order of items, such as in a dashboard or task list. Avoid deeply nested stacks if a Grid layout would be more appropriate for the complexity."))).SetTitle("Best Practices")))
                .Section(Stack().Children(
-                    SampleTitle("Usage"),
+                    Card(VStack().WS().Children(
                     SampleSubTitle("Live Layout Playground"),
                     VStack().Children(
                         HStack().Children(
@@ -68,7 +68,7 @@ namespace Tesserae.Tests.Samples
                         VStack().Children(TextBlock("Medium")).P(16).Rounded(BorderRadius.Medium).Background(Theme.Colors.Blue200).W(100).AlignItemsCenter(),
                         VStack().Children(TextBlock("Full")).P(16).Rounded(BorderRadius.Full).Background(Theme.Colors.Blue200).W(100).AlignItemsCenter()
                     )
-                ));
+                )).SetTitle("Usage")));
             SetChildren(stack, 5);
         }
 

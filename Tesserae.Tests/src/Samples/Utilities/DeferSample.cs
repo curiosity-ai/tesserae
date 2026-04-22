@@ -19,20 +19,20 @@ namespace Tesserae.Tests.Samples
             content = SectionStack()
                .SampleTitle(nameof(DeferSample), UIcons.Clock, "A utility to defer execution")
                .Section(Stack().Children(
-                    SampleTitle("Overview"),
-                    TextBlock("Defer is a powerful utility for handling asynchronous UI rendering. It allows you to wrap a component that depends on an async task (like a network request). While the task is in progress, a loading message or a skeleton loader can be shown. Once the task completes, the actual component is seamlessly rendered in its place.")))
+                    Card(VStack().WS().Children(
+                    TextBlock("Defer is a powerful utility for handling asynchronous UI rendering. It allows you to wrap a component that depends on an async task (like a network request). While the task is in progress, a loading message or a skeleton loader can be shown. Once the task completes, the actual component is seamlessly rendered in its place."))).SetTitle("Overview")))
                .Section(Stack().Children(
-                    SampleTitle("Best Practices"),
-                    TextBlock("Use Defer for any component that requires remote data or slow computations. Provide a 'loadMessage'—ideally a skeleton loader—that mimics the final layout to reduce visual flickering. Leverage the lazy-loading nature of Defer, as the async task is only triggered when the component is first rendered. Combine Defer with observables to create highly reactive and responsive interfaces.")))
+                    Card(VStack().WS().Children(
+                    TextBlock("Use Defer for any component that requires remote data or slow computations. Provide a 'loadMessage'—ideally a skeleton loader—that mimics the final layout to reduce visual flickering. Leverage the lazy-loading nature of Defer, as the async task is only triggered when the component is first rendered. Combine Defer with observables to create highly reactive and responsive interfaces."))).SetTitle("Best Practices")))
                .Section(Stack().Children(
-                    SampleTitle("Usage"),
+                    Card(VStack().WS().Children(
                     Stack().Children(
                         HStack().Children(
                             Stack().Children(
                                 Label("Number of items:").SetContent(countSlider.OnInput((s, e) => SetChildren(stack, s.Value)))
                             ))),
                     stack.HeightAuto()
-                ));
+                )).SetTitle("Usage")));
             SetChildren(stack, 5);
         }
 

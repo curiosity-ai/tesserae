@@ -18,14 +18,14 @@ namespace Tesserae.Tests.Samples
             _content = SectionStack()
                .SampleTitle(nameof(DatePickerSample), UIcons.Calendar, "A component to select a date")
                .Section(Stack().Children(
-                    SampleTitle("Overview"),
+                    Card(VStack().WS().Children(
                     TextBlock("DatePickers allow users to select a specific date using a browser-native date selection widget. They ensure that the input is always a valid date format."),
-                    TextBlock("This component is suitable for forms requiring birthdays, appointment dates, or any date-driven data entry.")))
+                    TextBlock("This component is suitable for forms requiring birthdays, appointment dates, or any date-driven data entry."))).SetTitle("Overview")))
                .Section(Stack().Children(
-                    SampleTitle("Best Practices"),
-                    TextBlock("Use the DatePicker when users need to enter a specific date. If you need to include time as well, use the DateTimePicker instead. Always provide min and max constraints if the acceptable date range is limited. Use clear validation messages to guide users if they select an invalid date (e.g., a date in the past when only future dates are allowed).")))
+                    Card(VStack().WS().Children(
+                    TextBlock("Use the DatePicker when users need to enter a specific date. If you need to include time as well, use the DateTimePicker instead. Always provide min and max constraints if the acceptable date range is limited. Use clear validation messages to guide users if they select an invalid date (e.g., a date in the past when only future dates are allowed)."))).SetTitle("Best Practices")))
                .Section(Stack().Children(
-                    SampleTitle("Usage"),
+                    Card(VStack().WS().Children(
                     SampleSubTitle("Basic DatePicker"),
                     VStack().Children(
                         Label("Standard").SetContent(DatePicker()),
@@ -45,7 +45,7 @@ namespace Tesserae.Tests.Samples
                     ),
                     SampleSubTitle("Event Handling"),
                     DatePicker().OnChange((s, e) => Toast().Information($"Selected date: {s.Date:d}"))
-                ));
+                )).SetTitle("Usage")));
         }
 
         public HTMLElement Render() => _content.Render();

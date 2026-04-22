@@ -16,14 +16,14 @@ namespace Tesserae.Tests.Samples
             _content = SectionStack()
                .SampleTitle(nameof(ToastSample), UIcons.Exclamation, "A utility to display toast notifications")
                .Section(Stack().WidthStretch().Children(
-                    SampleTitle("Overview"),
-                    TextBlock("Toasts are short-lived, non-intrusive notifications that provide feedback about an operation. They appear temporarily on the screen and then disappear automatically, making them ideal for success messages, warnings, or simple information updates.")))
+                    Card(VStack().WS().Children(
+                    TextBlock("Toasts are short-lived, non-intrusive notifications that provide feedback about an operation. They appear temporarily on the screen and then disappear automatically, making them ideal for success messages, warnings, or simple information updates."))).SetTitle("Overview")))
                .Section(Stack().WidthStretch().Children(
-                    SampleTitle("Best Practices"),
-                    TextBlock("Use Toasts for brief, informative messages that don't require user action. Keep the text short and recognizable. Ensure the Toast duration is long enough to be read but short enough not to become an annoyance. Avoid overloading the user with too many simultaneous Toasts. For critical errors that require immediate attention or user interaction, use a Dialog or Modal instead.")))
+                    Card(VStack().WS().Children(
+                    TextBlock("Use Toasts for brief, informative messages that don't require user action. Keep the text short and recognizable. Ensure the Toast duration is long enough to be read but short enough not to become an annoyance. Avoid overloading the user with too many simultaneous Toasts. For critical errors that require immediate attention or user interaction, use a Dialog or Modal instead."))).SetTitle("Best Practices")))
                .Section(
                     Stack().WidthStretch().Children(
-                        SampleTitle("Usage"),
+                        Card(VStack().WS().Children(
                         SampleSubTitle("Toasts top-right (default)"),
                         HStack().Children(
                             Button().SetText("Info").OnClick(() => Toast().Information("Info!")),
@@ -78,7 +78,7 @@ namespace Tesserae.Tests.Samples
                             Button().SetText("Success on top").OnClick(() => Toast().TopFull().Banner().Success("This is a banner", "Success!")),
                             Button().SetText("Warning on bottom").OnClick(() => Toast().BottomFull().Banner().Warning("This is a banner", "Warning!")),
                             Button().SetText("Error on bottom").OnClick(() => Toast().BottomFull().Banner().Error("This is a banner", "Error!")))
-                    ));
+                    )).SetTitle("Usage")));
         }
 
         public HTMLElement Render()

@@ -15,14 +15,14 @@ namespace Tesserae.Tests.Samples
             _content = SectionStack()
                .SampleTitle(nameof(TextBlockSample), UIcons.Text, "A component to display text")
                .Section(Stack().Children(
-                    SampleTitle("Overview"),
+                    Card(VStack().WS().Children(
                     TextBlock("TextBlock is the fundamental component for displaying text in Tesserae. It provides a consistent way to apply typography styles, sizes, and weights across your application."),
-                    TextBlock("It supports various built-in sizes, from tiny to mega, and different weights and colors.")))
+                    TextBlock("It supports various built-in sizes, from tiny to mega, and different weights and colors."))).SetTitle("Overview")))
                .Section(Stack().Children(
-                    SampleTitle("Best Practices"),
-                    TextBlock("Use the predefined text sizes to maintain visual hierarchy. Use semi-bold or bold weights for headers and important information. Leverage the built-in color options (primary, success, danger, etc.) to convey meaning consistently. For long blocks of text, ensure the width is constrained for better readability. Use 'NoWrap' and text-overflow properties when dealing with limited space, such as in list items.")))
+                    Card(VStack().WS().Children(
+                    TextBlock("Use the predefined text sizes to maintain visual hierarchy. Use semi-bold or bold weights for headers and important information. Leverage the built-in color options (primary, success, danger, etc.) to convey meaning consistently. For long blocks of text, ensure the width is constrained for better readability. Use 'NoWrap' and text-overflow properties when dealing with limited space, such as in list items."))).SetTitle("Best Practices")))
                .Section(Stack().Children(
-                    SampleTitle("Usage"),
+                    Card(VStack().WS().Children(
                     SampleSubTitle("Text Sizes"),
                     VStack().Children(
                         TextBlock("Mega Text").Mega(),
@@ -56,7 +56,7 @@ namespace Tesserae.Tests.Samples
                         TextBlock("Foreground Color").Large().Foreground(Theme.Colors.Purple600).Glow(),
                         TextBlock("Custom Glow").Large().Glow(Theme.Colors.Lime300)
                     )
-                ));
+                )).SetTitle("Usage")));
         }
 
         public HTMLElement Render() => _content.Render();

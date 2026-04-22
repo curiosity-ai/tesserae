@@ -17,14 +17,14 @@ namespace Tesserae.Tests.Samples
             _content = SectionStack().WidthStretch()
                    .SampleTitle(nameof(SearchableListSample), UIcons.Search, "A list that can be searched")
                    .Section(Stack().Children(
-                        SampleTitle("Overview"),
+                        Card(VStack().WS().Children(
                         TextBlock("SearchableList combines a search box with a list of items, providing instant filtering as the user types."),
-                        TextBlock("Items must implement the 'ISearchableItem' interface, which defines the matching logic and how each item is rendered.")))
+                        TextBlock("Items must implement the 'ISearchableItem' interface, which defines the matching logic and how each item is rendered."))).SetTitle("Overview")))
                    .Section(Stack().Children(
-                        SampleTitle("Best Practices"),
-                        TextBlock("Use SearchableList when you have a moderately sized collection that users need to filter quickly. Ensure the 'IsMatch' implementation is performant and covers all relevant fields. Provide a clear 'No Results' message to help users understand when their search doesn't match anything. Use the 'BeforeSearchBox' and 'AfterSearchBox' slots to add relevant actions like 'Add New' or 'Filter' buttons. For very large datasets, consider server-side filtering or a VirtualizedList.")))
+                        Card(VStack().WS().Children(
+                        TextBlock("Use SearchableList when you have a moderately sized collection that users need to filter quickly. Ensure the 'IsMatch' implementation is performant and covers all relevant fields. Provide a clear 'No Results' message to help users understand when their search doesn't match anything. Use the 'BeforeSearchBox' and 'AfterSearchBox' slots to add relevant actions like 'Add New' or 'Filter' buttons. For very large datasets, consider server-side filtering or a VirtualizedList."))).SetTitle("Best Practices")))
                    .Section(Stack().Children(
-                        SampleTitle("Usage"),
+                        Card(VStack().WS().Children(
                         SampleSubTitle("Basic Searchable List"),
                         SearchableList(GetItems(10))
                            .WithNoResultsMessage(() => BackgroundArea(Card(TextBlock("No matching items found").Padding(16.px()))).WS().HS().MinHeight(100.px()))
@@ -39,7 +39,7 @@ namespace Tesserae.Tests.Samples
                            .Virtualize(64.px())
                            .WithNoResultsMessage(() => BackgroundArea(Card(TextBlock("No matching items found").Padding(16.px()))).WS().HS().MinHeight(100.px()))
                            .Height(400.px()).MB(32)
-                    ));
+                    )).SetTitle("Usage")));
         }
 
         public HTMLElement Render() => _content.Render();

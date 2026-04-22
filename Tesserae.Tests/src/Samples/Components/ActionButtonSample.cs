@@ -16,14 +16,14 @@ namespace Tesserae.Tests.Samples
             _content = SectionStack()
                .SampleTitle(nameof(ActionButtonSample), UIcons.Cursor, "A button that triggers an action")
                .Section(Stack().Children(
-                    SampleTitle("Overview"),
+                    Card(VStack().WS().Children(
                     TextBlock("ActionButtons are a variation of the standard Button component that split the interaction into two distinct parts: a display area (typically the label and an icon) and a specific action area (typically a secondary icon on the right)."),
-                    TextBlock("They are useful when you want to provide a primary action while also offering a secondary, related action like opening a menu, showing a tooltip, or triggering a specific sub-task.")))
+                    TextBlock("They are useful when you want to provide a primary action while also offering a secondary, related action like opening a menu, showing a tooltip, or triggering a specific sub-task."))).SetTitle("Overview")))
                .Section(Stack().Children(
-                    SampleTitle("Best Practices"),
-                    TextBlock("Use ActionButtons when a component needs to perform more than one related task. The primary area should trigger the most common action, while the secondary area (the action icon) should trigger a complementary one. Clearly distinguish between the two areas visually if they perform very different tasks. Ensure that both interaction points have appropriate tooltips or labels if their purpose isn't immediately obvious.")))
+                    Card(VStack().WS().Children(
+                    TextBlock("Use ActionButtons when a component needs to perform more than one related task. The primary area should trigger the most common action, while the secondary area (the action icon) should trigger a complementary one. Clearly distinguish between the two areas visually if they perform very different tasks. Ensure that both interaction points have appropriate tooltips or labels if their purpose isn't immediately obvious."))).SetTitle("Best Practices")))
                .Section(Stack().Children(
-                    SampleTitle("Usage"),
+                    Card(VStack().WS().Children(
                     SampleSubTitle("Basic Action Buttons"),
                     VStack().Children(
                         ActionButton("Standard Action").Var(out var btn1)
@@ -61,7 +61,7 @@ namespace Tesserae.Tests.Samples
                             ).Render();
                             Tippy.ShowFor(s, menu, out hideAction, TooltipAnimation.None, TooltipPlacement.BottomEnd, 0, 0, 350, true, null);
                         })
-                ));
+                )).SetTitle("Usage")));
         }
 
         public HTMLElement Render() => _content.Render();

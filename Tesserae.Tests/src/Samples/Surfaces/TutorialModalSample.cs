@@ -18,19 +18,19 @@ namespace Tesserae.Tests.Samples
             _content = SectionStack()
                .SampleTitle(nameof(TutorialModalSample), UIcons.GraduationCap, "A modal dialog for tutorials")
                .Section(Stack().Children(
-                    SampleTitle("Overview"),
-                    TextBlock("TutorialModal is a specialized modal designed for guided processes, such as onboarding or feature walkthroughs. It combines a large content area with a dedicated help panel and an optional illustrative image, providing a structured environment for users to learn while they interact.")))
+                    Card(VStack().WS().Children(
+                    TextBlock("TutorialModal is a specialized modal designed for guided processes, such as onboarding or feature walkthroughs. It combines a large content area with a dedicated help panel and an optional illustrative image, providing a structured environment for users to learn while they interact."))).SetTitle("Overview")))
                .Section(Stack().Children(
-                    SampleTitle("Best Practices"),
-                    TextBlock("Use TutorialModals for complex tasks that benefit from additional explanation and guidance. Ensure that the help text is clear and directly relates to the fields in the content area. Use images or icons to provide visual cues. Always provide a clear way for users to complete or discard the process. Avoid overwhelming users with too much information; keep both the content and the help text concise.")))
+                    Card(VStack().WS().Children(
+                    TextBlock("Use TutorialModals for complex tasks that benefit from additional explanation and guidance. Ensure that the help text is clear and directly relates to the fields in the content area. Use images or icons to provide visual cues. Always provide a clear way for users to complete or discard the process. Avoid overwhelming users with too much information; keep both the content and the help text concise."))).SetTitle("Best Practices")))
                .Section(Stack().Children(
-                    SampleTitle("Usage"),
+                    Card(VStack().WS().Children(
                     Button("Open Tutorial Modal").OnClick((s,       e) => SampleTutorialModal().Show()),
-                    Button("Open Large Tutorial Modal").OnClick((s, e) => SampleTutorialModal().Height(90.vh()).Width(90.vw()).Show()),
-                    SampleTitle("Embedded Modal"),
+                    Button("Open Large Tutorial Modal").OnClick((s, e) => SampleTutorialModal().Height(90.vh()).Width(90.vw()).Show()))).SetTitle("Usage"),
+                    Card(VStack().WS().Children(
                     Button("Open Modal Below").OnClick((s, e) => container.Content(SampleTutorialModal().Border("#ffaf66", 5.px()).ShowEmbedded())),
                     container
-                ));
+                )).SetTitle("Embedded Modal")));
         }
 
         private static TutorialModal SampleTutorialModal()

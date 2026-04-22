@@ -17,17 +17,17 @@ namespace Tesserae.Tests.Samples
             _content = SectionStack().S()
                .SampleTitle(nameof(MasonrySample), UIcons.Table, "A masonry layout component")
                .Section(Stack().Children(
-                    SampleTitle("Overview"),
+                    Card(VStack().WS().Children(
                     TextBlock("Masonry layout (also known as a Pinterest-style layout) is a grid where items are placed in optimal positions based on available vertical space."),
-                    TextBlock("Unlike a standard grid where rows have a uniform height, a Masonry layout allows items of varying heights to be packed tightly together.")))
+                    TextBlock("Unlike a standard grid where rows have a uniform height, a Masonry layout allows items of varying heights to be packed tightly together."))).SetTitle("Overview")))
                .Section(Stack().Children(
-                    SampleTitle("Best Practices"),
-                    TextBlock("Use Masonry for visually-driven content like image galleries or dashboard widgets with varying heights. Ensure that the number of columns is appropriate for the screen size. Provide a consistent gap between items to maintain a clean appearance. Avoid using Masonry for content that needs to be read in a specific sequential order, as the placement can be non-linear.")))
+                    Card(VStack().WS().Children(
+                    TextBlock("Use Masonry for visually-driven content like image galleries or dashboard widgets with varying heights. Ensure that the number of columns is appropriate for the screen size. Provide a consistent gap between items to maintain a clean appearance. Avoid using Masonry for content that needs to be read in a specific sequential order, as the placement can be non-linear."))).SetTitle("Best Practices")))
                .Section(VStack().S().Children(
-                    SampleTitle("Usage"),
+                    Card(VStack().WS().Children(
                     SampleSubTitle("Basic Masonry Grid (4 Columns)"),
                     Masonry(4).S().Children(GetCards(50).ToArray()).ScrollY()
-                ), grow: true);
+                )).SetTitle("Usage")), grow: true);
         }
 
         private IEnumerable<IComponent> GetCards(int count)

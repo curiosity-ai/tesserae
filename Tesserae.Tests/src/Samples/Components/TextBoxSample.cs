@@ -15,14 +15,14 @@ namespace Tesserae.Tests.Samples
             _content = SectionStack()
                .SampleTitle(nameof(TextBoxSample), UIcons.Text, "A control to input text")
                .Section(Stack().Children(
-                    SampleTitle("Overview"),
+                    Card(VStack().WS().Children(
                     TextBlock("TextBoxes allow users to enter and edit text. They are used in forms, search queries, and anywhere text input is required."),
-                    TextBlock("They support various modes like password input, read-only states, and built-in validation.")))
+                    TextBlock("They support various modes like password input, read-only states, and built-in validation."))).SetTitle("Overview")))
                .Section(Stack().Children(
-                    SampleTitle("Best Practices"),
-                    TextBlock("Always label your TextBoxes so users know what information is expected. Use placeholder text to provide a hint about the format or content. Mark required fields clearly. Use validation to provide immediate feedback on the correctness of the input. Use the appropriate input type (e.g., Password) for sensitive information. Provide a clear way to submit or clear the data.")))
+                    Card(VStack().WS().Children(
+                    TextBlock("Always label your TextBoxes so users know what information is expected. Use placeholder text to provide a hint about the format or content. Mark required fields clearly. Use validation to provide immediate feedback on the correctness of the input. Use the appropriate input type (e.g., Password) for sensitive information. Provide a clear way to submit or clear the data."))).SetTitle("Best Practices")))
                .Section(Stack().Children(
-                    SampleTitle("Usage"),
+                    Card(VStack().WS().Children(
                     SampleSubTitle("Basic TextBoxes"),
                     VStack().Children(
                         Label("Standard").SetContent(TextBox()),
@@ -49,7 +49,7 @@ namespace Tesserae.Tests.Samples
                         TextBox().SetPlaceholder("Medium").Rounded(BorderRadius.Medium),
                         TextBox().SetPlaceholder("Full").Rounded(BorderRadius.Full)
                     )
-                ));
+                )).SetTitle("Usage")));
         }
 
         public HTMLElement Render() => _content.Render();

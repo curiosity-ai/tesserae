@@ -15,14 +15,14 @@ namespace Tesserae.Tests.Samples
             _content = SectionStack()
                .SampleTitle(nameof(EditableLabelSample), UIcons.Edit, "A label that can be edited")
                .Section(Stack().Children(
-                    SampleTitle("Overview"),
+                    Card(VStack().WS().Children(
                     TextBlock("EditableLabels and EditableAreas allow users to view content as standard text and switch to an editing mode (input or textarea) upon interaction."),
-                    TextBlock("They are useful for 'in-place' editing where you want to keep the UI clean but allow users to quickly modify specific fields without navigating to a separate form.")))
+                    TextBlock("They are useful for 'in-place' editing where you want to keep the UI clean but allow users to quickly modify specific fields without navigating to a separate form."))).SetTitle("Overview")))
                .Section(Stack().Children(
-                    SampleTitle("Best Practices"),
-                    TextBlock("Use EditableLabels for short, single-line content like titles or names. Use EditableAreas for longer, multi-line content like descriptions. Always provide an OnSave() callback to persist the changes. Ensure the interaction to trigger editing is clear—typically by showing an edit icon on hover or using a distinct visual style. Consider using validation to ensure the entered data meets your requirements.")))
+                    Card(VStack().WS().Children(
+                    TextBlock("Use EditableLabels for short, single-line content like titles or names. Use EditableAreas for longer, multi-line content like descriptions. Always provide an OnSave() callback to persist the changes. Ensure the interaction to trigger editing is clear—typically by showing an edit icon on hover or using a distinct visual style. Consider using validation to ensure the entered data meets your requirements."))).SetTitle("Best Practices")))
                .Section(Stack().Children(
-                    SampleTitle("Usage"),
+                    Card(VStack().WS().Children(
                     SampleSubTitle("Editable Labels"),
                     VStack().Children(
                         EditableLabel("Click to edit this text"),
@@ -38,7 +38,7 @@ namespace Tesserae.Tests.Samples
                            .OnSave((s, text) => { Toast().Success($"Saved: {text}"); return true; }),
                         Label("Required Field").Required().SetContent(EditableLabel("Can't be empty"))
                     )
-                ));
+                )).SetTitle("Usage")));
         }
 
         public HTMLElement Render() => _content.Render();

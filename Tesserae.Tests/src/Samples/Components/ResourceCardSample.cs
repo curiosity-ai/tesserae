@@ -19,13 +19,13 @@ namespace Tesserae.Tests.Samples
             _content = SectionStack()
                 .SampleTitle(nameof(ResourceCardSample), UIcons.IdCard, "A card to display a resource")
                 .Section(Stack().Children(
-                    SampleTitle("Overview"),
+                    Card(VStack().WS().Children(
                     TextBlock("ResourceCards are used to display a summary of a resource like an AI model, document, or service. They provide optional sections for title, subtitle, tags, description, date, icon, and a footer for commands."),
-                    TextBlock("The example below uses a SearchableList in grid mode to render a set of ResourceCards.")))
+                    TextBlock("The example below uses a SearchableList in grid mode to render a set of ResourceCards."))).SetTitle("Overview")))
                 .Section(Stack().Children(
-                    SampleTitle("Usage"),
+                    Card(VStack().WS().Children(
                     searchList
-                ));
+                )).SetTitle("Usage")));
         }
 
         private ModelItem[] GetModelItems()

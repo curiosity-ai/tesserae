@@ -15,14 +15,14 @@ namespace Tesserae.Tests.Samples
             _content = SectionStack()
                .SampleTitle(nameof(HorizontalSeparatorSample), UIcons.Minus, "A visual separator for components")
                .Section(Stack().Children(
-                    SampleTitle("Overview"),
+                    Card(VStack().WS().Children(
                     TextBlock("A HorizontalSeparator visually divides content into groups. It can optionally contain text or other components to label the group it introduces."),
-                    TextBlock("The content can be aligned to the left, center, or right of the line.")))
+                    TextBlock("The content can be aligned to the left, center, or right of the line."))).SetTitle("Overview")))
                .Section(Stack().Children(
-                    SampleTitle("Best Practices"),
-                    TextBlock("Use separators to provide structure to long forms or pages. Keep labels short and concise. Use them sparingly; too many separators can clutter the UI. Ensure the labels accurately describe the section that follows.")))
+                    Card(VStack().WS().Children(
+                    TextBlock("Use separators to provide structure to long forms or pages. Keep labels short and concise. Use them sparingly; too many separators can clutter the UI. Ensure the labels accurately describe the section that follows."))).SetTitle("Best Practices")))
                .Section(Stack().Children(
-                    SampleTitle("Usage"),
+                    Card(VStack().WS().Children(
                     SampleSubTitle("Text Alignment"),
                     HorizontalSeparator("Center Aligned (Default)"),
                     HorizontalSeparator("Left Aligned").Left(),
@@ -38,7 +38,7 @@ namespace Tesserae.Tests.Samples
                     SampleSubTitle("Empty Separator"),
                     TextBlock("A simple line without any label:"),
                     HorizontalSeparator("")
-                ));
+                )).SetTitle("Usage")));
         }
 
         public HTMLElement Render() => _content.Render();

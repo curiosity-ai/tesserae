@@ -81,11 +81,11 @@ namespace Tesserae.Tests.Samples
             _content = SectionStack()
                .SampleTitle(nameof(TaskBoardSample), UIcons.ClipboardList, "A board for managing tasks")
                .Section(Stack().Children(
-                    SampleTitle("Overview"),
+                    Card(VStack().WS().Children(
                     TextBlock("TaskBoard provides a Trello-like interface with draggable columns and cards. Use it for Kanban boards and task management."),
                     HStack().Children(toggle, readOnlyToggle),
                     board.Height(600.px())
-               ));
+               )).SetTitle("Overview")));
         }
 
         public HTMLElement Render() => _content.Render();

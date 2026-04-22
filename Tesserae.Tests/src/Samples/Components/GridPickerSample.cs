@@ -67,14 +67,14 @@ namespace Tesserae.Tests.Samples
             _content = SectionStack()
                .SampleTitle(nameof(GridPickerSample), UIcons.Table, "A control to pick an item from a grid")
                .Section(Stack().Children(
-                    SampleTitle("Overview"),
+                    Card(VStack().WS().Children(
                     TextBlock("The GridPicker component provides an interactive grid where each cell can cycle through a predefined number of states. It's highly customizable through its state formatting logic."),
-                    TextBlock("Common use cases include scheduling, availability maps, or any scenario where you need to visualize and edit state across two dimensions.")))
+                    TextBlock("Common use cases include scheduling, availability maps, or any scenario where you need to visualize and edit state across two dimensions."))).SetTitle("Overview")))
                .Section(Stack().Children(
-                    SampleTitle("Best Practices"),
-                    TextBlock("Use GridPickers for dense state selection where labels for each cell would be too cluttered. Provide a clear legend or visual cues for what each state represents. Ensure the row and column headers are descriptive. If the grid is large, consider how it will behave on smaller screens. Leverage the state formatting to provide rich feedback, such as changing colors, icons, or text based on the current state.")))
+                    Card(VStack().WS().Children(
+                    TextBlock("Use GridPickers for dense state selection where labels for each cell would be too cluttered. Provide a clear legend or visual cues for what each state represents. Ensure the row and column headers are descriptive. If the grid is large, consider how it will behave on smaller screens. Leverage the state formatting to provide rich feedback, such as changing colors, icons, or text based on the current state."))).SetTitle("Best Practices")))
                .Section(Stack().Children(
-                    SampleTitle("Usage"),
+                    Card(VStack().WS().Children(
                     SampleSubTitle("Simple Schedule Example"),
                     TextBlock("Click on cells to cycle through states: Dead (☠), Slow (🐢), and Fast (🐇)."),
                     picker,
@@ -83,7 +83,7 @@ namespace Tesserae.Tests.Samples
                     hourPicker,
                     SampleSubTitle("Dynamic/Calculated Grid"),
                     TextBlock("Using GridPicker for a complex logic visualization (Game of Life)."),
-                    GetGameOfLifeSample()));
+                    GetGameOfLifeSample())).SetTitle("Usage")));
         }
 
         private static Stack GetGameOfLifeSample()

@@ -15,11 +15,11 @@ namespace Tesserae.Tests.Samples
             _content = SectionStack()
                 .SampleTitle(nameof(CronEditorSample), UIcons.Clock, "A component to edit cron expressions")
                 .Section(Stack().Children(
-                    SampleTitle("Overview"),
+                    Card(VStack().WS().Children(
                     TextBlock("CronEditor allows users to schedule tasks using a simplified UI for daily schedules, with a fallback to raw cron expressions for advanced users.")
-                ))
+                )).SetTitle("Overview")))
                 .Section(Stack().Children(
-                    SampleTitle("Usage"),
+                    Card(VStack().WS().Children(
                     SampleSubTitle("Basic"),
                     CronEditor(),
 
@@ -40,7 +40,7 @@ namespace Tesserae.Tests.Samples
 
                     SampleSubTitle("Observable"),
                     GetObservableExample()
-                ));
+                )).SetTitle("Usage")));
         }
 
         private IComponent GetObservableExample()

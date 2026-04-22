@@ -24,14 +24,14 @@ namespace Tesserae.Tests.Samples
             _content = SectionStack()
                .SampleTitle(nameof(SidebarSeparatorSample), UIcons.Minus, "A visual separator for sidebar items")
                .Section(Stack().Children(
-                    SampleTitle("Overview"),
-                    TextBlock("A separator for the Sidebar component to visually group items."),
-                    SampleTitle("Usage"),
+                    Card(VStack().WS().Children(
+                    TextBlock("A separator for the Sidebar component to visually group items."))).SetTitle("Overview"),
+                    Card(VStack().WS().Children(
                     TextBlock("Basic separator:"),
                     Stack().Children(
                         sidebar.S().H(500.px())
                     )
-               ));
+               )).SetTitle("Usage")));
         }
 
         public HTMLElement Render() => _content.Render();

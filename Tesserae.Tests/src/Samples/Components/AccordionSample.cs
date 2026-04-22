@@ -14,14 +14,14 @@ namespace Tesserae.Tests.Samples
             _content = SectionStack()
                .SampleTitle(nameof(AccordionSample), UIcons.Apps, "A collapsible content component")
                .Section(Stack().Children(
-                    SampleTitle("Overview"),
+                    Card(VStack().WS().Children(
                     TextBlock("An accordion contains a list of expanders that can be toggled to reveal more information. They are useful for organizing content into manageable chunks and reducing vertical space usage when not all information needs to be visible at once."),
-                    TextBlock("Tesserae's Accordion component manages multiple Expanders, allowing you to control whether one or multiple sections can be open at the same time.")))
+                    TextBlock("Tesserae's Accordion component manages multiple Expanders, allowing you to control whether one or multiple sections can be open at the same time."))).SetTitle("Overview")))
                .Section(Stack().Children(
-                    SampleTitle("Best Practices"),
-                    TextBlock("Use accordions to organize related content that might be too long to display all at once. Ensure the header of each expander clearly describes the content within. Avoid nesting accordions within accordions as it can lead to confusion. Consider using a single Expander if you only have one block of optional content.")))
+                    Card(VStack().WS().Children(
+                    TextBlock("Use accordions to organize related content that might be too long to display all at once. Ensure the header of each expander clearly describes the content within. Avoid nesting accordions within accordions as it can lead to confusion. Consider using a single Expander if you only have one block of optional content."))).SetTitle("Best Practices")))
                .Section(Stack().Children(
-                    SampleTitle("Usage"),
+                    Card(VStack().WS().Children(
                     SampleSubTitle("Basic Accordion"),
                     Accordion(
                         Expander("Getting started", TextBlock("Use expanders to reveal details in place without navigating away.")).Expanded(),
@@ -38,7 +38,7 @@ namespace Tesserae.Tests.Samples
                        .AllowMultipleOpen(true),
                     SampleSubTitle("Standalone Expander"),
                     Expander("What is Tesserae?", TextBlock("Tesserae provides a fluent API for building UI components."))
-                       .Expanded()));
+                       .Expanded())).SetTitle("Usage")));
         }
 
         public HTMLElement Render() => _content.Render();

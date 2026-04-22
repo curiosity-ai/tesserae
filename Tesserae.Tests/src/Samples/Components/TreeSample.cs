@@ -16,11 +16,11 @@ namespace Tesserae.Tests.Samples
             _content = SectionStack()
                .SampleTitle(nameof(TreeSample), UIcons.Sitemap, "A component that displays a hierarchical list")
                .Section(Stack().Children(
-                    SampleTitle("Overview"),
+                    Card(VStack().WS().Children(
                     TextBlock("A tree displays hierarchical data. Nodes can be expanded or collapsed to reveal nested data."),
-                    TextBlock("Supports synchronous and asynchronous loading of child nodes.")))
+                    TextBlock("Supports synchronous and asynchronous loading of child nodes."))).SetTitle("Overview")))
                .Section(Stack().Children(
-                    SampleTitle("Usage"),
+                    Card(VStack().WS().Children(
                     SampleSubTitle("Basic Synchronous Tree"),
                     new Tree().Items(
                         new Tree.Item("samples/ConsoleApp...", UIcons.Folder.ToString()).Expanded().Items(
@@ -68,7 +68,7 @@ namespace Tesserae.Tests.Samples
                             new Tree.Item("Child D", UIcons.File.ToString())
                         )
                     )
-               ));
+               )).SetTitle("Usage")));
         }
 
         public HTMLElement Render() => _content.Render();
