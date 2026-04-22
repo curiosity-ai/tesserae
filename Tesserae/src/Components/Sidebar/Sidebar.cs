@@ -249,6 +249,26 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Inserts an item after another item in the sidebar header section.
+        /// </summary>
+        /// <param name="item">The item to insert.</param>
+        /// <param name="addAfter">The item to insert after.</param>
+        /// <returns>The current instance of the type.</returns>
+        public Sidebar InsertAfterHeader(ISidebarItem item, ISidebarItem addAfter)
+        {
+            var index = _header.IndexOf(addAfter);
+            if (index >= 0)
+            {
+                _header.Insert(index + 1, item);
+            }
+            else
+            {
+                _header.Add(item);
+            }
+            return this;
+        }
+
+        /// <summary>
         /// The root identifier used for ordering.
         /// </summary>
         public const string ROOT_SIDEBAR_FOR_ORDERING = "ROOT";
@@ -269,6 +289,47 @@ namespace Tesserae
 
             _middleContent.Value = _middleContent.Value?.Concat(new[] { item }).ToList();
             _itemOrder.Add(item.Identifier);
+            return this;
+        }
+
+        /// <summary>
+        /// Inserts an item after another item in the middle content section.
+        /// </summary>
+        /// <param name="item">The item to insert.</param>
+        /// <param name="addAfter">The item to insert after.</param>
+        /// <returns>The current instance of the type.</returns>
+        public Sidebar InsertAfterContent(ISidebarItem item, ISidebarItem addAfter)
+        {
+            item.AddGroupIdentifier(ROOT_SIDEBAR_FOR_ORDERING);
+
+            if (_middleContent.Value.Any(m => m.Identifier == item.Identifier))
+            {
+                return this; //nothing to do...
+            }
+
+            var middleContentList = _middleContent.Value.ToList();
+            var index = middleContentList.IndexOf(addAfter);
+
+            if (index >= 0)
+            {
+                middleContentList.Insert(index + 1, item);
+                _middleContent.Value = middleContentList;
+
+                var orderIndex = _itemOrder.IndexOf(addAfter.Identifier);
+                if (orderIndex >= 0)
+                {
+                    _itemOrder.Insert(orderIndex + 1, item.Identifier);
+                }
+                else
+                {
+                    _itemOrder.Add(item.Identifier);
+                }
+            }
+            else
+            {
+                AddContent(item);
+            }
+
             return this;
         }
 
@@ -296,6 +357,26 @@ namespace Tesserae
         public Sidebar AddFooter(ISidebarItem item)
         {
             _footer.Add(item);
+            return this;
+        }
+
+        /// <summary>
+        /// Inserts an item after another item in the sidebar footer section.
+        /// </summary>
+        /// <param name="item">The item to insert.</param>
+        /// <param name="addAfter">The item to insert after.</param>
+        /// <returns>The current instance of the type.</returns>
+        public Sidebar InsertAfterFooter(ISidebarItem item, ISidebarItem addAfter)
+        {
+            var index = _footer.IndexOf(addAfter);
+            if (index >= 0)
+            {
+                _footer.Insert(index + 1, item);
+            }
+            else
+            {
+                _footer.Add(item);
+            }
             return this;
         }
 

@@ -27,13 +27,14 @@ namespace Tesserae
 
             if (columns.Length < 2)
             {
-                _stack            = Stack().Horizontal().Wrap().WS().MaxHeight(100.percent()).Scroll();
+                _stack            = HStack().NoDefaultMargin().Wrap().WS().MaxHeight(100.percent()).Scroll();
                 _maxStackItemSize = columns.FirstOrDefault() ?? 100.percent();
             }
             else
             {
-                _grid = Grid(columns).WS().MaxHeight(100.percent()).Scroll();
+                _grid = Grid(columns).NoDefaultMargin().WS().MaxHeight(100.percent()).Scroll();
             }
+
             _emptyListMessageGenerator = null;
 
             _defered = DeferedComponent.Observe(
