@@ -10,7 +10,6 @@ namespace Tesserae
         private readonly HTMLElement _cardContainer;
         private HTMLElement _headerContainer;
         private HTMLElement _titleContainer;
-        private HTMLElement _tagContainer;
         private HTMLElement _contentContainer;
         private HTMLElement _footerContainer;
         private bool _noPadding = false;
@@ -54,6 +53,17 @@ namespace Tesserae
 
                 InnerElement.style.padding = "0px"; // Reset inline padding on main container
 
+                // Move existing styles
+                _contentContainer.style.background = InnerElement.style.background;
+                InnerElement.style.background = "transparent";
+
+                _contentContainer.style.borderColor = InnerElement.style.borderColor;
+                _contentContainer.style.borderWidth = InnerElement.style.borderWidth;
+                _contentContainer.style.borderStyle = InnerElement.style.borderStyle;
+                InnerElement.style.borderColor = "";
+                InnerElement.style.borderWidth = "";
+                InnerElement.style.borderStyle = "";
+
                 while (InnerElement.firstChild != null)
                 {
                     _contentContainer.appendChild(InnerElement.firstChild);
@@ -69,8 +79,7 @@ namespace Tesserae
             if (_headerContainer == null)
             {
                 _titleContainer = Div(_("tss-card-title"));
-                _tagContainer = Div(_("tss-card-tag"));
-                _headerContainer = Div(_("tss-card-header"), _titleContainer, _tagContainer);
+                _headerContainer = Div(_("tss-card-header"), _titleContainer);
                 InnerElement.insertBefore(_headerContainer, _contentContainer);
             }
         }
@@ -105,7 +114,7 @@ namespace Tesserae
         public Card SetTitle(string title)
         {
             EnsureHeader();
-            _titleContainer.innerText = title;
+            SetTitle(TextBlock(title).SemiBold());
             return this;
         }
 
@@ -114,21 +123,6 @@ namespace Tesserae
             EnsureHeader();
             ClearChildren(_titleContainer);
             if (title != null) _titleContainer.appendChild(title.Render());
-            return this;
-        }
-
-        public Card SetTag(string tag)
-        {
-            EnsureHeader();
-            _tagContainer.innerText = tag;
-            return this;
-        }
-
-        public Card SetTag(IComponent tag)
-        {
-            EnsureHeader();
-            ClearChildren(_tagContainer);
-            if (tag != null) _tagContainer.appendChild(tag.Render());
             return this;
         }
 
@@ -163,10 +157,11 @@ namespace Tesserae
 
         public string Background
         {
-            get => InnerElement.style.background;
+            get => _contentContainer != null ? _contentContainer.style.background : InnerElement.style.background;
             set
             {
-                InnerElement.style.background = value;
+                if (_contentContainer != null) _contentContainer.style.background = value;
+                else InnerElement.style.background = value;
                 InnerElement.UpdateClassIf(!string.IsNullOrWhiteSpace(value), "tss-filter-effects");
             }
         }
@@ -180,9 +175,18 @@ namespace Tesserae
         public Card Border(string color, UnitSize size = null)
         {
             size                           = size ?? 1.px();
-            InnerElement.style.borderColor = color;
-            InnerElement.style.borderWidth = size.ToString();
-            InnerElement.style.borderStyle = "solid";
+            if (_contentContainer != null)
+            {
+                _contentContainer.style.borderColor = color;
+                _contentContainer.style.borderWidth = size.ToString();
+                _contentContainer.style.borderStyle = "solid";
+            }
+            else
+            {
+                InnerElement.style.borderColor = color;
+                InnerElement.style.borderWidth = size.ToString();
+                InnerElement.style.borderStyle = "solid";
+            }
             return this;
         }
 
