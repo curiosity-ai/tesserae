@@ -340,12 +340,12 @@ namespace Tesserae
         /// <returns>The current instance of the type.</returns>
         public Sidebar RemoveContent(ISidebarItem item)
         {
-            var identifierWithGroupIdentifier = ROOT_SIDEBAR_FOR_ORDERING + "_|_" + item.Identifier;
+            //We don't add this here as the item was already added and has the identifier -> ROOT_SIDEBAR_FOR_ORDERING + "_|_" + 
 
-            if (_middleContent.Value.All(m => m.Identifier != identifierWithGroupIdentifier)) return this; //nothing to do
+            if (_middleContent.Value.All(m => m.Identifier != item.Identifier)) return this; //nothing to do
 
-            _middleContent.Value = _middleContent.Value?.Where(m => m.Identifier != identifierWithGroupIdentifier).ToList();
-            _itemOrder.Remove(identifierWithGroupIdentifier);
+            _middleContent.Value = _middleContent.Value?.Where(m => m.Identifier != item.Identifier).ToList();
+            _itemOrder.Remove(item.Identifier);
             return this;
         }
 
