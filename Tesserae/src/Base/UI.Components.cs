@@ -915,6 +915,7 @@ namespace Tesserae
         /// Creates a <see cref="Tesserae.Teaching"/> component.
         /// </summary>
         public static Teaching     Teaching()                   => new Teaching();
+        public static Sparkline Sparkline(double[] data, double width = 100, double height = 30, string color = "") => new Sparkline(data, width, height, color);
         /// <summary>
         /// Converts a <see cref="Tesserae.Button"/> to a <see cref="Tesserae.ToggleButton"/>.
         /// </summary>
