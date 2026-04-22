@@ -44,6 +44,8 @@ namespace Tesserae.Tests.Samples
                     Card(TextBlock("This is a basic card.")),
                     TextBlock("Card with Header").MediumPlus(),
                     Card(TextBlock("This is a card with a header.")).SetTitle("Header").SetTag("Tag"),
+                    TextBlock("Card with Header and Footer").MediumPlus(),
+                    Card(TextBlock("This is a card with a header and a footer.")).SetTitle("Header").SetTag("Tag").SetFooter(Button("Action").Primary()),
                     TextBlock("Compact Card").MediumPlus(),
                     Card(TextBlock("This is a compact card.")).SetTitle("Header").SetTag("Tag").Compact(),
                     TextBlock("Hover Card").MediumPlus(),
