@@ -10,7 +10,6 @@ namespace Tesserae
         private readonly HTMLElement _cardContainer;
         private HTMLElement _headerContainer;
         private HTMLElement _titleContainer;
-        private HTMLElement _tagContainer;
         private HTMLElement _contentContainer;
         private HTMLElement _footerContainer;
         private bool _noPadding = false;
@@ -80,8 +79,7 @@ namespace Tesserae
             if (_headerContainer == null)
             {
                 _titleContainer = Div(_("tss-card-title"));
-                _tagContainer = Div(_("tss-card-tag"));
-                _headerContainer = Div(_("tss-card-header"), _titleContainer, _tagContainer);
+                _headerContainer = Div(_("tss-card-header"), _titleContainer);
                 InnerElement.insertBefore(_headerContainer, _contentContainer);
             }
         }
@@ -116,7 +114,7 @@ namespace Tesserae
         public Card SetTitle(string title)
         {
             EnsureHeader();
-            _titleContainer.innerText = title;
+            SetTitle(TextBlock(title).SemiBold());
             return this;
         }
 
@@ -125,21 +123,6 @@ namespace Tesserae
             EnsureHeader();
             ClearChildren(_titleContainer);
             if (title != null) _titleContainer.appendChild(title.Render());
-            return this;
-        }
-
-        public Card SetTag(string tag)
-        {
-            EnsureHeader();
-            _tagContainer.innerText = tag;
-            return this;
-        }
-
-        public Card SetTag(IComponent tag)
-        {
-            EnsureHeader();
-            ClearChildren(_tagContainer);
-            if (tag != null) _tagContainer.appendChild(tag.Render());
             return this;
         }
 
