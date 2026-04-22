@@ -12,6 +12,7 @@ namespace Tesserae
         private HTMLElement _titleContainer;
         private HTMLElement _tagContainer;
         private HTMLElement _contentContainer;
+        private HTMLElement _footerContainer;
         private bool _noPadding = false;
 
         public Card(IComponent content, bool noAnimation = false)
@@ -35,15 +36,11 @@ namespace Tesserae
         /// <summary>
         /// Gets or set whenever the card is rendered in a compact form
         /// </summary>
-        private void EnsureHeader()
+        private void EnsureLayout()
         {
-            if (_headerContainer == null)
+            if (_contentContainer == null)
             {
-                InnerElement.classList.add("tss-has-header");
-                _titleContainer = Div(_("tss-card-title"));
-                _tagContainer = Div(_("tss-card-tag"));
-                _headerContainer = Div(_("tss-card-header"), _titleContainer, _tagContainer);
-
+                InnerElement.classList.add("tss-has-layout");
                 _contentContainer = Div(_("tss-card-content"));
 
                 if (_noPadding)
@@ -62,8 +59,29 @@ namespace Tesserae
                     _contentContainer.appendChild(InnerElement.firstChild);
                 }
 
-                InnerElement.appendChild(_headerContainer);
                 InnerElement.appendChild(_contentContainer);
+            }
+        }
+
+        private void EnsureHeader()
+        {
+            EnsureLayout();
+            if (_headerContainer == null)
+            {
+                _titleContainer = Div(_("tss-card-title"));
+                _tagContainer = Div(_("tss-card-tag"));
+                _headerContainer = Div(_("tss-card-header"), _titleContainer, _tagContainer);
+                InnerElement.insertBefore(_headerContainer, _contentContainer);
+            }
+        }
+
+        private void EnsureFooter()
+        {
+            EnsureLayout();
+            if (_footerContainer == null)
+            {
+                _footerContainer = Div(_("tss-card-footer"));
+                InnerElement.appendChild(_footerContainer);
             }
         }
 
@@ -116,7 +134,7 @@ namespace Tesserae
 
         public Card SetContent(IComponent content)
         {
-            if (_headerContainer != null)
+            if (_contentContainer != null)
             {
                 ClearChildren(_contentContainer);
                 _contentContainer.appendChild(content.Render());
@@ -126,6 +144,14 @@ namespace Tesserae
                 ClearChildren(InnerElement);
                 InnerElement.appendChild(content.Render());
             }
+            return this;
+        }
+
+        public Card SetFooter(IComponent footer)
+        {
+            EnsureFooter();
+            ClearChildren(_footerContainer);
+            if (footer != null) _footerContainer.appendChild(footer.Render());
             return this;
         }
 
@@ -163,7 +189,7 @@ namespace Tesserae
         public Card NoPadding()
         {
             _noPadding = true;
-            if (_headerContainer != null)
+            if (_contentContainer != null)
             {
                 _contentContainer.style.padding = "0px";
             }

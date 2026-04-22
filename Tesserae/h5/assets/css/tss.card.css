@@ -56,7 +56,7 @@
 .tss-card.tss-card-hover:active {
     background-color: var(--tss-default-background-hover-color);
 }
-.tss-card.tss-has-header {
+.tss-card.tss-has-layout {
     flex-direction: column;
     padding: 0 !important; /* padding moved to content */
 }
@@ -67,6 +67,17 @@
     display: flex;
     align-items: center;
     gap: 8px;
+    background-color: var(--tss-secondary-background-color);
+    border-top-left-radius: var(--tss-border-radius-lg);
+    border-top-right-radius: var(--tss-border-radius-lg);
+}
+
+.tss-card-footer {
+    padding: 16px;
+    border-top: 1px solid var(--tss-default-border-color);
+    background-color: var(--tss-secondary-background-color);
+    border-bottom-left-radius: var(--tss-border-radius-lg);
+    border-bottom-right-radius: var(--tss-border-radius-lg);
 }
 
 .tss-card-title {
@@ -88,7 +99,8 @@
     flex-grow: 1;
 }
 
-.tss-card-container.tss-small > .tss-card.tss-has-header > .tss-card-header,
-.tss-card-container.tss-small > .tss-card.tss-has-header > .tss-card-content {
+.tss-card-container.tss-small > .tss-card.tss-has-layout > .tss-card-header,
+.tss-card-container.tss-small > .tss-card.tss-has-layout > .tss-card-content,
+.tss-card-container.tss-small > .tss-card.tss-has-layout > .tss-card-footer {
     padding: 2px 8px;
 }
