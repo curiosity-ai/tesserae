@@ -13,16 +13,16 @@ namespace Tesserae.Tests.Samples
         {
             var status = TextBlock("Showing page 1").Medium();
 
-            _content = SectionStack()
-               .SampleTitle(nameof(PaginationSample), UIcons.AngleRight, "A component to navigate through pages")
-               .Section(Stack().Children(
+            _content = SectionStack().Secondary()
+               .SampleTitle(typeof(PaginationSample), UIcons.AngleRight, "A component to navigate through pages")
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("Pagination allows users to navigate through a large set of data by breaking it into smaller, manageable chunks called pages."),
                     TextBlock("It provides controls to move between pages, jump to specific pages, and see the current position within the total set."))).SetTitle("Overview")))
-               .Section(Stack().Children(
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("Use pagination when you have a large amount of content that would be overwhelming or slow to load all at once. Clearly show the total number of items and the current page. Provide 'Previous' and 'Next' controls for sequential navigation. If the number of pages is high, consider using a simplified view or allowing the user to jump to the first/last page. Keep the pagination controls in a consistent location, typically at the bottom of the content area."))).SetTitle("Best Practices")))
-               .Section(Stack().Children(
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     SampleSubTitle("Basic Pagination"),
                     Card(status).MB(16),

@@ -12,16 +12,16 @@ namespace Tesserae.Tests.Samples
 
         public CheckBoxSample()
         {
-            _content = SectionStack()
-               .SampleTitle(nameof(CheckBoxSample), UIcons.Checkbox, "A control that allows the user to select multiple options")
-               .Section(Stack().Children(
+            _content = SectionStack().Secondary()
+               .SampleTitle(typeof(CheckBoxSample), UIcons.Checkbox, "A control that allows the user to select multiple options")
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("CheckBoxes allow users to select one or more items from a set. They can also be used to turn an option on or off."),
                     TextBlock("Unlike a Toggle, which is typically used for immediate actions, a CheckBox is often used when a user needs to confirm their selection by clicking a submit button."))).SetTitle("Overview")))
-               .Section(Stack().Children(
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("Use CheckBoxes when users can select any number of options from a list. Clearly label each CheckBox so the user knows what they are selecting. If you have only two mutually exclusive options, consider using a ChoiceGroup (Radio buttons) or a Toggle. Don't use CheckBoxes as an on/off control for immediate actions; use a Toggle instead."))).SetTitle("Best Practices")))
-               .Section(Stack().Children(
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     SampleSubTitle("Basic CheckBoxes"),
                     VStack().Children(

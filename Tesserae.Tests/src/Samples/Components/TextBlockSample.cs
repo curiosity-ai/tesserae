@@ -12,16 +12,16 @@ namespace Tesserae.Tests.Samples
 
         public TextBlockSample()
         {
-            _content = SectionStack()
-               .SampleTitle(nameof(TextBlockSample), UIcons.Text, "A component to display text")
-               .Section(Stack().Children(
+            _content = SectionStack().Secondary()
+               .SampleTitle(typeof(TextBlockSample), UIcons.Text, "A component to display text")
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("TextBlock is the fundamental component for displaying text in Tesserae. It provides a consistent way to apply typography styles, sizes, and weights across your application."),
                     TextBlock("It supports various built-in sizes, from tiny to mega, and different weights and colors."))).SetTitle("Overview")))
-               .Section(Stack().Children(
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("Use the predefined text sizes to maintain visual hierarchy. Use semi-bold or bold weights for headers and important information. Leverage the built-in color options (primary, success, danger, etc.) to convey meaning consistently. For long blocks of text, ensure the width is constrained for better readability. Use 'NoWrap' and text-overflow properties when dealing with limited space, such as in list items."))).SetTitle("Best Practices")))
-               .Section(Stack().Children(
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     SampleSubTitle("Text Sizes"),
                     VStack().Children(

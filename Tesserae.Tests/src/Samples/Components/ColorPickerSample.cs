@@ -10,16 +10,16 @@ namespace Tesserae.Tests.Samples
         private readonly IComponent _content;
         public ColorPickerSample()
         {
-            _content = SectionStack()
-               .SampleTitle(nameof(ColorPickerSample), UIcons.Palette, "A control to pick a color")
-               .Section(Stack().Children(
+            _content = SectionStack().Secondary()
+               .SampleTitle(typeof(ColorPickerSample), UIcons.Palette, "A control to pick a color")
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("The ColorPicker allows users to select a color using the browser's native color selection widget. It returns the selected color as both a hex string and a Color object."),
                     TextBlock("This component is useful for personalization settings, drawing applications, or any interface where color customization is required."))).SetTitle("Overview")))
-               .Section(Stack().Children(
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("Use the ColorPicker when users need to select a precise color that isn't covered by a predefined set of options. If you only need a few specific colors, consider using a ChoiceGroup with custom styling or a Dropdown instead. Always provide a default color that makes sense for the context. Ensure the picked color is validated if certain constraints apply (e.g., must be a dark color for text readability)."))).SetTitle("Best Practices")))
-               .Section(Stack().Children(
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     SampleSubTitle("Basic ColorPicker"),
                     VStack().Children(

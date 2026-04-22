@@ -69,7 +69,7 @@ namespace Tesserae.Tests
             searchBox.OnSearch((term) => sidebar.Search(term));
             sidebar.AddHeader(searchBox);
 
-            var pageContent = HStack().Children(sidebar.HS(), DeferSync(currentPage, page => page is null ? (IComponent)CenteredCardWithBackground(Message("Welcome to Tesserae", "Select a component to see more details").Icon(UIcons.Search)) : VStack().S().ScrollY().Children(page.ContentGenerator().WS())).HS().W(1).Grow()).S();
+            var pageContent = HStack().Children(sidebar.HS(), DeferSync(currentPage, page => page is null ? (IComponent)CenteredCardWithBackground(Message("Welcome to Tesserae", "Select a component to see more details").Icon(UIcons.Search)) : VStack().S().ScrollY().Children(page.ContentGenerator().WS().MinHeight(100.percent()))).HS().W(1).Grow()).S();
 
             MountToBody(pageContent);
 
@@ -83,7 +83,7 @@ namespace Tesserae.Tests
                    var group = sg is object ? sg.Group : "Others";
                    int order = sg is object ? sg.Order : 0;
                    UIcons icon = sg is object ? sg.Icon : UIcons.Circle;
-                   return new Sample(sampleType.Name, FormatSampleName(sampleType), group, order, icon, () => Activator.CreateInstance(sampleType) as IComponent);
+                   return new Sample(sampleType.Name, Sample.FormatSampleName(sampleType), group, order, icon, () => Activator.CreateInstance(sampleType) as IComponent);
                })
                .ToDictionary(s => s.Name, s => s);
 
@@ -196,11 +196,6 @@ namespace Tesserae.Tests
 
             Router.Initialize();
             Router.Refresh(onDone: Router.ForceMatchCurrent); // We need to forcibly match the route at first loading since we want the just-registered routes to be matched against the current URL without us *changing* that URL
-        }
-
-        private static string FormatSampleName(Type sampleType)
-        {
-            return string.Join("", sampleType.Name.Replace("Sample", "").Select(c => char.IsUpper(c) ? " " + c : "" + c)).Trim().Replace("U Icons", "UIcons").Replace(" And ", " and ");
         }
     }
 }

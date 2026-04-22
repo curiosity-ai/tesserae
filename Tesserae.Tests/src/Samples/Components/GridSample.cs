@@ -21,16 +21,16 @@ namespace Tesserae.Tests.Samples
             gridAutoSize.Gap(8.px());
             Enumerable.Range(1, 10).ForEach(v => gridAutoSize.Add(Card(TextBlock($"Responsive Item {v}").TextCenter())));
 
-            _content = SectionStack()
-               .SampleTitle(nameof(GridSample), UIcons.Table, "A component to display a grid")
-               .Section(VStack().Children(
+            _content = SectionStack().Secondary()
+               .SampleTitle(typeof(GridSample), UIcons.Table, "A component to display a grid")
+               .FlatSection(VStack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("The Grid component provides a powerful layout system based on CSS Grid. It allows you to define columns, rows, and gaps between items."),
                     TextBlock("Items within a Grid can be explicitly positioned or stretched across multiple tracks, offering full control over complex 2D layouts."))).SetTitle("Overview")))
-               .Section(VStack().Children(
+               .FlatSection(VStack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("Use Grid for page-level layouts or complex component structures where both rows and columns need coordination. For simple one-dimensional layouts (horizontal or vertical), consider using HStack or VStack instead. Leverage 'fr' units for flexible columns that fill available space proportionally. Use 'auto-fit' or 'auto-fill' with 'minmax' to create responsive grids that adapt to different screen sizes without media queries."))).SetTitle("Best Practices")))
-               .Section(VStack().Children(
+               .FlatSection(VStack().Children(
                     Card(VStack().WS().Children(
                     SampleSubTitle("Fixed and Flexible Columns"),
                     TextBlock("This grid uses two flexible columns (1fr) and one fixed column (200px). The first item is stretched across all columns."),

@@ -13,16 +13,16 @@ namespace Tesserae.Tests.Samples
 
         public ActionButtonSample()
         {
-            _content = SectionStack()
-               .SampleTitle(nameof(ActionButtonSample), UIcons.Cursor, "A button that triggers an action")
-               .Section(Stack().Children(
+            _content = SectionStack().Secondary()
+               .SampleTitle(typeof(ActionButtonSample), UIcons.Cursor, "A button that triggers an action")
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("ActionButtons are a variation of the standard Button component that split the interaction into two distinct parts: a display area (typically the label and an icon) and a specific action area (typically a secondary icon on the right)."),
                     TextBlock("They are useful when you want to provide a primary action while also offering a secondary, related action like opening a menu, showing a tooltip, or triggering a specific sub-task."))).SetTitle("Overview")))
-               .Section(Stack().Children(
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("Use ActionButtons when a component needs to perform more than one related task. The primary area should trigger the most common action, while the secondary area (the action icon) should trigger a complementary one. Clearly distinguish between the two areas visually if they perform very different tasks. Ensure that both interaction points have appropriate tooltips or labels if their purpose isn't immediately obvious."))).SetTitle("Best Practices")))
-               .Section(Stack().Children(
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     SampleSubTitle("Basic Action Buttons"),
                     VStack().Children(

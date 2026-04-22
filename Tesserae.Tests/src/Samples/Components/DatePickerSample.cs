@@ -15,16 +15,16 @@ namespace Tesserae.Tests.Samples
             var from = DateTime.Now.AddDays(-7);
             var to   = DateTime.Now.AddDays(7);
 
-            _content = SectionStack()
-               .SampleTitle(nameof(DatePickerSample), UIcons.Calendar, "A component to select a date")
-               .Section(Stack().Children(
+            _content = SectionStack().Secondary()
+               .SampleTitle(typeof(DatePickerSample), UIcons.Calendar, "A component to select a date")
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("DatePickers allow users to select a specific date using a browser-native date selection widget. They ensure that the input is always a valid date format."),
                     TextBlock("This component is suitable for forms requiring birthdays, appointment dates, or any date-driven data entry."))).SetTitle("Overview")))
-               .Section(Stack().Children(
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("Use the DatePicker when users need to enter a specific date. If you need to include time as well, use the DateTimePicker instead. Always provide min and max constraints if the acceptable date range is limited. Use clear validation messages to guide users if they select an invalid date (e.g., a date in the past when only future dates are allowed)."))).SetTitle("Best Practices")))
-               .Section(Stack().Children(
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     SampleSubTitle("Basic DatePicker"),
                     VStack().Children(

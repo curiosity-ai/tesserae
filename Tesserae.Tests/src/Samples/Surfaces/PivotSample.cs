@@ -14,15 +14,15 @@ namespace Tesserae.Tests.Samples
 
         public PivotSample()
         {
-            content = SectionStack()
-               .SampleTitle(nameof(PivotSample), UIcons.Apps, "A navigation pivot")
-               .Section(Stack().Children(
+            content = SectionStack().Secondary()
+               .SampleTitle(typeof(PivotSample), UIcons.Apps, "A navigation pivot")
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("Pivots are used for navigating between different views or categories of content within the same context. They provide a compact way to switch between related data sets, such as different tabs in a settings page or different views of a list."))).SetTitle("Overview")))
-               .Section(Stack().Children(
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("Use Pivots to organize content into logical categories. Keep labels short and descriptive. Ensure that the most frequently used views are placed first. Utilize the 'Justified' or 'Centered' styles when the pivot should span the full width of its container. Use the 'Cached' option to preserve the state of a tab's content when switching away."))).SetTitle("Best Practices")))
-               .Section(Stack().Children(
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     SampleSubTitle("Normal Style"),
                     GetPivot(),

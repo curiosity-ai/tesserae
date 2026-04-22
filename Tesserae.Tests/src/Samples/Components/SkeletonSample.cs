@@ -11,16 +11,16 @@ namespace Tesserae.Tests.Samples
 
         public SkeletonSample()
         {
-            _content = SectionStack()
-               .SampleTitle(nameof(SkeletonSample), UIcons.Box, "A placeholder component for loading state")
-               .Section(Stack().Children(
+            _content = SectionStack().Secondary()
+               .SampleTitle(typeof(SkeletonSample), UIcons.Box, "A placeholder component for loading state")
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("Skeleton loaders are used to provide a placeholder for content that is still loading. They help reduce the perceived load time and prevent layout shifts by reserving the space that the final content will occupy."),
                     TextBlock("They come in various shapes like circles for avatars and rectangles for text or images."))).SetTitle("Overview")))
-               .Section(Stack().Children(
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("Use skeleton loaders when content takes more than a second to load. Match the shape and size of the skeleton as closely as possible to the actual content it replaces. Avoid using skeletons for very fast-loading content as it can cause flickering. Ensure the skeleton's color and animation are subtle and fit with the overall theme."))).SetTitle("Best Practices")))
-               .Section(Stack().Children(
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     SampleSubTitle("Avatar and Text Placeholder"),
                     HStack().Children(

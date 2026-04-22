@@ -18,16 +18,16 @@ namespace Tesserae.Tests.Samples
             var page     = 1;
             var pageGrid = 1;
 
-            _content = SectionStack().WidthStretch()
-               .SampleTitle(nameof(InfiniteScrollingListSample), UIcons.List, "A list that scrolls infinitely")
-               .Section(Stack().Children(
+            _content = SectionStack().Secondary().WidthStretch()
+               .SampleTitle(typeof(InfiniteScrollingListSample), UIcons.List, "A list that scrolls infinitely")
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("InfiniteScrollingList provides a way to render large sets of items by loading them on demand as the user scrolls. It uses a visibility sensor to detect when the end of the list is reached."),
                     TextBlock("This approach is great for social feeds, search results, or any collection where you want to avoid explicit pagination buttons."))).SetTitle("Overview")))
-               .Section(Stack().Children(
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("Use infinite scrolling for content that is explored discovery-style rather than searched for specifically. Ensure that the loading state is clearly indicated to the user. Consider the performance impact of adding many DOM elements; for extremely large lists, VirtualizedList may be more appropriate. Provide a way for users to reach the footer of the page if necessary, perhaps by offering a 'Load More' button instead of fully automatic scrolling if the footer contains important links."))).SetTitle("Best Practices")))
-               .Section(Stack().Children(
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     SampleSubTitle("Vertical Infinite List"),
                     TextBlock("Items are loaded 20 at a time with a small delay to simulate network latency."),

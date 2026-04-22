@@ -17,15 +17,15 @@ namespace Tesserae.Tests.Samples
             var dialog   = Dialog("Sample Dialog");
             var response = TextBlock();
 
-            _content = SectionStack()
-               .SampleTitle(nameof(DialogSample), UIcons.CommentAlt, "A dialog component")
-               .Section(Stack().Children(
+            _content = SectionStack().Secondary()
+               .SampleTitle(typeof(DialogSample), UIcons.CommentAlt, "A dialog component")
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("Dialogs are modal UI overlays that provide contextual information or require user action, such as confirmation or input. They are designed to capture the user's attention and typically block interaction with the rest of the application until they are dismissed."))).SetTitle("Overview")))
-               .Section(Stack().Children(
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("Use Dialogs for critical or short-term tasks that require a decision. Ensure the content is brief and clearly states the purpose. Provide logical action buttons (e.g., 'Confirm' and 'Cancel') and highlight the primary action. Avoid overusing Dialogs for non-essential information to prevent frustrating the user. Consider using non-modal alternatives if the task doesn't require immediate attention."))).SetTitle("Best Practices")))
-               .Section(Stack().Children(
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     Button("Open Dialog").OnClick((c, ev) => dialog.Show()),
                     HStack().Children(

@@ -13,15 +13,15 @@ namespace Tesserae.Tests.Samples
 
         public ToastSample()
         {
-            _content = SectionStack()
-               .SampleTitle(nameof(ToastSample), UIcons.Exclamation, "A utility to display toast notifications")
-               .Section(Stack().WidthStretch().Children(
+            _content = SectionStack().Secondary()
+               .SampleTitle(typeof(ToastSample), UIcons.Exclamation, "A utility to display toast notifications")
+               .FlatSection(Stack().WidthStretch().Children(
                     Card(VStack().WS().Children(
                     TextBlock("Toasts are short-lived, non-intrusive notifications that provide feedback about an operation. They appear temporarily on the screen and then disappear automatically, making them ideal for success messages, warnings, or simple information updates."))).SetTitle("Overview")))
-               .Section(Stack().WidthStretch().Children(
+               .FlatSection(Stack().WidthStretch().Children(
                     Card(VStack().WS().Children(
                     TextBlock("Use Toasts for brief, informative messages that don't require user action. Keep the text short and recognizable. Ensure the Toast duration is long enough to be read but short enough not to become an annoyance. Avoid overloading the user with too many simultaneous Toasts. For critical errors that require immediate attention or user interaction, use a Dialog or Modal instead."))).SetTitle("Best Practices")))
-               .Section(
+               .FlatSection(
                     Stack().WidthStretch().Children(
                         Card(VStack().WS().Children(
                         SampleSubTitle("Toasts top-right (default)"),

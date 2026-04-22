@@ -14,16 +14,16 @@ namespace Tesserae.Tests.Samples
 
         public SearchableListSample()
         {
-            _content = SectionStack().WidthStretch()
-                   .SampleTitle(nameof(SearchableListSample), UIcons.Search, "A list that can be searched")
-                   .Section(Stack().Children(
+            _content = SectionStack().Secondary().WidthStretch()
+                   .SampleTitle(typeof(SearchableListSample), UIcons.Search, "A list that can be searched")
+                   .FlatSection(Stack().Children(
                         Card(VStack().WS().Children(
                         TextBlock("SearchableList combines a search box with a list of items, providing instant filtering as the user types."),
                         TextBlock("Items must implement the 'ISearchableItem' interface, which defines the matching logic and how each item is rendered."))).SetTitle("Overview")))
-                   .Section(Stack().Children(
+                   .FlatSection(Stack().Children(
                         Card(VStack().WS().Children(
                         TextBlock("Use SearchableList when you have a moderately sized collection that users need to filter quickly. Ensure the 'IsMatch' implementation is performant and covers all relevant fields. Provide a clear 'No Results' message to help users understand when their search doesn't match anything. Use the 'BeforeSearchBox' and 'AfterSearchBox' slots to add relevant actions like 'Add New' or 'Filter' buttons. For very large datasets, consider server-side filtering or a VirtualizedList."))).SetTitle("Best Practices")))
-                   .Section(Stack().Children(
+                   .FlatSection(Stack().Children(
                         Card(VStack().WS().Children(
                         SampleSubTitle("Basic Searchable List"),
                         SearchableList(GetItems(10))

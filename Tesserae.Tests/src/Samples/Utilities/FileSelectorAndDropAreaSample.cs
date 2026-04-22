@@ -11,15 +11,15 @@ namespace Tesserae.Tests.Samples
         private readonly IComponent _content;
         public FileSelectorAndDropAreaSample()
         {
-            _content = SectionStack()
-               .SampleTitle(nameof(FileSelectorAndDropAreaSample), UIcons.FileUpload, "A control to select and drop files")
-               .Section(Stack().Children(
+            _content = SectionStack().Secondary()
+               .SampleTitle(typeof(FileSelectorAndDropAreaSample), UIcons.FileUpload, "A control to select and drop files")
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("FileSelector and FileDropArea provide two different ways for users to upload files. FileSelector uses a standard button that opens the system file dialog, while FileDropArea provides a larger target area for users to drag and drop files directly into the application."))).SetTitle("Overview")))
-               .Section(Stack().Children(
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("Use FileSelector for simple, single-file selections in forms. Use FileDropArea when users are likely to be uploading multiple files or when a more prominent upload target is desired. Always specify the allowed file types using the 'Accepts' property. Provide immediate feedback after files are selected or dropped, such as displaying the file names or sizes."))).SetTitle("Best Practices")))
-               .Section(Stack().Children(
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     SampleSubTitle("File Selector"),
                     Label("Selected file size: ").Inline().SetContent(TextBlock("").Var(out var size)),

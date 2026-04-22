@@ -136,9 +136,9 @@ namespace Tesserae.Tests.Samples
             });
 
 
-            _content = SectionStack()
-                .SampleTitle(nameof(DeltaComponent), UIcons.Refresh, "A component that animates changes")
-                .Section(Stack().Children(
+            _content = SectionStack().Secondary()
+                .SampleTitle(typeof(DeltaComponent), UIcons.Refresh, "A component that animates changes")
+                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("DeltaComponent updates its DOM tree to match a new component's DOM tree using a diff algorithm. It detects text appends and adds them as new spans to avoid full re-rendering."),
                     HStack().Children(typing, typingWithComponents, resetBtn))).SetTitle("Overview"),

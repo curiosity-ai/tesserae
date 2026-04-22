@@ -19,16 +19,16 @@ namespace Tesserae.Tests.Samples
             var query = Router.GetQueryParameters();
             int page  = query.ContainsKey("page") && query.TryGetValue("page", out var queryPageStr) && int.TryParse(queryPageStr, out var queryPage) ? queryPage : 2;
 
-            _content = SectionStack()
-                   .SampleTitle(nameof(DetailsListSample), UIcons.List, "A list that displays details")
-                   .Section(Stack().Children(
+            _content = SectionStack().Secondary()
+                   .SampleTitle(typeof(DetailsListSample), UIcons.List, "A list that displays details")
+                   .FlatSection(Stack().Children(
                         Card(VStack().WS().Children(
                         TextBlock("DetailsList is a robust way to display an information-rich collection of items. It supports sorting, grouping, filtering, and pagination."),
                         TextBlock("It is classically used for file explorers, database record views, or any scenario where information density is critical."))).SetTitle("Overview")))
-                   .Section(Stack().Children(
+                   .FlatSection(Stack().Children(
                         Card(VStack().WS().Children(
                         TextBlock("Use DetailsList when users need to compare items across multiple metadata fields. Display columns in order of importance from left to right. Provide ample default width for each column to avoid unnecessary truncation. Use compact mode when vertical space is limited or when displaying very large datasets. Always provide a clear empty state message if the list contains no items."))).SetTitle("Best Practices")))
-                   .Section(Stack().Children(
+                   .FlatSection(Stack().Children(
                         Card(VStack().WS().Children(
                         SampleSubTitle("Standard File List"),
                         TextBlock("A list with textual rows, supporting sorting and custom column widths."),

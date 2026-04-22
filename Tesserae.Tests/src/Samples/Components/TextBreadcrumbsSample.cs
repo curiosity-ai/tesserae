@@ -11,16 +11,16 @@ namespace Tesserae.Tests.Samples
 
         public TextBreadcrumbsSample()
         {
-            _content = SectionStack()
-               .SampleTitle(nameof(TextBreadcrumbsSample), UIcons.AngleRight, "A breadcrumb navigation using text")
-               .Section(Stack().Children(
+            _content = SectionStack().Secondary()
+               .SampleTitle(typeof(TextBreadcrumbsSample), UIcons.AngleRight, "A breadcrumb navigation using text")
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("TextBreadcrumbs are a navigational aid that indicates the current position within a hierarchy. They allow users to understand their context and easily navigate back to higher-level pages."),
                     TextBlock("This component is typically placed at the top of a page, below the main navigation."))).SetTitle("Overview")))
-               .Section(Stack().Children(
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("Use breadcrumbs for applications with deep hierarchical structures. Place them consistently at the top of the content area. Use short, descriptive labels for each level. The last item in the breadcrumb should represent the current page and is typically not clickable. Breadcrumbs should complement, not replace, the primary navigation system."))).SetTitle("Best Practices")))
-               .Section(Stack().Children(
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     SampleSubTitle("Basic Breadcrumbs"),
                     TextBreadcrumbs().Items(

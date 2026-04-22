@@ -12,16 +12,16 @@ namespace Tesserae.Tests.Samples
 
         public TextBoxSample()
         {
-            _content = SectionStack()
-               .SampleTitle(nameof(TextBoxSample), UIcons.Text, "A control to input text")
-               .Section(Stack().Children(
+            _content = SectionStack().Secondary()
+               .SampleTitle(typeof(TextBoxSample), UIcons.Text, "A control to input text")
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("TextBoxes allow users to enter and edit text. They are used in forms, search queries, and anywhere text input is required."),
                     TextBlock("They support various modes like password input, read-only states, and built-in validation."))).SetTitle("Overview")))
-               .Section(Stack().Children(
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("Always label your TextBoxes so users know what information is expected. Use placeholder text to provide a hint about the format or content. Mark required fields clearly. Use validation to provide immediate feedback on the correctness of the input. Use the appropriate input type (e.g., Password) for sensitive information. Provide a clear way to submit or clear the data."))).SetTitle("Best Practices")))
-               .Section(Stack().Children(
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     SampleSubTitle("Basic TextBoxes"),
                     VStack().Children(

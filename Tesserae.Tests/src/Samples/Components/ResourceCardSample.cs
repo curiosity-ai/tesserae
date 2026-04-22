@@ -16,13 +16,13 @@ namespace Tesserae.Tests.Samples
             var searchList = new SearchableList<ModelItem>(GetModelItems(), 1.fr(), 1.fr(), 1.fr())
                 .WithNoResultsMessage(() => TextBlock("No models found").MediumPlus());
 
-            _content = SectionStack()
-                .SampleTitle(nameof(ResourceCardSample), UIcons.IdCard, "A card to display a resource")
-                .Section(Stack().Children(
+            _content = SectionStack().Secondary()
+                .SampleTitle(typeof(ResourceCardSample), UIcons.IdCard, "A card to display a resource")
+                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("ResourceCards are used to display a summary of a resource like an AI model, document, or service. They provide optional sections for title, subtitle, tags, description, date, icon, and a footer for commands."),
                     TextBlock("The example below uses a SearchableList in grid mode to render a set of ResourceCards."))).SetTitle("Overview")))
-                .Section(Stack().Children(
+                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     searchList
                 )).SetTitle("Usage")));

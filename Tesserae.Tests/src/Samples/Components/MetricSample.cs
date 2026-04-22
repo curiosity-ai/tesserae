@@ -11,15 +11,15 @@ namespace Tesserae.Tests.Samples
 
         public MetricSample()
         {
-            content = SectionStack()
-               .SampleTitle(nameof(MetricSample), UIcons.ChartHistogram, "A component to display a metric")
-               .Section(Stack().Children(
+            content = SectionStack().Secondary()
+               .SampleTitle(typeof(MetricSample), UIcons.ChartHistogram, "A component to display a metric")
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("A Metric component displays a key value alongside a title and an optional indicator of change."))).SetTitle("Overview")))
-               .Section(Stack().Children(
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("Use Metric to display important data points, such as requests, tokens, costs or errors. Keep titles short and clear. Combine with charts or grids to provide more context."))).SetTitle("Best Practices")))
-               .Section(Stack().Children(
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     SampleSubTitle("Basic Metrics"),
                     HStack().Children(

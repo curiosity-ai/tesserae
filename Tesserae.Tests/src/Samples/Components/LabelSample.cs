@@ -12,16 +12,16 @@ namespace Tesserae.Tests.Samples
 
         public LabelSample()
         {
-            _content = SectionStack()
-               .SampleTitle(nameof(LabelSample), UIcons.Tags, "A component to display a label")
-               .Section(Stack().Children(
+            _content = SectionStack().Secondary()
+               .SampleTitle(typeof(LabelSample), UIcons.Tags, "A component to display a label")
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("Labels provide a name or title for a component or a group of components. They are essential for accessibility and helping users understand the purpose of input fields."),
                     TextBlock("While many Tesserae components have built-in labels, the standalone Label component offers more flexibility in positioning and styling."))).SetTitle("Overview")))
-               .Section(Stack().Children(
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("Use sentence casing for label text. Keep labels short and concise, typically using a noun or a short noun phrase. Do not use labels as instructional text; use TextBlocks or tooltips for that purpose. Ensure labels are positioned close to the components they describe. Use the 'Required' flag to clearly indicate mandatory fields."))).SetTitle("Best Practices")))
-               .Section(Stack().Children(
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     SampleSubTitle("Basic Labels"),
                     VStack().Children(

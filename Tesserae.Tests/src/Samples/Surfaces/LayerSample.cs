@@ -16,15 +16,15 @@ namespace Tesserae.Tests.Samples
             var layer2    = Layer();
             var layerHost = LayerHost();
 
-            _content = SectionStack()
-               .SampleTitle(nameof(LayerSample), UIcons.Apps, "A component to display a layer")
-               .Section(Stack().Children(
+            _content = SectionStack().Secondary()
+               .SampleTitle(typeof(LayerSample), UIcons.Apps, "A component to display a layer")
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("Layer is a technical component used to render content outside of its parent's DOM tree, typically at the end of the document body. This allows content to escape boundaries like 'overflow: hidden' or complex z-index stacks, ensuring that elements like tooltips, context menus, and modals always appear on top of other content."))).SetTitle("Overview")))
-               .Section(Stack().Children(
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("Use Layers for UI elements that must appear above all other content regardless of their position in the component hierarchy. Utilize 'LayerHost' when you need to project layered content into a specific part of the DOM instead of the default body location. Be mindful of the lifecycle of layered components to ensure they are properly removed from the DOM when no longer needed."))).SetTitle("Best Practices")))
-               .Section(Stack().Children(
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("Basic layered content").Medium(),
                     layer.Content(HStack().Children(TextBlock("This is example layer content."),

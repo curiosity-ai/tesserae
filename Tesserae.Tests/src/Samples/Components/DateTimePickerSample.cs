@@ -15,16 +15,16 @@ namespace Tesserae.Tests.Samples
             var from = DateTime.Now.AddDays(-7);
             var to   = DateTime.Now.AddDays(7);
 
-            _content = SectionStack()
-               .SampleTitle(nameof(DateTimePickerSample), UIcons.Calendar, "A control to pick a date and time")
-               .Section(Stack().Children(
+            _content = SectionStack().Secondary()
+               .SampleTitle(typeof(DateTimePickerSample), UIcons.Calendar, "A control to pick a date and time")
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("The DateTimePicker combines date and time selection into a single component, using the browser's native widget."),
                     TextBlock("It is ideal for scheduling events, setting deadlines, or any task where both the day and time are critical."))).SetTitle("Overview")))
-               .Section(Stack().Children(
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("Use the DateTimePicker when users need to specify a precise moment in time. Consider the user's timezone if the application handles users across different regions. Provide sensible defaults, such as the current time or a common starting point. Use min/max constraints to prevent invalid selections (e.g., booking an appointment in the past)."))).SetTitle("Best Practices")))
-               .Section(Stack().Children(
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     SampleSubTitle("Basic DateTimePicker"),
                     VStack().Children(

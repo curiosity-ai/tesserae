@@ -12,13 +12,13 @@ namespace Tesserae.Tests.Samples
         private readonly IComponent _content;
         public CronEditorSample()
         {
-            _content = SectionStack()
-                .SampleTitle(nameof(CronEditorSample), UIcons.Clock, "A component to edit cron expressions")
-                .Section(Stack().Children(
+            _content = SectionStack().Secondary()
+                .SampleTitle(typeof(CronEditorSample), UIcons.Clock, "A component to edit cron expressions")
+                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("CronEditor allows users to schedule tasks using a simplified UI for daily schedules, with a fallback to raw cron expressions for advanced users.")
                 )).SetTitle("Overview")))
-                .Section(Stack().Children(
+                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     SampleSubTitle("Basic"),
                     CronEditor(),

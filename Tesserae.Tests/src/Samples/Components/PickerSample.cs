@@ -14,16 +14,16 @@ namespace Tesserae.Tests.Samples
 
         public PickerSample()
         {
-            _content = SectionStack()
-                   .SampleTitle(nameof(PickerSample), UIcons.Cursor, "A control to pick an item")
-                   .Section(Stack().Children(
+            _content = SectionStack().Secondary()
+                   .SampleTitle(typeof(PickerSample), UIcons.Cursor, "A control to pick an item")
+                   .FlatSection(Stack().Children(
                         Card(VStack().WS().Children(
                         TextBlock("Pickers are used to select one or more items, such as people or tags, from a large list. They provide a search-based interface with suggestions."),
                         TextBlock("This component is highly flexible, allowing for custom item rendering, single or multiple selections, and different suggestion behaviors."))).SetTitle("Overview")))
-                   .Section(Stack().Children(
+                   .FlatSection(Stack().Children(
                         Card(VStack().WS().Children(
                         TextBlock("Use Pickers when the number of options is too large for a standard Dropdown. Ensure that the items can be easily searched by text. Use clear icons or visual indicators if it helps users identify the correct item quickly. For multiple selections, consider how the selected items will be displayed—either inline or in a separate list. Provide a helpful 'suggestions title' to guide the user when they interact with the picker."))).SetTitle("Best Practices")))
-                   .Section(Stack().Children(
+                   .FlatSection(Stack().Children(
                         Card(VStack().WS().Children(
                         SampleSubTitle("Multi-selection Picker"),
                         TextBlock("Allows selecting multiple tags from the suggestions."),

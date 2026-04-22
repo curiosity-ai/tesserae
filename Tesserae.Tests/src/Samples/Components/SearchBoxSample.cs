@@ -14,16 +14,16 @@ namespace Tesserae.Tests.Samples
         {
             var searchAsYouType = TextBlock("Start typing in the 'Search as you type' box below...");
 
-            _content = SectionStack()
-               .SampleTitle(nameof(SearchBoxSample), UIcons.Search, "A control to search")
-               .Section(Stack().Children(
+            _content = SectionStack().Secondary()
+               .SampleTitle(typeof(SearchBoxSample), UIcons.Search, "A control to search")
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("SearchBoxes provide an input field for searching through content, allowing users to locate specific items within the website or app."),
                     TextBlock("They include a search icon and a clear button, and support both 'on search' (e.g., when Enter is pressed) and 'search as you type' behaviors."))).SetTitle("Overview")))
-               .Section(Stack().Children(
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("Always use placeholder text to describe the search scope (e.g., 'Search files'). Use the 'Underlined' style for CommandBars or other minimalist surfaces. Enable 'Search as you type' for small to medium datasets where results can be filtered instantly. Provide a clear visual cue when no results are found. Don't use a SearchBox if you cannot reliably provide accurate results."))).SetTitle("Best Practices")))
-               .Section(Stack().Children(
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     SampleSubTitle("Basic SearchBoxes"),
                     VStack().Children(

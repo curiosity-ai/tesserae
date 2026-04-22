@@ -16,9 +16,9 @@ namespace Tesserae.Tests.Samples
             var container = VStack();
             var trigger = new SettableObservable<int>(0);
 
-            content = SectionStack()
-               .SampleTitle(nameof(DeferWithProgressSample), UIcons.Clock, "A utility to defer execution with progress")
-               .Section(Stack().Children(
+            content = SectionStack().Secondary()
+               .SampleTitle(typeof(DeferWithProgressSample), UIcons.Clock, "A utility to defer execution with progress")
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("DeferWithProgress extends Defer by providing a way to report progress during the async operation. This is useful for long-running tasks where you want to show a progress bar or status updates."))).SetTitle("Overview"),
                     Card(VStack().WS().Children(
@@ -40,7 +40,7 @@ namespace Tesserae.Tests.Samples
                     }),
                     container
                 )).SetTitle("Basic Usage")))
-               .Section(Stack().Children(
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("DeferWithProgress can also observe values and refresh when they change, passing the observed values to the async generator."),
                     Button("Trigger Refresh").Primary().OnClick(() => trigger.Value++),

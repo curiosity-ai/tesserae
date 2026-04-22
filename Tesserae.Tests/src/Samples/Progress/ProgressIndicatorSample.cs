@@ -14,15 +14,15 @@ namespace Tesserae.Tests.Samples
 
         public ProgressIndicatorSample()
         {
-            _content = SectionStack()
-               .SampleTitle(nameof(ProgressIndicatorSample), UIcons.Spinner, "A component to indicate progress")
-               .Section(Stack().Children(
+            _content = SectionStack().Secondary()
+               .SampleTitle(typeof(ProgressIndicatorSample), UIcons.Spinner, "A component to indicate progress")
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("ProgressIndicators provide visual feedback for operations that take more than a few seconds. They show the current completion status and help set expectations for how much work remains. If the total amount of work is unknown, use the indeterminate state or a Spinner instead."))).SetTitle("Overview")))
-               .Section(Stack().WidthStretch().Children(
+               .FlatSection(Stack().WidthStretch().Children(
                     Card(VStack().WS().Children(
                     TextBlock("Use a ProgressIndicator when the total units to completion can be quantified. Provide a clear label describing the operation in progress. Use the indeterminate state only when the duration is unknown. Combine multiple related steps into a single progress bar for a smoother experience. Avoid letting progress appear to move backwards unless a step failed and is being retried."))).SetTitle("Best Practices")))
-               .Section(
+               .FlatSection(
                     Stack().Children(
                         Card(VStack().WS().Children(
                         TextBlock("States").Medium(),

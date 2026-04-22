@@ -96,9 +96,9 @@ namespace Tesserae.Tests.Samples
                 new SidebarCommand("https://github.com/curiosity-ai/tesserae", UIcons.ArrowUpRightFromSquare)).Tooltip("Made with ❤ by Curiosity"));
 
 
-            _content = SectionStack()
-               .SampleTitle(nameof(SidebarSample), UIcons.Apps, "A sidebar navigation component")
-               .Section(Stack().Children(
+            _content = SectionStack().Secondary()
+               .SampleTitle(typeof(SidebarSample), UIcons.Apps, "A sidebar navigation component")
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("A fully featured Sidebar with Search, Navigation, Buttons, and Separators."))).SetTitle("Overview"),
                     Card(VStack().WS().Children(

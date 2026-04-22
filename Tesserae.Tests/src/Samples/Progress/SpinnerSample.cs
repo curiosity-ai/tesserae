@@ -14,15 +14,15 @@ namespace Tesserae.Tests.Samples
 
         public SpinnerSample()
         {
-            _content = SectionStack()
-               .SampleTitle(nameof(SpinnerSample), UIcons.Spinner, "A spinner component")
-               .Section(Stack().Children(
+            _content = SectionStack().Secondary()
+               .SampleTitle(typeof(SpinnerSample), UIcons.Spinner, "A spinner component")
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("Spinners are animated circular indicators used to show that a task is in progress when the exact duration is unknown. They are subtle, lightweight, and can be easily placed inline with content or centered within a container to provide feedback without disrupting the layout."))).SetTitle("Overview")))
-               .Section(Stack().WidthStretch().Children(
+               .FlatSection(Stack().WidthStretch().Children(
                     Card(VStack().WS().Children(
                     TextBlock("Use a Spinner for tasks that take more than a second but have an indeterminate end time. Include a brief, descriptive label (e.g., 'Loading...', 'Processing...') to give users context. Choose a size that is appropriate for the surrounding content—smaller for inline elements and larger for full-page loading states. Avoid showing multiple spinners simultaneously if possible."))).SetTitle("Best Practices")))
-               .Section(
+               .FlatSection(
                     Stack().Width(400.px()).Children(
                         Card(VStack().WS().Children(
                         TextBlock("Spinner sizes").Medium(),
@@ -31,7 +31,7 @@ namespace Tesserae.Tests.Samples
                         Label("Medium spinner").SetContent(Spinner().Medium()).AlignCenter(),
                         Label("Large spinner").SetContent(Spinner().Large()).AlignCenter()
                     )).SetTitle("Usage")))
-               .Section(
+               .FlatSection(
                     Stack().Width(400.px()).Children(
                         TextBlock("Spinner label positioning").Medium(),
                         Label("Spinner with label positioned below").SetContent(Spinner("I am definitely loading...").Below()),
@@ -39,7 +39,7 @@ namespace Tesserae.Tests.Samples
                         Label("Spinner with label positioned to right").SetContent(Spinner("Wait, wait...").Right()),
                         Label("Spinner with label positioned to left").SetContent(Spinner("Nope, still loading...").Left())
                     ))
-               .Section(
+               .FlatSection(
                     Stack().Width(400.px()).Children(
                         TextBlock("Spinner with fixed progress").Medium(),
                         Label("25% Progress").SetContent(Spinner().Progress(25).Large()).AlignCenter(),

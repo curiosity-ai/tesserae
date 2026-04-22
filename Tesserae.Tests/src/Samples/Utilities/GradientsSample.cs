@@ -44,15 +44,15 @@ namespace Tesserae.Tests.Samples
 
             Theme.OnThemeChanged += () => window.setTimeout(_ => Render(), 1);
 
-            _content = SectionStack()
-                .SampleTitle(nameof(GradientsSample), UIcons.Palette, "A utility to apply gradients")
-                .Section(Stack().Children(
+            _content = SectionStack().Secondary()
+                .SampleTitle(typeof(GradientsSample), UIcons.Palette, "A utility to apply gradients")
+                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("Tesserae provides a comprehensive set of predefined gradients that are part of the theme. These gradients are accessible via the 'Theme.Gradients' class and are designed to provide a consistent visual language across the application, with support for both light and dark modes."))).SetTitle("Overview")))
-                .Section(Stack().Children(
+                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("Prefer using these predefined gradients over hardcoded linear-gradient functions to ensure your application remains consistent with the theme. Click on any gradient name below to copy its C# constant name."))).SetTitle("Best Practices")))
-                .Section(Stack().Children(
+                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     grid)).SetTitle("Usage")));
         }

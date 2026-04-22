@@ -60,15 +60,15 @@ namespace Tesserae.Tests.Samples
                 window.setTimeout(ProgressFrame, 16);
             }
 
-            _content = SectionStack()
-               .SampleTitle(nameof(ProgressModalSample), UIcons.Spinner, "A modal dialog for progress")
-               .Section(Stack().Children(
+            _content = SectionStack().Secondary()
+               .SampleTitle(typeof(ProgressModalSample), UIcons.Spinner, "A modal dialog for progress")
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("ProgressModal is a specialized modal overlay that combines a title, a message, and a progress indicator. It is used for long-running operations where it is important to block other user interactions until the task is complete, while keeping the user informed of the progress."))).SetTitle("Overview")))
-               .Section(Stack().Children(
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("Use ProgressModal only for operations that truly require the user's focus and shouldn't be interrupted. Ensure that the message provides clear context for what is being processed. Always provide a way to cancel the operation if possible. For background tasks that don't need to block the entire UI, consider using an in-place ProgressIndicator or Spinner instead."))).SetTitle("Best Practices")))
-               .Section(
+               .FlatSection(
                     Stack().Width(400.px()).Children(
                         Card(VStack().WS().Children(
                         Button("Open Modal").OnClick((s, e) => PlayModal().FireAndForget())

@@ -19,16 +19,16 @@ namespace Tesserae.Tests.Samples
             var imgSlide2 = Image("https://cataas.com/cat").WS().H(300).Contain();
             var imgSlide3 = Image("https://cataas.com/cat").WS().H(300).Contain();
 
-            _content = SectionStack()
-               .SampleTitle(nameof(CarouselSample), UIcons.Picture, "A slideshow component for cycling through elements")
-               .Section(Stack().Children(
+            _content = SectionStack().Secondary()
+               .SampleTitle(typeof(CarouselSample), UIcons.Picture, "A slideshow component for cycling through elements")
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("Carousels allow users to cycle through a set of related content, such as images, features, or messages. They are effective for showcasing highlights in a limited space."),
                     TextBlock("The component supports any Tesserae component as a slide and provides automatic or manual navigation."))).SetTitle("Overview")))
-               .Section(Stack().Children(
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("Use carousels for high-impact visual content. Keep the number of slides low (typically 3-5) to ensure users can reasonably see all content. Ensure that each slide has a clear and unique message. Provide navigation controls (arrows/dots) and ensure they are accessible. For slides with text content, ensure sufficient contrast and use .PadSlides() to prevent overlapping with controls."))).SetTitle("Best Practices")))
-               .Section(Stack().Children(
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     SampleSubTitle("Text Carousel"),
                     Carousel(textSlide1, textSlide2, textSlide3).PadSlides().H(150),

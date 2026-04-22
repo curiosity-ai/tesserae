@@ -12,16 +12,16 @@ namespace Tesserae.Tests.Samples
 
         public HorizontalSeparatorSample()
         {
-            _content = SectionStack()
-               .SampleTitle(nameof(HorizontalSeparatorSample), UIcons.Minus, "A visual separator for components")
-               .Section(Stack().Children(
+            _content = SectionStack().Secondary()
+               .SampleTitle(typeof(HorizontalSeparatorSample), UIcons.Minus, "A visual separator for components")
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("A HorizontalSeparator visually divides content into groups. It can optionally contain text or other components to label the group it introduces."),
                     TextBlock("The content can be aligned to the left, center, or right of the line."))).SetTitle("Overview")))
-               .Section(Stack().Children(
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("Use separators to provide structure to long forms or pages. Keep labels short and concise. Use them sparingly; too many separators can clutter the UI. Ensure the labels accurately describe the section that follows."))).SetTitle("Best Practices")))
-               .Section(Stack().Children(
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     SampleSubTitle("Text Alignment"),
                     HorizontalSeparator("Center Aligned (Default)"),

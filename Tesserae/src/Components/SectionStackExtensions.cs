@@ -19,7 +19,22 @@ namespace Tesserae
         /// <returns>The stack instance.</returns>
         public static SectionStack Section(this SectionStack stack, IComponent component, bool grow = false, bool shrink = false, string customPadding = "")
         {
-            stack.AddAnimated(component, grow, shrink, customPadding);
+            stack.AddAnimated(component, grow, shrink, customPadding, cardStyle: true);
+            return stack;
+        }
+
+        /// <summary>
+        /// Adds a section to the stack without card style.
+        /// </summary>
+        /// <param name="stack">The stack.</param>
+        /// <param name="component">The component.</param>
+        /// <param name="grow">Whether the section should grow.</param>
+        /// <param name="shrink">Whether the section should shrink.</param>
+        /// <param name="customPadding">Custom padding.</param>
+        /// <returns>The stack instance.</returns>
+        public static SectionStack FlatSection(this SectionStack stack, IComponent component, bool grow = false, bool shrink = false, string customPadding = "")
+        {
+            stack.AddAnimated(component, grow, shrink, customPadding, cardStyle: false);
             return stack;
         }
 

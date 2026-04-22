@@ -15,15 +15,15 @@ namespace Tesserae.Tests.Samples
 
         public EmojiSample()
         {
-            _content = SectionStack().S()
-               .SampleTitle(nameof(EmojiSample), UIcons.Smile, "A utility to display emojis")
-               .Section(Stack().Children(
+            _content = SectionStack().Secondary().S()
+               .SampleTitle(typeof(EmojiSample), UIcons.Smile, "A utility to display emojis")
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("Tesserae includes full support for Emojis via an integrated stylesheet and a strongly-typed enum. This allows you to easily add expressive icons to your application with complete C# IntelliSense support and consistent rendering."))).SetTitle("Overview")))
-               .Section(Stack().Children(
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("Use Emojis to add personality and visual cues to your interface. Ensure that the Emojis used are universally understood and appropriate for the context. Avoid using Emojis as the sole way to convey critical information, as their appearance can vary slightly between platforms. Use the SearchableList below to find the exact Emoji you need."))).SetTitle("Best Practices")))
-               .Section(Stack().Children(
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     SampleSubTitle($"Strongly-typed {nameof(Emoji)} enum"),
                     SearchableList(GetAllIcons().ToArray(), 25.percent(), 25.percent(), 25.percent(), 25.percent()))).SetTitle("Usage")).S(), grow: true);

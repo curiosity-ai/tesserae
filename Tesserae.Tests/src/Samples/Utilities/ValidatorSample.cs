@@ -23,15 +23,15 @@ namespace Tesserae.Tests.Samples
 
             var dropdown = Dropdown().Items(DropdownItem(""), DropdownItem("Item 1"), DropdownItem("Item 2")).Required().Validation(dd => string.IsNullOrWhiteSpace(dd.SelectedText) ? "must select an item" : null, validator);
 
-            content = SectionStack()
-               .SampleTitle(nameof(ValidatorSample), UIcons.Check, "A utility to validate inputs")
-               .Section(Stack().Children(
+            content = SectionStack().Secondary()
+               .SampleTitle(typeof(ValidatorSample), UIcons.Check, "A utility to validate inputs")
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("Validator is a utility component that aggregates the validation state of multiple UI components. It provides a centralized way to monitor whether a form or a set of inputs is valid, making it easy to provide real-time feedback to users and prevent the submission of incorrect data."))).SetTitle("Overview")))
-               .Section(Stack().Children(
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("Register all related input components with a single Validator. Use clear and descriptive validation messages that help users correct errors. Avoid showing validation errors immediately on form load; instead, allow users to interact with the fields first. Use the Validator's state to enable or disable primary actions like 'Submit' or 'Save' to ensure only valid data is processed."))).SetTitle("Best Practices")))
-               .Section(
+               .FlatSection(
                     Stack().Children(
                         Card(VStack().WS().Children(
                         TextBlock("Basic TextBox").Medium(),

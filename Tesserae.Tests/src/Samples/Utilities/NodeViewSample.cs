@@ -81,15 +81,15 @@ namespace Tesserae.Tests.Samples
 
             textArea.OnBlur((ta, ev) => nodeView.SetState(ta.Text));
 
-            content = SectionStack()
-               .SampleTitle(nameof(NodeViewSample), UIcons.Sitemap, "A utility to display nodes")
-               .Section(Stack().Children(
+            content = SectionStack().Secondary()
+               .SampleTitle(typeof(NodeViewSample), UIcons.Sitemap, "A utility to display nodes")
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("NodeView is a powerful utility for creating node-based visual editors and data flows. It allows you to define custom node types with various input and output interfaces, enabling users to build complex logic or data pipelines graphically."))).SetTitle("Overview")))
-               .Section(Stack().Children(
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("Use NodeView for scenarios where users need to define relationships or workflows. Keep node definitions logical and consistent. Provide descriptive names for inputs and outputs. Utilize dynamic nodes when the node structure needs to adapt based on its internal state or external data."))).SetTitle("Best Practices")))
-               .Section(Stack().Children(
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     SplitView().SplitInMiddle().Resizable().H(600).WS().Left(nodeView).Right(VStack().S().Children(Label("JSON State"), textArea)))).SetTitle("Usage")));
         }

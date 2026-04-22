@@ -13,15 +13,15 @@ namespace Tesserae.Tests.Samples
 
         public CardSample()
         {
-            _content = SectionStack()
-                .SampleTitle(nameof(CardSample), UIcons.AddressCard, "A card component with optional headers and footers")
-                .Section(Stack().Children(
+            _content = SectionStack().Secondary()
+                .SampleTitle(typeof(CardSample), UIcons.AddressCard, "A card component with optional headers and footers")
+                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("Cards are surfaces that display content and actions on a single topic."),
                     TextBlock("They should be easy to scan for relevant and actionable information. Elements, like text and images, should be placed on them in a way that clearly indicates hierarchy."),
                     TextBlock("Cards can contain different types of components. They can be used to show a list of items, a single item, or a mix of both.")
                 )).SetTitle("Overview")))
-                .Section(Stack().Children(
+                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     Stack().Horizontal().Children(
                         Stack().Width(40.percent()).Children(
@@ -38,7 +38,7 @@ namespace Tesserae.Tests.Samples
                         )
                     )
                 )).SetTitle("Best Practices")))
-                .Section(Stack().Children(
+                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("Basic Card").SemiBold().PT(8),
                     Card(TextBlock("This is a basic card.")),

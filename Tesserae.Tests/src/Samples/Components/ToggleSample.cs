@@ -12,16 +12,16 @@ namespace Tesserae.Tests.Samples
 
         public ToggleSample()
         {
-            _content = SectionStack()
-               .SampleTitle(nameof(ToggleSample), UIcons.ToggleOn, "A control to toggle between two states")
-               .Section(Stack().Children(
+            _content = SectionStack().Secondary()
+               .SampleTitle(typeof(ToggleSample), UIcons.ToggleOn, "A control to toggle between two states")
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("A Toggle represents a physical switch that allows users to choose between two mutually exclusive options, typically 'on' and 'off'."),
                     TextBlock("Unlike a Checkbox, a Toggle is intended for immediate actions where the change takes effect as soon as the switch is flipped."))).SetTitle("Overview")))
-               .Section(Stack().Children(
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("Use Toggles for binary settings that have an immediate effect (e.g., turning Wi-Fi on or off). Labels should be short and describe the setting clearly. Avoid using Toggles when a user needs to click a 'Submit' or 'Apply' button to save changes; use a Checkbox instead. Ensure that the 'on' and 'off' states are visually distinct and easy to understand at a glance."))).SetTitle("Best Practices")))
-               .Section(Stack().Children(
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     SampleSubTitle("Basic Toggles"),
                     VStack().Children(

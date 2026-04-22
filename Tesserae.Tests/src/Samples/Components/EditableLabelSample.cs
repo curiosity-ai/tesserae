@@ -12,16 +12,16 @@ namespace Tesserae.Tests.Samples
 
         public EditableLabelSample()
         {
-            _content = SectionStack()
-               .SampleTitle(nameof(EditableLabelSample), UIcons.Edit, "A label that can be edited")
-               .Section(Stack().Children(
+            _content = SectionStack().Secondary()
+               .SampleTitle(typeof(EditableLabelSample), UIcons.Edit, "A label that can be edited")
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("EditableLabels and EditableAreas allow users to view content as standard text and switch to an editing mode (input or textarea) upon interaction."),
                     TextBlock("They are useful for 'in-place' editing where you want to keep the UI clean but allow users to quickly modify specific fields without navigating to a separate form."))).SetTitle("Overview")))
-               .Section(Stack().Children(
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("Use EditableLabels for short, single-line content like titles or names. Use EditableAreas for longer, multi-line content like descriptions. Always provide an OnSave() callback to persist the changes. Ensure the interaction to trigger editing is clear—typically by showing an edit icon on hover or using a distinct visual style. Consider using validation to ensure the entered data meets your requirements."))).SetTitle("Best Practices")))
-               .Section(Stack().Children(
+               .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     SampleSubTitle("Editable Labels"),
                     VStack().Children(
