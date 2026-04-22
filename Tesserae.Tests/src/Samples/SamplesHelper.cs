@@ -1,13 +1,21 @@
-﻿using static Tesserae.UI;
+﻿using System;
+using static H5.Core.dom;
+using static Tesserae.UI;
 
 namespace Tesserae.Tests.Samples
 {
     public static class SamplesHelper
     {
+        public static SectionStack SampleTitle(this SectionStack stack, Type sampleType, UIcons icon, string subtitle)
+        {
+            var text = Sample.FormatSampleName(sampleType);
+            return stack.Title(icon, text, subtitle, Button("Documentation").SetIcon(UIcons.Books).OnClick(() => window.location.href = "https://docs.curiosity.ai/tesserae/"), Button("View Code").SetIcon(UIcons.SquareTerminal).Tooltip("View source-code for this sample page").OnClick(() => ShowSampleCode(sampleType.Name)));
+        }
+
         public static SectionStack SampleTitle(this SectionStack stack, string sampleType, UIcons icon, string subtitle)
         {
-            var text = sampleType.Replace("Sample", "");
-            return stack.Title(icon, text, subtitle, Button().SetIcon(UIcons.SquareTerminal).SetTitle("View code for this sample").OnClick(() => ShowSampleCode(sampleType)));
+            var text = Sample.FormatSampleName(sampleType);
+            return stack.Title(icon, text, subtitle, Button("Documentation").SetIcon(UIcons.Books).OnClick(() => window.location.href = "https://docs.curiosity.ai/tesserae/"), Button("View Code").SetIcon(UIcons.SquareTerminal).Tooltip("View source-code for this sample page").OnClick(() => ShowSampleCode(sampleType)));
         }
 
         public static void ShowSampleCode(string sampleType)

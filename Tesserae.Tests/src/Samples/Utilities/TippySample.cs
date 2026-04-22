@@ -13,29 +13,29 @@ namespace Tesserae.Tests.Samples
 
         public TippySample()
         {
-            var stack       = SectionStack();
+            var stack       = SectionStack().Secondary();
             var countSlider = Slider(5, 0, 10, 1);
 
             var size = new SettableObservable<int>();
             var deferedWithChangingSize = DeferSync(size, sz => Button($"Height = {sz:n0}px").H(sz)).WS();
 
-            content = SectionStack()
-               .SampleTitle(nameof(TippySample), UIcons.Comment, "A utility to display tippy tooltips")
-               .Section(Stack().Children(
-                    SampleTitle("Overview"),
-                    TextBlock("Tippy is the underlying engine for tooltips and popovers in Tesserae. It provides a flexible way to attach rich, interactive content to any component, with support for various animations, placements, and trigger events.")))
-               .Section(Stack().Children(
-                    SampleTitle("Best Practices"),
-                    TextBlock("Use tooltips to provide additional context or information without cluttering the main UI. Keep text tooltips brief and focused. For interactive tooltips, ensure the content is easy to use and provides clear affordances. Utilize animations sparingly to enhance the user experience without being distracting. Always consider the placement of the tooltip to ensure it doesn't obscure relevant content.")))
-               .Section(Stack().Children(
-                    SampleTitle("Usage"),
+            content = SectionStack().Secondary()
+               .SampleTitle(typeof(TippySample), UIcons.Comment, "A utility to display tippy tooltips")
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    TextBlock("Tippy is the underlying engine for tooltips and popovers in Tesserae. It provides a flexible way to attach rich, interactive content to any component, with support for various animations, placements, and trigger events."))).SetTitle("Overview")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    TextBlock("Use tooltips to provide additional context or information without cluttering the main UI. Keep text tooltips brief and focused. For interactive tooltips, ensure the content is easy to use and provides clear affordances. Utilize animations sparingly to enhance the user experience without being distracting. Always consider the placement of the tooltip to ensure it doesn't obscure relevant content."))).SetTitle("Best Practices")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
                     VStack().Children(
                         Button("Hover me").W(200).Tooltip("This is a simple text tooltip"),
                         Button("Animated Tooltip").W(200).Tooltip("This is a simple text tooltip with animations", TooltipAnimation.ShiftAway),
                         Button("Interactive Tooltip").W(200).Tooltip(Button("Click me").OnClick(() => Toast().Success("You clicked!")), interactive: true),
                         Button("Defers on Tooltips").W(200).Tooltip(deferedWithChangingSize),
                         Button("Nested Tooltips").W(200).Tooltip(Button("Click me").OnClick((b1, _) => Tippy.ShowFor(b1, Button("Click me").OnClick(() => Toast().Success("You clicked!")), out var _)), interactive: true)
-                    )));
+                    ))).SetTitle("Usage")));
 
             content.WhenMounted(() =>
             {

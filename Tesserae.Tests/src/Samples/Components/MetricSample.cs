@@ -11,16 +11,16 @@ namespace Tesserae.Tests.Samples
 
         public MetricSample()
         {
-            content = SectionStack()
-               .SampleTitle(nameof(MetricSample), UIcons.ChartHistogram, "A component to display a metric")
-               .Section(Stack().Children(
-                    SampleTitle("Overview"),
-                    TextBlock("A Metric component displays a key value alongside a title and an optional indicator of change.")))
-               .Section(Stack().Children(
-                    SampleTitle("Best Practices"),
-                    TextBlock("Use Metric to display important data points, such as requests, tokens, costs or errors. Keep titles short and clear. Combine with charts or grids to provide more context.")))
-               .Section(Stack().Children(
-                    SampleTitle("Usage"),
+            content = SectionStack().Secondary()
+               .SampleTitle(typeof(MetricSample), UIcons.ChartHistogram, "A component to display a metric")
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    TextBlock("A Metric component displays a key value alongside a title and an optional indicator of change."))).SetTitle("Overview")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    TextBlock("Use Metric to display important data points, such as requests, tokens, costs or errors. Keep titles short and clear. Combine with charts or grids to provide more context."))).SetTitle("Best Practices")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
                     SampleSubTitle("Basic Metrics"),
                     HStack().Children(
                         Card(Metric("Requests", "1.1k").Change(TextBlock("").SmallPlus().Foreground(Theme.Colors.Neutral600))).W(200.px()),
@@ -46,7 +46,7 @@ namespace Tesserae.Tests.Samples
                         Card(Metric("Web traffic", "1,234,567").Chart(Sparkline(new double[] { 10, 20, 15, 30, 25, 40, 35, 50 })).Change(HStack().AlignItemsCenter().Children(Icon(UIcons.ArrowUp).Foreground(Theme.Colors.Green600).S(), TextBlock("+12.3%").Foreground(Theme.Colors.Green600)))).W(250.px()),
                         Card(Metric("Worker invocations", "14,352").Chart(Sparkline(new double[] { 50, 45, 40, 48, 30, 20, 15, 10 }, color: "var(--tss-danger-background-color)")).Change(HStack().AlignItemsCenter().Children(Icon(UIcons.ArrowDown).Foreground(Theme.Colors.Red600).S(), TextBlock("-5.1%").Foreground(Theme.Colors.Red600)))).W(250.px())
                     )
-               ));
+               )).SetTitle("Usage")));
         }
 
         public HTMLElement Render()

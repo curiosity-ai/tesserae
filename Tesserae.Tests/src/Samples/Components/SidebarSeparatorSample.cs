@@ -21,17 +21,17 @@ namespace Tesserae.Tests.Samples
             sidebar.AddContent(new SidebarSeparator("sep2", "More Options"));
             sidebar.AddContent(new SidebarButton("3", UIcons.Settings, "Settings"));
 
-            _content = SectionStack()
-               .SampleTitle(nameof(SidebarSeparatorSample), UIcons.Minus, "A visual separator for sidebar items")
-               .Section(Stack().Children(
-                    SampleTitle("Overview"),
-                    TextBlock("A separator for the Sidebar component to visually group items."),
-                    SampleTitle("Usage"),
+            _content = SectionStack().Secondary()
+               .SampleTitle(typeof(SidebarSeparatorSample), UIcons.Minus, "A visual separator for sidebar items")
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    TextBlock("A separator for the Sidebar component to visually group items."))).SetTitle("Overview"),
+                    Card(VStack().WS().Children(
                     TextBlock("Basic separator:"),
                     Stack().Children(
                         sidebar.S().H(500.px())
                     )
-               ));
+               )).SetTitle("Usage")));
         }
 
         public HTMLElement Render() => _content.Render();

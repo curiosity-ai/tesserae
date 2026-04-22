@@ -30,23 +30,23 @@ namespace Tesserae.Tests.Samples
                     Label("Hide close button").Inline().AutoWidth().SetContent(Toggle().OnChange((s,        e) => modal.WillShowCloseButton = !s.IsChecked).Checked(!modal.WillShowCloseButton)),
                     Label("Open a dialog from here").Var(out var lbl).SetContent(Button("Open").OnClick((s, e) => Dialog("Dialog over Modal").Content(TextBlock("Hello World!")).YesNo(() => lbl.Text = "Yes", () => lbl.Text = "No")))));
 
-            _content = SectionStack()
-               .SampleTitle(nameof(ModalSample), UIcons.WindowMaximize, "A modal dialog component")
-               .Section(Stack().Children(
-                    SampleTitle("Overview"),
-                    TextBlock("Modals are large overlays used for tasks that require a separate context, such as creating or editing complex entities, or for displaying rich content that shouldn't clutter the main interface. They provide more space than Dialogs and can host a variety of components.")))
-               .Section(Stack().Children(
-                    SampleTitle("Best Practices"),
-                    TextBlock("Use Modals for multi-step tasks or content-heavy interactions. Ensure that the Modal has a clear title and provide multiple ways to dismiss it (e.g., Close button, clicking outside, or the Escape key). Use 'LightDismiss' for non-critical information and blocking behavior only when user input is essential. Always maintain a clear typographic hierarchy within the Modal content.")))
-               .Section(Stack().Children(
-                    SampleTitle("Usage"),
+            _content = SectionStack().Secondary()
+               .SampleTitle(typeof(ModalSample), UIcons.WindowMaximize, "A modal dialog component")
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    TextBlock("Modals are large overlays used for tasks that require a separate context, such as creating or editing complex entities, or for displaying rich content that shouldn't clutter the main interface. They provide more space than Dialogs and can host a variety of components."))).SetTitle("Overview")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    TextBlock("Use Modals for multi-step tasks or content-heavy interactions. Ensure that the Modal has a clear title and provide multiple ways to dismiss it (e.g., Close button, clicking outside, or the Escape key). Use 'LightDismiss' for non-critical information and blocking behavior only when user input is essential. Always maintain a clear typographic hierarchy within the Modal content."))).SetTitle("Best Practices")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
                     Button("Open Modal").OnClick((s,                   e) => modal.Show()),
                     Button("Open Modal from top right").OnClick((s,    e) => modal.ShowAt(fromRight: 16.px(), fromTop: 16.px())),
-                    Button("Open Modal with minimum size").OnClick((s, e) => Modal().CenterContent().LightDismiss().Dark().Content(TextBlock("small content").Tiny()).MinHeight(50.vh()).MinWidth(50.vw()).Show()),
-                    SampleTitle("Embedded Modal"),
+                    Button("Open Modal with minimum size").OnClick((s, e) => Modal().CenterContent().LightDismiss().Dark().Content(TextBlock("small content").Tiny()).MinHeight(50.vh()).MinWidth(50.vw()).Show()))).SetTitle("Usage"),
+                    Card(VStack().WS().Children(
                     Button("Open Modal Below").OnClick((s, e) => container.Content(Modal("Embedded Modal").CenterContent().LightDismiss().Dark().Content(TextBlock("hosted small content").Tiny()).MinHeight(30.vh()).MinWidth(50.vw()).ShowEmbedded())),
                     container
-                ));
+                )).SetTitle("Embedded Modal")));
         }
 
         public HTMLElement Render()

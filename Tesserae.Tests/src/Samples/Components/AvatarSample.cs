@@ -11,17 +11,17 @@ namespace Tesserae.Tests.Samples
 
         public AvatarSample()
         {
-            _content = SectionStack()
-               .SampleTitle(nameof(AvatarSample), UIcons.User, "A component that represents a user")
-               .Section(Stack().Children(
-                    SampleTitle("Overview"),
+            _content = SectionStack().Secondary()
+               .SampleTitle(typeof(AvatarSample), UIcons.User, "A component that represents a user")
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
                     TextBlock("Avatars are used to represent users, teams, or entities in the system. They can display images, initials, and presence indicators."),
-                    TextBlock("The Persona component builds upon Avatar by adding textual information like name, role, and status, making it ideal for profile cards or contact lists.")))
-               .Section(Stack().Children(
-                    SampleTitle("Best Practices"),
-                    TextBlock("Use avatars to provide visual recognition for users. Always provide initials as a fallback for when images fail to load or aren't available. Use the appropriate size for the context—smaller for lists or chat, larger for profiles. Presence indicators should be used when real-time availability information is relevant to the user's task.")))
-               .Section(Stack().Children(
-                    SampleTitle("Usage"),
+                    TextBlock("The Persona component builds upon Avatar by adding textual information like name, role, and status, making it ideal for profile cards or contact lists."))).SetTitle("Overview")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    TextBlock("Use avatars to provide visual recognition for users. Always provide initials as a fallback for when images fail to load or aren't available. Use the appropriate size for the context—smaller for lists or chat, larger for profiles. Presence indicators should be used when real-time availability information is relevant to the user's task."))).SetTitle("Best Practices")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
                     SampleSubTitle("Avatar Sizes and Presence"),
                     TextBlock("Avatars support various sizes from XSmall to XLarge and optional presence states."),
                     HStack().Children(
@@ -44,7 +44,7 @@ namespace Tesserae.Tests.Samples
                         Persona("Alex Smith", "Software Engineer", "Focusing...", Avatar(initials: "AS").Presence(AvatarPresence.Busy)),
                         Persona("Kelly Lee", "Project Manager", "Away", Avatar(initials: "KL").Presence(AvatarPresence.Away))
                     )
-                ));
+                )).SetTitle("Usage")));
         }
 
         public HTMLElement Render() => _content.Render();

@@ -20,14 +20,14 @@ namespace Tesserae.Tests.Samples
             // For manual state control
             var manualButton = SaveButton().NothingToSave();
 
-            _content = SectionStack()
-               .SampleTitle(nameof(SaveButtonSample), UIcons.Disk, "A button specialized for save operations")
-               .Section(Stack().Children(
-                    SampleTitle("Overview"),
+            _content = SectionStack().Secondary()
+               .SampleTitle(typeof(SaveButtonSample), UIcons.Disk, "A button specialized for save operations")
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
                     TextBlock("The SaveButton component is a wrapper around a Button that manages common saving states: Pending, Verifying, Saving, Saved, and Error.")
-               ))
-               .Section(Stack().Children(
-                    SampleTitle("Manual State Control"),
+               )).SetTitle("Overview")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
                     HStack().Children(
                         manualButton,
                         Stack().Children(
@@ -53,22 +53,22 @@ namespace Tesserae.Tests.Samples
                         await Task.Delay(2000);
                         saveButton.Pending();
                     })
-                ))
-               .Section(Stack().Children(
-                    SampleTitle("Hover State"),
+                )).SetTitle("Manual State Control")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
                     TextBlock("This SaveButton has a hover text configured. Hover over it when it is in Pending state."),
                     SaveButton().Configure(save: "Disabled", saveHover: "Enable Now!", saveIcon: UIcons.ToggleOff   , saveHoverIcon: UIcons.ToggleOn).Pending()
-               ))
-               .Section(Stack().Children(
-                   SampleTitle("Dynamic Text Update"),
+               )).SetTitle("Hover State")))
+               .FlatSection(Stack().Children(
+                   Card(VStack().WS().Children(
                    TextBlock("This SaveButton text can be updated dynamically."),
                    DynamicTextUpdateSample()
-              ))
-               .Section(Stack().Children(
-                   SampleTitle("Verifying While"),
+              )).SetTitle("Dynamic Text Update")))
+               .FlatSection(Stack().Children(
+                   Card(VStack().WS().Children(
                    TextBlock("This button verifies using a custom async task."),
                    GetVerifyingWhileButton()
-               ));
+               )).SetTitle("Verifying While")));
         }
 
         private IComponent GetVerifyingWhileButton()

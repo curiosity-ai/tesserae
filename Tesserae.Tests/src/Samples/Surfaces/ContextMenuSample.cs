@@ -11,17 +11,17 @@ namespace Tesserae.Tests.Samples
 
         public ContextMenuSample()
         {
-            _content = SectionStack()
-               .SampleTitle(nameof(ContextMenuSample), UIcons.Cursor, "A menu that appears on context")
-               .Section(Stack().Children(
-                    SampleTitle("Overview"),
+            _content = SectionStack().Secondary()
+               .SampleTitle(typeof(ContextMenuSample), UIcons.Cursor, "A menu that appears on context")
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
                     TextBlock("ContextMenu is a flyout component that displays a list of commands triggered by user interaction, such as a right-click or a button press."),
-                    TextBlock("It provides a focused set of actions relevant to the current context, helping to keep the main interface clean and uncluttered. It supports nested submenus, dividers, headers, and custom component items.")))
-               .Section(Stack().Children(
-                    SampleTitle("Best Practices"),
-                    TextBlock("Use ContextMenus to surface secondary actions that are relevant to a specific element. Group related commands using dividers. Use submenus sparingly to avoid deep nesting that can be hard to navigate. Ensure that the menu remains within the viewport when opened. Always provide clear labels and icons for common actions.")))
-               .Section(Stack().Children(
-                    SampleTitle("Usage"),
+                    TextBlock("It provides a focused set of actions relevant to the current context, helping to keep the main interface clean and uncluttered. It supports nested submenus, dividers, headers, and custom component items."))).SetTitle("Overview")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    TextBlock("Use ContextMenus to surface secondary actions that are relevant to a specific element. Group related commands using dividers. Use submenus sparingly to avoid deep nesting that can be hard to navigate. Ensure that the menu remains within the viewport when opened. Always provide clear labels and icons for common actions."))).SetTitle("Best Practices")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
                     SampleSubTitle("Simple Context Menu"),
                     Button("Click for Menu").Var(out var btn1).OnClick((s, e) =>
                         ContextMenu().Items(
@@ -54,7 +54,7 @@ namespace Tesserae.Tests.Samples
                             ContextMenuItem(HStack().Children(Icon(UIcons.Settings), TextBlock("Settings").ML(8)))
                         ).ShowFor(btn2)
                     )
-                ));
+                )).SetTitle("Usage")));
         }
 
         public HTMLElement Render() => _content.Render();

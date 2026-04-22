@@ -16,12 +16,12 @@ namespace Tesserae.Tests.Samples
             var container = VStack();
             var trigger = new SettableObservable<int>(0);
 
-            content = SectionStack()
-               .SampleTitle(nameof(DeferWithProgressSample), UIcons.Clock, "A utility to defer execution with progress")
-               .Section(Stack().Children(
-                    SampleTitle("Overview"),
-                    TextBlock("DeferWithProgress extends Defer by providing a way to report progress during the async operation. This is useful for long-running tasks where you want to show a progress bar or status updates."),
-                    SampleTitle("Basic Usage"),
+            content = SectionStack().Secondary()
+               .SampleTitle(typeof(DeferWithProgressSample), UIcons.Clock, "A utility to defer execution with progress")
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    TextBlock("DeferWithProgress extends Defer by providing a way to report progress during the async operation. This is useful for long-running tasks where you want to show a progress bar or status updates."))).SetTitle("Overview"),
+                    Card(VStack().WS().Children(
                     TextBlock("Click the button below to start a simulated long-running task with progress reporting."),
                     Button("Start Task").Primary().OnClick(() =>
                     {
@@ -39,9 +39,9 @@ namespace Tesserae.Tests.Samples
                         );
                     }),
                     container
-                ))
-               .Section(Stack().Children(
-                    SampleTitle("Usage with Observables"),
+                )).SetTitle("Basic Usage")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
                     TextBlock("DeferWithProgress can also observe values and refresh when they change, passing the observed values to the async generator."),
                     Button("Trigger Refresh").Primary().OnClick(() => trigger.Value++),
                     DeferWithProgress(trigger, async (val, progress) =>
@@ -56,7 +56,7 @@ namespace Tesserae.Tests.Samples
                         await Task.Delay(500);
                         return TextBlock($"Loaded content for trigger value: {val}").Success();
                     })
-                ));
+                )).SetTitle("Usage with Observables")));
         }
 
         public HTMLElement Render()

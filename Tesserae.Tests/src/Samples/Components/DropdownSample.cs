@@ -18,17 +18,17 @@ namespace Tesserae.Tests.Samples
                         );
             validatedDropdown.Attach(dd => dd.IsInvalid = dd.SelectedItems.Length != 1 || dd.SelectedItems[0].Text != "Option 1");
 
-            _content = SectionStack()
-               .SampleTitle(nameof(DropdownSample), UIcons.CaretDown, "A control to select an option from a dropdown")
-               .Section(Stack().Children(
-                    SampleTitle("Overview"),
+            _content = SectionStack().Secondary()
+               .SampleTitle(typeof(DropdownSample), UIcons.CaretDown, "A control to select an option from a dropdown")
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
                     TextBlock("A Dropdown is a list in which the selected item is always visible, and the others are visible on demand by clicking a drop-down button."),
-                    TextBlock("They are used to simplify the design and make a choice within the UI. When closed, only the selected item is visible. When users click the drop-down button, all the options become visible.")))
-               .Section(Stack().Children(
-                    SampleTitle("Best Practices"),
-                    TextBlock("Use a Dropdown when there are multiple choices that can be collapsed under one title, especially if the list of items is long or when space is constrained. Use shortened statements or single words as options. Dropdowns are preferred over radio buttons when the selected option is more important than the alternatives. For less than 7 options, consider using a ChoiceGroup if space allows.")))
-               .Section(Stack().Children(
-                    SampleTitle("Usage"),
+                    TextBlock("They are used to simplify the design and make a choice within the UI. When closed, only the selected item is visible. When users click the drop-down button, all the options become visible."))).SetTitle("Overview")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    TextBlock("Use a Dropdown when there are multiple choices that can be collapsed under one title, especially if the list of items is long or when space is constrained. Use shortened statements or single words as options. Dropdowns are preferred over radio buttons when the selected option is more important than the alternatives. For less than 7 options, consider using a ChoiceGroup if space allows."))).SetTitle("Best Practices")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
                     SampleSubTitle("Basic Dropdown"),
                     VStack().Children(
                         Label("Standard").SetContent(Dropdown().Items(
@@ -86,7 +86,7 @@ namespace Tesserae.Tests.Samples
                         Label("Medium").SetContent(Dropdown().Rounded(BorderRadius.Medium).Items(DropdownItem("Option 1"), DropdownItem("Option 2"))),
                         Label("Full").SetContent(Dropdown().Rounded(BorderRadius.Full).Items(DropdownItem("Option 1"), DropdownItem("Option 2")))
                     )
-                ));
+                )).SetTitle("Usage")));
         }
 
         private static Dropdown StartLoadingAsyncDataImmediately(Dropdown dropdown)

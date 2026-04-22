@@ -12,16 +12,16 @@ namespace Tesserae.Tests.Samples
 
         public TextAreaSample()
         {
-            _content = SectionStack()
-               .SampleTitle(nameof(TextAreaSample), UIcons.AlignLeft, "A control to input multiple lines of text")
-               .Section(Stack().Children(
-                    SampleTitle("Overview"),
-                    TextBlock("TextAreas allow users to enter and edit multi-line text. They are commonly used for comments, descriptions, or any input that requires multiple lines of text.")))
-               .Section(Stack().Children(
-                    SampleTitle("Best Practices"),
-                    TextBlock("Use a TextArea when the expected input might be long or span multiple lines. Always pair it with a clear label. Consider using the AutoResize functionality to provide a better user experience without taking up too much initial screen real estate.")))
-               .Section(Stack().Children(
-                    SampleTitle("Usage"),
+            _content = SectionStack().Secondary()
+               .SampleTitle(typeof(TextAreaSample), UIcons.AlignLeft, "A control to input multiple lines of text")
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    TextBlock("TextAreas allow users to enter and edit multi-line text. They are commonly used for comments, descriptions, or any input that requires multiple lines of text."))).SetTitle("Overview")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    TextBlock("Use a TextArea when the expected input might be long or span multiple lines. Always pair it with a clear label. Consider using the AutoResize functionality to provide a better user experience without taking up too much initial screen real estate."))).SetTitle("Best Practices")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
                     SampleSubTitle("Basic TextAreas"),
                     VStack().Children(
                         Label("Standard").SetContent(TextArea()),
@@ -41,7 +41,7 @@ namespace Tesserae.Tests.Samples
                         Label("Required").Required().SetContent(TextArea()),
                         Label("Custom Error").SetContent(TextArea().Error("Something went wrong").IsInvalid())
                     )
-                ));
+                )).SetTitle("Usage")));
         }
 
         public HTMLElement Render() => _content.Render();

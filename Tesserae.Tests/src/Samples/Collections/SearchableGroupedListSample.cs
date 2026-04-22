@@ -14,17 +14,17 @@ namespace Tesserae.Tests.Samples
 
         public SearchableGroupedListSample()
         {
-            _content = SectionStack().WidthStretch()
-                   .SampleTitle(nameof(SearchableGroupedListSample), UIcons.Search, "A grouped list that can be searched")
-                   .Section(Stack().Children(
-                        SampleTitle("Overview"),
+            _content = SectionStack().Secondary().WidthStretch()
+                   .SampleTitle(typeof(SearchableGroupedListSample), UIcons.Search, "A grouped list that can be searched")
+                   .FlatSection(Stack().Children(
+                        Card(VStack().WS().Children(
                         TextBlock("SearchableGroupedList extends the functionality of SearchableList by adding automatic grouping of items based on a 'Group' property."),
-                        TextBlock("It provides a structured way to display filtered results, categorized by logical groups like file types, departments, or priority levels.")))
-               .Section(Stack().Children(
-                    SampleTitle("Best Practices"),
-                    TextBlock("Use SearchableGroupedList when your dataset has a natural hierarchy or categorization that helps users find items faster. Provide a clear header for each group using the header generator. Ensure that the 'IsMatch' logic considers both the item content and the group name if appropriate. Like SearchableList, provide a meaningful 'No Results' message and use additional command slots for relevant actions.")))
-               .Section(Stack().Children(
-                    SampleTitle("Usage"),
+                        TextBlock("It provides a structured way to display filtered results, categorized by logical groups like file types, departments, or priority levels."))).SetTitle("Overview")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    TextBlock("Use SearchableGroupedList when your dataset has a natural hierarchy or categorization that helps users find items faster. Provide a clear header for each group using the header generator. Ensure that the 'IsMatch' logic considers both the item content and the group name if appropriate. Like SearchableList, provide a meaningful 'No Results' message and use additional command slots for relevant actions."))).SetTitle("Best Practices")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
                     SampleSubTitle("Grouped Search with Custom Headers"),
                     SearchableGroupedList(GetItems(20), s => HorizontalSeparator(TextBlock(s).Primary().SemiBold()).Left())
                        .WithNoResultsMessage(() => BackgroundArea(Card(TextBlock("No matching records").Padding(16.px()))).WS().HS().MinHeight(100.px()))
@@ -37,7 +37,7 @@ namespace Tesserae.Tests.Samples
                        .Virtualize(64.px())
                        .WithNoResultsMessage(() => BackgroundArea(Card(TextBlock("No matching records").Padding(16.px()))).WS().HS().MinHeight(100.px()))
                        .Height(400.px()).MB(32)
-                ));
+                )).SetTitle("Usage")));
         }
 
         public HTMLElement Render() => _content.Render();
