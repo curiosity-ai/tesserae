@@ -14,7 +14,7 @@ namespace Tesserae.Tests.Samples
         public SavingToastSample()
         {
             _content = SectionStack()
-               .Title(SampleHeader(nameof(SavingToastSample)))
+               .SampleTitle(nameof(SavingToastSample), UIcons.Disk, "A toast notification for save operations")
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("The SavingToast component helps viewing the state of a saving operation (Saving, Saved, Error) with appropriate icons and colors.")

@@ -17,7 +17,7 @@ namespace Tesserae.Tests.Samples
             var s2    = Slider(val: 20, min: 0, max: 100, step: 10).OnInput((s, e) => Toast().Information($"Value changed to {s.Value}"));
 
             _content = SectionStack()
-               .Title(SampleHeader(nameof(SliderSample)))
+               .SampleTitle(nameof(SliderSample), UIcons.SettingsSliders, "A control to select a value from a range")
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("Sliders allow users to select a value from a continuous or discrete range of values by moving a thumb along a track."),

@@ -97,7 +97,7 @@ namespace Tesserae.Tests.Samples
 
 
             _content = SectionStack()
-               .Title(SampleHeader(nameof(SidebarSample)))
+               .SampleTitle(nameof(SidebarSample), UIcons.Apps, "A sidebar navigation component")
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("A fully featured Sidebar with Search, Navigation, Buttons, and Separators."),

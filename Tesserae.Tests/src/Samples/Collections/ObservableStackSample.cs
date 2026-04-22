@@ -49,7 +49,7 @@ namespace Tesserae.Tests.Samples
             var obsStack = new ObservableStack(_stackElementsList, debounce: true);
 
             _content = SectionStack()
-               .Title(SampleHeader(nameof(ObservableStackSample)))
+               .SampleTitle(nameof(ObservableStackSample), UIcons.Apps, "A stack that observes changes")
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("ObservableStack is a specialized container that synchronizes its DOM with an observable list using an efficient reconciliation process."),

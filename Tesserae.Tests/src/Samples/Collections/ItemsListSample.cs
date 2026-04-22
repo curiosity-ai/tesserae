@@ -26,7 +26,7 @@ namespace Tesserae.Tests.Samples
             obsList.Add(vs);
 
             _content = SectionStack().WidthStretch()
-               .Title(SampleHeader(nameof(ItemsListSample)))
+               .SampleTitle(nameof(ItemsListSample), UIcons.List, "A list that displays items")
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("ItemsList is a versatile component for displaying collections of items. It supports static lists, observable lists, and grid layouts."),

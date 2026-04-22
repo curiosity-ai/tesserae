@@ -12,7 +12,7 @@ namespace Tesserae.Tests.Samples
         public AccordionSample()
         {
             _content = SectionStack()
-               .Title(SampleHeader(nameof(AccordionSample)))
+               .SampleTitle(nameof(AccordionSample), UIcons.Apps, "A collapsible content component")
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("An accordion contains a list of expanders that can be toggled to reveal more information. They are useful for organizing content into manageable chunks and reducing vertical space usage when not all information needs to be visible at once."),

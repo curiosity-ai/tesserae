@@ -13,7 +13,7 @@ namespace Tesserae.Tests.Samples
         public NumberPickerSample()
         {
             _content = SectionStack()
-               .Title(SampleHeader(nameof(NumberPickerSample)))
+               .SampleTitle(nameof(NumberPickerSample), UIcons.SortAmountUp, "A control to pick a number")
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("The NumberPicker provides an input field specifically for numeric values, leveraging the browser's native number input widget."),

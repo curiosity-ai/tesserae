@@ -12,7 +12,7 @@ namespace Tesserae.Tests.Samples
         public TextBreadcrumbsSample()
         {
             _content = SectionStack()
-               .Title(SampleHeader(nameof(TextBreadcrumbsSample)))
+               .SampleTitle(nameof(TextBreadcrumbsSample), UIcons.AngleRight, "A breadcrumb navigation using text")
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("TextBreadcrumbs are a navigational aid that indicates the current position within a hierarchy. They allow users to understand their context and easily navigate back to higher-level pages."),

@@ -49,7 +49,7 @@ namespace Tesserae.Tests.Samples
             plan3.Render().style.maxWidth = "800px";
 
             _content = SectionStack()
-                .Title(SampleHeader(nameof(PlanSample)))
+                .SampleTitle(nameof(PlanSample), UIcons.Map, "A component to display a plan")
                 .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("The Plan component displays a complex task with its sub-tasks and overall progress."),

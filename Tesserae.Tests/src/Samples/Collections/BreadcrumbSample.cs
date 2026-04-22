@@ -13,7 +13,7 @@ namespace Tesserae.Tests.Samples
         public BreadcrumbSample()
         {
             _content = SectionStack()
-               .Title(SampleHeader(nameof(BreadcrumbSample)))
+               .SampleTitle(nameof(BreadcrumbSample), UIcons.AngleRight, "A breadcrumb navigation component")
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("Breadcrumbs provide a secondary navigation system that reveals a user's location in a website or web app. They allow for one-click access to any higher level in the hierarchy."),

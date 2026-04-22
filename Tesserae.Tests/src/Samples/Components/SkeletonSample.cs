@@ -12,7 +12,7 @@ namespace Tesserae.Tests.Samples
         public SkeletonSample()
         {
             _content = SectionStack()
-               .Title(SampleHeader(nameof(SkeletonSample)))
+               .SampleTitle(nameof(SkeletonSample), UIcons.Box, "A placeholder component for loading state")
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("Skeleton loaders are used to provide a placeholder for content that is still loading. They help reduce the perceived load time and prevent layout shifts by reserving the space that the final content will occupy."),

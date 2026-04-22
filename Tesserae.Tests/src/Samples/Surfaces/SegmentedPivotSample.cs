@@ -12,7 +12,7 @@ namespace Tesserae.Tests.Samples
         public SegmentedPivotSample()
         {
             content = SectionStack()
-               .Title(SampleHeader(nameof(SegmentedPivotSample)))
+               .SampleTitle(nameof(SegmentedPivotSample), UIcons.Apps, "A segmented navigation pivot")
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("A SegmentedPivot is a tabbed interface styled as a segmented control. It's best used for toggling between closely related views or filters where space is limited.")))
@@ -20,10 +20,10 @@ namespace Tesserae.Tests.Samples
                     SampleTitle("Usage"),
                     SampleSubTitle("Basic Usage"),
                     SegmentedPivot()
-                        .SegmentedPivot("tab1", () => TextBlock("Overview"), () => Card(TextBlock("Overview Content").P(32)))
-                        .SegmentedPivot("tab2", () => TextBlock("Logs"), () => Card(TextBlock("Logs Content").P(32)))
-                        .SegmentedPivot("tab3", () => TextBlock("Analytics"), () => Card(TextBlock("Analytics Content").P(32)))
-                        .SegmentedPivot("tab4", () => TextBlock("Firewall"), () => Card(TextBlock("Firewall Content").P(32)))
+                        .SegmentedPivot("tab1", SegmentTitle("Overview"),  () => CenteredWithBackground(Message("Overview Content")))
+                        .SegmentedPivot("tab2", SegmentTitle("Logs"),      () => CenteredWithBackground(Message("Logs Content")))
+                        .SegmentedPivot("tab3", SegmentTitle("Analytics"), () => CenteredWithBackground(Message("Analytics Content")))
+                        .SegmentedPivot("tab4", SegmentTitle("Firewall"),  () => CenteredWithBackground(Message("Firewall Content")))
                ));
         }
 

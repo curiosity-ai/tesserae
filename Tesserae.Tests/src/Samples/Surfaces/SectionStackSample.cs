@@ -16,7 +16,7 @@ namespace Tesserae.Tests.Samples
         {
             var stack = SectionStack();
 
-            _content = Stack().Children(SectionStack().Title(SampleHeader(nameof(SectionStackSample)))
+            _content = Stack().Children(SectionStack().SampleTitle(nameof(SectionStackSample), UIcons.Apps, "A stack with animated sections")
                    .Section(Stack().Children(
                         SampleTitle("Overview"),
                         TextBlock("SectionStack is a high-level layout component designed for creating long-form pages or detailed views. It organizes content into distinct vertical sections, typically with a header and footer, providing a consistent structure for complex information architectures.")))
@@ -34,6 +34,7 @@ namespace Tesserae.Tests.Samples
         private void SetChildren(SectionStack stack, int count)
         {
             stack.Clear();
+            stack.Title(UIcons.BoxOpen, "Dynamically Generated Sections", "These sections are added based on the slider value", Button("Clear").OnClick(() => stack.Clear()));
 
             for (int i = 0; i < count; i++)
             {

@@ -13,7 +13,7 @@ namespace Tesserae.Tests.Samples
         public TextBlockSample()
         {
             _content = SectionStack()
-               .Title(SampleHeader(nameof(TextBlockSample)))
+               .SampleTitle(nameof(TextBlockSample), UIcons.Text, "A component to display text")
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("TextBlock is the fundamental component for displaying text in Tesserae. It provides a consistent way to apply typography styles, sizes, and weights across your application."),
