@@ -12,7 +12,7 @@ namespace Tesserae.Tests.Samples
         public StepperSample()
         {
             _content = SectionStack()
-               .Title(SampleHeader(nameof(StepperSample)))
+               .SampleTitle(nameof(StepperSample), UIcons.ShoePrints, "A component to display a step-by-step process")
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("Steppers (also known as Wizards) guide users through a multi-step process by breaking it down into smaller, logical chunks."),

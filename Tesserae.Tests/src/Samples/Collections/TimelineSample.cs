@@ -16,7 +16,7 @@ namespace Tesserae.Tests.Samples
         public TimelineSample()
         {
             _content = SectionStack().WidthStretch()
-               .Title(SampleHeader(nameof(TimelineSample)))
+               .SampleTitle(nameof(TimelineSample), UIcons.Clock, "A component to display a timeline")
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("Timeline displays a series of events in chronological order, using a vertical line to connect them."),

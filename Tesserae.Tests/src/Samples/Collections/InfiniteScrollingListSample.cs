@@ -19,7 +19,7 @@ namespace Tesserae.Tests.Samples
             var pageGrid = 1;
 
             _content = SectionStack().WidthStretch()
-               .Title(SampleHeader(nameof(InfiniteScrollingListSample)))
+               .SampleTitle(nameof(InfiniteScrollingListSample), UIcons.List, "A list that scrolls infinitely")
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("InfiniteScrollingList provides a way to render large sets of items by loading them on demand as the user scrolls. It uses a visibility sensor to detect when the end of the list is reached."),

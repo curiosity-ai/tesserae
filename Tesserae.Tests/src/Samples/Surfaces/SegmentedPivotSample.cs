@@ -12,7 +12,7 @@ namespace Tesserae.Tests.Samples
         public SegmentedPivotSample()
         {
             content = SectionStack()
-               .Title(SampleHeader(nameof(SegmentedPivotSample)))
+               .SampleTitle(nameof(SegmentedPivotSample), UIcons.Apps, "A segmented navigation pivot")
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("A SegmentedPivot is a tabbed interface styled as a segmented control. It's best used for toggling between closely related views or filters where space is limited.")))

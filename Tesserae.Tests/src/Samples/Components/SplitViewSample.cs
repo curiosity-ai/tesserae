@@ -17,7 +17,7 @@ namespace Tesserae.Tests.Samples
 
             _content = SectionStack()
                .S()
-               .Title(SampleHeader(nameof(SplitViewSample)))
+               .SampleTitle(nameof(SplitViewSample), UIcons.Apps, "A component to split the view")
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("SplitViews divide a surface into two areas, either horizontally or vertically. They are commonly used for master-detail layouts, navigation sidebars, or resizable workspace areas."),

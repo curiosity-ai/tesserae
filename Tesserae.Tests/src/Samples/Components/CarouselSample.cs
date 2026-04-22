@@ -20,7 +20,7 @@ namespace Tesserae.Tests.Samples
             var imgSlide3 = Image("https://cataas.com/cat").WS().H(300).Contain();
 
             _content = SectionStack()
-               .Title(SampleHeader(nameof(CarouselSample)))
+               .SampleTitle(nameof(CarouselSample), UIcons.Picture, "A slideshow component for cycling through elements")
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("Carousels allow users to cycle through a set of related content, such as images, features, or messages. They are effective for showcasing highlights in a limited space."),

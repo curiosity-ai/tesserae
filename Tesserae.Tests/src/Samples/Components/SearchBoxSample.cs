@@ -15,7 +15,7 @@ namespace Tesserae.Tests.Samples
             var searchAsYouType = TextBlock("Start typing in the 'Search as you type' box below...");
 
             _content = SectionStack()
-               .Title(SampleHeader(nameof(SearchBoxSample)))
+               .SampleTitle(nameof(SearchBoxSample), UIcons.Search, "A control to search")
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("SearchBoxes provide an input field for searching through content, allowing users to locate specific items within the website or app."),

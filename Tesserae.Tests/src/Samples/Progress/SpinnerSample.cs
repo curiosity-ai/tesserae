@@ -15,7 +15,7 @@ namespace Tesserae.Tests.Samples
         public SpinnerSample()
         {
             _content = SectionStack()
-               .Title(SampleHeader(nameof(SpinnerSample)))
+               .SampleTitle(nameof(SpinnerSample), UIcons.Spinner, "A spinner component")
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("Spinners are animated circular indicators used to show that a task is in progress when the exact duration is unknown. They are subtle, lightweight, and can be easily placed inline with content or centered within a container to provide feedback without disrupting the layout.")))

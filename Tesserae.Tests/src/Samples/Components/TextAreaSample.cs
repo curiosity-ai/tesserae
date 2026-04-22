@@ -13,7 +13,7 @@ namespace Tesserae.Tests.Samples
         public TextAreaSample()
         {
             _content = SectionStack()
-               .Title(SampleHeader(nameof(TextAreaSample)))
+               .SampleTitle(nameof(TextAreaSample), UIcons.AlignLeft, "A control to input multiple lines of text")
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("TextAreas allow users to enter and edit multi-line text. They are commonly used for comments, descriptions, or any input that requires multiple lines of text.")))

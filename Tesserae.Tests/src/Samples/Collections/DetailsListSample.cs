@@ -20,7 +20,7 @@ namespace Tesserae.Tests.Samples
             int page  = query.ContainsKey("page") && query.TryGetValue("page", out var queryPageStr) && int.TryParse(queryPageStr, out var queryPage) ? queryPage : 2;
 
             _content = SectionStack()
-                   .Title(SampleHeader(nameof(DetailsListSample)))
+                   .SampleTitle(nameof(DetailsListSample), UIcons.List, "A list that displays details")
                    .Section(Stack().Children(
                         SampleTitle("Overview"),
                         TextBlock("DetailsList is a robust way to display an information-rich collection of items. It supports sorting, grouping, filtering, and pagination."),

@@ -20,7 +20,7 @@ namespace Tesserae.Tests.Samples
             var deferedWithChangingSize = DeferSync(size, sz => Button($"Height = {sz:n0}px").H(sz)).WS();
 
             content = SectionStack()
-               .Title(SampleHeader(nameof(TippySample)))
+               .SampleTitle(nameof(TippySample), UIcons.Comment, "A utility to display tippy tooltips")
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("Tippy is the underlying engine for tooltips and popovers in Tesserae. It provides a flexible way to attach rich, interactive content to any component, with support for various animations, placements, and trigger events.")))

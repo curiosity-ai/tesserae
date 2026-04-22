@@ -12,7 +12,7 @@ namespace Tesserae.Tests.Samples
         public MetricSample()
         {
             content = SectionStack()
-               .Title(SampleHeader(nameof(MetricSample)))
+               .SampleTitle(nameof(MetricSample), UIcons.ChartHistogram, "A component to display a metric")
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("A Metric component displays a key value alongside a title and an optional indicator of change.")))

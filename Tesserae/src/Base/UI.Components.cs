@@ -362,6 +362,7 @@ namespace Tesserae
         /// Creates a <see cref="Tesserae.SectionStack"/> component.
         /// </summary>
         public static SectionStack SectionStack() => new SectionStack();
+        public static SectionTitle SectionTitle(UIcons icon, string title, string subtitle, params IComponent[] commands) => new SectionTitle(icon, title, subtitle, commands);
 
         /// <summary>
         /// Creates a <see cref="Tesserae.Float"/> component.
