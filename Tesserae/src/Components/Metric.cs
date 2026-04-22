@@ -11,14 +11,16 @@ namespace Tesserae
         private readonly HTMLElement _titleContainer;
         private readonly HTMLElement _valueContainer;
         private readonly HTMLElement _changeContainer;
+        private readonly HTMLElement _chartContainer;
 
         public Metric(string title, string value)
         {
             _titleContainer = Div(_("tss-metric-title"), TextBlock(title).SmallPlus().SemiBold().Foreground(Theme.Secondary.Foreground).Render());
             _valueContainer = Div(_("tss-metric-value"), TextBlock(value).XLarge().SemiBold().Render());
             _changeContainer = Div(_("tss-metric-change"));
+            _chartContainer = Div(_("tss-metric-chart"));
 
-            _container = Div(_("tss-metric"), _titleContainer, _valueContainer, _changeContainer);
+            _container = Div(_("tss-metric"), _titleContainer, _valueContainer, _chartContainer, _changeContainer);
             InnerElement = _container;
         }
 
@@ -27,9 +29,20 @@ namespace Tesserae
             _titleContainer = Div(_("tss-metric-title"), title.Render());
             _valueContainer = Div(_("tss-metric-value"), value.Render());
             _changeContainer = Div(_("tss-metric-change"));
+            _chartContainer = Div(_("tss-metric-chart"));
 
-            _container = Div(_("tss-metric"), _titleContainer, _valueContainer, _changeContainer);
+            _container = Div(_("tss-metric"), _titleContainer, _valueContainer, _chartContainer, _changeContainer);
             InnerElement = _container;
+        }
+
+        public Metric Chart(IComponent chart)
+        {
+            ClearChildren(_chartContainer);
+            if (chart != null)
+            {
+                _chartContainer.appendChild(chart.Render());
+            }
+            return this;
         }
 
         public Metric Change(IComponent change)

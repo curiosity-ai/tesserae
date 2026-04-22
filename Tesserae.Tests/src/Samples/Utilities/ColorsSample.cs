@@ -174,7 +174,7 @@ namespace Tesserae.Tests.Samples
                         groups.OrderBy(g => g.Key == "Neutral" ? 0 : g.Key == "DarkNeutral" ? 1 : 2).ThenBy(g => g.Key)
                             .Select(g =>
                                 VStack().Children(
-                                    SampleTitle(g.Key),
+                                    SampleSubTitle(g.Key),
                                     VStack().Children(g.Select(c => RenderColorStack(c.Name, c.Value)).ToArray())
                                 )
                         ).ToArray()
