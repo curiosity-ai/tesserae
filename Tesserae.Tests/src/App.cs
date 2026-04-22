@@ -69,7 +69,7 @@ namespace Tesserae.Tests
             searchBox.OnSearch((term) => sidebar.Search(term));
             sidebar.AddHeader(searchBox);
 
-            var pageContent = HStack().Children(sidebar.HS(), DeferSync(currentPage, page => page is null ? (IComponent)CenteredCardWithBackground(TextBlock("Select an item")) : VStack().S().ScrollY().Children(page.ContentGenerator().WS())).HS().W(1).Grow()).S();
+            var pageContent = HStack().Children(sidebar.HS(), DeferSync(currentPage, page => page is null ? (IComponent)CenteredCardWithBackground(Message("Welcome to Tesserae", "Select a component to see more details").Icon(UIcons.Search)) : VStack().S().ScrollY().Children(page.ContentGenerator().WS())).HS().W(1).Grow()).S();
 
             MountToBody(pageContent);
 
@@ -201,13 +201,6 @@ namespace Tesserae.Tests
         private static string FormatSampleName(Type sampleType)
         {
             return string.Join("", sampleType.Name.Replace("Sample", "").Select(c => char.IsUpper(c) ? " " + c : "" + c)).Trim().Replace("U Icons", "UIcons").Replace(" And ", " and ");
-        }
-
-        private static BackgroundArea CenteredCardWithBackground(IComponent content)
-        {
-            var card = Card(content, noAnimation: true).Padding(32.px());
-            card.Render().style.maxHeight = "calc(100% - 32px)";
-            return BackgroundArea(card).S();
         }
     }
 }

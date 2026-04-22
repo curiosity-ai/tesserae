@@ -185,7 +185,7 @@ namespace Tesserae.Tests.Samples
             Theme.OnThemeChanged += () => window.setTimeout(_ => Render(), 1);
 
             _content = SectionStack()
-                .Title(SampleHeader(nameof(ColorsSample)))
+                .SampleTitle(nameof(ColorsSample), UIcons.Palette, "A utility to apply colors")
                 .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("Tesserae provides a comprehensive set of predefined colors that are part of the theme. These colors are accessible via the 'Theme.Colors' class and are designed to provide a consistent visual language across the application, with support for both light and dark modes.")))

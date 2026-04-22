@@ -13,7 +13,7 @@ namespace Tesserae.Tests.Samples
         public LabelSample()
         {
             _content = SectionStack()
-               .Title(SampleHeader(nameof(LabelSample)))
+               .SampleTitle(nameof(LabelSample), UIcons.Tags, "A component to display a label")
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("Labels provide a name or title for a component or a group of components. They are essential for accessibility and helping users understand the purpose of input fields."),

@@ -15,7 +15,7 @@ namespace Tesserae.Tests.Samples
         public VirtualizedListSample()
         {
             _content = SectionStack()
-                   .Title(SampleHeader(nameof(VirtualizedListSample)))
+                   .SampleTitle(nameof(VirtualizedListSample), UIcons.List, "A list that renders its items virtually")
                    .Section(Stack().Children(
                         SampleTitle("Overview"),
                         TextBlock("VirtualizedList is a high-performance component designed for rendering massive datasets—thousands or even tens of thousands of items—without sacrificing UI responsiveness."),

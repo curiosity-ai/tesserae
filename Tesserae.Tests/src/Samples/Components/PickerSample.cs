@@ -15,7 +15,7 @@ namespace Tesserae.Tests.Samples
         public PickerSample()
         {
             _content = SectionStack()
-                   .Title(SampleHeader(nameof(PickerSample)))
+                   .SampleTitle(nameof(PickerSample), UIcons.Cursor, "A control to pick an item")
                    .Section(Stack().Children(
                         SampleTitle("Overview"),
                         TextBlock("Pickers are used to select one or more items, such as people or tags, from a large list. They provide a search-based interface with suggestions."),

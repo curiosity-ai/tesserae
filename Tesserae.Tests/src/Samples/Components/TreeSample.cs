@@ -14,7 +14,7 @@ namespace Tesserae.Tests.Samples
         public TreeSample()
         {
             _content = SectionStack()
-               .Title(SampleHeader(nameof(TreeSample)))
+               .SampleTitle(nameof(TreeSample), UIcons.Sitemap, "A component that displays a hierarchical list")
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("A tree displays hierarchical data. Nodes can be expanded or collapsed to reveal nested data."),

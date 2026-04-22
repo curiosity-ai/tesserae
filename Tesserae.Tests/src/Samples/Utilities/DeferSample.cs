@@ -17,7 +17,7 @@ namespace Tesserae.Tests.Samples
             var countSlider = Slider(5, 0, 10, 1);
 
             content = SectionStack()
-               .Title(SampleHeader(nameof(DeferSample)))
+               .SampleTitle(nameof(DeferSample), UIcons.Clock, "A utility to defer execution")
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("Defer is a powerful utility for handling asynchronous UI rendering. It allows you to wrap a component that depends on an async task (like a network request). While the task is in progress, a loading message or a skeleton loader can be shown. Once the task completes, the actual component is seamlessly rendered in its place.")))

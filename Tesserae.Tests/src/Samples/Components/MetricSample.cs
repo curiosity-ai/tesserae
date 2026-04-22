@@ -12,7 +12,7 @@ namespace Tesserae.Tests.Samples
         public MetricSample()
         {
             content = SectionStack()
-               .Title(SampleHeader(nameof(MetricSample)))
+               .SampleTitle(nameof(MetricSample), UIcons.ChartHistogram, "A component to display a metric")
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("A Metric component displays a key value alongside a title and an optional indicator of change.")))
@@ -34,7 +34,7 @@ namespace Tesserae.Tests.Samples
                     ),
                     SampleSubTitle("Card With Header & Tags"),
                     HStack().Children(
-                        Card(HStack().Children(Metric("Requests", "688.46k").Change(HStack().AlignItemsCenter().Children(Icon(UIcons.ArrowDown).Foreground(Theme.Colors.Red600).S(), TextBlock("-0.4%").Foreground(Theme.Colors.Red600))).W(250.px()), Metric("Tokens", "10.57B").Change(HStack().AlignItemsCenter().Children(Icon(UIcons.ArrowDown).Foreground(Theme.Colors.Red600).S(), TextBlock("-0.32%").Foreground(Theme.Colors.Red600))).W(250.px()))).SetTitle("Metrics").SetTag("Last 24 hours")
+                        Card(HStack().Children(Metric("Requests", "688.46k").Change(HStack().AlignItemsCenter().Children(Icon(UIcons.ArrowDown).Foreground(Theme.Colors.Red600).S(), TextBlock("-0.4%").Foreground(Theme.Colors.Red600))).W(250.px()), Metric("Tokens", "10.57B").Change(HStack().AlignItemsCenter().Children(Icon(UIcons.ArrowDown).Foreground(Theme.Colors.Red600).S(), TextBlock("-0.32%").Foreground(Theme.Colors.Red600))).W(250.px()))).SetTitle("Metrics")
                     ),
                     SampleSubTitle("With Tooltips inside title"),
                     HStack().Children(

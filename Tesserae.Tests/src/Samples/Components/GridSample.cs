@@ -22,7 +22,7 @@ namespace Tesserae.Tests.Samples
             Enumerable.Range(1, 10).ForEach(v => gridAutoSize.Add(Card(TextBlock($"Responsive Item {v}").TextCenter())));
 
             _content = SectionStack()
-               .Title(SampleHeader(nameof(GridSample)))
+               .SampleTitle(nameof(GridSample), UIcons.Table, "A component to display a grid")
                .Section(VStack().Children(
                     SampleTitle("Overview"),
                     TextBlock("The Grid component provides a powerful layout system based on CSS Grid. It allows you to define columns, rows, and gaps between items."),

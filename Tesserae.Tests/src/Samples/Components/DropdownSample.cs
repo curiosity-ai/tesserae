@@ -19,7 +19,7 @@ namespace Tesserae.Tests.Samples
             validatedDropdown.Attach(dd => dd.IsInvalid = dd.SelectedItems.Length != 1 || dd.SelectedItems[0].Text != "Option 1");
 
             _content = SectionStack()
-               .Title(SampleHeader(nameof(DropdownSample)))
+               .SampleTitle(nameof(DropdownSample), UIcons.CaretDown, "A control to select an option from a dropdown")
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("A Dropdown is a list in which the selected item is always visible, and the others are visible on demand by clicking a drop-down button."),

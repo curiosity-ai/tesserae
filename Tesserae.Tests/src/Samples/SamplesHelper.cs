@@ -4,17 +4,10 @@ namespace Tesserae.Tests.Samples
 {
     public static class SamplesHelper
     {
-        public static IComponent SampleHeader(string sampleType)
+        public static SectionStack SampleTitle(this SectionStack stack, string sampleType, UIcons icon, string subtitle)
         {
             var text = sampleType.Replace("Sample", "");
-
-            return Stack()
-               .Horizontal()
-               .WidthStretch()
-               .Children(
-                    TextBlock(text).XLarge().Bold(),
-                    Raw().Grow(1),
-                    Button().SetIcon(UIcons.SquareTerminal).SetTitle("View code for this sample").OnClick(() => ShowSampleCode(sampleType)));
+            return stack.Title(icon, text, subtitle, Button().SetIcon(UIcons.SquareTerminal).SetTitle("View code for this sample").OnClick(() => ShowSampleCode(sampleType)));
         }
 
         public static void ShowSampleCode(string sampleType)

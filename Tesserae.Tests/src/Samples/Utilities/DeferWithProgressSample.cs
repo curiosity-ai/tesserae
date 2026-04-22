@@ -17,7 +17,7 @@ namespace Tesserae.Tests.Samples
             var trigger = new SettableObservable<int>(0);
 
             content = SectionStack()
-               .Title(SampleHeader(nameof(DeferWithProgressSample)))
+               .SampleTitle(nameof(DeferWithProgressSample), UIcons.Clock, "A utility to defer execution with progress")
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("DeferWithProgress extends Defer by providing a way to report progress during the async operation. This is useful for long-running tasks where you want to show a progress bar or status updates."),

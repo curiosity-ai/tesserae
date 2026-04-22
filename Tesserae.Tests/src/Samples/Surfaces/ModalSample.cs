@@ -31,7 +31,7 @@ namespace Tesserae.Tests.Samples
                     Label("Open a dialog from here").Var(out var lbl).SetContent(Button("Open").OnClick((s, e) => Dialog("Dialog over Modal").Content(TextBlock("Hello World!")).YesNo(() => lbl.Text = "Yes", () => lbl.Text = "No")))));
 
             _content = SectionStack()
-               .Title(SampleHeader(nameof(ModalSample)))
+               .SampleTitle(nameof(ModalSample), UIcons.WindowMaximize, "A modal dialog component")
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("Modals are large overlays used for tasks that require a separate context, such as creating or editing complex entities, or for displaying rich content that shouldn't clutter the main interface. They provide more space than Dialogs and can host a variety of components.")))

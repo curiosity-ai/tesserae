@@ -11,7 +11,7 @@ namespace Tesserae.Tests.Samples
         public ColorPickerSample()
         {
             _content = SectionStack()
-               .Title(SampleHeader(nameof(ColorPickerSample)))
+               .SampleTitle(nameof(ColorPickerSample), UIcons.Palette, "A control to pick a color")
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("The ColorPicker allows users to select a color using the browser's native color selection widget. It returns the selected color as both a hex string and a Color object."),

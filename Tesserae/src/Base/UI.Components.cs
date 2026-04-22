@@ -362,6 +362,7 @@ namespace Tesserae
         /// Creates a <see cref="Tesserae.SectionStack"/> component.
         /// </summary>
         public static SectionStack SectionStack() => new SectionStack();
+        public static SectionTitle SectionTitle(UIcons icon, string title, string subtitle, params IComponent[] commands) => new SectionTitle(icon, title, subtitle, commands);
 
         /// <summary>
         /// Creates a <see cref="Tesserae.Float"/> component.
@@ -680,6 +681,17 @@ namespace Tesserae
         public static Func<IComponent> PivotTitle(string text, UIcons icon) => () => Button(text).NoBackground().Regular().SetIcon(icon);
 
         /// <summary>
+        /// Creates a function that returns a component to be used as a segment pivot title.
+        /// </summary>
+        public static Func<IComponent> SegmentTitle(string text) => () => TextBlock(text).SemiBold();
+
+        /// <summary>
+        /// Creates a function that returns a component to be used as a segment pivot title.
+        /// </summary>
+        public static Func<IComponent> SegmentTitle(string text, UIcons icon) => () => HStack().NoWrap().AlignItemsCenter().Children(Icon(icon).PR(4), TextBlock(text).SemiBold());
+
+
+        /// <summary>
         /// Creates a <see cref="Tesserae.Sidebar"/> component.
         /// </summary>
         public static Sidebar Sidebar(bool sortable = false) => new Sidebar(sortable);
@@ -931,5 +943,14 @@ namespace Tesserae
                 parentElement.removeChild(childToRemove);
             }
         }
+
+        public static BackgroundArea CenteredCardWithBackground(IComponent content)
+        {
+            var card = Card(content, noAnimation: true).Padding(32.px());
+            card.Render().style.maxHeight = "calc(100% - 32px)";
+            return BackgroundArea(card).S();
+        }
+        public static BackgroundArea CenteredWithBackground(IComponent content) => BackgroundArea(Stack().Children(content).P(32)).S();
+        public static BackgroundArea ZeroPaddingCenteredCardWithBackground(IComponent content, int outerPadding = 32) => BackgroundArea(Card(content, noAnimation: true).NoPadding().Padding(outerPadding.px())).S();
     }
 }

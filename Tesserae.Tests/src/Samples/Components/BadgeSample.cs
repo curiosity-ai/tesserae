@@ -12,7 +12,7 @@ namespace Tesserae.Tests.Samples
         public BadgeSample()
         {
             _content = SectionStack()
-               .Title(SampleHeader(nameof(BadgeSample)))
+               .SampleTitle(nameof(BadgeSample), UIcons.Certificate, "A component to display a badge")
                .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("Badges, Tags, and Chips are small visual elements used to categorize content, highlight status, or display metadata."),
