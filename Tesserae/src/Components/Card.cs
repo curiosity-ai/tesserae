@@ -54,6 +54,17 @@ namespace Tesserae
 
                 InnerElement.style.padding = "0px"; // Reset inline padding on main container
 
+                // Move existing styles
+                _contentContainer.style.background = InnerElement.style.background;
+                InnerElement.style.background = "transparent";
+
+                _contentContainer.style.borderColor = InnerElement.style.borderColor;
+                _contentContainer.style.borderWidth = InnerElement.style.borderWidth;
+                _contentContainer.style.borderStyle = InnerElement.style.borderStyle;
+                InnerElement.style.borderColor = "";
+                InnerElement.style.borderWidth = "";
+                InnerElement.style.borderStyle = "";
+
                 while (InnerElement.firstChild != null)
                 {
                     _contentContainer.appendChild(InnerElement.firstChild);
@@ -163,10 +174,11 @@ namespace Tesserae
 
         public string Background
         {
-            get => InnerElement.style.background;
+            get => _contentContainer != null ? _contentContainer.style.background : InnerElement.style.background;
             set
             {
-                InnerElement.style.background = value;
+                if (_contentContainer != null) _contentContainer.style.background = value;
+                else InnerElement.style.background = value;
                 InnerElement.UpdateClassIf(!string.IsNullOrWhiteSpace(value), "tss-filter-effects");
             }
         }
@@ -180,9 +192,18 @@ namespace Tesserae
         public Card Border(string color, UnitSize size = null)
         {
             size                           = size ?? 1.px();
-            InnerElement.style.borderColor = color;
-            InnerElement.style.borderWidth = size.ToString();
-            InnerElement.style.borderStyle = "solid";
+            if (_contentContainer != null)
+            {
+                _contentContainer.style.borderColor = color;
+                _contentContainer.style.borderWidth = size.ToString();
+                _contentContainer.style.borderStyle = "solid";
+            }
+            else
+            {
+                InnerElement.style.borderColor = color;
+                InnerElement.style.borderWidth = size.ToString();
+                InnerElement.style.borderStyle = "solid";
+            }
             return this;
         }
 

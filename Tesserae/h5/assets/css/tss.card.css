@@ -59,11 +59,22 @@
 .tss-card.tss-has-layout {
     flex-direction: column;
     padding: 0 !important; /* padding moved to content */
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
 }
 
 .tss-card-header {
     padding: 16px;
-    border-bottom: 1px solid var(--tss-default-border-color);
+    padding-bottom: 24px;
+    margin-bottom: -16px;
+    border: 1px solid var(--tss-default-border-color);
+    border-bottom: none;
+    z-index: 1;
+    position: relative;
+    width: calc(100% - 16px);
+    margin-left: 8px;
+    box-sizing: border-box;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -74,7 +85,15 @@
 
 .tss-card-footer {
     padding: 16px;
-    border-top: 1px solid var(--tss-default-border-color);
+    padding-top: 24px;
+    margin-top: -16px;
+    border: 1px solid var(--tss-default-border-color);
+    border-top: none;
+    z-index: 1;
+    position: relative;
+    width: calc(100% - 16px);
+    margin-left: 8px;
+    box-sizing: border-box;
     background-color: var(--tss-secondary-background-color);
     border-bottom-left-radius: var(--tss-border-radius-lg);
     border-bottom-right-radius: var(--tss-border-radius-lg);
@@ -97,10 +116,31 @@
 .tss-card-content {
     padding: 16px;
     flex-grow: 1;
+    background: var(--tss-default-background-color);
+    border-radius: var(--tss-border-radius-lg);
+    border: 1px solid var(--tss-default-border-color);
+    box-shadow: var(--tss-shadow-md);
+    z-index: 2;
+    position: relative;
+    box-sizing: border-box;
 }
 
-.tss-card-container.tss-small > .tss-card.tss-has-layout > .tss-card-header,
-.tss-card-container.tss-small > .tss-card.tss-has-layout > .tss-card-content,
+.tss-card-container.tss-small > .tss-card.tss-has-layout > .tss-card-header {
+    padding: 2px 8px;
+    padding-bottom: 12px;
+    margin-bottom: -8px;
+    width: calc(100% - 8px);
+    margin-left: 4px;
+}
+
+.tss-card-container.tss-small > .tss-card.tss-has-layout > .tss-card-content {
+    padding: 2px 8px;
+}
+
 .tss-card-container.tss-small > .tss-card.tss-has-layout > .tss-card-footer {
     padding: 2px 8px;
+    padding-top: 12px;
+    margin-top: -8px;
+    width: calc(100% - 8px);
+    margin-left: 4px;
 }
