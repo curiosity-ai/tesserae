@@ -7,35 +7,30 @@ namespace Tesserae
     [H5.Name("tss.SectionTitle")]
     public class SectionTitle : IComponent, IHasMarginPadding
     {
-        private readonly HTMLElement _innerElement;
         private readonly Stack _stack;
 
         public SectionTitle(UIcons icon, string title, string subtitle, params IComponent[] commands)
         {
             var iconComponent = Icon(icon, size: TextSize.Large).Class("tss-sectiontitle-icon");
-            var titleBlock = TextBlock(title).MediumPlus().SemiBold().Class("tss-sectiontitle-title");
-            var subtitleBlock = TextBlock(subtitle).Small().Foreground(Theme.Secondary.Foreground).Class("tss-sectiontitle-subtitle");
+            var titleBlock    = TextBlock(title).MediumPlus().Bold().Class("tss-sectiontitle-title");
 
-            var textStack = Stack().Vertical().Children(titleBlock, subtitleBlock).Class("tss-sectiontitle-textstack");
+            var subtitleBlock = TextBlock(subtitle).WS().SmallPlus().Foreground(Theme.Secondary.Foreground).Class("tss-sectiontitle-subtitle");
 
-            var leftSideStack = Stack().Horizontal().AlignItems(ItemAlign.Center).Children(iconComponent, textStack).Class("tss-sectiontitle-left");
+            var topStack = HStack().WS().AlignItemsCenter().Children(iconComponent, titleBlock).Class("tss-sectiontitle-top");
 
-            _stack = Stack().Horizontal()
-                .AlignItems(ItemAlign.Center)
-                .WidthStretch()
-                .Class("tss-sectiontitle");
+            _stack = VStack().WS().Class("tss-sectiontitle").Children(topStack);
+
+            if(!string.IsNullOrWhiteSpace(subtitle))
+            {
+                _stack.Add(subtitleBlock);
+            }
 
             if (commands != null && commands.Length > 0)
             {
-                var commandsStack = Stack().Horizontal().AlignItems(ItemAlign.Center).Children(commands).Class("tss-sectiontitle-commands");
-                _stack.Children(leftSideStack, Raw().Grow(1), commandsStack);
+                var commandsStack = HStack().AlignItemsCenter().Children(commands).Class("tss-sectiontitle-commands");
+                topStack.Add(Raw().Grow(1));
+                topStack.Add(commandsStack);
             }
-            else
-            {
-                _stack.Children(leftSideStack, Raw().Grow(1));
-            }
-
-            _innerElement = _stack.Render();
         }
 
         public string Margin
@@ -50,9 +45,6 @@ namespace Tesserae
             set => _stack.Padding = value;
         }
 
-        public HTMLElement Render()
-        {
-            return _innerElement;
-        }
+        public HTMLElement Render() => _stack.Render();
     }
 }

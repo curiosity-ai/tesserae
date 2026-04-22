@@ -14,7 +14,7 @@ namespace Tesserae.Tests.Samples
         public CardSample()
         {
             _content = SectionStack()
-                .Title(SampleHeader(nameof(CardSample)))
+                .SampleTitle(nameof(CardSample), UIcons.AddressCard, "A card component with optional headers and footers")
                 .Section(Stack().Children(
                     SampleTitle("Overview"),
                     TextBlock("Cards are surfaces that display content and actions on a single topic."),
