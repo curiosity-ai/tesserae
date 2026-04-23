@@ -162,14 +162,7 @@ namespace Tesserae
                     // may be performed. However, this will also be fired if an element (or one of its ancestors) is RE-rendered somewhere and that's not really what we want, so if the element
                     // that has been identified as being "removed" is actually still part of a branch that reaches back up to the html element then don't consider it removed.
 
-                    var highestAncestorElementIfAny = removedElement.parentElement;
-
-                    while (highestAncestorElementIfAny?.parentElement != null)
-                    {
-                        highestAncestorElementIfAny = highestAncestorElementIfAny.parentElement;
-                    }
-
-                    if ((highestAncestorElementIfAny != null) && highestAncestorElementIfAny.tagName.Equals("HTML", StringComparison.OrdinalIgnoreCase))
+                    if (removedElement.parentElement?.closest("HTML") != null)
                     {
                         continue;
                     }
