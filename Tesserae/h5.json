@@ -45,7 +45,8 @@
         "h5/assets/js/tippy.min.js",
         "h5/assets/js/masonry.min.js",
         "h5/assets/js/sortable.min.js",
-        "h5/assets/js/baklava.min.js"
+        "h5/assets/js/baklava.min.js",
+        "h5/assets/js/elk.bundled.js"
       ],
       "output": "assets/js"
     },
@@ -57,7 +58,8 @@
         "h5/assets/js/tippy.min.js",
         "h5/assets/js/masonry.min.js",
         "h5/assets/js/sortable.min.js",
-        "h5/assets/js/baklava.min.js"
+        "h5/assets/js/baklava.min.js",
+        "h5/assets/js/elk.bundled.js"
       ],
       "output": "assets/js"
     },
