@@ -754,6 +754,11 @@ namespace Tesserae
         public static ProgressIndicator ProgressIndicator() => new ProgressIndicator();
 
         /// <summary>
+        /// Creates a <see cref="Tesserae.ForceDirectedGraph"/> component.
+        /// </summary>
+        public static ForceDirectedGraph ForceDirectedGraph() => new ForceDirectedGraph();
+
+        /// <summary>
         /// Creates a <see cref="Tesserae.NodeView"/> component.
         /// </summary>
         public static NodeView NodeView(Action<NodeView.IViewSettings> settings = null)                            => new NodeView(settings);
