@@ -36,6 +36,11 @@ namespace Tesserae.Tests.Samples
                     SearchableGroupedList(GetItems(10000), s => HorizontalSeparator(TextBlock(s).Primary().SemiBold()).Left())
                        .Virtualize(64.px())
                        .WithNoResultsMessage(() => BackgroundArea(Card(TextBlock("No matching records").Padding(16.px()))).WS().HS().MinHeight(100.px()))
+                       .Height(400.px()).MB(32),
+                    SampleSubTitle("Paginated Grouped List"),
+                    SearchableGroupedList(GetItems(50), s => HorizontalSeparator(TextBlock(s).Primary().SemiBold()).Left())
+                       .WithPagination(5)
+                       .WithNoResultsMessage(() => BackgroundArea(Card(TextBlock("No matching records").Padding(16.px()))).WS().HS().MinHeight(100.px()))
                        .Height(400.px()).MB(32)
                 )).SetTitle("Usage")));
         }

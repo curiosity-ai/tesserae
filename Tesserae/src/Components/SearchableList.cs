@@ -20,6 +20,8 @@ namespace Tesserae
 
         private int               _minimumItemsToShowBox = 0;
         private Func<string, Task<T[]>> _backgroundSearcher;
+        private Pagination        _pagination;
+        private string            _lastSearchTerm = "";
 
         private UnitSize          _virtualizedItemHeight;
         private double            _virtualizedTimeout = 0;
@@ -103,6 +105,12 @@ namespace Tesserae
                                         var filteredItemsWithBackground = includeItems.Concat(includeItemsBackground)
                                                                                       .Concat(excludeItems).ToArray();
 
+                                        if (_pagination is object)
+                                        {
+                                            _pagination.SetTotalItems(filteredItemsWithBackground.Length);
+                                            filteredItemsWithBackground = filteredItemsWithBackground.Skip((_pagination.CurrentPage - 1) * _pagination.PageSize).Take(_pagination.PageSize).ToArray();
+                                        }
+
                                         _list.Items.Clear();
 
                                         if (filteredItemsWithBackground.Any())
@@ -117,6 +125,21 @@ namespace Tesserae
                             }
 
                             var filteredItems = includeItems.Concat(excludeItems).ToArray();
+
+                            if (_searchBox.Text != _lastSearchTerm)
+                            {
+                                _lastSearchTerm = _searchBox.Text ?? "";
+                                if (_pagination is object)
+                                {
+                                    _pagination.SetPage(1, false);
+                                }
+                            }
+
+                            if (_pagination is object)
+                            {
+                                _pagination.SetTotalItems(filteredItems.Length);
+                                filteredItems = filteredItems.Skip((_pagination.CurrentPage - 1) * _pagination.PageSize).Take(_pagination.PageSize).ToArray();
+                            }
 
                             _list.Items.Clear();
 
@@ -260,6 +283,14 @@ namespace Tesserae
         }
 
         public dom.HTMLElement Render() => _stack.Render();
+
+        public SearchableList<T> WithPagination(int pageSize)
+        {
+            _pagination = new Pagination(0, pageSize, 1).WS();
+            _pagination.OnPageChange(p => _defered.Refresh());
+            _stack.Children(_searchBoxContainer, _defered.Scroll(), _pagination);
+            return this;
+        }
     }
 
     [H5.Name("tss.ISearchableItem")]
