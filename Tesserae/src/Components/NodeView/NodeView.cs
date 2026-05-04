@@ -468,6 +468,47 @@ namespace Tesserae
                 return this;
             }
 
+            public InterfaceBuilder TextInput(string inputName, string label = "", string defaultValue = "")
+            {
+                return AddInput(inputName, () => NodeView.Interfaces.TextInputInterface(label, defaultValue));
+            }
+
+            public InterfaceBuilder TextOutput(string outputName, string label = "", string defaultValue = "")
+            {
+                return AddOutput(outputName, () => NodeView.Interfaces.TextInterface(label, defaultValue));
+            }
+
+            public InterfaceBuilder IntegerInput(string inputName, string label = "", int defaultValue = 0)
+            {
+                return AddInput(inputName, () => NodeView.Interfaces.IntegerInterface(label, defaultValue));
+            }
+
+            public InterfaceBuilder NumberInput(string inputName, string label = "", double defaultValue = 0.0)
+            {
+                return AddInput(inputName, () => NodeView.Interfaces.NumberInterface(label, defaultValue));
+            }
+
+            public InterfaceBuilder SelectInput(string inputName, string label = "", string defaultValue = "", string[] options = null)
+            {
+                if (options == null) options = new string[0];
+                return AddInput(inputName, () => NodeView.Interfaces.SelectInterface(label, defaultValue, new ReadOnlyArray<string>(options)));
+            }
+
+            public InterfaceBuilder CheckboxInput(string inputName, string label = "", bool defaultValue = false)
+            {
+                return AddInput(inputName, () => NodeView.Interfaces.CheckboxInterface(label, defaultValue));
+            }
+
+            public InterfaceBuilder SliderInput(string inputName, string label = "", double defaultValue = 0.0, double min = 0.0, double max = 100.0)
+            {
+                return AddInput(inputName, () => NodeView.Interfaces.SliderInterface(label, defaultValue, min, max));
+            }
+
+            public InterfaceBuilder ButtonInput(string inputName, string label, Action onClick)
+            {
+                return AddInput(inputName, () => NodeView.Interfaces.ButtonInterface(label, onClick));
+            }
+
             /// <summary>
             /// Specifies outputs that must be forced to update.
             /// </summary>
@@ -1110,6 +1151,138 @@ namespace Tesserae
 
         }
         public static StateBuilder State() => new StateBuilder();
+
+        public static WorkflowBuilder Workflow() => new WorkflowBuilder();
+
+        public class WorkflowBuilder
+        {
+            private string _id = Guid.NewGuid().ToString();
+            private List<NodeState> _nodes = new List<NodeState>();
+            private List<ConnectionState> _connections = new List<ConnectionState>();
+
+            public WorkflowNode AddNode(string type, string title)
+            {
+                var nsb = new WorkflowNode(this, type, title);
+                return nsb;
+            }
+
+            internal void RegisterNode(NodeState nodeState)
+            {
+                _nodes.Add(nodeState);
+            }
+
+            public WorkflowBuilder Connect(NodeInterfaceReference from, NodeInterfaceReference to)
+            {
+                _connections.Add(new ConnectionState
+                {
+                    id = Guid.NewGuid().ToString(),
+                    from = from.Id,
+                    to = to.Id
+                });
+                return this;
+            }
+
+            public NodeViewGraphState Build()
+            {
+                return new NodeViewGraphState
+                {
+                    id = _id,
+                    nodes = _nodes.ToObjectLiteralArray(),
+                    connections = _connections.ToObjectLiteralArray(),
+                    inputs = new GraphInterfaceState[0],
+                    outputs = new GraphInterfaceState[0],
+                    panning = new PanningState { x = 0, y = 0 },
+                    scaling = 1
+                };
+            }
+        }
+
+        public class WorkflowNode
+        {
+            private WorkflowBuilder _workflowBuilder;
+            private NodeState _node = new NodeState();
+            private Dictionary<string, ValueState> _inputs = new Dictionary<string, ValueState>();
+            private Dictionary<string, ValueState> _outputs = new Dictionary<string, ValueState>();
+
+            public string Id => _node.id;
+
+            public WorkflowNode(WorkflowBuilder workflowBuilder, string type, string title)
+            {
+                _workflowBuilder = workflowBuilder;
+                _node.id = Guid.NewGuid().ToString();
+                _node.type = type;
+                _node.title = title;
+                _node.width = 200;
+                _node.twoColumn = false;
+                _node.position = new PositionState { x = 0, y = 0 };
+                _workflowBuilder.RegisterNode(_node);
+            }
+
+            public WorkflowNode Position(double x, double y)
+            {
+                _node.position = new PositionState { x = x, y = y };
+                return this;
+            }
+
+            public WorkflowNode Width(double width)
+            {
+                _node.width = width;
+                return this;
+            }
+
+            public WorkflowNode TwoColumn(bool twoColumn = true)
+            {
+                _node.twoColumn = twoColumn;
+                return this;
+            }
+
+            public NodeInterfaceReference Input(string name, object value = null)
+            {
+                if (!_inputs.TryGetValue(name, out var state))
+                {
+                    state = new ValueState { id = Guid.NewGuid().ToString() };
+                    _inputs[name] = state;
+                }
+
+                state.value = value;
+                _node.inputs = _inputs.ToObjectLiteral();
+                return new NodeInterfaceReference(state.id);
+            }
+
+            public NodeInterfaceReference Output(string name, object value = null)
+            {
+                if (!_outputs.TryGetValue(name, out var state))
+                {
+                    state = new ValueState { id = Guid.NewGuid().ToString() };
+                    _outputs[name] = state;
+                }
+
+                state.value = value;
+                _node.outputs = _outputs.ToObjectLiteral();
+                return new NodeInterfaceReference(state.id);
+            }
+
+            public WorkflowNode ConnectTo(string myOutputName, WorkflowNode toNode, string toInputName)
+            {
+                _workflowBuilder.Connect(Output(myOutputName), toNode.Input(toInputName));
+                return this;
+            }
+        }
+
+        public class NodeInterfaceReference
+        {
+            public string Id { get; }
+
+            public NodeInterfaceReference(string id)
+            {
+                Id = id;
+            }
+
+            public void ConnectTo(NodeInterfaceReference to, WorkflowBuilder builder)
+            {
+                builder.Connect(this, to);
+            }
+        }
 
         public class StateBuilder
         {
