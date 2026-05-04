@@ -15,64 +15,47 @@ namespace Tesserae.Tests.Samples
         {
             var nodeView    = NodeView().S();
 
-            nodeView.DefineNode("Hello World", ib => ib.AddInput("inp",  () => NodeView.Interfaces.TextInputInterface("Input", "Hi Input"))
-                                                       .AddOutput("out", () => NodeView.Interfaces.TextInputInterface("Output", "Hi Output")));
+            nodeView.DefineNode("Hello World", ib => ib.TextInput("inp", "Input", "Hi Input")
+                                                       .TextOutput("out", "Output", "Hi Output"));
 
-            nodeView.DefineNode("Complex", ib => ib.AddInput("text", () => NodeView.Interfaces.TextInterface("Input", "Hi Input"))
-                                                   .AddInput("int",  () => NodeView.Interfaces.IntegerInterface("Input", 123))
-                                                   .AddInput("num",  () => NodeView.Interfaces.NumberInterface("Input", 3.14))
-                                                   .AddInput("btn",  () => NodeView.Interfaces.ButtonInterface("Input", () => Toast().Information("Hi!")))
-                                                   .AddInput("chk",  () => NodeView.Interfaces.CheckboxInterface("Input", false))
-                                                   .AddInput("sel",  () => NodeView.Interfaces.SelectInterface("Input", "A", new ReadOnlyArray<string>(new[] { "A", "B", "C" })))
-                                                   .AddInput("sld",  () => NodeView.Interfaces.SliderInterface("Input", 0.5, 0, 1))
-                                                   .AddOutput("out", () => NodeView.Interfaces.TextInterface("Output", "Hi Output")));
+            nodeView.DefineNode("Complex", ib => ib.TextInput("text", "Input", "Hi Input")
+                                                   .IntegerInput("int", "Input", 123)
+                                                   .NumberInput("num", "Input", 3.14)
+                                                   .ButtonInput("btn", "Input", () => Toast().Information("Hi!"))
+                                                   .CheckboxInput("chk", "Input", false)
+                                                   .SelectInput("sel", "Input", "A", new[] { "A", "B", "C" })
+                                                   .SliderInput("sld", "Input", 0.5, 0, 1)
+                                                   .TextOutput("out", "Output", "Hi Output"));
 
-            nodeView.DefineDynamicNode("Dynamic", ib => ib.AddInput("inp", () => NodeView.Interfaces.IntegerInterface("Output Count", 1)),
+            nodeView.DefineDynamicNode("Dynamic", ib => ib.IntegerInput("inp", "Output Count", 1),
                                                   (inputState, outputState, ib) =>
                                                   {
                                                       var inputCount = inputState["inp"].As<int>();
                                                       for(int i  = 0; i < inputCount; i++)
                                                       {
-                                                          ib.AddOutput($"out-{i}", () => NodeView.Interfaces.TextInterface($"out-{i}", i.ToString()));
+                                                          ib.TextOutput($"out-{i}", $"out-{i}", i.ToString());
                                                       }
                                                   });
 
-            var stateBuilder = NodeView.State();
+            var workflow = NodeView.Workflow();
 
-            var node1_id  = Guid.NewGuid().ToString();
-            var node1_inp = Guid.NewGuid().ToString();
-            var node1_out = Guid.NewGuid().ToString();
+            var node1 = workflow.AddNode("Hello World", "My First Node").Position(100, 100).Width(200);
+            node1.Input("inp", "Hello");
+            var node1Out = node1.Output("out");
 
+            var node2 = workflow.AddNode("Complex", "A Complex Node").Position(400, 100).Width(320);
+            var node2Inp = node2.Input("text", "World");
+            node2.Input("int", 42);
+            node2.Input("num", 9.99);
+            node2.Input("btn", null);
+            node2.Input("chk", true);
+            node2.Input("sel", "B");
+            node2.Input("sld", 0.75);
+            node2.Output("out");
 
-            stateBuilder.AddNode(node1_id, "Hello World", "My First Node", 100, 100, 200, nb => nb
-                .AddInput("inp",  node1_inp, "Hello")
-                .AddOutput("out", node1_out)
-            );
+            workflow.Connect(node1Out, node2Inp);
 
-            var node2_id      = Guid.NewGuid().ToString();
-            var node2_text_id = Guid.NewGuid().ToString(); 
-            var node2_int_id  = Guid.NewGuid().ToString();
-            var node2_num_id  = Guid.NewGuid().ToString();
-            var node2_btn_id  = Guid.NewGuid().ToString();
-            var node2_chk_id  = Guid.NewGuid().ToString();
-            var node2_sel_id  = Guid.NewGuid().ToString();
-            var node2_sld_id  = Guid.NewGuid().ToString();
-            var node2_out_id = Guid.NewGuid().ToString();
-
-            stateBuilder.AddNode(node2_id, "Complex", "A Complex Node", 400, 100, 320, nb => nb
-                .AddInput("text", node2_text_id , "World")
-                .AddInput("int",  node2_int_id  , 42)
-                .AddInput("num",  node2_num_id  , 9.99)
-                .AddInput("btn",  node2_btn_id  , null)
-                .AddInput("chk",  node2_chk_id  , true)
-                .AddInput("sel",  node2_sel_id  , "B")
-                .AddInput("sld",  node2_sld_id  , 0.75)
-                .AddOutput("out", node2_out_id )
-            );
-
-            stateBuilder.AddConnection(node1_out, node2_text_id);
-
-            nodeView.SetState(stateBuilder.Build());
+            nodeView.SetState(workflow.Build());
 
 
             var textArea = TextArea().WS().H(10).Grow();
