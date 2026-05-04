@@ -27,7 +27,19 @@ namespace Tesserae.Tests.Samples
 
             sidebar.AddContent(new SidebarSeparator("sep1", "Grouping"));
 
+            var tabs = new SidebarPivot("tabs")
+                .Add("tab1", SegmentTitle("Tab 1", UIcons.Rocket),
+                    new SidebarButton("t1_btn1", UIcons.Rocket, "Launch"),
+                    new SidebarButton("t1_btn2", UIcons.Rocket, "Launch 2"))
+                .Add("tab2", SegmentTitle("Tab 2", UIcons.Plane),
+                    new SidebarButton("t2_btn1", UIcons.Globe, "World"),
+                    new SidebarButton("t2_btn2", UIcons.Globe, "World 2"));
+
+            sidebar.AddContent(tabs);
+
             var settingsNav = new SidebarNav("settings", UIcons.Settings, "Settings", true);
+
+
             settingsNav.Add(new SidebarButton("general", UIcons.Settings, "General"));
             settingsNav.Add(new SidebarButton("security", UIcons.Lock, "Security"));
             settingsNav.Add(new SidebarButton("privacy", UIcons.Eye, "Privacy"));
@@ -102,9 +114,9 @@ namespace Tesserae.Tests.Samples
                     Card(VStack().WS().Children(
                     TextBlock("A fully featured Sidebar with Search, Navigation, Buttons, and Separators."))).SetTitle("Overview"),
                     Card(VStack().WS().Children(
-                    Stack().Children(
-                        sidebar.S().H(800.px())
-                    )
+                        SplitView().WS().H(800).LeftIsSmaller(400.px()).Resizable()
+                                   .Left(sidebar.S())
+                                   .Right(CenteredCardWithBackground(Message("Your application content goes here")))
                )).SetTitle("Usage")));
         }
 
