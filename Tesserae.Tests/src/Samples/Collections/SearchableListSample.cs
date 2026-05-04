@@ -38,6 +38,11 @@ namespace Tesserae.Tests.Samples
                         SearchableList(GetItems(10000))
                            .Virtualize(64.px())
                            .WithNoResultsMessage(() => BackgroundArea(Card(TextBlock("No matching items found").Padding(16.px()))).WS().HS().MinHeight(100.px()))
+                           .Height(400.px()).MB(32),
+                        SampleSubTitle("Paginated Searchable List"),
+                        SearchableList(GetItems(50))
+                           .WithPagination(5)
+                           .WithNoResultsMessage(() => BackgroundArea(Card(TextBlock("No matching items found").Padding(16.px()))).WS().HS().MinHeight(100.px()))
                            .Height(400.px()).MB(32)
                     )).SetTitle("Usage")));
         }

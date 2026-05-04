@@ -17,6 +17,8 @@ namespace Tesserae
         private readonly SearchBox                _searchBox;
         private readonly ItemsList                _list;
         private          IComparer<string>        _groupComparer;
+        private          Pagination               _pagination;
+        private          string                   _lastSearchTerm = "";
 
         private UnitSize          _virtualizedItemHeight;
         private double            _virtualizedTimeout = 0;
@@ -51,6 +53,22 @@ namespace Tesserae
                         {
                             var searchTerms   = (_searchBox.Text ?? "").Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                             var filteredItems = originalItems.OfType<T>().Where(i => searchTerms.Length == 0 || searchTerms.All(st => i.IsMatch(st))).ToArray();
+
+                            if (_searchBox.Text != _lastSearchTerm)
+                            {
+                                _lastSearchTerm = _searchBox.Text ?? "";
+                                if (_pagination is object)
+                                {
+                                    _pagination.SetPage(1, false);
+                                }
+                            }
+
+                            if (_pagination is object)
+                            {
+                                _pagination.SetTotalItems(filteredItems.Length);
+                                filteredItems = filteredItems.Skip((_pagination.CurrentPage - 1) * _pagination.PageSize).Take(_pagination.PageSize).ToArray();
+                            }
+
                             AddGroupedItems(filteredItems, _list.Items, isGrid: (columns is object && columns.Length > 1));
                             window.setTimeout((_) => RecomputeVisibleVirtualItems(), 1);
                             return _list.S();
@@ -169,6 +187,14 @@ namespace Tesserae
         }
 
         public HTMLElement Render() => _stack.Render();
+
+        public SearchableGroupedList<T> WithPagination(int pageSize)
+        {
+            _pagination = new Pagination(0, pageSize, 1).WS();
+            _pagination.OnPageChange(p => _defered.Refresh());
+            _stack.Children(_searchBoxContainer, _defered.Scroll(), _pagination);
+            return this;
+        }
 
 
         private void AddGroupedItems(IEnumerable<T> items, ObservableList<IComponent> observableList, bool isGrid)
