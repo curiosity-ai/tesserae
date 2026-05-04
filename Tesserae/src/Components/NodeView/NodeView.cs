@@ -1114,15 +1114,23 @@ namespace Tesserae
         public class StateBuilder
         {
             private string _id = Guid.NewGuid().ToString();
-            private List<NodeState> _nodes = new List<NodeState>();
+            private List<NodeStateBuilder> _nodes = new List<NodeStateBuilder>();
             private List<ConnectionState> _connections = new List<ConnectionState>();
 
             public StateBuilder AddNode(string id, string type, string title, double x, double y, double width, Action<NodeStateBuilder> buildNode = null)
             {
                 var nsb = new NodeStateBuilder(id, type, title, x, y, width);
                 buildNode?.Invoke(nsb);
-                _nodes.Add(nsb.Build());
+                _nodes.Add(nsb);
                 return this;
+            }
+
+            public NodeStateBuilder AddNode(string type, string title, double x, double y, double width = 200, Action<NodeStateBuilder> buildNode = null)
+            {
+                var nsb = new NodeStateBuilder(Guid.NewGuid().ToString(), type, title, x, y, width);
+                buildNode?.Invoke(nsb);
+                _nodes.Add(nsb);
+                return nsb;
             }
 
             public StateBuilder AddConnection(string fromInterfaceId, string toInterfaceId)
@@ -1136,12 +1144,23 @@ namespace Tesserae
                 return this;
             }
 
+            public StateBuilder Connect(string fromInterfaceId, string toInterfaceId)
+            {
+                return AddConnection(fromInterfaceId, toInterfaceId);
+            }
+
             public NodeViewGraphState Build()
             {
+                var nodes = new List<NodeState>();
+                foreach (var n in _nodes)
+                {
+                    nodes.Add(n.Build());
+                }
+
                 return new NodeViewGraphState
                 {
                     id = _id,
-                    nodes = _nodes.ToObjectLiteralArray(),
+                    nodes = nodes.ToObjectLiteralArray(),
                     connections = _connections.ToObjectLiteralArray(),
                     inputs = new GraphInterfaceState[0],
                     outputs = new GraphInterfaceState[0],
@@ -1182,6 +1201,52 @@ namespace Tesserae
             public NodeStateBuilder AddOutput(string name, string interfaceId, object value = null)
             {
                 _outputs[name] = new ValueState { id = interfaceId, value = value };
+                return this;
+            }
+
+            public string Input(string name)
+            {
+                if (!_inputs.TryGetValue(name, out var valueState))
+                {
+                    valueState = new ValueState { id = Guid.NewGuid().ToString(), value = null };
+                    _inputs[name] = valueState;
+                }
+                return valueState.id;
+            }
+
+            public string Output(string name)
+            {
+                if (!_outputs.TryGetValue(name, out var valueState))
+                {
+                    valueState = new ValueState { id = Guid.NewGuid().ToString(), value = null };
+                    _outputs[name] = valueState;
+                }
+                return valueState.id;
+            }
+
+            public NodeStateBuilder SetInput(string name, object value = null)
+            {
+                if (_inputs.TryGetValue(name, out var valueState))
+                {
+                    valueState.value = value;
+                }
+                else
+                {
+                    _inputs[name] = new ValueState { id = Guid.NewGuid().ToString(), value = value };
+                }
+                return this;
+            }
+
+            public NodeStateBuilder SetOutput(string name, object value = null)
+            {
+                if (_outputs.TryGetValue(name, out var valueState))
+                {
+                    valueState.value = value;
+                }
+                else
+                {
+                    _outputs[name] = new ValueState { id = Guid.NewGuid().ToString(), value = value };
+                }
                 return this;
             }
 
