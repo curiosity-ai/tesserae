@@ -3,15 +3,15 @@ using H5;
 
 namespace Tesserae
 {
-    public class NodeTextInput : INodeInput, INodeOutput
+    public class NodeInput<T> : INodeInput<T>
     {
         public string Name { get; }
         public string Title { get; }
-        public string DefaultValue { get; }
+        public T DefaultValue { get; }
         public bool AllowMultipleConnections { get; }
         public bool SetPort { get; }
 
-        public NodeTextInput(string name, string title, string defaultValue = "", bool allowMultipleConnections = false, bool setPort = true)
+        public NodeInput(string name, string title, T defaultValue = default, bool allowMultipleConnections = false, bool setPort = true)
         {
             Name = name;
             Title = title;
@@ -20,18 +20,44 @@ namespace Tesserae
             SetPort = setPort;
         }
 
-        public NodeView.NodeInterface Build() => NodeView.Interfaces.TextInputInterface(Title, DefaultValue, AllowMultipleConnections, SetPort);
+        public virtual NodeView.NodeInterface Build()
+        {
+            var type = typeof(T);
+
+            if (type == typeof(string))
+            {
+                return NodeView.Interfaces.TextInputInterface(Title, (string)(object)DefaultValue, AllowMultipleConnections, SetPort);
+            }
+            if (type == typeof(int))
+            {
+                return NodeView.Interfaces.IntegerInterface(Title, (int)(object)DefaultValue, AllowMultipleConnections, SetPort);
+            }
+            if (type == typeof(double))
+            {
+                return NodeView.Interfaces.NumberInterface(Title, (double)(object)DefaultValue, AllowMultipleConnections, SetPort);
+            }
+            if (type == typeof(bool))
+            {
+                return NodeView.Interfaces.CheckboxInterface(Title, (bool)(object)DefaultValue, AllowMultipleConnections, SetPort);
+            }
+            if (type == typeof(Action))
+            {
+                return NodeView.Interfaces.ButtonInterface(Title, (Action)(object)DefaultValue, AllowMultipleConnections, SetPort);
+            }
+
+            throw new ArgumentException($"Type {type.Name} is not supported for generic NodeInput without a specialized class.");
+        }
     }
 
-    public class NodeText : INodeInput, INodeOutput
+    public class NodeOutput<T> : INodeOutput<T>
     {
         public string Name { get; }
         public string Title { get; }
-        public string DefaultValue { get; }
+        public T DefaultValue { get; }
         public bool AllowMultipleConnections { get; }
         public bool SetPort { get; }
 
-        public NodeText(string name, string title, string defaultValue = "", bool allowMultipleConnections = false, bool setPort = true)
+        public NodeOutput(string name, string title, T defaultValue = default, bool allowMultipleConnections = false, bool setPort = true)
         {
             Name = name;
             Title = title;
@@ -40,132 +66,66 @@ namespace Tesserae
             SetPort = setPort;
         }
 
-        public NodeView.NodeInterface Build() => NodeView.Interfaces.TextInterface(Title, DefaultValue, AllowMultipleConnections, SetPort);
-    }
-
-    public class NodeInteger : INodeInput, INodeOutput
-    {
-        public string Name { get; }
-        public string Title { get; }
-        public int DefaultValue { get; }
-        public bool AllowMultipleConnections { get; }
-        public bool SetPort { get; }
-
-        public NodeInteger(string name, string title, int defaultValue = 0, bool allowMultipleConnections = false, bool setPort = true)
+        public virtual NodeView.NodeInterface Build()
         {
-            Name = name;
-            Title = title;
-            DefaultValue = defaultValue;
-            AllowMultipleConnections = allowMultipleConnections;
-            SetPort = setPort;
-        }
+            var type = typeof(T);
 
-        public NodeView.NodeInterface Build() => NodeView.Interfaces.IntegerInterface(Title, DefaultValue, AllowMultipleConnections, SetPort);
+            if (type == typeof(string))
+            {
+                return NodeView.Interfaces.TextInterface(Title, (string)(object)DefaultValue, AllowMultipleConnections, SetPort);
+            }
+            if (type == typeof(int))
+            {
+                return NodeView.Interfaces.IntegerInterface(Title, (int)(object)DefaultValue, AllowMultipleConnections, SetPort);
+            }
+            if (type == typeof(double))
+            {
+                return NodeView.Interfaces.NumberInterface(Title, (double)(object)DefaultValue, AllowMultipleConnections, SetPort);
+            }
+            if (type == typeof(bool))
+            {
+                return NodeView.Interfaces.CheckboxInterface(Title, (bool)(object)DefaultValue, AllowMultipleConnections, SetPort);
+            }
+            if (type == typeof(Action))
+            {
+                return NodeView.Interfaces.ButtonInterface(Title, (Action)(object)DefaultValue, AllowMultipleConnections, SetPort);
+            }
+
+            throw new ArgumentException($"Type {type.Name} is not supported for generic NodeOutput without a specialized class.");
+        }
     }
 
-    public class NodeNumber : INodeInput, INodeOutput
+    public class NodeSelectInput : NodeInput<string>
     {
-        public string Name { get; }
-        public string Title { get; }
-        public double DefaultValue { get; }
-        public bool AllowMultipleConnections { get; }
-        public bool SetPort { get; }
-
-        public NodeNumber(string name, string title, double defaultValue = 0, bool allowMultipleConnections = false, bool setPort = true)
-        {
-            Name = name;
-            Title = title;
-            DefaultValue = defaultValue;
-            AllowMultipleConnections = allowMultipleConnections;
-            SetPort = setPort;
-        }
-
-        public NodeView.NodeInterface Build() => NodeView.Interfaces.NumberInterface(Title, DefaultValue, AllowMultipleConnections, SetPort);
-    }
-
-    public class NodeButton : INodeInput, INodeOutput
-    {
-        public string Name { get; }
-        public string Title { get; }
-        public Action OnClick { get; }
-        public bool AllowMultipleConnections { get; }
-        public bool SetPort { get; }
-
-        public NodeButton(string name, string title, Action onClick, bool allowMultipleConnections = false, bool setPort = true)
-        {
-            Name = name;
-            Title = title;
-            OnClick = onClick;
-            AllowMultipleConnections = allowMultipleConnections;
-            SetPort = setPort;
-        }
-
-        public NodeView.NodeInterface Build() => NodeView.Interfaces.ButtonInterface(Title, OnClick, AllowMultipleConnections, SetPort);
-    }
-
-    public class NodeCheckbox : INodeInput, INodeOutput
-    {
-        public string Name { get; }
-        public string Title { get; }
-        public bool DefaultValue { get; }
-        public bool AllowMultipleConnections { get; }
-        public bool SetPort { get; }
-
-        public NodeCheckbox(string name, string title, bool defaultValue = false, bool allowMultipleConnections = false, bool setPort = true)
-        {
-            Name = name;
-            Title = title;
-            DefaultValue = defaultValue;
-            AllowMultipleConnections = allowMultipleConnections;
-            SetPort = setPort;
-        }
-
-        public NodeView.NodeInterface Build() => NodeView.Interfaces.CheckboxInterface(Title, DefaultValue, AllowMultipleConnections, SetPort);
-    }
-
-    public class NodeSelect : INodeInput, INodeOutput
-    {
-        public string Name { get; }
-        public string Title { get; }
-        public string DefaultValue { get; }
         public ReadOnlyArray<string> Values { get; }
-        public bool AllowMultipleConnections { get; }
-        public bool SetPort { get; }
 
-        public NodeSelect(string name, string title, string defaultValue, ReadOnlyArray<string> values, bool allowMultipleConnections = false, bool setPort = true)
+        public NodeSelectInput(string name, string title, string defaultValue, ReadOnlyArray<string> values, bool allowMultipleConnections = false, bool setPort = true)
+            : base(name, title, defaultValue, allowMultipleConnections, setPort)
         {
-            Name = name;
-            Title = title;
-            DefaultValue = defaultValue;
             Values = values;
-            AllowMultipleConnections = allowMultipleConnections;
-            SetPort = setPort;
         }
 
-        public NodeView.NodeInterface Build() => NodeView.Interfaces.SelectInterface(Title, DefaultValue, Values, AllowMultipleConnections, SetPort);
+        public override NodeView.NodeInterface Build()
+        {
+            return NodeView.Interfaces.SelectInterface(Title, DefaultValue, Values, AllowMultipleConnections, SetPort);
+        }
     }
 
-    public class NodeSlider : INodeInput, INodeOutput
+    public class NodeSliderInput : NodeInput<double>
     {
-        public string Name { get; }
-        public string Title { get; }
-        public double DefaultValue { get; }
         public double Min { get; }
         public double Max { get; }
-        public bool AllowMultipleConnections { get; }
-        public bool SetPort { get; }
 
-        public NodeSlider(string name, string title, double defaultValue, double min, double max, bool allowMultipleConnections = false, bool setPort = true)
+        public NodeSliderInput(string name, string title, double defaultValue, double min, double max, bool allowMultipleConnections = false, bool setPort = true)
+            : base(name, title, defaultValue, allowMultipleConnections, setPort)
         {
-            Name = name;
-            Title = title;
-            DefaultValue = defaultValue;
             Min = min;
             Max = max;
-            AllowMultipleConnections = allowMultipleConnections;
-            SetPort = setPort;
         }
 
-        public NodeView.NodeInterface Build() => NodeView.Interfaces.SliderInterface(Title, DefaultValue, Min, Max, AllowMultipleConnections, SetPort);
+        public override NodeView.NodeInterface Build()
+        {
+            return NodeView.Interfaces.SliderInterface(Title, DefaultValue, Min, Max, AllowMultipleConnections, SetPort);
+        }
     }
 }

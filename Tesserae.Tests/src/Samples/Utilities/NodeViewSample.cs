@@ -14,8 +14,8 @@ namespace Tesserae.Tests.Samples
         public class HelloWorldNode : INodeView
         {
             public string Name => "Hello World";
-            public INodeInput[] Inputs => new INodeInput[] { new NodeTextInput("inp", "Input", "Hi Input") };
-            public INodeOutput[] Outputs => new INodeOutput[] { new NodeTextInput("out", "Output", "Hi Output") };
+            public INodeInput[] Inputs => new INodeInput[] { new NodeInput<string>("inp", "Input", "Hi Input") };
+            public INodeOutput[] Outputs => new INodeOutput[] { new NodeOutput<string>("out", "Output", "Hi Output") };
         }
 
         public class ComplexNode : INodeView
@@ -23,22 +23,22 @@ namespace Tesserae.Tests.Samples
             public string Name => "Complex";
             public INodeInput[] Inputs => new INodeInput[]
             {
-                new NodeText("text", "Input", "Hi Input"),
-                new NodeInteger("int", "Input", 123),
-                new NodeNumber("num", "Input", 3.14),
-                new NodeButton("btn", "Input", () => Toast().Information("Hi!")),
-                new NodeCheckbox("chk", "Input", false),
-                new NodeSelect("sel", "Input", "A", new ReadOnlyArray<string>(new[] { "A", "B", "C" })),
-                new NodeSlider("sld", "Input", 0.5, 0, 1)
+                new NodeInput<string>("text", "Input", "Hi Input"),
+                new NodeInput<int>("int", "Input", 123),
+                new NodeInput<double>("num", "Input", 3.14),
+                new NodeInput<Action>("btn", "Input", () => Toast().Information("Hi!")),
+                new NodeInput<bool>("chk", "Input", false),
+                new NodeSelectInput("sel", "Input", "A", new ReadOnlyArray<string>(new[] { "A", "B", "C" })),
+                new NodeSliderInput("sld", "Input", 0.5, 0, 1)
             };
-            public INodeOutput[] Outputs => new INodeOutput[] { new NodeText("out", "Output", "Hi Output") };
+            public INodeOutput[] Outputs => new INodeOutput[] { new NodeOutput<string>("out", "Output", "Hi Output") };
         }
 
         public class DynamicNode : IDynamicNodeView
         {
             public string Name => "Dynamic";
 
-            public INodeInput[] Inputs => new INodeInput[] { new NodeInteger("inp", "Output Count", 1) };
+            public INodeInput[] Inputs => new INodeInput[] { new NodeInput<int>("inp", "Output Count", 1) };
             public INodeOutput[] Outputs => null;
 
             public void UpdateNode(NodeView.InputsState inputs, NodeView.OutputsState outputs, Action<INodeInput> addInput, Action<INodeOutput> addOutput)
@@ -46,7 +46,7 @@ namespace Tesserae.Tests.Samples
                 var inputCount = inputs["inp"].As<int>();
                 for(int i  = 0; i < inputCount; i++)
                 {
-                    addOutput(new NodeText($"out-{i}", $"out-{i}", i.ToString()));
+                    addOutput(new NodeOutput<string>($"out-{i}", $"out-{i}", i.ToString()));
                 }
             }
         }

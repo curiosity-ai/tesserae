@@ -13,4 +13,14 @@ namespace Tesserae
         string Name { get; }
         NodeView.NodeInterface Build();
     }
+
+    public interface INodeInput<T> : INodeInput
+    {
+        T DefaultValue { get; }
+    }
+
+    public interface INodeOutput<T> : INodeOutput
+    {
+        T DefaultValue { get; }
+    }
 }
