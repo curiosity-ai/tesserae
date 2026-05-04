@@ -599,3 +599,75 @@
 .tss-navbar-drawer .tss-sidebar-middle {
     margin-bottom: 16px;
 }
+
+/* SidebarSegmentedPivot styles */
+.tss-sidebar-segmentedpivot-wrapper-open {
+    margin-left: 8px;
+    margin-right: 8px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.tss-sidebar-segmentedpivot-wrapper-open .tss-segmentedpivot-titlebar {
+    width: 100%;
+}
+
+.tss-sidebar-segmentedpivot-wrapper-open .tss-segmentedpivot-tab {
+    flex-grow: 1;
+    text-align: center;
+}
+
+.tss-sidebar-segmentedpivot-wrapper-closed {
+    margin-left: 4px;
+    margin-right: 4px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    overflow: hidden;
+}
+
+
+.tss-sidebar-segmentedpivot-wrapper-closed .tss-segmentedpivot-titlebar {
+    flex-direction: column !important;
+    padding: 2px;
+}
+
+
+.tss-sidebar-segmentedpivot-wrapper-closed .tss-segmentedpivot-tab {
+    padding: 4px 4px;
+    margin-bottom: 2px;
+    flex-grow: 1;
+    text-align: center;
+    min-width: 20px;
+}
+
+.tss-sidebar-segmentedpivot-wrapper-closed .tss-segmentedpivot-tab:last-child {
+    margin-bottom: 0px;
+}
+
+.tss-sidebar-segmentedpivot-wrapper-closed .tss-segmentedpivot-tab {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.tss-sidebar-segmentedpivot-wrapper-open .tss-segmentedpivot-tab {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.tss-sidebar-segmentedpivot-wrapper-closed .tss-segmentedpivot-tab {
+    padding: 4px 4px;
+    margin-bottom: 2px;
+    flex-grow: 1;
+    text-align: center;
+    min-width: 20px;
+    overflow: hidden;
+    text-overflow: clip;
+    white-space: nowrap;
+    word-break: keep-all;
+}
+
+.tss-sidebar-segmentedpivot-wrapper-closed .tss-segmentedpivot-tab:last-child {
+    margin-bottom: 0px;
+}

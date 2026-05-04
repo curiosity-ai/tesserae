@@ -27,7 +27,21 @@ namespace Tesserae.Tests.Samples
 
             sidebar.AddContent(new SidebarSeparator("sep1", "Grouping"));
 
+
+
+            var tabs = new SidebarSegmentedPivot("tabs")
+                .Add("tab1", () => TextBlock("1").Medium(),
+                    new SidebarButton("t1_btn1", UIcons.Rocket, "Launch"),
+                    new SidebarButton("t1_btn2", UIcons.Rocket, "Launch 2"))
+                .Add("tab2", () => TextBlock("2").Medium(),
+                    new SidebarButton("t2_btn1", UIcons.Globe, "World"),
+                    new SidebarButton("t2_btn2", UIcons.Globe, "World 2"));
+
+            sidebar.AddContent(tabs);
+
             var settingsNav = new SidebarNav("settings", UIcons.Settings, "Settings", true);
+
+
             settingsNav.Add(new SidebarButton("general", UIcons.Settings, "General"));
             settingsNav.Add(new SidebarButton("security", UIcons.Lock, "Security"));
             settingsNav.Add(new SidebarButton("privacy", UIcons.Eye, "Privacy"));
