@@ -7,7 +7,7 @@ using static Tesserae.UI;
 namespace Tesserae
 {
     [H5.Name("tss.SidebarSegmentedPivot")]
-    public sealed class SidebarSegmentedPivot : ISearchableSidebarItem
+    public sealed class SidebarPivot : ISearchableSidebarItem
     {
         private readonly List<Tab> _orderedTabs = new List<Tab>();
 
@@ -30,7 +30,7 @@ namespace Tesserae
 
         public string OwnIdentifier => Sidebar.GetOwnIdentifier(Identifier);
 
-        public SidebarSegmentedPivot(string identifier)
+        public SidebarPivot(string identifier)
         {
             Identifier = identifier;
 
@@ -59,7 +59,7 @@ namespace Tesserae
             }
         }
 
-        public SidebarSegmentedPivot Add(string id, Func<IComponent> titleCreator, params ISidebarItem[] items)
+        public SidebarPivot Add(string id, Func<IComponent> titleCreator, params ISidebarItem[] items)
         {
             var tab = new Tab(id, titleCreator, items);
             if (_initiallySelectedID is null) _initiallySelectedID = tab.Id;
@@ -122,7 +122,7 @@ namespace Tesserae
             };
         }
 
-        public SidebarSegmentedPivot Select(string id, bool refresh = false)
+        public SidebarPivot Select(string id, bool refresh = false)
         {
             if (_currentSelectedID != id || refresh)
             {

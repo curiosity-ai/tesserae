@@ -615,6 +615,8 @@
 .tss-sidebar-segmentedpivot-wrapper-open .tss-segmentedpivot-tab {
     flex-grow: 1;
     text-align: center;
+    display: inline-flex;
+    justify-content: center;
 }
 
 .tss-sidebar-segmentedpivot-wrapper-closed {
