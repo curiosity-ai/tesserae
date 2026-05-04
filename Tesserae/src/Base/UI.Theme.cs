@@ -76,6 +76,26 @@ namespace Tesserae
                 }
             }
 
+            public static bool IsMobile
+            {
+                get
+                {
+                    try
+                    {
+                        if (navigator["userAgentData"]["mobile"].As<bool>())
+                        {
+                            return true;
+                        }
+                    }
+                    catch (Exception E)
+                    {
+                        console.log(E);
+                        return false;
+                    }
+                    return !window.matchMedia("(any-pointer:fine)").matches;
+                }
+            }
+
 
             /// <summary>
             /// Sets the background colors for both light and dark modes.
