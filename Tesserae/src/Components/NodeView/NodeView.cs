@@ -1114,15 +1114,22 @@ namespace Tesserae
         public class StateBuilder
         {
             private string _id = Guid.NewGuid().ToString();
-            private List<NodeState> _nodes = new List<NodeState>();
+            private List<NodeStateBuilder> _nodes = new List<NodeStateBuilder>();
             private List<ConnectionState> _connections = new List<ConnectionState>();
 
             public StateBuilder AddNode(string id, string type, string title, double x, double y, double width, Action<NodeStateBuilder> buildNode = null)
             {
-                var nsb = new NodeStateBuilder(id, type, title, x, y, width);
+                var nsb = new NodeStateBuilder(this, id, type, title, x, y, width);
                 buildNode?.Invoke(nsb);
-                _nodes.Add(nsb.Build());
+                _nodes.Add(nsb);
                 return this;
+            }
+
+            public NodeStateBuilder AddNode(string type, string title, double x, double y, double width = 200)
+            {
+                var nsb = new NodeStateBuilder(this, Guid.NewGuid().ToString(), type, title, x, y, width);
+                _nodes.Add(nsb);
+                return nsb;
             }
 
             public StateBuilder AddConnection(string fromInterfaceId, string toInterfaceId)
@@ -1138,10 +1145,16 @@ namespace Tesserae
 
             public NodeViewGraphState Build()
             {
+                var nodes = new List<NodeState>();
+                foreach (var nsb in _nodes)
+                {
+                    nodes.Add(nsb.Build());
+                }
+
                 return new NodeViewGraphState
                 {
                     id = _id,
-                    nodes = _nodes.ToObjectLiteralArray(),
+                    nodes = nodes.ToObjectLiteralArray(),
                     connections = _connections.ToObjectLiteralArray(),
                     inputs = new GraphInterfaceState[0],
                     outputs = new GraphInterfaceState[0],
@@ -1156,6 +1169,18 @@ namespace Tesserae
             private NodeState _node = new NodeState();
             private Dictionary<string, ValueState> _inputs = new Dictionary<string, ValueState>();
             private Dictionary<string, ValueState> _outputs = new Dictionary<string, ValueState>();
+            private StateBuilder _parent;
+
+            public NodeStateBuilder(StateBuilder parent, string id, string type, string title, double x, double y, double width)
+            {
+                _parent = parent;
+                _node.id = id;
+                _node.type = type;
+                _node.title = title;
+                _node.position = new PositionState { x = x, y = y };
+                _node.width = width;
+                _node.twoColumn = false;
+            }
 
             public NodeStateBuilder(string id, string type, string title, double x, double y, double width)
             {
@@ -1182,6 +1207,40 @@ namespace Tesserae
             public NodeStateBuilder AddOutput(string name, string interfaceId, object value = null)
             {
                 _outputs[name] = new ValueState { id = interfaceId, value = value };
+                return this;
+            }
+
+            public NodeStateBuilder AddInput(string name, object value = null)
+            {
+                _inputs[name] = new ValueState { id = Guid.NewGuid().ToString(), value = value };
+                return this;
+            }
+
+            public NodeStateBuilder AddOutput(string name, object value = null)
+            {
+                _outputs[name] = new ValueState { id = Guid.NewGuid().ToString(), value = value };
+                return this;
+            }
+
+            public string Input(string name)
+            {
+                if (_inputs.TryGetValue(name, out var value)) return value.id;
+                var id = Guid.NewGuid().ToString();
+                _inputs[name] = new ValueState { id = id, value = null };
+                return id;
+            }
+
+            public string Output(string name)
+            {
+                if (_outputs.TryGetValue(name, out var value)) return value.id;
+                var id = Guid.NewGuid().ToString();
+                _outputs[name] = new ValueState { id = id, value = null };
+                return id;
+            }
+
+            public NodeStateBuilder ConnectTo(string outputName, NodeStateBuilder targetNode, string inputName)
+            {
+                _parent?.AddConnection(Output(outputName), targetNode.Input(inputName));
                 return this;
             }
 
