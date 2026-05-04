@@ -632,3 +632,15 @@ i[class^="fi-"]:before, i[class*=" fi-"]:before, span[class^="fi-"]:before, span
         filter: grayscale(1) opacity(0.5);
         pointer-events: none;
     }
+
+/* Safe viewport adjustments for mobile */
+body.tss-mobile {
+    overflow-x: hidden;
+}
+
+body.tss-mobile,
+body.tss-mobile .tss-sidebar,
+body.tss-mobile .tss-navbar,
+body.tss-mobile .tss-sidebar-content {
+    max-width: 100vw;
+}

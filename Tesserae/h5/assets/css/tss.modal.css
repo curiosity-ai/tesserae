@@ -226,3 +226,17 @@ body.tss-modal-dragging .tss-modal-draggable {
     max-width: calc(100% - 4px);
     max-height: calc(100% - 4px);
 }
+
+/* Override when body has tss-mobile */
+body.tss-mobile .tss-modal {
+    width: 100vw !important;
+    height: 100vh !important;
+    max-width: 100vw !important;
+    max-height: 100vh !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+}
+
+body.tss-mobile .tss-modal-dialog {
+    padding: 16px !important;
+}
