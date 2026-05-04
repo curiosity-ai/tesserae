@@ -5,6 +5,7 @@ namespace Tesserae
     public interface INodeView
     {
         string Name { get; }
-        void BuildNode(NodeView.InterfaceBuilder ib);
+        INodeInput[] Inputs { get; }
+        INodeOutput[] Outputs { get; }
     }
 }

@@ -68,13 +68,38 @@ namespace Tesserae
         public NodeView Register<T>() where T : INodeView, new()
         {
             var node = new T();
+
+            Action<InterfaceBuilder> buildNode = ib =>
+            {
+                if (node.Inputs != null)
+                {
+                    foreach (var input in node.Inputs)
+                    {
+                        ib.AddInput(input.Name, () => input.Build());
+                    }
+                }
+
+                if (node.Outputs != null)
+                {
+                    foreach (var output in node.Outputs)
+                    {
+                        ib.AddOutput(output.Name, () => output.Build());
+                    }
+                }
+            };
+
             if (node is IDynamicNodeView dynamicNode)
             {
-                return DefineDynamicNode(node.Name, node.BuildNode, dynamicNode.UpdateNode);
+                return DefineDynamicNode(node.Name, buildNode, (inputs, outputs, ib) =>
+                {
+                    dynamicNode.UpdateNode(inputs, outputs,
+                        i => ib.AddInput(i.Name, () => i.Build()),
+                        o => ib.AddOutput(o.Name, () => o.Build()));
+                });
             }
             else
             {
-                return DefineNode(node.Name, node.BuildNode);
+                return DefineNode(node.Name, buildNode);
             }
         }
 

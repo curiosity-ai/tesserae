@@ -14,44 +14,39 @@ namespace Tesserae.Tests.Samples
         public class HelloWorldNode : INodeView
         {
             public string Name => "Hello World";
-            public void BuildNode(NodeView.InterfaceBuilder ib)
-            {
-                ib.AddInput("inp",  () => NodeView.Interfaces.TextInputInterface("Input", "Hi Input"))
-                  .AddOutput("out", () => NodeView.Interfaces.TextInputInterface("Output", "Hi Output"));
-            }
+            public INodeInput[] Inputs => new INodeInput[] { new NodeTextInput("inp", "Input", "Hi Input") };
+            public INodeOutput[] Outputs => new INodeOutput[] { new NodeTextInput("out", "Output", "Hi Output") };
         }
 
         public class ComplexNode : INodeView
         {
             public string Name => "Complex";
-            public void BuildNode(NodeView.InterfaceBuilder ib)
+            public INodeInput[] Inputs => new INodeInput[]
             {
-                ib.AddInput("text", () => NodeView.Interfaces.TextInterface("Input", "Hi Input"))
-                  .AddInput("int",  () => NodeView.Interfaces.IntegerInterface("Input", 123))
-                  .AddInput("num",  () => NodeView.Interfaces.NumberInterface("Input", 3.14))
-                  .AddInput("btn",  () => NodeView.Interfaces.ButtonInterface("Input", () => Toast().Information("Hi!")))
-                  .AddInput("chk",  () => NodeView.Interfaces.CheckboxInterface("Input", false))
-                  .AddInput("sel",  () => NodeView.Interfaces.SelectInterface("Input", "A", new ReadOnlyArray<string>(new[] { "A", "B", "C" })))
-                  .AddInput("sld",  () => NodeView.Interfaces.SliderInterface("Input", 0.5, 0, 1))
-                  .AddOutput("out", () => NodeView.Interfaces.TextInterface("Output", "Hi Output"));
-            }
+                new NodeText("text", "Input", "Hi Input"),
+                new NodeInteger("int", "Input", 123),
+                new NodeNumber("num", "Input", 3.14),
+                new NodeButton("btn", "Input", () => Toast().Information("Hi!")),
+                new NodeCheckbox("chk", "Input", false),
+                new NodeSelect("sel", "Input", "A", new ReadOnlyArray<string>(new[] { "A", "B", "C" })),
+                new NodeSlider("sld", "Input", 0.5, 0, 1)
+            };
+            public INodeOutput[] Outputs => new INodeOutput[] { new NodeText("out", "Output", "Hi Output") };
         }
 
         public class DynamicNode : IDynamicNodeView
         {
             public string Name => "Dynamic";
 
-            public void BuildNode(NodeView.InterfaceBuilder ib)
-            {
-                ib.AddInput("inp", () => NodeView.Interfaces.IntegerInterface("Output Count", 1));
-            }
+            public INodeInput[] Inputs => new INodeInput[] { new NodeInteger("inp", "Output Count", 1) };
+            public INodeOutput[] Outputs => null;
 
-            public void UpdateNode(NodeView.InputsState inputs, NodeView.OutputsState outputs, NodeView.InterfaceBuilder ib)
+            public void UpdateNode(NodeView.InputsState inputs, NodeView.OutputsState outputs, Action<INodeInput> addInput, Action<INodeOutput> addOutput)
             {
                 var inputCount = inputs["inp"].As<int>();
                 for(int i  = 0; i < inputCount; i++)
                 {
-                    ib.AddOutput($"out-{i}", () => NodeView.Interfaces.TextInterface($"out-{i}", i.ToString()));
+                    addOutput(new NodeText($"out-{i}", $"out-{i}", i.ToString()));
                 }
             }
         }
