@@ -61,6 +61,24 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Registers a new node type (static or dynamic) based on the provided class type that implements INodeView.
+        /// </summary>
+        /// <typeparam name="T">The node type.</typeparam>
+        /// <returns>The current instance of the type.</returns>
+        public NodeView Register<T>() where T : INodeView, new()
+        {
+            var node = new T();
+            if (node is IDynamicNodeView dynamicNode)
+            {
+                return DefineDynamicNode(node.Name, node.BuildNode, dynamicNode.UpdateNode);
+            }
+            else
+            {
+                return DefineNode(node.Name, node.BuildNode);
+            }
+        }
+
+        /// <summary>
         /// Defines a new static node type.
         /// </summary>
         /// <param name="nodeTypeName">The name of the node type.</param>
