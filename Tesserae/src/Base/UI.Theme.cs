@@ -82,7 +82,7 @@ namespace Tesserae
                 {
                     try
                     {
-                        if (navigator["userAgentData"]["mobile"].As<bool>())
+                        if (navigator.userAgentData.mobile)
                         {
                             return true;
                         }
