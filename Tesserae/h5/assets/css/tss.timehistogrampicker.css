@@ -1,4 +1,5 @@
 ﻿.tss-time-histogram-picker {
+    --tss-time-histogram-picker-horizontal-inset: 8px;
     width: 100%;
     min-width: 220px;
     padding: 8px 0;
@@ -11,8 +12,9 @@
     display: flex;
     align-items: flex-end;
     gap: 2px;
-    padding: 8px 0 4px;
+    padding: 8px var(--tss-time-histogram-picker-horizontal-inset) 4px;
     border-bottom: 1px solid var(--tss-default-border-color);
+    box-sizing: border-box;
 }
 
 .tss-time-histogram-picker-bar {
@@ -32,7 +34,7 @@
 .tss-time-histogram-picker-track {
     position: relative;
     height: 28px;
-    margin: 8px 8px 0;
+    margin: 8px var(--tss-time-histogram-picker-horizontal-inset) 0;
 }
 
 .tss-time-histogram-picker-track::before {
