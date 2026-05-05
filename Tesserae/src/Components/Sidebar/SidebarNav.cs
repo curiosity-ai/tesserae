@@ -141,7 +141,7 @@ namespace Tesserae
 
             _arrow.OnClick(() =>
             {
-                _collapsed.Value = !_collapsed.Value;
+                _collapsed.Toggle();
             });
         }
 
@@ -213,7 +213,7 @@ namespace Tesserae
         /// <returns>The current instance of the type.</returns>
         public SidebarNav Toggle()
         {
-            _collapsed.Value = !_collapsed.Value;
+            _collapsed.Toggle();
             return this;
         }
 

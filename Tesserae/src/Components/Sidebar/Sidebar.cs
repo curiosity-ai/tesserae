@@ -172,7 +172,7 @@ namespace Tesserae
 
             if (_isNavbar)
             {
-                var hamburger = Button().Class("tss-navbar-burger").SetIcon(UIcons.MenuBurger).OnClick(() => _closed.Value = !_closed.Value);
+                var hamburger = Button().Class("tss-navbar-burger").SetIcon(UIcons.MenuBurger).OnClick(() => _closed.Toggle());
 
                 var drawer = VStack().Class("tss-navbar-drawer")
                    .Children(
@@ -233,7 +233,7 @@ namespace Tesserae
         /// <returns>The current instance of the type.</returns>
         public Sidebar Toggle()
         {
-            _closed.Value = !_closed.Value;
+            _closed.Toggle();
             return this;
         }
 
