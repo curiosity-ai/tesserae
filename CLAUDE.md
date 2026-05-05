@@ -12,12 +12,11 @@ Tesserae is a C# UI toolkit for building web applications, compiled to JavaScrip
 
 ## Installing h5
 
-Install or update the h5 compiler globally before getting started:
+Install or update the h5 compiler and the dotnet serve tool globally before getting started:
 
 ```bash
 dotnet tool update --global h5-compiler
-```
-
+dotnet tool update --global dotnet-serve
 ## Build
 
 ```bash
