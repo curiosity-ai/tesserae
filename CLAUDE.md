@@ -10,6 +10,15 @@ Tesserae is a C# UI toolkit for building web applications, compiled to JavaScrip
 - Samples and demos: `Tesserae.Tests/`
 - Project and build config: `Tesserae/Tesserae.csproj`, `Tesserae/h5.json`
 
+## Installing h5
+
+Install or update the h5 compiler and templates globally:
+
+```bash
+dotnet tool update --global h5-compiler
+dotnet new install h5.Template
+```
+
 ## Build
 
 ```bash
