@@ -16,7 +16,6 @@ Install or update the h5 compiler and templates globally:
 
 ```bash
 dotnet tool update --global h5-compiler
-dotnet new install h5.Template
 ```
 
 ## Build
