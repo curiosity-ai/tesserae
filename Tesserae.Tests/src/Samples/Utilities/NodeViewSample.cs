@@ -11,31 +11,53 @@ namespace Tesserae.Tests.Samples
     {
         private readonly IComponent content;
 
+        public class HelloWorldNode : INodeView
+        {
+            public string Name => "Hello World";
+            public INodeInput[] Inputs => new INodeInput[] { new NodeInput<string>("inp", "Input", "Hi Input") };
+            public INodeOutput[] Outputs => new INodeOutput[] { new NodeOutput<string>("out", "Output", "Hi Output") };
+        }
+
+        public class ComplexNode : INodeView
+        {
+            public string Name => "Complex";
+            public INodeInput[] Inputs => new INodeInput[]
+            {
+                new NodeInput<string>("text", "Input", "Hi Input"),
+                new NodeInput<int>("int", "Input", 123),
+                new NodeInput<double>("num", "Input", 3.14),
+                new NodeInput<Action>("btn", "Input", () => Toast().Information("Hi!")),
+                new NodeInput<bool>("chk", "Input", false),
+                new NodeSelectInput("sel", "Input", "A", new ReadOnlyArray<string>(new[] { "A", "B", "C" })),
+                new NodeSliderInput("sld", "Input", 0.5, 0, 1)
+            };
+            public INodeOutput[] Outputs => new INodeOutput[] { new NodeOutput<string>("out", "Output", "Hi Output") };
+        }
+
+        public class DynamicNode : IDynamicNodeView
+        {
+            public string Name => "Dynamic";
+
+            public INodeInput[] Inputs => new INodeInput[] { new NodeInput<int>("inp", "Output Count", 1) };
+            public INodeOutput[] Outputs => null;
+
+            public void UpdateNode(NodeView.InputsState inputs, NodeView.OutputsState outputs, Action<INodeInput> addInput, Action<INodeOutput> addOutput)
+            {
+                var inputCount = inputs["inp"].As<int>();
+                for(int i  = 0; i < inputCount; i++)
+                {
+                    addOutput(new NodeOutput<string>($"out-{i}", $"out-{i}", i.ToString()));
+                }
+            }
+        }
+
         public NodeViewSample()
         {
             var nodeView    = NodeView().S();
 
-            nodeView.DefineNode("Hello World", ib => ib.AddInput("inp",  () => NodeView.Interfaces.TextInputInterface("Input", "Hi Input"))
-                                                       .AddOutput("out", () => NodeView.Interfaces.TextInputInterface("Output", "Hi Output")));
-
-            nodeView.DefineNode("Complex", ib => ib.AddInput("text", () => NodeView.Interfaces.TextInterface("Input", "Hi Input"))
-                                                   .AddInput("int",  () => NodeView.Interfaces.IntegerInterface("Input", 123))
-                                                   .AddInput("num",  () => NodeView.Interfaces.NumberInterface("Input", 3.14))
-                                                   .AddInput("btn",  () => NodeView.Interfaces.ButtonInterface("Input", () => Toast().Information("Hi!")))
-                                                   .AddInput("chk",  () => NodeView.Interfaces.CheckboxInterface("Input", false))
-                                                   .AddInput("sel",  () => NodeView.Interfaces.SelectInterface("Input", "A", new ReadOnlyArray<string>(new[] { "A", "B", "C" })))
-                                                   .AddInput("sld",  () => NodeView.Interfaces.SliderInterface("Input", 0.5, 0, 1))
-                                                   .AddOutput("out", () => NodeView.Interfaces.TextInterface("Output", "Hi Output")));
-
-            nodeView.DefineDynamicNode("Dynamic", ib => ib.AddInput("inp", () => NodeView.Interfaces.IntegerInterface("Output Count", 1)),
-                                                  (inputState, outputState, ib) =>
-                                                  {
-                                                      var inputCount = inputState["inp"].As<int>();
-                                                      for(int i  = 0; i < inputCount; i++)
-                                                      {
-                                                          ib.AddOutput($"out-{i}", () => NodeView.Interfaces.TextInterface($"out-{i}", i.ToString()));
-                                                      }
-                                                  });
+            nodeView.Register<HelloWorldNode>();
+            nodeView.Register<ComplexNode>();
+            nodeView.Register<DynamicNode>();
 
             var stateBuilder = NodeView.State();
 
