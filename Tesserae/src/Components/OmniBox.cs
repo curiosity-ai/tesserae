@@ -17,6 +17,7 @@ namespace Tesserae
                 InitialMode = initialMode ?? (mode == Mode.SearchAndChat ? Mode.Search : mode);
                 IconSearch = UIcons.Search;
                 IconChat = UIcons.PaperPlane;
+                IconStop = UIcons.StopCircle;
                 IconModeToggleSearch = UIcons.Search;
                 IconModeToggleChat = UIcons.Beacon;
                 TooltipModeToggleSearch = "Search";
@@ -32,6 +33,7 @@ namespace Tesserae
 
             public UIcons IconSearch { get; set; }
             public UIcons IconChat { get; set; }
+            public UIcons IconStop { get; set; }
             public UIcons IconModeToggleSearch { get; set; }
             public UIcons IconModeToggleChat { get; set; }
             public string TooltipModeToggleSearch { get; set; }
@@ -78,11 +80,16 @@ namespace Tesserae
         private string _tokenTypeMap = string.Empty;
         private readonly IconToggle<Mode> _modeToggle;
         private readonly bool _tokenIgnoreCase;
+        private bool _isGenerating = false;
+        private readonly UIcons _iconChat;
+        private readonly UIcons _iconStop;
 
         public delegate void SearchEventHandler(OmniBox sender, SearchQuery query);
         public delegate void ChatEventHandler(OmniBox sender, ChatMessage query);
+        public delegate void StopEventHandler(OmniBox sender);
         protected event SearchEventHandler Searched;
         protected event ChatEventHandler Chatted;
+        public event StopEventHandler Stopped;
 
         public event ComponentEventHandler<OmniBox, Event> Input;
         public event ComponentEventHandler<OmniBox, KeyboardEvent> KeyDown;
@@ -95,6 +102,8 @@ namespace Tesserae
         {
             _mode = config.Mode;
             _tokenIgnoreCase = config.TokenIgnoreCase;
+            _iconChat = config.IconChat;
+            _iconStop = config.IconStop;
 
             _activeMode = new SettableObservable<Mode>(config.InitialMode);
 
@@ -760,9 +769,19 @@ namespace Tesserae
 
         private void TriggerChat()
         {
+            if (_isGenerating)
+            {
+                TriggerStop();
+                return;
+            }
             var val = _chatInput.value;
             Chatted?.Invoke(this, new ChatMessage() { Text = val });
             _chatInput.value = "";
+        }
+
+        private void TriggerStop()
+        {
+            Stopped?.Invoke(this);
         }
 
         public OmniBox OnSearch(SearchEventHandler onSearch)
@@ -787,6 +806,41 @@ namespace Tesserae
         {
             Chatted += (s, q) => onChat(s, q.Text);
             return this;
+        }
+
+        public OmniBox OnStop(StopEventHandler onStop)
+        {
+            Stopped += onStop;
+            return this;
+        }
+
+        public OmniBox OnStop(Action<OmniBox> onStop)
+        {
+            Stopped += (s) => onStop(s);
+            return this;
+        }
+
+        public bool IsGenerating
+        {
+            get => _isGenerating;
+            set
+            {
+                if (_isGenerating == value) return;
+                _isGenerating = value;
+                if (_chatTriggerBtn != null)
+                {
+                    if (value)
+                    {
+                        _chatTriggerBtn.SetIcon(_iconStop);
+                        _container.classList.add("tss-omnibox-generating");
+                    }
+                    else
+                    {
+                        _chatTriggerBtn.SetIcon(_iconChat);
+                        _container.classList.remove("tss-omnibox-generating");
+                    }
+                }
+            }
         }
 
         public OmniBox OnInput(ComponentEventHandler<OmniBox, Event> onInput)
