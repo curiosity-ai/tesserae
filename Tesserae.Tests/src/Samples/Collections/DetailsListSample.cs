@@ -126,7 +126,7 @@ namespace Tesserae.Tests.Samples
         public HTMLElement Render() => _content.Render();
     }
 
-    public class DetailsListSampleFileItem : IDetailsListItem<DetailsListSampleFileItem>
+    public class DetailsListSampleFileItem : Tesserae.IDetailsListItem<DetailsListSampleFileItem>
     {
         public DetailsListSampleFileItem(UIcons icon, string name, DateTime modified, string by, double size) { FileIcon = icon; FileName = name; DateModified = modified; ModifiedBy = by; FileSize = size; }
         public UIcons FileIcon { get; }

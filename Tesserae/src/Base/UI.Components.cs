@@ -582,6 +582,16 @@ namespace Tesserae
         public static Slider Slider(int val = 0, int min = 0, int max = 100, int step = 10) => new Slider(val, min, max, step);
 
         /// <summary>
+        /// Creates a <see cref="Tesserae.TimeHistogramPicker"/> component.
+        /// </summary>
+        public static TimeHistogramPicker TimeHistogramPicker(DateTime[] values, int maxBuckets = 80) => new TimeHistogramPicker(values, maxBuckets);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.TimeHistogramPicker"/> component from precomputed buckets.
+        /// </summary>
+        public static TimeHistogramPicker TimeHistogramPicker(TimeHistogramBucket[] buckets) => new TimeHistogramPicker(buckets);
+
+        /// <summary>
         /// A Layer is a technical component that does not have specific Design guidance.
         ///
         /// Layers are used to render content outside of a DOM tree, at the end of the document. This allows content to escape traditional boundaries caused by "overflow: hidden" css rules and keeps it on the top without using z-index rules. This is useful for example in
