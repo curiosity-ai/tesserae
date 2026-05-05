@@ -80,6 +80,8 @@ namespace Tesserae.Tests.Samples
             input = OmniBox(new OmniBox.Config(OmniBox.Mode.Chat)
             {
                 PlaceholderChat = "Ask anything...",
+                IconStop = UIcons.Stop,
+                IconChat = UIcons.ArrowRight
             })
             .OnChat((sender, msg) =>
             {
@@ -97,18 +99,17 @@ namespace Tesserae.Tests.Samples
                 sender.IsGenerating = false;
             });
 
-            var chatContainer = VStack().Height(70.vh()).Children(
-                chatArea.Grow(),
-                input.WS().Grow()
+            var chatContainer = VStack().WS().H(10).Grow().Children(
+                chatArea.WS().H(10).Grow(),
+                input.WS().H(150)
             );
 
             _content = SectionStack().Secondary()
                 .SampleTitle(typeof(ChatSample), UIcons.Comments, "A component to display a chat")
-                .FlatSection(Stack().Children(
-                    Card(VStack().WS().Children(
+                .FlatSection(Card(VStack().S().Children(
                     TextBlock("ChatArea and ChatMessage components allow building modern chat experiences with dynamic, animatable messages using DeltaComponent."),
                     chatContainer.MT(16)
-                )).SetTitle("Overview")));
+                )).SetTitle("Overview").S(), grow: true);
         }
 
         public HTMLElement Render() => _content.Render();

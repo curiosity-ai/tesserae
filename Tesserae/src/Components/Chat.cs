@@ -23,9 +23,7 @@ namespace Tesserae
         {
             _messages = new ObservableList<IComponentWithID>();
 
-            _stack = new ObservableStack(_messages, Stack.Orientation.Vertical, debounce: false)
-                .Width(100.percent())
-                .Height(100.percent());
+            _stack = new ObservableStack(_messages, Stack.Orientation.Vertical, debounce: false).S();
 
             _innerElement = Div(_("tss-chatarea"), _stack.Render());
 
