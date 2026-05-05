@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using static H5.Core.dom;
 using static Tesserae.UI;
@@ -34,6 +35,11 @@ namespace Tesserae.Tests.Samples
                 Toast().Information($"Searched for: {q.RawQuery} (Parsed into {q.Tokens?.Count ?? 0} tokens)");
             })
             .SetSearchText("potato AND ( tomato OR banana) AND NOT apple");
+
+            var fileDropArea = FileDropArea(searchModeSample).OnFilesDropped((s, files) =>
+            {
+                Toast().Information($"Dropped files: {string.Join(", ", files.Select(f => f.name))}");
+            }).SetAccepts("*");
 
             var chatModeSample = OmniBox(new OmniBox.Config(OmniBox.Mode.Chat)
             {
@@ -99,7 +105,7 @@ namespace Tesserae.Tests.Samples
                .FlatSection(VStack().WS().Children(
                     Card(VStack().WS().Children(
                     SampleSubTitle("Modes"),
-                        Label("Search").SetContent(searchModeSample),
+                        Label("Search (with FileDropArea)").SetContent(HStack().WS().Children(fileDropArea, Button("Add attachment").OnClick((s, e) => fileDropArea.OpenFileSelection()))),
                         Label("Chat").SetContent(chatModeSample.MT(6)),
                         Label("Search & Chat").SetContent(searchAndChatModeSample.MT(6))
                 )).SetTitle("Usage")));

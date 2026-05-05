@@ -91,11 +91,11 @@ namespace Tesserae.Tests.Samples
                 sender.IsGenerating = true;
                 AddAIAnswer();
             })
-            .OnStop((sender) =>
+            .OnStop(new Action<OmniBox>((OmniBox sender) =>
             {
                 cancelled[0] = true;
                 sender.IsGenerating = false;
-            });
+            }));
 
             var chatContainer = VStack().Height(70.vh()).Children(
                 chatArea.Grow(),

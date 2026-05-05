@@ -454,6 +454,11 @@ namespace Tesserae
         public static FileDropArea FileDropArea() => new FileDropArea();
 
         /// <summary>
+        /// Creates a <see cref="Tesserae.FileDropArea"/> component wrapping the given component.
+        /// </summary>
+        public static FileDropArea FileDropArea(IComponent component) => new FileDropArea(component);
+
+        /// <summary>
         /// Creates a <see cref="Tesserae.Validator"/> component.
         /// </summary>
         public static Validator Validator() => new Validator();
