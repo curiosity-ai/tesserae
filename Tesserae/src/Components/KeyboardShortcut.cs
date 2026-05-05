@@ -8,10 +8,10 @@ namespace Tesserae
     /// <summary>
     /// Renders a keyboard shortcut as styled &lt;kbd&gt; chips (e.g. Ctrl+K).
     /// </summary>
-    [H5.Name("tss.KbdShortcut")]
-    public sealed class KbdShortcut : ComponentBase<KbdShortcut, HTMLElement>
+    [H5.Name("tss.KBS")]
+    public sealed class KeyboardShortcut : ComponentBase<KeyboardShortcut, HTMLElement>
     {
-        public KbdShortcut(params string[] keys)
+        public KeyboardShortcut(params string[] keys)
         {
             InnerElement = Span(_("tss-kbd-shortcut"));
 

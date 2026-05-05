@@ -35,7 +35,7 @@
 /* Indeterminate spin */
 .tss-progressring-indeterminate .tss-progressring-fill {
     animation: tss-progressring-spin 1.4s linear infinite;
-    stroke-dasharray: calc(var(--tss-ring-circ, 100) * 0.75) calc(var(--tss-ring-circ, 100) * 0.25);
+    stroke-dasharray: calc(var(--tss-ring-circ, 150) * 0.75) calc(var(--tss-ring-circ, 150) * 0.25);
     stroke-dashoffset: 0 !important;
 }
 

@@ -76,6 +76,9 @@ namespace Tesserae
                 wrapper.setAttribute("aria-label", "Custom color");
                 wrapper.setAttribute("tabindex",   "0");
                 wrapper.style.background = "conic-gradient(red, yellow, lime, cyan, blue, magenta, red)";
+                wrapper.style.backgroundSize = "125% 125%";
+                wrapper.style.backgroundPosition ="center";
+
                 Raw(wrapper).Tooltip("Custom color");
                 wrapper.addEventListener("click",   _ => _customInput.click());
                 wrapper.addEventListener("keydown", e =>

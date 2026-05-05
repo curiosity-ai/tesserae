@@ -110,7 +110,7 @@ namespace Tesserae
             if (count > 0)
             {
                 _badgeSpan.innerText       = count > 99 ? "99+" : count.ToString();
-                _badgeSpan.style.display   = "inline-flex";
+                _badgeSpan.style.display   = "block";
                 _bellButton.setAttribute("aria-label", $"Notifications ({count} unread)");
             }
             else

@@ -950,9 +950,9 @@ namespace Tesserae
         public static ColorPalette ColorPalette() => new ColorPalette();
 
         /// <summary>
-        /// Creates a <see cref="Tesserae.KbdShortcut"/> component.
+        /// Creates a <see cref="Tesserae.KeyboardShortcut"/> component.
         /// </summary>
-        public static KbdShortcut KbdShortcut(params string[] keys) => new KbdShortcut(keys);
+        public static KeyboardShortcut KeyboardShortcut(params string[] keys) => new KeyboardShortcut(keys);
 
         /// <summary>
         /// Creates a <see cref="Tesserae.NotificationCenter"/> component.
