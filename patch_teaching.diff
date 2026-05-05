@@ -1,0 +1,12 @@
+--- Tesserae/src/Components/Teaching.cs
++++ Tesserae/src/Components/Teaching.cs
+@@ -141,6 +141,10 @@
+                 if (_futureSteps.TryGetValue(_currentStep, out var action))
+                 {
+                     action();
++                }
++                else if (_currentStep >= _stepCounter && _completed is object)
++                {
++                    _completed();
+                 }
+             }

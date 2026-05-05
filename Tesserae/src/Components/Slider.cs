@@ -68,7 +68,14 @@ namespace Tesserae
         private double UpdateFakeProgress()
         {
             double percent = ((double)(Value - Min) / (Max - Min)) * 100.0;
-            _fakeDiv.style.width = $"{percent:0.##}%";
+            if (Orientation == SliderOrientation.Vertical)
+            {
+                _fakeDiv.style.height = $"{percent:0.##}%";
+            }
+            else
+            {
+                _fakeDiv.style.width = $"{percent:0.##}%";
+            }
             return percent;
         }
 
@@ -84,12 +91,22 @@ namespace Tesserae
                 {
                     _outerLabel.classList.add("tss-vertical");
                     _outerDiv.classList.add("tss-slider-div-vertical");
+                    if (_fakeDiv is object)
+                    {
+                        _fakeDiv.style.width = "100%";
+                        UpdateFakeProgress();
+                    }
                     InnerElement.setAttribute("aria-orientation", "vertical");
                 }
                 else
                 {
                     _outerLabel.classList.remove("tss-vertical");
                     _outerDiv.classList.remove("tss-slider-div-vertical");
+                    if (_fakeDiv is object)
+                    {
+                        _fakeDiv.style.height = "100%";
+                        UpdateFakeProgress();
+                    }
                     InnerElement.setAttribute("aria-orientation", "horizontal");
                 }
             }
