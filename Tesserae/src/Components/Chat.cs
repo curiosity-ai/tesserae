@@ -15,6 +15,10 @@ namespace Tesserae
         private bool _stopAutoScroll = false;
         private string _bubbleBackground = null;
 
+        public event ComponentEventHandler<ChatArea, Event> Scrolled;
+        public event ComponentEventHandler<ChatArea, Event> ReceivedFocus;
+        public event ComponentEventHandler<ChatArea, Event> LostFocus;
+
         public ChatArea()
         {
             _messages = new ObservableList<IComponentWithID>();
@@ -25,7 +29,7 @@ namespace Tesserae
 
             _innerElement = Div(_("tss-chatarea"), _stack.Render());
 
-            _innerElement.onscroll = (e) =>
+            _innerElement.addEventListener("scroll", (e) =>
             {
                 // If user scrolls up (meaning not at the bottom), stop auto-scrolling
                 var scrollHeight = _innerElement.scrollHeight;
@@ -41,7 +45,30 @@ namespace Tesserae
                 {
                     _stopAutoScroll = false;
                 }
-            };
+
+                Scrolled?.Invoke(this, e);
+            });
+
+            _innerElement.addEventListener("focusin", (e) => ReceivedFocus?.Invoke(this, e));
+            _innerElement.addEventListener("focusout", (e) => LostFocus?.Invoke(this, e));
+        }
+
+        public ChatArea OnScroll(ComponentEventHandler<ChatArea, Event> onScroll)
+        {
+            Scrolled += onScroll;
+            return this;
+        }
+
+        public ChatArea OnFocus(ComponentEventHandler<ChatArea, Event> onFocus)
+        {
+            ReceivedFocus += onFocus;
+            return this;
+        }
+
+        public ChatArea OnBlur(ComponentEventHandler<ChatArea, Event> onBlur)
+        {
+            LostFocus += onBlur;
+            return this;
         }
 
         public ChatArea Background(string color)

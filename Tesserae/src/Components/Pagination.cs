@@ -22,7 +22,7 @@ namespace Tesserae
             _buttonContainer = Div(_("tss-pagination-buttons"));
             _status          = Span(_("tss-pagination-status"));
 
-            InnerElement = Div(_("tss-pagination"), _buttonContainer, _status);
+            InnerElement = Div(_("tss-pagination", role: "navigation", ariaLabel: "Pagination"), _buttonContainer, _status);
 
             _maxPageButtons = 7;
             _showStatus     = true;
@@ -181,8 +181,9 @@ namespace Tesserae
         private HTMLButtonElement CreatePageButton(int page)
         {
             var isActive = page == CurrentPage;
-            var button = Button(_("tss-pagination-button", text: page.ToString(), type: "button"));
+            var button   = Button(_("tss-pagination-button", text: page.ToString(), type: "button", ariaLabel: $"Page {page}"));
             button.UpdateClassIf(isActive, "tss-active");
+            if (isActive) button.setAttribute("aria-current", "page");
             button.addEventListener("click", _ => SetPage(page));
             return button;
         }

@@ -71,7 +71,7 @@ namespace Tesserae
             {
                 foreach (Delegate d in MouseOver.GetInvocationList())
                 {
-                    MouseOut -= (ComponentEventHandler<T, MouseEvent>)d;
+                    MouseOver -= (ComponentEventHandler<T, MouseEvent>)d;
                 }
 
                 foreach (Delegate d in MouseOut.GetInvocationList())

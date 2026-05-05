@@ -13,7 +13,7 @@ namespace Tesserae.Tests.Samples
 
         public ChatSample()
         {
-            var chatArea = ChatArea(); // Removed hardcoded background
+            var chatArea = ChatArea();
 
             var predefinedAnswers = new[]
             {
@@ -26,8 +26,15 @@ namespace Tesserae.Tests.Samples
 
             var random = new Random();
 
+            // Shared cancellation flag — set to true to abort the current typing animation
+            var cancelled = new bool[] { false };
+
+            OmniBox input = null;
+
             void AddAIAnswer()
             {
+                cancelled[0] = false;
+
                 var answer = predefinedAnswers[random.Next(predefinedAnswers.Length)];
                 var words = answer.Split(' ');
 
@@ -43,7 +50,17 @@ namespace Tesserae.Tests.Samples
 
                 void TypeNextWord()
                 {
-                    if (index >= words.Length) return;
+                    if (cancelled[0])
+                    {
+                        input.IsGenerating = false;
+                        return;
+                    }
+
+                    if (index >= words.Length)
+                    {
+                        input.IsGenerating = false;
+                        return;
+                    }
 
                     currentText += (index > 0 ? " " : "") + words[index];
                     msgComponent.ReplaceContent(TextBlock(currentText));
@@ -60,17 +77,24 @@ namespace Tesserae.Tests.Samples
             chatArea.Add(ChatMessage(TextBlock("Hello there!"), Avatar(null, "U")).RightAligned().MaxWidth());
             chatArea.Add(ChatMessage(TextBlock("Hi! How can I help you today?"), Avatar(null, "AI")).MaxWidth());
 
-            var input = OmniBox(new OmniBox.Config(OmniBox.Mode.Chat)
+            input = OmniBox(new OmniBox.Config(OmniBox.Mode.Chat)
             {
-                PlaceholderSearch = "Ask anything...",
-            }).OnChat((sender,msg) =>
+                PlaceholderChat = "Ask anything...",
+            })
+            .OnChat((sender, msg) =>
             {
                 var text = msg.Text;
                 if (string.IsNullOrWhiteSpace(text)) return;
 
                 chatArea.Add(ChatMessage(TextBlock(text), Avatar(null, "U")).RightAligned().MaxWidth());
 
+                sender.IsGenerating = true;
                 AddAIAnswer();
+            })
+            .OnStop((sender) =>
+            {
+                cancelled[0] = true;
+                sender.IsGenerating = false;
             });
 
             var chatContainer = VStack().Height(70.vh()).Children(

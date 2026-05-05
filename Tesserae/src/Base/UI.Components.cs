@@ -582,6 +582,16 @@ namespace Tesserae
         public static Slider Slider(int val = 0, int min = 0, int max = 100, int step = 10) => new Slider(val, min, max, step);
 
         /// <summary>
+        /// Creates a <see cref="Tesserae.TimeHistogramPicker"/> component.
+        /// </summary>
+        public static TimeHistogramPicker TimeHistogramPicker(DateTime[] values, int maxBuckets = 80) => new TimeHistogramPicker(values, maxBuckets);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.TimeHistogramPicker"/> component from precomputed buckets.
+        /// </summary>
+        public static TimeHistogramPicker TimeHistogramPicker(TimeHistogramBucket[] buckets) => new TimeHistogramPicker(buckets);
+
+        /// <summary>
         /// A Layer is a technical component that does not have specific Design guidance.
         ///
         /// Layers are used to render content outside of a DOM tree, at the end of the document. This allows content to escape traditional boundaries caused by "overflow: hidden" css rules and keeps it on the top without using z-index rules. This is useful for example in
@@ -928,6 +938,37 @@ namespace Tesserae
         /// </summary>
         public static Teaching     Teaching()                   => new Teaching();
         public static Sparkline Sparkline(double[] data, double width = 100, double height = 30, string color = "") => new Sparkline(data, width, height, color);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.StepsSlider{T}"/> component.
+        /// </summary>
+        public static StepsSlider<T> StepsSlider<T>(params T[] steps) where T : IEquatable<T> => new StepsSlider<T>(steps);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.Rating"/> component.
+        /// </summary>
+        public static Rating Rating(int maxStars = 5) => new Rating(maxStars);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.ProgressRing"/> component.
+        /// </summary>
+        public static ProgressRing ProgressRing(int size = 48, int thickness = 4) => new ProgressRing(size, thickness);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.ColorPalette"/> component.
+        /// </summary>
+        public static ColorPalette ColorPalette() => new ColorPalette();
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.KeyboardShortcut"/> component.
+        /// </summary>
+        public static KeyboardShortcut KeyboardShortcut(params string[] keys) => new KeyboardShortcut(keys);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.NotificationCenter"/> component.
+        /// </summary>
+        public static NotificationCenter NotificationCenter() => new NotificationCenter();
+
         /// <summary>
         /// Converts a <see cref="Tesserae.Button"/> to a <see cref="Tesserae.ToggleButton"/>.
         /// </summary>

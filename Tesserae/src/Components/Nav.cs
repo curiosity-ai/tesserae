@@ -89,7 +89,7 @@ namespace Tesserae
         {
             foreach (var c in _children)
             {
-                c.UnselectRecursivelly(sender);
+                c.UnselectRecursively(sender);
             }
 
             RaiseOnChange(ev: null);
@@ -542,13 +542,13 @@ namespace Tesserae
                 }
             }
 
-            internal void UnselectRecursivelly(NavLink sender)
+            internal void UnselectRecursively(NavLink sender)
             {
                 if (this == sender)
                 {
                     foreach (var child in _childLinks)
                     {
-                        child.UnselectRecursivelly(sender);
+                        child.UnselectRecursively(sender);
                     }
                 }
                 else if (!_childLinks.Any(l => l.IsOrHasChild(sender)))
@@ -557,10 +557,13 @@ namespace Tesserae
 
                     foreach (var child in _childLinks)
                     {
-                        child.UnselectRecursivelly(sender);
+                        child.UnselectRecursively(sender);
                     }
                 }
             }
+
+            [Obsolete("Use UnselectRecursively (corrected spelling)")]
+            internal void UnselectRecursivelly(NavLink sender) => UnselectRecursively(sender);
 
             private bool IsOrHasChild(NavLink sender) => this == sender || _childLinks.Any(l => l.IsOrHasChild(sender));
         }

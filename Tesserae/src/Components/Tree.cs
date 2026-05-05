@@ -15,7 +15,7 @@ namespace Tesserae
 
         public Tree()
         {
-            InnerElement = Ul(_("tss-tree"));
+            InnerElement = Ul(_("tss-tree", role: "tree"));
 
             DomObserver.WhenMounted(InnerElement, () =>
             {
@@ -180,7 +180,7 @@ namespace Tesserae
             {
                 _chevronSpan    = I(_("tss-tree-chevron " + UIcons.AngleRight.ToString()));
                 _textSpan       = Span(_("tss-tree-text", text: text));
-                _childContainer = Ul(_("tss-tree-children"));
+                _childContainer = Ul(_("tss-tree-children", role: "group"));
                 _checkboxSpan   = I(_("tss-tree-checkbox " + UIcons.Square.ToString()));
 
                 _headerDiv = Div(_("tss-tree-item-content"), _chevronSpan, _checkboxSpan);
@@ -193,7 +193,9 @@ namespace Tesserae
 
                 _headerDiv.appendChild(_textSpan);
 
-                InnerElement = Li(_("tss-tree-item"), _headerDiv, _childContainer);
+                InnerElement = Li(_("tss-tree-item", role: "treeitem"), _headerDiv, _childContainer);
+                InnerElement.setAttribute("aria-expanded",  "false");
+                InnerElement.setAttribute("aria-selected",  "false");
 
                 _headerDiv.onclick = ClickHandler;
                 _chevronSpan.onclick = ChevronClickHandler;
@@ -244,6 +246,7 @@ namespace Tesserae
                     if (value != _isExpanded)
                     {
                         _isExpanded = value;
+                        InnerElement.setAttribute("aria-expanded", _isExpanded ? "true" : "false");
                         if (_isExpanded)
                         {
                             InnerElement.classList.add("tss-expanded");
@@ -270,6 +273,7 @@ namespace Tesserae
                     if (value != _isSelected)
                     {
                         _isSelected = value;
+                        InnerElement.setAttribute("aria-selected", _isSelected ? "true" : "false");
                         if (_isSelected)
                         {
                             _headerDiv.classList.add("tss-selected");

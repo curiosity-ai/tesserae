@@ -1,0 +1,125 @@
+﻿.tss-time-histogram-picker {
+    width: 100%;
+    min-width: 220px;
+    padding: 8px 0;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.tss-time-histogram-picker-bars {
+    height: 120px;
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+    padding: 8px 0 4px;
+    border-bottom: 1px solid var(--tss-default-border-color);
+}
+
+.tss-time-histogram-picker-bar {
+    flex: 1 1 0;
+    min-width: 2px;
+    border-radius: 3px 3px 0 0;
+    background: var(--tss-slider-color);
+    opacity: 0.65;
+    transition: background-color 80ms ease, opacity 80ms ease;
+}
+
+.tss-time-histogram-picker-bar.tss-selected {
+    background: var(--tss-primary-background-color);
+    opacity: 1;
+}
+
+.tss-time-histogram-picker-track {
+    position: relative;
+    height: 28px;
+    margin: 8px 8px 0;
+}
+
+.tss-time-histogram-picker-track::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 11px;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--tss-slider-active-color);
+}
+
+.tss-time-histogram-picker-selection {
+    position: absolute;
+    top: 11px;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--tss-primary-background-color);
+}
+
+.tss-time-histogram-picker-thumb {
+    position: absolute;
+    top: 2px;
+    width: 16px;
+    height: 24px;
+    margin-left: -8px;
+    border-radius: 10px;
+    background: var(--tss-default-background-color);
+    border: 2px solid var(--tss-primary-background-color);
+    box-sizing: border-box;
+    cursor: ew-resize;
+    z-index: 1;
+}
+
+.tss-time-histogram-picker-thumb:focus {
+    outline: 2px solid var(--tss-ring-color);
+    outline-offset: 2px;
+}
+
+.tss-time-histogram-picker-axis {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    color: var(--tss-secondary-foreground-color);
+    font-size: 12px;
+    line-height: 16px;
+    padding-top: 2px;
+}
+
+.tss-time-histogram-picker-axis-label {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.tss-time-histogram-picker-empty {
+    display: none;
+    min-height: 120px;
+    align-items: center;
+    justify-content: center;
+    color: var(--tss-secondary-foreground-color);
+    border: 1px dashed var(--tss-default-border-color);
+    border-radius: 4px;
+}
+
+.tss-time-histogram-picker-empty-state .tss-time-histogram-picker-bars,
+.tss-time-histogram-picker-empty-state .tss-time-histogram-picker-track,
+.tss-time-histogram-picker-empty-state .tss-time-histogram-picker-axis {
+    display: none;
+}
+
+.tss-time-histogram-picker-empty-state .tss-time-histogram-picker-empty {
+    display: flex;
+}
+
+.tss-time-histogram-picker.tss-disabled {
+    opacity: 0.65;
+}
+
+.tss-time-histogram-picker.tss-disabled .tss-time-histogram-picker-thumb {
+    cursor: default;
+    border-color: var(--tss-disabled-foreground-color);
+}
+
+.tss-time-histogram-picker.tss-disabled .tss-time-histogram-picker-selection,
+.tss-time-histogram-picker.tss-disabled .tss-time-histogram-picker-bar.tss-selected {
+    background: var(--tss-disabled-foreground-color);
+}
