@@ -27,13 +27,13 @@ namespace Tesserae.Tests.Samples
             var random = new Random();
 
             // Shared cancellation flag — set to true to abort the current typing animation
-            var cancelled = new bool[] { false };
+            var cancelled = false;
 
             OmniBox input = null;
 
             void AddAIAnswer()
             {
-                cancelled[0] = false;
+                cancelled = false;
 
                 var answer = predefinedAnswers[random.Next(predefinedAnswers.Length)];
                 var words = answer.Split(' ');
@@ -50,7 +50,7 @@ namespace Tesserae.Tests.Samples
 
                 void TypeNextWord()
                 {
-                    if (cancelled[0])
+                    if (cancelled)
                     {
                         input.IsGenerating = false;
                         return;
@@ -93,7 +93,7 @@ namespace Tesserae.Tests.Samples
             })
             .OnStop((sender) =>
             {
-                cancelled[0] = true;
+                cancelled = true;
                 sender.IsGenerating = false;
             });
 

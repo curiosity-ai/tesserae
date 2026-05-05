@@ -790,33 +790,15 @@ namespace Tesserae
             return this;
         }
 
-        public OmniBox OnSearch(Action<OmniBox, string> onSearch)
-        {
-            Searched += (s, q) => onSearch(s, q.RawQuery);
-            return this;
-        }
-
         public OmniBox OnChat(ChatEventHandler onChat)
         {
             Chatted += onChat;
             return this;
         }
 
-        public OmniBox OnChat(Action<OmniBox, string> onChat)
-        {
-            Chatted += (s, q) => onChat(s, q.Text);
-            return this;
-        }
-
         public OmniBox OnStop(StopEventHandler onStop)
         {
             Stopped += onStop;
-            return this;
-        }
-
-        public OmniBox OnStop(Action<OmniBox> onStop)
-        {
-            Stopped += (s) => onStop(s);
             return this;
         }
 
