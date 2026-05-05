@@ -23,42 +23,42 @@ namespace Tesserae.Tests.Samples
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     SampleSubTitle("Common Shortcuts"),
-                    VStack().Gap(12).Children(
-                        HStack().AlignItems(ItemAlign.Center).Gap(16).Children(
+                    VStack().Gap(12.px()).Children(
+                        HStack().AlignItems(ItemAlign.Center).Gap(16.px()).Children(
                             TextBlock("Search").W(120.px()).Small(),
                             KbdShortcut("Ctrl", "K")
                         ),
-                        HStack().AlignItems(ItemAlign.Center).Gap(16).Children(
+                        HStack().AlignItems(ItemAlign.Center).Gap(16.px()).Children(
                             TextBlock("Save").W(120.px()).Small(),
                             KbdShortcut("Ctrl", "S")
                         ),
-                        HStack().AlignItems(ItemAlign.Center).Gap(16).Children(
+                        HStack().AlignItems(ItemAlign.Center).Gap(16.px()).Children(
                             TextBlock("Undo").W(120.px()).Small(),
                             KbdShortcut("Ctrl", "Z")
                         ),
-                        HStack().AlignItems(ItemAlign.Center).Gap(16).Children(
+                        HStack().AlignItems(ItemAlign.Center).Gap(16.px()).Children(
                             TextBlock("Redo").W(120.px()).Small(),
                             KbdShortcut("Ctrl", "Shift", "Z")
                         ),
-                        HStack().AlignItems(ItemAlign.Center).Gap(16).Children(
+                        HStack().AlignItems(ItemAlign.Center).Gap(16.px()).Children(
                             TextBlock("Copy").W(120.px()).Small(),
                             KbdShortcut("Ctrl", "C")
                         ),
-                        HStack().AlignItems(ItemAlign.Center).Gap(16).Children(
+                        HStack().AlignItems(ItemAlign.Center).Gap(16.px()).Children(
                             TextBlock("Select all").W(120.px()).Small(),
                             KbdShortcut("Ctrl", "A")
                         ),
-                        HStack().AlignItems(ItemAlign.Center).Gap(16).Children(
+                        HStack().AlignItems(ItemAlign.Center).Gap(16.px()).Children(
                             TextBlock("Close / Cancel").W(120.px()).Small(),
                             KbdShortcut("Escape")
                         ),
-                        HStack().AlignItems(ItemAlign.Center).Gap(16).Children(
+                        HStack().AlignItems(ItemAlign.Center).Gap(16.px()).Children(
                             TextBlock("Confirm").W(120.px()).Small(),
                             KbdShortcut("Enter")
                         )
                     ),
                     SampleSubTitle("Special Keys"),
-                    HStack().Gap(16).AlignItems(ItemAlign.Center).Children(
+                    HStack().Gap(16.px()).AlignItems(ItemAlign.Center).Children(
                         KbdShortcut("ArrowUp"),
                         KbdShortcut("ArrowDown"),
                         KbdShortcut("ArrowLeft"),
@@ -68,7 +68,7 @@ namespace Tesserae.Tests.Samples
                         KbdShortcut("Delete")
                     ),
                     SampleSubTitle("Inline Usage"),
-                    HStack().AlignItems(ItemAlign.Center).WrapContent().Gap(4).Children(
+                    HStack().AlignItems(ItemAlign.Center).Gap(4.px()).Children(
                         TextBlock("Press").Small(),
                         KbdShortcut("Ctrl", "K"),
                         TextBlock("to open the command palette, or").Small(),

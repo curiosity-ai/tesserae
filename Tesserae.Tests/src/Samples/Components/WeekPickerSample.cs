@@ -12,8 +12,8 @@ namespace Tesserae.Tests.Samples
 
         public WeekPickerSample()
         {
-            var minWeek = (DateTime.Today.Year, 1);
-            var maxWeek = (DateTime.Today.Year, 52);
+            var minWeek = (year: DateTime.Today.Year, week: 1);
+            var maxWeek = (year: DateTime.Today.Year, week: 52);
 
             _content = SectionStack().Secondary()
                .SampleTitle(typeof(WeekPickerSample), UIcons.CalendarWeek, "A control to select an ISO week number")
@@ -42,7 +42,7 @@ namespace Tesserae.Tests.Samples
                     ),
                     SampleSubTitle("With Min / Max Constraints"),
                     VStack().Children(
-                        Label($"Range: {minWeek.year}-W{minWeek.Item2} to {maxWeek.year}-W{maxWeek.Item2}").SetContent(
+                        Label($"Range: {minWeek.year}-W{minWeek.week} to {maxWeek.year}-W{maxWeek.week}").SetContent(
                             new WeekPicker((DateTime.Today.Year, 1))
                                .SetMin(minWeek)
                                .SetMax(maxWeek)

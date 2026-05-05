@@ -88,12 +88,12 @@ namespace Tesserae.Tests.Samples
                     Card(VStack().WS().Children(
                     SampleSubTitle("Live Demo"),
                     TextBlock("Click the bell icon to open the notification panel.").Small().MB(12),
-                    HStack().AlignItems(ItemAlign.Center).Gap(16).Children(
+                    HStack().AlignItems(ItemAlign.Center).Gap(16.px()).Children(
                         center,
                         TextBlock("← Click the bell").Small().Foreground(Theme.Secondary.Foreground)
                     ),
                     SampleSubTitle("Badge Control"),
-                    HStack().AlignItems(ItemAlign.Center).Gap(8).Children(
+                    HStack().AlignItems(ItemAlign.Center).Gap(8.px()).Children(
                         Button("Add notification").OnClick(() => unreadCount.Value++),
                         Button("Clear all").OnClick(() => unreadCount.Value = 0),
                         DeferSync(unreadCount, v => TextBlock($"Unread: {v}").Small().ML(8))

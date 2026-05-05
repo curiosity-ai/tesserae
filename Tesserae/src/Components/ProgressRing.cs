@@ -10,9 +10,9 @@ namespace Tesserae
     [H5.Name("tss.ProgressRing")]
     public sealed class ProgressRing : ComponentBase<ProgressRing, HTMLElement>
     {
-        private readonly HTMLElement _svg;
-        private readonly HTMLElement _track;
-        private readonly HTMLElement _fill;
+        private readonly Element _svg;
+        private readonly Element _track;
+        private readonly Element _fill;
         private readonly HTMLElement _label;
         private readonly HTMLElement _container;
 

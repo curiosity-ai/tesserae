@@ -34,24 +34,49 @@ namespace Tesserae
 
         private static string NormalizeKey(string key)
         {
-            if (key == null) return string.Empty;
-            return key.Trim() switch
+            if (key == null) return "";
+            string trimmedKey = key.Trim();
+
+            switch (trimmedKey)
             {
-                "Ctrl"  or "ctrl"  or "Control" => IsApple() ? "⌃" : "Ctrl",
-                "Alt"   or "alt"                => IsApple() ? "⌥" : "Alt",
-                "Shift" or "shift"              => IsApple() ? "⇧" : "Shift",
-                "Meta"  or "meta"  or "Cmd"     => IsApple() ? "⌘" : "Win",
-                "Enter" or "enter"              => "↵",
-                "Escape"or "escape"or "Esc"     => "Esc",
-                "ArrowUp"                       => "↑",
-                "ArrowDown"                     => "↓",
-                "ArrowLeft"                     => "←",
-                "ArrowRight"                    => "→",
-                "Backspace"                     => "⌫",
-                "Delete"                        => "⌦",
-                "Tab"                           => "⇥",
-                var k                           => k
-            };
+                case "Ctrl":
+                case "ctrl":
+                case "Control":
+                    return IsApple() ? "⌃" : "Ctrl";
+                case "Alt":
+                case "alt":
+                    return IsApple() ? "⌥" : "Alt";
+                case "Shift":
+                case "shift":
+                    return IsApple() ? "⇧" : "Shift";
+                case "Meta":
+                case "meta":
+                case "Cmd":
+                    return IsApple() ? "⌘" : "Win";
+                case "Enter":
+                case "enter":
+                    return "↵";
+                case "Escape":
+                case "escape":
+                case "Esc":
+                    return "Esc";
+                case "ArrowUp":
+                    return "↑";
+                case "ArrowDown":
+                    return "↓";
+                case "ArrowLeft":
+                    return "←";
+                case "ArrowRight":
+                    return "→";
+                case "Backspace":
+                    return "⌫";
+                case "Delete":
+                    return "⌦";
+                case "Tab":
+                    return "⇥";
+                default:
+                    return trimmedKey;
+            }
         }
 
         private static bool IsApple()

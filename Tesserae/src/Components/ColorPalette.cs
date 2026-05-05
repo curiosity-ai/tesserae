@@ -11,6 +11,12 @@ namespace Tesserae
     [H5.Name("tss.ColorPalette")]
     public sealed class ColorPalette : ComponentBase<ColorPalette, HTMLElement>
     {
+        public static ColorAndLabel Define(string label, string color) => new ColorAndLabel() { Color = color, Label = label };
+        public class ColorAndLabel
+        {
+            public string Label{ get; set; }
+            public string Color { get; set; }
+        }
         private readonly List<SwatchEntry>     _swatches      = new List<SwatchEntry>();
         private          HTMLElement           _selectedSwatch;
         private          string               _value;
@@ -44,10 +50,10 @@ namespace Tesserae
         }
 
         /// <summary>Adds multiple swatches from an array of (label, hexColor) tuples.</summary>
-        public ColorPalette Swatches(params (string label, string color)[] entries)
+        public ColorPalette Swatches(params ColorAndLabel[] entries)
         {
-            foreach (var (label, color) in entries)
-                AddSwatch(label, color);
+            foreach (var lc in entries)
+                AddSwatch(lc.Label, lc.Color);
             return this;
         }
 
@@ -70,7 +76,7 @@ namespace Tesserae
                 wrapper.setAttribute("aria-label", "Custom color");
                 wrapper.setAttribute("tabindex",   "0");
                 wrapper.style.background = "conic-gradient(red, yellow, lime, cyan, blue, magenta, red)";
-                wrapper.Tooltip("Custom color");
+                Raw(wrapper).Tooltip("Custom color");
                 wrapper.addEventListener("click",   _ => _customInput.click());
                 wrapper.addEventListener("keydown", e =>
                 {
@@ -104,7 +110,7 @@ namespace Tesserae
             el.setAttribute("aria-label", entry.Label);
             el.setAttribute("tabindex",   "0");
             el.style.background = entry.Color;
-            el.Tooltip(entry.Label);
+            Raw(el).Tooltip(entry.Label);
 
             el.addEventListener("click",   _ => SelectColor(entry.Color, el));
             el.addEventListener("keydown", e =>

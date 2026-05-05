@@ -29,7 +29,7 @@ namespace Tesserae.Tests.Samples
                     Card(VStack().WS().Children(
                     SampleSubTitle("3-Step Walkthrough Demo"),
                     TextBlock("Click 'Start Walkthrough' to begin. Step 1 requires clicking Next, Step 2 auto-advances after 5 seconds, and Step 3 finishes with a confirmation toast.").PB(8),
-                    HStack().Children(btn1, btn2, btn3).WrapContent(),
+                    HStack().Children(btn1, btn2, btn3),
                     Button("Start Walkthrough").SetIcon(UIcons.Play).MT(16).OnClick(() =>
                         Teaching()
                            .AddStep(btn1, TextBlock("Step 1: This is Feature A. Click Next to continue."), stepType: Teaching.StepType.NextButton)

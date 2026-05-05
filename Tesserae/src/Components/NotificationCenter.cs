@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using H5;
 using static H5.Core.dom;
 using static Tesserae.UI;
 
@@ -13,7 +14,20 @@ namespace Tesserae
     [H5.Name("tss.NotificationCenter")]
     public sealed class NotificationCenter : IComponent
     {
-        public enum NotificationTone { Info, Success, Warning, Danger }
+
+        /// <summary>
+        /// Specifies the available notification styles.
+        /// </summary>
+        [Enum(Emit.StringName)] //Don't change the emit type without updating the FromClassList method
+        [H5.Name("tss.NCNT")]
+
+        public enum NotificationTone 
+        { 
+            [Name("tss-notif-info")]       Info, 
+            [Name("tss-notif-success")]       Success, 
+            [Name("tss-notif-warning")]       Warning, 
+            [Name("tss-notif-danger")]       Danger 
+        }
 
         public class NotificationItem
         {
@@ -115,7 +129,7 @@ namespace Tesserae
             }
 
             // Single root stack that we mutate after loading
-            var rootStack = VStack().WS().H("100%").Gap(8)
+            var rootStack = VStack().WS().HS().Gap(8.px())
                .Children(VStack().S().AlignItems(ItemAlign.Center).JustifyContent(ItemJustify.Center).Children(Spinner()));
 
             _panel = Panel("Notifications")
@@ -138,13 +152,13 @@ namespace Tesserae
                     if (items == null || items.Length == 0)
                     {
                         rootStack.Add(VStack().S().AlignItems(ItemAlign.Center).JustifyContent(ItemJustify.Center).Children(
-                            I(UIcons.Bell, cssClass: "tss-fontsize-xxlarge").Foreground(Theme.Secondary.Foreground),
+                            Icon(UIcons.Bell,size: TextSize.XLarge).Foreground(Theme.Secondary.Foreground),
                             TextBlock("No notifications").Medium().MT(16)
                         ));
                     }
                     else
                     {
-                        var listContainer = VStack().WS().Gap(8);
+                        var listContainer = VStack().WS().Gap(8.px());
                         RenderItems(items, listContainer);
 
                         var toolbar = HStack().WS().AlignItems(ItemAlign.Center).Children(
@@ -181,25 +195,18 @@ namespace Tesserae
 
         private IComponent CreateItemCard(NotificationItem item)
         {
-            var toneClass = item.Tone switch
-            {
-                NotificationTone.Success => "tss-notif-success",
-                NotificationTone.Warning => "tss-notif-warning",
-                NotificationTone.Danger  => "tss-notif-danger",
-                _                        => "tss-notif-info"
-            };
-
-            var dot       = Span(_($"tss-notif-dot {toneClass}"));
+            var dot       = Span(_($"tss-notif-dot {item.Tone}"));
             dot.style.display = item.IsRead ? "none" : "inline-block";
 
             var title     = TextBlock(item.Title ?? string.Empty).SemiBold().Small();
             var message   = TextBlock(item.Message ?? string.Empty).Small().Foreground(Theme.Secondary.Foreground);
             var timeText  = TextBlock(FormatTime(item.Timestamp)).XSmall().Foreground(Theme.Secondary.Foreground);
 
-            var card = Card(VStack().WS().Gap(4).Children(
-                HStack().WS().AlignItems(ItemAlign.Center).Children(dot, title.ML(item.IsRead ? 0 : 6).Grow(), timeText),
+            var card = Card(
+                VStack().WS().Gap(4.px()).Children(
+                HStack().WS().AlignItems(ItemAlign.Center).Children(Raw(dot), title.ML(item.IsRead ? 0 : 6).Grow(), timeText),
                 message
-            )).Padding(12.px()).NoHover();
+            ), noAnimation: true);
 
             if (!item.IsRead)
             {

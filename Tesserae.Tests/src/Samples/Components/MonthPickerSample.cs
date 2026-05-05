@@ -12,8 +12,8 @@ namespace Tesserae.Tests.Samples
 
         public MonthPickerSample()
         {
-            var minMonth = (DateTime.Today.Year - 1, 1);
-            var maxMonth = (DateTime.Today.Year + 1, 12);
+            var minMonth = (year: DateTime.Today.Year - 1, month: 1);
+            var maxMonth = (year: DateTime.Today.Year + 1, month: 12);
 
             _content = SectionStack().Secondary()
                .SampleTitle(typeof(MonthPickerSample), UIcons.CalendarLines, "A control to select a year and month")

@@ -16,16 +16,16 @@ namespace Tesserae.Tests.Samples
 
             var palette = ColorPalette()
                 .Swatches(
-                    ("Blue",    "#0078d4"),
-                    ("Purple",  "#8764b8"),
-                    ("Magenta", "#e3008c"),
-                    ("Red",     "#d13438"),
-                    ("Orange",  "#ca5010"),
-                    ("Yellow",  "#ffaa44"),
-                    ("Green",   "#107c10"),
-                    ("Teal",    "#038387"),
-                    ("Neutral", "#737373"),
-                    ("Black",   "#000000")
+                    ColorPalette.Define("Blue",    "#0078d4"),
+                    ColorPalette.Define("Purple",  "#8764b8"),
+                    ColorPalette.Define("Magenta", "#e3008c"),
+                    ColorPalette.Define("Red",     "#d13438"),
+                    ColorPalette.Define("Orange",  "#ca5010"),
+                    ColorPalette.Define("Yellow",  "#ffaa44"),
+                    ColorPalette.Define("Green",   "#107c10"),
+                    ColorPalette.Define("Teal",    "#038387"),
+                    ColorPalette.Define("Neutral", "#737373"),
+                    ColorPalette.Define("Black",   "#000000")
                 )
                 .SetValue("#0078d4")
                 .WithCustomColor()
@@ -58,7 +58,7 @@ namespace Tesserae.Tests.Samples
                             swatch.style.background      = c;
                             swatch.style.borderRadius    = "50%";
                             swatch.style.border          = "1px solid rgba(0,0,0,0.15)";
-                            return HStack().AlignItems(ItemAlign.Center).Gap(8).Children(
+                            return HStack().AlignItems(ItemAlign.Center).Gap(8.px()).Children(
                                 Raw(swatch),
                                 TextBlock(c).SemiBold().Small()
                             );
@@ -67,10 +67,10 @@ namespace Tesserae.Tests.Samples
                     SampleSubTitle("Semantic Colours"),
                     ColorPalette()
                         .Swatches(
-                            ("Success", Theme.Success.Background),
-                            ("Warning", Theme.Warning.Background),
-                            ("Danger",  Theme.Danger.Background),
-                            ("Info",    Theme.Primary.Background)
+                            ColorPalette.Define("Success", Theme.Success.Background),
+                            ColorPalette.Define("Primary", Theme.Primary.Background),
+                            ColorPalette.Define("Danger",  Theme.Danger.Background),
+                            ColorPalette.Define("Info",    Theme.Primary.Background)
                         )
                         .OnChange(c => Toast().Information($"Semantic color: {c}"))
                 )).SetTitle("Usage")));
