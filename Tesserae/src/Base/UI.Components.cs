@@ -928,6 +928,37 @@ namespace Tesserae
         /// </summary>
         public static Teaching     Teaching()                   => new Teaching();
         public static Sparkline Sparkline(double[] data, double width = 100, double height = 30, string color = "") => new Sparkline(data, width, height, color);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.StepsSlider{T}"/> component.
+        /// </summary>
+        public static StepsSlider<T> StepsSlider<T>(params T[] steps) where T : IEquatable<T> => new StepsSlider<T>(steps);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.Rating"/> component.
+        /// </summary>
+        public static Rating Rating(int maxStars = 5) => new Rating(maxStars);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.ProgressRing"/> component.
+        /// </summary>
+        public static ProgressRing ProgressRing(int size = 48, int thickness = 4) => new ProgressRing(size, thickness);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.ColorPalette"/> component.
+        /// </summary>
+        public static ColorPalette ColorPalette() => new ColorPalette();
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.KbdShortcut"/> component.
+        /// </summary>
+        public static KbdShortcut KbdShortcut(params string[] keys) => new KbdShortcut(keys);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.NotificationCenter"/> component.
+        /// </summary>
+        public static NotificationCenter NotificationCenter() => new NotificationCenter();
+
         /// <summary>
         /// Converts a <see cref="Tesserae.Button"/> to a <see cref="Tesserae.ToggleButton"/>.
         /// </summary>

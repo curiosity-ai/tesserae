@@ -20,11 +20,16 @@ namespace Tesserae
 
         public Expander(string title = null, IComponent content = null)
         {
+            var contentId = "tss-expander-content-" + Guid.NewGuid().ToString("N").Substring(0, 8);
+
             _title         = Span(_("tss-expander-title", text: title ?? string.Empty));
             _headerContent = Div(_("tss-expander-header-content"), _title);
             _chevron       = I(UIcons.AngleDown, cssClass: "tss-expander-chevron");
             _header        = Div(_("tss-expander-header", role: "button", ariaLabel: "Toggle section"), _chevron, _headerContent);
+            _header.setAttribute("aria-controls", contentId);
             _content       = Div(_("tss-expander-content"));
+            _content.id    = contentId;
+            _content.setAttribute("role", "region");
 
             InnerElement = Div(_("tss-expander"), _header, _content);
 

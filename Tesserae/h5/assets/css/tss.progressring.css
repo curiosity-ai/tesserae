@@ -1,0 +1,56 @@
+/* ProgressRing */
+.tss-progressring {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .tss-progressring svg {
+        transform: rotate(0deg);
+    }
+
+    .tss-progressring-track {
+        stroke: var(--tss-progressring-track-color, rgba(var(--tss-primary-background-color-root, 0,120,212), 0.15));
+    }
+
+    .tss-progressring-fill {
+        stroke: var(--tss-primary-background-color);
+        stroke-linecap: round;
+        transition: stroke-dashoffset 0.3s ease;
+    }
+
+    .tss-progressring-label {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--tss-default-foreground-color);
+        pointer-events: none;
+    }
+
+/* Indeterminate spin */
+.tss-progressring-indeterminate .tss-progressring-fill {
+    animation: tss-progressring-spin 1.4s linear infinite;
+    stroke-dasharray: calc(var(--tss-ring-circ, 100) * 0.75) calc(var(--tss-ring-circ, 100) * 0.25);
+    stroke-dashoffset: 0 !important;
+}
+
+@keyframes tss-progressring-spin {
+    0%   { transform: rotate(-90deg); }
+    100% { transform: rotate(270deg); }
+}
+
+.tss-progressring-indeterminate svg circle.tss-progressring-fill {
+    transform-origin: center;
+    transform-box: fill-box;
+    animation: tss-progressring-rotate 1.4s linear infinite;
+}
+
+@keyframes tss-progressring-rotate {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}

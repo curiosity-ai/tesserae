@@ -1,0 +1,35 @@
+/* KbdShortcut */
+.tss-kbd-shortcut {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    vertical-align: middle;
+}
+
+.tss-kbd-key {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 5px;
+    font-family: var(--tss-font-family, system-ui, sans-serif);
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--tss-default-foreground-color);
+    background: var(--tss-secondary-background-color, #f3f3f3);
+    border: 1px solid var(--tss-default-border-color);
+    border-bottom-width: 2px;
+    border-radius: 4px;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.08);
+    user-select: none;
+    white-space: nowrap;
+}
+
+.tss-kbd-separator {
+    font-size: 11px;
+    color: var(--tss-secondary-foreground-color, #888);
+    padding: 0 1px;
+    user-select: none;
+}
