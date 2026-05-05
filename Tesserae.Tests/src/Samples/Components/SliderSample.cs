@@ -37,14 +37,26 @@ namespace Tesserae.Tests.Samples
                     VStack().Children(
                         Label("Disabled Slider").Disabled().SetContent(Slider(val: 30).Disabled()),
                         Label("Required Slider").Required().SetContent(Slider(val: 10))
+                    ),
+                    SampleSubTitle("Vertical Sliders"),
+                    HStack().H(150.px()).AlignItems(ItemAlign.Center).Children(
+                        VStack().AlignItems(ItemAlign.Center).WS().H(150.px()).Children(
+                            Slider(val: 50).Vertical().HS(),
+                            TextBlock("50%").Small().MT(4)
+                        ),
+                        VStack().AlignItems(ItemAlign.Center).WS().H(150.px()).Children(
+                            Slider(val: 20).Vertical().HS(),
+                            TextBlock("20%").Small().MT(4)
+                        ),
+                        VStack().AlignItems(ItemAlign.Center).WS().H(150.px()).Children(
+                            Slider(val: 80).Vertical().HS(),
+                            TextBlock("80%").Small().MT(4)
+                        ),
+                        VStack().AlignItems(ItemAlign.Center).WS().H(150.px()).Children(
+                            Slider(val: 50).Vertical().HS().Disabled(),
+                            TextBlock("Disabled").Small().MT(4)
+                        )
                     )
-                    //TODO: Fix vertical sliders:
-                    //SampleSubTitle("Vertical Sliders"),
-                    //HStack().Children(
-                    //    Slider(val: 50).Vertical().H(150),
-                    //    Slider(val: 20).Vertical().H(150),
-                    //    Slider(val: 80).Vertical().H(150)
-                    //)
                 )).SetTitle("Usage")));
         }
 

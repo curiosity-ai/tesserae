@@ -31,6 +31,10 @@ namespace Tesserae
             InnerElement.max       = max.ToString();
             InnerElement.step      = step.ToString();
             InnerElement.type      = "range";
+            InnerElement.setAttribute("role",          "slider");
+            InnerElement.setAttribute("aria-valuemin", min.ToString());
+            InnerElement.setAttribute("aria-valuemax", max.ToString());
+            InnerElement.setAttribute("aria-valuenow", val.ToString());
 
             AttachClick();
             AttachChange();
@@ -79,10 +83,14 @@ namespace Tesserae
                 if (value == SliderOrientation.Vertical)
                 {
                     _outerLabel.classList.add("tss-vertical");
+                    _outerDiv.classList.add("tss-slider-div-vertical");
+                    InnerElement.setAttribute("aria-orientation", "vertical");
                 }
                 else
                 {
                     _outerLabel.classList.remove("tss-vertical");
+                    _outerDiv.classList.remove("tss-slider-div-vertical");
+                    InnerElement.setAttribute("aria-orientation", "horizontal");
                 }
             }
         }
@@ -98,6 +106,7 @@ namespace Tesserae
                 if (Value != value)
                 {
                     InnerElement.value = value.ToString();
+                    InnerElement.setAttribute("aria-valuenow", value.ToString());
                     if (_fakeDiv is object) UpdateFakeProgress();
                 }
             }

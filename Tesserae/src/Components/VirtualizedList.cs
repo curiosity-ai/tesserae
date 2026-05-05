@@ -281,11 +281,6 @@ namespace Tesserae
             var scrollTop       = _basicListContainer.scrollTop;
             var scrollDirection = GetScrollDirection(scrollTop);
 
-            if (scrollDirection == ScrollDirection.Neutral)
-            {
-                console.log("Scroll neutral");
-            }
-
             var scrollPosition = scrollTop;
 
             var newPage = (int)Round(scrollPosition / _pageHeight.Size, MidpointRounding.AwayFromZero);
@@ -294,8 +289,6 @@ namespace Tesserae
             {
                 if (scrollDirection == ScrollDirection.Down)
                 {
-                    console.log($"Scroll down - new page: {newPage}");
-
                     RemoveFirstPageFromBasicListContainer();
 
                     var newTopSpacingDivHeight = ((newPage - _pagesToVirtualizeLowerBoundary) * _pageHeight.Size).px();
@@ -311,8 +304,6 @@ namespace Tesserae
                 }
                 else if (scrollDirection == ScrollDirection.Up)
                 {
-                    console.log($"Scroll up - new page: {newPage}");
-
                     RemoveLastPageFromBasicListContainer();
 
                     var newTopSpacingDivHeight =

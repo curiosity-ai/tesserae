@@ -145,7 +145,12 @@
         "h5/assets/css/tss.taskboard.css",
         "h5/assets/css/tss.uptime.css",
         "h5/assets/css/baklava.css",
-        "h5/assets/css/tss.chat.css"
+        "h5/assets/css/tss.chat.css",
+        "h5/assets/css/tss.rating.css",
+        "h5/assets/css/tss.progressring.css",
+        "h5/assets/css/tss.colorpalette.css",
+        "h5/assets/css/tss.kbd.css",
+        "h5/assets/css/tss.notificationcenter.css"
       ],
       "output": "assets/css"
     },

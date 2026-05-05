@@ -1,0 +1,65 @@
+/* NotificationCenter */
+.tss-notif-center {
+    position: relative;
+    display: inline-flex;
+}
+
+.tss-notif-bell {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    color: var(--tss-default-foreground-color);
+    transition: background 0.15s ease;
+}
+
+    .tss-notif-bell:hover {
+        background: var(--tss-secondary-background-color);
+    }
+
+    .tss-notif-bell:focus-visible {
+        outline: 2px solid var(--tss-primary-background-color);
+        outline-offset: 2px;
+    }
+
+    .tss-notif-bell > i {
+        font-size: 18px;
+    }
+
+.tss-notif-badge {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 3px;
+    border-radius: 999px;
+    background: var(--tss-danger-background-color, #d13438);
+    color: #fff;
+    font-size: 9px;
+    font-weight: 700;
+    line-height: 16px;
+    text-align: center;
+    pointer-events: none;
+}
+
+/* Notification items */
+.tss-notif-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.tss-notif-dot.tss-notif-info    { background: var(--tss-primary-background-color); }
+.tss-notif-dot.tss-notif-success { background: var(--tss-success-background-color, #107c10); }
+.tss-notif-dot.tss-notif-warning { background: var(--tss-warning-background-color, #c19c00); }
+.tss-notif-dot.tss-notif-danger  { background: var(--tss-danger-background-color, #d13438); }
+
+.tss-notif-unread {
+    background: var(--tss-primary-background-color-transparent, rgba(0,120,212,0.05)) !important;
+}
