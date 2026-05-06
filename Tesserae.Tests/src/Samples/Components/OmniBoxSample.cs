@@ -35,6 +35,10 @@ namespace Tesserae.Tests.Samples
             })
             .SetSearchText("potato AND ( tomato OR banana) AND NOT apple");
 
+            searchModeSample.InlineFilterChips.Add(new OmniBox.InlineFilterChip("Tag: Red", "var(--tss-danger-background-color)", "var(--tss-danger-foreground-color)"));
+            searchModeSample.InlineFilterChips.Add(new OmniBox.InlineFilterChip("Author: Jules"));
+            searchModeSample.SetSearchRightText("124 results");
+
             var chatModeSample = OmniBox(new OmniBox.Config(OmniBox.Mode.Chat)
             {
                 PlaceholderChat  =    "Ask me anything",
@@ -70,8 +74,6 @@ namespace Tesserae.Tests.Samples
             .WithHistory(async () => {
                 return new OmniBox.SearchQuery[0];
             });
-
-
 
             var toggle = Toggle("Disabled").OnChange((s, e) =>
             {

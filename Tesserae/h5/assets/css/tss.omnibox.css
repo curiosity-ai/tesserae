@@ -269,3 +269,50 @@
 .tss-omnibox-container:not(.tss-omnibox-expanded).tss-omnibox-mode-chat .tss-omnibox-search-container {
     transition: min-height 0.15s ease-in-out;
 }
+.tss-omnibox-inline-chips {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-left: 8px;
+    gap: 4px;
+}
+
+.tss-omnibox-inline-chip {
+    display: inline-flex;
+    align-items: center;
+    background-color: var(--tss-secondary-background-color);
+    color: var(--tss-secondary-foreground-color);
+    border-radius: var(--tss-border-radius-md);
+    padding: 2px 4px 2px 8px;
+    font-size: 12px;
+    height: 24px;
+    white-space: nowrap;
+}
+
+.tss-omnibox-inline-chip-close {
+    cursor: pointer;
+    margin-left: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    transition: background-color 0.2s;
+}
+.tss-omnibox-inline-chip-close:hover {
+    background-color: var(--tss-danger-background-color);
+    color: var(--tss-danger-foreground-color);
+}
+.tss-omnibox-inline-chip-close i {
+    font-size: 10px;
+}
+
+.tss-omnibox-right-text {
+    display: flex;
+    align-items: center;
+    margin-right: 8px;
+    color: var(--tss-secondary-foreground-color);
+    font-size: 12px;
+    white-space: nowrap;
+}
