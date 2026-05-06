@@ -13,16 +13,23 @@ namespace Tesserae
 
         public class InlineFilterChip
         {
-            public string Name { get; }
-            public string Color { get; }
-            public string Background { get; }
-            public Action<MouseEvent> OnClick { get; }
+            internal string Name { get; }
+            internal string Color { get; }
+            internal string Background { get; }
+            internal Action<MouseEvent> OnClick { get; }
+            internal IComponent Content { get; }
 
             public InlineFilterChip(string name, string background = null, string color = null, Action<MouseEvent> onClick = null)
             {
                 Name = name;
                 Background = background;
                 Color = color;
+                OnClick = onClick;
+            }
+
+            public InlineFilterChip(IComponent content, Action<MouseEvent> onClick = null)
+            {
+                Content = content;
                 OnClick = onClick;
             }
         }
@@ -1094,7 +1101,15 @@ namespace Tesserae
                 if (!string.IsNullOrEmpty(chip.Background)) chipEl.style.background = chip.Background;
                 if (!string.IsNullOrEmpty(chip.Color)) chipEl.style.color = chip.Color;
 
-                var textEl = Span(_(text: chip.Name));
+                HTMLElement contentEl;
+                if (chip.Content is object)
+                {
+                    contentEl = chip.Content.Render();
+                }
+                else
+                {
+                    contentEl = Span(_(text: chip.Name));
+                }
 
                 var closeBtn = Div(_("tss-omnibox-inline-chip-close"));
                 closeBtn.appendChild(UI.Icon(UIcons.Cross).Render());
@@ -1115,7 +1130,7 @@ namespace Tesserae
                     chipEl.style.cursor = "pointer";
                 }
 
-                chipEl.appendChild(textEl);
+                chipEl.appendChild(contentEl);
                 chipEl.appendChild(closeBtn);
                 _searchInlineChipsContainer.appendChild(chipEl);
             }
