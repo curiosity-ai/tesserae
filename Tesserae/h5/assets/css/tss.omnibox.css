@@ -275,6 +275,8 @@
     align-items: center;
     margin-left: 8px;
     gap: 4px;
+    background: var(--tss-secondary-background-color);
+    border-right: 1px solid var(--tss-default-border-color);
 }
 
 .tss-omnibox-inline-chip {
@@ -300,6 +302,7 @@
     height: 16px;
     transition: background-color 0.2s;
 }
+
 .tss-omnibox-inline-chip-close:hover {
     background-color: var(--tss-danger-background-color);
     color: var(--tss-danger-foreground-color);
