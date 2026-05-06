@@ -1112,7 +1112,7 @@ namespace Tesserae
                         StopEvent(e);
                         chip.OnClick(e);
                     };
-                    chipEl.style.pointerEvents = "cursor";
+                    chipEl.style.cursor = "pointer";
                 }
 
                 chipEl.appendChild(textEl);
