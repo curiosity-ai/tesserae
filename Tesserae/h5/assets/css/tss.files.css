@@ -104,3 +104,30 @@
     -webkit-text-stroke: 1px var(--tss-default-background-hover-color);
 }
 
+
+.tss-filedroparea-wrapper {
+    position: relative;
+    display: inline-flex;
+    flex-direction: column;
+}
+
+.tss-filedroparea-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(var(--tss-default-background-color-rgb, 255, 255, 255), 0.8);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 100;
+    border: 2px dashed var(--tss-dark-border-color);
+    border-radius: 8px;
+}
+
+.tss-dark-mode .tss-filedroparea-overlay {
+    background: rgba(var(--tss-default-background-color-rgb, 0, 0, 0), 0.8);
+}
+
+.tss-filedroparea-wrapper.tss-dropping .tss-filedroparea-overlay {
+    display: flex;
+}
