@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using static H5.Core.dom;
 using static Tesserae.UI;
@@ -297,43 +298,88 @@ namespace Tesserae
                 _chatInput.addEventListener("focus", (e) => ReceivedFocus?.Invoke(this, e));
                 _chatInput.addEventListener("blur", (e) => LostFocus?.Invoke(this, e));
 
+                _chatContainer = Div(_("tss-omnibox-chat-container"), _chatInput);
+
                 _chatTriggerBtn = Button().SetIcon(config.IconChat).Class("tss-omnibox-chat-btn").OnClick(TriggerChat);
 
                 if (config.ChatFooter?.LeftSide is object)
                 {
-                    foreach (var i in config.ChatFooter.LeftSide)
+                    if (_mode == Mode.Chat)
                     {
-                        _footer.appendChild(i.Class("tss-omnibox-chat-footer-item").Render());
+                        foreach (var i in config.ChatFooter.LeftSide)
+                        {
+                            var el = i.Class("tss-omnibox-chat-footer-item").Render();
+                            _chatContainer.insertBefore(el, _chatInput);
+                        }
+                    }
+                    else
+                    {
+                        foreach (var i in config.ChatFooter.LeftSide)
+                        {
+                            _footer.appendChild(i.Class("tss-omnibox-chat-footer-item").Render());
+                        }
                     }
                 }
 
                 if (config.SearchFooter?.LeftSide is object)
                 {
-                    foreach (var i in config.SearchFooter.LeftSide)
+                    if (_mode == Mode.Search)
                     {
-                        _footer.appendChild(i.Class("tss-omnibox-search-footer-item").Render());
+                        var targetInsert = _searchHistoryBtn.Render();
+                        foreach (var i in config.SearchFooter.LeftSide)
+                        {
+                            var el = i.Class("tss-omnibox-search-footer-item").Render();
+                            targetInsert.insertAdjacentElement(InsertPosition.afterend, el);
+                            targetInsert = el;
+                        }
+                    }
+                    else
+                    {
+                        foreach (var i in config.SearchFooter.LeftSide)
+                        {
+                            _footer.appendChild(i.Class("tss-omnibox-search-footer-item").Render());
+                        }
                     }
                 }
 
 
                 _footer.appendChild(Div(_("tss-omnibox-footer-spacer")));
                 footerEnd.Add(_chatTriggerBtn);
-                _chatContainer = Div(_("tss-omnibox-chat-container"), _chatInput);
             }
 
             if (config.ChatFooter?.RightSide is object)
             {
-                foreach (var i in config.ChatFooter.RightSide)
+                if (_mode == Mode.Chat)
                 {
-                    _footer.appendChild(i.Class("tss-omnibox-chat-footer-item").Render());
+                    footerEnd.InsertRange(0, config.ChatFooter.RightSide.Select(i => i.Class("tss-omnibox-chat-footer-item")));
+                }
+                else
+                {
+                    foreach (var i in config.ChatFooter.RightSide)
+                    {
+                        _footer.appendChild(i.Class("tss-omnibox-chat-footer-item").Render());
+                    }
                 }
             }
 
             if (config.SearchFooter?.RightSide is object)
             {
-                foreach (var i in config.SearchFooter.RightSide )
+                if (_mode == Mode.Search)
                 {
-                    _footer.appendChild(i.Class("tss-omnibox-search-footer-item").Render());
+                    HTMLElement targetInsert = _searchInputContainer;
+                    foreach (var i in config.SearchFooter.RightSide)
+                    {
+                        var el = i.Class("tss-omnibox-search-footer-item").Render();
+                        targetInsert.insertAdjacentElement(InsertPosition.afterend, el);
+                        targetInsert = el;
+                    }
+                }
+                else
+                {
+                    foreach (var i in config.SearchFooter.RightSide)
+                    {
+                        _footer.appendChild(i.Class("tss-omnibox-search-footer-item").Render());
+                    }
                 }
             }
 

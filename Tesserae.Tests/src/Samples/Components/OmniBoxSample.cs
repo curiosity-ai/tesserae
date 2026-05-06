@@ -15,9 +15,17 @@ namespace Tesserae.Tests.Samples
 
         public OmniBoxSample()
         {
+            var attBtnForSearch = Button(UIcons.PaperclipVertical).Tooltip("Add attachment");
             var searchModeSample = OmniBox(new OmniBox.Config(OmniBox.Mode.Search)
             {
                 PlaceholderSearch =    "Type something like: potato AND ( tomato OR banana) AND NOT apple",
+                SearchFooter = new OmniBox.FooterItems
+                {
+                    RightSide = new[]
+                    {
+                        attBtnForSearch
+                    } 
+                }
             })
             .WS()
             .WithHistory(async () => {
@@ -36,14 +44,26 @@ namespace Tesserae.Tests.Samples
             })
             .SetSearchText("potato AND ( tomato OR banana) AND NOT apple");
 
-            var fileDropArea = FileDropArea(searchModeSample).OnFilesDropped((s, files) =>
+            var fileDropAreaOnSearch = FileDropArea(searchModeSample).OnFilesDropped((s, files) =>
             {
-                Toast().Information($"Dropped files: {string.Join(", ", files.Select(f => f.name))}");
+                Toast().Information($"Dropped files on search box: {string.Join(", ", files.Select(f => f.name))}");
             }).SetAccepts("*");
 
+            attBtnForSearch.OnClick((s, e) => fileDropAreaOnSearch.OpenFileSelection());
+
+            var attBtnForChat = Button(UIcons.PaperclipVertical).Tooltip("Add attachment");
+            
             var chatModeSample = OmniBox(new OmniBox.Config(OmniBox.Mode.Chat)
             {
                 PlaceholderChat  =    "Ask me anything",
+                ChatFooter = new OmniBox.FooterItems
+                {
+                    RightSide = new[]
+                    {
+                        attBtnForChat
+                    } 
+                }
+
             })
             .WS()
             .OnChat((s, q) =>
@@ -51,6 +71,12 @@ namespace Tesserae.Tests.Samples
                 Toast().Information(q.Text);
             });
 
+            var fileDropAreaOnChat = FileDropArea(chatModeSample).OnFilesDropped((s, files) =>
+            {
+                Toast().Information($"Dropped files on chat box: {string.Join(", ", files.Select(f => f.name))}");
+            }).SetAccepts("*");
+
+            attBtnForChat.OnClick((s, e) => fileDropAreaOnChat.OpenFileSelection());
 
             var searchAndChatModeSample = OmniBox(new OmniBox.Config(OmniBox.Mode.SearchAndChat)
             {
@@ -58,7 +84,7 @@ namespace Tesserae.Tests.Samples
                 PlaceholderSearch = "Search for anything",
                 ChatFooter = new OmniBox.FooterItems { LeftSide = new IComponent[]
                 {
-                    Dropdown().Searchable().Items(DropdownItem("Consult Documents", icon: UIcons.Book).Selected(),
+                    Dropdown().ML(16).Searchable().Items(DropdownItem("Consult Documents", icon: UIcons.Book).Selected(),
                                                   DropdownItem("Find a flight", icon: UIcons.AirplaneJourney),
                                                   DropdownItem("Book a hotel", icon: UIcons.Hotel))
                 }
@@ -76,7 +102,6 @@ namespace Tesserae.Tests.Samples
             .WithHistory(async () => {
                 return new OmniBox.SearchQuery[0];
             });
-
 
 
             var toggle = Toggle("Disabled").OnChange((s, e) =>
@@ -105,9 +130,9 @@ namespace Tesserae.Tests.Samples
                .FlatSection(VStack().WS().Children(
                     Card(VStack().WS().Children(
                     SampleSubTitle("Modes"),
-                        Label("Search (with FileDropArea)").SetContent(HStack().WS().Children(fileDropArea, Button("Add attachment").OnClick((s, e) => fileDropArea.OpenFileSelection()))),
-                        Label("Chat").SetContent(chatModeSample.MT(6)),
-                        Label("Search & Chat").SetContent(searchAndChatModeSample.MT(6))
+                        Label("Search (with FileDropArea)").SetContent(fileDropAreaOnSearch.WS()),
+                        Label("Chat").SetContent(fileDropAreaOnChat.WS()).MT(6),
+                        Label("Search & Chat").SetContent(searchAndChatModeSample.WS()).MT(6)
                 )).SetTitle("Usage")));
         }
 
