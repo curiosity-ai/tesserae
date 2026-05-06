@@ -13,15 +13,17 @@ namespace Tesserae
 
         public class InlineFilterChip
         {
-            public string Name { get; set; }
-            public string Color { get; set; }
-            public string Background { get; set; }
+            public string Name { get; }
+            public string Color { get; }
+            public string Background { get; }
+            public Action<MouseEvent> OnClick { get; }
 
-            public InlineFilterChip(string name, string background = null, string color = null)
+            public InlineFilterChip(string name, string background = null, string color = null, Action<MouseEvent> onClick = null)
             {
                 Name = name;
                 Background = background;
                 Color = color;
+                OnClick = onClick;
             }
         }
 
@@ -343,46 +345,49 @@ namespace Tesserae
 
                 if (config.ChatFooter?.LeftSide is object)
                 {
-                    if (_mode == Mode.Chat)
-                    {
-                        foreach (var i in config.ChatFooter.LeftSide)
-                        {
-                            var el = i.Class("tss-omnibox-chat-footer-item").Render();
-                            _chatContainer.insertBefore(el, _chatInput);
-                        }
-                    }
-                    else
-                    {
+                    //if (_mode == Mode.Chat)
+                    //{
+                    //    foreach (var i in config.ChatFooter.LeftSide)
+                    //    {
+                    //        var el = i.Class("tss-omnibox-chat-footer-item").Render();
+                    //        _chatContainer.insertBefore(el, _chatInput);
+                    //    }
+                    //}
+                    //else
+                    //{
                         foreach (var i in config.ChatFooter.LeftSide)
                         {
                             _footer.appendChild(i.Class("tss-omnibox-chat-footer-item").Render());
                         }
-                    }
+                    //}
                 }
+            }
 
-                if (config.SearchFooter?.LeftSide is object)
+            if (config.SearchFooter?.LeftSide is object)
+            {
+                if (_mode == Mode.Search)
                 {
-                    if (_mode == Mode.Search)
+                    var targetInsert = _searchHistoryBtn.Render();
+                    foreach (var i in config.SearchFooter.LeftSide)
                     {
-                        var targetInsert = _searchHistoryBtn.Render();
-                        foreach (var i in config.SearchFooter.LeftSide)
-                        {
-                            var el = i.Class("tss-omnibox-search-footer-item").Render();
-                            targetInsert.insertAdjacentElement(InsertPosition.afterend, el);
-                            targetInsert = el;
-                        }
-                    }
-                    else
-                    {
-                        foreach (var i in config.SearchFooter.LeftSide)
-                        {
-                            _footer.appendChild(i.Class("tss-omnibox-search-footer-item").Render());
-                        }
+                        var el = i.Class("tss-omnibox-search-footer-item").Render();
+                        targetInsert.insertAdjacentElement(InsertPosition.afterend, el);
+                        targetInsert = el;
                     }
                 }
+                else
+                {
+                    foreach (var i in config.SearchFooter.LeftSide)
+                    {
+                        _footer.appendChild(i.Class("tss-omnibox-search-footer-item").Render());
+                    }
+                }
+            }
 
+            _footer.appendChild(Div(_("tss-omnibox-footer-spacer")));
 
-                _footer.appendChild(Div(_("tss-omnibox-footer-spacer")));
+            if (_mode == Mode.Chat || _mode == Mode.SearchAndChat)
+            {
                 footerEnd.Add(_chatTriggerBtn);
             }
 
@@ -437,6 +442,10 @@ namespace Tesserae
                 case Mode.Chat:
                 {
                     _container = Div(_("tss-omnibox-container"), _chatContainer, _footer);
+                    if ((config.ChatFooter?.LeftSide?.Length + config.ChatFooter?.RightSide?.Length) > 0)
+                    {
+                        _container.classList.add("tss-omnibox-chat-with-footer");
+                    }
                     break;
                 }
                 case Mode.SearchAndChat:
@@ -1092,9 +1101,19 @@ namespace Tesserae
 
                 closeBtn.onclick = (e) =>
                 {
+                    StopEvent(e);
                     InlineFilterChips.Remove(chip);
-                    e.stopPropagation();
                 };
+
+                if(chip.OnClick is object)
+                {
+                    chipEl.onclick = (e) =>
+                    {
+                        StopEvent(e);
+                        chip.OnClick(e);
+                    };
+                    chipEl.style.pointerEvents = "cursor";
+                }
 
                 chipEl.appendChild(textEl);
                 chipEl.appendChild(closeBtn);

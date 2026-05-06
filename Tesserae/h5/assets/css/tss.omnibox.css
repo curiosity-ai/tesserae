@@ -15,7 +15,8 @@
     transition: all 0.15s ease-in-out;
 }
 
-    .tss-omnibox-container.tss-omnibox-chat-and-search {
+    .tss-omnibox-container.tss-omnibox-chat-and-search,
+    .tss-omnibox-container.tss-omnibox-chat-with-footer {
         flex-direction: column;
     }
 
@@ -27,7 +28,7 @@
         border-radius: 0;
     }
 
-        .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-history-btn {
+        .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-history-btn,{
             border-right: 1px solid var(--tss-default-border-color);
             cursor: pointer;
             background: var(--tss-secondary-background-color);
@@ -39,7 +40,7 @@
             border-bottom-right-radius: 0;
         }
 
-        .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-clear-btn {
+        .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-clear-btn,{
             cursor: pointer;
             color: var(--tss-secondary-foreground-color);
             flex-shrink: 0;

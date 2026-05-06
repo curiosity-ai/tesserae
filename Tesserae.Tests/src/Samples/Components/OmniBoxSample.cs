@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,6 +21,10 @@ namespace Tesserae.Tests.Samples
                 PlaceholderSearch =    "Type something like: potato AND ( tomato OR banana) AND NOT apple",
                 SearchFooter = new OmniBox.FooterItems
                 {
+                    LeftSide = new[]
+                    {
+                        Button(UIcons.Rocket).OnClick(() => Toast().Success("Lift off 🚀"))
+                    },
                     RightSide = new[]
                     {
                         attBtnForSearch
@@ -50,7 +54,7 @@ namespace Tesserae.Tests.Samples
             }).SetAccepts("*");
 
             searchModeSample.InlineFilterChips.Add(new OmniBox.InlineFilterChip("Tag: Red", "var(--tss-danger-background-color)", "var(--tss-danger-foreground-color)"));
-            searchModeSample.InlineFilterChips.Add(new OmniBox.InlineFilterChip("Author: Jules"));
+            searchModeSample.InlineFilterChips.Add(new OmniBox.InlineFilterChip("Author: Jules", onClick:(_)=> Toast().Success("hi!")));
             searchModeSample.SetSearchRightText("124 results");
 
             attBtnForSearch.OnClick((s, e) => fileDropAreaOnSearch.OpenFileSelection());
@@ -62,6 +66,10 @@ namespace Tesserae.Tests.Samples
                 PlaceholderChat  =    "Ask me anything",
                 ChatFooter = new OmniBox.FooterItems
                 {
+                    LeftSide = new[]
+                    {
+                        Button(UIcons.Rocket).OnClick(() => Toast().Success("Lift off 🚀"))
+                    },
                     RightSide = new[]
                     {
                         attBtnForChat
