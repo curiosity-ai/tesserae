@@ -10,6 +10,21 @@ namespace Tesserae
     [H5.Name("tss.OmniBox")]
     public class OmniBox : IComponent, IHasBackgroundColor, ITabIndex
     {
+
+        public class InlineFilterChip
+        {
+            public string Name { get; set; }
+            public string Color { get; set; }
+            public string Background { get; set; }
+
+            public InlineFilterChip(string name, string background = null, string color = null)
+            {
+                Name = name;
+                Background = background;
+                Color = color;
+            }
+        }
+
         public class Config
         {
             public Config(Mode mode, Mode? initialMode = null)
@@ -67,6 +82,11 @@ namespace Tesserae
         private readonly HTMLDivElement   _container;
         private readonly HTMLDivElement   _searchContainer;
         private readonly HTMLInputElement _searchInput;
+
+        public ObservableList<InlineFilterChip> InlineFilterChips { get; }
+        private readonly HTMLDivElement _searchInlineChipsContainer;
+        private readonly HTMLDivElement _searchRightTextContainer;
+
         private readonly HTMLDivElement   _searchTokensContainer;
         private readonly HTMLDivElement   _searchInputContainer;
         private readonly Button      _searchHistoryBtn;
@@ -123,6 +143,14 @@ namespace Tesserae
 
             if (_mode == Mode.Search || _mode == Mode.SearchAndChat)
             {
+
+                InlineFilterChips = new ObservableList<InlineFilterChip>();
+                _searchInlineChipsContainer = Div(_("tss-omnibox-inline-chips"));
+                _searchRightTextContainer = Div(_("tss-omnibox-right-text"));
+                _searchRightTextContainer.style.display = "none";
+
+                InlineFilterChips.Observe(RenderInlineChips);
+
                 _searchInput = TextBox(_("tss-omnibox-search-input", type: "text", placeholder: config.PlaceholderSearch ?? ""));
                 _searchInput.autocomplete = "off";
                 _searchInput.spellcheck = false;
@@ -138,11 +166,11 @@ namespace Tesserae
 
                 if (_mode == Mode.Search)
                 {
-                    _searchContainer = Div(_("tss-omnibox-search-container"), _searchHistoryBtn.Render(), _searchInputContainer, _searchClearBtn.Render(), _searchTriggerBtn.Render());
+                    _searchContainer = Div(_("tss-omnibox-search-container"), _searchHistoryBtn.Render(), _searchInlineChipsContainer, _searchInputContainer, _searchRightTextContainer, _searchClearBtn.Render(), _searchTriggerBtn.Render());
                 }
                 else
                 {
-                    _searchContainer = Div(_("tss-omnibox-search-container"), _searchInputContainer);
+                    _searchContainer = Div(_("tss-omnibox-search-container"), _searchInlineChipsContainer, _searchInputContainer, _searchRightTextContainer);
                     _footer.appendChild(_searchHistoryBtn.Render());
                     footerEnd.Add(_searchClearBtn);
                     footerEnd.Add(_searchTriggerBtn);
@@ -162,9 +190,20 @@ namespace Tesserae
                     {
                         TriggerSearch();
                     }
+
                     else if (ke.key == "Backspace")
                     {
                         var cursorPos = _searchInput.selectionStart;
+                        if (cursorPos == 0 && _searchInput.selectionEnd == 0)
+                        {
+                            if (InlineFilterChips.Count > 0)
+                            {
+                                InlineFilterChips.RemoveAt(InlineFilterChips.Count - 1);
+                                e.preventDefault();
+                                return;
+                            }
+                        }
+
                         if (cursorPos > 0 && cursorPos == _searchInput.selectionEnd)
                         {
                             // Check if the character to be deleted is a non-breaking space
@@ -836,33 +875,15 @@ namespace Tesserae
             return this;
         }
 
-        public OmniBox OnSearch(Action<OmniBox, string> onSearch)
-        {
-            Searched += (s, q) => onSearch(s, q.RawQuery);
-            return this;
-        }
-
         public OmniBox OnChat(ChatEventHandler onChat)
         {
             Chatted += onChat;
             return this;
         }
 
-        public OmniBox OnChat(Action<OmniBox, string> onChat)
-        {
-            Chatted += (s, q) => onChat(s, q.Text);
-            return this;
-        }
-
         public OmniBox OnStop(StopEventHandler onStop)
         {
             Stopped += onStop;
-            return this;
-        }
-
-        public OmniBox OnStop(Action<OmniBox> onStop)
-        {
-            Stopped += (s) => onStop(s);
             return this;
         }
 
@@ -1037,6 +1058,48 @@ namespace Tesserae
         public HTMLElement Render()
         {
             return _container;
+        }
+
+
+        public OmniBox SetSearchRightText(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                _searchRightTextContainer.textContent = "";
+                _searchRightTextContainer.style.display = "none";
+            }
+            else
+            {
+                _searchRightTextContainer.textContent = text;
+                _searchRightTextContainer.style.display = "flex";
+            }
+            return this;
+        }
+
+        private void RenderInlineChips(IReadOnlyList<InlineFilterChip> chips)
+        {
+            ClearChildren(_searchInlineChipsContainer);
+            foreach (var chip in chips)
+            {
+                var chipEl = Div(_("tss-omnibox-inline-chip"));
+                if (!string.IsNullOrEmpty(chip.Background)) chipEl.style.background = chip.Background;
+                if (!string.IsNullOrEmpty(chip.Color)) chipEl.style.color = chip.Color;
+
+                var textEl = Span(_(text: chip.Name));
+
+                var closeBtn = Div(_("tss-omnibox-inline-chip-close"));
+                closeBtn.appendChild(UI.Icon(UIcons.Cross).Render());
+
+                closeBtn.onclick = (e) =>
+                {
+                    InlineFilterChips.Remove(chip);
+                    e.stopPropagation();
+                };
+
+                chipEl.appendChild(textEl);
+                chipEl.appendChild(closeBtn);
+                _searchInlineChipsContainer.appendChild(chipEl);
+            }
         }
 
         public OmniBox SetSearchText(string text)

@@ -6,6 +6,7 @@
     padding: 24px;
     box-sizing: border-box;
     background-color: var(--tss-colors-white, #ffffff);
+    width:100%;
 }
 
 .tss-chatmessage-container {

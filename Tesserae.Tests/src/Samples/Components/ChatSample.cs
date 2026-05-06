@@ -27,13 +27,13 @@ namespace Tesserae.Tests.Samples
             var random = new Random();
 
             // Shared cancellation flag — set to true to abort the current typing animation
-            var cancelled = new bool[] { false };
+            var cancelled = false;
 
             OmniBox input = null;
 
             void AddAIAnswer()
             {
-                cancelled[0] = false;
+                cancelled = false;
 
                 var answer = predefinedAnswers[random.Next(predefinedAnswers.Length)];
                 var words = answer.Split(' ');
@@ -50,7 +50,7 @@ namespace Tesserae.Tests.Samples
 
                 void TypeNextWord()
                 {
-                    if (cancelled[0])
+                    if (cancelled)
                     {
                         input.IsGenerating = false;
                         return;
@@ -80,6 +80,8 @@ namespace Tesserae.Tests.Samples
             input = OmniBox(new OmniBox.Config(OmniBox.Mode.Chat)
             {
                 PlaceholderChat = "Ask anything...",
+                IconStop = UIcons.Stop,
+                IconChat = UIcons.ArrowRight
             })
             .OnChat((sender, msg) =>
             {
@@ -93,22 +95,21 @@ namespace Tesserae.Tests.Samples
             })
             .OnStop(new Action<OmniBox>((OmniBox sender) =>
             {
-                cancelled[0] = true;
+                cancelled = true;
                 sender.IsGenerating = false;
             }));
 
-            var chatContainer = VStack().Height(70.vh()).Children(
-                chatArea.Grow(),
-                input.WS().Grow()
+            var chatContainer = VStack().WS().H(10).Grow().Children(
+                chatArea.WS().H(10).Grow(),
+                input.WS().H(150)
             );
 
             _content = SectionStack().Secondary()
                 .SampleTitle(typeof(ChatSample), UIcons.Comments, "A component to display a chat")
-                .FlatSection(Stack().Children(
-                    Card(VStack().WS().Children(
+                .FlatSection(Card(VStack().S().Children(
                     TextBlock("ChatArea and ChatMessage components allow building modern chat experiences with dynamic, animatable messages using DeltaComponent."),
                     chatContainer.MT(16)
-                )).SetTitle("Overview")));
+                )).SetTitle("Overview").S(), grow: true);
         }
 
         public HTMLElement Render() => _content.Render();

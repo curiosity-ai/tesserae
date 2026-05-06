@@ -49,6 +49,10 @@ namespace Tesserae.Tests.Samples
                 Toast().Information($"Dropped files on search box: {string.Join(", ", files.Select(f => f.name))}");
             }).SetAccepts("*");
 
+            searchModeSample.InlineFilterChips.Add(new OmniBox.InlineFilterChip("Tag: Red", "var(--tss-danger-background-color)", "var(--tss-danger-foreground-color)"));
+            searchModeSample.InlineFilterChips.Add(new OmniBox.InlineFilterChip("Author: Jules"));
+            searchModeSample.SetSearchRightText("124 results");
+
             attBtnForSearch.OnClick((s, e) => fileDropAreaOnSearch.OpenFileSelection());
 
             var attBtnForChat = Button(UIcons.PaperclipVertical).Tooltip("Add attachment");
