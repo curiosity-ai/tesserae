@@ -9,7 +9,7 @@
     justify-content: unset;
     line-height: normal;
     border: 1px solid transparent;
-    border-radius: 2px;
+    border-radius: var(--tss-border-radius-md);
     outline: transparent none medium;
     -webkit-user-select: none;
     user-select: none;
@@ -21,11 +21,11 @@
 }
 
 .tss-actionbutton-container > .tss-actionbutton-actionbtn {
-    border-radius: 0px 2px 2px 0px
+    border-radius: 0px var(--tss-border-radius-md) var(--tss-border-radius-md) 0px
 }
 
 .tss-actionbutton-container > .tss-actionbutton-displaybutton {
-    border-radius: 2px 0px 0px 2px;
+    border-radius: var(--tss-border-radius-md) 0px 0px var(--tss-border-radius-md);
 }
 
 .tss-actionbutton-container > .tss-actionbutton-actionbtn:hover {
