@@ -213,7 +213,19 @@
     color: var(--tss-colors-blue-500);
 }
 
+.tss-dark-mode .tss-omnibox-search-token-word {
+    color: var(--tss-colors-blue-100);
+    background: var(--tss-colors-blue-900);
+    outline-color: var(--tss-colors-blue-700);
+}
 
+.tss-dark-mode .tss-omnibox-search-token-operator-and,
+.tss-dark-mode .tss-omnibox-search-token-operator-or ,
+.tss-dark-mode .tss-omnibox-search-token-operator-not,
+.tss-dark-mode .tss-omnibox-search-token-paren,
+.tss-dark-mode .tss-omnibox-search-token-quote {
+    color: var(--tss-colors-blue-400);
+}
 
 .tss-omnibox-chat-input {
     width: 100%;
