@@ -16,14 +16,16 @@ namespace Tesserae
             public string Name { get; }
             public string Color { get; }
             public string Background { get; }
+            public bool Removable { get; }
             public Action<MouseEvent> OnClick { get; }
 
-            public InlineFilterChip(string name, string background = null, string color = null, Action<MouseEvent> onClick = null)
+            public InlineFilterChip(string name, string background = null, string color = null, Action<MouseEvent> onClick = null, bool removable = true)
             {
                 Name = name;
                 Background = background;
                 Color = color;
                 OnClick = onClick;
+                Removable = removable;
             }
         }
 
@@ -1096,16 +1098,7 @@ namespace Tesserae
 
                 var textEl = Span(_(text: chip.Name));
 
-                var closeBtn = Div(_("tss-omnibox-inline-chip-close"));
-                closeBtn.appendChild(UI.Icon(UIcons.Cross).Render());
-
-                closeBtn.onclick = (e) =>
-                {
-                    StopEvent(e);
-                    InlineFilterChips.Remove(chip);
-                };
-
-                if(chip.OnClick is object)
+                if (chip.OnClick is object)
                 {
                     chipEl.onclick = (e) =>
                     {
@@ -1116,7 +1109,20 @@ namespace Tesserae
                 }
 
                 chipEl.appendChild(textEl);
-                chipEl.appendChild(closeBtn);
+
+                if (chip.Removable)
+                {
+                    var closeBtn = Div(_("tss-omnibox-inline-chip-close"));
+                    closeBtn.appendChild(UI.Icon(UIcons.Cross).Render());
+
+                    closeBtn.onclick = (e) =>
+                    {
+                        StopEvent(e);
+                        InlineFilterChips.Remove(chip);
+                    };
+                    chipEl.appendChild(closeBtn);
+                }
+
                 _searchInlineChipsContainer.appendChild(chipEl);
             }
         }
