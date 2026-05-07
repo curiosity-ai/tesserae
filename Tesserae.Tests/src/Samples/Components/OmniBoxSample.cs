@@ -61,10 +61,10 @@ namespace Tesserae.Tests.Samples
             attBtnForSearch.OnClick((s, e) => fileDropAreaOnSearch.OpenFileSelection());
 
             var attBtnForChat = Button(UIcons.PaperclipVertical).Tooltip("Add attachment");
-            
+
             var chatModeSample = OmniBox(new OmniBox.Config(OmniBox.Mode.Chat)
             {
-                PlaceholderChat  =    "Ask me anything",
+                PlaceholderChat = "Ask me anything",
                 ChatFooter = new OmniBox.FooterItems
                 {
                     LeftSide = new[]
@@ -74,14 +74,26 @@ namespace Tesserae.Tests.Samples
                     RightSide = new[]
                     {
                         attBtnForChat
-                    } 
+                    }
                 }
 
             })
             .WS()
             .OnChat((s, q) =>
             {
-                Toast().Information(q.Text);
+                s.IsGenerating = true;
+                window.setTimeout((_) => 
+                { 
+                    if (s.IsGenerating) // Make sure it wasn't cancelled
+                    {
+                        s.IsGenerating = false;
+                        Toast().Information(q.Text);
+                    }
+                }, 5000);
+            })
+            .OnStop(s =>
+            {
+                s.IsGenerating = false;
             });
 
             var fileDropAreaOnChat = FileDropArea(chatModeSample).OnFilesDropped((s, files) =>
@@ -110,7 +122,19 @@ namespace Tesserae.Tests.Samples
             })
             .OnChat((s, q) =>
             {
-                Toast().Information(q.Text);
+                s.IsGenerating = true;
+                window.setTimeout((_) => 
+                { 
+                    if (s.IsGenerating) // Make sure it wasn't cancelled
+                    {
+                        s.IsGenerating = false;
+                        Toast().Information(q.Text);
+                    }
+                }, 5000);
+            })
+            .OnStop(s =>
+            {
+                s.IsGenerating = false;
             })
             .WithHistory(async () => {
                 return new OmniBox.SearchQuery[0];

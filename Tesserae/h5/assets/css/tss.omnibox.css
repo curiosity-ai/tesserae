@@ -76,6 +76,21 @@
     width:0px;
 }
 
+.tss-omnibox-generating-container {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    padding-left:8px;
+}
+
+.tss-omnibox-container.tss-omnibox-generating .tss-omnibox-generating-container {
+    display: inline-flex;
+}
+
+.tss-omnibox-container.tss-omnibox-generating .tss-omnibox-footer-left {
+    display: none !important;
+}
+
 .tss-omnibox-footer .tss-icon-toggle{
     margin-bottom:0px;
 }

@@ -201,6 +201,7 @@ namespace Tesserae
                     if (ke.key == "Enter")
                     {
                         TriggerSearch();
+                        StopEvent(e);
                     }
 
                     else if (ke.key == "Backspace")
@@ -211,7 +212,7 @@ namespace Tesserae
                             if (InlineFilterChips.Count > 0)
                             {
                                 InlineFilterChips.RemoveAt(InlineFilterChips.Count - 1);
-                                e.preventDefault();
+                                StopEvent(e);
                                 return;
                             }
                         }
@@ -227,7 +228,7 @@ namespace Tesserae
                                 // If it is, and we're backspacing, we actually want to delete the character *before* it,
                                 // which is the special token, because the user doesn't know the nb-space exists.
                                 // However, we can just delete the character before the nb-space and the nb-space
-                                e.preventDefault();
+                                StopEvent(e);
                                 var currentVal = _searchInput.value;
                                 var newVal = currentVal.Substring(0, (int)cursorPos - 2) + currentVal.Substring((int)cursorPos);
                                 _searchInput.value = newVal;
@@ -246,7 +247,7 @@ namespace Tesserae
                                 // if we press delete on an nb-space, we probably want to delete the token *after* it
                                 if (cursorPos + 2 <= _searchInput.value.Length)
                                 {
-                                    e.preventDefault();
+                                    StopEvent(e);
                                     var currentVal = _searchInput.value;
                                     var newVal = currentVal.Substring(0, (int)cursorPos) + currentVal.Substring((int)cursorPos + 2);
                                     _searchInput.value = newVal;
@@ -256,7 +257,7 @@ namespace Tesserae
                                 else
                                 {
                                     // Edge case: space is at the very end of the string
-                                    e.preventDefault();
+                                    StopEvent(e);
                                     var currentVal = _searchInput.value;
                                     var newVal = currentVal.Substring(0, (int)cursorPos);
                                     _searchInput.value = newVal;
@@ -284,7 +285,7 @@ namespace Tesserae
                     {
                         var selectedText = _searchInput.value.Substring((int)start, (int)(end - start));
                         clipboardEvent.clipboardData.setData("text/plain", selectedText.Replace(specialWhitespaceString, " "));
-                        e.preventDefault();
+                        StopEvent(e);
                     }
                 });
 
@@ -302,7 +303,7 @@ namespace Tesserae
                         _searchInput.value = currentVal.Substring(0, (int)start) + currentVal.Substring((int)end);
                         _searchInput.setSelectionRange((uint)start, (uint)start);
                         OnSearchInputChanged();
-                        e.preventDefault();
+                        StopEvent(e);
                     }
                 });
 
@@ -340,6 +341,7 @@ namespace Tesserae
                     if (ke.key == "Enter" && !ke.shiftKey)
                     {
                         TriggerChat();
+                        StopEvent(e);
                     }
                 });
 
@@ -367,7 +369,7 @@ namespace Tesserae
                     //{
                         foreach (var i in config.ChatFooter.LeftSide)
                         {
-                            _footer.appendChild(i.Class("tss-omnibox-chat-footer-item").Render());
+                            _footer.appendChild(i.Class("tss-omnibox-chat-footer-item").Class("tss-omnibox-footer-left").Render());
                         }
                     //}
                 }
@@ -380,7 +382,7 @@ namespace Tesserae
                     var targetInsert = _searchHistoryBtn.Render();
                     foreach (var i in config.SearchFooter.LeftSide)
                     {
-                        var el = i.Class("tss-omnibox-search-footer-item").Render();
+                        var el = i.Class("tss-omnibox-search-footer-item").Class("tss-omnibox-footer-left").Render();
                         targetInsert.insertAdjacentElement(InsertPosition.afterend, el);
                         targetInsert = el;
                     }
@@ -389,10 +391,14 @@ namespace Tesserae
                 {
                     foreach (var i in config.SearchFooter.LeftSide)
                     {
-                        _footer.appendChild(i.Class("tss-omnibox-search-footer-item").Render());
+                        _footer.appendChild(i.Class("tss-omnibox-search-footer-item").Class("tss-omnibox-footer-left").Render());
                     }
                 }
             }
+
+            var generatingContainer = Div(_("tss-omnibox-generating-container"), Spinner().CustomColor(Theme.Colors.Purple500).Small().Render(), TextBlock("Generating...").Render());
+
+            _footer.appendChild(generatingContainer);
 
             _footer.appendChild(Div(_("tss-omnibox-footer-spacer")));
 
@@ -917,12 +923,13 @@ namespace Tesserae
                 {
                     if (value)
                     {
-                        _chatTriggerBtn.SetIcon(_iconStop);
+                        _chatTriggerBtn.SetIcon(_iconStop).Danger();
                         _container.classList.add("tss-omnibox-generating");
                     }
                     else
                     {
                         _chatTriggerBtn.SetIcon(_iconChat);
+                        _chatTriggerBtn.IsDanger = false;
                         _container.classList.remove("tss-omnibox-generating");
                     }
                 }

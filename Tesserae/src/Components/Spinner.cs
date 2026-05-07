@@ -34,6 +34,7 @@ namespace Tesserae
         {
             InnerElement.classList.add("tss-spinner-success");
             InnerElement.classList.remove("tss-spinner-danger");
+            InnerElement.style.removeProperty("--tss-spinner-color");
             return this;
         }
 
@@ -45,6 +46,7 @@ namespace Tesserae
         {
             InnerElement.classList.add("tss-spinner-danger");
             InnerElement.classList.remove("tss-spinner-success");
+            InnerElement.style.removeProperty("--tss-spinner-color");
             return this;
         }
 
@@ -54,6 +56,15 @@ namespace Tesserae
         /// <returns>The current instance.</returns>
         public Spinner Primary()
         {
+            InnerElement.classList.remove("tss-spinner-success");
+            InnerElement.classList.remove("tss-spinner-danger");
+            InnerElement.style.removeProperty("--tss-spinner-color");
+            return this;
+        }
+
+        public Spinner CustomColor(string color)
+        {
+            InnerElement.style.setProperty("--tss-spinner-color", color);
             InnerElement.classList.remove("tss-spinner-success");
             InnerElement.classList.remove("tss-spinner-danger");
             return this;
