@@ -19,7 +19,7 @@ namespace Tesserae
     {
         /// <summary>Event fired when sorting changes within the navigation.</summary>
         public event Action<Dictionary<string, string[]>> _onSortingChanged;
-        public event Action<ParentChangedEvent>     _onParentChanged;
+        public event Action<ParentChangedEvent> _onParentChanged;
 
         private          string                                          _text;
         private readonly Button                                          _closedHeader;
@@ -33,7 +33,7 @@ namespace Tesserae
         private readonly Func<IComponent>                                _openContent;
         private          SidebarCommand[]                                _commands;
         private          bool                                            _isHidden;
-        private          bool                                            _isSortable = false;
+        private          bool                                            _isSortable    = false;
         private          string                                          _sortableGroup = null;
 
         private List<string> _itemOrder = new List<string>();
@@ -43,7 +43,15 @@ namespace Tesserae
         /// <summary>Gets or sets whether the navigation is collapsed.</summary>
         public bool IsCollapsed { get { return _collapsed.Value; } set { _collapsed.Value = value; } }
         /// <summary>Gets or sets whether the navigation is currently selected.</summary>
-        public bool IsSelected  { get { return _selected.Value; }  set { _selected.Value  = value; if (value) CurrentRendered.ScrollIntoView();} }
+        public bool IsSelected
+        {
+            get { return _selected.Value; }
+            set
+            {
+                _selected.Value = value;
+                if (value) CurrentRendered.ScrollIntoView();
+            }
+        }
 
         /// <summary>Gets an observable for the collapsed status.</summary>
         public IObservable<bool> CollapsedStatus => _collapsed;
@@ -68,7 +76,7 @@ namespace Tesserae
 
         private static Func<string, string>   _getCollapseState = null;
         private static Action<string, string> _setCollapseState = null;
-        private bool _notSortable;
+        private        bool                   _notSortable;
 
         private SidebarNav(string identifier, string text, bool initiallyCollapsed, Action<Button> setButtonIcon, params SidebarCommand[] commands)
         {
@@ -113,7 +121,7 @@ namespace Tesserae
             if (!string.IsNullOrWhiteSpace(identifier))
             {
                 var collapseState = _getCollapseState is object
-                    ? _getCollapseState(collapse_local_storage_save_key    + identifier)
+                    ? _getCollapseState(collapse_local_storage_save_key + identifier)
                     : localStorage.getItem(collapse_local_storage_save_key + identifier);
 
                 if (bool.TryParse(collapseState, out var cs))
@@ -366,14 +374,14 @@ namespace Tesserae
             {
                 var sortable = new Sortable(children.Render(), new SortableOptions()
                 {
-                    animation  = 150,
-                    ghostClass = "tss-sortable-ghost",
+                    animation     = 150,
+                    ghostClass    = "tss-sortable-ghost",
                     swapThreshold = 0.65,
-                    filter = ".tss-sortable-disable",
-                    group = _sortableGroup,
+                    filter        = ".tss-sortable-disable",
+                    group         = _sortableGroup,
                     onEnd = e =>
                     {
-                        if(e.from != e.to)
+                        if (e.from != e.to)
                         {
                             _onParentChanged?.Invoke(ConvertEvent(e));
                         }
@@ -466,9 +474,9 @@ namespace Tesserae
 
             return new ParentChangedEvent()
             {
-                From = GetParent(e.from),
-                To   = GetParent(e.to),
-                Item = GetChild(e.item),
+                From   = GetParent(e.from),
+                To     = GetParent(e.to),
+                Item   = GetChild(e.item),
                 Cancel = () => e.from.insertBefore(e.item, e.from.children[(uint)e.oldIndex])
             };
         }
@@ -705,7 +713,7 @@ namespace Tesserae
         /// <returns>The current instance of the type.</returns>
         public SidebarNav Sortable(bool sortable = true, string sortableGroup = null)
         {
-            _isSortable = sortable;
+            _isSortable    = sortable;
             _sortableGroup = sortable ? sortableGroup : null;
 
             foreach (var sidebarItem in _items.Value)
@@ -758,54 +766,57 @@ namespace Tesserae
 
         public class ParentChangedEvent
         {
-            public SidebarNav Item { get; set; } 
-            public SidebarNav To { get; set; } 
-            public SidebarNav From { get; set; } 
-            public int OldIndex { get; set; }
-            public int NewIndex { get; set; }
-            public Action Cancel { get; set; }
+            public SidebarNav Item     { get; set; }
+            public SidebarNav To       { get; set; }
+            public SidebarNav From     { get; set; }
+            public int        OldIndex { get; set; }
+            public int        NewIndex { get; set; }
+            public Action     Cancel   { get; set; }
         }
 
         public bool Search(string searchTerm)
         {
-             if (string.IsNullOrWhiteSpace(searchTerm))
-             {
-                 Show();
-                 foreach(var i in _items.Value)
-                 {
-                     if(i is ISearchableSidebarItem s) s.Search(searchTerm);
-                     else i.Show();
-                 }
-                 return true;
-             }
+            if (string.IsNullOrWhiteSpace(searchTerm))
+            {
+                Show();
 
-             bool anyChildMatch = false;
-             foreach(var i in _items.Value)
-             {
-                 if (i is ISearchableSidebarItem s)
-                 {
-                     if(s.Search(searchTerm)) anyChildMatch = true;
-                 }
-                 else
-                 {
-                     i.Collapse();
-                 }
-             }
+                foreach (var i in _items.Value)
+                {
+                    if (i is ISearchableSidebarItem s) s.Search(searchTerm);
+                    else i.Show();
+                }
+                return true;
+            }
 
-             bool selfMatch = _text.ToLower().Contains(searchTerm.ToLower());
+            bool anyChildMatch = false;
 
-             if (selfMatch || anyChildMatch)
-             {
-                 Show();
-                 if (anyChildMatch && IsCollapsed)
-                 {
-                     Collapsed(false);
-                 }
-                 return true;
-             }
+            foreach (var i in _items.Value)
+            {
+                if (i is ISearchableSidebarItem s)
+                {
+                    if (s.Search(searchTerm)) anyChildMatch = true;
+                }
+                else
+                {
+                    i.Collapse();
+                }
+            }
 
-             Collapse();
-             return false;
+            bool selfMatch = _text.ToLower().Contains(searchTerm.ToLower());
+
+            if (selfMatch || anyChildMatch)
+            {
+                Show();
+
+                if (anyChildMatch && IsCollapsed)
+                {
+                    Collapsed(false);
+                }
+                return true;
+            }
+
+            Collapse();
+            return false;
         }
     }
 }
