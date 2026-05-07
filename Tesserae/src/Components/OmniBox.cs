@@ -47,7 +47,14 @@ namespace Tesserae
                 Text = text;
                 Icon = icon;
                 RightComponent = rightComponent;
-                OnSelected = onSelected;
+                if (onSelected is null)
+                {
+                    OnSelected = (b) => b.SearchText = text.Render().textContent;
+                }
+                else
+                {
+                    OnSelected = onSelected;
+                }
                 Category = category;
             }
 
@@ -230,15 +237,15 @@ namespace Tesserae
                     {
                         if (_hideSuggestions != null && _highlightedSuggestionIndex >= 0 && _highlightedSuggestionIndex < _currentSuggestionButtons.Count)
                         {
-                            e.preventDefault();
-                            _currentSuggestionButtons[_highlightedSuggestionIndex].Render().click();
+                            StopEvent(e);
+                            _currentSuggestionButtons[_highlightedSuggestionIndex].RaiseOnClick(e.As<MouseEvent>());
                         }
                         else
                         {
                             TriggerSearch();
                         }
+                        return;
                     }
-
                     else if (ke.key == "Backspace")
                     {
                         var cursorPos = _searchInput.selectionStart;
@@ -247,7 +254,7 @@ namespace Tesserae
                             if (InlineFilterChips.Count > 0)
                             {
                                 InlineFilterChips.RemoveAt(InlineFilterChips.Count - 1);
-                                e.preventDefault();
+                                StopEvent(e);
                                 return;
                             }
                         }
@@ -263,7 +270,7 @@ namespace Tesserae
                                 // If it is, and we're backspacing, we actually want to delete the character *before* it,
                                 // which is the special token, because the user doesn't know the nb-space exists.
                                 // However, we can just delete the character before the nb-space and the nb-space
-                                e.preventDefault();
+                                StopEvent(e);
                                 var currentVal = _searchInput.value;
                                 var newVal = currentVal.Substring(0, (int)cursorPos - 2) + currentVal.Substring((int)cursorPos);
                                 _searchInput.value = newVal;
@@ -282,7 +289,7 @@ namespace Tesserae
                                 // if we press delete on an nb-space, we probably want to delete the token *after* it
                                 if (cursorPos + 2 <= _searchInput.value.Length)
                                 {
-                                    e.preventDefault();
+                                    StopEvent(e);
                                     var currentVal = _searchInput.value;
                                     var newVal = currentVal.Substring(0, (int)cursorPos) + currentVal.Substring((int)cursorPos + 2);
                                     _searchInput.value = newVal;
@@ -292,7 +299,7 @@ namespace Tesserae
                                 else
                                 {
                                     // Edge case: space is at the very end of the string
-                                    e.preventDefault();
+                                    StopEvent(e);
                                     var currentVal = _searchInput.value;
                                     var newVal = currentVal.Substring(0, (int)cursorPos);
                                     _searchInput.value = newVal;
@@ -306,7 +313,7 @@ namespace Tesserae
                     {
                         if (_hideSuggestions != null && _currentSuggestionButtons.Count > 0)
                         {
-                            e.preventDefault();
+                            StopEvent(e);
                             UpdateHighlightedSuggestion(1);
                         }
                     }
@@ -314,7 +321,7 @@ namespace Tesserae
                     {
                         if (_hideSuggestions != null && _currentSuggestionButtons.Count > 0)
                         {
-                            e.preventDefault();
+                            StopEvent(e);
                             UpdateHighlightedSuggestion(-1);
                         }
                     }
@@ -339,7 +346,7 @@ namespace Tesserae
                     {
                         var selectedText = _searchInput.value.Substring((int)start, (int)(end - start));
                         clipboardEvent.clipboardData.setData("text/plain", selectedText.Replace(specialWhitespaceString, " "));
-                        e.preventDefault();
+                        StopEvent(e);
                     }
                 });
 
@@ -357,7 +364,7 @@ namespace Tesserae
                         _searchInput.value = currentVal.Substring(0, (int)start) + currentVal.Substring((int)end);
                         _searchInput.setSelectionRange((uint)start, (uint)start);
                         OnSearchInputChanged();
-                        e.preventDefault();
+                        StopEvent(e);
                     }
                 });
 
@@ -1154,7 +1161,10 @@ namespace Tesserae
                     return;
                 }
 
+                _currentSuggestionButtons.Clear();
+
                 var content = VStack().NoDefaultMargin().W(450).MaxHeight(500.px()).ScrollY();
+
                 var currentCategory = string.Empty;
 
                 foreach(var s in suggestions)
@@ -1179,6 +1189,8 @@ namespace Tesserae
                         if (_hideSuggestions != null) _hideSuggestions();
                     });
                     content.Add(btn);
+
+                    _currentSuggestionButtons.Add(btn);
                 }
 
                 if (_hideSuggestions != null)

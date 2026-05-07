@@ -41,13 +41,13 @@ namespace Tesserae.Tests.Samples
 
                     if ("dataset / curiosity-prod".Contains(q) || "dataset / tesserae-docs".Contains(q) || "dataset / build-logs".Contains(q))
                     {
-                        items.Add(new OmniBox.OmniBoxSuggestionItem(TextBlock("dataset / curiosity-prod"), UI.Icon(UIcons.Table).Regular(), UI.Icon(UIcons.Check).Foreground(Theme.Primary.Foreground), null, "DATASETS"));
-                        items.Add(new OmniBox.OmniBoxSuggestionItem(TextBlock("dataset / tesserae-docs"), UI.Icon(UIcons.Table).Regular(), null, null, "DATASETS"));
-                        items.Add(new OmniBox.OmniBoxSuggestionItem(TextBlock("dataset / build-logs"), UI.Icon(UIcons.Table).Regular(), UI.Icon(UIcons.Check).Foreground(Theme.Primary.Foreground), null, "DATASETS"));
+                        items.Add(new OmniBox.OmniBoxSuggestionItem(TextBlock("dataset / curiosity-prod"), Icon(UIcons.Table), Icon(UIcons.Check).Foreground(Theme.Primary.Foreground), null, "DATASETS"));
+                        items.Add(new OmniBox.OmniBoxSuggestionItem(TextBlock("dataset / tesserae-docs"), Icon(UIcons.Table), null, null, "DATASETS"));
+                        items.Add(new OmniBox.OmniBoxSuggestionItem(TextBlock("dataset / build-logs"), Icon(UIcons.Table), Icon(UIcons.Check).Foreground(Theme.Primary.Foreground), null, "DATASETS"));
                     }
 
-                    items.Add(new OmniBox.OmniBoxSuggestionItem(TextBlock("a-model / Document.v3"), UI.Icon(UIcons.Document).Regular(), null, null, "SCHEMAS"));
-                    items.Add(new OmniBox.OmniBoxSuggestionItem(TextBlock("a-model / Embedding.v1"), UI.Icon(UIcons.Document).Regular(), null, null, "SCHEMAS"));
+                    items.Add(new OmniBox.OmniBoxSuggestionItem(TextBlock("a-model / Document.v3"), Icon(UIcons.Document), null, null, "SCHEMAS"));
+                    items.Add(new OmniBox.OmniBoxSuggestionItem(TextBlock("a-model / Embedding.v1"), Icon(UIcons.Document), null, null, "SCHEMAS"));
 
                     return items.ToArray();
                 }
