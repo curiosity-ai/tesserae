@@ -55,6 +55,7 @@ namespace Tesserae.Tests.Samples
 
             searchModeSample.InlineFilterChips.Add(new OmniBox.InlineFilterChip("Tag: Red", "var(--tss-danger-background-color)", "var(--tss-danger-foreground-color)"));
             searchModeSample.InlineFilterChips.Add(new OmniBox.InlineFilterChip("Author: Jules", onClick:(_)=> Toast().Success("hi!")));
+            searchModeSample.InlineFilterChips.Add(new OmniBox.InlineFilterChip(Button("IComponent")));
             searchModeSample.SetSearchRightText("124 results");
 
             attBtnForSearch.OnClick((s, e) => fileDropAreaOnSearch.OpenFileSelection());

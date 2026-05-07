@@ -18,12 +18,20 @@ namespace Tesserae
             public string Background { get; }
             public bool Removable { get; }
             public Action<MouseEvent> OnClick { get; }
+            internal IComponent Content { get; }
 
             public InlineFilterChip(string name, string background = null, string color = null, Action<MouseEvent> onClick = null, bool removable = true)
             {
                 Name = name;
                 Background = background;
                 Color = color;
+                OnClick = onClick;
+                Removable = removable;
+            }
+
+            public InlineFilterChip(IComponent content, Action<MouseEvent> onClick = null, bool removable = true)
+            {
+                Content = content;
                 OnClick = onClick;
                 Removable = removable;
             }
@@ -1096,7 +1104,15 @@ namespace Tesserae
                 if (!string.IsNullOrEmpty(chip.Background)) chipEl.style.background = chip.Background;
                 if (!string.IsNullOrEmpty(chip.Color)) chipEl.style.color = chip.Color;
 
-                var textEl = Span(_(text: chip.Name));
+                HTMLElement contentEl;
+                if (chip.Content is object)
+                {
+                    contentEl = chip.Content.Render();
+                }
+                else
+                {
+                    contentEl = Span(_(text: chip.Name));
+                }
 
                 if (chip.OnClick is object)
                 {
@@ -1108,7 +1124,7 @@ namespace Tesserae
                     chipEl.style.cursor = "pointer";
                 }
 
-                chipEl.appendChild(textEl);
+                chipEl.appendChild(contentEl);
 
                 if (chip.Removable)
                 {
