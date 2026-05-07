@@ -80,6 +80,7 @@
     display: none;
     align-items: center;
     gap: 8px;
+    padding-left:8px;
 }
 
 .tss-omnibox-container.tss-omnibox-generating .tss-omnibox-generating-container {
