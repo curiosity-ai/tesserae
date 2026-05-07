@@ -70,6 +70,11 @@ namespace Tesserae.Tests.Samples
                     VStack().Children(
                         Label("Load on open (5s delay)").SetContent(Dropdown().Items(GetItemsAsync)),
                         Label("Load immediately (5s delay)").SetContent(StartLoadingAsyncDataImmediately(Dropdown().Items(GetItemsAsync))),
+                        Label("Deferred item content").SetContent(Dropdown().Items(
+                            DeferredDropdownItem("Item 1", 500),
+                            DeferredDropdownItem("Item 2", 800),
+                            DeferredDropdownItem("Item 3", 1100)
+                        )),
                         Label("Empty State").SetContent(Dropdown("No items available").Items(new Dropdown.Item[0]))
                     ),
                     SampleSubTitle("Validation"),
@@ -93,6 +98,15 @@ namespace Tesserae.Tests.Samples
         {
             dropdown.LoadItemsAsync().FireAndForget();
             return dropdown;
+        }
+
+        private Dropdown.Item DeferredDropdownItem(string text, int delayMs)
+        {
+            return DropdownItem(Defer(async () =>
+            {
+                await Task.Delay(delayMs);
+                return Label($"Loaded {text}");
+            }, loadMessage: Skeleton().Animated().W(500).H(32)));
         }
 
         private async Task<Dropdown.Item[]> GetItemsAsync()
