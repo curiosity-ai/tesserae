@@ -79,9 +79,19 @@ namespace Tesserae.Tests.Samples
 
             })
             .WS()
-            .OnChat((s, q) =>
+            .OnChat(async (s, q) =>
             {
-                Toast().Information(q.Text);
+                s.IsGenerating = true;
+                await Task.Delay(2000);
+                if (s.IsGenerating) // Make sure it wasn't cancelled
+                {
+                    s.IsGenerating = false;
+                    Toast().Information(q.Text);
+                }
+            })
+            .OnStop(s =>
+            {
+                s.IsGenerating = false;
             });
 
             var fileDropAreaOnChat = FileDropArea(chatModeSample).OnFilesDropped((s, files) =>
@@ -108,9 +118,19 @@ namespace Tesserae.Tests.Samples
             {
                 Toast().Information($"Searched for: {q.RawQuery} (Parsed into {q.Tokens?.Count ?? 0} tokens)");
             })
-            .OnChat((s, q) =>
+            .OnChat(async (s, q) =>
             {
-                Toast().Information(q.Text);
+                s.IsGenerating = true;
+                await Task.Delay(2000);
+                if (s.IsGenerating) // Make sure it wasn't cancelled
+                {
+                    s.IsGenerating = false;
+                    Toast().Information(q.Text);
+                }
+            })
+            .OnStop(s =>
+            {
+                s.IsGenerating = false;
             })
             .WithHistory(async () => {
                 return new OmniBox.SearchQuery[0];
