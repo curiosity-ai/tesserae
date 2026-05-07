@@ -49,7 +49,11 @@ namespace Tesserae
             set
             {
                 _selected.Value = value;
-                if (value) CurrentRendered.ScrollIntoView();
+
+                if (value)
+                {
+                    CurrentRendered?.ScrollIntoView();
+                }
             }
         }
 
