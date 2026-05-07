@@ -27,23 +27,51 @@ namespace Tesserae.Tests.Samples
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     SampleSubTitle("Default Staggered Timeline"),
-                    Timeline().Children(GetSomeItems(6)).Height(300.px()).MB(32),
+                    BuildTimeline(Timeline()).Height(400.px()).MB(32),
                     SampleSubTitle("Same Side Alignment"),
-                    Timeline().SameSide().Children(GetSomeItems(6)).Height(300.px()).MB(32),
+                    BuildTimeline(Timeline().SameSide()).Height(400.px()).MB(32),
                     SampleSubTitle("Constrained Width"),
-                    Timeline().TimelineWidth(400.px()).Children(GetSomeItems(6)).Height(300.px())
+                    BuildTimeline(Timeline().TimelineWidth(400.px())).Height(400.px())
                 )).SetTitle("Usage")));
         }
 
         public HTMLElement Render() => _content.Render();
 
-        private IComponent[] GetSomeItems(int count)
+        private Timeline BuildTimeline(Timeline timeline)
         {
-            return Enumerable.Range(1, count).Select(n =>
-                VStack().Children(
-                    TextBlock($"Event {n}").SemiBold(),
-                    TextBlock($"{DateTime.Today.AddHours(-n):t} - Description of the event happens here.").Small()
-                )).ToArray();
+            timeline.Add(VStack().Children(
+                HStack().WS().JustifyContent(ItemJustify.Between).Children(
+                    TextBlock("Build #4182 succeeded").SemiBold(),
+                    TextBlock("2m ago").Small().Foreground(Theme.Secondary.Foreground)
+                ),
+                TextBlock("All 47 tests passing on master.").Small().Foreground(Theme.Secondary.Foreground).PT(8)
+            ), Theme.Success.Background);
+
+            timeline.Add(VStack().Children(
+                HStack().WS().JustifyContent(ItemJustify.Between).Children(
+                    TextBlock("Anna pushed to master").SemiBold(),
+                    TextBlock("14m ago").Small().Foreground(Theme.Secondary.Foreground)
+                ),
+                TextBlock("Merge #312: Add ProgressRing component (3 files changed).").Small().Foreground(Theme.Secondary.Foreground).PT(8)
+            ), Theme.Primary.Background);
+
+            timeline.Add(VStack().Children(
+                HStack().WS().JustifyContent(ItemJustify.Between).Children(
+                    TextBlock("Build #4181 failed").SemiBold(),
+                    TextBlock("1h ago").Small().Foreground(Theme.Secondary.Foreground)
+                ),
+                TextBlock("2 of 47 tests failed in Tesserae.Tests/Buttons.").Small().Foreground(Theme.Secondary.Foreground).PT(8)
+            ), Theme.Danger.Background);
+
+            timeline.Add(VStack().Children(
+                HStack().WS().JustifyContent(ItemJustify.Between).Children(
+                    TextBlock("Index rebuilt").SemiBold(),
+                    TextBlock("yesterday").Small().Foreground(Theme.Secondary.Foreground)
+                ),
+                TextBlock("4,182 documents reindexed from curiosity-prod.").Small().Foreground(Theme.Secondary.Foreground).PT(8)
+            ), Theme.Default.DarkBorder);
+
+            return timeline;
         }
     }
 }
