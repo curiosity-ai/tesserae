@@ -396,7 +396,7 @@ namespace Tesserae
                 }
             }
 
-            var generatingContainer = Div(_("tss-omnibox-generating-container"), Spinner().CustomColor(Theme.Gradients.AI).Small().Render(), TextBlock("Generating...").Render());
+            var generatingContainer = Div(_("tss-omnibox-generating-container"), Spinner().CustomColor(Theme.Colors.Purple500).Small().Render(), TextBlock("Generating...").Render());
 
             _footer.appendChild(generatingContainer);
 
