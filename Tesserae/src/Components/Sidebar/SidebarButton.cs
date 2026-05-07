@@ -28,14 +28,22 @@ namespace Tesserae
         private event Action<HTMLElement> _onRendered;
 
         /// <summary>Gets or sets whether the button is currently selected.</summary>
-        public bool IsSelected { get { return _selected.Value; } set { _selected.Value = value; if (value) CurrentRendered.ScrollIntoView(); } }
+        public bool IsSelected
+        {
+            get { return _selected.Value; }
+            set
+            {
+                _selected.Value = value;
+                if (value) CurrentRendered.ScrollIntoView();
+            }
+        }
 
         /// <summary>Gets the component that is currently rendered.</summary>
         public IComponent CurrentRendered => _closedButton.IsMounted() ? _closed : _open;
 
         /// <summary>Gets the full identifier of the button.</summary>
         public string Identifier { get; private set; }
-        
+
         /// <summary>Gets the own identifier of the button.</summary>
         public string OwnIdentifier => Sidebar.GetOwnIdentifier(Identifier);
 
@@ -69,9 +77,9 @@ namespace Tesserae
             _text          = text;
             _selected      = new SettableObservable<bool>(false);
             _tooltipClosed = (b) => b.Tooltip(text, placement: TooltipPlacement.Right);
-            
-            _closedButton  = buttonWithIconClosed.Class("tss-sidebar-btn").Id(identifier);
-            _openButton    = buttonWithIconOpen.SetText(text).Class("tss-sidebar-btn").Id(identifier);
+
+            _closedButton = buttonWithIconClosed.Class("tss-sidebar-btn").Id(identifier);
+            _openButton   = buttonWithIconOpen.SetText(text).Class("tss-sidebar-btn").Id(identifier);
 
             _closed = string.IsNullOrWhiteSpace(href) ? (IComponent)_closedButton : UI.Link(href, _closedButton, noUnderline: true);
 
@@ -108,7 +116,7 @@ namespace Tesserae
                 if (!string.IsNullOrWhiteSpace(href))
                 {
                     var link = UI.Link(href, Raw(button.Render()), noUnderline: true);
-                    link.Render().style.display = "block";
+                    link.Render().style.display        = "block";
                     link.Render().style.textDecoration = "none";
                     div.appendChild(link.Render());
                 }
@@ -207,7 +215,7 @@ namespace Tesserae
                 if (!string.IsNullOrWhiteSpace(href))
                 {
                     var link = UI.Link(href, Raw(button.Render()), noUnderline: true);
-                    link.Render().style.display = "block";
+                    link.Render().style.display        = "block";
                     link.Render().style.textDecoration = "none";
                     div.appendChild(link.Render());
                 }
@@ -581,13 +589,13 @@ namespace Tesserae
 
         public bool Search(string searchTerm)
         {
-            if(string.IsNullOrWhiteSpace(searchTerm))
+            if (string.IsNullOrWhiteSpace(searchTerm))
             {
                 Show();
                 return true;
             }
 
-            if(_text.ToLower().Contains(searchTerm.ToLower()))
+            if (_text.ToLower().Contains(searchTerm.ToLower()))
             {
                 Show();
                 return true;
