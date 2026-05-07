@@ -134,8 +134,6 @@ namespace Tesserae
         private Func<string, Task<OmniBoxSuggestionItem[]>> _suggestionsFetcher;
         private int _suggestionsDebounceTimeoutId = 0;
         private Action _hideSuggestions;
-        private int _highlightedSuggestionIndex = -1;
-        private List<Button> _currentSuggestionButtons = new List<Button>();
         private string _tokenTypeMap = string.Empty;
         private readonly IconToggle<Mode> _modeToggle;
         private readonly bool _tokenIgnoreCase;
@@ -228,15 +226,7 @@ namespace Tesserae
                     var ke = e.As<KeyboardEvent>();
                     if (ke.key == "Enter")
                     {
-                        if (_hideSuggestions != null && _highlightedSuggestionIndex >= 0 && _highlightedSuggestionIndex < _currentSuggestionButtons.Count)
-                        {
-                            e.preventDefault();
-                            _currentSuggestionButtons[_highlightedSuggestionIndex].Render().click();
-                        }
-                        else
-                        {
-                            TriggerSearch();
-                        }
+                        TriggerSearch();
                     }
 
                     else if (ke.key == "Backspace")
@@ -302,22 +292,6 @@ namespace Tesserae
                             }
                         }
                     }
-                    else if (ke.key == "ArrowDown")
-                    {
-                        if (_hideSuggestions != null && _currentSuggestionButtons.Count > 0)
-                        {
-                            e.preventDefault();
-                            UpdateHighlightedSuggestion(1);
-                        }
-                    }
-                    else if (ke.key == "ArrowUp")
-                    {
-                        if (_hideSuggestions != null && _currentSuggestionButtons.Count > 0)
-                        {
-                            e.preventDefault();
-                            UpdateHighlightedSuggestion(-1);
-                        }
-                    }
                 });
                 _searchInput.addEventListener("keyup", (e) => KeyUp?.Invoke(this, e.As<KeyboardEvent>()));
                 _searchInput.addEventListener("keypress", (e) => KeyPress?.Invoke(this, e.As<KeyboardEvent>()));
@@ -370,7 +344,7 @@ namespace Tesserae
 
                 _searchTriggerBtn.OnClick(TriggerSearch);
 
-                _searchHistoryBtn.OnClickSpinWhile(async () => 
+                _searchHistoryBtn.OnClickSpinWhile(async () =>
                 {
                     if (_historyFetcher != null)
                     {
@@ -1032,7 +1006,7 @@ namespace Tesserae
             try
             {
                 var query = await _historyFetcher();
-                
+
                 var content = VStack().NoDefaultMargin().W(450).MaxHeight(500.px()).ScrollY();
                 Action hide = null;
                 if (query.Length > 0)
@@ -1189,22 +1163,6 @@ namespace Tesserae
                 Tippy.ShowFor(this, content, out _hideSuggestions, placement: TooltipPlacement.BottomStart, maxWidth: 500);
 
             }, 300);
-        }
-
-        private void UpdateHighlightedSuggestion(int offset)
-        {
-            if (_currentSuggestionButtons.Count == 0) return;
-
-            if (_highlightedSuggestionIndex >= 0 && _highlightedSuggestionIndex < _currentSuggestionButtons.Count)
-            {
-                _currentSuggestionButtons[_highlightedSuggestionIndex].Render().classList.remove("tss-omnibox-suggestion-highlight");
-                _currentSuggestionButtons[_highlightedSuggestionIndex].Render().style.background = "";
-            }
-
-            _highlightedSuggestionIndex = (_highlightedSuggestionIndex + offset + _currentSuggestionButtons.Count) % _currentSuggestionButtons.Count;
-
-            _currentSuggestionButtons[_highlightedSuggestionIndex].Render().classList.add("tss-omnibox-suggestion-highlight");
-            _currentSuggestionButtons[_highlightedSuggestionIndex].Render().style.background = "var(--tss-hover-background-color)";
         }
 
         public OmniBox SetSearchRightText(string text)
