@@ -61,10 +61,10 @@ namespace Tesserae.Tests.Samples
             attBtnForSearch.OnClick((s, e) => fileDropAreaOnSearch.OpenFileSelection());
 
             var attBtnForChat = Button(UIcons.PaperclipVertical).Tooltip("Add attachment");
-            
+
             var chatModeSample = OmniBox(new OmniBox.Config(OmniBox.Mode.Chat)
             {
-                PlaceholderChat  =    "Ask me anything",
+                PlaceholderChat = "Ask me anything",
                 ChatFooter = new OmniBox.FooterItems
                 {
                     LeftSide = new[]
@@ -74,20 +74,22 @@ namespace Tesserae.Tests.Samples
                     RightSide = new[]
                     {
                         attBtnForChat
-                    } 
+                    }
                 }
 
             })
             .WS()
-            .OnChat(async (s, q) =>
+            .OnChat((s, q) =>
             {
                 s.IsGenerating = true;
-                await Task.Delay(2000);
-                if (s.IsGenerating) // Make sure it wasn't cancelled
-                {
-                    s.IsGenerating = false;
-                    Toast().Information(q.Text);
-                }
+                window.setTimeout((_) => 
+                { 
+                    if (s.IsGenerating) // Make sure it wasn't cancelled
+                    {
+                        s.IsGenerating = false;
+                        Toast().Information(q.Text);
+                    }
+                }, 5000);
             })
             .OnStop(s =>
             {
@@ -118,15 +120,17 @@ namespace Tesserae.Tests.Samples
             {
                 Toast().Information($"Searched for: {q.RawQuery} (Parsed into {q.Tokens?.Count ?? 0} tokens)");
             })
-            .OnChat(async (s, q) =>
+            .OnChat((s, q) =>
             {
                 s.IsGenerating = true;
-                await Task.Delay(2000);
-                if (s.IsGenerating) // Make sure it wasn't cancelled
-                {
-                    s.IsGenerating = false;
-                    Toast().Information(q.Text);
-                }
+                window.setTimeout((_) => 
+                { 
+                    if (s.IsGenerating) // Make sure it wasn't cancelled
+                    {
+                        s.IsGenerating = false;
+                        Toast().Information(q.Text);
+                    }
+                }, 5000);
             })
             .OnStop(s =>
             {
