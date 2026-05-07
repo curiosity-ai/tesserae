@@ -10,6 +10,7 @@ namespace Tesserae
         private readonly HTMLElement       _header;
         private readonly HTMLElement       _headerContent;
         private readonly HTMLSpanElement   _title;
+        private readonly HTMLElement       _iconContainer;
         private readonly HTMLElement       _chevron;
         private readonly HTMLElement       _content;
         private          bool              _isExpanded;
@@ -23,7 +24,9 @@ namespace Tesserae
             var contentId = "tss-expander-content-" + Guid.NewGuid().ToString("N").Substring(0, 8);
 
             _title         = Span(_("tss-expander-title", text: title ?? string.Empty));
-            _headerContent = Div(_("tss-expander-header-content"), _title);
+            _iconContainer = Div(_("tss-expander-icon"));
+            _iconContainer.style.display = "none";
+            _headerContent = Div(_("tss-expander-header-content"), _iconContainer, _title);
             _chevron       = I(UIcons.AngleDown, cssClass: "tss-expander-chevron");
             _header        = Div(_("tss-expander-header", role: "button", ariaLabel: "Toggle section"), _chevron, _headerContent);
             _header.setAttribute("aria-controls", contentId);
@@ -81,9 +84,10 @@ namespace Tesserae
         {
             _title.innerText = title ?? string.Empty;
 
-            if (!_customHeader && _headerContent.firstChild != _title)
+            if (!_customHeader && _headerContent.lastChild != _title)
             {
                 ClearChildren(_headerContent);
+                _headerContent.appendChild(_iconContainer);
                 _headerContent.appendChild(_title);
             }
 
@@ -97,6 +101,7 @@ namespace Tesserae
             if (header == null)
             {
                 _customHeader = false;
+                _headerContent.appendChild(_iconContainer);
                 _headerContent.appendChild(_title);
             }
             else
@@ -117,6 +122,28 @@ namespace Tesserae
                 _content.appendChild(content.Render());
             }
 
+            return this;
+        }
+
+        public Expander OptionIcon(UIcons icon, string color = "", string background = "")
+        {
+            ClearChildren(_iconContainer);
+            _iconContainer.style.display = "flex";
+            if (!string.IsNullOrEmpty(color))
+            {
+                _iconContainer.style.color = color;
+            }
+            if (!string.IsNullOrEmpty(background))
+            {
+                _iconContainer.style.background = background;
+            }
+            _iconContainer.appendChild(I(icon));
+            return this;
+        }
+
+        public Expander ChevronRight()
+        {
+            _header.appendChild(_chevron);
             return this;
         }
 
