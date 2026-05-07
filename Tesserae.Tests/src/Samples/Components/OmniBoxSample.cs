@@ -29,6 +29,27 @@ namespace Tesserae.Tests.Samples
                     {
                         attBtnForSearch
                     } 
+                },
+                SuggestionsFetcher = async (query) =>
+                {
+                    if (string.IsNullOrWhiteSpace(query)) return Array.Empty<OmniBox.OmniBoxSuggestionItem>();
+
+                    await Task.Delay(150); // Simulate network
+
+                    var items = new List<OmniBox.OmniBoxSuggestionItem>();
+                    var q = query.ToLower();
+
+                    if ("dataset / curiosity-prod".Contains(q) || "dataset / tesserae-docs".Contains(q) || "dataset / build-logs".Contains(q))
+                    {
+                        items.Add(new OmniBox.OmniBoxSuggestionItem(TextBlock("dataset / curiosity-prod"), UI.Icon(UIcons.Table).Regular(), UI.Icon(UIcons.Check).Foreground(Theme.Primary.Foreground), null, "DATASETS"));
+                        items.Add(new OmniBox.OmniBoxSuggestionItem(TextBlock("dataset / tesserae-docs"), UI.Icon(UIcons.Table).Regular(), null, null, "DATASETS"));
+                        items.Add(new OmniBox.OmniBoxSuggestionItem(TextBlock("dataset / build-logs"), UI.Icon(UIcons.Table).Regular(), UI.Icon(UIcons.Check).Foreground(Theme.Primary.Foreground), null, "DATASETS"));
+                    }
+
+                    items.Add(new OmniBox.OmniBoxSuggestionItem(TextBlock("a-model / Document.v3"), UI.Icon(UIcons.Document).Regular(), null, null, "SCHEMAS"));
+                    items.Add(new OmniBox.OmniBoxSuggestionItem(TextBlock("a-model / Embedding.v1"), UI.Icon(UIcons.Document).Regular(), null, null, "SCHEMAS"));
+
+                    return items.ToArray();
                 }
             })
             .WS()
