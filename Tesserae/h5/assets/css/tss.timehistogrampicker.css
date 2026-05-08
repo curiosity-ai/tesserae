@@ -103,7 +103,6 @@
     display: flex;
     justify-content: space-between;
     gap: 12px;
-    color: var(--tss-secondary-foreground-color);
     font-size: 12px;
     line-height: 16px;
     padding-top: 2px;
