@@ -55,6 +55,7 @@ namespace Tesserae
         private int _selectedEndIndex;
         private bool _isEnabled = true;
         private bool _usesPrecomputedBuckets;
+        private Func<DateTime, string> _renderTime = DefaultRenderTime;
         private Action<DateTime, DateTime, int> _rangeChanged;
 
         public TimeHistogramPicker(DateTime[] values, int maxBuckets = 80)
@@ -161,6 +162,14 @@ namespace Tesserae
         public TimeHistogramPicker OnRangeChanged(Action<DateTime, DateTime, int> handler)
         {
             _rangeChanged += handler;
+            return this;
+        }
+
+        public TimeHistogramPicker WithCustomTimeRender(Func<DateTime, string> renderTime)
+        {
+            _renderTime = renderTime ?? DefaultRenderTime;
+            RenderBuckets();
+            UpdateSelection(false);
             return this;
         }
 
@@ -275,13 +284,13 @@ namespace Tesserae
                 var bar = Div(_("tss-time-histogram-picker-bar"));
                 var height = _buckets[i].Count == 0 ? 0 : Math.Max(2, (_buckets[i].Count / (double)maxCount) * 100);
                 bar.style.height = $"{height:0.##}%";
-                bar.title = $"{FormatDate(_buckets[i].Start)} - {FormatDate(_buckets[i].End)}: {_buckets[i].Count:n0}";
+                bar.title = $"{RenderTime(_buckets[i].Start)} - {RenderTime(_buckets[i].End)}: {_buckets[i].Count:n0}";
                 _histogram.appendChild(bar);
                 _bars.Add(bar);
             }
 
-            _axisStart.textContent = FormatDate(_buckets[0].Start);
-            _axisEnd.textContent = FormatDate(_buckets[_buckets.Count - 1].End);
+            _axisStart.textContent = RenderTime(_buckets[0].Start);
+            _axisEnd.textContent = RenderTime(_buckets[_buckets.Count - 1].End);
         }
 
         private void UpdateSelection(bool raiseChanged)
@@ -304,9 +313,13 @@ namespace Tesserae
             _leftThumb.setAttribute("aria-valuemin", "0");
             _leftThumb.setAttribute("aria-valuemax", (_buckets.Count - 1).ToString());
             _leftThumb.setAttribute("aria-valuenow", _selectedStartIndex.ToString());
+            _leftThumb.setAttribute("aria-valuetext", RenderTime(SelectedFrom));
+            _leftThumb.title = RenderTime(SelectedFrom);
             _rightThumb.setAttribute("aria-valuemin", "0");
             _rightThumb.setAttribute("aria-valuemax", (_buckets.Count - 1).ToString());
             _rightThumb.setAttribute("aria-valuenow", _selectedEndIndex.ToString());
+            _rightThumb.setAttribute("aria-valuetext", RenderTime(SelectedTo));
+            _rightThumb.title = RenderTime(SelectedTo);
 
             for (var i = 0; i < _bars.Count; i++)
             {
@@ -466,7 +479,12 @@ namespace Tesserae
             return Math.Max(min, Math.Min(max, value));
         }
 
-        private static string FormatDate(DateTime date)
+        private string RenderTime(DateTime date)
+        {
+            return _renderTime(date) ?? "";
+        }
+
+        private static string DefaultRenderTime(DateTime date)
         {
             return date.TimeOfDay.TotalSeconds == 0 ? date.ToString("d") : date.ToString("g");
         }

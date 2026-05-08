@@ -28,6 +28,8 @@ namespace Tesserae.Tests.Samples
                         PickerDemo(GetSmallValues(), 12),
                         SampleSubTitle("Dense Minute and Hour Data"),
                         PickerDemo(GetDenseValues(), 64),
+                        SampleSubTitle("Custom Time Rendering"),
+                        PickerDemo(GetDenseValues(), 48, date => date.ToString("MMM d, HH:mm")),
                         SampleSubTitle("Sparse Multi-year Data"),
                         PickerDemo(GetMultiYearValues(), 48),
                         SampleSubTitle("Gapped Clusters with Uneven Groups"),
@@ -46,13 +48,14 @@ namespace Tesserae.Tests.Samples
 
         public HTMLElement Render() => _content.Render();
 
-        private static IComponent PickerDemo(DateTime[] values, int maxBuckets)
+        private static IComponent PickerDemo(DateTime[] values, int maxBuckets, Func<DateTime, string> renderTime = null)
         {
             var selection = new SettableObservable<string>();
             var picker = TimeHistogramPicker(values, maxBuckets)
-               .OnRangeChanged((from, to, count) => selection.Value = FormatSelection(from, to, count));
+               .WithCustomTimeRender(renderTime)
+               .OnRangeChanged((from, to, count) => selection.Value = FormatSelection(from, to, count, renderTime));
 
-            selection.Value = FormatSelection(picker.SelectedFrom, picker.SelectedTo, picker.SelectedCount);
+            selection.Value = FormatSelection(picker.SelectedFrom, picker.SelectedTo, picker.SelectedCount, renderTime);
 
             return VStack().WS().Children(
                 picker,
@@ -80,15 +83,18 @@ namespace Tesserae.Tests.Samples
             ).MB(24);
         }
 
-        private static string FormatSelection(DateTime from, DateTime to, int count)
+        private static string FormatSelection(DateTime from, DateTime to, int count, Func<DateTime, string> renderTime = null)
         {
             if (count == 0)
             {
                 return "No values";
             }
 
-            return $"{from:g} - {to:g} ({count:n0} values)";
+            renderTime = renderTime ?? DefaultRenderTime;
+            return $"{renderTime(from)} - {renderTime(to)} ({count:n0} values)";
         }
+
+        private static string DefaultRenderTime(DateTime time) => time.ToString("g");
 
         private static DateTime[] GetSmallValues()
         {
