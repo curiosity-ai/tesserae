@@ -16,13 +16,13 @@ namespace Tesserae
         public TimeHistogramBucket(DateTime start, DateTime end, int count)
         {
             Start = start;
-            End = end;
+            End   = end;
             Count = count;
         }
 
         public DateTime Start { get; set; }
-        public DateTime End { get; set; }
-        public int Count { get; set; }
+        public DateTime End   { get; set; }
+        public int      Count { get; set; }
     }
 
     [H5.Name("tss.TimeHistogramPicker")]
@@ -36,48 +36,51 @@ namespace Tesserae
         private const double Month       = 30 * Day;
         private const double Year        = 365 * Day;
 
-        private readonly HTMLDivElement _container;
-        private readonly HTMLDivElement _histogram;
-        private readonly HTMLDivElement _track;
-        private readonly HTMLDivElement _selection;
-        private readonly HTMLDivElement _leftThumb;
-        private readonly HTMLDivElement _rightThumb;
-        private readonly HTMLDivElement _emptyMessage;
-        private readonly HTMLDivElement _axis;
-        private readonly HTMLSpanElement _axisStart;
-        private readonly HTMLSpanElement _axisEnd;
+        private readonly HTMLDivElement            _container;
+        private readonly HTMLDivElement            _histogram;
+        private readonly HTMLDivElement            _track;
+        private readonly HTMLDivElement            _selection;
+        private readonly HTMLDivElement            _leftThumb;
+        private readonly HTMLDivElement            _rightThumb;
+        private readonly HTMLDivElement            _emptyMessage;
+        private readonly HTMLDivElement            _axis;
+        private readonly HTMLSpanElement           _axisStart;
+        private readonly HTMLSpanElement           _axisEnd;
         private readonly List<TimeHistogramBucket> _buckets = new List<TimeHistogramBucket>();
-        private readonly List<HTMLDivElement> _bars = new List<HTMLDivElement>();
+        private readonly List<HTMLDivElement>      _bars    = new List<HTMLDivElement>();
 
-        private DateTime[] _values = new DateTime[0];
-        private int _maxBuckets;
-        private int _selectedStartIndex;
-        private int _selectedEndIndex;
-        private bool _isEnabled = true;
-        private bool _usesPrecomputedBuckets;
-        private Func<DateTime, string> _renderTime = DefaultRenderTime;
+        private DateTime[]                      _values = new DateTime[0];
+        private int                             _maxBuckets;
+        private int                             _selectedStartIndex;
+        private int                             _selectedEndIndex;
+        private bool                            _isEnabled = true;
+        private bool                            _usesPrecomputedBuckets;
+        private bool                            _showBucketTooltipOnHover = true;
+        private Func<DateTime, string>          _renderTime               = DateTimeRangeRenderer.RenderTime;
+        private bool                            _usesCustomTimeRender;
         private Action<DateTime, DateTime, int> _rangeChanged;
+        private Action                          _hideBarTooltip;
 
         public TimeHistogramPicker(DateTime[] values, int maxBuckets = 80)
         {
             _maxBuckets = Math.Max(1, maxBuckets);
 
-            _histogram = Div(_("tss-time-histogram-picker-bars"));
+            _histogram    = Div(_("tss-time-histogram-picker-bars"));
             _emptyMessage = Div(_("tss-time-histogram-picker-empty"), Span(_(text: "No values")));
 
-            _selection = Div(_("tss-time-histogram-picker-selection"));
-            _leftThumb = Div(_("tss-time-histogram-picker-thumb tss-time-histogram-picker-thumb-left"));
+            _selection  = Div(_("tss-time-histogram-picker-selection"));
+            _leftThumb  = Div(_("tss-time-histogram-picker-thumb tss-time-histogram-picker-thumb-left"));
             _rightThumb = Div(_("tss-time-histogram-picker-thumb tss-time-histogram-picker-thumb-right"));
-            _track = Div(_("tss-time-histogram-picker-track"), _selection, _leftThumb, _rightThumb);
+            _track      = Div(_("tss-time-histogram-picker-track"), _selection, _leftThumb, _rightThumb);
 
             _axisStart = Span(_("tss-time-histogram-picker-axis-label"));
-            _axisEnd = Span(_("tss-time-histogram-picker-axis-label"));
-            _axis = Div(_("tss-time-histogram-picker-axis"), _axisStart, _axisEnd);
+            _axisEnd   = Span(_("tss-time-histogram-picker-axis-label"));
+            _axis      = Div(_("tss-time-histogram-picker-axis"), _axisStart, _axisEnd);
 
             _container = Div(_("tss-time-histogram-picker"), _histogram, _emptyMessage, _track, _axis);
-            HookDragEvents(_leftThumb, true);
+            HookDragEvents(_leftThumb,  true);
             HookDragEvents(_rightThumb, false);
-            HookKeyboardEvents(_leftThumb, true);
+            HookKeyboardEvents(_leftThumb,  true);
             HookKeyboardEvents(_rightThumb, false);
 
             SetValues(values);
@@ -89,16 +92,16 @@ namespace Tesserae
             SetBuckets(buckets);
         }
 
-        public DateTime SelectedFrom => HasSelection ? _buckets[_selectedStartIndex].Start : default;
-        public DateTime SelectedTo => HasSelection ? _buckets[_selectedEndIndex].End : default;
-        public int SelectedCount => HasSelection ? CountSelectedValues() : 0;
+        public DateTime SelectedFrom  => HasSelection ? _buckets[_selectedStartIndex].Start : default;
+        public DateTime SelectedTo    => HasSelection ? _buckets[_selectedEndIndex].End : default;
+        public int      SelectedCount => HasSelection ? CountSelectedValues() : 0;
 
         private bool HasSelection => _buckets.Count > 0 && _selectedStartIndex >= 0 && _selectedEndIndex >= _selectedStartIndex;
 
         public TimeHistogramPicker SetValues(DateTime[] values)
         {
             _usesPrecomputedBuckets = false;
-            _values = values?.ToArray() ?? new DateTime[0];
+            _values                 = values?.ToArray() ?? new DateTime[0];
             Array.Sort(_values);
             BuildBuckets();
             ResetSelection();
@@ -108,7 +111,7 @@ namespace Tesserae
         public TimeHistogramPicker SetBuckets(TimeHistogramBucket[] buckets)
         {
             _usesPrecomputedBuckets = true;
-            _values = new DateTime[0];
+            _values                 = new DateTime[0];
             _buckets.Clear();
 
             foreach (var bucket in (buckets ?? new TimeHistogramBucket[0]).Where(b => b != null).OrderBy(b => b.Start).ThenBy(b => b.End))
@@ -131,11 +134,12 @@ namespace Tesserae
             {
                 var tmp = from;
                 from = to;
-                to = tmp;
+                to   = tmp;
             }
 
             _selectedStartIndex = FindBucketIndex(from, true);
-            _selectedEndIndex = FindBucketIndex(to, false);
+            _selectedEndIndex   = FindBucketIndex(to,   false);
+
             if (_selectedEndIndex < _selectedStartIndex)
             {
                 _selectedEndIndex = _selectedStartIndex;
@@ -148,11 +152,12 @@ namespace Tesserae
         public TimeHistogramPicker MaxBuckets(int maxBuckets)
         {
             _maxBuckets = Math.Max(1, maxBuckets);
+
             if (!_usesPrecomputedBuckets)
             {
                 BuildBuckets();
-                _selectedStartIndex = _buckets.Count == 0 ? -1 : Math.Min(_selectedStartIndex, _buckets.Count - 1);
-                _selectedEndIndex = _buckets.Count == 0 ? -1 : Math.Min(Math.Max(_selectedEndIndex, _selectedStartIndex), _buckets.Count - 1);
+                _selectedStartIndex = _buckets.Count == 0 ? -1 : Math.Min(_selectedStartIndex,                              _buckets.Count - 1);
+                _selectedEndIndex   = _buckets.Count == 0 ? -1 : Math.Min(Math.Max(_selectedEndIndex, _selectedStartIndex), _buckets.Count - 1);
                 RenderBuckets();
                 UpdateSelection(true);
             }
@@ -167,7 +172,21 @@ namespace Tesserae
 
         public TimeHistogramPicker WithCustomTimeRender(Func<DateTime, string> renderTime)
         {
-            _renderTime = renderTime ?? DefaultRenderTime;
+            _renderTime           = renderTime ?? DateTimeRangeRenderer.RenderTime;
+            _usesCustomTimeRender = renderTime != null;
+            RenderBuckets();
+            UpdateSelection(false);
+            return this;
+        }
+
+        public TimeHistogramPicker ShowCountOnHover(bool value = true)
+        {
+            return ShowBucketTooltipOnHover(value);
+        }
+
+        public TimeHistogramPicker ShowBucketTooltipOnHover(bool value = true)
+        {
+            _showBucketTooltipOnHover = value;
             RenderBuckets();
             UpdateSelection(false);
             return this;
@@ -177,7 +196,7 @@ namespace Tesserae
         {
             _isEnabled = !value;
             _container.UpdateClassIf(value, "tss-disabled");
-            _leftThumb.tabIndex = _isEnabled ? 0 : -1;
+            _leftThumb.tabIndex  = _isEnabled ? 0 : -1;
             _rightThumb.tabIndex = _isEnabled ? 0 : -1;
             return this;
         }
@@ -187,7 +206,7 @@ namespace Tesserae
         private void ResetSelection()
         {
             _selectedStartIndex = _buckets.Count == 0 ? -1 : 0;
-            _selectedEndIndex = _buckets.Count - 1;
+            _selectedEndIndex   = _buckets.Count - 1;
             RenderBuckets();
             UpdateSelection(false);
         }
@@ -211,8 +230,8 @@ namespace Tesserae
             }
 
             var totalMilliseconds = Math.Max(1, (max - min).TotalMilliseconds);
-            var bucketWidth = ChooseBucketWidth(totalMilliseconds);
-            var bucketCount = Math.Max(1, (int)Math.Ceiling(totalMilliseconds / bucketWidth));
+            var bucketWidth       = ChooseBucketWidth(totalMilliseconds);
+            var bucketCount       = Math.Max(1, (int)Math.Ceiling(totalMilliseconds / bucketWidth));
 
             if (bucketCount > _maxBuckets)
             {
@@ -223,11 +242,12 @@ namespace Tesserae
             for (var i = 0; i < bucketCount; i++)
             {
                 var start = min.AddMilliseconds(i * bucketWidth);
-                var end = i == bucketCount - 1 ? max : min.AddMilliseconds((i + 1) * bucketWidth);
+                var end   = i == bucketCount - 1 ? max : min.AddMilliseconds((i + 1) * bucketWidth);
                 _buckets.Add(new TimeHistogramBucket(start, end, 0));
             }
 
             var bucketIndex = 0;
+
             for (var i = 0; i < _values.Length; i++)
             {
                 while (bucketIndex < _buckets.Count - 1 && _values[i] >= _buckets[bucketIndex].End)
@@ -264,60 +284,91 @@ namespace Tesserae
 
         private void RenderBuckets()
         {
+            HideBarTooltip();
             _histogram.RemoveChildElements();
             _bars.Clear();
 
             _container.UpdateClassIf(_buckets.Count == 0, "tss-time-histogram-picker-empty-state");
-            _leftThumb.tabIndex = _isEnabled && _buckets.Count > 0 ? 0 : -1;
+            _leftThumb.tabIndex  = _isEnabled && _buckets.Count > 0 ? 0 : -1;
             _rightThumb.tabIndex = _isEnabled && _buckets.Count > 0 ? 0 : -1;
 
             if (_buckets.Count == 0)
             {
                 _axisStart.textContent = "";
-                _axisEnd.textContent = "";
+                _axisEnd.textContent   = "";
                 return;
             }
 
             var maxCount = Math.Max(1, _buckets.Max(b => b.Count));
+
             for (var i = 0; i < _buckets.Count; i++)
             {
-                var bar = Div(_("tss-time-histogram-picker-bar"));
-                var height = _buckets[i].Count == 0 ? 0 : Math.Max(2, (_buckets[i].Count / (double)maxCount) * 100);
+                var bar       = Div(_("tss-time-histogram-picker-bar"));
+                var height    = _buckets[i].Count == 0 ? 0 : Math.Max(2, (_buckets[i].Count / (double)maxCount) * 100);
+                var rangeText = RenderRange(_buckets[i].Start, _buckets[i].End);
+                var countText = _buckets[i].Count.ToString("n0");
                 bar.style.height = $"{height:0.##}%";
-                bar.title = $"{RenderTime(_buckets[i].Start)} - {RenderTime(_buckets[i].End)}: {_buckets[i].Count:n0}";
+                bar.setAttribute("aria-label", $"{rangeText}, {countText}");
+
+                if (_showBucketTooltipOnHover)
+                {
+                    HookBarTooltip(bar, rangeText, countText);
+                }
                 _histogram.appendChild(bar);
                 _bars.Add(bar);
             }
 
             _axisStart.textContent = RenderTime(_buckets[0].Start);
-            _axisEnd.textContent = RenderTime(_buckets[_buckets.Count - 1].End);
+            _axisEnd.textContent   = RenderTime(_buckets[_buckets.Count - 1].End);
+        }
+
+        private void HookBarTooltip(HTMLElement bar, string rangeText, string countText)
+        {
+            bar.onmouseenter = _ => ShowBarTooltip(bar, rangeText, countText);
+            bar.onmouseleave = _ => HideBarTooltip();
+        }
+
+        private void ShowBarTooltip(HTMLElement bar, string rangeText, string countText)
+        {
+            HideBarTooltip();
+
+            var tooltip = Div(_("tss-time-histogram-picker-tooltip"),
+                Span(_("tss-time-histogram-picker-tooltip-range", text: rangeText)),
+                Span(_("tss-time-histogram-picker-tooltip-count", text: countText)));
+            Tippy.ShowFor(bar, tooltip, out _hideBarTooltip, placement: TooltipPlacement.Top, delayShow: 0, delayHide: 0, maxWidth: 260, arrow: true);
+        }
+
+        private void HideBarTooltip()
+        {
+            _hideBarTooltip?.Invoke();
+            _hideBarTooltip = null;
         }
 
         private void UpdateSelection(bool raiseChanged)
         {
             if (!HasSelection)
             {
-                _selection.style.left = "0%";
+                _selection.style.left  = "0%";
                 _selection.style.width = "0%";
-                _leftThumb.style.left = "0%";
+                _leftThumb.style.left  = "0%";
                 _rightThumb.style.left = "0%";
                 return;
             }
 
-            var leftPercent = StartIndexToPercent(_selectedStartIndex);
+            var leftPercent  = StartIndexToPercent(_selectedStartIndex);
             var rightPercent = EndIndexToPercent(_selectedEndIndex);
-            _selection.style.left = $"{leftPercent:0.##}%";
+            _selection.style.left  = $"{leftPercent:0.##}%";
             _selection.style.width = $"{Math.Max(0, rightPercent - leftPercent):0.##}%";
-            _leftThumb.style.left = $"{leftPercent:0.##}%";
+            _leftThumb.style.left  = $"{leftPercent:0.##}%";
             _rightThumb.style.left = $"{rightPercent:0.##}%";
-            _leftThumb.setAttribute("aria-valuemin", "0");
-            _leftThumb.setAttribute("aria-valuemax", (_buckets.Count - 1).ToString());
-            _leftThumb.setAttribute("aria-valuenow", _selectedStartIndex.ToString());
+            _leftThumb.setAttribute("aria-valuemin",  "0");
+            _leftThumb.setAttribute("aria-valuemax",  (_buckets.Count - 1).ToString());
+            _leftThumb.setAttribute("aria-valuenow",  _selectedStartIndex.ToString());
             _leftThumb.setAttribute("aria-valuetext", RenderTime(SelectedFrom));
             _leftThumb.title = RenderTime(SelectedFrom);
-            _rightThumb.setAttribute("aria-valuemin", "0");
-            _rightThumb.setAttribute("aria-valuemax", (_buckets.Count - 1).ToString());
-            _rightThumb.setAttribute("aria-valuenow", _selectedEndIndex.ToString());
+            _rightThumb.setAttribute("aria-valuemin",  "0");
+            _rightThumb.setAttribute("aria-valuemax",  (_buckets.Count - 1).ToString());
+            _rightThumb.setAttribute("aria-valuenow",  _selectedEndIndex.ToString());
             _rightThumb.setAttribute("aria-valuetext", RenderTime(SelectedTo));
             _rightThumb.title = RenderTime(SelectedTo);
 
@@ -363,9 +414,9 @@ namespace Tesserae
                     return;
                 }
 
-                rect = _track.getBoundingClientRect().As<DOMRect>();
+                rect               =  _track.getBoundingClientRect().As<DOMRect>();
                 window.onmousemove += Move;
-                window.onmouseup += Stop;
+                window.onmouseup   += Stop;
                 StopEvent(me);
             };
 
@@ -383,8 +434,8 @@ namespace Tesserae
             void Stop(MouseEvent me)
             {
                 window.onmousemove -= Move;
-                window.onmouseup -= Stop;
-                rect = null;
+                window.onmouseup   -= Stop;
+                rect               =  null;
                 StopEvent(me);
             }
         }
@@ -392,8 +443,9 @@ namespace Tesserae
         private void HookKeyboardEvents(HTMLDivElement thumb, bool isLeft)
         {
             thumb.tabIndex = 0;
-            thumb.setAttribute("role", "slider");
+            thumb.setAttribute("role",       "slider");
             thumb.setAttribute("aria-label", isLeft ? "Start time" : "End time");
+
             thumb.addEventListener("keydown", ev =>
             {
                 if (!_isEnabled || _buckets.Count == 0)
@@ -402,7 +454,8 @@ namespace Tesserae
                 }
 
                 var keyEvent = ev.As<KeyboardEvent>();
-                var delta = keyEvent.key == "ArrowLeft" || keyEvent.key == "ArrowDown" ? -1 : keyEvent.key == "ArrowRight" || keyEvent.key == "ArrowUp" ? 1 : 0;
+                var delta    = keyEvent.key == "ArrowLeft" || keyEvent.key == "ArrowDown" ? -1 : keyEvent.key == "ArrowRight" || keyEvent.key == "ArrowUp" ? 1 : 0;
+
                 if (delta == 0)
                 {
                     return;
@@ -424,9 +477,9 @@ namespace Tesserae
 
         private void SetThumbFromClientX(double clientX, DOMRect rect, bool isLeft)
         {
-            var width = Math.Max(1, rect.width);
+            var width   = Math.Max(1, rect.width);
             var percent = Math.Max(0, Math.Min(1, (clientX - rect.left) / width));
-            var index = isLeft ? (int)Math.Round(percent * _buckets.Count) : (int)Math.Round(percent * _buckets.Count) - 1;
+            var index   = isLeft ? (int)Math.Round(percent * _buckets.Count) : (int)Math.Round(percent * _buckets.Count) - 1;
 
             if (isLeft)
             {
@@ -466,6 +519,7 @@ namespace Tesserae
         private int CountSelectedValues()
         {
             var count = 0;
+
             for (var i = _selectedStartIndex; i <= _selectedEndIndex; i++)
             {
                 count += _buckets[i].Count;
@@ -484,9 +538,9 @@ namespace Tesserae
             return _renderTime(date) ?? "";
         }
 
-        private static string DefaultRenderTime(DateTime date)
+        private string RenderRange(DateTime from, DateTime to)
         {
-            return date.TimeOfDay.TotalSeconds == 0 ? date.ToString("d") : date.ToString("g");
+            return DateTimeRangeRenderer.RenderRange(from, to, _usesCustomTimeRender ? _renderTime : null);
         }
     }
 }

@@ -35,6 +35,24 @@
     opacity: 1;
 }
 
+.tss-time-histogram-picker-tooltip {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.tss-time-histogram-picker-tooltip-range {
+    color: var(--tss-tooltip-foreground-color);
+    font-size: var(--tss-font-size-small);
+    white-space: nowrap;
+}
+
+.tss-time-histogram-picker-tooltip-count {
+    color: var(--tss-tooltip-foreground-color);
+    font-size: var(--tss-font-size-small);
+    white-space: nowrap;
+}
+
 .tss-time-histogram-picker-track {
     position: relative;
     flex: 0 0 auto;
