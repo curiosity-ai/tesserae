@@ -27,6 +27,8 @@ namespace Tesserae
 
         private List<string> _itemOrder = new List<string>();
 
+        private HTMLDivElement _mobileBackdrop;
+
         /// <summary>
         /// The transition time for sidebar animations in milliseconds.
         /// </summary>
@@ -53,6 +55,19 @@ namespace Tesserae
 
             _closed.Observe(isClosed =>
             {
+                // Show or hide the mobile backdrop (used in navbar/mobile mode)
+                if (_mobileBackdrop is object)
+                {
+                    if (isClosed)
+                    {
+                        _mobileBackdrop.classList.remove("tss-mobile-backdrop-visible");
+                    }
+                    else
+                    {
+                        _mobileBackdrop.classList.add("tss-mobile-backdrop-visible");
+                    }
+                }
+
                 //Do this on a timeout to improve the animation behaviour
                 window.clearTimeout(_closedTimeout);
 
@@ -120,6 +135,20 @@ namespace Tesserae
             _sidebar.Horizontal();
             _sidebar.Class("tss-navbar");
             _closed.Value = true;
+
+            // Apply the closed class synchronously so CSS states are correct before first paint.
+            _sidebar.Class("tss-navbar-closed");
+
+            // Create a backdrop element appended to the body. On mobile it dims the background
+            // when the drawer is open and closes the sidebar on click.
+            if (_mobileBackdrop is null)
+            {
+                _mobileBackdrop = (HTMLDivElement)document.createElement("div");
+                _mobileBackdrop.className = "tss-mobile-backdrop";
+                _mobileBackdrop.addEventListener("click", (Event e) => { _closed.Value = true; });
+                document.body.appendChild(_mobileBackdrop);
+            }
+
             Refresh();
             return this;
         }
@@ -174,8 +203,14 @@ namespace Tesserae
             {
                 var hamburger = Button().Class("tss-navbar-burger").SetIcon(UIcons.MenuBurger).OnClick(() => _closed.Toggle());
 
+                var mobileHeader = HStack().Class("tss-navbar-mobile-header").Children(
+                    TextBlock("Navigation").SemiBold().Foreground(UI.Theme.Default.Foreground),
+                    Button().Class("tss-navbar-mobile-close").SetIcon(UIcons.Cross).OnClick(() => _closed.Value = true)
+                );
+
                 var drawer = VStack().Class("tss-navbar-drawer")
                    .Children(
+                        mobileHeader,
                         stackMiddle.Class("tss-sidebar-middle").WS().MinHeight(new UnitSize("fit-content")).MaxHeight(80.vh()).ScrollY().Children(middle.Select(si => AttachNavbarClose(si.RenderOpen()))),
                         VStack().Class("tss-sidebar-footer").WS().NoShrink().Children(footer.Select(si => AttachNavbarClose(si.RenderOpen())))
                     );
@@ -211,7 +246,7 @@ namespace Tesserae
             if(!el.HasOwnProperty("_NAVBAR_CLOSE"))
             {
                 el["_NAVBAR_CLOSE"] = true;
-                el.addEventListener("click", () => _closed.Value = true);
+                el.addEventListener("click", (Action<Event>)(_ => _closed.Value = true), true);
             }
             return component;
         }
