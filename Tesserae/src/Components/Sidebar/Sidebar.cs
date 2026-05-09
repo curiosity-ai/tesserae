@@ -51,6 +51,23 @@ namespace Tesserae
             _closed        = new SettableObservable<bool>(false);
             _sidebar       = VStack().Class("tss-sidebar");
 
+            Theme.OnMobileChanged += () =>
+            {
+                if (Theme.IsMobile)
+                {
+                    AsNavbar();
+                }
+                else
+                {
+                    AsSidebar();
+                }
+            };
+
+            if (Theme.IsMobile)
+            {
+                AsNavbar();
+            }
+
             _closed.Observe(isClosed =>
             {
                 //Do this on a timeout to improve the animation behaviour
@@ -120,6 +137,16 @@ namespace Tesserae
             _sidebar.Horizontal();
             _sidebar.Class("tss-navbar");
             _closed.Value = true;
+            Refresh();
+            return this;
+        }
+
+        public Sidebar AsSidebar()
+        {
+            _isNavbar = false;
+            _sidebar.Vertical();
+            _sidebar.RemoveClass("tss-navbar");
+            _closed.Value = false;
             Refresh();
             return this;
         }

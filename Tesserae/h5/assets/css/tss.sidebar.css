@@ -673,3 +673,22 @@
 .tss-sidebar-segmentedpivot-wrapper-closed .tss-segmentedpivot-tab:last-child {
     margin-bottom: 0px;
 }
+
+/* Override when body has tss-mobile */
+body.tss-mobile .tss-sidebar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+    width: 100vw !important;
+    height: 100vh !important;
+}
+
+body.tss-mobile .tss-navbar {
+    width: 100vw !important;
+    height: auto !important;
+    min-height: 52px;
+    z-index: 1000;
+}

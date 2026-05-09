@@ -130,7 +130,21 @@ namespace Tesserae.Tests
                 }
             });
 
-            var commandSidebarconfig = new SidebarCommands("CONFIG", lightDark, openClose);
+            var mobileToggle = new SidebarCommand(UIcons.Mobile).Tooltip("Mobile Mode").Id("mobile-toggle");
+
+            mobileToggle.OnClick(() =>
+            {
+                if (Theme.IsMobile)
+                {
+                    Theme.Desktop();
+                }
+                else
+                {
+                    Theme.Mobile();
+                }
+            });
+
+            var commandSidebarconfig = new SidebarCommands("CONFIG", mobileToggle, lightDark, openClose);
             sidebar.AddFooter(commandSidebarconfig);
 
             var groupIndex = 0;

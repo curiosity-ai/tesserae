@@ -202,3 +202,13 @@
 .tss-panel-modeless {
     visibility: hidden
 }
+
+.tss-mobile .tss-panelSize-small,
+.tss-mobile .tss-panelSize-medium,
+.tss-mobile .tss-panelSize-large,
+.tss-mobile .tss-panelSize-largefixed,
+.tss-mobile .tss-panelSize-extralarge {
+    width: 100vw;
+    left: 0;
+    right: 0;
+}

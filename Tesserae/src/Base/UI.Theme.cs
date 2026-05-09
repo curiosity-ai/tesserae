@@ -14,6 +14,14 @@ namespace Tesserae
             private static HTMLStyleElement _primaryStyleElement;
             private static HTMLStyleElement _backgroundStyleElement;
 
+            static Theme()
+            {
+                if (IsMobile)
+                {
+                    document.body.classList.add("tss-mobile");
+                }
+            }
+
             public static event Action OnThemeChanged;
             /// <summary>
             /// Enables dark mode.
@@ -80,6 +88,8 @@ namespace Tesserae
             {
                 get
                 {
+                    if (document.body.classList.contains("tss-desktop")) return false;
+                    if (document.body.classList.contains("tss-mobile")) return true;
                     try
                     {
                         if (navigator.userAgentData.mobile)
@@ -94,6 +104,23 @@ namespace Tesserae
                     }
                     return !window.matchMedia("(any-pointer:fine)").matches;
                 }
+            }
+
+            public delegate void MobileThemeChanged();
+            public static event MobileThemeChanged OnMobileChanged;
+
+            public static void Mobile()
+            {
+                document.body.classList.remove("tss-desktop");
+                document.body.classList.add("tss-mobile");
+                OnMobileChanged?.Invoke();
+            }
+
+            public static void Desktop()
+            {
+                document.body.classList.remove("tss-mobile");
+                document.body.classList.add("tss-desktop");
+                OnMobileChanged?.Invoke();
             }
 
 
