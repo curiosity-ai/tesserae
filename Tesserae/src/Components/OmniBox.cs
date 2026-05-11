@@ -332,7 +332,7 @@ namespace Tesserae
                 _searchInput.addEventListener("focus", (e) => ReceivedFocus?.Invoke(this, e));
                 _searchInput.addEventListener("blur", (e) => {
                     LostFocus?.Invoke(this, e);
-                    if (_hideSuggestions != null) window.setTimeout(_ => { if (_hideSuggestions != null) _hideSuggestions(); }, 200);
+                    if (_hideSuggestions != null) window.setTimeout(_ => { if (_hideSuggestions != null) _hideSuggestions(); _highlightedSuggestionIndex = -1; }, 200);
                 });
 
                 _searchInput.addEventListener("scroll", (e) => SyncScroll());
@@ -1157,6 +1157,7 @@ namespace Tesserae
                     {
                         _hideSuggestions();
                         _hideSuggestions = null;
+                        _highlightedSuggestionIndex = -1;
                     }
                     return;
                 }
@@ -1187,6 +1188,7 @@ namespace Tesserae
                     {
                         if (s.OnSelected != null) s.OnSelected(this);
                         if (_hideSuggestions != null) _hideSuggestions();
+                        _highlightedSuggestionIndex = -1;
                     });
                     content.Add(btn);
 
@@ -1196,9 +1198,10 @@ namespace Tesserae
                 if (_hideSuggestions != null)
                 {
                     _hideSuggestions();
+                    _highlightedSuggestionIndex = -1;
                 }
 
-                Tippy.ShowFor(this, content, out _hideSuggestions, placement: TooltipPlacement.BottomStart, maxWidth: 500);
+                Tippy.ShowFor(_activeInput, content.Render(), out _hideSuggestions, placement: TooltipPlacement.BottomStart, maxWidth: 500);
 
             }, 300);
         }
@@ -1209,14 +1212,12 @@ namespace Tesserae
 
             if (_highlightedSuggestionIndex >= 0 && _highlightedSuggestionIndex < _currentSuggestionButtons.Count)
             {
-                _currentSuggestionButtons[_highlightedSuggestionIndex].Render().classList.remove("tss-omnibox-suggestion-highlight");
-                _currentSuggestionButtons[_highlightedSuggestionIndex].Render().style.background = "";
+                _currentSuggestionButtons[_highlightedSuggestionIndex].RemoveClass("tss-omnibox-suggestion-highlight");
             }
 
             _highlightedSuggestionIndex = (_highlightedSuggestionIndex + offset + _currentSuggestionButtons.Count) % _currentSuggestionButtons.Count;
 
-            _currentSuggestionButtons[_highlightedSuggestionIndex].Render().classList.add("tss-omnibox-suggestion-highlight");
-            _currentSuggestionButtons[_highlightedSuggestionIndex].Render().style.background = "var(--tss-hover-background-color)";
+            _currentSuggestionButtons[_highlightedSuggestionIndex].Class("tss-omnibox-suggestion-highlight");
         }
 
         public OmniBox SetSearchRightText(string text)

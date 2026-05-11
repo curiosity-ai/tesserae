@@ -327,3 +327,8 @@
     font-size: 12px;
     white-space: nowrap;
 }
+
+
+.tss-omnibox-suggestion-highlight {
+    background: var(--tss-colors-blue-200) !important;
+}
