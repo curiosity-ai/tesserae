@@ -235,3 +235,9 @@ body.tss-mobile ::-webkit-scrollbar-thumb {
     border-radius: 4px;
     background: rgba(var(--tss-secondary-foreground-color-root), 0.3);
 }
+
+/* ─── Section Stack ─────────────────────────────────────── */
+
+.tss-mobile .tss-sectionstack {
+    padding: 8px 8px 8px 16px;
+}

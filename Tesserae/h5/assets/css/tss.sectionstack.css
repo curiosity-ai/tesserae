@@ -6,10 +6,6 @@
     background: transparent;
 }
 
-.tss-mobile .tss-sectionstack {
-    padding: 8px 8px 8px 16px;
-}
-
 .tss-sectionstack-secondary {
     background: var(--tss-secondary-background-color);
 }
