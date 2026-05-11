@@ -37,12 +37,14 @@ namespace Tesserae
         private readonly HTMLDivElement      _container;
         private readonly HTMLDivElement      _highlights;
         private readonly HTMLTextAreaElement _textarea;
+        private readonly HTMLDivElement      _hoverTag;
 
         private readonly Func<string, Task<Entity[]>> _annotator;
         private readonly int                          _debounceMs;
         private int                                   _debounceTimeoutId   = 0;
         private int                                   _annotationRequestId = 0;
         private Entity[]                              _currentEntities     = new Entity[0];
+        private readonly List<HTMLElement>            _entitySpans         = new List<HTMLElement>();
 
         public delegate void AnnotationsChangedHandler(AnnotatedTextEditor sender, Entity[] entities);
         public delegate void TextChangedHandler(AnnotatedTextEditor sender, string text);
@@ -61,8 +63,13 @@ namespace Tesserae
 
             _container = Div(_("tss-annotated-text-container"), _highlights, _textarea);
 
+            _hoverTag = Div(_("tss-annotated-text-hover-tag"));
+            _hoverTag.style.display = "none";
+            document.body.appendChild(_hoverTag);
+
             _textarea.addEventListener("input", (e) =>
             {
+                HideHoverTag();
                 TextChanged?.Invoke(this, _textarea.value);
                 RenderHighlights();
                 TriggerAnnotate();
@@ -72,7 +79,12 @@ namespace Tesserae
             {
                 _highlights.scrollTop  = _textarea.scrollTop;
                 _highlights.scrollLeft = _textarea.scrollLeft;
+                HideHoverTag();
             });
+
+            _textarea.addEventListener("mousemove", (e) => HandleHoverMove(e.As<MouseEvent>()));
+            _textarea.addEventListener("mouseleave", (e) => HideHoverTag());
+            _textarea.addEventListener("blur", (e) => HideHoverTag());
 
             if (!string.IsNullOrEmpty(initialText))
             {
@@ -89,6 +101,7 @@ namespace Tesserae
             set
             {
                 _textarea.value = value ?? string.Empty;
+                HideHoverTag();
                 TextChanged?.Invoke(this, _textarea.value);
                 RenderHighlights();
                 TriggerAnnotate();
@@ -187,6 +200,7 @@ namespace Tesserae
                 if (requestId != _annotationRequestId) return; // stale
 
                 _currentEntities = entities ?? new Entity[0];
+                HideHoverTag();
                 RenderHighlights();
                 AnnotationsChanged?.Invoke(this, _currentEntities);
             }, _debounceMs);
@@ -195,12 +209,13 @@ namespace Tesserae
         private void RenderHighlights()
         {
             _highlights.innerHTML = "";
+            _entitySpans.Clear();
 
             var text = _textarea.value ?? string.Empty;
 
             if (_currentEntities == null || _currentEntities.Length == 0)
             {
-                _highlights.appendChild(BuildTextNode(text));
+                _highlights.appendChild(document.createTextNode(text));
                 return;
             }
 
@@ -212,51 +227,92 @@ namespace Tesserae
             int cursor = 0;
             foreach (var entity in sorted)
             {
-                if (entity.Start < cursor) continue; // skip overlaps (caller guarantees no overlap, but be safe)
+                if (entity.Start < cursor) continue; // caller guarantees no overlap, but be safe
 
                 if (entity.Start > cursor)
                 {
-                    _highlights.appendChild(BuildTextNode(text.Substring(cursor, entity.Start - cursor)));
+                    _highlights.appendChild(document.createTextNode(text.Substring(cursor, entity.Start - cursor)));
                 }
 
                 var end = Math.Min(text.Length, entity.End);
                 var entityText = text.Substring(entity.Start, end - entity.Start);
 
                 var span = Span(_("tss-annotated-text-entity"));
-                ApplyEntityStyles(span, entity);
+                if (!string.IsNullOrEmpty(entity.Background)) span.style.backgroundColor = entity.Background;
+                if (!string.IsNullOrEmpty(entity.Border))     span.style.outlineColor    = entity.Border;
                 span.appendChild(document.createTextNode(entityText));
 
-                if (!string.IsNullOrEmpty(entity.Label))
-                {
-                    var labelEl = Span(_("tss-annotated-text-entity-label"));
-                    labelEl.textContent = entity.Label;
-                    if (!string.IsNullOrEmpty(entity.Color))      labelEl.style.color           = entity.Color;
-                    if (!string.IsNullOrEmpty(entity.Background)) labelEl.style.backgroundColor = entity.Background;
-                    span.appendChild(labelEl);
-                }
-
                 _highlights.appendChild(span);
+                _entitySpans.Add(span);
 
                 cursor = end;
             }
 
             if (cursor < text.Length)
             {
-                _highlights.appendChild(BuildTextNode(text.Substring(cursor)));
+                _highlights.appendChild(document.createTextNode(text.Substring(cursor)));
             }
         }
 
-        private static void ApplyEntityStyles(HTMLSpanElement span, Entity entity)
+        private void HandleHoverMove(MouseEvent e)
         {
-            if (!string.IsNullOrEmpty(entity.Background)) span.style.backgroundColor = entity.Background;
-            if (!string.IsNullOrEmpty(entity.Color))      span.style.color           = entity.Color;
-            if (!string.IsNullOrEmpty(entity.Border))     span.style.outlineColor    = entity.Border;
+            if (_currentEntities == null || _currentEntities.Length == 0 || _entitySpans.Count == 0)
+            {
+                HideHoverTag();
+                return;
+            }
+
+            var x = e.clientX;
+            var y = e.clientY;
+
+            for (int i = 0; i < _entitySpans.Count && i < _currentEntities.Length; i++)
+            {
+                var span = _entitySpans[i];
+                var rect = span.getBoundingClientRect().As<DOMRect>();
+                if (x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom)
+                {
+                    var entity = _currentEntities[i];
+                    if (string.IsNullOrEmpty(entity?.Label))
+                    {
+                        HideHoverTag();
+                        return;
+                    }
+                    ShowHoverTag(entity, e);
+                    return;
+                }
+            }
+
+            HideHoverTag();
         }
 
-        private static Node BuildTextNode(string text)
+        private void ShowHoverTag(Entity entity, MouseEvent e)
         {
-            // Ensure trailing newline renders a line (textarea quirks)
-            return document.createTextNode(text);
+            _hoverTag.textContent = entity.Label;
+            _hoverTag.style.display = "block";
+
+            if (!string.IsNullOrEmpty(entity.Background)) _hoverTag.style.backgroundColor = entity.Background;
+            else                                          _hoverTag.style.backgroundColor = "";
+            if (!string.IsNullOrEmpty(entity.Color))      _hoverTag.style.color           = entity.Color;
+            else                                          _hoverTag.style.color           = "";
+            if (!string.IsNullOrEmpty(entity.Border))     _hoverTag.style.borderColor     = entity.Border;
+            else                                          _hoverTag.style.borderColor     = "";
+
+            // Position near the cursor (slightly below-right). Use fixed positioning relative to viewport.
+            var px = e.clientX + 12;
+            var py = e.clientY + 18;
+
+            // Keep inside viewport on the right edge
+            var tagRect = _hoverTag.getBoundingClientRect().As<DOMRect>();
+            if (px + tagRect.width > window.innerWidth - 4) px = window.innerWidth - tagRect.width - 4;
+            if (py + tagRect.height > window.innerHeight - 4) py = e.clientY - tagRect.height - 8;
+
+            _hoverTag.style.left = px + "px";
+            _hoverTag.style.top  = py + "px";
+        }
+
+        private void HideHoverTag()
+        {
+            if (_hoverTag != null) _hoverTag.style.display = "none";
         }
     }
 }
