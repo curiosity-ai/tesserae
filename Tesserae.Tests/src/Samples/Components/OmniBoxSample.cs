@@ -67,6 +67,7 @@ namespace Tesserae.Tests.Samples
             {
                 Toast().Information($"Searched for: {q.RawQuery} (Parsed into {q.Tokens?.Count ?? 0} tokens)");
             })
+            .SetKeyboardShortcut("Ctrl", "K")
             .SetSearchText("potato AND ( tomato OR banana) AND NOT apple");
 
             var fileDropAreaOnSearch = FileDropArea(searchModeSample).OnFilesDropped((s, files) =>
@@ -178,7 +179,8 @@ namespace Tesserae.Tests.Samples
             })
             .WithHistory(async () => {
                 return new OmniBox.SearchQuery[0];
-            });
+            })
+            .SetKeyboardShortcut("Ctrl", "Shift", "K");
 
 
             var toggle = Toggle("Disabled").OnChange((s, e) =>
