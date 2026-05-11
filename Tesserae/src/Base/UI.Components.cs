@@ -582,6 +582,13 @@ namespace Tesserae
         public static OmniBox OmniBox(OmniBox.Config config) => new OmniBox(config);
 
         /// <summary>
+        /// Creates a <see cref="Tesserae.AnnotatedTextEditor"/> component that renders annotated text with NLP entities.
+        /// The provided async <paramref name="annotator"/> is invoked after the user stops typing (debounced).
+        /// </summary>
+        public static AnnotatedTextEditor AnnotatedTextEditor(Func<string, Task<AnnotatedTextEditor.Entity[]>> annotator, string initialText = null, int debounceMs = 500, string placeholder = null)
+            => new AnnotatedTextEditor(annotator, initialText, debounceMs, placeholder);
+
+        /// <summary>
         /// Creates a <see cref="Tesserae.Slider"/> component.
         /// </summary>
         public static Slider Slider(int val = 0, int min = 0, int max = 100, int step = 10) => new Slider(val, min, max, step);

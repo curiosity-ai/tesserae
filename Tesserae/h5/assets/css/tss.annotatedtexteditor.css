@@ -1,0 +1,142 @@
+.tss-annotated-text-container {
+    position: relative;
+    display: inline-flex;
+    width: 100%;
+    min-height: 120px;
+    box-shadow: var(--tss-shadow-sm);
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: var(--tss-border-radius-md);
+    background: var(--tss-default-background-color);
+    color: var(--tss-default-foreground-color);
+    transition: all 0.15s ease-in-out;
+    overflow: hidden;
+}
+
+.tss-annotated-text-container:hover {
+    border-color: var(--tss-default-foreground-color);
+    box-shadow: var(--tss-shadow-sm-hover);
+}
+
+.tss-annotated-text-container:focus-within {
+    border-color: var(--tss-primary-border-color);
+    box-shadow: var(--tss-ring-offset-shadow), var(--tss-ring-shadow);
+}
+
+.tss-annotated-text-container.tss-disabled {
+    border-color: var(--tss-disabled-background-color);
+    background-color: var(--tss-disabled-background-color);
+    color: var(--tss-disabled-foreground-color);
+}
+
+.tss-annotated-text-container.tss-annotated-text-readonly {
+    background-color: var(--tss-secondary-background-color);
+}
+
+.tss-annotated-text-container.tss-annotated-text-readonly .tss-annotated-text-input {
+    cursor: default;
+    resize: none;
+}
+
+/* The highlights div and the textarea must wrap text identically so their
+   glyph positions line up. Both reserve a scrollbar gutter so wrapping width
+   matches whether or not a scrollbar is currently visible. */
+.tss-annotated-text-highlights,
+.tss-annotated-text-input {
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    min-height: inherit;
+    padding: 8px 10px;
+    margin: 0;
+    border: 0;
+    font-size: 14px;
+    font-family: inherit;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-gutter: stable;
+    tab-size: 4;
+}
+
+.tss-annotated-text-highlights {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    color: transparent !important;
+    background: transparent;
+    z-index: 1;
+}
+
+/* Hide the highlights' own scrollbar — its scroll position is synced from the
+   textarea via JS. The scrollbar-gutter rule still reserves the space so
+   wrapping stays aligned with the textarea. */
+.tss-annotated-text-highlights::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
+.tss-annotated-text-highlights {
+    scrollbar-width: none;
+}
+
+.tss-annotated-text-input {
+    position: relative;
+    background: transparent;
+    color: var(--tss-default-foreground-color);
+    caret-color: var(--tss-default-foreground-color);
+    outline: none;
+    resize: vertical;
+    z-index: 2;
+}
+
+.tss-annotated-text-input::placeholder {
+    color: var(--tss-default-foreground-color) !important;
+    opacity: 0.5;
+    transition: opacity 0.3s ease;
+}
+
+/* Entity span paints a background + outline only. Its text inherits
+   transparent color from the highlights container so it never paints text
+   on top of the textarea — only the textarea renders visible glyphs. */
+.tss-annotated-text-entity {
+    color: transparent !important;
+    border-radius: 4px;
+    outline: 1px solid var(--tss-colors-blue-500);
+    outline-offset: -1px;
+    background-color: var(--tss-colors-blue-100);
+}
+
+.tss-dark-mode .tss-annotated-text-entity {
+    background-color: rgba(var(--tss-colors-blue-900-root), 0.4);
+    outline-color: rgba(var(--tss-colors-blue-500-root), 0.6);
+}
+
+/* Floating hover tag, appended to <body> and positioned with position: fixed
+   so it can escape the container's overflow: hidden clipping. */
+.tss-annotated-text-hover-tag {
+    position: fixed;
+    pointer-events: none;
+    z-index: 10000;
+    padding: 2px 8px;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.4;
+    border-radius: 4px;
+    border: 1px solid var(--tss-colors-blue-500);
+    background: var(--tss-colors-blue-100);
+    color: var(--tss-colors-blue-900);
+    box-shadow: var(--tss-shadow-sm);
+    white-space: nowrap;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+
+.tss-dark-mode .tss-annotated-text-hover-tag {
+    background: rgba(var(--tss-colors-blue-900-root), 0.9);
+    color: var(--tss-colors-blue-100);
+    border-color: rgba(var(--tss-colors-blue-500-root), 0.6);
+}
