@@ -54,7 +54,18 @@ namespace Tesserae
         /// <param name="component">The component to add.</param>
         public void Add(IComponent component)
         {
-            _timeline.appendChild(Wrap(component));
+            _timeline.appendChild(Wrap(component, null));
+            Rebase(false);
+        }
+
+        /// <summary>
+        /// Adds a component to the timeline with a specified color.
+        /// </summary>
+        /// <param name="component">The component to add.</param>
+        /// <param name="color">The color of the timeline circle.</param>
+        public void Add(IComponent component, string color)
+        {
+            _timeline.appendChild(Wrap(component, color));
             Rebase(false);
         }
 
@@ -129,9 +140,14 @@ namespace Tesserae
             }
         }
 
-        private HTMLElement Wrap(IComponent component)
+        private HTMLElement Wrap(IComponent component, string color = null)
         {
-            return Div(_("tss-timeline-container"), Div(_("tss-timeline-content"), component.Render()));
+            var container = Div(_("tss-timeline-container"), Div(_("tss-timeline-content"), component.Render()));
+            if (!string.IsNullOrEmpty(color))
+            {
+                container.style.setProperty("--tss-timeline-circle-color", color);
+            }
+            return container;
         }
 
         /// <summary>

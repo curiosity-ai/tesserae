@@ -46,3 +46,10 @@ When adding a new component:
 2. Add a factory method in `UI.Components.cs`.
 3. Add fluent helpers or extension methods in `Tesserae/src/Extensions` if needed.
 4. Add a sample in `Tesserae.Tests` demonstrating usage.
+
+## Testing
+
+Playwright scripts under `Tesserae.Tests/playwright/` are local-only — use them
+to verify components in the browser during development, but do **not** commit
+them. The same applies to any screenshots or other artifacts produced by those
+runs.

@@ -712,6 +712,11 @@ namespace Tesserae
         public static Sidebar Sidebar(bool sortable = false) => new Sidebar(sortable);
 
         /// <summary>
+        /// Creates a <see cref="Tesserae.Sidenav"/> component (a vertical icon-only navigation rail).
+        /// </summary>
+        public static Sidenav Sidenav() => new Sidenav();
+
+        /// <summary>
         /// Creates a <see cref="Tesserae.TaskBoard"/> component.
         /// </summary>
         public static TaskBoard TaskBoard() => new TaskBoard();

@@ -1,0 +1,158 @@
+/* Sidenav - vertical icon-only navigation rail */
+
+.tss-sidenav {
+    width: 72px;
+    min-width: 72px;
+    height: 100%;
+    padding: 8px 6px;
+    background: var(--tss-sidebar-background-color);
+    border-right: 1px solid rgba(var(--tss-secondary-foreground-color-root), 0.08);
+    -webkit-user-select: none;
+    user-select: none;
+    box-sizing: border-box;
+}
+
+.tss-sidenav.tss-sidenav-secondary {
+    background: var(--tss-sidebar-background-secondary-color, var(--tss-secondary-background-color));
+}
+
+.tss-sidenav .tss-default-component-margin {
+    margin: 0px !important;
+}
+
+.tss-sidenav-header,
+.tss-sidenav-middle,
+.tss-sidenav-footer {
+    width: 100%;
+    align-items: stretch;
+}
+
+.tss-sidenav-header {
+    padding-bottom: 4px;
+}
+
+.tss-sidenav-middle {
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+.tss-sidenav-footer {
+    padding-top: 4px;
+    border-top: 1px solid rgba(var(--tss-secondary-foreground-color-root), 0.06);
+}
+
+/* Wrap holds the button and the optional dot indicator */
+.tss-sidenav-btn-wrap {
+    position: relative;
+    display: flex;
+    margin-bottom: 4px;
+    width: 100%;
+}
+
+.tss-sidenav-btn-wrap.tss-sidenav-btn-brand {
+    margin-bottom: 8px;
+}
+
+.tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn {
+    width: 100%;
+    min-width: unset;
+    height: auto !important;
+    min-height: unset !important;
+    padding: 6px 4px !important;
+    margin: 0 !important;
+    border-radius: 8px;
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--tss-default-foreground-color);
+    text-align: center;
+}
+
+.tss-sidenav-btn-wrap > .tss-btn.tss-sidenav-btn:hover {
+    background: rgba(var(--tss-default-background-hover-color-root), 0.5);
+    color: var(--tss-default-foreground-hover-color);
+}
+
+.tss-sidenav-btn-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    width: 100%;
+}
+
+.tss-sidenav-btn-icon {
+    font-size: 18px;
+    line-height: 22px;
+    width: 22px;
+    height: 22px;
+    text-align: center;
+}
+
+.tss-sidenav-btn-label {
+    font-size: 10px;
+    line-height: 12px;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-transform: none;
+    font-weight: 500;
+    letter-spacing: 0.1px;
+}
+
+.tss-sidenav.tss-sidenav-no-labels .tss-sidenav-btn-label {
+    display: none;
+}
+
+/* Selected state */
+.tss-sidenav-btn-wrap.tss-sidenav-selected > .tss-btn.tss-sidenav-btn {
+    background: rgba(var(--tss-primary-background-color-root), 0.12);
+    color: var(--tss-primary-background-color);
+    border-color: rgba(var(--tss-primary-background-color-root), 0.25);
+}
+
+.tss-sidenav-btn-wrap.tss-sidenav-selected > .tss-btn.tss-sidenav-btn:hover {
+    background: rgba(var(--tss-primary-background-color-root), 0.18);
+}
+
+/* Dot indicator (e.g. notifications) */
+.tss-sidenav-btn-dot {
+    position: absolute;
+    top: 6px;
+    right: 12px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--tss-primary-background-color);
+    display: none;
+    pointer-events: none;
+    box-shadow: 0 0 0 2px var(--tss-sidebar-background-color);
+}
+
+.tss-sidenav-btn-dot.tss-sidenav-btn-dot-visible {
+    display: block;
+}
+
+.tss-sidenav-btn-dot.tss-sidenav-btn-dot-danger {
+    background: var(--tss-danger-background-color, #e81123);
+}
+
+/* Brand (logo) cell at top */
+.tss-sidenav-btn-wrap.tss-sidenav-btn-brand > .tss-btn.tss-sidenav-btn {
+    border-radius: 8px;
+    background: var(--tss-default-background-color);
+    color: var(--tss-default-foreground-color);
+    border: 1px solid rgba(var(--tss-secondary-foreground-color-root), 0.12);
+}
+
+.tss-sidenav-btn-wrap.tss-sidenav-btn-brand .tss-sidenav-btn-icon {
+    font-size: 22px;
+    line-height: 26px;
+    width: 26px;
+    height: 26px;
+}
+
+.tss-sidenav-btn-wrap.tss-sidenav-btn-brand .tss-sidenav-btn-label {
+    display: none;
+}

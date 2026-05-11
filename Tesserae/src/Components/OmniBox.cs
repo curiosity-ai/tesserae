@@ -37,6 +37,35 @@ namespace Tesserae
             }
         }
 
+        public class OmniBoxSuggestionItem
+        {
+            public IComponent Icon { get; }
+            public IComponent Text { get; }
+            public IComponent RightComponent { get; }
+            public Action<OmniBox> OnSelected { get; }
+            public string Category { get; }
+
+            public OmniBoxSuggestionItem(IComponent text, IComponent icon = null, IComponent rightComponent = null, Action<OmniBox> onSelected = null, string category = null)
+            {
+                Text = text;
+                Icon = icon;
+                RightComponent = rightComponent;
+                if (onSelected is null)
+                {
+                    OnSelected = (b) => b.SearchText = text.Render().textContent;
+                }
+                else
+                {
+                    OnSelected = onSelected;
+                }
+                Category = category;
+            }
+
+            public OmniBoxSuggestionItem(string text, IComponent icon = null, IComponent rightComponent = null, Action<OmniBox> onSelected = null, string category = null) : this(TextBlock(text), icon, rightComponent, onSelected, category)
+            {
+            }
+        }
+
         public class Config
         {
             public Config(Mode mode, Mode? initialMode = null)
@@ -71,6 +100,8 @@ namespace Tesserae
 
             public FooterItems ChatFooter { get; set; }
             public FooterItems SearchFooter { get; set; }
+
+            public Func<string, Task<OmniBoxSuggestionItem[]>> SuggestionsFetcher { get; set; }
         }
 
         public class FooterItems
@@ -110,6 +141,11 @@ namespace Tesserae
         private readonly Button           _chatTriggerBtn;
         private readonly HTMLDivElement _footer;
         private Func<Task<SearchQuery[]>> _historyFetcher;
+        private Func<string, Task<OmniBoxSuggestionItem[]>> _suggestionsFetcher;
+        private int _suggestionsDebounceTimeoutId = 0;
+        private Action _hideSuggestions;
+        private int _highlightedSuggestionIndex = -1;
+        private List<Button> _currentSuggestionButtons = new List<Button>();
         private string _tokenTypeMap = string.Empty;
         private readonly IconToggle<Mode> _modeToggle;
         private readonly bool _tokenIgnoreCase;
@@ -137,6 +173,7 @@ namespace Tesserae
             _tokenIgnoreCase = config.TokenIgnoreCase;
             _iconChat = config.IconChat;
             _iconStop = config.IconStop;
+            _suggestionsFetcher = config.SuggestionsFetcher;
 
             _activeMode = new SettableObservable<Mode>(config.InitialMode);
 
@@ -193,6 +230,7 @@ namespace Tesserae
                 {
                     OnSearchInputChanged();
                     Input?.Invoke(this, e);
+                    TriggerSuggestions();
                 });
 
                 _searchInput.addEventListener("keydown", (e) =>
@@ -200,10 +238,18 @@ namespace Tesserae
                     var ke = e.As<KeyboardEvent>();
                     if (ke.key == "Enter")
                     {
-                        TriggerSearch();
-                        StopEvent(e);
+                        if (_hideSuggestions != null && _highlightedSuggestionIndex >= 0 && _highlightedSuggestionIndex < _currentSuggestionButtons.Count)
+                        {
+                            StopEvent(e);
+                            _currentSuggestionButtons[_highlightedSuggestionIndex].RaiseOnClick(e.As<MouseEvent>());
+                        }
+                        else
+                        {
+                            StopEvent(e);
+                            TriggerSearch();
+                        }
+                        return;
                     }
-
                     else if (ke.key == "Backspace")
                     {
                         var cursorPos = _searchInput.selectionStart;
@@ -267,12 +313,31 @@ namespace Tesserae
                             }
                         }
                     }
+                    else if (ke.key == "ArrowDown")
+                    {
+                        if (_hideSuggestions != null && _currentSuggestionButtons.Count > 0)
+                        {
+                            StopEvent(e);
+                            UpdateHighlightedSuggestion(1);
+                        }
+                    }
+                    else if (ke.key == "ArrowUp")
+                    {
+                        if (_hideSuggestions != null && _currentSuggestionButtons.Count > 0)
+                        {
+                            StopEvent(e);
+                            UpdateHighlightedSuggestion(-1);
+                        }
+                    }
                 });
                 _searchInput.addEventListener("keyup", (e) => KeyUp?.Invoke(this, e.As<KeyboardEvent>()));
                 _searchInput.addEventListener("keypress", (e) => KeyPress?.Invoke(this, e.As<KeyboardEvent>()));
                 _searchInput.addEventListener("keydown", (e) => KeyDown?.Invoke(this, e.As<KeyboardEvent>()));
                 _searchInput.addEventListener("focus", (e) => ReceivedFocus?.Invoke(this, e));
-                _searchInput.addEventListener("blur", (e) => LostFocus?.Invoke(this, e));
+                _searchInput.addEventListener("blur", (e) => {
+                    LostFocus?.Invoke(this, e);
+                    if (_hideSuggestions != null) window.setTimeout(_ => { if (_hideSuggestions != null) _hideSuggestions(); _highlightedSuggestionIndex = -1; }, 200);
+                });
 
                 _searchInput.addEventListener("scroll", (e) => SyncScroll());
 
@@ -1086,6 +1151,84 @@ namespace Tesserae
             return _container;
         }
 
+
+        private void TriggerSuggestions()
+        {
+            if (_suggestionsFetcher == null) return;
+
+            window.clearTimeout(_suggestionsDebounceTimeoutId);
+            _suggestionsDebounceTimeoutId = (int)window.setTimeout(async _ =>
+            {
+                var val = _searchInput.value;
+                var suggestions = await _suggestionsFetcher(val);
+                if (suggestions == null || suggestions.Length == 0)
+                {
+                    if (_hideSuggestions != null)
+                    {
+                        _hideSuggestions();
+                        _hideSuggestions = null;
+                        _highlightedSuggestionIndex = -1;
+                    }
+                    return;
+                }
+
+                _currentSuggestionButtons.Clear();
+
+                var content = VStack().NoDefaultMargin().W(450).MaxHeight(500.px()).ScrollY();
+
+                var currentCategory = string.Empty;
+
+                foreach(var s in suggestions)
+                {
+                    if (s.Category != currentCategory && !string.IsNullOrEmpty(s.Category))
+                    {
+                        content.Add(TextBlock(s.Category).Small().SemiBold().PaddingBottom(4.px()).PaddingTop(8.px()).PaddingLeft(12.px()).Foreground(Theme.Secondary.Foreground));
+                        currentCategory = s.Category;
+                    }
+
+                    var btn = Button().Class("tss-omnibox-search-history-entry").WS().NoPadding().NoMinSize().H(32).MB(4).NoBorder().NoBackground().TextLeft();
+                    var btnContent = HStack().WS().AlignItems(ItemAlign.Center).PaddingLeft(12.px()).PaddingRight(12.px());
+
+                    if (s.Icon != null) btnContent.Add(s.Icon.MR(8));
+                    if (s.Text != null) btnContent.Add(s.Text);
+                    if (s.RightComponent != null) btnContent.Add(s.RightComponent.ML(UnitSize.Auto()));
+
+                    btn.ReplaceContent(btnContent);
+                    btn.OnClick(() =>
+                    {
+                        if (s.OnSelected != null) s.OnSelected(this);
+                        if (_hideSuggestions != null) _hideSuggestions();
+                        _highlightedSuggestionIndex = -1;
+                    });
+                    content.Add(btn);
+
+                    _currentSuggestionButtons.Add(btn);
+                }
+
+                if (_hideSuggestions != null)
+                {
+                    _hideSuggestions();
+                    _highlightedSuggestionIndex = -1;
+                }
+
+                Tippy.ShowFor(_activeInput, content.Render(), out _hideSuggestions, placement: TooltipPlacement.BottomStart, maxWidth: 500);
+
+            }, 300);
+        }
+
+        private void UpdateHighlightedSuggestion(int offset)
+        {
+            if (_currentSuggestionButtons.Count == 0) return;
+
+            if (_highlightedSuggestionIndex >= 0 && _highlightedSuggestionIndex < _currentSuggestionButtons.Count)
+            {
+                _currentSuggestionButtons[_highlightedSuggestionIndex].RemoveClass("tss-omnibox-suggestion-highlight");
+            }
+
+            _highlightedSuggestionIndex = (_highlightedSuggestionIndex + offset + _currentSuggestionButtons.Count) % _currentSuggestionButtons.Count;
+
+            _currentSuggestionButtons[_highlightedSuggestionIndex].Class("tss-omnibox-suggestion-highlight");
+        }
 
         public OmniBox SetSearchRightText(string text)
         {
