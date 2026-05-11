@@ -51,6 +51,11 @@ namespace Tesserae.Tests.Samples
                         SearchBox("Small").Rounded(BorderRadius.Small),
                         SearchBox("Medium").Rounded(BorderRadius.Medium),
                         SearchBox("Full").Rounded(BorderRadius.Full)
+                    ),
+                    SampleSubTitle("Keyboard Shortcut"),
+                    VStack().Children(
+                        TextBlock("Press Ctrl+K (or ⌘K on macOS) anywhere on the page to focus the SearchBox below."),
+                        SearchBox("Search...").SetKeyboardShortcut("Ctrl", "K")
                     )
                 )).SetTitle("Usage")));
         }

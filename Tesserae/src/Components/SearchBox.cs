@@ -1,4 +1,6 @@
-﻿using static H5.Core.dom;
+﻿using System;
+using H5.Core;
+using static H5.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -9,7 +11,11 @@ namespace Tesserae
         private readonly HTMLDivElement  _container;
         private readonly HTMLSpanElement _icon;
         private readonly HTMLElement     _iconContainer;
+        private readonly HTMLElement     _shortcutContainer;
         private readonly HTMLElement     _paddingContainer;
+
+        private string[]                       _shortcutKeys;
+        private Action<Event>                  _globalShortcutHandler;
 
         protected event SearchEventHandler Searched;
         public delegate void               SearchEventHandler(SearchBox sender, string value);
@@ -18,11 +24,12 @@ namespace Tesserae
 
         public SearchBox(string placeholder = string.Empty)
         {
-            InnerElement      = TextBox(_(className: "tss-searchbox tss-fontsize-small tss-fontweight-regular", type: "search", placeholder: placeholder));
-            _icon             = Span(_(UIcons.Search.ToString()));
-            _iconContainer    = Div(_("tss-searchbox-icon"), _icon);
-            _paddingContainer = Div(_("tss-searchbox-padding"));
-            _container        = Div(_("tss-searchbox-container"), _iconContainer, InnerElement, _paddingContainer);
+            InnerElement       = TextBox(_(className: "tss-searchbox tss-fontsize-small tss-fontweight-regular", type: "search", placeholder: placeholder));
+            _icon              = Span(_(UIcons.Search.ToString()));
+            _iconContainer     = Div(_("tss-searchbox-icon"), _icon);
+            _shortcutContainer = Div(_("tss-searchbox-shortcut"));
+            _paddingContainer  = Div(_("tss-searchbox-padding"));
+            _container         = Div(_("tss-searchbox-container"), _iconContainer, InnerElement, _shortcutContainer, _paddingContainer);
 
             AttachChange();
             AttachInput();
@@ -231,6 +238,114 @@ namespace Tesserae
         {
             Searched += onSearch;
             return this;
+        }
+
+        /// <summary>
+        /// Registers a global keyboard shortcut that focuses this SearchBox when pressed,
+        /// and renders a visual chip showing the shortcut on the right side of the box.
+        /// Modifier names are case-insensitive ("Ctrl", "Cmd", "Meta", "Alt", "Shift").
+        /// Example: <c>SetKeyboardShortcut("Ctrl", "K")</c>.
+        /// </summary>
+        public SearchBox SetKeyboardShortcut(params string[] keys)
+        {
+            if (_globalShortcutHandler is object)
+            {
+                window.removeEventListener("keydown", _globalShortcutHandler);
+                _globalShortcutHandler = null;
+            }
+
+            while (_shortcutContainer.firstChild is object)
+            {
+                _shortcutContainer.removeChild(_shortcutContainer.firstChild);
+            }
+
+            if (keys is null || keys.Length == 0)
+            {
+                _shortcutKeys = null;
+                _container.classList.remove("tss-searchbox-has-shortcut");
+                return this;
+            }
+
+            _shortcutKeys = keys;
+            _shortcutContainer.appendChild(KeyboardShortcut(keys).Render());
+            _container.classList.add("tss-searchbox-has-shortcut");
+
+            _globalShortcutHandler = ev =>
+            {
+                if (!_container.IsMounted()) return;
+                if (!IsEnabled) return;
+
+                var e = ev.As<KeyboardEvent>();
+                if (!MatchesShortcut(e, _shortcutKeys)) return;
+
+                StopEvent(e);
+                InnerElement.focus();
+                InnerElement.select();
+            };
+
+            window.addEventListener("keydown", _globalShortcutHandler);
+            return this;
+        }
+
+        private static bool MatchesShortcut(KeyboardEvent e, string[] keys)
+        {
+            bool needCtrl  = false;
+            bool needAlt   = false;
+            bool needShift = false;
+            bool needMeta  = false;
+            string mainKey = null;
+
+            foreach (var raw in keys)
+            {
+                if (raw is null) continue;
+                var k = raw.Trim();
+                switch (k)
+                {
+                    case "Ctrl":
+                    case "ctrl":
+                    case "Control":
+                        needCtrl = true;
+                        break;
+                    case "Alt":
+                    case "alt":
+                        needAlt = true;
+                        break;
+                    case "Shift":
+                    case "shift":
+                        needShift = true;
+                        break;
+                    case "Meta":
+                    case "meta":
+                    case "Cmd":
+                    case "cmd":
+                        needMeta = true;
+                        break;
+                    default:
+                        mainKey = k;
+                        break;
+                }
+            }
+
+            // On macOS, treat "Ctrl" in the shortcut as either Ctrl or Cmd so a single
+            // declaration like ("Ctrl", "K") renders ⌘K and triggers on Cmd+K.
+            bool isApple = navigator.userAgent.IndexOf("Mac") >= 0 || navigator.userAgent.IndexOf("iPhone") >= 0 || navigator.userAgent.IndexOf("iPad") >= 0;
+
+            if (needCtrl && !needMeta && isApple)
+            {
+                if (!e.metaKey && !e.ctrlKey) return false;
+            }
+            else
+            {
+                if (needCtrl != e.ctrlKey) return false;
+                if (needMeta != e.metaKey) return false;
+            }
+
+            if (needAlt   != e.altKey)   return false;
+            if (needShift != e.shiftKey) return false;
+
+            if (mainKey is null) return false;
+
+            return string.Equals(e.key, mainKey, StringComparison.OrdinalIgnoreCase);
         }
 
         public SearchBox Height(UnitSize unitSize)

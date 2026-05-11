@@ -112,6 +112,12 @@ namespace Tesserae
             return this;
         }
 
+        public SearchableGroupedList<T> SetKeyboardShortcut(params string[] keys)
+        {
+            _searchBox.SetKeyboardShortcut(keys);
+            return this;
+        }
+
         public SearchableGroupedList<T> BeforeSearchBox(params IComponent[] beforeComponents)
         {
             foreach (var component in beforeComponents.Reverse<IComponent>())

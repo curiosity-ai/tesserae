@@ -44,6 +44,12 @@ namespace Tesserae
             return this;
         }
 
+        public SidebarSearchBox SetKeyboardShortcut(params string[] keys)
+        {
+            _searchBox.SetKeyboardShortcut(keys);
+            return this;
+        }
+
         public void AddGroupIdentifier(string groupIdentifier)
         {
              Identifier = groupIdentifier + Sidebar.GroupIdentifierSeparator + Identifier;

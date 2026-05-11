@@ -190,6 +190,12 @@ namespace Tesserae
             return this;
         }
 
+        public SearchableList<T> SetKeyboardShortcut(params string[] keys)
+        {
+            _searchBox.SetKeyboardShortcut(keys);
+            return this;
+        }
+
         public SearchableList<T> WithBackgroundSearch(Func<string, Task<T[]>> searcher)
         {
             _backgroundSearcher = searcher;
