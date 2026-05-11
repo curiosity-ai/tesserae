@@ -13,24 +13,27 @@ namespace Tesserae
 
         public class InlineFilterChip
         {
-            internal string Name { get; }
-            internal string Color { get; }
-            internal string Background { get; }
-            internal Action<MouseEvent> OnClick { get; }
+            public string Name { get; }
+            public string Color { get; }
+            public string Background { get; }
+            public bool Removable { get; }
+            public Action<MouseEvent> OnClick { get; }
             internal IComponent Content { get; }
 
-            public InlineFilterChip(string name, string background = null, string color = null, Action<MouseEvent> onClick = null)
+            public InlineFilterChip(string name, string background = null, string color = null, Action<MouseEvent> onClick = null, bool removable = true)
             {
                 Name = name;
                 Background = background;
                 Color = color;
                 OnClick = onClick;
+                Removable = removable;
             }
 
-            public InlineFilterChip(IComponent content, Action<MouseEvent> onClick = null)
+            public InlineFilterChip(IComponent content, Action<MouseEvent> onClick = null, bool removable = true)
             {
                 Content = content;
                 OnClick = onClick;
+                Removable = removable;
             }
         }
 
@@ -242,6 +245,7 @@ namespace Tesserae
                         }
                         else
                         {
+                            StopEvent(e);
                             TriggerSearch();
                         }
                         return;
@@ -375,7 +379,7 @@ namespace Tesserae
                     _searchInput.focus();
                 });
 
-                _searchTriggerBtn.OnClick(TriggerSearch);
+                _searchTriggerBtn.OnClick(() => TriggerSearch());
 
                 _searchHistoryBtn.OnClickSpinWhile(async () => 
                 {
@@ -402,6 +406,7 @@ namespace Tesserae
                     if (ke.key == "Enter" && !ke.shiftKey)
                     {
                         TriggerChat();
+                        StopEvent(e);
                     }
                 });
 
@@ -413,7 +418,7 @@ namespace Tesserae
 
                 _chatContainer = Div(_("tss-omnibox-chat-container"), _chatInput);
 
-                _chatTriggerBtn = Button().SetIcon(config.IconChat).Class("tss-omnibox-chat-btn").OnClick(TriggerChat);
+                _chatTriggerBtn = Button().SetIcon(config.IconChat).Class("tss-omnibox-chat-btn").OnClick(() => TriggerChat());
 
                 if (config.ChatFooter?.LeftSide is object)
                 {
@@ -429,7 +434,7 @@ namespace Tesserae
                     //{
                         foreach (var i in config.ChatFooter.LeftSide)
                         {
-                            _footer.appendChild(i.Class("tss-omnibox-chat-footer-item").Render());
+                            _footer.appendChild(i.Class("tss-omnibox-chat-footer-item").Class("tss-omnibox-footer-left").Render());
                         }
                     //}
                 }
@@ -442,7 +447,7 @@ namespace Tesserae
                     var targetInsert = _searchHistoryBtn.Render();
                     foreach (var i in config.SearchFooter.LeftSide)
                     {
-                        var el = i.Class("tss-omnibox-search-footer-item").Render();
+                        var el = i.Class("tss-omnibox-search-footer-item").Class("tss-omnibox-footer-left").Render();
                         targetInsert.insertAdjacentElement(InsertPosition.afterend, el);
                         targetInsert = el;
                     }
@@ -451,10 +456,14 @@ namespace Tesserae
                 {
                     foreach (var i in config.SearchFooter.LeftSide)
                     {
-                        _footer.appendChild(i.Class("tss-omnibox-search-footer-item").Render());
+                        _footer.appendChild(i.Class("tss-omnibox-search-footer-item").Class("tss-omnibox-footer-left").Render());
                     }
                 }
             }
+
+            var generatingContainer = Div(_("tss-omnibox-generating-container"), Spinner().CustomColor(Theme.Colors.Purple500).Small().Render(), TextBlock("Generating...").Render());
+
+            _footer.appendChild(generatingContainer);
 
             _footer.appendChild(Div(_("tss-omnibox-footer-spacer")));
 
@@ -979,12 +988,13 @@ namespace Tesserae
                 {
                     if (value)
                     {
-                        _chatTriggerBtn.SetIcon(_iconStop);
+                        _chatTriggerBtn.SetIcon(_iconStop).Danger();
                         _container.classList.add("tss-omnibox-generating");
                     }
                     else
                     {
                         _chatTriggerBtn.SetIcon(_iconChat);
+                        _chatTriggerBtn.IsDanger = false;
                         _container.classList.remove("tss-omnibox-generating");
                     }
                 }
@@ -1254,16 +1264,7 @@ namespace Tesserae
                     contentEl = Span(_(text: chip.Name));
                 }
 
-                var closeBtn = Div(_("tss-omnibox-inline-chip-close"));
-                closeBtn.appendChild(UI.Icon(UIcons.Cross).Render());
-
-                closeBtn.onclick = (e) =>
-                {
-                    StopEvent(e);
-                    InlineFilterChips.Remove(chip);
-                };
-
-                if(chip.OnClick is object)
+                if (chip.OnClick is object)
                 {
                     chipEl.onclick = (e) =>
                     {
@@ -1274,7 +1275,20 @@ namespace Tesserae
                 }
 
                 chipEl.appendChild(contentEl);
-                chipEl.appendChild(closeBtn);
+
+                if (chip.Removable)
+                {
+                    var closeBtn = Div(_("tss-omnibox-inline-chip-close"));
+                    closeBtn.appendChild(UI.Icon(UIcons.Cross).Render());
+
+                    closeBtn.onclick = (e) =>
+                    {
+                        StopEvent(e);
+                        InlineFilterChips.Remove(chip);
+                    };
+                    chipEl.appendChild(closeBtn);
+                }
+
                 _searchInlineChipsContainer.appendChild(chipEl);
             }
         }

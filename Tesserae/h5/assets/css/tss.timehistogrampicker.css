@@ -1,18 +1,24 @@
 ﻿.tss-time-histogram-picker {
+    --tss-time-histogram-picker-horizontal-inset: 8px;
+    display: flex;
+    flex-direction: column;
     width: 100%;
     min-width: 220px;
     padding: 8px 0;
+    box-sizing: border-box;
     -webkit-user-select: none;
     user-select: none;
 }
 
 .tss-time-histogram-picker-bars {
-    height: 120px;
+    flex: 1 1 120px;
+    min-height: 0;
     display: flex;
     align-items: flex-end;
     gap: 2px;
-    padding: 8px 0 4px;
+    padding: 8px var(--tss-time-histogram-picker-horizontal-inset) 4px;
     border-bottom: 1px solid var(--tss-default-border-color);
+    box-sizing: border-box;
 }
 
 .tss-time-histogram-picker-bar {
@@ -29,10 +35,29 @@
     opacity: 1;
 }
 
+.tss-time-histogram-picker-tooltip {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.tss-time-histogram-picker-tooltip-range {
+    color: var(--tss-tooltip-foreground-color);
+    font-size: var(--tss-font-size-small);
+    white-space: nowrap;
+}
+
+.tss-time-histogram-picker-tooltip-count {
+    color: var(--tss-tooltip-foreground-color);
+    font-size: var(--tss-font-size-small);
+    white-space: nowrap;
+}
+
 .tss-time-histogram-picker-track {
     position: relative;
+    flex: 0 0 auto;
     height: 28px;
-    margin: 8px 8px 0;
+    margin: 8px var(--tss-time-histogram-picker-horizontal-inset) 0;
 }
 
 .tss-time-histogram-picker-track::before {
@@ -74,6 +99,7 @@
 }
 
 .tss-time-histogram-picker-axis {
+    flex: 0 0 auto;
     display: flex;
     justify-content: space-between;
     gap: 12px;
@@ -92,7 +118,8 @@
 
 .tss-time-histogram-picker-empty {
     display: none;
-    min-height: 120px;
+    flex: 1 1 120px;
+    min-height: 0;
     align-items: center;
     justify-content: center;
     color: var(--tss-secondary-foreground-color);

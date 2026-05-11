@@ -37,8 +37,15 @@ namespace Tesserae.Tests.Samples
                         Expander("Section 3", TextBlock("Just set .AllowMultipleOpen(true) on the accordion.")))
                        .AllowMultipleOpen(true),
                     SampleSubTitle("Standalone Expander"),
-                    Expander("What is Tesserae?", TextBlock("Tesserae provides a fluent API for building UI components."))
-                       .Expanded())).SetTitle("Usage")));
+                    Expander("What is Tesserae?", TextBlock("Tesserae provides a fluent API for building UI components.")).Expanded(),
+                    SampleSubTitle("Expander with OptionIcon and ChevronRight"),
+                    Accordion(
+                        Expander("What does indexing do?", TextBlock("Indexing reads each document, extracts structured text, and stores it in a vector + keyword index so queries match in milliseconds.\n\nSource files stay where they are — only metadata leaves your machine.")).OptionIcon(UIcons.Info, Theme.Colors.Blue600, Theme.Colors.Blue100).ChevronRight().Expanded(),
+                        Expander("Where are my files stored?", TextBlock("")).OptionIcon(UIcons.Check, Theme.Colors.Green600, Theme.Colors.Green100).ChevronRight(),
+                        Expander("Why did my last build fail?", TextBlock("")).OptionIcon(UIcons.Exclamation, Theme.Colors.Orange600, Theme.Colors.Orange100).ChevronRight(),
+                        Expander("How do I rotate the IMAP token?", TextBlock("")).OptionIcon(UIcons.TriangleWarning, Theme.Colors.Red600, Theme.Colors.Red100).ChevronRight(),
+                        Expander("Can I use a custom embedding model?", TextBlock("")).OptionIcon(UIcons.Settings, Theme.Colors.Blue600, Theme.Colors.Blue100).ChevronRight()
+                    ).AllowMultipleOpen(false))).SetTitle("Usage")));
         }
 
         public HTMLElement Render() => _content.Render();

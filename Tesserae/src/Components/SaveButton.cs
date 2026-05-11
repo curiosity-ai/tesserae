@@ -144,6 +144,13 @@ namespace Tesserae
             _button.OnClick(action);
             return this;
         }
+        
+        public SaveButton OnClick(Func<Task> actionAsync)
+        {
+            if (_state != State.PendingSave) return this;
+            _button.OnClick(() => actionAsync().FireAndForget());
+            return this;
+        }
 
         public async Task<State> VerifyingWhile(Func<Task<State>> action, string text = null, Action<SaveButton, Exception> onError = null)
         {

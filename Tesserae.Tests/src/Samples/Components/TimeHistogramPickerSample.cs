@@ -28,6 +28,10 @@ namespace Tesserae.Tests.Samples
                         PickerDemo(GetSmallValues(), 12),
                         SampleSubTitle("Dense Minute and Hour Data"),
                         PickerDemo(GetDenseValues(), 64),
+                        SampleSubTitle("Fine-grained Seconds"),
+                        PickerDemo(GetFineGrainedValues(), 360, date => date.ToString("HH:mm:ss"), showBucketTooltipOnHover: true),
+                        SampleSubTitle("Custom Time Rendering"),
+                        PickerDemo(GetDenseValues(), 48, date => date.ToString("MMM d, HH:mm")),
                         SampleSubTitle("Sparse Multi-year Data"),
                         PickerDemo(GetMultiYearValues(), 48),
                         SampleSubTitle("Gapped Clusters with Uneven Groups"),
@@ -46,13 +50,15 @@ namespace Tesserae.Tests.Samples
 
         public HTMLElement Render() => _content.Render();
 
-        private static IComponent PickerDemo(DateTime[] values, int maxBuckets)
+        private static IComponent PickerDemo(DateTime[] values, int maxBuckets, Func<DateTime, string> renderTime = null, bool showBucketTooltipOnHover = true)
         {
             var selection = new SettableObservable<string>();
             var picker = TimeHistogramPicker(values, maxBuckets)
-               .OnRangeChanged((from, to, count) => selection.Value = FormatSelection(from, to, count));
+               .WithCustomTimeRender(renderTime)
+               .ShowBucketTooltipOnHover(showBucketTooltipOnHover)
+               .OnRangeChanged((from, to, count) => selection.Value = FormatSelection(from, to, count, renderTime));
 
-            selection.Value = FormatSelection(picker.SelectedFrom, picker.SelectedTo, picker.SelectedCount);
+            selection.Value = FormatSelection(picker.SelectedFrom, picker.SelectedTo, picker.SelectedCount, renderTime);
 
             return VStack().WS().Children(
                 picker,
@@ -80,15 +86,18 @@ namespace Tesserae.Tests.Samples
             ).MB(24);
         }
 
-        private static string FormatSelection(DateTime from, DateTime to, int count)
+        private static string FormatSelection(DateTime from, DateTime to, int count, Func<DateTime, string> renderTime = null)
         {
             if (count == 0)
             {
                 return "No values";
             }
 
-            return $"{from:g} - {to:g} ({count:n0} values)";
+            renderTime = renderTime ?? DefaultRenderTime;
+            return $"{renderTime(from)} - {renderTime(to)} ({count:n0} values)";
         }
+
+        private static string DefaultRenderTime(DateTime time) => time.ToString("g");
 
         private static DateTime[] GetSmallValues()
         {
@@ -106,6 +115,18 @@ namespace Tesserae.Tests.Samples
             var start = DateTime.Today.AddHours(8);
             return Enumerable.Range(0, 720)
                .SelectMany(i => Enumerable.Range(0, 1 + (i % 9)).Select(j => start.AddMinutes(i).AddSeconds(j * 7)))
+               .ToArray();
+        }
+
+        private static DateTime[] GetFineGrainedValues()
+        {
+            var start = DateTime.Today.AddHours(14);
+            return Enumerable.Range(0, 360)
+               .SelectMany(second =>
+               {
+                   var count = second % 45 < 9 ? 8 : second % 30 < 4 ? 5 : second % 11 == 0 ? 3 : 1;
+                   return Enumerable.Range(0, count).Select(index => start.AddSeconds(second).AddMilliseconds(index * 90));
+               })
                .ToArray();
         }
 

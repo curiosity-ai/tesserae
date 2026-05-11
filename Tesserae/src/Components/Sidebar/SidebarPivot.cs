@@ -22,7 +22,12 @@ namespace Tesserae
         private string _initiallySelectedID;
         private string _currentSelectedID;
 
+        private readonly SettableObservable<string> _selectedObservable;
+        private event Action<string> _onSelect;
+
         public bool IsSelected { get; set; }
+
+        public IObservable<string> Selected => _selectedObservable;
 
         public IComponent CurrentRendered => _openContainer.IsMounted() ? Raw(_openContainer) : Raw(_closedContainer);
 
@@ -30,9 +35,17 @@ namespace Tesserae
 
         public string OwnIdentifier => Sidebar.GetOwnIdentifier(Identifier);
 
+        public SidebarPivot OnSelect(Action<string> onSelect)
+        {
+            _onSelect += onSelect;
+            return this;
+        }
+
         public SidebarPivot(string identifier)
         {
             Identifier = identifier;
+
+            _selectedObservable = new SettableObservable<string>();
 
             _renderedTabsOpen = Div(_("tss-segmentedpivot-titlebar tss-sidebar-segmentedpivot-open", role: "tablist"));
             _renderedContentOpen = Div(_("tss-segmentedpivot-content", role: "tabpanel"));
@@ -130,6 +143,8 @@ namespace Tesserae
                 if (tab is object)
                 {
                     _currentSelectedID = id;
+                    _selectedObservable.Value = id;
+                    _onSelect?.Invoke(id);
 
                     foreach (var t in _orderedTabs)
                     {
