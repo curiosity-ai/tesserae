@@ -28,6 +28,15 @@
     color: var(--tss-disabled-foreground-color);
 }
 
+.tss-annotated-text-container.tss-annotated-text-readonly {
+    background-color: var(--tss-secondary-background-color);
+}
+
+.tss-annotated-text-container.tss-annotated-text-readonly .tss-annotated-text-input {
+    cursor: default;
+    resize: none;
+}
+
 /* The highlights div and the textarea must wrap text identically so their
    glyph positions line up. Both reserve a scrollbar gutter so wrapping width
    matches whether or not a scrollbar is currently visible. */

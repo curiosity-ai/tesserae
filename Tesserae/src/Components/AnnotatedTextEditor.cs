@@ -48,9 +48,11 @@ namespace Tesserae
 
         public delegate void AnnotationsChangedHandler(AnnotatedTextEditor sender, Entity[] entities);
         public delegate void TextChangedHandler(AnnotatedTextEditor sender, string text);
+        public delegate void EntityClickHandler(AnnotatedTextEditor sender, Entity entity, MouseEvent e);
 
         public event AnnotationsChangedHandler AnnotationsChanged;
         public event TextChangedHandler        TextChanged;
+        public event EntityClickHandler        EntityClicked;
 
         public AnnotatedTextEditor(Func<string, Task<Entity[]>> annotator, string initialText = null, int debounceMs = 500, string placeholder = null)
         {
@@ -85,6 +87,14 @@ namespace Tesserae
             _textarea.addEventListener("mousemove", (e) => HandleHoverMove(e.As<MouseEvent>()));
             _textarea.addEventListener("mouseleave", (e) => HideHoverTag());
             _textarea.addEventListener("blur", (e) => HideHoverTag());
+
+            _textarea.addEventListener("click", (e) =>
+            {
+                if (EntityClicked == null) return;
+                var me = e.As<MouseEvent>();
+                var entity = FindEntityAt(me.clientX, me.clientY);
+                if (entity != null) EntityClicked.Invoke(this, entity, me);
+            });
 
             if (!string.IsNullOrEmpty(initialText))
             {
@@ -138,9 +148,21 @@ namespace Tesserae
             }
         }
 
+        public bool IsReadOnly
+        {
+            get => _textarea.readOnly;
+            set
+            {
+                _textarea.readOnly = value;
+                if (value) _container.classList.add("tss-annotated-text-readonly");
+                else       _container.classList.remove("tss-annotated-text-readonly");
+            }
+        }
+
         public AnnotatedTextEditor SetText(string text) { Text = text; return this; }
         public AnnotatedTextEditor SetPlaceholder(string placeholder) { Placeholder = placeholder; return this; }
         public AnnotatedTextEditor Disabled(bool value = true) { IsEnabled = !value; return this; }
+        public AnnotatedTextEditor ReadOnly(bool value = true) { IsReadOnly = value; return this; }
 
         public AnnotatedTextEditor OnTextChanged(TextChangedHandler handler)
         {
@@ -151,6 +173,12 @@ namespace Tesserae
         public AnnotatedTextEditor OnAnnotationsChanged(AnnotationsChangedHandler handler)
         {
             AnnotationsChanged += handler;
+            return this;
+        }
+
+        public AnnotatedTextEditor OnEntityClick(EntityClickHandler handler)
+        {
+            EntityClicked += handler;
             return this;
         }
 
@@ -256,33 +284,28 @@ namespace Tesserae
 
         private void HandleHoverMove(MouseEvent e)
         {
-            if (_currentEntities == null || _currentEntities.Length == 0 || _entitySpans.Count == 0)
+            var entity = FindEntityAt(e.clientX, e.clientY);
+            if (entity == null || string.IsNullOrEmpty(entity.Label))
             {
                 HideHoverTag();
                 return;
             }
+            ShowHoverTag(entity, e);
+        }
 
-            var x = e.clientX;
-            var y = e.clientY;
+        private Entity FindEntityAt(double x, double y)
+        {
+            if (_currentEntities == null || _currentEntities.Length == 0 || _entitySpans.Count == 0) return null;
 
             for (int i = 0; i < _entitySpans.Count && i < _currentEntities.Length; i++)
             {
-                var span = _entitySpans[i];
-                var rect = span.getBoundingClientRect().As<DOMRect>();
+                var rect = _entitySpans[i].getBoundingClientRect().As<DOMRect>();
                 if (x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom)
                 {
-                    var entity = _currentEntities[i];
-                    if (string.IsNullOrEmpty(entity?.Label))
-                    {
-                        HideHoverTag();
-                        return;
-                    }
-                    ShowHoverTag(entity, e);
-                    return;
+                    return _currentEntities[i];
                 }
             }
-
-            HideHoverTag();
+            return null;
         }
 
         private void ShowHoverTag(Entity entity, MouseEvent e)

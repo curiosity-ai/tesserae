@@ -57,14 +57,22 @@ Claude and GPT-4 are large language models. Jules built a demo using Tesserae fo
                 .OnAnnotationsChanged((s, entities) =>
                 {
                     entityCountLabel.Text = entities.Length == 1 ? "1 entity" : $"{entities.Length} entities";
+                })
+                .OnEntityClick((s, entity, e) =>
+                {
+                    Toast().Information($"Clicked entity: \"{s.Text.Substring(entity.Start, entity.Length)}\" ({entity.Label})");
                 });
 
-            var smallerEditor = AnnotatedTextEditor(
+            var readOnlyEditor = AnnotatedTextEditor(
                 annotator:   AnnotateAsync,
-                initialText: "Hello from Berlin. Alice works at Curiosity on Tesserae.",
-                debounceMs:  500,
-                placeholder: "Type here...")
-                .MinHeight(80.px());
+                initialText: "In 2025, Alice and Bob visited Berlin to demo Tesserae for Curiosity GmbH.",
+                debounceMs:  500)
+                .MinHeight(60.px())
+                .ReadOnly()
+                .OnEntityClick((s, entity, e) =>
+                {
+                    Toast().Success($"{entity.Label}: {s.Text.Substring(entity.Start, entity.Length)}");
+                });
 
             _content = SectionStack().Secondary()
                .SampleTitle(typeof(AnnotatedTextEditorSample), UIcons.Highlighter, "Annotated text editor")
@@ -78,8 +86,9 @@ Claude and GPT-4 are large language models. Jules built a demo using Tesserae fo
                         SampleSubTitle("Multi-line, editable, with entity highlighting"),
                         entityCountLabel.MB(8),
                         editor.WS(),
-                        SampleSubTitle("Compact example").MT(16),
-                        smallerEditor.WS()
+                        SampleSubTitle("Read-only with clickable entities").MT(16),
+                        TextBlock("Text cannot be edited, but entities still react to clicks.").Small().Foreground(Theme.Secondary.Foreground).MB(8),
+                        readOnlyEditor.WS()
                     )).SetTitle("Usage")));
         }
 
