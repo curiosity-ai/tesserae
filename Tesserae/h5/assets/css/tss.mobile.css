@@ -1,0 +1,243 @@
+/* Mobile styles — applied when body has the tss-mobile class */
+
+/* ─── Layout ─────────────────────────────────────────────────────────────── */
+
+/* Top-level page layout: sidebar + content becomes stacked vertically on mobile */
+body.tss-mobile .tss-page-layout {
+    flex-direction: column !important;
+}
+
+/* ─── Navbar (Sidebar in mobile mode) ────────────────────────────────────── */
+
+/* Fixed full-width navbar bar at the top */
+body.tss-mobile .tss-navbar {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100vw !important;
+    height: 52px !important;
+    z-index: 1002 !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12) !important;
+    padding: 0 12px !important;
+}
+
+/* Push the page content area down below the fixed navbar */
+body.tss-mobile .tss-page-layout > .tss-stack-item:last-child {
+    margin-top: 52px;
+}
+
+/* Full-screen drawer: always in DOM for animation, positioned fixed */
+body.tss-mobile .tss-navbar .tss-navbar-drawer {
+    display: flex !important;
+    flex-direction: column !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    bottom: 0 !important;
+    right: auto !important;
+    width: 85vw !important;
+    max-width: 320px !important;
+    height: 100vh !important;
+    max-height: 100vh !important;
+    border-radius: 0 !important;
+    z-index: 1001 !important;
+    padding: 0 !important;
+    overflow-y: auto !important;
+    transform: translateX(-105%);
+    transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.28s ease;
+    box-shadow: none;
+    background: var(--tss-sidebar-background-color);
+}
+
+/* Closed state — off-screen; use tss-collapse as the authoritative toggle */
+body.tss-mobile .tss-navbar .tss-navbar-drawer.tss-collapse {
+    display: flex !important;
+    transform: translateX(-105%) !important;
+    pointer-events: none !important;
+}
+
+/* Open state — slide in; no tss-collapse means the drawer is visible */
+body.tss-mobile .tss-navbar .tss-navbar-drawer:not(.tss-collapse) {
+    transform: translateX(0) !important;
+    pointer-events: all !important;
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.25) !important;
+}
+
+/* ─── Mobile backdrop (real DOM element, injected by Sidebar.AsNavbar()) ──── */
+
+/* Hidden by default — only shown on mobile, and only when visible class is added */
+.tss-mobile-backdrop {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.28s ease;
+}
+
+body.tss-mobile .tss-mobile-backdrop {
+    display: block;
+}
+
+.tss-mobile-backdrop.tss-mobile-backdrop-visible {
+    opacity: 1;
+    pointer-events: all;
+}
+
+/* Mobile-only drawer header (close button row) */
+.tss-navbar-mobile-header {
+    display: none;
+}
+
+body.tss-mobile .tss-navbar-mobile-header {
+    display: flex !important;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px 10px 16px;
+    border-bottom: 1px solid var(--tss-default-border-color);
+    min-height: 52px;
+    flex-shrink: 0;
+}
+
+/* Mobile close button */
+.tss-navbar-mobile-close {
+    display: none !important;
+}
+
+body.tss-mobile .tss-navbar-mobile-close {
+    display: inline-flex !important;
+    padding: 0 !important;
+    width: 32px !important;
+    height: 32px !important;
+    min-height: unset !important;
+    border-radius: 6px !important;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Drawer middle scrollable area — full height minus header/footer */
+body.tss-mobile .tss-navbar .tss-navbar-drawer .tss-sidebar-middle {
+    flex: 1 1 auto !important;
+    overflow-y: auto !important;
+    max-height: none !important;
+    padding: 8px 12px !important;
+}
+
+/* Drawer footer */
+body.tss-mobile .tss-navbar .tss-navbar-drawer .tss-sidebar-footer {
+    flex-shrink: 0 !important;
+    padding: 8px 12px !important;
+    border-top: 1px solid var(--tss-default-border-color);
+}
+
+/* Burger button — slightly larger for touch */
+body.tss-mobile .tss-navbar-burger {
+    width: 40px !important;
+    height: 40px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* ─── Sidebar hidden in mobile (only navbar is shown) ────────────────────── */
+body.tss-mobile .tss-sidebar:not(.tss-navbar) {
+    display: none !important;
+}
+
+/* ─── Touch targets — 44px minimum per WCAG/Apple HIG ────────────────────── */
+body.tss-mobile .tss-btn {
+    min-height: 44px !important;
+}
+
+body.tss-mobile .tss-sidebar-btn-open > .tss-btn,
+body.tss-mobile .tss-sidebar-btn-open > a > .tss-btn {
+    height: 44px !important;
+    min-height: 44px !important;
+}
+
+body.tss-mobile .tss-sidebar-commands-line .tss-btn,
+body.tss-mobile .tss-sidebar-commands-line-extra .tss-btn,
+body.tss-mobile .tss-sidebar.tss-sidebar-closed .tss-sidebar-btn.tss-btn {
+    height: 44px !important;
+    min-height: 44px !important;
+}
+
+/* Sidebar nav arrow shifted for taller rows */
+body.tss-mobile .tss-sidebar-nav-header > .tss-sidebar-nav-arrow.tss-btn {
+    top: 12px !important;
+}
+
+body.tss-mobile .tss-sidebar-commands {
+    top: 10px !important;
+}
+
+/* ─── Typography adjustments ─────────────────────────────────────────────── */
+body.tss-mobile {
+    font-size: var(--tss-font-size-smallplus);
+}
+
+/* ─── Card adjustments ───────────────────────────────────────────────────── */
+body.tss-mobile .tss-card {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+/* ─── Dropdown / context menus — prevent overflow on narrow screens ──────── */
+body.tss-mobile .tippy-box {
+    max-width: min(340px, 95vw) !important;
+}
+
+/* ─── Pivot — allow wrapping on mobile ───────────────────────────────────── */
+body.tss-mobile .tss-pivot-titlebar {
+    flex-wrap: wrap !important;
+}
+
+/* ─── Pagination — smaller controls ─────────────────────────────────────── */
+body.tss-mobile .tss-pagination .tss-btn {
+    min-width: 36px !important;
+    padding: 0 6px !important;
+}
+
+/* ─── CommandBar — hide overflow items ───────────────────────────────────── */
+body.tss-mobile .tss-commandbar {
+    flex-wrap: wrap !important;
+}
+
+/* ─── Panel — full width on mobile ──────────────────────────────────────── */
+body.tss-mobile .tss-panel {
+    width: 100vw !important;
+    max-width: 100vw !important;
+}
+
+/* ─── Modal / Dialog — full width on small screens ──────────────────────── */
+@media (max-width: 480px) {
+    body.tss-mobile .tss-modal,
+    body.tss-mobile .tss-dialog {
+        width: 95vw !important;
+        max-width: 95vw !important;
+    }
+}
+
+/* ─── Scrollbar — thinner on mobile ─────────────────────────────────────── */
+body.tss-mobile ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+}
+
+body.tss-mobile ::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background: rgba(var(--tss-secondary-foreground-color-root), 0.3);
+}
+
+/* ─── Section Stack ─────────────────────────────────────── */
+
+.tss-mobile .tss-sectionstack {
+    padding: 8px 8px 8px 16px;
+}

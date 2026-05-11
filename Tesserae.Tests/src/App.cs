@@ -21,6 +21,20 @@ namespace Tesserae.Tests
         {
             document.body.style.overflow = "hidden";
 
+            // Ensure the viewport meta tag is present so that mobile browsers use the device
+            // width instead of rendering at a desktop width and scaling down.
+            if (document.head.querySelector("meta[name='viewport']") is null)
+            {
+                var viewportMeta = document.createElement("meta");
+                viewportMeta["name"]    = "viewport";
+                viewportMeta["content"] = "width=device-width, initial-scale=1.0, maximum-scale=5.0";
+                document.head.appendChild(viewportMeta);
+            }
+
+            // Enable automatic mobile detection — adds/removes the tss-mobile class on body
+            // whenever the viewport is 768px or narrower (or when the device reports a coarse pointer).
+            Theme.EnableMobileDetection(breakpoint: 768);
+
             var allSidebarItems     = new List<ISidebarItem>();
             var sampleToSidebarItem = new Dictionary<Sample, ISidebarItem>();
 
@@ -40,6 +54,14 @@ namespace Tesserae.Tests
             });
 
             var sidebar = Sidebar(sortable: true);
+
+            // On mobile we use navbar mode: horizontal bar + full-screen sliding drawer.
+            // This is evaluated once at startup; the CSS (tss-mobile class) handles visual switches
+            // for subsequent resize events.
+            if (Theme.IsMobileMode)
+            {
+                sidebar.AsNavbar();
+            }
 
             var sortingTimeout = 0d;
 
@@ -63,13 +85,31 @@ namespace Tesserae.Tests
             });
 
 
-            sidebar.AddHeader(new SidebarText("header", "Tesserae", "TSS", textSize: TextSize.XLarge, textWeight: TextWeight.Bold).PB(16).PL(12));
+            sidebar.AddHeader(new SidebarText("header", "Tesserae", "TSS", textSize: TextSize.XLarge, textWeight: TextWeight.Bold));
 
-            var searchBox = new SidebarSearchBox("search", "Search...");
-            searchBox.OnSearch((term) => sidebar.Search(term));
-            sidebar.AddHeader(searchBox);
+            if (!Theme.IsMobile)
+            {
+                var searchBox = new SidebarSearchBox("search", "Search...");
+                searchBox.OnSearch((term) => sidebar.Search(term));
+                sidebar.AddHeader(searchBox);
+            }
 
-            var pageContent = HStack().Children(sidebar.HS(), DeferSync(currentPage, page => page is null ? (IComponent)CenteredCardWithBackground(Message("Welcome to Tesserae", "Select a component to see more details").Icon(UIcons.Search)) : VStack().S().ScrollY().Children(page.ContentGenerator().WS().MinHeight(100.percent()))).HS().W(1).Grow()).S();
+            var contentArea = DeferSync(currentPage, page => page is null
+                ? (IComponent)CenteredCardWithBackground(Message("Welcome to Tesserae", "Select a component to see more details").Icon(UIcons.Search))
+                : VStack().S().ScrollY().Children(page.ContentGenerator().WS().MinHeight(100.percent())));
+
+            // On mobile the sidebar is a fixed top navbar, so the layout is vertical (sidebar then content).
+            // On desktop the layout is horizontal (sidebar left, content right).
+            Stack pageContent;
+
+            if (Theme.IsMobileMode)
+            {
+                pageContent = VStack().Class("tss-page-layout").S().Children(sidebar.WS(), contentArea.WS().H(1).Grow());
+            }
+            else
+            {
+                pageContent = HStack().Class("tss-page-layout").S().Children(sidebar.HS(), contentArea.HS().W(1).Grow());
+            }
 
             MountToBody(pageContent);
 
@@ -94,9 +134,13 @@ namespace Tesserae.Tests
 
             var openClose = new SidebarCommand(UIcons.AngleLeft).Tooltip("Close Sidebar");
 
-            var sidebarOpenState = bool.TryParse(localStorage.getItem(_sidebarOpenStateKey), out var v) ? v : true;
-
-            sidebar.Closed(!sidebarOpenState);
+            // In mobile/navbar mode the drawer always starts closed (hamburger opens it).
+            // In desktop mode, restore the user's last open/closed preference from localStorage.
+            if (!Theme.IsMobileMode)
+            {
+                var sidebarOpenState = bool.TryParse(localStorage.getItem(_sidebarOpenStateKey), out var v) ? v : true;
+                sidebar.Closed(!sidebarOpenState);
+            }
 
             openClose.OnClick(() =>
             {

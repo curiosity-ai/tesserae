@@ -82,18 +82,91 @@ namespace Tesserae
                 {
                     try
                     {
-                        if (navigator.userAgentData.mobile)
-                        {
-                            return true;
-                        }
+                        return navigator.userAgentData.mobile;
                     }
-                    catch (Exception E)
+                    catch
                     {
-                        console.log(E);
-                        return false;
+                        //Ignore, probably userAgentData is not supported
                     }
                     return !window.matchMedia("(any-pointer:fine)").matches;
                 }
+            }
+
+            public static event Action OnMobileModeChanged;
+
+            /// <summary>
+            /// Enables mobile mode by adding the tss-mobile class to the document body.
+            /// </summary>
+            public static void Mobile()
+            {
+                if (!IsMobileMode)
+                {
+                    document.body.classList.add("tss-mobile");
+                    OnMobileModeChanged?.Invoke();
+                }
+            }
+
+            /// <summary>
+            /// Disables mobile mode by removing the tss-mobile class from the document body.
+            /// </summary>
+            public static void NonMobile()
+            {
+                if (IsMobileMode)
+                {
+                    document.body.classList.remove("tss-mobile");
+                    OnMobileModeChanged?.Invoke();
+                }
+            }
+
+            /// <summary>
+            /// Gets or sets whether mobile mode is active (tss-mobile class on body).
+            /// </summary>
+            public static bool IsMobileMode
+            {
+                get => document.body.classList.contains("tss-mobile");
+                set
+                {
+                    if (value) Mobile();
+                    else NonMobile();
+                }
+            }
+
+            /// <summary>
+            /// Enables automatic mobile detection based on viewport width, adding or removing the tss-mobile
+            /// class from the document body whenever the viewport changes. Also fires OnMobileModeChanged.
+            /// </summary>
+            /// <param name="breakpoint">The max viewport width (in pixels) considered mobile. Default is 768.</param>
+            public static void EnableMobileDetection(int breakpoint = 768)
+            {
+                void Check()
+                {
+                    // Try navigator.userAgentData.mobile first (reliable on modern browsers
+                    // and does not depend on viewport width, so it survives browser zoom).
+                    try
+                    {
+                        if (navigator.userAgentData.mobile)
+                        {
+                            Mobile();
+                            return;
+                        }
+                    }
+                    catch { }
+
+                    // Fall back to viewport width (covers desktop browsers that don't support
+                    // the User-Agent Client Hints API).
+                    if (window.innerWidth <= breakpoint)
+                    {
+                        Mobile();
+                    }
+                    else
+                    {
+                        NonMobile();
+                    }
+                }
+
+                Check();
+
+                window.addEventListener("resize", (Action<Event>)(_ => Check()));
             }
 
 
