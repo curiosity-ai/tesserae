@@ -154,9 +154,13 @@ namespace Tesserae
 
         private readonly HTMLDivElement   _searchTokensContainer;
         private readonly HTMLDivElement   _searchInputContainer;
+        private readonly HTMLDivElement   _searchShortcutContainer;
         private readonly Button      _searchHistoryBtn;
         private readonly Button      _searchClearBtn;
         private readonly Button      _searchTriggerBtn;
+
+        private string[]      _shortcutKeys;
+        private Action<Event> _globalShortcutHandler;
 
         private readonly HTMLTextAreaElement _chatInput;
         private readonly HTMLDivElement   _chatContainer;
@@ -237,6 +241,8 @@ namespace Tesserae
                 _searchTokensContainer = Div(_("tss-omnibox-search-tokens"));
                 _searchInputContainer = Div(_("tss-omnibox-search-input-container"), _searchInput, _searchTokensContainer);
 
+                _searchShortcutContainer = Div(_("tss-omnibox-shortcut"));
+
                 _searchHistoryBtn = Button().SetIcon(UIcons.TimePast).Class("tss-omnibox-search-history-btn");
                 _searchHistoryBtn.Collapse(); // Hidden by default unless WithHistory is called
 
@@ -245,11 +251,11 @@ namespace Tesserae
 
                 if (_mode == Mode.Search)
                 {
-                    _searchContainer = Div(_("tss-omnibox-search-container"), _searchHistoryBtn.Render(), _searchInlineChipsContainer, _searchInputContainer, _searchRightTextContainer, _searchClearBtn.Render(), _searchTriggerBtn.Render());
+                    _searchContainer = Div(_("tss-omnibox-search-container"), _searchHistoryBtn.Render(), _searchInlineChipsContainer, _searchInputContainer, _searchRightTextContainer, _searchShortcutContainer, _searchClearBtn.Render(), _searchTriggerBtn.Render());
                 }
                 else
                 {
-                    _searchContainer = Div(_("tss-omnibox-search-container"), _searchInlineChipsContainer, _searchInputContainer, _searchRightTextContainer);
+                    _searchContainer = Div(_("tss-omnibox-search-container"), _searchInlineChipsContainer, _searchInputContainer, _searchRightTextContainer, _searchShortcutContainer);
                     _footer.appendChild(_searchHistoryBtn.Render());
                     footerEnd.Add(_searchClearBtn);
                     footerEnd.Add(_searchTriggerBtn);
@@ -1449,6 +1455,124 @@ namespace Tesserae
             _highlightedSuggestionIndex = (_highlightedSuggestionIndex + offset + _currentSuggestionButtons.Count) % _currentSuggestionButtons.Count;
 
             _currentSuggestionButtons[_highlightedSuggestionIndex].Class("tss-omnibox-suggestion-highlight");
+        }
+
+        /// <summary>
+        /// Registers a global keyboard shortcut that focuses the OmniBox search input when pressed,
+        /// and renders a visual chip showing the shortcut on the right side of the search box.
+        /// In SearchAndChat mode, pressing the shortcut also switches the active mode to Search.
+        /// Modifier names are case-insensitive ("Ctrl", "Cmd", "Meta", "Alt", "Shift").
+        /// Example: <c>SetKeyboardShortcut("Ctrl", "K")</c>.
+        /// </summary>
+        public OmniBox SetKeyboardShortcut(params string[] keys)
+        {
+            if (_mode != Mode.Search && _mode != Mode.SearchAndChat)
+            {
+                throw new InvalidOperationException("SetKeyboardShortcut can only be called when OmniBox is in Search or SearchAndChat mode.");
+            }
+
+            if (_globalShortcutHandler is object)
+            {
+                window.removeEventListener("keydown", _globalShortcutHandler);
+                _globalShortcutHandler = null;
+            }
+
+            while (_searchShortcutContainer.firstChild is object)
+            {
+                _searchShortcutContainer.removeChild(_searchShortcutContainer.firstChild);
+            }
+
+            if (keys is null || keys.Length == 0)
+            {
+                _shortcutKeys = null;
+                _container.classList.remove("tss-omnibox-has-shortcut");
+                return this;
+            }
+
+            _shortcutKeys = keys;
+            _searchShortcutContainer.appendChild(KeyboardShortcut(keys).Render());
+            _container.classList.add("tss-omnibox-has-shortcut");
+
+            _globalShortcutHandler = ev =>
+            {
+                if (!_container.IsMounted()) return;
+                if (!IsEnabled) return;
+
+                var e = ev.As<KeyboardEvent>();
+                if (!MatchesShortcut(e, _shortcutKeys)) return;
+
+                StopEvent(e);
+                if (_mode == Mode.SearchAndChat && _activeMode.Value != Mode.Search)
+                {
+                    _modeToggle.Select(Mode.Search);
+                }
+                _searchInput.focus();
+                _searchInput.select();
+            };
+
+            window.addEventListener("keydown", _globalShortcutHandler);
+            return this;
+        }
+
+        private static bool MatchesShortcut(KeyboardEvent e, string[] keys)
+        {
+            bool needCtrl  = false;
+            bool needAlt   = false;
+            bool needShift = false;
+            bool needMeta  = false;
+            string mainKey = null;
+
+            foreach (var raw in keys)
+            {
+                if (raw is null) continue;
+                var k = raw.Trim();
+                switch (k)
+                {
+                    case "Ctrl":
+                    case "ctrl":
+                    case "Control":
+                        needCtrl = true;
+                        break;
+                    case "Alt":
+                    case "alt":
+                        needAlt = true;
+                        break;
+                    case "Shift":
+                    case "shift":
+                        needShift = true;
+                        break;
+                    case "Meta":
+                    case "meta":
+                    case "Cmd":
+                    case "cmd":
+                        needMeta = true;
+                        break;
+                    default:
+                        mainKey = k;
+                        break;
+                }
+            }
+
+            // On macOS, treat "Ctrl" in the shortcut as either Ctrl or Cmd so a single
+            // declaration like ("Ctrl", "K") renders ⌘K and triggers on Cmd+K.
+            bool isApple = navigator.userAgent.IndexOf("Mac") >= 0 || navigator.userAgent.IndexOf("iPhone") >= 0 || navigator.userAgent.IndexOf("iPad") >= 0;
+
+            if (needCtrl && !needMeta && isApple)
+            {
+                if (!e.metaKey && !e.ctrlKey) return false;
+            }
+            else
+            {
+                if (needCtrl != e.ctrlKey) return false;
+                if (needMeta != e.metaKey) return false;
+            }
+
+            if (needAlt   != e.altKey)   return false;
+            if (needShift != e.shiftKey) return false;
+
+            if (mainKey is null) return false;
+
+            return string.Equals(e.key, mainKey, StringComparison.OrdinalIgnoreCase);
         }
 
         public OmniBox SetSearchRightText(string text)

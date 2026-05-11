@@ -355,6 +355,21 @@
     white-space: nowrap;
 }
 
+.tss-omnibox-shortcut {
+    display: none;
+    align-items: center;
+    flex-shrink: 0;
+    padding: 0 6px;
+}
+
+.tss-omnibox-container.tss-omnibox-has-shortcut .tss-omnibox-shortcut {
+    display: inline-flex;
+}
+
+.tss-omnibox-container.tss-omnibox-mode-chat .tss-omnibox-shortcut {
+    display: none;
+}
+
 
 .tss-omnibox-suggestion-highlight {
     background: var(--tss-colors-blue-200) !important;
