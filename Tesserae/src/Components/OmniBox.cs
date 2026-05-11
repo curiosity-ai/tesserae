@@ -117,6 +117,28 @@ namespace Tesserae
             SearchAndChat
         }
 
+        public enum ThinkingEffort
+        {
+            Disable,
+            Low,
+            Medium,
+            High
+        }
+
+        public class ModelOption
+        {
+            public string Name { get; }
+            public string Description { get; }
+            public object Tag { get; }
+
+            public ModelOption(string name, string description = null, object tag = null)
+            {
+                Name = name;
+                Description = description;
+                Tag = tag;
+            }
+        }
+
 
         private readonly Mode _mode;
         private readonly SettableObservable<Mode> _activeMode;
@@ -139,6 +161,12 @@ namespace Tesserae
         private readonly HTMLTextAreaElement _chatInput;
         private readonly HTMLDivElement   _chatContainer;
         private readonly Button           _chatTriggerBtn;
+        private Button                    _modelSelectorBtn;
+        private List<ModelOption>         _models = new List<ModelOption>();
+        private ModelOption               _selectedModel;
+        private ThinkingEffort            _selectedEffort = ThinkingEffort.Medium;
+        private bool                      _isModelLocked;
+        private Action                    _hideModelPopover;
         private readonly HTMLDivElement _footer;
         private Func<Task<SearchQuery[]>> _historyFetcher;
         private Func<string, Task<OmniBoxSuggestionItem[]>> _suggestionsFetcher;
@@ -156,9 +184,11 @@ namespace Tesserae
         public delegate void SearchEventHandler(OmniBox sender, SearchQuery query);
         public delegate void ChatEventHandler(OmniBox sender, ChatMessage query);
         public delegate void StopEventHandler(OmniBox sender);
+        public delegate void ModelChangedEventHandler(OmniBox sender, ModelOption model, ThinkingEffort effort);
         protected event SearchEventHandler Searched;
         protected event ChatEventHandler Chatted;
         public event StopEventHandler Stopped;
+        protected event ModelChangedEventHandler ModelChanged;
 
         public event ComponentEventHandler<OmniBox, Event> Input;
         public event ComponentEventHandler<OmniBox, KeyboardEvent> KeyDown;
@@ -420,6 +450,9 @@ namespace Tesserae
 
                 _chatTriggerBtn = Button().SetIcon(config.IconChat).Class("tss-omnibox-chat-btn").OnClick(() => TriggerChat());
 
+                _modelSelectorBtn = Button().Class("tss-omnibox-model-selector-btn").NoBorder().NoBackground().OnClick(() => ShowModelPopover());
+                _modelSelectorBtn.Collapse();
+
                 if (config.ChatFooter?.LeftSide is object)
                 {
                     //if (_mode == Mode.Chat)
@@ -469,6 +502,7 @@ namespace Tesserae
 
             if (_mode == Mode.Chat || _mode == Mode.SearchAndChat)
             {
+                footerEnd.Add(_modelSelectorBtn);
                 footerEnd.Add(_chatTriggerBtn);
             }
 
@@ -975,6 +1009,193 @@ namespace Tesserae
         {
             Stopped += onStop;
             return this;
+        }
+
+        public OmniBox OnModelChanged(ModelChangedEventHandler onModelChanged)
+        {
+            ModelChanged += onModelChanged;
+            return this;
+        }
+
+        public OmniBox SetModels(params ModelOption[] models)
+        {
+            return SetModels((IEnumerable<ModelOption>)models);
+        }
+
+        public OmniBox SetModels(IEnumerable<ModelOption> models)
+        {
+            if (_modelSelectorBtn == null)
+            {
+                throw new InvalidOperationException("SetModels can only be called when OmniBox is in Chat or SearchAndChat mode.");
+            }
+
+            _isModelLocked = false;
+            _models = models?.ToList() ?? new List<ModelOption>();
+
+            if (_selectedModel == null || !_models.Contains(_selectedModel))
+            {
+                _selectedModel = _models.FirstOrDefault();
+            }
+
+            UpdateModelSelectorButton();
+            return this;
+        }
+
+        public OmniBox LockModel(ModelOption model)
+        {
+            if (_modelSelectorBtn == null)
+            {
+                throw new InvalidOperationException("LockModel can only be called when OmniBox is in Chat or SearchAndChat mode.");
+            }
+            if (model == null)
+            {
+                throw new ArgumentNullException(nameof(model));
+            }
+
+            _isModelLocked = true;
+            _models = new List<ModelOption> { model };
+            _selectedModel = model;
+
+            if (_hideModelPopover != null)
+            {
+                _hideModelPopover();
+                _hideModelPopover = null;
+            }
+
+            UpdateModelSelectorButton();
+            return this;
+        }
+
+        public OmniBox SetThinkingEffort(ThinkingEffort effort)
+        {
+            _selectedEffort = effort;
+            UpdateModelSelectorButton();
+            return this;
+        }
+
+        public ModelOption SelectedModel => _selectedModel;
+        public ThinkingEffort SelectedThinkingEffort => _selectedEffort;
+        public bool IsModelLocked => _isModelLocked;
+
+        private static string FormatEffort(ThinkingEffort effort)
+        {
+            switch (effort)
+            {
+                case ThinkingEffort.Disable: return "Disabled";
+                case ThinkingEffort.Low:     return "Low";
+                case ThinkingEffort.Medium:  return "Medium";
+                case ThinkingEffort.High:    return "High";
+            }
+            return effort.ToString();
+        }
+
+        private void UpdateModelSelectorButton()
+        {
+            if (_modelSelectorBtn == null) return;
+
+            if (_selectedModel == null)
+            {
+                _modelSelectorBtn.Collapse();
+                return;
+            }
+
+            _modelSelectorBtn.Show();
+
+            var label = _selectedModel.Name;
+            if (_selectedEffort != ThinkingEffort.Disable)
+            {
+                label += " · " + FormatEffort(_selectedEffort);
+            }
+            _modelSelectorBtn.SetText(label);
+
+            if (_isModelLocked)
+            {
+                _modelSelectorBtn.Render().classList.add("tss-omnibox-model-selector-locked");
+                _modelSelectorBtn.Tooltip("Model locked");
+            }
+            else
+            {
+                _modelSelectorBtn.Render().classList.remove("tss-omnibox-model-selector-locked");
+            }
+        }
+
+        private void ShowModelPopover()
+        {
+            if (_modelSelectorBtn == null) return;
+            if (_isModelLocked) return;
+            if (_models == null || _models.Count == 0) return;
+
+            if (_hideModelPopover != null)
+            {
+                _hideModelPopover();
+                _hideModelPopover = null;
+                return;
+            }
+
+            var content = VStack().NoDefaultMargin().Class("tss-omnibox-model-selector-popover").MinWidth(220.px()).MaxHeight(500.px()).ScrollY();
+
+            content.Add(TextBlock("Models").Small().SemiBold().Class("tss-omnibox-model-selector-header"));
+
+            foreach (var model in _models)
+            {
+                var captured = model;
+                var isSelected = ReferenceEquals(captured, _selectedModel);
+
+                var row = HStack().WS().AlignItemsCenter().Class("tss-omnibox-model-selector-item");
+                row.Add(TextBlock(captured.Name).Class("tss-omnibox-model-selector-item-name"));
+                if (!string.IsNullOrEmpty(captured.Description))
+                {
+                    row.Add(TextBlock(captured.Description).Small().Secondary().ML(6));
+                }
+                row.Add(Raw(Div(_("tss-omnibox-model-selector-spacer"))));
+                if (isSelected) row.Add(Icon(UIcons.Check).Class("tss-omnibox-model-selector-check"));
+
+                var btn = Button().Class("tss-omnibox-model-selector-row").WS().NoPadding().NoMinSize().NoBorder().NoBackground().TextLeft();
+                btn.ReplaceContent(row);
+                btn.OnClick(() =>
+                {
+                    _selectedModel = captured;
+                    UpdateModelSelectorButton();
+                    ModelChanged?.Invoke(this, _selectedModel, _selectedEffort);
+                    if (_hideModelPopover != null)
+                    {
+                        _hideModelPopover();
+                        _hideModelPopover = null;
+                    }
+                });
+                content.Add(btn);
+            }
+
+            content.Add(Raw(Div(_("tss-omnibox-model-selector-divider"))));
+            content.Add(TextBlock("Thinking Effort").Small().SemiBold().Class("tss-omnibox-model-selector-header"));
+
+            foreach (ThinkingEffort effort in new[] { ThinkingEffort.Disable, ThinkingEffort.Low, ThinkingEffort.Medium, ThinkingEffort.High })
+            {
+                var captured = effort;
+                var isSelected = captured == _selectedEffort;
+
+                var row = HStack().WS().AlignItemsCenter().Class("tss-omnibox-model-selector-item");
+                row.Add(TextBlock(FormatEffort(captured)).Class("tss-omnibox-model-selector-item-name"));
+                row.Add(Raw(Div(_("tss-omnibox-model-selector-spacer"))));
+                if (isSelected) row.Add(Icon(UIcons.Check).Class("tss-omnibox-model-selector-check"));
+
+                var btn = Button().Class("tss-omnibox-model-selector-row").WS().NoPadding().NoMinSize().NoBorder().NoBackground().TextLeft();
+                btn.ReplaceContent(row);
+                btn.OnClick(() =>
+                {
+                    _selectedEffort = captured;
+                    UpdateModelSelectorButton();
+                    ModelChanged?.Invoke(this, _selectedModel, _selectedEffort);
+                    if (_hideModelPopover != null)
+                    {
+                        _hideModelPopover();
+                        _hideModelPopover = null;
+                    }
+                });
+                content.Add(btn);
+            }
+
+            Tippy.ShowFor(_modelSelectorBtn, content, out _hideModelPopover, placement: TooltipPlacement.TopEnd, maxWidth: 400, onHiddenCallback: () => _hideModelPopover = null);
         }
 
         public bool IsGenerating
