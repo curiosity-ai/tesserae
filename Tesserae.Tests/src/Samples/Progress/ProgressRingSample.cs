@@ -49,7 +49,7 @@ namespace Tesserae.Tests.Samples
                         ProgressRing(96, 8).Indeterminate().Label("…")
                     ),
                     SampleSubTitle("Animated Fill"),
-                    Button("Start 5s countdown").Primary().Var(out var animBtn).OnClick(async () =>
+                    Button("Start 5s countdown").Primary().Var(out var animBtn).OnClickSpinWhile(async () =>
                     {
                         animBtn.Disabled();
                         var liveRing = ProgressRing(64, 6).Label("0%");

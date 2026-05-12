@@ -30,7 +30,7 @@ namespace Tesserae.Tests.Samples
                     ).Gap(8.px()),
 
                     SampleSubTitle("Live Demo"),
-                    Button("Simulate Save Process").OnClick(async () => {
+                    Button("Simulate Save Process").OnClickSpinWhile(async () => {
                         var savingToast = SavingToast();
                         savingToast.Saving("Starting save...");
                         await Task.Delay(2000);

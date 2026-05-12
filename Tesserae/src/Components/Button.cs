@@ -389,13 +389,7 @@ namespace Tesserae
             StopEvent(e);
             action.Invoke();
         });
-        
-        public Button OnClick(Func<Task> actionAsync) => OnClick((_, e) =>
-        {
-            StopEvent(e);
-            actionAsync.Invoke().FireAndForget();
-        });
-        
+                
         public Button OnContextMenu(Action action) => OnContextMenu((_, e) =>
         {
             StopEvent(e);
