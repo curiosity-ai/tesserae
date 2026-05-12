@@ -355,7 +355,93 @@
     white-space: nowrap;
 }
 
+.tss-omnibox-shortcut {
+    display: none;
+    align-items: center;
+    flex-shrink: 0;
+    padding: 0 6px;
+}
+
+.tss-omnibox-container.tss-omnibox-has-shortcut .tss-omnibox-shortcut {
+    display: inline-flex;
+}
+
+.tss-omnibox-container.tss-omnibox-mode-chat .tss-omnibox-shortcut {
+    display: none;
+}
+
 
 .tss-omnibox-suggestion-highlight {
     background: var(--tss-colors-blue-200) !important;
+}
+
+/* Model selector button (chat footer) */
+.tss-btn.tss-omnibox-model-selector-btn {
+    height: 28px;
+    padding: 2px 10px;
+    margin: 0 4px;
+    border-radius: var(--tss-border-radius-md);
+    background: var(--tss-secondary-background-color);
+    color: var(--tss-secondary-foreground-color);
+    font-size: 12px;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.tss-btn.tss-omnibox-model-selector-btn:hover {
+    background: var(--tss-default-border-color);
+}
+
+.tss-btn.tss-omnibox-model-selector-btn.tss-omnibox-model-selector-locked {
+    cursor: default;
+    opacity: 0.85;
+}
+
+/* Model selector popover */
+.tss-omnibox-model-selector-popover {
+    padding: 6px 4px;
+    min-width: 220px;
+}
+
+.tss-omnibox-model-selector-header {
+    padding: 6px 12px 4px 12px;
+    color: var(--tss-secondary-foreground-color);
+    text-transform: none;
+}
+
+.tss-omnibox-model-selector-divider {
+    height: 1px;
+    background: var(--tss-default-border-color);
+    margin: 6px 4px;
+}
+
+.tippy-box .tss-btn.tss-omnibox-model-selector-row {
+    height: 32px !important;
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+    margin-bottom: 2px !important;
+    border-radius: var(--tss-border-radius-md);
+}
+
+.tippy-box .tss-btn.tss-omnibox-model-selector-row:hover {
+    background: var(--tss-secondary-background-color) !important;
+}
+
+.tss-omnibox-model-selector-item {
+    width: 100%;
+    align-items: center;
+    gap: 6px;
+}
+
+.tss-omnibox-model-selector-item-name {
+    font-size: 13px;
+}
+
+.tss-omnibox-model-selector-spacer {
+    flex-grow: 1;
+}
+
+.tss-omnibox-model-selector-check {
+    color: var(--tss-primary-foreground-color);
+    margin-left: 8px;
 }

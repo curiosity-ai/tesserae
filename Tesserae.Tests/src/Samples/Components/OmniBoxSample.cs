@@ -67,6 +67,7 @@ namespace Tesserae.Tests.Samples
             {
                 Toast().Information($"Searched for: {q.RawQuery} (Parsed into {q.Tokens?.Count ?? 0} tokens)");
             })
+            .SetKeyboardShortcut("Ctrl", "K")
             .SetSearchText("potato AND ( tomato OR banana) AND NOT apple");
 
             var fileDropAreaOnSearch = FileDropArea(searchModeSample).OnFilesDropped((s, files) =>
@@ -100,11 +101,21 @@ namespace Tesserae.Tests.Samples
 
             })
             .WS()
+            .SetModels(
+                new OmniBox.ModelOption("Opus 4.7"),
+                new OmniBox.ModelOption("Opus 4.7", "1M"),
+                new OmniBox.ModelOption("Sonnet 4.6"),
+                new OmniBox.ModelOption("Haiku 4.5"))
+            .SetThinkingEffort(OmniBox.ThinkingEffort.High)
+            .OnModelChanged((s, model, effort) =>
+            {
+                Toast().Information($"Selected {model.Name} with {effort} thinking effort");
+            })
             .OnChat((s, q) =>
             {
                 s.IsGenerating = true;
-                window.setTimeout((_) => 
-                { 
+                window.setTimeout((_) =>
+                {
                     if (s.IsGenerating) // Make sure it wasn't cancelled
                     {
                         s.IsGenerating = false;
@@ -116,6 +127,15 @@ namespace Tesserae.Tests.Samples
             {
                 s.IsGenerating = false;
             });
+
+            var lockedModel = new OmniBox.ModelOption("Sonnet 4.6");
+            var lockedChatModeSample = OmniBox(new OmniBox.Config(OmniBox.Mode.Chat)
+            {
+                PlaceholderChat = "This chat has a locked model"
+            })
+            .WS()
+            .LockModel(lockedModel)
+            .SetThinkingEffort(OmniBox.ThinkingEffort.Medium);
 
             var fileDropAreaOnChat = FileDropArea(chatModeSample).OnFilesDropped((s, files) =>
             {
@@ -159,7 +179,8 @@ namespace Tesserae.Tests.Samples
             })
             .WithHistory(async () => {
                 return new OmniBox.SearchQuery[0];
-            });
+            })
+            .SetKeyboardShortcut("Ctrl", "Shift", "K");
 
 
             var toggle = Toggle("Disabled").OnChange((s, e) =>
@@ -190,6 +211,7 @@ namespace Tesserae.Tests.Samples
                     SampleSubTitle("Modes"),
                         Label("Search (with FileDropArea)").SetContent(fileDropAreaOnSearch.WS()),
                         Label("Chat").SetContent(fileDropAreaOnChat.WS()).MT(6),
+                        Label("Chat with locked model").SetContent(lockedChatModeSample.WS()).MT(6),
                         Label("Search & Chat").SetContent(searchAndChatModeSample.WS()).MT(6)
                 )).SetTitle("Usage")));
         }

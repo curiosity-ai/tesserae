@@ -117,6 +117,28 @@ namespace Tesserae
             SearchAndChat
         }
 
+        public enum ThinkingEffort
+        {
+            Disable,
+            Low,
+            Medium,
+            High
+        }
+
+        public class ModelOption
+        {
+            public string Name { get; }
+            public string Description { get; }
+            public object Tag { get; }
+
+            public ModelOption(string name, string description = null, object tag = null)
+            {
+                Name = name;
+                Description = description;
+                Tag = tag;
+            }
+        }
+
 
         private readonly Mode _mode;
         private readonly SettableObservable<Mode> _activeMode;
@@ -132,13 +154,23 @@ namespace Tesserae
 
         private readonly HTMLDivElement   _searchTokensContainer;
         private readonly HTMLDivElement   _searchInputContainer;
+        private readonly HTMLDivElement   _searchShortcutContainer;
         private readonly Button      _searchHistoryBtn;
         private readonly Button      _searchClearBtn;
         private readonly Button      _searchTriggerBtn;
 
+        private string[]      _shortcutKeys;
+        private Action<Event> _globalShortcutHandler;
+
         private readonly HTMLTextAreaElement _chatInput;
         private readonly HTMLDivElement   _chatContainer;
         private readonly Button           _chatTriggerBtn;
+        private Button                    _modelSelectorBtn;
+        private List<ModelOption>         _models = new List<ModelOption>();
+        private ModelOption               _selectedModel;
+        private ThinkingEffort            _selectedEffort = ThinkingEffort.Medium;
+        private bool                      _isModelLocked;
+        private Action                    _hideModelPopover;
         private readonly HTMLDivElement _footer;
         private Func<Task<SearchQuery[]>> _historyFetcher;
         private Func<string, Task<OmniBoxSuggestionItem[]>> _suggestionsFetcher;
@@ -156,9 +188,11 @@ namespace Tesserae
         public delegate void SearchEventHandler(OmniBox sender, SearchQuery query);
         public delegate void ChatEventHandler(OmniBox sender, ChatMessage query);
         public delegate void StopEventHandler(OmniBox sender);
+        public delegate void ModelChangedEventHandler(OmniBox sender, ModelOption model, ThinkingEffort effort);
         protected event SearchEventHandler Searched;
         protected event ChatEventHandler Chatted;
         public event StopEventHandler Stopped;
+        protected event ModelChangedEventHandler ModelChanged;
 
         public event ComponentEventHandler<OmniBox, Event> Input;
         public event ComponentEventHandler<OmniBox, KeyboardEvent> KeyDown;
@@ -207,6 +241,8 @@ namespace Tesserae
                 _searchTokensContainer = Div(_("tss-omnibox-search-tokens"));
                 _searchInputContainer = Div(_("tss-omnibox-search-input-container"), _searchInput, _searchTokensContainer);
 
+                _searchShortcutContainer = Div(_("tss-omnibox-shortcut"));
+
                 _searchHistoryBtn = Button().SetIcon(UIcons.TimePast).Class("tss-omnibox-search-history-btn");
                 _searchHistoryBtn.Collapse(); // Hidden by default unless WithHistory is called
 
@@ -215,11 +251,11 @@ namespace Tesserae
 
                 if (_mode == Mode.Search)
                 {
-                    _searchContainer = Div(_("tss-omnibox-search-container"), _searchHistoryBtn.Render(), _searchInlineChipsContainer, _searchInputContainer, _searchRightTextContainer, _searchClearBtn.Render(), _searchTriggerBtn.Render());
+                    _searchContainer = Div(_("tss-omnibox-search-container"), _searchHistoryBtn.Render(), _searchInlineChipsContainer, _searchInputContainer, _searchRightTextContainer, _searchShortcutContainer, _searchClearBtn.Render(), _searchTriggerBtn.Render());
                 }
                 else
                 {
-                    _searchContainer = Div(_("tss-omnibox-search-container"), _searchInlineChipsContainer, _searchInputContainer, _searchRightTextContainer);
+                    _searchContainer = Div(_("tss-omnibox-search-container"), _searchInlineChipsContainer, _searchInputContainer, _searchRightTextContainer, _searchShortcutContainer);
                     _footer.appendChild(_searchHistoryBtn.Render());
                     footerEnd.Add(_searchClearBtn);
                     footerEnd.Add(_searchTriggerBtn);
@@ -420,6 +456,9 @@ namespace Tesserae
 
                 _chatTriggerBtn = Button().SetIcon(config.IconChat).Class("tss-omnibox-chat-btn").OnClick(() => TriggerChat());
 
+                _modelSelectorBtn = Button().Class("tss-omnibox-model-selector-btn").NoBorder().NoBackground().OnClick(() => ShowModelPopover());
+                _modelSelectorBtn.Collapse();
+
                 if (config.ChatFooter?.LeftSide is object)
                 {
                     //if (_mode == Mode.Chat)
@@ -469,6 +508,7 @@ namespace Tesserae
 
             if (_mode == Mode.Chat || _mode == Mode.SearchAndChat)
             {
+                footerEnd.Add(_modelSelectorBtn);
                 footerEnd.Add(_chatTriggerBtn);
             }
 
@@ -977,6 +1017,193 @@ namespace Tesserae
             return this;
         }
 
+        public OmniBox OnModelChanged(ModelChangedEventHandler onModelChanged)
+        {
+            ModelChanged += onModelChanged;
+            return this;
+        }
+
+        public OmniBox SetModels(params ModelOption[] models)
+        {
+            return SetModels((IEnumerable<ModelOption>)models);
+        }
+
+        public OmniBox SetModels(IEnumerable<ModelOption> models)
+        {
+            if (_modelSelectorBtn == null)
+            {
+                throw new InvalidOperationException("SetModels can only be called when OmniBox is in Chat or SearchAndChat mode.");
+            }
+
+            _isModelLocked = false;
+            _models = models?.ToList() ?? new List<ModelOption>();
+
+            if (_selectedModel == null || !_models.Contains(_selectedModel))
+            {
+                _selectedModel = _models.FirstOrDefault();
+            }
+
+            UpdateModelSelectorButton();
+            return this;
+        }
+
+        public OmniBox LockModel(ModelOption model)
+        {
+            if (_modelSelectorBtn == null)
+            {
+                throw new InvalidOperationException("LockModel can only be called when OmniBox is in Chat or SearchAndChat mode.");
+            }
+            if (model == null)
+            {
+                throw new ArgumentNullException(nameof(model));
+            }
+
+            _isModelLocked = true;
+            _models = new List<ModelOption> { model };
+            _selectedModel = model;
+
+            if (_hideModelPopover != null)
+            {
+                _hideModelPopover();
+                _hideModelPopover = null;
+            }
+
+            UpdateModelSelectorButton();
+            return this;
+        }
+
+        public OmniBox SetThinkingEffort(ThinkingEffort effort)
+        {
+            _selectedEffort = effort;
+            UpdateModelSelectorButton();
+            return this;
+        }
+
+        public ModelOption SelectedModel => _selectedModel;
+        public ThinkingEffort SelectedThinkingEffort => _selectedEffort;
+        public bool IsModelLocked => _isModelLocked;
+
+        private static string FormatEffort(ThinkingEffort effort)
+        {
+            switch (effort)
+            {
+                case ThinkingEffort.Disable: return "Disabled";
+                case ThinkingEffort.Low:     return "Low";
+                case ThinkingEffort.Medium:  return "Medium";
+                case ThinkingEffort.High:    return "High";
+            }
+            return effort.ToString();
+        }
+
+        private void UpdateModelSelectorButton()
+        {
+            if (_modelSelectorBtn == null) return;
+
+            if (_selectedModel == null)
+            {
+                _modelSelectorBtn.Collapse();
+                return;
+            }
+
+            _modelSelectorBtn.Show();
+
+            var label = _selectedModel.Name;
+            if (_selectedEffort != ThinkingEffort.Disable)
+            {
+                label += " · " + FormatEffort(_selectedEffort);
+            }
+            _modelSelectorBtn.SetText(label);
+
+            if (_isModelLocked)
+            {
+                _modelSelectorBtn.Render().classList.add("tss-omnibox-model-selector-locked");
+                _modelSelectorBtn.Tooltip("Model locked");
+            }
+            else
+            {
+                _modelSelectorBtn.Render().classList.remove("tss-omnibox-model-selector-locked");
+            }
+        }
+
+        private void ShowModelPopover()
+        {
+            if (_modelSelectorBtn == null) return;
+            if (_isModelLocked) return;
+            if (_models == null || _models.Count == 0) return;
+
+            if (_hideModelPopover != null)
+            {
+                _hideModelPopover();
+                _hideModelPopover = null;
+                return;
+            }
+
+            var content = VStack().NoDefaultMargin().Class("tss-omnibox-model-selector-popover").MinWidth(220.px()).MaxHeight(500.px()).ScrollY();
+
+            content.Add(TextBlock("Models").Small().SemiBold().Class("tss-omnibox-model-selector-header"));
+
+            foreach (var model in _models)
+            {
+                var captured = model;
+                var isSelected = ReferenceEquals(captured, _selectedModel);
+
+                var row = HStack().WS().AlignItemsCenter().Class("tss-omnibox-model-selector-item");
+                row.Add(TextBlock(captured.Name).Class("tss-omnibox-model-selector-item-name"));
+                if (!string.IsNullOrEmpty(captured.Description))
+                {
+                    row.Add(TextBlock(captured.Description).Small().Secondary().ML(6));
+                }
+                row.Add(Raw(Div(_("tss-omnibox-model-selector-spacer"))));
+                if (isSelected) row.Add(Icon(UIcons.Check).Class("tss-omnibox-model-selector-check"));
+
+                var btn = Button().Class("tss-omnibox-model-selector-row").WS().NoPadding().NoMinSize().NoBorder().NoBackground().TextLeft();
+                btn.ReplaceContent(row);
+                btn.OnClick(() =>
+                {
+                    _selectedModel = captured;
+                    UpdateModelSelectorButton();
+                    ModelChanged?.Invoke(this, _selectedModel, _selectedEffort);
+                    if (_hideModelPopover != null)
+                    {
+                        _hideModelPopover();
+                        _hideModelPopover = null;
+                    }
+                });
+                content.Add(btn);
+            }
+
+            content.Add(Raw(Div(_("tss-omnibox-model-selector-divider"))));
+            content.Add(TextBlock("Thinking Effort").Small().SemiBold().Class("tss-omnibox-model-selector-header"));
+
+            foreach (ThinkingEffort effort in new[] { ThinkingEffort.Disable, ThinkingEffort.Low, ThinkingEffort.Medium, ThinkingEffort.High })
+            {
+                var captured = effort;
+                var isSelected = captured == _selectedEffort;
+
+                var row = HStack().WS().AlignItemsCenter().Class("tss-omnibox-model-selector-item");
+                row.Add(TextBlock(FormatEffort(captured)).Class("tss-omnibox-model-selector-item-name"));
+                row.Add(Raw(Div(_("tss-omnibox-model-selector-spacer"))));
+                if (isSelected) row.Add(Icon(UIcons.Check).Class("tss-omnibox-model-selector-check"));
+
+                var btn = Button().Class("tss-omnibox-model-selector-row").WS().NoPadding().NoMinSize().NoBorder().NoBackground().TextLeft();
+                btn.ReplaceContent(row);
+                btn.OnClick(() =>
+                {
+                    _selectedEffort = captured;
+                    UpdateModelSelectorButton();
+                    ModelChanged?.Invoke(this, _selectedModel, _selectedEffort);
+                    if (_hideModelPopover != null)
+                    {
+                        _hideModelPopover();
+                        _hideModelPopover = null;
+                    }
+                });
+                content.Add(btn);
+            }
+
+            Tippy.ShowFor(_modelSelectorBtn, content, out _hideModelPopover, placement: TooltipPlacement.TopEnd, maxWidth: 400, onHiddenCallback: () => _hideModelPopover = null);
+        }
+
         public bool IsGenerating
         {
             get => _isGenerating;
@@ -1228,6 +1455,124 @@ namespace Tesserae
             _highlightedSuggestionIndex = (_highlightedSuggestionIndex + offset + _currentSuggestionButtons.Count) % _currentSuggestionButtons.Count;
 
             _currentSuggestionButtons[_highlightedSuggestionIndex].Class("tss-omnibox-suggestion-highlight");
+        }
+
+        /// <summary>
+        /// Registers a global keyboard shortcut that focuses the OmniBox search input when pressed,
+        /// and renders a visual chip showing the shortcut on the right side of the search box.
+        /// In SearchAndChat mode, pressing the shortcut also switches the active mode to Search.
+        /// Modifier names are case-insensitive ("Ctrl", "Cmd", "Meta", "Alt", "Shift").
+        /// Example: <c>SetKeyboardShortcut("Ctrl", "K")</c>.
+        /// </summary>
+        public OmniBox SetKeyboardShortcut(params string[] keys)
+        {
+            if (_mode != Mode.Search && _mode != Mode.SearchAndChat)
+            {
+                throw new InvalidOperationException("SetKeyboardShortcut can only be called when OmniBox is in Search or SearchAndChat mode.");
+            }
+
+            if (_globalShortcutHandler is object)
+            {
+                window.removeEventListener("keydown", _globalShortcutHandler);
+                _globalShortcutHandler = null;
+            }
+
+            while (_searchShortcutContainer.firstChild is object)
+            {
+                _searchShortcutContainer.removeChild(_searchShortcutContainer.firstChild);
+            }
+
+            if (keys is null || keys.Length == 0)
+            {
+                _shortcutKeys = null;
+                _container.classList.remove("tss-omnibox-has-shortcut");
+                return this;
+            }
+
+            _shortcutKeys = keys;
+            _searchShortcutContainer.appendChild(KeyboardShortcut(keys).Render());
+            _container.classList.add("tss-omnibox-has-shortcut");
+
+            _globalShortcutHandler = ev =>
+            {
+                if (!_container.IsMounted()) return;
+                if (!IsEnabled) return;
+
+                var e = ev.As<KeyboardEvent>();
+                if (!MatchesShortcut(e, _shortcutKeys)) return;
+
+                StopEvent(e);
+                if (_mode == Mode.SearchAndChat && _activeMode.Value != Mode.Search)
+                {
+                    _modeToggle.Select(Mode.Search);
+                }
+                _searchInput.focus();
+                _searchInput.select();
+            };
+
+            window.addEventListener("keydown", _globalShortcutHandler);
+            return this;
+        }
+
+        private static bool MatchesShortcut(KeyboardEvent e, string[] keys)
+        {
+            bool needCtrl  = false;
+            bool needAlt   = false;
+            bool needShift = false;
+            bool needMeta  = false;
+            string mainKey = null;
+
+            foreach (var raw in keys)
+            {
+                if (raw is null) continue;
+                var k = raw.Trim();
+                switch (k)
+                {
+                    case "Ctrl":
+                    case "ctrl":
+                    case "Control":
+                        needCtrl = true;
+                        break;
+                    case "Alt":
+                    case "alt":
+                        needAlt = true;
+                        break;
+                    case "Shift":
+                    case "shift":
+                        needShift = true;
+                        break;
+                    case "Meta":
+                    case "meta":
+                    case "Cmd":
+                    case "cmd":
+                        needMeta = true;
+                        break;
+                    default:
+                        mainKey = k;
+                        break;
+                }
+            }
+
+            // On macOS, treat "Ctrl" in the shortcut as either Ctrl or Cmd so a single
+            // declaration like ("Ctrl", "K") renders ⌘K and triggers on Cmd+K.
+            bool isApple = navigator.userAgent.IndexOf("Mac") >= 0 || navigator.userAgent.IndexOf("iPhone") >= 0 || navigator.userAgent.IndexOf("iPad") >= 0;
+
+            if (needCtrl && !needMeta && isApple)
+            {
+                if (!e.metaKey && !e.ctrlKey) return false;
+            }
+            else
+            {
+                if (needCtrl != e.ctrlKey) return false;
+                if (needMeta != e.metaKey) return false;
+            }
+
+            if (needAlt   != e.altKey)   return false;
+            if (needShift != e.shiftKey) return false;
+
+            if (mainKey is null) return false;
+
+            return string.Equals(e.key, mainKey, StringComparison.OrdinalIgnoreCase);
         }
 
         public OmniBox SetSearchRightText(string text)

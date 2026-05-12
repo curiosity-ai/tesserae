@@ -87,12 +87,9 @@ namespace Tesserae.Tests
 
             sidebar.AddHeader(new SidebarText("header", "Tesserae", "TSS", textSize: TextSize.XLarge, textWeight: TextWeight.Bold));
 
-            if (!Theme.IsMobile)
-            {
-                var searchBox = new SidebarSearchBox("search", "Search...");
-                searchBox.OnSearch((term) => sidebar.Search(term));
-                sidebar.AddHeader(searchBox);
-            }
+            var searchBox = new SidebarSearchBox("search", "Search...");
+            searchBox.OnSearch((term) => sidebar.Search(term));
+            sidebar.AddHeader(searchBox);
 
             var contentArea = DeferSync(currentPage, page => page is null
                 ? (IComponent)CenteredCardWithBackground(Message("Welcome to Tesserae", "Select a component to see more details").Icon(UIcons.Search))
