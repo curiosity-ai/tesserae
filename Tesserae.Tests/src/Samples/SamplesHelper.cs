@@ -9,13 +9,13 @@ namespace Tesserae.Tests.Samples
         public static SectionStack SampleTitle(this SectionStack stack, Type sampleType, UIcons icon, string subtitle)
         {
             var text = Sample.FormatSampleName(sampleType);
-            return stack.Title(SectionTitle(icon, text, subtitle, Button("Documentation").SetIcon(UIcons.Books).OnClick(() => window.location.href = "https://docs.curiosity.ai/tesserae/"), Button("View Code").SetIcon(UIcons.SquareTerminal).Tooltip("View source-code for this sample page").OnClick(() => ShowSampleCode(sampleType.Name))).NoWrap());
+            return stack.Title(icon, text, subtitle, Button("Documentation").SetIcon(UIcons.Books).OnClick(() => window.location.href = "https://docs.curiosity.ai/tesserae/"), Button("View Code").SetIcon(UIcons.SquareTerminal).Tooltip("View source-code for this sample page").OnClick(() => ShowSampleCode(sampleType.Name)));
         }
 
         public static SectionStack SampleTitle(this SectionStack stack, string sampleType, UIcons icon, string subtitle)
         {
             var text = Sample.FormatSampleName(sampleType);
-            return stack.Title(SectionTitle(icon, text, subtitle, Button("Documentation").SetIcon(UIcons.Books).OnClick(() => window.location.href = "https://docs.curiosity.ai/tesserae/"), Button("View Code").SetIcon(UIcons.SquareTerminal).Tooltip("View source-code for this sample page").OnClick(() => ShowSampleCode(sampleType))).NoWrap());
+            return stack.Title(icon, text, subtitle, Button("Documentation").SetIcon(UIcons.Books).OnClick(() => window.location.href = "https://docs.curiosity.ai/tesserae/"), Button("View Code").SetIcon(UIcons.SquareTerminal).Tooltip("View source-code for this sample page").OnClick(() => ShowSampleCode(sampleType)));
         }
 
         public static void ShowSampleCode(string sampleType)

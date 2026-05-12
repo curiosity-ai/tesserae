@@ -7,14 +7,12 @@ namespace Tesserae
     [H5.Name("tss.SectionTitle")]
     public class SectionTitle : IComponent, IHasMarginPadding
     {
-        private readonly Stack     _stack;
-        private readonly TextBlock _titleBlock;
+        private readonly Stack _stack;
 
         public SectionTitle(UIcons icon, string title, string subtitle, params IComponent[] commands)
         {
             var iconComponent = Icon(icon, size: TextSize.Large).Class("tss-sectiontitle-icon");
-            var titleBlock    = TextBlock(title).MediumPlus().Bold().Class("tss-sectiontitle-title");
-            _titleBlock       = titleBlock;
+            var titleBlock    = TextBlock(title).MediumPlus().Bold().NoWrap().Class("tss-sectiontitle-title");
 
             var subtitleBlock = TextBlock(subtitle).WS().SmallPlus().Foreground(Theme.Secondary.Foreground).Class("tss-sectiontitle-subtitle");
 
@@ -48,12 +46,5 @@ namespace Tesserae
         }
 
         public HTMLElement Render() => _stack.Render();
-
-        /// <summary>Disables wrapping on the title TextBlock.</summary>
-        public SectionTitle NoWrap()
-        {
-            _titleBlock.NoWrap();
-            return this;
-        }
     }
 }
