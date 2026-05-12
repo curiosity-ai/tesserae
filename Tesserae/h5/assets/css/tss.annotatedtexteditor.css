@@ -71,16 +71,19 @@
     z-index: 1;
 }
 
-/* Hide the highlights' own scrollbar — its scroll position is synced from the
-   textarea via JS. The scrollbar-gutter rule still reserves the space so
-   wrapping stays aligned with the textarea. */
-.tss-annotated-text-highlights::-webkit-scrollbar {
-    width: 0;
-    height: 0;
+/* The highlights' own scrollbar must reserve the same width as the textarea's
+   so wrap columns match, but the scrollbar itself should be invisible — its
+   scroll position is JS-synced from the textarea and the textarea (z-index: 2)
+   paints its own scrollbar on top. */
+.tss-annotated-text-highlights {
+    scrollbar-color: transparent transparent;
 }
 
-.tss-annotated-text-highlights {
-    scrollbar-width: none;
+.tss-annotated-text-highlights::-webkit-scrollbar,
+.tss-annotated-text-highlights::-webkit-scrollbar-thumb,
+.tss-annotated-text-highlights::-webkit-scrollbar-track,
+.tss-annotated-text-highlights::-webkit-scrollbar-corner {
+    background: transparent;
 }
 
 .tss-annotated-text-input {
@@ -106,8 +109,9 @@
     color: transparent !important;
     border-radius: 4px;
     outline: 1px solid var(--tss-colors-blue-500);
-    outline-offset: -1px;
+    outline-offset: 0;
     background-color: var(--tss-colors-blue-100);
+    padding: 2px 0;
 }
 
 .tss-dark-mode .tss-annotated-text-entity {

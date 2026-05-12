@@ -64,6 +64,16 @@ Claude and GPT-4 are large language models. Jules built a demo using Tesserae fo
                     Toast().Information($"Clicked entity: \"{s.Text.Substring(entity.Start, entity.Length)}\" ({entity.Label})");
                 });
 
+            var allTokensEditor = AnnotatedTextEditor(
+                    annotator: AnnotateAllTokensAsync,
+                    initialText: SampleText,
+                    debounceMs: 500)
+               .MinHeight(120.px())
+               .OnEntityClick((s, entity, e) =>
+                {
+                    Toast().Information($"Token: \"{s.Text.Substring(entity.Start, entity.Length)}\" ({entity.Label})");
+                });
+
             var readOnlyEditor = AnnotatedTextEditor(
                     annotator: AnnotateAsync,
                     initialText: "In 2025, Alice and Bob visited Munich to demo Tesserae for Curiosity GmbH.",
@@ -87,6 +97,9 @@ Claude and GPT-4 are large language models. Jules built a demo using Tesserae fo
                         SampleSubTitle("Multi-line, editable, with entity highlighting"),
                         entityCountLabel.MB(8),
                         editor.WS(),
+                        SampleSubTitle("Every token annotated, matched ones colored").MT(16),
+                        TextBlock("Every word is wrapped in a gray pill, and the vocabulary matches override the gray with their typed color.").Small().Foreground(Theme.Secondary.Foreground).MB(8),
+                        allTokensEditor.WS(),
                         SampleSubTitle("Read-only with clickable entities").MT(16),
                         TextBlock("Text cannot be edited, but entities still react to clicks.").Small().Foreground(Theme.Secondary.Foreground).MB(8),
                         readOnlyEditor.WS()
@@ -125,6 +138,53 @@ Claude and GPT-4 are large language models. Jules built a demo using Tesserae fo
             }
 
             return found.OrderBy(e => e.Start).ToArray();
+        }
+
+        private static async Task<AnnotatedTextEditor.Entity[]> AnnotateAllTokensAsync(string text)
+        {
+            var colored = await AnnotateAsync(text);
+
+            if (string.IsNullOrEmpty(text)) return colored;
+
+            var all = new List<AnnotatedTextEditor.Entity>(colored);
+
+            int i = 0;
+            while (i < text.Length)
+            {
+                if (char.IsWhiteSpace(text[i]))
+                {
+                    i++;
+                    continue;
+                }
+
+                int start = i;
+
+                if (char.IsLetterOrDigit(text[i]))
+                {
+                    while (i < text.Length && char.IsLetterOrDigit(text[i])) i++;
+                }
+                else
+                {
+                    // Punctuation / symbol — emit as its own single-char token.
+                    i++;
+                }
+
+                int end = i;
+
+                bool overlapsColored = colored.Any(e => start < e.End && end > e.Start);
+                if (!overlapsColored)
+                {
+                    all.Add(new AnnotatedTextEditor.Entity(
+                        start,
+                        end - start,
+                        "TOKEN",
+                        "var(--tss-colors-neutral-200)",
+                        "var(--tss-colors-neutral-900)",
+                        "var(--tss-colors-neutral-500)"));
+                }
+            }
+
+            return all.OrderBy(e => e.Start).ToArray();
         }
 
         public HTMLElement Render() => _content.Render();
