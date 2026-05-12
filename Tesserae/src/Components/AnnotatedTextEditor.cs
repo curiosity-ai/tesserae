@@ -205,7 +205,7 @@ namespace Tesserae
 
         public HTMLElement Render() => _container;
 
-        private void TriggerAnnotate()
+        public void TriggerAnnotate()
         {
             if (_annotator == null) return;
 
