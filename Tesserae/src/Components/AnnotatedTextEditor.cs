@@ -244,42 +244,47 @@ namespace Tesserae
             if (_currentEntities == null || _currentEntities.Length == 0)
             {
                 _highlights.appendChild(document.createTextNode(text));
-                return;
             }
-
-            var sorted = _currentEntities
-                .Where(e => e != null && e.Length > 0 && e.Start >= 0 && e.Start < text.Length)
-                .OrderBy(e => e.Start)
-                .ToArray();
-
-            int cursor = 0;
-            foreach (var entity in sorted)
+            else
             {
-                if (entity.Start < cursor) continue; // caller guarantees no overlap, but be safe
+                var sorted = _currentEntities
+                    .Where(e => e != null && e.Length > 0 && e.Start >= 0 && e.Start < text.Length)
+                    .OrderBy(e => e.Start)
+                    .ToArray();
 
-                if (entity.Start > cursor)
+                int cursor = 0;
+                foreach (var entity in sorted)
                 {
-                    _highlights.appendChild(document.createTextNode(text.Substring(cursor, entity.Start - cursor)));
+                    if (entity.Start < cursor) continue; // caller guarantees no overlap, but be safe
+
+                    if (entity.Start > cursor)
+                    {
+                        _highlights.appendChild(document.createTextNode(text.Substring(cursor, entity.Start - cursor)));
+                    }
+
+                    var end = Math.Min(text.Length, entity.End);
+                    var entityText = text.Substring(entity.Start, end - entity.Start);
+
+                    var span = Span(_("tss-annotated-text-entity"));
+                    if (!string.IsNullOrEmpty(entity.Background)) span.style.backgroundColor = entity.Background;
+                    if (!string.IsNullOrEmpty(entity.Border))     span.style.outlineColor    = entity.Border;
+                    span.appendChild(document.createTextNode(entityText));
+
+                    _highlights.appendChild(span);
+                    _entitySpans.Add(span);
+
+                    cursor = end;
                 }
 
-                var end = Math.Min(text.Length, entity.End);
-                var entityText = text.Substring(entity.Start, end - entity.Start);
-
-                var span = Span(_("tss-annotated-text-entity"));
-                if (!string.IsNullOrEmpty(entity.Background)) span.style.backgroundColor = entity.Background;
-                if (!string.IsNullOrEmpty(entity.Border))     span.style.outlineColor    = entity.Border;
-                span.appendChild(document.createTextNode(entityText));
-
-                _highlights.appendChild(span);
-                _entitySpans.Add(span);
-
-                cursor = end;
+                if (cursor < text.Length)
+                {
+                    _highlights.appendChild(document.createTextNode(text.Substring(cursor)));
+                }
             }
 
-            if (cursor < text.Length)
-            {
-                _highlights.appendChild(document.createTextNode(text.Substring(cursor)));
-            }
+            // Match the textarea's trailing-line reserve so scrollHeight matches
+            // and scrollTop sync at the bottom does not under-scroll the overlay.
+            _highlights.appendChild(document.createTextNode("\n"));
         }
 
         private void HandleHoverMove(MouseEvent e)
