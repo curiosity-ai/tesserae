@@ -12,7 +12,7 @@ namespace Tesserae
         public SectionTitle(UIcons icon, string title, string subtitle, params IComponent[] commands)
         {
             var iconComponent = Icon(icon, size: TextSize.Large).Class("tss-sectiontitle-icon");
-            var titleBlock    = TextBlock(title).MediumPlus().Bold().Class("tss-sectiontitle-title");
+            var titleBlock    = TextBlock(title).MediumPlus().Bold().NoWrap().Class("tss-sectiontitle-title");
 
             var subtitleBlock = TextBlock(subtitle).WS().SmallPlus().Foreground(Theme.Secondary.Foreground).Class("tss-sectiontitle-subtitle");
 
