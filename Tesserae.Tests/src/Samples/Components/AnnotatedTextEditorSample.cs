@@ -25,6 +25,7 @@ namespace Tesserae.Tests.Samples
             ("Claude",             "PRODUCT", "var(--tss-colors-blue-100)",   "var(--tss-colors-blue-900)",   "var(--tss-colors-blue-500)"),
             ("GPT-4",              "PRODUCT", "var(--tss-colors-blue-100)",   "var(--tss-colors-blue-900)",   "var(--tss-colors-blue-500)"),
             ("Berlin",             "GPE",     "var(--tss-colors-green-100)",  "var(--tss-colors-green-900)",  "var(--tss-colors-green-500)"),
+            ("Munich",             "GPE",     "var(--tss-colors-green-100)",  "var(--tss-colors-green-900)",  "var(--tss-colors-green-500)"),
             ("San Francisco",      "GPE",     "var(--tss-colors-green-100)",  "var(--tss-colors-green-900)",  "var(--tss-colors-green-500)"),
             ("Germany",            "GPE",     "var(--tss-colors-green-100)",  "var(--tss-colors-green-900)",  "var(--tss-colors-green-500)"),
             ("Europe",             "GPE",     "var(--tss-colors-green-100)",  "var(--tss-colors-green-900)",  "var(--tss-colors-green-500)"),
@@ -40,7 +41,7 @@ namespace Tesserae.Tests.Samples
         };
 
         private const string SampleText =
-@"Curiosity GmbH, based in Berlin, Germany, is the company behind Tesserae.
+@"Curiosity GmbH, based in Munich, Germany, is the company behind Tesserae.
 In January 2026, Alice and Bob met in San Francisco to discuss a $1.5 billion partnership between Anthropic and OpenAI.
 Claude and GPT-4 are large language models. Jules built a demo using Tesserae for Microsoft in 2025.";
 
@@ -62,10 +63,10 @@ Claude and GPT-4 are large language models. Jules built a demo using Tesserae fo
                 {
                     Toast().Information($"Clicked entity: \"{s.Text.Substring(entity.Start, entity.Length)}\" ({entity.Label})");
                 });
-
+            
             var readOnlyEditor = AnnotatedTextEditor(
                 annotator:   AnnotateAsync,
-                initialText: "In 2025, Alice and Bob visited Berlin to demo Tesserae for Curiosity GmbH.",
+                initialText: "In 2025, Alice and Bob visited Munich to demo Tesserae for Curiosity GmbH.",
                 debounceMs:  500)
                 .MinHeight(60.px())
                 .ReadOnly()
