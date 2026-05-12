@@ -13,7 +13,7 @@ namespace Tesserae.Tests.Samples
 
         public SaveButtonSample()
         {
-            var saveButton = SaveButton().Pending().OnClick(async () => {
+            var saveButton = SaveButton().Pending().OnClickSpinWhile(async () => {
                 // Demo logic inside the click
             });
 
@@ -42,7 +42,7 @@ namespace Tesserae.Tests.Samples
 
                     SampleSubTitle("Live Demo"),
                     TextBlock("Click the button below to simulate a save operation."),
-                    saveButton.OnClick(async () => {
+                    saveButton.OnClickSpinWhile(async () => {
                         saveButton.Verifying();
                         await Task.Delay(1000);
                         saveButton.Saving();
@@ -74,7 +74,7 @@ namespace Tesserae.Tests.Samples
         private IComponent GetVerifyingWhileButton()
         {
             var btn = SaveButton().Pending();
-            btn.OnClick(async () => {
+            btn.OnClickSpinWhile(async () => {
                 await btn.VerifyingWhile(async () => {
                     await Task.Delay(2000);
                     return SaveButton.State.PendingSave;

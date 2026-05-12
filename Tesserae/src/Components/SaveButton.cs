@@ -145,10 +145,10 @@ namespace Tesserae
             return this;
         }
         
-        public SaveButton OnClick(Func<Task> actionAsync)
+        public SaveButton OnClickSpinWhile(Func<Task> actionAsync)
         {
             if (_state != State.PendingSave) return this;
-            _button.OnClick(() => actionAsync().FireAndForget());
+            _button.OnClickSpinWhile(actionAsync);
             return this;
         }
 
