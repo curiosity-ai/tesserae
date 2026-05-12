@@ -208,9 +208,15 @@ namespace Tesserae
                     Button().Class("tss-navbar-mobile-close").SetIcon(UIcons.Cross).OnClick(() => _closed.Value = true)
                 );
 
+                // In navbar/mobile mode, search boxes belong inside the drawer so users can
+                // search the sample list from the hamburger menu instead of the top bar.
+                var topBarHeader  = header.Where(si => !(si is SidebarSearchBox)).ToList();
+                var drawerHeader  = header.Where(si =>   si is SidebarSearchBox ).ToList();
+
                 var drawer = VStack().Class("tss-navbar-drawer")
                    .Children(
                         mobileHeader,
+                        VStack().Class("tss-sidebar-header tss-navbar-drawer-header").WS().NoShrink().Children(drawerHeader.Select(si => si.RenderOpen())),
                         stackMiddle.Class("tss-sidebar-middle").WS().MinHeight(new UnitSize("fit-content")).MaxHeight(80.vh()).ScrollY().Children(middle.Select(si => AttachNavbarClose(si.RenderOpen()))),
                         VStack().Class("tss-sidebar-footer").WS().NoShrink().Children(footer.Select(si => AttachNavbarClose(si.RenderOpen())))
                     );
@@ -225,7 +231,7 @@ namespace Tesserae
                 }
 
                 _sidebar.Children(
-                    HStack().Class("tss-sidebar-header").W(10).Grow().NoShrink().Children(header.Select(si => si.RenderOpen())),
+                    HStack().Class("tss-sidebar-header").W(10).Grow().NoShrink().Children(topBarHeader.Select(si => si.RenderOpen())),
                     Stack().Grow(),
                     hamburger,
                     drawer
