@@ -1,0 +1,280 @@
+/* ToolCall — inline accordion-like tool call indicator */
+
+.tss-toolcall {
+    display: inline-flex;
+    flex-direction: column;
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: 8px;
+    background: var(--tss-default-background-color);
+    overflow: hidden;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.tss-toolcall-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 10px;
+    cursor: pointer;
+    user-select: none;
+    font-size: 13px;
+    color: var(--tss-colors-neutral-700, #374151);
+}
+
+.tss-toolcall-header:hover {
+    background: var(--tss-default-background-hover-color);
+}
+
+.tss-toolcall-header.tss-toolcall-not-expandable {
+    cursor: default;
+}
+
+.tss-toolcall-header.tss-toolcall-not-expandable:hover {
+    background: transparent;
+}
+
+.tss-toolcall-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    background: var(--tss-colors-neutral-100, #f3f4f6);
+    color: var(--tss-colors-neutral-700, #374151);
+    flex-shrink: 0;
+    font-size: 13px;
+}
+
+.tss-toolcall-text {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-family: var(--tss-monospace-font-family, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace);
+    font-size: 12px;
+}
+
+.tss-toolcall-chevron {
+    transition: transform 200ms ease;
+    font-size: 12px;
+    color: var(--tss-colors-neutral-500, #6b7280);
+    flex-shrink: 0;
+}
+
+.tss-toolcall.tss-expanded .tss-toolcall-chevron {
+    transform: rotate(180deg);
+}
+
+.tss-toolcall-content {
+    border-top: 1px solid var(--tss-default-border-color);
+    padding: 10px 12px;
+    background: var(--tss-default-background-color);
+}
+
+/* ToolsUsed — clickable summary that opens a list/detail modal */
+
+.tss-toolsused {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--tss-default-border-color);
+    background: var(--tss-default-background-color);
+    cursor: pointer;
+    user-select: none;
+    color: var(--tss-colors-neutral-800, #1f2937);
+    font-size: 13px;
+}
+
+.tss-toolsused:hover {
+    background: var(--tss-default-background-hover-color);
+}
+
+.tss-toolsused-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--tss-colors-neutral-100, #f3f4f6);
+    color: var(--tss-colors-neutral-700, #374151);
+    flex-shrink: 0;
+    font-size: 13px;
+}
+
+.tss-toolsused-text {
+    flex: 1;
+    font-weight: var(--tss-font-weight-medium, 500);
+}
+
+.tss-toolsused-chevron {
+    color: var(--tss-colors-neutral-500, #6b7280);
+    font-size: 12px;
+}
+
+/* ToolsUsed modal layout */
+
+.tss-toolsused-modal .tss-modal-content {
+    padding: 0;
+    overflow: hidden;
+    min-width: 380px;
+    max-width: 90vw;
+    width: 480px;
+    box-sizing: border-box;
+}
+
+.tss-toolsused-modal-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    min-width: 0;
+}
+
+.tss-toolsused-back {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    padding: 0;
+    color: var(--tss-colors-neutral-700, #374151);
+}
+
+.tss-toolsused-back:hover {
+    background: var(--tss-default-background-hover-color);
+}
+
+.tss-toolsused-modal-detail-icon {
+    width: 26px;
+    height: 26px;
+    border-radius: 6px;
+    background: var(--tss-colors-neutral-100, #f3f4f6);
+    color: var(--tss-colors-neutral-700, #374151);
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 13px;
+}
+
+.tss-toolsused-modal-title,
+.tss-toolsused-modal-detail-title {
+    font-weight: var(--tss-font-weight-semibold, 600);
+    font-size: 15px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex: 1;
+    min-width: 0;
+}
+
+.tss-toolsused-modal-detail-title {
+    font-family: var(--tss-monospace-font-family, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace);
+    font-weight: var(--tss-font-weight-medium, 500);
+}
+
+.tss-toolsused-modal-body {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 60vh;
+    max-height: 480px;
+}
+
+.tss-toolsused-modal-slider {
+    display: flex;
+    width: 200%;
+    height: 100%;
+    transform: translateX(0);
+    transition: transform 250ms ease;
+}
+
+.tss-toolsused-modal-slider.tss-toolsused-no-anim {
+    transition: none;
+}
+
+.tss-toolsused-modal-slider.tss-toolsused-show-detail {
+    transform: translateX(-50%);
+}
+
+.tss-toolsused-modal-panel {
+    width: 50%;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    box-sizing: border-box;
+    flex-shrink: 0;
+}
+
+.tss-toolsused-modal-list {
+    padding: 8px 0;
+}
+
+.tss-toolsused-list-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    cursor: pointer;
+    user-select: none;
+    border-bottom: 1px solid var(--tss-default-border-color);
+}
+
+.tss-toolsused-list-row:last-child {
+    border-bottom: none;
+}
+
+.tss-toolsused-list-row:hover {
+    background: var(--tss-default-background-hover-color);
+}
+
+.tss-toolsused-list-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    background: var(--tss-colors-neutral-100, #f3f4f6);
+    color: var(--tss-colors-neutral-700, #374151);
+    flex-shrink: 0;
+    font-size: 13px;
+}
+
+.tss-toolsused-list-text {
+    flex: 1;
+    font-family: var(--tss-monospace-font-family, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace);
+    font-size: 13px;
+    color: var(--tss-colors-neutral-800, #1f2937);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.tss-toolsused-list-chevron {
+    color: var(--tss-colors-neutral-400, #9ca3af);
+    font-size: 12px;
+}
+
+.tss-toolsused-modal-detail {
+    padding: 16px;
+}
+
+.tss-toolsused-modal-detail-content {
+    height: 100%;
+    overflow: auto;
+}
+
+.tss-toolsused-empty {
+    color: var(--tss-colors-neutral-500, #6b7280);
+    font-style: italic;
+    padding: 12px;
+}
