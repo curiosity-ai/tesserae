@@ -36,6 +36,7 @@ namespace Tesserae
 
         private readonly HTMLDivElement      _container;
         private readonly HTMLDivElement      _highlights;
+        private readonly HTMLDivElement      _highlightsContent;
         private readonly HTMLTextAreaElement _textarea;
         private readonly HTMLDivElement      _hoverTag;
 
@@ -59,7 +60,8 @@ namespace Tesserae
             _annotator  = annotator;
             _debounceMs = debounceMs;
 
-            _highlights = Div(_("tss-annotated-text-highlights"));
+            _highlightsContent = Div(_("tss-annotated-text-highlights-content"));
+            _highlights        = Div(_("tss-annotated-text-highlights"), _highlightsContent);
             _textarea   = TextArea(_("tss-annotated-text-input", placeholder: placeholder ?? ""));
             _textarea.spellcheck = false;
 
@@ -79,8 +81,7 @@ namespace Tesserae
 
             _textarea.addEventListener("scroll", (e) =>
             {
-                _highlights.scrollTop  = _textarea.scrollTop;
-                _highlights.scrollLeft = _textarea.scrollLeft;
+                SyncHighlightsScroll();
                 HideHoverTag();
             });
 
@@ -236,14 +237,14 @@ namespace Tesserae
 
         private void RenderHighlights()
         {
-            _highlights.innerHTML = "";
+            _highlightsContent.innerHTML = "";
             _entitySpans.Clear();
 
             var text = _textarea.value ?? string.Empty;
 
             if (_currentEntities == null || _currentEntities.Length == 0)
             {
-                _highlights.appendChild(document.createTextNode(text));
+                _highlightsContent.appendChild(document.createTextNode(text));
             }
             else
             {
@@ -259,7 +260,7 @@ namespace Tesserae
 
                     if (entity.Start > cursor)
                     {
-                        _highlights.appendChild(document.createTextNode(text.Substring(cursor, entity.Start - cursor)));
+                        _highlightsContent.appendChild(document.createTextNode(text.Substring(cursor, entity.Start - cursor)));
                     }
 
                     var end = Math.Min(text.Length, entity.End);
@@ -270,7 +271,7 @@ namespace Tesserae
                     if (!string.IsNullOrEmpty(entity.Border))     span.style.outlineColor    = entity.Border;
                     span.appendChild(document.createTextNode(entityText));
 
-                    _highlights.appendChild(span);
+                    _highlightsContent.appendChild(span);
                     _entitySpans.Add(span);
 
                     cursor = end;
@@ -278,13 +279,25 @@ namespace Tesserae
 
                 if (cursor < text.Length)
                 {
-                    _highlights.appendChild(document.createTextNode(text.Substring(cursor)));
+                    _highlightsContent.appendChild(document.createTextNode(text.Substring(cursor)));
                 }
             }
 
-            // Match the textarea's trailing-line reserve so scrollHeight matches
-            // and scrollTop sync at the bottom does not under-scroll the overlay.
-            _highlights.appendChild(document.createTextNode("\n"));
+            SyncHighlightsScroll();
+        }
+
+        private void SyncHighlightsScroll()
+        {
+            // Translate the inner content instead of setting scrollTop on the
+            // highlights div. scrollTop sync is fragile: any mismatch in
+            // scrollHeight between the textarea (which reserves a trailing
+            // caret line) and the highlights div causes the browser to clamp
+            // the assignment, so the overlay drifts behind during fast/inertial
+            // (macOS touchpad) scrolling. Transform is paint-only and never
+            // clamped, so the overlay always tracks the textarea exactly.
+            var x = -_textarea.scrollLeft;
+            var y = -_textarea.scrollTop;
+            _highlightsContent.style.transform = "translate(" + x + "px, " + y + "px)";
         }
 
         private void HandleHoverMove(MouseEvent e)

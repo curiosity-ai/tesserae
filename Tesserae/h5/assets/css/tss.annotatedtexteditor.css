@@ -86,6 +86,15 @@
     background: transparent;
 }
 
+/* Inner wrapper around the entity/text nodes. We translate this element to
+   match the textarea's scroll position instead of setting scrollTop on the
+   outer highlights div — transform is paint-only and never clamped, so the
+   overlay always tracks the textarea exactly during fast / inertial scrolling
+   (macOS touchpad). */
+.tss-annotated-text-highlights-content {
+    will-change: transform;
+}
+
 .tss-annotated-text-input {
     position: relative;
     background: transparent;
