@@ -77,6 +77,26 @@ namespace Tesserae.Tests.Samples
             chatArea.Add(ChatMessage(TextBlock("Hello there!"), Avatar(null, "U")).RightAligned().MaxWidth());
             chatArea.Add(ChatMessage(TextBlock("Hi! How can I help you today?"), Avatar(null, "AI")).MaxWidth());
 
+            // Demonstrate an AI message that uses a single tool inline via ToolCall.
+            chatArea.Add(ChatMessage(VStack().WS().Children(
+                ToolCall(UIcons.Eye, "Read /home/user/project/src/App.tsx", () => TextBlock("import React from 'react';\n\nexport default function App() {\n    return <div>Hello</div>;\n}").BreakSpaces()),
+                TextBlock("I just read App.tsx — it's a minimal React component. Want me to add routing?").PT(8)
+            ), Avatar(null, "AI")).MaxWidth());
+
+            // Demonstrate an AI message that used many tools, summarized via ToolsUsed.
+            chatArea.Add(ChatMessage(VStack().WS().Children(
+                ToolsUsed(
+                    ToolCall(UIcons.Terminal, "Bash ls -la && git status",                       () => TextBlock("On branch main\nnothing to commit, working tree clean").BreakSpaces()),
+                    ToolCall(UIcons.Eye,      "Read /home/user/project/README.md",              () => TextBlock("# Project\n\nA sample app.").BreakSpaces()),
+                    ToolCall(UIcons.Search,   "Grep \"TODO\" src/",                              () => TextBlock("src/App.tsx:14: // TODO: add routing").BreakSpaces()),
+                    ToolCall(UIcons.Terminal, "Bash dotnet build",                                () => TextBlock("Build succeeded.\n    0 Warning(s)\n    0 Error(s)").BreakSpaces()),
+                    ToolCall(UIcons.Eye,      "Read /home/user/project/src/index.tsx",          () => TextBlock("import { createRoot } from 'react-dom/client';\n...").BreakSpaces()),
+                    ToolCall(UIcons.Tools,    "ToolSearch routing",                              () => TextBlock("Found: react-router-dom v6")),
+                    ToolCall(UIcons.ListCheck, "Update todos").NotExpandable()
+                ).SetSummary("Ran 4 commands, read 2 files, used a tool"),
+                TextBlock("I scanned the project, ran the build, and looked at routing options. Here's what I found:").PT(8)
+            ), Avatar(null, "AI")).MaxWidth());
+
             input = OmniBox(new OmniBox.Config(OmniBox.Mode.Chat)
             {
                 PlaceholderChat = "Ask anything...",
