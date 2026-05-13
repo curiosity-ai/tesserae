@@ -103,6 +103,11 @@
     outline: none;
     resize: vertical;
     z-index: 2;
+    /* Disable macOS touchpad rubber-band past the boundary — when scrollTop
+       is already at max, no `scroll` event fires during inertial overscroll,
+       which would otherwise let the visible text drift past the (synced)
+       highlights overlay. */
+    overscroll-behavior: none;
 }
 
 .tss-annotated-text-input::placeholder {
