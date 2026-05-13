@@ -761,6 +761,25 @@ namespace Tesserae
         public static ChatMessage ChatMessage(IComponent content, IComponent avatar = null, IComponent commands = null) => new ChatMessage(content, avatar, commands);
 
         /// <summary>
+        /// Creates a <see cref="Tesserae.ToolCall"/> component that renders an
+        /// inline tool-call indicator. The provided <paramref name="contentFactory"/>
+        /// is invoked lazily the first time the user expands the tool call.
+        /// </summary>
+        public static ToolCall ToolCall(UIcons icon, string text, Func<IComponent> contentFactory = null) => new ToolCall(icon, text, contentFactory);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.ToolCall"/> component with an already
+        /// materialized content component.
+        /// </summary>
+        public static ToolCall ToolCall(UIcons icon, string text, IComponent content) => new ToolCall(icon, text, content);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.ToolsUsed"/> summary that opens a
+        /// list/detail popup when clicked.
+        /// </summary>
+        public static ToolsUsed ToolsUsed(params ToolCall[] tools) => new ToolsUsed(tools);
+
+        /// <summary>
         /// Creates a <see cref="Tesserae.Toast"/> component.
         /// </summary>
         public static Toast Toast() => new Toast();
