@@ -140,3 +140,46 @@
 .tss-tree-item.tss-expanded > .tss-tree-children {
     display: flex;
 }
+
+.tss-tree-menu {
+    display: flex;
+    flex-direction: column;
+}
+
+.tss-tree-menu > .tss-tree-command,
+.tss-tree-menu > a > .tss-tree-command {
+    border: 1px solid transparent;
+    height: 36px !important;
+    min-height: unset;
+    border-radius: 0px;
+    margin: 0px;
+    padding: 0px 12px;
+    min-width: 52px !important;
+    justify-content: flex-start;
+}
+
+.tss-tree-menu > .tss-tree-command:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success),
+.tss-tree-menu > a > .tss-tree-command:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success) {
+    background: var(--tss-tooltip-background-color);
+    color: var(--tss-tooltip-foreground-color);
+    border-color: var(--tss-tooltip-background-color);
+}
+
+.tss-tree-menu > .tss-tree-command.tss-btn-default:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success):hover,
+.tss-tree-menu > a > .tss-tree-command.tss-btn-default:not(.tss-btn-danger):not(.tss-btn-primary):not(.tss-btn-success):hover {
+    color: var(--tss-default-background-hover-color);
+    background: var(--tss-default-foreground-hover-color);
+    border-color: var(--tss-default-foreground-color);
+}
+
+.tippy-box[data-theme~='tss-tree-tippy'] {
+    padding: 0px;
+    margin: 0px;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.tippy-box[data-theme~='tss-tree-tippy'] .tippy-content {
+    padding: 0px;
+    margin: 0px;
+}

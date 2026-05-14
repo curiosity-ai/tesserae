@@ -85,7 +85,15 @@ namespace Tesserae.Tests.Samples
                             {
                                 e.preventDefault();
                                 window.alert("Right-clicked notes.txt");
-                            })
+                            }),
+                            new Tree.Item("config.json", UIcons.File.ToString(),
+                                new TreeCommand(UIcons.MenuBurger).Tooltip("More actions").OnClickMenu(() => new[]
+                                {
+                                    new TreeCommand(UIcons.Pencil).SetText("Rename").OnClick(() => window.alert("Rename config.json")),
+                                    new TreeCommand(UIcons.Copy).SetText("Duplicate").OnClick(() => window.alert("Duplicate config.json")),
+                                    new TreeCommand(UIcons.Trash).SetText("Delete").Danger().OnClick(() => window.alert("Delete config.json"))
+                                })
+                            )
                         )
                     )
                )).SetTitle("Usage")));

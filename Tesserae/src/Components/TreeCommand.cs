@@ -12,6 +12,7 @@ namespace Tesserae
         private readonly Button         _button;
         private readonly IComponent     _renderedComponent;
         private          Action<Button> _tooltip;
+        private          Func<TreeCommand[]> _menuGenerator;
         private          bool           _hookParentContextMenu;
 
         internal bool ShouldHookToContextMenu => _hookParentContextMenu;
@@ -130,6 +131,47 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Configures the command to show a menu when clicked.
+        /// </summary>
+        /// <param name="generator">A function that generates the tree commands for the menu.</param>
+        public TreeCommand OnClickMenu(Func<TreeCommand[]> generator)
+        {
+            _menuGenerator = generator;
+            _button.OnClick(() => ShowMenu());
+            return this;
+        }
+
+        /// <summary>
+        /// Shows the associated menu for the command.
+        /// </summary>
+        public void ShowMenu()
+        {
+            if (_menuGenerator is null) throw new NullReferenceException("Need to configure the menu first");
+
+            var items = _menuGenerator();
+
+            var menuDiv = Div(_("tss-tree-menu"));
+
+            foreach (var item in items)
+            {
+                menuDiv.appendChild(item.Render());
+            }
+
+            DomObserver.WhenMounted(menuDiv, () =>
+            {
+                _button.Render().parentElement.classList.add("tss-tree-command-menu-is-open");
+
+                DomObserver.WhenRemoved(menuDiv, () =>
+                {
+                    _button.Render().parentElement.classList.remove("tss-tree-command-menu-is-open");
+                    RefreshTooltip();
+                });
+            });
+
+            Tippy.ShowFor(_button.Render(), menuDiv, out Action hide, placement: TooltipPlacement.BottomStart, maxWidth: 500, delayHide: 1000, theme: "tss-tree-tippy");
+        }
+
+        /// <summary>
         /// Programmatically raises the click event.
         /// </summary>
         public TreeCommand RaiseOnClick(MouseEvent mouseEvent)
@@ -198,6 +240,15 @@ namespace Tesserae
         public TreeCommand SetIcon(Emoji icon)
         {
             _button.SetIcon(icon);
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the text label for the command.
+        /// </summary>
+        public TreeCommand SetText(string text)
+        {
+            _button.SetText(text);
             return this;
         }
 
