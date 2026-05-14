@@ -154,6 +154,7 @@ namespace Tesserae
             private          HTMLElement       _iconSpan;
             private readonly HTMLElement       _checkboxSpan;
             private readonly HTMLSpanElement   _textSpan;
+            private readonly HTMLDivElement    _actionsDiv;
             private readonly HTMLUListElement  _childContainer;
 
             private readonly List<Item> _childItems = new List<Item>();
@@ -192,6 +193,13 @@ namespace Tesserae
                 }
 
                 _headerDiv.appendChild(_textSpan);
+
+                // Trailing slot for caller-supplied buttons / menus (eg. "+" or
+                // "..." actions on a category row). The container is created
+                // unconditionally so consumers can populate it after construction
+                // without having to reach into the DOM directly.
+                _actionsDiv = Div(_("tss-tree-actions tss-default-component-no-margin"));
+                _headerDiv.appendChild(_actionsDiv);
 
                 InnerElement = Li(_("tss-tree-item", role: "treeitem"), _headerDiv, _childContainer);
                 InnerElement.setAttribute("aria-expanded",  "false");
@@ -383,6 +391,36 @@ namespace Tesserae
             public Item Items(params Item[] children)
             {
                 children.ForEach(x => Add(x));
+                return this;
+            }
+
+            /// <summary>
+            /// Adds one or more trailing action components (eg. a "+" button or
+            /// a "..." overflow menu) to the right edge of the header row.
+            /// Clicks on these elements are stopped from propagating, so they
+            /// don't toggle expansion or trigger the item's main OnClick.
+            /// </summary>
+            public Item Actions(params IComponent[] actions)
+            {
+                if (actions is null) return this;
+                foreach (var action in actions)
+                {
+                    if (action is null) continue;
+                    var rendered = action.Render();
+                    rendered.classList.add("tss-tree-action");
+                    rendered.addEventListener("click", e => StopEvent(e.As<Event>()));
+                    rendered.addEventListener("dblclick", e => StopEvent(e.As<Event>()));
+                    _actionsDiv.appendChild(rendered);
+                }
+                return this;
+            }
+
+            /// <summary>
+            /// Removes any previously-added trailing actions from the header.
+            /// </summary>
+            public Item ClearActions()
+            {
+                ClearChildren(_actionsDiv);
                 return this;
             }
 

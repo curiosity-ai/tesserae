@@ -107,6 +107,24 @@
     text-overflow: ellipsis;
 }
 
+/* Trailing slot for caller-supplied buttons / menus on a tree row. Stays
+   collapsed when empty so the row layout is unchanged for items that
+   don't add actions. */
+.tss-tree-actions {
+    display: inline-flex;
+    align-items: center;
+    margin-left: 4px;
+    gap: 2px;
+}
+
+.tss-tree-actions:empty {
+    display: none;
+}
+
+.tss-tree-actions .tss-tree-action {
+    flex: 0 0 auto;
+}
+
 .tss-tree-children {
     list-style: none;
     margin: 0 0 0 16px;
