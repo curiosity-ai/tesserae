@@ -67,6 +67,26 @@ namespace Tesserae.Tests.Samples
                             new Tree.Item("Child C", UIcons.File.ToString()).Selected(),
                             new Tree.Item("Child D", UIcons.File.ToString())
                         )
+                    ),
+                    SampleSubTitle("Tree with Commands and Context Menu"),
+                    new Tree().Items(
+                        new Tree.Item("src", UIcons.Folder.ToString(),
+                            new SidebarCommand(UIcons.Plus).Tooltip("Add file").OnClick(() => window.alert("Add file clicked")),
+                            new SidebarCommand(UIcons.Refresh).Tooltip("Refresh").OnClick(() => window.alert("Refresh clicked"))
+                        ).Expanded().Items(
+                            new Tree.Item("Program.cs", UIcons.File.ToString(),
+                                new SidebarCommand(UIcons.Pencil).Tooltip("Rename").OnClick(() => window.alert("Rename Program.cs")),
+                                new SidebarCommand(UIcons.Trash).Tooltip("Delete").OnClick(() => window.alert("Delete Program.cs"))
+                            ),
+                            new Tree.Item("README.md", UIcons.File.ToString(),
+                                new SidebarCommand(UIcons.MenuDots).Tooltip("Context menu").HookToParentContextMenu().OnClick(() => window.alert("README.md context action (right-click or button)"))
+                            ),
+                            new Tree.Item("notes.txt", UIcons.File.ToString()).OnContextMenu((s, e) =>
+                            {
+                                e.preventDefault();
+                                window.alert("Right-clicked notes.txt");
+                            })
+                        )
                     )
                )).SetTitle("Usage")));
         }
