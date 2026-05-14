@@ -154,7 +154,9 @@ namespace Tesserae
             private          HTMLElement       _iconSpan;
             private readonly HTMLElement       _checkboxSpan;
             private readonly HTMLSpanElement   _textSpan;
+            private readonly HTMLDivElement    _commandsDiv;
             private readonly HTMLUListElement  _childContainer;
+            private readonly TreeCommand[]  _commands;
 
             private readonly List<Item> _childItems = new List<Item>();
             private bool _isExpanded;
@@ -176,12 +178,13 @@ namespace Tesserae
                 }
             }
 
-            public Item(string text = null, string icon = null)
+            public Item(string text = null, string icon = null, params TreeCommand[] commands)
             {
                 _chevronSpan    = I(_("tss-tree-chevron " + UIcons.AngleRight.ToString()));
                 _textSpan       = Span(_("tss-tree-text", text: text));
                 _childContainer = Ul(_("tss-tree-children", role: "group"));
                 _checkboxSpan   = I(_("tss-tree-checkbox " + UIcons.Square.ToString()));
+                _commands       = commands ?? new TreeCommand[0];
 
                 _headerDiv = Div(_("tss-tree-item-content"), _chevronSpan, _checkboxSpan);
 
@@ -193,6 +196,18 @@ namespace Tesserae
 
                 _headerDiv.appendChild(_textSpan);
 
+                _commandsDiv = Div(_("tss-tree-commands"));
+
+                if (_commands.Length > 0)
+                {
+                    foreach (var c in _commands)
+                    {
+                        _commandsDiv.appendChild(c.Render());
+                    }
+                }
+
+                _headerDiv.appendChild(_commandsDiv);
+
                 InnerElement = Li(_("tss-tree-item", role: "treeitem"), _headerDiv, _childContainer);
                 InnerElement.setAttribute("aria-expanded",  "false");
                 InnerElement.setAttribute("aria-selected",  "false");
@@ -201,7 +216,30 @@ namespace Tesserae
                 _chevronSpan.onclick = ChevronClickHandler;
                 _checkboxSpan.onclick = CheckboxClickHandler;
 
+                AttachContextMenu();
+
+                var hookContextMenu = _commands.FirstOrDefault(c => c.ShouldHookToContextMenu);
+
+                if (hookContextMenu is object)
+                {
+                    OnContextMenu((_, e) => hookContextMenu.RaiseOnClick(e));
+                }
+
                 UpdateChevronVisibility();
+            }
+
+            public Item CommandsAlwaysVisible(bool alwaysVisible = true)
+            {
+                if (alwaysVisible)
+                {
+                    _headerDiv.classList.add("tss-tree-commands-always-visible");
+                }
+                else
+                {
+                    _headerDiv.classList.remove("tss-tree-commands-always-visible");
+                }
+
+                return this;
             }
 
             public string Text
