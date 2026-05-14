@@ -120,7 +120,8 @@
     display: flex;
 }
 
-.tss-tree-commands > .tss-btn {
+.tss-tree-commands > .tss-tree-command,
+.tss-tree-commands > a > .tss-tree-command {
     min-height: unset;
     min-width: 20px;
     height: 20px;

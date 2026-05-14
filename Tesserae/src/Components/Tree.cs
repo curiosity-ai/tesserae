@@ -156,7 +156,7 @@ namespace Tesserae
             private readonly HTMLSpanElement   _textSpan;
             private readonly HTMLDivElement    _commandsDiv;
             private readonly HTMLUListElement  _childContainer;
-            private readonly SidebarCommand[]  _commands;
+            private readonly TreeCommand[]  _commands;
 
             private readonly List<Item> _childItems = new List<Item>();
             private bool _isExpanded;
@@ -178,13 +178,13 @@ namespace Tesserae
                 }
             }
 
-            public Item(string text = null, string icon = null, params SidebarCommand[] commands)
+            public Item(string text = null, string icon = null, params TreeCommand[] commands)
             {
                 _chevronSpan    = I(_("tss-tree-chevron " + UIcons.AngleRight.ToString()));
                 _textSpan       = Span(_("tss-tree-text", text: text));
                 _childContainer = Ul(_("tss-tree-children", role: "group"));
                 _checkboxSpan   = I(_("tss-tree-checkbox " + UIcons.Square.ToString()));
-                _commands       = commands ?? new SidebarCommand[0];
+                _commands       = commands ?? new TreeCommand[0];
 
                 _headerDiv = Div(_("tss-tree-item-content"), _chevronSpan, _checkboxSpan);
 
