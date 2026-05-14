@@ -374,12 +374,12 @@ namespace Tesserae
 
 
         /// <summary>Fades out the component.</summary>
-        public static T Fade<T>(this T component) where T : IComponent                            => Fade(component, () => { });
+        public static T Fade<T>(this T component) where T : IComponent                            => Fade(component, (Action)null);
         /// <summary>Fades out the component and executes a task afterwards.</summary>
-        public static T Fade<T>(this T component, Func<Task> andThen = null) where T : IComponent => Fade(component, andThen is object ? (Action)(() => andThen.Invoke().FireAndForget()) : null);
+        public static T Fade<T>(this T component, Func<Task> andThen) where T : IComponent => Fade(component, () => andThen.Invoke().FireAndForget());
 
         /// <summary>Fades out the component and executes an action afterwards.</summary>
-        public static T Fade<T>(this T component, Action andThen = null) where T : IComponent
+        public static T Fade<T>(this T component, Action andThen) where T : IComponent
         {
             var (el, _) = Stack.GetCorrectItemToApplyStyle(component);
             el          = TryGetParentStackItem(el);
