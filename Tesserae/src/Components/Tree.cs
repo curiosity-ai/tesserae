@@ -8,7 +8,7 @@ using static Tesserae.UI;
 namespace Tesserae
 {
     [H5.Name("tss.Tree")]
-    public sealed class Tree : ComponentBase<Tree, HTMLUListElement>, IContainer<Tree.Item, Tree.Item>
+    public sealed class Tree : ComponentBase<Tree, HTMLUListElement>, IContainer<Tree.Item, Tree.Item>, ITextFormating
     {
         private readonly List<Item> _children = new List<Item>();
         private bool _selectionEnabled = false;
@@ -49,6 +49,32 @@ namespace Tesserae
         }
 
         public override HTMLElement Render() => InnerElement;
+
+        public TextSize Size
+        {
+            get => ITextFormatingExtensions.FromClassList(InnerElement, TextSize.Small);
+            set
+            {
+                InnerElement.classList.remove(Size.ToString());
+                InnerElement.classList.add(value.ToString());
+            }
+        }
+
+        public TextWeight Weight
+        {
+            get => ITextFormatingExtensions.FromClassList(InnerElement, TextWeight.Regular);
+            set
+            {
+                InnerElement.classList.remove(Weight.ToString());
+                InnerElement.classList.add(value.ToString());
+            }
+        }
+
+        public TextAlign TextAlign
+        {
+            get => TextAlign.Left;
+            set { /* intentionally a no-op: text alignment is not meaningful for tree items */ }
+        }
 
         public Item SelectedItem { get; private set; }
 

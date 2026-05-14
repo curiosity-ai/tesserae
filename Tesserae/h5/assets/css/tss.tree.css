@@ -105,7 +105,60 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-size: inherit;
+    font-weight: inherit;
 }
+
+/* Propagate text size from the parent tree down to nested tree items and their text. */
+.tss-tree.tss-fontsize-tiny,
+.tss-tree.tss-fontsize-tiny .tss-tree-children,
+.tss-tree.tss-fontsize-tiny .tss-tree-text { font-size: var(--tss-font-size-tiny); }
+
+.tss-tree.tss-fontsize-xsmall,
+.tss-tree.tss-fontsize-xsmall .tss-tree-children,
+.tss-tree.tss-fontsize-xsmall .tss-tree-text { font-size: var(--tss-font-size-xsmall); }
+
+.tss-tree.tss-fontsize-small,
+.tss-tree.tss-fontsize-small .tss-tree-children,
+.tss-tree.tss-fontsize-small .tss-tree-text { font-size: var(--tss-font-size-small); }
+
+.tss-tree.tss-fontsize-smallplus,
+.tss-tree.tss-fontsize-smallplus .tss-tree-children,
+.tss-tree.tss-fontsize-smallplus .tss-tree-text { font-size: var(--tss-font-size-smallplus); }
+
+.tss-tree.tss-fontsize-medium,
+.tss-tree.tss-fontsize-medium .tss-tree-children,
+.tss-tree.tss-fontsize-medium .tss-tree-text { font-size: var(--tss-font-size-medium); }
+
+.tss-tree.tss-fontsize-mediumplus,
+.tss-tree.tss-fontsize-mediumplus .tss-tree-children,
+.tss-tree.tss-fontsize-mediumplus .tss-tree-text { font-size: var(--tss-font-size-mediumplus); }
+
+.tss-tree.tss-fontsize-large,
+.tss-tree.tss-fontsize-large .tss-tree-children,
+.tss-tree.tss-fontsize-large .tss-tree-text { font-size: var(--tss-font-size-large); }
+
+.tss-tree.tss-fontsize-xlarge,
+.tss-tree.tss-fontsize-xlarge .tss-tree-children,
+.tss-tree.tss-fontsize-xlarge .tss-tree-text { font-size: var(--tss-font-size-xlarge); }
+
+.tss-tree.tss-fontsize-xxlarge,
+.tss-tree.tss-fontsize-xxlarge .tss-tree-children,
+.tss-tree.tss-fontsize-xxlarge .tss-tree-text { font-size: var(--tss-font-size-xxlarge); }
+
+.tss-tree.tss-fontsize-mega,
+.tss-tree.tss-fontsize-mega .tss-tree-children,
+.tss-tree.tss-fontsize-mega .tss-tree-text { font-size: var(--tss-font-size-mega); }
+
+/* Propagate text weight from the parent tree down to nested tree items and their text. */
+.tss-tree.tss-fontweight-regular,
+.tss-tree.tss-fontweight-regular .tss-tree-text { font-weight: var(--tss-font-weight-regular); }
+
+.tss-tree.tss-fontweight-semibold,
+.tss-tree.tss-fontweight-semibold .tss-tree-text { font-weight: var(--tss-font-weight-semibold); }
+
+.tss-tree.tss-fontweight-bold,
+.tss-tree.tss-fontweight-bold .tss-tree-text { font-weight: var(--tss-font-weight-bold); }
 
 .tss-tree-commands {
     display: none;
