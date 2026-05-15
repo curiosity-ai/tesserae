@@ -140,15 +140,21 @@ namespace Tesserae
 
         public SaveButton OnClick(Action action)
         {
-            if (_state != State.PendingSave) return this;
-            _button.OnClick(action);
+            _button.OnClick(() =>
+            {
+                if (_state != State.PendingSave) return;
+                action();
+            });
             return this;
         }
-        
+
         public SaveButton OnClickSpinWhile(Func<Task> actionAsync)
         {
-            if (_state != State.PendingSave) return this;
-            _button.OnClickSpinWhile(actionAsync);
+            _button.OnClickSpinWhile(async () =>
+            {
+                if (_state != State.PendingSave) return;
+                await actionAsync();
+            });
             return this;
         }
 
