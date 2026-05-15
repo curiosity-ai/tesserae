@@ -19,7 +19,7 @@ namespace Tesserae
         /// becoming visible, the task is cancelled (a <see cref="TaskCanceledException"/> is thrown
         /// when awaited).
         /// </summary>
-        public static Task IsVisibleAsync(this HTMLElement element)
+        public static Task WhenVisibleAsync(this HTMLElement element)
         {
             if (element == null) throw new ArgumentNullException(nameof(element));
 
@@ -61,12 +61,12 @@ namespace Tesserae
 
         /// <summary>
         /// Returns a task that completes the first time the component intersects the viewport.
-        /// See <see cref="IsVisibleAsync(HTMLElement)"/> for full semantics.
+        /// See <see cref="WhenVisibleAsync(HTMLElement)"/> for full semantics.
         /// </summary>
-        public static Task IsVisibleAsync(this IComponent component)
+        public static Task WhenVisibleAsync(this IComponent component)
         {
             if (component == null) throw new ArgumentNullException(nameof(component));
-            return IsVisibleAsync(component.Render());
+            return WhenVisibleAsync(component.Render());
         }
     }
 }
