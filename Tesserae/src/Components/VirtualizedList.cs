@@ -14,7 +14,7 @@ namespace Tesserae
     public class VirtualizedList : IComponent
     {
         private const int PagesToVirtualize    = 5;
-        private const int InitialPagesToCreate = PagesToVirtualize;
+        private const int InitialPagesToCreate = 2;
 
         private readonly ListPageCache<IComponent> _listPageCache;
         private readonly int                       _pagesToVirtualizeUpperBoundary;
