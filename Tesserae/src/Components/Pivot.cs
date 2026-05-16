@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using static H5.Core.dom;
@@ -18,10 +18,12 @@ namespace Tesserae
         private readonly HTMLElement _renderedTabs;
         private readonly HTMLElement _renderedContent;
         private readonly HTMLElement _line;
-        private readonly HTMLDivElement _scrollCommands;
+        private readonly HTMLElement _scroller;
+        private readonly HTMLElement _titlebarWrapper;
         private          string      _initiallySelectedID;
         private          string      _currentSelectedID;
         private          bool        _isRendered = false;
+        private          bool        _hideIfSingle = false;
         public           string      SelectedTab => _currentSelectedID ?? _initiallySelectedID;
         private HTMLElement _selectedNav;
         private HTMLElement _hoveredNav;
@@ -30,19 +32,34 @@ namespace Tesserae
         private double _currentLeft = 0;
         private double _targetWidth;
         private double _targetLeft;
-        private double _left0;
         private bool _firstRender = false;
         private ResizeObserver _ro;
         private readonly Button _moreBtn;
+        private readonly Button _scrollLeftBtn;
+        private readonly Button _scrollRightBtn;
 
+        // Fraction of the scroller's visible width to move per scroll-button click.
+        private const double ScrollButtonStep = 0.7;
 
         public Pivot()
         {
-            _moreBtn          = Button().SetIcon(UIcons.MenuDots).NoMinSize().W(32).HS().NoPadding().Class("tss-pivot-titlebar-more").OnClick(() => ShowMoreTabs());
-            _line             = Div(_("tss-pivot-line"));
-            _renderedTabs     = Div(_("tss-pivot-titlebar", role: "tablist"));
-            _renderedContent  = Div(_("tss-pivot-content", role: "tabpanel"));
-            StylingContainer = Div(_("tss-pivot"), _renderedTabs, _line, _renderedContent);
+            _scrollLeftBtn  = Button().SetIcon(UIcons.AngleLeft).NoMinSize().W(32).HS().NoPadding().Class("tss-pivot-titlebar-scroll-left").OnClick(() => ScrollByAmount(-_scroller.clientWidth * ScrollButtonStep));
+            _scrollRightBtn = Button().SetIcon(UIcons.AngleRight).NoMinSize().W(32).HS().NoPadding().Class("tss-pivot-titlebar-scroll-right").OnClick(() => ScrollByAmount(_scroller.clientWidth * ScrollButtonStep));
+            _moreBtn        = Button().SetIcon(UIcons.MenuDots).NoMinSize().W(32).HS().NoPadding().Class("tss-pivot-titlebar-more").OnClick(() => ShowAllTabs());
+
+            _renderedTabs    = Div(_("tss-pivot-titlebar", role: "tablist"));
+            _line            = Div(_("tss-pivot-line"));
+            _renderedTabs.appendChild(_line); // line sits inside titlebar so it scrolls with tabs
+            _scroller        = Div(_("tss-pivot-titlebar-scroller"), _renderedTabs);
+            _titlebarWrapper = Div(_("tss-pivot-titlebar-wrapper"),
+                                   _scrollLeftBtn.Render(),
+                                   _scroller,
+                                   _scrollRightBtn.Render(),
+                                   _moreBtn.Render());
+            _renderedContent = Div(_("tss-pivot-content", role: "tabpanel"));
+            StylingContainer = Div(_("tss-pivot"), _titlebarWrapper, _renderedContent);
+
+            AttachScrollerEvents();
         }
 
         public HTMLElement StylingContainer { get; }
@@ -64,13 +81,14 @@ namespace Tesserae
 
         public Pivot HideIfSingle()
         {
-            _renderedTabs.classList.add("tss-pivot-titlebar-hide-if-single");
+            _hideIfSingle = true;
+            UpdateTitlebarVisibility();
             return this;
         }
 
         public void RefreshPivotSizes()
         {
-            RefreshTabsOverflow();
+            UpdateScrollState();
             TriggerAnimation();
         }
 
@@ -92,97 +110,126 @@ namespace Tesserae
             }
             title.setAttribute("role", "tab");
             title.setAttribute("aria-selected", "false");
+            title.tabIndex = -1;
             _renderedTitles.Add(tab, title);
             AttachEvents(tab.Id, title);
-            _renderedTabs.appendChild(title);
+            _renderedTabs.insertBefore(title, _line); // keep _line as last child
 
             if (_isRendered && _orderedTabs.Count == 1)
             {
                 Select(tab.Id);
             }
 
-            RefreshTabsOverflow();
+            UpdateTitlebarVisibility();
+            UpdateScrollState();
 
             return this;
         }
 
-        private void RefreshTabsOverflow(HTMLElement willSelect = null)
+        private void AttachScrollerEvents()
         {
-            if (!StylingContainer.IsMounted()) return; //Nothing to do yet
-
-            if (_moreBtn.IsMounted())
+            // Convert vertical wheel motion (typical mouse) into horizontal scrolling.
+            _scroller.addEventListener("wheel", e =>
             {
-                _moreBtn.Render().remove();
-            }
-
-            var orderedTitles = _orderedTabs.Select(t => _renderedTitles[t]).ToArray();
-
-            foreach (var rendered in orderedTitles)
-            {
-                rendered.classList.remove("tss-pivot-titlebar-hidden-overflow");
-            }
-
-            if (orderedTitles.Length == 0) return;
-
-            var availableWidth = _renderedTabs.getBoundingClientRect().As<DOMRect>().width;
-            var widths         = orderedTitles.Select(e => e.getBoundingClientRect().As<DOMRect>().width).ToArray();
-
-            // If every tab fits in full, no More button is needed.
-            if (widths.Sum() <= availableWidth) return;
-
-            const double moreWidth = 40;
-            var maxWidth = availableWidth - moreWidth;
-
-            // The selected tab must always remain visible — reserve its width first.
-            int selectedIdx = willSelect != null ? Array.IndexOf(orderedTitles, willSelect) : -1;
-            if (selectedIdx < 0)
-            {
-                for (int i = 0; i < orderedTitles.Length; i++)
+                var we = e.As<WheelEvent>();
+                if (Math.Abs(we.deltaY) > Math.Abs(we.deltaX))
                 {
-                    if (orderedTitles[i].classList.contains("tss-pivot-selected-title"))
-                    {
-                        selectedIdx = i;
-                        break;
-                    }
+                    _scroller.scrollLeft += we.deltaY;
+                    e.preventDefault();
                 }
-            }
+            });
 
-            double curWidth = selectedIdx >= 0 ? widths[selectedIdx] : 0;
+            _scroller.addEventListener("scroll", e => UpdateScrollButtons());
 
-            // A tab is only shown if its full width fits; otherwise it goes into the More menu.
-            for (int i = 0; i < orderedTitles.Length; i++)
+            // ARIA tablist keyboard navigation. Arrow keys move and activate the
+            // adjacent tab, Home/End jump to the first/last tab.
+            _renderedTabs.addEventListener("keydown", e =>
             {
-                if (i == selectedIdx) continue;
-                if (curWidth + widths[i] <= maxWidth)
+                var ke = e.As<KeyboardEvent>();
+                if (ke.key == "ArrowLeft" || ke.key == "ArrowRight" || ke.key == "Home" || ke.key == "End")
                 {
-                    curWidth += widths[i];
+                    StopEvent(e);
+                    NavigateWithKey(ke.key);
                 }
-                else
-                {
-                    orderedTitles[i].classList.add("tss-pivot-titlebar-hidden-overflow");
-                }
-            }
-
-            _renderedTabs.appendChild(_moreBtn.Render());
+            });
         }
 
-        private void ShowMoreTabs()
+        private void NavigateWithKey(string key)
         {
-            var elementsToClone = _renderedTabs.querySelectorAll(".tss-pivot-titlebar-hidden-overflow").Select(n => n.As<HTMLElement>()).ToArray();
-            var cloned = elementsToClone.Select(n => n.cloneNode(true).As<HTMLElement>()).ToArray();
-            var items = new ContextMenu.Item[cloned.Length];
-            for (int i = 0; i < cloned.Length; i++)
+            if (_orderedTabs.Count == 0) return;
+
+            int currentIdx = _orderedTabs.FindIndex(t => t.Id == _currentSelectedID);
+            if (currentIdx < 0) currentIdx = 0;
+
+            int nextIdx = currentIdx;
+            switch (key)
             {
-                var iLocal = i;
-                HTMLElement c = cloned[i];
-                c.classList.remove("tss-pivot-titlebar-hidden-overflow");
-                items[i] = ContextMenuItem(Raw(c)).OnClick(() =>
-                {
-                    RefreshTabsOverflow(elementsToClone[iLocal]);
-                    elementsToClone[iLocal].click();
-                });
+                case "ArrowLeft":  nextIdx = (currentIdx - 1 + _orderedTabs.Count) % _orderedTabs.Count; break;
+                case "ArrowRight": nextIdx = (currentIdx + 1) % _orderedTabs.Count;                     break;
+                case "Home":       nextIdx = 0;                                                          break;
+                case "End":        nextIdx = _orderedTabs.Count - 1;                                     break;
             }
 
+            if (nextIdx != currentIdx)
+            {
+                var nextTab = _orderedTabs[nextIdx];
+                Select(nextTab.Id);
+                if (_renderedTitles.TryGetValue(nextTab, out var nextTitle))
+                {
+                    nextTitle.focus();
+                }
+            }
+        }
+
+        private void ScrollByAmount(double dx)
+        {
+            _scroller.scrollLeft += dx;
+        }
+
+        private void UpdateScrollState()
+        {
+            if (!StylingContainer.IsMounted()) return;
+            UpdateScrollButtons();
+            UpdateMoreVisibility();
+        }
+
+        private void UpdateScrollButtons()
+        {
+            var canScrollLeft  = _scroller.scrollLeft > 0;
+            var canScrollRight = _scroller.scrollLeft + _scroller.clientWidth < _scroller.scrollWidth - 1; // -1 for sub-pixel rounding
+            _scrollLeftBtn.Render().style.display  = canScrollLeft  ? "" : "none";
+            _scrollRightBtn.Render().style.display = canScrollRight ? "" : "none";
+        }
+
+        private void UpdateMoreVisibility()
+        {
+            _moreBtn.Render().style.display = _orderedTabs.Count > 0 ? "" : "none";
+        }
+
+        private void UpdateTitlebarVisibility()
+        {
+            var hide = _hideIfSingle && _orderedTabs.Count <= 1;
+            _titlebarWrapper.style.display = hide ? "none" : "";
+        }
+
+        private void ShowAllTabs()
+        {
+            var items = new ContextMenu.Item[_orderedTabs.Count];
+            for (int i = 0; i < _orderedTabs.Count; i++)
+            {
+                var tab     = _orderedTabs[i];
+                var title   = _renderedTitles[tab];
+                var clone   = title.cloneNode(true).As<HTMLElement>();
+                clone.classList.remove("tss-pivot-titlebar-hidden-overflow");
+                // The cloned close icon is non-functional inside the menu; strip it
+                // so the user gets a clean title row.
+                foreach (var x in clone.querySelectorAll(".tss-pivot-tab-close").ToList())
+                {
+                    x.As<HTMLElement>().remove();
+                }
+                var id = tab.Id;
+                items[i] = ContextMenuItem(Raw(clone)).OnClick(() => Select(id));
+            }
             ContextMenu().Items(items).ShowFor(_moreBtn);
         }
 
@@ -214,6 +261,9 @@ namespace Tesserae
                 }
 
                 tab.OnClosed?.Invoke();
+
+                UpdateTitlebarVisibility();
+                UpdateScrollState();
             }
         }
 
@@ -308,6 +358,7 @@ namespace Tesserae
 
             _currentSelectedID = tab.Id;
             UpdateTitleStyles(title);
+            ScrollIntoView(title);
             TriggerAnimation();
 
             var pne = new PivotNavigateEvent(_currentSelectedID, tab.Id);
@@ -315,6 +366,23 @@ namespace Tesserae
             _navigated?.Invoke(this, pne);
 
             return this;
+        }
+
+        private void ScrollIntoView(HTMLElement target)
+        {
+            if (!_scroller.IsMounted()) return;
+            var tabLeft  = (double)target.offsetLeft;
+            var tabRight = tabLeft + target.offsetWidth;
+            var viewLeft = _scroller.scrollLeft;
+            var viewRight = viewLeft + _scroller.clientWidth;
+            if (tabLeft < viewLeft)
+            {
+                _scroller.scrollLeft = tabLeft;
+            }
+            else if (tabRight > viewRight)
+            {
+                _scroller.scrollLeft = tabRight - _scroller.clientWidth;
+            }
         }
 
         private void ClearChildrenExceptCached()
@@ -340,11 +408,13 @@ namespace Tesserae
                 {
                     v.classList.add("tss-pivot-selected-title");
                     v.setAttribute("aria-selected", "true");
+                    v.tabIndex = 0;
                 }
                 else
                 {
                     v.classList.remove("tss-pivot-selected-title");
                     v.setAttribute("aria-selected", "false");
+                    v.tabIndex = -1;
                 }
             }
             _selectedNav = title;
@@ -364,7 +434,7 @@ namespace Tesserae
 
                 _ro = new ResizeObserver((entries, obs) =>
                 {
-                    RefreshTabsOverflow(); 
+                    UpdateScrollState();
                     TriggerAnimation();
                 });
 
@@ -372,15 +442,17 @@ namespace Tesserae
 
                 DomObserver.WhenMounted(StylingContainer, () =>
                 {
-                    RefreshTabsOverflow();
+                    UpdateScrollState();
+                    if (_selectedNav != null) ScrollIntoView(_selectedNav);
                     TriggerAnimation();
                     //Also do on a timeout to account for animations on modals
                     window.setTimeout((_) => {
-                        RefreshTabsOverflow();
+                        UpdateScrollState();
+                        if (_selectedNav != null) ScrollIntoView(_selectedNav);
                         TriggerAnimation();
                     }, 1000);
                 });
-                
+
                 DomObserver.WhenRemoved(StylingContainer, () => _ro.unobserve(StylingContainer));
             }
 
@@ -402,10 +474,11 @@ namespace Tesserae
                 if (target is null) { return; }
 
                 _t0 = time;
-                var r = target.getBoundingClientRect().As<DOMRect>();
-                _left0       = _renderedTabs.getBoundingClientRect().As<DOMRect>().left;
-                _targetWidth = r.width;
-                _targetLeft  = r.left;
+                // offsetLeft/offsetWidth are relative to the titlebar, which is the
+                // line's offsetParent (it's position: relative). This stays correct
+                // regardless of scroll position.
+                _targetWidth = target.offsetWidth;
+                _targetLeft  = target.offsetLeft;
             }
 
             var f = (time - _t0) / 500; //500ms animation
@@ -421,10 +494,10 @@ namespace Tesserae
                 f = 1;
             }
 
-            _currentWidth          += (_targetWidth - _currentWidth) * f;
-            _currentLeft           += (_targetLeft  - _currentLeft)  * f;
-            _line.style.width      =  _currentWidth          + "px";
-            _line.style.marginLeft =  (_currentLeft - _left0) + "px";
+            _currentWidth     += (_targetWidth - _currentWidth) * f;
+            _currentLeft      += (_targetLeft  - _currentLeft)  * f;
+            _line.style.width =  _currentWidth + "px";
+            _line.style.left  =  _currentLeft  + "px";
 
             if (Math.Abs(_currentLeft - _targetLeft) > 1e-5 || Math.Abs(_currentWidth - _targetWidth) > 1e-5)
             {
