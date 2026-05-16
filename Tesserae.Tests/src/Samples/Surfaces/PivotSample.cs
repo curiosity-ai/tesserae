@@ -51,8 +51,29 @@ namespace Tesserae.Tests.Samples
                        .Pivot("tab6", PivotTitle("Tab 6"), () => ItemsList(GetSomeItems(5)).PB(16), cached: true)
                        .Pivot("tab7", PivotTitle("Tab 7"), () => ItemsList(GetSomeItems(5)).PB(16), cached: true)
                        .Pivot("tab8", PivotTitle("Tab 8"), () => ItemsList(GetSomeItems(5)).PB(16), cached: true))
-                    .Right(TextBlock("👈 resize this area to see the overflow adjusting which tabs to show").WS().BreakSpaces())
+                    .Right(TextBlock("👈 resize this area to scroll the tab strip — use the chevrons, the mouse wheel, or arrow / Home / End keys, and click the ⋯ button for an All Tabs menu").WS().BreakSpaces()),
+                    SampleSubTitle("Many Tabs with Long Titles"),
+                    GetManyTabsPivot()
                 )).SetTitle("Usage")));
+        }
+
+        private Pivot GetManyTabsPivot()
+        {
+            var titles = new[]
+            {
+                "Project Overview", "Recent Activity", "Pull Requests", "Code Review",
+                "Build Pipelines", "Test Results", "Deployments", "Issue Tracker",
+                "Documentation", "Team Members", "Performance Metrics", "Security Audits",
+                "Release Notes", "Settings & Preferences", "Integrations", "Audit Log"
+            };
+            var pivot = Pivot().H(220);
+            for (int i = 0; i < titles.Length; i++)
+            {
+                var idx = i;
+                pivot = pivot.Pivot($"many-{idx}", PivotTitle(titles[idx]),
+                                    () => TextBlock($"Content for: {titles[idx]}").P(16), cached: true);
+            }
+            return pivot;
         }
 
         private Pivot GetPivot()
