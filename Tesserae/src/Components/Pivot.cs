@@ -43,9 +43,9 @@ namespace Tesserae
 
         public Pivot()
         {
-            _scrollLeftBtn  = Button().SetIcon(UIcons.AngleLeft).NoMinSize().W(32).HS().NoPadding().Class("tss-pivot-titlebar-scroll-left").OnClick(() => ScrollByAmount(-_scroller.clientWidth * ScrollButtonStep));
-            _scrollRightBtn = Button().SetIcon(UIcons.AngleRight).NoMinSize().W(32).HS().NoPadding().Class("tss-pivot-titlebar-scroll-right").OnClick(() => ScrollByAmount(_scroller.clientWidth * ScrollButtonStep));
-            _moreBtn        = Button().SetIcon(UIcons.MenuDots).NoMinSize().W(32).HS().NoPadding().Class("tss-pivot-titlebar-more").OnClick(() => ShowAllTabs());
+            _scrollLeftBtn  = Button().SetIcon(UIcons.AngleLeft).NoMinSize().HS().NoPadding().NoMargin().Class("tss-pivot-titlebar-scroll-left").OnClick(() => ScrollByAmount(-_scroller.clientWidth * ScrollButtonStep));
+            _scrollRightBtn = Button().SetIcon(UIcons.AngleRight).NoMinSize().HS().NoPadding().NoMargin().Class("tss-pivot-titlebar-scroll-right").OnClick(() => ScrollByAmount(_scroller.clientWidth * ScrollButtonStep));
+            _moreBtn        = Button().SetIcon(UIcons.MenuDots).NoMinSize().HS().NoPadding().NoMargin().Class("tss-pivot-titlebar-more").OnClick(() => ShowAllTabs());
 
             _renderedTabs    = Div(_("tss-pivot-titlebar", role: "tablist"));
             _line            = Div(_("tss-pivot-line"));
@@ -499,7 +499,7 @@ namespace Tesserae
             _line.style.width =  _currentWidth + "px";
             _line.style.left  =  _currentLeft  + "px";
 
-            if (Math.Abs(_currentLeft - _targetLeft) > 1e-5 || Math.Abs(_currentWidth - _targetWidth) > 1e-5)
+            if (Math.Abs(_currentLeft - _targetLeft) > 1 || Math.Abs(_currentWidth - _targetWidth) > 1)
             {
                 window.requestAnimationFrame((t) => AnimateLine(t));
             }
