@@ -109,17 +109,12 @@ namespace Tesserae
         private void RefreshTabsOverflow(HTMLElement willSelect = null)
         {
             if (!StylingContainer.IsMounted()) return; //Nothing to do yet
-            
+
             if (_moreBtn.IsMounted())
             {
                 _moreBtn.Render().remove();
             }
 
-            var moreWidth = 40;
-            var maxWidth = _renderedTabs.getBoundingClientRect().As<DOMRect>().width - moreWidth;
-            double curWidth = 0;
-            bool hasMore = false;
-            
             var orderedTitles = _orderedTabs.Select(t => _renderedTitles[t]).ToArray();
 
             foreach (var rendered in orderedTitles)
@@ -127,26 +122,48 @@ namespace Tesserae
                 rendered.classList.remove("tss-pivot-titlebar-hidden-overflow");
             }
 
-            orderedTitles = orderedTitles.OrderBy(e => (e == willSelect  || (willSelect is null && e.classList.contains("tss-pivot-selected-title"))) ? 0 : 1).ToArray();
+            if (orderedTitles.Length == 0) return;
 
-            foreach (var rendered in orderedTitles)
+            var availableWidth = _renderedTabs.getBoundingClientRect().As<DOMRect>().width;
+            var widths         = orderedTitles.Select(e => e.getBoundingClientRect().As<DOMRect>().width).ToArray();
+
+            // If every tab fits in full, no More button is needed.
+            if (widths.Sum() <= availableWidth) return;
+
+            const double moreWidth = 40;
+            var maxWidth = availableWidth - moreWidth;
+
+            // The selected tab must always remain visible — reserve its width first.
+            int selectedIdx = willSelect != null ? Array.IndexOf(orderedTitles, willSelect) : -1;
+            if (selectedIdx < 0)
             {
-                curWidth += rendered.getBoundingClientRect().As<DOMRect>().width;
-                if (curWidth > maxWidth)
+                for (int i = 0; i < orderedTitles.Length; i++)
                 {
-                    rendered.classList.add("tss-pivot-titlebar-hidden-overflow");
-                    hasMore = true;
+                    if (orderedTitles[i].classList.contains("tss-pivot-selected-title"))
+                    {
+                        selectedIdx = i;
+                        break;
+                    }
+                }
+            }
+
+            double curWidth = selectedIdx >= 0 ? widths[selectedIdx] : 0;
+
+            // A tab is only shown if its full width fits; otherwise it goes into the More menu.
+            for (int i = 0; i < orderedTitles.Length; i++)
+            {
+                if (i == selectedIdx) continue;
+                if (curWidth + widths[i] <= maxWidth)
+                {
+                    curWidth += widths[i];
                 }
                 else
                 {
-                    rendered.classList.remove("tss-pivot-titlebar-hidden-overflow");
+                    orderedTitles[i].classList.add("tss-pivot-titlebar-hidden-overflow");
                 }
             }
 
-            if (hasMore)
-            {
-                _renderedTabs.appendChild(_moreBtn.Render());
-            }
+            _renderedTabs.appendChild(_moreBtn.Render());
         }
 
         private void ShowMoreTabs()
