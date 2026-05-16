@@ -152,6 +152,7 @@ namespace Tesserae
             private readonly HTMLDivElement    _headerDiv;
             private readonly HTMLElement       _chevronSpan;
             private          HTMLElement       _iconSpan;
+            private          UIcons?           _icon;
             private readonly HTMLElement       _checkboxSpan;
             private readonly HTMLSpanElement   _textSpan;
             private readonly HTMLDivElement    _commandsDiv;
@@ -178,7 +179,7 @@ namespace Tesserae
                 }
             }
 
-            public Item(string text = null, string icon = null, params TreeCommand[] commands)
+            public Item(string text = null, UIcons? icon = null, params TreeCommand[] commands)
             {
                 _chevronSpan    = I(_("tss-tree-chevron " + UIcons.AngleRight.ToString()));
                 _textSpan       = Span(_("tss-tree-text", text: text));
@@ -188,9 +189,10 @@ namespace Tesserae
 
                 _headerDiv = Div(_("tss-tree-item-content"), _chevronSpan, _checkboxSpan);
 
-                if (!string.IsNullOrEmpty(icon))
+                if (icon.HasValue)
                 {
-                    _iconSpan = I(_("tss-tree-icon " + icon));
+                    _icon = icon.Value;
+                    _iconSpan = I(_("tss-tree-icon " + icon.Value.ToString()));
                     _headerDiv.appendChild(_iconSpan);
                 }
 
@@ -248,12 +250,13 @@ namespace Tesserae
                 set => _textSpan.innerText = value;
             }
 
-            public string Icon
+            public UIcons? Icon
             {
-                get => _iconSpan?.className.Replace("tss-tree-icon ", "");
+                get => _icon;
                 set
                 {
-                    if (string.IsNullOrEmpty(value))
+                    _icon = value;
+                    if (!value.HasValue)
                     {
                         if (_iconSpan != null)
                         {
@@ -265,12 +268,12 @@ namespace Tesserae
                     {
                         if (_iconSpan == null)
                         {
-                            _iconSpan = I(_("tss-tree-icon " + value));
+                            _iconSpan = I(_("tss-tree-icon " + value.Value.ToString()));
                             _headerDiv.insertBefore(_iconSpan, _textSpan);
                         }
                         else
                         {
-                            _iconSpan.className = "tss-tree-icon " + value;
+                            _iconSpan.className = "tss-tree-icon " + value.Value.ToString();
                         }
                     }
                 }
@@ -435,7 +438,7 @@ namespace Tesserae
                     {
                         alreadyRun = true;
 
-                        var loading = new Item("Loading...", UIcons.Spinner.ToString());
+                        var loading = new Item("Loading...", UIcons.Spinner);
                         Add(loading);
 
                         Task.Run(async () =>
