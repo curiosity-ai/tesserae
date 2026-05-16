@@ -496,12 +496,17 @@ namespace Tesserae
 
             _currentWidth     += (_targetWidth - _currentWidth) * f;
             _currentLeft      += (_targetLeft  - _currentLeft)  * f;
-            _line.style.width =  _currentWidth + "px";
-            _line.style.left  =  _currentLeft  + "px";
 
             if (Math.Abs(_currentLeft - _targetLeft) > 1 || Math.Abs(_currentWidth - _targetWidth) > 1)
             {
+                _line.style.width =  _currentWidth + "px";
+                _line.style.left  =  _currentLeft  + "px";
                 window.requestAnimationFrame((t) => AnimateLine(t));
+            }
+            else
+            {
+                _line.style.width =  _targetWidth + "px";
+                _line.style.left  =  _targetLeft  + "px";
             }
         }
 
