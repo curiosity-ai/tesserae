@@ -194,11 +194,6 @@ body.tss-mobile .tippy-box {
     max-width: min(340px, 95vw) !important;
 }
 
-/* ─── Pivot — allow wrapping on mobile ───────────────────────────────────── */
-body.tss-mobile .tss-pivot-titlebar {
-    flex-wrap: wrap !important;
-}
-
 /* ─── Pagination — smaller controls ─────────────────────────────────────── */
 body.tss-mobile .tss-pagination .tss-btn {
     min-width: 36px !important;
