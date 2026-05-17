@@ -65,8 +65,16 @@ namespace Tesserae.Tests.Samples
             })
             .OnSearch((s, q) =>
             {
-                Toast().Information($"Searched for: {q.RawQuery} (Parsed into {q.Tokens?.Count ?? 0} tokens)");
+                var snapInfo = q.Snaps != null && q.Snaps.Length > 0
+                    ? $" — snaps: {string.Join(", ", q.Snaps.Select(sn => sn.SnapId))}"
+                    : "";
+                Toast().Information($"Searched for: {q.RawQuery} (Parsed into {q.Tokens?.Count ?? 0} tokens){snapInfo}");
             })
+            .RegisterSnaps(
+                new OmniBox.SnapHandler("docs", "Docs", new[] { "docs", "documentation" }, Icon(UIcons.Book), "Search the documentation"),
+                new OmniBox.SnapHandler("wiki", "Wikipedia", new[] { "wiki", "wikipedia" }, Icon(UIcons.Globe), "Search Wikipedia"),
+                new OmniBox.SnapHandler("code", "Code", new[] { "code", "src", "source" }, Icon(UIcons.FileCode), "Search source code"),
+                new OmniBox.SnapHandler("ai", "AI Assist", new[] { "ai", "ask" }, Icon(UIcons.MagicWand), "Search with AI"))
             .SetKeyboardShortcut("Ctrl", "K")
             .SetSearchText("potato AND ( tomato OR banana) AND NOT apple");
 
