@@ -16,7 +16,7 @@
 }
 
     .tss-omnibox-container.tss-omnibox-chat-and-search,
-    .tss-omnibox-container.tss-omnibox-chat-with-footer {
+    .tss-omnibox-container.tss-omnibox-mode-chat {
         flex-direction: column;
     }
 

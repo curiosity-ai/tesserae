@@ -461,21 +461,10 @@ namespace Tesserae
 
                 if (config.ChatFooter?.LeftSide is object)
                 {
-                    //if (_mode == Mode.Chat)
-                    //{
-                    //    foreach (var i in config.ChatFooter.LeftSide)
-                    //    {
-                    //        var el = i.Class("tss-omnibox-chat-footer-item").Render();
-                    //        _chatContainer.insertBefore(el, _chatInput);
-                    //    }
-                    //}
-                    //else
-                    //{
-                        foreach (var i in config.ChatFooter.LeftSide)
-                        {
-                            _footer.appendChild(i.Class("tss-omnibox-chat-footer-item").Class("tss-omnibox-footer-left").Render());
-                        }
-                    //}
+                    foreach (var i in config.ChatFooter.LeftSide)
+                    {
+                        _footer.appendChild(i.Class("tss-omnibox-chat-footer-item").Class("tss-omnibox-footer-left").Render());
+                    }
                 }
             }
 
@@ -563,10 +552,6 @@ namespace Tesserae
                 case Mode.Chat:
                 {
                     _container = Div(_("tss-omnibox-container"), _chatContainer, _footer);
-                    if ((config.ChatFooter?.LeftSide?.Length + config.ChatFooter?.RightSide?.Length) > 0)
-                    {
-                        _container.classList.add("tss-omnibox-chat-with-footer");
-                    }
                     break;
                 }
                 case Mode.SearchAndChat:
