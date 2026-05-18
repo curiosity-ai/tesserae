@@ -64,8 +64,9 @@ namespace Tesserae
             public IComponent Icon { get; }
             public string Background { get; }
             public string Color { get; }
+            public bool Exclusive { get; }
 
-            public SnapHandler(string snapId, string displayName, string[] triggerWords, IComponent icon = null, string description = null, string background = null, string color = null)
+            public SnapHandler(string snapId, string displayName, string[] triggerWords, IComponent icon = null, string description = null, string background = null, string color = null, bool exclusive = false)
             {
                 if (string.IsNullOrEmpty(snapId)) throw new ArgumentException("snapId is required", nameof(snapId));
                 if (string.IsNullOrEmpty(displayName)) throw new ArgumentException("displayName is required", nameof(displayName));
@@ -77,6 +78,7 @@ namespace Tesserae
                 Description = description;
                 Background = background;
                 Color = color;
+                Exclusive = exclusive;
             }
         }
 
@@ -1135,11 +1137,26 @@ namespace Tesserae
             }
 
             var typed = val.Substring(atIdx + 1, cursor - atIdx - 1);
+            var active = GetActiveSnaps();
             var activeSnapIds = new HashSet<string>();
-            foreach (var s in GetActiveSnaps()) activeSnapIds.Add(s.SnapId);
+            bool anyActive = false;
+            bool anyExclusiveActive = false;
+            foreach (var s in active)
+            {
+                activeSnapIds.Add(s.SnapId);
+                anyActive = true;
+                if (s.Exclusive) anyExclusiveActive = true;
+            }
+
+            if (anyExclusiveActive)
+            {
+                HideSnapSuggestions();
+                return false;
+            }
 
             var matches = _snapHandlers
                 .Where(s => !activeSnapIds.Contains(s.SnapId))
+                .Where(s => !anyActive || !s.Exclusive)
                 .Where(s => s.TriggerWords.Any(t => t.IndexOf(typed, StringComparison.OrdinalIgnoreCase) >= 0))
                 .OrderBy(s => s.TriggerWords.Any(t => t.StartsWith(typed, StringComparison.OrdinalIgnoreCase)) ? 0 : 1)
                 .ToArray();

@@ -74,7 +74,7 @@ namespace Tesserae.Tests.Samples
                 new OmniBox.SnapHandler("docs", "Docs", new[] { "docs", "documentation" }, Icon(UIcons.Book), "Search the documentation"),
                 new OmniBox.SnapHandler("wiki", "Wikipedia", new[] { "wiki", "wikipedia" }, Icon(UIcons.Globe), "Search Wikipedia"),
                 new OmniBox.SnapHandler("code", "Code", new[] { "code", "src", "source" }, Icon(UIcons.FileCode), "Search source code"),
-                new OmniBox.SnapHandler("ai", "AI Assist", new[] { "ai", "ask" }, Icon(UIcons.MagicWand), "Search with AI"))
+                new OmniBox.SnapHandler("ai", "AI Assist", new[] { "ai", "ask" }, Icon(UIcons.MagicWand), "Switch to AI search (exclusive)", exclusive: true))
             .SetKeyboardShortcut("Ctrl", "K")
             .SetSearchText("potato AND ( tomato OR banana) AND NOT apple");
 
