@@ -23,6 +23,9 @@ namespace Tesserae
             private readonly SnapHandler _snap;
             internal SnapHandler Snap => _snap;
 
+            private readonly FilterSnap _filterSnap;
+            internal FilterSnap FilterSnap => _filterSnap;
+
             public InlineFilterChip(string name, string background = null, string color = null, Action<MouseEvent> onClick = null, bool removable = true)
             {
                 Name = name;
@@ -52,6 +55,111 @@ namespace Tesserae
                         snap.Icon,
                         TextBlock(snap.DisplayName).PaddingLeft(4.px()));
                 }
+            }
+
+            internal InlineFilterChip(FilterSnap filterSnap)
+            {
+                _filterSnap = filterSnap;
+                var handler = filterSnap.Handler;
+                Name = filterSnap.Trigger + ":" + filterSnap.Value;
+                Background = handler.Background;
+                Color = handler.Color;
+                Removable = true;
+                if (handler.Icon != null)
+                {
+                    Content = HStack().AlignItemsCenter().Children(
+                        handler.Icon,
+                        TextBlock(Name).PaddingLeft(4.px()));
+                }
+            }
+        }
+
+        public class FilterSnapHandler
+        {
+            public string FilterId { get; }
+            public string DisplayName { get; }
+            public string Description { get; }
+            public string[] TriggerWords { get; }
+            public IComponent Icon { get; }
+            public string Background { get; }
+            public string Color { get; }
+
+            private readonly string[] _values;
+            private readonly Func<string, Task<string[]>> _valuesProvider;
+
+            public FilterSnapHandler(string filterId, string displayName, string[] triggerWords, string[] values, IComponent icon = null, string description = null, string background = null, string color = null)
+                : this(filterId, displayName, triggerWords, icon, description, background, color)
+            {
+                if (values == null) throw new ArgumentNullException(nameof(values));
+                _values = values;
+            }
+
+            public FilterSnapHandler(string filterId, string displayName, string[] triggerWords, Func<string, Task<string[]>> valuesProvider, IComponent icon = null, string description = null, string background = null, string color = null)
+                : this(filterId, displayName, triggerWords, icon, description, background, color)
+            {
+                if (valuesProvider == null) throw new ArgumentNullException(nameof(valuesProvider));
+                _valuesProvider = valuesProvider;
+            }
+
+            private FilterSnapHandler(string filterId, string displayName, string[] triggerWords, IComponent icon, string description, string background, string color)
+            {
+                if (string.IsNullOrEmpty(filterId)) throw new ArgumentException("filterId is required", nameof(filterId));
+                if (string.IsNullOrEmpty(displayName)) throw new ArgumentException("displayName is required", nameof(displayName));
+                if (triggerWords == null || triggerWords.Length == 0) throw new ArgumentException("At least one trigger word is required", nameof(triggerWords));
+                FilterId = filterId;
+                DisplayName = displayName;
+                TriggerWords = triggerWords;
+                Icon = icon;
+                Description = description;
+                Background = background;
+                Color = color;
+            }
+
+            internal async Task<string[]> GetValuesAsync(string input)
+            {
+                string[] raw;
+                if (_values != null)
+                {
+                    raw = _values;
+                }
+                else
+                {
+                    raw = await _valuesProvider(input ?? string.Empty) ?? Array.Empty<string>();
+                }
+
+                var filtered = new List<string>(raw.Length);
+                foreach (var v in raw)
+                {
+                    if (string.IsNullOrEmpty(v)) continue;
+                    if (ContainsWhitespace(v)) continue;
+                    if (_values != null && !string.IsNullOrEmpty(input) && v.IndexOf(input, StringComparison.OrdinalIgnoreCase) < 0) continue;
+                    filtered.Add(v);
+                }
+                return filtered.ToArray();
+            }
+
+            private static bool ContainsWhitespace(string s)
+            {
+                for (int i = 0; i < s.Length; i++)
+                {
+                    if (char.IsWhiteSpace(s[i])) return true;
+                }
+                return false;
+            }
+        }
+
+        public class FilterSnap
+        {
+            public FilterSnapHandler Handler { get; }
+            public string FilterId => Handler.FilterId;
+            public string Trigger { get; }
+            public string Value { get; }
+
+            public FilterSnap(FilterSnapHandler handler, string trigger, string value)
+            {
+                Handler = handler;
+                Trigger = trigger;
+                Value = value;
             }
         }
 
@@ -231,6 +339,14 @@ namespace Tesserae
         private SnapHandler[] _currentSnapMatches;
         private int _snapMentionStart = -1;
         private int _snapMentionEnd = -1;
+
+        private readonly List<FilterSnapHandler> _filterSnapHandlers = new List<FilterSnapHandler>();
+        private Action _hideFilterSnapSuggestions;
+        private int _highlightedFilterSnapSuggestionIndex = -1;
+        private List<Button> _currentFilterSnapSuggestionButtons = new List<Button>();
+        private int _filterSnapStart = -1;
+        private int _filterSnapEnd = -1;
+        private int _filterSnapRequestId = 0;
         private string _tokenTypeMap = string.Empty;
         private readonly IconToggle<Mode> _modeToggle;
         private readonly bool _tokenIgnoreCase;
@@ -319,12 +435,19 @@ namespace Tesserae
                 {
                     OnSearchInputChanged();
                     Input?.Invoke(this, e);
-                    if (TryUpdateSnapSuggestions())
+                    if (TryUpdateFilterSnapSuggestions())
                     {
+                        HideSnapSuggestions();
+                        HideRegularSuggestions();
+                    }
+                    else if (TryUpdateSnapSuggestions())
+                    {
+                        HideFilterSnapSuggestions();
                         HideRegularSuggestions();
                     }
                     else
                     {
+                        HideFilterSnapSuggestions();
                         TriggerSuggestions();
                     }
                 });
@@ -334,6 +457,16 @@ namespace Tesserae
                     var ke = e.As<KeyboardEvent>();
                     if (ke.key == "Enter")
                     {
+                        if (_hideFilterSnapSuggestions != null && _currentFilterSnapSuggestionButtons.Count > 0)
+                        {
+                            StopEvent(e);
+                            var idx = _highlightedFilterSnapSuggestionIndex >= 0 ? _highlightedFilterSnapSuggestionIndex : 0;
+                            if (idx < _currentFilterSnapSuggestionButtons.Count)
+                            {
+                                _currentFilterSnapSuggestionButtons[idx].RaiseOnClick(e.As<MouseEvent>());
+                            }
+                            return;
+                        }
                         if (_hideSnapSuggestions != null && _currentSnapSuggestionButtons.Count > 0)
                         {
                             StopEvent(e);
@@ -358,6 +491,16 @@ namespace Tesserae
                     }
                     else if (ke.key == "Tab")
                     {
+                        if (_hideFilterSnapSuggestions != null && _currentFilterSnapSuggestionButtons.Count > 0)
+                        {
+                            StopEvent(e);
+                            var idx = _highlightedFilterSnapSuggestionIndex >= 0 ? _highlightedFilterSnapSuggestionIndex : 0;
+                            if (idx < _currentFilterSnapSuggestionButtons.Count)
+                            {
+                                _currentFilterSnapSuggestionButtons[idx].RaiseOnClick(e.As<MouseEvent>());
+                            }
+                            return;
+                        }
                         if (_hideSnapSuggestions != null && _currentSnapSuggestionButtons.Count > 0)
                         {
                             StopEvent(e);
@@ -371,6 +514,12 @@ namespace Tesserae
                     }
                     else if (ke.key == "Escape")
                     {
+                        if (_hideFilterSnapSuggestions != null)
+                        {
+                            StopEvent(e);
+                            HideFilterSnapSuggestions();
+                            return;
+                        }
                         if (_hideSnapSuggestions != null)
                         {
                             StopEvent(e);
@@ -443,7 +592,12 @@ namespace Tesserae
                     }
                     else if (ke.key == "ArrowDown")
                     {
-                        if (_hideSnapSuggestions != null && _currentSnapSuggestionButtons.Count > 0)
+                        if (_hideFilterSnapSuggestions != null && _currentFilterSnapSuggestionButtons.Count > 0)
+                        {
+                            StopEvent(e);
+                            UpdateHighlightedFilterSnapSuggestion(1);
+                        }
+                        else if (_hideSnapSuggestions != null && _currentSnapSuggestionButtons.Count > 0)
                         {
                             StopEvent(e);
                             UpdateHighlightedSnapSuggestion(1);
@@ -456,7 +610,12 @@ namespace Tesserae
                     }
                     else if (ke.key == "ArrowUp")
                     {
-                        if (_hideSnapSuggestions != null && _currentSnapSuggestionButtons.Count > 0)
+                        if (_hideFilterSnapSuggestions != null && _currentFilterSnapSuggestionButtons.Count > 0)
+                        {
+                            StopEvent(e);
+                            UpdateHighlightedFilterSnapSuggestion(-1);
+                        }
+                        else if (_hideSnapSuggestions != null && _currentSnapSuggestionButtons.Count > 0)
                         {
                             StopEvent(e);
                             UpdateHighlightedSnapSuggestion(-1);
@@ -476,6 +635,7 @@ namespace Tesserae
                     LostFocus?.Invoke(this, e);
                     if (_hideSuggestions != null) window.setTimeout(_ => { if (_hideSuggestions != null) _hideSuggestions(); _highlightedSuggestionIndex = -1; }, 200);
                     if (_hideSnapSuggestions != null) window.setTimeout(_ => { HideSnapSuggestions(); }, 200);
+                    if (_hideFilterSnapSuggestions != null) window.setTimeout(_ => { HideFilterSnapSuggestions(); }, 200);
                 });
 
                 _searchInput.addEventListener("scroll", (e) => SyncScroll());
@@ -1068,6 +1228,7 @@ namespace Tesserae
             var val = _searchInput.value;
             var query = ParseQuery(val, _tokenIgnoreCase);
             query.Snaps = GetActiveSnaps();
+            query.FilterSnaps = GetActiveFilterSnaps();
             Searched?.Invoke(this, query);
         }
 
@@ -1079,6 +1240,18 @@ namespace Tesserae
             {
                 var chip = InlineFilterChips[i];
                 if (chip.Snap != null) result.Add(chip.Snap);
+            }
+            return result.ToArray();
+        }
+
+        private FilterSnap[] GetActiveFilterSnaps()
+        {
+            if (InlineFilterChips == null) return Array.Empty<FilterSnap>();
+            var result = new List<FilterSnap>();
+            for (int i = 0; i < InlineFilterChips.Count; i++)
+            {
+                var chip = InlineFilterChips[i];
+                if (chip.FilterSnap != null) result.Add(chip.FilterSnap);
             }
             return result.ToArray();
         }
@@ -1099,6 +1272,221 @@ namespace Tesserae
             if (snaps == null) return this;
             foreach (var s in snaps) RegisterSnap(s);
             return this;
+        }
+
+        public OmniBox RegisterFilterSnap(FilterSnapHandler filter)
+        {
+            if (filter == null) return this;
+            if (_mode != Mode.Search && _mode != Mode.SearchAndChat)
+            {
+                throw new InvalidOperationException("RegisterFilterSnap can only be called when OmniBox is in Search or SearchAndChat mode.");
+            }
+            _filterSnapHandlers.Add(filter);
+            return this;
+        }
+
+        public OmniBox RegisterFilterSnaps(params FilterSnapHandler[] filters)
+        {
+            if (filters == null) return this;
+            foreach (var f in filters) RegisterFilterSnap(f);
+            return this;
+        }
+
+        private bool TryUpdateFilterSnapSuggestions()
+        {
+            if (_filterSnapHandlers.Count == 0)
+            {
+                HideFilterSnapSuggestions();
+                return false;
+            }
+
+            var val = _searchInput.value;
+            var cursor = (int)_searchInput.selectionStart;
+
+            int wordStart = 0;
+            for (int i = cursor - 1; i >= 0; i--)
+            {
+                var ch = val[i];
+                if (ch == ' ' || ch == specialWhitespace || char.IsWhiteSpace(ch))
+                {
+                    wordStart = i + 1;
+                    break;
+                }
+            }
+
+            var segment = val.Substring(wordStart, cursor - wordStart);
+            int colonIdx = segment.IndexOf(':');
+            if (colonIdx < 0)
+            {
+                HideFilterSnapSuggestions();
+                return false;
+            }
+
+            var triggerText = segment.Substring(0, colonIdx);
+            var valueText = segment.Substring(colonIdx + 1);
+
+            FilterSnapHandler matched = null;
+            string matchedTrigger = null;
+            foreach (var h in _filterSnapHandlers)
+            {
+                foreach (var t in h.TriggerWords)
+                {
+                    if (string.Equals(t, triggerText, StringComparison.OrdinalIgnoreCase))
+                    {
+                        matched = h;
+                        matchedTrigger = t;
+                        break;
+                    }
+                }
+                if (matched != null) break;
+            }
+
+            if (matched == null)
+            {
+                HideFilterSnapSuggestions();
+                return false;
+            }
+
+            _filterSnapStart = wordStart;
+            _filterSnapEnd = cursor;
+
+            var requestId = ++_filterSnapRequestId;
+            var captured = matched;
+            var capturedTrigger = matchedTrigger;
+            var capturedStart = wordStart;
+            var capturedEnd = cursor;
+
+            LoadFilterSnapSuggestionsAsync(captured, capturedTrigger, valueText, requestId, capturedStart, capturedEnd);
+            return true;
+        }
+
+        private async void LoadFilterSnapSuggestionsAsync(FilterSnapHandler handler, string trigger, string valueText, int requestId, int start, int end)
+        {
+            string[] values;
+            try
+            {
+                values = await handler.GetValuesAsync(valueText);
+            }
+            catch (Exception ex)
+            {
+                console.error("Filter snap values fetch failed: ", ex);
+                values = Array.Empty<string>();
+            }
+
+            if (requestId != _filterSnapRequestId) return;
+            if (_filterSnapStart != start || _filterSnapEnd != end)
+            {
+                return;
+            }
+
+            if (values == null || values.Length == 0)
+            {
+                HideFilterSnapSuggestions();
+                return;
+            }
+
+            ShowFilterSnapSuggestions(handler, trigger, values);
+        }
+
+        private void ShowFilterSnapSuggestions(FilterSnapHandler handler, string trigger, string[] values)
+        {
+            _currentFilterSnapSuggestionButtons = new List<Button>();
+            _highlightedFilterSnapSuggestionIndex = 0;
+
+            var content = VStack().NoDefaultMargin().W(360).MaxHeight(400.px()).ScrollY();
+            var headerText = handler.DisplayName;
+            content.Add(TextBlock(headerText).Small().SemiBold().PaddingBottom(4.px()).PaddingTop(8.px()).PaddingLeft(12.px()).Foreground(Theme.Secondary.Foreground));
+
+            foreach (var v in values)
+            {
+                var capturedValue = v;
+                var btn = Button().Class("tss-omnibox-snap-suggestion").Class("tss-omnibox-filter-snap-suggestion").WS().NoPadding().NoMinSize().H(32).MB(4).NoBorder().NoBackground().TextLeft();
+                var row = HStack().WS().AlignItems(ItemAlign.Center).PaddingLeft(12.px()).PaddingRight(12.px());
+                if (handler.Icon != null) row.Add(handler.Icon.MR(8));
+                row.Add(TextBlock(capturedValue));
+                row.Add(TextBlock(trigger + ":" + capturedValue).Small().Secondary().ML(UnitSize.Auto()));
+
+                btn.ReplaceContent(row);
+                btn.OnClick(() => CommitFilterSnap(handler, trigger, capturedValue));
+                content.Add(btn);
+                _currentFilterSnapSuggestionButtons.Add(btn);
+            }
+
+            if (_hideFilterSnapSuggestions != null)
+            {
+                _hideFilterSnapSuggestions();
+                _hideFilterSnapSuggestions = null;
+            }
+
+            Tippy.ShowFor(_activeInput, content.Render(), out _hideFilterSnapSuggestions, placement: TooltipPlacement.BottomStart, maxWidth: 400, onHiddenCallback: () => _hideFilterSnapSuggestions = null);
+            HighlightFilterSnapSuggestion(0);
+        }
+
+        private void HideFilterSnapSuggestions()
+        {
+            if (_hideFilterSnapSuggestions != null)
+            {
+                _hideFilterSnapSuggestions();
+                _hideFilterSnapSuggestions = null;
+            }
+            _currentFilterSnapSuggestionButtons.Clear();
+            _highlightedFilterSnapSuggestionIndex = -1;
+            _filterSnapStart = -1;
+            _filterSnapEnd = -1;
+        }
+
+        private void UpdateHighlightedFilterSnapSuggestion(int offset)
+        {
+            if (_currentFilterSnapSuggestionButtons.Count == 0) return;
+            var next = (_highlightedFilterSnapSuggestionIndex + offset + _currentFilterSnapSuggestionButtons.Count) % _currentFilterSnapSuggestionButtons.Count;
+            HighlightFilterSnapSuggestion(next);
+        }
+
+        private void HighlightFilterSnapSuggestion(int index)
+        {
+            if (_highlightedFilterSnapSuggestionIndex >= 0 && _highlightedFilterSnapSuggestionIndex < _currentFilterSnapSuggestionButtons.Count)
+            {
+                _currentFilterSnapSuggestionButtons[_highlightedFilterSnapSuggestionIndex].RemoveClass("tss-omnibox-suggestion-highlight");
+            }
+            _highlightedFilterSnapSuggestionIndex = index;
+            if (_highlightedFilterSnapSuggestionIndex >= 0 && _highlightedFilterSnapSuggestionIndex < _currentFilterSnapSuggestionButtons.Count)
+            {
+                _currentFilterSnapSuggestionButtons[_highlightedFilterSnapSuggestionIndex].Class("tss-omnibox-suggestion-highlight");
+            }
+        }
+
+        private void CommitFilterSnap(FilterSnapHandler handler, string trigger, string value)
+        {
+            if (handler == null) return;
+            if (_filterSnapStart < 0 || _filterSnapEnd < 0) return;
+
+            var val = _searchInput.value;
+            var start = _filterSnapStart;
+            var end = _filterSnapEnd;
+            if (start < 0 || end > val.Length || start > end)
+            {
+                HideFilterSnapSuggestions();
+                return;
+            }
+
+            var before = val.Substring(0, start);
+            var after = val.Substring(end);
+
+            if (before.Length > 0 && (before[before.Length - 1] == ' ' || before[before.Length - 1] == specialWhitespace) &&
+                after.StartsWith(" "))
+            {
+                after = after.Substring(1);
+            }
+
+            var newVal = before + after;
+            _searchInput.value = newVal;
+            _searchInput.setSelectionRange((uint)before.Length, (uint)before.Length);
+
+            InlineFilterChips.Add(new InlineFilterChip(new FilterSnap(handler, trigger, value)));
+
+            HideFilterSnapSuggestions();
+            OnSearchInputChanged();
+            _searchInput.focus();
         }
 
         private bool TryUpdateSnapSuggestions()
@@ -2031,12 +2419,14 @@ namespace Tesserae
             public string RawQuery { get; set; }
             public List<SearchToken> Tokens { get; set; }
             public SnapHandler[] Snaps { get; set; }
+            public FilterSnap[] FilterSnaps { get; set; }
 
             public SearchQuery(string rawQuery, List<SearchToken> tokens)
             {
                 RawQuery = rawQuery;
                 Tokens = tokens;
                 Snaps = Array.Empty<SnapHandler>();
+                FilterSnaps = Array.Empty<FilterSnap>();
             }
         }
 
