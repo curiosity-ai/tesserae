@@ -114,6 +114,13 @@
     overflow: hidden;
     pointer-events: none;
     border-radius: 4px;
+    transition: left 0.5s cubic-bezier(0.2, 0, 0, 1),
+                width 0.5s cubic-bezier(0.2, 0, 0, 1);
+    will-change: left, width;
+}
+
+.tss-pivot-line.tss-pivot-line-instant {
+    transition: none;
 }
 
 .tss-pivot-tab-closeable {

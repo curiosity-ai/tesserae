@@ -9,74 +9,27 @@ namespace Tesserae
     [H5.Name("tss.domObs")]
     public static class DomObserver
     {
-        private static List<ElementAndCallback> _elementsToTrackMountingOf;
-        private static List<ElementAndCallback> _elementsToTrackRemovalOf;
+        private static readonly List<ElementAndCallback> _elementsToTrackMountingOf;
+        private static readonly List<ElementAndCallback> _elementsToTrackRemovalOf;
+        private static readonly MutationObserver         _observer;
+        private static bool                              _isObserving;
 
         private class ElementAndCallback
         {
-            private static bool? _weakrefAvailable;
-            private static int   _count;
-            private static bool IsAvailable()
-            {
-                if (_weakrefAvailable.HasValue) return _weakrefAvailable.Value;
+            // WeakRef is available in every evergreen browser (Chrome 84+, Firefox 79+,
+            // Safari 14.1+), so we use it unconditionally.
+            private static int _count;
 
-                try
-                {
-                    Script.Write("let ref = new WeakRef({0})", new object());
-                    _weakrefAvailable = true;
-                }
-                catch
-                {
-                    _weakrefAvailable = false;
-                }
-
-                return _weakrefAvailable.Value;
-            }
-
-            public HTMLElement ElementOrNullIfCollected => dereference();
-
-            private HTMLElement dereference()
-            {
-                if (IsAvailable())
-                {
-                    return Script.Write<HTMLElement>("{0}.ref.deref()", this);
-                }
-                else
-                {
-                    return Script.Write<HTMLElement>("{0}.ref", this);
-                }
-            }
-
-            public Action CallbackOrNullIfCollected => dereferenceCallback();
-
-            private Action dereferenceCallback()
-            {
-                if (IsAvailable())
-                {
-                    return Script.Write<Action>("{0}.callbackref.deref()", this);
-                }
-                else
-                {
-                    return Script.Write<Action>("{0}.callbackref", this);
-                }
-            }
+            public HTMLElement ElementOrNullIfCollected  => Script.Write<HTMLElement>("{0}.ref.deref()",         this);
+            public Action      CallbackOrNullIfCollected => Script.Write<Action>     ("{0}.callbackref.deref()", this);
 
             public ElementAndCallback(HTMLElement element, Action callback)
             {
-                if (IsAvailable())
-                {
-                    _count++;
-
-                    if (_count < 0) { _count = 0; }
-                    Script.Write("{0}['callbackRefN' + {2}] = {1}",    element, callback, _count); //We need to store the callback reference on the object otherwise it can be collected before the element
-                    Script.Write("{0}.ref = new WeakRef({1})",         this,    element);
-                    Script.Write("{0}.callbackref = new WeakRef({1})", this,    callback);
-                }
-                else
-                {
-                    Script.Write("{0}.ref = {1}",         this, element);
-                    Script.Write("{0}.callbackref = {1}", this, callback);
-                }
+                _count++;
+                if (_count < 0) { _count = 0; }
+                Script.Write("{0}['callbackRefN' + {2}] = {1}",    element, callback, _count); //We need to store the callback reference on the object otherwise it can be collected before the element
+                Script.Write("{0}.ref = new WeakRef({1})",         this,    element);
+                Script.Write("{0}.callbackref = new WeakRef({1})", this,    callback);
             }
         }
 
@@ -85,20 +38,38 @@ namespace Tesserae
             _elementsToTrackMountingOf = new List<ElementAndCallback>();
             _elementsToTrackRemovalOf  = new List<ElementAndCallback>();
 
-            var observer = new MutationObserver((mutationRecords, _) =>
+            _observer = new MutationObserver((mutationRecords, _) =>
             {
                 //First check all unmounted rules as they might modify the dom, then the mounted ones
                 CheckUnmounted(mutationRecords);
                 CheckMounted(mutationRecords);
+                StopObservingIfNothingToTrack();
             });
+        }
 
-            observer.observe(document.body, new MutationObserverInit { childList = true, subtree = true });
+        // The MutationObserver receives every childList change on document.body. When
+        // nothing is tracked, that's wasted work, so we start the observer lazily and
+        // stop it as soon as both tracking lists drain.
+        private static void StartObservingIfNeeded()
+        {
+            if (_isObserving) return;
+            _observer.observe(document.body, new MutationObserverInit { childList = true, subtree = true });
+            _isObserving = true;
+        }
+
+        private static void StopObservingIfNothingToTrack()
+        {
+            if (!_isObserving) return;
+            if (_elementsToTrackMountingOf.Count > 0 || _elementsToTrackRemovalOf.Count > 0) return;
+            _observer.disconnect();
+            _isObserving = false;
         }
 
         public static void CleanUnusedReferences()
         {
             _elementsToTrackMountingOf.RemoveAll(e => e.ElementOrNullIfCollected is null);
             _elementsToTrackRemovalOf.RemoveAll(e => e.ElementOrNullIfCollected is null);
+            StopObservingIfNothingToTrack();
         }
 
         private static void CheckMounted(MutationRecord[] mutationRecords)
@@ -106,30 +77,37 @@ namespace Tesserae
             if (_elementsToTrackMountingOf.Count == 0)
                 return;
 
-            var elementsMountedThatWeCareAbout = new List<ElementAndCallback>();
+            HashSet<ElementAndCallback> matched = null;
 
             foreach (var mutationRecord in mutationRecords)
             {
-                foreach (var mountedElement in mutationRecord.addedNodes)
+                var addedNodes = mutationRecord.addedNodes;
+                if (addedNodes.length == 0) continue;
+
+                foreach (var mountedElement in addedNodes)
                 {
-                    foreach (var elementToTrackMountingOf in _elementsToTrackMountingOf)
+                    for (int i = 0; i < _elementsToTrackMountingOf.Count; i++)
                     {
-                        var element = elementToTrackMountingOf.ElementOrNullIfCollected;
+                        var entry   = _elementsToTrackMountingOf[i];
+                        var element = entry.ElementOrNullIfCollected;
 
                         if (element != null && element.IsEqualToOrIsChildOf(mountedElement))
                         {
-                            elementsMountedThatWeCareAbout.Add(elementToTrackMountingOf);
+                            if (matched is null) matched = new HashSet<ElementAndCallback>();
+                            matched.Add(entry);
                         }
                     }
                 }
             }
-            if (elementsMountedThatWeCareAbout.Count == 0) return;
 
-            _elementsToTrackMountingOf = _elementsToTrackMountingOf.Except(elementsMountedThatWeCareAbout).Where(e => e.ElementOrNullIfCollected is object && e.CallbackOrNullIfCollected is object).ToList();
+            if (matched is null) return;
+
+            // Remove matched and collected entries in a single pass.
+            _elementsToTrackMountingOf.RemoveAll(e => matched.Contains(e) || e.ElementOrNullIfCollected is null || e.CallbackOrNullIfCollected is null);
 
             window.requestAnimationFrame(_ =>
             {
-                foreach (var entry in elementsMountedThatWeCareAbout)
+                foreach (var entry in matched)
                 {
                     var element = entry.ElementOrNullIfCollected;
 
@@ -152,11 +130,14 @@ namespace Tesserae
             if (_elementsToTrackRemovalOf.Count == 0)
                 return;
 
-            var elementsRemovedThatWeCareAbout = new List<ElementAndCallback>();
+            HashSet<ElementAndCallback> matched = null;
 
             foreach (var mutationRecord in mutationRecords)
             {
-                foreach (var removedElement in mutationRecord.removedNodes)
+                var removedNodes = mutationRecord.removedNodes;
+                if (removedNodes.length == 0) continue;
+
+                foreach (var removedElement in removedNodes)
                 {
                     // 2019-10-28 DWR: The intent behind the NotifyWhenRemoved method is to fire a callback when an element is removed from the document, so that any related tidy-up / disposal
                     // may be performed. However, this will also be fired if an element (or one of its ancestors) is RE-rendered somewhere and that's not really what we want, so if the element
@@ -174,28 +155,27 @@ namespace Tesserae
                         continue;
                     }
 
-                    foreach (var elementToTrackRemovalOf in _elementsToTrackRemovalOf)
+                    for (int i = 0; i < _elementsToTrackRemovalOf.Count; i++)
                     {
-                        var element = elementToTrackRemovalOf.ElementOrNullIfCollected;
+                        var entry   = _elementsToTrackRemovalOf[i];
+                        var element = entry.ElementOrNullIfCollected;
 
                         if (element is object && element.IsEqualToOrIsChildOf(removedElement))
                         {
-                            elementsRemovedThatWeCareAbout.Add(elementToTrackRemovalOf);
+                            if (matched is null) matched = new HashSet<ElementAndCallback>();
+                            matched.Add(entry);
                         }
                     }
                 }
             }
 
-            if (elementsRemovedThatWeCareAbout.Count == 0)
-            {
-                return;
-            }
+            if (matched is null) return;
 
-            _elementsToTrackRemovalOf = _elementsToTrackRemovalOf.Except(elementsRemovedThatWeCareAbout).Where(e => e.ElementOrNullIfCollected is object && e.CallbackOrNullIfCollected is object).ToList();
+            _elementsToTrackRemovalOf.RemoveAll(e => matched.Contains(e) || e.ElementOrNullIfCollected is null || e.CallbackOrNullIfCollected is null);
 
             window.requestAnimationFrame(_ =>
             {
-                foreach (var entry in elementsRemovedThatWeCareAbout)
+                foreach (var entry in matched)
                 {
                     var element = entry.ElementOrNullIfCollected;
 
@@ -236,6 +216,7 @@ namespace Tesserae
             else
             {
                 _elementsToTrackMountingOf.Add(new ElementAndCallback(element, callback));
+                StartObservingIfNeeded();
             }
         }
 
@@ -258,6 +239,7 @@ namespace Tesserae
             // an element before its initial render / adding-to-the-DOM and so that check has had to be removed (as, in that case, the element would not be mounted because it hasn't been
             // added yet, not because it WAS added to the DOM and had already been removed again)
             _elementsToTrackRemovalOf.Add(new ElementAndCallback(element, callback));
+            StartObservingIfNeeded();
         }
     }
 }

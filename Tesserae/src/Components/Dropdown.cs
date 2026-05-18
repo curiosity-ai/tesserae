@@ -276,7 +276,9 @@ namespace Tesserae
                 _contentHtml.addEventListener("click",       OnWindowClick);
                 _contentHtml.addEventListener("dblclick",    OnWindowClick);
                 _contentHtml.addEventListener("contextmenu", OnWindowClick);
-                _contentHtml.addEventListener("wheel",       OnWindowClick);
+                // OnWindowClick doesn't preventDefault, so mark the wheel listener
+                // passive to avoid blocking scroll and silence the browser warning.
+                _contentHtml.addEventListener("wheel",       (Action<Event>)OnWindowClick, new AddEventListenerOptions { passive = true });
 
                 if (_itemsSource is object)
                 {
