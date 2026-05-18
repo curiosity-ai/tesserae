@@ -27,11 +27,6 @@ namespace Tesserae
         public           string      SelectedTab => _currentSelectedID ?? _initiallySelectedID;
         private HTMLElement _selectedNav;
         private HTMLElement _hoveredNav;
-        private double _t0 = 0;
-        private double _currentWidth = 0;
-        private double _currentLeft = 0;
-        private double _targetWidth;
-        private double _targetLeft;
         private bool _firstRender = false;
         private ResizeObserver _ro;
         private readonly Button _moreBtn;
@@ -129,7 +124,9 @@ namespace Tesserae
         private void AttachScrollerEvents()
         {
             // Convert vertical wheel motion (typical mouse) into horizontal scrolling.
-            _scroller.addEventListener("wheel", e =>
+            // This listener calls preventDefault() so it must be non-passive; mark it
+            // explicitly so the browser doesn't have to guess.
+            _scroller.addEventListener("wheel", (Action<Event>)(e =>
             {
                 var we = e.As<WheelEvent>();
                 if (Math.Abs(we.deltaY) > Math.Abs(we.deltaX))
@@ -137,7 +134,7 @@ namespace Tesserae
                     _scroller.scrollLeft += we.deltaY;
                     e.preventDefault();
                 }
-            });
+            }), new AddEventListenerOptions { passive = false });
 
             _scroller.addEventListener("scroll", e => UpdateScrollButtons());
 
@@ -461,53 +458,27 @@ namespace Tesserae
 
         private void TriggerAnimation()
         {
-            _t0 = -1;
-            window.requestAnimationFrame((t) => AnimateLine(t));
-        }
+            var target = _hoveredNav ?? _selectedNav;
+            if (target is null) return;
 
-        private void AnimateLine(double time)
-        {
-            if (_t0 < 0)
-            {
-                var target = _hoveredNav ?? _selectedNav;
-
-                if (target is null) { return; }
-
-                _t0 = time;
-                // offsetLeft/offsetWidth are relative to the titlebar, which is the
-                // line's offsetParent (it's position: relative). This stays correct
-                // regardless of scroll position.
-                _targetWidth = target.offsetWidth;
-                _targetLeft  = target.offsetLeft;
-            }
-
-            var f = (time - _t0) / 500; //500ms animation
-
+            // offsetLeft/offsetWidth are relative to the titlebar, which is the line's
+            // offsetParent (it's position: relative). This stays correct regardless of
+            // scroll position. CSS transitions on .tss-pivot-line interpolate width/left.
             if (_firstRender)
             {
-                f            = 1;
+                // Snap to position on first render so the line doesn't animate in from 0/0.
+                _line.classList.add("tss-pivot-line-instant");
+                _line.style.width = target.offsetWidth + "px";
+                _line.style.left  = target.offsetLeft  + "px";
+                // Read offsetWidth to flush the layout before re-enabling the transition.
+                var _flush = _line.offsetWidth;
+                _line.classList.remove("tss-pivot-line-instant");
                 _firstRender = false;
+                return;
             }
 
-            if (f > 1)
-            {
-                f = 1;
-            }
-
-            _currentWidth     += (_targetWidth - _currentWidth) * f;
-            _currentLeft      += (_targetLeft  - _currentLeft)  * f;
-
-            if (Math.Abs(_currentLeft - _targetLeft) > 1 || Math.Abs(_currentWidth - _targetWidth) > 1)
-            {
-                _line.style.width =  _currentWidth + "px";
-                _line.style.left  =  _currentLeft  + "px";
-                window.requestAnimationFrame((t) => AnimateLine(t));
-            }
-            else
-            {
-                _line.style.width =  _targetWidth + "px";
-                _line.style.left  =  _targetLeft  + "px";
-            }
+            _line.style.width = target.offsetWidth + "px";
+            _line.style.left  = target.offsetLeft  + "px";
         }
 
         internal sealed class Tab
