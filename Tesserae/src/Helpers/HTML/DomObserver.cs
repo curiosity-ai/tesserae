@@ -16,77 +16,20 @@ namespace Tesserae
 
         private class ElementAndCallback
         {
-            // Tri-state cache for the WeakRef feature probe: Unknown until we've tested,
-            // then either Available or NotAvailable. Using an int + consts avoids the
-            // Nullable<bool> boxing that h5 emits for bool?.
-            private const int WeakRefUnknown      = 0;
-            private const int WeakRefNotAvailable = 1;
-            private const int WeakRefAvailable    = 2;
-
-            private static int _weakrefState;
+            // WeakRef is available in every evergreen browser (Chrome 84+, Firefox 79+,
+            // Safari 14.1+), so we use it unconditionally.
             private static int _count;
 
-            private static bool IsAvailable()
-            {
-                if (_weakrefState != WeakRefUnknown) return _weakrefState == WeakRefAvailable;
-
-                try
-                {
-                    Script.Write("let ref = new WeakRef({0})", new object());
-                    _weakrefState = WeakRefAvailable;
-                }
-                catch
-                {
-                    _weakrefState = WeakRefNotAvailable;
-                }
-
-                return _weakrefState == WeakRefAvailable;
-            }
-
-            public HTMLElement ElementOrNullIfCollected => dereference();
-
-            private HTMLElement dereference()
-            {
-                if (IsAvailable())
-                {
-                    return Script.Write<HTMLElement>("{0}.ref.deref()", this);
-                }
-                else
-                {
-                    return Script.Write<HTMLElement>("{0}.ref", this);
-                }
-            }
-
-            public Action CallbackOrNullIfCollected => dereferenceCallback();
-
-            private Action dereferenceCallback()
-            {
-                if (IsAvailable())
-                {
-                    return Script.Write<Action>("{0}.callbackref.deref()", this);
-                }
-                else
-                {
-                    return Script.Write<Action>("{0}.callbackref", this);
-                }
-            }
+            public HTMLElement ElementOrNullIfCollected  => Script.Write<HTMLElement>("{0}.ref.deref()",         this);
+            public Action      CallbackOrNullIfCollected => Script.Write<Action>     ("{0}.callbackref.deref()", this);
 
             public ElementAndCallback(HTMLElement element, Action callback)
             {
-                if (IsAvailable())
-                {
-                    _count++;
-
-                    if (_count < 0) { _count = 0; }
-                    Script.Write("{0}['callbackRefN' + {2}] = {1}",    element, callback, _count); //We need to store the callback reference on the object otherwise it can be collected before the element
-                    Script.Write("{0}.ref = new WeakRef({1})",         this,    element);
-                    Script.Write("{0}.callbackref = new WeakRef({1})", this,    callback);
-                }
-                else
-                {
-                    Script.Write("{0}.ref = {1}",         this, element);
-                    Script.Write("{0}.callbackref = {1}", this, callback);
-                }
+                _count++;
+                if (_count < 0) { _count = 0; }
+                Script.Write("{0}['callbackRefN' + {2}] = {1}",    element, callback, _count); //We need to store the callback reference on the object otherwise it can be collected before the element
+                Script.Write("{0}.ref = new WeakRef({1})",         this,    element);
+                Script.Write("{0}.callbackref = new WeakRef({1})", this,    callback);
             }
         }
 
