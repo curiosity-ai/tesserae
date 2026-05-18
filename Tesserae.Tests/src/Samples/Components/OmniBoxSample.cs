@@ -65,8 +65,16 @@ namespace Tesserae.Tests.Samples
             })
             .OnSearch((s, q) =>
             {
-                Toast().Information($"Searched for: {q.RawQuery} (Parsed into {q.Tokens?.Count ?? 0} tokens)");
+                var snapInfo = q.Snaps != null && q.Snaps.Length > 0
+                    ? $" — snaps: {string.Join(", ", q.Snaps.Select(sn => sn.SnapId))}"
+                    : "";
+                Toast().Information($"Searched for: {q.RawQuery} (Parsed into {q.Tokens?.Count ?? 0} tokens){snapInfo}");
             })
+            .RegisterSnaps(
+                new OmniBox.SnapHandler("docs", "Docs", new[] { "docs", "documentation" }, Icon(UIcons.Book), "Search the documentation"),
+                new OmniBox.SnapHandler("wiki", "Wikipedia", new[] { "wiki", "wikipedia" }, Icon(UIcons.Globe), "Search Wikipedia"),
+                new OmniBox.SnapHandler("code", "Code", new[] { "code", "src", "source" }, Icon(UIcons.FileCode), "Search source code"),
+                new OmniBox.SnapHandler("ai", "AI Assist", new[] { "ai", "ask" }, Icon(UIcons.MagicWand), "Switch to AI search (exclusive)", exclusive: true))
             .SetKeyboardShortcut("Ctrl", "K")
             .SetSearchText("potato AND ( tomato OR banana) AND NOT apple");
 
@@ -200,6 +208,47 @@ namespace Tesserae.Tests.Samples
                 }
             });
 
+            var snapAndFilterSample = OmniBox(new OmniBox.Config(OmniBox.Mode.Search)
+            {
+                PlaceholderSearch = "Type @ for snaps, or 'ext:' / 'filetype:' / 'lang:' for filter values",
+            })
+            .WS()
+            .RegisterSnaps(
+                new OmniBox.SnapHandler("docs",  "Docs",      new[] { "docs", "documentation" }, Icon(UIcons.Book),   "Search the documentation"),
+                new OmniBox.SnapHandler("wiki",  "Wikipedia", new[] { "wiki", "wikipedia" },     Icon(UIcons.Globe),  "Search Wikipedia"),
+                new OmniBox.SnapHandler("code",  "Code",      new[] { "code", "src", "source" }, Icon(UIcons.FileCode), "Search source code"))
+            .RegisterFilterSnaps(
+                new OmniBox.FilterSnapHandler(
+                    "ext",
+                    "File extension",
+                    new[] { "ext", "filetype" },
+                    new[] { "cs", "ts", "tsx", "js", "jsx", "json", "md", "css", "html", "py", "rb", "go", "rs", "java", "kt", "swift", "yml", "yaml", "xml" },
+                    icon: Icon(UIcons.FileCode),
+                    description: "Filter results by file extension"),
+                new OmniBox.FilterSnapHandler(
+                    "lang",
+                    "Language",
+                    new[] { "lang", "language" },
+                    async (input) =>
+                    {
+                        await Task.Delay(120); // Simulate network
+                        var all = new[] { "csharp", "typescript", "javascript", "python", "ruby", "go", "rust", "java", "kotlin", "swift", "html", "css" };
+                        if (string.IsNullOrEmpty(input)) return all;
+                        return all.Where(v => v.IndexOf(input, StringComparison.OrdinalIgnoreCase) >= 0).ToArray();
+                    },
+                    icon: Icon(UIcons.Globe),
+                    description: "Filter results by language (async)"))
+            .OnSearch((s, q) =>
+            {
+                var snapInfo = q.Snaps != null && q.Snaps.Length > 0
+                    ? $" — snaps: {string.Join(", ", q.Snaps.Select(sn => sn.SnapId))}"
+                    : "";
+                var filterInfo = q.FilterSnaps != null && q.FilterSnaps.Length > 0
+                    ? $" — filters: {string.Join(", ", q.FilterSnaps.Select(f => f.FilterId + "=" + f.Value))}"
+                    : "";
+                Toast().Information($"Searched for: {q.RawQuery}{snapInfo}{filterInfo}");
+            });
+
             _content = SectionStack().Secondary()
                .SampleTitle(typeof(OmniBoxSample), UIcons.Search, "An omnibox search component")
                .FlatSection(VStack().Children(
@@ -213,7 +262,13 @@ namespace Tesserae.Tests.Samples
                         Label("Chat").SetContent(fileDropAreaOnChat.WS()).MT(6),
                         Label("Chat with locked model").SetContent(lockedChatModeSample.WS()).MT(6),
                         Label("Search & Chat").SetContent(searchAndChatModeSample.WS()).MT(6)
-                )).SetTitle("Usage")));
+                )).SetTitle("Usage")))
+               .FlatSection(VStack().WS().Children(
+                    Card(VStack().WS().Children(
+                    SampleSubTitle("Snaps and filter snaps"),
+                    TextBlock("Type @ to insert a snap (e.g. @docs, @wiki, @code). Type 'ext:', 'filetype:', or 'lang:' to autocomplete filter values — when committed they become removable chips. Both snap and filter selections are passed through with the search query.").MB(8),
+                    Label("Snaps + filter snaps").SetContent(snapAndFilterSample.Class("tss-omnibox-snap-and-filter-sample"))
+                )).SetTitle("Snaps & Filter Snaps")));
         }
 
         public HTMLElement Render() => _content.Render();

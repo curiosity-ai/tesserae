@@ -21,6 +21,7 @@ namespace Tesserae
         public delegate void               SearchEventHandler(SearchBox sender, string value);
 
         private double _timeoutTriggerSearch = 0;
+        private string _lastSearchedValue    = string.Empty;
 
         public SearchBox(string placeholder = string.Empty)
         {
@@ -56,6 +57,7 @@ namespace Tesserae
             window.clearTimeout(_timeoutTriggerSearch);
             _timeoutTriggerSearch = window.setTimeout((_) =>
             {
+                _lastSearchedValue = InnerElement.value;
                 Searched?.Invoke(this, InnerElement.value);
             }, 50);
         }
@@ -223,6 +225,10 @@ namespace Tesserae
             OnKeyUp((s, e) =>
             {
                 if (e.altKey || e.ctrlKey || e.metaKey || e.key == "Enter" || e.key == "Escape")
+                {
+                    return;
+                }
+                if (InnerElement.value == _lastSearchedValue)
                 {
                     return;
                 }
