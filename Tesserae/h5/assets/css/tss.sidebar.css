@@ -306,13 +306,6 @@
     min-width: 24px;
 }
 
-.tss-sidebar-nav-header.tss-sidebar-btn-open.tss-sidebar-nav-header-empty.tss-sidebar-nav-header-dot-if-empty > .tss-btn i,
-.tss-sidebar-nav-header.tss-sidebar-btn-open.tss-sidebar-nav-header-empty.tss-sidebar-nav-header-dot-if-empty > a > .tss-btn i,
-.tss-sidebar-nav-header.tss-sidebar-btn-open.tss-sidebar-nav-header-empty.tss-sidebar-nav-header-dot-if-empty > .tss-btn > .tss-btn-with-image > .tss-image,
-.tss-sidebar-nav-header.tss-sidebar-btn-open.tss-sidebar-nav-header-empty.tss-sidebar-nav-header-dot-if-empty > a > .tss-btn > .tss-btn-with-image > .tss-image {
-    margin-left: 28px;
-}
-
 .tss-sidebar-nav-header.tss-sidebar-btn-open.tss-sidebar-nav-header-empty > .tss-sidebar-nav-arrow {
     display: none;
 }
@@ -337,16 +330,6 @@
     visibility: hidden;
 }
 
-.tss-sidebar-nav-header.tss-sidebar-btn-open.tss-sidebar-nav-header-empty.tss-sidebar-nav-header-dot-if-empty > .tss-btn:before,
-.tss-sidebar-nav-header.tss-sidebar-btn-open.tss-sidebar-nav-header-empty.tss-sidebar-nav-header-dot-if-empty > a > .tss-btn:before {
-    content: '';
-    border-radius: 10px;
-    background: rgba(var(--tss-secondary-foreground-color-root), 0.2);
-    width: 6px;
-    height: 6px;
-    position: absolute;
-    left: 16px;
-}
 
 .tss-sidebar-btn-has-icon-click.tss-btn > i,
 .tss-sidebar-btn-has-icon-click.tss-btn > .tss-btn-with-image > .tss-image {

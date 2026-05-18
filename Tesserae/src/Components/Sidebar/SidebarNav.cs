@@ -230,16 +230,6 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Shows a dot in the header if the navigation is empty.
-        /// </summary>
-        /// <returns>The current instance of the type.</returns>
-        public SidebarNav ShowDotIfEmpty()
-        {
-            _openHeader.classList.add("tss-sidebar-nav-header-dot-if-empty");
-            return this;
-        }
-
-        /// <summary>
         /// Adds a click event handler to the open header icon.
         /// </summary>
         /// <param name="action">The event handler action.</param>
