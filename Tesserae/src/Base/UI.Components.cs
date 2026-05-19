@@ -196,9 +196,12 @@ namespace Tesserae
         public static CommandBar CommandBar(params IComponent[] items) => new CommandBar(items);
 
         /// <summary>
-        /// Creates a <see cref="Tesserae.CommandPalette"/> component.
+        /// Creates a <see cref="Tesserae.CommandPalette"/> component bound to the
+        /// lifetime of <paramref name="host"/> (its global keyboard listener is
+        /// attached when <paramref name="host"/> mounts and removed when it is
+        /// unmounted).
         /// </summary>
-        public static CommandPalette CommandPalette(params CommandPaletteAction[] actions) => new CommandPalette(actions);
+        public static CommandPalette CommandPalette(IComponent host, params CommandPaletteAction[] actions) => new CommandPalette(host, actions);
 
         /// <summary>
         /// Creates a <see cref="Tesserae.CommandPaletteAction"/> definition.

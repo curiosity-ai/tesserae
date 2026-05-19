@@ -13,13 +13,14 @@ namespace Tesserae.Tests.Samples
 
         public CommandPaletteSample()
         {
-            var palette = new CommandPalette(BuildActions());
+            var stack = SectionStack().Secondary();
+            var palette = new CommandPalette(stack, BuildActions());
 
             var openButton = Button("Open Command Palette")
                .Primary()
                .OnClick(() => palette.Open());
 
-            _content = SectionStack().Secondary()
+            _content = stack
                .SampleTitle(typeof(CommandPaletteSample), UIcons.Keyboard, "A command palette utility")
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(

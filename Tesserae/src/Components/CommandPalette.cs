@@ -29,6 +29,9 @@ namespace Tesserae
         private string _currentParentId;
         private int _activeIndex = -1;
 
+        private readonly Action<Event> _globalKeyDownHandler;
+        private bool _globalListenerActive;
+
         public event Action<CommandPaletteAction> ActionExecuted;
 
         public bool EnableGlobalShortcut { get; set; } = true;
@@ -40,8 +43,17 @@ namespace Tesserae
         /// </summary>
         public string GlobalShortcutKey { get; set; } = "k";
 
-        public CommandPalette(IEnumerable<CommandPaletteAction> actions = null)
+        /// <summary>
+        /// Creates a CommandPalette whose global Ctrl/Cmd keyboard listener is bound
+        /// to the lifetime of <paramref name="host"/>: the listener is attached when
+        /// <paramref name="host"/> first mounts to the DOM and detached when it is
+        /// removed. This prevents the palette from leaking listeners (and continuing
+        /// to respond to its shortcut) after the owning view has been navigated away.
+        /// </summary>
+        public CommandPalette(IComponent host, IEnumerable<CommandPaletteAction> actions = null)
         {
+            if (host is null) throw new ArgumentNullException(nameof(host));
+
             _searchInput = TextBox(_("tss-commandpalette-search", type: "search", placeholder: "Type a command"));
             _searchInput.setAttribute("aria-label", "Command palette search");
             _searchInput.addEventListener("input", _ => RefreshResults());
@@ -54,7 +66,7 @@ namespace Tesserae
                     _searchInput.focus();
                 }
             });
-            _backButton = Button(_("tss-commandpalette-back tss-fontweight-semibold", type: "button", title: "Go Back"), 
+            _backButton = Button(_("tss-commandpalette-back tss-fontweight-semibold", type: "button", title: "Go Back"),
                                     Div(_("tss-commandpalette-icon"), I(_($"tss-commandpalette-icon-item {UIcons.AngleLeft}"))));
 
             _backButton.addEventListener("click", e =>
@@ -82,8 +94,22 @@ namespace Tesserae
             _contentHtml = Div(_("tss-commandpalette-container"), _overlay, _positioner);
 
             SetActions(actions);
-            window.addEventListener("keydown", HandleGlobalKeyDown);
-            
+
+            _globalKeyDownHandler = HandleGlobalKeyDown;
+            host.WhenMounted(() =>
+            {
+                if (_globalListenerActive) return;
+                window.addEventListener("keydown", _globalKeyDownHandler);
+                _globalListenerActive = true;
+                host.WhenRemoved(() =>
+                {
+                    if (!_globalListenerActive) return;
+                    window.removeEventListener("keydown", _globalKeyDownHandler);
+                    _globalListenerActive = false;
+                    if (IsVisible) Hide();
+                });
+            });
+
             InnerElement    = _contentHtml;
 
         }
