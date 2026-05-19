@@ -33,7 +33,7 @@ namespace Tesserae
         private readonly Button _scrollLeftBtn;
         private readonly Button _scrollRightBtn;
 
-        private Action<Event> _ctrlTabHandler;
+        private Action<Event> _tabSwitchHandler;
 
         // Fraction of the scroller's visible width to move per scroll-button click.
         private const double ScrollButtonStep = 0.7;
@@ -84,22 +84,23 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Enables Ctrl+Tab / Ctrl+Shift+Tab to cycle through tabs in order while
-        /// the pivot is mounted and focus is inside its container (or no element
-        /// is focused). Safe to call multiple times — the handler is only
-        /// registered once.
+        /// Enables Ctrl+Alt+Right / Ctrl+Alt+Left to cycle through tabs in order
+        /// while the pivot is mounted and focus is inside its container (or no
+        /// element is focused). Safe to call multiple times — the handler is
+        /// only registered once.
         /// </summary>
         public Pivot EnableCtrlTabSwitching()
         {
-            if (_ctrlTabHandler is object) return this;
+            if (_tabSwitchHandler is object) return this;
 
-            _ctrlTabHandler = ev =>
+            _tabSwitchHandler = ev =>
             {
                 if (!StylingContainer.IsMounted()) return;
                 if (_orderedTabs.Count <= 1) return;
 
                 var ke = ev.As<KeyboardEvent>();
-                if (ke.key != "Tab" || !ke.ctrlKey) return;
+                if (!ke.ctrlKey || !ke.altKey || ke.shiftKey || ke.metaKey) return;
+                if (ke.key != "ArrowRight" && ke.key != "ArrowLeft") return;
 
                 // Scope to focus within this pivot so multiple pivots on the
                 // same page don't fight, while still firing when nothing is
@@ -108,10 +109,10 @@ namespace Tesserae
                 if (active is object && active != document.body && !StylingContainer.contains(active)) return;
 
                 StopEvent(ev);
-                NavigateBy(ke.shiftKey ? -1 : 1);
+                NavigateBy(ke.key == "ArrowLeft" ? -1 : 1);
             };
 
-            window.addEventListener("keydown", _ctrlTabHandler);
+            window.addEventListener("keydown", _tabSwitchHandler);
             return this;
         }
 
