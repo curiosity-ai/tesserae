@@ -33,6 +33,8 @@ namespace Tesserae
         private readonly Button _scrollLeftBtn;
         private readonly Button _scrollRightBtn;
 
+        private Action<Event> _ctrlTabHandler;
+
         // Fraction of the scroller's visible width to move per scroll-button click.
         private const double ScrollButtonStep = 0.7;
 
@@ -79,6 +81,52 @@ namespace Tesserae
             _hideIfSingle = true;
             UpdateTitlebarVisibility();
             return this;
+        }
+
+        /// <summary>
+        /// Enables Ctrl+Tab / Ctrl+Shift+Tab to cycle through tabs in order while
+        /// the pivot is mounted and focus is inside its container (or no element
+        /// is focused). Safe to call multiple times — the handler is only
+        /// registered once.
+        /// </summary>
+        public Pivot EnableCtrlTabSwitching()
+        {
+            if (_ctrlTabHandler is object) return this;
+
+            _ctrlTabHandler = ev =>
+            {
+                if (!StylingContainer.IsMounted()) return;
+                if (_orderedTabs.Count <= 1) return;
+
+                var ke = ev.As<KeyboardEvent>();
+                if (ke.key != "Tab" || !ke.ctrlKey) return;
+
+                // Scope to focus within this pivot so multiple pivots on the
+                // same page don't fight, while still firing when nothing is
+                // focused (i.e. the user hasn't clicked anything yet).
+                var active = document.activeElement;
+                if (active is object && active != document.body && !StylingContainer.contains(active)) return;
+
+                StopEvent(ev);
+                NavigateBy(ke.shiftKey ? -1 : 1);
+            };
+
+            window.addEventListener("keydown", _ctrlTabHandler);
+            return this;
+        }
+
+        private void NavigateBy(int delta)
+        {
+            if (_orderedTabs.Count == 0) return;
+
+            int currentIdx = _orderedTabs.FindIndex(t => t.Id == _currentSelectedID);
+            if (currentIdx < 0) currentIdx = 0;
+
+            int n       = _orderedTabs.Count;
+            int nextIdx = ((currentIdx + delta) % n + n) % n;
+            if (nextIdx == currentIdx) return;
+
+            Select(_orderedTabs[nextIdx].Id);
         }
 
         public void RefreshPivotSizes()
