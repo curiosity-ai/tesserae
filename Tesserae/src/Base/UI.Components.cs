@@ -338,7 +338,15 @@ namespace Tesserae
         /// </summary>
         /// <returns></returns>
         public static Stack VStack() => new Stack(Tesserae.Stack.Orientation.Vertical);
-        
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.Form"/> component that renders as a real
+        /// <c>&lt;form&gt;</c> element so password managers can detect the submission and scope
+        /// credentials to the current origin.
+        /// </summary>
+        public static Form Form() => new Form();
+
+
         /// <summary>
         /// Creates a <see cref="Tesserae.SortableStack"/> component.
         /// </summary>
