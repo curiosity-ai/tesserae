@@ -35,6 +35,11 @@ namespace Tesserae
         public bool EnableGlobalActionShortcuts { get; set; } = true;
         public bool HideOnAction { get; set; } = true;
 
+        /// <summary>
+        /// Key (combined with Ctrl/Cmd) that toggles the palette globally. Case-insensitive. Defaults to "k".
+        /// </summary>
+        public string GlobalShortcutKey { get; set; } = "k";
+
         public CommandPalette(IEnumerable<CommandPaletteAction> actions = null)
         {
             _searchInput = TextBox(_("tss-commandpalette-search", type: "search", placeholder: "Type a command"));
@@ -183,7 +188,9 @@ namespace Tesserae
                 return;
             }
 
-            if (EnableGlobalShortcut && (e.key == "k" || e.key == "K") && (e.metaKey || e.ctrlKey))
+            if (EnableGlobalShortcut && !string.IsNullOrEmpty(GlobalShortcutKey)
+                && string.Equals(e.key, GlobalShortcutKey, StringComparison.OrdinalIgnoreCase)
+                && (e.metaKey || e.ctrlKey))
             {
                 StopEvent(e);
                 Toggle();
