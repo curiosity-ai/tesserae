@@ -1,0 +1,9 @@
+.tss-markdown h1,
+.tss-markdown h2,
+.tss-markdown h3 {
+    font-weight: 700;
+}
+
+.tss-markdown {
+    font-size: var(--tss-font-size-small);
+}

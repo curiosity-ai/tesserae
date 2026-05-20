@@ -45,7 +45,9 @@
         "h5/assets/js/tippy.min.js",
         "h5/assets/js/masonry.min.js",
         "h5/assets/js/sortable.min.js",
-        "h5/assets/js/baklava.min.js"
+        "h5/assets/js/baklava.min.js",
+        "h5/assets/js/purify.min.js",
+        "h5/assets/js/marked.min.js"
       ],
       "output": "assets/js"
     },
@@ -57,7 +59,9 @@
         "h5/assets/js/tippy.min.js",
         "h5/assets/js/masonry.min.js",
         "h5/assets/js/sortable.min.js",
-        "h5/assets/js/baklava.min.js"
+        "h5/assets/js/baklava.min.js",
+        "h5/assets/js/purify.min.js",
+        "h5/assets/js/marked.min.js"
       ],
       "output": "assets/js"
     },
@@ -154,7 +158,8 @@
         "h5/assets/css/tss.progressring.css",
         "h5/assets/css/tss.colorpalette.css",
         "h5/assets/css/tss.kbd.css",
-        "h5/assets/css/tss.notificationcenter.css"
+        "h5/assets/css/tss.notificationcenter.css",
+        "h5/assets/css/tss.markdown.css"
       ],
       "output": "assets/css"
     },
