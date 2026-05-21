@@ -1,5 +1,4 @@
 using System;
-using System.Threading.Tasks;
 using H5;
 using static H5.Core.dom;
 using static Tesserae.UI;
@@ -21,17 +20,12 @@ namespace Tesserae
     /// <summary>
     /// A component that renders a unified diff using the
     /// <see href="https://github.com/rtfpessoa/diff2html">diff2html</see> library.
-    /// The slim UI bundle and its CSS are fetched on-demand from jsDelivr the first
-    /// time a <see cref="CodeDiff"/> is constructed.
+    /// The slim UI bundle and its CSS are bundled with Tesserae and always available -
+    /// no preload step is required.
     /// </summary>
     [H5.Name("tss.cd")]
     public class CodeDiff : ComponentBase<CodeDiff, HTMLElement>
     {
-        private const string ScriptUrl = "https://cdn.jsdelivr.net/npm/diff2html/bundles/js/diff2html-ui-slim.min.js";
-        private const string StyleUrl  = "https://cdn.jsdelivr.net/npm/diff2html/bundles/css/diff2html.min.css";
-
-        private static Task _loadTask;
-
         private string         _diff;
         private CodeDiffFormat _format;
         private bool           _drawFileList;
@@ -94,34 +88,14 @@ namespace Tesserae
             set { _matching = string.IsNullOrEmpty(value) ? "lines" : value; ScheduleRedraw(); }
         }
 
-        private static Task LoadAsync()
-        {
-            if (_loadTask == null)
-            {
-                Require.LoadStyle(StyleUrl);
-                _loadTask = Require.LoadScriptAsync(ScriptUrl);
-            }
-            return _loadTask;
-        }
-
         private void ScheduleRedraw()
         {
             window.clearTimeout(_timeout);
             _timeout = window.setTimeout(_ => Redraw(), 16);
         }
 
-        private async void Redraw()
+        private void Redraw()
         {
-            try
-            {
-                await LoadAsync();
-            }
-            catch (Exception ex)
-            {
-                console.error("CodeDiff: failed to load diff2html", ex);
-                return;
-            }
-
             var outputFormat = _format == CodeDiffFormat.SideBySide ? "side-by-side" : "line-by-line";
 
             try
