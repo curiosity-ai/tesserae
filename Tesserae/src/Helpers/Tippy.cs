@@ -268,11 +268,31 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Hides every currently visible Tippy instance in the document.
+        /// Hides every currently visible Tippy instance in the document <strong>except</strong>
+        /// those configured with <c>trigger: 'manual'</c>.
         /// </summary>
+        /// <remarks>
+        /// Manual-trigger Tippy instances are imperatively-managed popovers — the new
+        /// <see cref="Popover"/> / <see cref="Menu"/> surfaces, plus the existing TreeCommand /
+        /// SidebarCommand / Teaching menus that call <see cref="ShowFor(HTMLElement, HTMLElement, out Action, TooltipAnimation, TooltipPlacement, int, int, int, bool, string, bool, Action, Func{bool}, Action{TippyInstance, MouseEvent}, bool, int)"/>
+        /// with <c>manualTrigger: true</c>. Those should stay open when an unrelated layer opens
+        /// (otherwise nesting a layer-based control like <see cref="Dropdown"/> inside a popover would
+        /// instantly destroy the popover). Hover-shown tooltips, by contrast, are exactly what this
+        /// method is meant to clean up.
+        /// </remarks>
         public static void HideAll()
         {
-            H5.Script.Write("tippy.hideAll()");
+            // Find every visible popper (each Tippy popper is rendered as a root element bearing
+            // data-tippy-root, with the instance attached via the _tippy property), and hide it
+            // unless the instance was created with trigger: 'manual'.
+            H5.Script.Write(@"
+                document.querySelectorAll('[data-tippy-root]').forEach(function(root) {
+                    var inst = root._tippy;
+                    if (!inst || !inst.props) return;
+                    if (inst.props.trigger === 'manual') return;
+                    inst.hide();
+                });
+            ");
         }
 
         internal static void CheckRepositionNeeded(HTMLElement container)
