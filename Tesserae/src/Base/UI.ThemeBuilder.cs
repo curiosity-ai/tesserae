@@ -262,6 +262,19 @@ namespace Tesserae
                 // ---------- Apply ---------------------------------------------------------
 
                 /// <summary>
+                /// Removes any &lt;style&gt; element previously installed by <see cref="Apply"/>.
+                /// Used by <see cref="UI.Theme.ResetBuild"/>.
+                /// </summary>
+                internal static void ResetApplied()
+                {
+                    if (_appliedStyleElement is object)
+                    {
+                        _appliedStyleElement.remove();
+                        _appliedStyleElement = null;
+                    }
+                }
+
+                /// <summary>
                 /// Renders the configured palette into a <c>&lt;style&gt;</c> element and attaches it
                 /// to the document head. A previous theme installed by <see cref="Apply"/> is removed first,
                 /// so calls are idempotent. Raises <see cref="OnThemeChanged"/> on success.
@@ -334,6 +347,17 @@ namespace Tesserae
             /// </code>
             /// </example>
             public static ThemeBuilder Build() => new ThemeBuilder();
+
+            /// <summary>
+            /// Removes any custom theme previously installed via <see cref="ThemeBuilder.Apply"/>,
+            /// returning all CSS color variables to the defaults declared in <c>tss.common.css</c>.
+            /// Raises <see cref="OnThemeChanged"/>.
+            /// </summary>
+            public static void ResetBuild()
+            {
+                ThemeBuilder.ResetApplied();
+                OnThemeChanged?.Invoke();
+            }
         }
     }
 }

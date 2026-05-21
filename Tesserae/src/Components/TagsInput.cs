@@ -222,6 +222,15 @@ namespace Tesserae
                 if (CommitCurrent()) e.preventDefault();
                 return;
             }
+            if (e.key == "Tab" && !string.IsNullOrWhiteSpace(_input.value))
+            {
+                // Tab commits the current text and keeps focus in the entry field. Tab is only allowed
+                // to move focus elsewhere when the field is empty or whitespace-only (which would not
+                // produce a tag anyway). Both Tab and Shift+Tab follow this rule for symmetry.
+                CommitCurrent();
+                e.preventDefault();
+                return;
+            }
             if (e.key == "Backspace" && string.IsNullOrEmpty(_input.value) && _tags.Count > 0)
             {
                 RemoveAt(_tags.Count - 1);
