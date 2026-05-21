@@ -117,7 +117,7 @@ namespace Tesserae
         /// <summary>
         /// Shows a Tippy popover anchored to the given host element/component with the supplied content and configuration. Returns a delegate that can be invoked to hide the popover programmatically.
         /// </summary>
-        public static void ShowFor(IComponent hostComponent, IComponent tooltip, out Action hide, TooltipAnimation animation = TooltipAnimation.None, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 0, int delayHide = 0, int maxWidth = 350, bool arrow = false, string theme = null, bool hideOnClick = true, Action onHiddenCallback = null, Func<bool> onHide = null, Action<TippyInstance, MouseEvent> onClickOutside = null, bool manualTrigger = false, int interactiveBorder = 8, int zIndex = 9999)
+        public static void ShowFor(IComponent hostComponent, IComponent tooltip, out Action hide, TooltipAnimation animation = TooltipAnimation.None, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 0, int delayHide = 0, int maxWidth = 350, bool arrow = false, string theme = null, bool hideOnClick = true, Action onHiddenCallback = null, Func<bool> onHide = null, Action<TippyInstance, MouseEvent> onClickOutside = null, bool manualTrigger = false, int interactiveBorder = 8)
         {
             var rendered = hostComponent.Render();
 
@@ -159,6 +159,11 @@ namespace Tesserae
             placement = CheckDeadZone(placement, appendTo);
 
             var trigger = manualTrigger ? "manual" : "mouseenter focus";
+            // Stack the Tippy popper into the application z-index lane so it always sits above any
+            // currently-visible Layer (and so any Layer opened from inside it ends up above the
+            // popper in turn — Layers.CurrentZIndex() now reads [data-tippy-root] back). Fall back
+            // to Tippy's hard-coded default of 9999 if Layers.AboveCurrent() can't be parsed.
+            if (!int.TryParse(Layers.AboveCurrent(), out var zIndex)) zIndex = 9999;
 
             if (animation == TooltipAnimation.None)
             {
@@ -212,7 +217,7 @@ namespace Tesserae
         /// imperatively-shown popovers (menus, comboboxes, etc.) where the user needs to be able to traverse the gap
         /// between the anchor and the popover surface without it closing under them.
         /// </param>
-        public static void ShowFor(HTMLElement hostElement, HTMLElement tooltip, out Action hide, TooltipAnimation animation = TooltipAnimation.None, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 0, int delayHide = 0, int maxWidth = 350, bool arrow = false, string theme = null, bool hideOnClick = true, Action onHiddenCallback = null, Func<bool> onHide = null, Action<TippyInstance, MouseEvent> onClickOutside = null, bool manualTrigger = false, int interactiveBorder = 8, int zIndex = 9999)
+        public static void ShowFor(HTMLElement hostElement, HTMLElement tooltip, out Action hide, TooltipAnimation animation = TooltipAnimation.None, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 0, int delayHide = 0, int maxWidth = 350, bool arrow = false, string theme = null, bool hideOnClick = true, Action onHiddenCallback = null, Func<bool> onHide = null, Action<TippyInstance, MouseEvent> onClickOutside = null, bool manualTrigger = false, int interactiveBorder = 8)
         {
             if (!hostElement.IsMounted())
             {
@@ -246,6 +251,11 @@ namespace Tesserae
             placement = CheckDeadZone(placement, hostElement);
 
             var trigger = manualTrigger ? "manual" : "mouseenter focus";
+            // Stack the Tippy popper into the application z-index lane so it always sits above any
+            // currently-visible Layer (and so any Layer opened from inside it ends up above the
+            // popper in turn — Layers.CurrentZIndex() now reads [data-tippy-root] back). Fall back
+            // to Tippy's hard-coded default of 9999 if Layers.AboveCurrent() can't be parsed.
+            if (!int.TryParse(Layers.AboveCurrent(), out var zIndex)) zIndex = 9999;
 
             if (animation == TooltipAnimation.None)
             {
