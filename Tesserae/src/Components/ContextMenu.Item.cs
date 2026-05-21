@@ -6,6 +6,10 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A right-click / hover-driven popup menu with support for items, headers, dividers and arbitrarily deep nested
+    /// submenus.
+    /// </summary>
     public sealed partial class ContextMenu
     {
 
@@ -92,6 +96,9 @@ namespace Tesserae
                 set => InnerElement.innerText = value;
             }
 
+            /// <summary>
+            /// Renders the component's root HTML element.
+            /// </summary>
             public override HTMLElement Render()
             {
                 return InnerElement;
@@ -131,6 +138,9 @@ namespace Tesserae
                 return this;
             }
 
+            /// <summary>
+            /// Registers a callback invoked when the click event fires.
+            /// </summary>
             public override Item OnClick(ComponentEventHandler<Item, MouseEvent> e, bool clearPrevious = true)
             {
                 if (Type == ItemType.Item)
@@ -176,8 +186,14 @@ namespace Tesserae
                 return this;
             }
 
+            /// <summary>
+            /// Registers a callback invoked when the click event fires.
+            /// </summary>
             public Item OnClick(Action action, bool clearPrevious = true) => OnClick((_, __) => action.Invoke(), clearPrevious);
 
+            /// <summary>
+            /// Hides the submenus.
+            /// </summary>
             public void HideSubmenus()
             {
                 if (_subMenu != null)

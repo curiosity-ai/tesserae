@@ -4,6 +4,9 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A single expand / collapse section, with a clickable header that reveals its body content.
+    /// </summary>
     [H5.Name("tss.Expander")]
     public sealed class Expander : ComponentBase<Expander, HTMLElement>
     {
@@ -80,6 +83,9 @@ namespace Tesserae
             set => SetTitle(value);
         }
 
+        /// <summary>
+        /// Sets the title of the component.
+        /// </summary>
         public Expander SetTitle(string title)
         {
             _title.innerText = title ?? string.Empty;
@@ -94,6 +100,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the header of the component.
+        /// </summary>
         public Expander SetHeader(IComponent header)
         {
             ClearChildren(_headerContent);
@@ -113,6 +122,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the content of the component.
+        /// </summary>
         public Expander SetContent(IComponent content)
         {
             ClearChildren(_content);
@@ -171,18 +183,27 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the toggle event fires.
+        /// </summary>
         public Expander OnToggle(Action<Expander> onToggle)
         {
             _onToggle += onToggle;
             return this;
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the expand event fires.
+        /// </summary>
         public Expander OnExpand(Action<Expander> onExpand)
         {
             _onExpand += onExpand;
             return this;
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the collapse event fires.
+        /// </summary>
         public Expander OnCollapse(Action<Expander> onCollapse)
         {
             _onCollapse += onCollapse;
@@ -196,6 +217,9 @@ namespace Tesserae
             _header.setAttribute("aria-expanded", _isExpanded ? "true" : "false");
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public override HTMLElement Render()
         {
             return InnerElement;

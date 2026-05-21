@@ -6,6 +6,10 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A multi-select input that lets the user pick one or more typed items from a dropdown, with optional async
+    /// loading and free-text entry.
+    /// </summary>
     [H5.Name("tss.Picker")]
     public sealed class Picker<TPickerItem> : IComponent, ITabIndex, IObservableListComponent<TPickerItem>, IRoundedStyle where TPickerItem : class, IPickerItem
     {
@@ -56,6 +60,9 @@ namespace Tesserae
         }
 
 
+        /// <summary>
+        /// Returns the component's state as a(n) observable.
+        /// </summary>
         public IObservable<IReadOnlyList<TPickerItem>> AsObservable()
         {
             return _pickerItems;
@@ -73,11 +80,17 @@ namespace Tesserae
 
         public int SuggestionsTolerance { get; }
 
+        /// <summary>
+        /// Adds the given items to the component.
+        /// </summary>
         public Picker<TPickerItem> Items(params TPickerItem[] items)
         {
             return Items(items.AsEnumerable());
         }
 
+        /// <summary>
+        /// Adds the given items to the component.
+        /// </summary>
         public Picker<TPickerItem> Items(IEnumerable<TPickerItem> items)
         {
             if (items == null)
@@ -110,12 +123,18 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the item selected event fires.
+        /// </summary>
         public Picker<TPickerItem> OnItemSelected(ComponentEventHandler<Picker<TPickerItem>, ItemPickedEvent> eventHandler)
         {
             SelectedItem += eventHandler;
             return this;
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public HTMLElement Render() => _container;
 
         private void CreatePicker(HTMLElement pickerContainer)
@@ -336,6 +355,9 @@ namespace Tesserae
                 }
             }
 
+            /// <summary>
+            /// Renders the component's root HTML element.
+            /// </summary>
             public HTMLElement Render() => _suggestions;
         }
     }

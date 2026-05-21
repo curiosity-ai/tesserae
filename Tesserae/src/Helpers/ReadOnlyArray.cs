@@ -25,6 +25,9 @@ namespace Tesserae
         public extern int Length { [Name("length")] get; }
 
         [External]
+        /// <summary>
+        /// Returns the enumerator of the component.
+        /// </summary>
         public extern IEnumerator<T> GetEnumerator();
 
         // Can't use extern on an explicitly-implemented interface method so this method needs a body (even though it will never be called)

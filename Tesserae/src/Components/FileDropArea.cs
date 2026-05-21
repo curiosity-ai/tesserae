@@ -6,6 +6,9 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A drop target that accepts files dragged from the operating system, with hover and validation feedback.
+    /// </summary>
     [H5.Name("tss.FileDropArea")]
     public sealed class FileDropArea : IComponent
     {
@@ -204,12 +207,18 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the files dropped event fires.
+        /// </summary>
         public FileDropArea OnFilesDropped(FilesDroppedHandler handler)
         {
             FilesDropped += handler;
             return this;
         }
 
+        /// <summary>
+        /// Sets the content of the component.
+        /// </summary>
         public FileDropArea SetContent(IComponent content)
         {
             Content = content;
@@ -234,11 +243,17 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Resets the component to its initial state.
+        /// </summary>
         public void Reset()
         {
             _fileInput.value = null;
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public HTMLElement Render()
         {
             return _container;

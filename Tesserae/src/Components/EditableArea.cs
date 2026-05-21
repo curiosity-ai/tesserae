@@ -5,6 +5,9 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// An inline-editable multi-line text surface that toggles between a read-only label and a textarea on click.
+    /// </summary>
     [H5.Name("tss.EditableArea")]
     public sealed class EditableArea : ComponentBase<EditableArea, HTMLTextAreaElement>, ITextFormating, IObservableComponent<string>
     {
@@ -125,6 +128,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the save event fires.
+        /// </summary>
         public EditableArea OnSave(SaveEditHandler onSave)
         {
             Saved += onSave;
@@ -167,6 +173,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Sets the text of the component.
+        /// </summary>
         public EditableArea SetText(string text)
         {
             if (IsEditingMode)
@@ -183,8 +192,14 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public override HTMLElement Render() => _container;
 
+        /// <summary>
+        /// Returns the component's state as a(n) observable.
+        /// </summary>
         public IObservable<string> AsObservable() => _observable;
     }
 }

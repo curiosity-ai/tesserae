@@ -5,6 +5,9 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A masonry (Pinterest-style) layout that flows items of varying heights into columns of equal width.
+    /// </summary>
     [H5.Name("tss.Masonry")]
     public class Masonry : IContainer<Masonry, IComponent>, IHasBackgroundColor, IHasMarginPadding, ISpecialCaseStyling
     {
@@ -13,8 +16,17 @@ namespace Tesserae
         private readonly object      _masonryObj;
         private readonly int         _gutter;
 
+        /// <summary>
+        /// Gets or sets the CSS background of the component.
+        /// </summary>
         public string Background { get => _masonry.style.background; set => _masonry.style.background = value; }
+        /// <summary>
+        /// Gets or sets the CSS margin of the component.
+        /// </summary>
         public string Margin     { get => _masonry.style.margin;     set => _masonry.style.margin = value; }
+        /// <summary>
+        /// Gets or sets the CSS padding of the component.
+        /// </summary>
         public string Padding    { get => _masonry.style.padding;    set => _masonry.style.padding = value; }
 
         public  HTMLElement StylingContainer => _masonry;
@@ -30,6 +42,9 @@ namespace Tesserae
             DomObserver.WhenMounted(_masonry, () => Layout());
         }
 
+        /// <summary>
+        /// Adds the given item to the component.
+        /// </summary>
         public void Add(IComponent component)
         {
             var el = GetItem(component, true);
@@ -111,24 +126,36 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Clears the component's current state.
+        /// </summary>
         public virtual void Clear()
         {
             ClearChildren(_masonry);
             Layout();
         }
 
+        /// <summary>
+        /// Replaces an existing item with a new one.
+        /// </summary>
         public void Replace(IComponent newComponent, IComponent oldComponent)
         {
             _masonry.replaceChild(GetItem(newComponent), GetItem(oldComponent));
             Layout();
         }
 
+        /// <summary>
+        /// Removes the given item from the component.
+        /// </summary>
         public void Remove(IComponent component)
         {
             Script.Write("{0}.remove({1})", _masonryObj, GetItem(component));
             Layout();
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public virtual HTMLElement Render() => _masonry;
     }
 }

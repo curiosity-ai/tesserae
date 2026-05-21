@@ -5,6 +5,9 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A hyperlink component (anchor element) with optional underline control, icons and target configuration.
+    /// </summary>
     [H5.Name("tss.Link")]
     public class Link : IComponent, ITextFormating
     {
@@ -33,6 +36,9 @@ namespace Tesserae
             set => _anchor.href = value;
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public HTMLElement Render()
         {
             return _anchor;
@@ -44,6 +50,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Returns the component's state as a(n) window.
+        /// </summary>
         public Link AsWindow(string features = null)
         {
             if (string.IsNullOrEmpty(features))
@@ -63,6 +72,9 @@ namespace Tesserae
             });
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the click event fires.
+        /// </summary>
         public Link OnClick(Action onClicked)
         {
             if (onClicked is null)

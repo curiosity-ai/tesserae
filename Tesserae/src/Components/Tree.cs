@@ -7,6 +7,10 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A vertically-stacked tree view with expand / collapse, keyboard navigation, selection and arbitrary item
+    /// rendering.
+    /// </summary>
     [H5.Name("tss.Tree")]
     public sealed class Tree : ComponentBase<Tree, HTMLUListElement>, IContainer<Tree.Item, Tree.Item>
     {
@@ -48,12 +52,18 @@ namespace Tesserae
             });
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public override HTMLElement Render() => InnerElement;
 
         public Item SelectedItem { get; private set; }
 
         public event ComponentEventHandler<Tree, Item> SelectedItemChanged;
 
+        /// <summary>
+        /// Registers a callback invoked when the selected event fires.
+        /// </summary>
         public Tree OnSelected(ComponentEventHandler<Tree, Item> onSelected)
         {
             SelectedItemChanged += onSelected;
@@ -80,6 +90,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Adds the given item to the component.
+        /// </summary>
         public void Add(Item component)
         {
             component.SelectionEnabled = _selectionEnabled;
@@ -100,12 +113,18 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Clears the component's current state.
+        /// </summary>
         public void Clear()
         {
             _children.Clear();
             ClearChildren(InnerElement);
         }
 
+        /// <summary>
+        /// Replaces an existing item with a new one.
+        /// </summary>
         public void Replace(Item newComponent, Item oldComponent)
         {
             var index = _children.IndexOf(oldComponent);
@@ -135,6 +154,9 @@ namespace Tesserae
             SelectedItemChanged?.Invoke(this, sender);
         }
 
+        /// <summary>
+        /// Adds the given items to the component.
+        /// </summary>
         public Tree Items(params Item[] children)
         {
             children.ForEach(x => Add(x));
@@ -333,8 +355,14 @@ namespace Tesserae
 
             public bool HasChildren => _childItems.Count > 0 || _childContainer.hasChildNodes();
 
+            /// <summary>
+            /// Renders the component's root HTML element.
+            /// </summary>
             public override HTMLElement Render() => InnerElement;
 
+            /// <summary>
+            /// Adds the given item to the component.
+            /// </summary>
             public void Add(Item component)
             {
                 _childItems.Add(component);
@@ -364,6 +392,9 @@ namespace Tesserae
                 InternalSelectedItem?.Invoke(sender);
             }
 
+            /// <summary>
+            /// Clears the component's current state.
+            /// </summary>
             public void Clear()
             {
                 _childItems.Clear();
@@ -371,6 +402,9 @@ namespace Tesserae
                 UpdateChevronVisibility();
             }
 
+            /// <summary>
+            /// Replaces an existing item with a new one.
+            /// </summary>
             public void Replace(Item newComponent, Item oldComponent)
             {
                 var index = _childItems.IndexOf(oldComponent);
@@ -421,6 +455,9 @@ namespace Tesserae
                 }
             }
 
+            /// <summary>
+            /// Adds the given items to the component.
+            /// </summary>
             public Item Items(params Item[] children)
             {
                 children.ForEach(x => Add(x));
@@ -465,18 +502,27 @@ namespace Tesserae
                 return this;
             }
 
+            /// <summary>
+            /// Registers a callback invoked when the selected event fires.
+            /// </summary>
             public Item OnSelected(ComponentEventHandler<Item> onSelected)
             {
                 SelectedItem += onSelected;
                 return this;
             }
 
+            /// <summary>
+            /// Registers a callback invoked when the expanded event fires.
+            /// </summary>
             public Item OnExpanded(ComponentEventHandler<Item> onExpanded)
             {
                 ExpandedItem += onExpanded;
                 return this;
             }
 
+            /// <summary>
+            /// Registers a callback invoked when the collapsed event fires.
+            /// </summary>
             public Item OnCollapsed(ComponentEventHandler<Item> onCollapsed)
             {
                 CollapsedItem += onCollapsed;

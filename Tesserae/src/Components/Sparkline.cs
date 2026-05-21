@@ -5,6 +5,9 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A tiny inline line chart used to show a trend without occupying chart-sized real-estate.
+    /// </summary>
     [H5.Name("tss.Sparkline")]
     public class Sparkline : IComponent
     {
@@ -94,6 +97,9 @@ namespace Tesserae
             _innerElement.appendChild(svg);
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public HTMLElement Render()
         {
             return _innerElement;

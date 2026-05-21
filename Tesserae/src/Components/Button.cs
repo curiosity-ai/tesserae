@@ -5,6 +5,10 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// The standard clickable button component, with optional icons, loading state, primary/secondary variants and
+    /// dropdown / split-button support.
+    /// </summary>
     [H5.Name("tss.Button")]
     public class Button : ComponentBase<Button, HTMLButtonElement>, ITextFormating, IHasBackgroundColor, IHasForegroundColor, ICanWrap, IRoundedStyle
     {
@@ -231,6 +235,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public override HTMLElement Render()
         {
             return InnerElement;
@@ -243,12 +250,18 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Removes / disables the margin on the component.
+        /// </summary>
         public Button NoMargin()
         {
             InnerElement.classList.add("tss-btn-remove-margin");
             return this;
         }
 
+        /// <summary>
+        /// Removes / disables the padding on the component.
+        /// </summary>
         public Button NoPadding()
         {
             InnerElement.classList.add("tss-btn-remove-padding");
@@ -338,11 +351,17 @@ namespace Tesserae
             _spinner = null;
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the click spin while event fires.
+        /// </summary>
         public Button OnClickSpinWhile(Func<Task> action, string text = null, Action<Button, Exception> onError = null)
         {
             return OnClickSpinWhile((MouseEvent e) => action(), text, onError);
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the click spin while event fires.
+        /// </summary>
         public Button OnClickSpinWhile(Func<MouseEvent, Task> action, string text = null, Action<Button, Exception> onError = null)
         {
             return OnClick((_, e) =>
@@ -384,12 +403,18 @@ namespace Tesserae
             });
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the click event fires.
+        /// </summary>
         public Button OnClick(Action action) => OnClick((_, e) =>
         {
             StopEvent(e);
             action.Invoke();
         });
                 
+        /// <summary>
+        /// Registers a callback invoked when the context menu event fires.
+        /// </summary>
         public Button OnContextMenu(Action action) => OnContextMenu((_, e) =>
         {
             StopEvent(e);
@@ -451,6 +476,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Returns the component configured with the given filter effects.
+        /// </summary>
         public Button WithFilterEffects()
         {
             InnerElement.classList.add("tss-btn-filter-effects");
@@ -463,17 +491,26 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Removes / disables the border on the component.
+        /// </summary>
         public Button NoBorder()
         {
             InnerElement.classList.add("tss-btn-noborder");
             return this;
         }
+        /// <summary>
+        /// Removes / disables the min size on the component.
+        /// </summary>
         public Button NoMinSize()
         {
             InnerElement.classList.add("tss-btn-nominsize");
             return this;
         }
 
+        /// <summary>
+        /// Removes / disables the background on the component.
+        /// </summary>
         public Button NoBackground()
         {
             InnerElement.classList.add("tss-btn-nobg");
@@ -486,6 +523,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Removes / disables the hover on the component.
+        /// </summary>
         public Button NoHover()
         {
             InnerElement.classList.add("tss-btn-nohover");
@@ -507,12 +547,18 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the text of the component.
+        /// </summary>
         public Button SetText(string text)
         {
             Text = text;
             return this;
         }
 
+        /// <summary>
+        /// Sets the title of the component.
+        /// </summary>
         public Button SetTitle(string title)
         {
             Title = title;
@@ -541,6 +587,9 @@ namespace Tesserae
             };
         }
 
+        /// <summary>
+        /// Sets the icon of the component.
+        /// </summary>
         public Button SetIcon(Emoji icon, bool afterText = false)
         {
             Icon = $"ec {icon}";
@@ -562,6 +611,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the icon of the component.
+        /// </summary>
         public Button SetIcon(UIcons icon, string color = "", TextSize size = TextSize.Small, UIconsWeight weight = UIconsWeight.Regular, bool afterText = false)
         {
             Icon = $"{Tesserae.Icon.Transform(icon, weight)} {size}";
@@ -615,6 +667,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Removes / disables the wrap on the component.
+        /// </summary>
         public Button NoWrap()
         {
             CanWrap = false;
@@ -629,6 +684,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Moves keyboard focus to the component.
+        /// </summary>
         public Button Focus()
         {
             // 2020-12-29 DWR: Seems like this setTimeout is required then the element is rendered within a container that uses "simplebar" scrolling - without the delay, if the element getting focus is out of view then it will not be
@@ -649,6 +707,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Returns the component configured with the given hot key.
+        /// </summary>
         public Button WithHotKey(string keys, Hotkeys.Option options = null)
         {
             DomObserver.WhenMounted(InnerElement, () =>

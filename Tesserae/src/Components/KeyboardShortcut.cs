@@ -30,6 +30,9 @@ namespace Tesserae
             InnerElement.setAttribute("aria-label", string.Join("+", keys.Select(NormalizeKey)));
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public override HTMLElement Render() => InnerElement;
 
         private static string NormalizeKey(string key)

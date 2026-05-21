@@ -6,6 +6,9 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A timeline-style display for showing a multi-step plan or schedule with start/end times for each step.
+    /// </summary>
     [H5.Name("tss.Plan")]
     public sealed class Plan : IComponent, IHasMarginPadding
     {
@@ -80,11 +83,23 @@ namespace Tesserae
             _innerElement = _card.Render();
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public HTMLElement Render() => _innerElement;
 
+        /// <summary>
+        /// Gets or sets the CSS margin of the component.
+        /// </summary>
         public string Margin { get => _innerElement.style.margin; set => _innerElement.style.margin = value; }
+        /// <summary>
+        /// Gets or sets the CSS padding of the component.
+        /// </summary>
         public string Padding { get => _innerElement.style.padding; set => _innerElement.style.padding = value; }
 
+        /// <summary>
+        /// Gets or sets the title of the component.
+        /// </summary>
         public Plan Title(string title)
         {
             _title.Text = title;
@@ -117,6 +132,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Adds the given task to the component.
+        /// </summary>
         public Plan AddTask(string title, bool completed)
         {
             var task = new Task(title, completed);
@@ -149,12 +167,18 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Hides the start stop button.
+        /// </summary>
         public Plan HideStartStopButton()
         {
             _startStopButton.Collapse();
             return this;
         }
 
+        /// <summary>
+        /// Shows the start stop button.
+        /// </summary>
         public Plan ShowStartStopButton()
         {
             _startStopButton.Show();
@@ -219,6 +243,9 @@ namespace Tesserae
                 );
             }
 
+            /// <summary>
+            /// Renders the component's root HTML element.
+            /// </summary>
             public HTMLElement Render() => _taskStack.Render();
         }
     }

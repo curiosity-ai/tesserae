@@ -5,6 +5,10 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A horizontal carousel that cycles through a sequence of items (slides) one at a time, with arrows and
+    /// pagination.
+    /// </summary>
     [H5.Name("tss.Carousel")]
     public sealed class Carousel : ComponentBase<Carousel, HTMLElement>
     {
@@ -49,6 +53,9 @@ namespace Tesserae
 
         public int SlideCount => _slides.Count;
 
+        /// <summary>
+        /// Adds the given slide to the component.
+        /// </summary>
         public Carousel AddSlide(IComponent content)
         {
             if (content == null)
@@ -64,6 +71,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Adds the given slides to the component.
+        /// </summary>
         public Carousel AddSlides(params IComponent[] slides)
         {
             if (slides == null)
@@ -79,6 +89,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the slide change event fires.
+        /// </summary>
         public Carousel OnSlideChange(Action<Carousel> onSlideChanged)
         {
             _onSlideChanged += onSlideChanged;
@@ -90,6 +103,9 @@ namespace Tesserae
             _track.classList.add("tss-carousel-track-pad-slides");
             return this; 
         }
+        /// <summary>
+        /// Sets the index of the component.
+        /// </summary>
         public Carousel SetIndex(int index, bool raiseEvent = true)
         {
             if (_slides.Count == 0)
@@ -157,6 +173,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public override HTMLElement Render() => InnerElement;
     }
 }

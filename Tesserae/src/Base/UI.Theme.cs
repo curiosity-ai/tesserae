@@ -339,7 +339,13 @@ namespace Tesserae
             //Variables from tesserae.common.css
             public static class Default
             {
+                /// <summary>
+                /// Gets or sets the CSS background of the component.
+                /// </summary>
                 public const string Background       = "var(--tss-default-background-color)";
+                /// <summary>
+                /// Gets or sets the CSS color (foreground) of the component.
+                /// </summary>
                 public const string Foreground       = "var(--tss-default-foreground-color)";
                 public const string Border           = "var(--tss-default-border-color)";
                 public const string DarkBorder       = "var(--tss-dark-border-color)";
@@ -359,24 +365,48 @@ namespace Tesserae
 
             public static class Sidebar
             {
+                /// <summary>
+                /// Gets or sets the CSS background of the component.
+                /// </summary>
                 public const string Background = "var(--tss-sidebar-background-color)";
+                /// <summary>
+                /// Gets or sets the CSS color (foreground) of the component.
+                /// </summary>
                 public const string Foreground = "var(--tss-sidebar-foreground-color)";
             }
 
             public static class Secondary
             {
+                /// <summary>
+                /// Gets or sets the CSS background of the component.
+                /// </summary>
                 public const string Background = "var(--tss-secondary-background-color)";
+                /// <summary>
+                /// Gets or sets the CSS color (foreground) of the component.
+                /// </summary>
                 public const string Foreground = "var(--tss-secondary-foreground-color)";
             }
             public static class Disabled
             {
+                /// <summary>
+                /// Gets or sets the CSS background of the component.
+                /// </summary>
                 public const string Background = "var(--tss-disabled-background-color)";
+                /// <summary>
+                /// Gets or sets the CSS color (foreground) of the component.
+                /// </summary>
                 public const string Foreground = "var(--tss-disabled-foreground-color)";
             }
 
             public static class Primary
             {
+                /// <summary>
+                /// Gets or sets the CSS background of the component.
+                /// </summary>
                 public const string Background       = "var(--tss-primary-background-color)";
+                /// <summary>
+                /// Gets or sets the CSS color (foreground) of the component.
+                /// </summary>
                 public const string Foreground       = "var(--tss-primary-foreground-color)";
                 public const string Border           = "var(--tss-primary-border-color)";
                 public const string BackgroundHover  = "var(--tss-primary-background-hover-color)";
@@ -387,7 +417,13 @@ namespace Tesserae
 
             public static class Danger
             {
+                /// <summary>
+                /// Gets or sets the CSS background of the component.
+                /// </summary>
                 public const string Background       = "var(--tss-danger-background-color)";
+                /// <summary>
+                /// Gets or sets the CSS color (foreground) of the component.
+                /// </summary>
                 public const string Foreground       = "var(--tss-danger-foreground-color)";
                 public const string Border           = "var(--tss-danger-border-color)";
                 public const string BackgroundHover  = "var(--tss-danger-background-hover-color)";
@@ -398,7 +434,13 @@ namespace Tesserae
 
             public static class Success
             {
+                /// <summary>
+                /// Gets or sets the CSS background of the component.
+                /// </summary>
                 public const string Background       = "var(--tss-success-background-color)";
+                /// <summary>
+                /// Gets or sets the CSS color (foreground) of the component.
+                /// </summary>
                 public const string Foreground       = "var(--tss-success-foreground-color)";
                 public const string Border           = "var(--tss-success-border-color)";
                 public const string BackgroundHover  = "var(--tss-success-background-hover-color)";

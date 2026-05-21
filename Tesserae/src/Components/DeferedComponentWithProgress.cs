@@ -7,6 +7,10 @@ using static TNT.T;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A <see cref="DeferedComponent"/> variant that reports progress (0-100%) while its real content is being
+    /// prepared.
+    /// </summary>
     [H5.Name("tss.DCWP")]
     internal sealed class DeferedComponentWithProgress : IDefer
     {
@@ -88,6 +92,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public HTMLElement Render()
         {
             if (!_renderHasBeenCalled)

@@ -9,6 +9,10 @@ namespace Tesserae
 {
     // This class has a different name than the static method in the UI class due to a bug in the bridge compiler that ends up calling the wrong constructor.
     // It is also internal to Tesserae to hide it from the compiler, which then exposes only the IDefer interface
+    /// <summary>
+    /// A placeholder that asynchronously loads its real content from a Task, optionally showing a loading state
+    /// while waiting.
+    /// </summary>
     [H5.Name("tss.DC")]
     internal sealed class DeferedComponent : IDefer
     {
@@ -102,6 +106,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public HTMLElement Render()
         {
             // 2020-07-02 DWR: Don't repeat the TriggerRefresh-when-ready logic if it's already been performed once for this component - the TriggerRefresh method checks the _needsRefresh flag and so wouldn't initiate any work but we would still be causing work

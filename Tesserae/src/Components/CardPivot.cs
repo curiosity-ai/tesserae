@@ -6,6 +6,9 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A pivot variant that styles each tab as a card, used for dashboard-style switching between rich panels.
+    /// </summary>
     [H5.Name("tss.CardPivot")]
     public sealed class CardPivot : IComponent
     {
@@ -32,12 +35,18 @@ namespace Tesserae
             _container = Div(_("tss-cardpivot"), _renderedTabs, _renderedContent);
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the before navigate event fires.
+        /// </summary>
         public CardPivot OnBeforeNavigate(PivotEventHandler<PivotBeforeNavigateEvent> onBeforeNavigate)
         {
             _beforeNavigated += onBeforeNavigate;
             return this;
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the navigate event fires.
+        /// </summary>
         public CardPivot OnNavigate(PivotEventHandler<PivotNavigateEvent> onNavigate)
         {
             _navigated += onNavigate;
@@ -132,6 +141,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public HTMLElement Render()
         {
             if (_currentSelectedID is null && _initiallySelectedID is object)

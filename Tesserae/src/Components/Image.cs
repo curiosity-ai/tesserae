@@ -4,6 +4,9 @@ using static Tesserae.UI;
 namespace Tesserae
 {
 
+    /// <summary>
+    /// A responsive image element with optional sizing, fit-mode and lazy-loading support.
+    /// </summary>
     [H5.Name("tss.Image")]
     public class Image : ComponentBase<Image, HTMLImageElement>, ISpecialCaseStyling, IHasBackgroundColor
     {
@@ -50,6 +53,9 @@ namespace Tesserae
             set => InnerElement.style.cursor = value;
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public override HTMLElement Render()
         {
             return InnerElement;
@@ -79,6 +85,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Removes / disables the fit on the component.
+        /// </summary>
         public Image NoFit()
         {
             InnerElement.style.objectFit = "none";

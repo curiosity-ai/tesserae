@@ -5,6 +5,9 @@ using static H5.Core.dom;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A thin horizontal divider used to separate sections of a vertically stacked layout.
+    /// </summary>
     [H5.Name("tss.HorizontalSeparator")]
     public class HorizontalSeparator : IComponent, IHasBackgroundColor
     {
@@ -35,6 +38,9 @@ namespace Tesserae
             set => _separator.textContent = value ?? "";
         }
 
+        /// <summary>
+        /// Gets or sets the CSS background of the component.
+        /// </summary>
         public string Background { get => _separator.style.background; set => _separator.style.background = value; }
 
         public HorizontalSeparator(string text = string.Empty)
@@ -51,6 +57,9 @@ namespace Tesserae
             _container = Div(_("tss-horizontalseparator-container"), _separator);
         }
 
+        /// <summary>
+        /// Sets the content of the component.
+        /// </summary>
         public HorizontalSeparator SetContent(IComponent component)
         {
             ClearChildren(_separator);
@@ -64,12 +73,18 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the text of the component.
+        /// </summary>
         public HorizontalSeparator SetText(string text)
         {
             Text = text;
             return this;
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public HTMLElement Render()
         {
             return _container;

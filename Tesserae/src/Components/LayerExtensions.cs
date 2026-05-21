@@ -1,5 +1,8 @@
 ﻿namespace Tesserae
 {
+    /// <summary>
+    /// Fluent extension methods for <see cref="Layer{T}"/> and its derived components.
+    /// </summary>
     [H5.Name("tss.LayerExtensions")]
     public static class LayerExtensions
     {

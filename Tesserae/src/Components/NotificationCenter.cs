@@ -32,6 +32,9 @@ namespace Tesserae
         public class NotificationItem
         {
             public string           Id        { get; set; }
+            /// <summary>
+            /// Gets or sets the title of the component.
+            /// </summary>
             public string           Title     { get; set; }
             public string           Message   { get; set; }
             public DateTime         Timestamp { get; set; }
@@ -103,6 +106,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public HTMLElement Render() => _container;
 
         private void UpdateBadge(int count)

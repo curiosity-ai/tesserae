@@ -3,6 +3,9 @@ using System.Linq;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// Base class for the keyed <see cref="ComponentCache"/> implementation.
+    /// </summary>
     [H5.Name("tss.ComponentCacheBase")]
     public abstract class ComponentCacheBase<TComponent> where TComponent : class
     {

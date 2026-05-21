@@ -3,6 +3,9 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A form control that lets the user pick one or more files from disk, with optional drag-and-drop support.
+    /// </summary>
     [H5.Name("tss.FileSelector")]
     public sealed class FileSelector : IComponent, ICanValidate<FileSelector>
     {
@@ -85,18 +88,27 @@ namespace Tesserae
             ;
         }
 
+        /// <summary>
+        /// Removes / disables the text box on the component.
+        /// </summary>
         public FileSelector NoTextBox()
         {
             _textBox.Collapse();
             return this;
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the file selected event fires.
+        /// </summary>
         public FileSelector OnFileSelected(FileSelectedHandler handler)
         {
             FileSelected += handler;
             return this;
         }
 
+        /// <summary>
+        /// Sets the placeholder of the component.
+        /// </summary>
         public FileSelector SetPlaceholder(string placeholder)
         {
             Placeholder = placeholder;
@@ -121,6 +133,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Resets the component to its initial state.
+        /// </summary>
         public void Reset()
         {
             _fileInput.value = null;
@@ -137,6 +152,9 @@ namespace Tesserae
             return value.Substring(lastSep + 1);
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public HTMLElement Render()
         {
             return _container;

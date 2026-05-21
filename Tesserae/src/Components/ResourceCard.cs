@@ -4,6 +4,10 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A card variant tailored to displaying a single resource (file, item, link) with icon, title, subtitle and
+    /// actions.
+    /// </summary>
     [H5.Name("tss.ResourceCard")]
     public sealed class ResourceCard : ComponentBase<ResourceCard, HTMLElement>, IHasBackgroundColor, IRoundedStyle
     {
@@ -75,6 +79,9 @@ namespace Tesserae
             AttachContextMenu();
         }
 
+        /// <summary>
+        /// Sets the icon of the component.
+        /// </summary>
         public ResourceCard SetIcon(IComponent icon)
         {
             ClearChildren(_iconContainer);
@@ -90,6 +97,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the title of the component.
+        /// </summary>
         public ResourceCard SetTitle(IComponent title)
         {
             ClearChildren(_titleContainer);
@@ -105,8 +115,14 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the title of the component.
+        /// </summary>
         public ResourceCard SetTitle(string title) => SetTitle(TextBlock(title).SemiBold().MediumPlus());
 
+        /// <summary>
+        /// Sets the subtitle of the component.
+        /// </summary>
         public ResourceCard SetSubtitle(IComponent subtitle)
         {
             ClearChildren(_subtitleContainer);
@@ -122,8 +138,14 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the subtitle of the component.
+        /// </summary>
         public ResourceCard SetSubtitle(string subtitle) => SetSubtitle(TextBlock(subtitle).SemiBold().Small());
 
+        /// <summary>
+        /// Sets the tags of the component.
+        /// </summary>
         public ResourceCard SetTags(params IComponent[] tags)
         {
             ClearChildren(_tagsContainer);
@@ -144,6 +166,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the description of the component.
+        /// </summary>
         public ResourceCard SetDescription(IComponent description)
         {
             ClearChildren(_descriptionContainer);
@@ -159,8 +184,14 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the description of the component.
+        /// </summary>
         public ResourceCard SetDescription(string description) => SetDescription(TextBlock(description).Small().Foreground(Theme.Secondary.Foreground));
 
+        /// <summary>
+        /// Sets the date of the component.
+        /// </summary>
         public ResourceCard SetDate(IComponent date)
         {
             ClearChildren(_dateContainer);
@@ -176,8 +207,14 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the date of the component.
+        /// </summary>
         public ResourceCard SetDate(string date) => SetDate(TextBlock(date).Small().Foreground(Theme.Secondary.Foreground));
 
+        /// <summary>
+        /// Sets the footer of the component.
+        /// </summary>
         public ResourceCard SetFooter(IComponent footer)
         {
             ClearChildren(_footerLeft);
@@ -193,6 +230,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the footer commands of the component.
+        /// </summary>
         public ResourceCard SetFooterCommands(params IComponent[] commands)
         {
             ClearChildren(_footerRight);
@@ -231,6 +271,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public override HTMLElement Render()
         {
             return _card.Render();

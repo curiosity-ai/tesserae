@@ -6,6 +6,9 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A horizontal tabbed surface with one tab visible at a time.
+    /// </summary>
     [H5.Name("tss.Pivot")]
     public sealed class Pivot : IComponent, ISpecialCaseStyling
     {
@@ -76,6 +79,9 @@ namespace Tesserae
         }
 
 
+        /// <summary>
+        /// Hides the if single.
+        /// </summary>
         public Pivot HideIfSingle()
         {
             _hideIfSingle = true;
@@ -279,6 +285,9 @@ namespace Tesserae
             ContextMenu().Items(items).ShowFor(_moreBtn);
         }
 
+        /// <summary>
+        /// Removes the given tab from the component.
+        /// </summary>
         public void RemoveTab(string id)
         {
             var tab = _orderedTabs.FirstOrDefault(t => t.Id == id);
@@ -337,12 +346,18 @@ namespace Tesserae
             };
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the before navigate event fires.
+        /// </summary>
         public Pivot OnBeforeNavigate(PivotEventHandler<PivotBeforeNavigateEvent> onBeforeNavigate)
         {
             _beforeNavigated += onBeforeNavigate;
             return this;
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the navigate event fires.
+        /// </summary>
         public Pivot OnNavigate(PivotEventHandler<PivotNavigateEvent> onNavigate)
         {
             _navigated += onNavigate;
@@ -466,6 +481,9 @@ namespace Tesserae
             _selectedNav = title;
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public HTMLElement Render()
         {
             if (!_isRendered)

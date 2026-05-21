@@ -4,6 +4,10 @@ using static H5.Core.dom;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A typed column definition used to declare how a property of <typeparamref name="T"/> is rendered inside a
+    /// <see cref="DetailsList{T}"/>.
+    /// </summary>
     [H5.Name("tss.DetailsListColumn")]
     public class DetailsListColumn : IDetailsListColumn
     {
@@ -39,13 +43,34 @@ namespace Tesserae
         }
 
         public string      SortingKey               { get; }
+        /// <summary>
+        /// Gets or sets the title of the component.
+        /// </summary>
         public string      Title                    { get; }
+        /// <summary>
+        /// Gets or sets the CSS width of the component.
+        /// </summary>
         public UnitSize    Width                    { get; }
+        /// <summary>
+        /// Gets or sets the CSS max-width of the component.
+        /// </summary>
         public UnitSize    MaxWidth                 { get; }
         public bool        IsRowHeader              { get; }
+        /// <summary>
+        /// Enables the column sorting on the component.
+        /// </summary>
         public bool        EnableColumnSorting      { get; }
+        /// <summary>
+        /// Enables the on column click event on the component.
+        /// </summary>
         public bool        EnableOnColumnClickEvent { get; }
+        /// <summary>
+        /// Registers a callback invoked when the column click event fires.
+        /// </summary>
         public void        OnColumnClick()          => _onColumnClick?.Invoke();
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public HTMLElement Render()                 => InnerElement;
     }
 }

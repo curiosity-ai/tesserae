@@ -5,6 +5,9 @@ using static H5.Core.dom;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// JavaScript-interop literal describing the current state of a Tippy popover instance.
+    /// </summary>
     [H5.ObjectLiteral]
     public class TippyInstanceState
     {
@@ -57,6 +60,9 @@ namespace Tesserae
         }
 
         private static Action<TippyInstance, MouseEvent> _doNothing = (_,__) => { };
+        /// <summary>
+        /// Shows the for.
+        /// </summary>
         public static void ShowFor(IComponent hostComponent, IComponent tooltip, out Action hide, TooltipAnimation animation = TooltipAnimation.None, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 0, int delayHide = 0, int maxWidth = 350, bool arrow = false, string theme = null, bool hideOnClick = true, Action onHiddenCallback = null, Func<bool> onHide = null, Action<TippyInstance, MouseEvent> onClickOutside = null)
         {
             var rendered = hostComponent.Render();
@@ -141,6 +147,9 @@ namespace Tesserae
             return placement;
         }
 
+        /// <summary>
+        /// Shows the for.
+        /// </summary>
         public static void ShowFor(HTMLElement hostElement, HTMLElement tooltip, out Action hide, TooltipAnimation animation = TooltipAnimation.None, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 0, int delayHide = 0, int maxWidth = 350, bool arrow = false, string theme = null, bool hideOnClick = true, Action onHiddenCallback = null, Func<bool> onHide = null, Action<TippyInstance, MouseEvent> onClickOutside = null)
         {
             if (!hostElement.IsMounted())
@@ -194,6 +203,9 @@ namespace Tesserae
             });
         }
 
+        /// <summary>
+        /// Hides the all.
+        /// </summary>
         public static void HideAll()
         {
             H5.Script.Write("tippy.hideAll()");

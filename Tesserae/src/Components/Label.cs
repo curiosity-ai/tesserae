@@ -7,6 +7,9 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A non-interactive label component, typically used to caption form fields.
+    /// </summary>
     [H5.Name("tss.Label")]
     public sealed class Label : TextBlock, ISpecialCaseStyling, IRoundedStyle
     {
@@ -89,6 +92,9 @@ namespace Tesserae
         HTMLElement ISpecialCaseStyling.StylingContainer           => InnerElement;
         bool ISpecialCaseStyling.       PropagateToStackItemParent => true;
 
+        /// <summary>
+        /// Sets the content of the component.
+        /// </summary>
         public Label SetContent(IComponent content)
         {
             Content = content;
@@ -101,12 +107,18 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the min label width of the component.
+        /// </summary>
         public Label SetMinLabelWidth(UnitSize unitSize)
         {
             _label.style.minWidth = unitSize.ToString();
             return this;
         }
 
+        /// <summary>
+        /// Returns the component configured with the given content margin.
+        /// </summary>
         public Label WithContentMargin()
         {
             InnerElement.classList.add("tss-label-with-content-margin");

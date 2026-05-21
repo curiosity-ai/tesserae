@@ -3,6 +3,9 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// Predefined shape presets used by the <see cref="Skeleton"/> placeholder.
+    /// </summary>
     public enum SkeletonType
     {
         Line,
@@ -61,12 +64,18 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Gets or sets the CSS background of the component.
+        /// </summary>
         public Skeleton Background(string color)
         {
             InnerElement.style.backgroundColor = color;
             return this;
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public override HTMLElement Render() => InnerElement;
     }
 }

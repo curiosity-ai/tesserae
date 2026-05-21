@@ -3,6 +3,9 @@ using static H5.Core.dom;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// Application-wide registry that tracks the current z-index for stacked layers (modals, dialogs, toasts).
+    /// </summary>
     [Name("tss.Layers")]
     public static class Layers
     {

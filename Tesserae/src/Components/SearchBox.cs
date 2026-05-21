@@ -5,6 +5,10 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A single-line search input with a leading magnifier glyph, a trailing clear button and search-on-enter /
+    /// debounced-input semantics.
+    /// </summary>
     [H5.Name("tss.SearchBox")]
     public class SearchBox : ComponentBase<SearchBox, HTMLInputElement>, ITextFormating, IHasBackgroundColor, ITabIndex, IRoundedStyle
     {
@@ -159,8 +163,14 @@ namespace Tesserae
                 InnerElement.classList.add(value.ToString());
             }
         }
+        /// <summary>
+        /// Gets or sets the CSS background of the component.
+        /// </summary>
         public string Background { get => _container.style.background; set => _container.style.background = value; }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public override HTMLElement Render()
         {
             return _container;
@@ -171,12 +181,18 @@ namespace Tesserae
             InputUpdated += (s, _) => handler(s);
         }
 
+        /// <summary>
+        /// Sets the text of the component.
+        /// </summary>
         public SearchBox SetText(string text)
         {
             Text = text;
             return this;
         }
 
+        /// <summary>
+        /// Sets the placeholder of the component.
+        /// </summary>
         public SearchBox SetPlaceholder(string error)
         {
             Placeholder = error;
@@ -201,6 +217,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the icon of the component.
+        /// </summary>
         public SearchBox SetIcon(UIcons icon)
         {
             _icon.className = icon.ToString();
@@ -208,12 +227,18 @@ namespace Tesserae
         }
 
 
+        /// <summary>
+        /// Removes / disables the icon on the component.
+        /// </summary>
         public SearchBox NoIcon()
         {
             _container.classList.add("tss-noicon");
             return this;
         }
 
+        /// <summary>
+        /// Moves keyboard focus to the component.
+        /// </summary>
         public SearchBox Focus()
         {
             DomObserver.WhenMounted(InnerElement, () => InnerElement.focus());
@@ -240,6 +265,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the search event fires.
+        /// </summary>
         public SearchBox OnSearch(SearchEventHandler onSearch)
         {
             Searched += onSearch;
@@ -354,6 +382,9 @@ namespace Tesserae
             return string.Equals(e.key, mainKey, StringComparison.OrdinalIgnoreCase);
         }
 
+        /// <summary>
+        /// Gets or sets the CSS height of the component.
+        /// </summary>
         public SearchBox Height(UnitSize unitSize)
         {
             var h = unitSize.ToString();

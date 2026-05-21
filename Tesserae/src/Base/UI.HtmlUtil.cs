@@ -223,6 +223,9 @@ namespace Tesserae
             return element;
         }
 
+        /// <summary>
+        /// Sets the style of the component.
+        /// </summary>
         public static HTMLElement SetStyle(HTMLElement element, Action<CSSStyleDeclaration> style)
         {
             style(element.style);
@@ -286,6 +289,9 @@ namespace Tesserae
             return false;
         }
 
+        /// <summary>
+        /// Gets or sets the text shown in the component.
+        /// </summary>
         public static Text Text(string text)
         {
             return document.createTextNode(text);

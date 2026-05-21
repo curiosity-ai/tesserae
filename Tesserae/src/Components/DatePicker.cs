@@ -3,6 +3,9 @@ using System.Globalization;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A form input for picking a single calendar date, backed by the browser's native date input.
+    /// </summary>
     [H5.Name("tss.DatePicker")]
     public class DatePicker : MomentPickerBase<DatePicker, DateTime>
     {

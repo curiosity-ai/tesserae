@@ -6,6 +6,9 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A searchable, scrollable list whose items are organized into named groups.
+    /// </summary>
     [H5.Name("tss.SearchableGroupedList")]
     public class SearchableGroupedList<T> : IComponent, ISpecialCaseStyling where T : ISearchableGroupedItem
     {
@@ -29,6 +32,9 @@ namespace Tesserae
 
         public HTMLElement                StylingContainer           => _stack.InnerElement;
         public bool                       PropagateToStackItemParent => true;
+        /// <summary>
+        /// Adds the given items to the component.
+        /// </summary>
         public ObservableList<IComponent> Items                      { get; }
 
         public SearchableGroupedList(T[] items, Func<string, IComponent> groupedItemHeaderGenerator, params UnitSize[] columns)
@@ -86,6 +92,9 @@ namespace Tesserae
             _stack                        = Stack().Children(_searchBoxContainer, _defered.Scroll()).WS().MaxHeight(100.percent());
         }
 
+        /// <summary>
+        /// Returns the component configured with the given no results message.
+        /// </summary>
         public SearchableGroupedList<T> WithNoResultsMessage(Func<IComponent> emptyListMessageGenerator)
         {
             _list.WithEmptyMessage(emptyListMessageGenerator ?? throw new ArgumentNullException(nameof(emptyListMessageGenerator)));
@@ -93,6 +102,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Returns the component configured with the given group ordering.
+        /// </summary>
         public SearchableGroupedList<T> WithGroupOrdering(IComparer<string> groupComparer)
         {
             _groupComparer = groupComparer;
@@ -112,6 +124,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the keyboard shortcut of the component.
+        /// </summary>
         public SearchableGroupedList<T> SetKeyboardShortcut(params string[] keys)
         {
             _searchBox.SetKeyboardShortcut(keys);
@@ -192,8 +207,14 @@ namespace Tesserae
             _virtualizedViewportMaxTop = endIndex   * itemH;
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public HTMLElement Render() => _stack.Render();
 
+        /// <summary>
+        /// Returns the component configured with the given pagination.
+        /// </summary>
         public SearchableGroupedList<T> WithPagination(int pageSize)
         {
             _pagination = new Pagination(0, pageSize, 1).WS();
@@ -252,6 +273,9 @@ namespace Tesserae
                 _component = groupedItemHeaderGenerator(group);
             }
 
+            /// <summary>
+            /// Renders the component's root HTML element.
+            /// </summary>
             public HTMLElement Render() => _component.Render();
         }
     }

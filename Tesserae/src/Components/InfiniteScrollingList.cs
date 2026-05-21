@@ -7,6 +7,10 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A list that lazily loads additional items as the user scrolls toward the bottom, suitable for very large or
+    /// unbounded result sets.
+    /// </summary>
     [H5.Name("tss.InfiniteScrollingList")]
     public sealed class InfiniteScrollingList : IComponent, ISpecialCaseStyling
     {
@@ -126,12 +130,18 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Returns the component configured with the given empty message.
+        /// </summary>
         public InfiniteScrollingList WithEmptyMessage(Func<IComponent> emptyListMessageGenerator)
         {
             _emptyListMessageGenerator = emptyListMessageGenerator ?? throw new ArgumentNullException(nameof(emptyListMessageGenerator));
             return this;
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public HTMLElement Render()
         {
             if (_grid is object)

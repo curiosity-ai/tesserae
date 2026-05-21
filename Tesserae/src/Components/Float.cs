@@ -8,6 +8,10 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A floating positioning container used to overlay a small piece of content anchored to one corner of its
+    /// parent.
+    /// </summary>
     [H5.Name("tss.Float")]
     public sealed class Float : IComponent
     {
@@ -20,6 +24,9 @@ namespace Tesserae
             _floatingContainer = Div(_($"tss-float {position}"), _child.Render());
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public dom.HTMLElement Render() => _floatingContainer;
 
 

@@ -4,6 +4,9 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A bordered, shadowed surface used to group related content into a self-contained block.
+    /// </summary>
     [H5.Name("tss.Card")]
     public sealed class Card : ComponentBase<Card, HTMLElement>, IHasBackgroundColor, IRoundedStyle
     {
@@ -103,14 +106,23 @@ namespace Tesserae
             set => _cardContainer.UpdateClassIf(value, "tss-small");
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the click event fires.
+        /// </summary>
         public override Card OnClick(ComponentEventHandler<Card, MouseEvent> onClick, bool clearPrevious = true)
         {
             InnerElement.style.cursor = "pointer";
             return base.OnClick(onClick, clearPrevious);
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the click event fires.
+        /// </summary>
         public Card OnClick(Action action) => OnClick((_, __) => action.Invoke());
 
+        /// <summary>
+        /// Sets the title of the component.
+        /// </summary>
         public Card SetTitle(string title)
         {
             EnsureHeader();
@@ -118,6 +130,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the title of the component.
+        /// </summary>
         public Card SetTitle(IComponent title)
         {
             EnsureHeader();
@@ -126,6 +141,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the content of the component.
+        /// </summary>
         public Card SetContent(IComponent content)
         {
             if (_contentContainer != null)
@@ -141,6 +159,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the footer of the component.
+        /// </summary>
         public Card SetFooter(IComponent footer)
         {
             EnsureFooter();
@@ -190,6 +211,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Removes / disables the padding on the component.
+        /// </summary>
         public Card NoPadding()
         {
             _noPadding = true;
@@ -217,6 +241,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public override HTMLElement Render()
         {
             return _cardContainer;

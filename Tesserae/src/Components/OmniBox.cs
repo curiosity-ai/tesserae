@@ -7,6 +7,10 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A heavyweight omni-search / autocomplete component with inline filter chips, multiple search modes
+    /// (search/chat) and async value providers.
+    /// </summary>
     [H5.Name("tss.OmniBox")]
     public class OmniBox : IComponent, IHasBackgroundColor, ITabIndex
     {
@@ -15,8 +19,14 @@ namespace Tesserae
         {
             public string Name { get; }
             public string Color { get; }
+            /// <summary>
+            /// Gets or sets the CSS background of the component.
+            /// </summary>
             public string Background { get; }
             public bool Removable { get; }
+            /// <summary>
+            /// Registers a callback invoked when the click event fires.
+            /// </summary>
             public Action<MouseEvent> OnClick { get; }
             internal IComponent Content { get; }
 
@@ -78,9 +88,15 @@ namespace Tesserae
         {
             public string FilterId { get; }
             public string DisplayName { get; }
+            /// <summary>
+            /// Gets or sets the description of the component.
+            /// </summary>
             public string Description { get; }
             public string[] TriggerWords { get; }
             public IComponent Icon { get; }
+            /// <summary>
+            /// Gets or sets the CSS background of the component.
+            /// </summary>
             public string Background { get; }
             public string Color { get; }
 
@@ -153,6 +169,9 @@ namespace Tesserae
             public FilterSnapHandler Handler { get; }
             public string FilterId => Handler.FilterId;
             public string Trigger { get; }
+            /// <summary>
+            /// Gets or sets the current value of the component.
+            /// </summary>
             public string Value { get; }
 
             public FilterSnap(FilterSnapHandler handler, string trigger, string value)
@@ -167,9 +186,15 @@ namespace Tesserae
         {
             public string SnapId { get; }
             public string DisplayName { get; }
+            /// <summary>
+            /// Gets or sets the description of the component.
+            /// </summary>
             public string Description { get; }
             public string[] TriggerWords { get; }
             public IComponent Icon { get; }
+            /// <summary>
+            /// Gets or sets the CSS background of the component.
+            /// </summary>
             public string Background { get; }
             public string Color { get; }
             public bool Exclusive { get; }
@@ -193,8 +218,14 @@ namespace Tesserae
         public class OmniBoxSuggestionItem
         {
             public IComponent Icon { get; }
+            /// <summary>
+            /// Gets or sets the text shown in the component.
+            /// </summary>
             public IComponent Text { get; }
             public IComponent RightComponent { get; }
+            /// <summary>
+            /// Registers a callback invoked when the selected event fires.
+            /// </summary>
             public Action<OmniBox> OnSelected { get; }
             public string Category { get; }
 
@@ -281,6 +312,9 @@ namespace Tesserae
         public class ModelOption
         {
             public string Name { get; }
+            /// <summary>
+            /// Gets or sets the description of the component.
+            /// </summary>
             public string Description { get; }
             public object Tag { get; }
 
@@ -1697,35 +1731,53 @@ namespace Tesserae
             Stopped?.Invoke(this);
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the search event fires.
+        /// </summary>
         public OmniBox OnSearch(SearchEventHandler onSearch)
         {
             Searched += onSearch;
             return this;
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the chat event fires.
+        /// </summary>
         public OmniBox OnChat(ChatEventHandler onChat)
         {
             Chatted += onChat;
             return this;
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the stop event fires.
+        /// </summary>
         public OmniBox OnStop(StopEventHandler onStop)
         {
             Stopped += onStop;
             return this;
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the model changed event fires.
+        /// </summary>
         public OmniBox OnModelChanged(ModelChangedEventHandler onModelChanged)
         {
             ModelChanged += onModelChanged;
             return this;
         }
 
+        /// <summary>
+        /// Sets the models of the component.
+        /// </summary>
         public OmniBox SetModels(params ModelOption[] models)
         {
             return SetModels((IEnumerable<ModelOption>)models);
         }
 
+        /// <summary>
+        /// Sets the models of the component.
+        /// </summary>
         public OmniBox SetModels(IEnumerable<ModelOption> models)
         {
             if (_modelSelectorBtn == null)
@@ -1770,6 +1822,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the thinking effort of the component.
+        /// </summary>
         public OmniBox SetThinkingEffort(ThinkingEffort effort)
         {
             _selectedEffort = effort;
@@ -1926,42 +1981,63 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the input event fires.
+        /// </summary>
         public OmniBox OnInput(ComponentEventHandler<OmniBox, Event> onInput)
         {
             Input += onInput;
             return this;
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the key down event fires.
+        /// </summary>
         public OmniBox OnKeyDown(ComponentEventHandler<OmniBox, KeyboardEvent> onKeyDown)
         {
             KeyDown += onKeyDown;
             return this;
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the key up event fires.
+        /// </summary>
         public OmniBox OnKeyUp(ComponentEventHandler<OmniBox, KeyboardEvent> onKeyUp)
         {
             KeyUp += onKeyUp;
             return this;
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the key press event fires.
+        /// </summary>
         public OmniBox OnKeyPress(ComponentEventHandler<OmniBox, KeyboardEvent> onKeyPress)
         {
             KeyPress += onKeyPress;
             return this;
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the focus event fires.
+        /// </summary>
         public OmniBox OnFocus(ComponentEventHandler<OmniBox, Event> onFocus)
         {
             ReceivedFocus += onFocus;
             return this;
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the blur event fires.
+        /// </summary>
         public OmniBox OnBlur(ComponentEventHandler<OmniBox, Event> onBlur)
         {
             LostFocus += onBlur;
             return this;
         }
 
+        /// <summary>
+        /// Returns the component configured with the given history.
+        /// </summary>
         public OmniBox WithHistory(Func<Task<SearchQuery[]>> historyFetcher)
         {
             _historyFetcher = historyFetcher;
@@ -2069,8 +2145,14 @@ namespace Tesserae
         }
 
 
+        /// <summary>
+        /// Gets or sets the CSS background of the component.
+        /// </summary>
         public string Background { get => _container.style.background; set => _container.style.background = value; }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public HTMLElement Render()
         {
             return _container;
@@ -2273,6 +2355,9 @@ namespace Tesserae
             return string.Equals(e.key, mainKey, StringComparison.OrdinalIgnoreCase);
         }
 
+        /// <summary>
+        /// Sets the search right text of the component.
+        /// </summary>
         public OmniBox SetSearchRightText(string text)
         {
             if (string.IsNullOrEmpty(text))
@@ -2336,24 +2421,36 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Sets the search text of the component.
+        /// </summary>
         public OmniBox SetSearchText(string text)
         {
             SearchText = text;
             return this;
         }
 
+        /// <summary>
+        /// Sets the search placeholder of the component.
+        /// </summary>
         public OmniBox SetSearchPlaceholder(string text)
         {
             SearchPlaceholder = text;
             return this;
         }
 
+        /// <summary>
+        /// Sets the chat text of the component.
+        /// </summary>
         public OmniBox SetChatText(string text)
         {
             ChatText = text;
             return this;
         }
 
+        /// <summary>
+        /// Sets the chat placeholder of the component.
+        /// </summary>
         public OmniBox SetChatPlaceholder(string text)
         {
             ChatPlaceholder = text;
@@ -2366,6 +2463,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Moves keyboard focus to the component.
+        /// </summary>
         public OmniBox Focus()
         {
             DomObserver.WhenMounted(_searchInput, () =>
@@ -2375,6 +2475,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Gets or sets the CSS height of the component.
+        /// </summary>
         public OmniBox Height(UnitSize unitSize)
         {
             var h = unitSize.ToString();
@@ -2405,6 +2508,9 @@ namespace Tesserae
             }
 
             public TokenType Type { get; set; }
+            /// <summary>
+            /// Gets or sets the current value of the component.
+            /// </summary>
             public string Value { get; set; }
 
             public SearchToken(TokenType type, string value)
@@ -2432,6 +2538,9 @@ namespace Tesserae
 
         public class ChatMessage
         {
+            /// <summary>
+            /// Gets or sets the text shown in the component.
+            /// </summary>
             public string Text { get; set; }
         }
     }

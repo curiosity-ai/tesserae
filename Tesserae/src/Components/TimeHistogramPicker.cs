@@ -6,6 +6,9 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A single bucket (time slice) inside the <see cref="TimeHistogramPicker"/>.
+    /// </summary>
     [H5.Name("tss.TimeHistogramBucket")]
     public sealed class TimeHistogramBucket
     {
@@ -98,6 +101,9 @@ namespace Tesserae
 
         private bool HasSelection => _buckets.Count > 0 && _selectedStartIndex >= 0 && _selectedEndIndex >= _selectedStartIndex;
 
+        /// <summary>
+        /// Sets the values of the component.
+        /// </summary>
         public TimeHistogramPicker SetValues(DateTime[] values)
         {
             _usesPrecomputedBuckets = false;
@@ -108,6 +114,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the buckets of the component.
+        /// </summary>
         public TimeHistogramPicker SetBuckets(TimeHistogramBucket[] buckets)
         {
             _usesPrecomputedBuckets = true;
@@ -123,6 +132,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the range of the component.
+        /// </summary>
         public TimeHistogramPicker SetRange(DateTime from, DateTime to)
         {
             if (_buckets.Count == 0)
@@ -164,12 +176,18 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the range changed event fires.
+        /// </summary>
         public TimeHistogramPicker OnRangeChanged(Action<DateTime, DateTime, int> handler)
         {
             _rangeChanged += handler;
             return this;
         }
 
+        /// <summary>
+        /// Returns the component configured with the given custom time render.
+        /// </summary>
         public TimeHistogramPicker WithCustomTimeRender(Func<DateTime, string> renderTime)
         {
             _renderTime           = renderTime ?? DateTimeRangeRenderer.RenderTime;
@@ -179,11 +197,17 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Shows the count on hover.
+        /// </summary>
         public TimeHistogramPicker ShowCountOnHover(bool value = true)
         {
             return ShowBucketTooltipOnHover(value);
         }
 
+        /// <summary>
+        /// Shows the bucket tooltip on hover.
+        /// </summary>
         public TimeHistogramPicker ShowBucketTooltipOnHover(bool value = true)
         {
             _showBucketTooltipOnHover = value;
@@ -201,6 +225,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public HTMLElement Render() => _container;
 
         private void ResetSelection()

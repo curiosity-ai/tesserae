@@ -2,6 +2,9 @@ using System;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// Helpers for rendering a <see cref="DateTime"/> range as a compact human-readable string.
+    /// </summary>
     internal static class DateTimeRangeRenderer
     {
         public static string RenderTime(DateTime date)

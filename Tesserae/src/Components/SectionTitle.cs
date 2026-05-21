@@ -4,6 +4,9 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A heading used to label a section of a form or page, with optional subtitle and trailing actions.
+    /// </summary>
     [H5.Name("tss.SectionTitle")]
     public class SectionTitle : IComponent, IHasMarginPadding
     {
@@ -45,6 +48,9 @@ namespace Tesserae
             set => _stack.Padding = value;
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public HTMLElement Render() => _stack.Render();
     }
 }

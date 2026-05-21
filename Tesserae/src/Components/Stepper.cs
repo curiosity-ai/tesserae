@@ -5,6 +5,9 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A single step in a <see cref="Stepper"/> wizard, with title, description and completion state.
+    /// </summary>
     public sealed class StepperStep
     {
         public StepperStep(string title, IComponent content, string description = null)
@@ -14,7 +17,13 @@ namespace Tesserae
             Content = content;
         }
 
+        /// <summary>
+        /// Gets or sets the title of the component.
+        /// </summary>
         public string Title { get; set; }
+        /// <summary>
+        /// Gets or sets the description of the component.
+        /// </summary>
         public string Description { get; set; }
         public IComponent Content { get; set; }
     }
@@ -61,6 +70,9 @@ namespace Tesserae
 
         public StepperStep CurrentStep => _steps.Count == 0 ? null : _steps[_currentIndex];
 
+        /// <summary>
+        /// Adds the given step to the component.
+        /// </summary>
         public Stepper AddStep(string title, IComponent content, string description = null)
         {
             _steps.Add(new StepperStep(title, content, description));
@@ -69,6 +81,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Adds the given steps to the component.
+        /// </summary>
         public Stepper AddSteps(params StepperStep[] steps)
         {
             if (steps == null)
@@ -89,12 +104,18 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the step change event fires.
+        /// </summary>
         public Stepper OnStepChange(Action<Stepper> onStepChange)
         {
             _onStepChanged += onStepChange;
             return this;
         }
 
+        /// <summary>
+        /// Sets the step of the component.
+        /// </summary>
         public Stepper SetStep(int index, bool raiseEvent = true)
         {
             if (_steps.Count == 0)
@@ -193,6 +214,9 @@ namespace Tesserae
             _nextButton.UpdateClassIf(_nextButton.disabled, "tss-disabled");
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public override HTMLElement Render() => InnerElement;
     }
 }

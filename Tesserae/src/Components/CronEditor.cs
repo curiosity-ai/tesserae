@@ -7,6 +7,10 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A structured editor for cron expressions, exposing the schedule fields (minutes, hours, day-of-month, month,
+    /// day-of-week) as separate inputs.
+    /// </summary>
     [H5.Name("tss.CronEditor")]
     public sealed class CronEditor : ComponentBase<CronEditor, HTMLDivElement>, IObservableComponent<(string cron, bool enabled)>
     {
@@ -89,6 +93,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Shows the enable checkbox.
+        /// </summary>
         public CronEditor ShowEnableCheckbox(bool visible)
         {
             _showEnableCheckbox = visible;
@@ -103,6 +110,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the change event fires.
+        /// </summary>
         public CronEditor OnChange(ComponentEventHandler<CronEditor> onChange)
         {
             _onChange += onChange;
@@ -200,6 +210,9 @@ namespace Tesserae
             _editorContainer.style.display = "none";
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public override HTMLElement Render()
         {
             return InnerElement;

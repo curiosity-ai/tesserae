@@ -3,6 +3,9 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// Predefined size presets used by the <see cref="Avatar"/> component.
+    /// </summary>
     public enum AvatarSize
     {
         XSmall,
@@ -77,6 +80,9 @@ namespace Tesserae
             set => Presence(value);
         }
 
+        /// <summary>
+        /// Sets the image of the component.
+        /// </summary>
         public Avatar SetImage(string url)
         {
             _image.src = url ?? string.Empty;
@@ -84,6 +90,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the initials of the component.
+        /// </summary>
         public Avatar SetInitials(string initials)
         {
             _initials.innerText = initials ?? string.Empty;
@@ -92,6 +101,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Gets or sets the size of the component.
+        /// </summary>
         public Avatar Size(AvatarSize size)
         {
             _size = size;
@@ -157,12 +169,18 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Gets or sets the CSS background of the component.
+        /// </summary>
         public Avatar Background(string color)
         {
             InnerElement.style.backgroundColor = color;
             return this;
         }
 
+        /// <summary>
+        /// Gets or sets the CSS color (foreground) of the component.
+        /// </summary>
         public Avatar Foreground(string color)
         {
             _initials.style.color = color;
@@ -211,6 +229,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public override HTMLElement Render()
         {
             return InnerElement;
@@ -241,6 +262,9 @@ namespace Tesserae
             UpdateOptionalText();
         }
 
+        /// <summary>
+        /// Sets the avatar of the component.
+        /// </summary>
         public Persona SetAvatar(Avatar avatar)
         {
             if (avatar == null)
@@ -254,12 +278,18 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the name of the component.
+        /// </summary>
         public Persona SetName(string name)
         {
             _name.innerText = name ?? string.Empty;
             return this;
         }
 
+        /// <summary>
+        /// Sets the secondary text of the component.
+        /// </summary>
         public Persona SetSecondaryText(string text)
         {
             _secondary.innerText = text ?? string.Empty;
@@ -267,6 +297,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the tertiary text of the component.
+        /// </summary>
         public Persona SetTertiaryText(string text)
         {
             _tertiary.innerText = text ?? string.Empty;
@@ -286,6 +319,9 @@ namespace Tesserae
             _tertiary.style.display = string.IsNullOrEmpty(_tertiary.innerText) ? "none" : "block";
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public override HTMLElement Render()
         {
             return InnerElement;

@@ -1,5 +1,8 @@
 ﻿namespace Tesserae
 {
+    /// <summary>
+    /// A form input for picking a color, backed by the browser's native color input.
+    /// </summary>
     [H5.Name("tss.ColorPicker")]
     public class ColorPicker : Input<ColorPicker>
     {
@@ -19,6 +22,9 @@
             }
         }
 
+        /// <summary>
+        /// Sets the color of the component.
+        /// </summary>
         public ColorPicker SetColor(Color color) => SetText(color.ToHex());
     }
 }

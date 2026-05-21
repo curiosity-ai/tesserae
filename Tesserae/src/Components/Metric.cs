@@ -4,6 +4,9 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A large numeric KPI tile used inside dashboards, showing a value with optional label and trend indicator.
+    /// </summary>
     [H5.Name("tss.Metric")]
     public class Metric : ComponentBase<Metric, HTMLElement>
     {
@@ -52,6 +55,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public override HTMLElement Render()
         {
             return _container;

@@ -4,6 +4,9 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// Predefined visual tones used to color the <see cref="Badge"/> component.
+    /// </summary>
     public enum BadgeTone
     {
         Neutral,
@@ -79,12 +82,18 @@ namespace Tesserae
             set => InnerElement.UpdateClassIf(value, "tss-token-filled");
         }
 
+        /// <summary>
+        /// Sets the text of the component.
+        /// </summary>
         public T SetText(string text)
         {
             Text = text;
             return (T)this;
         }
 
+        /// <summary>
+        /// Sets the icon of the component.
+        /// </summary>
         public T SetIcon(string icon)
         {
             Icon = icon;
@@ -117,12 +126,18 @@ namespace Tesserae
             return (T)this;
         }
 
+        /// <summary>
+        /// Gets or sets the CSS background of the component.
+        /// </summary>
         public T Background(string color)
         {
             InnerElement.style.backgroundColor = color;
             return (T)this;
         }
 
+        /// <summary>
+        /// Gets or sets the CSS color (foreground) of the component.
+        /// </summary>
         public T Foreground(string color)
         {
             InnerElement.style.color = color;
@@ -143,6 +158,9 @@ namespace Tesserae
         public T Info()    => Tone(BadgeTone.Info);
         public T Neutral() => Tone(BadgeTone.Neutral);
 
+        /// <summary>
+        /// Registers a callback invoked when the remove event fires.
+        /// </summary>
         public T OnRemove(Action<T> onRemove)
         {
             _removeRequested += onRemove;
@@ -199,6 +217,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public override HTMLElement Render() => InnerElement;
     }
 

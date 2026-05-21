@@ -7,6 +7,10 @@ namespace Tesserae
 {
 
 
+    /// <summary>
+    /// Base class for every Tesserae component. Provides DOM event wiring, click / focus / change events, ARIA and
+    /// margin/padding support.
+    /// </summary>
     [H5.Name("tss.CB")]
     public abstract class ComponentBase<T, THTML> : IComponent, IHasClickHandler, IHasMarginPadding, IAccessibility where T : ComponentBase<T, THTML> where THTML : HTMLElement
     {
@@ -23,27 +27,54 @@ namespace Tesserae
         protected event ComponentEventHandler<T, KeyboardEvent>  KeyUp;
         protected event ComponentEventHandler<T, KeyboardEvent>  KeyPress;
 
+        /// <summary>
+        /// Gets the underlying DOM element backing this component.
+        /// </summary>
         public THTML  InnerElement { get;                               protected set; }
+        /// <summary>
+        /// Gets or sets the CSS margin of the component.
+        /// </summary>
         public string Margin       { get => InnerElement.style.margin;  set => InnerElement.style.margin = value; }
+        /// <summary>
+        /// Gets or sets the CSS padding of the component.
+        /// </summary>
         public string Padding      { get => InnerElement.style.padding; set => InnerElement.style.padding = value; }
 
+        /// <summary>
+        /// Sets the ARIA role of the component.
+        /// </summary>
         public string AriaRole        { set => InnerElement.setAttribute("role", value); }
+        /// <summary>
+        /// Sets the ARIA accessible-name label of the component.
+        /// </summary>
         public string AriaLabel       { set => InnerElement.setAttribute("aria-label", value); }
         public string AriaLabelledBy  { set => InnerElement.setAttribute("aria-labelledby", value); }
         public string AriaDescribedBy { set => InnerElement.setAttribute("aria-describedby", value); }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public abstract HTMLElement Render();
 
+        /// <summary>
+        /// Registers a callback invoked when the click base event fires.
+        /// </summary>
         public void OnClickBase(ComponentEventHandler<IComponent, MouseEvent> onClick, bool clearPrevious = true)
         {
             OnClick((a, b) => onClick(a, b), clearPrevious);
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the context menu base event fires.
+        /// </summary>
         public void OnContextMenuBase(ComponentEventHandler<IComponent, MouseEvent> onContextMenu, bool clearPrevious = true)
         {
             OnContextMenu((a, b) => onContextMenu(a, b), clearPrevious);
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the click event fires.
+        /// </summary>
         public virtual T OnClick(ComponentEventHandler<T, MouseEvent> onClick, bool clearPrevious = true)
         {
             if (Clicked != null && clearPrevious)
@@ -65,6 +96,9 @@ namespace Tesserae
             return (T)this;
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the mouse over event fires.
+        /// </summary>
         public virtual T OnMouseOver(ComponentEventHandler<T, MouseEvent> onEnter, ComponentEventHandler<T, MouseEvent> onLeave = null, bool clearPrevious = true)
         {
             if (MouseOver != null && clearPrevious)
@@ -90,6 +124,9 @@ namespace Tesserae
             return (T)this;
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the context menu event fires.
+        /// </summary>
         public virtual T OnContextMenu(ComponentEventHandler<T, MouseEvent> onContextMenu, bool clearPrevious = true)
         {
             if (ContextMenu != null && clearPrevious)
@@ -111,48 +148,72 @@ namespace Tesserae
             return (T)this;
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the change event fires.
+        /// </summary>
         public virtual T OnChange(ComponentEventHandler<T, Event> onChange)
         {
             Changed += onChange;
             return (T)this;
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the input event fires.
+        /// </summary>
         public virtual T OnInput(ComponentEventHandler<T, Event> onInput)
         {
             InputUpdated += onInput;
             return (T)this;
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the focus event fires.
+        /// </summary>
         public virtual T OnFocus(ComponentEventHandler<T, Event> onFocus)
         {
             ReceivedFocus += onFocus;
             return (T)this;
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the blur event fires.
+        /// </summary>
         public virtual T OnBlur(ComponentEventHandler<T, Event> onBlur)
         {
             LostFocus += onBlur;
             return (T)this;
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the key down event fires.
+        /// </summary>
         public virtual T OnKeyDown(ComponentEventHandler<T, KeyboardEvent> onKeyDown)
         {
             KeyDown += onKeyDown;
             return (T)this;
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the key up event fires.
+        /// </summary>
         public virtual T OnKeyUp(ComponentEventHandler<T, KeyboardEvent> onKeyUp)
         {
             KeyUp += onKeyUp;
             return (T)this;
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the key press event fires.
+        /// </summary>
         public virtual T OnKeyPress(ComponentEventHandler<T, KeyboardEvent> onKeyPress)
         {
             KeyPress += onKeyPress;
             return (T)this;
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the pasted event fires.
+        /// </summary>
         public virtual T OnPasted(ComponentEventHandler<T, ClipboardEvent> onPasted)
         {
             Pasted += onPasted;

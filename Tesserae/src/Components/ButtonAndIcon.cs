@@ -4,6 +4,9 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A composite button that pairs a label with a leading icon, useful for command-bar and toolbar items.
+    /// </summary>
     [H5.Name("tss.ButtonAndIcon")]
     public class ButtonAndIcon : Button
     {
@@ -26,28 +29,43 @@ namespace Tesserae
             _parent.appendChild(_arrowButton.Render());
         }
 
+        /// <summary>
+        /// Sets the secondary icon of the component.
+        /// </summary>
         public ButtonAndIcon SetSecondaryIcon(UIcons icon, string color = "", TextSize size = TextSize.Small, UIconsWeight weight = UIconsWeight.Regular)
         {
             _arrowButton.SetIcon(icon, color, size, weight);
             return this;
         }
+        /// <summary>
+        /// Sets the secondary icon of the component.
+        /// </summary>
         public ButtonAndIcon SetSecondaryIcon(Emoji icon)
         {
             _arrowButton.SetIcon(icon);
             return this;
         }
 
+        /// <summary>
+        /// Gets or sets the CSS max-width of the component.
+        /// </summary>
         public ButtonAndIcon MaxWidth(UnitSize maxWidth)
         {
             InnerElement.style.maxWidth = maxWidth.ToString();
             return this;
         }
+        /// <summary>
+        /// Gets or sets the CSS min-width of the component.
+        /// </summary>
         public ButtonAndIcon MinWidth(UnitSize minWidth)
         {
             InnerElement.style.minWidth = minWidth.ToString();
             return this;
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public override HTMLElement Render() => _parent;
     }
 }

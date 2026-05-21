@@ -4,6 +4,9 @@ using static Tesserae.UI;
 namespace Tesserae
 {
 
+    /// <summary>
+    /// A modal that shows a progress bar while a long-running operation completes, with optional cancel button.
+    /// </summary>
     [H5.Name("tss.ProgressModal")]
     public class ProgressModal
     {
@@ -42,6 +45,9 @@ namespace Tesserae
         }
 
 
+        /// <summary>
+        /// Shows the embedded.
+        /// </summary>
         public IComponent ShowEmbedded()
         {
             return _modalHost.ShowEmbedded();
@@ -65,12 +71,18 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Gets or sets the title of the component.
+        /// </summary>
         public ProgressModal Title(string title)
         {
             _titleHost.Content(TextBlock(title).SemiBold().Primary().PaddingTop(16.px()).PaddingBottom(8.px()));
             return this;
         }
 
+        /// <summary>
+        /// Gets or sets the title of the component.
+        /// </summary>
         public ProgressModal Title(IComponent title)
         {
             _titleHost.Content(title);
@@ -111,6 +123,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Returns the component configured with the given cancel.
+        /// </summary>
         public ProgressModal WithCancel(Action<Button> onCancel, Action<Button> btnCancel = null)
         {
             var button = Button().SetText("Cancel").SetIcon(UIcons.Cross).Danger();

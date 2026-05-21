@@ -6,6 +6,10 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A modal overlay surface that dims the page and centers arbitrary content, with optional header, footer and
+    /// close button.
+    /// </summary>
     [H5.Name("tss.Modal")]
     public sealed class Modal : Layer<Modal>, ISpecialCaseStyling, IHasBackgroundColor
     {
@@ -94,6 +98,9 @@ namespace Tesserae
             };
         }
 
+        /// <summary>
+        /// Sets the header of the component.
+        /// </summary>
         public Modal SetHeader(IComponent header)
         {
             _modalHeader.style.display = "";
@@ -106,6 +113,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the footer of the component.
+        /// </summary>
         public Modal SetFooter(IComponent footer)
         {
             _modalFooter.style.display = "";
@@ -118,6 +128,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the header commands of the component.
+        /// </summary>
         public Modal SetHeaderCommands(params IComponent[] commands)
         {
             _modalHeader.style.display = "";
@@ -134,6 +147,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the footer commands of the component.
+        /// </summary>
         public Modal SetFooterCommands(params IComponent[] commands)
         {
             _modalFooter.style.display = "";
@@ -150,6 +166,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the left header commands of the component.
+        /// </summary>
         public Modal SetLeftHeaderCommands(params IComponent[] commands)
         {
             _modalHeader.style.display = "";
@@ -166,6 +185,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the left footer commands of the component.
+        /// </summary>
         public Modal SetLeftFooterCommands(params IComponent[] commands)
         {
             _modalFooter.style.display = "";
@@ -188,6 +210,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Removes / disables the header on the component.
+        /// </summary>
         public Modal NoHeader()
         {
             ClearChildren(_modalHeader);
@@ -195,6 +220,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Removes / disables the footer on the component.
+        /// </summary>
         public Modal NoFooter()
         {
             ClearChildren(_modalFooter);
@@ -202,6 +230,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Removes / disables the animation on the component.
+        /// </summary>
         public Modal NoAnimation()
         {
             AnimateOnShow = false;
@@ -299,6 +330,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Shows the embedded.
+        /// </summary>
         public IComponent ShowEmbedded()
         {
             WillShowCloseButton = false;
@@ -327,24 +361,36 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Removes / disables the padding on the component.
+        /// </summary>
         public Modal NoPadding()
         {
             _modalContent.style.padding = _modalHeader.style.padding = _modalFooter.style.padding = "unset";
             return this;
         }
 
+        /// <summary>
+        /// Removes / disables the content padding on the component.
+        /// </summary>
         public Modal NoContentPadding()
         {
             _modalContent.style.padding = "unset";
             return this;
         }
 
+        /// <summary>
+        /// Shows the close button.
+        /// </summary>
         public Modal ShowCloseButton()
         {
             WillShowCloseButton = true;
             return this;
         }
 
+        /// <summary>
+        /// Hides the close button.
+        /// </summary>
         public Modal HideCloseButton()
         {
             WillShowCloseButton = false;
@@ -357,6 +403,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Removes / disables the light dismiss on the component.
+        /// </summary>
         public Modal NoLightDismiss()
         {
             CanLightDismiss = false;
@@ -387,6 +436,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Shows the at.
+        /// </summary>
         public void ShowAt(UnitSize fromTop = null, UnitSize fromLeft = null, UnitSize fromRight = null, UnitSize fromBottom = null)
         {
             _modal.style.marginTop    = fromTop is object ? fromTop.ToString() : UnitSize.Auto().ToString();
@@ -406,6 +458,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Shows the async.
+        /// </summary>
         public Task ShowAsync()
         {
             var tcs = new TaskCompletionSource<bool>();
@@ -426,12 +481,18 @@ namespace Tesserae
             RaiseOnShow();
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the hide event fires.
+        /// </summary>
         public Modal OnHide(OnHideHandler onHide)
         {
             Hidden += onHide;
             return this;
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the show event fires.
+        /// </summary>
         public Modal OnShow(OnShowHandler onShow)
         {
             Shown += onShow;

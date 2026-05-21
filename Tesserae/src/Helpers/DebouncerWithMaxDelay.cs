@@ -5,6 +5,10 @@ using static H5.Core.dom;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A debouncer that defers a callback until quiet has elapsed, but also forces a flush after a configurable
+    /// maximum delay.
+    /// </summary>
     public class DebouncerWithMaxDelay
     {
         private double _refreshTimeout = 0;

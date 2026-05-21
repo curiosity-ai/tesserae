@@ -4,6 +4,9 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A modal dialog with a title, body and configurable action buttons (OK / Cancel / custom).
+    /// </summary>
     [H5.Name("tss.Dialog")]
     public sealed class Dialog
     {
@@ -49,6 +52,9 @@ namespace Tesserae
             set => _modal.IsDark = value;
         }
 
+        /// <summary>
+        /// Gets or sets the title of the component.
+        /// </summary>
         public Dialog Title(IComponent title)
         {
             _modal.SetHeader(title);
@@ -74,12 +80,18 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Gets or sets the CSS min-height of the component.
+        /// </summary>
         public Dialog MinHeight(UnitSize unitSize)
         {
             _modal.MinHeight(unitSize);
             return this;
         }
 
+        /// <summary>
+        /// Gets or sets the CSS height of the component.
+        /// </summary>
         public Dialog Height(UnitSize unitSize)
         {
             _modal.Height(unitSize);

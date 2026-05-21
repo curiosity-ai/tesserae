@@ -60,9 +60,21 @@ namespace Tesserae
             set => InnerElement.style.display = value ? "inline-flex" : "";
         }
 
+        /// <summary>
+        /// Gets the underlying DOM element backing this component.
+        /// </summary>
         public HTMLElement InnerElement { get;                                  private set; }
+        /// <summary>
+        /// Gets or sets the CSS background of the component.
+        /// </summary>
         public string      Background   { get => InnerElement.style.background; set => InnerElement.style.background = value; }
+        /// <summary>
+        /// Gets or sets the CSS margin of the component.
+        /// </summary>
         public string      Margin       { get => InnerElement.style.margin;     set => InnerElement.style.margin = value; }
+        /// <summary>
+        /// Gets or sets the CSS padding of the component.
+        /// </summary>
         public string      Padding      { get => InnerElement.style.padding;    set => InnerElement.style.padding = value; }
 
         public HTMLElement StylingContainer => InnerElement;
@@ -141,6 +153,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Removes the given propagation from the component.
+        /// </summary>
         public ObservableStack RemovePropagation()
         {
             PropagateToStackItemParent = false;
@@ -286,6 +301,9 @@ namespace Tesserae
         private void RaiseMouseOver(Event ev) => MouseOver?.Invoke((ObservableStack)this, ev);
         private void RaiseMouseOut(Event  ev) => MouseOut?.Invoke((ObservableStack)this, ev);
 
+        /// <summary>
+        /// Registers a callback invoked when the mouse over event fires.
+        /// </summary>
         public ObservableStack OnMouseOver(ComponentEventHandler<ObservableStack, Event> onMouseOver)
         {
             if (!(InnerElement.onmouseover is object))
@@ -297,6 +315,9 @@ namespace Tesserae
             return (ObservableStack)this;
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the mouse out event fires.
+        /// </summary>
         public ObservableStack OnMouseOut(ComponentEventHandler<ObservableStack, Event> onMouseOut)
         {
             if (!(InnerElement.onmouseout is object))
@@ -309,8 +330,14 @@ namespace Tesserae
         }
 
 
+        /// <summary>
+        /// Clears the component's current state.
+        /// </summary>
         public virtual void Clear() => ClearChildren(InnerElement);
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public virtual HTMLElement Render() => InnerElement;
 
         public ObservableStack Horizontal()
@@ -349,6 +376,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Removes / disables the wrap on the component.
+        /// </summary>
         public ObservableStack NoWrap()
         {
             CanWrap = false;
@@ -360,6 +390,9 @@ namespace Tesserae
             InnerElement.style.overflow = "hidden";
             return this;
         }
+        /// <summary>
+        /// Removes / disables the default margin on the component.
+        /// </summary>
         public ObservableStack NoDefaultMargin()
         {
             InnerElement.classList.add("tss-default-component-no-margin");

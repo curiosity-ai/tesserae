@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A toast variant that shows a "saving…" indicator while a long operation is running, swapping to success /
+    /// error feedback when it completes.
+    /// </summary>
     [Name("tss.SavingToast")]
     public class SavingToast
     {
@@ -49,6 +53,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Gets or sets the validation error message displayed beneath the component.
+        /// </summary>
         public SavingToast Error(string message = null, string title = "Error", bool untilDismissed = false)
         {
             _toast.Duration(untilDismissed ? TimeSpan.FromDays(1) : MinimumDisplayTime);
@@ -85,6 +92,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Returns the component configured with the given saving toast.
+        /// </summary>
         public static async Task WithSavingToast(this Task task, string savingMessage = "Saving...", string savedMessage = "Saved", string errorMessage = "Error")
         {
             var toast = new SavingToast(savingMessage);

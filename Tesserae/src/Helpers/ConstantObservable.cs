@@ -21,6 +21,9 @@ namespace Tesserae
         public void ObserveFutureChanges(ObservableEvent.ValueChanged<T> valueGetter) { }
         public void StopObserving(ObservableEvent.ValueChanged<T>        valueGetter) { }
 
+        /// <summary>
+        /// Gets or sets the current value of the component.
+        /// </summary>
         public T Value => _value;
     }
 }

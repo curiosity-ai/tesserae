@@ -3,6 +3,9 @@ using System.Linq;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A form input for picking a single calendar month (year + month), backed by the browser's native month input.
+    /// </summary>
     [H5.Name("tss.MonthPicker")]
     public class MonthPicker : MomentPickerBase<MonthPicker, (int year, int month)>
     {

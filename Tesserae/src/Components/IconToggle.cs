@@ -5,6 +5,9 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A group of icon buttons of which exactly one is selected at a time, like a segmented control.
+    /// </summary>
     [H5.Name("tss.IconToggle")]
     public class IconToggle<T> : IComponent
     {
@@ -24,6 +27,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public HTMLElement Render() => _stack.Render();
 
         public void Select(T item)
@@ -42,6 +48,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Returns the component's state as a(n) observable.
+        /// </summary>
         public IObservable<T> AsObservable() => _itemsObservable;
 
         public class Item

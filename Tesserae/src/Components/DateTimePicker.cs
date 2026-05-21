@@ -3,6 +3,9 @@ using System.Globalization;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A form input for picking a single date together with a time-of-day.
+    /// </summary>
     [H5.Name("tss.DateTimePicker")]
     public class DateTimePicker : MomentPickerBase<DateTimePicker, DateTime>
     {

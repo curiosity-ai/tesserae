@@ -4,6 +4,9 @@ using System;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A single icon glyph from the bundled UIcons set, with configurable size, weight and color.
+    /// </summary>
     [H5.Name("tss.Icon")]
     public class Icon : IComponent, IHasForegroundColor, ITextFormating
     {
@@ -30,6 +33,9 @@ namespace Tesserae
             InnerElement.dataset["icon"] = iconStr;
         }
 
+        /// <summary>
+        /// Sets the icon of the component.
+        /// </summary>
         public Icon SetIcon(Emoji icon, TextSize size = TextSize.Medium)
         {
             var iconStr = $"ec {icon} {size}";
@@ -46,6 +52,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the icon of the component.
+        /// </summary>
         public Icon SetIcon(UIcons icon, UIconsWeight weight = UIconsWeight.Regular, TextSize size = TextSize.Small)
         {
             var iconStr = $"{Transform(icon, weight)} {size}";
@@ -112,12 +121,18 @@ namespace Tesserae
             set => InnerElement.title = value;
         }
 
+        /// <summary>
+        /// Sets the title of the component.
+        /// </summary>
         public Icon SetTitle(string title)
         {
             Title = title;
             return this;
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public HTMLElement Render() => InnerElement;
     }
 }

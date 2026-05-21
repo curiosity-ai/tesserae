@@ -6,6 +6,10 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A standalone tab-selector strip that drives an external <see cref="Pivot"/>, used when the strip needs to be
+    /// positioned independently of its panels.
+    /// </summary>
     [H5.Name("tss.PivotSelector")]
     public class PivotSelector : IComponent
     {
@@ -43,18 +47,27 @@ namespace Tesserae
             });
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the before navigate event fires.
+        /// </summary>
         public PivotSelector OnBeforeNavigate(PivotEventHandler<PivotBeforeNavigateEvent> onBeforeNavigate)
         {
             _beforeNavigated += onBeforeNavigate;
             return this;
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the navigate event fires.
+        /// </summary>
         public PivotSelector OnNavigate(PivotEventHandler<PivotNavigateEvent> onNavigate)
         {
             _navigated += onNavigate;
             return this;
         }
 
+        /// <summary>
+        /// Sets the commands of the component.
+        /// </summary>
         public PivotSelector SetCommands(params IComponent[] commands)
         {
             _commands.Children(commands);
@@ -114,6 +127,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public HTMLElement Render()
         {
             if (_currentSelectedID is null && _initiallySelectedID is object)

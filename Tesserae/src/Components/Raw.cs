@@ -3,6 +3,9 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A wrapper component that hosts an arbitrary raw <see cref="HTMLElement"/> inside the Tesserae component tree.
+    /// </summary>
     [H5.Name("tss.Raw")]
     public class Raw : IComponent, IHasMarginPadding, IHasBackgroundColor
     {
@@ -149,6 +152,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public HTMLElement Render() => InnerElement;
     }
 }

@@ -4,6 +4,9 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A horizontal split pane with a draggable handle that resizes a left and right pane.
+    /// </summary>
     [H5.Name("tss.HorizontalSplitView")]
     public class HorizontalSplitView : IComponent
     {
@@ -219,6 +222,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public HTMLElement Render()
         {
             return _splitContainer;

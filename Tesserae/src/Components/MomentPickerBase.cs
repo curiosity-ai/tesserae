@@ -3,6 +3,10 @@ using System.Linq;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// Abstract base class shared by the date, time and date-time pickers. Adds Min/Max/Step support on top of the
+    /// typed-input <see cref="Input{TInput}"/> base.
+    /// </summary>
     [H5.Name("tss.MomentPickerBase")]
     public abstract class MomentPickerBase<TMomentPicker, TMoment> : Input<TMomentPicker>, ITextFormating, IHasBackgroundColor, IHasForegroundColor where TMomentPicker : MomentPickerBase<TMomentPicker, TMoment>
     {
@@ -33,18 +37,27 @@ namespace Tesserae
             set => InnerElement.step = value.ToString();
         }
 
+        /// <summary>
+        /// Sets the max of the component.
+        /// </summary>
         public TMomentPicker SetMax(TMoment max)
         {
             Max = max;
             return (TMomentPicker)this;
         }
 
+        /// <summary>
+        /// Sets the min of the component.
+        /// </summary>
         public TMomentPicker SetMin(TMoment min)
         {
             Min = min;
             return (TMomentPicker)this;
         }
 
+        /// <summary>
+        /// Sets the step of the component.
+        /// </summary>
         public TMomentPicker SetStep(int step)
         {
             Step = step;
@@ -88,8 +101,14 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets the CSS background of the component.
+        /// </summary>
         public string Background { get => InnerElement.style.background; set => InnerElement.style.background = value; }
 
+        /// <summary>
+        /// Gets or sets the CSS color (foreground) of the component.
+        /// </summary>
         public string Foreground { get => InnerElement.style.color; set => InnerElement.style.color = value; }
 
     }

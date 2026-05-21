@@ -5,6 +5,9 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A horizontal progress bar with optional label and either determinate or indeterminate state.
+    /// </summary>
     [H5.Name("tss.ProgressIndicator")]
     public class ProgressIndicator : IComponent, IHasForegroundColor
     {
@@ -58,6 +61,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public HTMLElement Render()
         {
             return InnerElement;

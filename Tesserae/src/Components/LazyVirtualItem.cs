@@ -4,6 +4,9 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A placeholder used inside virtualised lists that defers building its real content until it scrolls into view.
+    /// </summary>
     [H5.Name("tss.LazyVirtualItem")]
     public class LazyVirtualItem : IComponent
     {
@@ -21,6 +24,9 @@ namespace Tesserae
             _innerElement.style.boxSizing = "border-box";
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public HTMLElement Render() => _innerElement;
 
         public void UpdateVisibility(bool isVisible)

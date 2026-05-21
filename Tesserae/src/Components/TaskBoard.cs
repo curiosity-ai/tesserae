@@ -6,6 +6,9 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A kanban-style board with named columns and draggable cards.
+    /// </summary>
     [H5.Name("tss.TaskBoard")]
     public class TaskBoard : IComponent, IHasMarginPadding
     {
@@ -49,9 +52,18 @@ namespace Tesserae
             });
         }
 
+        /// <summary>
+        /// Gets or sets the CSS margin of the component.
+        /// </summary>
         public string Margin { get => _stack.Margin; set => _stack.Margin = value; }
+        /// <summary>
+        /// Gets or sets the CSS padding of the component.
+        /// </summary>
         public string Padding { get => _stack.Padding; set => _stack.Padding = value; }
 
+        /// <summary>
+        /// Adds the given column to the component.
+        /// </summary>
         public TaskBoard AddColumn(TaskBoardColumn column)
         {
             _columns.Add(column);
@@ -82,12 +94,18 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the column drop event fires.
+        /// </summary>
         public TaskBoard OnColumnDrop(Action<SortableEvent> onColumnDrop)
         {
             _onColumnDrop = onColumnDrop;
             return this;
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the column update event fires.
+        /// </summary>
         public TaskBoard OnColumnUpdate(Action<SortableEvent> onColumnUpdate)
         {
             _onColumnUpdate = onColumnUpdate;
@@ -117,6 +135,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public HTMLElement Render() => _container;
     }
 
@@ -199,24 +220,36 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the card drop event fires.
+        /// </summary>
         public TaskBoardColumn OnCardDrop(Action<SortableEvent> onCardDrop)
         {
             _onCardDrop = onCardDrop;
             return this;
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the card add event fires.
+        /// </summary>
         public TaskBoardColumn OnCardAdd(Action<SortableEvent> onCardAdd)
         {
             _onCardAdd = onCardAdd;
             return this;
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the card remove event fires.
+        /// </summary>
         public TaskBoardColumn OnCardRemove(Action<SortableEvent> onCardRemove)
         {
             _onCardRemove = onCardRemove;
             return this;
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the card update event fires.
+        /// </summary>
         public TaskBoardColumn OnCardUpdate(Action<SortableEvent> onCardUpdate)
         {
             _onCardUpdate = onCardUpdate;
@@ -234,6 +267,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Adds the given card to the component.
+        /// </summary>
         public TaskBoardColumn AddCard(TaskBoardCard card)
         {
             _cards.Add(card);
@@ -269,6 +305,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public HTMLElement Render() => _container;
     }
 
@@ -338,6 +377,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public HTMLElement Render() => _container;
     }
 }

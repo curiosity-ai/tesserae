@@ -5,6 +5,10 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A simple, non-virtualised vertical list of arbitrary items, used when a <see cref="DetailsList{T}"/> would be
+    /// overkill.
+    /// </summary>
     [H5.Name("tss.ItemsList")]
     public sealed class ItemsList : IComponent, ISpecialCaseStyling
     {
@@ -15,6 +19,9 @@ namespace Tesserae
         private          Func<IComponent> _emptyListMessageGenerator;
         public ItemsList(IComponent[] items, params UnitSize[] columns) : this(new ObservableList<IComponent>(initialValues: items ?? new IComponent[0]), columns) { }
 
+        /// <summary>
+        /// Adds the given items to the component.
+        /// </summary>
         public ObservableList<IComponent> Items { get; }
 
         public HTMLElement StylingContainer => _defered.Container;
@@ -83,6 +90,9 @@ namespace Tesserae
             );
         }
 
+        /// <summary>
+        /// Returns the component configured with the given empty message.
+        /// </summary>
         public ItemsList WithEmptyMessage(Func<IComponent> emptyListMessageGenerator)
         {
             _emptyListMessageGenerator = emptyListMessageGenerator ?? throw new ArgumentNullException(nameof(emptyListMessageGenerator));
@@ -90,6 +100,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public HTMLElement Render() => _defered.Render();
     }
 }

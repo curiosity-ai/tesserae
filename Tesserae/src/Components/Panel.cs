@@ -5,6 +5,9 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A side-anchored slide-in panel (drawer) typically used for property inspectors and detail views.
+    /// </summary>
     [H5.Name("tss.Panel")]
     public sealed class Panel : Layer<Panel>, IHasBackgroundColor
     {
@@ -164,6 +167,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets the CSS background of the component.
+        /// </summary>
         public string Background { get => _panel.style.background; set => _panel.style.background = value; }
 
         protected override HTMLElement BuildRenderedContent()
@@ -189,6 +195,9 @@ namespace Tesserae
             return base.Show();
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the hide event fires.
+        /// </summary>
         public Panel OnHide(OnHideHandler onHide)
         {
             HidePanel += onHide;
@@ -229,12 +238,18 @@ namespace Tesserae
             [Name("tss-panelSide-near")]  Near
         }
 
+        /// <summary>
+        /// Hides the close button.
+        /// </summary>
         public Panel HideCloseButton()
         {
             ShowCloseButton = false;
             return this;
         }
 
+        /// <summary>
+        /// Sets the footer of the component.
+        /// </summary>
         public Panel SetFooter(IComponent footer)
         {
             Footer = footer;
@@ -290,6 +305,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Removes / disables the light dismiss on the component.
+        /// </summary>
         public Panel NoLightDismiss()
         {
             CanLightDismiss = false;

@@ -5,6 +5,9 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A borderless, lightweight button typically used for inline actions inside cards, lists or toolbars.
+    /// </summary>
     [H5.Name("tss.ActionButton")]
     public class ActionButton : IComponent, IHasBackgroundColor
     {
@@ -112,11 +115,17 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public HTMLElement Render()
         {
             return Container;
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the click display event fires.
+        /// </summary>
         public virtual ActionButton OnClickDisplay(ActionButtonEventHandler<HTMLDivElement, MouseEvent> onClick, bool clearPrevious = true)
         {
             if (ClickedDisplay != null && clearPrevious)
@@ -132,6 +141,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the click action event fires.
+        /// </summary>
         public virtual ActionButton OnClickAction(ActionButtonEventHandler<HTMLButtonElement, MouseEvent> onClick, bool clearPrevious = true)
         {
             if (ClickedAction != null && clearPrevious)

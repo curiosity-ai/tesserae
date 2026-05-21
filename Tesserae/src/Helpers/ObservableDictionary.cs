@@ -5,6 +5,9 @@ using static H5.Core.dom;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A dictionary whose contents are observable for reactive composition.
+    /// </summary>
     [H5.Name("tss.ObservableDictionary")]
     public sealed class ObservableDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IObservable<IReadOnlyDictionary<TKey, TValue>>
     {
@@ -71,8 +74,14 @@ namespace Tesserae
         public int                 Count      => _dictionary.Count;
         public bool                IsReadOnly => false;
 
+        /// <summary>
+        /// Gets or sets the current value of the component.
+        /// </summary>
         public IReadOnlyDictionary<TKey, TValue> Value => _dictionary;
 
+        /// <summary>
+        /// Adds the given range to the component.
+        /// </summary>
         public void AddRange(IEnumerable<KeyValuePair<TKey, TValue>> items)
         {
             foreach (var item in items)
@@ -83,6 +92,9 @@ namespace Tesserae
             RaiseOnValueChanged();
         }
 
+        /// <summary>
+        /// Adds the given item to the component.
+        /// </summary>
         public void Add(TKey key, TValue value)
         {
             _dictionary.Add(key, value);
@@ -90,6 +102,9 @@ namespace Tesserae
             RaiseOnValueChanged();
         }
 
+        /// <summary>
+        /// Adds the given item to the component.
+        /// </summary>
         public void Add(KeyValuePair<TKey, TValue> item)
         {
             _dictionary.Add(item.Key, item.Value);
@@ -97,6 +112,9 @@ namespace Tesserae
             RaiseOnValueChanged();
         }
 
+        /// <summary>
+        /// Clears the component's current state.
+        /// </summary>
         public void Clear()
         {
             if (_shouldHookNestedObservables)
@@ -116,6 +134,9 @@ namespace Tesserae
 
         public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex) => ((IDictionary<TKey, TValue>)_dictionary).CopyTo(array, arrayIndex);
 
+        /// <summary>
+        /// Removes the given item from the component.
+        /// </summary>
         public bool Remove(TKey key)
         {
             if (_dictionary.TryGetValue(key, out var prev))
@@ -128,6 +149,9 @@ namespace Tesserae
             return false;
         }
 
+        /// <summary>
+        /// Removes the given item from the component.
+        /// </summary>
         public bool Remove(KeyValuePair<TKey, TValue> item)
         {
             if (_dictionary.TryGetValue(item.Key, out var prev) && Equals(item.Value, prev))
@@ -157,6 +181,9 @@ namespace Tesserae
             _debouncer.RaiseOnValueChanged();
         }
 
+        /// <summary>
+        /// Returns the enumerator of the component.
+        /// </summary>
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() => _dictionary.GetEnumerator();
         IEnumerator IEnumerable.                       GetEnumerator() => GetEnumerator();
     }

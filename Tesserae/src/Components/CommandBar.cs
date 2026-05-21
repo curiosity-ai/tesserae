@@ -4,6 +4,9 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A horizontal bar of commands (buttons, dropdowns) typically anchored to the top of an application surface.
+    /// </summary>
     [H5.Name("tss.CommandBar")]
     public sealed class CommandBar : ComponentBase<CommandBar, HTMLElement>
     {
@@ -20,6 +23,9 @@ namespace Tesserae
             AddItems(items);
         }
 
+        /// <summary>
+        /// Adds the given item to the component.
+        /// </summary>
         public CommandBar AddItem(IComponent item)
         {
             if (item != null)
@@ -29,6 +35,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Adds the given items to the component.
+        /// </summary>
         public CommandBar AddItems(params IComponent[] items)
         {
             if (items == null)
@@ -44,6 +53,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Adds the given far item to the component.
+        /// </summary>
         public CommandBar AddFarItem(IComponent item)
         {
             if (item != null)
@@ -53,6 +65,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Adds the given far items to the component.
+        /// </summary>
         public CommandBar AddFarItems(params IComponent[] items)
         {
             if (items == null)
@@ -68,9 +83,15 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Adds the given items to the component.
+        /// </summary>
         public CommandBar Items(params IComponent[] items) => AddItems(items);
         public CommandBar FarItems(params IComponent[] items) => AddFarItems(items);
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public override HTMLElement Render() => InnerElement;
     }
 
@@ -131,12 +152,18 @@ namespace Tesserae
             set => InnerElement.UpdateClassIfNot(value, "tss-disabled");
         }
 
+        /// <summary>
+        /// Sets the text of the component.
+        /// </summary>
         public CommandBarItem SetText(string text)
         {
             Text = text;
             return this;
         }
 
+        /// <summary>
+        /// Sets the icon of the component.
+        /// </summary>
         public CommandBarItem SetIcon(UIcons icon)
         {
             Icon = $"ec {icon}";
@@ -155,11 +182,17 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the click event fires.
+        /// </summary>
         public CommandBarItem OnClick(Action action)
         {
             return OnClick((_, __) => action?.Invoke());
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public override HTMLElement Render() => InnerElement;
     }
 }

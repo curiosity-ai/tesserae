@@ -7,6 +7,10 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A keyboard-driven full-screen command launcher (Ctrl/Cmd-K style) that lets users search and invoke
+    /// application commands.
+    /// </summary>
     [H5.Name("tss.CommandPalette")]
     public sealed class CommandPalette : Layer<CommandPalette>
     {
@@ -34,8 +38,17 @@ namespace Tesserae
 
         public event Action<CommandPaletteAction> ActionExecuted;
 
+        /// <summary>
+        /// Enables the global shortcut on the component.
+        /// </summary>
         public bool EnableGlobalShortcut { get; set; } = true;
+        /// <summary>
+        /// Enables the global action shortcuts on the component.
+        /// </summary>
         public bool EnableGlobalActionShortcuts { get; set; } = true;
+        /// <summary>
+        /// Hides the on action.
+        /// </summary>
         public bool HideOnAction { get; set; } = true;
 
         /// <summary>
@@ -120,6 +133,9 @@ namespace Tesserae
             set => _searchInput.placeholder = value ?? string.Empty;
         }
 
+        /// <summary>
+        /// Sets the actions of the component.
+        /// </summary>
         public CommandPalette SetActions(IEnumerable<CommandPaletteAction> actions)
         {
             _actions.Clear();
@@ -132,6 +148,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Adds the given action to the component.
+        /// </summary>
         public CommandPalette AddAction(CommandPaletteAction action)
         {
             if (action == null)
@@ -572,7 +591,13 @@ namespace Tesserae
         public string ParentId { get; set; }
         public UIcons? Icon { get; set; }
         public string[] Shortcut { get; set; }
+        /// <summary>
+        /// Gets or sets a value indicating whether the component is interactive (enabled).
+        /// </summary>
         public bool IsEnabled { get; set; } = true;
+        /// <summary>
+        /// Gets a value indicating whether the component is currently visible.
+        /// </summary>
         public bool IsVisible { get; set; } = true;
         public Action Perform { get; set; }
     }

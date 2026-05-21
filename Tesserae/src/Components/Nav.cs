@@ -7,6 +7,9 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A hierarchical, vertically-stacked navigation tree with support for nested sections, icons and badges.
+    /// </summary>
     [H5.Name("tss.Nav")]
     public sealed class Nav : ComponentBase<Nav, HTMLUListElement>, IContainer<Nav.NavLink, Nav.NavLink>, IHasBackgroundColor
     {
@@ -16,13 +19,22 @@ namespace Tesserae
 
         private readonly List<NavLink> _children = new List<NavLink>();
 
+        /// <summary>
+        /// Gets or sets the CSS background of the component.
+        /// </summary>
         public string Background { get => InnerElement.style.background; set => InnerElement.style.background = value; }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public override HTMLElement Render()
         {
             return InnerElement;
         }
 
+        /// <summary>
+        /// Adds the given item to the component.
+        /// </summary>
         public void Add(NavLink component)
         {
             InnerElement.appendChild(component.Render());
@@ -47,12 +59,18 @@ namespace Tesserae
             _children.Add(component);
         }
 
+        /// <summary>
+        /// Clears the component's current state.
+        /// </summary>
         public void Clear()
         {
             _children.Clear();
             ClearChildren(InnerElement);
         }
 
+        /// <summary>
+        /// Replaces an existing item with a new one.
+        /// </summary>
         public void Replace(NavLink newComponent, NavLink oldComponent)
         {
             var index = _children.IndexOf(oldComponent);
@@ -103,6 +121,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Removes / disables the link style on the component.
+        /// </summary>
         public Nav NoLinkStyle()
         {
             InnerElement.classList.add("tss-nav-no-underline");
@@ -127,6 +148,9 @@ namespace Tesserae
                 _disableMouseEvents = disableMouseEvents;
             }
 
+            /// <summary>
+            /// Renders the component's root HTML element.
+            /// </summary>
             public override HTMLElement Render()
             {
                 if (!_alreadyRendered)
@@ -356,8 +380,14 @@ namespace Tesserae
                 }
             }
 
+            /// <summary>
+            /// Renders the component's root HTML element.
+            /// </summary>
             public override HTMLElement Render() => InnerElement;
 
+            /// <summary>
+            /// Adds the given item to the component.
+            /// </summary>
             public void Add(NavLink component)
             {
                 _childLinks.Add(component);
@@ -393,6 +423,9 @@ namespace Tesserae
                 InternalSelectedLink?.Invoke(this);
             }
 
+            /// <summary>
+            /// Clears the component's current state.
+            /// </summary>
             public void Clear()
             {
                 ClearChildren(_childContainer);
@@ -400,6 +433,9 @@ namespace Tesserae
                 _headerDiv.classList.remove("tss-expandable");
             }
 
+            /// <summary>
+            /// Replaces an existing item with a new one.
+            /// </summary>
             public void Replace(NavLink newComponent, NavLink oldComponent)
             {
                 _childContainer.replaceChild(newComponent.Render(), oldComponent.Render());
@@ -409,6 +445,9 @@ namespace Tesserae
                     InternalSelectedLink?.Invoke(newComponent);
             }
 
+            /// <summary>
+            /// Removes the given item from the component.
+            /// </summary>
             public void Remove(NavLink oldComponent)
             {
                 _childContainer.removeChild(oldComponent.Render());
@@ -460,18 +499,27 @@ namespace Tesserae
                 return this;
             }
 
+            /// <summary>
+            /// Sets the text of the component.
+            /// </summary>
             public NavLink SetText(string text)
             {
                 Text = text;
                 return this;
             }
 
+            /// <summary>
+            /// Registers a callback invoked when the selected event fires.
+            /// </summary>
             public NavLink OnSelected(ComponentEventHandler<NavLink> onSelected)
             {
                 SelectedLink += onSelected;
                 return this;
             }
 
+            /// <summary>
+            /// Registers a callback invoked when the expanded event fires.
+            /// </summary>
             public NavLink OnExpanded(ComponentEventHandler<NavLink> onExpanded)
             {
                 ExpandedLink += onExpanded;

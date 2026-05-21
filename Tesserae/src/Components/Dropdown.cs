@@ -9,6 +9,10 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A select-style form input for picking one or many values from a list, with filtering, async loading and rich
+    /// item rendering.
+    /// </summary>
     [H5.Name("tss.Dropdown")]
     public sealed class Dropdown : Layer<Dropdown>, ICanValidate<Dropdown>, IObservableListComponent<Dropdown.Item>, ITabIndex, IRoundedStyle
     {
@@ -193,6 +197,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public override HTMLElement Render()
         {
             DomObserver.WhenMounted(_container, () =>
@@ -205,6 +212,9 @@ namespace Tesserae
             return _container;
         }
 
+        /// <summary>
+        /// Moves keyboard focus to the component.
+        /// </summary>
         public Dropdown Focus()
         {
             // 2020-12-29 DWR: Seems like this setTimeout is required then the element is rendered within a container that uses "simplebar" scrolling - without the delay, if the element getting focus is out of view then it will not be
@@ -437,6 +447,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Removes / disables the arrow on the component.
+        /// </summary>
         public Dropdown NoArrow()
         {
             InnerElement.classList.add("tss-dropdown-noarrow");
@@ -445,6 +458,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the arrow icon of the component.
+        /// </summary>
         public Dropdown SetArrowIcon(UIcons icon, TextSize size = TextSize.Tiny, UIconsWeight weight = UIconsWeight.Regular)
         {
             InnerElement.classList.remove("tss-dropdown-noarrow");
@@ -530,12 +546,18 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Removes / disables the border on the component.
+        /// </summary>
         public Dropdown NoBorder()
         {
             HasBorder = false;
             return this;
         }
 
+        /// <summary>
+        /// Removes / disables the background on the component.
+        /// </summary>
         public Dropdown NoBackground()
         {
             _container.classList.add("tss-dropdown-nobg");
@@ -549,12 +571,18 @@ namespace Tesserae
         }
 
 
+        /// <summary>
+        /// Gets or sets the placeholder text shown when the component is empty.
+        /// </summary>
         public Dropdown Placeholder(string text)
         {
             _placeholder = TextBlock(text).Secondary();
             return this;
         }
 
+        /// <summary>
+        /// Gets or sets the placeholder text shown when the component is empty.
+        /// </summary>
         public Dropdown Placeholder(IComponent placeholder)
         {
             _placeholder = placeholder;
@@ -629,6 +657,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Returns the component configured with the given custom selection render.
+        /// </summary>
         public Dropdown WithCustomSelectionRender(Func<Item[], IComponent> renderSelectedItems)
         {
             _customRenderer = renderSelectedItems;
@@ -760,6 +791,9 @@ namespace Tesserae
             return false;
         }
 
+        /// <summary>
+        /// Returns the component's state as a(n) observable.
+        /// </summary>
         public IObservable<IReadOnlyList<Item>> AsObservable()
         {
             return _selectedChildren;
@@ -1092,6 +1126,9 @@ namespace Tesserae
                 set => InnerElement.innerText = value;
             }
 
+            /// <summary>
+            /// Renders the component's root HTML element.
+            /// </summary>
             public HTMLElement Render()
             {
                 return InnerElement;
@@ -1132,12 +1169,18 @@ namespace Tesserae
                 return this;
             }
 
+            /// <summary>
+            /// Sets the data of the component.
+            /// </summary>
             public Item SetData(dynamic data)
             {
                 Data = data;
                 return this;
             }
 
+            /// <summary>
+            /// Registers a callback invoked when the selected event fires.
+            /// </summary>
             public Item OnSelected(ComponentEventHandler<Item> whenSelected, ComponentEventHandler<Item> whenDeselected = null)
             {
                 SelectedItem += sender =>
@@ -1154,6 +1197,9 @@ namespace Tesserae
                 return this;
             }
 
+            /// <summary>
+            /// Registers a callback invoked when the before selected event fires.
+            /// </summary>
             public Item OnBeforeSelected(BeforeSelectEventHandler<Item> onBeforeSelect)
             {
                 BeforeSelectedItem += onBeforeSelect;

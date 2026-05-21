@@ -4,6 +4,10 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// An inline informational message strip with predefined tones (info, success, warning, error) and an optional
+    /// dismiss button.
+    /// </summary>
     [H5.Name("tss.Message")]
     public class Message : ComponentBase<Message, HTMLDivElement>
     {
@@ -44,12 +48,18 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Gets or sets the title of the component.
+        /// </summary>
         public Message Title(string title)
         {
             _titleContainer.textContent = title;
             return this;
         }
 
+        /// <summary>
+        /// Gets or sets the title of the component.
+        /// </summary>
         public Message Title(IComponent title)
         {
             _titleContainer.innerHTML = "";
@@ -57,12 +67,18 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Gets or sets the text shown in the component.
+        /// </summary>
         public Message Text(string text)
         {
             _textContainer.textContent = text;
             return this;
         }
 
+        /// <summary>
+        /// Gets or sets the text shown in the component.
+        /// </summary>
         public Message Text(IComponent text)
         {
             _textContainer.innerHTML = "";
@@ -93,6 +109,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public override HTMLElement Render()
         {
             return InnerElement;

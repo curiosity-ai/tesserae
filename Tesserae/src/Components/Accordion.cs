@@ -4,6 +4,9 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A vertically-stacked list of expandable sections, of which one or more may be open at a time.
+    /// </summary>
     [H5.Name("tss.Accordion")]
     public sealed class Accordion : ComponentBase<Accordion, HTMLElement>
     {
@@ -35,6 +38,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Adds the given item to the component.
+        /// </summary>
         public Accordion AddItem(Expander item)
         {
             if (item == null)
@@ -56,6 +62,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Adds the given items to the component.
+        /// </summary>
         public Accordion AddItems(params Expander[] items)
         {
             if (items == null)
@@ -71,6 +80,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Adds the given items to the component.
+        /// </summary>
         public Accordion Items(params Expander[] items) => AddItems(items);
 
         public Accordion AllowMultipleOpen(bool value = true)
@@ -103,6 +115,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public override HTMLElement Render()
         {
             return InnerElement;

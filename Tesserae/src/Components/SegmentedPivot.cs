@@ -6,6 +6,9 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A pill-style pivot variant where the tabs share a connected segmented-control look.
+    /// </summary>
     [H5.Name("tss.SegmentedPivot")]
     public sealed class SegmentedPivot : IComponent
     {
@@ -33,12 +36,18 @@ namespace Tesserae
             _container = Div(_("tss-segmentedpivot"), wrapper, _renderedContent);
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the before navigate event fires.
+        /// </summary>
         public SegmentedPivot OnBeforeNavigate(PivotEventHandler<PivotBeforeNavigateEvent> onBeforeNavigate)
         {
             _beforeNavigated += onBeforeNavigate;
             return this;
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the navigate event fires.
+        /// </summary>
         public SegmentedPivot OnNavigate(PivotEventHandler<PivotNavigateEvent> onNavigate)
         {
             _navigated += onNavigate;
@@ -149,6 +158,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public HTMLElement Render()
         {
             if (_currentSelectedID is null && _initiallySelectedID is object)

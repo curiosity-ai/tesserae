@@ -104,6 +104,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public override HTMLElement Render() => InnerElement;
 
         private HTMLElement CreateSwatchElement(SwatchEntry entry)

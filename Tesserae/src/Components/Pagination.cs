@@ -5,6 +5,9 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A page-number navigation strip used to walk through pages of results.
+    /// </summary>
     [H5.Name("tss.Pagination")]
     public sealed class Pagination : ComponentBase<Pagination, HTMLElement>
     {
@@ -85,6 +88,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Sets the total items of the component.
+        /// </summary>
         public Pagination SetTotalItems(int totalItems)
         {
             _totalItems = Math.Max(0, totalItems);
@@ -93,6 +99,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the page size of the component.
+        /// </summary>
         public Pagination SetPageSize(int pageSize)
         {
             _pageSize = Math.Max(1, pageSize);
@@ -101,6 +110,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the page of the component.
+        /// </summary>
         public Pagination SetPage(int page, bool raiseEvent = true)
         {
             var clamped = Math.Max(1, Math.Min(page, TotalPages));
@@ -121,6 +133,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the page change event fires.
+        /// </summary>
         public Pagination OnPageChange(Action<Pagination> onPageChange)
         {
             _pageChanged += onPageChange;
@@ -242,6 +257,9 @@ namespace Tesserae
             yield return totalPages;
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public override HTMLElement Render()
         {
             return InnerElement;

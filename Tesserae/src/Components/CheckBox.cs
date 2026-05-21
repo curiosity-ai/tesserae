@@ -3,6 +3,9 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A two-state form control (checked / unchecked) used for boolean values.
+    /// </summary>
     [H5.Name("tss.ChecBox")]
     public class CheckBox : ComponentBase<CheckBox, HTMLInputElement>, IObservableComponent<bool>, IRoundedStyle, ITextFormating
     {
@@ -70,6 +73,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public override HTMLElement Render()
         {
             return _label;
@@ -87,6 +93,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the text of the component.
+        /// </summary>
         public CheckBox SetText(string text)
         {
             Text = text;
@@ -126,6 +135,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Returns the component's state as a(n) observable.
+        /// </summary>
         public IObservable<bool> AsObservable()
         {
             return _observable;

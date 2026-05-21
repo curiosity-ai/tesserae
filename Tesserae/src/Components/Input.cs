@@ -134,6 +134,9 @@ namespace Tesserae
             InputUpdated += (s, _) => handler(s);
         }
 
+        /// <summary>
+        /// Sets the text of the component.
+        /// </summary>
         public TInput SetText(string text)
         {
             Text = text;
@@ -152,6 +155,9 @@ namespace Tesserae
             return this.As<TInput>();
         }
 
+        /// <summary>
+        /// Removes / disables the spell check on the component.
+        /// </summary>
         public TInput NoSpellCheck()
         {
             InnerElement.spellcheck = false;
@@ -164,6 +170,9 @@ namespace Tesserae
             return this.As<TInput>();
         }
 
+        /// <summary>
+        /// Moves keyboard focus to the component.
+        /// </summary>
         public TInput Focus()
         {
             // 2020-12-29 DWR: Seems like this setTimeout is required then the element is rendered within a container that uses "simplebar" scrolling - without the delay, if the element getting focus is out of view then it will not be
@@ -183,8 +192,14 @@ namespace Tesserae
             return this.As<TInput>();
         }
 
+        /// <summary>
+        /// Returns the component's state as a(n) observable.
+        /// </summary>
         public IObservable<string> AsObservable() => _observable;
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public override HTMLElement Render() => _container;
     }
 }

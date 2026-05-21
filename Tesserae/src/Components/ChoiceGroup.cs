@@ -4,6 +4,9 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A group of radio-style choices of which exactly one may be selected at a time.
+    /// </summary>
     [H5.Name("tss.ChoiceGroup")]
     public sealed class ChoiceGroup : ComponentBase<ChoiceGroup, HTMLDivElement>, IContainer<ChoiceGroup, ChoiceGroup.Choice>, IObservableComponent<ChoiceGroup.Choice>
     {
@@ -47,11 +50,17 @@ namespace Tesserae
             set => _header.IsRequired = value;
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public override HTMLElement Render()
         {
             return InnerElement;
         }
 
+        /// <summary>
+        /// Adds the given item to the component.
+        /// </summary>
         public void Add(Choice component)
         {
             component.Name(_name);
@@ -63,6 +72,9 @@ namespace Tesserae
                 OnChoiceSelected(component);
         }
 
+        /// <summary>
+        /// Clears the component's current state.
+        /// </summary>
         public void Clear()
         {
             var container = InnerElement;
@@ -70,6 +82,9 @@ namespace Tesserae
             InnerElement.appendChild(_header.Render());
         }
 
+        /// <summary>
+        /// Replaces an existing item with a new one.
+        /// </summary>
         public void Replace(Choice newComponent, Choice oldComponent)
         {
             newComponent.Name(_name);
@@ -113,6 +128,9 @@ namespace Tesserae
             RaiseOnChange(ev: null);
         }
 
+        /// <summary>
+        /// Returns the component's state as a(n) observable.
+        /// </summary>
         public IObservable<Choice> AsObservable() => _selectedOption;
 
         public enum ChoiceGroupOrientation
@@ -180,6 +198,9 @@ namespace Tesserae
                 set { _label.innerText = value; }
             }
 
+            /// <summary>
+            /// Renders the component's root HTML element.
+            /// </summary>
             public override HTMLElement Render()
             {
                 return _label;
@@ -206,12 +227,18 @@ namespace Tesserae
                 return this;
             }
 
+            /// <summary>
+            /// Registers a callback invoked when the selected event fires.
+            /// </summary>
             public Choice OnSelected(ComponentEventHandler<Choice> onSelected)
             {
                 SelectedItem += onSelected;
                 return this;
             }
 
+            /// <summary>
+            /// Sets the text of the component.
+            /// </summary>
             public Choice SetText(string text)
             {
                 Text = text;

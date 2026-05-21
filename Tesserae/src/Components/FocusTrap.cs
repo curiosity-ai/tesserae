@@ -4,6 +4,9 @@ using static H5.Core.dom;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A surface that traps keyboard focus inside its content while open, used by modals, dialogs and panels.
+    /// </summary>
     [H5.Name("tss.FocusTrap")]
     public sealed class FocusTrap : IComponent
     {
@@ -84,6 +87,9 @@ namespace Tesserae
             });
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public HTMLElement Render()
         {
             return _root;

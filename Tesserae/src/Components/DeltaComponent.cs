@@ -7,6 +7,10 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A small inline metric showing the change between two values (with up/down arrow and tone for positive /
+    /// negative / neutral deltas).
+    /// </summary>
     [H5.Name("tss.DeltaComponent")]
     public class DeltaComponent : IComponent
     {
@@ -277,6 +281,9 @@ namespace Tesserae
             return true;
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public HTMLElement Render()
         {
             return _root;

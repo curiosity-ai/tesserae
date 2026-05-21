@@ -8,6 +8,10 @@ using H5.Core;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// An icon backed by an emoji glyph (or an arbitrary image URL), useful as a lightweight stand-in for full icon
+    /// sets.
+    /// </summary>
     [H5.Name("tss.EmojiImageIcon")]
     public class EmojiImageIcon : ISidebarIcon
     {
@@ -27,6 +31,9 @@ namespace Tesserae
 
             _img = Span(_("tss-image", text: icon));
         }
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public HTMLElement Render() => _img;
 
         public ISidebarIcon Clone() => new EmojiImageIcon(_img.textContent);
@@ -43,6 +50,9 @@ namespace Tesserae
             _img.dataset["icon"] = icon;
 
         }
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public HTMLElement Render() => _img;
 
         public ISidebarIcon Clone() => new IconImageIcon((string)_img.dataset["icon"]);
@@ -60,10 +70,16 @@ namespace Tesserae
                 : _("tss-image", src: source, styles: s => s.backgroundColor = backgroundColor));
 
         }
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public HTMLElement Render() => _img;
 
         public ISidebarIcon Clone() => new ImageIcon(_img.src, _img.style.backgroundColor);
 
+        /// <summary>
+        /// Sets the image src of the component.
+        /// </summary>
         public void SetImageSrc(string src)
         {
             _img.src = src;
