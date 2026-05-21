@@ -9,6 +9,10 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A select-style form input for picking one or many values from a list, with filtering, async loading and rich
+    /// item rendering.
+    /// </summary>
     [H5.Name("tss.Dropdown")]
     public sealed class Dropdown : Layer<Dropdown>, ICanValidate<Dropdown>, IObservableListComponent<Dropdown.Item>, ITabIndex, IRoundedStyle
     {
@@ -35,8 +39,14 @@ namespace Tesserae
         private int                      _latestRequestID;
         private Func<Item[], IComponent> _customRenderer;
 
+        /// <summary>
+        /// Static configuration of the icon shown on the dropdown chevron, applied globally to every <see cref="Dropdown"/> instance.
+        /// </summary>
         public static UIcons GlobalCustomIcon = UIcons.AngleDown;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public Dropdown(HTMLSpanElement noItemsSpan = null)
         {
             _noItemsSpan = noItemsSpan ?? Span(_(text: "There are no options available"));
@@ -77,18 +87,27 @@ namespace Tesserae
             SetArrowIcon(GlobalCustomIcon);
         }
 
+        /// <summary>
+        /// Configures the component to not fire selection-changed callbacks while selections are being mutated in bulk.
+        /// </summary>
         public Dropdown SuppressSelectedOnChangingItemSelections()
         {
             _callSelectOnChangingItemSelections = false;
             return this;
         }
 
+        /// <summary>
+        /// Sizes the component to fit its content.
+        /// </summary>
         public Dropdown FitContent()
         {
             _fitContent = true;
             return this;
         }
 
+        /// <summary>
+        /// Sets the keyboard tab order of the component.
+        /// </summary>
         public int TabIndex
         {
             set
@@ -97,6 +116,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets the operating mode of the component.
+        /// </summary>
         public SelectMode Mode
         {
             get => _childContainer.classList.contains("tss-dropdown-multi") ? SelectMode.Multi : SelectMode.Single;
@@ -113,8 +135,14 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets the currently selected items.
+        /// </summary>
         public Item[] SelectedItems => _selectedChildren.ToArray();
 
+        /// <summary>
+        /// Gets the text of the currently selected item.
+        /// </summary>
         public string SelectedText
         {
             get
@@ -123,12 +151,18 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets the validation error message displayed beneath the component.
+        /// </summary>
         public string Error
         {
             get => _errorSpan.innerText;
             set => _errorSpan.innerText = value;
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the component has a visible border.
+        /// </summary>
         public bool HasBorder
         {
             get => !_container.classList.contains("tss-noborder");
@@ -145,6 +179,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the component is currently in an invalid state.
+        /// </summary>
         public bool IsInvalid
         {
             get => _container.classList.contains("tss-invalid");
@@ -161,6 +198,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the component is interactive (enabled).
+        /// </summary>
         public bool IsEnabled
         {
             get => !_container.classList.contains("tss-disabled");
@@ -177,6 +217,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the component is required for form submission.
+        /// </summary>
         public bool IsRequired
         {
             get => _container.classList.contains("tss-required");
@@ -193,6 +236,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public override HTMLElement Render()
         {
             DomObserver.WhenMounted(_container, () =>
@@ -205,6 +251,9 @@ namespace Tesserae
             return _container;
         }
 
+        /// <summary>
+        /// Moves keyboard focus to the component.
+        /// </summary>
         public Dropdown Focus()
         {
             // 2020-12-29 DWR: Seems like this setTimeout is required then the element is rendered within a container that uses "simplebar" scrolling - without the delay, if the element getting focus is out of view then it will not be
@@ -258,6 +307,9 @@ namespace Tesserae
             Items(items);
         }
 
+        /// <summary>
+        /// Shows the component.
+        /// </summary>
         public override Dropdown Show()
         {
             if (_contentHtml == null)
@@ -392,6 +444,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Hides the component.
+        /// </summary>
         public override void Hide(Action onHidden = null)
         {
             ClearSearch();
@@ -408,17 +463,26 @@ namespace Tesserae
                 RaiseOnChange(ev: null);
         }
 
+        /// <summary>
+        /// Attaches a handler to the component's value-changed event.
+        /// </summary>
         public void Attach(ComponentEventHandler<Dropdown> handler)
         {
             InputUpdated += (s, _) => handler(this);
         }
 
+        /// <summary>
+        /// Switches the component to single-selection mode.
+        /// </summary>
         public Dropdown Single()
         {
             Mode = SelectMode.Single;
             return this;
         }
 
+        /// <summary>
+        /// Switches the component to multi-selection mode.
+        /// </summary>
         public Dropdown Multi()
         {
             Mode = SelectMode.Multi;
@@ -426,6 +490,9 @@ namespace Tesserae
         }
 
 
+        /// <summary>
+        /// Enables a built-in search box on the component.
+        /// </summary>
         public Dropdown Searchable(string placeholder = "Search")
         {
             _searchBox = new SearchBox(placeholder).SearchAsYouType().OnSearch((s, e) =>
@@ -437,6 +504,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Removes / disables the arrow on the component.
+        /// </summary>
         public Dropdown NoArrow()
         {
             InnerElement.classList.add("tss-dropdown-noarrow");
@@ -445,6 +515,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the arrow icon of the component.
+        /// </summary>
         public Dropdown SetArrowIcon(UIcons icon, TextSize size = TextSize.Tiny, UIconsWeight weight = UIconsWeight.Regular)
         {
             InnerElement.classList.remove("tss-dropdown-noarrow");
@@ -524,24 +597,36 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Disables the component.
+        /// </summary>
         public Dropdown Disabled(bool value = true)
         {
             IsEnabled = !value;
             return this;
         }
 
+        /// <summary>
+        /// Removes / disables the border on the component.
+        /// </summary>
         public Dropdown NoBorder()
         {
             HasBorder = false;
             return this;
         }
 
+        /// <summary>
+        /// Removes / disables the background on the component.
+        /// </summary>
         public Dropdown NoBackground()
         {
             _container.classList.add("tss-dropdown-nobg");
             return this;
         }
 
+        /// <summary>
+        /// Marks the component as required.
+        /// </summary>
         public Dropdown Required()
         {
             IsRequired = true;
@@ -549,12 +634,18 @@ namespace Tesserae
         }
 
 
+        /// <summary>
+        /// Gets or sets the placeholder text shown when the component is empty.
+        /// </summary>
         public Dropdown Placeholder(string text)
         {
             _placeholder = TextBlock(text).Secondary();
             return this;
         }
 
+        /// <summary>
+        /// Gets or sets the placeholder text shown when the component is empty.
+        /// </summary>
         public Dropdown Placeholder(IComponent placeholder)
         {
             _placeholder = placeholder;
@@ -629,6 +720,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Returns the component configured with the given custom selection render.
+        /// </summary>
         public Dropdown WithCustomSelectionRender(Func<Item[], IComponent> renderSelectedItems)
         {
             _customRenderer = renderSelectedItems;
@@ -760,6 +854,9 @@ namespace Tesserae
             return false;
         }
 
+        /// <summary>
+        /// Returns the component's state as a(n) observable.
+        /// </summary>
         public IObservable<IReadOnlyList<Item>> AsObservable()
         {
             return _selectedChildren;
@@ -978,6 +1075,9 @@ namespace Tesserae
         {
             private readonly HTMLElement InnerElement;
             private readonly HTMLElement SelectedElement;
+            /// <summary>
+            /// Initializes a new instance of this class.
+            /// </summary>
             public Item(string text, string selectedText = null, UIcons? icon = null) : this(GetContent(text, icon), GetContent(string.IsNullOrEmpty(selectedText) ? text : selectedText, icon))
             {
             }
@@ -994,8 +1094,15 @@ namespace Tesserae
                 }
             }
 
-            public dynamic Data { get; private set; }
+            /// <summary>
+            /// Gets or sets the data.
+            /// </summary>
+            public T GetDataAs<T>() => _data.As<T>();
+            private dynamic _data;
 
+            /// <summary>
+            /// Initializes a new instance of this class.
+            /// </summary>
             public Item(IComponent content, IComponent selectedContent)
             {
                 InnerElement = Button(_("tss-dropdown-item", role: "option"));
@@ -1018,6 +1125,9 @@ namespace Tesserae
             private event  BeforeSelectEventHandler<Item> BeforeSelectedItem;
             internal event ComponentEventHandler<Item>    SelectedItem;
 
+            /// <summary>
+            /// Gets or sets the type of the item.
+            /// </summary>
             public ItemType Type
             {
                 get
@@ -1036,6 +1146,9 @@ namespace Tesserae
                 }
             }
 
+            /// <summary>
+            /// Gets or sets a value indicating whether the component is interactive (enabled).
+            /// </summary>
             public bool IsEnabled
             {
                 get => !InnerElement.classList.contains("tss-disabled");
@@ -1054,6 +1167,9 @@ namespace Tesserae
                 }
             }
 
+            /// <summary>
+            /// Gets or sets a value indicating whether the component is selected.
+            /// </summary>
             public bool IsSelected
             {
                 get => InnerElement.classList.contains("tss-selected");
@@ -1086,43 +1202,67 @@ namespace Tesserae
                 }
             }
 
+            /// <summary>
+            /// Gets or sets the text shown in the component.
+            /// </summary>
             public string Text
             {
                 get => InnerElement.innerText;
                 set => InnerElement.innerText = value;
             }
 
+            /// <summary>
+            /// Renders the component's root HTML element.
+            /// </summary>
             public HTMLElement Render()
             {
                 return InnerElement;
             }
 
+            /// <summary>
+            /// Renders the selected.
+            /// </summary>
             public HTMLElement RenderSelected() => SelectedElement;
 
+            /// <summary>
+            /// Configures the component to header.
+            /// </summary>
             public Item Header()
             {
                 Type = ItemType.Header;
                 return this;
             }
 
+            /// <summary>
+            /// Configures the component to divider.
+            /// </summary>
             public Item Divider()
             {
                 Type = ItemType.Divider;
                 return this;
             }
 
+            /// <summary>
+            /// Disables the component.
+            /// </summary>
             public Item Disabled(bool value = true)
             {
                 IsEnabled = !value;
                 return this;
             }
 
+            /// <summary>
+            /// Marks the component as selected.
+            /// </summary>
             public Item Selected()
             {
                 IsSelected = true;
                 return this;
             }
 
+            /// <summary>
+            /// Configures the selected if on the component.
+            /// </summary>
             public Item SelectedIf(bool shouldSelect)
             {
                 if (shouldSelect)
@@ -1132,12 +1272,18 @@ namespace Tesserae
                 return this;
             }
 
-            public Item SetData(dynamic data)
+            /// <summary>
+            /// Sets the data of the component.
+            /// </summary>
+            public Item SetData<T>(T data)
             {
-                Data = data;
+                _data = data;
                 return this;
             }
 
+            /// <summary>
+            /// Registers a callback invoked when the selected event fires.
+            /// </summary>
             public Item OnSelected(ComponentEventHandler<Item> whenSelected, ComponentEventHandler<Item> whenDeselected = null)
             {
                 SelectedItem += sender =>
@@ -1154,6 +1300,9 @@ namespace Tesserae
                 return this;
             }
 
+            /// <summary>
+            /// Registers a callback invoked when the before selected event fires.
+            /// </summary>
             public Item OnBeforeSelected(BeforeSelectEventHandler<Item> onBeforeSelect)
             {
                 BeforeSelectedItem += onBeforeSelect;

@@ -5,6 +5,10 @@ using static H5.Core.dom;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A debouncer that defers a callback until quiet has elapsed, but also forces a flush after a configurable
+    /// maximum delay.
+    /// </summary>
     public class DebouncerWithMaxDelay
     {
         private double _refreshTimeout = 0;
@@ -13,6 +17,9 @@ namespace Tesserae
         private double _lastInvoked = 0;
         private Action _onTrigger;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public DebouncerWithMaxDelay(Action onTrigger, int delayInMs = 16, int maxDelayInMs = -1)
         {
             if (maxDelayInMs < 0) maxDelayInMs = delayInMs;
@@ -23,8 +30,14 @@ namespace Tesserae
             _maxDelayInMs = maxDelayInMs;
             _onTrigger    = onTrigger;
         }
+        /// <summary>
+        /// Gets or sets the delay in ms.
+        /// </summary>
         public int DelayInMs => _delayInMs;
 
+        /// <summary>
+        /// Raises the on value changed event on the component.
+        /// </summary>
         public void RaiseOnValueChanged()
         {
             window.clearTimeout(_refreshTimeout);

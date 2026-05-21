@@ -1,5 +1,8 @@
 ﻿namespace Tesserae
 {
+    /// <summary>
+    /// Predefined validation states (valid, invalid, warning) used by validator-aware components.
+    /// </summary>
     [H5.Name("tss.VS")]
     public enum ValidationState
     {

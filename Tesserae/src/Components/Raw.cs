@@ -3,17 +3,32 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A wrapper component that hosts an arbitrary raw <see cref="HTMLElement"/> inside the Tesserae component tree.
+    /// </summary>
     [H5.Name("tss.Raw")]
     public class Raw : IComponent, IHasMarginPadding, IHasBackgroundColor
     {
         private HTMLElement InnerElement;
         private byte _flag;
         private byte _flag2;
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public Raw(HTMLElement content = null) => InnerElement = content ?? DIV();
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public Raw(IComponent component) : this(component?.Render()) { }
 
+        /// <summary>
+        /// Sets the content rendered inside the surface.
+        /// </summary>
         public Raw Content(IComponent component) => Content(component.Render());
 
+        /// <summary>
+        /// Sets the content rendered inside the surface.
+        /// </summary>
         public Raw Content(HTMLElement element)
         {
             if (_flag > 0 || _flag2 > 0)
@@ -46,6 +61,9 @@ namespace Tesserae
 
         }
 
+        /// <summary>
+        /// Gets or sets the CSS background of the component.
+        /// </summary>
         public string Background
         {
             get => InnerElement.style.background;
@@ -55,6 +73,9 @@ namespace Tesserae
                 InnerElement.style.background = value;
             }
         }
+        /// <summary>
+        /// Gets or sets the CSS margin of the component.
+        /// </summary>
         public string Margin
         {
             get => InnerElement.style.margin;
@@ -64,6 +85,9 @@ namespace Tesserae
                 InnerElement.style.margin = value;
             }
         }
+        /// <summary>
+        /// Gets or sets the CSS padding of the component.
+        /// </summary>
         public string Padding
         {
             get => InnerElement.style.padding;
@@ -73,6 +97,9 @@ namespace Tesserae
                 InnerElement.style.padding = value;
             }
         }
+        /// <summary>
+        /// Gets or sets the CSS width of the component.
+        /// </summary>
         public string Width
         {
             get => InnerElement.style.width;
@@ -82,6 +109,9 @@ namespace Tesserae
                 InnerElement.style.width = value;
             }
         }
+        /// <summary>
+        /// Gets or sets the CSS height of the component.
+        /// </summary>
         public string Height
         {
             get => InnerElement.style.height;
@@ -91,6 +121,9 @@ namespace Tesserae
                 InnerElement.style.height = value;
             }
         }
+        /// <summary>
+        /// Gets or sets the CSS max-width of the component.
+        /// </summary>
         public string MaxWidth
         {
             get => InnerElement.style.maxWidth;
@@ -101,6 +134,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets the CSS min-width of the component.
+        /// </summary>
         public string MinWidth
         {
             get => InnerElement.style.minWidth;
@@ -111,6 +147,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets the CSS max-height of the component.
+        /// </summary>
         public string MaxHeight
         {
             get => InnerElement.style.maxHeight;
@@ -121,6 +160,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets the CSS min-height of the component.
+        /// </summary>
         public string MinHeight
         {
             get => InnerElement.style.minHeight;
@@ -130,6 +172,9 @@ namespace Tesserae
                 InnerElement.style.minHeight = value;
             }
         }
+        /// <summary>
+        /// Gets or sets the flex-grow factor of the component.
+        /// </summary>
         public string FlexGrow
         {
             get => InnerElement.style.flexGrow;
@@ -139,6 +184,9 @@ namespace Tesserae
                 InnerElement.style.flexGrow = value;
             }
         }
+        /// <summary>
+        /// Gets or sets the flex-shrink factor of the component.
+        /// </summary>
         public string FlexShrink
         {
             get => InnerElement.style.flexShrink;
@@ -149,6 +197,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public HTMLElement Render() => InnerElement;
     }
 }

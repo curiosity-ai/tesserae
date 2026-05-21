@@ -17,13 +17,31 @@ namespace Tesserae
 
         internal bool ShouldHookToContextMenu => _hookParentContextMenu;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public TreeCommand(UIcons icon, UIconsWeight weight = UIconsWeight.Regular) : this(null, Button().SetIcon(icon, weight: weight)) { }
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public TreeCommand(string href, UIcons icon, UIconsWeight weight = UIconsWeight.Regular) : this(href, Button().SetIcon(icon, weight: weight)) { }
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public TreeCommand(Emoji  icon) : this(null, Button().SetIcon(icon)) { }
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public TreeCommand(string href, Emoji  icon) : this(href, Button().SetIcon(icon)) { }
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public TreeCommand(ISidebarIcon image) : this(null, image) { }
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public TreeCommand(string href, ISidebarIcon image)
         {
             _button = Button().ReplaceContent(image).Class("tss-tree-command");

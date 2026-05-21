@@ -252,6 +252,9 @@ namespace Tesserae
                 PossibleObservableHelpers.StopObservingIfObservable(v, RaiseOnValueChanged);
         }
 
+        /// <summary>
+        /// Returns the enumerator of the component.
+        /// </summary>
         public IEnumerator<T> GetEnumerator() => _set.GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }

@@ -1,0 +1,91 @@
+/* Menu */
+/* Application-style dropdown menu built on top of the Popover primitive */
+
+.tss-menu {
+    display: flex;
+    flex-direction: column;
+    min-width: 160px;
+    background-color: var(--tss-default-background-color);
+    color: var(--tss-default-foreground-color);
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: 4px;
+    box-shadow: var(--tss-box-shadow, 0 4px 16px 0 rgba(0,0,0,0.12));
+    padding: 4px 0;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.tss-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    cursor: pointer;
+    font-size: var(--tss-font-size-small);
+    font-weight: var(--tss-font-weight-regular);
+    line-height: 20px;
+    outline: none;
+    border: 1px solid transparent;
+    color: var(--tss-default-foreground-color);
+    background-color: transparent;
+    position: relative;
+    justify-content: flex-start;
+}
+
+.tss-menu-item:hover {
+    background-color: var(--tss-default-background-hover-color);
+}
+
+.tss-menu-item:focus {
+    background-color: var(--tss-default-background-hover-color);
+    outline: none;
+}
+
+.tss-menu-item.tss-disabled {
+    color: var(--tss-disabled-foreground-color);
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.tss-menu-item-icon {
+    flex: 0 0 auto;
+    width: 16px;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tss-menu-item-label {
+    flex: 1 1 auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.tss-menu-item.tss-menu-has-submenu {
+    padding-right: 8px;
+}
+
+.tss-menu-item-submenu-icon {
+    flex: 0 0 auto;
+    margin-left: 10px;
+    font-size: 12px;
+    opacity: 0.7;
+}
+
+.tss-menu-header {
+    padding: 4px 14px;
+    font-size: var(--tss-font-size-tiny);
+    font-weight: var(--tss-font-weight-semibold);
+    color: var(--tss-primary-background-color);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    cursor: default;
+}
+
+.tss-menu-divider {
+    height: 1px;
+    background-color: var(--tss-default-border-color);
+    margin: 4px 0;
+}

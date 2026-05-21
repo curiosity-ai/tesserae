@@ -26,6 +26,9 @@ namespace Tesserae
         private          bool             _expandable = true;
         private          Action<ToolCall> _onToggle;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public ToolCall(UIcons icon, string text, Func<IComponent> contentFactory = null)
         {
             _icon           = icon;
@@ -50,14 +53,29 @@ namespace Tesserae
             });
         }
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public ToolCall(UIcons icon, string text, IComponent content)
             : this(icon, text, content != null ? (Func<IComponent>)(() => content) : null)
         {
         }
 
+        /// <summary>
+        /// Gets or sets the icon shown by the component.
+        /// </summary>
         public UIcons  Icon            => _icon;
+        /// <summary>
+        /// Gets or sets the text shown in the component.
+        /// </summary>
         public string  Text            => _text;
+        /// <summary>
+        /// Gets or sets a value indicating whether the component is expanded.
+        /// </summary>
         public bool    IsExpanded      => _isExpanded;
+        /// <summary>
+        /// Returns a value indicating whether the component has the given content.
+        /// </summary>
         public bool    HasContent      => _contentFactory != null;
 
         /// <summary>
@@ -70,6 +88,9 @@ namespace Tesserae
             return _contentFactory?.Invoke();
         }
 
+        /// <summary>
+        /// Sets the content of the component.
+        /// </summary>
         public ToolCall SetContent(Func<IComponent> contentFactory)
         {
             _contentFactory  = contentFactory;
@@ -82,11 +103,17 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the content of the component.
+        /// </summary>
         public ToolCall SetContent(IComponent content)
         {
             return SetContent(content != null ? (Func<IComponent>)(() => content) : null);
         }
 
+        /// <summary>
+        /// Sets the text of the component.
+        /// </summary>
         public ToolCall SetText(string text)
         {
             _text = text ?? string.Empty;
@@ -94,6 +121,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the icon of the component.
+        /// </summary>
         public ToolCall SetIcon(UIcons icon)
         {
             _icon = icon;
@@ -102,6 +132,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Configures the not expandable on the component.
+        /// </summary>
         public ToolCall NotExpandable()
         {
             _expandable = false;
@@ -110,6 +143,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Expands the component.
+        /// </summary>
         public ToolCall Expanded(bool value = true)
         {
             if (value) Expand();
@@ -117,6 +153,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Expands the component.
+        /// </summary>
         public ToolCall Expand()
         {
             if (_isExpanded || !_expandable) return this;
@@ -127,6 +166,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Collapses the component.
+        /// </summary>
         public ToolCall Collapse()
         {
             if (!_isExpanded) return this;
@@ -136,11 +178,17 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Toggles the component's state.
+        /// </summary>
         public ToolCall Toggle()
         {
             return _isExpanded ? Collapse() : Expand();
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the toggle event fires.
+        /// </summary>
         public ToolCall OnToggle(Action<ToolCall> onToggle)
         {
             _onToggle += onToggle;
@@ -166,6 +214,9 @@ namespace Tesserae
             _header.setAttribute("aria-expanded", _isExpanded ? "true" : "false");
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public override HTMLElement Render()
         {
             return InnerElement;
@@ -197,6 +248,9 @@ namespace Tesserae
         private          HTMLElement      _backButton;
         private          HTMLElement      _titleEl;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public ToolsUsed(IEnumerable<ToolCall> tools = null)
         {
             _tools = new List<ToolCall>();
@@ -221,6 +275,9 @@ namespace Tesserae
             UpdateSummary();
         }
 
+        /// <summary>
+        /// Adds the given item to the component.
+        /// </summary>
         public ToolsUsed Add(ToolCall tool)
         {
             if (tool == null) return this;
@@ -229,6 +286,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Adds the given range to the component.
+        /// </summary>
         public ToolsUsed AddRange(IEnumerable<ToolCall> tools)
         {
             if (tools == null) return this;
@@ -236,16 +296,25 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Adds the given item to the component.
+        /// </summary>
         public ToolsUsed Add(UIcons icon, string text, Func<IComponent> contentFactory)
         {
             return Add(new ToolCall(icon, text, contentFactory));
         }
 
+        /// <summary>
+        /// Adds the given item to the component.
+        /// </summary>
         public ToolsUsed Add(UIcons icon, string text, IComponent content)
         {
             return Add(new ToolCall(icon, text, content));
         }
 
+        /// <summary>
+        /// Clears the component's current state.
+        /// </summary>
         public ToolsUsed Clear()
         {
             _tools.Clear();
@@ -253,6 +322,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the summary of the component.
+        /// </summary>
         public ToolsUsed SetSummary(string label)
         {
             _summaryLabel = label;
@@ -260,6 +332,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the icon of the component.
+        /// </summary>
         public ToolsUsed SetIcon(UIcons icon)
         {
             _summaryIconKind = icon;
@@ -268,6 +343,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the title of the component.
+        /// </summary>
         public ToolsUsed SetTitle(string title)
         {
             _modalTitle = title ?? string.Empty;
@@ -278,6 +356,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Shows the component.
+        /// </summary>
         public ToolsUsed Show()
         {
             BuildModalIfNeeded();
@@ -287,6 +368,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Hides the component.
+        /// </summary>
         public ToolsUsed Hide()
         {
             _modal?.Hide();
@@ -397,6 +481,9 @@ namespace Tesserae
             _slider.classList.add("tss-toolsused-show-detail");
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public override HTMLElement Render()
         {
             return InnerElement;

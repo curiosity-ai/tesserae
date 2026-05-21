@@ -3,6 +3,9 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A form control that lets the user pick one or more files from disk, with optional drag-and-drop support.
+    /// </summary>
     [H5.Name("tss.FileSelector")]
     public sealed class FileSelector : IComponent, ICanValidate<FileSelector>
     {
@@ -15,6 +18,9 @@ namespace Tesserae
         private readonly HTMLElement      _container;
         private          File             _selectedFile;
 
+        /// <summary>
+        /// Gets or sets the selected file.
+        /// </summary>
         public File SelectedFile
         {
             get => _selectedFile;
@@ -25,24 +31,36 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets the placeholder text shown when the component is empty.
+        /// </summary>
         public string Placeholder
         {
             get => _textBox.Placeholder;
             set => _textBox.Placeholder = value;
         }
 
+        /// <summary>
+        /// Gets or sets the validation error message displayed beneath the component.
+        /// </summary>
         public string Error
         {
             get => _textBox.Error;
             set => _textBox.Error = value;
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the component is currently in an invalid state.
+        /// </summary>
         public bool IsInvalid
         {
             get => _textBox.IsInvalid;
             set => _textBox.IsInvalid = value;
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the component is required for form submission.
+        /// </summary>
         public bool IsRequired
         {
             get => _textBox.IsRequired;
@@ -60,6 +78,9 @@ namespace Tesserae
             set => _fileInput.accept = value;
         }
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public FileSelector()
         {
             _fileInput = FileInput(_("tss-file-input"));
@@ -85,18 +106,27 @@ namespace Tesserae
             ;
         }
 
+        /// <summary>
+        /// Removes / disables the text box on the component.
+        /// </summary>
         public FileSelector NoTextBox()
         {
             _textBox.Collapse();
             return this;
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the file selected event fires.
+        /// </summary>
         public FileSelector OnFileSelected(FileSelectedHandler handler)
         {
             FileSelected += handler;
             return this;
         }
 
+        /// <summary>
+        /// Sets the placeholder of the component.
+        /// </summary>
         public FileSelector SetPlaceholder(string placeholder)
         {
             Placeholder = placeholder;
@@ -115,17 +145,26 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Marks the component as required.
+        /// </summary>
         public FileSelector Required()
         {
             IsRequired = true;
             return this;
         }
 
+        /// <summary>
+        /// Resets the component to its initial state.
+        /// </summary>
         public void Reset()
         {
             _fileInput.value = null;
         }
 
+        /// <summary>
+        /// Attaches a handler to the component's value-changed event.
+        /// </summary>
         public void Attach(ComponentEventHandler<FileSelector> handler)
         {
             FileSelected += (s, _) => handler(s);
@@ -137,6 +176,9 @@ namespace Tesserae
             return value.Substring(lastSep + 1);
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public HTMLElement Render()
         {
             return _container;

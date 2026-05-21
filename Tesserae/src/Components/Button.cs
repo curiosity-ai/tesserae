@@ -5,6 +5,10 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// The standard clickable button component, with optional icons, loading state, primary/secondary variants and
+    /// dropdown / split-button support.
+    /// </summary>
     [H5.Name("tss.Button")]
     public class Button : ComponentBase<Button, HTMLButtonElement>, ITextFormating, IHasBackgroundColor, IHasForegroundColor, ICanWrap, IRoundedStyle
     {
@@ -12,6 +16,9 @@ namespace Tesserae
         private HTMLElement       _iconSpan;
         private HTMLButtonElement _spinner;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public Button(string text = string.Empty)
         {
             _textSpan    = Span(_(text: text));
@@ -30,6 +37,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets the CSS background of the component.
+        /// </summary>
         public string Background
         {
             get => InnerElement.style.background;
@@ -40,6 +50,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets the CSS color (foreground) of the component.
+        /// </summary>
         public string Foreground
         {
             get => InnerElement.style.color;
@@ -188,6 +201,9 @@ namespace Tesserae
             get => !InnerElement.classList.contains("tss-disabled");
             set => InnerElement.UpdateClassIfNot(value, "tss-disabled");
         }
+        /// <summary>
+        /// Gets or sets a value indicating whether the component's text can wrap onto multiple lines.
+        /// </summary>
         public bool CanWrap
         {
             get => !InnerElement.classList.contains("tss-btn-nowrap");
@@ -195,12 +211,18 @@ namespace Tesserae
         }
 
 
+        /// <summary>
+        /// Gets or sets a value indicating whether overflowing text is truncated with an ellipsis.
+        /// </summary>
         public bool EnableEllipsis
         {
             get => !InnerElement.classList.contains("tss-text-ellipsis");
             set => InnerElement.UpdateClassIf(value, "tss-text-ellipsis");
         }
 
+        /// <summary>
+        /// Gets or sets the size of the component.
+        /// </summary>
         public TextSize Size
         {
             get => ITextFormatingExtensions.FromClassList(InnerElement, TextSize.Small);
@@ -211,6 +233,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets the font weight of the component.
+        /// </summary>
         public TextWeight Weight
         {
             get => ITextFormatingExtensions.FromClassList(InnerElement, TextWeight.Regular);
@@ -221,6 +246,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets the text alignment of the component.
+        /// </summary>
         public TextAlign TextAlign
         {
             get => ITextFormatingExtensions.FromClassList(InnerElement, TextAlign.Center);
@@ -231,42 +259,63 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public override HTMLElement Render()
         {
             return InnerElement;
         }
 
 
+        /// <summary>
+        /// Renders the component in a compact form.
+        /// </summary>
         public Button Compact()
         {
             IsCompact = true;
             return this;
         }
 
+        /// <summary>
+        /// Removes / disables the margin on the component.
+        /// </summary>
         public Button NoMargin()
         {
             InnerElement.classList.add("tss-btn-remove-margin");
             return this;
         }
 
+        /// <summary>
+        /// Removes / disables the padding on the component.
+        /// </summary>
         public Button NoPadding()
         {
             InnerElement.classList.add("tss-btn-remove-padding");
             return this;
         }
 
+        /// <summary>
+        /// Reduces the component's padding.
+        /// </summary>
         public Button LessPadding()
         {
             InnerElement.classList.add("tss-btn-less-padding");
             return this;
         }
 
+        /// <summary>
+        /// Renders the component as a hyperlink.
+        /// </summary>
         public Button Link()
         {
             IsLink = true;
             return this;
         }
 
+        /// <summary>
+        /// Renders the component as a default-toned hyperlink.
+        /// </summary>
         public Button DefaultLink()
         {
             IsLink = true;
@@ -274,6 +323,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Renders the component as a danger-toned hyperlink.
+        /// </summary>
         public Button DangerLink()
         {
             IsLink = true;
@@ -281,6 +333,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Replaces the button's content with an inline spinner (commonly used while an async action is in progress).
+        /// </summary>
         public void ToSpinner(string text = null)
         {
             if (_spinner is null)
@@ -323,6 +378,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Restores the button's original content after <see cref="ToSpinner"/> was used.
+        /// </summary>
         public void UndoSpinner()
         {
             if (_spinner is object && _spinner.IsMounted())
@@ -338,11 +396,17 @@ namespace Tesserae
             _spinner = null;
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the click spin while event fires.
+        /// </summary>
         public Button OnClickSpinWhile(Func<Task> action, string text = null, Action<Button, Exception> onError = null)
         {
             return OnClickSpinWhile((MouseEvent e) => action(), text, onError);
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the click spin while event fires.
+        /// </summary>
         public Button OnClickSpinWhile(Func<MouseEvent, Task> action, string text = null, Action<Button, Exception> onError = null)
         {
             return OnClick((_, e) =>
@@ -384,18 +448,27 @@ namespace Tesserae
             });
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the click event fires.
+        /// </summary>
         public Button OnClick(Action action) => OnClick((_, e) =>
         {
             StopEvent(e);
             action.Invoke();
         });
                 
+        /// <summary>
+        /// Registers a callback invoked when the context menu event fires.
+        /// </summary>
         public Button OnContextMenu(Action action) => OnContextMenu((_, e) =>
         {
             StopEvent(e);
             action.Invoke();
         });
 
+        /// <summary>
+        /// Runs the given async action while showing an inline spinner on the button. Restores the original button content on completion (or on error, optionally invoking the supplied error handler).
+        /// </summary>
         public void SpinWhile(Func<Task> action, string text = null, Action<Button, Exception> onError = null)
         {
             Task.Run(async () =>
@@ -433,65 +506,98 @@ namespace Tesserae
             }).FireAndForget();
         }
 
+        /// <summary>
+        /// Styles the component using the primary tone.
+        /// </summary>
         public Button Primary()
         {
             IsPrimary = true;
             return this;
         }
 
+        /// <summary>
+        /// Styles the component using the success tone.
+        /// </summary>
         public Button Success()
         {
             IsSuccess = true;
             return this;
         }
 
+        /// <summary>
+        /// Styles the component using the danger tone.
+        /// </summary>
         public Button Danger()
         {
             IsDanger = true;
             return this;
         }
 
+        /// <summary>
+        /// Returns the component configured with the given filter effects.
+        /// </summary>
         public Button WithFilterEffects()
         {
             InnerElement.classList.add("tss-btn-filter-effects");
             return this;
         }
 
+        /// <summary>
+        /// Disables the component.
+        /// </summary>
         public Button Disabled(bool value = true)
         {
             IsEnabled = !value;
             return this;
         }
 
+        /// <summary>
+        /// Removes / disables the border on the component.
+        /// </summary>
         public Button NoBorder()
         {
             InnerElement.classList.add("tss-btn-noborder");
             return this;
         }
+        /// <summary>
+        /// Removes / disables the min size on the component.
+        /// </summary>
         public Button NoMinSize()
         {
             InnerElement.classList.add("tss-btn-nominsize");
             return this;
         }
 
+        /// <summary>
+        /// Removes / disables the background on the component.
+        /// </summary>
         public Button NoBackground()
         {
             InnerElement.classList.add("tss-btn-nobg");
             return this;
         }
 
+        /// <summary>
+        /// Renders the component as a hyperlink only on hover.
+        /// </summary>
         public Button LinkOnHover()
         {
             InnerElement.classList.add("tss-btn-linkonhover");
             return this;
         }
 
+        /// <summary>
+        /// Removes / disables the hover on the component.
+        /// </summary>
         public Button NoHover()
         {
             InnerElement.classList.add("tss-btn-nohover");
             return this;
         }
 
+        /// <summary>
+        /// Configures the component to color.
+        /// </summary>
         public Button Color(string background, string textColor = "white", string borderColor = "white", string iconColor = "")
         {
             InnerElement.classList.add("tss-btn-nobg");
@@ -507,18 +613,27 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the text of the component.
+        /// </summary>
         public Button SetText(string text)
         {
             Text = text;
             return this;
         }
 
+        /// <summary>
+        /// Sets the title of the component.
+        /// </summary>
         public Button SetTitle(string title)
         {
             Title = title;
             return this;
         }
 
+        /// <summary>
+        /// Clears the icon.
+        /// </summary>
         public Button ClearIcon()
         {
             Icon = null;
@@ -541,6 +656,9 @@ namespace Tesserae
             };
         }
 
+        /// <summary>
+        /// Sets the icon of the component.
+        /// </summary>
         public Button SetIcon(Emoji icon, bool afterText = false)
         {
             Icon = $"ec {icon}";
@@ -562,6 +680,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the icon of the component.
+        /// </summary>
         public Button SetIcon(UIcons icon, string color = "", TextSize size = TextSize.Small, UIconsWeight weight = UIconsWeight.Regular, bool afterText = false)
         {
             Icon = $"{Tesserae.Icon.Transform(icon, weight)} {size}";
@@ -583,12 +704,18 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Configures the icon on hover on the component.
+        /// </summary>
         public Button IconOnHover()
         {
             InnerElement.classList.add("tss-btn-icononhover");
             return this;
         }
 
+        /// <summary>
+        /// Replaces the content in the component.
+        /// </summary>
         public Button ReplaceContent(IComponent content)
         {
             ClearChildren(InnerElement);
@@ -596,6 +723,9 @@ namespace Tesserae
             InnerElement.classList.remove("tss-btn-only-icon");
             return this;
         }
+        /// <summary>
+        /// Replaces the text in the component.
+        /// </summary>
         public Button ReplaceText(HTMLSpanElement textSpan)
         {
             InnerElement.replaceChild(textSpan, _textSpan);
@@ -603,18 +733,27 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Allows the component's content to wrap onto multiple lines.
+        /// </summary>
         public Button Wrap()
         {
             CanWrap = true;
             return this;
         }
 
+        /// <summary>
+        /// Configures the component to ellipsis.
+        /// </summary>
         public Button Ellipsis()
         {
             EnableEllipsis = true;
             return this;
         }
 
+        /// <summary>
+        /// Removes / disables the wrap on the component.
+        /// </summary>
         public Button NoWrap()
         {
             CanWrap = false;
@@ -629,6 +768,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Moves keyboard focus to the component.
+        /// </summary>
         public Button Focus()
         {
             // 2020-12-29 DWR: Seems like this setTimeout is required then the element is rendered within a container that uses "simplebar" scrolling - without the delay, if the element getting focus is out of view then it will not be
@@ -649,6 +791,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Returns the component configured with the given hot key.
+        /// </summary>
         public Button WithHotKey(string keys, Hotkeys.Option options = null)
         {
             DomObserver.WhenMounted(InnerElement, () =>

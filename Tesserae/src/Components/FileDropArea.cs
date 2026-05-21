@@ -6,6 +6,9 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A drop target that accepts files dragged from the operating system, with hover and validation feedback.
+    /// </summary>
     [H5.Name("tss.FileDropArea")]
     public sealed class FileDropArea : IComponent
     {
@@ -19,6 +22,9 @@ namespace Tesserae
         private readonly HTMLInputElement _fileInput;
         private          Raw              _raw;
         private readonly HTMLElement      _container;
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public FileDropArea()
         {
             _fileInput = FileInput(_("tss-file-input"));
@@ -39,6 +45,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public FileDropArea(IComponent component)
         {
             _fileInput = FileInput(_("tss-file-input"));
@@ -59,11 +68,17 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Sets the content rendered inside the surface.
+        /// </summary>
         public IComponent Content
         {
             set => _raw?.Content(value);
         }
 
+        /// <summary>
+        /// Opens the file selection.
+        /// </summary>
         public void OpenFileSelection()
         {
             _fileInput.click();
@@ -79,6 +94,9 @@ namespace Tesserae
             set => _fileInput.accept = value;
         }
 
+        /// <summary>
+        /// Returns a value indicating whether the component is multiple.
+        /// </summary>
         public bool IsMultiple
         {
             get => _fileInput.multiple;
@@ -204,12 +222,18 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the files dropped event fires.
+        /// </summary>
         public FileDropArea OnFilesDropped(FilesDroppedHandler handler)
         {
             FilesDropped += handler;
             return this;
         }
 
+        /// <summary>
+        /// Sets the content of the component.
+        /// </summary>
         public FileDropArea SetContent(IComponent content)
         {
             Content = content;
@@ -228,17 +252,26 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Configures the component to multiple.
+        /// </summary>
         public FileDropArea Multiple()
         {
             IsMultiple = true;
             return this;
         }
 
+        /// <summary>
+        /// Resets the component to its initial state.
+        /// </summary>
         public void Reset()
         {
             _fileInput.value = null;
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public HTMLElement Render()
         {
             return _container;

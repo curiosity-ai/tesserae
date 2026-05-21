@@ -146,8 +146,14 @@ namespace Tesserae
         /// Creates a <see cref="Tesserae.Card"/> component.
         /// </summary>
         public static Card Card(IComponent content, bool noAnimation = false) => new Card(content, noAnimation);
+        /// <summary>
+        /// Creates a new, empty <see cref="ResourceCard"/>.
+        /// </summary>
         public static ResourceCard ResourceCard() => new ResourceCard();
 
+        /// <summary>
+        /// Creates a new <see cref="Plan"/> timeline with the given title.
+        /// </summary>
         public static Plan Plan(string title) => new Plan(title);
 
         /// <summary>
@@ -244,52 +250,190 @@ namespace Tesserae
         //Note: the Defer method with optional loadMessage caused a bridge compiler issue when resolving the method, so we provide here both with and without the loadMessage method
 
 
+        /// <summary>
+        /// Creates a deferred component that asynchronously renders its content, optionally re-rendering whenever the supplied observables emit new values.
+        /// </summary>
         public static IDefer Defer(Func<Task<IComponent>>                                   asyncGenerator)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         => DeferedComponent.Create(asyncGenerator);
+        /// <summary>
+        /// Creates a deferred component that asynchronously renders its content, optionally re-rendering whenever the supplied observables emit new values.
+        /// </summary>
         public static IDefer Defer<TComponent>(IObservable<TComponent>                      observableComponent) where TComponent : IComponent                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      => DeferedComponent.Observe(observableComponent, c => c.AsTask());
+        /// <summary>
+        /// Creates a deferred component that asynchronously renders its content, optionally re-rendering whenever the supplied observables emit new values.
+        /// </summary>
         public static IDefer Defer<T1>(IObservable<T1>                                      o1,             Func<T1, Task<IComponent>> asyncGenerator)                                                                                                                                                                                                                                                                                                                                                                                                                                                                              => DeferedComponent.Observe(o1,                  asyncGenerator);
+        /// <summary>
+        /// Creates a deferred component that asynchronously renders its content, optionally re-rendering whenever the supplied observables emit new values.
+        /// </summary>
         public static IDefer Defer<T1, T2>(IObservable<T1>                                  o1,             IObservable<T2>            o2, Func<T1, T2, Task<IComponent>> asyncGenerator)                                                                                                                                                                                                                                                                                                                                                                                                                                           => DeferedComponent.Observe(o1,                  o2, asyncGenerator);
+        /// <summary>
+        /// Creates a deferred component that asynchronously renders its content, optionally re-rendering whenever the supplied observables emit new values.
+        /// </summary>
         public static IDefer Defer<T1, T2, T3>(IObservable<T1>                              o1,             IObservable<T2>            o2, IObservable<T3>                o3, Func<T1, T2, T3, Task<IComponent>> asyncGenerator)                                                                                                                                                                                                                                                                                                                                                                                                    => DeferedComponent.Observe(o1,                  o2, o3, asyncGenerator);
+        /// <summary>
+        /// Creates a deferred component that asynchronously renders its content, optionally re-rendering whenever the supplied observables emit new values.
+        /// </summary>
         public static IDefer Defer<T1, T2, T3, T4>(IObservable<T1>                          o1,             IObservable<T2>            o2, IObservable<T3>                o3, IObservable<T4>                    o4, Func<T1, T2, T3, T4, Task<IComponent>> asyncGenerator)                                                                                                                                                                                                                                                                                                                                                         => DeferedComponent.Observe(o1,                  o2, o3, o4, asyncGenerator);
+        /// <summary>
+        /// Creates a deferred component that asynchronously renders its content, optionally re-rendering whenever the supplied observables emit new values.
+        /// </summary>
         public static IDefer Defer<T1, T2, T3, T4, T5>(IObservable<T1>                      o1,             IObservable<T2>            o2, IObservable<T3>                o3, IObservable<T4>                    o4, IObservable<T5>                        o5, Func<T1, T2, T3, T4, T5, Task<IComponent>> asyncGenerator)                                                                                                                                                                                                                                                                                                          => DeferedComponent.Observe(o1,                  o2, o3, o4, o5, asyncGenerator);
+        /// <summary>
+        /// Creates a deferred component that asynchronously renders its content, optionally re-rendering whenever the supplied observables emit new values.
+        /// </summary>
         public static IDefer Defer<T1, T2, T3, T4, T5, T6>(IObservable<T1>                  o1,             IObservable<T2>            o2, IObservable<T3>                o3, IObservable<T4>                    o4, IObservable<T5>                        o5, IObservable<T6>                            o6, Func<T1, T2, T3, T4, T5, T6, Task<IComponent>> asyncGenerator)                                                                                                                                                                                                                                                       => DeferedComponent.Observe(o1,                  o2, o3, o4, o5, o6, asyncGenerator);
+        /// <summary>
+        /// Creates a deferred component that asynchronously renders its content, optionally re-rendering whenever the supplied observables emit new values.
+        /// </summary>
         public static IDefer Defer<T1, T2, T3, T4, T5, T6, T7>(IObservable<T1>              o1,             IObservable<T2>            o2, IObservable<T3>                o3, IObservable<T4>                    o4, IObservable<T5>                        o5, IObservable<T6>                            o6, IObservable<T7>                                o7, Func<T1, T2, T3, T4, T5, T6, T7, Task<IComponent>> asyncGenerator)                                                                                                                                                                                                => DeferedComponent.Observe(o1,                  o2, o3, o4, o5, o6, o7, asyncGenerator);
+        /// <summary>
+        /// Creates a deferred component that asynchronously renders its content, optionally re-rendering whenever the supplied observables emit new values.
+        /// </summary>
         public static IDefer Defer<T1, T2, T3, T4, T5, T6, T7, T8>(IObservable<T1>          o1,             IObservable<T2>            o2, IObservable<T3>                o3, IObservable<T4>                    o4, IObservable<T5>                        o5, IObservable<T6>                            o6, IObservable<T7>                                o7, IObservable<T8>                                    o8, Func<T1, T2, T3, T4, T5, T6, T7, T8, Task<IComponent>> asyncGenerator)                                                                                                                                     => DeferedComponent.Observe(o1,                  o2, o3, o4, o5, o6, o7, o8, asyncGenerator);
+        /// <summary>
+        /// Creates a deferred component that asynchronously renders its content, optionally re-rendering whenever the supplied observables emit new values.
+        /// </summary>
         public static IDefer Defer<T1, T2, T3, T4, T5, T6, T7, T8, T9>(IObservable<T1>      o1,             IObservable<T2>            o2, IObservable<T3>                o3, IObservable<T4>                    o4, IObservable<T5>                        o5, IObservable<T6>                            o6, IObservable<T7>                                o7, IObservable<T8>                                    o8, IObservable<T9>                                        o9, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, Task<IComponent>> asyncGenerator)                                                                      => DeferedComponent.Observe(o1,                  o2, o3, o4, o5, o6, o7, o8, o9, asyncGenerator);
+        /// <summary>
+        /// Creates a deferred component that asynchronously renders its content, optionally re-rendering whenever the supplied observables emit new values.
+        /// </summary>
         public static IDefer Defer<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(IObservable<T1> o1,             IObservable<T2>            o2, IObservable<T3>                o3, IObservable<T4>                    o4, IObservable<T5>                        o5, IObservable<T6>                            o6, IObservable<T7>                                o7, IObservable<T8>                                    o8, IObservable<T9>                                        o9, IObservable<T10>                                           o10, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, Task<IComponent>> asyncGenerator) => DeferedComponent.Observe(o1,                  o2, o3, o4, o5, o6, o7, o8, o9, o10, asyncGenerator);
+        /// <summary>
+        /// Creates a deferred component that asynchronously renders its content, optionally re-rendering whenever the supplied observables emit new values.
+        /// </summary>
         public static IDefer Defer(Func<Task<IComponent>>                                   asyncGenerator, IComponent                 loadMessage)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    => DeferedComponent.Create(asyncGenerator, loadMessage);
+        /// <summary>
+        /// Creates a deferred component that asynchronously renders its content, optionally re-rendering whenever the supplied observables emit new values.
+        /// </summary>
         public static IDefer Defer<T1>(IObservable<T1>                                      o1,             Func<T1, Task<IComponent>> asyncGenerator, IComponent                     loadMessage)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     => DeferedComponent.Observe(o1, asyncGenerator, loadMessage);
+        /// <summary>
+        /// Creates a deferred component that asynchronously renders its content, optionally re-rendering whenever the supplied observables emit new values.
+        /// </summary>
         public static IDefer Defer<T1, T2>(IObservable<T1>                                  o1,             IObservable<T2>            o2,             Func<T1, T2, Task<IComponent>> asyncGenerator, IComponent                         loadMessage)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  => DeferedComponent.Observe(o1, o2,             asyncGenerator, loadMessage);
+        /// <summary>
+        /// Creates a deferred component that asynchronously renders its content, optionally re-rendering whenever the supplied observables emit new values.
+        /// </summary>
         public static IDefer Defer<T1, T2, T3>(IObservable<T1>                              o1,             IObservable<T2>            o2,             IObservable<T3>                o3,             Func<T1, T2, T3, Task<IComponent>> asyncGenerator, IComponent                             loadMessage)                                                                                                                                                                                                                                                                                                                                                                                                                                                           => DeferedComponent.Observe(o1, o2,             o3,             asyncGenerator, loadMessage);
+        /// <summary>
+        /// Creates a deferred component that asynchronously renders its content, optionally re-rendering whenever the supplied observables emit new values.
+        /// </summary>
         public static IDefer Defer<T1, T2, T3, T4>(IObservable<T1>                          o1,             IObservable<T2>            o2,             IObservable<T3>                o3,             IObservable<T4>                    o4,             Func<T1, T2, T3, T4, Task<IComponent>> asyncGenerator, IComponent                                 loadMessage)                                                                                                                                                                                                                                                                                                                                                                                                => DeferedComponent.Observe(o1, o2,             o3,             o4,             asyncGenerator, loadMessage);
+        /// <summary>
+        /// Creates a deferred component that asynchronously renders its content, optionally re-rendering whenever the supplied observables emit new values.
+        /// </summary>
         public static IDefer Defer<T1, T2, T3, T4, T5>(IObservable<T1>                      o1,             IObservable<T2>            o2,             IObservable<T3>                o3,             IObservable<T4>                    o4,             IObservable<T5>                        o5,             Func<T1, T2, T3, T4, T5, Task<IComponent>> asyncGenerator, IComponent                                     loadMessage)                                                                                                                                                                                                                                                                                                                                 => DeferedComponent.Observe(o1, o2,             o3,             o4,             o5,             asyncGenerator, loadMessage);
+        /// <summary>
+        /// Creates a deferred component that asynchronously renders its content, optionally re-rendering whenever the supplied observables emit new values.
+        /// </summary>
         public static IDefer Defer<T1, T2, T3, T4, T5, T6>(IObservable<T1>                  o1,             IObservable<T2>            o2,             IObservable<T3>                o3,             IObservable<T4>                    o4,             IObservable<T5>                        o5,             IObservable<T6>                            o6,             Func<T1, T2, T3, T4, T5, T6, Task<IComponent>> asyncGenerator, IComponent                                         loadMessage)                                                                                                                                                                                                                                                              => DeferedComponent.Observe(o1, o2,             o3,             o4,             o5,             o6,             asyncGenerator, loadMessage);
+        /// <summary>
+        /// Creates a deferred component that asynchronously renders its content, optionally re-rendering whenever the supplied observables emit new values.
+        /// </summary>
         public static IDefer Defer<T1, T2, T3, T4, T5, T6, T7>(IObservable<T1>              o1,             IObservable<T2>            o2,             IObservable<T3>                o3,             IObservable<T4>                    o4,             IObservable<T5>                        o5,             IObservable<T6>                            o6,             IObservable<T7>                                o7,             Func<T1, T2, T3, T4, T5, T6, T7, Task<IComponent>> asyncGenerator, IComponent                                             loadMessage)                                                                                                                                                                                       => DeferedComponent.Observe(o1, o2,             o3,             o4,             o5,             o6,             o7,             asyncGenerator, loadMessage);
+        /// <summary>
+        /// Creates a deferred component that asynchronously renders its content, optionally re-rendering whenever the supplied observables emit new values.
+        /// </summary>
         public static IDefer Defer<T1, T2, T3, T4, T5, T6, T7, T8>(IObservable<T1>          o1,             IObservable<T2>            o2,             IObservable<T3>                o3,             IObservable<T4>                    o4,             IObservable<T5>                        o5,             IObservable<T6>                            o6,             IObservable<T7>                                o7,             IObservable<T8>                                    o8,             Func<T1, T2, T3, T4, T5, T6, T7, T8, Task<IComponent>> asyncGenerator, IComponent                                                 loadMessage)                                                                                                            => DeferedComponent.Observe(o1, o2,             o3,             o4,             o5,             o6,             o7,             o8,             asyncGenerator, loadMessage);
+        /// <summary>
+        /// Creates a deferred component that asynchronously renders its content, optionally re-rendering whenever the supplied observables emit new values.
+        /// </summary>
         public static IDefer Defer<T1, T2, T3, T4, T5, T6, T7, T8, T9>(IObservable<T1>      o1,             IObservable<T2>            o2,             IObservable<T3>                o3,             IObservable<T4>                    o4,             IObservable<T5>                        o5,             IObservable<T6>                            o6,             IObservable<T7>                                o7,             IObservable<T8>                                    o8,             IObservable<T9>                                        o9,             Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, Task<IComponent>> asyncGenerator, IComponent                                                      loadMessage)                            => DeferedComponent.Observe(o1, o2,             o3,             o4,             o5,             o6,             o7,             o8,             o9,             asyncGenerator, loadMessage);
+        /// <summary>
+        /// Creates a deferred component that asynchronously renders its content, optionally re-rendering whenever the supplied observables emit new values.
+        /// </summary>
         public static IDefer Defer<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(IObservable<T1> o1,             IObservable<T2>            o2,             IObservable<T3>                o3,             IObservable<T4>                    o4,             IObservable<T5>                        o5,             IObservable<T6>                            o6,             IObservable<T7>                                o7,             IObservable<T8>                                    o8,             IObservable<T9>                                        o9,             IObservable<T10>                                           o10,            Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, Task<IComponent>> asyncGenerator, IComponent loadMessage) => DeferedComponent.Observe(o1, o2,             o3,             o4,             o5,             o6,             o7,             o8,             o9,             o10,            asyncGenerator, loadMessage);
 
+        /// <summary>
+        /// Creates a new <see cref="IDefer"/>.
+        /// </summary>
         public static IDefer DeferSync(Func<IComponent>                                         syncGenerator)                                                                                                                                                                                                                                                                                                                                                                                                                                                            => DeferedComponent.Create(() => syncGenerator().AsTask());
+        /// <summary>
+        /// Creates a new <see cref="IDefer"/>.
+        /// </summary>
         public static IDefer DeferSync<TComponent>(IObservable<TComponent>                      observableComponent) where TComponent : IComponent                                                                                                                                                                                                                                                                                                                                                                                                                        => DeferedComponent.Observe(observableComponent, c => c.AsTask());
+        /// <summary>
+        /// Creates a new <see cref="IDefer"/>.
+        /// </summary>
         public static IDefer DeferSync<T1>(IObservable<T1>                                      o1,            Func<T1, IComponent> syncGenerator)                                                                                                                                                                                                                                                                                                                                                                                                                        => DeferedComponent.Observe(o1,                  (oc1) => syncGenerator(oc1).AsTask());
+        /// <summary>
+        /// Creates a new <see cref="IDefer"/>.
+        /// </summary>
         public static IDefer DeferSync<T1, T2>(IObservable<T1>                                  o1,            IObservable<T2>      o2, Func<T1, T2, IComponent> syncGenerator)                                                                                                                                                                                                                                                                                                                                                                                           => DeferedComponent.Observe(o1,                  o2, (oc1,                                  oc2) => syncGenerator(oc1,                                          oc2).AsTask());
+        /// <summary>
+        /// Creates a new <see cref="IDefer"/>.
+        /// </summary>
         public static IDefer DeferSync<T1, T2, T3>(IObservable<T1>                              o1,            IObservable<T2>      o2, IObservable<T3>          o3, Func<T1, T2, T3, IComponent> syncGenerator)                                                                                                                                                                                                                                                                                                                                                          => DeferedComponent.Observe(o1,                  o2, o3, (oc1,                              oc2, oc3) => syncGenerator(oc1,                                     oc2, oc3).AsTask());
+        /// <summary>
+        /// Creates a new <see cref="IDefer"/>.
+        /// </summary>
         public static IDefer DeferSync<T1, T2, T3, T4>(IObservable<T1>                          o1,            IObservable<T2>      o2, IObservable<T3>          o3, IObservable<T4>              o4, Func<T1, T2, T3, T4, IComponent> syncGenerator)                                                                                                                                                                                                                                                                                                                     => DeferedComponent.Observe(o1,                  o2, o3, o4, (oc1,                          oc2, oc3, oc4) => syncGenerator(oc1,                                oc2, oc3, oc4).AsTask());
+        /// <summary>
+        /// Creates a new <see cref="IDefer"/>.
+        /// </summary>
         public static IDefer DeferSync<T1, T2, T3, T4, T5>(IObservable<T1>                      o1,            IObservable<T2>      o2, IObservable<T3>          o3, IObservable<T4>              o4, IObservable<T5>                  o5, Func<T1, T2, T3, T4, T5, IComponent> syncGenerator)                                                                                                                                                                                                                                                                            => DeferedComponent.Observe(o1,                  o2, o3, o4, o5, (oc1,                      oc2, oc3, oc4, oc5) => syncGenerator(oc1,                           oc2, oc3, oc4, oc5).AsTask());
+        /// <summary>
+        /// Creates a new <see cref="IDefer"/>.
+        /// </summary>
         public static IDefer DeferSync<T1, T2, T3, T4, T5, T6>(IObservable<T1>                  o1,            IObservable<T2>      o2, IObservable<T3>          o3, IObservable<T4>              o4, IObservable<T5>                  o5, IObservable<T6>                      o6, Func<T1, T2, T3, T4, T5, T6, IComponent> syncGenerator)                                                                                                                                                                                                                               => DeferedComponent.Observe(o1,                  o2, o3, o4, o5, o6, (oc1,                  oc2, oc3, oc4, oc5, oc6) => syncGenerator(oc1,                      oc2, oc3, oc4, oc5, oc6).AsTask());
+        /// <summary>
+        /// Creates a new <see cref="IDefer"/>.
+        /// </summary>
         public static IDefer DeferSync<T1, T2, T3, T4, T5, T6, T7>(IObservable<T1>              o1,            IObservable<T2>      o2, IObservable<T3>          o3, IObservable<T4>              o4, IObservable<T5>                  o5, IObservable<T6>                      o6, IObservable<T7>                          o7, Func<T1, T2, T3, T4, T5, T6, T7, IComponent> syncGenerator)                                                                                                                                                                              => DeferedComponent.Observe(o1,                  o2, o3, o4, o5, o6, o7, (oc1,              oc2, oc3, oc4, oc5, oc6, oc7) => syncGenerator(oc1,                 oc2, oc3, oc4, oc5, oc6, oc7).AsTask());
+        /// <summary>
+        /// Creates a new <see cref="IDefer"/>.
+        /// </summary>
         public static IDefer DeferSync<T1, T2, T3, T4, T5, T6, T7, T8>(IObservable<T1>          o1,            IObservable<T2>      o2, IObservable<T3>          o3, IObservable<T4>              o4, IObservable<T5>                  o5, IObservable<T6>                      o6, IObservable<T7>                          o7, IObservable<T8>                              o8, Func<T1, T2, T3, T4, T5, T6, T7, T8, IComponent> syncGenerator)                                                                                                                         => DeferedComponent.Observe(o1,                  o2, o3, o4, o5, o6, o7, o8, (oc1,          oc2, oc3, oc4, oc5, oc6, oc7, oc8) => syncGenerator(oc1,            oc2, oc3, oc4, oc5, oc6, oc7, oc8).AsTask());
+        /// <summary>
+        /// Creates a new <see cref="IDefer"/>.
+        /// </summary>
         public static IDefer DeferSync<T1, T2, T3, T4, T5, T6, T7, T8, T9>(IObservable<T1>      o1,            IObservable<T2>      o2, IObservable<T3>          o3, IObservable<T4>              o4, IObservable<T5>                  o5, IObservable<T6>                      o6, IObservable<T7>                          o7, IObservable<T8>                              o8, IObservable<T9>                                  o9, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, IComponent> syncGenerator)                                                                => DeferedComponent.Observe(o1,                  o2, o3, o4, o5, o6, o7, o8, o9, (oc1,      oc2, oc3, oc4, oc5, oc6, oc7, oc8, oc9) => syncGenerator(oc1,       oc2, oc3, oc4, oc5, oc6, oc7, oc8, oc9).AsTask());
+        /// <summary>
+        /// Creates a new <see cref="IDefer"/>.
+        /// </summary>
         public static IDefer DeferSync<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(IObservable<T1> o1,            IObservable<T2>      o2, IObservable<T3>          o3, IObservable<T4>              o4, IObservable<T5>                  o5, IObservable<T6>                      o6, IObservable<T7>                          o7, IObservable<T8>                              o8, IObservable<T9>                                  o9, IObservable<T10>                                     o10, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, IComponent> syncGenerator) => DeferedComponent.Observe(o1,                  o2, o3, o4, o5, o6, o7, o8, o9, o10, (oc1, oc2, oc3, oc4, oc5, oc6, oc7, oc8, oc9, oc10) => syncGenerator(oc1, oc2, oc3, oc4, oc5, oc6, oc7, oc8, oc9, oc10).AsTask());
+        /// <summary>
+        /// Creates a new <see cref="IDefer"/>.
+        /// </summary>
         public static IDefer DeferSync(Func<IComponent>                                         syncGenerator, IComponent           loadMessage)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    => DeferedComponent.Create(() => syncGenerator().AsTask(), loadMessage);
+        /// <summary>
+        /// Creates a new <see cref="IDefer"/>.
+        /// </summary>
         public static IDefer DeferSync<T1>(IObservable<T1>                                      o1,            Func<T1, IComponent> syncGenerator, IComponent               loadMessage)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            => DeferedComponent.Observe(o1, (oc1) => syncGenerator(oc1).AsTask(), loadMessage);
+        /// <summary>
+        /// Creates a new <see cref="IDefer"/>.
+        /// </summary>
         public static IDefer DeferSync<T1, T2>(IObservable<T1>                                  o1,            IObservable<T2>      o2,            Func<T1, T2, IComponent> syncGenerator, IComponent                   loadMessage)                                                                                                                                                                                                                                                                                                                                                                                                                                                                => DeferedComponent.Observe(o1, o2,                                   (oc1,                                  oc2) => syncGenerator(oc1,                                          oc2).AsTask(),                                          loadMessage);
+        /// <summary>
+        /// Creates a new <see cref="IDefer"/>.
+        /// </summary>
         public static IDefer DeferSync<T1, T2, T3>(IObservable<T1>                              o1,            IObservable<T2>      o2,            IObservable<T3>          o3,            Func<T1, T2, T3, IComponent> syncGenerator, IComponent                       loadMessage)                                                                                                                                                                                                                                                                                                                                                                                                                => DeferedComponent.Observe(o1, o2,                                   o3, (oc1,                              oc2, oc3) => syncGenerator(oc1,                                     oc2, oc3).AsTask(),                                     loadMessage);
+        /// <summary>
+        /// Creates a new <see cref="IDefer"/>.
+        /// </summary>
         public static IDefer DeferSync<T1, T2, T3, T4>(IObservable<T1>                          o1,            IObservable<T2>      o2,            IObservable<T3>          o3,            IObservable<T4>              o4,            Func<T1, T2, T3, T4, IComponent> syncGenerator, IComponent                           loadMessage)                                                                                                                                                                                                                                                                                                                                                            => DeferedComponent.Observe(o1, o2,                                   o3, o4, (oc1,                          oc2, oc3, oc4) => syncGenerator(oc1,                                oc2, oc3, oc4).AsTask(),                                loadMessage);
+        /// <summary>
+        /// Creates a new <see cref="IDefer"/>.
+        /// </summary>
         public static IDefer DeferSync<T1, T2, T3, T4, T5>(IObservable<T1>                      o1,            IObservable<T2>      o2,            IObservable<T3>          o3,            IObservable<T4>              o4,            IObservable<T5>                  o5,            Func<T1, T2, T3, T4, T5, IComponent> syncGenerator, IComponent                               loadMessage)                                                                                                                                                                                                                                                                                                    => DeferedComponent.Observe(o1, o2,                                   o3, o4, o5, (oc1,                      oc2, oc3, oc4, oc5) => syncGenerator(oc1,                           oc2, oc3, oc4, oc5).AsTask(),                           loadMessage);
+        /// <summary>
+        /// Creates a new <see cref="IDefer"/>.
+        /// </summary>
         public static IDefer DeferSync<T1, T2, T3, T4, T5, T6>(IObservable<T1>                  o1,            IObservable<T2>      o2,            IObservable<T3>          o3,            IObservable<T4>              o4,            IObservable<T5>                  o5,            IObservable<T6>                      o6,            Func<T1, T2, T3, T4, T5, T6, IComponent> syncGenerator, IComponent                                   loadMessage)                                                                                                                                                                                                                                        => DeferedComponent.Observe(o1, o2,                                   o3, o4, o5, o6, (oc1,                  oc2, oc3, oc4, oc5, oc6) => syncGenerator(oc1,                      oc2, oc3, oc4, oc5, oc6).AsTask(),                      loadMessage);
+        /// <summary>
+        /// Creates a new <see cref="IDefer"/>.
+        /// </summary>
         public static IDefer DeferSync<T1, T2, T3, T4, T5, T6, T7>(IObservable<T1>              o1,            IObservable<T2>      o2,            IObservable<T3>          o3,            IObservable<T4>              o4,            IObservable<T5>                  o5,            IObservable<T6>                      o6,            IObservable<T7>                          o7,            Func<T1, T2, T3, T4, T5, T6, T7, IComponent> syncGenerator, IComponent                                       loadMessage)                                                                                                                                                                        => DeferedComponent.Observe(o1, o2,                                   o3, o4, o5, o6, o7, (oc1,              oc2, oc3, oc4, oc5, oc6, oc7) => syncGenerator(oc1,                 oc2, oc3, oc4, oc5, oc6, oc7).AsTask(),                 loadMessage);
+        /// <summary>
+        /// Creates a new <see cref="IDefer"/>.
+        /// </summary>
         public static IDefer DeferSync<T1, T2, T3, T4, T5, T6, T7, T8>(IObservable<T1>          o1,            IObservable<T2>      o2,            IObservable<T3>          o3,            IObservable<T4>              o4,            IObservable<T5>                  o5,            IObservable<T6>                      o6,            IObservable<T7>                          o7,            IObservable<T8>                              o8,            Func<T1, T2, T3, T4, T5, T6, T7, T8, IComponent> syncGenerator, IComponent                                           loadMessage)                                                                                                    => DeferedComponent.Observe(o1, o2,                                   o3, o4, o5, o6, o7, o8, (oc1,          oc2, oc3, oc4, oc5, oc6, oc7, oc8) => syncGenerator(oc1,            oc2, oc3, oc4, oc5, oc6, oc7, oc8).AsTask(),            loadMessage);
+        /// <summary>
+        /// Creates a new <see cref="IDefer"/>.
+        /// </summary>
         public static IDefer DeferSync<T1, T2, T3, T4, T5, T6, T7, T8, T9>(IObservable<T1>      o1,            IObservable<T2>      o2,            IObservable<T3>          o3,            IObservable<T4>              o4,            IObservable<T5>                  o5,            IObservable<T6>                      o6,            IObservable<T7>                          o7,            IObservable<T8>                              o8,            IObservable<T9>                                  o9,            Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, IComponent> syncGenerator, IComponent                                                loadMessage)                           => DeferedComponent.Observe(o1, o2,                                   o3, o4, o5, o6, o7, o8, o9, (oc1,      oc2, oc3, oc4, oc5, oc6, oc7, oc8, oc9) => syncGenerator(oc1,       oc2, oc3, oc4, oc5, oc6, oc7, oc8, oc9).AsTask(),       loadMessage);
+        /// <summary>
+        /// Creates a new <see cref="IDefer"/>.
+        /// </summary>
         public static IDefer DeferSync<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(IObservable<T1> o1,            IObservable<T2>      o2,            IObservable<T3>          o3,            IObservable<T4>              o4,            IObservable<T5>                  o5,            IObservable<T6>                      o6,            IObservable<T7>                          o7,            IObservable<T8>                              o8,            IObservable<T9>                                  o9,            IObservable<T10>                                     o10,           Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, IComponent> syncGenerator, IComponent loadMessage) => DeferedComponent.Observe(o1, o2,                                   o3, o4, o5, o6, o7, o8, o9, o10, (oc1, oc2, oc3, oc4, oc5, oc6, oc7, oc8, oc9, oc10) => syncGenerator(oc1, oc2, oc3, oc4, oc5, oc6, oc7, oc8, oc9, oc10).AsTask(), loadMessage);
 
         /// <summary>
@@ -299,15 +443,45 @@ namespace Tesserae
         /// <param name="loadMessage">The function to generate the loading message based on progress.</param>
         /// <returns>An IDefer component.</returns>
         public static IDefer DeferWithProgress(Func<Action<float, string>, Task<IComponent>> asyncGenerator, Func<float, string, IComponent> loadMessage = null) => DeferedComponentWithProgress.Create(asyncGenerator, loadMessage);
+        /// <summary>
+        /// Creates a new <see cref="IDefer"/>.
+        /// </summary>
         public static IDefer DeferWithProgress<T1>(IObservable<T1> o1, Func<T1, Action<float, string>, Task<IComponent>> asyncGenerator, Func<float, string, IComponent> loadMessage = null) => DeferedComponentWithProgress.Observe(o1, asyncGenerator, loadMessage);
+        /// <summary>
+        /// Creates a new <see cref="IDefer"/>.
+        /// </summary>
         public static IDefer DeferWithProgress<T1, T2>(IObservable<T1> o1, IObservable<T2> o2, Func<T1, T2, Action<float, string>, Task<IComponent>> asyncGenerator, Func<float, string, IComponent> loadMessage = null) => DeferedComponentWithProgress.Observe(o1, o2, asyncGenerator, loadMessage);
+        /// <summary>
+        /// Creates a new <see cref="IDefer"/>.
+        /// </summary>
         public static IDefer DeferWithProgress<T1, T2, T3>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, Func<T1, T2, T3, Action<float, string>, Task<IComponent>> asyncGenerator, Func<float, string, IComponent> loadMessage = null) => DeferedComponentWithProgress.Observe(o1, o2, o3, asyncGenerator, loadMessage);
+        /// <summary>
+        /// Creates a new <see cref="IDefer"/>.
+        /// </summary>
         public static IDefer DeferWithProgress<T1, T2, T3, T4>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, Func<T1, T2, T3, T4, Action<float, string>, Task<IComponent>> asyncGenerator, Func<float, string, IComponent> loadMessage = null) => DeferedComponentWithProgress.Observe(o1, o2, o3, o4, asyncGenerator, loadMessage);
+        /// <summary>
+        /// Creates a new <see cref="IDefer"/>.
+        /// </summary>
         public static IDefer DeferWithProgress<T1, T2, T3, T4, T5>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, Func<T1, T2, T3, T4, T5, Action<float, string>, Task<IComponent>> asyncGenerator, Func<float, string, IComponent> loadMessage = null) => DeferedComponentWithProgress.Observe(o1, o2, o3, o4, o5, asyncGenerator, loadMessage);
+        /// <summary>
+        /// Creates a new <see cref="IDefer"/>.
+        /// </summary>
         public static IDefer DeferWithProgress<T1, T2, T3, T4, T5, T6>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, IObservable<T6> o6, Func<T1, T2, T3, T4, T5, T6, Action<float, string>, Task<IComponent>> asyncGenerator, Func<float, string, IComponent> loadMessage = null) => DeferedComponentWithProgress.Observe(o1, o2, o3, o4, o5, o6, asyncGenerator, loadMessage);
+        /// <summary>
+        /// Creates a new <see cref="IDefer"/>.
+        /// </summary>
         public static IDefer DeferWithProgress<T1, T2, T3, T4, T5, T6, T7>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, IObservable<T6> o6, IObservable<T7> o7, Func<T1, T2, T3, T4, T5, T6, T7, Action<float, string>, Task<IComponent>> asyncGenerator, Func<float, string, IComponent> loadMessage = null) => DeferedComponentWithProgress.Observe(o1, o2, o3, o4, o5, o6, o7, asyncGenerator, loadMessage);
+        /// <summary>
+        /// Creates a new <see cref="IDefer"/>.
+        /// </summary>
         public static IDefer DeferWithProgress<T1, T2, T3, T4, T5, T6, T7, T8>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, IObservable<T6> o6, IObservable<T7> o7, IObservable<T8> o8, Func<T1, T2, T3, T4, T5, T6, T7, T8, Action<float, string>, Task<IComponent>> asyncGenerator, Func<float, string, IComponent> loadMessage = null) => DeferedComponentWithProgress.Observe(o1, o2, o3, o4, o5, o6, o7, o8, asyncGenerator, loadMessage);
+        /// <summary>
+        /// Creates a new <see cref="IDefer"/>.
+        /// </summary>
         public static IDefer DeferWithProgress<T1, T2, T3, T4, T5, T6, T7, T8, T9>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, IObservable<T6> o6, IObservable<T7> o7, IObservable<T8> o8, IObservable<T9> o9, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, Action<float, string>, Task<IComponent>> asyncGenerator, Func<float, string, IComponent> loadMessage = null) => DeferedComponentWithProgress.Observe(o1, o2, o3, o4, o5, o6, o7, o8, o9, asyncGenerator, loadMessage);
+        /// <summary>
+        /// Creates a new <see cref="IDefer"/>.
+        /// </summary>
         public static IDefer DeferWithProgress<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(IObservable<T1> o1, IObservable<T2> o2, IObservable<T3> o3, IObservable<T4> o4, IObservable<T5> o5, IObservable<T6> o6, IObservable<T7> o7, IObservable<T8> o8, IObservable<T9> o9, IObservable<T10> o10, Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, Action<float, string>, Task<IComponent>> asyncGenerator, Func<float, string, IComponent> loadMessage = null) => DeferedComponentWithProgress.Observe(o1, o2, o3, o4, o5, o6, o7, o8, o9, o10, asyncGenerator, loadMessage);
 
         /// <summary>
@@ -365,6 +539,9 @@ namespace Tesserae
         /// Creates a <see cref="Tesserae.SectionStack"/> component.
         /// </summary>
         public static SectionStack SectionStack() => new SectionStack();
+        /// <summary>
+        /// Creates a new <see cref="SectionTitle"/>.
+        /// </summary>
         public static SectionTitle SectionTitle(UIcons icon, string title, string subtitle, params IComponent[] commands) => new SectionTitle(icon, title, subtitle, commands);
 
         /// <summary>
@@ -376,10 +553,25 @@ namespace Tesserae
         /// Creates a <see cref="Tesserae.Button"/> component.
         /// </summary>
         public static Button Button(string text = string.Empty) => new Button(text);
+        /// <summary>
+        /// Creates a new <see cref="Button"/>.
+        /// </summary>
         public static Button Button(UIcons icon) => new Button().SetIcon(icon);
+        /// <summary>
+        /// Creates a new <see cref="ButtonAndIcon"/>.
+        /// </summary>
         public static ButtonAndIcon ButtonAndIcon(string text, ButtonAndIcon.IconClickHandler onIconClick, UIcons mainIcon = UIcons.Circle, UIcons secondaryIcon = UIcons.AngleDown) => new ButtonAndIcon(text, onIconClick, mainIcon, secondaryIcon);
+        /// <summary>
+        /// Creates a new <see cref="ActionButton"/>.
+        /// </summary>
         public static ActionButton ActionButton(string     textContent, UIcons displayIcon,                         UIconsWeight displayIconWeight = UIconsWeight.Regular, string   displayColor   = null, TextSize displayIconSize = TextSize.Small, UIconsWeight actionIconWeight = UIconsWeight.Regular, UIcons actionIcon = UIcons.AngleCircleDown, string actionColor = null, TextSize actionIconSize = TextSize.Small) => new ActionButton(textContent, displayIcon, displayIconWeight, displayColor, displayIconSize, actionIconWeight, actionIcon, actionColor, actionIconSize);
+        /// <summary>
+        /// Creates a new <see cref="ActionButton"/>.
+        /// </summary>
         public static ActionButton ActionButton(string     textContent, UIcons actionIcon = UIcons.AngleCircleDown, UIconsWeight actionIconWeight  = UIconsWeight.Regular, string   actionColor    = null, TextSize actionIconSize  = TextSize.Small) => new ActionButton(textContent, actionIcon: actionIcon, actionIconWeight: actionIconWeight, actionColor: actionColor, actionIconSize: actionIconSize);
+        /// <summary>
+        /// Creates a new <see cref="ActionButton"/>.
+        /// </summary>
         public static ActionButton ActionButton(IComponent content,    string actionIcon = null,                   string       actionColor       = null,                 TextSize actionIconSize = TextSize.Small) => new ActionButton(content, actionIcon, actionColor, actionIconSize);
 
         /// <summary>
@@ -690,9 +882,21 @@ namespace Tesserae
         /// Creates a <see cref="Tesserae.Pivot"/> component.
         /// </summary>
         public static Pivot Pivot() => new Pivot();
+        /// <summary>
+        /// Creates a new <see cref="CardPivot"/>.
+        /// </summary>
         public static CardPivot CardPivot() => new CardPivot();
+        /// <summary>
+        /// Creates a new <see cref="SegmentedPivot"/>.
+        /// </summary>
         public static SegmentedPivot SegmentedPivot() => new SegmentedPivot();
+        /// <summary>
+        /// Creates a new <see cref="Metric"/>.
+        /// </summary>
         public static Metric Metric(string title, string value) => new Metric(title, value);
+        /// <summary>
+        /// Creates a new <see cref="Metric"/>.
+        /// </summary>
         public static Metric Metric(IComponent title, IComponent value) => new Metric(title, value);
 
         /// <summary>
@@ -855,6 +1059,64 @@ namespace Tesserae
         public static ContextMenu.Item ContextMenuItem(IComponent component) => new ContextMenu.Item(component);
 
         /// <summary>
+        /// Creates an empty <see cref="Tesserae.Popover"/>. Configure it with <c>.Content(...)</c> and the
+        /// other fluent setters, then call <c>ShowFor(anchor)</c> to display it anchored to a component.
+        /// </summary>
+        public static Popover Popover() => new Popover();
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.Popover"/> already populated with the given content.
+        /// </summary>
+        /// <param name="content">The component to show inside the popover surface.</param>
+        public static Popover Popover(IComponent content) => new Popover(content);
+
+        /// <summary>
+        /// Creates an empty <see cref="Tesserae.Menu"/>. Add items with <c>.Items(...)</c> or
+        /// <c>.Item(...)</c> and show it with <c>ShowFor(anchor)</c>. Unlike <see cref="ContextMenu"/>
+        /// (which is mouse-tracking and oriented toward right-click flows), <see cref="Menu"/> uses the
+        /// shared <see cref="Tesserae.Popover"/> primitive and supports arbitrarily nested submenus.
+        /// </summary>
+        public static Menu Menu() => new Menu();
+
+        /// <summary>
+        /// Creates a leaf <see cref="Menu.Item"/> with the given label.
+        /// </summary>
+        public static Menu.Item MenuItem(string text) => new Menu.Item(text);
+
+        /// <summary>
+        /// Creates a leaf <see cref="Menu.Item"/> with the given label and leading icon.
+        /// </summary>
+        public static Menu.Item MenuItem(string text, UIcons icon) => new Menu.Item(text, icon);
+
+        /// <summary>
+        /// Creates a non-interactive header <see cref="Menu.Item"/> used to group nearby items.
+        /// </summary>
+        public static Menu.Item MenuHeader(string text) => new Menu.Item(text).Header();
+
+        /// <summary>
+        /// Creates a thin divider <see cref="Menu.Item"/> used to visually separate groups of items.
+        /// </summary>
+        public static Menu.Item MenuDivider() => new Menu.Item(string.Empty).Divider();
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.DateRangePicker"/> bound to the given (optional) initial range.
+        /// </summary>
+        /// <param name="from">Optional initial "from" date.</param>
+        /// <param name="to">Optional initial "to" date.</param>
+        public static DateRangePicker DateRangePicker(DateTime? from = null, DateTime? to = null) => new DateRangePicker(from, to);
+
+        /// <summary>
+        /// Creates an empty <see cref="Tesserae.TagsInput"/>. Configure it with fluent setters and read
+        /// values via <c>Tags</c> or <c>AsObservable()</c>.
+        /// </summary>
+        public static TagsInput TagsInput() => new TagsInput();
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.TagsInput"/> pre-populated with the given tags.
+        /// </summary>
+        public static TagsInput TagsInput(params string[] initialTags) => new TagsInput(initialTags);
+
+        /// <summary>
         /// Creates a <see cref="Tesserae.Spinner"/> component.
         /// </summary>
         public static Spinner Spinner(string text = string.Empty) => new Spinner(text);
@@ -981,6 +1243,9 @@ namespace Tesserae
         /// Creates a <see cref="Tesserae.Teaching"/> component.
         /// </summary>
         public static Teaching     Teaching()                   => new Teaching();
+        /// <summary>
+        /// Creates a new <see cref="Sparkline"/>.
+        /// </summary>
         public static Sparkline Sparkline(double[] data, double width = 100, double height = 30, string color = "") => new Sparkline(data, width, height, color);
 
         /// <summary>
@@ -1029,13 +1294,22 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Creates a new <see cref="BackgroundArea"/>.
+        /// </summary>
         public static BackgroundArea CenteredCardWithBackground(IComponent content)
         {
             var card = Card(content, noAnimation: true).Padding(32.px());
             card.Render().style.maxHeight = "calc(100% - 32px)";
             return BackgroundArea(card).S();
         }
+        /// <summary>
+        /// Creates a new <see cref="BackgroundArea"/>.
+        /// </summary>
         public static BackgroundArea CenteredWithBackground(IComponent content) => BackgroundArea(Stack().Children(content).P(32)).S();
+        /// <summary>
+        /// Creates a new <see cref="BackgroundArea"/>.
+        /// </summary>
         public static BackgroundArea ZeroPaddingCenteredCardWithBackground(IComponent content, int outerPadding = 32) => BackgroundArea(Card(content, noAnimation: true).NoPadding().Padding(outerPadding.px())).S();
     }
 }

@@ -1,0 +1,32 @@
+/* Popover */
+/* The .tss-popover class wraps the IComponent content placed inside a Tippy popper. */
+
+.tss-popover {
+    display: block;
+    overflow: visible;
+    color: var(--tss-default-foreground-color);
+    background-color: transparent;
+    font-size: var(--tss-font-size-small);
+    line-height: 1.4;
+}
+
+/* When used by Popover (theme = "tss-popover"), the .tippy-box wrapper is rendered transparent
+   so the popover's *inner* content provides all the chrome (background, border, shadow, radius).
+   Without this, every popover would get a double border / double shadow: one from the tippy-box
+   and another from the inner surface (e.g. .tss-menu, .tss-card, …). */
+.tippy-box[data-theme~='tss-popover'] {
+    background-color: transparent;
+    color: inherit;
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
+}
+
+.tippy-box[data-theme~='tss-popover'] > .tippy-content {
+    padding: 0;
+    background-color: transparent;
+}
+
+.tippy-box[data-theme~='tss-popover'] > .tippy-arrow {
+    color: var(--tss-default-background-color);
+}

@@ -5,6 +5,9 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A page-number navigation strip used to walk through pages of results.
+    /// </summary>
     [H5.Name("tss.Pagination")]
     public sealed class Pagination : ComponentBase<Pagination, HTMLElement>
     {
@@ -17,6 +20,9 @@ namespace Tesserae
         private          bool _showStatus;
         private          Action<Pagination> _pageChanged;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public Pagination(int totalItems = 0, int pageSize = 10, int currentPage = 1)
         {
             _buttonContainer = Div(_("tss-pagination-buttons"));
@@ -33,24 +39,36 @@ namespace Tesserae
             Update();
         }
 
+        /// <summary>
+        /// Gets or sets the total items.
+        /// </summary>
         public int TotalItems
         {
             get => _totalItems;
             set => SetTotalItems(value);
         }
 
+        /// <summary>
+        /// Gets or sets the page size.
+        /// </summary>
         public int PageSize
         {
             get => _pageSize;
             set => SetPageSize(value);
         }
 
+        /// <summary>
+        /// Gets or sets the current page.
+        /// </summary>
         public int CurrentPage
         {
             get => _currentPage;
             set => SetPage(value);
         }
 
+        /// <summary>
+        /// Gets or sets the total pages.
+        /// </summary>
         public int TotalPages
         {
             get
@@ -65,6 +83,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets the max page buttons.
+        /// </summary>
         public int MaxPageButtons
         {
             get => _maxPageButtons;
@@ -75,6 +96,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Shows the status.
+        /// </summary>
         public bool ShowStatus
         {
             get => _showStatus;
@@ -85,6 +109,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Sets the total items of the component.
+        /// </summary>
         public Pagination SetTotalItems(int totalItems)
         {
             _totalItems = Math.Max(0, totalItems);
@@ -93,6 +120,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the page size of the component.
+        /// </summary>
         public Pagination SetPageSize(int pageSize)
         {
             _pageSize = Math.Max(1, pageSize);
@@ -101,6 +131,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the page of the component.
+        /// </summary>
         public Pagination SetPage(int page, bool raiseEvent = true)
         {
             var clamped = Math.Max(1, Math.Min(page, TotalPages));
@@ -121,27 +154,42 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the page change event fires.
+        /// </summary>
         public Pagination OnPageChange(Action<Pagination> onPageChange)
         {
             _pageChanged += onPageChange;
             return this;
         }
 
+        /// <summary>
+        /// Configures the component to next.
+        /// </summary>
         public Pagination Next()
         {
             return SetPage(CurrentPage + 1);
         }
 
+        /// <summary>
+        /// Configures the component to previous.
+        /// </summary>
         public Pagination Previous()
         {
             return SetPage(CurrentPage - 1);
         }
 
+        /// <summary>
+        /// Configures the component to first.
+        /// </summary>
         public Pagination First()
         {
             return SetPage(1);
         }
 
+        /// <summary>
+        /// Configures the component to last.
+        /// </summary>
         public Pagination Last()
         {
             return SetPage(TotalPages);
@@ -242,6 +290,9 @@ namespace Tesserae
             yield return totalPages;
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public override HTMLElement Render()
         {
             return InnerElement;

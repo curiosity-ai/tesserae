@@ -7,6 +7,10 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A keyboard-driven full-screen command launcher (Ctrl/Cmd-K style) that lets users search and invoke
+    /// application commands.
+    /// </summary>
     [H5.Name("tss.CommandPalette")]
     public sealed class CommandPalette : Layer<CommandPalette>
     {
@@ -32,10 +36,22 @@ namespace Tesserae
         private readonly Action<Event> _globalKeyDownHandler;
         private bool _globalListenerActive;
 
+        /// <summary>
+        /// Raised when action executed occurs.
+        /// </summary>
         public event Action<CommandPaletteAction> ActionExecuted;
 
+        /// <summary>
+        /// Enables the global shortcut on the component.
+        /// </summary>
         public bool EnableGlobalShortcut { get; set; } = true;
+        /// <summary>
+        /// Enables the global action shortcuts on the component.
+        /// </summary>
         public bool EnableGlobalActionShortcuts { get; set; } = true;
+        /// <summary>
+        /// Hides the on action.
+        /// </summary>
         public bool HideOnAction { get; set; } = true;
 
         /// <summary>
@@ -114,12 +130,18 @@ namespace Tesserae
 
         }
 
+        /// <summary>
+        /// Gets or sets the placeholder text shown when the component is empty.
+        /// </summary>
         public string Placeholder
         {
             get => _searchInput.placeholder;
             set => _searchInput.placeholder = value ?? string.Empty;
         }
 
+        /// <summary>
+        /// Sets the actions of the component.
+        /// </summary>
         public CommandPalette SetActions(IEnumerable<CommandPaletteAction> actions)
         {
             _actions.Clear();
@@ -132,6 +154,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Adds the given action to the component.
+        /// </summary>
         public CommandPalette AddAction(CommandPaletteAction action)
         {
             if (action == null)
@@ -148,18 +173,27 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Opens the component.
+        /// </summary>
         public CommandPalette Open()
         {
             Show();
             return this;
         }
 
+        /// <summary>
+        /// Closes the component.
+        /// </summary>
         public CommandPalette Close()
         {
             Hide();
             return this;
         }
 
+        /// <summary>
+        /// Toggles the component's state.
+        /// </summary>
         public CommandPalette Toggle()
         {
             if (IsVisible) Hide();
@@ -167,6 +201,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Shows the component.
+        /// </summary>
         public override CommandPalette Show()
         {
             base.Show();
@@ -175,6 +212,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Hides the component.
+        /// </summary>
         public override void Hide(Action onHidden = null)
         {
             base.Hide(onHidden);
@@ -558,22 +598,58 @@ namespace Tesserae
     [H5.Name("tss.CommandPaletteAction")]
     public sealed class CommandPaletteAction
     {
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public CommandPaletteAction(string id, string name)
         {
             Id = id;
             Name = name;
         }
 
+        /// <summary>
+        /// Sets the DOM id of the component.
+        /// </summary>
         public string Id { get; }
+        /// <summary>
+        /// Gets or sets the name of the component.
+        /// </summary>
         public string Name { get; set; }
+        /// <summary>
+        /// Gets or sets the subtitle.
+        /// </summary>
         public string Subtitle { get; set; }
+        /// <summary>
+        /// Gets or sets the keywords.
+        /// </summary>
         public string Keywords { get; set; }
+        /// <summary>
+        /// Gets or sets the section.
+        /// </summary>
         public string Section { get; set; }
+        /// <summary>
+        /// Gets or sets the parent id.
+        /// </summary>
         public string ParentId { get; set; }
+        /// <summary>
+        /// Gets or sets the icon shown by the component.
+        /// </summary>
         public UIcons? Icon { get; set; }
+        /// <summary>
+        /// Gets or sets the shortcut.
+        /// </summary>
         public string[] Shortcut { get; set; }
+        /// <summary>
+        /// Gets or sets a value indicating whether the component is interactive (enabled).
+        /// </summary>
         public bool IsEnabled { get; set; } = true;
+        /// <summary>
+        /// Gets a value indicating whether the component is currently visible.
+        /// </summary>
         public bool IsVisible { get; set; } = true;
+        /// <summary>
+        /// Gets or sets the perform.
+        /// </summary>
         public Action Perform { get; set; }
     }
 }

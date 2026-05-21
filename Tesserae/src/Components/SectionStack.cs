@@ -83,6 +83,9 @@ namespace Tesserae
             Count = 0;
         }
 
+        /// <summary>
+        /// Styles the component using the secondary tone.
+        /// </summary>
         public SectionStack Secondary()
         {
             InnerElement.classList.add("tss-sectionstack-secondary");

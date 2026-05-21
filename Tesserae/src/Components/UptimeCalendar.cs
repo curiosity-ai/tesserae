@@ -5,6 +5,9 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A calendar-grid visualisation of daily uptime / availability over a multi-month window.
+    /// </summary>
     [H5.Name("tss.UptimeCalendar")]
     public class UptimeCalendar : IComponent, IHasMarginPadding
     {
@@ -12,9 +15,18 @@ namespace Tesserae
         private readonly HTMLElement _grid;
         private Action _hideTooltip;
 
+        /// <summary>
+        /// Gets or sets the CSS margin of the component.
+        /// </summary>
         public string Margin  { get => _container.style.margin;  set => _container.style.margin = value; }
+        /// <summary>
+        /// Gets or sets the CSS padding of the component.
+        /// </summary>
         public string Padding { get => _container.style.padding; set => _container.style.padding = value; }
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public UptimeCalendar(string title, string subtitle)
         {
             _grid = Div(_("tss-uptime-month-grid"));
@@ -27,6 +39,9 @@ namespace Tesserae
             _container = Div(_("tss-uptime-month-card"), header, _grid);
         }
 
+        /// <summary>
+        /// Adds the given items to the component.
+        /// </summary>
         public UptimeCalendar Items(IEnumerable<(UptimeStatus status, IComponent tooltipContent)> items)
         {
             ClearChildren(_grid);
@@ -79,6 +94,9 @@ namespace Tesserae
             _hideTooltip = null;
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public HTMLElement Render() => _container;
     }
 }

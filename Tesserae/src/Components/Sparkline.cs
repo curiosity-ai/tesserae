@@ -5,11 +5,17 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A tiny inline line chart used to show a trend without occupying chart-sized real-estate.
+    /// </summary>
     [H5.Name("tss.Sparkline")]
     public class Sparkline : IComponent
     {
         private readonly HTMLElement _innerElement;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public Sparkline(double[] data, double width = 100, double height = 30, string color = "")
         {
             if (string.IsNullOrEmpty(color))
@@ -94,6 +100,9 @@ namespace Tesserae
             _innerElement.appendChild(svg);
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public HTMLElement Render()
         {
             return _innerElement;

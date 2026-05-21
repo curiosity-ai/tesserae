@@ -236,15 +236,27 @@ namespace Tesserae
         {
             private readonly Func<bool>  _isInvalid;
             private readonly HTMLElement _innerElement;
+            /// <summary>
+            /// Initializes a new instance of this class.
+            /// </summary>
             public DummyComponentToUseForCustomValidationLogicNotTiedToOneComponent(Func<bool> isInvalid)
             {
                 _isInvalid    = isInvalid;
                 _innerElement = Span(_(text: "This is a dummy element to illustrate validation"));
             }
 
+            /// <summary>
+            /// Renders the component's root HTML element.
+            /// </summary>
             public HTMLElement Render() => _innerElement;
 
+            /// <summary>
+            /// Gets or sets the validation error message displayed beneath the component.
+            /// </summary>
             public string Error     { get;                 set; }
+            /// <summary>
+            /// Gets or sets a value indicating whether the component is currently in an invalid state.
+            /// </summary>
             public bool   IsInvalid { get => _isInvalid(); set => throw new NotSupportedException(); }
         }
     }

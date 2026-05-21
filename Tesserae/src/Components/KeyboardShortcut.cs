@@ -11,6 +11,9 @@ namespace Tesserae
     [H5.Name("tss.KBS")]
     public sealed class KeyboardShortcut : ComponentBase<KeyboardShortcut, HTMLElement>
     {
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public KeyboardShortcut(params string[] keys)
         {
             InnerElement = Span(_("tss-kbd-shortcut"));
@@ -30,6 +33,9 @@ namespace Tesserae
             InnerElement.setAttribute("aria-label", string.Join("+", keys.Select(NormalizeKey)));
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public override HTMLElement Render() => InnerElement;
 
         private static string NormalizeKey(string key)

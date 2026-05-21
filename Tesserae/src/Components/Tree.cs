@@ -7,12 +7,19 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A vertically-stacked tree view with expand / collapse, keyboard navigation, selection and arbitrary item
+    /// rendering.
+    /// </summary>
     [H5.Name("tss.Tree")]
     public sealed class Tree : ComponentBase<Tree, HTMLUListElement>, IContainer<Tree.Item, Tree.Item>
     {
         private readonly List<Item> _children = new List<Item>();
         private bool _selectionEnabled = false;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public Tree()
         {
             InnerElement = Ul(_("tss-tree", role: "tree"));
@@ -48,18 +55,33 @@ namespace Tesserae
             });
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public override HTMLElement Render() => InnerElement;
 
+        /// <summary>
+        /// Gets the currently selected item.
+        /// </summary>
         public Item SelectedItem { get; private set; }
 
+        /// <summary>
+        /// Raised when selected item changed occurs.
+        /// </summary>
         public event ComponentEventHandler<Tree, Item> SelectedItemChanged;
 
+        /// <summary>
+        /// Registers a callback invoked when the selected event fires.
+        /// </summary>
         public Tree OnSelected(ComponentEventHandler<Tree, Item> onSelected)
         {
             SelectedItemChanged += onSelected;
             return this;
         }
 
+        /// <summary>
+        /// Enables or disables item selection on the tree.
+        /// </summary>
         public Tree SelectionEnabled(bool enabled = true)
         {
             _selectionEnabled = enabled;
@@ -80,6 +102,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Adds the given item to the component.
+        /// </summary>
         public void Add(Item component)
         {
             component.SelectionEnabled = _selectionEnabled;
@@ -100,12 +125,18 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Clears the component's current state.
+        /// </summary>
         public void Clear()
         {
             _children.Clear();
             ClearChildren(InnerElement);
         }
 
+        /// <summary>
+        /// Replaces an existing item with a new one.
+        /// </summary>
         public void Replace(Item newComponent, Item oldComponent)
         {
             var index = _children.IndexOf(oldComponent);
@@ -135,6 +166,9 @@ namespace Tesserae
             SelectedItemChanged?.Invoke(this, sender);
         }
 
+        /// <summary>
+        /// Adds the given items to the component.
+        /// </summary>
         public Tree Items(params Item[] children)
         {
             children.ForEach(x => Add(x));
@@ -179,6 +213,9 @@ namespace Tesserae
                 }
             }
 
+            /// <summary>
+            /// Initializes a new instance of this class.
+            /// </summary>
             public Item(string text = null, UIcons? icon = null, params TreeCommand[] commands)
             {
                 _chevronSpan    = I(_("tss-tree-chevron " + UIcons.AngleRight.ToString()));
@@ -230,6 +267,9 @@ namespace Tesserae
                 UpdateChevronVisibility();
             }
 
+            /// <summary>
+            /// Configures the item's commands to always be visible (rather than only on hover).
+            /// </summary>
             public Item CommandsAlwaysVisible(bool alwaysVisible = true)
             {
                 if (alwaysVisible)
@@ -244,12 +284,18 @@ namespace Tesserae
                 return this;
             }
 
+            /// <summary>
+            /// Gets or sets the text shown in the component.
+            /// </summary>
             public string Text
             {
                 get => _textSpan.innerText;
                 set => _textSpan.innerText = value;
             }
 
+            /// <summary>
+            /// Gets or sets the icon shown by the component.
+            /// </summary>
             public UIcons? Icon
             {
                 get => _icon;
@@ -279,6 +325,9 @@ namespace Tesserae
                 }
             }
 
+            /// <summary>
+            /// Returns a value indicating whether the component is expanded.
+            /// </summary>
             public bool IsExpanded
             {
                 get => _isExpanded;
@@ -306,6 +355,9 @@ namespace Tesserae
                 }
             }
 
+            /// <summary>
+            /// Gets or sets a value indicating whether the component is selected.
+            /// </summary>
             public bool IsSelected
             {
                 get => _isSelected;
@@ -331,10 +383,19 @@ namespace Tesserae
                 }
             }
 
+            /// <summary>
+            /// Returns a value indicating whether the component has the given children.
+            /// </summary>
             public bool HasChildren => _childItems.Count > 0 || _childContainer.hasChildNodes();
 
+            /// <summary>
+            /// Renders the component's root HTML element.
+            /// </summary>
             public override HTMLElement Render() => InnerElement;
 
+            /// <summary>
+            /// Adds the given item to the component.
+            /// </summary>
             public void Add(Item component)
             {
                 _childItems.Add(component);
@@ -364,6 +425,9 @@ namespace Tesserae
                 InternalSelectedItem?.Invoke(sender);
             }
 
+            /// <summary>
+            /// Clears the component's current state.
+            /// </summary>
             public void Clear()
             {
                 _childItems.Clear();
@@ -371,6 +435,9 @@ namespace Tesserae
                 UpdateChevronVisibility();
             }
 
+            /// <summary>
+            /// Replaces an existing item with a new one.
+            /// </summary>
             public void Replace(Item newComponent, Item oldComponent)
             {
                 var index = _childItems.IndexOf(oldComponent);
@@ -421,12 +488,18 @@ namespace Tesserae
                 }
             }
 
+            /// <summary>
+            /// Adds the given items to the component.
+            /// </summary>
             public Item Items(params Item[] children)
             {
                 children.ForEach(x => Add(x));
                 return this;
             }
 
+            /// <summary>
+            /// Asynchronously loads the child items of this tree node from the supplied factory.
+            /// </summary>
             public Item ItemsAsync(Func<Task<Item[]>> childrenAsync)
             {
                 bool alreadyRun = false;
@@ -453,30 +526,45 @@ namespace Tesserae
                 return this;
             }
 
+            /// <summary>
+            /// Expands the component.
+            /// </summary>
             public Item Expanded(bool isExpanded = true)
             {
                 IsExpanded = isExpanded;
                 return this;
             }
 
+            /// <summary>
+            /// Marks the component as selected.
+            /// </summary>
             public Item Selected(bool isSelected = true)
             {
                 IsSelected = isSelected;
                 return this;
             }
 
+            /// <summary>
+            /// Registers a callback invoked when the selected event fires.
+            /// </summary>
             public Item OnSelected(ComponentEventHandler<Item> onSelected)
             {
                 SelectedItem += onSelected;
                 return this;
             }
 
+            /// <summary>
+            /// Registers a callback invoked when the expanded event fires.
+            /// </summary>
             public Item OnExpanded(ComponentEventHandler<Item> onExpanded)
             {
                 ExpandedItem += onExpanded;
                 return this;
             }
 
+            /// <summary>
+            /// Registers a callback invoked when the collapsed event fires.
+            /// </summary>
             public Item OnCollapsed(ComponentEventHandler<Item> onCollapsed)
             {
                 CollapsedItem += onCollapsed;

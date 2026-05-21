@@ -6,6 +6,10 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A modal overlay surface that dims the page and centers arbitrary content, with optional header, footer and
+    /// close button.
+    /// </summary>
     [H5.Name("tss.Modal")]
     public sealed class Modal : Layer<Modal>, ISpecialCaseStyling, IHasBackgroundColor
     {
@@ -32,18 +36,33 @@ namespace Tesserae
         private bool             _isDragged;
         private TranslationPoint _startPoint;
 
+        /// <summary>
+        /// Gets or sets the animate on show.
+        /// </summary>
         public bool AnimateOnShow { get { return base.AnimateOnShow; } set { base.AnimateOnShow = value; } }
 
+        /// <summary>
+        /// Gets or sets the styling container.
+        /// </summary>
         public HTMLElement StylingContainer => _modal;
 
+        /// <summary>
+        /// Gets or sets the propagate to stack item parent.
+        /// </summary>
         public bool PropagateToStackItemParent => false;
 
+        /// <summary>
+        /// Gets or sets the CSS background of the component.
+        /// </summary>
         public string Background
         {
             get => _modal.style.background;
             set => _modal.style.background = value;
         }
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public Modal(IComponent header = null)
         {
             _modalHeaderContents = Div(_("tss-modal-header-content"));
@@ -94,6 +113,9 @@ namespace Tesserae
             };
         }
 
+        /// <summary>
+        /// Sets the header of the component.
+        /// </summary>
         public Modal SetHeader(IComponent header)
         {
             _modalHeader.style.display = "";
@@ -106,6 +128,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the footer of the component.
+        /// </summary>
         public Modal SetFooter(IComponent footer)
         {
             _modalFooter.style.display = "";
@@ -118,6 +143,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the header commands of the component.
+        /// </summary>
         public Modal SetHeaderCommands(params IComponent[] commands)
         {
             _modalHeader.style.display = "";
@@ -134,6 +162,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the footer commands of the component.
+        /// </summary>
         public Modal SetFooterCommands(params IComponent[] commands)
         {
             _modalFooter.style.display = "";
@@ -150,6 +181,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the left header commands of the component.
+        /// </summary>
         public Modal SetLeftHeaderCommands(params IComponent[] commands)
         {
             _modalHeader.style.display = "";
@@ -166,6 +200,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the left footer commands of the component.
+        /// </summary>
         public Modal SetLeftFooterCommands(params IComponent[] commands)
         {
             _modalFooter.style.display = "";
@@ -182,12 +219,18 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the height of the inner content area of the surface.
+        /// </summary>
         public Modal ContentHeight(UnitSize height)
         {
             _modalContent.style.height = height.ToString();
             return this;
         }
 
+        /// <summary>
+        /// Removes / disables the header on the component.
+        /// </summary>
         public Modal NoHeader()
         {
             ClearChildren(_modalHeader);
@@ -195,6 +238,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Removes / disables the footer on the component.
+        /// </summary>
         public Modal NoFooter()
         {
             ClearChildren(_modalFooter);
@@ -202,12 +248,18 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Removes / disables the animation on the component.
+        /// </summary>
         public Modal NoAnimation()
         {
             AnimateOnShow = false;
             return this;
         }
 
+        /// <summary>
+        /// Sets the content rendered inside the surface.
+        /// </summary>
         public override IComponent Content
         {
             get => _content;
@@ -224,6 +276,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the surface can be dismissed by clicking outside it (light dismiss).
+        /// </summary>
         public bool CanLightDismiss
         {
             get => _modalOverlay.classList.contains("tss-modal-lightDismiss");
@@ -246,6 +301,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the component uses the dark colour theme.
+        /// </summary>
         public bool IsDark
         {
             get => _contentHtml.classList.contains("tss-dark");
@@ -262,6 +320,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the component can be dragged by the user.
+        /// </summary>
         public bool IsDraggable
         {
             get => _modalHeaderContents.classList.contains("tss-modal-draggable");
@@ -281,6 +342,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the surface is non-blocking (allows interaction with the page beneath it).
+        /// </summary>
         public bool IsNonBlocking
         {
             get => _contentHtml.classList.contains("tss-modal-modeless");
@@ -299,6 +363,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Shows the embedded.
+        /// </summary>
         public IComponent ShowEmbedded()
         {
             WillShowCloseButton = false;
@@ -306,6 +373,9 @@ namespace Tesserae
             return Raw(_modal);
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the close button is shown.
+        /// </summary>
         public bool WillShowCloseButton
         {
             get => _closeButton.style.display != "none";
@@ -321,72 +391,108 @@ namespace Tesserae
 
         }
 
+        /// <summary>
+        /// Centers the content of the surface.
+        /// </summary>
         public Modal CenterContent()
         {
             _modalContent.classList.add("tss-modal-centered-content");
             return this;
         }
 
+        /// <summary>
+        /// Removes / disables the padding on the component.
+        /// </summary>
         public Modal NoPadding()
         {
             _modalContent.style.padding = _modalHeader.style.padding = _modalFooter.style.padding = "unset";
             return this;
         }
 
+        /// <summary>
+        /// Removes / disables the content padding on the component.
+        /// </summary>
         public Modal NoContentPadding()
         {
             _modalContent.style.padding = "unset";
             return this;
         }
 
+        /// <summary>
+        /// Shows the close button.
+        /// </summary>
         public Modal ShowCloseButton()
         {
             WillShowCloseButton = true;
             return this;
         }
 
+        /// <summary>
+        /// Hides the close button.
+        /// </summary>
         public Modal HideCloseButton()
         {
             WillShowCloseButton = false;
             return this;
         }
 
+        /// <summary>
+        /// Enables light-dismiss behaviour (clicking outside the surface closes it).
+        /// </summary>
         public Modal LightDismiss()
         {
             CanLightDismiss = true;
             return this;
         }
 
+        /// <summary>
+        /// Removes / disables the light dismiss on the component.
+        /// </summary>
         public Modal NoLightDismiss()
         {
             CanLightDismiss = false;
             return this;
         }
 
+        /// <summary>
+        /// Applies the dark colour scheme to the component.
+        /// </summary>
         public Modal Dark()
         {
             IsDark = true;
             return this;
         }
 
+        /// <summary>
+        /// Makes the surface draggable.
+        /// </summary>
         public Modal Draggable()
         {
             IsDraggable = true;
             return this;
         }
 
+        /// <summary>
+        /// Makes the surface non-blocking, allowing interaction with the page beneath it.
+        /// </summary>
         public Modal NonBlocking()
         {
             IsNonBlocking = true;
             return this;
         }
 
+        /// <summary>
+        /// Makes the surface blocking (the default — interaction with the page beneath is prevented).
+        /// </summary>
         public Modal Blocking()
         {
             IsNonBlocking = false;
             return this;
         }
 
+        /// <summary>
+        /// Shows the at.
+        /// </summary>
         public void ShowAt(UnitSize fromTop = null, UnitSize fromLeft = null, UnitSize fromRight = null, UnitSize fromBottom = null)
         {
             _modal.style.marginTop    = fromTop is object ? fromTop.ToString() : UnitSize.Auto().ToString();
@@ -396,6 +502,9 @@ namespace Tesserae
             DoShow();
         }
 
+        /// <summary>
+        /// Shows the component.
+        /// </summary>
         public override Modal Show()
         {
             _modal.style.marginTop    = "";
@@ -406,6 +515,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Shows the async.
+        /// </summary>
         public Task ShowAsync()
         {
             var tcs = new TaskCompletionSource<bool>();
@@ -426,12 +538,18 @@ namespace Tesserae
             RaiseOnShow();
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the hide event fires.
+        /// </summary>
         public Modal OnHide(OnHideHandler onHide)
         {
             Hidden += onHide;
             return this;
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the show event fires.
+        /// </summary>
         public Modal OnShow(OnShowHandler onShow)
         {
             Shown += onShow;
@@ -439,16 +557,25 @@ namespace Tesserae
         }
 
 
+        /// <summary>
+        /// Internal helper that raises the hide event for this surface.
+        /// </summary>
         public void RaiseOnHide()
         {
             Hidden?.Invoke(this);
         }
 
+        /// <summary>
+        /// Raises the on show event on the component.
+        /// </summary>
         public void RaiseOnShow()
         {
             Shown?.Invoke(this);
         }
 
+        /// <summary>
+        /// Hides the component.
+        /// </summary>
         public override void Hide(Action onHidden = null)
         {
             RaiseOnHide();
@@ -519,15 +646,23 @@ namespace Tesserae
             static readonly Regex regex      = new Regex(@"translate\(([-0-9.].*?)px,\s?([-0-9.].*?)px\)");
             static readonly Regex regexShort = new Regex(@"translate\(([-0-9.].*?)px\)");
 
+            /// <summary>
+            /// Initializes a new instance of this class.
+            /// </summary>
             public TranslationPoint(double x = 0, double y = 0)
             {
                 X = x;
                 Y = y;
             }
 
+            /// <summary>The X (horizontal) translation in pixels.</summary>
             public double X;
+            /// <summary>The Y (vertical) translation in pixels.</summary>
             public double Y;
 
+            /// <summary>
+            /// Configures the component to from.
+            /// </summary>
             public static TranslationPoint From(string translation)
             {
                 try
@@ -542,6 +677,9 @@ namespace Tesserae
                 }
             }
 
+            /// <summary>
+            /// Configures the component to to.
+            /// </summary>
             public string To(DOMRect rect)
             {
                 var x     = X;

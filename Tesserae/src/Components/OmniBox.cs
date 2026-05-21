@@ -7,16 +7,35 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A heavyweight omni-search / autocomplete component with inline filter chips, multiple search modes
+    /// (search/chat) and async value providers.
+    /// </summary>
     [H5.Name("tss.OmniBox")]
     public class OmniBox : IComponent, IHasBackgroundColor, ITabIndex
     {
 
         public class InlineFilterChip
         {
+            /// <summary>
+            /// Gets or sets the name of the component.
+            /// </summary>
             public string Name { get; }
+            /// <summary>
+            /// Gets or sets the color of the component.
+            /// </summary>
             public string Color { get; }
+            /// <summary>
+            /// Gets or sets the CSS background of the component.
+            /// </summary>
             public string Background { get; }
+            /// <summary>
+            /// Gets or sets the removable.
+            /// </summary>
             public bool Removable { get; }
+            /// <summary>
+            /// Registers a callback invoked when the click event fires.
+            /// </summary>
             public Action<MouseEvent> OnClick { get; }
             internal IComponent Content { get; }
 
@@ -26,6 +45,9 @@ namespace Tesserae
             private readonly FilterSnap _filterSnap;
             internal FilterSnap FilterSnap => _filterSnap;
 
+            /// <summary>
+            /// Initializes a new instance of this class.
+            /// </summary>
             public InlineFilterChip(string name, string background = null, string color = null, Action<MouseEvent> onClick = null, bool removable = true)
             {
                 Name = name;
@@ -35,6 +57,9 @@ namespace Tesserae
                 Removable = removable;
             }
 
+            /// <summary>
+            /// Initializes a new instance of this class.
+            /// </summary>
             public InlineFilterChip(IComponent content, Action<MouseEvent> onClick = null, bool removable = true)
             {
                 Content = content;
@@ -76,17 +101,41 @@ namespace Tesserae
 
         public class FilterSnapHandler
         {
+            /// <summary>
+            /// Gets or sets the filter id.
+            /// </summary>
             public string FilterId { get; }
+            /// <summary>
+            /// Gets or sets the display name.
+            /// </summary>
             public string DisplayName { get; }
+            /// <summary>
+            /// Gets or sets the description of the component.
+            /// </summary>
             public string Description { get; }
+            /// <summary>
+            /// Gets or sets the trigger words.
+            /// </summary>
             public string[] TriggerWords { get; }
+            /// <summary>
+            /// Gets or sets the icon shown by the component.
+            /// </summary>
             public IComponent Icon { get; }
+            /// <summary>
+            /// Gets or sets the CSS background of the component.
+            /// </summary>
             public string Background { get; }
+            /// <summary>
+            /// Gets or sets the color of the component.
+            /// </summary>
             public string Color { get; }
 
             private readonly string[] _values;
             private readonly Func<string, Task<string[]>> _valuesProvider;
 
+            /// <summary>
+            /// Initializes a new instance of this class.
+            /// </summary>
             public FilterSnapHandler(string filterId, string displayName, string[] triggerWords, string[] values, IComponent icon = null, string description = null, string background = null, string color = null)
                 : this(filterId, displayName, triggerWords, icon, description, background, color)
             {
@@ -94,6 +143,9 @@ namespace Tesserae
                 _values = values;
             }
 
+            /// <summary>
+            /// Initializes a new instance of this class.
+            /// </summary>
             public FilterSnapHandler(string filterId, string displayName, string[] triggerWords, Func<string, Task<string[]>> valuesProvider, IComponent icon = null, string description = null, string background = null, string color = null)
                 : this(filterId, displayName, triggerWords, icon, description, background, color)
             {
@@ -150,11 +202,26 @@ namespace Tesserae
 
         public class FilterSnap
         {
+            /// <summary>
+            /// Gets or sets the handler.
+            /// </summary>
             public FilterSnapHandler Handler { get; }
+            /// <summary>
+            /// Gets or sets the filter id.
+            /// </summary>
             public string FilterId => Handler.FilterId;
+            /// <summary>
+            /// Gets or sets the trigger.
+            /// </summary>
             public string Trigger { get; }
+            /// <summary>
+            /// Gets or sets the current value of the component.
+            /// </summary>
             public string Value { get; }
 
+            /// <summary>
+            /// Initializes a new instance of this class.
+            /// </summary>
             public FilterSnap(FilterSnapHandler handler, string trigger, string value)
             {
                 Handler = handler;
@@ -165,15 +232,42 @@ namespace Tesserae
 
         public class SnapHandler
         {
+            /// <summary>
+            /// Gets or sets the snap id.
+            /// </summary>
             public string SnapId { get; }
+            /// <summary>
+            /// Gets or sets the display name.
+            /// </summary>
             public string DisplayName { get; }
+            /// <summary>
+            /// Gets or sets the description of the component.
+            /// </summary>
             public string Description { get; }
+            /// <summary>
+            /// Gets or sets the trigger words.
+            /// </summary>
             public string[] TriggerWords { get; }
+            /// <summary>
+            /// Gets or sets the icon shown by the component.
+            /// </summary>
             public IComponent Icon { get; }
+            /// <summary>
+            /// Gets or sets the CSS background of the component.
+            /// </summary>
             public string Background { get; }
+            /// <summary>
+            /// Gets or sets the color of the component.
+            /// </summary>
             public string Color { get; }
+            /// <summary>
+            /// Gets or sets the exclusive.
+            /// </summary>
             public bool Exclusive { get; }
 
+            /// <summary>
+            /// Initializes a new instance of this class.
+            /// </summary>
             public SnapHandler(string snapId, string displayName, string[] triggerWords, IComponent icon = null, string description = null, string background = null, string color = null, bool exclusive = false)
             {
                 if (string.IsNullOrEmpty(snapId)) throw new ArgumentException("snapId is required", nameof(snapId));
@@ -192,12 +286,30 @@ namespace Tesserae
 
         public class OmniBoxSuggestionItem
         {
+            /// <summary>
+            /// Gets or sets the icon shown by the component.
+            /// </summary>
             public IComponent Icon { get; }
+            /// <summary>
+            /// Gets or sets the text shown in the component.
+            /// </summary>
             public IComponent Text { get; }
+            /// <summary>
+            /// Gets or sets the right component.
+            /// </summary>
             public IComponent RightComponent { get; }
+            /// <summary>
+            /// Registers a callback invoked when the selected event fires.
+            /// </summary>
             public Action<OmniBox> OnSelected { get; }
+            /// <summary>
+            /// Gets or sets the category.
+            /// </summary>
             public string Category { get; }
 
+            /// <summary>
+            /// Initializes a new instance of this class.
+            /// </summary>
             public OmniBoxSuggestionItem(IComponent text, IComponent icon = null, IComponent rightComponent = null, Action<OmniBox> onSelected = null, string category = null)
             {
                 Text = text;
@@ -214,6 +326,9 @@ namespace Tesserae
                 Category = category;
             }
 
+            /// <summary>
+            /// Initializes a new instance of this class.
+            /// </summary>
             public OmniBoxSuggestionItem(string text, IComponent icon = null, IComponent rightComponent = null, Action<OmniBox> onSelected = null, string category = null) : this(TextBlock(text), icon, rightComponent, onSelected, category)
             {
             }
@@ -221,6 +336,9 @@ namespace Tesserae
 
         public class Config
         {
+            /// <summary>
+            /// Initializes a new instance of this class.
+            /// </summary>
             public Config(Mode mode, Mode? initialMode = null)
             {
                 Mode = mode;
@@ -236,30 +354,84 @@ namespace Tesserae
                 TokenIgnoreCase = false;
             }
 
+            /// <summary>
+            /// Gets or sets the placeholder search.
+            /// </summary>
             public string PlaceholderSearch { get; set; }
+            /// <summary>
+            /// Gets or sets the placeholder chat.
+            /// </summary>
             public string PlaceholderChat { get; set; }
+            /// <summary>
+            /// Gets or sets the mode.
+            /// </summary>
             public Mode Mode { get; }
+            /// <summary>
+            /// Gets or sets the initial mode.
+            /// </summary>
             public Mode InitialMode { get; }
 
+            /// <summary>
+            /// Gets or sets the icon search.
+            /// </summary>
             public UIcons IconSearch { get; set; }
+            /// <summary>
+            /// Gets or sets the icon chat.
+            /// </summary>
             public UIcons IconChat { get; set; }
+            /// <summary>
+            /// Gets or sets the icon stop.
+            /// </summary>
             public UIcons IconStop { get; set; }
+            /// <summary>
+            /// Gets or sets the icon mode toggle search.
+            /// </summary>
             public UIcons IconModeToggleSearch { get; set; }
+            /// <summary>
+            /// Gets or sets the icon mode toggle chat.
+            /// </summary>
             public UIcons IconModeToggleChat { get; set; }
+            /// <summary>
+            /// Gets or sets the tooltip mode toggle search.
+            /// </summary>
             public string TooltipModeToggleSearch { get; set; }
+            /// <summary>
+            /// Gets or sets the tooltip mode toggle chat.
+            /// </summary>
             public string TooltipModeToggleChat { get; set; }
+            /// <summary>
+            /// Gets or sets the expand on focus.
+            /// </summary>
             public bool ExpandOnFocus { get; set; }
+            /// <summary>
+            /// Gets or sets the token ignore case.
+            /// </summary>
             public bool TokenIgnoreCase { get; set; }
 
+            /// <summary>
+            /// Gets or sets the chat footer.
+            /// </summary>
             public FooterItems ChatFooter { get; set; }
+            /// <summary>
+            /// Gets or sets the search footer.
+            /// </summary>
             public FooterItems SearchFooter { get; set; }
 
+            /// <summary>
+            /// Gets or sets the suggestions fetcher.
+            /// </summary>
             public Func<string, Task<OmniBoxSuggestionItem[]>> SuggestionsFetcher { get; set; }
         }
 
         public class FooterItems
         {
+            /// <summary>
+            /// Gets or sets the left side.
+            /// </summary>
             public IComponent[] LeftSide { get; set; }
+            /// <summary>
+            /// Gets or sets the right side.
+            /// </summary>
             public IComponent[] RightSide { get; set; }
         }
 
@@ -280,10 +452,22 @@ namespace Tesserae
 
         public class ModelOption
         {
+            /// <summary>
+            /// Gets or sets the name of the component.
+            /// </summary>
             public string Name { get; }
+            /// <summary>
+            /// Gets or sets the description of the component.
+            /// </summary>
             public string Description { get; }
+            /// <summary>
+            /// Gets or sets the tag.
+            /// </summary>
             public object Tag { get; }
 
+            /// <summary>
+            /// Initializes a new instance of this class.
+            /// </summary>
             public ModelOption(string name, string description = null, object tag = null)
             {
                 Name = name;
@@ -301,6 +485,9 @@ namespace Tesserae
         private readonly HTMLDivElement   _searchContainer;
         private readonly HTMLInputElement _searchInput;
 
+        /// <summary>
+        /// Gets or sets the inline filter chips.
+        /// </summary>
         public ObservableList<InlineFilterChip> InlineFilterChips { get; }
         private readonly HTMLDivElement _searchInlineChipsContainer;
         private readonly HTMLDivElement _searchRightTextContainer;
@@ -360,16 +547,40 @@ namespace Tesserae
         public delegate void ModelChangedEventHandler(OmniBox sender, ModelOption model, ThinkingEffort effort);
         protected event SearchEventHandler Searched;
         protected event ChatEventHandler Chatted;
+        /// <summary>
+        /// Raised when stopped occurs.
+        /// </summary>
         public event StopEventHandler Stopped;
         protected event ModelChangedEventHandler ModelChanged;
 
+        /// <summary>
+        /// Raised when input occurs.
+        /// </summary>
         public event ComponentEventHandler<OmniBox, Event> Input;
+        /// <summary>
+        /// Raised when key down occurs.
+        /// </summary>
         public event ComponentEventHandler<OmniBox, KeyboardEvent> KeyDown;
+        /// <summary>
+        /// Raised when key up occurs.
+        /// </summary>
         public event ComponentEventHandler<OmniBox, KeyboardEvent> KeyUp;
+        /// <summary>
+        /// Raised when key press occurs.
+        /// </summary>
         public event ComponentEventHandler<OmniBox, KeyboardEvent> KeyPress;
+        /// <summary>
+        /// Raised when received focus occurs.
+        /// </summary>
         public event ComponentEventHandler<OmniBox, Event> ReceivedFocus;
+        /// <summary>
+        /// Raised when lost focus occurs.
+        /// </summary>
         public event ComponentEventHandler<OmniBox, Event> LostFocus;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public OmniBox(Config config)
         {
             _mode = config.Mode;
@@ -1039,6 +1250,9 @@ namespace Tesserae
             SyncScroll();
         }
 
+        /// <summary>
+        /// Parses the query.
+        /// </summary>
         public static SearchQuery ParseQuery(string input, bool tokenIgnoreCase = false)
         {
             var tokens = new List<SearchToken>();
@@ -1256,6 +1470,9 @@ namespace Tesserae
             return result.ToArray();
         }
 
+        /// <summary>
+        /// Registers a snap-handler that can convert recognized input into an inline filter chip.
+        /// </summary>
         public OmniBox RegisterSnap(SnapHandler snap)
         {
             if (snap == null) return this;
@@ -1267,6 +1484,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Registers multiple snap-handlers in one call.
+        /// </summary>
         public OmniBox RegisterSnaps(params SnapHandler[] snaps)
         {
             if (snaps == null) return this;
@@ -1274,6 +1494,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Registers a filter snap handler that creates an inline filter chip.
+        /// </summary>
         public OmniBox RegisterFilterSnap(FilterSnapHandler filter)
         {
             if (filter == null) return this;
@@ -1285,6 +1508,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Registers multiple filter snap handlers in one call.
+        /// </summary>
         public OmniBox RegisterFilterSnaps(params FilterSnapHandler[] filters)
         {
             if (filters == null) return this;
@@ -1697,35 +1923,53 @@ namespace Tesserae
             Stopped?.Invoke(this);
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the search event fires.
+        /// </summary>
         public OmniBox OnSearch(SearchEventHandler onSearch)
         {
             Searched += onSearch;
             return this;
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the chat event fires.
+        /// </summary>
         public OmniBox OnChat(ChatEventHandler onChat)
         {
             Chatted += onChat;
             return this;
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the stop event fires.
+        /// </summary>
         public OmniBox OnStop(StopEventHandler onStop)
         {
             Stopped += onStop;
             return this;
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the model changed event fires.
+        /// </summary>
         public OmniBox OnModelChanged(ModelChangedEventHandler onModelChanged)
         {
             ModelChanged += onModelChanged;
             return this;
         }
 
+        /// <summary>
+        /// Sets the models of the component.
+        /// </summary>
         public OmniBox SetModels(params ModelOption[] models)
         {
             return SetModels((IEnumerable<ModelOption>)models);
         }
 
+        /// <summary>
+        /// Sets the models of the component.
+        /// </summary>
         public OmniBox SetModels(IEnumerable<ModelOption> models)
         {
             if (_modelSelectorBtn == null)
@@ -1745,6 +1989,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Locks the OmniBox to the given model option so users cannot pick another.
+        /// </summary>
         public OmniBox LockModel(ModelOption model)
         {
             if (_modelSelectorBtn == null)
@@ -1770,6 +2017,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the thinking effort of the component.
+        /// </summary>
         public OmniBox SetThinkingEffort(ThinkingEffort effort)
         {
             _selectedEffort = effort;
@@ -1777,8 +2027,17 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Gets or sets the selected model.
+        /// </summary>
         public ModelOption SelectedModel => _selectedModel;
+        /// <summary>
+        /// Gets or sets the selected thinking effort.
+        /// </summary>
         public ThinkingEffort SelectedThinkingEffort => _selectedEffort;
+        /// <summary>
+        /// Returns a value indicating whether the component is model locked.
+        /// </summary>
         public bool IsModelLocked => _isModelLocked;
 
         private static string FormatEffort(ThinkingEffort effort)
@@ -1902,6 +2161,9 @@ namespace Tesserae
             Tippy.ShowFor(_modelSelectorBtn, content, out _hideModelPopover, placement: TooltipPlacement.TopEnd, maxWidth: 400, onHiddenCallback: () => _hideModelPopover = null);
         }
 
+        /// <summary>
+        /// Returns a value indicating whether the component is generating.
+        /// </summary>
         public bool IsGenerating
         {
             get => _isGenerating;
@@ -1926,42 +2188,63 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the input event fires.
+        /// </summary>
         public OmniBox OnInput(ComponentEventHandler<OmniBox, Event> onInput)
         {
             Input += onInput;
             return this;
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the key down event fires.
+        /// </summary>
         public OmniBox OnKeyDown(ComponentEventHandler<OmniBox, KeyboardEvent> onKeyDown)
         {
             KeyDown += onKeyDown;
             return this;
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the key up event fires.
+        /// </summary>
         public OmniBox OnKeyUp(ComponentEventHandler<OmniBox, KeyboardEvent> onKeyUp)
         {
             KeyUp += onKeyUp;
             return this;
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the key press event fires.
+        /// </summary>
         public OmniBox OnKeyPress(ComponentEventHandler<OmniBox, KeyboardEvent> onKeyPress)
         {
             KeyPress += onKeyPress;
             return this;
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the focus event fires.
+        /// </summary>
         public OmniBox OnFocus(ComponentEventHandler<OmniBox, Event> onFocus)
         {
             ReceivedFocus += onFocus;
             return this;
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the blur event fires.
+        /// </summary>
         public OmniBox OnBlur(ComponentEventHandler<OmniBox, Event> onBlur)
         {
             LostFocus += onBlur;
             return this;
         }
 
+        /// <summary>
+        /// Returns the component configured with the given history.
+        /// </summary>
         public OmniBox WithHistory(Func<Task<SearchQuery[]>> historyFetcher)
         {
             _historyFetcher = historyFetcher;
@@ -2006,6 +2289,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Sets the keyboard tab order of the component.
+        /// </summary>
         public int TabIndex
         {
             set
@@ -2015,6 +2301,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the component is interactive (enabled).
+        /// </summary>
         public bool IsEnabled
         {
             get => !_container.classList.contains("tss-disabled");
@@ -2035,6 +2324,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets the search text.
+        /// </summary>
         public string SearchText
         {
             get => _searchInput.value;
@@ -2046,6 +2338,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets the chat text.
+        /// </summary>
         public string ChatText
         {
             get => _chatInput.value;
@@ -2056,12 +2351,18 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets the search placeholder.
+        /// </summary>
         public string SearchPlaceholder
         {
             get => _searchInput.placeholder;
             set => _searchInput.placeholder = value;
         }
 
+        /// <summary>
+        /// Gets or sets the chat placeholder.
+        /// </summary>
         public string ChatPlaceholder
         {
             get => _chatInput.placeholder;
@@ -2069,8 +2370,14 @@ namespace Tesserae
         }
 
 
+        /// <summary>
+        /// Gets or sets the CSS background of the component.
+        /// </summary>
         public string Background { get => _container.style.background; set => _container.style.background = value; }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public HTMLElement Render()
         {
             return _container;
@@ -2273,6 +2580,9 @@ namespace Tesserae
             return string.Equals(e.key, mainKey, StringComparison.OrdinalIgnoreCase);
         }
 
+        /// <summary>
+        /// Sets the search right text of the component.
+        /// </summary>
         public OmniBox SetSearchRightText(string text)
         {
             if (string.IsNullOrEmpty(text))
@@ -2336,36 +2646,54 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Sets the search text of the component.
+        /// </summary>
         public OmniBox SetSearchText(string text)
         {
             SearchText = text;
             return this;
         }
 
+        /// <summary>
+        /// Sets the search placeholder of the component.
+        /// </summary>
         public OmniBox SetSearchPlaceholder(string text)
         {
             SearchPlaceholder = text;
             return this;
         }
 
+        /// <summary>
+        /// Sets the chat text of the component.
+        /// </summary>
         public OmniBox SetChatText(string text)
         {
             ChatText = text;
             return this;
         }
 
+        /// <summary>
+        /// Sets the chat placeholder of the component.
+        /// </summary>
         public OmniBox SetChatPlaceholder(string text)
         {
             ChatPlaceholder = text;
             return this;
         }
 
+        /// <summary>
+        /// Disables the component.
+        /// </summary>
         public OmniBox Disabled(bool value = true)
         {
             IsEnabled = !value;
             return this;
         }
 
+        /// <summary>
+        /// Moves keyboard focus to the component.
+        /// </summary>
         public OmniBox Focus()
         {
             DomObserver.WhenMounted(_searchInput, () =>
@@ -2375,6 +2703,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Gets or sets the CSS height of the component.
+        /// </summary>
         public OmniBox Height(UnitSize unitSize)
         {
             var h = unitSize.ToString();
@@ -2388,6 +2719,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Shortcut for setting the height in pixels.
+        /// </summary>
         public OmniBox H(int unitSize) => Height(unitSize.px());
 
         public class SearchToken
@@ -2404,9 +2738,18 @@ namespace Tesserae
                 Whitespace
             }
 
+            /// <summary>
+            /// Gets or sets the type.
+            /// </summary>
             public TokenType Type { get; set; }
+            /// <summary>
+            /// Gets or sets the current value of the component.
+            /// </summary>
             public string Value { get; set; }
 
+            /// <summary>
+            /// Initializes a new instance of this class.
+            /// </summary>
             public SearchToken(TokenType type, string value)
             {
                 Type = type;
@@ -2416,11 +2759,26 @@ namespace Tesserae
 
         public class SearchQuery
         {
+            /// <summary>
+            /// Gets or sets the raw query.
+            /// </summary>
             public string RawQuery { get; set; }
+            /// <summary>
+            /// Gets or sets the tokens.
+            /// </summary>
             public List<SearchToken> Tokens { get; set; }
+            /// <summary>
+            /// Gets or sets the snaps.
+            /// </summary>
             public SnapHandler[] Snaps { get; set; }
+            /// <summary>
+            /// Gets or sets the filter snaps.
+            /// </summary>
             public FilterSnap[] FilterSnaps { get; set; }
 
+            /// <summary>
+            /// Initializes a new instance of this class.
+            /// </summary>
             public SearchQuery(string rawQuery, List<SearchToken> tokens)
             {
                 RawQuery = rawQuery;
@@ -2432,6 +2790,9 @@ namespace Tesserae
 
         public class ChatMessage
         {
+            /// <summary>
+            /// Gets or sets the text shown in the component.
+            /// </summary>
             public string Text { get; set; }
         }
     }

@@ -17,14 +17,26 @@ namespace Tesserae
     public sealed class ReadOnlyArray<T> : IEnumerable<T>
     {
         [Template("{data}")]
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public extern ReadOnlyArray(T[] data);
 
         [External] // Required due to https://github.com/bridgedotnet/Bridge/issues/4015
+        /// <summary>
+        /// Gets or sets the element at the specified index.
+        /// </summary>
         public extern T this[int index] { [Template("{this}[{index}]")] get; }
 
+        /// <summary>
+        /// Gets or sets the length.
+        /// </summary>
         public extern int Length { [Name("length")] get; }
 
         [External]
+        /// <summary>
+        /// Returns the enumerator of the component.
+        /// </summary>
         public extern IEnumerator<T> GetEnumerator();
 
         // Can't use extern on an explicitly-implemented interface method so this method needs a body (even though it will never be called)
@@ -42,19 +54,39 @@ namespace Tesserae
     public sealed class ReadOnlyMap<TKey, TValue>
     {
         [Template("{data}")]
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public extern ReadOnlyMap(object data);
 
         [External] // Required due to https://github.com/bridgedotnet/Bridge/issues/4015
+        /// <summary>
+        /// Gets or sets the element at the specified index.
+        /// </summary>
         public extern TValue this[TKey key] { [Template("{this}[{key}]")] get; }
+        /// <summary>
+        /// Gets or sets the length.
+        /// </summary>
         public extern int Length { [Name("length")] get; }
     }
 
+    /// <summary>
+    /// Helpers for converting CLR enumerables and dictionaries to JavaScript object literals
+    /// suitable for interop with object-literal-typed APIs.
+    /// </summary>
     public static class ObjectLiteralExtensions
     {
+        /// <summary>
+        /// Converts an enumerable to a JavaScript object-literal array (a plain <c>Array</c> rather than a <c>List</c>).
+        /// </summary>
         public static ReadOnlyArray<T> ToObjectLiteralArray<T>(this IEnumerable<T> source)
         {
             return H5.Script.ToArray(source);
         }
+
+        /// <summary>
+        /// Converts a string-keyed dictionary to a JavaScript object literal whose property names are the dictionary keys.
+        /// </summary>
         public static object ToObjectLiteral<TValue>(this Dictionary<string, TValue> source)
         {
             var o = new object();

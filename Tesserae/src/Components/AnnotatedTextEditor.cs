@@ -7,20 +7,47 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A multi-line text editor that supports inline annotations / highlights over user-entered prose.
+    /// </summary>
     [H5.Name("tss.AnnotatedTextEditor")]
     public class AnnotatedTextEditor : IComponent, IHasBackgroundColor, ITabIndex
     {
         public class Entity
         {
+            /// <summary>
+            /// Starts the component's operation.
+            /// </summary>
             public int Start { get; set; }
+            /// <summary>
+            /// Gets or sets the length.
+            /// </summary>
             public int Length { get; set; }
+            /// <summary>
+            /// Gets or sets the label shown by the component.
+            /// </summary>
             public string Label { get; set; }
+            /// <summary>
+            /// Gets or sets the CSS background of the component.
+            /// </summary>
             public string Background { get; set; }
+            /// <summary>
+            /// Gets or sets the color of the component.
+            /// </summary>
             public string Color { get; set; }
+            /// <summary>
+            /// Gets or sets the CSS border of the component.
+            /// </summary>
             public string Border { get; set; }
 
+            /// <summary>
+            /// Initializes a new instance of this class.
+            /// </summary>
             public Entity() { }
 
+            /// <summary>
+            /// Initializes a new instance of this class.
+            /// </summary>
             public Entity(int start, int length, string label = null, string background = null, string color = null, string border = null)
             {
                 Start = start;
@@ -31,6 +58,9 @@ namespace Tesserae
                 Border = border;
             }
 
+            /// <summary>
+            /// Gets or sets the end.
+            /// </summary>
             public int End => Start + Length;
         }
 
@@ -51,10 +81,22 @@ namespace Tesserae
         public delegate void TextChangedHandler(AnnotatedTextEditor sender, string text);
         public delegate void EntityClickHandler(AnnotatedTextEditor sender, Entity entity, MouseEvent e);
 
+        /// <summary>
+        /// Raised when annotations changed occurs.
+        /// </summary>
         public event AnnotationsChangedHandler AnnotationsChanged;
+        /// <summary>
+        /// Raised when text changed occurs.
+        /// </summary>
         public event TextChangedHandler        TextChanged;
+        /// <summary>
+        /// Raised when entity clicked occurs.
+        /// </summary>
         public event EntityClickHandler        EntityClicked;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public AnnotatedTextEditor(Func<string, Task<Entity[]>> annotator, string initialText = null, int debounceMs = 500, string placeholder = null)
         {
             _annotator  = annotator;
@@ -106,6 +148,9 @@ namespace Tesserae
             TriggerAnnotate();
         }
 
+        /// <summary>
+        /// Gets or sets the text shown in the component.
+        /// </summary>
         public string Text
         {
             get => _textarea.value;
@@ -119,18 +164,33 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets the entities.
+        /// </summary>
         public Entity[] Entities => _currentEntities;
 
+        /// <summary>
+        /// Gets or sets the placeholder text shown when the component is empty.
+        /// </summary>
         public string Placeholder
         {
             get => _textarea.placeholder;
             set => _textarea.placeholder = value;
         }
 
+        /// <summary>
+        /// Gets or sets the CSS background of the component.
+        /// </summary>
         public string Background { get => _container.style.background; set => _container.style.background = value; }
 
+        /// <summary>
+        /// Sets the keyboard tab order of the component.
+        /// </summary>
         public int TabIndex { set => _textarea.tabIndex = value; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the component is interactive (enabled).
+        /// </summary>
         public bool IsEnabled
         {
             get => !_container.classList.contains("tss-disabled");
@@ -149,6 +209,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Returns a value indicating whether the component is read only.
+        /// </summary>
         public bool IsReadOnly
         {
             get => _textarea.readOnly;
@@ -160,29 +223,53 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Sets the text of the component.
+        /// </summary>
         public AnnotatedTextEditor SetText(string text) { Text = text; return this; }
+        /// <summary>
+        /// Sets the placeholder of the component.
+        /// </summary>
         public AnnotatedTextEditor SetPlaceholder(string placeholder) { Placeholder = placeholder; return this; }
+        /// <summary>
+        /// Disables the component.
+        /// </summary>
         public AnnotatedTextEditor Disabled(bool value = true) { IsEnabled = !value; return this; }
+        /// <summary>
+        /// Configures the read only on the component.
+        /// </summary>
         public AnnotatedTextEditor ReadOnly(bool value = true) { IsReadOnly = value; return this; }
 
+        /// <summary>
+        /// Registers a callback invoked when the text changed event fires.
+        /// </summary>
         public AnnotatedTextEditor OnTextChanged(TextChangedHandler handler)
         {
             TextChanged += handler;
             return this;
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the annotations changed event fires.
+        /// </summary>
         public AnnotatedTextEditor OnAnnotationsChanged(AnnotationsChangedHandler handler)
         {
             AnnotationsChanged += handler;
             return this;
         }
 
+        /// <summary>
+        /// Registers a callback invoked when the entity click event fires.
+        /// </summary>
         public AnnotatedTextEditor OnEntityClick(EntityClickHandler handler)
         {
             EntityClicked += handler;
             return this;
         }
 
+        /// <summary>
+        /// Gets or sets the CSS height of the component.
+        /// </summary>
         public AnnotatedTextEditor Height(UnitSize unitSize)
         {
             var h = unitSize.ToString();
@@ -190,22 +277,37 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Shortcut for setting the height in pixels.
+        /// </summary>
         public AnnotatedTextEditor H(int px) => Height(px.px());
 
+        /// <summary>
+        /// Gets or sets the CSS min-height of the component.
+        /// </summary>
         public AnnotatedTextEditor MinHeight(UnitSize unitSize)
         {
             _container.style.minHeight = unitSize.ToString();
             return this;
         }
 
+        /// <summary>
+        /// Moves keyboard focus to the component.
+        /// </summary>
         public AnnotatedTextEditor Focus()
         {
             DomObserver.WhenMounted(_textarea, () => _textarea.focus());
             return this;
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public HTMLElement Render() => _container;
 
+        /// <summary>
+        /// Configures the trigger annotate on the component.
+        /// </summary>
         public void TriggerAnnotate()
         {
             if (_annotator == null) return;

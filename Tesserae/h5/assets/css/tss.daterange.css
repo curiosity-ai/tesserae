@@ -1,0 +1,18 @@
+/* DateRangePicker */
+
+.tss-daterange-picker {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.tss-daterange-picker .tss-textbox-container {
+    margin: 0;
+}
+
+.tss-daterange-separator {
+    color: var(--tss-secondary-foreground-color, var(--tss-default-foreground-color));
+    font-size: var(--tss-font-size-small);
+    padding: 0 4px;
+    user-select: none;
+}

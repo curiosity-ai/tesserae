@@ -31,11 +31,29 @@ namespace Tesserae
 
         public class NotificationItem
         {
+            /// <summary>
+            /// Sets the DOM id of the component.
+            /// </summary>
             public string           Id        { get; set; }
+            /// <summary>
+            /// Gets or sets the title of the component.
+            /// </summary>
             public string           Title     { get; set; }
+            /// <summary>
+            /// Gets or sets the message.
+            /// </summary>
             public string           Message   { get; set; }
+            /// <summary>
+            /// Gets or sets the timestamp.
+            /// </summary>
             public DateTime         Timestamp { get; set; }
+            /// <summary>
+            /// Gets or sets the tone.
+            /// </summary>
             public NotificationTone Tone      { get; set; }
+            /// <summary>
+            /// Returns a value indicating whether the component is read.
+            /// </summary>
             public bool             IsRead    { get; set; }
         }
 
@@ -48,6 +66,9 @@ namespace Tesserae
         private          IObservable<int>          _badgeCount;
         private          Panel                     _panel;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public NotificationCenter()
         {
             _badgeSpan = Span(_("tss-notif-badge"));
@@ -103,6 +124,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public HTMLElement Render() => _container;
 
         private void UpdateBadge(int count)

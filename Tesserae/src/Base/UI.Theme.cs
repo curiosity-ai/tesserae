@@ -9,11 +9,14 @@ namespace Tesserae
         /// <summary>
         /// Provides methods to manage the application theme (Dark/Light) and custom colors.
         /// </summary>
-        public static class Theme
+        public static partial class Theme
         {
             private static HTMLStyleElement _primaryStyleElement;
             private static HTMLStyleElement _backgroundStyleElement;
 
+            /// <summary>
+            /// Raised when on theme changed occurs.
+            /// </summary>
             public static event Action OnThemeChanged;
             /// <summary>
             /// Enables dark mode.
@@ -76,6 +79,9 @@ namespace Tesserae
                 }
             }
 
+            /// <summary>
+            /// Returns a value indicating whether the component is mobile.
+            /// </summary>
             public static bool IsMobile
             {
                 get
@@ -92,6 +98,9 @@ namespace Tesserae
                 }
             }
 
+            /// <summary>
+            /// Raised when on mobile mode changed occurs.
+            /// </summary>
             public static event Action OnMobileModeChanged;
 
             /// <summary>
@@ -339,231 +348,813 @@ namespace Tesserae
             //Variables from tesserae.common.css
             public static class Default
             {
+                /// <summary>
+                /// CSS variable reference for the default surface background color.
+                /// </summary>
                 public const string Background       = "var(--tss-default-background-color)";
+                /// <summary>
+                /// CSS variable reference for the default surface foreground (text) color.
+                /// </summary>
                 public const string Foreground       = "var(--tss-default-foreground-color)";
+                /// <summary>
+                /// CSS variable reference for the default surface border color.
+                /// </summary>
                 public const string Border           = "var(--tss-default-border-color)";
+                /// <summary>
+                /// CSS variable reference for the default surface darker border color.
+                /// </summary>
                 public const string DarkBorder       = "var(--tss-dark-border-color)";
+                /// <summary>
+                /// CSS variable reference for the default surface invalid-state border color.
+                /// </summary>
                 public const string InvalidBorder    = "var(--tss-invalid-border-color)";
+                /// <summary>
+                /// CSS variable reference for the default surface background color on hover.
+                /// </summary>
                 public const string BackgroundHover  = "var(--tss-default-background-hover-color)";
+                /// <summary>
+                /// CSS variable reference for the default surface foreground color on hover.
+                /// </summary>
                 public const string ForegroundHover  = "var(--tss-default-foreground-hover-color)";
+                /// <summary>
+                /// CSS variable reference for the default surface background color while pressed / active.
+                /// </summary>
                 public const string BackgroundActive = "var(--tss-default-background-active-color)";
+                /// <summary>
+                /// CSS variable reference for the default surface foreground color while pressed / active.
+                /// </summary>
                 public const string ForegroundActive = "var(--tss-default-foreground-active-color)";
 
+                /// <summary>
+                /// CSS variable reference for the default surface track color.
+                /// </summary>
                 public const string Slider         = "var(--tss-slider-color)";
+                /// <summary>
+                /// CSS variable reference for the default surface active-track color.
+                /// </summary>
                 public const string SliderActive   = "var(--tss-slider-active-color)";
+                /// <summary>
+                /// CSS variable reference for the default surface disabled-track color.
+                /// </summary>
                 public const string SliderDisabled = "var(--tss-slider-disabled-color)";
+                /// <summary>
+                /// CSS variable reference for the default surface light overlay color.
+                /// </summary>
                 public const string OverlayLight   = "var(--tss-overlay-light)";
+                /// <summary>
+                /// CSS variable reference for the default surface dark overlay color.
+                /// </summary>
                 public const string OverlayDark    = "var(--tss-overlay-dark)";
+                /// <summary>
+                /// CSS variable reference for the default surface card shadow style.
+                /// </summary>
                 public const string CardShadow     = "var(--tss-card-shadow, 0 0.3px 0.9px 0 rgba(0,0,0,0.108))";
             }
 
             public static class Sidebar
             {
+                /// <summary>
+                /// CSS variable reference for the sidebar surface background color.
+                /// </summary>
                 public const string Background = "var(--tss-sidebar-background-color)";
+                /// <summary>
+                /// CSS variable reference for the sidebar surface foreground (text) color.
+                /// </summary>
                 public const string Foreground = "var(--tss-sidebar-foreground-color)";
             }
 
             public static class Secondary
             {
+                /// <summary>
+                /// CSS variable reference for the secondary surface background color.
+                /// </summary>
                 public const string Background = "var(--tss-secondary-background-color)";
+                /// <summary>
+                /// CSS variable reference for the secondary surface foreground (text) color.
+                /// </summary>
                 public const string Foreground = "var(--tss-secondary-foreground-color)";
             }
             public static class Disabled
             {
+                /// <summary>
+                /// CSS variable reference for the disabled state background color.
+                /// </summary>
                 public const string Background = "var(--tss-disabled-background-color)";
+                /// <summary>
+                /// CSS variable reference for the disabled state foreground (text) color.
+                /// </summary>
                 public const string Foreground = "var(--tss-disabled-foreground-color)";
             }
 
             public static class Primary
             {
+                /// <summary>
+                /// CSS variable reference for the primary (brand) surface background color.
+                /// </summary>
                 public const string Background       = "var(--tss-primary-background-color)";
+                /// <summary>
+                /// CSS variable reference for the primary (brand) surface foreground (text) color.
+                /// </summary>
                 public const string Foreground       = "var(--tss-primary-foreground-color)";
+                /// <summary>
+                /// CSS variable reference for the primary (brand) surface border color.
+                /// </summary>
                 public const string Border           = "var(--tss-primary-border-color)";
+                /// <summary>
+                /// CSS variable reference for the primary (brand) surface background color on hover.
+                /// </summary>
                 public const string BackgroundHover  = "var(--tss-primary-background-hover-color)";
+                /// <summary>
+                /// CSS variable reference for the primary (brand) surface foreground color on hover.
+                /// </summary>
                 public const string ForegroundHover  = "var(--tss-primary-foreground-hover-color)";
+                /// <summary>
+                /// CSS variable reference for the primary (brand) surface background color while pressed / active.
+                /// </summary>
                 public const string BackgroundActive = "var(--tss-primary-background-active-color)";
+                /// <summary>
+                /// CSS variable reference for the primary (brand) surface foreground color while pressed / active.
+                /// </summary>
                 public const string ForegroundActive = "var(--tss-primary-foreground-active-color)";
             }
 
             public static class Danger
             {
+                /// <summary>
+                /// CSS variable reference for the danger / error tone background color.
+                /// </summary>
                 public const string Background       = "var(--tss-danger-background-color)";
+                /// <summary>
+                /// CSS variable reference for the danger / error tone foreground (text) color.
+                /// </summary>
                 public const string Foreground       = "var(--tss-danger-foreground-color)";
+                /// <summary>
+                /// CSS variable reference for the danger / error tone border color.
+                /// </summary>
                 public const string Border           = "var(--tss-danger-border-color)";
+                /// <summary>
+                /// CSS variable reference for the danger / error tone background color on hover.
+                /// </summary>
                 public const string BackgroundHover  = "var(--tss-danger-background-hover-color)";
+                /// <summary>
+                /// CSS variable reference for the danger / error tone foreground color on hover.
+                /// </summary>
                 public const string ForegroundHover  = "var(--tss-danger-foreground-hover-color)";
+                /// <summary>
+                /// CSS variable reference for the danger / error tone background color while pressed / active.
+                /// </summary>
                 public const string BackgroundActive = "var(--tss-danger-background-active-color)";
+                /// <summary>
+                /// CSS variable reference for the danger / error tone foreground color while pressed / active.
+                /// </summary>
                 public const string ForegroundActive = "var(--tss-danger-foreground-active-color)";
             }
 
             public static class Success
             {
+                /// <summary>
+                /// CSS variable reference for the success tone background color.
+                /// </summary>
                 public const string Background       = "var(--tss-success-background-color)";
+                /// <summary>
+                /// CSS variable reference for the success tone foreground (text) color.
+                /// </summary>
                 public const string Foreground       = "var(--tss-success-foreground-color)";
+                /// <summary>
+                /// CSS variable reference for the success tone border color.
+                /// </summary>
                 public const string Border           = "var(--tss-success-border-color)";
+                /// <summary>
+                /// CSS variable reference for the success tone background color on hover.
+                /// </summary>
                 public const string BackgroundHover  = "var(--tss-success-background-hover-color)";
+                /// <summary>
+                /// CSS variable reference for the success tone foreground color on hover.
+                /// </summary>
                 public const string ForegroundHover  = "var(--tss-success-foreground-hover-color)";
+                /// <summary>
+                /// CSS variable reference for the success tone background color while pressed / active.
+                /// </summary>
                 public const string BackgroundActive = "var(--tss-success-background-active-color)";
+                /// <summary>
+                /// CSS variable reference for the success tone foreground color while pressed / active.
+                /// </summary>
                 public const string ForegroundActive = "var(--tss-success-foreground-active-color)";
             }
 
             public static class Gradients
             {
+                /// <summary>
+                /// CSS variable reference: Lime.
+                /// </summary>
                 public const string Lime = "var(--tss-gradient-lime)";
+                /// <summary>
+                /// CSS variable reference: Red.
+                /// </summary>
                 public const string Red = "var(--tss-gradient-red)";
+                /// <summary>
+                /// CSS variable reference: Orange.
+                /// </summary>
                 public const string Orange = "var(--tss-gradient-orange)";
+                /// <summary>
+                /// CSS variable reference: Yellow.
+                /// </summary>
                 public const string Yellow = "var(--tss-gradient-yellow)";
+                /// <summary>
+                /// CSS variable reference: Green.
+                /// </summary>
                 public const string Green = "var(--tss-gradient-green)";
+                /// <summary>
+                /// CSS variable reference: Teal.
+                /// </summary>
                 public const string Teal = "var(--tss-gradient-teal)";
+                /// <summary>
+                /// CSS variable reference: Blue.
+                /// </summary>
                 public const string Blue = "var(--tss-gradient-blue)";
+                /// <summary>
+                /// CSS variable reference: Purple.
+                /// </summary>
                 public const string Purple = "var(--tss-gradient-purple)";
+                /// <summary>
+                /// CSS variable reference: Magenta.
+                /// </summary>
                 public const string Magenta = "var(--tss-gradient-magenta)";
+                /// <summary>
+                /// CSS variable reference: AI.
+                /// </summary>
                 public const string AI = "var(--tss-gradient-ai)";
             }
 
             public static class Colors
             {
+                /// <summary>
+                /// CSS variable reference: Lime100.
+                /// </summary>
                 public const string Lime100 = "var(--tss-colors-lime-100)";
+                /// <summary>
+                /// CSS variable reference: Lime200.
+                /// </summary>
                 public const string Lime200 = "var(--tss-colors-lime-200)";
+                /// <summary>
+                /// CSS variable reference: Lime250.
+                /// </summary>
                 public const string Lime250 = "var(--tss-colors-lime-250)";
+                /// <summary>
+                /// CSS variable reference: Lime300.
+                /// </summary>
                 public const string Lime300 = "var(--tss-colors-lime-300)";
+                /// <summary>
+                /// CSS variable reference: Lime400.
+                /// </summary>
                 public const string Lime400 = "var(--tss-colors-lime-400)";
+                /// <summary>
+                /// CSS variable reference: Lime500.
+                /// </summary>
                 public const string Lime500 = "var(--tss-colors-lime-500)";
+                /// <summary>
+                /// CSS variable reference: Lime600.
+                /// </summary>
                 public const string Lime600 = "var(--tss-colors-lime-600)";
+                /// <summary>
+                /// CSS variable reference: Lime700.
+                /// </summary>
                 public const string Lime700 = "var(--tss-colors-lime-700)";
+                /// <summary>
+                /// CSS variable reference: Lime800.
+                /// </summary>
                 public const string Lime800 = "var(--tss-colors-lime-800)";
+                /// <summary>
+                /// CSS variable reference: Lime850.
+                /// </summary>
                 public const string Lime850 = "var(--tss-colors-lime-850)";
+                /// <summary>
+                /// CSS variable reference: Lime900.
+                /// </summary>
                 public const string Lime900 = "var(--tss-colors-lime-900)";
+                /// <summary>
+                /// CSS variable reference: Lime1000.
+                /// </summary>
                 public const string Lime1000 = "var(--tss-colors-lime-1000)";
+                /// <summary>
+                /// CSS variable reference: Red100.
+                /// </summary>
                 public const string Red100 = "var(--tss-colors-red-100)";
+                /// <summary>
+                /// CSS variable reference: Red200.
+                /// </summary>
                 public const string Red200 = "var(--tss-colors-red-200)";
+                /// <summary>
+                /// CSS variable reference: Red250.
+                /// </summary>
                 public const string Red250 = "var(--tss-colors-red-250)";
+                /// <summary>
+                /// CSS variable reference: Red300.
+                /// </summary>
                 public const string Red300 = "var(--tss-colors-red-300)";
+                /// <summary>
+                /// CSS variable reference: Red400.
+                /// </summary>
                 public const string Red400 = "var(--tss-colors-red-400)";
+                /// <summary>
+                /// CSS variable reference: Red500.
+                /// </summary>
                 public const string Red500 = "var(--tss-colors-red-500)";
+                /// <summary>
+                /// CSS variable reference: Red600.
+                /// </summary>
                 public const string Red600 = "var(--tss-colors-red-600)";
+                /// <summary>
+                /// CSS variable reference: Red700.
+                /// </summary>
                 public const string Red700 = "var(--tss-colors-red-700)";
+                /// <summary>
+                /// CSS variable reference: Red800.
+                /// </summary>
                 public const string Red800 = "var(--tss-colors-red-800)";
+                /// <summary>
+                /// CSS variable reference: Red850.
+                /// </summary>
                 public const string Red850 = "var(--tss-colors-red-850)";
+                /// <summary>
+                /// CSS variable reference: Red900.
+                /// </summary>
                 public const string Red900 = "var(--tss-colors-red-900)";
+                /// <summary>
+                /// CSS variable reference: Red1000.
+                /// </summary>
                 public const string Red1000 = "var(--tss-colors-red-1000)";
+                /// <summary>
+                /// CSS variable reference: Orange100.
+                /// </summary>
                 public const string Orange100 = "var(--tss-colors-orange-100)";
+                /// <summary>
+                /// CSS variable reference: Orange200.
+                /// </summary>
                 public const string Orange200 = "var(--tss-colors-orange-200)";
+                /// <summary>
+                /// CSS variable reference: Orange250.
+                /// </summary>
                 public const string Orange250 = "var(--tss-colors-orange-250)";
+                /// <summary>
+                /// CSS variable reference: Orange300.
+                /// </summary>
                 public const string Orange300 = "var(--tss-colors-orange-300)";
+                /// <summary>
+                /// CSS variable reference: Orange400.
+                /// </summary>
                 public const string Orange400 = "var(--tss-colors-orange-400)";
+                /// <summary>
+                /// CSS variable reference: Orange500.
+                /// </summary>
                 public const string Orange500 = "var(--tss-colors-orange-500)";
+                /// <summary>
+                /// CSS variable reference: Orange600.
+                /// </summary>
                 public const string Orange600 = "var(--tss-colors-orange-600)";
+                /// <summary>
+                /// CSS variable reference: Orange700.
+                /// </summary>
                 public const string Orange700 = "var(--tss-colors-orange-700)";
+                /// <summary>
+                /// CSS variable reference: Orange800.
+                /// </summary>
                 public const string Orange800 = "var(--tss-colors-orange-800)";
+                /// <summary>
+                /// CSS variable reference: Orange850.
+                /// </summary>
                 public const string Orange850 = "var(--tss-colors-orange-850)";
+                /// <summary>
+                /// CSS variable reference: Orange900.
+                /// </summary>
                 public const string Orange900 = "var(--tss-colors-orange-900)";
+                /// <summary>
+                /// CSS variable reference: Orange1000.
+                /// </summary>
                 public const string Orange1000 = "var(--tss-colors-orange-1000)";
+                /// <summary>
+                /// CSS variable reference: Yellow100.
+                /// </summary>
                 public const string Yellow100 = "var(--tss-colors-yellow-100)";
+                /// <summary>
+                /// CSS variable reference: Yellow200.
+                /// </summary>
                 public const string Yellow200 = "var(--tss-colors-yellow-200)";
+                /// <summary>
+                /// CSS variable reference: Yellow250.
+                /// </summary>
                 public const string Yellow250 = "var(--tss-colors-yellow-250)";
+                /// <summary>
+                /// CSS variable reference: Yellow300.
+                /// </summary>
                 public const string Yellow300 = "var(--tss-colors-yellow-300)";
+                /// <summary>
+                /// CSS variable reference: Yellow400.
+                /// </summary>
                 public const string Yellow400 = "var(--tss-colors-yellow-400)";
+                /// <summary>
+                /// CSS variable reference: Yellow500.
+                /// </summary>
                 public const string Yellow500 = "var(--tss-colors-yellow-500)";
+                /// <summary>
+                /// CSS variable reference: Yellow600.
+                /// </summary>
                 public const string Yellow600 = "var(--tss-colors-yellow-600)";
+                /// <summary>
+                /// CSS variable reference: Yellow700.
+                /// </summary>
                 public const string Yellow700 = "var(--tss-colors-yellow-700)";
+                /// <summary>
+                /// CSS variable reference: Yellow800.
+                /// </summary>
                 public const string Yellow800 = "var(--tss-colors-yellow-800)";
+                /// <summary>
+                /// CSS variable reference: Yellow850.
+                /// </summary>
                 public const string Yellow850 = "var(--tss-colors-yellow-850)";
+                /// <summary>
+                /// CSS variable reference: Yellow900.
+                /// </summary>
                 public const string Yellow900 = "var(--tss-colors-yellow-900)";
+                /// <summary>
+                /// CSS variable reference: Yellow1000.
+                /// </summary>
                 public const string Yellow1000 = "var(--tss-colors-yellow-1000)";
+                /// <summary>
+                /// CSS variable reference: Green100.
+                /// </summary>
                 public const string Green100 = "var(--tss-colors-green-100)";
+                /// <summary>
+                /// CSS variable reference: Green200.
+                /// </summary>
                 public const string Green200 = "var(--tss-colors-green-200)";
+                /// <summary>
+                /// CSS variable reference: Green250.
+                /// </summary>
                 public const string Green250 = "var(--tss-colors-green-250)";
+                /// <summary>
+                /// CSS variable reference: Green300.
+                /// </summary>
                 public const string Green300 = "var(--tss-colors-green-300)";
+                /// <summary>
+                /// CSS variable reference: Green400.
+                /// </summary>
                 public const string Green400 = "var(--tss-colors-green-400)";
+                /// <summary>
+                /// CSS variable reference: Green500.
+                /// </summary>
                 public const string Green500 = "var(--tss-colors-green-500)";
+                /// <summary>
+                /// CSS variable reference: Green600.
+                /// </summary>
                 public const string Green600 = "var(--tss-colors-green-600)";
+                /// <summary>
+                /// CSS variable reference: Green700.
+                /// </summary>
                 public const string Green700 = "var(--tss-colors-green-700)";
+                /// <summary>
+                /// CSS variable reference: Green800.
+                /// </summary>
                 public const string Green800 = "var(--tss-colors-green-800)";
+                /// <summary>
+                /// CSS variable reference: Green850.
+                /// </summary>
                 public const string Green850 = "var(--tss-colors-green-850)";
+                /// <summary>
+                /// CSS variable reference: Green900.
+                /// </summary>
                 public const string Green900 = "var(--tss-colors-green-900)";
+                /// <summary>
+                /// CSS variable reference: Green1000.
+                /// </summary>
                 public const string Green1000 = "var(--tss-colors-green-1000)";
+                /// <summary>
+                /// CSS variable reference: Teal100.
+                /// </summary>
                 public const string Teal100 = "var(--tss-colors-teal-100)";
+                /// <summary>
+                /// CSS variable reference: Teal200.
+                /// </summary>
                 public const string Teal200 = "var(--tss-colors-teal-200)";
+                /// <summary>
+                /// CSS variable reference: Teal250.
+                /// </summary>
                 public const string Teal250 = "var(--tss-colors-teal-250)";
+                /// <summary>
+                /// CSS variable reference: Teal300.
+                /// </summary>
                 public const string Teal300 = "var(--tss-colors-teal-300)";
+                /// <summary>
+                /// CSS variable reference: Teal400.
+                /// </summary>
                 public const string Teal400 = "var(--tss-colors-teal-400)";
+                /// <summary>
+                /// CSS variable reference: Teal500.
+                /// </summary>
                 public const string Teal500 = "var(--tss-colors-teal-500)";
+                /// <summary>
+                /// CSS variable reference: Teal600.
+                /// </summary>
                 public const string Teal600 = "var(--tss-colors-teal-600)";
+                /// <summary>
+                /// CSS variable reference: Teal700.
+                /// </summary>
                 public const string Teal700 = "var(--tss-colors-teal-700)";
+                /// <summary>
+                /// CSS variable reference: Teal800.
+                /// </summary>
                 public const string Teal800 = "var(--tss-colors-teal-800)";
+                /// <summary>
+                /// CSS variable reference: Teal850.
+                /// </summary>
                 public const string Teal850 = "var(--tss-colors-teal-850)";
+                /// <summary>
+                /// CSS variable reference: Teal900.
+                /// </summary>
                 public const string Teal900 = "var(--tss-colors-teal-900)";
+                /// <summary>
+                /// CSS variable reference: Teal1000.
+                /// </summary>
                 public const string Teal1000 = "var(--tss-colors-teal-1000)";
+                /// <summary>
+                /// CSS variable reference: Blue100.
+                /// </summary>
                 public const string Blue100 = "var(--tss-colors-blue-100)";
+                /// <summary>
+                /// CSS variable reference: Blue200.
+                /// </summary>
                 public const string Blue200 = "var(--tss-colors-blue-200)";
+                /// <summary>
+                /// CSS variable reference: Blue250.
+                /// </summary>
                 public const string Blue250 = "var(--tss-colors-blue-250)";
+                /// <summary>
+                /// CSS variable reference: Blue300.
+                /// </summary>
                 public const string Blue300 = "var(--tss-colors-blue-300)";
+                /// <summary>
+                /// CSS variable reference: Blue400.
+                /// </summary>
                 public const string Blue400 = "var(--tss-colors-blue-400)";
+                /// <summary>
+                /// CSS variable reference: Blue500.
+                /// </summary>
                 public const string Blue500 = "var(--tss-colors-blue-500)";
+                /// <summary>
+                /// CSS variable reference: Blue600.
+                /// </summary>
                 public const string Blue600 = "var(--tss-colors-blue-600)";
+                /// <summary>
+                /// CSS variable reference: Blue700.
+                /// </summary>
                 public const string Blue700 = "var(--tss-colors-blue-700)";
+                /// <summary>
+                /// CSS variable reference: Blue800.
+                /// </summary>
                 public const string Blue800 = "var(--tss-colors-blue-800)";
+                /// <summary>
+                /// CSS variable reference: Blue850.
+                /// </summary>
                 public const string Blue850 = "var(--tss-colors-blue-850)";
+                /// <summary>
+                /// CSS variable reference: Blue900.
+                /// </summary>
                 public const string Blue900 = "var(--tss-colors-blue-900)";
+                /// <summary>
+                /// CSS variable reference: Blue1000.
+                /// </summary>
                 public const string Blue1000 = "var(--tss-colors-blue-1000)";
+                /// <summary>
+                /// CSS variable reference: Purple100.
+                /// </summary>
                 public const string Purple100 = "var(--tss-colors-purple-100)";
+                /// <summary>
+                /// CSS variable reference: Purple200.
+                /// </summary>
                 public const string Purple200 = "var(--tss-colors-purple-200)";
+                /// <summary>
+                /// CSS variable reference: Purple250.
+                /// </summary>
                 public const string Purple250 = "var(--tss-colors-purple-250)";
+                /// <summary>
+                /// CSS variable reference: Purple300.
+                /// </summary>
                 public const string Purple300 = "var(--tss-colors-purple-300)";
+                /// <summary>
+                /// CSS variable reference: Purple400.
+                /// </summary>
                 public const string Purple400 = "var(--tss-colors-purple-400)";
+                /// <summary>
+                /// CSS variable reference: Purple500.
+                /// </summary>
                 public const string Purple500 = "var(--tss-colors-purple-500)";
+                /// <summary>
+                /// CSS variable reference: Purple600.
+                /// </summary>
                 public const string Purple600 = "var(--tss-colors-purple-600)";
+                /// <summary>
+                /// CSS variable reference: Purple700.
+                /// </summary>
                 public const string Purple700 = "var(--tss-colors-purple-700)";
+                /// <summary>
+                /// CSS variable reference: Purple800.
+                /// </summary>
                 public const string Purple800 = "var(--tss-colors-purple-800)";
+                /// <summary>
+                /// CSS variable reference: Purple850.
+                /// </summary>
                 public const string Purple850 = "var(--tss-colors-purple-850)";
+                /// <summary>
+                /// CSS variable reference: Purple900.
+                /// </summary>
                 public const string Purple900 = "var(--tss-colors-purple-900)";
+                /// <summary>
+                /// CSS variable reference: Purple1000.
+                /// </summary>
                 public const string Purple1000 = "var(--tss-colors-purple-1000)";
+                /// <summary>
+                /// CSS variable reference: Magenta100.
+                /// </summary>
                 public const string Magenta100 = "var(--tss-colors-magenta-100)";
+                /// <summary>
+                /// CSS variable reference: Magenta200.
+                /// </summary>
                 public const string Magenta200 = "var(--tss-colors-magenta-200)";
+                /// <summary>
+                /// CSS variable reference: Magenta250.
+                /// </summary>
                 public const string Magenta250 = "var(--tss-colors-magenta-250)";
+                /// <summary>
+                /// CSS variable reference: Magenta300.
+                /// </summary>
                 public const string Magenta300 = "var(--tss-colors-magenta-300)";
+                /// <summary>
+                /// CSS variable reference: Magenta400.
+                /// </summary>
                 public const string Magenta400 = "var(--tss-colors-magenta-400)";
+                /// <summary>
+                /// CSS variable reference: Magenta500.
+                /// </summary>
                 public const string Magenta500 = "var(--tss-colors-magenta-500)";
+                /// <summary>
+                /// CSS variable reference: Magenta600.
+                /// </summary>
                 public const string Magenta600 = "var(--tss-colors-magenta-600)";
+                /// <summary>
+                /// CSS variable reference: Magenta700.
+                /// </summary>
                 public const string Magenta700 = "var(--tss-colors-magenta-700)";
+                /// <summary>
+                /// CSS variable reference: Magenta800.
+                /// </summary>
                 public const string Magenta800 = "var(--tss-colors-magenta-800)";
+                /// <summary>
+                /// CSS variable reference: Magenta850.
+                /// </summary>
                 public const string Magenta850 = "var(--tss-colors-magenta-850)";
+                /// <summary>
+                /// CSS variable reference: Magenta900.
+                /// </summary>
                 public const string Magenta900 = "var(--tss-colors-magenta-900)";
+                /// <summary>
+                /// CSS variable reference: Magenta1000.
+                /// </summary>
                 public const string Magenta1000 = "var(--tss-colors-magenta-1000)";
+                /// <summary>
+                /// CSS variable reference: Neutral0.
+                /// </summary>
                 public const string Neutral0 = "var(--tss-colors-neutral-0)";
+                /// <summary>
+                /// CSS variable reference: Neutral100.
+                /// </summary>
                 public const string Neutral100 = "var(--tss-colors-neutral-100)";
+                /// <summary>
+                /// CSS variable reference: Neutral200.
+                /// </summary>
                 public const string Neutral200 = "var(--tss-colors-neutral-200)";
+                /// <summary>
+                /// CSS variable reference: Neutral300.
+                /// </summary>
                 public const string Neutral300 = "var(--tss-colors-neutral-300)";
+                /// <summary>
+                /// CSS variable reference: Neutral400.
+                /// </summary>
                 public const string Neutral400 = "var(--tss-colors-neutral-400)";
+                /// <summary>
+                /// CSS variable reference: Neutral500.
+                /// </summary>
                 public const string Neutral500 = "var(--tss-colors-neutral-500)";
+                /// <summary>
+                /// CSS variable reference: Neutral600.
+                /// </summary>
                 public const string Neutral600 = "var(--tss-colors-neutral-600)";
+                /// <summary>
+                /// CSS variable reference: Neutral700.
+                /// </summary>
                 public const string Neutral700 = "var(--tss-colors-neutral-700)";
+                /// <summary>
+                /// CSS variable reference: Neutral800.
+                /// </summary>
                 public const string Neutral800 = "var(--tss-colors-neutral-800)";
+                /// <summary>
+                /// CSS variable reference: Neutral900.
+                /// </summary>
                 public const string Neutral900 = "var(--tss-colors-neutral-900)";
+                /// <summary>
+                /// CSS variable reference: Neutral1000.
+                /// </summary>
                 public const string Neutral1000 = "var(--tss-colors-neutral-1000)";
+                /// <summary>
+                /// CSS variable reference: Neutral1100.
+                /// </summary>
                 public const string Neutral1100 = "var(--tss-colors-neutral-1100)";
+                /// <summary>
+                /// CSS variable reference: Neutral100Alpha.
+                /// </summary>
                 public const string Neutral100Alpha = "var(--tss-colors-neutral-100-alpha)";
+                /// <summary>
+                /// CSS variable reference: Neutral200Alpha.
+                /// </summary>
                 public const string Neutral200Alpha = "var(--tss-colors-neutral-200-alpha)";
+                /// <summary>
+                /// CSS variable reference: Neutral300Alpha.
+                /// </summary>
                 public const string Neutral300Alpha = "var(--tss-colors-neutral-300-alpha)";
+                /// <summary>
+                /// CSS variable reference: Neutral400Alpha.
+                /// </summary>
                 public const string Neutral400Alpha = "var(--tss-colors-neutral-400-alpha)";
+                /// <summary>
+                /// CSS variable reference: Neutral500Alpha.
+                /// </summary>
                 public const string Neutral500Alpha = "var(--tss-colors-neutral-500-alpha)";
+                /// <summary>
+                /// CSS variable reference: DarkNeutral0.
+                /// </summary>
                 public const string DarkNeutral0 = "var(--tss-colors-dark-neutral-0)";
+                /// <summary>
+                /// CSS variable reference: DarkNeutral100.
+                /// </summary>
                 public const string DarkNeutral100 = "var(--tss-colors-dark-neutral-100)";
+                /// <summary>
+                /// CSS variable reference: DarkNeutral200.
+                /// </summary>
                 public const string DarkNeutral200 = "var(--tss-colors-dark-neutral-200)";
+                /// <summary>
+                /// CSS variable reference: DarkNeutral300.
+                /// </summary>
                 public const string DarkNeutral300 = "var(--tss-colors-dark-neutral-300)";
+                /// <summary>
+                /// CSS variable reference: DarkNeutral400.
+                /// </summary>
                 public const string DarkNeutral400 = "var(--tss-colors-dark-neutral-400)";
+                /// <summary>
+                /// CSS variable reference: DarkNeutral500.
+                /// </summary>
                 public const string DarkNeutral500 = "var(--tss-colors-dark-neutral-500)";
+                /// <summary>
+                /// CSS variable reference: DarkNeutral600.
+                /// </summary>
                 public const string DarkNeutral600 = "var(--tss-colors-dark-neutral-600)";
+                /// <summary>
+                /// CSS variable reference: DarkNeutral700.
+                /// </summary>
                 public const string DarkNeutral700 = "var(--tss-colors-dark-neutral-700)";
+                /// <summary>
+                /// CSS variable reference: DarkNeutral800.
+                /// </summary>
                 public const string DarkNeutral800 = "var(--tss-colors-dark-neutral-800)";
+                /// <summary>
+                /// CSS variable reference: DarkNeutral900.
+                /// </summary>
                 public const string DarkNeutral900 = "var(--tss-colors-dark-neutral-900)";
+                /// <summary>
+                /// CSS variable reference: DarkNeutral1000.
+                /// </summary>
                 public const string DarkNeutral1000 = "var(--tss-colors-dark-neutral-1000)";
+                /// <summary>
+                /// CSS variable reference: DarkNeutral1100.
+                /// </summary>
                 public const string DarkNeutral1100 = "var(--tss-colors-dark-neutral-1100)";
+                /// <summary>
+                /// CSS variable reference: DarkNeutral100Alpha.
+                /// </summary>
                 public const string DarkNeutral100Alpha = "var(--tss-colors-dark-neutral-100-alpha)";
+                /// <summary>
+                /// CSS variable reference: DarkNeutral200Alpha.
+                /// </summary>
                 public const string DarkNeutral200Alpha = "var(--tss-colors-dark-neutral-200-alpha)";
+                /// <summary>
+                /// CSS variable reference: DarkNeutral300Alpha.
+                /// </summary>
                 public const string DarkNeutral300Alpha = "var(--tss-colors-dark-neutral-300-alpha)";
+                /// <summary>
+                /// CSS variable reference: DarkNeutral400Alpha.
+                /// </summary>
                 public const string DarkNeutral400Alpha = "var(--tss-colors-dark-neutral-400-alpha)";
+                /// <summary>
+                /// CSS variable reference: DarkNeutral500Alpha.
+                /// </summary>
                 public const string DarkNeutral500Alpha = "var(--tss-colors-dark-neutral-500-alpha)";
             }
         }

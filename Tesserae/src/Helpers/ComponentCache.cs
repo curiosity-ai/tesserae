@@ -5,6 +5,9 @@ using static H5.Core.dom;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A keyed cache of components, used to keep previously-rendered components alive across re-renders.
+    /// </summary>
     [H5.Name("tss.ComponentCache")]
     public class ComponentCache<TComponent> : ComponentCacheBase<TComponent> where TComponent : class
     {
@@ -12,6 +15,9 @@ namespace Tesserae
 
         private readonly List<(int Key, HTMLElement HtmlElement)> _componentCache;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public ComponentCache(Func<(int Key, TComponent Component), HTMLElement> createComponentExpression)
         {
             _createComponentExpression = createComponentExpression ?? throw new ArgumentNullException(nameof(createComponentExpression));
@@ -19,6 +25,9 @@ namespace Tesserae
             _componentCache = new List<(int Key, HTMLElement HtmlElement)>();
         }
 
+        /// <summary>
+        /// Adds the given components to the component.
+        /// </summary>
         public ComponentCache<TComponent> AddComponents(IEnumerable<TComponent> components)
         {
             AddToComponents(components);
@@ -26,6 +35,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Returns the all rendered components from cache of the component.
+        /// </summary>
         public IEnumerable<HTMLElement> GetAllRenderedComponentsFromCache()
         {
             foreach (var componentAndKey in _componentsAndKeys)
@@ -47,6 +59,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Configures the sort components on the component.
+        /// </summary>
         public ComponentCache<TComponent> SortComponents(Comparison<TComponent> comparison)
         {
             if (HasComponents)
@@ -57,6 +72,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Configures the reverse component order on the component.
+        /// </summary>
         public ComponentCache<TComponent> ReverseComponentOrder()
         {
             _componentsAndKeys.Reverse();
@@ -64,6 +82,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Clears the component's current state.
+        /// </summary>
         public ComponentCache<TComponent> Clear()
         {
             _componentsAndKeys.Clear();

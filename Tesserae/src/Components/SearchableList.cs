@@ -8,6 +8,9 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A searchable, scrollable list whose items are filtered live as the user types into a built-in search box.
+    /// </summary>
     [H5.Name("tss.SearchableList")]
     public class SearchableList<T> : IComponent, ISpecialCaseStyling where T : ISearchableItem
     {
@@ -29,16 +32,34 @@ namespace Tesserae
         private double            _virtualizedViewportMaxTop = 0;
         private readonly List<LazyVirtualItem> _virtualItems = new List<LazyVirtualItem>();
 
+        /// <summary>
+        /// Gets or sets the styling container.
+        /// </summary>
         public  HTMLElement       StylingContainer           => _stack.InnerElement;
+        /// <summary>
+        /// Gets or sets the propagate to stack item parent.
+        /// </summary>
         public  bool              PropagateToStackItemParent => true;
+        /// <summary>
+        /// Adds the given items to the component.
+        /// </summary>
         public  ObservableList<T> Items                      { get; }
 
+        /// <summary>
+        /// Shows the not matching items.
+        /// </summary>
         public bool ShowNotMatchingItems { get; set; }
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public SearchableList(T[] items, params UnitSize[] columns) : this(new ObservableList<T>(initialValues: items ?? new T[0]), columns)
         {
 
         }
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public SearchableList(ObservableList<T> items, params UnitSize[] columns)
         {
             Items      = items ?? new ObservableList<T>();
@@ -171,6 +192,9 @@ namespace Tesserae
             _stack                        = Stack().Children(_searchBoxContainer, _defered.Scroll()).WS().MaxHeight(100.percent());
         }
 
+        /// <summary>
+        /// Returns the component configured with the given no results message.
+        /// </summary>
         public SearchableList<T> WithNoResultsMessage(Func<IComponent> emptyListMessageGenerator)
         {
             _list.WithEmptyMessage(emptyListMessageGenerator ?? throw new ArgumentNullException(nameof(emptyListMessageGenerator)));
@@ -178,24 +202,36 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Configures the inline search box using the supplied callback.
+        /// </summary>
         public SearchableList<T> SearchBox(Action<SearchBox> sb)
         {
             sb(_searchBox);
             return this;
         }
 
+        /// <summary>
+        /// Captures the inline search box into the supplied <c>out</c> variable for later reference.
+        /// </summary>
         public SearchableList<T> CaptureSearchBox(out SearchBox sb)
         {
             sb = _searchBox;
             return this;
         }
 
+        /// <summary>
+        /// Sets the keyboard shortcut of the component.
+        /// </summary>
         public SearchableList<T> SetKeyboardShortcut(params string[] keys)
         {
             _searchBox.SetKeyboardShortcut(keys);
             return this;
         }
 
+        /// <summary>
+        /// Returns the component configured with the given background search.
+        /// </summary>
         public SearchableList<T> WithBackgroundSearch(Func<string, Task<T[]>> searcher)
         {
             _backgroundSearcher = searcher;
@@ -203,18 +239,27 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Hides the search box if less than.
+        /// </summary>
         public SearchableList<T> HideSearchBoxIfLessThan(int items)
         {
             _minimumItemsToShowBox = items;
             return this;
         }
 
+        /// <summary>
+        /// Shows the not matching.
+        /// </summary>
         public SearchableList<T> ShowNotMatching()
         {
             ShowNotMatchingItems = true;
             return this;
         }
 
+        /// <summary>
+        /// Adds the given components before the inline search box.
+        /// </summary>
         public SearchableList<T> BeforeSearchBox(params IComponent[] beforeComponents)
         {
             foreach (var component in beforeComponents.Reverse<IComponent>())
@@ -225,6 +270,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Adds the given components after the inline search box.
+        /// </summary>
         public SearchableList<T> AfterSearchBox(params IComponent[] afterComponents)
         {
             _searchBoxContainerComponents.AddRange(afterComponents);
@@ -232,6 +280,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Configures the component to virtualize.
+        /// </summary>
         public SearchableList<T> Virtualize(UnitSize itemHeight)
         {
             _virtualizedItemHeight = itemHeight;
@@ -288,8 +339,14 @@ namespace Tesserae
             _virtualizedViewportMaxTop = endIndex   * itemH;
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public dom.HTMLElement Render() => _stack.Render();
 
+        /// <summary>
+        /// Returns the component configured with the given pagination.
+        /// </summary>
         public SearchableList<T> WithPagination(int pageSize)
         {
             _pagination = new Pagination(0, pageSize, 1).WS();

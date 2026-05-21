@@ -4,12 +4,18 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A vertically-stacked list of expandable sections, of which one or more may be open at a time.
+    /// </summary>
     [H5.Name("tss.Accordion")]
     public sealed class Accordion : ComponentBase<Accordion, HTMLElement>
     {
         private readonly List<Expander> _items;
         private bool _allowMultiple;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public Accordion(params Expander[] items)
         {
             InnerElement   = Div(_("tss-accordion"));
@@ -35,6 +41,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Adds the given item to the component.
+        /// </summary>
         public Accordion AddItem(Expander item)
         {
             if (item == null)
@@ -56,6 +65,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Adds the given items to the component.
+        /// </summary>
         public Accordion AddItems(params Expander[] items)
         {
             if (items == null)
@@ -71,8 +83,14 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Adds the given items to the component.
+        /// </summary>
         public Accordion Items(params Expander[] items) => AddItems(items);
 
+        /// <summary>
+        /// Allows the multiple open.
+        /// </summary>
         public Accordion AllowMultipleOpen(bool value = true)
         {
             AllowMultiple = value;
@@ -103,6 +121,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public override HTMLElement Render()
         {
             return InnerElement;

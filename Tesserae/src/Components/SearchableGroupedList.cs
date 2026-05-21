@@ -6,6 +6,9 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A searchable, scrollable list whose items are organized into named groups.
+    /// </summary>
     [H5.Name("tss.SearchableGroupedList")]
     public class SearchableGroupedList<T> : IComponent, ISpecialCaseStyling where T : ISearchableGroupedItem
     {
@@ -27,15 +30,30 @@ namespace Tesserae
 
         private readonly List<LazyVirtualItem> _virtualItems = new List<LazyVirtualItem>();
 
+        /// <summary>
+        /// Gets or sets the styling container.
+        /// </summary>
         public HTMLElement                StylingContainer           => _stack.InnerElement;
+        /// <summary>
+        /// Gets or sets the propagate to stack item parent.
+        /// </summary>
         public bool                       PropagateToStackItemParent => true;
+        /// <summary>
+        /// Adds the given items to the component.
+        /// </summary>
         public ObservableList<IComponent> Items                      { get; }
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public SearchableGroupedList(T[] items, Func<string, IComponent> groupedItemHeaderGenerator, params UnitSize[] columns)
             : this(new ObservableList<T>(initialValues: items ?? new T[0]), groupedItemHeaderGenerator, columns)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public SearchableGroupedList(ObservableList<T> originalItems, Func<string, IComponent> groupedItemHeaderGenerator, params UnitSize[] columns)
         {
             _groupedItemHeaderGenerator = groupedItemHeaderGenerator;
@@ -86,6 +104,9 @@ namespace Tesserae
             _stack                        = Stack().Children(_searchBoxContainer, _defered.Scroll()).WS().MaxHeight(100.percent());
         }
 
+        /// <summary>
+        /// Returns the component configured with the given no results message.
+        /// </summary>
         public SearchableGroupedList<T> WithNoResultsMessage(Func<IComponent> emptyListMessageGenerator)
         {
             _list.WithEmptyMessage(emptyListMessageGenerator ?? throw new ArgumentNullException(nameof(emptyListMessageGenerator)));
@@ -93,6 +114,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Returns the component configured with the given group ordering.
+        /// </summary>
         public SearchableGroupedList<T> WithGroupOrdering(IComparer<string> groupComparer)
         {
             _groupComparer = groupComparer;
@@ -100,24 +124,36 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Configures the inline search box using the supplied callback.
+        /// </summary>
         public SearchableGroupedList<T> SearchBox(Action<SearchBox> sb)
         {
             sb(_searchBox);
             return this;
         }
 
+        /// <summary>
+        /// Captures the inline search box into the supplied <c>out</c> variable for later reference.
+        /// </summary>
         public SearchableGroupedList<T> CaptureSearchBox(out SearchBox sb)
         {
             sb = _searchBox;
             return this;
         }
 
+        /// <summary>
+        /// Sets the keyboard shortcut of the component.
+        /// </summary>
         public SearchableGroupedList<T> SetKeyboardShortcut(params string[] keys)
         {
             _searchBox.SetKeyboardShortcut(keys);
             return this;
         }
 
+        /// <summary>
+        /// Adds the given components before the inline search box.
+        /// </summary>
         public SearchableGroupedList<T> BeforeSearchBox(params IComponent[] beforeComponents)
         {
             foreach (var component in beforeComponents.Reverse<IComponent>())
@@ -128,6 +164,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Adds the given components after the inline search box.
+        /// </summary>
         public SearchableGroupedList<T> AfterSearchBox(params IComponent[] afterComponents)
         {
             _searchBoxContainerComponents.AddRange(afterComponents);
@@ -135,6 +174,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Configures the component to virtualize.
+        /// </summary>
         public SearchableGroupedList<T> Virtualize(UnitSize itemHeight)
         {
             _virtualizedItemHeight = itemHeight;
@@ -192,8 +234,14 @@ namespace Tesserae
             _virtualizedViewportMaxTop = endIndex   * itemH;
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public HTMLElement Render() => _stack.Render();
 
+        /// <summary>
+        /// Returns the component configured with the given pagination.
+        /// </summary>
         public SearchableGroupedList<T> WithPagination(int pageSize)
         {
             _pagination = new Pagination(0, pageSize, 1).WS();
@@ -247,11 +295,17 @@ namespace Tesserae
         {
             private readonly IComponent _component;
 
+            /// <summary>
+            /// Initializes a new instance of this class.
+            /// </summary>
             public GroupedItemsHeader(string group, Func<string, IComponent> groupedItemHeaderGenerator)
             {
                 _component = groupedItemHeaderGenerator(group);
             }
 
+            /// <summary>
+            /// Renders the component's root HTML element.
+            /// </summary>
             public HTMLElement Render() => _component.Render();
         }
     }

@@ -1,6 +1,10 @@
 ﻿
 namespace Tesserae
 {
+    /// <summary>
+    /// Combines two or more <see cref="IObservable{T}"/> instances into a single observable that emits a tuple of
+    /// their latest values.
+    /// </summary>
     [H5.Name("tss.CombinedObservableT2")]
     public sealed class CombinedObservable<T1, T2> : IObservable<(T1 first, T2 second)>
     {
@@ -10,10 +14,16 @@ namespace Tesserae
         private DebouncerWithMaxDelay _debouncer;
 
 
+        /// <summary>
+        /// Gets the component's current value tuple.
+        /// </summary>
         public (T1 first, T2 second) Value => (_first.Value, _second.Value);
 
         private event ObservableEvent.ValueChanged<(T1 first, T2 second)> ValueChanged;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public CombinedObservable(IObservable<T1> o1, IObservable<T2> o2)
         {
             o1.ObserveFutureChanges(_ => RaiseOnValueChanged());
@@ -25,7 +35,13 @@ namespace Tesserae
 
         }
 
+        /// <summary>
+        /// Configures the component to observe.
+        /// </summary>
         public void Observe(ObservableEvent.ValueChanged<(T1 first, T2 second)>              valueGetter) => Observe(valueGetter, callbackImmediately: true);
+        /// <summary>
+        /// Subscribes the given callback so it fires on every future change to the observed value.
+        /// </summary>
         public void ObserveFutureChanges(ObservableEvent.ValueChanged<(T1 first, T2 second)> valueGetter) => Observe(valueGetter, callbackImmediately: false);
         private void Observe(ObservableEvent.ValueChanged<(T1 first, T2 second)> valueGetter, bool callbackImmediately)
         {
@@ -35,6 +51,9 @@ namespace Tesserae
                 valueGetter(Value);
         }
 
+        /// <summary>
+        /// Stops a previously-registered callback from receiving further change notifications.
+        /// </summary>
         public void StopObserving(ObservableEvent.ValueChanged<(T1 first, T2 second)> valueGetter) => ValueChanged -= valueGetter;
 
         private void RaiseOnValueChanged()

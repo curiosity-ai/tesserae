@@ -4,6 +4,9 @@ using static Tesserae.UI;
 namespace Tesserae
 {
 
+    /// <summary>
+    /// A modal that shows a progress bar while a long-running operation completes, with optional cancel button.
+    /// </summary>
     [H5.Name("tss.ProgressModal")]
     public class ProgressModal
     {
@@ -16,6 +19,9 @@ namespace Tesserae
         private readonly Spinner           _spinner;
         private          bool              _isSpinner = true;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public ProgressModal()
         {
             _titleHost    = Raw().WS();
@@ -35,6 +41,9 @@ namespace Tesserae
 
         }
 
+        /// <summary>
+        /// Shows the component.
+        /// </summary>
         public ProgressModal Show()
         {
             _modalHost.Show();
@@ -42,41 +51,62 @@ namespace Tesserae
         }
 
 
+        /// <summary>
+        /// Shows the embedded.
+        /// </summary>
         public IComponent ShowEmbedded()
         {
             return _modalHost.ShowEmbedded();
         }
 
+        /// <summary>
+        /// Hides the component.
+        /// </summary>
         public ProgressModal Hide()
         {
             _modalHost.Hide();
             return this;
         }
 
+        /// <summary>
+        /// Configures the component to message.
+        /// </summary>
         public ProgressModal Message(string message)
         {
             _messageHost.Content(TextBlock(message));
             return this;
         }
 
+        /// <summary>
+        /// Configures the component to message.
+        /// </summary>
         public ProgressModal Message(IComponent message)
         {
             _messageHost.Content(message);
             return this;
         }
 
+        /// <summary>
+        /// Gets or sets the title of the component.
+        /// </summary>
         public ProgressModal Title(string title)
         {
             _titleHost.Content(TextBlock(title).SemiBold().Primary().PaddingTop(16.px()).PaddingBottom(8.px()));
             return this;
         }
 
+        /// <summary>
+        /// Gets or sets the title of the component.
+        /// </summary>
         public ProgressModal Title(IComponent title)
         {
             _titleHost.Content(title);
             return this;
         }
 
+        /// <summary>
+        /// Configures the component to progress.
+        /// </summary>
         public ProgressModal Progress(float percent)
         {
             if (_isSpinner)
@@ -88,8 +118,14 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Configures the component to progress.
+        /// </summary>
         public ProgressModal Progress(int position, int total) => Progress(100f * position / total);
 
+        /// <summary>
+        /// Configures the progress indeterminated on the component.
+        /// </summary>
         public ProgressModal ProgressIndeterminated()
         {
             if (_isSpinner)
@@ -101,6 +137,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Configures the progress spin on the component.
+        /// </summary>
         public ProgressModal ProgressSpin()
         {
             if (!_isSpinner)
@@ -111,6 +150,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Returns the component configured with the given cancel.
+        /// </summary>
         public ProgressModal WithCancel(Action<Button> onCancel, Action<Button> btnCancel = null)
         {
             var button = Button().SetText("Cancel").SetIcon(UIcons.Cross).Danger();

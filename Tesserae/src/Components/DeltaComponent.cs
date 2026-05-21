@@ -7,6 +7,10 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// A small inline metric showing the change between two values (with up/down arrow and tone for positive /
+    /// negative / neutral deltas).
+    /// </summary>
     [H5.Name("tss.DeltaComponent")]
     public class DeltaComponent : IComponent
     {
@@ -18,6 +22,9 @@ namespace Tesserae
         // Node.TEXT_NODE is 3 in DOM
         private const int TEXT_NODE = 3;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public DeltaComponent(IComponent initial, bool useShadowDom = false)
         {
             _currentContent = initial;
@@ -33,12 +40,18 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Configures the component to animated.
+        /// </summary>
         public DeltaComponent Animated()
         {
             _isAnimated = true;
             return this;
         }
 
+        /// <summary>
+        /// Replaces the content in the component.
+        /// </summary>
         public void ReplaceContent(IComponent newContent)
         {
             var newRoot = newContent.Render();
@@ -277,6 +290,9 @@ namespace Tesserae
             return true;
         }
 
+        /// <summary>
+        /// Renders the component's root HTML element.
+        /// </summary>
         public HTMLElement Render()
         {
             return _root;
