@@ -149,6 +149,9 @@ namespace Tesserae
         public static ResourceCard ResourceCard() => new ResourceCard();
 
         public static Plan Plan(string title) => new Plan(title);
+        public static DeepResearchPlan DeepResearchPlan(DeepResearchPlanModel model = null) => new DeepResearchPlan(model);
+        public static DeepResearchStepItem DeepResearchStepItem(DeepResearchStepModel model = null) => new DeepResearchStepItem(model);
+        public static DeepResearchSubstepItem DeepResearchSubstepItem(DeepResearchSubstepModel model = null) => new DeepResearchSubstepItem(model);
 
         /// <summary>
         /// Creates a <see cref="Tesserae.Accordion"/> component.
