@@ -95,11 +95,11 @@ index 1111111..2222222 100644
                     Card(VStack().WS().Children(
                         SampleSubTitle("Try it"),
                         TextBlock("Edit the unified diff on the left; the rendered diff updates live on the right. Use the controls to switch between layouts and matching strategies, mirroring the diff2html demo."),
-                        HStack().WS().MT(8).Children(
+                        HStack().AlignItemsCenter().WS().MT(8).Children(
                             formatChoice.MR(24),
                             matchingChoice.MR(24),
                             fileListToggle),
-                        HStack().WS().MT(16).Children(
+                        HStack().AlignItemsCenter().WS().MT(16).Children(
                             VStack().Grow().PR(8).Children(
                                 SampleSubTitle("Unified diff input"),
                                 editor),
