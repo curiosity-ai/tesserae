@@ -45,7 +45,7 @@ namespace Tesserae
                 var selected = _dropdown.SelectedItems.FirstOrDefault();
                 if (selected != null)
                 {
-                    Select(selected.Data as string);
+                    Select(selected.GetDataAs<string>());
                 }
             });
         }

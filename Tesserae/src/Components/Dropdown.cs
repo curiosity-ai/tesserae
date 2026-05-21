@@ -1097,7 +1097,8 @@ namespace Tesserae
             /// <summary>
             /// Gets or sets the data.
             /// </summary>
-            public dynamic Data { get; private set; }
+            public T GetDataAs<T>() => _data.As<T>();
+            private dynamic _data;
 
             /// <summary>
             /// Initializes a new instance of this class.
@@ -1274,9 +1275,9 @@ namespace Tesserae
             /// <summary>
             /// Sets the data of the component.
             /// </summary>
-            public Item SetData(dynamic data)
+            public Item SetData<T>(T data)
             {
-                Data = data;
+                _data = data;
                 return this;
             }
 

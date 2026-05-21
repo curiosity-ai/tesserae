@@ -273,7 +273,7 @@ namespace Tesserae
 
                 foreach(var item in items)
                 {
-                    if ((string)item.Data == bestVal)
+                    if (item.GetDataAs<string>() == bestVal)
                     {
                         item.Selected();
                         break;
@@ -359,7 +359,7 @@ namespace Tesserae
             var timeItem = _timeDropdown.SelectedItems.FirstOrDefault();
             if (timeItem == null) return;
 
-            var parts = ((string)timeItem.Data).Split(' ');
+            var parts = (timeItem.GetDataAs<string>()).Split(' ');
             int m = int.Parse(parts[0]);
             int h = int.Parse(parts[1]);
 
