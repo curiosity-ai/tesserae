@@ -115,16 +115,18 @@ namespace Tesserae
                 return this;
             }
 
+            /// <summary>
+            /// Attaches a nested <see cref="ContextMenu"/> to this item. The submenu opens beside the item
+            /// when the user hovers over it. Submenus may themselves contain items with submenus — the
+            /// existing mouse-tracking and hide-cascade machinery operates recursively, so arbitrarily deep
+            /// menu trees are supported. (For application-style dropdown menus opened via an explicit
+            /// trigger, consider the newer <see cref="Menu"/> component, which is built on
+            /// <see cref="Popover"/> instead of bespoke mouse-tracking.)
+            /// </summary>
+            /// <param name="cm">The submenu to attach. May itself contain items with further submenus.</param>
             public Item SubMenu(ContextMenu cm)
             {
                 _subMenu = cm;
-
-                if (cm._items.Any(i => i.HasSubMenu))
-                {
-                    //TODO implement submenu of submenus (bad ux though)
-                    throw new InvalidOperationException("Sub menus of submenus currently not supported");
-                }
-
                 InnerElement.appendChild(I(_($"{UIcons.AngleRight} tss-contextmenu-submenu-button-icon")));
                 return this;
             }

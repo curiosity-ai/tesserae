@@ -6,7 +6,9 @@
 
 **Tesserae** is a UI toolkit for building web applications entirely in C#, inspired by Microsoft's [Fluent UI](https://github.com/microsoft/fluentui) toolkit. It leverages the [h5 C# to JavaScript compiler](https://github.com/curiosity-ai/h5) to provide a strongly typed, easy-to-use UI development experience.
 
-Official Documentation: [https://docs.curiosity.ai/tesserae](https://docs.curiosity.ai/tesserae)
+> 📖 **Official Documentation:** [**docs.curiosity.ai/tesserae**](https://docs.curiosity.ai/tesserae) &nbsp;·&nbsp; 🎨 **Live Samples:** [curiosity.ai/tesserae](https://curiosity.ai/tesserae)
+>
+> The documentation site is the recommended starting point for new users and includes guides, API references, and interactive examples for every component.
 
 ## Getting Started
 
@@ -68,7 +70,11 @@ To test your application locally, we recommend using the `dotnet-serve` tool, wh
 
 ## Documentation
 
-Detailed guides and documentation can be found in the following sections:
+For comprehensive guides, API references, and interactive component examples, visit the official documentation:
+
+### 📖 [docs.curiosity.ai/tesserae](https://docs.curiosity.ai/tesserae)
+
+Quick links to docs within this repo:
 
 -   [Styling](./docs/STYLING.md)
 -   [Custom Styles](./docs/CUSTOM_STYLES.md)

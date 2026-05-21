@@ -855,6 +855,64 @@ namespace Tesserae
         public static ContextMenu.Item ContextMenuItem(IComponent component) => new ContextMenu.Item(component);
 
         /// <summary>
+        /// Creates an empty <see cref="Tesserae.Popover"/>. Configure it with <c>.Content(...)</c> and the
+        /// other fluent setters, then call <c>ShowFor(anchor)</c> to display it anchored to a component.
+        /// </summary>
+        public static Popover Popover() => new Popover();
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.Popover"/> already populated with the given content.
+        /// </summary>
+        /// <param name="content">The component to show inside the popover surface.</param>
+        public static Popover Popover(IComponent content) => new Popover(content);
+
+        /// <summary>
+        /// Creates an empty <see cref="Tesserae.Menu"/>. Add items with <c>.Items(...)</c> or
+        /// <c>.Item(...)</c> and show it with <c>ShowFor(anchor)</c>. Unlike <see cref="ContextMenu"/>
+        /// (which is mouse-tracking and oriented toward right-click flows), <see cref="Menu"/> uses the
+        /// shared <see cref="Tesserae.Popover"/> primitive and supports arbitrarily nested submenus.
+        /// </summary>
+        public static Menu Menu() => new Menu();
+
+        /// <summary>
+        /// Creates a leaf <see cref="Menu.Item"/> with the given label.
+        /// </summary>
+        public static Menu.Item MenuItem(string text) => new Menu.Item(text);
+
+        /// <summary>
+        /// Creates a leaf <see cref="Menu.Item"/> with the given label and leading icon.
+        /// </summary>
+        public static Menu.Item MenuItem(string text, UIcons icon) => new Menu.Item(text, icon);
+
+        /// <summary>
+        /// Creates a non-interactive header <see cref="Menu.Item"/> used to group nearby items.
+        /// </summary>
+        public static Menu.Item MenuHeader(string text) => new Menu.Item(text).Header();
+
+        /// <summary>
+        /// Creates a thin divider <see cref="Menu.Item"/> used to visually separate groups of items.
+        /// </summary>
+        public static Menu.Item MenuDivider() => new Menu.Item(string.Empty).Divider();
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.DateRangePicker"/> bound to the given (optional) initial range.
+        /// </summary>
+        /// <param name="from">Optional initial "from" date.</param>
+        /// <param name="to">Optional initial "to" date.</param>
+        public static DateRangePicker DateRangePicker(DateTime? from = null, DateTime? to = null) => new DateRangePicker(from, to);
+
+        /// <summary>
+        /// Creates an empty <see cref="Tesserae.TagsInput"/>. Configure it with fluent setters and read
+        /// values via <c>Tags</c> or <c>AsObservable()</c>.
+        /// </summary>
+        public static TagsInput TagsInput() => new TagsInput();
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.TagsInput"/> pre-populated with the given tags.
+        /// </summary>
+        public static TagsInput TagsInput(params string[] initialTags) => new TagsInput(initialTags);
+
+        /// <summary>
         /// Creates a <see cref="Tesserae.Spinner"/> component.
         /// </summary>
         public static Spinner Spinner(string text = string.Empty) => new Spinner(text);

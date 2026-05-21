@@ -1,0 +1,28 @@
+/* Popover */
+/* The .tss-popover class wraps the IComponent content placed inside a Tippy popper. */
+
+.tss-popover {
+    display: block;
+    overflow: visible;
+    color: var(--tss-default-foreground-color);
+    background-color: transparent;
+    font-size: var(--tss-font-size-small);
+    line-height: 1.4;
+}
+
+/* Default Tippy theme override for popovers — match the application's surface colors */
+.tippy-box[data-theme~='tss-popover'] {
+    background-color: var(--tss-default-background-color);
+    color: var(--tss-default-foreground-color);
+    border: 1px solid var(--tss-default-border-color);
+    box-shadow: var(--tss-box-shadow, 0 4px 16px 0 rgba(0,0,0,0.12));
+    border-radius: 4px;
+}
+
+.tippy-box[data-theme~='tss-popover'] > .tippy-content {
+    padding: 0;
+}
+
+.tippy-box[data-theme~='tss-popover'] > .tippy-arrow {
+    color: var(--tss-default-background-color);
+}

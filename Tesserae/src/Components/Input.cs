@@ -4,6 +4,11 @@ using static Tesserae.UI;
 
 namespace Tesserae
 {
+    /// <summary>
+    /// Abstract base class for input components that wrap a single <see cref="HTMLInputElement"/>.
+    /// Provides shared behaviour for text-like inputs (value, validation, focus, observable binding).
+    /// </summary>
+    /// <typeparam name="TInput">The concrete input type (CRTP self-reference for fluent return types).</typeparam>
     [H5.Name("tss.Input")]
     public abstract class Input<TInput> : ComponentBase<TInput, HTMLInputElement>, ITabIndex, ICanValidate<TInput>, IObservableComponent<string> where TInput : Input<TInput>
     {
@@ -11,14 +16,19 @@ namespace Tesserae
         private readonly HTMLSpanElement            _errorSpan;
         private readonly SettableObservable<string> _observable;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Input{TInput}"/> class.
+        /// </summary>
+        /// <param name="type">The HTML <c>input</c> <c>type</c> attribute (e.g. <c>text</c>, <c>date</c>, <c>number</c>).</param>
+        /// <param name="defaultText">Optional initial value for the input.</param>
         protected Input(string type, string defaultText = null)
         {
             InnerElement = TextBox(_("tss-textbox", type: type, value: defaultText));
             _errorSpan = Span(_("tss-textbox-error"));
             _container = Div(_("tss-textbox-container tss-default-component-margin"), InnerElement, _errorSpan);
-            
+
             _observable = new SettableObservable<string>(defaultText);
-            
+
             AttachChange();
             AttachInput();
             AttachFocus();
@@ -26,9 +36,12 @@ namespace Tesserae
             AttachKeys();
             AttachClick();
 
-            // TODO: 27/06/20 - MB - calling virtual member within a constructor is a bit of a no-no.
-            OnChange((_, __) => _observable.Value = Text);
-            OnInput((_,  __) => _observable.Value = Text);
+            // Subscribe to the underlying events directly rather than calling the virtual
+            // OnChange / OnInput methods, which would dispatch to derived overrides before
+            // the derived constructor has finished running (a classic virtual-in-constructor
+            // antipattern). This achieves the same observable-update behaviour safely.
+            Changed       += (_, __) => _observable.Value = Text;
+            InputUpdated  += (_, __) => _observable.Value = Text;
         }
 
         /// <summary>
