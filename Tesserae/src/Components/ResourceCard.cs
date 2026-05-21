@@ -24,6 +24,9 @@ namespace Tesserae
         private readonly HTMLElement _footerLeft;
         private readonly HTMLElement _footerRight;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public ResourceCard()
         {
             _iconContainer = Div(_("tss-default-component-no-margin"));
@@ -253,18 +256,27 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Gets or sets the CSS background of the component.
+        /// </summary>
         public string Background
         {
             get => _card.Background;
             set => _card.Background = value;
         }
 
+        /// <summary>
+        /// Sets the background colour of the card.
+        /// </summary>
         public ResourceCard BackgroundColor(string color)
         {
             _card.BackgroundColor(color);
             return this;
         }
 
+        /// <summary>
+        /// Configures the component to border.
+        /// </summary>
         public ResourceCard Border(string color, UnitSize size = null)
         {
             _card.Border(color, size);

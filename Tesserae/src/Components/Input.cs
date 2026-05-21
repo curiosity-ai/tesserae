@@ -54,6 +54,9 @@ namespace Tesserae
             _observable.Value  = "";
         }
 
+        /// <summary>
+        /// Gets or sets the text shown in the component.
+        /// </summary>
         public string Text
         {
             get => InnerElement.value;
@@ -65,6 +68,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the component is interactive (enabled).
+        /// </summary>
         public bool IsEnabled
         {
             get => !InnerElement.classList.contains("tss-disabled");
@@ -83,12 +89,18 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets the validation error message displayed beneath the component.
+        /// </summary>
         public string Error
         {
             get => _errorSpan.innerText;
             set => _errorSpan.innerText = value;
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the component is currently in an invalid state.
+        /// </summary>
         public bool IsInvalid
         {
             get => _container.classList.contains("tss-invalid");
@@ -105,6 +117,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the component is required for form submission.
+        /// </summary>
         public bool IsRequired
         {
             get => _container.classList.contains("tss-required");
@@ -121,6 +136,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Sets the keyboard tab order of the component.
+        /// </summary>
         public int TabIndex
         {
             set
@@ -129,6 +147,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Attaches a handler to the component's value-changed event.
+        /// </summary>
         public void Attach(ComponentEventHandler<TInput> handler)
         {
             InputUpdated += (s, _) => handler(s);
@@ -143,12 +164,18 @@ namespace Tesserae
             return this.As<TInput>();
         }
 
+        /// <summary>
+        /// Clears the text.
+        /// </summary>
         public TInput ClearText()
         {
             SetText(string.Empty);
             return this.As<TInput>();
         }
 
+        /// <summary>
+        /// Disables the component.
+        /// </summary>
         public TInput Disabled(bool value = true)
         {
             IsEnabled = !value;
@@ -164,6 +191,9 @@ namespace Tesserae
             return this.As<TInput>();
         }
 
+        /// <summary>
+        /// Marks the component as required.
+        /// </summary>
         public TInput Required()
         {
             IsRequired = true;

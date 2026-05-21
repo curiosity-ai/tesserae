@@ -18,6 +18,9 @@ namespace Tesserae
     {
         private SkeletonType _type;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public Skeleton(SkeletonType type = SkeletonType.Line)
         {
             InnerElement = Div(_("tss-skeleton"));
@@ -25,18 +28,27 @@ namespace Tesserae
             Animated();
         }
 
+        /// <summary>
+        /// Gets or sets the type value.
+        /// </summary>
         public SkeletonType TypeValue
         {
             get => _type;
             set => Type(value);
         }
 
+        /// <summary>
+        /// Returns a value indicating whether the component is animated.
+        /// </summary>
         public bool IsAnimated
         {
             get => InnerElement.classList.contains("tss-skeleton-animated");
             set => InnerElement.UpdateClassIf(value, "tss-skeleton-animated");
         }
 
+        /// <summary>
+        /// Configures the component to type.
+        /// </summary>
         public Skeleton Type(SkeletonType type)
         {
             _type = type;
@@ -58,6 +70,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Configures the component to animated.
+        /// </summary>
         public Skeleton Animated(bool value = true)
         {
             IsAnimated = value;

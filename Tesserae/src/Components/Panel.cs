@@ -23,8 +23,14 @@ namespace Tesserae
         private readonly HTMLElement _closeButton;
         private readonly HTMLElement _panelTitle;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public Panel(string title = null) : this(TextBlock(title).SemiBold()) { }
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public Panel(IComponent title)
         {
             _panelTitle = Div(_("tss-panel-title"));
@@ -43,6 +49,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Sets the content rendered inside the surface.
+        /// </summary>
         public override IComponent Content
         {
             get => _content;
@@ -59,6 +68,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets the footer of the component.
+        /// </summary>
         public IComponent Footer
         {
             get => _footer;
@@ -75,6 +87,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets the size of the component.
+        /// </summary>
         public PanelSize Size
         {
             get
@@ -93,6 +108,9 @@ namespace Tesserae
             set => _panel.classList.replace(_panel.classList[1], value.ToString());
         }
 
+        /// <summary>
+        /// Gets or sets which side of the parent the component is anchored to.
+        /// </summary>
         public PanelSide Side
         {
             get
@@ -107,6 +125,9 @@ namespace Tesserae
             set => _panel.classList.replace(_panel.classList[2], value.ToString());
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the surface can be dismissed by clicking outside it (light dismiss).
+        /// </summary>
         public bool CanLightDismiss
         {
             get => _panelOverlay.classList.contains("tss-panel-lightDismiss");
@@ -125,6 +146,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the component uses the dark colour theme.
+        /// </summary>
         public bool IsDark
         {
             get => _contentHtml.classList.contains("tss-dark");
@@ -141,6 +165,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the surface is non-blocking (allows interaction with the page beneath it).
+        /// </summary>
         public bool IsNonBlocking
         {
             get => _contentHtml.classList.contains("tss-panel-modeless");
@@ -157,6 +184,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the close button is shown.
+        /// </summary>
         public bool ShowCloseButton
         {
             get => _closeButton.style.display != "none";
@@ -177,6 +207,9 @@ namespace Tesserae
             return new FocusTrap(_contentHtml).Render();
         }
 
+        /// <summary>
+        /// Shows the component.
+        /// </summary>
         public override Panel Show()
         {
             if (!IsNonBlocking) document.body.style.overflowY = "hidden";
@@ -204,6 +237,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Hides the component.
+        /// </summary>
         public override void Hide(Action onHidden = null)
         {
             HidePanel?.Invoke(this);
@@ -256,49 +292,76 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Renders the component at small size.
+        /// </summary>
         public Panel Small()
         {
             Size = PanelSize.Small;
             return this;
         }
+        /// <summary>
+        /// Renders the component at medium size.
+        /// </summary>
         public Panel Medium()
         {
             Size = PanelSize.Medium;
             return this;
         }
+        /// <summary>
+        /// Renders the component at large size.
+        /// </summary>
         public Panel Large()
         {
             Size = PanelSize.Large;
             return this;
         }
+        /// <summary>
+        /// Renders the component at large size with a fixed width.
+        /// </summary>
         public Panel LargeFixed()
         {
             Size = PanelSize.LargeFixed;
             return this;
         }
+        /// <summary>
+        /// Renders the component at extra-large size.
+        /// </summary>
         public Panel ExtraLarge()
         {
             Size = PanelSize.ExtraLarge;
             return this;
         }
+        /// <summary>
+        /// Stretches the component to the full width of its parent.
+        /// </summary>
         public Panel FullWidth()
         {
             Size = PanelSize.FullWidth;
             return this;
         }
 
+        /// <summary>
+        /// Anchors the component to the far side of its parent.
+        /// </summary>
         public Panel Far()
         {
             Side = PanelSide.Far;
             return this;
         }
 
+        /// <summary>
+        /// Anchors the component to the near side of its parent.
+        /// </summary>
         public Panel Near()
         {
             Side = PanelSide.Near;
             return this;
         }
 
+        /// <summary>
+        /// Enables light-dismiss behaviour (clicking outside the surface closes it).
+        /// </summary>
         public Panel LightDismiss()
         {
             CanLightDismiss = true;
@@ -314,17 +377,26 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Applies the dark colour scheme to the component.
+        /// </summary>
         public Panel Dark()
         {
             IsDark = true;
             return this;
         }
 
+        /// <summary>
+        /// Makes the surface non-blocking, allowing interaction with the page beneath it.
+        /// </summary>
         public Panel NonBlocking()
         {
             IsNonBlocking = true;
             return this;
         }
+        /// <summary>
+        /// Makes the surface blocking (the default — interaction with the page beneath is prevented).
+        /// </summary>
         public Panel Blocking()
         {
             IsNonBlocking = false;

@@ -21,6 +21,9 @@ namespace Tesserae
         private Action<SortableEvent> _onColumnDrop;
         private Action<SortableEvent> _onColumnUpdate;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public TaskBoard()
         {
             _stack = Stack().Horizontal().Width(100.percent()).Height(100.percent());
@@ -72,6 +75,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Defines the columns of the grid (track sizes).
+        /// </summary>
         public TaskBoard Columns(params TaskBoardColumn[] columns)
         {
             _stack.Clear();
@@ -83,6 +89,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Configures the read only on the component.
+        /// </summary>
         public TaskBoard ReadOnly(bool isReadOnly = true)
         {
             _isReadOnly = isReadOnly;
@@ -112,6 +121,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Configures the row mode on the component.
+        /// </summary>
         public TaskBoard RowMode(bool isRowMode = true)
         {
             _isRowMode = isRowMode;
@@ -157,6 +169,9 @@ namespace Tesserae
         private Action<SortableEvent> _onCardRemove;
         private Action<SortableEvent> _onCardUpdate;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public TaskBoardColumn(string title, string sortableGroup = "taskboard")
         {
             _groupName = sortableGroup;
@@ -210,6 +225,9 @@ namespace Tesserae
             });
         }
 
+        /// <summary>
+        /// Returns a value indicating whether the component is read only.
+        /// </summary>
         public bool IsReadOnly
         {
             get => _isReadOnly;
@@ -256,6 +274,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Configures the component to cards.
+        /// </summary>
         public TaskBoardColumn Cards(params TaskBoardCard[] cards)
         {
             _cardsContainer.Clear();
@@ -319,6 +340,9 @@ namespace Tesserae
         private HTMLElement _header;
         private HTMLElement _footer;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public TaskBoardCard(IComponent content)
         {
             _layout = Stack().Vertical().Gap(8.px());
@@ -337,6 +361,9 @@ namespace Tesserae
             }), _layout.Render());
         }
 
+        /// <summary>
+        /// Configures the component to header.
+        /// </summary>
         public TaskBoardCard Header(IComponent headerContent)
         {
             if (_header != null)
@@ -356,6 +383,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Configures the component to footer.
+        /// </summary>
         public TaskBoardCard Footer(IComponent footerContent)
         {
             if (_footer != null)

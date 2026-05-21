@@ -15,18 +15,39 @@ namespace Tesserae
     {
         public class Entity
         {
+            /// <summary>
+            /// Starts the component's operation.
+            /// </summary>
             public int Start { get; set; }
+            /// <summary>
+            /// Gets or sets the length.
+            /// </summary>
             public int Length { get; set; }
+            /// <summary>
+            /// Gets or sets the label shown by the component.
+            /// </summary>
             public string Label { get; set; }
             /// <summary>
             /// Gets or sets the CSS background of the component.
             /// </summary>
             public string Background { get; set; }
+            /// <summary>
+            /// Gets or sets the color of the component.
+            /// </summary>
             public string Color { get; set; }
+            /// <summary>
+            /// Gets or sets the CSS border of the component.
+            /// </summary>
             public string Border { get; set; }
 
+            /// <summary>
+            /// Initializes a new instance of this class.
+            /// </summary>
             public Entity() { }
 
+            /// <summary>
+            /// Initializes a new instance of this class.
+            /// </summary>
             public Entity(int start, int length, string label = null, string background = null, string color = null, string border = null)
             {
                 Start = start;
@@ -37,6 +58,9 @@ namespace Tesserae
                 Border = border;
             }
 
+            /// <summary>
+            /// Gets or sets the end.
+            /// </summary>
             public int End => Start + Length;
         }
 
@@ -57,10 +81,22 @@ namespace Tesserae
         public delegate void TextChangedHandler(AnnotatedTextEditor sender, string text);
         public delegate void EntityClickHandler(AnnotatedTextEditor sender, Entity entity, MouseEvent e);
 
+        /// <summary>
+        /// Raised when annotations changed occurs.
+        /// </summary>
         public event AnnotationsChangedHandler AnnotationsChanged;
+        /// <summary>
+        /// Raised when text changed occurs.
+        /// </summary>
         public event TextChangedHandler        TextChanged;
+        /// <summary>
+        /// Raised when entity clicked occurs.
+        /// </summary>
         public event EntityClickHandler        EntityClicked;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public AnnotatedTextEditor(Func<string, Task<Entity[]>> annotator, string initialText = null, int debounceMs = 500, string placeholder = null)
         {
             _annotator  = annotator;
@@ -112,6 +148,9 @@ namespace Tesserae
             TriggerAnnotate();
         }
 
+        /// <summary>
+        /// Gets or sets the text shown in the component.
+        /// </summary>
         public string Text
         {
             get => _textarea.value;
@@ -125,8 +164,14 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets the entities.
+        /// </summary>
         public Entity[] Entities => _currentEntities;
 
+        /// <summary>
+        /// Gets or sets the placeholder text shown when the component is empty.
+        /// </summary>
         public string Placeholder
         {
             get => _textarea.placeholder;
@@ -143,6 +188,9 @@ namespace Tesserae
         /// </summary>
         public int TabIndex { set => _textarea.tabIndex = value; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the component is interactive (enabled).
+        /// </summary>
         public bool IsEnabled
         {
             get => !_container.classList.contains("tss-disabled");
@@ -161,6 +209,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Returns a value indicating whether the component is read only.
+        /// </summary>
         public bool IsReadOnly
         {
             get => _textarea.readOnly;
@@ -180,7 +231,13 @@ namespace Tesserae
         /// Sets the placeholder of the component.
         /// </summary>
         public AnnotatedTextEditor SetPlaceholder(string placeholder) { Placeholder = placeholder; return this; }
+        /// <summary>
+        /// Disables the component.
+        /// </summary>
         public AnnotatedTextEditor Disabled(bool value = true) { IsEnabled = !value; return this; }
+        /// <summary>
+        /// Configures the read only on the component.
+        /// </summary>
         public AnnotatedTextEditor ReadOnly(bool value = true) { IsReadOnly = value; return this; }
 
         /// <summary>
@@ -220,6 +277,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Shortcut for setting the height in pixels.
+        /// </summary>
         public AnnotatedTextEditor H(int px) => Height(px.px());
 
         /// <summary>
@@ -245,6 +305,9 @@ namespace Tesserae
         /// </summary>
         public HTMLElement Render() => _container;
 
+        /// <summary>
+        /// Configures the trigger annotate on the component.
+        /// </summary>
         public void TriggerAnnotate()
         {
             if (_annotator == null) return;

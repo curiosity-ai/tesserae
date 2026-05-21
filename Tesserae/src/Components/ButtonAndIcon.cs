@@ -14,6 +14,9 @@ namespace Tesserae
 
         private readonly HTMLElement _parent;
         private readonly Button _arrowButton;
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public ButtonAndIcon(string text, IconClickHandler onIconClick, UIcons mainIcon = UIcons.Circle, UIcons secondaryIcon = UIcons.AngleDown)
         {
             SetText(text);

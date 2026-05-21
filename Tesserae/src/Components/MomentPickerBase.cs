@@ -19,18 +19,27 @@ namespace Tesserae
 
         protected TMoment Moment => FormatMoment(Text);
 
+        /// <summary>
+        /// Gets or sets the maximum value accepted by the component.
+        /// </summary>
         public TMoment Max
         {
             get => FormatMoment(InnerElement.max);
             set => InnerElement.max = FormatMoment(value);
         }
 
+        /// <summary>
+        /// Gets or sets the minimum value accepted by the component.
+        /// </summary>
         public TMoment Min
         {
             get => FormatMoment(InnerElement.min);
             set => InnerElement.min = FormatMoment(value);
         }
 
+        /// <summary>
+        /// Gets or sets the step increment used by the component.
+        /// </summary>
         public int Step
         {
             get => int.Parse(InnerElement.step);
@@ -68,6 +77,9 @@ namespace Tesserae
 
         protected abstract TMoment FormatMoment(string moment);
 
+        /// <summary>
+        /// Gets or sets the size of the component.
+        /// </summary>
         public virtual TextSize Size
         {
             get => ITextFormatingExtensions.FromClassList(InnerElement, TextSize.Small);
@@ -78,6 +90,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets the font weight of the component.
+        /// </summary>
         public virtual TextWeight Weight
         {
             get => ITextFormatingExtensions.FromClassList(InnerElement, TextWeight.Regular);
@@ -88,6 +103,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets the text alignment of the component.
+        /// </summary>
         public TextAlign TextAlign
         {
             get

@@ -14,6 +14,9 @@ namespace Tesserae
         private readonly HTMLElement _container;
         private readonly HTMLElement _separator;
 
+        /// <summary>
+        /// Gets or sets the alignment.
+        /// </summary>
         public Align Alignment
         {
             get
@@ -32,6 +35,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets the text shown in the component.
+        /// </summary>
         public string Text
         {
             get => _separator.textContent;
@@ -43,6 +49,9 @@ namespace Tesserae
         /// </summary>
         public string Background { get => _separator.style.background; set => _separator.style.background = value; }
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public HorizontalSeparator(string text = string.Empty)
         {
             _separator = Div(_("tss-horizontalseparator"));
@@ -50,6 +59,9 @@ namespace Tesserae
             Text       = text;
         }
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public HorizontalSeparator(IComponent component)
         {
             _separator = Div(_("tss-horizontalseparator"));
@@ -67,6 +79,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Styles the component using the primary tone.
+        /// </summary>
         public HorizontalSeparator Primary()
         {
             _separator.classList.add("tss-primary");
@@ -97,18 +112,27 @@ namespace Tesserae
             Right
         }
 
+        /// <summary>
+        /// Aligns the content of the component to the left.
+        /// </summary>
         public HorizontalSeparator Left()
         {
             Alignment = Align.Left;
             return this;
         }
 
+        /// <summary>
+        /// Centers the content of the component.
+        /// </summary>
         public HorizontalSeparator Center()
         {
             Alignment = Align.Center;
             return this;
         }
 
+        /// <summary>
+        /// Aligns the content of the component to the right.
+        /// </summary>
         public HorizontalSeparator Right()
         {
             Alignment = Align.Right;

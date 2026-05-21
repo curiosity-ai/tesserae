@@ -18,6 +18,9 @@ namespace Tesserae
         private readonly IComponent  _child;
         private readonly HTMLElement _floatingContainer;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public Float(IComponent child, Position position)
         {
             _child             = child;

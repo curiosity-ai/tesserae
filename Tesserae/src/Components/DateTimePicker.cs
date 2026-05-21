@@ -9,11 +9,17 @@ namespace Tesserae
     [H5.Name("tss.DateTimePicker")]
     public class DateTimePicker : MomentPickerBase<DateTimePicker, DateTime>
     {
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public DateTimePicker(DateTime? dateTime = null)
             : base("datetime-local", dateTime.HasValue ? FormatDateTime(dateTime.Value) : string.Empty)
         {
         }
 
+        /// <summary>
+        /// Gets or sets the date time.
+        /// </summary>
         public DateTime DateTime => Moment;
 
         /// <summary>

@@ -9,11 +9,17 @@ namespace Tesserae
     [H5.Name("tss.MonthPicker")]
     public class MonthPicker : MomentPickerBase<MonthPicker, (int year, int month)>
     {
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public MonthPicker((int year, int month)? monthAndYear)
             : base("month", monthAndYear.HasValue ? FormatMonth(monthAndYear.Value) : string.Empty)
         {
         }
 
+        /// <summary>
+        /// Gets or sets the month.
+        /// </summary>
         public (int year, int month) Month => Moment;
 
         /// <summary>

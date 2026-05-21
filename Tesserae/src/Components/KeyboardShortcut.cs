@@ -11,6 +11,9 @@ namespace Tesserae
     [H5.Name("tss.KBS")]
     public sealed class KeyboardShortcut : ComponentBase<KeyboardShortcut, HTMLElement>
     {
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public KeyboardShortcut(params string[] keys)
         {
             InnerElement = Span(_("tss-kbd-shortcut"));

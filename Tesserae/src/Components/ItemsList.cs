@@ -17,6 +17,9 @@ namespace Tesserae
         private readonly UnitSize         _maxStackItemSize;
         private readonly DeferedComponent _defered;
         private          Func<IComponent> _emptyListMessageGenerator;
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public ItemsList(IComponent[] items, params UnitSize[] columns) : this(new ObservableList<IComponent>(initialValues: items ?? new IComponent[0]), columns) { }
 
         /// <summary>
@@ -24,10 +27,19 @@ namespace Tesserae
         /// </summary>
         public ObservableList<IComponent> Items { get; }
 
+        /// <summary>
+        /// Gets or sets the styling container.
+        /// </summary>
         public HTMLElement StylingContainer => _defered.Container;
 
+        /// <summary>
+        /// Gets or sets the propagate to stack item parent.
+        /// </summary>
         public bool PropagateToStackItemParent => true;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public ItemsList(ObservableList<IComponent> items, params UnitSize[] columns)
         {
             Items = items ?? new ObservableList<IComponent>();

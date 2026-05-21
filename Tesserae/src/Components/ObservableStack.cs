@@ -14,6 +14,9 @@ namespace Tesserae
     [H5.Name("tss.OS")]
     public class ObservableStack : IComponent, IHasBackgroundColor, IHasMarginPadding, ISpecialCaseStyling, ICanWrap
     {
+        /// <summary>
+        /// Gets or sets the stack orientation.
+        /// </summary>
         public Orientation StackOrientation
         {
             get
@@ -48,12 +51,18 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the component's text can wrap onto multiple lines.
+        /// </summary>
         public bool CanWrap
         {
             get => InnerElement.style.flexWrap != "nowrap";
             set => InnerElement.style.flexWrap = value ? "wrap" : "nowrap";
         }
 
+        /// <summary>
+        /// Returns a value indicating whether the component is inline.
+        /// </summary>
         public bool IsInline
         {
             get => InnerElement.style.display == "inline-flex";
@@ -77,8 +86,14 @@ namespace Tesserae
         /// </summary>
         public string      Padding      { get => InnerElement.style.padding;    set => InnerElement.style.padding = value; }
 
+        /// <summary>
+        /// Gets or sets the styling container.
+        /// </summary>
         public HTMLElement StylingContainer => InnerElement;
 
+        /// <summary>
+        /// Gets or sets the propagate to stack item parent.
+        /// </summary>
         public bool PropagateToStackItemParent { get; private set; } = true;
 
 
@@ -166,9 +181,21 @@ namespace Tesserae
 
         private class ExistingStackElement
         {
+            /// <summary>
+            /// Gets or sets the identifier.
+            /// </summary>
             public string      Identifier      { get; set; }
+            /// <summary>
+            /// Gets or sets the content hash.
+            /// </summary>
             public string      ContentHash     { get; set; }
+            /// <summary>
+            /// Gets or sets the rendered element.
+            /// </summary>
             public HTMLElement RenderedElement { get; set; }
+            /// <summary>
+            /// Gets or sets the index.
+            /// </summary>
             public int         Index           { get; set; }
         }
 
@@ -268,6 +295,9 @@ namespace Tesserae
                 }
             }
         }
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public ObservableStack(ObservableList<IComponentWithID> observableList, Orientation orientation = Orientation.Vertical, bool debounce = true)
         {
             InnerElement     = Div(_("tss-stack"));
@@ -340,36 +370,54 @@ namespace Tesserae
         /// </summary>
         public virtual HTMLElement Render() => InnerElement;
 
+        /// <summary>
+        /// Configures the component to horizontal.
+        /// </summary>
         public ObservableStack Horizontal()
         {
             StackOrientation = Stack.Orientation.Horizontal;
             return this;
         }
 
+        /// <summary>
+        /// Configures the component to vertical.
+        /// </summary>
         public ObservableStack Vertical()
         {
             StackOrientation = Stack.Orientation.Vertical;
             return this;
         }
 
+        /// <summary>
+        /// Configures the horizontal reverse on the component.
+        /// </summary>
         public ObservableStack HorizontalReverse()
         {
             StackOrientation = Stack.Orientation.HorizontalReverse;
             return this;
         }
 
+        /// <summary>
+        /// Configures the vertical reverse on the component.
+        /// </summary>
         public ObservableStack VerticalReverse()
         {
             StackOrientation = Stack.Orientation.VerticalReverse;
             return this;
         }
 
+        /// <summary>
+        /// Allows the component's content to wrap onto multiple lines.
+        /// </summary>
         public ObservableStack Wrap()
         {
             CanWrap = true;
             return this;
         }
 
+        /// <summary>
+        /// Renders the component inline.
+        /// </summary>
         public ObservableStack Inline()
         {
             IsInline = true;
@@ -385,6 +433,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Hides any content that overflows the component's bounds.
+        /// </summary>
         public ObservableStack OverflowHidden()
         {
             InnerElement.style.overflow = "hidden";
@@ -513,6 +564,9 @@ namespace Tesserae
 
         private static readonly string[] _stylesToPropagate = new[] { "tss-default-component-margin", "tss-collapse", "tss-fade-light", "tss-fade", "tss-show" };
 
+        /// <summary>
+        /// Configures the component to skeleton.
+        /// </summary>
         public IComponent Skeleton(bool enabled = true)
         {
             if (enabled)

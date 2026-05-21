@@ -22,6 +22,9 @@ namespace Tesserae
         private          Action<Expander>  _onExpand;
         private          Action<Expander>  _onCollapse;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public Expander(string title = null, IComponent content = null)
         {
             var contentId = "tss-expander-content-" + Guid.NewGuid().ToString("N").Substring(0, 8);
@@ -137,6 +140,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Configures the option icon on the component.
+        /// </summary>
         public Expander OptionIcon(UIcons icon, string color = "", string background = "")
         {
             ClearChildren(_iconContainer);
@@ -153,30 +159,45 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Configures the chevron right on the component.
+        /// </summary>
         public Expander ChevronRight()
         {
             _header.appendChild(_chevron);
             return this;
         }
 
+        /// <summary>
+        /// Expands the component.
+        /// </summary>
         public Expander Expanded(bool value = true)
         {
             IsExpanded = value;
             return this;
         }
 
+        /// <summary>
+        /// Collapses the component.
+        /// </summary>
         public Expander Collapse()
         {
             IsExpanded = false;
             return this;
         }
 
+        /// <summary>
+        /// Expands the component.
+        /// </summary>
         public Expander Expand()
         {
             IsExpanded = true;
             return this;
         }
 
+        /// <summary>
+        /// Toggles the component's state.
+        /// </summary>
         public Expander Toggle()
         {
             IsExpanded = !IsExpanded;

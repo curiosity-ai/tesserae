@@ -19,10 +19,22 @@ namespace Tesserae
         private bool _stopAutoScroll = false;
         private string _bubbleBackground = null;
 
+        /// <summary>
+        /// Raised when scrolled occurs.
+        /// </summary>
         public event ComponentEventHandler<ChatArea, Event> Scrolled;
+        /// <summary>
+        /// Raised when received focus occurs.
+        /// </summary>
         public event ComponentEventHandler<ChatArea, Event> ReceivedFocus;
+        /// <summary>
+        /// Raised when lost focus occurs.
+        /// </summary>
         public event ComponentEventHandler<ChatArea, Event> LostFocus;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public ChatArea()
         {
             _messages = new ObservableList<IComponentWithID>();
@@ -160,11 +172,23 @@ namespace Tesserae
         private IComponent _currentContent;
         private ChatArea _parent;
 
+        /// <summary>
+        /// Gets or sets the identifier.
+        /// </summary>
         public string Identifier { get; private set; }
+        /// <summary>
+        /// Gets or sets the content hash.
+        /// </summary>
         public string ContentHash { get; private set; }
 
+        /// <summary>
+        /// Gets or sets the bubble background.
+        /// </summary>
         public string BubbleBackground { get; private set; }
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public ChatMessage(IComponent content, IComponent avatar = null, IComponent commands = null)
         {
             Identifier = Guid.NewGuid().ToString();
@@ -199,6 +223,9 @@ namespace Tesserae
             _parent = parent;
         }
 
+        /// <summary>
+        /// Configures the left aligned on the component.
+        /// </summary>
         public ChatMessage LeftAligned()
         {
             _innerElement.classList.remove("tss-chat-right");
@@ -206,6 +233,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Configures the right aligned on the component.
+        /// </summary>
         public ChatMessage RightAligned()
         {
             _innerElement.classList.remove("tss-chat-left");
@@ -213,6 +243,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Stretches the component to the full width of its parent.
+        /// </summary>
         public ChatMessage FullWidth()
         {
             _innerElement.classList.remove("tss-chat-maxwidth");
@@ -264,6 +297,9 @@ namespace Tesserae
             return WithReferences(new[] { reference });
         }
 
+        /// <summary>
+        /// Replaces the content in the component.
+        /// </summary>
         public ChatMessage ReplaceContent(IComponent newContent)
         {
             ContentHash = Guid.NewGuid().ToString();
@@ -272,6 +308,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Configures the keep visible on the component.
+        /// </summary>
         public void KeepVisible()
         {
             if (_parent != null)

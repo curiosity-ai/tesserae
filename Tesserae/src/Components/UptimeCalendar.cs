@@ -24,6 +24,9 @@ namespace Tesserae
         /// </summary>
         public string Padding { get => _container.style.padding; set => _container.style.padding = value; }
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public UptimeCalendar(string title, string subtitle)
         {
             _grid = Div(_("tss-uptime-month-grid"));

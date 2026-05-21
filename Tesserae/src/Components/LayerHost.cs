@@ -12,6 +12,9 @@ namespace Tesserae
     [H5.Name("tss.LayerHost")]
     public class LayerHost : ComponentBase<Layer, HTMLDivElement>
     {
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public LayerHost()
         {
             InnerElement = Div(_("tss-layer-host"));

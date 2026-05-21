@@ -31,6 +31,9 @@ namespace Tesserae
 
         private Func<Task<TDetailsListItem[]>> _getNextItemPage = null;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public DetailsList(params IDetailsListColumn[] columns)
         {
             if (columns == null)
@@ -52,16 +55,28 @@ namespace Tesserae
             _currentSortingIcon       = UIcons.ArrowUp;
         }
 
+        /// <summary>
+        /// Gets or sets the styling container.
+        /// </summary>
         public HTMLElement StylingContainer => _container;
 
+        /// <summary>
+        /// Gets or sets the propagate to stack item parent.
+        /// </summary>
         public bool PropagateToStackItemParent => false;
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the component is rendered in compact form.
+        /// </summary>
         public bool IsCompact
         {
             get => _listContainer.classList.contains("tss-small");
             set => _listContainer.UpdateClassIf(value, "tss-small");
         }
 
+        /// <summary>
+        /// Renders the component in a compact form.
+        /// </summary>
         public DetailsList<TDetailsListItem> Compact()
         {
             IsCompact = true;
@@ -136,6 +151,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Configures the sorted by on the component.
+        /// </summary>
         public DetailsList<TDetailsListItem> SortedBy(string columnSortingKey)
         {
             if (string.IsNullOrWhiteSpace(columnSortingKey))

@@ -12,10 +12,16 @@ namespace Tesserae
     [H5.Name("tss.TimeHistogramBucket")]
     public sealed class TimeHistogramBucket
     {
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public TimeHistogramBucket()
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public TimeHistogramBucket(DateTime start, DateTime end, int count)
         {
             Start = start;
@@ -23,8 +29,17 @@ namespace Tesserae
             Count = count;
         }
 
+        /// <summary>
+        /// Starts the component's operation.
+        /// </summary>
         public DateTime Start { get; set; }
+        /// <summary>
+        /// Gets or sets the end.
+        /// </summary>
         public DateTime End   { get; set; }
+        /// <summary>
+        /// Gets the number of items in the component.
+        /// </summary>
         public int      Count { get; set; }
     }
 
@@ -64,6 +79,9 @@ namespace Tesserae
         private Action<DateTime, DateTime, int> _rangeChanged;
         private Action                          _hideBarTooltip;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public TimeHistogramPicker(DateTime[] values, int maxBuckets = 80)
         {
             _maxBuckets = Math.Max(1, maxBuckets);
@@ -89,14 +107,26 @@ namespace Tesserae
             SetValues(values);
         }
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public TimeHistogramPicker(TimeHistogramBucket[] buckets)
             : this((DateTime[])null)
         {
             SetBuckets(buckets);
         }
 
+        /// <summary>
+        /// Gets or sets the selected from.
+        /// </summary>
         public DateTime SelectedFrom  => HasSelection ? _buckets[_selectedStartIndex].Start : default;
+        /// <summary>
+        /// Gets or sets the selected to.
+        /// </summary>
         public DateTime SelectedTo    => HasSelection ? _buckets[_selectedEndIndex].End : default;
+        /// <summary>
+        /// Gets or sets the selected count.
+        /// </summary>
         public int      SelectedCount => HasSelection ? CountSelectedValues() : 0;
 
         private bool HasSelection => _buckets.Count > 0 && _selectedStartIndex >= 0 && _selectedEndIndex >= _selectedStartIndex;
@@ -161,6 +191,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Configures the max buckets on the component.
+        /// </summary>
         public TimeHistogramPicker MaxBuckets(int maxBuckets)
         {
             _maxBuckets = Math.Max(1, maxBuckets);
@@ -216,6 +249,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Disables the component.
+        /// </summary>
         public TimeHistogramPicker Disabled(bool value = true)
         {
             _isEnabled = !value;

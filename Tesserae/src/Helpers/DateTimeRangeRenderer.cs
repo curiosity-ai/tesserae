@@ -7,11 +7,17 @@ namespace Tesserae
     /// </summary>
     internal static class DateTimeRangeRenderer
     {
+        /// <summary>
+        /// Renders the time.
+        /// </summary>
         public static string RenderTime(DateTime date)
         {
             return date.TimeOfDay.TotalMilliseconds == 0 ? date.ToString("d") : date.ToString("g");
         }
 
+        /// <summary>
+        /// Renders the range.
+        /// </summary>
         public static string RenderRange(DateTime from, DateTime to, Func<DateTime, string> renderTime = null)
         {
             var hasCustomRenderTime = renderTime != null;

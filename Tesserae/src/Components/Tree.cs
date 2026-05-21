@@ -17,6 +17,9 @@ namespace Tesserae
         private readonly List<Item> _children = new List<Item>();
         private bool _selectionEnabled = false;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public Tree()
         {
             InnerElement = Ul(_("tss-tree", role: "tree"));
@@ -57,8 +60,14 @@ namespace Tesserae
         /// </summary>
         public override HTMLElement Render() => InnerElement;
 
+        /// <summary>
+        /// Gets the currently selected item.
+        /// </summary>
         public Item SelectedItem { get; private set; }
 
+        /// <summary>
+        /// Raised when selected item changed occurs.
+        /// </summary>
         public event ComponentEventHandler<Tree, Item> SelectedItemChanged;
 
         /// <summary>
@@ -70,6 +79,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Enables or disables item selection on the tree.
+        /// </summary>
         public Tree SelectionEnabled(bool enabled = true)
         {
             _selectionEnabled = enabled;
@@ -201,6 +213,9 @@ namespace Tesserae
                 }
             }
 
+            /// <summary>
+            /// Initializes a new instance of this class.
+            /// </summary>
             public Item(string text = null, UIcons? icon = null, params TreeCommand[] commands)
             {
                 _chevronSpan    = I(_("tss-tree-chevron " + UIcons.AngleRight.ToString()));
@@ -252,6 +267,9 @@ namespace Tesserae
                 UpdateChevronVisibility();
             }
 
+            /// <summary>
+            /// Configures the item's commands to always be visible (rather than only on hover).
+            /// </summary>
             public Item CommandsAlwaysVisible(bool alwaysVisible = true)
             {
                 if (alwaysVisible)
@@ -266,12 +284,18 @@ namespace Tesserae
                 return this;
             }
 
+            /// <summary>
+            /// Gets or sets the text shown in the component.
+            /// </summary>
             public string Text
             {
                 get => _textSpan.innerText;
                 set => _textSpan.innerText = value;
             }
 
+            /// <summary>
+            /// Gets or sets the icon shown by the component.
+            /// </summary>
             public UIcons? Icon
             {
                 get => _icon;
@@ -301,6 +325,9 @@ namespace Tesserae
                 }
             }
 
+            /// <summary>
+            /// Returns a value indicating whether the component is expanded.
+            /// </summary>
             public bool IsExpanded
             {
                 get => _isExpanded;
@@ -328,6 +355,9 @@ namespace Tesserae
                 }
             }
 
+            /// <summary>
+            /// Gets or sets a value indicating whether the component is selected.
+            /// </summary>
             public bool IsSelected
             {
                 get => _isSelected;
@@ -353,6 +383,9 @@ namespace Tesserae
                 }
             }
 
+            /// <summary>
+            /// Returns a value indicating whether the component has the given children.
+            /// </summary>
             public bool HasChildren => _childItems.Count > 0 || _childContainer.hasChildNodes();
 
             /// <summary>
@@ -464,6 +497,9 @@ namespace Tesserae
                 return this;
             }
 
+            /// <summary>
+            /// Asynchronously loads the child items of this tree node from the supplied factory.
+            /// </summary>
             public Item ItemsAsync(Func<Task<Item[]>> childrenAsync)
             {
                 bool alreadyRun = false;
@@ -490,12 +526,18 @@ namespace Tesserae
                 return this;
             }
 
+            /// <summary>
+            /// Expands the component.
+            /// </summary>
             public Item Expanded(bool isExpanded = true)
             {
                 IsExpanded = isExpanded;
                 return this;
             }
 
+            /// <summary>
+            /// Marks the component as selected.
+            /// </summary>
             public Item Selected(bool isSelected = true)
             {
                 IsSelected = isSelected;

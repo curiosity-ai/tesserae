@@ -24,6 +24,9 @@ namespace Tesserae
 
         private bool _isCanceling = false;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public EditableLabel(string text = string.Empty)
         {
             _labelText = Span(_("tss-editablelabel-textspan", text: text, title: "Click to edit"));
@@ -58,6 +61,9 @@ namespace Tesserae
             _observable = new SettableObservable<string>(text); //Avoid raising the event once
         }
 
+        /// <summary>
+        /// Gets or sets the size of the component.
+        /// </summary>
         public TextSize Size
         {
             get => ITextFormatingExtensions.FromClassList(InnerElement, TextSize.Small);
@@ -77,6 +83,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets the font weight of the component.
+        /// </summary>
         public TextWeight Weight
         {
             get => ITextFormatingExtensions.FromClassList(InnerElement, TextWeight.Regular);
@@ -92,6 +101,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets the text alignment of the component.
+        /// </summary>
         public TextAlign TextAlign
         {
             get
@@ -105,6 +117,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Returns a value indicating whether the component is editing mode.
+        /// </summary>
         public bool IsEditingMode
         {
             get => _container.classList.contains("tss-editing");

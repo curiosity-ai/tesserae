@@ -22,6 +22,9 @@ namespace Tesserae
         private          int               _currentIndex;
         private          Action<Carousel>  _onSlideChanged;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public Carousel(params IComponent[] slides)
         {
             _slides     = new List<HTMLElement>();
@@ -45,12 +48,18 @@ namespace Tesserae
             SetIndex(0, false);
         }
 
+        /// <summary>
+        /// Gets or sets the current index.
+        /// </summary>
         public int CurrentIndex
         {
             get => _currentIndex;
             set => SetIndex(value);
         }
 
+        /// <summary>
+        /// Gets or sets the slide count.
+        /// </summary>
         public int SlideCount => _slides.Count;
 
         /// <summary>
@@ -98,6 +107,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Configures the pad slides on the component.
+        /// </summary>
         public Carousel PadSlides()
         {
             _track.classList.add("tss-carousel-track-pad-slides");
@@ -135,11 +147,17 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Configures the component to next.
+        /// </summary>
         public Carousel Next()
         {
             return SetIndex(_currentIndex + 1);
         }
 
+        /// <summary>
+        /// Configures the component to previous.
+        /// </summary>
         public Carousel Previous()
         {
             return SetIndex(_currentIndex - 1);

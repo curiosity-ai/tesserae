@@ -29,10 +29,19 @@ namespace Tesserae
         /// </summary>
         public string Padding    { get => _masonry.style.padding;    set => _masonry.style.padding = value; }
 
+        /// <summary>
+        /// Gets or sets the styling container.
+        /// </summary>
         public  HTMLElement StylingContainer => _masonry;
         private double      _timeout;
+        /// <summary>
+        /// Gets or sets the propagate to stack item parent.
+        /// </summary>
         public  bool        PropagateToStackItemParent => false;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public Masonry(int columns, int gutter = 10)
         {
             _percent    = $"calc({(100f / columns):0.00}% - {gutter}px)";

@@ -236,6 +236,9 @@ namespace Tesserae
         {
             private readonly Func<bool>  _isInvalid;
             private readonly HTMLElement _innerElement;
+            /// <summary>
+            /// Initializes a new instance of this class.
+            /// </summary>
             public DummyComponentToUseForCustomValidationLogicNotTiedToOneComponent(Func<bool> isInvalid)
             {
                 _isInvalid    = isInvalid;

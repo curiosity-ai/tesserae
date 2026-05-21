@@ -62,6 +62,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Configures the custom color on the component.
+        /// </summary>
         public Spinner CustomColor(string color)
         {
             InnerElement.style.setProperty("--tss-spinner-color", color);

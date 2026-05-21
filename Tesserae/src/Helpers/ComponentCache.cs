@@ -15,6 +15,9 @@ namespace Tesserae
 
         private readonly List<(int Key, HTMLElement HtmlElement)> _componentCache;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public ComponentCache(Func<(int Key, TComponent Component), HTMLElement> createComponentExpression)
         {
             _createComponentExpression = createComponentExpression ?? throw new ArgumentNullException(nameof(createComponentExpression));
@@ -56,6 +59,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Configures the sort components on the component.
+        /// </summary>
         public ComponentCache<TComponent> SortComponents(Comparison<TComponent> comparison)
         {
             if (HasComponents)
@@ -66,6 +72,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Configures the reverse component order on the component.
+        /// </summary>
         public ComponentCache<TComponent> ReverseComponentOrder()
         {
             _componentsAndKeys.Reverse();

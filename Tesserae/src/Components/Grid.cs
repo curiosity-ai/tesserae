@@ -26,10 +26,19 @@ namespace Tesserae
         /// </summary>
         public string Padding    { get => _grid.style.padding;    set => _grid.style.padding = value; }
 
+        /// <summary>
+        /// Gets or sets the styling container.
+        /// </summary>
         public HTMLElement StylingContainer => _grid;
 
+        /// <summary>
+        /// Gets or sets the propagate to stack item parent.
+        /// </summary>
         public bool PropagateToStackItemParent { get; private set; } = true;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public Grid(params UnitSize[] columns)
         {
             _grid = Div(_("tss-grid").WithRole("grid"));
@@ -45,6 +54,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public Grid(UnitSize[] columns, UnitSize[] rows)
         {
             _grid = Div(_("tss-grid").WithRole("grid"));
@@ -69,6 +81,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Defines the columns of the grid (track sizes).
+        /// </summary>
         public Grid Columns(params UnitSize[] columns)
         {
             if (columns is object && columns.Any(c => c is object))
@@ -82,6 +97,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Defines the rows of the grid (track sizes).
+        /// </summary>
         public Grid Rows(UnitSize[] rows)
         {
             if (rows is object && rows.Any(c => c is object))
@@ -284,41 +302,62 @@ namespace Tesserae
         /// <returns></returns>
         public Grid AlignItemsCenter() => AlignItems(ItemAlign.Center);
 
+        /// <summary>
+        /// Hides any content that overflows the component's bounds.
+        /// </summary>
         public Grid OverflowHidden()
         {
             _grid.style.overflow = "hidden";
             return this;
         }
+        /// <summary>
+        /// Sets the gap between rows and columns of the grid.
+        /// </summary>
         public Grid Gap(UnitSize gapSize)
         {
             _grid.style.gap = gapSize.ToString();
             return this;
         }
 
+        /// <summary>
+        /// Sets the gap between rows of the grid.
+        /// </summary>
         public Grid RowGap(UnitSize gapSize)
         {
             _grid.style.rowGap = gapSize.ToString();
             return this;
         }
 
+        /// <summary>
+        /// Sets the gap between columns of the grid.
+        /// </summary>
         public Grid ColumnGap(UnitSize gapSize)
         {
             _grid.style.columnGap = gapSize.ToString();
             return this;
         }
 
+        /// <summary>
+        /// Sets the auto-generated row size of the grid.
+        /// </summary>
         public Grid AutoRows(UnitSize autoRowValue)
         {
             _grid.style.gridAutoRows = autoRowValue.ToString();
             return this;
         }
 
+        /// <summary>
+        /// Sets the auto-generated column size of the grid.
+        /// </summary>
         public Grid AutoColumn(UnitSize autoColumnValue)
         {
             _grid.style.gridAutoColumns = autoColumnValue.ToString();
             return this;
         }
 
+        /// <summary>
+        /// Switches the grid to column flow.
+        /// </summary>
         public Grid FlowColumn()
         {
             _grid.style.gridAutoFlow = "column";

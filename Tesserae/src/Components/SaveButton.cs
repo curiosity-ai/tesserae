@@ -36,6 +36,9 @@ namespace Tesserae
             Error,
         }
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public SaveButton()
         {
             _button = Button().MinWidth(100.px());
@@ -60,6 +63,9 @@ namespace Tesserae
             SetState(State.NothingToSave);
         }
 
+        /// <summary>
+        /// Configures the component to configure.
+        /// </summary>
         public SaveButton Configure(string save = null, string verifying = null, string saving = null, string saved = null, string error = null, string saveHover = null, UIcons saveIcon = UIcons.Disk, UIcons saveHoverIcon = UIcons.Disk, bool pendingPrimary = true)
         {
             if (save != null) _textSave = save;
@@ -137,10 +143,25 @@ namespace Tesserae
         }
 
         
+        /// <summary>
+        /// Configures the nothing to save on the component.
+        /// </summary>
         public SaveButton NothingToSave(string message = null) => SetState(State.NothingToSave, message);
+        /// <summary>
+        /// Configures the component to pending.
+        /// </summary>
         public SaveButton Pending(string message = null) => SetState(State.PendingSave, message);
+        /// <summary>
+        /// Configures the component to verifying.
+        /// </summary>
         public SaveButton Verifying(string message = null) => SetState(State.Verifying, message);
+        /// <summary>
+        /// Configures the component to saving.
+        /// </summary>
         public SaveButton Saving(string message = null) => SetState(State.Saving, message);
+        /// <summary>
+        /// Configures the component to saved.
+        /// </summary>
         public SaveButton Saved(string message = null) => SetState(State.Saved, message);
         /// <summary>
         /// Gets or sets the validation error message displayed beneath the component.
@@ -174,6 +195,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Configures the verifying while on the component.
+        /// </summary>
         public async Task<State> VerifyingWhile(Func<Task<State>> action, string text = null, Action<SaveButton, Exception> onError = null)
         {
             SetState(State.Verifying, text);

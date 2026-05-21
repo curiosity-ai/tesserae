@@ -13,6 +13,9 @@ namespace Tesserae
         private readonly Action      _onColumnClick;
         private readonly HTMLElement InnerElement;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public DetailsListIconColumn(Icon icon, UnitSize width, UnitSize maxWidth, bool enableColumnSorting = false, string sortingKey = null, Action onColumnClick = null)
         {
             if (enableColumnSorting && string.IsNullOrWhiteSpace(sortingKey))
@@ -35,7 +38,13 @@ namespace Tesserae
             InnerElement = Div(_()).appendChild(Icon.Render());
         }
 
+        /// <summary>
+        /// Gets or sets the sorting key.
+        /// </summary>
         public string      SortingKey               { get; }
+        /// <summary>
+        /// Gets or sets the icon shown by the component.
+        /// </summary>
         public Icon        Icon                     { get; }
         /// <summary>
         /// Gets or sets the CSS width of the component.
@@ -45,6 +54,9 @@ namespace Tesserae
         /// Gets or sets the CSS max-width of the component.
         /// </summary>
         public UnitSize    MaxWidth                 { get; }
+        /// <summary>
+        /// Returns a value indicating whether the component is row header.
+        /// </summary>
         public bool        IsRowHeader              => false;
         /// <summary>
         /// Enables the column sorting on the component.

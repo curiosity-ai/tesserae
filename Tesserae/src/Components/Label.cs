@@ -21,6 +21,9 @@ namespace Tesserae
         private static          uint                            _callback;
         private static readonly Dictionary<HTMLElement, Action> _pendingCallbacks = new Dictionary<HTMLElement, Action>();
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public Label(string text = string.Empty)
         {
             _label       = Label(_("tss-fontsize-small tss-fontweight-semibold tss-fontcolor-default", text: text));
@@ -28,6 +31,9 @@ namespace Tesserae
             InnerElement = Div(_("tss-label tss-default-component-margin"), _label, _content);
         }
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public Label(IComponent component)
         {
             _label       = Label(_("tss-fontsize-small tss-fontweight-semibold tss-fontcolor-default"), component.Render());
@@ -35,6 +41,9 @@ namespace Tesserae
             InnerElement = Div(_("tss-label tss-default-component-margin"), _label, _content);
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the component is required for form submission.
+        /// </summary>
         public override bool IsRequired
         {
             get => _label.classList.contains("tss-required");
@@ -51,6 +60,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Returns a value indicating whether the component is inline.
+        /// </summary>
         public bool IsInline
         {
             get => InnerElement.classList.contains("tss-inline");
@@ -67,6 +79,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Sets the content rendered inside the surface.
+        /// </summary>
         public IComponent Content
         {
             set
@@ -101,6 +116,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Renders the component inline.
+        /// </summary>
         public Label Inline()
         {
             IsInline = true;
@@ -126,12 +144,18 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Aligns the label to the top of its container.
+        /// </summary>
         public Label AlignLabelTop()
         {
             _label.style.alignSelf = "flex-start";
             return this;
         }
 
+        /// <summary>
+        /// Computes the label width automatically from its sibling components so labels in a column line up.
+        /// </summary>
         public Label AutoWidth(string parentSelector = null, bool alignRight = false)
         {
             _label.classList.add("tss-label-autowidth");
@@ -155,6 +179,9 @@ namespace Tesserae
 
             return this;
         }
+        /// <summary>
+        /// Computes the label width automatically from its sibling components so labels in a column line up.
+        /// </summary>
         public Label AutoWidth(IComponent parentElement, bool alignRight = false)
         {
             _label.classList.add("tss-label-autowidth");

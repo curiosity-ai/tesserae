@@ -19,6 +19,9 @@ namespace Tesserae
         private readonly Spinner           _spinner;
         private          bool              _isSpinner = true;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public ProgressModal()
         {
             _titleHost    = Raw().WS();
@@ -38,6 +41,9 @@ namespace Tesserae
 
         }
 
+        /// <summary>
+        /// Shows the component.
+        /// </summary>
         public ProgressModal Show()
         {
             _modalHost.Show();
@@ -53,18 +59,27 @@ namespace Tesserae
             return _modalHost.ShowEmbedded();
         }
 
+        /// <summary>
+        /// Hides the component.
+        /// </summary>
         public ProgressModal Hide()
         {
             _modalHost.Hide();
             return this;
         }
 
+        /// <summary>
+        /// Configures the component to message.
+        /// </summary>
         public ProgressModal Message(string message)
         {
             _messageHost.Content(TextBlock(message));
             return this;
         }
 
+        /// <summary>
+        /// Configures the component to message.
+        /// </summary>
         public ProgressModal Message(IComponent message)
         {
             _messageHost.Content(message);
@@ -89,6 +104,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Configures the component to progress.
+        /// </summary>
         public ProgressModal Progress(float percent)
         {
             if (_isSpinner)
@@ -100,8 +118,14 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Configures the component to progress.
+        /// </summary>
         public ProgressModal Progress(int position, int total) => Progress(100f * position / total);
 
+        /// <summary>
+        /// Configures the progress indeterminated on the component.
+        /// </summary>
         public ProgressModal ProgressIndeterminated()
         {
             if (_isSpinner)
@@ -113,6 +137,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Configures the progress spin on the component.
+        /// </summary>
         public ProgressModal ProgressSpin()
         {
             if (!_isSpinner)

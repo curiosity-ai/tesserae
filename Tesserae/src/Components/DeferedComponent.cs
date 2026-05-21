@@ -64,12 +64,18 @@ namespace Tesserae
 
         internal static DeferedComponent Create(Func<Task<IComponent>> asyncGenerator) => Create(asyncGenerator, null);
 
+        /// <summary>
+        /// Refreshes the component's rendered state.
+        /// </summary>
         public void Refresh()
         {
             _needsRefresh = true;
             _debouncer.RaiseOnValueChanged();
         }
 
+        /// <summary>
+        /// Refreshes the async.
+        /// </summary>
         public Task RefreshAsync()
         {
             if (_refreshCompleted is null) _refreshCompleted = new TaskCompletionSource<bool>();
@@ -88,6 +94,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Configures the component to debounce.
+        /// </summary>
         public IDefer Debounce(int delayInMs, int maxDelayInMs, int millisecondsForLoadingMessage = 1000)
         {
             _debouncer = new DebouncerWithMaxDelay(() => TriggerRefresh(), delayInMs: delayInMs, maxDelayInMs: maxDelayInMs);

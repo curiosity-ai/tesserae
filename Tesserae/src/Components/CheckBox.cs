@@ -13,6 +13,9 @@ namespace Tesserae
         private readonly HTMLLabelElement         _label;
         private readonly SettableObservable<bool> _observable;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public CheckBox(string text = string.Empty)
         {
             InnerElement = CheckBox(_("tss-checkbox"));
@@ -81,12 +84,18 @@ namespace Tesserae
             return _label;
         }
 
+        /// <summary>
+        /// Disables the component.
+        /// </summary>
         public CheckBox Disabled(bool value = true)
         {
             IsEnabled = !value;
             return this;
         }
 
+        /// <summary>
+        /// Marks the component as checked.
+        /// </summary>
         public CheckBox Checked(bool value = true)
         {
             IsChecked = value;

@@ -48,7 +48,13 @@ namespace Tesserae
         /// Sets the ARIA accessible-name label of the component.
         /// </summary>
         public string AriaLabel       { set => InnerElement.setAttribute("aria-label", value); }
+        /// <summary>
+        /// Gets or sets the aria labelled by.
+        /// </summary>
         public string AriaLabelledBy  { set => InnerElement.setAttribute("aria-labelledby", value); }
+        /// <summary>
+        /// Gets or sets the aria described by.
+        /// </summary>
         public string AriaDescribedBy { set => InnerElement.setAttribute("aria-describedby", value); }
 
         /// <summary>
@@ -231,10 +237,22 @@ namespace Tesserae
 
         protected void AttachChange() => InnerElement.addEventListener("change", s => RaiseOnChange(s));
 
+        /// <summary>
+        /// Raises the on click event on the component.
+        /// </summary>
         public void RaiseOnClick(MouseEvent     ev) => Clicked?.Invoke((T)this, ev);
+        /// <summary>
+        /// Raises the on mouse over event on the component.
+        /// </summary>
         public void RaiseOnMouseOver(MouseEvent ev) => MouseOver?.Invoke((T)this, ev);
+        /// <summary>
+        /// Raises the on mouse out event on the component.
+        /// </summary>
         public void RaiseOnMouseOut(MouseEvent  ev) => MouseOut?.Invoke((T)this, ev);
 
+        /// <summary>
+        /// Raises the on context menu event on the component.
+        /// </summary>
         public void RaiseOnContextMenu(MouseEvent ev) => ContextMenu?.Invoke((T)this, ev);
 
         //Some controls won't change the underlying value till after this event. As we usually want the final value and not the previous state, we raise the event on a timer

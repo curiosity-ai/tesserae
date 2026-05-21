@@ -27,6 +27,9 @@ namespace Tesserae
         private double _timeoutTriggerSearch = 0;
         private string _lastSearchedValue    = string.Empty;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public SearchBox(string placeholder = string.Empty)
         {
             InnerElement       = TextBox(_(className: "tss-searchbox tss-fontsize-small tss-fontweight-regular", type: "search", placeholder: placeholder));
@@ -66,6 +69,9 @@ namespace Tesserae
             }, 50);
         }
 
+        /// <summary>
+        /// Sets the keyboard tab order of the component.
+        /// </summary>
         public int TabIndex
         {
             set
@@ -74,8 +80,14 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Returns a value indicating whether the component is focused.
+        /// </summary>
         public bool IsFocused => document.activeElement == InnerElement;
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the component is interactive (enabled).
+        /// </summary>
         public bool IsEnabled
         {
             get => !_container.classList.contains("tss-disabled");
@@ -92,6 +104,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Returns a value indicating whether the component is underlined.
+        /// </summary>
         public bool IsUnderlined
         {
             get => _container.classList.contains("tss-underlined");
@@ -102,6 +117,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets the text shown in the component.
+        /// </summary>
         public string Text
         {
             get => InnerElement.value;
@@ -112,12 +130,18 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets the placeholder text shown when the component is empty.
+        /// </summary>
         public string Placeholder
         {
             get => InnerElement.placeholder;
             set => InnerElement.placeholder = value;
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the component is currently in an invalid state.
+        /// </summary>
         public bool IsInvalid
         {
             get => _container.classList.contains("tss-invalid");
@@ -134,6 +158,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets the size of the component.
+        /// </summary>
         public TextSize Size
         {
             get => ITextFormatingExtensions.FromClassList(InnerElement, TextSize.Small);
@@ -144,6 +171,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets the font weight of the component.
+        /// </summary>
         public TextWeight Weight
         {
             get => ITextFormatingExtensions.FromClassList(InnerElement, TextWeight.Regular);
@@ -154,6 +184,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets the text alignment of the component.
+        /// </summary>
         public TextAlign TextAlign
         {
             get => ITextFormatingExtensions.FromClassList(InnerElement, TextAlign.Center);
@@ -176,6 +209,9 @@ namespace Tesserae
             return _container;
         }
 
+        /// <summary>
+        /// Attaches a handler to the component's value-changed event.
+        /// </summary>
         public void Attach(ComponentEventHandler<SearchBox> handler)
         {
             InputUpdated += (s, _) => handler(s);
@@ -199,18 +235,27 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Disables the component.
+        /// </summary>
         public SearchBox Disabled(bool value = true)
         {
             IsEnabled = !value;
             return this;
         }
 
+        /// <summary>
+        /// Configures the component to underlined.
+        /// </summary>
         public SearchBox Underlined()
         {
             IsUnderlined = true;
             return this;
         }
 
+        /// <summary>
+        /// Removes the underline from the component.
+        /// </summary>
         public SearchBox NotUnderlined()
         {
             IsUnderlined = false;
@@ -245,6 +290,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Configures the search box to fire its callback after every keystroke (debounced) rather than only on submit.
+        /// </summary>
         public SearchBox SearchAsYouType()
         {
             OnKeyUp((s, e) =>
@@ -394,6 +442,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Shortcut for setting the height in pixels.
+        /// </summary>
         public SearchBox H(int unitSize) => Height(unitSize.px());
     }
 }

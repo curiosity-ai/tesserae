@@ -11,9 +11,21 @@ namespace Tesserae
     [H5.Name("tss.ActionButton")]
     public class ActionButton : IComponent, IHasBackgroundColor
     {
+        /// <summary>
+        /// Gets or sets the container.
+        /// </summary>
         public HTMLDivElement    Container          { get; protected set; }
+        /// <summary>
+        /// Gets or sets the display button.
+        /// </summary>
         public HTMLDivElement    DisplayButton      { get; protected set; }
+        /// <summary>
+        /// Gets or sets the action btn.
+        /// </summary>
         public HTMLButtonElement ActionBtn          { get; protected set; }
+        /// <summary>
+        /// Gets or sets the action btn component.
+        /// </summary>
         public IComponent        ActionBtnComponent { get; protected set; }
 
         private readonly IComponent  _content;
@@ -26,6 +38,9 @@ namespace Tesserae
         protected event ActionButtonEventHandler<HTMLButtonElement, MouseEvent> ClickedAction;
         protected event ActionButtonEventHandler<HTMLButtonElement, MouseEvent> ContextMenuAction;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public ActionButton(
             string       textContent,
             UIcons       displayIcon,
@@ -43,6 +58,9 @@ namespace Tesserae
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public ActionButton(
             string       textContent,
             UIcons       displayIcon,
@@ -56,6 +74,9 @@ namespace Tesserae
                 actionIconSize)
         {
         }
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public ActionButton(
             string       textContent,
             UIcons       actionIcon       = UIcons.AngleCircleDown,
@@ -69,6 +90,9 @@ namespace Tesserae
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public ActionButton(
             IComponent contnent,
             string     actionIcon     = null,
@@ -103,6 +127,9 @@ namespace Tesserae
 
         }
 
+        /// <summary>
+        /// Gets or sets the CSS background of the component.
+        /// </summary>
         public string Background
         {
             get => DisplayButton.style.background;
@@ -159,6 +186,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Configures the modify action button on the component.
+        /// </summary>
         public ActionButton ModifyActionButton(Action<IComponent> modify)
         {
             modify(ActionBtnComponent);
@@ -216,18 +246,27 @@ namespace Tesserae
         }
 
 
+        /// <summary>
+        /// Styles the component using the primary tone.
+        /// </summary>
         public ActionButton Primary()
         {
             IsPrimary = true;
             return this;
         }
 
+        /// <summary>
+        /// Styles the component using the danger tone.
+        /// </summary>
         public ActionButton Danger()
         {
             IsDanger = true;
             return this;
         }
 
+        /// <summary>
+        /// Disables the component.
+        /// </summary>
         public ActionButton Disabled(bool value = true)
         {
             IsEnabled = !value;

@@ -6,10 +6,16 @@
     [H5.Name("tss.ColorPicker")]
     public class ColorPicker : Input<ColorPicker>
     {
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public ColorPicker(Color color) : base("color", color?.ToHex() ?? "#000000")
         {
         }
 
+        /// <summary>
+        /// Gets or sets the color of the component.
+        /// </summary>
         public Color Color
         {
             get

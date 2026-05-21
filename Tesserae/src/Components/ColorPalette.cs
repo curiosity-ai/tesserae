@@ -11,10 +11,19 @@ namespace Tesserae
     [H5.Name("tss.ColorPalette")]
     public sealed class ColorPalette : ComponentBase<ColorPalette, HTMLElement>
     {
+        /// <summary>
+        /// Configures the component to define.
+        /// </summary>
         public static ColorAndLabel Define(string label, string color) => new ColorAndLabel() { Color = color, Label = label };
         public class ColorAndLabel
         {
+            /// <summary>
+            /// Gets or sets the label shown by the component.
+            /// </summary>
             public string Label{ get; set; }
+            /// <summary>
+            /// Gets or sets the color of the component.
+            /// </summary>
             public string Color { get; set; }
         }
         private readonly List<SwatchEntry>     _swatches      = new List<SwatchEntry>();
@@ -24,6 +33,9 @@ namespace Tesserae
         private readonly HTMLInputElement     _customInput;
         private          Action<string>       _valueChanged;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public ColorPalette()
         {
             _customInput = document.createElement("input") as HTMLInputElement;
@@ -161,10 +173,22 @@ namespace Tesserae
 
         private class SwatchEntry
         {
+            /// <summary>
+            /// Gets or sets the label shown by the component.
+            /// </summary>
             public string       Label   { get; }
+            /// <summary>
+            /// Gets or sets the color of the component.
+            /// </summary>
             public string       Color   { get; }
+            /// <summary>
+            /// Gets or sets the element.
+            /// </summary>
             public HTMLElement  Element { get; set; }
 
+            /// <summary>
+            /// Initializes a new instance of this class.
+            /// </summary>
             public SwatchEntry(string label, string color)
             {
                 Label = label;

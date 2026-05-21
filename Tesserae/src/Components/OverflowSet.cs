@@ -23,6 +23,9 @@ namespace Tesserae
 
         private readonly Dictionary<HTMLElement, double> _cachedSizes = new Dictionary<HTMLElement, double>();
 
+        /// <summary>
+        /// Gets or sets the maximum items to display.
+        /// </summary>
         public int MaximumItemsToDisplay
         {
             get => _maximumItemsToDisplay;
@@ -33,6 +36,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets the overflow index.
+        /// </summary>
         public int OverflowIndex
         {
             get => _overflowIndex;
@@ -43,6 +49,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Returns a value indicating whether the component is small.
+        /// </summary>
         public bool IsSmall
         {
             get => _childContainer.classList.contains("tss-small");
@@ -54,6 +63,9 @@ namespace Tesserae
         }
 
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public OverflowSet()
         {
             _childContainer = Div(_("tss-overflowset"));
@@ -279,6 +291,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Renders the component at small size.
+        /// </summary>
         public OverflowSet Small()
         {
             IsSmall = true;

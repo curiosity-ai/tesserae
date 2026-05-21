@@ -11,34 +11,88 @@ namespace Tesserae
     [H5.ObjectLiteral]
     public class TippyInstanceState
     {
+        /// <summary>
+        /// True when the Tippy instance is enabled and can be shown.
+        /// </summary>
         public bool isEnabled;
+        /// <summary>
+        /// True when the Tippy popover is currently visible.
+        /// </summary>
         public bool isVisible;
+        /// <summary>
+        /// True after the Tippy instance has been destroyed.
+        /// </summary>
         public bool isDestroyed;
+        /// <summary>
+        /// True when the Tippy popper element is mounted in the DOM.
+        /// </summary>
         public bool isMounted;
+        /// <summary>
+        /// True once the Tippy has finished its show animation.
+        /// </summary>
         public bool isShown;
     }
 
     [H5.ObjectLiteral]
     public class TippyInstance
     {
+        /// <summary>
+        /// Clears any pending show/hide delay timeouts on this instance.
+        /// </summary>
         public void clearDelayTimeouts() { }
+        /// <summary>
+        /// Permanently destroys this Tippy instance, releasing its DOM and listeners.
+        /// </summary>
         public void destroy() { }
+        /// <summary>
+        /// Disables this Tippy instance so it can no longer be shown.
+        /// </summary>
         public void disable() { }
+        /// <summary>
+        /// Enables this Tippy instance so it can be shown again.
+        /// </summary>
         public void enable() { }
+        /// <summary>
+        /// Hides the popover immediately.
+        /// </summary>
         public void hide() { }
+        /// <summary>
+        /// Shows the popover.
+        /// </summary>
         public void show() { }
+        /// <summary>
+        /// Hides the popover with an interactive grace period that gives the user time to move the cursor into it before it disappears.
+        /// </summary>
         public void hideWithInteractivity() { }
+        /// <summary>
+        /// Gets the unique numeric identifier assigned to this Tippy instance.
+        /// </summary>
         public int id { get; }
+        /// <summary>
+        /// Removes the popper element from the DOM without destroying the instance.
+        /// </summary>
         public void unmount() { }
+        /// <summary>
+        /// Gets the anchor element the popover is positioned against.
+        /// </summary>
         public HTMLElement reference { get; }
+        /// <summary>
+        /// Replaces the content of the popover with the given element.
+        /// </summary>
         public void setContent(HTMLElement content) { }
 
+        /// <summary>
+        /// Gets a snapshot of the current state (enabled / visible / mounted / shown / destroyed).
+        /// </summary>
         public TippyInstanceState state { get; }
     }
 
     [H5.Name("tss.tippy")]
     public static class Tippy
     {
+        /// <summary>
+        /// Vertical pixel offset reserved at the top of the viewport. Tooltips anchored to elements above this offset are flipped to avoid being hidden behind a sticky header.
+        /// </summary>
         public static int DeadZoneTop = 0;
         private static HTMLElement GetAppendToTarget(HTMLElement hostElement)
         {
@@ -61,7 +115,7 @@ namespace Tesserae
 
         private static Action<TippyInstance, MouseEvent> _doNothing = (_,__) => { };
         /// <summary>
-        /// Shows the for.
+        /// Shows a Tippy popover anchored to the given host element/component with the supplied content and configuration. Returns a delegate that can be invoked to hide the popover programmatically.
         /// </summary>
         public static void ShowFor(IComponent hostComponent, IComponent tooltip, out Action hide, TooltipAnimation animation = TooltipAnimation.None, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 0, int delayHide = 0, int maxWidth = 350, bool arrow = false, string theme = null, bool hideOnClick = true, Action onHiddenCallback = null, Func<bool> onHide = null, Action<TippyInstance, MouseEvent> onClickOutside = null)
         {
@@ -148,7 +202,7 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Shows the for.
+        /// Shows a Tippy popover anchored to the given host element/component with the supplied content and configuration. Returns a delegate that can be invoked to hide the popover programmatically.
         /// </summary>
         public static void ShowFor(HTMLElement hostElement, HTMLElement tooltip, out Action hide, TooltipAnimation animation = TooltipAnimation.None, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 0, int delayHide = 0, int maxWidth = 350, bool arrow = false, string theme = null, bool hideOnClick = true, Action onHiddenCallback = null, Func<bool> onHide = null, Action<TippyInstance, MouseEvent> onClickOutside = null)
         {
@@ -204,7 +258,7 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Hides the all.
+        /// Hides every currently visible Tippy instance in the document.
         /// </summary>
         public static void HideAll()
         {

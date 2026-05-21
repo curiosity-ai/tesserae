@@ -27,6 +27,9 @@ namespace Tesserae
         private string _initiallySelectedID;
         private string _currentSelectedID;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public PivotSelector()
         {
             _dropdown = Dropdown().Grow().MaxWidth(500.px()).MinWidth(new UnitSize("min(200px, 100%)"));
@@ -98,6 +101,9 @@ namespace Tesserae
             _dropdown.Items(_orderedTabs.Select(t => DropdownItem(t.CreateTitle(), t.CreateTitle()).SetData(t.Id).SelectedIf(t.Id == _currentSelectedID)).ToArray());
         }
 
+        /// <summary>
+        /// Configures the component to select.
+        /// </summary>
         public PivotSelector Select(string id, bool refresh = false)
         {
             if (_currentSelectedID != id || refresh)
@@ -141,6 +147,9 @@ namespace Tesserae
 
         internal sealed class Tab
         {
+            /// <summary>
+            /// Initializes a new instance of this class.
+            /// </summary>
             public Tab(string id, Func<IComponent> titleCreator, Func<IComponent> contentCreator, bool cached = false)
             {
                 Id = id;
@@ -154,10 +163,19 @@ namespace Tesserae
             private HTMLElement _content;
             private readonly bool _canCacheContent;
 
+            /// <summary>
+            /// Sets the DOM id of the component.
+            /// </summary>
             public string Id { get; }
 
+            /// <summary>
+            /// Configures the create title on the component.
+            /// </summary>
             public IComponent CreateTitle() => _titleCreator();
 
+            /// <summary>
+            /// Renders the content.
+            /// </summary>
             public HTMLElement RenderContent()
             {
                 if (_canCacheContent && _content is object)
@@ -181,6 +199,9 @@ namespace Tesserae
         {
             internal PivotBeforeNavigateEvent(string currentPivot, string targetPivot) : base(currentPivot, targetPivot) => Canceled = false;
             internal bool Canceled { get; private set; }
+            /// <summary>
+            /// Cancels the component's current operation.
+            /// </summary>
             public void Cancel() => Canceled = true;
         }
 
@@ -191,7 +212,13 @@ namespace Tesserae
                 CurrentPivot = currentPivot;
                 TargetPivot = targetPivot;
             }
+            /// <summary>
+            /// Gets or sets the current pivot.
+            /// </summary>
             public string CurrentPivot { get; }
+            /// <summary>
+            /// Gets or sets the target pivot.
+            /// </summary>
             public string TargetPivot { get; }
         }
     }

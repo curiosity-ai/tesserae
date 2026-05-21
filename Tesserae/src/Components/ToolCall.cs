@@ -26,6 +26,9 @@ namespace Tesserae
         private          bool             _expandable = true;
         private          Action<ToolCall> _onToggle;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public ToolCall(UIcons icon, string text, Func<IComponent> contentFactory = null)
         {
             _icon           = icon;
@@ -50,17 +53,29 @@ namespace Tesserae
             });
         }
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public ToolCall(UIcons icon, string text, IComponent content)
             : this(icon, text, content != null ? (Func<IComponent>)(() => content) : null)
         {
         }
 
+        /// <summary>
+        /// Gets or sets the icon shown by the component.
+        /// </summary>
         public UIcons  Icon            => _icon;
         /// <summary>
         /// Gets or sets the text shown in the component.
         /// </summary>
         public string  Text            => _text;
+        /// <summary>
+        /// Gets or sets a value indicating whether the component is expanded.
+        /// </summary>
         public bool    IsExpanded      => _isExpanded;
+        /// <summary>
+        /// Returns a value indicating whether the component has the given content.
+        /// </summary>
         public bool    HasContent      => _contentFactory != null;
 
         /// <summary>
@@ -117,6 +132,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Configures the not expandable on the component.
+        /// </summary>
         public ToolCall NotExpandable()
         {
             _expandable = false;
@@ -125,6 +143,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Expands the component.
+        /// </summary>
         public ToolCall Expanded(bool value = true)
         {
             if (value) Expand();
@@ -132,6 +153,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Expands the component.
+        /// </summary>
         public ToolCall Expand()
         {
             if (_isExpanded || !_expandable) return this;
@@ -142,6 +166,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Collapses the component.
+        /// </summary>
         public ToolCall Collapse()
         {
             if (!_isExpanded) return this;
@@ -151,6 +178,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Toggles the component's state.
+        /// </summary>
         public ToolCall Toggle()
         {
             return _isExpanded ? Collapse() : Expand();
@@ -218,6 +248,9 @@ namespace Tesserae
         private          HTMLElement      _backButton;
         private          HTMLElement      _titleEl;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public ToolsUsed(IEnumerable<ToolCall> tools = null)
         {
             _tools = new List<ToolCall>();
@@ -323,6 +356,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Shows the component.
+        /// </summary>
         public ToolsUsed Show()
         {
             BuildModalIfNeeded();
@@ -332,6 +368,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Hides the component.
+        /// </summary>
         public ToolsUsed Hide()
         {
             _modal?.Hide();

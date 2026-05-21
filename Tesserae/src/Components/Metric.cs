@@ -16,6 +16,9 @@ namespace Tesserae
         private readonly HTMLElement _changeContainer;
         private readonly HTMLElement _chartContainer;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public Metric(string title, string value)
         {
             _titleContainer = Div(_("tss-metric-title"), TextBlock(title).SmallPlus().SemiBold().Foreground(Theme.Secondary.Foreground).Render());
@@ -27,6 +30,9 @@ namespace Tesserae
             InnerElement = _container;
         }
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public Metric(IComponent title, IComponent value)
         {
             _titleContainer = Div(_("tss-metric-title"), title.Render());
@@ -38,6 +44,9 @@ namespace Tesserae
             InnerElement = _container;
         }
 
+        /// <summary>
+        /// Configures the component to chart.
+        /// </summary>
         public Metric Chart(IComponent chart)
         {
             ClearChildren(_chartContainer);
@@ -48,6 +57,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Configures the component to change.
+        /// </summary>
         public Metric Change(IComponent change)
         {
             ClearChildren(_changeContainer);

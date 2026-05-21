@@ -9,11 +9,17 @@ namespace Tesserae
     [H5.Name("tss.DatePicker")]
     public class DatePicker : MomentPickerBase<DatePicker, DateTime>
     {
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public DatePicker(DateTime? date = null)
             : base("date", date.HasValue ? FormatDateTime(date.Value) : string.Empty)
         {
         }
 
+        /// <summary>
+        /// Gets or sets the date value of the component.
+        /// </summary>
         public DateTime Date => Moment;
 
         /// <summary>

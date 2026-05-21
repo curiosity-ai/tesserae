@@ -13,12 +13,18 @@ namespace Tesserae
         private readonly Raw         _raw;
         private readonly HTMLElement _container;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public BackgroundArea(IComponent content)
         {
             _raw       = Raw(content.Render());
             _container = Div(_("tss-background-area"), _raw.Render());
         }
 
+        /// <summary>
+        /// Sets the content rendered inside the surface.
+        /// </summary>
         public BackgroundArea Content(IComponent content)
         {
             _raw.Content(content);

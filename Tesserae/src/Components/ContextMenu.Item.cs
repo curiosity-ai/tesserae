@@ -28,8 +28,14 @@ namespace Tesserae
             private event ComponentEventHandler<Item> PossiblyOpenSubMenu;
             internal bool                             CurrentlyMouseovered = false;
 
+            /// <summary>
+            /// Returns a value indicating whether the component has the given sub menu.
+            /// </summary>
             public bool HasSubMenu => _subMenu != null;
 
+            /// <summary>
+            /// Initializes a new instance of this class.
+            /// </summary>
             public Item(string text = string.Empty)
             {
                 _innerComponent = null;
@@ -39,6 +45,9 @@ namespace Tesserae
                 InnerElement.addEventListener("mouseleave", OnItemMouseLeave);
             }
 
+            /// <summary>
+            /// Initializes a new instance of this class.
+            /// </summary>
             public Item(IComponent component)
             {
                 if (component is ITextFormating itf && (itf is Button || itf is Link))
@@ -54,6 +63,9 @@ namespace Tesserae
                 InnerElement.addEventListener("mouseleave", OnItemMouseLeave);
             }
 
+            /// <summary>
+            /// Gets or sets the type of the item.
+            /// </summary>
             public ItemType Type
             {
                 get
@@ -72,6 +84,9 @@ namespace Tesserae
                 }
             }
 
+            /// <summary>
+            /// Gets or sets a value indicating whether the component is interactive (enabled).
+            /// </summary>
             public bool IsEnabled
             {
                 get => !InnerElement.classList.contains("tss-disabled");
@@ -90,6 +105,9 @@ namespace Tesserae
                 }
             }
 
+            /// <summary>
+            /// Gets or sets the text shown in the component.
+            /// </summary>
             public string Text
             {
                 get => InnerElement.innerText;
@@ -104,18 +122,27 @@ namespace Tesserae
                 return InnerElement;
             }
 
+            /// <summary>
+            /// Configures the component to header.
+            /// </summary>
             public Item Header()
             {
                 Type = ItemType.Header;
                 return this;
             }
 
+            /// <summary>
+            /// Configures the component to divider.
+            /// </summary>
             public Item Divider()
             {
                 Type = ItemType.Divider;
                 return this;
             }
 
+            /// <summary>
+            /// Disables the component.
+            /// </summary>
             public Item Disabled(bool value = true)
             {
                 IsEnabled = !value;

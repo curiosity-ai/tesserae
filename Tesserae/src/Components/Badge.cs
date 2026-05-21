@@ -33,12 +33,18 @@ namespace Tesserae
             InnerElement = Span(_($"tss-token {cssClass}"), _content);
         }
 
+        /// <summary>
+        /// Gets or sets the text shown in the component.
+        /// </summary>
         public string Text
         {
             get => _textSpan.innerText;
             set => _textSpan.innerText = value ?? string.Empty;
         }
 
+        /// <summary>
+        /// Gets or sets the icon shown by the component.
+        /// </summary>
         public string Icon
         {
             get => _icon?.className;
@@ -64,18 +70,27 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Returns a value indicating whether the component is pill.
+        /// </summary>
         public bool IsPill
         {
             get => InnerElement.classList.contains("tss-token-pill");
             set => InnerElement.UpdateClassIf(value, "tss-token-pill");
         }
 
+        /// <summary>
+        /// Returns a value indicating whether the component is outline.
+        /// </summary>
         public bool IsOutline
         {
             get => InnerElement.classList.contains("tss-token-outline");
             set => InnerElement.UpdateClassIf(value, "tss-token-outline");
         }
 
+        /// <summary>
+        /// Returns a value indicating whether the component is filled.
+        /// </summary>
         public bool IsFilled
         {
             get => InnerElement.classList.contains("tss-token-filled");
@@ -100,12 +115,18 @@ namespace Tesserae
             return (T)this;
         }
 
+        /// <summary>
+        /// Configures the component to pill.
+        /// </summary>
         public T Pill(bool value = true)
         {
             IsPill = value;
             return (T)this;
         }
 
+        /// <summary>
+        /// Configures the component to outline.
+        /// </summary>
         public T Outline(bool value = true)
         {
             IsOutline = value;
@@ -116,6 +137,9 @@ namespace Tesserae
             return (T)this;
         }
 
+        /// <summary>
+        /// Configures the component to filled.
+        /// </summary>
         public T Filled(bool value = true)
         {
             IsFilled = value;
@@ -144,6 +168,9 @@ namespace Tesserae
             return (T)this;
         }
 
+        /// <summary>
+        /// Configures the component to tone.
+        /// </summary>
         public T Tone(BadgeTone tone)
         {
             var className = tone == BadgeTone.Neutral ? null : $"tss-token-{tone.ToString().ToLower()}";
@@ -151,11 +178,29 @@ namespace Tesserae
             return (T)this;
         }
 
+        /// <summary>
+        /// Styles the component using the primary tone.
+        /// </summary>
         public T Primary() => Tone(BadgeTone.Primary);
+        /// <summary>
+        /// Styles the component using the success tone.
+        /// </summary>
         public T Success() => Tone(BadgeTone.Success);
+        /// <summary>
+        /// Styles the component using the warning tone.
+        /// </summary>
         public T Warning() => Tone(BadgeTone.Warning);
+        /// <summary>
+        /// Styles the component using the danger tone.
+        /// </summary>
         public T Danger()  => Tone(BadgeTone.Danger);
+        /// <summary>
+        /// Styles the component using the informational tone.
+        /// </summary>
         public T Info()    => Tone(BadgeTone.Info);
+        /// <summary>
+        /// Configures the component to neutral.
+        /// </summary>
         public T Neutral() => Tone(BadgeTone.Neutral);
 
         /// <summary>
@@ -168,6 +213,9 @@ namespace Tesserae
             return (T)this;
         }
 
+        /// <summary>
+        /// Configures the component to removable.
+        /// </summary>
         public T Removable(bool value = true)
         {
             if (value)
@@ -226,6 +274,9 @@ namespace Tesserae
     [H5.Name("tss.Badge")]
     public sealed class Badge : TokenBase<Badge>
     {
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public Badge(string text = null) : base("tss-badge", text)
         {
         }
@@ -234,6 +285,9 @@ namespace Tesserae
     [H5.Name("tss.Tag")]
     public sealed class Tag : TokenBase<Tag>
     {
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public Tag(string text = null) : base("tss-tag", text)
         {
         }
@@ -242,6 +296,9 @@ namespace Tesserae
     [H5.Name("tss.Chip")]
     public sealed class Chip : TokenBase<Chip>
     {
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public Chip(string text = null) : base("tss-chip", text)
         {
         }

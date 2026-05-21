@@ -57,12 +57,18 @@ namespace Tesserae
             return new DeferedComponentWithProgress(asyncGenerator, loadMessageGenerator);
         }
 
+        /// <summary>
+        /// Refreshes the component's rendered state.
+        /// </summary>
         public void Refresh()
         {
             _needsRefresh = true;
             _debouncer.RaiseOnValueChanged();
         }
 
+        /// <summary>
+        /// Refreshes the async.
+        /// </summary>
         public Task RefreshAsync()
         {
             if (_refreshCompleted is null) _refreshCompleted = new TaskCompletionSource<bool>();
@@ -72,6 +78,9 @@ namespace Tesserae
             return _refreshCompleted.Task;
         }
 
+        /// <summary>
+        /// Configures the component to debounce.
+        /// </summary>
         public IDefer Debounce(int delayInMs, int millisecondsForLoadingMessage = 1000)
         {
             _debouncer = new DebouncerWithMaxDelay(() => TriggerRefresh(), delayInMs: delayInMs);
@@ -79,6 +88,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Configures the component to debounce.
+        /// </summary>
         public IDefer Debounce(int delayInMs, int maxDelayInMs, int millisecondsForLoadingMessage = 1000)
         {
             _debouncer = new DebouncerWithMaxDelay(() => TriggerRefresh(), delayInMs: delayInMs, maxDelayInMs: maxDelayInMs);
@@ -86,6 +98,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Configures the do not wait for component mounting before rendering on the component.
+        /// </summary>
         public IDefer DoNotWaitForComponentMountingBeforeRendering()
         {
             _waitForComponentToBeMountedBeforeFullyInitiatingRender = false;

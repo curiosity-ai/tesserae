@@ -34,6 +34,9 @@ namespace Tesserae
         private          AvatarSize       _size;
         private          AvatarPresence   _presenceState;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public Avatar(string image = null, string initials = null)
         {
             _image    = new HTMLImageElement();
@@ -56,24 +59,36 @@ namespace Tesserae
             Presence(AvatarPresence.None);
         }
 
+        /// <summary>
+        /// Gets or sets the image url.
+        /// </summary>
         public string ImageUrl
         {
             get => _image.src;
             set => SetImage(value);
         }
 
+        /// <summary>
+        /// Gets or sets the initials.
+        /// </summary>
         public string Initials
         {
             get => _initials.innerText;
             set => SetInitials(value);
         }
 
+        /// <summary>
+        /// Gets or sets the size value.
+        /// </summary>
         public AvatarSize SizeValue
         {
             get => _size;
             set => Size(value);
         }
 
+        /// <summary>
+        /// Gets or sets the presence state.
+        /// </summary>
         public AvatarPresence PresenceState
         {
             get => _presenceState;
@@ -131,6 +146,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Configures the component to presence.
+        /// </summary>
         public Avatar Presence(AvatarPresence presence)
         {
             _presenceState = presence;
@@ -248,6 +266,9 @@ namespace Tesserae
         private readonly HTMLElement     _textContainer;
         private readonly HTMLElement     _avatarContainer;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public Persona(string name = null, string secondaryText = null, string tertiaryText = null, Avatar avatar = null)
         {
             _avatar = avatar ?? new Avatar(initials: string.Empty).Size(AvatarSize.Medium);
@@ -307,6 +328,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Renders the component in a compact form.
+        /// </summary>
         public Persona Compact(bool value = true)
         {
             InnerElement.UpdateClassIf(value, "tss-persona-compact");

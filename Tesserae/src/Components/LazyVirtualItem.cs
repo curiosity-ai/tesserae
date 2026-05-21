@@ -14,6 +14,9 @@ namespace Tesserae
         private readonly HTMLElement _component;
         private bool _isRendered;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public LazyVirtualItem(IComponent component, UnitSize height)
         {
             _component = component.Render();
@@ -29,6 +32,9 @@ namespace Tesserae
         /// </summary>
         public HTMLElement Render() => _innerElement;
 
+        /// <summary>
+        /// Updates the visibility.
+        /// </summary>
         public void UpdateVisibility(bool isVisible)
         {
             if (isVisible)

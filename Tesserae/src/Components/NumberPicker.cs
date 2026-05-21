@@ -6,6 +6,9 @@
     [H5.Name("tss.NumberPicker")]
     public class NumberPicker : Input<NumberPicker>, ITextFormating, IHasBackgroundColor, IHasForegroundColor
     {
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public NumberPicker(int defaultValue = 0) : base("number", defaultValue.ToString())
         {
             InnerElement.classList.add("tss-fontsize-small");
@@ -18,18 +21,27 @@
         /// </summary>
         public int Value => int.Parse(Text);
 
+        /// <summary>
+        /// Gets or sets the maximum value accepted by the component.
+        /// </summary>
         public int Max
         {
             get => int.Parse(InnerElement.max);
             set => InnerElement.max = value.ToString();
         }
 
+        /// <summary>
+        /// Gets or sets the minimum value accepted by the component.
+        /// </summary>
         public int Min
         {
             get => int.Parse(InnerElement.min);
             set => InnerElement.min = value.ToString();
         }
 
+        /// <summary>
+        /// Gets or sets the step increment used by the component.
+        /// </summary>
         public int Step
         {
             get => int.Parse(InnerElement.step);
@@ -63,6 +75,9 @@
             return this;
         }
 
+        /// <summary>
+        /// Gets or sets the size of the component.
+        /// </summary>
         public TextSize Size
         {
             get => ITextFormatingExtensions.FromClassList(InnerElement, TextSize.Small);
@@ -73,6 +88,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets the font weight of the component.
+        /// </summary>
         public TextWeight Weight
         {
             get => ITextFormatingExtensions.FromClassList(InnerElement, TextWeight.Regular);
@@ -83,6 +101,9 @@
             }
         }
 
+        /// <summary>
+        /// Gets or sets the text alignment of the component.
+        /// </summary>
         public TextAlign TextAlign
         {
             get

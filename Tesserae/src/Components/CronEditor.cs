@@ -38,6 +38,9 @@ namespace Tesserae
 
         private ComponentEventHandler<CronEditor> _onChange;
 
+        /// <summary>
+        /// Gets or sets the cron expression and its enabled/disabled state as a tuple.
+        /// </summary>
         public (string cron, bool enabled) Value
         {
             get => (_cron, _enabled);
@@ -59,6 +62,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public CronEditor(string initialCron = "0 12 * * *", bool initialEnabled = true)
         {
             _cron = initialCron;
@@ -82,6 +88,9 @@ namespace Tesserae
             RenderDescription();
         }
 
+        /// <summary>
+        /// Enables or disables the day-of-week selector in the editor.
+        /// </summary>
         public CronEditor DaysEnabled(bool enabled = true)
         {
             _daysEnabled = enabled;
@@ -103,6 +112,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the minute-step interval used by the editor.
+        /// </summary>
         public CronEditor MinuteInterval(int interval)
         {
             _minuteInterval = interval;
@@ -119,6 +131,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Returns the component's current value as an <see cref="IObservable{T}"/>.
+        /// </summary>
         public IObservable<(string cron, bool enabled)> AsObservable()
         {
             return _observable;
@@ -474,11 +489,29 @@ namespace Tesserae
 
         private class CronStruct
         {
+            /// <summary>
+            /// Configures the component to minute.
+            /// </summary>
             public int Minute;
+            /// <summary>
+            /// Configures the component to hour.
+            /// </summary>
             public int Hour;
+            /// <summary>
+            /// The list of selected day-of-week indices (0 = Sunday).
+            /// </summary>
             public List<int> DaysOfWeek;
+            /// <summary>
+            /// True when every day of the week is selected.
+            /// </summary>
             public bool AllDays;
+            /// <summary>
+            /// Returns a value indicating whether the component is daily.
+            /// </summary>
             public bool IsDaily;
+            /// <summary>
+            /// Returns a value indicating whether the component is valid.
+            /// </summary>
             public bool IsValid;
         }
     }

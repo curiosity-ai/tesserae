@@ -17,6 +17,9 @@ namespace Tesserae
         private HTMLElement _footerContainer;
         private bool _noPadding = false;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public Card(IComponent content, bool noAnimation = false)
         {
             InnerElement   = Div(_("tss-card"),           content.Render());
@@ -170,12 +173,18 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Renders the component in a compact form.
+        /// </summary>
         public Card Compact()
         {
             IsCompact = true;
             return this;
         }
 
+        /// <summary>
+        /// Gets or sets the CSS background of the component.
+        /// </summary>
         public string Background
         {
             get => _contentContainer != null ? _contentContainer.style.background : InnerElement.style.background;
@@ -187,12 +196,18 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Sets the background colour of the card.
+        /// </summary>
         public Card BackgroundColor(string color)
         {
             Background = color;
             return this;
         }
 
+        /// <summary>
+        /// Configures the component to border.
+        /// </summary>
         public Card Border(string color, UnitSize size = null)
         {
             size                           = size ?? 1.px();
@@ -228,6 +243,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Enables or disables the hover colour overlay on the card.
+        /// </summary>
         public Card HoverColor(bool enabled = true)
         {
             if (enabled)

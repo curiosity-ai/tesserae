@@ -28,6 +28,9 @@ namespace Tesserae
 
         private HTMLElement _textBoxElement;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public Picker(int maximumAllowedSelections = int.MaxValue, bool duplicateSelectionsAllowed = false, int suggestionsTolerance = 0, bool renderSelectionsInline = true, string suggestionsTitleText = null)
         {
             MaximumAllowedSelections   = maximumAllowedSelections;
@@ -51,6 +54,9 @@ namespace Tesserae
             CreatePicker(pickerContainer);
         }
 
+        /// <summary>
+        /// Sets the keyboard tab order of the component.
+        /// </summary>
         public int TabIndex
         {
             set
@@ -68,16 +74,34 @@ namespace Tesserae
             return _pickerItems;
         }
 
+        /// <summary>
+        /// Gets or sets the picker items.
+        /// </summary>
         public IEnumerable<TPickerItem> PickerItems => _pickerItems;
 
+        /// <summary>
+        /// Gets or sets the selected picker items.
+        /// </summary>
         public IEnumerable<TPickerItem> SelectedPickerItems => _pickerItems.Where(pickerItem => pickerItem.IsSelected);
 
+        /// <summary>
+        /// Gets or sets the unselected picker items.
+        /// </summary>
         public IEnumerable<TPickerItem> UnselectedPickerItems => _pickerItems.Where(pickerItem => !pickerItem.IsSelected);
 
+        /// <summary>
+        /// Gets or sets the maximum allowed selections.
+        /// </summary>
         public int? MaximumAllowedSelections { get; }
 
+        /// <summary>
+        /// Gets or sets the duplicate selections allowed.
+        /// </summary>
         public bool DuplicateSelectionsAllowed { get; }
 
+        /// <summary>
+        /// Gets or sets the suggestions tolerance.
+        /// </summary>
         public int SuggestionsTolerance { get; }
 
         /// <summary>
@@ -320,7 +344,13 @@ namespace Tesserae
 
         public sealed class ItemPickedEvent
         {
+            /// <summary>
+            /// Initializes a new instance of this class.
+            /// </summary>
             public ItemPickedEvent(TPickerItem item) => Item = item;
+            /// <summary>
+            /// Adds the given item to the component.
+            /// </summary>
             public TPickerItem Item { get; }
         }
 
@@ -328,14 +358,23 @@ namespace Tesserae
         {
             private readonly HTMLElement _suggestions;
 
+            /// <summary>
+            /// Initializes a new instance of this class.
+            /// </summary>
             public SuggestionsLayer(IComponent suggestions)
             {
                 _suggestions = suggestions.Render();
                 _contentHtml = Div(_("tss-layer-content"), _suggestions);
             }
 
+            /// <summary>
+            /// Gets or sets the suggestions content.
+            /// </summary>
             public Element SuggestionsContent => _suggestions;
 
+            /// <summary>
+            /// Gets or sets the suggestions container.
+            /// </summary>
             public HTMLElement SuggestionsContainer => _renderedContent;
         }
 
@@ -343,6 +382,9 @@ namespace Tesserae
         {
             private readonly HTMLElement _suggestions;
 
+            /// <summary>
+            /// Initializes a new instance of this class.
+            /// </summary>
             public Suggestions(string suggestionsTitleText)
             {
                 _suggestions = Div(_("tss-picker-suggestions"));

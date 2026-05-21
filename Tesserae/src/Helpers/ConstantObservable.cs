@@ -12,13 +12,25 @@ namespace Tesserae
     {
         private T _value;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public ConstantObservable(T value)
         {
             _value = value;
         }
 
+        /// <summary>
+        /// Configures the component to observe.
+        /// </summary>
         public void Observe(ObservableEvent.ValueChanged<T>              valueGetter) { valueGetter(Value); }
+        /// <summary>
+        /// Subscribes the given callback so it fires on every future change to the observed value.
+        /// </summary>
         public void ObserveFutureChanges(ObservableEvent.ValueChanged<T> valueGetter) { }
+        /// <summary>
+        /// Stops a previously-registered callback from receiving further change notifications.
+        /// </summary>
         public void StopObserving(ObservableEvent.ValueChanged<T>        valueGetter) { }
 
         /// <summary>

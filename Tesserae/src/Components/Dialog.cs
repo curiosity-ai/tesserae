@@ -16,6 +16,9 @@ namespace Tesserae
         private readonly string _scope;
         private readonly bool _centerContent;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public Dialog(IComponent content = null, IComponent title = null, bool centerContent = true)
         {
             _modal = Modal().HideCloseButton().NoLightDismiss().Blocking();
@@ -40,12 +43,18 @@ namespace Tesserae
             _modal.OnHide(_ => Hotkeys.DeleteScope(_scope));
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the component can be dragged by the user.
+        /// </summary>
         public bool IsDraggable
         {
             get => _modal.IsDraggable;
             set => _modal.IsDraggable = value;
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the component uses the dark colour theme.
+        /// </summary>
         public bool IsDark
         {
             get => _modal.IsDark;
@@ -61,12 +70,18 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the content rendered inside the surface.
+        /// </summary>
         public Dialog Content(IComponent content)
         {
             _modal.Content(content);
             return this;
         }
 
+        /// <summary>
+        /// Adds the given components to the dialog's command row.
+        /// </summary>
         public Dialog Commands(params IComponent[] content)
         {
             content.Reverse();
@@ -74,6 +89,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Applies the dark colour scheme to the component.
+        /// </summary>
         public Dialog Dark()
         {
             IsDark = true;
@@ -103,6 +121,9 @@ namespace Tesserae
             return Stack().NoDefaultMargin().HorizontalReverse().JustifyContent(ItemJustify.Evenly).WS();
         }
 
+        /// <summary>
+        /// Shows OK button actions on the dialog and wires up the callback.
+        /// </summary>
         public void Ok(Action onOk, Func<Button, Button> btnOk = null)
         {
             bool acted = false;
@@ -119,6 +140,9 @@ namespace Tesserae
                .Show();
         }
 
+        /// <summary>
+        /// Shows OK / Cancel button actions on the dialog and wires up the callbacks.
+        /// </summary>
         public void OkCancel(Action onOk = null, Action onCancel = null, Func<Button, Button> btnOk = null, Func<Button, Button> btnCancel = null)
         {
             bool acted = false;
@@ -135,6 +159,9 @@ namespace Tesserae
                .Show();
         }
 
+        /// <summary>
+        /// Shows Yes / No button actions on the dialog and wires up the callbacks.
+        /// </summary>
         public void YesNo(Action onYes = null, Action onNo = null, Func<Button, Button> btnYes = null, Func<Button, Button> btnNo = null)
         {
             bool acted = false;
@@ -151,6 +178,9 @@ namespace Tesserae
                .Show();
         }
 
+        /// <summary>
+        /// Shows Yes / No / Cancel button actions on the dialog and wires up the callbacks.
+        /// </summary>
         public void YesNoCancel(Action onYes = null, Action onNo = null, Action onCancel = null, Func<Button, Button> btnYes = null, Func<Button, Button> btnNo = null, Func<Button, Button> btnCancel = null)
         {
             bool acted = false;
@@ -168,6 +198,9 @@ namespace Tesserae
                .Show();
         }
 
+        /// <summary>
+        /// Shows Retry / Cancel button actions on the dialog and wires up the callbacks.
+        /// </summary>
         public void RetryCancel(Action onRetry = null, Action onCancel = null, Func<Button, Button> btnRetry = null, Func<Button, Button> btnCancel = null)
         {
             bool acted = false;
@@ -184,16 +217,28 @@ namespace Tesserae
                .Show();
         }
 
+        /// <summary>
+        /// Shows the component.
+        /// </summary>
         public void Show() => _modal.Show();
 
+        /// <summary>
+        /// Hides the component.
+        /// </summary>
         public void Hide(Action onHidden = null) => _modal.Hide(onHidden);
 
+        /// <summary>
+        /// Makes the surface draggable.
+        /// </summary>
         public Dialog Draggable()
         {
             IsDraggable = true;
             return this;
         }
 
+        /// <summary>
+        /// Awaitable variant of <see cref="Ok"/> that resolves with the user's response.
+        /// </summary>
         public Task<Response> OkAsync(Func<Button, Button> btnOk = null)
         {
             var tcs = new TaskCompletionSource<Response>();
@@ -201,6 +246,9 @@ namespace Tesserae
             return tcs.Task;
         }
 
+        /// <summary>
+        /// Awaitable variant of <see cref="OkCancel"/> that resolves with the user's response.
+        /// </summary>
         public Task<Response> OkCancelAsync(Func<Button, Button> btnOk = null, Func<Button, Button> btnCancel = null)
         {
             var tcs = new TaskCompletionSource<Response>();
@@ -208,6 +256,9 @@ namespace Tesserae
             return tcs.Task;
         }
 
+        /// <summary>
+        /// Awaitable variant of <see cref="YesNo"/> that resolves with the user's response.
+        /// </summary>
         public Task<Response> YesNoAsync(Func<Button, Button> btnYes = null, Func<Button, Button> btnNo = null)
         {
             var tcs = new TaskCompletionSource<Response>();
@@ -215,6 +266,9 @@ namespace Tesserae
             return tcs.Task;
         }
 
+        /// <summary>
+        /// Awaitable variant of <see cref="YesNoCancel"/> that resolves with the user's response.
+        /// </summary>
         public Task<Response> YesNoCancelAsync(Func<Button, Button> btnYes = null, Func<Button, Button> btnNo = null, Func<Button, Button> btnCancel = null)
         {
             var tcs = new TaskCompletionSource<Response>();
@@ -222,6 +276,9 @@ namespace Tesserae
             return tcs.Task;
         }
 
+        /// <summary>
+        /// Awaitable variant of <see cref="RetryCancel"/> that resolves with the user's response.
+        /// </summary>
         public Task<Response> RetryCancelAsync(Func<Button, Button> btnRetry = null, Func<Button, Button> btnCancel = null)
         {
             var tcs = new TaskCompletionSource<Response>();

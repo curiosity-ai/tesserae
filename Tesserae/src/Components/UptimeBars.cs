@@ -24,6 +24,9 @@ namespace Tesserae
         /// </summary>
         public string Padding { get => _container.style.padding; set => _container.style.padding = value; }
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public UptimeBars()
         {
             _barsContainer = Div(_("tss-uptime-bars"));
@@ -56,6 +59,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Renders the component in a compact form.
+        /// </summary>
         public UptimeBars Compact()
         {
             _barsContainer.classList.add("tss-uptime-bars-compact");

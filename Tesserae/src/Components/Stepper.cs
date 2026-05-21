@@ -10,6 +10,9 @@ namespace Tesserae
     /// </summary>
     public sealed class StepperStep
     {
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public StepperStep(string title, IComponent content, string description = null)
         {
             Title = title ?? string.Empty;
@@ -25,6 +28,9 @@ namespace Tesserae
         /// Gets or sets the description of the component.
         /// </summary>
         public string Description { get; set; }
+        /// <summary>
+        /// Gets or sets the content of the component.
+        /// </summary>
         public IComponent Content { get; set; }
     }
 
@@ -40,6 +46,9 @@ namespace Tesserae
         private          int               _currentIndex;
         private          Action<Stepper>   _onStepChanged;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public Stepper(params StepperStep[] steps)
         {
             _steps   = new List<StepperStep>();
@@ -62,12 +71,18 @@ namespace Tesserae
             SetStep(0, false);
         }
 
+        /// <summary>
+        /// Gets or sets the current step index.
+        /// </summary>
         public int CurrentStepIndex
         {
             get => _currentIndex;
             set => SetStep(value);
         }
 
+        /// <summary>
+        /// Gets or sets the current step.
+        /// </summary>
         public StepperStep CurrentStep => _steps.Count == 0 ? null : _steps[_currentIndex];
 
         /// <summary>
@@ -145,11 +160,17 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Configures the component to next.
+        /// </summary>
         public Stepper Next()
         {
             return SetStep(_currentIndex + 1);
         }
 
+        /// <summary>
+        /// Configures the component to previous.
+        /// </summary>
         public Stepper Previous()
         {
             return SetStep(_currentIndex - 1);

@@ -35,6 +35,9 @@ namespace Tesserae
         private readonly ProgressIndicator _progressIndicator;
         private readonly Button _startStopButton;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public Plan(string title)
         {
             _title = TextBlock(title).SemiBold().MediumPlus();
@@ -106,6 +109,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the components shown in the header command area.
+        /// </summary>
         public Plan HeaderCommands(params IComponent[] commands)
         {
             _headerCommandsStack.Clear();
@@ -116,12 +122,18 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets a message shown in the footer.
+        /// </summary>
         public Plan FooterMessage(string message)
         {
             _footerMessage.Text = message;
             return this;
         }
 
+        /// <summary>
+        /// Sets the components shown in the footer command area.
+        /// </summary>
         public Plan FooterCommands(params IComponent[] commands)
         {
             _footerCommandsStack.Clear();
@@ -143,24 +155,36 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Configures the component to progress.
+        /// </summary>
         public Plan Progress(int position, int total)
         {
             _progressIndicator.Progress(position, total);
             return this;
         }
 
+        /// <summary>
+        /// Configures the component to progress.
+        /// </summary>
         public Plan Progress(float percent)
         {
             _progressIndicator.Progress(percent);
             return this;
         }
 
+        /// <summary>
+        /// Configures the component to indeterminate.
+        /// </summary>
         public Plan Indeterminate()
         {
             _progressIndicator.Indeterminated();
             return this;
         }
 
+        /// <summary>
+        /// Adds a start / stop toggle button wired up via the supplied callback.
+        /// </summary>
         public Plan StartStopButton(Action<Button> onStartStop)
         {
             _startStopButton.OnClick((b, _) => onStartStop(b));
@@ -185,12 +209,18 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Starts the component's operation.
+        /// </summary>
         public Plan Start()
         {
             _startStopButton.SetIcon(UIcons.Play);
             return this;
         }
 
+        /// <summary>
+        /// Stops the component's operation.
+        /// </summary>
         public Plan Stop()
         {
             _startStopButton.SetIcon(UIcons.SquareSmall);
@@ -203,12 +233,18 @@ namespace Tesserae
             private readonly Icon _icon;
             private readonly TextBlock _text;
 
+            /// <summary>
+            /// Gets or sets the title of the component.
+            /// </summary>
             public string Title
             {
                 get => _text.Text;
                 set => _text.Text = value;
             }
 
+            /// <summary>
+            /// Gets or sets the completed.
+            /// </summary>
             public bool Completed
             {
                 get => _icon.Render().dataset["icon"].As<string>().Contains(Icon(UIcons.CheckCircle).Render().dataset["icon"].As<string>());
@@ -227,6 +263,9 @@ namespace Tesserae
                 }
             }
 
+            /// <summary>
+            /// Initializes a new instance of this class.
+            /// </summary>
             public Task(string title, bool completed)
             {
                 _icon = Icon(completed ? UIcons.CheckCircle : UIcons.Circle);

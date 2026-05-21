@@ -32,7 +32,13 @@ namespace Tesserae
         private double            _virtualizedViewportMaxTop = 0;
         private readonly List<LazyVirtualItem> _virtualItems = new List<LazyVirtualItem>();
 
+        /// <summary>
+        /// Gets or sets the styling container.
+        /// </summary>
         public  HTMLElement       StylingContainer           => _stack.InnerElement;
+        /// <summary>
+        /// Gets or sets the propagate to stack item parent.
+        /// </summary>
         public  bool              PropagateToStackItemParent => true;
         /// <summary>
         /// Adds the given items to the component.
@@ -43,11 +49,17 @@ namespace Tesserae
         /// Shows the not matching items.
         /// </summary>
         public bool ShowNotMatchingItems { get; set; }
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public SearchableList(T[] items, params UnitSize[] columns) : this(new ObservableList<T>(initialValues: items ?? new T[0]), columns)
         {
 
         }
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public SearchableList(ObservableList<T> items, params UnitSize[] columns)
         {
             Items      = items ?? new ObservableList<T>();
@@ -190,12 +202,18 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Configures the inline search box using the supplied callback.
+        /// </summary>
         public SearchableList<T> SearchBox(Action<SearchBox> sb)
         {
             sb(_searchBox);
             return this;
         }
 
+        /// <summary>
+        /// Captures the inline search box into the supplied <c>out</c> variable for later reference.
+        /// </summary>
         public SearchableList<T> CaptureSearchBox(out SearchBox sb)
         {
             sb = _searchBox;
@@ -239,6 +257,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Adds the given components before the inline search box.
+        /// </summary>
         public SearchableList<T> BeforeSearchBox(params IComponent[] beforeComponents)
         {
             foreach (var component in beforeComponents.Reverse<IComponent>())
@@ -249,6 +270,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Adds the given components after the inline search box.
+        /// </summary>
         public SearchableList<T> AfterSearchBox(params IComponent[] afterComponents)
         {
             _searchBoxContainerComponents.AddRange(afterComponents);
@@ -256,6 +280,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Configures the component to virtualize.
+        /// </summary>
         public SearchableList<T> Virtualize(UnitSize itemHeight)
         {
             _virtualizedItemHeight = itemHeight;

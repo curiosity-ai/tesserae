@@ -17,6 +17,9 @@ namespace Tesserae
     {
         private HTMLElement _img;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public EmojiImageIcon(string icon)
         {
 #if DEBUG
@@ -36,6 +39,9 @@ namespace Tesserae
         /// </summary>
         public HTMLElement Render() => _img;
 
+        /// <summary>
+        /// Configures the component to clone.
+        /// </summary>
         public ISidebarIcon Clone() => new EmojiImageIcon(_img.textContent);
     }
 
@@ -44,6 +50,9 @@ namespace Tesserae
     {
         private HTMLElement _img;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public IconImageIcon(string icon)
         {
             _img                 = I(_("tss-image tss-icon " + icon));
@@ -55,6 +64,9 @@ namespace Tesserae
         /// </summary>
         public HTMLElement Render() => _img;
 
+        /// <summary>
+        /// Configures the component to clone.
+        /// </summary>
         public ISidebarIcon Clone() => new IconImageIcon((string)_img.dataset["icon"]);
     }
 
@@ -63,6 +75,9 @@ namespace Tesserae
     public class ImageIcon : ISidebarIcon
     {
         private HTMLImageElement _img;
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public ImageIcon(string source, string backgroundColor = null)
         {
             _img = Image(string.IsNullOrWhiteSpace(backgroundColor)
@@ -75,6 +90,9 @@ namespace Tesserae
         /// </summary>
         public HTMLElement Render() => _img;
 
+        /// <summary>
+        /// Configures the component to clone.
+        /// </summary>
         public ISidebarIcon Clone() => new ImageIcon(_img.src, _img.style.backgroundColor);
 
         /// <summary>

@@ -20,6 +20,9 @@ namespace Tesserae
         private          bool _showStatus;
         private          Action<Pagination> _pageChanged;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public Pagination(int totalItems = 0, int pageSize = 10, int currentPage = 1)
         {
             _buttonContainer = Div(_("tss-pagination-buttons"));
@@ -36,24 +39,36 @@ namespace Tesserae
             Update();
         }
 
+        /// <summary>
+        /// Gets or sets the total items.
+        /// </summary>
         public int TotalItems
         {
             get => _totalItems;
             set => SetTotalItems(value);
         }
 
+        /// <summary>
+        /// Gets or sets the page size.
+        /// </summary>
         public int PageSize
         {
             get => _pageSize;
             set => SetPageSize(value);
         }
 
+        /// <summary>
+        /// Gets or sets the current page.
+        /// </summary>
         public int CurrentPage
         {
             get => _currentPage;
             set => SetPage(value);
         }
 
+        /// <summary>
+        /// Gets or sets the total pages.
+        /// </summary>
         public int TotalPages
         {
             get
@@ -68,6 +83,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets the max page buttons.
+        /// </summary>
         public int MaxPageButtons
         {
             get => _maxPageButtons;
@@ -78,6 +96,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Shows the status.
+        /// </summary>
         public bool ShowStatus
         {
             get => _showStatus;
@@ -142,21 +163,33 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Configures the component to next.
+        /// </summary>
         public Pagination Next()
         {
             return SetPage(CurrentPage + 1);
         }
 
+        /// <summary>
+        /// Configures the component to previous.
+        /// </summary>
         public Pagination Previous()
         {
             return SetPage(CurrentPage - 1);
         }
 
+        /// <summary>
+        /// Configures the component to first.
+        /// </summary>
         public Pagination First()
         {
             return SetPage(1);
         }
 
+        /// <summary>
+        /// Configures the component to last.
+        /// </summary>
         public Pagination Last()
         {
             return SetPage(TotalPages);

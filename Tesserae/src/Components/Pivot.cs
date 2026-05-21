@@ -27,6 +27,9 @@ namespace Tesserae
         private          string      _currentSelectedID;
         private          bool        _isRendered = false;
         private          bool        _hideIfSingle = false;
+        /// <summary>
+        /// Gets or sets the selected tab.
+        /// </summary>
         public           string      SelectedTab => _currentSelectedID ?? _initiallySelectedID;
         private HTMLElement _selectedNav;
         private HTMLElement _hoveredNav;
@@ -41,6 +44,9 @@ namespace Tesserae
         // Fraction of the scroller's visible width to move per scroll-button click.
         private const double ScrollButtonStep = 0.7;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public Pivot()
         {
             _scrollLeftBtn  = Button().SetIcon(UIcons.AngleLeft).NoMinSize().HS().NoPadding().NoMargin().Class("tss-pivot-titlebar-scroll-left").OnClick(() => ScrollByAmount(-_scroller.clientWidth * ScrollButtonStep));
@@ -62,16 +68,28 @@ namespace Tesserae
             AttachScrollerEvents();
         }
 
+        /// <summary>
+        /// Gets or sets the styling container.
+        /// </summary>
         public HTMLElement StylingContainer { get; }
 
+        /// <summary>
+        /// Gets or sets the propagate to stack item parent.
+        /// </summary>
         public bool PropagateToStackItemParent => true;
 
+        /// <summary>
+        /// Configures the component to justified.
+        /// </summary>
         public Pivot Justified()
         {
             _renderedTabs.style.justifyContent = "space-between";
             return this;
         }
 
+        /// <summary>
+        /// Configures the component to centered.
+        /// </summary>
         public Pivot Centered()
         {
             _renderedTabs.style.justifyContent = "center";
@@ -136,6 +154,9 @@ namespace Tesserae
             Select(_orderedTabs[nextIdx].Id);
         }
 
+        /// <summary>
+        /// Refreshes the pivot sizes.
+        /// </summary>
         public void RefreshPivotSizes()
         {
             UpdateScrollState();
@@ -364,6 +385,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Configures the component to select.
+        /// </summary>
         public Pivot Select(string id, bool refresh = false)
         {
             if (_currentSelectedID != id || refresh)
@@ -550,6 +574,9 @@ namespace Tesserae
 
         internal sealed class Tab
         {
+            /// <summary>
+            /// Initializes a new instance of this class.
+            /// </summary>
             public Tab(string id, Func<IComponent> titleCreator, Func<IComponent> contentCreator, bool cached = false, bool closeable = false, Action onClosed = null)
             {
                 Id               = id;
@@ -569,6 +596,9 @@ namespace Tesserae
             private          HTMLElement      _content;
             private readonly bool             _canCacheContent;
 
+            /// <summary>
+            /// Renders the content.
+            /// </summary>
             public HTMLElement RenderContent()
             {
                 if (_canCacheContent && _content is object)
@@ -582,8 +612,14 @@ namespace Tesserae
                 }
             }
 
+            /// <summary>
+            /// Sets the DOM id of the component.
+            /// </summary>
             public string Id { get; }
 
+            /// <summary>
+            /// Renders the title.
+            /// </summary>
             public HTMLElement RenderTitle() => _titleCreator().Render();
         }
 
@@ -598,6 +634,9 @@ namespace Tesserae
 
             internal bool Canceled { get; private set; }
 
+            /// <summary>
+            /// Cancels the component's current operation.
+            /// </summary>
             public void Cancel() => Canceled = true;
         }
 
@@ -608,7 +647,13 @@ namespace Tesserae
                 CurrentPivot = currentPivot;
                 TargetPivot  = targetPivot;
             }
+            /// <summary>
+            /// Gets or sets the current pivot.
+            /// </summary>
             public string CurrentPivot { get; }
+            /// <summary>
+            /// Gets or sets the target pivot.
+            /// </summary>
             public string TargetPivot  { get; }
         }
     }

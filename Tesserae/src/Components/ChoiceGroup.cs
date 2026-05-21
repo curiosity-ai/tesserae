@@ -14,6 +14,9 @@ namespace Tesserae
         private readonly TextBlock                  _header;
         private readonly SettableObservable<Choice> _selectedOption;
         private static int _count = 0;
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public ChoiceGroup(string label = "Pick one")
         {
             _count++;
@@ -26,14 +29,23 @@ namespace Tesserae
             InnerElement      = Div(_("tss-choice-group tss-default-component-margin", role: "radiogroup", ariaLabelledBy: headerId, styles: s => { s.flexDirection = "column"; }), h);
         }
 
+        /// <summary>
+        /// Gets or sets the selected option.
+        /// </summary>
         public Choice SelectedOption { get => _selectedOption.Value; private set => _selectedOption.Value = value; }
 
+        /// <summary>
+        /// Gets or sets the label shown by the component.
+        /// </summary>
         public string Label
         {
             get => _header.Text;
             set => _header.Text = value;
         }
 
+        /// <summary>
+        /// Gets or sets the orientation.
+        /// </summary>
         public ChoiceGroupOrientation Orientation
         {
             get => InnerElement.style.flexDirection == "row" ? ChoiceGroupOrientation.Horizontal : ChoiceGroupOrientation.Vertical;
@@ -44,6 +56,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the component is required for form submission.
+        /// </summary>
         public bool IsRequired
         {
             get => _header.IsRequired;
@@ -92,23 +107,35 @@ namespace Tesserae
             newComponent.OnSelected(OnChoiceSelected);
         }
 
+        /// <summary>
+        /// Configures the component to choices.
+        /// </summary>
         public ChoiceGroup Choices(params ChoiceGroup.Choice[] children)
         {
             children.ForEach(x => Add(x));
             return this;
         }
 
+        /// <summary>
+        /// Configures the component to horizontal.
+        /// </summary>
         public ChoiceGroup Horizontal()
         {
             Orientation = ChoiceGroup.ChoiceGroupOrientation.Horizontal;
             return this;
         }
+        /// <summary>
+        /// Configures the component to vertical.
+        /// </summary>
         public ChoiceGroup Vertical()
         {
             Orientation = ChoiceGroup.ChoiceGroupOrientation.Vertical;
             return this;
         }
 
+        /// <summary>
+        /// Marks the component as required.
+        /// </summary>
         public ChoiceGroup Required()
         {
             IsRequired = true;
@@ -145,6 +172,9 @@ namespace Tesserae
 
             private readonly HTMLSpanElement  _radioSpan;
             private readonly HTMLLabelElement _label;
+            /// <summary>
+            /// Initializes a new instance of this class.
+            /// </summary>
             public Choice(string text)
             {
                 InnerElement = RadioButton(_("tss-option"));
@@ -161,6 +191,9 @@ namespace Tesserae
                 };
             }
 
+            /// <summary>
+            /// Gets or sets a value indicating whether the component is interactive (enabled).
+            /// </summary>
             public bool IsEnabled
             {
                 get { return !_label.classList.contains("tss-disabled"); }
@@ -180,6 +213,9 @@ namespace Tesserae
                 }
             }
 
+            /// <summary>
+            /// Gets or sets a value indicating whether the component is selected.
+            /// </summary>
             public bool IsSelected
             {
                 get { return InnerElement.@checked; }
@@ -192,6 +228,9 @@ namespace Tesserae
                 }
             }
 
+            /// <summary>
+            /// Gets or sets the text shown in the component.
+            /// </summary>
             public string Text
             {
                 get { return _label.innerText; }
@@ -206,18 +245,27 @@ namespace Tesserae
                 return _label;
             }
 
+            /// <summary>
+            /// Disables the component.
+            /// </summary>
             public Choice Disabled(bool value = true)
             {
                 IsEnabled = !value;
                 return this;
             }
 
+            /// <summary>
+            /// Marks the component as selected.
+            /// </summary>
             public Choice Selected()
             {
                 IsSelected = true;
                 return this;
             }
 
+            /// <summary>
+            /// Configures the selected if on the component.
+            /// </summary>
             public Choice SelectedIf(bool shouldSelect)
             {
                 if (shouldSelect)

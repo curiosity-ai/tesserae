@@ -16,6 +16,9 @@ namespace Tesserae
         private readonly HTMLDivElement _textContainer;
         private readonly HTMLDivElement _noteContainer;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public Message(string title = null, string message = null)
         {
             InnerElement = Div(_("tss-message"));
@@ -33,6 +36,9 @@ namespace Tesserae
             InnerElement.appendChild(_textContainer);
         }
 
+        /// <summary>
+        /// Configures the component to icon.
+        /// </summary>
         public Message Icon(UIcons icon, string color = null, TextSize size = TextSize.Large)
         {
             _iconContainer.innerHTML = "";
@@ -41,6 +47,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Configures the component to icon.
+        /// </summary>
         public Message Icon(Image image)
         {
             _iconContainer.innerHTML = "";
@@ -86,6 +95,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Configures the component to note.
+        /// </summary>
         public Message Note(string note)
         {
             _noteContainer.innerHTML = "";
@@ -94,6 +106,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Configures the component to note.
+        /// </summary>
         public Message Note(IComponent note)
         {
             _noteContainer.innerHTML = "";
@@ -102,6 +117,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Configures the component to variant.
+        /// </summary>
         public Message Variant(MessageVariant variant)
         {
             InnerElement.classList.remove("tss-message-default", "tss-message-success", "tss-message-warning", "tss-message-error");

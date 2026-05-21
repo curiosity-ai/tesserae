@@ -14,6 +14,9 @@ namespace Tesserae
         private readonly Action      _onColumnClick;
         private readonly HTMLElement InnerElement;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public DetailsListColumn(string title, UnitSize width, UnitSize maxWidth, bool isRowHeader = false, bool enableColumnSorting = false, string sortingKey = null, Action onColumnClick = null)
         {
             if (string.IsNullOrWhiteSpace(title))
@@ -42,6 +45,9 @@ namespace Tesserae
             InnerElement = TextBlock(Title).Regular().SemiBold().Render();
         }
 
+        /// <summary>
+        /// Gets or sets the sorting key.
+        /// </summary>
         public string      SortingKey               { get; }
         /// <summary>
         /// Gets or sets the title of the component.
@@ -55,6 +61,9 @@ namespace Tesserae
         /// Gets or sets the CSS max-width of the component.
         /// </summary>
         public UnitSize    MaxWidth                 { get; }
+        /// <summary>
+        /// Returns a value indicating whether the component is row header.
+        /// </summary>
         public bool        IsRowHeader              { get; }
         /// <summary>
         /// Enables the column sorting on the component.

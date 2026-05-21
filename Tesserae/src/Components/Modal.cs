@@ -36,18 +36,33 @@ namespace Tesserae
         private bool             _isDragged;
         private TranslationPoint _startPoint;
 
+        /// <summary>
+        /// Gets or sets the animate on show.
+        /// </summary>
         public bool AnimateOnShow { get { return base.AnimateOnShow; } set { base.AnimateOnShow = value; } }
 
+        /// <summary>
+        /// Gets or sets the styling container.
+        /// </summary>
         public HTMLElement StylingContainer => _modal;
 
+        /// <summary>
+        /// Gets or sets the propagate to stack item parent.
+        /// </summary>
         public bool PropagateToStackItemParent => false;
 
+        /// <summary>
+        /// Gets or sets the CSS background of the component.
+        /// </summary>
         public string Background
         {
             get => _modal.style.background;
             set => _modal.style.background = value;
         }
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public Modal(IComponent header = null)
         {
             _modalHeaderContents = Div(_("tss-modal-header-content"));
@@ -204,6 +219,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the height of the inner content area of the surface.
+        /// </summary>
         public Modal ContentHeight(UnitSize height)
         {
             _modalContent.style.height = height.ToString();
@@ -239,6 +257,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Sets the content rendered inside the surface.
+        /// </summary>
         public override IComponent Content
         {
             get => _content;
@@ -255,6 +276,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the surface can be dismissed by clicking outside it (light dismiss).
+        /// </summary>
         public bool CanLightDismiss
         {
             get => _modalOverlay.classList.contains("tss-modal-lightDismiss");
@@ -277,6 +301,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the component uses the dark colour theme.
+        /// </summary>
         public bool IsDark
         {
             get => _contentHtml.classList.contains("tss-dark");
@@ -293,6 +320,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the component can be dragged by the user.
+        /// </summary>
         public bool IsDraggable
         {
             get => _modalHeaderContents.classList.contains("tss-modal-draggable");
@@ -312,6 +342,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the surface is non-blocking (allows interaction with the page beneath it).
+        /// </summary>
         public bool IsNonBlocking
         {
             get => _contentHtml.classList.contains("tss-modal-modeless");
@@ -340,6 +373,9 @@ namespace Tesserae
             return Raw(_modal);
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the close button is shown.
+        /// </summary>
         public bool WillShowCloseButton
         {
             get => _closeButton.style.display != "none";
@@ -355,6 +391,9 @@ namespace Tesserae
 
         }
 
+        /// <summary>
+        /// Centers the content of the surface.
+        /// </summary>
         public Modal CenterContent()
         {
             _modalContent.classList.add("tss-modal-centered-content");
@@ -397,6 +436,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Enables light-dismiss behaviour (clicking outside the surface closes it).
+        /// </summary>
         public Modal LightDismiss()
         {
             CanLightDismiss = true;
@@ -412,24 +454,36 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Applies the dark colour scheme to the component.
+        /// </summary>
         public Modal Dark()
         {
             IsDark = true;
             return this;
         }
 
+        /// <summary>
+        /// Makes the surface draggable.
+        /// </summary>
         public Modal Draggable()
         {
             IsDraggable = true;
             return this;
         }
 
+        /// <summary>
+        /// Makes the surface non-blocking, allowing interaction with the page beneath it.
+        /// </summary>
         public Modal NonBlocking()
         {
             IsNonBlocking = true;
             return this;
         }
 
+        /// <summary>
+        /// Makes the surface blocking (the default — interaction with the page beneath is prevented).
+        /// </summary>
         public Modal Blocking()
         {
             IsNonBlocking = false;
@@ -448,6 +502,9 @@ namespace Tesserae
             DoShow();
         }
 
+        /// <summary>
+        /// Shows the component.
+        /// </summary>
         public override Modal Show()
         {
             _modal.style.marginTop    = "";
@@ -500,16 +557,25 @@ namespace Tesserae
         }
 
 
+        /// <summary>
+        /// Internal helper that raises the hide event for this surface.
+        /// </summary>
         public void RaiseOnHide()
         {
             Hidden?.Invoke(this);
         }
 
+        /// <summary>
+        /// Raises the on show event on the component.
+        /// </summary>
         public void RaiseOnShow()
         {
             Shown?.Invoke(this);
         }
 
+        /// <summary>
+        /// Hides the component.
+        /// </summary>
         public override void Hide(Action onHidden = null)
         {
             RaiseOnHide();
@@ -580,15 +646,23 @@ namespace Tesserae
             static readonly Regex regex      = new Regex(@"translate\(([-0-9.].*?)px,\s?([-0-9.].*?)px\)");
             static readonly Regex regexShort = new Regex(@"translate\(([-0-9.].*?)px\)");
 
+            /// <summary>
+            /// Initializes a new instance of this class.
+            /// </summary>
             public TranslationPoint(double x = 0, double y = 0)
             {
                 X = x;
                 Y = y;
             }
 
+            /// <summary>The X (horizontal) translation in pixels.</summary>
             public double X;
+            /// <summary>The Y (vertical) translation in pixels.</summary>
             public double Y;
 
+            /// <summary>
+            /// Configures the component to from.
+            /// </summary>
             public static TranslationPoint From(string translation)
             {
                 try
@@ -603,6 +677,9 @@ namespace Tesserae
                 }
             }
 
+            /// <summary>
+            /// Configures the component to to.
+            /// </summary>
             public string To(DOMRect rect)
             {
                 var x     = X;

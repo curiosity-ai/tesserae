@@ -22,6 +22,9 @@ namespace Tesserae
         private readonly HTMLInputElement _fileInput;
         private          Raw              _raw;
         private readonly HTMLElement      _container;
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public FileDropArea()
         {
             _fileInput = FileInput(_("tss-file-input"));
@@ -42,6 +45,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public FileDropArea(IComponent component)
         {
             _fileInput = FileInput(_("tss-file-input"));
@@ -62,11 +68,17 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Sets the content rendered inside the surface.
+        /// </summary>
         public IComponent Content
         {
             set => _raw?.Content(value);
         }
 
+        /// <summary>
+        /// Opens the file selection.
+        /// </summary>
         public void OpenFileSelection()
         {
             _fileInput.click();
@@ -82,6 +94,9 @@ namespace Tesserae
             set => _fileInput.accept = value;
         }
 
+        /// <summary>
+        /// Returns a value indicating whether the component is multiple.
+        /// </summary>
         public bool IsMultiple
         {
             get => _fileInput.multiple;
@@ -237,6 +252,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Configures the component to multiple.
+        /// </summary>
         public FileDropArea Multiple()
         {
             IsMultiple = true;

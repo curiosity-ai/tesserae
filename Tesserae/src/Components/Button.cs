@@ -16,6 +16,9 @@ namespace Tesserae
         private HTMLElement       _iconSpan;
         private HTMLButtonElement _spinner;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public Button(string text = string.Empty)
         {
             _textSpan    = Span(_(text: text));
@@ -34,6 +37,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets the CSS background of the component.
+        /// </summary>
         public string Background
         {
             get => InnerElement.style.background;
@@ -44,6 +50,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets the CSS color (foreground) of the component.
+        /// </summary>
         public string Foreground
         {
             get => InnerElement.style.color;
@@ -192,6 +201,9 @@ namespace Tesserae
             get => !InnerElement.classList.contains("tss-disabled");
             set => InnerElement.UpdateClassIfNot(value, "tss-disabled");
         }
+        /// <summary>
+        /// Gets or sets a value indicating whether the component's text can wrap onto multiple lines.
+        /// </summary>
         public bool CanWrap
         {
             get => !InnerElement.classList.contains("tss-btn-nowrap");
@@ -199,12 +211,18 @@ namespace Tesserae
         }
 
 
+        /// <summary>
+        /// Gets or sets a value indicating whether overflowing text is truncated with an ellipsis.
+        /// </summary>
         public bool EnableEllipsis
         {
             get => !InnerElement.classList.contains("tss-text-ellipsis");
             set => InnerElement.UpdateClassIf(value, "tss-text-ellipsis");
         }
 
+        /// <summary>
+        /// Gets or sets the size of the component.
+        /// </summary>
         public TextSize Size
         {
             get => ITextFormatingExtensions.FromClassList(InnerElement, TextSize.Small);
@@ -215,6 +233,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets the font weight of the component.
+        /// </summary>
         public TextWeight Weight
         {
             get => ITextFormatingExtensions.FromClassList(InnerElement, TextWeight.Regular);
@@ -225,6 +246,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Gets or sets the text alignment of the component.
+        /// </summary>
         public TextAlign TextAlign
         {
             get => ITextFormatingExtensions.FromClassList(InnerElement, TextAlign.Center);
@@ -244,6 +268,9 @@ namespace Tesserae
         }
 
 
+        /// <summary>
+        /// Renders the component in a compact form.
+        /// </summary>
         public Button Compact()
         {
             IsCompact = true;
@@ -268,18 +295,27 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Reduces the component's padding.
+        /// </summary>
         public Button LessPadding()
         {
             InnerElement.classList.add("tss-btn-less-padding");
             return this;
         }
 
+        /// <summary>
+        /// Renders the component as a hyperlink.
+        /// </summary>
         public Button Link()
         {
             IsLink = true;
             return this;
         }
 
+        /// <summary>
+        /// Renders the component as a default-toned hyperlink.
+        /// </summary>
         public Button DefaultLink()
         {
             IsLink = true;
@@ -287,6 +323,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Renders the component as a danger-toned hyperlink.
+        /// </summary>
         public Button DangerLink()
         {
             IsLink = true;
@@ -294,6 +333,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Replaces the button's content with an inline spinner (commonly used while an async action is in progress).
+        /// </summary>
         public void ToSpinner(string text = null)
         {
             if (_spinner is null)
@@ -336,6 +378,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Restores the button's original content after <see cref="ToSpinner"/> was used.
+        /// </summary>
         public void UndoSpinner()
         {
             if (_spinner is object && _spinner.IsMounted())
@@ -421,6 +466,9 @@ namespace Tesserae
             action.Invoke();
         });
 
+        /// <summary>
+        /// Runs the given async action while showing an inline spinner on the button. Restores the original button content on completion (or on error, optionally invoking the supplied error handler).
+        /// </summary>
         public void SpinWhile(Func<Task> action, string text = null, Action<Button, Exception> onError = null)
         {
             Task.Run(async () =>
@@ -458,18 +506,27 @@ namespace Tesserae
             }).FireAndForget();
         }
 
+        /// <summary>
+        /// Styles the component using the primary tone.
+        /// </summary>
         public Button Primary()
         {
             IsPrimary = true;
             return this;
         }
 
+        /// <summary>
+        /// Styles the component using the success tone.
+        /// </summary>
         public Button Success()
         {
             IsSuccess = true;
             return this;
         }
 
+        /// <summary>
+        /// Styles the component using the danger tone.
+        /// </summary>
         public Button Danger()
         {
             IsDanger = true;
@@ -485,6 +542,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Disables the component.
+        /// </summary>
         public Button Disabled(bool value = true)
         {
             IsEnabled = !value;
@@ -517,6 +577,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Renders the component as a hyperlink only on hover.
+        /// </summary>
         public Button LinkOnHover()
         {
             InnerElement.classList.add("tss-btn-linkonhover");
@@ -532,6 +595,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Configures the component to color.
+        /// </summary>
         public Button Color(string background, string textColor = "white", string borderColor = "white", string iconColor = "")
         {
             InnerElement.classList.add("tss-btn-nobg");
@@ -565,6 +631,9 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Clears the icon.
+        /// </summary>
         public Button ClearIcon()
         {
             Icon = null;
@@ -635,12 +704,18 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Configures the icon on hover on the component.
+        /// </summary>
         public Button IconOnHover()
         {
             InnerElement.classList.add("tss-btn-icononhover");
             return this;
         }
 
+        /// <summary>
+        /// Replaces the content in the component.
+        /// </summary>
         public Button ReplaceContent(IComponent content)
         {
             ClearChildren(InnerElement);
@@ -648,6 +723,9 @@ namespace Tesserae
             InnerElement.classList.remove("tss-btn-only-icon");
             return this;
         }
+        /// <summary>
+        /// Replaces the text in the component.
+        /// </summary>
         public Button ReplaceText(HTMLSpanElement textSpan)
         {
             InnerElement.replaceChild(textSpan, _textSpan);
@@ -655,12 +733,18 @@ namespace Tesserae
             return this;
         }
 
+        /// <summary>
+        /// Allows the component's content to wrap onto multiple lines.
+        /// </summary>
         public Button Wrap()
         {
             CanWrap = true;
             return this;
         }
 
+        /// <summary>
+        /// Configures the component to ellipsis.
+        /// </summary>
         public Button Ellipsis()
         {
             EnableEllipsis = true;

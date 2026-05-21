@@ -13,6 +13,9 @@ namespace Tesserae
         private readonly List<Expander> _items;
         private bool _allowMultiple;
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public Accordion(params Expander[] items)
         {
             InnerElement   = Div(_("tss-accordion"));
@@ -85,6 +88,9 @@ namespace Tesserae
         /// </summary>
         public Accordion Items(params Expander[] items) => AddItems(items);
 
+        /// <summary>
+        /// Allows the multiple open.
+        /// </summary>
         public Accordion AllowMultipleOpen(bool value = true)
         {
             AllowMultiple = value;

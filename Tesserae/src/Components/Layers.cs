@@ -10,6 +10,9 @@ namespace Tesserae
     public static class Layers
     {
         private const int BaseZIndex = 1000;
+        /// <summary>
+        /// Configures the push layer on the component.
+        /// </summary>
         public static string PushLayer(HTMLElement element)
         {
             return (CurrentZIndex() + 10).ToString();
@@ -26,6 +29,9 @@ namespace Tesserae
             return maxIndex;
         }
 
+        /// <summary>
+        /// Configures the above current on the component.
+        /// </summary>
         public static string AboveCurrent()
         {
             return (CurrentZIndex() + 5).ToString();

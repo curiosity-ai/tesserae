@@ -41,6 +41,9 @@ namespace Tesserae
 
         private List<Item> _items = new List<Item>();
 
+        /// <summary>
+        /// Initializes a new instance of this class.
+        /// </summary>
         public ContextMenu()
         {
             InnerElement    = Div(_("tss-contextmenu"));
@@ -95,6 +98,9 @@ namespace Tesserae
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Shows the component.
+        /// </summary>
         public override ContextMenu Show()
         {
             throw new NotImplementedException();
@@ -462,6 +468,9 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Hides the component.
+        /// </summary>
         public override void Hide(Action onHidden = null)
         {
             window.removeEventListener("mousemove", OnWindowMouseMove);
@@ -529,13 +538,22 @@ namespace Tesserae
 
         private struct Point2D
         {
+            /// <summary>
+            /// Initializes a new instance of this class.
+            /// </summary>
             public Point2D(double x, double y)
             {
                 this.x = x;
                 this.y = y;
 
             }
+            /// <summary>
+            /// The X coordinate.
+            /// </summary>
             public double x;
+            /// <summary>
+            /// The Y coordinate.
+            /// </summary>
             public double y;
         }
     }
