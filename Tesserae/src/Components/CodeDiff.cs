@@ -6,18 +6,6 @@ using static Tesserae.UI;
 namespace Tesserae
 {
     /// <summary>
-    /// Controls how a <see cref="CodeDiff"/> renders the diff.
-    /// </summary>
-    [H5.Name("tss.CodeDiffFormat")]
-    public enum CodeDiffFormat
-    {
-        /// <summary>Renders additions and deletions one after the other, on a single column.</summary>
-        LineByLine,
-        /// <summary>Renders the original file on the left and the new file on the right.</summary>
-        SideBySide
-    }
-
-    /// <summary>
     /// A component that renders a unified diff using the
     /// <see href="https://github.com/rtfpessoa/diff2html">diff2html</see> library.
     /// The slim UI bundle and its CSS are bundled with Tesserae and always available -
@@ -26,36 +14,64 @@ namespace Tesserae
     [H5.Name("tss.cd")]
     public class CodeDiff : ComponentBase<CodeDiff, HTMLElement>
     {
-        private string         _diff;
-        private CodeDiffFormat _format;
-        private bool           _drawFileList;
-        private bool           _highlightCode;
-        private string         _matching;
-        private double         _timeout;
+        /// <summary>
+        /// Controls how a <see cref="CodeDiff"/> renders the diff.
+        /// </summary>
+        [Enum(Emit.StringName)]
+        [H5.Name("tss.CDF")]
+        public enum Format
+        {
+            /// <summary>Renders additions and deletions one after the other, on a single column.</summary>
+            [Name("line-by-line")]  LineByLine,
+            /// <summary>Renders the original file on the left and the new file on the right.</summary>
+            [Name("side-by-side")]  SideBySide
+        }
+
+        /// <summary>
+        /// Controls how diff2html matches lines between the two sides of a <see cref="CodeDiff"/>.
+        /// </summary>
+        [Enum(Emit.StringName)]
+        [H5.Name("tss.CDM")]
+        public enum Matching
+        {
+            /// <summary>No matching is performed between additions and deletions.</summary>
+            [Name("none")]  None,
+            /// <summary>Lines are matched between the two sides.</summary>
+            [Name("lines")] Lines,
+            /// <summary>Words are matched between the two sides.</summary>
+            [Name("words")] Words
+        }
+
+        private string   _diff;
+        private Format   _format;
+        private bool     _drawFileList;
+        private bool     _highlightCode;
+        private Matching _matching;
+        private double   _timeout;
 
         /// <summary>
         /// Initializes a new <see cref="CodeDiff"/> for the given unified diff text.
         /// </summary>
         /// <param name="diff">Diff text in unified-diff format (e.g. the output of <c>git diff</c>).</param>
         /// <param name="format">Whether to render line-by-line or side-by-side.</param>
-        public CodeDiff(string diff = "", CodeDiffFormat format = CodeDiffFormat.LineByLine)
+        public CodeDiff(string diff = "", Format format = Format.LineByLine)
         {
             InnerElement = Div(_("tss-codediff"));
             _diff        = diff ?? string.Empty;
             _format      = format;
-            _matching    = "lines";
+            _matching    = Matching.Lines;
             ScheduleRedraw();
         }
 
         /// <summary>Gets or sets the unified diff text to render.</summary>
-        public string Diff
+        public string DiffText
         {
             get => _diff;
             set { _diff = value ?? string.Empty; ScheduleRedraw(); }
         }
 
         /// <summary>Gets or sets the output layout (line-by-line or side-by-side).</summary>
-        public CodeDiffFormat Format
+        public Format OutputFormat
         {
             get => _format;
             set { _format = value; ScheduleRedraw(); }
@@ -79,13 +95,12 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Controls how diff2html matches lines between the two sides. Valid values are
-        /// <c>"lines"</c>, <c>"words"</c> or <c>"none"</c>. Defaults to <c>"lines"</c>.
+        /// Controls how diff2html matches lines between the two sides.
         /// </summary>
-        public string MatchingLines
+        public Matching LineMatching
         {
             get => _matching;
-            set { _matching = string.IsNullOrEmpty(value) ? "lines" : value; ScheduleRedraw(); }
+            set { _matching = value; ScheduleRedraw(); }
         }
 
         private void ScheduleRedraw()
@@ -96,13 +111,11 @@ namespace Tesserae
 
         private void Redraw()
         {
-            var outputFormat = _format == CodeDiffFormat.SideBySide ? "side-by-side" : "line-by-line";
-
             try
             {
                 var ui = Script.Write<object>(
                     "new globalThis.Diff2HtmlUI({0}, {1}, { drawFileList: {2}, fileListToggle: false, matching: {3}, outputFormat: {4} })",
-                    InnerElement, _diff, _drawFileList, _matching, outputFormat);
+                    InnerElement, _diff, _drawFileList, _matching, _format);
 
                 Script.Write("{0}.draw()", ui);
 

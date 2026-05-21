@@ -50,7 +50,7 @@ index 1111111..2222222 100644
             var diff = CodeDiff(SampleDiff).WS();
 
             var editor = TextArea(SampleDiff).WS().H(220)
-                .OnInput((ta, _) => diff.Diff = ta.Text);
+                .OnInput((ta, _) => diff.DiffText = ta.Text);
 
             var formatChoice = ChoiceGroup("Output format").Horizontal()
                 .Choices(
@@ -58,9 +58,9 @@ index 1111111..2222222 100644
                     Choice("Side by side"))
                 .OnChange((s, _) =>
                 {
-                    diff.Format = s.SelectedOption.Text == "Side by side"
-                        ? CodeDiffFormat.SideBySide
-                        : CodeDiffFormat.LineByLine;
+                    diff.OutputFormat = s.SelectedOption.Text == "Side by side"
+                        ? CodeDiff.Format.SideBySide
+                        : CodeDiff.Format.LineByLine;
                 });
 
             var matchingChoice = ChoiceGroup("Line matching").Horizontal()
@@ -70,7 +70,12 @@ index 1111111..2222222 100644
                     Choice("Words"))
                 .OnChange((s, _) =>
                 {
-                    diff.MatchingLines = s.SelectedOption.Text.ToLower();
+                    switch (s.SelectedOption.Text)
+                    {
+                        case "None":  diff.LineMatching = CodeDiff.Matching.None;  break;
+                        case "Words": diff.LineMatching = CodeDiff.Matching.Words; break;
+                        default:      diff.LineMatching = CodeDiff.Matching.Lines; break;
+                    }
                 });
 
             var fileListToggle = Toggle("Show file list").Checked(false)

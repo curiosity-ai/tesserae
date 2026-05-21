@@ -454,7 +454,7 @@ namespace Tesserae
         /// <summary>
         /// Creates a <see cref="Tesserae.CodeDiff"/> component that renders a unified diff using diff2html.
         /// </summary>
-        public static CodeDiff CodeDiff(string diff = "", CodeDiffFormat format = CodeDiffFormat.LineByLine) => new CodeDiff(diff, format);
+        public static CodeDiff CodeDiff(string diff = "", Tesserae.CodeDiff.Format format = Tesserae.CodeDiff.Format.LineByLine) => new CodeDiff(diff, format);
 
         /// <summary>
         /// Creates a <see cref="Tesserae.FileSelector"/> component.
