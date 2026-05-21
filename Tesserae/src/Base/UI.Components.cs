@@ -644,6 +644,11 @@ namespace Tesserae
         public static MarkdownBlock MarkdownBlock(string text = "") => new MarkdownBlock(text);
 
         /// <summary>
+        /// Creates a <see cref="Tesserae.CodeDiff"/> component that renders a unified diff using diff2html.
+        /// </summary>
+        public static CodeDiff CodeDiff(string diff = "", Tesserae.CodeDiff.Format format = Tesserae.CodeDiff.Format.LineByLine) => new CodeDiff(diff, format);
+
+        /// <summary>
         /// Creates a <see cref="Tesserae.FileSelector"/> component.
         /// </summary>
         public static FileSelector FileSelector() => new FileSelector();

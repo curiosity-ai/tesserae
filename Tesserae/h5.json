@@ -47,7 +47,8 @@
         "h5/assets/js/sortable.min.js",
         "h5/assets/js/baklava.min.js",
         "h5/assets/js/purify.min.js",
-        "h5/assets/js/marked.min.js"
+        "h5/assets/js/marked.min.js",
+        "h5/assets/js/diff2html-ui-slim.min.js"
       ],
       "output": "assets/js"
     },
@@ -61,7 +62,8 @@
         "h5/assets/js/sortable.min.js",
         "h5/assets/js/baklava.min.js",
         "h5/assets/js/purify.min.js",
-        "h5/assets/js/marked.min.js"
+        "h5/assets/js/marked.min.js",
+        "h5/assets/js/diff2html-ui-slim.min.js"
       ],
       "output": "assets/js"
     },
@@ -163,7 +165,8 @@
         "h5/assets/css/tss.colorpalette.css",
         "h5/assets/css/tss.kbd.css",
         "h5/assets/css/tss.notificationcenter.css",
-        "h5/assets/css/tss.markdown.css"
+        "h5/assets/css/tss.markdown.css",
+        "h5/assets/css/diff2html.min.css"
       ],
       "output": "assets/css"
     },
