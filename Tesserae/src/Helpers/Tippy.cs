@@ -117,7 +117,7 @@ namespace Tesserae
         /// <summary>
         /// Shows a Tippy popover anchored to the given host element/component with the supplied content and configuration. Returns a delegate that can be invoked to hide the popover programmatically.
         /// </summary>
-        public static void ShowFor(IComponent hostComponent, IComponent tooltip, out Action hide, TooltipAnimation animation = TooltipAnimation.None, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 0, int delayHide = 0, int maxWidth = 350, bool arrow = false, string theme = null, bool hideOnClick = true, Action onHiddenCallback = null, Func<bool> onHide = null, Action<TippyInstance, MouseEvent> onClickOutside = null, bool manualTrigger = false, int interactiveBorder = 8)
+        public static void ShowFor(IComponent hostComponent, IComponent tooltip, out Action hide, TooltipAnimation animation = TooltipAnimation.None, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 0, int delayHide = 0, int maxWidth = 350, bool arrow = false, string theme = null, bool hideOnClick = true, Action onHiddenCallback = null, Func<bool> onHide = null, Action<TippyInstance, MouseEvent> onClickOutside = null, bool manualTrigger = false, int interactiveBorder = 8, int zIndex = 9999)
         {
             var rendered = hostComponent.Render();
 
@@ -162,13 +162,13 @@ namespace Tesserae
 
             if (animation == TooltipAnimation.None)
             {
-                H5.Script.Write("tippy({0}, { content: {1}, interactive: true, interactiveBorder: {13}, trigger: {14}, placement: {2}, appendTo: {3}, maxWidth: {4}, onHidden: {5}, delay: [{6},{7}], arrow: {8}, theme: {9}, hideOnClick: {10}, onHide: {11}, onClickOutside: {12} });",
-                                        element, renderedTooltip, placement.ToString(), appendTo.As<object>(), maxWidth, onHiddenInternal, delayShow, delayHide, arrow, theme, hideOnClick, onHide, onClickOutside ?? _doNothing, interactiveBorder, trigger);
+                H5.Script.Write("tippy({0}, { content: {1}, interactive: true, interactiveBorder: {13}, trigger: {14}, zIndex: {15}, placement: {2}, appendTo: {3}, maxWidth: {4}, onHidden: {5}, delay: [{6},{7}], arrow: {8}, theme: {9}, hideOnClick: {10}, onHide: {11}, onClickOutside: {12} });",
+                                        element, renderedTooltip, placement.ToString(), appendTo.As<object>(), maxWidth, onHiddenInternal, delayShow, delayHide, arrow, theme, hideOnClick, onHide, onClickOutside ?? _doNothing, interactiveBorder, trigger, zIndex);
             }
             else
             {
-                H5.Script.Write("tippy({0}, { content: {1}, interactive: true, interactiveBorder: {14}, trigger: {15}, placement: {2}, animation: {3},  appendTo: {4}, maxWidth: {5}, onHidden: {6}, delay: [{7},{8}], arrow: {9}, theme: {10}, hideOnClick : {11}, onHide: {12}, onClickOutside: {13} });",
-                                        element, renderedTooltip, placement.ToString(), animation.ToString(), appendTo.As<object>(), maxWidth, onHiddenInternal, delayShow, delayHide, arrow, theme, hideOnClick, onHide, onClickOutside ?? _doNothing, interactiveBorder, trigger);
+                H5.Script.Write("tippy({0}, { content: {1}, interactive: true, interactiveBorder: {14}, trigger: {15}, zIndex: {16}, placement: {2}, animation: {3},  appendTo: {4}, maxWidth: {5}, onHidden: {6}, delay: [{7},{8}], arrow: {9}, theme: {10}, hideOnClick : {11}, onHide: {12}, onClickOutside: {13} });",
+                                        element, renderedTooltip, placement.ToString(), animation.ToString(), appendTo.As<object>(), maxWidth, onHiddenInternal, delayShow, delayHide, arrow, theme, hideOnClick, onHide, onClickOutside ?? _doNothing, interactiveBorder, trigger, zIndex);
             }
 
             H5.Script.Write("{0}._tippy.show();", element);
@@ -212,7 +212,7 @@ namespace Tesserae
         /// imperatively-shown popovers (menus, comboboxes, etc.) where the user needs to be able to traverse the gap
         /// between the anchor and the popover surface without it closing under them.
         /// </param>
-        public static void ShowFor(HTMLElement hostElement, HTMLElement tooltip, out Action hide, TooltipAnimation animation = TooltipAnimation.None, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 0, int delayHide = 0, int maxWidth = 350, bool arrow = false, string theme = null, bool hideOnClick = true, Action onHiddenCallback = null, Func<bool> onHide = null, Action<TippyInstance, MouseEvent> onClickOutside = null, bool manualTrigger = false, int interactiveBorder = 8)
+        public static void ShowFor(HTMLElement hostElement, HTMLElement tooltip, out Action hide, TooltipAnimation animation = TooltipAnimation.None, TooltipPlacement placement = TooltipPlacement.Top, int delayShow = 0, int delayHide = 0, int maxWidth = 350, bool arrow = false, string theme = null, bool hideOnClick = true, Action onHiddenCallback = null, Func<bool> onHide = null, Action<TippyInstance, MouseEvent> onClickOutside = null, bool manualTrigger = false, int interactiveBorder = 8, int zIndex = 9999)
         {
             if (!hostElement.IsMounted())
             {
@@ -249,13 +249,13 @@ namespace Tesserae
 
             if (animation == TooltipAnimation.None)
             {
-                H5.Script.Write("tippy({0}, { content: {1}, interactive: true, interactiveBorder: {13}, trigger: {14}, placement: {2}, appendTo: {3}, maxWidth: {4}, onHidden: {5}, delay: [{6},{7}], arrow: {8}, theme: {9}, hideOnClick: {10}, onHide: {11}, onClickOutside: {12} });",
-                                hostElement, tooltip, placement.ToString(), appendTo.As<object>(), maxWidth, onHiddenInternal, delayShow, delayHide, arrow, theme, hideOnClick, onHide, onClickOutside ?? _doNothing, interactiveBorder, trigger);
+                H5.Script.Write("tippy({0}, { content: {1}, interactive: true, interactiveBorder: {13}, trigger: {14}, zIndex: {15}, placement: {2}, appendTo: {3}, maxWidth: {4}, onHidden: {5}, delay: [{6},{7}], arrow: {8}, theme: {9}, hideOnClick: {10}, onHide: {11}, onClickOutside: {12} });",
+                                hostElement, tooltip, placement.ToString(), appendTo.As<object>(), maxWidth, onHiddenInternal, delayShow, delayHide, arrow, theme, hideOnClick, onHide, onClickOutside ?? _doNothing, interactiveBorder, trigger, zIndex);
             }
             else
             {
-                H5.Script.Write("tippy({0}, { content: {1}, interactive: true, interactiveBorder: {14}, trigger: {15}, placement: {2}, animation: {3},  appendTo: {4}, maxWidth: {5}, onHidden: {6}, delay: [{7},{8}], arrow: {9}, theme: {10}, hideOnClick : {11}, onHide: {12}, onClickOutside: {13} });",
-                                hostElement, tooltip, placement.ToString(), animation.ToString(), appendTo.As<object>(), maxWidth, onHiddenInternal, delayShow, delayHide, arrow, theme, hideOnClick, onHide, onClickOutside ?? _doNothing, interactiveBorder, trigger);
+                H5.Script.Write("tippy({0}, { content: {1}, interactive: true, interactiveBorder: {14}, trigger: {15}, zIndex: {16}, placement: {2}, animation: {3},  appendTo: {4}, maxWidth: {5}, onHidden: {6}, delay: [{7},{8}], arrow: {9}, theme: {10}, hideOnClick : {11}, onHide: {12}, onClickOutside: {13} });",
+                                hostElement, tooltip, placement.ToString(), animation.ToString(), appendTo.As<object>(), maxWidth, onHiddenInternal, delayShow, delayHide, arrow, theme, hideOnClick, onHide, onClickOutside ?? _doNothing, interactiveBorder, trigger, zIndex);
             }
 
             H5.Script.Write("{0}._tippy.show();", hostElement);

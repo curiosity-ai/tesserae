@@ -171,6 +171,14 @@ namespace Tesserae
                 return _onBeforeHide?.Invoke() ?? true;
             };
 
+            // Pull the z-index from the application-wide Layers stack so a Popover always sits above
+            // any currently-open modal / panel / dropdown — and, crucially, so any Layer (Dropdown,
+            // Picker, Panel, …) opened from *inside* this popover ends up above it in turn (the new
+            // Layer's PushLayer() reads the popover's z-index back off the tippy root). Without this
+            // Tippy hard-codes 9999, which is permanently above everything else and causes nested
+            // Layer-based controls to render hidden behind the popover.
+            int.TryParse(Layers.AboveCurrent(), out var popoverZIndex);
+
             Tippy.ShowFor(
                 anchor,
                 _renderedContent,
@@ -192,7 +200,8 @@ namespace Tesserae
                 manualTrigger:     true,
                 // Widen the interactive grace area so brief excursions into the gap between the anchor
                 // and the popover do not register as a click-outside.
-                interactiveBorder: 24);
+                interactiveBorder: 24,
+                zIndex:            popoverZIndex);
 
             _hideAction = hide;
             // Tippy does not surface a separate "shown" callback in this codebase, so we fire it inline.
