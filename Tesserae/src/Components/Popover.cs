@@ -42,7 +42,7 @@ namespace Tesserae
         private TooltipAnimation _animation      = TooltipAnimation.None;
         private bool             _arrow          = false;
         private int              _maxWidth       = 350;
-        private string           _theme          = null;
+        private string           _theme          = "tss-popover";
         private bool             _hideOnClick    = true;
         private bool             _hideOnEsc      = true;
         private int              _delayShow      = 0;
@@ -175,16 +175,24 @@ namespace Tesserae
                 anchor,
                 _renderedContent,
                 out var hide,
-                animation:        _animation,
-                placement:        _placement,
-                delayShow:        _delayShow,
-                delayHide:        _delayHide,
-                maxWidth:         _maxWidth,
-                arrow:            _arrow,
-                theme:            _theme,
-                hideOnClick:      _hideOnClick,
-                onHiddenCallback: onHiddenInternal,
-                onHide:           shouldHide);
+                animation:         _animation,
+                placement:         _placement,
+                delayShow:         _delayShow,
+                delayHide:         _delayHide,
+                maxWidth:          _maxWidth,
+                arrow:             _arrow,
+                theme:             _theme,
+                hideOnClick:       _hideOnClick,
+                onHiddenCallback:  onHiddenInternal,
+                onHide:            shouldHide,
+                // Manual trigger so Tippy does not auto-hide when the cursor leaves the anchor — without
+                // this, the user could not move the mouse from the anchor to the popover surface
+                // (especially relevant for submenus, where there is an inherent gap between the parent
+                // item and the submenu).
+                manualTrigger:     true,
+                // Widen the interactive grace area so brief excursions into the gap between the anchor
+                // and the popover do not register as a click-outside.
+                interactiveBorder: 24);
 
             _hideAction = hide;
             // Tippy does not surface a separate "shown" callback in this codebase, so we fire it inline.

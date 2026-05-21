@@ -10,17 +10,21 @@
     line-height: 1.4;
 }
 
-/* Default Tippy theme override for popovers — match the application's surface colors */
+/* When used by Popover (theme = "tss-popover"), the .tippy-box wrapper is rendered transparent
+   so the popover's *inner* content provides all the chrome (background, border, shadow, radius).
+   Without this, every popover would get a double border / double shadow: one from the tippy-box
+   and another from the inner surface (e.g. .tss-menu, .tss-card, …). */
 .tippy-box[data-theme~='tss-popover'] {
-    background-color: var(--tss-default-background-color);
-    color: var(--tss-default-foreground-color);
-    border: 1px solid var(--tss-default-border-color);
-    box-shadow: var(--tss-box-shadow, 0 4px 16px 0 rgba(0,0,0,0.12));
-    border-radius: 4px;
+    background-color: transparent;
+    color: inherit;
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
 }
 
 .tippy-box[data-theme~='tss-popover'] > .tippy-content {
     padding: 0;
+    background-color: transparent;
 }
 
 .tippy-box[data-theme~='tss-popover'] > .tippy-arrow {
