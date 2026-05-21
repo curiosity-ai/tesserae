@@ -9,7 +9,7 @@ namespace Tesserae
         /// <summary>
         /// Provides methods to manage the application theme (Dark/Light) and custom colors.
         /// </summary>
-        public static class Theme
+        public static partial class Theme
         {
             private static HTMLStyleElement _primaryStyleElement;
             private static HTMLStyleElement _backgroundStyleElement;
