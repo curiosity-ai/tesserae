@@ -316,15 +316,14 @@ namespace Tesserae
                     {
                         RemoveLastPageFromBasicListContainer();
 
-                        var newTopSpacingDivHeight =
-                            ((newPage - (_pagesToVirtualizeUpperBoundary - 1)) * _pageHeight.Size).px();
+                        var newTopSpacingDivHeight = ((newPage - _pagesToVirtualizeLowerBoundary) * _pageHeight.Size).px();
                         SetTopSpacingDivHeight(newTopSpacingDivHeight);
 
                         var pageNumberToAdd = newPage - _pagesToVirtualizeUpperBoundary;
                         CreatePageUpwards(RetrievePageFromCache(pageNumberToAdd));
 
                         var newBottomSpacingDivHeight =
-                            ((_listPageCache.PagesCount - (newPage + _pagesToVirtualizeLowerBoundary)) * _pageHeight.Size).px();
+                            ((_listPageCache.PagesCount - (newPage + _pagesToVirtualizeUpperBoundary)) * _pageHeight.Size).px();
 
                         SetBottomSpacingDivHeight(newBottomSpacingDivHeight);
                     }
