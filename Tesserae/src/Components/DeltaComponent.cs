@@ -85,9 +85,9 @@ namespace Tesserae
                     // survive a ReplaceContent (cloneNode never copies
                     // listeners added via addEventListener). The replaced node
                     // is detached from its previous parent automatically.
-                    if (_isAnimated && next is HTMLElement nextElement)
+                    if (_isAnimated && next is HTMLElement)
                     {
-                        nextElement.classList.add("tss-fade-in");
+                        next.As<HTMLElement>().classList.add("tss-fade-in");
                     }
                     current.parentNode.replaceChild(next, current);
                 }
