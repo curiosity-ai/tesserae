@@ -710,6 +710,11 @@ namespace Tesserae
         public static Label Label(IComponent component) => new Label(component);
 
         /// <summary>
+        /// Creates a <see cref="Tesserae.FormField"/> component.
+        /// </summary>
+        public static FormField FormField(string label, IComponent control) => new FormField(label, control);
+
+        /// <summary>
         /// Creates an <see cref="Tesserae.EditableLabel"/> component.
         /// </summary>
         public static EditableLabel EditableLabel(string text = string.Empty) => new EditableLabel(text);
