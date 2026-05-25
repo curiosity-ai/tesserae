@@ -74,16 +74,19 @@ namespace Tesserae
             double      width = 0;
             DOMRect     rect;
             HTMLElement current;
+            bool        currentIsRight;
 
             el.onmousedown += (me) =>
             {
                 if (_splitContainer.classList.contains("tss-split-right"))
                 {
-                    current = _rightComponent.Render();
+                    current        = _rightComponent.Render();
+                    currentIsRight = true;
                 }
                 else
                 {
-                    current = _leftComponent.Render();
+                    current        = _leftComponent.Render();
+                    currentIsRight = false;
                 }
                 rect               =  _splitContainer.getBoundingClientRect().As<DOMRect>();
                 window.onmousemove += Resize;
@@ -93,7 +96,8 @@ namespace Tesserae
 
             void Resize(MouseEvent me)
             {
-                width                    = Math.Min(rect.width - 16, Math.Max(16, (me.clientX - rect.left)));
+                double raw = currentIsRight ? (rect.right - me.clientX) : (me.clientX - rect.left);
+                width                    = Math.Min(rect.width - 16, Math.Max(16, raw));
                 current.style.width      = width + "px";
                 current.style.flexGrow   = "0";
                 current.style.flexShrink = "1";
