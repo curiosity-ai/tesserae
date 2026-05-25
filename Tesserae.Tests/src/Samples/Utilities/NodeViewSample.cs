@@ -66,7 +66,7 @@ namespace Tesserae.Tests.Samples
             var node1_out = Guid.NewGuid().ToString();
 
 
-            stateBuilder.AddNode(node1_id, "Hello World", "My First Node", 100, 100, 200, nb => nb
+            stateBuilder.AddNode(node1_id, "Hello World", "My First Node", 250, 400, 200, nb => nb
                 .AddInput("inp",  node1_inp, "Hello")
                 .AddOutput("out", node1_out)
             );
@@ -81,7 +81,7 @@ namespace Tesserae.Tests.Samples
             var node2_sld_id  = Guid.NewGuid().ToString();
             var node2_out_id = Guid.NewGuid().ToString();
 
-            stateBuilder.AddNode(node2_id, "Complex", "A Complex Node", 400, 100, 320, nb => nb
+            stateBuilder.AddNode(node2_id, "Complex", "A Complex Node", -100, 50, 320, nb => nb
                 .AddInput("text", node2_text_id , "World")
                 .AddInput("int",  node2_int_id  , 42)
                 .AddInput("num",  node2_num_id  , 9.99)
@@ -93,6 +93,17 @@ namespace Tesserae.Tests.Samples
             );
 
             stateBuilder.AddConnection(node1_out, node2_text_id);
+
+            var node3_id = Guid.NewGuid().ToString();
+            var node3_inp_id = Guid.NewGuid().ToString();
+            var node3_out_id = Guid.NewGuid().ToString();
+
+            stateBuilder.AddNode(node3_id, "Hello World", "Another Node", -200, 500, 200, nb => nb
+                .AddInput("inp", node3_inp_id, "Input")
+                .AddOutput("out", node3_out_id)
+            );
+
+            stateBuilder.AddConnection(node2_out_id, node3_inp_id);
 
             nodeView.SetState(stateBuilder.Build());
 
