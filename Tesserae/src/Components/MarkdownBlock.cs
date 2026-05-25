@@ -1,3 +1,4 @@
+using System;
 using static H5.Core.dom;
 using static Tesserae.UI;
 
@@ -10,7 +11,8 @@ namespace Tesserae
     [H5.Name("tss.mdb")]
     public class MarkdownBlock : ComponentBase<MarkdownBlock, HTMLElement>, ICanWrap
     {
-        private string _text;
+        private string                _text;
+        private Action<HTMLElement>   _onAfterRender;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MarkdownBlock"/> class.
@@ -31,6 +33,7 @@ namespace Tesserae
             {
                 _text                  = value ?? string.Empty;
                 InnerElement.innerHTML = Tesserae.Markdown.ConvertMarkdownSanitized(_text);
+                _onAfterRender?.Invoke(InnerElement);
             }
         }
 
@@ -42,6 +45,23 @@ namespace Tesserae
         {
             get => !InnerElement.classList.contains("tss-text-nowrap");
             set => InnerElement.UpdateClassIfNot(value, "tss-text-nowrap");
+        }
+
+        /// <summary>
+        /// Registers a callback invoked every time the Markdown source is re-parsed into the
+        /// inner HTML element. The callback receives the inner element so that callers can
+        /// post-process the rendered tree (e.g. wrap <c>&lt;code&gt;</c> blocks with custom
+        /// controls, rewrite links, attach copy buttons, ...).
+        ///
+        /// The callback is fired immediately with the current rendered content so the first
+        /// pass does not require the caller to also trigger an explicit render. Re-registering
+        /// replaces any previously-attached callback.
+        /// </summary>
+        public MarkdownBlock OnAfterRender(Action<HTMLElement> callback)
+        {
+            _onAfterRender = callback;
+            callback?.Invoke(InnerElement);
+            return this;
         }
 
         /// <summary>
