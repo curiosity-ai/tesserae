@@ -218,6 +218,14 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Configures the component to animated.
+        /// </summary>
+        public ChatMessage Animated()
+        {
+            _deltaComponent.Animated();
+            return this;
+        }
         internal void SetParent(ChatArea parent)
         {
             _parent = parent;
