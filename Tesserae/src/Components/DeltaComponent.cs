@@ -80,12 +80,16 @@ namespace Tesserae
             {
                 if (current.parentNode != null)
                 {
-                    var newChild = next.cloneNode(true);
-                    if (_isAnimated && newChild is HTMLElement newElement)
+                    // Use the live `next` node instead of cloneNode(true) so
+                    // event listeners attached by component initialization
+                    // survive a ReplaceContent (cloneNode never copies
+                    // listeners added via addEventListener). The replaced node
+                    // is detached from its previous parent automatically.
+                    if (_isAnimated && next is HTMLElement nextElement)
                     {
-                        newElement.classList.add("tss-fade-in");
+                        nextElement.classList.add("tss-fade-in");
                     }
-                    current.parentNode.replaceChild(newChild, current);
+                    current.parentNode.replaceChild(next, current);
                 }
                 return;
             }
@@ -167,17 +171,24 @@ namespace Tesserae
         private void DiffChildren(HTMLElement currentParent, HTMLElement nextParent)
         {
             var currentChildren = currentParent.childNodes;
-            var nextChildren = nextParent.childNodes;
+            var nextChildrenLive = nextParent.childNodes;
+
+            // Snapshot — moving a live node into currentParent via
+            // appendChild / replaceChild detaches it from nextParent, which
+            // shrinks nextChildrenLive while we iterate it. Capturing the
+            // children up-front keeps indices stable.
+            int nextLen = (int)nextChildrenLive.length;
+            var nextChildrenSnapshot = new Node[nextLen];
+            for (int i = 0; i < nextLen; i++) nextChildrenSnapshot[i] = (Node)nextChildrenLive[(uint)i];
 
             int currentIndex = 0;
             int nextIndex = 0;
-            int nextLen = (int)nextChildren.length;
 
             // Console.WriteLine($"Diffing Children: CurrentLen={currentChildren.length}, NextLen={nextLen}");
 
             while (nextIndex < nextLen)
             {
-                var nextChild = (Node)nextChildren[nextIndex];
+                var nextChild = nextChildrenSnapshot[nextIndex];
 
                 if (nextChild.nodeType == TEXT_NODE)
                 {
@@ -241,7 +252,9 @@ namespace Tesserae
                 }
                 else
                 {
-                    // Element
+                    // Element. We move the live next-tree node instead of
+                    // cloneNode(true)-ing it so component event listeners
+                    // (e.g. ToolCall expand-on-click) survive a ReplaceContent.
                     if (currentIndex < currentChildren.length)
                     {
                         var currentChild = (Node)currentChildren[currentIndex];
@@ -253,23 +266,24 @@ namespace Tesserae
                         }
                         else
                         {
-                            var newChild = nextChild.cloneNode(true);
-                            if (_isAnimated && newChild is HTMLElement newElement)
+                            if (_isAnimated && nextChild is HTMLElement newElement)
                             {
                                 newElement.classList.add("tss-fade-in");
                             }
-                            currentParent.replaceChild(newChild, currentChild);
+                            currentParent.replaceChild(nextChild, currentChild);
                             currentIndex++;
+                            // replaceChild shifts the live NodeList — don't
+                            // advance nextIndex against the old children, the
+                            // next iteration's reread of childNodes handles it.
                         }
                     }
                     else
                     {
-                        var newChild = nextChild.cloneNode(true);
-                        if (_isAnimated && newChild is HTMLElement newElement)
+                        if (_isAnimated && nextChild is HTMLElement newElement)
                         {
                             newElement.classList.add("tss-fade-in");
                         }
-                        currentParent.appendChild(newChild);
+                        currentParent.appendChild(nextChild);
                         currentIndex++;
                     }
                     nextIndex++;
