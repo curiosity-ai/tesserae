@@ -1097,7 +1097,7 @@ namespace Tesserae
             /// <summary>
             /// Gets or sets the data.
             /// </summary>
-            public T GetDataAs<T>() => _data.As<T>();
+            public T GetDataAs<T>() => Script.Write<T>("{0}._data", this);
             private dynamic _data;
 
             /// <summary>
