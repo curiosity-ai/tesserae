@@ -920,7 +920,11 @@ namespace Tesserae
                     }
                 });
 
-                _chatInput.addEventListener("input", (e) => Input?.Invoke(this, e));
+                _chatInput.addEventListener("input", (e) =>
+                {
+                    UpdateChatTriggerActiveState();
+                    Input?.Invoke(this, e);
+                });
                 _chatInput.addEventListener("keyup", (e) => KeyUp?.Invoke(this, e.As<KeyboardEvent>()));
                 _chatInput.addEventListener("keypress", (e) => KeyPress?.Invoke(this, e.As<KeyboardEvent>()));
                 _chatInput.addEventListener("focus", (e) => ReceivedFocus?.Invoke(this, e));
@@ -1916,6 +1920,16 @@ namespace Tesserae
             var val = _chatInput.value;
             Chatted?.Invoke(this, new ChatMessage() { Text = val });
             _chatInput.value = "";
+            UpdateChatTriggerActiveState();
+        }
+
+        private void UpdateChatTriggerActiveState()
+        {
+            if (_chatTriggerBtn == null || _chatInput == null) return;
+            var hasText = !string.IsNullOrEmpty(_chatInput.value) && !string.IsNullOrWhiteSpace(_chatInput.value);
+            var el = _chatTriggerBtn.Render();
+            if (hasText) el.classList.add("tss-omnibox-chat-btn-active");
+            else el.classList.remove("tss-omnibox-chat-btn-active");
         }
 
         private void TriggerStop()
@@ -2347,6 +2361,7 @@ namespace Tesserae
             set
             {
                 _chatInput.value = value;
+                UpdateChatTriggerActiveState();
                 Input?.Invoke(this, null);
             }
         }
