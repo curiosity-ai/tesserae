@@ -38,8 +38,13 @@
 }
 
 /* The highlights div and the textarea must wrap text identically so their
-   glyph positions line up. Both reserve a scrollbar gutter so wrapping width
-   matches whether or not a scrollbar is currently visible. */
+   glyph positions line up. Both reserve a scrollbar gutter via `overflow-y:
+   scroll` (always present), fix `scrollbar-width` to `thin`, and pin the
+   webkit pseudo-element to a constant width so the reserved gutter is
+   exactly the same on a <div> and on a <textarea>. `overflow-y: auto`
+   plus `scrollbar-gutter: stable` is not reliable here — Chromium/WebKit
+   reserve a slightly different gutter on textarea vs div, which shifted
+   the textarea's wrap column a few pixels left of the overlay's. */
 .tss-annotated-text-highlights,
 .tss-annotated-text-input {
     box-sizing: border-box;
@@ -55,10 +60,19 @@
     white-space: pre-wrap;
     word-wrap: break-word;
     overflow-wrap: break-word;
-    overflow-y: auto;
+    overflow-y: scroll;
     overflow-x: hidden;
     scrollbar-gutter: stable;
+    scrollbar-width: thin;
     tab-size: 4;
+}
+
+/* Fix the scrollbar's visible width to a constant on WebKit too, so both
+   the textarea and the highlights reserve the same number of pixels for
+   their gutter. The highlights' track / thumb are kept transparent below. */
+.tss-annotated-text-highlights::-webkit-scrollbar,
+.tss-annotated-text-input::-webkit-scrollbar {
+    width: 10px;
 }
 
 .tss-annotated-text-highlights {
