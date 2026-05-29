@@ -9,7 +9,7 @@ namespace Tesserae
     /// An inline-editable single-line text surface that toggles between a read-only label and a textbox on click.
     /// </summary>
     [H5.Name("tss.EditableLabel")]
-    public sealed class EditableLabel : ComponentBase<EditableLabel, HTMLInputElement>, ITextFormating, IObservableComponent<string>
+    public sealed class EditableLabel : ComponentBase<EditableLabel, HTMLInputElement>, ITextFormating, IBindableComponent<string>
     {
         private event SaveEditHandler Saved;
         public delegate bool          SaveEditHandler(EditableLabel sender, string newValue);
@@ -211,5 +211,10 @@ namespace Tesserae
         /// Returns the component's state as a(n) observable.
         /// </summary>
         public IObservable<string> AsObservable() => _observable;
+
+        /// <summary>
+        /// Programmatically updates the label text as part of a two-way binding.
+        /// </summary>
+        public void SetBoundValue(string value) => SetText(value);
     }
 }

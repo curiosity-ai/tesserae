@@ -12,7 +12,7 @@ namespace Tesserae
     /// day-of-week) as separate inputs.
     /// </summary>
     [H5.Name("tss.CronEditor")]
-    public sealed class CronEditor : ComponentBase<CronEditor, HTMLDivElement>, IObservableComponent<(string cron, bool enabled)>
+    public sealed class CronEditor : ComponentBase<CronEditor, HTMLDivElement>, IBindableComponent<(string cron, bool enabled)>
     {
         private string _cron;
         private bool _enabled;
@@ -138,6 +138,11 @@ namespace Tesserae
         {
             return _observable;
         }
+
+        /// <summary>
+        /// Programmatically updates the cron expression and enabled state as part of a two-way binding.
+        /// </summary>
+        public void SetBoundValue((string cron, bool enabled) value) => Value = value;
 
         private void EnabledChanged()
         {

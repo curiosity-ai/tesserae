@@ -7,7 +7,7 @@ namespace Tesserae
     /// A multi-line text input component.
     /// </summary>
     [H5.Name("tss.TextArea")]
-    public sealed class TextArea : ComponentBase<TextArea, HTMLTextAreaElement>, ICanValidate<TextArea>, IObservableComponent<string>, ITabIndex, IRoundedStyle
+    public sealed class TextArea : ComponentBase<TextArea, HTMLTextAreaElement>, ICanValidate<TextArea>, IBindableComponent<string>, ITabIndex, IRoundedStyle
     {
         private readonly HTMLDivElement             _container;
         private readonly HTMLSpanElement            _errorSpan;
@@ -246,6 +246,15 @@ namespace Tesserae
 
         /// <summary>Returns an observable of the text.</summary>
         public IObservable<string> AsObservable() => _observable;
+
+        /// <summary>
+        /// Programmatically updates the text area as part of a two-way binding (DOM input event is not raised).
+        /// </summary>
+        public void SetBoundValue(string value)
+        {
+            InnerElement.value = value;
+            _observable.Value  = value;
+        }
 
         /// <summary>
         /// Enables auto-resizing of the text area as the user types, based on the scrollHeight.
