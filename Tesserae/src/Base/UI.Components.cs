@@ -84,14 +84,32 @@ namespace Tesserae
         /// <returns></returns>
         public static T Class<T>(this T component, string className) where T : IComponent
         {
-            if (component is DeferedComponent deferedComponent)
+            var el = component is DeferedComponent deferedComponent
+                ? deferedComponent.Container
+                : component.Render();
+
+            try
             {
-                deferedComponent.Container.classList.add(className);
-                return component;
+                el.classList.add(className);
+            }
+            catch
+            {
+                if (className != null && className.IndexOf(' ') >= 0)
+                {
+                    foreach (var part in className.Split(' '))
+                    {
+                        if (!string.IsNullOrEmpty(part))
+                        {
+                            el.classList.add(part);
+                        }
+                    }
+                }
+                else
+                {
+                    throw;
+                }
             }
 
-            var el = component.Render();
-            el.classList.add(className);
             return component;
         }
 
@@ -104,14 +122,32 @@ namespace Tesserae
         /// <returns></returns>
         public static T RemoveClass<T>(this T component, string className) where T : IComponent
         {
-            if (component is DeferedComponent deferedComponent)
+            var el = component is DeferedComponent deferedComponent
+                ? deferedComponent.Container
+                : component.Render();
+
+            try
             {
-                deferedComponent.Container.classList.remove(className);
-                return component;
+                el.classList.remove(className);
+            }
+            catch
+            {
+                if (className != null && className.IndexOf(' ') >= 0)
+                {
+                    foreach (var part in className.Split(' '))
+                    {
+                        if (!string.IsNullOrEmpty(part))
+                        {
+                            el.classList.remove(part);
+                        }
+                    }
+                }
+                else
+                {
+                    throw;
+                }
             }
 
-            var el = component.Render();
-            el.classList.remove(className);
             return component;
         }
 

@@ -380,6 +380,39 @@
     background: var(--tss-colors-blue-200) !important;
 }
 
+/* Chat trigger (send) button */
+.tss-btn.tss-omnibox-chat-btn:not(.tss-disabled) {
+    background: var(--tss-secondary-background-color);
+    color: var(--tss-secondary-foreground-color);
+    border-color: transparent;
+    transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out;
+}
+
+.tss-btn.tss-omnibox-chat-btn:not(.tss-disabled):hover {
+    background: var(--tss-default-border-color);
+    color: var(--tss-default-foreground-color);
+}
+
+.tss-btn.tss-omnibox-chat-btn.tss-omnibox-chat-btn-active:not(.tss-disabled):not(.tss-btn-danger) {
+    background: #000;
+    color: #fff;
+}
+
+.tss-btn.tss-omnibox-chat-btn.tss-omnibox-chat-btn-active:not(.tss-disabled):not(.tss-btn-danger):hover {
+    background: #222;
+    color: #fff;
+}
+
+.tss-dark-mode .tss-btn.tss-omnibox-chat-btn.tss-omnibox-chat-btn-active:not(.tss-disabled):not(.tss-btn-danger) {
+    background: #fff;
+    color: #000;
+}
+
+.tss-dark-mode .tss-btn.tss-omnibox-chat-btn.tss-omnibox-chat-btn-active:not(.tss-disabled):not(.tss-btn-danger):hover {
+    background: #e6e6e6;
+    color: #000;
+}
+
 /* Model selector button (chat footer) */
 .tss-btn.tss-omnibox-model-selector-btn {
     height: 28px;

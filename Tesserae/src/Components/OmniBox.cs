@@ -920,7 +920,11 @@ namespace Tesserae
                     }
                 });
 
-                _chatInput.addEventListener("input", (e) => Input?.Invoke(this, e));
+                _chatInput.addEventListener("input", (e) =>
+                {
+                    UpdateChatTriggerActiveState();
+                    Input?.Invoke(this, e);
+                });
                 _chatInput.addEventListener("keyup", (e) => KeyUp?.Invoke(this, e.As<KeyboardEvent>()));
                 _chatInput.addEventListener("keypress", (e) => KeyPress?.Invoke(this, e.As<KeyboardEvent>()));
                 _chatInput.addEventListener("focus", (e) => ReceivedFocus?.Invoke(this, e));
@@ -1312,16 +1316,31 @@ namespace Tesserae
                     }
                     continue;
                 }
-                if (c == '!' || c == '-')
+                if (c == '!')
                 {
                     tokens.Add(new SearchToken(SearchToken.TokenType.Not, c.ToString()));
                     i++;
                     continue;
                 }
+                if (c == '-')
+                {
+                    // A '-' only acts as a negation operator when it sits at a token boundary,
+                    // i.e. at the start of the input, after whitespace, or after an opening
+                    // parenthesis. A '-' that is preceded by a non-whitespace character is part
+                    // of the word so that ranges like "53-223" stay a single token.
+                    bool isBoundary = i == 0 || char.IsWhiteSpace(input[i - 1]) || input[i - 1] == '(';
+                    if (isBoundary)
+                    {
+                        tokens.Add(new SearchToken(SearchToken.TokenType.Not, c.ToString()));
+                        i++;
+                        continue;
+                    }
+                    // otherwise fall through and treat the '-' as part of a word
+                }
 
                 // Word token
                 int wordStart = i;
-                while (i < input.Length && !char.IsWhiteSpace(input[i]) && input[i] != '(' && input[i] != ')' && input[i] != '"' && input[i] != '\'' && input[i] != '&' && input[i] != '|' && input[i] != '!' && input[i] != '-')
+                while (i < input.Length && !char.IsWhiteSpace(input[i]) && input[i] != '(' && input[i] != ')' && input[i] != '"' && input[i] != '\'' && input[i] != '&' && input[i] != '|' && input[i] != '!')
                 {
                     i++;
                 }
@@ -1916,6 +1935,16 @@ namespace Tesserae
             var val = _chatInput.value;
             Chatted?.Invoke(this, new ChatMessage() { Text = val });
             _chatInput.value = "";
+            UpdateChatTriggerActiveState();
+        }
+
+        private void UpdateChatTriggerActiveState()
+        {
+            if (_chatTriggerBtn == null || _chatInput == null) return;
+            var hasText = !string.IsNullOrEmpty(_chatInput.value) && !string.IsNullOrWhiteSpace(_chatInput.value);
+            var el = _chatTriggerBtn.Render();
+            if (hasText) el.classList.add("tss-omnibox-chat-btn-active");
+            else el.classList.remove("tss-omnibox-chat-btn-active");
         }
 
         private void TriggerStop()
@@ -2347,6 +2376,7 @@ namespace Tesserae
             set
             {
                 _chatInput.value = value;
+                UpdateChatTriggerActiveState();
                 Input?.Invoke(this, null);
             }
         }
