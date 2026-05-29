@@ -69,5 +69,28 @@ namespace Tesserae
 
             return component;
         }
+
+        /// <summary>
+        /// Gets the current vertical scroll offset of the element that
+        /// <see cref="Scroll"/> / <see cref="ScrollY"/> / <see cref="ScrollBoth"/>
+        /// made scrollable. Those helpers attach the overflow to
+        /// <c>Stack.GetItem(component)</c> rather than <c>component.Render()</c>
+        /// (which differ once the component is nested inside a Stack), so this
+        /// reads from the same element and stays correct in both cases.
+        /// </summary>
+        public static double GetScrollTop<T>(this T component) where T : IComponent
+            => Stack.GetItem(component).scrollTop;
+
+        /// <summary>
+        /// Sets the vertical scroll offset of the element that
+        /// <see cref="Scroll"/> / <see cref="ScrollY"/> / <see cref="ScrollBoth"/>
+        /// made scrollable. See <see cref="GetScrollTop"/> for why this targets
+        /// <c>Stack.GetItem(component)</c> instead of <c>component.Render()</c>.
+        /// </summary>
+        public static T ScrollTop<T>(this T component, double scrollTop) where T : IComponent
+        {
+            Stack.GetItem(component).scrollTop = scrollTop;
+            return component;
+        }
     }
 }
