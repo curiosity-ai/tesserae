@@ -1316,16 +1316,31 @@ namespace Tesserae
                     }
                     continue;
                 }
-                if (c == '!' || c == '-')
+                if (c == '!')
                 {
                     tokens.Add(new SearchToken(SearchToken.TokenType.Not, c.ToString()));
                     i++;
                     continue;
                 }
+                if (c == '-')
+                {
+                    // A '-' only acts as a negation operator when it sits at a token boundary,
+                    // i.e. at the start of the input, after whitespace, or after an opening
+                    // parenthesis. A '-' that is preceded by a non-whitespace character is part
+                    // of the word so that ranges like "53-223" stay a single token.
+                    bool isBoundary = i == 0 || char.IsWhiteSpace(input[i - 1]) || input[i - 1] == '(';
+                    if (isBoundary)
+                    {
+                        tokens.Add(new SearchToken(SearchToken.TokenType.Not, c.ToString()));
+                        i++;
+                        continue;
+                    }
+                    // otherwise fall through and treat the '-' as part of a word
+                }
 
                 // Word token
                 int wordStart = i;
-                while (i < input.Length && !char.IsWhiteSpace(input[i]) && input[i] != '(' && input[i] != ')' && input[i] != '"' && input[i] != '\'' && input[i] != '&' && input[i] != '|' && input[i] != '!' && input[i] != '-')
+                while (i < input.Length && !char.IsWhiteSpace(input[i]) && input[i] != '(' && input[i] != ')' && input[i] != '"' && input[i] != '\'' && input[i] != '&' && input[i] != '|' && input[i] != '!')
                 {
                     i++;
                 }
