@@ -1,0 +1,209 @@
+/* Plan component
+ *
+ * The Plan component is a card that shows a multi-step plan with per-step
+ * status (pending / running / completed / failed / canceled), optional
+ * per-step progress, optional substeps, and a plan-level status badge.
+ *
+ * The CSS below covers the unified `tss-plan-*` family and reuses the
+ * existing theme variables (--tss-success-background-color,
+ * --tss-warning-background-color, --tss-danger-background-color,
+ * --tss-primary-background-color and --tss-default-border-color) for the
+ * status accent colors so the look matches the rest of Tesserae.
+ */
+
+.tss-plan {
+    position: relative;
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: 6px;
+    transition: border-color 120ms ease-in-out;
+}
+
+/* Status accent on the card. The accent is applied as a left border so it
+ * doesn't disturb the rest of the card's styling. */
+.tss-plan-pending     { border-left: 3px solid var(--tss-default-border-color); }
+.tss-plan-running     { border-left: 3px solid var(--tss-primary-background-color); }
+.tss-plan-completed   { border-left: 3px solid var(--tss-success-background-color); }
+.tss-plan-failed      { border-left: 3px solid var(--tss-danger-background-color); }
+.tss-plan-canceled    { border-left: 3px solid var(--tss-warning-background-color); }
+
+/* The status badge in the plan header */
+.tss-plan-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    line-height: 16px;
+    background: var(--tss-default-background-color);
+    border: 1px solid var(--tss-default-border-color);
+    color: inherit;
+}
+
+.tss-plan-status-badge.tss-plan-pending {
+    background: transparent;
+    border-color: var(--tss-default-border-color);
+}
+.tss-plan-status-badge.tss-plan-running {
+    background: var(--tss-primary-background-color);
+    color: var(--tss-primary-foreground-color, #fff);
+    border-color: var(--tss-primary-background-color);
+}
+.tss-plan-status-badge.tss-plan-completed {
+    background: var(--tss-success-background-color);
+    color: var(--tss-success-foreground-color, #fff);
+    border-color: var(--tss-success-background-color);
+}
+.tss-plan-status-badge.tss-plan-failed {
+    background: var(--tss-danger-background-color);
+    color: var(--tss-danger-foreground-color, #fff);
+    border-color: var(--tss-danger-background-color);
+}
+.tss-plan-status-badge.tss-plan-canceled {
+    background: var(--tss-warning-background-color);
+    color: var(--tss-warning-foreground-color, #fff);
+    border-color: var(--tss-warning-background-color);
+}
+
+/* A row in the steps list */
+.tss-plan-step {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.tss-plan-step-row {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.tss-plan-step-icon {
+    flex: 0 0 auto;
+    margin-top: 2px;
+}
+
+.tss-plan-step-body {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.tss-plan-step-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.tss-plan-step-stage {
+    font-size: 12px;
+    opacity: 0.8;
+    margin-top: 2px;
+}
+
+/* Per-step status colors on the icon */
+.tss-plan-step-icon.tss-plan-pending    { color: var(--tss-default-border-color); }
+.tss-plan-step-icon.tss-plan-running    { color: var(--tss-primary-background-color); }
+.tss-plan-step-icon.tss-plan-completed  { color: var(--tss-success-background-color); }
+.tss-plan-step-icon.tss-plan-failed     { color: var(--tss-danger-background-color); }
+.tss-plan-step-icon.tss-plan-canceled   { color: var(--tss-warning-background-color); }
+
+/* Per-step progress bar (slim) */
+.tss-plan-step-progress {
+    height: 4px;
+    border-radius: 2px;
+    background: var(--tss-default-border-color);
+    overflow: hidden;
+    margin-top: 6px;
+    position: relative;
+}
+
+.tss-plan-step-progress-bar {
+    height: 100%;
+    width: 0%;
+    background: var(--tss-primary-background-color);
+    transition: width 200ms ease-out;
+}
+
+.tss-plan-step-progress.tss-plan-indeterminate .tss-plan-step-progress-bar {
+    width: 40%;
+    background: linear-gradient(90deg,
+        var(--tss-default-border-color) 0%,
+        var(--tss-primary-background-color) 50%,
+        var(--tss-default-border-color) 100%);
+    animation: tss-plan-indeterminate 1.4s linear infinite;
+}
+
+@keyframes tss-plan-indeterminate {
+    0%   { transform: translateX(-100%); }
+    100% { transform: translateX(350%); }
+}
+
+/* Expand/collapse caret next to a step that has substeps */
+.tss-plan-step-toggle {
+    cursor: pointer;
+    user-select: none;
+    font-size: 11px;
+    opacity: 0.7;
+    padding: 0 4px;
+}
+.tss-plan-step-toggle:hover { opacity: 1; }
+
+/* Substep list */
+.tss-plan-substeps {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 6px;
+    padding-left: 28px;
+    border-left: 1px dashed var(--tss-default-border-color);
+    margin-left: 8px;
+}
+
+.tss-plan-substeps.tss-plan-collapsed {
+    display: none;
+}
+
+.tss-plan-substep {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 12px;
+}
+
+.tss-plan-substep-icon {
+    flex: 0 0 auto;
+    margin-top: 2px;
+}
+.tss-plan-substep-icon.tss-plan-pending    { color: var(--tss-default-border-color); }
+.tss-plan-substep-icon.tss-plan-running    { color: var(--tss-primary-background-color); }
+.tss-plan-substep-icon.tss-plan-completed  { color: var(--tss-success-background-color); }
+.tss-plan-substep-icon.tss-plan-failed     { color: var(--tss-danger-background-color); }
+.tss-plan-substep-icon.tss-plan-canceled   { color: var(--tss-warning-background-color); }
+
+.tss-plan-substep-body {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.tss-plan-substep-message {
+    opacity: 0.75;
+    font-size: 11px;
+    margin-top: 1px;
+}
+
+/* Plan-level summary line (rendered alongside FooterMessage) */
+.tss-plan-summary {
+    font-size: 12px;
+    opacity: 0.75;
+}
+
+.tss-plan-timestamps {
+    font-size: 11px;
+    opacity: 0.6;
+    margin-top: 2px;
+}
