@@ -194,7 +194,7 @@ namespace Tesserae
 
             var container = _defered.Render();
             double scrollTop = container.parentElement.scrollTop;
-            if (scrollTop > _virtualizedViewportMinTop || scrollTop < _virtualizedViewportMaxTop)
+            if (scrollTop < _virtualizedViewportMinTop || scrollTop > _virtualizedViewportMaxTop)
             {
                 RecomputeVisibleVirtualItemsInner();
             }
@@ -209,7 +209,7 @@ namespace Tesserae
             if (_virtualizedItemHeight is null || _virtualItems.Count == 0) return;
             var container = _defered.Render();
             double scrollTop = container.parentElement.scrollTop;
-            double containerHeight = container.parentElement.parentElement.scrollHeight;
+            double containerHeight = container.parentElement.clientHeight;
             if (containerHeight == 0) return;
 
             // We use the fixed height to calculate visible indices

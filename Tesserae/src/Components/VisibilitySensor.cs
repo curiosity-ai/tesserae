@@ -94,11 +94,11 @@ namespace Tesserae
 
         private void CheckVisibility(object t)
         {
-            var viewport_top    = window.scrollY;
-            var viewport_bottom = window.scrollY + window.innerHeight;
-            var rect            = (DOMRect)InnerElement.getBoundingClientRect();
+            // getBoundingClientRect() is already viewport-relative, so it must be compared against
+            // the viewport (0 .. innerHeight), not the document scroll offset (window.scrollY).
+            var rect = (DOMRect)InnerElement.getBoundingClientRect();
 
-            if (rect.top > viewport_top && rect.bottom < viewport_bottom)
+            if (rect.top >= 0 && rect.bottom <= window.innerHeight)
             {
                 if (_maxCalls > 0)
                 {

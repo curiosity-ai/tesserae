@@ -31,7 +31,6 @@ namespace Tesserae
         private int              _currentPage;
         private UnitSize         _componentHeight;
         private UnitSize         _pageHeight;
-        private double           _currentScrollPosition;
 
         /// <summary>
         /// Initializes a new instance of the VirtualizedList class.
@@ -197,14 +196,6 @@ namespace Tesserae
                 component.Render());
         }
 
-        private void CreatePageUpwards(HTMLElement page)
-        {
-            CreatePage(page, pageToCreate =>
-            {
-                _topSpacingDiv.insertAdjacentElement(InsertPosition.afterend, pageToCreate);
-            });
-        }
-
         private void CreatePagesDownwards(IEnumerable<HTMLElement> pages)
         {
             foreach (var page in pages)
@@ -224,23 +215,6 @@ namespace Tesserae
         private NodeListOf<Element> GetRenderedPages()
         {
             return _basicListContainer.getElementsByClassName("tss-basiclist-page");
-        }
-
-        private void RemoveFirstPageFromBasicListContainer()
-        {
-            RemovePageFromBasicListContainer(GetRenderedPages(), 0);
-        }
-
-        private void RemoveLastPageFromBasicListContainer()
-        {
-            var pages = GetRenderedPages();
-
-            RemovePageFromBasicListContainer(pages, (int)pages.length - 1);
-        }
-
-        private void RemovePageFromBasicListContainer(NodeListOf<Element> pages, int index)
-        {
-            _basicListContainer.removeChild(pages[index]);
         }
 
         private void AttachOnLastComponentMountedEvent()
@@ -278,60 +252,17 @@ namespace Tesserae
 
         private void OnBasicListContainerScroll(object listener)
         {
-            var scrollTop       = _basicListContainer.scrollTop;
-            var scrollDirection = GetScrollDirection(scrollTop);
-
-            var scrollPosition = scrollTop;
-
-            var newPage = (int)Round(scrollPosition / _pageHeight.Size, MidpointRounding.AwayFromZero);
+            var newPage = (int)Round(_basicListContainer.scrollTop / _pageHeight.Size, MidpointRounding.AwayFromZero);
 
             if (newPage != _currentPage)
             {
-                // The per-step Down/Up branches assume the rendered window slid by exactly one
-                // page. On a fast scroll the viewport can jump several pages between events,
-                // so a one-page swap would leave the window disjoint from the viewport (which
-                // manifested as a blank list). Detect that case and rebuild the window instead.
-                if (Abs(newPage - _currentPage) > 1)
-                {
-                    RebuildRenderedPages(newPage);
-                }
-                else if (newPage > _pagesToVirtualizeLowerBoundary)
-                {
-                    if (scrollDirection == ScrollDirection.Down)
-                    {
-                        RemoveFirstPageFromBasicListContainer();
-
-                        var newTopSpacingDivHeight = ((newPage - _pagesToVirtualizeLowerBoundary) * _pageHeight.Size).px();
-                        SetTopSpacingDivHeight(newTopSpacingDivHeight);
-
-                        var pageNumberToAdd = newPage + _pagesToVirtualizeUpperBoundary;
-                        CreatePageDownwards(RetrievePageFromCache(pageNumberToAdd));
-
-                        var newBottomSpacingDivHeight =
-                            ((_listPageCache.PagesCount - (newPage + _pagesToVirtualizeUpperBoundary)) * _pageHeight.Size).px();
-
-                        SetBottomSpacingDivHeight(newBottomSpacingDivHeight);
-                    }
-                    else if (scrollDirection == ScrollDirection.Up)
-                    {
-                        RemoveLastPageFromBasicListContainer();
-
-                        var newTopSpacingDivHeight = ((newPage - _pagesToVirtualizeLowerBoundary) * _pageHeight.Size).px();
-                        SetTopSpacingDivHeight(newTopSpacingDivHeight);
-
-                        var pageNumberToAdd = newPage - _pagesToVirtualizeUpperBoundary;
-                        CreatePageUpwards(RetrievePageFromCache(pageNumberToAdd));
-
-                        var newBottomSpacingDivHeight =
-                            ((_listPageCache.PagesCount - (newPage + _pagesToVirtualizeUpperBoundary)) * _pageHeight.Size).px();
-
-                        SetBottomSpacingDivHeight(newBottomSpacingDivHeight);
-                    }
-                }
+                // Reconcile the whole rendered window around the page nearest the viewport on every
+                // change. A per-step add/remove is only valid mid-list with an already-aligned 5-page
+                // window; rebuilding handles the boundaries (top/bottom) and multi-page jumps
+                // uniformly, and reuses cached page elements so it stays cheap.
+                RebuildRenderedPages(newPage);
+                _currentPage = newPage;
             }
-
-            _currentPage           = newPage;
-            _currentScrollPosition = scrollPosition;
         }
 
         private void RebuildRenderedPages(int centerPage)
@@ -357,28 +288,6 @@ namespace Tesserae
 
             SetTopSpacingDivHeight(((firstPage - 1)                       * _pageHeight.Size).px());
             SetBottomSpacingDivHeight(((_listPageCache.PagesCount - lastPage) * _pageHeight.Size).px());
-        }
-
-        private ScrollDirection GetScrollDirection(double scrollTop)
-        {
-            if (scrollTop > _currentScrollPosition)
-            {
-                return ScrollDirection.Down;
-            }
-
-            if (scrollTop < _currentScrollPosition)
-            {
-                return ScrollDirection.Up;
-            }
-
-            return ScrollDirection.Neutral;
-        }
-
-        private enum ScrollDirection
-        {
-            Neutral = 0,
-            Up,
-            Down
         }
     }
 }
