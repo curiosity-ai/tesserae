@@ -85,6 +85,16 @@ Claude and GPT-4 are large language models. Jules built a demo using Tesserae fo
                     Toast().Success($"{entity.Label}: {s.Text.Substring(entity.Start, entity.Length)}");
                 });
 
+            // Multi-line hover tooltip: entity.Label contains newline characters.
+            // Confirms the `.tss-annotated-text-hover-tag` style renders newlines
+            // (white-space: pre-line) and wraps long lines (max-width).
+            var multiLineTooltipEditor = AnnotatedTextEditor(
+                    annotator: AnnotateMultiLineAsync,
+                    initialText: "Hover \"Curiosity\" for a short multi-line tooltip; hover \"Tesserae\" for a longer one that should wrap inside the tooltip box.",
+                    debounceMs: 200,
+                    placeholder: "Hover an entity to see a multi-line tooltip...")
+               .MinHeight(80.px());
+
             _content = SectionStack().Secondary()
                .SampleTitle(typeof(AnnotatedTextEditorSample), UIcons.Highlighter, "Annotated text editor")
                .FlatSection(VStack().Children(
@@ -102,8 +112,59 @@ Claude and GPT-4 are large language models. Jules built a demo using Tesserae fo
                         allTokensEditor.WS(),
                         SampleSubTitle("Read-only with clickable entities").MT(16),
                         TextBlock("Text cannot be edited, but entities still react to clicks.").Small().Foreground(Theme.Secondary.Foreground).MB(8),
-                        readOnlyEditor.WS()
+                        readOnlyEditor.WS(),
+                        SampleSubTitle("Multi-line hover tooltips").MT(16),
+                        TextBlock("Labels can contain '\\n' to render as multi-line hover tooltips. Long lines wrap at the tooltip's max-width.").Small().Foreground(Theme.Secondary.Foreground).MB(8),
+                        multiLineTooltipEditor.WS()
                     )).SetTitle("Usage")));
+        }
+
+        private static async Task<AnnotatedTextEditor.Entity[]> AnnotateMultiLineAsync(string text)
+        {
+            await Task.Delay(50);
+
+            if (string.IsNullOrEmpty(text)) return new AnnotatedTextEditor.Entity[0];
+
+            var result = new List<AnnotatedTextEditor.Entity>();
+
+            // Short multi-line label (3 lines).
+            int shortIdx = text.IndexOf("Curiosity", StringComparison.Ordinal);
+            if (shortIdx >= 0)
+            {
+                const string shortLabel =
+                    "ORG — Curiosity\n" +
+                    "Founded: 2019\n" +
+                    "Location: Munich, Germany";
+
+                result.Add(new AnnotatedTextEditor.Entity(
+                    shortIdx,
+                    "Curiosity".Length,
+                    shortLabel,
+                    "var(--tss-colors-purple-100)",
+                    "var(--tss-colors-purple-900)",
+                    "var(--tss-colors-purple-500)"));
+            }
+
+            // Long multi-line label that should wrap at max-width.
+            int longIdx = text.IndexOf("Tesserae", StringComparison.Ordinal);
+            if (longIdx >= 0)
+            {
+                const string longLabel =
+                    "PRODUCT — Tesserae\n" +
+                    "A C# UI toolkit compiled to JavaScript via h5.\n" +
+                    "This line is intentionally long so it has to wrap onto a second line inside the tooltip's max-width box — confirming the hover tag handles wrapping cleanly.\n" +
+                    "Last line: short.";
+
+                result.Add(new AnnotatedTextEditor.Entity(
+                    longIdx,
+                    "Tesserae".Length,
+                    longLabel,
+                    "var(--tss-colors-blue-100)",
+                    "var(--tss-colors-blue-900)",
+                    "var(--tss-colors-blue-500)"));
+            }
+
+            return result.OrderBy(e => e.Start).ToArray();
         }
 
         private static async Task<AnnotatedTextEditor.Entity[]> AnnotateAsync(string text)
