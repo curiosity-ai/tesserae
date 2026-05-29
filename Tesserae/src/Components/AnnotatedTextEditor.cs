@@ -50,12 +50,12 @@ namespace Tesserae
             /// </summary>
             public Entity(int start, int length, string label = null, string background = null, string color = null, string border = null)
             {
-                Start = start;
-                Length = length;
-                Label = label;
+                Start      = start;
+                Length     = length;
+                Label      = label;
                 Background = background;
-                Color = color;
-                Border = border;
+                Color      = color;
+                Border     = border;
             }
 
             /// <summary>
@@ -72,14 +72,14 @@ namespace Tesserae
 
         private readonly Func<string, Task<Entity[]>> _annotator;
         private readonly int                          _debounceMs;
-        private int                                   _debounceTimeoutId   = 0;
-        private int                                   _annotationRequestId = 0;
-        private Entity[]                              _currentEntities     = new Entity[0];
+        private          int                          _debounceTimeoutId   = 0;
+        private          int                          _annotationRequestId = 0;
+        private          Entity[]                     _currentEntities     = new Entity[0];
         private readonly List<HTMLElement>            _entitySpans         = new List<HTMLElement>();
 
         public delegate void AnnotationsChangedHandler(AnnotatedTextEditor sender, Entity[] entities);
-        public delegate void TextChangedHandler(AnnotatedTextEditor sender, string text);
-        public delegate void EntityClickHandler(AnnotatedTextEditor sender, Entity entity, MouseEvent e);
+        public delegate void TextChangedHandler(AnnotatedTextEditor        sender, string   text);
+        public delegate void EntityClickHandler(AnnotatedTextEditor        sender, Entity   entity, MouseEvent e);
 
         /// <summary>
         /// Raised when annotations changed occurs.
@@ -88,11 +88,11 @@ namespace Tesserae
         /// <summary>
         /// Raised when text changed occurs.
         /// </summary>
-        public event TextChangedHandler        TextChanged;
+        public event TextChangedHandler TextChanged;
         /// <summary>
         /// Raised when entity clicked occurs.
         /// </summary>
-        public event EntityClickHandler        EntityClicked;
+        public event EntityClickHandler EntityClicked;
 
         /// <summary>
         /// Initializes a new instance of this class.
@@ -102,14 +102,14 @@ namespace Tesserae
             _annotator  = annotator;
             _debounceMs = debounceMs;
 
-            _highlightsContent = Div(_("tss-annotated-text-highlights-content"));
-            _highlights        = Div(_("tss-annotated-text-highlights"), _highlightsContent);
-            _textarea   = TextArea(_("tss-annotated-text-input", placeholder: placeholder ?? ""));
+            _highlightsContent   = Div(_("tss-annotated-text-highlights-content"));
+            _highlights          = Div(_("tss-annotated-text-highlights"), _highlightsContent);
+            _textarea            = TextArea(_("tss-annotated-text-input", placeholder: placeholder ?? ""));
             _textarea.spellcheck = false;
 
             _container = Div(_("tss-annotated-text-container"), _highlights, _textarea);
 
-            _hoverTag = Div(_("tss-annotated-text-hover-tag"));
+            _hoverTag               = Div(_("tss-annotated-text-hover-tag"));
             _hoverTag.style.display = "none";
             document.body.appendChild(_hoverTag);
 
@@ -127,14 +127,14 @@ namespace Tesserae
                 HideHoverTag();
             });
 
-            _textarea.addEventListener("mousemove", (e) => HandleHoverMove(e.As<MouseEvent>()));
+            _textarea.addEventListener("mousemove",  (e) => HandleHoverMove(e.As<MouseEvent>()));
             _textarea.addEventListener("mouseleave", (e) => HideHoverTag());
-            _textarea.addEventListener("blur", (e) => HideHoverTag());
+            _textarea.addEventListener("blur",       (e) => HideHoverTag());
 
             _textarea.addEventListener("click", (e) =>
             {
                 if (EntityClicked == null) return;
-                var me = e.As<MouseEvent>();
+                var me     = e.As<MouseEvent>();
                 var entity = FindEntityAt(me.clientX, me.clientY);
                 if (entity != null) EntityClicked.Invoke(this, entity, me);
             });
@@ -218,27 +218,44 @@ namespace Tesserae
             set
             {
                 _textarea.readOnly = value;
+
                 if (value) _container.classList.add("tss-annotated-text-readonly");
-                else       _container.classList.remove("tss-annotated-text-readonly");
+                else _container.classList.remove("tss-annotated-text-readonly");
             }
         }
 
         /// <summary>
         /// Sets the text of the component.
         /// </summary>
-        public AnnotatedTextEditor SetText(string text) { Text = text; return this; }
+        public AnnotatedTextEditor SetText(string text)
+        {
+            Text = text;
+            return this;
+        }
         /// <summary>
         /// Sets the placeholder of the component.
         /// </summary>
-        public AnnotatedTextEditor SetPlaceholder(string placeholder) { Placeholder = placeholder; return this; }
+        public AnnotatedTextEditor SetPlaceholder(string placeholder)
+        {
+            Placeholder = placeholder;
+            return this;
+        }
         /// <summary>
         /// Disables the component.
         /// </summary>
-        public AnnotatedTextEditor Disabled(bool value = true) { IsEnabled = !value; return this; }
+        public AnnotatedTextEditor Disabled(bool value = true)
+        {
+            IsEnabled = !value;
+            return this;
+        }
         /// <summary>
         /// Configures the read only on the component.
         /// </summary>
-        public AnnotatedTextEditor ReadOnly(bool value = true) { IsReadOnly = value; return this; }
+        public AnnotatedTextEditor ReadOnly(bool value = true)
+        {
+            IsReadOnly = value;
+            return this;
+        }
 
         /// <summary>
         /// Registers a callback invoked when the text changed event fires.
@@ -313,27 +330,33 @@ namespace Tesserae
             if (_annotator == null) return;
 
             window.clearTimeout(_debounceTimeoutId);
-            _debounceTimeoutId = (int)window.setTimeout(async _ =>
+
+            _debounceTimeoutId = (int)window.setTimeout(_ =>
             {
-                var requestId = ++_annotationRequestId;
-                var text      = _textarea.value;
-                Entity[] entities;
-                try
+                Task.Run(async () =>
                 {
-                    entities = await _annotator(text);
-                }
-                catch (Exception ex)
-                {
-                    console.error("AnnotatedTextEditor: annotator threw", ex);
-                    return;
-                }
 
-                if (requestId != _annotationRequestId) return; // stale
+                    var      requestId = ++_annotationRequestId;
+                    var      text      = _textarea.value;
+                    Entity[] entities;
 
-                _currentEntities = entities ?? new Entity[0];
-                HideHoverTag();
-                RenderHighlights();
-                AnnotationsChanged?.Invoke(this, _currentEntities);
+                    try
+                    {
+                        entities = await _annotator(text);
+                    }
+                    catch (Exception ex)
+                    {
+                        console.error("AnnotatedTextEditor: annotator threw", ex);
+                        return;
+                    }
+
+                    if (requestId != _annotationRequestId) return; // stale
+
+                    _currentEntities = entities ?? new Entity[0];
+                    HideHoverTag();
+                    RenderHighlights();
+                    AnnotationsChanged?.Invoke(this, _currentEntities);
+                }).FireAndForget();
             }, _debounceMs);
         }
 
@@ -351,11 +374,12 @@ namespace Tesserae
             else
             {
                 var sorted = _currentEntities
-                    .Where(e => e != null && e.Length > 0 && e.Start >= 0 && e.Start < text.Length)
-                    .OrderBy(e => e.Start)
-                    .ToArray();
+                   .Where(e => e != null && e.Length > 0 && e.Start >= 0 && e.Start < text.Length)
+                   .OrderBy(e => e.Start)
+                   .ToArray();
 
                 int cursor = 0;
+
                 foreach (var entity in sorted)
                 {
                     if (entity.Start < cursor) continue; // caller guarantees no overlap, but be safe
@@ -365,12 +389,12 @@ namespace Tesserae
                         _highlightsContent.appendChild(document.createTextNode(text.Substring(cursor, entity.Start - cursor)));
                     }
 
-                    var end = Math.Min(text.Length, entity.End);
+                    var end        = Math.Min(text.Length, entity.End);
                     var entityText = text.Substring(entity.Start, end - entity.Start);
 
-                    var span = Span(_("tss-annotated-text-entity"));
+                    var span                                                                 = Span(_("tss-annotated-text-entity"));
                     if (!string.IsNullOrEmpty(entity.Background)) span.style.backgroundColor = entity.Background;
-                    if (!string.IsNullOrEmpty(entity.Border))     span.style.outlineColor    = entity.Border;
+                    if (!string.IsNullOrEmpty(entity.Border)) span.style.outlineColor        = entity.Border;
                     span.appendChild(document.createTextNode(entityText));
 
                     _highlightsContent.appendChild(span);
@@ -405,6 +429,7 @@ namespace Tesserae
         private void HandleHoverMove(MouseEvent e)
         {
             var entity = FindEntityAt(e.clientX, e.clientY);
+
             if (entity == null || string.IsNullOrEmpty(entity.Label))
             {
                 HideHoverTag();
@@ -420,6 +445,7 @@ namespace Tesserae
             for (int i = 0; i < _entitySpans.Count && i < _currentEntities.Length; i++)
             {
                 var rect = _entitySpans[i].getBoundingClientRect().As<DOMRect>();
+
                 if (x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom)
                 {
                     return _currentEntities[i];
@@ -430,23 +456,26 @@ namespace Tesserae
 
         private void ShowHoverTag(Entity entity, MouseEvent e)
         {
-            _hoverTag.textContent = entity.Label;
+            _hoverTag.textContent   = entity.Label;
             _hoverTag.style.display = "block";
 
-            if (!string.IsNullOrEmpty(entity.Background)) _hoverTag.style.backgroundColor = entity.Background;
-            else                                          _hoverTag.style.backgroundColor = "";
-            if (!string.IsNullOrEmpty(entity.Color))      _hoverTag.style.color           = entity.Color;
-            else                                          _hoverTag.style.color           = "";
-            if (!string.IsNullOrEmpty(entity.Border))     _hoverTag.style.borderColor     = entity.Border;
-            else                                          _hoverTag.style.borderColor     = "";
+            // "transparent" on the entity is used to mute the inline highlight (e.g. for a
+            // token that is hoverable but should look like plain text). The tooltip would be
+            // unreadable if it inherited that, so explicitly substitute a safe fallback
+            // (the same values used by the default .tss-annotated-text-hover-tag CSS rule)
+            // instead of relying on the cascade to win, which is fragile to user style
+            // overrides.
+            _hoverTag.style.backgroundColor = ResolveHoverColor(entity.Background, "var(--tss-colors-blue-100)");
+            _hoverTag.style.color           = ResolveHoverColor(entity.Color,      "var(--tss-colors-blue-900)");
+            _hoverTag.style.borderColor     = ResolveHoverColor(entity.Border,     "var(--tss-colors-blue-500)");
 
             // Position near the cursor (slightly below-right). Use fixed positioning relative to viewport.
             var px = e.clientX + 12;
             var py = e.clientY + 18;
 
             // Keep inside viewport on the right edge
-            var tagRect = _hoverTag.getBoundingClientRect().As<DOMRect>();
-            if (px + tagRect.width > window.innerWidth - 4) px = window.innerWidth - tagRect.width - 4;
+            var tagRect                                          = _hoverTag.getBoundingClientRect().As<DOMRect>();
+            if (px + tagRect.width > window.innerWidth - 4) px   = window.innerWidth - tagRect.width - 4;
             if (py + tagRect.height > window.innerHeight - 4) py = e.clientY - tagRect.height - 8;
 
             _hoverTag.style.left = px + "px";
@@ -456,6 +485,25 @@ namespace Tesserae
         private void HideHoverTag()
         {
             if (_hoverTag != null) _hoverTag.style.display = "none";
+        }
+
+        private static bool IsTransparent(string color)
+        {
+            if (string.IsNullOrEmpty(color)) return false;
+            var trimmed = color.Trim();
+            if (string.Equals(trimmed, "transparent", StringComparison.OrdinalIgnoreCase)) return true;
+            // rgba(..., 0) / rgb(..., 0) with a trailing zero alpha — rough check; covers the
+            // most common "fully transparent" shorthand without parsing CSS.
+            if (trimmed.EndsWith(",0)",  StringComparison.Ordinal)) return true;
+            if (trimmed.EndsWith(", 0)", StringComparison.Ordinal)) return true;
+            return false;
+        }
+
+        private static string ResolveHoverColor(string entityColor, string fallback)
+        {
+            if (string.IsNullOrEmpty(entityColor)) return fallback;
+            if (IsTransparent(entityColor)) return fallback;
+            return entityColor;
         }
     }
 }

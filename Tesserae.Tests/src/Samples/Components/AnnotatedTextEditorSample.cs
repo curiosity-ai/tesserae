@@ -90,7 +90,7 @@ Claude and GPT-4 are large language models. Jules built a demo using Tesserae fo
             // (white-space: pre-line) and wraps long lines (max-width).
             var multiLineTooltipEditor = AnnotatedTextEditor(
                     annotator: AnnotateMultiLineAsync,
-                    initialText: "Hover \"Curiosity\" for a short multi-line tooltip; hover \"Tesserae\" for a longer one that should wrap inside the tooltip box.",
+                    initialText: "Hover \"Curiosity\" for a short multi-line tooltip; hover \"Tesserae\" for a longer one that should wrap. Hover \"ghost\" — its inline highlight is transparent, but the tooltip must stay readable.",
                     debounceMs: 200,
                     placeholder: "Hover an entity to see a multi-line tooltip...")
                .MinHeight(80.px());
@@ -114,7 +114,7 @@ Claude and GPT-4 are large language models. Jules built a demo using Tesserae fo
                         TextBlock("Text cannot be edited, but entities still react to clicks.").Small().Foreground(Theme.Secondary.Foreground).MB(8),
                         readOnlyEditor.WS(),
                         SampleSubTitle("Multi-line hover tooltips").MT(16),
-                        TextBlock("Labels can contain '\\n' to render as multi-line hover tooltips. Long lines wrap at the tooltip's max-width.").Small().Foreground(Theme.Secondary.Foreground).MB(8),
+                        TextBlock("Labels can contain '\\n' to render as multi-line hover tooltips. Long lines wrap at the tooltip's max-width. \"ghost\" exercises the transparent-background case — the inline highlight is invisible, but the tooltip must still be readable (default styling kicks in).").Small().Foreground(Theme.Secondary.Foreground).MB(8),
                         multiLineTooltipEditor.WS()
                     )).SetTitle("Usage")));
         }
@@ -162,6 +162,26 @@ Claude and GPT-4 are large language models. Jules built a demo using Tesserae fo
                     "var(--tss-colors-blue-100)",
                     "var(--tss-colors-blue-900)",
                     "var(--tss-colors-blue-500)"));
+            }
+
+            // Transparent inline highlight, but multi-line tooltip should still render in the
+            // default styling — confirms that the hover tag falls back to a readable
+            // background/color/border when the entity passes "transparent" (and "rgba(...,0)").
+            int ghostIdx = text.IndexOf("ghost", StringComparison.Ordinal);
+            if (ghostIdx >= 0)
+            {
+                const string ghostLabel =
+                    "GHOST — invisible chip\n" +
+                    "Inline highlight: transparent (no chip is drawn).\n" +
+                    "Tooltip: should keep the default readable styling, not inherit transparent.";
+
+                result.Add(new AnnotatedTextEditor.Entity(
+                    ghostIdx,
+                    "ghost".Length,
+                    ghostLabel,
+                    background: "transparent",
+                    color:      "rgba(0, 0, 0, 0)",
+                    border:     "transparent"));
             }
 
             return result.OrderBy(e => e.Start).ToArray();
