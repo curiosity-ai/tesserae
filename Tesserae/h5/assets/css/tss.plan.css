@@ -1,0 +1,161 @@
+.tss-plan-card > .tss-card {
+    overflow: hidden;
+}
+
+.tss-plan-title {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.tss-plan-meta {
+    row-gap: 6px;
+}
+
+.tss-plan-summary {
+    color: var(--tss-default-foreground-color);
+}
+
+.tss-plan-stage {
+    color: var(--tss-primary-background-color);
+}
+
+.tss-plan-steps {
+    min-width: 0;
+}
+
+.tss-plan-empty {
+    padding: 6px 0;
+}
+
+.tss-plan-timestamps {
+    color: var(--tss-secondary-foreground-color);
+}
+
+.tss-plan-step-progress {
+    width: 100%;
+}
+
+.tss-plan-step-progress .tss-progressindicator {
+    height: 4px;
+    border-radius: 999px;
+}
+
+.tss-plan-step {
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: var(--tss-border-radius-md);
+    padding: 12px;
+    background: var(--tss-default-background-color);
+    transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
+}
+
+.tss-plan-step-header,
+.tss-plan-substep-header {
+    min-width: 0;
+}
+
+.tss-plan-step-content,
+.tss-plan-step-title,
+.tss-plan-substep-title {
+    min-width: 0;
+}
+
+.tss-plan-step-title,
+.tss-plan-substep-title {
+    overflow-wrap: anywhere;
+}
+
+.tss-plan-step-meta {
+    row-gap: 6px;
+}
+
+.tss-plan-step-icon {
+    line-height: 1;
+}
+
+.tss-plan-substep-icon {
+    line-height: 1;
+}
+
+.tss-plan-step-toggle {
+    color: var(--tss-secondary-foreground-color);
+}
+
+.tss-plan-step-substeps {
+    position: relative;
+}
+
+.tss-plan-step-substeps::before {
+    content: "";
+    position: absolute;
+    left: -14px;
+    top: 2px;
+    bottom: 2px;
+    width: 1px;
+    background: var(--tss-default-border-color);
+}
+
+.tss-plan-substep {
+    padding: 8px 0;
+}
+
+.tss-plan-substep-status {
+    color: var(--tss-secondary-foreground-color);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.tss-plan-substep-message {
+    overflow-wrap: anywhere;
+}
+
+/* Step status modifiers */
+.tss-plan-running.tss-plan-step {
+    border-color: var(--tss-primary-background-color);
+    box-shadow: inset 3px 0 0 0 var(--tss-primary-background-color);
+}
+
+.tss-plan-completed.tss-plan-step {
+    border-color: var(--tss-success-background-color);
+    box-shadow: inset 3px 0 0 0 var(--tss-success-background-color);
+}
+
+.tss-plan-failed.tss-plan-step {
+    border-color: var(--tss-danger-background-color);
+    box-shadow: inset 3px 0 0 0 var(--tss-danger-background-color);
+}
+
+.tss-plan-canceled.tss-plan-step {
+    border-color: var(--tss-warning-background-color);
+    box-shadow: inset 3px 0 0 0 var(--tss-warning-background-color);
+}
+
+/* Status-colored icons (step + substep) */
+.tss-plan-pending.tss-plan-step-icon,
+.tss-plan-pending .tss-plan-substep-icon,
+.tss-plan-pending .tss-plan-substep-status {
+    color: var(--tss-secondary-foreground-color);
+}
+
+.tss-plan-running.tss-plan-step-icon,
+.tss-plan-running .tss-plan-substep-icon,
+.tss-plan-running .tss-plan-substep-status {
+    color: var(--tss-primary-background-color);
+}
+
+.tss-plan-completed.tss-plan-step-icon,
+.tss-plan-completed .tss-plan-substep-icon,
+.tss-plan-completed .tss-plan-substep-status {
+    color: var(--tss-success-background-color);
+}
+
+.tss-plan-failed.tss-plan-step-icon,
+.tss-plan-failed .tss-plan-substep-icon,
+.tss-plan-failed .tss-plan-substep-status {
+    color: var(--tss-danger-background-color);
+}
+
+.tss-plan-canceled.tss-plan-step-icon,
+.tss-plan-canceled .tss-plan-substep-icon,
+.tss-plan-canceled .tss-plan-substep-status {
+    color: var(--tss-warning-background-color);
+}
