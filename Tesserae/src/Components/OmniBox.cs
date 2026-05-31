@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using static H5.Core.dom;
@@ -132,12 +133,20 @@ namespace Tesserae
 
             private readonly string[] _values;
             private readonly Func<string, Task<string[]>> _valuesProvider;
+            private readonly bool _isTimeRange;
+
+            /// <summary>
+            /// Gets a value indicating whether this is a time/date-range filter snap. When <c>true</c>, the
+            /// suggestion popup shows a date-range selector (plus shortcuts) instead of a list of values, and the
+            /// committed <see cref="FilterSnap.Value"/> is a sortable <c>yyyy-MM-dd:yyyy-MM-dd</c> range string.
+            /// </summary>
+            public bool IsTimeRange => _isTimeRange;
 
             /// <summary>
             /// Initializes a new instance of this class.
             /// </summary>
             public FilterSnapHandler(string filterId, string displayName, string[] triggerWords, string[] values, IComponent icon = null, string description = null, string background = null, string color = null)
-                : this(filterId, displayName, triggerWords, icon, description, background, color)
+                : this(filterId, displayName, triggerWords, icon, description, background, color, false)
             {
                 if (values == null) throw new ArgumentNullException(nameof(values));
                 _values = values;
@@ -147,13 +156,13 @@ namespace Tesserae
             /// Initializes a new instance of this class.
             /// </summary>
             public FilterSnapHandler(string filterId, string displayName, string[] triggerWords, Func<string, Task<string[]>> valuesProvider, IComponent icon = null, string description = null, string background = null, string color = null)
-                : this(filterId, displayName, triggerWords, icon, description, background, color)
+                : this(filterId, displayName, triggerWords, icon, description, background, color, false)
             {
                 if (valuesProvider == null) throw new ArgumentNullException(nameof(valuesProvider));
                 _valuesProvider = valuesProvider;
             }
 
-            private FilterSnapHandler(string filterId, string displayName, string[] triggerWords, IComponent icon, string description, string background, string color)
+            private FilterSnapHandler(string filterId, string displayName, string[] triggerWords, IComponent icon, string description, string background, string color, bool isTimeRange)
             {
                 if (string.IsNullOrEmpty(filterId)) throw new ArgumentException("filterId is required", nameof(filterId));
                 if (string.IsNullOrEmpty(displayName)) throw new ArgumentException("displayName is required", nameof(displayName));
@@ -165,6 +174,19 @@ namespace Tesserae
                 Description = description;
                 Background = background;
                 Color = color;
+                _isTimeRange = isTimeRange;
+            }
+
+            /// <summary>
+            /// Creates a time/date-range filter snap handler. The user types a range in a sortable date-time format
+            /// separated by a colon (<c>yyyy-MM-dd:yyyy-MM-dd</c>), and the suggestion popup shows a date-range picker
+            /// together with quick shortcuts (last week, last month, last 90 days, last year). Granularity is a single day.
+            /// The committed <see cref="FilterSnap.Value"/> is the <c>yyyy-MM-dd:yyyy-MM-dd</c> range string, which can be
+            /// parsed back via <see cref="FilterSnap.TryGetDateRange"/>.
+            /// </summary>
+            public static FilterSnapHandler TimeRange(string filterId, string displayName, string[] triggerWords, IComponent icon = null, string description = null, string background = null, string color = null)
+            {
+                return new FilterSnapHandler(filterId, displayName, triggerWords, icon, description, background, color, true);
             }
 
             internal async Task<string[]> GetValuesAsync(string input)
@@ -227,6 +249,25 @@ namespace Tesserae
                 Handler = handler;
                 Trigger = trigger;
                 Value = value;
+            }
+
+            /// <summary>
+            /// Attempts to parse <see cref="Value"/> as a day-granularity date range in the
+            /// <c>yyyy-MM-dd:yyyy-MM-dd</c> format produced by a time-range filter snap.
+            /// </summary>
+            /// <param name="from">The inclusive start of the range when parsing succeeds.</param>
+            /// <param name="to">The inclusive end of the range when parsing succeeds.</param>
+            /// <returns><c>true</c> when both bounds parse and <paramref name="from"/> is not after <paramref name="to"/>.</returns>
+            public bool TryGetDateRange(out DateTime from, out DateTime to)
+            {
+                from = default;
+                to = default;
+                if (string.IsNullOrEmpty(Value)) return false;
+                var parts = Value.Split(':');
+                if (parts.Length != 2) return false;
+                if (!DateTime.TryParseExact(parts[0], "yyyy-MM-dd", DateTimeFormatInfo.InvariantInfo, out from)) return false;
+                if (!DateTime.TryParseExact(parts[1], "yyyy-MM-dd", DateTimeFormatInfo.InvariantInfo, out to)) return false;
+                return from <= to;
             }
         }
 
@@ -534,6 +575,7 @@ namespace Tesserae
         private int _filterSnapStart = -1;
         private int _filterSnapEnd = -1;
         private int _filterSnapRequestId = 0;
+        private bool _timeFilterSnapOpen = false;
         private string _tokenTypeMap = string.Empty;
         private readonly IconToggle<Mode> _modeToggle;
         private readonly bool _tokenIgnoreCase;
@@ -846,7 +888,9 @@ namespace Tesserae
                     LostFocus?.Invoke(this, e);
                     if (_hideSuggestions != null) window.setTimeout(_ => { if (_hideSuggestions != null) _hideSuggestions(); _highlightedSuggestionIndex = -1; }, 200);
                     if (_hideSnapSuggestions != null) window.setTimeout(_ => { HideSnapSuggestions(); }, 200);
-                    if (_hideFilterSnapSuggestions != null) window.setTimeout(_ => { HideFilterSnapSuggestions(); }, 200);
+                    // Keep an open time-range popup alive when focus moves into its date inputs; that popup
+                    // dismisses itself via Tippy's click-outside / commit instead of the blur timeout.
+                    if (_hideFilterSnapSuggestions != null && !_timeFilterSnapOpen) window.setTimeout(_ => { HideFilterSnapSuggestions(); }, 200);
                 });
 
                 _searchInput.addEventListener("scroll", (e) => SyncScroll());
@@ -1595,6 +1639,14 @@ namespace Tesserae
             _filterSnapStart = wordStart;
             _filterSnapEnd = cursor;
 
+            if (matched.IsTimeRange)
+            {
+                // Bump the request id so any in-flight async (value) suggestion load is ignored.
+                _filterSnapRequestId++;
+                ShowTimeFilterSnapSuggestions(matched, matchedTrigger, valueText);
+                return true;
+            }
+
             var requestId = ++_filterSnapRequestId;
             var captured = matched;
             var capturedTrigger = matchedTrigger;
@@ -1635,6 +1687,7 @@ namespace Tesserae
 
         private void ShowFilterSnapSuggestions(FilterSnapHandler handler, string trigger, string[] values)
         {
+            _timeFilterSnapOpen = false;
             _currentFilterSnapSuggestionButtons = new List<Button>();
             _highlightedFilterSnapSuggestionIndex = 0;
 
@@ -1667,6 +1720,86 @@ namespace Tesserae
             HighlightFilterSnapSuggestion(0);
         }
 
+        private void ShowTimeFilterSnapSuggestions(FilterSnapHandler handler, string trigger, string valueText)
+        {
+            _currentFilterSnapSuggestionButtons = new List<Button>();
+            _highlightedFilterSnapSuggestionIndex = 0;
+
+            // Parse whatever the user has typed so far (yyyy-MM-dd:yyyy-MM-dd). Fall back to the last 7 days so
+            // the picker and the "Apply" action always have a sensible day-granularity range to work with.
+            var today = DateTime.Today;
+            DateTime? typedFrom = null, typedTo = null;
+            if (!string.IsNullOrEmpty(valueText))
+            {
+                var parts = valueText.Split(':');
+                if (parts.Length >= 1 && TryParseDay(parts[0], out var pf)) typedFrom = pf;
+                if (parts.Length >= 2 && TryParseDay(parts[1], out var pt)) typedTo = pt;
+            }
+            var initialFrom = typedFrom ?? today.AddDays(-7);
+            var initialTo = typedTo ?? today;
+            if (initialTo < initialFrom) initialTo = initialFrom;
+
+            var picker = DateRangePicker(initialFrom, initialTo);
+
+            var content = VStack().NoDefaultMargin().W(320).MaxHeight(440.px()).ScrollY();
+            content.Add(TextBlock(handler.DisplayName).Small().SemiBold().PaddingTop(8.px()).PaddingLeft(12.px()).Foreground(Theme.Secondary.Foreground));
+            content.Add(TextBlock("Pick a range or type yyyy-MM-dd:yyyy-MM-dd (day granularity)").Small().Secondary().PaddingBottom(8.px()).PaddingLeft(12.px()).PaddingRight(12.px()));
+            content.Add(HStack().WS().AlignItems(ItemAlign.Center).PaddingLeft(12.px()).PaddingRight(12.px()).PaddingBottom(8.px()).Children(picker));
+
+            var applyBtn = Button("Apply range").Primary().SetIcon(UIcons.Check).WS();
+            applyBtn.OnClick(() =>
+            {
+                var from = picker.From ?? initialFrom;
+                var to = picker.To ?? initialTo;
+                if (to < from) { var swap = from; from = to; to = swap; }
+                CommitTimeFilterSnap(handler, trigger, from, to);
+            });
+            content.Add(HStack().WS().PaddingLeft(12.px()).PaddingRight(12.px()).PaddingBottom(8.px()).Children(applyBtn));
+            _currentFilterSnapSuggestionButtons.Add(applyBtn);
+
+            content.Add(TextBlock("Shortcuts").Small().SemiBold().PaddingBottom(4.px()).PaddingLeft(12.px()).Foreground(Theme.Secondary.Foreground));
+            AddTimeFilterSnapShortcut(content, handler, trigger, "Last week", today.AddDays(-7), today);
+            AddTimeFilterSnapShortcut(content, handler, trigger, "Last month", today.AddMonths(-1), today);
+            AddTimeFilterSnapShortcut(content, handler, trigger, "Last 90 days", today.AddDays(-90), today);
+            AddTimeFilterSnapShortcut(content, handler, trigger, "Last year", today.AddYears(-1), today);
+
+            if (_hideFilterSnapSuggestions != null)
+            {
+                _hideFilterSnapSuggestions();
+                _hideFilterSnapSuggestions = null;
+            }
+
+            _timeFilterSnapOpen = true;
+            Tippy.ShowFor(_activeInput, content.Render(), out _hideFilterSnapSuggestions, placement: TooltipPlacement.BottomStart, maxWidth: 360, onHiddenCallback: () => { _hideFilterSnapSuggestions = null; _timeFilterSnapOpen = false; });
+            HighlightFilterSnapSuggestion(0);
+        }
+
+        private void AddTimeFilterSnapShortcut(Stack content, FilterSnapHandler handler, string trigger, string label, DateTime from, DateTime to)
+        {
+            var preview = from.ToString("yyyy-MM-dd") + ":" + to.ToString("yyyy-MM-dd");
+            var btn = Button().Class("tss-omnibox-snap-suggestion").Class("tss-omnibox-filter-snap-suggestion").WS().NoPadding().NoMinSize().H(32).MB(4).NoBorder().NoBackground().TextLeft();
+            var row = HStack().WS().AlignItems(ItemAlign.Center).PaddingLeft(12.px()).PaddingRight(12.px());
+            row.Add(TextBlock(label));
+            row.Add(TextBlock(preview).Small().Secondary().ML(UnitSize.Auto()));
+            btn.ReplaceContent(row);
+            btn.OnClick(() => CommitTimeFilterSnap(handler, trigger, from, to));
+            content.Add(btn);
+            _currentFilterSnapSuggestionButtons.Add(btn);
+        }
+
+        private void CommitTimeFilterSnap(FilterSnapHandler handler, string trigger, DateTime from, DateTime to)
+        {
+            var value = from.ToString("yyyy-MM-dd") + ":" + to.ToString("yyyy-MM-dd");
+            CommitFilterSnap(handler, trigger, value);
+        }
+
+        private static bool TryParseDay(string s, out DateTime date)
+        {
+            date = default;
+            if (string.IsNullOrWhiteSpace(s)) return false;
+            return DateTime.TryParseExact(s.Trim(), "yyyy-MM-dd", DateTimeFormatInfo.InvariantInfo, out date);
+        }
+
         private void HideFilterSnapSuggestions()
         {
             if (_hideFilterSnapSuggestions != null)
@@ -1678,6 +1811,7 @@ namespace Tesserae
             _highlightedFilterSnapSuggestionIndex = -1;
             _filterSnapStart = -1;
             _filterSnapEnd = -1;
+            _timeFilterSnapOpen = false;
         }
 
         private void UpdateHighlightedFilterSnapSuggestion(int offset)

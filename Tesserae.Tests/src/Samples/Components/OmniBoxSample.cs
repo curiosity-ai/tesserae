@@ -210,7 +210,7 @@ namespace Tesserae.Tests.Samples
 
             var snapAndFilterSample = OmniBox(new OmniBox.Config(OmniBox.Mode.Search)
             {
-                PlaceholderSearch = "Type @ for snaps, or 'ext:' / 'filetype:' / 'lang:' for filter values",
+                PlaceholderSearch = "Type @ for snaps, 'ext:' / 'lang:' for filter values, or 'modified:' for a date range",
             })
             .WS()
             .RegisterSnaps(
@@ -237,14 +237,20 @@ namespace Tesserae.Tests.Samples
                         return all.Where(v => v.IndexOf(input, StringComparison.OrdinalIgnoreCase) >= 0).ToArray();
                     },
                     icon: Icon(UIcons.Globe),
-                    description: "Filter results by language (async)"))
+                    description: "Filter results by language (async)"),
+                OmniBox.FilterSnapHandler.TimeRange(
+                    "modified",
+                    "Modified date",
+                    new[] { "modified", "date", "between" },
+                    icon: Icon(UIcons.Calendar),
+                    description: "Filter results by a date range (yyyy-MM-dd:yyyy-MM-dd)"))
             .OnSearch((s, q) =>
             {
                 var snapInfo = q.Snaps != null && q.Snaps.Length > 0
                     ? $" — snaps: {string.Join(", ", q.Snaps.Select(sn => sn.SnapId))}"
                     : "";
                 var filterInfo = q.FilterSnaps != null && q.FilterSnaps.Length > 0
-                    ? $" — filters: {string.Join(", ", q.FilterSnaps.Select(f => f.FilterId + "=" + f.Value))}"
+                    ? $" — filters: {string.Join(", ", q.FilterSnaps.Select(DescribeFilterSnap))}"
                     : "";
                 Toast().Information($"Searched for: {q.RawQuery}{snapInfo}{filterInfo}");
             });
@@ -266,9 +272,18 @@ namespace Tesserae.Tests.Samples
                .FlatSection(VStack().WS().Children(
                     Card(VStack().WS().Children(
                     SampleSubTitle("Snaps and filter snaps"),
-                    TextBlock("Type @ to insert a snap (e.g. @docs, @wiki, @code). Type 'ext:', 'filetype:', or 'lang:' to autocomplete filter values — when committed they become removable chips. Both snap and filter selections are passed through with the search query.").MB(8),
+                    TextBlock("Type @ to insert a snap (e.g. @docs, @wiki, @code). Type 'ext:', 'filetype:', or 'lang:' to autocomplete filter values. Type 'modified:' (or 'date:' / 'between:') for a time-based filter snap — a date-range picker with shortcuts (last week, last month, last 90 days, last year), or type the range directly as yyyy-MM-dd:yyyy-MM-dd. When committed they become removable chips. All snap and filter selections are passed through with the search query.").MB(8),
                     Label("Snaps + filter snaps").SetContent(snapAndFilterSample.Class("tss-omnibox-snap-and-filter-sample"))
                 )).SetTitle("Snaps & Filter Snaps")));
+        }
+
+        private static string DescribeFilterSnap(OmniBox.FilterSnap f)
+        {
+            if (f.TryGetDateRange(out var from, out var to))
+            {
+                return $"{f.FilterId}: {from:yyyy-MM-dd} → {to:yyyy-MM-dd}";
+            }
+            return f.FilterId + "=" + f.Value;
         }
 
         public HTMLElement Render() => _content.Render();
