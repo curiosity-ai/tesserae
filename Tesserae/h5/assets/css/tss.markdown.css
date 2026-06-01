@@ -17,13 +17,17 @@
     background-color: var(--tss-default-background-color);
 }
 
-.tss-markdown table {
-    width: 100%;
-    border-collapse: collapse;
-    color: var(--tss-default-foreground-color);
-    font-weight: var(--tss-font-weight-regular);
-    text-align: left;
-}
+    .tss-markdown table {
+        width: 100%;
+        border-collapse: collapse;
+        color: var(--tss-default-foreground-color);
+        font-weight: var(--tss-font-weight-regular);
+        text-align: left;
+        display: block;
+        white-space: nowrap;
+        overflow-x: auto;
+        margin-bottom: 24px;
+    }
 
     .tss-markdown table thead {
         background-color: var(--tss-secondary-background-color);
