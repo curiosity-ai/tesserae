@@ -1,4 +1,6 @@
-﻿namespace Tesserae
+using System;
+
+namespace Tesserae
 {
 
     /// <summary>
@@ -19,6 +21,14 @@
         void ObserveFutureChanges(ObservableEvent.ValueChanged<T> valueGetter);
 
         void StopObserving(ObservableEvent.ValueChanged<T> valueGetter);
+
+        /// <summary>
+        /// Registers the callback for value changes and returns an IDisposable that, when disposed, unregisters
+        /// the callback. Dispose is idempotent. If <paramref name="fireImmediately"/> is true, the callback is
+        /// invoked synchronously with the current value before this method returns; future changes are delivered
+        /// on the observable's normal (typically debounced) schedule.
+        /// </summary>
+        IDisposable Subscribe(Action<T> callback, bool fireImmediately = true);
 
         T Value { get; }
     }

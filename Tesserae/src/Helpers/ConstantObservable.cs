@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using static H5.Core.dom;
 
 namespace Tesserae
@@ -32,6 +33,16 @@ namespace Tesserae
         /// Stops a previously-registered callback from receiving further change notifications.
         /// </summary>
         public void StopObserving(ObservableEvent.ValueChanged<T>        valueGetter) { }
+
+        /// <summary>
+        /// Registers the callback for value changes. The value never changes, so the returned disposable is a
+        /// no-op; the callback is invoked once immediately if <paramref name="fireImmediately"/> is true.
+        /// </summary>
+        public IDisposable Subscribe(Action<T> callback, bool fireImmediately = true)
+        {
+            if (fireImmediately) callback(_value);
+            return Subscription.Empty;
+        }
 
         /// <summary>
         /// Gets or sets the current value of the component.
