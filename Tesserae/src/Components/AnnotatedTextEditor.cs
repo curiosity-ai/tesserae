@@ -24,9 +24,13 @@ namespace Tesserae
             /// </summary>
             public int Length { get; set; }
             /// <summary>
-            /// Gets or sets the label shown by the component.
+            /// Rich content shown in the hover tag. Rendered into the floating tooltip the first
+            /// time the entity is hovered and cached afterwards. Each entity should own a
+            /// distinct component instance — an <see cref="IComponent"/>'s element can only live
+            /// in one place at a time, so sharing one across entities silently re-parents its
+            /// DOM on every hover. Entities with no content are not hover-able.
             /// </summary>
-            public string Label { get; set; }
+            public IComponent LabelContent { get; set; }
             /// <summary>
             /// Gets or sets the CSS background of the component.
             /// </summary>
@@ -48,20 +52,44 @@ namespace Tesserae
             /// <summary>
             /// Initializes a new instance of this class.
             /// </summary>
-            public Entity(int start, int length, string label = null, string background = null, string color = null, string border = null)
+            public Entity(int start, int length, IComponent labelContent = null, string background = null, string color = null, string border = null)
             {
-                Start      = start;
-                Length     = length;
-                Label      = label;
-                Background = background;
-                Color      = color;
-                Border     = border;
+                Start        = start;
+                Length       = length;
+                LabelContent = labelContent;
+                Background   = background;
+                Color        = color;
+                Border       = border;
+            }
+
+            /// <summary>
+            /// Convenience constructor for plain-string labels. The text is wrapped in a default
+            /// tooltip-styled component (small, semi-bold, theme-aware foreground, with newline
+            /// support) so callers that don't need rich content get the same look the editor had
+            /// before <see cref="LabelContent"/> existed.
+            /// </summary>
+            public Entity(int start, int length, string label, string background = null, string color = null, string border = null)
+                : this(start, length, DefaultStringLabel(label), background, color, border)
+            {
             }
 
             /// <summary>
             /// Gets or sets the end.
             /// </summary>
             public int End => Start + Length;
+        }
+
+        /// <summary>
+        /// Builds the default IComponent shown for a plain string label — a small, semi-bold,
+        /// theme-foreground div with <c>pre-line</c> whitespace so embedded <c>\n</c> renders as
+        /// real line breaks. Public so callers wanting the default look can compose it with
+        /// other components.
+        /// </summary>
+        public static IComponent DefaultStringLabel(string text)
+        {
+            var el = Div(_("tss-annotated-text-default-label"));
+            el.textContent = text ?? string.Empty;
+            return new Raw(el);
         }
 
         private readonly HTMLDivElement      _container;
@@ -76,6 +104,9 @@ namespace Tesserae
         private          int                          _annotationRequestId = 0;
         private          Entity[]                     _currentEntities     = new Entity[0];
         private readonly List<HTMLElement>            _entitySpans         = new List<HTMLElement>();
+        // Rendered hover element per entity. Populated on first hover, cleared whenever the
+        // entity set is replaced so we don't pin stale component trees in memory.
+        private readonly Dictionary<Entity, HTMLElement> _labelContentCache = new Dictionary<Entity, HTMLElement>();
 
         public delegate void AnnotationsChangedHandler(AnnotatedTextEditor sender, Entity[] entities);
         public delegate void TextChangedHandler(AnnotatedTextEditor        sender, string   text);
@@ -353,6 +384,7 @@ namespace Tesserae
                     if (requestId != _annotationRequestId) return; // stale
 
                     _currentEntities = entities ?? new Entity[0];
+                    _labelContentCache.Clear();
                     HideHoverTag();
                     RenderHighlights();
                     AnnotationsChanged?.Invoke(this, _currentEntities);
@@ -430,7 +462,7 @@ namespace Tesserae
         {
             var entity = FindEntityAt(e.clientX, e.clientY);
 
-            if (entity == null || string.IsNullOrEmpty(entity.Label))
+            if (entity == null || entity.LabelContent == null)
             {
                 HideHoverTag();
                 return;
@@ -456,7 +488,14 @@ namespace Tesserae
 
         private void ShowHoverTag(Entity entity, MouseEvent e)
         {
-            _hoverTag.textContent   = entity.Label;
+            if (!_labelContentCache.TryGetValue(entity, out var cached))
+            {
+                cached                     = entity.LabelContent.Render();
+                _labelContentCache[entity] = cached;
+            }
+
+            _hoverTag.textContent = string.Empty;
+            _hoverTag.appendChild(cached);
             _hoverTag.style.display = "block";
 
             // "transparent" on the entity is used to mute the inline highlight (e.g. for a

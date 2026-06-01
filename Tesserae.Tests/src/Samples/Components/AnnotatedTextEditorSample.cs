@@ -61,7 +61,7 @@ Claude and GPT-4 are large language models. Jules built a demo using Tesserae fo
                 })
                .OnEntityClick((s, entity, e) =>
                 {
-                    Toast().Information($"Clicked entity: \"{s.Text.Substring(entity.Start, entity.Length)}\" ({entity.Label})");
+                    Toast().Information($"Clicked entity: \"{s.Text.Substring(entity.Start, entity.Length)}\"");
                 });
 
             var allTokensEditor = AnnotatedTextEditor(
@@ -71,7 +71,7 @@ Claude and GPT-4 are large language models. Jules built a demo using Tesserae fo
                .MinHeight(120.px())
                .OnEntityClick((s, entity, e) =>
                 {
-                    Toast().Information($"Token: \"{s.Text.Substring(entity.Start, entity.Length)}\" ({entity.Label})");
+                    Toast().Information($"Token: \"{s.Text.Substring(entity.Start, entity.Length)}\"");
                 });
 
             var readOnlyEditor = AnnotatedTextEditor(
@@ -82,12 +82,12 @@ Claude and GPT-4 are large language models. Jules built a demo using Tesserae fo
                .ReadOnly()
                .OnEntityClick((s, entity, e) =>
                 {
-                    Toast().Success($"{entity.Label}: {s.Text.Substring(entity.Start, entity.Length)}");
+                    Toast().Success(s.Text.Substring(entity.Start, entity.Length));
                 });
 
-            // Multi-line hover tooltip: entity.Label contains newline characters.
-            // Confirms the `.tss-annotated-text-hover-tag` style renders newlines
-            // (white-space: pre-line) and wraps long lines (max-width).
+            // Multi-line hover tooltip: the string-label convenience constructor wraps the
+            // text in a `.tss-annotated-text-default-label` div whose `white-space: pre-line`
+            // renders '\n' as line breaks and whose `max-width` wraps long lines.
             var multiLineTooltipEditor = AnnotatedTextEditor(
                     annotator: AnnotateMultiLineAsync,
                     initialText: "Hover \"Curiosity\" for a short multi-line tooltip; hover \"Tesserae\" for a longer one that should wrap. Hover \"ghost\" — its inline highlight is transparent, but the tooltip must stay readable.",
@@ -114,7 +114,7 @@ Claude and GPT-4 are large language models. Jules built a demo using Tesserae fo
                         TextBlock("Text cannot be edited, but entities still react to clicks.").Small().Foreground(Theme.Secondary.Foreground).MB(8),
                         readOnlyEditor.WS(),
                         SampleSubTitle("Multi-line hover tooltips").MT(16),
-                        TextBlock("Labels can contain '\\n' to render as multi-line hover tooltips. Long lines wrap at the tooltip's max-width. \"ghost\" exercises the transparent-background case — the inline highlight is invisible, but the tooltip must still be readable (default styling kicks in).").Small().Foreground(Theme.Secondary.Foreground).MB(8),
+                        TextBlock("String-label entities can contain '\\n' to render as multi-line hover tooltips. Long lines wrap at the tooltip's max-width. \"ghost\" exercises the transparent-background case — the inline highlight is invisible, but the tooltip must still be readable (default styling kicks in). For rich content set Entity.LabelContent to your own IComponent.").Small().Foreground(Theme.Secondary.Foreground).MB(8),
                         multiLineTooltipEditor.WS()
                     )).SetTitle("Usage")));
         }
