@@ -148,27 +148,39 @@
 }
 
 /* Floating hover tag, appended to <body> and positioned with position: fixed
-   so it can escape the container's overflow: hidden clipping. */
+   so it can escape the container's overflow: hidden clipping. The tag itself
+   sets container chrome (padding, border, bg, shadow, max-width) and a base
+   color so that descendants without their own color rule (e.g. the default
+   string-label below) inherit something theme-appropriate. Rich IComponents
+   placed via Entity.LabelContent override typography on their own elements. */
 .tss-annotated-text-hover-tag {
     position: fixed;
     pointer-events: none;
     z-index: 10000;
     padding: 4px 8px;
-    font-size: 11px;
-    font-weight: 500;
-    line-height: 1.4;
     border-radius: 4px;
     border: 1px solid var(--tss-colors-blue-500);
     background: var(--tss-colors-blue-100);
     color: var(--tss-colors-blue-900);
     box-shadow: var(--tss-shadow-sm);
-    white-space: pre-line;
     max-width: 420px;
-    letter-spacing: 0.02em;
 }
 
 .tss-dark-mode .tss-annotated-text-hover-tag {
     background: rgba(var(--tss-colors-blue-900-root), 0.9);
     color: var(--tss-colors-blue-100);
     border-color: rgba(var(--tss-colors-blue-500-root), 0.6);
+}
+
+/* Default tooltip text styling, applied by the string-label convenience constructor.
+   Preserves the exact pre-IComponent look — 11px / weight 500 / pre-line for
+   embedded '\n' / subtle letter-spacing. color is left to inherit from the hover
+   tag (the entity-specific color set inline on the hover tag still flows through). */
+.tss-annotated-text-default-label {
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1.4;
+    color: inherit;
+    white-space: pre-line;
+    letter-spacing: 0.02em;
 }
