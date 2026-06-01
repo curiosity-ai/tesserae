@@ -1742,9 +1742,8 @@ namespace Tesserae
             var picker = DateRangePicker(initialFrom, initialTo);
 
             var content = VStack().NoDefaultMargin().W(320).MaxHeight(440.px()).ScrollY();
-            content.Add(TextBlock(handler.DisplayName).Small().SemiBold().PaddingTop(8.px()).PaddingLeft(12.px()).Foreground(Theme.Secondary.Foreground));
-            content.Add(TextBlock("Pick a range or type yyyy-MM-dd:yyyy-MM-dd (day granularity)").Small().Secondary().PaddingBottom(8.px()).PaddingLeft(12.px()).PaddingRight(12.px()));
-            content.Add(HStack().WS().AlignItems(ItemAlign.Center).PaddingLeft(12.px()).PaddingRight(12.px()).PaddingBottom(8.px()).Children(picker));
+            content.Add(TextBlock(handler.DisplayName).Small().SemiBold().PT(8).PL(12).Foreground(Theme.Secondary.Foreground));
+            content.Add(HStack().WS().AlignItems(ItemAlign.Center).PL(12).PR(12).PB(8).Children(picker));
 
             var applyBtn = Button("Apply range").Primary().SetIcon(UIcons.Check).WS();
             applyBtn.OnClick(() =>
@@ -1754,14 +1753,23 @@ namespace Tesserae
                 if (to < from) { var swap = from; from = to; to = swap; }
                 CommitTimeFilterSnap(handler, trigger, from, to);
             });
-            content.Add(HStack().WS().PaddingLeft(12.px()).PaddingRight(12.px()).PaddingBottom(8.px()).Children(applyBtn));
+            content.Add(HStack().WS().PL(12).PR(12).PB(8).Children(applyBtn));
             _currentFilterSnapSuggestionButtons.Add(applyBtn);
 
-            content.Add(TextBlock("Shortcuts").Small().SemiBold().PaddingBottom(4.px()).PaddingLeft(12.px()).Foreground(Theme.Secondary.Foreground));
             AddTimeFilterSnapShortcut(content, handler, trigger, "Last week", today.AddDays(-7), today);
             AddTimeFilterSnapShortcut(content, handler, trigger, "Last month", today.AddMonths(-1), today);
             AddTimeFilterSnapShortcut(content, handler, trigger, "Last 90 days", today.AddDays(-90), today);
             AddTimeFilterSnapShortcut(content, handler, trigger, "Last year", today.AddYears(-1), today);
+
+            bool allowHide = true;
+            double clearAbortHide = 0;
+
+            picker.OnChange((_,__) =>
+            {
+                allowHide = false;
+                window.clearTimeout(clearAbortHide);
+                clearAbortHide = window.setTimeout((___) => allowHide = true, 1500);
+            });
 
             if (_hideFilterSnapSuggestions != null)
             {
@@ -1769,16 +1777,17 @@ namespace Tesserae
                 _hideFilterSnapSuggestions = null;
             }
 
+
             _timeFilterSnapOpen = true;
-            Tippy.ShowFor(_activeInput, content.Render(), out _hideFilterSnapSuggestions, placement: TooltipPlacement.BottomStart, maxWidth: 360, onHiddenCallback: () => { _hideFilterSnapSuggestions = null; _timeFilterSnapOpen = false; });
+            Tippy.ShowFor(_activeInput, content.Render(), out _hideFilterSnapSuggestions, placement: TooltipPlacement.BottomStart, maxWidth: 360, onHide: () => allowHide, onHiddenCallback: () => { _hideFilterSnapSuggestions = null; _timeFilterSnapOpen = false; });
             HighlightFilterSnapSuggestion(0);
         }
 
         private void AddTimeFilterSnapShortcut(Stack content, FilterSnapHandler handler, string trigger, string label, DateTime from, DateTime to)
         {
-            var preview = from.ToString("yyyy-MM-dd") + ":" + to.ToString("yyyy-MM-dd");
+            var preview = from.ToString("yyyy-MM-dd") + " to " + to.ToString("yyyy-MM-dd");
             var btn = Button().Class("tss-omnibox-snap-suggestion").Class("tss-omnibox-filter-snap-suggestion").WS().NoPadding().NoMinSize().H(32).MB(4).NoBorder().NoBackground().TextLeft();
-            var row = HStack().WS().AlignItems(ItemAlign.Center).PaddingLeft(12.px()).PaddingRight(12.px());
+            var row = HStack().WS().AlignItems(ItemAlign.Center).PL(12).PR(12);
             row.Add(TextBlock(label));
             row.Add(TextBlock(preview).Small().Secondary().ML(UnitSize.Auto()));
             btn.ReplaceContent(row);
