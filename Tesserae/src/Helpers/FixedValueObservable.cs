@@ -1,4 +1,6 @@
-﻿namespace Tesserae
+﻿using System;
+
+namespace Tesserae
 {
     /// <summary>
     /// Sometimes you want a Defer component that will take multiple observable inputs and update when any of them change - but you may also sometimes want one or more of those inputs to actually be fixed inputs (and example is in an editor
@@ -22,5 +24,11 @@
         void IObservable<TItem>.Observe(ObservableEvent.ValueChanged<TItem>              valueGetter) { }
         void IObservable<TItem>.ObserveFutureChanges(ObservableEvent.ValueChanged<TItem> valueGetter) { }
         void IObservable<TItem>.StopObserving(ObservableEvent.ValueChanged<TItem>        valueGetter) { }
+
+        IDisposable IObservable<TItem>.Subscribe(Action<TItem> callback, bool fireImmediately)
+        {
+            if (fireImmediately) callback(Value);
+            return Subscription.Empty;
+        }
     }
 }

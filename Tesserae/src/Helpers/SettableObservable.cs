@@ -18,6 +18,11 @@ namespace Tesserae
         public static SettableObservable<T> For<T>(T value, IEqualityComparer<T> comparer = null) => new SettableObservable<T>(value, comparer);
 
         /// <summary>
+        /// Short alias for <see cref="For{T}"/> that reads naturally next to a binding call (e.g. <c>SettableObservable.Of("Ada")</c>).
+        /// </summary>
+        public static SettableObservable<T> Of<T>(T value, IEqualityComparer<T> comparer = null) => new SettableObservable<T>(value, comparer);
+
+        /// <summary>
         /// Toggles the boolean value of the SettableObservable.
         /// </summary>
         /// <param name="observable">The observable boolean.</param>

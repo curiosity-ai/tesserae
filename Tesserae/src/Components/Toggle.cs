@@ -7,7 +7,7 @@ namespace Tesserae
     /// A Toggle component that allows users to switch between two states (on/off).
     /// </summary>
     [H5.Name("tss.Toggle")]
-    public class Toggle : ComponentBase<Toggle, HTMLInputElement>, IObservableComponent<bool>, IRoundedStyle, ITextFormating
+    public class Toggle : ComponentBase<Toggle, HTMLInputElement>, IBindableComponent<bool>, IRoundedStyle, ITextFormating
     {
         private readonly HTMLElement              _checkElement;
         private readonly HTMLElement              _onOffSpan;
@@ -170,6 +170,11 @@ namespace Tesserae
         {
             return _observable;
         }
+
+        /// <summary>
+        /// Programmatically updates the toggle as part of a two-way binding (no DOM change-event echo).
+        /// </summary>
+        public void SetBoundValue(bool value) => IsChecked = value;
 
         /// <summary>Gets or sets the text size.</summary>
         public TextSize Size

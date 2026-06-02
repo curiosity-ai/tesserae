@@ -10,7 +10,7 @@ namespace Tesserae
     /// </summary>
     /// <typeparam name="TInput">The concrete input type (CRTP self-reference for fluent return types).</typeparam>
     [H5.Name("tss.Input")]
-    public abstract class Input<TInput> : ComponentBase<TInput, HTMLInputElement>, ITabIndex, ICanValidate<TInput>, IObservableComponent<string> where TInput : Input<TInput>
+    public abstract class Input<TInput> : ComponentBase<TInput, HTMLInputElement>, ITabIndex, ICanValidate<TInput>, IBindableComponent<string> where TInput : Input<TInput>
     {
         private readonly HTMLDivElement             _container;
         private readonly HTMLSpanElement            _errorSpan;
@@ -226,6 +226,15 @@ namespace Tesserae
         /// Returns the component's state as a(n) observable.
         /// </summary>
         public IObservable<string> AsObservable() => _observable;
+
+        /// <summary>
+        /// Programmatically updates the input as part of a two-way binding (DOM input event is not raised).
+        /// </summary>
+        public void SetBoundValue(string value)
+        {
+            InnerElement.value = value;
+            _observable.Value  = value;
+        }
 
         /// <summary>
         /// Renders the component's root HTML element.

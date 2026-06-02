@@ -67,6 +67,18 @@ namespace Tesserae
         /// <summary>Unregisters a change callback.</summary>
         public void StopObserving(ObservableEvent.ValueChanged<IReadOnlyList<T>> valueGetter) => ValueChanged -= valueGetter;
 
+        /// <summary>
+        /// Registers the callback for value changes and returns an IDisposable that, when disposed, unregisters
+        /// the callback.
+        /// </summary>
+        public IDisposable Subscribe(Action<IReadOnlyList<T>> callback, bool fireImmediately = true)
+        {
+            ObservableEvent.ValueChanged<IReadOnlyList<T>> handler = v => callback(v);
+            ValueChanged += handler;
+            if (fireImmediately) callback(Value);
+            return new Subscription(() => ValueChanged -= handler);
+        }
+
         /// <summary>Gets or sets the item at the specified index.</summary>
         public T this[int index]
         {

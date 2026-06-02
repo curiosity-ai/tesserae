@@ -7,7 +7,7 @@ namespace Tesserae
     /// A two-state form control (checked / unchecked) used for boolean values.
     /// </summary>
     [H5.Name("tss.ChecBox")]
-    public class CheckBox : ComponentBase<CheckBox, HTMLInputElement>, IObservableComponent<bool>, IRoundedStyle, ITextFormating
+    public class CheckBox : ComponentBase<CheckBox, HTMLInputElement>, IBindableComponent<bool>, IRoundedStyle, ITextFormating
     {
         private readonly HTMLSpanElement          _checkSpan;
         private readonly HTMLLabelElement         _label;
@@ -151,5 +151,10 @@ namespace Tesserae
         {
             return _observable;
         }
+
+        /// <summary>
+        /// Programmatically updates the checkbox as part of a two-way binding (no DOM change-event echo).
+        /// </summary>
+        public void SetBoundValue(bool value) => IsChecked = value;
     }
 }

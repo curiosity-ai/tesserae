@@ -1,4 +1,6 @@
-﻿namespace Tesserae
+﻿using System;
+
+namespace Tesserae
 {
     /// <summary>
     /// Combines two or more <see cref="IObservable{T}"/> instances into a single observable that emits a tuple of
@@ -62,6 +64,18 @@
         /// Stops a previously-registered callback from receiving further change notifications.
         /// </summary>
         public void StopObserving(ObservableEvent.ValueChanged<(T1 first, T2 second, T3 third, T4 forth, T5 fifth)> valueGetter) => ValueChanged -= valueGetter;
+
+        /// <summary>
+        /// Registers the callback for value changes and returns an IDisposable that, when disposed, unregisters
+        /// the callback.
+        /// </summary>
+        public IDisposable Subscribe(Action<(T1 first, T2 second, T3 third, T4 forth, T5 fifth)> callback, bool fireImmediately = true)
+        {
+            ObservableEvent.ValueChanged<(T1 first, T2 second, T3 third, T4 forth, T5 fifth)> handler = v => callback(v);
+            ValueChanged += handler;
+            if (fireImmediately) callback(Value);
+            return new Subscription(() => ValueChanged -= handler);
+        }
 
         private void RaiseOnValueChanged()
         {

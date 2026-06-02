@@ -73,6 +73,18 @@ namespace Tesserae
         public void StopObserving(ObservableEvent.ValueChanged<IReadOnlyDictionary<TKey, TValue>> valueGetter) => ValueChanged -= valueGetter;
 
         /// <summary>
+        /// Registers the callback for value changes and returns an IDisposable that, when disposed, unregisters
+        /// the callback.
+        /// </summary>
+        public IDisposable Subscribe(Action<IReadOnlyDictionary<TKey, TValue>> callback, bool fireImmediately = true)
+        {
+            ObservableEvent.ValueChanged<IReadOnlyDictionary<TKey, TValue>> handler = v => callback(v);
+            ValueChanged += handler;
+            if (fireImmediately) callback(Value);
+            return new Subscription(() => ValueChanged -= handler);
+        }
+
+        /// <summary>
         /// Gets or sets the element at the specified index.
         /// </summary>
         public TValue this[TKey key]
