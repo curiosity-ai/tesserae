@@ -1,0 +1,75 @@
+/* Questionnaire — inline question with selectable answer options */
+
+.tss-questionnaire {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: 8px;
+    background: var(--tss-default-background-color);
+    padding: 12px 14px;
+    box-sizing: border-box;
+    max-width: 100%;
+}
+
+.tss-questionnaire-question {
+    font-weight: var(--tss-font-weight-semibold, 600);
+    font-size: 14px;
+    color: var(--tss-colors-neutral-800, #1f2937);
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.tss-questionnaire-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.tss-questionnaire-option {
+    background: var(--tss-default-background-color);
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: 999px;
+    padding: 6px 12px;
+    font-size: 13px;
+    color: var(--tss-colors-neutral-800, #1f2937);
+    cursor: pointer;
+    transition: background-color 120ms ease, border-color 120ms ease, color 120ms ease;
+    font-family: inherit;
+    line-height: 1.2;
+}
+
+.tss-questionnaire-option:hover:not(:disabled) {
+    background: var(--tss-default-background-hover-color);
+    border-color: var(--tss-colors-primary-400, #60a5fa);
+}
+
+.tss-questionnaire-option:disabled {
+    cursor: default;
+    opacity: 0.7;
+}
+
+.tss-questionnaire-answered .tss-questionnaire-option {
+    opacity: 0.55;
+}
+
+.tss-questionnaire-answered .tss-questionnaire-option.tss-questionnaire-option-selected {
+    background: var(--tss-colors-primary-500, #3b82f6);
+    border-color: var(--tss-colors-primary-500, #3b82f6);
+    color: #ffffff;
+    opacity: 1;
+    font-weight: var(--tss-font-weight-semibold, 600);
+}
+
+.tss-questionnaire-answered-badge {
+    display: inline-block;
+    margin-top: 4px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    background: var(--tss-colors-primary-50, #eff6ff);
+    color: var(--tss-colors-primary-700, #1d4ed8);
+    font-size: 13px;
+    font-weight: var(--tss-font-weight-semibold, 600);
+    white-space: pre-wrap;
+    word-break: break-word;
+}
