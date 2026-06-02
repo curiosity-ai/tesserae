@@ -11,13 +11,15 @@ namespace Tesserae
     /// close button.
     /// </summary>
     [H5.Name("tss.Modal")]
-    public sealed class Modal : Layer<Modal>, ISpecialCaseStyling, IHasBackgroundColor
+    public sealed class Modal : Layer<Modal>, ISpecialCaseStyling, IHasBackgroundColor, IBindableComponent<bool>
     {
         private event OnShowHandler Shown;
         public delegate void        OnShowHandler(Modal sender);
 
         private event OnHideHandler Hidden;
         public delegate void        OnHideHandler(Modal sender);
+
+        private readonly SettableObservable<bool> _observable = new SettableObservable<bool>();
 
         private readonly HTMLElement    _closeButton;
         private readonly HTMLElement    _modalHeader;
@@ -535,6 +537,7 @@ namespace Tesserae
             if (!IsNonBlocking) document.body.style.overflowY = "hidden";
             base.Show();
             _modal.focus(); // 2020-05-01 DWR: We need to put focus into the modal container in order to pick up keypresses
+            _observable.Value = true;
             RaiseOnShow();
         }
 
@@ -579,12 +582,33 @@ namespace Tesserae
         public override void Hide(Action onHidden = null)
         {
             RaiseOnHide();
+            _observable.Value = false;
 
             base.Hide(() =>
             {
                 if (!IsNonBlocking) document.body.style.overflowY = "";
                 onHidden?.Invoke();
             });
+        }
+
+        /// <summary>
+        /// Returns an observable that tracks the visibility of the modal.
+        /// </summary>
+        public IObservable<bool> AsObservable() => _observable;
+
+        /// <summary>
+        /// Programmatically shows or hides the modal as part of a two-way binding.
+        /// </summary>
+        public void SetBoundValue(bool value)
+        {
+            if (value)
+            {
+                if (!IsVisible) Show();
+            }
+            else
+            {
+                if (IsVisible) Hide();
+            }
         }
 
         protected override HTMLElement BuildRenderedContent()
