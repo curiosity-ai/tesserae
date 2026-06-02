@@ -7,7 +7,7 @@ namespace Tesserae
     /// action runs at most once; subsequent Dispose calls are no-ops.
     /// </summary>
     [H5.Name("tss.Subscription")]
-    internal sealed class Subscription : IDisposable
+    public sealed class Subscription : IDisposable
     {
         /// <summary>An IDisposable whose Dispose is a no-op. Returned from observables that never change.</summary>
         public static readonly IDisposable Empty = new Subscription(() => { });
