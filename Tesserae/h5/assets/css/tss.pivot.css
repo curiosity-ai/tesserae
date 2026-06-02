@@ -63,22 +63,15 @@
 
     .tss-pivot-titlebar > .tss-pivot-selected-title {
         font-weight: var(--tss-font-weight-semibold);
-        background: var(--tss-default-background-color);
+        background: transparent;
     }
 
         .tss-pivot-titlebar > .tss-pivot-selected-title > span {
             font-weight: var(--tss-font-weight-semibold);
-            background: var(--tss-default-background-color);
-        }
-
-        .tss-pivot-titlebar > .tss-pivot-selected-title:hover > span {
-            background-color: unset;
-            border-color: unset;
         }
 
         .tss-pivot-titlebar > .tss-pivot-selected-title > div {
             font-weight: var(--tss-font-weight-semibold);
-            background: var(--tss-default-background-color);
         }
 
 .tss-pivot-titlebar-more,
