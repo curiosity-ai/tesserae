@@ -12,7 +12,7 @@ namespace Tesserae
     /// A Sidebar component that can be collapsed or expanded, containing header, middle, and footer sections.
     /// </summary>
     [H5.Name("tss.Sidebar")]
-    public sealed class Sidebar : IComponent
+    public sealed class Sidebar : IComponent, IBindableComponent<bool>
     {
         private readonly ObservableList<ISidebarItem>                    _header;
         private readonly SettableObservable<IReadOnlyList<ISidebarItem>> _middleContent;
@@ -442,6 +442,16 @@ namespace Tesserae
         /// </summary>
         /// <returns>The rendered HTMLElement.</returns>
         public HTMLElement Render() => _sidebar.Render();
+
+        /// <summary>
+        /// Returns an observable that tracks the closed/open state of the sidebar.
+        /// </summary>
+        public IObservable<bool> AsObservable() => _closed;
+
+        /// <summary>
+        /// Programmatically opens or closes the sidebar as part of a two-way binding.
+        /// </summary>
+        public void SetBoundValue(bool value) => _closed.Value = value;
 
 
         /// <summary>

@@ -30,6 +30,8 @@ namespace Tesserae.Tests.Samples
             var month       = SettableObservable.Of<(int year, int month)?>(null);
             var time        = SettableObservable.Of<DateTimeOffset?>(null);
             var trip        = SettableObservable.Of<(DateTime? from, DateTime? to)>((null, null));
+            var pivotTab    = SettableObservable.Of("alpha");
+            var sidebarOpen = SettableObservable.Of(true);
 
             var demoModal = Modal("Bound modal")
                 .Content(Stack().Children(
@@ -186,6 +188,25 @@ namespace Tesserae.Tests.Samples
                             DeferSync(trip, r => TextBlock(
                                 (r.from.HasValue ? r.from.Value.ToString("yyyy-MM-dd") : "?") + " → " +
                                 (r.to.HasValue   ? r.to.Value.ToString("yyyy-MM-dd")   : "?")).SemiBold().ML(8))
+                        ),
+
+                        SampleSubTitle("Pivot bound to a string observable"),
+                        TextBlock("Clicking a tab updates the observable; the buttons below jump directly. Two pivots bound to the same observable stay in lock-step."),
+                        Pivot()
+                            .Pivot("alpha", PivotTitle("Alpha"), () => TextBlock("Alpha content").P(8))
+                            .Pivot("beta",  PivotTitle("Beta"),  () => TextBlock("Beta content").P(8))
+                            .Pivot("gamma", PivotTitle("Gamma"), () => TextBlock("Gamma content").P(8))
+                            .Bind(pivotTab),
+                        Pivot()
+                            .Pivot("alpha", PivotTitle("Alpha"), () => TextBlock("Alpha mirror").P(8))
+                            .Pivot("beta",  PivotTitle("Beta"),  () => TextBlock("Beta mirror").P(8))
+                            .Pivot("gamma", PivotTitle("Gamma"), () => TextBlock("Gamma mirror").P(8))
+                            .Bind(pivotTab),
+                        HStack().Children(
+                            Button("alpha").OnClick(() => pivotTab.Value = "alpha"),
+                            Button("beta").OnClick(()  => pivotTab.Value = "beta"),
+                            Button("gamma").OnClick(() => pivotTab.Value = "gamma"),
+                            DeferSync(pivotTab, t => TextBlock($"selected = {t}").SemiBold().ML(8))
                         )
                     )).SetTitle("Usage")));
 

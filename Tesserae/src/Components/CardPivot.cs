@@ -10,12 +10,14 @@ namespace Tesserae
     /// A pivot variant that styles each tab as a card, used for dashboard-style switching between rich panels.
     /// </summary>
     [H5.Name("tss.CardPivot")]
-    public sealed class CardPivot : IComponent
+    public sealed class CardPivot : IComponent, IBindableComponent<string>
     {
         public delegate void PivotEventHandler<TEventArgs>(CardPivot sender, TEventArgs e);
 
         private event PivotEventHandler<PivotBeforeNavigateEvent> _beforeNavigated;
         private event PivotEventHandler<PivotNavigateEvent> _navigated;
+
+        private readonly SettableObservable<string> _observable = new SettableObservable<string>();
 
         private readonly List<Tab> _orderedTabs = new List<Tab>();
         private readonly Dictionary<Tab, HTMLElement> _renderedTitles = new Dictionary<Tab, HTMLElement>();
@@ -125,11 +127,27 @@ namespace Tesserae
 
                     _renderedContent.appendChild(content);
 
+                    _observable.Value = _currentSelectedID;
+
                     var pne = new PivotNavigateEvent(_currentSelectedID, id);
                     _navigated?.Invoke(this, pne);
                 }
             }
             return this;
+        }
+
+        /// <summary>
+        /// Returns an observable that tracks the id of the currently-selected tab.
+        /// </summary>
+        public IObservable<string> AsObservable() => _observable;
+
+        /// <summary>
+        /// Programmatically selects a tab by id as part of a two-way binding.
+        /// </summary>
+        public void SetBoundValue(string value)
+        {
+            if (string.IsNullOrEmpty(value)) return;
+            Select(value);
         }
 
         private void ClearChildrenExceptCached()
