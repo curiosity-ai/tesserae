@@ -107,16 +107,24 @@ namespace Tesserae
             }
         }
 
-        public static UIcons StatusIcon(PlanStatus status)
+        // Status glyphs from Lucide (https://lucide.dev, ISC license), matching
+        // the design. Rendered inline as SVG so they inherit `currentColor` and
+        // — thanks to a symmetric 24x24 viewBox — spin around their own center
+        // instead of orbiting (which a font glyph would do).
+        public static string StatusSvg(PlanStatus status)
         {
+            string inner;
             switch (status)
             {
-                case PlanStatus.Running:   return UIcons.Loading;
-                case PlanStatus.Completed: return UIcons.CheckCircle;
-                case PlanStatus.Failed:    return UIcons.CrossCircle;
-                case PlanStatus.Canceled:  return UIcons.Ban;
-                default:                   return UIcons.Circle;
+                case PlanStatus.Running:   inner = "<path d=\"M21 12a9 9 0 1 1-6.219-8.56\"/>"; break;
+                case PlanStatus.Completed: inner = "<circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"m9 12 2 2 4-4\"/>"; break;
+                case PlanStatus.Failed:    inner = "<circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"m15 9-6 6\"/><path d=\"m9 9 6 6\"/>"; break;
+                case PlanStatus.Canceled:  inner = "<circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"m4.9 4.9 14.2 14.2\"/>"; break;
+                default:                   inner = "<circle cx=\"12\" cy=\"12\" r=\"10\"/>"; break;
             }
+            return "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" " +
+                   "stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">" +
+                   inner + "</svg>";
         }
 
         public static string StatusText(PlanStatus status)
@@ -650,7 +658,7 @@ namespace Tesserae
         public class Task : IComponent
         {
             private readonly HTMLElement _root;
-            private readonly Icon _icon;
+            private readonly HTMLElement _iconSlot;
             private readonly HTMLElement _textEl;
             private readonly HTMLElement _stageEl;
             private readonly HTMLElement _toggleEl;
@@ -700,10 +708,10 @@ namespace Tesserae
                 Key = key;
                 _status = status;
 
-                // Rail / status node.
-                _icon = Icon(PlanVisuals.StatusIcon(status));
-                var iconWrap = Div(_("tss-plan-step-icon"), _icon.Render());
-                var rail = Div(_("tss-plan-step-rail"), iconWrap);
+                // Rail / status node (Lucide SVG glyph; spins in place when running).
+                _iconSlot = Div(_("tss-plan-step-icon"));
+                _iconSlot.innerHTML = PlanVisuals.StatusSvg(status);
+                var rail = Div(_("tss-plan-step-rail"), _iconSlot);
 
                 // Title row (text + expand/collapse chevron).
                 _textEl = Span(_("tss-plan-step-text"));
@@ -789,12 +797,16 @@ namespace Tesserae
 
             private void ApplyStatus(PlanStatus status)
             {
+                // Only re-render the SVG when the status actually changes, so the
+                // running glyph's spin animation isn't restarted on every update.
+                // Color + spin come from the parent `.is-*` class via CSS.
+                if (status != _status)
+                {
+                    _iconSlot.innerHTML = PlanVisuals.StatusSvg(status);
+                }
                 _status = status;
                 PlanVisuals.RemoveStepStatusClasses(_root);
                 _root.classList.add(PlanVisuals.StepStatusClass(status));
-                // Icon color + spin come from the parent `.is-*` class via CSS;
-                // here we only swap the glyph.
-                _icon.SetIcon(PlanVisuals.StatusIcon(status));
             }
 
             private void ToggleExpanded()
@@ -853,8 +865,7 @@ namespace Tesserae
 
             private static HTMLElement BuildSubstepEl(PlanSubstepModel sub)
             {
-                var iconEl = I(_("tss-icon"));
-                var iconWrap = Div(_("tss-plan-substep-icon"), iconEl);
+                var iconWrap = Div(_("tss-plan-substep-icon"));
                 var titleEl = Div(_("tss-plan-substep-title"));
                 var msgEl = Div(_("tss-plan-substep-message"));
                 var body = Div(_("tss-plan-substep-body"), titleEl, msgEl);
@@ -865,19 +876,22 @@ namespace Tesserae
 
             private static void UpdateSubstepEl(HTMLElement root, PlanSubstepModel sub)
             {
-                // Children: [iconWrap[iconEl], body[titleEl, msgEl]]
+                // Children: [iconWrap, body[titleEl, msgEl]]
                 var iconWrap = (HTMLElement)root.childNodes[0];
-                var iconEl = (HTMLElement)iconWrap.childNodes[0];
                 var body = (HTMLElement)root.childNodes[1];
                 var titleEl = (HTMLElement)body.childNodes[0];
                 var msgEl = (HTMLElement)body.childNodes[1];
 
-                // Status class (drives icon color via CSS)
-                PlanVisuals.RemoveStepStatusClasses(root);
-                root.classList.add(PlanVisuals.StepStatusClass(sub.Status));
-
-                // Icon glyph (UIcons font class). Color/size come from CSS.
-                iconEl.className = "tss-icon " + Tesserae.Icon.Transform(PlanVisuals.StatusIcon(sub.Status), UIconsWeight.Regular);
+                // Status class + SVG glyph (color/size via CSS). Only re-render
+                // when the status changes so a running glyph's spin isn't reset.
+                var statusName = sub.Status.ToString();
+                if (root.dataset["pstatus"].As<string>() != statusName)
+                {
+                    PlanVisuals.RemoveStepStatusClasses(root);
+                    root.classList.add(PlanVisuals.StepStatusClass(sub.Status));
+                    iconWrap.innerHTML = PlanVisuals.StatusSvg(sub.Status);
+                    root.dataset["pstatus"] = statusName;
+                }
 
                 // Title
                 titleEl.innerText = sub.Title ?? string.Empty;
