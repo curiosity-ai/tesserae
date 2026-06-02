@@ -1,3 +1,4 @@
+using System;
 using static H5.Core.dom;
 using static Tesserae.UI;
 using static Tesserae.Tests.Samples.SamplesHelper;
@@ -24,6 +25,11 @@ namespace Tesserae.Tests.Samples
             var step        = SettableObservable.Of(0);
             var page        = SettableObservable.Of(1);
             var slide       = SettableObservable.Of(0);
+            var birthday    = SettableObservable.Of<DateTime?>(new DateTime(1990, 1, 1));
+            var meeting     = SettableObservable.Of<DateTime?>(null);
+            var month       = SettableObservable.Of<(int year, int month)?>(null);
+            var time        = SettableObservable.Of<DateTimeOffset?>(null);
+            var trip        = SettableObservable.Of<(DateTime? from, DateTime? to)>((null, null));
 
             var demoModal = Modal("Bound modal")
                 .Content(Stack().Children(
@@ -142,6 +148,44 @@ namespace Tesserae.Tests.Samples
                             Button("1").OnClick(() => slide.Value = 1),
                             Button("2").OnClick(() => slide.Value = 2),
                             DeferSync(slide, s => TextBlock($"slide = {s}").SemiBold().ML(8))
+                        ),
+
+                        SampleSubTitle("DatePicker bound to a DateTime? observable"),
+                        TextBlock("Two date pickers share the same observable; the buttons below mutate it."),
+                        HStack().Children(
+                            DatePicker().Bind(birthday),
+                            DatePicker().Bind(birthday)
+                        ),
+                        HStack().Children(
+                            Button("Today").OnClick(() => birthday.Value = DateTime.Today),
+                            Button("Y2K").OnClick(()   => birthday.Value = new DateTime(2000, 1, 1)),
+                            Button("Clear").OnClick(() => birthday.Value = null),
+                            DeferSync(birthday, b => TextBlock(b.HasValue ? b.Value.ToString("yyyy-MM-dd") : "(empty)").SemiBold().ML(8))
+                        ),
+
+                        SampleSubTitle("DateTimePicker / MonthPicker / TimePicker — all the same shape"),
+                        HStack().Children(
+                            DateTimePicker().Bind(meeting),
+                            DeferSync(meeting, m => TextBlock(m.HasValue ? m.Value.ToString("yyyy-MM-dd HH:mm") : "(no meeting)").SemiBold().ML(8))
+                        ),
+                        HStack().Children(
+                            new MonthPicker(null).Bind(month),
+                            DeferSync(month, m => TextBlock(m.HasValue ? $"{m.Value.year}-{m.Value.month:D2}" : "(no month)").SemiBold().ML(8))
+                        ),
+                        HStack().Children(
+                            new TimePicker().Bind(time),
+                            DeferSync(time, t => TextBlock(t.HasValue ? t.Value.ToString("HH:mm:ss") : "(no time)").SemiBold().ML(8))
+                        ),
+
+                        SampleSubTitle("DateRangePicker bound to a (DateTime?, DateTime?) observable"),
+                        TextBlock("The range picker keeps its two halves in sync; the buttons below drive both at once."),
+                        DateRangePicker().Bind(trip),
+                        HStack().Children(
+                            Button("This week").OnClick(() => trip.Value = (DateTime.Today, DateTime.Today.AddDays(7))),
+                            Button("Clear").OnClick(()    => trip.Value = (null, null)),
+                            DeferSync(trip, r => TextBlock(
+                                (r.from.HasValue ? r.from.Value.ToString("yyyy-MM-dd") : "?") + " → " +
+                                (r.to.HasValue   ? r.to.Value.ToString("yyyy-MM-dd")   : "?")).SemiBold().ML(8))
                         )
                     )).SetTitle("Usage")));
 
