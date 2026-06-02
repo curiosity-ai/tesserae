@@ -166,6 +166,7 @@
         "h5/assets/css/tss.kbd.css",
         "h5/assets/css/tss.notificationcenter.css",
         "h5/assets/css/tss.markdown.css",
+        "h5/assets/css/tss.plan.css",
         "h5/assets/css/diff2html.min.css"
       ],
       "output": "assets/css"
