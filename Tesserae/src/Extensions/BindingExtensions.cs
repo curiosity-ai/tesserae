@@ -12,14 +12,28 @@ namespace Tesserae
         /// and programmatic changes to <paramref name="source"/> are reflected in the component.
         /// The component is seeded from <paramref name="source"/>.Value at call time — any prior
         /// SetValue/SetText/IsChecked configuration on the component is overwritten.
+        /// The binding lives for the lifetime of <paramref name="component"/> and <paramref name="source"/>;
+        /// use the <see cref="SubscriptionScope"/> overload if you need to tear it down earlier.
         /// </summary>
         public static TComponent Bind<TComponent, T>(this TComponent component, SettableObservable<T> source)
             where TComponent : IBindableComponent<T>
-        {
-            component.SetBoundValue(source.Value);
+            => Bind(component, source, scope: null);
 
-            component.AsObservable().ObserveFutureChanges(v => source.Value = v);
-            source.ObserveFutureChanges(v => component.SetBoundValue(v));
+        /// <summary>
+        /// Two-way binding overload that registers both subscriptions with <paramref name="scope"/>;
+        /// disposing the scope releases the binding.
+        /// </summary>
+        public static TComponent Bind<TComponent, T>(this TComponent component, SettableObservable<T> source, SubscriptionScope scope)
+            where TComponent : IBindableComponent<T>
+        {
+            var fromComponent = component.AsObservable().Subscribe(v => source.Value = v,    fireImmediately: false);
+            var fromSource    = source.Subscribe(            v => component.SetBoundValue(v), fireImmediately: true);
+
+            if (scope != null)
+            {
+                scope.Add(fromComponent);
+                scope.Add(fromSource);
+            }
 
             return component;
         }
