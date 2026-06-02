@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using static H5.Core.dom;
 using static Tesserae.UI;
 using static Tesserae.Tests.Samples.SamplesHelper;
@@ -32,6 +34,7 @@ namespace Tesserae.Tests.Samples
             var trip        = SettableObservable.Of<(DateTime? from, DateTime? to)>((null, null));
             var pivotTab    = SettableObservable.Of("alpha");
             var sidebarOpen = SettableObservable.Of(true);
+            var tags        = SettableObservable.Of<IReadOnlyList<string>>(new[] { "red", "green" });
 
             var demoModal = Modal("Bound modal")
                 .Content(Stack().Children(
@@ -188,6 +191,16 @@ namespace Tesserae.Tests.Samples
                             DeferSync(trip, r => TextBlock(
                                 (r.from.HasValue ? r.from.Value.ToString("yyyy-MM-dd") : "?") + " → " +
                                 (r.to.HasValue   ? r.to.Value.ToString("yyyy-MM-dd")   : "?")).SemiBold().ML(8))
+                        ),
+
+                        SampleSubTitle("TagsInput bound to a list observable"),
+                        TextBlock("Two tag inputs share the same SettableObservable<IReadOnlyList<string>>. Adding / removing tags in either one updates the other and the read-out below. The buttons replace the whole list at once."),
+                        TagsInput().Bind(tags),
+                        TagsInput().Bind(tags),
+                        HStack().Children(
+                            Button("Set [a, b, c]").OnClick(() => tags.Value = new[] { "a", "b", "c" }),
+                            Button("Clear").OnClick(()        => tags.Value = Array.Empty<string>()),
+                            DeferSync(tags, ts => TextBlock(ts.Count == 0 ? "(empty)" : string.Join(", ", ts)).SemiBold().ML(8))
                         ),
 
                         SampleSubTitle("Pivot bound to a string observable"),

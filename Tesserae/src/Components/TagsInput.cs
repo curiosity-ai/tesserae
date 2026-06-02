@@ -24,7 +24,7 @@ namespace Tesserae
     /// </para>
     /// </remarks>
     [H5.Name("tss.TagsInput")]
-    public sealed class TagsInput : IComponent, IHasMarginPadding
+    public sealed class TagsInput : IComponent, IHasMarginPadding, IBindableListComponent<string>
     {
         private readonly HTMLDivElement   _container;
         private readonly HTMLInputElement _input;
@@ -137,6 +137,23 @@ namespace Tesserae
         /// <summary>Programmatically adds a tag (subject to duplicate/max checks and the normalizer).</summary>
         /// <returns><c>true</c> if the tag was added; <c>false</c> if rejected.</returns>
         public bool Add(string tag) => TryAdd(tag, raiseEvents: true);
+
+        /// <summary>
+        /// Programmatically replaces the entire tag list as part of a two-way binding.
+        /// Existing tags are cleared first. Per-tag normalize / duplicate / max rules still apply.
+        /// </summary>
+        public void SetBoundValues(IReadOnlyList<string> values)
+        {
+            // Clear the existing tags silently. We can't reuse Clear() because it calls _onChange
+            // unconditionally; here we batch the change and publish at the end.
+            for (var i = _tags.Count - 1; i >= 0; i--) RemoveAt(i, raiseEvents: false);
+
+            if (values is object)
+            {
+                foreach (var v in values) TryAdd(v, raiseEvents: false);
+            }
+            RefreshObservable();
+        }
 
         /// <summary>Removes the first occurrence of the given tag, if present.</summary>
         public bool Remove(string tag)

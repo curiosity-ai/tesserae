@@ -41,4 +41,20 @@ namespace Tesserae
         /// </summary>
         void SetBoundValue(T value);
     }
+
+    /// <summary>
+    /// Defines a list-shaped component whose value can both be observed and programmatically replaced,
+    /// enabling two-way binding against a SettableObservable&lt;IReadOnlyList&lt;T&gt;&gt; via the .Bind extension.
+    /// </summary>
+    /// <typeparam name="T">The type of the items in the list.</typeparam>
+    [H5.Name("tss.IBindableListComponent")]
+    public interface IBindableListComponent<T> : IObservableListComponent<T>
+    {
+        /// <summary>
+        /// Replaces the component's items as the result of a binding push from a source observable.
+        /// Implementations must update the visual/DOM state and the internal observable, but must
+        /// not raise a user-interaction event that would echo back to the bound source.
+        /// </summary>
+        void SetBoundValues(IReadOnlyList<T> values);
+    }
 }
