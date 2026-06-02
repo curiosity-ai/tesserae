@@ -19,6 +19,11 @@ namespace Tesserae.Tests.Samples
             var expanded    = SettableObservable.Of(false);
             var modalOpen   = SettableObservable.Of(false);
             var panelOpen   = SettableObservable.Of(false);
+            var volume      = SettableObservable.Of(40);
+            var rating      = SettableObservable.Of(0);
+            var step        = SettableObservable.Of(0);
+            var page        = SettableObservable.Of(1);
+            var slide       = SettableObservable.Of(0);
 
             var demoModal = Modal("Bound modal")
                 .Content(Stack().Children(
@@ -80,6 +85,63 @@ namespace Tesserae.Tests.Samples
                             DeferSync(modalOpen, o => TextBlock(o ? "modal: OPEN" : "modal: closed").SemiBold().ML(8)),
                             Button("Open panel").OnClick(() => panelOpen.Value = true),
                             DeferSync(panelOpen, o => TextBlock(o ? "panel: OPEN" : "panel: closed").SemiBold().ML(8))
+                        ),
+
+                        SampleSubTitle("Slider + NumberPicker sharing one int observable"),
+                        TextBlock("Both controls bind to the same SettableObservable<int>. Dragging the slider updates the number, typing a number moves the slider."),
+                        HStack().Children(
+                            Slider(val: 40, min: 0, max: 100, step: 1).Bind(volume),
+                            NumberPicker(40).Bind(volume).Width(80.px()),
+                            DeferSync(volume, v => TextBlock($"volume = {v}").SemiBold().ML(8))
+                        ),
+
+                        SampleSubTitle("Rating bound to an int observable"),
+                        TextBlock("Clicking stars updates the observable; the buttons below drive it programmatically."),
+                        HStack().Children(
+                            Rating().Bind(rating),
+                            HStack().Children(
+                                Button("0").OnClick(() => rating.Value = 0),
+                                Button("3").OnClick(() => rating.Value = 3),
+                                Button("5").OnClick(() => rating.Value = 5)
+                            ),
+                            DeferSync(rating, r => TextBlock($"{r} / 5").SemiBold().ML(8))
+                        ),
+
+                        SampleSubTitle("Stepper bound to an int observable"),
+                        TextBlock("The current step is the bound value. Clicking the Next/Back buttons inside the stepper updates the observable; the buttons below jump directly."),
+                        Stepper(
+                            new StepperStep("First",  TextBlock("Step 1 content")),
+                            new StepperStep("Second", TextBlock("Step 2 content")),
+                            new StepperStep("Third",  TextBlock("Step 3 content"))
+                        ).Bind(step),
+                        HStack().Children(
+                            Button("Go to 0").OnClick(() => step.Value = 0),
+                            Button("Go to 2").OnClick(() => step.Value = 2),
+                            DeferSync(step, s => TextBlock($"step = {s}").SemiBold().ML(8))
+                        ),
+
+                        SampleSubTitle("Pagination bound to an int observable"),
+                        TextBlock("Clicking a page number updates the observable; the buttons below jump directly."),
+                        Pagination(totalItems: 100, pageSize: 10, currentPage: 1).Bind(page),
+                        HStack().Children(
+                            Button("First").OnClick(() => page.Value = 1),
+                            Button("Page 5").OnClick(() => page.Value = 5),
+                            Button("Last").OnClick(() => page.Value  = 10),
+                            DeferSync(page, p => TextBlock($"page = {p}").SemiBold().ML(8))
+                        ),
+
+                        SampleSubTitle("Carousel bound to an int observable"),
+                        TextBlock("The active slide index is the bound value. Use the arrows or click the dots; the buttons below jump directly."),
+                        Carousel(
+                            Card(TextBlock("Slide 0")).WS(),
+                            Card(TextBlock("Slide 1")).WS(),
+                            Card(TextBlock("Slide 2")).WS()
+                        ).Bind(slide),
+                        HStack().Children(
+                            Button("0").OnClick(() => slide.Value = 0),
+                            Button("1").OnClick(() => slide.Value = 1),
+                            Button("2").OnClick(() => slide.Value = 2),
+                            DeferSync(slide, s => TextBlock($"slide = {s}").SemiBold().ML(8))
                         )
                     )).SetTitle("Usage")));
 

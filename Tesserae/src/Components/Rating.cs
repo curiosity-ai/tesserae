@@ -8,15 +8,16 @@ namespace Tesserae
     /// A star-rating component for collecting or displaying ratings.
     /// </summary>
     [H5.Name("tss.Rating")]
-    public sealed class Rating : ComponentBase<Rating, HTMLElement>
+    public sealed class Rating : ComponentBase<Rating, HTMLElement>, IBindableComponent<int>
     {
-        private readonly HTMLElement[] _stars;
-        private          int           _value;
-        private          int           _hoverValue;
-        private          int           _maxStars;
-        private          bool          _readOnly;
-        private          bool          _allowHalf;
-        private          string        _color;
+        private readonly HTMLElement[]            _stars;
+        private readonly SettableObservable<int>  _observable;
+        private          int                      _value;
+        private          int                      _hoverValue;
+        private          int                      _maxStars;
+        private          bool                     _readOnly;
+        private          bool                     _allowHalf;
+        private          string                   _color;
 
         private event Action<int> ValueChanged;
 
@@ -30,6 +31,7 @@ namespace Tesserae
             _value      = 0;
             _hoverValue = 0;
             _color      = "var(--tss-rating-color, #f5c518)";
+            _observable = new SettableObservable<int>(0);
 
             InnerElement = Div(_("tss-rating", role: "radiogroup", ariaLabel: "Rating"));
             _stars       = new HTMLElement[_maxStars];
@@ -75,10 +77,21 @@ namespace Tesserae
                     _value = clamped;
                     InnerElement.setAttribute("aria-valuenow", _value.ToString());
                     UpdateStars();
+                    _observable.Value = _value;
                     ValueChanged?.Invoke(_value);
                 }
             }
         }
+
+        /// <summary>
+        /// Returns an observable that tracks the rating value.
+        /// </summary>
+        public IObservable<int> AsObservable() => _observable;
+
+        /// <summary>
+        /// Programmatically updates the rating as part of a two-way binding.
+        /// </summary>
+        public void SetBoundValue(int value) => Value = value;
 
         /// <summary>Gets or sets whether the rating is read-only.</summary>
         public bool IsReadOnly

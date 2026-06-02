@@ -35,26 +35,28 @@ namespace Tesserae
     }
 
     [H5.Name("tss.Stepper")]
-    public sealed class Stepper : ComponentBase<Stepper, HTMLElement>
+    public sealed class Stepper : ComponentBase<Stepper, HTMLElement>, IBindableComponent<int>
     {
-        private readonly List<StepperStep> _steps;
-        private readonly HTMLElement       _header;
-        private readonly HTMLElement       _content;
-        private readonly HTMLElement       _footer;
-        private readonly HTMLButtonElement _nextButton;
-        private readonly HTMLButtonElement _prevButton;
-        private          int               _currentIndex;
-        private          Action<Stepper>   _onStepChanged;
+        private readonly List<StepperStep>        _steps;
+        private readonly HTMLElement              _header;
+        private readonly HTMLElement              _content;
+        private readonly HTMLElement              _footer;
+        private readonly HTMLButtonElement        _nextButton;
+        private readonly HTMLButtonElement        _prevButton;
+        private readonly SettableObservable<int>  _observable;
+        private          int                      _currentIndex;
+        private          Action<Stepper>          _onStepChanged;
 
         /// <summary>
         /// Initializes a new instance of this class.
         /// </summary>
         public Stepper(params StepperStep[] steps)
         {
-            _steps   = new List<StepperStep>();
-            _header  = Div(_("tss-stepper-header"));
-            _content = Div(_("tss-stepper-content"));
-            _footer  = Div(_("tss-stepper-footer"));
+            _steps      = new List<StepperStep>();
+            _header     = Div(_("tss-stepper-header"));
+            _content    = Div(_("tss-stepper-content"));
+            _footer     = Div(_("tss-stepper-footer"));
+            _observable = new SettableObservable<int>(0);
 
             _prevButton = Button(_("tss-stepper-nav", text: "Back", type: "button"));
             _nextButton = Button(_("tss-stepper-nav", text: "Next", type: "button"));
@@ -151,6 +153,7 @@ namespace Tesserae
             _currentIndex = clamped;
             UpdateHeader();
             UpdateContent();
+            _observable.Value = _currentIndex;
 
             if (raiseEvent)
             {
@@ -159,6 +162,16 @@ namespace Tesserae
 
             return this;
         }
+
+        /// <summary>
+        /// Returns an observable that tracks the current step index.
+        /// </summary>
+        public IObservable<int> AsObservable() => _observable;
+
+        /// <summary>
+        /// Programmatically updates the current step index as part of a two-way binding.
+        /// </summary>
+        public void SetBoundValue(int value) => SetStep(value);
 
         /// <summary>
         /// Configures the component to next.

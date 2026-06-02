@@ -9,16 +9,17 @@ namespace Tesserae
     /// A page-number navigation strip used to walk through pages of results.
     /// </summary>
     [H5.Name("tss.Pagination")]
-    public sealed class Pagination : ComponentBase<Pagination, HTMLElement>
+    public sealed class Pagination : ComponentBase<Pagination, HTMLElement>, IBindableComponent<int>
     {
-        private readonly HTMLElement _buttonContainer;
-        private readonly HTMLSpanElement _status;
-        private          int _totalItems;
-        private          int _pageSize;
-        private          int _currentPage;
-        private          int _maxPageButtons;
-        private          bool _showStatus;
-        private          Action<Pagination> _pageChanged;
+        private readonly HTMLElement              _buttonContainer;
+        private readonly HTMLSpanElement          _status;
+        private readonly SettableObservable<int>  _observable;
+        private          int                      _totalItems;
+        private          int                      _pageSize;
+        private          int                      _currentPage;
+        private          int                      _maxPageButtons;
+        private          bool                     _showStatus;
+        private          Action<Pagination>       _pageChanged;
 
         /// <summary>
         /// Initializes a new instance of this class.
@@ -27,6 +28,7 @@ namespace Tesserae
         {
             _buttonContainer = Div(_("tss-pagination-buttons"));
             _status          = Span(_("tss-pagination-status"));
+            _observable      = new SettableObservable<int>(currentPage);
 
             InnerElement = Div(_("tss-pagination", role: "navigation", ariaLabel: "Pagination"), _buttonContainer, _status);
 
@@ -145,6 +147,7 @@ namespace Tesserae
 
             _currentPage = clamped;
             Update();
+            _observable.Value = _currentPage;
 
             if (raiseEvent)
             {
@@ -153,6 +156,16 @@ namespace Tesserae
 
             return this;
         }
+
+        /// <summary>
+        /// Returns an observable that tracks the current page number.
+        /// </summary>
+        public IObservable<int> AsObservable() => _observable;
+
+        /// <summary>
+        /// Programmatically updates the current page as part of a two-way binding.
+        /// </summary>
+        public void SetBoundValue(int value) => SetPage(value);
 
         /// <summary>
         /// Registers a callback invoked when the page change event fires.
