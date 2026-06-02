@@ -10,11 +10,12 @@ namespace Tesserae
     /// </summary>
     /// <typeparam name="T">The type of the steps.</typeparam>
     [H5.Name("tss.StepsSlider")]
-    public sealed class StepsSlider<T> : IComponent where T : IEquatable<T>
+    public sealed class StepsSlider<T> : IComponent, IBindableComponent<T> where T : IEquatable<T>
     {
-        private readonly T[]                  _steps;
-        private readonly Slider               _slider;
-        private          IEqualityComparer<T> _equalityComparer;
+        private readonly T[]                   _steps;
+        private readonly Slider                _slider;
+        private readonly SettableObservable<T> _observable;
+        private          IEqualityComparer<T>  _equalityComparer;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="StepsSlider{T}"/> class.
@@ -25,6 +26,14 @@ namespace Tesserae
             _steps            = steps;
             _slider           = Slider(0, 0, _steps.Length - 1, 1);
             _equalityComparer = EqualityComparer<T>.Default;
+            _observable       = new SettableObservable<T>(steps.Length > 0 ? steps[0] : default);
+
+            // The wrapped Slider already publishes its int value via AsObservable(); project it
+            // through _steps to surface T to subscribers / bindings.
+            _slider.AsObservable().Subscribe(i =>
+            {
+                if (i >= 0 && i < _steps.Length) _observable.Value = _steps[i];
+            }, fireImmediately: false);
         }
 
         /// <summary>
@@ -44,8 +53,23 @@ namespace Tesserae
         public T Value
         {
             get => _steps[_slider.Value];
-            set => _slider.Value = Array.FindIndex(_steps, p => _equalityComparer.Equals(p, Value));
+            set
+            {
+                var idx = Array.FindIndex(_steps, p => _equalityComparer.Equals(p, value));
+                if (idx >= 0) _slider.Value = idx;
+            }
         }
+
+        /// <summary>
+        /// Returns an observable that tracks the currently-selected step.
+        /// </summary>
+        public IObservable<T> AsObservable() => _observable;
+
+        /// <summary>
+        /// Programmatically sets the selected step as part of a two-way binding.
+        /// Values not in the configured step list are ignored.
+        /// </summary>
+        public void SetBoundValue(T value) => Value = value;
 
         /// <summary>
         /// Gets or sets whether the slider is enabled.

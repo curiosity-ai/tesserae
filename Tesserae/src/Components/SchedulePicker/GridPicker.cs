@@ -14,7 +14,7 @@ namespace Tesserae
     /// supporting drag-to-select functionality.
     /// </summary>
     [H5.Name("tss.GridPicker")]
-    public sealed class GridPicker : IComponent
+    public sealed class GridPicker : IComponent, IBindableComponent<int[][]>
     {
         private readonly Stack                                 _stack = VStack().Class("tss-gridpicker");
         private readonly int                                   _columns;
@@ -23,6 +23,7 @@ namespace Tesserae
         private          int[][]                               _states;
         private readonly Action<Button, int, int>              _formatState;
         private readonly Button[][]                            _buttons;
+        private readonly SettableObservable<int[][]>           _observable;
         private event ComponentEventHandler<GridPicker, Event> Changed;
 
         /// <summary>
@@ -47,6 +48,7 @@ namespace Tesserae
             _stateCount  = states;
             _states      = initialStates;
             _formatState = formatState;
+            _observable  = new SettableObservable<int[][]>(SnapshotState());
             var gridElements = new List<IComponent>();
 
             gridElements.Add(TextBlock());
@@ -132,7 +134,29 @@ namespace Tesserae
             return this;
         }
 
-        private void RaiseOnChange(Event ev) => Changed?.Invoke(this, ev);
+        private void RaiseOnChange(Event ev)
+        {
+            _observable.Value = SnapshotState();
+            Changed?.Invoke(this, ev);
+        }
+
+        private int[][] SnapshotState() => _states?.Select(r => r?.ToArray() ?? new int[0]).ToArray() ?? new int[0][];
+
+        /// <summary>
+        /// Returns an observable that tracks the grid's state as a snapshot. Subscribers receive a
+        /// freshly-allocated 2D array on every change (no aliasing with the internal state).
+        /// </summary>
+        public IObservable<int[][]> AsObservable() => _observable;
+
+        /// <summary>
+        /// Programmatically replaces the grid's state as part of a two-way binding.
+        /// </summary>
+        public void SetBoundValue(int[][] value)
+        {
+            if (value == null) return;
+            SetState(value);
+            _observable.Value = SnapshotState();
+        }
 
         /// <summary>
         /// Adds a change event handler to the grid picker.

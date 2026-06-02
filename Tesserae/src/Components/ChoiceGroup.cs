@@ -8,7 +8,7 @@ namespace Tesserae
     /// A group of radio-style choices of which exactly one may be selected at a time.
     /// </summary>
     [H5.Name("tss.ChoiceGroup")]
-    public sealed class ChoiceGroup : ComponentBase<ChoiceGroup, HTMLDivElement>, IContainer<ChoiceGroup, ChoiceGroup.Choice>, IObservableComponent<ChoiceGroup.Choice>
+    public sealed class ChoiceGroup : ComponentBase<ChoiceGroup, HTMLDivElement>, IContainer<ChoiceGroup, ChoiceGroup.Choice>, IBindableComponent<ChoiceGroup.Choice>
     {
         private readonly string _name;
         private readonly TextBlock                  _header;
@@ -159,6 +159,21 @@ namespace Tesserae
         /// Returns the component's state as a(n) observable.
         /// </summary>
         public IObservable<Choice> AsObservable() => _selectedOption;
+
+        /// <summary>
+        /// Programmatically selects a choice as part of a two-way binding.
+        /// Choices not in this group are ignored.
+        /// </summary>
+        public void SetBoundValue(Choice value)
+        {
+            if (value == null) return;
+            if (SelectedOption == value) return;
+            value.IsSelected = true;
+            // Choice raises its SelectedItem event from the DOM 'change' handler, which fires only
+            // on real user input. Programmatically toggling @checked doesn't echo, so funnel the
+            // selection back into the group here.
+            OnChoiceSelected(value);
+        }
 
         public enum ChoiceGroupOrientation
         {

@@ -35,6 +35,10 @@ namespace Tesserae.Tests.Samples
             var pivotTab    = SettableObservable.Of("alpha");
             var sidebarOpen = SettableObservable.Of(true);
             var tags        = SettableObservable.Of<IReadOnlyList<string>>(new[] { "red", "green" });
+            var speed       = SettableObservable.Of("medium");
+            var size        = SettableObservable.Of<ChoiceGroup.Choice>(null);
+            var pinned      = SettableObservable.Of(false);
+            var view        = SettableObservable.Of("list");
 
             var demoModal = Modal("Bound modal")
                 .Content(Stack().Children(
@@ -191,6 +195,52 @@ namespace Tesserae.Tests.Samples
                             DeferSync(trip, r => TextBlock(
                                 (r.from.HasValue ? r.from.Value.ToString("yyyy-MM-dd") : "?") + " → " +
                                 (r.to.HasValue   ? r.to.Value.ToString("yyyy-MM-dd")   : "?")).SemiBold().ML(8))
+                        ),
+
+                        SampleSubTitle("StepsSlider&lt;string&gt; bound to a typed observable"),
+                        TextBlock("A discrete-step slider whose value is one of a few known strings."),
+                        HStack().Children(
+                            StepsSlider("slow", "medium", "fast").Bind(speed),
+                            DeferSync(speed, s => TextBlock($"speed = {s}").SemiBold().ML(8))
+                        ),
+
+                        SampleSubTitle("ChoiceGroup bound to a Choice observable"),
+                        TextBlock("Selecting a choice publishes the chosen Choice instance to the observable."),
+                        (new System.Func<IComponent>(() =>
+                        {
+                            var small  = Choice("Small");
+                            var medium = Choice("Medium");
+                            var large  = Choice("Large");
+                            return VStack().Children(
+                                ChoiceGroup("Size").Choices(small, medium, large).Bind(size),
+                                HStack().Children(
+                                    Button("Pick Small").OnClick(()  => size.Value = small),
+                                    Button("Pick Medium").OnClick(() => size.Value = medium),
+                                    Button("Pick Large").OnClick(()  => size.Value = large),
+                                    DeferSync(size, c => TextBlock(c?.Text ?? "(none)").SemiBold().ML(8))
+                                )
+                            );
+                        }))(),
+
+                        SampleSubTitle("ToggleButton bound to a bool observable"),
+                        HStack().Children(
+                            Button("Pin").ToToggle().Bind(pinned),
+                            DeferSync(pinned, p => TextBlock(p ? "PINNED" : "unpinned").SemiBold().ML(8))
+                        ),
+
+                        SampleSubTitle("IconToggle&lt;string&gt; bound to a string observable"),
+                        HStack().Children(
+                            IconToggle(
+                                IconToggleItem(UIcons.List,       "List view", "list"),
+                                IconToggleItem(UIcons.Apps,       "Grid view", "grid"),
+                                IconToggleItem(UIcons.MenuBurger, "Card view", "card")
+                            ).Bind(view),
+                            HStack().Children(
+                                Button("list").OnClick(() => view.Value = "list"),
+                                Button("grid").OnClick(() => view.Value = "grid"),
+                                Button("card").OnClick(() => view.Value = "card"),
+                                DeferSync(view, v => TextBlock($"view = {v}").SemiBold().ML(8))
+                            )
                         ),
 
                         SampleSubTitle("TagsInput bound to a list observable"),

@@ -9,7 +9,7 @@ namespace Tesserae
     /// A group of icon buttons of which exactly one is selected at a time, like a segmented control.
     /// </summary>
     [H5.Name("tss.IconToggle")]
-    public class IconToggle<T> : IComponent
+    public class IconToggle<T> : IComponent, IBindableComponent<T>
     {
         private Stack _stack;
         private Dictionary<Item, Button> _items;
@@ -58,6 +58,12 @@ namespace Tesserae
         /// Returns the component's state as a(n) observable.
         /// </summary>
         public IObservable<T> AsObservable() => _itemsObservable;
+
+        /// <summary>
+        /// Programmatically selects an item as part of a two-way binding.
+        /// Values that don't match any item are ignored.
+        /// </summary>
+        public void SetBoundValue(T value) => Select(value);
 
         public class Item
         {
