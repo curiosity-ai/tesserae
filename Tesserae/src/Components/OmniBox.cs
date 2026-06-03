@@ -553,7 +553,6 @@ namespace Tesserae
         private readonly Button      _searchHelpBtn;
         private readonly Button      _searchClearBtn;
         private readonly Button      _searchTriggerBtn;
-        private bool _helpShowHistory;
         private bool _helpShowSyntax;
 
         private string[]      _shortcutKeys;
@@ -963,9 +962,9 @@ namespace Tesserae
                     }
                 });
 
-                _searchHelpBtn.OnClickSpinWhile(async () =>
+                _searchHelpBtn.OnClick(() =>
                 {
-                    await ShowSearchHelp();
+                    ShowSearchHelp();
                 });
 
                 // Initial parse
@@ -2451,27 +2450,25 @@ namespace Tesserae
 
         /// <summary>
         /// Enables a help button next to the search input that opens a popup listing the registered
-        /// filter snaps (and snaps), each with the trigger word and an example value (or the description as
-        /// a fallback). When <paramref name="showHistory"/> is <c>true</c> and a history fetcher has been
-        /// configured via <see cref="WithHistory(Func{Task{SearchQuery[]}})"/>, the same popup also includes
-        /// a "Recent" section with the latest search queries. When <paramref name="showSyntax"/> is
-        /// <c>true</c>, the popup also includes a "Query syntax" section describing the boolean
-        /// operators (<c>AND</c>, <c>OR</c>, <c>NOT</c>), grouping with parentheses, and exact-phrase
-        /// quoting, with a short example next to each.
+        /// filter snaps (and snaps), each with the trigger word and an example value (or the description
+        /// as a fallback). When <paramref name="showSyntax"/> is <c>true</c>, the popup also includes a
+        /// "Query syntax" section describing the boolean operators (<c>AND</c>, <c>OR</c>, <c>NOT</c>),
+        /// grouping with parentheses, and exact-phrase quoting, with a short example next to each.
+        /// Recent searches are reached via the separate history button configured with
+        /// <see cref="WithHistory(Func{Task{SearchQuery[]}})"/>.
         /// </summary>
-        public OmniBox WithHelp(bool showHistory = true, bool showSyntax = false)
+        public OmniBox WithHelp(bool showSyntax = false)
         {
             if (_mode != Mode.Search && _mode != Mode.SearchAndChat)
             {
                 throw new InvalidOperationException("WithHelp can only be called when OmniBox is in Search or SearchAndChat mode.");
             }
-            _helpShowHistory = showHistory;
             _helpShowSyntax = showSyntax;
             _searchHelpBtn.Show();
             return this;
         }
 
-        private async Task ShowSearchHelp()
+        private void ShowSearchHelp()
         {
             var content = VStack().NoDefaultMargin().W(520).MaxHeight(500.px()).ScrollY().Class("tss-omnibox-help-panel");
             Action hide = null;
@@ -2543,38 +2540,7 @@ namespace Tesserae
                 AddSyntaxEntry(content, "\" \"", "Exact phrase",        "\"load testing\"",           () => hide);
             }
 
-            if (_helpShowHistory && _historyFetcher != null)
-            {
-                SearchQuery[] history = Array.Empty<SearchQuery>();
-                try
-                {
-                    history = await _historyFetcher() ?? Array.Empty<SearchQuery>();
-                }
-                catch (Exception ex)
-                {
-                    console.error("Failed to fetch history for help: ", ex);
-                }
-
-                if (history.Length > 0)
-                {
-                    content.Add(TextBlock("RECENT").Small().SemiBold().Class("tss-omnibox-help-header"));
-                    foreach (var q in history)
-                    {
-                        var captured = q;
-                        var btn = Button(captured.RawQuery).Class("tss-omnibox-help-entry").SetIcon(UIcons.TimePast).WS().NoPadding().NoMinSize().H(32).MB(4).NoBorder().NoBackground().TextLeft();
-                        btn.OnClick(() =>
-                        {
-                            _searchInput.value = captured.RawQuery;
-                            OnSearchInputChanged();
-                            TriggerSearch();
-                            hide?.Invoke();
-                        });
-                        content.Add(btn);
-                    }
-                }
-            }
-
-            if (!hasFilters && !hasSnaps && !_helpShowSyntax && !(_helpShowHistory && _historyFetcher != null))
+            if (!hasFilters && !hasSnaps && !_helpShowSyntax)
             {
                 content.Add(Message("Nothing to show", "Register snaps or filter snaps to populate the help panel").Icon(UIcons.EmptySet).H(160));
             }

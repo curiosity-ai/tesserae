@@ -256,7 +256,7 @@ namespace Tesserae.Tests.Samples
                     OmniBox.ParseQuery("ext:cs lang:csharp"),
                 };
             })
-            .WithHelp(showHistory: true, showSyntax: true)
+            .WithHelp(showSyntax: true)
             .OnSearch((s, q) =>
             {
                 var snapInfo = q.Snaps != null && q.Snaps.Length > 0
@@ -286,7 +286,7 @@ namespace Tesserae.Tests.Samples
                     Card(VStack().WS().Children(
                     SampleSubTitle("Snaps and filter snaps"),
                     TextBlock("Type @ to insert a snap (e.g. @docs, @wiki, @code). Type 'ext:', 'filetype:', or 'lang:' to autocomplete filter values. Type 'modified:' (or 'date:' / 'between:') for a time-based filter snap — a date-range picker with shortcuts (last week, last month, last 90 days, last year), or type the range directly as yyyy-MM-dd:yyyy-MM-dd. When committed they become removable chips. All snap and filter selections are passed through with the search query.").MB(8),
-                    TextBlock("Click the ? button on the left of the input to open the help panel — it lists the registered field filters (with their example values) and the registered snaps. It can also include a 'Query syntax' section describing AND / OR / NOT / parentheses / quotes when configured with WithHelp(showSyntax: true), and a 'Recent' section with previous searches when configured with WithHelp(showHistory: true).").MB(8),
+                    TextBlock("Click the ? button on the left of the input to open the help panel — it lists the registered field filters (with their example values) and the registered snaps. It can also include a 'Query syntax' section describing AND / OR / NOT / parentheses / quotes when configured with WithHelp(showSyntax: true). Recent searches are reached via the separate history button enabled with WithHistory(...).").MB(8),
                     Label("Snaps + filter snaps + help").SetContent(snapAndFilterSample.Class("tss-omnibox-snap-and-filter-sample"))
                 )).SetTitle("Snaps & Filter Snaps")));
         }
