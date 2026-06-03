@@ -144,14 +144,28 @@ namespace Tesserae
         /// </summary>
         public void SetBoundValues(IReadOnlyList<string> values)
         {
-            // Clear the existing tags silently. We can't reuse Clear() because it calls _onChange
-            // unconditionally; here we batch the change and publish at the end.
-            for (var i = _tags.Count - 1; i >= 0; i--) RemoveAt(i, raiseEvents: false);
+            // Snapshot the caller's list before we touch _tags. The binding round-trip can hand
+            // back the very ReadOnlyCollection we published from RefreshObservable, and that
+            // collection is a live view over _tags — so clearing _tags would also empty `values`
+            // mid-iteration. The snapshot is also the source of truth for the equality check below.
+            var snapshot = values is object ? values.ToArray() : new string[0];
 
-            if (values is object)
+            // Reference-equality on lists doesn't terminate the bind loop the way it does for
+            // scalars: each RefreshObservable allocates a new ReadOnlyCollection, so source &
+            // component keep echoing forever even when their contents are equal. Compare by
+            // sequence and no-op when the tags already match.
+            if (_tags.Count == snapshot.Length)
             {
-                foreach (var v in values) TryAdd(v, raiseEvents: false);
+                var equal = true;
+                for (var i = 0; i < snapshot.Length; i++)
+                {
+                    if (_tags[i] != snapshot[i]) { equal = false; break; }
+                }
+                if (equal) return;
             }
+
+            for (var i = _tags.Count - 1; i >= 0; i--) RemoveAt(i, raiseEvents: false);
+            foreach (var v in snapshot) TryAdd(v, raiseEvents: false);
             RefreshObservable();
         }
 
