@@ -554,6 +554,7 @@ namespace Tesserae
         private readonly Button      _searchClearBtn;
         private readonly Button      _searchTriggerBtn;
         private bool _helpShowHistory;
+        private bool _helpShowSyntax;
 
         private string[]      _shortcutKeys;
         private Action<Event> _globalShortcutHandler;
@@ -2453,15 +2454,19 @@ namespace Tesserae
         /// filter snaps (and snaps), each with the trigger word and an example value (or the description as
         /// a fallback). When <paramref name="showHistory"/> is <c>true</c> and a history fetcher has been
         /// configured via <see cref="WithHistory(Func{Task{SearchQuery[]}})"/>, the same popup also includes
-        /// a "Recent" section with the latest search queries.
+        /// a "Recent" section with the latest search queries. When <paramref name="showSyntax"/> is
+        /// <c>true</c>, the popup also includes a "Query syntax" section describing the boolean
+        /// operators (<c>AND</c>, <c>OR</c>, <c>NOT</c>), grouping with parentheses, and exact-phrase
+        /// quoting, with a short example next to each.
         /// </summary>
-        public OmniBox WithHelp(bool showHistory = true)
+        public OmniBox WithHelp(bool showHistory = true, bool showSyntax = false)
         {
             if (_mode != Mode.Search && _mode != Mode.SearchAndChat)
             {
                 throw new InvalidOperationException("WithHelp can only be called when OmniBox is in Search or SearchAndChat mode.");
             }
             _helpShowHistory = showHistory;
+            _helpShowSyntax = showSyntax;
             _searchHelpBtn.Show();
             return this;
         }
@@ -2528,6 +2533,16 @@ namespace Tesserae
                 }
             }
 
+            if (_helpShowSyntax)
+            {
+                content.Add(TextBlock("QUERY SYNTAX").Small().SemiBold().Class("tss-omnibox-help-header"));
+                AddSyntaxEntry(content, "AND", "Both terms must match", "alpha AND beta", () => hide);
+                AddSyntaxEntry(content, "OR",  "Either term may match", "alpha OR beta",   () => hide);
+                AddSyntaxEntry(content, "NOT", "Exclude matching term", "alpha NOT beta",  () => hide);
+                AddSyntaxEntry(content, "( )", "Group sub-expressions", "(alpha OR beta) AND gamma", () => hide);
+                AddSyntaxEntry(content, "\" \"", "Exact phrase",        "\"load testing\"",           () => hide);
+            }
+
             if (_helpShowHistory && _historyFetcher != null)
             {
                 SearchQuery[] history = Array.Empty<SearchQuery>();
@@ -2559,7 +2574,7 @@ namespace Tesserae
                 }
             }
 
-            if (!hasFilters && !hasSnaps && !(_helpShowHistory && _historyFetcher != null))
+            if (!hasFilters && !hasSnaps && !_helpShowSyntax && !(_helpShowHistory && _historyFetcher != null))
             {
                 content.Add(Message("Nothing to show", "Register snaps or filter snaps to populate the help panel").Icon(UIcons.EmptySet).H(160));
             }
@@ -2614,6 +2629,41 @@ namespace Tesserae
             OnSearchInputChanged();
             _searchInput.focus();
             TryUpdateSnapSuggestions();
+        }
+
+        private void AddSyntaxEntry(Stack content, string token, string description, string example, Func<Action> hideAccessor)
+        {
+            var btn = Button().Class("tss-omnibox-help-entry").WS().NoPadding().NoMinSize().H(40).MB(4).NoBorder().NoBackground().TextLeft();
+            var row = HStack().WS().AlignItems(ItemAlign.Center).PaddingLeft(12.px()).PaddingRight(12.px());
+            row.Add(TextBlock(token).Class("tss-omnibox-help-trigger"));
+            row.Add(TextBlock(description).Class("tss-omnibox-help-example").ML(6));
+            row.Add(TextBlock(example).Small().Secondary().ML(UnitSize.Auto()));
+            btn.ReplaceContent(row);
+            btn.OnClick(() =>
+            {
+                InsertExampleIntoInput(example);
+                hideAccessor?.Invoke()?.Invoke();
+            });
+            content.Add(btn);
+        }
+
+        private void InsertExampleIntoInput(string example)
+        {
+            if (string.IsNullOrEmpty(example)) return;
+            var val = _searchInput.value ?? string.Empty;
+            string newVal;
+            if (string.IsNullOrEmpty(val) || val.EndsWith(" ") || val.EndsWith(specialWhitespaceString))
+            {
+                newVal = val + example;
+            }
+            else
+            {
+                newVal = val + " " + example;
+            }
+            _searchInput.value = newVal;
+            _searchInput.setSelectionRange((uint)newVal.Length, (uint)newVal.Length);
+            OnSearchInputChanged();
+            _searchInput.focus();
         }
 
         private async Task ShowSearchHistory()
