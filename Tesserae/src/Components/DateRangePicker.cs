@@ -21,11 +21,11 @@ namespace Tesserae
     [H5.Name("tss.DateRangePicker")]
     public sealed class DateRangePicker : IComponent, IHasMarginPadding
     {
-        private readonly DatePicker     _from;
-        private readonly DatePicker     _to;
-        private readonly HTMLDivElement _container;
+        private readonly DatePicker              _from;
+        private readonly DatePicker              _to;
+        private readonly HTMLDivElement          _container;
         private          Action<DateRangePicker> _onChange;
-        private          bool           _syncing;
+        private          bool                    _syncing;
 
         /// <summary>Creates a new date-range picker, optionally initialised with a range.</summary>
         /// <param name="from">Initial "from" date, or <c>null</c> for an empty start.</param>
@@ -40,10 +40,10 @@ namespace Tesserae
             _container = Div(_("tss-daterange-picker"), _from.Render(), separator, _to.Render());
 
             _from.OnChange((_, __) => OnFromChanged());
-            _to.OnChange((_, __)   => OnToChanged());
+            _to.OnChange((_,   __) => OnToChanged());
 
-            if (from.HasValue) _to.Min  = from.Value;
-            if (to.HasValue)   _from.Max = to.Value;
+            if (from.HasValue) _to.Min = from.Value;
+            if (to.HasValue) _from.Max = to.Value;
         }
 
         /// <summary>Gets the currently selected "from" date, or <c>null</c> if no date has been picked.</summary>
@@ -65,15 +65,27 @@ namespace Tesserae
         public string Padding { get => _container.style.padding; set => _container.style.padding = value; }
 
         /// <summary>Sets the "from" date programmatically.</summary>
-        public DateRangePicker SetFrom(DateTime date) { _from.Text = date.ToString("yyyy-MM-dd"); return this; }
+        public DateRangePicker SetFrom(DateTime date)
+        {
+            _from.Text = date.ToString("yyyy-MM-dd");
+            return this;
+        }
 
         /// <summary>Sets the "to" date programmatically.</summary>
-        public DateRangePicker SetTo(DateTime date)   { _to.Text   = date.ToString("yyyy-MM-dd"); return this; }
+        public DateRangePicker SetTo(DateTime date)
+        {
+            _to.Text = date.ToString("yyyy-MM-dd");
+            return this;
+        }
 
         /// <summary>
         /// Registers a callback fired whenever either the "from" or "to" date changes.
         /// </summary>
-        public DateRangePicker OnChange(Action<DateRangePicker> handler) { _onChange += handler; return this; }
+        public DateRangePicker OnChange(Action<DateRangePicker> handler)
+        {
+            _onChange += handler;
+            return this;
+        }
 
         /// <summary>
         /// Registers a callback fired whenever either the "from" or "to" date changes. The two-argument
@@ -91,11 +103,13 @@ namespace Tesserae
         {
             if (_syncing) return;
             _syncing = true;
+
             try
             {
                 if (HasValue(_from))
                 {
                     _to.Min = _from.Date;
+
                     if (HasValue(_to) && _to.Date < _from.Date)
                     {
                         _to.Text = _from.Text;
@@ -110,11 +124,13 @@ namespace Tesserae
         {
             if (_syncing) return;
             _syncing = true;
+
             try
             {
                 if (HasValue(_to))
                 {
                     _from.Max = _to.Date;
+
                     if (HasValue(_from) && _from.Date > _to.Date)
                     {
                         _from.Text = _to.Text;

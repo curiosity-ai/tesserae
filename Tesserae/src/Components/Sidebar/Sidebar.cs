@@ -75,11 +75,11 @@ namespace Tesserae
                 {
                     if (isClosed)
                     {
-                        _sidebar.Class(_isNavbar ?  "tss-navbar-closed" :  "tss-sidebar-closed");
+                        _sidebar.Class(_isNavbar ? "tss-navbar-closed" : "tss-sidebar-closed");
                     }
                     else
                     {
-                        _sidebar.RemoveClass(_isNavbar ?  "tss-navbar-closed" :  "tss-sidebar-closed");
+                        _sidebar.RemoveClass(_isNavbar ? "tss-navbar-closed" : "tss-sidebar-closed");
                     }
                 }, 15);
             });
@@ -143,7 +143,7 @@ namespace Tesserae
             // when the drawer is open and closes the sidebar on click.
             if (_mobileBackdrop is null)
             {
-                _mobileBackdrop = (HTMLDivElement)document.createElement("div");
+                _mobileBackdrop           = (HTMLDivElement)document.createElement("div");
                 _mobileBackdrop.className = "tss-mobile-backdrop";
                 _mobileBackdrop.addEventListener("click", (Event e) => { _closed.Value = true; });
                 document.body.appendChild(_mobileBackdrop);
@@ -161,11 +161,11 @@ namespace Tesserae
             {
                 var sortable = new Sortable(stackMiddle.Render(), new SortableOptions()
                 {
-                    animation  = 150,
-                    invertSwap = true,
-                    ghostClass = "tss-sortable-ghost",
+                    animation     = 150,
+                    invertSwap    = true,
+                    ghostClass    = "tss-sortable-ghost",
                     swapThreshold = 0.65,
-                    filter = ".tss-sortable-disable",
+                    filter        = ".tss-sortable-disable",
                     onEnd = e =>
                     {
                         if (e.oldIndex != e.newIndex)
@@ -210,8 +210,8 @@ namespace Tesserae
 
                 // In navbar/mobile mode, search boxes belong inside the drawer so users can
                 // search the sample list from the hamburger menu instead of the top bar.
-                var topBarHeader  = header.Where(si => !(si is SidebarSearchBox)).ToList();
-                var drawerHeader  = header.Where(si =>   si is SidebarSearchBox ).ToList();
+                var topBarHeader = header.Where(si => !(si is SidebarSearchBox)).ToList();
+                var drawerHeader = header.Where(si => si is SidebarSearchBox).ToList();
 
                 var drawer = VStack().Class("tss-navbar-drawer")
                    .Children(
@@ -249,7 +249,8 @@ namespace Tesserae
         private IComponent AttachNavbarClose(IComponent component)
         {
             var el = component.Render();
-            if(!el.HasOwnProperty("_NAVBAR_CLOSE"))
+
+            if (!el.HasOwnProperty("_NAVBAR_CLOSE"))
             {
                 el["_NAVBAR_CLOSE"] = true;
                 el.addEventListener("click", (Action<Event>)(_ => _closed.Value = true), true);
@@ -298,6 +299,7 @@ namespace Tesserae
         public Sidebar InsertAfterHeader(ISidebarItem item, ISidebarItem addAfter)
         {
             var index = _header.IndexOf(addAfter);
+
             if (index >= 0)
             {
                 _header.Insert(index + 1, item);
@@ -349,7 +351,7 @@ namespace Tesserae
             }
 
             var middleContentList = _middleContent.Value.ToList();
-            var index = middleContentList.IndexOf(addAfter);
+            var index             = middleContentList.IndexOf(addAfter);
 
             if (index >= 0)
             {
@@ -357,6 +359,7 @@ namespace Tesserae
                 _middleContent.Value = middleContentList;
 
                 var orderIndex = _itemOrder.IndexOf(addAfter.Identifier);
+
                 if (orderIndex >= 0)
                 {
                     _itemOrder.Insert(orderIndex + 1, item.Identifier);
@@ -410,6 +413,7 @@ namespace Tesserae
         public Sidebar InsertAfterFooter(ISidebarItem item, ISidebarItem addAfter)
         {
             var index = _footer.IndexOf(addAfter);
+
             if (index >= 0)
             {
                 _footer.Insert(index + 1, item);
@@ -431,11 +435,11 @@ namespace Tesserae
             ClearFooter();
         }
         /// <summary>Clears the header section.</summary>
-        public void ClearHeader()  => _header.Clear();
+        public void ClearHeader() => _header.Clear();
         /// <summary>Clears the middle content section.</summary>
         public void ClearContent() => _middleContent.Value = new List<ISidebarItem>();
         /// <summary>Clears the footer section.</summary>
-        public void ClearFooter()  => _footer.Clear();
+        public void ClearFooter() => _footer.Clear();
 
         /// <summary>
         /// Renders the sidebar.
@@ -553,6 +557,7 @@ namespace Tesserae
         public static string GetOwnIdentifier(string identifier)
         {
             var ix = identifier.IndexOf(GroupIdentifierSeparator);
+
             if (ix >= 0)
             {
                 return identifier.Substring(ix + GroupIdentifierSeparator.Length);

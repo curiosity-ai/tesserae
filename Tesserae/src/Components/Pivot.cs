@@ -12,32 +12,32 @@ namespace Tesserae
     [H5.Name("tss.Pivot")]
     public sealed class Pivot : IComponent, ISpecialCaseStyling
     {
-        public delegate void                                      PivotEventHandler<TEventArgs>(Pivot sender, TEventArgs e);
+        public delegate void PivotEventHandler<TEventArgs>(Pivot sender, TEventArgs e);
 
         private event PivotEventHandler<PivotBeforeNavigateEvent> _beforeNavigated;
         private event PivotEventHandler<PivotNavigateEvent>       _navigated;
-        private readonly List<Tab>                    _orderedTabs    = new List<Tab>();
-        private readonly Dictionary<Tab, HTMLElement> _renderedTitles = new Dictionary<Tab, HTMLElement>();
-        private readonly HTMLElement _renderedTabs;
-        private readonly HTMLElement _renderedContent;
-        private readonly HTMLElement _line;
-        private readonly HTMLElement _scroller;
-        private readonly HTMLElement _titlebarWrapper;
-        private          string      _initiallySelectedID;
-        private          string      _currentSelectedID;
-        private          bool        _isRendered = false;
-        private          bool        _hideIfSingle = false;
+        private readonly List<Tab>                                _orderedTabs    = new List<Tab>();
+        private readonly Dictionary<Tab, HTMLElement>             _renderedTitles = new Dictionary<Tab, HTMLElement>();
+        private readonly HTMLElement                              _renderedTabs;
+        private readonly HTMLElement                              _renderedContent;
+        private readonly HTMLElement                              _line;
+        private readonly HTMLElement                              _scroller;
+        private readonly HTMLElement                              _titlebarWrapper;
+        private          string                                   _initiallySelectedID;
+        private          string                                   _currentSelectedID;
+        private          bool                                     _isRendered   = false;
+        private          bool                                     _hideIfSingle = false;
         /// <summary>
         /// Gets or sets the selected tab.
         /// </summary>
-        public           string      SelectedTab => _currentSelectedID ?? _initiallySelectedID;
-        private HTMLElement _selectedNav;
-        private HTMLElement _hoveredNav;
-        private bool _firstRender = false;
-        private ResizeObserver _ro;
-        private readonly Button _moreBtn;
-        private readonly Button _scrollLeftBtn;
-        private readonly Button _scrollRightBtn;
+        public string SelectedTab => _currentSelectedID ?? _initiallySelectedID;
+        private          HTMLElement    _selectedNav;
+        private          HTMLElement    _hoveredNav;
+        private          bool           _firstRender = false;
+        private          ResizeObserver _ro;
+        private readonly Button         _moreBtn;
+        private readonly Button         _scrollLeftBtn;
+        private readonly Button         _scrollRightBtn;
 
         private Action<Event> _tabSwitchHandler;
 
@@ -53,15 +53,16 @@ namespace Tesserae
             _scrollRightBtn = Button().SetIcon(UIcons.AngleRight).NoMinSize().HS().NoPadding().NoMargin().Class("tss-pivot-titlebar-scroll-right").OnClick(() => ScrollByAmount(_scroller.clientWidth * ScrollButtonStep));
             _moreBtn        = Button().SetIcon(UIcons.MenuDots).NoMinSize().HS().NoPadding().NoMargin().Class("tss-pivot-titlebar-more").OnClick(() => ShowAllTabs());
 
-            _renderedTabs    = Div(_("tss-pivot-titlebar", role: "tablist"));
-            _line            = Div(_("tss-pivot-line"));
+            _renderedTabs = Div(_("tss-pivot-titlebar", role: "tablist"));
+            _line         = Div(_("tss-pivot-line"));
             _renderedTabs.appendChild(_line); // line sits inside titlebar so it scrolls with tabs
-            _scroller        = Div(_("tss-pivot-titlebar-scroller"), _renderedTabs);
+            _scroller = Div(_("tss-pivot-titlebar-scroller"), _renderedTabs);
+
             _titlebarWrapper = Div(_("tss-pivot-titlebar-wrapper"),
-                                   _scrollLeftBtn.Render(),
-                                   _scroller,
-                                   _scrollRightBtn.Render(),
-                                   _moreBtn.Render());
+                _scrollLeftBtn.Render(),
+                _scroller,
+                _scrollRightBtn.Render(),
+                _moreBtn.Render());
             _renderedContent = Div(_("tss-pivot-content", role: "tabpanel"));
             StylingContainer = Div(_("tss-pivot"), _titlebarWrapper, _renderedContent);
 
@@ -144,7 +145,7 @@ namespace Tesserae
         {
             if (_orderedTabs.Count == 0) return;
 
-            int currentIdx = _orderedTabs.FindIndex(t => t.Id == _currentSelectedID);
+            int currentIdx                 = _orderedTabs.FindIndex(t => t.Id == _currentSelectedID);
             if (currentIdx < 0) currentIdx = 0;
 
             int n       = _orderedTabs.Count;
@@ -168,9 +169,11 @@ namespace Tesserae
             if (_initiallySelectedID is null) _initiallySelectedID = tab.Id;
             _orderedTabs.Add(tab);
             var title = tab.RenderTitle();
+
             if (tab.Closeable)
             {
                 var closeIcon = I(_("tss-pivot-tab-close tss-fontsize-tiny " + UIcons.Cross.ToString(), ariaLabel: "Close tab"));
+
                 closeIcon.onclick = (e) =>
                 {
                     StopEvent(e);
@@ -179,7 +182,7 @@ namespace Tesserae
                 title.appendChild(closeIcon);
                 title.classList.add("tss-pivot-tab-closeable");
             }
-            title.setAttribute("role", "tab");
+            title.setAttribute("role",          "tab");
             title.setAttribute("aria-selected", "false");
             title.tabIndex = -1;
             _renderedTitles.Add(tab, title);
@@ -205,6 +208,7 @@ namespace Tesserae
             _scroller.addEventListener("wheel", (Action<Event>)(e =>
             {
                 var we = e.As<WheelEvent>();
+
                 if (Math.Abs(we.deltaY) > Math.Abs(we.deltaX))
                 {
                     _scroller.scrollLeft += we.deltaY;
@@ -219,6 +223,7 @@ namespace Tesserae
             _renderedTabs.addEventListener("keydown", e =>
             {
                 var ke = e.As<KeyboardEvent>();
+
                 if (ke.key == "ArrowLeft" || ke.key == "ArrowRight" || ke.key == "Home" || ke.key == "End")
                 {
                     StopEvent(e);
@@ -231,22 +236,24 @@ namespace Tesserae
         {
             if (_orderedTabs.Count == 0) return;
 
-            int currentIdx = _orderedTabs.FindIndex(t => t.Id == _currentSelectedID);
+            int currentIdx                 = _orderedTabs.FindIndex(t => t.Id == _currentSelectedID);
             if (currentIdx < 0) currentIdx = 0;
 
             int nextIdx = currentIdx;
+
             switch (key)
             {
-                case "ArrowLeft":  nextIdx = (currentIdx - 1 + _orderedTabs.Count) % _orderedTabs.Count; break;
-                case "ArrowRight": nextIdx = (currentIdx + 1) % _orderedTabs.Count;                     break;
-                case "Home":       nextIdx = 0;                                                          break;
-                case "End":        nextIdx = _orderedTabs.Count - 1;                                     break;
+                case "ArrowLeft": nextIdx  = (currentIdx - 1 + _orderedTabs.Count) % _orderedTabs.Count; break;
+                case "ArrowRight": nextIdx = (currentIdx + 1) % _orderedTabs.Count; break;
+                case "Home": nextIdx       = 0; break;
+                case "End": nextIdx        = _orderedTabs.Count - 1; break;
             }
 
             if (nextIdx != currentIdx)
             {
                 var nextTab = _orderedTabs[nextIdx];
                 Select(nextTab.Id);
+
                 if (_renderedTitles.TryGetValue(nextTab, out var nextTitle))
                 {
                     nextTitle.focus();
@@ -270,7 +277,7 @@ namespace Tesserae
         {
             var canScrollLeft  = _scroller.scrollLeft > 0;
             var canScrollRight = _scroller.scrollLeft + _scroller.clientWidth < _scroller.scrollWidth - 1; // -1 for sub-pixel rounding
-            _scrollLeftBtn.Render().style.display  = canScrollLeft  ? "" : "none";
+            _scrollLeftBtn.Render().style.display  = canScrollLeft ? "" : "none";
             _scrollRightBtn.Render().style.display = canScrollRight ? "" : "none";
         }
 
@@ -288,12 +295,14 @@ namespace Tesserae
         private void ShowAllTabs()
         {
             var items = new ContextMenu.Item[_orderedTabs.Count];
+
             for (int i = 0; i < _orderedTabs.Count; i++)
             {
-                var tab     = _orderedTabs[i];
-                var title   = _renderedTitles[tab];
-                var clone   = title.cloneNode(true).As<HTMLElement>();
+                var tab   = _orderedTabs[i];
+                var title = _renderedTitles[tab];
+                var clone = title.cloneNode(true).As<HTMLElement>();
                 clone.classList.remove("tss-pivot-titlebar-hidden-overflow");
+
                 // The cloned close icon is non-functional inside the menu; strip it
                 // so the user gets a clean title row.
                 foreach (var x in clone.querySelectorAll(".tss-pivot-tab-close").ToList())
@@ -419,7 +428,7 @@ namespace Tesserae
             var title = _renderedTitles[tab];
 
             HTMLElement content = Div(_());
-            content.style.width = "100%";
+            content.style.width     = "100%";
             content.style.minHeight = "100%";
 
             try
@@ -456,10 +465,11 @@ namespace Tesserae
         private void ScrollIntoView(HTMLElement target)
         {
             if (!_scroller.IsMounted()) return;
-            var tabLeft  = (double)target.offsetLeft;
-            var tabRight = tabLeft + target.offsetWidth;
-            var viewLeft = _scroller.scrollLeft;
+            var tabLeft   = (double)target.offsetLeft;
+            var tabRight  = tabLeft + target.offsetWidth;
+            var viewLeft  = _scroller.scrollLeft;
             var viewRight = viewLeft + _scroller.clientWidth;
+
             if (tabLeft < viewLeft)
             {
                 _scroller.scrollLeft = tabLeft;
@@ -472,7 +482,7 @@ namespace Tesserae
 
         private void ClearChildrenExceptCached()
         {
-            foreach(var el in _renderedContent.children)
+            foreach (var el in _renderedContent.children)
             {
                 if (el.classList.contains("tss-pivot-keep-cached"))
                 {
@@ -533,8 +543,10 @@ namespace Tesserae
                     UpdateScrollState();
                     if (_selectedNav != null) ScrollIntoView(_selectedNav);
                     TriggerAnimation();
+
                     //Also do on a timeout to account for animations on modals
-                    window.setTimeout((_) => {
+                    window.setTimeout((_) =>
+                    {
                         UpdateScrollState();
                         if (_selectedNav != null) ScrollIntoView(_selectedNav);
                         TriggerAnimation();
@@ -560,7 +572,7 @@ namespace Tesserae
                 // Snap to position on first render so the line doesn't animate in from 0/0.
                 _line.classList.add("tss-pivot-line-instant");
                 _line.style.width = target.offsetWidth + "px";
-                _line.style.left  = target.offsetLeft  + "px";
+                _line.style.left  = target.offsetLeft + "px";
                 // Read offsetWidth to flush the layout before re-enabling the transition.
                 var _flush = _line.offsetWidth;
                 _line.classList.remove("tss-pivot-line-instant");
@@ -569,7 +581,7 @@ namespace Tesserae
             }
 
             _line.style.width = target.offsetWidth + "px";
-            _line.style.left  = target.offsetLeft  + "px";
+            _line.style.left  = target.offsetLeft + "px";
         }
 
         internal sealed class Tab
@@ -587,9 +599,9 @@ namespace Tesserae
                 OnClosed         = onClosed;
             }
 
-            internal bool KeepCached => _canCacheContent;
-            internal bool Closeable { get; }
-            internal Action OnClosed { get; }
+            internal bool   KeepCached => _canCacheContent;
+            internal bool   Closeable  { get; }
+            internal Action OnClosed   { get; }
 
             private          Func<IComponent> _titleCreator;
             private          Func<IComponent> _contentCreator;
@@ -654,7 +666,7 @@ namespace Tesserae
             /// <summary>
             /// Gets or sets the target pivot.
             /// </summary>
-            public string TargetPivot  { get; }
+            public string TargetPivot { get; }
         }
     }
 }
