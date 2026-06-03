@@ -30,6 +30,11 @@ namespace Tesserae
         private string _currentSelectedID;
 
         /// <summary>
+        /// Gets or sets the selected tab.
+        /// </summary>
+        public string SelectedTab => _currentSelectedID ?? _initiallySelectedID;
+
+        /// <summary>
         /// Initializes a new instance of this class.
         /// </summary>
         public SegmentedPivot()
