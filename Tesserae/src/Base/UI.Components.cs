@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Tesserae;
 using static H5.Core.dom;
@@ -1039,6 +1040,20 @@ namespace Tesserae
         /// list/detail popup when clicked.
         /// </summary>
         public static ToolsUsed ToolsUsed(params ToolCall[] tools) => new ToolsUsed(tools);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.Questionnaire"/> component that
+        /// shows the given question and answer options. When the user
+        /// picks an option (or one is set programmatically) the component
+        /// switches to a "response selected" mode.
+        /// </summary>
+        public static Questionnaire Questionnaire(string question, IEnumerable<string> options = null) => new Questionnaire(question, options);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.Questionnaire"/> component that
+        /// shows the given question and answer options.
+        /// </summary>
+        public static Questionnaire Questionnaire(string question, params string[] options) => new Questionnaire(question, options);
 
         /// <summary>
         /// Creates a <see cref="Tesserae.Toast"/> component.

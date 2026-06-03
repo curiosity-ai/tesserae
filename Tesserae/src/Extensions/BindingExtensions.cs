@@ -28,8 +28,8 @@ namespace Tesserae
         public static TComponent Bind<TComponent, T>(this TComponent component, SettableObservable<T> source, SubscriptionScope scope)
             where TComponent : IBindableComponent<T>
         {
-            var fromComponent = component.AsObservable().Subscribe(v => source.Value = v,    fireImmediately: false);
-            var fromSource    = source.Subscribe(            v => component.SetBoundValue(v), fireImmediately: true);
+            var fromComponent = component.AsObservable().Subscribe(v => source.Value = v, fireImmediately: false);
+            var fromSource    = source.Subscribe(v => component.SetBoundValue(v), fireImmediately: true);
 
             if (scope != null)
             {

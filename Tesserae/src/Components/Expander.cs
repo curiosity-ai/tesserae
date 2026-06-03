@@ -30,15 +30,15 @@ namespace Tesserae
         {
             var contentId = "tss-expander-content-" + Guid.NewGuid().ToString("N").Substring(0, 8);
 
-            _title         = Span(_("tss-expander-title", text: title ?? string.Empty));
-            _iconContainer = Div(_("tss-expander-icon"));
+            _title                       = Span(_("tss-expander-title", text: title ?? string.Empty));
+            _iconContainer               = Div(_("tss-expander-icon"));
             _iconContainer.style.display = "none";
-            _headerContent = Div(_("tss-expander-header-content"), _iconContainer, _title);
-            _chevron       = I(UIcons.AngleDown, cssClass: "tss-expander-chevron");
-            _header        = Div(_("tss-expander-header", role: "button", ariaLabel: "Toggle section"), _chevron, _headerContent);
+            _headerContent               = Div(_("tss-expander-header-content"), _iconContainer, _title);
+            _chevron                     = I(UIcons.AngleDown, cssClass: "tss-expander-chevron");
+            _header                      = Div(_("tss-expander-header", role: "button", ariaLabel: "Toggle section"), _chevron, _headerContent);
             _header.setAttribute("aria-controls", contentId);
-            _content       = Div(_("tss-expander-content"));
-            _content.id    = contentId;
+            _content    = Div(_("tss-expander-content"));
+            _content.id = contentId;
             _content.setAttribute("role", "region");
 
             InnerElement = Div(_("tss-expander"), _header, _content);
@@ -151,10 +151,12 @@ namespace Tesserae
         {
             ClearChildren(_iconContainer);
             _iconContainer.style.display = "flex";
+
             if (!string.IsNullOrEmpty(color))
             {
                 _iconContainer.style.color = color;
             }
+
             if (!string.IsNullOrEmpty(background))
             {
                 _iconContainer.style.background = background;

@@ -18,6 +18,7 @@ namespace Tesserae
         private readonly Action<VisibilitySensor> _onVisible;
         private          int                      _maxCalls;
         private          IntersectionObserver     _observer;
+        private Action<Event> _onScrollAction;
 
         /// <summary>
         /// Initializes a new instance of the VisibilitySensor class.
@@ -37,6 +38,7 @@ namespace Tesserae
             _onVisible = onVisible;
 
             _maxCalls = singleCall ? 1 : int.MaxValue;
+            _onScrollAction = (ev) => OnScroll(ev);
 
             DomObserver.WhenMounted(InnerElement, HookCheck);
         }
@@ -73,7 +75,7 @@ namespace Tesserae
             _observer = new IntersectionObserver(observerListener);
             _observer.observe(InnerElement);
 
-            window.addEventListener("focus", OnScroll, true);
+            window.addEventListener("focus", _onScrollAction, true);
             DomObserver.WhenRemoved(InnerElement, UnHookCheck);
             //Trigger one time on first render, to force check if visible
             OnScroll(null);
@@ -81,7 +83,7 @@ namespace Tesserae
 
         private void UnHookCheck()
         {
-            window.removeEventListener("focus", OnScroll);
+            window.removeEventListener("focus", _onScrollAction, true);
             _observer?.disconnect();
             _observer = null;
         }
@@ -94,6 +96,8 @@ namespace Tesserae
 
         private void CheckVisibility(object t)
         {
+            if (!InnerElement.isConnected) return;
+
             // getBoundingClientRect() is already viewport-relative, so it must be compared against
             // the viewport (0 .. innerHeight), not the document scroll offset (window.scrollY).
             var rect = (DOMRect)InnerElement.getBoundingClientRect();
