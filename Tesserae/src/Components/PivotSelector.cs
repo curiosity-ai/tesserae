@@ -16,11 +16,11 @@ namespace Tesserae
         public delegate void PivotEventHandler<TEventArgs>(PivotSelector sender, TEventArgs e);
 
         private event PivotEventHandler<PivotBeforeNavigateEvent> _beforeNavigated;
-        private event PivotEventHandler<PivotNavigateEvent> _navigated;
+        private event PivotEventHandler<PivotNavigateEvent>       _navigated;
 
-        private readonly List<Tab> _orderedTabs = new List<Tab>();
-        private readonly Dropdown _dropdown;
-        private readonly Stack _commands;
+        private readonly List<Tab>   _orderedTabs = new List<Tab>();
+        private readonly Dropdown    _dropdown;
+        private readonly Stack       _commands;
         private readonly HTMLElement _renderedContent;
         private readonly HTMLElement _container;
 
@@ -32,8 +32,8 @@ namespace Tesserae
         /// </summary>
         public PivotSelector()
         {
-            _dropdown = Dropdown().Grow().MaxWidth(500.px()).MinWidth(new UnitSize("min(200px, 100%)"));
-            _commands = HStack().WS().NoShrink();
+            _dropdown        = Dropdown().Grow().MaxWidth(500.px()).MinWidth(new UnitSize("min(200px, 100%)"));
+            _commands        = HStack().WS().NoShrink();
             _renderedContent = Div(_("tss-pivot-content", role: "tabpanel"));
 
             var header = HStack().Children(_dropdown, _commands).WS().AlignItemsCenter().PaddingBottom(8.px());
@@ -43,6 +43,7 @@ namespace Tesserae
             _dropdown.OnInput((s, e) =>
             {
                 var selected = _dropdown.SelectedItems.FirstOrDefault();
+
                 if (selected != null)
                 {
                     Select(selected.GetDataAs<string>());
@@ -109,10 +110,12 @@ namespace Tesserae
             if (_currentSelectedID != id || refresh)
             {
                 var tab = _orderedTabs.FirstOrDefault(t => t.Id == id);
+
                 if (tab is object)
                 {
                     var pbne = new PivotBeforeNavigateEvent(_currentSelectedID, id);
                     _beforeNavigated?.Invoke(this, pbne);
+
                     if (pbne.Canceled)
                     {
                         UpdateDropdownItems();
@@ -152,16 +155,16 @@ namespace Tesserae
             /// </summary>
             public Tab(string id, Func<IComponent> titleCreator, Func<IComponent> contentCreator, bool cached = false)
             {
-                Id = id;
+                Id               = id;
                 _canCacheContent = cached;
-                _contentCreator = contentCreator;
-                _titleCreator = titleCreator;
+                _contentCreator  = contentCreator;
+                _titleCreator    = titleCreator;
             }
 
-            private Func<IComponent> _titleCreator;
-            private Func<IComponent> _contentCreator;
-            private HTMLElement _content;
-            private readonly bool _canCacheContent;
+            private          Func<IComponent> _titleCreator;
+            private          Func<IComponent> _contentCreator;
+            private          HTMLElement      _content;
+            private readonly bool             _canCacheContent;
 
             /// <summary>
             /// Sets the DOM id of the component.
@@ -210,7 +213,7 @@ namespace Tesserae
             internal PivotEvent(string currentPivot, string targetPivot)
             {
                 CurrentPivot = currentPivot;
-                TargetPivot = targetPivot;
+                TargetPivot  = targetPivot;
             }
             /// <summary>
             /// Gets or sets the current pivot.

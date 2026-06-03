@@ -11,13 +11,13 @@ namespace Tesserae
     [H5.Name("tss.Pagination")]
     public sealed class Pagination : ComponentBase<Pagination, HTMLElement>
     {
-        private readonly HTMLElement _buttonContainer;
-        private readonly HTMLSpanElement _status;
-        private          int _totalItems;
-        private          int _pageSize;
-        private          int _currentPage;
-        private          int _maxPageButtons;
-        private          bool _showStatus;
+        private readonly HTMLElement        _buttonContainer;
+        private readonly HTMLSpanElement    _status;
+        private          int                _totalItems;
+        private          int                _pageSize;
+        private          int                _currentPage;
+        private          int                _maxPageButtons;
+        private          bool               _showStatus;
         private          Action<Pagination> _pageChanged;
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace Tesserae
             get => _showStatus;
             set
             {
-                _showStatus = value;
+                _showStatus           = value;
                 _status.style.display = _showStatus ? "inline-flex" : "none";
             }
         }
@@ -205,8 +205,8 @@ namespace Tesserae
             ClearChildren(_buttonContainer);
             var totalPages = TotalPages;
 
-            _buttonContainer.appendChild(CreateNavButton("First", UIcons.AngleDoubleLeft, CurrentPage == 1, () => First()));
-            _buttonContainer.appendChild(CreateNavButton("Previous", UIcons.AngleLeft, CurrentPage == 1, () => Previous()));
+            _buttonContainer.appendChild(CreateNavButton("First",    UIcons.AngleDoubleLeft, CurrentPage == 1, () => First()));
+            _buttonContainer.appendChild(CreateNavButton("Previous", UIcons.AngleLeft,       CurrentPage == 1, () => Previous()));
 
             foreach (var page in GetPageNumbers(totalPages))
             {
@@ -219,10 +219,10 @@ namespace Tesserae
                 _buttonContainer.appendChild(CreatePageButton(page));
             }
 
-            _buttonContainer.appendChild(CreateNavButton("Next", UIcons.AngleRight, CurrentPage == totalPages, () => Next()));
+            _buttonContainer.appendChild(CreateNavButton("Next", UIcons.AngleRight,       CurrentPage == totalPages, () => Next()));
             _buttonContainer.appendChild(CreateNavButton("Last", UIcons.AngleDoubleRight, CurrentPage == totalPages, () => Last()));
 
-            _status.innerText = $"Page {CurrentPage} of {totalPages}";
+            _status.innerText     = $"Page {CurrentPage} of {totalPages}";
             _status.style.display = _showStatus ? "inline-flex" : "none";
         }
 
@@ -241,6 +241,7 @@ namespace Tesserae
             var button = Button(_("tss-pagination-button tss-pagination-nav", type: "button", ariaLabel: label), I(icon));
             button.disabled = disabled;
             button.UpdateClassIf(disabled, "tss-disabled");
+
             button.addEventListener("click", _ =>
             {
                 if (disabled)

@@ -15,9 +15,9 @@ namespace Tesserae
         public delegate void PivotEventHandler<TEventArgs>(CardPivot sender, TEventArgs e);
 
         private event PivotEventHandler<PivotBeforeNavigateEvent> _beforeNavigated;
-        private event PivotEventHandler<PivotNavigateEvent> _navigated;
+        private event PivotEventHandler<PivotNavigateEvent>       _navigated;
 
-        private readonly List<Tab> _orderedTabs = new List<Tab>();
+        private readonly List<Tab>                    _orderedTabs    = new List<Tab>();
         private readonly Dictionary<Tab, HTMLElement> _renderedTitles = new Dictionary<Tab, HTMLElement>();
 
         private readonly HTMLElement _renderedTabs;
@@ -32,8 +32,8 @@ namespace Tesserae
         /// </summary>
         public CardPivot()
         {
-            _renderedTabs = Div(_("tss-cardpivot-titlebar", role: "tablist"));
-            _renderedContent = Div(_("tss-cardpivot-content", role: "tabpanel"));
+            _renderedTabs    = Div(_("tss-cardpivot-titlebar", role: "tablist"));
+            _renderedContent = Div(_("tss-cardpivot-content",  role: "tabpanel"));
 
             _container = Div(_("tss-cardpivot"), _renderedTabs, _renderedContent);
         }
@@ -62,6 +62,7 @@ namespace Tesserae
             _orderedTabs.Add(tab);
 
             var titleContainer = Div(_("tss-cardpivot-tab"));
+
             titleContainer.onclick = (e) =>
             {
                 StopEvent(e);
@@ -94,6 +95,7 @@ namespace Tesserae
             if (_currentSelectedID != id || refresh)
             {
                 var tab = _orderedTabs.FirstOrDefault(t => t.Id == id);
+
                 if (tab is object)
                 {
                     var pbne = new PivotBeforeNavigateEvent(_currentSelectedID, id);
@@ -117,6 +119,7 @@ namespace Tesserae
                     ClearChildrenExceptCached();
 
                     var content = tab.RenderContent();
+
                     if (tab.KeepCached)
                     {
                         content.classList.add("tss-cardpivot-keep-cached");
@@ -166,16 +169,16 @@ namespace Tesserae
             /// </summary>
             public Tab(string id, Func<IComponent> titleCreator, Func<IComponent> contentCreator, bool cached = false)
             {
-                Id = id;
+                Id               = id;
                 _canCacheContent = cached;
-                _contentCreator = contentCreator;
-                _titleCreator = titleCreator;
+                _contentCreator  = contentCreator;
+                _titleCreator    = titleCreator;
             }
 
-            private Func<IComponent> _titleCreator;
-            private Func<IComponent> _contentCreator;
-            private HTMLElement _content;
-            private readonly bool _canCacheContent;
+            private          Func<IComponent> _titleCreator;
+            private          Func<IComponent> _contentCreator;
+            private          HTMLElement      _content;
+            private readonly bool             _canCacheContent;
 
             internal bool KeepCached => _canCacheContent;
             /// <summary>
@@ -225,7 +228,7 @@ namespace Tesserae
             internal PivotEvent(string currentPivot, string targetPivot)
             {
                 CurrentPivot = currentPivot;
-                TargetPivot = targetPivot;
+                TargetPivot  = targetPivot;
             }
             /// <summary>
             /// Gets or sets the current pivot.

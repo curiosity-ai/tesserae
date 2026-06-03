@@ -36,11 +36,11 @@ namespace Tesserae
         /// <summary>
         /// Gets or sets the end.
         /// </summary>
-        public DateTime End   { get; set; }
+        public DateTime End { get; set; }
         /// <summary>
         /// Gets the number of items in the component.
         /// </summary>
-        public int      Count { get; set; }
+        public int Count { get; set; }
     }
 
     [H5.Name("tss.TimeHistogramPicker")]
@@ -119,15 +119,15 @@ namespace Tesserae
         /// <summary>
         /// Gets or sets the selected from.
         /// </summary>
-        public DateTime SelectedFrom  => HasSelection ? _buckets[_selectedStartIndex].Start : default;
+        public DateTime SelectedFrom => HasSelection ? _buckets[_selectedStartIndex].Start : default;
         /// <summary>
         /// Gets or sets the selected to.
         /// </summary>
-        public DateTime SelectedTo    => HasSelection ? _buckets[_selectedEndIndex].End : default;
+        public DateTime SelectedTo => HasSelection ? _buckets[_selectedEndIndex].End : default;
         /// <summary>
         /// Gets or sets the selected count.
         /// </summary>
-        public int      SelectedCount => HasSelection ? CountSelectedValues() : 0;
+        public int SelectedCount => HasSelection ? CountSelectedValues() : 0;
 
         private bool HasSelection => _buckets.Count > 0 && _selectedStartIndex >= 0 && _selectedEndIndex >= _selectedStartIndex;
 

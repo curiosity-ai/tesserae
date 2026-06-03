@@ -34,7 +34,7 @@ namespace Tesserae
             _indicators = Div(_("tss-carousel-indicators"));
 
             _prevButton = Button(_("tss-carousel-nav", type: "button", ariaLabel: "Previous"), I(UIcons.AngleLeft));
-            _nextButton = Button(_("tss-carousel-nav", type: "button", ariaLabel: "Next"), I(UIcons.AngleRight));
+            _nextButton = Button(_("tss-carousel-nav", type: "button", ariaLabel: "Next"),     I(UIcons.AngleRight));
 
             _prevButton.addEventListener("click", _ => Previous());
             _nextButton.addEventListener("click", _ => Next());
@@ -113,7 +113,7 @@ namespace Tesserae
         public Carousel PadSlides()
         {
             _track.classList.add("tss-carousel-track-pad-slides");
-            return this; 
+            return this;
         }
         /// <summary>
         /// Sets the index of the component.
