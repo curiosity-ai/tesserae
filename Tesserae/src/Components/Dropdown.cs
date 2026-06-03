@@ -458,11 +458,10 @@ namespace Tesserae
             ClearSearch();
             ResetSearchItems();
             InnerElement.setAttribute("aria-expanded", "false");
-            document.removeEventListener("click",       _onWindowClickAction);
-            document.removeEventListener("dblclick",    _onWindowClickAction);
-            document.removeEventListener("contextmenu", _onWindowClickAction);
-            document.removeEventListener("wheel",       _onWindowClickAction);
-            document.removeEventListener("keydown",     _onPopupKeyDownAction);
+            // The click/dblclick/contextmenu/wheel listeners are attached once to
+            // _contentHtml when it's first created (see Show) and intentionally live
+            // for the dropdown's lifetime, so they're not removed here.
+            document.removeEventListener("keydown", _onPopupKeyDownAction);
             base.Hide(onHidden);
 
             if (_isChanged)
