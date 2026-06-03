@@ -12,10 +12,11 @@ namespace Tesserae
     /// rendering.
     /// </summary>
     [H5.Name("tss.Tree")]
-    public sealed class Tree : ComponentBase<Tree, HTMLUListElement>, IContainer<Tree.Item, Tree.Item>
+    public sealed class Tree : ComponentBase<Tree, HTMLUListElement>, IContainer<Tree.Item, Tree.Item>, IObservableComponent<Tree.Item>
     {
-        private readonly List<Item> _children         = new List<Item>();
-        private          bool       _selectionEnabled = false;
+        private readonly List<Item>               _children         = new List<Item>();
+        private readonly SettableObservable<Item> _observable       = new SettableObservable<Item>();
+        private          bool                     _selectionEnabled = false;
 
         /// <summary>
         /// Initializes a new instance of this class.
@@ -118,7 +119,8 @@ namespace Tesserae
             if (component.IsSelected)
             {
                 if (SelectedItem != null) SelectedItem.IsSelected = false;
-                SelectedItem = component;
+                SelectedItem      = component;
+                _observable.Value = component;
             }
 
             if (component.SelectedChild != null)
@@ -166,9 +168,15 @@ namespace Tesserae
                 c.UnselectRecursively(sender);
             }
 
-            SelectedItem = sender;
+            SelectedItem      = sender;
+            _observable.Value = sender;
             SelectedItemChanged?.Invoke(this, sender);
         }
+
+        /// <summary>
+        /// Returns an observable that tracks the currently-selected tree item.
+        /// </summary>
+        public IObservable<Item> AsObservable() => _observable;
 
         /// <summary>
         /// Adds the given items to the component.

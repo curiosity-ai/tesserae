@@ -8,19 +8,20 @@ namespace Tesserae
     /// A single expand / collapse section, with a clickable header that reveals its body content.
     /// </summary>
     [H5.Name("tss.Expander")]
-    public sealed class Expander : ComponentBase<Expander, HTMLElement>
+    public sealed class Expander : ComponentBase<Expander, HTMLElement>, IBindableComponent<bool>
     {
-        private readonly HTMLElement      _header;
-        private readonly HTMLElement      _headerContent;
-        private readonly HTMLSpanElement  _title;
-        private readonly HTMLElement      _iconContainer;
-        private readonly HTMLElement      _chevron;
-        private readonly HTMLElement      _content;
-        private          bool             _isExpanded;
-        private          bool             _customHeader;
-        private          Action<Expander> _onToggle;
-        private          Action<Expander> _onExpand;
-        private          Action<Expander> _onCollapse;
+        private readonly HTMLElement              _header;
+        private readonly HTMLElement              _headerContent;
+        private readonly HTMLSpanElement          _title;
+        private readonly HTMLElement              _iconContainer;
+        private readonly HTMLElement              _chevron;
+        private readonly HTMLElement              _content;
+        private readonly SettableObservable<bool> _observable;
+        private          bool                     _isExpanded;
+        private          bool                     _customHeader;
+        private          Action<Expander>         _onToggle;
+        private          Action<Expander>         _onExpand;
+        private          Action<Expander>         _onCollapse;
 
         /// <summary>
         /// Initializes a new instance of this class.
@@ -42,6 +43,8 @@ namespace Tesserae
 
             InnerElement = Div(_("tss-expander"), _header, _content);
 
+            _observable = new SettableObservable<bool>();
+
             SetContent(content);
             UpdateExpandedState();
 
@@ -61,7 +64,8 @@ namespace Tesserae
                     return;
                 }
 
-                _isExpanded = value;
+                _isExpanded       = value;
+                _observable.Value = value;
                 UpdateExpandedState();
 
                 _onToggle?.Invoke(this);
@@ -232,6 +236,16 @@ namespace Tesserae
             _onCollapse += onCollapse;
             return this;
         }
+
+        /// <summary>
+        /// Returns an observable that tracks the expanded state of the component.
+        /// </summary>
+        public IObservable<bool> AsObservable() => _observable;
+
+        /// <summary>
+        /// Programmatically updates the expanded state as part of a two-way binding.
+        /// </summary>
+        public void SetBoundValue(bool value) => IsExpanded = value;
 
         private void UpdateExpandedState()
         {

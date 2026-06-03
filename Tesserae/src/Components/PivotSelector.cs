@@ -11,12 +11,14 @@ namespace Tesserae
     /// positioned independently of its panels.
     /// </summary>
     [H5.Name("tss.PivotSelector")]
-    public class PivotSelector : IComponent
+    public class PivotSelector : IComponent, IBindableComponent<string>
     {
         public delegate void PivotEventHandler<TEventArgs>(PivotSelector sender, TEventArgs e);
 
         private event PivotEventHandler<PivotBeforeNavigateEvent> _beforeNavigated;
         private event PivotEventHandler<PivotNavigateEvent>       _navigated;
+
+        private readonly SettableObservable<string> _observable = new SettableObservable<string>();
 
         private readonly List<Tab>   _orderedTabs = new List<Tab>();
         private readonly Dropdown    _dropdown;
@@ -129,11 +131,27 @@ namespace Tesserae
                     ClearChildren(_renderedContent);
                     _renderedContent.appendChild(tab.RenderContent());
 
+                    _observable.Value = _currentSelectedID;
+
                     var pne = new PivotNavigateEvent(_currentSelectedID, id);
                     _navigated?.Invoke(this, pne);
                 }
             }
             return this;
+        }
+
+        /// <summary>
+        /// Returns an observable that tracks the id of the currently-selected tab.
+        /// </summary>
+        public IObservable<string> AsObservable() => _observable;
+
+        /// <summary>
+        /// Programmatically selects a tab by id as part of a two-way binding.
+        /// </summary>
+        public void SetBoundValue(string value)
+        {
+            if (string.IsNullOrEmpty(value)) return;
+            Select(value);
         }
 
         /// <summary>

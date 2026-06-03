@@ -9,10 +9,12 @@ namespace Tesserae
     /// A side-anchored slide-in panel (drawer) typically used for property inspectors and detail views.
     /// </summary>
     [H5.Name("tss.Panel")]
-    public sealed class Panel : Layer<Panel>, IHasBackgroundColor
+    public sealed class Panel : Layer<Panel>, IHasBackgroundColor, IBindableComponent<bool>
     {
         private event OnHideHandler HidePanel;
         public delegate void        OnHideHandler(Panel sender);
+
+        private readonly SettableObservable<bool> _observable = new SettableObservable<bool>();
 
         private          IComponent  _footer;
         private readonly HTMLElement _panel;
@@ -225,7 +227,9 @@ namespace Tesserae
                 _panel.classList.remove("tss-panel-near-animate");
             }
 
-            return base.Show();
+            var result = base.Show();
+            _observable.Value = true;
+            return result;
         }
 
         /// <summary>
@@ -243,12 +247,33 @@ namespace Tesserae
         public override void Hide(Action onHidden = null)
         {
             HidePanel?.Invoke(this);
+            _observable.Value = false;
 
             base.Hide(() =>
             {
                 if (!IsNonBlocking) document.body.style.overflowY = "";
                 onHidden?.Invoke();
             });
+        }
+
+        /// <summary>
+        /// Returns an observable that tracks the visibility of the panel.
+        /// </summary>
+        public IObservable<bool> AsObservable() => _observable;
+
+        /// <summary>
+        /// Programmatically shows or hides the panel as part of a two-way binding.
+        /// </summary>
+        public void SetBoundValue(bool value)
+        {
+            if (value)
+            {
+                if (!IsVisible) Show();
+            }
+            else
+            {
+                if (IsVisible) Hide();
+            }
         }
         private void OnCloseClick(object ev)
         {

@@ -9,11 +9,12 @@ namespace Tesserae
     /// A slider component.
     /// </summary>
     [H5.Name("tss.Slider")]
-    public sealed class Slider : ComponentBase<Slider, HTMLInputElement>
+    public sealed class Slider : ComponentBase<Slider, HTMLInputElement>, IBindableComponent<int>
     {
-        private readonly HTMLLabelElement _outerLabel;
-        private readonly HTMLDivElement   _outerDiv;
-        private readonly HTMLDivElement   _fakeDiv;
+        private readonly HTMLLabelElement        _outerLabel;
+        private readonly HTMLDivElement          _outerDiv;
+        private readonly HTMLDivElement          _fakeDiv;
+        private readonly SettableObservable<int> _observable;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Slider"/> class.
@@ -36,11 +37,17 @@ namespace Tesserae
             InnerElement.setAttribute("aria-valuemax", max.ToString());
             InnerElement.setAttribute("aria-valuenow", val.ToString());
 
+            _observable = new SettableObservable<int>(val);
+
             AttachClick();
             AttachChange();
             AttachInput();
             AttachFocus();
             AttachBlur();
+
+            // Subscribe to the underlying events so the observable updates on user input.
+            Changed      += (_, __) => _observable.Value = Value;
+            InputUpdated += (_, __) => _observable.Value = Value;
 
             if (navigator.userAgent.IndexOf("AppleWebKit") != -1)
             {
@@ -128,9 +135,20 @@ namespace Tesserae
                     InnerElement.value = value.ToString();
                     InnerElement.setAttribute("aria-valuenow", value.ToString());
                     if (_fakeDiv is object) UpdateFakeProgress();
+                    _observable.Value = value;
                 }
             }
         }
+
+        /// <summary>
+        /// Returns an observable that tracks the slider's value.
+        /// </summary>
+        public IObservable<int> AsObservable() => _observable;
+
+        /// <summary>
+        /// Programmatically updates the slider value as part of a two-way binding.
+        /// </summary>
+        public void SetBoundValue(int value) => Value = value;
 
         /// <summary>
         /// Gets or sets the minimum value.

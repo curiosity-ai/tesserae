@@ -10,17 +10,18 @@ namespace Tesserae
     /// pagination.
     /// </summary>
     [H5.Name("tss.Carousel")]
-    public sealed class Carousel : ComponentBase<Carousel, HTMLElement>
+    public sealed class Carousel : ComponentBase<Carousel, HTMLElement>, IBindableComponent<int>
     {
-        private readonly HTMLElement       _viewport;
-        private readonly HTMLElement       _track;
-        private readonly HTMLElement       _controls;
-        private readonly HTMLElement       _indicators;
-        private readonly HTMLButtonElement _prevButton;
-        private readonly HTMLButtonElement _nextButton;
-        private readonly List<HTMLElement> _slides;
-        private          int               _currentIndex;
-        private          Action<Carousel>  _onSlideChanged;
+        private readonly HTMLElement             _viewport;
+        private readonly HTMLElement             _track;
+        private readonly HTMLElement             _controls;
+        private readonly HTMLElement             _indicators;
+        private readonly HTMLButtonElement       _prevButton;
+        private readonly HTMLButtonElement       _nextButton;
+        private readonly List<HTMLElement>       _slides;
+        private readonly SettableObservable<int> _observable;
+        private          int                     _currentIndex;
+        private          Action<Carousel>        _onSlideChanged;
 
         /// <summary>
         /// Initializes a new instance of this class.
@@ -32,6 +33,7 @@ namespace Tesserae
             _viewport   = Div(_("tss-carousel-viewport"), _track);
             _controls   = Div(_("tss-carousel-controls"));
             _indicators = Div(_("tss-carousel-indicators"));
+            _observable = new SettableObservable<int>(0);
 
             _prevButton = Button(_("tss-carousel-nav", type: "button", ariaLabel: "Previous"), I(UIcons.AngleLeft));
             _nextButton = Button(_("tss-carousel-nav", type: "button", ariaLabel: "Next"),     I(UIcons.AngleRight));
@@ -138,6 +140,7 @@ namespace Tesserae
             UpdateTrack();
             UpdateIndicators();
             UpdateControls();
+            _observable.Value = _currentIndex;
 
             if (raiseEvent)
             {
@@ -146,6 +149,16 @@ namespace Tesserae
 
             return this;
         }
+
+        /// <summary>
+        /// Returns an observable that tracks the active slide index.
+        /// </summary>
+        public IObservable<int> AsObservable() => _observable;
+
+        /// <summary>
+        /// Programmatically updates the active slide as part of a two-way binding.
+        /// </summary>
+        public void SetBoundValue(int value) => SetIndex(value);
 
         /// <summary>
         /// Configures the component to next.
