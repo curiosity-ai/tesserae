@@ -39,6 +39,9 @@ namespace Tesserae
         private int                      _latestRequestID;
         private Func<Item[], IComponent> _customRenderer;
 
+        private readonly Action<Event> _onWindowClickAction;
+        private readonly Action<Event> _onPopupKeyDownAction;
+
         /// <summary>
         /// Static configuration of the icon shown on the dropdown chevron, applied globally to every <see cref="Dropdown"/> instance.
         /// </summary>
@@ -49,6 +52,9 @@ namespace Tesserae
         /// </summary>
         public Dropdown(HTMLSpanElement noItemsSpan = null)
         {
+            _onWindowClickAction  = (ev) => OnWindowClick(ev);
+            _onPopupKeyDownAction = (ev) => OnPopupKeyDown(ev);
+
             _noItemsSpan = noItemsSpan ?? Span(_(text: "There are no options available"));
             _searchSpan  = Span(_("tss-dropdown-search-term"));
 
@@ -325,12 +331,12 @@ namespace Tesserae
                 }
                 _contentHtml = Div(_("tss-dropdown-layer"), _popupDiv);
 
-                _contentHtml.addEventListener("click",       OnWindowClick);
-                _contentHtml.addEventListener("dblclick",    OnWindowClick);
-                _contentHtml.addEventListener("contextmenu", OnWindowClick);
+                _contentHtml.addEventListener("click",       _onWindowClickAction);
+                _contentHtml.addEventListener("dblclick",    _onWindowClickAction);
+                _contentHtml.addEventListener("contextmenu", _onWindowClickAction);
                 // OnWindowClick doesn't preventDefault, so mark the wheel listener
                 // passive to avoid blocking scroll and silence the browser warning.
-                _contentHtml.addEventListener("wheel",       (Action<Event>)OnWindowClick, new AddEventListenerOptions { passive = true });
+                _contentHtml.addEventListener("wheel",       _onWindowClickAction, new AddEventListenerOptions { passive = true });
 
                 if (_itemsSource is object)
                 {
@@ -354,7 +360,7 @@ namespace Tesserae
 
             DomObserver.WhenMounted(_popupDiv, () =>
             {
-                document.addEventListener("keydown", OnPopupKeyDown);
+                document.addEventListener("keydown", _onPopupKeyDownAction);
 
                 if (_searchBox != null)
                 {
@@ -452,11 +458,11 @@ namespace Tesserae
             ClearSearch();
             ResetSearchItems();
             InnerElement.setAttribute("aria-expanded", "false");
-            document.removeEventListener("click",       OnWindowClick);
-            document.removeEventListener("dblclick",    OnWindowClick);
-            document.removeEventListener("contextmenu", OnWindowClick);
-            document.removeEventListener("wheel",       OnWindowClick);
-            document.removeEventListener("keydown",     OnPopupKeyDown);
+            document.removeEventListener("click",       _onWindowClickAction);
+            document.removeEventListener("dblclick",    _onWindowClickAction);
+            document.removeEventListener("contextmenu", _onWindowClickAction);
+            document.removeEventListener("wheel",       _onWindowClickAction);
+            document.removeEventListener("keydown",     _onPopupKeyDownAction);
             base.Hide(onHidden);
 
             if (_isChanged)

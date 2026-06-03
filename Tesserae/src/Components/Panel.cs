@@ -23,6 +23,8 @@ namespace Tesserae
         private readonly HTMLElement _closeButton;
         private readonly HTMLElement _panelTitle;
 
+        private readonly Action<Event> _onCloseClickAction;
+
         /// <summary>
         /// Initializes a new instance of this class.
         /// </summary>
@@ -33,6 +35,8 @@ namespace Tesserae
         /// </summary>
         public Panel(IComponent title)
         {
+            _onCloseClickAction = (ev) => OnCloseClick(ev);
+
             _panelTitle = Div(_("tss-panel-title"));
 
             _closeButton  = Button(_($"tss-panel-command-button", el: el => el.onclick = (e) => Hide()), I(_("tss-fontsize-small " + UIcons.Cross.ToString())));
@@ -136,12 +140,12 @@ namespace Tesserae
                 if (value)
                 {
                     _panelOverlay.classList.add("tss-panel-lightDismiss");
-                    _panelOverlay.addEventListener("click", OnCloseClick);
+                    _panelOverlay.addEventListener("click", _onCloseClickAction);
                 }
                 else
                 {
                     _panelOverlay.classList.remove("tss-panel-lightDismiss");
-                    _panelOverlay.removeEventListener("click", OnCloseClick);
+                    _panelOverlay.removeEventListener("click", _onCloseClickAction);
                 }
             }
         }
