@@ -614,6 +614,7 @@ namespace Tesserae
         protected override HTMLElement BuildRenderedContent()
         {
             var trap = new FocusTrap(_contentHtml);
+
             if (WillShowCloseButton)
             {
                 trap.TrapEscape(() => OnCloseClick(null));
@@ -708,7 +709,7 @@ namespace Tesserae
             {
                 var x     = X;
                 var y     = Y;
-                var halfW = (window.innerWidth  - rect.width)  / 2;
+                var halfW = (window.innerWidth - rect.width) / 2;
                 var halfH = (window.innerHeight - rect.height) / 2;
 
                 if (x < -halfW + 5)

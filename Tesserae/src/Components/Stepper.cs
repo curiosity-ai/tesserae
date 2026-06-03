@@ -15,9 +15,9 @@ namespace Tesserae
         /// </summary>
         public StepperStep(string title, IComponent content, string description = null)
         {
-            Title = title ?? string.Empty;
+            Title       = title ?? string.Empty;
             Description = description ?? string.Empty;
-            Content = content;
+            Content     = content;
         }
 
         /// <summary>
@@ -37,15 +37,15 @@ namespace Tesserae
     [H5.Name("tss.Stepper")]
     public sealed class Stepper : ComponentBase<Stepper, HTMLElement>, IBindableComponent<int>
     {
-        private readonly List<StepperStep>        _steps;
-        private readonly HTMLElement              _header;
-        private readonly HTMLElement              _content;
-        private readonly HTMLElement              _footer;
-        private readonly HTMLButtonElement        _nextButton;
-        private readonly HTMLButtonElement        _prevButton;
-        private readonly SettableObservable<int>  _observable;
-        private          int                      _currentIndex;
-        private          Action<Stepper>          _onStepChanged;
+        private readonly List<StepperStep>       _steps;
+        private readonly HTMLElement             _header;
+        private readonly HTMLElement             _content;
+        private readonly HTMLElement             _footer;
+        private readonly HTMLButtonElement       _nextButton;
+        private readonly HTMLButtonElement       _prevButton;
+        private readonly SettableObservable<int> _observable;
+        private          int                     _currentIndex;
+        private          Action<Stepper>         _onStepChanged;
 
         /// <summary>
         /// Initializes a new instance of this class.
@@ -197,8 +197,8 @@ namespace Tesserae
             {
                 var step     = _steps[i];
                 var stepItem = Div(_("tss-stepper-step"));
-                var circle   = Span(_("tss-stepper-circle", text: (i + 1).ToString()));
-                var label    = Span(_("tss-stepper-label", text: step.Title));
+                var circle   = Span(_("tss-stepper-circle",      text: (i + 1).ToString()));
+                var label    = Span(_("tss-stepper-label",       text: step.Title));
                 var desc     = Span(_("tss-stepper-description", text: step.Description));
 
                 stepItem.appendChild(circle);

@@ -10,10 +10,10 @@ namespace Tesserae
     [H5.Name("tss.ChoiceGroup")]
     public sealed class ChoiceGroup : ComponentBase<ChoiceGroup, HTMLDivElement>, IContainer<ChoiceGroup, ChoiceGroup.Choice>, IBindableComponent<ChoiceGroup.Choice>
     {
-        private readonly string _name;
+        private readonly string                     _name;
         private readonly TextBlock                  _header;
         private readonly SettableObservable<Choice> _selectedOption;
-        private static int _count = 0;
+        private static   int                        _count = 0;
         /// <summary>
         /// Initializes a new instance of this class.
         /// </summary>
@@ -25,7 +25,7 @@ namespace Tesserae
             _header = (new TextBlock(label)).SemiBold().Id(headerId);
             var h = _header.Render();
             h.style.alignSelf = "baseline";
-            _selectedOption = new SettableObservable<Choice>();
+            _selectedOption   = new SettableObservable<Choice>();
             InnerElement      = Div(_("tss-choice-group tss-default-component-margin", role: "radiogroup", ariaLabelledBy: headerId, styles: s => { s.flexDirection = "column"; }), h);
         }
 
@@ -194,7 +194,7 @@ namespace Tesserae
             {
                 InnerElement = RadioButton(_("tss-option"));
                 _radioSpan   = Span(_("tss-option-mark"));
-                _label = Label(_("tss-option-container tss-default-component-margin tss-fontcolor-default tss-fontsize-small tss-fontweight-regular", text: text), InnerElement, _radioSpan);
+                _label       = Label(_("tss-option-container tss-default-component-margin tss-fontcolor-default tss-fontsize-small tss-fontweight-regular", text: text), InnerElement, _radioSpan);
                 AttachClick();
                 AttachChange();
                 AttachFocus();

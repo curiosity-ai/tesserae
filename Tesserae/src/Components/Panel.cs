@@ -227,7 +227,7 @@ namespace Tesserae
                 _panel.classList.remove("tss-panel-near-animate");
             }
 
-            var result        = base.Show();
+            var result = base.Show();
             _observable.Value = true;
             return result;
         }
@@ -296,7 +296,7 @@ namespace Tesserae
         public enum PanelSide
         {
             [Name("tss-panelSide-far")]  Far,
-            [Name("tss-panelSide-near")]  Near
+            [Name("tss-panelSide-near")] Near
         }
 
         /// <summary>

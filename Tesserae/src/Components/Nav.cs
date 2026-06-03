@@ -23,7 +23,7 @@ namespace Tesserae
         /// </summary>
         public NavLink SelectedLink { get; private set; }
 
-        private readonly List<NavLink>              _children   = new List<NavLink>();
+        private readonly List<NavLink>               _children   = new List<NavLink>();
         private readonly SettableObservable<NavLink> _observable = new SettableObservable<NavLink>();
 
         /// <summary>

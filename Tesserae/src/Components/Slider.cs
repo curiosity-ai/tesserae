@@ -11,10 +11,10 @@ namespace Tesserae
     [H5.Name("tss.Slider")]
     public sealed class Slider : ComponentBase<Slider, HTMLInputElement>, IBindableComponent<int>
     {
-        private readonly HTMLLabelElement         _outerLabel;
-        private readonly HTMLDivElement           _outerDiv;
-        private readonly HTMLDivElement           _fakeDiv;
-        private readonly SettableObservable<int>  _observable;
+        private readonly HTMLLabelElement        _outerLabel;
+        private readonly HTMLDivElement          _outerDiv;
+        private readonly HTMLDivElement          _fakeDiv;
+        private readonly SettableObservable<int> _observable;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Slider"/> class.
@@ -75,6 +75,7 @@ namespace Tesserae
         private double UpdateFakeProgress()
         {
             double percent = ((double)(Value - Min) / (Max - Min)) * 100.0;
+
             if (Orientation == SliderOrientation.Vertical)
             {
                 _fakeDiv.style.height = $"{percent:0.##}%";
@@ -98,6 +99,7 @@ namespace Tesserae
                 {
                     _outerLabel.classList.add("tss-vertical");
                     _outerDiv.classList.add("tss-slider-div-vertical");
+
                     if (_fakeDiv is object)
                     {
                         _fakeDiv.style.width = "100%";
@@ -109,6 +111,7 @@ namespace Tesserae
                 {
                     _outerLabel.classList.remove("tss-vertical");
                     _outerDiv.classList.remove("tss-slider-div-vertical");
+
                     if (_fakeDiv is object)
                     {
                         _fakeDiv.style.height = "100%";

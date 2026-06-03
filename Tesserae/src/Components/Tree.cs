@@ -14,9 +14,9 @@ namespace Tesserae
     [H5.Name("tss.Tree")]
     public sealed class Tree : ComponentBase<Tree, HTMLUListElement>, IContainer<Tree.Item, Tree.Item>, IObservableComponent<Tree.Item>
     {
-        private readonly List<Item>                _children   = new List<Item>();
-        private readonly SettableObservable<Item>  _observable = new SettableObservable<Item>();
-        private          bool                      _selectionEnabled = false;
+        private readonly List<Item>               _children         = new List<Item>();
+        private readonly SettableObservable<Item> _observable       = new SettableObservable<Item>();
+        private          bool                     _selectionEnabled = false;
 
         /// <summary>
         /// Initializes a new instance of this class.
@@ -30,6 +30,7 @@ namespace Tesserae
                 var onKeyDown = new Action<Event>(e =>
                 {
                     var kbEvent = e.As<KeyboardEvent>();
+
                     if (kbEvent.shiftKey)
                     {
                         InnerElement.classList.add("tss-tree-shift-pressed");
@@ -39,6 +40,7 @@ namespace Tesserae
                 var onKeyUp = new Action<Event>(e =>
                 {
                     var kbEvent = e.As<KeyboardEvent>();
+
                     if (!kbEvent.shiftKey)
                     {
                         InnerElement.classList.remove("tss-tree-shift-pressed");
@@ -46,12 +48,12 @@ namespace Tesserae
                 });
 
                 document.body.addEventListener("keydown", onKeyDown);
-                document.body.addEventListener("keyup", onKeyUp);
+                document.body.addEventListener("keyup",   onKeyUp);
 
                 DomObserver.WhenRemoved(InnerElement, () =>
                 {
                     document.body.removeEventListener("keydown", onKeyDown);
-                    document.body.removeEventListener("keyup", onKeyUp);
+                    document.body.removeEventListener("keyup",   onKeyUp);
                 });
             });
         }
@@ -86,6 +88,7 @@ namespace Tesserae
         public Tree SelectionEnabled(bool enabled = true)
         {
             _selectionEnabled = enabled;
+
             if (enabled)
             {
                 InnerElement.classList.add("tss-tree-selection-enabled");
@@ -142,10 +145,11 @@ namespace Tesserae
         public void Replace(Item newComponent, Item oldComponent)
         {
             var index = _children.IndexOf(oldComponent);
+
             if (index >= 0)
             {
                 newComponent.SelectionEnabled = _selectionEnabled;
-                _children[index] = newComponent;
+                _children[index]              = newComponent;
                 InnerElement.replaceChild(newComponent.Render(), oldComponent.Render());
                 newComponent.InternalSelectedItem += OnItemSelected;
 
@@ -187,24 +191,24 @@ namespace Tesserae
         public class Item : ComponentBase<Item, HTMLLIElement>, IContainer<Item, Item>
         {
             internal event ComponentEventHandler<Item> InternalSelectedItem;
-            private event ComponentEventHandler<Item> SelectedItem;
-            private event ComponentEventHandler<Item> ExpandedItem;
-            private event ComponentEventHandler<Item> CollapsedItem;
+            private event  ComponentEventHandler<Item> SelectedItem;
+            private event  ComponentEventHandler<Item> ExpandedItem;
+            private event  ComponentEventHandler<Item> CollapsedItem;
 
-            private readonly HTMLDivElement    _headerDiv;
-            private readonly HTMLElement       _chevronSpan;
-            private          HTMLElement       _iconSpan;
-            private          UIcons?           _icon;
-            private readonly HTMLElement       _checkboxSpan;
-            private readonly HTMLSpanElement   _textSpan;
-            private readonly HTMLDivElement    _commandsDiv;
-            private readonly HTMLUListElement  _childContainer;
-            private readonly TreeCommand[]  _commands;
+            private readonly HTMLDivElement   _headerDiv;
+            private readonly HTMLElement      _chevronSpan;
+            private          HTMLElement      _iconSpan;
+            private          UIcons?          _icon;
+            private readonly HTMLElement      _checkboxSpan;
+            private readonly HTMLSpanElement  _textSpan;
+            private readonly HTMLDivElement   _commandsDiv;
+            private readonly HTMLUListElement _childContainer;
+            private readonly TreeCommand[]    _commands;
 
             private readonly List<Item> _childItems = new List<Item>();
-            private bool _isExpanded;
-            private bool _isSelected;
-            private bool _selectionEnabled;
+            private          bool       _isExpanded;
+            private          bool       _isSelected;
+            private          bool       _selectionEnabled;
 
             internal Item SelectedChild { get; private set; }
 
@@ -214,6 +218,7 @@ namespace Tesserae
                 set
                 {
                     _selectionEnabled = value;
+
                     foreach (var child in _childItems)
                     {
                         child.SelectionEnabled = value;
@@ -227,7 +232,7 @@ namespace Tesserae
             public Item(string text = null, UIcons? icon = null, params TreeCommand[] commands)
             {
                 _chevronSpan    = I(_("tss-tree-chevron " + UIcons.AngleRight.ToString()));
-                _textSpan       = Span(_("tss-tree-text", text: text));
+                _textSpan       = Span(_("tss-tree-text",   text: text));
                 _childContainer = Ul(_("tss-tree-children", role: "group"));
                 _checkboxSpan   = I(_("tss-tree-checkbox " + UIcons.Square.ToString()));
                 _commands       = commands ?? new TreeCommand[0];
@@ -236,7 +241,7 @@ namespace Tesserae
 
                 if (icon.HasValue)
                 {
-                    _icon = icon.Value;
+                    _icon     = icon.Value;
                     _iconSpan = I(_("tss-tree-icon " + icon.Value.ToString()));
                     _headerDiv.appendChild(_iconSpan);
                 }
@@ -256,11 +261,11 @@ namespace Tesserae
                 _headerDiv.appendChild(_commandsDiv);
 
                 InnerElement = Li(_("tss-tree-item", role: "treeitem"), _headerDiv, _childContainer);
-                InnerElement.setAttribute("aria-expanded",  "false");
-                InnerElement.setAttribute("aria-selected",  "false");
+                InnerElement.setAttribute("aria-expanded", "false");
+                InnerElement.setAttribute("aria-selected", "false");
 
-                _headerDiv.onclick = ClickHandler;
-                _chevronSpan.onclick = ChevronClickHandler;
+                _headerDiv.onclick    = ClickHandler;
+                _chevronSpan.onclick  = ChevronClickHandler;
                 _checkboxSpan.onclick = CheckboxClickHandler;
 
                 AttachContextMenu();
@@ -310,6 +315,7 @@ namespace Tesserae
                 set
                 {
                     _icon = value;
+
                     if (!value.HasValue)
                     {
                         if (_iconSpan != null)
@@ -345,6 +351,7 @@ namespace Tesserae
                     {
                         _isExpanded = value;
                         InnerElement.setAttribute("aria-expanded", _isExpanded ? "true" : "false");
+
                         if (_isExpanded)
                         {
                             InnerElement.classList.add("tss-expanded");
@@ -375,6 +382,7 @@ namespace Tesserae
                     {
                         _isSelected = value;
                         InnerElement.setAttribute("aria-selected", _isSelected ? "true" : "false");
+
                         if (_isSelected)
                         {
                             _headerDiv.classList.add("tss-selected");
@@ -449,6 +457,7 @@ namespace Tesserae
             public void Replace(Item newComponent, Item oldComponent)
             {
                 var index = _childItems.IndexOf(oldComponent);
+
                 if (index >= 0)
                 {
                     _childItems[index] = newComponent;
@@ -610,6 +619,7 @@ namespace Tesserae
             private void ChevronClickHandler(MouseEvent e)
             {
                 StopEvent(e);
+
                 if (HasChildren || _chevronSpan.classList.contains("tss-has-children"))
                 {
                     IsExpanded = !IsExpanded;

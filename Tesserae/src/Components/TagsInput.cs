@@ -26,17 +26,17 @@ namespace Tesserae
     [H5.Name("tss.TagsInput")]
     public sealed class TagsInput : IComponent, IHasMarginPadding, IBindableListComponent<string>
     {
-        private readonly HTMLDivElement   _container;
-        private readonly HTMLInputElement _input;
-        private readonly List<string>     _tags = new List<string>();
+        private readonly HTMLDivElement                            _container;
+        private readonly HTMLInputElement                          _input;
+        private readonly List<string>                              _tags = new List<string>();
         private readonly SettableObservable<IReadOnlyList<string>> _observable;
-        private          Action<string>   _onTagAdded;
-        private          Action<string>   _onTagRemoved;
-        private          Action           _onChange;
-        private          bool             _allowDuplicates = false;
-        private          int              _maxTags         = int.MaxValue;
-        private          Func<string, string> _normalizer  = s => s?.Trim();
-        private          char[]           _delimiters      = new[] { ',' };
+        private          Action<string>                            _onTagAdded;
+        private          Action<string>                            _onTagRemoved;
+        private          Action                                    _onChange;
+        private          bool                                      _allowDuplicates = false;
+        private          int                                       _maxTags         = int.MaxValue;
+        private          Func<string, string>                      _normalizer      = s => s?.Trim();
+        private          char[]                                    _delimiters      = new[] { ',' };
 
         /// <summary>Creates a new, empty tags input.</summary>
         public TagsInput() : this(Array.Empty<string>()) { }
@@ -44,7 +44,7 @@ namespace Tesserae
         /// <summary>Creates a tags input pre-populated with the given initial tags.</summary>
         public TagsInput(params string[] initialTags)
         {
-            _input = (HTMLInputElement)document.createElement("input");
+            _input      = (HTMLInputElement)document.createElement("input");
             _input.type = "text";
             _input.classList.add("tss-tagsinput-entry");
 
@@ -91,13 +91,25 @@ namespace Tesserae
         public string Padding { get => _container.style.padding; set => _container.style.padding = value; }
 
         /// <summary>Sets the placeholder text shown in the inline entry field.</summary>
-        public TagsInput SetPlaceholder(string placeholder) { Placeholder = placeholder; return this; }
+        public TagsInput SetPlaceholder(string placeholder)
+        {
+            Placeholder = placeholder;
+            return this;
+        }
 
         /// <summary>Allows the same tag value to be added more than once.</summary>
-        public TagsInput AllowingDuplicates() { _allowDuplicates = true; return this; }
+        public TagsInput AllowingDuplicates()
+        {
+            _allowDuplicates = true;
+            return this;
+        }
 
         /// <summary>Caps the number of tags that can be added.</summary>
-        public TagsInput WithMaxTags(int max) { _maxTags = max; return this; }
+        public TagsInput WithMaxTags(int max)
+        {
+            _maxTags = max;
+            return this;
+        }
 
         /// <summary>
         /// Sets the characters (in addition to <c>Enter</c>) that finalize the current entry into a tag.
@@ -120,13 +132,25 @@ namespace Tesserae
         }
 
         /// <summary>Registers a callback fired whenever a new tag is added.</summary>
-        public TagsInput OnTagAdded(Action<string> handler) { _onTagAdded += handler; return this; }
+        public TagsInput OnTagAdded(Action<string> handler)
+        {
+            _onTagAdded += handler;
+            return this;
+        }
 
         /// <summary>Registers a callback fired whenever a tag is removed.</summary>
-        public TagsInput OnTagRemoved(Action<string> handler) { _onTagRemoved += handler; return this; }
+        public TagsInput OnTagRemoved(Action<string> handler)
+        {
+            _onTagRemoved += handler;
+            return this;
+        }
 
         /// <summary>Registers a callback fired whenever the tag list changes for any reason.</summary>
-        public TagsInput OnChange(Action handler) { _onChange += handler; return this; }
+        public TagsInput OnChange(Action handler)
+        {
+            _onChange += handler;
+            return this;
+        }
 
         /// <summary>
         /// Returns an observable that emits the latest tag list whenever it changes. Useful for binding
@@ -157,9 +181,14 @@ namespace Tesserae
             if (_tags.Count == snapshot.Length)
             {
                 var equal = true;
+
                 for (var i = 0; i < snapshot.Length; i++)
                 {
-                    if (_tags[i] != snapshot[i]) { equal = false; break; }
+                    if (_tags[i] != snapshot[i])
+                    {
+                        equal = false;
+                        break;
+                    }
                 }
                 if (equal) return;
             }
@@ -219,6 +248,7 @@ namespace Tesserae
 
             // The chips appear before the entry input in document order, in the same order as _tags.
             var chip = _container.children[(uint)index] as HTMLElement;
+
             if (chip is object && chip.classList.contains("tss-tagsinput-chip"))
             {
                 _container.removeChild(chip);
@@ -234,9 +264,10 @@ namespace Tesserae
 
         private HTMLElement BuildChip(string value)
         {
-            var label  = Span(_("tss-tagsinput-chip-label", text: value));
+            var label  = Span(_("tss-tagsinput-chip-label",  text: value));
             var remove = Span(_("tss-tagsinput-chip-remove", text: "×"));
             var chip   = Div(_("tss-tagsinput-chip"), label, remove);
+
             remove.addEventListener("click", (e) =>
             {
                 e.stopPropagation();
@@ -248,11 +279,13 @@ namespace Tesserae
         private void OnKeyDown(Event evt)
         {
             var e = (KeyboardEvent)evt;
+
             if (e.key == "Enter")
             {
                 if (CommitCurrent()) e.preventDefault();
                 return;
             }
+
             if (e.key == "Tab" && !string.IsNullOrWhiteSpace(_input.value))
             {
                 // Tab commits the current text and keeps focus in the entry field. Tab is only allowed
@@ -262,11 +295,13 @@ namespace Tesserae
                 e.preventDefault();
                 return;
             }
+
             if (e.key == "Backspace" && string.IsNullOrEmpty(_input.value) && _tags.Count > 0)
             {
                 RemoveAt(_tags.Count - 1);
                 return;
             }
+
             if (_delimiters != null && _delimiters.Length > 0 && e.key.Length == 1 && _delimiters.Contains(e.key[0]))
             {
                 if (CommitCurrent()) e.preventDefault();

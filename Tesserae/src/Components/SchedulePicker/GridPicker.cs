@@ -80,7 +80,7 @@ namespace Tesserae
                         NextState(columnIndex, rowIndex);
                     });
                     // added empty content, otherwise firefox doesn't fire the dragstart event (╯‵□′)╯︵┻━┻
-                    btn.Render().appendChild(Div(_("tss-gridpicker-button-content",text:"x")));
+                    btn.Render().appendChild(Div(_("tss-gridpicker-button-content", text: "x")));
 
                     ConfigureButton(btn, column, row);
 

@@ -55,7 +55,7 @@ namespace Tesserae
             get => _steps[_slider.Value];
             set
             {
-                var idx = Array.FindIndex(_steps, p => _equalityComparer.Equals(p, value));
+                var idx                     = Array.FindIndex(_steps, p => _equalityComparer.Equals(p, value));
                 if (idx >= 0) _slider.Value = idx;
             }
         }

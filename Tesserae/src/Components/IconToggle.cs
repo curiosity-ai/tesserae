@@ -11,17 +11,18 @@ namespace Tesserae
     [H5.Name("tss.IconToggle")]
     public class IconToggle<T> : IComponent, IBindableComponent<T>
     {
-        private Stack _stack;
+        private Stack                    _stack;
         private Dictionary<Item, Button> _items;
-        private SettableObservable<T> _itemsObservable;  
+        private SettableObservable<T>    _itemsObservable;
         /// <summary>
         /// Initializes a new instance of this class.
         /// </summary>
         public IconToggle(Item[] items)
         {
-            _stack = HStack().NoDefaultMargin().Class("tss-icon-toggle").NoWrap();
-            _items = new Dictionary<Item, Button>();
+            _stack           = HStack().NoDefaultMargin().Class("tss-icon-toggle").NoWrap();
+            _items           = new Dictionary<Item, Button>();
             _itemsObservable = new SettableObservable<T>(items.First().Data);
+
             foreach (var item in items)
             {
                 var b = Button().Class("tss-icon-toggle-item").SetIcon(item.Icon).Tooltip(item.Tooltip).OnClick(() => Select(item.Data));
@@ -40,7 +41,7 @@ namespace Tesserae
         /// </summary>
         public void Select(T item)
         {
-            foreach(var kv in _items)
+            foreach (var kv in _items)
             {
                 if (EqualityComparer<T>.Default.Equals(kv.Key.Data, item))
                 {
@@ -72,9 +73,9 @@ namespace Tesserae
             /// </summary>
             public Item(UIcons icon, string tooltip, T data)
             {
-                Icon = icon;
+                Icon    = icon;
                 Tooltip = tooltip;
-                Data = data;
+                Data    = data;
             }
 
             /// <summary>

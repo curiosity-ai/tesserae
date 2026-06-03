@@ -8,7 +8,7 @@ namespace Tesserae
     [H5.Name("tss.ToggleButton")]
     public class ToggleButton : IComponent, IBindableComponent<bool>
     {
-        private Button                            _button;
+        private          Button                   _button;
         private readonly SettableObservable<bool> _observable = new SettableObservable<bool>(false);
 
         /// <summary>

@@ -12,16 +12,16 @@ namespace Tesserae
     [H5.Name("tss.Carousel")]
     public sealed class Carousel : ComponentBase<Carousel, HTMLElement>, IBindableComponent<int>
     {
-        private readonly HTMLElement              _viewport;
-        private readonly HTMLElement              _track;
-        private readonly HTMLElement              _controls;
-        private readonly HTMLElement              _indicators;
-        private readonly HTMLButtonElement        _prevButton;
-        private readonly HTMLButtonElement        _nextButton;
-        private readonly List<HTMLElement>        _slides;
-        private readonly SettableObservable<int>  _observable;
-        private          int                      _currentIndex;
-        private          Action<Carousel>         _onSlideChanged;
+        private readonly HTMLElement             _viewport;
+        private readonly HTMLElement             _track;
+        private readonly HTMLElement             _controls;
+        private readonly HTMLElement             _indicators;
+        private readonly HTMLButtonElement       _prevButton;
+        private readonly HTMLButtonElement       _nextButton;
+        private readonly List<HTMLElement>       _slides;
+        private readonly SettableObservable<int> _observable;
+        private          int                     _currentIndex;
+        private          Action<Carousel>        _onSlideChanged;
 
         /// <summary>
         /// Initializes a new instance of this class.
@@ -36,7 +36,7 @@ namespace Tesserae
             _observable = new SettableObservable<int>(0);
 
             _prevButton = Button(_("tss-carousel-nav", type: "button", ariaLabel: "Previous"), I(UIcons.AngleLeft));
-            _nextButton = Button(_("tss-carousel-nav", type: "button", ariaLabel: "Next"), I(UIcons.AngleRight));
+            _nextButton = Button(_("tss-carousel-nav", type: "button", ariaLabel: "Next"),     I(UIcons.AngleRight));
 
             _prevButton.addEventListener("click", _ => Previous());
             _nextButton.addEventListener("click", _ => Next());
@@ -115,7 +115,7 @@ namespace Tesserae
         public Carousel PadSlides()
         {
             _track.classList.add("tss-carousel-track-pad-slides");
-            return this; 
+            return this;
         }
         /// <summary>
         /// Sets the index of the component.

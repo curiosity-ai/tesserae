@@ -12,12 +12,12 @@ namespace Tesserae
         public delegate void              FileSelectedHandler(FileSelector sender, File file);
         private event FileSelectedHandler FileSelected;
 
-        private readonly HTMLInputElement          _fileInput;
-        private readonly IComponent                _stack;
-        private readonly TextBox                   _textBox;
-        private readonly HTMLElement               _container;
-        private readonly SettableObservable<File>  _observable = new SettableObservable<File>();
-        private          File                      _selectedFile;
+        private readonly HTMLInputElement         _fileInput;
+        private readonly IComponent               _stack;
+        private readonly TextBox                  _textBox;
+        private readonly HTMLElement              _container;
+        private readonly SettableObservable<File> _observable = new SettableObservable<File>();
+        private          File                     _selectedFile;
 
         /// <summary>
         /// Gets or sets the selected file.

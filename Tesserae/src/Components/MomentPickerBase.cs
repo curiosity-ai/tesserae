@@ -11,7 +11,7 @@ namespace Tesserae
     public abstract class MomentPickerBase<TMomentPicker, TMoment>
         : Input<TMomentPicker>, ITextFormating, IHasBackgroundColor, IHasForegroundColor, IBindableComponent<TMoment?>
         where TMomentPicker : MomentPickerBase<TMomentPicker, TMoment>
-        where TMoment       : struct
+        where TMoment : struct
     {
         private readonly SettableObservable<TMoment?> _momentObservable;
 

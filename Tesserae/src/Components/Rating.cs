@@ -10,14 +10,14 @@ namespace Tesserae
     [H5.Name("tss.Rating")]
     public sealed class Rating : ComponentBase<Rating, HTMLElement>, IBindableComponent<int>
     {
-        private readonly HTMLElement[]            _stars;
-        private readonly SettableObservable<int>  _observable;
-        private          int                      _value;
-        private          int                      _hoverValue;
-        private          int                      _maxStars;
-        private          bool                     _readOnly;
-        private          bool                     _allowHalf;
-        private          string                   _color;
+        private readonly HTMLElement[]           _stars;
+        private readonly SettableObservable<int> _observable;
+        private          int                     _value;
+        private          int                     _hoverValue;
+        private          int                     _maxStars;
+        private          bool                    _readOnly;
+        private          bool                    _allowHalf;
+        private          string                  _color;
 
         private event Action<int> ValueChanged;
 
@@ -45,12 +45,14 @@ namespace Tesserae
                 star.setAttribute("tabindex",   "0");
                 star.innerHTML = "★";
 
-                star.addEventListener("click",     _ => SetStarValue(index));
+                star.addEventListener("click",      _ => SetStarValue(index));
                 star.addEventListener("mouseenter", _ => SetHover(index));
                 star.addEventListener("mouseleave", _ => ClearHover());
-                star.addEventListener("keydown",    e =>
+
+                star.addEventListener("keydown", e =>
                 {
                     var kb = e.As<KeyboardEvent>();
+
                     if (kb.key == "Enter" || kb.key == " ")
                     {
                         SetStarValue(index);
@@ -72,6 +74,7 @@ namespace Tesserae
             set
             {
                 var clamped = Math.Max(0, Math.Min(value, _maxStars));
+
                 if (_value != clamped)
                 {
                     _value = clamped;
@@ -101,6 +104,7 @@ namespace Tesserae
             {
                 _readOnly = value;
                 InnerElement.UpdateClassIf(_readOnly, "tss-rating-readonly");
+
                 foreach (var star in _stars)
                 {
                     if (_readOnly)
@@ -168,13 +172,15 @@ namespace Tesserae
         private void UpdateStars()
         {
             var active = _hoverValue > 0 ? _hoverValue : _value;
+
             for (int i = 0; i < _stars.Length; i++)
             {
                 var filled = i < active;
-                _stars[i].UpdateClassIf(filled,  "tss-rating-star-filled");
-                _stars[i].UpdateClassIf(!filled, "tss-rating-star-empty");
+                _stars[i].UpdateClassIf(filled,                             "tss-rating-star-filled");
+                _stars[i].UpdateClassIf(!filled,                            "tss-rating-star-empty");
                 _stars[i].UpdateClassIf(_hoverValue > 0 && i < _hoverValue, "tss-rating-star-hover");
                 _stars[i].setAttribute("aria-checked", filled ? "true" : "false");
+
                 if (filled)
                     _stars[i].style.color = _color;
                 else
