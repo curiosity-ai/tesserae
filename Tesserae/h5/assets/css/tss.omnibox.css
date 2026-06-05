@@ -58,6 +58,11 @@
             border-bottom-left-radius: 0;
         }
 
+        .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn:hover {
+            color: var(--tss-default-foreground-hover-color);
+            background-color: var(--tss-default-background-hover-color);
+        }
+
 .tss-omnibox-footer {
     display: inline-flex;
     width: calc(100% - 8px);
