@@ -9,10 +9,12 @@ namespace Tesserae
     /// A side-anchored slide-in panel (drawer) typically used for property inspectors and detail views.
     /// </summary>
     [H5.Name("tss.Panel")]
-    public sealed class Panel : Layer<Panel>, IHasBackgroundColor
+    public sealed class Panel : Layer<Panel>, IHasBackgroundColor, IBindableComponent<bool>
     {
         private event OnHideHandler HidePanel;
         public delegate void        OnHideHandler(Panel sender);
+
+        private readonly SettableObservable<bool> _observable = new SettableObservable<bool>();
 
         private          IComponent  _footer;
         private readonly HTMLElement _panel;
@@ -22,6 +24,8 @@ namespace Tesserae
         private readonly HTMLElement _panelCommand;
         private readonly HTMLElement _closeButton;
         private readonly HTMLElement _panelTitle;
+
+        private readonly Action<Event> _onCloseClickAction;
 
         /// <summary>
         /// Initializes a new instance of this class.
@@ -33,6 +37,8 @@ namespace Tesserae
         /// </summary>
         public Panel(IComponent title)
         {
+            _onCloseClickAction = (ev) => OnCloseClick(ev);
+
             _panelTitle = Div(_("tss-panel-title"));
 
             _closeButton  = Button(_($"tss-panel-command-button", el: el => el.onclick = (e) => Hide()), I(_("tss-fontsize-small " + UIcons.Cross.ToString())));
@@ -136,12 +142,12 @@ namespace Tesserae
                 if (value)
                 {
                     _panelOverlay.classList.add("tss-panel-lightDismiss");
-                    _panelOverlay.addEventListener("click", OnCloseClick);
+                    _panelOverlay.addEventListener("click", _onCloseClickAction);
                 }
                 else
                 {
                     _panelOverlay.classList.remove("tss-panel-lightDismiss");
-                    _panelOverlay.removeEventListener("click", OnCloseClick);
+                    _panelOverlay.removeEventListener("click", _onCloseClickAction);
                 }
             }
         }
@@ -225,7 +231,9 @@ namespace Tesserae
                 _panel.classList.remove("tss-panel-near-animate");
             }
 
-            return base.Show();
+            var result = base.Show();
+            _observable.Value = true;
+            return result;
         }
 
         /// <summary>
@@ -243,12 +251,33 @@ namespace Tesserae
         public override void Hide(Action onHidden = null)
         {
             HidePanel?.Invoke(this);
+            _observable.Value = false;
 
             base.Hide(() =>
             {
                 if (!IsNonBlocking) document.body.style.overflowY = "";
                 onHidden?.Invoke();
             });
+        }
+
+        /// <summary>
+        /// Returns an observable that tracks the visibility of the panel.
+        /// </summary>
+        public IObservable<bool> AsObservable() => _observable;
+
+        /// <summary>
+        /// Programmatically shows or hides the panel as part of a two-way binding.
+        /// </summary>
+        public void SetBoundValue(bool value)
+        {
+            if (value)
+            {
+                if (!IsVisible) Show();
+            }
+            else
+            {
+                if (IsVisible) Hide();
+            }
         }
         private void OnCloseClick(object ev)
         {

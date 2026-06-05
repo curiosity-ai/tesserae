@@ -40,6 +40,15 @@
             border-bottom-right-radius: 0;
         }
 
+        .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-help-btn {
+            border-right: 1px solid var(--tss-default-border-color);
+            cursor: pointer;
+            background: var(--tss-secondary-background-color);
+            color: var(--tss-secondary-foreground-color);
+            flex-shrink: 0;
+            border-radius: 0;
+        }
+
         .tss-omnibox-container:not(.tss-omnibox-chat-and-search) .tss-omnibox-search-container .tss-btn.tss-omnibox-search-clear-btn,{
             cursor: pointer;
             color: var(--tss-secondary-foreground-color);
@@ -383,6 +392,38 @@
 
 .tss-omnibox-suggestion-highlight {
     background: var(--tss-colors-blue-200) !important;
+}
+
+/* Help panel (WithHelp) */
+.tss-omnibox-help-panel {
+    padding: 4px 0;
+}
+
+.tss-omnibox-help-header {
+    padding: 10px 12px 4px 12px;
+    color: var(--tss-secondary-foreground-color);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 11px;
+    opacity: 0.85;
+}
+
+.tippy-box .tss-btn.tss-omnibox-help-entry {
+    height: 36px !important;
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+    margin-bottom: 2px !important;
+}
+
+.tss-omnibox-help-trigger {
+    color: var(--tss-primary-foreground-color);
+    font-family: var(--tss-font-mono, monospace);
+    font-weight: 600;
+}
+
+.tss-omnibox-help-example {
+    color: var(--tss-secondary-foreground-color);
+    opacity: 0.85;
 }
 
 /* Chat trigger (send) button */

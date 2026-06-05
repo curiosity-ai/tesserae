@@ -214,9 +214,9 @@ namespace Tesserae.Tests.Samples
             })
             .WS()
             .RegisterSnaps(
-                new OmniBox.SnapHandler("docs",  "Docs",      new[] { "docs", "documentation" }, Icon(UIcons.Book),   "Search the documentation"),
-                new OmniBox.SnapHandler("wiki",  "Wikipedia", new[] { "wiki", "wikipedia" },     Icon(UIcons.Globe),  "Search Wikipedia"),
-                new OmniBox.SnapHandler("code",  "Code",      new[] { "code", "src", "source" }, Icon(UIcons.FileCode), "Search source code"))
+                new OmniBox.SnapHandler("docs",  "Docs",      new[] { "docs", "documentation" }, Icon(UIcons.Book),   "Search the documentation",   exampleValue: "documentation pages"),
+                new OmniBox.SnapHandler("wiki",  "Wikipedia", new[] { "wiki", "wikipedia" },     Icon(UIcons.Globe),  "Search Wikipedia",            exampleValue: "encyclopedia articles"),
+                new OmniBox.SnapHandler("code",  "Code",      new[] { "code", "src", "source" }, Icon(UIcons.FileCode), "Search source code",        exampleValue: "src/, repo files"))
             .RegisterFilterSnaps(
                 new OmniBox.FilterSnapHandler(
                     "ext",
@@ -224,7 +224,8 @@ namespace Tesserae.Tests.Samples
                     new[] { "ext", "filetype" },
                     new[] { "cs", "ts", "tsx", "js", "jsx", "json", "md", "css", "html", "py", "rb", "go", "rs", "java", "kt", "swift", "yml", "yaml", "xml" },
                     icon: Icon(UIcons.FileCode),
-                    description: "Filter results by file extension"),
+                    description: "Filter results by file extension",
+                    exampleValue: "cs, ts, json…"),
                 new OmniBox.FilterSnapHandler(
                     "lang",
                     "Language",
@@ -237,13 +238,25 @@ namespace Tesserae.Tests.Samples
                         return all.Where(v => v.IndexOf(input, StringComparison.OrdinalIgnoreCase) >= 0).ToArray();
                     },
                     icon: Icon(UIcons.Globe),
-                    description: "Filter results by language (async)"),
+                    description: "Filter results by language (async)",
+                    exampleValue: "csharp, typescript…"),
                 OmniBox.FilterSnapHandler.TimeRange(
                     "modified",
                     "Modified date",
                     new[] { "modified", "date", "between" },
                     icon: Icon(UIcons.Calendar),
-                    description: "Filter results by a date range (yyyy-MM-dd:yyyy-MM-dd)"))
+                    description: "Filter results by a date range (yyyy-MM-dd:yyyy-MM-dd)",
+                    exampleValue: "2025-01-01"))
+            .WithHistory(async () =>
+            {
+                return new[]
+                {
+                    OmniBox.ParseQuery("test AND deploy"),
+                    OmniBox.ParseQuery("\"load testing\" NOT staging"),
+                    OmniBox.ParseQuery("ext:cs lang:csharp"),
+                };
+            })
+            .WithHelp(showSyntax: true)
             .OnSearch((s, q) =>
             {
                 var snapInfo = q.Snaps != null && q.Snaps.Length > 0
@@ -273,7 +286,8 @@ namespace Tesserae.Tests.Samples
                     Card(VStack().WS().Children(
                     SampleSubTitle("Snaps and filter snaps"),
                     TextBlock("Type @ to insert a snap (e.g. @docs, @wiki, @code). Type 'ext:', 'filetype:', or 'lang:' to autocomplete filter values. Type 'modified:' (or 'date:' / 'between:') for a time-based filter snap — a date-range picker with shortcuts (last week, last month, last 90 days, last year), or type the range directly as yyyy-MM-dd:yyyy-MM-dd. When committed they become removable chips. All snap and filter selections are passed through with the search query.").MB(8),
-                    Label("Snaps + filter snaps").SetContent(snapAndFilterSample.Class("tss-omnibox-snap-and-filter-sample"))
+                    TextBlock("Click the ? button on the left of the input to open the help panel — it lists the registered field filters (with their example values) and the registered snaps. It can also include a 'Query syntax' section describing AND / OR / NOT / parentheses / quotes when configured with WithHelp(showSyntax: true). Recent searches are reached via the separate history button enabled with WithHistory(...).").MB(8),
+                    Label("Snaps + filter snaps + help").SetContent(snapAndFilterSample.Class("tss-omnibox-snap-and-filter-sample"))
                 )).SetTitle("Snaps & Filter Snaps")));
         }
 

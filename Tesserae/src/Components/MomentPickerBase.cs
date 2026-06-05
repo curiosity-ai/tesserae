@@ -8,13 +8,51 @@ namespace Tesserae
     /// typed-input <see cref="Input{TInput}"/> base.
     /// </summary>
     [H5.Name("tss.MomentPickerBase")]
-    public abstract class MomentPickerBase<TMomentPicker, TMoment> : Input<TMomentPicker>, ITextFormating, IHasBackgroundColor, IHasForegroundColor where TMomentPicker : MomentPickerBase<TMomentPicker, TMoment>
+    public abstract class MomentPickerBase<TMomentPicker, TMoment>
+        : Input<TMomentPicker>, ITextFormating, IHasBackgroundColor, IHasForegroundColor, IBindableComponent<TMoment?>
+        where TMomentPicker : MomentPickerBase<TMomentPicker, TMoment>
+        where TMoment : struct
     {
+        private readonly SettableObservable<TMoment?> _momentObservable;
+
         protected MomentPickerBase(string type, string defaultText = null) : base(type, defaultText)
         {
             InnerElement.classList.add("tss-fontsize-small");
             InnerElement.classList.add("tss-fontweight-regular");
             InnerElement.style.alignItems = "center";
+
+            _momentObservable = new SettableObservable<TMoment?>(ParseOrNull(defaultText));
+
+            // Mirror the text-level events that Input&lt;TInput&gt; already wires up so the typed
+            // observable stays in sync with user input.
+            Changed      += (_, __) => UpdateMomentObservable();
+            InputUpdated += (_, __) => UpdateMomentObservable();
+        }
+
+        private TMoment? ParseOrNull(string text) => string.IsNullOrEmpty(text) ? (TMoment?)null : FormatMoment(text);
+
+        private void UpdateMomentObservable() => _momentObservable.Value = ParseOrNull(Text);
+
+        /// <summary>
+        /// Returns an observable that tracks the typed value of the picker
+        /// (null when the input is empty).
+        /// </summary>
+        /// <remarks>
+        /// The picker inherits a <see cref="IObservable{T}"/> of <see cref="string"/> from
+        /// <see cref="Input{TInput}"/> via the inherited <c>AsObservable()</c>; this explicit
+        /// interface implementation exposes the typed view used when binding to a
+        /// <c>SettableObservable&lt;TMoment?&gt;</c>.
+        /// </remarks>
+        IObservable<TMoment?> IObservableComponent<TMoment?>.AsObservable() => _momentObservable;
+
+        /// <summary>
+        /// Programmatically updates the picker as part of a two-way binding.
+        /// A <c>null</c> value clears the input.
+        /// </summary>
+        void IBindableComponent<TMoment?>.SetBoundValue(TMoment? value)
+        {
+            Text                    = value.HasValue ? FormatMoment(value.Value) : string.Empty;
+            _momentObservable.Value = value;
         }
 
         protected TMoment Moment => FormatMoment(Text);

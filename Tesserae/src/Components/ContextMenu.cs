@@ -35,6 +35,9 @@ namespace Tesserae
         private Item        _activeMenuItem;
         private ContextMenu _activeSubMenu;
 
+        private readonly Action<Event> _onWindowMouseMoveAction;
+        private readonly Action<Event> _onPopupKeyDownAction;
+
         private event Action _onHide;
 
         private event ComponentEventHandler<Item, MouseEvent> ItemClick;
@@ -48,6 +51,9 @@ namespace Tesserae
         {
             InnerElement    = Div(_("tss-contextmenu"));
             _childContainer = Div(_());
+
+            _onWindowMouseMoveAction = (ev) => OnWindowMouseMove(ev);
+            _onPopupKeyDownAction    = (ev) => OnPopupKeyDown(ev);
         }
 
         /// <summary>
@@ -234,7 +240,7 @@ namespace Tesserae
 
             window.setTimeout((e) =>
             {
-                document.addEventListener("keydown", OnPopupKeyDown);
+                document.addEventListener("keydown", _onPopupKeyDownAction);
             }, 100);
 
             _extremeCoordsTopLeft.x     = x;
@@ -335,7 +341,7 @@ namespace Tesserae
 
             window.setTimeout((e) =>
             {
-                document.addEventListener("keydown", OnPopupKeyDown);
+                document.addEventListener("keydown", _onPopupKeyDownAction);
             }, 100);
 
             _extremeCoordsTopLeft.x     = x;
@@ -458,7 +464,7 @@ namespace Tesserae
         {
             if (_items.Any(i => i.HasSubMenu))
             {
-                window.addEventListener("mousemove", OnWindowMouseMove);
+                window.addEventListener("mousemove", _onWindowMouseMoveAction);
                 _menuElementCoordsTopLeft = CalculateTopLeftCoords(_popup);
 
                 foreach (var item in _items)
@@ -473,8 +479,8 @@ namespace Tesserae
         /// </summary>
         public override void Hide(Action onHidden = null)
         {
-            window.removeEventListener("mousemove", OnWindowMouseMove);
-            document.removeEventListener("keydown", OnPopupKeyDown);
+            window.removeEventListener("mousemove", _onWindowMouseMoveAction);
+            document.removeEventListener("keydown", _onPopupKeyDownAction);
          
             base.Hide(() => { _onHide?.Invoke(); onHidden?.Invoke(); });
 

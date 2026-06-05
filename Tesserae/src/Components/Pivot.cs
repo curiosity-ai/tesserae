@@ -10,23 +10,25 @@ namespace Tesserae
     /// A horizontal tabbed surface with one tab visible at a time.
     /// </summary>
     [H5.Name("tss.Pivot")]
-    public sealed class Pivot : IComponent, ISpecialCaseStyling
+    public sealed class Pivot : IComponent, ISpecialCaseStyling, IBindableComponent<string>
     {
         public delegate void PivotEventHandler<TEventArgs>(Pivot sender, TEventArgs e);
 
         private event PivotEventHandler<PivotBeforeNavigateEvent> _beforeNavigated;
         private event PivotEventHandler<PivotNavigateEvent>       _navigated;
-        private readonly List<Tab>                                _orderedTabs    = new List<Tab>();
-        private readonly Dictionary<Tab, HTMLElement>             _renderedTitles = new Dictionary<Tab, HTMLElement>();
-        private readonly HTMLElement                              _renderedTabs;
-        private readonly HTMLElement                              _renderedContent;
-        private readonly HTMLElement                              _line;
-        private readonly HTMLElement                              _scroller;
-        private readonly HTMLElement                              _titlebarWrapper;
-        private          string                                   _initiallySelectedID;
-        private          string                                   _currentSelectedID;
-        private          bool                                     _isRendered   = false;
-        private          bool                                     _hideIfSingle = false;
+
+        private readonly SettableObservable<string>   _observable     = new SettableObservable<string>();
+        private readonly List<Tab>                    _orderedTabs    = new List<Tab>();
+        private readonly Dictionary<Tab, HTMLElement> _renderedTitles = new Dictionary<Tab, HTMLElement>();
+        private readonly HTMLElement                  _renderedTabs;
+        private readonly HTMLElement                  _renderedContent;
+        private readonly HTMLElement                  _line;
+        private readonly HTMLElement                  _scroller;
+        private readonly HTMLElement                  _titlebarWrapper;
+        private          string                       _initiallySelectedID;
+        private          string                       _currentSelectedID;
+        private          bool                         _isRendered   = false;
+        private          bool                         _hideIfSingle = false;
         /// <summary>
         /// Gets or sets the selected tab.
         /// </summary>
@@ -455,11 +457,27 @@ namespace Tesserae
             ScrollIntoView(title);
             TriggerAnimation();
 
+            _observable.Value = _currentSelectedID;
+
             var pne = new PivotNavigateEvent(_currentSelectedID, tab.Id);
 
             _navigated?.Invoke(this, pne);
 
             return this;
+        }
+
+        /// <summary>
+        /// Returns an observable that tracks the id of the currently-selected tab.
+        /// </summary>
+        public IObservable<string> AsObservable() => _observable;
+
+        /// <summary>
+        /// Programmatically selects a tab by id as part of a two-way binding.
+        /// </summary>
+        public void SetBoundValue(string value)
+        {
+            if (string.IsNullOrEmpty(value)) return;
+            Select(value);
         }
 
         private void ScrollIntoView(HTMLElement target)

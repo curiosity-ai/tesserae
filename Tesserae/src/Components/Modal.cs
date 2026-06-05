@@ -11,13 +11,15 @@ namespace Tesserae
     /// close button.
     /// </summary>
     [H5.Name("tss.Modal")]
-    public sealed class Modal : Layer<Modal>, ISpecialCaseStyling, IHasBackgroundColor
+    public sealed class Modal : Layer<Modal>, ISpecialCaseStyling, IHasBackgroundColor, IBindableComponent<bool>
     {
         private event OnShowHandler Shown;
         public delegate void        OnShowHandler(Modal sender);
 
         private event OnHideHandler Hidden;
         public delegate void        OnHideHandler(Modal sender);
+
+        private readonly SettableObservable<bool> _observable = new SettableObservable<bool>();
 
         private readonly HTMLElement    _closeButton;
         private readonly HTMLElement    _modalHeader;
@@ -35,6 +37,11 @@ namespace Tesserae
 
         private bool             _isDragged;
         private TranslationPoint _startPoint;
+
+        private readonly Action<Event> _onCloseClickAction;
+        private readonly Action<Event> _onDragMouseDownAction;
+        private readonly Action<Event> _onDragMouseMoveAction;
+        private readonly Action<Event> _onDragMouseUpAction;
 
         /// <summary>
         /// Gets or sets the animate on show.
@@ -65,6 +72,11 @@ namespace Tesserae
         /// </summary>
         public Modal(IComponent header = null)
         {
+            _onCloseClickAction    = (ev) => OnCloseClick(ev);
+            _onDragMouseDownAction = (ev) => OnDragMouseDown(ev);
+            _onDragMouseMoveAction = (ev) => OnDragMouseMove(ev);
+            _onDragMouseUpAction   = (ev) => OnDragMouseUp(ev);
+
             _modalHeaderContents = Div(_("tss-modal-header-content"));
             _modalFooterContents = Div(_("tss-modal-footer-content"));
 
@@ -287,16 +299,16 @@ namespace Tesserae
                 if (value)
                 {
                     _modalOverlay.classList.add("tss-modal-lightDismiss");
-                    _modalOverlay.addEventListener("click",       OnCloseClick);
-                    _modalOverlay.addEventListener("dblclick",    OnCloseClick);
-                    _modalOverlay.addEventListener("contextmenu", OnCloseClick);
+                    _modalOverlay.addEventListener("click",       _onCloseClickAction);
+                    _modalOverlay.addEventListener("dblclick",    _onCloseClickAction);
+                    _modalOverlay.addEventListener("contextmenu", _onCloseClickAction);
                 }
                 else
                 {
                     _modalOverlay.classList.remove("tss-modal-lightDismiss");
-                    _modalOverlay.removeEventListener("click",       OnCloseClick);
-                    _modalOverlay.removeEventListener("dblclick",    OnCloseClick);
-                    _modalOverlay.removeEventListener("contextmenu", OnCloseClick);
+                    _modalOverlay.removeEventListener("click",       _onCloseClickAction);
+                    _modalOverlay.removeEventListener("dblclick",    _onCloseClickAction);
+                    _modalOverlay.removeEventListener("contextmenu", _onCloseClickAction);
                 }
             }
         }
@@ -331,13 +343,13 @@ namespace Tesserae
                 if (value)
                 {
                     _modalHeaderContents.classList.add("tss-modal-draggable");
-                    _modalHeaderContents.addEventListener("mousedown", OnDragMouseDown);
+                    _modalHeaderContents.addEventListener("mousedown", _onDragMouseDownAction);
 
                 }
                 else
                 {
                     _modalHeaderContents.classList.remove("tss-modal-draggable");
-                    _modalHeaderContents.removeEventListener("mousedown", OnDragMouseDown);
+                    _modalHeaderContents.removeEventListener("mousedown", _onDragMouseDownAction);
                 }
             }
         }
@@ -535,6 +547,7 @@ namespace Tesserae
             if (!IsNonBlocking) document.body.style.overflowY = "hidden";
             base.Show();
             _modal.focus(); // 2020-05-01 DWR: We need to put focus into the modal container in order to pick up keypresses
+            _observable.Value = true;
             RaiseOnShow();
         }
 
@@ -579,12 +592,33 @@ namespace Tesserae
         public override void Hide(Action onHidden = null)
         {
             RaiseOnHide();
+            _observable.Value = false;
 
             base.Hide(() =>
             {
                 if (!IsNonBlocking) document.body.style.overflowY = "";
                 onHidden?.Invoke();
             });
+        }
+
+        /// <summary>
+        /// Returns an observable that tracks the visibility of the modal.
+        /// </summary>
+        public IObservable<bool> AsObservable() => _observable;
+
+        /// <summary>
+        /// Programmatically shows or hides the modal as part of a two-way binding.
+        /// </summary>
+        public void SetBoundValue(bool value)
+        {
+            if (value)
+            {
+                if (!IsVisible) Show();
+            }
+            else
+            {
+                if (IsVisible) Hide();
+            }
         }
 
         protected override HTMLElement BuildRenderedContent()
@@ -617,9 +651,9 @@ namespace Tesserae
 
             if (_isDragged && e.button == 0)
             {
-                document.body.removeEventListener("mouseup",    OnDragMouseUp);
-                document.body.removeEventListener("mousemove",  OnDragMouseMove);
-                document.body.removeEventListener("mouseleave", OnDragMouseUp);
+                document.body.removeEventListener("mouseup",    _onDragMouseUpAction);
+                document.body.removeEventListener("mousemove",  _onDragMouseMoveAction);
+                document.body.removeEventListener("mouseleave", _onDragMouseUpAction);
                 document.body.classList.remove("tss-modal-dragging");
                 document.body.style.userSelect = "";
                 _isDragged                     = false;
@@ -632,9 +666,9 @@ namespace Tesserae
 
             if (e.button == 0)
             {
-                document.body.addEventListener("mouseup",    OnDragMouseUp);
-                document.body.addEventListener("mousemove",  OnDragMouseMove);
-                document.body.addEventListener("mouseleave", OnDragMouseUp);
+                document.body.addEventListener("mouseup",    _onDragMouseUpAction);
+                document.body.addEventListener("mousemove",  _onDragMouseMoveAction);
+                document.body.addEventListener("mouseleave", _onDragMouseUpAction);
                 document.body.classList.add("tss-modal-dragging");
                 _modal.style.userSelect = "none";
                 _startPoint             = TranslationPoint.From(_modal.style.transform);

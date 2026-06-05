@@ -130,6 +130,12 @@ namespace Tesserae
             /// Gets or sets the color of the component.
             /// </summary>
             public string Color { get; }
+            /// <summary>
+            /// Gets or sets a short example value (or comma-separated samples) shown next to the filter
+            /// trigger in the help panel. Example: <c>"person"</c>, <c>"Document, Email…"</c>,
+            /// <c>"2025-01-01"</c>.
+            /// </summary>
+            public string ExampleValue { get; set; }
 
             private readonly string[] _values;
             private readonly Func<string, Task<string[]>> _valuesProvider;
@@ -145,8 +151,8 @@ namespace Tesserae
             /// <summary>
             /// Initializes a new instance of this class.
             /// </summary>
-            public FilterSnapHandler(string filterId, string displayName, string[] triggerWords, string[] values, IComponent icon = null, string description = null, string background = null, string color = null)
-                : this(filterId, displayName, triggerWords, icon, description, background, color, false)
+            public FilterSnapHandler(string filterId, string displayName, string[] triggerWords, string[] values, IComponent icon = null, string description = null, string background = null, string color = null, string exampleValue = null)
+                : this(filterId, displayName, triggerWords, icon, description, background, color, false, exampleValue)
             {
                 if (values == null) throw new ArgumentNullException(nameof(values));
                 _values = values;
@@ -155,14 +161,14 @@ namespace Tesserae
             /// <summary>
             /// Initializes a new instance of this class.
             /// </summary>
-            public FilterSnapHandler(string filterId, string displayName, string[] triggerWords, Func<string, Task<string[]>> valuesProvider, IComponent icon = null, string description = null, string background = null, string color = null)
-                : this(filterId, displayName, triggerWords, icon, description, background, color, false)
+            public FilterSnapHandler(string filterId, string displayName, string[] triggerWords, Func<string, Task<string[]>> valuesProvider, IComponent icon = null, string description = null, string background = null, string color = null, string exampleValue = null)
+                : this(filterId, displayName, triggerWords, icon, description, background, color, false, exampleValue)
             {
                 if (valuesProvider == null) throw new ArgumentNullException(nameof(valuesProvider));
                 _valuesProvider = valuesProvider;
             }
 
-            private FilterSnapHandler(string filterId, string displayName, string[] triggerWords, IComponent icon, string description, string background, string color, bool isTimeRange)
+            private FilterSnapHandler(string filterId, string displayName, string[] triggerWords, IComponent icon, string description, string background, string color, bool isTimeRange, string exampleValue = null)
             {
                 if (string.IsNullOrEmpty(filterId)) throw new ArgumentException("filterId is required", nameof(filterId));
                 if (string.IsNullOrEmpty(displayName)) throw new ArgumentException("displayName is required", nameof(displayName));
@@ -175,6 +181,7 @@ namespace Tesserae
                 Background = background;
                 Color = color;
                 _isTimeRange = isTimeRange;
+                ExampleValue = exampleValue;
             }
 
             /// <summary>
@@ -184,9 +191,9 @@ namespace Tesserae
             /// The committed <see cref="FilterSnap.Value"/> is the <c>yyyy-MM-dd:yyyy-MM-dd</c> range string, which can be
             /// parsed back via <see cref="FilterSnap.TryGetDateRange"/>.
             /// </summary>
-            public static FilterSnapHandler TimeRange(string filterId, string displayName, string[] triggerWords, IComponent icon = null, string description = null, string background = null, string color = null)
+            public static FilterSnapHandler TimeRange(string filterId, string displayName, string[] triggerWords, IComponent icon = null, string description = null, string background = null, string color = null, string exampleValue = null)
             {
-                return new FilterSnapHandler(filterId, displayName, triggerWords, icon, description, background, color, true);
+                return new FilterSnapHandler(filterId, displayName, triggerWords, icon, description, background, color, true, exampleValue);
             }
 
             internal async Task<string[]> GetValuesAsync(string input)
@@ -305,11 +312,16 @@ namespace Tesserae
             /// Gets or sets the exclusive.
             /// </summary>
             public bool Exclusive { get; }
+            /// <summary>
+            /// Gets or sets a short example shown next to the snap in the help panel. Example: <c>"docs"</c>,
+            /// <c>"src/repo"</c>. When unset, the help panel falls back to the first trigger word.
+            /// </summary>
+            public string ExampleValue { get; set; }
 
             /// <summary>
             /// Initializes a new instance of this class.
             /// </summary>
-            public SnapHandler(string snapId, string displayName, string[] triggerWords, IComponent icon = null, string description = null, string background = null, string color = null, bool exclusive = false)
+            public SnapHandler(string snapId, string displayName, string[] triggerWords, IComponent icon = null, string description = null, string background = null, string color = null, bool exclusive = false, string exampleValue = null)
             {
                 if (string.IsNullOrEmpty(snapId)) throw new ArgumentException("snapId is required", nameof(snapId));
                 if (string.IsNullOrEmpty(displayName)) throw new ArgumentException("displayName is required", nameof(displayName));
@@ -322,6 +334,7 @@ namespace Tesserae
                 Background = background;
                 Color = color;
                 Exclusive = exclusive;
+                ExampleValue = exampleValue;
             }
         }
 
@@ -537,8 +550,10 @@ namespace Tesserae
         private readonly HTMLDivElement   _searchInputContainer;
         private readonly HTMLDivElement   _searchShortcutContainer;
         private readonly Button      _searchHistoryBtn;
+        private readonly Button      _searchHelpBtn;
         private readonly Button      _searchClearBtn;
         private readonly Button      _searchTriggerBtn;
+        private bool _helpShowSyntax;
 
         private string[]      _shortcutKeys;
         private Action<Event> _globalShortcutHandler;
@@ -668,17 +683,21 @@ namespace Tesserae
                 _searchHistoryBtn = Button().SetIcon(UIcons.TimePast).Class("tss-omnibox-search-history-btn");
                 _searchHistoryBtn.Collapse(); // Hidden by default unless WithHistory is called
 
+                _searchHelpBtn = Button().SetIcon(UIcons.Interrogation).Class("tss-omnibox-search-help-btn");
+                _searchHelpBtn.Collapse(); // Hidden by default unless WithHelp is called
+
                 _searchClearBtn = Button().SetIcon(UIcons.CrossCircle).Class("tss-omnibox-search-clear-btn");
                 _searchTriggerBtn = Button().SetIcon(config.IconSearch).Class("tss-omnibox-search-btn");
 
                 if (_mode == Mode.Search)
                 {
-                    _searchContainer = Div(_("tss-omnibox-search-container"), _searchHistoryBtn.Render(), _searchInlineChipsContainer, _searchInputContainer, _searchRightTextContainer, _searchShortcutContainer, _searchClearBtn.Render(), _searchTriggerBtn.Render());
+                    _searchContainer = Div(_("tss-omnibox-search-container"), _searchHistoryBtn.Render(), _searchHelpBtn.Render(), _searchInlineChipsContainer, _searchInputContainer, _searchRightTextContainer, _searchShortcutContainer, _searchClearBtn.Render(), _searchTriggerBtn.Render());
                 }
                 else
                 {
                     _searchContainer = Div(_("tss-omnibox-search-container"), _searchInlineChipsContainer, _searchInputContainer, _searchRightTextContainer, _searchShortcutContainer);
                     _footer.appendChild(_searchHistoryBtn.Render());
+                    _footer.appendChild(_searchHelpBtn.Render());
                     footerEnd.Add(_searchClearBtn);
                     footerEnd.Add(_searchTriggerBtn);
                 }
@@ -935,12 +954,17 @@ namespace Tesserae
 
                 _searchTriggerBtn.OnClick(TriggerSearch);
 
-                _searchHistoryBtn.OnClickSpinWhile(async () => 
+                _searchHistoryBtn.OnClickSpinWhile(async () =>
                 {
                     if (_historyFetcher != null)
                     {
                         await ShowSearchHistory();
                     }
+                });
+
+                _searchHelpBtn.OnClick(() =>
+                {
+                    ShowSearchHelp();
                 });
 
                 // Initial parse
@@ -2422,6 +2446,190 @@ namespace Tesserae
             _historyFetcher = historyFetcher;
             _searchHistoryBtn.Show();
             return this;
+        }
+
+        /// <summary>
+        /// Enables a help button next to the search input that opens a popup listing the registered
+        /// filter snaps (and snaps), each with the trigger word and an example value (or the description
+        /// as a fallback). When <paramref name="showSyntax"/> is <c>true</c>, the popup also includes a
+        /// "Query syntax" section describing the boolean operators (<c>AND</c>, <c>OR</c>, <c>NOT</c>),
+        /// grouping with parentheses, and exact-phrase quoting, with a short example next to each.
+        /// Recent searches are reached via the separate history button configured with
+        /// <see cref="WithHistory(Func{Task{SearchQuery[]}})"/>.
+        /// </summary>
+        public OmniBox WithHelp(bool showSyntax = false)
+        {
+            if (_mode != Mode.Search && _mode != Mode.SearchAndChat)
+            {
+                throw new InvalidOperationException("WithHelp can only be called when OmniBox is in Search or SearchAndChat mode.");
+            }
+            _helpShowSyntax = showSyntax;
+            _searchHelpBtn.Show();
+            return this;
+        }
+
+        private void ShowSearchHelp()
+        {
+            var content = VStack().NoDefaultMargin().W(520).MaxHeight(500.px()).ScrollY().Class("tss-omnibox-help-panel");
+            Action hide = null;
+
+            var hasFilters = _filterSnapHandlers.Count > 0;
+            var hasSnaps = _snapHandlers.Count > 0;
+
+            if (hasFilters)
+            {
+                content.Add(TextBlock("ADD A FIELD FILTER").Small().SemiBold().Class("tss-omnibox-help-header"));
+                foreach (var f in _filterSnapHandlers)
+                {
+                    var captured = f;
+                    var trigger = (captured.TriggerWords != null && captured.TriggerWords.Length > 0) ? captured.TriggerWords[0] : captured.FilterId;
+                    var example = !string.IsNullOrEmpty(captured.ExampleValue)
+                        ? captured.ExampleValue
+                        : (captured.IsTimeRange ? "yyyy-MM-dd" : (string.IsNullOrEmpty(captured.Description) ? captured.DisplayName : captured.Description));
+
+                    var btn = Button().Class("tss-omnibox-help-entry").WS().NoPadding().NoMinSize().H(40).MB(4).NoBorder().NoBackground().TextLeft();
+                    var row = HStack().WS().AlignItems(ItemAlign.Center).PaddingLeft(12.px()).PaddingRight(12.px());
+                    if (captured.Icon != null) row.Add(captured.Icon.MR(8));
+                    var triggerSpan = TextBlock(trigger + ":").Class("tss-omnibox-help-trigger");
+                    row.Add(triggerSpan);
+                    row.Add(TextBlock(example).Class("tss-omnibox-help-example").ML(6));
+                    btn.ReplaceContent(row);
+                    btn.OnClick(() =>
+                    {
+                        InsertFilterTriggerIntoInput(trigger);
+                        hide?.Invoke();
+                    });
+                    content.Add(btn);
+                }
+            }
+
+            if (hasSnaps)
+            {
+                content.Add(TextBlock("ADD A SNAP").Small().SemiBold().Class("tss-omnibox-help-header"));
+                foreach (var s in _snapHandlers)
+                {
+                    var captured = s;
+                    var trigger = (captured.TriggerWords != null && captured.TriggerWords.Length > 0) ? captured.TriggerWords[0] : captured.SnapId;
+                    var example = !string.IsNullOrEmpty(captured.ExampleValue)
+                        ? captured.ExampleValue
+                        : (string.IsNullOrEmpty(captured.Description) ? captured.DisplayName : captured.Description);
+
+                    var btn = Button().Class("tss-omnibox-help-entry").WS().NoPadding().NoMinSize().H(40).MB(4).NoBorder().NoBackground().TextLeft();
+                    var row = HStack().WS().AlignItems(ItemAlign.Center).PaddingLeft(12.px()).PaddingRight(12.px());
+                    if (captured.Icon != null) row.Add(captured.Icon.MR(8));
+                    var triggerSpan = TextBlock("@" + trigger).Class("tss-omnibox-help-trigger");
+                    row.Add(triggerSpan);
+                    row.Add(TextBlock(example).Class("tss-omnibox-help-example").ML(6));
+                    btn.ReplaceContent(row);
+                    btn.OnClick(() =>
+                    {
+                        InsertSnapTriggerIntoInput(trigger);
+                        hide?.Invoke();
+                    });
+                    content.Add(btn);
+                }
+            }
+
+            if (_helpShowSyntax)
+            {
+                content.Add(TextBlock("QUERY SYNTAX").Small().SemiBold().Class("tss-omnibox-help-header"));
+                AddSyntaxEntry(content, "AND", "Both terms must match", "alpha AND beta", () => hide);
+                AddSyntaxEntry(content, "OR",  "Either term may match", "alpha OR beta",   () => hide);
+                AddSyntaxEntry(content, "NOT", "Exclude matching term", "alpha NOT beta",  () => hide);
+                AddSyntaxEntry(content, "( )", "Group sub-expressions", "(alpha OR beta) AND gamma", () => hide);
+                AddSyntaxEntry(content, "\" \"", "Exact phrase",        "\"load testing\"",           () => hide);
+            }
+
+            if (!hasFilters && !hasSnaps && !_helpShowSyntax)
+            {
+                content.Add(Message("Nothing to show", "Register snaps or filter snaps to populate the help panel").Icon(UIcons.EmptySet).H(160));
+            }
+
+            window.setTimeout(_ =>
+            {
+                Tippy.ShowFor(_searchHelpBtn, content, out hide, placement: TooltipPlacement.BottomStart, maxWidth: 560, delayHide: 500);
+            }, 1);
+        }
+
+        private void InsertFilterTriggerIntoInput(string trigger)
+        {
+            var insertion = trigger + ":";
+            var val = _searchInput.value ?? string.Empty;
+            string newVal;
+            int newCursor;
+            if (string.IsNullOrEmpty(val) || val.EndsWith(" ") || val.EndsWith(specialWhitespaceString))
+            {
+                newVal = val + insertion;
+                newCursor = newVal.Length;
+            }
+            else
+            {
+                newVal = val + " " + insertion;
+                newCursor = newVal.Length;
+            }
+            _searchInput.value = newVal;
+            _searchInput.setSelectionRange((uint)newCursor, (uint)newCursor);
+            OnSearchInputChanged();
+            _searchInput.focus();
+            TryUpdateFilterSnapSuggestions();
+        }
+
+        private void InsertSnapTriggerIntoInput(string trigger)
+        {
+            var insertion = "@" + trigger;
+            var val = _searchInput.value ?? string.Empty;
+            string newVal;
+            int newCursor;
+            if (string.IsNullOrEmpty(val) || val.EndsWith(" ") || val.EndsWith(specialWhitespaceString))
+            {
+                newVal = val + insertion;
+                newCursor = newVal.Length;
+            }
+            else
+            {
+                newVal = val + " " + insertion;
+                newCursor = newVal.Length;
+            }
+            _searchInput.value = newVal;
+            _searchInput.setSelectionRange((uint)newCursor, (uint)newCursor);
+            OnSearchInputChanged();
+            _searchInput.focus();
+            TryUpdateSnapSuggestions();
+        }
+
+        private void AddSyntaxEntry(Stack content, string token, string description, string example, Func<Action> hideAccessor)
+        {
+            var btn = Button().Class("tss-omnibox-help-entry").WS().NoPadding().NoMinSize().H(40).MB(4).NoBorder().NoBackground().TextLeft();
+            var row = HStack().WS().AlignItems(ItemAlign.Center).PaddingLeft(12.px()).PaddingRight(12.px());
+            row.Add(TextBlock(token).Class("tss-omnibox-help-trigger"));
+            row.Add(TextBlock(description).Class("tss-omnibox-help-example").ML(6));
+            row.Add(TextBlock(example).Small().Secondary().ML(UnitSize.Auto()));
+            btn.ReplaceContent(row);
+            btn.OnClick(() =>
+            {
+                InsertExampleIntoInput(example);
+                hideAccessor?.Invoke()?.Invoke();
+            });
+            content.Add(btn);
+        }
+
+        private void InsertExampleIntoInput(string example)
+        {
+            if (string.IsNullOrEmpty(example)) return;
+            var val = _searchInput.value ?? string.Empty;
+            string newVal;
+            if (string.IsNullOrEmpty(val) || val.EndsWith(" ") || val.EndsWith(specialWhitespaceString))
+            {
+                newVal = val + example;
+            }
+            else
+            {
+                newVal = val + " " + example;
+            }
+            _searchInput.value = newVal;
+            _searchInput.setSelectionRange((uint)newVal.Length, (uint)newVal.Length);
+            OnSearchInputChanged();
+            _searchInput.focus();
         }
 
         private async Task ShowSearchHistory()

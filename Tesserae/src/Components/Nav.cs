@@ -11,7 +11,7 @@ namespace Tesserae
     /// A hierarchical, vertically-stacked navigation tree with support for nested sections, icons and badges.
     /// </summary>
     [H5.Name("tss.Nav")]
-    public sealed class Nav : ComponentBase<Nav, HTMLUListElement>, IContainer<Nav.NavLink, Nav.NavLink>, IHasBackgroundColor
+    public sealed class Nav : ComponentBase<Nav, HTMLUListElement>, IContainer<Nav.NavLink, Nav.NavLink>, IHasBackgroundColor, IBindableComponent<Nav.NavLink>
     {
         /// <summary>
         /// Initializes a new instance of this class.
@@ -23,7 +23,8 @@ namespace Tesserae
         /// </summary>
         public NavLink SelectedLink { get; private set; }
 
-        private readonly List<NavLink> _children = new List<NavLink>();
+        private readonly List<NavLink>               _children   = new List<NavLink>();
+        private readonly SettableObservable<NavLink> _observable = new SettableObservable<NavLink>();
 
         /// <summary>
         /// Gets or sets the CSS background of the component.
@@ -51,7 +52,8 @@ namespace Tesserae
                 if (SelectedLink != null)
                     SelectedLink.IsSelected = false;
                 RaiseOnChange(ev: null);
-                SelectedLink = component;
+                SelectedLink      = component;
+                _observable.Value = component;
             }
 
             if (component.SelectedChild != null)
@@ -59,7 +61,8 @@ namespace Tesserae
                 if (SelectedLink != null)
                     SelectedLink.IsSelected = false;
                 RaiseOnChange(ev: null);
-                SelectedLink = component.SelectedChild;
+                SelectedLink      = component.SelectedChild;
+                _observable.Value = component.SelectedChild;
             }
 
             _children.Add(component);
@@ -124,7 +127,23 @@ namespace Tesserae
 
             RaiseOnChange(ev: null);
 
-            SelectedLink = sender;
+            SelectedLink      = sender;
+            _observable.Value = sender;
+        }
+
+        /// <summary>
+        /// Returns an observable that tracks the currently-selected nav link.
+        /// </summary>
+        public IObservable<NavLink> AsObservable() => _observable;
+
+        /// <summary>
+        /// Programmatically selects a nav link as part of a two-way binding.
+        /// </summary>
+        public void SetBoundValue(NavLink value)
+        {
+            if (value == null) return;
+            if (SelectedLink == value) return;
+            value.IsSelected = true;
         }
 
         /// <summary>

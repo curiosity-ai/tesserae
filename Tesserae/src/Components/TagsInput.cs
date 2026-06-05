@@ -24,7 +24,7 @@ namespace Tesserae
     /// </para>
     /// </remarks>
     [H5.Name("tss.TagsInput")]
-    public sealed class TagsInput : IComponent, IHasMarginPadding
+    public sealed class TagsInput : IComponent, IHasMarginPadding, IBindableListComponent<string>
     {
         private readonly HTMLDivElement                            _container;
         private readonly HTMLInputElement                          _input;
@@ -161,6 +161,42 @@ namespace Tesserae
         /// <summary>Programmatically adds a tag (subject to duplicate/max checks and the normalizer).</summary>
         /// <returns><c>true</c> if the tag was added; <c>false</c> if rejected.</returns>
         public bool Add(string tag) => TryAdd(tag, raiseEvents: true);
+
+        /// <summary>
+        /// Programmatically replaces the entire tag list as part of a two-way binding.
+        /// Existing tags are cleared first. Per-tag normalize / duplicate / max rules still apply.
+        /// </summary>
+        public void SetBoundValues(IReadOnlyList<string> values)
+        {
+            // Snapshot the caller's list before we touch _tags. The binding round-trip can hand
+            // back the very ReadOnlyCollection we published from RefreshObservable, and that
+            // collection is a live view over _tags — so clearing _tags would also empty `values`
+            // mid-iteration. The snapshot is also the source of truth for the equality check below.
+            var snapshot = values is object ? values.ToArray() : new string[0];
+
+            // Reference-equality on lists doesn't terminate the bind loop the way it does for
+            // scalars: each RefreshObservable allocates a new ReadOnlyCollection, so source &
+            // component keep echoing forever even when their contents are equal. Compare by
+            // sequence and no-op when the tags already match.
+            if (_tags.Count == snapshot.Length)
+            {
+                var equal = true;
+
+                for (var i = 0; i < snapshot.Length; i++)
+                {
+                    if (_tags[i] != snapshot[i])
+                    {
+                        equal = false;
+                        break;
+                    }
+                }
+                if (equal) return;
+            }
+
+            for (var i = _tags.Count - 1; i >= 0; i--) RemoveAt(i, raiseEvents: false);
+            foreach (var v in snapshot) TryAdd(v, raiseEvents: false);
+            RefreshObservable();
+        }
 
         /// <summary>Removes the first occurrence of the given tag, if present.</summary>
         public bool Remove(string tag)

@@ -19,13 +19,14 @@ namespace Tesserae
     /// </code>
     /// </example>
     [H5.Name("tss.DateRangePicker")]
-    public sealed class DateRangePicker : IComponent, IHasMarginPadding
+    public sealed class DateRangePicker : IComponent, IHasMarginPadding, IBindableComponent<(DateTime? from, DateTime? to)>
     {
-        private readonly DatePicker              _from;
-        private readonly DatePicker              _to;
-        private readonly HTMLDivElement          _container;
-        private          Action<DateRangePicker> _onChange;
-        private          bool                    _syncing;
+        private readonly DatePicker                                         _from;
+        private readonly DatePicker                                         _to;
+        private readonly HTMLDivElement                                     _container;
+        private readonly SettableObservable<(DateTime? from, DateTime? to)> _observable;
+        private          Action<DateRangePicker>                            _onChange;
+        private          bool                                               _syncing;
 
         /// <summary>Creates a new date-range picker, optionally initialised with a range.</summary>
         /// <param name="from">Initial "from" date, or <c>null</c> for an empty start.</param>
@@ -38,6 +39,8 @@ namespace Tesserae
             var separator = Span(_("tss-daterange-separator", text: "—"));
 
             _container = Div(_("tss-daterange-picker"), _from.Render(), separator, _to.Render());
+
+            _observable = new SettableObservable<(DateTime? from, DateTime? to)>((from, to));
 
             _from.OnChange((_, __) => OnFromChanged());
             _to.OnChange((_,   __) => OnToChanged());
@@ -115,6 +118,7 @@ namespace Tesserae
                         _to.Text = _from.Text;
                     }
                 }
+                _observable.Value = (From, To);
                 _onChange?.Invoke(this);
             }
             finally { _syncing = false; }
@@ -136,11 +140,36 @@ namespace Tesserae
                         _from.Text = _to.Text;
                     }
                 }
+                _observable.Value = (From, To);
                 _onChange?.Invoke(this);
             }
             finally { _syncing = false; }
         }
 
         private static bool HasValue(DatePicker p) => !string.IsNullOrWhiteSpace(p.Text);
+
+        /// <summary>
+        /// Returns an observable that tracks the selected (from, to) range.
+        /// </summary>
+        public IObservable<(DateTime? from, DateTime? to)> AsObservable() => _observable;
+
+        /// <summary>
+        /// Programmatically updates the range as part of a two-way binding.
+        /// A null component clears the corresponding picker.
+        /// </summary>
+        public void SetBoundValue((DateTime? from, DateTime? to) value)
+        {
+            _syncing = true;
+
+            try
+            {
+                _from.Text = value.from.HasValue ? value.from.Value.ToString("yyyy-MM-dd") : string.Empty;
+                _to.Text   = value.to.HasValue ? value.to.Value.ToString("yyyy-MM-dd") : string.Empty;
+                if (value.from.HasValue) _to.Min = value.from.Value;
+                if (value.to.HasValue) _from.Max = value.to.Value;
+            }
+            finally { _syncing = false; }
+            _observable.Value = value;
+        }
     }
 }

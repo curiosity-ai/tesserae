@@ -6,9 +6,10 @@ namespace Tesserae
     /// A ToggleButton component that behaves like a button but maintains a checked state.
     /// </summary>
     [H5.Name("tss.ToggleButton")]
-    public class ToggleButton : IComponent
+    public class ToggleButton : IComponent, IBindableComponent<bool>
     {
-        private Button _button;
+        private          Button                   _button;
+        private readonly SettableObservable<bool> _observable = new SettableObservable<bool>(false);
 
         /// <summary>
         /// Event fired when the checked state of the toggle button changes.
@@ -26,8 +27,6 @@ namespace Tesserae
             }
             set
             {
-                var current = IsChecked;
-
                 if (value)
                 {
                     _button.Render().classList.remove("tss-toggle-btn-unchecked");
@@ -36,8 +35,19 @@ namespace Tesserae
                 {
                     _button.Render().classList.add("tss-toggle-btn-unchecked");
                 }
+                _observable.Value = value;
             }
         }
+
+        /// <summary>
+        /// Returns an observable that tracks the checked state of the toggle button.
+        /// </summary>
+        public IObservable<bool> AsObservable() => _observable;
+
+        /// <summary>
+        /// Programmatically updates the toggle button as part of a two-way binding.
+        /// </summary>
+        public void SetBoundValue(bool value) => IsChecked = value;
 
         /// <summary>
         /// Initializes a new instance of the ToggleButton class.

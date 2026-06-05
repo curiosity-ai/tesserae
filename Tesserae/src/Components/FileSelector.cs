@@ -7,16 +7,17 @@ namespace Tesserae
     /// A form control that lets the user pick one or more files from disk, with optional drag-and-drop support.
     /// </summary>
     [H5.Name("tss.FileSelector")]
-    public sealed class FileSelector : IComponent, ICanValidate<FileSelector>
+    public sealed class FileSelector : IComponent, ICanValidate<FileSelector>, IObservableComponent<File>
     {
         public delegate void              FileSelectedHandler(FileSelector sender, File file);
         private event FileSelectedHandler FileSelected;
 
-        private readonly HTMLInputElement _fileInput;
-        private readonly IComponent       _stack;
-        private readonly TextBox          _textBox;
-        private readonly HTMLElement      _container;
-        private          File             _selectedFile;
+        private readonly HTMLInputElement         _fileInput;
+        private readonly IComponent               _stack;
+        private readonly TextBox                  _textBox;
+        private readonly HTMLElement              _container;
+        private readonly SettableObservable<File> _observable = new SettableObservable<File>();
+        private          File                     _selectedFile;
 
         /// <summary>
         /// Gets or sets the selected file.
@@ -26,10 +27,17 @@ namespace Tesserae
             get => _selectedFile;
             private set
             {
-                _selectedFile = value;
+                _selectedFile     = value;
+                _observable.Value = value;
                 FileSelected?.Invoke(this, value);
             }
         }
+
+        /// <summary>
+        /// Returns an observable that tracks the currently selected file (read-only — browser security
+        /// prevents pushing a File value back into the input).
+        /// </summary>
+        public IObservable<File> AsObservable() => _observable;
 
         /// <summary>
         /// Gets or sets the placeholder text shown when the component is empty.

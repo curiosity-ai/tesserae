@@ -44,7 +44,7 @@ namespace Tesserae
     }
 
     [H5.Name("tss.TimeHistogramPicker")]
-    public sealed class TimeHistogramPicker : IComponent
+    public sealed class TimeHistogramPicker : IComponent, IBindableComponent<(DateTime from, DateTime to)>
     {
         private const double Millisecond = 1;
         private const double Second      = 1000 * Millisecond;
@@ -78,6 +78,9 @@ namespace Tesserae
         private bool                            _usesCustomTimeRender;
         private Action<DateTime, DateTime, int> _rangeChanged;
         private Action                          _hideBarTooltip;
+
+        private readonly SettableObservable<(DateTime from, DateTime to)> _observable
+            = new SettableObservable<(DateTime from, DateTime to)>((default(DateTime), default(DateTime)));
 
         /// <summary>
         /// Initializes a new instance of this class.
@@ -442,9 +445,20 @@ namespace Tesserae
 
             if (raiseChanged)
             {
+                _observable.Value = (SelectedFrom, SelectedTo);
                 _rangeChanged?.Invoke(SelectedFrom, SelectedTo, SelectedCount);
             }
         }
+
+        /// <summary>
+        /// Returns an observable that tracks the currently-selected (from, to) range.
+        /// </summary>
+        public IObservable<(DateTime from, DateTime to)> AsObservable() => _observable;
+
+        /// <summary>
+        /// Programmatically sets the selected range as part of a two-way binding.
+        /// </summary>
+        public void SetBoundValue((DateTime from, DateTime to) value) => SetRange(value.from, value.to);
 
         private double StartIndexToPercent(int index)
         {
