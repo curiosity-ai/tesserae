@@ -34,7 +34,7 @@
     font-size: 13px;
     color: var(--tss-colors-neutral-800, #1f2937);
     cursor: pointer;
-    transition: background-color 120ms ease, border-color 120ms ease, color 120ms ease;
+    transition: opacity 120ms ease;
     font-family: inherit;
     line-height: 1.2;
 }

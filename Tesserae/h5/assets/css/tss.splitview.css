@@ -97,13 +97,12 @@
     height: 3px;
     background: var(--tss-default-border-color);
     cursor: s-resize;
-    transition: all 0.15s ease-in-out;
+    transform-origin: center;
+    transition: transform 0.15s ease-in-out;
 }
 
 .tss-splitview.tss-splitview-horizontal > .tss-splitter:hover:after {
-    left: calc(50% - 40px);
-    top: calc(50% - 1.5px);
-    width: 80px;
+    transform: scaleX(2);
     background: var(--tss-dark-border-color) !important;
 }
 
@@ -116,13 +115,12 @@
     width: 3px;
     background: var(--tss-default-border-color);
     cursor: e-resize;
-    transition: all 0.15s ease-in-out;
+    transform-origin: center;
+    transition: transform 0.15s ease-in-out;
 }
 
 .tss-splitview.tss-splitview-vertical > .tss-splitter:hover:after {
-    top: calc(50% - 40px);
-    left: calc(50% - 1.5px);
-    height: 80px;
+    transform: scaleY(2);
     background: var(--tss-dark-border-color) !important;
 }
 .tss-splitview-panel-style.tss-split-left > *:first-child {

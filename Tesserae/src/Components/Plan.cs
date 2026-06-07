@@ -696,11 +696,13 @@ namespace Tesserae
                 {
                     var p = PlanVisuals.ClampProgress(model.Progress.Value);
                     _progressEl.classList.remove("tss-plan-indeterminate");
-                    _progressBar.style.width = (p * 100f).ToString() + "%";
+                    _progressBar.style.transform = "scaleX(" + p.ToString() + ")";
                     _progressEl.style.display = "";
                 }
                 else if (model.Status == PlanStatus.Running)
                 {
+                    // Hand control of the transform to the indeterminate keyframes.
+                    _progressBar.style.transform = "";
                     _progressEl.classList.add("tss-plan-indeterminate");
                     _progressEl.style.display = "";
                 }

@@ -14,7 +14,7 @@
     width: 100%;
     outline: transparent none medium;
     padding: 0px 12px;
-    transition: all 0.15s ease-in-out;
+    transition: opacity 0.15s ease-in-out, transform 0.15s ease-in-out;
 }
 
 
@@ -121,10 +121,6 @@
 
 .tss-textblock table tbody tr:last-child td {
   border-bottom: none;
-}
-
-.tss-textblock table tbody tr {
-  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
 }
 
 .tss-textblock table tbody tr:hover {

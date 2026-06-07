@@ -36,6 +36,12 @@
         width: 18px;
         border-radius: 50%;
         border: 1px solid var(--tss-default-foreground-color);
+        transition: transform 0.12s ease;
+    }
+
+    /* Click feedback: press the option mark in */
+    .tss-option-container:not(.tss-disabled):active .tss-option-mark {
+        transform: scale(0.9);
     }
 
     .tss-option-container:hover input ~ .tss-option-mark:after {

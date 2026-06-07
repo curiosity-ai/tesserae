@@ -14,11 +14,16 @@
     border-radius: 50%;
     cursor: pointer;
     color: var(--tss-default-foreground-color);
-    transition: background 0.15s ease;
+    transition: transform 0.12s ease;
 }
 
     .tss-notif-bell:hover {
         background: var(--tss-secondary-background-color);
+    }
+
+    /* Click feedback: press the bell in */
+    .tss-notif-bell:active {
+        transform: scale(0.92);
     }
 
     .tss-notif-bell:focus-visible {

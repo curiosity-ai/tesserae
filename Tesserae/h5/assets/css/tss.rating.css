@@ -10,7 +10,7 @@
     font-size: 24px;
     cursor: pointer;
     color: var(--tss-default-border-color);
-    transition: color 0.15s ease, transform 0.1s ease;
+    transition: transform 0.1s ease;
     user-select: none;
     line-height: 1;
 }
@@ -27,6 +27,11 @@
 
     .tss-rating-star.tss-rating-star-hover {
         transform: scale(1.15);
+    }
+
+    /* Click feedback: press the star in */
+    .tss-rating-star:active {
+        transform: scale(0.9);
     }
 
 .tss-rating-readonly .tss-rating-star {

@@ -27,7 +27,7 @@
     border-radius: 3px 3px 0 0;
     background: var(--tss-slider-color);
     opacity: 0.65;
-    transition: background-color 80ms ease, opacity 80ms ease;
+    transition: opacity 80ms ease;
 }
 
 .tss-time-histogram-picker-bar.tss-selected {

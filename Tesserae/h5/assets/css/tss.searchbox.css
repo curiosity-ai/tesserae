@@ -48,7 +48,7 @@
     width: 100%;
     outline: transparent none medium;
     padding: 0px 5px;
-    transition: all 0.15s ease-in-out;
+    transition: opacity 0.15s ease-in-out, transform 0.15s ease-in-out;
 }
 
     .tss-searchbox-container.tss-disabled {
@@ -92,7 +92,6 @@
     text-align: center;
     color: var(--tss-secondary-foreground-color);
     cursor: text;
-    transition: width 0.167s ease 0s;
     overflow: hidden;
 }
 
@@ -101,7 +100,6 @@
 }
 
 .tss-searchbox-padding {
-    transition: width 0.167s ease 0s;
     width: 0px;
     height: 16px;
 }

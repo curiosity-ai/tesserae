@@ -45,7 +45,7 @@ body.tss-mobile .tss-navbar .tss-navbar-drawer {
     padding: 0 !important;
     overflow-y: auto !important;
     transform: translateX(-105%);
-    transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.28s ease;
+    transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: none;
     background: var(--tss-sidebar-background-color);
 }

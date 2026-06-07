@@ -101,15 +101,18 @@
     bottom: 0;
     left: 0;
     height: 4px;
-    width: 0px;
+    /* Base width of 1px is scaled horizontally via transform so the indicator
+       slides and resizes using only GPU-friendly transform animations. */
+    width: 1px;
+    transform: scaleX(0);
+    transform-origin: left center;
     z-index: 1;
     background-color: var(--tss-primary-background-hover-color);
     overflow: hidden;
     pointer-events: none;
     border-radius: 4px;
-    transition: left 0.5s cubic-bezier(0.2, 0, 0, 1),
-                width 0.5s cubic-bezier(0.2, 0, 0, 1);
-    will-change: left, width;
+    transition: transform 0.5s cubic-bezier(0.2, 0, 0, 1);
+    will-change: transform;
 }
 
 .tss-pivot-line.tss-pivot-line-instant {
