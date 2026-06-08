@@ -1441,87 +1441,52 @@ namespace Tesserae
         {
             ClearTokens();
 
-            var consecutiveWordBuilder = new System.Text.StringBuilder();
-
-            Action flushConsecutiveWords = () =>
-            {
-                if (consecutiveWordBuilder.Length > 0)
-                {
-                    // Trim trailing whitespace from the merged words to render it outside the span
-                    var text = consecutiveWordBuilder.ToString();
-                    var trimmed = text.TrimEnd();
-                    var trailingWhitespace = text.Substring(trimmed.Length);
-
-                    if (!string.IsNullOrEmpty(trimmed))
-                    {
-                        var span = Span(_("tss-omnibox-search-token-word", text: trimmed));
-                        _searchTokensContainer.appendChild(span);
-                    }
-
-                    if (!string.IsNullOrEmpty(trailingWhitespace))
-                    {
-                        var spanSpace = Span(_(text: trailingWhitespace));
-                        _searchTokensContainer.appendChild(spanSpace);
-                    }
-
-                    consecutiveWordBuilder.Clear();
-                }
-            };
-
             foreach (var token in tokens)
             {
-                if (token.Type == SearchToken.TokenType.Word || token.Type == SearchToken.TokenType.Whitespace)
+                // Whitespace is rendered as plain text between tokens so that each word
+                // sits in its own highlighted pill rather than being merged together.
+                if (token.Type == SearchToken.TokenType.Whitespace)
                 {
-                    // If we have leading whitespace before any words, flush it directly
-                    if (consecutiveWordBuilder.Length == 0 && token.Type == SearchToken.TokenType.Whitespace)
-                    {
-                        var spanSpace = Span(_(text: token.Value));
-                        _searchTokensContainer.appendChild(spanSpace);
-                    }
-                    else
-                    {
-                        consecutiveWordBuilder.Append(token.Value);
-                    }
+                    var spanSpace = Span(_(text: token.Value));
+                    _searchTokensContainer.appendChild(spanSpace);
+                    continue;
+                }
+
+                string className = "";
+                switch (token.Type)
+                {
+                    case SearchToken.TokenType.Word:
+                    // A quoted value (e.g. "solar flare") is a single normal token; we render
+                    // it like a word pill, keeping the surrounding quotes visible.
+                    case SearchToken.TokenType.Quote:
+                        className = "tss-omnibox-search-token-word";
+                        break;
+                    case SearchToken.TokenType.And:
+                        className = "tss-omnibox-search-token-operator-and";
+                        break;
+                    case SearchToken.TokenType.Or:
+                        className = "tss-omnibox-search-token-operator-or";
+                        break;
+                    case SearchToken.TokenType.Not:
+                        className = "tss-omnibox-search-token-operator-not";
+                        break;
+                    case SearchToken.TokenType.ParenthesisOpen:
+                    case SearchToken.TokenType.ParenthesisClose:
+                        className = "tss-omnibox-search-token-paren";
+                        break;
+                }
+
+                if (string.IsNullOrEmpty(className))
+                {
+                    var span = Span(_(text: token.Value));
+                    _searchTokensContainer.appendChild(span);
                 }
                 else
                 {
-                    flushConsecutiveWords();
-
-                    string className = "";
-                    switch (token.Type)
-                    {
-                        case SearchToken.TokenType.And:
-                            className = "tss-omnibox-search-token-operator-and";
-                            break;
-                        case SearchToken.TokenType.Or:
-                            className = "tss-omnibox-search-token-operator-or";
-                            break;
-                        case SearchToken.TokenType.Not:
-                            className = "tss-omnibox-search-token-operator-not";
-                            break;
-                        case SearchToken.TokenType.ParenthesisOpen:
-                        case SearchToken.TokenType.ParenthesisClose:
-                            className = "tss-omnibox-search-token-paren";
-                            break;
-                        case SearchToken.TokenType.Quote:
-                            className = "tss-omnibox-search-token-quote";
-                            break;
-                    }
-
-                    if (string.IsNullOrEmpty(className))
-                    {
-                        var span = Span(_(text: token.Value));
-                        _searchTokensContainer.appendChild(span);
-                    }
-                    else
-                    {
-                        var span = Span(_(className, text: token.Value));
-                        _searchTokensContainer.appendChild(span);
-                    }
+                    var span = Span(_(className, text: token.Value));
+                    _searchTokensContainer.appendChild(span);
                 }
             }
-
-            flushConsecutiveWords();
         }
 
         private void TriggerSearch()
