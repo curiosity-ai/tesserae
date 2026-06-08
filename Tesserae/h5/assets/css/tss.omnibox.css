@@ -234,6 +234,16 @@
     outline: 1px solid var(--tss-colors-blue-500);
 }
 
+.tss-omnibox-search-token-word.tss-omnibox-search-token-join-left {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.tss-omnibox-search-token-word.tss-omnibox-search-token-join-right {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
 .tss-omnibox-search-token-operator-and,
 .tss-omnibox-search-token-operator-or ,
 .tss-omnibox-search-token-operator-not,
