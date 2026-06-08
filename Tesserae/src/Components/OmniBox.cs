@@ -1437,12 +1437,30 @@ namespace Tesserae
             return new SearchQuery(input, tokens);
         }
 
+        private static bool IsWordPillToken(SearchToken.TokenType type)
+        {
+            return type == SearchToken.TokenType.Word || type == SearchToken.TokenType.Quote;
+        }
+
+        // Returns the type of the nearest non-whitespace token in the given direction
+        // (+1 = forward, -1 = backward), or null if there is none.
+        private static SearchToken.TokenType? NeighbourTokenType(List<SearchToken> tokens, int index, int direction)
+        {
+            for (int j = index + direction; j >= 0 && j < tokens.Count; j += direction)
+            {
+                if (tokens[j].Type != SearchToken.TokenType.Whitespace) return tokens[j].Type;
+            }
+            return null;
+        }
+
         private void RenderTokens(List<SearchToken> tokens)
         {
             ClearTokens();
 
-            foreach (var token in tokens)
+            for (int i = 0; i < tokens.Count; i++)
             {
+                var token = tokens[i];
+
                 // Whitespace is rendered as plain text between tokens so that each word
                 // sits in its own highlighted pill rather than being merged together.
                 if (token.Type == SearchToken.TokenType.Whitespace)
@@ -1460,6 +1478,20 @@ namespace Tesserae
                     // it like a word pill, keeping the surrounding quotes visible.
                     case SearchToken.TokenType.Quote:
                         className = "tss-omnibox-search-token-word";
+
+                        // When word pills sit next to each other (only separated by whitespace),
+                        // square off their inner corners so the run reads as one continuous
+                        // highlight instead of a string of separate rounded pills.
+                        var prev = NeighbourTokenType(tokens, i, -1);
+                        var next = NeighbourTokenType(tokens, i, +1);
+                        if (prev.HasValue && IsWordPillToken(prev.Value))
+                        {
+                            className += " tss-omnibox-search-token-join-left";
+                        }
+                        if (next.HasValue && IsWordPillToken(next.Value))
+                        {
+                            className += " tss-omnibox-search-token-join-right";
+                        }
                         break;
                     case SearchToken.TokenType.And:
                         className = "tss-omnibox-search-token-operator-and";
