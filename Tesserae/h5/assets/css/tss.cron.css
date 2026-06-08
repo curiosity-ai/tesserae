@@ -10,7 +10,6 @@
 .tss-cron-desc {
     cursor: pointer;
     border-bottom: 1px dashed var(--tss-default-foreground-color);
-    transition: border-bottom 0.2s;
 }
 
     .tss-cron-desc:hover {

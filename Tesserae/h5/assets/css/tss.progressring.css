@@ -17,7 +17,6 @@
     .tss-progressring-fill {
         stroke: var(--tss-primary-background-color);
         stroke-linecap: round;
-        transition: stroke-dashoffset 0.3s ease;
     }
 
     .tss-progressring-label {

@@ -22,7 +22,6 @@
     border-right: 1px solid var(--tss-border-color);
     cursor: pointer;
     background: var(--tss-default-background-color);
-    transition: background-color 0.2s;
     border-bottom: 3px solid transparent;
     padding: 4px 12px;    
 }

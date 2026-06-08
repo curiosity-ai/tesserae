@@ -10,7 +10,6 @@
     -webkit-user-select: none;
     user-select: none;
     background: var(--tss-sidebar-background-color);
-    transition: 0.3s width ease-out;
 }
 
     .tss-sidebar .tss-default-component-margin {

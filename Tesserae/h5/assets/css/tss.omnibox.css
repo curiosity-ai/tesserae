@@ -12,7 +12,7 @@
     align-items: stretch;
     width: 100%;
     outline: transparent none medium;
-    transition: all 0.15s ease-in-out;
+    transition: opacity 0.15s ease-in-out, transform 0.15s ease-in-out;
 }
 
     .tss-omnibox-container.tss-omnibox-chat-and-search,
@@ -320,13 +320,6 @@
 .tss-omnibox-container.tss-omnibox-expanded.tss-omnibox-mode-search .tss-omnibox-search-container,
 .tss-omnibox-container.tss-omnibox-expanded.tss-omnibox-mode-chat .tss-omnibox-search-container {
     min-height: 160px;
-    transition: min-height 0.15s ease-in-out;
-}
-
-.tss-omnibox-container:not(.tss-omnibox-expanded) .tss-omnibox-chat-container,
-.tss-omnibox-container:not(.tss-omnibox-expanded).tss-omnibox-mode-search .tss-omnibox-search-container,
-.tss-omnibox-container:not(.tss-omnibox-expanded).tss-omnibox-mode-chat .tss-omnibox-search-container {
-    transition: min-height 0.15s ease-in-out;
 }
 .tss-omnibox-inline-chips {
     display: flex;
@@ -364,7 +357,6 @@
     border-radius: 50%;
     width: 16px;
     height: 16px;
-    transition: background-color 0.2s;
 }
 
 .tss-omnibox-inline-chip-close:hover {
@@ -441,7 +433,6 @@
     background: var(--tss-secondary-background-color);
     color: var(--tss-secondary-foreground-color);
     border-color: transparent;
-    transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out;
 }
 
 .tss-btn.tss-omnibox-chat-btn:not(.tss-disabled):hover {

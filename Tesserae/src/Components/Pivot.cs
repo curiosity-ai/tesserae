@@ -584,13 +584,14 @@ namespace Tesserae
 
             // offsetLeft/offsetWidth are relative to the titlebar, which is the line's
             // offsetParent (it's position: relative). This stays correct regardless of
-            // scroll position. CSS transitions on .tss-pivot-line interpolate width/left.
+            // scroll position. The line has a 1px base width and is positioned/sized via
+            // a single transform (translateX + scaleX) so the CSS transition only ever
+            // animates the GPU-friendly transform property.
             if (_firstRender)
             {
                 // Snap to position on first render so the line doesn't animate in from 0/0.
                 _line.classList.add("tss-pivot-line-instant");
-                _line.style.width = target.offsetWidth + "px";
-                _line.style.left  = target.offsetLeft + "px";
+                _line.style.transform = "translateX(" + target.offsetLeft + "px) scaleX(" + target.offsetWidth + ")";
                 // Read offsetWidth to flush the layout before re-enabling the transition.
                 var _flush = _line.offsetWidth;
                 _line.classList.remove("tss-pivot-line-instant");
@@ -598,8 +599,7 @@ namespace Tesserae
                 return;
             }
 
-            _line.style.width = target.offsetWidth + "px";
-            _line.style.left  = target.offsetLeft + "px";
+            _line.style.transform = "translateX(" + target.offsetLeft + "px) scaleX(" + target.offsetWidth + ")";
         }
 
         internal sealed class Tab

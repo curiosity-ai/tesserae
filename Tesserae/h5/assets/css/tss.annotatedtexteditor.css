@@ -8,7 +8,7 @@
     border-radius: var(--tss-border-radius-md);
     background: var(--tss-default-background-color);
     color: var(--tss-default-foreground-color);
-    transition: all 0.15s ease-in-out;
+    transition: opacity 0.15s ease-in-out, transform 0.15s ease-in-out;
     overflow: hidden;
 }
 

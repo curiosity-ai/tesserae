@@ -14,13 +14,18 @@
     cursor: pointer;
     border: 2px solid transparent;
     box-shadow: 0 0 0 1px rgba(0,0,0,0.15);
-    transition: transform 0.12s ease, box-shadow 0.12s ease;
+    transition: transform 0.12s ease;
     flex-shrink: 0;
 }
 
     .tss-colorpalette-swatch:hover {
         transform: scale(1.15);
         box-shadow: 0 0 0 2px var(--tss-primary-background-color);
+    }
+
+    /* Click feedback: press the swatch in */
+    .tss-colorpalette-swatch:active {
+        transform: scale(0.95);
     }
 
     .tss-colorpalette-swatch:focus-visible {

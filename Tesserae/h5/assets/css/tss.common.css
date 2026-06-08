@@ -566,13 +566,11 @@ i.tss-fontsize-tiny {
 
 @keyframes skeleton-glow {
     0% {
-        background: rgba(211, 216, 222, .2);
-        border-color: rgba(211, 216, 222, .2)
+        opacity: 1;
     }
 
     to {
-        background: rgba(95, 107, 124, .2);
-        border-color: rgba(95, 107, 124, .2)
+        opacity: 0.4;
     }
 }
 
@@ -617,15 +615,15 @@ i[class^="fi-"]:before, i[class*=" fi-"]:before, span[class^="fi-"]:before, span
 }
 
 .tss-filter-effects {
-    transition: filter 0.15s ease-in-out;
+    transition: transform 0.12s ease, opacity 0.15s ease;
 }
 
     .tss-filter-effects:hover {
-        filter: brightness(1.1);
+        transform: scale(1.1);
     }
 
     .tss-filter-effects:active {
-        filter: brightness(0.9);
+        transform: scale(0.92);
     }
 
     .tss-filter-effects.tss-disabled {

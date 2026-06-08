@@ -25,7 +25,6 @@
     cursor: pointer;
     background: transparent;
     border-radius: var(--tss-border-radius-md);
-    transition: background-color 0.2s, box-shadow 0.2s, color 0.2s;
     font-size: var(--tss-font-size-smallplus);
     color: var(--tss-secondary-foreground-color);
     font-weight: 500;

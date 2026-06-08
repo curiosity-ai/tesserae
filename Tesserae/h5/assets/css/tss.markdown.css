@@ -49,10 +49,6 @@
         border-bottom: none;
     }
 
-    .tss-markdown table tbody tr {
-        transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-    }
-
         .tss-markdown table tbody tr:hover {
             background-color: var(--tss-default-background-hover-color);
             color: var(--tss-default-foreground-hover-color);

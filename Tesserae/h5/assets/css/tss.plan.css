@@ -15,7 +15,6 @@
     position: relative;
     border: 1px solid var(--tss-default-border-color);
     border-radius: 6px;
-    transition: border-color 120ms ease-in-out;
 }
 
 /* Status accent on the card. The accent is applied as a left border so it
@@ -123,9 +122,13 @@
 
 .tss-plan-step-progress-bar {
     height: 100%;
-    width: 0%;
+    /* Full-width bar scaled horizontally to represent progress, so the fill
+       animates via transform instead of width. */
+    width: 100%;
+    transform: scaleX(0);
+    transform-origin: left center;
     background: var(--tss-primary-background-color);
-    transition: width 200ms ease-out;
+    transition: transform 200ms ease-out;
 }
 
 .tss-plan-step-progress.tss-plan-indeterminate .tss-plan-step-progress-bar {
