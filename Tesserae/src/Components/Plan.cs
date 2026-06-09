@@ -107,24 +107,57 @@ namespace Tesserae
             }
         }
 
-        // Status glyphs from Lucide (https://lucide.dev, ISC license), matching
-        // the design. Rendered inline as SVG so they inherit `currentColor` and
-        // — thanks to a symmetric 24x24 viewBox — spin around their own center
-        // instead of orbiting (which a font glyph would do).
+        // ---- Status glyphs ------------------------------------------------
+        //
+        // These five glyphs are from Lucide (https://lucide.dev, ISC license)
+        // and are deliberately kept as inline SVG — instead of the font-based
+        // `UIcons` set used everywhere else in the toolkit — to match the exact
+        // design of the Plan component. Do not swap them for UIcons unless the
+        // design itself changes; they were chosen for two concrete reasons:
+        //   * each glyph is stroked with `currentColor`, so it inherits the
+        //     per-status accent color straight from the `.is-*` CSS rules
+        //     (see tss.plan.css), and
+        //   * the symmetric 24x24 viewBox lets the running glyph spin around
+        //     its own center (a font glyph would orbit off-center instead).
+        //
+        // The markup lives in the named constants below so the raw SVG no
+        // longer sits inline in the rendering logic; StatusSvg just wraps the
+        // selected glyph in the shared <svg> envelope.
+
+        // Lucide "loader-circle" — Running (spins in place via CSS).
+        private const string GlyphRunning   = "<path d=\"M21 12a9 9 0 1 1-6.219-8.56\"/>";
+        // Lucide "circle-check" — Completed.
+        private const string GlyphCompleted = "<circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"m9 12 2 2 4-4\"/>";
+        // Lucide "circle-x" — Failed.
+        private const string GlyphFailed    = "<circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"m15 9-6 6\"/><path d=\"m9 9 6 6\"/>";
+        // Lucide "ban" — Canceled.
+        private const string GlyphCanceled  = "<circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"m4.9 4.9 14.2 14.2\"/>";
+        // Lucide "circle" — Pending (default).
+        private const string GlyphPending   = "<circle cx=\"12\" cy=\"12\" r=\"10\"/>";
+
+        // Shared <svg> envelope. `fill=none` + `stroke=currentColor` is what
+        // lets the glyphs above pick up the per-status color from CSS.
+        private const string SvgPrefix =
+            "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" " +
+            "stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">";
+        private const string SvgSuffix = "</svg>";
+
+        /// <summary>
+        /// Returns the inline-SVG status glyph for <paramref name="status"/>.
+        /// See the note above on why these are inline SVG rather than UIcons.
+        /// </summary>
         public static string StatusSvg(PlanStatus status)
         {
             string inner;
             switch (status)
             {
-                case PlanStatus.Running:   inner = "<path d=\"M21 12a9 9 0 1 1-6.219-8.56\"/>"; break;
-                case PlanStatus.Completed: inner = "<circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"m9 12 2 2 4-4\"/>"; break;
-                case PlanStatus.Failed:    inner = "<circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"m15 9-6 6\"/><path d=\"m9 9 6 6\"/>"; break;
-                case PlanStatus.Canceled:  inner = "<circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"m4.9 4.9 14.2 14.2\"/>"; break;
-                default:                   inner = "<circle cx=\"12\" cy=\"12\" r=\"10\"/>"; break;
+                case PlanStatus.Running:   inner = GlyphRunning;   break;
+                case PlanStatus.Completed: inner = GlyphCompleted; break;
+                case PlanStatus.Failed:    inner = GlyphFailed;    break;
+                case PlanStatus.Canceled:  inner = GlyphCanceled;  break;
+                default:                   inner = GlyphPending;    break;
             }
-            return "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" " +
-                   "stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">" +
-                   inner + "</svg>";
+            return SvgPrefix + inner + SvgSuffix;
         }
 
         public static string StatusText(PlanStatus status)
