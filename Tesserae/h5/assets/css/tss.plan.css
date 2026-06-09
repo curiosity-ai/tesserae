@@ -192,7 +192,20 @@
     background: var(--tss-default-background-color);
     flex: 0 0 auto;
 }
-.tss-plan-step-icon svg { width: 18px; height: 18px; display: block; }
+/* UIcons status glyph. A fixed, glyph-centered square box is what lets the
+   running spinner rotate around its own center instead of orbiting: the box is
+   sized to the glyph, line-height is collapsed to 1 and the glyph is
+   flex-centered, so transform-origin (50% 50%) lands on the glyph's center. */
+.tss-plan-step-icon .tss-icon {
+    width: 18px;
+    height: 18px;
+    font-size: 18px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform-origin: 50% 50%;
+}
 
 .is-pending   .tss-plan-step-icon { color: var(--tss-colors-neutral-400); }
 .is-running   .tss-plan-step-icon { color: var(--tss-primary-background-color); }
@@ -200,8 +213,9 @@
 .is-failed    .tss-plan-step-icon { color: var(--tss-danger-background-color); }
 .is-canceled  .tss-plan-step-icon { color: var(--tss-warning-background-color); }
 
-/* Spin in place: rotate the SVG around its own center (symmetric viewBox). */
-.is-running .tss-plan-step-icon svg { animation: tss-plan-spin 1.1s linear infinite; transform-origin: center; }
+/* Spin in place: rotate the glyph around its own center (the .tss-icon box
+   above is a glyph-centered square, so the pivot is the glyph center). */
+.is-running .tss-plan-step-icon .tss-icon { animation: tss-plan-spin 1.1s linear infinite; }
 @keyframes tss-plan-spin { to { transform: rotate(360deg); } }
 
 /* Step body. */
@@ -321,13 +335,22 @@
     justify-content: center;
     margin-top: 1px;
 }
-.tss-plan-substep-icon svg { width: 14px; height: 14px; display: block; }
+.tss-plan-substep-icon .tss-icon {
+    width: 14px;
+    height: 14px;
+    font-size: 14px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform-origin: 50% 50%;
+}
 .tss-plan-substep.is-pending   .tss-plan-substep-icon { color: var(--tss-colors-neutral-400); }
 .tss-plan-substep.is-running   .tss-plan-substep-icon { color: var(--tss-primary-background-color); }
 .tss-plan-substep.is-completed .tss-plan-substep-icon { color: var(--tss-success-background-color); }
 .tss-plan-substep.is-failed    .tss-plan-substep-icon { color: var(--tss-danger-background-color); }
 .tss-plan-substep.is-canceled  .tss-plan-substep-icon { color: var(--tss-warning-background-color); }
-.tss-plan-substep.is-running .tss-plan-substep-icon svg { animation: tss-plan-spin 1.1s linear infinite; transform-origin: center; }
+.tss-plan-substep.is-running .tss-plan-substep-icon .tss-icon { animation: tss-plan-spin 1.1s linear infinite; }
 
 .tss-plan-substep-body { min-width: 0; }
 
@@ -446,8 +469,8 @@
 
 /* Respect reduced motion. */
 @media (prefers-reduced-motion: reduce) {
-    .is-running .tss-plan-step-icon svg,
-    .tss-plan-substep.is-running .tss-plan-substep-icon svg,
+    .is-running .tss-plan-step-icon .tss-icon,
+    .tss-plan-substep.is-running .tss-plan-substep-icon .tss-icon,
     .tss-plan-status-badge .tss-plan-badge-dot,
     .tss-plan-step-progress.is-indeterminate .tss-plan-step-progress-bar,
     .tss-plan-progress.is-indeterminate .tss-plan-progress-bar { animation: none !important; }

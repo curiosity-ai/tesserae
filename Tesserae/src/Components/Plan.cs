@@ -107,24 +107,48 @@ namespace Tesserae
             }
         }
 
-        // Status glyphs from Lucide (https://lucide.dev, ISC license), matching
-        // the design. Rendered inline as SVG so they inherit `currentColor` and
-        // — thanks to a symmetric 24x24 viewBox — spin around their own center
-        // instead of orbiting (which a font glyph would do).
-        public static string StatusSvg(PlanStatus status)
+        // ---- Status glyphs ------------------------------------------------
+        //
+        // Status glyphs come from the bundled UIcons font set — the same icon
+        // set used across the rest of the toolkit — so they inherit `color`
+        // from the per-status `.is-*` CSS rules like any other icon, and there
+        // is no inline SVG in the component.
+        //
+        // The Running glyph is a spinner rotated by CSS. For a font glyph to
+        // spin *in place* instead of orbiting off-center, the icon element must
+        // be a glyph-centered square with `transform-origin: 50% 50%`; the
+        // `.tss-plan-step-icon .tss-icon` rules in tss.plan.css pin it to a
+        // fixed size, collapse line-height to 1 and flex-center the glyph so the
+        // rotation pivot sits exactly on the glyph's center.
+        public static UIcons StatusIcon(PlanStatus status)
         {
-            string inner;
             switch (status)
             {
-                case PlanStatus.Running:   inner = "<path d=\"M21 12a9 9 0 1 1-6.219-8.56\"/>"; break;
-                case PlanStatus.Completed: inner = "<circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"m9 12 2 2 4-4\"/>"; break;
-                case PlanStatus.Failed:    inner = "<circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"m15 9-6 6\"/><path d=\"m9 9 6 6\"/>"; break;
-                case PlanStatus.Canceled:  inner = "<circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"m4.9 4.9 14.2 14.2\"/>"; break;
-                default:                   inner = "<circle cx=\"12\" cy=\"12\" r=\"10\"/>"; break;
+                case PlanStatus.Running:   return UIcons.Spinner;     // rotated via CSS
+                case PlanStatus.Completed: return UIcons.CheckCircle;
+                case PlanStatus.Failed:    return UIcons.CrossCircle;
+                case PlanStatus.Canceled:  return UIcons.Ban;
+                default:                   return UIcons.Circle;      // Pending
             }
-            return "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" " +
-                   "stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\">" +
-                   inner + "</svg>";
+        }
+
+        /// <summary>
+        /// Creates the status-glyph element (a UIcons <c>&lt;i&gt;</c>) for
+        /// <paramref name="status"/>.
+        /// </summary>
+        public static HTMLElement CreateStatusIcon(PlanStatus status)
+        {
+            return I(_("tss-icon " + StatusIcon(status)));
+        }
+
+        /// <summary>
+        /// Points an existing status-glyph element at the glyph for
+        /// <paramref name="status"/>. Only the icon class changes, so a running
+        /// spinner's CSS animation is not restarted when unrelated fields update.
+        /// </summary>
+        public static void SetStatusIcon(HTMLElement iconEl, PlanStatus status)
+        {
+            iconEl.className = "tss-icon " + StatusIcon(status);
         }
 
         public static string StatusText(PlanStatus status)
@@ -659,6 +683,7 @@ namespace Tesserae
         {
             private readonly HTMLElement _root;
             private readonly HTMLElement _iconSlot;
+            private readonly HTMLElement _statusIcon;
             private readonly HTMLElement _textEl;
             private readonly HTMLElement _stageEl;
             private readonly HTMLElement _toggleEl;
@@ -708,9 +733,10 @@ namespace Tesserae
                 Key = key;
                 _status = status;
 
-                // Rail / status node (Lucide SVG glyph; spins in place when running).
-                _iconSlot = Div(_("tss-plan-step-icon"));
-                _iconSlot.innerHTML = PlanVisuals.StatusSvg(status);
+                // Rail / status node (UIcons glyph; the spinner spins in place
+                // when running — see the centering note in PlanVisuals).
+                _statusIcon = PlanVisuals.CreateStatusIcon(status);
+                _iconSlot = Div(_("tss-plan-step-icon"), _statusIcon);
                 var rail = Div(_("tss-plan-step-rail"), _iconSlot);
 
                 // Title row (text + expand/collapse chevron).
@@ -797,12 +823,12 @@ namespace Tesserae
 
             private void ApplyStatus(PlanStatus status)
             {
-                // Only re-render the SVG when the status actually changes, so the
-                // running glyph's spin animation isn't restarted on every update.
+                // Only swap the glyph when the status actually changes, so the
+                // running spinner's animation isn't restarted on every update.
                 // Color + spin come from the parent `.is-*` class via CSS.
                 if (status != _status)
                 {
-                    _iconSlot.innerHTML = PlanVisuals.StatusSvg(status);
+                    PlanVisuals.SetStatusIcon(_statusIcon, status);
                 }
                 _status = status;
                 PlanVisuals.RemoveStepStatusClasses(_root);
@@ -882,14 +908,15 @@ namespace Tesserae
                 var titleEl = (HTMLElement)body.childNodes[0];
                 var msgEl = (HTMLElement)body.childNodes[1];
 
-                // Status class + SVG glyph (color/size via CSS). Only re-render
-                // when the status changes so a running glyph's spin isn't reset.
+                // Status class + UIcons glyph (color/size via CSS). Only swap
+                // when the status changes so a running spinner isn't reset.
                 var statusName = sub.Status.ToString();
                 if (root.dataset["pstatus"].As<string>() != statusName)
                 {
                     PlanVisuals.RemoveStepStatusClasses(root);
                     root.classList.add(PlanVisuals.StepStatusClass(sub.Status));
-                    iconWrap.innerHTML = PlanVisuals.StatusSvg(sub.Status);
+                    PlanVisuals.ClearChildren(iconWrap);
+                    iconWrap.appendChild(PlanVisuals.CreateStatusIcon(sub.Status));
                     root.dataset["pstatus"] = statusName;
                 }
 
