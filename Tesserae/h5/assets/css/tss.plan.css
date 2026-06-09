@@ -1,209 +1,477 @@
-/* Plan component
+/* Plan component — redesign
  *
- * The Plan component is a card that shows a multi-step plan with per-step
- * status (pending / running / completed / failed / canceled), optional
- * per-step progress, optional substeps, and a plan-level status badge.
+ * A timeline-style multi-step plan card built on the Tesserae/Fluent
+ * design tokens.
  *
- * The CSS below covers the unified `tss-plan-*` family and reuses the
- * existing theme variables (--tss-success-background-color,
- * --tss-warning-background-color, --tss-danger-background-color,
- * --tss-primary-background-color and --tss-default-border-color) for the
- * status accent colors so the look matches the rest of Tesserae.
+ * Highlights vs. the previous version:
+ *   - A real connecting timeline rail between step status icons.
+ *   - The running step is promoted into a tinted "active" panel so the
+ *     work in progress is obvious at a glance.
+ *   - Substeps hang off the rail instead of an orphaned dashed line.
+ *   - A single cohesive footer "status strip": summary + count, one
+ *     determinate progress bar with a % readout, and the start / stop
+ *     control — no detached floating bar.
+ *
+ * Status colors reuse the shared theme variables (primary / success /
+ * danger / warning + the neutral and colored ramps) so the look matches
+ * the rest of Tesserae and adapts automatically to dark mode.
  */
 
 .tss-plan {
     position: relative;
+    display: flex;
+    flex-direction: column;
+    background: var(--tss-default-background-color);
     border: 1px solid var(--tss-default-border-color);
-    border-radius: 6px;
-    transition: border-color 120ms ease-in-out;
+    border-radius: var(--tss-border-radius-lg);
+    box-shadow: var(--tss-card-shadow);
+    overflow: hidden;
+    color: var(--tss-default-foreground-color);
+    --plan-accent: var(--tss-colors-neutral-500);
+    --plan-accent-soft: var(--tss-colors-neutral-200);
 }
 
-/* Status accent on the card. The accent is applied as a left border so it
- * doesn't disturb the rest of the card's styling. */
-.tss-plan-pending     { border-left: 3px solid var(--tss-default-border-color); }
-.tss-plan-running     { border-left: 3px solid var(--tss-primary-background-color); }
-.tss-plan-completed   { border-left: 3px solid var(--tss-success-background-color); }
-.tss-plan-failed      { border-left: 3px solid var(--tss-danger-background-color); }
-.tss-plan-canceled    { border-left: 3px solid var(--tss-warning-background-color); }
+/* Status accent drives the top hairline + assorted accents per state. */
+.tss-plan-pending   { --plan-accent: var(--tss-colors-neutral-500); --plan-accent-soft: var(--tss-colors-neutral-200); }
+.tss-plan-running   { --plan-accent: var(--tss-primary-background-color); --plan-accent-soft: var(--tss-colors-blue-100); }
+.tss-plan-completed { --plan-accent: var(--tss-success-background-color); --plan-accent-soft: var(--tss-colors-green-100); }
+.tss-plan-failed    { --plan-accent: var(--tss-danger-background-color);  --plan-accent-soft: var(--tss-colors-red-100); }
+.tss-plan-canceled  { --plan-accent: var(--tss-warning-background-color); --plan-accent-soft: var(--tss-colors-orange-100); }
 
-/* The status badge in the plan header */
+/* A slim accent strip across the very top of the card. */
+.tss-plan::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 3px;
+    background: var(--plan-accent);
+}
+
+/* ---------- Header ---------- */
+.tss-plan-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 20px 24px 16px;
+}
+
+.tss-plan-titlewrap {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.tss-plan-title {
+    font-size: var(--tss-font-size-mediumplus);
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    color: var(--tss-default-foreground-color);
+    min-width: 0;
+}
+
+.tss-plan-header-commands {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex: 0 0 auto;
+}
+
+/* Status badge — a soft pill with a leading dot. */
 .tss-plan-status-badge {
     display: inline-flex;
     align-items: center;
-    gap: 4px;
-    padding: 2px 8px;
-    border-radius: 10px;
-    font-size: 11px;
-    font-weight: 600;
+    gap: 6px;
+    padding: 3px 10px 3px 8px;
+    border-radius: var(--tss-border-radius-full);
+    font-size: var(--tss-font-size-xsmall);
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.05em;
     line-height: 16px;
-    background: var(--tss-default-background-color);
-    border: 1px solid var(--tss-default-border-color);
-    color: inherit;
+    flex: 0 0 auto;
+    white-space: nowrap;
+    background: var(--plan-accent-soft);
+    color: var(--plan-accent);
 }
 
-.tss-plan-status-badge.tss-plan-pending {
+.tss-plan-status-badge .tss-plan-badge-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: currentColor;
+    flex: 0 0 auto;
+}
+
+/* Pulse the dot only while running. */
+.tss-plan-running .tss-plan-status-badge .tss-plan-badge-dot {
+    animation: tss-plan-pulse 1.4s cubic-bezier(0.1, 0.9, 0.2, 1) infinite;
+}
+@keyframes tss-plan-pulse {
+    0%   { box-shadow: 0 0 0 0 color-mix(in srgb, var(--plan-accent) 55%, transparent); }
+    70%  { box-shadow: 0 0 0 5px color-mix(in srgb, var(--plan-accent) 0%, transparent); }
+    100% { box-shadow: 0 0 0 0 transparent; }
+}
+
+/* In dark mode the soft tints can get too loud — calm them a touch. */
+.tss-dark-mode .tss-plan-status-badge {
+    background: color-mix(in srgb, var(--plan-accent) 22%, transparent);
+}
+
+/* ---------- Header command button (e.g. "Update") ---------- */
+.tss-plan-cmd {
+    appearance: none;
+    border: none;
     background: transparent;
-    border-color: var(--tss-default-border-color);
+    font-family: inherit;
+    font-size: var(--tss-font-size-small);
+    font-weight: 600;
+    color: var(--tss-primary-background-color);
+    padding: 6px 10px;
+    border-radius: var(--tss-border-radius-md);
+    cursor: pointer;
+    transition: background 120ms ease-in-out;
 }
-.tss-plan-status-badge.tss-plan-running {
-    background: var(--tss-primary-background-color);
-    color: var(--tss-primary-foreground-color, #fff);
-    border-color: var(--tss-primary-background-color);
-}
-.tss-plan-status-badge.tss-plan-completed {
-    background: var(--tss-success-background-color);
-    color: var(--tss-success-foreground-color, #fff);
-    border-color: var(--tss-success-background-color);
-}
-.tss-plan-status-badge.tss-plan-failed {
-    background: var(--tss-danger-background-color);
-    color: var(--tss-danger-foreground-color, #fff);
-    border-color: var(--tss-danger-background-color);
-}
-.tss-plan-status-badge.tss-plan-canceled {
-    background: var(--tss-warning-background-color);
-    color: var(--tss-warning-foreground-color, #fff);
-    border-color: var(--tss-warning-background-color);
-}
+.tss-plan-cmd:hover { background: var(--tss-default-background-hover-color); }
+.tss-dark-mode .tss-plan-cmd:hover { background: color-mix(in srgb, var(--tss-primary-background-color) 18%, transparent); }
 
-/* A row in the steps list */
-.tss-plan-step {
+/* ---------- Steps / timeline ---------- */
+.tss-plan-steps {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    padding: 4px 24px 8px;
 }
 
-.tss-plan-step-row {
+.tss-plan-step {
+    position: relative;
+    display: grid;
+    grid-template-columns: 24px 1fr;
+    column-gap: 14px;
+}
+
+/* The rail: status icon column. A connector line is drawn from each
+   icon down to the next step's icon (skipped on the last step). */
+.tss-plan-step-rail {
+    position: relative;
     display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    gap: 12px;
+    justify-content: center;
+    padding-top: 10px;
 }
 
+.tss-plan-step:not(:last-child) .tss-plan-step-rail::after {
+    content: "";
+    position: absolute;
+    top: 30px;
+    bottom: -10px;
+    left: 50%;
+    width: 2px;
+    transform: translateX(-50%);
+    background: var(--seg-color, var(--tss-colors-neutral-300));
+}
+
+/* Connector segment color is set by the *originating* step's status:
+   a completed step pushes a green line down to the next node. */
+.tss-plan-step.is-completed { --seg-color: var(--tss-success-background-color); }
+.tss-plan-step.is-running   { --seg-color: var(--tss-primary-background-color); }
+.tss-plan-step.is-failed    { --seg-color: var(--tss-danger-background-color); }
+.tss-plan-step.is-canceled  { --seg-color: var(--tss-warning-background-color); }
+.tss-plan-step.is-pending   { --seg-color: var(--tss-colors-neutral-300); }
+
+/* The status node icon. */
 .tss-plan-step-icon {
+    position: relative;
+    z-index: 1;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--tss-default-background-color);
     flex: 0 0 auto;
-    margin-top: 2px;
+}
+/* UIcons status glyph. A fixed, glyph-centered square box is what lets the
+   running spinner rotate around its own center instead of orbiting: the box is
+   sized to the glyph, line-height is collapsed to 1 and the glyph is
+   flex-centered, so transform-origin (50% 50%) lands on the glyph's center. */
+.tss-plan-step-icon .tss-icon {
+    width: 18px;
+    height: 18px;
+    font-size: 18px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform-origin: 50% 50%;
 }
 
+.is-pending   .tss-plan-step-icon { color: var(--tss-colors-neutral-400); }
+.is-running   .tss-plan-step-icon { color: var(--tss-primary-background-color); }
+.is-completed .tss-plan-step-icon { color: var(--tss-success-background-color); }
+.is-failed    .tss-plan-step-icon { color: var(--tss-danger-background-color); }
+.is-canceled  .tss-plan-step-icon { color: var(--tss-warning-background-color); }
+
+/* Spin in place: rotate the glyph around its own center (the .tss-icon box
+   above is a glyph-centered square, so the pivot is the glyph center). */
+.is-running .tss-plan-step-icon .tss-icon { animation: tss-plan-spin 1.1s linear infinite; }
+@keyframes tss-plan-spin { to { transform: rotate(360deg); } }
+
+/* Step body. */
 .tss-plan-step-body {
-    flex: 1 1 auto;
     min-width: 0;
+    padding: 6px 0 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
 }
 
 .tss-plan-step-title {
     display: flex;
     align-items: center;
     gap: 8px;
+    font-size: var(--tss-font-size-smallplus);
+    font-weight: 400;
+    color: var(--tss-default-foreground-color);
+    line-height: 1.4;
 }
+.is-pending  .tss-plan-step-title { color: var(--tss-secondary-foreground-color); }
+.is-running  .tss-plan-step-title { font-weight: 600; }
+.is-canceled .tss-plan-step-title { color: var(--tss-secondary-foreground-color); text-decoration: line-through; text-decoration-color: var(--tss-colors-neutral-400); }
+
+.tss-plan-step-text { min-width: 0; }
+
+.tss-plan-step-toggle {
+    appearance: none;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: var(--tss-secondary-foreground-color);
+    display: inline-flex;
+    align-items: center;
+    padding: 2px;
+    border-radius: var(--tss-border-radius-sm);
+    transition: transform 150ms cubic-bezier(0.1, 0.9, 0.2, 1), background 120ms ease;
+}
+.tss-plan-step-toggle .tss-icon { font-size: 15px; line-height: 1; }
+.tss-plan-step-toggle:hover { background: var(--tss-default-background-hover-color); }
+.tss-dark-mode .tss-plan-step-toggle:hover { background: color-mix(in srgb, var(--tss-default-foreground-color) 12%, transparent); }
+.tss-plan-step.is-expanded .tss-plan-step-toggle { transform: rotate(180deg); }
 
 .tss-plan-step-stage {
-    font-size: 12px;
-    opacity: 0.8;
-    margin-top: 2px;
+    font-size: var(--tss-font-size-small);
+    color: var(--tss-secondary-foreground-color);
+    margin-top: 3px;
+}
+.is-failed .tss-plan-step-stage { color: var(--tss-danger-background-color); }
+
+/* The active (running) step gets promoted into a tinted panel that
+   visually spans the body column so progress + substeps read as one unit. */
+.tss-plan-step.is-running .tss-plan-step-body {
+    margin: 2px 0 14px;
+    padding: 10px 14px 14px;
+    background: var(--tss-colors-blue-100);
+    border-radius: var(--tss-border-radius-md);
+}
+.tss-dark-mode .tss-plan-step.is-running .tss-plan-step-body {
+    background: color-mix(in srgb, var(--tss-primary-background-color) 14%, transparent);
 }
 
-/* Per-step status colors on the icon */
-.tss-plan-step-icon.tss-plan-pending    { color: var(--tss-default-border-color); }
-.tss-plan-step-icon.tss-plan-running    { color: var(--tss-primary-background-color); }
-.tss-plan-step-icon.tss-plan-completed  { color: var(--tss-success-background-color); }
-.tss-plan-step-icon.tss-plan-failed     { color: var(--tss-danger-background-color); }
-.tss-plan-step-icon.tss-plan-canceled   { color: var(--tss-warning-background-color); }
-
-/* Per-step progress bar (slim) */
+/* Per-step progress bar. */
 .tss-plan-step-progress {
-    height: 4px;
-    border-radius: 2px;
-    background: var(--tss-default-border-color);
+    height: 6px;
+    border-radius: var(--tss-border-radius-full);
+    background: color-mix(in srgb, var(--tss-primary-background-color) 18%, transparent);
     overflow: hidden;
-    margin-top: 6px;
+    margin-top: 10px;
     position: relative;
 }
-
 .tss-plan-step-progress-bar {
     height: 100%;
     width: 0%;
+    border-radius: inherit;
     background: var(--tss-primary-background-color);
-    transition: width 200ms ease-out;
+    transition: width 300ms cubic-bezier(0.1, 0.9, 0.2, 1);
 }
-
-.tss-plan-step-progress.tss-plan-indeterminate .tss-plan-step-progress-bar {
-    width: 40%;
-    background: linear-gradient(90deg,
-        var(--tss-default-border-color) 0%,
-        var(--tss-primary-background-color) 50%,
-        var(--tss-default-border-color) 100%);
-    animation: tss-plan-indeterminate 1.4s linear infinite;
+.tss-plan-step-progress.is-indeterminate .tss-plan-step-progress-bar {
+    width: 35%;
+    animation: tss-plan-indeterminate 1.4s cubic-bezier(0.1, 0.9, 0.2, 1) infinite;
 }
-
 @keyframes tss-plan-indeterminate {
-    0%   { transform: translateX(-100%); }
-    100% { transform: translateX(350%); }
+    0%   { transform: translateX(-120%); }
+    100% { transform: translateX(320%); }
 }
 
-/* Expand/collapse caret next to a step that has substeps */
-.tss-plan-step-toggle {
-    cursor: pointer;
-    user-select: none;
-    font-size: 11px;
-    opacity: 0.7;
-    padding: 0 4px;
-}
-.tss-plan-step-toggle:hover { opacity: 1; }
-
-/* Substep list */
+/* ---------- Substeps ---------- */
 .tss-plan-substeps {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    margin-top: 6px;
-    padding-left: 28px;
-    border-left: 1px dashed var(--tss-default-border-color);
-    margin-left: 8px;
+    display: grid;
+    grid-template-rows: 1fr;
+    gap: 2px;
+    margin-top: 12px;
+    overflow: hidden;
+    transition: grid-template-rows 220ms cubic-bezier(0.1, 0.9, 0.2, 1), opacity 180ms ease, margin-top 220ms cubic-bezier(0.1, 0.9, 0.2, 1);
 }
+.tss-plan-substeps-inner { min-height: 0; overflow: hidden; }
 
-.tss-plan-substeps.tss-plan-collapsed {
-    display: none;
+.tss-plan-substeps.is-collapsed {
+    grid-template-rows: 0fr;
+    opacity: 0;
+    margin-top: 0;
 }
 
 .tss-plan-substep {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    gap: 8px;
-    font-size: 12px;
+    display: grid;
+    grid-template-columns: 18px 1fr;
+    column-gap: 10px;
+    align-items: start;
+    padding: 5px 0;
 }
+.tss-plan-substep + .tss-plan-substep { border-top: 1px solid color-mix(in srgb, var(--tss-default-foreground-color) 8%, transparent); }
 
 .tss-plan-substep-icon {
-    flex: 0 0 auto;
-    margin-top: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1px;
 }
-.tss-plan-substep-icon.tss-plan-pending    { color: var(--tss-default-border-color); }
-.tss-plan-substep-icon.tss-plan-running    { color: var(--tss-primary-background-color); }
-.tss-plan-substep-icon.tss-plan-completed  { color: var(--tss-success-background-color); }
-.tss-plan-substep-icon.tss-plan-failed     { color: var(--tss-danger-background-color); }
-.tss-plan-substep-icon.tss-plan-canceled   { color: var(--tss-warning-background-color); }
+.tss-plan-substep-icon .tss-icon {
+    width: 14px;
+    height: 14px;
+    font-size: 14px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform-origin: 50% 50%;
+}
+.tss-plan-substep.is-pending   .tss-plan-substep-icon { color: var(--tss-colors-neutral-400); }
+.tss-plan-substep.is-running   .tss-plan-substep-icon { color: var(--tss-primary-background-color); }
+.tss-plan-substep.is-completed .tss-plan-substep-icon { color: var(--tss-success-background-color); }
+.tss-plan-substep.is-failed    .tss-plan-substep-icon { color: var(--tss-danger-background-color); }
+.tss-plan-substep.is-canceled  .tss-plan-substep-icon { color: var(--tss-warning-background-color); }
+.tss-plan-substep.is-running .tss-plan-substep-icon .tss-icon { animation: tss-plan-spin 1.1s linear infinite; }
 
-.tss-plan-substep-body {
-    flex: 1 1 auto;
-    min-width: 0;
+.tss-plan-substep-body { min-width: 0; }
+
+.tss-plan-substep-title {
+    font-size: var(--tss-font-size-small);
+    font-weight: 600;
+    color: var(--tss-default-foreground-color);
+    line-height: 1.35;
 }
+.tss-plan-substep.is-pending .tss-plan-substep-title { color: var(--tss-secondary-foreground-color); font-weight: 400; }
 
 .tss-plan-substep-message {
-    opacity: 0.75;
-    font-size: 11px;
+    font-size: var(--tss-font-size-xsmall);
+    color: var(--tss-secondary-foreground-color);
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
     margin-top: 1px;
 }
 
-/* Plan-level summary line (rendered alongside FooterMessage) */
+/* ---------- Footer status strip ---------- */
+.tss-plan-footer {
+    border-top: 1px solid var(--tss-default-separator-color);
+    background: color-mix(in srgb, var(--tss-default-foreground-color) 3%, transparent);
+    padding: 14px 24px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.tss-dark-mode .tss-plan-footer { background: color-mix(in srgb, var(--tss-default-foreground-color) 4%, transparent); }
+
+.tss-plan-footer-top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+}
 .tss-plan-summary {
-    font-size: 12px;
-    opacity: 0.75;
+    font-size: var(--tss-font-size-small);
+    color: var(--tss-secondary-foreground-color);
+}
+.tss-plan-summary .tss-plan-footer-msg { color: var(--tss-default-foreground-color); font-weight: 600; }
+.tss-plan-count {
+    font-size: var(--tss-font-size-small);
+    font-weight: 700;
+    color: var(--tss-default-foreground-color);
+    white-space: nowrap;
+    flex: 0 0 auto;
 }
 
+.tss-plan-progress-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.tss-plan-progress {
+    flex: 1 1 auto;
+    height: 6px;
+    border-radius: var(--tss-border-radius-full);
+    background: color-mix(in srgb, var(--tss-default-foreground-color) 12%, transparent);
+    overflow: hidden;
+    position: relative;
+}
+.tss-plan-progress-bar {
+    height: 100%;
+    width: 0%;
+    border-radius: inherit;
+    background: var(--plan-accent);
+    transition: width 350ms cubic-bezier(0.1, 0.9, 0.2, 1);
+}
+.tss-plan-progress.is-indeterminate .tss-plan-progress-bar {
+    width: 32%;
+    animation: tss-plan-indeterminate 1.4s cubic-bezier(0.1, 0.9, 0.2, 1) infinite;
+}
+
+.tss-plan-pct {
+    font-size: var(--tss-font-size-small);
+    font-weight: 700;
+    color: var(--tss-default-foreground-color);
+    width: 42px;
+    text-align: right;
+    flex: 0 0 auto;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Start / stop button — square icon button, Fluent ghost style. */
+.tss-plan .tss-plan-startstop {
+    appearance: none;
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    min-height: 32px;
+    padding: 0;
+    margin: 0;
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--tss-default-border-color);
+    background: var(--tss-default-background-color);
+    color: var(--tss-default-foreground-color);
+    border-radius: var(--tss-border-radius-md);
+    cursor: pointer;
+    transition: all 0.15s ease-in-out;
+}
+.tss-plan .tss-plan-startstop .tss-icon { font-size: 16px; line-height: 1; }
+.tss-plan .tss-plan-startstop:hover { background: var(--tss-default-background-hover-color); color: var(--tss-default-foreground-hover-color); box-shadow: var(--tss-shadow-sm); }
+.tss-dark-mode .tss-plan .tss-plan-startstop:hover { background: var(--tss-default-background-active-color); }
+.tss-plan-startstop.is-hidden { display: none; }
+
 .tss-plan-timestamps {
-    font-size: 11px;
-    opacity: 0.6;
-    margin-top: 2px;
+    font-size: var(--tss-font-size-xsmall);
+    color: var(--tss-secondary-foreground-color);
+    font-variant-numeric: tabular-nums;
+}
+.tss-plan-timestamps:empty { display: none; }
+
+/* Respect reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+    .is-running .tss-plan-step-icon .tss-icon,
+    .tss-plan-substep.is-running .tss-plan-substep-icon .tss-icon,
+    .tss-plan-status-badge .tss-plan-badge-dot,
+    .tss-plan-step-progress.is-indeterminate .tss-plan-step-progress-bar,
+    .tss-plan-progress.is-indeterminate .tss-plan-progress-bar { animation: none !important; }
 }

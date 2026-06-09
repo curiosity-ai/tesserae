@@ -35,6 +35,11 @@ namespace Tesserae
         public DateTimeOffset? StartedAt;
         public DateTimeOffset? CompletedAt;
         public string FooterMessage;
+        /// <summary>
+        /// Optional short count shown on the right of the footer strip
+        /// (e.g. <c>"117 searches"</c>).
+        /// </summary>
+        public string Searches;
     }
 
     /// <summary>
@@ -70,6 +75,10 @@ namespace Tesserae
     /// </summary>
     internal static class PlanVisuals
     {
+        /// <summary>
+        /// Plan-level status class applied to the card root and used to drive
+        /// the <c>--plan-accent</c> custom properties (e.g. <c>tss-plan-running</c>).
+        /// </summary>
         public static string StatusClass(PlanStatus status)
         {
             switch (status)
@@ -82,16 +91,64 @@ namespace Tesserae
             }
         }
 
+        /// <summary>
+        /// Step/substep status class (e.g. <c>is-running</c>) that drives the
+        /// timeline rail segment color, icon color and active-panel styling.
+        /// </summary>
+        public static string StepStatusClass(PlanStatus status)
+        {
+            switch (status)
+            {
+                case PlanStatus.Running:   return "is-running";
+                case PlanStatus.Completed: return "is-completed";
+                case PlanStatus.Failed:    return "is-failed";
+                case PlanStatus.Canceled:  return "is-canceled";
+                default:                   return "is-pending";
+            }
+        }
+
+        // ---- Status glyphs ------------------------------------------------
+        //
+        // Status glyphs come from the bundled UIcons font set — the same icon
+        // set used across the rest of the toolkit — so they inherit `color`
+        // from the per-status `.is-*` CSS rules like any other icon, and there
+        // is no inline SVG in the component.
+        //
+        // The Running glyph is a spinner rotated by CSS. For a font glyph to
+        // spin *in place* instead of orbiting off-center, the icon element must
+        // be a glyph-centered square with `transform-origin: 50% 50%`; the
+        // `.tss-plan-step-icon .tss-icon` rules in tss.plan.css pin it to a
+        // fixed size, collapse line-height to 1 and flex-center the glyph so the
+        // rotation pivot sits exactly on the glyph's center.
         public static UIcons StatusIcon(PlanStatus status)
         {
             switch (status)
             {
-                case PlanStatus.Running:   return UIcons.Loading;
+                case PlanStatus.Running:   return UIcons.Spinner;     // rotated via CSS
                 case PlanStatus.Completed: return UIcons.CheckCircle;
                 case PlanStatus.Failed:    return UIcons.CrossCircle;
                 case PlanStatus.Canceled:  return UIcons.Ban;
-                default:                   return UIcons.Circle;
+                default:                   return UIcons.Circle;      // Pending
             }
+        }
+
+        /// <summary>
+        /// Creates the status-glyph element (a UIcons <c>&lt;i&gt;</c>) for
+        /// <paramref name="status"/>.
+        /// </summary>
+        public static HTMLElement CreateStatusIcon(PlanStatus status)
+        {
+            return I(_("tss-icon " + StatusIcon(status)));
+        }
+
+        /// <summary>
+        /// Points an existing status-glyph element at the glyph for
+        /// <paramref name="status"/>. Only the icon class changes, so a running
+        /// spinner's CSS animation is not restarted when unrelated fields update.
+        /// </summary>
+        public static void SetStatusIcon(HTMLElement iconEl, PlanStatus status)
+        {
+            iconEl.className = "tss-icon " + StatusIcon(status);
         }
 
         public static string StatusText(PlanStatus status)
@@ -150,7 +207,36 @@ namespace Tesserae
             parts.Add(completed + " of " + total + " steps complete");
             if (running > 0) parts.Add(running + " running");
             if (failed > 0)  parts.Add(failed + " failed");
-            return string.Join(" | ", parts);
+            return string.Join(" · ", parts);
+        }
+
+        /// <summary>Removes every <c>is-*</c> status class from an element.</summary>
+        public static void RemoveStepStatusClasses(HTMLElement el)
+        {
+            el.classList.remove("is-pending");
+            el.classList.remove("is-running");
+            el.classList.remove("is-completed");
+            el.classList.remove("is-failed");
+            el.classList.remove("is-canceled");
+        }
+
+        /// <summary>Removes all child nodes from an element.</summary>
+        public static void ClearChildren(HTMLElement el)
+        {
+            while (el.childNodes.length > 0)
+            {
+                el.removeChild(el.childNodes[0]);
+            }
+        }
+
+        private static string Pad2(int n) => (n < 10 ? "0" : "") + n;
+
+        /// <summary>Formats a timestamp as <c>MM/dd/yyyy HH:mm:ss</c> (local time).</summary>
+        public static string FormatTimestamp(DateTimeOffset value)
+        {
+            var d = value.LocalDateTime;
+            return Pad2(d.Month) + "/" + Pad2(d.Day) + "/" + d.Year +
+                   " " + Pad2(d.Hour) + ":" + Pad2(d.Minute) + ":" + Pad2(d.Second);
         }
     }
 
@@ -165,31 +251,28 @@ namespace Tesserae
     public sealed class Plan : IComponent, IHasMarginPadding
     {
         private readonly HTMLElement _innerElement;
-        private readonly Card _card;
-        private readonly Stack _mainStack;
 
         // Header
-        private readonly Stack _headerStack;
-        private readonly TextBlock _title;
-        private readonly HTMLElement _statusBadge;
-        private readonly Stack _headerCommandsStack;
+        private readonly HTMLElement _titleEl;
+        private readonly HTMLElement _badge;
+        private readonly HTMLElement _badgeText;
+        private readonly HTMLElement _headerCommandsEl;
 
-        // Task List
-        private readonly Stack _tasksStack;
+        // Task list / timeline
+        private readonly HTMLElement _stepsEl;
         private readonly List<Task> _tasks = new List<Task>();
         private readonly Dictionary<string, Task> _tasksByKey = new Dictionary<string, Task>();
 
-        // Footer Message
-        private readonly Stack _footerMessageStack;
-        private readonly TextBlock _footerMessage;
-        private readonly HTMLElement _summaryLine;
-        private readonly HTMLElement _timestampsLine;
-        private readonly Stack _footerCommandsStack;
-
-        // Progress
-        private readonly Stack _progressStack;
-        private readonly ProgressIndicator _progressIndicator;
+        // Footer status strip
+        private readonly HTMLElement _summaryEl;
+        private readonly HTMLElement _countEl;
+        private readonly HTMLElement _progressEl;
+        private readonly HTMLElement _progressBarEl;
+        private readonly HTMLElement _pctEl;
         private readonly Button _startStopButton;
+        private readonly HTMLElement _timestampsEl;
+
+        private string _footerMessage;
 
         // Model
         private PlanModel _model;
@@ -205,72 +288,49 @@ namespace Tesserae
         /// </summary>
         public Plan(string title)
         {
-            _title = TextBlock(title).SemiBold().MediumPlus();
+            // ---- Header ----
+            _titleEl = Div(_("tss-plan-title"));
+            _titleEl.innerText = title ?? string.Empty;
 
-            _statusBadge = Span(_("tss-plan-status-badge tss-plan-pending"));
-            _statusBadge.style.display = "none";
+            _badgeText = Span(_());
+            _badge = Span(_("tss-plan-status-badge"), Span(_("tss-plan-badge-dot")), _badgeText);
+            _badge.style.display = "none";
 
-            _headerCommandsStack = Stack().Horizontal().AlignItems(ItemAlign.Center);
+            _headerCommandsEl = Div(_("tss-plan-header-commands"));
 
-            var titleRow = Stack().Horizontal().AlignItems(ItemAlign.Center).Gap(8.px()).Children(
-                _title,
-                Raw(_statusBadge)
-            );
+            var titleWrap = Div(_("tss-plan-titlewrap"), _titleEl, _badge);
+            var header = Div(_("tss-plan-header"), titleWrap, _headerCommandsEl);
 
-            _headerStack = Stack().Horizontal().JustifyContent(ItemJustify.Between).AlignItems(ItemAlign.Center).Width(100.percent()).Children(
-                titleRow,
-                _headerCommandsStack
-            );
+            // ---- Steps / timeline ----
+            _stepsEl = Div(_("tss-plan-steps"));
 
-            _tasksStack = Stack().Vertical().Gap(16.px()).Width(100.percent()).PaddingBottom(16.px()).PaddingTop(16.px());
+            // ---- Footer status strip ----
+            _summaryEl = Div(_("tss-plan-summary"));
+            _countEl = Div(_("tss-plan-count"));
+            _countEl.style.display = "none";
+            var footerTop = Div(_("tss-plan-footer-top"), _summaryEl, _countEl);
 
-            _footerMessage = TextBlock("").Small();
-            _summaryLine = Div(_("tss-plan-summary"));
-            _summaryLine.style.display = "none";
-            _timestampsLine = Div(_("tss-plan-timestamps"));
-            _timestampsLine.style.display = "none";
+            _progressBarEl = Div(_("tss-plan-progress-bar"));
+            _progressEl = Div(_("tss-plan-progress"), _progressBarEl);
+            _pctEl = Div(_("tss-plan-pct"));
 
-            var footerLeft = Stack().Vertical().AlignItems(ItemAlign.Start).Gap(2.px()).Children(
-                _footerMessage,
-                Raw(_summaryLine),
-                Raw(_timestampsLine)
-            );
+            _startStopButton = Button().SetIcon(UIcons.SquareSmall);
+            var ssEl = _startStopButton.Render();
+            ssEl.classList.remove("tss-btn");
+            ssEl.classList.remove("tss-btn-default");
+            ssEl.classList.remove("tss-default-component-margin");
+            ssEl.classList.add("tss-plan-startstop");
 
-            _footerCommandsStack = Stack().Horizontal().AlignItems(ItemAlign.Center);
+            var progressRow = Div(_("tss-plan-progress-row"), _progressEl, _pctEl, ssEl);
 
-            _footerMessageStack = Stack().Horizontal().JustifyContent(ItemJustify.Between).AlignItems(ItemAlign.Center).Width(100.percent()).Children(
-                footerLeft,
-                _footerCommandsStack
-            );
+            _timestampsEl = Div(_("tss-plan-timestamps"));
 
-            _progressIndicator = ProgressIndicator().Indeterminated();
-            _startStopButton = Button().SetIcon(UIcons.SquareSmall).NoBorder().NoBackground();
-            _startStopButton.Render().classList.remove("tss-btn-default");
-            _startStopButton.Render().classList.add("tss-btn-icon-only");
+            var footer = Div(_("tss-plan-footer"), footerTop, progressRow, _timestampsEl);
 
-            _startStopButton.Render().style.width = "24px";
-            _startStopButton.Render().style.height = "24px";
-            _startStopButton.Render().style.minWidth = "24px";
-            _startStopButton.Render().style.padding = "0";
+            // Default determinate progress at 0%.
+            SetDeterminate(0f);
 
-            var progressContainer = Stack().Horizontal().AlignItems(ItemAlign.Center).Width(100.percent()).Grow().Children(_progressIndicator.Width(100.percent()));
-
-            _progressStack = Stack().Horizontal().AlignItems(ItemAlign.Center).JustifyContent(ItemJustify.Between).Width(100.percent()).Gap(16.px()).Children(
-                progressContainer,
-                _startStopButton
-            );
-
-            _mainStack = Stack().Vertical().Gap(16.px()).Padding(24.px()).Width(100.percent()).Children(
-                _headerStack,
-                _tasksStack,
-                _footerMessageStack,
-                _progressStack
-            );
-
-            _card = Card(_mainStack).NoPadding();
-            _innerElement = _card.Render();
-            _innerElement.classList.add("tss-plan");
-            _innerElement.classList.add("tss-plan-pending");
+            _innerElement = Div(_("tss-plan tss-plan-pending"), header, _stepsEl, footer);
         }
 
         /// <summary>
@@ -292,7 +352,7 @@ namespace Tesserae
         /// </summary>
         public Plan Title(string title)
         {
-            _title.Text = title;
+            _titleEl.innerText = title ?? string.Empty;
             return this;
         }
 
@@ -301,60 +361,37 @@ namespace Tesserae
         /// </summary>
         public Plan HeaderCommands(params IComponent[] commands)
         {
-            _headerCommandsStack.Clear();
+            PlanVisuals.ClearChildren(_headerCommandsEl);
             foreach (var cmd in commands)
             {
-                _headerCommandsStack.Add(cmd);
+                _headerCommandsEl.appendChild(cmd.Render());
             }
             return this;
         }
 
         /// <summary>
-        /// Sets a message shown in the footer.
+        /// Sets a message shown in the footer; it is rendered as a bold prefix
+        /// in front of the auto-derived progress summary.
         /// </summary>
         public Plan FooterMessage(string message)
         {
-            _footerMessage.Text = message;
+            _footerMessage = message;
+            UpdateSummary();
             return this;
         }
 
         /// <summary>
-        /// Sets the components shown in the footer command area.
+        /// Sets the components shown on the right of the footer strip (the
+        /// "count" slot, e.g. a "117 searches" label).
         /// </summary>
         public Plan FooterCommands(params IComponent[] commands)
         {
-            _footerCommandsStack.Clear();
+            PlanVisuals.ClearChildren(_countEl);
             foreach (var cmd in commands)
             {
-                _footerCommandsStack.Add(cmd);
+                _countEl.appendChild(cmd.Render());
             }
-            return this;
-        }
-
-        /// <summary>
-        /// Adds the given task to the component.
-        ///
-        /// Note: completed tasks now render with the unified "success" status
-        /// color (green check) instead of the previous primary-tone treatment;
-        /// this matches the generalized status styling shared with SetModel.
-        /// </summary>
-        public Plan AddTask(string title, bool completed)
-        {
-            return AddTask(title, completed ? PlanStatus.Completed : PlanStatus.Pending);
-        }
-
-        /// <summary>
-        /// Adds a task with an explicit <see cref="PlanStatus"/>.
-        /// Auto-generates a positional key so a later <see cref="SetModel"/>
-        /// call still reconciles correctly.
-        /// </summary>
-        public Plan AddTask(string title, PlanStatus status)
-        {
-            var key = "tss-plan-step-" + _tasks.Count;
-            var task = new Task(key, title, status);
-            _tasks.Add(task);
-            _tasksByKey[key] = task;
-            _tasksStack.Add(task);
+            _countEl.style.display = commands.Length > 0 ? "" : "none";
             return this;
         }
 
@@ -363,16 +400,16 @@ namespace Tesserae
         /// </summary>
         public Plan Progress(int position, int total)
         {
-            _progressIndicator.Progress(position, total);
+            SetDeterminate(total > 0 ? (float)position / total * 100f : 0f);
             return this;
         }
 
         /// <summary>
-        /// Configures the component to progress.
+        /// Configures the component to progress (0..100).
         /// </summary>
         public Plan Progress(float percent)
         {
-            _progressIndicator.Progress(percent);
+            SetDeterminate(percent);
             return this;
         }
 
@@ -381,7 +418,7 @@ namespace Tesserae
         /// </summary>
         public Plan Indeterminate()
         {
-            _progressIndicator.Indeterminated();
+            SetIndeterminate();
             return this;
         }
 
@@ -399,7 +436,7 @@ namespace Tesserae
         /// </summary>
         public Plan HideStartStopButton()
         {
-            _startStopButton.Collapse();
+            _startStopButton.Render().classList.add("is-hidden");
             return this;
         }
 
@@ -408,7 +445,7 @@ namespace Tesserae
         /// </summary>
         public Plan ShowStartStopButton()
         {
-            _startStopButton.Show();
+            _startStopButton.Render().classList.remove("is-hidden");
             return this;
         }
 
@@ -431,6 +468,33 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Adds the given task to the component.
+        ///
+        /// Note: completed tasks render with the unified "success" status
+        /// color (green check) instead of the previous primary-tone treatment;
+        /// this matches the generalized status styling shared with SetModel.
+        /// </summary>
+        public Plan AddTask(string title, bool completed)
+        {
+            return AddTask(title, completed ? PlanStatus.Completed : PlanStatus.Pending);
+        }
+
+        /// <summary>
+        /// Adds a task with an explicit <see cref="PlanStatus"/>.
+        /// Auto-generates a positional key so a later <see cref="SetModel"/>
+        /// call still reconciles correctly.
+        /// </summary>
+        public Plan AddTask(string title, PlanStatus status)
+        {
+            var key = "tss-plan-step-" + _tasks.Count;
+            var task = new Task(key, title, status);
+            _tasks.Add(task);
+            _tasksByKey[key] = task;
+            _stepsEl.appendChild(task.Render());
+            return this;
+        }
+
+        /// <summary>
         /// Applies the supplied <see cref="PlanModel"/> to the component, updating
         /// the DOM in place. Steps and substeps are matched by their <c>Id</c>
         /// (or a derived positional key when no id is provided) so existing DOM
@@ -444,51 +508,101 @@ namespace Tesserae
             _model = model;
 
             // Title
-            if (model.Title != null) _title.Text = model.Title;
+            if (model.Title != null) _titleEl.innerText = model.Title;
 
-            // Plan-level status (card border + badge)
+            // Plan-level status (card accent + badge)
             ApplyCardStatusClass(model.Status);
             ApplyBadge(model.Status);
 
-            // Plan-level progress
+            // Plan-level progress + percent readout
             if (model.Progress.HasValue)
             {
-                var p = PlanVisuals.ClampProgress(model.Progress.Value);
-                _progressIndicator.Progress(p * 100f);
+                SetDeterminate(PlanVisuals.ClampProgress(model.Progress.Value) * 100f);
             }
             else if (model.Status == PlanStatus.Running)
             {
-                _progressIndicator.Indeterminated();
+                SetIndeterminate();
             }
             else if (model.Status == PlanStatus.Completed)
             {
-                _progressIndicator.Progress(100f);
-            }
-
-            // Footer message + summary + timestamps
-            if (model.FooterMessage != null) _footerMessage.Text = model.FooterMessage;
-
-            var summary = PlanVisuals.Summary(model);
-            _summaryLine.innerText = summary;
-            _summaryLine.style.display = string.IsNullOrEmpty(summary) ? "none" : "";
-
-            var timestampParts = new List<string>();
-            if (model.StartedAt.HasValue) timestampParts.Add("started " + model.StartedAt.Value.LocalDateTime.ToString());
-            if (model.CompletedAt.HasValue) timestampParts.Add("completed " + model.CompletedAt.Value.LocalDateTime.ToString());
-            if (timestampParts.Count > 0)
-            {
-                _timestampsLine.innerText = string.Join(" | ", timestampParts);
-                _timestampsLine.style.display = "";
+                SetDeterminate(100f);
             }
             else
             {
-                _timestampsLine.style.display = "none";
+                SetDeterminate(0f);
             }
+
+            // Start/stop icon reflects the running state.
+            _startStopButton.SetIcon(model.Status == PlanStatus.Running ? UIcons.SquareSmall : UIcons.Play);
+
+            // Footer message + summary
+            _footerMessage = model.FooterMessage;
+            UpdateSummary();
+
+            // Count slot (e.g. "117 searches")
+            if (!string.IsNullOrEmpty(model.Searches))
+            {
+                PlanVisuals.ClearChildren(_countEl);
+                _countEl.innerText = model.Searches;
+                _countEl.style.display = "";
+            }
+            else
+            {
+                PlanVisuals.ClearChildren(_countEl);
+                _countEl.style.display = "none";
+            }
+
+            // Timestamps
+            var timestampParts = new List<string>();
+            if (model.StartedAt.HasValue) timestampParts.Add("Started " + PlanVisuals.FormatTimestamp(model.StartedAt.Value));
+            if (model.CompletedAt.HasValue) timestampParts.Add("Completed " + PlanVisuals.FormatTimestamp(model.CompletedAt.Value));
+            _timestampsEl.innerText = string.Join("   ·   ", timestampParts);
 
             // Steps reconcile-by-key
             ReconcileSteps(model.Steps ?? new List<PlanStepModel>());
 
             return this;
+        }
+
+        private void SetDeterminate(float percent)
+        {
+            if (float.IsNaN(percent) || percent < 0f) percent = 0f;
+            if (percent > 100f) percent = 100f;
+            _progressEl.classList.remove("is-indeterminate");
+            _progressBarEl.style.width = percent + "%";
+            _pctEl.innerText = Math.Round(percent) + "%";
+            _pctEl.style.display = "";
+        }
+
+        private void SetIndeterminate()
+        {
+            _progressEl.classList.add("is-indeterminate");
+            _pctEl.style.display = "none";
+        }
+
+        private void UpdateSummary()
+        {
+            PlanVisuals.ClearChildren(_summaryEl);
+
+            if (_model != null)
+            {
+                if (!string.IsNullOrEmpty(_footerMessage))
+                {
+                    var msgSpan = Span(_("tss-plan-footer-msg"));
+                    msgSpan.innerText = _footerMessage;
+                    _summaryEl.appendChild(msgSpan);
+                    var sep = Span(_());
+                    sep.innerText = " · ";
+                    _summaryEl.appendChild(sep);
+                }
+                var summarySpan = Span(_());
+                summarySpan.innerText = PlanVisuals.Summary(_model);
+                _summaryEl.appendChild(summarySpan);
+            }
+            else
+            {
+                _summaryEl.innerText = _footerMessage ?? string.Empty;
+            }
         }
 
         private void ApplyCardStatusClass(PlanStatus status)
@@ -503,14 +617,10 @@ namespace Tesserae
 
         private void ApplyBadge(PlanStatus status)
         {
-            _statusBadge.classList.remove("tss-plan-pending");
-            _statusBadge.classList.remove("tss-plan-running");
-            _statusBadge.classList.remove("tss-plan-completed");
-            _statusBadge.classList.remove("tss-plan-failed");
-            _statusBadge.classList.remove("tss-plan-canceled");
-            _statusBadge.classList.add(PlanVisuals.StatusClass(status));
-            _statusBadge.innerText = PlanVisuals.StatusText(status);
-            _statusBadge.style.display = "";
+            // Colors are inherited from the card's --plan-accent custom props,
+            // so only the label text needs to change here.
+            _badgeText.innerText = PlanVisuals.StatusText(status);
+            _badge.style.display = "";
         }
 
         private void ReconcileSteps(IList<PlanStepModel> steps)
@@ -553,15 +663,14 @@ namespace Tesserae
             }
 
             // Pass 3: re-order DOM to match the new ordering, reusing nodes.
-            // We append in the new order; appendChild moves the node if it
-            // already has a parent, which is exactly what we want.
-            var stackEl = _tasksStack.Render();
+            // appendChild moves a node if it already has a parent, which is
+            // exactly what we want here.
             _tasks.Clear();
             foreach (var key in newKeys)
             {
                 var t = _tasksByKey[key];
                 _tasks.Add(t);
-                stackEl.appendChild(t.Render());
+                _stepsEl.appendChild(t.Render());
             }
         }
 
@@ -573,14 +682,15 @@ namespace Tesserae
         public class Task : IComponent
         {
             private readonly HTMLElement _root;
-            private readonly HTMLElement _stepRow;
-            private readonly Icon _icon;
-            private readonly TextBlock _text;
+            private readonly HTMLElement _iconSlot;
+            private readonly HTMLElement _statusIcon;
+            private readonly HTMLElement _textEl;
             private readonly HTMLElement _stageEl;
             private readonly HTMLElement _toggleEl;
             private readonly HTMLElement _progressEl;
             private readonly HTMLElement _progressBar;
-            private readonly HTMLElement _substepsContainer;
+            private readonly HTMLElement _substeps;
+            private readonly HTMLElement _substepsInner;
             private readonly Dictionary<string, HTMLElement> _substepsByKey = new Dictionary<string, HTMLElement>();
             private readonly List<string> _substepOrder = new List<string>();
             private PlanStatus _status;
@@ -593,8 +703,8 @@ namespace Tesserae
             /// </summary>
             public string Title
             {
-                get => _text.Text;
-                set => _text.Text = value;
+                get => _textEl.innerText;
+                set => _textEl.innerText = value;
             }
 
             /// <summary>
@@ -623,42 +733,35 @@ namespace Tesserae
                 Key = key;
                 _status = status;
 
-                _icon = Icon(PlanVisuals.StatusIcon(status));
-                _icon.Render().classList.add("tss-plan-step-icon");
-                _icon.Render().classList.add(PlanVisuals.StatusClass(status));
+                // Rail / status node (UIcons glyph; the spinner spins in place
+                // when running — see the centering note in PlanVisuals).
+                _statusIcon = PlanVisuals.CreateStatusIcon(status);
+                _iconSlot = Div(_("tss-plan-step-icon"), _statusIcon);
+                var rail = Div(_("tss-plan-step-rail"), _iconSlot);
 
-                _text = TextBlock(title).Regular();
+                // Title row (text + expand/collapse chevron).
+                _textEl = Span(_("tss-plan-step-text"));
+                _textEl.innerText = title ?? string.Empty;
 
-                _stageEl = Div(_("tss-plan-step-stage"));
-                _stageEl.style.display = "none";
-
-                _toggleEl = Span(_("tss-plan-step-toggle"));
-                _toggleEl.innerText = "▸";
+                _toggleEl = Button(_("tss-plan-step-toggle"), Icon(UIcons.AngleDown).Render());
                 _toggleEl.style.display = "none";
                 _toggleEl.onclick = e => { ToggleExpanded(); };
 
-                var titleRow = Div(_("tss-plan-step-title"));
-                titleRow.appendChild(_text.Render());
-                titleRow.appendChild(_toggleEl);
+                var titleRow = Div(_("tss-plan-step-title"), _textEl, _toggleEl);
+
+                _stageEl = Div(_("tss-plan-step-stage"));
+                _stageEl.style.display = "none";
 
                 _progressBar = Div(_("tss-plan-step-progress-bar"));
                 _progressEl = Div(_("tss-plan-step-progress"), _progressBar);
                 _progressEl.style.display = "none";
 
-                var stepBody = Div(_("tss-plan-step-body"));
-                stepBody.appendChild(titleRow);
-                stepBody.appendChild(_stageEl);
-                stepBody.appendChild(_progressEl);
+                _substepsInner = Div(_("tss-plan-substeps-inner"));
+                _substeps = Div(_("tss-plan-substeps is-collapsed"), _substepsInner);
 
-                _stepRow = Div(_("tss-plan-step-row"));
-                _stepRow.appendChild(_icon.Render());
-                _stepRow.appendChild(stepBody);
+                var body = Div(_("tss-plan-step-body"), titleRow, _stageEl, _progressEl, _substeps);
 
-                _substepsContainer = Div(_("tss-plan-substeps tss-plan-collapsed"));
-
-                _root = Div(_("tss-plan-step"));
-                _root.appendChild(_stepRow);
-                _root.appendChild(_substepsContainer);
+                _root = Div(_("tss-plan-step " + PlanVisuals.StepStatusClass(status)), rail, body);
             }
 
             /// <summary>
@@ -677,7 +780,7 @@ namespace Tesserae
 
             internal void UpdateFromModel(PlanStepModel model)
             {
-                if (model.Title != null) _text.Text = model.Title;
+                if (model.Title != null) _textEl.innerText = model.Title;
 
                 ApplyStatus(model.Status);
 
@@ -695,13 +798,13 @@ namespace Tesserae
                 if (model.Progress.HasValue)
                 {
                     var p = PlanVisuals.ClampProgress(model.Progress.Value);
-                    _progressEl.classList.remove("tss-plan-indeterminate");
-                    _progressBar.style.width = (p * 100f).ToString() + "%";
+                    _progressEl.classList.remove("is-indeterminate");
+                    _progressBar.style.width = (p * 100f) + "%";
                     _progressEl.style.display = "";
                 }
                 else if (model.Status == PlanStatus.Running)
                 {
-                    _progressEl.classList.add("tss-plan-indeterminate");
+                    _progressEl.classList.add("is-indeterminate");
                     _progressEl.style.display = "";
                 }
                 else
@@ -720,15 +823,16 @@ namespace Tesserae
 
             private void ApplyStatus(PlanStatus status)
             {
+                // Only swap the glyph when the status actually changes, so the
+                // running spinner's animation isn't restarted on every update.
+                // Color + spin come from the parent `.is-*` class via CSS.
+                if (status != _status)
+                {
+                    PlanVisuals.SetStatusIcon(_statusIcon, status);
+                }
                 _status = status;
-                _icon.SetIcon(PlanVisuals.StatusIcon(status));
-                _icon.Render().classList.add("tss-plan-step-icon");
-                _icon.Render().classList.remove("tss-plan-pending");
-                _icon.Render().classList.remove("tss-plan-running");
-                _icon.Render().classList.remove("tss-plan-completed");
-                _icon.Render().classList.remove("tss-plan-failed");
-                _icon.Render().classList.remove("tss-plan-canceled");
-                _icon.Render().classList.add(PlanVisuals.StatusClass(status));
+                PlanVisuals.RemoveStepStatusClasses(_root);
+                _root.classList.add(PlanVisuals.StepStatusClass(status));
             }
 
             private void ToggleExpanded()
@@ -739,16 +843,8 @@ namespace Tesserae
             private void SetExpanded(bool expanded)
             {
                 _expanded = expanded;
-                if (expanded)
-                {
-                    _substepsContainer.classList.remove("tss-plan-collapsed");
-                    _toggleEl.innerText = "▾";
-                }
-                else
-                {
-                    _substepsContainer.classList.add("tss-plan-collapsed");
-                    _toggleEl.innerText = "▸";
-                }
+                _root.UpdateClassIf(expanded, "is-expanded");
+                _substeps.UpdateClassIf(!expanded, "is-collapsed");
             }
 
             private void ReconcileSubsteps(IList<PlanSubstepModel> substeps)
@@ -789,37 +885,43 @@ namespace Tesserae
                 foreach (var k in newKeys)
                 {
                     _substepOrder.Add(k);
-                    _substepsContainer.appendChild(_substepsByKey[k]);
+                    _substepsInner.appendChild(_substepsByKey[k]);
                 }
             }
 
             private static HTMLElement BuildSubstepEl(PlanSubstepModel sub)
             {
-                var iconEl = I(_("tss-icon tss-plan-substep-icon"));
+                var iconWrap = Div(_("tss-plan-substep-icon"));
                 var titleEl = Div(_("tss-plan-substep-title"));
-                titleEl.innerText = sub.Title ?? string.Empty;
                 var msgEl = Div(_("tss-plan-substep-message"));
                 var body = Div(_("tss-plan-substep-body"), titleEl, msgEl);
-                var root = Div(_("tss-plan-substep"), iconEl, body);
+                var root = Div(_("tss-plan-substep"), iconWrap, body);
                 UpdateSubstepEl(root, sub);
                 return root;
             }
 
             private static void UpdateSubstepEl(HTMLElement root, PlanSubstepModel sub)
             {
-                // Children: [iconEl, body[titleEl, msgEl]]
-                var iconEl = (HTMLElement)root.childNodes[0];
+                // Children: [iconWrap, body[titleEl, msgEl]]
+                var iconWrap = (HTMLElement)root.childNodes[0];
                 var body = (HTMLElement)root.childNodes[1];
                 var titleEl = (HTMLElement)body.childNodes[0];
                 var msgEl = (HTMLElement)body.childNodes[1];
 
+                // Status class + UIcons glyph (color/size via CSS). Only swap
+                // when the status changes so a running spinner isn't reset.
+                var statusName = sub.Status.ToString();
+                if (root.dataset["pstatus"].As<string>() != statusName)
+                {
+                    PlanVisuals.RemoveStepStatusClasses(root);
+                    root.classList.add(PlanVisuals.StepStatusClass(sub.Status));
+                    PlanVisuals.ClearChildren(iconWrap);
+                    iconWrap.appendChild(PlanVisuals.CreateStatusIcon(sub.Status));
+                    root.dataset["pstatus"] = statusName;
+                }
+
                 // Title
                 titleEl.innerText = sub.Title ?? string.Empty;
-
-                // Icon (UIcons font class) — clear previous icon classes
-                // and re-apply just our marker + the new icon class.
-                var newIconClass = Tesserae.Icon.Transform(PlanVisuals.StatusIcon(sub.Status), UIconsWeight.Regular);
-                iconEl.className = "tss-icon tss-plan-substep-icon " + PlanVisuals.StatusClass(sub.Status) + " " + newIconClass + " " + TextSize.Small.ToString();
 
                 // Message
                 if (!string.IsNullOrEmpty(sub.Message))
