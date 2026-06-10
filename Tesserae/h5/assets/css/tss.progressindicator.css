@@ -1,7 +1,8 @@
 /* Progress Indicator */
 .tss-progressindicator {
     position: relative;
-    height: 2px;
+    height: 8px;
+    border-radius:8px;
     padding-right: 0px;
     padding-left: 0px;
     overflow: hidden;
@@ -10,8 +11,9 @@
 }
 
     .tss-progressindicator > .tss-progressindicator-bar {
-        background-color: var(--tss-primary-background-color);
+        background: linear-gradient(90deg, color-mix(in hsl, rgb(var(--tss-primary-foreground-color-root)) 20%, rgb(var(--tss-primary-background-color-root))), rgb(var(--tss-primary-background-color-root)));
         height: 100%;
+        border-radius: 8px;
         position: absolute;
         width: 0px;
     }
