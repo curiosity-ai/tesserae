@@ -9,8 +9,25 @@ using Orientation = Tesserae.Stack.Orientation;
 namespace Tesserae
 {
     /// <summary>
-    /// A Stack is a container-type component that abstracts the implementation of a flexbox in order to define the layout of its children components.
+    /// A Stack whose children are driven by an <see cref="ObservableList{T}"/> of
+    /// <see cref="IComponentWithID"/>. On every change it performs a keyed reconcile against the live
+    /// DOM rather than rebuilding: existing children are matched by their string <c>Identifier</c>, a
+    /// matched child is re-rendered (<c>replaceChild</c>) only when its <c>ContentHash</c> changes,
+    /// surviving children are reordered to match the new sequence, dropped items are removed and new
+    /// items inserted. Changes are debounced by default.
     /// </summary>
+    /// <remarks>
+    /// Use this when your items are (or can cheaply be) rendered components that each expose a stable
+    /// key and a content hash, and you want reordering and/or content-hash-driven replacement (e.g. a
+    /// server-driven or streaming list such as <c>Chat</c>).
+    ///
+    /// For the complementary case, see <see cref="ReconcilingStack{T}"/>: it keys data models by
+    /// reference identity, builds each row lazily via a factory, and never replaces a matched row (rows
+    /// refresh their own content via observation). Prefer that when items are data objects identified by
+    /// reference and each row is a self-managing component you do not want rebuilt. Note that it only
+    /// diffs a common prefix/suffix, so a reorder of interior rows rebuilds that span, whereas
+    /// <see cref="ObservableStack"/> handles arbitrary reorders.
+    /// </remarks>
     [H5.Name("tss.OS")]
     public class ObservableStack : IComponent, IHasBackgroundColor, IHasMarginPadding, ISpecialCaseStyling, ICanWrap
     {
