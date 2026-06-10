@@ -63,6 +63,12 @@ namespace Tesserae
 
         private void Reconcile(IReadOnlyList<T> next)
         {
+            var selectedElement = document.activeElement;
+            if (selectedElement is object && !_host.InnerElement.contains(selectedElement))
+            {
+                selectedElement = null;
+            }
+
             if (next is null)
             {
                 next = Array.Empty<T>();
@@ -114,6 +120,11 @@ namespace Tesserae
                 }
 
                 _rows.Insert(newIndex, new Row(item, component));
+            }
+
+            if (selectedElement is object && _host.InnerElement.contains(selectedElement))
+            {
+                selectedElement.As<HTMLElement>().focus();
             }
         }
 
