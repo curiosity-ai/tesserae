@@ -57,3 +57,38 @@
             background-color: var(--tss-default-background-hover-color);
             color: var(--tss-default-foreground-hover-color);
         }
+
+
+.tss-markdown ul, .tss-markdown ol, .tss-markdown dl {
+    padding-inline-start: 15px
+}
+
+.tss-markdown h1, .tss-markdown h2 {
+    font-weight: 700 !important;
+    font-size: var(--tss-font-size-smallplus) !important
+}
+
+    .tss-markdown h3, .tss-markdown h4, .tss-markdown h5, .tss-markdown h6 {
+        font-weight: 700 !important;
+        font-size: var(--tss-font-size-small) !important
+    }
+
+.tss-markdown ul {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    margin-bottom: 8px
+}
+
+.tss-markdown p {
+    margin: 0;
+    padding: 0;
+    margin-bottom: 8px;
+    margin-top: 0
+}
+
+.tss-markdown pre {
+    padding: 0;
+    margin: 0;
+}
