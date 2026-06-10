@@ -250,12 +250,6 @@
     border-radius: var(--tss-border-radius-sm);
 }
 
-.tss-markdown code:before,
-.tss-markdown code:after {
-    letter-spacing: -0.2em;
-    content: "\00a0";
-}
-
 .tss-markdown pre {
     padding: 16px;
     margin-top: 0;
@@ -269,11 +263,11 @@
 }
 
 .tss-markdown pre code {
-    display: inline;
+    display: inline-block;
     max-width: initial;
     padding: 0;
     margin: 0;
-    overflow: initial;
+    overflow: hidden;
     font-size: 100%;
     line-height: inherit;
     word-break: normal;
