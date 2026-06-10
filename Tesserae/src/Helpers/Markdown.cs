@@ -32,7 +32,7 @@ namespace Tesserae
             var marked = GetShared();
             var parsedAsMarkdown = Script.Write<string>("{0}.parse({1})", marked, text);
             var cleaned = RemoveExcessiveNewLines(parsedAsMarkdown);
-            var sanitized = Script.Write<string>("DOMPurify.sanitize({0})", parsedAsMarkdown);
+            var sanitized = Script.Write<string>("DOMPurify.sanitize({0})", cleaned);
             return sanitized;
         }
 
