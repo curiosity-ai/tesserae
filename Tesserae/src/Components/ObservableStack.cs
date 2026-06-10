@@ -220,6 +220,12 @@ namespace Tesserae
         {
             var parent = InnerElement;
 
+            var selectedElement = document.activeElement;
+            if (selectedElement is object && !parent.contains(selectedElement))
+            {
+                selectedElement = null;
+            }
+
             var currentKeyMap = new Dictionary<string, ExistingStackElement>();
 
             var index                = 0;
@@ -310,6 +316,11 @@ namespace Tesserae
                 {
                     parent.appendChild(newItem);
                 }
+            }
+
+            if (selectedElement is object && parent.contains(selectedElement))
+            {
+                selectedElement.As<HTMLElement>().focus();
             }
         }
         /// <summary>
