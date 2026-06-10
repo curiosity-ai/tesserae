@@ -1,3 +1,4 @@
+using System;
 using H5;
 using static H5.Core.dom;
 using static Tesserae.UI;
@@ -29,7 +30,15 @@ namespace Tesserae
         public static string ConvertMarkdownSanitized(string text)
         {
             var marked = GetShared();
-            return Script.Write<string>("DOMPurify.sanitize({0}.parse({1}))", marked, text);
+            var parsedAsMarkdown = Script.Write<string>("{0}.parse({1})", marked, text);
+            var cleaned = RemoveExcessiveNewLines(parsedAsMarkdown);
+            var sanitized = Script.Write<string>("DOMPurify.sanitize({0})", parsedAsMarkdown);
+            return sanitized;
+        }
+
+        private static string RemoveExcessiveNewLines(string markedOutput)
+        {
+            return Script.Write<string>("{0}.replace(/>\\r?\\n</g, \"><\")", markedOutput);
         }
 
         /// <summary>
