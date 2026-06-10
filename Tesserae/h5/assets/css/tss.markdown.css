@@ -1,94 +1,335 @@
-.tss-markdown h1,
-.tss-markdown h2,
-.tss-markdown h3 {
-    font-weight: 700;
-}
+/* GitHub markdown styles adapted for Tesserae.
+   Based on https://github.com/mixu/markdown-styles/blob/master/layouts/github/assets/css/github-markdown.css
+   with class names renamed to the tss-markdown convention and hardcoded colors/fonts
+   replaced by Tesserae theme variables so light/dark themes work. */
 
 .tss-markdown {
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+    color: var(--tss-default-foreground-color);
+    font-family: var(--tss-font-family, "Segoe UI", SegoeUI, "Helvetica Neue", Helvetica, Arial, sans-serif);
     font-size: var(--tss-font-size-small);
+    line-height: 1.6;
+    word-wrap: break-word;
 }
 
+.tss-markdown * {
+    box-sizing: border-box;
+}
+
+.tss-markdown > *:first-child {
+    margin-top: 0 !important;
+}
+
+.tss-markdown > *:last-child {
+    margin-bottom: 0 !important;
+}
+
+.tss-markdown a {
+    background: transparent;
+    color: var(--tss-link-color);
+    text-decoration: none;
+}
+
+.tss-markdown a:active,
+.tss-markdown a:hover {
+    outline: 0;
+}
+
+.tss-markdown a:hover,
+.tss-markdown a:focus,
+.tss-markdown a:active {
+    text-decoration: underline;
+}
+
+.tss-markdown strong {
+    font-weight: var(--tss-font-weight-bold);
+}
+
+.tss-markdown img {
+    border: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.tss-markdown input {
+    color: inherit;
+    font: inherit;
+    margin: 0;
+    line-height: normal;
+}
+
+.tss-markdown input[disabled] {
+    cursor: default;
+}
+
+.tss-markdown input[type="checkbox"] {
+    box-sizing: border-box;
+    padding: 0;
+}
+
+.tss-markdown hr {
+    box-sizing: content-box;
+    height: 4px;
+    padding: 0;
+    margin: 16px 0;
+    overflow: hidden;
+    background-color: var(--tss-default-border-color);
+    border: 0 none;
+}
+
+.tss-markdown hr:before {
+    display: table;
+    content: "";
+}
+
+.tss-markdown hr:after {
+    display: table;
+    clear: both;
+    content: "";
+}
+
+.tss-markdown h1,
+.tss-markdown h2,
+.tss-markdown h3,
+.tss-markdown h4,
+.tss-markdown h5,
+.tss-markdown h6 {
+    position: relative;
+    margin-top: 1em;
+    margin-bottom: 16px;
+    font-weight: var(--tss-font-weight-bold);
+    line-height: 1.4;
+}
+
+.tss-markdown h1 {
+    padding-bottom: 0.3em;
+    font-size: 2.25em;
+    line-height: 1.2;
+    border-bottom: 1px solid var(--tss-default-border-color);
+}
+
+.tss-markdown h2 {
+    padding-bottom: 0.3em;
+    font-size: 1.75em;
+    line-height: 1.225;
+    border-bottom: 1px solid var(--tss-default-border-color);
+}
+
+.tss-markdown h3 {
+    font-size: 1.5em;
+    line-height: 1.43;
+}
+
+.tss-markdown h4 {
+    font-size: 1.25em;
+}
+
+.tss-markdown h5 {
+    font-size: 1em;
+}
+
+.tss-markdown h6 {
+    font-size: 1em;
+    color: var(--tss-secondary-foreground-color);
+}
+
+.tss-markdown p,
+.tss-markdown blockquote,
+.tss-markdown ul,
+.tss-markdown ol,
+.tss-markdown dl,
+.tss-markdown table,
+.tss-markdown pre {
+    margin-top: 0;
+    margin-bottom: 16px;
+}
+
+.tss-markdown ul,
+.tss-markdown ol {
+    padding-left: 2em;
+}
+
+.tss-markdown ol ol,
+.tss-markdown ul ol {
+    list-style-type: lower-roman;
+}
+
+.tss-markdown ul ul ol,
+.tss-markdown ul ol ol,
+.tss-markdown ol ul ol,
+.tss-markdown ol ol ol {
+    list-style-type: lower-alpha;
+}
+
+.tss-markdown ul ul,
+.tss-markdown ul ol,
+.tss-markdown ol ol,
+.tss-markdown ol ul {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.tss-markdown li > p {
+    margin-top: 16px;
+}
+
+.tss-markdown dl {
+    padding: 0;
+}
+
+.tss-markdown dl dt {
+    padding: 0;
+    margin-top: 16px;
+    font-size: 1em;
+    font-style: italic;
+    font-weight: var(--tss-font-weight-bold);
+}
+
+.tss-markdown dl dd {
+    padding: 0 16px;
+    margin-left: 0;
+    margin-bottom: 16px;
+}
+
+.tss-markdown blockquote {
+    margin: 0 0 16px 0;
+    padding: 0 15px;
+    color: var(--tss-secondary-foreground-color);
+    border-left: 4px solid var(--tss-default-border-color);
+}
+
+.tss-markdown blockquote > :first-child {
+    margin-top: 0;
+}
+
+.tss-markdown blockquote > :last-child {
+    margin-bottom: 0;
+}
 
 .tss-markdown table {
+    display: block;
+    width: 100%;
+    overflow: auto;
+    border-collapse: collapse;
+    border-spacing: 0;
+    word-break: normal;
+    word-break: keep-all;
+}
+
+.tss-markdown table th {
+    font-weight: var(--tss-font-weight-semibold);
+}
+
+.tss-markdown table th,
+.tss-markdown table td {
+    padding: 6px 13px;
     border: 1px solid var(--tss-default-border-color);
-    border-radius: var(--tss-border-radius-md);
-    box-shadow: var(--tss-box-shadow);
-    overflow: hidden; /* Ensures the table conforms to the rounded corners */
+}
+
+.tss-markdown table tr {
     background-color: var(--tss-default-background-color);
+    border-top: 1px solid var(--tss-default-border-color);
 }
 
-    .tss-markdown table {
-        width: 100%;
-        border-collapse: collapse;
-        color: var(--tss-default-foreground-color);
-        font-weight: var(--tss-font-weight-regular);
-        text-align: left;
-        display: block;
-        white-space: nowrap;
-        overflow-x: auto;
-        margin-bottom: 24px;
-    }
-
-    .tss-markdown table thead {
-        background-color: var(--tss-secondary-background-color);
-    }
-
-    .tss-markdown table th {
-        padding: 12px 16px;
-        color: var(--tss-secondary-foreground-color);
-        font-weight: var(--tss-font-weight-semibold);
-        border-bottom: 2px solid var(--tss-dark-border-color);
-    }
-
-    .tss-markdown table td {
-        padding: 12px 16px;
-        border-bottom: 1px solid var(--tss-default-border-color);
-    }
-
-    .tss-markdown table tbody tr:last-child td {
-        border-bottom: none;
-    }
-
-    .tss-markdown table tbody tr {
-        transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-    }
-
-        .tss-markdown table tbody tr:hover {
-            background-color: var(--tss-default-background-hover-color);
-            color: var(--tss-default-foreground-hover-color);
-        }
-
-
-.tss-markdown ul, .tss-markdown ol, .tss-markdown dl {
-    padding-inline-start: 15px
+.tss-markdown table tr:nth-child(2n) {
+    background-color: var(--tss-secondary-background-color);
 }
 
-.tss-markdown h1, .tss-markdown h2 {
-    font-weight: 700 !important;
-    font-size: var(--tss-font-size-smallplus) !important
+.tss-markdown code,
+.tss-markdown kbd,
+.tss-markdown pre {
+    font-family: var(--tss-monospace-font-family, ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace);
 }
 
-    .tss-markdown h3, .tss-markdown h4, .tss-markdown h5, .tss-markdown h6 {
-        font-weight: 700 !important;
-        font-size: var(--tss-font-size-small) !important
-    }
-
-.tss-markdown ul {
-    display: flex;
-    flex-direction: column;
+.tss-markdown code {
+    padding: 0.2em 0;
     margin: 0;
-    padding: 0;
-    margin-bottom: 8px
+    font-size: 85%;
+    background-color: var(--tss-secondary-background-color);
+    border-radius: var(--tss-border-radius-sm);
 }
 
-.tss-markdown p {
-    margin: 0;
-    padding: 0;
-    margin-bottom: 8px;
-    margin-top: 0
+.tss-markdown code:before,
+.tss-markdown code:after {
+    letter-spacing: -0.2em;
+    content: "\00a0";
 }
 
 .tss-markdown pre {
+    padding: 16px;
+    margin-top: 0;
+    margin-bottom: 16px;
+    overflow: auto;
+    font-size: 85%;
+    line-height: 1.45;
+    word-wrap: normal;
+    background-color: var(--tss-secondary-background-color);
+    border-radius: var(--tss-border-radius-sm);
+}
+
+.tss-markdown pre code {
+    display: inline;
+    max-width: initial;
     padding: 0;
     margin: 0;
+    overflow: initial;
+    font-size: 100%;
+    line-height: inherit;
+    word-break: normal;
+    word-wrap: normal;
+    white-space: pre;
+    background-color: transparent;
+    border: 0;
+}
+
+.tss-markdown pre code:before,
+.tss-markdown pre code:after {
+    content: normal;
+}
+
+.tss-markdown kbd {
+    display: inline-block;
+    padding: 3px 5px;
+    font-size: 11px;
+    line-height: 10px;
+    color: var(--tss-default-foreground-color);
+    background-color: var(--tss-secondary-background-color);
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: var(--tss-border-radius-sm);
+}
+
+/* marked emits newline text nodes between structural elements; MarkdownBlock sets
+   white-space: break-spaces on the container, which would render those newlines as
+   blank lines, so collapse whitespace inside structural elements. */
+.tss-markdown ul,
+.tss-markdown ol,
+.tss-markdown dl,
+.tss-markdown table,
+.tss-markdown blockquote {
+    white-space: normal;
+}
+
+.tss-markdown li,
+.tss-markdown dd,
+.tss-markdown td,
+.tss-markdown th,
+.tss-markdown blockquote p {
+    white-space: break-spaces;
+}
+
+/* GFM task lists: marked emits a bare <li><input type="checkbox" ...> without
+   GitHub's task-list-item class, so target the checkbox structurally instead. */
+.tss-markdown li:has(> input[type="checkbox"]) {
+    list-style-type: none;
+}
+
+.tss-markdown li:has(> input[type="checkbox"]) + li:has(> input[type="checkbox"]) {
+    margin-top: 3px;
+}
+
+.tss-markdown li > input[type="checkbox"] {
+    float: left;
+    margin: 0.3em 0 0.25em -1.6em;
+    vertical-align: middle;
 }
