@@ -14,8 +14,8 @@
 .tss-toolcall-header {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 6px 10px;
+    gap: 8px;
+    padding: 4px 8px;
     cursor: pointer;
     user-select: none;
     font-size: 13px;
@@ -38,13 +38,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 22px;
-    height: 22px;
-    border-radius: 6px;
+    width: 18px;
+    height: 18px;
+    border-radius: 5px;
     background: var(--tss-colors-neutral-100, #f3f4f6);
     color: var(--tss-colors-neutral-700, #374151);
     flex-shrink: 0;
-    font-size: 13px;
+    font-size: 12px;
 }
 
 .tss-toolcall-text {
@@ -69,7 +69,7 @@
 
 .tss-toolcall-content {
     border-top: 1px solid var(--tss-default-border-color);
-    padding: 10px 12px;
+    padding: 8px 10px;
     background: var(--tss-default-background-color);
 }
 

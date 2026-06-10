@@ -15,7 +15,7 @@ namespace Tesserae.Tests.Samples
                 .SampleTitle(typeof(ToolCallSample), UIcons.Tools, "Inline tool-call indicators and a multi-tool summary popup")
                 .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
-                        TextBlock("ToolCall renders a single tool invocation inline. It behaves like an accordion: a compact header with an icon and label, expanding to reveal arbitrary content the first time it is clicked (the content component is created lazily)."),
+                        TextBlock("ToolCall renders a single tool invocation inline. It behaves like an accordion: a compact header with an icon and label, expanding to reveal arbitrary content the first time it is clicked (the content component is created lazily). A ToolCall without content automatically renders as a plain, non-expandable chip — no chevron is shown until content is set."),
                         TextBlock("ToolsUsed groups many ToolCalls behind a compact summary. Clicking it opens a popup with the list of tools on the left; selecting one slides to the detail view on the right, with a back button to return to the list.")
                     )).SetTitle("Overview")))
                 .FlatSection(Stack().Children(
@@ -25,7 +25,7 @@ namespace Tesserae.Tests.Samples
                         ToolCall(UIcons.Terminal, "Bash ls -la && git status", () => TextBlock("total 16\ndrwxr-xr-x  3 user user 4096 Jan 1 12:00 .\n\nOn branch main\nnothing to commit, working tree clean").BreakSpaces()),
                         ToolCall(UIcons.Eye, "Read /home/user/project/README.md", () => TextBlock("# My Project\n\nA sample project demonstrating the ToolCall component.\n\n## Usage\n\n...").BreakSpaces()).Expanded(),
                         ToolCall(UIcons.Search, "Grep \"useEffect\" src/", () => TextBlock("src/App.tsx:5: import { useEffect } from 'react';\nsrc/hooks/useData.ts:1: import { useEffect, useState } from 'react';").BreakSpaces()),
-                        ToolCall(UIcons.ListCheck, "Update todos").NotExpandable(),
+                        ToolCall(UIcons.ListCheck, "Update todos"), // no content -> renders non-expandable automatically
 
                         SampleSubTitle("ToolsUsed summary popup"),
                         TextBlock("When an AI uses many tools, surface a compact summary that opens a list/detail popup, similar to a master-detail navigation on mobile."),
