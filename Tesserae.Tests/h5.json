@@ -20,6 +20,11 @@
       "output": "assets/img"
     },
     {
+      "name": "provider-logos",
+      "files": [ "h5/assets/img/providers/*" ],
+      "output": "assets/img/providers"
+    },
+    {
       "name": "tss-samples.css",
       "files": [
         "h5/assets/css/tss-samples.css"

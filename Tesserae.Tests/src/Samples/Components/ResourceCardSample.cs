@@ -80,12 +80,36 @@ namespace Tesserae.Tests.Samples
                 return UI.ResourceCard()
                     .SetIcon(UI.Icon(Icon, size: TextSize.Large))
                     .SetTitle(Title)
-                    .SetSubtitle(Author)
+                    .SetSubtitle(ProviderLogo(Author))
                     .SetTags(Badge(Capability))
                     .SetDescription(Description)
                     .SetDate(Date)
                     .SetFooter(Link("https://example.com/terms", "Terms"))
                     .SetFooterCommands(Button("Copy ID").SetIcon(UIcons.Copy).NoBorder().NoBackground());
+            }
+
+            // Renders the provider's logo (from assets/img/providers/{provider}.svg) instead of its name.
+            // The SVG is used as a CSS mask so it inherits the same secondary foreground colour the
+            // subtitle text used, adapting automatically to light/dark themes.
+            private static IComponent ProviderLogo(string provider)
+            {
+                var logo = Div(_("tss-default-component-no-margin"));
+                logo.style.display         = "inline-block";
+                logo.style.width           = "20px";
+                logo.style.height          = "20px";
+                logo.style.backgroundColor = Theme.Secondary.Foreground;
+
+                var url = $"url(\"./assets/img/providers/{provider}.svg\")";
+                logo.style.setProperty("-webkit-mask-image", url);
+                logo.style.setProperty("mask-image", url);
+                logo.style.setProperty("-webkit-mask-repeat", "no-repeat");
+                logo.style.setProperty("mask-repeat", "no-repeat");
+                logo.style.setProperty("-webkit-mask-position", "center");
+                logo.style.setProperty("mask-position", "center");
+                logo.style.setProperty("-webkit-mask-size", "contain");
+                logo.style.setProperty("mask-size", "contain");
+
+                return Raw(logo).Tooltip(provider);
             }
         }
     }
