@@ -1079,6 +1079,16 @@ namespace Tesserae
         /// Creates a <see cref="Tesserae.NodeView"/> component.
         /// </summary>
         public static NodeView NodeView(Action<NodeView.IViewSettings> settings = null)                            => new NodeView(settings);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.Diagram"/> component (a flow-chart surface with draggable nodes and auto-computed arrows).
+        /// </summary>
+        public static Diagram Diagram() => new Diagram();
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.Diagram.Node"/> component to be added to a <see cref="Tesserae.Diagram"/>.
+        /// </summary>
+        public static Diagram.Node DiagramNode(string text = "") => new Diagram.Node(text);
         /// <summary>
         /// Creates a <see cref="Tesserae.Dropdown"/> component.
         /// </summary>

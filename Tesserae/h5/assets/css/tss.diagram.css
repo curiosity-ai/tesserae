@@ -1,0 +1,124 @@
+/* Diagram */
+
+.tss-diagram {
+    --tss-diagram-dot-color: var(--tss-default-border-color);
+    --tss-diagram-line-color: var(--tss-default-border-color);
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    min-height: 200px;
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: var(--tss-border-radius-md);
+    background-color: var(--tss-default-background-color);
+    background-image: radial-gradient(circle, var(--tss-diagram-dot-color) 1px, transparent 1.5px);
+    background-size: 24px 24px;
+    cursor: grab;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+    .tss-diagram.tss-diagram-no-dots {
+        background-image: none;
+    }
+
+    .tss-diagram.tss-diagram-no-pan {
+        cursor: default;
+    }
+
+    .tss-diagram.tss-diagram-panning {
+        cursor: grabbing;
+    }
+
+.tss-diagram-canvas {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.tss-diagram-nodes {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 0;
+    height: 0;
+    overflow: visible;
+}
+
+.tss-diagram-node {
+    position: absolute;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    min-height: 36px;
+    padding: 0px 16px;
+    border: 1px solid var(--tss-default-border-color);
+    border-radius: 9999px;
+    font-weight: 500;
+    box-shadow: var(--tss-shadow-sm);
+    cursor: grab;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+    .tss-diagram-node.tss-diagram-node-dragging {
+        cursor: grabbing;
+        box-shadow: var(--tss-shadow-hover);
+        z-index: 1;
+    }
+
+    .tss-diagram-node:hover {
+        box-shadow: var(--tss-shadow-hover);
+    }
+
+    .tss-diagram-node.tss-diagram-node-icon-only {
+        aspect-ratio: 1;
+        border-radius: 50%;
+        padding: 0px 10px;
+    }
+
+    .tss-diagram-node .tss-diagram-node-icon + .tss-diagram-node-text:not(:empty),
+    .tss-diagram-node .tss-diagram-node-image + .tss-diagram-node-text:not(:empty) {
+        margin-left: 8px;
+    }
+
+    .tss-diagram-node .tss-diagram-node-image {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+.tss-diagram-node-default {
+    color: var(--tss-default-foreground-color);
+    background-color: var(--tss-default-background-color);
+    border-color: var(--tss-default-border-color);
+}
+
+.tss-diagram-node-primary {
+    color: var(--tss-primary-foreground-color);
+    background-color: var(--tss-primary-background-color);
+    border-color: var(--tss-primary-border-color);
+}
+
+.tss-diagram-node-secondary {
+    color: var(--tss-secondary-foreground-color);
+    background-color: var(--tss-secondary-background-color);
+    border-color: var(--tss-default-border-color);
+}
+
+.tss-diagram-node-success {
+    color: var(--tss-success-foreground-color);
+    background-color: var(--tss-success-background-color);
+    border-color: var(--tss-success-border-color);
+}
+
+.tss-diagram-node-danger {
+    color: var(--tss-danger-foreground-color);
+    background-color: var(--tss-danger-background-color);
+    border-color: var(--tss-danger-border-color);
+}
