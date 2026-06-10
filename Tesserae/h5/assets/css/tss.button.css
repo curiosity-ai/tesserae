@@ -34,7 +34,6 @@ a {
     align-items: center;
     justify-content: center;
     box-shadow: var(--tss-shadow-sm);
-    transition: all 0.15s ease-in-out;
     font-weight: 500;
 }
 

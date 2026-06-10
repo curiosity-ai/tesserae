@@ -49,8 +49,10 @@ namespace Tesserae
 
             _header.addEventListener("click", _ =>
             {
-                if (_expandable) Toggle();
+                if (CanExpand) Toggle();
             });
+
+            UpdateExpandableUI();
         }
 
         /// <summary>
@@ -78,6 +80,10 @@ namespace Tesserae
         /// </summary>
         public bool    HasContent      => _contentFactory != null;
 
+        // The expand affordance (chevron + clickable header) is only rendered when there is
+        // actually something to show — a tool call without content stays a plain chip.
+        private bool   CanExpand       => _expandable && _contentFactory != null;
+
         /// <summary>
         /// Returns a fresh IComponent built from the content factory, or null
         /// if no factory was provided. Used by <see cref="ToolsUsed"/> to
@@ -96,6 +102,7 @@ namespace Tesserae
             _contentFactory  = contentFactory;
             _renderedContent = null;
             ClearChildren(_content);
+            UpdateExpandableUI();
             if (_isExpanded)
             {
                 EnsureContentRendered();
@@ -138,8 +145,7 @@ namespace Tesserae
         public ToolCall NotExpandable()
         {
             _expandable = false;
-            _chevron.style.display = "none";
-            _header.classList.add("tss-toolcall-not-expandable");
+            UpdateExpandableUI();
             return this;
         }
 
@@ -158,7 +164,7 @@ namespace Tesserae
         /// </summary>
         public ToolCall Expand()
         {
-            if (_isExpanded || !_expandable) return this;
+            if (_isExpanded || !CanExpand) return this;
             _isExpanded = true;
             EnsureContentRendered();
             UpdateExpandedState();
@@ -212,6 +218,14 @@ namespace Tesserae
             InnerElement.UpdateClassIf(_isExpanded, "tss-expanded");
             _content.style.display = _isExpanded ? "block" : "none";
             _header.setAttribute("aria-expanded", _isExpanded ? "true" : "false");
+        }
+
+        private void UpdateExpandableUI()
+        {
+            var canExpand = CanExpand;
+            _chevron.style.display = canExpand ? "" : "none";
+            _header.UpdateClassIf(!canExpand, "tss-toolcall-not-expandable");
+            if (!canExpand && _isExpanded) Collapse();
         }
 
         /// <summary>

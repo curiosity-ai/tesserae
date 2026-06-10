@@ -147,9 +147,9 @@ namespace Tesserae.Tests.Samples
                 Steps = steps,
                 StartedAt = planStatus == PlanStatus.Pending ? (DateTimeOffset?)null : DateTimeOffset.Now.AddMinutes(-3),
                 CompletedAt = allComplete ? DateTimeOffset.Now : (DateTimeOffset?)null,
-                FooterMessage = planStatus == PlanStatus.Running ? "117 searches" :
-                                planStatus == PlanStatus.Failed  ? "Aborted after error" :
+                FooterMessage = planStatus == PlanStatus.Failed  ? "Aborted after error" :
                                 planStatus == PlanStatus.Canceled ? "Canceled by user" : null,
+                Searches = planStatus == PlanStatus.Pending ? null : (allComplete ? "142 searches" : "117 searches"),
             };
         }
 
