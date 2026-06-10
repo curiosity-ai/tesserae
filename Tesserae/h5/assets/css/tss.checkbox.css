@@ -34,6 +34,10 @@
         display: block;
     }
 
+    .tss-checkbox-container:active:not(.tss-disabled) .tss-checkbox-mark {
+        transform: scale(0.9);
+    }
+
     .tss-checkbox-container input:checked ~ .tss-checkbox-mark {
         background-color: var(--tss-primary-background-color);
         border-color: var(--tss-primary-background-color);

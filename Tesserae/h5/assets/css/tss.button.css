@@ -35,7 +35,12 @@ a {
     justify-content: center;
     box-shadow: var(--tss-shadow-sm);
     font-weight: 500;
+    transition: transform 0.1s ease-in-out;
 }
+
+    .tss-btn:active:not(.tss-disabled):not(.tss-btn-link) {
+        transform: scale(0.97);
+    }
 
     .tss-btn.tss-text-ellipsis,
     .tss-btn.tss-text-nowrap,
@@ -482,7 +487,7 @@ a {
         }
 
 .tss-btn.tss-btn-filter-effects {
-    transition: filter 0.15s ease-in-out;
+    transition: filter 0.15s ease-in-out, transform 0.1s ease-in-out;
 }
 
     .tss-btn.tss-btn-filter-effects:hover,

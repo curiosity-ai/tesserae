@@ -29,6 +29,10 @@
         transform: scale(1.15);
     }
 
+    .tss-rating-star:active {
+        transform: scale(0.95);
+    }
+
 .tss-rating-readonly .tss-rating-star {
     cursor: default;
     pointer-events: none;

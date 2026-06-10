@@ -39,6 +39,11 @@
         border: 1px solid var(--tss-default-foreground-color);
         border-radius: 14px;
         box-sizing: content-box;
+        transition: transform 0.1s ease-in-out;
+    }
+
+    .tss-toggle-container:active:not(.tss-disabled) .tss-toggle-mark {
+        transform: scale(0.95);
     }
 
     .tss-toggle-container:hover .tss-toggle-mark {
