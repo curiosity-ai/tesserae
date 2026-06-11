@@ -569,6 +569,7 @@ namespace Tesserae
         private Action                    _hideModelPopover;
         private readonly HTMLDivElement _footer;
         private Func<Task<SearchQuery[]>> _historyFetcher;
+        private Action _hideSearchHistory;
         private Func<string, Task<OmniBoxSuggestionItem[]>> _suggestionsFetcher;
         private int _suggestionsDebounceTimeoutId = 0;
         private Action _hideSuggestions;
@@ -1453,9 +1454,41 @@ namespace Tesserae
             return null;
         }
 
+        // A query is only "special" (and therefore worth the highlighted pill rendering) when it
+        // contains a boolean operator (AND/OR/NOT, including the &&, ||, !, - forms), a parenthesis,
+        // or a quoted phrase. A plain term list such as "potato tomato" has nothing to highlight.
+        private static bool QueryHasSpecialTokens(List<SearchToken> tokens)
+        {
+            for (int i = 0; i < tokens.Count; i++)
+            {
+                switch (tokens[i].Type)
+                {
+                    case SearchToken.TokenType.And:
+                    case SearchToken.TokenType.Or:
+                    case SearchToken.TokenType.Not:
+                    case SearchToken.TokenType.ParenthesisOpen:
+                    case SearchToken.TokenType.ParenthesisClose:
+                    case SearchToken.TokenType.Quote:
+                        return true;
+                }
+            }
+            return false;
+        }
+
         private void RenderTokens(List<SearchToken> tokens)
         {
             ClearTokens();
+
+            // When there's nothing special in the query, render the text plainly (no pills/outlines)
+            // so the omnibox looks like a regular search box.
+            if (!QueryHasSpecialTokens(tokens))
+            {
+                for (int i = 0; i < tokens.Count; i++)
+                {
+                    _searchTokensContainer.appendChild(Span(_(text: tokens[i].Value)));
+                }
+                return;
+            }
 
             for (int i = 0; i < tokens.Count; i++)
             {
@@ -2631,10 +2664,19 @@ namespace Tesserae
 
         private async Task ShowSearchHistory()
         {
+            // Clicking the history button while the popup is already open toggles it closed
+            // instead of re-fetching and re-opening.
+            if (_hideSearchHistory != null)
+            {
+                _hideSearchHistory();
+                _hideSearchHistory = null;
+                return;
+            }
+
             try
             {
                 var query = await _historyFetcher();
-                
+
                 var content = VStack().NoDefaultMargin().W(450).MaxHeight(500.px()).ScrollY();
                 Action hide = null;
                 if (query.Length > 0)
@@ -2657,7 +2699,8 @@ namespace Tesserae
 
                 window.setTimeout(_ =>
                 {
-                    Tippy.ShowFor(_searchHistoryBtn, content, out hide, placement: TooltipPlacement.BottomStart, maxWidth: 500, delayHide: 500);
+                    Tippy.ShowFor(_searchHistoryBtn, content, out hide, placement: TooltipPlacement.BottomStart, maxWidth: 500, delayHide: 500, onHiddenCallback: () => _hideSearchHistory = null);
+                    _hideSearchHistory = hide;
                 }, 1);
             }
             catch (Exception ex)
