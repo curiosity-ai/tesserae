@@ -10,7 +10,7 @@ using static Tesserae.Tests.Samples.SamplesHelper;
 namespace Tesserae.Tests.Samples
 {
     [SampleDetails(Group = "Collections", Order = 0, Icon = UIcons.RulerVertical)]
-    public class ObservableStackSample : IComponent, ISample
+    public class KeyedObservableStackSample : IComponent, ISample
     {
         private readonly IComponent _content;
         private static int _elementIndex = 4;
@@ -41,22 +41,22 @@ namespace Tesserae.Tests.Samples
             }
         }
 
-        public ObservableStackSample()
+        public KeyedObservableStackSample()
         {
             _stackElementsList = new ObservableList<IComponentWithID>();
             _stackElementsList.ReplaceAll(Enumerable.Range(0, 4).Select(i => new StackElement(i.ToString(), $"Item {i}")).ToArray());
 
-            var obsStack = new ObservableStack(_stackElementsList, debounce: true);
+            var obsStack = new KeyedObservableStack(_stackElementsList, debounce: true);
 
             _content = SectionStack().Secondary()
-               .SampleTitle(typeof(ObservableStackSample), UIcons.Apps, "A stack that observes changes")
+               .SampleTitle(typeof(KeyedObservableStackSample), UIcons.Apps, "A stack that observes changes")
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
-                    TextBlock("ObservableStack is a specialized container that synchronizes its DOM with an observable list using an efficient reconciliation process."),
+                    TextBlock("KeyedObservableStack is a specialized container that synchronizes its DOM with an observable list using an efficient reconciliation process."),
                     TextBlock("Instead of re-rendering the entire list when a change occurs, it identifies which elements were added, removed, or moved by comparing their unique Identifiers and ContentHashes. This makes it ideal for high-performance lists where preserving scroll position or component state is important."))).SetTitle("Overview")))
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
-                    TextBlock("Use ObservableStack when your list data changes frequently or when you want smooth transitions for moved items. Ensure each item implements 'IComponentWithID' correctly, providing a stable 'Identifier' and a 'ContentHash' that reflects any changes in the item's data. Avoid frequent full-list replacements if only a few items have changed. Leverage the reconciliation behavior to keep the DOM footprint minimal and performance high."))).SetTitle("Best Practices")))
+                    TextBlock("Use KeyedObservableStack when your list data changes frequently or when you want smooth transitions for moved items. Ensure each item implements 'IComponentWithID' correctly, providing a stable 'Identifier' and a 'ContentHash' that reflects any changes in the item's data. Avoid frequent full-list replacements if only a few items have changed. Leverage the reconciliation behavior to keep the DOM footprint minimal and performance high."))).SetTitle("Best Practices")))
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     SampleSubTitle("Interactive Reconciliation Demo"),

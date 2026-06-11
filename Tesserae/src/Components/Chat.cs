@@ -14,7 +14,7 @@ namespace Tesserae
     {
         private HTMLElement _innerElement;
         private ObservableList<IComponentWithID> _messages;
-        private ObservableStack _stack;
+        private KeyedObservableStack _stack;
 
         private bool _stopAutoScroll = false;
         private string _bubbleBackground = null;
@@ -39,7 +39,7 @@ namespace Tesserae
         {
             _messages = new ObservableList<IComponentWithID>();
 
-            _stack = new ObservableStack(_messages, Stack.Orientation.Vertical, debounce: false).S();
+            _stack = new KeyedObservableStack(_messages, Stack.Orientation.Vertical, debounce: false).S();
 
             _innerElement = Div(_("tss-chatarea"), _stack.Render());
 

@@ -1,619 +1,143 @@
-using H5;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using static H5.Core.dom;
 using static Tesserae.UI;
-using Orientation = Tesserae.Stack.Orientation;
 
 namespace Tesserae
 {
     /// <summary>
-    /// A Stack whose children are driven by an <see cref="ObservableList{T}"/> of
-    /// <see cref="IComponentWithID"/>. On every change it performs a keyed reconcile against the live
-    /// DOM rather than rebuilding: existing children are matched by their string <c>Identifier</c>, a
-    /// matched child is re-rendered (<c>replaceChild</c>) only when its <c>ContentHash</c> changes,
-    /// surviving children are reordered to match the new sequence, dropped items are removed and new
-    /// items inserted. Changes are debounced by default.
+    /// A list container that keeps a <see cref="Stack"/> in sync with an observable list of items by
+    /// performing a minimal, reference-keyed diff (common-prefix / common-suffix matching). Only the
+    /// rows whose backing item actually changed are removed or re-created; rows whose item is
+    /// unchanged keep their existing rendered <see cref="IComponent"/>, and therefore their DOM
+    /// identity, focus and scroll state. This avoids the full subtree rebuild that re-rendering the
+    /// whole list (e.g. with Defer) would cause.
+    ///
+    /// Items are matched by reference (<see cref="object.ReferenceEquals(object, object)"/>), so the
+    /// observable must surface the same item instances across changes for the rows that should be
+    /// preserved. A matched row keeps its existing component rather than being rebuilt, so per-row
+    /// content is expected to refresh through the component's own observation rather than re-creation.
     /// </summary>
     /// <remarks>
-    /// Use this when your items are (or can cheaply be) rendered components that each expose a stable
-    /// key and a content hash, and you want reordering and/or content-hash-driven replacement (e.g. a
-    /// server-driven or streaming list such as <c>Chat</c>).
-    ///
-    /// For the complementary case, see <see cref="ReconcilingStack{T}"/>: it keys data models by
-    /// reference identity, builds each row lazily via a factory, and never replaces a matched row (rows
-    /// refresh their own content via observation). Prefer that when items are data objects identified by
-    /// reference and each row is a self-managing component you do not want rebuilt. Note that it only
+    /// This is the reference-keyed counterpart to <see cref="KeyedObservableStack"/>. Use
+    /// <see cref="ObservableStack{T}"/> when you have a list of data models with stable instance
+    /// identity (matched by reference), want each row built lazily from a factory, and want matched
+    /// rows preserved across updates. Use <see cref="KeyedObservableStack"/> instead when the source
+    /// surfaces logically-equal-but-different instances that must still be matched (it keys pre-built
+    /// <see cref="IComponentWithID"/> components by a stable string key plus a content hash), or when
+    /// you need reordering or content-hash-driven re-rendering. <see cref="ObservableStack{T}"/> only
     /// diffs a common prefix/suffix, so a reorder of interior rows rebuilds that span, whereas
-    /// <see cref="ObservableStack"/> handles arbitrary reorders.
+    /// <see cref="KeyedObservableStack"/> handles arbitrary reorders.
     /// </remarks>
-    [H5.Name("tss.OS")]
-    public class ObservableStack : IComponent, IHasBackgroundColor, IHasMarginPadding, ISpecialCaseStyling, ICanWrap
+    [H5.Name("tss.ObservableStack")]
+    public sealed class ObservableStack<T> : IComponent where T : class
     {
-        /// <summary>
-        /// Gets or sets the stack orientation.
-        /// </summary>
-        public Orientation StackOrientation
-        {
-            get
-            {
-                switch (InnerElement.style.flexDirection)
-                {
-                    case "row":            return Orientation.Horizontal;
-                    case "column":         return Orientation.Vertical;
-                    case "row-reverse":    return Orientation.HorizontalReverse;
-                    case "column-reverse": return Orientation.VerticalReverse;
-                }
+        private readonly Stack                                          _host;
+        private readonly Func<T, IComponent>                            _renderItem;
+        private readonly List<Row>                                      _rows = new List<Row>();
+        private readonly IObservable<IReadOnlyList<T>>                  _source;
+        private readonly ObservableEvent.ValueChanged<IReadOnlyList<T>> _handler;
 
-                return Orientation.Vertical;
-            }
-            set
-            {
-                switch (value)
-                {
-                    case Orientation.Horizontal:
-                        InnerElement.style.flexDirection = "row";
-                        break;
-                    case Orientation.Vertical:
-                        InnerElement.style.flexDirection = "column";
-                        break;
-                    case Orientation.HorizontalReverse:
-                        InnerElement.style.flexDirection = "row-reverse";
-                        break;
-                    case Orientation.VerticalReverse:
-                        InnerElement.style.flexDirection = "column-reverse";
-                        break;
-                }
-            }
+        /// <summary>
+        /// Creates a list that reconciles <paramref name="source"/> into <paramref name="host"/>.
+        /// </summary>
+        /// <param name="source">The observable list of items to render. Reconciliation runs immediately with the current value and on every future change.</param>
+        /// <param name="renderItem">Factory invoked once per newly-inserted item to build its component.</param>
+        /// <param name="host">The Stack the rows are rendered into. Defaults to a vertical Stack.</param>
+        public ObservableStack(IObservable<IReadOnlyList<T>> source, Func<T, IComponent> renderItem, Stack host = null)
+        {
+            _source     = source     ?? throw new ArgumentNullException(nameof(source));
+            _renderItem = renderItem ?? throw new ArgumentNullException(nameof(renderItem));
+            _host       = host ?? VStack();
+
+            _handler = Reconcile;
+            _source.Observe(_handler);
+
+            DomObserver.WhenRemoved(_host.Render(), () => _source.StopObserving(_handler));
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the component's text can wrap onto multiple lines.
+        /// Renders the host element.
         /// </summary>
-        public bool CanWrap
+        public HTMLElement Render() => _host.Render();
+
+        private void Reconcile(IReadOnlyList<T> next)
         {
-            get => InnerElement.style.flexWrap != "nowrap";
-            set => InnerElement.style.flexWrap = value ? "wrap" : "nowrap";
-        }
-
-        /// <summary>
-        /// Returns a value indicating whether the component is inline.
-        /// </summary>
-        public bool IsInline
-        {
-            get => InnerElement.style.display == "inline-flex";
-            set => InnerElement.style.display = value ? "inline-flex" : "";
-        }
-
-        /// <summary>
-        /// Gets the underlying DOM element backing this component.
-        /// </summary>
-        public HTMLElement InnerElement { get;                                  private set; }
-        /// <summary>
-        /// Gets or sets the CSS background of the component.
-        /// </summary>
-        public string      Background   { get => InnerElement.style.background; set => InnerElement.style.background = value; }
-        /// <summary>
-        /// Gets or sets the CSS margin of the component.
-        /// </summary>
-        public string      Margin       { get => InnerElement.style.margin;     set => InnerElement.style.margin = value; }
-        /// <summary>
-        /// Gets or sets the CSS padding of the component.
-        /// </summary>
-        public string      Padding      { get => InnerElement.style.padding;    set => InnerElement.style.padding = value; }
-
-        /// <summary>
-        /// Gets or sets the styling container.
-        /// </summary>
-        public HTMLElement StylingContainer => InnerElement;
-
-        /// <summary>
-        /// Gets or sets the propagate to stack item parent.
-        /// </summary>
-        public bool PropagateToStackItemParent { get; private set; } = true;
-
-
-        /// <summary>
-        /// Sets the align-items css property for this stack
-        /// </summary>
-        /// <param name="align"></param>
-        /// <returns></returns>
-        public ObservableStack AlignItems(ItemAlign align)
-        {
-            string cssAlign                                        = align.ToString();
-            if (cssAlign == "end" || cssAlign == "start") cssAlign = $"flex-{cssAlign}";
-            InnerElement.style.alignItems = cssAlign;
-            return this;
-        }
-
-        /// <summary>
-        /// Sets the align-items css property for this stack to 'center'
-        /// </summary>
-        /// <param name="align"></param>
-        /// <returns></returns>
-        public ObservableStack AlignItemsCenter() => AlignItems(ItemAlign.Center);
-
-        /// <summary>
-        /// Make this stack relative (i.e. position:relative)
-        /// </summary>
-        /// <returns></returns>
-        public ObservableStack Relative()
-        {
-            InnerElement.classList.add("tss-relative");
-            return this;
-        }
-
-        /// <summary>
-        /// Sets the align-content CSS property for this stack.
-        /// </summary>
-        /// <param name="align">The alignment.</param>
-        /// <returns>The current instance.</returns>
-        public ObservableStack AlignContent(ItemAlign align)
-        {
-            string cssAlign                                        = align.ToString().ToLower();
-            if (cssAlign == "end" || cssAlign == "start") cssAlign = $"flex-{cssAlign}";
-            InnerElement.style.alignContent = cssAlign;
-            return this;
-        }
-
-        /// <summary>
-        /// Sets the justify-content CSS property for this stack.
-        /// </summary>
-        /// <param name="justify">The justification.</param>
-        /// <returns>The current instance.</returns>
-        public ObservableStack JustifyContent(ItemJustify justify)
-        {
-            string cssJustify                                                                           = justify.ToString().ToLower();
-            if (cssJustify == "end"     || cssJustify == "start") cssJustify                            = $"flex-{cssJustify}";
-            if (cssJustify == "between" || cssJustify == "around" || cssJustify == "evenly") cssJustify = $"space-{cssJustify}";
-            InnerElement.style.justifyContent = cssJustify;
-            return this;
-        }
-
-        /// <summary>
-        /// Sets the justify-items CSS property for this stack.
-        /// </summary>
-        /// <param name="justify">The justification.</param>
-        /// <returns>The current instance.</returns>
-        public ObservableStack JustifyItems(ItemJustify justify)
-        {
-            string cssJustify                                                                           = justify.ToString().ToLower();
-            if (cssJustify == "end"     || cssJustify == "start") cssJustify                            = $"flex-{cssJustify}";
-            if (cssJustify == "between" || cssJustify == "around" || cssJustify == "evenly") cssJustify = $"space-{cssJustify}";
-            InnerElement.style.justifyItems = cssJustify;
-            return this;
-        }
-
-        /// <summary>
-        /// Removes the given propagation from the component.
-        /// </summary>
-        public ObservableStack RemovePropagation()
-        {
-            PropagateToStackItemParent = false;
-            return this;
-        }
-
-        private ObservableList<IComponentWithID> _observableList;
-
-        private class ExistingStackElement
-        {
-            /// <summary>
-            /// Gets or sets the identifier.
-            /// </summary>
-            public string      Identifier      { get; set; }
-            /// <summary>
-            /// Gets or sets the content hash.
-            /// </summary>
-            public string      ContentHash     { get; set; }
-            /// <summary>
-            /// Gets or sets the rendered element.
-            /// </summary>
-            public HTMLElement RenderedElement { get; set; }
-            /// <summary>
-            /// Gets or sets the index.
-            /// </summary>
-            public int         Index           { get; set; }
-        }
-
-        private void ReconcileChildren(IReadOnlyList<IComponentWithID> newChildren)
-        {
-            var parent = InnerElement;
-
             var selectedElement = document.activeElement;
-            if (selectedElement is object && !parent.contains(selectedElement))
+            if (selectedElement is object && !_host.InnerElement.contains(selectedElement))
             {
                 selectedElement = null;
             }
 
-            var currentKeyMap = new Dictionary<string, ExistingStackElement>();
-
-            var index                = 0;
-            var currentChildrenArray = parent.querySelectorAll(":scope > [data-tssid]").ToArray();
-
-            foreach (var renderedElement in currentChildrenArray)
+            if (next is null)
             {
-                var dataset     = renderedElement.As<HTMLElement>().dataset;
-                var identifier  = dataset["tssid"].As<string>();
-                var contentHash = dataset["tsshash"].As<string>();
-
-                currentKeyMap.Add(identifier, new ExistingStackElement()
-                {
-                    Identifier      = identifier,
-                    ContentHash     = contentHash,
-                    RenderedElement = renderedElement.As<HTMLElement>(),
-                    Index           = index,
-                });
-
-                index++;
+                next = Array.Empty<T>();
             }
 
-            int lastIndex            = 0;
-            var processedIdentifiers = new HashSet<string>();
+            int oldN = _rows.Count;
+            int newN = next.Count;
 
-            var addedElementsToInsert = new List<(int position, IComponentWithID component)>();
+            int p = 0;
 
-            for (int newIdx = 0; newIdx < newChildren.Count; newIdx++)
+            while (p < oldN && p < newN && ReferenceEquals(_rows[p].Item, next[p]))
             {
-                IComponentWithID newChild   = newChildren[newIdx];
-                string           identifier = newChild.Identifier;
+                p++;
+            }
 
-                if (currentKeyMap.TryGetValue(identifier, out var existingChild))
+            int s = 0;
+
+            while (s < oldN - p && s < newN - p && ReferenceEquals(_rows[oldN - 1 - s].Item, next[newN - 1 - s]))
+            {
+                s++;
+            }
+
+            int removeCount = oldN - s - p;
+            int insertCount = newN - s - p;
+
+            for (int i = 0; i < removeCount; i++)
+            {
+                _host.Remove(_rows[p].Component);
+                _rows.RemoveAt(p);
+            }
+
+            IComponent insertBefore = (p < _rows.Count)
+                ? _rows[p].Component
+                : null;
+
+            for (int k = 0; k < insertCount; k++)
+            {
+                int        newIndex  = p + k;
+                T          item      = next[newIndex];
+                IComponent component = _renderItem(item);
+
+                if (insertBefore != null)
                 {
-                    processedIdentifiers.Add(identifier);
-
-                    if (existingChild.ContentHash != newChild.ContentHash)
-                    {
-                        var newItem = GetItem(newChild);
-
-                        parent.replaceChild(newItem, existingChild.RenderedElement);
-                        existingChild.RenderedElement = newItem;
-                    }
-
-                    int oldIndex = currentKeyMap[identifier].Index;
-
-                    if (oldIndex < lastIndex)
-                    {
-                        if (lastIndex >= parent.children.length)
-                        {
-                            parent.appendChild(existingChild.RenderedElement);
-                        }
-                        else
-                        {
-                            parent.insertBefore(existingChild.RenderedElement, parent.children[(uint)lastIndex + 1]);
-                        }
-                    }
-                    else
-                    {
-                        lastIndex = oldIndex;
-                    }
+                    _host.InsertBefore(component, insertBefore);
                 }
                 else
                 {
-                    addedElementsToInsert.Add((newIdx, newChild));
+                    _host.Add(component);
                 }
+
+                _rows.Insert(newIndex, new Row(item, component));
             }
 
-            foreach (var entry in currentKeyMap)
-            {
-                if (!processedIdentifiers.Contains(entry.Key))
-                {
-                    parent.removeChild(entry.Value.RenderedElement);
-                }
-            }
-
-            foreach (var (position, component) in addedElementsToInsert.OrderBy(x => x.position))
-            {
-                var newItem = GetItem(component);
-
-                var currentNodeAt = parent.children[(uint)position].As<HTMLElement>();
-
-                if (currentNodeAt != null)
-                {
-                    parent.insertBefore(newItem, currentNodeAt);
-                }
-                else
-                {
-                    parent.appendChild(newItem);
-                }
-            }
-
-            if (selectedElement is object && parent.contains(selectedElement))
+            if (selectedElement is object && _host.InnerElement.contains(selectedElement))
             {
                 selectedElement.As<HTMLElement>().focus();
             }
         }
-        /// <summary>
-        /// Initializes a new instance of this class.
-        /// </summary>
-        public ObservableStack(ObservableList<IComponentWithID> observableList, Orientation orientation = Orientation.Vertical, bool debounce = true)
+
+        private readonly struct Row
         {
-            InnerElement     = Div(_("tss-stack"));
-            StackOrientation = orientation;
-            _observableList  = observableList;
-
-            if (debounce)
+            public Row(T item, IComponent component)
             {
-                var debouncer = new DebouncerWithMaxDelay(() =>
-                {
-                    ReconcileChildren(_observableList.Value);
-                }, delayInMs: 16, maxDelayInMs: 300);
+                Item      = item;
+                Component = component;
+            }
 
-                _observableList.Observe(currentValues =>
-                {
-                    debouncer.RaiseOnValueChanged();
-                });
-            }
-            else
-            {
-                _observableList.Observe(currentValues =>
-                {
-                    ReconcileChildren(currentValues);
-                });
-            }
+            public T          Item      { get; }
+            public IComponent Component { get; }
         }
-
-        private event ComponentEventHandler<ObservableStack, Event> MouseOver;
-        private event ComponentEventHandler<ObservableStack, Event> MouseOut;
-
-        private void RaiseMouseOver(Event ev) => MouseOver?.Invoke((ObservableStack)this, ev);
-        private void RaiseMouseOut(Event  ev) => MouseOut?.Invoke((ObservableStack)this, ev);
-
-        /// <summary>
-        /// Registers a callback invoked when the mouse over event fires.
-        /// </summary>
-        public ObservableStack OnMouseOver(ComponentEventHandler<ObservableStack, Event> onMouseOver)
-        {
-            if (!(InnerElement.onmouseover is object))
-            {
-                InnerElement.onmouseover += s => RaiseMouseOver(s);
-            }
-
-            MouseOver += onMouseOver;
-            return (ObservableStack)this;
-        }
-
-        /// <summary>
-        /// Registers a callback invoked when the mouse out event fires.
-        /// </summary>
-        public ObservableStack OnMouseOut(ComponentEventHandler<ObservableStack, Event> onMouseOut)
-        {
-            if (!(InnerElement.onmouseout is object))
-            {
-                InnerElement.onmouseout += s => RaiseMouseOut(s);
-            }
-
-            MouseOut += onMouseOut;
-            return (ObservableStack)this;
-        }
-
-
-        /// <summary>
-        /// Clears the component's current state.
-        /// </summary>
-        public virtual void Clear() => ClearChildren(InnerElement);
-
-        /// <summary>
-        /// Renders the component's root HTML element.
-        /// </summary>
-        public virtual HTMLElement Render() => InnerElement;
-
-        /// <summary>
-        /// Configures the component to horizontal.
-        /// </summary>
-        public ObservableStack Horizontal()
-        {
-            StackOrientation = Stack.Orientation.Horizontal;
-            return this;
-        }
-
-        /// <summary>
-        /// Configures the component to vertical.
-        /// </summary>
-        public ObservableStack Vertical()
-        {
-            StackOrientation = Stack.Orientation.Vertical;
-            return this;
-        }
-
-        /// <summary>
-        /// Configures the horizontal reverse on the component.
-        /// </summary>
-        public ObservableStack HorizontalReverse()
-        {
-            StackOrientation = Stack.Orientation.HorizontalReverse;
-            return this;
-        }
-
-        /// <summary>
-        /// Configures the vertical reverse on the component.
-        /// </summary>
-        public ObservableStack VerticalReverse()
-        {
-            StackOrientation = Stack.Orientation.VerticalReverse;
-            return this;
-        }
-
-        /// <summary>
-        /// Allows the component's content to wrap onto multiple lines.
-        /// </summary>
-        public ObservableStack Wrap()
-        {
-            CanWrap = true;
-            return this;
-        }
-
-        /// <summary>
-        /// Renders the component inline.
-        /// </summary>
-        public ObservableStack Inline()
-        {
-            IsInline = true;
-            return this;
-        }
-
-        /// <summary>
-        /// Removes / disables the wrap on the component.
-        /// </summary>
-        public ObservableStack NoWrap()
-        {
-            CanWrap = false;
-            return this;
-        }
-
-        /// <summary>
-        /// Hides any content that overflows the component's bounds.
-        /// </summary>
-        public ObservableStack OverflowHidden()
-        {
-            InnerElement.style.overflow = "hidden";
-            return this;
-        }
-        /// <summary>
-        /// Removes / disables the default margin on the component.
-        /// </summary>
-        public ObservableStack NoDefaultMargin()
-        {
-            InnerElement.classList.add("tss-default-component-no-margin");
-            return this;
-        }
-
-        internal static HTMLElement GetItem(IComponentWithID component)
-        {
-            var rendered = component.Render();
-
-            var item = Div(_("tss-stack-item", styles: s =>
-            {
-                s.alignSelf  = "auto";
-                s.width      = "auto";
-                s.height     = "auto";
-                s.flexShrink = "1";
-            }), rendered);
-
-
-            item.dataset["tssid"]   = component.Identifier;
-            item.dataset["tsshash"] = component.ContentHash;
-
-            CopyStylesDefinedWithExtension(rendered, item);
-            return item;
-        }
-
-        internal static void CopyStylesDefinedWithExtension(HTMLElement from, HTMLElement to)
-        {
-            // RFO: this class does some magic to move any styles applied to an element using the extensions methods like Width, etc... to the actual StackItem HTML element
-            // so that they're relevant on the flex-box and not only inside of each child item of the flexbox
-
-            var fs = from.style;
-            var ts = to.style;
-
-            bool has(string att)
-            {
-                bool ha = from.hasAttribute(att);
-
-                if (ha)
-                {
-                    from.removeAttribute(att);
-                }
-                return ha;
-            }
-
-            if (has("tss-stk-w"))
-            {
-                ts.width = fs.width;
-                fs.width = "100%";
-            }
-
-            if (has("tss-stk-h"))
-            {
-                ts.height = fs.height;
-                fs.height = "100%";
-            }
-
-            if (has("tss-stk-mw"))
-            {
-                ts.minWidth = fs.minWidth;
-                fs.minWidth = fs.minWidth.Contains("%") ? "100%" : "inherit";
-            }
-
-            if (has("tss-stk-mxw"))
-            {
-                ts.maxWidth = fs.maxWidth;
-                fs.maxWidth = fs.maxWidth.Contains("%") ? "100%" : "inherit";
-            }
-
-            if (has("tss-stk-mh"))
-            {
-                ts.minHeight = fs.minHeight;
-                fs.minHeight = fs.minHeight.Contains("%") ? "100%" : "inherit";
-            }
-
-            if (has("tss-stk-mxh"))
-            {
-                ts.maxHeight = fs.maxHeight;
-                fs.maxHeight = fs.maxHeight.Contains("%") ? "100%" : "inherit";
-            }
-
-            if (has("tss-stk-m"))
-            {
-                ts.marginLeft   = fs.marginLeft;
-                ts.marginTop    = fs.marginTop;
-                ts.marginRight  = fs.marginRight;
-                ts.marginBottom = fs.marginBottom;
-                fs.marginLeft   = fs.marginTop = fs.marginRight = fs.marginBottom = "";
-            }
-
-            if (has("tss-stk-p"))
-            {
-                ts.paddingLeft   = fs.paddingLeft;
-                ts.paddingTop    = fs.paddingTop;
-                ts.paddingRight  = fs.paddingRight;
-                ts.paddingBottom = fs.paddingBottom;
-                fs.paddingLeft   = fs.paddingTop = fs.paddingRight = fs.paddingBottom = "";
-            }
-
-            //TODO: check if should clear this here:
-            if (has("tss-stk-fg")) { ts.flexGrow = fs.flexGrow; /*fs.flexGrow = ""; */ }
-
-            if (has("tss-stk-fs")) { ts.flexShrink = fs.flexShrink; /*fs.flexShrink = ""; */ }
-
-            if (has("tss-stk-as")) { ts.alignSelf = fs.alignSelf; /*fs.alignSelf = "";*/ }
-            if (has("tss-stk-js")) { ts.justifySelf = fs.justifySelf; /*fs.alignSelf = "";*/ }
-
-            //We need to propagate some styles otherwise they don't work if they were applied before adding to the stack
-            foreach (var s in _stylesToPropagate)
-            {
-                if (from.classList.contains(s))
-                {
-                    from.classList.remove(s);
-                    to.classList.add(s);
-                }
-            }
-        }
-
-        private static readonly string[] _stylesToPropagate = new[] { "tss-default-component-margin", "tss-collapse", "tss-fade-light", "tss-fade", "tss-show" };
-
-        /// <summary>
-        /// Configures the component to skeleton.
-        /// </summary>
-        public IComponent Skeleton(bool enabled = true)
-        {
-            if (enabled)
-            {
-                InnerElement.classList.add("tss-skeleton");
-            }
-            else
-            {
-                InnerElement.classList.remove("tss-skeleton");
-            }
-
-            return this;
-        }
-    }
-
-    [H5.Name("tss.ICID")]
-    public interface IComponentWithID : IComponent
-    {
-        string Identifier  { get; }
-        string ContentHash { get; }
     }
 }
