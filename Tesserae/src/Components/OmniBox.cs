@@ -992,6 +992,7 @@ namespace Tesserae
                 _chatInput.addEventListener("input", (e) =>
                 {
                     UpdateChatTriggerActiveState();
+                    ResizeChatInput();
                     Input?.Invoke(this, e);
                 });
                 _chatInput.addEventListener("keyup", (e) => KeyUp?.Invoke(this, e.As<KeyboardEvent>()));
@@ -1000,6 +1001,9 @@ namespace Tesserae
                 _chatInput.addEventListener("blur", (e) => LostFocus?.Invoke(this, e));
 
                 _chatContainer = Div(_("tss-omnibox-chat-container"), _chatInput);
+
+                // Size the input to its content once it's in the DOM (and whenever it's re-shown).
+                DomObserver.WhenMounted(_chatInput, ResizeChatInput);
 
                 _chatTriggerBtn = Button().SetIcon(config.IconChat).Class("tss-omnibox-chat-btn").OnClick(TriggerChat);
 
@@ -2133,6 +2137,7 @@ namespace Tesserae
             Chatted?.Invoke(this, new ChatMessage() { Text = val });
             _chatInput.value = "";
             UpdateChatTriggerActiveState();
+            ResizeChatInput();
         }
 
         private void UpdateChatTriggerActiveState()
@@ -2142,6 +2147,31 @@ namespace Tesserae
             var el = _chatTriggerBtn.Render();
             if (hasText) el.classList.add("tss-omnibox-chat-btn-active");
             else el.classList.remove("tss-omnibox-chat-btn-active");
+        }
+
+        // Maximum height (in px) the chat input grows to before it starts scrolling internally.
+        private const int chatInputMaxHeight = 200;
+
+        // Grows/shrinks the chat textarea to fit its content (so wrapped long text expands onto new
+        // lines instead of scrolling horizontally), capped at chatInputMaxHeight where it scrolls.
+        private void ResizeChatInput()
+        {
+            if (_chatInput == null) return;
+
+            // Reset to auto so scrollHeight reflects the content height, not the current box height.
+            _chatInput.style.height = "auto";
+            var contentHeight = _chatInput.scrollHeight;
+
+            if (contentHeight > chatInputMaxHeight)
+            {
+                _chatInput.style.height = chatInputMaxHeight + "px";
+                _chatInput.style.overflowY = "auto";
+            }
+            else
+            {
+                _chatInput.style.height = contentHeight + "px";
+                _chatInput.style.overflowY = "hidden";
+            }
         }
 
         private void TriggerStop()
@@ -2768,6 +2798,7 @@ namespace Tesserae
             {
                 _chatInput.value = value;
                 UpdateChatTriggerActiveState();
+                ResizeChatInput();
                 Input?.Invoke(this, null);
             }
         }
