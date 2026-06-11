@@ -269,6 +269,7 @@
 .tss-omnibox-chat-input {
     width: 100%;
     flex-grow: 1;
+    box-sizing: border-box;
     border: none;
     background: transparent;
     color: var(--tss-default-foreground-color);
@@ -278,8 +279,11 @@
     margin: 0;
     font-size: 14px;
     font-family: inherit;
+    line-height: 20px;
     z-index: 2;
-    white-space: pre;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    overflow-y: hidden;
     resize: none;
 }
 
