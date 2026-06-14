@@ -35,6 +35,7 @@ namespace Tesserae
         private          bool                                            _isHidden;
         private          bool                                            _isSortable    = false;
         private          string                                          _sortableGroup = null;
+        private          string                                          _extraClass;
 
         private List<string> _itemOrder = new List<string>();
 
@@ -172,6 +173,16 @@ namespace Tesserae
             _lastClosed?.Collapse();
             _isHidden = true;
         }
+
+        public SidebarNav Class(string className)
+        {
+            _lastOpen?.Class(className);
+            _lastClosed?.Class(className);
+            _extraClass = className;
+            return this;
+        }
+
+
         /// <summary>
         /// Marks the navigation component as not sortable.
         /// </summary>
@@ -407,7 +418,7 @@ namespace Tesserae
                 });
             });
 
-            var comp = Raw(nav);
+            var comp = Raw(nav).Class(_extraClass);
             _lastOpen = comp;
             _onRendered?.Invoke(_openHeader);
 
@@ -499,7 +510,7 @@ namespace Tesserae
                 });
             });
 
-            var comp = Raw(nav);
+            var comp = Raw(nav).Class(_extraClass);
             _lastClosed = comp;
             _onRendered?.Invoke(_closedHeader.Render());
 

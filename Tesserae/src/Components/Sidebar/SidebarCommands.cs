@@ -15,6 +15,8 @@ namespace Tesserae
         private          bool             _isEndAligned;
         private          bool             _isHidden;
         private          bool             _notSortable;
+        private          string           _extraClass;
+
 
         public SidebarCommands(string identifier, params SidebarCommand[] commands)
         {
@@ -144,6 +146,13 @@ namespace Tesserae
             _isHidden = true;
         }
 
+        public SidebarCommands Class(string className)
+        {
+            CurrentRendered?.Class(className);
+            _extraClass = className;
+            return this;
+        }
+
         /// <summary>Renders all commands for the open state without truncation.</summary>
         public IComponent RenderOpenFull()
         {
@@ -172,7 +181,7 @@ namespace Tesserae
                 }
             });
 
-            CurrentRendered = divWrapped;
+            CurrentRendered = divWrapped.Class(_extraClass);
 
             if (_isHidden)
             {
@@ -242,7 +251,7 @@ namespace Tesserae
                 }, Sidebar.SIDEBAR_TRANSITION_TIME);
             });
 
-            CurrentRendered = divWrapped;
+            CurrentRendered = divWrapped.Class(_extraClass);
 
             if (_isHidden)
             {
@@ -284,6 +293,5 @@ namespace Tesserae
         {
             Identifier = groupIdentifier + Sidebar.GroupIdentifierSeparator + Identifier;
         }
-
     }
 }

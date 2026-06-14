@@ -164,6 +164,14 @@ namespace Tesserae
             _open.Collapse();
         }
 
+        public SidebarButton Class(string className)
+        {
+            _closedButton.Class(className);
+            _open.Class(className);
+            return this;
+        }
+
+
         /// <summary>
         /// Marks the button as not sortable.
         /// </summary>

@@ -85,6 +85,8 @@ namespace Tesserae
         /// <returns></returns>
         public static T Class<T>(this T component, string className) where T : IComponent
         {
+            if (className is null) return component;
+
             var el = component is DeferedComponent deferedComponent
                 ? deferedComponent.Container
                 : component.Render();
@@ -123,6 +125,8 @@ namespace Tesserae
         /// <returns></returns>
         public static T RemoveClass<T>(this T component, string className) where T : IComponent
         {
+            if (className is null) return component;
+
             var el = component is DeferedComponent deferedComponent
                 ? deferedComponent.Container
                 : component.Render();
