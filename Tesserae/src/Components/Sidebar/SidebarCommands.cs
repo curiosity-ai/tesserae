@@ -117,7 +117,8 @@ namespace Tesserae
                     }
                 });
             });
-            CurrentRendered = divWrapped;
+
+            CurrentRendered = divWrapped.Class(_extraClass);
 
             if (_isHidden)
             {
