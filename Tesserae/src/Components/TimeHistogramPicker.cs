@@ -54,6 +54,13 @@ namespace Tesserae
         private const double Month       = 30 * Day;
         private const double Year        = 365 * Day;
 
+        // Mirrors the bars layout in tss.timehistogrampicker.css: each bar is at least
+        // MinBarWidth wide with BarGap between bars, and the bars container is inset by
+        // HorizontalInset on each side. Used to work out how many bars actually fit.
+        private const double MinBarWidth     = 2;
+        private const double BarGap          = 2;
+        private const double HorizontalInset = 8;
+
         private readonly HTMLDivElement            _container;
         private readonly HTMLDivElement            _histogram;
         private readonly HTMLDivElement            _track;
@@ -64,10 +71,13 @@ namespace Tesserae
         private readonly HTMLDivElement            _axis;
         private readonly HTMLSpanElement           _axisStart;
         private readonly HTMLSpanElement           _axisEnd;
-        private readonly List<TimeHistogramBucket> _buckets = new List<TimeHistogramBucket>();
-        private readonly List<HTMLDivElement>      _bars    = new List<HTMLDivElement>();
+        private readonly List<TimeHistogramBucket> _sourceBuckets = new List<TimeHistogramBucket>();
+        private readonly List<TimeHistogramBucket> _buckets       = new List<TimeHistogramBucket>();
+        private readonly List<HTMLDivElement>      _bars          = new List<HTMLDivElement>();
+        private readonly ResizeObserver            _resizeObserver;
 
         private DateTime[]                      _values = new DateTime[0];
+        private int                             _appliedFit = -1;
         private int                             _maxBuckets;
         private int                             _selectedStartIndex;
         private int                             _selectedEndIndex;
@@ -108,6 +118,12 @@ namespace Tesserae
             HookKeyboardEvents(_rightThumb, false);
 
             SetValues(values);
+
+            // Re-bucket once the real width is known and whenever it changes, so the number of
+            // rendered bars is always small enough to fit the chart instead of overflowing it.
+            _resizeObserver = new ResizeObserver((entries, obs) => RefitToWidth());
+            _resizeObserver.observe(_histogram);
+            DomObserver.WhenRemoved(_container, () => _resizeObserver.unobserve(_histogram));
         }
 
         /// <summary>
@@ -154,11 +170,11 @@ namespace Tesserae
         {
             _usesPrecomputedBuckets = true;
             _values                 = new DateTime[0];
-            _buckets.Clear();
+            _sourceBuckets.Clear();
 
             foreach (var bucket in (buckets ?? new TimeHistogramBucket[0]).Where(b => b != null).OrderBy(b => b.Start).ThenBy(b => b.End))
             {
-                _buckets.Add(new TimeHistogramBucket(bucket.Start, bucket.End, Math.Max(0, bucket.Count)));
+                _sourceBuckets.Add(new TimeHistogramBucket(bucket.Start, bucket.End, Math.Max(0, bucket.Count)));
             }
 
             ResetSelection();
@@ -204,11 +220,13 @@ namespace Tesserae
             if (!_usesPrecomputedBuckets)
             {
                 BuildBuckets();
-                _selectedStartIndex = _buckets.Count == 0 ? -1 : Math.Min(_selectedStartIndex,                              _buckets.Count - 1);
-                _selectedEndIndex   = _buckets.Count == 0 ? -1 : Math.Min(Math.Max(_selectedEndIndex, _selectedStartIndex), _buckets.Count - 1);
-                RenderBuckets();
-                UpdateSelection(true);
             }
+
+            RebuildDisplayBuckets();
+            _selectedStartIndex = _buckets.Count == 0 ? -1 : Math.Min(_selectedStartIndex,                              _buckets.Count - 1);
+            _selectedEndIndex   = _buckets.Count == 0 ? -1 : Math.Min(Math.Max(_selectedEndIndex, _selectedStartIndex), _buckets.Count - 1);
+            RenderBuckets();
+            UpdateSelection(true);
             return this;
         }
 
@@ -271,15 +289,116 @@ namespace Tesserae
 
         private void ResetSelection()
         {
+            RebuildDisplayBuckets();
             _selectedStartIndex = _buckets.Count == 0 ? -1 : 0;
             _selectedEndIndex   = _buckets.Count - 1;
             RenderBuckets();
             UpdateSelection(false);
         }
 
-        private void BuildBuckets()
+        // Aggregates the full set of source buckets down to a number of display buckets that
+        // actually fits the chart, widening each bucket's time span by merging adjacent ones.
+        private void RebuildDisplayBuckets()
         {
             _buckets.Clear();
+
+            var fit = ComputeFitBucketCount();
+            _appliedFit = fit;
+
+            if (_sourceBuckets.Count == 0)
+            {
+                return;
+            }
+
+            if (_sourceBuckets.Count <= fit)
+            {
+                foreach (var bucket in _sourceBuckets)
+                {
+                    _buckets.Add(new TimeHistogramBucket(bucket.Start, bucket.End, bucket.Count));
+                }
+                return;
+            }
+
+            var groupSize = (int)Math.Ceiling(_sourceBuckets.Count / (double)fit);
+
+            for (var i = 0; i < _sourceBuckets.Count; i += groupSize)
+            {
+                var end   = Math.Min(i + groupSize, _sourceBuckets.Count);
+                var count = 0;
+
+                for (var j = i; j < end; j++)
+                {
+                    count += _sourceBuckets[j].Count;
+                }
+
+                _buckets.Add(new TimeHistogramBucket(_sourceBuckets[i].Start, _sourceBuckets[end - 1].End, count));
+            }
+        }
+
+        // How many bars fit the bars container at its current width; falls back to the configured
+        // maximum while the element has no layout yet (e.g. before it is mounted).
+        private int ComputeFitBucketCount()
+        {
+            var available = _histogram.clientWidth - (2 * HorizontalInset);
+
+            if (available <= 0)
+            {
+                return _maxBuckets;
+            }
+
+            var fit = (int)Math.Floor((available + BarGap) / (MinBarWidth + BarGap));
+            return Clamp(fit, 1, _maxBuckets);
+        }
+
+        // Re-aggregates the buckets to the available width while keeping the current selection
+        // (mapped back by date), invoked by the ResizeObserver as the chart is sized / resized.
+        private void RefitToWidth()
+        {
+            if (_sourceBuckets.Count == 0)
+            {
+                return;
+            }
+
+            if (ComputeFitBucketCount() == _appliedFit)
+            {
+                return;
+            }
+
+            var hadSelection = HasSelection;
+            var wasFullRange = hadSelection && _selectedStartIndex == 0 && _selectedEndIndex == _buckets.Count - 1;
+            var from         = hadSelection ? SelectedFrom : default;
+            var to           = hadSelection ? SelectedTo   : default;
+
+            RebuildDisplayBuckets();
+
+            if (_buckets.Count == 0)
+            {
+                _selectedStartIndex = -1;
+                _selectedEndIndex   = -1;
+            }
+            else if (hadSelection && !wasFullRange)
+            {
+                _selectedStartIndex = FindBucketIndex(from, true);
+                _selectedEndIndex   = FindBucketIndex(to,   false);
+
+                if (_selectedEndIndex < _selectedStartIndex)
+                {
+                    _selectedEndIndex = _selectedStartIndex;
+                }
+            }
+            else
+            {
+                _selectedStartIndex = 0;
+                _selectedEndIndex   = _buckets.Count - 1;
+            }
+
+            RenderBuckets();
+            UpdateSelection(false);
+        }
+
+        private void BuildBuckets()
+        {
+            _sourceBuckets.Clear();
 
             if (_values.Length == 0)
             {
@@ -291,7 +410,7 @@ namespace Tesserae
 
             if (_values.Length == 1 || min == max)
             {
-                _buckets.Add(new TimeHistogramBucket(min, max, _values.Length));
+                _sourceBuckets.Add(new TimeHistogramBucket(min, max, _values.Length));
                 return;
             }
 
@@ -309,19 +428,19 @@ namespace Tesserae
             {
                 var start = min.AddMilliseconds(i * bucketWidth);
                 var end   = i == bucketCount - 1 ? max : min.AddMilliseconds((i + 1) * bucketWidth);
-                _buckets.Add(new TimeHistogramBucket(start, end, 0));
+                _sourceBuckets.Add(new TimeHistogramBucket(start, end, 0));
             }
 
             var bucketIndex = 0;
 
             for (var i = 0; i < _values.Length; i++)
             {
-                while (bucketIndex < _buckets.Count - 1 && _values[i] >= _buckets[bucketIndex].End)
+                while (bucketIndex < _sourceBuckets.Count - 1 && _values[i] >= _sourceBuckets[bucketIndex].End)
                 {
                     bucketIndex++;
                 }
 
-                _buckets[bucketIndex].Count++;
+                _sourceBuckets[bucketIndex].Count++;
             }
         }
 
