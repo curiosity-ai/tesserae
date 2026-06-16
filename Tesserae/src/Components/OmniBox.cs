@@ -78,7 +78,7 @@ namespace Tesserae
                 if (snap.Icon != null)
                 {
                     Content = HStack().AlignItemsCenter().Children(
-                        snap.Icon,
+                        CloneIcon(snap.Icon),
                         TextBlock(snap.DisplayName).PaddingLeft(4.px()));
                 }
             }
@@ -94,7 +94,7 @@ namespace Tesserae
                 if (handler.Icon != null)
                 {
                     Content = HStack().AlignItemsCenter().Children(
-                        handler.Icon,
+                        CloneIcon(handler.Icon),
                         TextBlock(Name).PaddingLeft(4.px()));
                 }
             }
@@ -1749,22 +1749,26 @@ namespace Tesserae
             _currentFilterSnapSuggestionButtons = new List<Button>();
             _highlightedFilterSnapSuggestionIndex = 0;
 
-            var content = VStack().NoDefaultMargin().W(360).MaxHeight(400.px()).ScrollY();
+            // The header stays pinned; only the list of values below it scrolls.
+            var content = VStack().NoDefaultMargin().W(360);
             var headerText = handler.DisplayName;
             content.Add(TextBlock(headerText).Small().SemiBold().PaddingBottom(4.px()).PaddingTop(8.px()).PaddingLeft(12.px()).Foreground(Theme.Secondary.Foreground));
+
+            var list = VStack().NoDefaultMargin().WS().MaxHeight(360.px()).ScrollY();
+            content.Add(list);
 
             foreach (var v in values)
             {
                 var capturedValue = v;
                 var btn = Button().Class("tss-omnibox-snap-suggestion").Class("tss-omnibox-filter-snap-suggestion").WS().NoPadding().NoMinSize().H(32).MB(4).NoBorder().NoBackground().TextLeft();
                 var row = HStack().WS().AlignItems(ItemAlign.Center).PaddingLeft(12.px()).PaddingRight(12.px());
-                if (handler.Icon != null) row.Add(handler.Icon.MR(8));
+                if (handler.Icon != null) row.Add(CloneIcon(handler.Icon).MR(8));
                 row.Add(TextBlock(capturedValue));
                 row.Add(TextBlock(trigger + ":" + capturedValue).Small().Secondary().ML(UnitSize.Auto()));
 
                 btn.ReplaceContent(row);
                 btn.OnClick(() => CommitFilterSnap(handler, trigger, capturedValue));
-                content.Add(btn);
+                list.Add(btn);
                 _currentFilterSnapSuggestionButtons.Add(btn);
             }
 
@@ -1897,7 +1901,7 @@ namespace Tesserae
             _highlightedFilterSnapSuggestionIndex = index;
             if (_highlightedFilterSnapSuggestionIndex >= 0 && _highlightedFilterSnapSuggestionIndex < _currentFilterSnapSuggestionButtons.Count)
             {
-                _currentFilterSnapSuggestionButtons[_highlightedFilterSnapSuggestionIndex].Class("tss-omnibox-suggestion-highlight");
+                _currentFilterSnapSuggestionButtons[_highlightedFilterSnapSuggestionIndex].Class("tss-omnibox-suggestion-highlight").ScrollIntoView();
             }
         }
 
@@ -2007,14 +2011,28 @@ namespace Tesserae
             return true;
         }
 
+        // An IComponent renders to a single cached DOM element, so the same icon instance can only ever
+        // live in one place in the DOM at a time. Snap/filter handlers expose a single Icon component that
+        // we need to show in many rows simultaneously (every value in a filter-snap list, multiple chips
+        // sharing one handler, the help panel and a suggestion popup at once). Rendering a fresh clone of the
+        // icon's element for each use keeps every copy visible instead of the one node hopping to the last row.
+        internal static IComponent CloneIcon(IComponent icon)
+        {
+            return icon == null ? null : new Raw((HTMLElement)icon.Render().cloneNode(true));
+        }
+
         private void ShowSnapSuggestions(SnapHandler[] matches)
         {
             _currentSnapMatches = matches;
             _currentSnapSuggestionButtons = new List<Button>();
             _highlightedSnapSuggestionIndex = 0;
 
-            var content = VStack().NoDefaultMargin().W(360).MaxHeight(400.px()).ScrollY();
+            // The header stays pinned; only the list of items below it scrolls.
+            var content = VStack().NoDefaultMargin().W(360);
             content.Add(TextBlock("Snaps").Small().SemiBold().PaddingBottom(4.px()).PaddingTop(8.px()).PaddingLeft(12.px()).Foreground(Theme.Secondary.Foreground));
+
+            var list = VStack().NoDefaultMargin().WS().MaxHeight(360.px()).ScrollY();
+            content.Add(list);
 
             for (int i = 0; i < matches.Length; i++)
             {
@@ -2022,7 +2040,7 @@ namespace Tesserae
                 var capturedIndex = i;
                 var btn = Button().Class("tss-omnibox-snap-suggestion").WS().NoPadding().NoMinSize().H(40).MB(4).NoBorder().NoBackground().TextLeft();
                 var row = HStack().WS().AlignItems(ItemAlign.Center).PaddingLeft(12.px()).PaddingRight(12.px());
-                if (captured.Icon != null) row.Add(captured.Icon.MR(8));
+                if (captured.Icon != null) row.Add(CloneIcon(captured.Icon).MR(8));
                 var labels = VStack().NoDefaultMargin();
                 labels.Add(TextBlock(captured.DisplayName));
                 if (!string.IsNullOrEmpty(captured.Description))
@@ -2033,7 +2051,7 @@ namespace Tesserae
                 row.Add(TextBlock("@" + captured.TriggerWords[0]).Small().Secondary().ML(UnitSize.Auto()));
                 btn.ReplaceContent(row);
                 btn.OnClick(() => CommitSnap(captured));
-                content.Add(btn);
+                list.Add(btn);
                 _currentSnapSuggestionButtons.Add(btn);
             }
 
@@ -2087,7 +2105,7 @@ namespace Tesserae
             _highlightedSnapSuggestionIndex = index;
             if (_highlightedSnapSuggestionIndex >= 0 && _highlightedSnapSuggestionIndex < _currentSnapSuggestionButtons.Count)
             {
-                _currentSnapSuggestionButtons[_highlightedSnapSuggestionIndex].Class("tss-omnibox-suggestion-highlight");
+                _currentSnapSuggestionButtons[_highlightedSnapSuggestionIndex].Class("tss-omnibox-suggestion-highlight").ScrollIntoView();
             }
         }
 
@@ -2549,7 +2567,7 @@ namespace Tesserae
 
                     var btn = Button().Class("tss-omnibox-help-entry").WS().NoPadding().NoMinSize().H(40).MB(4).NoBorder().NoBackground().TextLeft();
                     var row = HStack().WS().AlignItems(ItemAlign.Center).PaddingLeft(12.px()).PaddingRight(12.px());
-                    if (captured.Icon != null) row.Add(captured.Icon.MR(8));
+                    if (captured.Icon != null) row.Add(CloneIcon(captured.Icon).MR(8));
                     var triggerSpan = TextBlock(trigger + ":").Class("tss-omnibox-help-trigger");
                     row.Add(triggerSpan);
                     row.Add(TextBlock(example).Class("tss-omnibox-help-example").ML(6));
@@ -2576,7 +2594,7 @@ namespace Tesserae
 
                     var btn = Button().Class("tss-omnibox-help-entry").WS().NoPadding().NoMinSize().H(40).MB(4).NoBorder().NoBackground().TextLeft();
                     var row = HStack().WS().AlignItems(ItemAlign.Center).PaddingLeft(12.px()).PaddingRight(12.px());
-                    if (captured.Icon != null) row.Add(captured.Icon.MR(8));
+                    if (captured.Icon != null) row.Add(CloneIcon(captured.Icon).MR(8));
                     var triggerSpan = TextBlock("@" + trigger).Class("tss-omnibox-help-trigger");
                     row.Add(triggerSpan);
                     row.Add(TextBlock(example).Class("tss-omnibox-help-example").ML(6));
@@ -2911,7 +2929,7 @@ namespace Tesserae
 
             _highlightedSuggestionIndex = (_highlightedSuggestionIndex + offset + _currentSuggestionButtons.Count) % _currentSuggestionButtons.Count;
 
-            _currentSuggestionButtons[_highlightedSuggestionIndex].Class("tss-omnibox-suggestion-highlight");
+            _currentSuggestionButtons[_highlightedSuggestionIndex].Class("tss-omnibox-suggestion-highlight").ScrollIntoView();
         }
 
         /// <summary>
