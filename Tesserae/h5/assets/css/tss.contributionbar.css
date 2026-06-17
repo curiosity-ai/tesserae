@@ -1,0 +1,50 @@
+.tss-contribution {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+.tss-contribution-bar {
+    display: flex;
+    width: 100%;
+    height: 10px;
+    border-radius: 999px;
+    overflow: hidden;
+    background: var(--tss-colors-neutral-200);
+}
+
+.tss-contribution-segment {
+    height: 100%;
+    min-width: 1px;
+}
+
+.tss-contribution-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+}
+
+.tss-contribution-legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: var(--tss-font-size-xsmall);
+    color: var(--tss-default-foreground-color);
+}
+
+.tss-contribution-legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex: 0 0 auto;
+}
+
+.tss-contribution-legend-label {
+    color: var(--tss-secondary-foreground-color);
+}
+
+.tss-contribution-legend-value {
+    font-weight: var(--tss-font-weight-semibold);
+    font-variant-numeric: tabular-nums;
+}

@@ -1,0 +1,81 @@
+using static Tesserae.UI;
+using static Tesserae.Tests.Samples.SamplesHelper;
+using static H5.Core.dom;
+
+namespace Tesserae.Tests.Samples
+{
+    [SampleDetails(Group = "Components", Order = 31, Icon = UIcons.ChartSimpleHorizontal)]
+    public class ContributionBarSample : IComponent, ISample
+    {
+        private readonly IComponent _content;
+
+        public ContributionBarSample()
+        {
+            _content = SectionStack().Secondary()
+               .SampleTitle(typeof(ContributionBarSample), UIcons.ChartSimpleHorizontal, "A stacked bar showing how weighted parts add up to a total")
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                        TextBlock("A ContributionBar renders a single stacked bar where each segment is sized proportionally to its value, plus an optional legend listing each part with its value."),
+                        TextBlock("Use it to make the composition of a score always visible at a glance — for example, how each signal contributes to a similarity score, how a budget splits across categories, or how a result's relevance breaks down."))).SetTitle("Overview")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                        SampleSubTitle("Basic usage"),
+                        TextBlock("Segments are added with .Add(label, value) and get a color from the default palette. By default the bar fills entirely (the maximum equals the sum of the segments)."),
+                        ContributionBar()
+                           .Add("Description", 0.36)
+                           .Add("ATA chapter", 0.17)
+                           .Add("Type", 0.15)
+                           .Add("Damage", 0.13)
+                           .Add("Location", 0.07)
+                           .Add("Program", 0.06))).SetTitle("Default palette")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                        SampleSubTitle("Pinned maximum with a remainder track"),
+                        TextBlock("Call .Max(value) to pin the full-width value. When the segments add up to less than the maximum, the remaining space is shown as an empty track."),
+                        ContributionBar()
+                           .Max(1.0)
+                           .Add("Description", 0.36, Theme.Colors.Blue600)
+                           .Add("ATA chapter", 0.17, Theme.Colors.Blue400)
+                           .Add("Type", 0.15, Theme.Colors.Teal500)
+                           .Add("Damage", 0.13, Theme.Colors.Green500)
+                           .Add("Location", 0.07, Theme.Colors.Orange500)
+                           .Add("Program", 0.06, Theme.Colors.Neutral500))).SetTitle("Explicit colors")))
+               .FlatSection(Stack().Children(
+                    Card(BuildSimilarityCard()).SetTitle("Example: similarity result card")));
+        }
+
+        private static IComponent BuildSimilarityCard()
+        {
+            var bar = ContributionBar()
+               .Max(1.0)
+               .Add("Description", 0.36, Theme.Colors.Blue600)
+               .Add("ATA chapter", 0.17, Theme.Colors.Blue400)
+               .Add("Type", 0.15, Theme.Colors.Teal500)
+               .Add("Damage", 0.13, Theme.Colors.Green500)
+               .Add("Location", 0.07, Theme.Colors.Orange500)
+               .Add("Program", 0.06, Theme.Colors.Neutral500);
+
+            var score = VStack().AlignItems(ItemAlign.Center).Children(
+                TextBlock("0.94").XXLarge().Bold().Foreground(Theme.Colors.Green600),
+                Badge("HIGH MATCH").Success().Pill());
+
+            var header = VStack().WS().Children(
+                TextBlock("NC-2023-04412 · 2023-06-18").Tiny().SemiBold().Foreground(Theme.Secondary.Foreground),
+                TextBlock("Composite skin delamination on LH wing trailing-edge panel").MediumPlus().SemiBold(),
+                TextBlock("CONTRIBUTION TO SIMILARITY · SUMS TO 0.94").Tiny().SemiBold().Foreground(Theme.Secondary.Foreground).PT(12).PB(4),
+                bar,
+                HStack().Wrap().PT(12).Children(
+                    Badge("A350-900").Outline().Pill(),
+                    Badge("ATA 57 · Wings").Outline().Pill(),
+                    Badge("Delamination").Outline().Pill(),
+                    Badge("LH wing trailing edge").Outline().Pill(),
+                    Badge("Composite delamination").Outline().Pill()));
+
+            return HStack().WS().Children(
+                score.NoShrink().PR(16),
+                header.Grow());
+        }
+
+        public HTMLElement Render() => _content.Render();
+    }
+}
