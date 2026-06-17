@@ -954,6 +954,11 @@ namespace Tesserae
         public static Metric Metric(IComponent title, IComponent value) => new Metric(title, value);
 
         /// <summary>
+        /// Creates a new <see cref="Tesserae.ContributionBar"/>.
+        /// </summary>
+        public static ContributionBar ContributionBar() => new ContributionBar();
+
+        /// <summary>
         /// Creates a <see cref="Tesserae.PivotSelector"/> component.
         /// </summary>
         public static PivotSelector PivotSelector() => new PivotSelector();
