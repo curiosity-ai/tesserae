@@ -98,6 +98,7 @@ namespace Tesserae
         private          Validator               _validator;
         private          Action<T>               _onChange;
         private          bool                    _built;
+        private          bool                    _allReadOnly;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PropertyGrid{T}"/> class bound to <paramref name="instance"/>.
@@ -137,8 +138,23 @@ namespace Tesserae
         /// <summary>Sets the display order of a property (lower comes first).</summary>
         public PropertyGrid<T> Order(string propertyName, int order) { Options(propertyName).Order = order; return this; }
 
-        /// <summary>Marks one or more properties as read-only.</summary>
-        public PropertyGrid<T> ReadOnly(params string[] propertyNames) { foreach (var p in propertyNames) Options(p).ReadOnly = true; return this; }
+        /// <summary>
+        /// Marks fields as read-only. When <paramref name="restrictTo"/> is null or empty the whole grid becomes a
+        /// read-only view (every field shows its value but cannot be edited); otherwise only the named properties
+        /// are made read-only. Read-only fields do not flow edits back to the bound object.
+        /// </summary>
+        public PropertyGrid<T> ReadOnly(params string[] restrictTo)
+        {
+            if (restrictTo == null || restrictTo.Length == 0)
+            {
+                _allReadOnly = true;
+            }
+            else
+            {
+                foreach (var p in restrictTo) Options(p).ReadOnly = true;
+            }
+            return this;
+        }
 
         /// <summary>Hides one or more properties.</summary>
         public PropertyGrid<T> Ignore(params string[] propertyNames) { foreach (var p in propertyNames) Options(p).Ignore = true; return this; }
@@ -214,6 +230,9 @@ namespace Tesserae
             {
                 // Reflection metadata for custom attributes may be unavailable in some builds — config still applies.
             }
+
+            // Grid-wide read-only mode forces every field read-only, regardless of per-property config.
+            if (_allReadOnly) opts.ReadOnly = true;
 
             return opts;
         }

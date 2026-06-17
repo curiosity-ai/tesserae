@@ -91,7 +91,11 @@ namespace Tesserae.Tests.Samples
                .Section(Stack().Children(
                     Card(VStack().WS().Children(
                         SampleSubTitle("Live bound value"),
-                        readout)).SetTitle("Two-way binding")));
+                        readout)).SetTitle("Two-way binding")))
+               .Section(Stack().Children(
+                    Card(VStack().WS().Children(
+                        TextBlock("Calling .ReadOnly() with no arguments renders the whole grid as a non-editable view of the same object — every field shows its value but cannot be changed. Passing property names instead restricts read-only to just those fields."),
+                        PropertyGrid(profile).ReadOnly().Ignore("AccountId").WS())).SetTitle("Read-only view")));
         }
 
         public HTMLElement Render() => _content.Render();
