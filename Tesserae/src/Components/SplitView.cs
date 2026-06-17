@@ -69,49 +69,44 @@ namespace Tesserae
 
         private void HookDragEvents(IComponent dragArea)
         {
-            var el = dragArea.Render();
+            // Use the unified pointer-based pan gesture so the splitter is draggable with mouse, touch and pen.
+            // (Previously only mouse events were wired, so resizing did not work on touch screens.)
+            double      width          = 0;
+            DOMRect     rect           = null;
+            HTMLElement current        = null;
+            bool        currentIsRight = false;
 
-            double      width = 0;
-            DOMRect     rect;
-            HTMLElement current;
-            bool        currentIsRight;
-
-            el.onmousedown += (me) =>
+            dragArea.OnPan(g =>
             {
-                if (_splitContainer.classList.contains("tss-split-right"))
+                if (g.Phase == GesturePhase.Start)
                 {
-                    current        = _rightComponent.Render();
-                    currentIsRight = true;
+                    if (_splitContainer.classList.contains("tss-split-right"))
+                    {
+                        current        = _rightComponent.Render();
+                        currentIsRight = true;
+                    }
+                    else
+                    {
+                        current        = _leftComponent.Render();
+                        currentIsRight = false;
+                    }
+                    rect = _splitContainer.getBoundingClientRect().As<DOMRect>();
                 }
-                else
-                {
-                    current        = _leftComponent.Render();
-                    currentIsRight = false;
-                }
-                rect               =  _splitContainer.getBoundingClientRect().As<DOMRect>();
-                window.onmousemove += Resize;
-                window.onmouseup   += StopResize;
-                StopEvent(me);
-            };
 
-            void Resize(MouseEvent me)
-            {
-                double raw = currentIsRight ? (rect.right - me.clientX) : (me.clientX - rect.left);
+                if (rect == null || current == null) return;
+
+                double raw = currentIsRight ? (rect.right - g.X) : (g.X - rect.left);
                 width                    = Math.Min(rect.width - 16, Math.Max(16, raw));
                 current.style.width      = width + "px";
                 current.style.flexGrow   = "0";
                 current.style.flexShrink = "1";
-                StopEvent(me);
-            }
 
-            void StopResize(MouseEvent me)
-            {
-                window.onmousemove -= Resize;
-                window.onmouseup   -= StopResize;
-                _onResizeEnd?.Invoke((int)width);
-                rect = null;
-                StopEvent(me);
-            }
+                if (g.Phase == GesturePhase.End)
+                {
+                    _onResizeEnd?.Invoke((int)width);
+                    rect = null;
+                }
+            });
         }
 
         /// <summary>
