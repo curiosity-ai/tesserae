@@ -1332,6 +1332,52 @@ namespace Tesserae
         public static Sparkline Sparkline(double[] data, double width = 100, double height = 30, string color = "") => new Sparkline(data, width, height, color);
 
         /// <summary>
+        /// Creates a metadata-driven <see cref="Tesserae.PropertyGrid{T}"/> that auto-generates a two-way-bound
+        /// editing form for the supplied object.
+        /// </summary>
+        public static PropertyGrid<T> PropertyGrid<T>(T instance) => new PropertyGrid<T>(instance);
+
+        /// <summary>
+        /// Creates a new responsive SVG <see cref="Tesserae.LineChart"/>. Add data with <c>.Series(...)</c> / <c>.Data(...)</c>.
+        /// </summary>
+        public static LineChart LineChart() => new LineChart();
+
+        /// <summary>
+        /// Creates a new responsive SVG <see cref="Tesserae.LineChart"/> seeded with a single series of values.
+        /// </summary>
+        public static LineChart LineChart(double[] data) => new LineChart().Data(data);
+
+        /// <summary>
+        /// Creates a new responsive SVG <see cref="Tesserae.BarChart"/>. Add data with <c>.Series(...)</c> / <c>.Data(...)</c>.
+        /// </summary>
+        public static BarChart BarChart() => new BarChart();
+
+        /// <summary>
+        /// Creates a new responsive SVG <see cref="Tesserae.BarChart"/> seeded with a single series of values.
+        /// </summary>
+        public static BarChart BarChart(double[] data) => new BarChart().Data(data);
+
+        /// <summary>
+        /// Creates a new responsive SVG <see cref="Tesserae.AreaChart"/>. Add data with <c>.Series(...)</c> / <c>.Data(...)</c>.
+        /// </summary>
+        public static AreaChart AreaChart() => new AreaChart();
+
+        /// <summary>
+        /// Creates a new responsive SVG <see cref="Tesserae.AreaChart"/> seeded with a single series of values.
+        /// </summary>
+        public static AreaChart AreaChart(double[] data) => new AreaChart().Data(data);
+
+        /// <summary>
+        /// Creates a new responsive SVG <see cref="Tesserae.PieChart"/>. Add data with <c>.Data(...)</c> and labels with <c>.Labels(...)</c>.
+        /// </summary>
+        public static PieChart PieChart() => new PieChart();
+
+        /// <summary>
+        /// Creates a new responsive SVG <see cref="Tesserae.PieChart"/> seeded with slice values.
+        /// </summary>
+        public static PieChart PieChart(double[] data) => new PieChart().Data(data);
+
+        /// <summary>
         /// Creates a <see cref="Tesserae.StepsSlider{T}"/> component.
         /// </summary>
         public static StepsSlider<T> StepsSlider<T>(params T[] steps) where T : IEquatable<T> => new StepsSlider<T>(steps);

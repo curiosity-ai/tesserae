@@ -60,52 +60,36 @@ namespace Tesserae
 
         private void HookDragEvents(IComponent dragArea)
         {
-            var el = dragArea.Render();
+            // Use the unified pointer-based pan gesture so the splitter is draggable with mouse, touch and pen.
+            // (Previously only mouse events were wired, so resizing did not work on touch screens.)
+            double      height       = 0;
+            DOMRect     rect         = null;
+            HTMLElement current      = null;
+            bool        currentIsBottom = false;
 
-            double      height = 0;
-            DOMRect     rect;
-            HTMLElement current;
-
-            el.onmousedown += (me) =>
+            dragArea.OnPan(g =>
             {
-                if (_splitContainer.classList.contains("tss-split-bottom"))
+                if (g.Phase == GesturePhase.Start)
                 {
-                    current = _bottomComponent.Render();
+                    currentIsBottom = _splitContainer.classList.contains("tss-split-bottom");
+                    current         = currentIsBottom ? _bottomComponent.Render() : _topComponent.Render();
+                    rect            = _splitContainer.getBoundingClientRect().As<DOMRect>();
                 }
-                else
-                {
-                    current = _topComponent.Render();
-                }
-                rect               =  _splitContainer.getBoundingClientRect().As<DOMRect>();
-                window.onmousemove += Resize;
-                window.onmouseup   += StopResize;
-                StopEvent(me);
-            };
 
-            void Resize(MouseEvent me)
-            {
-                if (_splitContainer.classList.contains("tss-split-bottom"))
-                {
-                    height = Math.Min(rect.height - 16, Math.Max(16, (rect.bottom - me.clientY)));
-                }
-                else
-                {
-                    height = Math.Min(rect.height - 16, Math.Max(16, (me.clientY - rect.top)));
-                }
+                if (rect == null || current == null) return;
+
+                double raw = currentIsBottom ? (rect.bottom - g.Y) : (g.Y - rect.top);
+                height                   = Math.Min(rect.height - 16, Math.Max(16, raw));
                 current.style.height     = height + "px";
                 current.style.flexGrow   = "0";
                 current.style.flexShrink = "1";
-                StopEvent(me);
-            }
 
-            void StopResize(MouseEvent me)
-            {
-                window.onmousemove -= Resize;
-                window.onmouseup   -= StopResize;
-                _onResizeEnd?.Invoke((int)height);
-                rect = null;
-                StopEvent(me);
-            }
+                if (g.Phase == GesturePhase.End)
+                {
+                    _onResizeEnd?.Invoke((int)height);
+                    rect = null;
+                }
+            });
         }
 
         /// <summary>
