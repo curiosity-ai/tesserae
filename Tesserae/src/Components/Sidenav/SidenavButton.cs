@@ -12,6 +12,8 @@ namespace Tesserae
     public class SidenavButton : ISidenavItem
     {
         private readonly Button                   _button;
+        private readonly IComponent               _clickable;
+        private readonly HTMLElement              _anchor;
         private readonly HTMLElement              _root;
         private readonly HTMLElement              _dot;
         private readonly SettableObservable<bool> _selected;
@@ -47,22 +49,30 @@ namespace Tesserae
             var iconStr = $"{Tesserae.Icon.Transform(icon, weight)} medium";
             var iconEl  = I(_("tss-sidenav-btn-icon " + iconStr));
             var labelEl = Span(_("tss-sidenav-btn-label", text: text));
-
-            _button = Button()
-                .Class("tss-sidenav-btn")
-                .ReplaceContent(Raw(Div(_("tss-sidenav-btn-content"), iconEl, labelEl)));
-
-            _button.Render().setAttribute("data-id", identifier);
+            var content = Div(_("tss-sidenav-btn-content"), iconEl, labelEl);
 
             _root = Div(_("tss-sidenav-btn-wrap"));
             _dot  = Div(_("tss-sidenav-btn-dot"));
-            _root.appendChild(_button.Render());
-            _root.appendChild(_dot);
 
-            if (!string.IsNullOrWhiteSpace(href))
+            if (string.IsNullOrWhiteSpace(href))
             {
-                _button.OnClick(() => window.location.href = href);
+                _button    = Button().Class("tss-sidenav-btn").ReplaceContent(Raw(content));
+                _clickable = _button;
             }
+            else
+            {
+                // Render the clickable element as a real <a href> so the browser handles
+                // Ctrl/Cmd/middle-click ("open in new tab") natively. It stays a direct child
+                // of .tss-sidenav-btn-wrap and carries tss-btn + tss-sidenav-btn so the rail CSS
+                // keeps matching, plus tss-link-no-underline to suppress the anchor hover underline.
+                _anchor    = A(_("tss-btn tss-sidenav-btn tss-link-no-underline", href: href), content);
+                _clickable = Raw(_anchor);
+            }
+
+            _clickable.Render().setAttribute("data-id", identifier);
+
+            _root.appendChild(_clickable.Render());
+            _root.appendChild(_dot);
 
             _selected.Observe(isSelected =>
             {
@@ -76,7 +86,7 @@ namespace Tesserae
                 }
             });
 
-            _tooltip(_button);
+            _tooltip(_clickable);
         }
 
         /// <summary>Sets the button as selected.</summary>
@@ -89,14 +99,32 @@ namespace Tesserae
         /// <summary>Adds a click handler to the button.</summary>
         public SidenavButton OnClick(Action action)
         {
-            _button.OnClick(action);
+            if (_button is object)
+            {
+                _button.OnClick(action);
+            }
+            else if (_anchor is object)
+            {
+                // Anchor-backed (href) button: run the action on a plain click but let
+                // modified clicks (Ctrl/Cmd/Shift/middle) fall through to the browser so
+                // they still open the href in a new tab/window.
+                _anchor.onclick = (e) =>
+                {
+                    var me = e.As<MouseEvent>();
+                    if (me.ctrlKey || me.metaKey || me.shiftKey || me.button != 0) return;
+                    action();
+                };
+            }
             return this;
         }
 
         /// <summary>Adds a click handler with the underlying button and mouse event.</summary>
         public SidenavButton OnClick(Action<Button, MouseEvent> action)
         {
-            _button.OnClick((b, e) => action(b, e));
+            if (_button is object)
+            {
+                _button.OnClick((b, e) => action(b, e));
+            }
             return this;
         }
 
@@ -104,7 +132,7 @@ namespace Tesserae
         public SidenavButton Tooltip(string text)
         {
             _tooltip = (b) => b.Tooltip(text, placement: TooltipPlacement.Right);
-            _tooltip(_button);
+            _tooltip(_clickable);
             return this;
         }
 
