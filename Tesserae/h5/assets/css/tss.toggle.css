@@ -250,7 +250,6 @@
     width: fit-content;
     border-radius: 8px;
     box-shadow: 0 0.3px 0.9px 0 var(--tss-shadow-color-to);
-    margin-bottom: 8px;
 }
 
     .tss-icon-toggle .tss-icon-toggle-item {
