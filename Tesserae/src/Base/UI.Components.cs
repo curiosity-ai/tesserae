@@ -184,6 +184,17 @@ namespace Tesserae
         public static Image Image(string source, string fallback = null) => new Image(source, fallback);
 
         /// <summary>
+        /// Creates a fully-sandboxed <see cref="Tesserae.Sandbox"/> frame for rendering untrusted HTML / apps,
+        /// optionally seeded with HTML content (loaded through <c>srcdoc</c> under a strict Content-Security-Policy).
+        /// </summary>
+        public static Sandbox Sandbox(string html = null) => new Sandbox(html);
+
+        /// <summary>
+        /// Creates a <see cref="Tesserae.Sandbox"/> frame that loads an external URL.
+        /// </summary>
+        public static Sandbox SandboxUrl(string url) => new Sandbox().FromUrl(url);
+
+        /// <summary>
         /// Creates a <see cref="Tesserae.Card"/> component.
         /// </summary>
         public static Card Card(IComponent content, bool noAnimation = false) => new Card(content, noAnimation);
