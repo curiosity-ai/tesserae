@@ -105,6 +105,7 @@
     white-space: nowrap;
     overflow: hidden;
     min-height: 28px;
+    align-content: center;
     text-overflow: ellipsis;
 }
 
