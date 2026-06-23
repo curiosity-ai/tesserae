@@ -19,11 +19,6 @@ namespace Tesserae
         /// </summary>
         public DetailsListColumn(string title, UnitSize width, UnitSize maxWidth, bool isRowHeader = false, bool enableColumnSorting = false, string sortingKey = null, Action onColumnClick = null)
         {
-            if (string.IsNullOrWhiteSpace(title))
-            {
-                throw new ArgumentException(nameof(title));
-            }
-
             if (enableColumnSorting && string.IsNullOrWhiteSpace(sortingKey))
             {
                 throw new ArgumentException(nameof(sortingKey));
@@ -32,7 +27,7 @@ namespace Tesserae
             Width               = width ?? throw new ArgumentNullException(nameof(width));
             MaxWidth            = maxWidth;
             SortingKey          = sortingKey ?? string.Empty;
-            Title               = title;
+            Title               = title ?? "";
             IsRowHeader         = isRowHeader;
             EnableColumnSorting = enableColumnSorting;
 
@@ -42,7 +37,7 @@ namespace Tesserae
                 EnableOnColumnClickEvent = true;
             }
 
-            InnerElement = TextBlock(Title).Regular().SemiBold().Render();
+            InnerElement = TextBlock(Title).SemiBold().Render();
         }
 
         /// <summary>
