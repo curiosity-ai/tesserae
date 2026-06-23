@@ -6,6 +6,25 @@ using static Tesserae.UI;
 namespace Tesserae
 {
     /// <summary>
+    /// Controls how a collapsable <see cref="ContributionBar"/> reveals its detailed, multi-colored breakdown.
+    /// </summary>
+    [H5.Name("tss.ContributionBarReveal")]
+    public enum ContributionBarReveal
+    {
+        /// <summary>
+        /// Shows an <see cref="UIcons.AngleUp"/> / <see cref="UIcons.AngleDown"/> toggle that expands the
+        /// multi-colored segments and legend inline, in place.
+        /// </summary>
+        Expand,
+
+        /// <summary>
+        /// Shows an <see cref="UIcons.Info"/> icon; hovering it reveals the multi-colored breakdown and legend
+        /// in a popover (Tippy) instead of expanding inline.
+        /// </summary>
+        Tooltip
+    }
+
+    /// <summary>
     /// A single stacked horizontal bar that shows how a set of weighted components add up to a total
     /// (for example, how each signal contributes to a similarity score). Each segment is sized
     /// proportionally to its value and gets a distinct color, and an optional legend lists every
@@ -52,9 +71,11 @@ namespace Tesserae
         private bool    _showValues      = true;
         private int     _decimals        = 2;
         private string  _barHeight       = "10px";
-        private bool    _collapsable     = false;
-        private bool    _collapsed       = true;
-        private string  _collapsedColor  = Theme.Primary.Background;
+        private bool                  _collapsable             = false;
+        private bool                  _collapsed               = true;
+        private string                _collapsedColor          = Theme.Primary.Background;
+        private ContributionBarReveal _reveal                  = ContributionBarReveal.Expand;
+        private bool                  _tooltipCleanupRegistered = false;
 
         /// <summary>
         /// Initializes a new instance of this class.
@@ -69,6 +90,7 @@ namespace Tesserae
 
             _toggle.addEventListener("click", _ =>
             {
+                if (_reveal != ContributionBarReveal.Expand) return;
                 _collapsed = !_collapsed;
                 Refresh();
             });
@@ -104,12 +126,14 @@ namespace Tesserae
         /// hidden. Expanding restores the multi-colored segments and the legend.
         /// </summary>
         /// <param name="color">The color used for the single, collapsed bar. Defaults to <see cref="Theme.Primary.Background"/>.</param>
-        /// <param name="initiallyCollapsed">Whether the bar starts collapsed. Defaults to <c>true</c>.</param>
-        public ContributionBar Collapsable(string color = Theme.Primary.Background, bool initiallyCollapsed = true)
+        /// <param name="initiallyCollapsed">Whether the bar starts collapsed. Defaults to <c>true</c>. Ignored when <paramref name="reveal"/> is <see cref="ContributionBarReveal.Tooltip"/>.</param>
+        /// <param name="reveal">How the detailed breakdown is revealed. <see cref="ContributionBarReveal.Expand"/> (the default) expands it inline; <see cref="ContributionBarReveal.Tooltip"/> shows an info icon that reveals it in a popover.</param>
+        public ContributionBar Collapsable(string color = Theme.Primary.Background, bool initiallyCollapsed = true, ContributionBarReveal reveal = ContributionBarReveal.Expand)
         {
             _collapsable    = true;
             _collapsedColor = string.IsNullOrEmpty(color) ? Theme.Primary.Background : color;
             _collapsed      = initiallyCollapsed;
+            _reveal         = reveal;
             Refresh();
             return this;
         }
@@ -181,9 +205,18 @@ namespace Tesserae
             {
                 if (_toggle.parentElement == null) _barRow.appendChild(_toggle);
 
-                var icon = _collapsed ? UIcons.AngleDown : UIcons.AngleUp;
-                _toggle.appendChild(I(icon));
-                _toggle.setAttribute("title", _collapsed ? "Expand contribution breakdown" : "Collapse contribution breakdown");
+                if (_reveal == ContributionBarReveal.Tooltip)
+                {
+                    _toggle.appendChild(I(UIcons.Info));
+                    _toggle.setAttribute("title", "Show contribution breakdown");
+                    RefreshTooltip();
+                }
+                else
+                {
+                    var icon = _collapsed ? UIcons.AngleDown : UIcons.AngleUp;
+                    _toggle.appendChild(I(icon));
+                    _toggle.setAttribute("title", _collapsed ? "Expand contribution breakdown" : "Collapse contribution breakdown");
+                }
             }
             else if (_toggle.parentElement != null)
             {
@@ -191,47 +224,30 @@ namespace Tesserae
             }
         }
 
-        private void Refresh()
+        private double EffectiveMax()
         {
-            ClearChildren(_bar);
-            ClearChildren(_legend);
-            ClearChildren(_toggle);
-
-            _bar.style.height = _barHeight;
-
             var max = double.IsNaN(_max) ? Total() : _max;
-            if (max <= 0) max = 1;
+            return max <= 0 ? 1 : max;
+        }
 
-            UpdateToggle();
-
-            var isCollapsed = _collapsable && _collapsed;
-
-            if (isCollapsed)
+        private void RenderSegmentsInto(HTMLElement bar, double max)
+        {
+            for (int i = 0; i < _segments.Count; i++)
             {
-                var width    = (Total() / max) * 100.0;
-                var fragment = Div(_("tss-contribution-segment", title: FormatValue(Total())));
+                var segment = _segments[i];
+                if (segment.Value <= 0) continue;
+
+                var width    = (segment.Value / max) * 100.0;
+                var color    = ColorFor(i);
+                var fragment = Div(_("tss-contribution-segment", title: $"{segment.Label}: {FormatValue(segment.Value)}"));
                 fragment.style.width           = FormatValue(width) + "%";
-                fragment.style.backgroundColor = _collapsedColor;
-                _bar.appendChild(fragment);
+                fragment.style.backgroundColor = color;
+                bar.appendChild(fragment);
             }
-            else
-            {
-                for (int i = 0; i < _segments.Count; i++)
-                {
-                    var segment = _segments[i];
-                    if (segment.Value <= 0) continue;
+        }
 
-                    var width    = (segment.Value / max) * 100.0;
-                    var color    = ColorFor(i);
-                    var fragment = Div(_("tss-contribution-segment", title: $"{segment.Label}: {FormatValue(segment.Value)}"));
-                    fragment.style.width           = FormatValue(width) + "%";
-                    fragment.style.backgroundColor = color;
-                    _bar.appendChild(fragment);
-                }
-            }
-
-            if (!_showLegend || isCollapsed) return;
-
+        private void RenderLegendInto(HTMLElement legend)
+        {
             for (int i = 0; i < _segments.Count; i++)
             {
                 var segment = _segments[i];
@@ -247,8 +263,83 @@ namespace Tesserae
                     item.appendChild(Span(_("tss-contribution-legend-value", text: FormatValue(segment.Value))));
                 }
 
-                _legend.appendChild(item);
+                legend.appendChild(item);
             }
+        }
+
+        private HTMLElement BuildBreakdownPopover()
+        {
+            var bar = Div(_("tss-contribution-bar"));
+            bar.style.height = _barHeight;
+            RenderSegmentsInto(bar, EffectiveMax());
+
+            var legend = Div(_("tss-contribution-legend"));
+            RenderLegendInto(legend);
+
+            return Div(_("tss-contribution tss-contribution-popover"), bar, legend);
+        }
+
+        private void RefreshTooltip()
+        {
+            // Destroy any previously-attached popover so re-renders (further .Add calls) don't stack instances.
+            if (_toggle.HasOwnProperty("_tippy"))
+            {
+                H5.Script.Write("{0}._tippy.destroy();", _toggle);
+            }
+
+            var content = BuildBreakdownPopover();
+            document.body.appendChild(content);
+
+            // Stack the popover into the application z-index lane so it always sits above any visible Layer.
+            if (!int.TryParse(Layers.AboveCurrent(), out var zIndex)) zIndex = 9999;
+
+            H5.Script.Write("tippy({0}, { content: {1}, interactive: {2}, placement: {3}, delay: [{4},{5}], appendTo: {6}, maxWidth: {7}, hideOnClick: {8}, arrow: {9}, zIndex: {10} });",
+                _toggle, content, true, "bottom", 100, 0, document.body, 360, true, true, zIndex);
+
+            if (!_tooltipCleanupRegistered)
+            {
+                _tooltipCleanupRegistered = true;
+                this.WhenRemoved(() =>
+                {
+                    if (_toggle.HasOwnProperty("_tippy"))
+                    {
+                        H5.Script.Write("{0}._tippy.destroy();", _toggle);
+                    }
+                });
+            }
+        }
+
+        private void Refresh()
+        {
+            ClearChildren(_bar);
+            ClearChildren(_legend);
+            ClearChildren(_toggle);
+
+            _bar.style.height = _barHeight;
+
+            var max = EffectiveMax();
+
+            UpdateToggle();
+
+            // In tooltip mode the bar always shows the single, collapsed color; the breakdown lives in the popover.
+            var isCollapsed = _collapsable && (_collapsed || _reveal == ContributionBarReveal.Tooltip);
+
+            if (isCollapsed)
+            {
+                var width    = (Total() / max) * 100.0;
+                var fragment = Div(_("tss-contribution-segment", title: FormatValue(Total())));
+                fragment.style.width           = FormatValue(width) + "%";
+                fragment.style.backgroundColor = _collapsedColor;
+                _bar.appendChild(fragment);
+            }
+            else
+            {
+                RenderSegmentsInto(_bar, max);
+            }
+
+            if (!_showLegend || isCollapsed) return;
+
+            RenderLegendInto(_legend);
         }
 
         /// <summary>

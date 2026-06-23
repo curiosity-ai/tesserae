@@ -49,6 +49,30 @@
     font-size: var(--tss-font-size-small);
 }
 
+.tss-contribution-popover {
+    gap: 10px;
+    min-width: 220px;
+    padding: 4px 2px;
+}
+
+.tss-contribution-popover .tss-contribution-legend {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 6px;
+}
+
+.tss-contribution-popover .tss-contribution-legend-item {
+    width: 100%;
+}
+
+.tss-contribution-popover .tss-contribution-legend-label {
+    flex: 1 1 auto;
+}
+
+.tss-contribution-popover .tss-contribution-legend-value {
+    margin-left: auto;
+}
+
 .tss-contribution-segment {
     height: 100%;
     min-width: 1px;
