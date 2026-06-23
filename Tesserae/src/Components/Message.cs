@@ -12,6 +12,7 @@ namespace Tesserae
     public class Message : ComponentBase<Message, HTMLDivElement>
     {
         private readonly HTMLDivElement _iconContainer;
+        private readonly HTMLDivElement _contentContainer;
         private readonly HTMLDivElement _titleContainer;
         private readonly HTMLDivElement _textContainer;
         private readonly HTMLDivElement _noteContainer;
@@ -23,17 +24,20 @@ namespace Tesserae
         {
             InnerElement = Div(_("tss-message"));
 
-            _iconContainer = Div(_("tss-message-icon"));
-            _titleContainer = Div(_("tss-message-title"));
-            _textContainer = Div(_("tss-message-text"));
-            _noteContainer = Div(_("tss-message-note"));
+            _iconContainer    = Div(_("tss-message-icon"));
+            _contentContainer = Div(_("tss-message-content"));
+            _titleContainer   = Div(_("tss-message-title"));
+            _textContainer    = Div(_("tss-message-text"));
+            _noteContainer    = Div(_("tss-message-note"));
 
             if (!string.IsNullOrEmpty(title)) Title(title);
             if (!string.IsNullOrEmpty(message)) Text(message);
 
+            _contentContainer.appendChild(_titleContainer);
+            _contentContainer.appendChild(_textContainer);
+
             InnerElement.appendChild(_iconContainer);
-            InnerElement.appendChild(_titleContainer);
-            InnerElement.appendChild(_textContainer);
+            InnerElement.appendChild(_contentContainer);
         }
 
         /// <summary>
@@ -102,7 +106,7 @@ namespace Tesserae
         {
             _noteContainer.innerHTML = "";
             _noteContainer.appendChild(TextBlock(note).Render());
-            if(!InnerElement.contains(_noteContainer)) InnerElement.appendChild(_noteContainer);
+            if(!_contentContainer.contains(_noteContainer)) _contentContainer.appendChild(_noteContainer);
             return this;
         }
 
@@ -113,7 +117,7 @@ namespace Tesserae
         {
             _noteContainer.innerHTML = "";
             _noteContainer.appendChild(note.Render());
-            if(!InnerElement.contains(_noteContainer)) InnerElement.appendChild(_noteContainer);
+            if(!_contentContainer.contains(_noteContainer)) _contentContainer.appendChild(_noteContainer);
             return this;
         }
 
@@ -122,8 +126,18 @@ namespace Tesserae
         /// </summary>
         public Message Variant(MessageVariant variant)
         {
-            InnerElement.classList.remove("tss-message-default", "tss-message-success", "tss-message-warning", "tss-message-error");
+            InnerElement.classList.remove("tss-message-default", "tss-message-info", "tss-message-success", "tss-message-warning", "tss-message-error");
             InnerElement.classList.add($"tss-message-{variant.ToString().ToLower()}");
+            return this;
+        }
+
+        /// <summary>
+        /// Lays the message out horizontally, with the icon beside the text instead of stacked above it.
+        /// </summary>
+        public Message Horizontal(bool horizontal = true)
+        {
+            if (horizontal) InnerElement.classList.add("tss-message-horizontal");
+            else            InnerElement.classList.remove("tss-message-horizontal");
             return this;
         }
 
@@ -140,6 +154,7 @@ namespace Tesserae
     public enum MessageVariant
     {
         Default,
+        Info,
         Success,
         Warning,
         Error

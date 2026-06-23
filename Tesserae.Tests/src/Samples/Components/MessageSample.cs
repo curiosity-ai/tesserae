@@ -17,7 +17,7 @@ namespace Tesserae.Tests.Samples
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     TextBlock("The Message component is used to display static messages, alerts, or empty states. It supports an icon, title, text body, and an optional note area."),
-                    TextBlock("It comes with variants for standard, success, warning, and error states.")
+                    TextBlock("It comes with variants for standard, info, success, warning, and error states, and can be laid out vertically (default) or horizontally.")
                )).SetTitle("Overview")))
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
@@ -40,7 +40,54 @@ namespace Tesserae.Tests.Samples
                     Message("No results found", "We couldn't find any items matching your search criteria.")
                         .Icon(UIcons.Search)
                         .Variant(MessageVariant.Default)
-               )).SetTitle("Usage")));
+               )).SetTitle("Usage")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    TextBlock("Variants apply a soft tinted background, matching icon, and a rounded border using the TSS color variables."),
+
+                    SampleSubTitle("Info"),
+                    Message("Heads up", "Your trial expires in 7 days. Upgrade now to keep access to all features.")
+                        .Icon(UIcons.Info)
+                        .Variant(MessageVariant.Info),
+
+                    SampleSubTitle("Success"),
+                    Message("All set!", "Your changes have been saved successfully.")
+                        .Icon(UIcons.CheckCircle)
+                        .Variant(MessageVariant.Success),
+
+                    SampleSubTitle("Warning"),
+                    Message("Storage almost full", "You're using 95% of your available storage. Consider removing unused files.")
+                        .Icon(UIcons.TriangleWarning)
+                        .Variant(MessageVariant.Warning)
+               )).SetTitle("Variants")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    TextBlock("Use Horizontal() to place the icon beside the content. This works great for compact inline alerts."),
+
+                    SampleSubTitle("Horizontal Info"),
+                    Message("Sync complete", "Your workspace is up to date with the latest changes from the server.")
+                        .Icon(UIcons.Info)
+                        .Variant(MessageVariant.Info)
+                        .Horizontal(),
+
+                    SampleSubTitle("Horizontal Success"),
+                    Message("Payment received", "We've received your payment and your subscription is now active.")
+                        .Icon(UIcons.CheckCircle)
+                        .Variant(MessageVariant.Success)
+                        .Horizontal(),
+
+                    SampleSubTitle("Horizontal Warning (with Note)"),
+                    Message("Unsaved changes", "You have unsaved changes that will be lost if you leave this page.")
+                        .Icon(UIcons.TriangleWarning)
+                        .Variant(MessageVariant.Warning)
+                        .Horizontal()
+                        .Note(
+                            HStack().AlignItems(ItemAlign.Center).Children(
+                                Icon(UIcons.Bulb, size: TextSize.Small).PR(8),
+                                TextBlock("Tip: changes are saved automatically every few minutes.").SemiBold()
+                            )
+                        )
+               )).SetTitle("Horizontal layout")));
         }
 
         public HTMLElement Render() => _content.Render();

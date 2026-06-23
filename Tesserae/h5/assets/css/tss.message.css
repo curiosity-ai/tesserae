@@ -21,12 +21,21 @@
     width: 64px;
     border-radius: 64px;
     line-height: 64px;
+    flex-shrink: 0;
 }
 
     .tss-message-icon i {
         line-height: 64px;
         margin-top: 4px;
     }
+
+.tss-message-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+}
 
 .tss-message-title {
     font-size: 20px;
@@ -62,15 +71,125 @@
     font-size: 16px;
 }
 
-/* Variants */
-.tss-message-success .tss-message-icon {
-    color: var(--tss-colors-green-500);
+/* Horizontal layout: icon sits beside the content instead of stacked above it */
+.tss-message-horizontal {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: left;
+    gap: 16px;
 }
 
-.tss-message-warning .tss-message-icon {
-    color: var(--tss-colors-orange-500);
+    .tss-message-horizontal .tss-message-icon {
+        margin-bottom: 0;
+        font-size: 28px;
+        height: 44px;
+        width: 44px;
+        border-radius: 44px;
+        line-height: 44px;
+    }
+
+        .tss-message-horizontal .tss-message-icon i {
+            line-height: 44px;
+            margin-top: 0;
+        }
+
+    .tss-message-horizontal .tss-message-content {
+        align-items: flex-start;
+        text-align: left;
+        flex: 1;
+    }
+
+    .tss-message-horizontal .tss-message-title {
+        font-size: 16px;
+        margin-bottom: 2px;
+    }
+
+    .tss-message-horizontal .tss-message-text {
+        margin-bottom: 0;
+    }
+
+    .tss-message-horizontal .tss-message-note {
+        margin-top: 12px;
+    }
+
+/* Variants: soft tinted background with a rounded border */
+.tss-message-info,
+.tss-message-success,
+.tss-message-warning,
+.tss-message-error {
+    border-radius: 12px;
+    border: 1px solid transparent;
 }
 
-.tss-message-error .tss-message-icon {
-    color: var(--tss-colors-red-500);
+.tss-message-info {
+    background-color: var(--tss-colors-blue-100);
+    border-color: var(--tss-colors-blue-200);
 }
+
+    .tss-message-info .tss-message-icon {
+        color: var(--tss-colors-blue-600);
+        background: var(--tss-colors-blue-200);
+    }
+
+    .tss-message-info .tss-message-title {
+        color: var(--tss-colors-blue-900);
+    }
+
+    .tss-message-info .tss-message-text {
+        color: var(--tss-colors-blue-800);
+    }
+
+.tss-message-success {
+    background-color: var(--tss-colors-green-100);
+    border-color: var(--tss-colors-green-200);
+}
+
+    .tss-message-success .tss-message-icon {
+        color: var(--tss-colors-green-600);
+        background: var(--tss-colors-green-200);
+    }
+
+    .tss-message-success .tss-message-title {
+        color: var(--tss-colors-green-900);
+    }
+
+    .tss-message-success .tss-message-text {
+        color: var(--tss-colors-green-800);
+    }
+
+.tss-message-warning {
+    background-color: var(--tss-colors-orange-100);
+    border-color: var(--tss-colors-orange-200);
+}
+
+    .tss-message-warning .tss-message-icon {
+        color: var(--tss-colors-orange-600);
+        background: var(--tss-colors-orange-200);
+    }
+
+    .tss-message-warning .tss-message-title {
+        color: var(--tss-colors-orange-900);
+    }
+
+    .tss-message-warning .tss-message-text {
+        color: var(--tss-colors-orange-800);
+    }
+
+.tss-message-error {
+    background-color: var(--tss-colors-red-100);
+    border-color: var(--tss-colors-red-200);
+}
+
+    .tss-message-error .tss-message-icon {
+        color: var(--tss-colors-red-600);
+        background: var(--tss-colors-red-200);
+    }
+
+    .tss-message-error .tss-message-title {
+        color: var(--tss-colors-red-900);
+    }
+
+    .tss-message-error .tss-message-text {
+        color: var(--tss-colors-red-800);
+    }
