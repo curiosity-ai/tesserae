@@ -54,6 +54,19 @@ namespace Tesserae.Tests.Samples
                            .Add("Location", 0.07, Theme.Colors.Orange500)
                            .Add("Program", 0.06, Theme.Colors.Neutral500))).SetTitle("Collapsable")))
                .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                        SampleSubTitle("Tooltip reveal"),
+                        TextBlock("Pass ContributionBarReveal.Tooltip to show an info icon instead of an expand/collapse chevron. The bar stays as a single color and hovering the icon reveals the multi-colored breakdown and legend in a popover."),
+                        ContributionBar()
+                           .Max(1.0)
+                           .Collapsable(Theme.Primary.Background, reveal: ContributionBarReveal.Tooltip)
+                           .Add("Description", 0.36, Theme.Colors.Blue600)
+                           .Add("ATA chapter", 0.17, Theme.Colors.Blue400)
+                           .Add("Type", 0.15, Theme.Colors.Teal500)
+                           .Add("Damage", 0.13, Theme.Colors.Green500)
+                           .Add("Location", 0.07, Theme.Colors.Orange500)
+                           .Add("Program", 0.06, Theme.Colors.Neutral500))).SetTitle("Tooltip")))
+               .FlatSection(Stack().Children(
                     Card(BuildSimilarityCard()).SetTitle("Example: similarity result card")));
         }
 
