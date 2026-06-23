@@ -104,6 +104,7 @@
     flex-grow: 1;
     white-space: nowrap;
     overflow: hidden;
+    min-height: 28px;
     text-overflow: ellipsis;
 }
 
