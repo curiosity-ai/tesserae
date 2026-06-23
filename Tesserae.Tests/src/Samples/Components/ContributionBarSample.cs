@@ -41,6 +41,19 @@ namespace Tesserae.Tests.Samples
                            .Add("Location", 0.07, Theme.Colors.Orange500)
                            .Add("Program", 0.06, Theme.Colors.Neutral500))).SetTitle("Explicit colors")))
                .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                        SampleSubTitle("Collapsable bar"),
+                        TextBlock("Call .Collapsable(color) to add a tiny toggle button next to the bar. When collapsed, every colored segment merges into a single bar painted with the given color (Theme.Primary.Background by default) and the legend is hidden. Click the AngleUp / AngleDown button to expand or collapse."),
+                        ContributionBar()
+                           .Max(1.0)
+                           .Collapsable(Theme.Primary.Background)
+                           .Add("Description", 0.36, Theme.Colors.Blue600)
+                           .Add("ATA chapter", 0.17, Theme.Colors.Blue400)
+                           .Add("Type", 0.15, Theme.Colors.Teal500)
+                           .Add("Damage", 0.13, Theme.Colors.Green500)
+                           .Add("Location", 0.07, Theme.Colors.Orange500)
+                           .Add("Program", 0.06, Theme.Colors.Neutral500))).SetTitle("Collapsable")))
+               .FlatSection(Stack().Children(
                     Card(BuildSimilarityCard()).SetTitle("Example: similarity result card")));
         }
 

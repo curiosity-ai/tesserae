@@ -43,13 +43,18 @@ namespace Tesserae
 
         private readonly List<Segment> _segments = new List<Segment>();
         private readonly HTMLElement   _bar;
+        private readonly HTMLElement   _barRow;
+        private readonly HTMLElement   _toggle;
         private readonly HTMLElement   _legend;
 
-        private double  _max         = double.NaN;
-        private bool    _showLegend  = true;
-        private bool    _showValues  = true;
-        private int     _decimals    = 2;
-        private string  _barHeight   = "10px";
+        private double  _max             = double.NaN;
+        private bool    _showLegend      = true;
+        private bool    _showValues      = true;
+        private int     _decimals        = 2;
+        private string  _barHeight       = "10px";
+        private bool    _collapsable     = false;
+        private bool    _collapsed       = true;
+        private string  _collapsedColor  = Theme.Primary.Background;
 
         /// <summary>
         /// Initializes a new instance of this class.
@@ -57,8 +62,16 @@ namespace Tesserae
         public ContributionBar()
         {
             _bar         = Div(_("tss-contribution-bar"));
+            _toggle      = Button(_("tss-contribution-toggle", role: "button", ariaLabel: "Toggle contribution breakdown"));
+            _barRow      = Div(_("tss-contribution-row"), _bar);
             _legend      = Div(_("tss-contribution-legend"));
-            InnerElement = Div(_("tss-contribution"), _bar, _legend);
+            InnerElement = Div(_("tss-contribution"), _barRow, _legend);
+
+            _toggle.addEventListener("click", _ =>
+            {
+                _collapsed = !_collapsed;
+                Refresh();
+            });
         }
 
         /// <summary>
@@ -79,6 +92,24 @@ namespace Tesserae
         public ContributionBar Max(double max)
         {
             _max = max;
+            Refresh();
+            return this;
+        }
+
+        /// <summary>
+        /// Makes the bar collapsable: a tiny toggle button (showing an
+        /// <see cref="UIcons.AngleUp"/> / <see cref="UIcons.AngleDown"/> icon) is shown next to the bar.
+        /// When collapsed, all of the individually colored segments merge into a single bar painted with
+        /// <paramref name="color"/> (defaulting to <see cref="Theme.Primary.Background"/>) and the legend is
+        /// hidden. Expanding restores the multi-colored segments and the legend.
+        /// </summary>
+        /// <param name="color">The color used for the single, collapsed bar. Defaults to <see cref="Theme.Primary.Background"/>.</param>
+        /// <param name="initiallyCollapsed">Whether the bar starts collapsed. Defaults to <c>true</c>.</param>
+        public ContributionBar Collapsable(string color = Theme.Primary.Background, bool initiallyCollapsed = true)
+        {
+            _collapsable    = true;
+            _collapsedColor = string.IsNullOrEmpty(color) ? Theme.Primary.Background : color;
+            _collapsed      = initiallyCollapsed;
             Refresh();
             return this;
         }
@@ -144,30 +175,62 @@ namespace Tesserae
             return sum;
         }
 
+        private void UpdateToggle()
+        {
+            if (_collapsable)
+            {
+                if (_toggle.parentElement == null) _barRow.appendChild(_toggle);
+
+                var icon = _collapsed ? UIcons.AngleDown : UIcons.AngleUp;
+                _toggle.appendChild(I(icon));
+                _toggle.setAttribute("title", _collapsed ? "Expand contribution breakdown" : "Collapse contribution breakdown");
+            }
+            else if (_toggle.parentElement != null)
+            {
+                _toggle.parentElement.removeChild(_toggle);
+            }
+        }
+
         private void Refresh()
         {
             ClearChildren(_bar);
             ClearChildren(_legend);
+            ClearChildren(_toggle);
 
             _bar.style.height = _barHeight;
 
             var max = double.IsNaN(_max) ? Total() : _max;
             if (max <= 0) max = 1;
 
-            for (int i = 0; i < _segments.Count; i++)
-            {
-                var segment = _segments[i];
-                if (segment.Value <= 0) continue;
+            UpdateToggle();
 
-                var width    = (segment.Value / max) * 100.0;
-                var color    = ColorFor(i);
-                var fragment = Div(_("tss-contribution-segment", title: $"{segment.Label}: {FormatValue(segment.Value)}"));
+            var isCollapsed = _collapsable && _collapsed;
+
+            if (isCollapsed)
+            {
+                var width    = (Total() / max) * 100.0;
+                var fragment = Div(_("tss-contribution-segment", title: FormatValue(Total())));
                 fragment.style.width           = FormatValue(width) + "%";
-                fragment.style.backgroundColor = color;
+                fragment.style.backgroundColor = _collapsedColor;
                 _bar.appendChild(fragment);
             }
+            else
+            {
+                for (int i = 0; i < _segments.Count; i++)
+                {
+                    var segment = _segments[i];
+                    if (segment.Value <= 0) continue;
 
-            if (!_showLegend) return;
+                    var width    = (segment.Value / max) * 100.0;
+                    var color    = ColorFor(i);
+                    var fragment = Div(_("tss-contribution-segment", title: $"{segment.Label}: {FormatValue(segment.Value)}"));
+                    fragment.style.width           = FormatValue(width) + "%";
+                    fragment.style.backgroundColor = color;
+                    _bar.appendChild(fragment);
+                }
+            }
+
+            if (!_showLegend || isCollapsed) return;
 
             for (int i = 0; i < _segments.Count; i++)
             {
