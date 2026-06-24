@@ -87,7 +87,23 @@ namespace Tesserae.Tests.Samples
                                 TextBlock("Tip: changes are saved automatically every few minutes.").SemiBold()
                             )
                         )
-               )).SetTitle("Horizontal layout")));
+               )).SetTitle("Horizontal layout")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    TextBlock("Use Action(...) to attach an action component. On the default layout it renders below the content; on a horizontal message it renders on the right side, beside the content."),
+
+                    SampleSubTitle("Action (vertical)"),
+                    Message("No Database Schema Yet", "Start by describing your database requirements in the chat.")
+                        .Icon(UIcons.FileCode)
+                        .Action(Button("Get started").Primary()),
+
+                    SampleSubTitle("Action (horizontal)"),
+                    Message("Update available", "A new version of the app is ready to install.")
+                        .Icon(UIcons.Info)
+                        .Variant(MessageVariant.Info)
+                        .Horizontal()
+                        .Action(Button("Update now").Primary())
+               )).SetTitle("Action")));
         }
 
         public HTMLElement Render() => _content.Render();

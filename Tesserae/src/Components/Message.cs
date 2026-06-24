@@ -17,6 +17,9 @@ namespace Tesserae
         private readonly HTMLDivElement _textContainer;
         private readonly HTMLDivElement _noteContainer;
 
+        private IComponent  _action;
+        private HTMLElement _renderedRoot;
+
         /// <summary>
         /// Initializes a new instance of this class.
         /// </summary>
@@ -138,6 +141,18 @@ namespace Tesserae
         {
             if (horizontal) InnerElement.classList.add("tss-message-horizontal");
             else            InnerElement.classList.remove("tss-message-horizontal");
+            _renderedRoot = null;
+            return this;
+        }
+
+        /// <summary>
+        /// Adds an action component to the message. On the default (vertical) layout it is rendered below the
+        /// message content; on a horizontal message it is rendered on the right side, beside the content.
+        /// </summary>
+        public Message Action(IComponent action)
+        {
+            _action       = action;
+            _renderedRoot = null;
             return this;
         }
 
@@ -146,7 +161,25 @@ namespace Tesserae
         /// </summary>
         public override HTMLElement Render()
         {
-            return InnerElement;
+            if (_action is null) return InnerElement;
+
+            if (_renderedRoot is null)
+            {
+                if (InnerElement.classList.contains("tss-message-horizontal"))
+                {
+                    _renderedRoot = HStack().WS().AlignItemsCenter()
+                       .Children(Raw(InnerElement).Grow(), _action)
+                       .Render();
+                }
+                else
+                {
+                    _renderedRoot = VStack().WS()
+                       .Children(Raw(InnerElement), _action)
+                       .Render();
+                }
+            }
+
+            return _renderedRoot;
         }
     }
 
