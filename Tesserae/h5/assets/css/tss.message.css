@@ -199,12 +199,6 @@
 
 }
 
-/* Dark theme: the colored scales aren't remapped in dark mode, so the light
-   tinted backgrounds would glare. Flip to deep backgrounds with mid-tone
-   borders and lift the title/text/icon colors so they read on the dark fill. */
-/* The note is a callout chip that can sit on the page or inside a variant
-   message. A -900 fill would melt into the info variant's -900 background, so
-   use a brighter, more saturated shade to keep it distinct in either context. */
 .tss-dark-mode .tss-message-note {
     background-color: var(--tss-colors-blue-800);
     color: var(--tss-colors-blue-100);
