@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace Tesserae
 {
@@ -16,10 +17,17 @@ namespace Tesserae
         /// <param name="titleCreator">A function that creates the title component for the tab.</param>
         /// <param name="contentCreator">A function that creates the content component for the tab.</param>
         /// <param name="cached">Whether to cache the content component after it is first created.</param>
+        /// <param name="closeable">Whether the tab shows a close button.</param>
+        /// <param name="onClosed">An action to perform once the tab is closed.</param>
+        /// <param name="onBeforeClose">
+        /// Optional guard awaited when the user clicks the tab's close button. The tab is
+        /// only removed if it resolves <c>true</c>; resolve <c>false</c> to keep it open
+        /// (e.g. after the user cancels an "unsaved changes" confirmation).
+        /// </param>
         /// <returns>The pivot component itself, for chaining.</returns>
-        public static Pivot Pivot(this Pivot pivot, string id, Func<IComponent> titleCreator, Func<IComponent> contentCreator, bool cached = false, bool closeable = false, Action onClosed = null)
+        public static Pivot Pivot(this Pivot pivot, string id, Func<IComponent> titleCreator, Func<IComponent> contentCreator, bool cached = false, bool closeable = false, Action onClosed = null, Func<Task<bool>> onBeforeClose = null)
         {
-            return pivot.Add(new Pivot.Tab(id, titleCreator, contentCreator, cached, closeable, onClosed));
+            return pivot.Add(new Pivot.Tab(id, titleCreator, contentCreator, cached, closeable, onClosed, onBeforeClose));
         }
 
         /// <summary>

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using static H5.Core.dom;
 using static Tesserae.UI;
 
@@ -179,7 +180,7 @@ namespace Tesserae
                 closeIcon.onclick = (e) =>
                 {
                     StopEvent(e);
-                    RemoveTab(tab.Id);
+                    RequestCloseTab(tab);
                 };
                 title.appendChild(closeIcon);
                 title.classList.add("tss-pivot-tab-closeable");
@@ -315,6 +316,34 @@ namespace Tesserae
                 items[i] = ContextMenuItem(Raw(clone)).OnClick(() => Select(id));
             }
             ContextMenu().Items(items).ShowFor(_moreBtn);
+        }
+
+        /// <summary>
+        /// Invoked by the tab's close button. When the tab supplies an
+        /// <see cref="Tab.OnBeforeClose"/> guard (e.g. to confirm discarding
+        /// unsaved changes), it is awaited first and the tab is only removed
+        /// if the guard resolves <c>true</c>. Tabs without a guard close
+        /// immediately, exactly as before.
+        /// </summary>
+        private void RequestCloseTab(Tab tab)
+        {
+            if (tab.OnBeforeClose is null)
+            {
+                RemoveTab(tab.Id);
+                return;
+            }
+
+            RequestCloseTabAsync(tab).FireAndForget();
+        }
+
+        private async Task RequestCloseTabAsync(Tab tab)
+        {
+            var canClose = await tab.OnBeforeClose();
+
+            if (canClose)
+            {
+                RemoveTab(tab.Id);
+            }
         }
 
         /// <summary>
@@ -607,7 +636,7 @@ namespace Tesserae
             /// <summary>
             /// Initializes a new instance of this class.
             /// </summary>
-            public Tab(string id, Func<IComponent> titleCreator, Func<IComponent> contentCreator, bool cached = false, bool closeable = false, Action onClosed = null)
+            public Tab(string id, Func<IComponent> titleCreator, Func<IComponent> contentCreator, bool cached = false, bool closeable = false, Action onClosed = null, Func<Task<bool>> onBeforeClose = null)
             {
                 Id               = id;
                 _canCacheContent = cached;
@@ -615,11 +644,13 @@ namespace Tesserae
                 _titleCreator    = titleCreator;
                 Closeable        = closeable;
                 OnClosed         = onClosed;
+                OnBeforeClose    = onBeforeClose;
             }
 
-            internal bool   KeepCached => _canCacheContent;
-            internal bool   Closeable  { get; }
-            internal Action OnClosed   { get; }
+            internal bool             KeepCached    => _canCacheContent;
+            internal bool             Closeable     { get; }
+            internal Action           OnClosed      { get; }
+            internal Func<Task<bool>> OnBeforeClose { get; }
 
             private          Func<IComponent> _titleCreator;
             private          Func<IComponent> _contentCreator;
