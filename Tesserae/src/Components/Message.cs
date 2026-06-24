@@ -18,7 +18,7 @@ namespace Tesserae
         private readonly HTMLDivElement _noteContainer;
 
         private IComponent  _action;
-        private HTMLElement _renderedRoot;
+        private HTMLElement _actionContainer;
 
         /// <summary>
         /// Initializes a new instance of this class.
@@ -32,6 +32,7 @@ namespace Tesserae
             _titleContainer   = Div(_("tss-message-title"));
             _textContainer    = Div(_("tss-message-text"));
             _noteContainer    = Div(_("tss-message-note"));
+            _actionContainer  = Div(_("tss-message-action"));
 
             if (!string.IsNullOrEmpty(title)) Title(title);
             if (!string.IsNullOrEmpty(message)) Text(message);
@@ -41,6 +42,7 @@ namespace Tesserae
 
             InnerElement.appendChild(_iconContainer);
             InnerElement.appendChild(_contentContainer);
+            InnerElement.appendChild(_actionContainer);
         }
 
         /// <summary>
@@ -141,7 +143,6 @@ namespace Tesserae
         {
             if (horizontal) InnerElement.classList.add("tss-message-horizontal");
             else            InnerElement.classList.remove("tss-message-horizontal");
-            _renderedRoot = null;
             return this;
         }
 
@@ -152,35 +153,15 @@ namespace Tesserae
         public Message Action(IComponent action)
         {
             _action       = action;
-            _renderedRoot = null;
+            ClearChildren(_actionContainer);
+            _actionContainer.appendChild(action.Render());
             return this;
         }
 
         /// <summary>
         /// Renders the component's root HTML element.
         /// </summary>
-        public override HTMLElement Render()
-        {
-            if (_action is null) return InnerElement;
-
-            if (_renderedRoot is null)
-            {
-                if (InnerElement.classList.contains("tss-message-horizontal"))
-                {
-                    _renderedRoot = HStack().WS().AlignItemsCenter()
-                       .Children(Raw(InnerElement).Grow(), _action)
-                       .Render();
-                }
-                else
-                {
-                    _renderedRoot = VStack().WS()
-                       .Children(Raw(InnerElement), _action)
-                       .Render();
-                }
-            }
-
-            return _renderedRoot;
-        }
+        public override HTMLElement Render() => InnerElement;
     }
 
     [H5.Name("tss.MessageVariant")]

@@ -193,3 +193,8 @@
     .tss-message-error .tss-message-text {
         color: var(--tss-colors-red-800);
     }
+
+
+.tss-message-action {
+    
+}
