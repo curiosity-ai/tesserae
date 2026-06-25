@@ -74,6 +74,21 @@ namespace Tesserae.Tests.Samples
                            .Max(0.94)
                            .AddRange(SampleContributions, c => c.Name, c => c.Score))).SetTitle("AddRange")))
                .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                        SampleSubTitle("Ordering and partial fill"),
+                        TextBlock(".SortByValue() orders the segments largest-first no matter the order they were added — here the parts are added smallest-first but render largest-first."),
+                        ContributionBar()
+                           .SortByValue()
+                           .Add("Location", 0.07, Theme.Colors.Orange500)
+                           .Add("Type", 0.15, Theme.Colors.Teal500)
+                           .Add("ATA chapter", 0.17, Theme.Colors.Purple500)
+                           .Add("Description", 0.36, Theme.Colors.Blue500),
+                        TextBlock(".FillTo(fraction) fills only part of the track while keeping the segments' relative sizes; the rest stays empty. Two equal parts with .FillTo(0.5) each take a quarter of the bar.").PT(12),
+                        ContributionBar()
+                           .FillTo(0.5)
+                           .Add("Signal X", 0.5, Theme.Colors.Blue500)
+                           .Add("Signal Y", 0.5, Theme.Colors.Orange500))).SetTitle("Ordering & FillTo")))
+               .FlatSection(Stack().Children(
                     Card(BuildSimilarityCard()).SetTitle("Example: similarity result card")));
         }
 

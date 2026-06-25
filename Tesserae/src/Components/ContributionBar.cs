@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using static H5.Core.dom;
 using static Tesserae.UI;
 
@@ -31,9 +32,12 @@ namespace Tesserae
     /// segment with its label and numeric value.
     /// </summary>
     /// <remarks>
-    /// Add segments with <see cref="Add(string, double, string)"/>. By default the bar fills entirely
-    /// (the largest extent equals the sum of all segments); call <see cref="Max(double)"/> to pin the
-    /// full-width value so a remainder track is shown when the segments do not reach it.
+    /// Add segments with <see cref="Add(string, double, string)"/> (or many at once with
+    /// <see cref="AddRange{T}"/>). Segments render in the order they were added unless
+    /// <see cref="SortByValue(bool)"/> is set, which orders them by magnitude. By default the bar fills
+    /// entirely (the largest extent equals the sum of all segments); call <see cref="Max(double)"/> to pin
+    /// the full-width value, or <see cref="FillTo(double)"/> to fill only a fraction of the track, so a
+    /// remainder track is shown when the segments do not reach it.
     /// </remarks>
     [H5.Name("tss.ContributionBar")]
     public sealed class ContributionBar : ComponentBase<ContributionBar, HTMLElement>
@@ -67,6 +71,8 @@ namespace Tesserae
         private readonly HTMLElement   _legend;
 
         private double  _max             = double.NaN;
+        private double  _fillFraction    = double.NaN;
+        private bool?   _sortDescending  = null;
         private bool    _showLegend      = true;
         private bool    _showValues      = true;
         private int     _decimals        = 2;
@@ -136,7 +142,35 @@ namespace Tesserae
         /// </summary>
         public ContributionBar Max(double max)
         {
-            _max = max;
+            _max          = max;
+            _fillFraction = double.NaN;
+            Refresh();
+            return this;
+        }
+
+        /// <summary>
+        /// Fills the bar to a fraction of its width (0 = empty, 1 = full) while keeping the segments'
+        /// relative proportions. The filled portion is split across the segments by their share of the
+        /// total and the rest of the track is left empty — so you can dial how "full" the bar reads without
+        /// changing any segment value. For example, two equal segments with <c>FillTo(0.5)</c> each take a
+        /// quarter of the bar and the remaining half stays empty.
+        /// </summary>
+        /// <param name="fraction">The fraction of the track to fill, clamped to the range 0..1.</param>
+        public ContributionBar FillTo(double fraction)
+        {
+            _fillFraction = fraction;
+            _max          = double.NaN;
+            Refresh();
+            return this;
+        }
+
+        /// <summary>
+        /// Orders the segments (and the legend) by value rather than the order they were added. Defaults to
+        /// largest-first; pass <c>false</c> to order smallest-first.
+        /// </summary>
+        public ContributionBar SortByValue(bool descending = true)
+        {
+            _sortDescending = descending;
             Refresh();
             return this;
         }
@@ -206,11 +240,10 @@ namespace Tesserae
             return this;
         }
 
-        private string ColorFor(int index)
+        private string ColorFor(Segment segment, int position)
         {
-            var segment = _segments[index];
             if (!string.IsNullOrEmpty(segment.Color)) return segment.Color;
-            return DefaultPalette[index % DefaultPalette.Length];
+            return DefaultPalette[position % DefaultPalette.Length];
         }
 
         private string FormatValue(double value) => H5.Script.Write<string>("{0}.toFixed({1})", value, _decimals);
@@ -220,6 +253,15 @@ namespace Tesserae
             double sum = 0;
             foreach (var s in _segments) sum += s.Value > 0 ? s.Value : 0;
             return sum;
+        }
+
+        private List<Segment> OrderedSegments()
+        {
+            if (_sortDescending == null) return _segments;
+
+            return _sortDescending.Value
+                ? _segments.OrderByDescending(s => s.Value).ToList()
+                : _segments.OrderBy(s => s.Value).ToList();
         }
 
         private void UpdateToggle()
@@ -249,19 +291,26 @@ namespace Tesserae
 
         private double EffectiveMax()
         {
+            if (!double.IsNaN(_fillFraction))
+            {
+                var fraction = _fillFraction <= 0 ? 1 : (_fillFraction > 1 ? 1 : _fillFraction);
+                var total    = Total();
+                return total <= 0 ? 1 : total / fraction;
+            }
+
             var max = double.IsNaN(_max) ? Total() : _max;
             return max <= 0 ? 1 : max;
         }
 
-        private void RenderSegmentsInto(HTMLElement bar, double max)
+        private void RenderSegmentsInto(HTMLElement bar, List<Segment> segments, double max)
         {
-            for (int i = 0; i < _segments.Count; i++)
+            for (int i = 0; i < segments.Count; i++)
             {
-                var segment = _segments[i];
+                var segment = segments[i];
                 if (segment.Value <= 0) continue;
 
                 var width    = (segment.Value / max) * 100.0;
-                var color    = ColorFor(i);
+                var color    = ColorFor(segment, i);
                 var fragment = Div(_("tss-contribution-segment", title: $"{segment.Label}: {FormatValue(segment.Value)}"));
                 fragment.style.width           = FormatValue(width) + "%";
                 fragment.style.backgroundColor = color;
@@ -269,13 +318,13 @@ namespace Tesserae
             }
         }
 
-        private void RenderLegendInto(HTMLElement legend)
+        private void RenderLegendInto(HTMLElement legend, List<Segment> segments)
         {
-            for (int i = 0; i < _segments.Count; i++)
+            for (int i = 0; i < segments.Count; i++)
             {
-                var segment = _segments[i];
+                var segment = segments[i];
                 var dot     = Span(_("tss-contribution-legend-dot"));
-                dot.style.backgroundColor = ColorFor(i);
+                dot.style.backgroundColor = ColorFor(segment, i);
 
                 var item = Div(_("tss-contribution-legend-item"),
                     dot,
@@ -292,12 +341,14 @@ namespace Tesserae
 
         private HTMLElement BuildBreakdownPopover()
         {
+            var ordered = OrderedSegments();
+
             var bar = Div(_("tss-contribution-bar"));
             bar.style.height = _barHeight;
-            RenderSegmentsInto(bar, EffectiveMax());
+            RenderSegmentsInto(bar, ordered, EffectiveMax());
 
             var legend = Div(_("tss-contribution-legend"));
-            RenderLegendInto(legend);
+            RenderLegendInto(legend, ordered);
 
             return Div(_("tss-contribution tss-contribution-popover"), bar, legend);
         }
@@ -340,7 +391,8 @@ namespace Tesserae
 
             _bar.style.height = _barHeight;
 
-            var max = EffectiveMax();
+            var max     = EffectiveMax();
+            var ordered = OrderedSegments();
 
             UpdateToggle();
 
@@ -357,12 +409,12 @@ namespace Tesserae
             }
             else
             {
-                RenderSegmentsInto(_bar, max);
+                RenderSegmentsInto(_bar, ordered, max);
             }
 
             if (!_showLegend || isCollapsed) return;
 
-            RenderLegendInto(_legend);
+            RenderLegendInto(_legend, ordered);
         }
 
         /// <summary>
