@@ -67,8 +67,32 @@ namespace Tesserae.Tests.Samples
                            .Add("Location", 0.07, Theme.Colors.Orange500)
                            .Add("Program", 0.06, Theme.Colors.Neutral500))).SetTitle("Tooltip")))
                .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                        SampleSubTitle("Build directly from a list"),
+                        TextBlock(".AddRange(items, item => label, item => value) builds every segment from a collection in a single call — no manual .Add loop. This is how a similarity / ranking result's per-candidate contributions bind straight to the bar."),
+                        ContributionBar()
+                           .Max(0.94)
+                           .AddRange(SampleContributions, c => c.Name, c => c.Score))).SetTitle("AddRange")))
+               .FlatSection(Stack().Children(
                     Card(BuildSimilarityCard()).SetTitle("Example: similarity result card")));
         }
+
+        private sealed class Contribution
+        {
+            public string Name  { get; set; }
+            public double Score { get; set; }
+        }
+
+        // Mirrors the per-candidate score decomposition a similarity engine returns (a name + its score share).
+        private static readonly Contribution[] SampleContributions =
+        {
+            new Contribution { Name = "Description", Score = 0.36 },
+            new Contribution { Name = "ATA chapter", Score = 0.17 },
+            new Contribution { Name = "Type",        Score = 0.15 },
+            new Contribution { Name = "Damage",      Score = 0.13 },
+            new Contribution { Name = "Location",    Score = 0.07 },
+            new Contribution { Name = "Program",     Score = 0.06 },
+        };
 
         private static IComponent BuildSimilarityCard()
         {

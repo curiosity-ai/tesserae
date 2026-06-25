@@ -108,6 +108,29 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Adds many segments in one call by projecting each item to a label and a value (and optionally a
+        /// color). This lets the bar be built directly from a list — for example the per-candidate score
+        /// decomposition a ranking / similarity engine returns — without a manual
+        /// <see cref="Add(string, double, string)"/> loop. The bar is laid out once, after every segment is added.
+        /// </summary>
+        /// <param name="items">The source items. Null is treated as empty.</param>
+        /// <param name="label">Projects an item to its segment label.</param>
+        /// <param name="value">Projects an item to its segment value (its share of the total).</param>
+        /// <param name="color">Optional projection of an item to an explicit color; when null the default palette is used.</param>
+        public ContributionBar AddRange<T>(IEnumerable<T> items, Func<T, string> label, Func<T, double> value, Func<T, string> color = null)
+        {
+            if (items != null)
+            {
+                foreach (var item in items)
+                {
+                    _segments.Add(new Segment { Label = label(item), Value = value(item), Color = color != null ? color(item) : null });
+                }
+            }
+            Refresh();
+            return this;
+        }
+
+        /// <summary>
         /// Pins the value that corresponds to a full-width bar. When the segments sum to less than this
         /// value the remaining space is rendered as an empty track. Defaults to the sum of all segments.
         /// </summary>
