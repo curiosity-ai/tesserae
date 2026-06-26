@@ -85,6 +85,27 @@ Claude and GPT-4 are large language models. Jules built a demo using Tesserae fo
                     Toast().Success(s.Text.Substring(entity.Start, entity.Length));
                 });
 
+            // CRLF robustness: this text uses explicit Windows ("\r\n") line endings. A
+            // <textarea> stores those as "\n", but AnnotateAsync (standing in for a real
+            // detection engine) runs over the raw "\r\n" string and returns offsets in that
+            // raw coordinate space. The editor remaps them into the normalized space, so the
+            // highlights must still land exactly on the matched words even though every offset
+            // after a line break is shifted by the dropped "\r".
+            var crlfText =
+                "Curiosity GmbH is based in Munich, Germany.\r\n" +
+                "Anthropic, OpenAI and Microsoft build Claude and GPT-4.\r\n" +
+                "Jules demoed Tesserae in San Francisco in 2025.";
+
+            var crlfEditor = AnnotatedTextEditor(
+                    annotator: AnnotateAsync,
+                    initialText: crlfText,
+                    debounceMs: 500)
+               .MinHeight(80.px())
+               .OnEntityClick((s, entity, e) =>
+                {
+                    Toast().Information($"Clicked entity: \"{s.Text.Substring(entity.Start, entity.Length)}\"");
+                });
+
             // Multi-line hover tooltip: the string-label convenience constructor wraps the
             // text in a `.tss-annotated-text-default-label` div whose `white-space: pre-line`
             // renders '\n' as line breaks and whose `max-width` wraps long lines.
@@ -113,6 +134,9 @@ Claude and GPT-4 are large language models. Jules built a demo using Tesserae fo
                         SampleSubTitle("Read-only with clickable entities").MT(16),
                         TextBlock("Text cannot be edited, but entities still react to clicks.").Small().Foreground(Theme.Secondary.Foreground).MB(8),
                         readOnlyEditor.WS(),
+                        SampleSubTitle("Windows (CRLF) line endings").MT(16),
+                        TextBlock("The detection engine runs on the raw text (with \"\\r\\n\"), but the textarea normalizes line endings to \"\\n\". Highlights stay aligned because the editor remaps the raw offsets into the normalized text.").Small().Foreground(Theme.Secondary.Foreground).MB(8),
+                        crlfEditor.WS(),
                         SampleSubTitle("Multi-line hover tooltips").MT(16),
                         TextBlock("String-label entities can contain '\\n' to render as multi-line hover tooltips. Long lines wrap at the tooltip's max-width. \"ghost\" exercises the transparent-background case — the inline highlight is invisible, but the tooltip must still be readable (default styling kicks in). For rich content set Entity.LabelContent to your own IComponent.").Small().Foreground(Theme.Secondary.Foreground).MB(8),
                         multiLineTooltipEditor.WS()
