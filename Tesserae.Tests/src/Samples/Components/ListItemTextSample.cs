@@ -21,20 +21,20 @@ namespace Tesserae.Tests.Samples
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
                     SampleSubTitle("Title and subtitle"),
-                    ListItemText("SB A320-78-1042", "Thrust reverser — blocker door hinge fitting inspection"),
+                    ListItemText("Project roadmap", "Last edited 3 hours ago by Alex"),
 
                     SampleSubTitle("Title only"),
-                    ListItemText("SB A320-78-1042"),
+                    ListItemText("Project roadmap"),
 
                     SampleSubTitle("With an icon in a rounded square"),
                     VStack().Children(
-                        ListItemText("SB A320-78-1042", "Thrust reverser — blocker door hinge fitting inspection")
-                            .SetIcon(UIcons.WrenchSimple),
-                        ListItemText("Inspection passed", "All hinge fittings within tolerance")
+                        ListItemText("General settings", "Theme, language and notifications")
+                            .SetIcon(UIcons.Settings),
+                        ListItemText("Backup completed", "All files synced successfully")
                             .SetIcon(UIcons.Check)
                             .IconForeground("var(--tss-success-foreground-color)")
                             .IconBackground("var(--tss-success-background-color)"),
-                        ListItemText("Action required", "Re-torque fitting and re-inspect within 48h")
+                        ListItemText("Storage almost full", "Free up space to keep syncing")
                             .SetIcon(UIcons.TriangleWarning)
                             .IconForeground("var(--tss-danger-foreground-color)")
                             .IconBackground("var(--tss-danger-background-color)")
