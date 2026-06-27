@@ -699,6 +699,11 @@ namespace Tesserae
         public static TextBlock TextBlock(string text = string.Empty, bool treatAsHTML = false, bool selectable = false, TextSize textSize = TextSize.Small, TextWeight textWeight = TextWeight.Regular, string afterText = null) => new TextBlock(text, treatAsHTML, selectable, textSize, textWeight, afterText: afterText);
 
         /// <summary>
+        /// Creates a <see cref="Tesserae.ListItemText"/> component showing a title with an optional subtitle.
+        /// </summary>
+        public static ListItemText ListItemText(string title, string subtitle = null) => new ListItemText(title, subtitle);
+
+        /// <summary>
         /// Creates a <see cref="Tesserae.MarkdownBlock"/> component that renders Markdown source as sanitized HTML.
         /// </summary>
         public static MarkdownBlock MarkdownBlock(string text = "") => new MarkdownBlock(text);
