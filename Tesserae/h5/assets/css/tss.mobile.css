@@ -236,3 +236,60 @@ body.tss-mobile ::-webkit-scrollbar-thumb {
 .tss-mobile .tss-sectionstack {
     padding: 8px 8px 8px 16px;
 }
+
+/* ─── Section Title — wrap trailing commands onto their own line ──────────── */
+/* The title row is a single no-wrap flex row: icon + title + grow-spacer +
+   commands (e.g. a page's "Documentation" / "View Code" actions). On a narrow
+   screen the commands get pushed past the right edge and are clipped by the
+   content area's hidden horizontal overflow, so they become unreachable.
+   Letting the row wrap drops the commands onto their own line, kept
+   right-aligned, where they stay tappable. */
+body.tss-mobile .tss-sectiontitle-top {
+    flex-wrap: wrap !important;
+    row-gap: 8px;
+}
+
+body.tss-mobile .tss-sectiontitle-commands {
+    margin-left: auto;
+    flex-wrap: wrap !important;
+    justify-content: flex-end;
+}
+
+/* Let the title itself wrap rather than force the row wider than the viewport. */
+body.tss-mobile .tss-sectiontitle-title {
+    white-space: normal !important;
+}
+
+/* ─── Navbar top bar — keep always-visible commands off the label ─────────── */
+/* In the horizontal top bar a sidebar button shrinks to its content width, so
+   its absolutely-positioned commands (shown via CommandsAlwaysVisible) would
+   overlap the text. Reserve room on the right so the label and command icons
+   don't collide. */
+body.tss-mobile .tss-navbar .tss-sidebar-header:not(.tss-navbar-drawer-header) .tss-sidebar-btn-open.tss-sidebar-commands-always-open > .tss-btn,
+body.tss-mobile .tss-navbar .tss-sidebar-header:not(.tss-navbar-drawer-header) .tss-sidebar-btn-open.tss-sidebar-commands-always-open > a > .tss-btn {
+    padding-right: 36px !important;
+}
+
+/* ─── Cards — tighter inner padding to reclaim horizontal space ───────────── */
+/* The default card padding eats a large share of a phone's width; trim it so
+   form fields and text get more room without touching the desktop layout. */
+body.tss-mobile .tss-card {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+}
+
+/* ─── Inputs — avoid iOS Safari's auto-zoom on focus ──────────────────────── */
+/* Mobile Safari zooms the whole page in when a focused field's font is below
+   16px. Floor text-entry controls at 16px (but never shrink a larger one). */
+body.tss-mobile .tss-textbox,
+body.tss-mobile .tss-textarea,
+body.tss-mobile .tss-searchbox input,
+body.tss-mobile .tss-omnibox-search-input,
+body.tss-mobile input[type="text"],
+body.tss-mobile input[type="search"],
+body.tss-mobile input[type="number"],
+body.tss-mobile input[type="email"],
+body.tss-mobile input[type="password"],
+body.tss-mobile textarea {
+    font-size: max(16px, 1em) !important;
+}
