@@ -17,8 +17,19 @@ namespace Tesserae.Tests.Samples
         {
             var sidebar = Sidebar();
 
-            var searchBox = new SidebarSearchBox("search", "Search Sidebar...");
-            searchBox.OnSearch((term) => sidebar.Search(term));
+            // A rounded, primary "pill" button (see .Rounded()), matching the rounded search box below.
+            var newDocument = new SidebarButton("new-doc", UIcons.Plus, "New document")
+                .Primary()
+                .Rounded()
+                .OnClick(() => Toast().Success("New document"));
+
+            sidebar.AddHeader(newDocument);
+
+            // A rounded search box with a keyboard shortcut chip (⌘K / Ctrl+K) that focuses it.
+            var searchBox = new SidebarSearchBox("search", "Search docs, parts, records...")
+                .Rounded()
+                .SetKeyboardShortcut("Ctrl", "K")
+                .OnSearch((term) => sidebar.Search(term));
 
             sidebar.AddHeader(searchBox);
 
@@ -112,7 +123,7 @@ namespace Tesserae.Tests.Samples
                .SampleTitle(typeof(SidebarSample), UIcons.Apps, "A sidebar navigation component")
                .FlatSection(Stack().Children(
                     Card(VStack().WS().Children(
-                    TextBlock("A fully featured Sidebar with Search, Navigation, Buttons, and Separators."))).SetTitle("Overview"),
+                    TextBlock("A fully featured Sidebar with Search, Navigation, Buttons, and Separators. The header shows a rounded (pill) primary button and a rounded search box with a keyboard shortcut (⌘K / Ctrl+K) — enable both with .Rounded()."))).SetTitle("Overview"),
                     Card(VStack().WS().Children(
                         SplitView().WS().H(800).LeftIsSmaller(400.px()).Resizable()
                                    .Left(sidebar.S())

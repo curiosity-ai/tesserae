@@ -31,8 +31,26 @@ Bring factories into scope with `using static Tesserae.UI;`.
   persist item order.
 
 Common item types: `SidebarButton(id, UIcons icon, text)` (`.Selected()`,
-`.OnClick(...)`, `.Danger()`, `.Tooltip(...)`), `SidebarSeparator(id, text)`,
-`SidebarNav(id, icon, text, initiallyCollapsed)`, `SidebarText(id, text)`.
+`.OnClick(...)`, `.Primary()`, `.Danger()`, `.Rounded()`, `.Tooltip(...)`),
+`SidebarSeparator(id, text)`, `SidebarNav(id, icon, text, initiallyCollapsed)`,
+`SidebarText(id, text)`, `SidebarSearchBox(id, placeholder)`.
+
+## SidebarSearchBox
+
+`new SidebarSearchBox(id, placeholder)` is a search input for the header that
+filters searchable items. Configure it fluently:
+
+- `.OnSearch(term => sidebar.Search(term))` — run on every keystroke.
+- `.SetKeyboardShortcut("Ctrl", "K")` — show a shortcut chip (renders ⌘K on
+  macOS, Ctrl+K elsewhere) and focus the box when the shortcut is pressed.
+- `.Rounded(BorderRadius = Full)` — render as a full bordered, rounded "pill".
+
+## Rounded (pill) style
+
+`SidebarButton.Rounded(BorderRadius = Full)` and
+`SidebarSearchBox.Rounded(BorderRadius = Full)` render the item with rounded
+corners (a full pill by default; pass `BorderRadius.Small`/`Medium`/`Full`).
+Combine `.Primary().Rounded()` on a button for a prominent call-to-action.
 
 ## Example
 
@@ -40,11 +58,17 @@ Common item types: `SidebarButton(id, UIcons icon, text)` (`.Selected()`,
 using static Tesserae.UI;
 
 var sidebar = Sidebar();
-sidebar.AddHeader(new SidebarText("title", "My App"));
+
+sidebar.AddHeader(new SidebarButton("new-doc", UIcons.Plus, "New document")
+    .Primary().Rounded().OnClick(() => Toast().Success("New document")));
+
+sidebar.AddHeader(new SidebarSearchBox("search", "Search docs, parts, records...")
+    .Rounded()
+    .SetKeyboardShortcut("Ctrl", "K")
+    .OnSearch(term => sidebar.Search(term)));
+
 sidebar.AddContent(new SidebarButton("home", UIcons.Home, "Home").Selected());
 sidebar.AddContent(new SidebarSeparator("sep", "Tools"));
-sidebar.AddContent(new SidebarButton("search", UIcons.Search, "Search")
-    .OnClick(() => Toast().Information("Search")));
 sidebar.AddFooter(new SidebarButton("settings", UIcons.Settings, "Settings"));
 
 var app = HStack().WS().Children(sidebar.HS(), VStack().Grow().HS());

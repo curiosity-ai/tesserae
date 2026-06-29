@@ -330,6 +330,21 @@ namespace Tesserae
         }
 
         /// <summary>
+        /// Renders the button with rounded corners (defaults to a fully rounded "pill" shape),
+        /// matching the rounded SidebarSearchBox style.
+        /// </summary>
+        /// <param name="radius">The border radius to apply. Defaults to <see cref="BorderRadius.Full"/>.</param>
+        /// <returns>The current instance of the type.</returns>
+        public SidebarButton Rounded(BorderRadius radius = BorderRadius.Full)
+        {
+            _openButton.Rounded(radius);
+            _closedButton.Rounded(radius);
+            _open.Class("tss-sidebar-btn-rounded");
+            _closedButton.Class("tss-sidebar-btn-rounded");
+            return this;
+        }
+
+        /// <summary>
         /// Sets the button to use a danger style.
         /// </summary>
         /// <returns>The current instance of the type.</returns>
