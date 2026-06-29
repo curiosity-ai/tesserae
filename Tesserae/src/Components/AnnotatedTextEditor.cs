@@ -103,11 +103,6 @@ namespace Tesserae
         private          int                          _debounceTimeoutId   = 0;
         private          int                          _annotationRequestId = 0;
         private          Entity[]                     _currentEntities     = new Entity[0];
-        // The text exactly as last supplied to us — programmatically via Text/initialText, or
-        // echoed back from the textarea on user input. Entity offsets returned by the annotator
-        // are relative to THIS string; the textarea stores a CRLF-normalized copy of it, so we
-        // keep the raw text around to translate those offsets. See RemapToNormalized.
-        private          string                       _rawText             = string.Empty;
         private readonly List<HTMLElement>            _entitySpans         = new List<HTMLElement>();
         // Rendered hover element per entity. Populated on first hover, cleared whenever the
         // entity set is replaced so we don't pin stale component trees in memory.
@@ -151,9 +146,6 @@ namespace Tesserae
 
             _textarea.addEventListener("input", (e) =>
             {
-                // The textarea already hands us a newline-normalized value, so the raw text the
-                // annotator runs on and the textarea value are identical for typed input.
-                _rawText = _textarea.value;
                 HideHoverTag();
                 TextChanged?.Invoke(this, _textarea.value);
                 RenderHighlights();
@@ -180,8 +172,7 @@ namespace Tesserae
 
             if (!string.IsNullOrEmpty(initialText))
             {
-                _rawText        = initialText;
-                _textarea.value = NormalizeNewlines(initialText);
+                _textarea.value = initialText;
             }
 
             RenderHighlights();
@@ -196,8 +187,7 @@ namespace Tesserae
             get => _textarea.value;
             set
             {
-                _rawText        = value ?? string.Empty;
-                _textarea.value = NormalizeNewlines(value);
+                _textarea.value = value ?? string.Empty;
                 HideHoverTag();
                 TextChanged?.Invoke(this, _textarea.value);
                 RenderHighlights();
@@ -378,16 +368,12 @@ namespace Tesserae
                 {
 
                     var      requestId = ++_annotationRequestId;
-                    // Run the annotator over the RAW text, not the textarea value: detection
-                    // engines expect the original (un-normalized) string and return offsets into
-                    // it. We translate those offsets back into the textarea's normalized space
-                    // below so the highlights line up. For typed input raw == textarea value.
-                    var      raw       = _rawText;
+                    var      text      = _textarea.value;
                     Entity[] entities;
 
                     try
                     {
-                        entities = await _annotator(raw);
+                        entities = await _annotator(text);
                     }
                     catch (Exception ex)
                     {
@@ -397,7 +383,7 @@ namespace Tesserae
 
                     if (requestId != _annotationRequestId) return; // stale
 
-                    _currentEntities = RemapToNormalized(entities ?? new Entity[0], raw);
+                    _currentEntities = entities ?? new Entity[0];
                     _labelContentCache.Clear();
                     HideHoverTag();
                     RenderHighlights();
@@ -538,62 +524,6 @@ namespace Tesserae
         private void HideHoverTag()
         {
             if (_hoverTag != null) _hoverTag.style.display = "none";
-        }
-
-        /// <summary>
-        /// Collapses Windows ("\r\n") and old-Mac ("\r") line endings to "\n", matching the
-        /// normalization a &lt;textarea&gt; applies to its value. Used so the string we hand the
-        /// textarea and the string our offset map is built from agree on length and indices.
-        /// </summary>
-        private static string NormalizeNewlines(string text)
-            => (text ?? string.Empty).Replace("\r\n", "\n").Replace('\r', '\n');
-
-        /// <summary>
-        /// Translates entity offsets that were computed against the raw text into offsets against
-        /// the textarea's newline-normalized value.
-        ///
-        /// Token-detection engines run over the original, un-normalized text, so an entity's
-        /// Start/Length index into a string that may still contain "\r\n". A &lt;textarea&gt;
-        /// stores "\r\n" as a single "\n", which shifts every offset after a CRLF one column to
-        /// the left per line break. We render against (and expose <see cref="Text"/> as) the
-        /// normalized value, so raw offsets must be rewritten into normalized space or the
-        /// highlights drift. A lone "\r" maps to "\n" without changing length, so only "\r\n"
-        /// pairs actually shift anything — when none are present the map is the identity and the
-        /// original entities are returned untouched.
-        /// </summary>
-        private static Entity[] RemapToNormalized(Entity[] entities, string raw)
-        {
-            if (entities == null || entities.Length == 0) return entities ?? new Entity[0];
-
-            raw        = raw ?? string.Empty;
-            int rawLen = raw.Length;
-
-            // map[i] = index in the normalized string for raw index i. Length is rawLen + 1 so an
-            // entity's End (exclusive) is always mappable.
-            var map  = new int[rawLen + 1];
-            int norm = 0;
-            for (int i = 0; i < rawLen; i++)
-            {
-                map[i] = norm;
-                if (raw[i] == '\r' && i + 1 < rawLen && raw[i + 1] == '\n') continue; // the '\r' of a CRLF is dropped
-                norm++;
-            }
-            map[rawLen] = norm;
-
-            if (norm == rawLen) return entities; // no "\r\n" removed anything — offsets already line up
-
-            var result = new Entity[entities.Length];
-            for (int i = 0; i < entities.Length; i++)
-            {
-                var e = entities[i];
-                if (e == null) { result[i] = null; continue; }
-
-                var start = Math.Max(0, Math.Min(e.Start, rawLen));
-                var end   = Math.Max(start, Math.Min(e.End, rawLen));
-
-                result[i] = new Entity(map[start], map[end] - map[start], e.LabelContent, e.Background, e.Color, e.Border);
-            }
-            return result;
         }
 
         private static bool IsTransparent(string color)
