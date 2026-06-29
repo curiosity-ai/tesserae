@@ -12,7 +12,7 @@ Tesserae is a C# UI toolkit for building web applications, compiled to JavaScrip
 
 ## Skills
 
-`.claude/skills/` contains one skill per component (kebab-case slug, e.g.
+`Tesserae/skills/` contains one skill per component (kebab-case slug, e.g.
 `button`, `details-list`, `context-menu`) plus cross-cutting skills:
 `tesserae-overview` (start here / how to pick a component), `icomponent` (the
 `IComponent` interface and every fluent extension method), `creating-a-component`,
@@ -20,13 +20,41 @@ Tesserae is a C# UI toolkit for building web applications, compiled to JavaScrip
 when working with a component — each has the factory signature, key fluent
 methods, and a short example.
 
+These skills are written for **consumers of the Tesserae NuGet package**, not for
+this repo, which is why they live under the project folder (`Tesserae/skills/`)
+rather than this repo's `.claude/`.
+
+### How the skills ship to consumers
+
+The skills are packed into the Tesserae NuGet package and extracted into a
+referencing project's `.claude/skills/Tesserae/` on build. The plumbing lives in
+[`Tesserae/Tesserae.csproj`](Tesserae/Tesserae.csproj) and
+[`Tesserae/buildTransitive/Tesserae.targets`](Tesserae/buildTransitive/Tesserae.targets):
+
+- The csproj packs everything under `Tesserae/skills/**` into the package's
+  `skills/` folder, and a `_WriteSkillsVersion` target stamps the package version
+  into `skills/.skills-version`.
+- `Tesserae.targets` (auto-imported via `buildTransitive/`, so it reaches both
+  direct and transitive consumers) walks up from the consuming project to find a
+  `.claude` folder. If one exists, it compares the shipped `.skills-version`
+  against the installed marker and, when they differ, wipes and re-copies the
+  whole `skills/` payload into `.claude/skills/Tesserae/`. No `.claude` folder →
+  it does nothing.
+
+So a Tesserae app that has a `.claude` folder automatically gets the
+component skills refreshed whenever it upgrades the package. When you add or
+change skills here, they reach consumers on the next package version bump (the
+version marker is what triggers the re-copy). The package id appears in three
+places that must stay in sync: the csproj `<PackageId>`, the
+`buildTransitive/Tesserae.targets` filename, and `_SkillsPackageId` inside it.
+
 ### Keep skills in sync with the code
 
 The skills are documentation that drifts out of date if the code changes
 underneath them. Whenever you change the public surface of the toolkit, update
 the matching skill in the same change:
 
-- **New component** — add a new `.claude/skills/<slug>/SKILL.md` (slug = the
+- **New component** — add a new `Tesserae/skills/<slug>/SKILL.md` (slug = the
   doc/kebab-case name), and link it from related skills' "Related" sections.
 - **Changed factory or fluent method** (renamed, new/removed parameters, new
   configuration method, changed default) — update that component's skill so the

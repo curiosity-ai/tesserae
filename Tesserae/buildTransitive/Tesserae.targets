@@ -1,0 +1,83 @@
+<Project>
+  <!--
+    Shipped inside the Tesserae NuGet package and auto-imported by referencing
+    projects. On build it looks for a `.claude` folder at or above the consuming
+    project and, when found, extracts the package's `skills/` payload into
+    `.claude/skills/Tesserae/` — re-copying only when the package version changes.
+    Does nothing when there is no `.claude` folder.
+  -->
+  <PropertyGroup>
+    <_SkillsPackageId>Tesserae</_SkillsPackageId>
+    <!-- Targets sits in buildTransitive/; the skills/ payload is one level up in the restored package -->
+    <_SkillsSourceDir>$([MSBuild]::NormalizeDirectory('$(MSBuildThisFileDirectory)..', 'skills'))</_SkillsSourceDir>
+  </PropertyGroup>
+
+  <!-- Walk up the tree to find the nearest ancestor containing a .claude folder.
+       Done in code rather than via $(SolutionDir), which is only defined when
+       building through a .sln and breaks under `dotnet build SomeProject.csproj`. -->
+  <UsingTask TaskName="FindClaudeDir"
+             TaskFactory="RoslynCodeTaskFactory"
+             AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
+    <ParameterGroup>
+      <StartDirectory ParameterType="System.String" Required="true" />
+      <ClaudeDirectory ParameterType="System.String" Output="true" />
+    </ParameterGroup>
+    <Task>
+      <Code Type="Fragment" Language="cs"><![CDATA[
+        var dir = new System.IO.DirectoryInfo(StartDirectory);
+        while (dir != null) {
+            var candidate = System.IO.Path.Combine(dir.FullName, ".claude");
+            if (System.IO.Directory.Exists(candidate)) { ClaudeDirectory = candidate; break; }
+            dir = dir.Parent;
+        }
+      ]]></Code>
+    </Task>
+  </UsingTask>
+
+  <Target Name="_InstallClaudeSkills"
+          AfterTargets="Build"
+          Condition="'$(DesignTimeBuild)' != 'true'">
+
+    <FindClaudeDir StartDirectory="$(MSBuildProjectDirectory)">
+      <Output TaskParameter="ClaudeDirectory" PropertyName="_ClaudeDir" />
+    </FindClaudeDir>
+
+    <PropertyGroup Condition="'$(_ClaudeDir)' != ''">
+      <_SkillsTargetDir>$([MSBuild]::NormalizeDirectory('$(_ClaudeDir)', 'skills', '$(_SkillsPackageId)'))</_SkillsTargetDir>
+      <_ShippedVersionFile>$(_SkillsSourceDir).skills-version</_ShippedVersionFile>
+      <_InstalledVersionFile>$(_SkillsTargetDir).skills-version</_InstalledVersionFile>
+    </PropertyGroup>
+
+    <!-- Read shipped version (always present in the package) -->
+    <ReadLinesFromFile File="$(_ShippedVersionFile)"
+                       Condition="'$(_ClaudeDir)' != '' and Exists('$(_ShippedVersionFile)')">
+      <Output TaskParameter="Lines" PropertyName="_ShippedVersion" />
+    </ReadLinesFromFile>
+
+    <!-- Read installed version (absent on first install) -->
+    <ReadLinesFromFile File="$(_InstalledVersionFile)"
+                       Condition="'$(_ClaudeDir)' != '' and Exists('$(_InstalledVersionFile)')">
+      <Output TaskParameter="Lines" PropertyName="_InstalledVersion" />
+    </ReadLinesFromFile>
+
+    <PropertyGroup>
+      <_NeedsInstall Condition="'$(_ClaudeDir)' != '' and '$(_ShippedVersion)' != '$(_InstalledVersion)'">true</_NeedsInstall>
+    </PropertyGroup>
+
+    <!-- Version differs (or first install): wipe the folder and recopy everything -->
+    <RemoveDir Condition="'$(_NeedsInstall)' == 'true'"
+               Directories="$(_SkillsTargetDir)" />
+
+    <ItemGroup Condition="'$(_NeedsInstall)' == 'true'">
+      <_SkillFiles Include="$(_SkillsSourceDir)**\*" />
+    </ItemGroup>
+
+    <Copy Condition="'$(_NeedsInstall)' == 'true' and '@(_SkillFiles)' != ''"
+          SourceFiles="@(_SkillFiles)"
+          DestinationFiles="@(_SkillFiles->'$(_SkillsTargetDir)%(RecursiveDir)%(Filename)%(Extension)')"
+          OverwriteReadOnlyFiles="true" />
+
+    <Message Condition="'$(_NeedsInstall)' == 'true'" Importance="high"
+             Text="Skills $(_SkillsPackageId) updated $(_InstalledVersion) → $(_ShippedVersion) in $(_SkillsTargetDir)" />
+  </Target>
+</Project>
