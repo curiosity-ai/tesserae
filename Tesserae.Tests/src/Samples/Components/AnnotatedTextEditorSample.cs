@@ -105,31 +105,21 @@ Claude and GPT-4 are large language models. Jules built a demo using Tesserae fo
                 .ReadOnly()
                 .OnEntityClick((s, entity, e) => { Toast().Success(s.Text.Substring(entity.Start, entity.Length)); });
 
-            // CRLF bug repro: this text uses explicit Windows ("\r\n") line endings. A
-            // <textarea> collapses each "\r\n" to a single "\n" in its value, so the editor
-            // renders highlights against the shorter, normalized string. The annotator below
-            // mimics a real detection engine: it ignores the (already-normalized) value it is
-            // handed and runs over the ORIGINAL raw "\r\n" document, returning offsets in raw
-            // coordinate space. Because the editor no longer remaps those offsets (the remap was
-            // reverted in e2456263), every highlight after a line break drifts left by one
-            // column per preceding CRLF — line 1 entities land correctly, line 2 are off by one,
-            // line 3 by two. Watch "Anthropic", "Claude", "Jules", "Tesserae" sit off their words.
             var crlfText =
                 "Curiosity GmbH is based in Munich, Germany.\r\n" +
                 "Anthropic, OpenAI and Microsoft build Claude and GPT-4.\r\n" +
                 "Jules demoed Tesserae in San Francisco in 2025.";
+            Task<AnnotatedTextEditor.Entity[]> entitiesCRLF = AnnotateAsync(crlfText);
 
             var crlfEditor = AnnotatedTextEditor(
-                    // Ignore the normalized value (`_`); annotate the raw CRLF text so offsets
-                    // are in raw space — this is what reproduces the misalignment.
-                    annotator: _ => AnnotateAsync(crlfText),
+                    annotator: _ => entitiesCRLF,
                     initialText: crlfText,
                     debounceMs: 500)
                 .MinHeight(80.px())
                 .OnEntityClick((s, entity, e) =>
                 {
                     Toast().Information($"Clicked entity: \"{s.Text.Substring(entity.Start, entity.Length)}\"");
-                });
+                }).ReadOnly();
 
             // Multi-line hover tooltip: the string-label convenience constructor wraps the
             // text in a `.tss-annotated-text-default-label` div whose `white-space: pre-line`
@@ -165,11 +155,11 @@ Claude and GPT-4 are large language models. Jules built a demo using Tesserae fo
                         TextBlock("Text cannot be edited, but entities still react to clicks.").Small()
                             .Foreground(Theme.Secondary.Foreground).MB(8),
                         readOnlyEditor.WS(),
-                        SampleSubTitle("Windows (CRLF) line endings — BUG REPRO").MT(16),
+                        SampleSubTitle("Handle (CRLF) text area normalization").MT(16),
                         TextBlock(
-                                "The detection engine runs on the raw text (with \"\\r\\n\"), but the textarea collapses line endings to \"\\n\". Without offset remapping, highlights drift left by one column per preceding CRLF: line 1 is correct, line 2 off by one, line 3 off by two. Watch \"Anthropic\", \"Claude\", \"Jules\", \"Tesserae\".")
+                                "The detection engine runs on the raw text (with \"\\r\\n\"), but the html textarea collapses line endings to \"\\n\". Without offset remapping, highlights drift left by one column per preceding CRLF: line 1 is correct, line 2 off by one, line 3 off by two.")
                             .Small().Foreground(Theme.Secondary.Foreground).MB(8),
-                        crlfEditor.WS(),
+                        crlfEditor.WS(),    
                         SampleSubTitle("Multi-line hover tooltips").MT(16),
                         TextBlock(
                                 "String-label entities can contain '\\n' to render as multi-line hover tooltips. Long lines wrap at the tooltip's max-width. \"ghost\" exercises the transparent-background case — the inline highlight is invisible, but the tooltip must still be readable (default styling kicks in). For rich content set Entity.LabelContent to your own IComponent.")
