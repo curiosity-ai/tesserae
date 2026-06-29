@@ -41,8 +41,9 @@
   <!--
     Ship the Claude skills (one per component, plus cross-cutting guides) inside the
     NuGet package so consumers of the Tesserae package get them auto-extracted into
-    their solution's `.claude/skills/Tesserae/` folder. The buildTransitive targets
-    file performs the extraction on the consumer's machine; see CLAUDE.md.
+    their solution's `.claude/skills/tesserae/` folder (a single skill: root SKILL.md
+    plus references/). The buildTransitive targets file performs the extraction on
+    the consumer's machine; see CLAUDE.md.
     Remove + re-Include so the skills\** glob owns the items (correct RecursiveDir)
     and there is no duplicate with the SDK's default None items.
   -->

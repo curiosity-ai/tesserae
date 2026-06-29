@@ -12,13 +12,19 @@ Tesserae is a C# UI toolkit for building web applications, compiled to JavaScrip
 
 ## Skills
 
-`Tesserae/skills/` contains one skill per component (kebab-case slug, e.g.
-`button`, `details-list`, `context-menu`) plus cross-cutting skills:
-`tesserae-overview` (start here / how to pick a component), `icomponent` (the
-`IComponent` interface and every fluent extension method), `creating-a-component`,
-`javascript-interop`, and `wrap-a-javascript-library`. Load the relevant skill
-when working with a component — each has the factory signature, key fluent
-methods, and a short example.
+`Tesserae/skills/` is a **single Claude skill** named `tesserae`, structured per
+Anthropic's skill guidance (one root `SKILL.md`, with detail layered into a
+`references/` folder for progressive disclosure):
+
+- `Tesserae/skills/SKILL.md` — the root skill. Explains the library basics, using
+  components, layout with `Stack`/`Grid`, the key sizing/spacing/alignment helpers,
+  and an index of every reference file and how to find it.
+- `Tesserae/skills/references/<slug>.md` — one reference per component or topic
+  (kebab-case slug, e.g. `button.md`, `details-list.md`, `context-menu.md`), plus
+  the cross-cutting references `icomponent.md` (the `IComponent` interface and every
+  fluent extension method), `core-concepts.md`, `creating-a-component.md`,
+  `javascript-interop.md`, `wrap-a-javascript-library.md`, and the styling/layout
+  topic docs. Each has the factory signature, key fluent methods, and an example.
 
 These skills are written for **consumers of the Tesserae NuGet package**, not for
 this repo, which is why they live under the project folder (`Tesserae/skills/`)
@@ -26,48 +32,52 @@ rather than this repo's `.claude/`.
 
 ### How the skills ship to consumers
 
-The skills are packed into the Tesserae NuGet package and extracted into a
-referencing project's `.claude/skills/Tesserae/` on build. The plumbing lives in
+The skill is packed into the Tesserae NuGet package and extracted into a
+referencing project's `.claude/skills/tesserae/` on build. The plumbing lives in
 [`Tesserae/Tesserae.csproj`](Tesserae/Tesserae.csproj) and
 [`Tesserae/buildTransitive/Tesserae.targets`](Tesserae/buildTransitive/Tesserae.targets):
 
-- The csproj packs everything under `Tesserae/skills/**` into the package's
-  `skills/` folder, and a `_WriteSkillsVersion` target stamps the package version
-  into `skills/.skills-version`.
+- The csproj packs everything under `Tesserae/skills/**` (the root `SKILL.md` and
+  the whole `references/` tree) into the package's `skills/` folder, and a
+  `_WriteSkillsVersion` target stamps the package version into
+  `skills/.skills-version` (`NoDefaultExcludes` lets the dot-file pack).
 - `Tesserae.targets` (auto-imported via `buildTransitive/`, so it reaches both
   direct and transitive consumers) walks up from the consuming project to find a
   `.claude` folder. If one exists, it compares the shipped `.skills-version`
   against the installed marker and, when they differ, wipes and re-copies the
-  whole `skills/` payload into `.claude/skills/Tesserae/`. No `.claude` folder →
+  whole `skills/` payload into `.claude/skills/tesserae/`. No `.claude` folder →
   it does nothing.
 
-So a Tesserae app that has a `.claude` folder automatically gets the
-component skills refreshed whenever it upgrades the package. When you add or
-change skills here, they reach consumers on the next package version bump (the
-version marker is what triggers the re-copy). The package id appears in three
-places that must stay in sync: the csproj `<PackageId>`, the
-`buildTransitive/Tesserae.targets` filename, and `_SkillsPackageId` inside it.
+So a Tesserae app that has a `.claude` folder automatically gets the skill
+refreshed whenever it upgrades the package. Changes here reach consumers on the
+next package version bump (the version marker is what triggers the re-copy). Note
+the install folder is `tesserae` (the skill `name`, lowercase kebab-case); the
+targets *filename* must stay `Tesserae.targets` (= the csproj `<PackageId>`) so
+NuGet auto-imports it, and `_SkillsPackageId` inside the targets sets the install
+folder name.
 
 ### Keep skills in sync with the code
 
-The skills are documentation that drifts out of date if the code changes
-underneath them. Whenever you change the public surface of the toolkit, update
-the matching skill in the same change:
+The skill is documentation that drifts out of date if the code changes underneath
+it. Whenever you change the public surface of the toolkit, update the skill in the
+same change:
 
-- **New component** — add a new `Tesserae/skills/<slug>/SKILL.md` (slug = the
-  doc/kebab-case name), and link it from related skills' "Related" sections.
+- **New component** — add `Tesserae/skills/references/<slug>.md` (slug = the
+  doc/kebab-case name), link it from related references, and add it to the index in
+  `Tesserae/skills/SKILL.md`.
 - **Changed factory or fluent method** (renamed, new/removed parameters, new
-  configuration method, changed default) — update that component's skill so the
+  configuration method, changed default) — update that component's reference so the
   signatures and examples still compile.
 - **New or changed `IComponent` extension method** (under
-  `Tesserae/src/Extensions/`) — update the `icomponent` skill's catalog.
-- **Removed component** — delete its skill folder and fix any "Related" links
-  that pointed at it.
+  `Tesserae/src/Extensions/`) — update `references/icomponent.md` (and the sizing
+  cheat-sheet in `SKILL.md` if it's a common one).
+- **Removed component** — delete its `references/<slug>.md`, drop it from the
+  `SKILL.md` index, and fix any "Related" links that pointed at it.
 
-Skill `name` frontmatter must equal the folder slug, and `description` must end
-with a "Use when …" trigger. Keep each skill a concise quick-reference, not a
-full API dump. The same applies to the matching pages in the `documentation`
-repo under `tesserae/` — update them alongside the skills.
+The root `SKILL.md` `name` must be `tesserae` and its `description` must state what
+it does and when to use it (no `<`/`>`). Keep `SKILL.md` a focused overview and
+push detail into `references/`. The same applies to the matching pages in the
+`documentation` repo under `tesserae/` — update them alongside the references.
 
 ## Installing h5
 
