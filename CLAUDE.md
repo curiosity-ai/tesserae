@@ -10,6 +10,16 @@ Tesserae is a C# UI toolkit for building web applications, compiled to JavaScrip
 - Samples and demos: `Tesserae.Tests/`
 - Project and build config: `Tesserae/Tesserae.csproj`, `Tesserae/h5.json`
 
+## Skills
+
+`.claude/skills/` contains one skill per component (kebab-case slug, e.g.
+`button`, `details-list`, `context-menu`) plus cross-cutting skills:
+`tesserae-overview` (start here / how to pick a component), `creating-a-component`,
+`javascript-interop`, and `wrap-a-javascript-library`. Load the relevant skill
+when working with a component — each has the factory signature, key fluent
+methods, and a short example. When you add or change a component, update its
+skill (and add a new one for a brand-new component).
+
 ## Installing h5
 
 Install or update the h5 compiler and the dotnet serve tool globally before getting started:

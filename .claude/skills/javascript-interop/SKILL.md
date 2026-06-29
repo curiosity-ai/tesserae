@@ -1,0 +1,93 @@
+---
+name: javascript-interop
+description: How to call JavaScript and browser APIs from C# in Tesserae via the h5 compiler (Script.Write, [H5.Name], [Template], [External], H5.Core.dom). Use when you need to reach a browser API or inline JS that h5 doesn't already expose.
+---
+
+# Invoking JavaScript with h5
+
+Tesserae compiles C# to JavaScript with the **h5** compiler. Most of the time
+you use the typed `H5.Core.dom` bindings, but when you need raw JS — a browser
+API h5 doesn't surface, or a global from a bundled library — h5 gives you
+several escape hatches.
+
+## `H5.Script.Write` — inline JS
+
+```csharp
+using H5;   // brings Script into scope
+```
+
+`Script.Write("…")` emits the JS verbatim; the generic form returns a value.
+Positional placeholders `{0}`, `{1}`, … are replaced with the **compiled
+form** of the C# arguments (real JS references, not string concatenation):
+
+```csharp
+// no return value
+Script.Write("{0}.scrollIntoView()", element);
+
+// typed return value
+double now      = Script.Write<double>("Date.now()");
+bool   isArray  = Script.Write<bool>("Array.isArray({0})", children);
+object instance = Script.Write<object>("new SomeLib({0}, { gutter: {1} })", el, 10);
+```
+
+Keep the JS short and defensive (`try { … } catch (e) { }` for calls that may
+throw). This is exactly how the toolkit drives tippy tooltips, masonry layout,
+pointer capture in gestures, etc.
+
+## Reaching the DOM and globals
+
+```csharp
+using static H5.Core.dom;   // document, window, console, alert, navigator, …
+```
+
+`H5.Core.dom` exposes typed bindings for the standard DOM and `window`/
+`document` globals, so prefer it over `Script.Write` when a binding exists:
+
+```csharp
+document.body.style.overflow = "hidden";
+window.setTimeout((_) => DoThing(), 16);
+console.error(ex);
+```
+
+Convert between C# and JS views of a value with `.As<T>()` when needed.
+
+## Binding to existing JS with attributes
+
+When you want a *typed* C# surface over existing JS instead of scattering
+`Script.Write` calls:
+
+- `[H5.Name("globalName")]` on a type maps the C# type to that JS
+  global/namespace (e.g. `[H5.Name("tss.Button")]`). Used throughout Tesserae
+  to keep generated class names stable.
+- `[External]` + `extern` members declare a binding with **no C# body** — the
+  call compiles straight to the underlying JS member.
+- `[H5.Template("…")]` emits a specific JS expression for a member, with
+  `{this}`, `{index}`, argument names as placeholders.
+
+```csharp
+[H5.Name("tss.ROA")]
+public class ReadOnlyArray<T>
+{
+    public extern ReadOnlyArray(T[] data);
+
+    [External]
+    public extern T this[int index] { [Template("{this}[{index}]")] get; }
+
+    public extern int Length { [Name("length")] get; }   // maps to JS .length
+}
+```
+
+## Gotchas
+
+- `Script.Write` strings are opaque to the compiler — typos surface only at
+  runtime. Pass C# values as `{n}` placeholders rather than interpolating them
+  into the string so they compile correctly under minification.
+- Property/feature checks: `Script.Write<bool>("(typeof {0}.disabled === 'undefined')", el)`.
+- h5 renames JS files between Debug/Release (`.min.js`); any external script you
+  call must be bundled so the global exists at runtime — see `wrap-a-javascript-library`.
+
+## Related
+
+- `wrap-a-javascript-library` — bundle and wrap a whole JS library as a component.
+- `creating-a-component` — where interop code usually lives (inside `Render`/ctor).
+- Docs: `/tesserae/extending/javascript-interop`
