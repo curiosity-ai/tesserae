@@ -55,6 +55,27 @@
     margin-bottom: 2px;
 }
 
+/* Rounded (pill) variant for SidebarButton/SidebarSearchBox, enabled via .Rounded().
+   These are rendered 1.5x the normal 28px sidebar button height (= 42px). */
+.tss-sidebar-searchbox.tss-sidebar-searchbox-rounded .tss-searchbox-container {
+    height: 42px;
+    padding-left: 12px;
+    padding-right: 6px;
+}
+
+.tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-closed-icon.tss-sidebar-searchbox-rounded {
+    border-radius: var(--tss-border-radius-full);
+}
+
+.tss-sidebar-btn-open.tss-sidebar-btn-rounded > .tss-btn,
+.tss-sidebar-btn-open.tss-sidebar-btn-rounded > a > .tss-btn {
+    height: 42px !important;
+}
+
+.tss-sidebar.tss-sidebar-closed .tss-sidebar-btn-rounded.tss-sidebar-btn.tss-btn {
+    height: 42px !important;
+}
+
 .tss-sidebar-btn-open .tss-sidebar-btn {
     width: 100%;
     z-index: 1;
