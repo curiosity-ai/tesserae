@@ -144,7 +144,13 @@ namespace Tesserae
 
                     ClearChildrenExceptCached();
 
-                    var content = tab.RenderContent();
+                    // Wrap the active tab's content the same way a Stack wraps its
+                    // children: Stack.GetItem puts it in a tss-stack-item and transfers
+                    // any extension-defined sizing (.S(), .WS(), .Grow(), ...) from the
+                    // child onto the wrapper. This lets panel-filling content (e.g. a
+                    // search area sized with .S()) expand to the available height rather
+                    // than collapsing, without SegmentedPivot mutating the child itself.
+                    var content = Stack.GetItem(tab.GetContent(), forceAdd: true);
 
                     if (tab.KeepCached)
                     {
@@ -219,7 +225,7 @@ namespace Tesserae
 
             private          Func<IComponent> _titleCreator;
             private          Func<IComponent> _contentCreator;
-            private          HTMLElement      _content;
+            private          IComponent       _content;
             private readonly bool             _canCacheContent;
 
             internal bool KeepCached => _canCacheContent;
@@ -234,9 +240,10 @@ namespace Tesserae
             public IComponent CreateTitle() => _titleCreator();
 
             /// <summary>
-            /// Renders the content.
+            /// Returns the content component, reusing the cached instance when the tab
+            /// is cacheable so its wrapper (and rendered state) survive tab switches.
             /// </summary>
-            public HTMLElement RenderContent()
+            public IComponent GetContent()
             {
                 if (_canCacheContent && _content is object)
                 {
@@ -244,7 +251,7 @@ namespace Tesserae
                 }
                 else
                 {
-                    _content = _contentCreator().Render();
+                    _content = _contentCreator();
                     return _content;
                 }
             }
