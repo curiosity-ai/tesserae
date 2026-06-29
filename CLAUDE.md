@@ -18,8 +18,28 @@ Tesserae is a C# UI toolkit for building web applications, compiled to JavaScrip
 `IComponent` interface and every fluent extension method), `creating-a-component`,
 `javascript-interop`, and `wrap-a-javascript-library`. Load the relevant skill
 when working with a component — each has the factory signature, key fluent
-methods, and a short example. When you add or change a component, update its
-skill (and add a new one for a brand-new component).
+methods, and a short example.
+
+### Keep skills in sync with the code
+
+The skills are documentation that drifts out of date if the code changes
+underneath them. Whenever you change the public surface of the toolkit, update
+the matching skill in the same change:
+
+- **New component** — add a new `.claude/skills/<slug>/SKILL.md` (slug = the
+  doc/kebab-case name), and link it from related skills' "Related" sections.
+- **Changed factory or fluent method** (renamed, new/removed parameters, new
+  configuration method, changed default) — update that component's skill so the
+  signatures and examples still compile.
+- **New or changed `IComponent` extension method** (under
+  `Tesserae/src/Extensions/`) — update the `icomponent` skill's catalog.
+- **Removed component** — delete its skill folder and fix any "Related" links
+  that pointed at it.
+
+Skill `name` frontmatter must equal the folder slug, and `description` must end
+with a "Use when …" trigger. Keep each skill a concise quick-reference, not a
+full API dump. The same applies to the matching pages in the `documentation`
+repo under `tesserae/` — update them alongside the skills.
 
 ## Installing h5
 
