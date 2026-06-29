@@ -59,6 +59,10 @@ Sizing helpers (`.Width()`, `.WS()`, `.Grow()`, `.Stretch()`, …) work on any
 inspect the DOM: the style likely landed on the `tss-stack-item` wrapper. See the
 repo `CLAUDE.md` "Layout system" section for the full protocol.
 
+The sizing, spacing, alignment, text, styling, tooltip, accessibility, gesture,
+binding, and lifecycle helpers are all `IComponent` extension methods — see the
+`icomponent` skill for the complete catalog.
+
 ## Extending the toolkit
 
 - `creating-a-component` — implement `IComponent` / derive from `ComponentBase`.
