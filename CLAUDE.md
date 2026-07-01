@@ -109,6 +109,15 @@ dotnet serve --port 5000
 
 ## Conventions
 
+### Type safety
+
+Favor strong, static typing. Avoid `dynamic` unless absolutely necessary
+(e.g. untyped JavaScript interop that can't be modeled otherwise); keep its
+use narrow, convert back to a concrete type ASAP, and add a brief comment
+explaining why a typed alternative isn't possible.
+
+### Adding a component
+
 When adding a new component:
 
 1. Add the implementation under `Tesserae/src/Components`.
