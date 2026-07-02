@@ -120,6 +120,38 @@ namespace Tesserae
             window.history.replaceState(null, "", path);
         }
 
+        /// <summary>
+        /// Observable over the current parameters (route ':' captures and query-string values combined). It is refreshed whenever the router matches a new location or the query parameters are changed through
+        /// <see cref="SetQueryParameters"/> / <see cref="ReplaceQueryParameters"/>. Setting a new value (or mutating it via Update) from code writes the parameters back to the query string of the current URL.
+        /// </summary>
+        public static readonly SettableObservable<Parameters> QueryParameters = CreateQueryParametersObservable();
+
+        private static SettableObservable<Parameters> CreateQueryParametersObservable()
+        {
+            var observable = new SettableObservable<Parameters>(new Parameters());
+
+            observable.ObserveFutureChanges(parameters =>
+            {
+                // Change notifications are debounced, so we can't use a flag to tell apart changes made by the router itself from ones made by consumers of the observable -
+                // instead, anything that already matches the current state is ignored (which also makes the router->observable->router update cycle converge instead of looping)
+                if (_currentState is null) return;
+
+                parameters = parameters ?? new Parameters();
+
+                if (parameters.SameAs(_currentState.Parameters ?? new Parameters())) return;
+
+                SetQueryParameters(parameters.Clone());
+            });
+
+            return observable;
+        }
+
+        private static void SyncQueryParametersObservable()
+        {
+            // Clone so that later in-place mutations of the router state can't silently change the observed value
+            QueryParameters.Value = _currentState?.Parameters?.Clone() ?? new Parameters();
+        }
+
         public static Parameters GetQueryParameters() => _currentState.Parameters;
 
         public static void SetQueryParameters(Parameters parameters, bool pushToHistory = false)
@@ -133,8 +165,20 @@ namespace Tesserae
                 url = url.Substring(0, queryStart);
             }
 
+            // Parameters captured from ':' segments of the route path already live in the path itself, so they must not be duplicated into the query string - unless their value was changed,
+            // in which case the new value is kept as a regular query parameter (the path is never rewritten here, and no navigation happens - this only updates the query string in place)
+            var queryOnlyParameters = parameters.Clone();
+
+            foreach (var routeParameter in _currentState.RouteParameters)
+            {
+                if (queryOnlyParameters.TryGetValue(routeParameter.Key, out var value) && value == routeParameter.Value)
+                {
+                    queryOnlyParameters.Remove(routeParameter.Key);
+                }
+            }
+
             var stateBefore = _currentState;
-            _currentState = new State(parameters, _currentState.RouteName, _currentState.Path, url + parameters.ToQueryString());
+            _currentState = new State(parameters, _currentState.RouteName, _currentState.Path, url + queryOnlyParameters.ToQueryString(), _currentState.RouteParameters);
             _lastState    = stateBefore;
 
             if (pushToHistory)
@@ -145,6 +189,8 @@ namespace Tesserae
             {
                 window.history.replaceState(null, "", _currentState.FullPath);
             }
+
+            SyncQueryParametersObservable();
         }
 
         public static void ReplaceQueryParameters(Func<Parameters, Parameters> updateFn, bool pushToHistory = false)
@@ -404,6 +450,9 @@ namespace Tesserae
                 if (!r.IsMatch(parts, par))
                     continue;
 
+                // At this point 'par' only holds the values captured from ':' segments of the route path - the query string values get merged in below, so snapshot the route-only pairs now
+                var routeParameters = new Parameters(par.ToDictionary(kv => kv.Key, kv => kv.Value));
+
                 if (p.Length > 1)
                 {
                     //TODO parse query parameters
@@ -429,7 +478,8 @@ namespace Tesserae
                     parameters: new Parameters(par),
                     path: hash,
                     fullPath: window.location.href,
-                    routeName: r.Name
+                    routeName: r.Name,
+                    routeParameters: routeParameters
                 );
 
                 var isBack = (_lastState is object && _lastState.Path == toState.Path);
@@ -444,6 +494,7 @@ namespace Tesserae
                     {
                         Navigated?.Invoke(toState, oldState);
                         _lastState = oldState;
+                        SyncQueryParametersObservable();
                     }
                     else
                     {
@@ -478,12 +529,13 @@ namespace Tesserae
         public sealed class State
         {
             public State(string fullPath) : this(null, null, null, fullPath) { }
-            public State(Parameters parameters, string routeName, string path, string fullPath)
+            public State(Parameters parameters, string routeName, string path, string fullPath, Parameters routeParameters = null)
             {
-                Parameters = parameters;
-                RouteName  = routeName;
-                Path       = path;
-                FullPath   = fullPath;
+                Parameters      = parameters;
+                RouteName       = routeName;
+                Path            = path;
+                FullPath        = fullPath;
+                RouteParameters = routeParameters ?? new Parameters();
             }
 
             public Parameters Parameters { get; }
@@ -491,7 +543,12 @@ namespace Tesserae
             public string     Path       { get; }
             public string     FullPath   { get; }
 
-            public State WithFullPath(string fullPath) => new State(Parameters, RouteName, Path, fullPath);
+            /// <summary>
+            /// The parameters that were captured from ':' segments of the matched route path (as opposed to ones that came from the query string) - these live in the path itself, so as long as their values are unchanged they are excluded when parameters are serialized back into a query string
+            /// </summary>
+            public Parameters RouteParameters { get; }
+
+            public State WithFullPath(string fullPath) => new State(Parameters, RouteName, Path, fullPath, RouteParameters);
         }
 
         private sealed class RoutePart

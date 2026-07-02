@@ -34,6 +34,21 @@ update your view directly in the click handler — pick one and stay consistent.
 Parameters: path `:segments` are captured positionally; query-string pairs
 (`?term=x&page=2`) land in the same `Parameters` collection — just read the keys.
 
+Query parameters (read, observe, write):
+
+- `Router.GetQueryParameters()` — the current `Parameters` snapshot.
+- `Router.QueryParameters` — a `SettableObservable<Parameters>` kept in sync with
+  navigation. `Observe`/`ObserveFutureChanges` it to react to parameter changes;
+  assign a new `Parameters` (or call `.Update(p => p.With("page", "2"))`) to write
+  the values back into the URL's query string (via `replaceState`, no reload).
+- Writing never navigates and never rewrites the path. Route `:captures` whose
+  value is unchanged are skipped (they already live in the path); if you set a
+  different value for a capture's key, it is kept as a regular query parameter.
+- `Router.SetQueryParameters(parameters, pushToHistory)` /
+  `Router.ReplaceQueryParameters(p => p.With(...).Remove(...), pushToHistory)` —
+  imperative equivalents; `pushToHistory: true` adds a history entry instead of
+  replacing in place.
+
 Guards / events: `Router.OnBeforeNavigate(...)` (return `false` to cancel),
 `Router.OnNavigated(...)`, `Router.OnNotMatched(...)`.
 
