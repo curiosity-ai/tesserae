@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+    <!-- Not packed on its own - the DLL ships inside the Tesserae package under analyzers/dotnet/cs (see Tesserae.csproj) -->
+    <IsPackable>false</IsPackable>
+    <Description>Roslyn analyzers for the Tesserae UI toolkit</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Kept at an old Roslyn API version on purpose: analyzers load in the consumer's compiler/IDE process,
+         so the referenced API version must not exceed the oldest Roslyn we want to support. -->
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="3.11.0" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="AnalyzerReleases.Shipped.md" />
+    <AdditionalFiles Include="AnalyzerReleases.Unshipped.md" />
+  </ItemGroup>
+</Project>

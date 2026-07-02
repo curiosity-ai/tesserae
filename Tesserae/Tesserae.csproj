@@ -39,6 +39,22 @@
 </ItemGroup>
 
   <!--
+    Ship the Tesserae Roslyn analyzers (e.g. TSS0001: Router.Navigate route must have a matching
+    Router.Register) inside the NuGet package so consumer compilations/IDEs load them automatically.
+    The h5 compiler re-parses this csproj and cannot resolve a ProjectReference to a non-h5 project,
+    so build ordering is done with an explicit MSBuild call in _BuildTesseraeAnalyzers below instead.
+  -->
+  <ItemGroup>
+    <None Include="..\Tesserae.Analyzers\bin\$(Configuration)\netstandard2.0\Tesserae.Analyzers.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+  </ItemGroup>
+
+  <Target Name="_BuildTesseraeAnalyzers" BeforeTargets="Build;_GetPackageFiles">
+    <MSBuild Projects="..\Tesserae.Analyzers\Tesserae.Analyzers.csproj" Targets="Restore" Properties="Configuration=$(Configuration)" />
+    <!-- The extra property forces a re-evaluation so Build does not reuse the pre-Restore project state -->
+    <MSBuild Projects="..\Tesserae.Analyzers\Tesserae.Analyzers.csproj" Targets="Build" Properties="Configuration=$(Configuration);_TesseraeAnalyzersBuild=true" />
+  </Target>
+
+  <!--
     Ship the Claude skills (one per component, plus cross-cutting guides) inside the
     NuGet package so consumers of the Tesserae package get them auto-extracted into
     their solution's `.claude/skills/tesserae/` folder (a single skill: root SKILL.md

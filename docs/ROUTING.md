@@ -66,6 +66,16 @@ Navigate with a query string:
 - `Router.OnNavigated(...)` lets you respond after navigation completes.
 - `Router.OnNotMatched(...)` is invoked when no route matches the new URL.
 
+## Compile-time route checking (TSS0001)
+
+The Tesserae NuGet package ships a Roslyn analyzer (`Tesserae.Analyzers`, rule `TSS0001`) that warns when a compile-time constant path passed to `Router.Navigate` does not match any route registered with `Router.Register` in the same project. Matching mirrors the runtime rules: leading `#`/`/` are ignored, comparison is per-segment and case-insensitive, `:name` segments match any value, and query strings are ignored.
+
+To avoid false positives the analyzer stays silent when it cannot know the full route table:
+
+- Any `Router.Register` call with a non-constant path (e.g. built with string interpolation) disables the check for the whole project.
+- Projects with no `Router.Register` calls at all are skipped (routes may be registered by a referenced library).
+- `Router.Navigate` calls with non-constant paths, and navigations to absolute/external URLs, are not checked.
+
 ## Recommendations
 
 - Keep route strings normalized. Do not  register routes with a leading `/` or `#/`.

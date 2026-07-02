@@ -21,6 +21,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Build.UpdateInterfaceIcons", "Build.UpdateInterfaceIcons\Build.UpdateInterfaceIcons.csproj", "{084992F7-74EB-4123-989C-86CDFE8BDBC4}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tesserae.Analyzers", "Tesserae.Analyzers\Tesserae.Analyzers.csproj", "{0C0AF01A-6889-4122-AC13-2D700BBF8218}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tesserae.Analyzers.Tests", "Tesserae.Analyzers.Tests\Tesserae.Analyzers.Tests.csproj", "{446B7927-C9DD-4C6B-A4F2-211A0650F1EE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +47,14 @@ Global
 		{084992F7-74EB-4123-989C-86CDFE8BDBC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{084992F7-74EB-4123-989C-86CDFE8BDBC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{084992F7-74EB-4123-989C-86CDFE8BDBC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C0AF01A-6889-4122-AC13-2D700BBF8218}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C0AF01A-6889-4122-AC13-2D700BBF8218}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C0AF01A-6889-4122-AC13-2D700BBF8218}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C0AF01A-6889-4122-AC13-2D700BBF8218}.Release|Any CPU.Build.0 = Release|Any CPU
+		{446B7927-C9DD-4C6B-A4F2-211A0650F1EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{446B7927-C9DD-4C6B-A4F2-211A0650F1EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{446B7927-C9DD-4C6B-A4F2-211A0650F1EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{446B7927-C9DD-4C6B-A4F2-211A0650F1EE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

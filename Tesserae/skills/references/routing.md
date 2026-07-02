@@ -70,6 +70,10 @@ private static void Show(IComponent page) { Content.Clear(); Content.Add(page); 
 - The History API is unavailable inside the sandboxed docs preview iframe — real
   pages use `Router.Push`/`Replace` directly.
 - `h5.json` reflection must stay enabled for the router to work.
+- The Tesserae package ships a Roslyn analyzer (`TSS0001`) that warns when a
+  constant path passed to `Router.Navigate` matches no `Router.Register` route
+  in the project (skipped when any registration path is non-constant, or when
+  the project registers no routes itself).
 
 ## Related
 
