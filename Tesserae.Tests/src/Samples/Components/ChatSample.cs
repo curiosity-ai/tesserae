@@ -42,8 +42,9 @@ namespace Tesserae.Tests.Samples
                 copyButton.Render().classList.remove("tss-btn-default");
                 copyButton.Render().classList.add("tss-btn-icon-only");
 
-                var msgComponent = ChatMessage(TextBlock(""), Avatar(null, "AI"), copyButton).MaxWidth();
+                var msgComponent = ChatMessage(TextBlock(""), Avatar(null, "AI"), copyButton).Animated().MaxWidth();
                 chatArea.Add(msgComponent);
+                chatArea.Busy(true);
 
                 int index = 0;
                 string currentText = "";
@@ -53,12 +54,14 @@ namespace Tesserae.Tests.Samples
                     if (cancelled)
                     {
                         input.IsGenerating = false;
+                        chatArea.Busy(false);
                         return;
                     }
 
                     if (index >= words.Length)
                     {
                         input.IsGenerating = false;
+                        chatArea.Busy(false);
                         return;
                     }
 
@@ -108,7 +111,8 @@ namespace Tesserae.Tests.Samples
                 var text = msg.Text;
                 if (string.IsNullOrWhiteSpace(text)) return;
 
-                chatArea.Add(ChatMessage(TextBlock(text), Avatar(null, "U")).RightAligned().MaxWidth());
+                // Anchor the user's turn: it settles near the top and the reply grows into the screen below it.
+                chatArea.Add(ChatMessage(TextBlock(text), Avatar(null, "U")).RightAligned().MaxWidth().ScrollAnchor());
 
                 sender.IsGenerating = true;
                 AddAIAnswer();
