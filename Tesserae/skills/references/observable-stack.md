@@ -21,7 +21,7 @@ newly-inserted item. Bring factories into scope with `using static Tesserae.UI;`
 - Mutate the backing `ObservableList<T>` (`.Add`, `.RemoveAt`, `.ReplaceAll`, …) to reconcile.
 - `.Horizontal()` / `.Vertical()` / `.HorizontalReverse()` / `.VerticalReverse()` — orientation.
 - `.AlignItems(ItemAlign)` / `.AlignItemsCenter()` / `.JustifyContent(ItemJustify)` — flex alignment.
-- `.Wrap()` / `.NoWrap()`, `.NoDefaultMargin()`, `.OverflowHidden()` — layout tweaks.
+- `.Wrap()` / `.NoWrap()`, `.NoGap()`, `.OverflowHidden()` — layout tweaks (a `4px` gap is applied by default; `.NoGap()` removes it).
 - `.WS()` / `.Clear()` — stretch width / remove all rows.
 
 ## Example

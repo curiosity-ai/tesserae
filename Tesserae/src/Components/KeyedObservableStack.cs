@@ -470,11 +470,11 @@ namespace Tesserae
             return this;
         }
         /// <summary>
-        /// Removes / disables the default margin on the component.
+        /// Removes / disables the default gap between items.
         /// </summary>
-        public KeyedObservableStack NoDefaultMargin()
+        public KeyedObservableStack NoGap()
         {
-            InnerElement.classList.add("tss-default-component-no-margin");
+            InnerElement.style.gap = "0";
             return this;
         }
 
@@ -590,7 +590,7 @@ namespace Tesserae
             }
         }
 
-        private static readonly string[] _stylesToPropagate = new[] { "tss-default-component-margin", "tss-collapse", "tss-fade-light", "tss-fade", "tss-show" };
+        private static readonly string[] _stylesToPropagate = new[] { "tss-collapse", "tss-fade-light", "tss-fade", "tss-show" };
 
         /// <summary>
         /// Configures the component to skeleton.

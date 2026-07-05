@@ -22,7 +22,7 @@ namespace Tesserae
         public Button(string text = string.Empty)
         {
             _textSpan    = Span(_(text: text));
-            InnerElement = Button(_("tss-btn tss-btn-default tss-default-component-margin"), _textSpan);
+            InnerElement = Button(_("tss-btn tss-btn-default"), _textSpan);
             Weight       = TextWeight.Regular;
             Size         = TextSize.Small;
 

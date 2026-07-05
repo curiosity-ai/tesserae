@@ -22,7 +22,7 @@ namespace Tesserae
             SetText(text);
             SetIcon(mainIcon);
             Ellipsis();
-            _parent = Div(_("tss-btn-and-icon tss-default-component-no-margin"));
+            _parent = Div(_("tss-btn-and-icon"));
             _arrowButton = Button().SetIcon(secondaryIcon).Class("tss-btn-and-icon-icon").OnClick((b, e) =>
             {
                 StopEvent(e);

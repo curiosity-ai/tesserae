@@ -318,7 +318,6 @@ namespace Tesserae
             var ssEl = _startStopButton.Render();
             ssEl.classList.remove("tss-btn");
             ssEl.classList.remove("tss-btn-default");
-            ssEl.classList.remove("tss-default-component-margin");
             ssEl.classList.add("tss-plan-startstop");
 
             var progressRow = Div(_("tss-plan-progress-row"), _progressEl, _pctEl, ssEl);

@@ -118,7 +118,7 @@ namespace Tesserae
 
         private static Stack GetButtonsStack()
         {
-            return Stack().NoDefaultMargin().HorizontalReverse().JustifyContent(ItemJustify.Evenly).WS();
+            return Stack().NoGap().HorizontalReverse().JustifyContent(ItemJustify.Evenly).WS();
         }
 
         /// <summary>

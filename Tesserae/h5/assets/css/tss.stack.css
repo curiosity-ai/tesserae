@@ -2,6 +2,7 @@
 .tss-stack {
     display: flex;
     flex-direction: column;
+    gap: var(--tss-default-gap, 4px);
 }
 
 .tss-stack-item {

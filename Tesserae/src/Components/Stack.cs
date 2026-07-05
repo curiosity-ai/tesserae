@@ -747,10 +747,10 @@ namespace Tesserae
             return this;
         }
 
-        /// <summary>Removes the default component margin.</summary>
-        public Stack NoDefaultMargin()
+        /// <summary>Removes the default gap between items.</summary>
+        public Stack NoGap()
         {
-            InnerElement.classList.add("tss-default-component-no-margin");
+            InnerElement.style.gap = "0";
             return this;
         }
 
@@ -896,7 +896,7 @@ namespace Tesserae
             }
         }
 
-        private static readonly string[] _stylesToPropagate = new[] { "tss-default-component-margin", "tss-collapse", "tss-fade-light", "tss-fade", "tss-show" };
+        private static readonly string[] _stylesToPropagate = new[] { "tss-collapse", "tss-fade-light", "tss-fade", "tss-show" };
 
         /// <summary>
         /// Represents the orientation of a stack.

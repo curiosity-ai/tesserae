@@ -8,10 +8,6 @@
     position: relative;
 }
 
-.tss-gridpicker .tss-grid .tss-default-component-margin {
-    margin: 0px;
-}
-
 .tss-gridpicker-column-title {
     text-align: center;
     text-overflow: ellipsis;

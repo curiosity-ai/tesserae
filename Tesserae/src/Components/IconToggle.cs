@@ -19,7 +19,7 @@ namespace Tesserae
         /// </summary>
         public IconToggle(Item[] items)
         {
-            _stack           = HStack().NoDefaultMargin().Class("tss-icon-toggle").NoWrap();
+            _stack           = HStack().NoGap().Class("tss-icon-toggle").NoWrap();
             _items           = new Dictionary<Item, Button>();
             _itemsObservable = new SettableObservable<T>(items.First().Data);
 

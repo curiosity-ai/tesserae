@@ -20,8 +20,9 @@ Add children with `.Add(component)` or `.Children(params IComponent[])`.
 - `.Vertical()` / `.Horizontal()` / `.VerticalReverse()` / `.HorizontalReverse()` — orientation.
 - `.AlignItems(ItemAlign)` / `.AlignItemsCenter()` — cross-axis alignment of children.
 - `.JustifyContent(ItemJustify)` — main-axis distribution (Start, Center, End, Between, Around, Evenly).
-- `.Gap(unitSize)` / `.RowGap(...)` / `.ColumnGap(...)` — spacing between children.
-- `.Wrap()` / `.NoWrap()`, `.Inline()`, `.OverflowHidden()`, `.NoDefaultMargin()`, `.Relative()`.
+- `.Gap(unitSize)` / `.RowGap(...)` / `.ColumnGap(...)` — spacing between children (a `4px` gap is applied by default).
+- `.NoGap()` — removes the default gap between children.
+- `.Wrap()` / `.NoWrap()`, `.Inline()`, `.OverflowHidden()`, `.Relative()`.
 - `.Add` / `.Prepend` / `.InsertBefore` / `.InsertAfter` / `.Remove` / `.Replace` / `.Clear` — mutate children.
 - On children (from IComponentExtensions): `.WS()`/`.HS()`/`.S()` stretch, `.Grow(int)` claim space, `.Shrink()`/`.NoShrink()`, `.W(...)`/`.H(...)`.
 

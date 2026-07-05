@@ -22,14 +22,14 @@ Bring factories into scope with `using static Tesserae.UI;`.
 - `.LoadSorting(string[] order)` — apply a saved order (call after all items are added).
 - `.Remove(string identifier)` / `.Clear()` — remove one / all items.
 - `.Children(params SortableStackItem[])` — set all items at once (`SortableStackItem { Identifier, Component }`).
-- `.AlignItemsCenter()`, `.JustifyContent(ItemJustify)`, `.Wrap()` / `.NoWrap()`, `.NoDefaultMargin()`, `.WS()` — layout.
+- `.AlignItemsCenter()`, `.JustifyContent(ItemJustify)`, `.Wrap()` / `.NoWrap()`, `.NoGap()`, `.WS()` — layout (a `4px` gap is applied by default; `.NoGap()` removes it).
 
 ## Example
 
 ```csharp
 using static Tesserae.UI;
 
-var sortable = VSortableStack().NoDefaultMargin().WS();
+var sortable = VSortableStack().NoGap().WS();
 sortable.Add("alpha", Card(TextBlock("Alpha")).WS().MB(4.px()));
 sortable.Add("beta",  Card(TextBlock("Beta")).WS().MB(4.px()));
 sortable.Add("gamma", Card(TextBlock("Gamma")).WS().MB(4.px()));

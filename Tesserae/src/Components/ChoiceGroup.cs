@@ -26,7 +26,7 @@ namespace Tesserae
             var h = _header.Render();
             h.style.alignSelf = "baseline";
             _selectedOption   = new SettableObservable<Choice>();
-            InnerElement      = Div(_("tss-choice-group tss-default-component-margin", role: "radiogroup", ariaLabelledBy: headerId, styles: s => { s.flexDirection = "column"; }), h);
+            InnerElement      = Div(_("tss-choice-group", role: "radiogroup", ariaLabelledBy: headerId, styles: s => { s.flexDirection = "column"; }), h);
         }
 
         /// <summary>
@@ -194,7 +194,7 @@ namespace Tesserae
             {
                 InnerElement = RadioButton(_("tss-option"));
                 _radioSpan   = Span(_("tss-option-mark"));
-                _label       = Label(_("tss-option-container tss-default-component-margin tss-fontcolor-default tss-fontsize-small tss-fontweight-regular", text: text), InnerElement, _radioSpan);
+                _label       = Label(_("tss-option-container tss-fontcolor-default tss-fontsize-small tss-fontweight-regular", text: text), InnerElement, _radioSpan);
                 AttachClick();
                 AttachChange();
                 AttachFocus();

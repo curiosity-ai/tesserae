@@ -382,11 +382,11 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Removes / disables the default margin on the component.
+        /// Removes / disables the default gap between items.
         /// </summary>
-        public Grid NoDefaultMargin()
+        public Grid NoGap()
         {
-            _grid.classList.add("tss-default-component-no-margin");
+            _grid.style.gap = "0";
             return this;
         }
 

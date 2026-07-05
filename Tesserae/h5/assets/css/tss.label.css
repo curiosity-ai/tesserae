@@ -7,10 +7,6 @@
     user-select: none;
 }
 
-    .tss-label:not(.tss-label-with-content-margin) > .tss-label-content > .tss-default-component-margin {
-        margin: unset;
-    }
-
 .tss-label + .tss-label {
     margin-top:4px;
 }

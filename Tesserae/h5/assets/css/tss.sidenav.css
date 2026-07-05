@@ -16,10 +16,6 @@
     background: var(--tss-sidebar-background-secondary-color, var(--tss-secondary-background-color));
 }
 
-.tss-sidenav .tss-default-component-margin {
-    margin: 0px !important;
-}
-
 .tss-sidenav-header,
 .tss-sidenav-middle,
 .tss-sidenav-footer {

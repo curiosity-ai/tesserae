@@ -3,4 +3,5 @@
     display: grid;
     overflow:auto;
     padding:4px;
+    gap: var(--tss-default-gap, 4px);
 }

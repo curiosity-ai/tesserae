@@ -117,7 +117,7 @@ namespace Tesserae
             ActionBtn          = Button(_("tss-btn-remove-padding tss-actionbutton-actionbtn"), _iconSpan);
             ActionBtnComponent = Raw(ActionBtn);
 
-            Container = Div(_("tss-actionbutton-container tss-default-component-margin"), DisplayButton, ActionBtnComponent.Render());
+            Container = Div(_("tss-actionbutton-container"), DisplayButton, ActionBtnComponent.Render());
 
             DisplayButton.addEventListener("click",       @event => ClickedDisplay?.Invoke(DisplayButton, @event.As<MouseEvent>()));
             DisplayButton.addEventListener("contextmenu", @event => ContextMenuDisplay?.Invoke(DisplayButton, @event.As<MouseEvent>()));

@@ -48,7 +48,7 @@ namespace Tesserae
             _input.type = "text";
             _input.classList.add("tss-tagsinput-entry");
 
-            _container = Div(_("tss-tagsinput tss-default-component-margin"));
+            _container = Div(_("tss-tagsinput"));
             _container.appendChild(_input);
 
             _observable = new SettableObservable<IReadOnlyList<string>>(_tags.AsReadOnly());

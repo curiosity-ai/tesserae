@@ -13,10 +13,6 @@
     transition: 0.3s width ease-out;
 }
 
-    .tss-sidebar .tss-default-component-margin {
-        margin: 0px !important;
-    }
-
     .tss-sidebar.tss-sidebar-closed {
         max-width: unset;
         width: 54px !important;

@@ -29,7 +29,7 @@ namespace Tesserae
             InnerElement.setAttribute("role", "switch");
             _checkElement = Div(_("tss-toggle-mark"));
             _onOffSpan = Div(_("tss-toggle-text"), _offText.Render());
-            _container = Div(_("tss-toggle-container tss-default-component-margin tss-fontcolor-default tss-fontsize-small tss-fontweight-regular"), InnerElement, _checkElement, _onOffSpan);
+            _container = Div(_("tss-toggle-container tss-fontcolor-default tss-fontsize-small tss-fontweight-regular"), InnerElement, _checkElement, _onOffSpan);
 
             _observable = new SettableObservable<bool>();
 

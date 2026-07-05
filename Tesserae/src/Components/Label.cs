@@ -28,7 +28,7 @@ namespace Tesserae
         {
             _label       = Label(_("tss-fontsize-small tss-fontweight-semibold tss-fontcolor-default", text: text));
             _content     = Div(_("tss-label-content"));
-            InnerElement = Div(_("tss-label tss-default-component-margin"), _label, _content);
+            InnerElement = Div(_("tss-label"), _label, _content);
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace Tesserae
         {
             _label       = Label(_("tss-fontsize-small tss-fontweight-semibold tss-fontcolor-default"), component.Render());
             _content     = Div(_("tss-label-content"));
-            InnerElement = Div(_("tss-label tss-default-component-margin"), _label, _content);
+            InnerElement = Div(_("tss-label"), _label, _content);
         }
 
         /// <summary>
@@ -140,7 +140,7 @@ namespace Tesserae
         public Label WithContentMargin()
         {
             InnerElement.classList.add("tss-label-with-content-margin");
-            _content.classList.add("tss-default-component-margin");
+            _content.style.margin = "4px";
             return this;
         }
 

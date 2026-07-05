@@ -29,15 +29,15 @@ namespace Tesserae
         /// </summary>
         public ResourceCard()
         {
-            _iconContainer = Div(_("tss-default-component-no-margin"));
-            _titleContainer = Div(_("tss-default-component-no-margin"));
+            _iconContainer = Div(_());
+            _titleContainer = Div(_());
             var titleRow = HStack().AlignItems(ItemAlign.Center).Children(
                 Raw(_iconContainer),
                 Raw(_titleContainer).WS().PaddingLeft(8.px())
             );
 
-            _subtitleContainer = Div(_("tss-default-component-no-margin"));
-            _tagsContainer = Div(_("tss-default-component-no-margin"));
+            _subtitleContainer = Div(_());
+            _tagsContainer = Div(_());
 
             var subtitleRow = HStack().AlignItems(ItemAlign.Center).PaddingTop(8.px()).Children(
                 Raw(_subtitleContainer),
@@ -46,16 +46,16 @@ namespace Tesserae
 
             var headerContainer = VStack().Children(titleRow, subtitleRow);
 
-            _descriptionContainer = Div(_("tss-default-component-no-margin"));
-            _dateContainer = Div(_("tss-default-component-no-margin"));
+            _descriptionContainer = Div(_());
+            _dateContainer = Div(_());
 
             var bodyContainer = VStack().PaddingTop(16.px()).PaddingBottom(16.px()).Children(
                 Raw(_descriptionContainer),
                 Raw(_dateContainer).WS().PaddingTop(16.px())
             );
 
-            _footerLeft = Div(_("tss-default-component-no-margin"));
-            _footerRight = Div(_("tss-default-component-no-margin"));
+            _footerLeft = Div(_());
+            _footerRight = Div(_());
 
             _footerContainer = HStack().AlignItems(ItemAlign.Center).JustifyContent(ItemJustify.Between)
                 .PaddingTop(12.px())

@@ -1750,11 +1750,11 @@ namespace Tesserae
             _highlightedFilterSnapSuggestionIndex = 0;
 
             // The header stays pinned; only the list of values below it scrolls.
-            var content = VStack().NoDefaultMargin().W(360);
+            var content = VStack().NoGap().W(360);
             var headerText = handler.DisplayName;
             content.Add(TextBlock(headerText).Small().SemiBold().PaddingBottom(4.px()).PaddingTop(8.px()).PaddingLeft(12.px()).Foreground(Theme.Secondary.Foreground));
 
-            var list = VStack().NoDefaultMargin().WS().MaxHeight(360.px()).ScrollY();
+            var list = VStack().NoGap().WS().MaxHeight(360.px()).ScrollY();
             content.Add(list);
 
             foreach (var v in values)
@@ -1803,7 +1803,7 @@ namespace Tesserae
 
             var picker = DateRangePicker(initialFrom, initialTo);
 
-            var content = VStack().NoDefaultMargin().W(320).MaxHeight(440.px()).ScrollY();
+            var content = VStack().NoGap().W(320).MaxHeight(440.px()).ScrollY();
             content.Add(TextBlock(handler.DisplayName).Small().SemiBold().PT(8).PL(12).Foreground(Theme.Secondary.Foreground));
             content.Add(HStack().WS().AlignItems(ItemAlign.Center).PL(12).PR(12).PB(8).Children(picker));
 
@@ -2028,10 +2028,10 @@ namespace Tesserae
             _highlightedSnapSuggestionIndex = 0;
 
             // The header stays pinned; only the list of items below it scrolls.
-            var content = VStack().NoDefaultMargin().W(360);
+            var content = VStack().NoGap().W(360);
             content.Add(TextBlock("Snaps").Small().SemiBold().PaddingBottom(4.px()).PaddingTop(8.px()).PaddingLeft(12.px()).Foreground(Theme.Secondary.Foreground));
 
-            var list = VStack().NoDefaultMargin().WS().MaxHeight(360.px()).ScrollY();
+            var list = VStack().NoGap().WS().MaxHeight(360.px()).ScrollY();
             content.Add(list);
 
             for (int i = 0; i < matches.Length; i++)
@@ -2041,7 +2041,7 @@ namespace Tesserae
                 var btn = Button().Class("tss-omnibox-snap-suggestion").WS().NoPadding().NoMinSize().H(40).MB(4).NoBorder().NoBackground().TextLeft();
                 var row = HStack().WS().AlignItems(ItemAlign.Center).PaddingLeft(12.px()).PaddingRight(12.px());
                 if (captured.Icon != null) row.Add(CloneIcon(captured.Icon).MR(8));
-                var labels = VStack().NoDefaultMargin();
+                var labels = VStack().NoGap();
                 labels.Add(TextBlock(captured.DisplayName));
                 if (!string.IsNullOrEmpty(captured.Description))
                 {
@@ -2369,7 +2369,7 @@ namespace Tesserae
                 return;
             }
 
-            var content = VStack().NoDefaultMargin().Class("tss-omnibox-model-selector-popover").MinWidth(220.px()).MaxHeight(500.px()).ScrollY();
+            var content = VStack().NoGap().Class("tss-omnibox-model-selector-popover").MinWidth(220.px()).MaxHeight(500.px()).ScrollY();
 
             content.Add(TextBlock("Models").Small().SemiBold().Class("tss-omnibox-model-selector-header"));
 
@@ -2548,7 +2548,7 @@ namespace Tesserae
 
         private void ShowSearchHelp()
         {
-            var content = VStack().NoDefaultMargin().W(520).MaxHeight(500.px()).ScrollY().Class("tss-omnibox-help-panel");
+            var content = VStack().NoGap().W(520).MaxHeight(500.px()).ScrollY().Class("tss-omnibox-help-panel");
             Action hide = null;
 
             var hasFilters = _filterSnapHandlers.Count > 0;
@@ -2725,7 +2725,7 @@ namespace Tesserae
             {
                 var query = await _historyFetcher();
 
-                var content = VStack().NoDefaultMargin().W(450).MaxHeight(500.px()).ScrollY();
+                var content = VStack().NoGap().W(450).MaxHeight(500.px()).ScrollY();
                 Action hide = null;
                 if (query.Length > 0)
                 {
@@ -2876,7 +2876,7 @@ namespace Tesserae
 
                 _currentSuggestionButtons.Clear();
 
-                var content = VStack().NoDefaultMargin().W(450).MaxHeight(500.px()).ScrollY();
+                var content = VStack().NoGap().W(450).MaxHeight(500.px()).ScrollY();
 
                 var currentCategory = string.Empty;
 

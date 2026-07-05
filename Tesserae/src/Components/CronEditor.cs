@@ -303,7 +303,7 @@ namespace Tesserae
                 row.appendChild(_timeDropdown.Render());
                 row.appendChild(Span(_("tss-cron-label"), TextBlock(" UTC").Render()));
 
-                var wrappedRow = Button().ReplaceContent(HStack().AlignItemsCenter().NoDefaultMargin().Children(Icon(UIcons.AngleUp).PR(16), Icon(UIcons.Clock).PR(8), Raw(row)));
+                var wrappedRow = Button().ReplaceContent(HStack().AlignItemsCenter().NoGap().Children(Icon(UIcons.AngleUp).PR(16), Icon(UIcons.Clock).PR(8), Raw(row)));
                 
                 wrappedRow.OnClick(() => Close());
 
@@ -426,7 +426,7 @@ namespace Tesserae
                 text = "Disabled (" + text + ")";
             }
 
-            var stack = HStack().AlignItemsCenter().NoDefaultMargin();
+            var stack = HStack().AlignItemsCenter().NoGap();
 
             stack.Add(Icon(UIcons.Clock).PR(8));
             stack.Add(TextBlock(text));

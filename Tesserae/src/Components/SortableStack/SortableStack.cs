@@ -275,12 +275,12 @@ namespace Tesserae
         }
 
         /// <summary>
-        /// Removes the default margin from the stack.
+        /// Removes the default gap between items in the stack.
         /// </summary>
         /// <returns>The current instance of the type.</returns>
-        public SortableStack NoDefaultMargin()
+        public SortableStack NoGap()
         {
-            _container.NoDefaultMargin();
+            _container.NoGap();
             return this;
         }
 
