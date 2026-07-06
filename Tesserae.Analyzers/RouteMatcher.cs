@@ -49,6 +49,13 @@ namespace Tesserae.Analyzers
             return true;
         }
 
+        /// <summary>
+        /// Joins already-split segments into a normalized, lower-cased path used for prefix
+        /// comparisons (see <see cref="RouterNavigateAnalyzer"/> dynamic-prefix handling).
+        /// </summary>
+        public static string NormalizeForPrefix(string[] parts) =>
+            string.Join("/", parts).ToLowerInvariant();
+
         public static bool IsMatch(string[] patternParts, string[] navigationParts)
         {
             if (patternParts.Length != navigationParts.Length) return false;

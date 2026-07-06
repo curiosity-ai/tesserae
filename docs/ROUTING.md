@@ -70,11 +70,59 @@ Navigate with a query string:
 
 The Tesserae NuGet package ships a Roslyn analyzer (`Tesserae.Analyzers`, rule `TSS0001`) that warns when a compile-time constant path passed to `Router.Navigate` does not match any route registered with `Router.Register` in the same project. Matching mirrors the runtime rules: leading `#`/`/` are ignored, comparison is per-segment and case-insensitive, `:name` segments match any value, and query strings are ignored.
 
-To avoid false positives the analyzer stays silent when it cannot know the full route table:
+### Where the analyzer gets the route table
 
-- Any `Router.Register` call with a non-constant path (e.g. built with string interpolation) disables the check for the whole project.
-- Projects with no `Router.Register` calls at all are skipped (routes may be registered by a referenced library).
-- `Router.Navigate` calls with non-constant paths, and navigations to absolute/external URLs, are not checked.
+A Roslyn analyzer only sees the *current* compilation, so it collects known routes from two places:
+
+1. **Constant `Router.Register` paths in this project.** As before.
+2. **A route manifest** — an `AdditionalFiles` entry named `TesseraeRoutes.txt`. This lets a project
+   validate `Router.Navigate` calls against routes that are registered in a *different* assembly
+   (the common case where one project owns `Router.Register` and others only navigate). The file is
+   one route pattern per line; blank lines and lines starting with `;` or `//` are ignored (a leading
+   `#` is a real hash route, so it is *not* a comment):
+
+   ```
+   ; app routes (generated from DefaultRoutes)
+   #/home
+   #/space/:uid
+   #/manage/users
+   ```
+
+   Wire it up in the projects that navigate:
+
+   ```xml
+   <ItemGroup>
+     <AdditionalFiles Include="TesseraeRoutes.txt" />
+   </ItemGroup>
+   ```
+
+### Dynamic registrations no longer mute the whole project
+
+A single `Router.Register` call built at runtime used to disable `TSS0001` for the entire project.
+Now the analyzer is prefix-aware:
+
+- A dynamic registration with a knowable constant prefix (e.g. `Register("#/admin/" + suffix, …)`)
+  only suppresses `Router.Navigate` paths that fall *under* that prefix. Navigations elsewhere are
+  still checked.
+- A fully-opaque dynamic registration (no knowable prefix, e.g. `Register(pathVariable, …)`) falls
+  back to the old conservative behavior and suppresses otherwise-unmatched navigations — declare
+  those routes in the manifest (above) so they become known, or opt in below.
+
+### Opting in to strict checking
+
+If you know your constant/manifest route table is complete, set this in `.editorconfig` (or a
+`.globalconfig`) to report mismatches even in the presence of dynamic registrations:
+
+```ini
+dotnet_diagnostic.TSS0001.route_table_is_authoritative = true
+```
+
+### When the analyzer still stays silent
+
+To avoid false positives (a false "unregistered route" warning is worse than silence), the check does
+nothing when it knows *no* routes at all — no constant `Router.Register` in the project **and** no
+manifest. `Router.Navigate` calls with non-constant paths, and navigations to absolute/external URLs,
+are never checked.
 
 ## Recommendations
 
