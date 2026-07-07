@@ -83,4 +83,63 @@
     <Message Condition="'$(_NeedsInstall)' == 'true'" Importance="high"
              Text="Skills $(_SkillsPackageId) updated $(_InstalledVersion) → $(_ShippedVersion) in $(_SkillsTargetDir)" />
   </Target>
+
+  <!--
+    Run the Tesserae Roslyn analyzers (e.g. TSS0001: Router.Navigate route must have a matching
+    Router.Register) at build time.
+
+    h5 builds replace the normal C# CoreCompile with the transpiler CLI, so Roslyn - and therefore
+    the analyzers packaged under analyzers/dotnet/cs - never run during `dotnet build` (they only run
+    in the IDE at design time). This target invokes the packaged runner tool, which rebuilds a Roslyn
+    compilation from the sources + references MSBuild already resolved and reports only TSS#### findings.
+
+      - Opt out entirely:           <TesseraeRunAnalyzers>false</TesseraeRunAnalyzers>
+      - Fail the build on findings:  <TesseraeAnalyzersTreatWarningsAsErrors>true</TesseraeAnalyzersTreatWarningsAsErrors>
+        (otherwise findings are reported as build warnings, matching the analyzer's default severity)
+  -->
+  <PropertyGroup>
+    <TesseraeRunAnalyzers Condition="'$(TesseraeRunAnalyzers)' == ''">true</TesseraeRunAnalyzers>
+    <TesseraeAnalyzersTreatWarningsAsErrors Condition="'$(TesseraeAnalyzersTreatWarningsAsErrors)' == ''">false</TesseraeAnalyzersTreatWarningsAsErrors>
+    <_TesseraeAnalyzerDll>$([MSBuild]::NormalizePath('$(MSBuildThisFileDirectory)..', 'analyzers', 'dotnet', 'cs', 'Tesserae.Analyzers.dll'))</_TesseraeAnalyzerDll>
+    <_TesseraeRunnerDll>$([MSBuild]::NormalizePath('$(MSBuildThisFileDirectory)..', 'tools', 'analyzer-runner', 'Tesserae.Analyzers.Runner.dll'))</_TesseraeRunnerDll>
+  </PropertyGroup>
+
+  <Target Name="_RunTesseraeAnalyzers"
+          AfterTargets="ResolveReferences"
+          Condition="'$(TesseraeRunAnalyzers)' == 'true'
+                     and '$(DesignTimeBuild)' != 'true'
+                     and Exists('$(_TesseraeRunnerDll)')
+                     and Exists('$(_TesseraeAnalyzerDll)')"
+          Inputs="@(Compile);@(ReferencePath);$(_TesseraeAnalyzerDll);$(_TesseraeRunnerDll)"
+          Outputs="$(IntermediateOutputPath)tesserae-analyzers.$(TesseraeAnalyzersTreatWarningsAsErrors).stamp">
+
+    <!-- Resolved here (not in the file-level PropertyGroup): $(IntermediateOutputPath) is not yet set
+         when this imported .targets is first evaluated, so capturing it early would drop the stamp in
+         the project root. Target attributes / this inner PropertyGroup are evaluated at execution time,
+         when the SDK has set it. Mode is part of the stamp name so toggling TreatWarningsAsErrors re-runs. -->
+    <PropertyGroup>
+      <_TesseraeSourcesFile>$(IntermediateOutputPath)tesserae-analyzer-sources.txt</_TesseraeSourcesFile>
+      <_TesseraeRefsFile>$(IntermediateOutputPath)tesserae-analyzer-refs.txt</_TesseraeRefsFile>
+      <_TesseraeAnalyzerStamp>$(IntermediateOutputPath)tesserae-analyzers.$(TesseraeAnalyzersTreatWarningsAsErrors).stamp</_TesseraeAnalyzerStamp>
+      <_TesseraeWarnAsError Condition="'$(TesseraeAnalyzersTreatWarningsAsErrors)' == 'true'">--warnaserror</_TesseraeWarnAsError>
+    </PropertyGroup>
+
+    <WriteLinesToFile File="$(_TesseraeSourcesFile)" Lines="@(Compile->'%(FullPath)')" Overwrite="true" WriteOnlyWhenDifferent="true" />
+    <WriteLinesToFile File="$(_TesseraeRefsFile)"    Lines="@(ReferencePath)"        Overwrite="true" WriteOnlyWhenDifferent="true" />
+
+    <ItemGroup>
+      <_TesseraeManifestArg Include="@(AdditionalFiles->'--additionalfile &quot;%(FullPath)&quot;')"
+                            Condition="'%(Filename)%(Extension)' == 'TesseraeRoutes.txt'" />
+    </ItemGroup>
+
+    <!-- IgnoreExitCode: the runner prints diagnostics in MSBuild canonical format, so Exec's output
+         parsing already raises `error TSS0001` lines as real build errors (failing the build). Honoring
+         the exit code too would add a redundant, noisy MSB3073 "exited with code 1" on top. -->
+    <Exec Command="dotnet &quot;$(_TesseraeRunnerDll)&quot; --analyzer &quot;$(_TesseraeAnalyzerDll)&quot; --sources &quot;$(_TesseraeSourcesFile)&quot; --refs &quot;$(_TesseraeRefsFile)&quot; --define &quot;$(DefineConstants)&quot; --langversion &quot;$(LangVersion)&quot; @(_TesseraeManifestArg, ' ') $(_TesseraeWarnAsError)"
+          ConsoleToMSBuild="true"
+          IgnoreExitCode="true"
+          WorkingDirectory="$(MSBuildProjectDirectory)" />
+
+    <Touch Files="$(_TesseraeAnalyzerStamp)" AlwaysCreate="true" />
+  </Target>
 </Project>
