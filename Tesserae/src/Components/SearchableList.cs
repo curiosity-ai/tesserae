@@ -169,7 +169,12 @@ namespace Tesserae
                                 _list.Items.AddRange(filteredItems);
                             }
 
-                            if (filteredItems.Length >= _minimumItemsToShowBox || _backgroundSearcher is object)
+                            // Base the show/hide decision on the total number of items in the list, not on how many
+                            // survive the current query - otherwise typing a query that narrows the results below the
+                            // threshold would collapse the search box out from under the user. Keep it shown while a
+                            // query is active (even if the list shrinks below the threshold via an ObservableList
+                            // update) so the query isn't stranded, and always show it when a background searcher is set.
+                            if (Items.Count >= _minimumItemsToShowBox || _backgroundSearcher is object || !string.IsNullOrEmpty(_searchBox.Text))
                             {
                                 _searchBox.Show();
                             }
