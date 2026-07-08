@@ -29,19 +29,31 @@ namespace Tesserae
         public const string DefaultContentSecurityPolicy = "default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:;";
 
         // Injected into the sandboxed document. Captures errors / CSP violations / unhandled rejections
-        // and reports the document height, posting everything back over the MessageChannel port handed
-        // to it by the host. Kept dependency-free so it runs under the strict default CSP.
+        // and (when the host asks for it) reports the document height, posting everything back over the
+        // MessageChannel port handed to it by the host. Kept dependency-free so it runs under the strict
+        // default CSP.
+        //
+        // Height reporting is only armed when the host sends `fit:true` in the init message - i.e. when
+        // FitHeightToContent is on AND the host cannot measure the frame itself (no same-origin access).
+        // Same-origin frames are measured host-side instead (see SetupHostSideFit). Once armed it forces
+        // html/body to auto height so the measurement tracks content in both directions (grow *and*
+        // shrink), watches for changes with both a ResizeObserver and a MutationObserver, batches updates
+        // through requestAnimationFrame, and de-dupes identical heights to avoid flooding the port.
         private const string BootstrapScript =
-            "(function(){var port=null,queue=[];" +
+            "(function(){var port=null,queue=[],fit=false,raf=0,lastH=-1;" +
             "function flush(){if(port){while(queue.length){port.postMessage(queue.shift());}}}" +
             "function send(m){queue.push(m);flush();}" +
-            "window.addEventListener('message',function(e){if(e.data&&e.data.__tssSandboxInit&&e.ports&&e.ports[0]){port=e.ports[0];port.onmessage=function(ev){try{window.dispatchEvent(new MessageEvent('tss:message',{data:ev.data}));}catch(_){}};flush();}});" +
+            "function measure(){try{var d=document.documentElement,b=document.body;return Math.max(d?d.scrollHeight:0,b?b.scrollHeight:0);}catch(_){return 0;}}" +
+            "function report(){raf=0;if(!fit)return;var h=measure();if(h>0&&h!==lastH){lastH=h;send({kind:'height',height:h});}}" +
+            "function schedule(){if(!fit||raf)return;raf=(window.requestAnimationFrame||function(cb){return setTimeout(cb,16);})(report);}" +
+            "function enableFit(){if(fit)return;fit=true;try{document.documentElement.style.setProperty('height','auto','important');if(document.body){document.body.style.setProperty('height','auto','important');}}catch(_){}" +
+            "try{if(window.ResizeObserver){new ResizeObserver(schedule).observe(document.documentElement);}}catch(_){}" +
+            "try{if(window.MutationObserver){new MutationObserver(schedule).observe(document.body||document.documentElement,{attributes:true,childList:true,subtree:true,characterData:true});}}catch(_){}" +
+            "window.addEventListener('load',schedule);schedule();}" +
+            "window.addEventListener('message',function(e){if(e.data&&e.data.__tssSandboxInit&&e.ports&&e.ports[0]){port=e.ports[0];port.onmessage=function(ev){try{window.dispatchEvent(new MessageEvent('tss:message',{data:ev.data}));}catch(_){}};if(e.data.fit){enableFit();}flush();}});" +
             "window.addEventListener('error',function(e){send({kind:'error',message:e.message||'Script error',source:e.filename||'',line:e.lineno||0,column:e.colno||0,stack:(e.error&&e.error.stack)?e.error.stack:''});});" +
             "window.addEventListener('unhandledrejection',function(e){var r=e.reason;send({kind:'unhandledrejection',message:(r&&r.message)?r.message:String(r),source:'',line:0,column:0,stack:(r&&r.stack)?r.stack:''});});" +
             "document.addEventListener('securitypolicyviolation',function(e){send({kind:'csp',message:'Blocked by Content-Security-Policy: '+(e.violatedDirective||'')+' '+(e.blockedURI||''),source:e.sourceFile||'',line:e.lineNumber||0,column:e.columnNumber||0,stack:''});});" +
-            "function reportHeight(){try{var b=document.body?document.body.scrollHeight:0;var h=Math.max(document.documentElement.scrollHeight,b);send({kind:'height',height:h});}catch(_){}}" +
-            "window.addEventListener('load',reportHeight);" +
-            "try{if(window.ResizeObserver){new ResizeObserver(reportHeight).observe(document.documentElement);}}catch(_){}" +
             "window.tssSandbox={post:function(m){send({kind:'message',data:m});}};" +
             "})();";
 
@@ -265,6 +277,7 @@ namespace Tesserae
             InnerElement.onload = _ =>
             {
                 SetupMessaging();
+                SetupHostSideFit();
                 _onLoaded?.Invoke(InnerElement);
             };
 
@@ -381,13 +394,46 @@ namespace Tesserae
         {
             if (_disableSandbox && !_allowScripts) return;
 
-            Script.Write(@"(function(f){
+            // The in-iframe bootstrap only needs to drive height fitting when we cannot measure the frame
+            // from the host side. A same-origin frame is measured host-side (see SetupHostSideFit), which
+            // also works when scripts are disabled inside the frame, so we don't arm the in-iframe reporter
+            // there and avoid two mechanisms fighting over the height.
+            var fit = _fitHeightToContent && !_allowSameOrigin;
+
+            Script.Write(@"(function(f, fit){
   try {
     var ch = new MessageChannel();
     f.__tssPort = ch.port1;
     ch.port1.onmessage = function(ev){ f.dispatchEvent(new CustomEvent('tss-sandbox-msg', { detail: ev.data })); };
-    if (f.contentWindow) { f.contentWindow.postMessage({ __tssSandboxInit: true }, '*', [ch.port2]); }
+    if (f.contentWindow) { f.contentWindow.postMessage({ __tssSandboxInit: true, fit: fit }, '*', [ch.port2]); }
   } catch (e) { /* cross-origin frame without our bootstrap - messaging is unavailable */ }
+})({0}, {1});", InnerElement, fit);
+        }
+
+        // When the host shares the frame's origin it can measure the document directly. This keeps
+        // FitHeightToContent working even when scripts are disabled inside the frame (the injected
+        // bootstrap never runs without allow-scripts, so it cannot report the height itself). Mirrors the
+        // in-iframe reporter: forces html/body to auto height so the measurement tracks content in both
+        // directions, watches with a ResizeObserver + MutationObserver, and batches updates through
+        // requestAnimationFrame.
+        private void SetupHostSideFit()
+        {
+            if (!_fitHeightToContent || !_allowSameOrigin) return;
+
+            Script.Write(@"(function(f){
+  try {
+    var doc = f.contentDocument; if (!doc) return;
+    var win = f.contentWindow || window;
+    var de = doc.documentElement, b = doc.body;
+    try { if (de) { de.style.setProperty('height', 'auto', 'important'); } if (b) { b.style.setProperty('height', 'auto', 'important'); } } catch (_) {}
+    var lastH = -1, raf = 0;
+    function measure(){ try { return Math.max(de ? de.scrollHeight : 0, b ? b.scrollHeight : 0); } catch (_) { return 0; } }
+    function apply(){ raf = 0; var h = measure(); if (h > 0 && h !== lastH) { lastH = h; f.style.height = h + 'px'; } }
+    function schedule(){ if (raf) return; raf = win.requestAnimationFrame ? win.requestAnimationFrame(apply) : setTimeout(apply, 16); }
+    try { if (win.ResizeObserver && de) { new win.ResizeObserver(schedule).observe(de); } } catch (_) {}
+    try { if (win.MutationObserver) { new win.MutationObserver(schedule).observe(b || de, { attributes: true, childList: true, subtree: true, characterData: true }); } } catch (_) {}
+    apply();
+  } catch (_) { /* cross-origin document - not reachable from the host */ }
 })({0});", InnerElement);
         }
 

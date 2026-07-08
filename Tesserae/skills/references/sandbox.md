@@ -19,7 +19,7 @@ Both return a `Sandbox`. Bring factories into scope with `using static Tesserae.
 - `.OnError(Action<SandboxError>)` — uncaught errors, promise rejections, and CSP violations; `SandboxError` has `Kind`, `Message`, `Source`, `Line`, `Column`, `Stack`, `IsContentSecurityPolicyViolation`.
 - `.OnMessage(Action<object>)` / `.PostMessage(object)` — host ↔ sandbox messaging.
 - `.OnLoaded(Action<HTMLIFrameElement>)` — fires each load.
-- `.FitHeightToContent(bool = true)` — grow the frame to content height.
+- `.FitHeightToContent(bool = true)` — size the frame to its content height (grows and shrinks). Content is watched with a `ResizeObserver` + `MutationObserver`. For a fully-sandboxed frame this is reported from inside via the bootstrap (needs `allow-scripts`); when `.AllowSameOrigin()` is set the height is measured host-side instead, so it also works with scripts disabled. Set before render.
 - Sandbox flags: `.AllowScripts()`, `.AllowForms()`, `.AllowPopups()`, `.AllowModals()`, `.AllowDownloads()`, `.AllowToken(string)`, `.SandboxAttribute(string)`.
 - `.ContentSecurityPolicy(string)` / `.NoContentSecurityPolicy()` — override or disable the CSP.
 - `.AllowSameOrigin()` — **weakens isolation**; only for trusted content.
