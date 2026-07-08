@@ -144,13 +144,14 @@ namespace Tesserae
 
                     ClearChildrenExceptCached();
 
-                    // Wrap the active tab's content the same way a Stack wraps its
-                    // children: Stack.GetItem puts it in a tss-stack-item and transfers
-                    // any extension-defined sizing (.S(), .WS(), .Grow(), ...) from the
-                    // child onto the wrapper. This lets panel-filling content (e.g. a
-                    // search area sized with .S()) expand to the available height rather
-                    // than collapsing, without SegmentedPivot mutating the child itself.
-                    var content = Stack.GetItem(tab.GetContent(), forceAdd: true);
+                    // Append the tab's content directly, exactly like Pivot does. The
+                    // content pane (.tss-segmentedpivot-content) is itself a flex column
+                    // — like a Stack with a single always-visible child — so panel-filling
+                    // content sizes correctly against it whether it fills via .S()/.HS(),
+                    // .Grow(), or its own height:100%. Wrapping the content in an extra
+                    // tss-stack-item (height:auto) instead broke the percentage-height
+                    // chain and collapsed such content, so we no longer do that.
+                    var content = tab.RenderContent();
 
                     if (tab.KeepCached)
                     {
@@ -225,7 +226,7 @@ namespace Tesserae
 
             private          Func<IComponent> _titleCreator;
             private          Func<IComponent> _contentCreator;
-            private          IComponent       _content;
+            private          HTMLElement      _content;
             private readonly bool             _canCacheContent;
 
             internal bool KeepCached => _canCacheContent;
@@ -240,10 +241,10 @@ namespace Tesserae
             public IComponent CreateTitle() => _titleCreator();
 
             /// <summary>
-            /// Returns the content component, reusing the cached instance when the tab
-            /// is cacheable so its wrapper (and rendered state) survive tab switches.
+            /// Renders the content, reusing the cached element when the tab is cacheable
+            /// so its rendered state survives tab switches.
             /// </summary>
-            public IComponent GetContent()
+            public HTMLElement RenderContent()
             {
                 if (_canCacheContent && _content is object)
                 {
@@ -251,7 +252,7 @@ namespace Tesserae
                 }
                 else
                 {
-                    _content = _contentCreator();
+                    _content = _contentCreator().Render();
                     return _content;
                 }
             }

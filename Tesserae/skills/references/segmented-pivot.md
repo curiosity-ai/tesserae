@@ -21,6 +21,15 @@ Best for a small number of closely related views or filters.
 - `.Select(id, refresh = false)` — switch segment.
 - `.OnNavigate(...)` / `.OnBeforeNavigate(...)` — callbacks; `e.Cancel()` blocks navigation.
 
+## Sizing tab content
+
+The content area lays out the active tab like a `Stack` with a single child, so
+panel-filling content expands to the full available height instead of collapsing.
+Size the content to fill with `.S()` / `.HS()`, `.Grow()`, or its own
+`height: 100%`; content that is behind an intermediate wrapper (e.g. a `Defer`)
+fills as long as the outer piece carries the fill sizing. Fixed- or
+intrinsic-height content keeps its natural height and the pane scrolls.
+
 ## Example
 
 ```csharp

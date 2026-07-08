@@ -24,8 +24,24 @@ namespace Tesserae.Tests.Samples
                         .SegmentedPivot("tab2", SegmentTitle("Logs"),      () => CenteredWithBackground(Message("Logs Content")))
                         .SegmentedPivot("tab3", SegmentTitle("Analytics"), () => CenteredWithBackground(Message("Analytics Content")))
                         .SegmentedPivot("tab4", SegmentTitle("Firewall"),  () => CenteredWithBackground(Message("Firewall Content")))
-               )).SetTitle("Usage")));
+               )).SetTitle("Usage")))
+               .FlatSection(Stack().Children(
+                    Card(VStack().WS().Children(
+                    SampleSubTitle("Filling content"),
+                    TextBlock("Tab content sized to fill (with .S(), .Grow(), or its own height) expands to the whole content area, so panel-filling UIs such as a search area do not collapse."),
+                    Stack().H(320).WS().Children(
+                        SegmentedPivot()
+                            .SegmentedPivot("fill1", SegmentTitle("Search"),  () => FillingArea("Results pane fills the panel"))
+                            .SegmentedPivot("fill2", SegmentTitle("Details"), () => FillingArea("This one fills too"))
+                        .S())
+               )).SetTitle("Filling")));
         }
+
+        // A panel-filling tab body: content sized to fill (here via CenteredWithBackground,
+        // which is height:100%) expands to the whole pivot content area instead of
+        // collapsing, mirroring a search area whose results pane should fill the panel.
+        private static IComponent FillingArea(string label) =>
+            CenteredWithBackground(Message(label));
 
         public HTMLElement Render()
         {
