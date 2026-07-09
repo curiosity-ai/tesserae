@@ -124,17 +124,44 @@ namespace Tesserae
 
         public static void SetQueryParameters(Parameters parameters, bool pushToHistory = false)
         {
-            var url = _currentState.FullPath;
+            // Query parameters are only ever read back out of the URL hash (see LocationChanged),
+            // so they must be written *into* the hash. This method used to append the query string
+            // to the end of the full path, which placed it in the document query string (before the
+            // '#') whenever the current route had no hash - for example the home route - a location
+            // the router never inspects, so the parameters silently failed to round-trip. Keep
+            // everything before the hash untouched and rebuild only the hash's query segment.
+            //
+            // The base is _currentState.FullPath (the router's own source of truth, which Push/Replace
+            // may have set to a relative path), NOT window.location.href - the two are not equivalent.
+            var fullPath = _currentState.FullPath ?? "";
 
-            var queryStart = url.IndexOf("?");
+            var hashIndex  = fullPath.IndexOf('#');
+            var beforeHash = hashIndex >= 0 ? fullPath.Substring(0, hashIndex) : fullPath;
+            var hash       = hashIndex >= 0 ? fullPath.Substring(hashIndex) : "";
 
-            if (queryStart > 0)
+            var queryStart = hash.IndexOf('?');
+
+            if (queryStart >= 0)
             {
-                url = url.Substring(0, queryStart);
+                hash = hash.Substring(0, queryStart);
+            }
+
+            var queryString = parameters.ToQueryString();
+
+            if (hash.Length == 0 && queryString.Length > 0)
+            {
+                // No hash yet (e.g. the home route): give the query a fragment to attach to,
+                // otherwise it would fall into the document query string.
+                hash = "#";
+            }
+            else if (hash == "#" && queryString.Length == 0)
+            {
+                // Clearing the last parameter: drop the now-empty bare '#'.
+                hash = "";
             }
 
             var stateBefore = _currentState;
-            _currentState = new State(parameters, _currentState.RouteName, _currentState.Path, url + parameters.ToQueryString());
+            _currentState = new State(parameters, _currentState.RouteName, _currentState.Path, beforeHash + hash + queryString);
             _lastState    = stateBefore;
 
             if (pushToHistory)
