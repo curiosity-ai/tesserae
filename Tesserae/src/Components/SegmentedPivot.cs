@@ -10,7 +10,7 @@ namespace Tesserae
     /// A pill-style pivot variant where the tabs share a connected segmented-control look.
     /// </summary>
     [H5.Name("tss.SegmentedPivot")]
-    public sealed class SegmentedPivot : IComponent, IBindableComponent<string>
+    public sealed class SegmentedPivot : IComponent, ISpecialCaseStyling, IBindableComponent<string>
     {
         public delegate void PivotEventHandler<TEventArgs>(SegmentedPivot sender, TEventArgs e);
 
@@ -24,7 +24,6 @@ namespace Tesserae
 
         private readonly HTMLElement _renderedTabs;
         private readonly HTMLElement _renderedContent;
-        private readonly HTMLElement _container;
 
         private string _initiallySelectedID;
         private string _currentSelectedID;
@@ -35,6 +34,19 @@ namespace Tesserae
         public string SelectedTab => _currentSelectedID ?? _initiallySelectedID;
 
         /// <summary>
+        /// Gets the HTMLElement that should receive styling. Exposing the root as the
+        /// styling container (via <see cref="ISpecialCaseStyling"/>) lets sizing helpers
+        /// like .S() / .Grow() write directly onto the pivot instead of an extra
+        /// wrapper when it is placed inside a Stack or Grid, matching Pivot.
+        /// </summary>
+        public HTMLElement StylingContainer { get; }
+
+        /// <summary>
+        /// Gets whether styling should propagate to the stack item parent.
+        /// </summary>
+        public bool PropagateToStackItemParent => true;
+
+        /// <summary>
         /// Initializes a new instance of this class.
         /// </summary>
         public SegmentedPivot()
@@ -43,7 +55,7 @@ namespace Tesserae
             var wrapper = Div(_("tss-segmentedpivot-wrapper"), _renderedTabs);
             _renderedContent = Div(_("tss-segmentedpivot-content", role: "tabpanel"));
 
-            _container = Div(_("tss-segmentedpivot"), wrapper, _renderedContent);
+            StylingContainer = Div(_("tss-segmentedpivot"), wrapper, _renderedContent);
         }
 
         /// <summary>
@@ -144,13 +156,14 @@ namespace Tesserae
 
                     ClearChildrenExceptCached();
 
-                    // Wrap the active tab's content the same way a Stack wraps its
-                    // children: Stack.GetItem puts it in a tss-stack-item and transfers
-                    // any extension-defined sizing (.S(), .WS(), .Grow(), ...) from the
-                    // child onto the wrapper. This lets panel-filling content (e.g. a
-                    // search area sized with .S()) expand to the available height rather
-                    // than collapsing, without SegmentedPivot mutating the child itself.
-                    var content = Stack.GetItem(tab.GetContent(), forceAdd: true);
+                    // Append the tab's content directly, exactly like Pivot does. The
+                    // content pane (.tss-segmentedpivot-content) is itself a flex column
+                    // — like a Stack with a single always-visible child — so panel-filling
+                    // content sizes correctly against it whether it fills via .S()/.HS(),
+                    // .Grow(), or its own height:100%. Wrapping the content in an extra
+                    // tss-stack-item (height:auto) instead broke the percentage-height
+                    // chain and collapsed such content, so we no longer do that.
+                    var content = tab.RenderContent();
 
                     if (tab.KeepCached)
                     {
@@ -207,7 +220,7 @@ namespace Tesserae
             {
                 Select(_initiallySelectedID);
             }
-            return _container;
+            return StylingContainer;
         }
 
         internal sealed class Tab
@@ -225,7 +238,7 @@ namespace Tesserae
 
             private          Func<IComponent> _titleCreator;
             private          Func<IComponent> _contentCreator;
-            private          IComponent       _content;
+            private          HTMLElement      _content;
             private readonly bool             _canCacheContent;
 
             internal bool KeepCached => _canCacheContent;
@@ -240,10 +253,10 @@ namespace Tesserae
             public IComponent CreateTitle() => _titleCreator();
 
             /// <summary>
-            /// Returns the content component, reusing the cached instance when the tab
-            /// is cacheable so its wrapper (and rendered state) survive tab switches.
+            /// Renders the content, reusing the cached element when the tab is cacheable
+            /// so its rendered state survives tab switches.
             /// </summary>
-            public IComponent GetContent()
+            public HTMLElement RenderContent()
             {
                 if (_canCacheContent && _content is object)
                 {
@@ -251,7 +264,7 @@ namespace Tesserae
                 }
                 else
                 {
-                    _content = _contentCreator();
+                    _content = _contentCreator().Render();
                     return _content;
                 }
             }
