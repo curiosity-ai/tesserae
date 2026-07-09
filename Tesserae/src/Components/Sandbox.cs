@@ -36,14 +36,16 @@ namespace Tesserae
         // Height reporting is only armed when the host sends `fit:true` in the init message - i.e. when
         // FitHeightToContent is on AND the host cannot measure the frame itself (no same-origin access).
         // Same-origin frames are measured host-side instead (see SetupHostSideFit). Once armed it forces
-        // html/body to auto height so the measurement tracks content in both directions (grow *and*
-        // shrink), watches for changes with both a ResizeObserver and a MutationObserver, batches updates
-        // through requestAnimationFrame, and de-dupes identical heights to avoid flooding the port.
+        // html/body to auto height and measures the content box (getBoundingClientRect, not scrollHeight,
+        // which the root element clamps to the viewport height and so would never shrink) so the
+        // measurement tracks content in both directions (grow *and* shrink), watches for changes with both
+        // a ResizeObserver and a MutationObserver, batches updates through requestAnimationFrame, and
+        // de-dupes identical heights to avoid flooding the port.
         private const string BootstrapScript =
             "(function(){var port=null,queue=[],fit=false,raf=0,lastH=-1;" +
             "function flush(){if(port){while(queue.length){port.postMessage(queue.shift());}}}" +
             "function send(m){queue.push(m);flush();}" +
-            "function measure(){try{var d=document.documentElement,b=document.body;return Math.max(d?d.scrollHeight:0,b?b.scrollHeight:0);}catch(_){return 0;}}" +
+            "function measure(){try{var d=document.documentElement,b=document.body,h=b?b.scrollHeight:0;if(d){var r=d.getBoundingClientRect();if(r&&r.height>h){h=Math.ceil(r.height);}}return h;}catch(_){return 0;}}" +
             "function report(){raf=0;if(!fit)return;var h=measure();if(h>0&&h!==lastH){lastH=h;send({kind:'height',height:h});}}" +
             "function schedule(){if(!fit||raf)return;raf=(window.requestAnimationFrame||function(cb){return setTimeout(cb,16);})(report);}" +
             "function enableFit(){if(fit)return;fit=true;try{document.documentElement.style.setProperty('height','auto','important');if(document.body){document.body.style.setProperty('height','auto','important');}}catch(_){}" +
@@ -427,7 +429,10 @@ namespace Tesserae
     var de = doc.documentElement, b = doc.body;
     try { if (de) { de.style.setProperty('height', 'auto', 'important'); } if (b) { b.style.setProperty('height', 'auto', 'important'); } } catch (_) {}
     var lastH = -1, raf = 0;
-    function measure(){ try { return Math.max(de ? de.scrollHeight : 0, b ? b.scrollHeight : 0); } catch (_) { return 0; } }
+    // Measure the actual content box (documentElement is forced to height:auto above) rather than
+    // scrollHeight: the root element's scrollHeight is clamped to at least the viewport height, which
+    // equals the frame's current height, so once the frame has grown it could never shrink again.
+    function measure(){ try { var h = b ? b.scrollHeight : 0; if (de) { var r = de.getBoundingClientRect(); if (r && r.height > h) { h = Math.ceil(r.height); } } return h; } catch (_) { return 0; } }
     function apply(){ raf = 0; var h = measure(); if (h > 0 && h !== lastH) { lastH = h; f.style.height = h + 'px'; } }
     function schedule(){ if (raf) return; raf = win.requestAnimationFrame ? win.requestAnimationFrame(apply) : setTimeout(apply, 16); }
     try { if (win.ResizeObserver && de) { new win.ResizeObserver(schedule).observe(de); } } catch (_) {}
