@@ -10,7 +10,7 @@ namespace Tesserae
     /// A pivot variant that styles each tab as a card, used for dashboard-style switching between rich panels.
     /// </summary>
     [H5.Name("tss.CardPivot")]
-    public sealed class CardPivot : IComponent, IBindableComponent<string>
+    public sealed class CardPivot : IComponent, ISpecialCaseStyling, IBindableComponent<string>
     {
         public delegate void PivotEventHandler<TEventArgs>(CardPivot sender, TEventArgs e);
 
@@ -24,10 +24,22 @@ namespace Tesserae
 
         private readonly HTMLElement _renderedTabs;
         private readonly HTMLElement _renderedContent;
-        private readonly HTMLElement _container;
 
         private string _initiallySelectedID;
         private string _currentSelectedID;
+
+        /// <summary>
+        /// Gets the HTMLElement that should receive styling. Exposing the root as the
+        /// styling container (via <see cref="ISpecialCaseStyling"/>) lets sizing helpers
+        /// like .S() / .Grow() write directly onto the pivot instead of an extra wrapper
+        /// when it is placed inside a Stack or Grid, matching Pivot and SegmentedPivot.
+        /// </summary>
+        public HTMLElement StylingContainer { get; }
+
+        /// <summary>
+        /// Gets whether styling should propagate to the stack item parent.
+        /// </summary>
+        public bool PropagateToStackItemParent => true;
 
         /// <summary>
         /// Initializes a new instance of this class.
@@ -37,7 +49,7 @@ namespace Tesserae
             _renderedTabs    = Div(_("tss-cardpivot-titlebar", role: "tablist"));
             _renderedContent = Div(_("tss-cardpivot-content",  role: "tabpanel"));
 
-            _container = Div(_("tss-cardpivot"), _renderedTabs, _renderedContent);
+            StylingContainer = Div(_("tss-cardpivot"), _renderedTabs, _renderedContent);
         }
 
         /// <summary>
@@ -177,7 +189,7 @@ namespace Tesserae
             {
                 Select(_initiallySelectedID);
             }
-            return _container;
+            return StylingContainer;
         }
 
         internal sealed class Tab

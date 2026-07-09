@@ -22,6 +22,14 @@ extension. Bring factories into scope with `using static Tesserae.UI;`.
 - `.Select(id, refresh = false)` — switch tabs.
 - `.OnNavigate(...)` / `.OnBeforeNavigate(...)` — callbacks; `e.Cancel()` blocks navigation.
 
+## Sizing tab content
+
+The content area lays out the active tab like a `Stack` with a single child, so
+panel-filling content expands to the full available height instead of collapsing.
+Size the content to fill with `.S()` / `.HS()`, `.Grow()`, or its own
+`height: 100%`; fixed- or intrinsic-height content keeps its natural height and
+the pane scrolls.
+
 ## Example
 
 ```csharp
