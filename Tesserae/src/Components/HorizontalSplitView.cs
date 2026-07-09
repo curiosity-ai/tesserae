@@ -8,7 +8,7 @@ namespace Tesserae
     /// A horizontal split pane with a draggable handle that resizes a left and right pane.
     /// </summary>
     [H5.Name("tss.HorizontalSplitView")]
-    public class HorizontalSplitView : IComponent
+    public class HorizontalSplitView : IComponent, ISpecialCaseStyling
     {
         private readonly HTMLElement _splitContainer;
         private readonly string      _splitterSize;
@@ -17,6 +17,19 @@ namespace Tesserae
         private readonly Raw         _bottomComponent;
         private          bool        _resizable;
         private          Action<int> _onResizeEnd;
+
+        /// <summary>
+        /// Gets the HTMLElement that should receive styling. Exposing the root as the
+        /// styling container (via <see cref="ISpecialCaseStyling"/>) lets sizing helpers
+        /// like .S() / .Grow() write directly onto the split view instead of an extra
+        /// wrapper when it is placed inside a Stack or Grid.
+        /// </summary>
+        public HTMLElement StylingContainer => _splitContainer;
+
+        /// <summary>
+        /// Gets whether styling should propagate to the stack item parent.
+        /// </summary>
+        public bool PropagateToStackItemParent => true;
 
         /// <summary>
         /// Initializes a new instance of this class.

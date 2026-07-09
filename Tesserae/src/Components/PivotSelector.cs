@@ -11,7 +11,7 @@ namespace Tesserae
     /// positioned independently of its panels.
     /// </summary>
     [H5.Name("tss.PivotSelector")]
-    public class PivotSelector : IComponent, IBindableComponent<string>
+    public class PivotSelector : IComponent, ISpecialCaseStyling, IBindableComponent<string>
     {
         public delegate void PivotEventHandler<TEventArgs>(PivotSelector sender, TEventArgs e);
 
@@ -24,10 +24,22 @@ namespace Tesserae
         private readonly Dropdown    _dropdown;
         private readonly Stack       _commands;
         private readonly HTMLElement _renderedContent;
-        private readonly HTMLElement _container;
 
         private string _initiallySelectedID;
         private string _currentSelectedID;
+
+        /// <summary>
+        /// Gets the HTMLElement that should receive styling. Exposing the root as the
+        /// styling container (via <see cref="ISpecialCaseStyling"/>) lets sizing helpers
+        /// like .S() / .Grow() write directly onto the selector instead of an extra
+        /// wrapper when it is placed inside a Stack or Grid, matching the pivot family.
+        /// </summary>
+        public HTMLElement StylingContainer { get; }
+
+        /// <summary>
+        /// Gets whether styling should propagate to the stack item parent.
+        /// </summary>
+        public bool PropagateToStackItemParent => true;
 
         /// <summary>
         /// Initializes a new instance of this class.
@@ -36,11 +48,14 @@ namespace Tesserae
         {
             _dropdown        = Dropdown().Grow().MaxWidth(500.px()).MinWidth(new UnitSize("min(200px, 100%)"));
             _commands        = HStack().WS().NoShrink();
-            _renderedContent = Div(_("tss-pivot-content", role: "tabpanel"));
+            _renderedContent = Div(_("tss-pivotselector-content", role: "tabpanel"));
 
             var header = HStack().Children(_dropdown, _commands).WS().AlignItemsCenter().PaddingBottom(8.px());
 
-            _container = VStack().Class("tss-pivotselector").Children(header, Raw(_renderedContent)).Render();
+            // Build the root as a flex column with the header and content pane as direct
+            // children (rather than wrapping them through a Stack), so the content pane is
+            // a real flex child that grows to fill and lays its active tab out like a Stack.
+            StylingContainer = Div(_("tss-pivotselector"), header.Render(), _renderedContent);
 
             _dropdown.OnInput((s, e) =>
             {
@@ -163,7 +178,7 @@ namespace Tesserae
             {
                 Select(_initiallySelectedID);
             }
-            return _container;
+            return StylingContainer;
         }
 
         internal sealed class Tab
