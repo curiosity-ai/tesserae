@@ -33,6 +33,21 @@ update your view directly in the click handler — pick one and stay consistent.
 
 Parameters: path `:segments` are captured positionally; query-string pairs
 (`?term=x&page=2`) land in the same `Parameters` collection — just read the keys.
+Avoid reusing a `:segment` name as a query key (one shared collection).
+
+Reflect view state (open panel, selected tab, filters) in the URL's query
+segment so it survives refresh and can be shared as a deep link:
+
+- `Router.GetQueryParameters()` — the current `Parameters`.
+- `Router.ReplaceQueryParameters(p => p.With("preview", id))` — clone, update,
+  rewrite only the hash's query segment; no-ops when nothing changed. Use
+  `.Remove(key)` to clear. The route handler is **not** re-invoked — the URL
+  updates silently under the running view. Default is `replaceState` (no
+  history entry); pass `pushToHistory: true` for one.
+- On the next navigation or page load the keys arrive in the handler's
+  `Parameters` — restore the state from there.
+- `Push`/`Replace` re-derive the current `Parameters` from the path you pass,
+  so `GetQueryParameters()` stays in sync even without a route re-match.
 
 Guards / events: `Router.OnBeforeNavigate(...)` (return `false` to cancel),
 `Router.OnNavigated(...)`, `Router.OnNotMatched(...)`.

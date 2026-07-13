@@ -22,7 +22,7 @@ namespace Tesserae
 
         public bool SameAs(Parameters other)
         {
-            if (other is null) return _parameters.Count > 0;
+            if (other is null) return _parameters.Count == 0;
             if (other._parameters.Count != _parameters.Count) return false;
 
             if (other._parameters.Count == 0 && _parameters.Count == 0) return true;
@@ -61,7 +61,7 @@ namespace Tesserae
             return this;
         }
 
-        public string     ToQueryString() => _parameters.Any() ? "?" + string.Join("&", _parameters.Select(p => p.Key + "=" + H5.Script.EncodeURIComponent(p.Value))) : "";
+        public string     ToQueryString() => _parameters.Any() ? "?" + string.Join("&", _parameters.Select(p => H5.Script.EncodeURIComponent(p.Key) + "=" + H5.Script.EncodeURIComponent(p.Value))) : "";
         public Parameters Clone()         => new Parameters(_parameters.ToDictionary(kv => kv.Key, kv => kv.Value));
     }
 }

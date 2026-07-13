@@ -84,16 +84,8 @@ namespace Tesserae
                 return;
             }
 
-            if (_currentState is null)
-            {
-                _lastState    = null;
-                _currentState = new State(fullPath: path);
-            }
-            else
-            {
-                _lastState    = _currentState;
-                _currentState = _currentState.WithFullPath(path);
-            }
+            _lastState    = _currentState;
+            _currentState = StateFromPath(path);
 
             window.history.pushState(null, "", path);
         }
@@ -106,24 +98,62 @@ namespace Tesserae
                 return;
             }
 
-            if (_currentState is null)
-            {
-                _lastState    = null;
-                _currentState = new State(fullPath: path);
-            }
-            else
-            {
-                _lastState    = _currentState;
-                _currentState = _currentState.WithFullPath(path);
-            }
+            _lastState    = _currentState;
+            _currentState = StateFromPath(path);
 
             window.history.replaceState(null, "", path);
         }
 
-        public static Parameters GetQueryParameters() => _currentState.Parameters;
+        // Push/Replace bypass route matching, so derive the state's Path and Parameters from the pushed
+        // path itself - otherwise GetQueryParameters would keep returning the previous route's values and
+        // the next SetQueryParameters would resurrect them into the URL.
+        private static State StateFromPath(string fullPath)
+        {
+            var hashIndex  = fullPath.IndexOf('#');
+            var hash       = hashIndex >= 0 ? fullPath.Substring(hashIndex + 1) : fullPath;
+            var queryStart = hash.IndexOf('?');
+            var path       = queryStart >= 0 ? hash.Substring(0, queryStart) : hash;
+
+            var par = new Dictionary<string, string>();
+
+            if (queryStart >= 0)
+            {
+                ParseQueryInto(hash.Substring(queryStart + 1), par);
+            }
+
+            return new State(new Parameters(par), _currentState?.RouteName, path, fullPath);
+        }
+
+        private static void ParseQueryInto(string query, Dictionary<string, string> par)
+        {
+            var queryParts = query.Split(new[] { '&' }, StringSplitOptions.RemoveEmptyEntries);
+
+            foreach (var qp in queryParts)
+            {
+                // Split on the first '=' only, so values containing '=' survive intact
+                var eq = qp.IndexOf('=');
+
+                if (eq < 0)
+                {
+                    par[Script.DecodeURIComponent(qp)] = "";
+                }
+                else if (eq > 0)
+                {
+                    par[Script.DecodeURIComponent(qp.Substring(0, eq))] = Script.DecodeURIComponent(qp.Substring(eq + 1));
+                }
+            }
+        }
+
+        public static Parameters GetQueryParameters() => _currentState?.Parameters ?? new Parameters();
 
         public static void SetQueryParameters(Parameters parameters, bool pushToHistory = false)
         {
+            if (_currentState is null)
+            {
+                // No route matched yet, so there is no URL to anchor the query to
+                return;
+            }
+
             // Query parameters are only ever read back out of the URL hash (see LocationChanged),
             // so they must be written *into* the hash. This method used to append the query string
             // to the end of the full path, which placed it in the document query string (before the
@@ -176,9 +206,16 @@ namespace Tesserae
 
         public static void ReplaceQueryParameters(Func<Parameters, Parameters> updateFn, bool pushToHistory = false)
         {
-            var newParameters = updateFn(_currentState.Parameters.Clone());
+            if (_currentState is null)
+            {
+                // No route matched yet, so there is no URL to anchor the query to
+                return;
+            }
 
-            if (newParameters.SameAs(_currentState.Parameters))
+            var currentParameters = _currentState.Parameters ?? new Parameters();
+            var newParameters     = updateFn(currentParameters.Clone());
+
+            if (newParameters.SameAs(currentParameters))
             {
                 // Nothing to do
                 return;
@@ -433,23 +470,7 @@ namespace Tesserae
 
                 if (p.Length > 1)
                 {
-                    //TODO parse query parameters
-                    var query      = p[1];
-                    var queryParts = query.Split(new[] { '&' }, StringSplitOptions.RemoveEmptyEntries);
-
-                    foreach (var qp in queryParts)
-                    {
-                        var qpp = qp.Split(new[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
-
-                        if (qpp.Length == 1)
-                        {
-                            par[Script.DecodeURIComponent(qpp[0])] = "";
-                        }
-                        else
-                        {
-                            par[Script.DecodeURIComponent(qpp[0])] = Script.DecodeURIComponent(qpp[1]);
-                        }
-                    }
+                    ParseQueryInto(p[1], par);
                 }
 
                 var toState = new State(
