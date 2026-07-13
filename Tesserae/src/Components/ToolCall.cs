@@ -276,7 +276,12 @@ namespace Tesserae
             InnerElement = Div(_("tss-toolsused", role: "button", ariaLabel: "Show tools used"),
                                _summaryIcon, _summaryText, chevron);
 
-            InnerElement.addEventListener("click", _ => Show());
+            // Open on a tap gesture rather than a raw "click": in a live-streaming chat the surrounding
+            // content re-renders and auto-scrolls under the pointer, which moves this element between
+            // mousedown and mouseup so the browser never fires a "click" and the summary looked dead.
+            // OnTapped captures the pointer and keys off the (stationary) pointer position, so a press-
+            // release still opens the popup while the page scrolls, and a scroll-drag off the pill does not.
+            this.OnTapped(() => Show());
 
             if (tools != null)
             {
