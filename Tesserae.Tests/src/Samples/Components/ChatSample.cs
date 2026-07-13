@@ -66,11 +66,23 @@ namespace Tesserae.Tests.Samples
                     }
 
                     currentText += (index > 0 ? " " : "") + words[index];
-                    msgComponent.ReplaceContent(TextBlock(currentText));
+
+                    // Rebuild a "Used N tools" pill above the streaming text on every token, exactly as a
+                    // real streaming chat does, so the summary can be clicked while the reply is still
+                    // arriving. Combined with the random per-token delay below, this is the scenario to
+                    // exercise: the pill must stay clickable even as the content re-renders and scrolls.
+                    var toolsPill = ToolsUsed(
+                        ToolCall(UIcons.Terminal, "Bash ls -la && git status", () => TextBlock("On branch main\nnothing to commit").BreakSpaces()),
+                        ToolCall(UIcons.Eye,      "Read /home/user/project/README.md", () => TextBlock("# Project\n\nA sample app.").BreakSpaces()),
+                        ToolCall(UIcons.Search,   "Grep \"TODO\" src/", () => TextBlock("src/App.tsx:14: // TODO: add routing").BreakSpaces()));
+
+                    msgComponent.ReplaceContent(VStack().WS().Children(toolsPill, TextBlock(currentText).PT(8)));
                     msgComponent.KeepVisible();
 
                     index++;
-                    window.setTimeout(_ => TypeNextWord(), 150);
+
+                    // Random 0-1000ms gap between tokens so the stream pauses long enough to click mid-reply.
+                    window.setTimeout(_ => TypeNextWord(), random.Next(0, 1001));
                 }
 
                 window.setTimeout(_ => TypeNextWord(), 500);
