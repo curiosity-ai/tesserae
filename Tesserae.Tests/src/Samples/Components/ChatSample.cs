@@ -76,7 +76,7 @@ namespace Tesserae.Tests.Samples
                         ToolCall(UIcons.Eye,      "Read /home/user/project/README.md", () => TextBlock("# Project\n\nA sample app.").BreakSpaces()),
                         ToolCall(UIcons.Search,   "Grep \"TODO\" src/", () => TextBlock("src/App.tsx:14: // TODO: add routing").BreakSpaces()));
 
-                    msgComponent.ReplaceContent(VStack().WS().Children(toolsPill, TextBlock(currentText).PT(8)));
+                    msgComponent.ReplaceContent(VStack().WS().Children(toolsPill, TextBlock(currentText)));
                     msgComponent.KeepVisible();
 
                     index++;
@@ -95,7 +95,7 @@ namespace Tesserae.Tests.Samples
             // Demonstrate an AI message that uses a single tool inline via ToolCall.
             chatArea.Add(ChatMessage(VStack().WS().Children(
                 ToolCall(UIcons.Eye, "Read /home/user/project/src/App.tsx", () => TextBlock("import React from 'react';\n\nexport default function App() {\n    return <div>Hello</div>;\n}").BreakSpaces()),
-                TextBlock("I just read App.tsx — it's a minimal React component. Want me to add routing?").PT(8)
+                TextBlock("I just read App.tsx — it's a minimal React component. Want me to add routing?")
             ), Avatar(null, "AI")).MaxWidth());
 
             // Demonstrate an AI message that used many tools, summarized via ToolsUsed.
@@ -109,7 +109,7 @@ namespace Tesserae.Tests.Samples
                     ToolCall(UIcons.Tools,    "ToolSearch routing",                              () => TextBlock("Found: react-router-dom v6")),
                     ToolCall(UIcons.ListCheck, "Update todos").NotExpandable()
                 ).SetSummary("Ran 4 commands, read 2 files, used a tool"),
-                TextBlock("I scanned the project, ran the build, and looked at routing options. Here's what I found:").PT(8)
+                TextBlock("I scanned the project, ran the build, and looked at routing options. Here's what I found:")
             ), Avatar(null, "AI")).MaxWidth());
 
             input = OmniBox(new OmniBox.Config(OmniBox.Mode.Chat)

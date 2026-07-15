@@ -7,6 +7,8 @@ description: An inline, accordion-style indicator of an AI tool invocation, plus
 
 `ToolCall` is an inline tool-call row (icon + label + chevron) that expands to show its content; the content is built lazily the first time it expands. `ToolsUsed` is a compact "Used N tools" summary that opens a modal listing the tools, with a back/detail slide.
 
+Both carry an 8px bottom margin, so when you stack a pill above the answer text in a chat message you don't need to add your own top padding on the text.
+
 ## Create
 
 `UI.ToolCall(UIcons icon, string text, Func<IComponent> contentFactory = null)` — lazy content.

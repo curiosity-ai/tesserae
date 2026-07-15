@@ -9,6 +9,7 @@
     overflow: hidden;
     max-width: 100%;
     box-sizing: border-box;
+    margin-bottom: 8px;
 }
 
 .tss-toolcall-header {
@@ -87,6 +88,7 @@
     user-select: none;
     color: var(--tss-colors-neutral-800, #1f2937);
     font-size: 13px;
+    margin-bottom: 8px;
 }
 
 .tss-toolsused:hover {
