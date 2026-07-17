@@ -46,41 +46,41 @@ index 1111111..2222222 100644
 ";
 
         // Repro for the misaligned side-by-side gutter bug: a diff whose lines are long
-        // prose sentences (much wider than the 50% pane), like the "guidance questions"
-        // and "similar dossier questions" content in the original report.
+        // prose sentences (much wider than the 50% pane), so they wrap when the
+        // tss-codediff-wrap class is applied.
         private const string LongProseDiff =
-@"diff --git a/guidance-questions.md b/guidance-questions.md
+@"diff --git a/lorem-notes.md b/lorem-notes.md
 index 3333333..4444444 100644
---- a/guidance-questions.md
-+++ b/guidance-questions.md
-@@ -1,10 +1,10 @@
- Is there a significant change (increase) in smell event occurrence rate after the last shop visit compared to before?
--Can you inspect the FWD and AFT cargo compartment areas close to the bleed ducts for any signs of oil residue or contamination?
-+Has an inspection of the FWD and AFT cargo compartment areas close to the bleed ducts been performed for any signs of oil residue?
- What cleaning process and products are applied to the cabin interior surfaces during the routine maintenance checks?
- Is the Aerotracer still being used on the aircraft?
--Was the Aerotracer connected via a piping to the air outlet, or placed freely in the cabin during the measurement flights?
-+Was the Aerotracer connected via piping to the air outlet, or placed freely in the cabin during the measurement flights?
--Could you please provide more information about the reported fume events during the climb phase on the affected aircraft?
-+Following the oil smell event: were any mitigations applied after the reported fume events during the climb phase on the affected aircraft?
- In-flight turn-back due to dirty socks smell in cockpit and cabin after thrust reduction during climb. Investigation revealed a massive APU oil leak caused by a defective O-ring at the Fuel/Oil connector, leading to oil contamination of bleed air ducts and both air conditioning packs.
--When was the last wet or dry crank performed on the engines prior to the oil smell event on the 27th of April?
-+When was the last wet or dry crank performed on the engines prior to the oil smell event reported on the 27th of April?
-diff --git a/extracted-questions.md b/sanitized-questions.md
+--- a/lorem-notes.md
++++ b/lorem-notes.md
+@@ -1,8 +1,8 @@
+ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+-Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat in voluptate velit?
++Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat?
+ Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur sint occaecat.
+ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+-Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa?
++Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam?
+-Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione?
++Nemo enim ipsam voluptatem quia voluptas sit magni dolores aspernatur aut odit aut fugit, sed quia consequuntur eos qui ratione?
+ At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga.
+-Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint?
++Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae?
+diff --git a/draft-notes.md b/final-notes.md
 similarity index 55%
-rename from extracted-questions.md
-rename to sanitized-questions.md
+rename from draft-notes.md
+rename to final-notes.md
 index 5555555..6666666 100644
---- a/extracted-questions.md
-+++ b/sanitized-questions.md
+--- a/draft-notes.md
++++ b/final-notes.md
 @@ -1,5 +1,5 @@
- What are the APU P/N, S/N, TSLSV (Time Since Last Shop Visit) and the total operating hours accumulated by the unit since new?
--Can you confirm the root cause of the odour was the replaced Oil seal, and can you please share the findings of the workshop report with us as soon as it becomes available?
-+Can you confirm the root cause of the odour was the replaced Oil seal, and share the findings of the workshop report as soon as it becomes available?
- Following the oil traces found in the ENG1 exhaust after a 5-minute idle run, what additional inspections were carried out on the engine before it was released back into service?
--Was the APU bleed used during take-off and climb for the mid-April rotation, and if so at which altitude was it switched off by the crew?
-+Was the APU bleed used during take-off and climb for the mid-April rotation, and if so at which altitude was it switched off?
- When was the last borescope inspection of the LPT module completed, and were any anomalies documented in the inspection report at that time?
+ Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus.
+-Omnis voluptas assumenda est, omnis dolor repellendus, et harum quidem rerum facilis est et expedita distinctio nam libero?
++Omnis voluptas assumenda est, omnis dolor repellendus, et harum quidem rerum facilis est et expedita distinctio?
+ Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis.
+-Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur vel illum qui dolorem?
++Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur?
+ Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi.
 ";
 
         public CodeDiffSample()
