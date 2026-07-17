@@ -6,3 +6,17 @@
 .flash-bg {
     animation: highlight 2s ease-out;
 }
+/* CodeDiffSample bug repro: let long diff lines wrap instead of scrolling
+   horizontally (what consumer apps do for prose-like diffs). With wrapping
+   enabled, the absolutely-positioned diff2html line-number cells stay one
+   line tall, so the gutter numbers/backgrounds drift out of alignment with
+   their (now multi-line) content rows. */
+.tss-codediff-wrap .d2h-code-line,
+.tss-codediff-wrap .d2h-code-side-line {
+    white-space: normal;
+}
+
+.tss-codediff-wrap .d2h-code-line-ctn {
+    white-space: pre-wrap;
+    word-break: break-word;
+}
