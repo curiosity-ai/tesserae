@@ -139,11 +139,9 @@ index 5555555..6666666 100644
             var multiC = CodeDiff(LongProseDiff, CodeDiff.Format.LineByLine).WS().MT(8);
             multiC.Id("code-diff-multi-c");
 
-            // Line-by-line diff inside a fixed-height scroll container. The diff2html
-            // line-number cells are position:absolute, so their containing block is the
-            // nearest *positioned* ancestor - here the Card (position:relative), which is
-            // OUTSIDE the scroll container. Scrolling the container moves the in-flow
-            // content but not the absolutely-positioned gutter cells.
+            // Line-by-line diff inside a fixed-height scroll container. diff2html's
+            // line-number cells are position:absolute; .tss-codediff is position:relative
+            // (tss.codediff.css) so they stay attached to their rows while scrolling.
             var scrolledDiff = CodeDiff(LongProseDiff, CodeDiff.Format.LineByLine).WS();
             scrolledDiff.Id("code-diff-scrolled");
 
@@ -197,9 +195,9 @@ index 5555555..6666666 100644
                     )).SetTitle("Bug repro: multiple diff views on the same page")))
                .FlatSection(VStack().Children(
                     Card(VStack().WS().Children(
-                        TextBlock("Repro: line-by-line diff inside a fixed-height scrollable container (320px, overflow-y auto). The absolutely-positioned line-number cells resolve their containing block to the nearest positioned ancestor - the Card, which is outside the scroll container - so scrolling moves the diff content but leaves the gutter numbers behind. Scroll inside the box below and watch the numbers detach from their rows."),
+                        TextBlock("Regression check: line-by-line diff inside a fixed-height scrollable container (320px, overflow-y auto). diff2html's line-number cells are absolutely positioned, so without a positioned ancestor inside the scroller they would stay frozen (and escape the clip) while the content scrolls. Tesserae fixes this by making the CodeDiff root position:relative (tss.codediff.css) - scroll inside the box below and the gutter must move with its rows."),
                         Raw(scrollHost)
-                    )).SetTitle("Bug repro: line-by-line diff inside a scroll container")));
+                    )).SetTitle("Line-by-line diff inside a scroll container")));
         }
 
         public HTMLElement Render() => _content.Render();

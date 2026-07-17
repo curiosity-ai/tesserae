@@ -172,7 +172,8 @@
                 "h5/assets/css/tss.notificationcenter.css",
                 "h5/assets/css/tss.markdown.css",
                 "h5/assets/css/tss.plan.css",
-                "h5/assets/css/diff2html.min.css"
+                "h5/assets/css/diff2html.min.css",
+                "h5/assets/css/tss.codediff.css"
             ],
             "output": "assets/css"
         },

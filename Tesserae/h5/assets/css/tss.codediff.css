@@ -1,0 +1,12 @@
+/* diff2html gives the line-number cells (.d2h-code-linenumber /
+   .d2h-code-side-linenumber) position:absolute, so they position and clip
+   against the nearest positioned ancestor. Without this rule that ancestor can
+   be outside a scroll container wrapping the diff (e.g. a Card), in which case
+   scrolling moves the diff content but leaves the gutter numbers frozen, and
+   the scroller's overflow clip doesn't apply to them. Making the component
+   root the containing block keeps the gutter attached to the content anywhere
+   the diff is placed. The cells use their static position (no top/left), so
+   this changes nothing when the diff isn't inside a scroller. */
+.tss-codediff {
+    position: relative;
+}
