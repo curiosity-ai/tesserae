@@ -33,7 +33,10 @@ var slider = Slider(val: 50, min: 0, max: 100, step: 5)
     .Horizontal()
     .OnInput((s, e) => console.log($"Slider value: {s.Value}"));
 
-var vertical = Slider(val: 25, min: 0, max: 50, step: 5).Vertical();
+// A vertical slider fills the available height, so give it (or its parent) a
+// height — otherwise it collapses. The minimum is at the bottom, maximum at top.
+var vertical = Slider(val: 25, min: 0, max: 50, step: 5).Vertical().HS();
+var column   = VStack().H(150.px()).AlignItems(ItemAlign.Center).Children(vertical);
 ```
 
 ## Related

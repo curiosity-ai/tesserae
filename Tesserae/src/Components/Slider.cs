@@ -45,9 +45,15 @@ namespace Tesserae
             AttachFocus();
             AttachBlur();
 
-            // Subscribe to the underlying events so the observable updates on user input.
-            Changed      += (_, __) => _observable.Value = Value;
-            InputUpdated += (_, __) => _observable.Value = Value;
+            // Subscribe to the underlying events so the observable (and the
+            // exposed aria value) stay in sync on user input, not just when the
+            // value is set programmatically.
+            Changed += (_, __) => _observable.Value = Value;
+            InputUpdated += (_, __) =>
+            {
+                InnerElement.setAttribute("aria-valuenow", Value.ToString());
+                _observable.Value = Value;
+            };
 
             if (navigator.userAgent.IndexOf("AppleWebKit") != -1)
             {
@@ -78,11 +84,16 @@ namespace Tesserae
 
             if (Orientation == SliderOrientation.Vertical)
             {
+                // The fill grows along the vertical axis; let the CSS drive the
+                // track thickness and clear any horizontal value left over from a
+                // previous orientation.
                 _fakeDiv.style.height = $"{percent:0.##}%";
+                _fakeDiv.style.width  = "";
             }
             else
             {
-                _fakeDiv.style.width = $"{percent:0.##}%";
+                _fakeDiv.style.width  = $"{percent:0.##}%";
+                _fakeDiv.style.height = "";
             }
             return percent;
         }
@@ -99,25 +110,29 @@ namespace Tesserae
                 {
                     _outerLabel.classList.add("tss-vertical");
                     _outerDiv.classList.add("tss-slider-div-vertical");
-
-                    if (_fakeDiv is object)
-                    {
-                        _fakeDiv.style.width = "100%";
-                        UpdateFakeProgress();
-                    }
                     InnerElement.setAttribute("aria-orientation", "vertical");
                 }
                 else
                 {
                     _outerLabel.classList.remove("tss-vertical");
                     _outerDiv.classList.remove("tss-slider-div-vertical");
-
-                    if (_fakeDiv is object)
-                    {
-                        _fakeDiv.style.height = "100%";
-                        UpdateFakeProgress();
-                    }
                     InnerElement.setAttribute("aria-orientation", "horizontal");
+                }
+
+                if (_fakeDiv is object)
+                {
+                    // WebKit/Chromium path: the fake fill overlay draws the track.
+                    // Re-project the current value onto the new axis (this also
+                    // clears the inline size on the axis the CSS now controls).
+                    UpdateFakeProgress();
+                }
+                else
+                {
+                    // Firefox native path: the constructor pins an inline height to
+                    // give the horizontal track its thickness. Clear it when going
+                    // vertical so the CSS class can size the native track, and
+                    // restore it when returning to horizontal.
+                    InnerElement.style.height = value == SliderOrientation.Vertical ? "" : "8px";
                 }
             }
         }

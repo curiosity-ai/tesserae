@@ -7,7 +7,6 @@
 .tss-slider-div-vertical {
     width: auto;
     padding-bottom: 0;
-    padding-right: 8px;
     display: inline-flex;
     height: 100%;
 }
@@ -20,39 +19,72 @@
     display: block;
 }
 
+    /* Vertical orientation: a 90°-rotated mirror of the horizontal track. The
+       track/fill are an 8px-wide column centred in a 24px-wide container; the
+       fill grows upward from the bottom, and the range input sits on top with
+       only its thumb visible. */
     .tss-slider-container.tss-vertical {
-        writing-mode: vertical-lr;
-        direction: rtl;
-        width: 36px;
+        width: 24px;
         height: 100%;
-        display: inline-flex;
-        align-items: center;
+        display: inline-block;
     }
 
+        /* WebKit/Chromium: keep the native chrome removed (appearance: none) and
+           let writing-mode make the input vertical so the custom thumb still
+           applies. direction: rtl puts the minimum at the bottom. */
         .tss-slider-container.tss-vertical .tss-slider {
             writing-mode: vertical-lr;
             direction: rtl;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 24px;
+            height: 100%;
+            margin: 0;
+        }
+
+        /* The fake input only supplies the thumb; the track/fill are drawn by the
+           overlay divs. Keep it transparent even when disabled (the .tss-disabled
+           class otherwise paints the full-height column). */
+        .tss-slider-container.tss-vertical .tss-slider.tss-fake {
+            top: 0;
+            left: 0;
+            background-color: transparent;
+        }
+
+        .tss-slider-container.tss-vertical .tss-slider-fake-background {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 8px;
             width: 8px;
             height: 100%;
-            -webkit-appearance: slider-vertical;
-            appearance: auto;
+            border-radius: 4px;
         }
 
         .tss-slider-container.tss-vertical .tss-slider-fake-progress {
             top: auto;
-            bottom: 4px;
+            bottom: 0;
+            left: 8px;
             width: 8px;
-            left: 4px;
-            height: 100%;
             border-radius: 0px 0px 4px 4px;
         }
 
-        .tss-slider-container.tss-vertical .tss-slider-fake-background {
-            top: auto;
-            bottom: 4px;
+        /* Thumb sits across the vertical track: swap the horizontal pill so its
+           long axis is horizontal. */
+        .tss-slider-container.tss-vertical .tss-slider::-webkit-slider-thumb {
+            width: 24px;
+            height: 16px;
+        }
+
+        .tss-slider-container.tss-vertical .tss-slider::-moz-range-thumb {
+            width: 24px;
+            height: 16px;
+        }
+
+        /* Firefox native vertical track thickness. */
+        .tss-slider-container.tss-vertical .tss-slider::-moz-range-track {
             width: 8px;
-            left: 4px;
-            height: 100%;
         }
 
 .tss-slider-fake-progress {
