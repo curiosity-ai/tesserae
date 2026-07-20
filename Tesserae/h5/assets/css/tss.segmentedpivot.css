@@ -6,6 +6,11 @@
 
 .tss-segmentedpivot-wrapper {
     margin-bottom: 16px;
+    overflow-x: auto;
+    /* Making this a scroll container drops its flex auto-min-size to 0, so the
+       content panel's flex-grow:1 would otherwise collapse the wrapper down to
+       just the scrollbar. flex-shrink:0 keeps its natural titlebar height. */
+    flex-shrink: 0;
 }
 
 .tss-segmentedpivot-titlebar {
