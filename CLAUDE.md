@@ -9,6 +9,13 @@ Tesserae is a C# UI toolkit for building web applications, compiled to JavaScrip
 - Fluent extensions: `Tesserae/src/Extensions`
 - Samples and demos: `Tesserae.Tests/`
 - Project and build config: `Tesserae/Tesserae.csproj`, `Tesserae/h5.json`
+- Roslyn analyzers: `Tesserae.Analyzers/` (rule `TSS0001` checks `Router.Navigate`
+  routes against `Router.Register`; unit-tested in `Tesserae.Analyzers.Tests/`,
+  shipped inside the NuGet package under `analyzers/dotnet/cs`). Note the h5
+  compiler re-parses csproj files and cannot resolve a `ProjectReference` to a
+  non-h5 project, so the h5 projects hook the analyzer in via an MSBuild-task
+  target (`_BuildTesseraeAnalyzers` in `Tesserae.csproj`) and a plain `Analyzer`
+  item (`Tesserae.Tests.csproj`) instead.
 
 ## Skills
 

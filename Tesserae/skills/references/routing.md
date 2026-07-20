@@ -85,6 +85,16 @@ private static void Show(IComponent page) { Content.Clear(); Content.Add(page); 
 - The History API is unavailable inside the sandboxed docs preview iframe — real
   pages use `Router.Push`/`Replace` directly.
 - `h5.json` reflection must stay enabled for the router to work.
+- The Tesserae package ships a Roslyn analyzer (`TSS0001`) that warns when a
+  constant path passed to `Router.Navigate` matches no known route. Known routes
+  come from constant `Router.Register` paths in the project **and** from an
+  optional `TesseraeRoutes.txt` manifest listed as `AdditionalFiles` (one route
+  per line; use it to validate navigations against routes registered in another
+  assembly). A dynamic `Register` no longer mutes the whole project — one with a
+  constant prefix only suppresses navigations under that prefix. Set
+  `dotnet_diagnostic.TSS0001.route_table_is_authoritative = true` to check even
+  when dynamic registrations are present. The analyzer stays silent only when it
+  knows no routes at all (no constant `Register` and no manifest).
 
 ## Related
 

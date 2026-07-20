@@ -39,6 +39,51 @@
 </ItemGroup>
 
   <!--
+    Ship the Tesserae Roslyn analyzers (e.g. TSS0001: Router.Navigate route must have a matching
+    Router.Register) inside the NuGet package so consumer compilations/IDEs load them automatically.
+    The h5 compiler re-parses this csproj and cannot resolve a ProjectReference to a non-h5 project,
+    so build ordering is done with an explicit MSBuild call in _BuildTesseraeAnalyzers below instead.
+  -->
+  <ItemGroup>
+    <None Include="..\Tesserae.Analyzers\bin\$(Configuration)\netstandard2.0\Tesserae.Analyzers.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+  </ItemGroup>
+
+  <Target Name="_BuildTesseraeAnalyzers" BeforeTargets="Build;_GetPackageFiles">
+    <MSBuild Projects="..\Tesserae.Analyzers\Tesserae.Analyzers.csproj" Targets="Restore" Properties="Configuration=$(Configuration)" />
+    <!-- The extra property forces a re-evaluation so Build does not reuse the pre-Restore project state -->
+    <MSBuild Projects="..\Tesserae.Analyzers\Tesserae.Analyzers.csproj" Targets="Build" Properties="Configuration=$(Configuration);_TesseraeAnalyzersBuild=true" />
+  </Target>
+
+  <!--
+    Ship the analyzer runner (tools/analyzer-runner/) inside the package. h5 builds replace Roslyn's
+    CoreCompile with the transpiler CLI, so the analyzers above never run during `dotnet build`. The
+    buildTransitive target invokes this runner to rebuild a Roslyn compilation from the consumer's
+    resolved sources/references and report TSS#### diagnostics. Same explicit-MSBuild-call ordering
+    as _BuildTesseraeAnalyzers: the h5 compiler cannot resolve a ProjectReference to a non-h5 project.
+    The pack items are added inside the target (after the runner exists) so the glob expands correctly.
+  -->
+  <Target Name="_BuildTesseraeAnalyzersRunner" BeforeTargets="Build;_GetPackageFiles">
+    <MSBuild Projects="..\Tesserae.Analyzers.Runner\Tesserae.Analyzers.Runner.csproj" Targets="Restore" Properties="Configuration=$(Configuration)" />
+    <MSBuild Projects="..\Tesserae.Analyzers.Runner\Tesserae.Analyzers.Runner.csproj" Targets="Build" Properties="Configuration=$(Configuration);_TesseraeAnalyzersRunnerBuild=true" />
+  </Target>
+
+  <!--
+    Pack only the files the runner needs to run under `dotnet <dll>`: its own assembly + the two
+    Roslyn DLLs it loads, plus deps/runtimeconfig. The satellite localization folders, apphost and
+    .pdb are intentionally excluded (they only bloat the package). Explicit files (no **/RecursiveDir)
+    on purpose - a recursive glob's %(RecursiveDir) batches across the skills\** items and explodes
+    the layout. PackagePath ends with '\' so NuGet keeps each file's own name in that folder.
+    _BuildTesseraeAnalyzersRunner (BeforeTargets _GetPackageFiles) ensures these exist by pack time.
+  -->
+  <ItemGroup>
+    <None Include="..\Tesserae.Analyzers.Runner\bin\$(Configuration)\net10.0\Tesserae.Analyzers.Runner.dll"                Pack="true" PackagePath="tools\analyzer-runner\Tesserae.Analyzers.Runner.dll"                Visible="false" />
+    <None Include="..\Tesserae.Analyzers.Runner\bin\$(Configuration)\net10.0\Tesserae.Analyzers.Runner.deps.json"          Pack="true" PackagePath="tools\analyzer-runner\Tesserae.Analyzers.Runner.deps.json"          Visible="false" />
+    <None Include="..\Tesserae.Analyzers.Runner\bin\$(Configuration)\net10.0\Tesserae.Analyzers.Runner.runtimeconfig.json" Pack="true" PackagePath="tools\analyzer-runner\Tesserae.Analyzers.Runner.runtimeconfig.json" Visible="false" />
+    <None Include="..\Tesserae.Analyzers.Runner\bin\$(Configuration)\net10.0\Microsoft.CodeAnalysis.dll"                   Pack="true" PackagePath="tools\analyzer-runner\Microsoft.CodeAnalysis.dll"                   Visible="false" />
+    <None Include="..\Tesserae.Analyzers.Runner\bin\$(Configuration)\net10.0\Microsoft.CodeAnalysis.CSharp.dll"            Pack="true" PackagePath="tools\analyzer-runner\Microsoft.CodeAnalysis.CSharp.dll"            Visible="false" />
+  </ItemGroup>
+
+  <!--
     Ship the Claude skills (one per component, plus cross-cutting guides) inside the
     NuGet package so consumers of the Tesserae package get them auto-extracted into
     their solution's `.claude/skills/tesserae/` folder (a single skill: root SKILL.md

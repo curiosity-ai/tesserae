@@ -13,4 +13,11 @@
   <ItemGroup>
     <ProjectReference Include="..\Tesserae\Tesserae.csproj" />
   </ItemGroup>
+
+  <!-- Load the Tesserae Roslyn analyzers (built by the Tesserae project) in IDE/design-time builds.
+       An Analyzer item is used instead of a ProjectReference because the h5 compiler re-parses this
+       csproj and cannot resolve references to non-h5 projects. -->
+  <ItemGroup>
+    <Analyzer Include="..\Tesserae.Analyzers\bin\$(Configuration)\netstandard2.0\Tesserae.Analyzers.dll" Condition="Exists('..\Tesserae.Analyzers\bin\$(Configuration)\netstandard2.0\Tesserae.Analyzers.dll')" />
+  </ItemGroup>
 </Project>
