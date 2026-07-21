@@ -1,6 +1,7 @@
 {
     "output": "$(OutDir)/tps/",
     "fileName": "app.js",
+    "outputFormatting": "Minified",
     "html": {
         "disabled": false,
         "title": "Tesserae UI Tests"
