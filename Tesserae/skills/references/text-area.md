@@ -1,6 +1,6 @@
 ---
 name: text-area
-description: A multi-line text input with placeholder, validation, read-only/disabled states, and optional auto-resize. Use when collecting multi-line text (comments, descriptions) in a Tesserae (C#/h5) app.
+description: A multi-line text input with placeholder, validation, read-only/disabled states, and optional auto-resize. Use when collecting multi-line text (comments, descriptions) in a Tesserae (C#/Transpose) app.
 ---
 
 # TextArea

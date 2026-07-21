@@ -1,6 +1,6 @@
 ---
 name: option
-description: A single radio-style choice (ChoiceGroup.Choice, created via Choice(...)) that lives inside a ChoiceGroup for mutually-exclusive selection. Use when building radio-button groups where exactly one option is active in a Tesserae (C#/h5) app.
+description: A single radio-style choice (ChoiceGroup.Choice, created via Choice(...)) that lives inside a ChoiceGroup for mutually-exclusive selection. Use when building radio-button groups where exactly one option is active in a Tesserae (C#/Transpose) app.
 ---
 
 # Option (Choice)

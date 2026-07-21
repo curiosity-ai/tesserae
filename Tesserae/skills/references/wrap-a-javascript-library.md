@@ -1,6 +1,6 @@
 ---
 name: wrap-a-javascript-library
-description: How to bundle an existing JavaScript library into Tesserae and wrap it as an IComponent (h5.json resources + Script.Write against the global). Use when adding a feature backed by a third-party JS library (charting, layout, editors, etc.).
+description: How to bundle an existing JavaScript library into Tesserae and wrap it as an IComponent (tps.json resources + Script.Write against the global). Use when adding a feature backed by a third-party JS library (charting, layout, editors, etc.).
 ---
 
 # Wrapping an existing JavaScript library
@@ -13,19 +13,19 @@ global from C# through `Script.Write`.**
 
 ## 1. Bundle the library
 
-Put the minified library under `Tesserae/h5/assets/js/` and add it to the
-resource bundles in `Tesserae/h5.json`. It must appear in **both** the
+Put the minified library under `Tesserae/tps/assets/js/` and add it to the
+resource bundles in `Tesserae/tps.json`. It must appear in **both** the
 `tss-dep.js` and `tss-dep.min.js` bundles (keep the two file lists in sync —
-h5 swaps between them for Debug vs Release builds):
+Transpose swaps between them for Debug vs Release builds):
 
 ```jsonc
 {
   "name": "tss-dep.js",
   "files": [
-    "h5/assets/js/popper.min.js",
-    "h5/assets/js/tippy.min.js",
-    "h5/assets/js/masonry.min.js",
-    "h5/assets/js/yourlib.min.js"     // <-- add here
+    "tps/assets/js/popper.min.js",
+    "tps/assets/js/tippy.min.js",
+    "tps/assets/js/masonry.min.js",
+    "tps/assets/js/yourlib.min.js"     // <-- add here
   ],
   "output": "assets/js"
 }
@@ -43,11 +43,11 @@ instance in an `object` field so you can call back into it. `Masonry.cs` is the
 canonical example:
 
 ```csharp
-using H5;
-using static H5.Core.dom;
+using Transpose;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
-[H5.Name("tss.Masonry")]
+[Transpose.Name("tss.Masonry")]
 public class Masonry : IContainer<Masonry, IComponent>, ISpecialCaseStyling
 {
     private readonly HTMLElement _host;
@@ -94,7 +94,7 @@ public class Masonry : IContainer<Masonry, IComponent>, ISpecialCaseStyling
 - **Hold the instance as `object`** and reach its methods/properties via
   `Script.Write("{0}.method({1})", _instance, arg)`.
 - For a *typed* surface over the library instead of inline strings, declare an
-  `[External]` / `[H5.Name]` binding — see `javascript-interop`.
+  `[External]` / `[Transpose.Name]` binding — see `javascript-interop`.
 - Add a `UI.Components.cs` factory and a sample, like any other component.
 
 ## Related

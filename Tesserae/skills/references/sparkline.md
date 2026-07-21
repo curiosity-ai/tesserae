@@ -1,6 +1,6 @@
 ---
 name: sparkline
-description: A compact inline SVG area chart that shows the shape of a trend without axes or labels. Use when embedding a tiny trend chart beside a metric, table cell, or dashboard card in a Tesserae (C#/h5) app.
+description: A compact inline SVG area chart that shows the shape of a trend without axes or labels. Use when embedding a tiny trend chart beside a metric, table cell, or dashboard card in a Tesserae (C#/Transpose) app.
 ---
 
 # Sparkline

@@ -1,6 +1,6 @@
 ---
 name: plan
-description: A card that displays a multi-step task with checkable sub-tasks, header/footer commands, and an overall progress bar. Use when showing a running task plan or agent task list in a Tesserae (C#/h5) app.
+description: A card that displays a multi-step task with checkable sub-tasks, header/footer commands, and an overall progress bar. Use when showing a running task plan or agent task list in a Tesserae (C#/Transpose) app.
 ---
 
 # Plan

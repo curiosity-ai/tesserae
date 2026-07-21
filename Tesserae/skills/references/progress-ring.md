@@ -1,6 +1,6 @@
 ---
 name: progress-ring
-description: A circular (donut-style) progress indicator with determinate value, indeterminate spin, and an optional centre label. Use when showing quota/usage or a compact loading state in a Tesserae (C#/h5) app.
+description: A circular (donut-style) progress indicator with determinate value, indeterminate spin, and an optional centre label. Use when showing quota/usage or a compact loading state in a Tesserae (C#/Transpose) app.
 ---
 
 # ProgressRing

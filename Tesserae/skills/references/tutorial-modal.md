@@ -1,6 +1,6 @@
 ---
 name: tutorial-modal
-description: A split-layout modal with an explanation/illustration column on the left and a content/form column on the right, plus footer commands. Use for onboarding, guided steps or multi-field intro forms in a Tesserae (C#/h5) app.
+description: A split-layout modal with an explanation/illustration column on the left and a content/form column on the right, plus footer commands. Use for onboarding, guided steps or multi-field intro forms in a Tesserae (C#/Transpose) app.
 ---
 
 # TutorialModal

@@ -1,6 +1,6 @@
 ---
 name: steps-slider
-description: A generic slider that snaps to a fixed set of named, ordered values instead of a continuous range. Use when a user picks from a small ordered set (sizes, tiers, priorities) in a Tesserae (C#/h5) app.
+description: A generic slider that snaps to a fixed set of named, ordered values instead of a continuous range. Use when a user picks from a small ordered set (sizes, tiers, priorities) in a Tesserae (C#/Transpose) app.
 ---
 
 # StepsSlider

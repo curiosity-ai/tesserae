@@ -1,6 +1,6 @@
 ---
 name: toast
-description: Short-lived overlay notifications (success/info/warning/error) with configurable position and optional banner mode. Use when showing transient feedback messages in a Tesserae (C#/h5) app.
+description: Short-lived overlay notifications (success/info/warning/error) with configurable position and optional banner mode. Use when showing transient feedback messages in a Tesserae (C#/Transpose) app.
 ---
 
 # Toast

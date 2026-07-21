@@ -1,6 +1,6 @@
 ---
 name: searchable-grouped-list
-description: A searchable, scrollable list whose items are organised into named groups with per-group headers, filtered live as the user types. Use when displaying a categorised, filterable list in a Tesserae (C#/h5) app.
+description: A searchable, scrollable list whose items are organised into named groups with per-group headers, filtered live as the user types. Use when displaying a categorised, filterable list in a Tesserae (C#/Transpose) app.
 ---
 
 # SearchableGroupedList

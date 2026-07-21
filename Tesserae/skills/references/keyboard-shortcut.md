@@ -1,6 +1,6 @@
 ---
 name: keyboard-shortcut
-description: Renders key names as styled <kbd> chips, auto-adapting modifier labels to the current OS. Use when displaying keyboard shortcuts (e.g. Ctrl+K) in a Tesserae (C#/h5) app.
+description: Renders key names as styled <kbd> chips, auto-adapting modifier labels to the current OS. Use when displaying keyboard shortcuts (e.g. Ctrl+K) in a Tesserae (C#/Transpose) app.
 ---
 
 # KeyboardShortcut

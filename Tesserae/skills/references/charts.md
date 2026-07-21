@@ -1,6 +1,6 @@
 ---
 name: charts
-description: Four dependency-free responsive SVG charts — LineChart, BarChart, AreaChart, PieChart — with a shared fluent series/palette API, tooltips, legend, and observable-driven updates. Use to plot trends, comparisons, or part-to-whole data in a Tesserae (C#/h5) app.
+description: Four dependency-free responsive SVG charts — LineChart, BarChart, AreaChart, PieChart — with a shared fluent series/palette API, tooltips, legend, and observable-driven updates. Use to plot trends, comparisons, or part-to-whole data in a Tesserae (C#/Transpose) app.
 ---
 
 # Charts

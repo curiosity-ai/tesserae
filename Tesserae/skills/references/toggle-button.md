@@ -1,6 +1,6 @@
 ---
 name: toggle-button
-description: A button that maintains an on/off checked state. Use when you need a pressable toolbar-style toggle (bold, mute, pin) in a Tesserae (C#/h5) app.
+description: A button that maintains an on/off checked state. Use when you need a pressable toolbar-style toggle (bold, mute, pin) in a Tesserae (C#/Transpose) app.
 ---
 
 # ToggleButton

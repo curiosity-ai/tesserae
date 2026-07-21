@@ -1,6 +1,6 @@
 ---
 name: message
-description: An inline informational message strip with an icon, title, body, optional note and tone variants (default/success/warning/error). Use for empty states, alerts and static status messages in a Tesserae (C#/h5) app.
+description: An inline informational message strip with an icon, title, body, optional note and tone variants (default/success/warning/error). Use for empty states, alerts and static status messages in a Tesserae (C#/Transpose) app.
 ---
 
 # Message

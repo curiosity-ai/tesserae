@@ -1,6 +1,6 @@
 ---
 name: command-palette
-description: A keyboard-driven full-screen command launcher (Ctrl/Cmd-K style) with search, nesting, and per-action shortcuts. Use when adding a quick-action/command search overlay to a Tesserae (C#/h5) app.
+description: A keyboard-driven full-screen command launcher (Ctrl/Cmd-K style) with search, nesting, and per-action shortcuts. Use when adding a quick-action/command search overlay to a Tesserae (C#/Transpose) app.
 ---
 
 # CommandPalette

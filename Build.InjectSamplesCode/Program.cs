@@ -91,8 +91,8 @@ namespace Build.InjectSamplesCode
                     @"
 // -- Necessary 'using' headers 
 // using System;
-// using H5;
-// using static H5.dom;
+// using Transpose;
+// using static Transpose.Core.dom;
 // using Tesserae;
 // using static Tesserae.UI;
 

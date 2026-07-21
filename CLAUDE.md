@@ -2,13 +2,13 @@
 
 ## Repository overview
 
-Tesserae is a C# UI toolkit for building web applications, compiled to JavaScript via the **h5** compiler.
+Tesserae is a C# UI toolkit for building web applications, compiled to JavaScript via the **Transpose** compiler.
 
 - Core UI components: `Tesserae/src/Components`
 - Component factories and helpers: `Tesserae/src/Base/UI.Components.cs`
 - Fluent extensions: `Tesserae/src/Extensions`
 - Samples and demos: `Tesserae.Tests/`
-- Project and build config: `Tesserae/Tesserae.csproj`, `Tesserae/h5.json`
+- Project and build config: `Tesserae/Tesserae.csproj`, `Tesserae/tps.json`
 
 ## Skills
 
@@ -79,12 +79,12 @@ it does and when to use it (no `<`/`>`). Keep `SKILL.md` a focused overview and
 push detail into `references/`. The same applies to the matching pages in the
 `documentation` repo under `tesserae/` — update them alongside the references.
 
-## Installing h5
+## Installing Transpose
 
-Install or update the h5 compiler and the dotnet serve tool globally before getting started:
+Install or update the Transpose compiler and the dotnet serve tool globally before getting started:
 
 ```bash
-dotnet tool update --global h5-compiler
+dotnet tool update --global Transpose.Compiler
 dotnet tool update --global dotnet-serve
 ## Build
 
@@ -92,12 +92,12 @@ dotnet tool update --global dotnet-serve
 dotnet build
 ```
 
-The h5 compiler translates C# to JavaScript. Output lands in `bin/Debug/netstandard2.0/h5/` (or `bin/Release/...`).
+The Transpose compiler translates C# to JavaScript. Output lands in `bin/Debug/netstandard2.0/tps/` (or `bin/Release/...`).
 
 To serve locally:
 
 ```bash
-cd bin/Debug/netstandard2.0/h5/
+cd bin/Debug/netstandard2.0/tps/
 dotnet serve --port 5000
 ```
 

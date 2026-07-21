@@ -23,7 +23,7 @@ namespace Build.ImportInterfaceIcons
         private static string CreateEnum(string[] icons)
         {
             var sb = new StringBuilder();
-            sb.AppendLine("using H5;").AppendLine();
+            sb.AppendLine("using Transpose;").AppendLine();
             sb.AppendLine("namespace Tesserae");
             sb.AppendLine("{").AppendLine();
             sb.AppendLine("    [Enum(Emit.Value)]");

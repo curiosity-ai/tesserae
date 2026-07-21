@@ -1,6 +1,6 @@
 ---
 name: horizontal-separator
-description: A thin horizontal divider that can carry centered text or custom content, with left/center/right alignment. Use to separate stacked sections in a Tesserae (C#/h5) app.
+description: A thin horizontal divider that can carry centered text or custom content, with left/center/right alignment. Use to separate stacked sections in a Tesserae (C#/Transpose) app.
 ---
 
 # HorizontalSeparator

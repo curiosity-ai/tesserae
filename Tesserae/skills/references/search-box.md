@@ -1,6 +1,6 @@
 ---
 name: search-box
-description: A single-line search input with a leading magnifier, clear button, and search-on-Enter or debounced-as-you-type semantics. Use when adding a search field that fires a query callback in a Tesserae (C#/h5) app.
+description: A single-line search input with a leading magnifier, clear button, and search-on-Enter or debounced-as-you-type semantics. Use when adding a search field that fires a query callback in a Tesserae (C#/Transpose) app.
 ---
 
 # SearchBox

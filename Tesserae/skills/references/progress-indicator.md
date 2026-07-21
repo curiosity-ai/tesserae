@@ -1,6 +1,6 @@
 ---
 name: progress-indicator
-description: A horizontal progress bar with determinate (0–100%) or indeterminate state. Use when showing the completion of a long-running operation in a Tesserae (C#/h5) app.
+description: A horizontal progress bar with determinate (0–100%) or indeterminate state. Use when showing the completion of a long-running operation in a Tesserae (C#/Transpose) app.
 ---
 
 # ProgressIndicator

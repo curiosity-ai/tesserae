@@ -1,11 +1,11 @@
 ---
 name: project-setup
-description: How to create, configure, build, and run a Tesserae project compiled from C# to JavaScript via h5. Use when setting up a new Tesserae (C#/h5) app, configuring h5.json, or running it locally.
+description: How to create, configure, build, and run a Tesserae project compiled from C# to JavaScript via Transpose. Use when setting up a new Tesserae (C#/Transpose) app, configuring tps.json, or running it locally.
 ---
 
 # Project Setup
 
-Tesserae is a C# UI toolkit compiled to JavaScript by the **h5** compiler. A
+Tesserae is a C# UI toolkit compiled to JavaScript by the **Transpose** compiler. A
 minimal app is an `App.cs` with a `Main` entry point that builds components and
 mounts them to the DOM.
 
@@ -15,12 +15,12 @@ mounts them to the DOM.
 dotnet add package Tesserae
 ```
 
-This pulls in the required `h5` dependencies.
+This pulls in the required `Transpose` dependencies.
 
 ## First app
 
 ```csharp
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae.Tests
@@ -44,13 +44,13 @@ namespace Tesserae.Tests
 
 ```bash
 dotnet build
-cd bin/Debug/netstandard2.0/h5/
+cd bin/Debug/netstandard2.0/tps/
 dotnet serve --port 5000      # install: dotnet tool update --global dotnet-serve
 ```
 
 Then open `http://localhost:5000/`.
 
-## h5.json configuration
+## tps.json configuration
 
 Reflection must stay enabled — the `Router` and automatic sample loading depend
 on it:
@@ -67,13 +67,13 @@ are copied into the generated `index.html`:
 ```json
 {
   "resources": [
-    { "name": "images", "files": [ "h5/assets/img/*" ], "output": "assets/img" },
-    { "name": "custom-styles.css", "files": [ "h5/assets/css/site.css" ] }
+    { "name": "images", "files": [ "tps/assets/img/*" ], "output": "assets/img" },
+    { "name": "custom-styles.css", "files": [ "tps/assets/css/site.css" ] }
   ]
 }
 ```
 
-Place assets under an `assets/` folder in the output directory (e.g. `h5/assets/`).
+Place assets under an `assets/` folder in the output directory (e.g. `tps/assets/`).
 
 ## Related
 

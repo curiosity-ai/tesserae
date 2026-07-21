@@ -1,6 +1,6 @@
 ---
 name: theme-colors
-description: The static `Theme` class for switching light/dark mode and overriding primary/background colors at runtime. Use when toggling themes or recoloring a Tesserae (C#/h5) app.
+description: The static `Theme` class for switching light/dark mode and overriding primary/background colors at runtime. Use when toggling themes or recoloring a Tesserae (C#/Transpose) app.
 ---
 
 # Theme Colors

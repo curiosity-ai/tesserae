@@ -1,6 +1,6 @@
 ---
 name: grid-picker
-description: An interactive grid of multi-state buttons with drag-to-select, configured by column/row names and a per-state formatter. Use for schedule pickers or grid state selectors in a Tesserae (C#/h5) app.
+description: An interactive grid of multi-state buttons with drag-to-select, configured by column/row names and a per-state formatter. Use for schedule pickers or grid state selectors in a Tesserae (C#/Transpose) app.
 ---
 
 # GridPicker

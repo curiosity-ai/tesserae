@@ -1,6 +1,6 @@
 ---
 name: icomponent
-description: The IComponent interface and the complete catalog of fluent extension methods available on every component (sizing, layout, spacing, text, styling, tooltips, accessibility, gestures, binding, visibility, lifecycle). Use when configuring any Tesserae component fluently or looking up which `.Method()` exists in a Tesserae (C#/h5) app.
+description: The IComponent interface and the complete catalog of fluent extension methods available on every component (sizing, layout, spacing, text, styling, tooltips, accessibility, gestures, binding, visibility, lifecycle). Use when configuring any Tesserae component fluently or looking up which `.Method()` exists in a Tesserae (C#/Transpose) app.
 ---
 
 # IComponent and its extension methods

@@ -1,6 +1,6 @@
 ---
 name: navbar
-description: A hierarchical vertical navigation tree (Nav) with nested sections, icons, badges and selection tracking; also the top-bar form of a Sidebar via AsNavbar(). Use when building app navigation in a Tesserae (C#/h5) app.
+description: A hierarchical vertical navigation tree (Nav) with nested sections, icons, badges and selection tracking; also the top-bar form of a Sidebar via AsNavbar(). Use when building app navigation in a Tesserae (C#/Transpose) app.
 ---
 
 # Navbar / Nav

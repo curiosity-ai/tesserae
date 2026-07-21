@@ -1,6 +1,6 @@
 ---
 name: text-block
-description: A display component for rendering styled text. Use when showing static or dynamic labels, headings, or inline text in a Tesserae (C#/h5) app.
+description: A display component for rendering styled text. Use when showing static or dynamic labels, headings, or inline text in a Tesserae (C#/Transpose) app.
 ---
 
 # TextBlock

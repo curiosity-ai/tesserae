@@ -1,6 +1,6 @@
 ---
 name: expander
-description: A single expand/collapse section with a clickable header that reveals its body. Use for "show more" affordances or as an item inside an Accordion in a Tesserae (C#/h5) app.
+description: A single expand/collapse section with a clickable header that reveals its body. Use for "show more" affordances or as an item inside an Accordion in a Tesserae (C#/Transpose) app.
 ---
 
 # Expander

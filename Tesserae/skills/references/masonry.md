@@ -1,6 +1,6 @@
 ---
 name: masonry
-description: A Pinterest-style masonry layout that flows variable-height items into a fixed number of equal-width columns. Use when building a tile/card feed with uneven heights in a Tesserae (C#/h5) app.
+description: A Pinterest-style masonry layout that flows variable-height items into a fixed number of equal-width columns. Use when building a tile/card feed with uneven heights in a Tesserae (C#/Transpose) app.
 ---
 
 # Masonry

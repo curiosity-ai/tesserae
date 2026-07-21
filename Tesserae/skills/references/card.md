@@ -1,6 +1,6 @@
 ---
 name: card
-description: A bordered, shadowed surface that groups related content, with optional title header and footer. Use to present a single topic's content and actions as a self-contained block in a Tesserae (C#/h5) app.
+description: A bordered, shadowed surface that groups related content, with optional title header and footer. Use to present a single topic's content and actions as a self-contained block in a Tesserae (C#/Transpose) app.
 ---
 
 # Card

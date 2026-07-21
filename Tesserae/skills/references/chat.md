@@ -1,6 +1,6 @@
 ---
 name: chat
-description: A chat transcript surface (ChatArea) holding aligned message bubbles (ChatMessage) with avatars, commands, and live-updatable content via DeltaComponent. Use to build chat or assistant UIs with streaming/typing messages in a Tesserae (C#/h5) app.
+description: A chat transcript surface (ChatArea) holding aligned message bubbles (ChatMessage) with avatars, commands, and live-updatable content via DeltaComponent. Use to build chat or assistant UIs with streaming/typing messages in a Tesserae (C#/Transpose) app.
 ---
 
 # Chat (ChatArea / ChatMessage)

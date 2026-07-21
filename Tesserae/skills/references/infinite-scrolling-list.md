@@ -1,6 +1,6 @@
 ---
 name: infinite-scrolling-list
-description: A list that lazily loads more items as the user scrolls toward the bottom, rendering as a wrapping stack or a grid depending on the column count. Use when paging through a large/unbounded result set in a Tesserae (C#/h5) app.
+description: A list that lazily loads more items as the user scrolls toward the bottom, rendering as a wrapping stack or a grid depending on the column count. Use when paging through a large/unbounded result set in a Tesserae (C#/Transpose) app.
 ---
 
 # InfiniteScrollingList

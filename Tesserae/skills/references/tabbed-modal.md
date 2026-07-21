@@ -1,6 +1,6 @@
 ---
 name: tabbed-modal
-description: A pattern (not a distinct class) that hosts Modals as tabs inside a Pivot, using closeable tabs and the Pivot's caching/lifecycle. Use to present several modal-style panels as switchable, closeable tabs in a Tesserae (C#/h5) app.
+description: A pattern (not a distinct class) that hosts Modals as tabs inside a Pivot, using closeable tabs and the Pivot's caching/lifecycle. Use to present several modal-style panels as switchable, closeable tabs in a Tesserae (C#/Transpose) app.
 ---
 
 # TabbedModal

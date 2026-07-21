@@ -1,6 +1,6 @@
 ---
 name: background-area
-description: A full-bleed themed container that hosts a single centered child, used as an app shell for splash, sign-in, or onboarding surfaces. Use when you need a full-screen background behind a centered card in a Tesserae (C#/h5) app.
+description: A full-bleed themed container that hosts a single centered child, used as an app shell for splash, sign-in, or onboarding surfaces. Use when you need a full-screen background behind a centered card in a Tesserae (C#/Transpose) app.
 ---
 
 # BackgroundArea

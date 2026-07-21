@@ -1,6 +1,6 @@
 ---
 name: items-list
-description: A simple, non-virtualised list of arbitrary components, laid out as a wrapping stack (one column) or a grid (multiple columns), backed by an observable item list. Use when displaying a small set of items in a Tesserae (C#/h5) app.
+description: A simple, non-virtualised list of arbitrary components, laid out as a wrapping stack (one column) or a grid (multiple columns), backed by an observable item list. Use when displaying a small set of items in a Tesserae (C#/Transpose) app.
 ---
 
 # ItemsList

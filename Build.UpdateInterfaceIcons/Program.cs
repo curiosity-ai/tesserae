@@ -62,8 +62,8 @@ namespace Build.UpdateInterfaceIcons
             };
 
 
-            var tesseraeFontsDir = Path.Combine("..", "Tesserae", "h5", "assets", "fonts");
-            var tesseraeCssDir   = Path.Combine("..", "Tesserae", "h5", "assets", "css");
+            var tesseraeFontsDir = Path.Combine("..", "Tesserae", "tps", "assets", "fonts");
+            var tesseraeCssDir   = Path.Combine("..", "Tesserae", "tps", "assets", "css");
             if (!Directory.Exists(tesseraeFontsDir)) throw new InvalidOperationException("tesserae dir does not exit");
             if (!Directory.Exists(tesseraeCssDir)) throw new InvalidOperationException("tesserae dir does not exit");
 
@@ -296,7 +296,7 @@ namespace Build.UpdateInterfaceIcons
         private static string CreateEnum(string[] iconsRegular, string[] iconsBrands)
         {
             var sb = new StringBuilder();
-            sb.AppendLine("using H5;").AppendLine();
+            sb.AppendLine("using Transpose;").AppendLine();
             sb.AppendLine("namespace Tesserae");
             sb.AppendLine("{").AppendLine();
             sb.AppendLine("    [Enum(Emit.Value)]");

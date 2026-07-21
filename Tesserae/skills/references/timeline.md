@@ -1,6 +1,6 @@
 ---
 name: timeline
-description: A vertical timeline that arranges items in sequence, alternating left/right by default or pinned to one side, with an optional per-item marker color. Use when visualising events or steps in chronological order in a Tesserae (C#/h5) app.
+description: A vertical timeline that arranges items in sequence, alternating left/right by default or pinned to one side, with an optional per-item marker color. Use when visualising events or steps in chronological order in a Tesserae (C#/Transpose) app.
 ---
 
 # Timeline

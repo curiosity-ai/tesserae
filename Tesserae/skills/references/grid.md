@@ -1,6 +1,6 @@
 ---
 name: grid
-description: A CSS-Grid container with explicit column/row tracks, gaps, alignment, and per-item placement. Use for two-dimensional layouts in a Tesserae (C#/h5) app.
+description: A CSS-Grid container with explicit column/row tracks, gaps, alignment, and per-item placement. Use for two-dimensional layouts in a Tesserae (C#/Transpose) app.
 ---
 
 # Grid

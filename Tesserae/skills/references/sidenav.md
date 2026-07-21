@@ -1,6 +1,6 @@
 ---
 name: sidenav
-description: A narrow vertical icon navigation rail (icon + small label) for the leftmost app navigation, often paired with a Sidebar. Use when building a top-level section switcher in a Tesserae (C#/h5) app.
+description: A narrow vertical icon navigation rail (icon + small label) for the leftmost app navigation, often paired with a Sidebar. Use when building a top-level section switcher in a Tesserae (C#/Transpose) app.
 ---
 
 # Sidenav

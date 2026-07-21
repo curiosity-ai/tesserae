@@ -1,6 +1,6 @@
 ---
 name: emoji
-description: A strongly typed `Emoji` enum (backed by Emoji.css) rendered through the Icon component. Use when adding emoji glyphs with compile-time safety in a Tesserae (C#/h5) app.
+description: A strongly typed `Emoji` enum (backed by Emoji.css) rendered through the Icon component. Use when adding emoji glyphs with compile-time safety in a Tesserae (C#/Transpose) app.
 ---
 
 # Emoji

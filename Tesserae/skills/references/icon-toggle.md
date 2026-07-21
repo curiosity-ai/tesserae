@@ -1,6 +1,6 @@
 ---
 name: icon-toggle
-description: A segmented control of icon buttons where exactly one is selected at a time, exposing the selection as a typed value. Use when building a view-mode switcher or single-choice icon toolbar in a Tesserae (C#/h5) app.
+description: A segmented control of icon buttons where exactly one is selected at a time, exposing the selection as a typed value. Use when building a view-mode switcher or single-choice icon toolbar in a Tesserae (C#/Transpose) app.
 ---
 
 # IconToggle

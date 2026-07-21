@@ -111,7 +111,7 @@ namespace Tesserae.Tests
             MountToBody(pageContent);
 
             //Important: Reflection will only properly work here if reflection metadata is emitted inline with the javascript, instead of in a separate .meta.js file
-            //           i.e. in the h5.json file, we need:      "reflection": { "disabled": false, "target":  "inline" },
+            //           i.e. in the tps.json file, we need:      "reflection": { "disabled": false, "target":  "inline" },
 
             var samples = typeof(ISample).Assembly.GetTypes().Where(t => typeof(ISample).IsAssignableFrom(t) && !t.IsInterface)
                .Select(sampleType =>

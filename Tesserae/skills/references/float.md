@@ -1,6 +1,6 @@
 ---
 name: float
-description: An absolute-positioned overlay that anchors a child to a corner or edge of a relative-positioned parent. Use when overlaying a small element (badge, button, label) at a fixed spot inside a container in a Tesserae (C#/h5) app.
+description: An absolute-positioned overlay that anchors a child to a corner or edge of a relative-positioned parent. Use when overlaying a small element (badge, button, label) at a fixed spot inside a container in a Tesserae (C#/Transpose) app.
 ---
 
 # Float

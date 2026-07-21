@@ -1,6 +1,6 @@
 ---
 name: visibility-sensor
-description: An invisible marker that fires a callback when it scrolls into the viewport. Use when triggering lazy loading, telemetry, or infinite-scroll pagination in a Tesserae (C#/h5) app.
+description: An invisible marker that fires a callback when it scrolls into the viewport. Use when triggering lazy loading, telemetry, or infinite-scroll pagination in a Tesserae (C#/Transpose) app.
 ---
 
 # VisibilitySensor

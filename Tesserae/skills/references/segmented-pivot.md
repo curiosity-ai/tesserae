@@ -1,6 +1,6 @@
 ---
 name: segmented-pivot
-description: A pivot styled as a connected segmented (pill) control for switching between a few closely related views. Use when toggling related views or filters in limited space in a Tesserae (C#/h5) app.
+description: A pivot styled as a connected segmented (pill) control for switching between a few closely related views. Use when toggling related views or filters in limited space in a Tesserae (C#/Transpose) app.
 ---
 
 # SegmentedPivot

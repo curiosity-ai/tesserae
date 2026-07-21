@@ -1,6 +1,6 @@
 ---
 name: editable-label
-description: An inline-editable single-line text surface that toggles between a read-only label and a textbox on click. Use for editing a title/name field in place in a Tesserae (C#/h5) app.
+description: An inline-editable single-line text surface that toggles between a read-only label and a textbox on click. Use for editing a title/name field in place in a Tesserae (C#/Transpose) app.
 ---
 
 # EditableLabel

@@ -1,6 +1,6 @@
 ---
 name: sortable-stack
-description: A Stack whose child items can be reordered by drag-and-drop, reporting the new order via a callback. Use when the visual order matters and must be persisted or reacted to in a Tesserae (C#/h5) app.
+description: A Stack whose child items can be reordered by drag-and-drop, reporting the new order via a callback. Use when the visual order matters and must be persisted or reacted to in a Tesserae (C#/Transpose) app.
 ---
 
 # SortableStack

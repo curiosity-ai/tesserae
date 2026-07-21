@@ -1,6 +1,6 @@
 ---
 name: pivot-selector
-description: A pivot variant that drives tab navigation through a Dropdown instead of a tab strip, with optional command buttons. Use when you have many tabs or a mobile-first layout in a Tesserae (C#/h5) app.
+description: A pivot variant that drives tab navigation through a Dropdown instead of a tab strip, with optional command buttons. Use when you have many tabs or a mobile-first layout in a Tesserae (C#/Transpose) app.
 ---
 
 # PivotSelector

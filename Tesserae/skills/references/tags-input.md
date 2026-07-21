@@ -1,6 +1,6 @@
 ---
 name: tags-input
-description: A free-form multi-value field where the user types short string values ("tags"/"chips") confirmed with a delimiter key, removable by backspace or click. Use when collecting an open-ended list of labels, categories, or keywords in a Tesserae (C#/h5) app.
+description: A free-form multi-value field where the user types short string values ("tags"/"chips") confirmed with a delimiter key, removable by backspace or click. Use when collecting an open-ended list of labels, categories, or keywords in a Tesserae (C#/Transpose) app.
 ---
 
 # TagsInput

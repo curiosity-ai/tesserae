@@ -1,6 +1,6 @@
 ---
 name: picker
-description: A multi-select input that filters a list of typed items via a text box and renders selections as removable tags. Use when letting the user search and pick one or more items (recipients, tags) in a Tesserae (C#/h5) app.
+description: A multi-select input that filters a list of typed items via a text box and renders selections as removable tags. Use when letting the user search and pick one or more items (recipients, tags) in a Tesserae (C#/Transpose) app.
 ---
 
 # Picker

@@ -200,7 +200,7 @@ Claude and GPT-4 are large language models. Jules built a demo using Tesserae fo
             {
                 const string longLabel =
                     "PRODUCT — Tesserae\n" +
-                    "A C# UI toolkit compiled to JavaScript via h5.\n" +
+                    "A C# UI toolkit compiled to JavaScript via Transpose.\n" +
                     "This line is intentionally long so it has to wrap onto a second line inside the tooltip's max-width box — confirming the hover tag handles wrapping cleanly.\n" +
                     "Last line: short.";
 

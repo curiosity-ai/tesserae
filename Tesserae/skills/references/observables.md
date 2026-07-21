@@ -1,6 +1,6 @@
 ---
 name: observables
-description: Lightweight reactive state containers (single values, constants, lists, dictionaries) that notify subscribers on change to drive UI updates. Use when wiring reactive state into components in a Tesserae (C#/h5) app.
+description: Lightweight reactive state containers (single values, constants, lists, dictionaries) that notify subscribers on change to drive UI updates. Use when wiring reactive state into components in a Tesserae (C#/Transpose) app.
 ---
 
 # Observables

@@ -1,6 +1,6 @@
 ---
 name: colors
-description: The Theme color system — named palette constants, the Color helper, and runtime light/dark theming. Use when styling components with consistent colors or overriding the theme in a Tesserae (C#/h5) app.
+description: The Theme color system — named palette constants, the Color helper, and runtime light/dark theming. Use when styling components with consistent colors or overriding the theme in a Tesserae (C#/Transpose) app.
 ---
 
 # Colors

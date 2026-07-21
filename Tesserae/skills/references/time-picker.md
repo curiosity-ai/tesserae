@@ -1,6 +1,6 @@
 ---
 name: time-picker
-description: A native browser time input that stores its value as a DateTimeOffset. Use when collecting a time-only value (schedules, reminders, cut-offs) in a Tesserae (C#/h5) app.
+description: A native browser time input that stores its value as a DateTimeOffset. Use when collecting a time-only value (schedules, reminders, cut-offs) in a Tesserae (C#/Transpose) app.
 ---
 
 # TimePicker
