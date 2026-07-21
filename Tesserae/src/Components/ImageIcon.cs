@@ -1,9 +1,9 @@
-﻿using static H5.Core.dom;
+﻿using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 #if DEBUG
 using System;
-using H5.Core;
+using Transpose.Core;
 #endif
 
 namespace Tesserae
@@ -12,7 +12,7 @@ namespace Tesserae
     /// An icon backed by an emoji glyph (or an arbitrary image URL), useful as a lightweight stand-in for full icon
     /// sets.
     /// </summary>
-    [H5.Name("tss.EmojiImageIcon")]
+    [Transpose.Name("tss.EmojiImageIcon")]
     public class EmojiImageIcon : ISidebarIcon
     {
         private HTMLElement _img;
@@ -45,7 +45,7 @@ namespace Tesserae
         public ISidebarIcon Clone() => new EmojiImageIcon(_img.textContent);
     }
 
-    [H5.Name("tss.IconImageIcon")]
+    [Transpose.Name("tss.IconImageIcon")]
     public class IconImageIcon : ISidebarIcon
     {
         private HTMLElement _img;
@@ -71,7 +71,7 @@ namespace Tesserae
     }
 
 
-    [H5.Name("tss.ImageIcon")]
+    [Transpose.Name("tss.ImageIcon")]
     public class ImageIcon : ISidebarIcon
     {
         private HTMLImageElement _img;

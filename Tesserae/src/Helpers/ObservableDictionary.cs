@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 
 namespace Tesserae
 {
     /// <summary>
     /// A dictionary whose contents are observable for reactive composition.
     /// </summary>
-    [H5.Name("tss.ObservableDictionary")]
+    [Transpose.Name("tss.ObservableDictionary")]
     public sealed class ObservableDictionary<TKey, TValue> : IDictionary<TKey, TValue>, IObservable<IReadOnlyDictionary<TKey, TValue>>
     {
         private event ObservableEvent.ValueChanged<IReadOnlyDictionary<TKey, TValue>> ValueChanged;

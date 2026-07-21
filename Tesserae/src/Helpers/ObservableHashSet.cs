@@ -9,7 +9,7 @@ namespace Tesserae
     /// Represents a hash set of items that can be observed for changes.
     /// </summary>
     /// <typeparam name="T">The type of the elements in the hash set.</typeparam>
-    [H5.Name("tss.ObservableHashSet")]
+    [Transpose.Name("tss.ObservableHashSet")]
     public sealed class ObservableHashSet<T> : ISet<T>, ICollection<T>, IObservable<IReadOnlyCollection<T>>
     {
         private event ObservableEvent.ValueChanged<IReadOnlyCollection<T>> ValueChanged;

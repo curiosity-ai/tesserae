@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Linq;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 
 namespace Tesserae
 {
     /// <summary>
     /// Provides extension methods for components that implement ITextFormating.
     /// </summary>
-    [H5.Name("tss.ITFX")]
+    [Transpose.Name("tss.ITFX")]
     public static class ITextFormatingExtensions
     {
         /// <summary>Sets the text size.</summary>

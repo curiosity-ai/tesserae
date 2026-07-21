@@ -1,7 +1,7 @@
 using System;
 using static Tesserae.UI;
 using static Tesserae.Tests.Samples.SamplesHelper;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 
 namespace Tesserae.Tests.Samples
 {

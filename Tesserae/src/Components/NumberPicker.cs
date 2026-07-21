@@ -3,7 +3,7 @@
     /// <summary>
     /// A form input for entering a numeric value, with optional min/max bounds and step.
     /// </summary>
-    [H5.Name("tss.NumberPicker")]
+    [Transpose.Name("tss.NumberPicker")]
     public class NumberPicker : Input<NumberPicker>, ITextFormating, IHasBackgroundColor, IHasForegroundColor, IBindableComponent<int>
     {
         private readonly SettableObservable<int> _intObservable;

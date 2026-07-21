@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -13,7 +13,7 @@ namespace Tesserae
     /// "response selected" mode that shows the question with the chosen
     /// answer highlighted and disables further input.
     /// </summary>
-    [H5.Name("tss.Questionnaire")]
+    [Transpose.Name("tss.Questionnaire")]
     public sealed class Questionnaire : ComponentBase<Questionnaire, HTMLElement>
     {
         private readonly HTMLElement                _questionContainer;

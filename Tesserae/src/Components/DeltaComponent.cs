@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using H5;
-using H5.Core;
-using static H5.Core.dom;
+using Transpose;
+using Transpose.Core;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -11,7 +11,7 @@ namespace Tesserae
     /// A small inline metric showing the change between two values (with up/down arrow and tone for positive /
     /// negative / neutral deltas).
     /// </summary>
-    [H5.Name("tss.DeltaComponent")]
+    [Transpose.Name("tss.DeltaComponent")]
     public class DeltaComponent : IComponent
     {
         private HTMLElement _root;
@@ -31,7 +31,7 @@ namespace Tesserae
             if (useShadowDom)
             {
                 _root = document.createElement("div");
-                _shadowRoot = _root.attachShadow(new ShadowRootInit { mode = H5.Core.dom.Literals.Options.mode.open });
+                _shadowRoot = _root.attachShadow(new ShadowRootInit { mode = Transpose.Core.dom.Literals.Options.mode.open });
                 _shadowRoot.appendChild(_currentContent.Render());
             }
             else

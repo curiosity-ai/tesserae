@@ -6,7 +6,7 @@ namespace Tesserae
     /// Provides extension methods for converting numeric types to UnitSize instances.
     /// </summary>
     #pragma warning disable IDE1006 // Naming Styles (2020-06-30 DWR: We'll allow these as special naming violation cases because we've decided that we like how look in the calling code)
-    [H5.Name("tss.usX")]
+    [Transpose.Name("tss.usX")]
     public static class UnitSizeExtensions
     {
         /// <summary>Converts an integer to UnitSize in pixels.</summary>

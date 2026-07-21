@@ -1,5 +1,5 @@
 using System;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -7,7 +7,7 @@ namespace Tesserae
     /// <summary>
     /// A single expand / collapse section, with a clickable header that reveals its body content.
     /// </summary>
-    [H5.Name("tss.Expander")]
+    [Transpose.Name("tss.Expander")]
     public sealed class Expander : ComponentBase<Expander, HTMLElement>, IBindableComponent<bool>
     {
         private readonly HTMLElement              _header;

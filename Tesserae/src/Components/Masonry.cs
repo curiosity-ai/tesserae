@@ -1,6 +1,6 @@
-﻿using H5;
+﻿using Transpose;
 using System.Linq;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -8,7 +8,7 @@ namespace Tesserae
     /// <summary>
     /// A masonry (Pinterest-style) layout that flows items of varying heights into columns of equal width.
     /// </summary>
-    [H5.Name("tss.Masonry")]
+    [Transpose.Name("tss.Masonry")]
     public class Masonry : IContainer<Masonry, IComponent>, IHasBackgroundColor, IHasMarginPadding, ISpecialCaseStyling
     {
         private readonly string      _percent;

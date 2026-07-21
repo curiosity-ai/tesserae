@@ -1,4 +1,4 @@
-using H5;
+using Transpose;
 
 namespace Tesserae
 {
@@ -6,7 +6,7 @@ namespace Tesserae
     /// Static helpers around the globally-loaded <c>DOMPurify</c> library.
     /// DOMPurify is bundled with Tesserae and always loaded - no preload step is required.
     /// </summary>
-    [H5.Name("tss.SanitizeHTML")]
+    [Transpose.Name("tss.SanitizeHTML")]
     public static class SanitizeHTML
     {
         /// <summary>

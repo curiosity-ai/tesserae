@@ -1,14 +1,14 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 
 namespace Tesserae
 {
     /// <summary>
     /// Helpers for working with the viewport.
     /// </summary>
-    [H5.Name("tss.Viewport")]
+    [Transpose.Name("tss.Viewport")]
     public static class Viewport
     {
         /// <summary>

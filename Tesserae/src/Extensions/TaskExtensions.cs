@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using H5;
-using static H5.Core.dom;
+using Transpose;
+using static Transpose.Core.dom;
 
 namespace Tesserae
 {
     /// <summary>
     /// Provides extension methods and utilities for working with asynchronous Tasks.
     /// </summary>
-    [H5.Name("tss.tX")]
+    [Transpose.Name("tss.tX")]
     public static class TaskExtensions
     {
         /// <summary>
-        /// H5 doesn't support Task.Completed, so we'll fill in something similar
+        /// Transpose doesn't support Task.Completed, so we'll fill in something similar
         /// </summary>
         public static Task Completed { get; } = BuildCompletedTask();
 
@@ -78,7 +78,7 @@ namespace Tesserae
         /// <summary>Unwraps a nested task.</summary>
         public static async Task<T> Unwrap<T>(this Task<Task<T>> task)
         {
-            // 2020-02-07 DWR: Can't just "return await await task;" because H5 will fail at runtime
+            // 2020-02-07 DWR: Can't just "return await await task;" because Transpose will fail at runtime
             var onceUnwrappedTask = await task;
             return await onceUnwrappedTask;
         }

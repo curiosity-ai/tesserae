@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using H5;
+using Transpose;
 using Tesserae;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 
 namespace Tesserae
 {
-    [H5.Name("tss.Sortable")]
+    [Transpose.Name("tss.Sortable")]
     public class Sortable
     {
         private          HTMLElement     _element;

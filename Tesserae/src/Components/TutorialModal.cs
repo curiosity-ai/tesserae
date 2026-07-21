@@ -1,6 +1,6 @@
 ﻿using System;
-using H5.Core;
-using static H5.Core.dom;
+using Transpose.Core;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -9,7 +9,7 @@ namespace Tesserae
     /// A specialized Modal component designed for showing tutorials or onboarding information,
     /// featuring a split layout with an explanation area and a content area.
     /// </summary>
-    [H5.Name("tss.TutorialModal")]
+    [Transpose.Name("tss.TutorialModal")]
     public class TutorialModal : IComponent, ISpecialCaseStyling
     {
         private readonly Modal     _modal;

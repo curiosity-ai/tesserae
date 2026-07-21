@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Linq;
 using TNT;
 using static TNT.T;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -13,7 +13,7 @@ namespace Tesserae
     /// A GridPicker component that allows users to select states across a grid of buttons,
     /// supporting drag-to-select functionality.
     /// </summary>
-    [H5.Name("tss.GridPicker")]
+    [Transpose.Name("tss.GridPicker")]
     public sealed class GridPicker : IComponent, IBindableComponent<int[][]>
     {
         private readonly Stack                                 _stack = VStack().Class("tss-gridpicker");

@@ -5,7 +5,7 @@ namespace Tesserae
     /// <summary>
     /// Extension methods for <see cref="SectionStack"/>.
     /// </summary>
-    [H5.Name("tss.SectionStackX")]
+    [Transpose.Name("tss.SectionStackX")]
     public static class SectionStackExtensions
     {
         /// <summary>

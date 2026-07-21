@@ -3,7 +3,7 @@
     /// <summary>
     /// Extension methods for <see cref="TextBlock"/>.
     /// </summary>
-    [H5.Name("tss.txtX")]
+    [Transpose.Name("tss.txtX")]
     public static class TextBlockExtensions
     {
         /// <summary>

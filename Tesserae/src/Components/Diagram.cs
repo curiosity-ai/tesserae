@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -10,7 +10,7 @@ namespace Tesserae
     /// A flow-chart style diagram surface with draggable nodes, auto-computed arrows drawn on a background canvas,
     /// a pannable dotted background and automatic node positioning based on node sizes and connectivity.
     /// </summary>
-    [H5.Name("tss.Diagram")]
+    [Transpose.Name("tss.Diagram")]
     public partial class Diagram : IComponent, ISpecialCaseStyling
     {
         private readonly HTMLElement       _container;

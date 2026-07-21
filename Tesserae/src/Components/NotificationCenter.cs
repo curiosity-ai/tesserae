@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using H5;
-using static H5.Core.dom;
+using Transpose;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -11,7 +11,7 @@ namespace Tesserae
     /// <summary>
     /// A notification bell button that opens a panel listing recent notifications with read/unread state.
     /// </summary>
-    [H5.Name("tss.NotificationCenter")]
+    [Transpose.Name("tss.NotificationCenter")]
     public sealed class NotificationCenter : IComponent
     {
 
@@ -19,7 +19,7 @@ namespace Tesserae
         /// Specifies the available notification styles.
         /// </summary>
         [Enum(Emit.StringName)] //Don't change the emit type without updating the FromClassList method
-        [H5.Name("tss.NCNT")]
+        [Transpose.Name("tss.NCNT")]
 
         public enum NotificationTone 
         { 

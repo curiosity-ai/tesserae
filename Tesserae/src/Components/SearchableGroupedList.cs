@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -9,7 +9,7 @@ namespace Tesserae
     /// <summary>
     /// A searchable, scrollable list whose items are organized into named groups.
     /// </summary>
-    [H5.Name("tss.SearchableGroupedList")]
+    [Transpose.Name("tss.SearchableGroupedList")]
     public class SearchableGroupedList<T> : IComponent, ISpecialCaseStyling where T : ISearchableGroupedItem
     {
         private readonly Func<string, IComponent> _groupedItemHeaderGenerator;
@@ -310,7 +310,7 @@ namespace Tesserae
         }
     }
 
-    [H5.Name("tss.ISearchableGroupedItem")]
+    [Transpose.Name("tss.ISearchableGroupedItem")]
     public interface ISearchableGroupedItem : ISearchableItem
     {
         string Group { get; }

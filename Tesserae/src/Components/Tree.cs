@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -11,7 +11,7 @@ namespace Tesserae
     /// A vertically-stacked tree view with expand / collapse, keyboard navigation, selection and arbitrary item
     /// rendering.
     /// </summary>
-    [H5.Name("tss.Tree")]
+    [Transpose.Name("tss.Tree")]
     public sealed class Tree : ComponentBase<Tree, HTMLUListElement>, IContainer<Tree.Item, Tree.Item>, IObservableComponent<Tree.Item>
     {
         private readonly List<Item>               _children         = new List<Item>();
@@ -187,7 +187,7 @@ namespace Tesserae
             return this;
         }
 
-        [H5.Name("tss.Tree.Item")]
+        [Transpose.Name("tss.Tree.Item")]
         public class Item : ComponentBase<Item, HTMLLIElement>, IContainer<Item, Item>
         {
             internal event ComponentEventHandler<Item> InternalSelectedItem;

@@ -1,11 +1,11 @@
-﻿using static H5.Core.dom;
+﻿using static Transpose.Core.dom;
 
 namespace Tesserae
 {
     /// <summary>
     /// A ToggleButton component that behaves like a button but maintains a checked state.
     /// </summary>
-    [H5.Name("tss.ToggleButton")]
+    [Transpose.Name("tss.ToggleButton")]
     public class ToggleButton : IComponent, IBindableComponent<bool>
     {
         private          Button                   _button;

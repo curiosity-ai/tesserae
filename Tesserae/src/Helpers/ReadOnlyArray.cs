@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using H5;
+using Transpose;
 
 namespace Tesserae
 {
@@ -13,7 +13,7 @@ namespace Tesserae
     /// does not guarantee that the data itself is immutable (if something still holds a reference to the mutable array then changing that content will result in those changes appearing through the read only
     /// wrapper).
     /// </summary>
-    [H5.Name("tss.ROA")]
+    [Transpose.Name("tss.ROA")]
     public sealed class ReadOnlyArray<T> : IEnumerable<T>
     {
         [Template("{data}")]
@@ -50,7 +50,7 @@ namespace Tesserae
         public static implicit operator ReadOnlyArray<T>(T[] data) => Script.Write<ReadOnlyArray<T>>("{0}", data);
     }
 
-    [H5.Name("tss.ROM")]
+    [Transpose.Name("tss.ROM")]
     public sealed class ReadOnlyMap<TKey, TValue>
     {
         [Template("{data}")]
@@ -81,7 +81,7 @@ namespace Tesserae
         /// </summary>
         public static ReadOnlyArray<T> ToObjectLiteralArray<T>(this IEnumerable<T> source)
         {
-            return H5.Script.ToArray(source);
+            return Transpose.Script.ToArray(source);
         }
 
         /// <summary>

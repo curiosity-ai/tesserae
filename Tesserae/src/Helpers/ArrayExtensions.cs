@@ -6,7 +6,7 @@ namespace Tesserae
     /// <summary>
     /// Provides extension methods for arrays.
     /// </summary>
-    [H5.Name("tss.arX")]
+    [Transpose.Name("tss.arX")]
     public static class ArrayExtensions
     {
         /// <summary>Wraps an array into a ReadOnlyArray.</summary>

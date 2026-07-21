@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -7,7 +7,7 @@ namespace Tesserae
     /// <summary>
     /// A vertically-stacked list of expandable sections, of which one or more may be open at a time.
     /// </summary>
-    [H5.Name("tss.Accordion")]
+    [Transpose.Name("tss.Accordion")]
     public sealed class Accordion : ComponentBase<Accordion, HTMLElement>
     {
         private readonly List<Expander> _items;

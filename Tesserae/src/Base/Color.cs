@@ -1,13 +1,13 @@
-﻿using H5;
+﻿using Transpose;
 using System;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 
 namespace Tesserae
 {
     /// <summary>
     /// Represents a color with alpha, red, green, and blue components.
     /// </summary>
-    [H5.Name("tss.Color")]
+    [Transpose.Name("tss.Color")]
     public class Color
     {
         /// <summary>

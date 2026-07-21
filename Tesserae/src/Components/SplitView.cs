@@ -1,5 +1,5 @@
 ﻿using System;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -7,7 +7,7 @@ namespace Tesserae
     /// <summary>
     /// A vertical split view component.
     /// </summary>
-    [H5.Name("tss.SplitView")]
+    [Transpose.Name("tss.SplitView")]
     public class SplitView : IComponent, ISpecialCaseStyling
     {
         private readonly HTMLElement _splitContainer;

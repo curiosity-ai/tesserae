@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using H5.Core;
+using Transpose.Core;
 using Tesserae;
 using Tesserae.Tests.Samples;
 using Tesserae.Tests;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae.Tests

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -9,7 +9,7 @@ namespace Tesserae
     /// <summary>
     /// A pill-style pivot variant where the tabs share a connected segmented-control look.
     /// </summary>
-    [H5.Name("tss.SegmentedPivot")]
+    [Transpose.Name("tss.SegmentedPivot")]
     public sealed class SegmentedPivot : IComponent, ISpecialCaseStyling, IBindableComponent<string>
     {
         public delegate void PivotEventHandler<TEventArgs>(SegmentedPivot sender, TEventArgs e);

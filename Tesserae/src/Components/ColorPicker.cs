@@ -3,7 +3,7 @@
     /// <summary>
     /// A form input for picking a color, backed by the browser's native color input.
     /// </summary>
-    [H5.Name("tss.ColorPicker")]
+    [Transpose.Name("tss.ColorPicker")]
     public class ColorPicker : Input<ColorPicker>
     {
         /// <summary>

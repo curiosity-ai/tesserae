@@ -6,7 +6,7 @@ namespace Tesserae
     /// Defines a component that exposes its value as an observable.
     /// </summary>
     /// <typeparam name="T">The type of the value.</typeparam>
-    [H5.Name("tss.IObservableComponent")]
+    [Transpose.Name("tss.IObservableComponent")]
     public interface IObservableComponent<T>
     {
         /// <summary>Gets an observable that tracks the component's value.</summary>
@@ -18,7 +18,7 @@ namespace Tesserae
     /// Defines a component that exposes its list of values as an observable.
     /// </summary>
     /// <typeparam name="T">The type of the items in the list.</typeparam>
-    [H5.Name("tss.IObservableListComponent")]
+    [Transpose.Name("tss.IObservableListComponent")]
     public interface IObservableListComponent<T>
     {
         /// <summary>Gets an observable that tracks the component's list of values.</summary>
@@ -31,7 +31,7 @@ namespace Tesserae
     /// enabling two-way binding against a SettableObservable&lt;T&gt; via the .Bind extension.
     /// </summary>
     /// <typeparam name="T">The type of the value.</typeparam>
-    [H5.Name("tss.IBindableComponent")]
+    [Transpose.Name("tss.IBindableComponent")]
     public interface IBindableComponent<T> : IObservableComponent<T>
     {
         /// <summary>
@@ -47,7 +47,7 @@ namespace Tesserae
     /// enabling two-way binding against a SettableObservable&lt;IReadOnlyList&lt;T&gt;&gt; via the .Bind extension.
     /// </summary>
     /// <typeparam name="T">The type of the items in the list.</typeparam>
-    [H5.Name("tss.IBindableListComponent")]
+    [Transpose.Name("tss.IBindableListComponent")]
     public interface IBindableListComponent<T> : IObservableListComponent<T>
     {
         /// <summary>

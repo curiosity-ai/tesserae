@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -8,7 +8,7 @@ namespace Tesserae
     /// <summary>
     /// A Validator class that coordinates validation for multiple components.
     /// </summary>
-    [H5.Name("tss.Validator")]
+    [Transpose.Name("tss.Validator")]
     public sealed class Validator
     {
         private event OnValidationHandler ValidationOccured;

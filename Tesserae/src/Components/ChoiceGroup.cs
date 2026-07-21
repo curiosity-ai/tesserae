@@ -1,5 +1,5 @@
 ﻿using System;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -7,7 +7,7 @@ namespace Tesserae
     /// <summary>
     /// A group of radio-style choices of which exactly one may be selected at a time.
     /// </summary>
-    [H5.Name("tss.ChoiceGroup")]
+    [Transpose.Name("tss.ChoiceGroup")]
     public sealed class ChoiceGroup : ComponentBase<ChoiceGroup, HTMLDivElement>, IContainer<ChoiceGroup, ChoiceGroup.Choice>, IBindableComponent<ChoiceGroup.Choice>
     {
         private readonly string                     _name;

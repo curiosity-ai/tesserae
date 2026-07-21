@@ -1,6 +1,6 @@
-﻿using H5;
-using static H5.Core.dom;
-using H5.Core;
+﻿using Transpose;
+using static Transpose.Core.dom;
+using Transpose.Core;
 using System;
 
 namespace Tesserae
@@ -11,7 +11,7 @@ namespace Tesserae
     /// Base class for every Tesserae component. Provides DOM event wiring, click / focus / change events, ARIA and
     /// margin/padding support.
     /// </summary>
-    [H5.Name("tss.CB")]
+    [Transpose.Name("tss.CB")]
     public abstract class ComponentBase<T, THTML> : IComponent, IHasClickHandler, IHasMarginPadding, IAccessibility where T : ComponentBase<T, THTML> where THTML : HTMLElement
     {
         protected event ComponentEventHandler<T, MouseEvent>     Clicked;

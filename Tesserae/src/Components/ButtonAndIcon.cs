@@ -1,5 +1,5 @@
 ﻿using System;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -7,7 +7,7 @@ namespace Tesserae
     /// <summary>
     /// A composite button that pairs a label with a leading icon, useful for command-bar and toolbar items.
     /// </summary>
-    [H5.Name("tss.ButtonAndIcon")]
+    [Transpose.Name("tss.ButtonAndIcon")]
     public class ButtonAndIcon : Button
     {
         public delegate void IconClickHandler(ButtonAndIcon mainButton, Button iconButton, MouseEvent e);

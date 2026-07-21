@@ -1,4 +1,4 @@
-﻿using H5;
+﻿using Transpose;
 
 namespace Tesserae
 {
@@ -6,7 +6,7 @@ namespace Tesserae
     /// Defines the weights available for UIcons.
     /// </summary>
     [Enum(Emit.StringName)]
-    [H5.Name("tss.uiconweight")]
+    [Transpose.Name("tss.uiconweight")]
     public enum UIconsWeight
     {
         [Name("fi-rr-")]

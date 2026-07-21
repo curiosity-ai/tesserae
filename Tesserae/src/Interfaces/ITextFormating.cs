@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Linq;
-using static H5.Core.dom;
-using H5;
+using static Transpose.Core.dom;
+using Transpose;
 
 namespace Tesserae
 {
     /// <summary>
     /// Defines a component that supports text formatting options like size, weight, and alignment.
     /// </summary>
-    [H5.Name("tss.ITF")]
+    [Transpose.Name("tss.ITF")]
     public interface ITextFormating
     {
         /// <summary>Gets or sets the text size.</summary>
@@ -23,7 +23,7 @@ namespace Tesserae
     /// Specifies the available text sizes.
     /// </summary>
     [Enum(Emit.StringName)] //Don't change the emit type without updating the FromClassList method
-    [H5.Name("tss.TS")]
+    [Transpose.Name("tss.TS")]
     public enum TextSize
     {
         [Name("tss-fontsize-tiny")]       Tiny,
@@ -42,7 +42,7 @@ namespace Tesserae
     /// Specifies the available text colors.
     /// </summary>
     [Enum(Emit.StringName)] //Don't change the emit type without updating the FromClassList method
-    [H5.Name("tss.TC")]
+    [Transpose.Name("tss.TC")]
     public enum TextColor
     {
         [Name("text-dark")]      Dark,
@@ -59,7 +59,7 @@ namespace Tesserae
     /// Specifies the available text weights.
     /// </summary>
     [Enum(Emit.StringName)] //Don't change the emit type without updating the FromClassList method
-    [H5.Name("tss.TW")]
+    [Transpose.Name("tss.TW")]
     public enum TextWeight
     {
         [Name("tss-fontweight-regular")]  Regular,
@@ -71,7 +71,7 @@ namespace Tesserae
     /// Specifies the available text alignments.
     /// </summary>
     [Enum(Emit.StringName)] //Don't change the emit type without updating the FromClassList method
-    [H5.Name("tss.TA")]
+    [Transpose.Name("tss.TA")]
     public enum TextAlign
     {
         [Name("tss-textalign-left")]   Left,

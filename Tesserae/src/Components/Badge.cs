@@ -1,5 +1,5 @@
 using System;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -271,7 +271,7 @@ namespace Tesserae
         public override HTMLElement Render() => InnerElement;
     }
 
-    [H5.Name("tss.Badge")]
+    [Transpose.Name("tss.Badge")]
     public sealed class Badge : TokenBase<Badge>
     {
         /// <summary>
@@ -282,7 +282,7 @@ namespace Tesserae
         }
     }
 
-    [H5.Name("tss.Tag")]
+    [Transpose.Name("tss.Tag")]
     public sealed class Tag : TokenBase<Tag>
     {
         /// <summary>
@@ -293,7 +293,7 @@ namespace Tesserae
         }
     }
 
-    [H5.Name("tss.Chip")]
+    [Transpose.Name("tss.Chip")]
     public sealed class Chip : TokenBase<Chip>
     {
         /// <summary>

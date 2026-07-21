@@ -6,7 +6,7 @@ namespace Tesserae
     /// Combines two or more <see cref="IObservable{T}"/> instances into a single observable that emits a tuple of
     /// their latest values.
     /// </summary>
-    [H5.Name("tss.CombinedObservableT5")]
+    [Transpose.Name("tss.CombinedObservableT5")]
     public sealed class CombinedObservable<T1, T2, T3, T4, T5> : IObservable<(T1 first, T2 second, T3 third, T4 forth, T5 fifth)>
     {
         private readonly IObservable<T1> _first;

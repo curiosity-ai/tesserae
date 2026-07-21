@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 
 namespace Tesserae
 {
     /// <summary>
     /// Defines an item in a DetailsList component.
     /// </summary>
-    [H5.Name("tss.IDetailsListItem")]
+    [Transpose.Name("tss.IDetailsListItem")]
     public interface IDetailsListItem
     {
         /// <summary>Gets whether click events are enabled for this list item.</summary>
@@ -28,7 +28,7 @@ namespace Tesserae
     /// Defines a typed item in a DetailsList component, supporting comparison for sorting.
     /// </summary>
     /// <typeparam name="TDetailsListItem">The type of the list item.</typeparam>
-    [H5.Name("tss.IDetailsListItemT")]
+    [Transpose.Name("tss.IDetailsListItemT")]
     public interface IDetailsListItem<in TDetailsListItem> : IDetailsListItem where TDetailsListItem : IDetailsListItem<TDetailsListItem>
     {
         /// <summary>Compares the current item with another item for sorting.</summary>

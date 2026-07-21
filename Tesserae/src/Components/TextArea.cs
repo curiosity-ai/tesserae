@@ -1,4 +1,4 @@
-﻿using static H5.Core.dom;
+﻿using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -6,7 +6,7 @@ namespace Tesserae
     /// <summary>
     /// A multi-line text input component.
     /// </summary>
-    [H5.Name("tss.TextArea")]
+    [Transpose.Name("tss.TextArea")]
     public sealed class TextArea : ComponentBase<TextArea, HTMLTextAreaElement>, ICanValidate<TextArea>, IBindableComponent<string>, ITabIndex, IRoundedStyle
     {
         private readonly HTMLDivElement             _container;

@@ -6,7 +6,7 @@ namespace Tesserae
     /// <summary>
     /// Extension methods for the <see cref="Pivot"/> component.
     /// </summary>
-    [H5.Name("tss.PivotX")]
+    [Transpose.Name("tss.PivotX")]
     public static class PivotExtensions
     {
         /// <summary>

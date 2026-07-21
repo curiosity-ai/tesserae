@@ -1,10 +1,10 @@
-﻿using H5;
+﻿using Transpose;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -13,7 +13,7 @@ namespace Tesserae
     /// A select-style form input for picking one or many values from a list, with filtering, async loading and rich
     /// item rendering.
     /// </summary>
-    [H5.Name("tss.Dropdown")]
+    [Transpose.Name("tss.Dropdown")]
     public sealed class Dropdown : Layer<Dropdown>, ICanValidate<Dropdown>, IObservableListComponent<Dropdown.Item>, ITabIndex, IRoundedStyle
     {
         private HTMLElement _firstItem;

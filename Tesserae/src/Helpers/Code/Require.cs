@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 
 namespace Tesserae
 {
-    [H5.Name("tss.Require")]
+    [Transpose.Name("tss.Require")]
     public static class Require
     {
         private static readonly SingleSemaphoreSlim singleCall = new SingleSemaphoreSlim();

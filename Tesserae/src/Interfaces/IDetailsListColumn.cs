@@ -5,7 +5,7 @@ namespace Tesserae
     /// <summary>
     /// Defines a column in a DetailsList component.
     /// </summary>
-    [H5.Name("tss.IDetailsListColumn")]
+    [Transpose.Name("tss.IDetailsListColumn")]
     public interface IDetailsListColumn : IComponent
     {
         /// <summary>Gets the key used for sorting this column.</summary>

@@ -1,6 +1,6 @@
 using System;
-using H5;
-using static H5.Core.dom;
+using Transpose;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -10,7 +10,7 @@ namespace Tesserae
     /// globally-loaded <c>marked</c> and <c>DOMPurify</c> libraries.
     /// The dependencies are bundled with Tesserae and always loaded - no preload step is required.
     /// </summary>
-    [H5.Name("tss.Markdown")]
+    [Transpose.Name("tss.Markdown")]
     public static class Markdown
     {
         private static object _shared;

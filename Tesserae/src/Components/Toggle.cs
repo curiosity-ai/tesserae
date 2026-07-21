@@ -1,4 +1,4 @@
-﻿using static H5.Core.dom;
+﻿using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -6,7 +6,7 @@ namespace Tesserae
     /// <summary>
     /// A Toggle component that allows users to switch between two states (on/off).
     /// </summary>
-    [H5.Name("tss.Toggle")]
+    [Transpose.Name("tss.Toggle")]
     public class Toggle : ComponentBase<Toggle, HTMLInputElement>, IBindableComponent<bool>, IRoundedStyle, ITextFormating
     {
         private readonly HTMLElement              _checkElement;

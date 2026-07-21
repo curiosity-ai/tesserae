@@ -1,5 +1,5 @@
 using System;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 
 namespace Tesserae
 {
@@ -7,7 +7,7 @@ namespace Tesserae
     /// A lightweight, dependency-free SVG bar chart. Renders grouped bars per category (one bar per series),
     /// with a zero baseline, value gridlines, category labels, hover tooltips and a theme-aware palette.
     /// </summary>
-    [H5.Name("tss.BarChart")]
+    [Transpose.Name("tss.BarChart")]
     public sealed class BarChart : CartesianChartBase<BarChart>
     {
         private double _cornerRadius = 2;

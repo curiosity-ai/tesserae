@@ -1,5 +1,5 @@
 ﻿using static Tesserae.UI;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 
 namespace Tesserae
 {
@@ -7,7 +7,7 @@ namespace Tesserae
     /// A full-bleed background container used to host a centered card or hero section, typically as the application
     /// shell.
     /// </summary>
-    [H5.Name("tss.BackgroundArea")]
+    [Transpose.Name("tss.BackgroundArea")]
     public class BackgroundArea : IComponent, IHasBackgroundColor
     {
         private readonly Raw         _raw;

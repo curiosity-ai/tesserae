@@ -1,5 +1,5 @@
 using System;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -8,7 +8,7 @@ namespace Tesserae
     /// A card variant tailored to displaying a single resource (file, item, link) with icon, title, subtitle and
     /// actions.
     /// </summary>
-    [H5.Name("tss.ResourceCard")]
+    [Transpose.Name("tss.ResourceCard")]
     public sealed class ResourceCard : ComponentBase<ResourceCard, HTMLElement>, IHasBackgroundColor, IRoundedStyle
     {
         private readonly Card _card;

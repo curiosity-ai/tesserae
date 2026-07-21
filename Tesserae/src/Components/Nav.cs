@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -10,7 +10,7 @@ namespace Tesserae
     /// <summary>
     /// A hierarchical, vertically-stacked navigation tree with support for nested sections, icons and badges.
     /// </summary>
-    [H5.Name("tss.Nav")]
+    [Transpose.Name("tss.Nav")]
     public sealed class Nav : ComponentBase<Nav, HTMLUListElement>, IContainer<Nav.NavLink, Nav.NavLink>, IHasBackgroundColor, IBindableComponent<Nav.NavLink>
     {
         /// <summary>

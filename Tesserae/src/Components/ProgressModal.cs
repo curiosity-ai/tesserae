@@ -7,7 +7,7 @@ namespace Tesserae
     /// <summary>
     /// A modal that shows a progress bar while a long-running operation completes, with optional cancel button.
     /// </summary>
-    [H5.Name("tss.ProgressModal")]
+    [Transpose.Name("tss.ProgressModal")]
     public class ProgressModal
     {
         private readonly Modal             _modalHost;

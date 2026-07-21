@@ -3,7 +3,7 @@
     /// <summary>
     /// Provides extension methods for components that support basic styling properties.
     /// </summary>
-    [H5.Name("tss.ISX")]
+    [Transpose.Name("tss.ISX")]
     public static class StyleExtensions
     {
         /// <summary>

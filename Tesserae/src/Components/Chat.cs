@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -10,7 +10,7 @@ namespace Tesserae
     /// timestamps. It keeps streamed replies in view while the reader is at the live edge, stops following
     /// the moment the reader scrolls away, and offers a scroll-to-latest button to re-engage.
     /// </summary>
-    [H5.Name("tss.ChatArea")]
+    [Transpose.Name("tss.ChatArea")]
     public class ChatArea : IComponent
     {
         /// <summary>
@@ -501,7 +501,7 @@ namespace Tesserae
         }
     }
 
-    [H5.Name("tss.ChatMessage")]
+    [Transpose.Name("tss.ChatMessage")]
     public class ChatMessage : IComponentWithID, IComponent
     {
         private HTMLElement _innerElement;

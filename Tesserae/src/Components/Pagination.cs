@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -8,7 +8,7 @@ namespace Tesserae
     /// <summary>
     /// A page-number navigation strip used to walk through pages of results.
     /// </summary>
-    [H5.Name("tss.Pagination")]
+    [Transpose.Name("tss.Pagination")]
     public sealed class Pagination : ComponentBase<Pagination, HTMLElement>, IBindableComponent<int>
     {
         private readonly HTMLElement             _buttonContainer;

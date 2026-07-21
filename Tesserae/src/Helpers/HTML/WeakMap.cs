@@ -1,8 +1,8 @@
-﻿using H5;
+﻿using Transpose;
 
 namespace Tesserae
 {
-    [H5.Name("tss.WeakMap")]
+    [Transpose.Name("tss.WeakMap")]
     public class WeakMap
     {
         private object _map;

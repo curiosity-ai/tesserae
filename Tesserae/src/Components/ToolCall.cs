@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -10,7 +10,7 @@ namespace Tesserae
     /// associated content. The content component is created lazily the first
     /// time the user expands the tool call.
     /// </summary>
-    [H5.Name("tss.ToolCall")]
+    [Transpose.Name("tss.ToolCall")]
     public sealed class ToolCall : ComponentBase<ToolCall, HTMLElement>
     {
         private readonly HTMLElement      _header;
@@ -243,7 +243,7 @@ namespace Tesserae
     /// and shows that tool's content on the right with a back button to
     /// return to the list.
     /// </summary>
-    [H5.Name("tss.ToolsUsed")]
+    [Transpose.Name("tss.ToolsUsed")]
     public sealed class ToolsUsed : ComponentBase<ToolsUsed, HTMLElement>
     {
         private readonly HTMLElement      _summaryIcon;

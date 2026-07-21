@@ -1,5 +1,5 @@
 using System;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -7,7 +7,7 @@ namespace Tesserae
     /// <summary>
     /// A horizontal bar of commands (buttons, dropdowns) typically anchored to the top of an application surface.
     /// </summary>
-    [H5.Name("tss.CommandBar")]
+    [Transpose.Name("tss.CommandBar")]
     public sealed class CommandBar : ComponentBase<CommandBar, HTMLElement>
     {
         private readonly HTMLElement _primarySection;
@@ -101,7 +101,7 @@ namespace Tesserae
         public override HTMLElement Render() => InnerElement;
     }
 
-    [H5.Name("tss.CommandBarItem")]
+    [Transpose.Name("tss.CommandBarItem")]
     public sealed class CommandBarItem : ComponentBase<CommandBarItem, HTMLButtonElement>
     {
         private readonly HTMLSpanElement _textSpan;

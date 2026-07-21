@@ -1,5 +1,5 @@
-using H5;
-using static H5.Core.dom;
+using Transpose;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -11,7 +11,7 @@ namespace Tesserae
     /// included) instead of falling back to registrable-domain heuristics, and prompt the user to
     /// save or update the password.
     /// </summary>
-    [H5.Name("tss.Form")]
+    [Transpose.Name("tss.Form")]
     public class Form : IContainer<Form, IComponent>, IHasMarginPadding
     {
         private readonly HTMLFormElement _form;

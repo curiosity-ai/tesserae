@@ -1,5 +1,5 @@
 ﻿using System;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -7,7 +7,7 @@ namespace Tesserae
     /// <summary>
     /// A bordered, shadowed surface used to group related content into a self-contained block.
     /// </summary>
-    [H5.Name("tss.Card")]
+    [Transpose.Name("tss.Card")]
     public sealed class Card : ComponentBase<Card, HTMLElement>, IHasBackgroundColor, IRoundedStyle
     {
         private readonly HTMLElement _cardContainer;

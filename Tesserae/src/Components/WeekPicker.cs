@@ -6,7 +6,7 @@ namespace Tesserae
     /// <summary>
     /// A WeekPicker component that allows users to select a week using a native HTML week input.
     /// </summary>
-    [H5.Name("tss.WeekPicker")]
+    [Transpose.Name("tss.WeekPicker")]
     public class WeekPicker : MomentPickerBase<WeekPicker, (int year, int weekNumber)>
     {
         /// <summary>

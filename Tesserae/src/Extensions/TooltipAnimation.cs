@@ -1,4 +1,4 @@
-﻿using H5;
+﻿using Transpose;
 
 namespace Tesserae
 {
@@ -6,7 +6,7 @@ namespace Tesserae
     /// Specifies the animation types for tooltips.
     /// </summary>
     [Enum(Emit.StringName)]
-    [H5.Name("tss.TooltipAnimation")]
+    [Transpose.Name("tss.TooltipAnimation")]
     public enum TooltipAnimation
     {
         /// <summary>No animation.</summary>
@@ -25,7 +25,7 @@ namespace Tesserae
     /// Specifies the placement of tooltips relative to their target element.
     /// </summary>
     [Enum(Emit.StringName)]
-    [H5.Name("tss.TooltipPlacement")]
+    [Transpose.Name("tss.TooltipPlacement")]
     public enum TooltipPlacement
     {
         [Name("top")]          Top,

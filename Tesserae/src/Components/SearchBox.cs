@@ -1,6 +1,6 @@
 ﻿using System;
-using H5.Core;
-using static H5.Core.dom;
+using Transpose.Core;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -9,7 +9,7 @@ namespace Tesserae
     /// A single-line search input with a leading magnifier glyph, a trailing clear button and search-on-enter /
     /// debounced-input semantics.
     /// </summary>
-    [H5.Name("tss.SearchBox")]
+    [Transpose.Name("tss.SearchBox")]
     public class SearchBox : ComponentBase<SearchBox, HTMLInputElement>, ITextFormating, IHasBackgroundColor, ITabIndex, IRoundedStyle
     {
         private readonly HTMLDivElement  _container;

@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Tesserae;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 
 namespace Tesserae
 {
     /// <summary>
     /// Static class containing factory methods for all Tesserae components and various UI helpers.
     /// </summary>
-    [H5.Name("tss.UI")]
+    [Transpose.Name("tss.UI")]
     public static partial class UI
     {
         static UI()

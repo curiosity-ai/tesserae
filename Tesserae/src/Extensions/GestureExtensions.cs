@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using H5;
-using static H5.Core.dom;
+using Transpose;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -9,7 +9,7 @@ namespace Tesserae
     /// <summary>
     /// Identifies the phase of a continuous gesture (pan / pinch / rotate).
     /// </summary>
-    [H5.Name("tss.GesturePhase")]
+    [Transpose.Name("tss.GesturePhase")]
     public enum GesturePhase
     {
         /// <summary>The gesture has just started (movement crossed the threshold, or a second finger landed).</summary>
@@ -24,7 +24,7 @@ namespace Tesserae
     /// Immutable-ish snapshot of a recognised gesture, handed to gesture callbacks. A single instance is reused
     /// per recogniser and its fields are refreshed before every callback, so do not hold a reference across events.
     /// </summary>
-    [H5.Name("tss.GestureState")]
+    [Transpose.Name("tss.GestureState")]
     public sealed class GestureState
     {
         /// <summary>The component the gesture was recognised on.</summary>
@@ -75,7 +75,7 @@ namespace Tesserae
     /// (<c>pointerdown</c>/<c>pointermove</c>/<c>pointerup</c> + <c>setPointerCapture</c>). A single recogniser is
     /// attached per element and shared by every gesture handler registered through <see cref="GestureExtensions"/>.
     /// </summary>
-    [H5.Name("tss.GestureRecognizer")]
+    [Transpose.Name("tss.GestureRecognizer")]
     public sealed class GestureRecognizer
     {
         // Movement (px) a single pointer may drift before a press is reclassified as a pan (and disqualified as a tap).
@@ -486,7 +486,7 @@ namespace Tesserae
     /// All handlers receive a <see cref="GestureState"/> snapshot; thresholds (tap tolerance, double-tap timing,
     /// long-press duration) are sensible defaults shared by the per-element <see cref="GestureRecognizer"/>.
     /// </summary>
-    [H5.Name("tss.GestureX")]
+    [Transpose.Name("tss.GestureX")]
     public static class GestureExtensions
     {
         /// <summary>Recognises a tap (quick press-and-release without movement).</summary>

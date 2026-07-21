@@ -7,7 +7,7 @@ namespace Tesserae
     /// <summary>
     /// A modal dialog with a title, body and configurable action buttons (OK / Cancel / custom).
     /// </summary>
-    [H5.Name("tss.Dialog")]
+    [Transpose.Name("tss.Dialog")]
     public sealed class Dialog
     {
         private static readonly Random RNG = new Random();

@@ -1,6 +1,6 @@
 ﻿using System;
 using static Tesserae.UI;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,7 +9,7 @@ namespace Tesserae
     /// <summary>
     /// A navigational trail showing the user's position within a hierarchy of pages or sections.
     /// </summary>
-    [H5.Name("tss.Breadcrumb")]
+    [Transpose.Name("tss.Breadcrumb")]
     public class Breadcrumb : IComponent, IContainer<Breadcrumb, IComponent>
     {
         private readonly HTMLElement    _childContainer;

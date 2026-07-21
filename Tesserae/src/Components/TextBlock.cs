@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -8,7 +8,7 @@ namespace Tesserae
     /// <summary>
     /// A text block component.
     /// </summary>
-    [H5.Name("tss.txt")]
+    [Transpose.Name("tss.txt")]
     public class TextBlock : ComponentBase<TextBlock, HTMLElement>, ITextFormating, IHasBackgroundColor, IHasForegroundColor, ICanWrap, IRoundedStyle
     {
         /// <summary>

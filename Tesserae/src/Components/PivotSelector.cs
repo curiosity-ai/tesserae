@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -10,7 +10,7 @@ namespace Tesserae
     /// A standalone tab-selector strip that drives an external <see cref="Pivot"/>, used when the strip needs to be
     /// positioned independently of its panels.
     /// </summary>
-    [H5.Name("tss.PivotSelector")]
+    [Transpose.Name("tss.PivotSelector")]
     public class PivotSelector : IComponent, ISpecialCaseStyling, IBindableComponent<string>
     {
         public delegate void PivotEventHandler<TEventArgs>(PivotSelector sender, TEventArgs e);

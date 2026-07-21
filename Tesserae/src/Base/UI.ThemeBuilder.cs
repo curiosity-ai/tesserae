@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Text;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 
 namespace Tesserae
 {
@@ -39,7 +39,7 @@ namespace Tesserae
             /// </code>
             /// </example>
             /// </remarks>
-            [H5.Name("tss.ThemeBuilder")]
+            [Transpose.Name("tss.ThemeBuilder")]
             public sealed class ThemeBuilder
             {
                 private static HTMLStyleElement _appliedStyleElement;

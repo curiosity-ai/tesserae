@@ -7,7 +7,7 @@ namespace Tesserae
     /// Abstract base class shared by the date, time and date-time pickers. Adds Min/Max/Step support on top of the
     /// typed-input <see cref="Input{TInput}"/> base.
     /// </summary>
-    [H5.Name("tss.MomentPickerBase")]
+    [Transpose.Name("tss.MomentPickerBase")]
     public abstract class MomentPickerBase<TMomentPicker, TMoment>
         : Input<TMomentPicker>, ITextFormating, IHasBackgroundColor, IHasForegroundColor, IBindableComponent<TMoment?>
         where TMomentPicker : MomentPickerBase<TMomentPicker, TMoment>

@@ -1,5 +1,5 @@
 using System;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -11,7 +11,7 @@ namespace Tesserae
         /// Supports the button-like tonal styles (default, primary, secondary, success, danger), arbitrary
         /// foreground/background colors, dragging, and click / context-menu events. Icon-only nodes render as circles.
         /// </summary>
-        [H5.Name("tss.DiagramNode")]
+        [Transpose.Name("tss.DiagramNode")]
         public class Node : IComponent, IHasBackgroundColor, IHasForegroundColor
         {
             private static readonly string[] _styleClasses = new[] { "tss-diagram-node-default", "tss-diagram-node-primary", "tss-diagram-node-secondary", "tss-diagram-node-success", "tss-diagram-node-danger" };

@@ -1,4 +1,4 @@
-using H5;
+using Transpose;
 using System;
 using System.Collections.Generic;
 
@@ -15,7 +15,7 @@ namespace Tesserae
     /// CSS variables, <c>calc()</c>, <c>min/max/clamp</c>) use the <see cref="UnitSize(string)"/> constructor,
     /// which forwards the raw CSS verbatim.
     /// </remarks>
-    [H5.Name("tss.us")]
+    [Transpose.Name("tss.us")]
     public sealed class UnitSize
     {
         private static UnitSize[] _cachedIntegers = CreateCache(32);

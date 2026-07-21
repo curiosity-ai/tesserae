@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
 {
-    [H5.Name("tss.SidebarSegmentedPivot")]
+    [Transpose.Name("tss.SidebarSegmentedPivot")]
     public sealed class SidebarPivot : ISearchableSidebarItem
     {
         private readonly List<Tab> _orderedTabs = new List<Tab>();

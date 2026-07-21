@@ -3,7 +3,7 @@ namespace Tesserae
     /// <summary>
     /// Defines a component that has accessibility properties.
     /// </summary>
-    [H5.Name("tss.IACC")]
+    [Transpose.Name("tss.IACC")]
     public interface IAccessibility
     {
         /// <summary>Sets the ARIA role for the component.</summary>

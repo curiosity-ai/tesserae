@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Tesserae
 {
-    [H5.Name("tss.SingleSemaphoreSlim")]
+    [Transpose.Name("tss.SingleSemaphoreSlim")]
     public class SingleSemaphoreSlim
     {
         public SingleSemaphoreSlim()
@@ -52,7 +52,7 @@ namespace Tesserae
     }
 
 
-    [H5.Name("tss.Semaphore")]
+    [Transpose.Name("tss.Semaphore")]
     public class Semaphore
     {
         private          int                               currentCount;

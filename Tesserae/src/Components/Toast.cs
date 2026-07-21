@@ -1,8 +1,8 @@
-﻿using H5;
+﻿using Transpose;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -754,7 +754,7 @@ namespace Tesserae
         /// The position of the toast on the screen.
         /// </summary>
         [Enum(Emit.StringName)] //Don't change the emit type 
-        [H5.Name("tss.Toast.Position")]
+        [Transpose.Name("tss.Toast.Position")]
         public enum Position
         {
             /// <summary>Top-right position.</summary>

@@ -1,5 +1,5 @@
 using System;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 
 namespace Tesserae
 {
@@ -34,7 +34,7 @@ namespace Tesserae
     /// </code>
     /// </example>
     /// </remarks>
-    [H5.Name("tss.Popover")]
+    [Transpose.Name("tss.Popover")]
     public sealed class Popover
     {
         private IComponent       _content;

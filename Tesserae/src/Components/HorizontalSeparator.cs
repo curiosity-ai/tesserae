@@ -1,14 +1,14 @@
-﻿using H5;
+﻿using Transpose;
 using Tesserae;
 using static Tesserae.UI;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 
 namespace Tesserae
 {
     /// <summary>
     /// A thin horizontal divider used to separate sections of a vertically stacked layout.
     /// </summary>
-    [H5.Name("tss.HorizontalSeparator")]
+    [Transpose.Name("tss.HorizontalSeparator")]
     public class HorizontalSeparator : IComponent, IHasBackgroundColor
     {
         private readonly HTMLElement _container;

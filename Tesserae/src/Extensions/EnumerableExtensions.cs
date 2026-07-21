@@ -6,7 +6,7 @@ namespace Tesserae
     /// <summary>
     /// Provides internal extension methods for IEnumerable.
     /// </summary>
-    [H5.Name("tss.eeX")]
+    [Transpose.Name("tss.eeX")]
     internal static class EnumerableExtensions
     {
         /// <summary>

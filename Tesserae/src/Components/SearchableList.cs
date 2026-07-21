@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using H5.Core;
-using static H5.Core.dom;
+using Transpose.Core;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -11,7 +11,7 @@ namespace Tesserae
     /// <summary>
     /// A searchable, scrollable list whose items are filtered live as the user types into a built-in search box.
     /// </summary>
-    [H5.Name("tss.SearchableList")]
+    [Transpose.Name("tss.SearchableList")]
     public class SearchableList<T> : IComponent, ISpecialCaseStyling where T : ISearchableItem
     {
         private readonly IDefer           _defered;
@@ -361,7 +361,7 @@ namespace Tesserae
         }
     }
 
-    [H5.Name("tss.ISearchableItem")]
+    [Transpose.Name("tss.ISearchableItem")]
     public interface ISearchableItem
     {
         bool       IsMatch(string searchTerm);

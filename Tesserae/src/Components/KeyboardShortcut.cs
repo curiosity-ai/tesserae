@@ -1,6 +1,6 @@
 using System;
 using System.Linq;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -8,7 +8,7 @@ namespace Tesserae
     /// <summary>
     /// Renders a keyboard shortcut as styled &lt;kbd&gt; chips (e.g. Ctrl+K).
     /// </summary>
-    [H5.Name("tss.KBS")]
+    [Transpose.Name("tss.KBS")]
     public sealed class KeyboardShortcut : ComponentBase<KeyboardShortcut, HTMLElement>
     {
         /// <summary>

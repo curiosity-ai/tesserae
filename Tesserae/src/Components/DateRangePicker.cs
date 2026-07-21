@@ -1,5 +1,5 @@
 using System;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -18,7 +18,7 @@ namespace Tesserae
     /// });
     /// </code>
     /// </example>
-    [H5.Name("tss.DateRangePicker")]
+    [Transpose.Name("tss.DateRangePicker")]
     public sealed class DateRangePicker : IComponent, IHasMarginPadding, IBindableComponent<(DateTime? from, DateTime? to)>
     {
         private readonly DatePicker                                         _from;

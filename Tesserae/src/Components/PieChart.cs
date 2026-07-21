@@ -1,6 +1,6 @@
 using System;
 using System.Linq;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -9,7 +9,7 @@ namespace Tesserae
     /// A lightweight, dependency-free SVG pie / donut chart. Renders the first series' values as slices, labelled
     /// by the configured category labels, with hover tooltips, an optional legend and a theme-aware palette.
     /// </summary>
-    [H5.Name("tss.PieChart")]
+    [Transpose.Name("tss.PieChart")]
     public sealed class PieChart : ChartBase<PieChart>
     {
         private string[] _labels = new string[0];

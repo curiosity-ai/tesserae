@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -10,7 +10,7 @@ namespace Tesserae
     /// <summary>
     /// A multi-line text editor that supports inline annotations / highlights over user-entered prose.
     /// </summary>
-    [H5.Name("tss.AnnotatedTextEditor")]
+    [Transpose.Name("tss.AnnotatedTextEditor")]
     public class AnnotatedTextEditor : IComponent, IHasBackgroundColor, ITabIndex
     {
         public class Entity

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -9,7 +9,7 @@ namespace Tesserae
     /// A simple, non-virtualised vertical list of arbitrary items, used when a <see cref="DetailsList{T}"/> would be
     /// overkill.
     /// </summary>
-    [H5.Name("tss.ItemsList")]
+    [Transpose.Name("tss.ItemsList")]
     public sealed class ItemsList : IComponent, ISpecialCaseStyling
     {
         private readonly Grid             _grid;

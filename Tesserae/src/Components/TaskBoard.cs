@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using H5.Core;
-using static H5.Core.dom;
+using Transpose.Core;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -9,7 +9,7 @@ namespace Tesserae
     /// <summary>
     /// A kanban-style board with named columns and draggable cards.
     /// </summary>
-    [H5.Name("tss.TaskBoard")]
+    [Transpose.Name("tss.TaskBoard")]
     public class TaskBoard : IComponent, IHasMarginPadding
     {
         private readonly HTMLElement _container;
@@ -153,7 +153,7 @@ namespace Tesserae
         public HTMLElement Render() => _container;
     }
 
-    [H5.Name("tss.TaskBoardColumn")]
+    [Transpose.Name("tss.TaskBoardColumn")]
     public class TaskBoardColumn : IComponent
     {
         private readonly HTMLElement _container;
@@ -332,7 +332,7 @@ namespace Tesserae
         public HTMLElement Render() => _container;
     }
 
-    [H5.Name("tss.TaskBoardCard")]
+    [Transpose.Name("tss.TaskBoardCard")]
     public class TaskBoardCard : IComponent
     {
         private readonly HTMLElement _container;

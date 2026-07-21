@@ -8,7 +8,7 @@ namespace Tesserae
     /// <summary>
     /// Provides a set of standard validation rules for various components.
     /// </summary>
-    [H5.Name("tss.Validation")]
+    [Transpose.Name("tss.Validation")]
     public static class Validation
     {
         /// <summary>Validates that the TextArea is not empty or whitespace.</summary>

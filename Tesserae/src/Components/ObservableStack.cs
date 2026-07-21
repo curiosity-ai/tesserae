@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -29,7 +29,7 @@ namespace Tesserae
     /// diffs a common prefix/suffix, so a reorder of interior rows rebuilds that span, whereas
     /// <see cref="KeyedObservableStack"/> handles arbitrary reorders.
     /// </remarks>
-    [H5.Name("tss.ObservableStack")]
+    [Transpose.Name("tss.ObservableStack")]
     public sealed class ObservableStack<T> : IComponent where T : class
     {
         private readonly Stack                                          _host;

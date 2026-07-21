@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -13,7 +13,7 @@ namespace Tesserae
     /// best-effort (it depends on reflection metadata being available); the fluent config API is always honored.
     /// </summary>
     [AttributeUsage(AttributeTargets.Property)]
-    [H5.Name("tss.PropertyGridLabelAttribute")]
+    [Transpose.Name("tss.PropertyGridLabelAttribute")]
     public sealed class PropertyGridLabelAttribute : Attribute
     {
         /// <summary>The display label.</summary>
@@ -24,7 +24,7 @@ namespace Tesserae
 
     /// <summary>Marks a property with a helper description for the <see cref="PropertyGrid{T}"/>.</summary>
     [AttributeUsage(AttributeTargets.Property)]
-    [H5.Name("tss.PropertyGridDescriptionAttribute")]
+    [Transpose.Name("tss.PropertyGridDescriptionAttribute")]
     public sealed class PropertyGridDescriptionAttribute : Attribute
     {
         /// <summary>The description text.</summary>
@@ -35,7 +35,7 @@ namespace Tesserae
 
     /// <summary>Sets the display order of a property in the <see cref="PropertyGrid{T}"/> (lower comes first).</summary>
     [AttributeUsage(AttributeTargets.Property)]
-    [H5.Name("tss.PropertyGridOrderAttribute")]
+    [Transpose.Name("tss.PropertyGridOrderAttribute")]
     public sealed class PropertyGridOrderAttribute : Attribute
     {
         /// <summary>The sort order.</summary>
@@ -46,21 +46,21 @@ namespace Tesserae
 
     /// <summary>Marks a property as read-only in the <see cref="PropertyGrid{T}"/>.</summary>
     [AttributeUsage(AttributeTargets.Property)]
-    [H5.Name("tss.PropertyGridReadOnlyAttribute")]
+    [Transpose.Name("tss.PropertyGridReadOnlyAttribute")]
     public sealed class PropertyGridReadOnlyAttribute : Attribute { }
 
     /// <summary>Hides a property from the <see cref="PropertyGrid{T}"/>.</summary>
     [AttributeUsage(AttributeTargets.Property)]
-    [H5.Name("tss.PropertyGridIgnoreAttribute")]
+    [Transpose.Name("tss.PropertyGridIgnoreAttribute")]
     public sealed class PropertyGridIgnoreAttribute : Attribute { }
 
     /// <summary>Renders a string property as a multi-line <see cref="TextArea"/> in the <see cref="PropertyGrid{T}"/>.</summary>
     [AttributeUsage(AttributeTargets.Property)]
-    [H5.Name("tss.PropertyGridMultilineAttribute")]
+    [Transpose.Name("tss.PropertyGridMultilineAttribute")]
     public sealed class PropertyGridMultilineAttribute : Attribute { }
 
     /// <summary>Per-property display / behaviour options resolved from attributes and the fluent config API.</summary>
-    [H5.Name("tss.PropertyGridFieldOptions")]
+    [Transpose.Name("tss.PropertyGridFieldOptions")]
     public sealed class PropertyGridFieldOptions
     {
         /// <summary>Overrides the field label.</summary>
@@ -88,7 +88,7 @@ namespace Tesserae
     /// <see cref="OnChange"/>. Per-property label/description/order/read-only overrides come from attributes or the
     /// fluent config API, and validation integrates with the existing <see cref="Validator"/>.
     /// </summary>
-    [H5.Name("tss.PropertyGrid")]
+    [Transpose.Name("tss.PropertyGrid")]
     public sealed class PropertyGrid<T> : IComponent
     {
         private readonly T                       _instance;

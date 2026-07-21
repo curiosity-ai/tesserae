@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -8,7 +8,7 @@ namespace Tesserae
     /// <summary>
     /// A calendar-grid visualisation of daily uptime / availability over a multi-month window.
     /// </summary>
-    [H5.Name("tss.UptimeCalendar")]
+    [Transpose.Name("tss.UptimeCalendar")]
     public class UptimeCalendar : IComponent, IHasMarginPadding
     {
         private readonly HTMLElement _container;

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -23,7 +23,7 @@ namespace Tesserae
     /// <see cref="IObservable{T}"/> through <see cref="AsObservable"/> for binding into other components.
     /// </para>
     /// </remarks>
-    [H5.Name("tss.TagsInput")]
+    [Transpose.Name("tss.TagsInput")]
     public sealed class TagsInput : IComponent, IHasMarginPadding, IBindableListComponent<string>
     {
         private readonly HTMLDivElement                            _container;

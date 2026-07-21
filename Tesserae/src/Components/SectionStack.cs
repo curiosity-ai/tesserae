@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
-using H5;
+using Transpose;
 using static Tesserae.UI;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 
 namespace Tesserae
 {
     /// <summary>
     /// A stack component that supports animated sections.
     /// </summary>
-    [H5.Name("tss.SectionStack")]
+    [Transpose.Name("tss.SectionStack")]
     public class SectionStack : Stack
     {
         private int Count = 1;
@@ -57,7 +57,7 @@ namespace Tesserae
 
             if (component.HasOwnProperty("StackItem"))
             {
-                H5.Script.Delete(component["StackItem"]);
+                Transpose.Script.Delete(component["StackItem"]);
             }
 
             item.style.height     = grow ? "10px" : "auto";

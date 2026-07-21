@@ -6,7 +6,7 @@ namespace Tesserae
     /// A lightweight idempotent IDisposable returned from <see cref="IObservable{T}.Subscribe"/>. The release
     /// action runs at most once; subsequent Dispose calls are no-ops.
     /// </summary>
-    [H5.Name("tss.Subscription")]
+    [Transpose.Name("tss.Subscription")]
     public sealed class Subscription : IDisposable
     {
         /// <summary>An IDisposable whose Dispose is a no-op. Returned from observables that never change.</summary>

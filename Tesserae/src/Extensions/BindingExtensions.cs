@@ -6,7 +6,7 @@ namespace Tesserae
     /// Provides two-way binding between a component implementing
     /// <see cref="IBindableComponent{T}"/> and a <see cref="SettableObservable{T}"/>.
     /// </summary>
-    [H5.Name("tss.Bind")]
+    [Transpose.Name("tss.Bind")]
     public static class BindingExtensions
     {
         /// <summary>

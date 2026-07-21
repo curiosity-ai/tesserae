@@ -1,6 +1,6 @@
 using System;
 using System.Threading.Tasks;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 using TNT;
 using static TNT.T;
@@ -11,7 +11,7 @@ namespace Tesserae
     /// A <see cref="DeferedComponent"/> variant that reports progress (0-100%) while its real content is being
     /// prepared.
     /// </summary>
-    [H5.Name("tss.DCWP")]
+    [Transpose.Name("tss.DCWP")]
     internal sealed class DeferedComponentWithProgress : IDefer
     {
         private readonly Func<float, string, IComponent> _loadMessageGenerator;

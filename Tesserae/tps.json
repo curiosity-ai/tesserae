@@ -1,74 +1,11 @@
-// See all h5.json configuration options at https://github.com/h5dotnet/Bridge/wiki/global-configuration
 {
-    // Always build both minified and non-minified versions of the code so that resource for both versions are always included in the binary and so referencing projects can decide whether
-    // to use the minified versions or the non-minified versions
+    "output": "$(OutDir)/tps/",
     "outputFormatting": "Both",
+    "reflection": {
+        "disabled": false,
+        "target": "file"
+    },
     "resources": [
-        // Include the JS that is compiled from the C# in this project - be sure to include non-minified AND minified version (and to include the meta data files required for reflection)
-        // because H5 will only include ".min.js" versions of resources when a project that references this is built in Release and will only include NON-".min.js" versions when built
-        // in Debug (this is the default behaviour for projects that don't have any external resources to build into the binary but when a "resources" section is present in a h5.json
-        // file then that default behaviour is lost and must be opted back into - see suggestion 1 at the bottom of he opening comment on https://github.com/h5dotnet/Bridge/issues/3991).
-        {
-            "name": "tss.js",
-            "files": [
-                "$(OutDir)h5/tss.js"
-            ]
-        },
-        {
-            "name": "tss.meta.js",
-            "files": [
-                "$(OutDir)h5/tss.meta.js"
-            ]
-        },
-        {
-            "name": "tss.min.js",
-            "files": [
-                "$(OutDir)h5/tss.min.js"
-            ]
-        },
-        {
-            "name": "tss.meta.min.js",
-            "files": [
-                "$(OutDir)h5/tss.meta.min.js"
-            ]
-        },
-        //Because H5 will monkey about with JS file names depending upon build configuration (only ".min.js" for Release builds and NO ".min.js" for Debug builds), we need to be a bit
-        //careful with how external JS files are referenced. We COULD maintain minified and regular versions of all libraries in this project and then individually reference all of them
-        //twice (once min'd and once not) in this section but that seems like a lot of work. An alternative is to bundle them together - once as a ".min.js" file and again as a non-".min.js"
-        //file. This is still a bit of a faff because the file lists appear twice and we need to be careful to keep them in sync. Maybe H5 will change the behaviour one day regarding the
-        //file name changes - if there is no "jquery.js" file then it shouldn't rename "jquery.min.js" when in Debug configuration! (See https://github.com/h5dotnet/Bridge/issues/3992).
-        {
-            "name": "tss-dep.js",
-            "files": [
-                "h5/assets/js/hotkeys.min.js",
-                "h5/assets/js/popper.min.js",
-                "h5/assets/js/tippy.min.js",
-                "h5/assets/js/masonry.min.js",
-                "h5/assets/js/sortable.min.js",
-                "h5/assets/js/baklava.min.js",
-                "h5/assets/js/purify.min.js",
-                "h5/assets/js/marked.min.js",
-                "h5/assets/js/diff2html-ui-slim.min.js"
-            ],
-            "output": "assets/js"
-        },
-        {
-            "name": "tss-dep.min.js",
-            "files": [
-                "h5/assets/js/hotkeys.min.js",
-                "h5/assets/js/popper.min.js",
-                "h5/assets/js/tippy.min.js",
-                "h5/assets/js/masonry.min.js",
-                "h5/assets/js/sortable.min.js",
-                "h5/assets/js/baklava.min.js",
-                "h5/assets/js/purify.min.js",
-                "h5/assets/js/marked.min.js",
-                "h5/assets/js/diff2html-ui-slim.min.js"
-            ],
-            "output": "assets/js"
-        },
-        // There is no technical requirement for the CSS files to be combined but it makes it clearer that their content relates to the combined JS content (and it makes the H5-generated
-        // index.html file cleaner)
         {
             "name": "tss.css",
             "files": [
@@ -178,29 +115,41 @@
             "output": "assets/css"
         },
         {
+            "name": "tss-dep.js",
+            "files": [
+                "h5/assets/js/hotkeys.min.js",
+                "h5/assets/js/popper.min.js",
+                "h5/assets/js/tippy.min.js",
+                "h5/assets/js/masonry.min.js",
+                "h5/assets/js/sortable.min.js",
+                "h5/assets/js/baklava.min.js",
+                "h5/assets/js/purify.min.js",
+                "h5/assets/js/marked.min.js",
+                "h5/assets/js/diff2html-ui-slim.min.js"
+            ],
+            "output": "assets/js"
+        },
+        {
+            "name": "tss-dep.min.js",
+            "files": [
+                "h5/assets/js/hotkeys.min.js",
+                "h5/assets/js/popper.min.js",
+                "h5/assets/js/tippy.min.js",
+                "h5/assets/js/masonry.min.js",
+                "h5/assets/js/sortable.min.js",
+                "h5/assets/js/baklava.min.js",
+                "h5/assets/js/purify.min.js",
+                "h5/assets/js/marked.min.js",
+                "h5/assets/js/diff2html-ui-slim.min.js"
+            ],
+            "output": "assets/js"
+        },
+        {
             "name": "fonts",
-            "files": [ "h5/assets/fonts/*" ],
+            "files": [
+                "h5/assets/fonts/*"
+            ],
             "output": "assets/fonts/"
         }
-    ],
-    "cleanOutputFolderBeforeBuildPattern": "*.*",
-    "loader": {
-        "type": "Global"
-    },
-    "generateTypeScript": false,
-    "generateDocumentation": "None",
-    "rules": {
-        "anonymousType": "Plain",
-        "arrayIndex": "Managed",
-        "autoProperty": "Plain",
-        "boxing": "Managed",
-        "externalCast": "Plain",
-        "inlineComment": "Plain",
-        "integer": "Managed",
-        "lambda": "Plain",
-        "useShortForms": true
-    },
-    "sourceMap": {
-        "enabled": false
-    }
+    ]
 }

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -10,7 +10,7 @@ namespace Tesserae
     /// <summary>
     /// A horizontal tabbed surface with one tab visible at a time.
     /// </summary>
-    [H5.Name("tss.Pivot")]
+    [Transpose.Name("tss.Pivot")]
     public sealed class Pivot : IComponent, ISpecialCaseStyling, IBindableComponent<string>
     {
         public delegate void PivotEventHandler<TEventArgs>(Pivot sender, TEventArgs e);

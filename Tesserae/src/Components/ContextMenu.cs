@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -10,7 +10,7 @@ namespace Tesserae
     /// A right-click / hover-driven popup menu with support for items, headers, dividers and arbitrarily deep nested
     /// submenus.
     /// </summary>
-    [H5.Name("tss.ContextMenu")]
+    [Transpose.Name("tss.ContextMenu")]
     public sealed partial class ContextMenu : Layer<ContextMenu>, IContainer<ContextMenu, ContextMenu.Item>
     {
         private readonly HTMLElement    _childContainer;

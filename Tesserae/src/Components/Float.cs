@@ -1,9 +1,9 @@
-﻿using H5;
-using H5.Core;
+﻿using Transpose;
+using Transpose.Core;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -12,7 +12,7 @@ namespace Tesserae
     /// A floating positioning container used to overlay a small piece of content anchored to one corner of its
     /// parent.
     /// </summary>
-    [H5.Name("tss.Float")]
+    [Transpose.Name("tss.Float")]
     public sealed class Float : IComponent
     {
         private readonly IComponent  _child;

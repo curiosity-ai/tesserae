@@ -1,5 +1,5 @@
 using System;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -8,7 +8,7 @@ namespace Tesserae
     /// A component that renders Markdown text as sanitized HTML.
     /// Uses the bundled <c>marked</c> and <c>DOMPurify</c> libraries via <see cref="Markdown"/>.
     /// </summary>
-    [H5.Name("tss.mdb")]
+    [Transpose.Name("tss.mdb")]
     public class MarkdownBlock : ComponentBase<MarkdownBlock, HTMLElement>, ICanWrap
     {
         private string                _text;

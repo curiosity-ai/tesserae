@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using H5.Core;
-using static H5.Core.dom;
+using Transpose.Core;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -11,7 +11,7 @@ namespace Tesserae
     /// A keyboard-driven full-screen command launcher (Ctrl/Cmd-K style) that lets users search and invoke
     /// application commands.
     /// </summary>
-    [H5.Name("tss.CommandPalette")]
+    [Transpose.Name("tss.CommandPalette")]
     public sealed class CommandPalette : Layer<CommandPalette>
     {
         private readonly HTMLDivElement _overlay;
@@ -595,7 +595,7 @@ namespace Tesserae
         }
     }
 
-    [H5.Name("tss.CommandPaletteAction")]
+    [Transpose.Name("tss.CommandPaletteAction")]
     public sealed class CommandPaletteAction
     {
         /// <summary>

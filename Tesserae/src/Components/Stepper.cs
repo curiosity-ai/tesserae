@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -34,7 +34,7 @@ namespace Tesserae
         public IComponent Content { get; set; }
     }
 
-    [H5.Name("tss.Stepper")]
+    [Transpose.Name("tss.Stepper")]
     public sealed class Stepper : ComponentBase<Stepper, HTMLElement>, IBindableComponent<int>
     {
         private readonly List<StepperStep>       _steps;

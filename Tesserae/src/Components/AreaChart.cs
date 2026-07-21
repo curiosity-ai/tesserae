@@ -1,6 +1,6 @@
 using System;
 using System.Linq;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 
 namespace Tesserae
 {
@@ -8,7 +8,7 @@ namespace Tesserae
     /// A lightweight, dependency-free SVG area chart. Renders each series as a gradient-filled region under its
     /// line (matching <see cref="Sparkline"/>'s fill style), with hoverable points, gridlines and category labels.
     /// </summary>
-    [H5.Name("tss.AreaChart")]
+    [Transpose.Name("tss.AreaChart")]
     public sealed class AreaChart : CartesianChartBase<AreaChart>
     {
         private bool _showPoints = true;

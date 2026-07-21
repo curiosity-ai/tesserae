@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 
 namespace Tesserae
 {
     /// <summary>
     /// A keyed cache of components, used to keep previously-rendered components alive across re-renders.
     /// </summary>
-    [H5.Name("tss.ComponentCache")]
+    [Transpose.Name("tss.ComponentCache")]
     public class ComponentCache<TComponent> : ComponentCacheBase<TComponent> where TComponent : class
     {
         private readonly Func<(int Key, TComponent Component), HTMLElement> _createComponentExpression;

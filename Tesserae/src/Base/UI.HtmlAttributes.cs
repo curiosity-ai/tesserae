@@ -1,5 +1,5 @@
 ﻿using System;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 
 namespace Tesserae
 {
