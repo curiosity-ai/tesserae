@@ -6,7 +6,7 @@ namespace Tesserae
     /// <summary>
     /// A TimePicker component that allows users to select a time using a native HTML time input.
     /// </summary>
-    [H5.Name("tss.TimePicker")]
+    [Transpose.Name("tss.TimePicker")]
     public class TimePicker : MomentPickerBase<TimePicker, DateTimeOffset>
     {
         /// <summary>

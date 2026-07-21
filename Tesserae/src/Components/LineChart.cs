@@ -1,5 +1,5 @@
 using System.Linq;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 
 namespace Tesserae
 {
@@ -7,7 +7,7 @@ namespace Tesserae
     /// A lightweight, dependency-free SVG line chart. Plots one or more series as connected polylines with
     /// hoverable points, value gridlines, category labels and a theme-aware palette. Fluent and responsive.
     /// </summary>
-    [H5.Name("tss.LineChart")]
+    [Transpose.Name("tss.LineChart")]
     public sealed class LineChart : CartesianChartBase<LineChart>
     {
         private bool _showPoints = true;

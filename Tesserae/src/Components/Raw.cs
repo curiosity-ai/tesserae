@@ -1,4 +1,4 @@
-﻿using static H5.Core.dom;
+﻿using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -6,7 +6,7 @@ namespace Tesserae
     /// <summary>
     /// A wrapper component that hosts an arbitrary raw <see cref="HTMLElement"/> inside the Tesserae component tree.
     /// </summary>
-    [H5.Name("tss.Raw")]
+    [Transpose.Name("tss.Raw")]
     public class Raw : IComponent, IHasMarginPadding, IHasBackgroundColor
     {
         private HTMLElement InnerElement;

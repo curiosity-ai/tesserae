@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using H5;
-using static H5.Core.dom;
+using Transpose;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -247,7 +247,7 @@ namespace Tesserae
     /// <see cref="SetModel"/>; <see cref="SetModel"/> performs an in-place
     /// reconcile keyed by step/substep <c>Id</c> so DOM nodes are reused.
     /// </summary>
-    [H5.Name("tss.Plan")]
+    [Transpose.Name("tss.Plan")]
     public sealed class Plan : IComponent, IHasMarginPadding
     {
         private readonly HTMLElement _innerElement;

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -8,7 +8,7 @@ namespace Tesserae
     /// <summary>
     /// A CSS-Grid container with explicit row and column tracks, gap and alignment, for two-dimensional layouts.
     /// </summary>
-    [H5.Name("tss.Grid")]
+    [Transpose.Name("tss.Grid")]
     public class Grid : IContainer<Grid, IComponent>, IHasBackgroundColor, IHasMarginPadding, ISpecialCaseStyling
     {
         private readonly HTMLElement _grid;

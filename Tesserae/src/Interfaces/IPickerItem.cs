@@ -3,7 +3,7 @@ namespace Tesserae
     /// <summary>
     /// Defines an item that can be picked within a Picker component.
     /// </summary>
-    [H5.Name("tss.IPickerItem")]
+    [Transpose.Name("tss.IPickerItem")]
     public interface IPickerItem
     {
         /// <summary>Gets the name of the item.</summary>

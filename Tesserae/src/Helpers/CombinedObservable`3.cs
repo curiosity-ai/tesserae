@@ -1,5 +1,5 @@
 ﻿using System;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 
 namespace Tesserae
 {
@@ -7,7 +7,7 @@ namespace Tesserae
     /// Combines two or more <see cref="IObservable{T}"/> instances into a single observable that emits a tuple of
     /// their latest values.
     /// </summary>
-    [H5.Name("tss.CombinedObservableT3")]
+    [Transpose.Name("tss.CombinedObservableT3")]
     public sealed class CombinedObservable<T1, T2, T3> : IObservable<(T1 first, T2 second, T3 third)>
     {
         private readonly IObservable<T1>       _first;

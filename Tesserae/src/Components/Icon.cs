@@ -1,5 +1,5 @@
 ﻿using static Tesserae.UI;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using System;
 
 namespace Tesserae
@@ -7,7 +7,7 @@ namespace Tesserae
     /// <summary>
     /// A single icon glyph from the bundled UIcons set, with configurable size, weight and color.
     /// </summary>
-    [H5.Name("tss.Icon")]
+    [Transpose.Name("tss.Icon")]
     public class Icon : IComponent, IHasForegroundColor, ITextFormating
     {
         private readonly HTMLElement InnerElement;

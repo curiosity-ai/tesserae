@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 
 namespace Tesserae
 {
@@ -10,7 +10,7 @@ namespace Tesserae
     /// Represents a list of items that can be observed for changes.
     /// </summary>
     /// <typeparam name="T">The type of the items in the list.</typeparam>
-    [H5.Name("tss.ObservableList")]
+    [Transpose.Name("tss.ObservableList")]
     public sealed class ObservableList<T> : IList<T>, ICollection<T>, IObservable<IReadOnlyList<T>>
     {
         private event ObservableEvent.ValueChanged<IReadOnlyList<T>> ValueChanged;

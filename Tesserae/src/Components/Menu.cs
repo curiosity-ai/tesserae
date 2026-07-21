@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -39,7 +39,7 @@ namespace Tesserae
     /// </code>
     /// </example>
     /// </remarks>
-    [H5.Name("tss.Menu")]
+    [Transpose.Name("tss.Menu")]
     public sealed class Menu
     {
         private readonly List<Item>     _items = new List<Item>();
@@ -177,7 +177,7 @@ namespace Tesserae
         /// A single entry inside a <see cref="Menu"/>. Items may be normal clickable rows, section headers,
         /// dividers, or rows that fan out into a nested submenu.
         /// </summary>
-        [H5.Name("tss.Menu.Item")]
+        [Transpose.Name("tss.Menu.Item")]
         public sealed class Item
         {
             private readonly string  _text;

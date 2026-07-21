@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -9,7 +9,7 @@ namespace Tesserae
     /// The standard clickable button component, with optional icons, loading state, primary/secondary variants and
     /// dropdown / split-button support.
     /// </summary>
-    [H5.Name("tss.Button")]
+    [Transpose.Name("tss.Button")]
     public class Button : ComponentBase<Button, HTMLButtonElement>, ITextFormating, IHasBackgroundColor, IHasForegroundColor, ICanWrap, IRoundedStyle
     {
         private HTMLSpanElement   _textSpan;
@@ -368,7 +368,7 @@ namespace Tesserae
 
                 if (InnerElement.HasOwnProperty("_tippy"))
                 {
-                    H5.Script.Write("{0}._tippy.disable();", InnerElement);
+                    Transpose.Script.Write("{0}._tippy.disable();", InnerElement);
                 }
 
                 _spinner.style.height = rect.height.px().ToString();
@@ -389,7 +389,7 @@ namespace Tesserae
 
                 if (InnerElement.HasOwnProperty("_tippy"))
                 {
-                    H5.Script.Write("{0}._tippy.enable();", InnerElement);
+                    Transpose.Script.Write("{0}._tippy.enable();", InnerElement);
                 }
             }
 

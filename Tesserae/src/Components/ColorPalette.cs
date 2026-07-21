@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -8,7 +8,7 @@ namespace Tesserae
     /// <summary>
     /// A grid of named colour swatches for letting users pick from a predefined palette.
     /// </summary>
-    [H5.Name("tss.ColorPalette")]
+    [Transpose.Name("tss.ColorPalette")]
     public sealed class ColorPalette : ComponentBase<ColorPalette, HTMLElement>
     {
         /// <summary>

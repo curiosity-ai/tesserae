@@ -1,4 +1,4 @@
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -13,7 +13,7 @@ namespace Tesserae
         Rect
     }
 
-    [H5.Name("tss.Skeleton")]
+    [Transpose.Name("tss.Skeleton")]
     public sealed class Skeleton : ComponentBase<Skeleton, HTMLElement>
     {
         private SkeletonType _type;

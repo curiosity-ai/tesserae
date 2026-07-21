@@ -1,11 +1,11 @@
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 
 namespace Tesserae
 {
     /// <summary>
     /// Provides fluent extension methods for accessibility (ARIA) properties on components.
     /// </summary>
-    [H5.Name("tss.IACCX")]
+    [Transpose.Name("tss.IACCX")]
     public static class IAccessibilityExtensions
     {
         /// <summary>Sets the ARIA role for the component.</summary>

@@ -1,6 +1,6 @@
 using System;
 using static Tesserae.UI;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 
 namespace Tesserae
 {
@@ -8,7 +8,7 @@ namespace Tesserae
     /// A typed column definition used to declare how a property of <typeparamref name="T"/> is rendered inside a
     /// <see cref="DetailsList{T}"/>.
     /// </summary>
-    [H5.Name("tss.DetailsListColumn")]
+    [Transpose.Name("tss.DetailsListColumn")]
     public class DetailsListColumn : IDetailsListColumn
     {
         private readonly Action      _onColumnClick;

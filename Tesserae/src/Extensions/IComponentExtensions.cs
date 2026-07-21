@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 
 namespace Tesserae
 {
@@ -8,7 +8,7 @@ namespace Tesserae
     /// Provides comprehensive extension methods for IComponent instances,
     /// covering lifecycle events, layout, styling, and animations.
     /// </summary>
-    [H5.Name("tss.ICX")]
+    [Transpose.Name("tss.ICX")]
     public static class IComponentExtensions
     {
         /// <summary>
@@ -471,7 +471,7 @@ namespace Tesserae
 
             if (element.HasOwnProperty("_tippy"))
             {
-                H5.Script.Write("{0}._tippy.destroy();", element);
+                Transpose.Script.Write("{0}._tippy.destroy();", element);
             }
 
             var rendered = component.Render();
@@ -516,7 +516,7 @@ namespace Tesserae
 
                 if (element.HasOwnProperty("_tippy"))
                 {
-                    H5.Script.Write("{0}._tippy.destroy();", element);
+                    Transpose.Script.Write("{0}._tippy.destroy();", element);
                 }
 
                 // Stack the tooltip into the application z-index lane so it always sits above any
@@ -528,16 +528,16 @@ namespace Tesserae
 
                 if (animation == TooltipAnimation.None)
                 {
-                    H5.Script.Write("tippy({0}, { content: {1}, interactive: {2}, placement: {3}, delay: [{4},{5}], appendTo: {6}, followCursor: {7}, maxWidth: {8}, hideOnClick:{9}, arrow: {10}, theme: {11}, zIndex: {12} });", element, renderedTooltip, interactive, placement.ToString(), delayShow, delayHide, appendToBody ? document.body.As<object>() : "parent".As<object>(), followCursor, maxWidth, hideOnClick, arrow, theme, zIndex);
+                    Transpose.Script.Write("tippy({0}, { content: {1}, interactive: {2}, placement: {3}, delay: [{4},{5}], appendTo: {6}, followCursor: {7}, maxWidth: {8}, hideOnClick:{9}, arrow: {10}, theme: {11}, zIndex: {12} });", element, renderedTooltip, interactive, placement.ToString(), delayShow, delayHide, appendToBody ? document.body.As<object>() : "parent".As<object>(), followCursor, maxWidth, hideOnClick, arrow, theme, zIndex);
                 }
                 else
                 {
-                    H5.Script.Write("tippy({0}, { content: {1}, interactive: {2}, placement: {3},  animation: {4}, delay: [{5},{6}], appendTo: {7}, followCursor: {8}, maxWidth: {9}, hideOnClick: {10}, arrow: {11}, theme: {12}, zIndex: {13} });", element, renderedTooltip, interactive, placement.ToString(), animation.ToString(), delayShow, delayHide, appendToBody ? document.body.As<object>() : "parent".As<object>(), followCursor, maxWidth, hideOnClick, arrow, theme, zIndex);
+                    Transpose.Script.Write("tippy({0}, { content: {1}, interactive: {2}, placement: {3},  animation: {4}, delay: [{5},{6}], appendTo: {7}, followCursor: {8}, maxWidth: {9}, hideOnClick: {10}, arrow: {11}, theme: {12}, zIndex: {13} });", element, renderedTooltip, interactive, placement.ToString(), animation.ToString(), delayShow, delayHide, appendToBody ? document.body.As<object>() : "parent".As<object>(), followCursor, maxWidth, hideOnClick, arrow, theme, zIndex);
                 }
 
-                H5.Script.Write("{0}._tippy.show();", element); //Shows it imediatelly, as the mouse is hovering the element
+                Transpose.Script.Write("{0}._tippy.show();", element); //Shows it imediatelly, as the mouse is hovering the element
 
-                var currentTippy = H5.Script.Write<object>("{0}._tippy", element);
+                var currentTippy = Transpose.Script.Write<object>("{0}._tippy", element);
 
                 // 2020-10-05 DWR: Sometimes a tooltip will be attached to an element that is removed from the DOM and then the tooltip is left hanging, orphaned. 
                 if (parent is null) parent = component;
@@ -547,9 +547,9 @@ namespace Tesserae
                     // 2020-10-05 DWR: I presume that have to check this property before trying to kill it in case it's already been tidied up
                     if (element.HasOwnProperty("_tippy"))
                     {
-                        if (currentTippy == H5.Script.Write<object>("{0}._tippy", element))
+                        if (currentTippy == Transpose.Script.Write<object>("{0}._tippy", element))
                         {
-                            H5.Script.Write("{0}._tippy.destroy();", element);
+                            Transpose.Script.Write("{0}._tippy.destroy();", element);
                         }
                     }
                     if (rendered["tooltipMarker"] != marker) return;

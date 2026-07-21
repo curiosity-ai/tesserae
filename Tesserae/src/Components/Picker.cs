@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -10,7 +10,7 @@ namespace Tesserae
     /// A multi-select input that lets the user pick one or more typed items from a dropdown, with optional async
     /// loading and free-text entry.
     /// </summary>
-    [H5.Name("tss.Picker")]
+    [Transpose.Name("tss.Picker")]
     public sealed class Picker<TPickerItem> : IComponent, ITabIndex, IObservableListComponent<TPickerItem>, IRoundedStyle where TPickerItem : class, IPickerItem
     {
         private event ComponentEventHandler<Picker<TPickerItem>, ItemPickedEvent> SelectedItem;

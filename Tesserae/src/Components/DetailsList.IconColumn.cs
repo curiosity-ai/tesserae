@@ -1,13 +1,13 @@
 using System;
 using static Tesserae.UI;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 
 namespace Tesserae
 {
     /// <summary>
     /// A specialized <see cref="DetailsList{T}"/> column that renders a single icon per row.
     /// </summary>
-    [H5.Name("tss.DetailsListIconColumn")]
+    [Transpose.Name("tss.DetailsListIconColumn")]
     public class DetailsListIconColumn : IDetailsListColumn
     {
         private readonly Action      _onColumnClick;

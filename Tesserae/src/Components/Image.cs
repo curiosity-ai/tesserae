@@ -1,4 +1,4 @@
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -7,7 +7,7 @@ namespace Tesserae
     /// <summary>
     /// A responsive image element with optional sizing, fit-mode and lazy-loading support.
     /// </summary>
-    [H5.Name("tss.Image")]
+    [Transpose.Name("tss.Image")]
     public class Image : ComponentBase<Image, HTMLImageElement>, ISpecialCaseStyling, IHasBackgroundColor
     {
         /// <summary>

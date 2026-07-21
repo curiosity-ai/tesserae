@@ -1,6 +1,6 @@
 ﻿//Translation library 'client' from https://github.com/pragmatrix/tnt, 
 //   imported directly here as it is not possible to consume the TNT.T nuget package due how 
-//   consumed NuGet packages must depend on H5 to work, and I don't think it's worth publishing 
+//   consumed NuGet packages must depend on Transpose to work, and I don't think it's worth publishing 
 //   an extra package for 20 lines of code 😅.
 //   The method signatures bellow must match what is expected by TNT to work
 

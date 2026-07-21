@@ -5,7 +5,7 @@ namespace Tesserae
     /// <summary>
     /// Fluent extension methods for <see cref="CardPivot"/>.
     /// </summary>
-    [H5.Name("tss.CardPivotX")]
+    [Transpose.Name("tss.CardPivotX")]
     public static class CardPivotExtensions
     {
         /// <summary>

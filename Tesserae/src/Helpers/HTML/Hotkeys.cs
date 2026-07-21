@@ -1,10 +1,10 @@
 ﻿using System;
-using H5;
-using static H5.Core.dom;
+using Transpose;
+using static Transpose.Core.dom;
 
 namespace Tesserae
 {
-    [H5.Name("tss.Hotkeys")]
+    [Transpose.Name("tss.Hotkeys")]
     public static class Hotkeys
     {
         public static bool Shift     { get { return Script.Write<bool>("hotkeys.shift == true"); } }

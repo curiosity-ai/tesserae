@@ -1,5 +1,5 @@
 using System;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -7,7 +7,7 @@ namespace Tesserae
     /// <summary>
     /// A large numeric KPI tile used inside dashboards, showing a value with optional label and trend indicator.
     /// </summary>
-    [H5.Name("tss.Metric")]
+    [Transpose.Name("tss.Metric")]
     public class Metric : ComponentBase<Metric, HTMLElement>
     {
         private readonly HTMLElement _container;

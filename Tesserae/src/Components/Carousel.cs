@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -9,7 +9,7 @@ namespace Tesserae
     /// A horizontal carousel that cycles through a sequence of items (slides) one at a time, with arrows and
     /// pagination.
     /// </summary>
-    [H5.Name("tss.Carousel")]
+    [Transpose.Name("tss.Carousel")]
     public sealed class Carousel : ComponentBase<Carousel, HTMLElement>, IBindableComponent<int>
     {
         private readonly HTMLElement             _viewport;

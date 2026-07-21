@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -8,7 +8,7 @@ namespace Tesserae
     /// <summary>
     /// Controls how a collapsable <see cref="ContributionBar"/> reveals its detailed, multi-colored breakdown.
     /// </summary>
-    [H5.Name("tss.ContributionBarReveal")]
+    [Transpose.Name("tss.ContributionBarReveal")]
     public enum ContributionBarReveal
     {
         /// <summary>
@@ -35,7 +35,7 @@ namespace Tesserae
     /// (the largest extent equals the sum of all segments); call <see cref="Max(double)"/> to pin the
     /// full-width value so a remainder track is shown when the segments do not reach it.
     /// </remarks>
-    [H5.Name("tss.ContributionBar")]
+    [Transpose.Name("tss.ContributionBar")]
     public sealed class ContributionBar : ComponentBase<ContributionBar, HTMLElement>
     {
         private sealed class Segment
@@ -190,7 +190,7 @@ namespace Tesserae
             return DefaultPalette[index % DefaultPalette.Length];
         }
 
-        private string FormatValue(double value) => H5.Script.Write<string>("{0}.toFixed({1})", value, _decimals);
+        private string FormatValue(double value) => Transpose.Script.Write<string>("{0}.toFixed({1})", value, _decimals);
 
         private double Total()
         {
@@ -284,7 +284,7 @@ namespace Tesserae
             // Destroy any previously-attached popover so re-renders (further .Add calls) don't stack instances.
             if (_toggle.HasOwnProperty("_tippy"))
             {
-                H5.Script.Write("{0}._tippy.destroy();", _toggle);
+                Transpose.Script.Write("{0}._tippy.destroy();", _toggle);
             }
 
             var content = BuildBreakdownPopover();
@@ -293,7 +293,7 @@ namespace Tesserae
             // Stack the popover into the application z-index lane so it always sits above any visible Layer.
             if (!int.TryParse(Layers.AboveCurrent(), out var zIndex)) zIndex = 9999;
 
-            H5.Script.Write("tippy({0}, { content: {1}, interactive: {2}, placement: {3}, delay: [{4},{5}], appendTo: {6}, maxWidth: {7}, hideOnClick: {8}, arrow: {9}, zIndex: {10} });",
+            Transpose.Script.Write("tippy({0}, { content: {1}, interactive: {2}, placement: {3}, delay: [{4},{5}], appendTo: {6}, maxWidth: {7}, hideOnClick: {8}, arrow: {9}, zIndex: {10} });",
                 _toggle, content, true, "bottom", 100, 0, document.body, 360, true, true, zIndex);
 
             if (!_tooltipCleanupRegistered)
@@ -303,7 +303,7 @@ namespace Tesserae
                 {
                     if (_toggle.HasOwnProperty("_tippy"))
                     {
-                        H5.Script.Write("{0}._tippy.destroy();", _toggle);
+                        Transpose.Script.Write("{0}._tippy.destroy();", _toggle);
                     }
                 });
             }

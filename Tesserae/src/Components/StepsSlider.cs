@@ -1,4 +1,4 @@
-﻿using static H5.Core.dom;
+﻿using static Transpose.Core.dom;
 using static Tesserae.UI;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ namespace Tesserae
     /// A slider component that snaps to discrete steps.
     /// </summary>
     /// <typeparam name="T">The type of the steps.</typeparam>
-    [H5.Name("tss.StepsSlider")]
+    [Transpose.Name("tss.StepsSlider")]
     public sealed class StepsSlider<T> : IComponent, IBindableComponent<T> where T : IEquatable<T>
     {
         private readonly T[]                   _steps;

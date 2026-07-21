@@ -3,7 +3,7 @@ namespace Tesserae
     /// <summary>
     /// Defines a component that supports rounded corners.
     /// </summary>
-    [H5.Name("tss.IRS")]
+    [Transpose.Name("tss.IRS")]
     public interface IRoundedStyle : IComponent
     {
     }
@@ -11,7 +11,7 @@ namespace Tesserae
     /// <summary>
     /// Represents the border radius of a component.
     /// </summary>
-    [H5.Name("tss.BR")]
+    [Transpose.Name("tss.BR")]
     public enum BorderRadius
     {
         Small,

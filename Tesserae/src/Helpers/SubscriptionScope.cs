@@ -8,7 +8,7 @@ namespace Tesserae
     /// Dispose the scope to release every subscription added to it; the scope itself is idempotent. Adding to
     /// a disposed scope disposes the new subscription immediately.
     /// </summary>
-    [H5.Name("tss.SubscriptionScope")]
+    [Transpose.Name("tss.SubscriptionScope")]
     public sealed class SubscriptionScope : IDisposable
     {
         private List<IDisposable> _items = new List<IDisposable>();
@@ -57,7 +57,7 @@ namespace Tesserae
     /// <summary>
     /// Extension methods for working with <see cref="SubscriptionScope"/>.
     /// </summary>
-    [H5.Name("tss.SSX")]
+    [Transpose.Name("tss.SSX")]
     public static class SubscriptionScopeExtensions
     {
         /// <summary>

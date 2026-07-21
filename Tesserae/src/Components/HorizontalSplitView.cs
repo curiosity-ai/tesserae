@@ -1,5 +1,5 @@
 ﻿using System;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -7,7 +7,7 @@ namespace Tesserae
     /// <summary>
     /// A horizontal split pane with a draggable handle that resizes a left and right pane.
     /// </summary>
-    [H5.Name("tss.HorizontalSplitView")]
+    [Transpose.Name("tss.HorizontalSplitView")]
     public class HorizontalSplitView : IComponent, ISpecialCaseStyling
     {
         private readonly HTMLElement _splitContainer;

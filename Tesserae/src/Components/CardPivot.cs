@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -9,7 +9,7 @@ namespace Tesserae
     /// <summary>
     /// A pivot variant that styles each tab as a card, used for dashboard-style switching between rich panels.
     /// </summary>
-    [H5.Name("tss.CardPivot")]
+    [Transpose.Name("tss.CardPivot")]
     public sealed class CardPivot : IComponent, ISpecialCaseStyling, IBindableComponent<string>
     {
         public delegate void PivotEventHandler<TEventArgs>(CardPivot sender, TEventArgs e);

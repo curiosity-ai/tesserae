@@ -1,6 +1,6 @@
-using H5;
+using Transpose;
 using System;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -8,7 +8,7 @@ namespace Tesserae
     /// <summary>
     /// A Stack is a container-type component that abstracts the implementation of a flexbox in order to define the layout of its children components.
     /// </summary>
-    [H5.Name("tss.S")]
+    [Transpose.Name("tss.S")]
     public class Stack : IContainer<Stack, IComponent>, IHasBackgroundColor, IHasMarginPadding, ISpecialCaseStyling, ICanWrap, IRoundedStyle
     {
         /// <summary>
@@ -762,7 +762,7 @@ namespace Tesserae
             {
                 if (forceAdd)
                 {
-                    H5.Script.Delete(component["SectionStackItem"]);
+                    Transpose.Script.Delete(component["SectionStackItem"]);
                 }
                 else
                 {

@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -8,7 +8,7 @@ namespace Tesserae
     /// <summary>
     /// A horizontal series of small status bars showing per-period uptime / availability over a time window.
     /// </summary>
-    [H5.Name("tss.UptimeBars")]
+    [Transpose.Name("tss.UptimeBars")]
     public class UptimeBars : IComponent, IHasMarginPadding
     {
         private readonly HTMLElement _container;

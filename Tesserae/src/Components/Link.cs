@@ -1,6 +1,6 @@
 ﻿using System;
-using H5;
-using static H5.Core.dom;
+using Transpose;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -8,7 +8,7 @@ namespace Tesserae
     /// <summary>
     /// A hyperlink component (anchor element) with optional underline control, icons and target configuration.
     /// </summary>
-    [H5.Name("tss.Link")]
+    [Transpose.Name("tss.Link")]
     public class Link : IComponent, ITextFormating
     {
         private readonly HTMLAnchorElement _anchor;

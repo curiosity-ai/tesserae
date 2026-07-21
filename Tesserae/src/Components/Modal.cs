@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -10,7 +10,7 @@ namespace Tesserae
     /// A modal overlay surface that dims the page and centers arbitrary content, with optional header, footer and
     /// close button.
     /// </summary>
-    [H5.Name("tss.Modal")]
+    [Transpose.Name("tss.Modal")]
     public sealed class Modal : Layer<Modal>, ISpecialCaseStyling, IHasBackgroundColor, IBindableComponent<bool>
     {
         private event OnShowHandler Shown;

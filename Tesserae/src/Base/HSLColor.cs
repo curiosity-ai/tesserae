@@ -5,7 +5,7 @@ namespace Tesserae
     /// <summary>
     /// Represents a color in the Hue-Saturation-Luminosity (HSL) color space.
     /// </summary>
-    [H5.Name("tss.HSLColor")]
+    [Transpose.Name("tss.HSLColor")]
     public class HSLColor
     {
         private static readonly Random _rng = new Random();

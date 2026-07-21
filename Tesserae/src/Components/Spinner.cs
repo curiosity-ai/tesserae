@@ -1,5 +1,5 @@
 ﻿using static Tesserae.UI;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using System.Linq;
 using System;
 
@@ -8,7 +8,7 @@ namespace Tesserae
     /// <summary>
     /// A spinner component used to indicate loading states.
     /// </summary>
-    [H5.Name("tss.Spinner")]
+    [Transpose.Name("tss.Spinner")]
     public class Spinner : ComponentBase<Spinner, HTMLDivElement>
     {
         private readonly HTMLElement _container;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using static Tesserae.UI;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using System.Threading.Tasks;
 
 namespace Tesserae
@@ -10,7 +10,7 @@ namespace Tesserae
     /// <summary>
     /// A component for creating onboarding or instructional walkthroughs.
     /// </summary>
-    [H5.Name("tss.Teaching")]
+    [Transpose.Name("tss.Teaching")]
     public class Teaching
     {
         /// <summary>
@@ -213,21 +213,21 @@ namespace Tesserae
 
             if (element.HasOwnProperty("_tippy"))
             {
-                H5.Script.Write("{0}._tippy.destroy();", element);
+                Transpose.Script.Write("{0}._tippy.destroy();", element);
             }
 
             //RFO: This has a key difference against .Tooltip() in that it hard-cods appendTo: document.body so it's not stuck in an element that will cut it off, see https://atomiks.github.io/tippyjs/v6/faq/
 
             if (animation == TooltipAnimation.None)
             {
-                H5.Script.Write("tippy({0}, { content: {1}, interactive: {2}, placement: {3}, delay: [{4},{5}],  trigger: 'manual', hideOnClick: {6}, appendTo: document.body });", element, renderedTooltip, interactive, placement.ToString(), 0, 0, hideOnClick);
+                Transpose.Script.Write("tippy({0}, { content: {1}, interactive: {2}, placement: {3}, delay: [{4},{5}],  trigger: 'manual', hideOnClick: {6}, appendTo: document.body });", element, renderedTooltip, interactive, placement.ToString(), 0, 0, hideOnClick);
             }
             else
             {
-                H5.Script.Write("tippy({0}, { content: {1}, interactive: {2}, placement: {3},  animation: {4}, delay: [{5},{6}],  trigger: 'manual', hideOnClick: {7}, appendTo: document.body });", element, renderedTooltip, interactive, placement.ToString(), animation.ToString(), 0, 0, hideOnClick);
+                Transpose.Script.Write("tippy({0}, { content: {1}, interactive: {2}, placement: {3},  animation: {4}, delay: [{5},{6}],  trigger: 'manual', hideOnClick: {7}, appendTo: document.body });", element, renderedTooltip, interactive, placement.ToString(), animation.ToString(), 0, 0, hideOnClick);
             }
 
-            H5.Script.Write("{0}._tippy.show();", element); //Shows it imediatelly
+            Transpose.Script.Write("{0}._tippy.show();", element); //Shows it imediatelly
 
             // 2020-10-05 DWR: Sometimes a tooltip will be attached to an element that is removed from the DOM and then the tooltip is left hanging, orphaned. 
             Action hide = () =>
@@ -235,7 +235,7 @@ namespace Tesserae
                 // 2020-10-05 DWR: I presume that have to check this property before trying to kill it in case it's already been tidied up
                 if (element.HasOwnProperty("_tippy"))
                 {
-                    H5.Script.Write("{0}._tippy.destroy();", element);
+                    Transpose.Script.Write("{0}._tippy.destroy();", element);
                 }
             };
 

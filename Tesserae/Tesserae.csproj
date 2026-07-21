@@ -1,21 +1,18 @@
-﻿<Project Sdk="h5.target/26.3.64912">
+﻿<Project Sdk="Transpose.Build.Target/26.7.2692">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <DefineConstants>H5</DefineConstants>
     <AssemblyName>tss</AssemblyName>
     <RootNamespace>Tss</RootNamespace>
     <LangVersion>7.2</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <DebugType>None</DebugType>
     <DebugSymbols>false</DebugSymbols>
-    <SkipResourcesExtraction>true</SkipResourcesExtraction>
-    <MinifyLocalVariables>true</MinifyLocalVariables>
   </PropertyGroup>
-  
+
   <ItemGroup>
-    <PackageReference Include="h5" Version="26.2.64514" />
-    <PackageReference Include="h5.core" Version="26.4.580" />
-    <PackageReference Include="h5.Newtonsoft.Json" Version="26.3.65451" />
+    <PackageReference Include="Transpose.BCL" Version="26.7.2790" />
+    <PackageReference Include="Transpose.Core" Version="26.7.2771" />
+    <PackageReference Include="Transpose.Newtonsoft.Json" Version="26.7.2772" />
   </ItemGroup>
 
   <PropertyGroup>
@@ -25,8 +22,8 @@
     <Authors>Curiosity GmbH</Authors>
     <PackageProjectUrl>https://github.com/curiosity-ai/tesserae</PackageProjectUrl>
     <PackageId>Tesserae</PackageId>
-    <Description>Tesserae is a UI toolkit for building web applications using the H5 C# to JavaScript compiler</Description>
-    <PackageTags>h5, HTML, UI, components, user interface</PackageTags>
+    <Description>Tesserae is a UI toolkit for building web applications using the Transpose C# to JavaScript compiler</Description>
+    <PackageTags>transpose, HTML, UI, components, user interface</PackageTags>
     <NoWarn>1701;1702;1591</NoWarn>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
 	<PackageIcon>logo.png</PackageIcon>

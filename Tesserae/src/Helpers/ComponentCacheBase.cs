@@ -6,7 +6,7 @@ namespace Tesserae
     /// <summary>
     /// Base class for the keyed <see cref="ComponentCache"/> implementation.
     /// </summary>
-    [H5.Name("tss.ComponentCacheBase")]
+    [Transpose.Name("tss.ComponentCacheBase")]
     public abstract class ComponentCacheBase<TComponent> where TComponent : class
     {
         protected readonly List<(int Key, TComponent Component)> _componentsAndKeys;

@@ -1,8 +1,8 @@
-using H5;
+using Transpose;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 using Orientation = Tesserae.Stack.Orientation;
 
@@ -28,7 +28,7 @@ namespace Tesserae
     /// diffs a common prefix/suffix, so a reorder of interior rows rebuilds that span, whereas
     /// <see cref="KeyedObservableStack"/> handles arbitrary reorders.
     /// </remarks>
-    [H5.Name("tss.KOS")]
+    [Transpose.Name("tss.KOS")]
     public class KeyedObservableStack : IComponent, IHasBackgroundColor, IHasMarginPadding, ISpecialCaseStyling, ICanWrap
     {
         /// <summary>
@@ -610,7 +610,7 @@ namespace Tesserae
         }
     }
 
-    [H5.Name("tss.ICID")]
+    [Transpose.Name("tss.ICID")]
     public interface IComponentWithID : IComponent
     {
         string Identifier  { get; }

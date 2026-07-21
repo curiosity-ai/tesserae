@@ -1,13 +1,13 @@
 ﻿using System;
 using static Tesserae.UI;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 
 namespace Tesserae
 {
     /// <summary>
     /// Represents an item in a <see cref="TextBreadcrumbs"/> component.
     /// </summary>
-    [H5.Name("tss.TextBreadcrumb")]
+    [Transpose.Name("tss.TextBreadcrumb")]
     public class TextBreadcrumb : ComponentBase<TextBreadcrumb, HTMLSpanElement>
     {
         /// <summary>
@@ -33,7 +33,7 @@ namespace Tesserae
     /// <summary>
     /// A breadcrumb component that displays a path as a sequence of text links.
     /// </summary>
-    [H5.Name("tss.TextBreadcrumbs")]
+    [Transpose.Name("tss.TextBreadcrumbs")]
     public class TextBreadcrumbs : IComponent, IContainer<TextBreadcrumbs, TextBreadcrumb>, ITextFormating, IHasForegroundColor
     {
         private readonly HTMLElement InnerElement;

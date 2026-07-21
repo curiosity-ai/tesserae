@@ -1,4 +1,4 @@
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -24,7 +24,7 @@ namespace Tesserae
         Offline
     }
 
-    [H5.Name("tss.Avatar")]
+    [Transpose.Name("tss.Avatar")]
     public sealed class Avatar : ComponentBase<Avatar, HTMLElement>
     {
         private const string EmptyImage = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==";
@@ -256,7 +256,7 @@ namespace Tesserae
         }
     }
 
-    [H5.Name("tss.Persona")]
+    [Transpose.Name("tss.Persona")]
     public sealed class Persona : ComponentBase<Persona, HTMLElement>
     {
         private          Avatar          _avatar;

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -9,7 +9,7 @@ namespace Tesserae
     /// <summary>
     /// A single bucket (time slice) inside the <see cref="TimeHistogramPicker"/>.
     /// </summary>
-    [H5.Name("tss.TimeHistogramBucket")]
+    [Transpose.Name("tss.TimeHistogramBucket")]
     public sealed class TimeHistogramBucket
     {
         /// <summary>
@@ -43,7 +43,7 @@ namespace Tesserae
         public int Count { get; set; }
     }
 
-    [H5.Name("tss.TimeHistogramPicker")]
+    [Transpose.Name("tss.TimeHistogramPicker")]
     public sealed class TimeHistogramPicker : IComponent, IBindableComponent<(DateTime from, DateTime to)>
     {
         private const double Millisecond = 1;

@@ -6,7 +6,7 @@ namespace Tesserae
     /// <summary>
     /// Provides helper methods for working with objects that may implement the IObservable interface.
     /// </summary>
-    [H5.Name("tss.PossibleObservableHelpers")]
+    [Transpose.Name("tss.PossibleObservableHelpers")]
     internal static class PossibleObservableHelpers
     {
         /// <summary>

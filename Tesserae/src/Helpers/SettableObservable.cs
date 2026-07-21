@@ -5,7 +5,7 @@ namespace Tesserae
     /// <summary>
     /// Provides a static factory class for creating SettableObservable instances.
     /// </summary>
-    [H5.Name("tss.SettableObservable")]
+    [Transpose.Name("tss.SettableObservable")]
     public static class SettableObservable
     {
         /// <summary>

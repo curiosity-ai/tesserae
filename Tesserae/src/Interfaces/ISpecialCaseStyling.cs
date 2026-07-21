@@ -1,4 +1,4 @@
-﻿using static H5.Core.dom;
+﻿using static Transpose.Core.dom;
 
 namespace Tesserae
 {
@@ -6,7 +6,7 @@ namespace Tesserae
     /// Defines a component that requires special case styling,
     /// often involving exposing its styling container and controlling style propagation.
     /// </summary>
-    [H5.Name("tss.ISCS")]
+    [Transpose.Name("tss.ISCS")]
     public interface ISpecialCaseStyling
     {
         /// <summary>Gets the HTMLElement that should receive styling.</summary>

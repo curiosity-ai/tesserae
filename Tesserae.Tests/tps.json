@@ -1,0 +1,29 @@
+{
+    "output": "$(OutDir)/tps/",
+    "fileName": "app.js",
+    "outputFormatting": "Minified",
+    "html": {
+        "disabled": false,
+        "title": "Tesserae UI Tests"
+    },
+    "reflection": {
+        "disabled": false,
+        "target": "inline"
+    },
+    "resources": [
+        {
+            "name": "images",
+            "files": [ "tps/assets/img/*" ],
+            "output": "assets/img"
+        },
+        {
+            "name": "provider-logos",
+            "files": [ "tps/assets/img/providers/*" ],
+            "output": "assets/img/providers"
+        },
+        {
+            "name": "tss-samples.css",
+            "files": [ "tps/assets/css/tss-samples.css" ]
+        }
+    ]
+}

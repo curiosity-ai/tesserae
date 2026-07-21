@@ -1,6 +1,6 @@
-﻿using H5;
+﻿using Transpose;
 using System;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -8,7 +8,7 @@ namespace Tesserae
     /// <summary>
     /// A side-anchored slide-in panel (drawer) typically used for property inspectors and detail views.
     /// </summary>
-    [H5.Name("tss.Panel")]
+    [Transpose.Name("tss.Panel")]
     public sealed class Panel : Layer<Panel>, IHasBackgroundColor, IBindableComponent<bool>
     {
         private event OnHideHandler HidePanel;

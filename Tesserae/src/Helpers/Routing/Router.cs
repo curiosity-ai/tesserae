@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using H5;
-using H5.Core;
+using Transpose;
+using Transpose.Core;
 using Tesserae;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 
 namespace Tesserae
 {
-    [H5.Name("tss.Router")]
+    [Transpose.Name("tss.Router")]
     public static class Router
     {
         public delegate void   NavigatedHandler(State               toState, State fromState);

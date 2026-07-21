@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using H5;
-using static H5.Core.dom;
+using Transpose;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -10,7 +10,7 @@ namespace Tesserae
     /// <summary>
     /// A single named data series for a chart, with an optional explicit color (falling back to the chart palette).
     /// </summary>
-    [H5.Name("tss.ChartSeries")]
+    [Transpose.Name("tss.ChartSeries")]
     public sealed class ChartSeries
     {
         /// <summary>The series display name, used in the legend, tooltips and accessibility summary.</summary>
@@ -39,7 +39,7 @@ namespace Tesserae
     /// re-rendering, theme colors, tooltips (reusing tippy) and the role="img" accessibility summary.
     /// Mirrors <see cref="Sparkline"/>'s SVG rendering style.
     /// </summary>
-    [H5.Name("tss.ChartBase")]
+    [Transpose.Name("tss.ChartBase")]
     public abstract class ChartBase<T> : IComponent where T : ChartBase<T>
     {
         /// <summary>The SVG namespace used for every chart element.</summary>
@@ -330,7 +330,7 @@ namespace Tesserae
     /// category (X) axis labels, the axis lines, and computes the plot rectangle and value-to-pixel scale that
     /// subclasses use to plot their series.
     /// </summary>
-    [H5.Name("tss.CartesianChartBase")]
+    [Transpose.Name("tss.CartesianChartBase")]
     public abstract class CartesianChartBase<T> : ChartBase<T> where T : CartesianChartBase<T>
     {
         /// <summary>Category labels along the X axis.</summary>

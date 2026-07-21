@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 using TNT;
 using static TNT.T;
@@ -13,7 +13,7 @@ namespace Tesserae
     /// A placeholder that asynchronously loads its real content from a Task, optionally showing a loading state
     /// while waiting.
     /// </summary>
-    [H5.Name("tss.DC")]
+    [Transpose.Name("tss.DC")]
     internal sealed class DeferedComponent : IDefer
     {
         private readonly IComponent             _loadMessage;

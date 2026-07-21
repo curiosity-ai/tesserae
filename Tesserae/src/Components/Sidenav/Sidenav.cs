@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using H5;
+using Transpose;
 using TNT;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -14,7 +14,7 @@ namespace Tesserae
     /// label below it. Behaves similarly to a Sidebar but is always narrow and
     /// icon-centric. Often combined with a Sidebar to its right.
     /// </summary>
-    [H5.Name("tss.Sidenav")]
+    [Transpose.Name("tss.Sidenav")]
     public sealed class Sidenav : IComponent
     {
         private readonly ObservableList<ISidenavItem> _header;

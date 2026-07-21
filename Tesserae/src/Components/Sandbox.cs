@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using H5;
-using static H5.Core.dom;
+using Transpose;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -22,7 +22,7 @@ namespace Tesserae
     /// <see cref="OnError"/>. The same channel is used for arbitrary host &lt;-&gt; sandbox messaging via
     /// <see cref="OnMessage"/> / <see cref="PostMessage"/>.
     /// </summary>
-    [H5.Name("tss.Sandbox")]
+    [Transpose.Name("tss.Sandbox")]
     public sealed class Sandbox : ComponentBase<Sandbox, HTMLIFrameElement>, ISpecialCaseStyling
     {
         /// <summary>The fully-locked default CSP: inline scripts and styles only, images limited to data/blob URIs, no network access.</summary>
@@ -485,7 +485,7 @@ namespace Tesserae
     }
 
     /// <summary>An error, unhandled rejection or CSP violation reported back from a <see cref="Sandbox"/>'s content.</summary>
-    [H5.Name("tss.SandboxError")]
+    [Transpose.Name("tss.SandboxError")]
     public sealed class SandboxError
     {
         internal SandboxError(string kind, string message, string source, int line, int column, string stack)

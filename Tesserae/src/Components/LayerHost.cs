@@ -1,7 +1,7 @@
 ﻿using System;
-using H5;
+using Transpose;
 using static Tesserae.UI;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 
 namespace Tesserae
 {
@@ -9,7 +9,7 @@ namespace Tesserae
     /// A container that hosts overlay <see cref="Layer{T}"/> content (modals, dialogs, popovers) within its bounding
     /// box rather than the document body.
     /// </summary>
-    [H5.Name("tss.LayerHost")]
+    [Transpose.Name("tss.LayerHost")]
     public class LayerHost : ComponentBase<Layer, HTMLDivElement>
     {
         /// <summary>

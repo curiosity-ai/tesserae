@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -12,7 +12,7 @@ namespace Tesserae
     /// A heavyweight omni-search / autocomplete component with inline filter chips, multiple search modes
     /// (search/chat) and async value providers.
     /// </summary>
-    [H5.Name("tss.OmniBox")]
+    [Transpose.Name("tss.OmniBox")]
     public class OmniBox : IComponent, IHasBackgroundColor, ITabIndex
     {
 

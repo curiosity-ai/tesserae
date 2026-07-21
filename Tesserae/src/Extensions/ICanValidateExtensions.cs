@@ -3,7 +3,7 @@
     /// <summary>
     /// Provides extension methods for ICanValidate components.
     /// </summary>
-    [H5.Name("tss.ICVX")]
+    [Transpose.Name("tss.ICVX")]
     public static class ICanValidateExtensions
     {
         /// <summary>

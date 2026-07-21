@@ -1,5 +1,5 @@
 using System;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -7,7 +7,7 @@ namespace Tesserae
     /// <summary>
     /// A circular progress indicator (ring/donut style).
     /// </summary>
-    [H5.Name("tss.ProgressRing")]
+    [Transpose.Name("tss.ProgressRing")]
     public sealed class ProgressRing : ComponentBase<ProgressRing, HTMLElement>
     {
         private readonly Element _svg;

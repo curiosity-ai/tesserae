@@ -3,7 +3,7 @@
     /// <summary>
     /// Defines a component that can wrap its items.
     /// </summary>
-    [H5.Name("tss.ICW")]
+    [Transpose.Name("tss.ICW")]
     public interface ICanWrap
     {
         /// <summary>Gets or sets whether the component should wrap its items.</summary>

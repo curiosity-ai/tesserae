@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -8,7 +8,7 @@ namespace Tesserae
     /// <summary>
     /// An inline-editable single-line text surface that toggles between a read-only label and a textbox on click.
     /// </summary>
-    [H5.Name("tss.EditableLabel")]
+    [Transpose.Name("tss.EditableLabel")]
     public sealed class EditableLabel : ComponentBase<EditableLabel, HTMLInputElement>, ITextFormating, IBindableComponent<string>
     {
         private event SaveEditHandler Saved;

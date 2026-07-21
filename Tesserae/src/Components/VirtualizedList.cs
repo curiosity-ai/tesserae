@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using static System.Math;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -10,7 +10,7 @@ namespace Tesserae
     /// <summary>
     /// A VirtualizedList component that renders only the visible portion of a large list to improve performance.
     /// </summary>
-    [H5.Name("tss.VirtualizedList")]
+    [Transpose.Name("tss.VirtualizedList")]
     public class VirtualizedList : IComponent
     {
         private const int PagesToVirtualize    = 5;

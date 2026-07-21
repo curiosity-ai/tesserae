@@ -1,9 +1,9 @@
-﻿using static H5.Core.dom;
+﻿using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
 {
-    [H5.Name("tss.Clipboard")]
+    [Transpose.Name("tss.Clipboard")]
     public static class Clipboard
     {
         public static void Copy(string valueToCopy, bool showMessage = true, string customMessage = null)

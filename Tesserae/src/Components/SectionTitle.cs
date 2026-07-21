@@ -1,5 +1,5 @@
 using System.Linq;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -7,7 +7,7 @@ namespace Tesserae
     /// <summary>
     /// A heading used to label a section of a form or page, with optional subtitle and trailing actions.
     /// </summary>
-    [H5.Name("tss.SectionTitle")]
+    [Transpose.Name("tss.SectionTitle")]
     public class SectionTitle : IComponent, IHasMarginPadding
     {
         private readonly Stack _stack;

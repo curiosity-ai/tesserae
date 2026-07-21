@@ -5,7 +5,7 @@ namespace Tesserae
     /// <summary>
     /// Fluent extension methods for <see cref="SegmentedPivot"/>.
     /// </summary>
-    [H5.Name("tss.SegmentedPivotX")]
+    [Transpose.Name("tss.SegmentedPivotX")]
     public static class SegmentedPivotExtensions
     {
         /// <summary>

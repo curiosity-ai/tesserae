@@ -1,5 +1,5 @@
 ﻿using System;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -7,7 +7,7 @@ namespace Tesserae
     /// <summary>
     /// A Timeline component that displays events in chronological order.
     /// </summary>
-    [H5.Name("tss.Timeline")]
+    [Transpose.Name("tss.Timeline")]
     public class Timeline : IContainer<Timeline, IComponent>, IHasBackgroundColor, IHasMarginPadding
     {
         private readonly HTMLElement _timeline;

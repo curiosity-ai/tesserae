@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 
 namespace Tesserae
 {
-    [H5.Name("tss.att")]
+    [Transpose.Name("tss.att")]
     public sealed class Attributes
     {
         private readonly List<(string attributeName, string attributeValue)> _data;

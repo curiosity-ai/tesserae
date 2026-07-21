@@ -1,8 +1,8 @@
-using H5;
+using Transpose;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -11,7 +11,7 @@ namespace Tesserae
     /// A structured editor for cron expressions, exposing the schedule fields (minutes, hours, day-of-month, month,
     /// day-of-week) as separate inputs.
     /// </summary>
-    [H5.Name("tss.CronEditor")]
+    [Transpose.Name("tss.CronEditor")]
     public sealed class CronEditor : ComponentBase<CronEditor, HTMLDivElement>, IBindableComponent<(string cron, bool enabled)>
     {
         private string _cron;

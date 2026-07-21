@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
-using H5;
-using static H5.Core.dom;
+using Transpose;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -9,7 +9,7 @@ namespace Tesserae
     /// <summary>
     /// A drop target that accepts files dragged from the operating system, with hover and validation feedback.
     /// </summary>
-    [H5.Name("tss.FileDropArea")]
+    [Transpose.Name("tss.FileDropArea")]
     public sealed class FileDropArea : IComponent
     {
         private event FilesDroppedHandler FilesDropped;

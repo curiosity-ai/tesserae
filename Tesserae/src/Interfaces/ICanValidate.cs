@@ -4,7 +4,7 @@
     /// Defines a typed component that supports validation.
     /// </summary>
     /// <typeparam name="T">The type of the component.</typeparam>
-    [H5.Name("tss.ICVT")]
+    [Transpose.Name("tss.ICVT")]
     public interface ICanValidate<T> : ICanValidate where T : IComponent
     {
         /// <summary>Attaches a validation handler to the component.</summary>
@@ -15,7 +15,7 @@
     /// <summary>
     /// Defines a component that supports validation.
     /// </summary>
-    [H5.Name("tss.ICV")]
+    [Transpose.Name("tss.ICV")]
     public interface ICanValidate : IComponent
     {
         /// <summary>Gets or sets the validation error message.</summary>

@@ -1,4 +1,4 @@
-﻿using static H5.Core.dom;
+﻿using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -6,7 +6,7 @@ namespace Tesserae
     /// <summary>
     /// A two-state form control (checked / unchecked) used for boolean values.
     /// </summary>
-    [H5.Name("tss.ChecBox")]
+    [Transpose.Name("tss.ChecBox")]
     public class CheckBox : ComponentBase<CheckBox, HTMLInputElement>, IBindableComponent<bool>, IRoundedStyle, ITextFormating
     {
         private readonly HTMLSpanElement          _checkSpan;

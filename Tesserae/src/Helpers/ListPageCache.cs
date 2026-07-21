@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Tesserae;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 
 namespace Tesserae
 {
@@ -10,7 +10,7 @@ namespace Tesserae
     /// Provides caching and paging functionality for a list of components.
     /// </summary>
     /// <typeparam name="TComponent">The type of components in the list.</typeparam>
-    [H5.Name("tss.ListPageCache")]
+    [Transpose.Name("tss.ListPageCache")]
     public sealed class ListPageCache<TComponent> : ComponentCacheBase<TComponent>
         where TComponent : class
     {

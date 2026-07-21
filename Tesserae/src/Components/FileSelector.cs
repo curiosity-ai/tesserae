@@ -1,4 +1,4 @@
-﻿using static H5.Core.dom;
+﻿using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -6,7 +6,7 @@ namespace Tesserae
     /// <summary>
     /// A form control that lets the user pick one or more files from disk, with optional drag-and-drop support.
     /// </summary>
-    [H5.Name("tss.FileSelector")]
+    [Transpose.Name("tss.FileSelector")]
     public sealed class FileSelector : IComponent, ICanValidate<FileSelector>, IObservableComponent<File>
     {
         public delegate void              FileSelectedHandler(FileSelector sender, File file);

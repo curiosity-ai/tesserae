@@ -1,4 +1,4 @@
-using H5;
+using Transpose;
 
 namespace Tesserae
 {
@@ -6,7 +6,7 @@ namespace Tesserae
     /// Specifies the units for size measurements (CSS units).
     /// </summary>
     [Enum(Emit.StringName)]
-    [H5.Name("tss.Unit")]
+    [Transpose.Name("tss.Unit")]
     public enum Unit
     {
         /// <summary>No unit specified.</summary>

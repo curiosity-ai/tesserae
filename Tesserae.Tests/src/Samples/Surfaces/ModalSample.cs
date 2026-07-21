@@ -1,6 +1,6 @@
 ﻿using Tesserae;
 using Tesserae.Tests;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.Tests.Samples.SamplesHelper;
 using static Tesserae.UI;
 

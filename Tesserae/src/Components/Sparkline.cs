@@ -1,6 +1,6 @@
 using System;
 using System.Linq;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -8,7 +8,7 @@ namespace Tesserae
     /// <summary>
     /// A tiny inline line chart used to show a trend without occupying chart-sized real-estate.
     /// </summary>
-    [H5.Name("tss.Sparkline")]
+    [Transpose.Name("tss.Sparkline")]
     public class Sparkline : IComponent
     {
         private readonly HTMLElement _innerElement;

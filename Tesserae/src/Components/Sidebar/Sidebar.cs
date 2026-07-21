@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using H5;
+using Transpose;
 using TNT;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -11,7 +11,7 @@ namespace Tesserae
     /// <summary>
     /// A Sidebar component that can be collapsed or expanded, containing header, middle, and footer sections.
     /// </summary>
-    [H5.Name("tss.Sidebar")]
+    [Transpose.Name("tss.Sidebar")]
     public sealed class Sidebar : IComponent, IBindableComponent<bool>
     {
         private readonly ObservableList<ISidebarItem>                    _header;

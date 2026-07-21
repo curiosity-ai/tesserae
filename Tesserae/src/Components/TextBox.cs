@@ -6,7 +6,7 @@ namespace Tesserae
     /// <summary>
     /// A single-line text input component.
     /// </summary>
-    [H5.Name("tss.TextBox")]
+    [Transpose.Name("tss.TextBox")]
     public class TextBox : Input<TextBox>, ITextFormating, IHasBackgroundColor, IHasForegroundColor, IRoundedStyle
     {
         /// <summary>

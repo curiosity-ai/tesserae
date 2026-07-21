@@ -7,7 +7,7 @@ namespace Tesserae
     /// Defines a base interface for components that can contain child components.
     /// </summary>
     /// <typeparam name="TChild">The type of the child components.</typeparam>
-    [H5.Name("tss.ICBT")]
+    [Transpose.Name("tss.ICBT")]
     public interface IContainerBase<TChild> : IComponent where TChild : IComponent
     {
         /// <summary>Adds a child component to the container.</summary>
@@ -26,7 +26,7 @@ namespace Tesserae
     /// </summary>
     /// <typeparam name="T">The type of the container.</typeparam>
     /// <typeparam name="TChild">The type of the child components.</typeparam>
-    [H5.Name("tss.ICBTTC")]
+    [Transpose.Name("tss.ICBTTC")]
     public interface IContainer<T, TChild> : IContainerBase<TChild> where T : IContainer<T, TChild> where TChild : IComponent
     {
     }
@@ -34,7 +34,7 @@ namespace Tesserae
     /// <summary>
     /// Provides extension methods for IContainer instances.
     /// </summary>
-    [H5.Name("tss.ICTX")]
+    [Transpose.Name("tss.ICTX")]
     public static class IContainerExtensions
     {
         /// <summary>

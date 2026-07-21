@@ -1,15 +1,15 @@
-﻿using H5;
+﻿using Transpose;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 
 namespace Tesserae
 {
     /// <summary>
     /// Provides extension methods for configuring scrollbars on components.
     /// </summary>
-    [H5.Name("tss.ScrollBar")]
+    [Transpose.Name("tss.ScrollBar")]
     public static class ScrollBar
     {
         /// <summary>Enables automatic vertical scrolling.</summary>

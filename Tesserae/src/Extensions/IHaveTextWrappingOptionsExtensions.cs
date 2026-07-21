@@ -3,7 +3,7 @@
     /// <summary>
     /// Provides extension methods for components that support text wrapping options.
     /// </summary>
-    [H5.Name("tss.IHTWOX")]
+    [Transpose.Name("tss.IHTWOX")]
     public static class IHaveTextWrappingOptionsExtensions
     {
         /// <summary>

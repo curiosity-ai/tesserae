@@ -1,5 +1,5 @@
 ﻿using System;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -9,7 +9,7 @@ namespace Tesserae
     /// Provides shared behaviour for text-like inputs (value, validation, focus, observable binding).
     /// </summary>
     /// <typeparam name="TInput">The concrete input type (CRTP self-reference for fluent return types).</typeparam>
-    [H5.Name("tss.Input")]
+    [Transpose.Name("tss.Input")]
     public abstract class Input<TInput> : ComponentBase<TInput, HTMLInputElement>, ITabIndex, ICanValidate<TInput>, IBindableComponent<string> where TInput : Input<TInput>
     {
         private readonly HTMLDivElement             _container;

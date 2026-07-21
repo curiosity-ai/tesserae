@@ -5,7 +5,7 @@ namespace Tesserae
     /// <summary>
     /// Provides extension methods for adding validation logic to components.
     /// </summary>
-    [H5.Name("tss.vX")]
+    [Transpose.Name("tss.vX")]
     public static class ValidationExtensions
     {
         /// <summary>

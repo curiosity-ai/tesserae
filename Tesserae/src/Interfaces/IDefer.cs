@@ -5,7 +5,7 @@ namespace Tesserae
     /// <summary>
     /// Represents a component that defers its rendering until data is available or it is mounted in the DOM.
     /// </summary>
-    [H5.Name("tss.IDefer")]
+    [Transpose.Name("tss.IDefer")]
     public interface IDefer : IComponent
     {
         /// <summary>

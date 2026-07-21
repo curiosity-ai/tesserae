@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -8,7 +8,7 @@ namespace Tesserae
     /// <summary>
     /// A group of icon buttons of which exactly one is selected at a time, like a segmented control.
     /// </summary>
-    [H5.Name("tss.IconToggle")]
+    [Transpose.Name("tss.IconToggle")]
     public class IconToggle<T> : IComponent, IBindableComponent<T>
     {
         private Stack                    _stack;

@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Tesserae
 {
-    [H5.Name("tss.Parameters")]
+    [Transpose.Name("tss.Parameters")]
     public sealed class Parameters
     {
         private readonly Dictionary<string, string> _parameters;
@@ -61,7 +61,7 @@ namespace Tesserae
             return this;
         }
 
-        public string     ToQueryString() => _parameters.Any() ? "?" + string.Join("&", _parameters.Select(p => H5.Script.EncodeURIComponent(p.Key) + "=" + H5.Script.EncodeURIComponent(p.Value))) : "";
+        public string     ToQueryString() => _parameters.Any() ? "?" + string.Join("&", _parameters.Select(p => Transpose.Script.EncodeURIComponent(p.Key) + "=" + Transpose.Script.EncodeURIComponent(p.Value))) : "";
         public Parameters Clone()         => new Parameters(_parameters.ToDictionary(kv => kv.Key, kv => kv.Value));
     }
 }

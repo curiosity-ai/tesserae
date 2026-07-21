@@ -1,6 +1,6 @@
 using System;
-using H5.Core;
-using static H5.Core.dom;
+using Transpose.Core;
+using static Transpose.Core.dom;
 
 
 namespace Tesserae

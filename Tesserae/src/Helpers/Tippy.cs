@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Tesserae;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 
 namespace Tesserae
 {
     /// <summary>
     /// JavaScript-interop literal describing the current state of a Tippy popover instance.
     /// </summary>
-    [H5.ObjectLiteral]
+    [Transpose.ObjectLiteral]
     public class TippyInstanceState
     {
         /// <summary>
@@ -33,7 +33,7 @@ namespace Tesserae
         public bool isShown;
     }
 
-    [H5.ObjectLiteral]
+    [Transpose.ObjectLiteral]
     public class TippyInstance
     {
         /// <summary>
@@ -87,7 +87,7 @@ namespace Tesserae
         public TippyInstanceState state { get; }
     }
 
-    [H5.Name("tss.tippy")]
+    [Transpose.Name("tss.tippy")]
     public static class Tippy
     {
         /// <summary>
@@ -141,7 +141,7 @@ namespace Tesserae
             {
                 if (element.HasOwnProperty("_tippy"))
                 {
-                    H5.Script.Write("{0}._tippy.destroy();", element);
+                    Transpose.Script.Write("{0}._tippy.destroy();", element);
                 }
                 onHiddenCallback?.Invoke();
             };
@@ -153,7 +153,7 @@ namespace Tesserae
             //Remove previous tooltips
             if (element.HasOwnProperty("_tippy"))
             {
-                H5.Script.Write("{0}._tippy.destroy();", element);
+                Transpose.Script.Write("{0}._tippy.destroy();", element);
             }
 
             placement = CheckDeadZone(placement, appendTo);
@@ -167,16 +167,16 @@ namespace Tesserae
 
             if (animation == TooltipAnimation.None)
             {
-                H5.Script.Write("tippy({0}, { content: {1}, interactive: true, interactiveBorder: {13}, trigger: {14}, zIndex: {15}, placement: {2}, appendTo: {3}, maxWidth: {4}, onHidden: {5}, delay: [{6},{7}], arrow: {8}, theme: {9}, hideOnClick: {10}, onHide: {11}, onClickOutside: {12} });",
+                Transpose.Script.Write("tippy({0}, { content: {1}, interactive: true, interactiveBorder: {13}, trigger: {14}, zIndex: {15}, placement: {2}, appendTo: {3}, maxWidth: {4}, onHidden: {5}, delay: [{6},{7}], arrow: {8}, theme: {9}, hideOnClick: {10}, onHide: {11}, onClickOutside: {12} });",
                                         element, renderedTooltip, placement.ToString(), appendTo.As<object>(), maxWidth, onHiddenInternal, delayShow, delayHide, arrow, theme, hideOnClick, onHide, onClickOutside ?? _doNothing, interactiveBorder, trigger, zIndex);
             }
             else
             {
-                H5.Script.Write("tippy({0}, { content: {1}, interactive: true, interactiveBorder: {14}, trigger: {15}, zIndex: {16}, placement: {2}, animation: {3},  appendTo: {4}, maxWidth: {5}, onHidden: {6}, delay: [{7},{8}], arrow: {9}, theme: {10}, hideOnClick : {11}, onHide: {12}, onClickOutside: {13} });",
+                Transpose.Script.Write("tippy({0}, { content: {1}, interactive: true, interactiveBorder: {14}, trigger: {15}, zIndex: {16}, placement: {2}, animation: {3},  appendTo: {4}, maxWidth: {5}, onHidden: {6}, delay: [{7},{8}], arrow: {9}, theme: {10}, hideOnClick : {11}, onHide: {12}, onClickOutside: {13} });",
                                         element, renderedTooltip, placement.ToString(), animation.ToString(), appendTo.As<object>(), maxWidth, onHiddenInternal, delayShow, delayHide, arrow, theme, hideOnClick, onHide, onClickOutside ?? _doNothing, interactiveBorder, trigger, zIndex);
             }
 
-            H5.Script.Write("{0}._tippy.show();", element);
+            Transpose.Script.Write("{0}._tippy.show();", element);
 
             // 2020-10-05 DWR: Sometimes a tooltip will be attached to an element that is removed from the DOM and then the tooltip is left hanging, orphaned. 
             hostComponent.WhenRemoved(() =>
@@ -233,7 +233,7 @@ namespace Tesserae
             {
                 if (hostElement.HasOwnProperty("_tippy"))
                 {
-                    H5.Script.Write("{0}._tippy.destroy();", hostElement);
+                    Transpose.Script.Write("{0}._tippy.destroy();", hostElement);
                 }
                 onHiddenCallback?.Invoke();
             };
@@ -245,7 +245,7 @@ namespace Tesserae
             //Remove previous tooltips
             if (hostElement.HasOwnProperty("_tippy"))
             {
-                H5.Script.Write("{0}._tippy.destroy();", hostElement);
+                Transpose.Script.Write("{0}._tippy.destroy();", hostElement);
             }
 
             placement = CheckDeadZone(placement, hostElement);
@@ -259,16 +259,16 @@ namespace Tesserae
 
             if (animation == TooltipAnimation.None)
             {
-                H5.Script.Write("tippy({0}, { content: {1}, interactive: true, interactiveBorder: {13}, trigger: {14}, zIndex: {15}, placement: {2}, appendTo: {3}, maxWidth: {4}, onHidden: {5}, delay: [{6},{7}], arrow: {8}, theme: {9}, hideOnClick: {10}, onHide: {11}, onClickOutside: {12} });",
+                Transpose.Script.Write("tippy({0}, { content: {1}, interactive: true, interactiveBorder: {13}, trigger: {14}, zIndex: {15}, placement: {2}, appendTo: {3}, maxWidth: {4}, onHidden: {5}, delay: [{6},{7}], arrow: {8}, theme: {9}, hideOnClick: {10}, onHide: {11}, onClickOutside: {12} });",
                                 hostElement, tooltip, placement.ToString(), appendTo.As<object>(), maxWidth, onHiddenInternal, delayShow, delayHide, arrow, theme, hideOnClick, onHide, onClickOutside ?? _doNothing, interactiveBorder, trigger, zIndex);
             }
             else
             {
-                H5.Script.Write("tippy({0}, { content: {1}, interactive: true, interactiveBorder: {14}, trigger: {15}, zIndex: {16}, placement: {2}, animation: {3},  appendTo: {4}, maxWidth: {5}, onHidden: {6}, delay: [{7},{8}], arrow: {9}, theme: {10}, hideOnClick : {11}, onHide: {12}, onClickOutside: {13} });",
+                Transpose.Script.Write("tippy({0}, { content: {1}, interactive: true, interactiveBorder: {14}, trigger: {15}, zIndex: {16}, placement: {2}, animation: {3},  appendTo: {4}, maxWidth: {5}, onHidden: {6}, delay: [{7},{8}], arrow: {9}, theme: {10}, hideOnClick : {11}, onHide: {12}, onClickOutside: {13} });",
                                 hostElement, tooltip, placement.ToString(), animation.ToString(), appendTo.As<object>(), maxWidth, onHiddenInternal, delayShow, delayHide, arrow, theme, hideOnClick, onHide, onClickOutside ?? _doNothing, interactiveBorder, trigger, zIndex);
             }
 
-            H5.Script.Write("{0}._tippy.show();", hostElement);
+            Transpose.Script.Write("{0}._tippy.show();", hostElement);
 
             // 2020-10-05 DWR: Sometimes a tooltip will be attached to an element that is removed from the DOM and then the tooltip is left hanging, orphaned. 
             DomObserver.WhenRemoved(hostElement, () =>
@@ -295,7 +295,7 @@ namespace Tesserae
             // Find every visible popper (each Tippy popper is rendered as a root element bearing
             // data-tippy-root, with the instance attached via the _tippy property), and hide it
             // unless the instance was created with trigger: 'manual'.
-            H5.Script.Write(@"
+            Transpose.Script.Write(@"
                 document.querySelectorAll('[data-tippy-root]').forEach(function(root) {
                     var inst = root._tippy;
                     if (!inst || !inst.props) return;
@@ -314,7 +314,7 @@ namespace Tesserae
             {
                 if (parent.HasOwnProperty("_tippy"))
                 {
-                    H5.Script.Write("{0}._tippy.popperInstance.update()", parent);
+                    Transpose.Script.Write("{0}._tippy.popperInstance.update()", parent);
                     break;
                 }
                 parent = parent.parentElement;

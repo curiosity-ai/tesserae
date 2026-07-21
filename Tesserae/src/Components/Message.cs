@@ -1,5 +1,5 @@
 using System;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -8,7 +8,7 @@ namespace Tesserae
     /// An inline informational message strip with predefined tones (info, success, warning, error) and an optional
     /// dismiss button.
     /// </summary>
-    [H5.Name("tss.Message")]
+    [Transpose.Name("tss.Message")]
     public class Message : ComponentBase<Message, HTMLDivElement>
     {
         private readonly HTMLDivElement _iconContainer;
@@ -164,7 +164,7 @@ namespace Tesserae
         public override HTMLElement Render() => InnerElement;
     }
 
-    [H5.Name("tss.MessageVariant")]
+    [Transpose.Name("tss.MessageVariant")]
     public enum MessageVariant
     {
         Default,

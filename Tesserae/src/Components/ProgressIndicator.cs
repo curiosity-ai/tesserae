@@ -1,6 +1,6 @@
-﻿using H5;
+﻿using Transpose;
 using System;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -8,7 +8,7 @@ namespace Tesserae
     /// <summary>
     /// A horizontal progress bar with optional label and either determinate or indeterminate state.
     /// </summary>
-    [H5.Name("tss.ProgressIndicator")]
+    [Transpose.Name("tss.ProgressIndicator")]
     public class ProgressIndicator : IComponent, IHasForegroundColor
     {
         private readonly HTMLElement InnerElement;

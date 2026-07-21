@@ -1,6 +1,6 @@
 using System;
-using H5;
-using static H5.Core.dom;
+using Transpose;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -11,14 +11,14 @@ namespace Tesserae
     /// The slim UI bundle and its CSS are bundled with Tesserae and always available -
     /// no preload step is required.
     /// </summary>
-    [H5.Name("tss.cd")]
+    [Transpose.Name("tss.cd")]
     public class CodeDiff : ComponentBase<CodeDiff, HTMLElement>
     {
         /// <summary>
         /// Controls how a <see cref="CodeDiff"/> renders the diff.
         /// </summary>
         [Enum(Emit.StringName)]
-        [H5.Name("tss.CDF")]
+        [Transpose.Name("tss.CDF")]
         public enum Format
         {
             /// <summary>Renders additions and deletions one after the other, on a single column.</summary>
@@ -31,7 +31,7 @@ namespace Tesserae
         /// Controls how diff2html matches lines between the two sides of a <see cref="CodeDiff"/>.
         /// </summary>
         [Enum(Emit.StringName)]
-        [H5.Name("tss.CDM")]
+        [Transpose.Name("tss.CDM")]
         public enum Matching
         {
             /// <summary>No matching is performed between additions and deletions.</summary>

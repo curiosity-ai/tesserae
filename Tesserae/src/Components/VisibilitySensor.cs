@@ -1,6 +1,6 @@
 ﻿using System;
 using static Tesserae.UI;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,7 +9,7 @@ namespace Tesserae
     /// <summary>
     /// A VisibilitySensor component that triggers an action when it becomes visible in the viewport.
     /// </summary>
-    [H5.Name("tss.VisibilitySensor")]
+    [Transpose.Name("tss.VisibilitySensor")]
     public class VisibilitySensor : IComponent
     {
         private readonly HTMLElement              InnerElement;

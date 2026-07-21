@@ -3,7 +3,7 @@ namespace Tesserae
     /// <summary>
     /// Provides extension methods for IPickerItem instances.
     /// </summary>
-    [H5.Name("tss.IPickerItemX")]
+    [Transpose.Name("tss.IPickerItemX")]
     public static class IPickerItemExtensions
     {
         /// <summary>

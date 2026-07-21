@@ -1,5 +1,5 @@
 using System;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -7,7 +7,7 @@ namespace Tesserae
     /// <summary>
     /// A star-rating component for collecting or displaying ratings.
     /// </summary>
-    [H5.Name("tss.Rating")]
+    [Transpose.Name("tss.Rating")]
     public sealed class Rating : ComponentBase<Rating, HTMLElement>, IBindableComponent<int>
     {
         private readonly HTMLElement[]           _stars;

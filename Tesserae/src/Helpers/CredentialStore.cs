@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
-using H5;
-using static H5.Core.dom;
+using Transpose;
+using static Transpose.Core.dom;
 
 namespace Tesserae
 {
@@ -24,7 +24,7 @@ namespace Tesserae
     /// <c>false</c> instead of throwing.
     /// </para>
     /// </summary>
-    [H5.Name("tss.CredentialStore")]
+    [Transpose.Name("tss.CredentialStore")]
     public static class CredentialStore
     {
         /// <summary>
@@ -55,7 +55,7 @@ namespace Tesserae
                 return tcs.Task;
             }
 
-            // We bind the delegate to a single C# local so H5 emits one JS variable reference per
+            // We bind the delegate to a single C# local so Transpose emits one JS variable reference per
             // substitution slot (instead of re-inlining the lambda as an anonymous function
             // literal at each call site, which is a syntax-ambiguous expression-statement).
             Action<bool> done = ok => tcs.SetResult(ok);

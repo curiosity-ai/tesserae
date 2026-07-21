@@ -1,5 +1,5 @@
 using System;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -8,7 +8,7 @@ namespace Tesserae
     /// A simple two-line list item that shows a bold title with a lighter subtitle
     /// underneath, plus an optional leading icon rendered inside a rounded-square background.
     /// </summary>
-    [H5.Name("tss.ListItemText")]
+    [Transpose.Name("tss.ListItemText")]
     public class ListItemText : ComponentBase<ListItemText, HTMLElement>
     {
         private readonly HTMLElement _title;

@@ -1,6 +1,6 @@
 ﻿using System;
 using static Tesserae.UI;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,7 +9,7 @@ namespace Tesserae
     /// <summary>
     /// A horizontal set of items where any items that do not fit are automatically collapsed into an overflow menu.
     /// </summary>
-    [H5.Name("tss.OverflowSet")]
+    [Transpose.Name("tss.OverflowSet")]
     public class OverflowSet : IComponent, IContainer<Breadcrumb, IComponent>
     {
         private readonly string         _expandIcon = UIcons.ArrowDown.ToString();

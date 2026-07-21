@@ -1,5 +1,5 @@
 using System;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -7,7 +7,7 @@ namespace Tesserae
     /// <summary>
     /// A placeholder used inside virtualised lists that defers building its real content until it scrolls into view.
     /// </summary>
-    [H5.Name("tss.LazyVirtualItem")]
+    [Transpose.Name("tss.LazyVirtualItem")]
     public class LazyVirtualItem : IComponent
     {
         private readonly HTMLElement _innerElement;

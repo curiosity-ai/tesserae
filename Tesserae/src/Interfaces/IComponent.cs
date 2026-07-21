@@ -1,11 +1,11 @@
-﻿using static H5.Core.dom;
+﻿using static Transpose.Core.dom;
 
 namespace Tesserae
 {
     /// <summary>
     /// Defines the base interface for all components in the Tesserae framework.
     /// </summary>
-    [H5.Name("tss.IC")]
+    [Transpose.Name("tss.IC")]
     public interface IComponent
     {
         /// <summary>Renders the component into an HTMLElement.</summary>

@@ -1,4 +1,4 @@
-﻿using static H5.Core.dom;
+﻿using static Transpose.Core.dom;
 using static Tesserae.UI;
 using System.Linq;
 
@@ -8,7 +8,7 @@ namespace Tesserae
     /// <summary>
     /// A slider component.
     /// </summary>
-    [H5.Name("tss.Slider")]
+    [Transpose.Name("tss.Slider")]
     public sealed class Slider : ComponentBase<Slider, HTMLInputElement>, IBindableComponent<int>
     {
         private readonly HTMLLabelElement        _outerLabel;

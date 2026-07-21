@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using static H5.Core.dom;
+using static Transpose.Core.dom;
 using static Tesserae.UI;
 
 namespace Tesserae
@@ -11,7 +11,7 @@ namespace Tesserae
     /// A list that lazily loads additional items as the user scrolls toward the bottom, suitable for very large or
     /// unbounded result sets.
     /// </summary>
-    [H5.Name("tss.InfiniteScrollingList")]
+    [Transpose.Name("tss.InfiniteScrollingList")]
     public sealed class InfiniteScrollingList : IComponent, ISpecialCaseStyling
     {
         private readonly Grid             _grid;

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using static Tesserae.UI;
-using static H5.Core.dom;
-using static H5.Core.dom.Node;
+using static Transpose.Core.dom;
+using static Transpose.Core.dom.Node;
 
 namespace Tesserae
 {
@@ -12,7 +12,7 @@ namespace Tesserae
     /// A virtualised, sortable, multi-column table for displaying large lists of typed items, similar to Fluent UI's
     /// DetailsList.
     /// </summary>
-    [H5.Name("tss.DetailsList")]
+    [Transpose.Name("tss.DetailsList")]
     public class DetailsList<TDetailsListItem> : IComponent, ISpecialCaseStyling where TDetailsListItem : class, IDetailsListItem<TDetailsListItem>
     {
         private readonly List<IDetailsListColumn>         _columns;

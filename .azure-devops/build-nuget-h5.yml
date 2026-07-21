@@ -32,9 +32,9 @@ steps:
 - task: NuGetToolInstaller@1
 
 - task: CmdLine@2
-  displayName: 'install h5 compiler'
+  displayName: 'install Transpose compiler'
   inputs:
-    script: 'dotnet tool update --global h5-compiler'
+    script: 'dotnet tool update --global Transpose.Compiler'
 
 - task: CmdLine@2
   displayName: 'restore project'
@@ -106,7 +106,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      cd "$(Build.SourcesDirectory)/Tesserae.Tests/bin/Release/netstandard2.0/h5/"
+      cd "$(Build.SourcesDirectory)/Tesserae.Tests/bin/Release/netstandard2.0/tps/"
       git init
       git config core.autocrlf true
       git config core.safecrlf false
