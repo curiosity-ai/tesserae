@@ -12,17 +12,17 @@
     "resources": [
         {
             "name": "images",
-            "files": [ "h5/assets/img/*" ],
+            "files": [ "tps/assets/img/*" ],
             "output": "assets/img"
         },
         {
             "name": "provider-logos",
-            "files": [ "h5/assets/img/providers/*" ],
+            "files": [ "tps/assets/img/providers/*" ],
             "output": "assets/img/providers"
         },
         {
             "name": "tss-samples.css",
-            "files": [ "h5/assets/css/tss-samples.css" ]
+            "files": [ "tps/assets/css/tss-samples.css" ]
         }
     ]
 }
